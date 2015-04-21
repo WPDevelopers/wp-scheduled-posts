@@ -8,12 +8,15 @@ function wpscp_get_options()
 			'show_in_adminbar'=>1,
 			'allow_user_role'=>array('administrator'),
 			'allow_post_types'=>array('post'),
+			'allow_categories'=>array(0),
 			'adminbar_item_template'=>"<strong>%TITLE%...</strong> by %AUTHOR% for %DATE%",
 			'adminbar_title_length'=>45,
 			'adminbar_date_format'=>'M-d h:i:a',
 			'prevent_future_post'=>0,
 	);
-return get_option('wpscp_options',$options);
+	$wpscp_options=get_option('wpscp_options',$options);
+	if(!is_array($wpscp_options['allow_categories']))$wpscp_options['allow_categories']=array(0);
+	return $wpscp_options;
 }
 
 function wpscp_permit_user()
@@ -63,6 +66,7 @@ function wpscp_options_page()
 				'show_in_adminbar'=>intval($_POST['show_in_adminbar']),
 				'allow_user_role'=>$_POST['allow_user_role'],
 				'allow_post_types'=>$_POST['allow_post_types'],
+				'allow_categories'=>$_POST['allow_categories'],
 				'adminbar_item_template'=>trim($_POST['adminbar_item_template']), 
 				'adminbar_title_length'=>$_POST['adminbar_title_length'], 
 				'adminbar_date_format'=>trim($_POST['adminbar_date_format']), 
@@ -72,7 +76,9 @@ function wpscp_options_page()
 	$wpscp_options=$options;
 	}#end if(isset($_POST['save_options']))
 	?>
-	<div style="width: 1010px; padding-left: 10px;" class="wrap">
+    <link rel="stylesheet" type="text/css" href="<?php echo WPSCP_PLUGIN_URL?>/style.css">
+	<div class="wrap dashboard-body">
+    <div style="width: 700px; float:left;">
 		<div id="icon-options-general" class="icon32"></div><h2>WP Scheduled Posts Options</h2>
         
 		<div style="text-align:right; margin-right:300px;">
@@ -89,7 +95,7 @@ function wpscp_options_page()
 			<tr>
             <td scope="row" align="left" style="vertical-align:top;">Show Post Types: </td>
             <td>
-            <select name="allow_post_types[]" MULTIPLE style="height:70px;width:150px;">
+            <select name="allow_post_types[]" MULTIPLE style="height:80px;width:200px;">
 			<?php
 			$typeswehave = array('post,revision'); //oneTarek
 			$post_types=get_post_types('','names'); 
@@ -106,11 +112,47 @@ function wpscp_options_page()
 			</select>
             </td>
             </tr>
+ 
+ 			<tr>
+            <td scope="row" align="left" style="vertical-align:top;">Show Categories:<br /><small>Category filter works only for "post" post type</small> </td>
+            <td>
+         <select name="allow_categories[]" MULTIPLE style="height:100px;width:200px;">
+			<?php
+			$args = array(
+				'type'                     => 'post',
+				'child_of'                 => 0,
+				'parent'                   => '',
+				'orderby'                  => 'name',
+				'order'                    => 'ASC',
+				'hide_empty'               => 0,
+				'hierarchical'             => 0,
+				'exclude'                  => '',
+				'include'                  => '',
+				'number'                   => '',
+				'taxonomy'                 => 'category',
+				'pad_counts'               => false 
+			
+			); 
+			$categories = get_categories( $args );
+			array_unshift($categories, (object)array("term_id"=>0, "name"=>"All Categories"));
+			//echo "<pre>"; print_r($categories); echo "</pre>";
+
+			foreach ($categories as $cat ) {
+				echo "<option ";
+				
+				if(in_array($cat->term_id,$wpscp_options['allow_categories'])) echo "selected ";
+				echo 'value="'.$cat->term_id.'">'.$cat->name.'</option>';
+			}
+			?>
+			</select>
+            </td>
+            </tr>
+ 
             
             <tr valign="top">
-            <td width="100" scope="row" align="align="left""><label for="allow_user_role">Allow users:</label></td>
+            <td width="150" scope="row" align="align="left""><label for="allow_user_role">Allow users:</label></td>
             <td>
-            <select name="allow_user_role[]" id="allow_user_role" multiple="multiple"  style="height:100px;width:150px;" ><?php  wpscp_dropdown_roles( $wpscp_options['allow_user_role'] ); ?></select>
+            <select name="allow_user_role[]" id="allow_user_role" multiple="multiple"  style="height:80px;width:200px;" ><?php  wpscp_dropdown_roles( $wpscp_options['allow_user_role'] ); ?></select>
             </td>
             </tr>
             <tr><td  colspan="2" align="left">
@@ -118,6 +160,7 @@ function wpscp_options_page()
                 	<strong>Custom item template for scheduled posts list in adminbar:</strong><br />
                     Item template: <input type="text" name="adminbar_item_template" size="50" placeholder="<strong>%TITLE%...</strong> by %AUTHOR% for %DATE%"  value="<?php echo htmlspecialchars(stripslashes($wpscp_options['adminbar_item_template'])) ?>"  /> 
                     Title length: <input type="text" name="adminbar_title_length" size="5" placeholder="45"  value="<?php echo $wpscp_options['adminbar_title_length'] ?>" /> 
+                    <br />
                     Date format: <input type="text" name="adminbar_date_format" size="10" placeholder="M-d h:i:a"  value="<?php echo htmlspecialchars(stripslashes($wpscp_options['adminbar_date_format'])) ?>" />
                 	<div style="padding-left:80px; color:#999999;">For item template use <strong>%TITLE%</strong> for post title, <strong>%AUTHOR%</strong> for post author and <strong>%DATE%</strong> for post scheduled date-time. You can use HTML tags with styles also </div>
                 </div>
@@ -131,10 +174,10 @@ function wpscp_options_page()
             </table>
             </form>
             
-            <div style=" text-align:center; margin-top:60px;"><a target="_blank" href="http://wpdeveloper.net"><img src="<?php echo WPSCP_PLUGIN_URL."/includes/wpdevlogo.png" ?>" /></a></div>
+            <div style=" text-align:center; margin-top:60px;"><a target="_blank" href="http://wpdeveloper.net"><img src="<?php echo WPSCP_PLUGIN_URL."/images/wpdevlogo.png" ?>" /></a></div>
 <?php
 		
-		echo "</div>";
+		echo "</div></div>";
 	
 		include_once(WPSCP_PLUGIN_PATH."includes/wpscp-sidebar.php");
 		echo '<div style="clear:both"></div>';

@@ -2,14 +2,14 @@
 /*
  * Plugin Name: WP Scheduled Posts
  * Plugin URI: http://wpdeveloper.net/free-plugin/wp-scheduled-posts/
- * Description: A complete solution for WordPress Scheduled Post. Get an admin Bar & Dashboard Widget showing all your scheduled post.
- * Version: 1.2.1
+ * Description: A complete solution for WordPress Post Schedule. Get an admin Bar & Dashboard Widget showing all your scheduled posts. And full control.
+ * Version: 1.3.3
  * Author: WPDeveloper.net
  * Author URI: http://wpdeveloper.net
  * License: GPL2+
  * Text Domain: wp-scheduled-posts
  * Min WP Version: 2.5.0
- * Max WP Version: 3.5.2
+ * Max WP Version: 4.2
  */
 
 
@@ -38,6 +38,17 @@ add_action('admin_menu', 'add_wpscp_menu_pages');
 		echo '<table class="widefat">';
 		foreach($result as $scpost)
 		{
+		if( $scpost->post_type=="post" && !in_array(0, $wpscp_options['allow_categories']))
+			{
+			$pcats = get_the_category($scpost->ID);		
+			$found=false;	
+			foreach($pcats as $c){
+				if(in_array($c->term_id,$wpscp_options['allow_categories'])) {$found=true;break;  }
+				}
+			if(!$found)continue;
+			}		
+		
+		
 		echo '<tr><td><a href="'.get_edit_post_link($scpost->ID).'">'.$scpost->post_title.'</a></td><td>'.get_date_from_gmt($scpost->post_date_gmt, $format = 'Y-m-d H:i:s').'</td><td>'.get_the_author_meta( 'user_login', $scpost->post_author ).'</td></tr>';
 		
 		}
@@ -50,6 +61,7 @@ add_action('admin_menu', 'add_wpscp_menu_pages');
 function wp_scp_add_dashboard_widgets()
 	{
 	$wpscp_options=wpscp_get_options();
+	
 	if($wpscp_options['show_dashboard_widget'])
 		{
 			if(wpscp_permit_user())
@@ -75,8 +87,6 @@ add_action( 'admin_bar_menu', 'wp_scheduled_post_menu', 1000 );
 		  
 		  if(wpscp_permit_user())
 		  {
-				
-				
 				global $wpdb;
 				$post_types=implode("', '",$wpscp_options['allow_post_types']); $post_types="'".$post_types."'";
 				$result=$wpdb->get_results("select * from ".$wpdb->prefix."posts where post_status = 'future' AND post_type IN(".$post_types.") ORDER BY post_date ASC ");
@@ -86,13 +96,23 @@ add_action( 'admin_bar_menu', 'wp_scheduled_post_menu', 1000 );
 				
 				if(is_array($result))
 				{
+					$totalPostAllowed=0;
 					$list_template=$wpscp_options['adminbar_item_template']; if($list_template==''){$list_template="<strong>%TITLE%...</strong> by %AUTHOR% for %DATE%";}
 					$list_template=stripslashes($list_template);
 					$title_length=intval($wpscp_options['adminbar_title_length']); if($title_length==0){$title_length=45;}
 					$date_format=$wpscp_options['adminbar_date_format']; if($date_format==''){$date_format='M-d h:i:a';}
-
 					foreach($result as $scpost)
 					{ 
+					
+					if( $scpost->post_type=="post" && !in_array(0, $wpscp_options['allow_categories']))
+						{
+						$pcats = get_the_category($scpost->ID);		
+						$found=false;	
+						foreach($pcats as $c){
+							if(in_array($c->term_id,$wpscp_options['allow_categories'])) {$found=true;break;  }
+							}
+						if(!$found)continue;
+						}
 					$title=substr($scpost->post_title, 0,$title_length);
 					$author=get_the_author_meta( 'user_nicename', $scpost->post_author );
 					$date=get_date_from_gmt($scpost->post_date_gmt, $format = $date_format);
@@ -102,8 +122,16 @@ add_action( 'admin_bar_menu', 'wp_scheduled_post_menu', 1000 );
 					$list_item_template=str_replace("%DATE%", $date ,$list_item_template);
 					
 					$wp_admin_bar->add_menu( array( 'parent' => 'wpscp' , 'title' =>$list_item_template , 'href' =>get_edit_post_link($scpost->ID),'meta'=>array('title'=>$scpost->post_title) ) );
+					$totalPostAllowed++;
 					}
-				}
+				
+					if($totalPostAllowed!=$totalPost)
+					{
+					#oevrwrite previous menu with new count
+					$wp_admin_bar->add_menu( array( 'id' => 'wpscp', 'title' =>'Scheduled Posts ('.$totalPostAllowed.')') ); 
+					}
+				}//if(is_array($result))
+				
 		  }
 	  }
   }
@@ -198,5 +226,34 @@ $wpscp_options=wpscp_get_options();
 
 
 add_action('init', 'wpscp_initialize');
+
+/* Display a notice that can be dismissed */
+
+add_action('admin_notices', 'wpscp_admin_notice');
+
+function wpscp_admin_notice() {
+if ( current_user_can( 'install_plugins' ) )
+   {
+     global $current_user ;
+        $user_id = $current_user->ID;
+        /* Check that the user hasn't already clicked to ignore the message */
+     if ( ! get_user_meta($user_id, 'wpscp_ignore_notice133') ) {
+        echo '<div class="updated"><p>';
+        printf(__('Wow! You love <b><a href="http://wpdeveloper.net/go/wpsp-free" target="_blank">WP Scheduled Posts</a>! </b>Consider <strong><a href="http://wpdeveloper.net/go/wpsp-rating" target="_blank">Rating</a></strong> us. We are considering to bring more features, <a href="http://wpdeveloper.net/go/WPSP-PDS" target="_blank">tell us</a> what you need. <strong><a href="http://wpdeveloper.net/go/WPSP-PDS" target="_blank">Click here</a>!</strong> | <a href="%1$s">[Hide Notice]</a>'),  admin_url( 'admin.php?page=wp-scheduled-posts&twcm_nag_ignore=0' ));
+        echo "</p></div>";
+     }
+    }
+}
+
+add_action('admin_init', 'wpscp_nag_ignore');
+
+function wpscp_nag_ignore() {
+     global $current_user;
+        $user_id = $current_user->ID;
+        /* If user clicks to ignore the notice, add that to their user meta */
+        if ( isset($_GET['wpscp_nag_ignore']) && '0' == $_GET['wpscp_nag_ignore'] ) {
+             add_user_meta($user_id, 'wpscp_ignore_notice133', 'true', true);
+     }
+}
 
 ?>
