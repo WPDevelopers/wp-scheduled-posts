@@ -3,7 +3,7 @@
  * Plugin Name: WP Scheduled Posts
  * Plugin URI: http://wpdeveloper.net/free-plugin/wp-scheduled-posts/
  * Description: A complete solution for WordPress Post Schedule. Get an admin Bar & Dashboard Widget showing all your scheduled posts. And full control.
- * Version: 1.3.3
+ * Version: 1.3.4
  * Author: WPDeveloper.net
  * Author URI: http://wpdeveloper.net
  * License: GPL2+
@@ -237,9 +237,9 @@ if ( current_user_can( 'install_plugins' ) )
      global $current_user ;
         $user_id = $current_user->ID;
         /* Check that the user hasn't already clicked to ignore the message */
-     if ( ! get_user_meta($user_id, 'wpscp_ignore_notice133') ) {
+     if ( ! get_user_meta($user_id, 'wpscp_ignore_notice134') ) {
         echo '<div class="updated"><p>';
-        printf(__('Wow! You love <b><a href="http://wpdeveloper.net/go/wpsp-free" target="_blank">WP Scheduled Posts</a>! </b>Consider <strong><a href="http://wpdeveloper.net/go/wpsp-rating" target="_blank">Rating</a></strong> us. We are considering to bring more features, <a href="http://wpdeveloper.net/go/WPSP-PDS" target="_blank">tell us</a> what you need. <strong><a href="http://wpdeveloper.net/go/WPSP-PDS" target="_blank">Click here</a>!</strong> | <a href="%1$s">[Hide Notice]</a>'),  admin_url( 'admin.php?page=wp-scheduled-posts&twcm_nag_ignore=0' ));
+        printf(__('Wow! You love <b><a href="http://wpdeveloper.net/go/wpsp-free" target="_blank">WP Scheduled Posts</a>! </b>Consider <strong><a href="http://wpdeveloper.net/go/wpsp-rating" target="_blank">Rating</a></strong> us. We are considering to bring more features, <a href="http://wpdeveloper.net/go/WPSP-PDS" target="_blank">tell us</a> what you need. <strong><a href="http://wpdeveloper.net/go/WPSP-PDS" target="_blank">Click here</a>!</strong> | <a href="%1$s">[Hide Notice]</a>'),  admin_url( 'admin.php?page=wp-scheduled-posts&wpscp_nag_ignore=0' ));
         echo "</p></div>";
      }
     }
@@ -252,7 +252,7 @@ function wpscp_nag_ignore() {
         $user_id = $current_user->ID;
         /* If user clicks to ignore the notice, add that to their user meta */
         if ( isset($_GET['wpscp_nag_ignore']) && '0' == $_GET['wpscp_nag_ignore'] ) {
-             add_user_meta($user_id, 'wpscp_ignore_notice133', 'true', true);
+             add_user_meta($user_id, 'wpscp_ignore_notice134', 'true', true);
      }
 }
 

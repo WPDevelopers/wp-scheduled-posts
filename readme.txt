@@ -4,7 +4,7 @@ Donate link: http://wpdeveloper.net/
 Tags: schedule, post schedule, schedule widget, scheduler, schedule bar, schedule menu bar, admin bar, dashboard widget, scheduled posts, missed scheduled, editor calendar, calendar
 Requires at least: 2.5.0
 Tested up to: 4.2
-Stable tag: 1.3.3
+Stable tag: 1.3.4
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,8 +14,9 @@ A complete solution for WordPress Post Schedule. Get an Admin Bar & Dashboard Wi
 
 [WPDeveloper.net](http://wpdeveloper.net/) brings '[WP Scheduled Posts](http://wpdeveloper.net/free-plugin/wp-scheduled-posts/)' for all WordPress user for free, which was previously only used by [ARCom](http://arcom.com.bd) internally, in multi-author projects like [The Tech Journal](http://thetechjournal.com).
 
-> <strong>Vote For Feature</strong><br>
+> <strong>Vote For Feature!!</strong><br>
 > We are considering to bring more features, tell us what you need. [Click here](http://wpdeveloper.net/go/WPSP-PDS)!
+
 
 'WP Scheduled Posts' is a very simple but super useful plugin. It will enable a widget in dashboard and/or in admin bar which will show all future Scheduled post. This is specially useful for multi-author blog. Even its useful for single author blog who use the built-in Schedule function of WordPress. 
 
@@ -42,6 +43,10 @@ To better understand what it does and how it works please check screenshot secti
 * **[Facebook Secret Meta](https://wordpress.org/plugins/facebook-secret-meta/)** 
 * **[WP Author Report Free](https://wordpress.org/plugins/wp-author-report-free/)** 
 * **[Analytify - Ultimate Google Analytics Dashboard](https://wordpress.org/plugins/wp-analytify/)**
+
+
+> <strong>Contribute in GitHub!!</strong><br>
+> Contribute in GitHub. [Click here](https://github.com/ARCommunications/WP-Scheduled-Posts)!
 
 
 == Installation ==
@@ -86,7 +91,10 @@ Contact at WPDeveloper.net [Support Page](http://wpdeveloper.net/support)
 
 == Changelog ==
 
-= 1.3.3 - 2015-04-20 =
+= 1.3.4 - 2015-04-20 =
+* Minor bug fix. Thanks for the tip by @caschy
+
+= 1.3.3 - 2015-04-19 =
 * Security Check!
 * Compatible to WordPress 4.2 RC.
 
@@ -122,8 +130,8 @@ Contact at WPDeveloper.net [Support Page](http://wpdeveloper.net/support)
 
 
 == Upgrade Notice ==
-= 1.3.3 =
-* Security check, compatible to WordPress 4.2 RC! User survey for more coming feature. Must update.
+= 1.3.4 =
+* Nag Screen bug, and all from 1.3.3. like Security check, compatible to WordPress 4.2 RC! User survey for more coming feature. Must update.
 
 
 == Donation ==
