@@ -1,15 +1,15 @@
 <?php
 /*
  * Plugin Name: WP Scheduled Posts
- * Plugin URI: http://wpdeveloper.net/free-plugin/wp-scheduled-posts/
+ * Plugin URI: https://wpdeveloper.net/free-plugin/wp-scheduled-posts/
  * Description: A complete solution for WordPress Post Schedule. Get an admin Bar & Dashboard Widget showing all your scheduled posts. And full control.
- * Version: 1.3.4
+ * Version: 1.4.0
  * Author: WPDeveloper.net
- * Author URI: http://wpdeveloper.net
+ * Author URI: https://wpdeveloper.net
  * License: GPL2+
  * Text Domain: wp-scheduled-posts
  * Min WP Version: 2.5.0
- * Max WP Version: 4.2
+ * Max WP Version: 4.2.2
  */
 
 
@@ -88,6 +88,7 @@ add_action( 'admin_bar_menu', 'wp_scheduled_post_menu', 1000 );
 		  if(wpscp_permit_user())
 		  {
 				global $wpdb;
+				$item_id=0;
 				$post_types=implode("', '",$wpscp_options['allow_post_types']); $post_types="'".$post_types."'";
 				$result=$wpdb->get_results("select * from ".$wpdb->prefix."posts where post_status = 'future' AND post_type IN(".$post_types.") ORDER BY post_date ASC ");
 				$totalPost=0;
@@ -120,11 +121,14 @@ add_action( 'admin_bar_menu', 'wp_scheduled_post_menu', 1000 );
 					$list_item_template=str_replace("%TITLE%", $title ,$list_template);
 					$list_item_template=str_replace("%AUTHOR%", $author ,$list_item_template);
 					$list_item_template=str_replace("%DATE%", $date ,$list_item_template);
-					
-					$wp_admin_bar->add_menu( array( 'parent' => 'wpscp' , 'title' =>$list_item_template , 'href' =>get_edit_post_link($scpost->ID),'meta'=>array('title'=>$scpost->post_title) ) );
+					$item_id++;
+					$wp_admin_bar->add_menu( array( 'id'=>'wpscp_'.$item_id, 'parent' => 'wpscp' , 'title' =>$list_item_template , 'href' =>get_edit_post_link($scpost->ID),'meta'=>array('title'=>$scpost->post_title) ) );
 					$totalPostAllowed++;
 					}
-				
+					$item_id++;
+					$Powered_by_text='<div style="border-top:1px solid #7AD03A;margin-top:5px; text-align:center;">Powered By <span style="color:#7AD03A">WP Scheduled Posts</span></div>';
+					$wp_admin_bar->add_menu( array( 'id'=>'wpscp_'.$item_id, 'parent' => 'wpscp' , 'title' =>$Powered_by_text , 'href' =>'https://wpdeveloper.net/go/WPSP-Main','meta'=>array('title'=>'WP Developer', 'target'=>'_blank') ) );
+
 					if($totalPostAllowed!=$totalPost)
 					{
 					#oevrwrite previous menu with new count
@@ -237,9 +241,10 @@ if ( current_user_can( 'install_plugins' ) )
      global $current_user ;
         $user_id = $current_user->ID;
         /* Check that the user hasn't already clicked to ignore the message */
-     if ( ! get_user_meta($user_id, 'wpscp_ignore_notice134') ) {
+     if ( ! get_user_meta($user_id, 'wpscp_ignore_notice140a') ) {
         echo '<div class="updated"><p>';
-        printf(__('Wow! You love <b><a href="http://wpdeveloper.net/go/wpsp-free" target="_blank">WP Scheduled Posts</a>! </b>Consider <strong><a href="http://wpdeveloper.net/go/wpsp-rating" target="_blank">Rating</a></strong> us. We are considering to bring more features, <a href="http://wpdeveloper.net/go/WPSP-PDS" target="_blank">tell us</a> what you need. <strong><a href="http://wpdeveloper.net/go/WPSP-PDS" target="_blank">Click here</a>!</strong> | <a href="%1$s">[Hide Notice]</a>'),  admin_url( 'admin.php?page=wp-scheduled-posts&wpscp_nag_ignore=0' ));
+        printf(__('<b>[Notice]</b> If <b><a href="https://wpdeveloper.net/go/wpsp-free" target="_blank">WP Scheduled Posts</a> </b>plugin helped you, why not <strong><a href="https://wpdeveloper.net/go/wpsp-rating" target="_blank">rate us</a></strong> in <strong><a href="https://wpdeveloper.net/go/wpsp-rating" target="_blank">WordPress.org</a></strong>, it takes only few second. If you have any issue with the plugin please contact <strong><a href="https://wpdeveloper.net/support/" target="_blank">support</a></strong>. Make sure you checked other <strong>cool free plugins</strong> we created at <strong><a href="https://wpdeveloper.net/" target="_blank">WPDeveloper.net</a></strong>
+ | <a href="%1$s">[Hide Notice]</a>'),  admin_url( 'admin.php?page=wp-scheduled-posts&wpscp_nag_ignore=0' ));
         echo "</p></div>";
      }
     }
@@ -252,7 +257,7 @@ function wpscp_nag_ignore() {
         $user_id = $current_user->ID;
         /* If user clicks to ignore the notice, add that to their user meta */
         if ( isset($_GET['wpscp_nag_ignore']) && '0' == $_GET['wpscp_nag_ignore'] ) {
-             add_user_meta($user_id, 'wpscp_ignore_notice134', 'true', true);
+             add_user_meta($user_id, 'wpscp_ignore_notice140a', 'true', true);
      }
 }
 

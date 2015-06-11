@@ -1,10 +1,10 @@
 === WP Scheduled Posts ===
 Contributors: Asif2BD, onetarek
-Donate link: http://wpdeveloper.net/
-Tags: schedule, post schedule, schedule widget, scheduler, schedule bar, schedule menu bar, admin bar, dashboard widget, scheduled posts, missed scheduled, editor calendar, calendar
+Donate link: https://wpdeveloper.net/
+Tags: schedule, post schedule, schedule widget, scheduler, schedule bar, schedule menu bar, admin bar, dashboard widget, scheduled posts, missed scheduled, editor calendar, calendar, missed schedule, future post, schedule issue, post later, admin bar, admin, multi author
 Requires at least: 2.5.0
-Tested up to: 4.2
-Stable tag: 1.3.4
+Tested up to: 4.2.2
+Stable tag: 1.4.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,10 +12,10 @@ A complete solution for WordPress Post Schedule. Get an Admin Bar & Dashboard Wi
 
 == Description ==
 
-[WPDeveloper.net](http://wpdeveloper.net/) brings '[WP Scheduled Posts](http://wpdeveloper.net/free-plugin/wp-scheduled-posts/)' for all WordPress user for free, which was previously only used by [ARCom](http://arcom.com.bd) internally, in multi-author projects like [The Tech Journal](http://thetechjournal.com).
+[WPDeveloper.net](https://wpdeveloper.net/) brings '[WP Scheduled Posts](https://wpdeveloper.net/free-plugin/wp-scheduled-posts/)' for all WordPress user for free, which was previously only used by [ARCom](http://arcom.com.bd) internally, in multi-author projects like [The Tech Journal](http://thetechjournal.com).
 
 > <strong>Vote For Feature!!</strong><br>
-> We are considering to bring more features, tell us what you need. [Click here](http://wpdeveloper.net/go/WPSP-PDS)!
+> We are considering to bring more features, tell us what you need. [Click here](https://wpdeveloper.net/go/WPSP-PDS)!
 
 
 'WP Scheduled Posts' is a very simple but super useful plugin. It will enable a widget in dashboard and/or in admin bar which will show all future Scheduled post. This is specially useful for multi-author blog. Even its useful for single author blog who use the built-in Schedule function of WordPress. 
@@ -49,6 +49,7 @@ To better understand what it does and how it works please check screenshot secti
 > Contribute in GitHub. [Click here](https://github.com/ARCommunications/WP-Scheduled-Posts)!
 
 
+
 == Installation ==
 
 = Modern Way: =
@@ -79,7 +80,8 @@ Use plugin support button in WordPress.org extended listing.
 
 = Is there premium support? What if I want customization? =
 
-Contact at WPDeveloper.net [Support Page](http://wpdeveloper.net/support)
+Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
+
 
 
 == Screenshots ==
@@ -90,6 +92,10 @@ Contact at WPDeveloper.net [Support Page](http://wpdeveloper.net/support)
 
 
 == Changelog ==
+
+= 1.4.0 - 2015-06-11 =
+* Major bug fix. Reported by user "Bad Feather". No more notice when "WP_DEBUG" is set to true.
+* Little bit design change in Option Page & Admin Bar.
 
 = 1.3.4 - 2015-04-20 =
 * Minor bug fix. Thanks for the tip by @caschy
@@ -130,12 +136,12 @@ Contact at WPDeveloper.net [Support Page](http://wpdeveloper.net/support)
 
 
 == Upgrade Notice ==
-= 1.3.4 =
-* Nag Screen bug, and all from 1.3.3. like Security check, compatible to WordPress 4.2 RC! User survey for more coming feature. Must update.
+= 1.4.0 =
+* [Must Update] Major bug, little bit design change in Option Page & Admin Bar. More stable then before.
 
 
 == Donation ==
 
 Consider buying any of our Pro version at little cost.
 
-http://wpdeveloper.net/
+https://wpdeveloper.net/
