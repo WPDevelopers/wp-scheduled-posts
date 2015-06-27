@@ -3,7 +3,7 @@
  * Plugin Name: WP Scheduled Posts
  * Plugin URI: https://wpdeveloper.net/free-plugin/wp-scheduled-posts/
  * Description: A complete solution for WordPress Post Schedule. Get an admin Bar & Dashboard Widget showing all your scheduled posts. And full control.
- * Version: 1.4.0
+ * Version: 1.4.1
  * Author: WPDeveloper.net
  * Author URI: https://wpdeveloper.net
  * License: GPL2+
@@ -241,9 +241,9 @@ if ( current_user_can( 'install_plugins' ) )
      global $current_user ;
         $user_id = $current_user->ID;
         /* Check that the user hasn't already clicked to ignore the message */
-     if ( ! get_user_meta($user_id, 'wpscp_ignore_notice140a') ) {
+     if ( ! get_user_meta($user_id, 'wpscp_ignore_notice141') ) {
         echo '<div class="updated"><p>';
-        printf(__('<b>[Notice]</b> If <b><a href="https://wpdeveloper.net/go/wpsp-free" target="_blank">WP Scheduled Posts</a> </b>plugin helped you, why not <strong><a href="https://wpdeveloper.net/go/wpsp-rating" target="_blank">rate us</a></strong> in <strong><a href="https://wpdeveloper.net/go/wpsp-rating" target="_blank">WordPress.org</a></strong>, it takes only few second. If you have any issue with the plugin please contact <strong><a href="https://wpdeveloper.net/support/" target="_blank">support</a></strong>. Make sure you checked other <strong>cool free plugins</strong> we created at <strong><a href="https://wpdeveloper.net/" target="_blank">WPDeveloper.net</a></strong>
+        printf(__('<b>[Notice]</b> Do you have multiple Writers/Authors in your site? If you use <b><a href="https://wpdeveloper.net/go/WPSP-Main" target="_blank">WP Scheduled Posts</a> </b>to manage your schedule, we have another <strong>Rocking free plugin</strong> <strong><a href="https://wpdeveloper.net/go/WPAR-Main" target="_blank">WP Author Report</a></strong>, which generate reports for a site owner that makes sense, and increase productivity. <strong>Its free, give it a try!</strong>
  | <a href="%1$s">[Hide Notice]</a>'),  admin_url( 'admin.php?page=wp-scheduled-posts&wpscp_nag_ignore=0' ));
         echo "</p></div>";
      }
@@ -257,7 +257,7 @@ function wpscp_nag_ignore() {
         $user_id = $current_user->ID;
         /* If user clicks to ignore the notice, add that to their user meta */
         if ( isset($_GET['wpscp_nag_ignore']) && '0' == $_GET['wpscp_nag_ignore'] ) {
-             add_user_meta($user_id, 'wpscp_ignore_notice140a', 'true', true);
+             add_user_meta($user_id, 'wpscp_ignore_notice141', 'true', true);
      }
 }
 
