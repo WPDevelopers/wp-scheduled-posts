@@ -3,8 +3,8 @@ Contributors: Asif2BD, onetarek
 Donate link: https://wpdeveloper.net/
 Tags: schedule, post schedule, schedule widget, scheduler, schedule bar, schedule menu bar, admin bar, dashboard widget, scheduled posts, missed scheduled, editor calendar, calendar, missed schedule, future post, schedule issue, post later, admin bar, admin, multi author
 Requires at least: 2.5.0
-Tested up to: 4.2.2
-Stable tag: 1.4.1
+Tested up to: 4.5.2
+Stable tag: 1.4.2
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -93,6 +93,9 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 == Changelog ==
 
+= 1.4.2 - 2016-06-10 =
+* Compatible with latest WordPress 4.5.2
+
 = 1.4.1 - 2015-06-27 =
 * Minor bug fix.
 
@@ -139,8 +142,8 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 
 == Upgrade Notice ==
-= 1.4.1 =
-* [Must Update] Minor bug fix. And include all new feature and fix released in 1.4.0
+= 1.4.2 =
+* [Minor Update] Minor fix. Now fully compatible with latest WordPress release.
 
 
 == Donation ==
