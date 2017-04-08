@@ -1,11 +1,11 @@
 <div  class="wpscp-sidebar">
-<a target="_blank" href="https://wpdeveloper.net"><img src="<?php echo WPSCP_PLUGIN_URL."/images/wpdeveloper-logo-2.png" ?>" /></a>
+<center><a target="_blank" href="https://wpdeveloper.net"><img src="<?php echo WPSCP_PLUGIN_URL."/images/wpdeveloper-logo-2.png" ?>" /></a></center>
 <a class='wpscp-button2' style="margin-bottom:3px; display:block;" href="https://wpdeveloper.net/go/WPSP-Main" target="_blank">Plugin Homepage &rarr;</a>
 <a  class='wpscp-button3'  style="margin-bottom:3px; display:block;" href="https://wpdeveloper.net/go/WPSP-Review" target="_blank">&hearts; &nbsp; Rate This Plugin</a>
-<a class='wpscp-button2' style="margin-bottom:3px; display:block;" href="https://wpdeveloper.net/go/WPSP-PDS" target="_blank">Vote For Feature!!</a>
+<a class='wpscp-button2' style="margin-bottom:3px; display:block;" href="https://wpdeveloper.net/go/WPSP-PDS" target="_blank">Vote For New Feature!!!</a>
 <table class="widefat">
 	<thead>
-		<tr><th>WPDeveloper's Plugin<th></tr>
+		<tr><th><center>Our Other Free Plugins</center><th></tr>
 	</thead>
 	<tbody>
 		<td>

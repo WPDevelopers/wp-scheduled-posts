@@ -1,10 +1,10 @@
 === WP Scheduled Posts ===
 Contributors: Asif2BD, onetarek
-Donate link: https://wpdeveloper.net/
-Tags: schedule, post schedule, schedule widget, scheduler, schedule bar, schedule menu bar, admin bar, dashboard widget, scheduled posts, missed scheduled, editor calendar, calendar, missed schedule, future post, schedule issue, post later, admin bar, admin, multi author
+Donate link: https://wpdeveloper.net
+Tags: post schedule, editor calendar, schedule bar, scheduled posts, schedule, schedule widget, scheduler, schedule menu bar, admin bar, dashboard widget, missed scheduled, calendar, missed schedule, future post, schedule issue, post later, admin bar, admin, multi author
 Requires at least: 2.5.0
-Tested up to: 4.5.2
-Stable tag: 1.4.2
+Tested up to: 4.7
+Stable tag: 1.4.3
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,15 +12,7 @@ A complete solution for WordPress Post Schedule. Get an Admin Bar & Dashboard Wi
 
 == Description ==
 
-[WPDeveloper.net](https://wpdeveloper.net/) brings '[WP Scheduled Posts](https://wpdeveloper.net/free-plugin/wp-scheduled-posts/)' for all WordPress user for free, which was previously only used by [ARCom](http://arcom.com.bd) internally, in multi-author projects like [The Tech Journal](http://thetechjournal.com).
-
-> <strong>Vote For Feature!!</strong><br>
-> We are considering to bring more features, tell us what you need. [Click here](https://wpdeveloper.net/go/WPSP-PDS)!
-
-
-'WP Scheduled Posts' is a very simple but super useful plugin. It will enable a widget in dashboard and/or in admin bar which will show all future Scheduled post. This is specially useful for multi-author blog. Even its useful for single author blog who use the built-in Schedule function of WordPress. 
-
-To better understand what it does and how it works please check screenshot section.
+'[WP Scheduled Posts](https://wpdeveloper.net/free-plugin/wp-scheduled-posts/)' by [WPDeveloper.net](https://wpdeveloper.net/) is free for WordPress user, which was previously only used by [ARCom](http://arcom.com.bd) internally, in multi-author projects like [The Tech Journal](https://thetechjournal.com).
 
 **Feature includes:**
 
@@ -35,6 +27,15 @@ To better understand what it does and how it works please check screenshot secti
 * **New** Ability to control which 'Custom Post Types' will be available to "Scheduled Posts".
 * **New** Ability to control which 'Category' will be available to "Scheduled Posts".
 * **New** Ability to control date time structure, as you need.
+
+
+> <strong>Vote For Feature!!</strong><br>
+> We are considering to bring more features, tell us what you need. [Click here](https://wpdeveloper.net/go/WPSP-PDS)!
+
+
+'WP Scheduled Posts' is a very simple but super useful plugin. It will enable a widget in dashboard and/or in admin bar which will show all future Scheduled post. This is specially useful for multi-author blog. Even its useful for single author blog who use the built-in Schedule function of WordPress. 
+
+To better understand what it does and how it works please check screenshot section.
 
 
 **Check Our Other Plugins:**
@@ -93,6 +94,10 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 == Changelog ==
 
+= 1.4.3 - 2017-04-08 =
+* Compatible with latest WordPress 4.7.3
+* Minor Fix
+
 = 1.4.2 - 2016-06-10 =
 * Compatible with latest WordPress 4.5.2
 
@@ -142,7 +147,7 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 
 == Upgrade Notice ==
-= 1.4.2 =
+= 1.4.3 =
 * [Minor Update] Minor fix. Now fully compatible with latest WordPress release.
 
 

@@ -3,13 +3,13 @@
  * Plugin Name: WP Scheduled Posts
  * Plugin URI: https://wpdeveloper.net/free-plugin/wp-scheduled-posts/
  * Description: A complete solution for WordPress Post Schedule. Get an admin Bar & Dashboard Widget showing all your scheduled posts. And full control.
- * Version: 1.4.2
- * Author: WPDeveloper.net
+ * Version: 1.4.3
+ * Author: WP Developer
  * Author URI: https://wpdeveloper.net
  * License: GPL2+
  * Text Domain: wp-scheduled-posts
  * Min WP Version: 2.5.0
- * Max WP Version: 4.5.2
+ * Max WP Version: 4.7
  */
 
 
@@ -241,7 +241,7 @@ if ( current_user_can( 'install_plugins' ) )
      global $current_user ;
         $user_id = $current_user->ID;
         /* Check that the user hasn't already clicked to ignore the message */
-     if ( ! get_user_meta($user_id, 'wpscp_ignore_notice142') ) {
+     if ( ! get_user_meta($user_id, 'wpscp_ignore_notice143') ) {
         echo '<div class="updated"><p>';
         printf(__('<strong>[Notice]</strong> Thank you for using <b><a href="https://wpdeveloper.net/go/WPSP-Main" target="_blank">WP Scheduled Posts</a></b>. Do you know we also made the <strong>Most Popular</strong> <a href="https://wpdeveloper.net/go/TCMviaWPSP">Twitter Cards plugin</a>? <strong>Its <a href="https://wpdeveloper.net/go/TCMviaWPSP">free</a>, give it a try!</strong>
  | <a href="%1$s">[Hide Notice]</a>'),  admin_url( 'admin.php?page=wp-scheduled-posts&wpscp_nag_ignore=0' ));
@@ -257,7 +257,7 @@ function wpscp_nag_ignore() {
         $user_id = $current_user->ID;
         /* If user clicks to ignore the notice, add that to their user meta */
         if ( isset($_GET['wpscp_nag_ignore']) && '0' == $_GET['wpscp_nag_ignore'] ) {
-             add_user_meta($user_id, 'wpscp_ignore_notice142', 'true', true);
+             add_user_meta($user_id, 'wpscp_ignore_notice143', 'true', true);
      }
 }
 

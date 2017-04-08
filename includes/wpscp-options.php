@@ -79,7 +79,7 @@ function wpscp_options_page()
     <link rel="stylesheet" type="text/css" href="<?php echo WPSCP_PLUGIN_URL?>/style.css">
 	<div class="wrap dashboard-body">
     <div style="width: 700px; float:left;">
-		<div id="icon-options-general" class="icon32"></div><h2>WP Scheduled Posts Options</h2>
+		<div id="icon-options-general" class="icon32"></div><h1>WP Scheduled Posts Options</h1>
         
 		<!-- <div style="text-align:right; margin-right:300px;">
         	By <a class='button-primary' href="https://wpdeveloper.net" target="_blank">WPDeveloper</a>  <a class='button-primary' href="https://wpdeveloper.net/free-plugin/wp-scheduled-posts/" target="_blank">Visit Plugin Site</a>  <a  class='button-primary' style="color:#FFF600;" href="http://wordpress.org/support/view/plugin-reviews/wp-scheduled-posts" target="_blank">Rate This Plugin</a>
@@ -177,7 +177,7 @@ function wpscp_options_page()
             <div style=" text-align:center; margin-top:60px;">
             <a target="_blank" href="https://wpdeveloper.net"><img src="<?php echo WPSCP_PLUGIN_URL."/images/wpdeveloper-logo-2.png" ?>" /></a>
             <br />
-            Powered By <a target="_blank" href="https://wpdeveloper.net">WPDeveloper.net</a>
+            A Project Of <a target="_blank" href="https://arcom.co">ARCom</a>
             </div>
 <?php
 		
