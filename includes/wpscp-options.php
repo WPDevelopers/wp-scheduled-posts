@@ -63,14 +63,14 @@ function wpscp_options_page()
 		$options=array(
 				'show_dashboard_widget'=>intval($_POST['show_dashboard_widget']), 
 				'show_in_front_end_adminbar'=>intval($_POST['show_in_front_end_adminbar']), 
-				'show_in_adminbar'=>intval($_POST['show_in_adminbar']),
+				'show_in_adminbar'=>isset($_POST['show_in_adminbar']),
 				'allow_user_role'=>$_POST['allow_user_role'],
 				'allow_post_types'=>$_POST['allow_post_types'],
 				'allow_categories'=>$_POST['allow_categories'],
 				'adminbar_item_template'=>trim($_POST['adminbar_item_template']), 
 				'adminbar_title_length'=>$_POST['adminbar_title_length'], 
 				'adminbar_date_format'=>trim($_POST['adminbar_date_format']), 
-				'prevent_future_post'=>$_POST['prevent_future_post']
+				'prevent_future_post'=>isset($_POST['prevent_future_post'])
 		);	
 	update_option('wpscp_options',$options);
 	$wpscp_options=$options;
