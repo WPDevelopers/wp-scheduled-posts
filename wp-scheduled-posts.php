@@ -36,7 +36,7 @@ if (!class_exists('wpsp_addon')) {
 
 			add_action( 'admin_enqueue_scripts', array(&$this, 'start_plugin') );
 			add_action( 'admin_init', array(&$this, 'check_some_other_plugin') );
-			add_action( 'admin_notices', array(&$this,'wpse120377_error') );
+			//add_action( 'admin_notices', array(&$this,'wpse120377_error') );
 		}
 		
 		function define_constant() {
