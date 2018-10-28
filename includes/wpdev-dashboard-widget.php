@@ -1,7 +1,5 @@
 <?php
 // Create the function to output the contents of our Dashboard Widget
-#http://codex.wordpress.org/Dashboard_Widgets_API
-#http://codex.wordpress.org/Function_Reference/fetch_feed
 include_once(ABSPATH . WPINC . '/feed.php');
 if(!function_exists('wpdev_dashboard_widget_function')) #prevent the collision of same function from another plugin by wpdeveloper.net
 {

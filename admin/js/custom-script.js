@@ -11,9 +11,7 @@ jQuery(document).ready(function($) {
 		}else{
 			return false;
 		}
-	    // var group = "input:checkbox[name='"+$(this).attr("name")+"']";
-	    // $(group).attr("checked",false);
-	    // $(this).attr("checked",true);
+	    
 	});
 
 

@@ -35,8 +35,7 @@ class wpsp_scheduled {
         add_action('wp_ajax_edcal_posts', array(&$this, 'wpsp_scheduled_posts'));
         add_action('wp_ajax_edcal_getpost', array(&$this, 'wpsp_scheduled_getpost'));
         add_action('wp_ajax_edcal_deletepost', array(&$this, 'wpsp_scheduled_deletepost'));
-        //add_action("init", array(&$this, 'wpsp_scheduled_load_language'));
-        //add_action( 'admin_menu', array(&$this, 'add_sub_menu_here') );
+        
 
 
         

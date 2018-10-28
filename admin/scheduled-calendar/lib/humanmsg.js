@@ -1,8 +1,3 @@
-/*
-	HUMANIZED MESSAGES 1.0
-	idea - http://www.humanized.com/weblog/2006/09/11/monolog_boxes_and_transparent_messages
-	home - http://humanmsg.googlecode.com
-*/
 
 var humanMsg = {
 	setup: function(appendTo, logName, msgOpacity) {
