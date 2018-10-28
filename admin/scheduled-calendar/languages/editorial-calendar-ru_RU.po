@@ -1,0 +1,189 @@
+# Translation of WordPress Editorial Calendar in Russian
+# This file is distributed under the same license as the WordPress Editorial Calendar package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2012-08-16 14:19-0500\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: GlotPress/0.1\n"
+"Project-Id-Version: WordPress Editorial Calendar\n"
+"POT-Creation-Date: \n"
+"Last-Translator: Zack Grossbart <zack@grossbart.com>\n"
+"Language-Team: \n"
+
+msgid "%1$s Calendar"
+msgstr "%1$s Календарь"
+
+msgid "Calendar"
+msgstr "Календарь"
+
+msgid "en-US"
+msgstr "ru-RU"
+
+msgid "%1$s by %2$s"
+msgstr "%1$s по %2$s"
+
+msgid "New Post"
+msgstr "новый публикация"
+
+msgid " [DRAFT]"
+msgstr "[черновой вариант]"
+
+msgid " [PENDING]"
+msgstr "в ожидании"
+
+msgid " [STICKY]"
+msgstr "[Важно]"
+
+msgid " [DRAFT, STICKY]"
+msgstr "[черновой вариант, Важно]"
+
+msgid " [PENDING, STICKY]"
+msgstr "[в ожидании, Важно]"
+
+msgid "Edit"
+msgstr "отредактировать"
+
+msgid "Quick Edit"
+msgstr "быстрое редактирование"
+
+msgid "Delete"
+msgstr "удалить"
+
+msgid "View"
+msgstr "смотреть"
+
+msgid "Status:"
+msgstr "статус"
+
+msgid "Cancel"
+msgstr "отменить"
+
+msgid "Title"
+msgstr "название"
+
+msgid "Content"
+msgstr "содержание"
+
+msgid "Add a new post on %s"
+msgstr "Добавить новую публикацию на %s"
+
+msgid "New %s - "
+msgstr "новая %s"
+
+msgid "Update"
+msgstr "обновить"
+
+msgid "Schedule"
+msgstr "планировать"
+
+msgid "Submit for Review"
+msgstr "Отправить на проверку"
+
+msgid "Save"
+msgstr "сохранить"
+
+msgid "Edit %1$s - %2$s"
+msgstr "отредактировать %1$s - %2$s"
+
+msgid "Scheduled"
+msgstr "Запланированно"
+
+msgid "You are about to delete the post \""
+msgstr "Вы собираетесь удалить публикацию \""
+
+msgid "\". Press Cancel to stop, OK to delete."
+msgstr "\". Нажмите кнопку Отмена, чтобы остановить, ОК, чтобы удалить."
+
+msgid "Looks like someone else already moved this post."
+msgstr "Похоже, кто-то уже переместил этот публикацию."
+
+msgid "You do not have permission to edit posts."
+msgstr "У вас нет разрешения редактировать публикацию."
+
+msgid "Invalid checksum for post. This is commonly a cross-site scripting error."
+msgstr "Неверная чексам для публикаций. Обычно это межсайтовый скриптинг ошибки."
+
+msgid "There was an error contacting your blog."
+msgstr "произошла ошибка соединения с блогом."
+
+msgid "Screen Options"
+msgstr "Настройки экрана"
+
+msgid "Colors"
+msgstr "Цвета"
+
+msgid "Drafts: "
+msgstr "черновики"
+
+msgid "Apply"
+msgstr "применить"
+
+msgid "Show on screen"
+msgstr "Показать на экране"
+
+msgid " weeks at a time"
+msgstr "недели за один раз"
+
+msgid "Show in Calendar Cell"
+msgstr "Показать в ячейке календаря"
+
+msgid "Author"
+msgstr "автор"
+
+msgid "Status"
+msgstr "статус"
+
+msgid "Time of day"
+msgstr "Время дня"
+
+msgid "An error occurred while loading the calendar: "
+msgstr "Произошла ошибка при загрузке календаря:"
+
+msgid "The calendar can only show between 1 and 5 weeks at a time."
+msgstr "Календарь может показывать только от 1 до 5 недель за один раз."
+
+msgid "Select the number of weeks for the calendar to show."
+msgstr "Выберите количество недель для календаря, чтобы показать."
+
+msgid "<h2>We're done</h2>We've finished collecting data.  Thank you for helping us make the calendar better."
+msgstr "<h2>Мы закончили</h2> Мы закончили сбор данных. Спасибо за помощь в улучшении календаря."
+
+msgid "Jump back"
+msgstr "Перейти обратно"
+
+msgid "Skip ahead"
+msgstr "Перейдите"
+
+msgid "Scroll the calendar and make the today visible"
+msgstr "перекрутите календарь к сегоднешнему дню "
+
+msgid "Show Today"
+msgstr "Покажите сегодня"
+
+msgid "Edit Post"
+msgstr "Редактировать публикацию"
+
+msgid "Time"
+msgstr "время"
+
+msgid "Draft"
+msgstr "черновой вариант"
+
+msgid "Pending Review"
+msgstr "ожидает рассмотрения"
+
+msgid "Posts "
+msgstr "публикации"
+
+msgid "Post "
+msgstr "публикацию"
+
+msgid "Error in deleting..."
+msgstr "Ошибка при удалении ..."
+
+msgid "ltr"
+msgstr "ltr"
+

@@ -1,0 +1,292 @@
+# Translation of WordPress Editorial Calendar in Spanish (Spain)
+# This file is distributed under the same license as the WordPress Editorial Calendar package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2013-02-14 16:18-0500\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: GlotPress/0.1\n"
+"Project-Id-Version: WordPress Editorial Calendar\n"
+"POT-Creation-Date: \n"
+"Last-Translator: Zack Grossbart <zack@grossbart.com>\n"
+"Language-Team: \n"
+
+#: edcal.php:273
+#: edcal.php:293
+msgid "New Draft"
+msgstr "Nuevo Borrador"
+
+#: edcal.php:291
+msgid "Add a new draft"
+msgstr "Añadir nuevo borrador"
+
+#: edcal.php:321
+msgid "The calendar can only show between 1 and 8 weeks at a time."
+msgstr "El calendario sólo puede mostrar entre 1 y 8 semanas a la vez."
+
+#: edcal.php:324
+#: edcal.php:395
+msgid "Show Unscheduled Drafts"
+msgstr "Mostrar entradas no programadas"
+
+#: edcal.php:325
+msgid "Hide Unscheduled Drafts"
+msgstr "Ocultar entradas no programadas"
+
+#: edcal.php:386
+msgid "Scroll the calendar and make the last post visible"
+msgstr "Ver lo último que figura programado"
+
+#: edcal.php:395
+msgid "Show unscheduled posts"
+msgstr "Mostrar entradas no programadas"
+
+#: edcal.php:401
+msgid "Unscheduled draft posts"
+msgstr "Borradores de Entradas No Programadas"
+
+#: edcal.php:401
+msgid "Unscheduled"
+msgstr "No Programado"
+
+#: edcal.php:374
+msgid "%1$s Calendar"
+msgstr "Calendario de %1$s"
+
+#: edcal.php:96
+#: edcal.php:120
+msgid "Calendar"
+msgstr "Calendario"
+
+#: edcal.php:262
+#: edcal.php:531
+msgid "en-US"
+msgstr "es-ES"
+
+#: edcal.php:270
+msgid "%1$s by %2$s"
+msgstr "%1$s por %2$s"
+
+#: edcal.php:272
+msgid "New Post"
+msgstr "Nueva Entrada"
+
+#: edcal.php:276
+msgid " [DRAFT]"
+msgstr " [BORRADOR]"
+
+#: edcal.php:277
+msgid " [PENDING]"
+msgstr " [PENDIENTE]"
+
+#: edcal.php:278
+msgid " [STICKY]"
+msgstr " [DESTACADO]"
+
+#: edcal.php:279
+msgid " [DRAFT, STICKY]"
+msgstr " [BORRADOR, DESTACADO]"
+
+#: edcal.php:280
+msgid " [PENDING, STICKY]"
+msgstr " [PENDIENTE, DESTACADO]"
+
+#: edcal.php:281
+#: edcal.php:285
+msgid "Edit"
+msgstr "Editar"
+
+#: edcal.php:282
+msgid "Quick Edit"
+msgstr "Edición Rápida"
+
+#: edcal.php:283
+msgid "Delete"
+msgstr "Eliminar"
+
+#: edcal.php:284
+msgid "View"
+msgstr "Ver"
+
+#: edcal.php:286
+msgid "Status:"
+msgstr "Estado:"
+
+#: edcal.php:287
+#: edcal.php:478
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: edcal.php:288
+#: edcal.php:440
+msgid "Title"
+msgstr "Título"
+
+#: edcal.php:289
+#: edcal.php:445
+msgid "Content"
+msgstr "Contenido"
+
+#: edcal.php:290
+msgid "Add a new post on %s"
+msgstr "Añadir nueva entrada en %s"
+
+#: edcal.php:292
+msgid "New %s - "
+msgstr "Nuevo %s - "
+
+#: edcal.php:294
+msgid "Update"
+msgstr "Actualizar"
+
+#: edcal.php:295
+#: edcal.php:477
+msgid "Schedule"
+msgstr "Programar"
+
+#: edcal.php:296
+msgid "Submit for Review"
+msgstr "Enviar para revisión"
+
+#: edcal.php:297
+msgid "Save"
+msgstr "Guardar"
+
+#: edcal.php:298
+msgid "Edit %1$s - %2$s"
+msgstr "Editar %1$s - %2$s"
+
+#: edcal.php:299
+#: edcal.php:462
+msgid "Scheduled"
+msgstr "Programado"
+
+#: edcal.php:301
+msgid "You are about to delete the post \""
+msgstr "Va a eliminar la entrada \""
+
+#: edcal.php:302
+msgid "\". Press Cancel to stop, OK to delete."
+msgstr "\". Presione Cancelar para detener, OK para eliminar."
+
+#: edcal.php:304
+msgid "Looks like someone else already moved this post."
+msgstr "Parece que alguien ya ha movido esta entrada."
+
+#: edcal.php:305
+msgid "You do not have permission to edit posts."
+msgstr "No tiene permiso para editar entradas."
+
+#: edcal.php:306
+msgid "Invalid checksum for post. This is commonly a cross-site scripting error."
+msgstr "Error de verificación de la entrada. Esto suele ser un error de cross-site scripting."
+
+#: edcal.php:307
+msgid "There was an error contacting your blog."
+msgstr "Hubo un error al comunicarse con su blog."
+
+#: edcal.php:309
+msgid "Screen Options"
+msgstr "Opciones de pantalla"
+
+#: edcal.php:310
+msgid "Colors"
+msgstr "Colores"
+
+#: edcal.php:311
+msgid "Drafts: "
+msgstr "Borradores: "
+
+#: edcal.php:312
+msgid "Apply"
+msgstr "Aplicar"
+
+#: edcal.php:313
+msgid "Show on screen"
+msgstr "Mostrar en pantalla"
+
+#: edcal.php:314
+msgid " weeks at a time"
+msgstr " semanas a la vez"
+
+#: edcal.php:315
+msgid "Show in Calendar Cell"
+msgstr "Mostrar en la celda del calendario"
+
+#: edcal.php:316
+msgid "Author"
+msgstr "Autor"
+
+#: edcal.php:317
+#: edcal.php:456
+msgid "Status"
+msgstr "Estado"
+
+#: edcal.php:318
+msgid "Time of day"
+msgstr "En el dia"
+
+#: edcal.php:319
+msgid "An error occurred while loading the calendar: "
+msgstr "Ha ocurrido un error al cargar el calendario: "
+
+#: edcal.php:322
+msgid "Select the number of weeks for the calendar to show."
+msgstr "Seleccione el número de semanas para mostrar en el calendario."
+
+#: edcal.php:333
+msgid "<h2>We're done</h2>We've finished collecting data.  Thank you for helping us make the calendar better."
+msgstr "<h2>Listo!</h2>Hemos terminado de recolectar datos. Gracias por ayudarnos a mejorar este calendario."
+
+#: edcal.php:383
+msgid "Jump back"
+msgstr "Atras"
+
+#: edcal.php:385
+msgid "Skip ahead"
+msgstr "Adelante"
+
+#: edcal.php:388
+msgid "Scroll the calendar and make the today visible"
+msgstr "Mover hasta el día de hoy"
+
+#: edcal.php:388
+msgid "Show Today"
+msgstr "Hoy"
+
+#: edcal.php:431
+msgid "Edit Post"
+msgstr "Editar Articulo"
+
+#: edcal.php:451
+msgid "Time"
+msgstr "Hora"
+
+#: edcal.php:459
+msgid "Draft"
+msgstr "Borrador"
+
+#: edcal.php:460
+msgid "Pending Review"
+msgstr "Pendiente de revisión"
+
+#: edcal.php:729
+msgid "Posts "
+msgstr "Entrada"
+
+#: edcal.php:745
+msgid "Post "
+msgstr "Entradas"
+
+#: edcal.php:877
+#: edcal.php:880
+msgid "Error in deleting..."
+msgstr "Error al eliminar..."
+
+#: edcal.php:190
+#: edcal.php:274
+msgid "ltr"
+msgstr "ltr"
+

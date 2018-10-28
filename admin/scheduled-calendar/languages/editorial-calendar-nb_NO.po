@@ -1,0 +1,250 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/editorial-calendar\n"
+"POT-Creation-Date: 2011-12-21 13:34:53+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2011-12-22 08:02-0500\n"
+"Last-Translator: Zack Grossbart <zack@grossbart.com>\n"
+"Language-Team: Zack Grossbart <zack@grossbart.com>\n"
+
+#: edcal.php:90
+#: edcal.php:114
+msgid "Calendar"
+msgstr "Kalendar"
+
+#: edcal.php:242
+#: edcal.php:466
+msgid "en-US"
+msgstr "nb-NO"
+
+#: edcal.php:250
+msgid "%1$s by %2$s"
+msgstr "1$s av %2$s"
+
+#: edcal.php:252
+msgid "New Post"
+msgstr "Nytt Innlegg"
+
+#: edcal.php:254
+msgid " [DRAFT]"
+msgstr " [UTKAST]"
+
+#: edcal.php:255
+msgid " [PENDING]"
+msgstr " [PÃ…VENTE]"
+
+#: edcal.php:256
+msgid " [STICKY]"
+msgstr " [KLISTRET]"
+
+#: edcal.php:257
+msgid " [DRAFT, STICKY]"
+msgstr " [UTKAST KLISTRET]"
+
+#: edcal.php:258
+msgid " [PENDING, STICKY]"
+msgstr " [PÃ…VENTE KLISTRET]"
+
+#: edcal.php:259
+#: edcal.php:263
+msgid "Edit"
+msgstr "Editer"
+
+#: edcal.php:260
+msgid "Quick Edit"
+msgstr "Hurtig Editering"
+
+#: edcal.php:261
+msgid "Delete"
+msgstr "Slett"
+
+#: edcal.php:262
+msgid "View"
+msgstr "Se"
+
+#: edcal.php:264
+msgid "Status:"
+msgstr "Status"
+
+#: edcal.php:265
+#: edcal.php:435
+msgid "Cancel"
+msgstr "Avbryt"
+
+#: edcal.php:266
+#: edcal.php:398
+msgid "Title"
+msgstr "Tittel"
+
+#: edcal.php:267
+#: edcal.php:403
+msgid "Content"
+msgstr "Innhold"
+
+#: edcal.php:268
+msgid "Add a new post on %s"
+msgstr "Legg til nytt innlegg pÃ¥ %s"
+
+#: edcal.php:269
+msgid "New %s - "
+msgstr "Nytt %s - "
+
+#: edcal.php:270
+msgid "Update"
+msgstr "Oppdater"
+
+#: edcal.php:271
+#: edcal.php:434
+msgid "Schedule"
+msgstr "Planlegg"
+
+#: edcal.php:272
+msgid "Submit for Review"
+msgstr "Send til vurdering"
+
+#: edcal.php:273
+msgid "Save"
+msgstr "Lagre"
+
+#: edcal.php:274
+msgid "Edit %1$s - %2$s"
+msgstr "Editer %1$ - %2$s"
+
+#: edcal.php:275
+#: edcal.php:420
+msgid "Scheduled"
+msgstr "Planlagt"
+
+#: edcal.php:277
+msgid "You are about to delete the post \""
+msgstr "Du er i ferd med Ã¥ slette innlegget \""
+
+#: edcal.php:278
+msgid "\". Press Cancel to stop, OK to delete."
+msgstr "\". Trykk Avbryt for Ã¥ stoppe, OK for Ã¥ slette."
+
+#: edcal.php:280
+msgid "Looks like someone else already moved this post."
+msgstr "Ser ut som noen andre allerede flyttet dette innlegget."
+
+#: edcal.php:281
+msgid "You do not have permission to edit posts."
+msgstr "Du har ikke tillatelse til Ã¥ redigere innlegg."
+
+#: edcal.php:282
+msgid "Invalid checksum for post. This is commonly a cross-site scripting error."
+msgstr "Ugyldig kontrollsum for post. Dette er vanligvis en cross-site scripting feil."
+
+#: edcal.php:283
+msgid "There was an error contacting your blog."
+msgstr "Det oppstod en feil med tilkobling av din blogg."
+
+#: edcal.php:285
+msgid "Screen Options"
+msgstr "Skjerm Alternativer"
+
+#: edcal.php:286
+msgid "Colors"
+msgstr "Farger"
+
+#: edcal.php:287
+msgid "Drafts: "
+msgstr "Utkast: "
+
+#: edcal.php:288
+msgid "Apply"
+msgstr "Legg til"
+
+#: edcal.php:289
+msgid "Show on screen"
+msgstr "Vis pÃ¥ skjerm"
+
+#: edcal.php:290
+msgid " weeks at a time"
+msgstr "Uker"
+
+#: edcal.php:291
+msgid "Show in Calendar Cell"
+msgstr "Vis i Kalender celle"
+
+#: edcal.php:292
+msgid "Author"
+msgstr "Forfatter"
+
+#: edcal.php:293
+#: edcal.php:414
+msgid "Status"
+msgstr "Status"
+
+#: edcal.php:294
+msgid "Time of day"
+msgstr "Tid pÃ¥ dagen"
+
+#: edcal.php:295
+msgid "An error occurred while loading the calendar: "
+msgstr "Det oppstod en feil under innlasting av kalenderen: "
+
+#: edcal.php:297
+msgid "The calendar can only show between 1 and 5 weeks at a time."
+msgstr "Kalenderen kan bare vise mellom 1 og 5 uker av gangen."
+
+#: edcal.php:298
+msgid "Select the number of weeks for the calendar to show."
+msgstr "Velg antall uker som kalenderen skal vise"
+
+#: edcal.php:306
+msgid "<h2>We're done</h2>We've finished collecting data.  Thank you for helping us make the calendar better."
+msgstr "<h2>Vi er ferdig</h2> Vi er ferdig med Ã¥ samle data. Takk for at du hjelper oss" "med Ã¥ gjÃ¸re kalenderen bedre."
+
+#: edcal.php:347
+msgid " Calendar"
+msgstr " Kalendar"
+
+#: edcal.php:356
+msgid "Jump back"
+msgstr "GÃ¥ tilbake"
+
+#: edcal.php:358
+msgid "Skip ahead"
+msgstr "hopp fremover"
+
+#: edcal.php:363
+msgid "Scroll the calendar and make the today visible"
+msgstr "Bla i kalenderen og gjÃ¸r i dag synlig"
+
+#: edcal.php:363
+msgid "Show Today"
+msgstr "Vis i dag"
+
+#: edcal.php:389
+msgid "Edit Post"
+msgstr "Editer Innlegg"
+
+#: edcal.php:409
+msgid "Time"
+msgstr "Tid"
+
+#: edcal.php:417
+msgid "Draft"
+msgstr "Utkast"
+
+#: edcal.php:418
+msgid "Pending Review"
+msgstr "Send til gjennomgang"
+
+#: edcal.php:617
+msgid "Posts "
+msgstr "Innlegg "
+
+#: edcal.php:633
+msgid "Post "
+msgstr "Innlegg "
+
+#: edcal.php:737
+#: edcal.php:740
+msgid "Error in deleting..."
+msgstr "Feil under sletting..."
+

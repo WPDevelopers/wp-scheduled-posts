@@ -1,0 +1,60 @@
+.inline-edit-row fieldset label span.title {
+    width: 7em;
+    float: right;
+    text-align: right;
+    direction: rtl;
+}
+
+.inline-edit-row fieldset label span.input-text-wrap {
+    margin-left: 0;
+    margin-right: 7em;
+}
+
+.inline-edit-row fieldset label span.input-text-wrap {
+    text-align: right;
+    direction: rtl;
+}
+
+#topleft {
+    left: auto;
+    right: 0px;
+}
+
+#topright {
+    right: auto;
+    left: 0px;
+}
+
+#screen-options-link-wrap, #contextual-help-link-wrap {
+    float: left;
+}
+
+.wrap h2 {
+    text-align: right;
+    direction: rtl;
+}
+
+.icon32 {
+    float: right;
+}
+
+.post {
+    text-align: right;
+    direction: rtl;
+}
+
+.dayhead {
+    min-width: 0;
+    text-align: right;
+    direction: rtl;
+}
+
+#contextual-help-wrap {
+    text-align: right;
+    direction: rtl;
+}
+
+#tooltiptitle {
+    direction: rtl;
+    padding-right: 35px;
+}

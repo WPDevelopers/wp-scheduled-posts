@@ -1,0 +1,185 @@
+# Translation of WordPress Editorial Calendar in French (France)
+# This file is distributed under the same license as the WordPress Editorial Calendar package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2012-02-27 08:53:18+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: GlotPress/0.1\n"
+"Project-Id-Version: WordPress Editorial Calendar\n"
+
+msgid "%1$s Calendar"
+msgstr "Calendrier des %1$s"
+
+msgid "Calendar"
+msgstr "Calendrier"
+
+msgid "en-US"
+msgstr "fr-FR"
+
+msgid "%1$s by %2$s"
+msgstr "%1$s par %2$s"
+
+msgid "New Post"
+msgstr "Nouveau post"
+
+msgid " [DRAFT]"
+msgstr " [BROUILLON]"
+
+msgid " [PENDING]"
+msgstr " [EN ATTENTE]"
+
+msgid " [STICKY]"
+msgstr " [EN PRIORITÉ]"
+
+msgid " [DRAFT, STICKY]"
+msgstr " [BROUILLON, STICKY]"
+
+msgid " [PENDING, STICKY]"
+msgstr " [EN ATTENTE, EN PRIORITÉ]"
+
+msgid "Edit"
+msgstr "Éditer"
+
+msgid "Quick Edit"
+msgstr "Éditer rapide"
+
+msgid "Delete"
+msgstr "Supprimer"
+
+msgid "View"
+msgstr "Voir"
+
+msgid "Status:"
+msgstr "Statut :"
+
+msgid "Cancel"
+msgstr "Annuler"
+
+msgid "Title"
+msgstr "Titre"
+
+msgid "Content"
+msgstr "Contenu"
+
+msgid "Add a new post on %s"
+msgstr "Ajouter un article au %s"
+
+msgid "New %s - "
+msgstr "Nouveau %s - "
+
+msgid "Update"
+msgstr "Mettre à jour"
+
+msgid "Schedule"
+msgstr "Horaire"
+
+msgid "Submit for Review"
+msgstr "Soumettre pour revision"
+
+msgid "Save"
+msgstr "Sauvegarder"
+
+msgid "Edit %1$s - %2$s"
+msgstr "Éditer %1$s - %2$s"
+
+msgid "Scheduled"
+msgstr "Planifié"
+
+msgid "You are about to delete the post \""
+msgstr "Vous allez supprimer le post \""
+
+msgid "\". Press Cancel to stop, OK to delete."
+msgstr "\". Cliquer OK pour confirmer."
+
+msgid "Looks like someone else already moved this post."
+msgstr "Quelqu'un d'autre a déjà déplacé ce post."
+
+msgid "You do not have permission to edit posts."
+msgstr "Vous n'avez pas les permissions d'éditer les posts."
+
+msgid "Invalid checksum for post. This is commonly a cross-site scripting error."
+msgstr "Désolé, les donnés de l'article sont corrompu, il se peut que ce soit une erreur de 'cross-site scripting' (XSS)."
+
+msgid "There was an error contacting your blog."
+msgstr "Une erreur est survenue en contactant votre blog."
+
+msgid "Screen Options"
+msgstr "Options d'affichage"
+
+msgid "Colors"
+msgstr "Couleurs"
+
+msgid "Drafts: "
+msgstr "Brouillons:"
+
+msgid "Apply"
+msgstr "Appliquer"
+
+msgid "Show on screen"
+msgstr "Afficher"
+
+msgid " weeks at a time"
+msgstr "semaines à la fois"
+
+msgid "Show in Calendar Cell"
+msgstr "Afficher en calendrier"
+
+msgid "Author"
+msgstr "Auteur"
+
+msgid "Status"
+msgstr "Statut"
+
+msgid "Time of day"
+msgstr "Heure"
+
+msgid "An error occurred while loading the calendar: "
+msgstr "Il y a eu un erreur en chargement du calendrier : "
+
+msgid "The calendar can only show between 1 and 5 weeks at a time."
+msgstr "Le calendrier ne peut afficher qu'une à cinq semaines à la fois."
+
+msgid "Select the number of weeks for the calendar to show."
+msgstr "Sélectionner le nombre de semaines à afficher au calendrier."
+
+msgid "<h2>We're done</h2>We've finished collecting data.  Thank you for helping us make the calendar better."
+msgstr "<h2>C'est tout !</h2>On a tout finit. Merci de nous aider à améliorer le calendrier."
+
+msgid "Jump back"
+msgstr "Mois précédent"
+
+msgid "Skip ahead"
+msgstr "Mois suivant"
+
+msgid "Scroll the calendar and make the today visible"
+msgstr "Sauter à aujourd'hui"
+
+msgid "Show Today"
+msgstr "Voir aujourd'hui"
+
+msgid "Edit Post"
+msgstr "Éditer l'article"
+
+msgid "Time"
+msgstr "Heure"
+
+msgid "Draft"
+msgstr "Brouillon"
+
+msgid "Pending Review"
+msgstr "En attente de relecture"
+
+msgid "Posts "
+msgstr "Articles"
+
+msgid "Post "
+msgstr "Article"
+
+msgid "Error in deleting..."
+msgstr "Erreur en supprimant..."
+
+msgid "ltr"
+msgstr "ltr"

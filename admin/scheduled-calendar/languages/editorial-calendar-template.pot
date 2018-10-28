@@ -1,0 +1,182 @@
+# Translation of Editorial Calendar 
+# This file is distributed under the same license as the Editorial Calendar package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2012-02-26 21:34:50+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Calendar"
+msgstr ""
+
+msgid "en-US"
+msgstr ""
+
+msgid "%1$s by %2$s"
+msgstr ""
+
+msgid "New Post"
+msgstr ""
+
+msgid " [DRAFT]"
+msgstr ""
+
+msgid " [PENDING]"
+msgstr ""
+
+msgid " [STICKY]"
+msgstr ""
+
+msgid " [DRAFT, STICKY]"
+msgstr ""
+
+msgid " [PENDING, STICKY]"
+msgstr ""
+
+msgid "Edit"
+msgstr ""
+
+msgid "Quick Edit"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgid "View"
+msgstr ""
+
+msgid "Status:"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Title"
+msgstr ""
+
+msgid "Content"
+msgstr ""
+
+msgid "Add a new post on %s"
+msgstr ""
+
+msgid "New %s - "
+msgstr ""
+
+msgid "Update"
+msgstr ""
+
+msgid "Schedule"
+msgstr ""
+
+msgid "Submit for Review"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Edit %1$s - %2$s"
+msgstr ""
+
+msgid "Scheduled"
+msgstr ""
+
+msgid "You are about to delete the post \""
+msgstr ""
+
+msgid "\". Press Cancel to stop, OK to delete."
+msgstr ""
+
+msgid "Looks like someone else already moved this post."
+msgstr ""
+
+msgid "You do not have permission to edit posts."
+msgstr ""
+
+msgid "Invalid checksum for post. This is commonly a cross-site scripting error."
+msgstr ""
+
+msgid "There was an error contacting your blog."
+msgstr ""
+
+msgid "Screen Options"
+msgstr ""
+
+msgid "Colors"
+msgstr ""
+
+msgid "Drafts: "
+msgstr ""
+
+msgid "Apply"
+msgstr ""
+
+msgid "Show on screen"
+msgstr ""
+
+msgid " weeks at a time"
+msgstr ""
+
+msgid "Show in Calendar Cell"
+msgstr ""
+
+msgid "Author"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Time of day"
+msgstr ""
+
+msgid "An error occurred while loading the calendar: "
+msgstr ""
+
+msgid "The calendar can only show between 1 and 5 weeks at a time."
+msgstr ""
+
+msgid "Select the number of weeks for the calendar to show."
+msgstr ""
+
+msgid "<h2>We're done</h2>We've finished collecting data.  Thank you for helping us make the calendar better."
+msgstr ""
+
+msgid "%1$s Calendar"
+msgstr ""
+
+msgid "Jump back"
+msgstr ""
+
+msgid "Skip ahead"
+msgstr ""
+
+msgid "Scroll the calendar and make the today visible"
+msgstr ""
+
+msgid "Show Today"
+msgstr ""
+
+msgid "Edit Post"
+msgstr ""
+
+msgid "Time"
+msgstr ""
+
+msgid "Draft"
+msgstr ""
+
+msgid "Pending Review"
+msgstr ""
+
+msgid "Posts "
+msgstr ""
+
+msgid "Post "
+msgstr ""
+
+msgid "Error in deleting..."
+msgstr ""
+
+msgid "ltr"
+msgstr ""

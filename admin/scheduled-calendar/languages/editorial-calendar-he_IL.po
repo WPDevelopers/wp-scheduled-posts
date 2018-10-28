@@ -1,0 +1,256 @@
+# Copyright (C) 2012 
+# This file is distributed under the same license as the  package.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/editorial-calendar\n"
+"POT-Creation-Date: 2012-02-07 11:33:49+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2012-02-10 06:49-0500\n"
+"Last-Translator: Zack Grossbart <zack@grossbart.com>\n"
+"Language-Team: Zack Grossbart <zack@grossbart.com>\n"
+
+#: edcal.php:90
+#: edcal.php:114
+msgid "Calendar"
+msgstr "לוח שנה"
+
+#: edcal.php:242
+#: edcal.php:466
+msgid "en-US"
+msgstr "he-IL"
+
+#: edcal.php:250
+msgid "%1$s by %2$s"
+msgstr "%1$s פורסם על ידי: %2$s"
+
+#: edcal.php:252
+msgid "New Post"
+msgstr "פוסט חדש"
+
+#: edcal.php:254
+msgid " [DRAFT]"
+msgstr "[טיוטה]"
+
+#: edcal.php:255
+msgid " [PENDING]"
+msgstr "[ממתין לאישור]"
+
+#: edcal.php:256
+msgid " [STICKY]"
+msgstr "[דביק]"
+
+#: edcal.php:257
+msgid " [DRAFT, STICKY]"
+msgstr "[טיוטה, דביק]"
+
+#: edcal.php:258
+msgid " [PENDING, STICKY]"
+msgstr "[ממתין לאישור, דביק]"
+
+#: edcal.php:259
+#: edcal.php:263
+msgid "Edit"
+msgstr "עריכה"
+
+#: edcal.php:260
+msgid "Quick Edit"
+msgstr "עריכה מהירה"
+
+#: edcal.php:261
+msgid "Delete"
+msgstr "מחק"
+
+#: edcal.php:262
+msgid "View"
+msgstr "הצג"
+
+#: edcal.php:264
+msgid "Status:"
+msgstr "מצב:"
+
+#: edcal.php:265
+#: edcal.php:435
+msgid "Cancel"
+msgstr "בטל"
+
+#: edcal.php:266
+#: edcal.php:398
+msgid "Title"
+msgstr "כותרת"
+
+#: edcal.php:267
+#: edcal.php:403
+msgid "Content"
+msgstr "תוכן"
+
+#: edcal.php:268
+msgid "Add a new post on %s"
+msgstr "הוסף פוסט חדש ב %s"
+
+#: edcal.php:269
+msgid "New %s - "
+msgstr "%s חדש -"
+
+#: edcal.php:270
+msgid "Update"
+msgstr "עדכן"
+
+#: edcal.php:271
+#: edcal.php:434
+msgid "Schedule"
+msgstr "מתוזמן"
+
+#: edcal.php:272
+msgid "Submit for Review"
+msgstr "הגש לבדיקה"
+
+#: edcal.php:273
+msgid "Save"
+msgstr "שמור"
+
+#: edcal.php:274
+msgid "Edit %1$s - %2$s"
+msgstr "ערוך %1$s - %2$s"
+
+#: edcal.php:275
+#: edcal.php:420
+msgid "Scheduled"
+msgstr "מתוזמן"
+
+#: edcal.php:277
+msgid "You are about to delete the post \""
+msgstr "הינך עומד למחוק את הפוסט \""
+
+#: edcal.php:278
+msgid "\". Press Cancel to stop, OK to delete."
+msgstr "\". לחץ על ביטול לעצורת אישור למחיקה."
+
+#: edcal.php:280
+msgid "Looks like someone else already moved this post."
+msgstr "נראה שמישהו כבר הזיז פוסט זה."
+
+#: edcal.php:281
+msgid "You do not have permission to edit posts."
+msgstr "אין לך הרשאה לערוך פוסטים."
+
+#: edcal.php:282
+msgid "Invalid checksum for post. This is commonly a cross-site scripting error."
+msgstr "בדיקות שגויות עבור הפוסט. דבר זה קורה לעיתים עקב שגיאה בסקריפט חוצה אתר."
+
+#: edcal.php:283
+msgid "There was an error contacting your blog."
+msgstr "אירעה שגיאה בהתחברות לאתר/בלוג שלך."
+
+#: edcal.php:285
+msgid "Screen Options"
+msgstr "הצג אפשרויות תצוגה"
+
+#: edcal.php:286
+msgid "Colors"
+msgstr "צבעים"
+
+#: edcal.php:287
+msgid "Drafts: "
+msgstr "טיוטות:"
+
+#: edcal.php:288
+msgid "Apply"
+msgstr "החל שינויים"
+
+#: edcal.php:289
+msgid "Show on screen"
+msgstr "הצג על המסך"
+
+#: edcal.php:290
+msgid " weeks at a time"
+msgstr "שבועות בכל תצוגה"
+
+#: edcal.php:291
+msgid "Show in Calendar Cell"
+msgstr "הצג בתאי לוח שנה"
+
+#: edcal.php:292
+msgid "Author"
+msgstr "מחבר הפוסט"
+
+#: edcal.php:293
+#: edcal.php:414
+msgid "Status"
+msgstr "סטטוס הפוסט"
+
+#: edcal.php:294
+msgid "Time of day"
+msgstr "השעה ביום"
+
+#: edcal.php:295
+msgid "An error occurred while loading the calendar: "
+msgstr "אירעה שגיאה בזמן טעינת לוח השנה:"
+
+#: edcal.php:297
+msgid "The calendar can only show between 1 and 5 weeks at a time."
+msgstr "לוח השנה יכול להציג בין שבוע ל חמישה שבועות כל פעם."
+
+#: edcal.php:298
+msgid "Select the number of weeks for the calendar to show."
+msgstr "בחר את מספר השבועות שיוצגו בלוח השנה."
+
+#: edcal.php:306
+msgid "<h2>We're done</h2>We've finished collecting data.  Thank you for helping us make the calendar better."
+msgstr "<h2>זהו, סיימנו!</h2> סיימנו לאסוף את המידע הדרוש. תודה שעזרת לנו להפוך את לוח השנה ליותר טוב.. "
+
+#: edcal.php:347
+msgid " Calendar"
+msgstr "לוח שנה"
+
+#: edcal.php:356
+msgid "Jump back"
+msgstr "דלג אחורה"
+
+#: edcal.php:358
+msgid "Skip ahead"
+msgstr "דלג קדימה"
+
+#: edcal.php:363
+msgid "Scroll the calendar and make the today visible"
+msgstr "גלול את לוח השנה והצג את היום גלוי"
+
+#: edcal.php:363
+msgid "Show Today"
+msgstr "הצג את היום"
+
+#: edcal.php:389
+msgid "Edit Post"
+msgstr "ערוך פוסט"
+
+#: edcal.php:409
+msgid "Time"
+msgstr "זמן פרסום הפוסט"
+
+#: edcal.php:417
+msgid "Draft"
+msgstr "טיוטה"
+
+#: edcal.php:418
+msgid "Pending Review"
+msgstr "ממתין לאישור"
+
+#: edcal.php:617
+msgid "Posts "
+msgstr "פוסטים "
+
+#: edcal.php:633
+msgid "Post "
+msgstr "פוסט"
+
+#: edcal.php:737
+#: edcal.php:740
+msgid "Error in deleting..."
+msgstr "שגיאה במחיקה..."
+
+#: edcal.php:185
+msgid "ltr"
+msgstr "rtl"
+

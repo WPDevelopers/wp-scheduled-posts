@@ -1,0 +1,292 @@
+# Translation of WordPress Editorial Calendar in Italian
+# This file is distributed under the same license as the WordPress Editorial Calendar package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2013-01-17 16:27-0500\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: GlotPress/0.1\n"
+"Project-Id-Version: WordPress Editorial Calendar\n"
+"POT-Creation-Date: \n"
+"Last-Translator: Zack Grossbart <zack@grossbart.com>\n"
+"Language-Team: \n"
+
+#: edcal.php:274
+#: edcal.php:294
+msgid "New Draft"
+msgstr "Nuova Bozza"
+
+#: edcal.php:292
+msgid "Add a new draft"
+msgstr "Aggiungi una nuova bozza"
+
+#: edcal.php:322
+msgid "The calendar can only show between 1 and 8 weeks at a time."
+msgstr "Il calendario può mostrare solo tra 1 e 8 settimane alla volta."
+
+#: edcal.php:325
+#: edcal.php:400
+msgid "Show Unscheduled Drafts"
+msgstr "Mostra le bozze non programmate"
+
+#: edcal.php:326
+msgid "Hide Unscheduled Drafts"
+msgstr "Nascondi le bozze non programmate"
+
+#: edcal.php:391
+msgid "Scroll the calendar and make the last post visible"
+msgstr "Scorri il calendario e rendi l'ultimo post visibile"
+
+#: edcal.php:400
+msgid "Show unscheduled posts"
+msgstr "Mostra i post non programmati"
+
+#: edcal.php:406
+msgid "Unscheduled draft posts"
+msgstr "Post bozza non programmati"
+
+#: edcal.php:406
+msgid "Unscheduled"
+msgstr "Non programmati"
+
+#: edcal.php:379
+msgid "%1$s Calendar"
+msgstr "Calendario %1$s"
+
+#: edcal.php:96
+#: edcal.php:120
+msgid "Calendar"
+msgstr "Calendario"
+
+#: edcal.php:263
+#: edcal.php:524
+msgid "en-US"
+msgstr "it-IT"
+
+#: edcal.php:271
+msgid "%1$s by %2$s"
+msgstr "%1$s di %2$s"
+
+#: edcal.php:273
+msgid "New Post"
+msgstr "Nuovo post"
+
+#: edcal.php:277
+msgid " [DRAFT]"
+msgstr "[BOZZA]"
+
+#: edcal.php:278
+msgid " [PENDING]"
+msgstr "[IN ATTESA DI REVISIONE]"
+
+#: edcal.php:279
+msgid " [STICKY]"
+msgstr "[IN EVIDENZA]"
+
+#: edcal.php:280
+msgid " [DRAFT, STICKY]"
+msgstr "[BOZZA, IN EVIDENZA]"
+
+#: edcal.php:281
+msgid " [PENDING, STICKY]"
+msgstr "[IN ATTESA DI REVISIONE, IN EVIDENZA]"
+
+#: edcal.php:282
+#: edcal.php:286
+msgid "Edit"
+msgstr "Modifica"
+
+#: edcal.php:283
+msgid "Quick Edit"
+msgstr "Modifica veloce"
+
+#: edcal.php:284
+msgid "Delete"
+msgstr "Cancella"
+
+#: edcal.php:285
+msgid "View"
+msgstr "Visualizza"
+
+#: edcal.php:287
+msgid "Status:"
+msgstr "Stato:"
+
+#: edcal.php:288
+#: edcal.php:483
+msgid "Cancel"
+msgstr "Annulla"
+
+#: edcal.php:289
+#: edcal.php:445
+msgid "Title"
+msgstr "Titolo"
+
+#: edcal.php:290
+#: edcal.php:450
+msgid "Content"
+msgstr "Contenuto"
+
+#: edcal.php:291
+msgid "Add a new post on %s"
+msgstr "Aggiungi un nuovo post al %s"
+
+#: edcal.php:293
+msgid "New %s - "
+msgstr "Nuovo %s -"
+
+#: edcal.php:295
+msgid "Update"
+msgstr "Aggiorna"
+
+#: edcal.php:296
+#: edcal.php:482
+msgid "Schedule"
+msgstr "Programma"
+
+#: edcal.php:297
+msgid "Submit for Review"
+msgstr "Invia per revisione"
+
+#: edcal.php:298
+msgid "Save"
+msgstr "Salva"
+
+#: edcal.php:299
+msgid "Edit %1$s - %2$s"
+msgstr "Modifica %1$s - %2$s"
+
+#: edcal.php:300
+#: edcal.php:467
+msgid "Scheduled"
+msgstr "Programmato"
+
+#: edcal.php:302
+msgid "You are about to delete the post \""
+msgstr "Stai per cancellare il post \""
+
+#: edcal.php:303
+msgid "\". Press Cancel to stop, OK to delete."
+msgstr "\". Premi Annulla per annullate, OK per cancellare."
+
+#: edcal.php:305
+msgid "Looks like someone else already moved this post."
+msgstr "Sembra che qualcun altro abbia già spostato questo post."
+
+#: edcal.php:306
+msgid "You do not have permission to edit posts."
+msgstr "Non hai i permessi per modificare post."
+
+#: edcal.php:307
+msgid "Invalid checksum for post. This is commonly a cross-site scripting error."
+msgstr "Checksum non valido per il post. Questo è un comune errore di cross-site scripting."
+
+#: edcal.php:308
+msgid "There was an error contacting your blog."
+msgstr "Si è verificato un errore nel contattare il tuo blog."
+
+#: edcal.php:310
+msgid "Screen Options"
+msgstr "Opzioni schermo"
+
+#: edcal.php:311
+msgid "Colors"
+msgstr "Colori"
+
+#: edcal.php:312
+msgid "Drafts: "
+msgstr "Bozze:"
+
+#: edcal.php:313
+msgid "Apply"
+msgstr "Applica"
+
+#: edcal.php:314
+msgid "Show on screen"
+msgstr "Mostra sullo schermo"
+
+#: edcal.php:315
+msgid " weeks at a time"
+msgstr "settimane per volta"
+
+#: edcal.php:316
+msgid "Show in Calendar Cell"
+msgstr "Mostra nella cella del calendario"
+
+#: edcal.php:317
+msgid "Author"
+msgstr "Autore"
+
+#: edcal.php:318
+#: edcal.php:461
+msgid "Status"
+msgstr "Stato"
+
+#: edcal.php:319
+msgid "Time of day"
+msgstr "Ora del giorno"
+
+#: edcal.php:320
+msgid "An error occurred while loading the calendar: "
+msgstr "Si è verificato un errore nel caricamento del calendario:"
+
+#: edcal.php:323
+msgid "Select the number of weeks for the calendar to show."
+msgstr "Seleziona il numero di settimane da visualizzare nel calendario."
+
+#: edcal.php:334
+msgid "<h2>We're done</h2>We've finished collecting data.  Thank you for helping us make the calendar better."
+msgstr "<h2>Ci siamo</h2>Abbiamo finito di raccogliere i dati. Grazie per aiutarci a rendere il calendario migliore."
+
+#: edcal.php:388
+msgid "Jump back"
+msgstr "Torna indietro"
+
+#: edcal.php:390
+msgid "Skip ahead"
+msgstr "Salta avanti"
+
+#: edcal.php:393
+msgid "Scroll the calendar and make the today visible"
+msgstr "Scorri il calendario e rendi visibile oggi"
+
+#: edcal.php:393
+msgid "Show Today"
+msgstr "Mostra oggi"
+
+#: edcal.php:436
+msgid "Edit Post"
+msgstr "Modifica post"
+
+#: edcal.php:456
+msgid "Time"
+msgstr "Ora"
+
+#: edcal.php:464
+msgid "Draft"
+msgstr "Bozza"
+
+#: edcal.php:465
+msgid "Pending Review"
+msgstr "In attesa di revisione"
+
+#: edcal.php:722
+msgid "Posts "
+msgstr "Post"
+
+#: edcal.php:738
+msgid "Post "
+msgstr "Post"
+
+#: edcal.php:865
+#: edcal.php:868
+msgid "Error in deleting..."
+msgstr "Errore nel cancellare..."
+
+#: edcal.php:191
+#: edcal.php:275
+msgid "ltr"
+msgstr "ltr"
+
