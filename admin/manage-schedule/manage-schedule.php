@@ -826,13 +826,15 @@ function wpsp_scheduled_options_page(){
 
 		if(isset($_POST['pub_check'])) {
 			$pubs = $_POST['pub_check'];
-			add_option('pub_active_option',$pubs);
 			delete_option('cal_active_option');
+			add_option('pub_active_option',$pubs);
+			//add_option('cal_active_option',"");
 			echo "<h3>Activated!</h3>";
 		}elseif(isset($_POST['cal_check'])){
 			$cals = $_POST['cal_check'];
-			add_option('cal_active_option',$cals);
 			delete_option('pub_active_option');
+			add_option('cal_active_option',$cals);
+			//add_option('pub_active_option',"");
 			echo "<h3>Manual Time Activated!</h3>";
 		}else{
 			delete_option('pub_active_option');
@@ -857,9 +859,9 @@ function wpsp_scheduled_options_page(){
 		$options['pts_5'] = $_POST['pts_5'];
 		$options['pts_6'] = $_POST['pts_6'];
 		
-		$options['pts_infosize'] = $_POST['pts_infosize'];
+		$options['pts_infosize'] = @$_POST['pts_infosize'];
 		
-		$options['pts_allowstats'] = $_POST['pts_allowstats'];
+		$options['pts_allowstats'] = @$_POST['pts_allowstats'];
 		
 		
 		# if all weeks are NO... change the monday to YES
@@ -880,8 +882,8 @@ function wpsp_scheduled_options_page(){
 		
 		while (strlen($options['pts_start']) < 5) $options['pts_start'] = "0" . $options['pts_start'];
 		while (strlen($options['pts_end']) < 5) $options['pts_end'] = "0" . $options['pts_end'];		
-		if (!gmdate('H:i',$options['pts_start'])) $options['pts_start'] = '00:00'; //guarantee a valid time
-		if (!gmdate('H:i',$options['pts_end'])) $options['pts_end'] = '23:59';
+		if (!gmdate('H:i',strtotime($options['pts_start']))) $options['pts_start'] = '00:00'; //guarantee a valid time
+		if (!gmdate('H:i',strtotime($options['pts_end']))) $options['pts_end'] = '23:59';
 		$time = explode(":",$options['pts_start']);
 		if (strlen($time[0]) < 2) $time[0] = '0' . $time[0];
 		if (strlen($time[1]) < 2) $time[1] = '0' . $time[1];
@@ -924,7 +926,11 @@ function wpsp_scheduled_options_page(){
 
 		<form method="post" action="" >
 			<div id="pts_form">
+				<?php 
 
+					//echo "pub check = ".@$_POST['pub_check'];
+					//echo "<br> activated option= ".$activate_pub_option;
+				?>
 				<input type="checkbox" id="pub_check" name="pub_check" value="<?php if(!empty($activate_pub_option)){ echo $activate_pub_option;}else{ echo 'ok'; } ?>" <?php if ( isset($_POST['pub_check']) || !empty($activate_pub_option) ) { echo 'checked="checked"'; }?> >Check To Active
 
 				
@@ -1110,6 +1116,11 @@ function wpsp_scheduled_options_page(){
 			 ?>
 
 			<div id="man_form">
+				<?php
+					//echo "cal check= ".@$_POST['cal_check'];  
+					//echo "<br>activated cal option= ".$activate_cal_option;
+
+				?>
 
 				<input type="checkbox" id="cal_check" name="cal_check" value="<?php if(!empty($activate_cal_option)){ echo $activate_cal_option;}else{ echo 'ok'; } ?>" <?php if ( isset($_POST['cal_check']) || !empty($activate_cal_option) ) { echo 'checked="checked"'; }?> >Active
 
