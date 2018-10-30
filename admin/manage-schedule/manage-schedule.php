@@ -1132,7 +1132,7 @@ function wpsp_scheduled_options_page(){
 							<option value="friday">friday</option>
 						</select>
 						
-						<input type="text" autocomplete="off" name="man_times" id="man_times" value="" placeholder="select time">
+						<input type="text" autocomplete="off" name="man_times" id="man_times" value="00:00" placeholder="select time">
 
 						<input type="submit" name="man_submit" value="SET">
 					</div>
