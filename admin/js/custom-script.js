@@ -1,4 +1,9 @@
 jQuery(document).ready(function($) {
+	// timepicker function
+	$('#man_times').chungTimePicker({
+		viewType: 1
+	});
+
 	$("#pts_form input:checkbox,#man_form input:checkbox").click(function(){
 		var this_name = $(this).attr("name");
 		//alert(this_name);
@@ -13,8 +18,7 @@ jQuery(document).ready(function($) {
 		}
 	    
 	});
-
-
+	
 	
 });
 
