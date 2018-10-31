@@ -64,22 +64,7 @@ if (!class_exists('wpsp_addon')) {
 			return true;
 		}
 
-		function wpse120377_error()
-		{
-			if ( is_plugin_active('wp-scheduled-posts/wp-scheduled-posts.php') ) {
-					return false;
 
-			}else{
-	    ?>
-		    <div class="error">
-		        <p>
-		            <?php _e('"WP Scheduled Posts pro" requires "WP Scheduled Posts" Plugin. Please install it. ', 'wp-scheduled-posts'); ?>
-		            <a href="https://wordpress.org/plugins/wp-scheduled-posts/" target="_blank">WP Scheduled Posts</a>
-		        </p>
-		    </div>
-	    <?php
-			}
-		}
 
 		function deactivate(){
 			return true;
@@ -93,7 +78,9 @@ if (!class_exists('wpsp_addon')) {
 				wp_enqueue_style( 'custom-style', plugins_URLPATH . 'admin/css/custom-style.css' );
 				wp_enqueue_style( 'admin-style', plugins_URLPATH . 'admin/css/admin.css' );
 				wp_enqueue_style( 'font-awesome', plugins_URLPATH . 'admin/css/font-awesome.min.css' );
+				wp_enqueue_style( 'chung-timepicker', plugins_URLPATH . 'admin/css/chung-timepicker.css' );
 				wp_enqueue_script( 'custom-script', plugins_URLPATH . 'admin/js/custom-script.js', array('jquery'), '1.0.0', false );
+				wp_enqueue_script( 'main-chung-timepicker', plugins_URLPATH . 'admin/js/chung-timepicker.js', array('jquery'), '1.0.0', false );
 			}
 		}
 		
@@ -103,7 +90,9 @@ if (!class_exists('wpsp_addon')) {
 	$wpsp_op = new wpsp_addon();
 		
 include('admin/scheduled-calendar/scheduled.php');
+//include('admin/manage-schedule/manage-schedule.php');
 include('admin/wpsp-missed-schedule/wpsp-missed-schedule.php');
+
 }
 
 function add_wpscp_menu_pages()

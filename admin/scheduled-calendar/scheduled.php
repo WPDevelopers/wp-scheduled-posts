@@ -64,19 +64,12 @@ class wpsp_scheduled {
         //$edcal_endDate;
     }
     
-    // function wpsp_scheduled_load_language() {
-    //     $plugin_dir = basename(dirname(__FILE__));
-    //     load_plugin_textdomain( 'editorial-calendar', 'wp-content/plugins/' . $plugin_dir . '/languages/', $plugin_dir . '/languages/' );
-    // }
-    
     /*
      * This function adds our calendar page to the admin UI
      */
     function wpsp_scheduled_list_add_management_page() {
         if (function_exists('add_management_page') ) {
-            // $page = add_posts_page( __('Calendar', 'editorial-calendar'), __('Calendar', 'editorial-calendar'), 'edit_posts', 'cal', array(&$this, 'edcal_list_admin'));
-            // add_action( "admin_print_scripts-$page", array(&$this, 'edcal_scripts'));
-
+            
             $page = add_submenu_page( pluginsFOLDER, __('Schedule Calendar', 'psm'), __('Schedule Calendar', 'psm'), 'manage_options', 'cal', array(&$this, 'edcal_list_admin'));
             add_action( "admin_print_scripts-$page", array(&$this, 'edcal_scripts'));
             
