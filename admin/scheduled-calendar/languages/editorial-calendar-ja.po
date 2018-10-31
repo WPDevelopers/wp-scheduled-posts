@@ -1,0 +1,252 @@
+# Copyright (C) 2010 
+# This file is distributed under the same license as the  package.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/editorial-calendar\n"
+"POT-Creation-Date: 2011-12-26 13:18:14+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2012-01-10 18:35-0500\n"
+"Last-Translator: Zack Grossbart <zack@grossbart.com>\n"
+"Language-Team: Editorial Calendar\n"
+
+#: edcal.php:90
+#: edcal.php:114
+msgid "Calendar"
+msgstr "カレンダー"
+
+#: edcal.php:242
+#: edcal.php:466
+msgid "en-US"
+msgstr "ja-JP"
+
+#: edcal.php:250
+msgid "%1$s by %2$s"
+msgstr "%1$s by %2$s"
+
+#: edcal.php:252
+msgid "New Post"
+msgstr "新規追加"
+
+#: edcal.php:254
+msgid " [DRAFT]"
+msgstr " [下書き]"
+
+#: edcal.php:255
+msgid " [PENDING]"
+msgstr " [レビュー待ち]"
+
+#: edcal.php:256
+msgid " [STICKY]"
+msgstr " [先頭に固定表示]"
+
+#: edcal.php:257
+msgid " [DRAFT, STICKY]"
+msgstr " [下書き、先頭に固定表示]"
+
+#: edcal.php:258
+msgid " [PENDING, STICKY]"
+msgstr " [レビュー待ち、先頭に固定表示]"
+
+#: edcal.php:259
+#: edcal.php:263
+msgid "Edit"
+msgstr "編集"
+
+#: edcal.php:260
+msgid "Quick Edit"
+msgstr "クイック編集"
+
+#: edcal.php:261
+msgid "Delete"
+msgstr "削除"
+
+#: edcal.php:262
+msgid "View"
+msgstr "プレビュー"
+
+#: edcal.php:264
+msgid "Status:"
+msgstr "ステータス："
+
+#: edcal.php:265
+#: edcal.php:435
+msgid "Cancel"
+msgstr "キャンセル"
+
+#: edcal.php:266
+#: edcal.php:398
+msgid "Title"
+msgstr "タイトル"
+
+#: edcal.php:267
+#: edcal.php:403
+msgid "Content"
+msgstr "本文"
+
+#: edcal.php:268
+msgid "Add a new post on %s"
+msgstr "%s に新規投稿を追加"
+
+#: edcal.php:269
+msgid "New %s - "
+msgstr "新規 %s - "
+
+#: edcal.php:270
+msgid "Update"
+msgstr "アップデート"
+
+#: edcal.php:271
+#: edcal.php:434
+msgid "Schedule"
+msgstr "スケジュール"
+
+#: edcal.php:272
+msgid "Submit for Review"
+msgstr "レビュー待ちとして送信"
+
+#: edcal.php:273
+msgid "Save"
+msgstr "保存"
+
+#: edcal.php:274
+msgid "Edit %1$s - %2$s"
+msgstr "編集 %1$s - %2$s"
+
+#: edcal.php:275
+#: edcal.php:420
+msgid "Scheduled"
+msgstr "予約投稿"
+
+#: edcal.php:277
+msgid "You are about to delete the post \""
+msgstr "投稿を削除しようとしています \""
+
+#: edcal.php:278
+msgid "\". Press Cancel to stop, OK to delete."
+msgstr "\". 中止するにはキャンセルを、削除するならOKを押してください。"
+
+#: edcal.php:280
+msgid "Looks like someone else already moved this post."
+msgstr "他の誰かがすでにこの投稿を移動させたようです。"
+
+#: edcal.php:281
+msgid "You do not have permission to edit posts."
+msgstr "この投稿を編集する権限がありません。"
+
+#: edcal.php:282
+msgid "Invalid checksum for post. This is commonly a cross-site scripting error."
+msgstr "チェックサムが正しくありません。これは一般的にはクロスサイトスクリプティングのエラーです。"
+
+#: edcal.php:283
+msgid "There was an error contacting your blog."
+msgstr "あなたのブログとの間でエラーがありました。"
+
+#: edcal.php:285
+msgid "Screen Options"
+msgstr "表示オプション"
+
+#: edcal.php:286
+msgid "Colors"
+msgstr "色"
+
+#: edcal.php:287
+msgid "Drafts: "
+msgstr "下書き："
+
+#: edcal.php:288
+msgid "Apply"
+msgstr "適用"
+
+#: edcal.php:289
+msgid "Show on screen"
+msgstr "画面への表示"
+
+#: edcal.php:290
+msgid " weeks at a time"
+msgstr " 週間"
+
+#: edcal.php:291
+msgid "Show in Calendar Cell"
+msgstr "カレンダーのセルへの表示"
+
+#: edcal.php:292
+msgid "Author"
+msgstr "作成者"
+
+#: edcal.php:293
+#: edcal.php:414
+msgid "Status"
+msgstr "ステータス"
+
+#: edcal.php:294
+msgid "Time of day"
+msgstr "時刻"
+
+#: edcal.php:295
+msgid "An error occurred while loading the calendar: "
+msgstr "カレンダーを読み込み中にエラーが発生しました："
+
+#: edcal.php:297
+msgid "The calendar can only show between 1 and 5 weeks at a time."
+msgstr "カレンダーは1～5週間のみ一度に表示できます。"
+
+#: edcal.php:298
+msgid "Select the number of weeks for the calendar to show."
+msgstr "表示させる週数を選んでください。"
+
+#: edcal.php:306
+msgid "<h2>We're done</h2>We've finished collecting data.  Thank you for helping us make the calendar better."
+msgstr "<h2>完了しました</h2>データの収集が完了しました。カレンダーをより良いものにするためのご協力ありがとうございます。"
+
+#: edcal.php:347
+msgid " Calendar"
+msgstr " カレンダー"
+
+#: edcal.php:356
+msgid "Jump back"
+msgstr "前のページへ"
+
+#: edcal.php:358
+msgid "Skip ahead"
+msgstr "次のページへ"
+
+#: edcal.php:363
+msgid "Scroll the calendar and make the today visible"
+msgstr "カレンダーをスクロールして今日の日付を表示します"
+
+#: edcal.php:363
+msgid "Show Today"
+msgstr "今日"
+
+#: edcal.php:389
+msgid "Edit Post"
+msgstr "投稿を編集"
+
+#: edcal.php:409
+msgid "Time"
+msgstr "時刻"
+
+#: edcal.php:417
+msgid "Draft"
+msgstr "下書き"
+
+#: edcal.php:418
+msgid "Pending Review"
+msgstr "レビュー待ち"
+
+#: edcal.php:617
+msgid "Posts "
+msgstr "投稿"
+
+#: edcal.php:633
+msgid "Post "
+msgstr "投稿"
+
+#: edcal.php:737
+#: edcal.php:740
+msgid "Error in deleting..."
+msgstr "削除中にエラーが発生しました..."
+
