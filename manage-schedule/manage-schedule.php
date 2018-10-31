@@ -787,11 +787,11 @@ function wpsp_scheduled_option_menu() {
 	}
 	if (function_exists('add_menu_page')) {
 		//add_options_page($plName, $plName, "manage_options", __FILE__, 'wpsp_scheduled_options_page');
-		add_submenu_page( pluginsFOLDER,__( 'Manage Schedule'), __( 'Manage Schedule'), "manage_options", 'manage-schedule', 'wpsp_scheduled_options_page');
+		add_submenu_page( 'wp-shceduled-posts',__( 'Manage Schedule'), __( 'Manage Schedule'), "manage_options", 'manage-schedule', 'wpsp_scheduled_options_page');
 	}
 }
 # Install the option in the WordPress configuration menu
-add_action('admin_menu', 'wpsp_scheduled_option_menu');
+add_action('admin_menu', 'wpsp_scheduled_option_menu',999);
 
 
 
@@ -931,7 +931,9 @@ function wpsp_scheduled_options_page(){
 					//echo "pub check = ".@$_POST['pub_check'];
 					//echo "<br> activated option= ".$activate_pub_option;
 				?>
-				<input type="checkbox" id="pub_check" name="pub_check" value="<?php if(!empty($activate_pub_option)){ echo $activate_pub_option;}else{ echo 'ok'; } ?>" <?php if ( isset($_POST['pub_check']) || !empty($activate_pub_option) ) { echo 'checked="checked"'; }?> >Check To Active
+				<input type="checkbox" id="pub_check" name="pub_check" value="<?php if(!empty($activate_pub_option)){ echo $activate_pub_option;}else{ echo 'ok'; } ?>" <?php if ( isset($_POST['pub_check']) || !empty($activate_pub_option)  ) { echo 'checked="checked"'; }?> >Check To Active
+
+				
 
 				
 				<fieldset class="options" style="margin-top: 30px;">				
