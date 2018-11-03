@@ -787,6 +787,7 @@ function wpsp_scheduled_option_menu() {
 	}
 	if (function_exists('add_menu_page')) {
 		//add_options_page($plName, $plName, "manage_options", __FILE__, 'wpsp_scheduled_options_page');
+		
 		add_submenu_page( 'wp-scheduled-posts',__( 'Manage Schedule'), __( 'Manage Schedule'), "manage_options", 'manage-schedule', 'wpsp_scheduled_options_page');
 	}
 }
@@ -1342,8 +1343,32 @@ function wpsp_scheduled_options_page(){
 					</ul>
 				</form>		
 			</div>
-
 			
+			<?php 
+
+				if(isset($_POST['ac_miss']))
+				{
+					if(isset($_POST['miss_check'])) 
+					{
+						$miss_check = $_POST['miss_check'];
+						add_option('miss_schedule_active_option',$miss_check);
+						echo "<h3>Activated Missed Schedule!</h3>";
+					}
+					else
+					{
+						delete_option('miss_schedule_active_option');
+						echo "<h3>Deactivated Missed Schedule!</h3>";
+					}
+
+				}
+				global $wpdb;
+				$get_miss_op 			= get_option('miss_schedule_active_option');
+				$activate_miss_option 	= html_entity_decode(stripslashes($get_miss_op));
+			?>
+			<form action="" method="post">
+				<input type="checkbox" name="miss_check" value="<?php if(!empty($activate_miss_option)){ echo $activate_miss_option;}else{ echo 'miss'; } ?>" <?php if ( isset($_POST['miss_check']) || !empty($activate_miss_option) ) { echo 'checked="checked"'; }?> >Active Missed Schedule
+				<input type="submit" name="ac_miss" value="Activate">
+			</form>
 			
 					
 		</form>
