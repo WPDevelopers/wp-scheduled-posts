@@ -1345,6 +1345,7 @@ function wpsp_scheduled_options_page(){
 			</div>
 			
 			<?php 
+				// active missed schedule option
 
 				if(isset($_POST['ac_miss']))
 				{
