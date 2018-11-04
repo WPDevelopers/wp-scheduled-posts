@@ -81,6 +81,7 @@ if (!class_exists('wpsp_addon')) {
 				wp_enqueue_style( 'chung-timepicker', plugins_URLPATH . 'admin/css/chung-timepicker.css' );
 				wp_enqueue_script( 'custom-script', plugins_URLPATH . 'admin/js/custom-script.js', array('jquery'), '1.0.0', false );
 				wp_enqueue_script( 'main-chung-timepicker', plugins_URLPATH . 'admin/js/chung-timepicker.js', array('jquery'), '1.0.0', false );
+				wp_enqueue_script( 'sweet-alert-js', 'https://unpkg.com/sweetalert/dist/sweetalert.min.js', array('jquery'), '1.0.0', false );
 			}
 		}
 		
@@ -90,7 +91,7 @@ if (!class_exists('wpsp_addon')) {
 	$wpsp_op = new wpsp_addon();
 		
 include('admin/scheduled-calendar/scheduled.php');
-//include('admin/manage-schedule/manage-schedule.php');
+include('admin/manage-schedule/manage-schedule.php');
 include('admin/wpsp-missed-schedule/wpsp-missed-schedule.php');
 
 }

@@ -82,3 +82,9 @@
 .schedule_noti_p{
 	margin: 0;
 }
+
+/* sweet alert css */
+
+.swal-overlay {
+  background-color: rgba(43, 165, 137, 0.45);
+}
