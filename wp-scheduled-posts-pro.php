@@ -58,5 +58,6 @@
 
     register_activation_hook( __FILE__, 'admin_dependency_plugin' );
 
-    include('manage-schedule/manage-schedule.php');
+
+//include('manage-schedule/manage-schedule.php');
 
