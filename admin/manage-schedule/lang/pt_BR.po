@@ -1,0 +1,421 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PTS\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-12-19 16:57-0200\n"
+"PO-Revision-Date: 2012-12-19 16:54-0300\n"
+"Last-Translator: Alex <alexbenfica@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Language: Portuguese\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../publish-to-schedule.php:46
+msgid "US"
+msgstr "BR"
+
+#: ../publish-to-schedule.php:48
+msgid "USD"
+msgstr "BRL"
+
+#: ../publish-to-schedule.php:96
+msgid "Pub. to Schedule"
+msgstr "Pub. p. Agendar"
+
+#: ../publish-to-schedule.php:269
+msgid "Please donate. Even 1 dollar will help me a lot! Seriously!"
+msgstr "Por favor, doe! Mesmo um real já ajuda muito! Sério!"
+
+#: ../publish-to-schedule.php:271
+msgid "Donate"
+msgstr "Doação"
+
+#: ../publish-to-schedule.php:339 ../publish-to-schedule.php:988
+msgid "Plugin version"
+msgstr "Versão do plugin"
+
+#: ../publish-to-schedule.php:360 ../publish-to-schedule.php:366
+#: ../publish-to-schedule.php:1107 ../publish-to-schedule.php:1129
+msgid "Your WordPress timezone settings might be incorrect!"
+msgstr "As config. de timezone do seu WordPress podem estar incorretas!"
+
+#: ../publish-to-schedule.php:362
+msgid "See details"
+msgstr "Detalhes"
+
+#: ../publish-to-schedule.php:368
+msgid "Please tell the blog admin!"
+msgstr "Por favor informe ao administrador do blog!"
+
+#: ../publish-to-schedule.php:456
+msgid "Post already scheduled for a future date!"
+msgstr "Artigo já agendado para uma data futura!"
+
+#: ../publish-to-schedule.php:458
+msgid "In this case, the plugin will do nothing!"
+msgstr "Neste caso, o plugin não fará nada!"
+
+#: ../publish-to-schedule.php:575
+msgid "post at "
+msgstr "artigo às"
+
+#: ../publish-to-schedule.php:577
+msgid "Edit post"
+msgstr "Editar artigo"
+
+#: ../publish-to-schedule.php:582 ../publish-to-schedule.php:626
+msgid "of"
+msgstr "de"
+
+#: ../publish-to-schedule.php:628
+msgid "Availble day!"
+msgstr "Dia disponível"
+
+#: ../publish-to-schedule.php:639
+msgid "Too late to publish"
+msgstr "Passou da hora"
+
+#: ../publish-to-schedule.php:714
+msgid ""
+"To publish in a different date and bypass the plugin, first choose the "
+"schedule date from the WordPress controls above and then click the Schedule "
+"button!"
+msgstr ""
+"Para publicar em uma data diferente e ignorar o plugin, primeiro escolha "
+"pelo WordPress a data a ser agendada (acima) e depois clique no botão "
+"Agendar."
+
+#: ../publish-to-schedule.php:721
+msgid "Will be schedule to"
+msgstr "Será agendado para"
+
+#: ../publish-to-schedule.php:723
+msgid "at"
+msgstr "às"
+
+#: ../publish-to-schedule.php:755
+msgid "Could not find a suitable date to this post!"
+msgstr "Não foi possível definir a data deste artigo!"
+
+#: ../publish-to-schedule.php:756
+msgid "No changes will be made to this post date!"
+msgstr "Nenhuma mudança será feita na data deste artigo."
+
+#: ../publish-to-schedule.php:757
+msgid "Something is wrong!"
+msgstr "Algo está errado!"
+
+#: ../publish-to-schedule.php:758
+msgid "Please contact the plugin developer!"
+msgstr "Por favor entre em contato com o desenvolvedor do plugin."
+
+#: ../publish-to-schedule.php:959
+msgid "You must check \"Yes\" for at least 1 day of week! "
+msgstr "Você precisar marcar \"Sim\" para pelo menos 1 dia da semana!"
+
+#: ../publish-to-schedule.php:962
+msgid "Options saved!"
+msgstr "Opções armazenadas!"
+
+#: ../publish-to-schedule.php:991
+msgid "Options"
+msgstr "Opções"
+
+#: ../publish-to-schedule.php:1008
+msgid ""
+"Which days of week posts are allowed to be auto-scheduled? <br>(The schedule "
+"happens only when you click the \"Pub. to Schedule\" button!)"
+msgstr ""
+"Para quais dias da semana você quer ter artigos agendados? <br>(O "
+"agendamento ocorre apenas quando você clica no botão \"Pub.  p. Agendar\".)"
+
+#: ../publish-to-schedule.php:1010
+msgid "Put 0 in a day when you do not want posts to be scheduled!"
+msgstr "Coloque 0 em um dia em que você não quer que sejam agendados artigos."
+
+#: ../publish-to-schedule.php:1013
+msgid ""
+"Example: if you put 0 on Sunday, this plugin will never schedule a post to "
+"be published on Sundays. <br> But still, if you want to schedule an article "
+"to be published in a Sunday, just schedule it using the standard schedule "
+"button of WordPress and it will be published on the date you choose, "
+"ignoring all options below!<br>"
+msgstr ""
+"Exemplo: se você colocar 0 no Domingo, este plugin nunca irá agendar um "
+"artigo para ser publicado em um Domingo. <br>Mas ainda assim, se você quiser "
+"agendar um artigo para ser publicado em um Domingo, simplesmente agende-no "
+"da maneira usual, clicando no botão agendar do WordPress e ele será "
+"publicado na data que você escolher, ignorando todas as opções abaixo."
+
+#: ../publish-to-schedule.php:1015
+msgid "For each day, set how many posts will be scheduled!"
+msgstr "Para cada dia, determine quantos artigos devem ser agendados."
+
+#: ../publish-to-schedule.php:1024
+msgid "Sunday"
+msgstr "Domingo"
+
+#: ../publish-to-schedule.php:1025
+msgid "Monday"
+msgstr "Segunda"
+
+#: ../publish-to-schedule.php:1026
+msgid "Tuesday"
+msgstr "Terça"
+
+#: ../publish-to-schedule.php:1027
+msgid "Wednesday"
+msgstr "Quarta"
+
+#: ../publish-to-schedule.php:1028
+msgid "Thursday"
+msgstr "Quinta"
+
+#: ../publish-to-schedule.php:1029
+msgid "Friday"
+msgstr "Sexta"
+
+#: ../publish-to-schedule.php:1030
+msgid "Saturday"
+msgstr "Sábado"
+
+#: ../publish-to-schedule.php:1074
+msgid ""
+"Specify the time interval in which you want to have your posts scheduled!"
+msgstr ""
+"Defina o intervalo de horários em que você quer seus artigos agendados!"
+
+#: ../publish-to-schedule.php:1077
+msgid ""
+"Example: posts will only be scheduled to be published in this time interval."
+"<br> But still, if you do via WordPress schedule button, you can schedule "
+"for any time you want!"
+msgstr ""
+"Exemplo: os artigos serão agendados para serem publicados neste intervalo "
+"detempo. <br>Mas se preferir, pode clicar no botão Agendar do WordPress para "
+"publicar em qualquer outro horário que escolher!"
+
+#: ../publish-to-schedule.php:1083
+msgid "Start Time"
+msgstr "Horário inicial"
+
+#: ../publish-to-schedule.php:1084
+msgid " (defaults to 00:00)"
+msgstr "(padrão em 00:00)"
+
+#: ../publish-to-schedule.php:1088
+msgid "End Time"
+msgstr "Horário final"
+
+#: ../publish-to-schedule.php:1089
+msgid " (defaults to 23:59)"
+msgstr "(padrão em 23:59)"
+
+#: ../publish-to-schedule.php:1109
+msgid "The date and time we detect : "
+msgstr "Data e hora detectada:"
+
+#: ../publish-to-schedule.php:1125
+msgid "Your timezone configuration and server time seems to be OK!"
+msgstr "Sua configuração de timezone e hora do servidor parece estar correta!"
+
+#: ../publish-to-schedule.php:1131
+msgid "According to your web server"
+msgstr "De acordo com o seu servidor web"
+
+#: ../publish-to-schedule.php:1133
+msgid "the GMT time is: "
+msgstr "o horário GMT é:"
+
+#: ../publish-to-schedule.php:1135
+msgid "The timezone configured in your"
+msgstr "O timezone configurado em sua"
+
+#: ../publish-to-schedule.php:1135
+msgid "WordPress settings"
+msgstr "configuração do WordPress"
+
+#: ../publish-to-schedule.php:1135
+msgid "is"
+msgstr "é"
+
+#: ../publish-to-schedule.php:1137
+msgid "so your server think that is your local time is: "
+msgstr "assim, seu servidor web pensa que seu horário local é:"
+
+#: ../publish-to-schedule.php:1138
+msgid "but this is different from time on you machine now!"
+msgstr "mas ele é diferente do horário em seu computador agora!"
+
+#: ../publish-to-schedule.php:1140
+msgid ""
+"If the difference is not too big (less than 2h or 3h) you problably will not "
+"have side effects and the plugin should work fine!"
+msgstr ""
+"Se a diferença não for muito grande (menos de 2 ou 3 horas) você "
+"provavelmente não terá efeitos colaterais e o plugin deverá funcionar "
+"normalmente!"
+
+#: ../publish-to-schedule.php:1142
+msgid ""
+"Othewise, with big time differences, you can have issues with the real time "
+"that each post will be scheduled!"
+msgstr ""
+"Por outro lado, com grandes diferenças de horário você poderá ter "
+"divergências com relação ao horário real para o qual seus artigos serão "
+"agendados!"
+
+#: ../publish-to-schedule.php:1144
+msgid ""
+"Sometimes you have to set a different timezone to compensate daylight saving "
+"time or a missconfigured server time! "
+msgstr ""
+"Não é incomum que você precise escolher um timezone diferente do seu real "
+"para compensar o horário de verão ou a hora errada do seu servidor web!"
+
+#: ../publish-to-schedule.php:1147
+msgid ""
+"If you can, change the timezone to correct this, refresh this page and this "
+"message will be shown anymore!"
+msgstr ""
+"Se for possível, altere a a sua configuração de timezone para corrigir isto, "
+"atualize a página e você não verá mais esta mensagem!"
+
+#: ../publish-to-schedule.php:1168
+msgid ""
+"How much information you want to see near the \"Publish\" button (on post "
+"edit screen)?"
+msgstr ""
+"Quanta informação você quer ver próximo ao botão \"Publicar\" (na tela de "
+"criação de artigos)?"
+
+#: ../publish-to-schedule.php:1174
+msgid " Show all information availble!"
+msgstr "Mostrar toda informação disponível!"
+
+#: ../publish-to-schedule.php:1176
+msgid " I want to see how this plugin works!"
+msgstr "Eu quero ver como este plugin funciona!"
+
+#: ../publish-to-schedule.php:1178
+msgid " (Might be a lot of text! Good for debugging purposes or enthusiats!)"
+msgstr "(Pode ser muito texto! Bom para debugar e para entusiastas!)"
+
+#: ../publish-to-schedule.php:1187
+msgid " Just do the magic!"
+msgstr "Não quero ver isso!"
+
+#: ../publish-to-schedule.php:1189
+msgid " Only show the calculated \"auto schedule date\" for the post!"
+msgstr "Apenas mostre a data calculada para o agendamento do post!"
+
+#: ../publish-to-schedule.php:1201
+msgid "Do you like this plugin?"
+msgstr "Você gosta deste plugin?"
+
+#: ../publish-to-schedule.php:1215
+msgid "Tweet"
+msgstr "Twite"
+
+#: ../publish-to-schedule.php:1215
+msgid "about it"
+msgstr "sobre ele"
+
+#: ../publish-to-schedule.php:1218
+msgid "Rate it"
+msgstr "Avalie-o"
+
+#: ../publish-to-schedule.php:1218
+msgid "on the repository!"
+msgstr "no repositório!"
+
+#: ../publish-to-schedule.php:1223
+msgid "Help with translation!"
+msgstr "Ajude na tradução"
+
+#: ../publish-to-schedule.php:1225
+msgid "We dont have this plugin translated to your language yet!"
+msgstr "Não temos este plugin traduzido em seu idioma ainda!"
+
+#: ../publish-to-schedule.php:1231
+msgid "The languages already translated are: "
+msgstr "Os idiomas atualmente traduzidos são:"
+
+#: ../publish-to-schedule.php:1244
+msgid "If you speak any of these and are native in"
+msgstr "Se você fala um destes e é nativo em "
+
+#: ../publish-to-schedule.php:1248
+msgid "help translating this plugin to you language!"
+msgstr "ajude a traduzir este plugin para o seu idioma."
+
+#: ../publish-to-schedule.php:1265
+msgid "Statistics"
+msgstr "Estatísticas"
+
+#: ../publish-to-schedule.php:1267
+msgid "Help make this plugin even better!"
+msgstr "Ajude a fazer este plugin ainda melhor!"
+
+#: ../publish-to-schedule.php:1269
+msgid "Allow plugin usage statistics to be shared with its developer."
+msgstr "Compartilhar com o desenvolvedor estatísticas de utilização do plugin."
+
+#: ../publish-to-schedule.php:1274
+msgid "Yes"
+msgstr "Sim"
+
+#: ../publish-to-schedule.php:1275
+msgid "No"
+msgstr "Não"
+
+#: ../publish-to-schedule.php:1287
+msgid "Did it save you a lot of time?"
+msgstr "Ele lhe ajudou a economizar um bom tempo?"
+
+#: ../publish-to-schedule.php:1289
+msgid "Ohh yes... it certainly did!"
+msgstr "Ohh sim! Certamente que sim!"
+
+#: ../publish-to-schedule.php:1292
+msgid "Since you installed this plugin"
+msgstr "Desde que instalou este plugin"
+
+#: ../publish-to-schedule.php:1297
+msgid " posts were automatically scheduled, saving your time!"
+msgstr "artigos foram automaticamente agendados, poupando seu tempo!"
+
+#: ../publish-to-schedule.php:1313
+msgid "Consider making a donation"
+msgstr "Porque não faz uma doação"
+
+#: ../publish-to-schedule.php:1317
+msgid ""
+"Trust-me - even 1 dollar will make me happy... but you can choose any "
+"amount! :)"
+msgstr ""
+"Acredite - mesmo 1 real já dá alguma alegria... mas você pode escolher outor "
+"valor se quiser! :)"
+
+#: ../publish-to-schedule.php:1322
+msgid "Save all changes"
+msgstr "Salvar todas as alterações"
+
+#: ../publish-to-schedule.php:1352
+msgid "Settings"
+msgstr "Configurações"
+
+#~ msgid ""
+#~ "For the days you select, the plugin will schedule only 1 post each day."
+#~ msgstr ""
+#~ "Para os dias que você selecionar, o plugin irá agendar apenas 1 artigo em "
+#~ "cada dia."

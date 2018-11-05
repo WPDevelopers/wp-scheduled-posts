@@ -73,7 +73,7 @@ class wpsp_scheduled {
             $page = add_submenu_page( pluginsFOLDER, __('Schedule Calendar', 'psm'), __('Schedule Calendar', 'psm'), 'manage_options', 'cal', array(&$this, 'edcal_list_admin'));
             add_action( "admin_print_scripts-$page", array(&$this, 'edcal_scripts'));
             
-            add_submenu_page( pluginsFOLDER, __('Free VS Pro', 'psm'), __('Free VS Pro', 'psm'), 'manage_options', 'f_vs_p', array(&$this, 'show_menu'));
+            //add_submenu_page( pluginsFOLDER, __('Free VS Pro', 'psm'), __('Free VS Pro', 'psm'), 'manage_options', 'f_vs_p', array(&$this, 'show_menu'));
 
 
 
