@@ -18,7 +18,6 @@ define("WPSCP_PLUGIN_URL",plugins_url("",__FILE__ ));#without trailing slash (/)
 define("WPSCP_PLUGIN_PATH",plugin_dir_path(__FILE__)); #with trailing slash (/)
 
 include_once('includes/wpscp-options.php');
-include_once('includes/wpdev-dashboard-widget.php');
 
 
 if (!class_exists('wpsp_addon')) {
