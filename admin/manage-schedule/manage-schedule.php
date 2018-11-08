@@ -407,9 +407,9 @@ function wpsp_scheduled_findNextSlot($post,$changePost = False){
 		for($offset=0;$offset<$maxDaysFuture;$offset+=1){
 			
 			# must be set every run of this for...
-			$cssDayAllowed = 'color:green; text-decoration:none;';
-			$cssDayForbid = 'color:red; text-decoration:line-through;';
-			$cssDayTooLate = 'color:green; text-decoration:line-through;';
+			$cssDayAllowed = 'color:#29c251; text-decoration:none;';
+			$cssDayForbid = 'color:#e8606d; text-decoration:line-through;';
+			$cssDayTooLate = 'color:#29c251; text-decoration:line-through;';
 		
 			$datetimeCheck = strtotime(current_time('mysql', $gmt = 0) . ' + '.$offset.' days');	
 			$dt = date("Ymd",$datetimeCheck);				
@@ -960,13 +960,13 @@ function wpsp_scheduled_options_page(){
 			        {
 			        
 					?>
-						<input type="checkbox" class="swal_alert_show" value="">Check to Activate
+						<input type="checkbox" class="swal_alert_show" value=""><label class="wpsp-scheduler-title">Auto Scheduler</label>
 
 					<?php
 					}else
 					{
 					?>		
-						<input type="checkbox" id="pub_check" name="pub_check" value="<?php if(!empty($activate_pub_option)){ echo $activate_pub_option;}else{ echo 'ok'; } ?>" <?php if ( isset($_POST['pub_check']) || !empty($activate_pub_option)  ) { echo 'checked="checked"'; }?> >Check to Activate
+						<input type="checkbox" id="pub_check" name="pub_check" value="<?php if(!empty($activate_pub_option)){ echo $activate_pub_option;}else{ echo 'ok'; } ?>" <?php if ( isset($_POST['pub_check']) || !empty($activate_pub_option)  ) { echo 'checked="checked"'; }?> ><label class="wpsp-scheduler-title">Auto Scheduler</label>
 
 					<?php
 					} 
@@ -1133,14 +1133,14 @@ function wpsp_scheduled_options_page(){
 
 								if($insert)
 								{
-									$massage = "Manual schedule has been set for ".$man_days;
+									$massage = "<span class='wpsp-success-text'>Manual schedule has been set for ".$man_days.'</span>';
 								}else
 								{
-								  	$massage = "Something Wrong!";
+								  	$massage = "<span class='wpsp-error-text'>Something Wrong!</span>";
 								}
 				  			}else
 							{
-							  	$massage = "Field must not be empty!";
+							  	$massage = "<span class='wpsp-error-text'>Field must not be empty!</span>";
 							}
 
 						}
@@ -1160,12 +1160,12 @@ function wpsp_scheduled_options_page(){
 
 					?>
 
-						<input type="checkbox" class="swal_alert_show" value="">Check to Activate
+						<input type="checkbox" class="swal_alert_show" value=""><label class="wpsp-scheduler-title">Manual Scheduler</label>
 					<?php 
 						}else
 						{ 
 					?>
-						<input type="checkbox" id="cal_check" name="cal_check" value="<?php if(!empty($activate_cal_option)){ echo $activate_cal_option;}else{ echo 'ok'; } ?>" <?php if ( isset($_POST['cal_check']) || !empty($activate_cal_option) ) { echo 'checked="checked"'; }?> >Check to Activate
+						<input type="checkbox" id="cal_check" name="cal_check" value="<?php if(!empty($activate_cal_option)){ echo $activate_cal_option;}else{ echo 'ok'; } ?>" <?php if ( isset($_POST['cal_check']) || !empty($activate_cal_option) ) { echo 'checked="checked"'; }?> ><label class="wpsp-scheduler-title">Manual Scheduler</label>
 					<?php } ?>
 
 						<div class="submit-button-wrap">
@@ -1187,7 +1187,7 @@ function wpsp_scheduled_options_page(){
 
 						<form action=""  method="post">
 
-							<h2 style="color: green;"><?php if( isset($massage) ){  echo $massage; } ?></h2> 
+							<h2 class="wpsp-notice-text"><?php if( isset($massage) ){  echo $massage; } ?></h2> 
 							<div class="man_options">
 								<select name="man_days" id="man_days">
 									<option value="">Select Days</option>
@@ -1205,7 +1205,7 @@ function wpsp_scheduled_options_page(){
 								if($pluginVersion != '2.0' && isset($pluginVersion))
 				        		{
 							?>
-								<input type="button" class="swal_alert_show" value="SET" style="border: none;text-transform: capitalize;color: #fff;cursor: pointer;background: #2a8e2a;transition: .5s ease-in-out;font-weight:bold;">
+								<input type="button" class="button button-primary swal_alert_show" value="SET">
 							<?php 
 								}else
 								{
