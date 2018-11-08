@@ -614,15 +614,17 @@ textarea.wpsp-form-control {
 /* Calender Page Style */
 
 .manage-schedule-forms {
+	position: relative;
 	display: flex;
 	flex-flow: row wrap;
 	align-items: flex-start;
-	margin: -15px;
+	margin: 0 -15px 30px -15px;
+	padding-bottom: 30px;
 }
 
 .manage-schedule-forms .manage-schedule-form {
 	flex: 1 1 45%;
-	margin: 15px;
+	margin: 15px 15px 30px 15px;
 	padding: 15px;
 	background-color: #fff;
 }
@@ -631,14 +633,13 @@ textarea.wpsp-form-control {
 
 .schedule-list {
 	background-color: #edeafd;
-	width: 100%;
 	margin: 0;
-	padding: 0;
+	padding: 5px;
 	display: flex;
 	flex-flow: row nowrap;
 	justify-content: space-between;
 	border-radius: 3px;
-	border: 1px solid rgba(0,0,0, .07);
+	border: 1px solid rgba(0,0,0, .05);
 }
 
 .schedule-list li {
@@ -680,24 +681,77 @@ textarea.wpsp-form-control {
 }
 
 .miss-schedule-form {
-	background-color: #f1f2f9;
+	background-color: #d7f9f5;
 	padding: 20px;
 	font-size: 16px;
 	margin-top: 25px;
 	border-radius: 3px;
+	color: #26a9b4;
+	border: 1px solid rgba(0,0,0, .05);
+}
+
+.wpsp-schedule-table {
+	background-color: #f3f1fc;
+	color: #4d4d4d;
+	padding: 15px;
+	margin-bottom: 20px;
+	border-radius: 3px;
+	border: 1px solid rgba(0,0,0, .05);
+}
+
+.wpsp-schedule-table h3 {
+	color: #7b6bc6;
+	font-size: 14px;
+	line-height: 1.5;
+}
+
+.wpsp-schedule-table tr {
+	display: flex;
+	align-items: center;
+}
+
+.wpsp-schedule-table th {
+	font-size: 14px;
+	flex: 1 1 auto;
+	margin-right: 5px;
+}
+
+.wpsp-schedule-table input {
+	width: 60px;
+	height: 40px;
+}
+
+.wpsp-error-notice {
+	background-color: #ffe5e7;
+	color: #e8606d;
+	padding: 20px;
+	border-radius: 3px;
+	border: 1px solid rgba(0,0,0, .05);
+}
+
+.wpsp-error-notice h3 {
+	color: #e8606d;
+	margin: 15px 0;
 }
 
 /* Utilities */
 
-.success{
-	color: green;
-	font-size: 24px;
-}
-.error{
-	color: red;
-	font-size: 24px;
+.wpsp-description-text {
+	font-size: 13px;
+	font-style: italic;
+	padding-left: 5px;
+	opacity: .9;
 }
 
+.wpsp-success-text, .success {
+	color: #29c251;
+	font-size: 17px;
+}
+
+.wpsp-error-text, .error{
+	color: #e8606d;
+	font-size: 17px;
+}
 
 #man_form table,#man_form table tr,#man_form table th,#man_form table td{
 	padding: 5px;
@@ -705,18 +759,8 @@ textarea.wpsp-form-control {
 	text-transform: capitalize;
 }
 
-#man_form .submit{
-	padding: 1.5em 0;
-    margin: 10px 0;
-    border-bottom-left-radius: 3px;
-    border-bottom-right-radius: 3px;
-    border: none;
+.submit-button-wrap{
     position: absolute;
     bottom: 10px;
     left: 15px;
 }
-
-.schedule_noti_p{
-	margin: 0;
-}
-

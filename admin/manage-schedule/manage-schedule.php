@@ -926,7 +926,7 @@ function wpsp_scheduled_options_page(){
 	# OPTIONS SCREEN
 	//now we drop into html to display the option page form
 	?>
-		<div class="wrap">
+		<div class="wrap wpsp-dashboard-body">
 		
 		
 		<h2 style="margin-bottom: 30px;"  title="<?php 
@@ -960,13 +960,13 @@ function wpsp_scheduled_options_page(){
 			        {
 			        
 					?>
-						<input type="checkbox" class="swal_alert_show" value="">Check To Active
+						<input type="checkbox" class="swal_alert_show" value="">Check to Activate
 
 					<?php
 					}else
 					{
 					?>		
-						<input type="checkbox" id="pub_check" name="pub_check" value="<?php if(!empty($activate_pub_option)){ echo $activate_pub_option;}else{ echo 'ok'; } ?>" <?php if ( isset($_POST['pub_check']) || !empty($activate_pub_option)  ) { echo 'checked="checked"'; }?> >Check To Active
+						<input type="checkbox" id="pub_check" name="pub_check" value="<?php if(!empty($activate_pub_option)){ echo $activate_pub_option;}else{ echo 'ok'; } ?>" <?php if ( isset($_POST['pub_check']) || !empty($activate_pub_option)  ) { echo 'checked="checked"'; }?> >Check to Activate
 
 					<?php
 					} 
@@ -986,43 +986,42 @@ function wpsp_scheduled_options_page(){
 							
 						?>
 						
-						
-						<table>	
-							
-							<?php
-							$iday = 0;
-							foreach($days as $day){
-								#echo $day;
+						<div class="wpsp-schedule-table">
+							<table>	
 								
-							?>
-								
-								<tr valign="top">
-									<th scope="row" align="left" style="padding:5px;"><?php _e(ucfirst($day), 'wp-scheduled-posts') ?>:</th>
+								<?php
+								$iday = 0;
+								foreach($days as $day){
+									#echo $day;
 									
-									<td style="padding:5px;">					
-										<input 
-											type="text" 
-											id="<?php echo $day; ?>"
-											name="<?php echo "pts_$iday"; ?>" 
-											value="<?php
-												if ($options["pts_$iday"] == 'no') echo '0'; 
-												else if ($options["pts_$iday"] == 'yes') echo '1'; 
-												else echo $options["pts_$iday"]; 
-											?>" style="width: 40px;"/>
-									</td>
+								?>
 									
-								</tr>
+									<tr valign="top">
+										<th scope="row" align="left"><?php _e(ucfirst($day), 'wp-scheduled-posts') ?>:</th>
+										
+										<td style="padding:5px;">					
+											<input 
+												type="text" 
+												id="<?php echo $day; ?>"
+												name="<?php echo "pts_$iday"; ?>" 
+												value="<?php
+													if ($options["pts_$iday"] == 'no') echo '0'; 
+													else if ($options["pts_$iday"] == 'yes') echo '1'; 
+													else echo $options["pts_$iday"]; 
+												?>"/>
+										</td>
+										
+									</tr>
 
 
-							<?php
+								<?php
+									
+									$iday += 1;
+								}
 								
-								$iday += 1;
-							}
-							
-							?>
+								?>
 
-						</table>
-						
+							</table>
 						
 						<h3 style="margin-top:10px;"><?php _e('Specify the time interval in which you want to have your posts scheduled!',  'wp-scheduled-posts')?></h3>
 						
@@ -1038,14 +1037,14 @@ function wpsp_scheduled_options_page(){
 								</td>
 							</tr>
 						</table>
-
+					</div> <!-- Schedule table end -->
 
 						<?php
 						
 						
 						$msgTimeWrong = '
 
-						<h3 style="margin-top:20px;">'. __('Your WordPress timezone settings might be incorrect!', 'wp-scheduled-posts').		
+						<h3>'. __('Your WordPress timezone settings might be incorrect!', 'wp-scheduled-posts').		
 						'</h3>'
 						 . __('The date and time we detect : ') . '<span style="color:blue;font-weight:bold;">'
 						.date(get_option('date_format').', '.get_option('time_format'),current_time('timestamp', $gmt = 1)).
@@ -1089,7 +1088,7 @@ function wpsp_scheduled_options_page(){
 						echo wpsp_scheduled_createJsToCompareTime($msgTimeWrong,$msgTimeOK);			
 						
 						# div usada para reportar hora incorreta...		
-						echo '<div id="divjsCT"></div>';
+						echo '<div id="divjsCT" class="wpsp-error-notice"></div>';
 						
 						echo '<script type="text/javascript">	
 								jsCompareTimes();
@@ -1161,15 +1160,15 @@ function wpsp_scheduled_options_page(){
 
 					?>
 
-						<input type="checkbox" class="swal_alert_show" value="">Active
+						<input type="checkbox" class="swal_alert_show" value="">Check to Activate
 					<?php 
 						}else
 						{ 
 					?>
-						<input type="checkbox" id="cal_check" name="cal_check" value="<?php if(!empty($activate_cal_option)){ echo $activate_cal_option;}else{ echo 'ok'; } ?>" <?php if ( isset($_POST['cal_check']) || !empty($activate_cal_option) ) { echo 'checked="checked"'; }?> >Active
+						<input type="checkbox" id="cal_check" name="cal_check" value="<?php if(!empty($activate_cal_option)){ echo $activate_cal_option;}else{ echo 'ok'; } ?>" <?php if ( isset($_POST['cal_check']) || !empty($activate_cal_option) ) { echo 'checked="checked"'; }?> >Check to Activate
 					<?php } ?>
 
-						<div class="submit">
+						<div class="submit-button-wrap">
 					<?php 
 						if($pluginVersion != '2.0' && isset($pluginVersion))
 		        		{
@@ -1408,41 +1407,44 @@ function wpsp_scheduled_options_page(){
 							</ul>
 						</form>		
 						
-						<?php 
-
-							if(isset($_POST['ac_miss']))
-							{
-								if(isset($_POST['miss_check'])) 
-								{
-									$miss_check = $_POST['miss_check'];
-									add_option('miss_schedule_active_option',$miss_check);
-									echo "<h3>Activated Missed Schedule!</h3>";
-								}
-								else
-								{
-									delete_option('miss_schedule_active_option');
-									echo "<h3>Deactivated Missed Schedule!</h3>";
-								}
-
-							}
-							global $wpdb;
-							$get_miss_op 			= get_option('miss_schedule_active_option');
-							$activate_miss_option 	= html_entity_decode(stripslashes($get_miss_op));
-						?>
 						<div class="miss-schedule-form">
+
+							<?php 
+
+								if(isset($_POST['ac_miss']))
+								{
+									if(isset($_POST['miss_check'])) 
+									{
+										$miss_check = $_POST['miss_check'];
+										add_option('miss_schedule_active_option',$miss_check);
+										echo "<h3 class='wpsp-success-text'>Activated Missed Schedule!</h3>";
+									}
+									else
+									{
+										delete_option('miss_schedule_active_option');
+										echo "<h3 class='wpsp-error-text'>Deactivated Missed Schedule!</h3>";
+									}
+
+								}
+								global $wpdb;
+								$get_miss_op 			= get_option('miss_schedule_active_option');
+								$activate_miss_option 	= html_entity_decode(stripslashes($get_miss_op));
+							?>
 							<form action="" method="post">
 							<?php 
 								if($pluginVersion != '2.0' && isset($pluginVersion))
 				        		{
 							?>
 									<input type="checkbox" class="button button-primary swal_alert_show" value=""><label>Activate Missed Schedule</label>
-									<input type="button" class="button button-primary swal_alert_show" value="Activate">
+									<p class="wpsp-description-text">If you activate this, it will manage the missed schedule too.</p>
+									<input class="button button-primary swal_alert_show" type="button" value="Activate">
 							<?php  
 								}
 								else
 								{
 							?>
 									<input type="checkbox" name="miss_check" value="<?php if(!empty($activate_miss_option)){ echo $activate_miss_option;}else{ echo 'miss'; } ?>" <?php if ( isset($_POST['miss_check']) || !empty($activate_miss_option) ) { echo 'checked="checked"'; }?> ><label for="miss_check">Activate Missed Schedule</label>
+									<p class="wpsp-description-text">If you activate this, it will manage the missed schedule too.</p>
 									<input class="button button-primary" type="submit" name="ac_miss" value="Activate">
 							<?php  
 								}
