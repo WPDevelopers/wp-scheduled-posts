@@ -1,15 +1,11 @@
 <?php
 /*
  * Plugin Name: WP Scheduled Posts
- * Plugin URI: https://wpdeveloper.net/free-plugin/wp-scheduled-posts/
  * Description: A complete solution for WordPress Post Schedule. Get an admin Bar & Dashboard Widget showing all your scheduled posts. And full control.
- * Version: 1.9.1
- * Author: WP Developer
+ * Version: 2.0.0
+ * Author: WPDeveloper
  * Author URI: https://wpdeveloper.net
- * License: GPL2+
  * Text Domain: wp-scheduled-posts
- * Min WP Version: 2.5.0
- * Max WP Version: 4.8
  */
 
 
@@ -17,7 +13,7 @@ define("WPSCP_PLUGIN_SLUG",'wp-scheduled-posts');
 define("WPSCP_PLUGIN_URL",plugins_url("",__FILE__ ));#without trailing slash (/)
 define("WPSCP_PLUGIN_PATH",plugin_dir_path(__FILE__)); #with trailing slash (/)
 
-include_once('includes/wpscp-options.php');
+include_once('admin/wpscp-options.php');
 
 
 if (!class_exists('wpsp_addon')) {
@@ -74,7 +70,6 @@ if (!class_exists('wpsp_addon')) {
 		
 		function start_plugin() {
 			if ( is_admin() ) {
-				wp_enqueue_style( 'custom-style', plugins_URLPATH . 'admin/css/custom-style.css' );
 				wp_enqueue_style( 'admin-style', plugins_URLPATH . 'admin/css/admin.css' );
 				wp_enqueue_style( 'font-awesome', plugins_URLPATH . 'admin/css/font-awesome.min.css' );
 				wp_enqueue_style( 'chung-timepicker', plugins_URLPATH . 'admin/css/chung-timepicker.css' );

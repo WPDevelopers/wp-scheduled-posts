@@ -6,9 +6,46 @@
 
 /* General Style */
 
-.wpsp-settings-wrap {
-	padding: 15px;
+#adminmenu .toplevel_page_wp-scheduled-posts img {
+	width: 18px;
+	margin-top: -1px;
 }
+
+.wpsp-settings-wrap {
+	width: 100%;
+	height: auto;
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-between;
+	align-content: flex-start;
+	padding: 15px 0px;
+}
+
+.wpsp-options-wrap {
+	background-color: #fff;
+	padding: 15px;
+	max-width: 70em;
+	height: auto;
+	flex: 1 1 70%;
+	box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+.wpsp-calender-wrap {
+	background-color: #fff;
+	padding: 20px;
+	box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+.wpsp-calender-wrap #loading, .wpsp-calender-wrap #draftsdrawer_loading {
+	background-position: center center;
+	width: 100%;
+	left: auto;
+}
+.wpsp-calender-wrap #topbar {
+	height: auto;
+	margin-bottom: 30px;
+	display: block;
+}
+
 .wpsp-header-bar {
 	height: auto;
 	padding: 10px;
@@ -559,18 +596,6 @@ textarea.wpsp-form-control {
 	box-shadow: inset 0 1px 0 0 rgba(255,255,255,0.715);
 }
 
-/* Facebook Settings CSS */
-
-#social-networks input {
-	padding: 10px;
-}
-#eaelFBbtn, #eaelFBbtnOwnApp {
-	cursor: pointer;
-	display: none;
-	/* color: red; */
-
-}
-
 .page-list-with-access > ul {
 	list-style: none;
 }
@@ -585,3 +610,91 @@ textarea.wpsp-form-control {
 .wpsp-fb-own-app-settings.wpsp-active, #eaelFBbtn.wpsp-active, #eaelFBbtnOwnApp.wpsp-active {
 	display: block;
 }
+
+/* Calender Page Style */
+
+.manage-schedule-forms {
+	display: flex;
+	flex-flow: row wrap;
+	align-items: flex-start;
+	margin: -15px;
+}
+
+.manage-schedule-forms .manage-schedule-form {
+	flex: 1 1 45%;
+	margin: 15px;
+	padding: 15px;
+	background-color: #fff;
+}
+
+/* Manage Schedule Page */
+
+.schedule-list {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+}
+
+.schedule-list li {
+	padding: 5px 8px;
+	text-align: center;
+	flex: 1 1 auto;
+}
+
+.schedule-list li span:first-child {
+	background-color: #2278f6;
+	color: #fff;
+}
+
+.schedule-list li span {
+	padding: 5px;
+	display: block;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	margin-top: 7px;
+	background-color: #f8fafc;
+}
+
+.miss-schedule-form {
+	background-color: #f1f2f9;
+	padding: 20px;
+	font-size: 16px;
+	margin-top: 25px;
+}
+
+/* Utilities */
+
+.success{
+	color: green;
+	font-size: 24px;
+}
+.error{
+	color: red;
+	font-size: 24px;
+}
+
+
+#man_form table,#man_form table tr,#man_form table th,#man_form table td{
+	padding: 5px;
+	text-align: center;
+	text-transform: capitalize;
+}
+
+#man_form .submit{
+	padding: 1.5em 0;
+    margin: 10px 0;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border: none;
+    position: absolute;
+    bottom: 10px;
+    left: 15px;
+}
+
+.schedule_noti_p{
+	margin: 0;
+}
+

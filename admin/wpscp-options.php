@@ -76,12 +76,13 @@ function wpscp_options_page()
 	$wpscp_options=$options;
 	}#end if(isset($_POST['save_options']))
 	?>
-    <link rel="stylesheet" type="text/css" href="<?php echo WPSCP_PLUGIN_URL?>/style.css">
-	<div class="wrap dashboard-body">
-	    	<div class="wpsp-settings-wrapper">
-			<div id="icon-options-general" class="icon32"></div><h1>WP Scheduled Posts Options</h1>
-	        
-			<div style="width: 700px; float:left;">
+
+	<div class="wrap wpsp-dashboard-body">
+		<div class="wpsp-header">
+			<h1>WP Scheduled Posts Options</h1>
+		</div>
+	    <div class="wpsp-settings-wrap">
+			<div class="wpsp-options-wrap">
 				<form action="" method="post">
 	            <table class="form-table">
 	            <tr><td  colspan="2" align="left"><input type="checkbox" name="show_dashboard_widget" value="1" <?php echo ($wpscp_options['show_dashboard_widget'])?' checked="checked"': '';?> />&nbsp;&nbsp;Show Scheduled Posts in Dashboard Widget</td></tr>
@@ -158,7 +159,7 @@ function wpscp_options_page()
 	                    Title length: <input type="text" name="adminbar_title_length" size="5" placeholder="45"  value="<?php echo $wpscp_options['adminbar_title_length'] ?>" /> 
 	                    <br />
 	                    Date format: <input type="text" name="adminbar_date_format" size="10" placeholder="M-d h:i:a"  value="<?php echo htmlspecialchars(stripslashes($wpscp_options['adminbar_date_format'])) ?>" />
-	                	<div style="padding-left:80px; color:#999999;">For item template use <strong>%TITLE%</strong> for post title, <strong>%AUTHOR%</strong> for post author and <strong>%DATE%</strong> for post scheduled date-time. You can use HTML tags with styles also </div>
+	                	<div style="color:#999999; padding: 10px;">For item template use <strong>%TITLE%</strong> for post title, <strong>%AUTHOR%</strong> for post author and <strong>%DATE%</strong> for post scheduled date-time. You can use HTML tags with styles also </div>
 	                </div>
 	            </td></tr>
 	            <tr><td  colspan="2" align="left">
@@ -170,5 +171,19 @@ function wpscp_options_page()
 	            </table>
 	            </form>
 	        </div>
+
+  			<div class="wpsp-admin-sidebar">
+  				<div class="wpsp-sidebar-block">
+  					<div class="wpsp-admin-sidebar-logo">
+  						<img src="<?php echo plugins_url( '/', __FILE__ ).'assets/images/wpsp-logo.svg'; ?>">
+  					</div>
+  					<div class="wpsp-admin-sidebar-cta">
+  						<?php printf( __( '<a href="%s" target="_blank">Upgrade to Pro</a>', 'wp-scheduled-posts' ), 'https://wpdeveloper.net/go/WPSP-Main' ); ?>
+  					</div>
+  				</div>
+			</div><!--admin sidebar end-->
+
+	    </div>
+	</div>
 
 <?php } ?>
