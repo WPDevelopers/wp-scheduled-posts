@@ -1211,7 +1211,7 @@ function wpsp_scheduled_options_page(){
 								}else
 								{
 							?>
-								<input type="submit" name="man_submit" value="SET">
+								<input class="button button-primary" type="submit" name="man_submit" value="SET">
 							<?php } ?>
 
 							</div>
@@ -1304,7 +1304,7 @@ function wpsp_scheduled_options_page(){
 										for($i=0;$i<$count;$i++){
 											$id  = $sat_schedules[$i]['id'];
 											$sat = $sat_schedules[$i]['schedule'];
-											echo '<span>'.$sat.' <a href="?page=manage-schedule&&sat_id='.$id.'">x</a></span>';
+											echo '<span>'.$sat.' <a href="?page=manage-schedule&&sat_id='.$id.'"><span class="dashicons dashicons-no-alt"></span></a></span>';
 										}
 									?>
 									
@@ -1318,7 +1318,7 @@ function wpsp_scheduled_options_page(){
 											$id  = $sun_schedules[$i]['id'];
 											$sun = $sun_schedules[$i]['schedule'];
 											if( !empty($sun) ){
-												echo '<span>'.$sun.' <a href="?page=manage-schedule&&sun_id='.$id.'">x</a></span>';
+												echo '<span>'.$sun.' <a href="?page=manage-schedule&&sun_id='.$id.'"><span class="dashicons dashicons-no-alt"></span></a></span>';
 											}else{
 												echo '<span>-</span>';
 											}
@@ -1334,7 +1334,7 @@ function wpsp_scheduled_options_page(){
 											$id  = $mon_schedules[$i]['id'];
 											$mon = $mon_schedules[$i]['schedule'];
 											if( isset($mon) && !empty($mon) ){
-												echo '<span>'.$mon.' <a href="?page=manage-schedule&&mon_id='.$id.'">x</a></span>';
+												echo '<span>'.$mon.' <a href="?page=manage-schedule&&mon_id='.$id.'"><span class="dashicons dashicons-no-alt"></span></a></span>';
 											}else{
 												echo '<span>-</span>';
 											}
@@ -1350,7 +1350,7 @@ function wpsp_scheduled_options_page(){
 											$id  = $tue_schedules[$i]['id'];
 											$tue = $tue_schedules[$i]['schedule'];
 											if( isset($tue) && !empty($tue) ){
-												echo '<span>'.$tue.' <a href="?page=manage-schedule&&tue_id='.$id.'">x</a></span>';
+												echo '<span>'.$tue.' <a href="?page=manage-schedule&&tue_id='.$id.'"><span class="dashicons dashicons-no-alt"></span></a></span>';
 											}else{
 												echo '<span>-</span>';
 											}
@@ -1366,7 +1366,7 @@ function wpsp_scheduled_options_page(){
 											$id  = $wed_schedules[$i]['id'];
 											$wed = $wed_schedules[$i]['schedule'];
 											if( isset($wed) && !empty($wed) ){
-												echo '<span>'.$wed.' <a href="?page=manage-schedule&&wed_id='.$id.'">x</a></span>';
+												echo '<span>'.$wed.' <a href="?page=manage-schedule&&wed_id='.$id.'"><span class="dashicons dashicons-no-alt"></span></a></span>';
 											}else{
 												echo '<span>-</span>';
 											}
@@ -1382,7 +1382,7 @@ function wpsp_scheduled_options_page(){
 											$id  = $thu_schedules[$i]['id'];
 											$thu = $thu_schedules[$i]['schedule'];
 											if( isset($thu) && !empty($thu) ){
-												echo '<span>'.$thu.' <a href="?page=manage-schedule&&thu_id='.$id.'">x</a></span>';
+												echo '<span>'.$thu.' <a href="?page=manage-schedule&&thu_id='.$id.'"><span class="dashicons dashicons-no-alt"></span></a></span>';
 											}else{
 												echo '<span>-</span>';
 											}
@@ -1398,7 +1398,7 @@ function wpsp_scheduled_options_page(){
 											$id  = $fri_schedules[$i]['id'];
 											$fri = $fri_schedules[$i]['schedule'];
 											if( isset($fri) && !empty($fri) ){
-												echo '<span>'.$fri.' <a href="?page=manage-schedule&&fri_id='.$id.'">x</a></span>';
+												echo '<span>'.$fri.' <a href="?page=manage-schedule&&fri_id='.$id.'"><span class="dashicons dashicons-no-alt"></span></a></span>';
 											}else{
 												echo '<span>-</span>';
 											}
