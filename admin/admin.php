@@ -15,7 +15,7 @@ class optionAdminPanel{
 
 
 	function add_menu()  {
-		add_menu_page( __( 'WP Scheduled Post'), __( 'WP Scheduled Post' ), 'manage_options', pluginsFOLDER, 'wpscp_options_page', plugin_dir_url( __FILE__ ).'images/wp-post-scheduled.png',80 );
+		add_menu_page( __( 'Scheduled Posts'), __( 'Scheduled Posts' ), 'manage_options', pluginsFOLDER, 'wpscp_options_page', plugin_dir_url( __FILE__ ).'assets/images/wpsp-icon.png', 80 );
 	}
 	
 

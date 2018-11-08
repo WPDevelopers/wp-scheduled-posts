@@ -357,49 +357,50 @@ class wpsp_scheduled {
         
         ?>
         
-        <div class="wrap">
+        <div class="wrap wpsp-dashboard-body">
             <div class="icon32" id="icon-edit"><br/></div>
             <h2 id="edcal_main_title"><?php echo sprintf( __('%1$s Calendar', 'editorial-calendar'), $this->edcal_get_posttype_multiplename() ) ?></h2>
             
-            <div id="loadingcont">
-                <div id="loading"> </div>
-            </div>
-            
-            <div id="topbar" class="tablenav clearfix">
-                <div id="topleft" class="tablenav-pages alignleft">
-                    <h3>
-                        <a href="#" title="<?php echo(__('Jump back', 'editorial-calendar')) ?>" class="prev page-numbers" id="prevmonth">&lsaquo;</a>
-                        <span id="currentRange"></span>
-                        <a href="#" title="<?php echo(__('Skip ahead', 'editorial-calendar')) ?>" class="next page-numbers" id="nextmonth">&rsaquo;</a>
-                        <a class="next page-numbers" title="<?php echo(__('Scroll the calendar and make the last post visible', 'editorial-calendar')) ?>" id="moveToLast">&raquo;</a>
-
-                        <a class="next page-numbers" title="<?php echo(__('Scroll the calendar and make the today visible', 'editorial-calendar')) ?>" id="moveToToday"><?php echo(__('Show Today', 'editorial-calendar')) ?></a>
-                        
-                        
-                    </h3>
+            <div class="wpsp-calender-wrap">
+                <div id="loadingcont">
+                    <div id="loading"> </div>
                 </div>
+                
+                <div id="topbar" class="tablenav clearfix">
+                    <div id="topleft" class="tablenav-pages alignleft">
+                        <h3>
+                            <a href="#" title="<?php echo(__('Jump back', 'editorial-calendar')) ?>" class="prev page-numbers" id="prevmonth">&lsaquo;</a>
+                            <span id="currentRange"></span>
+                            <a href="#" title="<?php echo(__('Skip ahead', 'editorial-calendar')) ?>" class="next page-numbers" id="nextmonth">&rsaquo;</a>
+                            <a class="next page-numbers" title="<?php echo(__('Scroll the calendar and make the last post visible', 'editorial-calendar')) ?>" id="moveToLast">&raquo;</a>
 
-                <div id="topright" class="tablenav-pages alignright">
-                    <a class="next page-numbers" title="<?php echo(__('Show unscheduled posts', 'editorial-calendar')) ?>" id="showdraftsdrawer"><?php echo(__('Show Unscheduled Drafts', 'editorial-calendar')) ?></a>
+                            <a class="next page-numbers" title="<?php echo(__('Scroll the calendar and make the today visible', 'editorial-calendar')) ?>" id="moveToToday"><?php echo(__('Show Today', 'editorial-calendar')) ?></a>
+                            
+                            
+                        </h3>
+                    </div>
+
+                    <div id="topright" class="tablenav-pages alignright">
+                        <a class="next page-numbers" title="<?php echo(__('Show unscheduled posts', 'editorial-calendar')) ?>" id="showdraftsdrawer"><?php echo(__('Show Unscheduled Drafts', 'editorial-calendar')) ?></a>
+                    </div>
                 </div>
-            </div>
-            
-            <div id="draftsdrawer_cont">
-                <div id="draftsdrawer">
-                    <div class="draftsdrawerheadcont" title="<?php echo(__('Unscheduled draft posts', 'editorial-calendar')) ?>"><div class="dayhead"><?php echo(__('Unscheduled', 'editorial-calendar')) ?></div></div>
-                    <div class="day" id="00000000">
-                        <div id="draftsdrawer_loading"></div>
-                        <div id="unscheduled" class="dayobj"></div>
+                
+                <div id="draftsdrawer_cont">
+                    <div id="draftsdrawer">
+                        <div class="draftsdrawerheadcont" title="<?php echo(__('Unscheduled draft posts', 'editorial-calendar')) ?>"><div class="dayhead"><?php echo(__('Unscheduled', 'editorial-calendar')) ?></div></div>
+                        <div class="day" id="00000000">
+                            <div id="draftsdrawer_loading"></div>
+                            <div id="unscheduled" class="dayobj"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="cal_cont">
+                    <div id="edcal_scrollable" class="edcal_scrollable vertical">
+                        <div id="cal"></div>
                     </div>
                 </div>
             </div>
-            
-            <div id="cal_cont">
-                <div id="edcal_scrollable" class="edcal_scrollable vertical">
-                    <div id="cal"></div>
-                </div>
-            </div>
-
             <?php $this->edcal_edit_popup(); ?>
             
         </div><?php // end .wrap ?>

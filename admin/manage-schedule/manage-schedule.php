@@ -926,7 +926,7 @@ function wpsp_scheduled_options_page(){
 	# OPTIONS SCREEN
 	//now we drop into html to display the option page form
 	?>
-		<div class="wrap">
+		<div class="wrap wpsp-dashboard-body">
 		
 		
 		<h2 style="margin-bottom: 30px;"  title="<?php 
@@ -936,522 +936,526 @@ function wpsp_scheduled_options_page(){
 		?>"><?php echo ucwords(str_replace('-', ' ', basename(__FILE__, ".php"))) .' - '. __('Options', 'wp-scheduled-posts'); ?></h2>
 		
 		
+		<div class="wpsp-form-wrap">
+			<form method="post" action="" >
+				<div class="manage-schedule-forms">
+					<div id="pts_form" class="manage-schedule-form">
+				<?php 
 
-		<form method="post" action="" >
-			<div id="pts_form">
-		<?php 
-
-	        $all_plugins = get_plugins();
-	        if ( ! function_exists( 'get_plugins' ) ) {
-	            require_once ABSPATH . 'wp-admin/includes/plugin.php';
-	        }
-	        $plugins=get_plugins();
-	        $apl=get_option('active_plugins');
-	        $activated_plugins=array();
-	        foreach ($apl as $p){           
-	            if(isset($plugins[$p])){
-	                 array_push($activated_plugins, $plugins[$p]);
-	            }           
-	        }
-	        $pluginVersion = getInstallPluginVersion($activated_plugins);
-        
-	        if($pluginVersion != '2.0' && isset($pluginVersion))
-	        {
-	        
-			?>
-				<input type="checkbox" class="swal_alert_show" value="">Check To Active
-
-			<?php
-			}else
-			{
-			?>		
-				<input type="checkbox" id="pub_check" name="pub_check" value="<?php if(!empty($activate_pub_option)){ echo $activate_pub_option;}else{ echo 'ok'; } ?>" <?php if ( isset($_POST['pub_check']) || !empty($activate_pub_option)  ) { echo 'checked="checked"'; }?> >Check To Active
-
-			<?php
-			} 
-			?>
-
-				<fieldset class="options" style="margin-top: 30px;">				
-				
-
-				<?php
-				if($pts_debug){
-					echo '<h3><strong style="color:red;">'.$plName.' - <span style="text-decoration:blink">Debug active!</span></strong></h3>';								
-				}
-				?>
-
-				<?php				
-					$days = array('sunday','monday','tuesday','wednesday','thursday','friday','saturday');
-					
-				?>
-				
-				
-				<table>	
-					
-					<?php
-					$iday = 0;
-					foreach($days as $day){
-						#echo $day;
-						
+			        $all_plugins = get_plugins();
+			        if ( ! function_exists( 'get_plugins' ) ) {
+			            require_once ABSPATH . 'wp-admin/includes/plugin.php';
+			        }
+			        $plugins=get_plugins();
+			        $apl=get_option('active_plugins');
+			        $activated_plugins=array();
+			        foreach ($apl as $p){           
+			            if(isset($plugins[$p])){
+			                 array_push($activated_plugins, $plugins[$p]);
+			            }           
+			        }
+			        $pluginVersion = getInstallPluginVersion($activated_plugins);
+		        
+			        if($pluginVersion != '2.0' && isset($pluginVersion))
+			        {
+			        
 					?>
-						
-						<tr valign="top">
-							<th scope="row" align="left" style="padding:5px;"><?php _e(ucfirst($day), 'wp-scheduled-posts') ?>:</th>
-							
-							<td style="padding:5px;">					
-								<input 
-									type="text" 
-									id="<?php echo $day; ?>"
-									name="<?php echo "pts_$iday"; ?>" 
-									value="<?php
-										if ($options["pts_$iday"] == 'no') echo '0'; 
-										else if ($options["pts_$iday"] == 'yes') echo '1'; 
-										else echo $options["pts_$iday"]; 
-									?>" style="width: 40px;"/>
-							</td>
-							
-						</tr>
-
+						<input type="checkbox" class="swal_alert_show" value="">Check to Activate
 
 					<?php
-						
-						$iday += 1;
-					}
-					
-					?>
-
-				</table>
-				
-				
-				<h3 style="margin-top:10px;"><?php _e('Specify the time interval in which you want to have your posts scheduled!',  'wp-scheduled-posts')?></h3>
-				
-				<table class="optiontable">
-					<tr valign="top">
-						<th scope="row" align="left"><?php _e('Start Time', 'wp-scheduled-posts') ?>:</th>
-						<td><input name="pts_start" type="text" id="start" value="<?php echo $options['pts_start']; ?>" size="10" /><?php _e(' (defaults to 00:00)', 'wp-scheduled-posts') ?>
-						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row" align="left"><?php _e('End Time', 'wp-scheduled-posts') ?>:</th>
-						<td><input name="pts_end" type="text" id="end" value="<?php echo $options['pts_end']; ?>" size="10" /><?php _e(' (defaults to 23:59)', 'wp-scheduled-posts') ?>
-						</td>
-					</tr>
-				</table>
-
-
-				<?php
-				
-				
-				$msgTimeWrong = '
-
-				<h3 style="margin-top:20px;">'. __('Your WordPress timezone settings might be incorrect!', 'wp-scheduled-posts').		
-				'</h3>'
-				 . __('The date and time we detect : ') . '<span style="color:blue;font-weight:bold;">'
-				.date(get_option('date_format').', '.get_option('time_format'),current_time('timestamp', $gmt = 1)).
-				'</span>';
-				
-				
-				
-				$msgTimeOK ='
-
-				<h3 style="margin-top:20px;">'. __('Your timezone configuration and server time seems to be OK!','wp-scheduled-posts').		
-				'</h3>'
-				 .' <span style="color:green;font-weight:bold;">'.date(get_option('date_format').', '.get_option('time_format'),current_time('timestamp', $gmt = 0)).'</span>';
-				
-				
-				$msgTimeWrong = '<h3 style="margin-top:20px;">'		
-				. __('Your WordPress timezone settings might be incorrect!', 'wp-scheduled-posts').								
-				'</h3>'
-				. __('According to your web server','wp-scheduled-posts') .		
-				', '
-				. __('the GMT time is: ','wp-scheduled-posts') . ' <span style="color:blue;font-weight:bold;">'.date(get_option('date_format').', '.get_option('time_format'),current_time('timestamp', $gmt = 1)).'.</span>'.
-				'<br>'
-				. __('The timezone configured in your','wp-scheduled-posts').' <a target="_blank" href="options-general.php">'.__('WordPress settings','wp-scheduled-posts').'</a> '.__('is','wp-scheduled-posts') .': <span style="color:blue;font-weight:bold;">'.get_option('gmt_offset').', </span>'.
-				'<br>'			
-				. __('so your server think that is your local time is: ','wp-scheduled-posts') . ' <span style="color:red;font-weight:bold;">'.date(get_option('date_format').', '.get_option('time_format'),current_time('timestamp', $gmt = 0)).'</span> ... '
-				. __('but this is different from time on you machine now!','wp-scheduled-posts').
-				'<br>'
-				. __('If the difference is not too big (less than 2h or 3h) you problably will not have side effects and the plugin should work fine!','wp-scheduled-posts').
-				'<br>'
-				. __('Othewise, with big time differences, you can have issues with the real time that each post will be scheduled!','wp-scheduled-posts').
-				'<br>'
-				. __('Sometimes you have to set a different timezone to compensate daylight saving time or a missconfigured server time! ','wp-scheduled-posts').
-				
-				'<br>'
-				. __('If you can, change the timezone to correct this, refresh this page and this message will be shown anymore!','wp-scheduled-posts')		
-				;		
-				
-				
-				
-				
-				# javascript to compare the times...
-				echo wpsp_scheduled_createJsToCompareTime($msgTimeWrong,$msgTimeOK);			
-				
-				# div usada para reportar hora incorreta...		
-				echo '<div id="divjsCT"></div>';
-				
-				echo '<script type="text/javascript">	
-						jsCompareTimes();
-					</script>';
-
-				?>
-				
-				</fieldset>
-				
-			</div>
-			<?php 
-			$future_post_date=array();
-				$my_query = new WP_Query( array( 'post_type'=>'post', 'posts_per_page' => -1, 'order' => 'ASC','post_status' => array( 'future' ), ) );
-
-				while ($my_query->have_posts()) : $my_query->the_post();
-					$post_date = the_date('Y-m-d H:i:s', '', '', FALSE); 
-					//array_push($future_post_date,$post_date);
-				endwhile;
-				
-			 ?>
-
-			<?php
-			//start here
-				global $wpdb;
-				$my_prefix = 'psm_';
-				$my_table = $my_prefix. 'manage_schedule';
-
-				$get_cal_op 			= get_option('cal_active_option');
-				$activate_cal_option 	= html_entity_decode(stripslashes($get_cal_op));
-
-				if( isset($_POST['man_submit']) )
-				{
-
-					$man_days 	= $_POST['man_days'];
-					$man_times 	= $_POST['man_times'];
-
-					if(!empty($man_days) && !empty($man_times))
-		  			{
-			  			//insert query for psm_manage_schedule table
-					  	$sql = "INSERT INTO  ".$my_table." (`day`,`schedule`) VALUES ('$man_days','$man_times')";
-						$insert = $wpdb->query($sql);
-
-						if($insert)
-						{
-							$massage = "Manual schedule has been set for ".$man_days;
-						}else
-						{
-						  	$massage = "Something Wrong!";
-						}
-		  			}else
+					}else
 					{
-					  	$massage = "Field must not be empty!";
-					}
+					?>		
+						<input type="checkbox" id="pub_check" name="pub_check" value="<?php if(!empty($activate_pub_option)){ echo $activate_pub_option;}else{ echo 'ok'; } ?>" <?php if ( isset($_POST['pub_check']) || !empty($activate_pub_option)  ) { echo 'checked="checked"'; }?> >Check to Activate
 
-				}
+					<?php
+					} 
+					?>
 
-
-				//select psm_manage_schedule data
-				$sql 		= "SELECT * FROM ".$my_table;
-				$schedules 	= $wpdb->get_results($sql, ARRAY_A);
-
-			 ?>
-
-			<div id="man_form">
-			<?php
-
-				if($pluginVersion != '2.0' && isset($pluginVersion))
-        		{
-
-			?>
-
-				<input type="checkbox" class="swal_alert_show" value="">Active
-			<?php 
-				}else
-				{ 
-			?>
-				<input type="checkbox" id="cal_check" name="cal_check" value="<?php if(!empty($activate_cal_option)){ echo $activate_cal_option;}else{ echo 'ok'; } ?>" <?php if ( isset($_POST['cal_check']) || !empty($activate_cal_option) ) { echo 'checked="checked"'; }?> >Active
-			<?php } ?>
-
-				<div class="submit">
-			<?php 
-				if($pluginVersion != '2.0' && isset($pluginVersion))
-        		{
-			?>
-					<input type="button" class="swal_alert_show" value="<?php _e('Save all changes', 'psm') ?>"  style="border: none;text-transform: capitalize;color: #fff;cursor: pointer;background: #2a8e2a;transition: .5s ease-in-out;font-weight:bold;" />
-			<?php  
-				}else
-				{
-			?>
-				<input type="submit" name="update_options" value="<?php _e('Save all changes', 'psm') ?>"  style="font-weight:bold;" />
-			<?php  
-				}
-			?>
-
-				</div>
-
-				<form action=""  method="post">
-
-					<h2 style="color: green;"><?php if( isset($massage) ){  echo $massage; } ?></h2> 
-					<div class="man_options">
-						<select name="man_days" id="man_days">
-							<option value="">Select Days</option>
-							<option value="saturday">saturday</option>
-							<option value="sunday">sunday</option>
-							<option value="monday">monday</option>
-							<option value="tuesday">tuesday</option>
-							<option value="wednesday">wednesday</option>
-							<option value="thursday">thursday</option>
-							<option value="friday">friday</option>
-						</select>
+						<fieldset class="options" style="margin-top: 30px;">				
 						
-						<input type="text" autocomplete="off" name="man_times" id="man_times" value="00:00" placeholder="select time">
-					<?php 
-						if($pluginVersion != '2.0' && isset($pluginVersion))
-		        		{
-					?>
-						<input type="button" class="swal_alert_show" value="SET" style="border: none;text-transform: capitalize;color: #fff;cursor: pointer;background: #2a8e2a;transition: .5s ease-in-out;font-weight:bold;">
-					<?php 
-						}else
-						{
-					?>
-						<input type="submit" name="man_submit" value="SET">
-					<?php } ?>
 
-					</div>
+						<?php
+						if($pts_debug){
+							echo '<h3><strong style="color:red;">'.$plName.' - <span style="text-decoration:blink">Debug active!</span></strong></h3>';								
+						}
+						?>
+
+						<?php				
+							$days = array('sunday','monday','tuesday','wednesday','thursday','friday','saturday');
+							
+						?>
+						
+						<div class="wpsp-schedule-table">
+							<table>	
+								
+								<?php
+								$iday = 0;
+								foreach($days as $day){
+									#echo $day;
+									
+								?>
+									
+									<tr valign="top">
+										<th scope="row" align="left"><?php _e(ucfirst($day), 'wp-scheduled-posts') ?>:</th>
+										
+										<td style="padding:5px;">					
+											<input 
+												type="text" 
+												id="<?php echo $day; ?>"
+												name="<?php echo "pts_$iday"; ?>" 
+												value="<?php
+													if ($options["pts_$iday"] == 'no') echo '0'; 
+													else if ($options["pts_$iday"] == 'yes') echo '1'; 
+													else echo $options["pts_$iday"]; 
+												?>"/>
+										</td>
+										
+									</tr>
+
+
+								<?php
+									
+									$iday += 1;
+								}
+								
+								?>
+
+							</table>
+						
+						<h3 style="margin-top:10px;"><?php _e('Specify the time interval in which you want to have your posts scheduled!',  'wp-scheduled-posts')?></h3>
+						
+						<table class="optiontable">
+							<tr valign="top">
+								<th scope="row" align="left"><?php _e('Start Time', 'wp-scheduled-posts') ?>:</th>
+								<td><input name="pts_start" type="text" id="start" value="<?php echo $options['pts_start']; ?>" size="10" /><?php _e(' (defaults to 00:00)', 'wp-scheduled-posts') ?>
+								</td>
+							</tr>
+							<tr valign="top">
+								<th scope="row" align="left"><?php _e('End Time', 'wp-scheduled-posts') ?>:</th>
+								<td><input name="pts_end" type="text" id="end" value="<?php echo $options['pts_end']; ?>" size="10" /><?php _e(' (defaults to 23:59)', 'wp-scheduled-posts') ?>
+								</td>
+							</tr>
+						</table>
+					</div> <!-- Schedule table end -->
+
+						<?php
+						
+						
+						$msgTimeWrong = '
+
+						<h3>'. __('Your WordPress timezone settings might be incorrect!', 'wp-scheduled-posts').		
+						'</h3>'
+						 . __('The date and time we detect : ') . '<span style="color:blue;font-weight:bold;">'
+						.date(get_option('date_format').', '.get_option('time_format'),current_time('timestamp', $gmt = 1)).
+						'</span>';
+						
+						
+						
+						$msgTimeOK ='
+
+						<h3 style="margin-top:20px;">'. __('Your timezone configuration and server time seems to be OK!','wp-scheduled-posts').		
+						'</h3>'
+						 .' <span style="color:green;font-weight:bold;">'.date(get_option('date_format').', '.get_option('time_format'),current_time('timestamp', $gmt = 0)).'</span>';
+						
+						
+						$msgTimeWrong = '<h3 style="margin-top:20px;">'		
+						. __('Your WordPress timezone settings might be incorrect!', 'wp-scheduled-posts').								
+						'</h3>'
+						. __('According to your web server','wp-scheduled-posts') .		
+						', '
+						. __('the GMT time is: ','wp-scheduled-posts') . ' <span style="color:blue;font-weight:bold;">'.date(get_option('date_format').', '.get_option('time_format'),current_time('timestamp', $gmt = 1)).'.</span>'.
+						'<br>'
+						. __('The timezone configured in your','wp-scheduled-posts').' <a target="_blank" href="options-general.php">'.__('WordPress settings','wp-scheduled-posts').'</a> '.__('is','wp-scheduled-posts') .': <span style="color:blue;font-weight:bold;">'.get_option('gmt_offset').', </span>'.
+						'<br>'			
+						. __('so your server think that is your local time is: ','wp-scheduled-posts') . ' <span style="color:red;font-weight:bold;">'.date(get_option('date_format').', '.get_option('time_format'),current_time('timestamp', $gmt = 0)).'</span> ... '
+						. __('but this is different from time on you machine now!','wp-scheduled-posts').
+						'<br>'
+						. __('If the difference is not too big (less than 2h or 3h) you problably will not have side effects and the plugin should work fine!','wp-scheduled-posts').
+						'<br>'
+						. __('Othewise, with big time differences, you can have issues with the real time that each post will be scheduled!','wp-scheduled-posts').
+						'<br>'
+						. __('Sometimes you have to set a different timezone to compensate daylight saving time or a missconfigured server time! ','wp-scheduled-posts').
+						
+						'<br>'
+						. __('If you can, change the timezone to correct this, refresh this page and this message will be shown anymore!','wp-scheduled-posts')		
+						;		
+						
+						
+						
+						
+						# javascript to compare the times...
+						echo wpsp_scheduled_createJsToCompareTime($msgTimeWrong,$msgTimeOK);			
+						
+						# div usada para reportar hora incorreta...		
+						echo '<div id="divjsCT" class="wpsp-error-notice"></div>';
+						
+						echo '<script type="text/javascript">	
+								jsCompareTimes();
+							</script>';
+
+						?>
+						
+						</fieldset>
+						
+					</div><!-- Manage schedule form -->
 					<?php 
+					$future_post_date=array();
+						$my_query = new WP_Query( array( 'post_type'=>'post', 'posts_per_page' => -1, 'order' => 'ASC','post_status' => array( 'future' ), ) );
+
+						while ($my_query->have_posts()) : $my_query->the_post();
+							$post_date = the_date('Y-m-d H:i:s', '', '', FALSE); 
+							//array_push($future_post_date,$post_date);
+						endwhile;
+						
+					 ?>
+
+					<?php
+					//start here
 						global $wpdb;
 						$my_prefix = 'psm_';
 						$my_table = $my_prefix. 'manage_schedule';
 
-						
-						/*==========================================
-						 		All delete query for every days
-						==========================================*/
+						$get_cal_op 			= get_option('cal_active_option');
+						$activate_cal_option 	= html_entity_decode(stripslashes($get_cal_op));
 
-						if(isset($_GET['sat_id'])){ 
-							$sat_id 	= $_GET['sat_id']; 
-							$sql 			= "DELETE FROM ".$my_table." WHERE id='$sat_id' ";
-							$delete_sat 	= $wpdb->get_results($sql, ARRAY_A);
-						}
+						if( isset($_POST['man_submit']) )
+						{
 
-						if(isset($_GET['sun_id'])){
-							$sun_id 		= $_GET['sun_id'];
-							$sql 			= "DELETE FROM ".$my_table." WHERE id='$sun_id' ";
-							$delete_sun 	= $wpdb->get_results($sql, ARRAY_A);
-						}
+							$man_days 	= $_POST['man_days'];
+							$man_times 	= $_POST['man_times'];
 
-						if(isset($_GET['mon_id'])){
-							$mon_id 		= $_GET['mon_id'];
-							$sql 			= "DELETE FROM ".$my_table." WHERE id='$mon_id' ";
-							$delete_mon 	= $wpdb->get_results($sql, ARRAY_A);
-						}
+							if(!empty($man_days) && !empty($man_times))
+				  			{
+					  			//insert query for psm_manage_schedule table
+							  	$sql = "INSERT INTO  ".$my_table." (`day`,`schedule`) VALUES ('$man_days','$man_times')";
+								$insert = $wpdb->query($sql);
 
-						if(isset($_GET['tue_id'])){
-							$tue_id 		= $_GET['tue_id'];
-							$sql 			= "DELETE FROM ".$my_table." WHERE id='$tue_id' ";
-							$delete_tue 	= $wpdb->get_results($sql, ARRAY_A);
-						}
+								if($insert)
+								{
+									$massage = "Manual schedule has been set for ".$man_days;
+								}else
+								{
+								  	$massage = "Something Wrong!";
+								}
+				  			}else
+							{
+							  	$massage = "Field must not be empty!";
+							}
 
-						if(isset($_GET['wed_id'])){
-							$wed_id 		= $_GET['wed_id'];
-							$sql 			= "DELETE FROM ".$my_table." WHERE id='$wed_id' ";
-							$delete_wed 	= $wpdb->get_results($sql, ARRAY_A);
-						}
-
-						if(isset($_GET['thu_id'])){
-							$thu_id 		= $_GET['thu_id'];
-							$sql 			= "DELETE FROM ".$my_table." WHERE id='$thu_id' ";
-							$delete_thu 	= $wpdb->get_results($sql, ARRAY_A);
-						}
-
-						if(isset($_GET['fri_id'])){
-							$fri_id 		= $_GET['fri_id'];
-							$sql 			= "DELETE FROM ".$my_table." WHERE id='$fri_id' ";
-							$delete_fri 	= $wpdb->get_results($sql, ARRAY_A);
 						}
 
 
+						//select psm_manage_schedule data
+						$sql 		= "SELECT * FROM ".$my_table;
+						$schedules 	= $wpdb->get_results($sql, ARRAY_A);
 
-						/*==========================================
-						 		All select query for every days
-						==========================================*/
+					 ?>
 
-						$sql 			= "SELECT * FROM ".$my_table." WHERE day='saturday'";
-						$sat_schedules 	= $wpdb->get_results($sql, ARRAY_A);
+					<div id="man_form" class="manage-schedule-form">
+					<?php
 
-						$sql 			= "SELECT * FROM ".$my_table." WHERE day='sunday'";
-						$sun_schedules 	= $wpdb->get_results($sql, ARRAY_A);
+						if($pluginVersion != '2.0' && isset($pluginVersion))
+		        		{
 
-						$sql 			= "SELECT * FROM ".$my_table." WHERE day='monday'";
-						$mon_schedules 	= $wpdb->get_results($sql, ARRAY_A);
-
-						$sql 			= "SELECT * FROM ".$my_table." WHERE day='tuesday'";
-						$tue_schedules 	= $wpdb->get_results($sql, ARRAY_A);
-
-						$sql 			= "SELECT * FROM ".$my_table." WHERE day='wednesday'";
-						$wed_schedules 	= $wpdb->get_results($sql, ARRAY_A);
-
-						$sql 			= "SELECT * FROM ".$my_table." WHERE day='thursday'";
-						$thu_schedules 	= $wpdb->get_results($sql, ARRAY_A);
-
-						$sql 			= "SELECT * FROM ".$my_table." WHERE day='friday'";
-						$fri_schedules 	= $wpdb->get_results($sql, ARRAY_A);
 					?>
 
-					<ul class="schedule-list" style="margin-top: 20px;">
-						<li>
-							<span>sat</span>
-							<?php  
-								// loop of saturday data
-								$count = count($sat_schedules);
-								for($i=0;$i<$count;$i++){
-									$id  = $sat_schedules[$i]['id'];
-									$sat = $sat_schedules[$i]['schedule'];
-									echo '<span>'.$sat.' <a href="?page=manage-schedule&&sat_id='.$id.'">x</a></span>';
-								}
-							?>
-							
-						</li>
-						<li>
-							<span>sun</span>
-							<?php  
-								// loop of sunday data
-								$count = count($sun_schedules);
-								for($i=0;$i<$count;$i++){
-									$id  = $sun_schedules[$i]['id'];
-									$sun = $sun_schedules[$i]['schedule'];
-									if( !empty($sun) ){
-										echo '<span>'.$sun.' <a href="?page=manage-schedule&&sun_id='.$id.'">x</a></span>';
-									}else{
-										echo '<span>-</span>';
-									}
-								}
-							?>
-						</li>
-						<li>
-							<span>mon</span>
-							<?php  
-								// loop of monday data
-								$count = count($mon_schedules);
-								for($i=0;$i<$count;$i++){
-									$id  = $mon_schedules[$i]['id'];
-									$mon = $mon_schedules[$i]['schedule'];
-									if( isset($mon) && !empty($mon) ){
-										echo '<span>'.$mon.' <a href="?page=manage-schedule&&mon_id='.$id.'">x</a></span>';
-									}else{
-										echo '<span>-</span>';
-									}
-								}
-							?>
-						</li>
-						<li>
-							<span>tue</span>
-							<?php  
-								// loop of tuesday data
-								$count = count($tue_schedules);
-								for($i=0;$i<$count;$i++){
-									$id  = $tue_schedules[$i]['id'];
-									$tue = $tue_schedules[$i]['schedule'];
-									if( isset($tue) && !empty($tue) ){
-										echo '<span>'.$tue.' <a href="?page=manage-schedule&&tue_id='.$id.'">x</a></span>';
-									}else{
-										echo '<span>-</span>';
-									}
-								}
-							?>
-						</li>
-						<li>
-							<span>wed</span>
-							<?php  
-								// loop of wednesday data
-								$count = count($wed_schedules);
-								for($i=0;$i<$count;$i++){
-									$id  = $wed_schedules[$i]['id'];
-									$wed = $wed_schedules[$i]['schedule'];
-									if( isset($wed) && !empty($wed) ){
-										echo '<span>'.$wed.' <a href="?page=manage-schedule&&wed_id='.$id.'">x</a></span>';
-									}else{
-										echo '<span>-</span>';
-									}
-								}
-							?>
-						</li>
-						<li>
-							<span>thu</span>
-							<?php  
-								// loop of thursday data
-								$count = count($thu_schedules);
-								for($i=0;$i<$count;$i++){
-									$id  = $thu_schedules[$i]['id'];
-									$thu = $thu_schedules[$i]['schedule'];
-									if( isset($thu) && !empty($thu) ){
-										echo '<span>'.$thu.' <a href="?page=manage-schedule&&thu_id='.$id.'">x</a></span>';
-									}else{
-										echo '<span>-</span>';
-									}
-								}
-							?>
-						</li>
-						<li>
-							<span>fri</span>
-							<?php  
-								// loop of friday data
-								$count = count($fri_schedules);
-								for($i=0;$i<$count;$i++){
-									$id  = $fri_schedules[$i]['id'];
-									$fri = $fri_schedules[$i]['schedule'];
-									if( isset($fri) && !empty($fri) ){
-										echo '<span>'.$fri.' <a href="?page=manage-schedule&&fri_id='.$id.'">x</a></span>';
-									}else{
-										echo '<span>-</span>';
-									}
-								}
-							?>
-						</li>
-					</ul>
-				</form>		
-			</div>
-			
-			<?php 
+						<input type="checkbox" class="swal_alert_show" value="">Check to Activate
+					<?php 
+						}else
+						{ 
+					?>
+						<input type="checkbox" id="cal_check" name="cal_check" value="<?php if(!empty($activate_cal_option)){ echo $activate_cal_option;}else{ echo 'ok'; } ?>" <?php if ( isset($_POST['cal_check']) || !empty($activate_cal_option) ) { echo 'checked="checked"'; }?> >Check to Activate
+					<?php } ?>
 
-				if(isset($_POST['ac_miss']))
-				{
-					if(isset($_POST['miss_check'])) 
-					{
-						$miss_check = $_POST['miss_check'];
-						add_option('miss_schedule_active_option',$miss_check);
-						echo "<h3>Activated Missed Schedule!</h3>";
-					}
-					else
-					{
-						delete_option('miss_schedule_active_option');
-						echo "<h3>Deactivated Missed Schedule!</h3>";
-					}
+						<div class="submit-button-wrap">
+					<?php 
+						if($pluginVersion != '2.0' && isset($pluginVersion))
+		        		{
+					?>
+							<input type="button" class="button button-primary swal_alert_show" value="<?php _e('Save all changes', 'psm') ?>" />
+					<?php  
+						}else
+						{
+					?>
+						<input class="button button-primary" type="submit" name="update_options" value="<?php _e('Save all changes', 'psm') ?>"  style="font-weight:bold;" />
+					<?php  
+						}
+					?>
 
-				}
-				global $wpdb;
-				$get_miss_op 			= get_option('miss_schedule_active_option');
-				$activate_miss_option 	= html_entity_decode(stripslashes($get_miss_op));
-			?>
-			<form action="" method="post">
-			<?php 
-				if($pluginVersion != '2.0' && isset($pluginVersion))
-        		{
-			?>
-					<input type="checkbox" class="swal_alert_show" value="">Active Missed Schedule
-					<input type="button" class="swal_alert_show" value="Activate">
-			<?php  
-				}
-				else
-				{
-			?>
-					<input type="checkbox" name="miss_check" value="<?php if(!empty($activate_miss_option)){ echo $activate_miss_option;}else{ echo 'miss'; } ?>" <?php if ( isset($_POST['miss_check']) || !empty($activate_miss_option) ) { echo 'checked="checked"'; }?> >Active Missed Schedule
-					<input type="submit" name="ac_miss" value="Activate">
-			<?php  
-				}
-			?>
+						</div>
 
+						<form action=""  method="post">
+
+							<h2 style="color: green;"><?php if( isset($massage) ){  echo $massage; } ?></h2> 
+							<div class="man_options">
+								<select name="man_days" id="man_days">
+									<option value="">Select Days</option>
+									<option value="saturday">saturday</option>
+									<option value="sunday">sunday</option>
+									<option value="monday">monday</option>
+									<option value="tuesday">tuesday</option>
+									<option value="wednesday">wednesday</option>
+									<option value="thursday">thursday</option>
+									<option value="friday">friday</option>
+								</select>
+								
+								<input type="text" autocomplete="off" name="man_times" id="man_times" value="00:00" placeholder="select time">
+							<?php 
+								if($pluginVersion != '2.0' && isset($pluginVersion))
+				        		{
+							?>
+								<input type="button" class="swal_alert_show" value="SET" style="border: none;text-transform: capitalize;color: #fff;cursor: pointer;background: #2a8e2a;transition: .5s ease-in-out;font-weight:bold;">
+							<?php 
+								}else
+								{
+							?>
+								<input class="button button-primary" type="submit" name="man_submit" value="SET">
+							<?php } ?>
+
+							</div>
+							<?php 
+								global $wpdb;
+								$my_prefix = 'psm_';
+								$my_table = $my_prefix. 'manage_schedule';
+
+								
+								/*==========================================
+								 		All delete query for every days
+								==========================================*/
+
+								if(isset($_GET['sat_id'])){ 
+									$sat_id 	= $_GET['sat_id']; 
+									$sql 			= "DELETE FROM ".$my_table." WHERE id='$sat_id' ";
+									$delete_sat 	= $wpdb->get_results($sql, ARRAY_A);
+								}
+
+								if(isset($_GET['sun_id'])){
+									$sun_id 		= $_GET['sun_id'];
+									$sql 			= "DELETE FROM ".$my_table." WHERE id='$sun_id' ";
+									$delete_sun 	= $wpdb->get_results($sql, ARRAY_A);
+								}
+
+								if(isset($_GET['mon_id'])){
+									$mon_id 		= $_GET['mon_id'];
+									$sql 			= "DELETE FROM ".$my_table." WHERE id='$mon_id' ";
+									$delete_mon 	= $wpdb->get_results($sql, ARRAY_A);
+								}
+
+								if(isset($_GET['tue_id'])){
+									$tue_id 		= $_GET['tue_id'];
+									$sql 			= "DELETE FROM ".$my_table." WHERE id='$tue_id' ";
+									$delete_tue 	= $wpdb->get_results($sql, ARRAY_A);
+								}
+
+								if(isset($_GET['wed_id'])){
+									$wed_id 		= $_GET['wed_id'];
+									$sql 			= "DELETE FROM ".$my_table." WHERE id='$wed_id' ";
+									$delete_wed 	= $wpdb->get_results($sql, ARRAY_A);
+								}
+
+								if(isset($_GET['thu_id'])){
+									$thu_id 		= $_GET['thu_id'];
+									$sql 			= "DELETE FROM ".$my_table." WHERE id='$thu_id' ";
+									$delete_thu 	= $wpdb->get_results($sql, ARRAY_A);
+								}
+
+								if(isset($_GET['fri_id'])){
+									$fri_id 		= $_GET['fri_id'];
+									$sql 			= "DELETE FROM ".$my_table." WHERE id='$fri_id' ";
+									$delete_fri 	= $wpdb->get_results($sql, ARRAY_A);
+								}
+
+
+
+								/*==========================================
+								 		All select query for every days
+								==========================================*/
+
+								$sql 			= "SELECT * FROM ".$my_table." WHERE day='saturday'";
+								$sat_schedules 	= $wpdb->get_results($sql, ARRAY_A);
+
+								$sql 			= "SELECT * FROM ".$my_table." WHERE day='sunday'";
+								$sun_schedules 	= $wpdb->get_results($sql, ARRAY_A);
+
+								$sql 			= "SELECT * FROM ".$my_table." WHERE day='monday'";
+								$mon_schedules 	= $wpdb->get_results($sql, ARRAY_A);
+
+								$sql 			= "SELECT * FROM ".$my_table." WHERE day='tuesday'";
+								$tue_schedules 	= $wpdb->get_results($sql, ARRAY_A);
+
+								$sql 			= "SELECT * FROM ".$my_table." WHERE day='wednesday'";
+								$wed_schedules 	= $wpdb->get_results($sql, ARRAY_A);
+
+								$sql 			= "SELECT * FROM ".$my_table." WHERE day='thursday'";
+								$thu_schedules 	= $wpdb->get_results($sql, ARRAY_A);
+
+								$sql 			= "SELECT * FROM ".$my_table." WHERE day='friday'";
+								$fri_schedules 	= $wpdb->get_results($sql, ARRAY_A);
+							?>
+
+							<ul class="schedule-list" style="margin-top: 20px;">
+								<li>
+									<span>sat</span>
+									<?php  
+										// loop of saturday data
+										$count = count($sat_schedules);
+										for($i=0;$i<$count;$i++){
+											$id  = $sat_schedules[$i]['id'];
+											$sat = $sat_schedules[$i]['schedule'];
+											echo '<span>'.$sat.' <a href="?page=manage-schedule&&sat_id='.$id.'"><span class="dashicons dashicons-no-alt"></span></a></span>';
+										}
+									?>
+									
+								</li>
+								<li>
+									<span>sun</span>
+									<?php  
+										// loop of sunday data
+										$count = count($sun_schedules);
+										for($i=0;$i<$count;$i++){
+											$id  = $sun_schedules[$i]['id'];
+											$sun = $sun_schedules[$i]['schedule'];
+											if( !empty($sun) ){
+												echo '<span>'.$sun.' <a href="?page=manage-schedule&&sun_id='.$id.'"><span class="dashicons dashicons-no-alt"></span></a></span>';
+											}else{
+												echo '<span>-</span>';
+											}
+										}
+									?>
+								</li>
+								<li>
+									<span>mon</span>
+									<?php  
+										// loop of monday data
+										$count = count($mon_schedules);
+										for($i=0;$i<$count;$i++){
+											$id  = $mon_schedules[$i]['id'];
+											$mon = $mon_schedules[$i]['schedule'];
+											if( isset($mon) && !empty($mon) ){
+												echo '<span>'.$mon.' <a href="?page=manage-schedule&&mon_id='.$id.'"><span class="dashicons dashicons-no-alt"></span></a></span>';
+											}else{
+												echo '<span>-</span>';
+											}
+										}
+									?>
+								</li>
+								<li>
+									<span>tue</span>
+									<?php  
+										// loop of tuesday data
+										$count = count($tue_schedules);
+										for($i=0;$i<$count;$i++){
+											$id  = $tue_schedules[$i]['id'];
+											$tue = $tue_schedules[$i]['schedule'];
+											if( isset($tue) && !empty($tue) ){
+												echo '<span>'.$tue.' <a href="?page=manage-schedule&&tue_id='.$id.'"><span class="dashicons dashicons-no-alt"></span></a></span>';
+											}else{
+												echo '<span>-</span>';
+											}
+										}
+									?>
+								</li>
+								<li>
+									<span>wed</span>
+									<?php  
+										// loop of wednesday data
+										$count = count($wed_schedules);
+										for($i=0;$i<$count;$i++){
+											$id  = $wed_schedules[$i]['id'];
+											$wed = $wed_schedules[$i]['schedule'];
+											if( isset($wed) && !empty($wed) ){
+												echo '<span>'.$wed.' <a href="?page=manage-schedule&&wed_id='.$id.'"><span class="dashicons dashicons-no-alt"></span></a></span>';
+											}else{
+												echo '<span>-</span>';
+											}
+										}
+									?>
+								</li>
+								<li>
+									<span>thu</span>
+									<?php  
+										// loop of thursday data
+										$count = count($thu_schedules);
+										for($i=0;$i<$count;$i++){
+											$id  = $thu_schedules[$i]['id'];
+											$thu = $thu_schedules[$i]['schedule'];
+											if( isset($thu) && !empty($thu) ){
+												echo '<span>'.$thu.' <a href="?page=manage-schedule&&thu_id='.$id.'"><span class="dashicons dashicons-no-alt"></span></a></span>';
+											}else{
+												echo '<span>-</span>';
+											}
+										}
+									?>
+								</li>
+								<li>
+									<span>fri</span>
+									<?php  
+										// loop of friday data
+										$count = count($fri_schedules);
+										for($i=0;$i<$count;$i++){
+											$id  = $fri_schedules[$i]['id'];
+											$fri = $fri_schedules[$i]['schedule'];
+											if( isset($fri) && !empty($fri) ){
+												echo '<span>'.$fri.' <a href="?page=manage-schedule&&fri_id='.$id.'"><span class="dashicons dashicons-no-alt"></span></a></span>';
+											}else{
+												echo '<span>-</span>';
+											}
+										}
+									?>
+								</li>
+							</ul>
+						</form>		
+						
+						<div class="miss-schedule-form">
+
+							<?php 
+
+								if(isset($_POST['ac_miss']))
+								{
+									if(isset($_POST['miss_check'])) 
+									{
+										$miss_check = $_POST['miss_check'];
+										add_option('miss_schedule_active_option',$miss_check);
+										echo "<h3 class='wpsp-success-text'>Activated Missed Schedule!</h3>";
+									}
+									else
+									{
+										delete_option('miss_schedule_active_option');
+										echo "<h3 class='wpsp-error-text'>Deactivated Missed Schedule!</h3>";
+									}
+
+								}
+								global $wpdb;
+								$get_miss_op 			= get_option('miss_schedule_active_option');
+								$activate_miss_option 	= html_entity_decode(stripslashes($get_miss_op));
+							?>
+							<form action="" method="post">
+							<?php 
+								if($pluginVersion != '2.0' && isset($pluginVersion))
+				        		{
+							?>
+									<input type="checkbox" class="button button-primary swal_alert_show" value=""><label>Activate Missed Schedule</label>
+									<p class="wpsp-description-text">If you activate this, it will manage the missed schedule too.</p>
+									<input class="button button-primary swal_alert_show" type="button" value="Activate">
+							<?php  
+								}
+								else
+								{
+							?>
+									<input type="checkbox" name="miss_check" value="<?php if(!empty($activate_miss_option)){ echo $activate_miss_option;}else{ echo 'miss'; } ?>" <?php if ( isset($_POST['miss_check']) || !empty($activate_miss_option) ) { echo 'checked="checked"'; }?> ><label for="miss_check">Activate Missed Schedule</label>
+									<p class="wpsp-description-text">If you activate this, it will manage the missed schedule too.</p>
+									<input class="button button-primary" type="submit" name="ac_miss" value="Activate">
+							<?php  
+								}
+							?>
+
+							</form>
+						</div><!-- Miss schedule form -->
+					</div><!-- Manage schedule form -->
+				</div>	
 			</form>
-			
-					
-		</form>
-
+		</div>
 
 		
 		</div>
