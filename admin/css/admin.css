@@ -625,7 +625,7 @@ textarea.wpsp-form-control {
 .manage-schedule-forms .manage-schedule-form {
 	flex: 1 1 45%;
 	margin: 15px 15px 30px 15px;
-	padding: 15px;
+	padding: 30px 15px 15px 15px;
 	background-color: #fff;
 }
 
@@ -649,7 +649,7 @@ textarea.wpsp-form-control {
 }
 
 .schedule-list li > span:first-child {
-	background-color: #2278f6;
+	background-color: #715ec8;
 	color: #fff;
 	border-top-left-radius: 3px;
 	border-top-right-radius: 3px;
@@ -673,6 +673,11 @@ textarea.wpsp-form-control {
 	height: 20px;
 	display: inline-block;
 	text-align: center;
+	opacity: .75;
+}
+
+.schedule-list li > span a:hover{
+	opacity: 1;
 }
 
 .schedule-list li > span a .dashicons {
@@ -734,6 +739,29 @@ textarea.wpsp-form-control {
 	margin: 15px 0;
 }
 
+.manage-schedule-form select {
+	height: 40px;
+	padding: 0 10px;
+	vertical-align: top;
+}
+
+.manage-schedule-form .man_options input {
+	height: 40px;
+	padding: 5px;
+}
+
+.manage-schedule-form .man_options input[type="button"], .manage-schedule-form .man_options input[type="submit"] {
+	padding: 5px 20px;
+	background-color: #2278f6;
+	border: none;
+	text-shadow: none;
+	box-shadow: none;
+}
+
+.wpsp-scheduler-title {
+	font-size: 18px;
+	line-height: 1;
+}
 /* Utilities */
 
 .wpsp-description-text {
@@ -743,6 +771,9 @@ textarea.wpsp-form-control {
 	opacity: .9;
 }
 
+.wpsp-notice-text{
+	font-size: 16px;
+}
 .wpsp-success-text, .success {
 	color: #29c251;
 	font-size: 17px;
