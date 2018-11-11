@@ -143,6 +143,10 @@
     border-radius:3px 3px 0 0
 }
 
+#draftsdrawer .draftsdrawerheadcont {
+    background-color: #ff5f7e;
+}
+
 .dayhead {
     text-align: center;
     text-shadow: none;
