@@ -1,46 +1,3 @@
-/*******************************************************************************
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
-
-/*
-Table of Contents
-- Reset
-- Loading section
-- Top bar #topbar, including prev/next month arrows at left and Show Today at right
-- Drafts Drawer
-- the Calendar Content #calcont
-  - day head container #dayheadcont [Monday, Tuesday etc]
-  - edcal scrollable area #edcal_scrollable [the main calendar pane]
-  - calendar #cal container
-  - day label table head
-  - row container .rowcont [absolutely positioned, top adjusted by js]
-  - row inner .row [positioned relative, within the rowcont
-  - days
-  - posts
-  - edcal_quickedit [new/edit posts popover]
-- Screen options
-- Feedback section [appears once after using the calendar 3 times]
-*/
-
-/*.row .day:first-child, .dayheadcont .dayhead:first-child {
-	margin-left:0 !important;
-}
-.rowcont { margin:0 !important; }
-.day { float:left; }
-*/
-
 
 /* Reset & Utility */
 
@@ -89,9 +46,6 @@ Table of Contents
 #topleft.tablenav-pages {
     float:left;
 }
-#nextmonth, #prevmonth {
-    font-size:12px;
-}
 #topright button {
     margin-left: 2em;
     margin-right: 6px;
@@ -108,24 +62,19 @@ Table of Contents
     display:none;
 }
 #draftsdrawer {
-	font-family:"Lucida Grande",Verdana,Arial,"Bitstream Vera Sans",sans-serif;
-    border:1px solid #dfdfdf;
+    background-color: #edeafd;
+    border:1px solid #efefef;
     padding-bottom:1px;
-    -moz-border-radius:4px;
-    -webkit-border-radius:4px;
-    -o-border-radius:4px;
-    border-radius:4px;
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+    -o-border-radius:3px;
+    border-radius:3px;
 }
-#draftsdrawer .dayheadcont {  }
-#draftsdrawer .dayhead {
-    float:none;
-    white-space: nowrap;
-    width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    min-width: 0px;
+
+#draftsdrawer .day {
+    border: 0;
+    background-color: #edeafd;
 }
-#draftsdrawer .day { border:0; }
 #draftsdrawer .dayobj { height:auto; }
 #draftsdrawer .postlist { 
     top:26px;
@@ -188,42 +137,22 @@ Table of Contents
 
 .dayheadcont, .draftsdrawerheadcont {
     position: relative;
-    height: 34px;
+    height: 48px;
     top: 0px;
-    background:#e9e9e9;
-    background-image:-moz-linear-gradient(top,#f4f4f4,#e9e9e9);
-    background-image:-o-linear-gradient(top,#f4f4f4,#e9e9e9);
-    background-image:-webkit-gradient(linear,left top,left bottom,from(#f4f4f4),to(#e9e9e9));
-    background-image:-webkit-linear-gradient(top,#f4f4f4,#e9e9e9);
-    background-image:linear-gradient(top,#f4f4f4,#e9e9e9);
-    font-family:Georgia,"Times New Roman","Bitstream Charter",Times,serif;
-    font-size:14px;
-    border-top:1px solid #fff;
-    border-bottom:1px solid #dfdfdf;
-    -moz-border-radius:3px 3px 0 0;
-    -webkit-border-radius:3px 3px 0 0
-    -o-border-radius:3px 3px 0 0
+    background:#715ec8;
     border-radius:3px 3px 0 0
 }
 
 .dayhead {
-    text-align: left;
-    text-indent: 5px;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
-    color: #000;
-    line-height: 2.4em;
-    min-width: 10em;
-	float:left;
+    text-align: center;
+    text-shadow: none;
+    color: #fff;
+    font-size: 14px;
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
 }
-
-.dayhead.firstday {
-    margin-left: 5px;
-}
-
-.dayhead.lastday {
-}
-
-
 
 /* Rows */
 
@@ -231,12 +160,10 @@ Table of Contents
     height: 100%;
 }
 
-
-
 /* Days */
 
 .day {
-    border: 1px solid #ccc; /* this will add to total height in IE. So, 100% + 2px */
+    border: 1px solid #efefef; /* this will add to total height in IE. So, 100% + 2px */
     -moz-border-radius:3px;
     -webkit-border-radius:3px;
     -o-border-radius:3px;
@@ -245,8 +172,7 @@ Table of Contents
 }
 
 .day.beforeToday {
-    background: #ececec;
-/*    background: #f9f9f9;*/
+    background: #f6f7fb;
 }
 
 .day.todayAndAfter {
@@ -276,14 +202,9 @@ Table of Contents
 }
 
 .daylabel {
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    left: 0px;
-    font-weight:bold;
+    position: relative;
     text-align: right;
-    padding-right: 10px;
-    line-height:1.8em;
+    padding: 5px 10px;
     -moz-border-radius:2px 2px 0 0;
     -webkit-border-radius:2px 2px 0 0;
     -o-border-radius:2px 2px 0 0;
@@ -292,12 +213,12 @@ Table of Contents
 
 .day.month-present .daylabel {
     border-bottom:1px solid #dfdfdf;
-    background:#e9e9e9;
-    background-image:-moz-linear-gradient(top,#f4f4f4,#e9e9e9);
-    background-image:-o-linear-gradient(top,#f4f4f4,#e9e9e9);
-    background-image:-webkit-gradient(linear,left top,left bottom,from(#f4f4f4),to(#e9e9e9));
-    background-image:-webkit-linear-gradient(top,#f4f4f4,#e9e9e9);
-    background-image:linear-gradient(top,#f4f4f4,#e9e9e9);
+    background-color:#eff3fc;
+}
+
+.day.month-past .daylabel, .day.month-future .daylabel {
+    background-color: #f5f6f6;
+    border-bottom: 1px solid #dfdfdf;
 }
 
 .daynewlink {
@@ -318,14 +239,8 @@ Table of Contents
 }
 
 .day.today .daylabel {
-    color: white;
-    text-shadow:0 -1px 0 rgba(0,0,0,0.3);
-    background:#8cc1e9;
-    background-image:-webkit-gradient(linear,left bottom,left top,from(#72a7cf),to(#8cc1e9));
-    background-image:-webkit-linear-gradient(bottom,#72a7cf,#8cc1e9);
-    background-image:-moz-linear-gradient(bottom,#72a7cf,#8cc1e9);
-    background-image:-o-linear-gradient(bottom,#72a7cf,#8cc1e9);
-    background-image:linear-gradient(to top,#72a7cf,#8cc1e9);
+    background-color:#30d6a9;
+    color: #fff;
 }
 
 .today .daynewlink {
@@ -336,35 +251,89 @@ Table of Contents
 
 /* Posts */
 
-.post {
+.wpsp-calendar-wrap .postlist .post {
+    background-color: #68abff;
+    color: #fff;
+    padding: 6px;
+    border-radius: 3px;
     display: block;
     list-style-type: none;
     z-index: 10;
-    margin-left: 2px;
-    margin-right: 2px;
-    font-size: 10px;
-    padding: 0px;
+    margin: 0 2px 8px;
+    font-size: 12px;
+    transition: all .3s;
+}
+.wpsp-calendar-wrap .postlist .post:hover {
+    background-color: #2278f6;
 }
 
-.posttime {
+.wpsp-calendar-wrap .postlist .post:nth-child(2) {
+    background-color: #c582ff;
+}
+
+.wpsp-calendar-wrap .postlist .post:nth-child(2):hover {
+    background-color: #b063f4;
+}
+.wpsp-calendar-wrap .postlist .post:nth-child(3) {
+    background-color: #30d6a9;
+}
+
+.wpsp-calendar-wrap .postlist .post:nth-child(3):hover {
+    background-color: #11c191;
+}
+
+.wpsp-calendar-wrap .postlist .post:nth-child(4) {
+    background-color: #ff71a1;
+}
+
+.wpsp-calendar-wrap .postlist .post:nth-child(4):hover {
+    background-color: #e44e81;
+}
+
+.wpsp-calendar-wrap .postlist .post:nth-child(5) {
+    background-color: #ffb142;
+}
+
+.wpsp-calendar-wrap .postlist .post:nth-child(5):hover {
+    background-color: #e0962d;
+}
+
+.wpsp-calendar-wrap .postlist .post:nth-child(6) {
+    background-color: #22a6b3;
+}
+
+.wpsp-calendar-wrap .postlist .post:nth-child(6):hover {
+    background-color: #1b95a1;
+}
+.wpsp-calendar-wrap .postlist .post:nth-child(7) {
+    background-color: #576574;
+}
+
+.wpsp-calendar-wrap .postlist .post:nth-child(7):hover {
+    background-color: #3c4753;
+}
+
+.wpsp-calendar-wrap .posttime {
     font-weight: bold;
 }
 
-.post.draggable .postlink {
+.wpsp-calendar-wrap .post.draggable .postlink {
     cursor: move;
 }
 
-.post .postactions {
+.wpsp-calendar-wrap .post .postactions {
     display: none;
+    margin-top: 5px;
 }
 
 .postactions a {
+  color: #fff;
+  font-weight: bolder;
   text-decoration:none;
+  text-shadow: none;
 }
-
-.post .postlink:hover {
-    color: #d54e21;
-    background-color: #f5f5f5;
+.postactions a:hover {
+  color: #f54;
 }
 
 .publish, .post.readonly {
@@ -374,38 +343,18 @@ Table of Contents
 
 .postlist {
     position: relative;
-    top:24px;  /* 1.5em; */
+    top:5px; 
     overflow: auto;
 }
-
-.postlist li {
-    margin-bottom: 8px;
-}
-
-/*.page-numbers {
-    text-decoration: none;
-    border-bottom-style: none;
-    border: none;
-    background: white;
-    color: #21759B;
-}*/
-
 
 
 /* Quick Add/Edit Tooltip */
 
-#edcal_quickedit {
-    background: #f4f4f4;
-    width:500px;
-    border:1px solid #dfdfdf;
-    -moz-border-radius:3px;
-    -webkit-border-radius:3px;
-    -o-border-radius:3px;
-    border-radius:3px;
-    -moz-box-shadow:0 4px 8px #c8c8c8, 0 1px 0 #FFFFFF inset;
-    -webkit-box-shadow:0 4px 8px #c8c8c8, 0 1px 0 #FFFFFF inset;
-    -o-box-shadow:0 4px 8px #c8c8c8, 0 1px 0 #FFFFFF inset;
-    box-shadow:0 4px 8px #c8c8c8, 0 1px 0 #FFFFFF inset;
+.wpsp-quickedit-inner {
+    background: #fff;
+    width: 500px;
+    border-radius: 3px;
+    box-shadow: 0 0 500px 1500px rgba(0,0,0, .5);
     position: relative;
     z-index: 25;
 }
@@ -417,33 +366,26 @@ Table of Contents
 }
 
 #tooltiphead {
-    background: #e9e9e9;
-    background-image:-moz-linear-gradient(top,#f4f4f4,#e9e9e9);
-    background-image:-o-linear-gradient(top,#f4f4f4,#e9e9e9);
-    background-image:-webkit-gradient(linear,left top,left bottom,from(#f4f4f4),to(#e9e9e9));
-    background-image:-webkit-linear-gradient(top,#f4f4f4,#e9e9e9);
-    background-image:linear-gradient(top,#f4f4f4,#e9e9e9);
+    background: #715ec8;
+    padding: 10px;
 }
 
 #tooltiptitle {
-    border-bottom:1px solid #dfdfdf;
-    color:#464646;
-    font-family:Georgia,"Times New Roman","Bitstream Charter",Times,serif;
-    font-size:15px;
-    font-weight:normal;
-    line-height:1;
-    position:relative;
-    text-shadow: #fff 0px 1px 0px;
-    padding:7px 10px;
-    margin:1px 0 0;
+    color: #fff;
+    font-size: 15px;
+    position: relative;
+    margin: 0;
+    text-shadow: none;
 }
 
 #tipclose {
-    width: 15px;
-    height: 15px;
+    width: 20px;
+    height: 20px;
     position: absolute;
-    top:8px;
-    right:10px;
+    top: 8px;
+    right: 10px;
+    color: #fff;
+    text-decoration: none;
 }
 
 #edcal_quickedit .inline-edit-row fieldset {
@@ -455,11 +397,18 @@ Table of Contents
     padding-bottom: 0.5em;
 }
 
+#edcal-title-new-field {
+    padding: 5px;
+    height: 36px;
+    box-shadow: none;
+}
 /*
 TinyMCE Rich Editor and Media buttons are not currently used
 #edcal_quickedit .mceEditor,*/
 #edcal_quickedit textarea {
     height: 15em;
+    padding: 8px;
+    box-shadow: none;
 }
 
 /*
@@ -617,44 +566,4 @@ div.metabox-prefs {
   border-radius: 4px;
   background-color: rgba(0, 0, 0, .5);
   -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
-}
-/*hakim added here*/
-.tablenav .tablenav-pages a{
-    background-color: #00a0d2 !important;
-    color: #FFFFFF !important;
-    cursor: pointer;
-}
-.tablenav .tablenav-pages a:hover{
-    background-color: #00a0d2 !important;
-    color: #FFFFFF !important;
-    cursor: pointer;
-}
-#nextmonth, #prevmonth{
-    font-size: 16px !important;
-    cursor: pointer;
-}
-.dayheadcont, .draftsdrawerheadcont{
-    background-color: #FFFFFF !important;
-    background-image: none !important;
-    
-}
-.dayhead{
-   border-left: 1px solid #dfdfdf !important;
-}
-.dayhead:nth-child(1){
-   border-left: 0 !important;
-}
-#edcal_scrollable{
-    margin:0 !important;
-    width:100% !important;
-}
-.edcal_row>div{
-    width: 14.3% !important;
-}
-.dayobj{
-    width:100% !important;
-}
-.day{
-    width:29% !important;
-    margin:0 !important;
 }
