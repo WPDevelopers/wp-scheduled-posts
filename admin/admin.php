@@ -22,9 +22,9 @@ class optionAdminPanel{
 	function show_menus() {
   		switch ($_GET['page']){
 				
-			case "cal" :
-				include_once ( dirname (__FILE__) . '/editorial-calendar/edcal.php' );
-				break;
+			// case "wpsp-schedule-calendar" :
+			// 	include_once ( dirname (__FILE__) . '/editorial-calendar/edcal.php' );
+			// 	break;
 
 			case "f_vs_p" :
 				include_once ( dirname (__FILE__) . '/f_vs_p.php' );
