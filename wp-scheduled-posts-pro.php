@@ -42,22 +42,15 @@
         if(empty($pluginVersion))
         {
             die('"WP Scheduled Posts pro" requires "WP Scheduled Posts" Latest Plugin. Please install it.<a href="https://wordpress.org/plugins/wp-scheduled-posts/" target="_blank">WP Scheduled Posts</a>');
-        }elseif($pluginVersion != '1.9.1' && isset($pluginVersion))
+        }elseif($pluginVersion < 2.0 && isset($pluginVersion))
         {
             die('Please Upgrade Your Version');
 
         }
-            //     $dependency_plugin_name = $all_plugins['wp-scheduled-posts/wp-scheduled-posts.php']['Name'];
-            
-            //     if($dependency_plugin_name == "WP Scheduled Posts")
-            //     {
-
-                   // die('WP Scheduled Posts pro" requires "WP Scheduled Posts" Latest Plugin. Please install it.<a href="https://wordpress.org/plugins/wp-scheduled-posts/" target="_blank">WP Scheduled Posts</a>');
+        
     }
   
 
     register_activation_hook( __FILE__, 'admin_dependency_plugin' );
 
-
-//include('manage-schedule/manage-schedule.php');
 
