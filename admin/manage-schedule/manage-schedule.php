@@ -800,7 +800,7 @@ function wpsp_scheduled_option_menu() {
 	}
 	if (function_exists('add_menu_page')) {
 		//add_options_page($plName, $plName, "manage_options", __FILE__, 'wpsp_scheduled_options_page');
-		add_submenu_page( pluginsFOLDER,__( 'Pro Setting'), __( 'Pro Setting'), "manage_options", 'pro-setting', 'wpsp_scheduled_options_page');
+		add_submenu_page( pluginsFOLDER,__( 'Manage Schedule'), __( 'Manage Schedule'), "manage_options", 'wpsp-manage-schedule', 'wpsp_scheduled_options_page');
 	}
 }
 # Install the option in the WordPress configuration menu
