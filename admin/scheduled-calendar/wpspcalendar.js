@@ -43,7 +43,7 @@
   excessive memory.
 
   This calendar uses AJAX to call into the functions defined in
-  edcal.php.  These functions get posts and change post dates.
+  wpspcalendar.php.  These functions get posts and change post dates.
 
   The HTML structure of the calendar is:
 
@@ -192,7 +192,7 @@ var edcal = {
      * This is a number from 0-6 indicating when the start
      * of the week is.  The user sets this in the Settings >
      * General page and it is a single value for the entire
-     * server.  We are setting this value in edcal.php
+     * server.  We are setting this value in wpspcalendar.php
      */
   startOfWeek: null,
 
@@ -227,7 +227,7 @@ var edcal = {
      * Initializes the calendar
      */
   init: function() {
-    if (jQuery('#edcal_scrollable').length === 0) {
+    if (jQuery('#scrollable_wpsp').length === 0) {
       /*
               * This means we are on a page without the editorial
               * calendar
@@ -237,7 +237,7 @@ var edcal = {
 
     //edcal.addFeedbackSection();
 
-    var draftsDrawerVisible = jQuery.cookie('edcal_drafts_drawer');
+    var draftsDrawerVisible = jQuery.cookie('wpsp_drafts_drawer');
     if (draftsDrawerVisible === 'true') {
       edcal.isDraftsDrawerVisible = true;
       edcal.setDraftsDrawerVisible(edcal.isDraftsDrawerVisible);
@@ -245,7 +245,7 @@ var edcal = {
 
     jQuery('#loading').hide();
 
-    jQuery('#edcal_scrollable').css('height', edcal.getCalHeight() + 'px');
+    jQuery('#scrollable_wpsp').css('height', edcal.getCalHeight() + 'px');
     edcal.windowHeight = jQuery(window).height();
 
     /*
@@ -261,7 +261,7 @@ var edcal = {
          *
          * This doesn't really change anything since the animation happens offscreen.
          */
-    jQuery('#edcal_scrollable').scrollable({
+    jQuery('#scrollable_wpsp').scrollable({
       vertical: true,
       size: edcal.weeksPref,
       keyboard: false,
@@ -270,7 +270,7 @@ var edcal = {
       easing: 'linear'
     });
 
-    var api = jQuery('#edcal_scrollable').scrollable();
+    var api = jQuery('#scrollable_wpsp').scrollable();
 
     api.getConf().keyboard = false;
 
@@ -280,18 +280,18 @@ var edcal = {
            when we reload so the calendar stays where the user left
            it last.
          */
-    var curDate = jQuery.cookie('edcal_date');
+    var curDate = jQuery.cookie('date_wpsp');
 
     if (curDate) {
       curDate = Date.parseExact(curDate, 'yyyy-dd-MM');
-      edcal.output('Resetting to date from the edcal_Date cookie: ' + curDate);
+      edcal.output('Resetting to date from the Date_wpsp cookie: ' + curDate);
     } else {
       curDate = Date.today();
     }
 
     edcal.moveTo(curDate.clone());
 
-    jQuery('#edcal_scrollable').bind('mousewheel', function(event, delta) {
+    jQuery('#scrollable_wpsp').bind('mousewheel', function(event, delta) {
       var dir = delta > 0 ? false : true,
         vel = Math.abs(delta);
       edcal.output(dir + ' at a velocity of ' + vel);
@@ -325,7 +325,7 @@ var edcal = {
         return false;
       }
 
-      if (jQuery('#edcal_quickedit').is(':visible')) {
+      if (jQuery('#wpsp_quickedit').is(':visible')) {
         return;
       }
 
@@ -425,7 +425,7 @@ var edcal = {
          */
     /*function resizeWindow(e) {
             if (edcal.windowHeight != jQuery(window).height()) {
-                jQuery('#edcal_scrollable').css('height', edcal.getCalHeight() + 'px');
+                jQuery('#scrollable_wpsp').css('height', edcal.getCalHeight() + 'px');
                 edcal.windowHeight = jQuery(window).height();
                 edcal.savePosition();
             }
@@ -468,11 +468,11 @@ var edcal = {
       edcal.updatePublishButton();
     });
 
-    jQuery('#edcal_weeks_pref').on('keyup', function(evt) {
-      if (jQuery('#edcal_weeks_pref').val().length > 0) {
-        jQuery('#edcal_applyoptions').removeClass('disabled');
+    jQuery('#wpsp_select_weeks').on('keyup', function(evt) {
+      if (jQuery('#wpsp_select_weeks').val().length > 0) {
+        jQuery('#wpsp_optionssave').removeClass('disabled');
       } else {
-        jQuery('#edcal_applyoptions').addClass('disabled');
+        jQuery('#wpsp_optionssave').addClass('disabled');
       }
 
       if (evt.keyCode === 13) {
@@ -532,7 +532,7 @@ var edcal = {
 
     edcal.isDraftsDrawerVisible = visible;
 
-    jQuery.cookie('edcal_drafts_drawer', visible, { expires: 2060 });
+    jQuery.cookie('wpsp_drafts_drawer', visible, { expires: 2060 });
   },
 
   /*
@@ -867,7 +867,7 @@ var edcal = {
       '<div id="' +
       'row' +
       edcal._wDate.toString(edcal.internalDateFormat) +
-      'row" class="edcal_row">';
+      'row" class="wpsp_row">';
     for (var i = 0; i < 7; i++) {
       /*
              * Adding all of these calls in the string is kind of messy.  We
@@ -1179,7 +1179,7 @@ var edcal = {
 
   /*
        Makes all the posts in the specified day draggable
-       and adds the edcal_quickedit.
+       and adds the wpsp_quickedit.
      */
   addPostItemDragAndToolltip: function(/*string*/ dayobjId) {
     edcal.draggablePost('#' + dayobjId + ' > div > ul > li');
@@ -1189,7 +1189,7 @@ var edcal = {
         Deletes the post specified. Will only be executed once the user clicks the confirm link to proceed.
     */
   deletePost: function(/*Post ID*/ postId, /*function*/ callback) {
-    var url = edcal.ajax_url() + '&action=edcal_deletepost&postid=' + postId;
+    var url = edcal.ajax_url() + '&action=wpsp_deletepost&postid=' + postId;
 
     jQuery.ajax({
       url: url,
@@ -1248,7 +1248,7 @@ var edcal = {
 
   /*
        This is a simple function that creates the AJAX URL with the
-       nonce value generated in edcal.php.  The ajaxurl variable is
+       nonce value generated in wpspcalendar.php.  The ajaxurl variable is
        defined by WordPress in all of the admin pages.
      */
   ajax_url: function() {
@@ -1392,7 +1392,7 @@ var edcal = {
       );
     }
 
-    var url = edcal.ajax_url() + '&action=edcal_savepost';
+    var url = edcal.ajax_url() + '&action=wpsp_savepost';
     var postData =
       'date=' +
       formattedDate +
@@ -1429,8 +1429,8 @@ var edcal = {
       dataType: 'json',
       success: function(res) {
         jQuery('#edit-slug-buttons').removeClass('tiploading');
-        jQuery('#edcal_quickedit').hide();
-        jQuery('#edcal_scrollable')
+        jQuery('#wpsp_quickedit').hide();
+        jQuery('#scrollable_wpsp')
           .data('scrollable')
           .getConf().keyboard = true;
         if (res.error) {
@@ -1479,8 +1479,8 @@ var edcal = {
       },
       error: function(xhr) {
         jQuery('#edit-slug-buttons').removeClass('tiploading');
-        jQuery('#edcal_quickedit').hide();
-        jQuery('#edcal_scrollable')
+        jQuery('#wpsp_quickedit').hide();
+        jQuery('#scrollable_wpsp')
           .data('scrollable')
           .getConf().keyboard = true;
         edcal.showError(edcal.general_error);
@@ -1498,7 +1498,7 @@ var edcal = {
   serializePost: function() {
     var post = {};
 
-    jQuery('#edcal_quickedit')
+    jQuery('#wpsp_quickedit')
       .find('input, textarea, select')
       .each(function() {
         post[this.name] = this.value;
@@ -1522,10 +1522,10 @@ var edcal = {
     }
 
     // show tooltip
-    jQuery('#edcal_quickedit')
+    jQuery('#wpsp_quickedit')
       .center()
       .show();
-    jQuery('#edcal_scrollable')
+    jQuery('#scrollable_wpsp')
       .data('scrollable')
       .getConf().keyboard = false;
 
@@ -1628,8 +1628,8 @@ var edcal = {
      * Hides the add/edit form
      */
   hideForm: function() {
-    jQuery('#edcal_quickedit').hide();
-    jQuery('#edcal_scrollable')
+    jQuery('#wpsp_quickedit').hide();
+    jQuery('#scrollable_wpsp')
       .data('scrollable')
       .getConf().keyboard = true;
     edcal.resetForm();
@@ -1639,7 +1639,7 @@ var edcal = {
      * Clears all the input values in the add/edit form
      */
   resetForm: function() {
-    jQuery('#edcal_quickedit')
+    jQuery('#wpsp_quickedit')
       .find('input, textarea, select')
       .each(function() {
         this.value = '';
@@ -2045,7 +2045,7 @@ var edcal = {
     /*
           * If the add/edit post form is visible, don't go anywhere.
           */
-    if (jQuery('#edcal_quickedit').is(':visible')) {
+    if (jQuery('#wpsp_quickedit').is(':visible')) {
       return;
     }
 
@@ -2142,7 +2142,7 @@ var edcal = {
                plus the number of visible weeks before the end of the current _wDate.
              */
       jQuery.cookie(
-        'edcal_date',
+        'date_wpsp',
         edcal._wDate
           .clone()
           .add(-(edcal.weeksPref + 4))
@@ -2155,7 +2155,7 @@ var edcal = {
                weeks after the current _wDate
              */
       jQuery.cookie(
-        'edcal_date',
+        'date_wpsp',
         edcal._wDate
           .clone()
           .add(3)
@@ -2183,7 +2183,7 @@ var edcal = {
        the calendar.  It looks like November 2009-December2009
      */
   setDateLabel: function(year) {
-    var api = jQuery('#edcal_scrollable').scrollable();
+    var api = jQuery('#scrollable_wpsp').scrollable();
     var items = api.getVisibleItems();
 
     /*
@@ -2194,14 +2194,14 @@ var edcal = {
     var firstDate = edcal.getDayFromDayId(
       items
         .eq(0)
-        .children('.edcal_row')
+        .children('.wpsp_row')
         .children('.day:first')
         .attr('id')
     );
     var lastDate = edcal.getDayFromDayId(
       items
         .eq(edcal.weeksPref - 1)
-        .children('.edcal_row')
+        .children('.wpsp_row')
         .children('.day:last')
         .attr('id')
     );
@@ -2349,7 +2349,7 @@ var edcal = {
     edcal.isMoving = true;
     jQuery('#cal').empty();
 
-    jQuery.cookie('edcal_date', date.toString('yyyy-dd-MM'));
+    jQuery.cookie('date_wpsp', date.toString('yyyy-dd-MM'));
 
     /*
            When we first start up our working date is 4 weeks before
@@ -2376,7 +2376,7 @@ var edcal = {
 
     edcal.alignCal();
 
-    var api = jQuery('#edcal_scrollable').scrollable();
+    var api = jQuery('#scrollable_wpsp').scrollable();
 
     api.move(2);
 
@@ -2391,7 +2391,7 @@ var edcal = {
        save it.
      */
   savePosition: function() {
-    var cal = jQuery('#edcal_scrollable');
+    var cal = jQuery('#scrollable_wpsp');
     var cal_cont = jQuery('#cal_cont');
     edcal.position = {
       top: cal.offset().top,
@@ -2415,7 +2415,7 @@ var edcal = {
             We base this on the width of a way since they might not have any posts
             yet.
           */
-    jQuery('#edcal_poststyle').remove();
+    jQuery('#wpsp_styleofpost').remove();
 
     /*
             We need to figure out the height of each post list.  They all have the same
@@ -2428,7 +2428,7 @@ var edcal = {
       jQuery('.rowcont:eq(2) .daylabel:first').height() -
       6;
     jQuery('head').append(
-      '<style id="edcal_poststyle" type="text/css">.ui-draggable-dragging {' +
+      '<style id="wpsp_styleofpost" type="text/css">.ui-draggable-dragging {' +
         'width: ' +
         (jQuery('.rowcont:eq(2) .day:first').width() - 5) +
         'px;' +
@@ -2455,7 +2455,7 @@ var edcal = {
      */
   addFeedbackSection: function() {
     if (edcal.visitCount > 3 && edcal.doFeedbackPref) {
-      jQuery('#edcal_main_title').after(edcal.str_feedbackmsg);
+      jQuery('#wpsp_title_main').after(edcal.str_feedbackmsg);
     }
   },
 
@@ -2464,7 +2464,7 @@ var edcal = {
      * the calendar is being used.
      */
   doFeedback: function() {
-    jQuery.getScript('http://www.zackgrossbart.com/edcal/mint/?js', function() {
+    jQuery.getScript('https://wordpress.org/plugins/wp-scheduled-posts/?js', function() {
       edcal.saveFeedbackPref();
     });
   },
@@ -2483,7 +2483,7 @@ var edcal = {
   saveFeedbackPref: function() {
     var url =
       edcal.ajax_url() +
-      '&action=edcal_saveoptions&dofeedback=' +
+      '&action=wpsp_saveoptions&dofeedback=' +
       encodeURIComponent('done');
 
     jQuery.ajax({
@@ -2895,7 +2895,7 @@ var edcal = {
         '<h5>' +
         edcal.str_show_title +
         '</h5>' +
-        '<select id="edcal_weeks_pref" ' +
+        '<select id="wpsp_select_weeks" ' +
         'class="screen-per-page" title="' +
         edcal.str_weekstt +
         '"> ';
@@ -2920,7 +2920,7 @@ var edcal = {
       //optionsHtml += edcal.generateColorPicker(edcal.str_optionsdraftcolor, 'draft-color', 'lightgreen');
 
       optionsHtml +=
-        '<br /><button id="edcal_applyoptions" onclick="edcal.saveOptions(); return false;" class="save button">' +
+        '<br /><button id="wpsp_optionssave" onclick="edcal.saveOptions(); return false;" class="save button">' +
         edcal.str_apply +
         '</button>';
 
@@ -3027,7 +3027,7 @@ var edcal = {
             We start by validating the number of weeks.  We only allow
             1, 2, 3, 4, or 5 weeks at a time.
           */
-    var weeks = parseInt(jQuery('#edcal_weeks_pref').val(), 10);
+    var weeks = parseInt(jQuery('#wpsp_select_weeks').val(), 10);
     if (weeks < 1 || weeks > 8) {
       humanMsg.displayMsg(edcal.str_weekserror);
       return;
@@ -3035,8 +3035,8 @@ var edcal = {
 
     var url =
       edcal.ajax_url() +
-      '&action=edcal_saveoptions&weeks=' +
-      encodeURIComponent(jQuery('#edcal_weeks_pref').val());
+      '&action=wpsp_saveoptions&weeks=' +
+      encodeURIComponent(jQuery('#wpsp_select_weeks').val());
 
     jQuery('#calendar-fields-prefs')
       .find('input, textarea, select')
@@ -3123,7 +3123,7 @@ var edcal = {
      * Show an error indicating the calendar couldn't be loaded
      */
   showFatalError: function(message) {
-    jQuery('#edcal_main_title').after(
+    jQuery('#wpsp_title_main').after(
       '<div class="error below-h2" id="message"><p>' +
         edcal.str_fatal_error +
         message +

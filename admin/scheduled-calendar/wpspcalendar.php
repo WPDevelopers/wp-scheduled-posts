@@ -1,23 +1,23 @@
 <?php
 if ( is_admin() ) {
-    global $edcal;
-    if ( empty($edcal) )
-        $edcal = new wpsp_scheduled();
+    global $wpspcalendar;
+    if ( empty($wpspcalendar) )
+        $wpspcalendar = new wpsp_scheduled();
 }
 
 
 /*
- * This error code matches CONCURRENCY_ERROR from edcal.js
+ * This error code matches CONCURRENCY_ERROR from wpspcalendar.js
  */
 define( 'EDCAL_CONCURRENCY_ERROR', 4 );
 
 /*
- * This error code matches PERMISSION_ERROR from edcal.js
+ * This error code matches PERMISSION_ERROR from wpspcalendar.js
  */
 define( 'EDCAL_PERMISSION_ERROR', 5 );
 
 /*
- * This error code matches NONCE_ERROR from edcal.js
+ * This error code matches NONCE_ERROR from wpspcalendar.js
  */
 define( 'EDCAL_NONCE_ERROR', 6 );
 
@@ -27,14 +27,14 @@ class wpsp_scheduled {
     protected $default_time;
 
     function __construct() {
-        add_action('wp_ajax_edcal_saveoptions', array(&$this, 'wpsp_scheduled_saveoptions'));
+        add_action('wp_ajax_wpsp_saveoptions', array(&$this, 'wpsp_scheduled_saveoptions'));
         add_action('wp_ajax_edcal_changedate', array(&$this, 'wpsp_scheduled_changedate'));
-        add_action('wp_ajax_edcal_savepost', array(&$this, 'wpsp_scheduled_savepost'));
+        add_action('wp_ajax_wpsp_savepost', array(&$this, 'wpsp_scheduled_savepost'));
         add_action('wp_ajax_edcal_changetitle', array(&$this, 'wpsp_scheduled_changetitle'));
         add_action('admin_menu', array(&$this, 'wpsp_scheduled_list_add_management_page'));
         add_action('wp_ajax_edcal_posts', array(&$this, 'wpsp_scheduled_posts'));
         add_action('wp_ajax_edcal_getpost', array(&$this, 'wpsp_scheduled_getpost'));
-        add_action('wp_ajax_edcal_deletepost', array(&$this, 'wpsp_scheduled_deletepost'));
+        add_action('wp_ajax_wpsp_deletepost', array(&$this, 'wpsp_scheduled_deletepost'));
         
 
 
@@ -60,8 +60,8 @@ class wpsp_scheduled {
          * We use these variables to hold the post dates for the filter when 
          * we do our post query.
          */
-        //$edcal_startDate;
-        //$edcal_endDate;
+        //$wpspcalendar_startDate;
+        //$wpspcalendar_endDate;
     }
     
     /*
@@ -99,7 +99,7 @@ class wpsp_scheduled {
                 foreach ($post_types as $post_type) {
                     $show_this_post_type = apply_filters("edcal_show_calendar_$post_type", true);
                     if ($show_this_post_type) {
-                        $page = add_submenu_page('edit.php?post_type=' . $post_type, __('Calendar', 'editorial-calendar'), __('Calendar', 'editorial-calendar'), 'edit_posts', 'cal_' . $post_type, array(&$this, 'edcal_list_admin'));
+                        $page = add_submenu_page('edit.php?post_type=' . $post_type, __('Calendar', 'wpspcalendar'), __('Calendar', 'wpspcalendar'), 'edit_posts', 'cal_' . $post_type, array(&$this, 'edcal_list_admin'));
                         add_action( "admin_print_scripts-$page", array(&$this, 'edcal_scripts'));
                     }
                 }
@@ -134,15 +134,15 @@ class wpsp_scheduled {
          * so we only show the feedback after they have been using it 
          * for a little while.
          */
-        $edcal_count = get_option("edcal_count");
-        if ($edcal_count == '') {
-            $edcal_count = 0;
-            add_option("edcal_count", $edcal_count, "", "yes");
+        $wpspcalendar_count = get_option("edcal_count");
+        if ($wpspcalendar_count == '') {
+            $wpspcalendar_count = 0;
+            add_option("edcal_count", $wpspcalendar_count, "", "yes");
         }
             
         if (get_option("edcal_do_feedback") != "done") {
-            $edcal_count++;
-            update_option("edcal_count", $edcal_count);
+            $wpspcalendar_count++;
+            update_option("edcal_count", $wpspcalendar_count);
         }
         
         /*
@@ -164,22 +164,10 @@ class wpsp_scheduled {
         $this->edcal_echoFile(dirname( __FILE__ ) . "/lib/humanmsg.css");
         echo '</style>';
         
-        echo '<!-- This is the styles from edcal.css -->';
+        echo '<!-- This is the styles from wpspcalendar.css -->';
         echo '<style type="text/css">';
-        $this->edcal_echoFile(dirname( __FILE__ ) . "/edcal.css");
+        $this->edcal_echoFile(dirname( __FILE__ ) . "/wpspcalendar.css");
         echo '</style>';
-        
-        /*
-         * We want to add the right to left stylesheet if 
-         * we're in a right to left language.
-         */
-        if (__('ltr', 'editorial-calendar') == 'rtl') {
-            echo '<!-- This is the styles from edcal_rtl.css -->';
-            echo '<style type="text/css">';
-            $this->edcal_echoFile(dirname( __FILE__ ) . "/edcal_rtl.css");
-            echo '</style>';
-        }
-        
         
         ?>
         
@@ -189,9 +177,9 @@ class wpsp_scheduled {
                 edcal.plugin_url = '<?php echo(plugins_url("/", __FILE__ )); ?>';
                 edcal.wp_nonce = '<?php echo wp_create_nonce("edit-calendar"); ?>';
                 <?php 
-                    if (get_option("edcal_weeks_pref") != "") {
+                    if (get_option("wpsp_select_weeks") != "") {
                 ?>
-                    edcal.weeksPref = <?php echo(get_option("edcal_weeks_pref")); ?>;
+                    edcal.weeksPref = <?php echo(get_option("wpsp_select_weeks")); ?>;
                 <?php
                     }
                 ?>
@@ -246,7 +234,7 @@ class wpsp_scheduled {
                  * specify the locale for the language they are adding.
                  * 
                  */
-                edcal.locale = '<?php echo(__('en-US', 'editorial-calendar')) ?>';
+                edcal.locale = '<?php echo(__('en-US', 'wpspcalendar')) ?>';
                 
                 /*
                  * These strings are all localized values.  The WordPress localization mechanism 
@@ -254,71 +242,71 @@ class wpsp_scheduled {
                  * pass the values to JavaScript.
                  */
                 
-                edcal.str_by = <?php echo($this->edcal_json_encode(__('%1$s by %2$s', 'editorial-calendar'))) ?>;
+                edcal.str_by = <?php echo($this->edcal_json_encode(__('%1$s by %2$s', 'wpspcalendar'))) ?>;
                 
-                edcal.str_addPostLink = <?php echo($this->edcal_json_encode(__('New Post', 'editorial-calendar'))) ?>;
-                edcal.str_addDraftLink = <?php echo($this->edcal_json_encode(__('New Draft', 'editorial-calendar'))) ?>;
-                edcal.ltr = <?php echo($this->edcal_json_encode(strtolower(__('ltr', 'editorial-calendar')))) ?>;
+                edcal.str_addPostLink = <?php echo($this->edcal_json_encode(__('New Post', 'wpspcalendar'))) ?>;
+                edcal.str_addDraftLink = <?php echo($this->edcal_json_encode(__('New Draft', 'wpspcalendar'))) ?>;
+                edcal.ltr = <?php echo($this->edcal_json_encode(strtolower(__('ltr', 'wpspcalendar')))) ?>;
                 
-                edcal.str_draft = <?php echo($this->edcal_json_encode(__(' [DRAFT]', 'editorial-calendar'))) ?>;
-                edcal.str_pending = <?php echo($this->edcal_json_encode(__(' [PENDING]', 'editorial-calendar'))) ?>;
-                edcal.str_sticky = <?php echo($this->edcal_json_encode(__(' [STICKY]', 'editorial-calendar'))) ?>;
-                edcal.str_draft_sticky = <?php echo($this->edcal_json_encode(__(' [DRAFT, STICKY]', 'editorial-calendar'))) ?>;
-                edcal.str_pending_sticky = <?php echo($this->edcal_json_encode(__(' [PENDING, STICKY]', 'editorial-calendar'))) ?>;
-                edcal.str_edit = <?php echo($this->edcal_json_encode(__('Edit', 'editorial-calendar'))) ?>;
-                edcal.str_quick_edit = <?php echo($this->edcal_json_encode(__('Quick Edit', 'editorial-calendar'))) ?>;
-                edcal.str_del = <?php echo($this->edcal_json_encode(__('Delete', 'editorial-calendar'))) ?>;
-                edcal.str_view = <?php echo($this->edcal_json_encode(__('View', 'editorial-calendar'))) ?>;
-                edcal.str_republish = <?php echo($this->edcal_json_encode(__('Edit', 'editorial-calendar'))) ?>;
-                edcal.str_status = <?php echo($this->edcal_json_encode(__('Status:', 'editorial-calendar'))) ?>;
-                edcal.str_cancel = <?php echo($this->edcal_json_encode(__('Cancel', 'editorial-calendar'))) ?>;
-                edcal.str_posttitle = <?php echo($this->edcal_json_encode(__('Title', 'editorial-calendar'))) ?>;
-                edcal.str_postcontent = <?php echo($this->edcal_json_encode(__('Content', 'editorial-calendar'))) ?>;
-                edcal.str_newpost = <?php echo($this->edcal_json_encode(__('Add a new post on %s', 'editorial-calendar'))) ?>;
-                edcal.str_newdraft = <?php echo($this->edcal_json_encode(__('Add a new draft', 'editorial-calendar'))) ?>;
-                edcal.str_newpost_title = <?php echo($this->edcal_json_encode(sprintf(__('New %s - ', 'editorial-calendar'), $this->edcal_get_posttype_singlename()))) ?> ;
-                edcal.str_newdraft_title = <?php echo($this->edcal_json_encode(__('New Draft', 'editorial-calendar'))) ?>;
-                edcal.str_update = <?php echo($this->edcal_json_encode(__('Update', 'editorial-calendar'))) ?>;
-                edcal.str_publish = <?php echo($this->edcal_json_encode(__('Schedule', 'editorial-calendar'))) ?>;
-                edcal.str_review = <?php echo($this->edcal_json_encode(__('Submit for Review', 'editorial-calendar'))) ?>;
-                edcal.str_save = <?php echo($this->edcal_json_encode(__('Save', 'editorial-calendar'))) ?>;
-                edcal.str_edit_post_title = <?php echo($this->edcal_json_encode(__('Edit %1$s - %2$s', 'editorial-calendar'))) ?>;
-                edcal.str_scheduled = <?php echo($this->edcal_json_encode(__('Scheduled', 'editorial-calendar'))) ?>;
+                edcal.str_draft = <?php echo($this->edcal_json_encode(__(' [DRAFT]', 'wpspcalendar'))) ?>;
+                edcal.str_pending = <?php echo($this->edcal_json_encode(__(' [PENDING]', 'wpspcalendar'))) ?>;
+                edcal.str_sticky = <?php echo($this->edcal_json_encode(__(' [STICKY]', 'wpspcalendar'))) ?>;
+                edcal.str_draft_sticky = <?php echo($this->edcal_json_encode(__(' [DRAFT, STICKY]', 'wpspcalendar'))) ?>;
+                edcal.str_pending_sticky = <?php echo($this->edcal_json_encode(__(' [PENDING, STICKY]', 'wpspcalendar'))) ?>;
+                edcal.str_edit = <?php echo($this->edcal_json_encode(__('Edit', 'wpspcalendar'))) ?>;
+                edcal.str_quick_edit = <?php echo($this->edcal_json_encode(__('Quick Edit', 'wpspcalendar'))) ?>;
+                edcal.str_del = <?php echo($this->edcal_json_encode(__('Delete', 'wpspcalendar'))) ?>;
+                edcal.str_view = <?php echo($this->edcal_json_encode(__('View', 'wpspcalendar'))) ?>;
+                edcal.str_republish = <?php echo($this->edcal_json_encode(__('Edit', 'wpspcalendar'))) ?>;
+                edcal.str_status = <?php echo($this->edcal_json_encode(__('Status:', 'wpspcalendar'))) ?>;
+                edcal.str_cancel = <?php echo($this->edcal_json_encode(__('Cancel', 'wpspcalendar'))) ?>;
+                edcal.str_posttitle = <?php echo($this->edcal_json_encode(__('Title', 'wpspcalendar'))) ?>;
+                edcal.str_postcontent = <?php echo($this->edcal_json_encode(__('Content', 'wpspcalendar'))) ?>;
+                edcal.str_newpost = <?php echo($this->edcal_json_encode(__('Add a new post on %s', 'wpspcalendar'))) ?>;
+                edcal.str_newdraft = <?php echo($this->edcal_json_encode(__('Add a new draft', 'wpspcalendar'))) ?>;
+                edcal.str_newpost_title = <?php echo($this->edcal_json_encode(sprintf(__('New %s - ', 'wpspcalendar'), $this->edcal_get_posttype_singlename()))) ?> ;
+                edcal.str_newdraft_title = <?php echo($this->edcal_json_encode(__('New Draft', 'wpspcalendar'))) ?>;
+                edcal.str_update = <?php echo($this->edcal_json_encode(__('Update', 'wpspcalendar'))) ?>;
+                edcal.str_publish = <?php echo($this->edcal_json_encode(__('Schedule', 'wpspcalendar'))) ?>;
+                edcal.str_review = <?php echo($this->edcal_json_encode(__('Submit for Review', 'wpspcalendar'))) ?>;
+                edcal.str_save = <?php echo($this->edcal_json_encode(__('Save', 'wpspcalendar'))) ?>;
+                edcal.str_edit_post_title = <?php echo($this->edcal_json_encode(__('Edit %1$s - %2$s', 'wpspcalendar'))) ?>;
+                edcal.str_scheduled = <?php echo($this->edcal_json_encode(__('Scheduled', 'wpspcalendar'))) ?>;
                 
-                edcal.str_del_msg1 = <?php echo($this->edcal_json_encode(__('You are about to delete the post "', 'editorial-calendar'))) ?>;
-                edcal.str_del_msg2 = <?php echo($this->edcal_json_encode(__('". Press Cancel to stop, OK to delete.', 'editorial-calendar'))) ?>;
+                edcal.str_del_msg1 = <?php echo($this->edcal_json_encode(__('You are about to delete the post "', 'wpspcalendar'))) ?>;
+                edcal.str_del_msg2 = <?php echo($this->edcal_json_encode(__('". Press Cancel to stop, OK to delete.', 'wpspcalendar'))) ?>;
                 
-                edcal.concurrency_error = <?php echo($this->edcal_json_encode(__('Looks like someone else already moved this post.', 'editorial-calendar'))) ?>;
-                edcal.permission_error = <?php echo($this->edcal_json_encode(__('You do not have permission to edit posts.', 'editorial-calendar'))) ?>;
-                edcal.checksum_error = <?php echo($this->edcal_json_encode(__('Invalid checksum for post. This is commonly a cross-site scripting error.', 'editorial-calendar'))) ?>;
-                edcal.general_error = <?php echo($this->edcal_json_encode(__('There was an error contacting your blog.', 'editorial-calendar'))) ?>;
+                edcal.concurrency_error = <?php echo($this->edcal_json_encode(__('Looks like someone else already moved this post.', 'wpspcalendar'))) ?>;
+                edcal.permission_error = <?php echo($this->edcal_json_encode(__('You do not have permission to edit posts.', 'wpspcalendar'))) ?>;
+                edcal.checksum_error = <?php echo($this->edcal_json_encode(__('Invalid checksum for post. This is commonly a cross-site scripting error.', 'wpspcalendar'))) ?>;
+                edcal.general_error = <?php echo($this->edcal_json_encode(__('There was an error contacting your blog.', 'wpspcalendar'))) ?>;
                 
-                edcal.str_screenoptions = <?php echo($this->edcal_json_encode(__('Screen Options', 'editorial-calendar'))) ?>;
-                edcal.str_optionscolors = <?php echo($this->edcal_json_encode(__('Colors', 'editorial-calendar'))) ?>;
-                edcal.str_optionsdraftcolor = <?php echo($this->edcal_json_encode(__('Drafts: ', 'editorial-calendar'))) ?>;
-                edcal.str_apply = <?php echo($this->edcal_json_encode(__('Apply', 'editorial-calendar'))) ?>;
-                edcal.str_show_title = <?php echo($this->edcal_json_encode(__('Show on screen', 'editorial-calendar'))) ?>;
-                edcal.str_opt_weeks = <?php echo($this->edcal_json_encode(__(' weeks at a time', 'editorial-calendar'))) ?>;
-                edcal.str_show_opts = <?php echo($this->edcal_json_encode(__('Show in Calendar Cell', 'editorial-calendar'))) ?>;
-                edcal.str_opt_author = <?php echo($this->edcal_json_encode(__('Author', 'editorial-calendar'))) ?>;
-                edcal.str_opt_status = <?php echo($this->edcal_json_encode(__('Status', 'editorial-calendar'))) ?>;
-                edcal.str_opt_time = <?php echo($this->edcal_json_encode(__('Time of day', 'editorial-calendar'))) ?>;
-                edcal.str_fatal_error = <?php echo($this->edcal_json_encode(__('An error occurred while loading the calendar: ', 'editorial-calendar'))) ?>;
-                edcal.str_fatal_parse_error = <?php echo($this->edcal_json_encode(__('<br /><br />The calendar was not able to parse the data your blog returned about the posts.  This error is most likely caused by a conflict with another plugin on your blog.  The actual parse error was:<br/><br/> ', 'editorial-calendar'))) ?>;
+                edcal.str_screenoptions = <?php echo($this->edcal_json_encode(__('Screen Options', 'wpspcalendar'))) ?>;
+                edcal.str_optionscolors = <?php echo($this->edcal_json_encode(__('Colors', 'wpspcalendar'))) ?>;
+                edcal.str_optionsdraftcolor = <?php echo($this->edcal_json_encode(__('Drafts: ', 'wpspcalendar'))) ?>;
+                edcal.str_apply = <?php echo($this->edcal_json_encode(__('Apply', 'wpspcalendar'))) ?>;
+                edcal.str_show_title = <?php echo($this->edcal_json_encode(__('Show on screen', 'wpspcalendar'))) ?>;
+                edcal.str_opt_weeks = <?php echo($this->edcal_json_encode(__(' weeks at a time', 'wpspcalendar'))) ?>;
+                edcal.str_show_opts = <?php echo($this->edcal_json_encode(__('Show in Calendar Cell', 'wpspcalendar'))) ?>;
+                edcal.str_opt_author = <?php echo($this->edcal_json_encode(__('Author', 'wpspcalendar'))) ?>;
+                edcal.str_opt_status = <?php echo($this->edcal_json_encode(__('Status', 'wpspcalendar'))) ?>;
+                edcal.str_opt_time = <?php echo($this->edcal_json_encode(__('Time of day', 'wpspcalendar'))) ?>;
+                edcal.str_fatal_error = <?php echo($this->edcal_json_encode(__('An error occurred while loading the calendar: ', 'wpspcalendar'))) ?>;
+                edcal.str_fatal_parse_error = <?php echo($this->edcal_json_encode(__('<br /><br />The calendar was not able to parse the data your blog returned about the posts.  This error is most likely caused by a conflict with another plugin on your blog.  The actual parse error was:<br/><br/> ', 'wpspcalendar'))) ?>;
                 
-                edcal.str_weekserror = <?php echo($this->edcal_json_encode(__('The calendar can only show between 1 and 8 weeks at a time.', 'editorial-calendar'))) ?>;
-                edcal.str_weekstt = <?php echo($this->edcal_json_encode(__('Select the number of weeks for the calendar to show.', 'editorial-calendar'))) ?>;
+                edcal.str_weekserror = <?php echo($this->edcal_json_encode(__('The calendar can only show between 1 and 8 weeks at a time.', 'wpspcalendar'))) ?>;
+                edcal.str_weekstt = <?php echo($this->edcal_json_encode(__('Select the number of weeks for the calendar to show.', 'wpspcalendar'))) ?>;
 
                 edcal.str_showdrafts = <?php echo($this->edcal_json_encode(__('Show Unscheduled Drafts'))) ?>;
                 edcal.str_hidedrafts = <?php echo($this->edcal_json_encode(__('Hide Unscheduled Drafts'))) ?>;
     
                 edcal.str_feedbackmsg = <?php echo($this->edcal_json_encode(__('<div id="feedbacksection">' . 
-                 '<h2>Help us Make the Editorial Calendar Better</h2>' .
-                 'We are always trying to improve the Editorial Calendar and you can help. May we collect some data about your blog and browser settings to help us improve this plugin?  We\'ll only do it once and your blog will show up on our <a target="_blank" href="http://www.zackgrossbart.com/edcal/mint/">Editorial Calendar Statistics page</a>.<br /><br />' . 
+                 '<h2>Help us Make the wpsp Better</h2>' .
+                 'We are always trying to improve the wpsp and you can help. May we collect some data about your blog and browser settings to help us improve this plugin?  We\'ll only do it once and your blog will show up on our <a target="_blank" href="https://wordpress.org/plugins/wp-scheduled-posts/">wpsp Statistics page</a>.<br /><br />' . 
                  '<button class="button-secondary" onclick="edcal.doFeedback();">Collect Data</button> ' . 
-                 '<a href="#" id="nofeedbacklink" onclick="edcal.noFeedback(); return false;">No thank you</a></div>', 'editorial-calendar'))) ?>;
+                 '<a href="#" id="nofeedbacklink" onclick="edcal.noFeedback(); return false;">No thank you</a></div>', 'wpspcalendar'))) ?>;
     
-                edcal.str_feedbackdone = <?php echo($this->edcal_json_encode(__('<h2>We\'re done</h2>We\'ve finished collecting data.  Thank you for helping us make the calendar better.', 'editorial-calendar'))) ?>;
+                edcal.str_feedbackdone = <?php echo($this->edcal_json_encode(__('<h2>We\'re done</h2>We\'ve finished collecting data.  Thank you for helping us make the calendar better.', 'wpspcalendar'))) ?>;
             });
         </script>
         
@@ -343,20 +331,20 @@ class wpsp_scheduled {
         </style>
         
         <?php
-        echo '<!-- This is the code from edcal.js -->';
+        //echo '<!-- This is the code from wpspcalendar.js -->';
         echo '<script type="text/javascript">';
-        if (isset($_GET['debug'])) {
-            $this->edcal_echoFile(dirname( __FILE__ ) . "/edcal.js");
-        } else {
-            $this->edcal_echoFile(dirname( __FILE__ ) . "/edcal.min.js");
-        }
+        //if (isset($_GET['debug'])) {
+        //    $this->edcal_echoFile(dirname( __FILE__ ) . "/wpspcalendar.js");
+        //} else {
+            $this->edcal_echoFile(dirname( __FILE__ ) . "/wpspcalendar.min.js");
+       // }
         echo '</script>';
         
         ?>
         
         <div class="wrap wpsp-dashboard-body">
             <div class="icon32" id="icon-edit"><br/></div>
-            <h2 id="edcal_main_title"><?php echo sprintf( __('%1$s Calendar', 'editorial-calendar'), $this->edcal_get_posttype_multiplename() ) ?></h2>
+            <h2 id="wpsp_title_main"><?php echo sprintf( __('%1$s Calendar', 'wpspcalendar'), $this->edcal_get_posttype_multiplename() ) ?></h2>
             
             <div class="wpsp-calendar-wrap">
                 <div id="loadingcont">
@@ -366,25 +354,25 @@ class wpsp_scheduled {
                 <div id="topbar" class="tablenav clearfix">
                     <div id="topleft" class="tablenav-pages alignleft">
                         <h3>
-                            <a href="#" title="<?php echo(__('Jump back', 'editorial-calendar')) ?>" class="prev page-numbers" id="prevmonth">&lsaquo;</a>
+                            <a href="#" title="<?php echo(__('Jump back', 'wpspcalendar')) ?>" class="prev page-numbers" id="prevmonth">&lsaquo;</a>
                             <span id="currentRange"></span>
-                            <a href="#" title="<?php echo(__('Skip ahead', 'editorial-calendar')) ?>" class="next page-numbers" id="nextmonth">&rsaquo;</a>
-                            <a class="next page-numbers" title="<?php echo(__('Scroll the calendar and make the last post visible', 'editorial-calendar')) ?>" id="moveToLast">&raquo;</a>
+                            <a href="#" title="<?php echo(__('Skip ahead', 'wpspcalendar')) ?>" class="next page-numbers" id="nextmonth">&rsaquo;</a>
+                            <a class="next page-numbers" title="<?php echo(__('Scroll the calendar and make the last post visible', 'wpspcalendar')) ?>" id="moveToLast">&raquo;</a>
 
-                            <a class="next page-numbers" title="<?php echo(__('Scroll the calendar and make the today visible', 'editorial-calendar')) ?>" id="moveToToday"><?php echo(__('Show Today', 'editorial-calendar')) ?></a>
+                            <a class="next page-numbers" title="<?php echo(__('Scroll the calendar and make the today visible', 'wpspcalendar')) ?>" id="moveToToday"><?php echo(__('Show Today', 'wpspcalendar')) ?></a>
                             
                             
                         </h3>
                     </div>
 
                     <div id="topright" class="tablenav-pages alignright">
-                        <a class="next page-numbers" title="<?php echo(__('Show unscheduled posts', 'editorial-calendar')) ?>" id="showdraftsdrawer"><?php echo(__('Show Unscheduled Drafts', 'editorial-calendar')) ?></a>
+                        <a class="next page-numbers" title="<?php echo(__('Show unscheduled posts', 'wpspcalendar')) ?>" id="showdraftsdrawer"><?php echo(__('Show Unscheduled Drafts', 'wpspcalendar')) ?></a>
                     </div>
                 </div>
                 
                 <div id="draftsdrawer_cont">
                     <div id="draftsdrawer">
-                        <div class="draftsdrawerheadcont" title="<?php echo(__('Unscheduled draft posts', 'editorial-calendar')) ?>"><div class="dayhead"><?php echo(__('Unscheduled', 'editorial-calendar')) ?></div></div>
+                        <div class="draftsdrawerheadcont" title="<?php echo(__('Unscheduled draft posts', 'wpspcalendar')) ?>"><div class="dayhead"><?php echo(__('Unscheduled', 'wpspcalendar')) ?></div></div>
                         <div class="day" id="00000000">
                             <div id="draftsdrawer_loading"></div>
                             <div id="unscheduled" class="dayobj"></div>
@@ -393,7 +381,7 @@ class wpsp_scheduled {
                 </div>
                 
                 <div id="cal_cont">
-                    <div id="edcal_scrollable" class="edcal_scrollable vertical">
+                    <div id="scrollable_wpsp" class="scrollable_wpsp vertical">
                         <div id="cal"></div>
                     </div>
                 </div>
@@ -425,41 +413,41 @@ class wpsp_scheduled {
     function edcal_edit_popup() {
     
     ?>
-        <div id="edcal_quickedit" style="display:none;">
+        <div id="wpsp_quickedit" style="display:none;">
             <div class="wpsp-quickedit-inner">
                 <div id="tooltiphead">
-                  <h3 id="tooltiptitle"><?php _e('Edit Post', 'editorial-calendar') ?></h3>
+                  <h3 id="tooltiptitle"><?php _e('Edit Post', 'wpspcalendar') ?></h3>
                   <a href="#" id="tipclose" onclick="edcal.hideForm(); return false;" title="close"> <span class="dashicons dashicons-no-alt"></span></a>
                 </div>
         
-                <div class="edcal_quickedit inline-edit-row">
+                <div class="wpsp_quickedit inline-edit-row">
         
                         <fieldset>
         
                         <label>
-                            <span class="title"><?php _e('Title', 'editorial-calendar') ?></span>
+                            <span class="title"><?php _e('Title', 'wpspcalendar') ?></span>
                             <span class="input-text-wrap"><input type="text" class="ptitle" id="edcal-title-new-field" name="title" /></span>
                         </label>
         
                         <label>
-                            <span class="title"><?php _e('Content', 'editorial-calendar') ?></span>
+                            <span class="title"><?php _e('Content', 'wpspcalendar') ?></span>
                             <span class="input-text-wrap"><textarea cols="15" rows="7" id="content" name="content"></textarea></span>
                         </label>
         
                         <div id="timeEditControls">
                             <label>
-                                <span class="title"><?php _e('Time', 'editorial-calendar') ?></span>
+                                <span class="title"><?php _e('Time', 'wpspcalendar') ?></span>
                                 <span class="input-text-wrap"><input type="text" class="ptitle" id="edcal-time" name="time" value="" size="8" maxlength="8" autocomplete="off" /></span>
                             </label>
                                 
                             <label>
-                                <span class="title"><?php _e('Status', 'editorial-calendar') ?></span>
+                                <span class="title"><?php _e('Status', 'wpspcalendar') ?></span>
                                 <span class="input-text-wrap">
                                     <select name="status" id="edcal-status">
-                                        <option value="draft"><?php _e('Draft', 'editorial-calendar') ?></option>
-                                        <option value="pending"><?php _e('Pending Review', 'editorial-calendar') ?></option>
+                                        <option value="draft"><?php _e('Draft', 'wpspcalendar') ?></option>
+                                        <option value="pending"><?php _e('Pending Review', 'wpspcalendar') ?></option>
                                         <?php if ( current_user_can('publish_posts') ) {?>
-                                            <option id="futureoption" value="future"><?php _e('Scheduled', 'editorial-calendar') ?></option>
+                                            <option id="futureoption" value="future"><?php _e('Scheduled', 'wpspcalendar') ?></option>
                                         <?php } ?>
                                     </select>
                                 </span>
@@ -471,8 +459,8 @@ class wpsp_scheduled {
                         </fieldset>
         
                         <p class="submit inline-edit-save" id="edit-slug-buttons">
-                            <a class="button-primary disabled" id="newPostScheduleButton" href="#"><?php _e('Schedule', 'editorial-calendar') ?></a>
-                            <a href="#" onclick="edcal.hideForm(); return false;" class="button-secondary cancel"><?php _e('Cancel', 'editorial-calendar') ?></a>
+                            <a class="button-primary disabled" id="newPostScheduleButton" href="#"><?php _e('Schedule', 'wpspcalendar') ?></a>
+                            <a href="#" onclick="edcal.hideForm(); return false;" class="button-secondary cancel"><?php _e('Cancel', 'wpspcalendar') ?></a>
                         </p>
         
                         <input type="hidden" id="edcal-date" name="date" value="" />
@@ -489,8 +477,8 @@ class wpsp_scheduled {
      * we want. We also exclude posts that have not been set to a specific date.
      */
     function edcal_filter_where($where = '') {
-        global $edcal_startDate, $edcal_endDate;
-        if ($edcal_startDate == '00000000') {
+        global $wpspcalendar_startDate, $wpspcalendar_endDate;
+        if ($wpspcalendar_startDate == '00000000') {
             $where .= " AND post_date_gmt LIKE '0000%'";
         } else {
             /*
@@ -501,11 +489,11 @@ class wpsp_scheduled {
              * this isn't a SQL injection attack is to remove the dashes and check if
              * the result is numeric.  If it is then this can't be a SQL injection attack.
              */
-             if (!is_numeric(str_replace("-", "", $edcal_startDate)) || !is_numeric(str_replace("-", "", $edcal_endDate))) {
+             if (!is_numeric(str_replace("-", "", $wpspcalendar_startDate)) || !is_numeric(str_replace("-", "", $wpspcalendar_endDate))) {
                 die("The specified start date and end date for the posts query must be numeric.");
              }
              
-            $where .= " AND post_date >= '" . $edcal_startDate . "' AND post_date < '" . $edcal_endDate . "' AND post_date_gmt NOT LIKE '0000%'";
+            $where .= " AND post_date >= '" . $wpspcalendar_startDate . "' AND post_date < '" . $wpspcalendar_endDate . "' AND post_date_gmt NOT LIKE '0000%'";
         }
         return $where;
     }
@@ -523,31 +511,18 @@ class wpsp_scheduled {
         wp_enqueue_script('jquery');
         wp_enqueue_script('jquery-ui-draggable');
         wp_enqueue_script('jquery-ui-droppable');
+
+        wp_enqueue_script("edcal-date", plugins_url("lib/languages/date-".__('en-US', 'wpspcalendar').".js", __FILE__ ));
+        wp_enqueue_script("edcal-lib", plugins_url("lib/wpspcalendarclass.min.js", __FILE__ ), array( 'jquery' ));
     
-        //wp_enqueue_script("date-extras", plugins_url("lib/date.extras.js", __FILE__ ), array( 'jquery' ));
-    
-        wp_enqueue_script("edcal-date", plugins_url("lib/languages/date-".__('en-US', 'editorial-calendar').".js", __FILE__ ));
-        wp_enqueue_script("edcal-lib", plugins_url("lib/edcallib.min.js", __FILE__ ), array( 'jquery' ));
-    
-        if (isset($_GET['qunit'])) {
+        /*if (isset($_GET['qunit'])) {
             wp_enqueue_script("qunit", plugins_url("lib/qunit.js", __FILE__ ), array( 'jquery' ));
             wp_enqueue_script("edcal-test", plugins_url("edcal_test.js", __FILE__ ), array( 'jquery' ));
-        }
+        }*/
         
         return;
         
-        /*
-         * If you're using one of the specific libraries you should comment out the two lines
-         * above this comment.
-         */
-        wp_enqueue_script("bgiframe", plugins_url("lib/jquery.bgiframe.js", __FILE__ ), array( 'jquery' ));
-        wp_enqueue_script("humanMsg", plugins_url("lib/humanmsg.js", __FILE__ ), array( 'jquery' ));
-        wp_enqueue_script("jquery-timepicker", plugins_url("lib/jquery.timepicker.js", __FILE__ ), array( 'jquery' ));
         
-        wp_enqueue_script("scrollable", plugins_url("lib/tools.scrollable-1.1.2.js", __FILE__ ), array( 'jquery' ));
-        wp_enqueue_script("mouse-wheel", plugins_url("lib/lib/tools.scrollable.mousewheel-1.0.1.js", __FILE__ ), array( 'jquery' ));
-    
-        wp_enqueue_script("json-parse2", plugins_url("lib/json2.js", __FILE__ ), array( 'jquery' ));
     }
     
     /*
@@ -561,10 +536,10 @@ class wpsp_scheduled {
             die();
         }
         
-        global $edcal_startDate, $edcal_endDate;
+        global $wpspcalendar_startDate, $wpspcalendar_endDate;
         
-        $edcal_startDate = isset($_GET['from']) ? $_GET['from'] : null;
-        $edcal_endDate = isset($_GET['to']) ? $_GET['to'] : null;
+        $wpspcalendar_startDate = isset($_GET['from']) ? $_GET['from'] : null;
+        $wpspcalendar_endDate = isset($_GET['to']) ? $_GET['to'] : null;
         global $post;
         $args = array(
             'posts_per_page' => -1,
@@ -585,7 +560,7 @@ class wpsp_scheduled {
          * If we're getting the list of posts for the drafts drawer we
          * want to sort them by the post title.
          */
-        if ($edcal_startDate == '00000000') {
+        if ($wpspcalendar_startDate == '00000000') {
             $args['orderby'] = 'title';
         }
 
@@ -725,7 +700,7 @@ class wpsp_scheduled {
     
         $post_type = isset($_GET['post_type'])?$_GET['post_type']:null;
         if (!$post_type) {
-            return __('Posts ', 'editorial-calendar');
+            return __('Posts ', 'wpspcalendar');
         }
     
         $postTypeObj = get_post_type_object($post_type);
@@ -741,7 +716,7 @@ class wpsp_scheduled {
     
         $post_type = isset($_GET['post_type'])?$_GET['post_type']:null;
         if (!$post_type) {
-            return __('Post ', 'editorial-calendar');
+            return __('Post ', 'wpspcalendar');
         }
     
         $postTypeObj = get_post_type_object($post_type);
@@ -860,13 +835,13 @@ class wpsp_scheduled {
         header("Content-Type: application/json");
         $this->edcal_addNoCacheHeaders();
         
-        $edcal_postid = isset($_GET['postid'])?$_GET['postid']:null;
+        $wpspcalendar_postid = isset($_GET['postid'])?$_GET['postid']:null;
         
-        if (!current_user_can('delete_post', $edcal_postid)) {
+        if (!current_user_can('delete_post', $wpspcalendar_postid)) {
             die("You don't have permission to delete this post");
         }
         
-        $post = get_post($edcal_postid, ARRAY_A);
+        $post = get_post($wpspcalendar_postid, ARRAY_A);
         $title = $post['post_title'];
         $date = date('dmY', strtotime($post['post_date'])); // [TODO] : is there a better way to generate the date string ... ??
         $date_gmt = date('dmY',strtotime($post['post_date_gmt']));
@@ -877,10 +852,10 @@ class wpsp_scheduled {
         $force = !EMPTY_TRASH_DAYS;                    // wordpress 2.9 thing. deleted post hangs around (ie in a recycle bin) after deleted for this # of days
         if ( isset($post->post_type) && ($post->post_type == 'attachment' )) {
             $force = ( $force || !MEDIA_TRASH );
-            if ( ! wp_delete_attachment($edcal_postid, $force) )
+            if ( ! wp_delete_attachment($wpspcalendar_postid, $force) )
                 wp_die( __('Error in deleting...') );
         } else {
-            if ( !wp_delete_post($edcal_postid, $force) )
+            if ( !wp_delete_post($wpspcalendar_postid, $force) )
                 wp_die( __('Error in deleting...') );
         }
     
@@ -891,7 +866,7 @@ class wpsp_scheduled {
         {
             "date" : "<?php echo $date ?>", 
             "title" : "<?php echo $title ?>",
-            "id" : "<?php echo $edcal_postid ?>",
+            "id" : "<?php echo $wpspcalendar_postid ?>",
             "date_gmt" : "<?php echo $date_gmt; ?>"
         }
     }
@@ -913,13 +888,13 @@ class wpsp_scheduled {
         header("Content-Type: application/json");
         $this->edcal_addNoCacheHeaders();
         
-        $edcal_postid = isset($_GET['postid'])?$_GET['postid']:null;
-        $edcal_newTitle = isset($_GET['title'])?$_GET['title']:null;
+        $wpspcalendar_postid = isset($_GET['postid'])?$_GET['postid']:null;
+        $wpspcalendar_newTitle = isset($_GET['title'])?$_GET['title']:null;
         
-        $post = get_post($edcal_postid, ARRAY_A);
+        $post = get_post($wpspcalendar_postid, ARRAY_A);
         setup_postdata($post);
         
-        $post['post_title'] = wp_strip_all_tags($edcal_newTitle);
+        $post['post_title'] = wp_strip_all_tags($wpspcalendar_newTitle);
         
         /*
          * Now we finally update the post into the database
@@ -931,10 +906,10 @@ class wpsp_scheduled {
          */
         global $post;
         $args = array(
-            'posts_id' => $edcal_postid,
+            'posts_id' => $wpspcalendar_postid,
         );
         
-        $post = get_post($edcal_postid);
+        $post = get_post($wpspcalendar_postid);
         
         ?>{
             "post" :
@@ -962,17 +937,17 @@ class wpsp_scheduled {
         header("Content-Type: application/json");
         $this->edcal_addNoCacheHeaders();
         
-        $edcal_date = isset($_POST["date"])?$_POST["date"]:null;
+        $wpspcalendar_date = isset($_POST["date"])?$_POST["date"]:null;
         
         $my_post = array();
         $my_post['post_title'] = isset($_POST["title"])?wp_strip_all_tags($_POST["title"]):null;
         $my_post['post_content'] = isset($_POST["content"])?$_POST["content"]:null;
         $my_post['post_status'] = 'draft';
         
-        $my_post['post_date'] = $edcal_date;
-        $my_post['post_date_gmt'] = get_gmt_from_date($edcal_date);
-        $my_post['post_modified'] = $edcal_date;
-        $my_post['post_modified_gmt'] = get_gmt_from_date($edcal_date);
+        $my_post['post_date'] = $wpspcalendar_date;
+        $my_post['post_date_gmt'] = get_gmt_from_date($wpspcalendar_date);
+        $my_post['post_modified'] = $wpspcalendar_date;
+        $my_post['post_modified_gmt'] = get_gmt_from_date($wpspcalendar_date);
         
         // Insert the post into the database
         $my_post_id = wp_insert_post( $my_post );
@@ -1016,8 +991,8 @@ class wpsp_scheduled {
         header("Content-Type: application/json");
         $this->edcal_addNoCacheHeaders();
         
-        $edcal_date = isset($_POST["date"])?$_POST["date"]:null;
-        $edcal_date_gmt = isset($_POST["date_gmt"])?$_POST["date_gmt"]:get_gmt_from_date($edcal_date);
+        $wpspcalendar_date = isset($_POST["date"])?$_POST["date"]:null;
+        $wpspcalendar_date_gmt = isset($_POST["date_gmt"])?$_POST["date_gmt"]:get_gmt_from_date($wpspcalendar_date);
         
         $my_post = array();
         
@@ -1039,16 +1014,16 @@ class wpsp_scheduled {
         $my_post['post_title'] = isset($_POST["title"])?wp_strip_all_tags($_POST["title"]):null;
         $my_post['post_content'] = isset($_POST["content"])?$_POST["content"]:null;
         
-        if ($edcal_date_gmt != '0000-00-00 00:00:00' || $my_post['ID'] > 0) {
+        if ($wpspcalendar_date_gmt != '0000-00-00 00:00:00' || $my_post['ID'] > 0) {
             /*
              * We don't want to set a date if this a new post in the drafts
              * drawer since WordPress 3.5 will reject new posts with a 0000 
              * GMT date.
              */
-            $my_post['post_date'] = $edcal_date;
-            $my_post['post_date_gmt'] = $edcal_date_gmt;
-            $my_post['post_modified'] = $edcal_date;
-            $my_post['post_modified_gmt'] = $edcal_date_gmt;
+            $my_post['post_date'] = $wpspcalendar_date;
+            $my_post['post_date_gmt'] = $wpspcalendar_date_gmt;
+            $my_post['post_modified'] = $wpspcalendar_date;
+            $my_post['post_modified_gmt'] = $wpspcalendar_date_gmt;
         }
         
         $my_post['post_status'] = $_POST['status'];
@@ -1147,18 +1122,18 @@ class wpsp_scheduled {
         header("Content-Type: application/json");
         $this->edcal_addNoCacheHeaders();
         
-        $edcal_postid = isset($_GET['postid'])?$_GET['postid']:null;
-        $edcal_newDate = isset($_GET['newdate'])?$_GET['newdate']:null;
-        $edcal_oldDate = isset($_GET['olddate'])?$_GET['olddate']:null;
-        $edcal_postStatus = isset($_GET['postStatus'])?$_GET['postStatus']:null;
-        $move_to_drawer = $edcal_newDate == '0000-00-00';
-        $move_from_drawer = $edcal_oldDate == '00000000';
+        $wpspcalendar_postid = isset($_GET['postid'])?$_GET['postid']:null;
+        $wpspcalendar_newDate = isset($_GET['newdate'])?$_GET['newdate']:null;
+        $wpspcalendar_oldDate = isset($_GET['olddate'])?$_GET['olddate']:null;
+        $wpspcalendar_postStatus = isset($_GET['postStatus'])?$_GET['postStatus']:null;
+        $move_to_drawer = $wpspcalendar_newDate == '0000-00-00';
+        $move_from_drawer = $wpspcalendar_oldDate == '00000000';
 
         global $post;
         $args = array(
-            'posts_id' => $edcal_postid,
+            'posts_id' => $wpspcalendar_postid,
         );
-        $post = get_post($edcal_postid);
+        $post = get_post($wpspcalendar_postid);
         setup_postdata($post);
 
         /*
@@ -1188,7 +1163,7 @@ class wpsp_scheduled {
          * Error-checking:
          */
         $error = false;
-        if (!current_user_can('edit_post', $edcal_postid)) {
+        if (!current_user_can('edit_post', $wpspcalendar_postid)) {
             /*
              * This is just a sanity check to make sure that the current
              * user has permission to edit posts.  Most of the time this
@@ -1196,7 +1171,7 @@ class wpsp_scheduled {
              * you are at least an editor.
              */
             $error = EDCAL_PERMISSION_ERROR;
-        } else if ( date('Y-m-d', strtotime($post->post_date)) != date('Y-m-d', strtotime($edcal_oldDate)) ) {
+        } else if ( date('Y-m-d', strtotime($post->post_date)) != date('Y-m-d', strtotime($wpspcalendar_oldDate)) ) {
             /*
              * We are doing optimistic concurrency checking on the dates.  If
              * the user tries to move a post we want to make sure nobody else
@@ -1228,10 +1203,10 @@ class wpsp_scheduled {
          */
         
         $updated_post = array();
-        $updated_post['ID'] = $edcal_postid;
+        $updated_post['ID'] = $wpspcalendar_postid;
 
         if ( !$move_to_drawer ) {
-            $updated_post['post_date'] = $edcal_newDate . substr($post->post_date, strlen($edcal_newDate));
+            $updated_post['post_date'] = $wpspcalendar_newDate . substr($post->post_date, strlen($wpspcalendar_newDate));
         }
 
         /*
@@ -1245,7 +1220,7 @@ class wpsp_scheduled {
 
         if ( $needsEditDate ) {
             // echo "\r\nneeds edit date\r\n";
-            $updated_post['edit_date'] = $edcal_newDate . substr($post->post_date, strlen($edcal_newDate));
+            $updated_post['edit_date'] = $wpspcalendar_newDate . substr($post->post_date, strlen($wpspcalendar_newDate));
         }
 
         if ( $move_to_drawer ) {
@@ -1261,17 +1236,17 @@ class wpsp_scheduled {
          */
         if ( !$move_to_drawer ) {
             $updated_post['post_date_gmt'] = get_gmt_from_date($updated_post['post_date']);
-            $updated_post['post_modified'] = $edcal_newDate . substr($post->post_modified, strlen($edcal_newDate));
+            $updated_post['post_modified'] = $wpspcalendar_newDate . substr($post->post_modified, strlen($wpspcalendar_newDate));
             $updated_post['post_modified_gmt'] = get_gmt_from_date($updated_post['post_date']);
         }
         
-        if ($edcal_postStatus != $post->post_status) {
+        if ($wpspcalendar_postStatus != $post->post_status) {
             /*
              * We only want to update the post status if it has changed.
              * If the post status has changed that takes a few more steps
              */
-            wp_transition_post_status($edcal_postStatus, $post->post_status, $post);
-            $updated_post['post_status'] = $edcal_postStatus;
+            wp_transition_post_status($wpspcalendar_postStatus, $post->post_status, $post);
+            $updated_post['post_status'] = $wpspcalendar_postStatus;
             
             // Update counts for the post's terms.
             foreach ( (array) get_object_taxonomies('post') as $taxonomy ) {
@@ -1279,9 +1254,9 @@ class wpsp_scheduled {
                 wp_update_term_count($tt_ids, $taxonomy);
             }
             
-            do_action('edit_post', $edcal_postid, $post);
-            do_action('save_post', $edcal_postid, $post);
-            do_action('wp_insert_post', $edcal_postid, $post);
+            do_action('edit_post', $wpspcalendar_postid, $post);
+            do_action('save_post', $wpspcalendar_postid, $post);
+            do_action('wp_insert_post', $wpspcalendar_postid, $post);
         }
         
 // die(var_dump($updated_post).'success!');
@@ -1295,10 +1270,10 @@ class wpsp_scheduled {
          */
         global $post;
         $args = array(
-            'posts_id' => $edcal_postid,
+            'posts_id' => $wpspcalendar_postid,
         );
         
-        $post = get_post($edcal_postid);
+        $post = get_post($wpspcalendar_postid);
         ?>{
             "post" :
             
@@ -1324,46 +1299,46 @@ class wpsp_scheduled {
         /*
          * The number of weeks preference
          */
-        $edcal_weeks = isset($_GET['weeks'])?$_GET['weeks']:null;
-        if ($edcal_weeks != null) {
-            add_option("edcal_weeks_pref", $edcal_weeks, "", "yes");
-            update_option("edcal_weeks_pref", $edcal_weeks);
+        $wpspcalendar_weeks = isset($_GET['weeks'])?$_GET['weeks']:null;
+        if ($wpspcalendar_weeks != null) {
+            add_option("wpsp_select_weeks", $wpspcalendar_weeks, "", "yes");
+            update_option("wpsp_select_weeks", $wpspcalendar_weeks);
         }
         
         /*
          * The show author preference
          */
-        $edcal_author = isset($_GET['author-hide'])?$_GET['author-hide']:null;
-        if ($edcal_author != null) {
-            add_option("edcal_author_pref", $edcal_author, "", "yes");
-            update_option("edcal_author_pref", $edcal_author);
+        $wpspcalendar_author = isset($_GET['author-hide'])?$_GET['author-hide']:null;
+        if ($wpspcalendar_author != null) {
+            add_option("edcal_author_pref", $wpspcalendar_author, "", "yes");
+            update_option("edcal_author_pref", $wpspcalendar_author);
         }
         
         /*
          * The show status preference
          */
-        $edcal_status = isset($_GET['status-hide'])?$_GET['status-hide']:null;
-        if ($edcal_status != null) {
-            add_option("edcal_status_pref", $edcal_status, "", "yes");
-            update_option("edcal_status_pref", $edcal_status);
+        $wpspcalendar_status = isset($_GET['status-hide'])?$_GET['status-hide']:null;
+        if ($wpspcalendar_status != null) {
+            add_option("edcal_status_pref", $wpspcalendar_status, "", "yes");
+            update_option("edcal_status_pref", $wpspcalendar_status);
         }
         
         /*
          * The show time preference
          */
-        $edcal_time = isset($_GET['time-hide'])?$_GET['time-hide']:null;
-        if ($edcal_time != null) {
-            add_option("edcal_time_pref", $edcal_time, "", "yes");
-            update_option("edcal_time_pref", $edcal_time);
+        $wpspcalendar_time = isset($_GET['time-hide'])?$_GET['time-hide']:null;
+        if ($wpspcalendar_time != null) {
+            add_option("edcal_time_pref", $wpspcalendar_time, "", "yes");
+            update_option("edcal_time_pref", $wpspcalendar_time);
         }
     
         /*
          * The edcal feedback preference
          */
-        $edcal_feedback = isset($_GET['dofeedback'])?$_GET['dofeedback']:null;
-        if ($edcal_feedback != null) {
-            add_option("edcal_do_feedback", $edcal_feedback, "", "yes");
-            update_option("edcal_do_feedback", $edcal_feedback);
+        $wpspcalendar_feedback = isset($_GET['dofeedback'])?$_GET['dofeedback']:null;
+        if ($wpspcalendar_feedback != null) {
+            add_option("edcal_do_feedback", $wpspcalendar_feedback, "", "yes");
+            update_option("edcal_do_feedback", $wpspcalendar_feedback);
         }
         
         /*
