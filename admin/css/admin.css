@@ -616,7 +616,7 @@ textarea.wpsp-form-control {
 /* Manage Schedule Page */
 
 .schedule-list {
-	background-color: #edeafd;
+	background-color: #f8fafc;
 	margin: 0;
 	padding: 5px;
 	display: flex;
@@ -640,12 +640,13 @@ textarea.wpsp-form-control {
 }
 
 .schedule-list li > span {
-	padding: 10px;
+	padding: 8px;
 	display: block;
 	text-transform: uppercase;
 	letter-spacing: 1px;
 	margin-top: 7px;
-	background-color: #f8fafc;
+	background-color: #fff;
+	border: 1px solid rgba(0,0,0, .07);
 }
 
 .schedule-list li > span a {
@@ -670,17 +671,17 @@ textarea.wpsp-form-control {
 }
 
 .miss-schedule-form {
-	background-color: #d7f9f5;
+	background-color: #30d6a9;
 	padding: 20px;
 	font-size: 16px;
 	margin-top: 25px;
 	border-radius: 3px;
-	color: #26a9b4;
+	color: #fff;
 	border: 1px solid rgba(0,0,0, .05);
 }
 
 .wpsp-schedule-table {
-	background-color: #f3f1fc;
+	background-color: #f8fafc;
 	color: #4d4d4d;
 	padding: 15px;
 	margin-bottom: 20px;
@@ -721,6 +722,19 @@ textarea.wpsp-form-control {
 .wpsp-error-notice h3 {
 	color: #e8606d;
 	margin: 15px 0;
+}
+
+.wpsp-success-notice h3 {
+	color: #26a9b4;
+	margin: 15px 0;
+}
+
+.wpsp-success-notice {
+	background-color: #d7f9f5;
+	color: #26a9b4;
+	padding: 20px;
+	border-radius: 3px;
+	border: 1px solid rgba(0,0,0, .05);
 }
 
 .manage-schedule-form select {

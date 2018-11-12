@@ -208,7 +208,7 @@
 .daylabel {
     position: relative;
     text-align: right;
-    padding: 5px 10px;
+    padding: 10px;
     -moz-border-radius:2px 2px 0 0;
     -webkit-border-radius:2px 2px 0 0;
     -o-border-radius:2px 2px 0 0;
@@ -227,19 +227,23 @@
 
 .daynewlink {
     position: absolute;
-    top: 0px;
-    left: 0px;
+    top: 3px;
+    left: 3px;
     display: none;
     padding-left: 0.5em;
     padding-right: 0em;
     text-decoration: none;
-    font-size:10px;
+    font-size:13px;
     z-index: 10;
     overflow: hidden;
     height: 1.5em;
     white-space: nowrap;
     text-overflow: ellipsis;
     width: 70%;
+}
+
+#unscheduledNewLink {
+    top: -3px;
 }
 
 .day.today .daylabel {
@@ -443,15 +447,34 @@ TinyMCE Rich Editor and Media buttons are not currently used
 #edit-slug-buttons a {
 }
 
+
 #newPostScheduleButton {
     position: absolute;
     right: 0;
-    top: -5px;
+    top: -2px;
+    background-color: #715ec8;
+    color: #fff;
+    border: none;
+    text-shadow: none;
+    box-shadow: none;
+    padding: 10px 25px;
+    line-height: 1;
+    height: auto;
 }
 
 #newPostScheduleButton.disabled {
-    color:#9FD0D5!important;
-    background:#298CBA!important;
+    background-color: #715ec8!important;
+    color: #fff!important;
+    opacity: .7
+}
+
+.wpsp-quickedit-inner #edit-slug-buttons a.cancel {
+    background-color: #ff5f7e;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    height: auto;
+    line-height: 1;
 }
 
 /* End Add/Edit Tooltip */
