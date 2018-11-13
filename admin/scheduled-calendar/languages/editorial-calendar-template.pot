@@ -1,5 +1,5 @@
-# Translation of Editorial Calendar 
-# This file is distributed under the same license as the Editorial Calendar package.
+# Translation of wpsp 
+# This file is distributed under the same license as the wpsp package.
 msgid ""
 msgstr ""
 "PO-Revision-Date: 2012-02-26 21:34:50+0000\n"

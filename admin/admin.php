@@ -21,7 +21,6 @@ class optionAdminPanel{
 
 	function show_menus() {
   		switch ($_GET['page']){
-			
 			case "f_vs_p" :
 				include_once ( dirname (__FILE__) . '/f_vs_p.php' );
 				break;

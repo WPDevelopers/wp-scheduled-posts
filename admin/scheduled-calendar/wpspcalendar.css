@@ -91,7 +91,7 @@
 
 /* Calendar container */
 
-#cal_cont, #edcal_scrollable {
+#cal_cont, #scrollable_wpsp {
     -x-system-font:none;
     font-family:"Lucida Grande",Verdana,Arial,"Bitstream Vera Sans",sans-serif;
     font-size:11px;
@@ -111,7 +111,7 @@
     border-radius:4px;
 }
 
-#edcal_scrollable {
+#scrollable_wpsp {
     /* required settings */ 
     position:relative; 
     overflow:hidden; 
@@ -160,7 +160,7 @@
 
 /* Rows */
 
-.edcal_row {
+.wpsp_row {
     height: 100%;
 }
 
@@ -367,7 +367,7 @@
     z-index: 25;
 }
 
-.edcal_quickedit {
+.wpsp_quickedit {
     padding: 10px;
     position: relative;
     border-top:1px solid #fff;
@@ -396,44 +396,44 @@
     text-decoration: none;
 }
 
-#edcal_quickedit .inline-edit-row fieldset {
+#wpsp_quickedit .inline-edit-row fieldset {
     padding-bottom:1.2em;
 }
 
-#edcal-title { /* not sure this is being used */
+#wpsp-title { /* not sure this is being used */
     padding-top: 0.5em;
     padding-bottom: 0.5em;
 }
 
-#edcal-title-new-field {
+#wpsp-title-new-field {
     padding: 5px;
     height: 36px;
     box-shadow: none;
 }
 /*
 TinyMCE Rich Editor and Media buttons are not currently used
-#edcal_quickedit .mceEditor,*/
-#edcal_quickedit textarea {
+#wpsp_quickedit .mceEditor,*/
+#wpsp_quickedit textarea {
     height: 15em;
     padding: 8px;
     box-shadow: none;
 }
 
 /*
-#edcal_quickedit #cal_mediabar {
+#wpsp_quickedit #cal_mediabar {
     font-size: 11px;
 }
 
-#edcal_quickedit #media-buttons {
+#wpsp_quickedit #media-buttons {
     padding: 5px 0;
 }*/
 
-#edcal_quickedit #edcal-time {
+#wpsp_quickedit #wpsp-time {
     width: 9em;
     background-color: white;
 }
 
-#edcal-author-p {
+#wpsp-author-p {
     line-height:1.8em;
     padding-left:0.2em;
 }
@@ -483,7 +483,7 @@ TinyMCE Rich Editor and Media buttons are not currently used
 
 /* Screen Options */
 
-#edcal_weeks_pref {
+#wpsp_select_weeks {
     width: 4em;
 }
 
@@ -497,7 +497,7 @@ TinyMCE Rich Editor and Media buttons are not currently used
     vertical-align: baseline;
 }
 
-#edcal-qunit {
+#wpsp-qunit {
     margin-top: 2em;
 }
 
@@ -532,7 +532,7 @@ TinyMCE Rich Editor and Media buttons are not currently used
     -webkit-border-radius: 4px;
 }
 
-#screen-meta #show-edcal-settings-link.show-settings {
+#screen-meta #show-wpsp-settings-link.show-settings {
     background-position: right -1px;
 }
 

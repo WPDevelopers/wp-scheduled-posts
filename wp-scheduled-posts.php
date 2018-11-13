@@ -84,7 +84,7 @@ if (!class_exists('wpsp_addon')) {
 	global $wpsp_op;
 	$wpsp_op = new wpsp_addon();
 		
-include('admin/scheduled-calendar/scheduled.php');
+include('admin/scheduled-calendar/wpspcalendar.php');
 include('admin/manage-schedule/manage-schedule.php');
 include('admin/wpsp-missed-schedule/wpsp-missed-schedule.php');
 
