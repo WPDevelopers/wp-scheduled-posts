@@ -9,17 +9,17 @@ if ( is_admin() ) {
 /*
  * This error code matches CONCURRENCY_ERROR from wpspcalendar.js
  */
-define( 'EDCAL_CONCURRENCY_ERROR', 4 );
+define( 'WPSP_CONCURRENCY_ERROR', 4 );
 
 /*
  * This error code matches PERMISSION_ERROR from wpspcalendar.js
  */
-define( 'EDCAL_PERMISSION_ERROR', 5 );
+define( 'WPSP_PERMISSION_ERROR', 5 );
 
 /*
  * This error code matches NONCE_ERROR from wpspcalendar.js
  */
-define( 'EDCAL_NONCE_ERROR', 6 );
+define( 'WPSP_NONCE_ERROR', 6 );
 
 class wpsp_scheduled {
     
@@ -1100,7 +1100,7 @@ class wpsp_scheduled {
              */
             ?>
             {
-                "error": <?php echo(EDCAL_NONCE_ERROR); ?>
+                "error": <?php echo(WPSP_NONCE_ERROR); ?>
             }
             <?php
             return false;
@@ -1171,7 +1171,7 @@ class wpsp_scheduled {
              * will never be run because you can't see the calendar unless
              * you are at least an editor.
              */
-            $error = EDCAL_PERMISSION_ERROR;
+            $error = WPSP_PERMISSION_ERROR;
         } else if ( date('Y-m-d', strtotime($post->post_date)) != date('Y-m-d', strtotime($wpspcalendar_oldDate)) ) {
             /*
              * We are doing optimistic concurrency checking on the dates.  If
@@ -1181,7 +1181,7 @@ class wpsp_scheduled {
              * browser then we return an error to the browser along with the
              * updated post data.
              */
-            $error = EDCAL_CONCURRENCY_ERROR;
+            $error = WPSP_CONCURRENCY_ERROR;
         }
 
         if ( $error ) {
