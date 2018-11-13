@@ -22,7 +22,7 @@ jQuery(document).ready(function($) {
 			$('#cal_check').attr("checked",true);
 			$('#pub_check').attr("checked",false);
 		}else{
-			return false;
+			return true;
 		}
 	    
 	});
