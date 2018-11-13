@@ -1,4 +1,4 @@
-This file lists all of the third-party JavaScript libraries we are using and where they came from.  All of these files are compressed and combined into the edcallib.min.js file.  This compressed file was made with the Google Closure JavaScript compiler.  I haven't checked in that compiler because it is over 4MB and you don't need it for runtime.  I haven't been able to figure out a way to make WordPress's Subversion exclude a file when building a plugin.
+This file lists all of the third-party JavaScript libraries we are using and where they came from.  All of these files are compressed and combined into the wpsplib.min.js file.  This compressed file was made with the Google Closure JavaScript compiler.  I haven't checked in that compiler because it is over 4MB and you don't need it for runtime.  I haven't been able to figure out a way to make WordPress's Subversion exclude a file when building a plugin.
 
 languages/date-*.js
 date.extras.js

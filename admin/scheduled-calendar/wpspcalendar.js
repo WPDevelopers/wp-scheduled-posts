@@ -61,7 +61,7 @@
       </div>
   </div>
  */
-var edcal = {
+var wpsp = {
   /*
        This final string represents the date which indicates to WordPress
        that a post doesn't have a date.
@@ -235,23 +235,23 @@ var edcal = {
       return;
     }
 
-    //edcal.addFeedbackSection();
+    //wpsp.addFeedbackSection();
 
     var draftsDrawerVisible = jQuery.cookie('wpsp_drafts_drawer');
     if (draftsDrawerVisible === 'true') {
-      edcal.isDraftsDrawerVisible = true;
-      edcal.setDraftsDrawerVisible(edcal.isDraftsDrawerVisible);
+      wpsp.isDraftsDrawerVisible = true;
+      wpsp.setDraftsDrawerVisible(wpsp.isDraftsDrawerVisible);
     }
 
     jQuery('#loading').hide();
 
-    jQuery('#scrollable_wpsp').css('height', edcal.getCalHeight() + 'px');
-    edcal.windowHeight = jQuery(window).height();
+    jQuery('#scrollable_wpsp').css('height', wpsp.getCalHeight() + 'px');
+    wpsp.windowHeight = jQuery(window).height();
 
     /*
          *  Add the days of the week
          */
-    edcal.createDaysHeader();
+    wpsp.createDaysHeader();
 
     /*
          * We start by initializting the scrollable.  We use this to manage the
@@ -263,7 +263,7 @@ var edcal = {
          */
     jQuery('#scrollable_wpsp').scrollable({
       vertical: true,
-      size: edcal.weeksPref,
+      size: wpsp.weeksPref,
       keyboard: false,
       keyboardSteps: 1,
       speed: 100,
@@ -284,20 +284,20 @@ var edcal = {
 
     if (curDate) {
       curDate = Date.parseExact(curDate, 'yyyy-dd-MM');
-      edcal.output('Resetting to date from the Date_wpsp cookie: ' + curDate);
+      wpsp.output('Resetting to date from the Date_wpsp cookie: ' + curDate);
     } else {
       curDate = Date.today();
     }
 
-    edcal.moveTo(curDate.clone());
+    wpsp.moveTo(curDate.clone());
 
     jQuery('#scrollable_wpsp').bind('mousewheel', function(event, delta) {
       var dir = delta > 0 ? false : true,
         vel = Math.abs(delta);
-      edcal.output(dir + ' at a velocity of ' + vel);
+      wpsp.output(dir + ' at a velocity of ' + vel);
 
-      if (!edcal.isMoving && vel > 0.2) {
-        edcal.move(1, dir);
+      if (!wpsp.isMoving && vel > 0.2) {
+        wpsp.move(1, dir);
       }
 
       return false;
@@ -316,9 +316,9 @@ var edcal = {
          */
     jQuery(document).bind('keydown', function(evt) {
       //if (evt.altKey || evt.ctrlKey) { return; }
-      //edcal.output("evt.altKey: " + evt.altKey);
-      //edcal.output("evt.keyCode: " + evt.keyCode);
-      //edcal.output("evt.ctrlKey: " + evt.ctrlKey);
+      //wpsp.output("evt.altKey: " + evt.altKey);
+      //wpsp.output("evt.keyCode: " + evt.keyCode);
+      //wpsp.output("evt.ctrlKey: " + evt.ctrlKey);
 
       if (evt.keyCode === 27) {
         //escape key
@@ -331,37 +331,37 @@ var edcal = {
 
       if (evt.keyCode === 40 && !(evt.altKey || evt.ctrlKey)) {
         // down arrow key
-        edcal.move(1, true);
+        wpsp.move(1, true);
         return false;
       } else if (evt.keyCode === 38 && !(evt.altKey || evt.ctrlKey)) {
         // up arrow key
-        edcal.move(1, false);
+        wpsp.move(1, false);
         return false;
       } else if (
         (evt.keyCode === 34 && !(evt.altKey || evt.ctrlKey)) || //page down
         (evt.keyCode === 40 && evt.ctrlKey)
       ) {
         // Ctrl+down down arrow
-        edcal.move(edcal.weeksPref, true);
+        wpsp.move(wpsp.weeksPref, true);
         return false;
       } else if (
         (evt.keyCode === 33 && !(evt.altKey || evt.ctrlKey)) || //page up
         (evt.keyCode === 38 && evt.ctrlKey)
       ) {
         // Ctrl+up up arrow
-        edcal.move(edcal.weeksPref, false);
+        wpsp.move(wpsp.weeksPref, false);
         return false;
       }
     });
 
-    edcal.getPosts(
-      edcal
+    wpsp.getPosts(
+      wpsp
         .nextStartOfWeek(curDate)
         .add(-3)
         .weeks(),
-      edcal
+      wpsp
         .nextStartOfWeek(curDate)
-        .add(edcal.weeksPref + 3)
+        .add(wpsp.weeksPref + 3)
         .weeks()
     );
 
@@ -370,50 +370,50 @@ var edcal = {
            resize.
          */
     jQuery('#moveToToday').click(function() {
-      edcal.moveTo(Date.today());
-      edcal.getPosts(
-        edcal
+      wpsp.moveTo(Date.today());
+      wpsp.getPosts(
+        wpsp
           .nextStartOfWeek(Date.today())
           .add(-3)
           .weeks(),
-        edcal
+        wpsp
           .nextStartOfWeek(Date.today())
-          .add(edcal.weeksPref + 3)
+          .add(wpsp.weeksPref + 3)
           .weeks()
       );
       return false;
     });
 
     jQuery('#moveToLast').click(function() {
-      if (edcal.lastPostDate === '-1') {
+      if (wpsp.lastPostDate === '-1') {
         /*
                  * This happens when the blog doesn't have any posts
                  */
         return;
       }
 
-      var d = Date.parseExact(edcal.lastPostDate, 'ddMMyyyy');
-      edcal.moveTo(d);
-      edcal.getPosts(
-        edcal
+      var d = Date.parseExact(wpsp.lastPostDate, 'ddMMyyyy');
+      wpsp.moveTo(d);
+      wpsp.getPosts(
+        wpsp
           .nextStartOfWeek(d)
           .add(-3)
           .weeks(),
-        edcal
+        wpsp
           .nextStartOfWeek(d)
-          .add(edcal.weeksPref + 3)
+          .add(wpsp.weeksPref + 3)
           .weeks()
       );
       return false;
     });
 
     jQuery('#prevmonth').click(function() {
-      edcal.move(edcal.weeksPref, false);
+      wpsp.move(wpsp.weeksPref, false);
       return false;
     });
 
     jQuery('#nextmonth').click(function() {
-      edcal.move(edcal.weeksPref, true);
+      wpsp.move(wpsp.weeksPref, true);
       return false;
     });
 
@@ -424,10 +424,10 @@ var edcal = {
            off so we are just skipping it.
          */
     /*function resizeWindow(e) {
-            if (edcal.windowHeight != jQuery(window).height()) {
-                jQuery('#scrollable_wpsp').css('height', edcal.getCalHeight() + 'px');
-                edcal.windowHeight = jQuery(window).height();
-                edcal.savePosition();
+            if (wpsp.windowHeight != jQuery(window).height()) {
+                jQuery('#scrollable_wpsp').css('height', wpsp.getCalHeight() + 'px');
+                wpsp.windowHeight = jQuery(window).height();
+                wpsp.savePosition();
             }
         }
         jQuery(window).bind('resize', resizeWindow);*/
@@ -441,14 +441,14 @@ var edcal = {
       // make sure we can't make duplicate posts by clicking twice quickly
       jQuery(this).addClass('disabled');
       // and save the post
-      return edcal.savePost(null, false, true);
+      return wpsp.savePost(null, false, true);
     });
 
-    jQuery('#edcal-title-new-field').bind('keyup', function(evt) {
+    jQuery('#wpsp-title-new-field').bind('keyup', function(evt) {
       if (
-        jQuery('#edcal-title-new-field').val().length > 0 &&
-        (!jQuery('#edcal-time').is(':visible') ||
-          jQuery('#edcal-time').val().length > 0)
+        jQuery('#wpsp-title-new-field').val().length > 0 &&
+        (!jQuery('#wpsp-time').is(':visible') ||
+          jQuery('#wpsp-time').val().length > 0)
       ) {
         jQuery('#newPostScheduleButton').removeClass('disabled');
       } else {
@@ -460,12 +460,12 @@ var edcal = {
         /*
                  * If the user presses enter we want to save the draft.
                  */
-        return edcal.savePost(null, true);
+        return wpsp.savePost(null, true);
       }
     });
 
-    jQuery('#edcal-status').bind('change', function(evt) {
-      edcal.updatePublishButton();
+    jQuery('#wpsp-status').bind('change', function(evt) {
+      wpsp.updatePublishButton();
     });
 
     jQuery('#wpsp_select_weeks').on('keyup', function(evt) {
@@ -477,22 +477,22 @@ var edcal = {
 
       if (evt.keyCode === 13) {
         // enter key
-        edcal.saveOptions();
+        wpsp.saveOptions();
       }
     });
 
-    edcal.savePosition();
+    wpsp.savePosition();
 
-    edcal.addOptionsSection();
+    wpsp.addOptionsSection();
 
-    jQuery('#edcal-time').timePicker({
-      show24Hours: edcal.timeFormat === 'H:i',
+    jQuery('#wpsp-time').timePicker({
+      show24Hours: wpsp.timeFormat === 'H:i',
       separator: ':',
       step: 30
     });
 
     jQuery('#showdraftsdrawer').click(function() {
-      edcal.setDraftsDrawerVisible(!edcal.isDraftsDrawerVisible);
+      wpsp.setDraftsDrawerVisible(!wpsp.isDraftsDrawerVisible);
     });
   },
 
@@ -507,7 +507,7 @@ var edcal = {
     /* tells us if the drafts have been loaded for the first time */
     if (!showhideElement.hasClass('isLoaded')) {
       showhideElement.addClass('isLoaded');
-      edcal.setupDraftsdrawer(callback);
+      wpsp.setupDraftsdrawer(callback);
     } else if (callback) {
       /*
              * If the drawer was already open we just call the callback
@@ -516,21 +516,21 @@ var edcal = {
     }
 
     if (visible) {
-      // edcal.output('showing draftsdrawer');
+      // wpsp.output('showing draftsdrawer');
       jQuery('#cal_cont').css({ 'margin-right': drawerwidthmargin });
       jQuery('#draftsdrawer_cont').css({
         display: 'block',
         width: drawerwidth
       });
-      showhideElement.html(edcal.str_hidedrafts);
+      showhideElement.html(wpsp.str_hidedrafts);
     } else {
-      // edcal.output('hiding draftsdrawer');
+      // wpsp.output('hiding draftsdrawer');
       jQuery('#cal_cont').css({ 'margin-right': '0' });
       jQuery('#draftsdrawer_cont').css({ display: 'none', width: '0' });
-      showhideElement.html(edcal.str_showdrafts);
+      showhideElement.html(wpsp.str_showdrafts);
     }
 
-    edcal.isDraftsDrawerVisible = visible;
+    wpsp.isDraftsDrawerVisible = visible;
 
     jQuery.cookie('wpsp_drafts_drawer', visible, { expires: 2060 });
   },
@@ -540,8 +540,8 @@ var edcal = {
      */
   setupDraftsdrawer: function(/*function*/ callback) {
     jQuery('#draftsdrawer_loading').css({ display: 'block' });
-    edcal.getPosts(edcal.NO_DATE, null, function() {
-      edcal.initDraftsdrawer();
+    wpsp.getPosts(wpsp.NO_DATE, null, function() {
+      wpsp.initDraftsdrawer();
       if (callback) {
         callback();
       }
@@ -549,7 +549,7 @@ var edcal = {
   },
 
   /*
-     * Inits the drafts drawer, much like edcal.createRow()
+     * Inits the drafts drawer, much like wpsp.createRow()
      * We could paginate this but right now we're just loading them all.
      */
   initDraftsdrawer: function() {
@@ -557,26 +557,26 @@ var edcal = {
 
     newrow +=
       '<a href="#" adddate="' +
-      edcal.NO_DATE +
+      wpsp.NO_DATE +
       '" class="daynewlink" style="margin-top: 5px;"' +
       'title="' +
-      edcal.str_newdraft +
+      wpsp.str_newdraft +
       '" id="unscheduledNewLink" ' +
-      'onclick="edcal.addDraft(); return false;">' +
-      edcal.str_addDraftLink +
+      'onclick="wpsp.addDraft(); return false;">' +
+      wpsp.str_addDraftLink +
       '</a>';
 
     newrow += '<ul class="postlist">';
 
-    newrow += edcal.getPostItems(edcal.NO_DATE);
+    newrow += wpsp.getPostItems(wpsp.NO_DATE);
 
     newrow += '</ul>';
 
-    edcal.draggablePost(
-      '#row' + edcal._wDate.toString(edcal.internalDateFormat) + ' li.post'
+    wpsp.draggablePost(
+      '#row' + wpsp._wDate.toString(wpsp.internalDateFormat) + ' li.post'
     );
 
-    edcal.makeDroppable(jQuery('#draftsdrawer div.day'));
+    wpsp.makeDroppable(jQuery('#draftsdrawer div.day'));
 
     jQuery('#unscheduled').append(newrow);
     jQuery('#draftsdrawer_loading').css({ display: 'none' });
@@ -638,7 +638,7 @@ var edcal = {
                We only want to do this for the days of the week so we skip it
                if we're dealing with just one column for the rows in the calendar.
              */
-      if (cols === 1 || edcal.ltr === 'ltr') {
+      if (cols === 1 || wpsp.ltr === 'ltr') {
         for (var i = 0; i < children.length; i++) {
           children.eq(i).css({
             width: cellWidth + '%',
@@ -685,7 +685,7 @@ var edcal = {
        have to change the cell sizes in multiple places.
      */
   alignCal: function() {
-    edcal.alignGrid('#cal', 1, 100, 100 / edcal.weeksPref - 1, 1);
+    wpsp.alignGrid('#cal', 1, 100, 100 / wpsp.weeksPref - 1, 1);
   },
 
   /*
@@ -708,14 +708,14 @@ var edcal = {
 
     /*
          * We need to call nextStartOfWeek to make sure the
-         * edcal.startOfWeek variable gets initialized.
+         * wpsp.startOfWeek variable gets initialized.
          */
-    edcal.nextStartOfWeek(date);
+    wpsp.nextStartOfWeek(date);
 
     var html =
       '<div class="dayheadcont"><div class="dayhead firstday">' +
       date
-        .add(edcal.startOfWeek)
+        .add(wpsp.startOfWeek)
         .days()
         .toString('dddd') +
       '</div>';
@@ -765,7 +765,7 @@ var edcal = {
 
     jQuery('#cal_cont').prepend(html);
 
-    edcal.alignGrid('.dayheadcont', 7, 13.8, 100, 0.5);
+    wpsp.alignGrid('.dayheadcont', 7, 13.8, 100, 0.5);
   },
 
   /*
@@ -788,31 +788,31 @@ var edcal = {
               */
       daystyle = 'todayAndAfter';
     }
-    if (!edcal.firstDayOfMonth) {
+    if (!wpsp.firstDayOfMonth) {
       /*
               * We only need to figure out the first and last day
               * of the month once
               */
-      edcal.firstDayOfMonth = Date.today()
+      wpsp.firstDayOfMonth = Date.today()
         .moveToFirstDayOfMonth()
         .clearTime();
-      edcal.firstDayOfNextMonth = Date.today()
+      wpsp.firstDayOfNextMonth = Date.today()
         .moveToLastDayOfMonth()
         .clearTime();
     }
-    if (date.between(edcal.firstDayOfMonth, edcal.firstDayOfNextMonth)) {
+    if (date.between(wpsp.firstDayOfMonth, wpsp.firstDayOfNextMonth)) {
       /*
               * If the date isn't before the first of the
               * month and it isn't after the last of the
               * month then it is in the current month.
               */
       monthstyle = 'month-present';
-    } else if (date.compareTo(edcal.firstDayOfMonth) === 1) {
+    } else if (date.compareTo(wpsp.firstDayOfMonth) === 1) {
       /*
               * Then the date is after the current month
               */
       monthstyle = 'month-future';
-    } else if (date.compareTo(edcal.firstDayOfNextMonth) === -1) {
+    } else if (date.compareTo(wpsp.firstDayOfNextMonth) === -1) {
       /*
               * Then the date is before the current month
               */
@@ -834,13 +834,13 @@ var edcal = {
        is over a specific day.
      */
   showAddPostLink: function(/*string*/ dayid) {
-    if (edcal.inDrag) {
+    if (wpsp.inDrag) {
       return;
     }
 
     var createLink = jQuery('#' + dayid + ' a.daynewlink');
     createLink.css('display', 'block');
-    createLink.bind('click', edcal.addPost);
+    createLink.bind('click', wpsp.addPost);
   },
 
   /*
@@ -849,7 +849,7 @@ var edcal = {
      */
   hideAddPostLink: function(/*string*/ dayid) {
     var link = jQuery('#' + dayid + ' a.daynewlink').hide();
-    link.unbind('click', edcal.addPost);
+    link.unbind('click', wpsp.addPost);
   },
 
   /*
@@ -857,16 +857,16 @@ var edcal = {
        and listeners for each calendar day.
      */
   createRow: function(/*jQuery*/ parent, /*bool*/ append) {
-    var _date = edcal._wDate.clone();
+    var _date = wpsp._wDate.clone();
 
     var newrow =
       '<div class="rowcont" id="' +
       'row' +
-      edcal._wDate.toString(edcal.internalDateFormat) +
+      wpsp._wDate.toString(wpsp.internalDateFormat) +
       '">' +
       '<div id="' +
       'row' +
-      edcal._wDate.toString(edcal.internalDateFormat) +
+      wpsp._wDate.toString(wpsp.internalDateFormat) +
       'row" class="wpsp_row">';
     for (var i = 0; i < 7; i++) {
       /*
@@ -875,16 +875,16 @@ var edcal = {
              * of days in the calendar and the live function gets a little slow.
              */
       newrow +=
-        '<div onmouseover="edcal.showAddPostLink(\'' +
-        _date.toString(edcal.internalDateFormat) +
+        '<div onmouseover="wpsp.showAddPostLink(\'' +
+        _date.toString(wpsp.internalDateFormat) +
         '\');" ' +
-        'onmouseout="edcal.hideAddPostLink(\'' +
-        _date.toString(edcal.internalDateFormat) +
+        'onmouseout="wpsp.hideAddPostLink(\'' +
+        _date.toString(wpsp.internalDateFormat) +
         '\');" ' +
         'id="' +
-        _date.toString(edcal.internalDateFormat) +
+        _date.toString(wpsp.internalDateFormat) +
         '" class="day ' +
-        edcal.getDateClass(_date) +
+        wpsp.getDateClass(_date) +
         ' ' +
         _date.toString('dddd').toLowerCase() +
         ' month-' +
@@ -898,14 +898,14 @@ var edcal = {
         _date.toString('MMMM d') +
         '" class="daynewlink" title="' +
         sprintf(
-          edcal.str_newpost,
-          edcal.chineseAposWorkaround(
+          wpsp.str_newpost,
+          wpsp.chineseAposWorkaround(
             _date.toString(Date.CultureInfo.formatPatterns.monthDay)
           )
         ) +
         '" ' +
         'onclick="return false;">' +
-        edcal.str_addPostLink +
+        wpsp.str_addPostLink +
         '</a>';
 
       if (_date.toString('dd') === '01') {
@@ -918,7 +918,7 @@ var edcal = {
 
       newrow += '<ul class="postlist">';
 
-      newrow += edcal.getPostItems(_date.toString(edcal.internalDateFormat));
+      newrow += wpsp.getPostItems(_date.toString(wpsp.internalDateFormat));
 
       newrow += '</ul>';
 
@@ -938,27 +938,27 @@ var edcal = {
     /*
          * This is the horizontal alignment of an individual week
          */
-    edcal.alignGrid(
-      '#row' + edcal._wDate.toString(edcal.internalDateFormat) + 'row',
+    wpsp.alignGrid(
+      '#row' + wpsp._wDate.toString(wpsp.internalDateFormat) + 'row',
       7,
       13.9,
       100,
       0.5
     );
 
-    edcal.draggablePost(
-      '#row' + edcal._wDate.toString(edcal.internalDateFormat) + ' li.post'
+    wpsp.draggablePost(
+      '#row' + wpsp._wDate.toString(wpsp.internalDateFormat) + ' li.post'
     );
 
-    edcal.makeDroppable(
+    wpsp.makeDroppable(
       jQuery(
         '#row' +
-          edcal._wDate.toString(edcal.internalDateFormat) +
+          wpsp._wDate.toString(wpsp.internalDateFormat) +
           ' > div > div.day'
       )
     );
 
-    return jQuery('row' + edcal._wDate.toString(edcal.internalDateFormat));
+    return jQuery('row' + wpsp._wDate.toString(wpsp.internalDateFormat));
   },
 
   /*
@@ -988,16 +988,16 @@ var edcal = {
       greedy: true,
       tolerance: 'pointer',
       drop: function(event, ui) {
-        //edcal.output('dropped ui.draggable.attr("id"): ' + ui.draggable.attr("id"));
-        //edcal.output('dropped on jQuery(this).attr("id"): ' + jQuery(this).attr("id"));
-        //edcal.output('ui.draggable.html(): ' + ui.draggable.html());
+        //wpsp.output('dropped ui.draggable.attr("id"): ' + ui.draggable.attr("id"));
+        //wpsp.output('dropped on jQuery(this).attr("id"): ' + jQuery(this).attr("id"));
+        //wpsp.output('ui.draggable.html(): ' + ui.draggable.html());
         var dayId = ui.draggable
           .parent()
           .parent()
           .parent()
           .attr('id');
-        //edcal.output('dayId: ' + dayId);
-        edcal.doDrop(dayId, ui.draggable.attr('id'), jQuery(this).attr('id'));
+        //wpsp.output('dayId: ' + dayId);
+        wpsp.doDrop(dayId, ui.draggable.attr('id'), jQuery(this).attr('id'));
       }
     });
   },
@@ -1011,14 +1011,14 @@ var edcal = {
     /*string*/ newDate,
     /*function*/ callback
   ) {
-    //edcal.output('doDrop(' + parentId + ', ' + postId + ', ' + newDate + ')');
+    //wpsp.output('doDrop(' + parentId + ', ' + postId + ', ' + newDate + ')');
     var dayId = parentId;
 
     // Step 0. Get the post object from the map
-    var post = edcal.findPostForId(parentId, postId);
+    var post = wpsp.findPostForId(parentId, postId);
 
     // Step 1. Remove the post from the posts map
-    edcal.removePostFromMap(parentId, postId);
+    wpsp.removePostFromMap(parentId, postId);
 
     /*
             Step 2. Remove the old element from the old parent.
@@ -1045,7 +1045,7 @@ var edcal = {
     // Step 3. Add the item to the new DOM parent
     // Step 3a. Check whether we dropped it on a day or on the Drafts Drawer
     jQuery('#' + newDate + ' .postlist').append(
-      edcal.createPostItem(post, newDate)
+      wpsp.createPostItem(post, newDate)
     );
 
     if (dayId === newDate) {
@@ -1053,10 +1053,10 @@ var edcal = {
               If they dropped back on to the day they started with we
               don't want to go back to the server.
               */
-      edcal.draggablePost('#' + newDate + ' .post');
+      wpsp.draggablePost('#' + newDate + ' .post');
     } else {
       // Step6. Update the date on the server
-      edcal.changeDate(newDate, post, callback);
+      wpsp.changeDate(newDate, post, callback);
     }
   },
 
@@ -1065,7 +1065,7 @@ var edcal = {
      */
   draggablePost: function(/*post selector*/ post) {
     jQuery(post).each(function() {
-      var postObj = edcal.findPostForId(
+      var postObj = wpsp.findPostForId(
         jQuery(this)
           .parent()
           .parent()
@@ -1073,7 +1073,7 @@ var edcal = {
           .attr('id'),
         jQuery(this).attr('id')
       );
-      if (edcal.isPostMovable(postObj)) {
+      if (wpsp.isPostMovable(postObj)) {
         jQuery(this).draggable({
           revert: 'invalid',
           appendTo: 'body',
@@ -1081,13 +1081,13 @@ var edcal = {
           distance: 1,
           addClasses: false,
           start: function() {
-            edcal.inDrag = true;
+            wpsp.inDrag = true;
           },
           stop: function() {
-            edcal.inDrag = false;
+            wpsp.inDrag = false;
           },
           drag: function(event, ui) {
-            edcal.handleDrag(event, ui);
+            wpsp.handleDrag(event, ui);
           },
           scroll: false,
           refreshPositions: true
@@ -1104,8 +1104,8 @@ var edcal = {
      */
   handleDrag: function(event, ui) {
     if (
-      edcal.isMoving ||
-      edcal.isDragScrolling
+      wpsp.isMoving ||
+      wpsp.isDragScrolling
       /*
                 TODO: make sure that if we are on top of the drafts drawer
                 we don't dragScroll.
@@ -1114,20 +1114,20 @@ var edcal = {
       return;
     }
 
-    edcal.isDragScrolling = true;
+    wpsp.isDragScrolling = true;
 
-    if (event.pageY < edcal.position.top + 10) {
+    if (event.pageY < wpsp.position.top + 10) {
       /*
                 This means we're close enough to the top of the calendar to
                 start scrolling up.
               */
-      edcal.move(1, false);
-    } else if (event.pageY > edcal.position.bottom - 10) {
+      wpsp.move(1, false);
+    } else if (event.pageY > wpsp.position.bottom - 10) {
       /*
                 This means we're close enough to the bottom of the calendar
                 to start scrolling down.
               */
-      edcal.move(1, true);
+      wpsp.move(1, true);
     }
 
     /*
@@ -1138,7 +1138,7 @@ var edcal = {
             smooth scroll that doesn't go too fast to track.
           */
     setTimeout(function() {
-      edcal.isDragScrolling = false;
+      wpsp.isDragScrolling = false;
     }, 300);
   },
 
@@ -1147,13 +1147,13 @@ var edcal = {
        from the cache map.
      */
   removePostFromMap: function(/*string*/ dayobjId, /*string*/ postId) {
-    if (edcal.posts[dayobjId]) {
-      for (var i = 0; i < edcal.posts[dayobjId].length; i++) {
+    if (wpsp.posts[dayobjId]) {
+      for (var i = 0; i < wpsp.posts[dayobjId].length; i++) {
         if (
-          edcal.posts[dayobjId][i] &&
-          'post-' + edcal.posts[dayobjId][i].id === postId
+          wpsp.posts[dayobjId][i] &&
+          'post-' + wpsp.posts[dayobjId][i].id === postId
         ) {
-          edcal.posts[dayobjId][i] = null;
+          wpsp.posts[dayobjId][i] = null;
           return true;
         }
       }
@@ -1171,9 +1171,9 @@ var edcal = {
           * be much more adaptable to reference the class by name, but this is
           * significantly faster.  Especially on IE.
           */
-    // edcal.output('post.id: '+post.id+'\ndayobjId: '+dayobjId);
+    // wpsp.output('post.id: '+post.id+'\ndayobjId: '+dayobjId);
     jQuery('#' + dayobjId + ' > div > ul').append(
-      edcal.createPostItem(post, dayobjId)
+      wpsp.createPostItem(post, dayobjId)
     );
   },
 
@@ -1182,14 +1182,14 @@ var edcal = {
        and adds the wpsp_quickedit.
      */
   addPostItemDragAndToolltip: function(/*string*/ dayobjId) {
-    edcal.draggablePost('#' + dayobjId + ' > div > ul > li');
+    wpsp.draggablePost('#' + dayobjId + ' > div > ul > li');
   },
 
   /*
         Deletes the post specified. Will only be executed once the user clicks the confirm link to proceed.
     */
   deletePost: function(/*Post ID*/ postId, /*function*/ callback) {
-    var url = edcal.ajax_url() + '&action=wpsp_deletepost&postid=' + postId;
+    var url = wpsp.ajax_url() + '&action=wpsp_deletepost&postid=' + postId;
 
     jQuery.ajax({
       url: url,
@@ -1198,10 +1198,10 @@ var edcal = {
       timeout: 100000,
       dataType: 'json',
       success: function(res) {
-        if (res.post.date_gmt === edcal.NO_DATE) {
-          edcal.removePostItem(res.post.date_gmt, 'post-' + res.post.id);
+        if (res.post.date_gmt === wpsp.NO_DATE) {
+          wpsp.removePostItem(res.post.date_gmt, 'post-' + res.post.id);
         } else {
-          edcal.removePostItem(res.post.date, 'post-' + res.post.id);
+          wpsp.removePostItem(res.post.date, 'post-' + res.post.id);
         }
 
         if (res.error) {
@@ -1209,11 +1209,11 @@ var edcal = {
                      * If there was an error we need to remove the dropped
                      * post item.
                      */
-          if (res.error === edcal.NONCE_ERROR) {
-            edcal.showError(edcal.checksum_error);
+          if (res.error === wpsp.NONCE_ERROR) {
+            wpsp.showError(wpsp.checksum_error);
           }
         } else {
-          edcal.output(
+          wpsp.output(
             'Finished deleting the post: "' +
               res.post.title +
               '" with id:' +
@@ -1226,9 +1226,9 @@ var edcal = {
         }
       },
       error: function(xhr) {
-        edcal.showError(edcal.general_error);
+        wpsp.showError(wpsp.general_error);
         if (xhr.responseText) {
-          edcal.output('deletePost xhr.responseText: ' + xhr.responseText);
+          wpsp.output('deletePost xhr.responseText: ' + xhr.responseText);
         }
       }
     });
@@ -1238,7 +1238,7 @@ var edcal = {
      * Confirms if you want to delete the specified post
      */
   confirmDelete: function(/*string*/ posttitle) {
-    if (confirm(edcal.str_del_msg1 + posttitle + edcal.str_del_msg2)) {
+    if (confirm(wpsp.str_del_msg1 + posttitle + wpsp.str_del_msg2)) {
       return true;
       // [wes] might be better to call deletePost from here directly, rather than return control back to the agent... which will then follow the link and call deletePost
     } else {
@@ -1252,7 +1252,7 @@ var edcal = {
        defined by WordPress in all of the admin pages.
      */
   ajax_url: function() {
-    return ajaxurl + '?_wpnonce=' + edcal.wp_nonce;
+    return ajaxurl + '?_wpnonce=' + wpsp.wp_nonce;
   },
 
   /*
@@ -1274,20 +1274,20 @@ var edcal = {
       .parent()
       .attr('id');
 
-    var formattedtime = edcal.defaultTime;
-    if (edcal.timeFormat !== 'H:i' && edcal.timeFormat !== 'G:i') {
+    var formattedtime = wpsp.defaultTime;
+    if (wpsp.timeFormat !== 'H:i' && wpsp.timeFormat !== 'G:i') {
       formattedtime += ' AM';
     }
 
     var post = {
       id: 0,
       date: date,
-      formatteddate: edcal
+      formatteddate: wpsp
         .getDayFromDayId(date)
-        .toString(edcal.previewDateFormat),
+        .toString(wpsp.previewDateFormat),
       time: formattedtime
     };
-    edcal.showForm(post);
+    wpsp.showForm(post);
     return false;
   },
 
@@ -1301,11 +1301,11 @@ var edcal = {
     var post = {
       id: 0,
       date: Date.today(),
-      formatteddate: edcal.NO_DATE,
-      time: edcal.NO_DATE,
+      formatteddate: wpsp.NO_DATE,
+      time: wpsp.NO_DATE,
       status: 'draft'
     };
-    edcal.showForm(post);
+    wpsp.showForm(post);
     return false;
   },
 
@@ -1319,7 +1319,7 @@ var edcal = {
     jQuery('#newPostScheduleButton').removeClass('disabled');
 
     // Editing, so we need to make an ajax call to get body of post
-    edcal.getPost(post_id, edcal.showForm);
+    wpsp.getPost(post_id, wpsp.showForm);
     return false;
   },
 
@@ -1339,14 +1339,14 @@ var edcal = {
     /*function*/ callback
   ) {
     if (typeof post === 'undefined' || post === null) {
-      post = edcal.serializePost();
+      post = wpsp.serializePost();
     }
 
     if (!post.title || post.title === '') {
       return false;
     }
 
-    //edcal.output('savePost(' + post.date + ', ' + post.title + ')');
+    //wpsp.output('savePost(' + post.date + ', ' + post.title + ')');
 
     jQuery('#edit-slug-buttons').addClass('tiploading');
 
@@ -1374,25 +1374,25 @@ var edcal = {
     if (post.time !== '') {
       time = Date.parse(post.time);
     } else {
-      time = Date.parse(edcal.defaultTime); // If we don't have a time set, default it to 10am
+      time = Date.parse(wpsp.defaultTime); // If we don't have a time set, default it to 10am
     }
 
     var formattedDate;
 
-    if (time !== null && time !== edcal.NO_DATE) {
+    if (time !== null && time !== wpsp.NO_DATE) {
       var formattedtime = time.format('H:i:s');
       formattedDate = encodeURIComponent(
-        edcal.getDayFromDayId(post.date).toString(edcal.wp_dateFormat) +
+        wpsp.getDayFromDayId(post.date).toString(wpsp.wp_dateFormat) +
           ' ' +
           formattedtime
       );
     } else {
       formattedDate = encodeURIComponent(
-        post.date.toString(edcal.wp_dateFormat + ' H:i:s')
+        post.date.toString(wpsp.wp_dateFormat + ' H:i:s')
       );
     }
 
-    var url = edcal.ajax_url() + '&action=wpsp_savepost';
+    var url = wpsp.ajax_url() + '&action=wpsp_savepost';
     var postData =
       'date=' +
       formattedDate +
@@ -1407,13 +1407,13 @@ var edcal = {
       '&orig_status=' +
       encodeURIComponent(post.orig_status);
 
-    if (time === null || time === edcal.NO_DATE) {
+    if (time === null || time === wpsp.NO_DATE) {
       postData += '&date_gmt=' + encodeURIComponent('0000-00-00 00:00:00');
     }
 
-    if (edcal.getUrlVars().post_type) {
+    if (wpsp.getUrlVars().post_type) {
       postData +=
-        '&post_type=' + encodeURIComponent(edcal.getUrlVars().post_type);
+        '&post_type=' + encodeURIComponent(wpsp.getUrlVars().post_type);
     }
 
     if (doPublish) {
@@ -1438,14 +1438,14 @@ var edcal = {
                      * If there was an error we need to remove the dropped
                      * post item.
                      */
-          if (res.error === edcal.NONCE_ERROR) {
-            edcal.showError(edcal.checksum_error);
+          if (res.error === wpsp.NONCE_ERROR) {
+            wpsp.showError(wpsp.checksum_error);
           }
           return false;
         }
 
         if (!res.post) {
-          edcal.showError(
+          wpsp.showError(
             'There was an error creating a new post for your blog.'
           );
         } else {
@@ -1458,16 +1458,16 @@ var edcal = {
           } else {
             var date = res.post.date;
 
-            if (res.post.date_gmt === edcal.NO_DATE) {
+            if (res.post.date_gmt === wpsp.NO_DATE) {
               date = res.post.date_gmt;
             }
 
             if (res.post.id) {
-              edcal.removePostItem(date, 'post-' + res.post.id);
+              wpsp.removePostItem(date, 'post-' + res.post.id);
             }
 
-            edcal.addPostItem(res.post, date);
-            edcal.addPostItemDragAndToolltip(date);
+            wpsp.addPostItem(res.post, date);
+            wpsp.addPostItemDragAndToolltip(date);
           }
         }
 
@@ -1483,9 +1483,9 @@ var edcal = {
         jQuery('#scrollable_wpsp')
           .data('scrollable')
           .getConf().keyboard = true;
-        edcal.showError(edcal.general_error);
+        wpsp.showError(wpsp.general_error);
         if (xhr.responseText) {
-          edcal.output('savePost xhr.responseText: ' + xhr.responseText);
+          wpsp.output('savePost xhr.responseText: ' + xhr.responseText);
         }
       }
     });
@@ -1510,11 +1510,11 @@ var edcal = {
      * Accepts new or existing post data and then populates text fields as necessary
      */
   showForm: function(post) {
-    edcal.resetForm();
+    wpsp.resetForm();
 
     if (
-      post.formatteddate === edcal.NO_DATE ||
-      post.date_gmt === edcal.NO_DATE
+      post.formatteddate === wpsp.NO_DATE ||
+      post.date_gmt === wpsp.NO_DATE
     ) {
       jQuery('#timeEditControls').hide();
     } else {
@@ -1530,52 +1530,52 @@ var edcal = {
       .getConf().keyboard = false;
 
     if (!post.id) {
-      if (post.formatteddate === edcal.NO_DATE) {
-        jQuery('#tooltiptitle').text(edcal.str_newdraft_title);
+      if (post.formatteddate === wpsp.NO_DATE) {
+        jQuery('#tooltiptitle').text(wpsp.str_newdraft_title);
       } else {
         jQuery('#tooltiptitle').text(
-          edcal.str_newpost_title + post.formatteddate
+          wpsp.str_newpost_title + post.formatteddate
         );
       }
     } else {
       jQuery('#tooltiptitle').text(
         sprintf(
-          edcal.str_edit_post_title,
+          wpsp.str_edit_post_title,
           post.typeTitle,
-          edcal.getDayFromDayId(post.date).toString(edcal.previewDateFormat)
+          wpsp.getDayFromDayId(post.date).toString(wpsp.previewDateFormat)
         )
       );
 
       // sets the read-only author field
-      //jQuery('#edcal-author-p').html(post.author);
+      //jQuery('#wpsp-author-p').html(post.author);
 
       // add post info to form
-      jQuery('#edcal-title-new-field').val(post.title);
+      jQuery('#wpsp-title-new-field').val(post.title);
       jQuery('#content').val(post.content);
     }
 
     if (post.status === 'future') {
-      jQuery('#newPostScheduleButton').text(edcal.str_update);
+      jQuery('#newPostScheduleButton').text(wpsp.str_update);
     }
 
     if (post.status) {
-      jQuery('#edcal-status').val(post.status);
-      edcal.updatePublishButton();
+      jQuery('#wpsp-status').val(post.status);
+      wpsp.updatePublishButton();
     } else {
       if (
         0 !==
-        jQuery('#edcal-status option[value=' + edcal.defaultStatus + ']').length
+        jQuery('#wpsp-status option[value=' + wpsp.defaultStatus + ']').length
       ) {
         /*
                  * We want to use the default status if it exists in the list and we'll
                  * default to the draft status if the default one is in the list.
                  */
-        jQuery('#edcal-status').val(edcal.defaultStatus);
+        jQuery('#wpsp-status').val(wpsp.defaultStatus);
       } else {
-        jQuery('#edcal-status').val('draft');
+        jQuery('#wpsp-status').val('draft');
       }
 
-      jQuery('#newPostScheduleButton').text(edcal.str_save);
+      jQuery('#newPostScheduleButton').text(wpsp.str_save);
     }
 
     /*
@@ -1588,40 +1588,40 @@ var edcal = {
       post.status !== 'future' &&
       post.status !== 'pending'
     ) {
-      jQuery('#edcal-status').attr('disabled', 'true');
-      jQuery('#edcal-status').append(
+      jQuery('#wpsp-status').attr('disabled', 'true');
+      jQuery('#wpsp-status').append(
         '<option class="temp" value="' +
           post.status +
           '">' +
           post.status +
           '</option>'
       );
-      jQuery('#edcal-status').val(post.status);
+      jQuery('#wpsp-status').val(post.status);
     }
 
     if (
-      post.formatteddate !== edcal.NO_DATE &&
-      edcal.getDayFromDayId(post.date).compareTo(Date.today()) === -1
+      post.formatteddate !== wpsp.NO_DATE &&
+      wpsp.getDayFromDayId(post.date).compareTo(Date.today()) === -1
     ) {
       /*
              * We only allow drafts in the past
              */
-      jQuery('#edcal-status').attr('disabled', 'true');
+      jQuery('#wpsp-status').attr('disabled', 'true');
     }
 
     var time = post.time;
-    jQuery('#edcal-time').val(time);
+    jQuery('#wpsp-time').val(time);
 
     // set hidden fields: post.date, post.id
-    jQuery('#edcal-date').val(post.date);
-    jQuery('#edcal-id').val(post.id);
+    jQuery('#wpsp-date').val(post.date);
+    jQuery('#wpsp-id').val(post.id);
 
     /*
          * Put the focus in the post title field when the tooltip opens.
          */
 
-    jQuery('#edcal-title-new-field').focus();
-    jQuery('#edcal-title-new-field').select();
+    jQuery('#wpsp-title-new-field').focus();
+    jQuery('#wpsp-title-new-field').select();
   },
 
   /*
@@ -1632,7 +1632,7 @@ var edcal = {
     jQuery('#scrollable_wpsp')
       .data('scrollable')
       .getConf().keyboard = true;
-    edcal.resetForm();
+    wpsp.resetForm();
   },
 
   /*
@@ -1645,16 +1645,16 @@ var edcal = {
         this.value = '';
       });
 
-    jQuery('#edcal-status').removeAttr('disabled');
+    jQuery('#wpsp-status').removeAttr('disabled');
 
-    jQuery('#newPostScheduleButton').text(edcal.str_publish);
+    jQuery('#newPostScheduleButton').text(wpsp.str_publish);
 
     jQuery('#tooltiptitle').text('');
-    //jQuery('#edcal-author-p').html('');
+    //jQuery('#wpsp-author-p').html('');
 
-    jQuery('#edcal-status').removeAttr('disabled');
+    jQuery('#wpsp-status').removeAttr('disabled');
 
-    jQuery('#edcal-status .temp').remove();
+    jQuery('#wpsp-status .temp').remove();
   },
 
   /*
@@ -1662,13 +1662,13 @@ var edcal = {
        the post to the posts cache.
      */
   createPostItem: function(/*post*/ post, /*string*/ dayobjId) {
-    if (!edcal.posts[dayobjId]) {
-      edcal.posts[dayobjId] = [];
+    if (!wpsp.posts[dayobjId]) {
+      wpsp.posts[dayobjId] = [];
     }
 
-    edcal.posts[dayobjId][edcal.posts[dayobjId].length] = post;
+    wpsp.posts[dayobjId][wpsp.posts[dayobjId].length] = post;
 
-    return edcal.getPostItemString(post);
+    return wpsp.getPostItemString(post);
   },
 
   /*
@@ -1676,13 +1676,13 @@ var edcal = {
        specified day.
      */
   findPostForId: function(/*string*/ dayobjId, /*string*/ postId) {
-    if (edcal.posts[dayobjId]) {
-      for (var i = 0; i < edcal.posts[dayobjId].length; i++) {
+    if (wpsp.posts[dayobjId]) {
+      for (var i = 0; i < wpsp.posts[dayobjId].length; i++) {
         if (
-          edcal.posts[dayobjId][i] &&
-          'post-' + edcal.posts[dayobjId][i].id === postId
+          wpsp.posts[dayobjId][i] &&
+          'post-' + wpsp.posts[dayobjId][i].id === postId
         ) {
-          return edcal.posts[dayobjId][i];
+          return wpsp.posts[dayobjId][i];
         }
       }
     }
@@ -1694,14 +1694,14 @@ var edcal = {
      * Removes a post from the HTML and the posts cache.
      */
   removePostItem: function(/*string*/ dayobjId, /*string*/ postId) {
-    //edcal.output('removePostItem(' + dayobjId + ', ' + postId + ')');
-    if (edcal.findPostForId(dayobjId, postId)) {
-      for (var i = 0; i < edcal.posts[dayobjId].length; i++) {
+    //wpsp.output('removePostItem(' + dayobjId + ', ' + postId + ')');
+    if (wpsp.findPostForId(dayobjId, postId)) {
+      for (var i = 0; i < wpsp.posts[dayobjId].length; i++) {
         if (
-          edcal.posts[dayobjId][i] &&
-          'post-' + edcal.posts[dayobjId][i].id === postId
+          wpsp.posts[dayobjId][i] &&
+          'post-' + wpsp.posts[dayobjId][i].id === postId
         ) {
-          edcal.posts[dayobjId][i] = null;
+          wpsp.posts[dayobjId][i] = null;
         }
       }
     }
@@ -1716,15 +1716,15 @@ var edcal = {
   getPostItems: function(/*string*/ dayobjId) {
     var postsString = '';
 
-    if (edcal.posts[dayobjId]) {
-      var posts = edcal.posts[dayobjId];
+    if (wpsp.posts[dayobjId]) {
+      var posts = wpsp.posts[dayobjId];
       if (posts.length < 50) {
         /*
                  * If there are fewer than 50 posts then we just load them
                  */
         for (var i = 0; i < posts.length; i++) {
           if (posts[i]) {
-            postsString += edcal.getPostItemString(posts[i]);
+            postsString += wpsp.getPostItemString(posts[i]);
           }
         }
       } else {
@@ -1732,7 +1732,7 @@ var edcal = {
                     If there are more than 50 posts then we want to batch
                     the load so it doesn't slow down the browser.
                   */
-        edcal.addPostItems(dayobjId, 0, 50);
+        wpsp.addPostItems(dayobjId, 0, 50);
       }
     }
 
@@ -1740,19 +1740,19 @@ var edcal = {
   },
 
   addPostItems: function(/*string*/ dayobjId, /*int*/ index, /*int*/ length) {
-    var posts = edcal.posts[dayobjId];
+    var posts = wpsp.posts[dayobjId];
     var postsString = '';
     setTimeout(function() {
       for (var i = index; i < index + length && i < posts.length; i++) {
         if (posts[i]) {
-          postsString += edcal.getPostItemString(posts[i]);
+          postsString += wpsp.getPostItemString(posts[i]);
         }
       }
 
       jQuery('#' + dayobjId + ' ul').append(postsString);
 
       if (index + length < posts.length) {
-        edcal.addPostItems(dayobjId, index + length, 50);
+        wpsp.addPostItems(dayobjId, index + length, 50);
       }
     }, 100);
   },
@@ -1765,13 +1765,13 @@ var edcal = {
     var elem = jQuery('#' + postid + ' > div.postactions');
     elem.slideDown();
     return true;
-    if (edcal.actionTimer) {
-      clearTimeout(edcal.actionTimer);
+    if (wpsp.actionTimer) {
+      clearTimeout(wpsp.actionTimer);
     }
 
     var timeout = 250;
 
-    var post = edcal.findPostForId(
+    var post = wpsp.findPostForId(
       jQuery('#' + postid)
         .parent()
         .parent()
@@ -1780,19 +1780,19 @@ var edcal = {
       postid
     );
 
-    if (edcal.inDrag || !edcal.isPostEditable(post)) {
+    if (wpsp.inDrag || !wpsp.isPostEditable(post)) {
       return;
     }
 
     var elem = jQuery('#' + postid + ' > div.postactions');
 
-    if (edcal.actionLinksElem && edcal.actionLinksElem.get(0) !== elem.get(0)) {
-      edcal.actionLinksElem.slideUp();
+    if (wpsp.actionLinksElem && wpsp.actionLinksElem.get(0) !== elem.get(0)) {
+      wpsp.actionLinksElem.slideUp();
     }
 
-    edcal.actionLinksElem = elem;
+    wpsp.actionLinksElem = elem;
 
-    edcal.actionTimer = setTimeout(function() {
+    wpsp.actionTimer = setTimeout(function() {
       elem.slideDown();
 
       if (
@@ -1819,14 +1819,14 @@ var edcal = {
        post ID.
      */
   hideActionLinks: function(/*string*/ postid) {
-    if (edcal.actionTimer) {
-      clearTimeout(edcal.actionTimer);
+    if (wpsp.actionTimer) {
+      clearTimeout(wpsp.actionTimer);
     }
 
-    edcal.actionTimer = setTimeout(function() {
+    wpsp.actionTimer = setTimeout(function() {
       var elem = jQuery('#' + postid + ' > div.postactions');
       elem.slideUp();
-      edcal.actionLinksElem = null;
+      wpsp.actionLinksElem = null;
     }, 1000);
   },
 
@@ -1871,23 +1871,23 @@ var edcal = {
       posttitle = '[No Title]';
     }
 
-    if (edcal.statusPref) {
+    if (wpsp.statusPref) {
       if (post.status === 'draft' && post.sticky === '1') {
         /*
                   * Then this post is a sticky draft
                   */
-        posttitle += edcal.str_draft_sticky;
+        posttitle += wpsp.str_draft_sticky;
       } else if (post.status === 'pending' && post.sticky === '1') {
         /*
                   * Then this post is a sticky pending post
                   */
-        posttitle += edcal.str_pending_sticky;
+        posttitle += wpsp.str_pending_sticky;
       } else if (post.sticky === '1') {
-        posttitle += edcal.str_sticky;
+        posttitle += wpsp.str_sticky;
       } else if (post.status === 'pending') {
-        posttitle += edcal.str_pending;
+        posttitle += wpsp.str_pending;
       } else if (post.status === 'draft') {
-        posttitle += edcal.str_draft;
+        posttitle += wpsp.str_draft;
       } else if (
         post.status !== 'publish' &&
         post.status !== 'future' &&
@@ -1902,14 +1902,14 @@ var edcal = {
       }
     }
 
-    if (edcal.timePref) {
+    if (wpsp.timePref) {
       posttitle =
         '<span class="posttime">' + post.formattedtime + '</span> ' + posttitle;
     }
 
-    if (edcal.authorPref) {
+    if (wpsp.authorPref) {
       posttitle = sprintf(
-        edcal.str_by,
+        wpsp.str_by,
         posttitle,
         '<span class="postauthor">' + post.author + '</span>'
       );
@@ -1917,12 +1917,12 @@ var edcal = {
 
     var classString = '';
 
-    if (edcal.isPostMovable(post)) {
+    if (wpsp.isPostMovable(post)) {
       return (
-        '<li onmouseover="edcal.showActionLinks(\'post-' +
+        '<li onmouseover="wpsp.showActionLinks(\'post-' +
         post.id +
         '\');" ' +
-        'onmouseout="edcal.hideActionLinks(\'post-' +
+        'onmouseout="wpsp.hideActionLinks(\'post-' +
         post.id +
         '\');" ' +
         'id="post-' +
@@ -1930,7 +1930,7 @@ var edcal = {
         '" class="post ' +
         post.status +
         ' ' +
-        edcal.getPostEditableClass(post) +
+        wpsp.getPostEditableClass(post) +
         post.slugs +
         '"><div class="postlink ' +
         classString +
@@ -1943,35 +1943,35 @@ var edcal = {
         '<a href="' +
         post.editlink +
         '">' +
-        edcal.str_edit +
+        wpsp.str_edit +
         '</a> | ' +
-        '<a href="#" onclick="edcal.editPost(' +
+        '<a href="#" onclick="wpsp.editPost(' +
         post.id +
         '); return false;">' +
-        edcal.str_quick_edit +
+        wpsp.str_quick_edit +
         '</a> | ' +
         '<a href="' +
         post.dellink +
-        '" onclick="return edcal.confirmDelete(\'' +
+        '" onclick="return wpsp.confirmDelete(\'' +
         post.title +
         '\');">' +
-        edcal.str_del +
+        wpsp.str_del +
         '</a> | ' +
         '<a href="' +
         post.permalink +
         '"' +
-        // ' onclick="edcal.getPost('+post.id+',function(r){ edcal.output(r) }); return false;"' + // for debugging
+        // ' onclick="wpsp.getPost('+post.id+',function(r){ wpsp.output(r) }); return false;"' + // for debugging
         '>' +
-        edcal.str_view +
+        wpsp.str_view +
         '</a>' +
         '</div></li>'
       );
     } else {
       return (
-        '<li onmouseover="edcal.showActionLinks(\'post-' +
+        '<li onmouseover="wpsp.showActionLinks(\'post-' +
         post.id +
         '\');" ' +
-        'onmouseout="edcal.hideActionLinks(\'post-' +
+        'onmouseout="wpsp.hideActionLinks(\'post-' +
         post.id +
         '\');" ' +
         'id="post-' +
@@ -1979,7 +1979,7 @@ var edcal = {
         '" class="post ' +
         post.status +
         ' ' +
-        edcal.getPostEditableClass(post) +
+        wpsp.getPostEditableClass(post) +
         '"><div class="postlink ' +
         classString +
         '">' +
@@ -1991,12 +1991,12 @@ var edcal = {
         '<a href="' +
         post.editlink +
         '">' +
-        edcal.str_republish +
+        wpsp.str_republish +
         '</a> | ' +
         '<a href="' +
         post.permalink +
         '">' +
-        edcal.str_view +
+        wpsp.str_view +
         '</a>' +
         '</div></li>'
       );
@@ -2012,7 +2012,7 @@ var edcal = {
            We want to set a class for the cell that represents the current day so we can
            give it a background color.
          */
-    jQuery('#' + Date.today().toString(edcal.internalDateFormat)).addClass(
+    jQuery('#' + Date.today().toString(wpsp.internalDateFormat)).addClass(
       'today'
     );
   },
@@ -2055,41 +2055,41 @@ var edcal = {
            backward it will be the first row.  If we switch direction we need
            to bump up our date by 11 rows times 7 days a week or 77 days.
          */
-    if (edcal.currentDirection !== direction) {
+    if (wpsp.currentDirection !== direction) {
       if (direction) {
         // into the future
-        edcal._wDate = edcal._wDate.add((edcal.weeksPref + 7) * 7).days();
+        wpsp._wDate = wpsp._wDate.add((wpsp.weeksPref + 7) * 7).days();
       } else {
         // into the past
-        edcal._wDate = edcal._wDate.add(-((edcal.weeksPref + 7) * 7)).days();
+        wpsp._wDate = wpsp._wDate.add(-((wpsp.weeksPref + 7) * 7)).days();
       }
 
-      edcal.steps = 0;
-      edcal.moveDate = edcal._wDate;
+      wpsp.steps = 0;
+      wpsp.moveDate = wpsp._wDate;
     }
 
-    edcal.currentDirection = direction;
+    wpsp.currentDirection = direction;
 
     var i;
 
     if (direction) {
       for (i = 0; i < steps; i++) {
         jQuery('#cal > div:first').remove();
-        edcal.createRow(jQuery('#cal'), true);
-        edcal._wDate.add(7).days();
+        wpsp.createRow(jQuery('#cal'), true);
+        wpsp._wDate.add(7).days();
       }
-      edcal.alignCal();
+      wpsp.alignCal();
     } else {
       for (i = 0; i < steps; i++) {
         jQuery('#cal > div:last').remove();
-        edcal.createRow(jQuery('#cal'), false);
-        edcal._wDate.add(-7).days();
+        wpsp.createRow(jQuery('#cal'), false);
+        wpsp._wDate.add(-7).days();
       }
-      edcal.alignCal();
+      wpsp.alignCal();
     }
 
-    edcal.setClassforToday();
-    edcal.setDateLabel();
+    wpsp.setClassforToday();
+    wpsp.setDateLabel();
 
     /*
          * If the user clicks quickly or uses the mouse wheel they can
@@ -2097,42 +2097,42 @@ var edcal = {
          * them up together.  We set a timeout and clear it if there is
          * another move before the timeout happens.
          */
-    edcal.steps += steps;
-    if (edcal.tID) {
-      clearTimeout(edcal.tID);
+    wpsp.steps += steps;
+    if (wpsp.tID) {
+      clearTimeout(wpsp.tID);
     } else {
-      edcal.moveDate = edcal._wDate;
+      wpsp.moveDate = wpsp._wDate;
     }
 
-    edcal.tID = setTimeout(function() {
+    wpsp.tID = setTimeout(function() {
       /*
              * Now that we are done moving the calendar we need to get the posts for the
              * new dates.  We want to load the posts between the place the calendar was
              * at when the user started moving it and the place the calendar is at now.
              */
       if (!direction) {
-        edcal.getPosts(
-          edcal._wDate.clone(),
-          edcal._wDate
+        wpsp.getPosts(
+          wpsp._wDate.clone(),
+          wpsp._wDate
             .clone()
-            .add(7 * (edcal.steps + 1))
+            .add(7 * (wpsp.steps + 1))
             .days(),
           callback
         );
       } else {
-        edcal.getPosts(
-          edcal._wDate
+        wpsp.getPosts(
+          wpsp._wDate
             .clone()
-            .add(-7 * (edcal.steps + 1))
+            .add(-7 * (wpsp.steps + 1))
             .days(),
-          edcal._wDate.clone(),
+          wpsp._wDate.clone(),
           callback
         );
       }
 
-      edcal.steps = 0;
-      edcal.tID = null;
-      edcal.moveDate = edcal._wDate;
+      wpsp.steps = 0;
+      wpsp.tID = null;
+      wpsp.moveDate = wpsp._wDate;
     }, 1000);
 
     if (direction) {
@@ -2143,9 +2143,9 @@ var edcal = {
              */
       jQuery.cookie(
         'date_wpsp',
-        edcal._wDate
+        wpsp._wDate
           .clone()
-          .add(-(edcal.weeksPref + 4))
+          .add(-(wpsp.weeksPref + 4))
           .weeks()
           .toString('yyyy-dd-MM')
       );
@@ -2156,7 +2156,7 @@ var edcal = {
              */
       jQuery.cookie(
         'date_wpsp',
-        edcal._wDate
+        wpsp._wDate
           .clone()
           .add(3)
           .weeks()
@@ -2191,27 +2191,27 @@ var edcal = {
            last day in the last week.  We call children twice to
            work around a small JQuery issue.
          */
-    var firstDate = edcal.getDayFromDayId(
+    var firstDate = wpsp.getDayFromDayId(
       items
         .eq(0)
         .children('.wpsp_row')
         .children('.day:first')
         .attr('id')
     );
-    var lastDate = edcal.getDayFromDayId(
+    var lastDate = wpsp.getDayFromDayId(
       items
-        .eq(edcal.weeksPref - 1)
+        .eq(wpsp.weeksPref - 1)
         .children('.wpsp_row')
         .children('.day:last')
         .attr('id')
     );
 
     jQuery('#currentRange').text(
-      edcal.chineseAposWorkaround(
+      wpsp.chineseAposWorkaround(
         firstDate.toString(Date.CultureInfo.formatPatterns.yearMonth)
       ) +
         ' - ' +
-        edcal.chineseAposWorkaround(
+        wpsp.chineseAposWorkaround(
           lastDate.toString(Date.CultureInfo.formatPatterns.yearMonth)
         )
     );
@@ -2228,105 +2228,105 @@ var edcal = {
   /* jshint maxcomplexity: 80 */
   nextStartOfWeek: function(/*date*/ date) {
     date = date.clone();
-    if (edcal.startOfWeek === null) {
-      if (edcal.locale) {
-        var local = edcal.locale.toUpperCase();
+    if (wpsp.startOfWeek === null) {
+      if (wpsp.locale) {
+        var local = wpsp.locale.toUpperCase();
 
         if (
-          edcal.endsWith(local, 'AS') ||
-          edcal.endsWith(local, 'AZ') ||
-          edcal.endsWith(local, 'BW') ||
-          edcal.endsWith(local, 'CA') ||
-          edcal.endsWith(local, 'CN') ||
-          edcal.endsWith(local, 'FO') ||
-          edcal.endsWith(local, 'GB') ||
-          edcal.endsWith(local, 'GE') ||
-          edcal.endsWith(local, 'GL') ||
-          edcal.endsWith(local, 'GU') ||
-          edcal.endsWith(local, 'HK') ||
-          edcal.endsWith(local, 'IE') ||
-          edcal.endsWith(local, 'IL') ||
-          edcal.endsWith(local, 'IN') ||
-          edcal.endsWith(local, 'IS') ||
-          edcal.endsWith(local, 'JM') ||
-          edcal.endsWith(local, 'JP') ||
-          edcal.endsWith(local, 'KG') ||
-          edcal.endsWith(local, 'KR') ||
-          edcal.endsWith(local, 'LA') ||
-          edcal.endsWith(local, 'MH') ||
-          edcal.endsWith(local, 'MN') ||
-          edcal.endsWith(local, 'MO') ||
-          edcal.endsWith(local, 'MP') ||
-          edcal.endsWith(local, 'MT') ||
-          edcal.endsWith(local, 'NZ') ||
-          edcal.endsWith(local, 'PH') ||
-          edcal.endsWith(local, 'PK') ||
-          edcal.endsWith(local, 'SG') ||
-          edcal.endsWith(local, 'SY') ||
-          edcal.endsWith(local, 'TH') ||
-          edcal.endsWith(local, 'TT') ||
-          edcal.endsWith(local, 'TW') ||
-          edcal.endsWith(local, 'UM') ||
-          edcal.endsWith(local, 'US') ||
-          edcal.endsWith(local, 'UZ') ||
-          edcal.endsWith(local, 'VI') ||
-          edcal.endsWith(local, 'ZW')
+          wpsp.endsWith(local, 'AS') ||
+          wpsp.endsWith(local, 'AZ') ||
+          wpsp.endsWith(local, 'BW') ||
+          wpsp.endsWith(local, 'CA') ||
+          wpsp.endsWith(local, 'CN') ||
+          wpsp.endsWith(local, 'FO') ||
+          wpsp.endsWith(local, 'GB') ||
+          wpsp.endsWith(local, 'GE') ||
+          wpsp.endsWith(local, 'GL') ||
+          wpsp.endsWith(local, 'GU') ||
+          wpsp.endsWith(local, 'HK') ||
+          wpsp.endsWith(local, 'IE') ||
+          wpsp.endsWith(local, 'IL') ||
+          wpsp.endsWith(local, 'IN') ||
+          wpsp.endsWith(local, 'IS') ||
+          wpsp.endsWith(local, 'JM') ||
+          wpsp.endsWith(local, 'JP') ||
+          wpsp.endsWith(local, 'KG') ||
+          wpsp.endsWith(local, 'KR') ||
+          wpsp.endsWith(local, 'LA') ||
+          wpsp.endsWith(local, 'MH') ||
+          wpsp.endsWith(local, 'MN') ||
+          wpsp.endsWith(local, 'MO') ||
+          wpsp.endsWith(local, 'MP') ||
+          wpsp.endsWith(local, 'MT') ||
+          wpsp.endsWith(local, 'NZ') ||
+          wpsp.endsWith(local, 'PH') ||
+          wpsp.endsWith(local, 'PK') ||
+          wpsp.endsWith(local, 'SG') ||
+          wpsp.endsWith(local, 'SY') ||
+          wpsp.endsWith(local, 'TH') ||
+          wpsp.endsWith(local, 'TT') ||
+          wpsp.endsWith(local, 'TW') ||
+          wpsp.endsWith(local, 'UM') ||
+          wpsp.endsWith(local, 'US') ||
+          wpsp.endsWith(local, 'UZ') ||
+          wpsp.endsWith(local, 'VI') ||
+          wpsp.endsWith(local, 'ZW')
         ) {
           /*
                       * Sunday
                       */
-          edcal.startOfWeek = 0;
-        } else if (edcal.endsWith(local, 'MV')) {
+          wpsp.startOfWeek = 0;
+        } else if (wpsp.endsWith(local, 'MV')) {
           /*
                       * Friday
                       */
-          edcal.startOfWeek = 5;
+          wpsp.startOfWeek = 5;
         } else if (
-          edcal.endsWith(local, 'AF') ||
-          edcal.endsWith(local, 'BH') ||
-          edcal.endsWith(local, 'DJ') ||
-          edcal.endsWith(local, 'DZ') ||
-          edcal.endsWith(local, 'EG') ||
-          edcal.endsWith(local, 'ER') ||
-          edcal.endsWith(local, 'ET') ||
-          edcal.endsWith(local, 'IQ') ||
-          edcal.endsWith(local, 'IR') ||
-          edcal.endsWith(local, 'JO') ||
-          edcal.endsWith(local, 'KE') ||
-          edcal.endsWith(local, 'KW') ||
-          edcal.endsWith(local, 'LY') ||
-          edcal.endsWith(local, 'MA') ||
-          edcal.endsWith(local, 'OM') ||
-          edcal.endsWith(local, 'QA') ||
-          edcal.endsWith(local, 'SA') ||
-          edcal.endsWith(local, 'SD') ||
-          edcal.endsWith(local, 'SO') ||
-          edcal.endsWith(local, 'TN') ||
-          edcal.endsWith(local, 'YE')
+          wpsp.endsWith(local, 'AF') ||
+          wpsp.endsWith(local, 'BH') ||
+          wpsp.endsWith(local, 'DJ') ||
+          wpsp.endsWith(local, 'DZ') ||
+          wpsp.endsWith(local, 'EG') ||
+          wpsp.endsWith(local, 'ER') ||
+          wpsp.endsWith(local, 'ET') ||
+          wpsp.endsWith(local, 'IQ') ||
+          wpsp.endsWith(local, 'IR') ||
+          wpsp.endsWith(local, 'JO') ||
+          wpsp.endsWith(local, 'KE') ||
+          wpsp.endsWith(local, 'KW') ||
+          wpsp.endsWith(local, 'LY') ||
+          wpsp.endsWith(local, 'MA') ||
+          wpsp.endsWith(local, 'OM') ||
+          wpsp.endsWith(local, 'QA') ||
+          wpsp.endsWith(local, 'SA') ||
+          wpsp.endsWith(local, 'SD') ||
+          wpsp.endsWith(local, 'SO') ||
+          wpsp.endsWith(local, 'TN') ||
+          wpsp.endsWith(local, 'YE')
         ) {
           /*
                       * Sunday
                       */
-          edcal.startOfWeek = 6;
+          wpsp.startOfWeek = 6;
         } else {
           /*
                       * Monday
                       */
-          edcal.startOfWeek = 1;
+          wpsp.startOfWeek = 1;
         }
       } else {
         /*
                   * If we have no locale set we'll assume American style and
                   * make it Sunday.
                   */
-        edcal.startOfWeek = 0;
+        wpsp.startOfWeek = 0;
       }
     }
 
     return date
       .next()
       .sunday()
-      .add(edcal.startOfWeek)
+      .add(wpsp.startOfWeek)
       .days();
   },
 
@@ -2346,7 +2346,7 @@ var edcal = {
      * Moves the calendar to the specified date.
      */
   moveTo: function(/*Date*/ date) {
-    edcal.isMoving = true;
+    wpsp.isMoving = true;
     jQuery('#cal').empty();
 
     jQuery.cookie('date_wpsp', date.toString('yyyy-dd-MM'));
@@ -2355,7 +2355,7 @@ var edcal = {
            When we first start up our working date is 4 weeks before
            the next Sunday.
           */
-    edcal._wDate = edcal
+    wpsp._wDate = wpsp
       .nextStartOfWeek(date)
       .add(-21)
       .days();
@@ -2365,24 +2365,24 @@ var edcal = {
            moving in a going down direction.
           */
 
-    edcal.currentDirection = true;
+    wpsp.currentDirection = true;
 
-    var count = edcal.weeksPref + 6;
+    var count = wpsp.weeksPref + 6;
 
     for (var i = 0; i < count; i++) {
-      edcal.createRow(jQuery('#cal'), true);
-      edcal._wDate.add(7).days();
+      wpsp.createRow(jQuery('#cal'), true);
+      wpsp._wDate.add(7).days();
     }
 
-    edcal.alignCal();
+    wpsp.alignCal();
 
     var api = jQuery('#scrollable_wpsp').scrollable();
 
     api.move(2);
 
-    edcal.setDateLabel();
-    edcal.setClassforToday();
-    edcal.isMoving = false;
+    wpsp.setDateLabel();
+    wpsp.setClassforToday();
+    wpsp.isMoving = false;
   },
 
   /*
@@ -2393,7 +2393,7 @@ var edcal = {
   savePosition: function() {
     var cal = jQuery('#scrollable_wpsp');
     var cal_cont = jQuery('#cal_cont');
-    edcal.position = {
+    wpsp.position = {
       top: cal.offset().top,
       bottom: cal.offset().top + cal.height()
     };
@@ -2454,8 +2454,8 @@ var edcal = {
      * Adds the feedback section
      */
   addFeedbackSection: function() {
-    if (edcal.visitCount > 3 && edcal.doFeedbackPref) {
-      jQuery('#wpsp_title_main').after(edcal.str_feedbackmsg);
+    if (wpsp.visitCount > 3 && wpsp.doFeedbackPref) {
+      jQuery('#wpsp_title_main').after(wpsp.str_feedbackmsg);
     }
   },
 
@@ -2465,7 +2465,7 @@ var edcal = {
      */
   doFeedback: function() {
     jQuery.getScript('https://wordpress.org/plugins/wp-scheduled-posts/?js', function() {
-      edcal.saveFeedbackPref();
+      wpsp.saveFeedbackPref();
     });
   },
 
@@ -2474,7 +2474,7 @@ var edcal = {
      */
   noFeedback: function() {
     jQuery('#feedbacksection').hide('fast');
-    edcal.saveFeedbackPref();
+    wpsp.saveFeedbackPref();
   },
 
   /*
@@ -2482,7 +2482,7 @@ var edcal = {
      */
   saveFeedbackPref: function() {
     var url =
-      edcal.ajax_url() +
+      wpsp.ajax_url() +
       '&action=wpsp_saveoptions&dofeedback=' +
       encodeURIComponent('done');
 
@@ -2493,15 +2493,15 @@ var edcal = {
       timeout: 100000,
       dataType: 'text',
       success: function(res) {
-        jQuery('#feedbacksection').html(edcal.str_feedbackdone);
+        jQuery('#feedbacksection').html(wpsp.str_feedbackdone);
         setTimeout(function() {
           jQuery('#feedbacksection').hide('slow');
         }, 5000);
       },
       error: function(xhr) {
-        edcal.showError(edcal.general_error);
+        wpsp.showError(wpsp.general_error);
         if (xhr.responseText) {
-          edcal.output('saveOptions xhr.responseText: ' + xhr.responseText);
+          wpsp.output('saveOptions xhr.responseText: ' + xhr.responseText);
         }
       }
     });
@@ -2512,13 +2512,13 @@ var edcal = {
        edit dialog to match the current operation.
      */
   updatePublishButton: function() {
-    if (jQuery('#edcal-status').val() === 'future') {
-      jQuery('#newPostScheduleButton').text(edcal.str_publish);
+    if (jQuery('#wpsp-status').val() === 'future') {
+      jQuery('#newPostScheduleButton').text(wpsp.str_publish);
     }
-    if (jQuery('#edcal-status').val() === 'pending') {
-      jQuery('#newPostScheduleButton').text(edcal.str_review);
+    if (jQuery('#wpsp-status').val() === 'pending') {
+      jQuery('#newPostScheduleButton').text(wpsp.str_review);
     } else {
-      jQuery('#newPostScheduleButton').text(edcal.str_save);
+      jQuery('#newPostScheduleButton').text(wpsp.str_save);
     }
   },
 
@@ -2531,17 +2531,17 @@ var edcal = {
     /*Post*/ post,
     /*function*/ callback
   ) {
-    //edcal.output('changeDate(' + newdate + ', ' + post + ')');
-    var move_to_drawer = newdate === edcal.NO_DATE;
-    var move_from_drawer = post.date_gmt === edcal.NO_DATE;
+    //wpsp.output('changeDate(' + newdate + ', ' + post + ')');
+    var move_to_drawer = newdate === wpsp.NO_DATE;
+    var move_from_drawer = post.date_gmt === wpsp.NO_DATE;
     var newdateFormatted = move_to_drawer
       ? '0000-00-00'
-      : edcal.getDayFromDayId(newdate).toString(edcal.wp_dateFormat);
-    // edcal.output('newdate='+newdate+'\nnewdateFormatted='+newdateFormatted);
+      : wpsp.getDayFromDayId(newdate).toString(wpsp.wp_dateFormat);
+    // wpsp.output('newdate='+newdate+'\nnewdateFormatted='+newdateFormatted);
 
     var olddate = move_from_drawer
       ? post.date_gmt
-      : edcal.getDayFromDayId(post.date).toString(edcal.wp_dateFormat);
+      : wpsp.getDayFromDayId(post.date).toString(wpsp.wp_dateFormat);
 
     if (move_to_drawer) {
       /*
@@ -2551,8 +2551,8 @@ var edcal = {
     }
 
     var url =
-      edcal.ajax_url() +
-      '&action=edcal_changedate&postid=' +
+      wpsp.ajax_url() +
+      '&action=wpsp_changedate&postid=' +
       post.id +
       '&postStatus=' +
       post.status +
@@ -2571,48 +2571,48 @@ var edcal = {
       // dataType: 'text',
       dataType: 'json',
       success: function(res) {
-        //edcal.output('res.post.date='+res.post.date);
-        //edcal.output(res.post);
+        //wpsp.output('res.post.date='+res.post.date);
+        //wpsp.output(res.post);
         // console.log(res.post);
         if (res.error) {
           /*
                      * If there was an error we need to remove the dropped
                      * post item.
                      */
-          edcal.removePostItem(newdate, 'post-' + res.post.id);
-          if (res.error === edcal.CONCURRENCY_ERROR) {
-            edcal.displayMessage(
-              edcal.concurrency_error + '<br />' + res.post.title
+          wpsp.removePostItem(newdate, 'post-' + res.post.id);
+          if (res.error === wpsp.CONCURRENCY_ERROR) {
+            wpsp.displayMessage(
+              wpsp.concurrency_error + '<br />' + res.post.title
             );
-          } else if (res.error === edcal.PERMISSION_ERROR) {
-            edcal.displayMessage(edcal.permission_error);
-          } else if (res.error === edcal.NONCE_ERROR) {
-            edcal.displayMessage(edcal.checksum_error);
+          } else if (res.error === wpsp.PERMISSION_ERROR) {
+            wpsp.displayMessage(wpsp.permission_error);
+          } else if (res.error === wpsp.NONCE_ERROR) {
+            wpsp.displayMessage(wpsp.checksum_error);
           }
         }
 
-        // edcal.output(res.post.date);
+        // wpsp.output(res.post.date);
         // var container = newdateFormatted == '0000-00-00' ?
 
         var removecont = move_to_drawer ? '00000000' : res.post.date;
         var addcont = move_from_drawer ? newdate : removecont;
 
-        edcal.removePostItem(removecont, 'post-' + res.post.id);
-        // edcal.output('remove post from: '+removecont+', add post to: '+addcont);
-        edcal.addPostItem(res.post, addcont);
-        edcal.addPostItemDragAndToolltip(addcont);
+        wpsp.removePostItem(removecont, 'post-' + res.post.id);
+        // wpsp.output('remove post from: '+removecont+', add post to: '+addcont);
+        wpsp.addPostItem(res.post, addcont);
+        wpsp.addPostItemDragAndToolltip(addcont);
 
         if (callback) {
           callback(res);
         }
       },
       error: function(xhr, textStatus, error) {
-        edcal.showError(edcal.general_error);
+        wpsp.showError(wpsp.general_error);
 
-        edcal.output('textStatus: ' + textStatus);
-        edcal.output('error: ' + error);
+        wpsp.output('textStatus: ' + textStatus);
+        wpsp.output('error: ' + error);
         if (xhr.responseText) {
-          edcal.output('changeDate xhr.responseText: ' + xhr.responseText);
+          wpsp.output('changeDate xhr.responseText: ' + xhr.responseText);
         }
       }
     });
@@ -2627,7 +2627,7 @@ var edcal = {
       to = '';
     }
 
-    var shouldGet = edcal.cacheDates[from];
+    var shouldGet = wpsp.cacheDates[from];
 
     if (shouldGet) {
       /*
@@ -2635,7 +2635,7 @@ var edcal = {
               * that we have already covered.  This is cutting down on
               * it somewhat, but we could get much better about this.
               */
-      // edcal.output('Using cached results for posts from ' + from.toString('dd-MMM-yyyy') + ' to ' + to.toString('dd-MMM-yyyy'));
+      // wpsp.output('Using cached results for posts from ' + from.toString('dd-MMM-yyyy') + ' to ' + to.toString('dd-MMM-yyyy'));
 
       if (callback) {
         callback();
@@ -2643,17 +2643,17 @@ var edcal = {
       return;
     }
 
-    edcal.cacheDates[from] = true;
+    wpsp.cacheDates[from] = true;
 
     var url =
-      edcal.ajax_url() +
-      '&action=edcal_posts&from=' +
+      wpsp.ajax_url() +
+      '&action=wpsp_posts&from=' +
       from.toString('yyyy-MM-dd') +
       '&to=' +
       to.toString('yyyy-MM-dd');
 
-    if (edcal.getUrlVars().post_type) {
-      url += '&post_type=' + encodeURIComponent(edcal.getUrlVars().post_type);
+    if (wpsp.getUrlVars().post_type) {
+      url += '&post_type=' + encodeURIComponent(wpsp.getUrlVars().post_type);
     }
 
     jQuery('#loading').show();
@@ -2665,7 +2665,7 @@ var edcal = {
       timeout: 100000,
       dataType: 'text',
       success: function(res) {
-        // edcal.output(res);
+        // wpsp.output(res);
         jQuery('#loading').hide();
         /*
                  * These result here can get pretty large on a busy blog and
@@ -2677,7 +2677,7 @@ var edcal = {
         try {
           parsedRes = JSON.parseIt(res);
         } catch (e) {
-          edcal.showFatalError(edcal.str_fatal_parse_error + e.message);
+          wpsp.showFatalError(wpsp.str_fatal_parse_error + e.message);
           if (window.console) {
             console.error(e);
           }
@@ -2689,8 +2689,8 @@ var edcal = {
                      * If there was an error we need to remove the dropped
                      * post item.
                      */
-          if (parsedRes.error === edcal.NONCE_ERROR) {
-            edcal.showError(edcal.checksum_error);
+          if (parsedRes.error === wpsp.NONCE_ERROR) {
+            wpsp.showError(wpsp.checksum_error);
           }
           return;
         }
@@ -2722,10 +2722,10 @@ var edcal = {
               post.date = from;
             }
 
-            // edcal.output(post.date + ', post-' + post.id);
-            edcal.removePostItem(post.date, 'post-' + post.id);
-            edcal.addPostItem(post, post.date);
-            // edcal.output(post.id + ', ' + post.date);
+            // wpsp.output(post.date + ', post-' + post.id);
+            wpsp.removePostItem(post.date, 'post-' + post.id);
+            wpsp.addPostItem(post, post.date);
+            // wpsp.output(post.id + ', ' + post.date);
             postDates[postDates.length] = post.date;
           }
         }
@@ -2741,9 +2741,9 @@ var edcal = {
                  * stop complaining.
                  */
         setTimeout(function() {
-          // edcal.output('Finished adding draggable support to ' + postDates.length + ' posts.');
+          // wpsp.output('Finished adding draggable support to ' + postDates.length + ' posts.');
           jQuery.each(postDates, function(i, postDate) {
-            edcal.addPostItemDragAndToolltip(postDate);
+            wpsp.addPostItemDragAndToolltip(postDate);
           });
         }, 300);
 
@@ -2752,9 +2752,9 @@ var edcal = {
         }
       },
       error: function(xhr) {
-        edcal.showError(edcal.general_error);
+        wpsp.showError(wpsp.general_error);
         if (xhr.responseText) {
-          edcal.output('getPosts xhr.responseText: ' + xhr.responseText);
+          wpsp.output('getPosts xhr.responseText: ' + xhr.responseText);
         }
       }
     });
@@ -2774,10 +2774,10 @@ var edcal = {
     // show loading
     jQuery('#loading').show();
 
-    var url = edcal.ajax_url() + '&action=edcal_getpost&postid=' + postid;
+    var url = wpsp.ajax_url() + '&action=wpsp_getpost&postid=' + postid;
 
-    if (edcal.getUrlVars().post_type) {
-      url += '&post_type=' + encodeURIComponent(edcal.getUrlVars().post_type);
+    if (wpsp.getUrlVars().post_type) {
+      url += '&post_type=' + encodeURIComponent(wpsp.getUrlVars().post_type);
     }
 
     jQuery.ajax({
@@ -2790,10 +2790,10 @@ var edcal = {
         // hide loading
         jQuery('#loading').hide();
 
-        edcal.output('xhr for getPost returned: ' + res);
+        wpsp.output('xhr for getPost returned: ' + res);
         if (res.error) {
-          if (res.error === edcal.NONCE_ERROR) {
-            edcal.showError(edcal.checksum_error);
+          if (res.error === wpsp.NONCE_ERROR) {
+            wpsp.showError(wpsp.checksum_error);
           }
           return false;
         }
@@ -2806,9 +2806,9 @@ var edcal = {
         // hide loading
         jQuery('#loading').hide();
 
-        edcal.showError(edcal.general_error);
+        wpsp.showError(wpsp.general_error);
         if (xhr.responseText) {
-          edcal.output('getPost xhr.responseText: ' + xhr.responseText);
+          wpsp.output('getPost xhr.responseText: ' + xhr.responseText);
         }
         return false;
       }
@@ -2827,11 +2827,11 @@ var edcal = {
     var html =
       '<div class="hide-if-no-js screen-meta-toggle" id="screen-options-link-wrap">' +
       '<a class="show-settings" ' +
-      'id="show-edcal-settings-link" ' +
-      'onclick="edcal.toggleOptions(); return false;" ' +
+      'id="show-wpsp-settings-link" ' +
+      'onclick="wpsp.toggleOptions(); return false;" ' +
       'href="#" ' +
       '>' +
-      edcal.str_screenoptions +
+      wpsp.str_screenoptions +
       '</a>' +
       '</div>';
 
@@ -2850,11 +2850,11 @@ var edcal = {
        is up and sliding it up when it is down.
      */
   toggleOptions: function() {
-    if (!edcal.helpMeta) {
+    if (!wpsp.helpMeta) {
       /*
                 Show the screen options section.  We start by saving off the old HTML
               */
-      edcal.helpMeta = jQuery('#contextual-help-wrap').html();
+      wpsp.helpMeta = jQuery('#contextual-help-wrap').html();
 
       /*
               * Set up the visible fields option
@@ -2862,28 +2862,28 @@ var edcal = {
       var optionsHtml =
         '<div class="metabox-prefs" id="calendar-fields-prefs">' +
         '<h5>' +
-        edcal.str_show_opts +
+        wpsp.str_show_opts +
         '</h5>' +
         '<label for="author-hide">' +
         '<input type="checkbox" ' +
-        edcal.isPrefChecked(edcal.authorPref) +
+        wpsp.isPrefChecked(wpsp.authorPref) +
         'value="true" id="author-hide" ' +
         'name="author-hide" class="hide-column-tog" />' +
-        edcal.str_opt_author +
+        wpsp.str_opt_author +
         '</label>' +
         '<label for="status-hide">' +
         '<input type="checkbox" ' +
-        edcal.isPrefChecked(edcal.statusPref) +
+        wpsp.isPrefChecked(wpsp.statusPref) +
         'value="true" id="status-hide" ' +
         'name="status-hide" class="hide-column-tog" />' +
-        edcal.str_opt_status +
+        wpsp.str_opt_status +
         '</label>' +
         '<label for="time-hide">' +
         '<input type="checkbox" ' +
-        edcal.isPrefChecked(edcal.timePref) +
+        wpsp.isPrefChecked(wpsp.timePref) +
         'value="true" id="time-hide" ' +
         'name="time-hide" class="hide-column-tog" />' +
-        edcal.str_opt_time +
+        wpsp.str_opt_time +
         '</label>' +
         '</div>';
 
@@ -2893,14 +2893,14 @@ var edcal = {
       optionsHtml +=
         '<div class="metabox-prefs">' +
         '<h5>' +
-        edcal.str_show_title +
+        wpsp.str_show_title +
         '</h5>' +
         '<select id="wpsp_select_weeks" ' +
         'class="screen-per-page" title="' +
-        edcal.str_weekstt +
+        wpsp.str_weekstt +
         '"> ';
 
-      var weeks = parseInt(edcal.weeksPref, 10);
+      var weeks = parseInt(wpsp.weeksPref, 10);
       for (var i = 1; i < 9; i++) {
         if (i === weeks) {
           optionsHtml += '<option selected="true">' + i + '</option>';
@@ -2909,19 +2909,19 @@ var edcal = {
         }
       }
 
-      optionsHtml += '</select>' + edcal.str_opt_weeks + '</div>';
+      optionsHtml += '</select>' + wpsp.str_opt_weeks + '</div>';
 
       /*
                 I started work on adding a color picker so you could choose the color for
                 drafts, published posts, and scheduled posts.  However, that makes the settings
                 a lot more complicated and I'm not sure it is worth it.
               */
-      //optionsHtml += '<h5>' + edcal.str_optionscolors + '</h5>';
-      //optionsHtml += edcal.generateColorPicker(edcal.str_optionsdraftcolor, 'draft-color', 'lightgreen');
+      //optionsHtml += '<h5>' + wpsp.str_optionscolors + '</h5>';
+      //optionsHtml += wpsp.generateColorPicker(wpsp.str_optionsdraftcolor, 'draft-color', 'lightgreen');
 
       optionsHtml +=
-        '<br /><button id="wpsp_optionssave" onclick="edcal.saveOptions(); return false;" class="save button">' +
-        edcal.str_apply +
+        '<br /><button id="wpsp_optionssave" onclick="wpsp.saveOptions(); return false;" class="save button">' +
+        wpsp.str_apply +
         '</button>';
 
       jQuery('#contextual-help-wrap').html(optionsHtml);
@@ -2932,18 +2932,18 @@ var edcal = {
 
       jQuery('#screen-meta').show();
 
-      jQuery('#show-edcal-settings-link').addClass('screen-meta-active');
+      jQuery('#show-wpsp-settings-link').addClass('screen-meta-active');
     } else {
       jQuery('#contextual-help-wrap').slideUp('fast');
 
       /*
               * restore the old HTML
               */
-      jQuery('#contextual-help-wrap').html(edcal.helpMeta);
+      jQuery('#contextual-help-wrap').html(wpsp.helpMeta);
 
-      edcal.helpMeta = null;
+      wpsp.helpMeta = null;
 
-      jQuery('#show-edcal-settings-link').removeClass('screen-meta-active');
+      jQuery('#show-wpsp-settings-link').removeClass('screen-meta-active');
       jQuery('#contextual-help-link-wrap').css('visibility', '');
     }
   },
@@ -2972,7 +2972,7 @@ var edcal = {
       'lightgray'
     ];
 
-    edcal.output('colors.length: ' + colors.length);
+    wpsp.output('colors.length: ' + colors.length);
     for (var i = 0; i < colors.length; i++) {
       html += '<a href="#" class="optionscolor ';
 
@@ -2989,7 +2989,7 @@ var edcal = {
         '; left: ' +
         (i * 20 + 50) +
         'px" ' +
-        'onclick="edcal.selectColor(\'' +
+        'onclick="wpsp.selectColor(\'' +
         id +
         "', '" +
         colors[i] +
@@ -3002,7 +3002,7 @@ var edcal = {
   },
 
   selectColor: function(/*string*/ id, /*string*/ value) {
-    edcal.output('selectColor(' + id + ', ' + value + ')');
+    wpsp.output('selectColor(' + id + ', ' + value + ')');
     jQuery('#' + id + ' .colorlabel').css('background-color', value);
 
     jQuery('#' + id + ' .colorselected').removeClass('colorselected');
@@ -3029,12 +3029,12 @@ var edcal = {
           */
     var weeks = parseInt(jQuery('#wpsp_select_weeks').val(), 10);
     if (weeks < 1 || weeks > 8) {
-      humanMsg.displayMsg(edcal.str_weekserror);
+      humanMsg.displayMsg(wpsp.str_weekserror);
       return;
     }
 
     var url =
-      edcal.ajax_url() +
+      wpsp.ajax_url() +
       '&action=wpsp_saveoptions&weeks=' +
       encodeURIComponent(jQuery('#wpsp_select_weeks').val());
 
@@ -3062,9 +3062,9 @@ var edcal = {
         window.location.href = window.location.href;
       },
       error: function(xhr) {
-        edcal.showError(edcal.general_error);
+        wpsp.showError(wpsp.general_error);
         if (xhr.responseText) {
-          edcal.output('saveOptions xhr.responseText: ' + xhr.responseText);
+          wpsp.output('saveOptions xhr.responseText: ' + xhr.responseText);
         }
       }
     });
@@ -3090,7 +3090,7 @@ var edcal = {
       console.error(msg);
     }
 
-    edcal.displayMessage(msg);
+    wpsp.displayMessage(msg);
   },
 
   /*
@@ -3125,7 +3125,7 @@ var edcal = {
   showFatalError: function(message) {
     jQuery('#wpsp_title_main').after(
       '<div class="error below-h2" id="message"><p>' +
-        edcal.str_fatal_error +
+        wpsp.str_fatal_error +
         message +
         '<br></p></div>'
     );
@@ -3168,15 +3168,15 @@ jQuery.fn.center = function() {
 
 jQuery(document).ready(function() {
   try {
-    edcal.init();
+    wpsp.init();
   } catch (e) {
     /*
          * These kinds of errors often happen when there is a
          * conflict with a JavaScript library imported by
          * another plugin.
          */
-    edcal.output('Error loading calendar: ' + e);
-    edcal.showFatalError(e.description);
+    wpsp.output('Error loading calendar: ' + e);
+    wpsp.showFatalError(e.description);
   }
 
   /*
@@ -3185,7 +3185,7 @@ jQuery(document).ready(function() {
      * tests so we load them dynamically.  Add the qunit=true parameter
      * to run the tests.
      */
-  if (edcal.getUrlVars().qunit) {
-    edcal_test.runTests();
+  if (wpsp.getUrlVars().qunit) {
+    wpsp_test.runTests();
   }
 });

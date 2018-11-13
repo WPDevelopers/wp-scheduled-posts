@@ -400,12 +400,12 @@
     padding-bottom:1.2em;
 }
 
-#edcal-title { /* not sure this is being used */
+#wpsp-title { /* not sure this is being used */
     padding-top: 0.5em;
     padding-bottom: 0.5em;
 }
 
-#edcal-title-new-field {
+#wpsp-title-new-field {
     padding: 5px;
     height: 36px;
     box-shadow: none;
@@ -428,12 +428,12 @@ TinyMCE Rich Editor and Media buttons are not currently used
     padding: 5px 0;
 }*/
 
-#wpsp_quickedit #edcal-time {
+#wpsp_quickedit #wpsp-time {
     width: 9em;
     background-color: white;
 }
 
-#edcal-author-p {
+#wpsp-author-p {
     line-height:1.8em;
     padding-left:0.2em;
 }
@@ -497,7 +497,7 @@ TinyMCE Rich Editor and Media buttons are not currently used
     vertical-align: baseline;
 }
 
-#edcal-qunit {
+#wpsp-qunit {
     margin-top: 2em;
 }
 
@@ -532,7 +532,7 @@ TinyMCE Rich Editor and Media buttons are not currently used
     -webkit-border-radius: 4px;
 }
 
-#screen-meta #show-edcal-settings-link.show-settings {
+#screen-meta #show-wpsp-settings-link.show-settings {
     background-position: right -1px;
 }
 
