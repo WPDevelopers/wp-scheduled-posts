@@ -176,12 +176,15 @@ function wpsp_scheduled_createJsToCompareTime($HTMLWrong,$HTMLOK){
 		}		
 			
 		if (difference_in_minutes > maxAllowedDif){
-			//alert("Server time is wrong");			
-			document.getElementById("divjsCT").innerHTML=\''.$HTMLWrong.'\';
+			var wpspelement = document.getElementById("divjsCT");			
+			wpspelement.innerHTML=\''.$HTMLWrong.'\';
+			
 		}	
 		else{
-			//alert("Server time is OK! " + difference_in_minutes);
+			var wpspelement = document.getElementById("divjsCT");	
 			document.getElementById("divjsCT").innerHTML=\''.$HTMLOK.'\';
+			wpspelement.classList.remove("wpsp-error-notice");
+			wpspelement.classList.add("wpsp-success-notice");
 			
 		}
 		
@@ -1127,17 +1130,9 @@ function wpsp_scheduled_options_page(){
 						'<br>'
 						. __('The timezone configured in your','wp-scheduled-posts').' <a target="_blank" href="options-general.php">'.__('WordPress settings','wp-scheduled-posts').'</a> '.__('is','wp-scheduled-posts') .': <span style="color:blue;font-weight:bold;">'.get_option('gmt_offset').', </span>'.
 						'<br>'			
-						. __('so your server think that is your local time is: ','wp-scheduled-posts') . ' <span style="color:red;font-weight:bold;">'.date(get_option('date_format').', '.get_option('time_format'),current_time('timestamp', $gmt = 0)).'</span> ... '
-						. __('but this is different from time on you machine now!','wp-scheduled-posts').
-						'<br>'
-						. __('If the difference is not too big (less than 2h or 3h) you problably will not have side effects and the plugin should work fine!','wp-scheduled-posts').
-						'<br>'
-						. __('Othewise, with big time differences, you can have issues with the real time that each post will be scheduled!','wp-scheduled-posts').
-						'<br>'
-						. __('Sometimes you have to set a different timezone to compensate daylight saving time or a missconfigured server time! ','wp-scheduled-posts').
-						
-						'<br>'
-						. __('If you can, change the timezone to correct this, refresh this page and this message will be shown anymore!','wp-scheduled-posts')		
+						. __('your server time is: ','wp-scheduled-posts') . ' <span style="color:red;font-weight:bold;">'.date(get_option('date_format').', '.get_option('time_format'),current_time('timestamp', $gmt = 0)).'</span>. '
+						. __('but this is different from time on you machine now!','wp-scheduled-posts')
+							
 						;		
 						
 						
