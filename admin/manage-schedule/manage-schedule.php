@@ -177,12 +177,13 @@ function wpsp_scheduled_createJsToCompareTime($HTMLWrong,$HTMLOK){
 			
 		if (difference_in_minutes > maxAllowedDif){
 			var wpspelement = document.getElementById("divjsCT");			
-			wpspelement.innerHTML=\''.$HTMLWrong.'\';
+			wpspelement.innerHTML=\''.trim($HTMLWrong).'\';
+			wpspelement.style.display = "block";
 			
 		}	
 		else{
 			var wpspelement = document.getElementById("divjsCT");	
-			document.getElementById("divjsCT").innerHTML=\''.$HTMLOK.'\';
+			document.getElementById("divjsCT").innerHTML=\''.trim($HTMLOK).'\';
 			wpspelement.classList.remove("wpsp-error-notice");
 			wpspelement.classList.add("wpsp-success-notice");
 			
@@ -271,7 +272,7 @@ function wpsp_scheduled_postInfo(){
 	
 	echo wpsp_scheduled_createJsToCompareTime($msgTimeWrong,'');					
 	# div usada para reportar hora incorreta...		
-	echo '<div style="padding-left:20px;" id="divjsCT"></div>';
+	echo '<div style="padding-left:20px; display:none" id="divjsCT"></div>';
 	
 	echo '<script type="text/javascript">	
 			jsCompareTimes();
