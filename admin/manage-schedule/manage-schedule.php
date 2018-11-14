@@ -574,7 +574,7 @@ function wpsp_scheduled_findNextSlot($post,$changePost = False){
 			$dthrPublish = date("Y-m-d",$datetimeCheck) .' '.  intval($minutePublish/60) .':'. $minutePublish%60;
 
 			
-			// next time schedule fix
+				// next time schedule fix
 
 				global $wpdb;
 				$my_prefix = 'psm_';
@@ -589,8 +589,6 @@ function wpsp_scheduled_findNextSlot($post,$changePost = False){
 					array_push($future_post_date,$post_date);
 				endwhile;
 
-				//echo $mytheme_timezone = get_option('timezone_string');
-				//date_default_timezone_set($mytheme_timezone);
 				
 				$sql 			= "SELECT * FROM ".$my_table;
 				$day_schedules 	= $wpdb->get_results($sql, ARRAY_A);
@@ -620,40 +618,29 @@ function wpsp_scheduled_findNextSlot($post,$changePost = False){
 					$pr_wk = count($presentWk);
 					for($d=0;$d<$pr_wk;$d++){
 						$presentWk2[$d] = strtotime(date('Y-m-d H:i',$presentWk[$d]).' +7 day');
-
 					}
 					return $presentWk2;
 				}
-				
 				sort($all_day_schedule);
-
 				
-				$tt 			= count($all_day_schedule);
-				$fp 			= count($future_post_date);
+				$tt = count($all_day_schedule);
+				$fp = count($future_post_date);
 
 				$deserved_date = "";
 				for($i=0;$i<52;$i++)
 				{
 					for($j=0;$j<$tt;$j++)
 					{
-						//echo date("Y-m-d H:i",$all_day_schedule[$j])."<br>"; 
 						if(!in_array($all_day_schedule[$j],$future_post_date))
 						{ 
-							$deserved_date = $all_day_schedule[$j]; 
-							//date("Y-m-d H:i",$deserved_date)."<br>"; 
+							$deserved_date = $all_day_schedule[$j];  
 							break;
 						}
-						else
-						{
-							
-							 $all_day_schedule = nextWeek($all_day_schedule);							 
-						}
-							
 					}
 					if($deserved_date)
-					{
 						break;
-					} 
+					else
+						$all_day_schedule = nextWeek($all_day_schedule);							 
 				}
 			
 			
