@@ -1,6 +1,6 @@
 <?php
 
-//load_textdomain('psm', dirname(__FILE__).'/lang/' . get_locale() . '.mo');
+//load_textdomain('wp-scheduled-posts', dirname(__FILE__).'/lang/' . get_locale() . '.mo');
 
 $plName = 'Publish to Schedule';
 $plUrl = 'https://wordpress.org/extend/plugins/publish-to-schedule/';
@@ -933,10 +933,10 @@ function wpsp_scheduled_options_page(){
 		
 		// Show a message to say we've done something
 		if($allNo == 7){
-			echo '<div class="updated"><p>' . __('You must check "Yes" for at least 1 day of week! ', 'psm') . '</p></div>';	
+			echo '<div class="updated"><p>' . __('You must check "Yes" for at least 1 day of week! ', 'wp-scheduled-posts') . '</p></div>';	
 		}
 		else{
-			echo '<div class="updated"><p>' . __('Options saved!', 'psm') . '</p></div>';	
+			echo '<div class="updated"><p>' . __('Options saved!', 'wp-scheduled-posts') . '</p></div>';	
 		}		
 		
 	} else {
@@ -1236,12 +1236,12 @@ function wpsp_scheduled_options_page(){
 						if($pluginVersion != '2.0' && isset($pluginVersion))
 		        		{
 					?>
-							<input type="button" class="button button-primary swal_alert_show" value="<?php _e('Save all changes', 'psm') ?>" />
+							<input type="button" class="button button-primary swal_alert_show" value="<?php _e('Save all changes', 'wp-scheduled-posts') ?>" />
 					<?php  
 						}else
 						{
 					?>
-						<input class="button button-primary" type="submit" name="update_options" value="<?php _e('Save all changes', 'psm') ?>"  style="font-weight:bold;" />
+						<input class="button button-primary" type="submit" name="update_options" value="<?php _e('Save all changes', 'wp-scheduled-posts') ?>"  style="font-weight:bold;" />
 					<?php  
 						}
 					?>

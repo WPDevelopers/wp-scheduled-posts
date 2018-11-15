@@ -73,9 +73,11 @@ if (!class_exists('wpsp_addon')) {
 				wp_enqueue_style( 'admin-style', plugins_URLPATH . 'admin/css/admin.css' );
 				wp_enqueue_style( 'font-awesome', plugins_URLPATH . 'admin/css/font-awesome.min.css' );
 				wp_enqueue_style( 'chung-timepicker', plugins_URLPATH . 'admin/css/chung-timepicker.css' );
+				wp_enqueue_style( 'sweet-alert-css', plugins_URLPATH . 'admin/assets/vendor/sweetalert2/css/sweetalert2.min.css' );
 				wp_enqueue_script( 'custom-script', plugins_URLPATH . 'admin/js/custom-script.js', array('jquery'), '1.0.0', false );
 				wp_enqueue_script( 'main-chung-timepicker', plugins_URLPATH . 'admin/js/chung-timepicker.js', array('jquery'), '1.0.0', false );
-				wp_enqueue_script( 'sweet-alert-js', 'https://unpkg.com/sweetalert/dist/sweetalert.min.js', array('jquery'), '1.0.0', false );
+				wp_enqueue_script( 'sweet-alert-core-js', plugins_URLPATH . 'admin/assets/vendor/sweetalert2/js/core.js', array('jquery'), '1.0.0', false);
+				wp_enqueue_script( 'sweet-alert-js', plugins_URLPATH . 'admin/assets/vendor/sweetalert2/js/sweetalert2.min.js', array('jquery'), '1.0.0', false);
 			}
 		}
 		
@@ -329,6 +331,29 @@ function wpscp_nag_ignore() {
         if ( isset($_GET['wpscp_nag_ignore']) && '0' == $_GET['wpscp_nag_ignore'] ) {
              add_user_meta($user_id, 'wpscp_ignore_notice144', 'true', true);
      }
+}
+
+/**
+ * Optional usage tracker
+ *
+ * @since v2.0.0
+ */
+
+if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
+	require_once dirname( __FILE__ ) . '/includes/class-plugin-usage-tracker.php';
+}
+if( ! function_exists( 'wp_scheduled_posts_start_plugin_tracking' ) ) {
+	function wp_scheduled_posts_start_plugin_tracking() {
+		$wisdom = new Wpsp_Plugin_Usage_Tracker(
+			__FILE__,
+			'https://wpdeveloper.net',
+			array(),
+			true,
+			true,
+			1
+		);
+	}
+	wp_scheduled_posts_start_plugin_tracking();
 }
 
 ?>

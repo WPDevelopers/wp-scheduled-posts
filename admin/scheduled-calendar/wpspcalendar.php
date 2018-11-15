@@ -70,10 +70,10 @@ class wpsp_scheduled {
     function wpsp_scheduled_list_add_management_page() {
         if (function_exists('add_management_page') ) {
             
-            $page = add_submenu_page( pluginsFOLDER, __('Schedule Calendar', 'psm'), __('Schedule Calendar', 'psm'), 'manage_options', 'wpsp-schedule-calendar', array(&$this, 'admin_list_wpsp'));
+            $page = add_submenu_page( pluginsFOLDER, __('Schedule Calendar', 'wp-scheduled-posts'), __('Schedule Calendar', 'wp-scheduled-posts'), 'manage_options', 'wpsp-schedule-calendar', array(&$this, 'admin_list_wpsp'));
             add_action( "admin_print_scripts-$page", array(&$this, 'wpsp_scripts'));
             
-            //add_submenu_page( pluginsFOLDER, __('Free VS Pro', 'psm'), __('Free VS Pro', 'psm'), 'manage_options', 'f_vs_p', array(&$this, 'show_menu'));
+            //add_submenu_page( pluginsFOLDER, __('Free VS Pro', 'wp-scheduled-posts'), __('Free VS Pro', 'wp-scheduled-posts'), 'manage_options', 'f_vs_p', array(&$this, 'show_menu'));
 
 
 
