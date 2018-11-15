@@ -1,5 +1,5 @@
-# Translation of WordPress Editorial Calendar in French (France)
-# This file is distributed under the same license as the WordPress Editorial Calendar package.
+# Translation of WordPress wpsp in French (France)
+# This file is distributed under the same license as the WordPress wpsp package.
 msgid ""
 msgstr ""
 "PO-Revision-Date: 2012-02-27 08:53:18+0000\n"
@@ -8,7 +8,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: GlotPress/0.1\n"
-"Project-Id-Version: WordPress Editorial Calendar\n"
+"Project-Id-Version: WordPress wpsp\n"
 
 msgid "%1$s Calendar"
 msgstr "Calendrier des %1$s"

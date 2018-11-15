@@ -5,8 +5,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: editorial-calendar-el\n"
-"Report-Msgid-Bugs-To: http://wordpress.org/tag/editorial-calendar\n"
+"Project-Id-Version: wpspcalendar-el\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/plugins/wp-scheduled-posts\n"
 "POT-Creation-Date: 2010-04-13 21:19+0000\n"
 "PO-Revision-Date: 2010-04-14 07:58-0500\n"
 "Last-Translator: Zack Grossbart <zack@grossbart.com>\n"
@@ -18,187 +18,187 @@ msgstr ""
 "X-Poedit-Country: GREECE\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: edcal.php:63
+#: wpspcalendar.php.php:63
 msgid "Calendar"
 msgstr "Ημερολόγιο άρθρων"
 
-#: edcal.php:137
-#: edcal.php:349
+#: wpspcalendar.php.php:137
+#: wpspcalendar.php.php:349
 msgid "en-US"
 msgstr "el-GR"
 
-#: edcal.php:145
+#: wpspcalendar.php.php:145
 msgid "on"
 msgstr "στις"
 
-#: edcal.php:146
+#: wpspcalendar.php.php:146
 msgid "by"
 msgstr "by-μέχρι"
 
-#: edcal.php:147
+#: wpspcalendar.php.php:147
 msgid "at"
 msgstr "στις"
 
-#: edcal.php:149
+#: wpspcalendar.php.php:149
 msgid "New Post"
 msgstr "Νέο άρθρο"
 
-#: edcal.php:151
+#: wpspcalendar.php.php:151
 msgid " [DRAFT]"
 msgstr " [ΠΡΟΣΧΕΔΙΟ]"
 
-#: edcal.php:152
+#: wpspcalendar.php.php:152
 msgid "Edit"
 msgstr "Επεξεργασία"
 
-#: edcal.php:153
+#: wpspcalendar.php.php:153
 msgid "Delete"
 msgstr "Διαγραφή"
 
-#: edcal.php:154
+#: wpspcalendar.php.php:154
 msgid "View"
 msgstr "Προβολή"
 
-#: edcal.php:155
+#: wpspcalendar.php.php:155
 msgid "Republish"
 msgstr "Επαναδημοσίευση"
 
-#: edcal.php:156
+#: wpspcalendar.php.php:156
 msgid "Status:"
 msgstr "Κατάσταση"
 
-#: edcal.php:157
-#: edcal.php:295
+#: wpspcalendar.php.php:157
+#: wpspcalendar.php.php:295
 msgid "Cancel"
 msgstr "Ακύρωση"
 
-#: edcal.php:158
-#: edcal.php:261
+#: wpspcalendar.php.php:158
+#: wpspcalendar.php.php:261
 msgid "Title"
 msgstr "Τίτλος"
 
-#: edcal.php:159
-#: edcal.php:266
+#: wpspcalendar.php.php:159
+#: wpspcalendar.php.php:266
 msgid "Content"
 msgstr "Κείμενο"
 
-#: edcal.php:160
+#: wpspcalendar.php.php:160
 msgid "Add a new post on "
 msgstr "Προσθήκη νέου άρθρου στις"
 
-#: edcal.php:161
+#: wpspcalendar.php.php:161
 msgid "New Post - "
 msgstr "Νέο άρθρο -"
 
-#: edcal.php:162
+#: wpspcalendar.php.php:162
 msgid "Update"
 msgstr "Ενημέρωση"
 
-#: edcal.php:163
-#: edcal.php:294
+#: wpspcalendar.php.php:163
+#: wpspcalendar.php.php:294
 msgid "Schedule"
 msgstr "Προγραμματισμός δημοσίευσης"
 
-#: edcal.php:164
+#: wpspcalendar.php.php:164
 msgid "Save"
 msgstr "Αποθήκευση"
 
-#: edcal.php:165
-#: edcal.php:255
+#: wpspcalendar.php.php:165
+#: wpspcalendar.php.php:255
 msgid "Edit Post"
 msgstr "Επεξεργασία άρθρου"
 
-#: edcal.php:166
-#: edcal.php:287
+#: wpspcalendar.php.php:166
+#: wpspcalendar.php.php:287
 msgid "Scheduled"
 msgstr "Να δημοσιευθεί στις"
 
-#: edcal.php:168
+#: wpspcalendar.php.php:168
 msgid "You are about to delete the post \""
 msgstr "Πρόκειται να διαγράψετε το άρθρο \""
 
-#: edcal.php:169
+#: wpspcalendar.php.php:169
 msgid "\". Press Cancel to stop, OK to delete."
 msgstr "\". Πατήστε Ακύρωση για να σταματήσετε, OK για διαγραφή."
 
-#: edcal.php:171
+#: wpspcalendar.php.php:171
 msgid "Looks like someone else already moved this post."
 msgstr "Φαίνεται πως κάποιος άλλος ήδη μετακίνησε αυτό το άρθρο."
 
-#: edcal.php:172
+#: wpspcalendar.php.php:172
 msgid "You do not have permission to edit posts."
 msgstr "Δεν έχετε δικαιώματα επεξεργασίας άρθρων."
 
-#: edcal.php:173
+#: wpspcalendar.php.php:173
 msgid "Invalid checksum for post. This is commonly a cross-site scripting error."
 msgstr "Μη έγκυρο άθροισμα μνήμης. Συνήθως οφείλεται σε 'cross-site scripting' (XSS)."
 
-#: edcal.php:174
+#: wpspcalendar.php.php:174
 msgid "There was an error contacting your blog."
 msgstr "Υπήρξε σφάλμα επικοινωνίας με το ιστολόγιο σας."
 
-#: edcal.php:176
+#: wpspcalendar.php.php:176
 msgid "Screen Options"
 msgstr "Επιλογές οθόνης"
 
-#: edcal.php:177
+#: wpspcalendar.php.php:177
 msgid "Calendar Options"
 msgstr "Επιλογές ημερολογίου"
 
-#: edcal.php:178
+#: wpspcalendar.php.php:178
 msgid "Apply"
 msgstr "Εφαρμογή"
 
-#: edcal.php:179
+#: wpspcalendar.php.php:179
 msgid "Show "
 msgstr "Εμφάνιση"
 
-#: edcal.php:180
+#: wpspcalendar.php.php:180
 msgid "weeks at a time"
 msgstr "εβδομάδων ανα οθόνη"
 
-#: edcal.php:181
+#: wpspcalendar.php.php:181
 msgid "The calendar can only show between 1 and 5 weeks at a time."
 msgstr "Το ημερολόγιο μπορεί να εμφανίσει απο 1 έως και 5 εβδομάδες ανα οθόνη."
 
-#: edcal.php:182
+#: wpspcalendar.php.php:182
 msgid "Select the number of weeks for the calendar to show."
 msgstr "Εισάγετε τον αριθμό των εβδομάδων (1-5) για εμφάνιση στην οθόνη του ημερολογίου."
 
-#: edcal.php:226
+#: wpspcalendar.php.php:226
 msgid "Posts Calendar"
 msgstr "Ημερολόγιο άρθρων"
 
-#: edcal.php:235
+#: wpspcalendar.php.php:235
 msgid "Jump back"
 msgstr "Μετάβαση μια οθόνη πίσω"
 
-#: edcal.php:237
+#: wpspcalendar.php.php:237
 msgid "Skip ahead"
 msgstr "Μετάβαση μια οθόνη μπροστά"
 
-#: edcal.php:242
+#: wpspcalendar.php.php:242
 msgid "Jump to today"
 msgstr "Μετάβαση στη σημερινή ημερομηνία"
 
-#: edcal.php:242
+#: wpspcalendar.php.php:242
 msgid "Today"
 msgstr "Σήμερα"
 
-#: edcal.php:281
+#: wpspcalendar.php.php:281
 msgid "Time"
 msgstr "Ώρα"
 
-#: edcal.php:285
+#: wpspcalendar.php.php:285
 msgid "Status"
 msgstr "Κατάσταση"
 
-#: edcal.php:289
+#: wpspcalendar.php.php:289
 msgid "Draft"
 msgstr "Προσχέδιο"
 
-#: edcal.php:544
-#: edcal.php:547
+#: wpspcalendar.php.php:544
+#: wpspcalendar.php.php:547
 msgid "Error in deleting..."
 msgstr "Υπήρξε σφάλμα κατα τη διαγραφή..."
 

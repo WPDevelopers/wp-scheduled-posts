@@ -113,7 +113,7 @@ function wpsp_scheduled_insertAnalytics($getCode = False) {
 	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 	  })();
 		_gaq.push(['_setCustomVar', 1,'Site URL','" . get_option('home') . "', 1 ]);
-		_gaq.push(['_setCustomVar', 2,'Articles scheduled','" . $options['pts_statistics_total_work'] . "',1]); 	
+		_gaq.push(['_setCustomVar', 2,'Articles scheduled','" . @$options['pts_statistics_total_work'] . "',1]); 	
 		_gaq.push(['_setCustomVar', 3,'WP Language','" . get_bloginfo('language') . "',1]);
 	</script>";
 
@@ -176,12 +176,16 @@ function wpsp_scheduled_createJsToCompareTime($HTMLWrong,$HTMLOK){
 		}		
 			
 		if (difference_in_minutes > maxAllowedDif){
-			//alert("Server time is wrong");			
-			document.getElementById("divjsCT").innerHTML=\''.$HTMLWrong.'\';
+			var wpspelement = document.getElementById("divjsCT");			
+			wpspelement.innerHTML=\''.trim($HTMLWrong).'\';
+			wpspelement.style.display = "block";
+			
 		}	
 		else{
-			//alert("Server time is OK! " + difference_in_minutes);
-			document.getElementById("divjsCT").innerHTML=\''.$HTMLOK.'\';
+			var wpspelement = document.getElementById("divjsCT");	
+			document.getElementById("divjsCT").innerHTML=\''.trim($HTMLOK).'\';
+			wpspelement.classList.remove("wpsp-error-notice");
+			wpspelement.classList.add("wpsp-success-notice");
 			
 		}
 		
@@ -268,7 +272,7 @@ function wpsp_scheduled_postInfo(){
 	
 	echo wpsp_scheduled_createJsToCompareTime($msgTimeWrong,'');					
 	# div usada para reportar hora incorreta...		
-	echo '<div style="padding-left:20px;" id="divjsCT"></div>';
+	echo '<div style="padding-left:20px; display:none" id="divjsCT"></div>';
 	
 	echo '<script type="text/javascript">	
 			jsCompareTimes();
@@ -305,18 +309,20 @@ function wpsp_scheduled_getMaxPostsDay($datetimeCheck){
 	*/
 	
 	# translate the old style option  no\yes para 0\1+
-	if($options[$opt] == 'no'){
-		return 0;	
+	if(isset($options[$opt])){
+		if($options[$opt] == 'no'){
+			return 0;	
+		}
+		if($options[$opt] == 'yes'){
+			return 1;	
+		}
 	}
-	if($options[$opt] == 'yes'){
-		return 1;	
-	}
-	if($options[$opt] != ''){
-		return $options[$opt];
-	}
-	else{
-		return 1;
-	}	
+		if($options[$opt] != ''){
+			return $options[$opt];
+		}
+		else{
+			return 1;
+		}	
 }
 
 
@@ -569,7 +575,7 @@ function wpsp_scheduled_findNextSlot($post,$changePost = False){
 			$dthrPublish = date("Y-m-d",$datetimeCheck) .' '.  intval($minutePublish/60) .':'. $minutePublish%60;
 
 			
-			// next time schedule fix
+				// next time schedule fix
 
 				global $wpdb;
 				$my_prefix = 'psm_';
@@ -584,8 +590,6 @@ function wpsp_scheduled_findNextSlot($post,$changePost = False){
 					array_push($future_post_date,$post_date);
 				endwhile;
 
-				//echo $mytheme_timezone = get_option('timezone_string');
-				//date_default_timezone_set($mytheme_timezone);
 				
 				$sql 			= "SELECT * FROM ".$my_table;
 				$day_schedules 	= $wpdb->get_results($sql, ARRAY_A);
@@ -615,40 +619,29 @@ function wpsp_scheduled_findNextSlot($post,$changePost = False){
 					$pr_wk = count($presentWk);
 					for($d=0;$d<$pr_wk;$d++){
 						$presentWk2[$d] = strtotime(date('Y-m-d H:i',$presentWk[$d]).' +7 day');
-
 					}
 					return $presentWk2;
 				}
-				
 				sort($all_day_schedule);
-
 				
-				$tt 			= count($all_day_schedule);
-				$fp 			= count($future_post_date);
+				$tt = count($all_day_schedule);
+				$fp = count($future_post_date);
 
 				$deserved_date = "";
 				for($i=0;$i<52;$i++)
 				{
 					for($j=0;$j<$tt;$j++)
 					{
-						//echo date("Y-m-d H:i",$all_day_schedule[$j])."<br>"; 
 						if(!in_array($all_day_schedule[$j],$future_post_date))
 						{ 
-							$deserved_date = $all_day_schedule[$j]; 
-							//date("Y-m-d H:i",$deserved_date)."<br>"; 
+							$deserved_date = $all_day_schedule[$j];  
 							break;
 						}
-						else
-						{
-							
-							 $all_day_schedule = nextWeek($all_day_schedule);							 
-						}
-							
 					}
 					if($deserved_date)
-					{
 						break;
-					} 
+					else
+						$all_day_schedule = nextWeek($all_day_schedule);							 
 				}
 			
 			
@@ -666,7 +659,9 @@ function wpsp_scheduled_findNextSlot($post,$changePost = False){
 			$get_cal_op 			= get_option('cal_active_option');
 			$activate_cal_option 	= html_entity_decode(stripslashes($get_cal_op));	
 			if(!empty($activate_cal_option)){
-				$dthrPublish=date("Y-m-d H:i:s",$deserved_date);
+				if(!empty($deserved_date)){
+					$dthrPublish=date("Y-m-d H:i:s",$deserved_date);
+ 				}
 			}
 			
 			$msgT .=  '<p class="schedule_noti_p" title="'.$msgByPass.'">';
@@ -786,11 +781,33 @@ function wpsp_scheduled_do_publish_schedule($post){
 		}	
 }
 
-
+// dependecy check function for menu
+function getProPluginVersion($allPlugins) {
+    foreach($allPlugins as $plugins):
+        if($plugins['Name'] == "WP Scheduled Posts Pro")
+            return $plugins['Version'];
+    endforeach;
+     return false;
+}
 
 #	Define the options menu
 function wpsp_scheduled_option_menu() {
-	global $plName;	
+	global $plName;
+
+	// get pro plugin version
+    if ( ! function_exists( 'get_plugins' ) ) {
+        require_once ABSPATH . 'wp-admin/includes/plugin.php';
+    }
+    $plugins=get_plugins();
+    $allActivePlugin=get_option('active_plugins');
+    $activated_all_plugins=array();
+    foreach ($allActivePlugin as $single_plugin) {           
+        if(isset($plugins[$single_plugin])) {
+            array_push($activated_all_plugins, $plugins[$single_plugin]);
+        }           
+    }
+    $proPluginVersion = getProPluginVersion($activated_all_plugins);
+
 	if (function_exists('current_user_can')) {
 		if (!current_user_can('manage_options')) return;
 	} else {
@@ -799,8 +816,13 @@ function wpsp_scheduled_option_menu() {
 		if ($user_level < 8) return;
 	}
 	if (function_exists('add_menu_page')) {
-		//add_options_page($plName, $plName, "manage_options", __FILE__, 'wpsp_scheduled_options_page');
-		add_submenu_page( pluginsFOLDER,__( 'Manage Schedule'), __( 'Manage Schedule'), "manage_options", 'wpsp-manage-schedule', 'wpsp_scheduled_options_page');
+		if($proPluginVersion != '2.0' && isset($proPluginVersion))
+        {
+			add_submenu_page( pluginsFOLDER,__( 'Pro Setting'), __( 'Pro Setting'), "manage_options", 'wpsp-pro-setting', 'wpsp_scheduled_options_page');
+		}else{
+			add_submenu_page( pluginsFOLDER,__( 'Manage Schedule'), __( 'Manage Schedule'), "manage_options", 'wpsp-manage-schedule', 'wpsp_scheduled_options_page');
+			//echo phpinfo();
+		}
 	}
 }
 # Install the option in the WordPress configuration menu
@@ -1030,9 +1052,12 @@ function wpsp_scheduled_options_page(){
 												id="<?php echo $day; ?>"
 												name="<?php echo "pts_$iday"; ?>" 
 												value="<?php
-													if ($options["pts_$iday"] == 'no') echo '0'; 
-													else if ($options["pts_$iday"] == 'yes') echo '1'; 
-													else echo $options["pts_$iday"]; 
+													if (isset($options["pts_$iday"])) {
+													
+															if ($options["pts_$iday"] == 'no') echo '0'; 
+															else if ($options["pts_$iday"] == 'yes') echo '1'; 
+															else echo $options["pts_$iday"]; 
+														}  
 												?>"/>
 										</td>
 										
@@ -1048,7 +1073,7 @@ function wpsp_scheduled_options_page(){
 
 							</table>
 						
-						<h3 style="margin-top:10px;"><?php _e('Specify the time interval in which you want to have your posts scheduled!',  'wp-scheduled-posts')?></h3>
+						<h3><?php _e('Specify the time interval in which you want to have your posts scheduled!',  'wp-scheduled-posts')?></h3>
 						
 						<table class="optiontable">
 							<tr valign="top">
@@ -1079,12 +1104,12 @@ function wpsp_scheduled_options_page(){
 						
 						$msgTimeOK ='
 
-						<h3 style="margin-top:20px;">'. __('Your timezone configuration and server time seems to be OK!','wp-scheduled-posts').		
+						<h3>'. __('Your timezone configuration and server time seems to be OK!','wp-scheduled-posts').		
 						'</h3>'
 						 .' <span style="color:green;font-weight:bold;">'.date(get_option('date_format').', '.get_option('time_format'),current_time('timestamp', $gmt = 0)).'</span>';
 						
 						
-						$msgTimeWrong = '<h3 style="margin-top:20px;">'		
+						$msgTimeWrong = '<h3>'		
 						. __('Your WordPress timezone settings might be incorrect!', 'wp-scheduled-posts').								
 						'</h3>'
 						. __('According to your web server','wp-scheduled-posts') .		
@@ -1093,17 +1118,9 @@ function wpsp_scheduled_options_page(){
 						'<br>'
 						. __('The timezone configured in your','wp-scheduled-posts').' <a target="_blank" href="options-general.php">'.__('WordPress settings','wp-scheduled-posts').'</a> '.__('is','wp-scheduled-posts') .': <span style="color:blue;font-weight:bold;">'.get_option('gmt_offset').', </span>'.
 						'<br>'			
-						. __('so your server think that is your local time is: ','wp-scheduled-posts') . ' <span style="color:red;font-weight:bold;">'.date(get_option('date_format').', '.get_option('time_format'),current_time('timestamp', $gmt = 0)).'</span> ... '
-						. __('but this is different from time on you machine now!','wp-scheduled-posts').
-						'<br>'
-						. __('If the difference is not too big (less than 2h or 3h) you problably will not have side effects and the plugin should work fine!','wp-scheduled-posts').
-						'<br>'
-						. __('Othewise, with big time differences, you can have issues with the real time that each post will be scheduled!','wp-scheduled-posts').
-						'<br>'
-						. __('Sometimes you have to set a different timezone to compensate daylight saving time or a missconfigured server time! ','wp-scheduled-posts').
-						
-						'<br>'
-						. __('If you can, change the timezone to correct this, refresh this page and this message will be shown anymore!','wp-scheduled-posts')		
+						. __('your server time is: ','wp-scheduled-posts') . ' <span style="color:red;font-weight:bold;">'.date(get_option('date_format').', '.get_option('time_format'),current_time('timestamp', $gmt = 0)).'</span>. '
+						. __('but this is different from time on you machine now!','wp-scheduled-posts')
+							
 						;		
 						
 						
@@ -1349,7 +1366,7 @@ function wpsp_scheduled_options_page(){
 										for($i=0;$i<$count;$i++){
 											$id  = $sat_schedules[$i]['id'];
 											$sat = $sat_schedules[$i]['schedule'];
-											echo '<span>'.$sat.' <a href="?page=manage-schedule&&sat_id='.$id.'"><span class="dashicons dashicons-no-alt"></span></a></span>';
+											echo '<span>'.$sat.' <a href="?page=wpsp-manage-schedule&&sat_id='.$id.'"><span class="dashicons dashicons-no-alt"></span></a></span>';
 										}
 									?>
 									
@@ -1363,7 +1380,7 @@ function wpsp_scheduled_options_page(){
 											$id  = $sun_schedules[$i]['id'];
 											$sun = $sun_schedules[$i]['schedule'];
 											if( !empty($sun) ){
-												echo '<span>'.$sun.' <a href="?page=manage-schedule&&sun_id='.$id.'"><span class="dashicons dashicons-no-alt"></span></a></span>';
+												echo '<span>'.$sun.' <a href="?page=wpsp-manage-schedule&&sun_id='.$id.'"><span class="dashicons dashicons-no-alt"></span></a></span>';
 											}else{
 												echo '<span>-</span>';
 											}
@@ -1379,7 +1396,7 @@ function wpsp_scheduled_options_page(){
 											$id  = $mon_schedules[$i]['id'];
 											$mon = $mon_schedules[$i]['schedule'];
 											if( isset($mon) && !empty($mon) ){
-												echo '<span>'.$mon.' <a href="?page=manage-schedule&&mon_id='.$id.'"><span class="dashicons dashicons-no-alt"></span></a></span>';
+												echo '<span>'.$mon.' <a href="?page=wpsp-manage-schedule&&mon_id='.$id.'"><span class="dashicons dashicons-no-alt"></span></a></span>';
 											}else{
 												echo '<span>-</span>';
 											}
@@ -1395,7 +1412,7 @@ function wpsp_scheduled_options_page(){
 											$id  = $tue_schedules[$i]['id'];
 											$tue = $tue_schedules[$i]['schedule'];
 											if( isset($tue) && !empty($tue) ){
-												echo '<span>'.$tue.' <a href="?page=manage-schedule&&tue_id='.$id.'"><span class="dashicons dashicons-no-alt"></span></a></span>';
+												echo '<span>'.$tue.' <a href="?page=wpsp-manage-schedule&&tue_id='.$id.'"><span class="dashicons dashicons-no-alt"></span></a></span>';
 											}else{
 												echo '<span>-</span>';
 											}
@@ -1411,7 +1428,7 @@ function wpsp_scheduled_options_page(){
 											$id  = $wed_schedules[$i]['id'];
 											$wed = $wed_schedules[$i]['schedule'];
 											if( isset($wed) && !empty($wed) ){
-												echo '<span>'.$wed.' <a href="?page=manage-schedule&&wed_id='.$id.'"><span class="dashicons dashicons-no-alt"></span></a></span>';
+												echo '<span>'.$wed.' <a href="?page=wpsp-manage-schedule&&wed_id='.$id.'"><span class="dashicons dashicons-no-alt"></span></a></span>';
 											}else{
 												echo '<span>-</span>';
 											}
@@ -1427,7 +1444,7 @@ function wpsp_scheduled_options_page(){
 											$id  = $thu_schedules[$i]['id'];
 											$thu = $thu_schedules[$i]['schedule'];
 											if( isset($thu) && !empty($thu) ){
-												echo '<span>'.$thu.' <a href="?page=manage-schedule&&thu_id='.$id.'"><span class="dashicons dashicons-no-alt"></span></a></span>';
+												echo '<span>'.$thu.' <a href="?page=wpsp-manage-schedule&&thu_id='.$id.'"><span class="dashicons dashicons-no-alt"></span></a></span>';
 											}else{
 												echo '<span>-</span>';
 											}
@@ -1443,7 +1460,7 @@ function wpsp_scheduled_options_page(){
 											$id  = $fri_schedules[$i]['id'];
 											$fri = $fri_schedules[$i]['schedule'];
 											if( isset($fri) && !empty($fri) ){
-												echo '<span>'.$fri.' <a href="?page=manage-schedule&&fri_id='.$id.'"><span class="dashicons dashicons-no-alt"></span></a></span>';
+												echo '<span>'.$fri.' <a href="?page=wpsp-manage-schedule&&fri_id='.$id.'"><span class="dashicons dashicons-no-alt"></span></a></span>';
 											}else{
 												echo '<span>-</span>';
 											}
