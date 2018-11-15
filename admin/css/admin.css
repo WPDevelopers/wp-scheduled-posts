@@ -600,7 +600,7 @@ textarea.wpsp-form-control {
 .manage-schedule-forms {
 	position: relative;
 	display: flex;
-	flex-flow: row wrap;
+	flex-flow: row nowrap;
 	align-items: flex-start;
 	margin: 0 -15px 30px -15px;
 	padding-bottom: 30px;
@@ -946,4 +946,10 @@ textarea.wpsp-form-control {
 	box-shadow: 1px 0 0 0 rgba(0,0,0,0.1);
 	margin-right: 10px;
 	padding: 15px 5px 5px 0;
+}
+
+@media only screen and (max-width: 767px) {
+.manage-schedule-forms {
+	flex-flow: row wrap;
+}
 }

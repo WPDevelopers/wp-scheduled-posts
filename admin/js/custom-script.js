@@ -7,7 +7,15 @@ jQuery(document).ready(function($) {
 	// sweet alert js
 
 	$('.swal_alert_show').on('click',function(){
-		swal('You have to activate pro version first!');
+		swal({
+	  		title: '<h2><span>Go</span> Premium',
+	  		type: 'warning',
+	  		html:
+	    		'Purchase our <b><a href="https://wpdeveloper.net/go/WPSP-Main" rel="nofollow" target="_blank">premium version</a></b> to unlock these pro features!',
+	  		showCloseButton: true,
+	  		showCancelButton: false,
+	  		focusConfirm: true,
+		});
 	})
 
 	// check active which option
