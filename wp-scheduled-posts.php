@@ -331,4 +331,27 @@ function wpscp_nag_ignore() {
      }
 }
 
+/**
+ * Optional usage tracker
+ *
+ * @since v2.0.0
+ */
+
+if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
+	require_once dirname( __FILE__ ) . '/includes/class-plugin-usage-tracker.php';
+}
+if( ! function_exists( 'wp_scheduled_posts_start_plugin_tracking' ) ) {
+	function wp_scheduled_posts_start_plugin_tracking() {
+		$wisdom = new Wpsp_Plugin_Usage_Tracker(
+			__FILE__,
+			'https://wpdeveloper.net',
+			array(),
+			true,
+			true,
+			1
+		);
+	}
+	wp_scheduled_posts_start_plugin_tracking();
+}
+
 ?>
