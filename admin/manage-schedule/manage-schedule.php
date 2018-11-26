@@ -832,7 +832,7 @@ function wpsp_scheduled_option_menu() {
         {
 			add_submenu_page( pluginsFOLDER,__( 'Manage Schedule'), __( 'Manage Schedule'), "manage_options", 'wpsp-manage-schedule', 'wpsp_scheduled_options_page');
 		}else{
-			add_submenu_page( pluginsFOLDER,__( 'Pro Setting'), __( 'Pro Setting'), "manage_options", 'wpsp-pro-setting', 'wpsp_scheduled_options_page');
+			add_submenu_page( pluginsFOLDER,__( 'Pro Setting'), __( 'Pro Setting'), "manage_options", 'wpsp-manage-schedule', 'wpsp_scheduled_options_page');
 
 		}
 	}
