@@ -21,7 +21,7 @@ function getInstallPluginVersion($allPlugins)
 {
     foreach($allPlugins as $plugins):
         if($plugins['Name'] == "WP Scheduled Posts Pro")
-            return $plugins['Version'];
+            return true;
     endforeach;
 
     return false;
@@ -665,7 +665,17 @@ function wpsp_scheduled_findNextSlot($post,$changePost = False){
 			}
 			
 			$msgT .=  '<p class="schedule_noti_p" title="'.$msgByPass.'">';
-			
+			$plugins=get_plugins();
+			$allActivePlugin=get_option('active_plugins');
+			$activated_all_plugins=array();
+			foreach ($allActivePlugin as $single_plugin) {           
+				if(isset($plugins[$single_plugin])) {
+					array_push($activated_all_plugins, $plugins[$single_plugin]);
+				}           
+			}
+			$proPluginVersion = getProPluginVersion($activated_all_plugins);
+			if($proPluginVersion)
+			{
 			$msgT .= '<strong>';
 			$msgT .= '<span>or</span> <input type="checkbox" id="schedule_click_button" name="schedule_btn_post" value="check_sched">';
 			
@@ -673,6 +683,7 @@ function wpsp_scheduled_findNextSlot($post,$changePost = False){
 			 
 
 			$msgT .= '</strong>';
+			}
 			$msgT .= '</p>';				
 			
 			#$msgT .= '<br>';		
@@ -785,7 +796,7 @@ function wpsp_scheduled_do_publish_schedule($post){
 function getProPluginVersion($allPlugins) {
     foreach($allPlugins as $plugins):
         if($plugins['Name'] == "WP Scheduled Posts Pro")
-            return $plugins['Version'];
+            return true;
     endforeach;
      return false;
 }
@@ -807,8 +818,9 @@ function wpsp_scheduled_option_menu() {
         }           
     }
     $proPluginVersion = getProPluginVersion($activated_all_plugins);
+	
 
-	if (function_exists('current_user_can')) {
+	if(function_exists('current_user_can')) {
 		if (!current_user_can('manage_options')) return;
 	} else {
 		global $user_level;
@@ -816,12 +828,12 @@ function wpsp_scheduled_option_menu() {
 		if ($user_level < 8) return;
 	}
 	if (function_exists('add_menu_page')) {
-		if($proPluginVersion != '1.0.0' && isset($proPluginVersion))
+		if($proPluginVersion)
         {
-			add_submenu_page( pluginsFOLDER,__( 'Pro Setting'), __( 'Pro Setting'), "manage_options", 'wpsp-pro-setting', 'wpsp_scheduled_options_page');
-		}else{
 			add_submenu_page( pluginsFOLDER,__( 'Manage Schedule'), __( 'Manage Schedule'), "manage_options", 'wpsp-manage-schedule', 'wpsp_scheduled_options_page');
-			//echo phpinfo();
+		}else{
+			add_submenu_page( pluginsFOLDER,__( 'Pro Setting'), __( 'Pro Setting'), "manage_options", 'wpsp-pro-setting', 'wpsp_scheduled_options_page');
+
 		}
 	}
 }
@@ -978,7 +990,7 @@ function wpsp_scheduled_options_page(){
 			        }
 			        $pluginVersion = getInstallPluginVersion($activated_plugins);
 		        
-			        if($pluginVersion != '1.0.0' && isset($pluginVersion))
+			        if(!$pluginVersion)
 			        {
 			        
 					?>
@@ -1197,7 +1209,7 @@ function wpsp_scheduled_options_page(){
 					<div id="man_form" class="manage-schedule-form">
 					<?php
 
-						if($pluginVersion != '1.0.0' && isset($pluginVersion))
+						if(!$pluginVersion)
 		        		{
 
 					?>
@@ -1233,7 +1245,7 @@ function wpsp_scheduled_options_page(){
 
 						<div class="submit-button-wrap">
 					<?php 
-						if($pluginVersion != '1.0.0' && isset($pluginVersion))
+						if(!$pluginVersion)
 		        		{
 					?>
 							<input type="button" class="button button-primary swal_alert_show" value="<?php _e('Save all changes', 'wp-scheduled-posts') ?>" />
@@ -1265,7 +1277,7 @@ function wpsp_scheduled_options_page(){
 								
 								<input type="text" autocomplete="off" name="man_times" id="man_times" value="00:00" placeholder="select time">
 							<?php 
-								if($pluginVersion != '1.0.0' && isset($pluginVersion))
+								if(!$pluginVersion)
 				        		{
 							?>
 								<input type="button" class="button button-primary swal_alert_show" value="SET">
@@ -1495,7 +1507,7 @@ function wpsp_scheduled_options_page(){
 							?>
 							<form action="" method="post">
 							<?php 
-								if($pluginVersion != '1.0.0' && isset($pluginVersion))
+								if(!$pluginVersion)
 				        		{
 							?>
 									<input type="checkbox" class="swal_alert_show" value=""><label>Activate Missed Schedule</label>
