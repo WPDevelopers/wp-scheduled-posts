@@ -187,8 +187,21 @@ function wpscp_options_page()
   						<img src="<?php echo plugins_url( '/', __FILE__ ).'assets/images/wpsp-logo.svg'; ?>">
   					</div>
   					<div class="wpsp-admin-sidebar-cta">
-  						<?php printf( __( '<a href="%s" target="_blank">Upgrade to Pro</a>', 'wp-scheduled-posts' ), 'https://wpdeveloper.net/go/WPSP-Main' ); ?>
+  						<?php     
+	  						if(function_exists('admin_dependency_plugin')) {
+	  							printf( __( '<a href="%s" target="_blank">Manage License</a>', 'wp-scheduled-posts' ), 'https://wpdeveloper.net/account' ); 
+	  						}else{
+	  							printf( __( '<a href="%s" target="_blank">Upgrade to Pro</a>', 'wp-scheduled-posts' ), 'https://wpdeveloper.net/go/WPSP-Main' );
+	  						}
+  						?>
   					</div>
+  				</div>
+  				<div class="wpsp-sidebar-block">
+  					<?php
+  					    if(function_exists('admin_dependency_plugin')) {
+							do_action( 'wpsp_licensing' );
+						}
+					?>
   				</div>
 			</div><!--admin sidebar end-->
 

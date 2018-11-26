@@ -816,7 +816,7 @@ function wpsp_scheduled_option_menu() {
 		if ($user_level < 8) return;
 	}
 	if (function_exists('add_menu_page')) {
-		if($proPluginVersion != '2.0' && isset($proPluginVersion))
+		if($proPluginVersion != '1.0.0' && isset($proPluginVersion))
         {
 			add_submenu_page( pluginsFOLDER,__( 'Pro Setting'), __( 'Pro Setting'), "manage_options", 'wpsp-pro-setting', 'wpsp_scheduled_options_page');
 		}else{
@@ -978,7 +978,7 @@ function wpsp_scheduled_options_page(){
 			        }
 			        $pluginVersion = getInstallPluginVersion($activated_plugins);
 		        
-			        if($pluginVersion != '2.0' && isset($pluginVersion))
+			        if($pluginVersion != '1.0.0' && isset($pluginVersion))
 			        {
 			        
 					?>
@@ -1197,7 +1197,7 @@ function wpsp_scheduled_options_page(){
 					<div id="man_form" class="manage-schedule-form">
 					<?php
 
-						if($pluginVersion != '2.0' && isset($pluginVersion))
+						if($pluginVersion != '1.0.0' && isset($pluginVersion))
 		        		{
 
 					?>
@@ -1233,7 +1233,7 @@ function wpsp_scheduled_options_page(){
 
 						<div class="submit-button-wrap">
 					<?php 
-						if($pluginVersion != '2.0' && isset($pluginVersion))
+						if($pluginVersion != '1.0.0' && isset($pluginVersion))
 		        		{
 					?>
 							<input type="button" class="button button-primary swal_alert_show" value="<?php _e('Save all changes', 'wp-scheduled-posts') ?>" />
@@ -1265,7 +1265,7 @@ function wpsp_scheduled_options_page(){
 								
 								<input type="text" autocomplete="off" name="man_times" id="man_times" value="00:00" placeholder="select time">
 							<?php 
-								if($pluginVersion != '2.0' && isset($pluginVersion))
+								if($pluginVersion != '1.0.0' && isset($pluginVersion))
 				        		{
 							?>
 								<input type="button" class="button button-primary swal_alert_show" value="SET">
@@ -1495,7 +1495,7 @@ function wpsp_scheduled_options_page(){
 							?>
 							<form action="" method="post">
 							<?php 
-								if($pluginVersion != '2.0' && isset($pluginVersion))
+								if($pluginVersion != '1.0.0' && isset($pluginVersion))
 				        		{
 							?>
 									<input type="checkbox" class="swal_alert_show" value=""><label>Activate Missed Schedule</label>
