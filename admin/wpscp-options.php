@@ -196,7 +196,7 @@ function wpscp_options_page()
   						?>
   					</div>
   				</div>
-  				<div class="wpsp-sidebar-block">
+  				<div class="wpsp-sidebar-block wpsp-license-block">
   					<?php
   					    if(function_exists('admin_dependency_plugin')) {
 							do_action( 'wpsp_licensing' );
