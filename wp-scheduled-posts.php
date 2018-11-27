@@ -199,7 +199,7 @@ add_action( 'admin_bar_menu', 'wp_scheduled_post_menu', 1000 );
 					}
 					$item_id++;
 					$Powered_by_text='<div style="border-top:1px solid #7AD03A;margin-top:5px; text-align:center;">Powered By <span style="color:#7AD03A">WP Scheduled Posts</span></div>';
-					$wp_admin_bar->add_menu( array( 'id'=>'wpscp_'.$item_id, 'parent' => 'wpscp' , 'title' =>$Powered_by_text , 'href' =>'https://wpdeveloper.net/go/WPSP-Main','meta'=>array('title'=>'WP Developer', 'target'=>'_blank') ) );
+					$wp_admin_bar->add_menu( array( 'id'=>'wpscp_'.$item_id, 'parent' => 'wpscp' , 'title' =>$Powered_by_text , 'href' =>'https://wpdeveloper.net/in/wpsp','meta'=>array('title'=>'WP Developer', 'target'=>'_blank') ) );
 
 					if($totalPostAllowed!=$totalPost)
 					{
@@ -315,7 +315,7 @@ if ( current_user_can( 'install_plugins' ) )
         /* Check that the user hasn't already clicked to ignore the message */
      if ( ! get_user_meta($user_id, 'wpscp_ignore_notice144') ) {
         echo '<div class="updated"><p>';
-        printf(__('<strong>[Notice]</strong> Thank you for using <b><a href="https://wpdeveloper.net/go/WPSP-Main" target="_blank">WP Scheduled Posts</a></b>. 
+        printf(__('<strong>[Notice]</strong> Thank you for using <b><a href="https://wpdeveloper.net/in/wpsp" target="_blank">WP Scheduled Posts</a></b>. 
  | <a href="%1$s">[Hide Notice]</a>'),  admin_url( 'admin.php?page=wp-scheduled-posts&wpscp_nag_ignore=0' ));
         echo "</p></div>";
      }

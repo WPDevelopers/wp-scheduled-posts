@@ -191,7 +191,7 @@ function wpscp_options_page()
 	  						if(function_exists('admin_dependency_plugin')) {
 	  							printf( __( '<a href="%s" target="_blank">Manage License</a>', 'wp-scheduled-posts' ), 'https://wpdeveloper.net/account' ); 
 	  						}else{
-	  							printf( __( '<a href="%s" target="_blank">Upgrade to Pro</a>', 'wp-scheduled-posts' ), 'https://wpdeveloper.net/go/WPSP-Main' );
+	  							printf( __( '<a href="%s" target="_blank">Upgrade to Pro</a>', 'wp-scheduled-posts' ), 'https://wpdeveloper.net/in/wpsp' );
 	  						}
   						?>
   					</div>
