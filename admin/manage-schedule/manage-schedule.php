@@ -3,7 +3,7 @@
 //load_textdomain('wp-scheduled-posts', dirname(__FILE__).'/lang/' . get_locale() . '.mo');
 
 $plName = 'Publish to Schedule';
-$plUrl = 'https://wordpress.org/extend/plugins/publish-to-schedule/';
+$plUrl = 'https://wordpress.org/extend/plugins/wp-scheduled-post/';
 
 $get_pub_op 			= get_option('pub_active_option');
 $activate_pub_option 	= html_entity_decode(stripslashes($get_pub_op));
@@ -256,7 +256,7 @@ function wpsp_scheduled_postInfo(){
 	if(current_user_can('install_plugins')){
 		$msgTimeWrong = '<div style="margin: 0 0 7px 0"><span style="color:red">'.
 		__('Your WordPress timezone settings might be incorrect!','wp-scheduled-posts').
-		'</span>  ( <a href="options-general.php?page=publish-to-schedule/publish-to-schedule.php" target="_blank">'.
+		'</span>  ( <a href="options-general.php" target="_blank">'.
 		__('See details','wp-scheduled-posts').'</a> )</div>';
 	}
 	else{
@@ -871,16 +871,18 @@ function wpsp_scheduled_options_page(){
 	// This bit stores any updated values when the Update button has been pressed
 	if (isset($_POST['update_options'])) {
 
-		if(isset($_POST['pub_check'])) {
+		if(isset($_POST['pub_check']) && $_POST['pub_check']) {
 			$pubs = $_POST['pub_check'];
 			delete_option('cal_active_option');
 			add_option('pub_active_option',$pubs);
+			$activate_pub_option=$pubs;
 			//add_option('cal_active_option',"");
 			echo "<h3>Activated!</h3>";
-		}elseif(isset($_POST['cal_check'])){
+		}elseif(isset($_POST['cal_check']) && $_POST['cal_check']){
 			$cals = $_POST['cal_check'];
 			delete_option('pub_active_option');
 			add_option('cal_active_option',$cals);
+			$activate_cal_option=$cals;
 			//add_option('pub_active_option',"");
 			echo "<h3>Manual Time Activated!</h3>";
 		}else{
@@ -1016,7 +1018,7 @@ function wpsp_scheduled_options_page(){
 
 						<div class="wpsp-checkbox-wrapper">
 							<div class="checkbox-toggle">
-							<input type="checkbox" id="pub_check" name="pub_check" value="<?php if(!empty($activate_pub_option)){ echo $activate_pub_option;}else{ echo 'ok'; } ?>" <?php if ( isset($_POST['pub_check']) || !empty($activate_pub_option)  ) { echo 'checked="checked"'; }?> >
+							<input type="checkbox" id="pub_check" name="pub_check" value="<?php if(!empty($activate_pub_option)){ echo $activate_pub_option;}else{ echo 'ok'; } ?>" <?php if(get_option('pub_active_option'))   { echo 'checked="checked"'; }?> >
 								<svg class="is_checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 426.67 426.67">
 								<path d="M153.504 366.84c-8.657 0-17.323-3.303-23.927-9.912L9.914 237.265c-13.218-13.218-13.218-34.645 0-47.863 13.218-13.218 34.645-13.218 47.863 0l95.727 95.727 215.39-215.387c13.218-13.214 34.65-13.218 47.86 0 13.22 13.218 13.22 34.65 0 47.863L177.435 356.928c-6.61 6.605-15.27 9.91-23.932 9.91z"/>
 								</svg>
@@ -1231,7 +1233,7 @@ function wpsp_scheduled_options_page(){
 					?>
 						<div class="wpsp-checkbox-wrapper">
 							<div class="checkbox-toggle">
-							<input type="checkbox" id="cal_check" name="cal_check" value="<?php if(!empty($activate_cal_option)){ echo $activate_cal_option;}else{ echo 'ok'; } ?>" <?php if ( isset($_POST['cal_check']) || !empty($activate_cal_option) ) { echo 'checked="checked"'; }?> >
+							<input type="checkbox" id="cal_check" name="cal_check" value="<?php if(!empty($activate_cal_option)){ echo $activate_cal_option;}else{ echo 'ok'; } ?>" <?php if (get_option('cal_active_option') ) { echo 'checked="checked"'; }?> >
 								<svg class="is_checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 426.67 426.67">
 								<path d="M153.504 366.84c-8.657 0-17.323-3.303-23.927-9.912L9.914 237.265c-13.218-13.218-13.218-34.645 0-47.863 13.218-13.218 34.645-13.218 47.863 0l95.727 95.727 215.39-215.387c13.218-13.214 34.65-13.218 47.86 0 13.22 13.218 13.22 34.65 0 47.863L177.435 356.928c-6.61 6.605-15.27 9.91-23.932 9.91z"/>
 								</svg>
