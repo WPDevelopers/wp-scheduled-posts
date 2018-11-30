@@ -3,7 +3,7 @@
 //load_textdomain('wp-scheduled-posts', dirname(__FILE__).'/lang/' . get_locale() . '.mo');
 
 $plName = 'Publish to Schedule';
-$plUrl = 'https://wordpress.org/extend/plugins/publish-to-schedule/';
+$plUrl = 'https://wordpress.org/extend/plugins/wp-scheduled-post/';
 
 $get_pub_op 			= get_option('pub_active_option');
 $activate_pub_option 	= html_entity_decode(stripslashes($get_pub_op));
@@ -21,7 +21,7 @@ function getInstallPluginVersion($allPlugins)
 {
     foreach($allPlugins as $plugins):
         if($plugins['Name'] == "WP Scheduled Posts Pro")
-            return $plugins['Version'];
+            return true;
     endforeach;
 
     return false;
@@ -256,7 +256,7 @@ function wpsp_scheduled_postInfo(){
 	if(current_user_can('install_plugins')){
 		$msgTimeWrong = '<div style="margin: 0 0 7px 0"><span style="color:red">'.
 		__('Your WordPress timezone settings might be incorrect!','wp-scheduled-posts').
-		'</span>  ( <a href="options-general.php?page=publish-to-schedule/publish-to-schedule.php" target="_blank">'.
+		'</span>  ( <a href="options-general.php" target="_blank">'.
 		__('See details','wp-scheduled-posts').'</a> )</div>';
 	}
 	else{
@@ -665,7 +665,17 @@ function wpsp_scheduled_findNextSlot($post,$changePost = False){
 			}
 			
 			$msgT .=  '<p class="schedule_noti_p" title="'.$msgByPass.'">';
-			
+			$plugins=get_plugins();
+			$allActivePlugin=get_option('active_plugins');
+			$activated_all_plugins=array();
+			foreach ($allActivePlugin as $single_plugin) {           
+				if(isset($plugins[$single_plugin])) {
+					array_push($activated_all_plugins, $plugins[$single_plugin]);
+				}           
+			}
+			$proPluginVersion = getProPluginVersion($activated_all_plugins);
+			if($proPluginVersion)
+			{
 			$msgT .= '<strong>';
 			$msgT .= '<span>or</span> <input type="checkbox" id="schedule_click_button" name="schedule_btn_post" value="check_sched">';
 			
@@ -673,6 +683,7 @@ function wpsp_scheduled_findNextSlot($post,$changePost = False){
 			 
 
 			$msgT .= '</strong>';
+			}
 			$msgT .= '</p>';				
 			
 			#$msgT .= '<br>';		
@@ -785,7 +796,7 @@ function wpsp_scheduled_do_publish_schedule($post){
 function getProPluginVersion($allPlugins) {
     foreach($allPlugins as $plugins):
         if($plugins['Name'] == "WP Scheduled Posts Pro")
-            return $plugins['Version'];
+            return true;
     endforeach;
      return false;
 }
@@ -807,8 +818,9 @@ function wpsp_scheduled_option_menu() {
         }           
     }
     $proPluginVersion = getProPluginVersion($activated_all_plugins);
+	
 
-	if (function_exists('current_user_can')) {
+	if(function_exists('current_user_can')) {
 		if (!current_user_can('manage_options')) return;
 	} else {
 		global $user_level;
@@ -816,12 +828,12 @@ function wpsp_scheduled_option_menu() {
 		if ($user_level < 8) return;
 	}
 	if (function_exists('add_menu_page')) {
-		if($proPluginVersion != '1.0.0' && isset($proPluginVersion))
+		if($proPluginVersion)
         {
-			add_submenu_page( pluginsFOLDER,__( 'Pro Setting'), __( 'Pro Setting'), "manage_options", 'wpsp-pro-setting', 'wpsp_scheduled_options_page');
-		}else{
 			add_submenu_page( pluginsFOLDER,__( 'Manage Schedule'), __( 'Manage Schedule'), "manage_options", 'wpsp-manage-schedule', 'wpsp_scheduled_options_page');
-			//echo phpinfo();
+		}else{
+			add_submenu_page( pluginsFOLDER,__( 'Pro Setting'), __( 'Pro Setting'), "manage_options", 'wpsp-manage-schedule', 'wpsp_scheduled_options_page');
+
 		}
 	}
 }
@@ -859,16 +871,18 @@ function wpsp_scheduled_options_page(){
 	// This bit stores any updated values when the Update button has been pressed
 	if (isset($_POST['update_options'])) {
 
-		if(isset($_POST['pub_check'])) {
+		if(isset($_POST['pub_check']) && $_POST['pub_check']) {
 			$pubs = $_POST['pub_check'];
 			delete_option('cal_active_option');
 			add_option('pub_active_option',$pubs);
+			$activate_pub_option=$pubs;
 			//add_option('cal_active_option',"");
 			echo "<h3>Activated!</h3>";
-		}elseif(isset($_POST['cal_check'])){
+		}elseif(isset($_POST['cal_check']) && $_POST['cal_check']){
 			$cals = $_POST['cal_check'];
 			delete_option('pub_active_option');
 			add_option('cal_active_option',$cals);
+			$activate_cal_option=$cals;
 			//add_option('pub_active_option',"");
 			echo "<h3>Manual Time Activated!</h3>";
 		}else{
@@ -978,7 +992,7 @@ function wpsp_scheduled_options_page(){
 			        }
 			        $pluginVersion = getInstallPluginVersion($activated_plugins);
 		        
-			        if($pluginVersion != '1.0.0' && isset($pluginVersion))
+			        if(!$pluginVersion)
 			        {
 			        
 					?>
@@ -1004,7 +1018,7 @@ function wpsp_scheduled_options_page(){
 
 						<div class="wpsp-checkbox-wrapper">
 							<div class="checkbox-toggle">
-							<input type="checkbox" id="pub_check" name="pub_check" value="<?php if(!empty($activate_pub_option)){ echo $activate_pub_option;}else{ echo 'ok'; } ?>" <?php if ( isset($_POST['pub_check']) || !empty($activate_pub_option)  ) { echo 'checked="checked"'; }?> >
+							<input type="checkbox" id="pub_check" name="pub_check" value="<?php if(!empty($activate_pub_option)){ echo $activate_pub_option;}else{ echo 'ok'; } ?>" <?php if(get_option('pub_active_option'))   { echo 'checked="checked"'; }?> >
 								<svg class="is_checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 426.67 426.67">
 								<path d="M153.504 366.84c-8.657 0-17.323-3.303-23.927-9.912L9.914 237.265c-13.218-13.218-13.218-34.645 0-47.863 13.218-13.218 34.645-13.218 47.863 0l95.727 95.727 215.39-215.387c13.218-13.214 34.65-13.218 47.86 0 13.22 13.218 13.22 34.65 0 47.863L177.435 356.928c-6.61 6.605-15.27 9.91-23.932 9.91z"/>
 								</svg>
@@ -1197,7 +1211,7 @@ function wpsp_scheduled_options_page(){
 					<div id="man_form" class="manage-schedule-form">
 					<?php
 
-						if($pluginVersion != '1.0.0' && isset($pluginVersion))
+						if(!$pluginVersion)
 		        		{
 
 					?>
@@ -1219,7 +1233,7 @@ function wpsp_scheduled_options_page(){
 					?>
 						<div class="wpsp-checkbox-wrapper">
 							<div class="checkbox-toggle">
-							<input type="checkbox" id="cal_check" name="cal_check" value="<?php if(!empty($activate_cal_option)){ echo $activate_cal_option;}else{ echo 'ok'; } ?>" <?php if ( isset($_POST['cal_check']) || !empty($activate_cal_option) ) { echo 'checked="checked"'; }?> >
+							<input type="checkbox" id="cal_check" name="cal_check" value="<?php if(!empty($activate_cal_option)){ echo $activate_cal_option;}else{ echo 'ok'; } ?>" <?php if (get_option('cal_active_option') ) { echo 'checked="checked"'; }?> >
 								<svg class="is_checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 426.67 426.67">
 								<path d="M153.504 366.84c-8.657 0-17.323-3.303-23.927-9.912L9.914 237.265c-13.218-13.218-13.218-34.645 0-47.863 13.218-13.218 34.645-13.218 47.863 0l95.727 95.727 215.39-215.387c13.218-13.214 34.65-13.218 47.86 0 13.22 13.218 13.22 34.65 0 47.863L177.435 356.928c-6.61 6.605-15.27 9.91-23.932 9.91z"/>
 								</svg>
@@ -1233,7 +1247,7 @@ function wpsp_scheduled_options_page(){
 
 						<div class="submit-button-wrap">
 					<?php 
-						if($pluginVersion != '1.0.0' && isset($pluginVersion))
+						if(!$pluginVersion)
 		        		{
 					?>
 							<input type="button" class="button button-primary swal_alert_show" value="<?php _e('Save all changes', 'wp-scheduled-posts') ?>" />
@@ -1265,7 +1279,7 @@ function wpsp_scheduled_options_page(){
 								
 								<input type="text" autocomplete="off" name="man_times" id="man_times" value="00:00" placeholder="select time">
 							<?php 
-								if($pluginVersion != '1.0.0' && isset($pluginVersion))
+								if(!$pluginVersion)
 				        		{
 							?>
 								<input type="button" class="button button-primary swal_alert_show" value="SET">
@@ -1495,7 +1509,7 @@ function wpsp_scheduled_options_page(){
 							?>
 							<form action="" method="post">
 							<?php 
-								if($pluginVersion != '1.0.0' && isset($pluginVersion))
+								if(!$pluginVersion)
 				        		{
 							?>
 									<input type="checkbox" class="swal_alert_show" value=""><label>Activate Missed Schedule</label>
