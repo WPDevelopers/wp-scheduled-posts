@@ -16,8 +16,8 @@ define("WPSCP_PLUGIN_PATH",plugin_dir_path(__FILE__)); #with trailing slash (/)
 include_once('admin/wpscp-options.php');
 
 
-if (!class_exists('wpsp_addon')) {
-	class wpsp_addon {
+if (!class_exists('Wp_Scheduled_Posts')) {
+	class Wp_Scheduled_Posts {
 		function __construct() {
 			$this->define_constant();
 			$this->load_dependencies();
@@ -84,7 +84,7 @@ if (!class_exists('wpsp_addon')) {
 		
 	}
 	global $wpsp_op;
-	$wpsp_op = new wpsp_addon();
+	$wpsp_op = new Wp_Scheduled_Posts();
 		
 include('admin/scheduled-calendar/wpspcalendar.php');
 include('admin/manage-schedule/manage-schedule.php');
