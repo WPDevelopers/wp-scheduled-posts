@@ -16,8 +16,8 @@ define("WPSCP_PLUGIN_PATH",plugin_dir_path(__FILE__)); #with trailing slash (/)
 include_once('admin/wpscp-options.php');
 
 
-if (!class_exists('wpsp_addon')) {
-	class wpsp_addon {
+if (!class_exists('Wp_Scheduled_Posts')) {
+	class Wp_Scheduled_Posts {
 		function __construct() {
 			$this->define_constant();
 			$this->load_dependencies();
@@ -84,7 +84,7 @@ if (!class_exists('wpsp_addon')) {
 		
 	}
 	global $wpsp_op;
-	$wpsp_op = new wpsp_addon();
+	$wpsp_op = new Wp_Scheduled_Posts();
 		
 include('admin/scheduled-calendar/wpspcalendar.php');
 include('admin/manage-schedule/manage-schedule.php');
@@ -199,7 +199,7 @@ add_action( 'admin_bar_menu', 'wp_scheduled_post_menu', 1000 );
 					}
 					$item_id++;
 					$Powered_by_text='<div style="border-top:1px solid #7AD03A;margin-top:5px; text-align:center;">Powered By <span style="color:#7AD03A">WP Scheduled Posts</span></div>';
-					$wp_admin_bar->add_menu( array( 'id'=>'wpscp_'.$item_id, 'parent' => 'wpscp' , 'title' =>$Powered_by_text , 'href' =>'https://wpdeveloper.net/go/WPSP-Main','meta'=>array('title'=>'WP Developer', 'target'=>'_blank') ) );
+					$wp_admin_bar->add_menu( array( 'id'=>'wpscp_'.$item_id, 'parent' => 'wpscp' , 'title' =>$Powered_by_text , 'href' =>'https://wpdeveloper.net/in/wpsp','meta'=>array('title'=>'WP Developer', 'target'=>'_blank') ) );
 
 					if($totalPostAllowed!=$totalPost)
 					{
@@ -307,31 +307,42 @@ add_action('init', 'wpscp_initialize');
 
 add_action('admin_notices', 'wpscp_admin_notice');
 
-function wpscp_admin_notice() {
-if ( current_user_can( 'install_plugins' ) )
-   {
-     global $current_user ;
-        $user_id = $current_user->ID;
-        /* Check that the user hasn't already clicked to ignore the message */
-     if ( ! get_user_meta($user_id, 'wpscp_ignore_notice144') ) {
-        echo '<div class="updated"><p>';
-        printf(__('<strong>[Notice]</strong> Thank you for using <b><a href="https://wpdeveloper.net/go/WPSP-Main" target="_blank">WP Scheduled Posts</a></b>. 
- | <a href="%1$s">[Hide Notice]</a>'),  admin_url( 'admin.php?page=wp-scheduled-posts&wpscp_nag_ignore=0' ));
-        echo "</p></div>";
-     }
+
+/**
+ * Admin Notice
+ *
+ * @since v2.0.0
+ */
+function wpsp_admin_notice() {
+  if ( current_user_can( 'install_plugins' ) ) {
+    global $current_user ;
+    $user_id = $current_user->ID;
+    /* Check that the user hasn't already clicked to ignore the message */
+    if ( ! get_user_meta($user_id, 'wpsp_ignore_notice200') ) {
+      echo '<div class="wpsp-admin-notice updated" style="display: flex; align-items: center; padding-left: 0; border-left-color: #6648FE"><p style="width: 36px;background-color: #f1f2f9;border-radius: 50%;margin: 0.5em;">';
+      echo '<img style="width: 100%; display: block;"  src="' . plugins_url( '/', __FILE__ ).'admin/assets/images/wpsp-logo.svg'. '" ></p><p> ';
+      printf(__('<a href="https://wpdeveloper.net/in/wpsp" target="_blank" style="font-weight: bolder;">WP Scheduled Posts Pro</a> is now available with <strong>Auto Scheduler</strong> and <strong>Missed Scheduler</strong> feautres. Use the coupon code <strong>WPSP-EARLYBIRD</strong> to redeem a <strong>25&#37; </strong> discount on Pro upgrade. <a href="https://wpdeveloper.net/in/wpsp" target="_blank" style="text-decoration: none;"><span class="dashicons dashicons-smiley" style="margin-left: 10px;"></span> Apply Coupon</a>
+        <a href="%1$s" style="text-decoration: none; margin-left: 10px;"><span class="dashicons dashicons-dismiss"></span> I\'m good with free version</a>'),  admin_url( 'admin.php?page=wpsp-settings&wpsp_nag_ignore=0' ));
+      echo "</p></div>";
     }
+  }
 }
+add_action('admin_notices', 'wpsp_admin_notice');
 
-add_action('admin_init', 'wpscp_nag_ignore');
 
-function wpscp_nag_ignore() {
-     global $current_user;
+/**
+ * Nag Ignore
+ */
+function wpsp_nag_ignore() {
+  global $current_user;
         $user_id = $current_user->ID;
         /* If user clicks to ignore the notice, add that to their user meta */
-        if ( isset($_GET['wpscp_nag_ignore']) && '0' == $_GET['wpscp_nag_ignore'] ) {
-             add_user_meta($user_id, 'wpscp_ignore_notice144', 'true', true);
-     }
+        if ( isset($_GET['wpsp_nag_ignore']) && '0' == $_GET['wpsp_nag_ignore'] ) {
+             add_user_meta($user_id, 'wpsp_ignore_notice200', 'true', true);
+  }
 }
+add_action('admin_init', 'wpsp_nag_ignore');
+
 
 /**
  * Optional usage tracker

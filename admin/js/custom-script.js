@@ -11,7 +11,7 @@ jQuery(document).ready(function($) {
 	  		title: '<h2><span>Go</span> Premium',
 	  		type: 'warning',
 	  		html:
-	    		'Purchase our <b><a href="https://wpdeveloper.net/go/WPSP-Main" rel="nofollow" target="_blank">premium version</a></b> to unlock these pro features!',
+	    		'Purchase our <b><a href="https://wpdeveloper.net/in/wpsp" rel="nofollow" target="_blank">premium version</a></b> to unlock these pro features!',
 	  		showCloseButton: true,
 	  		showCancelButton: false,
 	  		focusConfirm: true,

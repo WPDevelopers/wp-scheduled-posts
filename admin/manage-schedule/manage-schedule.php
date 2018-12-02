@@ -1007,7 +1007,10 @@ function wpsp_scheduled_options_page(){
 								<path d="M131.804 106.49l75.936-75.935c6.99-6.99 6.99-18.323 0-25.312-6.99-6.99-18.322-6.99-25.312 0L106.49 81.18 30.555 5.242c-6.99-6.99-18.322-6.99-25.312 0-6.99 6.99-6.99 18.323 0 25.312L81.18 106.49 5.24 182.427c-6.99 6.99-6.99 18.323 0 25.312 6.99 6.99 18.322 6.99 25.312 0L106.49 131.8l75.938 75.937c6.99 6.99 18.322 6.99 25.312 0 6.99-6.99 6.99-18.323 0-25.313l-75.936-75.936z" fill-rule="evenodd" clip-rule="evenodd"/>
 								</svg>
 							</div>
-							<div class="wpsp-scheduler-title">Auto Scheduler</div>
+							<div class="wpsp-scheduler-title">
+								<h3>Auto Scheduler</h3>
+								<p>Enable to publish posts randomely within your given time interval thorughout the week.</p>
+							</div>
 						</div>
 
 
@@ -1026,7 +1029,10 @@ function wpsp_scheduled_options_page(){
 								<path d="M131.804 106.49l75.936-75.935c6.99-6.99 6.99-18.323 0-25.312-6.99-6.99-18.322-6.99-25.312 0L106.49 81.18 30.555 5.242c-6.99-6.99-18.322-6.99-25.312 0-6.99 6.99-6.99 18.323 0 25.312L81.18 106.49 5.24 182.427c-6.99 6.99-6.99 18.323 0 25.312 6.99 6.99 18.322 6.99 25.312 0L106.49 131.8l75.938 75.937c6.99 6.99 18.322 6.99 25.312 0 6.99-6.99 6.99-18.323 0-25.313l-75.936-75.936z" fill-rule="evenodd" clip-rule="evenodd"/>
 								</svg>
 							</div>
-							<div class="wpsp-scheduler-title">Auto Scheduler</div>
+							<div class="wpsp-scheduler-title">
+								<h3>Auto Scheduler</h3>
+								<p>Enable to publish posts randomely within your given time interval thorughout the week.</p>
+							</div>
 						</div>
 
 					<?php
@@ -1048,6 +1054,8 @@ function wpsp_scheduled_options_page(){
 						?>
 						
 						<div class="wpsp-schedule-table">
+
+							<h3><?php _e('Set the number of posts you want to schedule for each day throughout the week.',  'wp-scheduled-posts')?></h3>
 							<table>	
 								
 								<?php
@@ -1065,6 +1073,7 @@ function wpsp_scheduled_options_page(){
 												type="text" 
 												id="<?php echo $day; ?>"
 												name="<?php echo "pts_$iday"; ?>" 
+												placeholder="0" 
 												value="<?php
 													if (isset($options["pts_$iday"])) {
 													
@@ -1087,17 +1096,17 @@ function wpsp_scheduled_options_page(){
 
 							</table>
 						
-						<h3><?php _e('Specify the time interval in which you want to have your posts scheduled!',  'wp-scheduled-posts')?></h3>
+						<h3><?php _e('Specify the time interval in which you want to have your posts scheduled.',  'wp-scheduled-posts')?></h3>
 						
 						<table class="optiontable">
 							<tr valign="top">
 								<th scope="row" align="left"><?php _e('Start Time', 'wp-scheduled-posts') ?>:</th>
-								<td><input name="pts_start" type="text" id="start" value="<?php echo $options['pts_start']; ?>" size="10" /><?php _e(' (defaults to 00:00)', 'wp-scheduled-posts') ?>
+								<td><input name="pts_start" type="text" id="start" value="<?php echo $options['pts_start']; ?>" placeholder="00:00" size="10" /><?php _e(' (Default : 00:00)', 'wp-scheduled-posts') ?>
 								</td>
 							</tr>
 							<tr valign="top">
 								<th scope="row" align="left"><?php _e('End Time', 'wp-scheduled-posts') ?>:</th>
-								<td><input name="pts_end" type="text" id="end" value="<?php echo $options['pts_end']; ?>" size="10" /><?php _e(' (defaults to 23:59)', 'wp-scheduled-posts') ?>
+								<td><input name="pts_end" type="text" id="end" value="<?php echo $options['pts_end']; ?>" placeholder="23:59" size="10" /><?php _e(' (Default : 23:59)', 'wp-scheduled-posts') ?>
 								</td>
 							</tr>
 						</table>
@@ -1225,7 +1234,10 @@ function wpsp_scheduled_options_page(){
 								<path d="M131.804 106.49l75.936-75.935c6.99-6.99 6.99-18.323 0-25.312-6.99-6.99-18.322-6.99-25.312 0L106.49 81.18 30.555 5.242c-6.99-6.99-18.322-6.99-25.312 0-6.99 6.99-6.99 18.323 0 25.312L81.18 106.49 5.24 182.427c-6.99 6.99-6.99 18.323 0 25.312 6.99 6.99 18.322 6.99 25.312 0L106.49 131.8l75.938 75.937c6.99 6.99 18.322 6.99 25.312 0 6.99-6.99 6.99-18.323 0-25.313l-75.936-75.936z" fill-rule="evenodd" clip-rule="evenodd"/>
 								</svg>
 							</div>
-							<div class="wpsp-scheduler-title">Manual Scheduler</div>
+							<div class="wpsp-scheduler-title">
+								<h3>Manual Scheduler</h3>
+								<p>Get absolute control over your schedule time.</p>
+							</div>
 						</div>
 					<?php 
 						}else
@@ -1241,7 +1253,10 @@ function wpsp_scheduled_options_page(){
 								<path d="M131.804 106.49l75.936-75.935c6.99-6.99 6.99-18.323 0-25.312-6.99-6.99-18.322-6.99-25.312 0L106.49 81.18 30.555 5.242c-6.99-6.99-18.322-6.99-25.312 0-6.99 6.99-6.99 18.323 0 25.312L81.18 106.49 5.24 182.427c-6.99 6.99-6.99 18.323 0 25.312 6.99 6.99 18.322 6.99 25.312 0L106.49 131.8l75.938 75.937c6.99 6.99 18.322 6.99 25.312 0 6.99-6.99 6.99-18.323 0-25.313l-75.936-75.936z" fill-rule="evenodd" clip-rule="evenodd"/>
 								</svg>
 							</div>
-							<div class="wpsp-scheduler-title">Manual Scheduler</div>
+							<div class="wpsp-scheduler-title">
+								<h3>Manual Scheduler</h3>
+								<p>Get absolute control over your schedule time.</p>
+							</div>
 						</div>
 					<?php } ?>
 
@@ -1268,13 +1283,13 @@ function wpsp_scheduled_options_page(){
 							<div class="man_options">
 								<select name="man_days" id="man_days">
 									<option value="">Select Days</option>
-									<option value="saturday">saturday</option>
-									<option value="sunday">sunday</option>
-									<option value="monday">monday</option>
-									<option value="tuesday">tuesday</option>
-									<option value="wednesday">wednesday</option>
-									<option value="thursday">thursday</option>
-									<option value="friday">friday</option>
+									<option value="saturday">Saturday</option>
+									<option value="sunday">Sunday</option>
+									<option value="monday">Monday</option>
+									<option value="tuesday">Tuesday</option>
+									<option value="wednesday">Wednesday</option>
+									<option value="thursday">Thursday</option>
+									<option value="friday">Friday</option>
 								</select>
 								
 								<input type="text" autocomplete="off" name="man_times" id="man_times" value="00:00" placeholder="select time">
@@ -1513,7 +1528,7 @@ function wpsp_scheduled_options_page(){
 				        		{
 							?>
 									<input type="checkbox" class="swal_alert_show" value=""><label>Activate Missed Schedule</label>
-									<p class="wpsp-description-text">If you activate this, it will manage the missed schedule too.</p>
+									<p class="wpsp-description-text">WordPress might miss the schedule for a post for various reason. If enabled, <strong>WP Scheduled Posts</strong> will take care of this to publish the missed schedule.</p>
 									<input class="button button-primary swal_alert_show" type="button" value="Activate">
 							<?php  
 								}
@@ -1521,7 +1536,7 @@ function wpsp_scheduled_options_page(){
 								{
 							?>
 									<input type="checkbox" name="miss_check" value="<?php if(!empty($activate_miss_option)){ echo $activate_miss_option;}else{ echo 'miss'; } ?>" <?php if ( isset($_POST['miss_check']) || !empty($activate_miss_option) ) { echo 'checked="checked"'; }?> ><label for="miss_check">Activate Missed Schedule</label>
-									<p class="wpsp-description-text">If you activate this, it will manage the missed schedule too.</p>
+									<p class="wpsp-description-text">WordPress might miss the schedule for a post for various reason. If enabled, <strong>WP Scheduled Posts</strong> will take care of this to publish the missed schedule.</p>
 									<input class="button button-primary" type="submit" name="ac_miss" value="Activate">
 							<?php  
 								}
