@@ -1,5 +1,5 @@
 === WP Scheduled Posts ===
-Contributors: Asif2BD, re_enter_rupok, onetarek
+Contributors: Asif2BD, re_enter_rupok, onetarek, hakimcseru, nayanchamp7
 Tags: post schedule, editor calendar, schedule-calendar, schedule bar, scheduled posts, schedule, schedule widget, scheduler, schedule menu bar, admin bar, dashboard widget, missed scheduled, calendar, missed schedule, future post, schedule issue, post later, admin bar, admin, multi author
 Requires at least: 4.0
 Tested up to: 4.9.8
@@ -106,9 +106,11 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 == Screenshots ==
 
-1. Admin Bar Widget View
-2. Dashboard View
-3. Option Page
+1. Schedule Calendar 
+2. Creating and Scheduling Post right from the Calendar
+3. Auto Scheduler (Pro Feature)
+4. Manual Scheduler (Pro Feature)
+5. General Options Page
 
 
 == Changelog ==
