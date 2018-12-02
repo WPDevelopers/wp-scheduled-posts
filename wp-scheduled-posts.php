@@ -1,15 +1,11 @@
 <?php
 /*
  * Plugin Name: WP Scheduled Posts
- * Plugin URI: https://wpdeveloper.net/free-plugin/wp-scheduled-posts/
  * Description: A complete solution for WordPress Post Schedule. Get an admin Bar & Dashboard Widget showing all your scheduled posts. And full control.
- * Version: 1.4.4
- * Author: WP Developer
+ * Version: 2.0.0
+ * Author: WPDeveloper
  * Author URI: https://wpdeveloper.net
- * License: GPL2+
  * Text Domain: wp-scheduled-posts
- * Min WP Version: 2.5.0
- * Max WP Version: 4.8
  */
 
 
@@ -17,8 +13,84 @@ define("WPSCP_PLUGIN_SLUG",'wp-scheduled-posts');
 define("WPSCP_PLUGIN_URL",plugins_url("",__FILE__ ));#without trailing slash (/)
 define("WPSCP_PLUGIN_PATH",plugin_dir_path(__FILE__)); #with trailing slash (/)
 
-include_once('includes/wpscp-options.php');
-include_once('includes/wpdev-dashboard-widget.php');
+include_once('admin/wpscp-options.php');
+
+
+if (!class_exists('Wp_Scheduled_Posts')) {
+	class Wp_Scheduled_Posts {
+		function __construct() {
+			$this->define_constant();
+			$this->load_dependencies();
+			$this->plugin_name = plugin_basename(__FILE__);
+			$parent_plugin_file = 'wp-scheduled-posts/wp-scheduled-posts.php';
+
+			
+			register_deactivation_hook( $this->plugin_name, array(&$this, 'deactivate') );
+			register_activation_hook( $this->plugin_name, array(&$this, 'activate') );
+			register_uninstall_hook( $this->plugin_name, 'uninstall' );
+
+			add_action( 'admin_enqueue_scripts', array(&$this, 'start_plugin') );
+			add_action( 'admin_init', array(&$this, 'check_some_other_plugin') );
+			//add_action( 'admin_notices', array(&$this,'wpse120377_error') );
+		}
+		
+		function define_constant() {
+		    //echo WP_PLUGIN_URL; die;
+			define('pluginsFOLDER', plugin_basename( dirname(__FILE__)) );
+			define('plugins_ABSPATH', trailingslashit( str_replace("\\","/", WP_PLUGIN_DIR . '/' . plugin_basename( dirname(__FILE__) ) ) ) );
+			define('plugins_URLPATH', trailingslashit( plugins_url() . '/' . plugin_basename( dirname(__FILE__) ) ) );
+		}
+		
+		function load_dependencies() {
+			if ( is_admin() ) {	
+				require_once (dirname (__FILE__) . '/admin/admin.php');
+				$this->optionAdminPanel = new optionAdminPanel();
+			}
+		}
+
+		function check_some_other_plugin() {
+			remove_submenu_page( 'options-general.php', 'wp-scheduled-posts' );
+		}
+
+		
+		function activate() {
+			include_once (dirname (__FILE__) . '/admin/install.php');
+			psm_install();
+			return true;
+		}
+
+
+
+		function deactivate(){
+			return true;
+		}
+		function uninstall(){
+			return true;
+		}
+		
+		function start_plugin() {
+			if ( is_admin() ) {
+				wp_enqueue_style( 'admin-style', plugins_URLPATH . 'admin/css/admin.css' );
+				wp_enqueue_style( 'font-awesome', plugins_URLPATH . 'admin/css/font-awesome.min.css' );
+				wp_enqueue_style( 'chung-timepicker', plugins_URLPATH . 'admin/css/chung-timepicker.css' );
+				wp_enqueue_style( 'sweet-alert-css', plugins_URLPATH . 'admin/assets/vendor/sweetalert2/css/sweetalert2.min.css' );
+				wp_enqueue_script( 'custom-script', plugins_URLPATH . 'admin/js/custom-script.js', array('jquery'), '1.0.0', false );
+				wp_enqueue_script( 'main-chung-timepicker', plugins_URLPATH . 'admin/js/chung-timepicker.js', array('jquery'), '1.0.0', false );
+				wp_enqueue_script( 'sweet-alert-core-js', plugins_URLPATH . 'admin/assets/vendor/sweetalert2/js/core.js', array('jquery'), '1.0.0', false);
+				wp_enqueue_script( 'sweet-alert-js', plugins_URLPATH . 'admin/assets/vendor/sweetalert2/js/sweetalert2.min.js', array('jquery'), '1.0.0', false);
+			}
+		}
+		
+		
+	}
+	global $wpsp_op;
+	$wpsp_op = new Wp_Scheduled_Posts();
+		
+include('admin/scheduled-calendar/wpspcalendar.php');
+include('admin/manage-schedule/manage-schedule.php');
+include('admin/wpsp-missed-schedule/wpsp-missed-schedule.php');
+
+}
 
 function add_wpscp_menu_pages()
 
@@ -127,7 +199,7 @@ add_action( 'admin_bar_menu', 'wp_scheduled_post_menu', 1000 );
 					}
 					$item_id++;
 					$Powered_by_text='<div style="border-top:1px solid #7AD03A;margin-top:5px; text-align:center;">Powered By <span style="color:#7AD03A">WP Scheduled Posts</span></div>';
-					$wp_admin_bar->add_menu( array( 'id'=>'wpscp_'.$item_id, 'parent' => 'wpscp' , 'title' =>$Powered_by_text , 'href' =>'https://wpdeveloper.net/go/WPSP-Main','meta'=>array('title'=>'WP Developer', 'target'=>'_blank') ) );
+					$wp_admin_bar->add_menu( array( 'id'=>'wpscp_'.$item_id, 'parent' => 'wpscp' , 'title' =>$Powered_by_text , 'href' =>'https://wpdeveloper.net/in/wpsp','meta'=>array('title'=>'WP Developer', 'target'=>'_blank') ) );
 
 					if($totalPostAllowed!=$totalPost)
 					{
@@ -235,30 +307,64 @@ add_action('init', 'wpscp_initialize');
 
 add_action('admin_notices', 'wpscp_admin_notice');
 
-function wpscp_admin_notice() {
-if ( current_user_can( 'install_plugins' ) )
-   {
-     global $current_user ;
-        $user_id = $current_user->ID;
-        /* Check that the user hasn't already clicked to ignore the message */
-     if ( ! get_user_meta($user_id, 'wpscp_ignore_notice144') ) {
-        echo '<div class="updated"><p>';
-        printf(__('<strong>[Notice]</strong> Thank you for using <b><a href="https://wpdeveloper.net/go/WPSP-Main" target="_blank">WP Scheduled Posts</a></b>. 
- | <a href="%1$s">[Hide Notice]</a>'),  admin_url( 'admin.php?page=wp-scheduled-posts&wpscp_nag_ignore=0' ));
-        echo "</p></div>";
-     }
+
+/**
+ * Admin Notice
+ *
+ * @since v2.0.0
+ */
+function wpsp_admin_notice() {
+  if ( current_user_can( 'install_plugins' ) ) {
+    global $current_user ;
+    $user_id = $current_user->ID;
+    /* Check that the user hasn't already clicked to ignore the message */
+    if ( ! get_user_meta($user_id, 'wpsp_ignore_notice200') ) {
+      echo '<div class="wpsp-admin-notice updated" style="display: flex; align-items: center; padding-left: 0; border-left-color: #6648FE"><p style="width: 36px;background-color: #f1f2f9;border-radius: 50%;margin: 0.5em;">';
+      echo '<img style="width: 100%; display: block;"  src="' . plugins_url( '/', __FILE__ ).'admin/assets/images/wpsp-logo.svg'. '" ></p><p> ';
+      printf(__('<a href="https://wpdeveloper.net/in/wpsp" target="_blank" style="font-weight: bolder;">WP Scheduled Posts Pro</a> is now available with <strong>Auto Scheduler</strong> and <strong>Missed Scheduler</strong> feautres. Use the coupon code <strong>WPSP-EARLYBIRD</strong> to redeem a <strong>25&#37; </strong> discount on Pro upgrade. <a href="https://wpdeveloper.net/in/wpsp" target="_blank" style="text-decoration: none;"><span class="dashicons dashicons-smiley" style="margin-left: 10px;"></span> Apply Coupon</a>
+        <a href="%1$s" style="text-decoration: none; margin-left: 10px;"><span class="dashicons dashicons-dismiss"></span> I\'m good with free version</a>'),  admin_url( 'admin.php?page=wpsp-settings&wpsp_nag_ignore=0' ));
+      echo "</p></div>";
     }
+  }
 }
+add_action('admin_notices', 'wpsp_admin_notice');
 
-add_action('admin_init', 'wpscp_nag_ignore');
 
-function wpscp_nag_ignore() {
-     global $current_user;
+/**
+ * Nag Ignore
+ */
+function wpsp_nag_ignore() {
+  global $current_user;
         $user_id = $current_user->ID;
         /* If user clicks to ignore the notice, add that to their user meta */
-        if ( isset($_GET['wpscp_nag_ignore']) && '0' == $_GET['wpscp_nag_ignore'] ) {
-             add_user_meta($user_id, 'wpscp_ignore_notice144', 'true', true);
-     }
+        if ( isset($_GET['wpsp_nag_ignore']) && '0' == $_GET['wpsp_nag_ignore'] ) {
+             add_user_meta($user_id, 'wpsp_ignore_notice200', 'true', true);
+  }
+}
+add_action('admin_init', 'wpsp_nag_ignore');
+
+
+/**
+ * Optional usage tracker
+ *
+ * @since v2.0.0
+ */
+
+if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
+	require_once dirname( __FILE__ ) . '/includes/class-plugin-usage-tracker.php';
+}
+if( ! function_exists( 'wp_scheduled_posts_start_plugin_tracking' ) ) {
+	function wp_scheduled_posts_start_plugin_tracking() {
+		$wisdom = new Wpsp_Plugin_Usage_Tracker(
+			__FILE__,
+			'https://wpdeveloper.net',
+			array(),
+			true,
+			true,
+			1
+		);
+	}
+	wp_scheduled_posts_start_plugin_tracking();
 }
 
 ?>

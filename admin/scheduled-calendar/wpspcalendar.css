@@ -1,0 +1,596 @@
+
+/* Reset & Utility */
+
+.clearfix:before, .clearfix:after { content:'\0020'; display:block; height:0; visibility:hidden; }
+.clearfix:after { clear:both; }
+.clearfix { zoom:1; }
+
+
+
+/* Loading section */
+
+#loadingcont {
+    position: relative;
+}
+
+#loading, #draftsdrawer_loading {
+    background-image: url('images/loading.gif'); 
+    background-repeat: no-repeat;
+    position: absolute;
+    width: 43px;
+    height: 43px;
+    display: block;
+    left: 20em;
+    top: -1.5em;
+}
+
+.loadingclass > .postlink, .tiploading, .loadingclass:hover > .postlink {
+    background-image: url('images/loading_post.gif'); 
+    background-position: top right;
+    background-repeat: no-repeat;
+    cursor: auto;
+}
+
+
+
+/* Top bar */
+
+#topbar {
+    margin-bottom: 1em;
+    margin-top: 1em;
+    height:2em;
+}
+#topbar .tablenav-pages a {
+	font-weight:normal;
+}
+#topleft.tablenav-pages {
+    float:left;
+}
+#topright button {
+    margin-left: 2em;
+    margin-right: 6px;
+    text-decoration: none;
+}
+
+
+
+/* Drafts Drawer */
+
+#draftsdrawer_cont {
+    height:100%;
+    float:right;
+    display:none;
+}
+#draftsdrawer {
+    background-color: #edeafd;
+    border:1px solid #efefef;
+    padding-bottom:1px;
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+    -o-border-radius:3px;
+    border-radius:3px;
+}
+
+#draftsdrawer .day {
+    border: 0;
+    background-color: #edeafd;
+}
+#draftsdrawer .dayobj { height:auto; }
+#draftsdrawer .postlist { 
+    top:26px;
+    padding-left: 5px;
+}
+#draftsdrawer .posttime { display:none; }
+#draftsdrawer_loading {
+	position:relative;
+	margin:2em 2em 0 2em;
+	top:0;
+	left:0;
+}
+
+
+/* Calendar container */
+
+#cal_cont, #scrollable_wpsp {
+    -x-system-font:none;
+    font-family:"Lucida Grande",Verdana,Arial,"Bitstream Vera Sans",sans-serif;
+    font-size:11px;
+    font-size-adjust:none;
+    font-stretch:normal;
+    font-style:normal;
+    font-variant:normal;
+    font-weight:normal;
+}
+
+#cal_cont {
+    border:1px solid #dfdfdf;
+    padding-bottom:1px;
+    -moz-border-radius:4px;
+    -webkit-border-radius:4px;
+    -o-border-radius:4px;
+    border-radius:4px;
+}
+
+#scrollable_wpsp {
+    /* required settings */ 
+    position:relative; 
+    overflow:hidden; 
+
+    /* This height will be reset with JavaScript */ 
+    height: 100%;
+    margin-top: 5px;
+    margin-left: 4px;
+    margin-right: 2px;
+}
+
+#cal {
+    position:absolute; 
+
+    /* this time we have very large space for the height */ 
+    height:100%; 
+    margin-right: 10px;
+}
+
+
+
+/* Day label table head */
+
+.dayheadcont, .draftsdrawerheadcont {
+    position: relative;
+    height: 48px;
+    top: 0px;
+    background:#715ec8;
+    border-radius:3px 3px 0 0
+}
+
+#draftsdrawer .draftsdrawerheadcont {
+    background-color: #ff5f7e;
+}
+
+.dayhead {
+    text-align: center;
+    text-shadow: none;
+    color: #fff;
+    font-size: 14px;
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Rows */
+
+.wpsp_row {
+    height: 100%;
+}
+
+/* Days */
+
+.day {
+    border: 1px solid #efefef; /* this will add to total height in IE. So, 100% + 2px */
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+    -o-border-radius:3px;
+    border-radius:3px;
+    background: white;
+}
+
+.day.beforeToday {
+    background: #f6f7fb;
+}
+
+.day.todayAndAfter {
+    background: #fff;
+}
+
+.day.day-active {
+    background-color: lightyellow;
+}
+
+.scrollHover {
+    background: lightblue;
+}
+
+.dayobj {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.firstOfMonth .dayobj {
+    background-color: #eaf2fb;
+    -moz-border-radius:2px;
+    -webkit-border-radius:2px;
+    -o-border-radius:2px;
+    border-radius:2px;
+}
+
+.daylabel {
+    position: relative;
+    text-align: right;
+    padding: 10px;
+    -moz-border-radius:2px 2px 0 0;
+    -webkit-border-radius:2px 2px 0 0;
+    -o-border-radius:2px 2px 0 0;
+    border-radius:2px 2px 0 0;
+}
+
+.day.month-present .daylabel {
+    border-bottom:1px solid #dfdfdf;
+    background-color:#eff3fc;
+}
+
+.day.month-past .daylabel, .day.month-future .daylabel {
+    background-color: #f5f6f6;
+    border-bottom: 1px solid #dfdfdf;
+}
+
+.daynewlink {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    display: none;
+    padding-left: 0.5em;
+    padding-right: 0em;
+    text-decoration: none;
+    font-size:13px;
+    z-index: 10;
+    overflow: hidden;
+    height: 1.5em;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 70%;
+}
+
+#unscheduledNewLink {
+    top: -3px;
+}
+
+.day.today .daylabel {
+    background-color:#30d6a9;
+    color: #fff;
+}
+
+.today .daynewlink {
+    color: white;
+}
+
+
+
+/* Posts */
+
+.wpsp-calendar-wrap .postlist .post {
+    background-color: #68abff;
+    color: #fff;
+    padding: 6px;
+    border-radius: 3px;
+    display: block;
+    list-style-type: none;
+    z-index: 10;
+    margin: 0 2px 8px;
+    font-size: 12px;
+    transition: all .3s;
+}
+.wpsp-calendar-wrap .postlist .post:hover {
+    background-color: #2278f6;
+}
+
+.wpsp-calendar-wrap .postlist .post:nth-child(2) {
+    background-color: #c582ff;
+}
+
+.wpsp-calendar-wrap .postlist .post:nth-child(2):hover {
+    background-color: #b063f4;
+}
+.wpsp-calendar-wrap .postlist .post:nth-child(3) {
+    background-color: #30d6a9;
+}
+
+.wpsp-calendar-wrap .postlist .post:nth-child(3):hover {
+    background-color: #11c191;
+}
+
+.wpsp-calendar-wrap .postlist .post:nth-child(4) {
+    background-color: #ff71a1;
+}
+
+.wpsp-calendar-wrap .postlist .post:nth-child(4):hover {
+    background-color: #e44e81;
+}
+
+.wpsp-calendar-wrap .postlist .post:nth-child(5) {
+    background-color: #ffb142;
+}
+
+.wpsp-calendar-wrap .postlist .post:nth-child(5):hover {
+    background-color: #e0962d;
+}
+
+.wpsp-calendar-wrap .postlist .post:nth-child(6) {
+    background-color: #22a6b3;
+}
+
+.wpsp-calendar-wrap .postlist .post:nth-child(6):hover {
+    background-color: #1b95a1;
+}
+.wpsp-calendar-wrap .postlist .post:nth-child(7) {
+    background-color: #576574;
+}
+
+.wpsp-calendar-wrap .postlist .post:nth-child(7):hover {
+    background-color: #3c4753;
+}
+
+.wpsp-calendar-wrap .posttime {
+    font-weight: bold;
+}
+
+.wpsp-calendar-wrap .post.draggable .postlink {
+    cursor: move;
+}
+
+.wpsp-calendar-wrap .post .postactions {
+    display: none;
+    margin-top: 5px;
+}
+
+.postactions a {
+  color: #fff;
+  font-weight: bolder;
+  text-decoration:none;
+  text-shadow: none;
+}
+.postactions a:hover {
+  color: #f54;
+}
+
+.publish, .post.readonly {
+    color: #a4a4a4;
+    font-weight:normal;
+}
+
+.postlist {
+    position: relative;
+    top:5px; 
+    overflow: auto;
+}
+
+
+/* Quick Add/Edit Tooltip */
+
+.wpsp-quickedit-inner {
+    background: #fff;
+    width: 500px;
+    border-radius: 3px;
+    box-shadow: 0 0 500px 1500px rgba(0,0,0, .5);
+    position: relative;
+    z-index: 25;
+}
+
+.wpsp_quickedit {
+    padding: 10px;
+    position: relative;
+    border-top:1px solid #fff;
+}
+
+#tooltiphead {
+    background: #715ec8;
+    padding: 10px;
+}
+
+#tooltiptitle {
+    color: #fff;
+    font-size: 15px;
+    position: relative;
+    margin: 0;
+    text-shadow: none;
+}
+
+#tipclose {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    color: #fff;
+    text-decoration: none;
+}
+
+#wpsp_quickedit .inline-edit-row fieldset {
+    padding-bottom:1.2em;
+}
+
+#wpsp-title { /* not sure this is being used */
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+#wpsp-title-new-field {
+    padding: 5px;
+    height: 36px;
+    box-shadow: none;
+}
+/*
+TinyMCE Rich Editor and Media buttons are not currently used
+#wpsp_quickedit .mceEditor,*/
+#wpsp_quickedit textarea {
+    height: 15em;
+    padding: 8px;
+    box-shadow: none;
+}
+
+/*
+#wpsp_quickedit #cal_mediabar {
+    font-size: 11px;
+}
+
+#wpsp_quickedit #media-buttons {
+    padding: 5px 0;
+}*/
+
+#wpsp_quickedit #wpsp-time {
+    width: 9em;
+    background-color: white;
+}
+
+#wpsp-author-p {
+    line-height:1.8em;
+    padding-left:0.2em;
+}
+
+#edit-slug-buttons {
+    position: relative;
+    margin:0;
+    padding:0 0 0.5em 0;
+}
+
+#edit-slug-buttons a {
+}
+
+
+#newPostScheduleButton {
+    position: absolute;
+    right: 0;
+    top: -2px;
+    background-color: #715ec8;
+    color: #fff;
+    border: none;
+    text-shadow: none;
+    box-shadow: none;
+    padding: 10px 25px;
+    line-height: 1;
+    height: auto;
+}
+
+#newPostScheduleButton.disabled {
+    background-color: #715ec8!important;
+    color: #fff!important;
+    opacity: .7
+}
+
+.wpsp-quickedit-inner #edit-slug-buttons a.cancel {
+    background-color: #ff5f7e;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    height: auto;
+    line-height: 1;
+}
+
+/* End Add/Edit Tooltip */
+
+
+
+/* Screen Options */
+
+#wpsp_select_weeks {
+    width: 4em;
+}
+
+#calendar-fields-prefs {
+    margin-bottom: 1em;
+}
+
+#calendar-fields-prefs label {
+    margin-left: 1em;
+    line-height: normal;
+    vertical-align: baseline;
+}
+
+#wpsp-qunit {
+    margin-top: 2em;
+}
+
+.optionscolorrow {
+    position: relative;
+    height: 20px;
+}
+
+.optionscolor {
+    width: 16px; 
+    height: 16px; 
+    margin-left: 1em; 
+    display: block;
+    position: absolute;
+    top: 2px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    opacity: 0.5;
+    
+}
+
+.optionscolor:hover {
+    opacity: 1;
+}
+
+.colorselected {
+    opacity: 1;
+}
+
+.colorlabel {
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+}
+
+#screen-meta #show-wpsp-settings-link.show-settings {
+    background-position: right -1px;
+}
+
+div.metabox-prefs {
+    padding-left: 10px;
+}
+
+#contextual-help-wrap {
+    margin-left: 8px;
+    padding: 0 0 10px;
+}
+
+
+
+/* Feedback section */
+
+#feedbacksection {
+    margin-top: 15px;
+    padding: 1em;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    width: 55%;
+    min-width: 500px;
+    background-color: #eaf2fb;
+    font-family:"Lucida Grande",Verdana,Arial,"Bitstream Vera Sans",sans-serif;
+    font-size:11px;
+}
+
+#feedbacksection h2 {
+    font-family:"Lucida Grande",Verdana,Arial,"Bitstream Vera Sans",sans-serif;
+    font-size: 14.3px;
+    font-style: normal;
+    font-weight: bold;
+    color: #333333;
+    padding: 0px;
+    margin: 0px;
+    margin-top: -10px;
+}
+
+#nofeedbacklink {
+    margin-left: 1em;
+}
+
+
+#moveToToday {
+    margin-left: 1.5em;
+}
+
+.tablenav .tablenav-pages a {
+    background-position-y: -380px;
+}
+
+.postlist::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+}
+.postlist::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, .5);
+  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+}
