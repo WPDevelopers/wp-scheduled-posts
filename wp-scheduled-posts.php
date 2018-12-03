@@ -305,7 +305,7 @@ add_action('init', 'wpscp_initialize');
 
 /* Display a notice that can be dismissed */
 
-add_action('admin_notices', 'wpscp_admin_notice');
+// add_action('admin_notices', 'wpscp_admin_notice'); Hakim commented this line because function was called without declaration
 
 
 /**
