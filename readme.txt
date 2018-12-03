@@ -1,5 +1,5 @@
 === WP Scheduled Posts ===
-Contributors: Asif2BD, re_enter_rupok, onetarek
+Contributors: wpdevteam, Asif2BD, re_enter_rupok, onetarek, hakimcseru, nayanchamp7
 Tags: post schedule, editor calendar, schedule-calendar, schedule bar, scheduled posts, schedule, schedule widget, scheduler, schedule menu bar, admin bar, dashboard widget, missed scheduled, calendar, missed schedule, future post, schedule issue, post later, admin bar, admin, multi author
 Requires at least: 4.0
 Tested up to: 4.9.8
@@ -13,6 +13,9 @@ A complete solution for WordPress Post Schedule. Manage schedule through editori
 == Description ==
 
 A complete solution for WordPress Post Schedule. Manage schedule through editorial calendar and enable auto scheduler. Get an Admin Bar & Dashboard Widget showing all your scheduled posts.
+
+
+[Check the Demo](https://wpdeveloper.net/plugins/wp-scheduled-posts/)
 
 ### Schedule your WordPress posts in advance and have them posted automatically for you.
 
@@ -41,9 +44,9 @@ From one place, you can easily get an overview of your blog posts and when each 
 **Manage Multiple Author Efficiently:** Managing multiple authors for a blog is never an easy task. But you can make the process easier using our schedule calendar and manage co-authors from one place.
 
 
-## [WP Scheduled Posts PREMIUM](https://wpdeveloper.net/plugins/wp-scheduled-posts/)
+## WP Scheduled Posts PREMIUM
 
-**WP Scheduled Posts Pro** includes all features of the free version and awesome additional features including:
+**[WP Scheduled Posts Pro](https://wpdeveloper.net/plugins/wp-scheduled-posts/)** includes all features of the free version and awesome additional features including:
 
 **Auto Scheduler:** Get absolute control over your content schedule as you can create rules to post content automatically. You just need to specify the time interval in which you want to have your posts scheduled and this plugin will publish it on the exact time. You can also set exact date and time to create flexible schedule.
  
@@ -106,9 +109,11 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 == Screenshots ==
 
-1. Admin Bar Widget View
-2. Dashboard View
-3. Option Page
+1. Schedule Calendar 
+2. Creating and Scheduling Post right from the Calendar
+3. Auto Scheduler (Pro Feature)
+4. Manual Scheduler (Pro Feature)
+5. General Options Page
 
 
 == Changelog ==
@@ -179,9 +184,3 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 * Completely revamped interface
 * Visual Schedule Calendar added
 * Lots of new features and improvements.
-
-== Donation ==
-
-Consider buying any of our Pro version at little cost.
-
-https://wpdeveloper.net/

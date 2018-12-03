@@ -305,7 +305,7 @@ add_action('init', 'wpscp_initialize');
 
 /* Display a notice that can be dismissed */
 
-add_action('admin_notices', 'wpscp_admin_notice');
+// add_action('admin_notices', 'wpscp_admin_notice'); Hakim commented this line because function was called without declaration
 
 
 /**
@@ -321,7 +321,7 @@ function wpsp_admin_notice() {
     if ( ! get_user_meta($user_id, 'wpsp_ignore_notice200') ) {
       echo '<div class="wpsp-admin-notice updated" style="display: flex; align-items: center; padding-left: 0; border-left-color: #6648FE"><p style="width: 36px;background-color: #f1f2f9;border-radius: 50%;margin: 0.5em;">';
       echo '<img style="width: 100%; display: block;"  src="' . plugins_url( '/', __FILE__ ).'admin/assets/images/wpsp-logo.svg'. '" ></p><p> ';
-      printf(__('<a href="https://wpdeveloper.net/in/wpsp" target="_blank" style="font-weight: bolder;">WP Scheduled Posts Pro</a> is now available with <strong>Auto Scheduler</strong> and <strong>Missed Scheduler</strong> feautres. Use the coupon code <strong>WPSP-EARLYBIRD</strong> to redeem a <strong>25&#37; </strong> discount on Pro upgrade. <a href="https://wpdeveloper.net/in/wpsp" target="_blank" style="text-decoration: none;"><span class="dashicons dashicons-smiley" style="margin-left: 10px;"></span> Apply Coupon</a>
+      printf(__('<a href="https://wpdeveloper.net/in/wpsp" target="_blank" style="font-weight: bolder;">WP Scheduled Posts Pro</a> is now available with <strong>Auto Scheduler</strong> and <strong>Missed Scheduler</strong> feautres. Use the coupon code <strong>WPSP-EARLYBIRD</strong> to redeem a <strong>50&#37; </strong> discount on Pro upgrade. <a href="https://wpdeveloper.net/in/wpsp" target="_blank" style="text-decoration: none;"><span class="dashicons dashicons-smiley" style="margin-left: 10px;"></span> Apply Coupon</a>
         <a href="%1$s" style="text-decoration: none; margin-left: 10px;"><span class="dashicons dashicons-dismiss"></span> I\'m good with free version</a>'),  admin_url( 'admin.php?page=wpsp-settings&wpsp_nag_ignore=0' ));
       echo "</p></div>";
     }

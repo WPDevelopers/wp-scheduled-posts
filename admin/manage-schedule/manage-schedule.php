@@ -17,7 +17,7 @@ $pts_debug = False;
 
 
 // get all installed plugins version
-function getInstallPluginVersion($allPlugins)
+function wpsp_getInstallPluginVersion($allPlugins)
 {
     foreach($allPlugins as $plugins):
         if($plugins['Name'] == "WP Scheduled Posts Pro")
@@ -614,7 +614,7 @@ function wpsp_scheduled_findNextSlot($post,$changePost = False){
 				}
 
 				
-				function nextWeek($presentWk){
+				function wpsp_nextWeek($presentWk){
 					$presentWk2=array();
 					$pr_wk = count($presentWk);
 					for($d=0;$d<$pr_wk;$d++){
@@ -641,7 +641,7 @@ function wpsp_scheduled_findNextSlot($post,$changePost = False){
 					if($deserved_date)
 						break;
 					else
-						$all_day_schedule = nextWeek($all_day_schedule);							 
+						$all_day_schedule = wpsp_nextWeek($all_day_schedule);							 
 				}
 			
 			
@@ -673,7 +673,7 @@ function wpsp_scheduled_findNextSlot($post,$changePost = False){
 					array_push($activated_all_plugins, $plugins[$single_plugin]);
 				}           
 			}
-			$proPluginVersion = getProPluginVersion($activated_all_plugins);
+			$proPluginVersion = wpsp_getProPluginVersion($activated_all_plugins);
 			if($proPluginVersion)
 			{
 			$msgT .= '<strong>';
@@ -793,7 +793,7 @@ function wpsp_scheduled_do_publish_schedule($post){
 }
 
 // dependecy check function for menu
-function getProPluginVersion($allPlugins) {
+function wpsp_getProPluginVersion($allPlugins) {
     foreach($allPlugins as $plugins):
         if($plugins['Name'] == "WP Scheduled Posts Pro")
             return true;
@@ -817,7 +817,7 @@ function wpsp_scheduled_option_menu() {
             array_push($activated_all_plugins, $plugins[$single_plugin]);
         }           
     }
-    $proPluginVersion = getProPluginVersion($activated_all_plugins);
+    $proPluginVersion = wpsp_getProPluginVersion($activated_all_plugins);
 	
 
 	if(function_exists('current_user_can')) {
@@ -990,7 +990,7 @@ function wpsp_scheduled_options_page(){
 			                 array_push($activated_plugins, $plugins[$p]);
 			            }           
 			        }
-			        $pluginVersion = getInstallPluginVersion($activated_plugins);
+			        $pluginVersion = wpsp_getInstallPluginVersion($activated_plugins);
 		        
 			        if(!$pluginVersion)
 			        {
