@@ -1,54 +1,76 @@
 === WP Scheduled Posts ===
-Contributors: Asif2BD, onetarek
-Donate link: https://wpdeveloper.net
-Tags: post schedule, editor calendar, schedule bar, scheduled posts, schedule, schedule widget, scheduler, schedule menu bar, admin bar, dashboard widget, missed scheduled, calendar, missed schedule, future post, schedule issue, post later, admin bar, admin, multi author
-Requires at least: 2.5.0
-Tested up to: 4.8
-Stable tag: 1.9.1
-License: GPLv2
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Contributors: wpdevteam, Asif2BD, re_enter_rupok, onetarek, hakimcseru, nayanchamp7
+Tags: post schedule, editor calendar, schedule-calendar, schedule bar, scheduled posts, schedule, schedule widget, scheduler, schedule menu bar, admin bar, dashboard widget, missed scheduled, calendar, missed schedule, future post, schedule issue, post later, admin bar, admin, multi author
+Requires at least: 4.0
+Tested up to: 4.9.8
+Requires PHP: 5.4
+Stable tag: 2.0.0
+License: GPLv3
+License URI: https://opensource.org/licenses/GPL-3.0
 
-A complete solution for WordPress Post Schedule. Get an Admin Bar & Dashboard Widget showing all your scheduled posts. And full control.
+A complete solution for WordPress Post Schedule. Manage schedule through editorial calendar and enable auto scheduler. Get an Admin Bar & Dashboard Widget showing all your scheduled posts.
 
 == Description ==
 
-'[WP Scheduled Posts](https://wpdeveloper.net/free-plugin/wp-scheduled-posts/)' by [WPDeveloper.net](https://wpdeveloper.net/) is free for WordPress user, which was previously only used by [ARCom](http://arcom.com.bd) internally, in multi-author projects like [The Tech Journal](https://thetechjournal.com).
-
-**Feature includes:**
-
-* Show Scheduled Post Widget in Dashboard and Admin Bar.
-* Select where to show the Widget (between Dashboard & Admin bar or both).
-* Select who could see the Widget (By user role).
-* Ability to show the Scheduled Post Widget in site wide admin bar.
-* Ability to set custom item template and style for scheduled posts list in adminbar.
-* Ability to publish any scheduled post immediately but date-time will be a future date-time as you set. 
-* Ability to control the style of Schedule Widget. (in future update).
-* **New** Brand new interface.
-* **New** Ability to control which 'Custom Post Types' will be available to "Scheduled Posts".
-* **New** Ability to control which 'Category' will be available to "Scheduled Posts".
-* **New** Ability to control date time structure, as you need.
+A complete solution for WordPress Post Schedule. Manage schedule through editorial calendar and enable auto scheduler. Get an Admin Bar & Dashboard Widget showing all your scheduled posts.
 
 
-> <strong>Vote For Feature!!</strong><br>
-> We are considering to bring more features, tell us what you need. [Click here](https://wpdeveloper.net/go/WPSP-PDS)!
+[Check the Demo](https://wpdeveloper.net/plugins/wp-scheduled-posts/)
+
+### Schedule your WordPress posts in advance and have them posted automatically for you.
+
+- With no notifications or reminders.
+- Schedule hundreds of post using the editorial calendar
+- Manage multiple authors from one place
+
+You will be on vacation from next Saturday but want your website to stay active as your regular day? Yes, you can schedule posts in advance for those days and WP Scheduled Posts brings you the editorial calendar with it to lets you see when your posts have been scheduled. 
 
 
-'WP Scheduled Posts' is a very simple but super useful plugin. It will enable a widget in dashboard and/or in admin bar which will show all future Scheduled post. This is specially useful for multi-author blog. Even its useful for single author blog who use the built-in Schedule function of WordPress. 
-
-To better understand what it does and how it works please check screenshot section.
+From one place, you can easily get an overview of your blog posts and when each post will be published. Not just that, it allows you to drag and drop to edit and move posts right from the editorial calendar. 
 
 
-**Check Our Other Plugins:**
-
-* **[Twitter Cards Meta](https://wordpress.org/plugins/twitter-cards-meta/)** 
-* **[Facebook Secret Meta](https://wordpress.org/plugins/facebook-secret-meta/)** 
-* **[WP Author Report Free](https://wordpress.org/plugins/wp-author-report-free/)** 
-* **[Analytify - Ultimate Google Analytics Dashboard](https://wordpress.org/plugins/wp-analytify/)**
+## Manage Your Post Scheduling With Super Handy Features (FREE)
 
 
-> <strong>Contribute in GitHub!!</strong><br>
-> Contribute in GitHub. [Click here](https://github.com/ARCommunications/WP-Scheduled-Posts)!
+**Schedule Calendar:** Manage your content with a great visual calendar. You can add posts in the queue, and WP Scheduled Posts will publish them on your desired days and hours. You can move the scheduled post on a different date right from the schedule calendar. 
 
+
+**Dashboard Widget:** Check your scheduled & draft post right from the dashboard as WP Scheduled Posts will enable a widget in your WordPress dashboard. Either you are running a multi-author blog or a single author blog, seeing all your posts status from dashboard could be super convenient.
+
+**Drag & Drop Feature:** While organizing your scheduled content, you can quickly organize content using easy-to-use drag & drop feature. 
+
+**Save Times On Content Creation:** If you want to create a new post or add a photo to be published on a specific time period, you don't need to go back on your dashboard and click on Post to Add New Post. You can create a new post right from the WP Scheduled calendar.
+
+**Manage Multiple Author Efficiently:** Managing multiple authors for a blog is never an easy task. But you can make the process easier using our schedule calendar and manage co-authors from one place.
+
+
+## WP Scheduled Posts PREMIUM
+
+**[WP Scheduled Posts Pro](https://wpdeveloper.net/plugins/wp-scheduled-posts/)** includes all features of the free version and awesome additional features including:
+
+**Auto Scheduler:** Get absolute control over your content schedule as you can create rules to post content automatically. You just need to specify the time interval in which you want to have your posts scheduled and this plugin will publish it on the exact time. You can also set exact date and time to create flexible schedule.
+ 
+**Missed Schedule Handler:** As a content creator, you might have faced that WordPress might miss the schdule of a post and it could happen for a various reason. However, you don’t have to worry about that anymore as WP Scheduled Posts will take care of missed schedule and to publish the post automatically.
+
+**Premium Support:** Get faster support with a pro license. We have extra-ordinary support team ready to help you. Ask your questions in the support forum, or contact us directly through live chat and support ticket.
+
+## Review & Press Coverage
+
+**WP Scheduled Post** has been loved by lots of users, bloggers and content marketers. It's now better with modern interface and lots of new features.
+
+- [WP Optimus](https://www.wpoptimus.com/534/schedule-post-wordppress-show-upcoming-articles/)
+“WP Scheduled Posts is specially useful for multi-author blog. Even its useful for single author blog who use the built-in Schedule function of WordPress.”
+
+- [MH Themes](https://www.mhthemes.com/blog/scheduling-posts-wordpress/)
+“The WP Scheduled Posts plugin further enhances WordPress core functionality of scheduling posts. The plugin adds a customizable dashboard widget that will display a list of all upcoming scheduled posts and allows you to customize other post scheduling elements with ease.”
+
+- [WP Glossy](https://www.wpglossy.com/schedule-blog-post-wordpress/)
+“WP Scheduled Posts is the best extension when it comes to scheduling WordPress posts for the site that has several admins and authors.”
+
+## Check Our Other FREE Plugins:
+
+- [Essential Addons for Elementor](https://wordpress.org/plugins/essential-addons-for-elementor-lite/)
+- [Twitter Cards Meta](https://wordpress.org/plugins/twitter-cards-meta/)
 
 
 == Installation ==
@@ -87,12 +109,19 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 == Screenshots ==
 
-1. Admin Bar Widget View
-2. Dashboard View
-3. Option Page
+1. Schedule Calendar 
+2. Creating and Scheduling Post right from the Calendar
+3. Auto Scheduler (Pro Feature)
+4. Manual Scheduler (Pro Feature)
+5. General Options Page
 
 
 == Changelog ==
+
+= 2.0.0 - 2018-12-02 =
+* Completely revamped interface
+* Visual Schedule Calendar added
+* Lots of new features and improvements.
 
 = 1.4.4 - 2017-06-08 =
 * Major Bug Fix
@@ -151,12 +180,7 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 
 == Upgrade Notice ==
-= 1.4.4 =
-* [Major Update] Major bug fix. No more Undefined index error. Compatible to WordPress 4.8 too.
-
-
-== Donation ==
-
-Consider buying any of our Pro version at little cost.
-
-https://wpdeveloper.net/
+= 2.0.0 - 2018-12-02 =
+* Completely revamped interface
+* Visual Schedule Calendar added
+* Lots of new features and improvements.

@@ -1,9 +1,9 @@
 <?php
 
-//load_textdomain('psm', dirname(__FILE__).'/lang/' . get_locale() . '.mo');
+//load_textdomain('wp-scheduled-posts', dirname(__FILE__).'/lang/' . get_locale() . '.mo');
 
 $plName = 'Publish to Schedule';
-$plUrl = 'https://wordpress.org/extend/plugins/publish-to-schedule/';
+$plUrl = 'https://wordpress.org/extend/plugins/wp-scheduled-post/';
 
 $get_pub_op 			= get_option('pub_active_option');
 $activate_pub_option 	= html_entity_decode(stripslashes($get_pub_op));
@@ -21,7 +21,7 @@ function getInstallPluginVersion($allPlugins)
 {
     foreach($allPlugins as $plugins):
         if($plugins['Name'] == "WP Scheduled Posts Pro")
-            return $plugins['Version'];
+            return true;
     endforeach;
 
     return false;
@@ -113,7 +113,7 @@ function wpsp_scheduled_insertAnalytics($getCode = False) {
 	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 	  })();
 		_gaq.push(['_setCustomVar', 1,'Site URL','" . get_option('home') . "', 1 ]);
-		_gaq.push(['_setCustomVar', 2,'Articles scheduled','" . $options['pts_statistics_total_work'] . "',1]); 	
+		_gaq.push(['_setCustomVar', 2,'Articles scheduled','" . @$options['pts_statistics_total_work'] . "',1]); 	
 		_gaq.push(['_setCustomVar', 3,'WP Language','" . get_bloginfo('language') . "',1]);
 	</script>";
 
@@ -176,12 +176,16 @@ function wpsp_scheduled_createJsToCompareTime($HTMLWrong,$HTMLOK){
 		}		
 			
 		if (difference_in_minutes > maxAllowedDif){
-			//alert("Server time is wrong");			
-			document.getElementById("divjsCT").innerHTML=\''.$HTMLWrong.'\';
+			var wpspelement = document.getElementById("divjsCT");			
+			wpspelement.innerHTML=\''.trim($HTMLWrong).'\';
+			wpspelement.style.display = "block";
+			
 		}	
 		else{
-			//alert("Server time is OK! " + difference_in_minutes);
-			document.getElementById("divjsCT").innerHTML=\''.$HTMLOK.'\';
+			var wpspelement = document.getElementById("divjsCT");	
+			document.getElementById("divjsCT").innerHTML=\''.trim($HTMLOK).'\';
+			wpspelement.classList.remove("wpsp-error-notice");
+			wpspelement.classList.add("wpsp-success-notice");
 			
 		}
 		
@@ -252,7 +256,7 @@ function wpsp_scheduled_postInfo(){
 	if(current_user_can('install_plugins')){
 		$msgTimeWrong = '<div style="margin: 0 0 7px 0"><span style="color:red">'.
 		__('Your WordPress timezone settings might be incorrect!','wp-scheduled-posts').
-		'</span>  ( <a href="options-general.php?page=publish-to-schedule/publish-to-schedule.php" target="_blank">'.
+		'</span>  ( <a href="options-general.php" target="_blank">'.
 		__('See details','wp-scheduled-posts').'</a> )</div>';
 	}
 	else{
@@ -268,7 +272,7 @@ function wpsp_scheduled_postInfo(){
 	
 	echo wpsp_scheduled_createJsToCompareTime($msgTimeWrong,'');					
 	# div usada para reportar hora incorreta...		
-	echo '<div style="padding-left:20px;" id="divjsCT"></div>';
+	echo '<div style="padding-left:20px; display:none" id="divjsCT"></div>';
 	
 	echo '<script type="text/javascript">	
 			jsCompareTimes();
@@ -571,7 +575,7 @@ function wpsp_scheduled_findNextSlot($post,$changePost = False){
 			$dthrPublish = date("Y-m-d",$datetimeCheck) .' '.  intval($minutePublish/60) .':'. $minutePublish%60;
 
 			
-			// next time schedule fix
+				// next time schedule fix
 
 				global $wpdb;
 				$my_prefix = 'psm_';
@@ -586,8 +590,6 @@ function wpsp_scheduled_findNextSlot($post,$changePost = False){
 					array_push($future_post_date,$post_date);
 				endwhile;
 
-				//echo $mytheme_timezone = get_option('timezone_string');
-				//date_default_timezone_set($mytheme_timezone);
 				
 				$sql 			= "SELECT * FROM ".$my_table;
 				$day_schedules 	= $wpdb->get_results($sql, ARRAY_A);
@@ -617,40 +619,29 @@ function wpsp_scheduled_findNextSlot($post,$changePost = False){
 					$pr_wk = count($presentWk);
 					for($d=0;$d<$pr_wk;$d++){
 						$presentWk2[$d] = strtotime(date('Y-m-d H:i',$presentWk[$d]).' +7 day');
-
 					}
 					return $presentWk2;
 				}
-				
 				sort($all_day_schedule);
-
 				
-				$tt 			= count($all_day_schedule);
-				$fp 			= count($future_post_date);
+				$tt = count($all_day_schedule);
+				$fp = count($future_post_date);
 
 				$deserved_date = "";
 				for($i=0;$i<52;$i++)
 				{
 					for($j=0;$j<$tt;$j++)
 					{
-						//echo date("Y-m-d H:i",$all_day_schedule[$j])."<br>"; 
 						if(!in_array($all_day_schedule[$j],$future_post_date))
 						{ 
-							$deserved_date = $all_day_schedule[$j]; 
-							//date("Y-m-d H:i",$deserved_date)."<br>"; 
+							$deserved_date = $all_day_schedule[$j];  
 							break;
 						}
-						else
-						{
-							
-							 $all_day_schedule = nextWeek($all_day_schedule);							 
-						}
-							
 					}
 					if($deserved_date)
-					{
 						break;
-					} 
+					else
+						$all_day_schedule = nextWeek($all_day_schedule);							 
 				}
 			
 			
@@ -674,7 +665,17 @@ function wpsp_scheduled_findNextSlot($post,$changePost = False){
 			}
 			
 			$msgT .=  '<p class="schedule_noti_p" title="'.$msgByPass.'">';
-			
+			$plugins=get_plugins();
+			$allActivePlugin=get_option('active_plugins');
+			$activated_all_plugins=array();
+			foreach ($allActivePlugin as $single_plugin) {           
+				if(isset($plugins[$single_plugin])) {
+					array_push($activated_all_plugins, $plugins[$single_plugin]);
+				}           
+			}
+			$proPluginVersion = getProPluginVersion($activated_all_plugins);
+			if($proPluginVersion)
+			{
 			$msgT .= '<strong>';
 			$msgT .= '<span>or</span> <input type="checkbox" id="schedule_click_button" name="schedule_btn_post" value="check_sched">';
 			
@@ -682,6 +683,7 @@ function wpsp_scheduled_findNextSlot($post,$changePost = False){
 			 
 
 			$msgT .= '</strong>';
+			}
 			$msgT .= '</p>';				
 			
 			#$msgT .= '<br>';		
@@ -794,7 +796,7 @@ function wpsp_scheduled_do_publish_schedule($post){
 function getProPluginVersion($allPlugins) {
     foreach($allPlugins as $plugins):
         if($plugins['Name'] == "WP Scheduled Posts Pro")
-            return $plugins['Version'];
+            return true;
     endforeach;
      return false;
 }
@@ -816,8 +818,9 @@ function wpsp_scheduled_option_menu() {
         }           
     }
     $proPluginVersion = getProPluginVersion($activated_all_plugins);
+	
 
-	if (function_exists('current_user_can')) {
+	if(function_exists('current_user_can')) {
 		if (!current_user_can('manage_options')) return;
 	} else {
 		global $user_level;
@@ -825,12 +828,12 @@ function wpsp_scheduled_option_menu() {
 		if ($user_level < 8) return;
 	}
 	if (function_exists('add_menu_page')) {
-		if($proPluginVersion != '2.0' && isset($proPluginVersion))
+		if($proPluginVersion)
         {
-			add_submenu_page( pluginsFOLDER,__( 'Pro Setting'), __( 'Pro Setting'), "manage_options", 'wpsp-pro-setting', 'wpsp_scheduled_options_page');
-		}else{
 			add_submenu_page( pluginsFOLDER,__( 'Manage Schedule'), __( 'Manage Schedule'), "manage_options", 'wpsp-manage-schedule', 'wpsp_scheduled_options_page');
-			//echo phpinfo();
+		}else{
+			add_submenu_page( pluginsFOLDER,__( 'Pro Setting'), __( 'Pro Setting'), "manage_options", 'wpsp-manage-schedule', 'wpsp_scheduled_options_page');
+
 		}
 	}
 }
@@ -868,16 +871,18 @@ function wpsp_scheduled_options_page(){
 	// This bit stores any updated values when the Update button has been pressed
 	if (isset($_POST['update_options'])) {
 
-		if(isset($_POST['pub_check'])) {
+		if(isset($_POST['pub_check']) && $_POST['pub_check']) {
 			$pubs = $_POST['pub_check'];
 			delete_option('cal_active_option');
 			add_option('pub_active_option',$pubs);
+			$activate_pub_option=$pubs;
 			//add_option('cal_active_option',"");
 			echo "<h3>Activated!</h3>";
-		}elseif(isset($_POST['cal_check'])){
+		}elseif(isset($_POST['cal_check']) && $_POST['cal_check']){
 			$cals = $_POST['cal_check'];
 			delete_option('pub_active_option');
 			add_option('cal_active_option',$cals);
+			$activate_cal_option=$cals;
 			//add_option('pub_active_option',"");
 			echo "<h3>Manual Time Activated!</h3>";
 		}else{
@@ -942,10 +947,10 @@ function wpsp_scheduled_options_page(){
 		
 		// Show a message to say we've done something
 		if($allNo == 7){
-			echo '<div class="updated"><p>' . __('You must check "Yes" for at least 1 day of week! ', 'psm') . '</p></div>';	
+			echo '<div class="updated"><p>' . __('You must check "Yes" for at least 1 day of week! ', 'wp-scheduled-posts') . '</p></div>';	
 		}
 		else{
-			echo '<div class="updated"><p>' . __('Options saved!', 'psm') . '</p></div>';	
+			echo '<div class="updated"><p>' . __('Options saved!', 'wp-scheduled-posts') . '</p></div>';	
 		}		
 		
 	} else {
@@ -987,7 +992,7 @@ function wpsp_scheduled_options_page(){
 			        }
 			        $pluginVersion = getInstallPluginVersion($activated_plugins);
 		        
-			        if($pluginVersion != '2.0' && isset($pluginVersion))
+			        if(!$pluginVersion)
 			        {
 			        
 					?>
@@ -1002,7 +1007,10 @@ function wpsp_scheduled_options_page(){
 								<path d="M131.804 106.49l75.936-75.935c6.99-6.99 6.99-18.323 0-25.312-6.99-6.99-18.322-6.99-25.312 0L106.49 81.18 30.555 5.242c-6.99-6.99-18.322-6.99-25.312 0-6.99 6.99-6.99 18.323 0 25.312L81.18 106.49 5.24 182.427c-6.99 6.99-6.99 18.323 0 25.312 6.99 6.99 18.322 6.99 25.312 0L106.49 131.8l75.938 75.937c6.99 6.99 18.322 6.99 25.312 0 6.99-6.99 6.99-18.323 0-25.313l-75.936-75.936z" fill-rule="evenodd" clip-rule="evenodd"/>
 								</svg>
 							</div>
-							<div class="wpsp-scheduler-title">Auto Scheduler</div>
+							<div class="wpsp-scheduler-title">
+								<h3>Auto Scheduler</h3>
+								<p>Enable to publish posts randomely within your given time interval thorughout the week.</p>
+							</div>
 						</div>
 
 
@@ -1013,7 +1021,7 @@ function wpsp_scheduled_options_page(){
 
 						<div class="wpsp-checkbox-wrapper">
 							<div class="checkbox-toggle">
-							<input type="checkbox" id="pub_check" name="pub_check" value="<?php if(!empty($activate_pub_option)){ echo $activate_pub_option;}else{ echo 'ok'; } ?>" <?php if ( isset($_POST['pub_check']) || !empty($activate_pub_option)  ) { echo 'checked="checked"'; }?> >
+							<input type="checkbox" id="pub_check" name="pub_check" value="<?php if(!empty($activate_pub_option)){ echo $activate_pub_option;}else{ echo 'ok'; } ?>" <?php if(get_option('pub_active_option'))   { echo 'checked="checked"'; }?> >
 								<svg class="is_checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 426.67 426.67">
 								<path d="M153.504 366.84c-8.657 0-17.323-3.303-23.927-9.912L9.914 237.265c-13.218-13.218-13.218-34.645 0-47.863 13.218-13.218 34.645-13.218 47.863 0l95.727 95.727 215.39-215.387c13.218-13.214 34.65-13.218 47.86 0 13.22 13.218 13.22 34.65 0 47.863L177.435 356.928c-6.61 6.605-15.27 9.91-23.932 9.91z"/>
 								</svg>
@@ -1021,7 +1029,10 @@ function wpsp_scheduled_options_page(){
 								<path d="M131.804 106.49l75.936-75.935c6.99-6.99 6.99-18.323 0-25.312-6.99-6.99-18.322-6.99-25.312 0L106.49 81.18 30.555 5.242c-6.99-6.99-18.322-6.99-25.312 0-6.99 6.99-6.99 18.323 0 25.312L81.18 106.49 5.24 182.427c-6.99 6.99-6.99 18.323 0 25.312 6.99 6.99 18.322 6.99 25.312 0L106.49 131.8l75.938 75.937c6.99 6.99 18.322 6.99 25.312 0 6.99-6.99 6.99-18.323 0-25.313l-75.936-75.936z" fill-rule="evenodd" clip-rule="evenodd"/>
 								</svg>
 							</div>
-							<div class="wpsp-scheduler-title">Auto Scheduler</div>
+							<div class="wpsp-scheduler-title">
+								<h3>Auto Scheduler</h3>
+								<p>Enable to publish posts randomely within your given time interval thorughout the week.</p>
+							</div>
 						</div>
 
 					<?php
@@ -1043,6 +1054,8 @@ function wpsp_scheduled_options_page(){
 						?>
 						
 						<div class="wpsp-schedule-table">
+
+							<h3><?php _e('Set the number of posts you want to schedule for each day throughout the week.',  'wp-scheduled-posts')?></h3>
 							<table>	
 								
 								<?php
@@ -1060,6 +1073,7 @@ function wpsp_scheduled_options_page(){
 												type="text" 
 												id="<?php echo $day; ?>"
 												name="<?php echo "pts_$iday"; ?>" 
+												placeholder="0" 
 												value="<?php
 													if (isset($options["pts_$iday"])) {
 													
@@ -1082,17 +1096,17 @@ function wpsp_scheduled_options_page(){
 
 							</table>
 						
-						<h3><?php _e('Specify the time interval in which you want to have your posts scheduled!',  'wp-scheduled-posts')?></h3>
+						<h3><?php _e('Specify the time interval in which you want to have your posts scheduled.',  'wp-scheduled-posts')?></h3>
 						
 						<table class="optiontable">
 							<tr valign="top">
 								<th scope="row" align="left"><?php _e('Start Time', 'wp-scheduled-posts') ?>:</th>
-								<td><input name="pts_start" type="text" id="start" value="<?php echo $options['pts_start']; ?>" size="10" /><?php _e(' (defaults to 00:00)', 'wp-scheduled-posts') ?>
+								<td><input name="pts_start" type="text" id="start" value="<?php echo $options['pts_start']; ?>" placeholder="00:00" size="10" /><?php _e(' (Default : 00:00)', 'wp-scheduled-posts') ?>
 								</td>
 							</tr>
 							<tr valign="top">
 								<th scope="row" align="left"><?php _e('End Time', 'wp-scheduled-posts') ?>:</th>
-								<td><input name="pts_end" type="text" id="end" value="<?php echo $options['pts_end']; ?>" size="10" /><?php _e(' (defaults to 23:59)', 'wp-scheduled-posts') ?>
+								<td><input name="pts_end" type="text" id="end" value="<?php echo $options['pts_end']; ?>" placeholder="23:59" size="10" /><?php _e(' (Default : 23:59)', 'wp-scheduled-posts') ?>
 								</td>
 							</tr>
 						</table>
@@ -1127,17 +1141,9 @@ function wpsp_scheduled_options_page(){
 						'<br>'
 						. __('The timezone configured in your','wp-scheduled-posts').' <a target="_blank" href="options-general.php">'.__('WordPress settings','wp-scheduled-posts').'</a> '.__('is','wp-scheduled-posts') .': <span style="color:blue;font-weight:bold;">'.get_option('gmt_offset').', </span>'.
 						'<br>'			
-						. __('so your server think that is your local time is: ','wp-scheduled-posts') . ' <span style="color:red;font-weight:bold;">'.date(get_option('date_format').', '.get_option('time_format'),current_time('timestamp', $gmt = 0)).'</span> ... '
-						. __('but this is different from time on you machine now!','wp-scheduled-posts').
-						'<br>'
-						. __('If the difference is not too big (less than 2h or 3h) you problably will not have side effects and the plugin should work fine!','wp-scheduled-posts').
-						'<br>'
-						. __('Othewise, with big time differences, you can have issues with the real time that each post will be scheduled!','wp-scheduled-posts').
-						'<br>'
-						. __('Sometimes you have to set a different timezone to compensate daylight saving time or a missconfigured server time! ','wp-scheduled-posts').
-						
-						'<br>'
-						. __('If you can, change the timezone to correct this, refresh this page and this message will be shown anymore!','wp-scheduled-posts')		
+						. __('your server time is: ','wp-scheduled-posts') . ' <span style="color:red;font-weight:bold;">'.date(get_option('date_format').', '.get_option('time_format'),current_time('timestamp', $gmt = 0)).'</span>. '
+						. __('but this is different from time on you machine now!','wp-scheduled-posts')
+							
 						;		
 						
 						
@@ -1214,7 +1220,7 @@ function wpsp_scheduled_options_page(){
 					<div id="man_form" class="manage-schedule-form">
 					<?php
 
-						if($pluginVersion != '2.0' && isset($pluginVersion))
+						if(!$pluginVersion)
 		        		{
 
 					?>
@@ -1228,7 +1234,10 @@ function wpsp_scheduled_options_page(){
 								<path d="M131.804 106.49l75.936-75.935c6.99-6.99 6.99-18.323 0-25.312-6.99-6.99-18.322-6.99-25.312 0L106.49 81.18 30.555 5.242c-6.99-6.99-18.322-6.99-25.312 0-6.99 6.99-6.99 18.323 0 25.312L81.18 106.49 5.24 182.427c-6.99 6.99-6.99 18.323 0 25.312 6.99 6.99 18.322 6.99 25.312 0L106.49 131.8l75.938 75.937c6.99 6.99 18.322 6.99 25.312 0 6.99-6.99 6.99-18.323 0-25.313l-75.936-75.936z" fill-rule="evenodd" clip-rule="evenodd"/>
 								</svg>
 							</div>
-							<div class="wpsp-scheduler-title">Manual Scheduler</div>
+							<div class="wpsp-scheduler-title">
+								<h3>Manual Scheduler</h3>
+								<p>Get absolute control over your schedule time.</p>
+							</div>
 						</div>
 					<?php 
 						}else
@@ -1236,7 +1245,7 @@ function wpsp_scheduled_options_page(){
 					?>
 						<div class="wpsp-checkbox-wrapper">
 							<div class="checkbox-toggle">
-							<input type="checkbox" id="cal_check" name="cal_check" value="<?php if(!empty($activate_cal_option)){ echo $activate_cal_option;}else{ echo 'ok'; } ?>" <?php if ( isset($_POST['cal_check']) || !empty($activate_cal_option) ) { echo 'checked="checked"'; }?> >
+							<input type="checkbox" id="cal_check" name="cal_check" value="<?php if(!empty($activate_cal_option)){ echo $activate_cal_option;}else{ echo 'ok'; } ?>" <?php if (get_option('cal_active_option') ) { echo 'checked="checked"'; }?> >
 								<svg class="is_checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 426.67 426.67">
 								<path d="M153.504 366.84c-8.657 0-17.323-3.303-23.927-9.912L9.914 237.265c-13.218-13.218-13.218-34.645 0-47.863 13.218-13.218 34.645-13.218 47.863 0l95.727 95.727 215.39-215.387c13.218-13.214 34.65-13.218 47.86 0 13.22 13.218 13.22 34.65 0 47.863L177.435 356.928c-6.61 6.605-15.27 9.91-23.932 9.91z"/>
 								</svg>
@@ -1244,21 +1253,24 @@ function wpsp_scheduled_options_page(){
 								<path d="M131.804 106.49l75.936-75.935c6.99-6.99 6.99-18.323 0-25.312-6.99-6.99-18.322-6.99-25.312 0L106.49 81.18 30.555 5.242c-6.99-6.99-18.322-6.99-25.312 0-6.99 6.99-6.99 18.323 0 25.312L81.18 106.49 5.24 182.427c-6.99 6.99-6.99 18.323 0 25.312 6.99 6.99 18.322 6.99 25.312 0L106.49 131.8l75.938 75.937c6.99 6.99 18.322 6.99 25.312 0 6.99-6.99 6.99-18.323 0-25.313l-75.936-75.936z" fill-rule="evenodd" clip-rule="evenodd"/>
 								</svg>
 							</div>
-							<div class="wpsp-scheduler-title">Manual Scheduler</div>
+							<div class="wpsp-scheduler-title">
+								<h3>Manual Scheduler</h3>
+								<p>Get absolute control over your schedule time.</p>
+							</div>
 						</div>
 					<?php } ?>
 
 						<div class="submit-button-wrap">
 					<?php 
-						if($pluginVersion != '2.0' && isset($pluginVersion))
+						if(!$pluginVersion)
 		        		{
 					?>
-							<input type="button" class="button button-primary swal_alert_show" value="<?php _e('Save all changes', 'psm') ?>" />
+							<input type="button" class="button button-primary swal_alert_show" value="<?php _e('Save all changes', 'wp-scheduled-posts') ?>" />
 					<?php  
 						}else
 						{
 					?>
-						<input class="button button-primary" type="submit" name="update_options" value="<?php _e('Save all changes', 'psm') ?>"  style="font-weight:bold;" />
+						<input class="button button-primary" type="submit" name="update_options" value="<?php _e('Save all changes', 'wp-scheduled-posts') ?>"  style="font-weight:bold;" />
 					<?php  
 						}
 					?>
@@ -1271,18 +1283,18 @@ function wpsp_scheduled_options_page(){
 							<div class="man_options">
 								<select name="man_days" id="man_days">
 									<option value="">Select Days</option>
-									<option value="saturday">saturday</option>
-									<option value="sunday">sunday</option>
-									<option value="monday">monday</option>
-									<option value="tuesday">tuesday</option>
-									<option value="wednesday">wednesday</option>
-									<option value="thursday">thursday</option>
-									<option value="friday">friday</option>
+									<option value="saturday">Saturday</option>
+									<option value="sunday">Sunday</option>
+									<option value="monday">Monday</option>
+									<option value="tuesday">Tuesday</option>
+									<option value="wednesday">Wednesday</option>
+									<option value="thursday">Thursday</option>
+									<option value="friday">Friday</option>
 								</select>
 								
 								<input type="text" autocomplete="off" name="man_times" id="man_times" value="00:00" placeholder="select time">
 							<?php 
-								if($pluginVersion != '2.0' && isset($pluginVersion))
+								if(!$pluginVersion)
 				        		{
 							?>
 								<input type="button" class="button button-primary swal_alert_show" value="SET">
@@ -1512,11 +1524,11 @@ function wpsp_scheduled_options_page(){
 							?>
 							<form action="" method="post">
 							<?php 
-								if($pluginVersion != '2.0' && isset($pluginVersion))
+								if(!$pluginVersion)
 				        		{
 							?>
 									<input type="checkbox" class="swal_alert_show" value=""><label>Activate Missed Schedule</label>
-									<p class="wpsp-description-text">If you activate this, it will manage the missed schedule too.</p>
+									<p class="wpsp-description-text">WordPress might miss the schedule for a post for various reason. If enabled, <strong>WP Scheduled Posts</strong> will take care of this to publish the missed schedule.</p>
 									<input class="button button-primary swal_alert_show" type="button" value="Activate">
 							<?php  
 								}
@@ -1524,7 +1536,7 @@ function wpsp_scheduled_options_page(){
 								{
 							?>
 									<input type="checkbox" name="miss_check" value="<?php if(!empty($activate_miss_option)){ echo $activate_miss_option;}else{ echo 'miss'; } ?>" <?php if ( isset($_POST['miss_check']) || !empty($activate_miss_option) ) { echo 'checked="checked"'; }?> ><label for="miss_check">Activate Missed Schedule</label>
-									<p class="wpsp-description-text">If you activate this, it will manage the missed schedule too.</p>
+									<p class="wpsp-description-text">WordPress might miss the schedule for a post for various reason. If enabled, <strong>WP Scheduled Posts</strong> will take care of this to publish the missed schedule.</p>
 									<input class="button button-primary" type="submit" name="ac_miss" value="Activate">
 							<?php  
 								}
