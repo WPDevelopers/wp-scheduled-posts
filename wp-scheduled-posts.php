@@ -2,7 +2,7 @@
 /*
  * Plugin Name: WP Scheduled Posts
  * Description: A complete solution for WordPress Post Schedule. Get an admin Bar & Dashboard Widget showing all your scheduled posts. And full control.
- * Version: 2.0.0
+ * Version: 2.0.1
  * Author: WPDeveloper
  * Author URI: https://wpdeveloper.net
  * Text Domain: wp-scheduled-posts
@@ -31,7 +31,7 @@ if (!class_exists('Wp_Scheduled_Posts')) {
 
 			add_action( 'admin_enqueue_scripts', array(&$this, 'start_plugin') );
 			add_action( 'admin_init', array(&$this, 'check_some_other_plugin') );
-			//add_action( 'admin_notices', array(&$this,'wpse120377_error') );
+			add_action('admin_notices', 'wpsp_admin_notice');
 		}
 		
 		function define_constant() {
@@ -322,12 +322,11 @@ function wpsp_admin_notice() {
       echo '<div class="wpsp-admin-notice updated" style="display: flex; align-items: center; padding-left: 0; border-left-color: #6648FE"><p style="width: 36px;background-color: #f1f2f9;border-radius: 50%;margin: 0.5em;">';
       echo '<img style="width: 100%; display: block;"  src="' . plugins_url( '/', __FILE__ ).'admin/assets/images/wpsp-logo.svg'. '" ></p><p> ';
       printf(__('<a href="https://wpdeveloper.net/in/wpsp" target="_blank" style="font-weight: bolder;">WP Scheduled Posts Pro</a> is now available with <strong>Auto Scheduler</strong> and <strong>Missed Scheduler</strong> feautres. Use the coupon code <strong>WPSP-EARLYBIRD</strong> to redeem a <strong>50&#37; </strong> discount on Pro upgrade. <a href="https://wpdeveloper.net/in/wpsp" target="_blank" style="text-decoration: none;"><span class="dashicons dashicons-smiley" style="margin-left: 10px;"></span> Apply Coupon</a>
-        <a href="%1$s" style="text-decoration: none; margin-left: 10px;"><span class="dashicons dashicons-dismiss"></span> I\'m good with free version</a>'),  admin_url( 'admin.php?page=wpsp-settings&wpsp_nag_ignore=0' ));
+        <a href="%1$s" style="text-decoration: none; margin-left: 10px;"><span class="dashicons dashicons-dismiss"></span> I\'m good with free version</a>'),  admin_url( 'admin.php?page=wp-scheduled-posts&wpsp_nag_ignore=0' ));
       echo "</p></div>";
     }
   }
 }
-add_action('admin_notices', 'wpsp_admin_notice');
 
 
 /**
