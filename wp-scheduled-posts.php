@@ -318,11 +318,11 @@ function wpsp_admin_notice() {
     global $current_user ;
     $user_id = $current_user->ID;
     /* Check that the user hasn't already clicked to ignore the message */
-    if ( ! get_user_meta($user_id, 'wpsp_ignore_notice199') ) {
+    if ( ! get_user_meta($user_id, 'wpsp_ignore_notice200') ) {
       echo '<div class="wpsp-admin-notice updated" style="display: flex; align-items: center; padding-left: 0; border-left-color: #6648FE"><p style="width: 36px;background-color: #f1f2f9;border-radius: 50%;margin: 0.5em;">';
       echo '<img style="width: 100%; display: block;"  src="' . plugins_url( '/', __FILE__ ).'admin/assets/images/wpsp-logo.svg'. '" ></p><p> ';
       printf(__('<a href="https://wpdeveloper.net/in/wpsp" target="_blank" style="font-weight: bolder;">WP Scheduled Posts Pro</a> is now available with <strong>Auto Scheduler</strong> and <strong>Missed Scheduler</strong> feautres. Use the coupon code <strong>WPSP-EARLYBIRD</strong> to redeem a <strong>50&#37; </strong> discount on Pro upgrade. <a href="https://wpdeveloper.net/in/wpsp" target="_blank" style="text-decoration: none;"><span class="dashicons dashicons-smiley" style="margin-left: 10px;"></span> Apply Coupon</a>
-        <a href="%1$s" style="text-decoration: none; margin-left: 10px;"><span class="dashicons dashicons-dismiss"></span> I\'m good with free version</a>'),  admin_url( 'admin.php?page=wp-scheduled-posts&wpsp_nag_ignore=0' ));
+        <a href="%1$s" style="text-decoration: none; margin-left: 10px;"><span class="dashicons dashicons-dismiss"></span> I\'m good with free version</a>'),  admin_url( 'admin.php?page=wpsp-settings&wpsp_nag_ignore=0' ));
       echo "</p></div>";
     }
   }
@@ -338,7 +338,7 @@ function wpsp_nag_ignore() {
         $user_id = $current_user->ID;
         /* If user clicks to ignore the notice, add that to their user meta */
         if ( isset($_GET['wpsp_nag_ignore']) && '0' == $_GET['wpsp_nag_ignore'] ) {
-             add_user_meta($user_id, 'wpsp_ignore_notice199', 'true', true);
+             add_user_meta($user_id, 'wpsp_ignore_notice200', 'true', true);
   }
 }
 add_action('admin_init', 'wpsp_nag_ignore');

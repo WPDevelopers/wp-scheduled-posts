@@ -16,7 +16,7 @@
 	width: 100%;
 	height: auto;
 	display: flex;
-	flex-flow: row nowrap;
+	flex-flow: row wrap;
 	justify-content: space-between;
 	align-content: flex-start;
 	padding: 15px 0px;
@@ -544,7 +544,6 @@ textarea.wpsp-form-control {
 .wpsp-admin-sidebar {
 	flex: 1 1 200px;
 	padding: 20px;
-	margin-left: 15px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -1080,13 +1079,4 @@ background-color: rgba(238,53,95, 1);
 .manage-schedule-forms {
 	flex-flow: row wrap;
 }
-.wpsp-settings-wrap {
-	flex-flow: row wrap;
-}
-.wpsp-admin-sidebar {
-	background-color: #fff;
-	box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-	margin: 15px 0 0 0;
-}
-
 }
