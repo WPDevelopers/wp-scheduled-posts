@@ -31,7 +31,7 @@ if (!class_exists('Wp_Scheduled_Posts')) {
 
 			add_action( 'admin_enqueue_scripts', array(&$this, 'start_plugin') );
 			add_action( 'admin_init', array(&$this, 'check_some_other_plugin') );
-			//add_action( 'admin_notices', array(&$this,'wpse120377_error') );
+			add_action('admin_notices', 'wpsp_admin_notice');
 		}
 		
 		function define_constant() {
@@ -327,7 +327,6 @@ function wpsp_admin_notice() {
     }
   }
 }
-add_action('admin_notices', 'wpsp_admin_notice');
 
 
 /**
