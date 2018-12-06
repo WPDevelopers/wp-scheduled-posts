@@ -91,44 +91,6 @@ function wpsp_scheduled_get_version() {
 
 
 
-
-# insert Google Analytics code to monitor plugin utilization.
-
-function wpsp_scheduled_insertAnalytics($getCode = False) {
-
-    $options = get_option(basename(__FILE__, ".php"));
-
-    # do not collect statististcs if now allowed... 	
-    if ($options['pts_allowstats'] == 'No') {
-        return '';
-    }
-
-    $analyticsCode = "<script type=\"text/javascript\">
-	var _gaq = _gaq || [];
-		_gaq.push(['_setAccount', 'UA-28857513-1']);
-		_gaq.push(['_trackPageview']);	
-	  (function() {
-	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-	  })();
-		_gaq.push(['_setCustomVar', 1,'Site URL','" . get_option('home') . "', 1 ]);
-		_gaq.push(['_setCustomVar', 2,'Articles scheduled','" . @$options['pts_statistics_total_work'] . "',1]); 	
-		_gaq.push(['_setCustomVar', 3,'WP Language','" . get_bloginfo('language') . "',1]);
-	</script>";
-
-
-    if ($getCode) {
-        return $analyticsCode;
-    } else {
-        print $analyticsCode;
-    }
-}
-
-
-
-
-
 # creates a js function that will compare the cliet time with the server time, passed as variables...
 function wpsp_scheduled_createJsToCompareTime($HTMLWrong,$HTMLOK){
 
@@ -235,17 +197,6 @@ function wpsp_scheduled_postInfo(){
 	if($post->post_type != 'post'){
 		return;
 	}	
-	
-	
-	
-	# only change the text of publish button when plugin is active...
-	//add_filter( 'gettext', 'wpsp_scheduled_change_publish_button', 10, 2 );	
-	
-	
-	# insert Google analytics code to monitor plugin usage.
-	add_action('admin_footer', 'wpsp_scheduled_insertAnalytics',12);
-
-	
 	
 	
 	
@@ -861,10 +812,6 @@ function wpsp_scheduled_options_page(){
     global $pts_debug;
     global $pts_show_donate;
     global $activate_pub_option;
-
-
-	# insert Google analytics code to monitor plugin usage.
-	add_action('admin_footer', 'wpsp_scheduled_insertAnalytics',12);
 	
 	
 	$bit = explode("&",$_SERVER['REQUEST_URI']);
