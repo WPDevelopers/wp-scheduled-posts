@@ -673,6 +673,8 @@ class wpsp_scheduled {
                 }
                 <?php
             endwhile;
+			// Reset post data
+			wp_reset_postdata();
         endif;
         die();
     }

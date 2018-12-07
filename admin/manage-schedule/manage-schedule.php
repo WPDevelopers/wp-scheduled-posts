@@ -531,16 +531,27 @@ function wpsp_scheduled_findNextSlot($post,$changePost = False){
 				global $wpdb;
 				$my_prefix = 'psm_';
 				$my_table = $my_prefix. 'manage_schedule';
-				//date_default_timezone_set('Asia/Dhaka');
+				$post_table = $wpdb->prefix. 'posts';
+
+				$sql 			= "SELECT * FROM ".$post_table." where post_type='post' and post_status='future' order by post_date ASC";
+				$date_schedules 	= $wpdb->get_results($sql, ARRAY_A);
 
 				$future_post_date=array();
+				foreach($date_schedules as $fdate){
+					$post_date = strtotime(date("Y-m-d H:i",strtotime( $fdate['post_date'] )));
+					array_push($future_post_date,$post_date);
+				}
+				/*$future_post_date=array();
 				$my_query = new WP_Query( array( 'post_type'=>'post', 'posts_per_page' => -1, 'order' => 'ASC','post_status' => array( 'future' ), ) );
-
+				$sql 			= "SELECT * FROM ".$my_table;
+				$day_schedules 	= $wpdb->get_results($sql, ARRAY_A);
 				while ($my_query->have_posts()) : $my_query->the_post();
 					$post_date = strtotime(get_the_time( 'Y-m-d H:i' ));
 					array_push($future_post_date,$post_date);
 				endwhile;
-
+				// Reset post data
+				wp_reset_postdata();
+				*/
 				
 				$sql 			= "SELECT * FROM ".$my_table;
 				$day_schedules 	= $wpdb->get_results($sql, ARRAY_A);
@@ -1112,13 +1123,13 @@ function wpsp_scheduled_options_page(){
 						
 					</div><!-- Manage schedule form -->
 					<?php 
-					$future_post_date=array();
+					/*$future_post_date=array();
 						$my_query = new WP_Query( array( 'post_type'=>'post', 'posts_per_page' => -1, 'order' => 'ASC','post_status' => array( 'future' ), ) );
 
 						while ($my_query->have_posts()) : $my_query->the_post();
 							$post_date = the_date('Y-m-d H:i:s', '', '', FALSE); 
 							//array_push($future_post_date,$post_date);
-						endwhile;
+						endwhile;*/
 						
 					 ?>
 
