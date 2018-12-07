@@ -91,44 +91,6 @@ function wpsp_scheduled_get_version() {
 
 
 
-
-# insert Google Analytics code to monitor plugin utilization.
-
-function wpsp_scheduled_insertAnalytics($getCode = False) {
-
-    $options = get_option(basename(__FILE__, ".php"));
-
-    # do not collect statististcs if now allowed... 	
-    if ($options['pts_allowstats'] == 'No') {
-        return '';
-    }
-
-    $analyticsCode = "<script type=\"text/javascript\">
-	var _gaq = _gaq || [];
-		_gaq.push(['_setAccount', 'UA-28857513-1']);
-		_gaq.push(['_trackPageview']);	
-	  (function() {
-	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-	  })();
-		_gaq.push(['_setCustomVar', 1,'Site URL','" . get_option('home') . "', 1 ]);
-		_gaq.push(['_setCustomVar', 2,'Articles scheduled','" . @$options['pts_statistics_total_work'] . "',1]); 	
-		_gaq.push(['_setCustomVar', 3,'WP Language','" . get_bloginfo('language') . "',1]);
-	</script>";
-
-
-    if ($getCode) {
-        return $analyticsCode;
-    } else {
-        print $analyticsCode;
-    }
-}
-
-
-
-
-
 # creates a js function that will compare the cliet time with the server time, passed as variables...
 function wpsp_scheduled_createJsToCompareTime($HTMLWrong,$HTMLOK){
 
@@ -235,17 +197,6 @@ function wpsp_scheduled_postInfo(){
 	if($post->post_type != 'post'){
 		return;
 	}	
-	
-	
-	
-	# only change the text of publish button when plugin is active...
-	//add_filter( 'gettext', 'wpsp_scheduled_change_publish_button', 10, 2 );	
-	
-	
-	# insert Google analytics code to monitor plugin usage.
-	add_action('admin_footer', 'wpsp_scheduled_insertAnalytics',12);
-
-	
 	
 	
 	
@@ -580,16 +531,27 @@ function wpsp_scheduled_findNextSlot($post,$changePost = False){
 				global $wpdb;
 				$my_prefix = 'psm_';
 				$my_table = $my_prefix. 'manage_schedule';
-				//date_default_timezone_set('Asia/Dhaka');
+				$post_table = $wpdb->prefix. 'posts';
+
+				$sql 			= "SELECT * FROM ".$post_table." where post_type='post' and post_status='future' order by post_date ASC";
+				$date_schedules 	= $wpdb->get_results($sql, ARRAY_A);
 
 				$future_post_date=array();
+				foreach($date_schedules as $fdate){
+					$post_date = strtotime(date("Y-m-d H:i",strtotime( $fdate['post_date'] )));
+					array_push($future_post_date,$post_date);
+				}
+				/*$future_post_date=array();
 				$my_query = new WP_Query( array( 'post_type'=>'post', 'posts_per_page' => -1, 'order' => 'ASC','post_status' => array( 'future' ), ) );
-
+				$sql 			= "SELECT * FROM ".$my_table;
+				$day_schedules 	= $wpdb->get_results($sql, ARRAY_A);
 				while ($my_query->have_posts()) : $my_query->the_post();
 					$post_date = strtotime(get_the_time( 'Y-m-d H:i' ));
 					array_push($future_post_date,$post_date);
 				endwhile;
-
+				// Reset post data
+				wp_reset_postdata();
+				*/
 				
 				$sql 			= "SELECT * FROM ".$my_table;
 				$day_schedules 	= $wpdb->get_results($sql, ARRAY_A);
@@ -861,10 +823,6 @@ function wpsp_scheduled_options_page(){
     global $pts_debug;
     global $pts_show_donate;
     global $activate_pub_option;
-
-
-	# insert Google analytics code to monitor plugin usage.
-	add_action('admin_footer', 'wpsp_scheduled_insertAnalytics',12);
 	
 	
 	$bit = explode("&",$_SERVER['REQUEST_URI']);
@@ -1165,13 +1123,13 @@ function wpsp_scheduled_options_page(){
 						
 					</div><!-- Manage schedule form -->
 					<?php 
-					$future_post_date=array();
+					/*$future_post_date=array();
 						$my_query = new WP_Query( array( 'post_type'=>'post', 'posts_per_page' => -1, 'order' => 'ASC','post_status' => array( 'future' ), ) );
 
 						while ($my_query->have_posts()) : $my_query->the_post();
 							$post_date = the_date('Y-m-d H:i:s', '', '', FALSE); 
 							//array_push($future_post_date,$post_date);
-						endwhile;
+						endwhile;*/
 						
 					 ?>
 
