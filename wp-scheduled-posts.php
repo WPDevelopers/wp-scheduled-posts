@@ -2,7 +2,7 @@
 /*
  * Plugin Name: WP Scheduled Posts
  * Description: A complete solution for WordPress Post Schedule. Get an admin Bar & Dashboard Widget showing all your scheduled posts. And full control.
- * Version: 2.0.2
+ * Version: 2.0.3
  * Author: WPDeveloper
  * Author URI: https://wpdeveloper.net
  * Text Domain: wp-scheduled-posts
@@ -15,6 +15,7 @@ define("WPSCP_PLUGIN_PATH",plugin_dir_path(__FILE__)); #with trailing slash (/)
 
 include_once('admin/wpscp-options.php');
 
+require_once dirname( __FILE__ ) . '/includes/class-wpsp-helper.php';
 
 if (!class_exists('Wp_Scheduled_Posts')) {
 	class Wp_Scheduled_Posts {
@@ -29,6 +30,8 @@ if (!class_exists('Wp_Scheduled_Posts')) {
 			register_activation_hook( $this->plugin_name, array(&$this, 'activate') );
 			register_uninstall_hook( $this->plugin_name, 'uninstall' );
 
+			add_action( 'init', array($this, 'register_post_meta') );
+			add_action( 'admin_enqueue_scripts', array($this, 'start_guten_plugin') );
 			add_action( 'admin_enqueue_scripts', array(&$this, 'start_plugin') );
 			add_action( 'admin_init', array(&$this, 'check_some_other_plugin') );
 			add_action('admin_notices', 'wpsp_admin_notice');
@@ -79,16 +82,56 @@ if (!class_exists('Wp_Scheduled_Posts')) {
 				wp_enqueue_script( 'sweet-alert-core-js', plugins_URLPATH . 'admin/assets/vendor/sweetalert2/js/core.js', array('jquery'), '1.0.0', false);
 				wp_enqueue_script( 'sweet-alert-js', plugins_URLPATH . 'admin/assets/vendor/sweetalert2/js/sweetalert2.min.js', array('jquery'), '1.0.0', false);
 			}
+
 		}
 		
+		public function start_guten_plugin(){
+			global $post_type;
+			if( $post_type !== 'post' ) {
+				return;
+			}
+			$plugins = get_plugins();
+			$allActivePlugin = get_option('active_plugins');
+			$activated_all_plugins = array();
+			foreach ( $allActivePlugin as $single_plugin ) {           
+				if(isset( $plugins[$single_plugin] )) {
+					array_push( $activated_all_plugins, $plugins[$single_plugin] );
+				}           
+			}
+			$proPluginVersion = wpsp_getProPluginVersion($activated_all_plugins);
+
+			if( $proPluginVersion ) {
+				wp_enqueue_script( 'wps-publish-date', plugins_URLPATH . 'admin/js/admin.min.js', array('wp-components','wp-data','wp-edit-post','wp-editor','wp-element','wp-i18n','wp-plugins'), '1.0.0', true );
+				
+				wp_localize_script( 'wps-publish-date', 'WPSchedulePosts', array(
+					'PanelTitle' => __('Schedule at', 'wp-schedule-posts'),
+					'schedule' => WPSP_Helper::next_schedule(),
+				));
+			}
+		}
+		
+		public function register_post_meta(){
+			register_post_meta(
+				'post',
+				'_wpsp_date',
+				[
+					'show_in_rest'      => true,
+					'type'              => 'string',
+					'description'       => __( 'Schedule At', 'essential-blocks' ),
+					'sanitize_callback' => 'sanitize_text_field',
+					'auth_callback'     => '__return_true',
+					'single'            => true,
+				]
+			);
+		}
 		
 	}
 	global $wpsp_op;
 	$wpsp_op = new Wp_Scheduled_Posts();
 		
-include('admin/scheduled-calendar/wpspcalendar.php');
-include('admin/manage-schedule/manage-schedule.php');
-include('admin/wpsp-missed-schedule/wpsp-missed-schedule.php');
+	include('admin/scheduled-calendar/wpspcalendar.php');
+	include('admin/manage-schedule/manage-schedule.php');
+	include('admin/wpsp-missed-schedule/wpsp-missed-schedule.php');
 
 }
 
