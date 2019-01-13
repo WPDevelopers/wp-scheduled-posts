@@ -1523,4 +1523,3 @@ function wpsp_scheduled_settings_link($links) {
 } 
 $plugin = plugin_basename(__FILE__); 
 add_filter("plugin_action_links_$plugin", 'wpsp_scheduled_settings_link' );	
-
