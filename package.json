@@ -1,0 +1,62 @@
+{
+  "name": "wp-scheduled-posts",
+  "version": "1.0.0",
+  "description": "=== WP Scheduled Posts ===\r Contributors: wpdevteam, Asif2BD, re_enter_rupok, onetarek, hakimcseru, nayanchamp7\r Tags: post schedule, editor calendar, schedule-calendar, schedule bar, scheduled posts, schedule, schedule widget, scheduler, schedule menu bar, admin bar, dashboard widget, missed scheduled, calendar, missed schedule, future post, schedule issue, post later, admin bar, admin, multi author\r Requires at least: 4.0\r Tested up to: 5.0\r Requires PHP: 5.4\r Stable tag: 2.0.2\r License: GPLv3\r License URI: https://opensource.org/licenses/GPL-3.0",
+  "scripts": {
+    "build": "cross-env NODE_ENV=production webpack",
+    "dev": "cross-env BABEL_ENV=default webpack --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rupok/wp-scheduled-posts.git"
+  },
+  "keywords": [
+    "schedule"
+  ],
+  "author": "WPDeveloper",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rupok/wp-scheduled-posts/issues"
+  },
+  "homepage": "https://github.com/rupok/wp-scheduled-posts#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-proposal-class-properties": "^7.2.3",
+    "@babel/preset-env": "^7.2.3",
+    "@wordpress/babel-plugin-import-jsx-pragma": "^1.1.2",
+    "@wordpress/babel-preset-default": "^3.0.1",
+    "@wordpress/blocks": "^6.0.5",
+    "@wordpress/components": "^7.0.5",
+    "@wordpress/compose": "^3.0.0",
+    "@wordpress/data": "^4.2.0",
+    "@wordpress/edit-post": "^3.1.7",
+    "@wordpress/editor": "^9.0.7",
+    "@wordpress/element": "^2.1.8",
+    "@wordpress/i18n": "^3.1.0",
+    "@wordpress/plugins": "^2.0.10",
+    "autoprefixer": "^9.4.4",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.5",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-preset-env": "^1.7.0",
+    "cross-env": "^5.2.0",
+    "css-loader": "^2.1.0",
+    "cssnano": "^4.1.8",
+    "es-class": "^2.1.1",
+    "mini-css-extract-plugin": "^0.5.0",
+    "postcss-loader": "^3.0.0",
+    "postcss-nested": "^4.1.1",
+    "raw-loader": "^1.0.0",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "webpack": "^4.28.3",
+    "webpack-cli": "^3.2.1"
+  },
+  "babel": {
+    "presets": [
+      "@wordpress/default"
+    ],
+    "plugins": []
+  }
+}
