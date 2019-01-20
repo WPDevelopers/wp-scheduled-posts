@@ -25,12 +25,10 @@ if (!class_exists('Wp_Scheduled_Posts')) {
 			$this->plugin_name = plugin_basename(__FILE__);
 			$parent_plugin_file = 'wp-scheduled-posts/wp-scheduled-posts.php';
 
-			
 			register_deactivation_hook( $this->plugin_name, array(&$this, 'deactivate') );
 			register_activation_hook( $this->plugin_name, array(&$this, 'activate') );
 			register_uninstall_hook( $this->plugin_name, 'uninstall' );
 
-			add_action( 'init', array($this, 'register_post_meta') );
 			add_action( 'admin_enqueue_scripts', array($this, 'start_guten_plugin') );
 			add_action( 'admin_enqueue_scripts', array(&$this, 'start_plugin') );
 			add_action( 'admin_init', array(&$this, 'check_some_other_plugin') );
@@ -105,26 +103,10 @@ if (!class_exists('Wp_Scheduled_Posts')) {
 				
 				wp_localize_script( 'wps-publish-date', 'WPSchedulePosts', array(
 					'PanelTitle' => __('Schedule at', 'wp-schedule-posts'),
-					'schedule' => WPSP_Helper::next_schedule(),
+					'schedule' => WPSP_Helper::schedule(),
 				));
 			}
 		}
-		
-		public function register_post_meta(){
-			register_post_meta(
-				'post',
-				'_wpsp_date',
-				[
-					'show_in_rest'      => true,
-					'type'              => 'string',
-					'description'       => __( 'Schedule At', 'essential-blocks' ),
-					'sanitize_callback' => 'sanitize_text_field',
-					'auth_callback'     => '__return_true',
-					'single'            => true,
-				]
-			);
-		}
-		
 	}
 	global $wpsp_op;
 	$wpsp_op = new Wp_Scheduled_Posts();
