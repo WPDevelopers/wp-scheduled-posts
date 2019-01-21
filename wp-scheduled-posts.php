@@ -29,7 +29,7 @@ if (!class_exists('Wp_Scheduled_Posts')) {
 			register_activation_hook( $this->plugin_name, array(&$this, 'activate') );
 			register_uninstall_hook( $this->plugin_name, 'uninstall' );
 
-			add_action( 'admin_enqueue_scripts', array($this, 'start_guten_plugin') );
+			add_action( 'enqueue_block_assets', array($this, 'start_guten_plugin') );
 			add_action( 'admin_enqueue_scripts', array(&$this, 'start_plugin') );
 			add_action( 'admin_init', array(&$this, 'check_some_other_plugin') );
 			add_action('admin_notices', 'wpsp_admin_notice');
