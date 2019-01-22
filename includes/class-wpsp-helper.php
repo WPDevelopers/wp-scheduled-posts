@@ -1,7 +1,15 @@
 <?php
 
 class WPSP_Helper {
-
+    /**
+     * Number of future schedule dates to show.
+     * @var integer
+     */
+    private static $numberOfListItem = 5;
+    /**
+     * All future post date
+     * @return void
+     */
     public static function future_post() {
         $future_post_date = array();
 
@@ -10,9 +18,7 @@ class WPSP_Helper {
             'posts_per_page' => '-1',
             'post_status' => 'future'
         ));
-        // dump( $posts->posts );
         $dates = [];
-
         while( $posts->have_posts() ) : $posts->the_post();
             $date = get_the_date( 'Y-m-d H:i:s' );
             $date_timestamp = strtotime( $date );
@@ -21,14 +27,17 @@ class WPSP_Helper {
 
         return $dates;
     }
-
-    public static function all_day_schedule() {
+    /**
+     * All schedule of current week.
+     * @return void
+     */
+    public static function current_week_schedule() {
         global $wpdb;
         $my_table = 'psm_manage_schedule';
         $retrieveSQL = "SELECT * FROM ". $my_table;
         $day_schedules 	= $wpdb->get_results( $retrieveSQL, ARRAY_A );
         $all_day_schedule = array();
-
+        
         $current_time = current_time( 'timestamp' );
         $today_name = date( "l", $current_time );
         $today_date_time = date( "Y-m-d H:i:s", $current_time );
@@ -64,44 +73,40 @@ class WPSP_Helper {
 
         return $all_day_schedule;
     }
+    /**
+     * Generate next schedule for schedule post.
+     * @return void
+     */
+    public static function schedule(){
+        $current_week_new = $deserved_dates = [];
+        $current_week = self::current_week_schedule();
+        $future_post = self::future_post();
+        $future_post_date_keys = array_keys( $future_post );
+        $future_post_count = count( $future_post );
+        $future_post_count = ( $future_post_count == 0 ? 2 : $future_post_count ) * 2;
 
-    public static function next_schedule(){
-        $all_day_schedule = self::all_day_schedule();
-        $all_day_schedule_count = count( $all_day_schedule );
-
-        $future_post_date = self::future_post();
-        $future_post_date_count = count( self::future_post() );
-        $future_post_date_keys = array_keys( $future_post_date );
-        
-        $deserved_dates = [];
-        foreach( $all_day_schedule as $date_timestamp => $date ) {
-            if( ! in_array( $date_timestamp, $future_post_date_keys ) ) {
-                $deserved_dates[ $date_timestamp ] = $date;  
+        for( $i = 1; $i <= $future_post_count; $i++ ) {
+            $days = $i * 7;
+            foreach( $current_week as $date_timestamp => $date ) {
+                $new_date_timestamp = strtotime( date('Y-m-d H:i:s', $date_timestamp ) . ' +'. $days .' day');
+                $new_date = date( 'Y-m-d H:i:s', $new_date_timestamp );
+                $current_week_new[ $new_date_timestamp ] = [ 
+                    'label' => date( 'l, F j, Y \a\t g:i a', $new_date_timestamp ),
+                    'date' => $new_date, 
+                    'status' => 'future', 
+                    'date_gmt' => get_gmt_from_date( $new_date, 'Y-m-d H:i:s' ) 
+                ];
             }
         }
-    
-        $next_week_schedule = self::next_week_schedule( $all_day_schedule );
-        $deserved_dates = $deserved_dates + $next_week_schedule;
-        $deserved_dates = $deserved_dates + self::next_week_schedule( $deserved_dates );
-
+        
+        $dateIterator = 1;
+        $current_week_new = $current_week + $current_week_new;
+        foreach( $current_week_new as $date_timestamp => $date ) {
+            if( ! in_array( $date_timestamp, $future_post_date_keys ) && $dateIterator <= self::$numberOfListItem ) {
+                $deserved_dates[ $date_timestamp ] = $date;  
+                $dateIterator++;
+            }
+        }
         return $deserved_dates;
     }
-
-    public static function next_week_schedule( $current_week ){
-        $current_week_new = array();
-
-        foreach( $current_week as $date_timestamp => $date ) {
-            $new_date_timestamp = strtotime( date('Y-m-d H:i:s', $date_timestamp ) . ' +7 day');
-            $new_date = date( 'Y-m-d H:i:s', $new_date_timestamp );
-            $current_week_new[ $new_date_timestamp ] = [ 
-                'label' => date( 'l, F j, Y \a\t g:i a', $new_date_timestamp ),
-                'date' => $new_date, 
-                'status' => 'future', 
-                'date_gmt' => get_gmt_from_date( $new_date, 'Y-m-d H:i:s' ) 
-            ];
-        }
-
-        return $current_week_new;
-    }
-
 }
