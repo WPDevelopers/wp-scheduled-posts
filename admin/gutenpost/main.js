@@ -12,7 +12,7 @@ class ScheduleList extends Component {
 	}
   
 	handleChange( value ) {
-        this.props.editPost( value );
+		this.props.editPost( value );
 	}
   
 	render() {
