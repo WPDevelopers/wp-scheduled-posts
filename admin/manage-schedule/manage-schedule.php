@@ -46,10 +46,15 @@ array_push($possibleStatus, 'pending');
 array_push($possibleStatus, 'draft');
 array_push($possibleStatus, 'auto-draft');
 
-# create actions for each one ...
-foreach ($possibleStatus as $status) {
-	add_action($status . '_to_publish', 'wpsp_scheduled_do_publish_schedule', 1);
+global $wp_version;
+
+if( version_compare( $wp_version, '5.0.0', '<' ) ) {
+	# create actions for each one ...
+	foreach ($possibleStatus as $status) {
+		add_action( $status . '_to_publish', 'wpsp_scheduled_do_publish_schedule', 1 );
+	}
 }
+
 
 # change the name os publish button...
 

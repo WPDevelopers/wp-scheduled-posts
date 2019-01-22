@@ -21,7 +21,7 @@ class AdminPanel extends Component {
 			ScheduleDates.push({ label: item.label, value : '{ "date" : "'+ item.date +'", "date_gmt" : "'+ item.date_gmt +'", "status" : "'+ item.status +'" }' });
 		});
 
-		if( ScheduleDates.length <= 1 ) {
+		if( ScheduleDates.length <= 1 || this.props.isPublished ) {
 			return ('');
 		}
 
