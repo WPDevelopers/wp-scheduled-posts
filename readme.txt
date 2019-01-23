@@ -4,7 +4,7 @@ Tags: post schedule, editor calendar, schedule-calendar, schedule bar, scheduled
 Requires at least: 4.0
 Tested up to: 5.0.3
 Requires PHP: 5.4
-Stable tag: 2.0.3
+Stable tag: 2.0.4
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -117,6 +117,12 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 
 == Changelog ==
+
+= 2.0.4 - 2019-01-22 =
+* Old Post Data Issue Fixed for old WP Version
+* List Date issue fixed
+* Fixed : WP 5.0 Publishing Error without Scheduling a post
+* Some minor improvements and bugfix
 
 = 2.0.3 - 2019-01-13 =
 * Gutenberg and WordPress 5.0 compatiblility fixed
