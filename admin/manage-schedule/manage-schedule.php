@@ -250,7 +250,7 @@ function wpsp_scheduled_getMaxPostsDay($datetimeCheck)
 	if (isset( $options[$opt] ) && $options[$opt] != '') {
 		return $options[$opt];
 	} else {
-		return 1;
+		return 0;
 	}
 }
 
@@ -561,6 +561,9 @@ function wpsp_scheduled_findNextSlot($post, $changePost = false)
 		}
 
 		$msgT .= '<p class="schedule_noti_p" title="' . $msgByPass . '">';
+		if( ! function_exists('get_plugins') ) : 
+			include ABSPATH . '/wp-admin/includes/plugin.php';
+		endif;
 		$plugins = get_plugins();
 		$allActivePlugin = get_option('active_plugins');
 		$activated_all_plugins = array();

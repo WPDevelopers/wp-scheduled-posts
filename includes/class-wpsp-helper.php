@@ -109,4 +109,20 @@ class WPSP_Helper {
         }
         return $deserved_dates;
     }
+
+    public static function auto_schedule() {
+        global $post;
+        $auto_date = wpsp_scheduled_findNextSlot($post, true);
+        if ( $auto_date ) {
+            $new_date_timestamp = strtotime( $auto_date );
+            $new_date = date( 'Y-m-d H:i:s', $new_date_timestamp );
+            return [ 
+                'label' => date( 'l, F j, Y \a\t g:i a', $new_date_timestamp ),
+                'date' => $new_date, 
+                'status' => 'future', 
+                'date_gmt' => get_gmt_from_date( $new_date, 'Y-m-d H:i:s' ) 
+            ];
+        }
+        return false;
+    }
 }

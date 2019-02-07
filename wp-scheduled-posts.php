@@ -104,6 +104,9 @@ if (!class_exists('Wp_Scheduled_Posts')) {
 				wp_localize_script( 'wps-publish-date', 'WPSchedulePosts', array(
 					'PanelTitle' => __('Schedule at', 'wp-schedule-posts'),
 					'schedule' => WPSP_Helper::schedule(),
+					'manual_schedule' => get_option( 'cal_active_option' ),
+					'auto_schedule' => get_option( 'pub_active_option' ),
+					'auto_date' => WPSP_Helper::auto_schedule(),
 				));
 			}
 		}
