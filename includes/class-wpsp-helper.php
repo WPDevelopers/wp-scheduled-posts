@@ -110,19 +110,96 @@ class WPSP_Helper {
         return $deserved_dates;
     }
 
-    public static function auto_schedule() {
-        global $post;
-        $auto_date = wpsp_scheduled_findNextSlot($post, true);
-        if ( $auto_date ) {
+
+    private static function next_day_max_posts( $timestamp ){
+        $pts_options = get_option('manage-schedule', false);
+        if( $pts_options ) {
+            $now = date('w', $timestamp );
+            $max_post = $pts_options[ "pts_$now" ];
+            $iterator = 0;
+            while( $max_post <= 0 && $iterator < 7 ) {
+                $timestamp = strtotime( date('ymd', $timestamp ) . ' +' . $iterator++ . ' Days ');
+                $now = date('w', $timestamp );
+                $max_post = $pts_options[ "pts_$now" ];
+            }
+
+            if( $max_post ) {
+                return array(
+                    'max_post' => $max_post,
+                    'time' => $timestamp,
+                );
+            }
+        }
+        return false;
+    }
+
+    public static function auto_schedule( $timestamp = '', $iterator = 0 ) {
+        $options = get_option('manage-schedule', false);
+        # get start and end minutes from 0 to 1440-1
+        $startMinute = date('H', strtotime($options['pts_start'])) * 60 + date('i', strtotime($options['pts_start']));
+        $endMinute = date('H', strtotime($options['pts_end'])) * 60 + date('i', strtotime($options['pts_end']));
+    
+        if( empty( $timestamp ) ) {
+            $timestamp = strtotime( current_time('mysql') );
+        }
+
+        $next_day_posts = self::next_day_max_posts( $timestamp );
+
+        
+        $max_post = $next_day_posts['max_post'];
+        $n_post_in_day = 0;
+        $max_post_day_time = $next_day_posts['time'];
+        
+        $date = date('Y-m-d', $max_post_day_time);
+
+        $startDate = date( 'Y-m-d', strtotime( current_time('mysql') . '' ) );
+
+        $future_posts = new WP_Query(array(
+            'post_type' => 'post',
+            'posts_per_page' => -1,
+            'post_status' => array( 'future', 'publish' ),
+            'orderby' => 'post_date',
+            'order' => 'ASC',
+            'date_query' => array(
+                'after' => $startDate,
+                'inclusive' => true
+            )
+        ));
+
+        while( $future_posts->have_posts() ) : $future_posts->the_post();
+            if( get_the_date('Y-m-d') === date('Y-m-d', $max_post_day_time) ) {
+                $n_post_in_day++;
+            }
+        endwhile;
+        wp_reset_postdata();
+
+        if( $date === $startDate ) {
+            $nowLocal = current_time('mysql', $gmt = 0);
+            $nowTotalMinutes = date('H', strtotime($nowLocal)) * 60 + date('i', strtotime($nowLocal));
+			if( $nowTotalMinutes >= $startMinute ){
+				$startMinute = $nowTotalMinutes;
+			}
+        }
+
+        $minutePublish = rand($startMinute, $endMinute);
+		if( $minutePublish == 0 ){
+			$minutePublish += 1;
+		}
+       
+        $auto_date = date("Y-m-d", $max_post_day_time) . ' ' . intval($minutePublish / 60) . ':' . $minutePublish % 60;
+
+        if( $n_post_in_day < $max_post ) {
             $new_date_timestamp = strtotime( $auto_date );
             $new_date = date( 'Y-m-d H:i:s', $new_date_timestamp );
-            return [ 
+            return array( 
                 'label' => date( 'l, F j, Y \a\t g:i a', $new_date_timestamp ),
                 'date' => $new_date, 
                 'status' => 'future', 
                 'date_gmt' => get_gmt_from_date( $new_date, 'Y-m-d H:i:s' ) 
-            ];
+            );
+        } else {
+            $time = strtotime( date('Y-m-d', $max_post_day_time) . ' +'. $iterator .' Days' );
+            return self::auto_schedule( $time, $iterator + 1 );
         }
-        return false;
     }
 }

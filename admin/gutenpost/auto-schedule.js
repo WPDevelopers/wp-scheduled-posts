@@ -26,6 +26,9 @@ class AutoSchedule extends Component {
 	}
   
 	render() {
+
+		console.log( this.props.options )
+
 		if( this.props.isScheduled ) {
 			return('');
 		}

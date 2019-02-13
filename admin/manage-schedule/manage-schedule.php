@@ -617,7 +617,7 @@ function wpsp_scheduled_findNextSlot($post, $changePost = false)
 
     //}//end
 
-}
+} // next_slot_end
 
 # this is where the magic happens... :)
 function wpsp_scheduled_do_publish_schedule($post)
