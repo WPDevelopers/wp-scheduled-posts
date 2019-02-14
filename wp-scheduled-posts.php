@@ -34,7 +34,6 @@ if (!class_exists('Wp_Scheduled_Posts')) {
 			add_action( 'enqueue_block_assets', array($this, 'start_guten_plugin') );
 			add_action( 'admin_enqueue_scripts', array(&$this, 'start_plugin') );
 			add_action( 'admin_init', array(&$this, 'check_some_other_plugin') );
-			add_action('admin_notices', 'wpsp_admin_notice');
 		}
 		
 		function define_constant() {
