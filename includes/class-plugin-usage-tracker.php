@@ -13,8 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 	
 	class Wpsp_Plugin_Usage_Tracker {
-		
-		private $wisdom_version = '1.1.2';
+		private $wpins_version = '1.1.3';
 		private $home_url = '';
 		private $plugin_file = '';
 		private $plugin_name = '';
@@ -62,13 +61,44 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 			$this->init();
 			
 		}
+		/**
+		 * Migrate to the new Insights
+		 * @return void
+		 */
+		public function migrate_plan(){
+			$old_key = array_flip( [ 'wisdom_allow_tracking', 'wisdom_last_track_time', 'wisdom_block_notice', 'wisdom_collect_email', 'wisdom_admin_emails', 'wisdom_deactivation_reason_' . $this->plugin_name, 'wisdom_deactivation_details_' . $this->plugin_name ] );
+			$new_key = [ 'wpins_allow_tracking', 'wpins_last_track_time', 'wpins_block_notice', 'wpins_collect_email', 'wpins_admin_emails', 'wpins_deactivation_reason_' . $this->plugin_name, 'wpins_deactivation_details_' . $this->plugin_name ];
+
+			foreach( $old_key as $key => $value ) {
+				$old_data = get_option( $key );
+				if( ! $old_data ) {
+					continue;
+				}
+				update_option( $new_key[ $value ], $old_data );
+				delete_option( $key );
+			}
+		}
+		/**
+		 * This function is fired for one time in a life time!
+		 * if the data is not removed.
+		 * @return void
+		 */
+		public function force_track_for_one_time(){
+			$is_tracked = get_option( 'wpins_'. $this->plugin_name .'_force_tracked' );
+			if( ! $is_tracked ) {
+				$this->do_tracking( true );
+				update_option( 'wpins_'. $this->plugin_name .'_force_tracked', true );
+			}
+		}
 		
 		public function init() {
+			if( version_compare( $this->wpins_version, '1.1.2', '>' ) ) {
+				$this->migrate_plan();
+			}
 			// Check marketing
 			if( $this->marketing == 3 ) {
 				$this->set_can_collect_email( true, $this->plugin_name );
 			}
-			
 			// Check whether opt-in is required
 			// If not, then tracking is allowed
 			if( ! $this->require_optin ) {
@@ -77,21 +107,23 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 				$this->update_block_notice();
 				$this->do_tracking( true );
 			}
-
 			// Hook our do_tracking function to the daily action
-			add_action( 'put_do_weekly_action', array( $this, 'do_tracking' ) );
+			add_action( 'wpdeveloper_notice_clicked', array( $this, 'clicked' ) );
 
-			// Use this action for local testing
-			// add_action( 'admin_init', array( $this, 'do_tracking' ) );
+			add_action( 'put_do_weekly_action', array( $this, 'do_tracking' ) );
+			// for one time tracking
+			add_action( 'admin_init', array( $this, 'force_track_for_one_time' ) );
+			// Use this action for local testing and for one time force tracking in a life time.
+			add_action( 'admin_init', array( $this, 'force_tracking' ) ); 
 			 
 			// Display the admin notice on activation
-			add_action( 'admin_notices', array( $this, 'optin_notice' ) );
+			add_action( 'wpdeveloper_optin_notice', array( $this, 'optin_notice' ) );
 			add_action( 'admin_notices', array( $this, 'marketing_notice' ) );
 
 			// Deactivation
 			add_filter( 'plugin_action_links_' . plugin_basename( $this->plugin_file ), array( $this, 'filter_action_links' ) );
 			add_action( 'admin_footer-plugins.php', array( $this, 'goodbye_ajax' ) );
-			add_action( 'wp_ajax_goodbye_form', array( $this, 'goodbye_form_callback' ) );
+			add_action( 'wp_ajax_goodbye_form_' . esc_attr( $this->plugin_name ), array( $this, 'goodbye_form_callback' ) );
 			
 		}
 		
@@ -108,7 +140,16 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 				wp_schedule_event( time(), 'daily', 'put_do_weekly_action' );
 			}
 		}
-		
+		/**
+		 * This function is responsible for force tracking the plugin, 
+		 * if users are allowed to do!
+		 *
+		 * @return void
+		 */
+		public function force_tracking(){
+			$this->do_tracking( true );
+		}
+
 		/**
 		 * This is our function to get everything going
 		 * Check that user has opted in
@@ -143,7 +184,6 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 
 			// Send the data
 			$this->send_data( $body );
-
 		}
 		
 		/**
@@ -192,7 +232,7 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 				'site_version'		=> get_bloginfo( 'version' ),
 				'site_language'		=> get_bloginfo( 'language' ),
 				'charset'			=> get_bloginfo( 'charset' ),
-				'wisdom_version'	=> $this->wisdom_version,
+				'wpins_version'		=> $this->wpins_version,
 				'php_version'		=> phpversion(),
 				'multisite'			=> is_multisite(),
 				'file_location'		=> __FILE__
@@ -266,7 +306,7 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 				foreach( $options as $option ) {
 					$fields = get_option( $option );
 					// Check for permission to send this option
-					if( isset( $fields['wisdom_registered_setting'] ) ) {
+					if( isset( $fields['wpins_registered_setting'] ) ) {
 						foreach( $fields as $key=>$value ) {
 							$plugin_options[$key] = $value;
 						}
@@ -323,11 +363,11 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 			$body['deactivated_date'] = time();
 			
 			// Add deactivation form data
-			if( false !== get_option( 'wisdom_deactivation_reason_' . $this->plugin_name ) ) {
-				$body['deactivation_reason'] = get_option( 'wisdom_deactivation_reason_' . $this->plugin_name );
+			if( false !== get_option( 'wpins_deactivation_reason_' . $this->plugin_name ) ) {
+				$body['deactivation_reason'] = get_option( 'wpins_deactivation_reason_' . $this->plugin_name );
 			}
-			if( false !== get_option( 'wisdom_deactivation_details_' . $this->plugin_name ) ) {
-				$body['deactivation_details'] = get_option( 'wisdom_deactivation_details_' . $this->plugin_name );
+			if( false !== get_option( 'wpins_deactivation_details_' . $this->plugin_name ) ) {
+				$body['deactivation_details'] = get_option( 'wpins_deactivation_details_' . $this->plugin_name );
 			}
 			
 			$this->send_data( $body );
@@ -345,8 +385,8 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 				$this->set_is_tracking_allowed( false, $this->plugin_name );
 				return false;
 			}
-			// The wisdom_allow_tracking option is an array of plugins that are being tracked
-			$allow_tracking = get_option( 'wisdom_allow_tracking' );
+			// The wpins_allow_tracking option is an array of plugins that are being tracked
+			$allow_tracking = get_option( 'wpins_allow_tracking' );
 			// If this plugin is in the array, then tracking is allowed
 			if( isset( $allow_tracking[$this->plugin_name] ) ) {
 				return true;
@@ -365,8 +405,8 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 			if( empty( $plugin ) ) {
 				$plugin = $this->plugin_name;
 			}
-			// The wisdom_allow_tracking option is an array of plugins that are being tracked
-			$allow_tracking = get_option( 'wisdom_allow_tracking' );
+			// The wpins_allow_tracking option is an array of plugins that are being tracked
+			$allow_tracking = get_option( 'wpins_allow_tracking' );
 			
 			// If the user has decided to opt out
 			if( $this->has_user_opted_out() ) {
@@ -387,7 +427,7 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 					unset( $allow_tracking[$plugin] );
 				}
 			}
-			update_option( 'wisdom_allow_tracking', $allow_tracking );
+			update_option( 'wpins_allow_tracking', $allow_tracking );
 		}
 		
 		/**
@@ -396,13 +436,13 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 		 * @return Boolean
 		 */
 		public function has_user_opted_out() {
-			// Iterate through the options that are being tracked looking for wisdom_opt_out setting
+			// Iterate through the options that are being tracked looking for wpins_opt_out setting
 			if( ! empty( $this->options ) ) {
 				foreach( $this->options as $option_name ) {
 					// Check each option
 					$options = get_option( $option_name );
 					// If we find the setting, return true
-					if( ! empty( $options['wisdom_opt_out'] ) ) {
+					if( ! empty( $options['wpins_opt_out'] ) ) {
 						return true;
 					}
 				}
@@ -416,7 +456,7 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 		 */
 		public function get_is_time_to_track() {
 			// Let's see if we're due to track this plugin yet
-			$track_times = get_option( 'wisdom_last_track_time', array() );
+			$track_times = get_option( 'wpins_last_track_time', array() );
 			if( ! isset( $track_times[$this->plugin_name] ) ) {
 				// If we haven't set a time for this plugin yet, then we must track it
 				return true;
@@ -435,10 +475,10 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 		 */
 		public function set_track_time() {
 			// We've tracked, so record the time
-			$track_times = get_option( 'wisdom_last_track_time', array() );
+			$track_times = get_option( 'wpins_last_track_time', array() );
 			// Set different times according to plugin, in case we are tracking multiple plugins
 			$track_times[$this->plugin_name] = time();
-			update_option( 'wisdom_last_track_time', $track_times );
+			update_option( 'wpins_last_track_time', $track_times );
 		}
 		
 		/**
@@ -450,7 +490,7 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 			if( empty( $plugin ) ) {
 				$plugin = $this->plugin_name;
 			}
-			$block_notice = get_option( 'wisdom_block_notice' );
+			$block_notice = get_option( 'wpins_block_notice' );
 			if( empty( $block_notice ) || ! is_array( $block_notice ) ) {
 				// If nothing exists in the option yet, start a new array with the plugin name
 				$block_notice = array( $plugin => $plugin );
@@ -458,7 +498,7 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 				// Else add the plugin name to the array
 				$block_notice[$plugin] = $plugin;
 			}
-			update_option( 'wisdom_block_notice', $block_notice );
+			update_option( 'wpins_block_notice', $block_notice );
 		}
 		
 		/**
@@ -466,8 +506,8 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 		 * @since 1.0.0
 		 */
 		public function get_can_collect_email() {
-			// The wisdom_collect_email option is an array of plugins that are being tracked
-			$collect_email = get_option( 'wisdom_collect_email' );
+			// The wpins_collect_email option is an array of plugins that are being tracked
+			$collect_email = get_option( 'wpins_collect_email' );
 			// If this plugin is in the array, then we can collect the email address
 			if( isset( $collect_email[$this->plugin_name] ) ) {
 				return true;
@@ -486,8 +526,8 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 			if( empty( $plugin ) ) {
 				$plugin = $this->plugin_name;
 			}
-			// The wisdom_collect_email option is an array of plugins that are being tracked
-			$collect_email = get_option( 'wisdom_collect_email' );
+			// The wpins_collect_email option is an array of plugins that are being tracked
+			$collect_email = get_option( 'wpins_collect_email' );
 			// If the user has agreed to allow tracking or if opt-in is not required
 			if( $can_collect ) {
 				if( empty( $collect_email ) || ! is_array( $collect_email ) ) {
@@ -502,7 +542,7 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 					unset( $collect_email[$plugin] );
 				}
 			}
-			update_option( 'wisdom_collect_email', $collect_email );
+			update_option( 'wpins_collect_email', $collect_email );
 		}
 		
 		/**
@@ -511,8 +551,8 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 		 * @return Email address
 		 */
 		public function get_admin_email() {
-			// The wisdom_collect_email option is an array of plugins that are being tracked
-			$email = get_option( 'wisdom_admin_emails' );
+			// The wpins_collect_email option is an array of plugins that are being tracked
+			$email = get_option( 'wpins_admin_emails' );
 			// If this plugin is in the array, then we can collect the email address
 			if( isset( $email[$this->plugin_name] ) ) {
 				return $email[$this->plugin_name];
@@ -540,8 +580,8 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 					$email = $current_user->user_email;
 				}
 			}
-			// The wisdom_admin_emails option is an array of admin email addresses
-			$admin_emails = get_option( 'wisdom_admin_emails' );
+			// The wpins_admin_emails option is an array of admin email addresses
+			$admin_emails = get_option( 'wpins_admin_emails' );
 			if( empty( $admin_emails ) || ! is_array( $admin_emails ) ) {
 				// If nothing exists in the option yet, start a new array with the plugin name
 				$admin_emails = array( $plugin => sanitize_email( $email ) );
@@ -549,15 +589,10 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 				// Else add the email address to the array, if not already set
 				$admin_emails[$plugin] = sanitize_email( $email );
 			}
-			update_option( 'wisdom_admin_emails', $admin_emails );
+			update_option( 'wpins_admin_emails', $admin_emails );
 		}
-		
-		/**
-		 * Display the admin notice to users to allow them to opt in
-		 *
-		 * @since 1.0.0
-		 */
-		public function optin_notice() {
+
+		public function clicked(){
 			// Check for plugin args
 			if( isset( $_GET['plugin'] ) && isset( $_GET['plugin_action'] ) ) {
 				$plugin = sanitize_text_field( $_GET['plugin'] );
@@ -570,10 +605,17 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 				}
 				$this->update_block_notice( $plugin );
 			}
-			
+		}
+		
+		/**
+		 * Display the admin notice to users to allow them to opt in
+		 *
+		 * @since 1.0.0
+		 */
+		public function optin_notice() {
 			// Check whether to block the notice, e.g. because we're in a local environment
-			// wisdom_block_notice works the same as wisdom_allow_tracking, an array of plugin names
-			$block_notice = get_option( 'wisdom_block_notice' );
+			// wpins_block_notice works the same as wpins_allow_tracking, an array of plugin names
+			$block_notice = get_option( 'wpins_block_notice' );
 			if( isset( $block_notice[$this->plugin_name] ) ) {
 				return;
 			}
@@ -584,7 +626,12 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 
 			// @credit EDD
 			// Don't bother asking user to opt in if they're in local dev
-			if ( stristr( network_site_url( '/' ), 'dev' ) !== false || stristr( network_site_url( '/' ), 'localhost' ) !== false || stristr( network_site_url( '/' ), ':8888' ) !== false ) {
+			$is_local = false;
+			if( stristr( network_site_url( '/' ), '.test' ) !== false || stristr( network_site_url( '/' ), 'localhost' ) !== false || stristr( network_site_url( '/' ), ':8888' ) !== false ) {
+				$is_local = true;
+			}
+			$is_local = apply_filters( 'wpins_is_local_' . $this->plugin_name, $is_local );
+			if ( $is_local ) {
 				$this->update_block_notice();
 			} else {
 				
@@ -622,86 +669,26 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 					$notice_text = __( 'Want to help make <strong>WP Scheduled Posts</strong> even more awesome? You can get a <strong>25% discount coupon</strong> for Premium extensions if you allow us to track the usage. <a class="wpsp-core-insights-data-we-collect" href="#">What we collect.</a>', 'plugin-usage-tracker' );
 				}
 				// And we allow you to filter the text anyway
-				$notice_text = apply_filters( 'wisdom_notice_text_' . esc_attr( $this->plugin_name ), $notice_text ); ?>
-				
-				<div class="notice notice-info updated put-dismiss-notice wpsp-usage-notice">
-					<div class="wpsp-usage-notice-img">
-						<div class="wpsp-logo-inline"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 960 960" style="enable-background:new 0 0 960 960;" xml:space="preserve">
-							<style type="text/css">
-								.st0{fill:#FFFFFF;}
-								.st1{fill:#6c63ff;}
-								.st2{fill:#FFFFFF;}
-								.st3{fill:#CCCCCC;}
-								.st4{fill:#E6E6E6;}
-								.st5{fill:#6c63ff;}
-								.st6{fill:#F2F2F2;}
-								.st7{fill:none;stroke:#999999;stroke-width:17.9763;stroke-linecap:round;stroke-miterlimit:10;}
-								.st8{fill:none;stroke:#333333;stroke-width:8.9882;stroke-linecap:round;stroke-miterlimit:10;}
-								.st9{fill:none;stroke:#C1272D;stroke-width:5.9921;stroke-linecap:round;stroke-miterlimit:10;}
-								.st10{fill:#245F7F;}
-							</style>
-							<g>
-								<path class="st0" d="M601.2,699.8H205c-30.7,0-55.6-24.9-55.6-55.6V248c0-30.7,24.9-55.6,55.6-55.6h396.2   c30.7,0,55.6,24.9,55.6,55.6v396.2C656.8,674.9,631.9,699.8,601.2,699.8z"/>
-								<path class="st1" d="M601.2,192.4H205c-30.7,0-55.6,24.9-55.6,55.6v88.5h507.4V248C656.8,217.3,631.9,192.4,601.2,192.4z"/>
-								<circle class="st2" cx="253.3" cy="264.5" r="36.7"/>
-								<circle class="st2" cx="551.6" cy="264.5" r="36.7"/>
-								<path class="st3" d="M253.3,275.7L253.3,275.7c-11.8,0-21.3-9.6-21.3-21.3v-85.8c0-11.8,9.6-21.3,21.3-21.3l0,0   c11.8,0,21.3,9.6,21.3,21.3v85.8C274.6,266.2,265.1,275.7,253.3,275.7z"/>
-								<path class="st3" d="M551.6,275.7L551.6,275.7c-11.8,0-21.3-9.6-21.3-21.3v-85.8c0-11.8,9.6-21.3,21.3-21.3l0,0   c11.8,0,21.3,9.6,21.3,21.3v85.8C573,266.2,563.4,275.7,551.6,275.7z"/>
-								<rect x="215.7" y="370.9" class="st4" width="75.2" height="75.2"/>
-								<rect x="313" y="370.9" class="st4" width="75.2" height="75.2"/>
-								<rect x="410.2" y="370.9" class="st4" width="75.2" height="75.2"/>
-								<rect x="507.5" y="370.9" class="st4" width="75.2" height="75.2"/>
-								<rect x="215.7" y="465" class="st4" width="75.2" height="75.2"/>
-								<rect x="313" y="465" class="st1" width="75.2" height="75.2" opacity="0.75"/>
-								<rect x="410.2" y="465" class="st4" width="75.2" height="75.2"/>
-								<rect x="507.5" y="465" class="st4" width="75.2" height="75.2"/>
-								<rect x="215.7" y="559.1" class="st4" width="75.2" height="75.2"/>
-								<rect x="313" y="559.1" class="st4" width="75.2" height="75.2"/>
-								<rect x="410.2" y="559.1" class="st4" width="75.2" height="75.2"/>
-								<rect x="507.5" y="559.1" class="st4" width="75.2" height="75.2"/>
-								<g>
-									<circle class="st5" cx="621.9" cy="624" r="188.7"/>
-									<circle class="st0" cx="621.9" cy="624" r="148"/>
-									<path class="st6" d="M486.6,636.8c0-81.7,66.3-148,148-148c37.6,0,72,14.1,98.1,37.2c-27.1-30.6-66.7-49.9-110.8-49.9    c-81.7,0-148,66.3-148,148c0,44.1,19.3,83.7,49.9,110.8C500.7,708.7,486.6,674.4,486.6,636.8z"/>
-									<polyline class="st7" points="621.9,530.4 621.9,624 559,624   "/>
-									<g>
-										<line class="st8" x1="621.9" y1="508.3" x2="621.9" y2="497.1"/>
-										<line class="st8" x1="621.9" y1="756.3" x2="621.9" y2="745.1"/>
-										<line class="st8" x1="740.3" y1="626.7" x2="751.5" y2="626.7"/>
-										<line class="st8" x1="492.3" y1="626.7" x2="503.5" y2="626.7"/>
-										<line class="st8" x1="705.6" y1="710.4" x2="713.5" y2="718.3"/>
-										<line class="st8" x1="530.3" y1="535.1" x2="538.2" y2="543"/>
-										<line class="st8" x1="538.2" y1="710.4" x2="530.3" y2="718.3"/>
-										<line class="st8" x1="713.5" y1="535.1" x2="705.6" y2="543"/>
-									</g>
-									<line class="st9" x1="604.4" y1="606.3" x2="684.5" y2="687.4"/>
-									<circle class="st10" cx="621.9" cy="624" r="16.1"/>
-								</g>
-							</g>
-							</svg>
-						</div>
+				$notice_text = apply_filters( 'wpins_notice_text_' . esc_attr( $this->plugin_name ), $notice_text ); ?>
+					
+				<div class="notice notice-info updated put-dismiss-notice">
+					<p><?php echo __( $notice_text ); ?></p>
+					<div class="eael-insights-data" style="display: none;">
+					<p><?php echo __( 'We collect non-sensitive diagnostic data and plugin usage information. Your site URL, WordPress & PHP version, plugins & themes and email address to send you the discount coupon. This data lets us make sure this plugin always stays compatible with the most popular plugins and themes. No spam, I promise.' ); ?></p>
 					</div>
-					<div class="wpsp-usage-notice-content">
-						<p><?php echo __( $notice_text ); ?></p>
-						<div class="wpsp-core-insights-data" style="display: none;">
-							<p><?php echo __( 'We collect non-sensitive diagnostic data and plugin usage information. Your site URL, WordPress & PHP version, plugins & themes and email address to send you the discount coupon. This data lets us make sure this plugin always stays compatible with the most popular plugins and themes. No spam, I promise.' ); ?></p>
-						</div>
-						<p>
-							<a href="<?php echo esc_url( $url_yes ); ?>" class="button-primary"><?php _e( 'Sure, I\'d like to help', 'plugin-usage-tracker' ); ?></a>
-							<a href="<?php echo esc_url( $url_no ); ?>" class="button-secondary"><?php _e( 'No Thanks', 'plugin-usage-tracker' ); ?></a>
-						</p>
-					</div>
-		            <?php echo "<script type='text/javascript'>jQuery('.wpsp-core-insights-data-we-collect').on('click', function(e) {
+					<p>
+						<a href="<?php echo esc_url( $url_yes ); ?>" class="button-primary"><?php _e( 'Sure, I\'d like to help', 'plugin-usage-tracker' ); ?></a>
+						<a href="<?php echo esc_url( $url_no ); ?>" class="button-secondary"><?php _e( 'No Thanks', 'plugin-usage-tracker' ); ?></a>
+					</p>
+		            <?php echo "<script type='text/javascript'>jQuery('.insights-data-we-collect').on('click', function(e) {
 		                    e.preventDefault();
-		                    jQuery('.wpsp-core-insights-data').slideToggle('fast');
+		                    jQuery('.eael-insights-data').slideToggle('fast');
 		                });
 		                </script>";?>
 				</div>
 			<?php
 			}
-			
 		}
-		
 		/**
 		 * Display the marketing notice to users if enabled
 		 * Only displays after the user has opted in to tracking
@@ -731,7 +718,7 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 				) );
 				
 				$marketing_text = __( 'Thank you for opting in to tracking. Would you like to receive occasional news about this plugin, including details of new features and special offers?', 'plugin-usage-tracker' );
-				$marketing_text = apply_filters( 'wisdom_marketing_text_' . esc_attr( $this->plugin_name ), $marketing_text ); ?>
+				$marketing_text = apply_filters( 'wpins_marketing_text_' . esc_attr( $this->plugin_name ), $marketing_text ); ?>
 				
 				<div class="notice notice-info updated put-dismiss-notice">
 					<p><?php echo '<strong>' . esc_html( $plugin_name ) . '</strong>'; ?></p>
@@ -755,8 +742,10 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 			}
 			if( isset( $links['deactivate'] ) && $this->include_goodbye_form ) {
 				$deactivation_link = $links['deactivate'];
+
+
 				// Insert an onClick action to allow form before deactivating
-				$deactivation_link = str_replace( '<a ', '<div class="put-goodbye-form-wrapper"><span class="put-goodbye-form" id="put-goodbye-form-' . esc_attr( $this->plugin_name ) . '"></span></div><a onclick="javascript:event.preventDefault();" id="put-goodbye-link-' . esc_attr( $this->plugin_name ) . '" ', $deactivation_link );
+				$deactivation_link = str_replace( '<a ', '<div class="wpdev-put-goodbye-form-wrapper-'. esc_attr( $this->plugin_name ) .'"><div class="wpdev-put-goodbye-form-bg-'. esc_attr( $this->plugin_name ) .'"></div><span class="wpdev-put-goodbye-form" id="wpdev-put-goodbye-form-' . esc_attr( $this->plugin_name ) . '"></span></div><a onclick="javascript:event.preventDefault();" id="wpdev-put-goodbye-link-' . esc_attr( $this->plugin_name ) . '" ', $deactivation_link );
 				$links['deactivate'] = $deactivation_link;
 			}
 			return $links;
@@ -771,16 +760,22 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 			$form = array();
 			$form['heading'] = __( 'Sorry to see you go', 'plugin-usage-tracker' );
 			$form['body'] = __( 'Before you deactivate the plugin, would you quickly give us your reason for doing so?', 'plugin-usage-tracker' );
+
 			$form['options'] = array(
-				__( 'Set up is too difficult', 'plugin-usage-tracker' ),
-				__( 'Lack of documentation', 'plugin-usage-tracker' ),
-				__( 'Not the features I wanted', 'plugin-usage-tracker' ),
-				__( 'Found a better plugin', 'plugin-usage-tracker' ),
-				__( 'Installed by mistake', 'plugin-usage-tracker' ),
-				__( 'Only required temporarily', 'plugin-usage-tracker' ),
-				__( 'Didn\'t work', 'plugin-usage-tracker' )
+				__( 'I no longer need the plugin', 'plugin-usage-tracker' ),
+				[
+					'label' => __( 'I found a better plugin', 'plugin-usage-tracker' ),
+					'extra_field' => __( 'Please share which plugin', 'plugin-usage-tracker' )
+				],
+				__( "I couldn't get the plugin to work", 'plugin-usage-tracker' ),
+				__( 'It\'s a temporary deactivation', 'plugin-usage-tracker' ),
+				[
+					'label' => __( 'Other', 'plugin-usage-tracker' ),
+					'extra_field' => __( 'Please share the reason', 'plugin-usage-tracker' ),
+					'type' => 'textarea'
+				]
 			);
-			$form['details'] = __( 'Details (optional)', 'plugin-usage-tracker' );
+
 			return $form;
 		}
 		
@@ -792,7 +787,7 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 		 */
 		public function form_filterable_text() {
 			$form = $this->form_default_text();
-			return apply_filters( 'wisdom_form_text_' . esc_attr( $this->plugin_name ), $form );
+			return apply_filters( 'wpins_form_text_' . esc_attr( $this->plugin_name ), $form );
 		}
 		
 		/**
@@ -808,59 +803,107 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 				$form = $this->form_default_text();
 			}
 			// Build the HTML to go in the form
-			$html = '<div class="put-goodbye-form-head"><strong>' . esc_html( $form['heading'] ) . '</strong></div>';
-			$html .= '<div class="put-goodbye-form-body"><p>' . esc_html( $form['body'] ) . '</p>';
+			$html = '<div class="wpdev-put-goodbye-form-head"><strong>' . esc_html( $form['heading'] ) . '</strong></div>';
+			$html .= '<div class="wpdev-put-goodbye-form-body"><p class="wpdev-put-goodbye-form-caption">' . esc_html( $form['body'] ) . '</p>';
 			if( is_array( $form['options'] ) ) {
-				$html .= '<div class="put-goodbye-options"><p>';
+				$html .= '<div id="wpdev-'. esc_attr( $this->plugin_name ) .'-goodbye-options" class="wpdev-'. esc_attr( $this->plugin_name ) .'-goodbye-options"><ul>';
 				foreach( $form['options'] as $option ) {
-					$html .= '<input type="checkbox" name="put-goodbye-options[]" id="' . str_replace( " ", "", esc_attr( $option ) ) . '" value="' . esc_attr( $option ) . '"> <label for="' . str_replace( " ", "", esc_attr( $option ) ) . '">' . esc_attr( $option ) . '</label><br>';
+					if( is_array( $option ) ) {
+						$id = strtolower( str_replace( " ", "_", esc_attr( $option['label'] ) ) );
+						$id = $id . '_' . esc_attr( $this->plugin_name );
+						$html .= '<li class="has-goodbye-extra">';
+						$html .= '<input type="radio" name="wpdev-'. esc_attr( $this->plugin_name ) .'-goodbye-options" id="' . $id . '" value="' . esc_attr( $option['label'] ) . '">';
+						$html .= '<div><label for="' . $id . '">' . esc_attr( $option['label'] ) . '</label>';
+						if( isset( $option[ 'extra_field' ] ) && ! isset( $option['type'] )) {
+							$html .= '<input type="text" style="display: none" name="'. $id .'" id="' . str_replace( " ", "", esc_attr( $option['extra_field'] ) ) . '" placeholder="' . esc_attr( $option['extra_field'] ) . '">';
+						}
+						if( isset( $option[ 'extra_field' ] ) && isset( $option['type'] )) {
+							$html .= '<'. $option['type'] .' style="display: none" type="text" name="'. $id .'" id="' . str_replace( " ", "", esc_attr( $option['extra_field'] ) ) . '" placeholder="' . esc_attr( $option['extra_field'] ) . '"></' . $option['type'] . '>';
+						}
+						$html .= '</div></li>';
+					} else {
+						$id = strtolower( str_replace( " ", "_", esc_attr( $option ) ) );
+						$id = $id . '_' . esc_attr( $this->plugin_name );
+						$html .= '<li><input type="radio" name="wpdev-'. esc_attr( $this->plugin_name ) .'-goodbye-options" id="' . $id . '" value="' . esc_attr( $option ) . '"> <label for="' . $id . '">' . esc_attr( $option ) . '</label></li>';
+					}
 				}
-				$html .= '</p><label for="put-goodbye-reasons">' . esc_html( $form['details'] ) .'</label><textarea name="put-goodbye-reasons" id="put-goodbye-reasons" rows="2" style="width:100%"></textarea>';
-				$html .= '</div><!-- .put-goodbye-options -->';
+				$html .= '</ul></div><!-- .wpdev-'. esc_attr( $this->plugin_name ) .'-goodbye-options -->';
 			}
-			$html .= '</div><!-- .put-goodbye-form-body -->';
+			$html .= '</div><!-- .wpdev-put-goodbye-form-body -->';
 			$html .= '<p class="deactivating-spinner"><span class="spinner"></span> ' . __( 'Submitting form', 'plugin-usage-tracker' ) . '</p>';
 			?>
-			<div class="put-goodbye-form-bg"></div>
 			<style type="text/css">
-				.put-form-active .put-goodbye-form-bg {
-					background: rgba( 0, 0, 0, .5 );
+				.wpdev-put-form-active-<?php echo esc_attr( $this->plugin_name ); ?> .wpdev-put-goodbye-form-bg-<?php echo esc_attr( $this->plugin_name ); ?> {
+					background: rgba( 0, 0, 0, .8 );
 					position: fixed;
 					top: 0;
 					left: 0;
 					width: 100%;
 					height: 100%;
+					z-index: 9;
 				}
-				.put-goodbye-form-wrapper {
+				.wpdev-put-goodbye-form-wrapper-<?php echo esc_attr( $this->plugin_name ); ?> {
 					position: relative;
-					z-index: 999;
 					display: none;
 				}
-				.put-form-active .put-goodbye-form-wrapper {
-					display: block;
+				.wpdev-put-form-active-<?php echo esc_attr( $this->plugin_name ); ?> .wpdev-put-goodbye-form-wrapper-<?php echo esc_attr( $this->plugin_name ); ?> {
+					display: flex !important;
+					align-items: center;
+					justify-content: center;
+					width: 100%;
+					height: 100%;
+					position: fixed;
+					left: 0px;
+					top: 0px;
 				}
-				.put-goodbye-form {
+				.wpdev-put-goodbye-form {
 					display: none;
 				}
-				.put-form-active .put-goodbye-form {
-					position: absolute;
-				    bottom: 30px;
-				    left: 0;
-					max-width: 400px;
+				.wpdev-put-form-active-<?php echo esc_attr( $this->plugin_name ); ?> .wpdev-put-goodbye-form {
+					position: relative !important;
+					width: 550px;
+					max-width: 80%;
 				    background: #fff;
+					box-shadow: 2px 8px 23px 3px rgba(0,0,0,.2);
+					border-radius: 3px;
 					white-space: normal;
+					overflow: hidden;
+					display: block;
+					z-index: 999999;
 				}
-				.put-goodbye-form-head {
-					background: #0073aa;
-					color: #fff;
-					padding: 8px 18px;
+				.wpdev-put-goodbye-form-head {
+					background: #fff;
+					color: #495157;
+					padding: 18px;
+					box-shadow: 0 0 8px rgba(0,0,0,.1);
+					font-size: 15px;
 				}
-				.put-goodbye-form-body {
+				.wpdev-put-goodbye-form .wpdev-put-goodbye-form-head strong {
+					font-size: 15px;
+				}
+				.wpdev-put-goodbye-form-body {
 					padding: 8px 18px;
-					color: #444;
+					color: #333;
+				}
+				.wpdev-put-goodbye-form-body label {
+					color: #6d7882;
+					padding-left: 5px;
+				}
+				.wpdev-put-goodbye-form-body .wpdev-put-goodbye-form-caption {
+					font-weight: 500;
+					font-size: 15px;
+					color: #495157;
+					line-height: 1.4;
+				}
+				.wpdev-put-goodbye-form-body #wpdev-<?php echo esc_attr( $this->plugin_name ); ?>-goodbye-options {
+					padding-top: 5px;
+				}
+				.wpdev-put-goodbye-form-body #wpdev-<?php echo esc_attr( $this->plugin_name ); ?>-goodbye-options ul > li {
+					margin-bottom: 15px;
 				}
 				.deactivating-spinner {
-					display: none;
+ 					display: none;
+					 padding-bottom: 20px !important;
 				}
 				.deactivating-spinner .spinner {
 					float: none;
@@ -868,37 +911,80 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 					vertical-align: bottom;
 					visibility: visible;
 				}
-				.put-goodbye-form-footer {
+				.wpdev-put-goodbye-form-footer {
 					padding: 8px 18px;
+					margin-bottom: 15px;
+				}
+				.wpdev-put-goodbye-form-footer > .wpdev-put-goodbye-form-buttons {
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
+				}
+				.wpdev-put-goodbye-form-footer .eael-put-submit-btn {
+					background-color: #d30c5c;
+					-webkit-border-radius: 3px;
+					border-radius: 3px;
+					color: #fff;
+					line-height: 1;
+					padding: 15px 20px;
+					font-size: 13px;
+				}
+				.wpdev-put-goodbye-form-footer .eael-put-deactivate-btn {
+					font-size: 13px;
+					color: #a4afb7;
+					background: none;
+					float: right;
+					padding-right: 10px;
+					width: auto;
+					text-decoration: underline;
+				}
+				#wpdev-<?php echo esc_attr( $this->plugin_name ); ?>-goodbye-options ul li > div {
+					display: inline;
+					padding-left: 3px;
+				}
+				#wpdev-<?php echo esc_attr( $this->plugin_name ); ?>-goodbye-options ul li > div > input, #wpdev-<?php echo esc_attr( $this->plugin_name ); ?>-goodbye-options ul li > div > textarea {
+					margin: 10px 18px;
+					padding: 8px;
+					width: 80%;
 				}
 			</style>
 			<script>
 				jQuery(document).ready(function($){
-					$("#put-goodbye-link-<?php echo esc_attr( $this->plugin_name ); ?>").on("click",function(){
+					$("#wpdev-put-goodbye-link-<?php echo esc_attr( $this->plugin_name ); ?>").on("click",function(){
 						// We'll send the user to this deactivation link when they've completed or dismissed the form
-						var url = document.getElementById("put-goodbye-link-<?php echo esc_attr( $this->plugin_name ); ?>");
-						$('body').toggleClass('put-form-active');
-						$("#put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?>").fadeIn();
-						$("#put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?>").html( '<?php echo $html; ?>' + '<div class="put-goodbye-form-footer"><p><a id="put-submit-form" class="button primary" href="#"><?php _e( 'Submit and Deactivate', 'plugin-usage-tracker' ); ?></a>&nbsp;<a class="secondary button" href="'+url+'"><?php _e( 'Just Deactivate', 'plugin-usage-tracker' ); ?></a></p></div>');
-						$('#put-submit-form').on('click', function(e){
+						var url = document.getElementById("wpdev-put-goodbye-link-<?php echo esc_attr( $this->plugin_name ); ?>");
+						$('body').toggleClass('wpdev-put-form-active-<?php echo esc_attr( $this->plugin_name ); ?>');
+						$("#wpdev-put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?>").fadeIn();
+						$("#wpdev-put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?>").html( '<?php echo $html; ?>' + '<div class="wpdev-put-goodbye-form-footer"><div class="wpdev-put-goodbye-form-buttons"><a id="put-submit-form-<?php echo esc_attr( $this->plugin_name ); ?>" class="eael-put-submit-btn" href="#"><?php _e( 'Submit and Deactivate', 'plugin-usage-tracker' ); ?></a>&nbsp;<a class="eael-put-deactivate-btn" href="'+url+'"><?php _e( 'Just Deactivate', 'plugin-usage-tracker' ); ?></a></div></div>');
+						$('#put-submit-form-<?php echo esc_attr( $this->plugin_name ); ?>').on('click', function(e){
 							// As soon as we click, the body of the form should disappear
-							$("#put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?> .put-goodbye-form-body").fadeOut();
-							$("#put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?> .put-goodbye-form-footer").fadeOut();
+							$("#wpdev-put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?> .wpdev-put-goodbye-form-body").fadeOut();
+							$("#wpdev-put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?> .wpdev-put-goodbye-form-footer").fadeOut();
 							// Fade in spinner
-							$("#put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?> .deactivating-spinner").fadeIn();
+							$("#wpdev-put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?> .deactivating-spinner").fadeIn();
 							e.preventDefault();
-							var values = new Array();
-							$.each($("input[name='put-goodbye-options[]']:checked"), function(){
-								values.push($(this).val());
-							});
-							var details = $('#put-goodbye-reasons').val();
+							var checkedInput = $("input[name='wpdev-<?php echo esc_attr( $this->plugin_name ); ?>-goodbye-options']:checked"), 
+								checkedInputVal, details;
+							if( checkedInput.length > 0 ) {
+								checkedInputVal = checkedInput.val();
+								details = $('input[name="'+ checkedInput[0].id +'"], textarea[name="'+ checkedInput[0].id +'"]').val();
+							}
+
+							if( typeof details === 'undefined' ) {
+								details = '';
+							}
+							if( typeof checkedInputVal === 'undefined' ) {
+								checkedInputVal = 'No Reason';
+							}
+
 							var data = {
-								'action': 'goodbye_form',
-								'values': values,
+								'action': 'goodbye_form_<?php echo esc_attr( $this->plugin_name ); ?>',
+								'values': checkedInputVal,
 								'details': details,
-								'security': "<?php echo wp_create_nonce ( 'wisdom_goodbye_form' ); ?>",
+								'security': "<?php echo wp_create_nonce ( 'wpins_goodbye_form' ); ?>",
 								'dataType': "json"
 							}
+
 							$.post(
 								ajaxurl,
 								data,
@@ -908,12 +994,19 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 								}
 							);
 						});
+						$('#wpdev-<?php echo esc_attr( $this->plugin_name ); ?>-goodbye-options > ul ').on('click', 'li label, li > input', function( e ){
+							var parent = $(this).parents('li');
+							parent.siblings().find('label').next('input, textarea').css('display', 'none');
+							parent.find('label').next('input, textarea').css('display', 'block');
+						});
 						// If we click outside the form, the form will close
-						$('.put-goodbye-form-bg').on('click',function(){
-							$("#put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?>").fadeOut();
-							$('body').removeClass('put-form-active');
+						$('.wpdev-put-goodbye-form-bg-<?php echo esc_attr( $this->plugin_name ); ?>').on('click',function(){
+							$("#wpdev-put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?>").fadeOut();
+							$('body').removeClass('wpdev-put-form-active-<?php echo esc_attr( $this->plugin_name ); ?>');
 						});
 					});
+
+					
 				});
 			</script>
 		<?php }
@@ -923,20 +1016,19 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 		 * @since 1.0.0
 		 */
 		public function goodbye_form_callback() {
-			check_ajax_referer( 'wisdom_goodbye_form', 'security' );
+			check_ajax_referer( 'wpins_goodbye_form', 'security' );
 			if( isset( $_POST['values'] ) ) {
-				$values = json_encode( wp_unslash( $_POST['values'] ) );
-				update_option( 'wisdom_deactivation_reason_' . $this->plugin_name, $values );
+				$values = $_POST['values'];
+				update_option( 'wpins_deactivation_reason_' . $this->plugin_name, $values );
 			}
 			if( isset( $_POST['details'] ) ) {
 				$details = sanitize_text_field( $_POST['details'] );
-				update_option( 'wisdom_deactivation_details_' . $this->plugin_name, $details );
+				update_option( 'wpins_deactivation_details_' . $this->plugin_name, $details );
 			}
 			$this->do_tracking(); // Run this straightaway
 			echo 'success';
 			wp_die();
-		}
-		
+		}	
 	}
 	
 }

@@ -12,6 +12,8 @@
 define("WPSCP_PLUGIN_SLUG",'wp-scheduled-posts');
 define("WPSCP_PLUGIN_URL",plugins_url("",__FILE__ ));#without trailing slash (/)
 define("WPSCP_PLUGIN_PATH",plugin_dir_path(__FILE__)); #with trailing slash (/)
+define("WPSP_ADDONS_VERSION", '2.0.3');
+define("WPSP_ADDONS_BASENAME", plugin_basename( __FILE__ ) );
 
 include_once('admin/wpscp-options.php');
 
@@ -384,7 +386,7 @@ if( ! function_exists( 'wp_scheduled_posts_start_plugin_tracking' ) ) {
 	function wp_scheduled_posts_start_plugin_tracking() {
 		$wisdom = new Wpsp_Plugin_Usage_Tracker(
 			__FILE__,
-			'https://wpdeveloper.net',
+			'http://wisdom.test',
 			array(),
 			true,
 			true,
@@ -394,4 +396,4 @@ if( ! function_exists( 'wp_scheduled_posts_start_plugin_tracking' ) ) {
 	wp_scheduled_posts_start_plugin_tracking();
 }
 
-?>
+require_once dirname( __FILE__ ) . '/includes/class-wpdev-notices.php';

@@ -145,6 +145,10 @@ class WPSP_Helper {
 
         $next_day_posts = self::next_day_max_posts( $timestamp );
 
+        if( ! $next_day_posts ) {
+            return false;
+        }
+
         
         $max_post = $next_day_posts['max_post'];
         $n_post_in_day = 0;
