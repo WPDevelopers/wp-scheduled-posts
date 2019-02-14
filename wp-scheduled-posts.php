@@ -2,7 +2,7 @@
 /*
  * Plugin Name: WP Scheduled Posts
  * Description: A complete solution for WordPress Post Schedule. Get an admin Bar & Dashboard Widget showing all your scheduled posts. And full control.
- * Version: 2.0.3
+ * Version: 2.1.0
  * Author: WPDeveloper
  * Author URI: https://wpdeveloper.net
  * Text Domain: wp-scheduled-posts
@@ -12,6 +12,8 @@
 define("WPSCP_PLUGIN_SLUG",'wp-scheduled-posts');
 define("WPSCP_PLUGIN_URL",plugins_url("",__FILE__ ));#without trailing slash (/)
 define("WPSCP_PLUGIN_PATH",plugin_dir_path(__FILE__)); #with trailing slash (/)
+define("WPSP_ADDONS_VERSION", '2.1.0');
+define("WPSP_ADDONS_BASENAME", plugin_basename( __FILE__ ) );
 
 include_once('admin/wpscp-options.php');
 
@@ -25,13 +27,11 @@ if (!class_exists('Wp_Scheduled_Posts')) {
 			$this->plugin_name = plugin_basename(__FILE__);
 			$parent_plugin_file = 'wp-scheduled-posts/wp-scheduled-posts.php';
 
-			
 			register_deactivation_hook( $this->plugin_name, array(&$this, 'deactivate') );
 			register_activation_hook( $this->plugin_name, array(&$this, 'activate') );
 			register_uninstall_hook( $this->plugin_name, 'uninstall' );
 
-			add_action( 'init', array($this, 'register_post_meta') );
-			add_action( 'admin_enqueue_scripts', array($this, 'start_guten_plugin') );
+			add_action( 'enqueue_block_assets', array($this, 'start_guten_plugin') );
 			add_action( 'admin_enqueue_scripts', array(&$this, 'start_plugin') );
 			add_action( 'admin_init', array(&$this, 'check_some_other_plugin') );
 			add_action('admin_notices', 'wpsp_admin_notice');
@@ -105,26 +105,13 @@ if (!class_exists('Wp_Scheduled_Posts')) {
 				
 				wp_localize_script( 'wps-publish-date', 'WPSchedulePosts', array(
 					'PanelTitle' => __('Schedule at', 'wp-schedule-posts'),
-					'schedule' => WPSP_Helper::next_schedule(),
+					'schedule' => WPSP_Helper::schedule(),
+					'manual_schedule' => get_option( 'cal_active_option' ),
+					'auto_schedule' => get_option( 'pub_active_option' ),
+					'auto_date' => WPSP_Helper::auto_schedule(),
 				));
 			}
 		}
-		
-		public function register_post_meta(){
-			register_post_meta(
-				'post',
-				'_wpsp_date',
-				[
-					'show_in_rest'      => true,
-					'type'              => 'string',
-					'description'       => __( 'Schedule At', 'essential-blocks' ),
-					'sanitize_callback' => 'sanitize_text_field',
-					'auth_callback'     => '__return_true',
-					'single'            => true,
-				]
-			);
-		}
-		
 	}
 	global $wpsp_op;
 	$wpsp_op = new Wp_Scheduled_Posts();
@@ -346,45 +333,6 @@ $wpscp_options=wpscp_get_options();
 
 add_action('init', 'wpscp_initialize');
 
-/* Display a notice that can be dismissed */
-
-// add_action('admin_notices', 'wpscp_admin_notice'); Hakim commented this line because function was called without declaration
-
-
-/**
- * Admin Notice
- *
- * @since v2.0.0
- */
-function wpsp_admin_notice() {
-  if ( current_user_can( 'install_plugins' ) ) {
-    global $current_user ;
-    $user_id = $current_user->ID;
-    /* Check that the user hasn't already clicked to ignore the message */
-    if ( ! get_user_meta($user_id, 'wpsp_ignore_notice202') ) {
-      echo '<div class="wpsp-admin-notice updated" style="display: flex; align-items: center; padding-left: 0; border-left-color: #6648FE"><p style="width: 36px;background-color: #f1f2f9;border-radius: 50%;margin: 0.5em;">';
-      echo '<img style="width: 100%; display: block;"  src="' . plugins_url( '/', __FILE__ ).'admin/assets/images/wpsp-logo.svg'. '" ></p><p> ';
-      printf(__('Thank you for upgrading to <a href="https://wpdeveloper.net/in/wpsp-intro-20">WP Scheduled Posts 2.0</a>, which brings free feature like Drag &amp; Drop Calendar. <strong>Auto Scheduler</strong> and <strong>Missed Scheduler</strong> features are available in <a href="https://wpdeveloper.net/in/wpsp">Pro</a>! Use the coupon code <strong>WPSP-EARLYBIRD</strong> for a <strong>50&#37; </strong>launching discount!
-        <a href="%1$s" style="text-decoration: none; margin-left: 10px;"><span class="dashicons dashicons-dismiss"></span> I\'m good with free version</a>'),  admin_url( 'admin.php?page=wp-scheduled-posts&wpsp_nag_ignore=0' ));
-      echo "</p></div>";
-    }
-  }
-}
-
-
-/**
- * Nag Ignore
- */
-function wpsp_nag_ignore() {
-  global $current_user;
-        $user_id = $current_user->ID;
-        /* If user clicks to ignore the notice, add that to their user meta */
-        if ( isset($_GET['wpsp_nag_ignore']) && '0' == $_GET['wpsp_nag_ignore'] ) {
-             add_user_meta($user_id, 'wpsp_ignore_notice202', 'true', true);
-  }
-}
-add_action('admin_init', 'wpsp_nag_ignore');
-
 
 /**
  * Optional usage tracker
@@ -399,9 +347,9 @@ if( ! function_exists( 'wp_scheduled_posts_start_plugin_tracking' ) ) {
 	function wp_scheduled_posts_start_plugin_tracking() {
 		$wisdom = new Wpsp_Plugin_Usage_Tracker(
 			__FILE__,
-			'https://wpdeveloper.net',
+			'http://app.wpdeveloper.net',
 			array(),
-			true,
+			false,
 			true,
 			1
 		);
@@ -409,4 +357,4 @@ if( ! function_exists( 'wp_scheduled_posts_start_plugin_tracking' ) ) {
 	wp_scheduled_posts_start_plugin_tracking();
 }
 
-?>
+require_once dirname( __FILE__ ) . '/includes/class-wpdev-notices.php';
