@@ -5,8 +5,9 @@ const { compose, ifCondition, withInstanceId } = wp.compose;
 const { withSelect, withDispatch } = wp.data;
 const { PluginPostStatusInfo } = wp.editPost;
 const { Component, createElement } = wp.element;
-const { schedule, PanelTitle } = WPSchedulePosts;
+const { schedule, PanelTitle, manual_schedule, auto_schedule, auto_date } = WPSchedulePosts;
 import ScheduleList from './main';
+import AutoSchedule from './auto-schedule';
 
 class AdminPanel extends Component {
 	constructor(props) {
@@ -21,15 +22,32 @@ class AdminPanel extends Component {
 			ScheduleDates.push({ label: item.label, value : '{ "date" : "'+ item.date +'", "date_gmt" : "'+ item.date_gmt +'", "status" : "'+ item.status +'" }' });
 		});
 
-		if( ScheduleDates.length <= 1 || this.props.isPublished ) {
+		if( manual_schedule == 'ok' ) {
+			if( ScheduleDates.length <= 1 || this.props.isPublished ) {
+				return ('');
+			}
+			return (
+				<PluginPostStatusInfo>
+					<ScheduleList { ...this.props } label={ PanelTitle } options = { ScheduleDates }/>
+				</PluginPostStatusInfo>
+			);
+		}
+
+		if( auto_schedule == 'ok' ){
+			if( auto_date == '' ) {
+				return ('');
+			}
+			return (
+				<PluginPostStatusInfo>
+					<AutoSchedule { ...this.props } label={ PanelTitle } options = { auto_date }/>
+				</PluginPostStatusInfo>
+			);
+		}
+
+		if( auto_schedule == false && manual_schedule == false ) {
 			return ('');
 		}
 
-		return (
-			<PluginPostStatusInfo>
-				<ScheduleList { ...this.props } label={ PanelTitle } options = { ScheduleDates }/>
-			</PluginPostStatusInfo>
-		);
 	}
 }
 
