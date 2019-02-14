@@ -326,7 +326,7 @@ class WPDeveloper_WPSP_Notice {
         if( $this->has_thumbnail('upsale') ) {
             $classes = 'notice-has-thumbnail';
         }
-        echo '<div class="error notice is-dismissible wpdeveloper-upsale-notice '. $classes .'">';
+        echo '<div class="error notice is-dismissible wpdeveloper-upsale-notice wpsp-upsale-notice '. $classes .'">';
     }
     /**
      * Upsale Notice
@@ -355,7 +355,7 @@ class WPDeveloper_WPSP_Notice {
         if( empty( $plugin_slug ) ) {
             return;
         }
-        echo '<button data-slug="'. $plugin_slug .'" id="plugin-install-core" class="button button-primary">'. __( 'Install Now!', $this->text_domain ) .'</button>';
+        echo '<a href="https://wpdeveloper.net/in/wpsp-pro" class="button button-primary wpsp-notice-cta" target="_blank">'. __( 'Upgrade to Pro!', $this->text_domain ) .'</a>';
     }
     /**
      * This methods is responsible for get notice image.
@@ -784,7 +784,7 @@ $url = $_SERVER['REQUEST_URI'] . $scheme;
 $notice->links = [
    'review' => array(
         'later' => array(
-            'link' => 'https://wpdeveloper.net/review-wp-schedule-posts',
+            'link' => 'https://wpdeveloper.net/go/review-wp-scheduled-posts',
             'target' => '_blank',
             'label' => __( 'Ok, you deserve it!', 'wp-scheduled-posts' ),
             'icon_class' => 'dashicons dashicons-external',
@@ -827,20 +827,20 @@ $notice->links = [
  * Message message for showing.
  */
 $notice->classes( 'upsale', 'notice is-dismissible' );
-$notice->message( 'upsale', '<p>'. __( 'Get the missing Drag & Drop Post Calendar feature for WordPress for Free!', 'wp-scheduled-posts' ) .'</p>' );
+$notice->message( 'upsale', '<p>'. __( 'Enjoying <strong>WP Scheduled Posts</strong>? Get absolute control of Auto Scheduler with pro version.', 'wp-scheduled-posts' ) .'</p>' );
 $notice->thumbnail( 'upsale', plugins_url( 'admin/assets/images/wpsp-logo.svg', WPSP_ADDONS_BASENAME ) );
 
 /**
  * This is review message and thumbnail.
  */
 $notice->message( 'review', '<p>'. __( 'We hope you\'re enjoying WP Scheduled Posts! Could you please do us a BIG favor and give it a 5-star rating on WordPress to help us spread the word and boost our motivation?', 'wp-scheduled-posts' ) .'</p>' );
-$notice->thumbnail( 'review', plugins_url( 'admin/assets/images/ea-logo.svg', WPSP_ADDONS_BASENAME ) );
+$notice->thumbnail( 'review', plugins_url( 'admin/assets/images/wpsp-icon.svg', WPSP_ADDONS_BASENAME ) );
 
 /**
  * Current Notice End Time.
  * Notice will dismiss in 3 days if user does nothing.
  */
-$notice->cne_time = '3 Day';
+$notice->cne_time = '7 Day';
 /**
  * Current Notice Maybe Later Time.
  * Notice will show again in 7 days
@@ -848,9 +848,9 @@ $notice->cne_time = '3 Day';
 $notice->maybe_later_time = '7 Day';
 
 $notice->upsale_args = array(
-    'slug' => 'wp-scheduled-posts',
-    'page_slug' => 'wpsp-schedule-calendar',
-    'file' => 'wp-scheduled-posts.php'
+    'slug' => 'wp-scheduled-posts-pro',
+    'page_slug' => 'wpsp-manage-schedule',
+    'file' => 'wp-scheduled-posts-pro.php'
 );
 
 $notice->text_domain = 'wp-scheduled-posts';
@@ -858,8 +858,8 @@ $notice->text_domain = 'wp-scheduled-posts';
 $notice->options_args = array(
    'notice_will_show' => [
         'opt_in' => $notice->timestamp,
-        'review' => $notice->makeTime( $notice->timestamp, '4 Day' ), // after 4 days
-        'upsale' => $notice->makeTime( $notice->timestamp, '2 Hour' ), // will be after 2 hours
+        'review' => $notice->makeTime( $notice->timestamp, '7 Day' ), // after 7 days
+        'upsale' => $notice->makeTime( $notice->timestamp, '10 Day' ), // will be after 10 Days
    ]
 );
 
