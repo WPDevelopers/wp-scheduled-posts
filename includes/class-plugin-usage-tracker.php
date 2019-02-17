@@ -114,8 +114,8 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 			// for one time tracking
 			add_action( 'admin_init', array( $this, 'force_track_for_one_time' ) );
 			// Use this action for local testing and for one time force tracking in a life time.
-			add_action( 'admin_init', array( $this, 'force_tracking' ) ); 
-			 
+			// add_action( 'admin_init', array( $this, 'force_tracking' ) ); 
+			
 			// Display the admin notice on activation
 			add_action( 'wpdeveloper_optin_notice', array( $this, 'optin_notice' ) );
 			add_action( 'admin_notices', array( $this, 'marketing_notice' ) );
