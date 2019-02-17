@@ -1,10 +1,10 @@
 === WP Scheduled Posts ===
-Contributors: wpdevteam, Asif2BD, re_enter_rupok, onetarek, hakimcseru, nayanchamp7
+Contributors: wpdevteam, Asif2BD, re_enter_rupok, onetarek, hakimcseru, nayanchamp7, priyomukul
 Tags: post schedule, editor calendar, schedule-calendar, schedule bar, scheduled posts, schedule, schedule widget, scheduler, schedule menu bar, admin bar, dashboard widget, missed scheduled, calendar, missed schedule, future post, schedule issue, post later, admin bar, admin, multi author
 Requires at least: 4.0
 Tested up to: 5.0.3
 Requires PHP: 5.4
-Stable tag: 2.0.3
+Stable tag: 2.1.0
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -117,6 +117,17 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 
 == Changelog ==
+
+= 2.1.0 - 2019-02-14 =
+* Auto Scheduler issue fixed
+* Improved compatibility with older WP and WP 5.x
+* Some minor improvements and bugfix
+
+= 2.0.4 - 2019-01-22 =
+* Old Post Data Issue Fixed for old WP Version
+* List Date issue fixed
+* Fixed : WP 5.0 Publishing Error without Scheduling a post
+* Some minor improvements and bugfix
 
 = 2.0.3 - 2019-01-13 =
 * Gutenberg and WordPress 5.0 compatiblility fixed

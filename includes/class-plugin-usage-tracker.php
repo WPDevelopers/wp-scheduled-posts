@@ -666,23 +666,23 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 					$notice_text = __( 'Thank you for installing our plugin. We would like to track its usage on your site. We don\'t record any sensitive data, only information regarding the WordPress environment and plugin settings, which we will use to help us make improvements to the plugin. Tracking is completely optional.', 'plugin-usage-tracker' );
 				} else {
 					// If we have option 1 for marketing, we include reference to sending product information here
-					$notice_text = __( 'Want to help make <strong>WP Scheduled Posts</strong> even more awesome? You can get a <strong>25% discount coupon</strong> for Premium extensions if you allow us to track the usage. <a class="wpsp-core-insights-data-we-collect" href="#">What we collect.</a>', 'plugin-usage-tracker' );
+					$notice_text = __( 'Want to help make <strong>WP Scheduled Posts</strong> even more awesome? You can get a <strong>25% discount coupon</strong> for Premium extensions if you allow us to track the usage. <a class="wpsp-insights-data-we-collect" href="#">What we collect.</a>', 'plugin-usage-tracker' );
 				}
 				// And we allow you to filter the text anyway
 				$notice_text = apply_filters( 'wpins_notice_text_' . esc_attr( $this->plugin_name ), $notice_text ); ?>
 					
 				<div class="notice notice-info updated put-dismiss-notice">
 					<p><?php echo __( $notice_text ); ?></p>
-					<div class="eael-insights-data" style="display: none;">
+					<div class="wpsp-insights-data" style="display: none;">
 					<p><?php echo __( 'We collect non-sensitive diagnostic data and plugin usage information. Your site URL, WordPress & PHP version, plugins & themes and email address to send you the discount coupon. This data lets us make sure this plugin always stays compatible with the most popular plugins and themes. No spam, I promise.' ); ?></p>
 					</div>
 					<p>
 						<a href="<?php echo esc_url( $url_yes ); ?>" class="button-primary"><?php _e( 'Sure, I\'d like to help', 'plugin-usage-tracker' ); ?></a>
 						<a href="<?php echo esc_url( $url_no ); ?>" class="button-secondary"><?php _e( 'No Thanks', 'plugin-usage-tracker' ); ?></a>
 					</p>
-		            <?php echo "<script type='text/javascript'>jQuery('.insights-data-we-collect').on('click', function(e) {
+		            <?php echo "<script type='text/javascript'>jQuery('.wpsp-insights-data-we-collect').on('click', function(e) {
 		                    e.preventDefault();
-		                    jQuery('.eael-insights-data').slideToggle('fast');
+		                    jQuery('.wpsp-insights-data').slideToggle('fast');
 		                });
 		                </script>";?>
 				</div>
@@ -920,7 +920,7 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 					align-items: center;
 					justify-content: space-between;
 				}
-				.wpdev-put-goodbye-form-footer .eael-put-submit-btn {
+				.wpdev-put-goodbye-form-footer .wpsp-put-submit-btn {
 					background-color: #d30c5c;
 					-webkit-border-radius: 3px;
 					border-radius: 3px;
@@ -929,7 +929,7 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 					padding: 15px 20px;
 					font-size: 13px;
 				}
-				.wpdev-put-goodbye-form-footer .eael-put-deactivate-btn {
+				.wpdev-put-goodbye-form-footer .wpsp-put-deactivate-btn {
 					font-size: 13px;
 					color: #a4afb7;
 					background: none;
@@ -955,7 +955,7 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 						var url = document.getElementById("wpdev-put-goodbye-link-<?php echo esc_attr( $this->plugin_name ); ?>");
 						$('body').toggleClass('wpdev-put-form-active-<?php echo esc_attr( $this->plugin_name ); ?>');
 						$("#wpdev-put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?>").fadeIn();
-						$("#wpdev-put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?>").html( '<?php echo $html; ?>' + '<div class="wpdev-put-goodbye-form-footer"><div class="wpdev-put-goodbye-form-buttons"><a id="put-submit-form-<?php echo esc_attr( $this->plugin_name ); ?>" class="eael-put-submit-btn" href="#"><?php _e( 'Submit and Deactivate', 'plugin-usage-tracker' ); ?></a>&nbsp;<a class="eael-put-deactivate-btn" href="'+url+'"><?php _e( 'Just Deactivate', 'plugin-usage-tracker' ); ?></a></div></div>');
+						$("#wpdev-put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?>").html( '<?php echo $html; ?>' + '<div class="wpdev-put-goodbye-form-footer"><div class="wpdev-put-goodbye-form-buttons"><a id="put-submit-form-<?php echo esc_attr( $this->plugin_name ); ?>" class="wpsp-put-submit-btn" href="#"><?php _e( 'Submit and Deactivate', 'plugin-usage-tracker' ); ?></a>&nbsp;<a class="wpsp-put-deactivate-btn" href="'+url+'"><?php _e( 'Just Deactivate', 'plugin-usage-tracker' ); ?></a></div></div>');
 						$('#put-submit-form-<?php echo esc_attr( $this->plugin_name ); ?>').on('click', function(e){
 							// As soon as we click, the body of the form should disappear
 							$("#wpdev-put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?> .wpdev-put-goodbye-form-body").fadeOut();
