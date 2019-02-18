@@ -108,7 +108,7 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 				$this->do_tracking( true );
 			}
 			// Hook our do_tracking function to the daily action
-			add_action( 'wpdeveloper_notice_clicked', array( $this, 'clicked' ) );
+			add_action( 'wpdeveloper_notice_clicked_for_' . $this->plugin_name, array( $this, 'clicked' ) );
 
 			add_action( 'put_do_weekly_action', array( $this, 'do_tracking' ) );
 			// for one time tracking
@@ -117,7 +117,7 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 			// add_action( 'admin_init', array( $this, 'force_tracking' ) ); 
 			
 			// Display the admin notice on activation
-			add_action( 'wpdeveloper_optin_notice', array( $this, 'optin_notice' ) );
+			add_action( 'wpdeveloper_optin_notice_for_' . $this->plugin_name, array( $this, 'optin_notice' ) );
 			add_action( 'admin_notices', array( $this, 'marketing_notice' ) );
 
 			// Deactivation
@@ -627,7 +627,7 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 			// @credit EDD
 			// Don't bother asking user to opt in if they're in local dev
 			$is_local = false;
-			if( stristr( network_site_url( '/' ), '.test' ) !== false || stristr( network_site_url( '/' ), 'localhost' ) !== false || stristr( network_site_url( '/' ), ':8888' ) !== false ) {
+			if( stristr( network_site_url( '/' ), '.dev' ) !== false || stristr( network_site_url( '/' ), 'localhost' ) !== false || stristr( network_site_url( '/' ), ':8888' ) !== false ) {
 				$is_local = true;
 			}
 			$is_local = apply_filters( 'wpins_is_local_' . $this->plugin_name, $is_local );

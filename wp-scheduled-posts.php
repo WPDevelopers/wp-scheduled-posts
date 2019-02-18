@@ -348,7 +348,7 @@ if( ! function_exists( 'wp_scheduled_posts_start_plugin_tracking' ) ) {
 			__FILE__,
 			'http://app.wpdeveloper.net',
 			array(),
-			false,
+			true,
 			true,
 			1
 		);
