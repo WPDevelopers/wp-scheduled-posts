@@ -31,7 +31,7 @@ function wpsp_scheduled_options() {
  * 
  * @function wpsp_mansched_page_display
  */
-add_action( 'wpsp_manage_schedule', 'wpsp_mansched_page_display' );
-function wpsp_mansched_page_display(){
+add_action( 'wpsp_manage_schedule', 'wpsp_free_page_display' );
+function wpsp_free_page_display(){
 	echo 'Hello World!';
 }
