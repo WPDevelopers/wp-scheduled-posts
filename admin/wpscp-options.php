@@ -1,7 +1,6 @@
 <?php 
 
-function wpscp_get_options()
-{
+function wpscp_get_options() {
 	$options=array(
 			'show_dashboard_widget'=>1, 
 			'show_in_front_end_adminbar'=>1, 
@@ -19,20 +18,19 @@ function wpscp_get_options()
 	return $wpscp_options;
 }
 
-function wpscp_permit_user()
-{
-global $current_user;
-$wpscp_options=wpscp_get_options();
+function wpscp_permit_user() {
+	global $current_user;
+	$wpscp_options=wpscp_get_options();
 
-if(!is_array($current_user->roles)) return false;
-if(!is_array($wpscp_options['allow_user_role']))$wpscp_options['allow_user_role']=array('administrator');
+	if(!is_array($current_user->roles)) return false;
+	if(!is_array($wpscp_options['allow_user_role']))$wpscp_options['allow_user_role']=array('administrator');
 
-	foreach($current_user->roles as $ur)
-	{
-		if(in_array($ur, $wpscp_options['allow_user_role'])) {return true; break;}
-	}
+		foreach($current_user->roles as $ur)
+		{
+			if(in_array($ur, $wpscp_options['allow_user_role'])) {return true; break;}
+		}
 
-return false;
+	return false;
 }
 
 function wpscp_dropdown_roles( $selected = array() ) { #modified function from function wp_dropdown_roles( $selected = false ) in wp-admin/include/template.php
@@ -53,21 +51,19 @@ function wpscp_dropdown_roles( $selected = array() ) { #modified function from f
 }
 
 
-function wpscp_options_page()
-{
+function wpscp_options_page() {
 	global $wpdb;
 	$wpscp_options=wpscp_get_options();
 	
-	if(isset($_POST['save_options']))
-	{
-				$show_dashboard_widget=isset($_POST['show_dashboard_widget'])?intval($_POST['show_dashboard_widget']):0; 
-				$show_in_front_end_adminbar=isset($_POST['show_in_front_end_adminbar'])?intval($_POST['show_in_front_end_adminbar']):0;
-				$allow_user_role=isset($_POST['allow_user_role'])?$_POST['allow_user_role']:'';
-				$allow_post_types=isset($_POST['allow_post_types'])?$_POST['allow_post_types']:'';
-				$allow_categories=isset($_POST['allow_categories'])?$_POST['allow_categories']:'';
-				$adminbar_item_template=isset($_POST['adminbar_item_template'])?trim($_POST['adminbar_item_template']):''; 
-				$adminbar_title_length=isset($_POST['adminbar_title_length'])?$_POST['adminbar_title_length']:''; 
-				$adminbar_date_format=isset($_POST['adminbar_date_format'])?trim($_POST['adminbar_date_format']):'';
+	if(isset($_POST['save_options'])) {
+		$show_dashboard_widget=isset($_POST['show_dashboard_widget'])?intval($_POST['show_dashboard_widget']):0; 
+		$show_in_front_end_adminbar=isset($_POST['show_in_front_end_adminbar'])?intval($_POST['show_in_front_end_adminbar']):0;
+		$allow_user_role=isset($_POST['allow_user_role'])?$_POST['allow_user_role']:'';
+		$allow_post_types=isset($_POST['allow_post_types'])?$_POST['allow_post_types']:'';
+		$allow_categories=isset($_POST['allow_categories'])?$_POST['allow_categories']:'';
+		$adminbar_item_template=isset($_POST['adminbar_item_template'])?trim($_POST['adminbar_item_template']):''; 
+		$adminbar_title_length=isset($_POST['adminbar_title_length'])?$_POST['adminbar_title_length']:''; 
+		$adminbar_date_format=isset($_POST['adminbar_date_format'])?trim($_POST['adminbar_date_format']):'';
 
 		$options=array(
 				'show_dashboard_widget'=>$show_dashboard_widget, 
@@ -81,8 +77,8 @@ function wpscp_options_page()
 				'adminbar_date_format'=>$adminbar_date_format, 
 				'prevent_future_post'=>isset($_POST['prevent_future_post'])
 		);	
-	update_option('wpscp_options',$options);
-	$wpscp_options=$options;
+		update_option('wpscp_options',$options);
+		$wpscp_options=$options;
 	}#end if(isset($_POST['save_options']))
 	?>
 

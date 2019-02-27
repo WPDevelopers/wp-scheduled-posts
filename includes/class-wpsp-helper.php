@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * WPSP Helper
+ *
+ * @class WPSP_Helper
+ */
 class WPSP_Helper {
     /**
      * Number of future schedule dates to show.
@@ -73,6 +77,7 @@ class WPSP_Helper {
 
         return $all_day_schedule;
     }
+    
     /**
      * Generate next schedule for schedule post.
      * @return void
