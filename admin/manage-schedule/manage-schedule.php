@@ -13,7 +13,7 @@ function wpsp_manage_schedule_menu() {
 			$title = __( 'Manage Schedule', 'wp-scheduled-posts' );
 		}
 	}
-	//add manage schedule submenu page
+	//add submenu page
 	add_submenu_page(pluginsFOLDER, $title, $title, "manage_options", 'wpsp-manage-schedule', 'wpsp_scheduled_options');
 }
 
