@@ -115,11 +115,8 @@ if (!class_exists('Wp_Scheduled_Posts')) {
 				wp_enqueue_style( 'admin-style', plugins_URLPATH . 'admin/css/admin.css' );
 				wp_enqueue_style( 'font-awesome', plugins_URLPATH . 'admin/css/font-awesome.min.css' );
 				wp_enqueue_style( 'chung-timepicker', plugins_URLPATH . 'admin/css/chung-timepicker.css' );
-				wp_enqueue_style( 'sweet-alert-css', plugins_URLPATH . 'admin/assets/vendor/sweetalert2/css/sweetalert2.min.css' );
 				wp_enqueue_script( 'custom-script', plugins_URLPATH . 'admin/js/custom-script.js', array('jquery'), '1.0.0', false );
 				wp_enqueue_script( 'main-chung-timepicker', plugins_URLPATH . 'admin/js/chung-timepicker.js', array('jquery'), '1.0.0', false );
-				wp_enqueue_script( 'sweet-alert-core-js', plugins_URLPATH . 'admin/assets/vendor/sweetalert2/js/core.js', array('jquery'), '1.0.0', false);
-				wp_enqueue_script( 'sweet-alert-js', plugins_URLPATH . 'admin/assets/vendor/sweetalert2/js/sweetalert2.min.js', array('jquery'), '1.0.0', false);
 			}
 
 		}
