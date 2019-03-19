@@ -33,5 +33,5 @@ function wpsp_scheduled_options() {
  */
 add_action( 'wpsp_manage_schedule', 'wpsp_free_page_display' );
 function wpsp_free_page_display(){
-	echo 'Hello World!';
+	include_once('pro-setting-page.php');
 }
