@@ -62,7 +62,7 @@
   			<div class="wpsp-admin-sidebar">
   				<div class="wpsp-sidebar-block">
   					<div class="wpsp-admin-sidebar-logo">
-  						<img src="http://localhost/wootest/wp-content/plugins/wp-scheduled-posts/admin/assets/images/wpsp-logo.svg">
+  						<img src="<?php echo WPSCP_PLUGIN_URL . '/admin/assets/images/wpsp-logo.svg'; ?>">
   					</div>
   					<div class="wpsp-admin-sidebar-cta">
   						<a href="https://wpdeveloper.net/in/wpsp" target="_blank">Upgrade to Pro</a>  					</div>
