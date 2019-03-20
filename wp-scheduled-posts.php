@@ -128,7 +128,6 @@ if (!class_exists('Wp_Scheduled_Posts')) {
 	 */	
 	include('admin/scheduled-calendar/wpspcalendar.php');
 	include('admin/manage-schedule/manage-schedule.php');
-	include('admin/wpsp-missed-schedule/wpsp-missed-schedule.php');
 
 }
 
