@@ -1,4 +1,8 @@
 <?php
+/**
+ * Make Object of wpsp_scheduled
+ *
+ */
 if ( is_admin() ) {
     global $wpspcalendar;
     if ( empty($wpspcalendar) )
@@ -21,6 +25,11 @@ define( 'WPSP_PERMISSION_ERROR', 5 );
  */
 define( 'WPSP_NONCE_ERROR', 6 );
 
+/**
+ * WPSP Scheduled Facts
+ *
+ * @class wpsp_scheduled
+ */
 class wpsp_scheduled {
     
     protected $supports_custom_types;
@@ -35,9 +44,6 @@ class wpsp_scheduled {
         add_action('wp_ajax_wpsp_posts', array(&$this, 'wpsp_scheduled_posts'));
         add_action('wp_ajax_wpsp_getpost', array(&$this, 'wpsp_scheduled_getpost'));
         add_action('wp_ajax_wpsp_deletepost', array(&$this, 'wpsp_scheduled_deletepost'));
-        
-
-
         
         /*
          * This boolean variable will be used to check whether this 
@@ -60,22 +66,18 @@ class wpsp_scheduled {
          * We use these variables to hold the post dates for the filter when 
          * we do our post query.
          */
-        //$wpspcalendar_startDate;
-        //$wpspcalendar_endDate;
+        
     }
     
     /*
      * This function adds our calendar page to the admin UI
+     * @function wpsp_scheduled_list_add_management_page
      */
     function wpsp_scheduled_list_add_management_page() {
         if (function_exists('add_management_page') ) {
             
             $page = add_submenu_page( pluginsFOLDER, __('Schedule Calendar', 'wp-scheduled-posts'), __('Schedule Calendar', 'wp-scheduled-posts'), 'manage_options', 'wpsp-schedule-calendar', array(&$this, 'admin_list_wpsp'));
             add_action( "admin_print_scripts-$page", array(&$this, 'wpsp_scripts'));
-            
-            //add_submenu_page( pluginsFOLDER, __('Free VS Pro', 'wp-scheduled-posts'), __('Free VS Pro', 'wp-scheduled-posts'), 'manage_options', 'f_vs_p', array(&$this, 'show_menu'));
-
-
 
             if ($this->supports_custom_types) {
 
@@ -103,8 +105,6 @@ class wpsp_scheduled {
                         add_action( "admin_print_scripts-$page", array(&$this, 'wpsp_scripts'));
                     }
                 }
-
-
             }
         }
     }
@@ -331,15 +331,9 @@ class wpsp_scheduled {
         </style>
         
         <?php
-        //echo '<!-- This is the code from wpspcalendar.js -->';
-        echo '<script type="text/javascript">';
-        //if (isset($_GET['debug'])) {
-        //    $this->wpspscriptFile(dirname( __FILE__ ) . "/wpspcalendar.js");
-        //} else {
-            $this->wpspscriptFile(dirname( __FILE__ ) . "/wpspcalendar.min.js");
-       // }
-        echo '</script>';
-        
+            echo '<script type="text/javascript">';
+                $this->wpspscriptFile(dirname( __FILE__ ) . "/wpspcalendar.min.js");
+            echo '</script>';
         ?>
         
         <div class="wrap wpsp-dashboard-body">
@@ -388,23 +382,10 @@ class wpsp_scheduled {
             </div>
             <?php $this->wpsp_edit_popup(); ?>
             
-        </div><?php // end .wrap ?>
-
-
-        <?php
+        </div>
+    <?php
     }
 
-
-    function show_menu() {
-        switch ($_GET['page']){
-            
-            case "f_vs_p" :
-                $dir = plugin_dir_path( __FILE__ );
-                include_once ( $dir.'../f_vs_p.php' );
-                break;
-            
-        }
-    }
     
     /*
      * Generate the DOM elements for the quick edit popup from
@@ -422,8 +403,7 @@ class wpsp_scheduled {
         
                 <div class="wpsp_quickedit inline-edit-row">
         
-                        <fieldset>
-        
+                    <fieldset>
                         <label>
                             <span class="title"><?php _e('Title', 'wpspcalendar') ?></span>
                             <span class="input-text-wrap"><input type="text" class="ptitle" id="wpsp-title-new-field" name="title" /></span>
@@ -454,8 +434,6 @@ class wpsp_scheduled {
                             </label>
                         </div>
         
-        <?php /*            
-        */ ?>
                         </fieldset>
         
                         <p class="submit inline-edit-save" id="edit-slug-buttons">
@@ -514,15 +492,8 @@ class wpsp_scheduled {
 
         wp_enqueue_script("wpsp-date", plugins_url("lib/languages/date-".__('en-US', 'wpspcalendar').".js", __FILE__ ));
         wp_enqueue_script("wpsp-lib", plugins_url("lib/wpspcalendarclass.min.js", __FILE__ ), array( 'jquery' ));
-    
-        /*if (isset($_GET['qunit'])) {
-            wp_enqueue_script("qunit", plugins_url("lib/qunit.js", __FILE__ ), array( 'jquery' ));
-            wp_enqueue_script("wpsp-test", plugins_url("wpsp_test.js", __FILE__ ), array( 'jquery' ));
-        }*/
         
         return;
-        
-        
     }
     
     /*
@@ -861,7 +832,7 @@ class wpsp_scheduled {
                 wp_die( __('Error in deleting...') );
         }
     
-    //    return the following info so that jQuery can then remove post from wpsp display :
+    // return the following info so that jQuery can then remove post from wpsp display :
     ?>
     {
         "post" :
@@ -927,53 +898,7 @@ class wpsp_scheduled {
         die();
     }
     
-    /*
-     * This is a helper function to create a new blank draft
-     * post on a specified date.
-     */
-    /*function wpsp_newdraft() {  remove 
-        if (!$this->wpsp_checknonce()) {
-            die();
-        }
-    
-        header("Content-Type: application/json");
-        $this->wpsp_addNoCacheHeaders();
-        
-        $wpspcalendar_date = isset($_POST["date"])?$_POST["date"]:null;
-        
-        $my_post = array();
-        $my_post['post_title'] = isset($_POST["title"])?wp_strip_all_tags($_POST["title"]):null;
-        $my_post['post_content'] = isset($_POST["content"])?$_POST["content"]:null;
-        $my_post['post_status'] = 'draft';
-        
-        $my_post['post_date'] = $wpspcalendar_date;
-        $my_post['post_date_gmt'] = get_gmt_from_date($wpspcalendar_date);
-        $my_post['post_modified'] = $wpspcalendar_date;
-        $my_post['post_modified_gmt'] = get_gmt_from_date($wpspcalendar_date);
-        
-        // Insert the post into the database
-        $my_post_id = wp_insert_post( $my_post );
-        
-        /*
-         * We finish by returning the latest data for the post in the JSON
-         */
-		 /*
-        global $post;
-        $post = get_post($my_post_id);
-    
-        ?>{
-            "post" :
-        <?php
-        
-            $this->wpsp_postJSON($post, false);
-        
-        ?>
-        }
-        <?php
-        
-        die();
-    } */
-    
+
     /*
      * This is a helper function to create a new draft post on a specified date
      * or update an existing post.
@@ -1160,7 +1085,6 @@ class wpsp_scheduled {
             // set the scheduled time as our original time
             $post->post_date_gmt = $post->post_date;
         }
-// echo ( "\r\npost->post_date_gmt = $post->post_date_gmt \r\npost->post_date = $post->post_date");
 
         /*
          * Error-checking:
@@ -1187,7 +1111,6 @@ class wpsp_scheduled {
         }
 
         if ( $error ) {
-            // die('error= '.$error);
             ?>
             {
                 "error": <?php echo $error; ?>,
@@ -1262,7 +1185,6 @@ class wpsp_scheduled {
             do_action('wp_insert_post', $wpspcalendar_postid, $post);
         }
         
-// die(var_dump($updated_post).'success!');
         /*
          * Now we finally update the post into the database
          */

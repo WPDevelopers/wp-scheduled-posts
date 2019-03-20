@@ -4,6 +4,45 @@
  *=============================================================
  */
 
+/* PRO Settings Page CSS */
+.pro-feature-wrap h3{
+	color: #120f59;
+}
+.pro-feature-wrap .pro-feature-item{
+	margin: 50px 0;
+	width: 100%;
+	height: auto;
+	background: #f4f4f4;
+	padding: 15px;
+	box-sizing: border-box;
+	position: relative;
+	border-radius: 3px;
+}
+.pro-feature-item p{
+	color: #252526;
+	font-size: 16px;
+	text-align: justify;
+	width: 100%;
+}
+.pro-feature-wrap .pro-feature-item strong{
+	font-size: 20px;
+		background: linear-gradient(90deg,#ec70ea 0%,#8663f9 100%);
+		padding: 10px 15px;
+		box-sizing: border-box;
+		color: #fff;
+		margin-right: 10px;
+		font-weight: 700;
+		position: absolute;
+		top: -20px;
+		left: 0;
+}
+.pro-feature-wrap .pro-feature-item:nth-child(2) strong{
+	background: linear-gradient(90deg,#3ad0bf 0%,#129dd1 100%);
+}
+.pro-feature-wrap .pro-feature-item:last-child strong{
+	background: linear-gradient(90deg,#3084c2 0%,#8c70ed 100%);
+}
+
 /* General Style */
 
 #adminmenu .toplevel_page_wp-scheduled-posts img {
@@ -349,7 +388,6 @@ textarea.wpsp-form-control {
 	animation-duration: 1.2s; 
 	animation-iteration-count: infinite;
 	animation-timing-function: linear;
-}
 }
 
 @-webkit-keyframes rotate {
