@@ -23,8 +23,6 @@ define("WPSP_ADDONS_BASENAME", plugin_basename( __FILE__ ) );
 
 include_once('admin/wpscp-options.php');
 
-require_once dirname( __FILE__ ) . '/includes/class-wpsp-helper.php';
-
 if (!class_exists('Wp_Scheduled_Posts')) {
 	class Wp_Scheduled_Posts {
 		function __construct() {
@@ -37,7 +35,6 @@ if (!class_exists('Wp_Scheduled_Posts')) {
 			register_activation_hook( $this->plugin_name, array(&$this, 'activate') );
 			register_uninstall_hook( $this->plugin_name, 'uninstall' );
 
-			add_action( 'enqueue_block_assets', array($this, 'start_guten_plugin') );
 			add_action( 'admin_enqueue_scripts', array(&$this, 'start_plugin') );
 			add_action( 'admin_init', array(&$this, 'check_some_other_plugin') );
 		}
@@ -119,39 +116,6 @@ if (!class_exists('Wp_Scheduled_Posts')) {
 				wp_enqueue_script( 'main-chung-timepicker', plugins_URLPATH . 'admin/js/chung-timepicker.js', array('jquery'), '1.0.0', false );
 			}
 
-		}
-		
-		/**
-		 * Enqueue Files on Start Plugin
-		 *
-		 * @function start_guten_plugin
-		 */
-		public function start_guten_plugin(){
-			global $post_type;
-			if( $post_type !== 'post' ) {
-				return;
-			}
-			$plugins = get_plugins();
-			$allActivePlugin = get_option('active_plugins');
-			$activated_all_plugins = array();
-			foreach ( $allActivePlugin as $single_plugin ) {           
-				if(isset( $plugins[$single_plugin] )) {
-					array_push( $activated_all_plugins, $plugins[$single_plugin] );
-				}           
-			}
-			$proPluginVersion = wpsp_getProPluginVersion($activated_all_plugins);
-
-			if( $proPluginVersion ) {
-				wp_enqueue_script( 'wps-publish-date', plugins_URLPATH . 'admin/js/admin.min.js', array('wp-components','wp-data','wp-edit-post','wp-editor','wp-element','wp-i18n','wp-plugins'), '1.0.0', true );
-				
-				wp_localize_script( 'wps-publish-date', 'WPSchedulePosts', array(
-					'PanelTitle' => __('Schedule at', 'wp-schedule-posts'),
-					'schedule' => WPSP_Helper::schedule(),
-					'manual_schedule' => get_option( 'cal_active_option' ),
-					'auto_schedule' => get_option( 'pub_active_option' ),
-					'auto_date' => WPSP_Helper::auto_schedule(),
-				));
-			}
 		}
 	}
 	global $wpsp_op;
