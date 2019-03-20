@@ -627,7 +627,7 @@ if( ! class_exists( 'Wpsp_Plugin_Usage_Tracker') ) {
 			// @credit EDD
 			// Don't bother asking user to opt in if they're in local dev
 			$is_local = false;
-			if( stristr( network_site_url( '/' ), '.dev' ) !== false || stristr( network_site_url( '/' ), 'localhost' ) !== false || stristr( network_site_url( '/' ), ':8888' ) !== false ) {
+			if( stristr( network_site_url( '/' ), '.local' ) !== false || stristr( network_site_url( '/' ), 'localhost' ) !== false || stristr( network_site_url( '/' ), ':8888' ) !== false ) {
 				$is_local = true;
 			}
 			$is_local = apply_filters( 'wpins_is_local_' . $this->plugin_name, $is_local );
