@@ -1,43 +1,3 @@
-<style>
-	.pro-feature-wrap h3{
-		color: #120f59;
-	}
-	.pro-feature-wrap .pro-feature-item{
-		margin: 50px 0;
-		width: 100%;
-		height: auto;
-		background: #f4f4f4;
-		padding: 15px;
-		box-sizing: border-box;
-		position: relative;
-		border-radius: 3px;
-	}
-	.pro-feature-item p{
-		color: #252526;
-		font-size: 16px;
-		text-align: justify;
-		width: 100%;
-	}
-	.pro-feature-wrap .pro-feature-item strong{
-		font-size: 20px;
-	    background: linear-gradient(90deg,#ec70ea 0%,#8663f9 100%);
-	    padding: 10px 15px;
-	    box-sizing: border-box;
-	    color: #fff;
-	    margin-right: 10px;
-	    font-weight: 700;
-	    position: absolute;
-	    top: -20px;
-	    left: 0;
-	}
-	.pro-feature-wrap .pro-feature-item:nth-child(2) strong{
-		background: linear-gradient(90deg,#3ad0bf 0%,#129dd1 100%);
-	}
-	.pro-feature-wrap .pro-feature-item:last-child strong{
-		background: linear-gradient(90deg,#3084c2 0%,#8c70ed 100%);
-	}
-
-</style>
 <div class="wrap wpsp-dashboard-body">
 		<div class="wpsp-header">
 			<h1>WP Scheduled Posts - Pro Features</h1>
@@ -62,7 +22,7 @@
   			<div class="wpsp-admin-sidebar">
   				<div class="wpsp-sidebar-block">
   					<div class="wpsp-admin-sidebar-logo">
-  						<img src="http://localhost/wootest/wp-content/plugins/wp-scheduled-posts/admin/assets/images/wpsp-logo.svg">
+  						<img src="<?php echo WPSCP_PLUGIN_URL . '/admin/assets/images/wpsp-logo.svg'; ?>">
   					</div>
   					<div class="wpsp-admin-sidebar-cta">
   						<a href="https://wpdeveloper.net/in/wpsp" target="_blank">Upgrade to Pro</a>  					</div>
