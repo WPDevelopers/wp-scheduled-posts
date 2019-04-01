@@ -811,11 +811,25 @@ textarea.wpsp-form-control {
 .wpsp-success-text, .success {
 	color: #29c251;
 	font-size: 17px;
+	background: #fff;
+	display: inline-block;
+	padding: 5px 10px;
+	border-radius: 5px;
+	line-height: 1.5;
+	letter-spacing: 1.5px;
+	box-sizing: border-box;
 }
 
 .wpsp-error-text{
 	color: #e8606d;
 	font-size: 17px;
+	background: #fff;
+	display: inline-block;
+	padding: 5px 10px;
+	border-radius: 5px;
+	line-height: 1.5;
+	letter-spacing: 1.5px;
+	box-sizing: border-box;
 }
 
 #man_form table,#man_form table tr,#man_form table th,#man_form table td{
