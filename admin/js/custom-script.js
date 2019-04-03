@@ -53,11 +53,7 @@ jQuery(document).ready(function($) {
 
 		$.post(ajax_url, missed_sched_check_uncheck, function (msg) {
 				
-
-			console.log("Missed Schedule Result: " + msg.missed_val);
-			
 		}, 'json');
-		// checkbox.prop("checked", !checkbox.prop("checked"));
 
 	})
 	
