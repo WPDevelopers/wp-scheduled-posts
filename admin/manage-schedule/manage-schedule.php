@@ -35,3 +35,25 @@ add_action( 'wpsp_manage_schedule', 'wpsp_free_page_display' );
 function wpsp_free_page_display(){
 	include_once('pro-setting-page.php');
 }
+
+
+/**
+ * Update missed schedule value
+ * 
+ * @function missedScheduleVal
+ */
+add_action( 'wp_ajax_missedScheduleVal', 'missedScheduleVal' );
+function missedScheduleVal() {
+	if(isset($_POST['missed_sched_val'])) {
+		$missed_sched_val = $_POST['missed_sched_val'];
+
+		if(!empty($missed_sched_val)) {
+			add_option('miss_schedule_active_option', $missed_sched_val);
+		}else{
+			delete_option('miss_schedule_active_option');
+		}
+	}
+
+	echo json_encode(array( 'missed_val' => $missed_sched_val),JSON_PRETTY_PRINT);
+	exit();
+}

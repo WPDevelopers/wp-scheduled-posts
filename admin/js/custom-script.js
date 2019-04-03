@@ -34,6 +34,32 @@ jQuery(document).ready(function($) {
 		}
 	    
 	});
+
+	//on click missed schedule checkbox button send ajax
+	$('.miss-schedule-form .checkbox-toggle input[type="checkbox"]').on('change', function(e) {
+		e.preventDefault();
+		var value = '';
+
+		if(this.checked) {
+			value = 'yes';
+		}else{
+			value = '';
+		}
+
+		var missed_sched_check_uncheck = {
+			action: 'missedScheduleVal',
+			missed_sched_val: value,
+		};
+
+		$.post(ajax_url, missed_sched_check_uncheck, function (msg) {
+				
+
+			console.log("Missed Schedule Result: " + msg.missed_val);
+			
+		}, 'json');
+		// checkbox.prop("checked", !checkbox.prop("checked"));
+
+	})
 	
 	
 });

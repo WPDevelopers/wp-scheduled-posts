@@ -999,6 +999,16 @@ textarea.wpsp-form-control {
 	padding: 15px 5px 5px 0;
 }
 
+/* Missed Schedule CSS */
+.miss-schedule-form .checkbox-toggle input[type="checkbox"]:checked {
+    background: #be27c8;
+    cursor: pointer; 
+}
+
+.miss-schedule-form .wpsp-scheduler-title{
+	margin-top: 15px;
+}
+
 /* Lock screen */
 
 .wpsp-lockscreen{
