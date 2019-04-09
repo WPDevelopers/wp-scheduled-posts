@@ -7,6 +7,12 @@ if ( is_admin() ) {
     global $wpspcalendar;
     if ( empty($wpspcalendar) )
         $wpspcalendar = new wpsp_scheduled();
+
+    //get all options
+    $wpscp_all_options  = get_option('wpscp_options');
+    //get post_type option
+    global $wpsp_set_options;
+    $wpsp_set_options   = $wpscp_all_options['allow_post_types'];
 }
 
 
@@ -95,15 +101,35 @@ class wpsp_scheduled {
                     '_builtin' => false
                 ); 
                 $output = 'names'; // names or objects
-                $operator = 'and'; // 'and' or 'or'
-                $post_types = get_post_types($args,$output,$operator); 
+                $operator = 'or'; // 'and' or 'or'
+                $post_types = get_post_types($args,$output,$operator);
 
+                global $wpsp_set_options;
                 foreach ($post_types as $post_type) {
-                    $show_this_post_type = apply_filters("wpsp_show_calendar_$post_type", true);
-                    if ($show_this_post_type) {
-                        $page = add_submenu_page('edit.php?post_type=' . $post_type, __('Calendar', 'wpspcalendar'), __('Calendar', 'wpspcalendar'), 'edit_posts', 'cal_' . $post_type, array(&$this, 'admin_list_wpsp'));
-                        add_action( "admin_print_scripts-$page", array(&$this, 'wpsp_scripts'));
+
+                    //if post_type is set to option array then show menu
+                    if(in_array($post_type,$wpsp_set_options)) {
+                        if($post_type == 'post') {
+                            
+                            $show_this_post_type = apply_filters("wpsp_show_calendar_$post_type", true);
+                            $page = add_submenu_page('edit.php', __('Calendar', 'wpspcalendar'), __('Calendar', 'wpspcalendar'), 'edit_posts', 'cal_post', array(&$this, 'admin_list_wpsp'));
+                            
+                        }else{
+
+                            $show_this_post_type = apply_filters("wpsp_show_calendar_$post_type", true);
+                            if ($show_this_post_type) {
+                                $page = add_submenu_page('edit.php?post_type=' . $post_type, __('Calendar', 'wpspcalendar'), __('Calendar', 'wpspcalendar'), 'edit_posts', 'cal_' . $post_type, array(&$this, 'admin_list_wpsp'));
+                                
+                            }
+                        }
+
+
+                        if ($show_this_post_type) {
+                            add_action( "admin_print_scripts-$page", array(&$this, 'wpsp_scripts'));
+                        }
+
                     }
+
                 }
             }
         }
