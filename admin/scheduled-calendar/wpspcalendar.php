@@ -4,6 +4,7 @@
  *
  */
 if ( is_admin() ) {
+    
     global $wpspcalendar;
     if ( empty($wpspcalendar) )
         $wpspcalendar = new wpsp_scheduled();
@@ -13,6 +14,7 @@ if ( is_admin() ) {
     //get post_type option
     global $wpsp_set_options;
     $wpsp_set_options   = $wpscp_all_options['allow_post_types'];
+
 }
 
 
@@ -72,6 +74,8 @@ class wpsp_scheduled {
          * We use these variables to hold the post dates for the filter when 
          * we do our post query.
          */
+
+        
         
     }
     
@@ -81,6 +85,7 @@ class wpsp_scheduled {
      */
     function wpsp_scheduled_list_add_management_page() {
         if (function_exists('add_management_page') ) {
+            
             
             $page = add_submenu_page( pluginsFOLDER, __('Schedule Calendar', 'wp-scheduled-posts'), __('Schedule Calendar', 'wp-scheduled-posts'), 'manage_options', 'wpsp-schedule-calendar', array(&$this, 'admin_list_wpsp'));
             add_action( "admin_print_scripts-$page", array(&$this, 'wpsp_scripts'));

@@ -23,6 +23,7 @@ define("WPSP_ADDONS_BASENAME", plugin_basename( __FILE__ ) );
 
 include_once('admin/wpscp-options.php');
 
+
 if (!class_exists('Wp_Scheduled_Posts')) {
 	class Wp_Scheduled_Posts {
 		function __construct() {
