@@ -70,12 +70,6 @@ class wpsp_scheduled {
           */
         $this->default_status = get_option("wpsp_default_status") != "" ? get_option("wpsp_default_status") : 'draft';
         
-        /*
-         * We use these variables to hold the post dates for the filter when 
-         * we do our post query.
-         */
-
-        
         
     }
     
@@ -363,13 +357,58 @@ class wpsp_scheduled {
         
         <?php
             echo '<script type="text/javascript">';
-                $this->wpspscriptFile(dirname( __FILE__ ) . "/wpspcalendar.min.js");
+                $this->wpspscriptFile(dirname( __FILE__ ) . "/wpspcalendar.js");
             echo '</script>';
         ?>
         
         <div class="wrap wpsp-dashboard-body">
             <div class="icon32" id="icon-edit"><br/></div>
             <h2 id="wpsp_title_main"><?php echo sprintf( __('%1$s Calendar', 'wpspcalendar'), $this->wpsp_get_posttype_multiplename() ) ?></h2>
+            <?php
+                //get set post type from option
+                global $wpsp_set_options;
+
+                $page_param_val = isset($_GET['page']) ? $_GET['page'] : null;
+                $post_param_val = isset($_GET['post_type']) ? $_GET['post_type'] : null;
+
+                
+        
+                $wpsp_post_type_names = '';
+                foreach ($wpsp_set_options as $wpsp_set_option) {
+                    $wpsp_post_type_names .= ','.$wpsp_set_option;
+                }
+                $wpsp_post_type_names = ltrim($wpsp_post_type_names,',');
+
+                
+                /* 
+                 * when post_type in url is empty pass default post_type as post but if not empty
+                 * check then if it is setting calendar page pass all selected post type if the page 
+                 * is specific post type calendar page then pass specific post type
+                */
+
+                if($post_param_val !== null) {
+                    
+                    $wpsp_post_type_names = $post_param_val;
+                }else{
+                    if($page_param_val === 'wpsp-schedule-calendar') {
+                        $wpsp_post_type_names = $wpsp_post_type_names;
+                    }else{
+                        $wpsp_post_type_names = 'post';
+                    }
+                }
+
+
+                 
+                 
+                
+
+
+            ?>
+            <!-- 
+                this hidden form field will go through ajax request url and compare with
+                which type of post type is it to display calendar...
+            -->
+            <input type="hidden" id="wpsp_set_post_type_obj" placeholder="<?php echo $wpsp_set_options; ?>" value="<?php echo $wpsp_post_type_names; ?>">
             
             <div class="wpsp-calendar-wrap">
                 <div id="loadingcont">
@@ -383,13 +422,13 @@ class wpsp_scheduled {
                             <span id="currentRange"></span>
                             <a href="#" title="<?php echo(__('Skip ahead', 'wpspcalendar')) ?>" class="next page-numbers" id="nextmonth">&rsaquo;</a>
                             <a class="next page-numbers" title="<?php echo(__('Scroll the calendar and make the last post visible', 'wpspcalendar')) ?>" id="moveToLast">&raquo;</a>
-
+        
                             <a class="next page-numbers" title="<?php echo(__('Scroll the calendar and make the today visible', 'wpspcalendar')) ?>" id="moveToToday"><?php echo(__('Show Today', 'wpspcalendar')) ?></a>
                             
                             
                         </h3>
                     </div>
-
+        
                     <div id="topright" class="tablenav-pages alignright">
                         <a class="next page-numbers" title="<?php echo(__('Show unscheduled posts', 'wpspcalendar')) ?>" id="showdraftsdrawer"><?php echo(__('Show Unscheduled Drafts', 'wpspcalendar')) ?></a>
                     </div>
@@ -532,6 +571,7 @@ class wpsp_scheduled {
      * and the to date.  
      */
     function wpsp_scheduled_posts() {
+        
         header("Content-Type: application/json");
         $this->wpsp_addNoCacheHeaders();
         if (!$this->wpsp_checknonce()) {
@@ -550,14 +590,17 @@ class wpsp_scheduled {
         );
 
         /* 
-         * If we're in the specific post type case we need to add
-         * the post type to our query.
+         * If we have post types set in option then in setting calendar page bring all set post types
+         * post and in every single post type calendar page bring specific post type posts
          */
-        $post_type = isset($_GET['post_type'])?$_GET['post_type']:null;
-        if ($post_type) {
-            $args['post_type'] = $post_type;
+        
+        $post_types = isset($_GET['wpsp_post_types']) ? $_GET['wpsp_post_types'] : null;
+        
+        if($post_types !== null) {
+            $current_post_types = explode(",", $post_types);
+            $args['post_type'] = $current_post_types; //set current post type posts to bring calendar
         }
-
+        
         /* 
          * If we're getting the list of posts for the drafts drawer we
          * want to sort them by the post title.
