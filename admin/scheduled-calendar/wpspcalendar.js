@@ -297,17 +297,17 @@ var wpsp = {
 
     wpsp.moveTo(curDate.clone());
 
-    jQuery('#scrollable_wpsp').bind('mousewheel', function(event, delta) {
-      var dir = delta > 0 ? false : true,
-        vel = Math.abs(delta);
-      wpsp.output(dir + ' at a velocity of ' + vel);
+    // jQuery('#scrollable_wpsp').bind('mousewheel', function(event, delta) {
+    //   var dir = delta > 0 ? false : true,
+    //     vel = Math.abs(delta);
+    //   wpsp.output(dir + ' at a velocity of ' + vel);
 
-      if (!wpsp.isMoving && vel > 0.2) {
-        wpsp.move(1, dir);
-      }
+    //   if (!wpsp.isMoving && vel > 0.2) {
+    //     wpsp.move(1, dir);
+    //   }
 
-      return false;
-    });
+    //   return false;
+    // });
 
     /*
            We are handling all of our own events so we just cancel all events from
