@@ -9,6 +9,10 @@
 				<div class="pro-feature-item">
 					<strong>Auto Scheduler:</strong> <p>Get absolute control over your content schedule as you can create rules to post content automatically. You can also set exact date and time to create flexible schedule.</p>
 				</div>
+
+				<div class="pro-feature-item">
+					<strong>Manual Scheduler:</strong> <p>Now you can control your own schedule time. Create your schedule time per day name and you can see it in your selected post type.Your time is yours so we give you to handle your selected time and manage them.</p>
+				</div>
 				
 				<div class="pro-feature-item">
 					<strong>Missed Schedule Handler:</strong> <p>As a content creator, you might have faced that WordPress might miss the schdule of a post. You don’t have to worry .Our Missed Schedule Feature will publish the post automatically.</p>
