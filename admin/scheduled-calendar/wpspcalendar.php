@@ -397,18 +397,12 @@ class wpsp_scheduled {
                     }
                 }
 
-
-                 
-                 
-                
-
-
             ?>
             <!-- 
                 this hidden form field will go through ajax request url and compare with
                 which type of post type is it to display calendar...
             -->
-            <input type="hidden" id="wpsp_set_post_type_obj" placeholder="<?php echo $wpsp_set_options; ?>" value="<?php echo $wpsp_post_type_names; ?>">
+            <input type="hidden" id="wpsp_set_post_type_obj" value="<?php echo $wpsp_post_type_names; ?>">
             
             <div class="wpsp-calendar-wrap">
                 <div id="loadingcont">

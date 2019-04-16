@@ -103,11 +103,19 @@ function wpscp_options_page() {
 				$post_types=get_post_types('','names'); 
 				$rempost = array('attachment','revision','nav_menu_item');
 				$post_types = array_diff($post_types,$rempost);
+				$not_neccessary_post_types = array('custom_css','customize_changeset','oembed_cache','user_request','product_variation','shop_order','scheduled-action','shop_order_refund','shop_coupon','nxs_qp');
+
 				foreach ($post_types as $post_type ) {
-					echo "<option ";
 					
-					if(in_array($post_type,$wpscp_options['allow_post_types'])) echo "selected ";
-					echo 'value="'.$post_type.'">'.$post_type.'</option>';
+					//do not print not neccessary post type
+					if( !in_array($post_type, $not_neccessary_post_types) ) {
+						echo "<option ";
+
+						if(in_array($post_type,$wpscp_options['allow_post_types'])) echo "selected ";
+						echo 'value="'.$post_type.'">'.$post_type.'</option>';
+						
+					}
+
 				}
 				
 				?>
