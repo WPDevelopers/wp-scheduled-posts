@@ -103,7 +103,7 @@ function wpscp_options_page() {
 				$post_types=get_post_types('','names'); 
 				$rempost = array('attachment','revision','nav_menu_item');
 				$post_types = array_diff($post_types,$rempost);
-				$not_neccessary_post_types = array('custom_css','customize_changeset','oembed_cache','user_request','product_variation','shop_order','scheduled-action','shop_order_refund','shop_coupon','nxs_qp');
+				$not_neccessary_post_types = array('custom_css','customize_changeset','oembed_cache','user_request','product_variation','shop_order','scheduled-action','shop_order_refund','shop_coupon','nxs_qp','elementor_library');
 
 				foreach ($post_types as $post_type ) {
 					
