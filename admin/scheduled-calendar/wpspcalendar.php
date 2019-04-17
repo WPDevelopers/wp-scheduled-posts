@@ -14,6 +14,7 @@ if ( is_admin() ) {
     //get post_type option
     global $wpsp_set_options;
     $wpsp_set_options   = $wpscp_all_options['allow_post_types'];
+    $wpsp_set_options = ($wpsp_set_options == null) ? array('post') : $wpsp_set_options;
 
 }
 
