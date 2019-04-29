@@ -350,12 +350,10 @@ function wpscp_post_page_prevent_future_option($postid) {
 
 function wpscp_initialize() {
 	$wpscp_options = wpscp_get_options();
-	if($wpscp_options['prevent_future_post']==1)
-	{
-		add_filter('wp_insert_post_data', 'wpscp_prevent_future_type');
-		#show an option in post edit page
+	add_filter('wp_insert_post_data', 'wpscp_prevent_future_type');
+	if(isset($_GET['action']) && $_GET['action'] == 'edit' ) {
 		add_action('post_submitbox_misc_actions', 'wpscp_post_page_prevent_future_option');
-	}#end if($wpscp_options['...
+	}
 }
 add_action('init', 'wpscp_initialize');
 
