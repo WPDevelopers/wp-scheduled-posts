@@ -330,7 +330,7 @@ function wpscp_post_page_prevent_future_option($postid) {
 	<script type="text/javascript">
 		function show_wpscp_help(){ jQuery("#wpscp_help").toggle();}
 		jQuery(document).ready(function($){
-			$(".save-timestamp:first").before($("#prevent_future_post_box"));
+			$("#catalog-visibility").before($("#prevent_future_post_box"));
 		});
 	</script>
 	<div style="padding:10px;" id="prevent_future_post_box">
