@@ -868,7 +868,7 @@ $notice->options_args = array(
    'notice_will_show' => [
         'opt_in' => $notice->timestamp,
         'review' => $notice->makeTime( $notice->timestamp, '7 Day' ), // after 7 days
-        'upsale' => $notice->makeTime( $notice->timestamp, '10 Day' ), // will be after 10 Days
+        'upsale' => $notice->makeTime( $notice->timestamp, '3 Day' ), // will be after 3 Days
    ]
 );
 
