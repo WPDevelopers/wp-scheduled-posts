@@ -118,6 +118,11 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 == Changelog ==
 
+= 2.3.0 - 2019-04-30 =
+* Refractored code for better performance
+* Calendar Issue fixed with CPT
+* Some minor improvements and bugfix
+
 = 2.2.0 - 2019-03-20 =
 * Refractored code for better performance
 * Better compatibility with WordPress 5.x
