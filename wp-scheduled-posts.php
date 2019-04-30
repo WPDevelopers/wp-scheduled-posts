@@ -234,12 +234,12 @@ function wp_scheduled_post_menu() {
 					if(!$found)continue;
 					}
 				$title=substr($scpost->post_title, 0,$title_length);
-				$author=get_the_author_meta( 'user_nicename', $scpost->post_author );
-				$date=get_date_from_gmt($scpost->post_date_gmt, $format = $date_format);
+				$author = get_the_author_meta( 'user_nicename', $scpost->post_author );
+				$date = get_the_date( $format = $date_format, $scpost->ID );
 				
 				$list_item_template=str_replace("%TITLE%", $title ,$list_template);
 				$list_item_template=str_replace("%AUTHOR%", $author ,$list_item_template);
-				$list_item_template=str_replace("%DATE%", $date ,$list_item_template);
+				$list_item_template = str_replace("%DATE%", $date ,$list_item_template);
 				$item_id++;
 				$wp_admin_bar->add_menu( array( 'id'=>'wpscp_'.$item_id, 'parent' => 'wpscp' , 'title' =>$list_item_template , 'href' =>get_edit_post_link($scpost->ID),'meta'=>array('title'=>$scpost->post_title) ) );
 				$totalPostAllowed++;
