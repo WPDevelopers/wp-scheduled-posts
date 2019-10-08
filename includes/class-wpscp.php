@@ -236,7 +236,7 @@ final class WpScp {
         $notice->links = [
             'review' => array(
                 'later' => array(
-                    'link' => 'https://wpdeveloper.net/review-essential-addons-elementor',
+                    'link' => 'https://wpdeveloper.net/go/review-wpsp',
                     'target' => '_blank',
                     'label' => __('Ok, you deserve it!', 'wp-scheduled-posts'),
                     'icon_class' => 'dashicons dashicons-external',
@@ -284,7 +284,7 @@ final class WpScp {
          * Message message for showing.
          */
         $notice->classes( 'upsale', 'notice is-dismissible ' );
-        $notice->message( 'upsale', '<p>'. __( 'Enjoying WP Scheduled Posts? Upgrade to <a href="https://wpdeveloper.net/in/wp-scheduled-posts-pro" target="_blank">Premium Version</a> for more stunning features!', $notice->text_domain ) .'</p>' );
+        $notice->message( 'upsale', '<p>'. __( 'We hope you\'re enjoying WP Scheduled Posts! Upgrade to <a href="https://wpdeveloper.net/in/wp-scheduled-posts-pro" target="_blank">Premium Version</a> for more stunning features!', $notice->text_domain ) .'</p>' );
         $notice->thumbnail( 'upsale', plugins_url( 'admin/assets/images/wpsp-logo.svg', WPSP_PLUGIN_BASENAME ) );
 
         $notice->upsale_args = array(
@@ -303,7 +303,7 @@ final class WpScp {
         $notice->options_args = array(
             'notice_will_show' => [
                 'opt_in' => $notice->timestamp,
-                'upsale' => $notice->makeTime($notice->timestamp, '1 Hour'),
+                'upsale' => $notice->makeTime($notice->timestamp, '7 Day'),
                 'review' => $notice->makeTime($notice->timestamp, '3 Day'), // after 3 days
             ],
         );
