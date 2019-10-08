@@ -230,7 +230,7 @@
                     </div>
 
                     <div class="wpsp_support_items">
-                        <a href="http://wpdeveloper.net/support/" target="__blank">
+                        <a href="https://wpdeveloper.net/support/" target="__blank">
                             <img src="<?php echo plugins_url(); ?>/wp-scheduled-posts/admin/assets/images/premium_support_care.png" alt="">
                             <h4><?php esc_html_e('Premium Support', 'wpscp'); ?></h4>
                             
@@ -285,7 +285,7 @@
                 <h3 class="instruction_label"><?php esc_html_e('Show your Love', 'wpscp'); ?></h3>
             </div>
             <p><?php esc_html_e('We love to have you in WP Scheduled Posts family. We are making it more awesome everyday.', 'wpscp'); ?></p>
-            <a href="https://wordpress.org/support/plugin/wp-scheduled-posts/reviews/#new-post" rel="nofollow" class="instructin_btn"><?php esc_html_e('Leave a Review', 'wpscp'); ?></a>
+            <a href="https://wordpress.org/support/plugin/wp-scheduled-posts/reviews/?rate=5#new-post" rel="nofollow" class="instructin_btn"><?php esc_html_e('Leave a Review', 'wpscp'); ?></a>
         </div>
     </div>
 </div>
