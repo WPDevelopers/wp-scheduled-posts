@@ -287,13 +287,6 @@ final class WpScp {
         $notice->message( 'upsale', '<p>'. __( '6000+ People already using <a href="https://wpdeveloper.net/ea/notificationX" target="_blank">NotificationX</a> to increase their Sales & Engagement! Join Free or Get <a href="https://wpdeveloper.net/ea/notificationX" target="_blank">Exclusive Lifetime Pro</a> for only $39! Limied Time!', $notice->text_domain ) .'</p>' );
         $notice->thumbnail( 'upsale', plugins_url( 'admin/assets/images/nx-icon.svg', WPSP_PLUGIN_BASENAME ) );
 
-        // Update Notice For PRO Version
-        // if( $this->pro_enabled && \version_compare( '3.0.0', '3.0.0', '<' ) ) {
-        //     $notice->classes( 'update', 'notice is-dismissible ' );
-        //     $notice->message( 'update', '<p>'. __( 'You are using an incompatible version of WP Scheduled Posts. Please update to v3.0.0+. <a href="https://essential-addons.com/elementor/docs/manually-update-essential-addons-pro/" target="_blank">Follow manual update guide.</a>', $notice->text_domain ) .'</p>' );
-        //     $notice->thumbnail( 'update', plugins_url( 'assets/admin/images/icon-ea-logo.svg', WPSP_PLUGIN_BASENAME ) );
-        // }
-
         $notice->upsale_args = array(
             'slug'      => 'notificationx',
             'page_slug' => 'nx-builder',
@@ -314,9 +307,6 @@ final class WpScp {
                 'review' => $notice->makeTime($notice->timestamp, '3 Day'), // after 3 days
             ],
         );
-        if( $this->pro_enabled && \version_compare( '3.0.0', '3.0.0', '<' ) ) { 
-            $notice->options_args['notice_will_show']['update'] = $notice->timestamp;
-        }
 
         $notice->init();
     }
