@@ -61,6 +61,9 @@
       </div>
   </div>
  */
+
+
+
 var wpsp = {
   /*
        This final string represents the date which indicates to WordPress
@@ -227,6 +230,9 @@ var wpsp = {
      * Initializes the calendar
      */
   init: function() {
+    let wpsp_post_type_obj;
+    this.wpsp_post_type_obj = document.getElementById('wpsp_set_post_type_obj').value;
+    
     if (jQuery('#scrollable_wpsp').length === 0) {
       /*
               * This means we are on a page without the editorial
@@ -291,17 +297,17 @@ var wpsp = {
 
     wpsp.moveTo(curDate.clone());
 
-    jQuery('#scrollable_wpsp').bind('mousewheel', function(event, delta) {
-      var dir = delta > 0 ? false : true,
-        vel = Math.abs(delta);
-      wpsp.output(dir + ' at a velocity of ' + vel);
+    // jQuery('#scrollable_wpsp').bind('mousewheel', function(event, delta) {
+    //   var dir = delta > 0 ? false : true,
+    //     vel = Math.abs(delta);
+    //   wpsp.output(dir + ' at a velocity of ' + vel);
 
-      if (!wpsp.isMoving && vel > 0.2) {
-        wpsp.move(1, dir);
-      }
+    //   if (!wpsp.isMoving && vel > 0.2) {
+    //     wpsp.move(1, dir);
+    //   }
 
-      return false;
-    });
+    //   return false;
+    // });
 
     /*
            We are handling all of our own events so we just cancel all events from
@@ -2550,6 +2556,7 @@ var wpsp = {
       post.status = 'draft';
     }
 
+    
     var url =
       wpsp.ajax_url() +
       '&action=wpsp_changedate&postid=' +
@@ -2645,10 +2652,16 @@ var wpsp = {
 
     wpsp.cacheDates[from] = true;
 
+    //splite post types and set in array to pass thorugh ajax call
+    let wpsp_post_type_objs = this.wpsp_post_type_obj;
+        wpsp_post_type_objs = wpsp_post_type_objs.split(',');
+
     var url =
       wpsp.ajax_url() +
       '&action=wpsp_posts&from=' +
       from.toString('yyyy-MM-dd') +
+      '&wpsp_post_types=' +
+      wpsp_post_type_objs.toString() +
       '&to=' +
       to.toString('yyyy-MM-dd');
 

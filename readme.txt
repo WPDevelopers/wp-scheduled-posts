@@ -4,7 +4,7 @@ Tags: post schedule, editor calendar, schedule-calendar, schedule bar, scheduled
 Requires at least: 4.0
 Tested up to: 5.1
 Requires PHP: 5.4
-Stable tag: 2.1.2
+Stable tag: 2.2.0
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -117,6 +117,16 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 
 == Changelog ==
+
+= 2.3.0 - 2019-04-30 =
+* Refractored code for better performance
+* Calendar Issue fixed with CPT
+* Some minor improvements and bugfix
+
+= 2.2.0 - 2019-03-20 =
+* Refractored code for better performance
+* Better compatibility with WordPress 5.x
+* Some minor improvements and bugfix
 
 = 2.1.2 - 2019-02-26 =
 * Backend performance improved
