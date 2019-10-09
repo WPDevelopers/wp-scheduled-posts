@@ -1,5 +1,5 @@
-=== WP Scheduled Posts ===
-Contributors: wpdevteam, Asif2BD, re_enter_rupok, onetarek, nayanchamp7, priyomukul, tusharimran
+=== WP Scheduled Posts - Missed Schedule & Best Editorial Calendar ===
+Contributors: wpdevteam, Asif2BD, re_enter_rupok, priyomukul, onetarek, nayanchamp7, shajalal, tusharimran
 Tags: post schedule, editor calendar, schedule-calendar, schedule bar, scheduled posts, schedule, schedule widget, scheduler, schedule menu bar, admin bar, dashboard widget, missed scheduled, calendar, missed schedule, future post, schedule issue, post later, admin bar, admin, multi author
 Requires at least: 4.0
 Tested up to: 5.2
@@ -124,7 +124,7 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 * Minified the the functions and assets and removed redundant codes for better performance
 * Lots of minor improvements and bugfix
 
-= 2.3.0 - 2019-04-30 =
+= 2.3.0 - 2019-05-28 =
 * Refractored code for better performance
 * Calendar Issue fixed with CPT
 * Some minor improvements and bugfix
@@ -226,7 +226,5 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 
 == Upgrade Notice ==
-= 2.0.0 - 2018-12-02 =
-* Completely revamped interface
-* Visual Schedule Calendar added
-* Lots of new features and improvements.
+= 3.0.0 - 2019-10-08 =
+* Must update, code improvement!
