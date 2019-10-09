@@ -277,24 +277,24 @@ final class WpScp {
          * This is review message and thumbnail.
          */
         $notice->message('review', '<p>' . __('We hope you\'re enjoying WP Scheduled Posts! Could you please do us a BIG favor and give it a 5-star rating on WordPress to help us spread the word and boost our motivation?', 'wp-scheduled-posts') . '</p>');
-        $notice->thumbnail('review', plugins_url('assets/admin/images/icon-ea-logo.svg', WPSP_PLUGIN_BASENAME));
+        $notice->thumbnail('review', plugins_url('admin/assets/images/wpsp-logo.svg', WPSP_PLUGIN_BASENAME));
         /**
          * This is upsale notice settings
          * classes for wrapper, 
          * Message message for showing.
          */
         $notice->classes( 'upsale', 'notice is-dismissible ' );
-        $notice->message( 'upsale', '<p>'. __( '6000+ People already using <a href="https://wpdeveloper.net/ea/notificationX" target="_blank">NotificationX</a> to increase their Sales & Engagement! Join Free or Get <a href="https://wpdeveloper.net/ea/notificationX" target="_blank">Exclusive Lifetime Pro</a> for only $39! Limied Time!', $notice->text_domain ) .'</p>' );
-        $notice->thumbnail( 'upsale', plugins_url( 'admin/assets/images/nx-icon.svg', WPSP_PLUGIN_BASENAME ) );
+        $notice->message( 'upsale', '<p>'. __( 'Enjoying WP Scheduled Posts? Upgrade to <a href="https://wpdeveloper.net/in/wp-scheduled-posts-pro" target="_blank">Premium Version</a> for more stunning features!', $notice->text_domain ) .'</p>' );
+        $notice->thumbnail( 'upsale', plugins_url( 'admin/assets/images/wpsp-logo.svg', WPSP_PLUGIN_BASENAME ) );
 
         $notice->upsale_args = array(
-            'slug'      => 'notificationx',
-            'page_slug' => 'nx-builder',
-            'file'      => 'notificationx.php',
+            'slug'      => 'wp-scheduled-posts',
+            'page_slug' => 'wp-scheduled-posts',
+            'file'      => 'wp-scheduled-posts.php',
             'btn_text'  => __( 'Install Free', 'wp-scheduled-posts' ),
             'condition' => [
                 'by' => 'class',
-                'class' => 'NotificationX'
+                'class' => 'WpScp_Pro'
             ],
         );
 
