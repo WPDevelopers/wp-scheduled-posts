@@ -89,19 +89,20 @@ document.addEventListener('DOMContentLoaded', function() {
         jQuery(info.el).prev('.spinner').css('visibility', 'visible');
         wpscp_calender_ajax_request({
             id: jQuery(info.el).find('.wpscp-event-post').data('postid'),
+            post_status : 'Scheduled',
             type: 'eventDrop',
             date: info.event.start,
         });
     }
   });
   calendar.render();
-
+  
     /*
     * add Future Post Event Via ajax Call
     */
     function wpscpAllEvents(){
         jQuery.ajax({
-            url: 'http://localhost/wptest/wp-json/wpscp/v1/post/future',
+            url: wpscpGetHomeUrl() + '/wp-json/wpscp/v1/post/future',
         }).done(function( data ) {
             data.posts.forEach(function(item, index){
                 calendar.addEvent({
@@ -139,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
             markup +='<div class="wpscp-event-post" data-postid="'+obj.ID+'">';
             markup +='<div class="postlink "><span><span class="posttime">['+wpscpFormatAMPM(new Date(obj.post_modified))+']</span> '+obj.post_title+' ['+obj.post_status+']</span></div>';
             var link = '';
-            link += '<a href="http://localhost/wptest/wp-admin/post.php?post='+obj.ID+'&action=edit">Edit</a>';
+            link += '<a href="'+wpscpGetHomeUrl()+'/wp-admin/post.php?post='+obj.ID+'&action=edit">Edit</a>';
             link += '<a class="wpscpquickedit" href="#" data-type="quickedit">Quick Edit</a>';
             link += '<a class="wpscpEventDelete" href="#">Delete</a>';
             link += '<a href="'+obj.guid+'">View</a>';
@@ -164,8 +165,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
         jQuery.post(ajax_object.ajax_url, data, function(response, status) {
            if(status == 'success'){
-                console.log(obj.type, obj.post_status, obj.id);
-                console.log(obj.date, obj.time);
 
                 var jsonData = ((response !== null && response !== '') ? JSON.parse(response) : []);
                 if(obj.type == 'addEvent' && obj.post_status == 'Scheduled'){
@@ -326,6 +325,13 @@ document.addEventListener('DOMContentLoaded', function() {
       return strTime;
     }
 
+    function wpscpGetHomeUrl() {
+        var href = window.location.href;
+        var index = href.indexOf('/wp-admin');
+        var homeUrl = href.substring(0, index);
+        return homeUrl;
+    }
+
 
 
 
@@ -348,7 +354,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 var jsonData = (response != "" ? JSON.parse(response) : []);
 
                 var PostDate = jsonData[0].post_date;
-                console.log(PostDate);
                 var PostDateArray = PostDate.split(" ");
 
                 modalTitle.val(jsonData[0].post_title);
@@ -377,7 +382,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
             jQuery.post(ajax_object.ajax_url, data, function(response, status) {
                 if(status == 'success'){
-                    console.log(response);
+                    jQuery('*[data-postid="'+response+'"]').parent().parent().remove();
                 }
             });
         } // result

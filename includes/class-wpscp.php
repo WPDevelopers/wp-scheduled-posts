@@ -153,6 +153,7 @@ final class WpScp {
             wp_enqueue_script('jquery-modal', WPSCP_ADMIN_URL . 'assets/js/jquery.modal.min.js', array('jquery'), null, false);
             wp_enqueue_script( 'select2', WPSCP_ADMIN_URL . 'assets/js/select2.full.js', array('jquery'), null, false );
             wp_enqueue_script( 'sweetalert', WPSCP_ADMIN_URL . 'assets/js/sweetalert.min.js', array('jquery'), null, false );
+            // wp_enqueue_script( 'jquery-ui-notification', WPSCP_ADMIN_URL . 'assets/js/jquery.uinotifaction.js', array('jquery'), null, false );
             wp_enqueue_script( 'custom-script', WPSCP_ADMIN_URL . 'assets/js/custom-script.js', array('jquery'), null, false );
             wp_enqueue_script( 'wpscp-script', WPSCP_ADMIN_URL . 'assets/js/wpscp-script.js', array('jquery'), null, false );
             wp_localize_script( 'custom-script', 'wpscp_ajax',
@@ -167,7 +168,7 @@ final class WpScp {
 			wp_localize_script( 'wpscp-fullcalendar', 'ajax_object',
             array( 
             	'ajax_url' => admin_url( 'admin-ajax.php' ), 
-            	'nonce' => wp_create_nonce('ajax-nonce')
+            	'nonce' => wp_create_nonce('ajax-nonce'),
             ) );
         }
     }

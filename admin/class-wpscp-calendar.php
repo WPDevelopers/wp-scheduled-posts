@@ -139,6 +139,7 @@ class WpScp_Calendar {
         $postId = (isset($_POST['id']) ? intval( $_POST['id'] ) : '');
         if($postId != ""){
             wp_delete_post($postId, true);
+            print $postId;
         }
         wp_die(); // this is required to terminate immediately and return a proper response
     }
