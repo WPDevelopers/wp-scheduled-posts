@@ -327,4 +327,16 @@ jQuery(document).ready(function ($) {
 		}
 	});
 
+
+
+	// some fullcalendar related scripts
+	jQuery('#wpsp_time').timepicker({
+    	timeFormat: 'h:mm p',
+    });
+
+    jQuery('a[rel="modal:open"]').on('click', function(){
+    	jQuery('select#wpsp-status').val('Draft');
+    	jQuery('#timeEditControls').hide();
+    });
+
 });

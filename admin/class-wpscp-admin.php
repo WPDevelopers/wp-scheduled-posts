@@ -5,8 +5,19 @@ class WpScp_Admin{
 	 */
 	public function __construct() {
 		$this->hooks();
+		$this->load_dependency();
 		$this->load_plugin_submenu_option_page();
 		$this->load_widgets();
+	}
+
+	/**
+	 * Load Admin require file
+	 * @method load_dependency
+	 * @since 3.0.1
+	 */
+	public function load_dependency(){
+		include_once WPSCP_ADMIN_DIR_PATH . 'admin-helper-functions.php';
+		include_once WPSCP_ADMIN_DIR_PATH . 'class-wpscp-calendar.php';
 	}
 	
 	/**
@@ -17,6 +28,7 @@ class WpScp_Admin{
 	 */
 	public function hooks(){
 		add_action( 'admin_menu', array($this, 'add_main_menu') );
+		add_action( 'admin_menu', array($this, 'add_sub_menu') );
 		add_action( 'admin_init', array($this, 'remove_submenu_wp_scheduled_posts') );
 	}
 	/**
@@ -26,6 +38,14 @@ class WpScp_Admin{
 	 */
 	public function add_main_menu()  {
 		add_menu_page( __( 'Scheduled Posts'), __( 'Scheduled Posts' ), 'manage_options', pluginsFOLDER, 'wpscp_options_page', plugin_dir_url( __FILE__ ).'assets/images/wpsp-icon.png', 80 );
+	}
+	/**
+	 * Add Plugin Main Menu
+	 * @method add_main_menu
+	 * @since 1.0.0
+	 */
+	public function add_sub_menu()  {
+		add_submenu_page( 'wp-scheduled-posts', 'Schedule Calendar', 'Schedule Calendar', 'manage_options', 'wp-scheduled-calendar', array($this, 'load_calendar_template'));
 	}
 	/**
 	 * Load All Widgets
@@ -51,6 +71,15 @@ class WpScp_Admin{
     public function load_plugin_submenu_option_page(){
 		include_once WPSCP_ADMIN_DIR_PATH . 'wpscp-options.php';
         include_once WPSCP_ADMIN_DIR_PATH . 'manage-schedule/manage-schedule.php';
-    }
+	}
+	
+	/**
+	 * Load Calendar Template
+	 * @method load_calendar_template
+	 * @since 3.0.1
+	 */
+	public function load_calendar_template(){
+		include_once WPSCP_ADMIN_DIR_PATH . 'partials/calendar.php';
+	}
 }
 new WpScp_Admin;

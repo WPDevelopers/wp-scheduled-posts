@@ -135,18 +135,40 @@ final class WpScp {
      */
     public function plugin_scripts( $hook ) {
         if ( is_admin() ) {
-            wp_enqueue_style( 'admin-style', WPSCP_ADMIN_URL . 'assets/css/admin.css' );
-            wp_enqueue_style( 'font-awesome', WPSCP_ADMIN_URL . 'assets/css/font-awesome.min.css' );
-            wp_enqueue_style( 'select2-css', WPSCP_ADMIN_URL . 'assets/css/select2.min.css' );
-            wp_enqueue_style( 'chung-timepicker', WPSCP_ADMIN_URL . 'assets/css/chung-timepicker.css' );
-            // js
+            wp_enqueue_style( 'font-awesome', WPSCP_ADMIN_URL . 'assets/css/font-awesome.min.css', array(), false, 'all' );
+            wp_enqueue_style( 'select2-css', WPSCP_ADMIN_URL . 'assets/css/select2.min.css', array(), false, 'all' );
+            wp_enqueue_style( 'chung-timepicker', WPSCP_ADMIN_URL . 'assets/css/chung-timepicker.css', array(), false, 'all' );
+            wp_enqueue_style( 'full-calendar', WPSCP_ADMIN_URL . 'assets/css/full-calendar.css', array(), false, 'all' );
+            wp_enqueue_style( 'jquery-modal', WPSCP_ADMIN_URL . 'assets/css/jquery.modal.min.css', array(), false, 'all' );
+            wp_enqueue_style( 'jquery-timepicker', WPSCP_ADMIN_URL . 'assets/css/jquery.timepicker.min.css', array(), false, 'all' );
+            wp_enqueue_style( 'wpscp-admin', WPSCP_ADMIN_URL . 'assets/css/admin.css', array(), false, 'all' );
+            wp_enqueue_style( 'wpscp-admin-calendar', WPSCP_ADMIN_URL . 'assets/css/admin-calendar.css', array(), false, 'all' );
+            
+
+            /**
+             * JavaScript File
+             */
             wp_enqueue_script( 'main-chung-timepicker', WPSCP_ADMIN_URL . 'assets/js/chung-timepicker.js', array('jquery'), null, false );
+            wp_enqueue_script('time-script', WPSCP_ADMIN_URL . 'assets/js/jquery.timepicker.min.js', array('jquery'), null, false);
+            wp_enqueue_script('jquery-modal', WPSCP_ADMIN_URL . 'assets/js/jquery.modal.min.js', array('jquery'), null, false);
             wp_enqueue_script( 'select2', WPSCP_ADMIN_URL . 'assets/js/select2.full.js', array('jquery'), null, false );
             wp_enqueue_script( 'sweetalert', WPSCP_ADMIN_URL . 'assets/js/sweetalert.min.js', array('jquery'), null, false );
             wp_enqueue_script( 'custom-script', WPSCP_ADMIN_URL . 'assets/js/custom-script.js', array('jquery'), null, false );
             wp_enqueue_script( 'wpscp-script', WPSCP_ADMIN_URL . 'assets/js/wpscp-script.js', array('jquery'), null, false );
             wp_localize_script( 'custom-script', 'wpscp_ajax',
             array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+            // calendar
+            wp_enqueue_script('fullcalendar-core', WPSCP_ADMIN_URL . 'assets/js/fullcalendar/core/main.js', array('jquery'), null, false);
+			wp_enqueue_script('fullcalendar-interaction', WPSCP_ADMIN_URL . 'assets/js/fullcalendar/interaction/main.js', array('jquery'), null, false);
+			wp_enqueue_script('fullcalendar-daygrid', WPSCP_ADMIN_URL . 'assets/js/fullcalendar/daygrid/main.js', array('jquery'), null, false);
+			wp_enqueue_script('fullcalendar-timegrid', WPSCP_ADMIN_URL . 'assets/js/fullcalendar/timegrid/main.js', array('jquery'), null, false);
+			wp_enqueue_script('wpscp-fullcalendar', WPSCP_ADMIN_URL . 'assets/js/wpscp-fullcalendar-config.js', array('jquery'), null, false);
+			// in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
+			wp_localize_script( 'wpscp-fullcalendar', 'ajax_object',
+            array( 
+            	'ajax_url' => admin_url( 'admin-ajax.php' ), 
+            	'nonce' => wp_create_nonce('ajax-nonce')
+            ) );
         }
     }
 
