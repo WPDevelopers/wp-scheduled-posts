@@ -288,10 +288,10 @@ final class WpScp {
         $notice->thumbnail( 'upsale', plugins_url( 'admin/assets/images/wpsp-logo.svg', WPSP_PLUGIN_BASENAME ) );
 
         $notice->upsale_args = array(
-            'slug'      => 'wp-scheduled-posts',
-            'page_slug' => 'wp-scheduled-posts',
-            'file'      => 'wp-scheduled-posts.php',
-            'btn_text'  => __( 'Install Free', 'wp-scheduled-posts' ),
+            'slug'      => 'wp-scheduled-posts-pro',
+            'page_slug' => 'wp-scheduled-posts-pro',
+            'file'      => 'wp-scheduled-posts-pro.php',
+            'btn_text'  => __( 'Install Pro', 'wp-scheduled-posts' ),
             'condition' => [
                 'by' => 'class',
                 'class' => 'WpScp_Pro'
