@@ -148,6 +148,8 @@ final class WpScp {
             /**
              * JavaScript File
              */
+            wp_enqueue_script('jquery-ui-draggable');
+			wp_enqueue_script('jquery-ui-droppable');
             wp_enqueue_script( 'main-chung-timepicker', WPSCP_ADMIN_URL . 'assets/js/chung-timepicker.js', array('jquery'), null, false );
             wp_enqueue_script('time-script', WPSCP_ADMIN_URL . 'assets/js/jquery.timepicker.min.js', array('jquery'), null, false);
             wp_enqueue_script('jquery-modal', WPSCP_ADMIN_URL . 'assets/js/jquery.modal.min.js', array('jquery'), null, false);

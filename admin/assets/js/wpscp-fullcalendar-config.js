@@ -63,6 +63,9 @@ document.addEventListener('DOMContentLoaded', function() {
     eventRender: function( info ) {
         info.el.firstChild.innerHTML = info.event._def.title;
     },
+    eventDragStart: function(){
+        containerEl.classList.add('highlight');
+    },
     eventDragStop: function( info ) {
         if(isEventOverDiv(info.jsEvent.clientX, info.jsEvent.clientY)) {
             info.event.remove();
@@ -140,11 +143,9 @@ document.addEventListener('DOMContentLoaded', function() {
             markup +='<div class="wpscp-event-post" data-postid="'+obj.ID+'">';
             markup +='<div class="postlink "><span><span class="posttime">['+wpscpFormatAMPM(new Date(obj.post_modified))+']</span> '+obj.post_title+' ['+obj.post_status+']</span></div>';
             var link = '';
-            link += '<a href="'+wpscpGetHomeUrl()+'/wp-admin/post.php?post='+obj.ID+'&action=edit">Edit</a>';
-            link += '<a class="wpscpquickedit" href="#" data-type="quickedit">Quick Edit</a>';
-            link += '<a class="wpscpEventDelete" href="#">Delete</a>';
-            link += '<a href="'+obj.guid+'">View</a>';
-            markup += '<div class="postactions">'+link+'</div>';
+            link += '<div class="edit"><a href="'+wpscpGetHomeUrl()+'/wp-admin/post.php?post='+obj.ID+'&action=edit">Edit</a><a class="wpscpquickedit" href="#" data-type="quickedit">Quick Edit</a></div>';
+            link += '<div class="deleteview"><a class="wpscpEventDelete" href="#">Delete</a><a href="'+obj.guid+'">View</a></div>';
+            markup += '<div class="postactions"><div>'+link+'</div></div>';
             markup +='</div>';
         return markup;
     }
@@ -168,10 +169,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 var jsonData = ((response !== null && response !== '') ? JSON.parse(response) : []);
                 if(obj.type == 'addEvent' && obj.post_status == 'Scheduled'){
+                    // remove event
+                    var allevents = calendar.getEvents();
+                    allevents.forEach(function(el){
+                        var eventTitle = el.title;
+                        if(eventTitle.includes(obj.id) == true){
+                            el.remove();
+                        }
+                    });
+                    // add event
                     calendar.addEvent({
-                      title: wpscpEventTemplateStructure(jsonData[0]),
-                      start: jsonData[0].post_date,
-                      allDay: true
+                        title: wpscpEventTemplateStructure(jsonData[0]),
+                        start: jsonData[0].post_date,
+                        allDay: true
                     });
                 }else if(obj.type == 'drop' && obj.post_status == 'Scheduled'){
                     calendar.addEvent({
@@ -187,6 +197,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 // hide all spinner after complete ajax request
                 jQuery('.spinner').css('visibility', 'hidden');
+                containerEl.classList.remove('highlight');
            }
         }); 
     }
@@ -284,7 +295,7 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             var dateTime = modalTime.val();
             var dateStr = new Date(modalDate.val() + ' ' + dateTime); 
-
+            jQuery('*[data-date="'+modalDate.val()+'"]').children('.spinner').css('visibility', 'visible');
             // send ajax request
             wpscp_calender_ajax_request({
                 'type': 'addEvent',
@@ -341,8 +352,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // quick edit ajax update method
    jQuery(document).on('click', 'a.wpscpquickedit', function(e){
         e.preventDefault();
-        var editPostId = jQuery(this).parent().parent().data('postid');
-
+        var editPostId = jQuery(this).closest("[data-postid], .wpscp-event-post").data("postid");
+        console.log(editPostId);
         var data = {
             'action': 'wpscp_quick_edit',
             'id': editPostId
@@ -371,7 +382,7 @@ document.addEventListener('DOMContentLoaded', function() {
    // ajax delete posts
    jQuery(document).on('click', 'a.wpscpEventDelete', function(e){
         e.preventDefault();
-        var deletePostId = jQuery(this).parent().parent().data('postid');
+        var deletePostId = jQuery(this).closest("[data-postid], .wpscp-event-post").data("postid");
         var result = confirm("Want to delete?");
         if(result){
             var data = {
@@ -382,7 +393,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
             jQuery.post(ajax_object.ajax_url, data, function(response, status) {
                 if(status == 'success'){
-                    jQuery('*[data-postid="'+response+'"]').parent().parent().remove();
+                    jQuery('*[data-postid="'+response+'"]').closest('.fc-event').remove();
                 }
             });
         } // result

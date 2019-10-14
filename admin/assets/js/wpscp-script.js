@@ -63,6 +63,20 @@ jQuery(document).ready(function ($) {
 	    	} )
 
     	})
-    })
+	});
+	
+
+	// jQuery(document).on('hover', '.wpscp-event-post', function(e){
+	// 	e.preventDefault();
+	// 	var postActionSelector = $(this).children(".postactions");
+	// 	if( postActionSelector.attr('style') !== 'display: block'){
+	// 		postActionSelector.stop().slideDown("slow");
+			
+	// 	}else {
+	// 		postActionSelector.stop().slideUp("slow");
+	// 	}
+	// });
+	
+	
 });
 

@@ -85,14 +85,20 @@
                         <div class="wpscp-event-post" data-postid="<?php print get_the_id(); ?>">
                             <div class="postlink ">
                                 <span>
-                                    <span class="posttime">[<?php print get_the_time( '', get_the_id() ); ?>]</span> <?php print get_the_title() . ' ' . '['.get_post_status(get_the_id()).']'; ?>
+                                    <span class="posttime">[<?php print get_the_time( '', get_the_id() ); ?>]</span> <?php print wp_trim_words(get_the_title(), 3, '...') . ' ' . '['.get_post_status(get_the_id()).']'; ?>
                                 </span>
                             </div>
                             <div class="postactions">
-                                <a href="<?php print esc_url(get_edit_post_link(get_the_id())); ?>">Edit</a>
-                                <a class="wpscpquickedit" href="#" data-type="quickedit">Quick Edit</a>
-                                <a class="wpscpEventDelete" href="#">Delete</a>
-                                <a href="<?php print esc_url(get_the_permalink()); ?>">View</a>
+                                <div>
+                                    <div class="edit">
+                                        <a href="<?php print esc_url(get_edit_post_link(get_the_id())); ?>">Edit</a>
+                                        <a class="wpscpquickedit" href="#" data-type="quickedit">Quick Edit</a>
+                                    </div>
+                                    <div class="deleteview">
+                                        <a class="wpscpEventDelete" href="#">Delete</a>
+                                        <a href="<?php print esc_url(get_the_permalink()); ?>">View</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -90,41 +90,58 @@
 
 
 
-  .wpscp-calendar-wrap {
-    padding: 15px;
-  }
-  .wpscp-calendar-wrap:before {
-    content: '';
-    display: block;
-    overflow: hidden;
-    clear: both;
-  }
-  .wpscp-calendar-wrap table thead tr th {
-	  height: 50px;
-	  line-height: 50px;
-	  color: #fff;
-	  background: #715ec8;
+  .fc-day-grid-event .fc-content {
+    white-space: inherit;
   }
   .wpscp-calendar-wrap .wpscp-event-post {
-	padding: 5px 10px;
-  }
-  .wpscp-calendar-wrap .wpscp-event-post .postactions {
-	display: inline-block;
+      padding: 5px 10px;
+      height: 50px;
   }
   .wpscp-calendar-wrap .wpscp-event-post .postlink  {
-	  margin-bottom: 5px;
+    font-size: 14px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translateY(0);
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    transition: all .3s ease;
    }
+  .wpscp-calendar-wrap .wpscp-event-post .postactions {
+    font-size: 14px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transform: translateY(20px);
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    transition: all .3s ease;
+  }
+  .wpscp-calendar-wrap .wpscp-event-post:hover .postactions { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .wpscp-calendar-wrap .wpscp-event-post:hover .postlink {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+
    .wpscp-calendar-wrap .wpscp-event-post .postlink > span {
-	   white-space: wrap;
-   }
-   .wpscp-calendar-wrap .fc-day-grid-event .fc-content {
-	   white-space: pre-wrap;
-   }
-   .wpscp-calendar-wrap .fc-event .postactions {
-		display: none;
-   }
-   .wpscp-calendar-wrap .fc-event:hover .postactions {
-	   display: block;
+      word-break: break-word;
    }
   .wpscp-calendar-wrap .wpscp-event-post a {
 	  	padding-right: 5px;
@@ -160,6 +177,9 @@
         border: 1px solid #ccc;
         background: #eee;
         text-align: left;
+    }
+    #external-events.highlight {
+      border-color: #3788d8;
     }
 
         
