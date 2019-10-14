@@ -12,41 +12,26 @@
             <div class="wpsp-quickedit-inner">
                 <div id="tooltiphead">
                     <h3 id="tooltiptitle">New Post</h3>
-                    <a href="#" id="tipclose" title="close"> <span class="dashicons dashicons-no-alt"></span></a>
                 </div>
 
                 <div class="wpsp_quickedit inline-edit-row">
                     <form action="#" method="post">
                         <fieldset>
-                            <label>
-                                <span class="title">Title</span>
-                                <span class="input-text-wrap"><input type="text" class="ptitle" id="title" name="title"></span>
-                            </label>
-
-                            <label>
-                                <span class="title">Content</span>
-                                <span class="input-text-wrap"><textarea cols="15" rows="7" id="content" name="content"></textarea></span>
-                            </label>
-
-                            <label>
-                                <span class="title">Status</span>
-                                <span class="input-text-wrap">
-                                    <select name="status" id="wpsp-status" disabled="disabled">
-                                        <option value="Draft">Draft</option>
-                                        <option value="Scheduled">Scheduled</option>
-                                    </select>
-                                </span>
-                            </label>
-
-                            <div id="timeEditControls">
-                                <label>
-                                    <span class="title">Time</span>
-                                    <span class="input-text-wrap">
-                                        <input type="text" class="ptitle" id="wpsp_time" name="time" value="" size="8" maxlength="8" autocomplete="OFF">
-                                    </span>
-                                </label>
+                            <div class="form-group">
+                                <input type="text" class="regular-text" id="title" name="title" placeholder="Title">
                             </div>
-
+                            <div class="form-group">
+                                <textarea cols="15" rows="7" id="content" name="content" placeholder="Content"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <select name="status" id="wpsp-status" disabled="disabled">
+                                    <option value="Draft">Draft</option>
+                                    <option value="Scheduled">Scheduled</option>
+                                </select>
+                            </div>
+                            <div id="timeEditControls">
+                                <input type="text" class="ptitle" id="wpsp_time" name="time" value="" size="8" maxlength="8" autocomplete="OFF" placeholder="12:00 AM">
+                            </div>
                         </fieldset>
                         <input type="hidden" id="postID" name="postID">
                         <input type="hidden" id="date" name="date">
