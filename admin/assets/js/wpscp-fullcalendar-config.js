@@ -148,8 +148,8 @@ document.addEventListener('DOMContentLoaded', function() {
             markup +='<div class="wpscp-event-post" data-postid="'+obj.ID+'">';
             markup +='<div class="postlink "><span><span class="posttime">['+wpscpFormatAMPM(new Date(obj.post_modified))+']</span> '+obj.post_title+' ['+obj.post_status+']</span></div>';
             var link = '';
-            link += '<div class="edit"><a href="'+wpscpGetHomeUrl()+'/wp-admin/post.php?post='+obj.ID+'&action=edit">Edit</a><a class="wpscpquickedit" href="#" data-type="quickedit">Quick Edit</a></div>';
-            link += '<div class="deleteview"><a class="wpscpEventDelete" href="#">Delete</a><a href="'+obj.guid+'">View</a></div>';
+            link += '<div class="edit"><a href="'+wpscpGetHomeUrl()+'/wp-admin/post.php?post='+obj.ID+'&action=edit"><i class="dashicons dashicons-edit"></i>Edit</a><a class="wpscpquickedit" href="#" data-type="quickedit"><i class="dashicons dashicons-welcome-write-blog"></i>Quick Edit</a></div>';
+            link += '<div class="deleteview"><a class="wpscpEventDelete" href="#"><i class="dashicons dashicons-trash"></i> Delete</a><a href="'+obj.guid+'"><i class="dashicons dashicons-admin-links"></i> View</a></div>';
             markup += '<div class="postactions"><div>'+link+'</div></div>';
             markup +='</div>';
         return markup;

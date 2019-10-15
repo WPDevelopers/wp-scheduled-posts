@@ -122,8 +122,10 @@
 #wpscp_quickedit #timeEditControls {
 	margin-left: 10px;
 }
+a.btn-draft-post-create,
 #wpscp_quickedit a.button-secondary.close,
 #wpscp_quickedit #wpcNewPostScheduleButton {
+	display: inline-block;
 	padding: 2px 30px;
 	font-size: 14px;
 	line-height: 35px;
@@ -133,6 +135,8 @@
 	color: #6452d2;
 	box-shadow: none;
 	margin-right: 10px;
+	text-decoration: none;
+	cursor: pointer;
 	-webkit-transition: all .3s ease;
 	-moz-transition: all .3s ease;
 	transition: all .3s ease;
@@ -142,6 +146,7 @@
 	background: #6452d2;
 	color: #fff;
 }
+a.btn-draft-post-create,
 #wpscp_quickedit #wpcNewPostScheduleButton {
 	background: #6452d2;
 	color: #fff;

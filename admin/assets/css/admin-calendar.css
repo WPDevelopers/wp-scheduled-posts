@@ -114,7 +114,7 @@
     transition: all .3s ease;
    }
   .wpscp-calendar-wrap .wpscp-event-post .postactions {
-    font-size: 14px;
+    font-size: 12px;
     position: absolute;
     left: 0;
     right: 0;
@@ -124,6 +124,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    text-decoration: none;
     opacity: 0;
     transform: translateY(20px);
     -webkit-transition: all .3s ease;
@@ -140,77 +141,97 @@
   }
 
 
-   .wpscp-calendar-wrap .wpscp-event-post .postlink > span {
-      word-break: break-word;
-   }
-  .wpscp-calendar-wrap .wpscp-event-post a {
-	  	padding-right: 5px;
-		color: #fff;
-  }
-  .fc-button-primary {
-      color: #fff;
-      background-color: #2278f6;
-	  border-color: #2278f6;
-	  box-shadow: none;
-  }
-  .fc-today-button.fc-button.fc-button-primary,
-  .fc-button-primary:hover,
-  .fc-button-primary:not(:disabled):active, .fc-button-primary:not(:disabled).fc-button-active {
-	  background-color: #1c64ce;
-	  border-color: #1c64ce;
-  }
-  .fc-button-primary:not(:disabled):active:focus, .fc-button-primary:not(:disabled).fc-button-active:focus,
-  .fc-button-primary:hover,
-  .fc-button-primary:focus {
-	  box-shadow: none;
-  }
+.wpscp-calendar-wrap .wpscp-event-post .postlink > span {
+    word-break: break-word;
+}
+.wpscp-calendar-wrap .wpscp-event-post a {
+    font-size: 12px;
+    line-height: 12px;
+    text-decoration: none;
+    padding-right: 5px;
+    color: #c2c5ff;
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    transition: all .3s ease;
+}
+.wpscp-calendar-wrap .wpscp-event-post a:hover {
+  color: #fff;
+}
+.wpscp-calendar-wrap .wpscp-event-post a i {
+  font-size: 13px;
+  width: auto;
+  color: #c2c5ff;
+}
+.fc-button-primary {
+    color: #fff;
+    background-color: #2278f6;
+  border-color: #2278f6;
+  box-shadow: none;
+}
+.fc-today-button.fc-button.fc-button-primary,
+.fc-button-primary:hover,
+.fc-button-primary:not(:disabled):active, .fc-button-primary:not(:disabled).fc-button-active {
+  background-color: #1c64ce;
+  border-color: #1c64ce;
+}
+.fc-button-primary:not(:disabled):active:focus, .fc-button-primary:not(:disabled).fc-button-active:focus,
+.fc-button-primary:hover,
+.fc-button-primary:focus {
+  box-shadow: none;
+}
+#calendar-container {
+  display: flex;
+}
+#calendar {
+  flex-basis: 80%;
+  height: 500px;
+  margin-left: 5%;
+}
 
-  #calendar {
-    float: right;
-      width: 80%;
-  }
-        
-    #external-events {
-        display: inline-block;
-        width: 15%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        background: #eee;
-        text-align: left;
-    }
-    #external-events.highlight {
-      border-color: #3788d8;
-    }
+#external-events {
+  flex-basis: 15%;
+  padding: 0 10px 10px 10px;
+  background: #f7f7f7;
+  text-align: left;
+}
+#external-events.highlight {
+  border-color: #3788d8;
+}
 
         
-    #external-events h4 {
-        font-size: 16px;
-        margin-top: 0;
-        padding-top: 1em;
-    }
-        
-    #external-events .fc-event {
-        margin: 10px 0;
-        cursor: pointer;
-    }
-        
-    #external-events p {
-        margin: 1.5em 0;
-        font-size: 11px;
-        color: #666;
-    }
-        
-    #external-events p input {
-        margin: 0;
-        vertical-align: middle;
-    }
-	#external-events-listing .unscheduled {
-		background-color: #ff5f7e;
-		color: #fff;
-		padding: 20px 15px;
-	}
+#external-events h4 {
+    font-size: 16px;
+    margin-top: 0;
+    padding-top: 1em;
+}
     
+#external-events .fc-event {
+    margin: 10px 0;
+    cursor: pointer;
+}
+    
+#external-events p {
+    margin: 1.5em 0;
+    font-size: 11px;
+    color: #666;
+}
+    
+#external-events p input {
+    margin: 0;
+    vertical-align: middle;
+}
+#external-events-listing .unscheduled {
+  background-color: #ff5f7e;
+  color: #fff;
+  padding: 20px 15px;
+}
+  
 
-a.close-modal {
+#wpscp_quickedit a.close-modal {
     display: none !important;
+}
+
+.wpscp-calendar-wrap {
+  background: #fff;
+  padding: 25px 20px;
 }
