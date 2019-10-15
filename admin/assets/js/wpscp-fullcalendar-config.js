@@ -1,12 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
   var Calendar = FullCalendar.Calendar;
   var Draggable = FullCalendarInteraction.Draggable;
-
   var containerEl = document.getElementById('external-events');
   var calendarEl = document.getElementById('calendar');
-
-
-
   //center any element in jquery center function
     jQuery.fn.center = function(parent) {
         if (parent) {
@@ -22,83 +18,89 @@ document.addEventListener('DOMContentLoaded', function() {
         return this;
     }
 
-  // initialize the external events
-  // -----------------------------------------------------------------
+    /**
+     * initialize the external events
+     */
+    new Draggable(containerEl, {
+        itemSelector: '.fc-event',
+        eventData: function(eventEl) {
+        return {
+            title: eventEl.innerHTML
+        };
+        }
+    });
 
-  new Draggable(containerEl, {
-    itemSelector: '.fc-event',
-    eventData: function(eventEl) {
-      return {
-        title: eventEl.innerHTML
-      };
-    }
-  });
+    /**
+     * initialize the main calendar
+     */
+    var calendar = new Calendar(calendarEl, {
+        plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
+        header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        editable: true,
+        droppable: true, // this allows things to be dropped onto the calendar
+        textEscape: true,
+        dragRevertDuration: 0,
+        drop: function(info) {
+            // old event remove after drop
+        info.draggedEl.parentNode.removeChild(info.draggedEl);
+        // send ajax request
+        var eventDate = new Date(info.date);
+        jQuery('*[data-date="'+wpscpFormatDate(eventDate)+'"]').children('.spinner').css('visibility', 'visible');
+        wpscp_calender_ajax_request({
+            id: jQuery(info.draggedEl).find('.wpscp-event-post').data('postid'),
+            type: 'drop',
+            date: info.date
+        });
+        },
+        eventRender: function( info ) {
+            info.el.firstChild.innerHTML = info.event._def.title;
+        },
+        eventDragStart: function(){
+            containerEl.classList.add('highlight');
+        },
+        eventDragStop: function( info ) {
+            if(isEventOverDiv(info.jsEvent.clientX, info.jsEvent.clientY)) {
+                info.event.remove();
+                var el = jQuery( "<div class='fc-event'>" ).appendTo( '#external-events-listing' ).html( '<div id="draft_loading">Loading....</div>' );
+                el.draggable({
+                zIndex: 999,
+                revert: true, 
+                revertDuration: 0,
+                });
+                el.data('event', { title: info.event.title, id: info.event.id, stick: true });
+                // send ajax request
+                jQuery('#external-events-listing .spinner').css('visibility', 'visible');
+                wpscp_calender_ajax_request({
+                    id: jQuery(info.el).find('.wpscp-event-post').data('postid'),
+                    type: 'draftDrop',
+                });
+            }
 
-  // initialize the calendar
-  // -----------------------------------------------------------------
-
-  var calendar = new Calendar(calendarEl, {
-    plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
-    header: {
-      left: 'prev,next today',
-      center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay'
-    },
-    editable: true,
-    droppable: true, // this allows things to be dropped onto the calendar
-    textEscape: true,
-    dragRevertDuration: 0,
-    drop: function(info) {
-        // old event remove after drop
-      info.draggedEl.parentNode.removeChild(info.draggedEl);
-      // send ajax request
-      var eventDate = new Date(info.date);
-      jQuery('*[data-date="'+wpscpFormatDate(eventDate)+'"]').children('.spinner').css('visibility', 'visible');
-      wpscp_calender_ajax_request({
-        id: jQuery(info.draggedEl).find('.wpscp-event-post').data('postid'),
-        type: 'drop',
-        date: info.date
-      });
-    },
-    eventRender: function( info ) {
-        info.el.firstChild.innerHTML = info.event._def.title;
-    },
-    eventDragStart: function(){
-        containerEl.classList.add('highlight');
-    },
-    eventDragStop: function( info ) {
-        if(isEventOverDiv(info.jsEvent.clientX, info.jsEvent.clientY)) {
-            info.event.remove();
-            var el = jQuery( "<div class='fc-event'>" ).appendTo( '#external-events-listing' ).html( '<div id="draft_loading">Loading....</div>' );
-            el.draggable({
-              zIndex: 999,
-              revert: true, 
-              revertDuration: 0,
-            });
-            el.data('event', { title: info.event.title, id: info.event.id, stick: true });
+        },
+        eventDrop: function( info ){
+            var eventDate = new Date(info.event.start);
+            jQuery('*[data-date="'+wpscpFormatDate(eventDate)+'"]').children('.spinner').css('visibility', 'visible');
             // send ajax request
-            jQuery('#external-events-listing .spinner').css('visibility', 'visible');
+            jQuery(info.el).prev('.spinner').css('visibility', 'visible');
             wpscp_calender_ajax_request({
                 id: jQuery(info.el).find('.wpscp-event-post').data('postid'),
-                type: 'draftDrop',
-              });
+                post_status : 'Scheduled',
+                type: 'eventDrop',
+                date: info.event.start,
+            });
         }
+    });
+    calendar.render();
+    // end main calendar functionality
 
-    },
-    eventDrop: function( info ){
-        var eventDate = new Date(info.event.start);
-        jQuery('*[data-date="'+wpscpFormatDate(eventDate)+'"]').children('.spinner').css('visibility', 'visible');
-        // send ajax request
-        jQuery(info.el).prev('.spinner').css('visibility', 'visible');
-        wpscp_calender_ajax_request({
-            id: jQuery(info.el).find('.wpscp-event-post').data('postid'),
-            post_status : 'Scheduled',
-            type: 'eventDrop',
-            date: info.event.start,
-        });
-    }
-  });
-  calendar.render();
+    /**
+     * Necessary Functions for Calendar and ajax call
+     */
+
   
     /*
     * add Future Post Event Via ajax Call
@@ -137,7 +139,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
    
-
+    /**
+     * Calendar Event markup
+     * @param {*} obj 
+     */
     function wpscpEventTemplateStructure(obj){
             var markup = '';
             markup +='<div class="wpscp-event-post" data-postid="'+obj.ID+'">';
@@ -150,6 +155,10 @@ document.addEventListener('DOMContentLoaded', function() {
         return markup;
     }
 
+    /**
+     * Main function for calendar ajax request
+     * @param {*} obj 
+     */
     function wpscp_calender_ajax_request(obj){
         var data = {
             'action': 'wpscp_calender_ajax_request',
@@ -204,7 +213,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     /**
-    * Add New Button
+    * Add New Post Button Button
     */ 
     jQuery('.fc-button').on('click', function(e) {
         e.preventDefault();
@@ -240,8 +249,8 @@ document.addEventListener('DOMContentLoaded', function() {
        
     }
 
+    // necessary selector for calendar
     var dayNewLink = jQuery('.daynewlink');
-    // modal
     var modalClose = jQuery('*[rel="modal:close"]');
     var modalCloseClass = jQuery('.close-modal');
     var modalDate = jQuery('#date');
@@ -258,11 +267,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // modal submit
     wpscp_calendar_modal_submit();
 
-
-
-
-
-
+    /**
+     * After Modal hide this function will be fire
+     */
     function wpscp_calendar_modal_hide(){
         modalTitle.val('');
         modalContent.val('');
@@ -273,7 +280,9 @@ document.addEventListener('DOMContentLoaded', function() {
         jQuery.modal.close();
         jQuery('.spinner').css('visibility', 'hidden');
     }
-
+    /**
+     * Showing Calendar Event Modal
+     */
     function wpscp_calendar_modal(){
         dayNewLink.on('click', function(e) {
             e.preventDefault();
@@ -289,7 +298,9 @@ document.addEventListener('DOMContentLoaded', function() {
             wpscp_calendar_modal_hide();
         });
     }
-
+    /**
+     * Calendar Modal Popup Submit
+     */
     function wpscp_calendar_modal_submit(){
         // quick post submit button
         modalSubmit.on('click', function(e){
@@ -313,7 +324,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-
+    /**
+     * Date Format Change
+     * @param {date string} date 
+     */
     function wpscpFormatDate(date) {
         var d = new Date(date),
             month = '' + (d.getMonth() + 1),
@@ -325,7 +339,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         return [year, month, day].join('-');
     }
-
+    /**
+     * Date Format AmPm
+     * @param {date string} date 
+     */
     function wpscpFormatAMPM(date) {
       var hours = date.getHours();
       var minutes = date.getMinutes();
@@ -336,7 +353,9 @@ document.addEventListener('DOMContentLoaded', function() {
       var strTime = hours + ':' + minutes + ' ' + ampm;
       return strTime;
     }
-
+    /**
+     * Get WP Host URL for hit restapi endpoint
+     */
     function wpscpGetHomeUrl() {
         var href = window.location.href;
         var index = href.indexOf('/wp-admin');
@@ -345,12 +364,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 
-
-
-
-
-
-    // quick edit ajax update method
+    /**
+     * Ajax Request For Update Post
+     */
    jQuery(document).on('click', 'a.wpscpquickedit', function(e){
         e.preventDefault();
         var editPostId = jQuery(this).closest("[data-postid], .wpscp-event-post").data("postid");
@@ -379,7 +395,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 
-   // ajax delete posts
+   /**
+    * Ajax Request For Delete Post
+    */
    jQuery(document).on('click', 'a.wpscpEventDelete', function(e){
         e.preventDefault();
         var deletePostId = jQuery(this).closest("[data-postid], .wpscp-event-post").data("postid");
