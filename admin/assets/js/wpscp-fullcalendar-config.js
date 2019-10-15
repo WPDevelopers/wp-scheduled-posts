@@ -170,14 +170,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 var jsonData = ((response !== null && response !== '') ? JSON.parse(response) : []);
                 if(obj.type == 'addEvent' && obj.post_status == 'Scheduled'){
                     // remove event
-                    // var allevents = calendar.getEvents();
-                    // allevents.forEach(function(el){
-                    //     var eventTitle = el.title;
-                        
-                    //     if(eventTitle.includes(obj.id) == true){
-                    //         el.remove();
-                    //     }
-                    // });
+                    var allevents = calendar.getEvents();
+                    allevents.forEach(function(el){
+                        var eventTitle = el.title;
+                        if(jQuery(eventTitle).data('postid') == obj.id){
+                            el.remove();
+                        }
+                    });
                     // add event
                     calendar.addEvent({
                         title: wpscpEventTemplateStructure(jsonData[0]),
@@ -270,6 +269,7 @@ document.addEventListener('DOMContentLoaded', function() {
         modalTime.val('');
         modalStatus.val('');
         modalDate.val('');
+        postID.val('');
         jQuery.modal.close();
         jQuery('.spinner').css('visibility', 'hidden');
     }
