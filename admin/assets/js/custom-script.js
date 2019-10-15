@@ -337,6 +337,69 @@ jQuery(document).ready(function ($) {
     jQuery('a[rel="modal:open"]').on('click', function(){
     	jQuery('select#wpsp-status').val('Draft');
     	jQuery('#timeEditControls').hide();
-    });
-
+	});
 });
+
+function wpscp_formatDate_from_string(strr) {
+	var date = new Date(strr);
+	var monthNames = [
+	  "January", "February", "March",
+	  "April", "May", "June", "July",
+	  "August", "September", "October",
+	  "November", "December"
+	];
+  
+	var day = date.getDate();
+	var monthIndex = date.getMonth();
+	var year = date.getFullYear();
+  
+	return day + ' ' + monthNames[monthIndex] + ' ' + year;
+  }
+
+/**
+ * Notification For Calendar
+ * @param {*} obj 
+ */
+function wpscp_calendar_notifi(obj){
+	var error = false;
+	var content = '';
+	switch(obj.type) {
+		case 'newpost':
+			content = 'New Future Post has been successfully Created';
+		  break;
+		case 'updatepost':
+			content = 'Your Post has been successfully Updated';
+		  break;
+		case 'future_post_update':
+			content = 'Your Post has been successfully moved to "'+wpscp_formatDate_from_string(obj.post_date)+'"';
+		  break;
+		case 'draft_new_post':
+			content = 'New Draft Post has been successfully Created';
+		  break;
+		case 'draft_post_update':
+			content = 'Your Post has been successfully Updated. Saved As Draft Mode';
+		  break;
+		case 'post_delete':
+			content = 'Your Post has been successfully Deleted';
+		  break;
+		case 'future_to_draft':
+			content = 'Your Post Status has been changed to Draft';
+		  break;
+		case 'draft_to_future':
+			content = 'Your Post Status has been changed to Future';
+		  break;
+		default:
+			content = '';
+	  }
+
+	if(!error) {
+		jQuery.notifi(content,{
+			autoHideDelay:	5000,
+		});
+	}else {
+		jQuery.notifi(content,{
+			autoHideDelay:		5000,
+			noticeClass:		'ntf-warning'
+		});
+	}
+}

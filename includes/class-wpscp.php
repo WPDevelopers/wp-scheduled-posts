@@ -138,6 +138,7 @@ final class WpScp {
             wp_enqueue_style( 'font-awesome', WPSCP_ADMIN_URL . 'assets/css/font-awesome.min.css', array(), false, 'all' );
             wp_enqueue_style( 'select2-css', WPSCP_ADMIN_URL . 'assets/css/select2.min.css', array(), false, 'all' );
             wp_enqueue_style( 'chung-timepicker', WPSCP_ADMIN_URL . 'assets/css/chung-timepicker.css', array(), false, 'all' );
+            wp_enqueue_style( 'notifi', WPSCP_ADMIN_URL . 'assets/css/notifi.css', array(), false, 'all' );
             wp_enqueue_style( 'full-calendar', WPSCP_ADMIN_URL . 'assets/css/full-calendar.css', array(), false, 'all' );
             wp_enqueue_style( 'jquery-modal', WPSCP_ADMIN_URL . 'assets/css/jquery.modal.min.css', array(), false, 'all' );
             wp_enqueue_style( 'jquery-timepicker', WPSCP_ADMIN_URL . 'assets/css/jquery.timepicker.min.css', array(), false, 'all' );
@@ -155,7 +156,7 @@ final class WpScp {
             wp_enqueue_script('jquery-modal', WPSCP_ADMIN_URL . 'assets/js/jquery.modal.min.js', array('jquery'), null, false);
             wp_enqueue_script( 'select2', WPSCP_ADMIN_URL . 'assets/js/select2.full.js', array('jquery'), null, false );
             wp_enqueue_script( 'sweetalert', WPSCP_ADMIN_URL . 'assets/js/sweetalert.min.js', array('jquery'), null, false );
-            // wp_enqueue_script( 'jquery-ui-notification', WPSCP_ADMIN_URL . 'assets/js/jquery.uinotifaction.js', array('jquery'), null, false );
+            wp_enqueue_script( 'notifi', WPSCP_ADMIN_URL . 'assets/js/notifi.min.js', array('jquery'), null, false );
             wp_enqueue_script( 'custom-script', WPSCP_ADMIN_URL . 'assets/js/custom-script.js', array('jquery'), null, false );
             wp_enqueue_script( 'wpscp-script', WPSCP_ADMIN_URL . 'assets/js/wpscp-script.js', array('jquery'), null, false );
             wp_localize_script( 'custom-script', 'wpscp_ajax',
