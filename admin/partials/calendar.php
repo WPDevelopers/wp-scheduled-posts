@@ -8,8 +8,8 @@
         <!-- modal -->
         <div id="wpscp_quickedit" class="modal">
             <div class="wpsp-quickedit-inner">
-                <div id="tooltiphead">
-                    <h3 id="tooltiptitle"><?php esc_html_e('New Post', 'wp-scheduled-posts'); ?></h3>
+                <div>
+                    <h3 class="entry-title"><?php esc_html_e('New Post', 'wp-scheduled-posts'); ?></h3>
                 </div>
                 <div class="wpsp_quickedit inline-edit-row">
                     <form action="#" method="post">
@@ -20,7 +20,7 @@
                             <div class="form-group">
                                 <textarea cols="15" rows="7" id="content" name="content" placeholder="<?php esc_attr_e('Content', 'wp-scheduled-posts'); ?>"></textarea>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group-inline">
                                 <select name="status" id="wpsp-status" disabled="disabled">
                                     <option value="Draft"><?php esc_html_e('Draft', 'wp-scheduled-posts'); ?></option>
                                     <option value="Scheduled"><?php esc_html_e('Scheduled', 'wp-scheduled-posts'); ?></option>
