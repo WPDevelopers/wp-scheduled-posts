@@ -41,6 +41,11 @@ class WpScp_Calendar {
      * @version 3.0.1
      */
     public function calender_ajax_request_php() {
+        $nonce = $_POST['nonce'];
+        if ( ! wp_verify_nonce( $nonce, 'wpscp-calendar-ajax-nonce' ) ) {
+            die( __( 'Security check', 'wp-scheduled-posts' ) ); 
+        }
+
         $type = (isset($_POST['type']) ? $_POST['type'] : '');
         $dateStr = (isset($_POST['date']) ? $_POST['date'] : '');
         $postid = (isset($_POST['id']) ? $_POST['id'] : '');

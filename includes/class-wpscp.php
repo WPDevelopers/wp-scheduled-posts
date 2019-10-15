@@ -167,10 +167,10 @@ final class WpScp {
 			wp_enqueue_script('fullcalendar-timegrid', WPSCP_ADMIN_URL . 'assets/js/fullcalendar/timegrid/main.js', array('jquery'), null, false);
 			wp_enqueue_script('wpscp-fullcalendar', WPSCP_ADMIN_URL . 'assets/js/wpscp-fullcalendar-config.js', array('jquery'), null, false);
 			// in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
-			wp_localize_script( 'wpscp-fullcalendar', 'ajax_object',
+			wp_localize_script( 'wpscp-fullcalendar', 'wpscp_calendar_ajax_object',
             array( 
             	'ajax_url' => admin_url( 'admin-ajax.php' ), 
-            	'nonce' => wp_create_nonce('ajax-nonce'),
+            	'nonce' => wp_create_nonce('wpscp-calendar-ajax-nonce'),
             ) );
         }
     }
