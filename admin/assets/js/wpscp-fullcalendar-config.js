@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
         eventLimit: true, // for all non-TimeGrid views
         views: {
             dayGrid: {
-                eventLimit: 2
+                eventLimit: 3
             }
         },
         drop: function(info) {
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
             info.el.firstChild.innerHTML = info.event._def.title;
         },
         eventDragStart: function(){
-            containerEl.classList.add('highlight');
+            jQuery('#external-events').addClass('highlight');
         },
         eventDragStop: function( info ) {
             if(isEventOverDiv(info.jsEvent.clientX, info.jsEvent.clientY)) {
@@ -131,17 +131,18 @@ document.addEventListener('DOMContentLoaded', function() {
     * Check Dragable Event is out of calendar div
     */
     var isEventOverDiv = function(x, y) {
+
         var external_events = jQuery( '#external-events' );
         var offset = external_events.offset();
         offset.right = external_events.width() + offset.left;
         offset.bottom = external_events.height() + offset.top;
-
         // Compare
         if (x >= offset.left
-            && y >= offset.top
+            // && y <= offset.top
             && x <= offset.right
-            && y <= offset .bottom) { return true; }
+            && y <= offset.bottom) { return true; }
         return false;
+
     }
 
    
@@ -241,7 +242,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 // hide all spinner after complete ajax request
                 jQuery('.spinner').css('visibility', 'hidden');
-                containerEl.classList.remove('highlight');
+                jQuery('#external-events').removeClass('highlight');
            }
         }); 
     }

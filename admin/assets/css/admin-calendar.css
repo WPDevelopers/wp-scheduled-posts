@@ -216,8 +216,8 @@
   display: flex;
 }
 .wpscp-calendar-wrap #calendar {
-  flex-basis: 83%;
-  margin-left: 2%;
+  flex-basis: 80%;
+  margin-left: 5%;
 }
 
 .wpscp-calendar-wrap #external-events {
@@ -251,6 +251,9 @@
 .wpscp-calendar-wrap #external-events p input {
     margin: 0;
     vertical-align: middle;
+}
+.wpscp-calendar-wrap #external-events.highlight {
+  background: #e1eff5;
 }
 .wpscp-calendar-wrap #external-events-listing .unscheduled {
   background-color: #ff5f7e;
