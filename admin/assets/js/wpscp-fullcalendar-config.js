@@ -38,23 +38,29 @@ document.addEventListener('DOMContentLoaded', function() {
         header: {
         left: 'prev,next today',
         center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        // right: 'dayGridMonth'
         },
         editable: true,
         droppable: true, // this allows things to be dropped onto the calendar
         textEscape: true,
         dragRevertDuration: 0,
+        eventLimit: true, // for all non-TimeGrid views
+        views: {
+            dayGrid: {
+                eventLimit: 3 // adjust to 6 only for timeGridWeek/timeGridDay
+            }
+        },
         drop: function(info) {
             // old event remove after drop
         info.draggedEl.parentNode.removeChild(info.draggedEl);
         // send ajax request
         var eventDate = new Date(info.date);
-        jQuery('*[data-date="'+wpscpFormatDate(eventDate)+'"]').children('.spinner').css('visibility', 'visible');
-        wpscp_calender_ajax_request({
-            id: jQuery(info.draggedEl).find('.wpscp-event-post').data('postid'),
-            type: 'drop',
-            date: info.date
-        });
+            jQuery('*[data-date="'+wpscpFormatDate(eventDate)+'"]').children('.spinner').css('visibility', 'visible');
+            wpscp_calender_ajax_request({
+                id: jQuery(info.draggedEl).find('.wpscp-event-post').data('postid'),
+                type: 'drop',
+                date: info.date
+            });
         },
         eventRender: function( info ) {
             info.el.firstChild.innerHTML = info.event._def.title;

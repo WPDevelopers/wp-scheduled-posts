@@ -301,7 +301,6 @@ jQuery(document).ready(function ($) {
 		var appType1st = $('input:checked[type=radio][name=wpscp_pro_app_type][data-id=first]');
 		var appType2nd = $('input:checked[type=radio][name=wpscp_pro_app_type][data-id=second]');
 		if(appType2nd.val() == 'userapp') {
-			console.log('user app');
 			if($('#fb_app_id').val() == ""){
 				$('#fbAcessTokenGen').hide();
 				$('#acessTokenNotice').show();
@@ -311,7 +310,6 @@ jQuery(document).ready(function ($) {
 			}
 		}
 		else if(appType1st.val() == 'wpscpapp'){
-			console.log('wpscp app');
 			$('#fbAcessTokenGen').show();
 			$('#acessTokenNotice').hide();
 		}

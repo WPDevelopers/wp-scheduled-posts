@@ -1,74 +1,104 @@
-/* DayGridView
---------------------------------------------------------------------------------------------------*/
-/* day row structure */
-.fc-dayGridWeek-view .fc-content-skeleton,
-.fc-dayGridDay-view .fc-content-skeleton {
-  /* there may be week numbers in these views, so no padding-top */
+.wpscp-calendar-wrap .fc-dayGridWeek-view .fc-content-skeleton,
+.wpscp-calendar-wrap .fc-dayGridDay-view .fc-content-skeleton {
   padding-bottom: 1em;
-  /* ensure a space at bottom of cell for user selecting/clicking */
 }
-
-.fc-dayGrid-view .fc-body .fc-row {
+.wpscp-calendar-wrap .fc-dayGrid-view .fc-body .fc-row {
   min-height: 4em;
-  /* ensure that all rows are at least this tall */
 }
-
-/* a "rigid" row will take up a constant amount of height because content-skeleton is absolute */
-.fc-row.fc-rigid {
+.wpscp-calendar-wrap .fc-row.fc-rigid {
   overflow: hidden;
 }
-
-.fc-row.fc-rigid .fc-content-skeleton {
+.wpscp-calendar-wrap .fc-row.fc-rigid .fc-content-skeleton {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
 }
-
+.wpscp-calendar-wrap table thead th.fc-widget-header {
+  height: 40px;
+  font-size: 16px;
+  line-height: 40px;
+}
+.wpscp-calendar-wrap th.fc-widget-header,
+.wpscp-calendar-wrap .fc-widget-content,
+.wpscp-calendar-wrap .fc-day-top {
+  background: #f0f2f6;
+  color: #405068;
+}
+.wpscp-calendar-wrap .fc th, 
+.wpscp-calendar-wrap .fc td {
+  border-width: 8px;
+}
+.wpscp-calendar-wrap .fc-unthemed th, 
+.wpscp-calendar-wrap .fc-unthemed td, 
+.wpscp-calendar-wrap .fc-unthemed thead, 
+.wpscp-calendar-wrap .fc-unthemed tbody, 
+.wpscp-calendar-wrap .fc-unthemed .fc-divider, 
+.wpscp-calendar-wrap .fc-unthemed .fc-row, 
+.wpscp-calendar-wrap .fc-unthemed .fc-content, 
+.wpscp-calendar-wrap .fc-unthemed .fc-popover, 
+.wpscp-calendar-wrap .fc-unthemed .fc-list-view, 
+.wpscp-calendar-wrap .fc-unthemed .fc-list-heading td {
+  border-color: #fff;
+}
 /* week and day number styling */
-.fc-day-top.fc-other-month {
+.wpscp-calendar-wrap .fc-day-top.fc-other-month {
   opacity: 0.3;
 }
 
-.fc-dayGrid-view .spinner {
+.wpscp-calendar-wrap .fc-dayGrid-view .spinner {
 	margin: 5px 0;
 }
-.fc-dayGrid-view .fc-week-number,
-.fc-dayGrid-view .fc-day-number {
+.wpscp-calendar-wrap .fc-dayGrid-view .fc-week-number,
+.wpscp-calendar-wrap .fc-dayGrid-view .fc-day-number {
 	padding: 5px 10px;
 }
-.fc-dayGrid-view a.daynewlink {
+.wpscp-calendar-wrap .fc-dayGrid-view a.daynewlink {
+    color: #405068;
+    font-weight: 500;
     padding: 5px 6px;
+    font-size: 11px;
     white-space: nowrap;
     display: inline-block;
     text-decoration: none;
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    transition: all .3s ease;
+}
+.wpscp-calendar-wrap .fc-dayGrid-view a.daynewlink:hover {
+  color: #6c63ff;
 }
 
-.fc-dayGrid-view th.fc-week-number,
-.fc-dayGrid-view th.fc-day-number {
+.wpscp-calendar-wrap .fc-dayGrid-view th.fc-week-number,
+.wpscp-calendar-wrap .fc-dayGrid-view th.fc-day-number {
   padding: 0 2px;
   /* column headers can't have as much v space */
 }
 
-.fc-ltr .fc-dayGrid-view .fc-day-top .fc-day-number {
+.wpscp-calendar-wrap .fc-ltr .fc-dayGrid-view .fc-day-top .fc-day-number {
+  background: #fff;
+  margin-top: 2px;
+  margin-right: 2px;
+  font-weight: 500;
+  color: #405068;
   float: right;
 }
 
-.fc-rtl .fc-dayGrid-view .fc-day-top .fc-day-number {
+.wpscp-calendar-wrap .fc-rtl .fc-dayGrid-view .fc-day-top .fc-day-number {
   float: left;
 }
 
-.fc-ltr .fc-dayGrid-view .fc-day-top .fc-week-number {
+.wpscp-calendar-wrap .fc-ltr .fc-dayGrid-view .fc-day-top .fc-week-number {
   float: left;
   border-radius: 0 0 3px 0;
 }
 
-.fc-rtl .fc-dayGrid-view .fc-day-top .fc-week-number {
+.wpscp-calendar-wrap .fc-rtl .fc-dayGrid-view .fc-day-top .fc-week-number {
   float: right;
   border-radius: 0 0 0 3px;
 }
 
-.fc-dayGrid-view .fc-day-top .fc-week-number {
+.wpscp-calendar-wrap .fc-dayGrid-view .fc-day-top .fc-week-number {
   min-width: 1.5em;
   text-align: center;
   background-color: #f2f2f2;
@@ -76,11 +106,11 @@
 }
 
 /* when week/day number have own column */
-.fc-dayGrid-view td.fc-week-number {
+.wpscp-calendar-wrap .fc-dayGrid-view td.fc-week-number {
   text-align: center;
 }
 
-.fc-dayGrid-view td.fc-week-number > * {
+.wpscp-calendar-wrap .fc-dayGrid-view td.fc-week-number > * {
   /* work around the way we do column resizing and ensure a minimum width */
   display: inline-block;
   min-width: 1.25em;
@@ -90,7 +120,7 @@
 
 
 
-  .fc-day-grid-event .fc-content {
+.wpscp-calendar-wrap .fc-day-grid-event .fc-content {
     white-space: inherit;
   }
   .wpscp-calendar-wrap .wpscp-event-post {
@@ -145,8 +175,8 @@
     word-break: break-word;
 }
 .wpscp-calendar-wrap .wpscp-event-post a {
-    font-size: 12px;
-    line-height: 12px;
+    font-size: 11px;
+    line-height: 11px;
     text-decoration: none;
     padding-right: 5px;
     color: #c2c5ff;
@@ -162,76 +192,78 @@
   width: auto;
   color: #c2c5ff;
 }
-.fc-button-primary {
+.wpscp-calendar-wrap .fc-button-primary {
     color: #fff;
     background-color: #2278f6;
   border-color: #2278f6;
   box-shadow: none;
 }
-.fc-today-button.fc-button.fc-button-primary,
-.fc-button-primary:hover,
-.fc-button-primary:not(:disabled):active, .fc-button-primary:not(:disabled).fc-button-active {
+.wpscp-calendar-wrap .fc-today-button.fc-button.fc-button-primary,
+.wpscp-calendar-wrap .fc-button-primary:hover,
+.wpscp-calendar-wrap .fc-button-primary:not(:disabled):active, 
+.wpscp-calendar-wrap .fc-button-primary:not(:disabled).fc-button-active {
   background-color: #1c64ce;
   border-color: #1c64ce;
 }
-.fc-button-primary:not(:disabled):active:focus, .fc-button-primary:not(:disabled).fc-button-active:focus,
-.fc-button-primary:hover,
-.fc-button-primary:focus {
+.wpscp-calendar-wrap .fc-button-primary:not(:disabled):active:focus, 
+.wpscp-calendar-wrap .fc-button-primary:not(:disabled).fc-button-active:focus,
+.wpscp-calendar-wrap .fc-button-primary:hover,
+.wpscp-calendar-wrap .fc-button-primary:focus {
   box-shadow: none;
 }
-#calendar-container {
+.wpscp-calendar-wrap #calendar-container {
   display: flex;
 }
-#calendar {
-  flex-basis: 80%;
-  height: 500px;
-  margin-left: 5%;
+.wpscp-calendar-wrap #calendar {
+  flex-basis: 83%;
+  margin-left: 2%;
 }
 
-#external-events {
+.wpscp-calendar-wrap #external-events {
   flex-basis: 15%;
   padding: 0 10px 10px 10px;
   background: #f7f7f7;
   text-align: left;
 }
-#external-events.highlight {
+.wpscp-calendar-wrap #external-events.highlight {
   border-color: #3788d8;
 }
 
         
-#external-events h4 {
+.wpscp-calendar-wrap #external-events h4 {
     font-size: 16px;
     margin-top: 0;
     padding-top: 1em;
 }
     
-#external-events .fc-event {
+.wpscp-calendar-wrap #external-events .fc-event {
     margin: 10px 0;
     cursor: pointer;
 }
     
-#external-events p {
+.wpscp-calendar-wrap #external-events p {
     margin: 1.5em 0;
     font-size: 11px;
     color: #666;
 }
     
-#external-events p input {
+.wpscp-calendar-wrap #external-events p input {
     margin: 0;
     vertical-align: middle;
 }
-#external-events-listing .unscheduled {
+.wpscp-calendar-wrap #external-events-listing .unscheduled {
   background-color: #ff5f7e;
   color: #fff;
   padding: 20px 15px;
 }
-  
-
-#wpscp_quickedit a.close-modal {
+.wpscp-calendar-wrap #wpscp_quickedit a.close-modal {
     display: none !important;
 }
-
 .wpscp-calendar-wrap {
   background: #fff;
   padding: 25px 20px;
+}
+.wpscp-calendar-wrap table tbody.fc-body .fc-scroller {
+  overflow: hidden !important;
+  height: 100% !important;
 }
