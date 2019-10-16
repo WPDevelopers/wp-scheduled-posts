@@ -51,12 +51,12 @@
 }
 .wpscp-calendar-wrap .fc-dayGrid-view .fc-week-number,
 .wpscp-calendar-wrap .fc-dayGrid-view .fc-day-number {
-	padding: 5px 10px;
+	padding: 2px 5px;
 }
 .wpscp-calendar-wrap .fc-dayGrid-view a.daynewlink {
     color: #405068;
     font-weight: 500;
-    padding: 5px 6px;
+    padding: 5px 0 5px 6px;
     font-size: 11px;
     white-space: nowrap;
     display: inline-block;
@@ -175,6 +175,7 @@
     word-break: break-word;
 }
 .wpscp-calendar-wrap .wpscp-event-post a {
+    display: inline-flex;
     font-size: 11px;
     line-height: 11px;
     text-decoration: none;
@@ -255,8 +256,9 @@
   background-color: #ff5f7e;
   color: #fff;
   padding: 20px 15px;
+  margin: 0 -10px;
 }
-.wpscp-calendar-wrap #wpscp_quickedit a.close-modal {
+#wpscp_quickedit a.close-modal {
     display: none !important;
 }
 .wpscp-calendar-wrap {

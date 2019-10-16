@@ -80,7 +80,7 @@
                                             </div>
                                             <div class="deleteview">
                                                 <a class="wpscpEventDelete" href="#"><i class="dashicons dashicons-trash"></i><?php esc_html_e('Delete', 'wp-scheduled-posts'); ?></a>
-                                                <a href="<?php print esc_url(get_the_permalink()); ?>"><i class="dashicons dashicons-admin-links"></i> <?php esc_html_e('View', 'wp-scheduled-posts'); ?></a>
+                                                <a href="<?php print esc_url(get_the_permalink()); ?>"><i class="dashicons dashicons-admin-links"></i><?php esc_html_e(' View', 'wp-scheduled-posts'); ?></a>
                                             </div>
                                         </div>
                                     </div>

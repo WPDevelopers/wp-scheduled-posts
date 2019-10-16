@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
         eventLimit: true, // for all non-TimeGrid views
         views: {
             dayGrid: {
-                eventLimit: 3 // adjust to 6 only for timeGridWeek/timeGridDay
+                eventLimit: 2
             }
         },
         drop: function(info) {
