@@ -15,7 +15,10 @@
             <?php 
                 //get all options
                 $wpscp_all_options  = get_option('wpscp_options');
-                $allow_post_types =  ($wpscp_all_options['allow_post_types'] == '' ? array('post') : $wpscp_all_options['allow_post_types']);
+                $allow_post_types =  ($wpscp_all_options['allow_post_types'] == '' ?  array('post') : $wpscp_all_options['allow_post_types']);
+                if(isset($_GET['post_type']) && $_GET['post_type'] != ''){
+                    $allow_post_types = explode(' ', $_GET['post_type']);
+                }
             ?>
             <!-- modal -->
             <div id="wpscp_quickedit" class="modal">

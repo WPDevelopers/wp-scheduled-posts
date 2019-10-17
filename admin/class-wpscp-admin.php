@@ -46,7 +46,19 @@ class WpScp_Admin{
 	 */
 	public function add_sub_menu()  {
 		add_submenu_page( 'wp-scheduled-posts', 'Schedule Calendar', 'Schedule Calendar', 'manage_options', 'wp-scheduled-calendar', array($this, 'load_calendar_template'));
+		// add calendar sub menu for allow calendar post type
+		$this->add_sub_menu_for_calendar_supported_post_type();
 	}
+
+	public function add_sub_menu_for_calendar_supported_post_type() {
+		$wpscp_all_options  = get_option('wpscp_options');
+        $allow_post_types =  ($wpscp_all_options['allow_post_types'] == '' ? array('post') : $wpscp_all_options['allow_post_types']);
+		foreach ($allow_post_types as $post_types) {
+			$admin_menu_url = ($post_types != 'post' ? 'edit.php?post_type=' . $post_types : 'edit.php');
+			add_submenu_page($admin_menu_url, __('Schedule Calendar', 'wpspcalendar'), __('Schedule Calendar', 'wpspcalendar'), 'edit_posts', 'wp-scheduled-calendar-'.$post_types, array($this, 'load_calendar_template'));
+		}
+    }
+
 	/**
 	 * Load All Widgets
 	 * @method load_widgets

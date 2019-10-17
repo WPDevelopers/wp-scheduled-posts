@@ -171,7 +171,8 @@ final class WpScp {
 			wp_localize_script( 'wpscp-fullcalendar', 'wpscp_calendar_ajax_object',
             array( 
             	'ajax_url' => admin_url( 'admin-ajax.php' ), 
-            	'nonce' => wp_create_nonce('wpscp-calendar-ajax-nonce'),
+                'nonce' => wp_create_nonce('wpscp-calendar-ajax-nonce'),
+                'calendar_rest_route' => get_rest_url(null, 'wpscp/v1/future?')
             ) );
         }
     }

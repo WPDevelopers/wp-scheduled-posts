@@ -16,22 +16,27 @@ class WpScp_Calendar {
     }
     
     public function wpscp_register_custom_route () {
-        register_rest_route( 'wpscp/v1', '/post/future', array(
+        register_rest_route( 'wpscp/v1', '/future(?:/(?<post_type>\d+))?', array(
           'methods' => 'GET',
           'callback' => array($this, 'future_post_rest_route_output'),
+          'args' => [
+                'post_type'
+            ],
         ));
     }
 
-    public function future_post_rest_route_output( $data ) {
+    public function future_post_rest_route_output( WP_REST_Request $request ) {
         $wpscp_all_options  = get_option('wpscp_options');
-         $allow_post_types =  ($wpscp_all_options['allow_post_types'] == '' ? array('post') : $wpscp_all_options['allow_post_types']);
-    
+        $allow_post_types =  ($wpscp_all_options['allow_post_types'] == '' ?  array('post') : $wpscp_all_options['allow_post_types']);
+        if(isset($request['post_type']) && $request['post_type'] != ''){
+            $allow_post_types = explode(' ', $request['post_type']);
+        }
         $query = new WP_Query(array(
             'post_type'         => $allow_post_types,
-            'post_status'       => array('future'),
+            'post_status'       => array('future', 'publish'),
             'posts_per_page'    => -1
         ));
-      return $query;
+        return $query;
     }
     
 

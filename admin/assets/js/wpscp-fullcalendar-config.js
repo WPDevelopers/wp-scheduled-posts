@@ -1,8 +1,11 @@
 document.addEventListener('DOMContentLoaded', function() {
-  var Calendar = FullCalendar.Calendar;
-  var Draggable = FullCalendarInteraction.Draggable;
-  var containerEl = document.getElementById('external-events');
-  var calendarEl = document.getElementById('calendar');
+    var Calendar = FullCalendar.Calendar;
+    var Draggable = FullCalendarInteraction.Draggable;
+    var containerEl = document.getElementById('external-events');
+    var calendarEl = document.getElementById('calendar');
+    if(jQuery(calendarEl).length == 0) {
+        return;
+    }
   //center any element in jquery center function
     jQuery.fn.center = function(parent) {
         if (parent) {
@@ -103,17 +106,17 @@ document.addEventListener('DOMContentLoaded', function() {
     calendar.render();
     // end main calendar functionality
 
+
     /**
      * Necessary Functions for Calendar and ajax call
      */
-
   
     /*
     * add Future Post Event Via ajax Call
     */
     function wpscpAllEvents(){
         jQuery.ajax({
-            url: wpscpGetHomeUrl() + '/wp-json/wpscp/v1/post/future',
+            url: wpscpGetRestUrl(),
         }).done(function( data ) {
             data.posts.forEach(function(item, index){
                 calendar.addEvent({
@@ -161,7 +164,6 @@ document.addEventListener('DOMContentLoaded', function() {
             markup +='</div>';
         return markup;
     }
-
     /**
      * Main function for calendar ajax request
      * @param {*} obj 
@@ -421,6 +423,23 @@ document.addEventListener('DOMContentLoaded', function() {
         if (minutes < 10) sMinutes = "0" + sMinutes;
         return sHours + ":" + sMinutes;
     }
+
+    /**
+     * Get Rest URL
+     */
+    function wpscpGetRestUrl(){
+        var adminSearchUrl= window.location.search;
+        var restParamRrl = '';
+        if(adminSearchUrl == '?page=wp-scheduled-calendar'){
+            restParamRrl = wpscp_calendar_ajax_object.calendar_rest_route;
+        }else {
+            adminSearchUrl = adminSearchUrl.split('page=');
+            adminSearchUrl = adminSearchUrl[1].split('wp-scheduled-calendar-');
+            restParamRrl = wpscp_calendar_ajax_object.calendar_rest_route + 'post_type=' + adminSearchUrl[1];
+        }
+        return restParamRrl;
+    }
+    
     /**
      * Get WP Host URL for hit restapi endpoint
      */
