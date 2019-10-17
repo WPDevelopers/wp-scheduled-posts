@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
             var eventDate = new Date(info.date);
             jQuery('*[data-date="'+wpscpFormatDate(eventDate)+'"]').children('.spinner').css('visibility', 'visible');
             wpscp_calender_ajax_request({
-                id: jQuery(info.draggedEl).find('.wpscp-event-post').data('postid'),
+                ID: jQuery(info.draggedEl).find('.wpscp-event-post').data('postid'),
                 type: 'drop',
                 date: info.date
             });
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // send ajax request
                 jQuery('#external-events-listing .spinner').css('visibility', 'visible');
                 wpscp_calender_ajax_request({
-                    id: jQuery(info.el).find('.wpscp-event-post').data('postid'),
+                    ID: jQuery(info.el).find('.wpscp-event-post').data('postid'),
                     type: 'draftDrop',
                 });
             }
@@ -95,8 +95,9 @@ document.addEventListener('DOMContentLoaded', function() {
             jQuery('*[data-date="'+wpscpFormatDate(eventDate)+'"]').children('.spinner').css('visibility', 'visible');
             // send ajax request
             jQuery(info.el).prev('.spinner').css('visibility', 'visible');
+            console.log(jQuery(info.el).find('.wpscp-event-post').data('postid'));
             wpscp_calender_ajax_request({
-                id: jQuery(info.el).find('.wpscp-event-post').data('postid'),
+                ID: jQuery(info.el).find('.wpscp-event-post').data('postid'),
                 post_status : 'Scheduled',
                 type: 'eventDrop',
                 date: info.event.start,
@@ -176,13 +177,15 @@ document.addEventListener('DOMContentLoaded', function() {
             'type': obj.type,
             'date': obj.date,
             'time': obj.time,
-            'id': obj.id,
+            'ID': obj.id,
             'postTitle': obj.postTitle,
             'postContent': obj.postContent,
         };
 
         // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
         jQuery.post(wpscp_calendar_ajax_object.ajax_url, data, function(response, status) {
+            console.log(obj);
+            console.log(response);
            if(status == 'success'){
                 var jsonData = ((response !== null && response !== '') ? JSON.parse(response) : []);
                 if(obj.type == 'addEvent' && obj.post_status == 'Scheduled'){
@@ -369,7 +372,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 'date': dateStr,
                 'time': dateTime,
                 'post_status' : modalStatus.val(),
-                'id': postID.val(),
+                'ID': postID.val(),
                 'postTitle': modalTitle.val(),
                 'postContent': modalContent.val(),
             });
@@ -439,6 +442,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         return restParamRrl;
     }
+
+    console.log(wpscpGetRestUrl());
     
     /**
      * Get WP Host URL for hit restapi endpoint

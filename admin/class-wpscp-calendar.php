@@ -17,7 +17,7 @@ class WpScp_Calendar {
     
     public function wpscp_register_custom_route () {
         register_rest_route( 'wpscp/v1', '/future(?:/(?<post_type>\d+))?', array(
-          'methods' => 'GET',
+            'methods'  => WP_REST_Server::READABLE,
           'callback' => array($this, 'future_post_rest_route_output'),
           'args' => [
                 'post_type'
@@ -50,7 +50,6 @@ class WpScp_Calendar {
         if ( ! wp_verify_nonce( $nonce, 'wpscp-calendar-ajax-nonce' ) ) {
             die( __( 'Security check', 'wp-scheduled-posts' ) ); 
         }
-        
 
         $post_status = '';
         if(!empty($_POST['post_status']) && $_POST['post_status'] != ''){
@@ -59,7 +58,7 @@ class WpScp_Calendar {
 
         $type = (isset($_POST['type']) ? $_POST['type'] : '');
         $dateStr = (isset($_POST['date']) ? $_POST['date'] : '');
-        $postid = (isset($_POST['id']) ? $_POST['id'] : '');
+        $postid = (isset($_POST['ID']) ? $_POST['ID'] : '');
         $postTitle = (isset($_POST['postTitle']) ? $_POST['postTitle'] : '');
         $postContent = (isset($_POST['postContent']) ? $_POST['postContent'] : '');
 
@@ -123,6 +122,8 @@ class WpScp_Calendar {
                     print json_encode(query_posts( array( 'p' => $post_id ) ));
                 }
             }
+        } else if($type == 'eventDrop'){
+            wp_update_post(array('ID'    =>  $postid, 'post_status'   => 'future','post_date' => (isset($postdateformat) ? $postdateformat : ''), 'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''), 'edit_date' => true));
         }
         else if($post_status != 'draft') { // future post date modify date
             wp_update_post(array('ID'    =>  $postid, 'post_status'   => 'future','post_date' => (isset($postdateformat) ? $postdateformat : ''), 'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''), 'edit_date' => true));
