@@ -45,6 +45,7 @@ class WpScp_Calendar {
         if ( ! wp_verify_nonce( $nonce, 'wpscp-calendar-ajax-nonce' ) ) {
             die( __( 'Security check', 'wp-scheduled-posts' ) ); 
         }
+        
 
         $post_status = '';
         if(!empty($_POST['post_status']) && $_POST['post_status'] != ''){

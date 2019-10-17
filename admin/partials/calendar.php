@@ -39,7 +39,7 @@
                                     </select>
                                 </div>
                                 <div id="timeEditControls">
-                                    <input type="text" class="ptitle" id="wpsp_time" name="time" value="" size="8" maxlength="8" autocomplete="OFF" placeholder="12:00 AM">
+                                    <input type="text" class="ptitle" id="wpsp_time" name="time" value="12:00 AM" size="8" maxlength="8" autocomplete="OFF" placeholder="12:00 AM">
                                 </div>
                             </fieldset>
                             <input type="hidden" id="postID" name="postID">

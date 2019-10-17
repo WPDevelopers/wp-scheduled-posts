@@ -407,6 +407,9 @@ document.addEventListener('DOMContentLoaded', function() {
       return strTime;
     }
     function wpscpFormat24Hours(time) {
+        if(time == '') {
+            return;
+        }
         var hours = Number(time.match(/^(\d+)/)[1]);
         var minutes = Number(time.match(/:(\d+)/)[1]);
         var AMPM = time.match(/\s(.*)$/)[1];
