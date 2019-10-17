@@ -46,17 +46,21 @@ class WpScp_Calendar {
             die( __( 'Security check', 'wp-scheduled-posts' ) ); 
         }
 
+        $post_status = '';
+        if(!empty($_POST['post_status']) && $_POST['post_status'] != ''){
+            $post_status = (($_POST['post_status'] == 'Scheduled') ? 'future' : 'draft');
+        }
+
         $type = (isset($_POST['type']) ? $_POST['type'] : '');
         $dateStr = (isset($_POST['date']) ? $_POST['date'] : '');
         $postid = (isset($_POST['id']) ? $_POST['id'] : '');
-        $post_status = (($_POST['post_status'] == 'Scheduled') ? 'future' : 'draft');
         $postTitle = (isset($_POST['postTitle']) ? $_POST['postTitle'] : '');
         $postContent = (isset($_POST['postContent']) ? $_POST['postContent'] : '');
 
         if($dateStr != "Invalid Date"){
             $postdate = new DateTime(substr($dateStr, 0, 25));
             $postdateformat = $postdate->format('Y-m-d H:i:s');
-            $postdate_gmt = ($date != "" ? gmdate('Y-m-d H:i:s',strtotime($dateStr)) : '' );
+            $postdate_gmt = ($postdateformat != "" ? gmdate('Y-m-d H:i:s',strtotime($postdateformat)) : '' );
         }
         
         /**

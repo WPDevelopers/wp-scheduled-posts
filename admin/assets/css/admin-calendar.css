@@ -123,11 +123,11 @@
 .wpscp-calendar-wrap .fc-day-grid-event .fc-content {
     white-space: inherit;
   }
-  .wpscp-calendar-wrap .wpscp-event-post {
+  .fc-event .wpscp-event-post {
       padding: 5px 10px;
       height: 50px;
   }
-  .wpscp-calendar-wrap .wpscp-event-post .postlink  {
+  .fc-event .wpscp-event-post .postlink  {
     font-size: 14px;
     position: absolute;
     left: 0;
