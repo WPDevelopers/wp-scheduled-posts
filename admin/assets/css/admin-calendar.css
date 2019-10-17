@@ -216,8 +216,8 @@
   display: flex;
 }
 .wpscp-calendar-wrap #calendar {
-  flex-basis: 80%;
-  margin-left: 5%;
+  flex-basis: 83%;
+  margin-left: 2%;
 }
 
 .wpscp-calendar-wrap #external-events {

@@ -52,9 +52,9 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         drop: function(info) {
             // old event remove after drop
-        info.draggedEl.parentNode.removeChild(info.draggedEl);
-        // send ajax request
-        var eventDate = new Date(info.date);
+            info.draggedEl.parentNode.removeChild(info.draggedEl);
+            // send ajax request
+            var eventDate = new Date(info.date);
             jQuery('*[data-date="'+wpscpFormatDate(eventDate)+'"]').children('.spinner').css('visibility', 'visible');
             wpscp_calender_ajax_request({
                 id: jQuery(info.draggedEl).find('.wpscp-event-post').data('postid'),
@@ -181,6 +181,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
         jQuery.post(wpscp_calendar_ajax_object.ajax_url, data, function(response, status) {
+            console.log(obj.type);
            if(status == 'success'){
                 var jsonData = ((response !== null && response !== '') ? JSON.parse(response) : []);
                 if(obj.type == 'addEvent' && obj.post_status == 'Scheduled'){
@@ -211,6 +212,23 @@ document.addEventListener('DOMContentLoaded', function() {
                         post_date: jsonData[0].post_date
                     });
                 }else if(obj.type == 'drop'){
+                    // remove old
+                    if(obj.id !== ''){
+                         // remove event
+                        var allevents = calendar.getEvents();
+                        allevents.forEach(function(el){
+                            var eventTitle = el.title;
+                            if(jQuery(eventTitle).data('postid') == obj.id){
+                                el.remove();
+                            }
+                        });
+                    }
+                     // add event
+                     calendar.addEvent({
+                        title: wpscpEventTemplateStructure(jsonData[0]),
+                        start: jsonData[0].post_date,
+                        allDay: true
+                    });
                      // send notification
                      wpscp_calendar_notifi({
                         type: 'draft_to_future',
