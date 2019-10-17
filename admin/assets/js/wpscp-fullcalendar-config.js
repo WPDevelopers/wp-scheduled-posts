@@ -358,7 +358,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // quick post submit button
         modalSubmit.on('click', function(e){
             e.preventDefault();
-            var dateTime = modalTime.val();
+            var dateTime = wpscpFormat24Hours(modalTime.val());
             var dateStr = new Date(modalDate.val() + ' ' + dateTime); 
             jQuery('*[data-date="'+modalDate.val()+'"]').children('.spinner').css('visibility', 'visible');
             // send ajax request
@@ -405,6 +405,18 @@ document.addEventListener('DOMContentLoaded', function() {
       minutes = minutes < 10 ? '0'+minutes : minutes;
       var strTime = hours + ':' + minutes + ' ' + ampm;
       return strTime;
+    }
+    function wpscpFormat24Hours(time) {
+        var hours = Number(time.match(/^(\d+)/)[1]);
+        var minutes = Number(time.match(/:(\d+)/)[1]);
+        var AMPM = time.match(/\s(.*)$/)[1];
+        if (AMPM == "PM" && hours < 12) hours = hours + 12;
+        if (AMPM == "AM" && hours == 12) hours = hours - 12;
+        var sHours = hours.toString();
+        var sMinutes = minutes.toString();
+        if (hours < 10) sHours = "0" + sHours;
+        if (minutes < 10) sMinutes = "0" + sMinutes;
+        return sHours + ":" + sMinutes;
     }
     /**
      * Get WP Host URL for hit restapi endpoint

@@ -67,7 +67,7 @@ class WpScp_Calendar {
         * Post Status Change and Date modifired
         */
         if($type == 'drop'){ // draft post to future post
-            $post_id = wp_update_post(array('ID'    =>  $postid, 'post_status'   => 'future','post_date' => $postdateformat, 'post_date_gmt' => $postdate_gmt, 'edit_date' => true));
+            $post_id = wp_update_post(array('ID'    =>  $postid, 'post_status'   => 'future','post_date' => (isset($postdateformat) ? $postdateformat : ''), 'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''), 'edit_date' => true));
             if(!is_wp_error($post_id)){
                 print json_encode(query_posts( array( 'p' => $post_id ) ));
             }
@@ -95,8 +95,8 @@ class WpScp_Calendar {
                     'post_content'  => $postContent,
                     'post_status'   => 'future',
                     'post_author'   => get_current_user_id(),
-                    'post_date' => $postdateformat, 
-                    'post_date_gmt' => $postdate_gmt, 
+                    'post_date'     => (isset($postdateformat) ? $postdateformat : ''), 
+                    'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''), 
                     'edit_date' => true
                 ));
                 if(!is_wp_error($postid)){
@@ -109,8 +109,8 @@ class WpScp_Calendar {
                     'post_content'  => $postContent,
                     'post_status'   => 'future',
                     'post_author'   => get_current_user_id(),
-                    'post_date' => $postdateformat, 
-                    'post_date_gmt' => $postdate_gmt, 
+                    'post_date' => (isset($postdateformat) ? $postdateformat : ''), 
+                    'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''), 
                     'edit_date' => true
                 ) );
                 if($post_id != 0){
@@ -119,7 +119,7 @@ class WpScp_Calendar {
             }
         }
         else if($post_status != 'draft') { // future post date modify date
-            wp_update_post(array('ID'    =>  $postid, 'post_status'   => 'future','post_date' => $postdateformat, 'post_date_gmt' => $postdate_gmt, 'edit_date' => true));
+            wp_update_post(array('ID'    =>  $postid, 'post_status'   => 'future','post_date' => (isset($postdateformat) ? $postdateformat : ''), 'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''), 'edit_date' => true));
         }
 
 
