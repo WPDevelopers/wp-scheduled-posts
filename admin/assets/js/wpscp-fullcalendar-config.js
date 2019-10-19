@@ -54,6 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         },
         drop: function(info) {
+            console.log('drop');
             // old event remove after drop
             info.draggedEl.parentNode.removeChild(info.draggedEl);
             // send ajax request
@@ -73,6 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         eventDragStop: function( info ) {
             if(isEventOverDiv(info.jsEvent.clientX, info.jsEvent.clientY)) {
+                console.log('draftDrop');
                 info.event.remove();
                 var el = jQuery( "<div class='fc-event'>" ).appendTo( '#external-events-listing' ).html( '<div id="draft_loading">Loading....</div>' );
                 el.draggable({
@@ -80,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 revert: true, 
                 revertDuration: 0,
                 });
-                el.data('event', { title: info.event.title, id: info.event.id, stick: true });
+                el.data('event', { title: info.event.title, id: info.event.ID, stick: true });
                 // send ajax request
                 jQuery('#external-events-listing .spinner').css('visibility', 'visible');
                 wpscp_calender_ajax_request({
@@ -91,11 +93,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         },
         eventDrop: function( info ){
+            console.log('EventDrop');
             var eventDate = new Date(info.event.start);
             jQuery('*[data-date="'+wpscpFormatDate(eventDate)+'"]').children('.spinner').css('visibility', 'visible');
             // send ajax request
             jQuery(info.el).prev('.spinner').css('visibility', 'visible');
-            console.log(jQuery(info.el).find('.wpscp-event-post').data('postid'));
             wpscp_calender_ajax_request({
                 ID: jQuery(info.el).find('.wpscp-event-post').data('postid'),
                 post_status : 'Scheduled',
@@ -173,31 +175,32 @@ document.addEventListener('DOMContentLoaded', function() {
         var data = {
             'action': 'wpscp_calender_ajax_request',
             'nonce': wpscp_calendar_ajax_object.nonce,
+            'post_type': wpscpGetPostTypeName(),
             'post_status': obj.post_status,
             'type': obj.type,
             'date': obj.date,
             'time': obj.time,
-            'ID': obj.id,
+            'ID': obj.ID,
             'postTitle': obj.postTitle,
             'postContent': obj.postContent,
         };
 
         // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
         jQuery.post(wpscp_calendar_ajax_object.ajax_url, data, function(response, status) {
-            console.log(obj);
-            console.log(response);
+            console.log("receive object", obj);
+            console.log("ajax response", response);
            if(status == 'success'){
                 var jsonData = ((response !== null && response !== '') ? JSON.parse(response) : []);
                 if(obj.type == 'addEvent' && obj.post_status == 'Scheduled'){
                     var notifi_type = 'newpost';
                     // if find post id then it will be post update action
-                    if(obj.id !== ''){
+                    if(obj.ID !== ''){
                         notifi_type = 'updatepost';
                          // remove event
                         var allevents = calendar.getEvents();
                         allevents.forEach(function(el){
                             var eventTitle = el.title;
-                            if(jQuery(eventTitle).data('postid') == obj.id){
+                            if(jQuery(eventTitle).data('postid') == obj.ID){
                                 el.remove();
                             }
                         });
@@ -217,12 +220,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                 }else if(obj.type == 'drop'){
                     // remove old
-                    if(obj.id !== ''){
+                    if(obj.ID !== ''){
                          // remove event
                         var allevents = calendar.getEvents();
                         allevents.forEach(function(el){
                             var eventTitle = el.title;
-                            if(jQuery(eventTitle).data('postid') == obj.id){
+                            if(jQuery(eventTitle).data('postid') == obj.ID){
                                 el.remove();
                             }
                         });
@@ -258,7 +261,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     jQuery( "<div class='fc-event'>" ).appendTo( '#external-events-listing' ).html( wpscpEventTemplateStructure(jsonData[0]) );
                     // send notification
                     wpscp_calendar_notifi({
-                        type: (obj.id !== '' ? 'draft_post_update' : 'draft_new_post'),
+                        type: (obj.ID !== '' ? 'draft_post_update' : 'draft_new_post'),
                         post_status: 'draft',
                     });
                 }
@@ -427,23 +430,21 @@ document.addEventListener('DOMContentLoaded', function() {
         return sHours + ":" + sMinutes;
     }
 
+    console.log();
     /**
      * Get Rest URL
      */
     function wpscpGetRestUrl(){
-        var adminSearchUrl= window.location.search;
-        var restParamRrl = '';
-        if(adminSearchUrl == '?page=wp-scheduled-calendar'){
-            restParamRrl = wpscp_calendar_ajax_object.calendar_rest_route;
-        }else {
-            adminSearchUrl = adminSearchUrl.split('page=');
-            adminSearchUrl = adminSearchUrl[1].split('wp-scheduled-calendar-');
-            restParamRrl = wpscp_calendar_ajax_object.calendar_rest_route + 'post_type=' + adminSearchUrl[1];
-        }
-        return restParamRrl;
+        return wpscp_calendar_ajax_object.calendar_rest_route + 'post_type=' + wpscpGetPostTypeName();
     }
-
-    console.log(wpscpGetRestUrl());
+    /**
+     * Get Post Type Name form Query Sting
+     */
+    function wpscpGetPostTypeName(){
+        var urlParams = new URLSearchParams(window.location.search);
+        var postTypeName = urlParams.get('post_type');
+        return (postTypeName == null || postTypeName == '' ? 'post' : postTypeName);
+    }
     
     /**
      * Get WP Host URL for hit restapi endpoint
@@ -464,11 +465,14 @@ document.addEventListener('DOMContentLoaded', function() {
         var editPostId = jQuery(this).closest("[data-postid], .wpscp-event-post").data("postid");
         var data = {
             'action': 'wpscp_quick_edit',
-            'id': editPostId
+            'post_type': wpscpGetPostTypeName(),
+            'ID': editPostId
         };
 
         // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
         jQuery.post(wpscp_calendar_ajax_object.ajax_url, data, function(response, status) {
+            console.log(data);
+            console.log(response);
             if(status == 'success'){
                 var jsonData = (response != "" ? JSON.parse(response) : []);
 

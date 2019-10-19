@@ -12,14 +12,10 @@
         </div>
         <!-- main content -->
         <div class="wpscp-calendar-wrap">
-            <a href="<?php rest_url('wpscp/v1/future?post_type=post'); ?>" target="_blank"><?php print rest_url('wpscp/v1/future?post_type=post'); ?></a>
             <?php 
                 //get all options
-                $wpscp_all_options  = get_option('wpscp_options');
-                $allow_post_types =  ($wpscp_all_options['allow_post_types'] == '' ?  array('post') : $wpscp_all_options['allow_post_types']);
-                if(isset($_GET['post_type']) && $_GET['post_type'] != ''){
-                    $allow_post_types = explode(' ', $_GET['post_type']);
-                }
+                $post_type = isset($_GET['post_type']);
+                $wpscp_all_options  = (($post_type == null || $post_type == '') ? array('post') : array($post_type));
             ?>
             <!-- modal -->
             <div id="wpscp_quickedit" class="modal">

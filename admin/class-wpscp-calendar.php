@@ -50,13 +50,14 @@ class WpScp_Calendar {
         if ( ! wp_verify_nonce( $nonce, 'wpscp-calendar-ajax-nonce' ) ) {
             die( __( 'Security check', 'wp-scheduled-posts' ) ); 
         }
-
+        
         $post_status = '';
         if(!empty($_POST['post_status']) && $_POST['post_status'] != ''){
             $post_status = (($_POST['post_status'] == 'Scheduled') ? 'future' : 'draft');
         }
 
         $type = (isset($_POST['type']) ? $_POST['type'] : '');
+        $post_type = (isset($_POST['post_type']) ? $_POST['post_type'] : '');
         $dateStr = (isset($_POST['date']) ? $_POST['date'] : '');
         $postid = (isset($_POST['ID']) ? $_POST['ID'] : '');
         $postTitle = (isset($_POST['postTitle']) ? $_POST['postTitle'] : '');
@@ -72,30 +73,43 @@ class WpScp_Calendar {
         * Post Status Change and Date modifired
         */
         if($type == 'drop'){ // draft post to future post
-            $post_id = wp_update_post(array('ID'    =>  $postid, 'post_status'   => 'future','post_date' => (isset($postdateformat) ? $postdateformat : ''), 'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''), 'edit_date' => true));
+            $post_id = wp_update_post(array(
+                'ID'    =>  $postid, 
+                'post_status'   => 'future',
+                'post_type'     =>  $post_type,
+                'post_date' => (isset($postdateformat) ? $postdateformat : ''), 
+                'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''), 
+                'edit_date' => true
+            ));
             if(!is_wp_error($post_id)){
-                print json_encode(query_posts( array( 'p' => $post_id ) ));
+                print json_encode(query_posts( array( 'p' => $post_id, 'post_type'     =>  $post_type ) ));
             }
         }else if($type == 'draftDrop'){ 
-            $post_id = wp_update_post(array('ID'    =>  $postid, 'post_status'   => 'draft'));
+            $post_id = wp_update_post(array(
+                'ID'            =>  $postid, 
+                'post_type'     =>  $post_type,
+                'post_status'   => 'draft'
+            ));
             if(!is_wp_error($post_id)){
-                print json_encode(query_posts( array( 'p' => $post_id ) ));
+                print json_encode(query_posts( array( 'p' => $post_id, 'post_type'     =>  $post_type ) ));
             }
         }else if($post_status == 'draft'){
             $post_id = wp_insert_post( array(
                 'post_title'    => wp_strip_all_tags($postTitle),
+                'post_type'     =>  $post_type,
                 'post_content'  => $postContent,
                 'post_status'   => 'draft',
                 'post_author'   => get_current_user_id(),
             ) );
             if($post_id != 0){
-                print json_encode(query_posts( array( 'p' => $post_id ) ));
+                print json_encode(query_posts( array( 'p' => $post_id, 'post_type'     =>  $post_type ) ));
             }
         } else if($type == 'addEvent'){	 
             // only works if update event is fired
             if($postid != ""){
                 wp_update_post(array(	
                     'ID'    =>  $postid,
+                    'post_type'     =>  $post_type,
                     'post_title'    => wp_strip_all_tags($postTitle),
                     'post_content'  => $postContent,
                     'post_status'   => 'future',
@@ -105,12 +119,13 @@ class WpScp_Calendar {
                     'edit_date' => true
                 ));
                 if(!is_wp_error($postid)){
-                    print json_encode(query_posts( array( 'p' => $postid ) ));
+                    print json_encode(query_posts( array( 'p' => $postid, 'post_type'     =>  $post_type ) ));
                 }
             }else {
                 // only work new event created
                 $post_id = wp_insert_post( array(
                     'post_title'    => wp_strip_all_tags($postTitle),
+                    'post_type'     =>  $post_type,
                     'post_content'  => $postContent,
                     'post_status'   => 'future',
                     'post_author'   => get_current_user_id(),
@@ -119,17 +134,29 @@ class WpScp_Calendar {
                     'edit_date' => true
                 ) );
                 if($post_id != 0){
-                    print json_encode(query_posts( array( 'p' => $post_id ) ));
+                    print json_encode(query_posts( array( 'p' => $post_id, 'post_type'     =>  $post_type ) ));
                 }
             }
         } else if($type == 'eventDrop'){
-            wp_update_post(array('ID'    =>  $postid, 'post_status'   => 'future','post_date' => (isset($postdateformat) ? $postdateformat : ''), 'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''), 'edit_date' => true));
+            wp_update_post(array(
+                'ID'            =>  $postid, 
+                'post_type'     =>  $post_type,
+                'post_status'   => 'future',
+                'post_date'     => (isset($postdateformat) ? $postdateformat : ''), 
+                'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''), 
+                'edit_date'     => true
+            ));
         }
         else if($post_status != 'draft') { // future post date modify date
-            wp_update_post(array('ID'    =>  $postid, 'post_status'   => 'future','post_date' => (isset($postdateformat) ? $postdateformat : ''), 'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''), 'edit_date' => true));
+            wp_update_post(array(
+                'ID'            =>  $postid, 
+                'post_type'     =>  $post_type,
+                'post_status'   => 'future',
+                'post_date'     => (isset($postdateformat) ? $postdateformat : ''), 
+                'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''), 
+                'edit_date'     => true
+            ));
         }
-
-
         exit();	
     }
 
@@ -139,9 +166,10 @@ class WpScp_Calendar {
      * @version 3.0.1
      */
     public function quick_edit_action() {
-        $postId = (isset($_POST['id']) ? intval( $_POST['id'] ) : '');
+        $post_type = (isset($_POST['post_type']) ? $_POST['post_type'] : '');
+        $postId = (isset($_POST['ID']) ? intval( $_POST['ID'] ) : '');
         if($postId != 0){
-            print json_encode(query_posts( array( 'p' => $postId ) ));
+            print json_encode(query_posts( array( 'p' => $postId, 'post_type'     =>  $post_type ) ));
         }
         wp_die(); // this is required to terminate immediately and return a proper response
     }
@@ -152,7 +180,7 @@ class WpScp_Calendar {
      * @version 3.0.1
      */
     public function delete_event_action() {
-        $postId = (isset($_POST['id']) ? intval( $_POST['id'] ) : '');
+        $postId = (isset($_POST['ID']) ? intval( $_POST['ID'] ) : '');
         if($postId != ""){
             wp_delete_post($postId, true);
             print $postId;
