@@ -80,6 +80,11 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
 			return $desc;
 		}
 
+        /**
+         * Fields Type: Text
+         * @param array
+         * @return Markup
+         */
 		public static function callback_text($args) {
 			$value = esc_attr( self::get_value($args) );
 			$size  = isset( $args['size'] ) && ! is_null( $args['size'] ) ? $args['size'] : 'regular';
@@ -91,6 +96,11 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
 			echo $html;
 		}
 
+        /**
+         * Fields Type: textarea
+         * @param array
+         * @return Markup
+         */
 		public static function callback_textarea( $args ) {
 
 			$value = esc_textarea( self::get_value($args) );
@@ -100,8 +110,53 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
 			$html .= self::get_field_description( $args );
 
 			echo $html;
-		}
+        }
+        
+        /**
+         * Fields Type: checkbox
+         * @param array
+         * @return Markup
+         */
+        public static function callback_checkbox( $args ) {
+            $value = self::get_value($args);
+			$html  = sprintf( '<input class="%1$s-checkbox" id="%1$s" name="%1$s" type="checkbox" value="%2$s" %3$s>', $args['id'], 1, checked( 1, $value, true ) );
+			$html .= self::get_field_description( $args );
+			echo $html;
+        }
 
+        /**
+         * Fields Type: radio
+         * @param array
+         * @return Markup
+         */
+        public function callback_radio( $args ) {
+            $value = self::get_value($args);
+            $html = '';
+            if(is_array($args['options'])){
+                foreach($args['options'] as $key => $option){
+                    $html .= sprintf( '<input class="%1$s-radio" type="radio" name="%1$s" value="%2$s" %4$s>%3$s', $args['id'], $key, $option, checked( $key, $value, false ) );
+                }
+            }
+			$html .= self::get_field_description( $args );
+			echo $html;
+        }
+
+
+        public function callback_select( $args ){
+            $value = self::get_value($args);
+            $html = '';
+            $html .= sprintf( '<select id="%1$s" class="%1$s-radio" name="%1$s">', $args['id'] );
+                if(is_array($args['options'])){
+                    $html .='<option value=""></option>';
+                    foreach($args['options'] as $key => $option){
+                        $html .= sprintf( '<option value="%1$s"%2$s>%1$s</option>',$option, selected( $option, $value, false ) );
+                    }
+                }
+            $html .= '</select>';
+            $html .= self::get_field_description( $args );
+			echo $html;
+        }
+        
 
 
 
@@ -169,6 +224,7 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
                             'default'		=> (isset($field['default']) ? $field['default'] : ''),
                             'placeholder'	=> (isset($field['placeholder']) ? $field['placeholder'] : ''),
                             'type'    		=> $field['type'],
+                            'options'    	=> $field['options'],
                         );
 
                         add_settings_field(
