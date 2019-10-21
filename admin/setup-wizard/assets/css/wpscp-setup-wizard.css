@@ -1,0 +1,15 @@
+.wpscp-setup-wizard ul.tabs-nav li{
+    display: inline-block;
+}
+.wpscp-setup-wizard ul.tabs-nav li.tab-active a { 
+    color: #000;
+}
+.wpscp-setup-wizard ul.tabs-nav li a {
+    padding: 0 10px;
+}
+.wpscp-setup-wizard .tabs-content .tab-content {
+    display: none;
+}
+.wpscp-setup-wizard .tabs-content .tab-content.active {
+    display: block;
+}

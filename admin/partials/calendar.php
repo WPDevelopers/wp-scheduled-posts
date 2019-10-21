@@ -15,7 +15,7 @@
             <?php 
                 //get all options
                 $post_type = isset($_GET['post_type']);
-                $wpscp_all_options  = (($post_type == null || $post_type == '') ? array('post') : array($post_type));
+                $allow_post_types  = (($post_type == null || $post_type == '') ? array('post') : array($post_type));
             ?>
             <!-- modal -->
             <div id="wpscp_quickedit" class="modal">
