@@ -1,8 +1,6 @@
 jQuery(document).ready(function ($) {
-    $('.wpscp-setup-wizard ul.tabs-nav li.nav-item a').on('click', function (event) {
+    $('.wpscp-setup-wizard .wpscp-tabnav-wrap ul.tab-nav li.nav-item a').on('click', function (event) {
         event.preventDefault();
-        console.log($(this).attr('href'));
-
         $('.tab-content').removeClass('active');
         $('.nav-item').removeClass('tab-active');
         $('.tab-content').removeClass('active');
@@ -12,13 +10,14 @@ jQuery(document).ready(function ($) {
     });
 
     // Tabs Switch Option
-    $('.btn-next-option').click(function(e){
+    $('.wpscp-next-option').click(function(e){
         e.preventDefault();
-        $('.tabs-nav > .tab-active').next('li').find('a').trigger('click');
+        $('.wpscp-setup-wizard .wpscp-tabnav-wrap ul.tab-nav > .tab-active').next('li').find('a').trigger('click');
     });
     
-    $('.btn-prev-option').click(function(e){
+    $('.wpscp-prev-option').click(function(e){
         e.preventDefault();
-        $('.tabs-nav > .tab-active').prev('li').find('a').trigger('click');
+        $('.wpscp-setup-wizard .wpscp-tabnav-wrap ul.tab-nav > .tab-active').prev('li').find('a').trigger('click');
     });
 });
+

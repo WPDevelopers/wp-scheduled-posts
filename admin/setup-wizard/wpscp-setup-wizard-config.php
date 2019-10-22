@@ -10,7 +10,7 @@ wpscpSetupWizard::setSection(array(
 	'page'		=> 'wpsci_tab_one',
 	'fields'	=> array(
 		array(
-			'id'      		=> 'wpsi_test_field',
+			'id'      		=> 'wpsp_twitter_consumer_key',
             'title'   		=> __( 'Text Input', 'wpsi' ),
             'sub_title'     => __('field sub title', 'wpsi'),
 			'desc'			=> 'this is description',
@@ -53,31 +53,6 @@ wpscpSetupWizard::setSection(array(
 		),
 	)
 ));
-
-
-// wpscpSetupWizard::setSection(array(
-// 	'id'    	=> 'wpsi_test_abc',
-//     'title' 	=> __( 'abc field', 'wpsi' ),
-//     'sub_title' => __('basic sub title', 'wpsi'),
-// 	'page'		=> 'wpsci_abc',
-// 	'fields'	=> array(
-// 		array(
-// 			'id'      		=> 'wpsi_testaww_abc',
-// 			'title'   		=> __( 'Text Input', 'wpsi' ),
-// 			'desc'			=> 'this is simple text field',
-// 			'default'		=> 'this is default value',
-// 			'placeholder'	=> 'this is placeholder',
-// 			'type'    		=> 'text',
-// 		),
-// 		array(
-// 			'id'      		=> 'wpsi_test_abc',
-// 			'title'   		=> __( 'textarea Input', 'wpsi' ),
-// 			'desc'			=> 'this is simple text field',
-// 			'type'    		=> 'textarea',
-// 		),
-// 	)
-// ));
-
 
 
 

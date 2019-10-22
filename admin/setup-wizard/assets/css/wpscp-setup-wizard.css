@@ -1,15 +1,115 @@
-.wpscp-setup-wizard ul.tabs-nav li{
-    display: inline-block;
+/* Tab Nav */
+.wpscp-setup-wizard .wpscp-tabnav-wrap {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    text-align: center;
 }
-.wpscp-setup-wizard ul.tabs-nav li.tab-active a { 
+
+.wpscp-setup-wizard .wpscp-tabnav-wrap ul.tab-nav li {
+    display: inline-block;
+    background-color: #fff;
+}
+
+.wpscp-setup-wizard .wpscp-tabnav-wrap ul.tab-nav,
+.wpscp-setup-wizard .wpscp-tabnav-wrap ul.tab-nav {
+    margin: 0;
+    padding: 0;
+}
+
+.wpscp-setup-wizard .wpscp-tabnav-wrap ul.tab-nav li { 
+    margin-right: 20px;
+    margin-left: 20px;
+}
+.wpscp-setup-wizard .wpscp-tabnav-wrap ul.tab-nav li > a {
+    display: inline-block;
+    padding: 10px 15px;
+    border-radius: 3px;
+    position: relative;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    cursor: pointer;
     color: #000;
 }
-.wpscp-setup-wizard ul.tabs-nav li a {
-    padding: 0 10px;
+
+.wpscp-setup-wizard .wpscp-tabnav-wrap ul.tab-nav li > a:after {
+    position: absolute;
+    left: 100%;
+    width: 100px;
+    height: 10px;
+    background: #fff;
+    content: "";
+    top: 50%;
+    margin-top: -5px;
+    z-index: -1;
 }
-.wpscp-setup-wizard .tabs-content .tab-content {
+
+.wpscp-setup-wizard .wpscp-tabnav-wrap ul.tab-nav li:last-child  > a:after {
     display: none;
 }
-.wpscp-setup-wizard .tabs-content .tab-content.active {
+
+.wpscp-setup-wizard .wpscp-tabnav-wrap ul.tab-nav li>span.tab-active {
+    margin-right: 10px;
+}
+
+.wpscp-setup-wizard .wpscp-tabnav-wrap ul.tab-nav li>span {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.wpscp-setup-wizard .wpscp-tabnav-wrap ul.tab-nav li.tab-active > a,
+.wpscp-setup-wizard .wpscp-tabnav-wrap ul.tab-nav li.wpscp-step-complete > a,
+.wpscp-setup-wizard .wpscp-tabnav-wrap ul.tab-nav li.tab-active > a,
+.wpscp-setup-wizard .wpscp-tabnav-wrap ul.tab-nav li.wpscp-step-complete > a,
+.wpscp-setup-wizard .wpscp-tabnav-wrap ul.tab-nav li.tab-active > a:after,
+.wpscp-setup-wizard .wpscp-tabnav-wrap ul.tab-nav li.wpscp-step-complete > a:after {
+    background-color: #6c63ff;
+    color: #fff;
+}
+
+.wpscp-setup-wizard .wpscp-tab-content-wrap .tab-content {
+    display: none;
+}
+.wpscp-setup-wizard .wpscp-tab-content-wrap .tab-content.active {
     display: block;
+}
+/* Tab Content */
+.wpscp-setup-wizard .wpscp-tab-content-wrap {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #f5f5f5;
+    padding: 50px;
+    box-shadow: 0 4px 30px rgba(0,0,0,.07);
+    border-radius: 3px;
+    border: 25px solid #fff;
+}
+
+/* button */
+.wpscp-setup-wizard .submit {
+    display: inline-block;
+}
+.wpscp-setup-wizard input.button.button-primary,
+.wpscp-setup-wizard .wpscp-prev-option,
+.wpscp-setup-wizard .wpscp-next-option {
+    background-color: #6648FE;
+    color: #fff;
+    border: 0;
+    padding: 10px 25px;
+    border-radius: 3px;
+    letter-spacing: 1px;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-decoration: none;
+    line-height: 26px;
+    height: auto;
+    margin: 30px 0;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .3);
+    transition: all .3s;
+}
+.wpscp-prev-option:hover,
+.wpscp-next-option:hover {
+    background-color: #6044EA;
+    color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .5);
 }

@@ -22,11 +22,12 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
 
 		// add admin page
 		public static function admin_menu(){
-			add_options_page(
-				'WP Settings API',
-				'WP Settings API',
+			add_submenu_page(
+				'wp-scheduled-posts',
+				'Quick Setup Wizard',
+				'Quick Setup Wizard',
 				'manage_options',
-				'wp_simple_settings',
+				'wpscp-quick-setup-wizard',
 				array(  __CLASS__, 'plugin_setting_page' )
 			);
 		}
@@ -40,10 +41,12 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
                             <?php 
                                 settings_fields(self::$optionGroupName);
                             ?>
-                            <ul class="tabs-nav">
-                                <?php do_action('wpscp_nav_tabs'); ?>
-                            </ul>
-                            <div class="tabs-content">
+                            <div class="wpscp-tabnav-wrap">
+                                <ul class="tab-nav">
+                                    <?php do_action('wpscp_nav_tabs'); ?>
+                                </ul>
+                            </div>
+                            <div class="wpscp-tab-content-wrap">
                                 <?php 
                                     do_action('wpscp_tabs_content'); 
                                 ?>
@@ -166,7 +169,7 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
             $allSections = apply_filters( 'wpscp_setup_wizard_fields', self::$sections_array );
             foreach ($allSections as $section) :
                 ?>
-                    <li class="nav-item <?php print ($tabNavCounter == 0 ? 'tab-active' : ''); ?>">
+                    <li class="nav-item<?php print ($tabNavCounter == 0 ? ' wpscp-step-complete tab-active' : ''); ?>">
                         <a href="#<?php print (isset($section['id']) ? $section['id'] : 'default-nav'); ?>" rel="nofollow">
                             <?php print (isset($section['title']) ? $section['title'] : ''); ?>
                         </a>
@@ -181,17 +184,17 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
             $allSections = apply_filters( 'wpscp_setup_wizard_fields', self::$sections_array );
             foreach ($allSections as $section) :
             ?>
-                <div class="tab-content<?php print ($tabContentCounter == 0 ? ' active' : ''); ?>" id="<?php print (isset($section['id']) ? $section['id'] : 'default-nav'); ?>">
+                <div class="tab-content<?php print ($tabContentCounter == 0 ? ' wpscp-step-complete active' : ''); ?>" id="<?php print (isset($section['id']) ? $section['id'] : 'default-nav'); ?>">
                     <?php 
                         do_settings_sections($section['page']);
                         // navigation control
                         if($tabContentCounter <= 0) {
-                            print '<a href="#" class="btn btn-next-option">Next Option</a>';
+                            print '<a href="#" class="btn wpscp-next-option">Next</a>';
                         }else if($tabContentCounter >= 1 && count($allSections) != ($tabContentCounter + 1)){
-                            print '<a href="#" class="btn btn-prev-option">Prev Option</a>';
-                            print '<a href="#" class="btn btn-next-option">Next Option</a>';
+                            print '<a href="#" class="btn wpscp-prev-option">Previous</a>';
+                            print '<a href="#" class="btn wpscp-next-option">Next</a>';
                         }else {
-                            print '<a href="#" class="btn btn-prev-option">Prev Option</a>';
+                            print '<a href="#" class="btn wpscp-prev-option">Previous</a>';
                             submit_button();
                         }
                     ?>
