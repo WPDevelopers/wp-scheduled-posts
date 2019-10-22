@@ -31,7 +31,9 @@
     cursor: pointer;
     color: #000;
 }
-
+.wpscp-setup-wizard .wpscp-tabnav-wrap ul.tab-nav li > a span {
+    display: block;
+}
 .wpscp-setup-wizard .wpscp-tabnav-wrap ul.tab-nav li > a:after {
     position: absolute;
     left: 100%;
@@ -83,14 +85,26 @@
     border-radius: 3px;
     border: 25px solid #fff;
 }
+.wpscp-setup-wizard .wpscp-tab-content-wrap h2 {
+    text-align: center;
+    color: #666;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: .035em;
+    font-style: italic;
+}
 
 /* button */
+.wpscp-setup-wizard .wpscp-button-wrap {
+    text-align: center;
+}
 .wpscp-setup-wizard .submit {
     display: inline-block;
 }
 .wpscp-setup-wizard input.button.button-primary,
 .wpscp-setup-wizard .wpscp-prev-option,
 .wpscp-setup-wizard .wpscp-next-option {
+    display: inline-block;
     background-color: #6648FE;
     color: #fff;
     border: 0;
@@ -100,9 +114,9 @@
     font-weight: 600;
     text-transform: uppercase;
     text-decoration: none;
-    line-height: 26px;
+    line-height: 24px;
     height: auto;
-    margin: 30px 0;
+    margin: 30px 10px;
     cursor: pointer;
     box-shadow: 0 2px 4px rgba(0, 0, 0, .3);
     transition: all .3s;

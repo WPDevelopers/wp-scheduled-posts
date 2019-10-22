@@ -1,60 +1,67 @@
 <?php
 
+include plugin_dir_path( __FILE__ ) . 'inc/wpscp-setup-wizard-helper-functions.php';
 include plugin_dir_path( __FILE__ ) . 'inc/class-wpscp-setup-wizard.php';
 
-
+// step one
 wpscpSetupWizard::setSection(array(
-	'id'    	=> 'wpsi_test_group_setting',
-    'title' 	=> __( 'Basic Settings', 'wpsi' ),
-    'sub_title' => __('basic sub title', 'wpsi'),
-	'page'		=> 'wpsci_tab_one',
+	'id'    	=> 'wpscp_step_one_settings',
+	'title' 	=> __( '01', 'wp-scheduled-posts' ),
+	'sub_title'	=> __('Step', 'wp-scheduled-posts'),
 	'fields'	=> array(
 		array(
-			'id'      		=> 'wpsp_twitter_consumer_key',
-            'title'   		=> __( 'Text Input', 'wpsi' ),
-            'sub_title'     => __('field sub title', 'wpsi'),
-			'desc'			=> 'this is description',
-			'default'		=> 'Default Value',
-			'placeholder'	=> 'Placeholder',
-			'type'    		=> 'text',
+			'id'      		=> 'show_dashboard_widget',
+            'title'   		=> __( 'Dashboard Widget Show/Hide', 'wp-scheduled-posts' ),
+			'desc'			=> __( 'Show Scheduled Posts in  Widget', 'wp-scheduled-posts' ),
+			'type'    		=> 'checkbox',
 		),
 		array(
-			'id'      		=> 'wpsi_test_field_two',
-			'title'   		=> __( 'textarea Input', 'wpsi' ),
-			'desc'			=> 'this is description',
-			'placeholder'	=> 'Placeholder',
-			'type'    		=> 'textarea',
+			'id'      		=> 'show_in_front_end_adminbar',
+            'title'   		=> __( 'Sitewide Admin Bar Widget Show/Hide', 'wp-scheduled-posts' ),
+			'desc'			=> __( 'Show Scheduled Posts in Sitewide Admin Bar', 'wp-scheduled-posts' ),
+			'type'    		=> 'checkbox',
+		),
+		array(
+			'id'      		=> 'show_in_adminbar',
+            'title'   		=> __( 'Admin Bar Widget Show/Hide', 'wp-scheduled-posts' ),
+			'desc'			=> __( 'Show Scheduled Posts in Admin Bar', 'wp-scheduled-posts' ),
+			'type'    		=> 'checkbox',
+		),
+		array(
+			'id'      		=> 'prevent_future_post',
+            'title'   		=> __( 'Publish Post Button Show/Hide', 'wp-scheduled-posts' ),
+			'desc'			=> __( 'Show Publish Post Immediately Button', 'wp-scheduled-posts' ),
+			'type'    		=> 'checkbox',
 		),
 	)
 ));
 
 
-
-
 wpscpSetupWizard::setSection(array(
-	'id'    	=> 'wpsi_test_group_setting_two',
-    'title' 	=> __( 'Basic Settings Two', 'wpsi' ),
-    'sub_title' => __('basic sub title', 'wpsi'),
-	'page'		=> 'wpsci_tab_two',
+	'id'    	=> 'wpscp_step_two_settings',
+	'title' 	=> __( '02', 'wp-scheduled-posts' ),
+	'sub_title'	=> __('Step', 'wp-scheduled-posts'),
 	'fields'	=> array(
 		array(
-			'id'      		=> 'wpsi_test_field_three',
-			'title'   		=> __( 'Text Input', 'wpsi' ),
-			'desc'			=> 'this is simple text field',
-			'default'		=> 'this is default value',
-			'placeholder'	=> 'this is placeholder',
-			'type'    		=> 'text',
+			'id'      		=> 'allow_post_types',
+            'title'   		=> __( 'Post Types Support', 'wp-scheduled-posts' ),
+			'type'    		=> 'select',
+			'options'		=> get_post_types('','names')
 		),
 		array(
-			'id'      		=> 'wpsi_test_field_four',
-			'title'   		=> __( 'textarea Input', 'wpsi' ),
-			'desc'			=> 'this is simple text field',
-			'type'    		=> 'textarea',
+			'id'      		=> 'allow_categories',
+            'title'   		=> __( 'Show Categories', 'wp-scheduled-posts' ),
+			'type'    		=> 'select',
+			'options'    	=> array(
+				'one' => 'One options',
+				'two' => 'two Option',
+			),
 		),
+		// array(
+		// 	'id'      		=> 'allow_user_role',
+        //     'title'   		=> __( 'Allow users', 'wp-scheduled-posts' ),
+		// 	'type'    		=> 'select',
+		// 	'options'    	=> '',
+		// ),
 	)
 ));
-
-
-
-
-
