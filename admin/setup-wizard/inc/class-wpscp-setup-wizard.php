@@ -13,6 +13,8 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
             add_action( 'admin_enqueue_scripts', array(__CLASS__, 'setup_wizard_scripts') );
             add_action('wpscp_nav_tabs', array(__CLASS__, 'add_nav_tabs'));
             add_action('wpscp_tabs_content', array(__CLASS__, 'add_tab_content'));
+            // ajax request
+            add_action( 'wp_ajax_quick_setup_wizard_action', array(__CLASS__, 'quick_setup_wizard_data_save') );
         }
         
         public static function setup_wizard_scripts(){
@@ -30,14 +32,33 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
 				'wpscp-quick-setup-wizard',
 				array(  __CLASS__, 'plugin_setting_page' )
 			);
-		}
+        }
+        
+        public static function quick_setup_wizard_data_save(){
+            check_ajax_referer( 'wpscpqswnonce', 'security');
+            $oldValue = get_option( self::$optionGroupName );
+            $newValue = $_POST;
+            // delete unwanted key
+            unset($newValue['action'], $newValue['security']);
+
+            // new update value
+            $updatedValue = array_merge($oldValue, $newValue);
+            if(!get_option(self::$optionGroupName)){
+                add_option(self::$optionGroupName, $updatedValue);
+            }else {
+                update_option(self::$optionGroupName, $updatedValue);
+            }
+            print 'updated...';
+            wp_die(); // this is required to terminate immediately and return a proper response
+        }
 		
 		public static function plugin_setting_page() {
 			?>
 				<div class="wrap">
                     <h1><?php esc_html_e('WP Settings API', 'wsi'); ?></h1>
                     <div class="wpscp-setup-wizard">
-                        <form method="post" action="options.php">
+                        <form method="post" action="#">
+                            <input type="hidden" name="wpscpqswnonce" value="<?php print wp_create_nonce( 'wpscpqswnonce' ); ?>">
                             <div class="wpscp-tabnav-wrap">
                                 <ul class="tab-nav">
                                     <?php do_action('wpscp_nav_tabs'); ?>
@@ -145,7 +166,7 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
             $value = self::get_value($args);
             $field = '';
             $markup = '';
-            $field  = sprintf( '<input class="%1$s-checkbox" id="%1$s" name="%1$s" type="checkbox" value="%2$s" %3$s>', $args['id'], 1, checked( 1, $value, false ) );
+            $field  = sprintf( '<input class="%1$s-checkbox" id="%1$s" name="%1$s" type="checkbox" %3$s>', $args['id'], 1, checked( 1, $value, false ) );
             $field .= self::get_field_description( $args );
             $markup .= '<tr>
                 <th scope="row">
@@ -188,11 +209,11 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
         public function callback_select( $args ){
             $value = self::get_value($args);
             $field = $markup = '';
-            $field .= sprintf( '<select id="%1$s" class="%1$s-radio" name="%1$s" multiple>', $args['id'] );
+            $field .= sprintf( '<select id="%1$s" class="%1$s-select" name="%1$s" multiple>', $args['id'] );
                 if(is_array($args['options'])){
                     $field .='<option value=""></option>';
                     foreach($args['options'] as $key => $option){
-                        $field .= sprintf( '<option value="%1$s" '.(in_array($option, $value) ? 'selected' : '').'>%1$s</option>',$option);
+                        $field .= sprintf( '<option value="%1$s" '.(in_array($key, $value) ? 'selected' : '').'>%2$s</option>',$key, $option);
                     }
                 }
             $field .= '</select>';
@@ -206,6 +227,22 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
                 </td>
             </tr>';
             echo $markup;
+        }
+
+        public function callback_scheduled( $args ){
+           
+            $field = $markup = '';
+            ?>
+
+            <tr>
+                <th scope="row">
+                    <label for="'.$args['id'].'"><?php print $args['title']; ?></label>
+                </th>
+                <td>
+                   <?php wpscp_qsw_manage_scheduled_markup();  ?>
+                </td>
+            </tr>
+            <?php
         }
         
 
@@ -257,7 +294,7 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
                             print '<a href="#" class="btn wpscp-next-option">Next</a>';
                         }else {
                             print '<a href="#" class="btn wpscp-prev-option">Previous</a>';
-                            submit_button();
+                            print '<input id="quicksetupwizardsave" type="button" value="Save Changes" class="button button-primary" />';
                         }
                         print '</div>';
                     ?>

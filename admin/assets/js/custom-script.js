@@ -110,7 +110,7 @@ jQuery(document).ready(function ($) {
 		e.preventDefault();
 	    var man_days = $('#man_days').val();
 	    var man_times = $('#man_times').val();
-
+		console.log('click... manual scheduled');
 
 	    
 	    $('#wpscp_manual_loader').show();
@@ -127,7 +127,7 @@ jQuery(document).ready(function ($) {
 		}
 
 		$.post(wpscp_ajax.ajax_url, manual_datas, function(msg) {
-			
+			console.log('under ajax');
 			var sched_id = msg.result.id;
 			var schedule_lists = document.querySelectorAll('.schedule-list li');
 		    schedule_lists.forEach( function( schedule_list ) {
@@ -154,7 +154,7 @@ jQuery(document).ready(function ($) {
 		    if(wpscp_success_span) {
 			    wpscp_success_span.style.display = 'block';
 			}
-
+			console.log(msg);
 
 			//swal('Schedule Inserted!','Click OK to continue','success');
 

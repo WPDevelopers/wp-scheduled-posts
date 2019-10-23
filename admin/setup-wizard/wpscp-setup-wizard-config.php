@@ -52,16 +52,32 @@ wpscpSetupWizard::setSection(array(
 			'id'      		=> 'allow_categories',
             'title'   		=> __( 'Show Categories', 'wp-scheduled-posts' ),
 			'type'    		=> 'select',
+			'options'    	=> wpscp_get_all_category(),
+		),
+		array(
+			'id'      		=> 'allow_user_role',
+            'title'   		=> __( 'Allow users', 'wp-scheduled-posts' ),
+			'type'    		=> 'select',
 			'options'    	=> array(
-				'one' => 'One options',
-				'two' => 'two Option',
+				'administrator'	=> 'administrator',
+				'editor'		=> 'editor',
+				'author'		=> 'author',
+				'contributor'	=> 'contributor',
+				'subscriber'	=> 'subscriber',
 			),
 		),
-		// array(
-		// 	'id'      		=> 'allow_user_role',
-        //     'title'   		=> __( 'Allow users', 'wp-scheduled-posts' ),
-		// 	'type'    		=> 'select',
-		// 	'options'    	=> '',
-		// ),
+	)
+));
+
+wpscpSetupWizard::setSection(array(
+	'id'    	=> 'wpscp_step_three_settings',
+	'title' 	=> __( '03', 'wp-scheduled-posts' ),
+	'sub_title'	=> __('Step', 'wp-scheduled-posts'),
+	'fields'	=> array(
+		array(
+			'id'      		=> 'manage_scheduled',
+            'title'   		=> __( 'Manage Schedule', 'wp-scheduled-posts' ),
+			'type'    		=> 'scheduled',
+		),
 	)
 ));
