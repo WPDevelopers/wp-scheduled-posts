@@ -82,7 +82,6 @@ class WpScp_Admin{
      */
     public function load_plugin_submenu_option_page(){
 		include_once WPSCP_ADMIN_DIR_PATH . 'wpscp-options.php';
-        include_once WPSCP_ADMIN_DIR_PATH . 'manage-schedule/manage-schedule.php';
 	}
 	
 	/**
