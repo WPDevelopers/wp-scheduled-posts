@@ -10,6 +10,19 @@ wpscpSetupWizard::setSection(array(
 	'sub_title'	=> __('Step', 'wp-scheduled-posts'),
 	'fields'	=> array(
 		array(
+			'id'      		=> 'getting_started',
+            'title'   		=> __( 'Getting Started', 'wp-scheduled-posts' ),
+			'type'    		=> 'welcome',
+		),
+	)
+));
+// step two
+wpscpSetupWizard::setSection(array(
+	'id'    	=> 'wpscp_step_two_settings',
+	'title' 	=> __( '02', 'wp-scheduled-posts' ),
+	'sub_title'	=> __('Step', 'wp-scheduled-posts'),
+	'fields'	=> array(
+		array(
 			'id'      		=> 'show_dashboard_widget',
             'title'   		=> __( 'Dashboard Widget Show/Hide', 'wp-scheduled-posts' ),
 			'desc'			=> __( 'Show Scheduled Posts in  Widget', 'wp-scheduled-posts' ),
@@ -38,8 +51,8 @@ wpscpSetupWizard::setSection(array(
 
 
 wpscpSetupWizard::setSection(array(
-	'id'    	=> 'wpscp_step_two_settings',
-	'title' 	=> __( '02', 'wp-scheduled-posts' ),
+	'id'    	=> 'wpscp_step_three_settings',
+	'title' 	=> __( '03', 'wp-scheduled-posts' ),
 	'sub_title'	=> __('Step', 'wp-scheduled-posts'),
 	'fields'	=> array(
 		array(
@@ -69,3 +82,16 @@ wpscpSetupWizard::setSection(array(
 	)
 ));
 
+// Pro Feature
+wpscpSetupWizard::setSection(array(
+	'id'    	=> 'wpscp_step_pro_settings',
+	'title' 	=> __( 'Pro', 'wp-scheduled-posts' ),
+	'sub_title'	=> __('Step', 'wp-scheduled-posts'),
+	'fields'	=> array(
+		array(
+			'id'      		=> 'pro_step',
+            'title'   		=> __( 'Pro Feature', 'wp-scheduled-posts' ),
+			'type'    		=> 'profeature',
+		),
+	)
+));

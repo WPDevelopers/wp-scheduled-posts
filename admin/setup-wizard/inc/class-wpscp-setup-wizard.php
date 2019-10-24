@@ -10,7 +10,7 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
             add_action( 'admin_menu', array( __CLASS__, 'admin_menu' ) );
             
             // tab builder
-            add_action( 'admin_enqueue_scripts', array(__CLASS__, 'setup_wizard_scripts') );
+            add_action( 'admin_enqueue_scripts', array(__CLASS__, 'setup_wizard_scripts'), 30 );
             add_action('wpscp_nav_tabs', array(__CLASS__, 'add_nav_tabs'));
             add_action('wpscp_tabs_content', array(__CLASS__, 'add_tab_content'));
             // ajax request
@@ -130,7 +130,7 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
 				return false;
             }
             
-            self::$sections_array[] = $section;
+            self::$sections_array[$section['id']] = $section;
 
 			// Assign to the sections array
 			return  self::$sections_array;
@@ -313,6 +313,38 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
                         do_action('wpscp_pro_qsw_socialintegation');
                     ?>
                 </td>
+            </tr>
+            <?php
+        }
+        public function callback_welcome( $args ){
+            ?>
+            <tr>
+                <td>
+                    <h2 id="<?php print $args['id']; ?>"><?php print $args['title']; ?></h2>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <?php 
+                        do_action('wpscp_pro_qsw_welcomescreen');
+                    ?>
+                </td>
+            </tr>
+            <?php
+        }
+
+        public function callback_profeature( $args ){
+            $field = $markup = '';
+            ?>
+            <tr>
+                <td>
+                    <h2 id="<?php print $args['id']; ?>"><?php print $args['title']; ?></h2>
+                </td>
+            </tr>
+            <tr>
+                <?php 
+                    do_action('wpscp_pro_qsw_profeature_list');
+                ?>
             </tr>
             <?php
         }

@@ -77,7 +77,11 @@ jQuery(document).ready(function ($) {
 		};
 		// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
 		jQuery.post(ajaxurl, data, function(response) {
-			console.log(response)
+			swal({
+                title: "Good job!",
+                text: "You clicked the button!",
+                icon: "success",
+            });
 		});
         
    });
@@ -109,6 +113,29 @@ jQuery(document).ready(function ($) {
         });
    }
    wpscp_quick_setup_toggle_schedule();
+
+   // popup modal showing for error message
+   $('.wpscp-pro-feature-checkbox label').on('click', function(){
+        var premium_content = document.createElement("p");
+        var premium_anchor = document.createElement("a");
+
+        premium_anchor.setAttribute('href', 'https://wpdeveloper.net/in/wp-scheduled-posts-pro');
+        premium_anchor.innerText = 'Premium';
+        premium_anchor.style.color = 'red';
+        var pro_label = $(this).find('.nx-pro-label');
+        if (pro_label.hasClass('has-to-update')) {
+            premium_anchor.innerText = 'Latest Pro v' + pro_label.text().toString().replace(/[ >=<]/g, '');
+        }
+        premium_content.innerHTML = 'You need to upgrade to the <strong>' + premium_anchor.outerHTML + ' </strong> Version to use this module.';
+
+        swal({
+            title: "Opps...",
+            content: premium_content,
+            icon: "warning",
+            buttons: [false, "Close"],
+            dangerMode: true,
+        });
+   });
 
 });
 

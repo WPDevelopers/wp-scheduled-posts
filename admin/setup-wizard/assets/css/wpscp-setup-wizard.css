@@ -180,3 +180,128 @@
 #toggleSwithElementContent .manualScheduler {
     display: none;
 }
+/* getting started field */
+.wpsp_field_gettting_started {
+    width: 400px;
+    height: 60px;
+    padding: 0 20px;
+    border-radius: 35px;
+    border-color: #6c63ff !important;
+}
+
+
+.text-center {
+    text-align: center;
+}
+
+
+/* Feature List */
+.wpscp-checkbox {
+    overflow: hidden;
+    display: flex;
+    flex-basis: 330px;
+    flex-flow: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 24px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 0;
+    margin-right: 20px;
+    padding: 15px 30px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 5px 18px 0 rgba(0,4,32,.08);
+    position: relative;
+}
+.wpscp-checkbox input[type=checkbox] {
+    visibility: hidden;
+    display: none;
+}
+.wpscp-checkbox label {
+    width: 2em;
+    height: 1em;
+    position: relative;
+    cursor: pointer;
+    display: block;
+}
+.wpscp-checkbox label:after, .wpscp-checkbox label:before {
+    content: "";
+    position: absolute;
+    background: #cbcfd0;
+}
+.wpscp-checkbox label:before {
+    content: ' ';
+    position: absolute;
+    width: 2em;
+    height: 1em;
+    left: .1em;
+    transition: background .1s .1s ease;
+    border: 1px solid #cbcfd0;
+    border-radius: 50px;
+}
+.wpscp-checkbox label:after {
+    content: ' ';
+    position: absolute;
+    width: .8em;
+    height: .8em;
+    border-radius: 100%;
+    left: .2em;
+    top: .14em;
+    transition: all .2s ease;
+    box-shadow: 0 0 0 5px #fcfff4 inset;
+    z-index: 2;
+    -webkit-animation: switch-off .3s ease-out;
+    animation: switch-off .3s ease-out;
+}
+.wpscp-checkbox p.wpscp-module-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    margin: .5em;
+    display: flex;
+}
+.wpscp-checkbox p.wpscp-module-title>a {
+    border: 1px solid #000;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    text-align: center;
+    line-height: 10px;
+    margin-left: 10px;
+    opacity: .3;
+    transition: opacity .3s ease 0s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.wpscp-checkbox .wpscp-pro-label {
+    font-size: 14px;
+    color: #fff;
+    text-transform: uppercase;
+    text-align: center;
+    transform: rotate(-45deg);
+    position: absolute;
+    top: 8px;
+    left: -20px;
+    width: 80px;
+    background-image: linear-gradient(-122deg,#9271ff 0,#5725ff 100%);
+    box-shadow: 0 3px 7px 0 rgba(0,5,41,.1);
+    color: #fff;
+}
+.wpscp-checkbox .wpscp-pro-label {
+    font-size: 14px;
+    color: #fff;
+    text-transform: uppercase;
+    text-align: center;
+    transform: rotate(-45deg);
+    position: absolute;
+    top: 8px;
+    left: -20px;
+    width: 80px;
+    background-image: linear-gradient(-122deg,#9271ff 0,#5725ff 100%);
+    box-shadow: 0 3px 7px 0 rgba(0,5,41,.1);
+    color: #fff;
+}
