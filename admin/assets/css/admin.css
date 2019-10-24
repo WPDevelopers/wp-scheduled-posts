@@ -2627,3 +2627,7 @@ input:checked + .wpsp_switch_slider:before {
     display: block;
     margin: 1px;
 }
+
+#wpscp_manual_loader {
+	display: none;
+}

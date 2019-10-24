@@ -37,10 +37,13 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
         public static function quick_setup_wizard_data_save(){
             check_ajax_referer( 'wpscpqswnonce', 'security');
             $oldValue = get_option( self::$optionGroupName );
-            $newValue = $_POST;
-            // delete unwanted key
-            unset($newValue['action'], $newValue['security']);
-
+            $newValue['show_dashboard_widget'] = (isset($_POST['show_dashboard_widget']) ? $_POST['show_dashboard_widget'] : '');
+            $newValue['show_in_front_end_adminbar'] = (isset($_POST['show_in_front_end_adminbar']) ? $_POST['show_in_front_end_adminbar'] : '');
+            $newValue['show_in_adminbar'] = (isset($_POST['show_in_adminbar']) ? $_POST['show_in_adminbar'] : '');
+            $newValue['prevent_future_post'] = (isset($_POST['prevent_future_post']) ? $_POST['prevent_future_post'] : '');
+            $newValue['allow_post_types'] = (isset($_POST['allow_post_types']) ? $_POST['allow_post_types'] : '');
+            $newValue['allow_categories'] = (isset($_POST['allow_categories']) ? $_POST['allow_categories'] : '');
+            $newValue['allow_user_role'] = (isset($_POST['allow_user_role']) ? $_POST['allow_user_role'] : '');
             // new update value
             $updatedValue = array_merge($oldValue, $newValue);
             if(!get_option(self::$optionGroupName)){
@@ -48,14 +51,33 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
             }else {
                 update_option(self::$optionGroupName, $updatedValue);
             }
-            print 'updated...';
+            // auto scheduled / manual scheduled option save
+            $autoScheduler = (isset($_POST['autoScheduler']) ? $_POST['autoScheduler'] : '');
+            $manualScheduler = (isset($_POST['manualScheduler']) ? $_POST['manualScheduler'] : '');
+            if($autoScheduler == 'ok') {
+                update_option('pub_active_option', 'ok');
+                update_option('cal_active_option', false);
+            }else if($manualScheduler == 'ok') {
+                update_option('pub_active_option', false);
+                update_option('cal_active_option', 'ok');
+            }
+            // miss scheduled option saved
+            if (isset($_POST['missscheduled']) && $_POST['missscheduled'] == 1) {
+                if(!get_option( 'miss_schedule_active_option' )){
+                    add_option('miss_schedule_active_option', 'yes');
+                } else {
+                    update_option('miss_schedule_active_option', 'yes');
+                }
+            }else{
+                update_option('miss_schedule_active_option', 'no');
+            }
             wp_die(); // this is required to terminate immediately and return a proper response
         }
 		
 		public static function plugin_setting_page() {
 			?>
 				<div class="wrap">
-                    <h1><?php esc_html_e('WP Settings API', 'wsi'); ?></h1>
+                    <h1><?php esc_html_e('WP Scheduled Posts', 'wsi'); ?></h1>
                     <div class="wpscp-setup-wizard">
                         <form method="post" action="#">
                             <input type="hidden" name="wpscpqswnonce" value="<?php print wp_create_nonce( 'wpscpqswnonce' ); ?>">

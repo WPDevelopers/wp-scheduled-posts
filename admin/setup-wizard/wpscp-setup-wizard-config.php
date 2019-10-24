@@ -69,15 +69,3 @@ wpscpSetupWizard::setSection(array(
 	)
 ));
 
-wpscpSetupWizard::setSection(array(
-	'id'    	=> 'wpscp_step_three_settings',
-	'title' 	=> __( '03', 'wp-scheduled-posts' ),
-	'sub_title'	=> __('Step', 'wp-scheduled-posts'),
-	'fields'	=> array(
-		array(
-			'id'      		=> 'manage_scheduled',
-            'title'   		=> __( 'Manage Schedule', 'wp-scheduled-posts' ),
-			'type'    		=> 'scheduled',
-		),
-	)
-));

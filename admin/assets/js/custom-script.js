@@ -59,108 +59,11 @@ jQuery(document).ready(function ($) {
 
 
 	/* Manage Scedule Option Saved Ajax */
-	$('.submit-button-wrap input').on('click', function(e){
-		e.preventDefault();
+	
 
-		var pub_check = $('#pub_check').val();
-		var cal_check = $('#cal_check').val();
-		var wpsp_start = $('#wpsp_start').val();
-		var wpsp_end = $('#wpsp_end').val();
-		var wpsp_pts_0 = $('#wpsp_sunday').val();
-		var wpsp_pts_1 = $('#wpsp_monday').val();
-		var wpsp_pts_2 = $('#wpsp_tuesday').val();
-		var wpsp_pts_3 = $('#wpsp_wednesday').val();
-		var wpsp_pts_4 = $('#wpsp_thursday').val();
-		var wpsp_pts_5 = $('#wpsp_friday').val();
-		var wpsp_pts_6 = $('#wpsp_saturday').val();
+	
 
-
-		//on save manage scedule option data
-		var datas = {
-			'pub_check': pub_check,
-			'cal_check': cal_check,
-			'days': {
-				'wpsp_pts_0': wpsp_pts_0,
-				'wpsp_pts_1': wpsp_pts_1,
-				'wpsp_pts_2': wpsp_pts_2,
-				'wpsp_pts_3': wpsp_pts_3,
-				'wpsp_pts_4': wpsp_pts_4,
-				'wpsp_pts_5': wpsp_pts_5,
-				'wpsp_pts_6': wpsp_pts_6
-			},
-			'start_time': wpsp_start,
-			'end_time': wpsp_end,
-		}
-
-		var submit_datas = {
-			action: 'manage_sched_opt_saved',
-			datas: datas
-		}
-
-		$.post(wpscp_ajax.ajax_url, submit_datas, function(msg) {
-			swal('Options Saved!','Click OK to continue','success');
-		}, 'json');
-	});
-
-	//manual loader initially hide
-	$('#wpscp_manual_loader').hide();
-
-	/* manual schedule by ajax */
-	$('#man_submit').on('click', function(e) {
-		e.preventDefault();
-	    var man_days = $('#man_days').val();
-	    var man_times = $('#man_times').val();
-		console.log('click... manual scheduled');
-
-	    
-	    $('#wpscp_manual_loader').show();
-	    if(wpscp_success_span) {
-		    wpscp_success_span.style.display = 'none';
-		}
-
-	    
-	    //on save manage scedule option data
-		var manual_datas = {
-			action: 'wpscp_manual_schedule_opt_saved',
-			days: man_days,
-			times: man_times,
-		}
-
-		$.post(wpscp_ajax.ajax_url, manual_datas, function(msg) {
-			console.log('under ajax');
-			var sched_id = msg.result.id;
-			var schedule_lists = document.querySelectorAll('.schedule-list li');
-		    schedule_lists.forEach( function( schedule_list ) {
-		    	var table_day = schedule_list.getAttribute('data-day');
-
-		    	if(table_day == man_days) {
-		    		var icon = document.createElement('span');
-		    			icon.classList = 'dashicons dashicons-no-alt';
-		    		var button = document.createElement('button');
-		    			button.setAttribute('id', sched_id);
-		    	   		button.appendChild(icon);
-		    	   	var span = document.createElement("span");
-		    	   	var time_text = document.createTextNode(man_times);
-		    	   		span.appendChild(time_text);
-		    	   		span.appendChild(button);
-
-		    	   		schedule_list.appendChild(span);
-
-		    	}
-
-		    } );
-
-		    $('#wpscp_manual_loader').hide();
-		    if(wpscp_success_span) {
-			    wpscp_success_span.style.display = 'block';
-			}
-			console.log(msg);
-
-			//swal('Schedule Inserted!','Click OK to continue','success');
-
-		}, 'json');
-	})
-
+	
 
 	/* Top Nav Tab Event JS */
 	var top_nav_tabs = document.querySelectorAll('.wpsp_top_nav_link_wrapper ul li a');
@@ -256,34 +159,7 @@ jQuery(document).ready(function ($) {
 		}
 	});
 
-	//on click manual schedule delete button, send ajax
-	$('.schedule-list li button').on('click', function(e) {
-		e.preventDefault();
-
-		// remove element
-		$(this).parent().remove();
-
-		var item_id = $(this).attr('id');
-
-		var deletManualSchedule = {
-			action: 'deleteManualScheduleItem',
-			man_item_value: item_id,
-		};
-		$.post(wpscp_ajax.ajax_url, deletManualSchedule, function (msg) {}, 'json');
-
-	});
-
-	//on click missed schedule checkbox button send ajax
-	$('.miss-schedule-form .checkbox-toggle input[type="checkbox"]').on('change', function (e) {
-		e.preventDefault();
-		var value = this.checked ? 'yes' : '';
-		var missed_sched_check_uncheck = {
-			action: 'missedScheduleVal',
-			missed_sched_val: value,
-		};
-		$.post(wpscp_ajax.ajax_url, missed_sched_check_uncheck, function (msg) {}, 'json');
-	});
-
+	
 
 	// schedule post checkbox event
 	$('#schedule_click_button').change(function() {

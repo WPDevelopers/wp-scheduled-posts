@@ -20,8 +20,6 @@ jQuery(document).ready(function ($) {
         $('.wpscp-setup-wizard .wpscp-tabnav-wrap ul.tab-nav > .tab-active').prev('li').find('a').trigger('click');
     });
 
-    
-
     // Quick Setup Wizard Save
     jQuery(document).on('click', '#quicksetupwizardsave', function(e){
         e.preventDefault();
@@ -34,9 +32,12 @@ jQuery(document).ready(function ($) {
         var allow_post_types  = wpscp_select_box_get_value('#allow_post_types');
         var allow_categories  = wpscp_select_box_get_value('#allow_categories');
         var allow_user_role  = wpscp_select_box_get_value('#allow_user_role');
+        // indevisual option field data passing
+        var autoScheduler  = $('.wpscp-setup-wizard input#autoScheduler').attr("checked") ? 'ok' : 0;
+        var manualScheduler  = $('.wpscp-setup-wizard input#manualScheduler').attr("checked") ? 'ok' : 0;
 
-        console.log(show_dashboard_widget, show_in_front_end_adminbar, show_in_adminbar, prevent_future_post, allow_post_types, allow_categories, allow_user_role  );
-        
+        var missscheduled = $('#missscheduled').prop("checked") == true ? 1 : 0;
+       
         var data = {
 			'action': 'quick_setup_wizard_action',
 			'security': ajaxnonce,
@@ -46,9 +47,13 @@ jQuery(document).ready(function ($) {
 			'prevent_future_post': prevent_future_post,
 			'allow_post_types': allow_post_types,
 			'allow_categories': allow_categories,
-			'allow_user_role': allow_user_role,
+            'allow_user_role': allow_user_role,
+            // indevisual option field data passing
+            'autoScheduler': autoScheduler,
+            'manualScheduler': manualScheduler,
+            'missscheduled': missscheduled
+
 		};
-        console.log('clicked...', data)
 		// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
 		jQuery.post(ajaxurl, data, function(response) {
 			console.log(response)
@@ -66,18 +71,19 @@ jQuery(document).ready(function ($) {
 
 
    function wpscp_quick_setup_toggle_schedule(){
-       var toggleSelector = ".wpscp-setup-wizard input[type='radio'][name='wpscpqswmanageshceduled']";
+       var autoScheduler = ".wpscp-setup-wizard input#autoScheduler";
+       var manualScheduler = ".wpscp-setup-wizard input#manualScheduler";
        toggleControl();
        function toggleControl(){
-            if($(toggleSelector + ":checked").val() == 'yes'){ // auto scheduler
+            if($(autoScheduler).is(':checked') === true){ // auto scheduler
                 $('#toggleSwithElementContent .manualScheduler').hide(500);
                 $('#toggleSwithElementContent .autoScheduler').show(500);
-            }else {
+            }else if($(manualScheduler).is(':checked') === true) {
                 $('#toggleSwithElementContent .autoScheduler').hide(500);
                 $('#toggleSwithElementContent .manualScheduler').show(500);
             }
        }
-        $(toggleSelector).click(function(){
+        $(autoScheduler).add(manualScheduler).click(function(){
             toggleControl();
         });
    }

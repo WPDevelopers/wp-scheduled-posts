@@ -15,11 +15,18 @@ if(!function_exists('wpscp_get_all_category')){
 
 if(!function_exists('wpscp_qsw_manage_scheduled_markup')){
 	function wpscp_qsw_manage_scheduled_markup(){
+		global $wpdb;
+		global $plName;
+		global $plUrl;
+		global $pts_debug;
+		global $pts_show_donate;
+		global $activate_pub_option;
+		$options = get_option("manage-schedule.php");
 		?>
 		<div class="switch-field">
-			<input type="radio" id="autoScheduler" name="wpscpqswmanageshceduled" value="yes" checked/>
+			<input type="radio" id="autoScheduler" name="wpscpqswmanageshceduled" <?php print (get_option( 'pub_active_option' ) == 'ok' ? 'value="yes" checked' : 'value="no"' ) ?>/>
 			<label for="autoScheduler">Auto Scheduler</label>
-			<input type="radio" id="manualScheduler" name="wpscpqswmanageshceduled" value="no" />
+			<input type="radio" id="manualScheduler" name="wpscpqswmanageshceduled" <?php print (get_option( 'cal_active_option' ) == 'ok' ? 'value="yes" checked' : 'value="no"' ) ?> />
 			<label for="manualScheduler">Manual Scheduler</label>
 		</div>
 		<div id="toggleSwithElementContent">
@@ -331,37 +338,13 @@ if(!function_exists('wpscp_qsw_manage_scheduled_markup')){
 				</ul>
 				<!-- miss schedule -->
 				<div class="miss-schedule-form">
-
 					<?php
-
-						if (isset($_POST['ac_miss'])) {
-							if (isset($_POST['miss_check'])) {
-								$miss_check = $_POST['miss_check'];
-								add_option('miss_schedule_active_option', $miss_check);
-								
-								echo "<h3 class='wpsp-success-text'>Activated Missed Schedule!</h3>";
-							} else {
-								delete_option('miss_schedule_active_option');
-								
-								echo "<h3 class='wpsp-error-text'>Deactivated Missed Schedule!</h3>";
-							}
-
-						}
 						global $wpdb;
 						$get_miss_op = get_option('miss_schedule_active_option');
-						$activate_miss_option = html_entity_decode(stripslashes($get_miss_op));
 					?>
 					<div class="checkbox-toggle">
-						<input type="checkbox" class="wpsp_field_activate" name="miss_check" 
-						value="<?php if (!empty($activate_miss_option)) {
-									echo $activate_miss_option;
-									$activate_btn_value = "Deactivate";
-								} else {
-									echo 'miss';
-									$activate_btn_value = "Activate";
-								} ?>" <?php if (isset($_POST['miss_check']) || !empty($activate_miss_option)) {
-								echo 'checked="checked"';
-							} ?> >
+						<input id="missscheduled" type="checkbox" class="wpsp_field_activate" name="miss_check" 
+						value="<?php print ($get_miss_op == 'yes' ? $get_miss_op :  'no'); ?>" <?php  print (($get_miss_op == 'yes') ? 'checked' : ''); ?>>
 						
 						<svg class="is_checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 426.67 426.67">
 						<path d="M153.504 366.84c-8.657 0-17.323-3.303-23.927-9.912L9.914 237.265c-13.218-13.218-13.218-34.645 0-47.863 13.218-13.218 34.645-13.218 47.863 0l95.727 95.727 215.39-215.387c13.218-13.214 34.65-13.218 47.86 0 13.22 13.218 13.22 34.65 0 47.863L177.435 356.928c-6.61 6.605-15.27 9.91-23.932 9.91z"></path>
