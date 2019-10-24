@@ -35,8 +35,20 @@ jQuery(document).ready(function ($) {
         // indevisual option field data passing
         var autoScheduler  = $('.wpscp-setup-wizard input#autoScheduler').attr("checked") ? 'ok' : 0;
         var manualScheduler  = $('.wpscp-setup-wizard input#manualScheduler').attr("checked") ? 'ok' : 0;
-
+        // missscheduled
         var missscheduled = $('#missscheduled').prop("checked") == true ? 1 : 0;
+        // social integation - twitter
+        var tw_consumer_key = $('.wpscp-setup-wizard input[name="tw_consumer_key"]').val();
+        var tw_consumer_sec = $('.wpscp-setup-wizard input[name="tw_consumer_sec"]').val();
+        var tw_access_key = $('.wpscp-setup-wizard input[name="tw_access_key"]').val();
+        var tw_access_sec = $('.wpscp-setup-wizard input[name="tw_access_sec"]').val();
+        
+        // facebook
+        var fb_app_id = $('.wpscp-setup-wizard input[name="fb_app_id"]').val();
+        var fb_app_secret = $('.wpscp-setup-wizard input[name="fb_app_secret"]').val();
+        var wpscp_pro_app_type = $('.wpscp-setup-wizard input[name="wpscp_pro_app_type"]:checked').val();
+        var fb_access_token = $('#fb_access_token').val();
+        console.log('facebook', wpscp_pro_app_type);
        
         var data = {
 			'action': 'quick_setup_wizard_action',
@@ -51,8 +63,17 @@ jQuery(document).ready(function ($) {
             // indevisual option field data passing
             'autoScheduler': autoScheduler,
             'manualScheduler': manualScheduler,
-            'missscheduled': missscheduled
-
+            'missscheduled': missscheduled,
+            // twitter
+            'tw_consumer_key' : tw_consumer_key,
+            'tw_consumer_sec' : tw_consumer_sec,
+            'tw_access_key' : tw_access_key,
+            'tw_access_sec' : tw_access_sec,
+            // facebook
+            'fb_app_id' : fb_app_id,
+            'fb_app_secret' : fb_app_secret,
+            'wpscp_pro_app_type' : wpscp_pro_app_type,
+            'fb_access_token' : fb_access_token
 		};
 		// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
 		jQuery.post(ajaxurl, data, function(response) {

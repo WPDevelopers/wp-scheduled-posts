@@ -71,6 +71,33 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
             }else{
                 update_option('miss_schedule_active_option', 'no');
             }
+            //  social integation update - twitter
+            $tw_consumer_key = trim($_POST['tw_consumer_key']);
+            $tw_consumer_sec = trim($_POST['tw_consumer_sec']);
+            $tw_access_key 	= trim($_POST['tw_access_key']);
+            $tw_access_sec 	= trim($_POST['tw_access_sec']);
+            $tw_con_key_up = update_option('wpsp_twitter_consumer_key', $tw_consumer_key);
+            $tw_con_sec_up = update_option('wpsp_twitter_consumer_sec', $tw_consumer_sec);
+            $tw_acc_key_up = update_option('wpsp_twitter_access_key', $tw_access_key);	
+            $tw_acc_sec_up = update_option('wpsp_twitter_access_sec', $tw_access_sec);
+            // social integation update - facebook
+            $wpscp_pro_app_type = trim($_POST['wpscp_pro_app_type']);
+            $fb_app_id = trim($_POST['fb_app_id']);
+            $fb_app_secret = (trim($_POST['fb_app_secret']));
+            $fb_access_token = (trim($_POST['fb_access_token']));
+
+            if($wpscp_pro_app_type == 'wpscpapp') {
+                update_option('wpscp_pro_fb_app_id', '');
+                update_option('wpscp_pro_fb_secret', '');
+                update_option('wpscp_pro_fb_access_token', $fb_access_token);
+            } else {
+                update_option('wpscp_pro_fb_app_id', $fb_app_id);
+                update_option('wpscp_pro_fb_secret', $fb_app_secret);
+                update_option('wpscp_pro_fb_access_token', $fb_access_token);
+            }
+            update_option('wpscp_pro_app_type', $wpscp_pro_app_type);
+
+
             wp_die(); // this is required to terminate immediately and return a proper response
         }
 		
@@ -261,7 +288,30 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
                     <label for="'.$args['id'].'"><?php print $args['title']; ?></label>
                 </th>
                 <td>
-                   <?php wpscp_qsw_manage_scheduled_markup();  ?>
+                   <?php 
+                        if(function_exists('wpscp_qsw_manage_scheduled_markup')){
+                            wpscp_qsw_manage_scheduled_markup();
+                        }
+                    ?>
+                </td>
+            </tr>
+            <?php
+        }
+
+        public function callback_socialintegation( $args ){
+           
+            $field = $markup = '';
+            ?>
+            <tr>
+                <td>
+                    <h2 id="<?php print $args['id']; ?>"><?php print $args['title']; ?></h2>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <?php 
+                        do_action('wpscp_pro_qsw_socialintegation');
+                    ?>
                 </td>
             </tr>
             <?php
