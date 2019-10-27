@@ -54,7 +54,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         },
         drop: function(info) {
-            console.log('drop');
             // old event remove after drop
             info.draggedEl.parentNode.removeChild(info.draggedEl);
             // send ajax request
@@ -74,7 +73,6 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         eventDragStop: function( info ) {
             if(isEventOverDiv(info.jsEvent.clientX, info.jsEvent.clientY)) {
-                console.log('draftDrop');
                 info.event.remove();
                 var el = jQuery( "<div class='fc-event'>" ).appendTo( '#external-events-listing' ).html( '<div id="draft_loading">Loading....</div>' );
                 el.draggable({
@@ -93,7 +91,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         },
         eventDrop: function( info ){
-            console.log('EventDrop');
             var eventDate = new Date(info.event.start);
             jQuery('*[data-date="'+wpscpFormatDate(eventDate)+'"]').children('.spinner').css('visibility', 'visible');
             // send ajax request
@@ -187,8 +184,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
         jQuery.post(wpscp_calendar_ajax_object.ajax_url, data, function(response, status) {
-            console.log("receive object", obj);
-            console.log("ajax response", response);
            if(status == 'success'){
                 var jsonData = ((response !== null && response !== '') ? JSON.parse(response) : []);
                 if(obj.type == 'addEvent' && obj.post_status == 'Scheduled'){
@@ -430,7 +425,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return sHours + ":" + sMinutes;
     }
 
-    console.log();
+    
     /**
      * Get Rest URL
      */
@@ -471,8 +466,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
         jQuery.post(wpscp_calendar_ajax_object.ajax_url, data, function(response, status) {
-            console.log(data);
-            console.log(response);
             if(status == 'success'){
                 var jsonData = (response != "" ? JSON.parse(response) : []);
 

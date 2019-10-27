@@ -1,5 +1,7 @@
 jQuery(document).ready(function ($) {
-    wpscpQuickSetupTabs();
+    if(jQuery('.wpscp-setup-wizard').length){
+        wpscpQuickSetupTabs();
+    }
     function wpscpQuickSetupTabs(){
         var skipEmailStep = false;
         // tab click handler
@@ -33,8 +35,10 @@ jQuery(document).ready(function ($) {
             //... and fix the Previous/Next buttons:
             if (n == 0) {
                 document.getElementById("wpscp-prev-option").style.display = "none";
+                jQuery('#wpscpqswemailskipbutton').show();
             } else {
                 document.getElementById("wpscp-prev-option").style.display = "inline";
+                jQuery('#wpscpqswemailskipbutton').hide();
             }
             if (n == (tabList.length - 1)) {
                 document.getElementById("wpscp-next-option").innerHTML = "Submit";
