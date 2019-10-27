@@ -60,7 +60,7 @@ register_activation_hook(__FILE__, 'wpscp_lite_plugin_activate');
 function wpscp_lite_plugin_redirect() {
     if (get_option('wpscp_do_activation_redirect', false)) {
         delete_option('wpscp_do_activation_redirect');
-        wp_redirect("admin.php?page=wp-scheduled-posts");
+        wp_redirect("admin.php?page=wpscp-quick-setup-wizard");
     }
 }
 add_action('admin_init', 'wpscp_lite_plugin_redirect');
