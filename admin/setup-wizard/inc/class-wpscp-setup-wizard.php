@@ -72,19 +72,19 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
                 update_option('miss_schedule_active_option', 'no');
             }
             //  social integation update - twitter
-            $tw_consumer_key = trim($_POST['tw_consumer_key']);
-            $tw_consumer_sec = trim($_POST['tw_consumer_sec']);
-            $tw_access_key 	= trim($_POST['tw_access_key']);
-            $tw_access_sec 	= trim($_POST['tw_access_sec']);
+            $tw_consumer_key = (isset($_POST['tw_consumer_key']) ? trim($_POST['tw_consumer_key']) : '');
+            $tw_consumer_sec = (isset($_POST['tw_consumer_sec']) ? trim($_POST['tw_consumer_sec']) : '');
+            $tw_access_key 	= (isset($_POST['tw_access_key']) ? trim($_POST['tw_access_key']) : '');
+            $tw_access_sec 	= (isset($_POST['tw_access_sec']) ? trim($_POST['tw_access_sec']) : '');
             $tw_con_key_up = update_option('wpsp_twitter_consumer_key', $tw_consumer_key);
             $tw_con_sec_up = update_option('wpsp_twitter_consumer_sec', $tw_consumer_sec);
             $tw_acc_key_up = update_option('wpsp_twitter_access_key', $tw_access_key);	
             $tw_acc_sec_up = update_option('wpsp_twitter_access_sec', $tw_access_sec);
             // social integation update - facebook
-            $wpscp_pro_app_type = trim($_POST['wpscp_pro_app_type']);
-            $fb_app_id = trim($_POST['fb_app_id']);
-            $fb_app_secret = (trim($_POST['fb_app_secret']));
-            $fb_access_token = (trim($_POST['fb_access_token']));
+            $wpscp_pro_app_type = (isset($_POST['wpscp_pro_app_type']) ? trim($_POST['wpscp_pro_app_type']) : '');
+            $fb_app_id = (isset($_POST['fb_app_id']) ? trim($_POST['fb_app_id']) : '');
+            $fb_app_secret = (isset($_POST['fb_app_secret']) ? trim($_POST['fb_app_secret']) : '');
+            $fb_access_token = (isset($_POST['fb_access_token']) ? trim($_POST['fb_access_token']) : '');
 
             if($wpscp_pro_app_type == 'wpscpapp') {
                 update_option('wpscp_pro_fb_app_id', '');
@@ -117,6 +117,14 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
                                 <?php 
                                     do_action('wpscp_tabs_content'); 
                                 ?>
+                                <div class="wpscp-button-wrap">
+                                    <a id="wpscp-prev-option" href="#" class="btn wpscp-prev-option">Previous</a>
+                                    <a id="wpscp-next-option" href="#" class="btn wpscp-next-option">Next</a>
+                                </div>
+                                <div class="bottom-notice">
+                                    <div class="optin-notice"></div>
+                                    <button type="button" id="wpscpqswemailskipbutton" class="btn-skip">Skip</button>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -375,7 +383,7 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
             $allSections = apply_filters( 'wpscp_setup_wizard_fields', self::$sections_array );
             foreach ($allSections as $section) :
             ?>
-                <div class="tab-content<?php print ($tabContentCounter == 0 ? ' wpscp-step-complete active' : ''); ?>" id="<?php print (isset($section['id']) ? $section['id'] : 'default-nav'); ?>">
+                <div class="tab-content" id="<?php print (isset($section['id']) ? $section['id'] : 'default-nav'); ?>">
                     <table class="form-table" role="presentation">
                         <tbody>
                         <?php 
@@ -388,20 +396,6 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
                         ?>
                          </tbody>
                     </table>
-                    <?php
-                        print '<div class="wpscp-button-wrap">';
-                        // navigation control
-                        if($tabContentCounter <= 0) {
-                            print '<a href="#" class="btn wpscp-next-option">Next</a>';
-                        }else if($tabContentCounter >= 1 && count($allSections) != ($tabContentCounter + 1)){
-                            print '<a href="#" class="btn wpscp-prev-option">Previous</a>';
-                            print '<a href="#" class="btn wpscp-next-option">Next</a>';
-                        }else {
-                            print '<a href="#" class="btn wpscp-prev-option">Previous</a>';
-                            print '<input id="quicksetupwizardsave" type="button" value="Save Changes" class="button button-primary" />';
-                        }
-                        print '</div>';
-                    ?>
                 </div>
             <?php
             $tabContentCounter++;

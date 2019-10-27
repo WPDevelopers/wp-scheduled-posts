@@ -90,7 +90,7 @@ wpscpSetupWizard::setSection(array(
 	'fields'	=> array(
 		array(
 			'id'      		=> 'pro_step',
-            'title'   		=> __( 'Pro Feature', 'wp-scheduled-posts' ),
+            'title'   		=> __( 'Pro Features', 'wp-scheduled-posts' ),
 			'type'    		=> 'profeature',
 		),
 	)

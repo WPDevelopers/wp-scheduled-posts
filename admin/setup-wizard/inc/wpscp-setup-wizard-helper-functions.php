@@ -17,9 +17,10 @@ if(!function_exists('wpscp_get_all_category')){
  */
 add_action('wpscp_pro_qsw_welcomescreen', 'wpscp_pro_qsw_welcomescreen_markup');
 function wpscp_pro_qsw_welcomescreen_markup(){
+	$current_user = wp_get_current_user();
 	?>
 	<div class="wpsp_getting_started_form text-center">
-		<input type="email" class="wpsp_field_gettting_started" name="wpscp_user_email_address" value="" placeholder="Your Email Address">
+		<input type="email" id="wpscp_user_email_address" class="wpsp_field_gettting_started" name="wpscp_user_email_address" value="<?php print $current_user->user_email; ?>" placeholder="Your Email Address">
 	</div>
 	<?php
 }
@@ -33,20 +34,51 @@ function wpscp_pro_feature_list_markup(){
 	?>
 	<!-- left side -->
 	<td>
+		<!-- auto scheudled -->
 		<div class="wpscp-checkbox wpscp-pro-feature-checkbox" data-id="module_auto_scheduled">
 			<input disabled="" type="checkbox" id="module_auto_scheduled" name="module_auto_scheduled">
 			<label for="module_auto_scheduled"></label>
-			<p class="wpscp-module-title">Auto Scheduled               
-				<sup class="wpscp-pro-label has-to-update"></sup><sup class="wpscp-pro-label">Pro</sup>                </p>
+			<p class="wpscp-module-title">Auto Scheduled
+				<a rel="nofollow" target="_blank" href="#">
+					<img width="6px" src="<?php print plugin_dir_url( WPSP_PLUGIN_FILE ) . 'admin/assets/images/question.svg'; ?>" alt="wp scheduled posts" />
+				</a>               
+				<sup class="wpscp-pro-label has-to-update"></sup><sup class="wpscp-pro-label">Pro</sup>                
+			</p>
+		</div>
+		<!-- Miss Scheduled -->
+		<div class="wpscp-checkbox wpscp-pro-feature-checkbox" data-id="module_miss_scheduled">
+			<input disabled="" type="checkbox" id="module_miss_scheduled" name="module_miss_scheduled">
+			<label for="module_miss_scheduled"></label>
+			<p class="wpscp-module-title">Missed Schedule
+				<a rel="nofollow" target="_blank" href="#">
+					<img width="6px" src="<?php print plugin_dir_url( WPSP_PLUGIN_FILE ) . 'admin/assets/images/question.svg'; ?>" alt="wp scheduled posts" />
+				</a>               
+				<sup class="wpscp-pro-label has-to-update"></sup><sup class="wpscp-pro-label">Pro</sup>                
+			</p>
 		</div>
 	</td>
 	<!-- right side -->
 	<td>
-		<div class="wpscp-checkbox wpscp-pro-feature-checkbox" data-id="wpscp_pro_module">
-			<input disabled="" type="checkbox" id="wpscp_pro_module" name="wpscp_pro_module">
-			<label for="wpscp_pro_module"></label>
-			<p class="wpscp-module-title">Manual Scheduled              
-				<sup class="wpscp-pro-label has-to-update">1.2.0</sup><sup class="wpscp-pro-label">Pro</sup>                
+		<!-- Manual Scheduled -->
+		<div class="wpscp-checkbox wpscp-pro-feature-checkbox" data-id="module_manual_scheduled">
+			<input disabled="" type="checkbox" id="module_manual_scheduled" name="module_manual_scheduled">
+			<label for="module_manjual_scheduled"></label>
+			<p class="wpscp-module-title">Manual Scheduled
+				<a rel="nofollow" target="_blank" href="#">
+					<img width="6px" src="<?php print plugin_dir_url( WPSP_PLUGIN_FILE ) . 'admin/assets/images/question.svg'; ?>" alt="wp scheduled posts" />
+				</a>               
+				<sup class="wpscp-pro-label has-to-update"></sup><sup class="wpscp-pro-label">Pro</sup>                
+			</p>
+		</div>
+		<!-- Social share -->
+		<div class="wpscp-checkbox wpscp-pro-feature-checkbox" data-id="module_social_share">
+			<input disabled="" type="checkbox" id="module_social_share" name="module_social_share">
+			<label for="module_manjual_scheduled"></label>
+			<p class="wpscp-module-title">Social Share
+				<a rel="nofollow" target="_blank" href="#">
+					<img width="6px" src="<?php print plugin_dir_url( WPSP_PLUGIN_FILE ) . 'admin/assets/images/question.svg'; ?>" alt="wp scheduled posts" />
+				</a>               
+				<sup class="wpscp-pro-label has-to-update"></sup><sup class="wpscp-pro-label">Pro</sup>                
 			</p>
 		</div>
 	</td>

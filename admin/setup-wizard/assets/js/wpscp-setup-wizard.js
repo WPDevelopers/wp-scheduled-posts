@@ -1,28 +1,105 @@
 jQuery(document).ready(function ($) {
-    $('.wpscp-setup-wizard .wpscp-tabnav-wrap ul.tab-nav li.nav-item a').on('click', function (event) {
-        event.preventDefault();
-        $('.tab-content').removeClass('active');
-        $('.nav-item').removeClass('tab-active');
-        $('.tab-content').removeClass('active');
-        // action tab item and tab content
-        $(this).parent().addClass('tab-active');
-        $($(this).attr('href')).addClass('active');
-    });
+    wpscpQuickSetupTabs();
+    function wpscpQuickSetupTabs(){
+        var skipEmailStep = false;
+        // tab click handler
+        jQuery('#wpscp-prev-option').on('click', function(e){
+            e.preventDefault();
+            wpscpQswNextPrev(-1)
+        });
+        jQuery('#wpscp-next-option').on('click', function(e){
+            e.preventDefault();
+            wpscpQswNextPrev(1)
+        });
+        jQuery('#wpscpqswemailskipbutton').on('click', function(e){
+            e.preventDefault();
+            skipEmailStep = true;
+            wpscpQswNextPrev(1)
+        });
 
-    // Tabs Switch Option
-    $('.wpscp-next-option').click(function(e){
-        e.preventDefault();
-        $('.wpscp-setup-wizard .wpscp-tabnav-wrap ul.tab-nav > .tab-active').next('li').find('a').trigger('click');
-    });
-    
-    $('.wpscp-prev-option').click(function(e){
-        e.preventDefault();
-        $('.wpscp-setup-wizard .wpscp-tabnav-wrap ul.tab-nav > .tab-active').prev('li').find('a').trigger('click');
-    });
+        var currentTab = 0; // Current tab is set to be the first tab (0)
+        showTab(currentTab); // Display the current tab
+        showTabNav(currentTab); // Display the current tab Nav
+        function showTab(n) {
+            // This function will display the specified tab of the form...
+            var tabList = jQuery(".tab-content"); 
+            for(i = 0; i <= tabList.length; i++ ){
+                if(i === n){
+                    jQuery(tabList[i]).addClass('active');
+                } else {
+                    jQuery(tabList[i]).removeClass('active');
+                }
+            }
+            //... and fix the Previous/Next buttons:
+            if (n == 0) {
+                document.getElementById("wpscp-prev-option").style.display = "none";
+            } else {
+                document.getElementById("wpscp-prev-option").style.display = "inline";
+            }
+            if (n == (tabList.length - 1)) {
+                document.getElementById("wpscp-next-option").innerHTML = "Submit";
+                return false;
+            } else {
+                document.getElementById("wpscp-next-option").innerHTML = "Next";
+            }
+        }
+        function showTabNav(n){
+            var tabNavList = jQuery('.nav-item');
+            for(i = 0; i <= tabNavList.length; i++ ){
+                if(i <= n){
+                    jQuery(tabNavList[i]).addClass('tab-active');
+                }else {
+                    if(jQuery(tabNavList[i]).hasClass('tab-active')){
+                        jQuery(tabNavList[i]).removeClass('tab-active');
+                    }
+                }
+            }
+        }
+
+        function wpscpQswNextPrev(n) {
+            // This function will figure out which tab to display
+            var x = document.getElementsByClassName("tab-content"); 
+           
+            // Exit the function if any field in the current tab is invalid:
+            if (n == 1 && !wpscpQswValidateForm() && !skipEmailStep) return false;
+
+            // Increase or decrease the current tab by 1:
+            currentTab = currentTab + n;
+            if(currentTab < x.length){
+                // Otherwise, display the correct tab:
+                showTab(currentTab);
+                // display tab nav
+                showTabNav(currentTab);
+                 // ajax call after false
+                 wpscpQswOptionSubmit();
+            } else {
+                // ajax call after false
+                wpscpQswOptionSubmit();
+                swal({
+                    title: "Good job!",
+                    text: "You clicked the button!",
+                    icon: "success",
+                });
+                currentTab = ( x.length - 1);
+            }
+        }
+
+        function wpscpQswValidateForm() {
+            var valid = true;
+            var requiredField = document.getElementById('wpscp_user_email_address');
+            if(requiredField.value === "" || wpscpQswValidateEmail(requiredField.value) !== true){
+                valid = false;
+            }
+            return valid; 
+        }
+        function wpscpQswValidateEmail(email) {
+            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(email).toLowerCase());
+        }
+    }
 
     // Quick Setup Wizard Save
-    jQuery(document).on('click', '#quicksetupwizardsave', function(e){
-        e.preventDefault();
+    function wpscpQswOptionSubmit(){
         var ajaxnonce  = $('.wpscp-setup-wizard input[name="wpscpqswnonce"]').val();
         var show_dashboard_widget  = $('.wpscp-setup-wizard input[name="show_dashboard_widget"]').attr("checked") ? 1 : 0;
         var show_in_front_end_adminbar  = $('.wpscp-setup-wizard input[name="show_in_front_end_adminbar"]').attr("checked") ? 1 : 0;
@@ -48,7 +125,6 @@ jQuery(document).ready(function ($) {
         var fb_app_secret = $('.wpscp-setup-wizard input[name="fb_app_secret"]').val();
         var wpscp_pro_app_type = $('.wpscp-setup-wizard input[name="wpscp_pro_app_type"]:checked').val();
         var fb_access_token = $('#fb_access_token').val();
-        console.log('facebook', wpscp_pro_app_type);
        
         var data = {
 			'action': 'quick_setup_wizard_action',
@@ -76,15 +152,9 @@ jQuery(document).ready(function ($) {
             'fb_access_token' : fb_access_token
 		};
 		// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
-		jQuery.post(ajaxurl, data, function(response) {
-			swal({
-                title: "Good job!",
-                text: "You clicked the button!",
-                icon: "success",
-            });
-		});
+		jQuery.post(ajaxurl, data, function(response) {});
         
-   });
+   };
 
    function wpscp_select_box_get_value(selector){
         var selected=[];
@@ -137,5 +207,8 @@ jQuery(document).ready(function ($) {
         });
    });
 
+
+    //  select2
+    jQuery('.wpscp-setup-wizard select').select2();   
 });
 
