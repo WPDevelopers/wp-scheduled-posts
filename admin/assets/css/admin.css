@@ -1385,6 +1385,9 @@ a.wpsp-notice-cta{
 .wpsp_top_bar_wrapper:after,.wpsp_top_bar_heading:after,.miss-schedule-form:after{
 	clear: both;
 }
+.wpsp_top_bar_wrapper .notice.notice-error {
+	/* display: none; */
+}
 .wpsp_top_bar_logo{
 	float: left;
 	width: 70px;

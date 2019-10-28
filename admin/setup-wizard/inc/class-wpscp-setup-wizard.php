@@ -102,35 +102,47 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
         }
 		
 		public static function plugin_setting_page() {
-			?>
-				<div class="wrap">
-                    <h1><?php esc_html_e('WP Scheduled Posts', 'wsi'); ?></h1>
-                    <div class="wpscp-setup-wizard">
-                        <form method="post" action="#">
-                            <input type="hidden" name="wpscpqswnonce" value="<?php print wp_create_nonce( 'wpscpqswnonce' ); ?>">
-                            <div class="wpscp-tabnav-wrap">
-                                <ul class="tab-nav">
-                                    <?php do_action('wpscp_nav_tabs'); ?>
-                                </ul>
+            ?> 
+                <div id="wpwrap">
+                    <div class="wpsp-dashboard-body">
+                        <!-- Topbar -->
+                        <div class="wpsp_top_bar_wrapper">
+                            <div class="wpsp_top_bar_logo">
+                                <img src="<?php echo plugins_url(); ?>/wp-scheduled-posts/admin/assets/images/wpsp-icon.svg" alt="">
                             </div>
-                            <div class="wpscp-tab-content-wrap">
-                                <?php 
-                                    do_action('wpscp_tabs_content'); 
-                                ?>
-                                <div class="wpscp-button-wrap">
-                                    <a id="wpscp-prev-option" href="#" class="btn wpscp-prev-option">Previous</a>
-                                    <a id="wpscp-next-option" href="#" class="btn wpscp-next-option">Next</a>
-                                </div>
-                                <div class="bottom-notice-left">
-                                    <button type="button" id="whatwecollectdata" class="btn-collect">What We Collect?</button>
-                                </div>
-                                <div class="bottom-notice">
-                                    <button type="button" id="wpscpqswemailskipbutton" class="btn-skip">Skip This Step</button>
-                                </div>
+                            <div class="wpsp_top_bar_heading">
+                                <h2 class="wpsp_topbar_title"><?php esc_html_e('WP Scheduled Posts', 'wpscp'); ?></h2>
+                                <p class="wpsp_topbar_version_name"><?php echo esc_html__('Version ', 'wpscp') . WPSP_VERSION; ?></p>
                             </div>
-                        </form>
+                        </div>
+                        <!-- setup wizard -->
+                        <div class="wpscp-setup-wizard">
+                            <form method="post" action="#">
+                                <input type="hidden" name="wpscpqswnonce" value="<?php print wp_create_nonce( 'wpscpqswnonce' ); ?>">
+                                <div class="wpscp-tabnav-wrap">
+                                    <ul class="tab-nav">
+                                        <?php do_action('wpscp_nav_tabs'); ?>
+                                    </ul>
+                                </div>
+                                <div class="wpscp-tab-content-wrap">
+                                    <?php 
+                                        do_action('wpscp_tabs_content'); 
+                                    ?>
+                                    <div class="wpscp-button-wrap">
+                                        <a id="wpscp-prev-option" href="#" class="btn wpscp-prev-option">Previous</a>
+                                        <a id="wpscp-next-option" href="#" class="btn wpscp-next-option">Next</a>
+                                    </div>
+                                    <div class="bottom-notice-left">
+                                        <button type="button" id="whatwecollectdata" class="btn-collect">What We Collect?</button>
+                                    </div>
+                                    <div class="bottom-notice">
+                                        <button type="button" id="wpscpqswemailskipbutton" class="btn-skip">Skip This Step</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-		        </div>
+                </div>
 			<?php
 		}
 
