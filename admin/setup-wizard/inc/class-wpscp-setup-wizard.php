@@ -255,7 +255,7 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
          * @param array
          * @return Markup
          */
-        public function callback_radio( $args ) {
+        public static function callback_radio( $args ) {
             $value = self::get_value($args);
             $field = '';
             $markup = '';
@@ -277,7 +277,7 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
         }
 
 
-        public function callback_select( $args ){
+        public static function callback_select( $args ){
             $value = self::get_value($args);
             $field = $markup = '';
             $field .= sprintf( '<select id="%1$s" class="%1$s-select" name="%1$s" multiple>', $args['id'] );
@@ -300,7 +300,7 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
             echo $markup;
         }
 
-        public function callback_scheduled( $args ){
+        public static function callback_scheduled( $args ){
             $field = $markup = '';
             ?>
             <tr>
@@ -320,7 +320,7 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
             <?php
         }
 
-        public function callback_socialintegation( $args ){
+        public static function callback_socialintegation( $args ){
             $field = $markup = '';
             ?>
             <tr>
@@ -337,7 +337,7 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
             </tr>
             <?php
         }
-        public function callback_welcome( $args ){
+        public static function callback_welcome( $args ){
             ?>
             <tr>
                 <td>
@@ -354,7 +354,7 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
             <?php
         }
 
-        public function callback_profeature( $args ){
+        public static function callback_profeature( $args ){
             $field = $markup = '';
             ?>
             <tr>

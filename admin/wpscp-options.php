@@ -10,7 +10,6 @@
 				$adminbar_item_template=isset($_POST['adminbar_item_template'])?trim($_POST['adminbar_item_template']):''; 
 				$adminbar_title_length=isset($_POST['adminbar_title_length'])?$_POST['adminbar_title_length']:''; 
 				$adminbar_date_format=isset($_POST['adminbar_date_format'])?trim($_POST['adminbar_date_format']):'';
-
 				$options=array(
 						'show_dashboard_widget'=>$show_dashboard_widget, 
 						'show_in_front_end_adminbar'=>$show_in_front_end_adminbar, 
@@ -25,24 +24,8 @@
 				);	
 				update_option('wpscp_options',$options);
 				$wpscp_options=$options;
-
 			}
-
-			$options=array(
-					'show_dashboard_widget'=>1, 
-					'show_in_front_end_adminbar'=>1, 
-					'show_in_adminbar'=>1,
-					'allow_user_role'=>array('administrator'),
-					'allow_post_types'=>array('post'),
-					'allow_categories'=>array(0),
-					'adminbar_item_template'=>"<strong>%TITLE%</strong> / %AUTHOR% / %DATE%",
-					'adminbar_title_length'=>45,
-					'adminbar_date_format'=>'M-d h:i:a',
-					'prevent_future_post'=>1,
-			);
-
-			$wpscp_options=get_option('wpscp_options',$options);
-			if(!is_array($wpscp_options['allow_categories']))$wpscp_options['allow_categories']=array(0);
+			$wpscp_options = get_option('wpscp_options');
 			return $wpscp_options;
 		}
 	}
