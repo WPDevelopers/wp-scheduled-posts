@@ -19,7 +19,8 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
         
         public static function setup_wizard_scripts(){
             wp_enqueue_style( 'wpscp-setup-wizard', WPSCP_ADMIN_URL . 'setup-wizard/assets/css/wpscp-setup-wizard.css' );
-            wp_enqueue_script( 'wpscp-setup-wizard', WPSCP_ADMIN_URL . 'setup-wizard/assets/js/wpscp-setup-wizard.js', array('jquery'), null, false );
+            $wpscpQswVersionNumber  = date("ymd-Gis", filemtime( WPSCP_ADMIN_DIR_PATH . 'setup-wizard/assets/js/wpscp-setup-wizard.js' ));
+            wp_enqueue_script( 'wpscp-setup-wizard', WPSCP_ADMIN_URL . 'setup-wizard/assets/js/wpscp-setup-wizard.js', array('jquery'), $wpscpQswVersionNumber, false );
         }
 
 		// add admin page

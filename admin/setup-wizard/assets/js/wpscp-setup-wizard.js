@@ -1,4 +1,5 @@
 jQuery(document).ready(function ($) {
+    // quick setup wizard tab handle
     if(jQuery('.wpscp-setup-wizard').length){
         wpscpQuickSetupTabs();
     }
@@ -7,19 +8,25 @@ jQuery(document).ready(function ($) {
         // tab click handler
         jQuery('#wpscp-prev-option').on('click', function(e){
             e.preventDefault();
-            wpscpQswNextPrev(-1)
+            wpscpQswNextPrev(-1);
+            wpscpQuickSetupWizardTabTracking(-1);
         });
         jQuery('#wpscp-next-option').on('click', function(e){
             e.preventDefault();
-            wpscpQswNextPrev(1)
+            wpscpQswNextPrev(1);
+            if(wpscpQswValidateForm()){
+                wpscpQuickSetupWizardTabTracking(1);
+
+            }
         });
         jQuery('#wpscpqswemailskipbutton').on('click', function(e){
             e.preventDefault();
             skipEmailStep = true;
-            wpscpQswNextPrev(1)
+            wpscpQswNextPrev(1);
+            wpscpQuickSetupWizardTabTracking(1);
         });
 
-        var currentTab = 0; // Current tab is set to be the first tab (0)
+        var currentTab = wpscpQuickSetupGetTrackNumber(); // Current tab is set to be the first tab (0)
         showTab(currentTab); // Display the current tab
         showTabNav(currentTab); // Display the current tab Nav
         function showTab(n) {
@@ -85,6 +92,7 @@ jQuery(document).ready(function ($) {
                     icon: "success",
                 });
                 currentTab = ( x.length - 1);
+                wpscpQuickSetupWizardTabTracking(-1);
             }
         }
 
@@ -160,6 +168,10 @@ jQuery(document).ready(function ($) {
         
    };
 
+   /**
+    * Get Value From Select Field
+    * @param {id} selector 
+    */
    function wpscp_select_box_get_value(selector){
         var selected=[];
         $( selector + ' :selected').each(function(){
@@ -168,8 +180,10 @@ jQuery(document).ready(function ($) {
         return selected;
    }
 
-
-   function wpscp_quick_setup_toggle_schedule(){
+   /**
+    * Auto Schedule and Manual Schedule Toggle Swithing
+    */
+   function wpscp_quick_setup_auto_manual_toggle_schedule(){
        var autoScheduler = ".wpscp-setup-wizard input#autoScheduler";
        var manualScheduler = ".wpscp-setup-wizard input#manualScheduler";
        toggleControl();
@@ -186,7 +200,7 @@ jQuery(document).ready(function ($) {
             toggleControl();
         });
    }
-   wpscp_quick_setup_toggle_schedule();
+   wpscp_quick_setup_auto_manual_toggle_schedule();
 
    // popup modal showing for error message
    $('.wpscp-pro-feature-checkbox label').on('click', function(){
@@ -211,8 +225,29 @@ jQuery(document).ready(function ($) {
         });
    });
 
-
     //  select2
     jQuery('.wpscp-setup-wizard select').select2();   
+
+    /**
+     * quick setup wizard tab tracking
+     */
+    function wpscpQuickSetupWizardTabTracking(tabNumber){
+        var allTabs = jQuery('.wpscp-tabnav-wrap ul.tab-nav li.nav-item');
+        var existing = localStorage.getItem('wpscpQswTabNumberTracking');
+        existing = parseInt(existing) ? parseInt(existing) : 0;
+        console.log(parseInt(existing), allTabs.length);
+        if(parseInt(existing) < allTabs.length){
+            existing = existing + tabNumber;
+            localStorage.setItem('wpscpQswTabNumberTracking', existing);
+        }
+        return parseInt(existing);
+    }
+    /***
+     * Get Current Number
+     */
+    function wpscpQuickSetupGetTrackNumber(){
+        var oldNumber = localStorage.getItem('wpscpQswTabNumberTracking');
+        return (oldNumber ? parseInt(oldNumber) : 0);
+    }
 });
 
