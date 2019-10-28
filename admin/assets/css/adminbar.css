@@ -76,6 +76,9 @@
 #wpscp_quickedit {
 	padding-bottom: 30px;
 }
+#wpscp_quickedit #wpsp-status {
+	display: none;
+}
 #wpscp_quickedit .entry-title {
 	font-size: 22px;
 	color: #51525a;
@@ -118,9 +121,6 @@
 }
 #wpscp_quickedit #wpsp-status {
 	margin-top: -5px;
-}
-#wpscp_quickedit #timeEditControls {
-	margin-left: 10px;
 }
 a.btn-draft-post-create,
 #wpscp_quickedit a.button-secondary.close,

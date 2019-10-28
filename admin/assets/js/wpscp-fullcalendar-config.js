@@ -169,6 +169,7 @@ document.addEventListener('DOMContentLoaded', function() {
      * @param {*} obj 
      */
     function wpscp_calender_ajax_request(obj){
+        console.log(obj.post_status);
         var data = {
             'action': 'wpscp_calender_ajax_request',
             'nonce': wpscp_calendar_ajax_object.nonce,
@@ -468,10 +469,8 @@ document.addEventListener('DOMContentLoaded', function() {
         jQuery.post(wpscp_calendar_ajax_object.ajax_url, data, function(response, status) {
             if(status == 'success'){
                 var jsonData = (response != "" ? JSON.parse(response) : []);
-
                 var PostDate = jsonData[0].post_date;
                 var PostDateArray = PostDate.split(" ");
-
                 modalTitle.val(jsonData[0].post_title);
                 modalContent.val(jsonData[0].post_content);
                 modalDate.val(PostDateArray[0]);
@@ -494,11 +493,12 @@ document.addEventListener('DOMContentLoaded', function() {
         if(result){
             var data = {
                 'action': 'wpscp_delete_event',
-                'id': deletePostId
+                'ID': deletePostId
             };
 
             // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
             jQuery.post(wpscp_calendar_ajax_object.ajax_url, data, function(response, status) {
+                console.log(response);
                 if(status == 'success'){
                     jQuery('*[data-postid="'+response+'"]').closest('.fc-event').remove();
                     // send notification
