@@ -361,7 +361,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // quick post submit button
         modalSubmit.on('click', function(e){
             e.preventDefault();
-            var dateTime = wpscpFormat24Hours(modalTime.val());
+            var dateTime = wpscpFormat24Hours((modalTime.val() != "" ? modalTime.val() : '12:00 AM'));
             var dateStr = new Date(modalDate.val() + ' ' + dateTime); 
             jQuery('*[data-date="'+modalDate.val()+'"]').children('.spinner').css('visibility', 'visible');
             // send ajax request
