@@ -121,9 +121,11 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
                                     <a id="wpscp-prev-option" href="#" class="btn wpscp-prev-option">Previous</a>
                                     <a id="wpscp-next-option" href="#" class="btn wpscp-next-option">Next</a>
                                 </div>
+                                <div class="bottom-notice-left">
+                                    <button type="button" id="whatwecollectdata" class="btn-collect">What We Collect?</button>
+                                </div>
                                 <div class="bottom-notice">
-                                    <div class="optin-notice"></div>
-                                    <button type="button" id="wpscpqswemailskipbutton" class="btn-skip">Skip</button>
+                                    <button type="button" id="wpscpqswemailskipbutton" class="btn-skip">Skip This Step</button>
                                 </div>
                             </div>
                         </form>
@@ -287,14 +289,14 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
         }
 
         public function callback_scheduled( $args ){
-           
             $field = $markup = '';
             ?>
-
             <tr>
-                <th scope="row">
-                    <label for="'.$args['id'].'"><?php print $args['title']; ?></label>
-                </th>
+                <td>
+                    <h2 id="<?php print $args['id']; ?>"><?php print $args['title']; ?></h2>
+                </td>
+            </tr>
+            <tr>
                 <td>
                    <?php 
                         if(function_exists('wpscp_qsw_manage_scheduled_markup')){
@@ -307,7 +309,6 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
         }
 
         public function callback_socialintegation( $args ){
-           
             $field = $markup = '';
             ?>
             <tr>
@@ -366,12 +367,9 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
             $allSections = apply_filters( 'wpscp_setup_wizard_fields', self::$sections_array );
             foreach ($allSections as $section) :
                 ?>
-                    <li class="nav-item<?php print ($tabNavCounter == 0 ? ' wpscp-step-complete tab-active' : ''); ?>">
-                        <a href="#<?php print (isset($section['id']) ? $section['id'] : 'default-nav'); ?>" rel="nofollow">
-                            <span class="text"><?php print (isset($section['title']) ? $section['title'] : ''); ?></span>
-                            <span class="number"><?php print (isset($section['sub_title']) ? $section['sub_title'] : ''); ?></span>
-                            
-                        </a>
+                    <li class="nav-item<?php print ($tabNavCounter == 0 ? ' tab-active' : ''); ?>">
+                        <span class="text"><?php print (isset($section['title']) ? $section['title'] : ''); ?></span>
+                        <span class="number"><?php print (isset($section['sub_title']) ? $section['sub_title'] : ''); ?></span>
                     </li>
                 <?php
                 $tabNavCounter++;
