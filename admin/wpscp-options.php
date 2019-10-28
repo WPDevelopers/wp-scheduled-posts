@@ -71,10 +71,11 @@
 		function wpscp_options_page() {
 			global $wpdb;
 			$wpscp_options=wpscp_get_options();
-			
-
 			?>
 			<div class="wpsp-dashboard-body">
+				<div class="wpsp_loader">
+					<img src="<?php echo plugins_url('/wp-scheduled-posts/admin/assets/images/wpscp-logo.gif'); ?>" alt="Loader">
+				</div>
 				<?php
 					//include topbar page
 					include WPSCP_ADMIN_DIR_PATH . '/partials/topbar.php';

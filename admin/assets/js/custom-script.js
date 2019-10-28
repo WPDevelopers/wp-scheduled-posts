@@ -19,17 +19,9 @@ jQuery(document).ready(function ($) {
 		}
 
 	/* Loader JS */
-	var winHeight = $(window).height();
-	var wpsp_nav_content_wrapper = $('.wpsp-dashboard-body');
-	var wpsp_loader = $('.wpsp_loader');
-		wpsp_loader.height(winHeight);
-		wpsp_nav_content_wrapper.hide();
-	$(window).load(function() {
-		setTimeout(function() {
-			wpsp_nav_content_wrapper.show();
-			wpsp_loader.hide();
-		});
-	});
+	$(window).bind("load", function() {
+		$('.wpsp_loader').fadeOut(200);
+	 });
 
 	/* options page js start */
 	$('.wpsp-options-wrap form select').select2();

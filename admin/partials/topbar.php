@@ -32,8 +32,3 @@
 		?>
 	</ul>	
 </div>
-
-<!-- preloader -->
-<div class="wpsp_loader">
-	<img src="<?php echo plugins_url('/wp-scheduled-posts/admin/assets/images/wpscp-logo.gif'); ?>" alt="Loader">
-</div>

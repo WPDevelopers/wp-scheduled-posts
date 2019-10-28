@@ -105,6 +105,9 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
             ?> 
                 <div id="wpwrap">
                     <div class="wpsp-dashboard-body">
+                        <div class="wpsp_loader">
+                            <img src="<?php echo plugins_url('/wp-scheduled-posts/admin/assets/images/wpscp-logo.gif'); ?>" alt="Loader">
+                        </div>
                         <!-- Topbar -->
                         <div class="wpsp_top_bar_wrapper">
                             <div class="wpsp_top_bar_logo">
