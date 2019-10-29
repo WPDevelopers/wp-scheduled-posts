@@ -98,6 +98,7 @@ class wpScp_Plugin_Usage_Tracker
         // Use this action for local testing and for one time force tracking in a life time.
         add_action('admin_init', array($this, 'force_track_for_one_time'));
         // add_action( 'admin_init', array( $this, 'force_tracking' ) );
+        add_action( 'wp_ajax_optin_wizard_action', array( $this, 'wizard_action' ) );
         // Display the admin notice on activation
         add_action('wpdeveloper_optin_notice_for_' . $this->plugin_name, array($this, 'optin_notice'));
         add_action('admin_notices', array($this, 'marketing_notice'));
@@ -133,6 +134,19 @@ class wpScp_Plugin_Usage_Tracker
     {
         $this->do_tracking(true);
     }
+    /**
+     * This function is responsible for force tracking the plugin,
+     * if users are allowed to do!
+     *
+     * @return void
+     */
+    public function wizard_action()
+    {
+        if( ! check_ajax_referer( 'wpscpqswnonce', 'nonce') )  {
+            return;
+        }
+        $this->do_wizard_tracking(true, $_POST);
+    }
 
     /**
      * This is our function to get everything going
@@ -167,6 +181,37 @@ class wpScp_Plugin_Usage_Tracker
         // Get our data
         $body = $this->get_data();
 
+        // Send the data
+        $this->send_data($body);
+    }
+
+    public function do_wizard_tracking( $force = false, $data = [] )
+    {
+        // If the home site hasn't been defined, we just drop out. Nothing much we can do.
+        if (!$this->home_url) {
+            return;
+        }
+
+        // Check to see if the user has opted in to tracking
+        $allow_tracking = $this->get_is_tracking_allowed();
+        if (!$allow_tracking) {
+            return;
+        }
+
+        // Check to see if it's time to track
+        $track_time = $this->get_is_time_to_track();
+        if (!$track_time && !$force) {
+            return;
+        }
+        // Get our data
+        $body = $this->get_data();
+
+        if( isset( $data['admin_email'] ) && ! empty( $data['admin_email'] ) ) {
+            $body['email'] = $data['admin_email'];
+            $this->set_admin_email( $body['email'] );
+        } else {
+            $this->set_admin_email();
+        }
         // Send the data
         $this->send_data($body);
     }

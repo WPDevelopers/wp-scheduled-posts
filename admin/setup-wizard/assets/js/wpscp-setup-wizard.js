@@ -15,6 +15,9 @@ jQuery(document).ready(function ($) {
             e.preventDefault();
             wpscpQswNextPrev(1);
             if(wpscpQswValidateForm()){
+                if( wpscpQuickSetupGetTrackNumber() === 0 ) {
+                    wpscpQswOptinSubmit();
+                }
                 wpscpQuickSetupWizardTabTracking(1);
             }
         });
@@ -167,6 +170,16 @@ jQuery(document).ready(function ($) {
         
    };
 
+    function wpscpQswOptinSubmit(){
+        var ajaxnonce  = $('.wpscp-setup-wizard input[name="wpscpqswnonce"]').val();
+        var data = {
+            "nonce" : ajaxnonce,
+            'action': 'optin_wizard_action',
+            "admin_email" : $('#wpscp_user_email_address').val(),
+        };
+        jQuery.post(ajaxurl, data, function(response) {});
+    }
+
    /**
     * Get Value From Select Field
     * @param {id} selector 
@@ -234,7 +247,6 @@ jQuery(document).ready(function ($) {
         var allTabs = jQuery('.wpscp-tabnav-wrap ul.tab-nav li.nav-item');
         var existing = localStorage.getItem('wpscpQswTabNumberTracking');
         existing = parseInt(existing) ? parseInt(existing) : 0;
-        console.log(parseInt(existing), allTabs.length);
         if(parseInt(existing) < allTabs.length){
             existing = existing + tabNumber;
             localStorage.setItem('wpscpQswTabNumberTracking', existing);
