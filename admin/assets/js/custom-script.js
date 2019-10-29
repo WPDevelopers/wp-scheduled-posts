@@ -249,10 +249,10 @@ function wpscp_calendar_notifi(obj){
 			content = 'Your Post has been successfully Deleted';
 		  break;
 		case 'future_to_draft':
-			content = 'Your Post Status has been changed to Draft';
+			content = 'Your Post Status has been changed to ' + obj.post_status;
 		  break;
 		case 'draft_to_future':
-			content = 'Your Post Status has been changed to Future';
+			content = 'Your Post Status has been changed to ' + obj.post_status;
 		  break;
 		default:
 			content = '';

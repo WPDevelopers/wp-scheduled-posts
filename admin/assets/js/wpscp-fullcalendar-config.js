@@ -234,14 +234,14 @@ document.addEventListener('DOMContentLoaded', function() {
                      // send notification
                      wpscp_calendar_notifi({
                         type: 'draft_to_future',
-                        post_status: 'future',
+                        post_status: jsonData[0].post_status,
                         post_date: obj.date
                     });
                 }else if(obj.type == 'eventDrop'){
                      // send notification
                      wpscp_calendar_notifi({
                         type: 'future_post_update',
-                        post_status: 'future',
+                        post_status: jsonData[0].post_status,
                         post_date: obj.date
                     });
                 }else if(obj.type == 'draftDrop'){
@@ -250,14 +250,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     // send notification
                     wpscp_calendar_notifi({
                         type: 'future_to_draft',
-                        post_status: 'draft',
+                        post_status: jsonData[0].post_status,
                     });
                 }else if(obj.post_status == 'Draft') {
                     jQuery( "<div class='fc-event'>" ).appendTo( '#external-events-listing' ).html( wpscpEventTemplateStructure(jsonData[0]) );
                     // send notification
                     wpscp_calendar_notifi({
                         type: (obj.ID !== '' ? 'draft_post_update' : 'draft_new_post'),
-                        post_status: 'draft',
+                        post_status: jsonData[0].post_status,
                     });
                 }
                 // hide all spinner after complete ajax request
