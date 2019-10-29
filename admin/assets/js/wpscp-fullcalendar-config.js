@@ -425,12 +425,11 @@ document.addEventListener('DOMContentLoaded', function() {
         return sHours + ":" + sMinutes;
     }
 
-    
     /**
      * Get Rest URL
      */
     function wpscpGetRestUrl(){
-        return wpscp_calendar_ajax_object.calendar_rest_route + 'post_type=' + wpscpGetPostTypeName();
+        return wpscp_calendar_ajax_object.calendar_rest_route + wpscpGetPostTypeName();
     }
     /**
      * Get Post Type Name form Query Sting

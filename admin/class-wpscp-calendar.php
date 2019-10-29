@@ -16,23 +16,19 @@ class WpScp_Calendar {
     }
     
     public function wpscp_register_custom_route () {
-        register_rest_route( 'wpscp/v1', '/future(?:/(?<post_type>\d+))?', array(
-            'methods'  => WP_REST_Server::READABLE,
-          'callback' => array($this, 'future_post_rest_route_output'),
-          'args' => [
-                'post_type'
-            ],
-        ));
+        register_rest_route('wpscp/v1',
+            'future/(?P<search>([a-zA-Z]|%20)+)',
+            array(
+                'methods' => 'GET',
+                'callback' => array($this, 'wpscp_future_post_rest_route_output')
+            )
+        );
     }
 
-    public function future_post_rest_route_output( WP_REST_Request $request ) {
-        $wpscp_all_options  = get_option('wpscp_options');
-        $allow_post_types =  ($wpscp_all_options['allow_post_types'] == '' ?  array('post') : $wpscp_all_options['allow_post_types']);
-        if(isset($request['post_type']) && $request['post_type'] != ''){
-            $allow_post_types = explode(' ', $request['post_type']);
-        }
+    public function wpscp_future_post_rest_route_output( $request ) {
+        $response = urldecode($request->get_param('search'));
         $query = new WP_Query(array(
-            'post_type'         => $allow_post_types,
+            'post_type'         => ($response != '' ? $response : 'post'),
             'post_status'       => array('future', 'publish'),
             'posts_per_page'    => -1
         ));

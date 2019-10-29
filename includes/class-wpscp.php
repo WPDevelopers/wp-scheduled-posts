@@ -173,7 +173,7 @@ final class WpScp {
             array( 
             	'ajax_url' => admin_url( 'admin-ajax.php' ), 
                 'nonce' => wp_create_nonce('wpscp-calendar-ajax-nonce'),
-                'calendar_rest_route' => get_rest_url(null, 'wpscp/v1/future?')
+                'calendar_rest_route' => get_rest_url(null, 'wpscp/v1/future/')
             ) );
         }
     }
