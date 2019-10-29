@@ -16,7 +16,6 @@ jQuery(document).ready(function ($) {
             wpscpQswNextPrev(1);
             if(wpscpQswValidateForm()){
                 wpscpQuickSetupWizardTabTracking(1);
-
             }
         });
         jQuery('#wpscpqswemailskipbutton').on('click', function(e){

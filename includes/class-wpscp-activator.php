@@ -19,8 +19,6 @@ class WpScp_Activator {
 		);
 		if(!get_option('wpscp_options')){
 			add_option('wpscp_options', $options);
-		}else {
-			update_option('wpscp_options', $options);
 		}
 	}
 
