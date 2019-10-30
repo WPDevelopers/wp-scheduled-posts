@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function wpscpEventTemplateStructure(obj){
             var markup = '';
             markup +='<div class="wpscp-event-post" data-postid="'+obj.ID+'">';
-            markup +='<div class="postlink "><span><span class="posttime">['+wpscpFormatAMPM(new Date(obj.post_modified))+']</span> '+obj.post_title+' ['+obj.post_status+']</span></div>';
+            markup +='<div class="postlink "><span><span class="posttime">['+wpscpFormatAMPM(new Date(obj.post_date))+']</span> '+obj.post_title+' ['+obj.post_status+']</span></div>';
             var link = '';
             link += '<div class="edit"><a href="'+wpscpGetHomeUrl()+'/wp-admin/post.php?post='+obj.ID+'&action=edit"><i class="dashicons dashicons-edit"></i>Edit</a><a class="wpscpquickedit" href="#" data-type="quickedit"><i class="dashicons dashicons-welcome-write-blog"></i>Quick Edit</a></div>';
             link += '<div class="deleteview"><a class="wpscpEventDelete" href="#"><i class="dashicons dashicons-trash"></i> Delete</a><a href="'+obj.guid+'"><i class="dashicons dashicons-admin-links"></i> View</a></div>';
