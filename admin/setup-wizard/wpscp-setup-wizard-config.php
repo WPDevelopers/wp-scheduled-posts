@@ -59,7 +59,7 @@ wpscpSetupWizard::setSection(array(
 			'id'      		=> 'allow_post_types',
             'title'   		=> __( 'Post Types Support', 'wp-scheduled-posts' ),
 			'type'    		=> 'select',
-			'options'		=> get_post_types('','names')
+			'options'		=> wpscp_get_all_post_type()
 		),
 		array(
 			'id'      		=> 'allow_categories',

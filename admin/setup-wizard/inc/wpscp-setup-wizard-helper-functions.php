@@ -13,6 +13,15 @@ if(!function_exists('wpscp_get_all_category')){
 }
 
 /**
+ * Get All Post Types
+ */
+function wpscp_get_all_post_type(){
+	$postType = get_post_types('','names');
+	$not_neccessary_post_types = array('custom_css', 'attachment','revision','nav_menu_item', 'customize_changeset','oembed_cache','user_request','product_variation','shop_order','scheduled-action','shop_order_refund','shop_coupon','nxs_qp','elementor_library');
+	return array_diff($postType, $not_neccessary_post_types);
+}
+
+/**
  * Welcome Screen
  */
 add_action('wpscp_pro_qsw_welcomescreen', 'wpscp_pro_qsw_welcomescreen_markup');

@@ -52,11 +52,7 @@
                     <td scope="row" align="left" style="vertical-align:top;"><?php esc_html_e('Show Post Types:', 'wpscp'); ?> </td>
                     <td>
                         <?php 
-                            $typeswehave = array('post','revision'); //oneTarek
-                            $post_types=get_post_types('','names'); 
-                            $rempost = array('attachment','revision','nav_menu_item');
-                            $post_types = array_diff($post_types,$rempost);
-                            $not_neccessary_post_types = array('custom_css','customize_changeset','oembed_cache','user_request','product_variation','shop_order','scheduled-action','shop_order_refund','shop_coupon','nxs_qp','elementor_library');
+                            $post_types = wpscp_get_all_post_type();
                             $allow_post_types = ($wpscp_options['allow_post_types'] == '' ? array('post') : $wpscp_options['allow_post_types']);
                         ?>
                         <select name="allow_post_types[]" class="wpsp_field_activate" MULTIPLE style="height:80px;width:200px;">
