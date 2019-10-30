@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 ID: jQuery(info.el).find('.wpscp-event-post').data('postid'),
                 post_status : 'Scheduled',
                 type: 'eventDrop',
-                date: info.event.start,
+                date: new Date(info.event.start),
             });
         }
     });
@@ -121,8 +121,8 @@ document.addEventListener('DOMContentLoaded', function() {
             data.posts.forEach(function(item, index){
                 calendar.addEvent({
                   title: wpscpEventTemplateStructure(item),
-                  start: item.post_date,
-                  allDay: true
+                  start: new Date(item.post_date),
+                  allDay: false
                 });
             });
 
@@ -170,6 +170,7 @@ document.addEventListener('DOMContentLoaded', function() {
      * @param {*} obj 
      */
     function wpscp_calender_ajax_request(obj){
+        console.log("Event Drop", obj);
         var data = {
             'action': 'wpscp_calender_ajax_request',
             'nonce': wpscp_calendar_ajax_object.nonce,
@@ -204,8 +205,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     // add event
                     calendar.addEvent({
                         title: wpscpEventTemplateStructure(jsonData[0]),
-                        start: jsonData[0].post_date,
-                        allDay: true
+                        start: new Date(jsonData[0].post_date),
+                        allDay: false
                     });
 
                     // send notification
@@ -229,8 +230,8 @@ document.addEventListener('DOMContentLoaded', function() {
                      // add event
                      calendar.addEvent({
                         title: wpscpEventTemplateStructure(jsonData[0]),
-                        start: jsonData[0].post_date,
-                        allDay: true
+                        start: new Date(jsonData[0].post_date),
+                        allDay: false
                     });
                      // send notification
                      wpscp_calendar_notifi({
@@ -252,8 +253,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     // add event
                     calendar.addEvent({
                        title: wpscpEventTemplateStructure(jsonData[0]),
-                       start: jsonData[0].post_date,
-                       allDay: true
+                       start: new Date(jsonData[0].post_date),
+                       allDay: false
                     });
                      // send notification
                      wpscp_calendar_notifi({
