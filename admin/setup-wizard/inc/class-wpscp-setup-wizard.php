@@ -26,7 +26,7 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
 		// add admin page
 		public static function admin_menu(){
 			add_submenu_page(
-				'wp-scheduled-posts',
+				null,
 				'Quick Setup Wizard',
 				'Quick Setup Wizard',
 				'manage_options',
