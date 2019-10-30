@@ -115,6 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
     * add Future Post Event Via ajax Call
     */
     function wpscpAllEvents(){
+        jQuery('.wpsp_loader').fadeIn(200);
         jQuery.ajax({
             url: wpscpGetRestUrl(),
         }).done(function( data ) {
@@ -125,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   allDay: false
                 });
             });
-
+            jQuery('.wpsp_loader').fadeOut(500);
         });
     }
     wpscpAllEvents();

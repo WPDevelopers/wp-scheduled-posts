@@ -44,9 +44,11 @@ jQuery(document).ready(function ($) {
             //... and fix the Previous/Next buttons:
             if (n == 0) {
                 document.getElementById("wpscp-prev-option").style.display = "none";
+                jQuery('#whatwecollectdata').show();
                 jQuery('#wpscpqswemailskipbutton').show();
             } else {
                 document.getElementById("wpscp-prev-option").style.display = "inline";
+                jQuery('#whatwecollectdata').hide();
                 jQuery('#wpscpqswemailskipbutton').hide();
             }
             if (n == (tabList.length - 1)) {
@@ -90,7 +92,7 @@ jQuery(document).ready(function ($) {
                 wpscpQswOptionSubmit();
                 swal({
                     title: "Good job!",
-                    text: "You clicked the button!",
+                    text: "Setup is Complete.",
                     icon: "success",
                 });
                 currentTab = ( x.length - 1);
