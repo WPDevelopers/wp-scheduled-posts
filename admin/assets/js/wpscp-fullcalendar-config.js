@@ -238,6 +238,22 @@ document.addEventListener('DOMContentLoaded', function() {
                         post_date: obj.date
                     });
                 }else if(obj.type == 'eventDrop'){
+                    if(obj.ID !== ''){
+                        // remove event
+                       var allevents = calendar.getEvents();
+                       allevents.forEach(function(el){
+                           var eventTitle = el.title;
+                           if(jQuery(eventTitle).data('postid') == obj.ID){
+                               el.remove();
+                           }
+                       });
+                   }
+                    // add event
+                    calendar.addEvent({
+                       title: wpscpEventTemplateStructure(jsonData[0]),
+                       start: jsonData[0].post_date,
+                       allDay: true
+                    });
                      // send notification
                      wpscp_calendar_notifi({
                         type: 'future_post_update',

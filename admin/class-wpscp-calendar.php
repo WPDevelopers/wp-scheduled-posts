@@ -134,7 +134,7 @@ class WpScp_Calendar {
                 }
             }
         } else if($type == 'eventDrop'){
-            wp_update_post(array(
+            $post_id = wp_update_post(array(
                 'ID'            =>  $postid, 
                 'post_type'     =>  $post_type,
                 'post_status'   => 'future',
@@ -142,6 +142,9 @@ class WpScp_Calendar {
                 'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''), 
                 'edit_date'     => true
             ));
+            if($post_id != 0){
+                print json_encode(query_posts( array( 'p' => $post_id, 'post_type'     =>  $post_type ) ));
+            }
         }
         else if($post_status != 'draft') { // future post date modify date
             wp_update_post(array(
