@@ -167,7 +167,8 @@ final class WpScp {
 			wp_enqueue_script('fullcalendar-interaction', WPSCP_ADMIN_URL . 'assets/js/fullcalendar/interaction/main.js', array('jquery'), null, false);
 			wp_enqueue_script('fullcalendar-daygrid', WPSCP_ADMIN_URL . 'assets/js/fullcalendar/daygrid/main.js', array('jquery'), null, false);
 			wp_enqueue_script('fullcalendar-timegrid', WPSCP_ADMIN_URL . 'assets/js/fullcalendar/timegrid/main.js', array('jquery'), null, false);
-			wp_enqueue_script('wpscp-fullcalendar', WPSCP_ADMIN_URL . 'assets/js/wpscp-fullcalendar-config.js', array('jquery'), null, false);
+            $wpscpCCVN  = date("ymd-Gis", filemtime( WPSCP_ADMIN_DIR_PATH . 'assets/js/wpscp-fullcalendar-config.js' ));
+            wp_enqueue_script('wpscp-fullcalendar', WPSCP_ADMIN_URL . 'assets/js/wpscp-fullcalendar-config.js', array('jquery'), $wpscpCCVN, false);
 			// in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
 			wp_localize_script( 'wpscp-fullcalendar', 'wpscp_calendar_ajax_object',
             array( 

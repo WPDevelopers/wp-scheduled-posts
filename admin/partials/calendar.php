@@ -39,6 +39,7 @@
                                     <select name="status" id="wpsp-status" disabled="disabled">
                                         <option value="Draft"><?php esc_html_e('Draft', 'wp-scheduled-posts'); ?></option>
                                         <option value="Scheduled"><?php esc_html_e('Scheduled', 'wp-scheduled-posts'); ?></option>
+                                        <option value="Publish"><?php esc_html_e('Publish', 'wp-scheduled-posts'); ?></option>
                                     </select>
                                 </div>
                                 <div id="timeEditControls">

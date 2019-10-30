@@ -200,8 +200,13 @@ jQuery(document).ready(function ($) {
     	timeFormat: 'h:mm p',
     });
 
-    jQuery('a[rel="modal:open"]').on('click', function(){
-    	jQuery('select#wpsp-status').val('Draft');
+	jQuery(document).on('click', '#external-events-listing a.wpscpquickedit', function(){
+		jQuery('#timeEditControls').hide();
+	});
+	jQuery(document).on('click', '#calendar a.wpscpquickedit', function(){
+		jQuery('#timeEditControls').show();
+	});
+    jQuery('a[rel="modal:close"]').on('click', function(){
     	jQuery('#timeEditControls').hide();
 	});
 });
