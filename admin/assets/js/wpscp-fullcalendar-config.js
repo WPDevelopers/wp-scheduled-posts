@@ -342,7 +342,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function wpscp_calendar_modal(){
         dayNewLink.on('click', function(e) {
             e.preventDefault();
-            console.log(jQuery(this).data('type'));
             if(jQuery(this).data('type') != 'Draft'){
                 jQuery('select#wpsp-status').val('Scheduled');
                 jQuery('#timeEditControls').show();

@@ -3,6 +3,14 @@
     width: 200px;
     height: 50px !important;
 }
+.wpscp-setup-wizard form input.invalid {
+    background-color: #ffdddd;
+}
+.wpscp-setup-wizard .whatwecollecttext {
+    margin: 0;
+    margin-left: 10px;
+    display: none;
+}
 .wpscp-setup-wizard .select2-selection .select2-selection__choice {
     background-color: #fff;
     border-radius: 50px;
@@ -55,7 +63,6 @@
     text-transform: uppercase;
     text-decoration: none;
     letter-spacing: 0.5px;
-    cursor: not-allowed;
     color: #000;
 }
 .wpscp-setup-wizard .wpscp-tabnav-wrap ul.tab-nav li span {
@@ -100,7 +107,7 @@
     max-width: 800px;
     margin: 0 auto;
     background-color: #f5f5f5;
-    padding: 50px;
+    padding: 120px 50px 120px 50px;
     box-shadow: 0 4px 30px rgba(0,0,0,.07);
     border-radius: 3px;
     border: 25px solid #fff;
@@ -343,8 +350,12 @@
     left: 12px;
     bottom: 10px;
 }
+.wpscp-setup-wizard .bottom-notice-left .btn-collect:focus {
+    outline: none;
+}
 .wpscp-setup-wizard .bottom-notice-left .btn-collect,
 .wpscp-setup-wizard .bottom-notice .btn-skip {
+    text-decoration: none;
     text-decoration: underline;
     border: 0;
     padding: 5px 10px;

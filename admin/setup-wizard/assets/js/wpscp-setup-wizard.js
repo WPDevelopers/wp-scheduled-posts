@@ -102,6 +102,7 @@ jQuery(document).ready(function ($) {
             var valid = true;
             var requiredField = document.getElementById('wpscp_user_email_address');
             if(requiredField.value === "" || wpscpQswValidateEmail(requiredField.value) !== true){
+                jQuery('#wpscp_user_email_address').addClass('invalid');
                 valid = false;
             }
             return valid; 
@@ -260,5 +261,17 @@ jQuery(document).ready(function ($) {
         var oldNumber = localStorage.getItem('wpscpQswTabNumberTracking');
         return (oldNumber ? parseInt(oldNumber) : 0);
     }
+
+    // email input field length checking
+    jQuery('#wpscp_user_email_address').on('keyup', function(e){
+        if($(this).val() !== ""){
+            $(this).removeClass('invalid');
+        }
+    });
+
+    // collect Toggle
+    jQuery('#whatwecollectdata').on('click', function(){
+        jQuery('p.whatwecollecttext').toggle();
+    });
 });
 
