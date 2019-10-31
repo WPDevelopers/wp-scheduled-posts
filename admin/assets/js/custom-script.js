@@ -1,5 +1,4 @@
 jQuery(document).ready(function ($) {
-
 	var get_query_vars = function (name) {
 		var vars = {};
 		window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
@@ -30,13 +29,9 @@ jQuery(document).ready(function ($) {
 	// option page custom template arrow toggle
 	var custom_tem_tog_btn = document.querySelector('.toggle_arrow');
 	var wpsp_cus_temp_opt = document.querySelector('.wpsp_cus_temp_opt');
-
 	if (custom_tem_tog_btn) {
-
 		custom_tem_tog_btn.addEventListener('click', function (e) {
 			e.preventDefault();
-
-
 			if (wpsp_cus_temp_opt.style.display == "block") {
 				wpsp_cus_temp_opt.style.display = "none";
 				this.style.transform = "rotate(0deg)";
@@ -44,19 +39,9 @@ jQuery(document).ready(function ($) {
 				wpsp_cus_temp_opt.style.display = "block";
 				this.style.transform = "rotate(180deg)";
 			}
-
-
 		});
 	}
-
-
-	/* Manage Scedule Option Saved Ajax */
 	
-
-	
-
-	
-
 	/* Top Nav Tab Event JS */
 	var top_nav_tabs = document.querySelectorAll('.wpsp_top_nav_link_wrapper ul li a');
 	var top_nav_contents = document.querySelectorAll('.wpsp_nav_tab_content');
@@ -163,7 +148,9 @@ jQuery(document).ready(function ($) {
 		}
 	});
 
-	// fb access key token generator
+	/**
+	 * fb access key token generator
+	 */
 	wpscp_fb_acess_key_toggle();
 	function wpscp_fb_acess_key_toggle(){
 		var appType1st = $('input:checked[type=radio][name=wpscp_pro_app_type][data-id=first]');
@@ -182,7 +169,10 @@ jQuery(document).ready(function ($) {
 			$('#acessTokenNotice').hide();
 		}
 	}
-	
+
+	/**
+	 * Access Token Generate Show/Hide
+	 */
 	$('input[type=radio][name=wpscp_pro_app_type]').change(function() {
 		if (this.value == 'wpscpapp') {
 			$('#fbAcessTokenGen').show();
@@ -195,11 +185,16 @@ jQuery(document).ready(function ($) {
 
 
 
-	// some fullcalendar related scripts
+	/**
+	 * Add TimePicker
+	 */
 	jQuery('#wpsp_time').timepicker({
     	timeFormat: 'h:mm p',
-    });
-
+	});
+	
+	/**
+	 * Calendar quick edit time
+	 */
 	jQuery(document).on('click', '#external-events-listing a.wpscpquickedit', function(){
 		jQuery('#timeEditControls').hide();
 	});
