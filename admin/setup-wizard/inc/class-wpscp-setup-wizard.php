@@ -289,7 +289,7 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
                 if(is_array($args['options'])){
                     $field .='<option value=""></option>';
                     foreach($args['options'] as $key => $option){
-                        $field .= sprintf( '<option value="%1$s" '.(in_array($key, $value) ? 'selected' : '').'>%2$s</option>',$key, $option);
+                        $field .= sprintf( '<option value="%1$s" '.(($value != "") ? (in_array($key, $value) ? 'selected' : '') : '').'>%2$s</option>',$key, $option);
                     }
                 }
             $field .= '</select>';

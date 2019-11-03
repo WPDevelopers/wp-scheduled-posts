@@ -14,7 +14,9 @@
     <!-- admin sidebar -->
     <div class="wpsp-options-wrap">
 
-        <form action="" method="post">
+        <form action="<?php print esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
+            <input type="hidden" name="action" value="wpscp_general_options_saved">
+            <input type="hidden" name="nonce_wpscp_general_options" value="<?php print wp_create_nonce('nonce_wpscp_general_options'); ?>">
             <table class="form-table">
                 <tr class="wpsp_option_chek_row">
                     <td  colspan="2" align="left">
@@ -59,11 +61,9 @@
                             <?php
                                 foreach ($post_types as $post_type ) {
                                     //do not print not neccessary post type
-                                    if( !in_array($post_type, $not_neccessary_post_types) ) {
-                                        echo "<option ";
+                                    echo "<option ";
                                         if(in_array($post_type,$allow_post_types)) echo "selected ";
-                                        echo 'value="'.$post_type.'">'.$post_type.'</option>';
-                                    }
+                                    echo 'value="'.$post_type.'">'.$post_type.'</option>';
                                 }
                             ?>
                         </select>
@@ -116,7 +116,7 @@
                     <td>
                         <select name="allow_user_role[]" class="wpsp_field_activate" id="allow_user_role" multiple="multiple"  style="height:80px;width:200px;" >
                             <?php  
-                                wpscp_dropdown_roles( $wpscp_options['allow_user_role'] ); 
+                                print wpscp_dropdown_roles( $wpscp_options['allow_user_role'] ); 
                             ?>
                         </select>
                     </td>

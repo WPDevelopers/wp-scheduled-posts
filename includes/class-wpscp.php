@@ -74,12 +74,13 @@ final class WpScp {
      */
     
     public function load_dependencies() {
-        require_once WPSCP_INCLUDES_DIR_PATH . 'class-wpscp-i18n.php';
+        require_once WPSCP_INCLUDES_DIR_PATH .  'class-wpscp-i18n.php';
         require_once WPSCP_ADMIN_DIR_PATH .     'class-wpscp-admin.php';
-        require_once WPSCP_INCLUDES_DIR_PATH . 'class-plugin-usage-tracker.php';
-        require_once WPSCP_INCLUDES_DIR_PATH . 'class-wpdev-core-install.php';
-        require_once WPSCP_INCLUDES_DIR_PATH . 'class-wpdev-notices.php';
-        require_once WPSCP_ADMIN_DIR_PATH . 'setup-wizard/wpscp-setup-wizard-config.php';
+        require_once WPSCP_INCLUDES_DIR_PATH .  'class-wpscp-options-data.php';
+        require_once WPSCP_INCLUDES_DIR_PATH .  'class-plugin-usage-tracker.php';
+        require_once WPSCP_INCLUDES_DIR_PATH .  'class-wpdev-core-install.php';
+        require_once WPSCP_INCLUDES_DIR_PATH .  'class-wpdev-notices.php';
+        require_once WPSCP_ADMIN_DIR_PATH .     'setup-wizard/wpscp-setup-wizard-config.php';
     }
 
     /**

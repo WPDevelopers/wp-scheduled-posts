@@ -830,7 +830,6 @@
 .wpsp-dashboard-body .wpsp-schedule-table tr {
 	display: flex;
 	align-items: center;
-	width: 50%;
 	float: left;
 }
 
@@ -1244,8 +1243,7 @@ background-color: rgba(238,53,95, 1);
 }
 
 /* review notice */
-
-.wpsp-dashboard-body .wpdeveloper-review-notice {
+.wpdeveloper-review-notice {
 	padding: 10px;
 	background-color: #fff;
 	border-radius: 3px;
@@ -1255,13 +1253,13 @@ background-color: rgba(238,53,95, 1);
 	align-items: center;
 }
 
-.wpsp-dashboard-body .wpdeveloper-review-notice:after {
+.wpdeveloper-review-notice:after {
 	content: '';
 	display: table;
 	clear: both;
 }
 
-.wpsp-dashboard-body .wpdeveloper-notice-thumbnail {
+.wpdeveloper-notice-thumbnail {
 	width: 90px;
 	float: left;
 	padding: 5px;
@@ -1269,13 +1267,13 @@ background-color: rgba(238,53,95, 1);
 	border-right: 4px solid transparent;
 }
 
-.wpsp-dashboard-body .wpdeveloper-notice-thumbnail img {
+.wpdeveloper-notice-thumbnail img {
 	width: 72px;
 	opacity: .85;
 	transition: all .3s;
 }
 
-.wpsp-dashboard-body .wpdeveloper-notice-thumbnail img:hover {
+.wpdeveloper-notice-thumbnail img:hover {
 	opacity: 1;
 }
 
@@ -1295,17 +1293,17 @@ background-color: rgba(238,53,95, 1);
 	margin: 0 0 5px;
 }
 
-.wpsp-dashboard-body .wpdeveloper-notice-link {
+.wpdeveloper-notice-link {
 	margin: 8px 0 0 0;
 	padding: 0;
 }
 
-.wpsp-dashboard-body .wpdeveloper-notice-link li {
+.wpdeveloper-notice-link li {
 	display: inline-block;
 	margin-right: 15px;
 }
 
-.wpsp-dashboard-body .wpdeveloper-notice-link li a {
+.wpdeveloper-notice-link li a {
 	display: inline-block;
 	color: #10738B;
 	text-decoration: none;
@@ -1313,45 +1311,45 @@ background-color: rgba(238,53,95, 1);
 	position: relative;
 }
 
-.wpsp-dashboard-body .wpdeveloper-notice-link li a span {
+.wpdeveloper-notice-link li a span {
 	position: absolute;
 	left: 0;
 	top: -2px;
 }
 
-.wpsp-dashboard-body .wpdeveloper-notice-message {
+.wpdeveloper-notice-message {
 	padding: 10px 0;
 }
-.wpsp-dashboard-body .wpdeveloper-upsale-notice .wpdeveloper-notice-message {
+.wpdeveloper-upsale-notice .wpdeveloper-notice-message {
 	display: flex;
 	align-items: center;
 	padding: 10px 0;
 }
-.wpsp-dashboard-body .wpdeveloper-upsale-notice .wpdeveloper-notice-message + .notice-dismiss {
+.wpdeveloper-upsale-notice .wpdeveloper-notice-message + .notice-dismiss {
 	top: 18px;
 }
-.wpsp-dashboard-body .wpdeveloper-upsale-notice #plugin-install-core {
+.wpdeveloper-upsale-notice #plugin-install-core {
 	margin-left: 10px;
 }
-.wpsp-dashboard-body .notice.notice-has-thumbnail {
+.notice.notice-has-thumbnail {
 	padding-left: 0px;
 }
 
-.wpsp-dashboard-body .wpdeveloper-upsale-notice {
+.wpdeveloper-upsale-notice {
 	display: flex;
 }
-.wpsp-dashboard-body .wpsp-upsale-notice .wpdeveloper-notice-thumbnail {
+.wpsp-upsale-notice .wpdeveloper-notice-thumbnail {
 	padding: 0;
 	width: 80px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
-.wpsp-dashboard-body .wpsp-upsale-notice .wpdeveloper-notice-thumbnail img {
+.wpsp-upsale-notice .wpdeveloper-notice-thumbnail img {
 	width: 50px;
 	padding: 8px;
 }
-.wpsp-dashboard-body a.wpsp-notice-cta{
+a.wpsp-notice-cta{
 	margin-left: 10px !important
 }
 
@@ -1519,15 +1517,13 @@ background-color: rgba(238,53,95, 1);
 }
 .wpsp-schedule-table tr,
 .wpsp_time_interval_option_table .optiontable tr{
-	width: 48%;
-	margin: 10px 1%;
+	margin: 10px;
 	background: #fff;
 	padding-left: 20px;
 	border: 1px solid #e7e7e7;
 	box-sizing: border-box;
 	border-radius: 5px;
-	float: left;
-	display: flex;
+	display: inline-flex;
 	justify-content: space-between;
 	align-items: center;
 }

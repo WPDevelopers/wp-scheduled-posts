@@ -17,12 +17,14 @@ if(!function_exists('wpscp_scheduled_post_menu')){
 		  	
 			  if(wpscp_permit_user()) {
 				global $wpdb;
-				$item_id = 0;
-				$post_types = implode("', '",$wpscp_options['allow_post_types']); 
-				$post_types = "'".$post_types."'";
-
-				$result = $wpdb->get_results("select * from ".$wpdb->prefix."posts where post_status = 'future' AND post_type IN(".$post_types.") ORDER BY post_date ASC ");
-
+				$item_id = 0; 
+				$post_types = ($wpscp_options['allow_post_types'] !== "" ? $wpscp_options['allow_post_types'] : array('post')); 
+				$result = get_posts(array(
+					'post_type' 		=> $post_types,
+					'post_status' 		=> 'future',
+					'posts_per_page' 	=> -1,
+					'order'				=> 'ASC'
+				));
 				$totalPost = 0;
 				if(is_array($result)) {
 					$totalPost 	= count($result);
