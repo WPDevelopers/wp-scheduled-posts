@@ -105,12 +105,35 @@ final class WpScp {
      */
     public function load_scripts(){
         // admin script
+        add_action( 'enqueue_block_assets', array($this, 'guten_scripts') );
         add_action( 'admin_enqueue_scripts', array($this, 'plugin_scripts') );
         // adminbar enqueue
         add_action( 'admin_enqueue_scripts', array($this, 'adminbar_script') );
         add_action( 'wp_enqueue_scripts', array($this, 'adminbar_script') );
         
     }
+
+	/**
+	 * Gutten Support
+	 * @since 1.2.0
+	 */
+	public function guten_scripts(){
+        global $post_type;
+        $wpspc_options = get_option('wpscp_options');
+        $post_types = isset( $wpspc_options['allow_post_types'] ) && ! empty( $wpspc_options['allow_post_types'] ) ? $wpspc_options['allow_post_types'] : [ 'post' ];
+        if( ! in_array( $post_type, $post_types ) ) {
+            return;
+        }
+
+		wp_enqueue_script( 'wps-publish-button', WPSCP_ADMIN_URL . 'assets/js/wpspl-admin.min.js', array('wp-components','wp-data','wp-edit-post','wp-editor','wp-element','wp-i18n','wp-plugins'), '1.0.0', true );
+		wp_localize_script( 'wps-publish-button', 'WPSchedulePostsFree', array(
+			'publishImmediately' => __('Publish Post Immediately', 'wp-schedule-posts'),
+			'currentTime' => array(
+				'date' => current_time( 'mysql' ),
+				'date_gmt' => current_time( 'mysql', 1 ),
+			),
+		));
+	}
 
     /**
      * Main Function
