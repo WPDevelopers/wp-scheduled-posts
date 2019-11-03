@@ -187,8 +187,7 @@ add_filter('plugin_action_links', 'wpscp_setting_links', 10, 2);
  */
 if(!function_exists('wpscp_prevent_future_type')){
 	function wpscp_prevent_future_type( $post_data ) {
-		if(isset($_POST['prevent_future_post']) && $_POST['prevent_future_post']=='yes') {
-			
+		if(isset($_POST['prevent_future_post']) && $_POST['prevent_future_post']== true) {
 			if ( $post_data['post_status'] == 'future') {
 				$post_data['post_status'] = 'publish';
 				remove_action('future_post', '_future_post_hook');

@@ -134,6 +134,7 @@
     right: 0;
     top: 0;
     bottom: 0;
+    padding: 5px;
     text-align: center;
     display: flex;
     justify-content: center;
@@ -257,6 +258,7 @@
 }
 .wpscp-calendar-wrap #external-events-listing .unscheduled {
   background-color: #ff5f7e;
+  text-transform: capitalize;
   color: #fff;
   padding: 20px 15px;
   margin: 0 -10px;

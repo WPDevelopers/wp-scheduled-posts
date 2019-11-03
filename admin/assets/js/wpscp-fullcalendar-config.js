@@ -310,7 +310,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 newPostBtn.classList.add('daynewlink');
                 newPostBtn.setAttribute('href', "#wpscp_quickedit");
                 newPostBtn.setAttribute('rel', "modal:open");
-                newPostBtn.textContent = 'New Post';
+                newPostBtn.textContent = 'Add New';
 
                 var anchor = item.querySelector(".daynewlink")
                 var hasBtnClass = item.contains(anchor);
@@ -359,7 +359,7 @@ document.addEventListener('DOMContentLoaded', function() {
      * Showing Calendar Event Modal
      */
     function wpscp_calendar_modal(){
-        dayNewLink.on('click', function(e) {
+        jQuery(document).on('click', 'a.daynewlink', function(e){
             e.preventDefault();
             if(jQuery(this).data('type') != 'Draft'){
                 jQuery('select#wpsp-status').val('Scheduled');

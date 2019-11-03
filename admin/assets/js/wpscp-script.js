@@ -57,4 +57,3 @@ jQuery(document).ready(function ($) {
 	
 	
 });
-
