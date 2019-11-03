@@ -171,7 +171,6 @@ document.addEventListener('DOMContentLoaded', function() {
      * @param {*} obj 
      */
     function wpscp_calender_ajax_request(obj){
-        console.log("Event Drop", obj);
         var data = {
             'action': 'wpscp_calender_ajax_request',
             'nonce': wpscp_calendar_ajax_object.nonce,

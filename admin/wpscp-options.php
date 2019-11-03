@@ -31,7 +31,7 @@ if(!function_exists('wpscp_dropdown_roles')){
 		$editable_roles = get_editable_roles();
 		foreach ( $editable_roles as $role => $details ) {
 			$name = translate_user_role($details['name'] ); 
-			if ( in_array($role, $selected) ){
+			if ( $selected !== "" && in_array($role, $selected) ){
 				$p .= "\n\t<option selected='selected' value='" . esc_attr($role) . "'>$name</option>";
 			}
 			else {
