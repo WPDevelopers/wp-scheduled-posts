@@ -44,11 +44,11 @@ jQuery(document).ready(function ($) {
             //... and fix the Previous/Next buttons:
             if (n == 0) {
                 document.getElementById("wpscp-prev-option").style.display = "none";
-                jQuery('#whatwecollectdata').show();
+                jQuery('.bottom-notice-left').show();
                 jQuery('#wpscpqswemailskipbutton').show();
             } else {
                 document.getElementById("wpscp-prev-option").style.display = "inline";
-                jQuery('#whatwecollectdata').hide();
+                jQuery('.bottom-notice-left').hide();
                 jQuery('#wpscpqswemailskipbutton').hide();
             }
             if (n == (tabList.length - 1)) {
@@ -90,10 +90,16 @@ jQuery(document).ready(function ($) {
             } else {
                 // ajax call after false
                 wpscpQswOptionSubmit();
+                // pro option saved
+                if (jQuery('.autoScheduler').length > 0 && jQuery('.manualScheduler').length > 0) { 
+                    wpscpProManualAutoScheduledOptionSaved();
+                }
                 swal({
                     title: "Good job!",
                     text: "Setup is Complete.",
                     icon: "success",
+                }).then(function() {
+                    window.location = "admin.php?page=wp-scheduled-posts";
                 });
                 currentTab = ( x.length - 1);
                 wpscpQuickSetupWizardTabTracking(-1);
@@ -281,5 +287,43 @@ jQuery(document).ready(function ($) {
     jQuery('#whatwecollectdata').on('click', function(){
         jQuery('p.whatwecollecttext').toggle();
     });
+
+    function wpscpProManualAutoScheduledOptionSaved(){
+		var pub_check = $('#autoScheduler').attr("checked") ? 'ok' : 0;
+		var cal_check = $('#manualScheduler').attr("checked") ? 'ok' : 0;
+		var wpsp_start = $('#wpsp_start').val();
+		var wpsp_end = $('#wpsp_end').val();
+		var wpsp_pts_0 = $('#wpsp_sunday').val();
+		var wpsp_pts_1 = $('#wpsp_monday').val();
+		var wpsp_pts_2 = $('#wpsp_tuesday').val();
+		var wpsp_pts_3 = $('#wpsp_wednesday').val();
+		var wpsp_pts_4 = $('#wpsp_thursday').val();
+		var wpsp_pts_5 = $('#wpsp_friday').val();
+		var wpsp_pts_6 = $('#wpsp_saturday').val();
+
+
+		//on save manage scedule option data
+		var datas = {
+			'pub_check': pub_check,
+			'cal_check': cal_check,
+			'days': {
+				'wpsp_pts_0': wpsp_pts_0,
+				'wpsp_pts_1': wpsp_pts_1,
+				'wpsp_pts_2': wpsp_pts_2,
+				'wpsp_pts_3': wpsp_pts_3,
+				'wpsp_pts_4': wpsp_pts_4,
+				'wpsp_pts_5': wpsp_pts_5,
+				'wpsp_pts_6': wpsp_pts_6
+			},
+			'start_time': wpsp_start,
+			'end_time': wpsp_end,
+		}
+		var submit_datas = {
+			action: 'auto_scheduled_option_saved',
+			datas: datas
+		}
+
+		$.post(wpscp_pro_ajax_object.ajax_url, submit_datas, function(msg) {}, 'json');
+	}
 });
 

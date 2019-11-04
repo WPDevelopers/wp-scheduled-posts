@@ -60,7 +60,7 @@
                 <div id='calendar-container'>
                     <div id='external-events'>
                         <div id='external-events-listing'>
-                            <h4 class="unscheduled"><?php print esc_html__('Unscheduled ', 'wpscp') . (($post_type == null || $post_type == "") ? 'Post' : $post_type ); ?><span class="spinner"></span></h4>
+                            <h4 class="unscheduled"><?php print esc_html__('Unscheduled ', 'wpscp') . (($post_type == null || $post_type == "") ? 'Posts' : $post_type ); ?><span class="spinner"></span></h4>
                             <?php 
                                 $query = new WP_Query(array(
                                     'post_type'         => $allow_post_types,

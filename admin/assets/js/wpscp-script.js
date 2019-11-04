@@ -18,7 +18,8 @@ jQuery(document).ready(function ($) {
     } );
     function wpspOnChangeSubmitBtnStyle(current_event) {
 		var current_section = current_event.closest('.wpsp_nav_tab_content');
-		if(current_section.id == 'wpsp-wpsp_integ' || current_section.id == 'wpsp-wpsp_social_templates') {
+		if(current_section === null) return;
+		if( current_section.id == 'wpsp-wpsp_integ' || current_section.id == 'wpsp-wpsp_social_templates') {
 			var current_section = current_event.closest('.wpsp-integ-item_section');
 		}
 		var wpsp_gen_form_submit = current_section.querySelector('.wpsp_form_submit');

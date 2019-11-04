@@ -256,7 +256,7 @@
                 <div class="instruction_log">
                     <img src="<?php echo plugins_url(); ?>/wp-scheduled-posts/admin/assets/images/contribute.png" alt="Contribute">
                 </div>
-                <h3 class="instruction_label"><?php esc_html_e('Contribute to WP Scheduled Post', 'wpscp'); ?></h3>
+                <h3 class="instruction_label"><?php esc_html_e('Contribute to WP Scheduled Posts', 'wpscp'); ?></h3>
             </div>
             <p><?php esc_html_e('You can contribute to make WP Scheduled Posts better reporting bugs, creating issues, pull requests at Github.', 'wpscp'); ?></p>
             <a href="https://github.com/WPDevelopers/wp-scheduled-posts/issues/new" rel="nofollow" class="instructin_btn"><?php esc_html_e('Report A Bug', 'wpscp'); ?></a>
