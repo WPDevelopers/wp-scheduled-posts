@@ -5,7 +5,7 @@ const { compose, ifCondition, withInstanceId } = wp.compose;
 const { withSelect, withDispatch } = wp.data;
 const { PluginPostStatusInfo } = wp.editPost;
 const { Component, createElement } = wp.element;
-const { publishImmediately, currentTime } = WPSchedulePostsFree;
+const { publishImmediately, currentTime, publish_button_off } = WPSchedulePostsFree;
 import PublishButton from './publish-button';
 
 class AdminPublishButton extends Component {
@@ -14,6 +14,11 @@ class AdminPublishButton extends Component {
 	}
 
 	render() {
+
+		if( publish_button_off == '' ) {
+			return '';
+		}
+
 		return (
 			<PluginPostStatusInfo>
 				<PublishButton { ...this.props } currentTime={currentTime} publish={ publishImmediately } />

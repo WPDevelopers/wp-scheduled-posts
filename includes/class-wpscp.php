@@ -128,6 +128,7 @@ final class WpScp {
 		wp_enqueue_script( 'wps-publish-button', WPSCP_ADMIN_URL . 'assets/js/wpspl-admin.min.js', array('wp-components','wp-data','wp-edit-post','wp-editor','wp-element','wp-i18n','wp-plugins'), '1.0.0', true );
 		wp_localize_script( 'wps-publish-button', 'WPSchedulePostsFree', array(
 			'publishImmediately' => __('Publish Post Immediately', 'wp-schedule-posts'),
+			'publish_button_off' => $wpspc_options['prevent_future_post'],
 			'currentTime' => array(
 				'date' => current_time( 'mysql' ),
 				'date_gmt' => current_time( 'mysql', 1 ),
