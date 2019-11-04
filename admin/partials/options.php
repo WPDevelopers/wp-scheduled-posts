@@ -14,7 +14,9 @@
     <!-- admin sidebar -->
     <div class="wpsp-options-wrap">
 
-        <form action="" method="post">
+        <form action="<?php print esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
+            <input type="hidden" name="action" value="wpscp_general_options_saved">
+            <input type="hidden" name="nonce_wpscp_general_options" value="<?php print wp_create_nonce('nonce_wpscp_general_options'); ?>">
             <table class="form-table">
                 <tr class="wpsp_option_chek_row">
                     <td  colspan="2" align="left">
@@ -59,11 +61,9 @@
                             <?php
                                 foreach ($post_types as $post_type ) {
                                     //do not print not neccessary post type
-                                    if( !in_array($post_type, $not_neccessary_post_types) ) {
-                                        echo "<option ";
+                                    echo "<option ";
                                         if(in_array($post_type,$allow_post_types)) echo "selected ";
-                                        echo 'value="'.$post_type.'">'.$post_type.'</option>';
-                                    }
+                                    echo 'value="'.$post_type.'">'.$post_type.'</option>';
                                 }
                             ?>
                         </select>
@@ -116,7 +116,7 @@
                     <td>
                         <select name="allow_user_role[]" class="wpsp_field_activate" id="allow_user_role" multiple="multiple"  style="height:80px;width:200px;" >
                             <?php  
-                                wpscp_dropdown_roles( $wpscp_options['allow_user_role'] ); 
+                                print wpscp_dropdown_roles( $wpscp_options['allow_user_role'] ); 
                             ?>
                         </select>
                     </td>
@@ -256,7 +256,7 @@
                 <div class="instruction_log">
                     <img src="<?php echo plugins_url(); ?>/wp-scheduled-posts/admin/assets/images/contribute.png" alt="Contribute">
                 </div>
-                <h3 class="instruction_label"><?php esc_html_e('Contribute to WP Scheduled Post', 'wpscp'); ?></h3>
+                <h3 class="instruction_label"><?php esc_html_e('Contribute to WP Scheduled Posts', 'wpscp'); ?></h3>
             </div>
             <p><?php esc_html_e('You can contribute to make WP Scheduled Posts better reporting bugs, creating issues, pull requests at Github.', 'wpscp'); ?></p>
             <a href="https://github.com/WPDevelopers/wp-scheduled-posts/issues/new" rel="nofollow" class="instructin_btn"><?php esc_html_e('Report A Bug', 'wpscp'); ?></a>

@@ -17,14 +17,14 @@
         <div class="wpscp-calendar-wrap">
             <?php 
                 //get all options
-                $post_type = isset($_GET['post_type']);
+                $post_type = (isset($_GET['post_type']) ? $_GET['post_type'] : '');
                 $allow_post_types  = (($post_type == null || $post_type == '') ? array('post') : array($post_type));
             ?>
             <!-- modal -->
             <div id="wpscp_quickedit" class="modal">
                 <div class="wpsp-quickedit-inner">
                     <div>
-                        <h3 class="entry-title"><?php esc_html_e('New Post', 'wp-scheduled-posts'); ?></h3>
+                        <h3 class="entry-title"><?php print esc_html__('New ', 'wp-scheduled-posts') . (($post_type == null || $post_type == "") ? 'Post' : $post_type ); ?></h3>
                     </div>
                     <div class="wpsp_quickedit inline-edit-row">
                         <form action="#" method="post">
@@ -49,8 +49,8 @@
                             <input type="hidden" id="postID" name="postID">
                             <input type="hidden" id="date" name="date">
                             <p class="submit inline-edit-save" id="edit-slug-buttons">
-                                <button id="wpcNewPostScheduleButton"><?php esc_html_e('Submit', 'wp-scheduled-posts'); ?></button>
-                                <a class="button-secondary close" href="#" rel="modal:close"><?php esc_html_e('Close', 'wp-scheduled-posts'); ?></a>
+                                <button id="wpcNewPostScheduleButton"><?php esc_html_e('Save', 'wp-scheduled-posts'); ?></button>
+                                <a class="button-secondary close" href="#" rel="modal:close"><?php esc_html_e('Cancel', 'wp-scheduled-posts'); ?></a>
                             </p>
                         </form>
                     </div>            
@@ -60,7 +60,7 @@
                 <div id='calendar-container'>
                     <div id='external-events'>
                         <div id='external-events-listing'>
-                            <h4 class="unscheduled"><?php esc_html_e('Unscheduled', 'wpscp'); ?><span class="spinner"></span></h4>
+                            <h4 class="unscheduled"><?php print esc_html__('Unscheduled ', 'wpscp') . (($post_type == null || $post_type == "") ? 'Posts' : $post_type ); ?><span class="spinner"></span></h4>
                             <?php 
                                 $query = new WP_Query(array(
                                     'post_type'         => $allow_post_types,

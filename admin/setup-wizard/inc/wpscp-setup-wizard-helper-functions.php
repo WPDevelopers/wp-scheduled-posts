@@ -47,7 +47,7 @@ function wpscp_pro_feature_list_markup(){
 		<div class="wpscp-checkbox wpscp-pro-feature-checkbox" data-id="module_auto_scheduled">
 			<input disabled="" type="checkbox" id="module_auto_scheduled" name="module_auto_scheduled">
 			<label for="module_auto_scheduled"></label>
-			<p class="wpscp-module-title">Auto Scheduled
+			<p class="wpscp-module-title">Auto Scheduler
 				<a rel="nofollow" target="_blank" href="#">
 					<img width="6px" src="<?php print plugin_dir_url( WPSP_PLUGIN_FILE ) . 'admin/assets/images/question.svg'; ?>" alt="wp scheduled posts" />
 				</a>               
@@ -58,7 +58,7 @@ function wpscp_pro_feature_list_markup(){
 		<div class="wpscp-checkbox wpscp-pro-feature-checkbox" data-id="module_miss_scheduled">
 			<input disabled="" type="checkbox" id="module_miss_scheduled" name="module_miss_scheduled">
 			<label for="module_miss_scheduled"></label>
-			<p class="wpscp-module-title">Missed Schedule
+			<p class="wpscp-module-title">Missed Schedule Handler
 				<a rel="nofollow" target="_blank" href="#">
 					<img width="6px" src="<?php print plugin_dir_url( WPSP_PLUGIN_FILE ) . 'admin/assets/images/question.svg'; ?>" alt="wp scheduled posts" />
 				</a>               
@@ -72,7 +72,7 @@ function wpscp_pro_feature_list_markup(){
 		<div class="wpscp-checkbox wpscp-pro-feature-checkbox" data-id="module_manual_scheduled">
 			<input disabled="" type="checkbox" id="module_manual_scheduled" name="module_manual_scheduled">
 			<label for="module_manjual_scheduled"></label>
-			<p class="wpscp-module-title">Manual Scheduled
+			<p class="wpscp-module-title">Manual Scheduler
 				<a rel="nofollow" target="_blank" href="#">
 					<img width="6px" src="<?php print plugin_dir_url( WPSP_PLUGIN_FILE ) . 'admin/assets/images/question.svg'; ?>" alt="wp scheduled posts" />
 				</a>               

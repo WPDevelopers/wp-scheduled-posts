@@ -137,7 +137,7 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
                                         <a id="wpscp-next-option" href="#" class="btn wpscp-next-option">Next</a>
                                     </div>
                                     <div class="bottom-notice-left">
-                                        <p class="whatwecollecttext">We collect non-sensitive diagnostic data and plugin usage <br> information. Your site URL, WordPress & PHP version, <br> plugins & themes and email address to send you the discount <br> coupon. This data lets us make sure this plugin always stays <br> compatible with the most popular plugins and themes. No spam, I promise.</p>
+                                        <p class="whatwecollecttext">We collect non-sensitive diagnostic data and plugin usage <br> information. Your site URL, WordPress & PHP version, <br> plugins & themes and email address to send you the discount <br> coupon. This data lets us make sure this plugin always stays <br> compatible with the most popular plugins and themes. No spam, we promise.</p>
                                         <button type="button" id="whatwecollectdata" class="btn-collect">What We Collect?</button>
                                     </div>
                                     <div class="bottom-notice">
@@ -289,7 +289,7 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
                 if(is_array($args['options'])){
                     $field .='<option value=""></option>';
                     foreach($args['options'] as $key => $option){
-                        $field .= sprintf( '<option value="%1$s" '.(in_array($key, $value) ? 'selected' : '').'>%2$s</option>',$key, $option);
+                        $field .= sprintf( '<option value="%1$s" '.(($value != "") ? (in_array($key, $value) ? 'selected' : '') : '').'>%2$s</option>',$key, $option);
                     }
                 }
             $field .= '</select>';

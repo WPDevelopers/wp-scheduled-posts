@@ -74,12 +74,13 @@ final class WpScp {
      */
     
     public function load_dependencies() {
-        require_once WPSCP_INCLUDES_DIR_PATH . 'class-wpscp-i18n.php';
+        require_once WPSCP_INCLUDES_DIR_PATH .  'class-wpscp-i18n.php';
         require_once WPSCP_ADMIN_DIR_PATH .     'class-wpscp-admin.php';
-        require_once WPSCP_INCLUDES_DIR_PATH . 'class-plugin-usage-tracker.php';
-        require_once WPSCP_INCLUDES_DIR_PATH . 'class-wpdev-core-install.php';
-        require_once WPSCP_INCLUDES_DIR_PATH . 'class-wpdev-notices.php';
-        require_once WPSCP_ADMIN_DIR_PATH . 'setup-wizard/wpscp-setup-wizard-config.php';
+        require_once WPSCP_INCLUDES_DIR_PATH .  'class-wpscp-options-data.php';
+        require_once WPSCP_INCLUDES_DIR_PATH .  'class-plugin-usage-tracker.php';
+        require_once WPSCP_INCLUDES_DIR_PATH .  'class-wpdev-core-install.php';
+        require_once WPSCP_INCLUDES_DIR_PATH .  'class-wpdev-notices.php';
+        require_once WPSCP_ADMIN_DIR_PATH .     'setup-wizard/wpscp-setup-wizard-config.php';
     }
 
     /**
@@ -104,12 +105,36 @@ final class WpScp {
      */
     public function load_scripts(){
         // admin script
+        add_action( 'enqueue_block_assets', array($this, 'guten_scripts') );
         add_action( 'admin_enqueue_scripts', array($this, 'plugin_scripts') );
         // adminbar enqueue
         add_action( 'admin_enqueue_scripts', array($this, 'adminbar_script') );
         add_action( 'wp_enqueue_scripts', array($this, 'adminbar_script') );
         
     }
+
+	/**
+	 * Gutten Support
+	 * @since 1.2.0
+	 */
+	public function guten_scripts(){
+        global $post_type;
+        $wpspc_options = get_option('wpscp_options');
+        $post_types = isset( $wpspc_options['allow_post_types'] ) && ! empty( $wpspc_options['allow_post_types'] ) ? $wpspc_options['allow_post_types'] : [ 'post' ];
+        if( ! in_array( $post_type, $post_types ) ) {
+            return;
+        }
+
+		wp_enqueue_script( 'wps-publish-button', WPSCP_ADMIN_URL . 'assets/js/wpspl-admin.min.js', array('wp-components','wp-data','wp-edit-post','wp-editor','wp-element','wp-i18n','wp-plugins'), '1.0.0', true );
+		wp_localize_script( 'wps-publish-button', 'WPSchedulePostsFree', array(
+			'publishImmediately' => __('Publish Post Immediately', 'wp-schedule-posts'),
+			'publish_button_off' => $wpspc_options['prevent_future_post'],
+			'currentTime' => array(
+				'date' => current_time( 'mysql' ),
+				'date_gmt' => current_time( 'mysql', 1 ),
+			),
+		));
+	}
 
     /**
      * Main Function
@@ -136,37 +161,35 @@ final class WpScp {
      */
     public function plugin_scripts( $hook ) {
         if ( is_admin() ) {
-            wp_enqueue_style( 'font-awesome', WPSCP_ADMIN_URL . 'assets/css/font-awesome.min.css', array(), false, 'all' );
-            wp_enqueue_style( 'select2-css', WPSCP_ADMIN_URL . 'assets/css/select2.min.css', array(), false, 'all' );
-            wp_enqueue_style( 'chung-timepicker', WPSCP_ADMIN_URL . 'assets/css/chung-timepicker.css', array(), false, 'all' );
-            wp_enqueue_style( 'notifi', WPSCP_ADMIN_URL . 'assets/css/notifi.css', array(), false, 'all' );
-            wp_enqueue_style( 'full-calendar', WPSCP_ADMIN_URL . 'assets/css/full-calendar.css', array(), false, 'all' );
-            wp_enqueue_style( 'jquery-modal', WPSCP_ADMIN_URL . 'assets/css/jquery.modal.min.css', array(), false, 'all' );
-            wp_enqueue_style( 'jquery-timepicker', WPSCP_ADMIN_URL . 'assets/css/jquery.timepicker.min.css', array(), false, 'all' );
-            wp_enqueue_style( 'wpscp-admin', WPSCP_ADMIN_URL . 'assets/css/admin.css', array(), false, 'all' );
-            wp_enqueue_style( 'wpscp-admin-calendar', WPSCP_ADMIN_URL . 'assets/css/admin-calendar.css', array(), false, 'all' );
-            
-
+            wp_enqueue_style( 'font-awesome', WPSCP_ADMIN_URL . 'assets/css/vendor/font-awesome.min.css', array(), false, 'all' );
+            wp_enqueue_style( 'select2-css', WPSCP_ADMIN_URL . 'assets/css/vendor/select2.min.css', array(), false, 'all' );
+            wp_enqueue_style( 'chung-timepicker', WPSCP_ADMIN_URL . 'assets/css/vendor/chung-timepicker.css', array(), false, 'all' );
+            wp_enqueue_style( 'notifi', WPSCP_ADMIN_URL . 'assets/css/vendor/notifi.css', array(), false, 'all' );
+            wp_enqueue_style( 'full-calendar', WPSCP_ADMIN_URL . 'assets/css/vendor/full-calendar.css', array(), false, 'all' );
+            wp_enqueue_style( 'jquery-modal', WPSCP_ADMIN_URL . 'assets/css/vendor/jquery.modal.min.css', array(), false, 'all' );
+            wp_enqueue_style( 'jquery-timepicker', WPSCP_ADMIN_URL . 'assets/css/vendor/jquery.timepicker.min.css', array(), false, 'all' );
+            wp_enqueue_style( 'wpscp-admin', WPSCP_ADMIN_URL . 'assets/css/wpscp-admin.css', array(), false, 'all' );
+          
             /**
              * JavaScript File
              */
             wp_enqueue_script('jquery-ui-draggable');
 			wp_enqueue_script('jquery-ui-droppable');
-            wp_enqueue_script( 'main-chung-timepicker', WPSCP_ADMIN_URL . 'assets/js/chung-timepicker.js', array('jquery'), null, false );
-            wp_enqueue_script('time-script', WPSCP_ADMIN_URL . 'assets/js/jquery.timepicker.min.js', array('jquery'), null, false);
-            wp_enqueue_script('jquery-modal', WPSCP_ADMIN_URL . 'assets/js/jquery.modal.min.js', array('jquery'), null, false);
-            wp_enqueue_script( 'select2', WPSCP_ADMIN_URL . 'assets/js/select2.full.js', array('jquery'), null, false );
-            wp_enqueue_script( 'sweetalert', WPSCP_ADMIN_URL . 'assets/js/sweetalert.min.js', array('jquery'), null, false );
-            wp_enqueue_script( 'notifi', WPSCP_ADMIN_URL . 'assets/js/notifi.min.js', array('jquery'), null, false );
+            wp_enqueue_script( 'main-chung-timepicker', WPSCP_ADMIN_URL . 'assets/js/vendor/chung-timepicker.js', array('jquery'), null, false );
+            wp_enqueue_script('time-script', WPSCP_ADMIN_URL . 'assets/js/vendor/jquery.timepicker.min.js', array('jquery'), null, false);
+            wp_enqueue_script('jquery-modal', WPSCP_ADMIN_URL . 'assets/js/vendor/jquery.modal.min.js', array('jquery'), null, false);
+            wp_enqueue_script( 'select2', WPSCP_ADMIN_URL . 'assets/js/vendor/select2.full.js', array('jquery'), null, false );
+            wp_enqueue_script( 'sweetalert', WPSCP_ADMIN_URL . 'assets/js/vendor/sweetalert.min.js', array('jquery'), null, false );
+            wp_enqueue_script( 'notifi', WPSCP_ADMIN_URL . 'assets/js/vendor/notifi.min.js', array('jquery'), null, false );
             wp_enqueue_script( 'custom-script', WPSCP_ADMIN_URL . 'assets/js/custom-script.js', array('jquery'), null, false );
             wp_enqueue_script( 'wpscp-script', WPSCP_ADMIN_URL . 'assets/js/wpscp-script.js', array('jquery'), null, false );
             wp_localize_script( 'custom-script', 'wpscp_ajax',
             array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
             // calendar
-            wp_enqueue_script('fullcalendar-core', WPSCP_ADMIN_URL . 'assets/js/fullcalendar/core/main.js', array('jquery'), null, false);
-			wp_enqueue_script('fullcalendar-interaction', WPSCP_ADMIN_URL . 'assets/js/fullcalendar/interaction/main.js', array('jquery'), null, false);
-			wp_enqueue_script('fullcalendar-daygrid', WPSCP_ADMIN_URL . 'assets/js/fullcalendar/daygrid/main.js', array('jquery'), null, false);
-			wp_enqueue_script('fullcalendar-timegrid', WPSCP_ADMIN_URL . 'assets/js/fullcalendar/timegrid/main.js', array('jquery'), null, false);
+            wp_enqueue_script('fullcalendar-core', WPSCP_ADMIN_URL . 'assets/js/vendor/fullcalendar/core/main.js', array('jquery'), null, false);
+			wp_enqueue_script('fullcalendar-interaction', WPSCP_ADMIN_URL . 'assets/js/vendor/fullcalendar/interaction/main.js', array('jquery'), null, false);
+			wp_enqueue_script('fullcalendar-daygrid', WPSCP_ADMIN_URL . 'assets/js/vendor/fullcalendar/daygrid/main.js', array('jquery'), null, false);
+			wp_enqueue_script('fullcalendar-timegrid', WPSCP_ADMIN_URL . 'assets/js/vendor/fullcalendar/timegrid/main.js', array('jquery'), null, false);
             $wpscpCCVN  = date("ymd-Gis", filemtime( WPSCP_ADMIN_DIR_PATH . 'assets/js/wpscp-fullcalendar-config.js' ));
             wp_enqueue_script('wpscp-fullcalendar', WPSCP_ADMIN_URL . 'assets/js/wpscp-fullcalendar-config.js', array('jquery'), $wpscpCCVN, false);
 			// in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value

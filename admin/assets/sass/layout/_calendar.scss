@@ -134,6 +134,7 @@
     right: 0;
     top: 0;
     bottom: 0;
+    padding: 5px;
     text-align: center;
     display: flex;
     justify-content: center;
@@ -224,7 +225,7 @@
   flex-basis: 15%;
   padding: 0 10px 10px 10px;
   background: #f7f7f7;
-  text-align: left;
+  text-align: center;
 }
 .wpscp-calendar-wrap #external-events.highlight {
   border-color: #3788d8;
@@ -257,6 +258,7 @@
 }
 .wpscp-calendar-wrap #external-events-listing .unscheduled {
   background-color: #ff5f7e;
+  text-transform: capitalize;
   color: #fff;
   padding: 20px 15px;
   margin: 0 -10px;
@@ -271,4 +273,86 @@
 .wpscp-calendar-wrap table tbody.fc-body .fc-scroller {
   overflow: hidden !important;
   height: 100% !important;
+}
+
+
+/* quick view modal */
+#wpscp_quickedit {
+	padding-bottom: 30px;
+}
+#wpscp_quickedit #wpsp-status {
+	display: none;
+}
+#wpscp_quickedit .entry-title {
+	font-size: 22px;
+	color: #51525a;
+}
+#wpscp_quickedit .form-group {
+	margin-bottom: 10px;
+}
+#wpscp_quickedit .form-group input {
+	padding-left: 20px;
+	padding-right: 20px;
+	height: 45px;
+}
+#wpscp_quickedit .form-group input:focus,
+#wpscp_quickedit .form-group textarea:focus {
+	border-color: #6452d2;
+}
+#wpscp_quickedit .form-group input,
+#wpscp_quickedit .form-group textarea {
+	border-radius: 5px;
+	width: 100%;
+	box-shadow: none;
+}
+#wpscp_quickedit .form-group textarea {
+	padding-top: 15px;
+	padding-left: 20px;
+}
+#wpscp_quickedit #timeEditControls,
+#wpscp_quickedit .form-group-inline {
+	display: inline-block;
+}
+#wpscp_quickedit #wpsp-status,
+#wpscp_quickedit #timeEditControls input {
+	width: 150px;
+	padding-left: 15px;
+	padding-right: 15px;
+	border-radius: 5px;
+	box-shadow: none;
+	height: 45px;
+	width: 100%;
+}
+#wpscp_quickedit #wpsp-status {
+	margin-top: -5px;
+}
+.wpsp-dashboard-body a.btn-draft-post-create,
+#wpscp_quickedit a.button-secondary.close,
+#wpscp_quickedit #wpcNewPostScheduleButton {
+	display: inline-block;
+	padding: 2px 30px;
+	font-size: 14px;
+	line-height: 35px;
+	height: auto !important;
+	border: 1px solid rgb(215, 215, 215);
+	border-radius: 5px;
+	color: #6452d2;
+	box-shadow: none;
+	margin-right: 10px;
+	text-decoration: none;
+	cursor: pointer;
+	-webkit-transition: all .3s ease;
+	-moz-transition: all .3s ease;
+	transition: all .3s ease;
+}
+#wpscp_quickedit #wpcNewPostScheduleButton:hover,
+#wpscp_quickedit a.button-secondary.close:hover {
+	background: #6452d2;
+	color: #fff;
+}
+.wpsp-dashboard-body a.btn-draft-post-create,
+#wpscp_quickedit #wpcNewPostScheduleButton {
+	background: #6452d2;
+	color: #fff;
+	border-color: #6452d2;
 }
