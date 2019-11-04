@@ -505,23 +505,46 @@ document.addEventListener('DOMContentLoaded', function() {
    jQuery(document).on('click', 'a.wpscpEventDelete', function(e){
         e.preventDefault();
         var deletePostId = jQuery(this).closest("[data-postid], .wpscp-event-post").data("postid");
-        var result = confirm("(Delete)- Are you sure you want to delete this post?");
-        if(result){
-            var data = {
-                'action': 'wpscp_delete_event',
-                'ID': deletePostId
-            };
-
-            // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
-            jQuery.post(wpscp_calendar_ajax_object.ajax_url, data, function(response, status) {
-                if(status == 'success'){
-                    jQuery('*[data-postid="'+response+'"]').closest('.fc-event').remove();
-                    // send notification
-                    wpscp_calendar_notifi({
-                        type: 'post_delete',
-                    });
-                }
-            });
-        } // result
+        swal({
+            title: "Are you sure want to delete?",
+            text: "You will not be able to recover!",
+            icon: "warning",
+            buttons: ["Cancel", "Delete"],
+          }).then(function(value){
+            if (value) {
+                var data = {
+                    'action': 'wpscp_delete_event',
+                    'ID': deletePostId
+                };
+    
+                // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
+                jQuery.post(wpscp_calendar_ajax_object.ajax_url, data, function(response, status) {
+                    if(status == 'success' && !isNaN(response)){
+                        jQuery('*[data-postid="'+response+'"]').closest('.fc-event').remove();
+                        // send notification
+                        wpscp_calendar_notifi({
+                            type: 'post_delete',
+                        });
+                        swal({
+                            title: "Deleted!",
+                            icon:  "success"
+                        });
+                    } else {
+                        swal({
+                            title: "Cancelled!",
+                            icon:  "error"
+                        });
+                    }
+                });
+            } else {
+                swal({
+                    title: "Cancelled!",
+                    icon:  "error"
+                });
+            }
+          });
    });
+
+   
+
 });

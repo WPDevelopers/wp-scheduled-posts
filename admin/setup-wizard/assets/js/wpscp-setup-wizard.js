@@ -253,6 +253,8 @@ jQuery(document).ready(function ($) {
         if(parseInt(existing) < allTabs.length){
             existing = existing + tabNumber;
             localStorage.setItem('wpscpQswTabNumberTracking', existing);
+        } else if(parseInt(existing) >= allTabs.length) {
+            localStorage.setItem('wpscpQswTabNumberTracking', allTabs.length - 1);
         }
         return parseInt(existing);
     }
@@ -261,6 +263,10 @@ jQuery(document).ready(function ($) {
      */
     function wpscpQuickSetupGetTrackNumber(){
         var oldNumber = localStorage.getItem('wpscpQswTabNumberTracking');
+        var allTabs = jQuery('.wpscp-tabnav-wrap ul.tab-nav li.nav-item');
+        if(parseInt(oldNumber) >= allTabs.length) {
+            localStorage.setItem('wpscpQswTabNumberTracking', allTabs.length - 1);
+        }
         return (oldNumber ? parseInt(oldNumber) : 0);
     }
 
