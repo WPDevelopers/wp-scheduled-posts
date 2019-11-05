@@ -210,11 +210,11 @@ jQuery(document).ready(function ($) {
        toggleControl();
        function toggleControl(){
             if($(autoScheduler).is(':checked') === true){ // auto scheduler
-                $('#toggleSwithElementContent .manualScheduler').hide(500);
-                $('#toggleSwithElementContent .autoScheduler').show(500);
+                $('#toggleSwithElementContent .manualScheduler').hide();
+                $('#toggleSwithElementContent .autoScheduler').show();
             }else if($(manualScheduler).is(':checked') === true) {
-                $('#toggleSwithElementContent .autoScheduler').hide(500);
-                $('#toggleSwithElementContent .manualScheduler').show(500);
+                $('#toggleSwithElementContent .autoScheduler').hide();
+                $('#toggleSwithElementContent .manualScheduler').show();
             }
        }
         $(autoScheduler).add(manualScheduler).click(function(){
