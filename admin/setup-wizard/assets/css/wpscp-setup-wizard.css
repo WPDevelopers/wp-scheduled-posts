@@ -203,6 +203,9 @@
 .wpscp-setup-wizard .switch-field label:last-of-type {
 	border-radius: 0 4px 4px 0;
 }
+.wpscp-setup-wizard .wpsp-integ-content {
+    padding: 0;
+}
 @media screen and (max-width: 1450px){
     .wpscp-setup-wizard .wpsp_man_time_setting li:first-child, 
     .wpscp-setup-wizard .wpsp_man_time_setting li:nth-child(2) {

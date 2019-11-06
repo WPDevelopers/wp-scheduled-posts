@@ -2303,13 +2303,14 @@ a.wpsp-notice-cta{
 }
 .wpsp-integ-item_section{
 	float: left;
-	width: calc(50% - 30px);
+	width: calc(50%);
 	box-sizing: border-box;
 	background: #fff;
+	padding: 30px 0 30px 30px;
 	min-height: 430px;
 }
 .wpsp-integ-item_section:nth-child(even) {
-	margin-left: 30px;
+	border-left: 1px solid #f5f5f5;
 }
 .woofilter-form-control{
 	padding: 10px;

@@ -73,15 +73,18 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
                 update_option('miss_schedule_active_option', 'no');
             }
             //  social integation update - twitter
+            $tw_integration_status = (isset($_POST['tw_integration_status']) ? trim($_POST['tw_integration_status']) : '');
             $tw_consumer_key = (isset($_POST['tw_consumer_key']) ? trim($_POST['tw_consumer_key']) : '');
             $tw_consumer_sec = (isset($_POST['tw_consumer_sec']) ? trim($_POST['tw_consumer_sec']) : '');
             $tw_access_key 	= (isset($_POST['tw_access_key']) ? trim($_POST['tw_access_key']) : '');
             $tw_access_sec 	= (isset($_POST['tw_access_sec']) ? trim($_POST['tw_access_sec']) : '');
-            $tw_con_key_up = update_option('wpsp_twitter_consumer_key', $tw_consumer_key);
-            $tw_con_sec_up = update_option('wpsp_twitter_consumer_sec', $tw_consumer_sec);
-            $tw_acc_key_up = update_option('wpsp_twitter_access_key', $tw_access_key);	
-            $tw_acc_sec_up = update_option('wpsp_twitter_access_sec', $tw_access_sec);
+            update_option('wpsp_twitter_integration_status', $tw_integration_status);
+            update_option('wpsp_twitter_consumer_key', $tw_consumer_key);
+            update_option('wpsp_twitter_consumer_sec', $tw_consumer_sec);
+            update_option('wpsp_twitter_access_key', $tw_access_key);	
+            update_option('wpsp_twitter_access_sec', $tw_access_sec);
             // social integation update - facebook
+            $fb_integration_status = (isset($_POST['fb_integration_status']) ? trim($_POST['fb_integration_status']) : '');
             $wpscp_pro_app_type = (isset($_POST['wpscp_pro_app_type']) ? trim($_POST['wpscp_pro_app_type']) : '');
             $fb_app_id = (isset($_POST['fb_app_id']) ? trim($_POST['fb_app_id']) : '');
             $fb_app_secret = (isset($_POST['fb_app_secret']) ? trim($_POST['fb_app_secret']) : '');
@@ -96,6 +99,7 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
                 update_option('wpscp_pro_fb_secret', $fb_app_secret);
                 update_option('wpscp_pro_fb_access_token', $fb_access_token);
             }
+            update_option('wpsp_pro_facebook_integration_status', $fb_integration_status);
             update_option('wpscp_pro_app_type', $wpscp_pro_app_type);
 
 

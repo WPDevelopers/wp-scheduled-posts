@@ -138,12 +138,14 @@ jQuery(document).ready(function ($) {
         // missscheduled
         var missscheduled = $('#missscheduled').prop("checked") == true ? 1 : 0;
         // social integation - twitter
+        var tw_integration_status  = $('.wpscp-setup-wizard input[name="wpscp_pro_twitter_integration_status"]').attr("checked") ? 'on' : '';
         var tw_consumer_key = $('.wpscp-setup-wizard input[name="tw_consumer_key"]').val();
         var tw_consumer_sec = $('.wpscp-setup-wizard input[name="tw_consumer_sec"]').val();
         var tw_access_key = $('.wpscp-setup-wizard input[name="tw_access_key"]').val();
         var tw_access_sec = $('.wpscp-setup-wizard input[name="tw_access_sec"]').val();
         
         // facebook
+        var fb_integration_status  = $('.wpscp-setup-wizard input[name="wpscp_pro_facebook_integration_status"]').attr("checked") ? 'on' : '';
         var fb_app_id = $('.wpscp-setup-wizard input[name="fb_app_id"]').val();
         var fb_app_secret = $('.wpscp-setup-wizard input[name="fb_app_secret"]').val();
         var wpscp_pro_app_type = $('.wpscp-setup-wizard input[name="wpscp_pro_app_type"]:checked').val();
@@ -164,11 +166,13 @@ jQuery(document).ready(function ($) {
             'manualScheduler': manualScheduler,
             'missscheduled': missscheduled,
             // twitter
+            'tw_integration_status' : tw_integration_status,
             'tw_consumer_key' : tw_consumer_key,
             'tw_consumer_sec' : tw_consumer_sec,
             'tw_access_key' : tw_access_key,
             'tw_access_sec' : tw_access_sec,
             // facebook
+            'fb_integration_status' : fb_integration_status,
             'fb_app_id' : fb_app_id,
             'fb_app_secret' : fb_app_secret,
             'wpscp_pro_app_type' : wpscp_pro_app_type,
