@@ -2,6 +2,7 @@
 .wpsp-dashboard-body {
 	position: relative;
 }
+.wpsp-dashboard-body .wpsp_calendar_loader,
 .wpsp-dashboard-body .wpsp_loader {
 	position: fixed;
 	background: #fff;
@@ -11,6 +12,7 @@
 	height: 100%;
 	z-index: 999;
 }
+.wpsp-dashboard-body .wpsp_calendar_loader img,
 .wpsp-dashboard-body .wpsp_loader img {
     display: block;
     position: relative;

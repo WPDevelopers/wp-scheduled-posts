@@ -1,6 +1,6 @@
 <div id="wpwrap">
     <div class="wpsp-dashboard-body">
-        <div class="wpsp_loader">
+        <div class="wpsp_calendar_loader">
             <img src="<?php echo plugins_url('/wp-scheduled-posts/admin/assets/images/wpscp-logo.gif'); ?>" alt="Loader">
         </div>
         <!-- Topbar -->

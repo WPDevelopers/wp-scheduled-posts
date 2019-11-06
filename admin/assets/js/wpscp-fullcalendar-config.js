@@ -43,6 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
         center: 'title',
         // right: 'dayGridMonth'
         },
+        lazyFetching: true,
         editable: true,
         droppable: true, // this allows things to be dropped onto the calendar
         textEscape: true,
@@ -115,18 +116,21 @@ document.addEventListener('DOMContentLoaded', function() {
     * add Future Post Event Via ajax Call
     */
     function wpscpAllEvents(){
-        jQuery('.wpsp_loader').fadeIn(200);
         jQuery.ajax({
             url: wpscpGetRestUrl(),
-        }).done(function( data ) {
-            data.posts.forEach(function(item, index){
-                calendar.addEvent({
-                  title: wpscpEventTemplateStructure(item),
-                  start: new Date(item.post_date),
-                  allDay: false
+        }).done(function( data, status ) {
+            if(status == "success"){
+                data.posts.forEach(function(item, index){
+                    calendar.addEvent({
+                      title: wpscpEventTemplateStructure(item),
+                      start: new Date(item.post_date),
+                      allDay: false
+                    });
                 });
-            });
-            jQuery('.wpsp_loader').fadeOut(500);
+                jQuery('.wpsp_calendar_loader').fadeOut();
+            } else {
+                jQuery('.wpsp_calendar_loader').fadeOut();
+            }
         });
     }
     wpscpAllEvents();
@@ -352,7 +356,6 @@ document.addEventListener('DOMContentLoaded', function() {
         modalDate.val('');
         postID.val('');
         jQuery.modal.close();
-        jQuery('.spinner').css('visibility', 'hidden');
     }
     /**
      * Showing Calendar Event Modal
@@ -368,8 +371,10 @@ document.addEventListener('DOMContentLoaded', function() {
             modalDate.val(jQuery(this).parent('.fc-day-top').data('date'));
         });
         modalClose.add(modalCloseClass).on('click', function(e){
+            e.preventDefault();
             //hide modal
             wpscp_calendar_modal_hide();
+            jQuery('.spinner').css('visibility', 'hidden');
         });
     }
     /**
