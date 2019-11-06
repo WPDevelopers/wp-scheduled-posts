@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-
+if(!class_exists('wpScp_Plugin_Usage_Tracker')){
 class wpScp_Plugin_Usage_Tracker
 {
 
@@ -1082,4 +1082,5 @@ class wpScp_Plugin_Usage_Tracker
         wp_die();
     }
 
+}
 }

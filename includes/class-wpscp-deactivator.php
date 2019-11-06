@@ -1,18 +1,19 @@
 <?php
-
-class WpScp_Deactivator {
-    /**
-	 * Short Description. (use period)
-	 *
-	 * Long Description.
-	 *
-	 * @since    1.0.0
-	 */
-	public static function deactivate() {
-		
+if(!class_exists('WpScp_Deactivator')){
+	class WpScp_Deactivator {
 		/**
-		 * Reqrite the rules on deactivation.
+		 * Short Description. (use period)
+		 *
+		 * Long Description.
+		 *
+		 * @since    1.0.0
 		 */
-		flush_rewrite_rules();
+		public static function deactivate() {
+			
+			/**
+			 * Reqrite the rules on deactivation.
+			 */
+			flush_rewrite_rules();
+		}
 	}
 }

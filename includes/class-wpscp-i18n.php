@@ -12,25 +12,21 @@
  * @package    wpscp
  * @subpackage wp-scheduled-posts/includes
  */
+if(!class_exists('WpScp_i18n')){
+	class WpScp_i18n {
+		/**
+		 * Load the plugin text domain for translation.
+		 *
+		 * @since    1.0.0
+		 */
+		public function load_plugin_textdomain() {
 
-class WpScp_i18n {
+			load_plugin_textdomain(
+				'wp-scheduled-posts',
+				false,
+				dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
+			);
 
-
-	/**
-	 * Load the plugin text domain for translation.
-	 *
-	 * @since    1.0.0
-	 */
-	public function load_plugin_textdomain() {
-
-		load_plugin_textdomain(
-			'wp-scheduled-posts',
-			false,
-			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
-		);
-
+		}
 	}
-
-
-
 }
