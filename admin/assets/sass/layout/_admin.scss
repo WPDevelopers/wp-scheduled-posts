@@ -895,11 +895,20 @@
 	box-shadow: none;
 }
 
+.wpsp-dashboard-body .wpsp-integrations-title {
+	padding: 0 20px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #687b95;
+    width: 100%;
+}
+.wpsp-dashboard-body .wpsp-integrations-title h3,
 .wpsp-dashboard-body .wpsp-scheduler-title h3 {
-	font-size: 14px;
+	font-size: 18px;
 	margin: 0;
 	color: #252526;
 }
+.wpsp-dashboard-body .wpsp-integrations-title p,
 .wpsp-dashboard-body .wpsp-scheduler-title p {
 	font-size: 12px;
 	margin: 2px 0 0 0;
@@ -2321,7 +2330,7 @@ a.wpsp-notice-cta{
 	color: #687b95;
 }
 .wpsp-integ-content{
-	padding: 10px;
+	padding: 35px 30px;
 	box-sizing: border-box;
 	display: none;
 }

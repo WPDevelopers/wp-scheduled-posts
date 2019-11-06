@@ -59,33 +59,6 @@ jQuery(document).ready(function ($) {
 
 	}
 
-	/* integration JS */
-	var integ_bars = document.querySelectorAll('.wpsp-integ-bar');
-
-	//loop integ bars to active and deactive bar contents
-	integ_bars.forEach( (integ_bar, index) => {
-		integ_bar.addEventListener('click', function(e) {
-			e.preventDefault();
-
-			//loop integ bars 
-			integ_bars.forEach( (element, index) => {
-			
-				this.classList.toggle("wpsp-integ-active");
-				var panel = this.parentElement.querySelector('.wpsp-integ-content');
-				
-				if (panel.style.display === "block") {
-				  	panel.style.display = "none";
-				  	this.firstElementChild.checked = false;
-				}else {
-				  	panel.style.display = "block";
-				  	this.firstElementChild.checked = true;
-				}
-
-			});
-
-		});
-	} );
-
 
 	// timepicker function
 	$('#man_times').chungTimePicker({
