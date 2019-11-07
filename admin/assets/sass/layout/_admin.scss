@@ -2307,7 +2307,7 @@ a.wpsp-notice-cta{
 	box-sizing: border-box;
 	background: #fff;
 	padding: 30px 0 30px 30px;
-	min-height: 542px;
+	min-height: 598px;
 }
 .wpsp-integ-item_section:nth-child(even) {
 	border-left: 1px solid #f5f5f5;
@@ -2325,6 +2325,12 @@ a.wpsp-notice-cta{
 	font-size: 18px;
 	display: inline-block;
 	color: #687b95;
+	margin-bottom: 0;;
+}
+.wpsp-integ-bar p {
+	font-size: 12px;
+    margin: 2px 0 0 0;
+    font-style: italic;
 }
 .wpsp-integ-content{
 	padding: 0;
@@ -2717,4 +2723,7 @@ a.wpsp-notice-cta{
 .wpscp-pro-social-share .heading {
 	font-size: 16px;
 	font-weight: 600;
+}
+.wpsp-dashboard-body .docs {
+	font-weight: 700;
 }
