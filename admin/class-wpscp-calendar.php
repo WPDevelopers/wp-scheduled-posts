@@ -1,5 +1,5 @@
 <?php
-if(!function_exists('WpScp_Calendar')){
+if(!class_exists('WpScp_Calendar')){
     class WpScp_Calendar {
         public function __construct() {
             $this->hooks();
@@ -28,6 +28,7 @@ if(!function_exists('WpScp_Calendar')){
 
         public function wpscp_future_post_rest_route_output( $request ) {
             $response = urldecode($request->get_param('search'));
+            $response = (($response == 'elementorlibrary') ? 'elementor_library' : $response);
             $query = new WP_Query(array(
                 'post_type'         => ($response != '' ? $response : 'post'),
                 'post_status'       => array('future', 'publish'),

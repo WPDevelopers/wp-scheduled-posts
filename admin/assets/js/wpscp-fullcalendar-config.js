@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
     /**
      * Necessary Functions for Calendar and ajax call
      */
-  
+    console.log(wpscpGetRestUrl());
     /*
     * add Future Post Event Via ajax Call
     */
@@ -452,8 +452,18 @@ document.addEventListener('DOMContentLoaded', function() {
      * Get Rest URL
      */
     function wpscpGetRestUrl(){
-        return wpscp_calendar_ajax_object.calendar_rest_route + wpscpGetPostTypeName();
+        return wpscp_calendar_ajax_object.calendar_rest_route + wpscpGetPostTypeNameSkipUnderScore();
     }
+    /**
+     * Get Post Type Name form Query Sting
+     */
+    function wpscpGetPostTypeNameSkipUnderScore(){
+        var urlParams = new URLSearchParams(window.location.search);
+        var postTypeName = urlParams.get('post_type');
+        postTypeName = (postTypeName !== null ? postTypeName.replace("_", "") : postTypeName);
+        return (postTypeName == null || postTypeName == '' ? 'post' : postTypeName);
+    }
+
     /**
      * Get Post Type Name form Query Sting
      */

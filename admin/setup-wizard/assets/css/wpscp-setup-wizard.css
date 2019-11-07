@@ -1,7 +1,10 @@
 /* general */
 .wpscp-setup-wizard form select {
-    width: 200px;
+    width: 200px !important;
     height: 50px !important;
+}
+.wpscp-setup-wizard form select#man_days {
+    width: 150px !important;
 }
 .wpscp-setup-wizard form input.invalid {
     background-color: #ffdddd;
