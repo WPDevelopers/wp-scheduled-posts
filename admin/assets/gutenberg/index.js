@@ -5,7 +5,7 @@ const { compose, ifCondition, withInstanceId } = wp.compose;
 const { withSelect, withDispatch } = wp.data;
 const { PluginPostStatusInfo } = wp.editPost;
 const { Component, createElement } = wp.element;
-const { publishImmediately, currentTime, publish_button_off } = WPSchedulePostsFree;
+const { publishImmediately, currentTime, publish_button_off, allowedPostTypes } = WPSchedulePostsFree;
 import PublishButton from './publish-button';
 
 class AdminPublishButton extends Component {
@@ -58,5 +58,7 @@ export default compose( [
 		};
 
 	} ),
-	ifCondition( ( { postType } ) => 'post' === postType ),
+	ifCondition( ( { postType } ) => {
+		return allowedPostTypes.indexOf( postType );
+	} ),
 ] )( AdminPublishButton );
