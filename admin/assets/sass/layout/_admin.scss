@@ -757,10 +757,6 @@
 	text-align: center;
 	flex: 1;
 }
-// .wpsp-dashboard-body .schedule-list li.current_day_active > span {
-// 	background-color: #715ec8;
-// 	color: #fff;
-// }
 .wpsp-dashboard-body .schedule-list li > span {
 	padding: 8px;
 	display: block;
@@ -2718,4 +2714,11 @@ a.wpsp-notice-cta{
 }
 .wpsp-dashboard-body .docs {
 	font-weight: 700;
+}
+// metabox
+#autoManualScheduleSelectBox {
+	padding: 0 10px;
+}
+#autoManualScheduleSelectBox p {
+	margin: 0;
 }
