@@ -21,7 +21,7 @@ if(!class_exists('WpScp_widget')){
             $post_types 	=	(isset($wpscp_options['allow_post_types']) ? $wpscp_options['allow_post_types'] : array('post'));
 
             $post_cats = $wpscp_options['allow_categories']; 
-            if($post_cats[0] == 0 && count($post_cats) == 1) {
+            if(is_array($post_cats) && $post_cats[0] == 0 && count($post_cats) == 1) {
                 $result = new WP_Query(array(
                     'post_type' => $post_types,
                     'post_status' => 'future'
