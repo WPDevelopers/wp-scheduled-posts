@@ -45,7 +45,12 @@ if(!class_exists('WpScp_widget')){
             echo '<table class="widefat">';
                 if($result->have_posts()) :
                     while($result->have_posts()) : $result->the_post(  );
-                        echo '<tr><td><a href="'.get_edit_post_link(get_the_ID()).'">'.get_the_title().'</a></td><td>'.date(get_option( 'date_format', get_the_date() )).'</td><td>'.get_the_author().'</td></tr>';
+                        echo '<tr>
+                            <td><a href="'.get_edit_post_link(get_the_ID()).'">'.get_the_title().'</a></td>
+                            <td>'.date(get_option( 'date_format', get_the_date() )).'</td>
+                            <td>'.get_the_author().'</td>
+                            <td>'.get_the_date( 'g:i a' ).'</td>
+                        </tr>';
                     endwhile;
                     wp_reset_postdata();
                 endif;
