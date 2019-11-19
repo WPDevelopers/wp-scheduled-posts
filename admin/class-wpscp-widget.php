@@ -47,7 +47,7 @@ if(!class_exists('WpScp_widget')){
                     while($result->have_posts()) : $result->the_post(  );
                         echo '<tr>
                             <td><a href="'.get_edit_post_link(get_the_ID()).'">'.get_the_title().'</a></td>
-                            <td>'.date(get_option( 'date_format', get_the_date() )).'</td>
+                            <td>'.get_the_date('d F, Y').'</td>
                             <td>'.get_the_author().'</td>
                             <td>'.get_the_date( 'g:i a' ).'</td>
                         </tr>';
