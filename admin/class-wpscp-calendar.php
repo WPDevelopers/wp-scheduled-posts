@@ -48,7 +48,7 @@ if(!class_exists('WpScp_Calendar')){
                     $markup .='</div>';
                     array_push($allData, array(
                         'title' =>  $markup,
-                        'start' => get_the_date('Y-m-j'),
+                        'start' => get_the_date('Y-m-d'),
                         'allDay' => false,
                     ));
                 endwhile;
