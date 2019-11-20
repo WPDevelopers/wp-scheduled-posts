@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // right: 'dayGridMonth'
         },
         lazyFetching: true,
+        displayEventTime: true,
         editable: true,
         droppable: true, // this allows things to be dropped onto the calendar
         textEscape: true,
