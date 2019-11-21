@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // right: 'dayGridMonth'
         },
         lazyFetching: true,
+        displayEventTime: true,
         editable: true,
         droppable: true, // this allows things to be dropped onto the calendar
         textEscape: true,
@@ -107,11 +108,12 @@ document.addEventListener('DOMContentLoaded', function() {
     calendar.render();
     // end main calendar functionality
 
+ 
 
     /**
      * Necessary Functions for Calendar and ajax call
      */
-    console.log(wpscpGetRestUrl());
+
     /*
     * add Future Post Event Via ajax Call
     */
@@ -120,13 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
             url: wpscpGetRestUrl(),
         }).done(function( data, status ) {
             if(status == "success"){
-                data.posts.forEach(function(item, index){
-                    calendar.addEvent({
-                      title: wpscpEventTemplateStructure(item),
-                      start: new Date(item.post_date),
-                      allDay: false
-                    });
-                });
+                calendar.addEventSource(data);
                 jQuery('.wpsp_calendar_loader').fadeOut();
             } else {
                 jQuery('.wpsp_calendar_loader').fadeOut();

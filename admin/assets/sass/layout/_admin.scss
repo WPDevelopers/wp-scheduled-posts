@@ -757,14 +757,6 @@
 	text-align: center;
 	flex: 1;
 }
-
-.wpsp-dashboard-body .schedule-list li > span:first-child {
-	background-color: #715ec8;
-	color: #fff;
-	border-top-left-radius: 3px;
-	border-top-right-radius: 3px;
-}
-
 .wpsp-dashboard-body .schedule-list li > span {
 	padding: 8px;
 	display: block;
@@ -1649,10 +1641,6 @@ a.wpsp-notice-cta{
 }
 .wpsp-dashboard-body .schedule-list {
     width: 100%;
-}
-.wpsp-dashboard-body .schedule-list li > span:first-child{
-	background: #fff;
-	color: #6c62ff;
 }
 .wpsp-dashboard-body .schedule-list li > span{
 	color: #6c62ff;
@@ -2726,4 +2714,11 @@ a.wpsp-notice-cta{
 }
 .wpsp-dashboard-body .docs {
 	font-weight: 700;
+}
+// metabox
+#autoManualScheduleSelectBox {
+	padding: 0 10px;
+}
+#autoManualScheduleSelectBox p {
+	margin: 0;
 }

@@ -34,7 +34,27 @@ if(!class_exists('WpScp_Calendar')){
                 'post_status'       => array('future', 'publish'),
                 'posts_per_page'    => -1
             ));
-            return $query;
+            $allData = array();
+
+            if($query->have_posts()) {
+                while($query->have_posts()) : $query->the_post(  );
+                    $markup = '';
+                    $markup .='<div class="wpscp-event-post" data-postid="'.get_the_ID().'">';
+                        $markup .='<div class="postlink"><span><span class="posttime">['.get_the_date( 'g:i a' ).']</span> '.wp_trim_words( get_the_title(), 3, '...' ).' ['.get_post_status(get_the_ID()).']</span></div>';
+                        $link = '';
+                        $link .= '<div class="edit"><a href="'.get_site_url().'/wp-admin/post.php?post='.get_the_ID().'&action=edit""><i class="dashicons dashicons-edit"></i>Edit</a><a class="wpscpquickedit" href="#" data-type="quickedit"><i class="dashicons dashicons-welcome-write-blog"></i>Quick Edit</a></div>';
+                        $link .= '<div class="deleteview"><a class="wpscpEventDelete" href="#"><i class="dashicons dashicons-trash"></i> Delete</a><a href="'.get_the_permalink().'"><i class="dashicons dashicons-admin-links"></i> View</a></div>';
+                        $markup .= '<div class="postactions"><div>'.$link.'</div></div>';
+                    $markup .='</div>';
+                    array_push($allData, array(
+                        'title' =>  $markup,
+                        'start' => get_the_date('Y-m-d H:i:s'),
+                        'allDay' => false,
+                    ));
+                endwhile;
+                wp_reset_postdata();
+            }
+            return $allData;
         }
         
 

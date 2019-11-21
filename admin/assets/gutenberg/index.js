@@ -59,6 +59,10 @@ export default compose( [
 
 	} ),
 	ifCondition( ( { postType } ) => {
-		return allowedPostTypes.indexOf( postType );
+		if(allowedPostTypes.includes( postType ) !== false){
+			return true;
+		} else {
+			return false;
+		}
 	} ),
 ] )( AdminPublishButton );
