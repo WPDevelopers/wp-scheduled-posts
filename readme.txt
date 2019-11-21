@@ -4,7 +4,7 @@ Tags: post schedule, editor calendar, schedule-calendar, schedule bar, scheduled
 Requires at least: 4.0
 Tested up to: 5.2
 Requires PHP: 5.4
-Stable tag: 3.1.1
+Stable tag: 3.1.2
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -117,6 +117,12 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 
 == Changelog ==
+
+= 3.1.2 - 2019-11-07 =
+* Custom Post Support issue fixing
+* Elementor library issue fixing
+* Calendar event preloader improve
+* Quick setup Wizard Improve
 
 = 3.1.1 - 2019-11-04 =
 * Bugfix : Gutenberg Editor Publish Post Immediately Button
