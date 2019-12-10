@@ -48,7 +48,7 @@ function wpscp_pro_feature_list_markup(){
 			<input disabled="" type="checkbox" id="module_auto_scheduled" name="module_auto_scheduled">
 			<label for="module_auto_scheduled"></label>
 			<p class="wpscp-module-title">Auto Scheduler
-				<a rel="nofollow" target="_blank" href="#">
+				<a rel="nofollow" target="_blank" href="https://wpdeveloper.net/docs/wp-scheduled-posts/how-does-auto-scheduler-work/">
 					<img width="6px" src="<?php print plugin_dir_url( WPSP_PLUGIN_FILE ) . 'admin/assets/images/question.svg'; ?>" alt="wp scheduled posts" />
 				</a>               
 				<sup class="wpscp-pro-label has-to-update"></sup><sup class="wpscp-pro-label">Pro</sup>                
@@ -59,7 +59,7 @@ function wpscp_pro_feature_list_markup(){
 			<input disabled="" type="checkbox" id="module_miss_scheduled" name="module_miss_scheduled">
 			<label for="module_miss_scheduled"></label>
 			<p class="wpscp-module-title">Missed Schedule Handler
-				<a rel="nofollow" target="_blank" href="#">
+				<a rel="nofollow" target="_blank" href="https://wpdeveloper.net/docs/wp-scheduled-posts/how-to-handle-the-missed-schedule-error-using-wp-scheduled-post/">
 					<img width="6px" src="<?php print plugin_dir_url( WPSP_PLUGIN_FILE ) . 'admin/assets/images/question.svg'; ?>" alt="wp scheduled posts" />
 				</a>               
 				<sup class="wpscp-pro-label has-to-update"></sup><sup class="wpscp-pro-label">Pro</sup>                
@@ -73,7 +73,7 @@ function wpscp_pro_feature_list_markup(){
 			<input disabled="" type="checkbox" id="module_manual_scheduled" name="module_manual_scheduled">
 			<label for="module_manjual_scheduled"></label>
 			<p class="wpscp-module-title">Manual Scheduler
-				<a rel="nofollow" target="_blank" href="#">
+				<a rel="nofollow" target="_blank" href="https://wpdeveloper.net/docs/wp-scheduled-posts/how-does-manual-scheduler-work/">
 					<img width="6px" src="<?php print plugin_dir_url( WPSP_PLUGIN_FILE ) . 'admin/assets/images/question.svg'; ?>" alt="wp scheduled posts" />
 				</a>               
 				<sup class="wpscp-pro-label has-to-update"></sup><sup class="wpscp-pro-label">Pro</sup>                
@@ -84,7 +84,7 @@ function wpscp_pro_feature_list_markup(){
 			<input disabled="" type="checkbox" id="module_social_share" name="module_social_share">
 			<label for="module_manjual_scheduled"></label>
 			<p class="wpscp-module-title">Social Share
-				<a rel="nofollow" target="_blank" href="#">
+				<a rel="nofollow" target="_blank" href="https://wpdeveloper.net/docs/share-scheduled-posts-social-media/">
 					<img width="6px" src="<?php print plugin_dir_url( WPSP_PLUGIN_FILE ) . 'admin/assets/images/question.svg'; ?>" alt="wp scheduled posts" />
 				</a>               
 				<sup class="wpscp-pro-label has-to-update"></sup><sup class="wpscp-pro-label">Pro</sup>                

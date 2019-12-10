@@ -2722,3 +2722,26 @@ a.wpsp-notice-cta{
 #autoManualScheduleSelectBox p {
 	margin: 0;
 }
+
+// instant share metabox
+.wpscppro-instantshare {
+	.social-media {
+		.meta-heading {
+			margin-bottom: 0;
+		}
+		label {
+			display: block;
+			span.sharecount {
+				background: #008ec2;
+				color: white;
+				padding: 0 5px;
+			}
+		}
+	}
+}
+
+.wpscppro-instantshare .ajaxrequest {
+	text-align: right;
+	font-weight: 500;
+	color: #008ec2;
+}
