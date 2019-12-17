@@ -80,6 +80,7 @@ final class WpScp {
         require_once WPSCP_INCLUDES_DIR_PATH .  'class-plugin-usage-tracker.php';
         require_once WPSCP_INCLUDES_DIR_PATH .  'class-wpdev-core-install.php';
         require_once WPSCP_INCLUDES_DIR_PATH .  'class-wpdev-notices.php';
+        require_once WPSCP_INCLUDES_DIR_PATH .  'class-wpscp-notify.php';
         require_once WPSCP_ADMIN_DIR_PATH .     'setup-wizard/wpscp-setup-wizard-config.php';
     }
 
