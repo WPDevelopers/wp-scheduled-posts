@@ -2738,10 +2738,17 @@ a.wpsp-notice-cta{
 			}
 		}
 	}
+	.ajaxrequest {
+		text-align: right;
+		font-weight: 500;
+		color: #008ec2;
+	}
 }
 
-.wpscppro-instantshare .ajaxrequest {
-	text-align: right;
-	font-weight: 500;
-	color: #008ec2;
+
+// Republish
+.wpscp-schedule-republish {
+	a.info {
+		text-decoration: none;
+	}
 }
