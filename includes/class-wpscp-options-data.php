@@ -7,6 +7,7 @@ if(!class_exists('wpscp_options_data')){
         public function wpscp_general_options_saved(){
             $nonce = $_POST['nonce_wpscp_general_options'];
             if(wp_verify_nonce($nonce, 'nonce_wpscp_general_options')){
+                $publish_schedule_post_notify=isset($_POST['publish_schedule_post_notify'])?intval($_POST['publish_schedule_post_notify']):0; 
                 $show_dashboard_widget=isset($_POST['show_dashboard_widget'])?intval($_POST['show_dashboard_widget']):0; 
                 $show_in_front_end_adminbar=isset($_POST['show_in_front_end_adminbar'])?intval($_POST['show_in_front_end_adminbar']):0;
                 $allow_user_role=isset($_POST['allow_user_role'])?$_POST['allow_user_role']:'';
@@ -25,7 +26,8 @@ if(!class_exists('wpscp_options_data')){
                         'adminbar_item_template'=>$adminbar_item_template, 
                         'adminbar_title_length'=>$adminbar_title_length, 
                         'adminbar_date_format'=>$adminbar_date_format, 
-                        'prevent_future_post'=>isset($_POST['prevent_future_post'])
+                        'prevent_future_post'=>isset($_POST['prevent_future_post']),
+                        'publish_schedule_post_notify' => $publish_schedule_post_notify
                 );	
                 update_option('wpscp_options',$options);
             }
