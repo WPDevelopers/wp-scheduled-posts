@@ -6,7 +6,7 @@ if(!class_exists('WpScp_Author_Notify')){
         }
         public function send_email_notification(){
             $wpscp_options = wpscp_get_options();
-            $publish_schedule_post_notify = $wpscp_options['publish_schedule_post_notify'];
+            $publish_schedule_post_notify = (isset($wpscp_options['publish_schedule_post_notify']) ? $wpscp_options['publish_schedule_post_notify'] : 0);
             if($publish_schedule_post_notify == 1){
                 add_action( 'publish_future_post', array( $this, 'notify_content_author' ), 30, 1 );
             }
