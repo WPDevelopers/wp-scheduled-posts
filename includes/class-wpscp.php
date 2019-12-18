@@ -80,6 +80,7 @@ final class WpScp {
         require_once WPSCP_INCLUDES_DIR_PATH .  'class-plugin-usage-tracker.php';
         require_once WPSCP_INCLUDES_DIR_PATH .  'class-wpdev-core-install.php';
         require_once WPSCP_INCLUDES_DIR_PATH .  'class-wpdev-notices.php';
+        require_once WPSCP_INCLUDES_DIR_PATH .  'class-wpscp-notify.php';
         require_once WPSCP_ADMIN_DIR_PATH .     'setup-wizard/wpscp-setup-wizard-config.php';
     }
 
@@ -164,6 +165,7 @@ final class WpScp {
         if ( is_admin() ) {
             wp_enqueue_style( 'font-awesome', WPSCP_ADMIN_URL . 'assets/css/vendor/font-awesome.min.css', array(), false, 'all' );
             wp_enqueue_style( 'select2-css', WPSCP_ADMIN_URL . 'assets/css/vendor/select2.min.css', array(), false, 'all' );
+            wp_enqueue_style( 'jquery-datetimepicker', WPSCP_ADMIN_URL . 'assets/css/vendor/jquery.datetimepicker.min.css', array(), false, 'all' );
             wp_enqueue_style( 'chung-timepicker', WPSCP_ADMIN_URL . 'assets/css/vendor/chung-timepicker.css', array(), false, 'all' );
             wp_enqueue_style( 'notifi', WPSCP_ADMIN_URL . 'assets/css/vendor/notifi.css', array(), false, 'all' );
             wp_enqueue_style( 'full-calendar', WPSCP_ADMIN_URL . 'assets/css/vendor/full-calendar.css', array(), false, 'all' );
@@ -176,8 +178,9 @@ final class WpScp {
              */
             wp_enqueue_script('jquery-ui-draggable');
 			wp_enqueue_script('jquery-ui-droppable');
-            wp_enqueue_script( 'main-chung-timepicker', WPSCP_ADMIN_URL . 'assets/js/vendor/chung-timepicker.js', array('jquery'), null, false );
-            wp_enqueue_script('time-script', WPSCP_ADMIN_URL . 'assets/js/vendor/jquery.timepicker.min.js', array('jquery'), null, false);
+            wp_enqueue_script( 'jquery-datetimepicker', WPSCP_ADMIN_URL . 'assets/js/vendor/jquery.datetimepicker.full.min.js', array('jquery'), null, false );
+            wp_enqueue_script( 'chung-timepicker', WPSCP_ADMIN_URL . 'assets/js/vendor/chung-timepicker.js', array('jquery'), null, false );
+            wp_enqueue_script('timepicker', WPSCP_ADMIN_URL . 'assets/js/vendor/jquery.timepicker.min.js', array('jquery'), null, false);
             wp_enqueue_script('jquery-modal', WPSCP_ADMIN_URL . 'assets/js/vendor/jquery.modal.min.js', array('jquery'), null, false);
             wp_enqueue_script( 'select2', WPSCP_ADMIN_URL . 'assets/js/vendor/select2.full.js', array('jquery'), null, false );
             wp_enqueue_script( 'sweetalert', WPSCP_ADMIN_URL . 'assets/js/vendor/sweetalert.min.js', array('jquery'), null, false );

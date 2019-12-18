@@ -29,15 +29,18 @@ if(!function_exists('wpscp_dropdown_roles')){
 		$p = '';
 		$r = '';
 		$editable_roles = get_editable_roles();
-		foreach ( $editable_roles as $role => $details ) {
-			$name = translate_user_role($details['name'] ); 
-			if ( $selected !== "" && in_array($role, $selected) ){
-				$p .= "\n\t<option selected='selected' value='" . esc_attr($role) . "'>$name</option>";
-			}
-			else {
-				$r .= "\n\t<option value='" . esc_attr($role) . "'>$name</option>";
+		if(is_array($editable_roles) && count($editable_roles) > 0){
+			foreach ( $editable_roles as $role => $details ) {
+				$name = translate_user_role($details['name'] ); 
+				if ( $selected !== "" && is_array($selected) && in_array($role, $selected) ){
+					$p .= "\n\t<option selected='selected' value='" . esc_attr($role) . "'>$name</option>";
+				}
+				else {
+					$r .= "\n\t<option value='" . esc_attr($role) . "'>$name</option>";
+				}
 			}
 		}
+		
 		return $p . $r;
 	}
 }
