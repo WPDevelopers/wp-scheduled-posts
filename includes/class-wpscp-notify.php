@@ -19,8 +19,8 @@ if(!class_exists('WpScp_Author_Notify')){
     
     
             $to = $author_email_address;
-            $subject = 'Your Schedule Post "' . $post_title . '" has been published';
-            $body = 'Here is your publish post url: '. get_the_permalink($post_id);
+            $subject = 'Your Scheduled Post "' . $post_title . '" has been published';
+            $body = 'A new post is Live on your website. Here iss the link to your new post: '. get_the_permalink($post_id);
             $headers = array('Content-Type: text/html; charset=UTF-8');
             
             $is_mail_send = false;
