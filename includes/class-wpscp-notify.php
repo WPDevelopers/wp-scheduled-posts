@@ -2,7 +2,14 @@
 if(!class_exists('WpScp_Author_Notify')){
     class WpScp_Author_Notify{
         public function __construct(){
-            add_action( 'publish_future_post', array( $this, 'notify_content_author' ), 30, 1 );
+           $this->send_email_notification();
+        }
+        public function send_email_notification(){
+            $wpscp_options = wpscp_get_options();
+            $publish_schedule_post_notify = $wpscp_options['publish_schedule_post_notify'];
+            if($publish_schedule_post_notify == 1){
+                add_action( 'publish_future_post', array( $this, 'notify_content_author' ), 30, 1 );
+            }
         }
         public function notify_content_author(  $post_id ){
             // get author from post_id
