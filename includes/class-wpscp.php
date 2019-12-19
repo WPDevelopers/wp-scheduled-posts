@@ -163,7 +163,7 @@ final class WpScp {
      */
     public function plugin_scripts( $hook ) {
         if ( is_admin() ) {
-            wp_enqueue_style( 'font-awesome', WPSCP_ADMIN_URL . 'assets/css/vendor/font-awesome.min.css', array(), false, 'all' );
+            wp_enqueue_style( 'font-awesome', WPSCP_ADMIN_URL . 'assets/css/vendor/font-awesome.min.css', array(), '4.7.0', 'all' );
             wp_enqueue_style( 'select2-css', WPSCP_ADMIN_URL . 'assets/css/vendor/select2.min.css', array(), false, 'all' );
             wp_enqueue_style( 'jquery-datetimepicker', WPSCP_ADMIN_URL . 'assets/css/vendor/jquery.datetimepicker.min.css', array(), false, 'all' );
             wp_enqueue_style( 'chung-timepicker', WPSCP_ADMIN_URL . 'assets/css/vendor/chung-timepicker.css', array(), false, 'all' );
