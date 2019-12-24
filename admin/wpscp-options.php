@@ -63,14 +63,8 @@ if(!function_exists('wpscp_options_page')){
 				include WPSCP_ADMIN_DIR_PATH . '/partials/options.php';
 				// pro setting will be show here
 				do_action( 'wpscp_pro_options_settings' );
-
 				//manage schedule template
 				do_action( 'wpsp_manage_schedule' );
-				//integration template
-				// do_action( 'wpsp_integration' );
-				// social template
-				// do_action( 'wpscp_social_template' );
-				
 			?>
 		</div>
 	<?php }

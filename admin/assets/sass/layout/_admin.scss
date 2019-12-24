@@ -1899,7 +1899,7 @@ a.wpsp-notice-cta{
   	height: 21px;
   	margin-right: 10px;
 }
-
+.wpsp-options-email-notify .email-wrap .wpsp_switch input,
 .wpsp-options-wrap .wpsp_switch input { 
   	opacity: 0;
     width: 100%;
@@ -2755,5 +2755,58 @@ a.wpsp-notice-cta{
 .wpscp-schedule-republish {
 	a.info {
 		text-decoration: none;
+	}
+}
+
+/** Email Notify **/
+.wpsp-options-email-notify {
+	.form-table td {
+		vertical-align: top;
+	}
+	.email-wrap {
+		max-width: 300px;
+		.option-block {
+			color: #687b95;
+			font-size: 14px;
+			background: #fff;
+			margin-bottom: 12px;
+			font-weight: 500;
+			padding: 15px 10px;
+			display: flex;
+			.option-inline {
+				display: inline-block;
+				&.margin-l30 {
+					margin-left: 30px;
+				}
+			}
+			.option-fullwidth {
+				width: 100%;
+			}
+		}
+		input[type="checkbox"]{
+			border-radius: 50%;
+			margin-right: 5px;
+			line-height: 10px;
+			border: 1px solid #ff6969;
+		}
+		input[type="checkbox"]:checked{
+			border: 1px solid #1e8cbe;
+		}
+		input[type="checkbox"]:checked:before{
+			content: "\2022";
+			text-indent: -9999px;
+			border-radius: 50px;
+			font-size: 24px;
+			width: 6px;
+			height: 6px;
+			margin: 4px;
+			line-height: 16px;
+			background: #1e8cbe;
+			
+		}
+		textarea {
+			width: 100%;
+		}
+		
 	}
 }
