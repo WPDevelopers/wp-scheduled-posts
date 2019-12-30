@@ -38,25 +38,38 @@ if(!class_exists('wpscp_options_data')){
         public function wpscp_notify_email_options_saved(){
             $nonce = $_POST['wpscp_notify_email_options'];
             if(wp_verify_nonce($nonce, 'nonce_wpscp_notify_email_options')){ 
-                $wpscp_sender_email_address = (isset($_POST['wpscp_sender_email_address']) ? $_POST['wpscp_sender_email_address'] : '');
-                $wpscp_sender_full_name = (isset($_POST['wpscp_sender_full_name']) ? $_POST['wpscp_sender_full_name'] : '');
-                $wpscp_notify_author_is_approve = (isset($_POST['wpscp_notify_author_is_approve']) ? $_POST['wpscp_notify_author_is_approve'] : 0);
-                $wpscp_notify_author_is_future_to_publish = (isset($_POST['wpscp_notify_author_is_future_to_publish']) ? $_POST['wpscp_notify_author_is_future_to_publish'] : 0);
-                $wpscp_notify_author_is_publish_to_draft = (isset($_POST['wpscp_notify_author_is_publish_to_draft']) ? $_POST['wpscp_notify_author_is_publish_to_draft'] : 0);
-                $wpscp_email_publish_template_title = (isset($_POST['wpscp_email_publish_template_title']) ? $_POST['wpscp_email_publish_template_title'] : '');
-                $wpscp_email_publish_template_body = (isset($_POST['wpscp_email_publish_template_body']) ? $_POST['wpscp_email_publish_template_body'] : '');
-                $wpscp_email_draft_template_title = (isset($_POST['wpscp_email_draft_template_title']) ? $_POST['wpscp_email_draft_template_title'] : '');
-                $wpscp_email_draft_template_body = (isset($_POST['wpscp_email_draft_template_body']) ? $_POST['wpscp_email_draft_template_body'] : '');
+                $notify_sender_email_address = (isset($_POST['notify_sender_email_address']) ? $_POST['notify_sender_email_address'] : '');
+                $notify_sender_full_name = (isset($_POST['notify_sender_full_name']) ? $_POST['notify_sender_full_name'] : '');
                 
-                update_option('wpscp_sender_email_address',$wpscp_sender_email_address);
-                update_option('wpscp_sender_full_name',$wpscp_sender_full_name);
-                update_option('wpscp_notify_author_is_approve',$wpscp_notify_author_is_approve);
-                update_option('wpscp_notify_author_is_future_to_publish',$wpscp_notify_author_is_future_to_publish);
-                update_option('wpscp_notify_author_is_publish_to_draft',$wpscp_notify_author_is_publish_to_draft);
-                update_option('wpscp_email_publish_template_title',$wpscp_email_publish_template_title);
-                update_option('wpscp_email_publish_template_body',$wpscp_email_publish_template_body);
-                update_option('wpscp_email_draft_template_title',$wpscp_email_draft_template_title);
-                update_option('wpscp_email_draft_template_body',$wpscp_email_draft_template_body);
+                $notify_author_is_sent_review = (isset($_POST['notify_author_is_sent_review']) ? $_POST['notify_author_is_sent_review'] : 0);
+                $notify_author_role_sent_review = (isset($_POST['notify_author_role_sent_review']) ? $_POST['notify_author_role_sent_review'] : '');
+                $notify_author_username_sent_review = (isset($_POST['notify_author_username_sent_review']) ? $_POST['notify_author_username_sent_review'] : '');
+                $notify_author_email_sent_review = (isset($_POST['notify_author_email_sent_review']) ? $_POST['notify_author_email_sent_review'] : '');
+                
+                $notify_author_post_is_rejected = (isset($_POST['notify_author_post_is_rejected']) ? $_POST['notify_author_post_is_rejected'] : 0);
+                
+                $notify_author_post_is_schedule = (isset($_POST['notify_author_post_is_schedule']) ? $_POST['notify_author_post_is_schedule'] : 0);
+                $notify_author_post_schedule_role = (isset($_POST['notify_author_post_schedule_role']) ? $_POST['notify_author_post_schedule_role'] : '');
+                $notify_author_post_schedule_username = (isset($_POST['notify_author_post_schedule_username']) ? $_POST['notify_author_post_schedule_username'] : '');
+                $notify_author_post_schedule_email = (isset($_POST['notify_author_post_schedule_email']) ? $_POST['notify_author_post_schedule_email'] : '');
+                
+                $notify_author_schedule_post_is_publish = (isset($_POST['notify_author_schedule_post_is_publish']) ? $_POST['notify_author_schedule_post_is_publish'] : 0);
+                
+                $notify_author_post_is_publish = (isset($_POST['notify_author_post_is_publish']) ? $_POST['notify_author_post_is_publish'] : 0);
+               
+                update_option('wpscp_sender_email_address',$notify_sender_email_address);
+                update_option('wpscp_sender_full_name',$notify_sender_full_name);
+                update_option('wpscp_notify_author_is_sent_review',$notify_author_is_sent_review);
+                update_option('wpscp_notify_author_role_sent_review',$notify_author_role_sent_review);
+                update_option('wpscp_notify_author_username_sent_review',$notify_author_username_sent_review);
+                update_option('wpscp_notify_author_email_sent_review',$notify_author_email_sent_review);
+                update_option('wpscp_notify_author_post_is_rejected',$notify_author_post_is_rejected);
+                update_option('wpscp_notify_author_post_is_schedule',$notify_author_post_is_schedule);
+                update_option('wpscp_notify_author_post_schedule_role',$notify_author_post_schedule_role);
+                update_option('wpscp_notify_author_post_schedule_username',$notify_author_post_schedule_username);
+                update_option('wpscp_notify_author_post_schedule_email',$notify_author_post_schedule_email);
+                update_option('wpscp_notify_author_schedule_post_is_publish',$notify_author_schedule_post_is_publish);
+                update_option('wpscp_notify_author_post_is_publish',$notify_author_post_is_publish);
             }
             wp_redirect( admin_url('admin.php?page=wp-scheduled-posts#wpsp_email') );
             exit;

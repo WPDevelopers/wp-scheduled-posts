@@ -2762,6 +2762,10 @@ a.wpsp-notice-cta{
 .wpsp-options-email-notify {
 	.form-table td {
 		vertical-align: top;
+		padding: 0;
+	}
+	.wpsp_switch {
+		margin-bottom: -7px;
 	}
 	.email-wrap {
 		max-width: 300px;
@@ -2773,15 +2777,33 @@ a.wpsp-notice-cta{
 			font-weight: 500;
 			padding: 15px 10px;
 			display: flex;
+			justify-content: left;
+			align-items: center;
+			> .option-block {
+				padding: 0;
+			}
 			.option-inline {
 				display: inline-block;
-				&.margin-l30 {
-					margin-left: 30px;
+				label {
+					display: block;
+					&.inline {
+						display: inline-block !important;
+					}
 				}
+			}
+			.margin-l30 {
+				margin-left: 30px;
 			}
 			.option-fullwidth {
 				width: 100%;
 			}
+		}
+		.select2-container .select2-selection--multiple {
+			min-height: 30px;
+		}
+		select {
+			width: 190px !important;
+			height: 30px !important;
 		}
 		input[type="checkbox"]{
 			border-radius: 50%;
@@ -2808,5 +2830,11 @@ a.wpsp-notice-cta{
 			width: 100%;
 		}
 		
+	}
+	#notify_author_post_is_schedule_option_area,
+	#notify_author_post_is_review_option_area {
+		display: inherit;
+		justify-content: center;
+		align-items: center;
 	}
 }
