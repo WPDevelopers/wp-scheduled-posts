@@ -60,12 +60,16 @@ if(!class_exists('WpScp_Author_Notify')){
             add_action( 'transition_post_status', array($this, "notify_status_change"), 10, 3 );
         }
         // publish status
-        public function get_publish_post_notify_email_title($post_title, $subject){
-            $formatedTitle = str_replace("%title%",$post_title, $subject);
+        public function get_publish_post_notify_email_title($post_title, $subject, $post_date){
+            $subject = str_replace("%title%",$post_title, $subject);
+            $formatedTitle = str_replace("%date%",$post_date, $subject);
             return $formatedTitle;
         }
-        public function get_publish_post_notify_email_body($permalink, $message){
-            $formatedBody = str_replace("%permalink%",$permalink, $message);
+        public function get_publish_post_notify_email_body($post_title, $permalink, $message, $post_date, $author){
+            $message = str_replace("%title%",$post_title, $message);
+            $message = str_replace("%permalink%",$permalink, $message);
+            $message = str_replace("%date%",$post_date, $message);
+            $formatedBody = str_replace("%author%",$author, $message);
             return $formatedBody;
         }
 
@@ -75,10 +79,12 @@ if(!class_exists('WpScp_Author_Notify')){
          */
         public function notify_custom_user( $email_id, $post_id, $subject, $message ){
             $post_title = wp_trim_words(get_the_title( $post_id ), 5, '...');
+            $author = get_post_field('post_author', $post_id );
+            $post_date = get_the_time(get_option('date_format'), $post_id);
             $to = $email_id;
 
-            $subject = $this->get_publish_post_notify_email_title($post_title, $subject);
-            $body = $this->get_publish_post_notify_email_body(get_the_permalink($post_id), $message);
+            $subject = $this->get_publish_post_notify_email_title($post_title, $subject, $post_date);
+            $body = $this->get_publish_post_notify_email_body($post_title, get_the_permalink($post_id), $message, $post_date, $author);
             $headers = array('Content-Type: text/html; charset=UTF-8');
             wp_mail( $to, $subject, $body, $headers );
         }
@@ -92,10 +98,11 @@ if(!class_exists('WpScp_Author_Notify')){
             $author = get_post_field('post_author', $post_id );
             $author_email_address = get_the_author_meta('email', $author);
             $post_title = wp_trim_words(get_the_title( $post_id ), 5, '...');
+            $post_date = get_the_time(get_option('date_format'), $post_id);
             $to = $author_email_address;
 
-            $subject = $this->get_publish_post_notify_email_title($post_title, $subject);
-            $body = $this->get_publish_post_notify_email_body(get_the_permalink($post_id), $message);
+            $subject = $this->get_publish_post_notify_email_title($post_title, $subject, $post_date);
+            $body = $this->get_publish_post_notify_email_body($post_title, get_the_permalink($post_id), $message, $post_date, $author);
             $headers = array('Content-Type: text/html; charset=UTF-8');
             wp_mail( $to, $subject, $body, $headers );
         }
