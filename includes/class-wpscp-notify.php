@@ -121,8 +121,8 @@ if(!class_exists('WpScp_Author_Notify')){
                 $reviewEmailList = wpscp_email_notify_review_email_list();
                 if(!empty($reviewEmailList) && is_array($reviewEmailList)){
                     foreach($reviewEmailList as $email_id) {
-                        $subject = 'A new post %title% is pending';
-                        $message = 'A new post is pending. Please check it now: %permalink%';
+                        $subject = 'New Post Pending Your Approval.';
+                        $message = 'Hello Moderator, <br/>A new post written by "%author%" titled "%title%" was submitted for your review. Click here %permalink%';
                         $this->notify_custom_user( $email_id, $post->ID, $subject, $message);
                     }
                 }
@@ -130,8 +130,8 @@ if(!class_exists('WpScp_Author_Notify')){
             // review is rejected
             else if($this->notify_author_post_is_rejected == 1 && $new_status == 'trash'){
                 // send mail for rejected
-                $subject = 'Your Submitted Post %title% has been Rejected.';
-                $message = 'Sorry to say that your submitted post is rejected. It was your rejected post url: %permalink%';
+                $subject = 'Your Post titled "%title%" has been Rejected.';
+                $message = 'Hello Author, <br/>You recently submitted a new article titled "%title%". Your Article is not well standard, Please improvement it and try again.';
                 $this->notify_content_author($post->ID, $subject, $message);
             }
             // post is schedule
@@ -139,17 +139,21 @@ if(!class_exists('WpScp_Author_Notify')){
                 $futureEmailList = wpscp_email_notify_schedule_email_list();
                 if(!empty($futureEmailList) && is_array($futureEmailList)){
                     foreach($futureEmailList as $email_id) {
-                        $subject = 'A new post %title% is schedule';
-                        $message = 'A new post is schedule. Please check it now: %permalink%';
+                        $subject = 'New post "%title%" is schedule on "%date%"';
+                        $message = 'Hello Moderator, <br/>Recently Moderator for your site scheduled a new post titled "%title%". The blog is scheduled for "%date%"';
                         $this->notify_custom_user( $email_id, $post->ID, $subject, $message);
                     }
                 }
+                // send author 
+                $subject = 'Your Post is scheduled for "%date%"';
+                $message = 'Hello Author, <br/>Your blog titled "%title%" was scheduled for "%date%"';
+                $this->notify_content_author($post->ID, $subject, $message);
             }
             // post is publish
             else if($this->notify_author_schedule_post_is_publish == 1 && $new_status == 'publish'){
                 // send mail for publish post
-                $subject = 'Your Submitted Post %title% has been published.';
-                $message = 'A new post is Live on your website. Here is the link to your new post: %permalink%';
+                $subject = 'Your post titled "%title%" is Live Now.';
+                $message = 'Hello Author, <br/>Your blog titled "%title%" was published. Here is your published blog url: %permalink%';
                 $this->notify_content_author($post->ID, $subject, $message);
             }
             
