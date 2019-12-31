@@ -3,7 +3,7 @@ if(!class_exists('WpScp_Author_Notify')){
     class WpScp_Author_Notify{
         public $sender_email;
         public $sender_name;
-        public $notify_author_is_publish;
+        public $notify_author_is_sent_review;
         public $notify_author_role_sent_review;
         public $notify_author_username_sent_review;
         public $notify_author_email_sent_review;
