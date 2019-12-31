@@ -402,7 +402,7 @@
                                     <input class="wpsp_field_activate" type="checkbox" name="notify_author_post_is_schedule" value="1" <?php checked($wpscp_notify_author_post_is_schedule); ?>/>
                                     <span class="wpsp_switch_slider wpsp_round"></span>
                                 </div>
-                                <label for="notify_author_post_is_schedule" class="inline"><?php _e( 'Notify when your post is schedule', 'wp-scheduled-posts' ); ?></label>
+                                <label for="notify_author_post_is_schedule" class="inline"><?php _e( 'Notify when a post been sent for schedule.', 'wp-scheduled-posts' ); ?></label>
                             </div>
 
                             <div id="notify_author_post_is_schedule_option_area" <?php print (($wpscp_notify_author_post_is_schedule != 1) ? 'style="display: none;"' : '') ?>>
@@ -451,7 +451,7 @@
                                 <input class="wpsp_field_activate" type="checkbox" name="notify_author_schedule_post_is_publish" value="1" <?php checked($wpscp_notify_author_schedule_post_is_publish); ?> />
                                 <span class="wpsp_switch_slider wpsp_round"></span>
                             </div>
-                            <label for="wpscp_notify_author_schedule_post_publish" class="inline"><?php _e( 'Notify when your Schedule post is publish', 'wp-scheduled-posts' ); ?></label>
+                            <label for="wpscp_notify_author_schedule_post_publish" class="inline"><?php _e( 'Notify author when their Schedule post is publish', 'wp-scheduled-posts' ); ?></label>
                         </div>
                     </td>
                 </tr>
@@ -463,7 +463,7 @@
                                 <input class="wpsp_field_activate" type="checkbox" name="notify_author_post_is_publish" value="1" <?php checked($wpscp_notify_author_post_is_publish); ?> />
                                 <span class="wpsp_switch_slider wpsp_round"></span>
                             </div>
-                            <label for="wpscp_notify_author_publish" class="inline"><?php _e( 'Notify when your post is publish', 'wp-scheduled-posts' ); ?></label>
+                            <label for="wpscp_notify_author_publish" class="inline"><?php _e( 'Notify author when their post is publish', 'wp-scheduled-posts' ); ?></label>
                         </div>
                     </td>
                 </tr>
