@@ -2770,6 +2770,7 @@ a.wpsp-notice-cta{
 	.email-wrap {
 		max-width: 300px;
 		.option-block {
+			position: relative;
 			color: #687b95;
 			font-size: 14px;
 			background: #fff;
@@ -2781,6 +2782,14 @@ a.wpsp-notice-cta{
 			align-items: center;
 			> .option-block {
 				padding: 0;
+			}
+			.notify-email-warning {
+				position: absolute;
+				left: 10px;
+				bottom: 1px;
+				color: red;
+				font-size: 12px;
+				display: none;
 			}
 			.option-inline {
 				display: inline-block;

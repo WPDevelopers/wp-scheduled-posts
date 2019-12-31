@@ -321,6 +321,7 @@
                                     <input class="wpsp_field_activate" type="text" name="notify_sender_email_address" value="<?php print $wpscp_sender_email_address; ?>"/>
                                 </div>
                             </div>
+                            <span class="notify-email-warning"><?php esc_html_e('Warning: Your authors will receive mails from this email address if you make the changes.', 'wp-scheduled-posts'); ?></span>
                             <div class="option-inline margin-l30">
                                 <label for="wpscp_notify_sender_name"><?php _e( 'Sender name:', 'wp-scheduled-posts' ); ?></label>
                                 <div id="wpscp_notify_sender_name">

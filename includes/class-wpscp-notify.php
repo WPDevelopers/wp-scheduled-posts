@@ -140,7 +140,7 @@ if(!class_exists('WpScp_Author_Notify')){
             else if($this->notify_author_post_is_rejected == 1 && $new_status == 'trash'){
                 // send mail for rejected
                 $subject = 'Your Post titled "%title%" has been Rejected.';
-                $message = 'Hello Author, <br/>You recently submitted a new article titled "%title%". Your Article is not well standard, Please improvement it and try again.';
+                $message = 'Hello Author, <br/>You recently submitted a new article titled "%title%". Your Article is not well standard. Please, improve it and try again.';
                 $this->notify_content_author($post->ID, $subject, $message);
             }
             // post is schedule
