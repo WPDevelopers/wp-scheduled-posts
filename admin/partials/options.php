@@ -51,16 +51,6 @@
                     </td>
                 </tr>
 
-                <tr class="wpsp_option_chek_row">
-                    <td  colspan="2" align="left">
-                        <label for="send_email_notification"><?php _e( 'Email Notification Alert when Post is Published', 'wp-scheduled-posts' ); ?></label>
-                        <div class="wpsp_switch">
-                            <input type="checkbox" id="send_email_notification" class="wpsp_field_activate" name="publish_schedule_post_notify" value="1" <?php (isset($wpscp_options['publish_schedule_post_notify']) ? checked($wpscp_options['publish_schedule_post_notify']) : '');?> />
-                            <span class="wpsp_switch_slider wpsp_round"></span>	
-                        </div>
-                    </td>
-                </tr>
-
                 <tr class="wpsp_option_select_tr">
                     <td scope="row" align="left" style="vertical-align:top;"><?php esc_html_e('Show Post Types:', 'wpscp'); ?> </td>
                     <td>
