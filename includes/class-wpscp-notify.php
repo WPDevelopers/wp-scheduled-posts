@@ -114,48 +114,45 @@ if(!class_exists('WpScp_Author_Notify')){
        
             global $current_user;
             $options = get_option("status_change_notifier");
-            $contributor = get_userdata($post->post_author);
             $mail_headers = array("Content-Type"=> "text/html");
-
-            // check current author id and post creator id is equal same
-            if($current_user->ID!=$contributor->ID){
-                // pending review
-                if($this->notify_author_is_sent_review == 1 && $new_status == 'pending'){
-                    $reviewEmailList = wpscp_email_notify_review_email_list();
-                    if(!empty($reviewEmailList) && is_array($reviewEmailList)){
-                        foreach($reviewEmailList as $email_id) {
-                            $subject = 'A new post %title% is pending';
-                            $message = 'A new post is pending. Please check it now: %permalink%';
-                            $this->notify_custom_user( $email_id, $post->ID, $subject, $message);
-                       }
+            
+            // pending review
+            if($this->notify_author_is_sent_review == 1 && $new_status == 'pending'){
+                $reviewEmailList = wpscp_email_notify_review_email_list();
+                if(!empty($reviewEmailList) && is_array($reviewEmailList)){
+                    foreach($reviewEmailList as $email_id) {
+                        $subject = 'A new post %title% is pending';
+                        $message = 'A new post is pending. Please check it now: %permalink%';
+                        $this->notify_custom_user( $email_id, $post->ID, $subject, $message);
                     }
-                }
-                // review is rejected
-                else if($this->notify_author_post_is_rejected == 1 && $new_status == 'trash'){
-                    // send mail for rejected
-                    $subject = 'Your Submitted Post %title% has been Rejected.';
-                    $message = 'Sorry to say that your submitted post is rejected. It was your rejected post url: %permalink%';
-                    $this->notify_content_author($post->ID, $subject, $message);
-                }
-                // post is schedule
-                else if($this->notify_author_post_is_schedule == 1 && $new_status == 'future'){
-                    $futureEmailList = wpscp_email_notify_schedule_email_list();
-                    if(!empty($futureEmailList) && is_array($futureEmailList)){
-                        foreach($futureEmailList as $email_id) {
-                            $subject = 'A new post %title% is schedule';
-                            $message = 'A new post is schedule. Please check it now: %permalink%';
-                            $this->notify_custom_user( $email_id, $post->ID, $subject, $message);
-                       }
-                    }
-                }
-                // post is publish
-                else if($this->notify_author_schedule_post_is_publish == 1 && $new_status == 'publish'){
-                    // send mail for publish post
-                    $subject = 'Your Submitted Post %title% has been published.';
-                    $message = 'A new post is Live on your website. Here is the link to your new post: %permalink%';
-                    $this->notify_content_author($post->ID, $subject, $message);
                 }
             }
+            // review is rejected
+            else if($this->notify_author_post_is_rejected == 1 && $new_status == 'trash'){
+                // send mail for rejected
+                $subject = 'Your Submitted Post %title% has been Rejected.';
+                $message = 'Sorry to say that your submitted post is rejected. It was your rejected post url: %permalink%';
+                $this->notify_content_author($post->ID, $subject, $message);
+            }
+            // post is schedule
+            else if($this->notify_author_post_is_schedule == 1 && $new_status == 'future'){
+                $futureEmailList = wpscp_email_notify_schedule_email_list();
+                if(!empty($futureEmailList) && is_array($futureEmailList)){
+                    foreach($futureEmailList as $email_id) {
+                        $subject = 'A new post %title% is schedule';
+                        $message = 'A new post is schedule. Please check it now: %permalink%';
+                        $this->notify_custom_user( $email_id, $post->ID, $subject, $message);
+                    }
+                }
+            }
+            // post is publish
+            else if($this->notify_author_schedule_post_is_publish == 1 && $new_status == 'publish'){
+                // send mail for publish post
+                $subject = 'Your Submitted Post %title% has been published.';
+                $message = 'A new post is Live on your website. Here is the link to your new post: %permalink%';
+                $this->notify_content_author($post->ID, $subject, $message);
+            }
+            
         }
     }
     new WpScp_Author_Notify();
