@@ -313,6 +313,9 @@
             <table class="form-table">
                 <tr>
                     <td class="email-wrap">
+                        <div class="option-block">
+                            <p><?php esc_html_e('To configure the Email Notify Settings, check out this', 'wp-scheduled-posts'); ?> <a class="docs" href="https://wpdeveloper.net/docs/email-notify-wordpress" target="_blank"><?php esc_html_e('Doc', 'wp-scheduled-posts'); ?></a></p>
+                        </div>
                         <!-- set email header -->
                         <div class="option-block">
                             <div class="option-inline">
