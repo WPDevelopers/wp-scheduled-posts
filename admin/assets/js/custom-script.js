@@ -202,7 +202,7 @@ jQuery(document).ready(function ($) {
 			jQuery('#notify_author_post_is_schedule_option_area').hide();
 		}
 	});
-	jQuery('#wpscp_notify_sender_email input[name="notify_sender_email_address"]').on('change', function(){
+	jQuery('#wpscp_notify_sender_email input[name="notify_sender_email_address"]').on('keypress', function(){
 		jQuery('.notify-email-warning').show();
 	});
 });

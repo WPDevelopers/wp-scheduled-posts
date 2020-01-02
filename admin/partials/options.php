@@ -336,7 +336,7 @@
                                     <input class="wpsp_field_activate" type="checkbox" name="notify_author_is_sent_review" value="1" <?php checked($wpscp_notify_author_is_sent_review); ?>/>
                                     <span class="wpsp_switch_slider wpsp_round"></span>
                                 </div>
-                                <label for="notify_author_is_sent_review" class="inline"><?php _e( 'Notify when a post been sent for review.', 'wp-scheduled-posts' ); ?></label>
+                                <label for="notify_author_is_sent_review" class="inline"><?php _e( ' Notify User when a post is "Under Review"', 'wp-scheduled-posts' ); ?></label>
                             </div>
                             <div id="notify_author_post_is_review_option_area" <?php print (($wpscp_notify_author_is_sent_review != 1) ? 'style="display: none;"' : '') ?>>
                                 <!-- role -->
@@ -382,7 +382,7 @@
                                     <input class="wpsp_field_activate" type="checkbox" name="notify_author_post_is_rejected" value="1" <?php checked($wpscp_notify_author_post_is_rejected); ?>/>
                                     <span class="wpsp_switch_slider wpsp_round"></span>
                                 </div>
-                                <label for="notify_author_post_is_rejected" class="inline"><?php _e( 'Notify author when their post is rejected', 'wp-scheduled-posts' ); ?></label>
+                                <label for="notify_author_post_is_rejected" class="inline"><?php _e( 'Notify Author when a post is "Rejected"', 'wp-scheduled-posts' ); ?></label>
                             </div>
                         </div>
 
@@ -393,7 +393,7 @@
                                     <input class="wpsp_field_activate" type="checkbox" name="notify_author_post_is_schedule" value="1" <?php checked($wpscp_notify_author_post_is_schedule); ?>/>
                                     <span class="wpsp_switch_slider wpsp_round"></span>
                                 </div>
-                                <label for="notify_author_post_is_schedule" class="inline"><?php _e( 'Notify when a post been sent for schedule.', 'wp-scheduled-posts' ); ?></label>
+                                <label for="notify_author_post_is_schedule" class="inline"><?php _e( 'Notify User when a post is "Scheduled"', 'wp-scheduled-posts' ); ?></label>
                             </div>
 
                             <div id="notify_author_post_is_schedule_option_area" <?php print (($wpscp_notify_author_post_is_schedule != 1) ? 'style="display: none;"' : '') ?>>
@@ -442,7 +442,7 @@
                                 <input class="wpsp_field_activate" type="checkbox" name="notify_author_schedule_post_is_publish" value="1" <?php checked($wpscp_notify_author_schedule_post_is_publish); ?> />
                                 <span class="wpsp_switch_slider wpsp_round"></span>
                             </div>
-                            <label for="wpscp_notify_author_schedule_post_publish" class="inline"><?php _e( 'Notify author when their Schedule post is publish', 'wp-scheduled-posts' ); ?></label>
+                            <label for="wpscp_notify_author_schedule_post_publish" class="inline"><?php _e( 'Notify Author when a Scheduled Post is "Published"', 'wp-scheduled-posts' ); ?></label>
                         </div>
                     </td>
                 </tr>
@@ -454,7 +454,7 @@
                                 <input class="wpsp_field_activate" type="checkbox" name="notify_author_post_is_publish" value="1" <?php checked($wpscp_notify_author_post_is_publish); ?> />
                                 <span class="wpsp_switch_slider wpsp_round"></span>
                             </div>
-                            <label for="wpscp_notify_author_publish" class="inline"><?php _e( 'Notify author when their post is publish', 'wp-scheduled-posts' ); ?></label>
+                            <label for="wpscp_notify_author_publish" class="inline"><?php _e( 'Notify Author when a post is "Published"', 'wp-scheduled-posts' ); ?></label>
                         </div>
                     </td>
                 </tr>
