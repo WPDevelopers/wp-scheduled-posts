@@ -2376,19 +2376,19 @@ a.wpsp-notice-cta{
 }
 .wpsp-dashboard-body .rightinfotext,
 .wpsp-dashboard-body #acessTokenNotice,
+.wpsp-dashboard-body #instagram_access_token,
 .wpsp-dashboard-body #fb_access_token{
 	margin-left: calc(35% + 5px);
 }
 .wpsp-dashboard-body #fb_access_token {
 	margin-top: 10px;
 }
+.wpsp-dashboard-body #InstagramAcessTokenGen,
 .wpsp-dashboard-body #fbAcessTokenGen {
 	margin-left: 5px;
 	display: inline-block;
 }
-.wpsp-dashboard-body #acessTokenNotice {
-	display: none;
-}
+
 ._4z_b{
 	height: 30px;
     display: flex;
