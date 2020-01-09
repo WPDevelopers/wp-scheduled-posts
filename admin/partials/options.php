@@ -1,4 +1,7 @@
 <?php 
+    /**
+     * General Settings
+     */
     //when slug is for integration tab
     $gen_content_active = '';
     if( !isset($_GET['wpsptab']) ) {
@@ -35,7 +38,6 @@
                             <input type="checkbox" id="show_in_front_end_adminbar" class="wpsp_field_activate" name="show_in_front_end_adminbar" value="1" <?php checked($wpscp_options['show_in_front_end_adminbar']);?>/>
                             <span class="wpsp_switch_slider wpsp_round"></span>	
                         </div>
-                        
                     </td>
                 </tr>
 
@@ -46,18 +48,6 @@
                             <input type="checkbox" id="show_in_adminbar" class="wpsp_field_activate" name="show_in_adminbar" value="1" <?php checked($wpscp_options['show_in_adminbar']);?> />
                             <span class="wpsp_switch_slider wpsp_round"></span>	
                         </div>
-                        
-                    </td>
-                </tr>
-
-                <tr class="wpsp_option_chek_row">
-                    <td  colspan="2" align="left">
-                        <label for="send_email_notification"><?php _e( 'Email Notification Alert when Post is Published', 'wp-scheduled-posts' ); ?></label>
-                        <div class="wpsp_switch">
-                            <input type="checkbox" id="send_email_notification" class="wpsp_field_activate" name="publish_schedule_post_notify" value="1" <?php (isset($wpscp_options['publish_schedule_post_notify']) ? checked($wpscp_options['publish_schedule_post_notify']) : '');?> />
-                            <span class="wpsp_switch_slider wpsp_round"></span>	
-                        </div>
-                        
                     </td>
                 </tr>
 
@@ -294,5 +284,189 @@
             <p><?php esc_html_e('We love to have you in WP Scheduled Posts family. We are making it more awesome everyday.', 'wpscp'); ?></p>
             <a href="https://wordpress.org/support/plugin/wp-scheduled-posts/reviews/?rate=5#new-post" rel="nofollow" class="instructin_btn"><?php esc_html_e('Leave a Review', 'wpscp'); ?></a>
         </div>
+    </div>
+</div>
+
+<!-- Email Notify -->
+<div class="wpsp-settings-wrap wpsp_nav_tab_content" id="wpsp-wpsp_email">
+    <!-- admin sidebar -->
+    <div class="wpsp-options-email-notify">
+        <form action="<?php print esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
+            <?php 
+                $current_user = wp_get_current_user();
+                $wpscp_sender_email_address = ((get_option('wpscp_sender_email_address') != "") ? get_option('wpscp_sender_email_address') : $current_user->user_email);
+                $wpscp_sender_full_name = ((get_option('wpscp_sender_full_name') != "") ? get_option('wpscp_sender_full_name') : $current_user->display_name);
+                $wpscp_notify_author_is_sent_review = get_option('wpscp_notify_author_is_sent_review');
+                $wpscp_notify_author_role_sent_review = get_option('wpscp_notify_author_role_sent_review');
+                $wpscp_notify_author_username_sent_review = get_option('wpscp_notify_author_username_sent_review');
+                $wpscp_notify_author_email_sent_review = get_option('wpscp_notify_author_email_sent_review');
+                $wpscp_notify_author_post_is_rejected = get_option('wpscp_notify_author_post_is_rejected');
+                $wpscp_notify_author_post_is_schedule = get_option('wpscp_notify_author_post_is_schedule');
+                $wpscp_notify_author_post_schedule_role = get_option('wpscp_notify_author_post_schedule_role');
+                $wpscp_notify_author_post_schedule_username = get_option('wpscp_notify_author_post_schedule_username');
+                $wpscp_notify_author_post_schedule_email = get_option('wpscp_notify_author_post_schedule_email');
+                $wpscp_notify_author_schedule_post_is_publish = get_option('wpscp_notify_author_schedule_post_is_publish');
+                $wpscp_notify_author_post_is_publish = get_option('wpscp_notify_author_post_is_publish');
+            ?>
+            <input type="hidden" name="action" value="wpscp_notify_email_options_saved">
+            <input type="hidden" name="wpscp_notify_email_options" value="<?php print wp_create_nonce('nonce_wpscp_notify_email_options'); ?>">
+            <table class="form-table">
+                <tr>
+                    <td class="email-wrap">
+                        <div class="option-block">
+                            <p><?php esc_html_e('To configure the Email Notify Settings, check out this', 'wp-scheduled-posts'); ?> <a class="docs" href="https://wpdeveloper.net/docs/email-notification-wordpress" target="_blank"><?php esc_html_e('Doc', 'wp-scheduled-posts'); ?></a></p>
+                        </div>
+                        <!-- set email header -->
+                        <div class="option-block">
+                            <div class="option-inline">
+                                <label for="wpscp_notify_sender_email"><?php _e( 'Sender email address:', 'wp-scheduled-posts' ); ?></label>
+                                <div id="wpscp_notify_sender_email">
+                                    <input class="wpsp_field_activate" type="text" name="notify_sender_email_address" value="<?php print $wpscp_sender_email_address; ?>"/>
+                                </div>
+                            </div>
+                            <span class="notify-email-warning"><?php esc_html_e('Warning: Your authors will receive mails from this email address if you make the changes.', 'wp-scheduled-posts'); ?></span>
+                            <div class="option-inline margin-l30">
+                                <label for="wpscp_notify_sender_name"><?php _e( 'Sender name:', 'wp-scheduled-posts' ); ?></label>
+                                <div id="wpscp_notify_sender_name">
+                                    <input class="wpsp_field_activate" type="text" name="notify_sender_full_name"  value="<?php print $wpscp_sender_full_name; ?>"/>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Notify editor for review post -->
+                        <div class="option-block">
+                            <div class="option-inline">
+                                <div class="wpsp_switch" id="notify_author_is_sent_review">
+                                    <input class="wpsp_field_activate" type="checkbox" name="notify_author_is_sent_review" value="1" <?php checked($wpscp_notify_author_is_sent_review); ?>/>
+                                    <span class="wpsp_switch_slider wpsp_round"></span>
+                                </div>
+                                <label for="notify_author_is_sent_review" class="inline"><?php _e( ' Notify User when a post is "Under Review"', 'wp-scheduled-posts' ); ?></label>
+                            </div>
+                            <div id="notify_author_post_is_review_option_area" <?php print (($wpscp_notify_author_is_sent_review != 1) ? 'style="display: none;"' : '') ?>>
+                                <!-- role -->
+                                <div class="option-inline margin-l30">
+                                    <div>
+                                        <label for="notify_author_role_sent_review"><?php esc_html_e('Role:', 'wpscp'); ?></label>
+                                    </div>
+                                    <select name="notify_author_role_sent_review[]" class="wpsp_field_activate" id="notify_author_role_sent_review" multiple="multiple">
+                                        <?php  
+                                            print wpscp_dropdown_roles( $wpscp_notify_author_role_sent_review, true ); 
+                                        ?>
+                                    </select>
+                                </div>
+                                <!-- userName -->
+                                <div class="option-inline margin-l30">
+                                    <label for="wpscp_notify_wp_username"><?php _e( 'User Name', 'wp-scheduled-posts' ); ?></label>
+                                    <div id="wpscp_notify_wp_username">
+                                        <select name="notify_author_username_sent_review[]" class="wpsp_field_activate" id="notify_author_username_sent_review" multiple="multiple">
+                                            <?php  
+                                                print wpscp_dropdown_all_user_name( $wpscp_notify_author_username_sent_review ); 
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- userEmail -->
+                                <div class="option-inline margin-l30">
+                                    <label for="wpscp_notify_wp_email"><?php _e( 'Email Address', 'wp-scheduled-posts' ); ?></label>
+                                    <div id="wpscp_notify_wp_email">
+                                        <select name="notify_author_email_sent_review[]" class="wpsp_field_activate" id="notify_author_email_sent_review" multiple="multiple">
+                                            <?php  
+                                                print wpscp_dropdown_all_user_email( $wpscp_notify_author_email_sent_review ); 
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>   
+                        </div>
+
+                        <!-- Notify post rejected author -->
+                        <div class="option-block">
+                            <div class="option-inline">
+                                <div class="wpsp_switch" id="notify_author_post_is_rejected">
+                                    <input class="wpsp_field_activate" type="checkbox" name="notify_author_post_is_rejected" value="1" <?php checked($wpscp_notify_author_post_is_rejected); ?>/>
+                                    <span class="wpsp_switch_slider wpsp_round"></span>
+                                </div>
+                                <label for="notify_author_post_is_rejected" class="inline"><?php _e( 'Notify Author when a post is "Rejected"', 'wp-scheduled-posts' ); ?></label>
+                            </div>
+                        </div>
+
+                        <!-- Notify post is schedule -->
+                        <div class="option-block">
+                            <div class="option-inline">
+                                <div class="wpsp_switch" id="notify_author_post_is_schedule">
+                                    <input class="wpsp_field_activate" type="checkbox" name="notify_author_post_is_schedule" value="1" <?php checked($wpscp_notify_author_post_is_schedule); ?>/>
+                                    <span class="wpsp_switch_slider wpsp_round"></span>
+                                </div>
+                                <label for="notify_author_post_is_schedule" class="inline"><?php _e( 'Notify User when a post is "Scheduled"', 'wp-scheduled-posts' ); ?></label>
+                            </div>
+
+                            <div id="notify_author_post_is_schedule_option_area" <?php print (($wpscp_notify_author_post_is_schedule != 1) ? 'style="display: none;"' : '') ?>>
+                                <!-- role -->
+                                <div class="option-inline margin-l30">
+                                    <label for="notify_author_post_schedule_role"><?php esc_html_e('Role', 'wpscp'); ?></label>
+                                    <select name="notify_author_post_schedule_role[]" class="wpsp_field_activate" id="notify_author_post_schedule_role" multiple="multiple">
+                                        <?php  
+                                            print wpscp_dropdown_roles( $wpscp_notify_author_post_schedule_role, true ); 
+                                        ?>
+                                    </select>
+                                </div>
+                                
+                                <!-- userName -->
+                                <div class="option-inline  margin-l30">
+                                    <label for="notify_author_post_schedule_username"><?php _e( 'Username', 'wp-scheduled-posts' ); ?></label>
+                                    <div>
+                                        <select name="notify_author_post_schedule_username[]" class="wpsp_field_activate" id="notify_author_post_schedule_username" multiple="multiple">
+                                            <?php  
+                                                print wpscp_dropdown_all_user_name( $wpscp_notify_author_post_schedule_username ); 
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- userEmail -->
+                                <div class="option-inline margin-l30">
+                                    <label for="notify_author_post_schedule_email"><?php _e( 'Email', 'wp-scheduled-posts' ); ?></label>
+                                    <div>
+                                        <select name="notify_author_post_schedule_email[]" class="wpsp_field_activate" id="notify_author_post_schedule_email" multiple="multiple">
+                                            <?php  
+                                                print wpscp_dropdown_all_user_email( $wpscp_notify_author_post_schedule_email ); 
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /. notify_author_post_is_schedule_option_area -->
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="email-wrap">
+                        <!-- Notify Future post is publish -->
+                        <div class="option-block">
+                            <div class="wpsp_switch" id="wpscp_notify_author_schedule_post_publish">
+                                <input class="wpsp_field_activate" type="checkbox" name="notify_author_schedule_post_is_publish" value="1" <?php checked($wpscp_notify_author_schedule_post_is_publish); ?> />
+                                <span class="wpsp_switch_slider wpsp_round"></span>
+                            </div>
+                            <label for="wpscp_notify_author_schedule_post_publish" class="inline"><?php _e( 'Notify Author when a Scheduled Post is "Published"', 'wp-scheduled-posts' ); ?></label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="email-wrap">
+                        <!-- Notify post is publish -->
+                        <div class="option-block">
+                            <div class="wpsp_switch" id="wpscp_notify_author_publish">
+                                <input class="wpsp_field_activate" type="checkbox" name="notify_author_post_is_publish" value="1" <?php checked($wpscp_notify_author_post_is_publish); ?> />
+                                <span class="wpsp_switch_slider wpsp_round"></span>
+                            </div>
+                            <label for="wpscp_notify_author_publish" class="inline"><?php _e( 'Notify Author when a post is "Published"', 'wp-scheduled-posts' ); ?></label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="submit" name="save_options" value="Save Options" class='wpsp_form_submit'/>
+                    </td>
+                </tr>
+            </table>
+        </form>
     </div>
 </div>

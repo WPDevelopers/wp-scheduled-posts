@@ -278,3 +278,114 @@ if( ! function_exists( 'wpscp_scheduled_posts_start_plugin_tracking' ) ) {
 	}
 	wpscp_scheduled_posts_start_plugin_tracking();
 }
+
+/**
+ * Get All Author User
+ */
+if(!function_exists('wpscp_dropdown_all_user_name')){
+	function wpscp_dropdown_all_user_name( $selected = array()) { 
+		$p = '';
+		$r = '';
+		global $wpdb;
+		$all_users = get_users( array( 'fields' => array( 'user_login' ) ) );
+		if(is_array($all_users) && count($all_users) > 0){
+			foreach ( $all_users as $user ) {
+				if ( $selected !== "" && is_array($selected) && in_array($user->user_login, $selected) ){
+					$p .= "\n\t<option selected='selected' value='" . esc_attr($user->user_login) . "'>$user->user_login</option>";
+				}
+				else {
+					$r .= "\n\t<option value='" . esc_attr($user->user_login) . "'>$user->user_login</option>";
+				}
+			}
+		}
+		
+		return $p . $r;
+	}
+}
+
+
+if(!function_exists('wpscp_dropdown_all_user_email')){
+	function wpscp_dropdown_all_user_email( $selected = array()) { 
+		$p = '';
+		$r = '';
+		global $wpdb;
+		$all_users = get_users( array( 'fields' => array( 'user_email' ) ) );
+		if(is_array($all_users) && count($all_users) > 0){
+			foreach ( $all_users as $user ) {
+				if ( $selected !== "" && is_array($selected) && in_array($user->user_email, $selected) ){
+					$p .= "\n\t<option selected='selected' value='" . esc_attr($user->user_email) . "'>$user->user_email</option>";
+				}
+				else {
+					$r .= "\n\t<option value='" . esc_attr($user->user_email) . "'>$user->user_email</option>";
+				}
+			}
+		}
+		
+		return $p . $r;
+	}
+}
+
+/**
+ * Email Notify review Email List
+ * @return array
+ */
+if(!function_exists('wpscp_email_notify_review_email_list')){
+	function wpscp_email_notify_review_email_list(){
+		global $wpdb;
+		$email = '';
+		// collect email from role
+		$roles = get_option('wpscp_notify_author_role_sent_review');
+		if(!empty($roles)){
+			$email = wp_list_pluck(get_users( array( 
+				'fields' 	=> array( 'user_email' ),
+				'role__in'	=> $roles
+			)), 'user_email');
+		}
+		// collect email from email fields
+		$meta_email = array_values(get_option('wpscp_notify_author_email_sent_review'));
+		if(!empty($meta_email)){
+			$email = array_merge($email, $meta_email);
+		}
+		// get email from username
+		$meta_username = get_option('wpscp_notify_author_username_sent_review');
+		if(!empty($meta_username)){
+			$email = array_merge($email, wp_list_pluck(get_users( array( 
+				'fields' 	=> array( 'user_email' ),
+				'login__in'	=> $meta_username
+			)), 'user_email'));
+		}
+		return array_unique($email);
+	}	
+}
+/**
+ * Email Notify for schedule Email List
+ * @return array
+ */
+if(!function_exists('wpscp_email_notify_schedule_email_list')){
+	function wpscp_email_notify_schedule_email_list(){
+		global $wpdb;
+		$email = '';
+		// collect email from role
+		$roles = get_option('wpscp_notify_author_post_schedule_role');
+		if(!empty($roles)){
+			$email = wp_list_pluck(get_users( array( 
+				'fields' 	=> array( 'user_email' ),
+				'role__in'	=> $roles
+			)), 'user_email');
+		}
+		// collect email from email fields
+		$meta_email = array_values(get_option('wpscp_notify_author_post_schedule_email'));
+		if(!empty($meta_email)){
+			$email = array_merge($email, $meta_email);
+		}
+		// get email from username
+		$meta_username = get_option('wpscp_notify_author_post_schedule_username');
+		if(!empty($meta_username)){
+			$email = array_merge($email, wp_list_pluck(get_users( array( 
+				'fields' 	=> array( 'user_email' ),
+				'login__in'	=> $meta_username
+			)), 'user_email'));
+		}
+		return array_unique($email);
+	}
+}

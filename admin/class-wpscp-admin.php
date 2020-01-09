@@ -37,7 +37,7 @@ if(!class_exists('WpScp_Admin')){
 		 * @since 1.0.0
 		 */
 		public function add_main_menu()  {
-			add_menu_page( __( 'Scheduled Posts'), __( 'Scheduled Posts' ), 'manage_options', pluginsFOLDER, 'wpscp_options_page', plugin_dir_url( __FILE__ ).'assets/images/wpsp-icon.png', 80 );
+			add_menu_page( __( 'Scheduled Posts 12'), __( 'Scheduled Posts' ), 'manage_options', pluginsFOLDER, 'wpscp_options_page', plugin_dir_url( __FILE__ ).'assets/images/wpsp-icon.png', 80 );
 		}
 		/**
 		 * Add Plugin Main Menu
