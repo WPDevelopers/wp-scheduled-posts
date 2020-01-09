@@ -25,6 +25,7 @@
 			}
 		?>
 		<li data-tab="wpsp_gen"><a href="#wpsp_gen" class="<?php echo $gen_active; ?>" ><?php _e( 'General', 'wp-scheduled-posts' ) ?></a></li>
+		<li data-tab="wpsp_email"><a href="#wpsp_email"><?php _e( 'Email Notify', 'wp-scheduled-posts' ) ?></a></li>
 		<?php 
 			if( class_exists('WpScp_Pro') ) {
 				do_action('wpsp_pro_topbar_menu');
