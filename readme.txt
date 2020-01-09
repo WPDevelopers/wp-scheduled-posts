@@ -119,7 +119,7 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 == Changelog ==
 
 = 3.1.6 - 2020-01-09 =
-* Impeoved : Update Email notify Settings
+* Improved : Update Email notify Settings
 * Few minor improvements and bugfix
 
 = 3.1.5 - 2019-12-18 =
