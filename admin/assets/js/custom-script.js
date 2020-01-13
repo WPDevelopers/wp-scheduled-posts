@@ -24,6 +24,12 @@ jQuery(document).ready(function ($) {
 
 	/* options page js start */
 	$('.wpsp-options-wrap form select').select2();
+	$('#notify_author_role_sent_review').select2();
+	$('#notify_author_username_sent_review').select2();
+	$('#notify_author_email_sent_review').select2();
+	$('#notify_author_post_schedule_role').select2();
+	$('#notify_author_post_schedule_username').select2();
+	$('#notify_author_post_schedule_email').select2();
 	/* options page js end */
 
 	// option page custom template arrow toggle
@@ -180,6 +186,24 @@ jQuery(document).ready(function ($) {
 	});
     jQuery('a[rel="modal:close"]').on('click', function(){
     	jQuery('#timeEditControls').hide();
+	});
+	// Email Notify settings
+	jQuery('#notify_author_is_sent_review input[type="checkbox"]').on('click', function(){
+		if(this.checked === true){
+			jQuery('#notify_author_post_is_review_option_area').show();
+		} else {
+			jQuery('#notify_author_post_is_review_option_area').hide();
+		}
+	});
+	jQuery('#notify_author_post_is_schedule input[type="checkbox"]').on('click', function(){
+		if(this.checked === true){
+			jQuery('#notify_author_post_is_schedule_option_area').show();
+		} else {
+			jQuery('#notify_author_post_is_schedule_option_area').hide();
+		}
+	});
+	jQuery('#wpscp_notify_sender_email input[name="notify_sender_email_address"]').on('keypress', function(){
+		jQuery('.notify-email-warning').show();
 	});
 });
 

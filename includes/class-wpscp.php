@@ -80,6 +80,7 @@ final class WpScp {
         require_once WPSCP_INCLUDES_DIR_PATH .  'class-plugin-usage-tracker.php';
         require_once WPSCP_INCLUDES_DIR_PATH .  'class-wpdev-core-install.php';
         require_once WPSCP_INCLUDES_DIR_PATH .  'class-wpdev-notices.php';
+        require_once WPSCP_INCLUDES_DIR_PATH .  'class-wpscp-notify.php';
         require_once WPSCP_ADMIN_DIR_PATH .     'setup-wizard/wpscp-setup-wizard-config.php';
     }
 
@@ -162,7 +163,6 @@ final class WpScp {
      */
     public function plugin_scripts( $hook ) {
         if ( is_admin() ) {
-            wp_enqueue_style( 'font-awesome', WPSCP_ADMIN_URL . 'assets/css/vendor/font-awesome.min.css', array(), false, 'all' );
             wp_enqueue_style( 'select2-css', WPSCP_ADMIN_URL . 'assets/css/vendor/select2.min.css', array(), false, 'all' );
             wp_enqueue_style( 'jquery-datetimepicker', WPSCP_ADMIN_URL . 'assets/css/vendor/jquery.datetimepicker.min.css', array(), false, 'all' );
             wp_enqueue_style( 'chung-timepicker', WPSCP_ADMIN_URL . 'assets/css/vendor/chung-timepicker.css', array(), false, 'all' );

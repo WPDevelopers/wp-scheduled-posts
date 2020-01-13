@@ -24,20 +24,25 @@ if(!function_exists('wpscp_permit_user')){
 }
 
 if(!function_exists('wpscp_dropdown_roles')){
-	function wpscp_dropdown_roles( $selected = array() ) { 
-		#modified function from function wp_dropdown_roles( $selected = false ) in wp-admin/include/template.php
+	function wpscp_dropdown_roles( $selected = array(), $skip_subscribe = false ) { 
 		$p = '';
 		$r = '';
 		$editable_roles = get_editable_roles();
-		foreach ( $editable_roles as $role => $details ) {
-			$name = translate_user_role($details['name'] ); 
-			if ( $selected !== "" && in_array($role, $selected) ){
-				$p .= "\n\t<option selected='selected' value='" . esc_attr($role) . "'>$name</option>";
-			}
-			else {
-				$r .= "\n\t<option value='" . esc_attr($role) . "'>$name</option>";
+		if(is_array($editable_roles) && count($editable_roles) > 0){
+			foreach ( $editable_roles as $role => $details ) {
+				if( $role == 'subscriber' && $skip_subscribe == true ){
+					continue;
+				}
+				$name = translate_user_role($details['name'] ); 
+				if ( $selected !== "" && is_array($selected) && in_array($role, $selected) ){
+					$p .= "\n\t<option selected='selected' value='" . esc_attr($role) . "'>$name</option>";
+				}
+				else {
+					$r .= "\n\t<option value='" . esc_attr($role) . "'>$name</option>";
+				}
 			}
 		}
+		
 		return $p . $r;
 	}
 }
@@ -60,14 +65,8 @@ if(!function_exists('wpscp_options_page')){
 				include WPSCP_ADMIN_DIR_PATH . '/partials/options.php';
 				// pro setting will be show here
 				do_action( 'wpscp_pro_options_settings' );
-
 				//manage schedule template
 				do_action( 'wpsp_manage_schedule' );
-				//integration template
-				// do_action( 'wpsp_integration' );
-				// social template
-				// do_action( 'wpscp_social_template' );
-				
 			?>
 		</div>
 	<?php }
