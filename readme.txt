@@ -4,7 +4,7 @@ Tags: post schedule, editor calendar, schedule-calendar, schedule bar, scheduled
 Requires at least: 4.0
 Tested up to: 5.3
 Requires PHP: 5.4
-Stable tag: 3.1.4
+Stable tag: 3.1.6
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -117,6 +117,13 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 
 == Changelog ==
+
+= 3.1.6 - 2020-01-09 =
+* Improved : Update Email notify Settings
+* Few minor improvements and bugfix
+
+= 3.1.5 - 2019-12-18 =
+* Added : Email Notification when scheduled posts publish
 
 = 3.1.4 - 2019-12-10 =
 * Quick Setup Update
