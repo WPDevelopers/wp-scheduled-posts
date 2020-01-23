@@ -2300,6 +2300,10 @@ a.wpsp-notice-cta{
 .wpsp-integ-item_section:nth-child(even) {
 	border-left: 1px solid #f5f5f5;
 }
+.wpsp-integ-item_section #PinterestAcessTokenGen {
+	margin-left: 35%;
+	margin-top: 10px;
+}
 .woofilter-form-control{
 	padding: 10px;
 }
@@ -2749,6 +2753,14 @@ a.wpsp-notice-cta{
 		text-align: right;
 		font-weight: 500;
 		color: #008ec2;
+	}
+	.pinterest {
+		.boardname {
+			margin-left: 35px;
+			input[type="radio"]{
+				margin-right: 5px;
+			}
+		}
 	}
 }
 
