@@ -1,8 +1,6 @@
 <?php 
 if(!class_exists('WpScp_Author_Notify')){
     class WpScp_Author_Notify{
-        public $sender_email;
-        public $sender_name;
         public $notify_author_is_sent_review;
         public $notify_author_role_sent_review;
         public $notify_author_username_sent_review;
@@ -16,12 +14,9 @@ if(!class_exists('WpScp_Author_Notify')){
         public $notify_author_post_is_publish;
         public function __construct(){
             $this->set_local_variable_data_from_db();
-            $this->change_sender_email();
             $this->send_email_notification();
         }
         public function set_local_variable_data_from_db(){
-            $this->sender_email = get_option('wpscp_sender_email_address');
-            $this->sender_name = get_option('wpscp_sender_full_name');
             $this->notify_author_is_sent_review = get_option('wpscp_notify_author_is_sent_review');
             $this->notify_author_role_sent_review = get_option('wpscp_notify_author_role_sent_review');
             $this->notify_author_username_sent_review = get_option('wpscp_notify_author_username_sent_review');
@@ -35,20 +30,6 @@ if(!class_exists('WpScp_Author_Notify')){
             $this->notify_author_post_is_publish = get_option('wpscp_notify_author_post_is_publish');
         }
 
-        public function change_sender_email(){
-            if($this->sender_email != "" && is_email($this->sender_email)){
-                add_filter( 'wp_mail_from', array($this, 'set_sender_email') );
-            }
-            if($this->sender_name != ""){
-                add_filter( 'wp_mail_from_name', array($this, 'set_sender_name') );
-            }
-        }
-        public function set_sender_email($arg){
-            return $this->sender_email;
-        }
-        public function set_sender_name($arg){
-            return $this->sender_name;
-        }
         /**
          * Send Email Notification
          */
