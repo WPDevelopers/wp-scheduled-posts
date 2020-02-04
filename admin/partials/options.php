@@ -294,8 +294,6 @@
         <form action="<?php print esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
             <?php 
                 $current_user = wp_get_current_user();
-                $wpscp_sender_email_address = ((get_option('wpscp_sender_email_address') != "") ? get_option('wpscp_sender_email_address') : $current_user->user_email);
-                $wpscp_sender_full_name = ((get_option('wpscp_sender_full_name') != "") ? get_option('wpscp_sender_full_name') : $current_user->display_name);
                 $wpscp_notify_author_is_sent_review = get_option('wpscp_notify_author_is_sent_review');
                 $wpscp_notify_author_role_sent_review = get_option('wpscp_notify_author_role_sent_review');
                 $wpscp_notify_author_username_sent_review = get_option('wpscp_notify_author_username_sent_review');
@@ -315,22 +313,6 @@
                     <td class="email-wrap">
                         <div class="option-block">
                             <p><?php esc_html_e('To configure the Email Notify Settings, check out this', 'wp-scheduled-posts'); ?> <a class="docs" href="https://wpdeveloper.net/docs/email-notification-wordpress" target="_blank"><?php esc_html_e('Doc', 'wp-scheduled-posts'); ?></a></p>
-                        </div>
-                        <!-- set email header -->
-                        <div class="option-block">
-                            <div class="option-inline">
-                                <label for="wpscp_notify_sender_email"><?php _e( 'Sender email address:', 'wp-scheduled-posts' ); ?></label>
-                                <div id="wpscp_notify_sender_email">
-                                    <input class="wpsp_field_activate" type="text" name="notify_sender_email_address" value="<?php print $wpscp_sender_email_address; ?>"/>
-                                </div>
-                            </div>
-                            <span class="notify-email-warning"><?php esc_html_e('Warning: Your authors will receive mails from this email address if you make the changes.', 'wp-scheduled-posts'); ?></span>
-                            <div class="option-inline margin-l30">
-                                <label for="wpscp_notify_sender_name"><?php _e( 'Sender name:', 'wp-scheduled-posts' ); ?></label>
-                                <div id="wpscp_notify_sender_name">
-                                    <input class="wpsp_field_activate" type="text" name="notify_sender_full_name"  value="<?php print $wpscp_sender_full_name; ?>"/>
-                                </div>
-                            </div>
                         </div>
                         <!-- Notify editor for review post -->
                         <div class="option-block">

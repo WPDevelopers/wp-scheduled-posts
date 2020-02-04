@@ -57,8 +57,6 @@ if(!class_exists('wpscp_options_data')){
                 
                 $notify_author_post_is_publish = (isset($_POST['notify_author_post_is_publish']) ? $_POST['notify_author_post_is_publish'] : 0);
                
-                update_option('wpscp_sender_email_address',$notify_sender_email_address);
-                update_option('wpscp_sender_full_name',$notify_sender_full_name);
                 update_option('wpscp_notify_author_is_sent_review',$notify_author_is_sent_review);
                 update_option('wpscp_notify_author_role_sent_review',$notify_author_role_sent_review);
                 update_option('wpscp_notify_author_username_sent_review',$notify_author_username_sent_review);
