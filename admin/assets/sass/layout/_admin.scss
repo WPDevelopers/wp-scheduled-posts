@@ -2913,7 +2913,10 @@ a.wpsp-notice-cta{
 				display: inline-block;
 				background: #29d6a1;
 				color: #fff;
-				padding: 5px 10px;
+				line-height: 30px;
+				height: 30px;
+				padding: 0;
+				min-width: 75px;
 				border-radius: 4px;
 				border: 0;
 				&.refresh {
@@ -2967,3 +2970,66 @@ a.wpsp-notice-cta{
 		cursor: pointer;
 	}
 }
+
+
+/**
+* Ajax Loader
+*/
+
+.wpscp-pro-ajax-loader {
+	display: inline-block;
+	position: relative;
+	width: 69px;
+	height: 13px;
+	margin-left: -8px;
+  }
+  .wpscp-pro-ajax-loader div {
+	position: absolute;
+	top: 0;
+	width: 13px;
+	height: 13px;
+	border-radius: 50%;
+	background: #fff;
+	animation-timing-function: cubic-bezier(0, 1, 1, 0);
+  }
+  .wpscp-pro-ajax-loader div:nth-child(1) {
+	left: 8px;
+	animation: wpscp-pro-ajax-loader1 0.6s infinite;
+  }
+  .wpscp-pro-ajax-loader div:nth-child(2) {
+	left: 8px;
+	animation: wpscp-pro-ajax-loader2 0.6s infinite;
+  }
+  .wpscp-pro-ajax-loader div:nth-child(3) {
+	left: 32px;
+	animation: wpscp-pro-ajax-loader2 0.6s infinite;
+  }
+  .wpscp-pro-ajax-loader div:nth-child(4) {
+	left: 56px;
+	animation: wpscp-pro-ajax-loader3 0.6s infinite;
+  }
+  @keyframes wpscp-pro-ajax-loader1 {
+	0% {
+	  transform: scale(0);
+	}
+	100% {
+	  transform: scale(1);
+	}
+  }
+  @keyframes wpscp-pro-ajax-loader3 {
+	0% {
+	  transform: scale(1);
+	}
+	100% {
+	  transform: scale(0);
+	}
+  }
+  @keyframes wpscp-pro-ajax-loader2 {
+	0% {
+	  transform: translate(0, 0);
+	}
+	100% {
+	  transform: translate(24px, 0);
+	}
+  }
+  
