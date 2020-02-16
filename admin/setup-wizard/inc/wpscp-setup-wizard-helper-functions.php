@@ -29,7 +29,7 @@ function wpscp_pro_qsw_welcomescreen_markup(){
 	$current_user = wp_get_current_user();
 	?>
 	<div class="wpsp_getting_started_form text-center">
-		<input type="email" id="wpscp_user_email_address" class="wpsp_field_gettting_started" name="wpscp_user_email_address" value="<?php print $current_user->user_email; ?>" placeholder="Your Email Address">
+		<input type="email" id="wpscp_user_email_address" class="wpsp_field_gettting_started" name="wpscp_user_email_address" value="<?php print $current_user->user_email; ?>" placeholder="<?php esc_attr_e('Your Email Address', 'wp-scheduled-posts'); ?>">
 	</div>
 	<?php
 }
@@ -47,22 +47,22 @@ function wpscp_pro_feature_list_markup(){
 		<div class="wpscp-checkbox wpscp-pro-feature-checkbox" data-id="module_auto_scheduled">
 			<input disabled="" type="checkbox" id="module_auto_scheduled" name="module_auto_scheduled">
 			<label for="module_auto_scheduled"></label>
-			<p class="wpscp-module-title">Auto Scheduler
+			<p class="wpscp-module-title"><?php esc_html_e('Auto Scheduler', 'wp-scheduled-posts'); ?>
 				<a rel="nofollow" target="_blank" href="https://wpdeveloper.net/docs/wp-scheduled-posts/how-does-auto-scheduler-work/">
 					<img width="6px" src="<?php print plugin_dir_url( WPSP_PLUGIN_FILE ) . 'admin/assets/images/question.svg'; ?>" alt="wp scheduled posts" />
 				</a>               
-				<sup class="wpscp-pro-label has-to-update"></sup><sup class="wpscp-pro-label">Pro</sup>                
+				<sup class="wpscp-pro-label has-to-update"></sup><sup class="wpscp-pro-label"><?php esc_html_e('Pro', 'wp-scheduled-posts'); ?></sup>                
 			</p>
 		</div>
 		<!-- Miss Scheduled -->
 		<div class="wpscp-checkbox wpscp-pro-feature-checkbox" data-id="module_miss_scheduled">
 			<input disabled="" type="checkbox" id="module_miss_scheduled" name="module_miss_scheduled">
 			<label for="module_miss_scheduled"></label>
-			<p class="wpscp-module-title">Missed Schedule Handler
+			<p class="wpscp-module-title"><?php esc_html_e('Missed Schedule Handler', 'wp-scheduled-posts'); ?>
 				<a rel="nofollow" target="_blank" href="https://wpdeveloper.net/docs/wp-scheduled-posts/how-to-handle-the-missed-schedule-error-using-wp-scheduled-post/">
 					<img width="6px" src="<?php print plugin_dir_url( WPSP_PLUGIN_FILE ) . 'admin/assets/images/question.svg'; ?>" alt="wp scheduled posts" />
 				</a>               
-				<sup class="wpscp-pro-label has-to-update"></sup><sup class="wpscp-pro-label">Pro</sup>                
+				<sup class="wpscp-pro-label has-to-update"></sup><sup class="wpscp-pro-label"><?php esc_html_e('Pro', 'wp-scheduled-posts'); ?></sup>                
 			</p>
 		</div>
 	</td>
@@ -72,22 +72,22 @@ function wpscp_pro_feature_list_markup(){
 		<div class="wpscp-checkbox wpscp-pro-feature-checkbox" data-id="module_manual_scheduled">
 			<input disabled="" type="checkbox" id="module_manual_scheduled" name="module_manual_scheduled">
 			<label for="module_manjual_scheduled"></label>
-			<p class="wpscp-module-title">Manual Scheduler
+			<p class="wpscp-module-title"><?php esc_html_e('Manual Scheduler', 'wp-scheduled-posts'); ?>
 				<a rel="nofollow" target="_blank" href="https://wpdeveloper.net/docs/wp-scheduled-posts/how-does-manual-scheduler-work/">
 					<img width="6px" src="<?php print plugin_dir_url( WPSP_PLUGIN_FILE ) . 'admin/assets/images/question.svg'; ?>" alt="wp scheduled posts" />
 				</a>               
-				<sup class="wpscp-pro-label has-to-update"></sup><sup class="wpscp-pro-label">Pro</sup>                
+				<sup class="wpscp-pro-label has-to-update"></sup><sup class="wpscp-pro-label"><?php esc_html_e('Pro', 'wp-scheduled-posts'); ?></sup>                
 			</p>
 		</div>
 		<!-- Social share -->
 		<div class="wpscp-checkbox wpscp-pro-feature-checkbox" data-id="module_social_share">
 			<input disabled="" type="checkbox" id="module_social_share" name="module_social_share">
 			<label for="module_manjual_scheduled"></label>
-			<p class="wpscp-module-title">Social Share
+			<p class="wpscp-module-title"><?php esc_html_e('Social Share', 'wp-scheduled-posts'); ?>
 				<a rel="nofollow" target="_blank" href="https://wpdeveloper.net/docs/share-scheduled-posts-social-media/">
 					<img width="6px" src="<?php print plugin_dir_url( WPSP_PLUGIN_FILE ) . 'admin/assets/images/question.svg'; ?>" alt="wp scheduled posts" />
 				</a>               
-				<sup class="wpscp-pro-label has-to-update"></sup><sup class="wpscp-pro-label">Pro</sup>                
+				<sup class="wpscp-pro-label has-to-update"></sup><sup class="wpscp-pro-label"><?php esc_html_e('Pro', 'wp-scheduled-posts'); ?></sup>                
 			</p>
 		</div>
 	</td>

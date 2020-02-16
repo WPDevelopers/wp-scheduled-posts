@@ -119,8 +119,8 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
                                 <img src="<?php echo plugins_url(); ?>/wp-scheduled-posts/admin/assets/images/wpsp-icon.svg" alt="">
                             </div>
                             <div class="wpsp_top_bar_heading">
-                                <h2 class="wpsp_topbar_title"><?php esc_html_e('WP Scheduled Posts', 'wpscp'); ?></h2>
-                                <p class="wpsp_topbar_version_name"><?php echo esc_html__('Version ', 'wpscp') . WPSP_VERSION; ?></p>
+                                <h2 class="wpsp_topbar_title"><?php esc_html_e('WP Scheduled Posts', 'wp-scheduled-posts'); ?></h2>
+                                <p class="wpsp_topbar_version_name"><?php echo esc_html__('Version ', 'wp-scheduled-posts') . WPSP_VERSION; ?></p>
                             </div>
                         </div>
                         <!-- setup wizard -->
@@ -137,15 +137,15 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
                                         do_action('wpscp_tabs_content'); 
                                     ?>
                                     <div class="wpscp-button-wrap">
-                                        <a id="wpscp-prev-option" href="#" class="btn wpscp-prev-option">Previous</a>
-                                        <a id="wpscp-next-option" href="#" class="btn wpscp-next-option">Next</a>
+                                        <a id="wpscp-prev-option" href="#" class="btn wpscp-prev-option"><?php esc_html_e('Previous', 'wp-scheduled-posts'); ?></a>
+                                        <a id="wpscp-next-option" href="#" class="btn wpscp-next-option"><?php esc_html_e('Next', 'wp-scheduled-posts'); ?></a>
                                     </div>
                                     <div class="bottom-notice-left">
-                                        <p class="whatwecollecttext">We collect non-sensitive diagnostic data and plugin usage <br> information. Your site URL, WordPress & PHP version, <br> plugins & themes and email address to send you the discount <br> coupon. This data lets us make sure this plugin always stays <br> compatible with the most popular plugins and themes. No spam, we promise.</p>
-                                        <button type="button" id="whatwecollectdata" class="btn-collect">What We Collect?</button>
+                                        <p class="whatwecollecttext"><?php esc_html_e('We collect non-sensitive diagnostic data and plugin usage', 'wp-scheduled-posts'); ?> <br> <?php esc_html_e('information. Your site URL, WordPress & PHP version,', 'wp-scheduled-posts'); ?> <br> <?php esc_html_e('plugins & themes and email address to send you the discount', 'wp-scheduled-posts'); ?> <br> <?php esc_html_e('coupon. This data lets us make sure this plugin always stays', 'wp-scheduled-posts'); ?> <br> <?php esc_html_e('compatible with the most popular plugins and themes. No spam, we promise.', 'wp-scheduled-posts'); ?></p>
+                                        <button type="button" id="whatwecollectdata" class="btn-collect"><?php esc_html_e('What We Collect?', 'wp-scheduled-posts'); ?></button>
                                     </div>
                                     <div class="bottom-notice">
-                                        <button type="button" id="wpscpqswemailskipbutton" class="btn-skip">Skip This Step</button>
+                                        <button type="button" id="wpscpqswemailskipbutton" class="btn-skip"><?php esc_html_e('Skip This Step', 'wp-scheduled-posts'); ?></button>
                                     </div>
                                 </div>
                             </form>

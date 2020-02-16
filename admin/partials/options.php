@@ -52,7 +52,7 @@
                 </tr>
 
                 <tr class="wpsp_option_select_tr">
-                    <td scope="row" align="left" style="vertical-align:top;"><?php esc_html_e('Show Post Types:', 'wpscp'); ?> </td>
+                    <td scope="row" align="left" style="vertical-align:top;"><?php esc_html_e('Show Post Types:', 'wp-scheduled-posts'); ?> </td>
                     <td>
                         <?php 
                             $post_types = wpscp_get_all_post_type();
@@ -72,7 +72,7 @@
                 </tr>
         
                 <tr class="wpsp_option_select_tr">
-                    <td scope="row" align="left" style="vertical-align:top;"><?php esc_html_e('Show Categories:', 'wpscp'); ?></td>
+                    <td scope="row" align="left" style="vertical-align:top;"><?php esc_html_e('Show Categories:', 'wp-scheduled-posts'); ?></td>
                     <td>
                         <select name="allow_categories[]" class="wpsp_field_activate" MULTIPLE style="height:100px;width:200px;">
                             <?php
@@ -112,7 +112,7 @@
                 
                 <tr valign="top" class="wpsp_option_select_tr">
                     <td width="150" scope="row" align="left">
-                        <label for="allow_user_role"><?php esc_html_e('Allow users:', 'wpscp'); ?></label>
+                        <label for="allow_user_role"><?php esc_html_e('Allow users:', 'wp-scheduled-posts'); ?></label>
                     </td>
                     <td>
                         <select name="allow_user_role[]" class="wpsp_field_activate" id="allow_user_role" multiple="multiple"  style="height:80px;width:200px;" >
@@ -130,7 +130,7 @@
                         </div>
 
                         <div class="cus_temp_opt_tr_con">
-                            <?php esc_html_e('Custom item template for scheduled posts list in adminbar:', 'wpscp'); ?><br />
+                            <?php esc_html_e('Custom item template for scheduled posts list in adminbar:', 'wp-scheduled-posts'); ?><br />
                             <div class="wpsp_cus_temp_opt" style="display: none;">
                                 
                                 
@@ -151,7 +151,7 @@
 
                                 
 
-                                <div style="color:#999999; padding: 10px;"><?php esc_html_e('For item template use', 'wpscp'); ?> <strong>%TITLE%</strong> <?php esc_html_e('for post title,', 'wpscp'); ?> <strong>%AUTHOR%</strong> <?php esc_html_e('for post author and', 'wpscp'); ?> <strong>%DATE%</strong> <?php esc_html_e('for post scheduled date-time. You can use HTML tags with styles also', 'wpscp'); ?> 
+                                <div style="color:#999999; padding: 10px;"><?php esc_html_e('For item template use', 'wp-scheduled-posts'); ?> <strong>%TITLE%</strong> <?php esc_html_e('for post title,', 'wp-scheduled-posts'); ?> <strong>%AUTHOR%</strong> <?php esc_html_e('for post author and', 'wp-scheduled-posts'); ?> <strong>%DATE%</strong> <?php esc_html_e('for post scheduled date-time. You can use HTML tags with styles also', 'wp-scheduled-posts'); ?> 
                                 </div>
                             </div>
                         </div>
@@ -168,7 +168,7 @@
 
                     </td>
                     <td>
-                        <span> <?php esc_html_e('(A checkbox will be appeared in date-time edit section in the post edit panel)', 'wpscp'); ?> </span>
+                        <span> <?php esc_html_e('(A checkbox will be appeared in date-time edit section in the post edit panel)', 'wp-scheduled-posts'); ?> </span>
                     </td>
 
                 </tr>  
@@ -191,12 +191,12 @@
             include WPSCP_ADMIN_DIR_PATH . '/partials/upgrade.php';
         ?>
         <div class="wpsp_pro_features_lists">
-            <h3><?php esc_html_e('WP Scheduled Posts - Pro Features', 'wpscp'); ?></h3>
+            <h3><?php esc_html_e('WP Scheduled Posts - Pro Features', 'wp-scheduled-posts'); ?></h3>
             <div class="wpsp_pro_support_panel">
                 <?php 
                     if( ! class_exists('WpScp_Pro') ) {
                 ?>
-                <h4><?php esc_html_e('In Pro version, You will get following supports:', 'wpscp'); ?></h4>
+                <h4><?php esc_html_e('In Pro version, You will get following supports:', 'wp-scheduled-posts'); ?></h4>
                 <?php } ?>
                 <div class="wpsp_pro_suppurt_lists">
 
@@ -205,7 +205,7 @@
                         <a href="https://wpdeveloper.net/docs/wp-scheduled-posts/how-does-auto-scheduler-work/" target="__blank">
 
                             <img src="<?php echo plugins_url(); ?>/wp-scheduled-posts/admin/assets/images/auto_scheduler.png" alt="">
-                            <h4><?php esc_html_e('Auto Scheduler', 'wpscp'); ?></h4>
+                            <h4><?php esc_html_e('Auto Scheduler', 'wp-scheduled-posts'); ?></h4>
                         </a>
 
                     </div>
@@ -215,21 +215,21 @@
                         <a href="https://wpdeveloper.net/docs/wp-scheduled-posts/how-does-manual-scheduler-work/" target="__blank">
                             
                             <img src="<?php echo plugins_url(); ?>/wp-scheduled-posts/admin/assets/images/manual_scheduler.png" alt="">
-                            <h4><?php esc_html_e('Manual Scheduler', 'wpscp'); ?></h4>
+                            <h4><?php esc_html_e('Manual Scheduler', 'wp-scheduled-posts'); ?></h4>
                         </a>
                     </div>
 
                     <div class="wpsp_support_items">
                         <a href="https://wpdeveloper.net/docs/wp-scheduled-posts/how-to-handle-the-missed-schedule-error-using-wp-scheduled-post/" target="__blank">
                             <img src="<?php echo plugins_url(); ?>/wp-scheduled-posts/admin/assets/images/manual_scheduler_handler.png" alt="">
-                            <h4><?php esc_html_e('Missed Schedule Handler', 'wpscp'); ?></h4>
+                            <h4><?php esc_html_e('Missed Schedule Handler', 'wp-scheduled-posts'); ?></h4>
                         </a>
                     </div>
 
                     <div class="wpsp_support_items">
                         <a href="https://wpdeveloper.net/support/" target="__blank">
                             <img src="<?php echo plugins_url(); ?>/wp-scheduled-posts/admin/assets/images/premium_support_care.png" alt="">
-                            <h4><?php esc_html_e('Premium Support', 'wpscp'); ?></h4>
+                            <h4><?php esc_html_e('Premium Support', 'wp-scheduled-posts'); ?></h4>
                             
                         </a>
                     </div>
@@ -246,10 +246,10 @@
                 <div class="instruction_log">
                     <img src="<?php echo plugins_url(); ?>/wp-scheduled-posts/admin/assets/images/documentation.png" alt="Documentation">
                 </div>
-                <h3 class="instruction_label"><?php esc_html_e('Documentation', 'wpscp'); ?></h3>
+                <h3 class="instruction_label"><?php esc_html_e('Documentation', 'wp-scheduled-posts'); ?></h3>
             </div>
-            <p><?php esc_html_e('Get started spending some time with the documentation to get familiar with WP Scheduled Posts. Build awesome websites for you or your clients with ease.', 'wpscp'); ?></p>
-            <a href="https://wpdeveloper.net/docs/wp-scheduled-posts/?utm_medium=admin&utm_source=wp.org&utm_term=wpsp" rel="nofollow" class="instructin_btn"><?php esc_html_e('Documentation', 'wpscp'); ?></a>
+            <p><?php esc_html_e('Get started spending some time with the documentation to get familiar with WP Scheduled Posts. Build awesome websites for you or your clients with ease.', 'wp-scheduled-posts'); ?></p>
+            <a href="https://wpdeveloper.net/docs/wp-scheduled-posts/?utm_medium=admin&utm_source=wp.org&utm_term=wpsp" rel="nofollow" class="instructin_btn"><?php esc_html_e('Documentation', 'wp-scheduled-posts'); ?></a>
         </div>
 
         <div class="instruction_item">
@@ -257,10 +257,10 @@
                 <div class="instruction_log">
                     <img src="<?php echo plugins_url(); ?>/wp-scheduled-posts/admin/assets/images/contribute.png" alt="Contribute">
                 </div>
-                <h3 class="instruction_label"><?php esc_html_e('Contribute to WP Scheduled Posts', 'wpscp'); ?></h3>
+                <h3 class="instruction_label"><?php esc_html_e('Contribute to WP Scheduled Posts', 'wp-scheduled-posts'); ?></h3>
             </div>
-            <p><?php esc_html_e('You can contribute to make WP Scheduled Posts better reporting bugs, creating issues, pull requests at Github.', 'wpscp'); ?></p>
-            <a href="https://github.com/WPDevelopers/wp-scheduled-posts/issues/new" rel="nofollow" class="instructin_btn"><?php esc_html_e('Report A Bug', 'wpscp'); ?></a>
+            <p><?php esc_html_e('You can contribute to make WP Scheduled Posts better reporting bugs, creating issues, pull requests at Github.', 'wp-scheduled-posts'); ?></p>
+            <a href="https://github.com/WPDevelopers/wp-scheduled-posts/issues/new" rel="nofollow" class="instructin_btn"><?php esc_html_e('Report A Bug', 'wp-scheduled-posts'); ?></a>
         </div>
 
         <div class="instruction_item">
@@ -268,10 +268,10 @@
                 <div class="instruction_log">
                     <img src="<?php echo plugins_url(); ?>/wp-scheduled-posts/admin/assets/images/chat.png" alt="Chat">
                 </div>
-                <h3 class="instruction_label"><?php esc_html_e('Need Help?', 'wpscp'); ?></h3>
+                <h3 class="instruction_label"><?php esc_html_e('Need Help?', 'wp-scheduled-posts'); ?></h3>
             </div>
-            <p><?php esc_html_e('Stuck with something? Get help from the community WPDeveloper Forum or Facebook Community. In case of emergency, initiate live chat at WP Scheduled Posts website.', 'wpscp'); ?></p>
-            <a href="https://wpdeveloper.net/support/" rel="nofollow" class="instructin_btn"><?php esc_html_e('Get Support', 'wpscp'); ?></a>
+            <p><?php esc_html_e('Stuck with something? Get help from the community WPDeveloper Forum or Facebook Community. In case of emergency, initiate live chat at WP Scheduled Posts website.', 'wp-scheduled-posts'); ?></p>
+            <a href="https://wpdeveloper.net/support/" rel="nofollow" class="instructin_btn"><?php esc_html_e('Get Support', 'wp-scheduled-posts'); ?></a>
         </div>
 
         <div class="instruction_item">
@@ -279,10 +279,10 @@
                 <div class="instruction_log">
                     <img src="<?php echo plugins_url(); ?>/wp-scheduled-posts/admin/assets/images/love.png" alt="Love">
                 </div>
-                <h3 class="instruction_label"><?php esc_html_e('Show your Love', 'wpscp'); ?></h3>
+                <h3 class="instruction_label"><?php esc_html_e('Show your Love', 'wp-scheduled-posts'); ?></h3>
             </div>
-            <p><?php esc_html_e('We love to have you in WP Scheduled Posts family. We are making it more awesome everyday.', 'wpscp'); ?></p>
-            <a href="https://wordpress.org/support/plugin/wp-scheduled-posts/reviews/?rate=5#new-post" rel="nofollow" class="instructin_btn"><?php esc_html_e('Leave a Review', 'wpscp'); ?></a>
+            <p><?php esc_html_e('We love to have you in WP Scheduled Posts family. We are making it more awesome everyday.', 'wp-scheduled-posts'); ?></p>
+            <a href="https://wordpress.org/support/plugin/wp-scheduled-posts/reviews/?rate=5#new-post" rel="nofollow" class="instructin_btn"><?php esc_html_e('Leave a Review', 'wp-scheduled-posts'); ?></a>
         </div>
     </div>
 </div>
@@ -327,7 +327,7 @@
                                 <!-- role -->
                                 <div class="option-inline margin-l30">
                                     <div>
-                                        <label for="notify_author_role_sent_review"><?php esc_html_e('Role:', 'wpscp'); ?></label>
+                                        <label for="notify_author_role_sent_review"><?php esc_html_e('Role:', 'wp-scheduled-posts'); ?></label>
                                     </div>
                                     <select name="notify_author_role_sent_review[]" class="wpsp_field_activate" id="notify_author_role_sent_review" multiple="multiple">
                                         <?php  
@@ -384,7 +384,7 @@
                             <div id="notify_author_post_is_schedule_option_area" <?php print (($wpscp_notify_author_post_is_schedule != 1) ? 'style="display: none;"' : '') ?>>
                                 <!-- role -->
                                 <div class="option-inline margin-l30">
-                                    <label for="notify_author_post_schedule_role"><?php esc_html_e('Role', 'wpscp'); ?></label>
+                                    <label for="notify_author_post_schedule_role"><?php esc_html_e('Role', 'wp-scheduled-posts'); ?></label>
                                     <select name="notify_author_post_schedule_role[]" class="wpsp_field_activate" id="notify_author_post_schedule_role" multiple="multiple">
                                         <?php  
                                             print wpscp_dropdown_roles( $wpscp_notify_author_post_schedule_role, true ); 

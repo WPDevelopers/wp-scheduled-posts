@@ -9,8 +9,8 @@
                 <img src="<?php echo plugins_url(); ?>/wp-scheduled-posts/admin/assets/images/wpsp-icon.svg" alt="">
             </div>
             <div class="wpsp_top_bar_heading">
-                <h2 class="wpsp_topbar_title"><?php esc_html_e('WP Scheduled Posts', 'wpscp'); ?></h2>
-                <p class="wpsp_topbar_version_name"><?php echo esc_html__('Version ', 'wpscp') . WPSP_VERSION; ?></p>
+                <h2 class="wpsp_topbar_title"><?php esc_html_e('WP Scheduled Posts', 'wp-scheduled-posts'); ?></h2>
+                <p class="wpsp_topbar_version_name"><?php echo esc_html__('Version ', 'wp-scheduled-posts') . WPSP_VERSION; ?></p>
             </div>
         </div>
         <!-- main content -->
@@ -60,7 +60,7 @@
                 <div id='calendar-container'>
                     <div id='external-events'>
                         <div id='external-events-listing'>
-                            <h4 class="unscheduled"><?php print esc_html__('Unscheduled ', 'wpscp') . (($post_type == null || $post_type == "") ? 'Posts' : $post_type ); ?><span class="spinner"></span></h4>
+                            <h4 class="unscheduled"><?php print esc_html__('Unscheduled ', 'wp-scheduled-posts') . (($post_type == null || $post_type == "") ? 'Posts' : $post_type ); ?><span class="spinner"></span></h4>
                             <?php 
                                 $query = new WP_Query(array(
                                     'post_type'         => $allow_post_types,
