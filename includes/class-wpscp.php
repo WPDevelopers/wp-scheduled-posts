@@ -128,7 +128,7 @@ final class WpScp {
 
 		wp_enqueue_script( 'wps-publish-button', WPSCP_ADMIN_URL . 'assets/js/wpspl-admin.min.js', array('wp-components','wp-data','wp-edit-post','wp-editor','wp-element','wp-i18n','wp-plugins'), '1.0.0', true );
 		wp_localize_script( 'wps-publish-button', 'WPSchedulePostsFree', array(
-			'publishImmediately' => __('Publish Post Immediately', 'wp-schedule-posts'),
+			'publishImmediately' => __('Publish Post Immediately', 'wp-scheduled-posts'),
             'publish_button_off' => $wpspc_options['prevent_future_post'],
             'allowedPostTypes' => $post_types,
 			'currentTime' => array(
@@ -241,11 +241,11 @@ final class WpScp {
     public function insert_plugin_links($links)
     {
         // settings
-        $links[] = sprintf('<a href="admin.php?page=wp-scheduled-posts">' . __('Settings') . '</a>');
+        $links[] = sprintf('<a href="admin.php?page=wp-scheduled-posts">' . __('Settings', 'wp-scheduled-posts') . '</a>');
         
         // go pro
         if ( !$this->pro_enabled() ) {
-            $links[] = sprintf('<a href="https://wpdeveloper.net/in/wp-scheduled-posts-pro" target="_blank" style="color: #39b54a; font-weight: bold;">' . __('Go Pro') . '</a>');
+            $links[] = sprintf('<a href="https://wpdeveloper.net/in/wp-scheduled-posts-pro" target="_blank" style="color: #39b54a; font-weight: bold;">' . __('Go Pro', 'wp-scheduled-posts') . '</a>');
         }
 
         return $links;
@@ -260,7 +260,7 @@ final class WpScp {
     {
         if (WPSP_PLUGIN_BASENAME == $file) {
             // docs & faq
-            $links[] = sprintf('<a href="https://wpdeveloper.net/docs/wp-scheduled-posts/?utm_medium=admin&utm_source=wp.org&utm_term=wpsp" target="_blank">' . __('Docs & FAQs') . '</a>');
+            $links[] = sprintf('<a href="https://wpdeveloper.net/docs/wp-scheduled-posts/?utm_medium=admin&utm_source=wp.org&utm_term=wpsp" target="_blank">' . __('Docs & FAQs', 'wp-scheduled-posts') . '</a>');
 
             // video tutorials
             // $links[] = sprintf('<a href="https://www.youtube.com/channel/UCOjzLEdsnpnFVkm1JKFurPA?utm_medium=admin&utm_source=wp.org&utm_term=ea" target="_blank">' . __('Video Tutorials') . '</a>');
@@ -339,7 +339,7 @@ final class WpScp {
          * Message message for showing.
          */
         $notice->classes( 'upsale', 'notice is-dismissible ' );
-        $notice->message( 'upsale', '<p>'. __( 'We hope you\'re enjoying WP Scheduled Posts! Upgrade to <a href="https://wpdeveloper.net/in/wp-scheduled-posts-pro" target="_blank">Premium Version</a> for more stunning features!', $notice->text_domain ) .'</p>' );
+        $notice->message( 'upsale', '<p>'. __( 'We hope you\'re enjoying WP Scheduled Posts! Upgrade to <a href="https://wpdeveloper.net/in/wp-scheduled-posts-pro" target="_blank">Premium Version</a> for more stunning features!', $notice->text_domain, 'wp-scheduled-posts' ) .'</p>' );
         $notice->thumbnail( 'upsale', plugins_url( 'admin/assets/images/wpsp-logo.svg', WPSP_PLUGIN_BASENAME ) );
 
         $notice->upsale_args = array(

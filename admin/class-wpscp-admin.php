@@ -37,7 +37,7 @@ if(!class_exists('WpScp_Admin')){
 		 * @since 1.0.0
 		 */
 		public function add_main_menu()  {
-			add_menu_page( __( 'Scheduled Posts 12'), __( 'Scheduled Posts' ), 'manage_options', pluginsFOLDER, 'wpscp_options_page', plugin_dir_url( __FILE__ ).'assets/images/wpsp-icon.png', 80 );
+			add_menu_page( __( 'Scheduled Posts 12', 'wp-scheduled-posts'), __( 'Scheduled Posts', 'wp-scheduled-posts' ), 'manage_options', pluginsFOLDER, 'wpscp_options_page', plugin_dir_url( __FILE__ ).'assets/images/wpsp-icon.png', 80 );
 		}
 		/**
 		 * Add Plugin Main Menu
@@ -55,7 +55,7 @@ if(!class_exists('WpScp_Admin')){
 			$allow_post_types =  ($wpscp_all_options['allow_post_types'] == '' ? array('post') : $wpscp_all_options['allow_post_types']);
 			foreach ($allow_post_types as $post_types) {
 				$admin_menu_url = ($post_types != 'post' ? 'edit.php?post_type=' . $post_types : 'edit.php');
-				add_submenu_page($admin_menu_url, __('Calendar', 'wpspcalendar'), __('Calendar', 'wpspcalendar'), 'edit_posts', 'wp-scheduled-calendar-'.$post_types, array($this, 'load_calendar_template'));
+				add_submenu_page($admin_menu_url, __('Calendar', 'wp-scheduled-posts'), __('Calendar', 'wp-scheduled-posts'), 'edit_posts', 'wp-scheduled-calendar-'.$post_types, array($this, 'load_calendar_template'));
 			}
 		}
 

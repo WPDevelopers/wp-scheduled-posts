@@ -1,0 +1,626 @@
+# Copyright (C) 2020 WPDeveloper
+# This file is distributed under the same license as the WP Scheduled Posts package.
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Scheduled Posts 3.1.8\n"
+"Report-Msgid-Bugs-To: "
+"https://wordpress.org/support/plugin/wp-scheduled-posts\n"
+"POT-Creation-Date: 2020-02-16 08:42:27+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2020-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"X-Generator: grunt-wp-i18n 0.5.4\n"
+"X-Poedit-KeywordsList: "
+"__;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;_nx_noop:1,2,3c;esc_"
+"attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;esc_html_x:1,2c;\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Country: United States\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-Bookmarks: \n"
+"X-Textdomain-Support: yes\n"
+
+#: admin/class-wpscp-admin.php:40
+msgid "Scheduled Posts 12"
+msgstr ""
+
+#: admin/class-wpscp-admin.php:40
+msgid "Scheduled Posts"
+msgstr ""
+
+#: admin/class-wpscp-admin.php:58
+msgid "Calendar"
+msgstr ""
+
+#: admin/class-wpscp-calendar.php:69
+msgid "Security check"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "WP Scheduled Posts"
+msgstr ""
+
+#: admin/partials/calendar.php:13 admin/partials/topbar.php:8
+#: admin/setup-wizard/inc/class-wpscp-setup-wizard.php:123
+msgid "Version "
+msgstr ""
+
+#: admin/partials/calendar.php:27
+msgid "New "
+msgstr ""
+
+#: admin/partials/calendar.php:33
+msgid "Title"
+msgstr ""
+
+#: admin/partials/calendar.php:36
+msgid "Content"
+msgstr ""
+
+#: admin/partials/calendar.php:40
+msgid "Draft"
+msgstr ""
+
+#: admin/partials/calendar.php:41
+msgid "Scheduled"
+msgstr ""
+
+#: admin/partials/calendar.php:42
+msgid "Publish"
+msgstr ""
+
+#: admin/partials/calendar.php:52
+msgid "Save"
+msgstr ""
+
+#: admin/partials/calendar.php:53
+msgid "Cancel"
+msgstr ""
+
+#: admin/partials/calendar.php:63
+msgid "Unscheduled "
+msgstr ""
+
+#: admin/partials/calendar.php:82
+msgid "Edit"
+msgstr ""
+
+#: admin/partials/calendar.php:83
+msgid "Quick Edit"
+msgstr ""
+
+#: admin/partials/calendar.php:86
+msgid "Delete"
+msgstr ""
+
+#: admin/partials/calendar.php:87
+msgid " View"
+msgstr ""
+
+#: admin/partials/calendar.php:99
+msgid "New Draft"
+msgstr ""
+
+#: admin/partials/options.php:26
+msgid "Show Scheduled Posts in Dashboard Widget"
+msgstr ""
+
+#: admin/partials/options.php:36
+#: admin/setup-wizard/wpscp-setup-wizard-config.php:34
+msgid "Show Scheduled Posts in Sitewide Admin Bar"
+msgstr ""
+
+#: admin/partials/options.php:46
+#: admin/setup-wizard/wpscp-setup-wizard-config.php:40
+msgid "Show Scheduled Posts in Admin Bar"
+msgstr ""
+
+#: admin/partials/options.php:55
+msgid "Show Post Types:"
+msgstr ""
+
+#: admin/partials/options.php:75
+msgid "Show Categories:"
+msgstr ""
+
+#: admin/partials/options.php:115
+msgid "Allow users:"
+msgstr ""
+
+#: admin/partials/options.php:133
+msgid "Custom item template for scheduled posts list in adminbar:"
+msgstr ""
+
+#: admin/partials/options.php:138
+msgid "Item template:"
+msgstr ""
+
+#: admin/partials/options.php:143
+msgid "Title length:"
+msgstr ""
+
+#: admin/partials/options.php:148
+msgid "Date format:"
+msgstr ""
+
+#: admin/partials/options.php:154
+msgid "For item template use"
+msgstr ""
+
+#: admin/partials/options.php:154
+msgid "for post title,"
+msgstr ""
+
+#: admin/partials/options.php:154
+msgid "for post author and"
+msgstr ""
+
+#: admin/partials/options.php:154
+msgid "for post scheduled date-time. You can use HTML tags with styles also"
+msgstr ""
+
+#: admin/partials/options.php:167
+#: admin/setup-wizard/wpscp-setup-wizard-config.php:46
+msgid "Show Publish Post Immediately Button"
+msgstr ""
+
+#: admin/partials/options.php:171
+msgid ""
+"(A checkbox will be appeared in date-time edit section in the post edit "
+"panel)"
+msgstr ""
+
+#: admin/partials/options.php:194
+msgid "WP Scheduled Posts - Pro Features"
+msgstr ""
+
+#: admin/partials/options.php:199
+msgid "In Pro version, You will get following supports:"
+msgstr ""
+
+#: admin/partials/options.php:208
+#: admin/setup-wizard/inc/wpscp-setup-wizard-helper-functions.php:50
+msgid "Auto Scheduler"
+msgstr ""
+
+#: admin/partials/options.php:218
+#: admin/setup-wizard/inc/wpscp-setup-wizard-helper-functions.php:75
+msgid "Manual Scheduler"
+msgstr ""
+
+#: admin/partials/options.php:225
+#: admin/setup-wizard/inc/wpscp-setup-wizard-helper-functions.php:61
+msgid "Missed Schedule Handler"
+msgstr ""
+
+#: admin/partials/options.php:232
+msgid "Premium Support"
+msgstr ""
+
+#: admin/partials/options.php:249 admin/partials/options.php:252
+msgid "Documentation"
+msgstr ""
+
+#: admin/partials/options.php:251
+msgid ""
+"Get started spending some time with the documentation to get familiar with "
+"WP Scheduled Posts. Build awesome websites for you or your clients with "
+"ease."
+msgstr ""
+
+#: admin/partials/options.php:260
+msgid "Contribute to WP Scheduled Posts"
+msgstr ""
+
+#: admin/partials/options.php:262
+msgid ""
+"You can contribute to make WP Scheduled Posts better reporting bugs, "
+"creating issues, pull requests at Github."
+msgstr ""
+
+#: admin/partials/options.php:263
+msgid "Report A Bug"
+msgstr ""
+
+#: admin/partials/options.php:271
+msgid "Need Help?"
+msgstr ""
+
+#: admin/partials/options.php:273
+msgid ""
+"Stuck with something? Get help from the community WPDeveloper Forum or "
+"Facebook Community. In case of emergency, initiate live chat at WP "
+"Scheduled Posts website."
+msgstr ""
+
+#: admin/partials/options.php:274
+msgid "Get Support"
+msgstr ""
+
+#: admin/partials/options.php:282
+msgid "Show your Love"
+msgstr ""
+
+#: admin/partials/options.php:284
+msgid ""
+"We love to have you in WP Scheduled Posts family. We are making it more "
+"awesome everyday."
+msgstr ""
+
+#: admin/partials/options.php:285
+msgid "Leave a Review"
+msgstr ""
+
+#: admin/partials/options.php:315
+msgid "To configure the Email Notify Settings, check out this"
+msgstr ""
+
+#: admin/partials/options.php:315
+msgid "Doc"
+msgstr ""
+
+#: admin/partials/options.php:324
+msgid " Notify User when a post is \"Under Review\""
+msgstr ""
+
+#: admin/partials/options.php:330
+msgid "Role:"
+msgstr ""
+
+#: admin/partials/options.php:340
+msgid "User Name"
+msgstr ""
+
+#: admin/partials/options.php:351
+msgid "Email Address"
+msgstr ""
+
+#: admin/partials/options.php:370
+msgid "Notify Author when a post is \"Rejected\""
+msgstr ""
+
+#: admin/partials/options.php:381
+msgid "Notify User when a post is \"Scheduled\""
+msgstr ""
+
+#: admin/partials/options.php:387
+msgid "Role"
+msgstr ""
+
+#: admin/partials/options.php:397
+msgid "Username"
+msgstr ""
+
+#: admin/partials/options.php:408
+msgid "Email"
+msgstr ""
+
+#: admin/partials/options.php:430
+msgid "Notify Author when a Scheduled Post is \"Published\""
+msgstr ""
+
+#: admin/partials/options.php:442
+msgid "Notify Author when a post is \"Published\""
+msgstr ""
+
+#: admin/partials/topbar.php:27
+msgid "General"
+msgstr ""
+
+#: admin/partials/topbar.php:28
+msgid "Email Notify"
+msgstr ""
+
+#: admin/partials/upgrade.php:13
+msgid "WP Scheduled Posts Pro"
+msgstr ""
+
+#: admin/setup-wizard/inc/class-wpscp-setup-wizard.php:140
+msgid "Previous"
+msgstr ""
+
+#: admin/setup-wizard/inc/class-wpscp-setup-wizard.php:141
+msgid "Next"
+msgstr ""
+
+#: admin/setup-wizard/inc/class-wpscp-setup-wizard.php:144
+msgid "We collect non-sensitive diagnostic data and plugin usage"
+msgstr ""
+
+#: admin/setup-wizard/inc/class-wpscp-setup-wizard.php:144
+msgid "information. Your site URL, WordPress & PHP version,"
+msgstr ""
+
+#: admin/setup-wizard/inc/class-wpscp-setup-wizard.php:144
+msgid "plugins & themes and email address to send you the discount"
+msgstr ""
+
+#: admin/setup-wizard/inc/class-wpscp-setup-wizard.php:144
+msgid "coupon. This data lets us make sure this plugin always stays"
+msgstr ""
+
+#: admin/setup-wizard/inc/class-wpscp-setup-wizard.php:144
+msgid "compatible with the most popular plugins and themes. No spam, we promise."
+msgstr ""
+
+#: admin/setup-wizard/inc/class-wpscp-setup-wizard.php:145
+msgid "What We Collect?"
+msgstr ""
+
+#: admin/setup-wizard/inc/class-wpscp-setup-wizard.php:148
+msgid "Skip This Step"
+msgstr ""
+
+#: admin/setup-wizard/inc/wpscp-setup-wizard-helper-functions.php:32
+msgid "Your Email Address"
+msgstr ""
+
+#: admin/setup-wizard/inc/wpscp-setup-wizard-helper-functions.php:54
+#: admin/setup-wizard/inc/wpscp-setup-wizard-helper-functions.php:65
+#: admin/setup-wizard/inc/wpscp-setup-wizard-helper-functions.php:79
+#: admin/setup-wizard/inc/wpscp-setup-wizard-helper-functions.php:90
+#: admin/setup-wizard/wpscp-setup-wizard-config.php:88
+msgid "Pro"
+msgstr ""
+
+#: admin/setup-wizard/inc/wpscp-setup-wizard-helper-functions.php:86
+msgid "Social Share"
+msgstr ""
+
+#: admin/setup-wizard/wpscp-setup-wizard-config.php:9
+msgid "01"
+msgstr ""
+
+#: admin/setup-wizard/wpscp-setup-wizard-config.php:10
+#: admin/setup-wizard/wpscp-setup-wizard-config.php:23
+#: admin/setup-wizard/wpscp-setup-wizard-config.php:56
+#: admin/setup-wizard/wpscp-setup-wizard-config.php:89
+msgid "Step"
+msgstr ""
+
+#: admin/setup-wizard/wpscp-setup-wizard-config.php:14
+msgid "Getting Started"
+msgstr ""
+
+#: admin/setup-wizard/wpscp-setup-wizard-config.php:22
+msgid "02"
+msgstr ""
+
+#: admin/setup-wizard/wpscp-setup-wizard-config.php:27
+msgid "Dashboard Widget Show/Hide"
+msgstr ""
+
+#: admin/setup-wizard/wpscp-setup-wizard-config.php:28
+msgid "Show Scheduled Posts in  Widget"
+msgstr ""
+
+#: admin/setup-wizard/wpscp-setup-wizard-config.php:33
+msgid "Sitewide Admin Bar Widget Show/Hide"
+msgstr ""
+
+#: admin/setup-wizard/wpscp-setup-wizard-config.php:39
+msgid "Admin Bar Widget Show/Hide"
+msgstr ""
+
+#: admin/setup-wizard/wpscp-setup-wizard-config.php:45
+msgid "Publish Post Button Show/Hide"
+msgstr ""
+
+#: admin/setup-wizard/wpscp-setup-wizard-config.php:55
+msgid "03"
+msgstr ""
+
+#: admin/setup-wizard/wpscp-setup-wizard-config.php:60
+msgid "Post Types Support"
+msgstr ""
+
+#: admin/setup-wizard/wpscp-setup-wizard-config.php:66
+msgid "Show Categories"
+msgstr ""
+
+#: admin/setup-wizard/wpscp-setup-wizard-config.php:72
+msgid "Allow users"
+msgstr ""
+
+#: admin/setup-wizard/wpscp-setup-wizard-config.php:93
+msgid "Pro Features"
+msgstr ""
+
+#: includes/class-plugin-usage-tracker.php:319
+msgid ""
+"We can't detect any plugin information. This is most probably because you "
+"have not included the code in the plugin main file."
+msgstr ""
+
+#: includes/class-plugin-usage-tracker.php:712
+msgid ""
+"Thank you for installing our plugin. We would like to track its usage on "
+"your site. We don't record any sensitive data, only information regarding "
+"the WordPress environment and plugin settings, which we will use to help us "
+"make improvements to the plugin. Tracking is completely optional."
+msgstr ""
+
+#: includes/class-plugin-usage-tracker.php:715
+msgid ""
+"Want to help make <strong>WP Scheduled Posts</strong> even more awesome? "
+"You can get a <strong>10% discount coupon</strong> for Pro upgrade if you "
+"allow. <a class=\"insights-data-we-collect\" href=\"#\">What we collect.</a>"
+msgstr ""
+
+#: includes/class-plugin-usage-tracker.php:723
+msgid ""
+"We collect non-sensitive diagnostic data and plugin usage information. Your "
+"site URL, WordPress & PHP version, plugins & themes and email address to "
+"send you the discount coupon. This data lets us make sure this plugin "
+"always stays compatible with the most popular plugins and themes. No spam, "
+"I promise."
+msgstr ""
+
+#: includes/class-plugin-usage-tracker.php:726
+msgid "Sure, I'd like to help"
+msgstr ""
+
+#: includes/class-plugin-usage-tracker.php:727
+msgid "No Thanks"
+msgstr ""
+
+#: includes/class-plugin-usage-tracker.php:767
+msgid ""
+"Thank you for opting in to tracking. Would you like to receive occasional "
+"news about this plugin, including details of new features and special "
+"offers?"
+msgstr ""
+
+#: includes/class-plugin-usage-tracker.php:774
+msgid "Yes Please"
+msgstr ""
+
+#: includes/class-plugin-usage-tracker.php:775
+msgid "No Thank You"
+msgstr ""
+
+#: includes/class-plugin-usage-tracker.php:809
+msgid "Sorry to see you go"
+msgstr ""
+
+#: includes/class-plugin-usage-tracker.php:810
+msgid ""
+"Before you deactivate the plugin, would you quickly give us your reason for "
+"doing so?"
+msgstr ""
+
+#: includes/class-plugin-usage-tracker.php:813
+msgid "I no longer need the plugin"
+msgstr ""
+
+#: includes/class-plugin-usage-tracker.php:815
+msgid "I found a better plugin"
+msgstr ""
+
+#: includes/class-plugin-usage-tracker.php:816
+msgid "Please share which plugin"
+msgstr ""
+
+#: includes/class-plugin-usage-tracker.php:818
+msgid "I couldn't get the plugin to work"
+msgstr ""
+
+#: includes/class-plugin-usage-tracker.php:819
+msgid "It's a temporary deactivation"
+msgstr ""
+
+#: includes/class-plugin-usage-tracker.php:822
+msgid "Other"
+msgstr ""
+
+#: includes/class-plugin-usage-tracker.php:823
+msgid "Please share the reason"
+msgstr ""
+
+#: includes/class-plugin-usage-tracker.php:884
+msgid "Submitting form"
+msgstr ""
+
+#: includes/class-plugin-usage-tracker.php:1009
+msgid "Submit and Deactivate"
+msgstr ""
+
+#: includes/class-plugin-usage-tracker.php:1009
+msgid "Just Deactivate"
+msgstr ""
+
+#: includes/class-wpdev-core-install.php:55
+msgid "You don't have permission to install the plugins"
+msgstr ""
+
+#: includes/class-wpdev-core-install.php:62
+msgid "You don't have set any slug and file name to install the plugins"
+msgstr ""
+
+#: includes/class-wpdev-notices.php:418
+msgid "Install Now!"
+msgstr ""
+
+#: includes/class-wpscp.php:131
+msgid "Publish Post Immediately"
+msgstr ""
+
+#: includes/class-wpscp.php:244
+msgid "Settings"
+msgstr ""
+
+#: includes/class-wpscp.php:248
+msgid "Go Pro"
+msgstr ""
+
+#: includes/class-wpscp.php:263
+msgid "Docs & FAQs"
+msgstr ""
+
+#: includes/class-wpscp.php:296
+msgid "Ok, you deserve it!"
+msgstr ""
+
+#: includes/class-wpscp.php:301
+msgid "I already did"
+msgstr ""
+
+#: includes/class-wpscp.php:309
+msgid "Maybe Later"
+msgstr ""
+
+#: includes/class-wpscp.php:317
+msgid "I need help"
+msgstr ""
+
+#: includes/class-wpscp.php:322
+msgid "Never show again"
+msgstr ""
+
+#: includes/class-wpscp.php:334
+msgid ""
+"We hope you're enjoying WP Scheduled Posts! Could you please do us a BIG "
+"favor and give it a 5-star rating on WordPress to help us spread the word "
+"and boost our motivation?"
+msgstr ""
+
+#: includes/class-wpscp.php:342
+msgid ""
+"We hope you're enjoying WP Scheduled Posts! Upgrade to <a "
+"href=\"https://wpdeveloper.net/in/wp-scheduled-posts-pro\" "
+"target=\"_blank\">Premium Version</a> for more stunning features!"
+msgstr ""
+
+#: includes/class-wpscp.php:349
+msgid "Install Pro"
+msgstr ""
+
+#: includes/wpscp-functions.php:222
+msgid "Publish future post immediately"
+msgstr ""
+
+#: includes/wpscp-functions.php:225
+msgid ""
+"If you schedule this post and check this option then your post will be "
+"published immediately but post date-time will not set current date. Post "
+"date-time will be your scheduled future date-time."
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"A complete solution for WordPress Post Schedule. Get an admin Bar & "
+"Dashboard Widget showing all your scheduled posts."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "WPDeveloper"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://wpdeveloper.net"
+msgstr ""

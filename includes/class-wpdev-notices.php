@@ -415,7 +415,7 @@ if(!class_exists('WpScp_WPDeveloper_Notice')){
             if( empty( $plugin_slug ) ) {
                 return;
             }
-            echo '<button data-slug="'. $plugin_slug .'" id="plugin-install-core-'. $this->plugin_name .'" class="button button-primary">'. __( 'Install Now!', $this->text_domain ) .'</button>';
+            echo '<button data-slug="'. $plugin_slug .'" id="plugin-install-core-'. $this->plugin_name .'" class="button button-primary">'. __( 'Install Now!', $this->text_domain, 'wp-scheduled-posts' ) .'</button>';
         }
         /**
          * This methods is responsible for get notice image.
