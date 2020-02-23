@@ -2968,6 +2968,18 @@ a.wpsp-notice-cta{
 		border: 0;
 		cursor: pointer;
 	}
+	.entry-header {
+		display: flex;
+		-webkit-box-align: center;
+		-ms-flex-align: center;
+		align-items: center;
+		margin-bottom: 20px;
+	}
+	.entry-content {
+		&.disable {
+			display: none;
+		}
+	}
 }
 
 
