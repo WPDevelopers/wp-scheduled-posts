@@ -2297,6 +2297,10 @@ a.wpsp-notice-cta{
 	padding: 30px 0 30px 30px;
 	min-height: 598px;
 }
+.social-integrations .wpsp-integ-item_section {
+	min-height: 410px;
+}
+
 .wpsp-integ-item_section:nth-child(even) {
 	border-left: 1px solid #f5f5f5;
 }
@@ -2918,6 +2922,7 @@ a.wpsp-notice-cta{
 				min-width: 75px;
 				border-radius: 4px;
 				border: 0;
+				cursor: pointer;
 				&.refresh {
 					background: #16a085;
 					cursor: pointer;
@@ -3043,4 +3048,42 @@ a.wpsp-notice-cta{
 	  transform: translate(24px, 0);
 	}
   }
-  
+
+/**
+* Instant share modal in wp editor
+*/
+#wpscpproInstantShareModal {
+	.viewlog {
+		font-size: 12px;
+		padding-left: 5px;
+		text-decoration: none;
+	}
+	.log {
+		display: none;
+		background-color: #fff8e5;
+		border-left-color: #ffb900;
+		border: 1px solid #ffb900;
+		border-left-width: 4px;
+		padding: 5px 10px;
+		margin: 5px 0;
+	}
+	.status {
+		background: #ffb900;
+		padding: 4px 7px;
+		border-radius: 5px;
+		color: #fff;
+		&.failed {
+			background: #ca4a1f;
+		}
+		&.success {
+			background: #007cba;
+		}
+	}
+}
+
+/**
+* wpscp dashaboard token generate modal
+*/
+#wpscpproMultiSocialTokenModel {
+	text-align: center;
+}
