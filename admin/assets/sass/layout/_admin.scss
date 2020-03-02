@@ -2297,6 +2297,10 @@ a.wpsp-notice-cta{
 	padding: 30px 0 30px 30px;
 	min-height: 598px;
 }
+.social-integrations .wpsp-integ-item_section {
+	min-height: 410px;
+}
+
 .wpsp-integ-item_section:nth-child(even) {
 	border-left: 1px solid #f5f5f5;
 }
@@ -2327,7 +2331,6 @@ a.wpsp-notice-cta{
 .wpsp-integ-content{
 	padding: 0;
 	box-sizing: border-box;
-	display: none;
 }
 
 .wpsp-integ-content form table td{
@@ -2383,8 +2386,6 @@ a.wpsp-notice-cta{
 .wpsp-integ-item_section iframe{
 	height: 30px;
 }
-.wpsp-dashboard-body .rightinfotext,
-.wpsp-dashboard-body #acessTokenNotice,
 .wpsp-dashboard-body #instagram_access_token,
 .wpsp-dashboard-body #fb_access_token{
 	margin-left: calc(35% + 5px);
@@ -2872,4 +2873,217 @@ a.wpsp-notice-cta{
 		justify-content: center;
 		align-items: center;
 	}
+}
+
+/** Multi Social  **/
+.wpscp-multi-social {
+	width: 90%;
+	background: #f2f2f2;
+	padding: 15px;
+	.item {
+		display: flex;
+		align-items: center;
+		background: #f8f8f8;
+		margin-bottom: 10px;
+		padding: 10px;
+		.item-body {
+			display: flex;
+			align-items: center;
+			width: 60%;
+			.thumb {
+				display: inline-block;
+				margin-right: 15px;
+				img {
+					width: 50px;
+				}
+			}
+			.meta {
+				display: inline-block;
+				.username {
+					font-size: 16px;
+					margin-top: 0;
+					margin-bottom: 5px;
+				}
+				.info {
+					font-size: 12px;
+					margin: 0;
+				}
+			}
+		}
+		.item-footer {
+			display: inline-block;
+			.btn {
+				display: inline-block;
+				background: #29d6a1;
+				color: #fff;
+				line-height: 30px;
+				height: 30px;
+				padding: 0;
+				min-width: 75px;
+				border-radius: 4px;
+				border: 0;
+				cursor: pointer;
+				&.refresh {
+					background: #16a085;
+					cursor: pointer;
+				}
+				&.remove {
+					background: #e74c3c;
+					cursor: pointer;
+				}
+				&.edit {
+					background: #8e44ad;
+					cursor: pointer;
+				}
+			}
+		}
+	}
+	.addnew-profile {
+		display: none;
+		background: #f8f8f8;
+		padding: 15px;
+		.form-group {
+			margin-bottom: 30px;
+			display: flex;
+			label {
+				width: 30%;
+				display: inline-block;
+				font-size: 14px;
+				font-weight: 500;
+			}
+			.form-body {
+				width: 69%;
+				display: inline-block;
+				input {
+					width: 100%;
+					height: 35px;
+				}
+				.notice {
+					margin-left: 0;
+				}
+			}
+		}
+	}
+	.btn-new-profile {
+		display: inline-block;
+		background: #29d6a1;
+		color: #fff;
+		padding: 5px 10px;
+		border-radius: 4px;
+		border: 0;
+		cursor: pointer;
+	}
+	.entry-header {
+		display: flex;
+		-webkit-box-align: center;
+		-ms-flex-align: center;
+		align-items: center;
+		margin-bottom: 20px;
+	}
+	.entry-content {
+		&.disable {
+			display: none;
+		}
+	}
+}
+
+
+/**
+* Ajax Loader
+*/
+
+.wpscp-pro-ajax-loader {
+	display: inline-block;
+	position: relative;
+	width: 69px;
+	height: 13px;
+	margin-left: -8px;
+  }
+  .wpscp-pro-ajax-loader div {
+	position: absolute;
+	top: 0;
+	width: 13px;
+	height: 13px;
+	border-radius: 50%;
+	background: #fff;
+	animation-timing-function: cubic-bezier(0, 1, 1, 0);
+  }
+  .wpscp-pro-ajax-loader div:nth-child(1) {
+	left: 8px;
+	animation: wpscp-pro-ajax-loader1 0.6s infinite;
+  }
+  .wpscp-pro-ajax-loader div:nth-child(2) {
+	left: 8px;
+	animation: wpscp-pro-ajax-loader2 0.6s infinite;
+  }
+  .wpscp-pro-ajax-loader div:nth-child(3) {
+	left: 32px;
+	animation: wpscp-pro-ajax-loader2 0.6s infinite;
+  }
+  .wpscp-pro-ajax-loader div:nth-child(4) {
+	left: 56px;
+	animation: wpscp-pro-ajax-loader3 0.6s infinite;
+  }
+  @keyframes wpscp-pro-ajax-loader1 {
+	0% {
+	  transform: scale(0);
+	}
+	100% {
+	  transform: scale(1);
+	}
+  }
+  @keyframes wpscp-pro-ajax-loader3 {
+	0% {
+	  transform: scale(1);
+	}
+	100% {
+	  transform: scale(0);
+	}
+  }
+  @keyframes wpscp-pro-ajax-loader2 {
+	0% {
+	  transform: translate(0, 0);
+	}
+	100% {
+	  transform: translate(24px, 0);
+	}
+  }
+
+/**
+* Instant share modal in wp editor
+*/
+#wpscpproInstantShareModal {
+	.viewlog {
+		font-size: 12px;
+		padding-left: 5px;
+		text-decoration: none;
+	}
+	.log {
+		display: none;
+		background-color: #fff8e5;
+		border-left-color: #ffb900;
+		border: 1px solid #ffb900;
+		border-left-width: 4px;
+		padding: 5px 10px;
+		margin: 5px 0;
+	}
+	.status {
+		background: #ffb900;
+		padding: 4px 7px;
+		border-radius: 5px;
+		color: #fff;
+		&.failed {
+			background: #ca4a1f;
+		}
+		&.success {
+			background: #007cba;
+		}
+	}
+}
+
+/**
+* wpscp dashaboard token generate modal
+*/
+#wpscpproMultiSocialTokenModel {
+	text-align: center;
 }
