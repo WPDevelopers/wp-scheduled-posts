@@ -196,11 +196,14 @@ final class WpScp {
             $wpscpCCVN  = date("ymd-Gis", filemtime( WPSCP_ADMIN_DIR_PATH . 'assets/js/wpscp-fullcalendar-config.js' ));
             wp_enqueue_script('wpscp-fullcalendar', WPSCP_ADMIN_URL . 'assets/js/wpscp-fullcalendar-config.js', array('jquery'), $wpscpCCVN, false);
 			// in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
-			wp_localize_script( 'wpscp-fullcalendar', 'wpscp_calendar_ajax_object',
+            $now = new \DateTime('now');
+            $month = $now->format('m');
+            $year = $now->format('Y');
+            wp_localize_script( 'wpscp-fullcalendar', 'wpscp_calendar_ajax_object',
             array( 
             	'ajax_url' => admin_url( 'admin-ajax.php' ), 
                 'nonce' => wp_create_nonce('wpscp-calendar-ajax-nonce'),
-                'calendar_rest_route' => site_url('/?rest_route=/wpscp/v1/future/')
+                'calendar_rest_route' => site_url('/?rest_route=/wpscp/v1/post_type=post/month='.$month.'/year=' . $year)
             ) );
         }
     }
