@@ -3895,10 +3895,8 @@ a.wpsp-notice-cta {
 /**
 * Instant share modal in wp editor
 */
-#wpscpproInstantShareModal .viewlog {
-  font-size: 12px;
-  padding-left: 5px;
-  text-decoration: none;
+#wpscpproInstantShareModal {
+  padding: 20px 20px 10px 20px;
 }
 #wpscpproInstantShareModal .log {
   display: none;
@@ -3910,18 +3908,103 @@ a.wpsp-notice-cta {
   padding: 5px 10px;
   margin: 5px 0;
 }
-#wpscpproInstantShareModal .status {
-  background: #ffb900;
-  padding: 4px 7px;
+#wpscpproInstantShareModal .viewlog {
+  background: #19d167;
   margin: 0 3px;
   border-radius: 5px;
   color: #fff;
+  display: inline-block;
+  padding: 5px 15px;
+  border-radius: 25px;
+  text-decoration: none;
+}
+#wpscpproInstantShareModal .viewlog.failed {
+  background: #f53d53;
+}
+#wpscpproInstantShareModal .status {
+  background: #f0efff;
+  margin: 0 3px;
+  border-radius: 5px;
+  color: #c6c3eb;
+  display: inline-block;
+  padding: 5px 15px;
+  border-radius: 25px;
 }
 #wpscpproInstantShareModal .status.failed {
-  background: #ca4a1f;
+  background: #feebed;
+  color: #f53e54;
 }
 #wpscpproInstantShareModal .status.success {
-  background: #007cba;
+  background: #e8faef;
+  color: #1ad268;
+}
+#wpscpproInstantShareModal .modalBody .entry-head {
+  line-height: 30px;
+  color: #fff;
+  height: 30px;
+  padding: 0 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+#wpscpproInstantShareModal .modalBody .entry-head img {
+  width: 15px;
+  height: 15px;
+}
+#wpscpproInstantShareModal .modalBody .entry-head .entry-head-title {
+  display: inline-block;
+  margin: 0 0 0 10px;
+  color: #fff;
+}
+#wpscpproInstantShareModal .modalBody .entry-head.facebook {
+  background: #3b5997;
+}
+#wpscpproInstantShareModal .modalBody .entry-head.twitter {
+  background: #55abed;
+}
+#wpscpproInstantShareModal .modalBody .entry-head.linkedin {
+  background: #0079b9;
+}
+#wpscpproInstantShareModal .modalBody .entry-head.pinterest {
+  background: #c8232c;
+}
+#wpscpproInstantShareModal .modalBody ul {
+  margin: 0 10px;
+}
+#wpscpproInstantShareModal .modalBody ul li .item-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border: 1px solid #e7e7e7;
+  padding: 5px 15px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+#wpscpproInstantShareModal .modalBody ul li .item-content .entry-title {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  margin: 0;
+}
+#wpscpproInstantShareModal .modalBody ul li .item-content .type {
+  background: #f0efff;
+  color: #3b5997;
+  padding: 5px 25px;
+  border-radius: 25px;
+}
+#wpscpproInstantShareModal .modalBody ul li .item-content .entry-thumbnail {
+  margin-right: 10px;
+}
+#wpscpproInstantShareModal .modalBody ul li .item-content .entry-thumbnail img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid #e7e7e7;
 }
 
 /**

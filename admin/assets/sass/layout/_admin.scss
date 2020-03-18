@@ -3260,11 +3260,7 @@ a.wpsp-notice-cta {
 * Instant share modal in wp editor
 */
 #wpscpproInstantShareModal {
-  .viewlog {
-    font-size: 12px;
-    padding-left: 5px;
-    text-decoration: none;
-  }
+  padding: 20px 20px 10px 20px;
   .log {
     display: none;
     background-color: #fff8e5;
@@ -3275,17 +3271,98 @@ a.wpsp-notice-cta {
     padding: 5px 10px;
     margin: 5px 0;
   }
-  .status {
-    background: #ffb900;
-    padding: 4px 7px;
+  .viewlog {
+    background: #19d167;
     margin: 0 3px;
     border-radius: 5px;
     color: #fff;
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 25px;
+    text-decoration: none;
     &.failed {
-      background: #ca4a1f;
+      background: #f53d53;
+    }
+  }
+  .status {
+    background: #f0efff;
+    margin: 0 3px;
+    border-radius: 5px;
+    color: #c6c3eb;
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 25px;
+    &.failed {
+      background: #feebed;
+      color: #f53e54;
     }
     &.success {
-      background: #007cba;
+      background: #e8faef;
+      color: #1ad268;
+    }
+  }
+  .modalBody {
+    .entry-head {
+      line-height: 30px;
+      color: #fff;
+      height: 30px;
+      padding: 0 10px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      img {
+        width: 15px;
+        height: 15px;
+      }
+      .entry-head-title {
+        display: inline-block;
+        margin: 0 0 0 10px;
+        color: #fff;
+      }
+      &.facebook {
+        background: #3b5997;
+      }
+      &.twitter {
+        background: #55abed;
+      }
+      &.linkedin {
+        background: #0079b9;
+      }
+      &.pinterest {
+        background: #c8232c;
+      }
+    }
+    ul {
+      margin: 0 10px;
+      li {
+        .item-content {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border: 1px solid #e7e7e7;
+          padding: 5px 15px;
+          margin-bottom: 10px;
+          border-radius: 5px;
+          .entry-title {
+            flex: 1;
+            margin: 0;
+          }
+          .type {
+            background: #f0efff;
+            color: #3b5997;
+            padding: 5px 25px;
+            border-radius: 25px;
+          }
+          .entry-thumbnail {
+            margin-right: 10px;
+            img {
+              width: 30px;
+              height: 30px;
+              border-radius: 50%;
+              border: 1px solid #e7e7e7;
+            }
+          }
+        }
+      }
     }
   }
 }
