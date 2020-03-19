@@ -2951,6 +2951,7 @@ a.wpsp-notice-cta {
 
 /** Social Tab **/
 .wpscp-social-tab {
+  width: 70%;
 	.wp-tab-bar {
 		margin-bottom: 30px;
 		li {
@@ -3354,6 +3355,7 @@ a.wpsp-notice-cta {
           }
           .entry-thumbnail {
             margin-right: 10px;
+            line-height: 0;
             img {
               width: 30px;
               height: 30px;
@@ -3364,6 +3366,181 @@ a.wpsp-notice-cta {
         }
       }
     }
+  }
+}
+/**
+* Pinterest Board Select
+*/
+#wpscpproPinterestBoardSelectModal {
+  padding: 20px;
+  .modalBody {
+    .entry-head {
+      color: #fff;
+      height: 40px;
+      padding: 0 10px;
+      border-radius: 5px;
+      line-height: 40px;
+      margin-bottom: 10px;
+      img {
+        width: 15px;
+        height: 15px;
+      }
+      .entry-head-title {
+        display: inline-block;
+        margin: 0 0 0 10px;
+        color: #fff;
+      }
+      &.pinterest {
+        background: #c8232c;
+      }
+    }
+    ul {
+      li {
+        .item-content {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border: 1px solid #e7e7e7;
+          padding: 5px 15px;
+          margin-bottom: 10px;
+          border-radius: 5px;
+          .entry-title {
+            flex: 1;
+            margin: 0;
+          }
+          .type {
+            background: #f0efff;
+            color: #3b5997;
+            padding: 5px 25px;
+            border-radius: 25px;
+          }
+          .entry-thumbnail {
+            margin-right: 10px;
+            line-height: 0;
+            img {
+              width: 30px;
+              height: 30px;
+              border-radius: 50%;
+              border: 1px solid #e7e7e7;
+            }
+          }
+        }
+      }
+    }
+    .btn-pinterest-save-board {
+      float: right;
+      background: #29d6a1;
+      border: 0;
+      width: 100px;
+      height: 40px;
+      font-size: 15px;
+      border-radius: 5px;
+      color: #fff;
+      font-weight: 500;
+    }
+  }
+}
+
+/**
+* Facebook page & group Select
+*/
+#wpscpproFacebookPageAndGroupSelectModal {
+  padding: 20px;
+  .modalBody {
+    .entry-head {
+      color: #fff;
+      height: 40px;
+      padding: 0 10px;
+      border-radius: 5px;
+      line-height: 40px;
+      margin-bottom: 10px;
+      img {
+        width: 15px;
+        height: 15px;
+      }
+      .entry-head-title {
+        display: inline-block;
+        margin: 0 0 0 10px;
+        color: #fff;
+      }
+      &.facebook {
+        background: #3b5997;
+      }
+    }
+    ul {
+      li {
+        .item-content {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border: 1px solid #e7e7e7;
+          padding: 5px 15px;
+          margin-bottom: 10px;
+          border-radius: 5px;
+          .entry-title {
+            flex: 1;
+            margin: 0;
+          }
+          .type {
+            background: #f0efff;
+            color: #3b5997;
+            padding: 5px 25px;
+            border-radius: 25px;
+          }
+          .entry-thumbnail {
+            margin-right: 10px;
+            line-height: 0;
+            img {
+              width: 30px;
+              height: 30px;
+              border-radius: 50%;
+              border: 1px solid #e7e7e7;
+            }
+          }
+        }
+      }
+    }
+    .btn-facebook-save-board {
+      float: right;
+      background: #29d6a1;
+      border: 0;
+      width: 100px;
+      height: 40px;
+      font-size: 15px;
+      border-radius: 5px;
+      color: #fff;
+      font-weight: 500;
+    }
+  }
+}
+
+/**
+* Facebook Group Notify
+*/
+#wpscpproFacebookGroupNotifyModal {
+  padding: 20px;
+  position: fixed;
+  right: 40px;
+  bottom: 40px;
+  width: 420px;
+  border-radius: 15px;
+  background: #6b61ff;
+  .entry-thumbnail {
+    margin-top: -55px;
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+  p {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .btn-close-facebook-group-notify {
+    position: absolute;
+    top: -17px;
+    right: 40px;
   }
 }
 

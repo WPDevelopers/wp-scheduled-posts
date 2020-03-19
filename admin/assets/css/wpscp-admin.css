@@ -3522,6 +3522,9 @@ a.wpsp-notice-cta {
 }
 
 /** Social Tab **/
+.wpscp-social-tab {
+  width: 70%;
+}
 .wpscp-social-tab .wp-tab-bar {
   margin-bottom: 30px;
 }
@@ -3999,12 +4002,193 @@ a.wpsp-notice-cta {
 }
 #wpscpproInstantShareModal .modalBody ul li .item-content .entry-thumbnail {
   margin-right: 10px;
+  line-height: 0;
 }
 #wpscpproInstantShareModal .modalBody ul li .item-content .entry-thumbnail img {
   width: 30px;
   height: 30px;
   border-radius: 50%;
   border: 1px solid #e7e7e7;
+}
+
+/**
+* Pinterest Board Select
+*/
+#wpscpproPinterestBoardSelectModal {
+  padding: 20px;
+}
+#wpscpproPinterestBoardSelectModal .modalBody .entry-head {
+  color: #fff;
+  height: 40px;
+  padding: 0 10px;
+  border-radius: 5px;
+  line-height: 40px;
+  margin-bottom: 10px;
+}
+#wpscpproPinterestBoardSelectModal .modalBody .entry-head img {
+  width: 15px;
+  height: 15px;
+}
+#wpscpproPinterestBoardSelectModal .modalBody .entry-head .entry-head-title {
+  display: inline-block;
+  margin: 0 0 0 10px;
+  color: #fff;
+}
+#wpscpproPinterestBoardSelectModal .modalBody .entry-head.pinterest {
+  background: #c8232c;
+}
+#wpscpproPinterestBoardSelectModal .modalBody ul li .item-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border: 1px solid #e7e7e7;
+  padding: 5px 15px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+#wpscpproPinterestBoardSelectModal .modalBody ul li .item-content .entry-title {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  margin: 0;
+}
+#wpscpproPinterestBoardSelectModal .modalBody ul li .item-content .type {
+  background: #f0efff;
+  color: #3b5997;
+  padding: 5px 25px;
+  border-radius: 25px;
+}
+#wpscpproPinterestBoardSelectModal .modalBody ul li .item-content .entry-thumbnail {
+  margin-right: 10px;
+  line-height: 0;
+}
+#wpscpproPinterestBoardSelectModal .modalBody ul li .item-content .entry-thumbnail img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid #e7e7e7;
+}
+#wpscpproPinterestBoardSelectModal .modalBody .btn-pinterest-save-board {
+  float: right;
+  background: #29d6a1;
+  border: 0;
+  width: 100px;
+  height: 40px;
+  font-size: 15px;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: 500;
+}
+
+/**
+* Facebook page & group Select
+*/
+#wpscpproFacebookPageAndGroupSelectModal {
+  padding: 20px;
+}
+#wpscpproFacebookPageAndGroupSelectModal .modalBody .entry-head {
+  color: #fff;
+  height: 40px;
+  padding: 0 10px;
+  border-radius: 5px;
+  line-height: 40px;
+  margin-bottom: 10px;
+}
+#wpscpproFacebookPageAndGroupSelectModal .modalBody .entry-head img {
+  width: 15px;
+  height: 15px;
+}
+#wpscpproFacebookPageAndGroupSelectModal .modalBody .entry-head .entry-head-title {
+  display: inline-block;
+  margin: 0 0 0 10px;
+  color: #fff;
+}
+#wpscpproFacebookPageAndGroupSelectModal .modalBody .entry-head.facebook {
+  background: #3b5997;
+}
+#wpscpproFacebookPageAndGroupSelectModal .modalBody ul li .item-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border: 1px solid #e7e7e7;
+  padding: 5px 15px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+#wpscpproFacebookPageAndGroupSelectModal .modalBody ul li .item-content .entry-title {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  margin: 0;
+}
+#wpscpproFacebookPageAndGroupSelectModal .modalBody ul li .item-content .type {
+  background: #f0efff;
+  color: #3b5997;
+  padding: 5px 25px;
+  border-radius: 25px;
+}
+#wpscpproFacebookPageAndGroupSelectModal .modalBody ul li .item-content .entry-thumbnail {
+  margin-right: 10px;
+  line-height: 0;
+}
+#wpscpproFacebookPageAndGroupSelectModal .modalBody ul li .item-content .entry-thumbnail img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid #e7e7e7;
+}
+#wpscpproFacebookPageAndGroupSelectModal .modalBody .btn-facebook-save-board {
+  float: right;
+  background: #29d6a1;
+  border: 0;
+  width: 100px;
+  height: 40px;
+  font-size: 15px;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: 500;
+}
+
+/**
+* Facebook Group Notify
+*/
+#wpscpproFacebookGroupNotifyModal {
+  padding: 20px;
+  position: fixed;
+  right: 40px;
+  bottom: 40px;
+  width: 420px;
+  border-radius: 15px;
+  background: #6b61ff;
+}
+#wpscpproFacebookGroupNotifyModal .entry-thumbnail {
+  margin-top: -55px;
+}
+#wpscpproFacebookGroupNotifyModal .entry-thumbnail img {
+  width: 100%;
+  height: auto;
+}
+#wpscpproFacebookGroupNotifyModal p {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+}
+#wpscpproFacebookGroupNotifyModal .btn-close-facebook-group-notify {
+  position: absolute;
+  top: -17px;
+  right: 40px;
 }
 
 /**
