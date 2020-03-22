@@ -17,10 +17,19 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
             add_action( 'wp_ajax_quick_setup_wizard_action', array(__CLASS__, 'quick_setup_wizard_data_save') );
         }
         
-        public static function setup_wizard_scripts(){
-            wp_enqueue_style( 'wpscp-setup-wizard', WPSCP_ADMIN_URL . 'setup-wizard/assets/css/wpscp-setup-wizard.css' );
-            $wpscpQswVersionNumber  = date("ymd-Gis", filemtime( WPSCP_ADMIN_DIR_PATH . 'setup-wizard/assets/js/wpscp-setup-wizard.js' ));
-            wp_enqueue_script( 'wpscp-setup-wizard', WPSCP_ADMIN_URL . 'setup-wizard/assets/js/wpscp-setup-wizard.js', array('jquery'), $wpscpQswVersionNumber, false );
+        public static function setup_wizard_scripts($hook){
+            if ( is_admin() && (
+                $hook == 'toplevel_page_wp-scheduled-posts' || 
+                $hook == 'admin_page_wpscp-quick-setup-wizard' || 
+                $hook == 'scheduled-posts_page_wp-scheduled-calendar' || 
+                $hook == 'edit.php' ||
+                $hook == 'post-new.php' ||
+                $hook == 'post.php'
+                )) { 
+                wp_enqueue_style( 'wpscp-setup-wizard', WPSCP_ADMIN_URL . 'setup-wizard/assets/css/wpscp-setup-wizard.css' );
+                $wpscpQswVersionNumber  = date("ymd-Gis", filemtime( WPSCP_ADMIN_DIR_PATH . 'setup-wizard/assets/js/wpscp-setup-wizard.js' ));
+                wp_enqueue_script( 'wpscp-setup-wizard', WPSCP_ADMIN_URL . 'setup-wizard/assets/js/wpscp-setup-wizard.js', array('jquery'), $wpscpQswVersionNumber, false );
+            }
         }
 
 		// add admin page
