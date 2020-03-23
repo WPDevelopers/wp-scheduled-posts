@@ -1040,7 +1040,7 @@
   width: 34px;
   height: 34px;
   background: #fff;
-  z-index: 2;
+  z-index: 1;
   border-radius: 2px;
   -webkit-transition: all 0.35s;
   transition: all 0.35s;
@@ -2468,9 +2468,11 @@ a.wpsp-notice-cta {
 .wpsp-integ-item_section iframe {
   height: 30px;
 }
+.wpsp-dashboard-body .rightinfotext,
+.wpsp-dashboard-body #acessTokenNotice,
 .wpsp-dashboard-body #instagram_access_token,
-.wpsp-dashboard-body #fb_access_token {
-  margin-left: calc(35% + 5px);
+.wpsp-dashboard-body #fb_access_token{
+	margin-left: calc(35% + 5px);
 }
 .wpsp-dashboard-body #fb_access_token {
   margin-top: 10px;
@@ -3437,6 +3439,7 @@ a.wpsp-notice-cta {
       border-radius: 5px;
       color: #fff;
       font-weight: 500;
+      cursor: pointer;
     }
   }
 }
@@ -3500,7 +3503,7 @@ a.wpsp-notice-cta {
         }
       }
     }
-    .btn-facebook-save-board {
+    .btn-facebook-save-pagegroup {
       float: right;
       background: #29d6a1;
       border: 0;
@@ -3510,6 +3513,7 @@ a.wpsp-notice-cta {
       border-radius: 5px;
       color: #fff;
       font-weight: 500;
+      cursor: pointer;
     }
   }
 }
