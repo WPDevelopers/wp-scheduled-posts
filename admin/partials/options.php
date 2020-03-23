@@ -193,7 +193,13 @@
         <div class="wpsp_pro_features_lists">
             <h3><?php esc_html_e('WP Scheduled Posts - Pro Features', 'wp-scheduled-posts'); ?></h3>
             <div class="wpsp_pro_support_panel">
+                <?php 
+                    if(!class_exists('WpScp_Pro')) :
+                ?>
                 <h4><?php esc_html_e('In Pro version, You will get following supports:', 'wp-scheduled-posts'); ?></h4>
+                <?php 
+                    endif;
+                ?>
                 <div class="wpsp_pro_suppurt_lists">
                     <div class="wpsp_support_items">
 
