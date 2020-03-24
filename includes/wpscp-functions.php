@@ -392,3 +392,26 @@ if(!function_exists('wpscp_email_notify_schedule_email_list')){
 		return array_unique($email);
 	}
 }
+
+/**
+ * Check Supported Post type for admin page and plugin main settings page
+ * 
+ * @return bool
+ * @version 3.1.12
+ */
+if(!function_exists('wpscp_is_supported_plugin_page_hook_suffix')){
+	function wpscp_is_supported_plugin_page_hook_suffix($current_post_type, $hook){
+		$wpscp_options=wpscp_get_options();
+		$post_types = wpscp_get_all_post_type();
+		$allow_post_types = ($wpscp_options['allow_post_types'] == '' ? array('post') : $wpscp_options['allow_post_types']);
+		if(
+			in_array($current_post_type, $allow_post_types) ||
+			$hook == 'posts_page_wp-scheduled-calendar-post' || 
+			$hook == 'admin_page_wpscp-quick-setup-wizard' || 
+			$hook == 'scheduled-posts_page_wp-scheduled-calendar'
+		){
+			return true;
+		}
+		return false;
+	}
+}
