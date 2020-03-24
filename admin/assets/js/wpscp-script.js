@@ -12,7 +12,7 @@ jQuery(document).ready(function ($) {
     wpsp_activated_inputs.forEach( function(wpsp_activated_input) {
 	    wpsp_activated_input.addEventListener('change', function(event) {
 	    	current_event = event.target;
-	    	wpspOnChangeSubmitBtnStyle(current_event);
+	    	// wpspOnChangeSubmitBtnStyle(current_event);
 	    	
 	    })
     } );

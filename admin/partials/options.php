@@ -194,12 +194,13 @@
             <h3><?php esc_html_e('WP Scheduled Posts - Pro Features', 'wp-scheduled-posts'); ?></h3>
             <div class="wpsp_pro_support_panel">
                 <?php 
-                    if( ! class_exists('WpScp_Pro') ) {
+                    if(!class_exists('WpScp_Pro')) :
                 ?>
                 <h4><?php esc_html_e('In Pro version, You will get following supports:', 'wp-scheduled-posts'); ?></h4>
-                <?php } ?>
+                <?php 
+                    endif;
+                ?>
                 <div class="wpsp_pro_suppurt_lists">
-
                     <div class="wpsp_support_items">
 
                         <a href="https://wpdeveloper.net/docs/wp-scheduled-posts/how-does-auto-scheduler-work/" target="__blank">
@@ -234,7 +235,6 @@
                         </a>
                     </div>
                 </div>
-                
             </div>
         </div>
     </div>

@@ -162,7 +162,14 @@ final class WpScp {
      * @function plugin_script
      */
     public function plugin_scripts( $hook ) {
-        if ( is_admin() ) {
+        if ( is_admin() && (
+            $hook == 'toplevel_page_wp-scheduled-posts' || 
+            $hook == 'admin_page_wpscp-quick-setup-wizard' || 
+            $hook == 'scheduled-posts_page_wp-scheduled-calendar' || 
+            $hook == 'edit.php' ||
+            $hook == 'post-new.php' ||
+            $hook == 'post.php'
+            )) {
             wp_enqueue_style( 'select2-css', WPSCP_ADMIN_URL . 'assets/css/vendor/select2.min.css', array(), false, 'all' );
             wp_enqueue_style( 'jquery-datetimepicker', WPSCP_ADMIN_URL . 'assets/css/vendor/jquery.datetimepicker.min.css', array(), false, 'all' );
             wp_enqueue_style( 'chung-timepicker', WPSCP_ADMIN_URL . 'assets/css/vendor/chung-timepicker.css', array(), false, 'all' );
@@ -196,11 +203,14 @@ final class WpScp {
             $wpscpCCVN  = date("ymd-Gis", filemtime( WPSCP_ADMIN_DIR_PATH . 'assets/js/wpscp-fullcalendar-config.js' ));
             wp_enqueue_script('wpscp-fullcalendar', WPSCP_ADMIN_URL . 'assets/js/wpscp-fullcalendar-config.js', array('jquery'), $wpscpCCVN, false);
 			// in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
-			wp_localize_script( 'wpscp-fullcalendar', 'wpscp_calendar_ajax_object',
+            $now = new \DateTime('now');
+            $month = $now->format('m');
+            $year = $now->format('Y');
+            wp_localize_script( 'wpscp-fullcalendar', 'wpscp_calendar_ajax_object',
             array( 
             	'ajax_url' => admin_url( 'admin-ajax.php' ), 
                 'nonce' => wp_create_nonce('wpscp-calendar-ajax-nonce'),
-                'calendar_rest_route' => home_url('/?rest_route=/wpscp/v1/future/')
+                'calendar_rest_route' => site_url('/?rest_route=/wpscp/v1/post_type=post/month='.$month.'/year=' . $year)
             ) );
         }
     }

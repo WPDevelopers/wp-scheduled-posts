@@ -60,7 +60,8 @@ jQuery(document).ready(function ($) {
 	if(jQuery.type(get_query_vars('page')) !== 'undefined') {
 		var query_vars = get_query_vars('page').split('#');
 		if (query_vars[0] === 'wp-scheduled-posts') {
-			$('.wpsp_top_nav_link_wrapper ul li[data-tab="' + query_vars[1] + '"]').trigger('click');
+			var query_ID = (query_vars[1] !== undefined ?  query_vars[1].split('?') : '');
+			$('.wpsp_top_nav_link_wrapper ul li[data-tab="' + query_ID[0] + '"]').trigger('click');
 		}
 
 	}

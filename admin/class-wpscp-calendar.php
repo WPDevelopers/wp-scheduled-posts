@@ -18,21 +18,39 @@ if(!class_exists('WpScp_Calendar')){
         
         public function wpscp_register_custom_route () {
             register_rest_route('wpscp/v1',
-                'future/(?P<search>([a-zA-Z]|%20)+)',
+                '/post_type=(?P<post_type>[a-zA-Z0-9-]+)/month=(?P<month>[0-9 .\-]+)/year=(?P<year>[0-9 .\-]+)',
                 array(
                     'methods' => 'GET',
-                    'callback' => array($this, 'wpscp_future_post_rest_route_output')
+                    'callback' => array($this, 'wpscp_future_post_rest_route_output'),
                 )
             );
         }
 
         public function wpscp_future_post_rest_route_output( $request ) {
-            $response = urldecode($request->get_param('search'));
-            $response = (($response == 'elementorlibrary') ? 'elementor_library' : $response);
+            // post type
+            $post_type = urldecode($request->get_param('post_type'));
+            $post_type = (($post_type == 'elementorlibrary') ? 'elementor_library' : $post_type);
+            // date
+            $now = new \DateTime('now');
+            $now_month = $now->format('m');
+            $now_year = $now->format('Y');
+            // month
+            $month = urldecode($request->get_param('month'));
+            $month = (!empty($month) ? $month : $now_month);
+            // year
+            $year = urldecode($request->get_param('year'));
+            $year = (!empty($year) ? $year : $now_year);
+            // query
             $query = new WP_Query(array(
-                'post_type'         => ($response != '' ? $response : 'post'),
+                'post_type'         => (($post_type !="") ? $post_type : 'post'),
                 'post_status'       => array('future', 'publish'),
-                'posts_per_page'    => -1
+                'posts_per_page'    => -1,
+                'date_query' => array(
+                    array(
+                        'year'  => $year,
+                        'month' => $month,
+                    ),
+                ),
             ));
             $allData = array();
 
