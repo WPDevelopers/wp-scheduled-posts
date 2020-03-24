@@ -527,7 +527,7 @@ document.addEventListener("DOMContentLoaded", function() {
    */
   function wpscpGetPostTypeNameSkipUnderScore(oldRestUrl, month, year) {
     var urlParams = new URLSearchParams(window.location.search);
-    var postTypeName = urlParams.get("post_type");
+    var postTypeName = (urlParams.get("post_type") == 'elementor_library' ? 'elementorlibrary' : urlParams.get("post_type"));
     var updateRestUrl =
       postTypeName !== null
         ? oldRestUrl.replace("post_type=post", "post_type=" + postTypeName)
