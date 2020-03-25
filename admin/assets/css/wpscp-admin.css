@@ -2477,6 +2477,7 @@ a.wpsp-notice-cta {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  margin-bottom: 0;
 }
 
 .wpsp-options-wrap form input[type=checkbox] {

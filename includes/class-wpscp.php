@@ -162,8 +162,8 @@ final class WpScp {
      * @function plugin_script
      */
     public function plugin_scripts( $hook ) {
-        $current_post_type = (isset($_GET['post_type']) ? $_GET['post_type'] : '');
-        if ( is_admin() && wpscp_is_supported_plugin_page_hook_suffix($current_post_type, $hook)) {
+        $current_screen = get_current_screen();
+        if ( is_admin() && wpscp_is_supported_plugin_page_hook_suffix($current_screen->post_type, $hook)) {
             wp_enqueue_style( 'select2-css', WPSCP_ADMIN_URL . 'assets/css/vendor/select2.min.css', array(), false, 'all' );
             wp_enqueue_style( 'jquery-datetimepicker', WPSCP_ADMIN_URL . 'assets/css/vendor/jquery.datetimepicker.min.css', array(), false, 'all' );
             wp_enqueue_style( 'chung-timepicker', WPSCP_ADMIN_URL . 'assets/css/vendor/chung-timepicker.css', array(), false, 'all' );
