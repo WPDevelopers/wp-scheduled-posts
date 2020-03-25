@@ -407,6 +407,7 @@ if(!function_exists('wpscp_is_supported_plugin_page_hook_suffix')){
 		if(
 			in_array($current_post_type, $allow_post_types) ||
 			$hook == 'posts_page_wp-scheduled-calendar-post' || 
+			$hook == 'toplevel_page_wp-scheduled-posts' || 
 			$hook == 'admin_page_wpscp-quick-setup-wizard' || 
 			$hook == 'scheduled-posts_page_wp-scheduled-calendar'
 		){
