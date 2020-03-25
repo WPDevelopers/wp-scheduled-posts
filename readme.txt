@@ -4,7 +4,7 @@ Tags: post schedule, editor calendar, schedule-calendar, schedule bar, scheduled
 Requires at least: 4.0
 Tested up to: 5.3
 Requires PHP: 5.4
-Stable tag: 3.1.12
+Stable tag: 3.1.13
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -118,10 +118,13 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 == Changelog ==
 
-= 3.1.12 - 2020-02-24 =
+= 3.1.13 - 2020-03-25 =
+* Fixed : Settings page styling issue
+
+= 3.1.12 - 2020-03-24 =
 * Fixed : Assets loading issue
 
-= 3.1.11 - 2020-02-23 =
+= 3.1.11 - 2020-03-23 =
 * Improvement : Calendar loading issue for large posts (tested with 30k posts)
 * Bug Fixed : Calendar http/https issue
 * Bug fixed : Assets conflict for third party plugins
