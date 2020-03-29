@@ -29,7 +29,7 @@ if(!class_exists('wpscp_options_data')){
                         'adminbar_date_format'=>$adminbar_date_format, 
                         'prevent_future_post'=>isset($_POST['prevent_future_post'])
                 );	
-                update_option('wpscp_options',$options);
+                update_option('wpscp_options', apply_filters('wpscp_options', $options ));
             }
             wp_redirect( admin_url('admin.php?page=wp-scheduled-posts#wpsp_gen') );
             exit;

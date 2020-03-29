@@ -2,7 +2,7 @@
 /*
  * Plugin Name: WP Scheduled Posts
  * Description: A complete solution for WordPress Post Schedule. Get an admin Bar & Dashboard Widget showing all your scheduled posts.
- * Version: 3.1.13
+ * Version: 3.1.14
  * Author: WPDeveloper
  * Author URI: https://wpdeveloper.net
  * Text Domain: wp-scheduled-posts
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * Defines CONSTANTS for Whole plugins.
  */
-define( 'WPSP_VERSION', '3.1.13' );
+define( 'WPSP_VERSION', '3.1.14' );
 define(	'WPSP_PLUGIN_FILE', __FILE__ );
 define(	'WPSP_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define(	'WPSCP_PLUGIN_SLUG', 'wp-scheduled-posts');

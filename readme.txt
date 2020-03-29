@@ -4,7 +4,7 @@ Tags: post schedule, editor calendar, schedule-calendar, schedule bar, scheduled
 Requires at least: 4.0
 Tested up to: 5.3
 Requires PHP: 5.4
-Stable tag: 3.1.13
+Stable tag: 3.1.14
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -117,6 +117,9 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 
 == Changelog ==
+
+= 3.1.14 - 2020-03-29 =
+* Fixed : Admin notice styling issue
 
 = 3.1.13 - 2020-03-25 =
 * Fixed : Settings page styling issue

@@ -21,6 +21,9 @@
             <input type="hidden" name="action" value="wpscp_general_options_saved">
             <input type="hidden" name="nonce_wpscp_general_options" value="<?php print wp_create_nonce('nonce_wpscp_general_options'); ?>">
             <table class="form-table">
+                <?php 
+                    do_action( 'wpscp_general_settings_option_init', array($wpscp_options) );
+                ?>
                 <tr class="wpsp_option_chek_row">
                     <td  colspan="2" align="left">
                         <label for="show_dashboard_widget"><?php _e( 'Show Scheduled Posts in Dashboard Widget', 'wp-scheduled-posts' ); ?></label>
