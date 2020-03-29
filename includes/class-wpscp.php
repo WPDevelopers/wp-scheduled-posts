@@ -207,6 +207,8 @@ final class WpScp {
                 'calendar_rest_route' => site_url('/?rest_route=/wpscp/v1/post_type=post/month='.$month.'/year=' . $year)
             ) );
         }
+        // admin notice for all wordpress dashboard
+        wp_enqueue_style( 'wpscp-admin-notice', WPSCP_ADMIN_URL . 'assets/css/wpscp-admin-notice.css', array(), false, 'all' );
     }
 
     /**
