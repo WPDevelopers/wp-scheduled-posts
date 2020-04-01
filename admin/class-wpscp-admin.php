@@ -27,29 +27,22 @@ if(!class_exists('WpScp_Admin')){
 		 * 
 		 */
 		public function hooks(){
-			add_action( 'admin_menu', array($this, 'add_main_menu') );
-			add_action( 'admin_menu', array($this, 'add_sub_menu') );
-			add_action( 'admin_init', array($this, 'remove_submenu_wp_scheduled_posts') );
+			add_action( 'admin_menu', array($this, 'admin_menu') );
 		}
 		/**
-		 * Add Plugin Main Menu
-		 * @method add_main_menu
-		 * @since 1.0.0
+		 * add plugin main & sub menu for supported post type
+		 * @since 2.5.0
+		 * @return hooks
 		 */
-		public function add_main_menu()  {
-			add_menu_page( __( 'Scheduled Posts 12', 'wp-scheduled-posts'), __( 'Scheduled Posts', 'wp-scheduled-posts' ), 'manage_options', pluginsFOLDER, 'wpscp_options_page', plugin_dir_url( __FILE__ ).'assets/images/wpsp-icon.png', 80 );
-		}
-		/**
-		 * Add Plugin Main Menu
-		 * @method add_main_menu
-		 * @since 1.0.0
-		 */
-		public function add_sub_menu()  {
-			add_submenu_page( 'wp-scheduled-posts', 'Calendar', 'Calendar', 'manage_options', 'wp-scheduled-calendar', array($this, 'load_calendar_template'));
-			// add calendar sub menu for allow calendar post type
+		public function admin_menu(){
+			add_menu_page( __( 'Scheduled Posts', 'wp-scheduled-posts'), __( 'Scheduled Posts', 'wp-scheduled-posts' ), 'manage_options', pluginsFOLDER, 'wpscp_options_page', plugin_dir_url( __FILE__ ).'assets/images/wpsp-icon.png', 80 );
+			add_submenu_page( pluginsFOLDER, __( 'Settings', 'wp-scheduled-posts'), __( 'Settings', 'wp-scheduled-posts'), 'manage_options', pluginsFOLDER, 'wpscp_options_page');
+			add_submenu_page( pluginsFOLDER, 'Calendar', 'Calendar', 'manage_options', 'wp-scheduled-calendar', array($this, 'load_calendar_template'));
 			$this->add_sub_menu_for_calendar_supported_post_type();
 		}
-
+		/**
+		 * Add Calendar Menu for supported post type
+		 */
 		public function add_sub_menu_for_calendar_supported_post_type() {
 			$wpscp_all_options  = get_option('wpscp_options');
 			$allow_post_types =  ($wpscp_all_options['allow_post_types'] == '' ? array('post') : $wpscp_all_options['allow_post_types']);
@@ -67,14 +60,7 @@ if(!class_exists('WpScp_Admin')){
 		public function load_widgets(){
 			include_once WPSCP_ADMIN_DIR_PATH . 'class-wpscp-widget.php';
 		}
-		/**
-		 * Remove Sub Menu From admin Setting Option
-		 * @method remove_submenu_wp_scheduled_posts
-		 * @since 1.0.0
-		 */
-		public function remove_submenu_wp_scheduled_posts() {
-			remove_submenu_page( 'options-general.php', 'wp-scheduled-posts' );
-		}
+	
 		/**
 		 * Load Plugin Option pages
 		 * @method load_plugin_option
