@@ -3891,6 +3891,10 @@
   cursor: pointer;
 }
 
+.jquery-modal .modal .message {
+  padding: 10px 30px;
+}
+
 /**
 * Facebook page & group Select
 */
