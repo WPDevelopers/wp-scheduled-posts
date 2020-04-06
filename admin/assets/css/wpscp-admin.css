@@ -3983,6 +3983,7 @@
   width: 420px;
   border-radius: 15px;
   background: #6b61ff;
+  z-index: 2;
 }
 #wpscpproFacebookGroupNotifyModal .entry-thumbnail {
   margin-top: -55px;
