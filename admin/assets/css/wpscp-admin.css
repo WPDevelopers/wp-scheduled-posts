@@ -3997,6 +3997,9 @@
   font-size: 14px;
   font-weight: 500;
 }
+#wpscpproFacebookGroupNotifyModal p a {
+  color: #fff;
+}
 #wpscpproFacebookGroupNotifyModal .btn-close-facebook-group-notify {
   position: absolute;
   top: -17px;
