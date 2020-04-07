@@ -164,38 +164,37 @@ final class WpScp {
     public function plugin_scripts( $hook ) {
         $current_screen = get_current_screen();
         if ( is_admin() && wpscp_is_supported_plugin_page_hook_suffix($current_screen->post_type, $hook)) {
-            wp_enqueue_style( 'select2-css', WPSCP_ADMIN_URL . 'assets/css/vendor/select2.min.css', array(), false, 'all' );
-            wp_enqueue_style( 'jquery-datetimepicker', WPSCP_ADMIN_URL . 'assets/css/vendor/jquery.datetimepicker.min.css', array(), false, 'all' );
-            wp_enqueue_style( 'chung-timepicker', WPSCP_ADMIN_URL . 'assets/css/vendor/chung-timepicker.css', array(), false, 'all' );
-            wp_enqueue_style( 'notifi', WPSCP_ADMIN_URL . 'assets/css/vendor/notifi.css', array(), false, 'all' );
-            wp_enqueue_style( 'full-calendar', WPSCP_ADMIN_URL . 'assets/css/vendor/full-calendar.css', array(), false, 'all' );
-            wp_enqueue_style( 'jquery-modal', WPSCP_ADMIN_URL . 'assets/css/vendor/jquery.modal.min.css', array(), false, 'all' );
-            wp_enqueue_style( 'jquery-timepicker', WPSCP_ADMIN_URL . 'assets/css/vendor/jquery.timepicker.min.css', array(), false, 'all' );
-            wp_enqueue_style( 'wpscp-admin', WPSCP_ADMIN_URL . 'assets/css/wpscp-admin.css', array(), false, 'all' );
+            wp_enqueue_style( 'select2-css', WPSCP_ADMIN_URL . 'assets/css/vendor/select2.min.css', array(), filemtime(WPSCP_ADMIN_DIR_PATH . 'assets/css/vendor/select2.min.css'), 'all' );
+            wp_enqueue_style( 'jquery-datetimepicker', WPSCP_ADMIN_URL . 'assets/css/vendor/jquery.datetimepicker.min.css', array(), filemtime(WPSCP_ADMIN_DIR_PATH . 'assets/css/vendor/jquery.datetimepicker.min.css'), 'all' );
+            wp_enqueue_style( 'chung-timepicker', WPSCP_ADMIN_URL . 'assets/css/vendor/chung-timepicker.css', array(), filemtime(WPSCP_ADMIN_DIR_PATH . 'assets/css/vendor/chung-timepicker.css'), 'all' );
+            wp_enqueue_style( 'notifi', WPSCP_ADMIN_URL . 'assets/css/vendor/notifi.css', array(), filemtime(WPSCP_ADMIN_DIR_PATH . 'assets/css/vendor/notifi.css'), 'all' );
+            wp_enqueue_style( 'full-calendar', WPSCP_ADMIN_URL . 'assets/css/vendor/full-calendar.css', array(), filemtime(WPSCP_ADMIN_DIR_PATH . 'assets/css/vendor/full-calendar.css'), 'all' );
+            wp_enqueue_style( 'jquery-modal', WPSCP_ADMIN_URL . 'assets/css/vendor/jquery.modal.min.css', array(), filemtime(WPSCP_ADMIN_DIR_PATH . 'assets/css/vendor/jquery.modal.min.css'), 'all' );
+            wp_enqueue_style( 'jquery-timepicker', WPSCP_ADMIN_URL . 'assets/css/vendor/jquery.timepicker.min.css', array(), filemtime(WPSCP_ADMIN_DIR_PATH . 'assets/css/vendor/jquery.timepicker.min.css'), 'all' );
+            wp_enqueue_style( 'wpscp-admin', WPSCP_ADMIN_URL . 'assets/css/wpscp-admin.css', array(), filemtime(WPSCP_ADMIN_DIR_PATH . 'assets/css/wpscp-admin.css'), 'all' );
           
             /**
              * JavaScript File
              */
             wp_enqueue_script('jquery-ui-draggable');
 			wp_enqueue_script('jquery-ui-droppable');
-            wp_enqueue_script( 'jquery-datetimepicker', WPSCP_ADMIN_URL . 'assets/js/vendor/jquery.datetimepicker.full.min.js', array('jquery'), null, false );
-            wp_enqueue_script( 'chung-timepicker', WPSCP_ADMIN_URL . 'assets/js/vendor/chung-timepicker.js', array('jquery'), null, false );
-            wp_enqueue_script('timepicker', WPSCP_ADMIN_URL . 'assets/js/vendor/jquery.timepicker.min.js', array('jquery'), null, false);
-            wp_enqueue_script('jquery-modal', WPSCP_ADMIN_URL . 'assets/js/vendor/jquery.modal.min.js', array('jquery'), null, false);
-            wp_enqueue_script( 'select2', WPSCP_ADMIN_URL . 'assets/js/vendor/select2.full.js', array('jquery'), null, false );
-            wp_enqueue_script( 'sweetalert', WPSCP_ADMIN_URL . 'assets/js/vendor/sweetalert.min.js', array('jquery'), null, false );
-            wp_enqueue_script( 'notifi', WPSCP_ADMIN_URL . 'assets/js/vendor/notifi.min.js', array('jquery'), null, false );
-            wp_enqueue_script( 'custom-script', WPSCP_ADMIN_URL . 'assets/js/custom-script.js', array('jquery'), null, false );
-            wp_enqueue_script( 'wpscp-script', WPSCP_ADMIN_URL . 'assets/js/wpscp-script.js', array('jquery'), null, false );
+            wp_enqueue_script( 'jquery-datetimepicker', WPSCP_ADMIN_URL . 'assets/js/vendor/jquery.datetimepicker.full.min.js', array('jquery'), filemtime(WPSCP_ADMIN_DIR_PATH . 'assets/js/vendor/jquery.datetimepicker.full.min.js'), false );
+            wp_enqueue_script( 'chung-timepicker', WPSCP_ADMIN_URL . 'assets/js/vendor/chung-timepicker.js', array('jquery'), filemtime(WPSCP_ADMIN_DIR_PATH . 'assets/js/vendor/chung-timepicker.js'), false );
+            wp_enqueue_script('timepicker', WPSCP_ADMIN_URL . 'assets/js/vendor/jquery.timepicker.min.js', array('jquery'), filemtime(WPSCP_ADMIN_DIR_PATH . 'assets/js/vendor/jquery.timepicker.min.js'), false);
+            wp_enqueue_script('jquery-modal', WPSCP_ADMIN_URL . 'assets/js/vendor/jquery.modal.min.js', array('jquery'), filemtime(WPSCP_ADMIN_DIR_PATH . 'assets/js/vendor/jquery.modal.min.js'), false);
+            wp_enqueue_script( 'select2', WPSCP_ADMIN_URL . 'assets/js/vendor/select2.full.js', array('jquery'), filemtime(WPSCP_ADMIN_DIR_PATH . 'assets/js/vendor/select2.full.js'), false );
+            wp_enqueue_script( 'sweetalert', WPSCP_ADMIN_URL . 'assets/js/vendor/sweetalert.min.js', array('jquery'), filemtime(WPSCP_ADMIN_DIR_PATH . 'assets/js/vendor/sweetalert.min.js'), false );
+            wp_enqueue_script( 'notifi', WPSCP_ADMIN_URL . 'assets/js/vendor/notifi.min.js', array('jquery'), filemtime(WPSCP_ADMIN_DIR_PATH . 'assets/js/vendor/notifi.min.js'), false );
+            wp_enqueue_script( 'custom-script', WPSCP_ADMIN_URL . 'assets/js/custom-script.js', array('jquery'), filemtime(WPSCP_ADMIN_DIR_PATH . 'assets/js/custom-script.js'), false );
+            wp_enqueue_script( 'wpscp-script', WPSCP_ADMIN_URL . 'assets/js/wpscp-script.js', array('jquery'), filemtime(WPSCP_ADMIN_DIR_PATH . 'assets/js/wpscp-script.js'), false );
             wp_localize_script( 'custom-script', 'wpscp_ajax',
             array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
             // calendar
-            wp_enqueue_script('fullcalendar-core', WPSCP_ADMIN_URL . 'assets/js/vendor/fullcalendar/core/main.js', array('jquery'), null, false);
-			wp_enqueue_script('fullcalendar-interaction', WPSCP_ADMIN_URL . 'assets/js/vendor/fullcalendar/interaction/main.js', array('jquery'), null, false);
-			wp_enqueue_script('fullcalendar-daygrid', WPSCP_ADMIN_URL . 'assets/js/vendor/fullcalendar/daygrid/main.js', array('jquery'), null, false);
-			wp_enqueue_script('fullcalendar-timegrid', WPSCP_ADMIN_URL . 'assets/js/vendor/fullcalendar/timegrid/main.js', array('jquery'), null, false);
-            $wpscpCCVN  = date("ymd-Gis", filemtime( WPSCP_ADMIN_DIR_PATH . 'assets/js/wpscp-fullcalendar-config.js' ));
-            wp_enqueue_script('wpscp-fullcalendar', WPSCP_ADMIN_URL . 'assets/js/wpscp-fullcalendar-config.js', array('jquery'), $wpscpCCVN, false);
+            wp_enqueue_script('fullcalendar-core', WPSCP_ADMIN_URL . 'assets/js/vendor/fullcalendar/core/main.js', array('jquery'), filemtime(WPSCP_ADMIN_DIR_PATH . 'assets/js/vendor/fullcalendar/core/main.js'), false);
+			wp_enqueue_script('fullcalendar-interaction', WPSCP_ADMIN_URL . 'assets/js/vendor/fullcalendar/interaction/main.js', array('jquery'), filemtime(WPSCP_ADMIN_DIR_PATH . 'assets/js/vendor/fullcalendar/interaction/main.js'), false);
+			wp_enqueue_script('fullcalendar-daygrid', WPSCP_ADMIN_URL . 'assets/js/vendor/fullcalendar/daygrid/main.js', array('jquery'), filemtime(WPSCP_ADMIN_DIR_PATH . 'assets/js/vendor/fullcalendar/daygrid/main.js'), false);
+			wp_enqueue_script('fullcalendar-timegrid', WPSCP_ADMIN_URL . 'assets/js/vendor/fullcalendar/timegrid/main.js', array('jquery'), filemtime(WPSCP_ADMIN_DIR_PATH . 'assets/js/vendor/fullcalendar/timegrid/main.js'), false);
+            wp_enqueue_script('wpscp-fullcalendar', WPSCP_ADMIN_URL . 'assets/js/wpscp-fullcalendar-config.js', array('jquery'), filemtime(WPSCP_ADMIN_DIR_PATH . 'assets/js/wpscp-fullcalendar-config.js'), false);
 			// in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
             $now = new \DateTime('now');
             $month = $now->format('m');
@@ -208,7 +207,7 @@ final class WpScp {
             ) );
         }
         // admin notice for all wordpress dashboard
-        wp_enqueue_style( 'wpscp-admin-notice', WPSCP_ADMIN_URL . 'assets/css/wpscp-admin-notice.css', array(), false, 'all' );
+        wp_enqueue_style( 'wpscp-admin-notice', WPSCP_ADMIN_URL . 'assets/css/wpscp-admin-notice.css', array(), filemtime(WPSCP_ADMIN_DIR_PATH . 'assets/css/wpscp-admin-notice.css'), 'all' );
     }
 
     /**
@@ -219,8 +218,8 @@ final class WpScp {
      */
     public function adminbar_script(){
         if(is_admin_bar_showing()){
-            wp_enqueue_style( 'wpscp-adminbar', WPSCP_ADMIN_URL . 'assets/css/adminbar.css' );
-            wp_enqueue_script( 'wpscp-adminbar', WPSCP_ADMIN_URL . 'assets/js/adminbar.js', array('jquery'), null, false );
+            wp_enqueue_style( 'wpscp-adminbar', WPSCP_ADMIN_URL . 'assets/css/adminbar.css', array(), filemtime(WPSCP_ADMIN_DIR_PATH . 'assets/css/adminbar.css'), 'all' );
+            wp_enqueue_script( 'wpscp-adminbar', WPSCP_ADMIN_URL . 'assets/js/adminbar.js', array('jquery'), filemtime(WPSCP_ADMIN_DIR_PATH . 'assets/js/adminbar.js'), false );
         }
     }
 

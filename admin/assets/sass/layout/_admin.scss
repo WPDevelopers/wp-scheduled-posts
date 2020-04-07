@@ -1321,7 +1321,11 @@
     color: #687b95;
     font-size: 14px;
     font-weight: 700;
-    margin: 25px 0;
+    text-align: right;
+    margin: 0;
+    display: flex;
+    height: 70px;
+    align-items: center;
 }
 
 .wpsp-dashboard-body
@@ -3028,6 +3032,36 @@
                     }
                 }
             }
+            // disable control
+            &.disable {
+                input[type='checkbox']:checked::before {
+                    display: none;
+                }
+                input[type='checkbox']:after {
+                    width: 25px !important;
+                    height: 25px !important;
+                    left: 5px !important;
+                }
+                .checkbox-toggle .is_checked {
+                    display: none;
+                }
+                .checkbox-toggle .is_unchecked {
+                    width: 15px;
+                    right: 13px;
+                    top: 13px;
+                    -webkit-transform: translateX(0) translateY(-30%) scale(1);
+                    -ms-transform: translateX(0) translateY(-30%) scale(1);
+                    transform: translateX(0) translateY(-30%) scale(1);
+                }
+                input[type='checkbox'] {
+                    background: #e24c4b !important;
+                }
+                input[type='checkbox']:checked ~ .is_unchecked {
+                    -webkit-transform: translateX(0) translateY(-30%) scale(1) !important;
+                    -ms-transform: translateX(0) translateY(-30%) scale(1) !important;
+                    transform: translateX(0) translateY(-30%) scale(1) !important;
+                }
+            }
         }
     }
 }
@@ -3278,11 +3312,20 @@
     }
 }
 
+.jquery-modal {
+    .modal {
+        .message {
+            padding: 10px 30px;
+        }
+    }
+}
+
 /**
 * Facebook page & group Select
 */
 #wpscpproFacebookPageAndGroupSelectModal {
     padding: 20px;
+    margin-top: 32px;
     .modalBody {
         .entry-head {
             color: #fff;
@@ -3363,6 +3406,7 @@
     width: 420px;
     border-radius: 15px;
     background: #6b61ff;
+    z-index: 2;
     .entry-thumbnail {
         margin-top: -55px;
         img {
@@ -3374,6 +3418,9 @@
         color: #fff;
         font-size: 14px;
         font-weight: 500;
+        a {
+            color: #fff;
+        }
     }
     .btn-close-facebook-group-notify {
         position: absolute;
@@ -3387,4 +3434,68 @@
 */
 #wpscpproMultiSocialTokenModel {
     text-align: center;
+}
+/**
+* Temp app css it will be delete after approve real app
+*/
+#wpscpproTempModalForInsertAccount {
+    max-width: 750px;
+    .wpsp-social-modal-header {
+        h3 {
+            font-size: 24px;
+            color: #687b95;
+        }
+        p {
+            font-size: 15px;
+            a {
+                font-size: 15px;
+                font-weight: 500;
+            }
+        }
+    }
+    .form-group {
+        display: flex;
+        align-items: center;
+        &.redirect-group {
+            position: relative;
+            margin-bottom: 30px;
+            .doc {
+                position: absolute;
+                left: 0;
+                bottom: -30px;
+            }
+        }
+        .form-control {
+            border: 1px solid #e7e7e7;
+            border-radius: 4px;
+            width: 100%;
+            height: 50px;
+        }
+        .form-label {
+            width: 115px;
+            white-space: nowrap;
+            font-weight: 500;
+            font-size: 15px;
+            color: #687b95;
+        }
+        .form-input {
+            flex: 1;
+            position: relative;
+        }
+        .submit {
+            background: #6c62ff;
+            color: #fff;
+            padding: 0 25px;
+            border-radius: 4px;
+            height: 50px;
+            font-weight: 500;
+            line-height: 50px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+    }
+    .modalerror {
+        color: red;
+        margin-left: 50px;
+    }
 }

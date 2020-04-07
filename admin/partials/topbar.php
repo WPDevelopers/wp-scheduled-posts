@@ -5,7 +5,14 @@
 	</div>
 	<div class="wpsp_top_bar_heading">
 		<h2 class="wpsp_topbar_title"><?php esc_html_e('WP Scheduled Posts', 'wp-scheduled-posts'); ?></h2>
-		<p class="wpsp_topbar_version_name"><?php echo esc_html__('Version ', 'wp-scheduled-posts') . WPSP_VERSION; ?></p>
+		<p class="wpsp_topbar_version_name">
+			<span>
+				<span class="free"><?php echo esc_html__('Core Version: ', 'wp-scheduled-posts') . WPSP_VERSION; ?></span>
+				<?php if(defined('WPSCP_PRO_VERSION')) : ?>
+					<br><span class="pro"><?php echo esc_html__('Pro Version: ', 'wp-scheduled-posts') . WPSCP_PRO_VERSION; ?></span>
+				<?php endif; ?>
+			</span>
+		</p>
 	</div>
 </div>
 

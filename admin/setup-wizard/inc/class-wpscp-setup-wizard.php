@@ -20,9 +20,8 @@ if( ! class_exists( 'wpscpSetupWizard' ) ){
         public static function setup_wizard_scripts($hook){
             $current_post_type = (isset($_GET['post_type']) ? $_GET['post_type'] : '');
             if ( is_admin() && wpscp_is_supported_plugin_page_hook_suffix($current_post_type, $hook)) {
-                wp_enqueue_style( 'wpscp-setup-wizard', WPSCP_ADMIN_URL . 'setup-wizard/assets/css/wpscp-setup-wizard.css' );
-                $wpscpQswVersionNumber  = date("ymd-Gis", filemtime( WPSCP_ADMIN_DIR_PATH . 'setup-wizard/assets/js/wpscp-setup-wizard.js' ));
-                wp_enqueue_script( 'wpscp-setup-wizard', WPSCP_ADMIN_URL . 'setup-wizard/assets/js/wpscp-setup-wizard.js', array('jquery'), $wpscpQswVersionNumber, false );
+                wp_enqueue_style( 'wpscp-setup-wizard', WPSCP_ADMIN_URL . 'setup-wizard/assets/css/wpscp-setup-wizard.css', array(), filemtime(WPSCP_ADMIN_DIR_PATH . 'setup-wizard/assets/css/wpscp-setup-wizard.css'), 'all' );
+                wp_enqueue_script( 'wpscp-setup-wizard', WPSCP_ADMIN_URL . 'setup-wizard/assets/js/wpscp-setup-wizard.js', array('jquery'), filemtime( WPSCP_ADMIN_DIR_PATH . 'setup-wizard/assets/js/wpscp-setup-wizard.js' ), false );
             }
         }
 
