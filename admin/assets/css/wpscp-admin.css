@@ -3591,6 +3591,33 @@
 .wpscp-social-tab__item-list__single_item .entry-control__more-link__group_absolute li .btn-remove {
   background: #e14b4b;
 }
+.wpscp-social-tab__item-list__single_item.disable input[type=checkbox]:checked::before {
+  display: none;
+}
+.wpscp-social-tab__item-list__single_item.disable input[type=checkbox]:after {
+  width: 25px !important;
+  height: 25px !important;
+  left: 5px !important;
+}
+.wpscp-social-tab__item-list__single_item.disable .checkbox-toggle .is_checked {
+  display: none;
+}
+.wpscp-social-tab__item-list__single_item.disable .checkbox-toggle .is_unchecked {
+  width: 15px;
+  right: 13px;
+  top: 13px;
+  -webkit-transform: translateX(0) translateY(-30%) scale(1);
+  -ms-transform: translateX(0) translateY(-30%) scale(1);
+  transform: translateX(0) translateY(-30%) scale(1);
+}
+.wpscp-social-tab__item-list__single_item.disable input[type=checkbox] {
+  background: #e24c4b !important;
+}
+.wpscp-social-tab__item-list__single_item.disable input[type=checkbox]:checked ~ .is_unchecked {
+  -webkit-transform: translateX(0) translateY(-30%) scale(1) !important;
+  -ms-transform: translateX(0) translateY(-30%) scale(1) !important;
+  transform: translateX(0) translateY(-30%) scale(1) !important;
+}
 
 /**
 * Ajax Loader
