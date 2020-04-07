@@ -1578,7 +1578,15 @@
   color: #687b95;
   font-size: 14px;
   font-weight: 700;
-  margin: 25px 0;
+  text-align: right;
+  margin: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 70px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .wpsp-dashboard-body .manage-schedule-forms .submit-button-wrap .button.button-primary {
