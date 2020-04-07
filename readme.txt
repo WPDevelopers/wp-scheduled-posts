@@ -2,7 +2,7 @@
 Contributors: wpdevteam, Asif2BD, re_enter_rupok, priyomukul, shajalal, tusharimran
 Tags: post schedule, editor calendar, schedule-calendar, schedule bar, scheduled posts, schedule, schedule widget, scheduler, schedule menu bar, admin bar, dashboard widget, missed scheduled, calendar, missed schedule, future post, schedule issue, post later, admin bar, admin, multi author
 Requires at least: 4.0
-Tested up to: 5.3
+Tested up to: 5.4
 Requires PHP: 5.4
 Stable tag: 3.1.15
 License: GPLv3
@@ -120,7 +120,7 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 = 3.1.15 - 2020-04-07 =
 * Fixed     : Assets caching issue
-* Update    : settings name
+* Update    : Option Settings Screen name Update
 * Update    : UI Update
 
 = 3.1.14 - 2020-03-29 =
