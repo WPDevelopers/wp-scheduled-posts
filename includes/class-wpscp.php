@@ -62,8 +62,10 @@ final class WpScp {
             // Core
             add_filter('plugin_action_links_' . WPSP_PLUGIN_BASENAME, array($this, 'insert_plugin_links'));
             add_filter('plugin_row_meta', array($this, 'insert_plugin_row_meta'), 10, 2);
-            
-            $this->admin_notice(); // this line of code
+            $this->admin_notice();
+            if( class_exists( 'WPDeveloper_Dashboard_Widget' ) ) {
+                WPDeveloper_Dashboard_Widget::instance();
+            }
         }
     }
 
@@ -80,6 +82,7 @@ final class WpScp {
         require_once WPSCP_INCLUDES_DIR_PATH .  'class-plugin-usage-tracker.php';
         require_once WPSCP_INCLUDES_DIR_PATH .  'class-wpdev-core-install.php';
         require_once WPSCP_INCLUDES_DIR_PATH .  'class-wpdev-notices.php';
+        require_once WPSCP_INCLUDES_DIR_PATH .  'class-wpdeveloper-dashboard-widget.php';
         require_once WPSCP_INCLUDES_DIR_PATH .  'class-wpscp-notify.php';
         require_once WPSCP_ADMIN_DIR_PATH .     'setup-wizard/wpscp-setup-wizard-config.php';
     }
