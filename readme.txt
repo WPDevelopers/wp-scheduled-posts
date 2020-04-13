@@ -4,7 +4,7 @@ Tags: post schedule, editor calendar, schedule-calendar, schedule bar, scheduled
 Requires at least: 4.0
 Tested up to: 5.4
 Requires PHP: 5.4
-Stable tag: 3.1.15
+Stable tag: 3.1.16
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -14,8 +14,7 @@ A complete solution for WordPress Post Schedule. Manage schedule through editori
 
 A complete solution for WordPress Post Schedule. Manage schedule through editorial calendar and enable auto scheduler. Get an Admin Bar & Dashboard Widget showing all your scheduled posts.
 
-
-[Check the Demo](https://wpdeveloper.net/plugins/wp-scheduled-posts/)
+https://www.youtube.com/watch?v=yyvm6ml_OA4
 
 ### Schedule your WordPress posts in advance and have them posted automatically for you.
 
@@ -52,6 +51,8 @@ From one place, you can easily get an overview of your blog posts and when each 
  
 **Missed Schedule Handler:** As a content creator, you might have faced that WordPress might miss the schdule of a post and it could happen for a various reason. However, you don’t have to worry about that anymore as WP Scheduled Posts will take care of missed schedule and to publish the post automatically.
 
+https://www.youtube.com/watch?v=y80iDuolrRU
+
 **Premium Support:** Get faster support with a pro license. We have extra-ordinary support team ready to help you. Ask your questions in the support forum, or contact us directly through live chat and support ticket.
 
 ## Review & Press Coverage
@@ -67,10 +68,20 @@ From one place, you can easily get an overview of your blog posts and when each 
 - [WP Glossy](https://www.wpglossy.com/schedule-blog-post-wordpress/)
 “WP Scheduled Posts is the best extension when it comes to scheduling WordPress posts for the site that has several admins and authors.”
 
-## Check Our Other FREE Plugins:
+https://www.youtube.com/watch?v=q9xVaL1lI5g
 
-- [Essential Addons for Elementor](https://wordpress.org/plugins/essential-addons-for-elementor-lite/)
-- [Twitter Cards Meta](https://wordpress.org/plugins/twitter-cards-meta/)
+
+## 🔥 WHAT’S NEXT
+If you like WP Scheduled Posts, then consider checking out our other WordPress Plugins:
+
+🔝[Essential Addons For Elementor](https://essential-addons.com/elementor/) – Most popular Elementor extensions with 500,000+ active users in the WordPress repository.
+
+🔔[NotificationX](https://notificationx.com/) – Best Social Proof & FOMO Marketing Solution to increase conversion rates.
+
+🗒️ [BetterDocs](https://betterdocs.co/) – Best Documentation & Knowledge Base Plugin for WordPress, whcih also reduce your manual support request.
+
+
+Visit [WPDeveloper](https://wpdeveloper.net/) to learn more about how to do better in WordPress with [Help Tutorial, Tips & Tricks](https://wpdeveloper.net/blog).
 
 
 == Installation ==
@@ -117,6 +128,9 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 
 == Changelog ==
+
+= 3.1.16 - 2020-04-13 =
+* Fixed     : Minor bug fix
 
 = 3.1.15 - 2020-04-07 =
 * Fixed     : Assets caching issue
@@ -294,5 +308,5 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 
 == Upgrade Notice ==
-= 3.0.0 - 2019-10-08 =
-* Must update, code improvement!
+= 3.1.16 - 2020-04-13 =
+* Minor Bug Fix.
