@@ -71,7 +71,7 @@ if(!class_exists('WPDeveloper_Dashboard_Widget')){
 
                 foreach ($rss_items as $item) {
                     $output .= '<li>
-                        <a href="' . esc_url($item->get_permalink()) . '?utm_source=dashboard&utm_medium=feed&utm_campaign=wpdev_feed_ea" title="' . sprintf(__('Posted on %s', 'wp-scheduled-posts'), $item->get_date('j F Y | g:i a')) . '">' . esc_html($item->get_title()) . '</a>
+                        <a href="' . esc_url($item->get_permalink()) . '?utm_source=dashboard&utm_medium=feed&utm_campaign=wpdev_feed_wpsp" title="' . sprintf(__('Posted on %s', 'wp-scheduled-posts'), $item->get_date('j F Y | g:i a')) . '">' . esc_html($item->get_title()) . '</a>
                     </li>';
                 }
             }
