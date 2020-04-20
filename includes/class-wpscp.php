@@ -344,7 +344,7 @@ final class WpScp {
          * Message message for showing.
          */
         $notice->classes( 'upsale', 'notice is-dismissible ' );
-        $notice->message( 'upsale', '<p>'. __( 'We hope you\'re enjoying WP Scheduled Posts! Upgrade to <a href="https://wpdeveloper.net/in/wp-scheduled-posts-pro" target="_blank">Premium Version</a> for more stunning features!', $notice->text_domain, 'wp-scheduled-posts' ) .'</p>' );
+        $notice->message( 'upsale', '<p>'. __( 'Enjoying <strong>WP Scheduled Posts</strong>? Why not check our <strong><a href="https://wpdeveloper.net/in/wp-scheduled-posts-pro" target="_blank">Pro version</a></strong> which will enable auto schedule, multi social account share and many more features! [<strong><a href="https://wpdeveloper.net/plugins/wp-scheduled-posts/" target="_blank">Learn More</a></strong>]', 'wp-scheduled-posts' ) .'</p>' );
         $notice->thumbnail( 'upsale', plugins_url( 'admin/assets/images/wpsp-logo.svg', WPSP_PLUGIN_BASENAME ) );
 
         $notice->upsale_args = array(
