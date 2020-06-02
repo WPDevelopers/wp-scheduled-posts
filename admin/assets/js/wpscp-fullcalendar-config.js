@@ -414,7 +414,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function wpscp_calendar_modal_hide() {
         modalTitle.val('')
         modalContent.val('')
-        modalTime.val('')
+        // modalTime.val('')
         modalStatus.val('')
         modalDate.val('')
         postID.val('')

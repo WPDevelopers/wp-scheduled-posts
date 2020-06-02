@@ -107,8 +107,18 @@ if (!class_exists('WpScp_Calendar')) {
             $postTitle = (isset($_POST['postTitle']) ? $_POST['postTitle'] : '');
             $postContent = (isset($_POST['postContent']) ? $_POST['postContent'] : '');
 
-            if ($dateStr != "Invalid Date") {
+            if ($dateStr != "Invalid Date" && empty($postid)) {
                 $postdate = new DateTime(substr($dateStr, 0, 25));
+                $postdateformat = $postdate->format('Y-m-d H:i:s');
+                $postdate_gmt = ($postdateformat != "" ? gmdate('Y-m-d H:i:s', strtotime($postdateformat)) : '');
+            } else if ($dateStr != "Invalid Date" && !empty($postid)) {
+                $default_schedule_time = '12:00 am';
+                if (isset($this->wpscp_options['calendar_default_schedule_time']) && $this->wpscp_options['calendar_default_schedule_time'] != null) {
+                    $default_schedule_time = $this->wpscp_options['calendar_default_schedule_time'];
+                }
+
+                $date_string = substr($dateStr, 0, 16) . $default_schedule_time;
+                $postdate = new DateTime($date_string);
                 $postdateformat = $postdate->format('Y-m-d H:i:s');
                 $postdate_gmt = ($postdateformat != "" ? gmdate('Y-m-d H:i:s', strtotime($postdateformat)) : '');
             }
