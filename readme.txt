@@ -1,9 +1,9 @@
 === WP Scheduled Posts - Missed Schedule & Best Editorial Calendar ===
 Contributors: wpdevteam, Asif2BD, re_enter_rupok, priyomukul, shajalal, tusharimran
-Tags: post schedule, editor calendar, schedule-calendar, schedule bar, scheduled posts, schedule, schedule widget, scheduler, schedule menu bar, admin bar, dashboard widget, missed scheduled, calendar, missed schedule, future post, schedule issue, post later, admin bar, admin, multi author
+Tags: post schedule, editor calendar, schedule-calendar, editorial calendar, schedule bar, scheduled posts, schedule, schedule widget, scheduler, schedule menu bar, admin bar, dashboard widget, missed scheduled, calendar, missed schedule, future post, schedule issue, post later, admin bar, admin, multi author
 Requires at least: 4.0
 Tested up to: 5.4
-Requires PHP: 5.4.1
+Requires PHP: 5.4
 Stable tag: 3.2.0
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
@@ -74,7 +74,7 @@ https://www.youtube.com/watch?v=q9xVaL1lI5g
 ## 🔥 WHAT’S NEXT
 If you like WP Scheduled Posts, then consider checking out our other WordPress Plugins:
 
-🔝[Essential Addons For Elementor](https://essential-addons.com/elementor/) – Most popular Elementor extensions with 500,000+ active users in the WordPress repository.
+🔝[Essential Addons For Elementor](https://essential-addons.com/elementor/) – Most popular Elementor extensions with 600,000+ active users in the WordPress repository.
 
 🔔[NotificationX](https://notificationx.com/) – Best Social Proof & FOMO Marketing Solution to increase conversion rates.
 
@@ -129,9 +129,9 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 == Changelog ==
 
-= 3.2.0 - 2020-06-02 =
-* Added : calendar default schedule time
-* Fixed : Minor bug fix
+= 3.2.0 - 2020-06-03 =
+* Added     : Calendar default schedule time
+* Fixed     : Minor bug fix
 
 = 3.1.16 - 2020-04-13 =
 * Fixed     : Minor bug fix
