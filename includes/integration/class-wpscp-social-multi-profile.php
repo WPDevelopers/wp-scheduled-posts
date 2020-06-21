@@ -58,6 +58,32 @@ if (!class_exists('wpscp_social_multi_profile')) {
             }
         }
 
+        public function social_single_profile_checkpoint($platform)
+        {
+            if ($platform == 'pinterest') {
+                $social_profile = get_option(WPSCP_PINTEREST_OPTION_NAME);
+                if ($social_profile !== false && count($social_profile) == 1 && !class_exists('WpScp_Pro')) {
+                    return false;
+                }
+            } else if ($platform == 'facebook') {
+                $social_profile = get_option(WPSCP_FACEBOOK_OPTION_NAME);
+                if ($social_profile !== false && count($social_profile) == 1 && !class_exists('WpScp_Pro')) {
+                    return false;
+                }
+            } else if ($platform == 'twitter') {
+                $social_profile = get_option(WPSCP_TWITTER_OPTION_NAME);
+                if ($social_profile !== false && count($social_profile) == 1 && !class_exists('WpScp_Pro')) {
+                    return false;
+                }
+            } else if ($platform == 'linkedin') {
+                $social_profile = get_option(WPSCP_LINKEDIN_OPTION_NAME);
+                if ($social_profile !== false && count($social_profile) == 1 && !class_exists('WpScp_Pro')) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         /**
          * ajax social multi profile oauth token url generator
          * @since 2.5.0
@@ -65,9 +91,14 @@ if (!class_exists('wpscp_social_multi_profile')) {
          */
         public function add_social_profile()
         {
+            $proMessage = esc_html__('Multi profile is pro feature, please upgrade to pro.', 'wp-scheduled-posts');
             $request = $_POST;
             $type = (isset($_POST['type']) ? $_POST['type'] : '');
             if ($type == 'pinterest') {
+                if (!$this->social_single_profile_checkpoint('pinterest')) {
+                    wp_send_json_error($proMessage);
+                    wp_die();
+                }
                 try {
                     $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=wp-scheduled-posts'));
                     $pinterest = new Pinterest(
@@ -86,6 +117,10 @@ if (!class_exists('wpscp_social_multi_profile')) {
                     wp_die();
                 }
             } else if ($type == 'linkedin') {
+                if (!$this->social_single_profile_checkpoint('linkedin')) {
+                    wp_send_json_error($proMessage);
+                    wp_die();
+                }
                 try {
                     $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=wp-scheduled-posts'));
                     $state = base64_encode(json_encode($request));
@@ -104,6 +139,10 @@ if (!class_exists('wpscp_social_multi_profile')) {
                     wp_die();
                 }
             } else if ($type == 'facebook') {
+                if (!$this->social_single_profile_checkpoint('facebook')) {
+                    wp_send_json_error(esc_html__('Failed, social multi profile is pro feature, please upgrade to pro.', 'wp-scheduled-posts'), 'upgradetopro');
+                    wp_die();
+                }
                 $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=wp-scheduled-posts'));
                 $state = base64_encode(json_encode($request));
                 $url = "https://www.facebook.com/dialog/oauth?client_id="
@@ -112,6 +151,10 @@ if (!class_exists('wpscp_social_multi_profile')) {
                 wp_send_json_success($url);
                 wp_die();
             } else if ($type == 'twitter') {
+                if (!$this->social_single_profile_checkpoint('twitter')) {
+                    wp_send_json_error($proMessage);
+                    wp_die();
+                }
                 try {
                     $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=wp-scheduled-posts'));
                     $connection = new TwitterOAuth(WPSCP_TWITTER_API_KEY, WPSCP_TWITTER_API_SECRET_KEY);

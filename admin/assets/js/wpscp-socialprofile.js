@@ -300,7 +300,7 @@ jQuery(document).ready(function ($) {
                     if (response.success) {
                         open(response.data, '_self')
                     } else {
-                        console.log('Failed to generate oauth url')
+                        swal('Failed!', response.data, 'error')
                     }
                 })
             }

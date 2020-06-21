@@ -198,10 +198,9 @@ final class WpScp
             wp_enqueue_script('select2', WPSCP_ADMIN_URL . 'assets/js/vendor/select2.full.js', array('jquery'), filemtime(WPSCP_ADMIN_DIR_PATH . 'assets/js/vendor/select2.full.js'), false);
             wp_enqueue_script('sweetalert', WPSCP_ADMIN_URL . 'assets/js/vendor/sweetalert.min.js', array('jquery'), filemtime(WPSCP_ADMIN_DIR_PATH . 'assets/js/vendor/sweetalert.min.js'), false);
             wp_enqueue_script('notifi', WPSCP_ADMIN_URL . 'assets/js/vendor/notifi.min.js', array('jquery'), filemtime(WPSCP_ADMIN_DIR_PATH . 'assets/js/vendor/notifi.min.js'), false);
-            wp_enqueue_script('custom-script', WPSCP_ADMIN_URL . 'assets/js/custom-script.js', array('jquery'), filemtime(WPSCP_ADMIN_DIR_PATH . 'assets/js/custom-script.js'), false);
             wp_enqueue_script('wpscp-script', WPSCP_ADMIN_URL . 'assets/js/wpscp-script.js', array('jquery'), filemtime(WPSCP_ADMIN_DIR_PATH . 'assets/js/wpscp-script.js'), false);
             wp_localize_script(
-                'custom-script',
+                'wpscp-script',
                 'wpscp_ajax',
                 array('ajax_url' => admin_url('admin-ajax.php'))
             );
@@ -224,8 +223,8 @@ final class WpScp
                     'calendar_rest_route' => site_url('/?rest_route=/wpscp/v1/post_type=post/month=' . $month . '/year=' . $year)
                 )
             );
-            wp_enqueue_script('wpscp-pro-socialprofile', WPSCP_ADMIN_URL . 'assets/js/wpscp-pro-socialprofile.js', array('jquery', 'wpscp-pro-scripts'), filemtime(WPSCP_ADMIN_DIR_PATH . 'assets/js/wpscp-pro-socialprofile.js'), true);
-            wp_localize_script('wpscp-pro-socialprofile', 'wpscpSocialProfile', array(
+            wp_enqueue_script('wpscp-socialprofile', WPSCP_ADMIN_URL . 'assets/js/wpscp-socialprofile.js', array('jquery'), filemtime(WPSCP_ADMIN_DIR_PATH . 'assets/js/wpscp-socialprofile.js'), true);
+            wp_localize_script('wpscp-socialprofile', 'wpscpSocialProfile', array(
                 'plugin_url'    => WPSCP_ROOT_PLUGIN_URL,
                 'nonce'            => wp_create_nonce('wpscp-pro-social-profile'),
                 'redirect_url'  => WPSCP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE
