@@ -7,6 +7,7 @@ use myPHPNotes\LinkedIn;
 if (!class_exists('wpscp_social_multi_profile')) {
     class wpscp_social_multi_profile
     {
+        private $multiProfileErrorMessage;
         public function __construct()
         {
             /**
@@ -29,6 +30,8 @@ if (!class_exists('wpscp_social_multi_profile')) {
             add_action('wp_ajax_wpscp_social_profile_access_token_refresh', array($this, 'social_profile_access_token_refresh'));
             // temp account add ajax, it will be delete after app approve
             add_action('wp_ajax_wpscp_social_temp_add_profile', array($this, 'temp_add_profile'));
+
+            $this->multiProfileErrorMessage = esc_html__('Multi profile is pro feature, please upgrade to pro.', 'wp-scheduled-posts');
         }
 
 
@@ -91,12 +94,11 @@ if (!class_exists('wpscp_social_multi_profile')) {
          */
         public function add_social_profile()
         {
-            $proMessage = esc_html__('Multi profile is pro feature, please upgrade to pro.', 'wp-scheduled-posts');
             $request = $_POST;
             $type = (isset($_POST['type']) ? $_POST['type'] : '');
             if ($type == 'pinterest') {
-                if (!$this->social_single_profile_checkpoint('pinterest')) {
-                    wp_send_json_error($proMessage);
+                if (!$this->social_single_profile_checkpoint($type)) {
+                    wp_send_json_error($this->multiProfileErrorMessage);
                     wp_die();
                 }
                 try {
@@ -117,8 +119,8 @@ if (!class_exists('wpscp_social_multi_profile')) {
                     wp_die();
                 }
             } else if ($type == 'linkedin') {
-                if (!$this->social_single_profile_checkpoint('linkedin')) {
-                    wp_send_json_error($proMessage);
+                if (!$this->social_single_profile_checkpoint($type)) {
+                    wp_send_json_error($this->multiProfileErrorMessage);
                     wp_die();
                 }
                 try {
@@ -139,8 +141,8 @@ if (!class_exists('wpscp_social_multi_profile')) {
                     wp_die();
                 }
             } else if ($type == 'facebook') {
-                if (!$this->social_single_profile_checkpoint('facebook')) {
-                    wp_send_json_error(esc_html__('Failed, social multi profile is pro feature, please upgrade to pro.', 'wp-scheduled-posts'), 'upgradetopro');
+                if (!$this->social_single_profile_checkpoint($type)) {
+                    wp_send_json_error($this->multiProfileErrorMessage);
                     wp_die();
                 }
                 $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=wp-scheduled-posts'));
@@ -151,8 +153,8 @@ if (!class_exists('wpscp_social_multi_profile')) {
                 wp_send_json_success($url);
                 wp_die();
             } else if ($type == 'twitter') {
-                if (!$this->social_single_profile_checkpoint('twitter')) {
-                    wp_send_json_error($proMessage);
+                if (!$this->social_single_profile_checkpoint($type)) {
+                    wp_send_json_error($this->multiProfileErrorMessage);
                     wp_die();
                 }
                 try {
@@ -688,6 +690,10 @@ if (!class_exists('wpscp_social_multi_profile')) {
 
 
             if ($type == 'pinterest') {
+                if (!$this->social_single_profile_checkpoint($type)) {
+                    wp_send_json_error($this->multiProfileErrorMessage);
+                    wp_die();
+                }
                 try {
                     $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=wp-scheduled-posts'));
                     $pinterest = new Pinterest(
@@ -706,6 +712,10 @@ if (!class_exists('wpscp_social_multi_profile')) {
                     wp_die();
                 }
             } else if ($type == 'linkedin') {
+                if (!$this->social_single_profile_checkpoint($type)) {
+                    wp_send_json_error($this->multiProfileErrorMessage);
+                    wp_die();
+                }
                 try {
                     $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=wp-scheduled-posts'));
                     $state = base64_encode(json_encode($request));

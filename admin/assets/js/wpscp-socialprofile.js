@@ -289,8 +289,9 @@ jQuery(document).ready(function ($) {
             function (e) {
                 e.preventDefault()
                 // loader
-                $(this).html(ajaxloader)
-
+                var that = $(this)
+                var btnInnerDom = that.html()
+                that.html(ajaxloader)
                 var data = {
                     action: Obj.ajaxAction.addProfile,
                     type: Obj.platform,
@@ -300,6 +301,7 @@ jQuery(document).ready(function ($) {
                     if (response.success) {
                         open(response.data, '_self')
                     } else {
+                        that.html(btnInnerDom)
                         swal('Failed!', response.data, 'error')
                     }
                 })
@@ -1171,7 +1173,8 @@ jQuery(document).ready(function ($) {
                     if (response.success) {
                         open(response.data, '_self')
                     } else {
-                        console.log('Failed to generate oauth url')
+                        jQuery('.jquery-modal').hide()
+                        swal('Failed!', response.data, 'error')
                     }
                 })
             } else {
