@@ -183,17 +183,17 @@ if (!class_exists('WpScp_pinterest')) {
                 return;
             }
 
-            $multiProfile = get_option(WPSCP_PINTEREST_OPTION_NAME);
-            if (is_array($multiProfile) && count($multiProfile) > 0) {
-                foreach ($multiProfile as $profile_key => $profile) {
+            $profiles = wpscp_get_social_profile(WPSCP_PINTEREST_OPTION_NAME);
+            if (is_array($profiles) && count($profiles) > 0) {
+                foreach ($profiles as $profile_key => $profile) {
                     // skip if status is false
                     if ($profile['status'] == false) {
                         continue;
                     }
                     // share
                     $this->remote_post(
-                        (isset($profile_key['app_id']) ? $profile_key['app_id'] : WPSCP_PINTEREST_APP_ID),
-                        (isset($profile_key['app_secret']) ? $profile_key['app_secret'] : WPSCP_PINTEREST_APP_SECRET),
+                        (isset($profile['app_id']) ? $profile['app_id'] : WPSCP_PINTEREST_APP_ID),
+                        (isset($profile['app_secret']) ? $profile['app_secret'] : WPSCP_PINTEREST_APP_SECRET),
                         $profile['access_token'],
                         $post_id,
                         (isset($profile['default_board_name']) ? $profile['default_board_name'] : ''),
@@ -212,17 +212,17 @@ if (!class_exists('WpScp_pinterest')) {
                 return;
             }
 
-            $multiProfile = get_option(WPSCP_PINTEREST_OPTION_NAME);
-            if (is_array($multiProfile) && count($multiProfile) > 0) {
-                foreach ($multiProfile as $profile_key => $profile) {
+            $profiles = wpscp_get_social_profile(WPSCP_PINTEREST_OPTION_NAME);
+            if (is_array($profiles) && count($profiles) > 0) {
+                foreach ($profiles as $profile_key => $profile) {
                     // skip if status is false
                     if ($profile['status'] == false) {
                         continue;
                     }
                     // share
                     $this->remote_post(
-                        (isset($profile_key['app_id']) ? $profile_key['app_id'] : WPSCP_PINTEREST_APP_ID),
-                        (isset($profile_key['app_secret']) ? $profile_key['app_secret'] : WPSCP_PINTEREST_APP_SECRET),
+                        (isset($profile['app_id']) ? $profile['app_id'] : WPSCP_PINTEREST_APP_ID),
+                        (isset($profile['app_secret']) ? $profile['app_secret'] : WPSCP_PINTEREST_APP_SECRET),
                         $profile['access_token'],
                         $post_id,
                         (isset($profile['default_board_name']) ? $profile['default_board_name'] : ''),

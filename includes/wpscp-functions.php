@@ -431,6 +431,17 @@ if (!function_exists('wpscp_is_supported_plugin_page_hook_suffix')) {
 }
 
 
+function wpscp_get_social_profile($profile)
+{
+	$profile = get_option($profile);
+	$is_pro_wpscp = apply_filters('wpscp_social_profile_limit_checkpoint', $profile);
+	if (class_exists('WpScp_Pro') && $is_pro_wpscp === true) {
+		return $profile;
+	}
+	$new_profile = $profile[0];
+	return [$new_profile];
+}
+
 add_action('wpscp_social_profile_template_list_view', 'wpscp_social_profile_facebook_template_markup');
 function wpscp_social_profile_facebook_template_markup($arg)
 {

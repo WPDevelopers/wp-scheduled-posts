@@ -178,17 +178,17 @@ if (!class_exists('WpScp_linkedin')) {
                 return;
             }
 
-            $multiProfile = get_option(WPSCP_LINKEDIN_OPTION_NAME);
-            if (is_array($multiProfile) && count($multiProfile) > 0) {
-                foreach ($multiProfile as $profile_key => $profile) {
+            $profiles = wpscp_get_social_profile(WPSCP_LINKEDIN_OPTION_NAME);
+            if (is_array($profiles) && count($profiles) > 0) {
+                foreach ($profiles as $profile_key => $profile) {
                     // skip if status is false
                     if ($profile['status'] == false) {
                         continue;
                     }
                     // call social share method
                     $this->remote_post(
-                        (isset($profile_key['app_id']) ? $profile_key['app_id'] : WPSCP_LINKEDIN_CLIENT_ID),
-                        (isset($profile_key['app_secret']) ? $profile_key['app_secret'] : WPSCP_LINKEDIN_CLIENT_SECRET),
+                        (isset($profile['app_id']) ? $profile['app_id'] : WPSCP_LINKEDIN_CLIENT_ID),
+                        (isset($profile['app_secret']) ? $profile['app_secret'] : WPSCP_LINKEDIN_CLIENT_SECRET),
                         $profile['access_token'],
                         $post_id,
                         $profile_key
@@ -206,17 +206,17 @@ if (!class_exists('WpScp_linkedin')) {
                 return;
             }
 
-            $multiProfile = get_option(WPSCP_LINKEDIN_OPTION_NAME);
-            if (is_array($multiProfile) && count($multiProfile) > 0) {
-                foreach ($multiProfile as $profile_key => $profile) {
+            $profiles = wpscp_get_social_profile(WPSCP_LINKEDIN_OPTION_NAME);
+            if (is_array($profiles) && count($profiles) > 0) {
+                foreach ($profiles as $profile_key => $profile) {
                     // skip if status is false
                     if ($profile['status'] == false) {
                         continue;
                     }
                     // call social share method
                     $this->remote_post(
-                        (isset($profile_key['app_id']) ? $profile_key['app_id'] : WPSCP_LINKEDIN_CLIENT_ID),
-                        (isset($profile_key['app_secret']) ? $profile_key['app_secret'] : WPSCP_LINKEDIN_CLIENT_SECRET),
+                        (isset($profile['app_id']) ? $profile['app_id'] : WPSCP_LINKEDIN_CLIENT_ID),
+                        (isset($profile['app_secret']) ? $profile['app_secret'] : WPSCP_LINKEDIN_CLIENT_SECRET),
                         $profile['access_token'],
                         $post_id,
                         $profile_key

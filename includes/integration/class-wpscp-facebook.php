@@ -307,17 +307,17 @@ if (!class_exists('WpScp_Facebook')) {
          */
         public function wpscp_pro_republish_facebook_post($post_id)
         {
-            $multiProfile = get_option(WPSCP_FACEBOOK_OPTION_NAME);
-            if (is_array($multiProfile) && count($multiProfile) > 0) {
-                foreach ($multiProfile as $profile_key => $profile) {
+            $profiles = wpscp_get_social_profile(WPSCP_FACEBOOK_OPTION_NAME);
+            if (is_array($profiles) && count($profiles) > 0) {
+                foreach ($profiles as $profile_key => $profile) {
                     // skip if status is false
                     if ($profile['status'] == false) {
                         continue;
                     }
                     // call social share method
                     $this->remote_post(
-                        (isset($profile_key['app_id']) ? $profile_key['app_id'] : WPSCP_FACEBOOK_APP_ID),
-                        (isset($profile_key['app_secret']) ? $profile_key['app_secret'] : WPSCP_FACEBOOK_APP_SECRET),
+                        (isset($profile['app_id']) ? $profile['app_id'] : WPSCP_FACEBOOK_APP_ID),
+                        (isset($profile['app_secret']) ? $profile['app_secret'] : WPSCP_FACEBOOK_APP_SECRET),
                         $profile['access_token'],
                         $profile['type'],
                         (isset($profile['id']) ? $profile['id'] : null),
@@ -335,17 +335,17 @@ if (!class_exists('WpScp_Facebook')) {
          */
         public function WpScp_Facebook_post($post_id)
         {
-            $multiProfile = get_option(WPSCP_FACEBOOK_OPTION_NAME);
-            if (is_array($multiProfile) && count($multiProfile) > 0) {
-                foreach ($multiProfile as $profile_key => $profile) {
+            $profiles = wpscp_get_social_profile(WPSCP_FACEBOOK_OPTION_NAME);
+            if (is_array($profiles) && count($profiles) > 0) {
+                foreach ($profiles as $profile_key => $profile) {
                     // skip if status is false
                     if ($profile['status'] == false) {
                         continue;
                     }
                     // call social share method
                     $this->remote_post(
-                        (isset($profile_key['app_id']) ? $profile_key['app_id'] : WPSCP_FACEBOOK_APP_ID),
-                        (isset($profile_key['app_secret']) ? $profile_key['app_secret'] : WPSCP_FACEBOOK_APP_SECRET),
+                        (isset($profile['app_id']) ? $profile['app_id'] : WPSCP_FACEBOOK_APP_ID),
+                        (isset($profile['app_secret']) ? $profile['app_secret'] : WPSCP_FACEBOOK_APP_SECRET),
                         $profile['access_token'],
                         $profile['type'],
                         (isset($profile['id']) ? $profile['id'] : null),

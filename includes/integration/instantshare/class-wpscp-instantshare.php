@@ -11,8 +11,8 @@ if (!class_exists('WpScp_instantshare')) {
             add_action('add_meta_boxes', array($this, 'instant_share_metabox'));
             add_action('save_post', array($this, 'instant_share_metabox_data_save'), 10, 2);
             // ajax request for fetch selected profile
-            add_action('wp_ajax_wpscp_pro_instant_share_fetch_profile', array($this, 'instant_share_fetch_profile'));
-            add_action('wp_ajax_wpscp_pro_instant_social_single_profile_share', array($this, 'instant_social_single_profile_share'));
+            add_action('wp_ajax_wpscp_instant_share_fetch_profile', array($this, 'instant_share_fetch_profile'));
+            add_action('wp_ajax_wpscp_instant_social_single_profile_share', array($this, 'instant_social_single_profile_share'));
         }
         public function instant_share_metabox()
         {
@@ -216,10 +216,10 @@ if (!class_exists('WpScp_instantshare')) {
         {
             $allProfile = array();
             // get data from db
-            $facebook = get_option(WPSCP_FACEBOOK_OPTION_NAME);
-            $twitter = get_option(WPSCP_TWITTER_OPTION_NAME);
-            $linkedin = get_option(WPSCP_LINKEDIN_OPTION_NAME);
-            $pinterest = get_option(WPSCP_PINTEREST_OPTION_NAME);
+            $facebook = wpscp_get_social_profile(WPSCP_FACEBOOK_OPTION_NAME);
+            $twitter = wpscp_get_social_profile(WPSCP_TWITTER_OPTION_NAME);
+            $linkedin = wpscp_get_social_profile(WPSCP_LINKEDIN_OPTION_NAME);
+            $pinterest = wpscp_get_social_profile(WPSCP_PINTEREST_OPTION_NAME);
             // get data from ajax request
             $is_facebook_share = $_REQUEST['is_facebook_share'];
             $is_twitter_share = $_REQUEST['is_twitter_share'];
@@ -270,6 +270,8 @@ if (!class_exists('WpScp_instantshare')) {
             wp_send_json(array('markup' => $markup, 'profile' => $allProfile));
             wp_die();
         }
+
+
         public function instant_social_single_profile_share()
         {
             $postid = intval($_REQUEST['postid']);
@@ -278,7 +280,7 @@ if (!class_exists('WpScp_instantshare')) {
             $pinterestBoardName = (isset($_POST['pinterest_custom_board_name']) ? $_POST['pinterest_custom_board_name'] : '');
             // all social platfrom
             if ($platform == 'facebook') {
-                $facebook = get_option(WPSCP_FACEBOOK_OPTION_NAME);
+                $facebook = wpscp_get_social_profile(WPSCP_FACEBOOK_OPTION_NAME);
                 // if disable account then it will be off
                 if ($facebook[$platformKey]['status'] == false) {
                     wp_die();
@@ -296,7 +298,7 @@ if (!class_exists('WpScp_instantshare')) {
                 );
                 wp_die();
             } else if ($platform == 'twitter') {
-                $twitter = get_option(WPSCP_TWITTER_OPTION_NAME);
+                $twitter = wpscp_get_social_profile(WPSCP_TWITTER_OPTION_NAME);
                 // if disable account then it will be off
                 if ($twitter[$platformKey]['status'] == false) {
                     wp_die();
@@ -313,7 +315,7 @@ if (!class_exists('WpScp_instantshare')) {
                 );
                 wp_die();
             } else if ($platform == 'linkedin') {
-                $linkedin = get_option(WPSCP_LINKEDIN_OPTION_NAME);
+                $linkedin = wpscp_get_social_profile(WPSCP_LINKEDIN_OPTION_NAME);
                 // if disable account then it will be off
                 if ($linkedin[$platformKey]['status'] == false) {
                     wp_die();
@@ -329,7 +331,7 @@ if (!class_exists('WpScp_instantshare')) {
                 );
                 wp_die();
             } else if ($platform == 'pinterest') {
-                $pinterest = get_option(WPSCP_PINTEREST_OPTION_NAME);
+                $pinterest = wpscp_get_social_profile(WPSCP_PINTEREST_OPTION_NAME);
                 // if disable account then it will be off
                 if ($pinterest[$platformKey]['status'] == false) {
                     wp_die();

@@ -42,7 +42,7 @@ jQuery(document).ready(function ($) {
             '#wpscppropinterestboardname'
         ).val()
         var data = {
-            action: 'wpscp_pro_instant_share_fetch_profile',
+            action: 'wpscp_instant_share_fetch_profile',
             _nonce: nonce,
             postid: postid,
             is_facebook_share: facebook,
@@ -54,6 +54,7 @@ jQuery(document).ready(function ($) {
         }
 
         jQuery.post(ajaxurl, data, function (response, status) {
+            console.log(response)
             if (status == 'success') {
                 jQuery('body #wpscpproInstantShareModal .modalBody').html(
                     response.markup
@@ -64,8 +65,7 @@ jQuery(document).ready(function ($) {
                 $.each(response.profile, function (profile, profileKey) {
                     Object.keys(profileKey).forEach(function (key) {
                         var data = {
-                            action:
-                                'wpscp_pro_instant_social_single_profile_share',
+                            action: 'wpscp_instant_social_single_profile_share',
                             platform: profile,
                             platformKey: key,
                             postid: postid,

@@ -186,17 +186,17 @@ if (!class_exists('WPSP_Twitter')) {
             if (get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
                 return;
             }
-            $multiProfile = get_option(WPSCP_TWITTER_OPTION_NAME);
-            if (is_array($multiProfile) && count($multiProfile) > 0) {
-                foreach ($multiProfile as $profile_key => $profile) {
+            $profiles = wpscp_get_social_profile(WPSCP_TWITTER_OPTION_NAME);
+            if (is_array($profiles) && count($profiles) > 0) {
+                foreach ($profiles as $profile_key => $profile) {
                     // skip if status is false
                     if ($profile['status'] == false) {
                         continue;
                     }
                     // call social share method
                     $this->remote_post(
-                        (isset($profile_key['app_id']) ? $profile_key['app_id'] : WPSCP_TWITTER_API_KEY),
-                        (isset($profile_key['app_secret']) ? $profile_key['app_secret'] : WPSCP_TWITTER_API_SECRET_KEY),
+                        (isset($profile['app_id']) ? $profile['app_id'] : WPSCP_TWITTER_API_KEY),
+                        (isset($profile['app_secret']) ? $profile['app_secret'] : WPSCP_TWITTER_API_SECRET_KEY),
                         $profile['oauth_token'],
                         $profile['oauth_token_secret'],
                         $post_id,
@@ -215,17 +215,17 @@ if (!class_exists('WPSP_Twitter')) {
             if (get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
                 return;
             }
-            $multiProfile = get_option(WPSCP_TWITTER_OPTION_NAME);
-            if (is_array($multiProfile) && count($multiProfile) > 0) {
-                foreach ($multiProfile as $profile_key => $profile) {
+            $profiles = wpscp_get_social_profile(WPSCP_TWITTER_OPTION_NAME);
+            if (is_array($profiles) && count($profiles) > 0) {
+                foreach ($profiles as $profile_key => $profile) {
                     // skip if status is false
                     if ($profile['status'] == false) {
                         continue;
                     }
                     // call social share method
                     $this->remote_post(
-                        (isset($profile_key['app_id']) ? $profile_key['app_id'] : WPSCP_TWITTER_API_KEY),
-                        (isset($profile_key['app_secret']) ? $profile_key['app_secret'] : WPSCP_TWITTER_API_SECRET_KEY),
+                        (isset($profile['app_id']) ? $profile['app_id'] : WPSCP_TWITTER_API_KEY),
+                        (isset($profile['app_secret']) ? $profile['app_secret'] : WPSCP_TWITTER_API_SECRET_KEY),
                         $profile['oauth_token'],
                         $profile['oauth_token_secret'],
                         $post_id,
