@@ -65,7 +65,7 @@
                             <?php
                             $query = new WP_Query(array(
                                 'post_type'         => $allow_post_types,
-                                'post_status'       => array('draft'),
+                                'post_status'       => array('draft', 'pending'),
                                 'posts_per_page'    => -1
                             ));
                             while ($query->have_posts()) : $query->the_post();

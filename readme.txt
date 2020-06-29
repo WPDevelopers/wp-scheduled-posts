@@ -4,7 +4,7 @@ Tags: post schedule, editor calendar, schedule-calendar, editorial calendar, sch
 Requires at least: 4.0
 Tested up to: 5.4
 Requires PHP: 5.4
-Stable tag: 3.2.0
+Stable tag: 3.2.1
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -128,6 +128,10 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 
 == Changelog ==
+
+= 3.2.1 - 2020-06-29 =
+* Fixed     : Schedule Calendar not showing Pending posts
+* Fixed     : Minor bugs & improvements
 
 = 3.2.0 - 2020-06-03 =
 * Added     : Calendar default schedule time
