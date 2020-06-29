@@ -430,197 +430,248 @@ if (!function_exists('wpscp_is_supported_plugin_page_hook_suffix')) {
 	}
 }
 
-
-function wpscp_get_social_profile($profile)
-{
-	$profile = get_option($profile);
-	$is_pro_wpscp = apply_filters('wpscp_social_profile_limit_checkpoint', $profile);
-	if (class_exists('WpScp_Pro') && $is_pro_wpscp === true) {
-		return $profile;
+/**
+ * social single profile data return
+ * wpscp_get_social_profile
+ *
+ * @param  mixed $profile
+ * @return array
+ * @since 3.3.0
+ */
+if (!function_exists('wpscp_get_social_profile')) {
+	function wpscp_get_social_profile($profile)
+	{
+		$profile = get_option($profile);
+		$is_pro_wpscp = apply_filters('wpscp_social_profile_limit_checkpoint', $profile);
+		if (class_exists('WpScp_Pro') && $is_pro_wpscp === true) {
+			return $profile;
+		}
+		$new_profile = $profile[0];
+		return [$new_profile];
 	}
-	$new_profile = $profile[0];
-	return [$new_profile];
 }
 
+/**
+ * Facebook single profile list template markup
+ * wpscp_social_profile_facebook_template_markup
+ * 
+ * @hook wpscp_social_profile_template_list_view
+ * @param  mixed $arg
+ * @return markup
+ * @since 3.3.0
+ */
 add_action('wpscp_social_profile_template_list_view', 'wpscp_social_profile_facebook_template_markup');
-function wpscp_social_profile_facebook_template_markup($arg)
-{
-	if ($arg['social_profile'] == 'facebook') {
-		$facebookStatus = $arg['status'];
-		$facebookSocialProfile = get_option(WPSCP_FACEBOOK_OPTION_NAME);
-		if (is_array($facebookSocialProfile)) {
+if (!function_exists('wpscp_social_profile_facebook_template_markup')) {
+	function wpscp_social_profile_facebook_template_markup($arg)
+	{
+		if ($arg['social_profile'] == 'facebook') {
+			$facebookStatus = $arg['status'];
+			$facebookSocialProfile = get_option(WPSCP_FACEBOOK_OPTION_NAME);
+			if (is_array($facebookSocialProfile)) {
 	?>
-			<div class="wpscp-social-tab__item-list__single_item<?php echo ($facebookStatus != 'on' ? ' disable' : ''); ?>" data-type="facebook" data-item="0" data-option_name="<?php print WPSCP_FACEBOOK_OPTION_NAME; ?>">
-				<div class="entry-thumbnail">
-					<img src="<?php print(isset($facebookSocialProfile[0]['thumbnail_url']) ? $facebookSocialProfile[0]['thumbnail_url'] : 'http://0.gravatar.com/avatar/64e1b8d34f425d19e1ee2ea7236d3028?s=96&d=mm&r=g'); ?>" alt="<?php _e('icon', 'wp-scheduled-posts-pro'); ?>">
-				</div>
-				<div class="entry-content">
-					<h4 class="entry-content__title">
-						<?php
-						if (isset($facebookSocialProfile[0]['name']) && $facebookSocialProfile[0]['name'] != "") {
-							echo $facebookSocialProfile[0]['name'];
-						}
-						?>
-					</h4>
-					<p class="entry-content__doc">
-						<?php esc_html_e('Added by', 'wp-scheduled-posts-pro'); ?>
-						<strong>
-							<?php print(isset($facebookSocialProfile[0]['added_by']) ? $facebookSocialProfile[0]['added_by'] : ''); ?>
-						</strong>
-						<?php
-						_e('on ', 'wp-scheduled-posts-pro');
-						print(isset($facebookSocialProfile[0]['added_date']) ? $facebookSocialProfile[0]['added_date'] : '');
-						?>
-					</p>
-				</div>
-				<div class="entry-control">
-					<div class="checkbox-toggle">
-						<form method="post">
-							<input type="checkbox" class="wpsp_field_activate" <?php checked(boolval($facebookSocialProfile[0]['status']), 1) ?>>
-							<svg class="is_checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 426.67 426.67">
-								<path d="M153.504 366.84c-8.657 0-17.323-3.303-23.927-9.912L9.914 237.265c-13.218-13.218-13.218-34.645 0-47.863 13.218-13.218 34.645-13.218 47.863 0l95.727 95.727 215.39-215.387c13.218-13.214 34.65-13.218 47.86 0 13.22 13.218 13.22 34.65 0 47.863L177.435 356.928c-6.61 6.605-15.27 9.91-23.932 9.91z" />
-							</svg>
-							<svg class="is_unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 212.982 212.982">
-								<path d="M131.804 106.49l75.936-75.935c6.99-6.99 6.99-18.323 0-25.312-6.99-6.99-18.322-6.99-25.312 0L106.49 81.18 30.555 5.242c-6.99-6.99-18.322-6.99-25.312 0-6.99 6.99-6.99 18.323 0 25.312L81.18 106.49 5.24 182.427c-6.99 6.99-6.99 18.323 0 25.312 6.99 6.99 18.322 6.99 25.312 0L106.49 131.8l75.938 75.937c6.99 6.99 18.322 6.99 25.312 0 6.99-6.99 6.99-18.323 0-25.313l-75.936-75.936z" fill-rule="evenodd" clip-rule="evenodd" />
-							</svg>
-						</form>
+				<div class="wpscp-social-tab__item-list__single_item<?php echo ($facebookStatus != 'on' ? ' disable' : ''); ?>" data-type="facebook" data-item="0" data-option_name="<?php print WPSCP_FACEBOOK_OPTION_NAME; ?>">
+					<div class="entry-thumbnail">
+						<img src="<?php print(isset($facebookSocialProfile[0]['thumbnail_url']) ? $facebookSocialProfile[0]['thumbnail_url'] : 'http://0.gravatar.com/avatar/64e1b8d34f425d19e1ee2ea7236d3028?s=96&d=mm&r=g'); ?>" alt="<?php _e('icon', 'wp-scheduled-posts-pro'); ?>">
 					</div>
-					<div class="entry-control__more-link">
-						<button class="btn-more-link"><img src="<?php print plugin_dir_url(__FILE__) . './../assets/images/icon-more.png'; ?>" alt="<?php _e('more item', 'wp-scheduled-posts'); ?>"></button>
-						<ul class="entry-control__more-link__group_absolute">
-							<li>
-								<button class="btn btn-refresh"><?php _e('Refresh', 'wp-scheduled-posts-pro'); ?></button>
-								<button class="btn btn-remove"><?php _e('Remove', 'wp-scheduled-posts-pro'); ?></button>
-							</li>
-						</ul>
+					<div class="entry-content">
+						<h4 class="entry-content__title">
+							<?php
+							if (isset($facebookSocialProfile[0]['name']) && $facebookSocialProfile[0]['name'] != "") {
+								echo $facebookSocialProfile[0]['name'];
+							}
+							?>
+						</h4>
+						<p class="entry-content__doc">
+							<?php esc_html_e('Added by', 'wp-scheduled-posts-pro'); ?>
+							<strong>
+								<?php print(isset($facebookSocialProfile[0]['added_by']) ? $facebookSocialProfile[0]['added_by'] : ''); ?>
+							</strong>
+							<?php
+							_e('on ', 'wp-scheduled-posts-pro');
+							print(isset($facebookSocialProfile[0]['added_date']) ? $facebookSocialProfile[0]['added_date'] : '');
+							?>
+						</p>
+					</div>
+					<div class="entry-control">
+						<div class="checkbox-toggle">
+							<form method="post">
+								<input type="checkbox" class="wpsp_field_activate" <?php checked(boolval($facebookSocialProfile[0]['status']), 1) ?>>
+								<svg class="is_checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 426.67 426.67">
+									<path d="M153.504 366.84c-8.657 0-17.323-3.303-23.927-9.912L9.914 237.265c-13.218-13.218-13.218-34.645 0-47.863 13.218-13.218 34.645-13.218 47.863 0l95.727 95.727 215.39-215.387c13.218-13.214 34.65-13.218 47.86 0 13.22 13.218 13.22 34.65 0 47.863L177.435 356.928c-6.61 6.605-15.27 9.91-23.932 9.91z" />
+								</svg>
+								<svg class="is_unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 212.982 212.982">
+									<path d="M131.804 106.49l75.936-75.935c6.99-6.99 6.99-18.323 0-25.312-6.99-6.99-18.322-6.99-25.312 0L106.49 81.18 30.555 5.242c-6.99-6.99-18.322-6.99-25.312 0-6.99 6.99-6.99 18.323 0 25.312L81.18 106.49 5.24 182.427c-6.99 6.99-6.99 18.323 0 25.312 6.99 6.99 18.322 6.99 25.312 0L106.49 131.8l75.938 75.937c6.99 6.99 18.322 6.99 25.312 0 6.99-6.99 6.99-18.323 0-25.313l-75.936-75.936z" fill-rule="evenodd" clip-rule="evenodd" />
+								</svg>
+							</form>
+						</div>
+						<div class="entry-control__more-link">
+							<button class="btn-more-link"><img src="<?php print plugin_dir_url(__FILE__) . './../assets/images/icon-more.png'; ?>" alt="<?php _e('more item', 'wp-scheduled-posts'); ?>"></button>
+							<ul class="entry-control__more-link__group_absolute">
+								<li>
+									<button class="btn btn-refresh"><?php _e('Refresh', 'wp-scheduled-posts-pro'); ?></button>
+									<button class="btn btn-remove"><?php _e('Remove', 'wp-scheduled-posts-pro'); ?></button>
+								</li>
+							</ul>
+						</div>
 					</div>
 				</div>
-			</div>
-		<?php
+			<?php
+			}
 		}
 	}
 }
 
+/**
+ * Twitter single profile list template markup
+ * wpscp_social_profile_twitter_template_markup
+ *
+ * @hook wpscp_social_profile_template_list_view
+ * @param  mixed $arg
+ * @return void
+ * @since 3.3.0
+ */
 add_action('wpscp_social_profile_template_list_view', 'wpscp_social_profile_twitter_template_markup');
-function wpscp_social_profile_twitter_template_markup($arg)
-{
-	if ($arg['social_profile'] == 'twitter') {
-		$twitterStatus = $arg['status'];
-		$twitterSocialProfile = get_option(WPSCP_TWITTER_OPTION_NAME);
-		if (is_array($twitterSocialProfile)) {
-		?>
-			<div class="wpscp-social-tab__item-list__single_item<?php echo ($twitterStatus != 'on' ? ' disable' : ''); ?>" data-type="twitter" data-item="0" data-option_name="<?php print WPSCP_TWITTER_OPTION_NAME; ?>">
-				<div class="entry-thumbnail">
-					<img src="<?php print(isset($twitterSocialProfile[0]['thumbnail_url']) ? $twitterSocialProfile[0]['thumbnail_url'] : 'http://0.gravatar.com/avatar/64e1b8d34f425d19e1ee2ea7236d3028?s=96&d=mm&r=g'); ?>" alt="<?php _e('icon', 'wp-scheduled-posts-pro'); ?>">
-				</div>
-				<div class="entry-content">
-					<h4 class="entry-content__title">
-						<?php
-						if (isset($twitterSocialProfile[0]['name']) && $twitterSocialProfile[0]['name'] != "") {
-							echo $twitterSocialProfile[0]['name'];
-						}
-						?>
-					</h4>
-					<p class="entry-content__doc">
-						<?php esc_html_e('Added by', 'wp-scheduled-posts-pro'); ?>
-						<strong>
-							<?php print(isset($twitterSocialProfile[0]['added_by']) ? $twitterSocialProfile[0]['added_by'] : ''); ?>
-						</strong>
-						<?php
-						_e('on ', 'wp-scheduled-posts-pro');
-						print(isset($twitterSocialProfile[0]['added_date']) ? $twitterSocialProfile[0]['added_date'] : '');
-						?>
-					</p>
-				</div>
-				<div class="entry-control">
-					<div class="checkbox-toggle">
-						<form method="post">
-							<input type="checkbox" class="wpsp_field_activate" <?php checked(boolval($twitterSocialProfile[0]['status']), 1) ?>>
-							<svg class="is_checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 426.67 426.67">
-								<path d="M153.504 366.84c-8.657 0-17.323-3.303-23.927-9.912L9.914 237.265c-13.218-13.218-13.218-34.645 0-47.863 13.218-13.218 34.645-13.218 47.863 0l95.727 95.727 215.39-215.387c13.218-13.214 34.65-13.218 47.86 0 13.22 13.218 13.22 34.65 0 47.863L177.435 356.928c-6.61 6.605-15.27 9.91-23.932 9.91z" />
-							</svg>
-							<svg class="is_unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 212.982 212.982">
-								<path d="M131.804 106.49l75.936-75.935c6.99-6.99 6.99-18.323 0-25.312-6.99-6.99-18.322-6.99-25.312 0L106.49 81.18 30.555 5.242c-6.99-6.99-18.322-6.99-25.312 0-6.99 6.99-6.99 18.323 0 25.312L81.18 106.49 5.24 182.427c-6.99 6.99-6.99 18.323 0 25.312 6.99 6.99 18.322 6.99 25.312 0L106.49 131.8l75.938 75.937c6.99 6.99 18.322 6.99 25.312 0 6.99-6.99 6.99-18.323 0-25.313l-75.936-75.936z" fill-rule="evenodd" clip-rule="evenodd" />
-							</svg>
-						</form>
+if (!function_exists('wpscp_social_profile_twitter_template_markup')) {
+	function wpscp_social_profile_twitter_template_markup($arg)
+	{
+		if ($arg['social_profile'] == 'twitter') {
+			$twitterStatus = $arg['status'];
+			$twitterSocialProfile = get_option(WPSCP_TWITTER_OPTION_NAME);
+			if (is_array($twitterSocialProfile)) {
+			?>
+				<div class="wpscp-social-tab__item-list__single_item<?php echo ($twitterStatus != 'on' ? ' disable' : ''); ?>" data-type="twitter" data-item="0" data-option_name="<?php print WPSCP_TWITTER_OPTION_NAME; ?>">
+					<div class="entry-thumbnail">
+						<img src="<?php print(isset($twitterSocialProfile[0]['thumbnail_url']) ? $twitterSocialProfile[0]['thumbnail_url'] : 'http://0.gravatar.com/avatar/64e1b8d34f425d19e1ee2ea7236d3028?s=96&d=mm&r=g'); ?>" alt="<?php _e('icon', 'wp-scheduled-posts-pro'); ?>">
 					</div>
-					<div class="entry-control__more-link">
-						<button class="btn-more-link"><img src="<?php print plugin_dir_url(__FILE__) . './../assets/images/icon-more.png'; ?>" alt="<?php _e('more item', 'wp-scheduled-posts'); ?>"></button>
-						<ul class="entry-control__more-link__group_absolute">
-							<li>
-								<button class="btn btn-refresh"><?php _e('Refresh', 'wp-scheduled-posts-pro'); ?></button>
-								<button class="btn btn-remove"><?php _e('Remove', 'wp-scheduled-posts-pro'); ?></button>
-							</li>
-						</ul>
+					<div class="entry-content">
+						<h4 class="entry-content__title">
+							<?php
+							if (isset($twitterSocialProfile[0]['name']) && $twitterSocialProfile[0]['name'] != "") {
+								echo $twitterSocialProfile[0]['name'];
+							}
+							?>
+						</h4>
+						<p class="entry-content__doc">
+							<?php esc_html_e('Added by', 'wp-scheduled-posts-pro'); ?>
+							<strong>
+								<?php print(isset($twitterSocialProfile[0]['added_by']) ? $twitterSocialProfile[0]['added_by'] : ''); ?>
+							</strong>
+							<?php
+							_e('on ', 'wp-scheduled-posts-pro');
+							print(isset($twitterSocialProfile[0]['added_date']) ? $twitterSocialProfile[0]['added_date'] : '');
+							?>
+						</p>
+					</div>
+					<div class="entry-control">
+						<div class="checkbox-toggle">
+							<form method="post">
+								<input type="checkbox" class="wpsp_field_activate" <?php checked(boolval($twitterSocialProfile[0]['status']), 1) ?>>
+								<svg class="is_checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 426.67 426.67">
+									<path d="M153.504 366.84c-8.657 0-17.323-3.303-23.927-9.912L9.914 237.265c-13.218-13.218-13.218-34.645 0-47.863 13.218-13.218 34.645-13.218 47.863 0l95.727 95.727 215.39-215.387c13.218-13.214 34.65-13.218 47.86 0 13.22 13.218 13.22 34.65 0 47.863L177.435 356.928c-6.61 6.605-15.27 9.91-23.932 9.91z" />
+								</svg>
+								<svg class="is_unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 212.982 212.982">
+									<path d="M131.804 106.49l75.936-75.935c6.99-6.99 6.99-18.323 0-25.312-6.99-6.99-18.322-6.99-25.312 0L106.49 81.18 30.555 5.242c-6.99-6.99-18.322-6.99-25.312 0-6.99 6.99-6.99 18.323 0 25.312L81.18 106.49 5.24 182.427c-6.99 6.99-6.99 18.323 0 25.312 6.99 6.99 18.322 6.99 25.312 0L106.49 131.8l75.938 75.937c6.99 6.99 18.322 6.99 25.312 0 6.99-6.99 6.99-18.323 0-25.313l-75.936-75.936z" fill-rule="evenodd" clip-rule="evenodd" />
+								</svg>
+							</form>
+						</div>
+						<div class="entry-control__more-link">
+							<button class="btn-more-link"><img src="<?php print plugin_dir_url(__FILE__) . './../assets/images/icon-more.png'; ?>" alt="<?php _e('more item', 'wp-scheduled-posts'); ?>"></button>
+							<ul class="entry-control__more-link__group_absolute">
+								<li>
+									<button class="btn btn-refresh"><?php _e('Refresh', 'wp-scheduled-posts-pro'); ?></button>
+									<button class="btn btn-remove"><?php _e('Remove', 'wp-scheduled-posts-pro'); ?></button>
+								</li>
+							</ul>
+						</div>
 					</div>
 				</div>
-			</div>
-		<?php
+			<?php
+			}
 		}
 	}
 }
 
+/**
+ * Linkedin single profile list template markup
+ * wpscp_social_profile_linkedin_template_markup
+ *
+ * @hook wpscp_social_profile_template_list_view
+ * @param  mixed $arg
+ * @return markup
+ * @since 3.3.0
+ */
 add_action('wpscp_social_profile_template_list_view', 'wpscp_social_profile_linkedin_template_markup');
-function wpscp_social_profile_linkedin_template_markup($arg)
-{
-	if ($arg['social_profile'] == 'linkedin') {
-		$linkedinStatus = $arg['status'];
-		$linkedinSocialProfile = get_option(WPSCP_LINKEDIN_OPTION_NAME);
-		if (is_array($linkedinSocialProfile)) {
-		?>
-			<div class="wpscp-social-tab__item-list__single_item<?php echo ($linkedinStatus != 'on' ? ' disable' : ''); ?>" data-type="linkedin" data-item="0" data-option_name="<?php print WPSCP_LINKEDIN_OPTION_NAME; ?>">
-				<div class="entry-thumbnail">
-					<img src="<?php print(isset($linkedinSocialProfile[0]['thumbnail_url']) ? $linkedinSocialProfile[0]['thumbnail_url'] : 'http://0.gravatar.com/avatar/64e1b8d34f425d19e1ee2ea7236d3028?s=96&d=mm&r=g'); ?>" alt="<?php _e('icon', 'wp-scheduled-posts-pro'); ?>">
-				</div>
-				<div class="entry-content">
-					<h4 class="entry-content__title">
-						<?php
-						if (isset($linkedinSocialProfile[0]['name']) && $linkedinSocialProfile[0]['name'] != "") {
-							echo $linkedinSocialProfile[0]['name'];
-						}
-						?>
-					</h4>
-					<p class="entry-content__doc">
-						<?php esc_html_e('Added by', 'wp-scheduled-posts-pro'); ?>
-						<strong>
-							<?php print(isset($linkedinSocialProfile[0]['added_by']) ? $linkedinSocialProfile[0]['added_by'] : ''); ?>
-						</strong>
-						<?php
-						_e('on ', 'wp-scheduled-posts-pro');
-						print(isset($linkedinSocialProfile[0]['added_date']) ? $linkedinSocialProfile[0]['added_date'] : '');
-						?>
-					</p>
-				</div>
-				<div class="entry-control">
-					<div class="checkbox-toggle">
-						<form method="post">
-							<input type="checkbox" class="wpsp_field_activate" <?php checked(boolval($linkedinSocialProfile[0]['status']), 1) ?>>
-							<svg class="is_checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 426.67 426.67">
-								<path d="M153.504 366.84c-8.657 0-17.323-3.303-23.927-9.912L9.914 237.265c-13.218-13.218-13.218-34.645 0-47.863 13.218-13.218 34.645-13.218 47.863 0l95.727 95.727 215.39-215.387c13.218-13.214 34.65-13.218 47.86 0 13.22 13.218 13.22 34.65 0 47.863L177.435 356.928c-6.61 6.605-15.27 9.91-23.932 9.91z" />
-							</svg>
-							<svg class="is_unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 212.982 212.982">
-								<path d="M131.804 106.49l75.936-75.935c6.99-6.99 6.99-18.323 0-25.312-6.99-6.99-18.322-6.99-25.312 0L106.49 81.18 30.555 5.242c-6.99-6.99-18.322-6.99-25.312 0-6.99 6.99-6.99 18.323 0 25.312L81.18 106.49 5.24 182.427c-6.99 6.99-6.99 18.323 0 25.312 6.99 6.99 18.322 6.99 25.312 0L106.49 131.8l75.938 75.937c6.99 6.99 18.322 6.99 25.312 0 6.99-6.99 6.99-18.323 0-25.313l-75.936-75.936z" fill-rule="evenodd" clip-rule="evenodd" />
-							</svg>
-						</form>
+if (!function_exists('wpscp_social_profile_linkedin_template_markup')) {
+	function wpscp_social_profile_linkedin_template_markup($arg)
+	{
+		if ($arg['social_profile'] == 'linkedin') {
+			$linkedinStatus = $arg['status'];
+			$linkedinSocialProfile = get_option(WPSCP_LINKEDIN_OPTION_NAME);
+			if (is_array($linkedinSocialProfile)) {
+			?>
+				<div class="wpscp-social-tab__item-list__single_item<?php echo ($linkedinStatus != 'on' ? ' disable' : ''); ?>" data-type="linkedin" data-item="0" data-option_name="<?php print WPSCP_LINKEDIN_OPTION_NAME; ?>">
+					<div class="entry-thumbnail">
+						<img src="<?php print(isset($linkedinSocialProfile[0]['thumbnail_url']) ? $linkedinSocialProfile[0]['thumbnail_url'] : 'http://0.gravatar.com/avatar/64e1b8d34f425d19e1ee2ea7236d3028?s=96&d=mm&r=g'); ?>" alt="<?php _e('icon', 'wp-scheduled-posts-pro'); ?>">
 					</div>
-					<div class="entry-control__more-link">
-						<button class="btn-more-link"><img src="<?php print plugin_dir_url(__FILE__) . './../assets/images/icon-more.png'; ?>" alt="<?php _e('more item', 'wp-scheduled-posts'); ?>"></button>
-						<ul class="entry-control__more-link__group_absolute">
-							<li>
-								<!-- <button class="btn btn-refresh"><?php // _e('Refresh', 'wp-scheduled-posts-pro'); 
-																		?></button> -->
-								<button class="btn btn-remove"><?php _e('Remove', 'wp-scheduled-posts-pro'); ?></button>
-							</li>
-						</ul>
+					<div class="entry-content">
+						<h4 class="entry-content__title">
+							<?php
+							if (isset($linkedinSocialProfile[0]['name']) && $linkedinSocialProfile[0]['name'] != "") {
+								echo $linkedinSocialProfile[0]['name'];
+							}
+							?>
+						</h4>
+						<p class="entry-content__doc">
+							<?php esc_html_e('Added by', 'wp-scheduled-posts-pro'); ?>
+							<strong>
+								<?php print(isset($linkedinSocialProfile[0]['added_by']) ? $linkedinSocialProfile[0]['added_by'] : ''); ?>
+							</strong>
+							<?php
+							_e('on ', 'wp-scheduled-posts-pro');
+							print(isset($linkedinSocialProfile[0]['added_date']) ? $linkedinSocialProfile[0]['added_date'] : '');
+							?>
+						</p>
+					</div>
+					<div class="entry-control">
+						<div class="checkbox-toggle">
+							<form method="post">
+								<input type="checkbox" class="wpsp_field_activate" <?php checked(boolval($linkedinSocialProfile[0]['status']), 1) ?>>
+								<svg class="is_checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 426.67 426.67">
+									<path d="M153.504 366.84c-8.657 0-17.323-3.303-23.927-9.912L9.914 237.265c-13.218-13.218-13.218-34.645 0-47.863 13.218-13.218 34.645-13.218 47.863 0l95.727 95.727 215.39-215.387c13.218-13.214 34.65-13.218 47.86 0 13.22 13.218 13.22 34.65 0 47.863L177.435 356.928c-6.61 6.605-15.27 9.91-23.932 9.91z" />
+								</svg>
+								<svg class="is_unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 212.982 212.982">
+									<path d="M131.804 106.49l75.936-75.935c6.99-6.99 6.99-18.323 0-25.312-6.99-6.99-18.322-6.99-25.312 0L106.49 81.18 30.555 5.242c-6.99-6.99-18.322-6.99-25.312 0-6.99 6.99-6.99 18.323 0 25.312L81.18 106.49 5.24 182.427c-6.99 6.99-6.99 18.323 0 25.312 6.99 6.99 18.322 6.99 25.312 0L106.49 131.8l75.938 75.937c6.99 6.99 18.322 6.99 25.312 0 6.99-6.99 6.99-18.323 0-25.313l-75.936-75.936z" fill-rule="evenodd" clip-rule="evenodd" />
+								</svg>
+							</form>
+						</div>
+						<div class="entry-control__more-link">
+							<button class="btn-more-link"><img src="<?php print plugin_dir_url(__FILE__) . './../assets/images/icon-more.png'; ?>" alt="<?php _e('more item', 'wp-scheduled-posts'); ?>"></button>
+							<ul class="entry-control__more-link__group_absolute">
+								<li>
+									<!-- <button class="btn btn-refresh"><?php // _e('Refresh', 'wp-scheduled-posts-pro'); 
+																			?></button> -->
+									<button class="btn btn-remove"><?php _e('Remove', 'wp-scheduled-posts-pro'); ?></button>
+								</li>
+							</ul>
+						</div>
 					</div>
 				</div>
-			</div>
-		<?php
+			<?php
 
+			}
 		}
 	}
 }
 
+/**
+ * Pinterest single profile list template markup
+ * wpscp_social_profile_pinterest_template_markup
+ *
+ * @hook wpscp_social_profile_template_list_view
+ * @param  mixed $arg
+ * @return void
+ * @since 3.3.0
+ */
 add_action('wpscp_social_profile_template_list_view', 'wpscp_social_profile_pinterest_template_markup');
 function wpscp_social_profile_pinterest_template_markup($arg)
 {
@@ -628,7 +679,7 @@ function wpscp_social_profile_pinterest_template_markup($arg)
 		$pinterestStatus = $arg['status'];
 		$pinterestSocialProfile = get_option(WPSCP_PINTEREST_OPTION_NAME);
 		if (is_array($pinterestSocialProfile)) {
-		?>
+			?>
 			<div class="wpscp-social-tab__item-list__single_item<?php echo ($pinterestStatus != 'on' ? ' disable' : ''); ?>" data-type="pinterest" data-item="0" data-option_name="<?php print WPSCP_PINTEREST_OPTION_NAME; ?>">
 				<div class="entry-thumbnail">
 					<img src="<?php print(isset($pinterestSocialProfile[0]['thumbnail_url']) ? $pinterestSocialProfile[0]['thumbnail_url'] : 'http://0.gravatar.com/avatar/64e1b8d34f425d19e1ee2ea7236d3028?s=96&d=mm&r=g'); ?>" alt="<?php _e('icon', 'wp-scheduled-posts-pro'); ?>">
