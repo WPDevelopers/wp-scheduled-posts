@@ -244,7 +244,7 @@ if (!class_exists('WpScp_instantshare')) {
             if (is_array($allProfile) && count($allProfile) > 0) {
                 foreach ($allProfile as $profileName => $profile) {
                     $markup .= '<div class="entry-head ' . $profileName . '">
-                        <img src="' . WPSCP_PRO_PLUGIN_URL . 'admin/assets/images/icon-' . $profileName . '-small-white.png' . '" alt="logo" />
+                        <img src="' . WPSCP_ADMIN_URL . 'assets/images/icon-' . $profileName . '-small-white.png' . '" alt="logo" />
                         <h2 class="entry-head-title">' . $profileName . '</h2>
                     </div>
                     <ul>';

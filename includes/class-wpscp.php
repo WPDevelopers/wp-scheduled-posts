@@ -227,7 +227,8 @@ final class WpScp
             wp_localize_script('wpscp-socialprofile', 'wpscpSocialProfile', array(
                 'plugin_url'    => WPSCP_ROOT_PLUGIN_URL,
                 'nonce'            => wp_create_nonce('wpscp-pro-social-profile'),
-                'redirect_url'  => WPSCP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE
+                'redirect_url'  => WPSCP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE,
+                'is_active_pro' => class_exists('WpScp_Pro')
             ));
         }
         // admin notice for all wordpress dashboard

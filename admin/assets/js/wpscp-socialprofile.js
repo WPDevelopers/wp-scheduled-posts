@@ -54,7 +54,6 @@ jQuery(document).ready(function ($) {
         }
 
         jQuery.post(ajaxurl, data, function (response, status) {
-            console.log(response)
             if (status == 'success') {
                 jQuery('body #wpscpproInstantShareModal .modalBody').html(
                     response.markup
@@ -496,7 +495,6 @@ jQuery(document).ready(function ($) {
                 oauthToken: queryString.get('oauth_token'),
             }
             jQuery.post(ajaxurl, data, function (response) {
-                console.log('Fetch Info', response)
                 var modalBodySelector = jQuery(
                     'body #wpscpproMultiSocialTokenModel .modalbody'
                 )
@@ -632,7 +630,6 @@ jQuery(document).ready(function ($) {
      * this modal automatic run after fetch oauth token
      */
     function wpscppro_pinterest_board_selection_modal(response) {
-        console.log(response)
         if ($('#wpscpproPinterestBoardSelectModal').length === 0) {
             var boardListTopMessage = ''
             var boardList = ''
@@ -834,6 +831,25 @@ jQuery(document).ready(function ($) {
             clickClose: false,
             showClose: true,
         })
+        /**
+         * Enable/Disable Multi Profile Feature
+         */
+        if (wpscpSocialProfile.is_active_pro !== '1') {
+            $(
+                'body #wpscpproFacebookPageAndGroupSelectModal input[type="checkbox"]'
+            ).on('change', function (e) {
+                if (
+                    $(
+                        'body #wpscpproFacebookPageAndGroupSelectModal input[type="checkbox"]:checked'
+                    ).length > 1
+                ) {
+                    this.checked = false
+                    alert(
+                        'Social Multi Profile Is pro Features, please upgrade to pro'
+                    )
+                }
+            })
+        }
     }
     /**
      * Facebook data saving option

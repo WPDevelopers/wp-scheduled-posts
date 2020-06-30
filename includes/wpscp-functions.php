@@ -467,7 +467,7 @@ if (!function_exists('wpscp_social_profile_facebook_template_markup')) {
 		if ($arg['social_profile'] == 'facebook') {
 			$facebookStatus = $arg['status'];
 			$facebookSocialProfile = get_option(WPSCP_FACEBOOK_OPTION_NAME);
-			if (is_array($facebookSocialProfile)) {
+			if (is_array($facebookSocialProfile)  && count($facebookSocialProfile) > 0) {
 	?>
 				<div class="wpscp-social-tab__item-list__single_item<?php echo ($facebookStatus != 'on' ? ' disable' : ''); ?>" data-type="facebook" data-item="0" data-option_name="<?php print WPSCP_FACEBOOK_OPTION_NAME; ?>">
 					<div class="entry-thumbnail">
@@ -505,7 +505,7 @@ if (!function_exists('wpscp_social_profile_facebook_template_markup')) {
 							</form>
 						</div>
 						<div class="entry-control__more-link">
-							<button class="btn-more-link"><img src="<?php print plugin_dir_url(__FILE__) . './../assets/images/icon-more.png'; ?>" alt="<?php _e('more item', 'wp-scheduled-posts'); ?>"></button>
+							<button class="btn-more-link"><img src="<?php print esc_url(WPSCP_ADMIN_URL . '/assets/images/icon-more.png'); ?>" alt="<?php _e('more item', 'wp-scheduled-posts'); ?>"></button>
 							<ul class="entry-control__more-link__group_absolute">
 								<li>
 									<button class="btn btn-refresh"><?php _e('Refresh', 'wp-scheduled-posts-pro'); ?></button>
@@ -537,7 +537,7 @@ if (!function_exists('wpscp_social_profile_twitter_template_markup')) {
 		if ($arg['social_profile'] == 'twitter') {
 			$twitterStatus = $arg['status'];
 			$twitterSocialProfile = get_option(WPSCP_TWITTER_OPTION_NAME);
-			if (is_array($twitterSocialProfile)) {
+			if (is_array($twitterSocialProfile)  && count($twitterSocialProfile) > 0) {
 			?>
 				<div class="wpscp-social-tab__item-list__single_item<?php echo ($twitterStatus != 'on' ? ' disable' : ''); ?>" data-type="twitter" data-item="0" data-option_name="<?php print WPSCP_TWITTER_OPTION_NAME; ?>">
 					<div class="entry-thumbnail">
@@ -575,7 +575,7 @@ if (!function_exists('wpscp_social_profile_twitter_template_markup')) {
 							</form>
 						</div>
 						<div class="entry-control__more-link">
-							<button class="btn-more-link"><img src="<?php print plugin_dir_url(__FILE__) . './../assets/images/icon-more.png'; ?>" alt="<?php _e('more item', 'wp-scheduled-posts'); ?>"></button>
+							<button class="btn-more-link"><img src="<?php print esc_url(WPSCP_ADMIN_URL . '/assets/images/icon-more.png'); ?>" alt="<?php _e('more item', 'wp-scheduled-posts'); ?>"></button>
 							<ul class="entry-control__more-link__group_absolute">
 								<li>
 									<button class="btn btn-refresh"><?php _e('Refresh', 'wp-scheduled-posts-pro'); ?></button>
@@ -607,7 +607,7 @@ if (!function_exists('wpscp_social_profile_linkedin_template_markup')) {
 		if ($arg['social_profile'] == 'linkedin') {
 			$linkedinStatus = $arg['status'];
 			$linkedinSocialProfile = get_option(WPSCP_LINKEDIN_OPTION_NAME);
-			if (is_array($linkedinSocialProfile)) {
+			if (is_array($linkedinSocialProfile) && count($linkedinSocialProfile) > 0) {
 			?>
 				<div class="wpscp-social-tab__item-list__single_item<?php echo ($linkedinStatus != 'on' ? ' disable' : ''); ?>" data-type="linkedin" data-item="0" data-option_name="<?php print WPSCP_LINKEDIN_OPTION_NAME; ?>">
 					<div class="entry-thumbnail">
@@ -645,7 +645,7 @@ if (!function_exists('wpscp_social_profile_linkedin_template_markup')) {
 							</form>
 						</div>
 						<div class="entry-control__more-link">
-							<button class="btn-more-link"><img src="<?php print plugin_dir_url(__FILE__) . './../assets/images/icon-more.png'; ?>" alt="<?php _e('more item', 'wp-scheduled-posts'); ?>"></button>
+							<button class="btn-more-link"><img src="<?php print esc_url(WPSCP_ADMIN_URL . '/assets/images/icon-more.png'); ?>" alt="<?php _e('more item', 'wp-scheduled-posts'); ?>"></button>
 							<ul class="entry-control__more-link__group_absolute">
 								<li>
 									<!-- <button class="btn btn-refresh"><?php // _e('Refresh', 'wp-scheduled-posts-pro'); 
@@ -678,7 +678,7 @@ function wpscp_social_profile_pinterest_template_markup($arg)
 	if ($arg['social_profile'] == 'pinterest') {
 		$pinterestStatus = $arg['status'];
 		$pinterestSocialProfile = get_option(WPSCP_PINTEREST_OPTION_NAME);
-		if (is_array($pinterestSocialProfile)) {
+		if (is_array($pinterestSocialProfile) && count($pinterestSocialProfile) > 0) {
 			?>
 			<div class="wpscp-social-tab__item-list__single_item<?php echo ($pinterestStatus != 'on' ? ' disable' : ''); ?>" data-type="pinterest" data-item="0" data-option_name="<?php print WPSCP_PINTEREST_OPTION_NAME; ?>">
 				<div class="entry-thumbnail">
@@ -720,7 +720,7 @@ function wpscp_social_profile_pinterest_template_markup($arg)
 						</form>
 					</div>
 					<div class="entry-control__more-link">
-						<button class="btn-more-link"><img src="<?php print plugin_dir_url(__FILE__) . './../assets/images/icon-more.png'; ?>" alt="<?php _e('more item', 'wp-scheduled-posts'); ?>"></button>
+						<button class="btn-more-link"><img src="<?php print esc_url(WPSCP_ADMIN_URL . '/assets/images/icon-more.png'); ?>" alt="<?php _e('more item', 'wp-scheduled-posts'); ?>"></button>
 						<ul class="entry-control__more-link__group_absolute">
 							<li>
 								<!-- <button class="btn btn-refresh"><?php //_e('Refresh', 'wp-scheduled-posts-pro'); 
