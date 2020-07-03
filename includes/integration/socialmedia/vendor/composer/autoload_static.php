@@ -4,16 +4,16 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit5946d04bb61872323f44d6ebf8d3a63a
+class ComposerStaticInitfb7bb6cd00752ed2e2016aa55cf04e8e
 {
     public static $files = array (
-        'ad155f8f1cf0d418fe49e248db8c661b' => __DIR__ . '/..' . '/react/promise/src/functions_include.php',
-        '972fda704d680a3a53c68e34e193cb22' => __DIR__ . '/..' . '/react/promise-timer/src/functions_include.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
+        'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
-        'ebf8799635f67b5d7248946fe2154f4a' => __DIR__ . '/..' . '/ringcentral/psr7/src/functions_include.php',
         'c65d09b6820da036953a371c8c73a9b1' => __DIR__ . '/..' . '/facebook/graph-sdk/src/Facebook/polyfills.php',
     );
 
@@ -22,63 +22,29 @@ class ComposerStaticInit5946d04bb61872323f44d6ebf8d3a63a
         array (
             'myPHPNotes\\' => 11,
         ),
-        'W' => 
-        array (
-            'Winbox\\' => 7,
-        ),
         'S' => 
         array (
-            'Symfony\\Component\\Process\\' => 26,
-        ),
-        'R' => 
-        array (
-            'RingCentral\\Psr7\\' => 17,
-            'React\\Stream\\' => 13,
-            'React\\Socket\\' => 13,
-            'React\\Promise\\Timer\\' => 20,
-            'React\\Promise\\' => 14,
-            'React\\EventLoop\\' => 16,
-            'React\\Dns\\' => 10,
-            'React\\Cache\\' => 12,
+            'Symfony\\Polyfill\\Php72\\' => 23,
+            'Symfony\\Polyfill\\Mbstring\\' => 26,
+            'Symfony\\Polyfill\\Intl\\Idn\\' => 26,
         ),
         'P' => 
         array (
-            'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
-        ),
-        'L' => 
-        array (
-            'LazyJsonMapper\\' => 15,
-        ),
-        'I' => 
-        array (
-            'InstagramAPI\\' => 13,
         ),
         'G' => 
         array (
             'GuzzleHttp\\Psr7\\' => 16,
             'GuzzleHttp\\Promise\\' => 19,
             'GuzzleHttp\\' => 11,
-            'GetOptionKit\\' => 13,
         ),
         'F' => 
         array (
-            'Fbns\\Client\\' => 12,
             'Facebook\\' => 9,
         ),
         'D' => 
         array (
             'DirkGroenen\\Pinterest\\' => 22,
-        ),
-        'C' => 
-        array (
-            'Clue\\React\\Socks\\' => 17,
-            'Clue\\React\\HttpProxy\\' => 21,
-        ),
-        'B' => 
-        array (
-            'BinSoul\\Net\\Mqtt\\Client\\React\\' => 30,
-            'BinSoul\\Net\\Mqtt\\' => 17,
         ),
         'A' => 
         array (
@@ -91,61 +57,21 @@ class ComposerStaticInit5946d04bb61872323f44d6ebf8d3a63a
         array (
             0 => __DIR__ . '/..' . '/aymericdev/linkedin-sdk-php',
         ),
-        'Winbox\\' => 
+        'Symfony\\Polyfill\\Php72\\' => 
         array (
-            0 => __DIR__ . '/..' . '/winbox/args/src',
+            0 => __DIR__ . '/..' . '/symfony/polyfill-php72',
         ),
-        'Symfony\\Component\\Process\\' => 
+        'Symfony\\Polyfill\\Mbstring\\' => 
         array (
-            0 => __DIR__ . '/..' . '/symfony/process',
+            0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
         ),
-        'RingCentral\\Psr7\\' => 
+        'Symfony\\Polyfill\\Intl\\Idn\\' => 
         array (
-            0 => __DIR__ . '/..' . '/ringcentral/psr7/src',
-        ),
-        'React\\Stream\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/react/stream/src',
-        ),
-        'React\\Socket\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/react/socket/src',
-        ),
-        'React\\Promise\\Timer\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/react/promise-timer/src',
-        ),
-        'React\\Promise\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/react/promise/src',
-        ),
-        'React\\EventLoop\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/react/event-loop/src',
-        ),
-        'React\\Dns\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/react/dns/src',
-        ),
-        'React\\Cache\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/react/cache/src',
-        ),
-        'Psr\\Log\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+            0 => __DIR__ . '/..' . '/symfony/polyfill-intl-idn',
         ),
         'Psr\\Http\\Message\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
-        ),
-        'LazyJsonMapper\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/lazyjsonmapper/lazyjsonmapper/src',
-        ),
-        'InstagramAPI\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/mgp25/instagram-php/src',
         ),
         'GuzzleHttp\\Psr7\\' => 
         array (
@@ -159,14 +85,6 @@ class ComposerStaticInit5946d04bb61872323f44d6ebf8d3a63a
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
         ),
-        'GetOptionKit\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/corneltek/getoptionkit/src',
-        ),
-        'Fbns\\Client\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/valga/fbns-react/src',
-        ),
         'Facebook\\' => 
         array (
             0 => __DIR__ . '/..' . '/facebook/graph-sdk/src/Facebook',
@@ -175,44 +93,17 @@ class ComposerStaticInit5946d04bb61872323f44d6ebf8d3a63a
         array (
             0 => __DIR__ . '/..' . '/dirkgroenen/pinterest-api-php/src/Pinterest',
         ),
-        'Clue\\React\\Socks\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/clue/socks-react/src',
-        ),
-        'Clue\\React\\HttpProxy\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/clue/http-proxy-react/src',
-        ),
-        'BinSoul\\Net\\Mqtt\\Client\\React\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/binsoul/net-mqtt-client-react/src',
-        ),
-        'BinSoul\\Net\\Mqtt\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/binsoul/net-mqtt/src',
-        ),
         'Abraham\\TwitterOAuth\\' => 
         array (
             0 => __DIR__ . '/..' . '/abraham/twitteroauth/src',
         ),
     );
 
-    public static $prefixesPsr0 = array (
-        'E' => 
-        array (
-            'Evenement' => 
-            array (
-                0 => __DIR__ . '/..' . '/evenement/evenement/src',
-            ),
-        ),
-    );
-
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit5946d04bb61872323f44d6ebf8d3a63a::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit5946d04bb61872323f44d6ebf8d3a63a::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit5946d04bb61872323f44d6ebf8d3a63a::$prefixesPsr0;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitfb7bb6cd00752ed2e2016aa55cf04e8e::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitfb7bb6cd00752ed2e2016aa55cf04e8e::$prefixDirsPsr4;
 
         }, null, ClassLoader::class);
     }
