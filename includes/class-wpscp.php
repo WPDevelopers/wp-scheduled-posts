@@ -259,9 +259,8 @@ final class WpScp
             return $this->pro_enabled = is_plugin_active('wp-scheduled-posts-pro/wp-scheduled-posts-pro.php');
         } else {
             if (class_exists('WpScp_Pro')) {
-                return true;
+                return $this->pro_enabled = true;
             }
-            return false;
         }
     }
 
@@ -384,9 +383,6 @@ final class WpScp
                 'class' => 'WpScp_Pro'
             ],
         );
-
-
-
         $notice->options_args = array(
             'notice_will_show' => [
                 'opt_in' => $notice->timestamp,
@@ -394,7 +390,18 @@ final class WpScp
                 'review' => $notice->makeTime($notice->timestamp, '3 Day'), // after 3 days
             ],
         );
-
+        // main notice init
         $notice->init();
+
+        // version compatibility notice
+        if ($this->pro_enabled && \version_compare(WPSCP_PRO_VERSION, '2.5.3', '<')) {
+            add_action('admin_notices', array($this, 'admin_version_compatible_notice'));
+        }
+    }
+    public function admin_version_compatible_notice()
+    {
+        $class = 'notice notice-error';
+        $message = __('You are using an incompatible version of') . '<strong> ' . __('WP Scheduled Posts Pro.', 'wp-scheduled-posts') . ' </strong>' . __('Please update to v2.5.3+', 'wp-scheduled-posts');
+        printf('<div class="%1$s"><p>%2$s</p></div>', esc_attr($class), $message);
     }
 }
