@@ -25,7 +25,7 @@ if (!class_exists('WpScp_Calendar')) {
         {
             register_rest_route(
                 'wpscp/v1',
-                '/post_type=(?P<post_type>[a-zA-Z0-9-]+)/month=(?P<month>[0-9 .\-]+)/year=(?P<year>[0-9 .\-]+)',
+                '/post_type=(?P<post_type>[a-zA-Z0-9-_]+)/month=(?P<month>[0-9 .\-]+)/year=(?P<year>[0-9 .\-]+)',
                 array(
                     'methods'  => 'GET',
                     'callback' => array($this, 'wpscp_future_post_rest_route_output'),
