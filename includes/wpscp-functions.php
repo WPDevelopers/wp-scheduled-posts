@@ -468,34 +468,35 @@ if (!function_exists('wpscp_social_profile_facebook_template_markup')) {
 			$facebookStatus = $arg['status'];
 			$facebookSocialProfile = get_option(WPSCP_FACEBOOK_OPTION_NAME);
 			if (is_array($facebookSocialProfile)  && count($facebookSocialProfile) > 0) {
+				$itemIndex = array_key_first($facebookSocialProfile);
 	?>
-				<div class="wpscp-social-tab__item-list__single_item<?php echo ($facebookStatus != 'on' ? ' disable' : ''); ?>" data-type="facebook" data-item="0" data-option_name="<?php print WPSCP_FACEBOOK_OPTION_NAME; ?>">
+				<div class="wpscp-social-tab__item-list__single_item<?php echo ($facebookStatus != 'on' ? ' disable' : ''); ?>" data-type="facebook" data-item="<?php echo esc_attr($itemIndex); ?>" data-option_name="<?php print WPSCP_FACEBOOK_OPTION_NAME; ?>">
 					<div class="entry-thumbnail">
-						<img src="<?php print(isset($facebookSocialProfile[0]['thumbnail_url']) ? $facebookSocialProfile[0]['thumbnail_url'] : 'http://0.gravatar.com/avatar/64e1b8d34f425d19e1ee2ea7236d3028?s=96&d=mm&r=g'); ?>" alt="<?php _e('icon', 'wp-scheduled-posts-pro'); ?>">
+						<img src="<?php print(isset($facebookSocialProfile[$itemIndex]['thumbnail_url']) ? $facebookSocialProfile[$itemIndex]['thumbnail_url'] : 'http://0.gravatar.com/avatar/64e1b8d34f425d19e1ee2ea7236d3028?s=96&d=mm&r=g'); ?>" alt="<?php _e('icon', 'wp-scheduled-posts-pro'); ?>">
 					</div>
 					<div class="entry-content">
 						<h4 class="entry-content__title">
 							<?php
-							if (isset($facebookSocialProfile[0]['name']) && $facebookSocialProfile[0]['name'] != "") {
-								echo $facebookSocialProfile[0]['name'];
+							if (isset($facebookSocialProfile[$itemIndex]['name']) && $facebookSocialProfile[$itemIndex]['name'] != "") {
+								echo $facebookSocialProfile[$itemIndex]['name'];
 							}
 							?>
 						</h4>
 						<p class="entry-content__doc">
 							<?php esc_html_e('Added by', 'wp-scheduled-posts-pro'); ?>
 							<strong>
-								<?php print(isset($facebookSocialProfile[0]['added_by']) ? $facebookSocialProfile[0]['added_by'] : ''); ?>
+								<?php print(isset($facebookSocialProfile[$itemIndex]['added_by']) ? $facebookSocialProfile[$itemIndex]['added_by'] : ''); ?>
 							</strong>
 							<?php
 							_e('on ', 'wp-scheduled-posts-pro');
-							print(isset($facebookSocialProfile[0]['added_date']) ? $facebookSocialProfile[0]['added_date'] : '');
+							print(isset($facebookSocialProfile[$itemIndex]['added_date']) ? $facebookSocialProfile[$itemIndex]['added_date'] : '');
 							?>
 						</p>
 					</div>
 					<div class="entry-control">
 						<div class="checkbox-toggle">
 							<form method="post">
-								<input type="checkbox" class="wpsp_field_activate" <?php checked(boolval($facebookSocialProfile[0]['status']), 1) ?>>
+								<input type="checkbox" class="wpsp_field_activate" <?php checked(boolval($facebookSocialProfile[$itemIndex]['status']), 1) ?>>
 								<svg class="is_checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 426.67 426.67">
 									<path d="M153.504 366.84c-8.657 0-17.323-3.303-23.927-9.912L9.914 237.265c-13.218-13.218-13.218-34.645 0-47.863 13.218-13.218 34.645-13.218 47.863 0l95.727 95.727 215.39-215.387c13.218-13.214 34.65-13.218 47.86 0 13.22 13.218 13.22 34.65 0 47.863L177.435 356.928c-6.61 6.605-15.27 9.91-23.932 9.91z" />
 								</svg>
@@ -538,34 +539,35 @@ if (!function_exists('wpscp_social_profile_twitter_template_markup')) {
 			$twitterStatus = $arg['status'];
 			$twitterSocialProfile = get_option(WPSCP_TWITTER_OPTION_NAME);
 			if (is_array($twitterSocialProfile)  && count($twitterSocialProfile) > 0) {
+				$itemIndex = array_key_first($twitterSocialProfile);
 			?>
-				<div class="wpscp-social-tab__item-list__single_item<?php echo ($twitterStatus != 'on' ? ' disable' : ''); ?>" data-type="twitter" data-item="0" data-option_name="<?php print WPSCP_TWITTER_OPTION_NAME; ?>">
+				<div class="wpscp-social-tab__item-list__single_item<?php echo ($twitterStatus != 'on' ? ' disable' : ''); ?>" data-type="twitter" data-item="<?php echo esc_attr($itemIndex); ?>" data-option_name="<?php print WPSCP_TWITTER_OPTION_NAME; ?>">
 					<div class="entry-thumbnail">
-						<img src="<?php print(isset($twitterSocialProfile[0]['thumbnail_url']) ? $twitterSocialProfile[0]['thumbnail_url'] : 'http://0.gravatar.com/avatar/64e1b8d34f425d19e1ee2ea7236d3028?s=96&d=mm&r=g'); ?>" alt="<?php _e('icon', 'wp-scheduled-posts-pro'); ?>">
+						<img src="<?php print(isset($twitterSocialProfile[$itemIndex]['thumbnail_url']) ? $twitterSocialProfile[$itemIndex]['thumbnail_url'] : 'http://0.gravatar.com/avatar/64e1b8d34f425d19e1ee2ea7236d3028?s=96&d=mm&r=g'); ?>" alt="<?php _e('icon', 'wp-scheduled-posts-pro'); ?>">
 					</div>
 					<div class="entry-content">
 						<h4 class="entry-content__title">
 							<?php
-							if (isset($twitterSocialProfile[0]['name']) && $twitterSocialProfile[0]['name'] != "") {
-								echo $twitterSocialProfile[0]['name'];
+							if (isset($twitterSocialProfile[$itemIndex]['name']) && $twitterSocialProfile[$itemIndex]['name'] != "") {
+								echo $twitterSocialProfile[$itemIndex]['name'];
 							}
 							?>
 						</h4>
 						<p class="entry-content__doc">
 							<?php esc_html_e('Added by', 'wp-scheduled-posts-pro'); ?>
 							<strong>
-								<?php print(isset($twitterSocialProfile[0]['added_by']) ? $twitterSocialProfile[0]['added_by'] : ''); ?>
+								<?php print(isset($twitterSocialProfile[$itemIndex]['added_by']) ? $twitterSocialProfile[$itemIndex]['added_by'] : ''); ?>
 							</strong>
 							<?php
 							_e('on ', 'wp-scheduled-posts-pro');
-							print(isset($twitterSocialProfile[0]['added_date']) ? $twitterSocialProfile[0]['added_date'] : '');
+							print(isset($twitterSocialProfile[$itemIndex]['added_date']) ? $twitterSocialProfile[$itemIndex]['added_date'] : '');
 							?>
 						</p>
 					</div>
 					<div class="entry-control">
 						<div class="checkbox-toggle">
 							<form method="post">
-								<input type="checkbox" class="wpsp_field_activate" <?php checked(boolval($twitterSocialProfile[0]['status']), 1) ?>>
+								<input type="checkbox" class="wpsp_field_activate" <?php checked(boolval($twitterSocialProfile[$itemIndex]['status']), 1) ?>>
 								<svg class="is_checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 426.67 426.67">
 									<path d="M153.504 366.84c-8.657 0-17.323-3.303-23.927-9.912L9.914 237.265c-13.218-13.218-13.218-34.645 0-47.863 13.218-13.218 34.645-13.218 47.863 0l95.727 95.727 215.39-215.387c13.218-13.214 34.65-13.218 47.86 0 13.22 13.218 13.22 34.65 0 47.863L177.435 356.928c-6.61 6.605-15.27 9.91-23.932 9.91z" />
 								</svg>
@@ -608,34 +610,35 @@ if (!function_exists('wpscp_social_profile_linkedin_template_markup')) {
 			$linkedinStatus = $arg['status'];
 			$linkedinSocialProfile = get_option(WPSCP_LINKEDIN_OPTION_NAME);
 			if (is_array($linkedinSocialProfile) && count($linkedinSocialProfile) > 0) {
+				$itemIndex = array_key_first($linkedinSocialProfile);
 			?>
-				<div class="wpscp-social-tab__item-list__single_item<?php echo ($linkedinStatus != 'on' ? ' disable' : ''); ?>" data-type="linkedin" data-item="0" data-option_name="<?php print WPSCP_LINKEDIN_OPTION_NAME; ?>">
+				<div class="wpscp-social-tab__item-list__single_item<?php echo ($linkedinStatus != 'on' ? ' disable' : ''); ?>" data-type="linkedin" data-item="<?php echo esc_attr($itemIndex); ?>" data-option_name="<?php print WPSCP_LINKEDIN_OPTION_NAME; ?>">
 					<div class="entry-thumbnail">
-						<img src="<?php print(isset($linkedinSocialProfile[0]['thumbnail_url']) ? $linkedinSocialProfile[0]['thumbnail_url'] : 'http://0.gravatar.com/avatar/64e1b8d34f425d19e1ee2ea7236d3028?s=96&d=mm&r=g'); ?>" alt="<?php _e('icon', 'wp-scheduled-posts-pro'); ?>">
+						<img src="<?php print(isset($linkedinSocialProfile[$itemIndex]['thumbnail_url']) ? $linkedinSocialProfile[$itemIndex]['thumbnail_url'] : 'http://0.gravatar.com/avatar/64e1b8d34f425d19e1ee2ea7236d3028?s=96&d=mm&r=g'); ?>" alt="<?php _e('icon', 'wp-scheduled-posts-pro'); ?>">
 					</div>
 					<div class="entry-content">
 						<h4 class="entry-content__title">
 							<?php
-							if (isset($linkedinSocialProfile[0]['name']) && $linkedinSocialProfile[0]['name'] != "") {
-								echo $linkedinSocialProfile[0]['name'];
+							if (isset($linkedinSocialProfile[$itemIndex]['name']) && $linkedinSocialProfile[$itemIndex]['name'] != "") {
+								echo $linkedinSocialProfile[$itemIndex]['name'];
 							}
 							?>
 						</h4>
 						<p class="entry-content__doc">
 							<?php esc_html_e('Added by', 'wp-scheduled-posts-pro'); ?>
 							<strong>
-								<?php print(isset($linkedinSocialProfile[0]['added_by']) ? $linkedinSocialProfile[0]['added_by'] : ''); ?>
+								<?php print(isset($linkedinSocialProfile[$itemIndex]['added_by']) ? $linkedinSocialProfile[$itemIndex]['added_by'] : ''); ?>
 							</strong>
 							<?php
 							_e('on ', 'wp-scheduled-posts-pro');
-							print(isset($linkedinSocialProfile[0]['added_date']) ? $linkedinSocialProfile[0]['added_date'] : '');
+							print(isset($linkedinSocialProfile[$itemIndex]['added_date']) ? $linkedinSocialProfile[$itemIndex]['added_date'] : '');
 							?>
 						</p>
 					</div>
 					<div class="entry-control">
 						<div class="checkbox-toggle">
 							<form method="post">
-								<input type="checkbox" class="wpsp_field_activate" <?php checked(boolval($linkedinSocialProfile[0]['status']), 1) ?>>
+								<input type="checkbox" class="wpsp_field_activate" <?php checked(boolval($linkedinSocialProfile[$itemIndex]['status']), 1) ?>>
 								<svg class="is_checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 426.67 426.67">
 									<path d="M153.504 366.84c-8.657 0-17.323-3.303-23.927-9.912L9.914 237.265c-13.218-13.218-13.218-34.645 0-47.863 13.218-13.218 34.645-13.218 47.863 0l95.727 95.727 215.39-215.387c13.218-13.214 34.65-13.218 47.86 0 13.22 13.218 13.22 34.65 0 47.863L177.435 356.928c-6.61 6.605-15.27 9.91-23.932 9.91z" />
 								</svg>
@@ -679,38 +682,39 @@ function wpscp_social_profile_pinterest_template_markup($arg)
 		$pinterestStatus = $arg['status'];
 		$pinterestSocialProfile = get_option(WPSCP_PINTEREST_OPTION_NAME);
 		if (is_array($pinterestSocialProfile) && count($pinterestSocialProfile) > 0) {
+			$itemIndex = array_key_first($pinterestSocialProfile);
 			?>
-			<div class="wpscp-social-tab__item-list__single_item<?php echo ($pinterestStatus != 'on' ? ' disable' : ''); ?>" data-type="pinterest" data-item="0" data-option_name="<?php print WPSCP_PINTEREST_OPTION_NAME; ?>">
+			<div class="wpscp-social-tab__item-list__single_item<?php echo ($pinterestStatus != 'on' ? ' disable' : ''); ?>" data-type="pinterest" data-item="<?php echo esc_attr($itemIndex); ?>" data-option_name="<?php print WPSCP_PINTEREST_OPTION_NAME; ?>">
 				<div class="entry-thumbnail">
-					<img src="<?php print(isset($pinterestSocialProfile[0]['thumbnail_url']) ? $pinterestSocialProfile[0]['thumbnail_url'] : 'http://0.gravatar.com/avatar/64e1b8d34f425d19e1ee2ea7236d3028?s=96&d=mm&r=g'); ?>" alt="<?php _e('icon', 'wp-scheduled-posts-pro'); ?>">
+					<img src="<?php print(isset($pinterestSocialProfile[$itemIndex]['thumbnail_url']) ? $pinterestSocialProfile[$itemIndex]['thumbnail_url'] : 'http://0.gravatar.com/avatar/64e1b8d34f425d19e1ee2ea7236d3028?s=96&d=mm&r=g'); ?>" alt="<?php _e('icon', 'wp-scheduled-posts-pro'); ?>">
 				</div>
 				<div class="entry-content">
 					<h4 class="entry-content__title">
 						<?php
-						if (isset($pinterestSocialProfile[0]['name']) && $pinterestSocialProfile[0]['name'] != "") {
-							echo $pinterestSocialProfile[0]['name'];
+						if (isset($pinterestSocialProfile[$itemIndex]['name']) && $pinterestSocialProfile[$itemIndex]['name'] != "") {
+							echo $pinterestSocialProfile[$itemIndex]['name'];
 						}
 						?>
 					</h4>
 					<p class="entry-content__doc">
 						<?php esc_html_e('Added by', 'wp-scheduled-posts-pro'); ?>
 						<strong>
-							<?php print(isset($pinterestSocialProfile[0]['added_by']) ? $pinterestSocialProfile[0]['added_by'] : ''); ?>
+							<?php print(isset($pinterestSocialProfile[$itemIndex]['added_by']) ? $pinterestSocialProfile[$itemIndex]['added_by'] : ''); ?>
 						</strong>
 						<?php
 						_e('on ', 'wp-scheduled-posts-pro');
-						print(isset($pinterestSocialProfile[0]['added_date']) ? $pinterestSocialProfile[0]['added_date'] : '');
+						print(isset($pinterestSocialProfile[$itemIndex]['added_date']) ? $pinterestSocialProfile[$itemIndex]['added_date'] : '');
 						?>
 						<br />
 						<?php
-						print(isset($pinterestSocialProfile[0]['default_board_name']) ? "<strong>" . __('Default Board: ', 'wp-scheduled-posts-pro') . "</strong>" . $pinterestSocialProfile[0]['default_board_name'] : '');
+						print(isset($pinterestSocialProfile[$itemIndex]['default_board_name']) ? "<strong>" . __('Default Board: ', 'wp-scheduled-posts-pro') . "</strong>" . $pinterestSocialProfile[$itemIndex]['default_board_name'] : '');
 						?>
 					</p>
 				</div>
 				<div class="entry-control">
 					<div class="checkbox-toggle">
 						<form method="post">
-							<input type="checkbox" class="wpsp_field_activate" <?php checked(boolval($pinterestSocialProfile[0]['status']), 1) ?>>
+							<input type="checkbox" class="wpsp_field_activate" <?php checked(boolval($pinterestSocialProfile[$itemIndex]['status']), 1) ?>>
 							<svg class="is_checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 426.67 426.67">
 								<path d="M153.504 366.84c-8.657 0-17.323-3.303-23.927-9.912L9.914 237.265c-13.218-13.218-13.218-34.645 0-47.863 13.218-13.218 34.645-13.218 47.863 0l95.727 95.727 215.39-215.387c13.218-13.214 34.65-13.218 47.86 0 13.22 13.218 13.22 34.65 0 47.863L177.435 356.928c-6.61 6.605-15.27 9.91-23.932 9.91z" />
 							</svg>

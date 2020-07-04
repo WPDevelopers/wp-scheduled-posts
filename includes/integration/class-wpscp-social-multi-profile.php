@@ -65,22 +65,22 @@ if (!class_exists('wpscp_social_multi_profile')) {
         {
             if ($platform == 'pinterest') {
                 $social_profile = get_option(WPSCP_PINTEREST_OPTION_NAME);
-                if ($social_profile !== false && count($social_profile) == 1 && !class_exists('WpScp_Pro')) {
+                if ($social_profile !== false && count($social_profile) >= 1 && !class_exists('WpScp_Pro')) {
                     return false;
                 }
             } else if ($platform == 'facebook') {
                 $social_profile = get_option(WPSCP_FACEBOOK_OPTION_NAME);
-                if ($social_profile !== false && count($social_profile) == 1 && !class_exists('WpScp_Pro')) {
+                if ($social_profile !== false && count($social_profile) >= 1 && !class_exists('WpScp_Pro')) {
                     return false;
                 }
             } else if ($platform == 'twitter') {
                 $social_profile = get_option(WPSCP_TWITTER_OPTION_NAME);
-                if ($social_profile !== false && count($social_profile) == 1 && !class_exists('WpScp_Pro')) {
+                if ($social_profile !== false && count($social_profile) >= 1 && !class_exists('WpScp_Pro')) {
                     return false;
                 }
             } else if ($platform == 'linkedin') {
                 $social_profile = get_option(WPSCP_LINKEDIN_OPTION_NAME);
-                if ($social_profile !== false && count($social_profile) == 1 && !class_exists('WpScp_Pro')) {
+                if ($social_profile !== false && count($social_profile) >= 1 && !class_exists('WpScp_Pro')) {
                     return false;
                 }
             }
