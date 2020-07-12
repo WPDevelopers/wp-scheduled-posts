@@ -392,16 +392,5 @@ final class WpScp
         );
         // main notice init
         $notice->init();
-
-        // version compatibility notice
-        if ($this->pro_enabled && \version_compare(WPSP_VERSION, '3.2.2', '<')) {
-            add_action('admin_notices', array($this, 'admin_version_compatible_notice'));
-        }
-    }
-    public function admin_version_compatible_notice()
-    {
-        $class = 'notice notice-error';
-        $message = __('You are using an incompatible version of', 'wp-scheduled-posts') . '<strong> ' . __('WP Scheduled Posts.', 'wp-scheduled-posts') . ' </strong>' . __('Please update to v3.2.2+', 'wp-scheduled-posts');
-        printf('<div class="%1$s"><p>%2$s</p></div>', esc_attr($class), $message);
     }
 }
