@@ -237,15 +237,12 @@
 .wpscp-checkbox {
     overflow: hidden;
     display: flex;
-    flex-basis: 330px;
+    width: 430px;
     flex-flow: row-reverse;
     justify-content: space-between;
     align-items: center;
     font-size: 24px;
-    margin-top: 10px;
-    margin-bottom: 30px;
-    margin-left: 0;
-    margin-right: 20px;
+    margin: 0 auto 20px;
     padding: 15px 30px;
     box-sizing: border-box;
     border-radius: 5px;

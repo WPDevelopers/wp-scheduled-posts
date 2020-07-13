@@ -1,4 +1,4 @@
-jQuery(document).ready(function($) {
+jQuery(document).ready(function ($) {
     // quick setup wizard tab handle
     if (jQuery('.wpscp-setup-wizard').length) {
         wpscpQuickSetupTabs()
@@ -6,12 +6,12 @@ jQuery(document).ready(function($) {
     function wpscpQuickSetupTabs() {
         var skipEmailStep = false
         // tab click handler
-        jQuery('#wpscp-prev-option').on('click', function(e) {
+        jQuery('#wpscp-prev-option').on('click', function (e) {
             e.preventDefault()
             wpscpQswNextPrev(-1)
             wpscpQuickSetupWizardTabTracking(-1)
         })
-        jQuery('#wpscp-next-option').on('click', function(e) {
+        jQuery('#wpscp-next-option').on('click', function (e) {
             e.preventDefault()
             wpscpQswNextPrev(1)
             if (wpscpQswValidateForm()) {
@@ -21,7 +21,7 @@ jQuery(document).ready(function($) {
                 wpscpQuickSetupWizardTabTracking(1)
             }
         })
-        jQuery('#wpscpqswemailskipbutton').on('click', function(e) {
+        jQuery('#wpscpqswemailskipbutton').on('click', function (e) {
             e.preventDefault()
             skipEmailStep = true
             wpscpQswNextPrev(1)
@@ -49,7 +49,7 @@ jQuery(document).ready(function($) {
                 jQuery('#wpscpqswemailskipbutton').show()
             } else {
                 document.getElementById('wpscp-prev-option').style.display =
-                    'inline'
+                    'inline-block'
                 jQuery('.bottom-notice-left').hide()
                 jQuery('#wpscpqswemailskipbutton').hide()
             }
@@ -104,8 +104,8 @@ jQuery(document).ready(function($) {
                 swal({
                     title: 'Good job!',
                     text: 'Setup is Complete.',
-                    icon: 'success'
-                }).then(function() {
+                    icon: 'success',
+                }).then(function () {
                     window.location = 'admin.php?page=wp-scheduled-posts'
                 })
                 currentTab = x.length - 1
@@ -189,10 +189,10 @@ jQuery(document).ready(function($) {
             // indevisual option field data passing
             autoScheduler: autoScheduler,
             manualScheduler: manualScheduler,
-            missscheduled: missscheduled
+            missscheduled: missscheduled,
         }
         // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
-        jQuery.post(ajaxurl, data, function(response) {})
+        jQuery.post(ajaxurl, data, function (response) {})
     }
 
     function wpscpQswOptinSubmit() {
@@ -202,9 +202,9 @@ jQuery(document).ready(function($) {
         var data = {
             nonce: ajaxnonce,
             action: 'optin_wizard_action',
-            admin_email: $('#wpscp_user_email_address').val()
+            admin_email: $('#wpscp_user_email_address').val(),
         }
-        jQuery.post(ajaxurl, data, function(response) {})
+        jQuery.post(ajaxurl, data, function (response) {})
     }
 
     /**
@@ -213,7 +213,7 @@ jQuery(document).ready(function($) {
      */
     function wpscp_select_box_get_value(selector) {
         var selected = []
-        $(selector + ' :selected').each(function() {
+        $(selector + ' :selected').each(function () {
             selected.push($(this).text())
         })
         return selected
@@ -238,14 +238,14 @@ jQuery(document).ready(function($) {
         }
         $(autoScheduler)
             .add(manualScheduler)
-            .click(function() {
+            .click(function () {
                 toggleControl()
             })
     }
     wpscp_quick_setup_auto_manual_toggle_schedule()
 
     // popup modal showing for error message
-    $('.wpscp-pro-feature-checkbox label').on('click', function() {
+    $('.wpscp-pro-feature-checkbox label').on('click', function () {
         var premium_content = document.createElement('p')
         var premium_anchor = document.createElement('a')
 
@@ -274,7 +274,7 @@ jQuery(document).ready(function($) {
             content: premium_content,
             icon: 'warning',
             buttons: [false, 'Close'],
-            dangerMode: true
+            dangerMode: true,
         })
     })
 
@@ -315,14 +315,14 @@ jQuery(document).ready(function($) {
     }
 
     // email input field length checking
-    jQuery('#wpscp_user_email_address').on('keyup', function(e) {
+    jQuery('#wpscp_user_email_address').on('keyup', function (e) {
         if ($(this).val() !== '') {
             $(this).removeClass('invalid')
         }
     })
 
     // collect Toggle
-    jQuery('#whatwecollectdata').on('click', function() {
+    jQuery('#whatwecollectdata').on('click', function () {
         jQuery('p.whatwecollecttext').toggle()
     })
 
@@ -350,20 +350,20 @@ jQuery(document).ready(function($) {
                 wpsp_pts_3: wpsp_pts_3,
                 wpsp_pts_4: wpsp_pts_4,
                 wpsp_pts_5: wpsp_pts_5,
-                wpsp_pts_6: wpsp_pts_6
+                wpsp_pts_6: wpsp_pts_6,
             },
             start_time: wpsp_start,
-            end_time: wpsp_end
+            end_time: wpsp_end,
         }
         var submit_datas = {
             action: 'auto_scheduled_option_saved',
-            datas: datas
+            datas: datas,
         }
 
         $.post(
             wpscp_pro_ajax_object.ajax_url,
             submit_datas,
-            function(msg) {},
+            function (msg) {},
             'json'
         )
     }
@@ -372,15 +372,15 @@ jQuery(document).ready(function($) {
      * Socail Integation edit and redirect
      */
     if (jQuery('#advanced-edit-button').length > 0) {
-        jQuery('#advanced-edit-button').on('click', function(e) {
+        jQuery('#advanced-edit-button').on('click', function (e) {
             e.preventDefault()
             wpscpQswOptionSubmit()
             swal({
                 title: 'Good job!',
                 text:
                     'Setup is Complete. now redirecting social integation page ...',
-                icon: 'success'
-            }).then(function() {
+                icon: 'success',
+            }).then(function () {
                 window.location = 'admin.php?page=wp-scheduled-posts#wpsp_integ'
             })
         })
