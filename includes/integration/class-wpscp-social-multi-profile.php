@@ -31,7 +31,7 @@ if (!class_exists('wpscp_social_multi_profile')) {
             // temp account add ajax, it will be delete after app approve
             add_action('wp_ajax_wpscp_social_temp_add_profile', array($this, 'temp_add_profile'));
 
-            $this->multiProfileErrorMessage = esc_html__('Multi profile is pro feature, please upgrade to pro.', 'wp-scheduled-posts');
+            $this->multiProfileErrorMessage = esc_html__('Multi Profile is a Premium Feature. To use this feature, Upgrade to PRO.', 'wp-scheduled-posts');
         }
 
 

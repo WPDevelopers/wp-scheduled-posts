@@ -349,6 +349,55 @@ jQuery(document).ready(function ($) {
             }
         )
     }
+    /**
+     * WP admin sidebar Upload Image
+     */
+    $('body').on('click', '#wpscppro_btn_meta_image_upload', function (e) {
+        e.preventDefault()
+        var button = $(this),
+            custom_uploader = wp
+                .media({
+                    title: 'Insert image',
+                    library: {
+                        type: 'image',
+                    },
+                    button: {
+                        text: 'Use this image', // button label text
+                    },
+                    multiple: false, // for multiple image selection set to true
+                })
+                .on('select', function () {
+                    // it also has "open" and "close" events
+                    var attachment = custom_uploader
+                        .state()
+                        .get('selection')
+                        .first()
+                        .toJSON()
+                    jQuery('#wpscppro_custom_social_share_image').val(
+                        attachment.id
+                    )
+                    jQuery('#wpscpprouploadimagepreviewold').hide()
+                    jQuery('#wpscpprouploadimagepreview').html(
+                        '<img class="true_pre_image" src="' +
+                            attachment.url +
+                            '" style="max-width:100%; height: auto; display:block;" />'
+                    )
+                    $('#wpscppro_btn_remove_meta_image_upload').show()
+                })
+                .open()
+    })
+    /**
+     * WP admin sidebar Remove Image
+     */
+    $('body').on('click', '#wpscppro_btn_remove_meta_image_upload', function (
+        e
+    ) {
+        e.preventDefault()
+        $('#wpscppro_custom_social_share_image').val('')
+        $('#wpscpprouploadimagepreviewold').hide()
+        $('#wpscpprouploadimagepreview').empty()
+        $(this).hide()
+    })
 })
 
 function wpscp_formatDate_from_string(strr) {
