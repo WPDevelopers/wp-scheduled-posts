@@ -23,11 +23,17 @@ if (!class_exists('WpScp_instantshare')) {
         public function instant_share_metabox_markup()
         {
             wp_nonce_field(basename(__FILE__), 'wpscp_pro_instant_social_share_nonce');
+            // status
             $twitterIntegation = get_option('wpsp_twitter_integration_status');
             $facebookIntegation = get_option('wpsp_facebook_integration_status');
             $linkedinIntegation = get_option('wpsp_linkedin_integration_status');
             $instagramIntegation = get_option('wpsp_instagram_integration_status');
             $pinterestIntegation = get_option('wpsp_pinterest_integration_status');
+            // profile
+            $facebookProfile = get_option(WPSCP_FACEBOOK_OPTION_NAME);
+            $twitterProfile = get_option(WPSCP_TWITTER_OPTION_NAME);
+            $linkedinProfile = get_option(WPSCP_LINKEDIN_OPTION_NAME);
+            $pinterestProfile = get_option(WPSCP_PINTEREST_OPTION_NAME);
 ?>
             <div class="wpscppro-instantshare">
                 <!-- skip share -->
@@ -66,7 +72,7 @@ if (!class_exists('WpScp_instantshare')) {
                     <h4 class="meta-heading"><?php esc_html_e('Choose Social Share Platform', 'wp-scheduled-posts-pro'); ?></h4>
                     <ul>
                         <?php
-                        if ($facebookIntegation == 'on') :
+                        if ($facebookIntegation == 'on' && is_array($facebookProfile) && count($facebookProfile) > 0) :
                             $facebookShareCount = get_post_meta(get_the_ID(), '__wpscppro_social_share_facebook');
                         ?>
                             <li class="facebook">
@@ -83,7 +89,7 @@ if (!class_exists('WpScp_instantshare')) {
                             </li>
                         <?php
                         endif;
-                        if ($twitterIntegation == 'on') :
+                        if ($twitterIntegation == 'on' && is_array($twitterProfile) && count($twitterProfile) > 0) :
                             $twitterShareCount = get_post_meta(get_the_ID(), '__wpscppro_social_share_twitter', true);
                         ?>
                             <li class="twitter">
@@ -102,7 +108,7 @@ if (!class_exists('WpScp_instantshare')) {
                             </li>
                         <?php
                         endif;
-                        if ($linkedinIntegation == 'on') :
+                        if ($linkedinIntegation == 'on' && is_array($linkedinProfile) && count($linkedinProfile) > 0) :
                             $linkedinShareCount = get_post_meta(get_the_ID(), '__wpscppro_social_share_linkedin', true);
                         ?>
                             <li class="linkedin">
@@ -121,26 +127,8 @@ if (!class_exists('WpScp_instantshare')) {
                             </li>
                         <?php
                         endif;
-                        if ($instagramIntegation == 'on') :
-                            $instagramShareCount = get_post_meta(get_the_ID(), '__wpscppro_social_share_instagram', true);
-                        ?>
-                            <li class="instagram">
-                                <label>
-                                    <input type="checkbox" id="wpscpproinstagramis" name="wpscppro-instant-share-instagram" checked /> <?php esc_html_e('Instagram', 'wp-scheduled-posts-pro'); ?>
-                                    <?php
-                                    if (is_array($instagramShareCount) && count($instagramShareCount) > 0) :
-                                    ?>
-                                        <span class="sharecount"><?php print count($instagramShareCount); ?></span>
-                                    <?php
-                                    endif;
-                                    ?>
-                                    <span class="ajaxrequest"></span>
-                                </label>
-                                <div class="errorlog"></div>
-                            </li>
-                        <?php
-                        endif;
-                        if ($pinterestIntegation == 'on') :
+
+                        if ($pinterestIntegation == 'on' && is_array($pinterestProfile) && count($pinterestProfile) > 0) :
                             $pinterestShareCount = get_post_meta(get_the_ID(), '__wpscppro_social_share_pinterest', true);
                             $pinterestCustomBoardName = get_post_meta(get_the_ID(), '_wpscppro_pinterest_board_name', true);
                             $pinterestBoardType = get_post_meta(get_the_ID(), '_wpscppro_pinterestboardtype', true);
