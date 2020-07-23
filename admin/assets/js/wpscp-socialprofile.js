@@ -10,6 +10,32 @@ jQuery(document).ready(function ($) {
         }
     })
     /**
+     * Upgrade pro alert
+     */
+    var wpscpUpgradeAlert = function () {
+        var premium_content = document.createElement('p')
+        var premium_anchor = document.createElement('a')
+
+        premium_anchor.setAttribute(
+            'href',
+            'https://wpdeveloper.net/in/wp-scheduled-posts-pro'
+        )
+        premium_anchor.innerText = 'Upgrade to PRO.'
+        premium_anchor.style.color = 'red'
+        premium_content.innerHTML =
+            'Multi Profile is a Premium Feature. To use this feature, <strong>' +
+            premium_anchor.outerHTML +
+            ' </strong>'
+
+        swal({
+            title: 'Failed!',
+            content: premium_content,
+            icon: 'error',
+            buttons: [false, 'Close'],
+            dangerMode: true,
+        })
+    }
+    /**
      * ajax instant share modal
      */
     jQuery(document).on('click', '#wpscpproinstantsharenow', function (e) {
@@ -301,7 +327,7 @@ jQuery(document).ready(function ($) {
                         open(response.data, '_self')
                     } else {
                         that.html(btnInnerDom)
-                        swal('Failed!', response.data, 'error')
+                        wpscpUpgradeAlert()
                     }
                 })
             }
@@ -844,9 +870,7 @@ jQuery(document).ready(function ($) {
                     ).length > 1
                 ) {
                     this.checked = false
-                    alert(
-                        'Social Multi Profile Is pro Features, please upgrade to pro'
-                    )
+                    wpscpUpgradeAlert()
                 }
             })
         }
@@ -1190,7 +1214,7 @@ jQuery(document).ready(function ($) {
                         open(response.data, '_self')
                     } else {
                         jQuery('.jquery-modal').hide()
-                        swal('Failed!', response.data, 'error')
+                        wpscpUpgradeAlert()
                     }
                 })
             } else {
