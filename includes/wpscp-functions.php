@@ -1,6 +1,21 @@
 <?php
 
 /**
+ * Getting First item from array
+ * written as polyfill
+ * @since 3.3.0
+ */
+if (!function_exists('array_key_first')) {
+	function array_key_first(array $arr)
+	{
+		foreach ($arr as $key => $unused) {
+			return $key;
+		}
+		return NULL;
+	}
+}
+
+/**
  * WP Scheduled Post Menu
  * @function wp_scheduled_post_menu
  * @since 1.0.0
