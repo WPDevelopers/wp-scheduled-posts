@@ -3226,9 +3226,13 @@
 }
 .wpscppro-instantshare #wpscpprouploadimagepreviewold {
   margin: 5px 0;
+  max-width: 100%;
+  height: auto;
 }
 .wpscppro-instantshare #wpscpprouploadimagepreview img {
   margin: 10px 0;
+  max-width: 100%;
+  height: auto;
 }
 .wpscppro-instantshare #wpscppro_btn_meta_image_upload {
   margin: 5px 0;
