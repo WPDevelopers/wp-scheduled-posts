@@ -42,7 +42,7 @@ if (!class_exists('WPSP_Twitter')) {
             $post_details = get_post($post_id);
             if ($post_details->post_status == 'publish') {
                 // Schedule the actual event
-                wp_schedule_single_event(time(), 'wpsp_twitter_post', array($post_datas->ID));
+                wp_schedule_single_event(time(), 'wpsp_twitter_post', array($post_id));
             }
         }
 
@@ -87,7 +87,7 @@ if (!class_exists('WPSP_Twitter')) {
 
             // change structure
             $twitter_template_structure = get_option('wpscp_twitter_template_structure');
-            if (empty($twitter_template_structure) || $twitter_template_structure == '') {
+            if (empty($twitter_template_structure)) {
                 $twitter_template_structure = '{title}{content}{url}{tags}';
             }
             // limit
@@ -137,15 +137,16 @@ if (!class_exists('WPSP_Twitter')) {
                         $uploads = wp_upload_dir();
                         $file_path = str_replace($uploads['baseurl'], $uploads['basedir'], $featuredImage);
                         $media = $TwitterConnection->upload('media/upload', ['media' => $file_path]);
+                        $parameters['media_ids'] = $media->media_id_string;
                     } else {
                         if (has_post_thumbnail($post_id)) {
                             $featuredImage = ((has_post_thumbnail($post_id)) ? get_the_post_thumbnail_url($post_id, 'full') : '');
                             $uploads = wp_upload_dir();
                             $file_path = str_replace($uploads['baseurl'], $uploads['basedir'], $featuredImage);
                             $media = $TwitterConnection->upload('media/upload', ['media' => $file_path]);
+                            $parameters['media_ids'] = $media->media_id_string;
                         }
                     }
-                    $parameters['media_ids'] = $media->media_id_string;
                 }
 
                 $result = $TwitterConnection->post('statuses/update', $parameters);
