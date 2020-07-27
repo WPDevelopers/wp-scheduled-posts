@@ -22,7 +22,7 @@
 				<a href="#linkedin">
 					<img src="<?php print plugin_dir_url(__FILE__) . './../assets/images/icon-linkedin-small.png'; ?>" alt="<?php esc_attr_e('icon', 'wp-scheduled-posts-pro'); ?>">
 					<?php
-					_e('Linkedin', 'wp-scheduled-posts-pro');
+					_e('LinkedIn', 'wp-scheduled-posts-pro');
 					?>
 				</a>
 			</li>
@@ -122,9 +122,9 @@
 					<img src="<?php print plugin_dir_url(__FILE__) . './../assets/images/icon-linkedin.png'; ?>" alt="<?php esc_attr_e('icon', 'wp-scheduled-posts-pro'); ?>">
 				</div>
 				<div class="entry-content">
-					<h3><?php _e('Linkedin', 'wp-scheduled-posts-pro'); ?></h3>
-					<p><?php _e('You can enable/disable Linkedin social share. For details on Linkedin configuration, check out this', 'wp-scheduled-posts-pro'); ?> <a class="docs" href="https://wpdeveloper.net/docs/share-wordpress-posts-on-linkedin/" target="_blank"><?php esc_html_e('Doc', 'wp-schedule-posts-pro'); ?></a></p>
-					<p class="docinfo"><a href="https://www.linkedin.com/developers/" target="_blank"><strong><?php esc_html_e('Click here', 'wp-schedule-posts-pro'); ?></strong></a> <?php esc_html_e('to Retrieve Your API Keys from your Linkedin account', 'wp-schedule-posts-pro'); ?></p>
+					<h3><?php _e('LinkedIn', 'wp-scheduled-posts-pro'); ?></h3>
+					<p><?php _e('You can enable/disable LinkedIn social share. For details on LinkedIn configuration, check out this', 'wp-scheduled-posts-pro'); ?> <a class="docs" href="https://wpdeveloper.net/docs/share-wordpress-posts-on-linkedin/" target="_blank"><?php esc_html_e('Doc', 'wp-schedule-posts-pro'); ?></a></p>
+					<p class="docinfo"><a href="https://www.linkedin.com/developers/" target="_blank"><strong><?php esc_html_e('Click here', 'wp-schedule-posts-pro'); ?></strong></a> <?php esc_html_e('to Retrieve Your API Keys from your LinkedIn account', 'wp-schedule-posts-pro'); ?></p>
 				</div>
 				<div class="entry-control">
 					<div class="checkbox-toggle">
