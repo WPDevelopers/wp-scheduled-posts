@@ -1,18 +1,18 @@
-=== WP Scheduled Posts - Missed Schedule & Best Editorial Calendar ===
+=== WP Scheduled Posts - Missed Schedule, Auto Social Share & Best Editorial Calendar ===
 Contributors: wpdevteam, Asif2BD, re_enter_rupok, priyomukul, shajalal, tusharimran
-Tags: post schedule, editor calendar, schedule-calendar, editorial calendar, schedule bar, scheduled posts, schedule, schedule widget, scheduler, schedule menu bar, admin bar, dashboard widget, missed scheduled, calendar, missed schedule, future post, schedule issue, post later, admin bar, admin, multi author
+Tags: post schedule, editor calendar, schedule-calendar, editorial calendar, social share, auto share, facebook, twitter. schedule bar, scheduled posts, schedule, schedule widget, scheduler, schedule menu bar, admin bar, dashboard widget, missed scheduled, calendar, missed schedule, future post, schedule issue, post later, admin bar, admin, multi author
 Requires at least: 4.0
-Tested up to: 5.4
+Tested up to: 5.5
 Requires PHP: 5.4
-Stable tag: 3.2.1
-License: GPLv3
-License URI: https://opensource.org/licenses/GPL-3.0
+Stable tag: 3.3.0
+License: GPLv3 or later
+License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-A complete solution for WordPress Post Schedule. Manage schedule through editorial calendar and enable auto scheduler. Get an Admin Bar & Dashboard Widget showing all your scheduled posts.
+A complete solution for WordPress Post Schedule. Manage schedule through editorial calendar and enable auto scheduler. Also handles auto social share in Facebook, Twitter, linkedIn, Pinterest & Instagram.
 
 == Description ==
 
-A complete solution for WordPress Post Schedule. Manage schedule through editorial calendar and enable auto scheduler. Get an Admin Bar & Dashboard Widget showing all your scheduled posts.
+A complete solution for WordPress Post Schedule. Manage schedule through editorial calendar and enable auto scheduler. Also handles auto social share in Facebook, Twitter, linkedIn, Pinterest & Instagram. Get an Admin Bar & Dashboard Widget showing all your scheduled posts.
 
 https://www.youtube.com/watch?v=yyvm6ml_OA4
 
@@ -80,6 +80,13 @@ If you like WP Scheduled Posts, then consider checking out our other WordPress P
 
 🗒️ [BetterDocs](https://betterdocs.co/) – Best Documentation & Knowledge Base Plugin for WordPress, whcih also reduce your manual support request.
 
+📄 [EmbedPress](https://embedpress.com/): EmbedPress lets you embed videos, images, posts, audio, maps and upload PDF, DOC, PPT & all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors. 
+
+☁ [Templately](https://wordpress.org/plugins/templately/): Free templates library for Elementor & Gutenberg along with the cloud collaboration for WordPress
+
+⭐ [ReviewX](https://wordpress.org/plugins/reviewx/): WooCommerce Product review plugin that allows users to submit product reviews with multiple criteria, photos, video and more
+
+⚡ [Flexia](http://wordpress.org/plugins/flexia): Most lightweight, customizable & multi purpose theme for WordPress
 
 Visit [WPDeveloper](https://wpdeveloper.net/) to learn more about how to do better in WordPress with [Help Tutorial, Tips & Tricks](https://wpdeveloper.net/blog).
 
@@ -128,6 +135,13 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 
 == Changelog ==
+
+= 3.3.0 - 2020-07-28 =
+* Added     : Social Share Integration
+* Added     : Social Share Templates
+* Fixed     : Schedule Calendar not loading for Custom Post Types
+* Fixed     : Few minor bug fix and improvements
+
 
 = 3.2.1 - 2020-06-29 =
 * Fixed     : Schedule Calendar not showing Pending posts
@@ -316,5 +330,5 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 
 == Upgrade Notice ==
-= 3.1.16 - 2020-04-13 =
-* Minor Bug Fix.
+= 3.3.0 - 2020-07-28 =
+* Major update. New Social Share
