@@ -29,6 +29,7 @@ if (!class_exists('WpScp_Calendar')) {
                 array(
                     'methods'  => 'GET',
                     'callback' => array($this, 'wpscp_future_post_rest_route_output'),
+                    'permission_callback' => '__return_true'
                 )
             );
         }
