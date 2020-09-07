@@ -34,6 +34,7 @@ if (!class_exists('WpScp_Calendar')) {
             );
         }
 
+
         public function wpscp_future_post_rest_route_output($request)
         {
             // post type
