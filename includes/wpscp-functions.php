@@ -361,7 +361,7 @@ if (!function_exists('wpscp_email_notify_review_email_list')) {
 	function wpscp_email_notify_review_email_list()
 	{
 		global $wpdb;
-		$email = '';
+		$email = array();
 		// collect email from role
 		$roles = get_option('wpscp_notify_author_role_sent_review');
 		if (!empty($roles)) {
@@ -394,7 +394,7 @@ if (!function_exists('wpscp_email_notify_schedule_email_list')) {
 	function wpscp_email_notify_schedule_email_list()
 	{
 		global $wpdb;
-		$email = '';
+		$email = array();
 		// collect email from role
 		$roles = get_option('wpscp_notify_author_post_schedule_role');
 		if (!empty($roles)) {

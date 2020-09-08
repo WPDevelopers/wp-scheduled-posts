@@ -115,11 +115,9 @@ if (!class_exists('WpScp_Author_Notify')) {
             if ($this->notify_author_is_sent_review == 1 && $new_status == 'pending') {
                 $reviewEmailList = wpscp_email_notify_review_email_list();
                 if (!empty($reviewEmailList) && is_array($reviewEmailList)) {
-                    foreach ($reviewEmailList as $email_id) {
-                        $subject = 'New Post Pending Your Approval.';
-                        $message = 'Hello Moderator, <br/>A new post written by "%author%" titled "%title%" was submitted for your review. Click here %permalink%';
-                        $this->notify_custom_user($email_id, $post->ID, $subject, $message);
-                    }
+                    $subject = 'New Post Pending Your Approval.';
+                    $message = 'Hello Moderator, <br/>A new post written by "%author%" titled "%title%" was submitted for your review. Click here %permalink%';
+                    $this->notify_custom_user(array_values($reviewEmailList), $post->ID, $subject, $message);
                 }
             }
             // review is rejected
@@ -133,11 +131,9 @@ if (!class_exists('WpScp_Author_Notify')) {
             else if ($this->notify_author_post_is_schedule == 1 && $new_status == 'future') {
                 $futureEmailList = wpscp_email_notify_schedule_email_list();
                 if (!empty($futureEmailList) && is_array($futureEmailList)) {
-                    foreach ($futureEmailList as $email_id) {
-                        $subject = 'New post "%title%" is schedule on "%date%"';
-                        $message = 'Hello Moderator, <br/>Recently Moderator for your site scheduled a new post titled "%title%". The blog is scheduled for "%date%"';
-                        $this->notify_custom_user($email_id, $post->ID, $subject, $message);
-                    }
+                    $subject = 'New post "%title%" is schedule on "%date%"';
+                    $message = 'Hello Moderator, <br/>Recently Moderator for your site scheduled a new post titled "%title%". The blog is scheduled for "%date%"';
+                    $this->notify_custom_user(array_values($futureEmailList), $post->ID, $subject, $message);
                 }
                 // send author 
                 $subject = 'Your Post is scheduled for "%date%"';
