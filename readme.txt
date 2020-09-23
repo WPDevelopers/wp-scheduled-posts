@@ -4,7 +4,7 @@ Tags: post schedule, editor calendar, schedule-calendar, editorial calendar, soc
 Requires at least: 4.0
 Tested up to: 5.5
 Requires PHP: 5.4
-Stable tag: 3.3.0
+Stable tag: 3.3.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -135,6 +135,14 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 
 == Changelog ==
+
+= 3.3.1 - 2020-09-23 =
+* Fixed     : REST API issue with WordPress 5.5
+* Fixed     : Group Mail sending issue with Email Notify
+* Fixed     : Conflict with Email Notify and Social Share
+* Fixed     : Few minor bug fix and improvements
+
+
 
 = 3.3.0 - 2020-07-28 =
 * Added     : Social Share Integration
@@ -330,5 +338,5 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 
 == Upgrade Notice ==
-= 3.3.0 - 2020-07-28 =
-* Major update. New Social Share
+= 3.3.1 - 2020-09-23 =
+* Minor update, bug fixes.
