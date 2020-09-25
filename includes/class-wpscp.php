@@ -220,7 +220,9 @@ final class WpScp
                 array(
                     'ajax_url' => admin_url('admin-ajax.php'),
                     'nonce' => wp_create_nonce('wpscp-calendar-ajax-nonce'),
-                    'calendar_rest_route' => site_url('/?rest_route=/wpscp/v1/post_type=post/month=' . $month . '/year=' . $year)
+                    'site_url' => site_url('/'),
+                    // 'calendar_rest_route' => site_url('/?rest_route=/wpscp/v1/post_type=post/month=' . $month . '/year=' . $year)
+                    'calendar_rest_route' => site_url('/?rest_route=/wpscp/v1/calendar&query=' . json_encode(array('post_type' => 'post', 'month' => $month, 'year' => $year)))
                 )
             );
             wp_enqueue_script('wpscp-socialprofile', WPSCP_ADMIN_URL . 'assets/js/wpscp-socialprofile.js', array('jquery'), filemtime(WPSCP_ADMIN_DIR_PATH . 'assets/js/wpscp-socialprofile.js'), true);

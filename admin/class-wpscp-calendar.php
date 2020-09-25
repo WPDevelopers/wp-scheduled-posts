@@ -19,13 +19,15 @@ if (!class_exists('WpScp_Calendar')) {
             add_action('wp_ajax_wpscp_calender_ajax_request', array($this, 'calender_ajax_request_php'));
             add_action('wp_ajax_wpscp_quick_edit', array($this, 'quick_edit_action'));
             add_action('wp_ajax_wpscp_delete_event', array($this, 'delete_event_action'));
+            add_action('wp_ajax_wpscp_calender_filter_markup_generate',  array($this, 'calender_filter_markup_generate'));
         }
 
         public function wpscp_register_custom_route()
         {
             register_rest_route(
                 'wpscp/v1',
-                '/post_type=(?P<post_type>[a-zA-Z0-9-_]+)/month=(?P<month>[0-9 .\-]+)/year=(?P<year>[0-9 .\-]+)',
+                // '/post_type=(?P<post_type>[a-zA-Z0-9-_]+)/month=(?P<month>[0-9 .\-]+)/year=(?P<year>[0-9 .\-]+)',
+                '/calendar',
                 array(
                     'methods'  => 'GET',
                     'callback' => array($this, 'wpscp_future_post_rest_route_output'),
@@ -37,18 +39,21 @@ if (!class_exists('WpScp_Calendar')) {
 
         public function wpscp_future_post_rest_route_output($request)
         {
+            $requestArray =  urldecode($request->get_param('query'));
+
             // post type
-            $post_type = urldecode($request->get_param('post_type'));
+            $post_type = $requestArray['post_type'];
             $post_type = (($post_type == 'elementorlibrary') ? 'elementor_library' : $post_type);
+
             // date
             $now = new \DateTime('now');
             $now_month = $now->format('m');
             $now_year = $now->format('Y');
             // month
-            $month = urldecode($request->get_param('month'));
+            $month = $requestArray['month'];
             $month = (!empty($month) ? $month : $now_month);
             // year
-            $year = urldecode($request->get_param('year'));
+            $year = $requestArray['year'];
             $year = (!empty($year) ? $year : $now_year);
             // query
             $query = new WP_Query(array(
@@ -246,6 +251,80 @@ if (!class_exists('WpScp_Calendar')) {
                 print $postId;
             }
             wp_die(); // this is required to terminate immediately and return a proper response
+        }
+
+
+        public function calender_filter_markup_generate()
+        {
+
+            $nonce = $_POST['nonce'];
+            if (!wp_verify_nonce($nonce, 'wpscp-calendar-ajax-nonce')) {
+                die(__('Security check', 'wp-scheduled-posts'));
+            }
+
+            $markup = '';
+            $post_type_markup = '';
+            $markup_prefix = 'wpscp_calendar_filter_';
+
+            $wpscp_options     =    wpscp_get_options();
+            $post_types     =    (isset($wpscp_options['allow_post_types']) ? $wpscp_options['allow_post_types'] : array('post'));
+            $response = [];
+            $term_list = [];
+            // post type select
+            foreach ($post_types as $post_type) {
+                $terms = get_object_taxonomies($post_type);
+                $term_names = '';
+                foreach ($terms as $term) {
+                    $term_names .= ($term_names === '' ? $term : ' ' . $term);
+                    $term_list[$term] = get_terms(array(
+                        'taxonomy' => $term,
+                        'hide_empty' => false,
+                    ));
+                }
+                $response[$post_type] = $term_list;
+
+                $post_type_markup .= '<option value="' . esc_attr($post_type) . '" data-termlist="' . esc_attr($term_names) . '">' . esc_html($post_type) . '</option>';
+            }
+            $markup .= '<select name="parent" id="' . esc_attr($markup_prefix . 'post_type') . '" class="wpscp-cf-select"><option value="' . esc_attr('all') . '">' . esc_html__('Post type', 'wp-scheduled-posts') . '</option>' . $post_type_markup . '</select>';
+
+
+
+            // term taxonomy select
+            foreach ($term_list as $term_key => $term_value) {
+                if ($term_key === 'post_format') {
+                    continue;
+                }
+                $markup .= '<select data-depend="" name="parent" id="' . esc_attr($markup_prefix . $term_key) . '" class="wpscp-cf-select taxonomy">';
+                $markup .= '<option value="' . esc_attr('all') . '">' . esc_html($term_key) . '</option>';
+                $tax_markup = '';
+                foreach ($term_value as $single_term) {
+                    $tax_markup .= '<option value="' . esc_attr($single_term->term_id) . '">' . esc_html($single_term->name) . '</option>';
+                }
+                $markup .=  $tax_markup;
+                $markup .=  '</select>';
+            }
+
+
+            // post status
+            $post_statuses = get_post_statuses();
+            $markup .= '<select name="parent" id="' . esc_attr($markup_prefix . 'post_status') . '" class="wpscp-cf-select">';
+            $markup .= '<option value="' . esc_attr('all') . '">' . esc_html__('Post Status', 'wp-scheduled-posts') . '</option>';
+            foreach ($post_statuses as $status_key => $status_value) {
+                $markup .= '<option value="' . esc_attr($status_key) . '">' . esc_html($status_value) . '</option>';
+            }
+            $markup .=  '</select>';
+            // author
+            $allusers = get_users();
+            $markup .= '<select name="parent" id="' . esc_attr($markup_prefix . 'user') . '" class="wpscp-cf-select">';
+            $markup .= '<option value="' . esc_attr('all') . '">' . esc_html__('All User', 'wp-scheduled-posts') . '</option>';
+            foreach ($allusers as $user) {
+                $markup .= '<option value="' . esc_attr($user->ID) . '">' . esc_html($user->user_login) . '</option>';
+            }
+            $markup .=  '</select>';
+
+            $markup .= '<button id="wpscp_calendar_filter_btn">' . esc_html__('Filter', 'wp-scheduled-posts') . '</button>';
+
+            wp_send_json_success($markup);
         }
     }
     new WpScp_Calendar();

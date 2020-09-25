@@ -45,9 +45,19 @@ document.addEventListener('DOMContentLoaded', function () {
     var calendar = new Calendar(calendarEl, {
         plugins: ['interaction', 'dayGrid', 'timeGrid'],
         header: {
-            left: 'prev,next today',
+            left: 'customFilter',
             center: 'title',
-            // right: 'dayGridMonth'
+            right: 'prev,next today',
+        },
+        customButtons: {
+            customFilter: {
+                icon: ' dashicons-before dashicons-admin-settings',
+                click: function (e) {
+                    if (jQuery('#wpspcalendarcustomfilter').length === 0) {
+                        wpscp_calender_custom_filter_markup_generate(this)
+                    }
+                },
+            },
         },
         lazyFetching: true,
         displayEventTime: true,
@@ -140,7 +150,17 @@ document.addEventListener('DOMContentLoaded', function () {
     function wpscpAllEvents() {
         jQuery
             .ajax({
-                url: wpscpGetRestUrl(),
+                url: wpscpGetRestUrl({
+                    month: null,
+                    year: null,
+                    post_type: ['post', 'page'],
+                    tax: [
+                        {
+                            tax_name: 'categroy',
+                            tax_value: 20,
+                        },
+                    ],
+                }),
             })
             .done(function (data, status) {
                 if (status == 'success') {
@@ -518,44 +538,31 @@ document.addEventListener('DOMContentLoaded', function () {
     /**
      * Get Rest URL
      */
-    function wpscpGetRestUrl(month = null, year = null) {
+    function wpscpGetRestUrl(obj) {
         return wpscpGetPostTypeNameSkipUnderScore(
             wpscp_calendar_ajax_object.calendar_rest_route,
-            month,
-            year
+            obj
         )
     }
     /**
      * Get Post Type Name form Query Sting
      */
-    function wpscpGetPostTypeNameSkipUnderScore(oldRestUrl, month, year) {
+    function wpscpGetPostTypeNameSkipUnderScore(oldRestUrl, obj) {
+        // return oldRestUrl
         var urlParams = new URLSearchParams(window.location.search)
-        var postTypeName =
-            urlParams.get('post_type') == 'elementor_library'
-                ? 'elementorlibrary'
-                : urlParams.get('post_type')
-        var updateRestUrl =
-            postTypeName !== null
-                ? oldRestUrl.replace(
-                      'post_type=post',
-                      'post_type=' + postTypeName
-                  )
-                : oldRestUrl
 
-        if (month !== null) {
-            updateRestUrl = updateRestUrl.replace(
-                /month=[0-9]{2}/i,
-                'month=' + month
-            )
-        }
-        if (year !== null) {
-            updateRestUrl = updateRestUrl.replace(
-                /year=[0-9]{4}/i,
-                'year=' + year
-            )
-        }
+        var query = JSON.parse(new URLSearchParams(oldRestUrl).get('query'))
+        var mergeQuery = Object.assign(query, obj)
 
-        return updateRestUrl
+        // var postTypeName =
+        //     urlParams.get('post_type') == 'elementor_library'
+        //         ? 'elementorlibrary'
+        //         : urlParams.get('post_type')
+        return (
+            wpscp_calendar_ajax_object.site_url +
+            '?rest_route=/wpscp/v1/calendar&query=' +
+            JSON.stringify(mergeQuery)
+        )
     }
 
     /**
@@ -705,7 +712,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 jQuery
                     .ajax({
-                        url: wpscpGetRestUrl(month, year),
+                        url: wpscpGetRestUrl({
+                            month: month,
+                            year: year,
+                            post_type: ['post', 'page'],
+                            tax: [
+                                {
+                                    tax_name: 'categroy',
+                                    tax_value: 20,
+                                },
+                            ],
+                        }),
                     })
                     .done(function (data, status) {
                         if (status == 'success') {
@@ -719,4 +736,105 @@ document.addEventListener('DOMContentLoaded', function () {
         })
     }
     wpscp_calendar_data_fetch_by_month()
+
+    // calendar filter markup generate
+    function wpscp_calender_custom_filter_markup_generate(that) {
+        // ajax request send to get filter data
+        var data = {
+            action: 'wpscp_calender_filter_markup_generate',
+            nonce: wpscp_calendar_ajax_object.nonce,
+        }
+        // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
+        jQuery.post(ajaxurl, data, function (response) {
+            if (response.success === true) {
+                // response markup insert
+                jQuery(
+                    '<div id="wpspcalendarcustomfilter">' +
+                        response.data +
+                        '</div>'
+                ).insertAfter(that)
+                // taxonomy show/hide
+                jQuery('.wpscp-cf-select').select2()
+                jQuery('.wpscp-cf-select.taxonomy')
+                    .next('.select2-container')
+                    .hide()
+
+                jQuery('#wpscp_calendar_filter_post_type').on(
+                    'select2:select',
+                    function (e) {
+                        if (
+                            e.params.data.element.dataset.termlist !== '' &&
+                            e.params.data.element.dataset.termlist !== undefined
+                        ) {
+                            var termlist = e.params.data.element.dataset.termlist.split(
+                                ' '
+                            )
+                            termlist.forEach(function (item) {
+                                console.log(item)
+                                jQuery(
+                                    '#wpscp_calendar_filter_' +
+                                        item +
+                                        '.taxonomy'
+                                )
+                                    .next('.select2-container')
+                                    .show()
+                            })
+                        } else {
+                            jQuery('.wpscp-cf-select.taxonomy')
+                                .next('.select2-container')
+                                .hide()
+                        }
+                    }
+                )
+                // listen custom filter
+                wpscp_calendar_custom_filter()
+            }
+        })
+    }
+    // calendar custom filter data
+    function wpscp_calendar_custom_filter(termlist) {
+        jQuery('#wpscp_calendar_filter_btn').on('click', function () {
+            var post_type = jQuery('#wpscp_calendar_filter_post_type').val()
+            var post_type_taxonomy = jQuery('#wpscp_calendar_filter_post_type')
+                .find(':selected')
+                .data('termlist')
+
+            console.log(
+                wpscpGetRestUrl({
+                    month: null,
+                    year: null,
+                    post_type: [post_type],
+                    tax: [
+                        {
+                            tax_name: 'categroy',
+                            tax_value: 20,
+                        },
+                    ],
+                })
+            )
+            jQuery
+                .ajax({
+                    url: wpscpGetRestUrl({
+                        month: null,
+                        year: null,
+                        post_type: [post_type],
+                        tax: [
+                            {
+                                tax_name: 'categroy',
+                                tax_value: 20,
+                            },
+                        ],
+                    }),
+                })
+                .done(function (data, status) {
+                    console.log(data)
+                    // if (status == 'success') {
+                    //     calendar.addEventSource(data)
+                    //     jQuery('.wpsp_calendar_loader').fadeOut()
+                    // } else {
+                    //     jQuery('.wpsp_calendar_loader').fadeOut()
+                    // }
+                })
+        })
+    }
 })
