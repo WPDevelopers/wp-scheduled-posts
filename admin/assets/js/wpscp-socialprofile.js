@@ -12,7 +12,7 @@ jQuery(document).ready(function ($) {
     /**
      * Upgrade pro alert
      */
-    var wpscpUpgradeAlert = function () {
+    var wpscpUpgradeAlert = function (errorMessage) {
         var premium_content = document.createElement('p')
         var premium_anchor = document.createElement('a')
 
@@ -22,10 +22,13 @@ jQuery(document).ready(function ($) {
         )
         premium_anchor.innerText = 'Upgrade to PRO.'
         premium_anchor.style.color = 'red'
-        premium_content.innerHTML =
+        var proErrorMessage =
             'Multi Profile is a Premium Feature. To use this feature, <strong>' +
             premium_anchor.outerHTML +
             ' </strong>'
+        console.log(errorMessage.search('Premium'))
+        premium_content.innerHTML =
+            errorMessage.search('Premium') > 0 ? proErrorMessage : errorMessage
 
         swal({
             title: 'Failed!',
@@ -323,11 +326,12 @@ jQuery(document).ready(function ($) {
                 }
                 // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
                 jQuery.post(ajaxurl, data, function (response) {
+                    console.log(response)
                     if (response.success) {
                         open(response.data, '_self')
                     } else {
                         that.html(btnInnerDom)
-                        wpscpUpgradeAlert()
+                        wpscpUpgradeAlert(response.data)
                     }
                 })
             }
