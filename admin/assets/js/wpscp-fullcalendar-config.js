@@ -148,28 +148,7 @@ document.addEventListener('DOMContentLoaded', function () {
      * add Future Post Event Via ajax Call
      */
     function wpscpAllEvents() {
-        jQuery
-            .ajax({
-                url: wpscpGetRestUrl({
-                    month: null,
-                    year: null,
-                    post_type: ['post', 'page'],
-                    tax: [
-                        {
-                            tax_name: 'categroy',
-                            tax_value: 20,
-                        },
-                    ],
-                }),
-            })
-            .done(function (data, status) {
-                if (status == 'success') {
-                    calendar.addEventSource(data)
-                    jQuery('.wpsp_calendar_loader').fadeOut()
-                } else {
-                    jQuery('.wpsp_calendar_loader').fadeOut()
-                }
-            })
+        wpscp_calendar_custom_filter()
     }
     wpscpAllEvents()
 
@@ -710,28 +689,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 var month = monthList[CurrentDate[0]]
                 var year = parseInt(CurrentDate[1])
 
-                jQuery
-                    .ajax({
-                        url: wpscpGetRestUrl({
-                            month: month,
-                            year: year,
-                            post_type: ['post', 'page'],
-                            tax: [
-                                {
-                                    tax_name: 'categroy',
-                                    tax_value: 20,
-                                },
-                            ],
-                        }),
-                    })
-                    .done(function (data, status) {
-                        if (status == 'success') {
-                            calendar.addEventSource(data)
-                            jQuery('.wpsp_calendar_loader').fadeOut()
-                        } else {
-                            jQuery('.wpsp_calendar_loader').fadeOut()
-                        }
-                    })
+                wpscp_calendar_custom_filter(month, year)
             }
         })
     }
@@ -770,7 +728,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 ' '
                             )
                             termlist.forEach(function (item) {
-                                console.log(item)
+                                // console.log(item)
                                 jQuery(
                                     '#wpscp_calendar_filter_' +
                                         item +
@@ -792,49 +750,52 @@ document.addEventListener('DOMContentLoaded', function () {
         })
     }
     // calendar custom filter data
-    function wpscp_calendar_custom_filter(termlist) {
-        jQuery('#wpscp_calendar_filter_btn').on('click', function () {
-            var post_type = jQuery('#wpscp_calendar_filter_post_type').val()
-            var post_type_taxonomy = jQuery('#wpscp_calendar_filter_post_type')
-                .find(':selected')
-                .data('termlist')
+    jQuery('#wpscp_calendar_filter_btn').on('click', function () {})
+    function wpscp_calendar_custom_filter(month = null, year = null) {
+        var post_type = jQuery('#wpscp_calendar_filter_post_type').val()
+        var post_status = jQuery('#wpscp_calendar_filter_post_status').val()
+        var post_type_taxonomy = jQuery('#wpscp_calendar_filter_post_type')
+            .find(':selected')
+            .data('termlist')
+        // get available taxonomy value
+        var availableTaxValue = [
+            {
+                relation: 'AND',
+            },
+        ]
+        if (post_type_taxonomy !== undefined && post_type_taxonomy !== '') {
+            post_type_taxonomy = post_type_taxonomy.split(' ')
+            post_type_taxonomy.forEach(function (item) {
+                var tax_val = jQuery('#wpscp_calendar_filter_' + item).val()
+                if (item === 'post_format' || tax_val === 'all') {
+                    return
+                }
+                availableTaxValue.push({
+                    taxonomy: item,
+                    field: 'ID',
+                    terms: [tax_val],
+                })
+            })
+        }
 
-            console.log(
-                wpscpGetRestUrl({
-                    month: null,
-                    year: null,
+        jQuery
+            .ajax({
+                url: wpscpGetRestUrl({
+                    month: month,
+                    year: year,
                     post_type: [post_type],
-                    tax: [
-                        {
-                            tax_name: 'categroy',
-                            tax_value: 20,
-                        },
-                    ],
-                })
-            )
-            jQuery
-                .ajax({
-                    url: wpscpGetRestUrl({
-                        month: null,
-                        year: null,
-                        post_type: [post_type],
-                        tax: [
-                            {
-                                tax_name: 'categroy',
-                                tax_value: 20,
-                            },
-                        ],
-                    }),
-                })
-                .done(function (data, status) {
-                    console.log(data)
-                    // if (status == 'success') {
-                    //     calendar.addEventSource(data)
-                    //     jQuery('.wpsp_calendar_loader').fadeOut()
-                    // } else {
-                    //     jQuery('.wpsp_calendar_loader').fadeOut()
-                    // }
-                })
-        })
+                    post_status: [post_status],
+                    tax: availableTaxValue,
+                    author: jQuery('#wpscp_calendar_filter_user').val(),
+                }),
+            })
+            .done(function (data, status) {
+                if (status == 'success') {
+                    calendar.addEventSource(data)
+                    jQuery('.wpsp_calendar_loader').fadeOut()
+                } else {
+                    jQuery('.wpsp_calendar_loader').fadeOut()
+                }
+            })
     }
 })

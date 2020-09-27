@@ -1,4 +1,7 @@
 <?php
+
+use function GuzzleHttp\json_decode;
+
 if (!class_exists('WpScp_Calendar')) {
     class WpScp_Calendar
     {
@@ -39,26 +42,26 @@ if (!class_exists('WpScp_Calendar')) {
 
         public function wpscp_future_post_rest_route_output($request)
         {
-            $requestArray =  urldecode($request->get_param('query'));
-
+            $requestArray =  json_decode(urldecode($request->get_param('query')), true);
             // post type
-            $post_type = $requestArray['post_type'];
-            $post_type = (($post_type == 'elementorlibrary') ? 'elementor_library' : $post_type);
-
+            $post_type = (isset($requestArray['post_type']) && $requestArray['post_type'][0] !== 'all' ? $requestArray['post_type'] : ['post']);
+            // post status
+            $post_status = (isset($requestArray['post_status']) && $requestArray['post_status'][0] !== 'all' ? $requestArray['post_status'] : ['future', 'publish']);
             // date
             $now = new \DateTime('now');
             $now_month = $now->format('m');
             $now_year = $now->format('Y');
             // month
-            $month = $requestArray['month'];
-            $month = (!empty($month) ? $month : $now_month);
+            $month = (isset($requestArray['month']) && !empty($requestArray['month']) ? $requestArray['month'] : $now_month);
             // year
-            $year = $requestArray['year'];
-            $year = (!empty($year) ? $year : $now_year);
+            $year = (isset($requestArray['year']) && !empty($requestArray['year']) ? $requestArray['year'] : $now_year);
+            // taxonomy
+            $tax = $requestArray['tax'];
+
             // query
-            $query = new WP_Query(array(
-                'post_type'      => (($post_type != "") ? $post_type : 'post'),
-                'post_status'    => array('future', 'publish'),
+            $args = array(
+                'post_type'      => $post_type,
+                'post_status'    => $post_status,
                 'posts_per_page' => -1,
                 'date_query'     => array(
                     array(
@@ -66,7 +69,16 @@ if (!class_exists('WpScp_Calendar')) {
                         'month' => $month,
                     ),
                 ),
-            ));
+            );
+            if (count($tax) > 1) {
+                $args['tax_query'] = $tax;
+            }
+            if (!empty($requestArray['author']) && $requestArray['author'] !== 'all') {
+                $args['author'] = $requestArray['author'];
+            }
+
+            error_log(print_r($args, true));
+            $query = new WP_Query($args);
             $allData = array();
 
             if ($query->have_posts()) {
