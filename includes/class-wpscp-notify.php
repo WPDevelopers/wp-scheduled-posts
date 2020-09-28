@@ -42,7 +42,7 @@ if (!class_exists('WpScp_Author_Notify')) {
                 add_action('publish_future_post', array($this, 'notify_content_author'), 90, 1);
             }
             // add_filter("transition_post_status", array($this, "notify_status_change"), 10, 3);
-            add_action('transition_post_status', array($this, "notify_status_change"), 10, 3);
+            add_action('transition_post_status', array($this, "notify_status_change"), 90, 3);
         }
         // publish status
         public function get_publish_post_notify_email_title($post_title, $subject, $post_date)
