@@ -108,7 +108,8 @@
 				));
 				?>
 			</div>
-			<button class="wpscp-social-tab__btn wpscp-social-tab__btn--twitter wpscp-social-tab__btn--addnew-profile">
+			<!-- temp account add it will be remove after approve real app -->
+			<button data-type="twitter" class="wpscp-social-tab__btn wpscp-social-tab__btn--twitter wpscp-social-tab__btn--temp-addnew-profile">
 				<img src="<?php print plugin_dir_url(__FILE__) . './../assets/images/icon-twitter.png'; ?>" alt="<?php esc_attr_e('icon', 'wp-scheduled-posts-pro'); ?>">
 				<?php esc_html_e('Add New Profile', 'wp-scheduled-posts-pro'); ?>
 			</button>

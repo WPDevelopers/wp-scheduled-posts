@@ -338,8 +338,8 @@ if (!class_exists('wpscp_social_multi_profile')) {
 
                 try {
                     $connection = new TwitterOAuth(
-                        WPSCP_TWITTER_API_KEY,
-                        WPSCP_TWITTER_API_SECRET_KEY,
+                        $app_id,
+                        $app_secret,
                         $oauthToken,
                         $oauthVerifier
                     );
@@ -351,7 +351,12 @@ if (!class_exists('wpscp_social_multi_profile')) {
 
                     $oldData = (empty(get_option(WPSCP_TWITTER_OPTION_NAME)) ? array() : get_option(WPSCP_TWITTER_OPTION_NAME));
                     // get user data
-                    $connection = new TwitterOAuth(WPSCP_TWITTER_API_KEY, WPSCP_TWITTER_API_SECRET_KEY, $access_token['oauth_token'], $access_token['oauth_token_secret']);
+                    $connection = new TwitterOAuth(
+                        $app_id,
+                        $app_secret,
+                        $access_token['oauth_token'],
+                        $access_token['oauth_token_secret']
+                    );
                     $content = $connection->get("account/verify_credentials");
 
                     if (is_array($access_token) && count($access_token) > 0) {
@@ -365,6 +370,11 @@ if (!class_exists('wpscp_social_multi_profile')) {
                             'added_by' => $current_user->user_login,
                             'added_date'    => current_time('mysql')
                         );
+                        // if app id is exists then app secret, redirect uri will be also there, it will be delete after approve real app
+                        if (!empty($app_id)) {
+                            $info['app_id']         = $app_id;
+                            $info['app_secret']     = $app_secret;
+                        }
                         array_push($oldData, $info);
                     }
                     $updatedData = $oldData;
@@ -728,6 +738,26 @@ if (!class_exists('wpscp_social_multi_profile')) {
                         $state
                     );
                     wp_send_json_success($linkedin->getAuthUrl());
+                    wp_die();
+                } catch (\Exception $error) {
+                    wp_send_json_error($error->getMessage());
+                    wp_die();
+                }
+            } else if ($type == 'twitter') {
+                if (!$this->social_single_profile_checkpoint($type)) {
+                    wp_send_json_error($this->multiProfileErrorMessage);
+                    wp_die();
+                }
+                try {
+                    $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=wp-scheduled-posts'));
+                    $connection = new TwitterOAuth(
+                        $app_id,
+                        $app_secret
+                    );
+                    $oauth_callback = WPSCP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE . '?' . http_build_query($request);
+                    $request_token = $connection->oauth('oauth/request_token', array('oauth_callback' => $oauth_callback));
+                    $url = $connection->url('oauth/authorize', array('oauth_token' => $request_token['oauth_token']));
+                    wp_send_json_success($url);
                     wp_die();
                 } catch (\Exception $error) {
                     wp_send_json_error($error->getMessage());

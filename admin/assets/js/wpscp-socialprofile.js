@@ -26,9 +26,10 @@ jQuery(document).ready(function ($) {
             'Multi Profile is a Premium Feature. To use this feature, <strong>' +
             premium_anchor.outerHTML +
             ' </strong>'
-        console.log(errorMessage.search('Premium'))
         premium_content.innerHTML =
-            errorMessage.search('Premium') > 0 ? proErrorMessage : errorMessage
+            errorMessage !== undefined && errorMessage.search('Premium') > 0
+                ? proErrorMessage
+                : errorMessage
 
         swal({
             title: 'Failed!',
@@ -326,7 +327,6 @@ jQuery(document).ready(function ($) {
                 }
                 // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
                 jQuery.post(ajaxurl, data, function (response) {
-                    console.log(response)
                     if (response.success) {
                         open(response.data, '_self')
                     } else {
@@ -1115,6 +1115,33 @@ jQuery(document).ready(function ($) {
                 '<a class="docs" href="https://wpdeveloper.net/docs/share-wordpress-posts-on-linkedin/" target="_blank">Doc</a> <br />' +
                 '<a href="https://www.linkedin.com/developers/" target="_blank"><strong>Click here</strong></a> here to Retrieve Your API Keys from your Linkedin account</p>' +
                 '</div>'
+            var twitter =
+                '<h3>Twitter</h3>' +
+                '<p> For details on Twitter configuration, check out this ' +
+                '<a class="docs" href="https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/" target="_blank">Doc</a> <br />' +
+                '<a href="https://developer.twitter.com/" target="_blank"><strong>Click here</strong></a> here to Retrieve Your API Keys from your Twitter account</p>' +
+                '</div>'
+
+            // add header markup
+            var header = ''
+            var redirectURLDescription = ''
+            if (type === 'pinterest') {
+                header = pinterest
+                redirectURLDescription =
+                    'Copy this and paste it in your Pinterest app redirect uri field.'
+            } else if (type === 'linkedin') {
+                header = linkedin
+                redirectURLDescription =
+                    'Copy this and paste it in your Linkdin app redirect uri field.'
+            } else if (type === 'twitter') {
+                header = twitter
+                redirectURLDescription =
+                    'Copy this and paste it in your Twitter app Callback uri field.'
+            }
+            header +=
+                '<input type="hidden" name="tempmodaltype" value="' +
+                type +
+                '" />'
 
             if ($('#wpscpproTempModalForInsertAccount').length === 0) {
                 jQuery('body').append(
@@ -1122,10 +1149,7 @@ jQuery(document).ready(function ($) {
                         '<div class="modalbody">' +
                         '<form><div class="wpsp-social-account-insert-modal">' +
                         '<div class="wpsp-social-modal-header">' +
-                        (type === 'pinterest' ? pinterest : linkedin) +
-                        '<input type="hidden" name="tempmodaltype" value="' +
-                        type +
-                        '" />' +
+                        header +
                         '<table class="form-table">' +
                         '<tbody>' +
                         '<tr>' +
@@ -1138,9 +1162,9 @@ jQuery(document).ready(function ($) {
                         '<input type="text" class="form-control" name="redirect_uri" value="' +
                         wpscpSocialProfile.redirect_url +
                         '" placeholder="Redirect URI">' +
-                        '<div class="doc">Copy this and paste it in your ' +
-                        (type == 'pinterest' ? 'Pinterest' : 'Linkedin') +
-                        ' app redirect uri field.</div>' +
+                        '<div class="doc">' +
+                        redirectURLDescription +
+                        '</div>' +
                         '</div>' +
                         '</div>' +
                         '</td>' +
