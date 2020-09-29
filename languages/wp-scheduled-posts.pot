@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the WP Scheduled Posts package.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Scheduled Posts 3.3.0\n"
+"Project-Id-Version: WP Scheduled Posts 3.3.1\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/wp-scheduled-posts\n"
-"POT-Creation-Date: 2020-09-20 02:19:58+00:00\n"
+"POT-Creation-Date: 2020-09-29 06:05:57+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -120,12 +120,12 @@ msgstr ""
 #: admin/partials/integrations-settings.php:44
 #: admin/partials/integrations-settings.php:73
 #: admin/partials/integrations-settings.php:83
-#: admin/partials/integrations-settings.php:112
-#: admin/partials/integrations-settings.php:122
-#: admin/partials/integrations-settings.php:160
-#: admin/partials/integrations-settings.php:170
-#: admin/partials/integrations-settings.php:201
-#: admin/partials/integrations-settings.php:207
+#: admin/partials/integrations-settings.php:114
+#: admin/partials/integrations-settings.php:124
+#: admin/partials/integrations-settings.php:162
+#: admin/partials/integrations-settings.php:172
+#: admin/partials/integrations-settings.php:203
+#: admin/partials/integrations-settings.php:209
 #: includes/wpscp-functions.php:490 includes/wpscp-functions.php:561
 #: includes/wpscp-functions.php:632 includes/wpscp-functions.php:704
 msgid "icon"
@@ -144,12 +144,12 @@ msgid "Twitter"
 msgstr ""
 
 #: admin/partials/integrations-settings.php:25
-#: admin/partials/integrations-settings.php:125
+#: admin/partials/integrations-settings.php:127
 msgid "LinkedIn"
 msgstr ""
 
 #: admin/partials/integrations-settings.php:33
-#: admin/partials/integrations-settings.php:173
+#: admin/partials/integrations-settings.php:175
 #: includes/integration/instantshare/class-wpscp-instantshare.php:139
 msgid "Pinterest"
 msgstr ""
@@ -162,18 +162,18 @@ msgstr ""
 
 #: admin/partials/integrations-settings.php:48
 #: admin/partials/integrations-settings.php:87
-#: admin/partials/integrations-settings.php:126
-#: admin/partials/integrations-settings.php:174 admin/partials/options.php:327
+#: admin/partials/integrations-settings.php:128
+#: admin/partials/integrations-settings.php:176 admin/partials/options.php:327
 #: admin/partials/social-settings.php:7 admin/partials/social-settings.php:91
 #: admin/partials/social-settings.php:197
-#: admin/partials/social-settings.php:290
+#: admin/partials/social-settings.php:290 includes/wpscp-functions.php:785
 msgid "Doc"
 msgstr ""
 
 #: admin/partials/integrations-settings.php:74
-#: admin/partials/integrations-settings.php:113
-#: admin/partials/integrations-settings.php:161
-#: admin/partials/integrations-settings.php:208
+#: admin/partials/integrations-settings.php:115
+#: admin/partials/integrations-settings.php:163
+#: admin/partials/integrations-settings.php:210
 msgid "Add New Profile"
 msgstr ""
 
@@ -183,28 +183,28 @@ msgid ""
 "configuration, check out this"
 msgstr ""
 
-#: admin/partials/integrations-settings.php:126
+#: admin/partials/integrations-settings.php:128
 msgid ""
 "You can enable/disable LinkedIn social share. For details on LinkedIn "
 "configuration, check out this"
 msgstr ""
 
-#: admin/partials/integrations-settings.php:127
-#: admin/partials/integrations-settings.php:175
+#: admin/partials/integrations-settings.php:129
+#: admin/partials/integrations-settings.php:177
 msgid "Click here"
 msgstr ""
 
-#: admin/partials/integrations-settings.php:127
+#: admin/partials/integrations-settings.php:129
 msgid "to Retrieve Your API Keys from your LinkedIn account"
 msgstr ""
 
-#: admin/partials/integrations-settings.php:174
+#: admin/partials/integrations-settings.php:176
 msgid ""
 "You can enable/disable pinterest social share. For details on pinterest "
 "configuration, check out this"
 msgstr ""
 
-#: admin/partials/integrations-settings.php:175
+#: admin/partials/integrations-settings.php:177
 msgid "to Retrieve Your API Keys from your Pinterest account"
 msgstr ""
 
@@ -886,71 +886,71 @@ msgstr ""
 msgid "Failed, Your app id, app secret and redirect url is not set"
 msgstr ""
 
-#: includes/integration/class-wpscp-social-multi-profile.php:568
+#: includes/integration/class-wpscp-social-multi-profile.php:578
 msgid "Invailed Nonce"
 msgstr ""
 
-#: includes/integration/class-wpscp-social-multi-profile.php:590
+#: includes/integration/class-wpscp-social-multi-profile.php:600
 msgid "Facebook Integration Activated"
 msgstr ""
 
-#: includes/integration/class-wpscp-social-multi-profile.php:592
+#: includes/integration/class-wpscp-social-multi-profile.php:602
 msgid "Facebook Integration Deactivated"
 msgstr ""
 
-#: includes/integration/class-wpscp-social-multi-profile.php:596
+#: includes/integration/class-wpscp-social-multi-profile.php:606
 msgid "Twitter Integration Activated"
 msgstr ""
 
-#: includes/integration/class-wpscp-social-multi-profile.php:598
+#: includes/integration/class-wpscp-social-multi-profile.php:608
 msgid "Twitter Integration Deactivated"
 msgstr ""
 
-#: includes/integration/class-wpscp-social-multi-profile.php:602
+#: includes/integration/class-wpscp-social-multi-profile.php:612
 msgid "Linkedin Integration Activated"
 msgstr ""
 
-#: includes/integration/class-wpscp-social-multi-profile.php:604
+#: includes/integration/class-wpscp-social-multi-profile.php:614
 msgid "Linkedin Integration Deactivated"
 msgstr ""
 
-#: includes/integration/class-wpscp-social-multi-profile.php:608
+#: includes/integration/class-wpscp-social-multi-profile.php:618
 msgid "Pinterest Integration Activated"
 msgstr ""
 
-#: includes/integration/class-wpscp-social-multi-profile.php:610
+#: includes/integration/class-wpscp-social-multi-profile.php:620
 msgid "Pinterest Integration Deactivated"
 msgstr ""
 
-#: includes/integration/class-wpscp-social-multi-profile.php:639
+#: includes/integration/class-wpscp-social-multi-profile.php:649
 msgid "Facebook Social Share is Activated"
 msgstr ""
 
-#: includes/integration/class-wpscp-social-multi-profile.php:641
+#: includes/integration/class-wpscp-social-multi-profile.php:651
 msgid "Facebook Social Share is Deactivated"
 msgstr ""
 
-#: includes/integration/class-wpscp-social-multi-profile.php:645
+#: includes/integration/class-wpscp-social-multi-profile.php:655
 msgid "Twitter Social Share is Activated"
 msgstr ""
 
-#: includes/integration/class-wpscp-social-multi-profile.php:647
+#: includes/integration/class-wpscp-social-multi-profile.php:657
 msgid "Twitter Social Share is Deactivated"
 msgstr ""
 
-#: includes/integration/class-wpscp-social-multi-profile.php:651
+#: includes/integration/class-wpscp-social-multi-profile.php:661
 msgid "Linkedin Social Share is Activated"
 msgstr ""
 
-#: includes/integration/class-wpscp-social-multi-profile.php:653
+#: includes/integration/class-wpscp-social-multi-profile.php:663
 msgid "Linkedin Social Share is Deactivated"
 msgstr ""
 
-#: includes/integration/class-wpscp-social-multi-profile.php:657
+#: includes/integration/class-wpscp-social-multi-profile.php:667
 msgid "Pinterest Social Share is Activated"
 msgstr ""
 
-#: includes/integration/class-wpscp-social-multi-profile.php:659
+#: includes/integration/class-wpscp-social-multi-profile.php:669
 msgid "Pinterest Social Share is Deactivated"
 msgstr ""
 
@@ -1031,6 +1031,12 @@ msgstr ""
 
 #: includes/wpscp-functions.php:725
 msgid "Default Board: "
+msgstr ""
+
+#: includes/wpscp-functions.php:785
+msgid ""
+"Recommended: Due to Twitter Rules, make sure to create your own Twitter App "
+"to use this feature. For more info, check out this "
 msgstr ""
 
 #. Description of the plugin/theme

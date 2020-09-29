@@ -45,7 +45,7 @@
 				</div>
 				<div class="entry-content">
 					<h3><?php _e('Facebook', 'wp-scheduled-posts-pro'); ?></h3>
-					<p><?php _e('You can enable/disable facebook social share. For details on facebook configuration, check out this', 'wp-scheduled-posts-pro'); ?> <a class="docs" href="https://wpdeveloper.net/docs/share-scheduled-posts-facebook/"" target=" _blank"><?php esc_html_e('Doc', 'wp-schedule-posts-pro'); ?></a></p>
+					<p><?php _e('You can enable/disable facebook social share. For details on facebook configuration, check out this', 'wp-scheduled-posts-pro'); ?> <a class="docs" href="https://wpdeveloper.net/docs/share-scheduled-posts-facebook/"" target=" _blank"><?php esc_html_e('Doc', 'wp-schedule-posts'); ?></a></p>
 				</div>
 				<div class="entry-control">
 					<div class="checkbox-toggle">
@@ -84,7 +84,7 @@
 				</div>
 				<div class="entry-content">
 					<h3><?php _e('Twitter', 'wp-scheduled-posts-pro'); ?></h3>
-					<p><?php _e('You can enable/disable twitter social share. For details on twitter configuration, check out this', 'wp-scheduled-posts-pro'); ?> <a class="docs" href="https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/" target="_blank"><?php esc_html_e('Doc', 'wp-schedule-posts-pro'); ?></a></p>
+					<p><?php _e('You can enable/disable twitter social share. For details on twitter configuration, check out this', 'wp-scheduled-posts-pro'); ?> <a class="docs" href="https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/" target="_blank"><?php esc_html_e('Doc', 'wp-schedule-posts'); ?></a></p>
 				</div>
 				<div class="entry-control">
 					<div class="checkbox-toggle">
@@ -102,6 +102,7 @@
 			</div>
 			<div class="wpscp-social-tab__item-list">
 				<?php
+				do_action('wpscp_social_profile_twitter_notice');
 				do_action('wpscp_social_profile_template_list_view',  array(
 					'social_profile'	=> 'twitter',
 					'status'			=> $twitterStatus
@@ -124,8 +125,8 @@
 				</div>
 				<div class="entry-content">
 					<h3><?php _e('LinkedIn', 'wp-scheduled-posts-pro'); ?></h3>
-					<p><?php _e('You can enable/disable LinkedIn social share. For details on LinkedIn configuration, check out this', 'wp-scheduled-posts-pro'); ?> <a class="docs" href="https://wpdeveloper.net/docs/share-wordpress-posts-on-linkedin/" target="_blank"><?php esc_html_e('Doc', 'wp-schedule-posts-pro'); ?></a></p>
-					<p class="docinfo"><a href="https://www.linkedin.com/developers/" target="_blank"><strong><?php esc_html_e('Click here', 'wp-schedule-posts-pro'); ?></strong></a> <?php esc_html_e('to Retrieve Your API Keys from your LinkedIn account', 'wp-schedule-posts-pro'); ?></p>
+					<p><?php _e('You can enable/disable LinkedIn social share. For details on LinkedIn configuration, check out this', 'wp-scheduled-posts-pro'); ?> <a class="docs" href="https://wpdeveloper.net/docs/share-wordpress-posts-on-linkedin/" target="_blank"><?php esc_html_e('Doc', 'wp-schedule-posts'); ?></a></p>
+					<p class="docinfo"><a href="https://www.linkedin.com/developers/" target="_blank"><strong><?php esc_html_e('Click here', 'wp-schedule-posts'); ?></strong></a> <?php esc_html_e('to Retrieve Your API Keys from your LinkedIn account', 'wp-schedule-posts'); ?></p>
 				</div>
 				<div class="entry-control">
 					<div class="checkbox-toggle">
@@ -172,8 +173,8 @@
 				</div>
 				<div class="entry-content">
 					<h3><?php _e('Pinterest', 'wp-scheduled-posts-pro'); ?></h3>
-					<p><?php _e('You can enable/disable pinterest social share. For details on pinterest configuration, check out this', 'wp-scheduled-posts-pro'); ?> <a class="docs" href="https://wpdeveloper.net/docs/wordpress-posts-on-pinterest/" target="_blank"><?php esc_html_e('Doc', 'wp-schedule-posts-pro'); ?></a></p>
-					<p class="docinfo"><a href="https://developers.pinterest.com/" target="_blank"><strong><?php esc_html_e('Click here', 'wp-schedule-posts-pro'); ?></strong></a> <?php esc_html_e('to Retrieve Your API Keys from your Pinterest account', 'wp-schedule-posts-pro'); ?></p>
+					<p><?php _e('You can enable/disable pinterest social share. For details on pinterest configuration, check out this', 'wp-scheduled-posts-pro'); ?> <a class="docs" href="https://wpdeveloper.net/docs/wordpress-posts-on-pinterest/" target="_blank"><?php esc_html_e('Doc', 'wp-schedule-posts'); ?></a></p>
+					<p class="docinfo"><a href="https://developers.pinterest.com/" target="_blank"><strong><?php esc_html_e('Click here', 'wp-schedule-posts'); ?></strong></a> <?php esc_html_e('to Retrieve Your API Keys from your Pinterest account', 'wp-schedule-posts'); ?></p>
 				</div>
 				<div class="entry-control">
 					<div class="checkbox-toggle">

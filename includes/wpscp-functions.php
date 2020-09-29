@@ -750,8 +750,41 @@ function wpscp_social_profile_pinterest_template_markup($arg)
 					</div>
 				</div>
 			</div>
-<?php
+		<?php
 
+		}
+	}
+}
+
+
+/**
+ * Social Profile Twitter error message
+ * @since 3.3.2
+ */
+add_action('wp_ajax_wpscp_twitter_app_notice', 'wpscp_twitter_app_notice_ajax_callback');
+if (!function_exists('wpscp_twitter_app_notice_ajax_callback')) {
+	function wpscp_twitter_app_notice_ajax_callback()
+	{
+		set_transient('wpscp_twitter_app_notice_is_disable', true);
+		wp_die(); // this is required to terminate immediately and return a proper response
+	}
+}
+
+add_action('wpscp_social_profile_twitter_notice', 'wpscp_social_profile_twitter_notice_callback');
+if (!function_exists('wpscp_social_profile_twitter_notice_callback')) {
+	function wpscp_social_profile_twitter_notice_callback()
+	{
+		$twitterSocialProfile = get_option(WPSCP_TWITTER_OPTION_NAME);
+		if (
+			is_array($twitterSocialProfile)  &&
+			count($twitterSocialProfile) > 0 &&
+			boolval(get_transient('wpscp_twitter_app_notice_is_disable')) !== true
+		) {
+		?>
+			<div class="notice notice-error is-dismissible wpscp-twitter-app-notice">
+				<p><?php esc_html_e('Recommended: Due to Twitter Rules, make sure to create your own Twitter App to use this feature. For more info, check out this ', 'wp-schedule-posts'); ?><a class="docs" href="https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/" target="_blank"><?php esc_html_e('Doc', 'wp-schedule-posts'); ?></a></p>
+			</div>
+<?php
 		}
 	}
 }

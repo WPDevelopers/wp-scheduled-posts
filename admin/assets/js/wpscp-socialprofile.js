@@ -1256,5 +1256,24 @@ jQuery(document).ready(function ($) {
         }
     )
 
+    /**
+     * Twitter Notice for temp
+     * @since 3.3.2
+     */
+    jQuery('.wpscp-twitter-app-notice .notice-dismiss').on(
+        'click',
+        function () {
+            var data = {
+                action: 'wpscp_twitter_app_notice',
+                whatever: 1234,
+            }
+
+            // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
+            jQuery.post(ajaxurl, data, function (response) {
+                console.log(response)
+            })
+        }
+    )
+
     /** Temp code end */
 })
