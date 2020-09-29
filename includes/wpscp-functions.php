@@ -782,7 +782,7 @@ if (!function_exists('wpscp_social_profile_twitter_notice_callback')) {
 		) {
 		?>
 			<div class="notice notice-error is-dismissible wpscp-twitter-app-notice">
-				<p><?php esc_html_e('Recommended: Due to Twitter Rules, make sure to create your own Twitter App to use this feature. For more info, check out this ', 'wp-schedule-posts'); ?><a class="docs" href="https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/" target="_blank"><?php esc_html_e('Doc', 'wp-schedule-posts'); ?></a></p>
+				<p><strong><?php esc_html_e('Recommended:', 'wp-schedule-posts'); ?></strong><?php esc_html_e(' Due to Twitter Rules, make sure to create your own Twitter App to use this feature. For more info, check out this ', 'wp-schedule-posts'); ?><a class="docs" href="https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/" target="_blank"><?php esc_html_e('Doc', 'wp-schedule-posts'); ?></a></p>
 			</div>
 <?php
 		}

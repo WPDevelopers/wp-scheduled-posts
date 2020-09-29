@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: WP Scheduled Posts 3.3.1\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/wp-scheduled-posts\n"
-"POT-Creation-Date: 2020-09-29 06:05:57+00:00\n"
+"POT-Creation-Date: 2020-09-29 06:57:32+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1034,9 +1034,13 @@ msgid "Default Board: "
 msgstr ""
 
 #: includes/wpscp-functions.php:785
+msgid "Recommended:"
+msgstr ""
+
+#: includes/wpscp-functions.php:785
 msgid ""
-"Recommended: Due to Twitter Rules, make sure to create your own Twitter App "
-"to use this feature. For more info, check out this "
+" Due to Twitter Rules, make sure to create your own Twitter App to use this "
+"feature. For more info, check out this "
 msgstr ""
 
 #. Description of the plugin/theme
