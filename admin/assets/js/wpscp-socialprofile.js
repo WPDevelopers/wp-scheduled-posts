@@ -874,7 +874,9 @@ jQuery(document).ready(function ($) {
                     ).length > 1
                 ) {
                     this.checked = false
-                    wpscpUpgradeAlert()
+                    wpscpUpgradeAlert(
+                        'Multi Profile is a Premium Feature. To use this feature'
+                    )
                 }
             })
         }
@@ -1242,7 +1244,7 @@ jQuery(document).ready(function ($) {
                         open(response.data, '_self')
                     } else {
                         jQuery('.jquery-modal').hide()
-                        wpscpUpgradeAlert()
+                        wpscpUpgradeAlert(response.data)
                     }
                 })
             } else {
