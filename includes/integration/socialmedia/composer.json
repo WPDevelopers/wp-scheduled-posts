@@ -1,8 +1,0 @@
-{
-    "require": {
-        "abraham/twitteroauth": "^1.1",
-        "facebook/graph-sdk": "^5.7",
-        "aymericdev/linkedin-sdk-php": "^1.0",
-        "dirkgroenen/pinterest-api-php": "^0.2.12"
-    }
-}

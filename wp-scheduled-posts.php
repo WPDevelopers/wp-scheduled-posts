@@ -10,84 +10,121 @@
 
 if (!defined('ABSPATH')) exit;
 
-/**
- * Defines CONSTANTS for Whole plugins.
- */
-define('WPSP_VERSION', '3.3.1');
-define('WPSP_PLUGIN_FILE', __FILE__);
-define('WPSP_PLUGIN_BASENAME', plugin_basename(__FILE__));
-define('WPSCP_PLUGIN_SLUG', 'wp-scheduled-posts');
-define('WPSCP_ROOT_PLUGIN_URL', plugins_url("/", __FILE__));
-define('pluginsFOLDER', plugin_basename(dirname(__FILE__)));
-define('WPSCP_ADMIN_URL', WPSCP_ROOT_PLUGIN_URL . 'admin/');
-define('WPSCP_ROOT_DIR_PATH', plugin_dir_path(__FILE__));
-define('WPSCP_INCLUDES_DIR_PATH', WPSCP_ROOT_DIR_PATH . 'includes/');
-define('WPSCP_ADMIN_DIR_PATH', WPSCP_ROOT_DIR_PATH . 'admin/');
-
-/**
- * The code that runs during plugin activation.
- * This action is documented in includes/class-wpscp-activator.php
- * @since 3.0.0
- */
-function activate_wpscp()
-{
-	require_once WPSCP_ROOT_DIR_PATH . 'includes/class-wpscp-activator.php';
-	WpScp_Activator::activate();
+if (file_exists(dirname(__FILE__) . '/vendor/autoload.php')) {
+	require_once dirname(__FILE__) . '/vendor/autoload.php';
 }
-register_activation_hook(__FILE__, 'activate_wpscp');
 
-/**
- * The code that runs during plugin deactivation.
- * This action is documented in includes/class-wpscp-deactivator.php
- * @since 3.0.0
- */
-function deactivate_wpscp()
+
+final class WPSP
 {
-	require_once WPSCP_ROOT_DIR_PATH . 'includes/class-wpscp-deactivator.php';
-	WpScp_Deactivator::deactivate();
-}
-register_deactivation_hook(__FILE__, 'deactivate_wpscp');
+	private function __construct()
+	{
+		$this->define_constants();
 
+		register_activation_hook(__FILE__, [$this, 'activate']);
 
+		add_action('plugins_loaded', [$this, 'init_plugin']);
+		add_action('admin_init', [$this, 'redirect_to_quick_setup']);
+		add_action('init', [$this, 'load_calendar']);
+	}
 
-/**
- * Plugin Redirection After Active
- * @since 3.0.0
- */
-function wpscp_lite_plugin_activate()
-{
-	add_option('wpscp_do_activation_redirect', true);
-}
-register_activation_hook(__FILE__, 'wpscp_lite_plugin_activate');
+	public static function init()
+	{
+		static $instance = false;
 
-function wpscp_lite_plugin_redirect()
-{
-	if (get_option('wpscp_do_activation_redirect', false)) {
-		delete_option('wpscp_do_activation_redirect');
-		wp_redirect("admin.php?page=wpscp-quick-setup-wizard");
+		if (!$instance) {
+			$instance = new self();
+		}
+
+		return $instance;
+	}
+	public function define_constants()
+	{
+		/**
+		 * Defines CONSTANTS for Whole plugins.
+		 */
+		define('WPSP_VERSION', '3.3.1');
+		define('WPSP_PLUGIN_FILE', __FILE__);
+		define('WPSP_PLUGIN_BASENAME', plugin_basename(__FILE__));
+		define('WPSP_PLUGIN_SLUG', 'wp-scheduled-posts');
+		define('WPSP_PLUGIN_ROOT_URI', plugins_url("/", __FILE__));
+		define('WPSP_PLUGIN_ROOT_PATH', plugin_basename(dirname(__FILE__)));
+		define('WPSP_ADMIN_URL', WPSP_PLUGIN_ROOT_URI . 'inludes/Admin/');
+		define('WPSP_ROOT_DIR_PATH', plugin_dir_path(__FILE__));
+		define('WPSP_INCLUDES_DIR_PATH', WPSP_ROOT_DIR_PATH . 'includes/');
+		define('WPSP_VIEW_DIR_PATH', WPSP_ROOT_DIR_PATH . 'view/');
+		define('WPSP_ASSETS_DIR_PATH', WPSP_ROOT_DIR_PATH . 'assets/');
+		define('WPSP_ASSETS_URI', WPSP_PLUGIN_ROOT_URI . 'assets/');
+		// Midleware
+		define('WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE', 'https://api.schedulepress.com/callback.php');
+	}
+
+	/**
+	 * Initialize the plugin
+	 *
+	 * @return void
+	 */
+	public function init_plugin()
+	{
+		$this->set_global_settings_option();
+		new WPSP\Assets();
+
+		if (is_admin()) {
+			new WPSP\Admin();
+			new WPSP\Social();
+		}
+		$this->load_textdomain();
+	}
+
+	public function load_textdomain()
+	{
+
+		load_plugin_textdomain(
+			'wp-scheduled-posts',
+			false,
+			dirname(dirname(plugin_basename(__FILE__))) . '/languages/'
+		);
+	}
+
+	public function set_global_settings_option()
+	{
+		$GLOBALS['wpscp_options'] = get_option('wpscp_options');
+	}
+
+	/**
+	 * Do stuff upon plugin activation
+	 *
+	 * @return void
+	 */
+	public function activate()
+	{
+		$installer = new WPSP\Installer();
+		$installer->run();
+		add_option('wpscp_do_activation_redirect', true);
+	}
+
+	public function redirect_to_quick_setup()
+	{
+		if (get_option('wpscp_do_activation_redirect', false)) {
+			delete_option('wpscp_do_activation_redirect');
+			wp_redirect("admin.php?page=wpscp-quick-setup-wizard");
+		}
+	}
+	public function load_calendar()
+	{
+		new WPSP\Admin\Calendar();
 	}
 }
-add_action('admin_init', 'wpscp_lite_plugin_redirect');
 
 /**
- * The core plugin class that is used to define internationalization,
- * admin-specific hooks, and public-facing site hooks.
- * @since 3.0.0
- */
-require_once WPSCP_ROOT_DIR_PATH . 'includes/class-wpscp.php';
-
-/**
- * Begins execution of the plugin.
+ * Initializes the main plugin
  *
- * Since everything within the plugin is registered via hooks,
- * then kicking off the plugin from this point in the file does
- * not affect the page life cycle.
- *
- * @since    3.0.0
+ * @return \WPSP
  */
-function run_WpScp()
+function WPSP_Start()
 {
-	$plugin = new WpScp();
-	$plugin->run();
+	return WPSP::init();
 }
-run_WpScp();
+
+// Plugin Start
+WPSP_Start();
