@@ -2,7 +2,7 @@
 /*
  * Plugin Name: WP Scheduled Posts
  * Description: A complete solution for WordPress Post Schedule. Manage schedule through editorial calendar and enable auto scheduler. Also handles auto social share in Facebook, Twitter, linkedIn, Pinterest & Instagram. Get an admin Bar & Dashboard Widget showing all your scheduled posts.
- * Version: 3.3.1
+ * Version: 3.3.2
  * Author: WPDeveloper
  * Author URI: https://wpdeveloper.net
  * Text Domain: wp-scheduled-posts
@@ -52,7 +52,7 @@ final class WPSP
 		define('WPSP_ADMIN_URL', WPSP_PLUGIN_ROOT_URI . 'inludes/Admin/');
 		define('WPSP_ROOT_DIR_PATH', plugin_dir_path(__FILE__));
 		define('WPSP_INCLUDES_DIR_PATH', WPSP_ROOT_DIR_PATH . 'includes/');
-		define('WPSP_VIEW_DIR_PATH', WPSP_ROOT_DIR_PATH . 'view/');
+		define('WPSP_VIEW_DIR_PATH', WPSP_ROOT_DIR_PATH . 'views/');
 		define('WPSP_ASSETS_DIR_PATH', WPSP_ROOT_DIR_PATH . 'assets/');
 		define('WPSP_ASSETS_URI', WPSP_PLUGIN_ROOT_URI . 'assets/');
 		// Midleware
@@ -100,13 +100,13 @@ final class WPSP
 	{
 		$installer = new WPSP\Installer();
 		$installer->run();
-		add_option('wpscp_do_activation_redirect', true);
+		add_option('wpsp_do_activation_redirect', true);
 	}
 
 	public function redirect_to_quick_setup()
 	{
-		if (get_option('wpscp_do_activation_redirect', false)) {
-			delete_option('wpscp_do_activation_redirect');
+		if (get_option('wpsp_do_activation_redirect', false)) {
+			delete_option('wpsp_do_activation_redirect');
 			wp_redirect("admin.php?page=wpscp-quick-setup-wizard");
 		}
 	}

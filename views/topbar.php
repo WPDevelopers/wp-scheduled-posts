@@ -35,9 +35,7 @@
 		<li data-tab="wpsp_integ"><a href="#wpsp_integ"><?php _e('Social Profile', 'wp-scheduled-posts'); ?></a></li>
 		<li data-tab="wpsp_social_templates"><a href="#wpsp_social_templates"><?php _e('Social Templates', 'wp-scheduled-posts'); ?></a></li>
 		<?php
-		if (class_exists('WpScp_Pro')) {
-			do_action('wpsp_pro_topbar_menu');
-		}
+		do_action('wpsp_settings_tab_menu');
 		?>
 	</ul>
 </div>

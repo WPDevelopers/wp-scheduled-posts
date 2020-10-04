@@ -14,8 +14,6 @@
     // social templates
     include WPSP_VIEW_DIR_PATH . 'social-settings.php';
     // pro setting will be show here
-    do_action('wpscp_pro_options_settings');
-    //manage schedule template
-    do_action('wpsp_manage_schedule');
+    do_action('wpsp_settings_tab_body');
     ?>
 </div>
