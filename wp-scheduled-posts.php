@@ -26,6 +26,7 @@ final class WPSP
 		add_action('plugins_loaded', [$this, 'init_plugin']);
 		add_action('admin_init', [$this, 'redirect_to_quick_setup']);
 		add_action('init', [$this, 'load_calendar']);
+		$this->load_settings();
 	}
 
 	public static function init()
@@ -49,7 +50,7 @@ final class WPSP
 		define('WPSP_PLUGIN_SLUG', 'wp-scheduled-posts');
 		define('WPSP_PLUGIN_ROOT_URI', plugins_url("/", __FILE__));
 		define('WPSP_PLUGIN_ROOT_PATH', plugin_basename(dirname(__FILE__)));
-		define('WPSP_ADMIN_URL', WPSP_PLUGIN_ROOT_URI . 'inludes/Admin/');
+		define('WPSP_ADMIN_URL', WPSP_PLUGIN_ROOT_URI . 'includes/Admin/');
 		define('WPSP_ROOT_DIR_PATH', plugin_dir_path(__FILE__));
 		define('WPSP_INCLUDES_DIR_PATH', WPSP_ROOT_DIR_PATH . 'includes/');
 		define('WPSP_VIEW_DIR_PATH', WPSP_ROOT_DIR_PATH . 'views/');
@@ -74,6 +75,8 @@ final class WPSP
 			new WPSP\Social();
 		}
 		$this->load_textdomain();
+
+		new WPSP\API();
 	}
 
 	public function load_textdomain()
@@ -100,6 +103,7 @@ final class WPSP
 	{
 		$installer = new WPSP\Installer();
 		$installer->run();
+		WPSP\Admin\Settings\Config::set_default_settings_fields_data();
 		add_option('wpsp_do_activation_redirect', true);
 	}
 
@@ -113,6 +117,10 @@ final class WPSP
 	public function load_calendar()
 	{
 		new WPSP\Admin\Calendar();
+	}
+	public function load_settings()
+	{
+		WPSP\Admin\Settings\Config::build_settings();
 	}
 }
 

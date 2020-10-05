@@ -2,6 +2,8 @@
 
 namespace WPSP;
 
+use WPSP\Admin\Settings\Builder;
+
 class Assets
 {
     public function __construct()
@@ -12,6 +14,8 @@ class Assets
         // adminbar enqueue
         add_action('admin_enqueue_scripts', [$this, 'adminbar_script']);
         add_action('wp_enqueue_scripts', [$this, 'adminbar_script']);
+        // settings enqueue
+        add_action('admin_enqueue_scripts', [$this, 'settings_scripts']);
     }
 
     /**
@@ -104,6 +108,20 @@ class Assets
         }
         // admin notice for all wordpress dashboard
         wp_enqueue_style('wpscp-admin-notice', WPSP_ASSETS_URI . 'css/wpscp-admin-notice.css', array(), filemtime(WPSP_ASSETS_DIR_PATH . 'css/wpscp-admin-notice.css'), 'all');
+    }
+
+    public function settings_scripts($hook)
+    {
+        if ($hook !== 'toplevel_page_' . WPSP_PLUGIN_SLUG) return;
+        // Load admin style sheet and JavaScript
+        wp_enqueue_style(WPSP_PLUGIN_SLUG . '-style', WPSP_ADMIN_URL . 'Settings/assets/css/admin.css', array());
+
+        wp_enqueue_script(WPSP_PLUGIN_SLUG . '-admin-script', WPSP_ADMIN_URL . 'Settings/assets/js/admin.js', array('jquery'));
+        wp_localize_script(WPSP_PLUGIN_SLUG . '-admin-script', 'wpr_object', array(
+            'api_nonce' => wp_create_nonce('wp_rest'),
+            'api_url' => rest_url(WPSP_PLUGIN_SLUG . '/v1/'),
+            'settings' => Builder::load(),
+        ));
     }
 
     /**

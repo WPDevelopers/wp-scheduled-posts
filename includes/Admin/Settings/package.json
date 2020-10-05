@@ -1,0 +1,33 @@
+{
+    "name": "wp-scheduled-posts",
+    "version": "0.0.0",
+    "description": "A complete solution for WordPress Post Schedule",
+    "main": "index.js",
+    "scripts": {
+        "build": "webpack --progress --colors --watch --mode=development",
+        "prod": "webpack --progress --colors --watch -p --config webpack.config.js --mode=production"
+    },
+    "author": "tusharimran",
+    "dependencies": {
+        "@babel/polyfill": "^7.0.0",
+        "formik": "^2.1.4",
+        "isomorphic-fetch": "^2.2.1",
+        "prop-types": "^15.6.2",
+        "react": "^16.5.2",
+        "react-dom": "^16.5.2",
+        "react-tabs": "^3.1.0"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.1.2",
+        "@babel/plugin-proposal-class-properties": "^7.1.0",
+        "@babel/preset-env": "^7.1.0",
+        "@babel/preset-react": "^7.0.0",
+        "babel-eslint": "^10.0.1",
+        "babel-loader": "^8.0.4",
+        "eslint": "^5.6.1",
+        "eslint-plugin-import": "^2.14.0",
+        "eslint-plugin-react": "^7.11.1",
+        "webpack": "^4.20.2",
+        "webpack-cli": "^3.1.2"
+    }
+}

@@ -53,7 +53,7 @@ class Menu
 
     public function load_settings_template()
     {
-        include_once WPSP_VIEW_DIR_PATH . 'settings.php';
+        echo '<div id="wprs-admin-root" class="wprs-admin-root"></div>';
     }
 
 

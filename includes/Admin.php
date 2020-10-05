@@ -39,6 +39,7 @@ class Admin
     {
         Admin\QuickSetup::load();
     }
+
     /**
      * Check Pro version is enabled
      */
