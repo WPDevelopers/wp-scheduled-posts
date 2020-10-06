@@ -9,7 +9,7 @@ class Config
     /**
      * Main Option Name
      */
-    private static $settings_name = 'wpsp_settings';
+    private static $settings_name = WPSP_SETTINGS_NAME;
 
     /**
      * settings fields array

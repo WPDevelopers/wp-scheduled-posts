@@ -27,7 +27,7 @@ class Settings
      */
     private function __construct()
     {
-        $this->settings_name = 'wprs_setting';
+        $this->settings_name = WPSP_SETTINGS_NAME;
         $this->do_hooks();
     }
 
@@ -65,13 +65,13 @@ class Settings
     public function register_routes()
     {
         $namespace = WPSP_PLUGIN_SLUG . '/v1';
-        $endpoint = apply_filters('wprs_rest_endpoint', '/wprs/');
+        $endpoint = apply_filters('wpsp_rest_endpoint', '/settings/');
 
         register_rest_route($namespace, $endpoint, array(
             array(
                 'methods'               => \WP_REST_Server::READABLE,
                 'callback'              => array($this, 'get_value'),
-                'permission_callback'   => array($this, 'wprs_permissions_check'),
+                'permission_callback'   => array($this, 'wpsp_permissions_check'),
                 'args'                  => array(),
             ),
         ));
@@ -80,7 +80,7 @@ class Settings
             array(
                 'methods'               => \WP_REST_Server::CREATABLE,
                 'callback'              => array($this, 'update_value'),
-                'permission_callback'   => array($this, 'wprs_permissions_check'),
+                'permission_callback'   => array($this, 'wpsp_permissions_check'),
                 'args'                  => array(),
             ),
         ));
@@ -89,7 +89,7 @@ class Settings
             array(
                 'methods'               => \WP_REST_Server::EDITABLE,
                 'callback'              => array($this, 'update_value'),
-                'permission_callback'   => array($this, 'wprs_permissions_check'),
+                'permission_callback'   => array($this, 'wpsp_permissions_check'),
                 'args'                  => array(),
             ),
         ));
@@ -98,24 +98,24 @@ class Settings
             array(
                 'methods'               => \WP_REST_Server::DELETABLE,
                 'callback'              => array($this, 'delete_value'),
-                'permission_callback'   => array($this, 'wprs_permissions_check'),
+                'permission_callback'   => array($this, 'wpsp_permissions_check'),
                 'args'                  => array(),
             ),
         ));
     }
 
     /**
-     * Get wprs
+     * Get wpsp
      *
      * @param WP_REST_Request $request Full data about the request.
      * @return WP_Error|WP_REST_Request
      */
     public function get_value($request)
     {
-        $wprs_option = get_option($this->settings_name);
+        $wpsp_option = get_option($this->settings_name);
 
         // Don't return false if there is no option
-        if (!$wprs_option) {
+        if (!$wpsp_option) {
             return new \WP_REST_Response(array(
                 'success' => true,
                 'value' => ''
@@ -124,12 +124,12 @@ class Settings
 
         return new \WP_REST_Response(array(
             'success' => true,
-            'value' => $wprs_option
+            'value' => $wpsp_option
         ), 200);
     }
 
     /**
-     * Create OR Update wprs
+     * Create OR Update wpsp
      *
      * @param WP_REST_Request $request Full data about the request.
      * @return WP_Error|WP_REST_Request
@@ -145,7 +145,7 @@ class Settings
     }
 
     /**
-     * Delete wprs
+     * Delete wpsp
      *
      * @param WP_REST_Request $request Full data about the request.
      * @return WP_Error|WP_REST_Request
@@ -166,7 +166,7 @@ class Settings
      * @param WP_REST_Request $request Full data about the request.
      * @return WP_Error|bool
      */
-    public function wprs_permissions_check($request)
+    public function wpsp_permissions_check($request)
     {
         return current_user_can('manage_options');
     }

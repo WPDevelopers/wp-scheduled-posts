@@ -1,9 +1,15 @@
 import React from 'react'
 import Setting from './Settings'
-const Admin = ({ wpObject }) => {
+import Topbar from '../components/Topbar'
+const Admin = ({ wpspObject }) => {
     return (
         <div className='wrap'>
-            <Setting wpObject={wpObject} />
+            <Topbar
+                pluginRootUri={wpspObject.plugin_root_uri}
+                freeVersion={wpspObject.free_version}
+                proVersion={wpspObject.pro_version}
+            />
+            <Setting wpspObject={wpspObject} />
         </div>
     )
 }

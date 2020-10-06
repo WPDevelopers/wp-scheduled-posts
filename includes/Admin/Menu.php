@@ -53,7 +53,7 @@ class Menu
 
     public function load_settings_template()
     {
-        echo '<div id="wprs-admin-root" class="wprs-admin-root"></div>';
+        echo '<div id="wpsp-dashboard-body" class="wpsp-dashboard-body"></div>';
     }
 
 

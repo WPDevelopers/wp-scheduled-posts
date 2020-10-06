@@ -116,11 +116,15 @@ class Assets
         // Load admin style sheet and JavaScript
         wp_enqueue_style(WPSP_PLUGIN_SLUG . '-style', WPSP_ADMIN_URL . 'Settings/assets/css/admin.css', array());
 
-        wp_enqueue_script(WPSP_PLUGIN_SLUG . '-admin-script', WPSP_ADMIN_URL . 'Settings/assets/js/admin.js', array('jquery'));
-        wp_localize_script(WPSP_PLUGIN_SLUG . '-admin-script', 'wpr_object', array(
+        wp_enqueue_script(WPSP_PLUGIN_SLUG . '-admin-script', WPSP_ADMIN_URL . 'Settings/assets/js/admin.js', array('wp-i18n'));
+        wp_localize_script(WPSP_PLUGIN_SLUG . '-admin-script', 'wpspSettingsGlobal', array(
             'api_nonce' => wp_create_nonce('wp_rest'),
             'api_url' => rest_url(WPSP_PLUGIN_SLUG . '/v1/'),
             'settings' => Builder::load(),
+            'plugin_root_uri' => WPSP_PLUGIN_ROOT_URI,
+            'plugin_root_path' => WPSP_ROOT_DIR_PATH,
+            'free_version'     => WPSP_VERSION,
+            'pro_version'      => (defined('WPSP_PRO_VERSION') ? WPSP_PRO_VERSION : '')
         ));
     }
 

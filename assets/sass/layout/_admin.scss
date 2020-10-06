@@ -1,6 +1,124 @@
 /* PRO Settings Page CSS */
 .wpsp-dashboard-body {
     position: relative;
+    // switch
+    .wpsp_switch {
+        position: relative;
+        display: inline-block;
+        width: 40px;
+        height: 21px;
+        margin-right: 10px;
+        input {
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            z-index: 1000;
+            top: 3px;
+            left: 0px;
+            border-radius: none !important;
+        }
+        .wpsp_switch_slider {
+            position: absolute;
+            border-radius: 20px;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: 0.4s;
+            transition: 0.4s;
+            &::before {
+                position: absolute;
+                border-radius: 50%;
+                content: '';
+                height: 15px;
+                width: 15px;
+                bottom: 3px;
+                left: 5px;
+                background-color: white;
+                -webkit-transition: 0.4s;
+                transition: 0.4s;
+                transform: translateX(0px);
+            }
+        }
+    }
+    input:checked + .wpsp_switch_slider {
+        background-color: #2196f3;
+    }
+
+    input:focus + .wpsp_switch_slider {
+        box-shadow: 0 0 1px #2196f3;
+    }
+
+    input:checked + .wpsp_switch_slider:before {
+        -webkit-transform: translateX(15px);
+        -ms-transform: translateX(15px);
+        transform: translateX(15px);
+        left: 5px;
+    }
+    // tabs
+    .react-tabs {
+        // tabs - menu
+        ul.react-tabs__tab-list {
+            border-radius: 5px;
+            border-bottom: 0;
+            margin: 0;
+            li {
+                border: none;
+                padding: 15px 20px;
+                background: #fff;
+                color: #405068;
+                cursor: pointer;
+                font-size: 15px;
+                outline: none;
+                text-decoration: none;
+                outline: none;
+                &.react-tabs__tab--selected {
+                    background: #6c62ff;
+                    color: #fff;
+                    outline: none;
+                }
+            }
+        }
+        //  tabs - body
+        .react-tabs__tab-panel {
+            padding: 25px 0;
+            .form-group {
+                width: 30%;
+                display: flex;
+                color: #687b95;
+                font-size: 14px;
+                background: #fff;
+                margin-bottom: 12px;
+                font-weight: 500;
+                > div {
+                    flex: 1 1 auto;
+                    padding: 15px 15px 10px 15px;
+                    align-items: center;
+                }
+                .form-body {
+                    text-align: right;
+                }
+            }
+        }
+    }
+    .btn-submit {
+        background: #6c62ff;
+        color: #fff;
+        font-size: 15px;
+        padding: 10px 25px;
+        font-weight: 500;
+        border: none;
+        border-radius: 5px;
+        text-transform: capitalize;
+        cursor: pointer;
+        box-shadow: none;
+        &:focus {
+            outline: none;
+        }
+    }
 }
 .wpsp-dashboard-body .wpsp_calendar_loader,
 .wpsp-dashboard-body .wpsp_loader {
@@ -1663,50 +1781,6 @@
     margin-bottom: 30px;
 }
 
-/* nav-tab css start */
-.wpsp_top_nav_link_wrapper ul {
-    margin: 10px 0;
-    padding: 0;
-    overflow: hidden;
-    border-radius: 5px;
-    width: auto;
-    display: inline-block;
-    margin-bottom: 0;
-}
-.wpsp_top_nav_link_wrapper ul li {
-    margin: 0;
-    float: left;
-}
-.wpsp_top_nav_link_wrapper ul li a {
-    border: none;
-    padding: 15px 20px;
-    background: #fff;
-    color: #405068;
-    cursor: pointer;
-    font-size: 15px;
-    outline: none;
-    text-decoration: none;
-    display: block;
-    outline: none;
-}
-.wpsp_top_nav_link_wrapper ul li a:focus {
-    box-shadow: none;
-}
-.wpsp_top_nav_link_wrapper ul li a.wpsp_top_nav_tab_active {
-    background: #6c62ff;
-    color: #fff;
-    outline: none;
-}
-.wpsp_nav_tab_content {
-    display: none;
-    padding: 25px 0;
-}
-.wpsp_top_nav_tab_active,
-.wpsp_nav_tab_content_active {
-    display: block;
-}
-/* nav-tab css end */
-
 /* option page css start */
 .wpsp-options-wrap {
     form {
@@ -1809,74 +1883,6 @@
 .wpsp_option_chek_row label,
 .wpsp_show_pub_im_btn label {
     margin-left: 10px;
-}
-
-.wpsp_switch {
-    position: relative;
-    display: inline-block;
-    width: 40px;
-    height: 21px;
-    margin-right: 10px;
-}
-.wpsp-options-email-notify .email-wrap .wpsp_switch input,
-.wpsp-options-wrap .wpsp_switch input {
-    opacity: 0;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    z-index: 1000;
-    top: 3px;
-    left: 0px;
-    border-radius: none !important;
-}
-
-.wpsp_switch_slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    -webkit-transition: 0.4s;
-    transition: 0.4s;
-}
-
-.wpsp_switch_slider:before {
-    position: absolute;
-    content: '';
-    height: 15px;
-    width: 15px;
-    bottom: 3px;
-    left: 5px;
-    background-color: white;
-    -webkit-transition: 0.4s;
-    transition: 0.4s;
-    transform: translateX(0px);
-}
-
-.wpsp-dashboard-body input:checked + .wpsp_switch_slider {
-    background-color: #2196f3;
-}
-
-.wpsp-dashboard-body input:focus + .wpsp_switch_slider {
-    box-shadow: 0 0 1px #2196f3;
-}
-
-.wpsp-dashboard-body input:checked + .wpsp_switch_slider:before {
-    -webkit-transform: translateX(15px);
-    -ms-transform: translateX(15px);
-    transform: translateX(15px);
-    left: 5px;
-}
-
-/* Rounded wpsp_switch_sliders */
-.wpsp_switch_slider.wpsp_round {
-    border-radius: 20px;
-}
-
-.wpsp_switch_slider.wpsp_round:before {
-    border-radius: 50%;
 }
 
 .wpsp-options-wrap select {
@@ -2274,16 +2280,7 @@
 .wpsp-integ-content form table td {
     padding: 10px;
 }
-.wpsp_form_submit {
-    background: #6c62ff;
-    color: #fff;
-    font-size: 15px;
-    padding: 10px 25px;
-    border: none;
-    border-radius: 5px;
-    text-transform: capitalize;
-    cursor: pointer;
-}
+
 .wpsp_form_group label {
     width: 35%;
     font-size: 15px;
