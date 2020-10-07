@@ -46,6 +46,39 @@ class Config
             'title' => __('Show Scheduled Posts in Admin Bar', 'wp-scheduled-posts'),
             'default' => true,
         ]);
+        Builder::add_field('wpsp_general', [
+            'id' => 'allow_post_types',
+            'type' => 'select',
+            'title' => __('Show Post Types:', 'wp-scheduled-posts'),
+            'default' => 'post',
+            'options' => \WPSP\Helper::get_all_post_type(),
+        ]);
+        Builder::add_field('wpsp_general', [
+            'id' => 'allow_categories',
+            'type' => 'select',
+            'title' => __('Show Categories:', 'wp-scheduled-posts'),
+            'default' => 'all',
+            'options' => \WPSP\Helper::get_all_category(),
+        ]);
+        Builder::add_field('wpsp_general', [
+            'id' => 'allow_user_by_role',
+            'type' => 'select',
+            'title' => __('Allow users:', 'wp-scheduled-posts'),
+            'default' => 'administrator',
+            'options' => \WPSP\Helper::get_all_roles(),
+        ]);
+        Builder::add_field('wpsp_general', [
+            'id' => 'calendar_schedule_time',
+            'type' => 'text',
+            'title' => __('Calendar Default Schedule Time:', 'wp-scheduled-posts'),
+            'default' => '12:00 am',
+        ]);
+        Builder::add_field('wpsp_general', [
+            'id' => 'show_publish_post_button',
+            'type' => 'checkbox',
+            'title' => __('Show Publish Post Immediately Button', 'wp-scheduled-posts'),
+            'default' => true,
+        ]);
 
 
         // second tab
@@ -54,10 +87,22 @@ class Config
             'id' => 'wpsp_email_notify',
         ]);
         Builder::add_field('wpsp_email_notify', [
-            'id' => 'is_send_email_author_rejected_posts',
+            'id' => 'notify_author_post_is_rejected',
             'type' => 'checkbox',
             'title' => __('Notify Author when a post is "Rejected"', 'wp-scheduled-posts'),
-            'default' => true,
+            'default' => false,
+        ]);
+        Builder::add_field('wpsp_email_notify', [
+            'id' => 'notify_author_post_scheduled_to_publish',
+            'type' => 'checkbox',
+            'title' => __('Notify Author when a Scheduled Post is "Published"', 'wp-scheduled-posts'),
+            'default' => false,
+        ]);
+        Builder::add_field('wpsp_email_notify', [
+            'id' => 'notify_author_post_is_publish',
+            'type' => 'checkbox',
+            'title' => __('Notify Author when a post is "Published"', 'wp-scheduled-posts'),
+            'default' => false,
         ]);
     }
 

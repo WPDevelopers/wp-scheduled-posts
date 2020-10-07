@@ -45,6 +45,13 @@ class Helper
         return $p . $r;
     }
 
+    public static function get_all_roles()
+    {
+        $allroles = wp_list_pluck(get_editable_roles(), 'name');
+        unset($allroles['subscriber']);
+        return $allroles;
+    }
+
     public static function is_user_allow()
     {
         global $current_user;
