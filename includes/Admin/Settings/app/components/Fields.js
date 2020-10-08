@@ -7,33 +7,59 @@ import Radio from './type/Radio'
 import Email from './type/Email'
 import Error from './type/Error'
 import Select from './type/Select'
+import CreatableSelect from './type/CreatableSelect'
+import Collapsible from './type/Collapsible'
 
 const Fields = (props) => {
-    // console.log(Object.is(props.values, props.condition))
+    const isFalseConditionalStatus = compareConditionValue(
+        props.condition,
+        props.values
+    )
     let renderComponent
-    if (props.type === 'text') {
-        renderComponent = <Text {...props} />
-    } else if (props.type === 'email') {
-        renderComponent = <Email {...props} />
-    } else if (props.type === 'textarea') {
-        renderComponent = <Textarea {...props} />
-    } else if (props.type === 'checkbox') {
-        renderComponent = <Checkbox {...props} />
-    } else if (props.type === 'radio') {
-        renderComponent = <Radio {...props} />
-    } else if (props.type === 'select') {
-        renderComponent = <Select {...props} />
-    } else {
-        renderComponent = <Error {...props} />
+    switch (props.type) {
+        case 'text':
+            renderComponent = <Text {...props} />
+            break
+        case 'email':
+            renderComponent = <Email {...props} />
+            break
+        case 'textarea':
+            renderComponent = <Textarea {...props} />
+            break
+        case 'checkbox':
+            renderComponent = <Checkbox {...props} />
+            break
+        case 'radio':
+            renderComponent = <Radio {...props} />
+            break
+        case 'select':
+            renderComponent = <Select {...props} />
+            break
+        case 'creatableselect':
+            renderComponent = <CreatableSelect {...props} />
+            break
+        case 'collapsible':
+            renderComponent = <Collapsible {...props} />
+            break
+        default:
+            renderComponent = <Error {...props} />
+            break
     }
 
-    if (
-        props.condition !== undefined &&
-        compareConditionValue(props.condition, props.values)
-    ) {
+    if (props.condition !== undefined && isFalseConditionalStatus) {
         return ''
     } else {
-        return <div>{renderComponent}</div>
+        return (
+            <div
+                className={
+                    isFalseConditionalStatus !== true
+                        ? 'conditional-fields ' + props.id
+                        : 'standard-fields ' + props.id
+                }
+            >
+                {renderComponent}
+            </div>
+        )
     }
 }
 

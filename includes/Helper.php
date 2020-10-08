@@ -18,9 +18,8 @@ class Helper
             'order'   => 'ASC',
             "hide_empty" => 0,
         ));
-        $category = wp_list_pluck($category, 'name', 'term_id');
-        array_unshift($category, 'All Categories');
-        return $category;
+        $category = wp_list_pluck($category, 'name', 'slug');
+        return array_merge(array('all' => 'All Categories'), $category);
     }
 
     public static function get_all_roles_as_dropdown($selected = array(), $skip_subscribe = false)

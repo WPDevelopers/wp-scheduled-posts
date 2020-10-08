@@ -2,7 +2,6 @@ import React from 'react'
 import { __ } from '@wordpress/i18n'
 
 export default function Topbar({ pluginRootUri, freeVersion, proVersion }) {
-    console.log(proVersion)
     return (
         <React.Fragment>
             <div className='wpsp_top_bar_wrapper'>

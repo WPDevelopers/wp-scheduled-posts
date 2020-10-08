@@ -99,7 +99,28 @@
                     align-items: center;
                 }
                 .form-body {
-                    text-align: right;
+                    .checkbox_wrap {
+                        text-align: right;
+                    }
+                    .desc {
+                        display: block;
+                        font-size: 12px;
+                    }
+                }
+            }
+            .conditional-fields {
+                .form-group {
+                    margin-top: -12px;
+                }
+            }
+            .btn-collapsible {
+                background: none;
+                border: 0;
+                cursor: pointer;
+                box-shadow: none;
+                outline: none;
+                &:focus {
+                    outline: none;
                 }
             }
         }

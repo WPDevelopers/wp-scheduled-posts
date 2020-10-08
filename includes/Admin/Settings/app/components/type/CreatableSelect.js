@@ -1,8 +1,8 @@
 import React from 'react'
-import Select2 from 'react-select'
+import CreatableSelect2 from 'react-select/creatable'
 import { useField } from 'formik'
 
-const Select = ({
+const CreatableSelect = ({
     id,
     title,
     subtitle,
@@ -19,17 +19,19 @@ const Select = ({
                 <span className='sub-title'>{subtitle}</span>
             </div>
             <div className='form-body'>
-                <Select2
-                    isMulti={multiple === true ? true : false}
+                <CreatableSelect2
                     isClearable
+                    isMulti={multiple === true ? true : false}
                     id={field.id}
                     name={field.name}
                     options={Object.values(options).map((value, key) => ({
                         value: key,
                         label: value,
                     }))}
-                    onChange={(option) => setFieldValue(field.name, option.key)}
-                    value={[{ value: field.key, label: field.value }]}
+                    onChange={(option) =>
+                        setFieldValue(field.name, option.label)
+                    }
+                    value={[{ value: field.value, label: field.value }]}
                 />
                 <span className='desc'>{desc}</span>
             </div>
@@ -37,4 +39,4 @@ const Select = ({
     )
 }
 
-export default Select
+export default CreatableSelect

@@ -106,8 +106,26 @@
       -ms-flex-align: center;
           align-items: center;
 }
-.wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .form-group .form-body {
+.wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .form-group .form-body .checkbox_wrap {
   text-align: right;
+}
+.wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .form-group .form-body .desc {
+  display: block;
+  font-size: 12px;
+}
+.wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .conditional-fields .form-group {
+  margin-top: -12px;
+}
+.wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .btn-collapsible {
+  background: none;
+  border: 0;
+  cursor: pointer;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  outline: none;
+}
+.wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .btn-collapsible:focus {
+  outline: none;
 }
 .wpsp-dashboard-body .btn-submit {
   background: #6c62ff;

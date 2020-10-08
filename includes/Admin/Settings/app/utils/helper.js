@@ -1,11 +1,11 @@
 export const compareConditionValue = (condition, allFieldsValue) => {
-    let flag = false
+    let flag = true
     if (condition === undefined) return flag
     for (const [key, value] of Object.entries(condition)) {
         if (allFieldsValue[key] === value) {
-            flag = true
-        } else {
             flag = false
+        } else {
+            flag = true
         }
     }
     return flag
