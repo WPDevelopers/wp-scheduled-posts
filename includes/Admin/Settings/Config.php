@@ -53,7 +53,7 @@ class Config
             'id' => 'allow_post_types',
             'type' => 'select',
             'title' => __('Show Post Types:', 'wp-scheduled-posts'),
-            'default' => 'post',
+            'default' => ['post'],
             'multiple' => true,
             'options' => \WPSP\Helper::get_all_post_type(),
         ]);
@@ -149,7 +149,7 @@ class Config
             'type' => 'creatableselect',
             'title' => __('Username', 'wp-scheduled-posts'),
             'options' => $user_name,
-            'default'   => '',
+            'default'   => [],
             'multiple' => true,
             'condition' => [
                 'notify_author_post_is_review' => true,
@@ -160,7 +160,7 @@ class Config
             'type' => 'creatableselect',
             'title' => __('Email', 'wp-scheduled-posts'),
             'options' => $user_email,
-            'default'   => '',
+            'default'   => [],
             'multiple' => true,
             'condition' => [
                 'notify_author_post_is_review' => true,
@@ -196,7 +196,7 @@ class Config
             'type' => 'creatableselect',
             'title' => __('Username', 'wp-scheduled-posts'),
             'options' => $user_name,
-            'default'   => '',
+            'default'   => [],
             'multiple' => true,
             'condition' => [
                 'notify_author_post_is_scheduled' => true,
@@ -207,7 +207,7 @@ class Config
             'type' => 'creatableselect',
             'title' => __('Email', 'wp-scheduled-posts'),
             'options' => $user_email,
-            'default'   => '',
+            'default'   => [],
             'multiple' => true,
             'condition' => [
                 'notify_author_post_is_scheduled' => true,

@@ -535,8 +535,8 @@ const Radio = props => {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_select__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-select */ "./node_modules/react-select/dist/react-select.browser.esm.js");
-/* harmony import */ var formik__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! formik */ "./node_modules/formik/dist/formik.esm.js");
+/* harmony import */ var formik__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! formik */ "./node_modules/formik/dist/formik.esm.js");
+/* harmony import */ var react_select__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-select */ "./node_modules/react-select/dist/react-select.browser.esm.js");
 
 
 
@@ -550,7 +550,25 @@ const Select = ({
   options,
   setFieldValue
 }) => {
-  const [field] = Object(formik__WEBPACK_IMPORTED_MODULE_2__["useField"])(id);
+  const [field] = Object(formik__WEBPACK_IMPORTED_MODULE_1__["useField"])(id);
+  let modifiedOptions = Object.entries(options).map(([key, value]) => ({
+    value: key,
+    label: value
+  }));
+
+  const onChange = option => {
+    console.log(option);
+    setFieldValue(field.name, multiple ? option.map(item => item.value) : option.value);
+  };
+
+  const getValue = () => {
+    if (modifiedOptions) {
+      return multiple ? modifiedOptions.filter(option => field.value.indexOf(option.value) >= 0) : modifiedOptions.find(option => option.value === field.value);
+    } else {
+      return multiple ? [] : '';
+    }
+  };
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-group"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -561,20 +579,12 @@ const Select = ({
     className: "sub-title"
   }, subtitle)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-body"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_select__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    isMulti: multiple === true ? true : false,
-    isClearable: true,
-    id: field.id,
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_select__WEBPACK_IMPORTED_MODULE_2__["default"], {
     name: field.name,
-    options: Object.values(options).map((value, key) => ({
-      value: key,
-      label: value
-    })),
-    onChange: option => setFieldValue(field.name, option.key),
-    value: [{
-      value: field.key,
-      label: field.value
-    }]
+    value: getValue(),
+    onChange: onChange,
+    options: modifiedOptions,
+    isMulti: multiple === true ? true : false
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "desc"
   }, desc)));

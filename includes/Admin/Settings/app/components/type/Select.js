@@ -1,6 +1,6 @@
 import React from 'react'
-import Select2 from 'react-select'
 import { useField } from 'formik'
+import Select2 from 'react-select'
 
 const Select = ({
     id,
@@ -12,6 +12,29 @@ const Select = ({
     setFieldValue,
 }) => {
     const [field] = useField(id)
+    let modifiedOptions = Object.entries(options).map(([key, value]) => ({
+        value: key,
+        label: value,
+    }))
+
+    const onChange = (option) => {
+        console.log(option)
+        setFieldValue(
+            field.name,
+            multiple ? option.map((item) => item.value) : option.value
+        )
+    }
+    const getValue = () => {
+        if (modifiedOptions) {
+            return multiple
+                ? modifiedOptions.filter(
+                      (option) => field.value.indexOf(option.value) >= 0
+                  )
+                : modifiedOptions.find((option) => option.value === field.value)
+        } else {
+            return multiple ? [] : ''
+        }
+    }
     return (
         <div className='form-group'>
             <div className='form-info'>
@@ -20,16 +43,11 @@ const Select = ({
             </div>
             <div className='form-body'>
                 <Select2
-                    isMulti={multiple === true ? true : false}
-                    isClearable
-                    id={field.id}
                     name={field.name}
-                    options={Object.values(options).map((value, key) => ({
-                        value: key,
-                        label: value,
-                    }))}
-                    onChange={(option) => setFieldValue(field.name, option.key)}
-                    value={[{ value: field.key, label: field.value }]}
+                    value={getValue()}
+                    onChange={onChange}
+                    options={modifiedOptions}
+                    isMulti={multiple === true ? true : false}
                 />
                 <span className='desc'>{desc}</span>
             </div>
