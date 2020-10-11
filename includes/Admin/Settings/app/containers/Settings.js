@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import { Formik, Form } from 'formik'
+import { ToastContainer, toast } from 'react-toastify'
 import fetchWP from './../utils/fetchWP'
 import Fields from './../components/Fields'
 
@@ -14,12 +15,24 @@ const Settings = ({ wpspObject }) => {
         restURL: wpspObject.api_url,
         restNonce: wpspObject.api_nonce,
     })
+    const notify = (status) => {
+        return toast.success('Settings Saved!', {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        })
+    }
     const processOkResponse = (json, action) => {
         if (json.success) {
             setFormValue(JSON.parse(json.value))
         } else {
             console.log(`Setting was not ${action}.`, json)
         }
+        notify(json.success)
     }
 
     const getSetting = () => {
@@ -85,10 +98,10 @@ const Settings = ({ wpspObject }) => {
                                     : 'btn-submit btn-submit--changed'
                             }
                             type='submit'
-                            disabled={props.isSubmitting}
                         >
                             Submit
                         </button>
+                        <ToastContainer />
                     </form>
                 )
             }}
