@@ -374,6 +374,26 @@ const CreatableSelect = ({
   setFieldValue
 }) => {
   const [field] = Object(formik__WEBPACK_IMPORTED_MODULE_2__["useField"])(id);
+  let modifiedOptions = Object.entries(options).map(([key, value]) => ({
+    value: key,
+    label: value
+  }));
+
+  const onChange = (option, actionMeta) => {
+    if (option == null) {
+      return setFieldValue(field.name, '');
+    }
+
+    return setFieldValue(field.name, multiple ? option.map(item => item.value) : option.value);
+  };
+
+  const getValue = () => {
+    return Object.entries(field.value).map(([key, value]) => ({
+      value: value,
+      label: value
+    }));
+  };
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-group"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -386,18 +406,12 @@ const CreatableSelect = ({
     className: "form-body"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_select_creatable__WEBPACK_IMPORTED_MODULE_1__["default"], {
     isClearable: true,
-    isMulti: multiple === true ? true : false,
     id: field.id,
     name: field.name,
-    options: Object.values(options).map((value, key) => ({
-      value: key,
-      label: value
-    })),
-    onChange: option => setFieldValue(field.name, option.label),
-    value: [{
-      value: field.value,
-      label: field.value
-    }]
+    value: getValue(),
+    onChange: onChange,
+    options: modifiedOptions,
+    isMulti: multiple === true ? true : false
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "desc"
   }, desc)));
@@ -557,8 +571,11 @@ const Select = ({
   }));
 
   const onChange = option => {
-    console.log(option);
-    setFieldValue(field.name, multiple ? option.map(item => item.value) : option.value);
+    if (option == null) {
+      return setFieldValue(field.name, '');
+    }
+
+    return setFieldValue(field.name, multiple ? option.map(item => item.value) : option.value);
   };
 
   const getValue = () => {
@@ -580,6 +597,7 @@ const Select = ({
   }, subtitle)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-body"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_select__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    id: field.id,
     name: field.name,
     value: getValue(),
     onChange: onChange,

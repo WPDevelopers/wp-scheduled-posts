@@ -18,8 +18,10 @@ const Select = ({
     }))
 
     const onChange = (option) => {
-        console.log(option)
-        setFieldValue(
+        if (option == null) {
+            return setFieldValue(field.name, '')
+        }
+        return setFieldValue(
             field.name,
             multiple ? option.map((item) => item.value) : option.value
         )
@@ -43,6 +45,7 @@ const Select = ({
             </div>
             <div className='form-body'>
                 <Select2
+                    id={field.id}
                     name={field.name}
                     value={getValue()}
                     onChange={onChange}
