@@ -62,6 +62,7 @@ const Settings = ({ wpspObject }) => {
                 } else {
                     window.onbeforeunload = null
                 }
+                console.log(wpspObject.settings)
                 return (
                     <form onSubmit={props.handleSubmit}>
                         <Tabs
@@ -75,19 +76,99 @@ const Settings = ({ wpspObject }) => {
                             </TabList>
                             {wpspObject.settings.map((item, index) => (
                                 <TabPanel key={index}>
-                                    {Object.keys(props.values).length > 0 &&
-                                        item.fields.map(
-                                            (fieldItem, fieldIndex) => (
-                                                <Fields
-                                                    {...fieldItem}
-                                                    setFieldValue={
-                                                        props.setFieldValue
-                                                    } // formik
-                                                    key={fieldIndex}
-                                                    values={props.values}
-                                                />
-                                            )
-                                        )}
+                                    {Object.keys(props.values).length > 0 && (
+                                        <div>
+                                            {
+                                                // sub tabs
+                                                item.sub_tabs !== undefined && (
+                                                    <Tabs>
+                                                        {/* sub tabs menu item */}
+                                                        <TabList>
+                                                            {Object.entries(
+                                                                item.sub_tabs
+                                                            ).map(
+                                                                ([
+                                                                    subIndex,
+                                                                    subItem,
+                                                                ]) => (
+                                                                    <Tab
+                                                                        key={
+                                                                            subIndex
+                                                                        }
+                                                                    >
+                                                                        {
+                                                                            subItem.title
+                                                                        }
+                                                                    </Tab>
+                                                                )
+                                                            )}
+                                                        </TabList>
+                                                        {/* sub tabs body */}
+
+                                                        {Object.entries(
+                                                            item.sub_tabs
+                                                        ).map(
+                                                            ([
+                                                                subIndex,
+                                                                subItem,
+                                                            ]) => (
+                                                                <TabPanel>
+                                                                    {item
+                                                                        .sub_tabs[
+                                                                        subIndex
+                                                                    ].fields !==
+                                                                        undefined &&
+                                                                        item.sub_tabs[
+                                                                            subIndex
+                                                                        ].fields.map(
+                                                                            (
+                                                                                subTabFieldItem,
+                                                                                subTabFieldIndex
+                                                                            ) => (
+                                                                                <Fields
+                                                                                    {...subTabFieldItem}
+                                                                                    setFieldValue={
+                                                                                        props.setFieldValue
+                                                                                    } // formik
+                                                                                    key={
+                                                                                        subTabFieldIndex
+                                                                                    }
+                                                                                    values={
+                                                                                        props.values
+                                                                                    }
+                                                                                />
+                                                                            )
+                                                                        )}
+                                                                </TabPanel>
+                                                            )
+                                                        )}
+                                                    </Tabs>
+                                                )
+                                            }
+                                            {
+                                                // main tabs fields
+                                                item.fields !== undefined &&
+                                                    item.fields.length > 0 &&
+                                                    item.fields.map(
+                                                        (
+                                                            fieldItem,
+                                                            fieldIndex
+                                                        ) => (
+                                                            <Fields
+                                                                {...fieldItem}
+                                                                setFieldValue={
+                                                                    props.setFieldValue
+                                                                } // formik
+                                                                key={fieldIndex}
+                                                                values={
+                                                                    props.values
+                                                                }
+                                                            />
+                                                        )
+                                                    )
+                                            }
+                                        </div>
+                                    )}
                                 </TabPanel>
                             ))}
                         </Tabs>

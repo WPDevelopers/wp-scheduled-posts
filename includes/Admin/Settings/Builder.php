@@ -21,6 +21,15 @@ class Builder
         // Assign to the tabs array
         return self::$tabs[$tab['id']] = $tab;
     }
+    public static function add_sub_tab($tab, $sub_tab)
+    {
+
+        self::$tabs[$tab]['sub_tabs'][$sub_tab['id']] = $sub_tab;
+    }
+    public static function add_sub_field($parent_tab_name, $sub_tab, $fields)
+    {
+        return self::$tabs[$parent_tab_name]['sub_tabs'][$sub_tab]['fields'][]  = $fields;
+    }
     public static function add_field($tabname, $fields)
     {
         return self::$fields[$tabname][]  = $fields;
@@ -30,6 +39,7 @@ class Builder
     {
         foreach ($fields as $key => $value) {
             $tabs[$key]['fields'] = $value;
+            error_log(print_r($value, true));
         }
         return array_values($tabs);
     }

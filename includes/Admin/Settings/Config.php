@@ -228,6 +228,39 @@ class Config
             'title' => __('Notify Author when a post is "Published"', 'wp-scheduled-posts'),
             'default' => false,
         ]);
+
+        // social profile
+        Builder::add_tab([
+            'title' => __('Social Profile', 'wp-scheduled-posts'),
+            'id' => 'wpsp_social_profile',
+        ]);
+        Builder::add_sub_tab('wpsp_social_profile', [
+            'id' => 'facebook',
+            'title' => __('Facebook', 'wp-scheduled-posts'),
+        ]);
+        Builder::add_sub_field('wpsp_social_profile', 'facebook', [
+            'id' => 'facebook_profile',
+            'type' => 'text',
+            'title' => __('Facebook Profile', 'wp-scheduled-posts'),
+        ]);
+        Builder::add_sub_tab('wpsp_social_profile', [
+            'id' => 'twitter',
+            'title' => __('Twitter', 'wp-scheduled-posts'),
+        ]);
+        Builder::add_sub_tab('wpsp_social_profile', [
+            'id' => 'linkedin',
+            'title' => __('Linekdin', 'wp-scheduled-posts'),
+        ]);
+        Builder::add_sub_tab('wpsp_social_profile', [
+            'id' => 'pinterest',
+            'title' => __('Pinterest', 'wp-scheduled-posts'),
+        ]);
+
+        // Builder::add_field('wpsp_social_profile', [
+        //     'id' => 'social_profiles',
+        //     'type' => 'social',
+        //     'title' => __('Social Profile', 'wp-scheduled-posts'),
+        // ]);
     }
 
     /**

@@ -820,6 +820,7 @@ const Settings = ({
       window.onbeforeunload = null;
     }
 
+    console.log(wpspObject.settings);
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
       onSubmit: props.handleSubmit
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_tabs__WEBPACK_IMPORTED_MODULE_1__["Tabs"], {
@@ -829,12 +830,21 @@ const Settings = ({
       key: index
     }, item.title))), wpspObject.settings.map((item, index) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_tabs__WEBPACK_IMPORTED_MODULE_1__["TabPanel"], {
       key: index
-    }, Object.keys(props.values).length > 0 && item.fields.map((fieldItem, fieldIndex) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Fields__WEBPACK_IMPORTED_MODULE_5__["default"], _extends({}, fieldItem, {
+    }, Object.keys(props.values).length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, // sub tabs
+    item.sub_tabs !== undefined && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_tabs__WEBPACK_IMPORTED_MODULE_1__["Tabs"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_tabs__WEBPACK_IMPORTED_MODULE_1__["TabList"], null, Object.entries(item.sub_tabs).map(([subIndex, subItem]) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_tabs__WEBPACK_IMPORTED_MODULE_1__["Tab"], {
+      key: subIndex
+    }, subItem.title))), Object.entries(item.sub_tabs).map(([subIndex, subItem]) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_tabs__WEBPACK_IMPORTED_MODULE_1__["TabPanel"], null, item.sub_tabs[subIndex].fields !== undefined && item.sub_tabs[subIndex].fields.map((subTabFieldItem, subTabFieldIndex) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Fields__WEBPACK_IMPORTED_MODULE_5__["default"], _extends({}, subTabFieldItem, {
+      setFieldValue: props.setFieldValue // formik
+      ,
+      key: subTabFieldIndex,
+      values: props.values
+    })))))), // main tabs fields
+    item.fields !== undefined && item.fields.length > 0 && item.fields.map((fieldItem, fieldIndex) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Fields__WEBPACK_IMPORTED_MODULE_5__["default"], _extends({}, fieldItem, {
       setFieldValue: props.setFieldValue // formik
       ,
       key: fieldIndex,
       values: props.values
-    })))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    }))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       className: props.dirty === false ? 'btn-submit' : 'btn-submit btn-submit--changed',
       type: "submit"
     }, "Submit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_toastify__WEBPACK_IMPORTED_MODULE_3__["ToastContainer"], null));
