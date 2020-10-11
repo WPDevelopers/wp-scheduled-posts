@@ -139,6 +139,9 @@
         &:focus {
             outline: none;
         }
+        &--changed {
+            background: #e74c3c;
+        }
     }
 }
 .wpsp-dashboard-body .wpsp_calendar_loader,

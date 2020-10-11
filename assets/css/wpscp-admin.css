@@ -143,6 +143,9 @@
 .wpsp-dashboard-body .btn-submit:focus {
   outline: none;
 }
+.wpsp-dashboard-body .btn-submit--changed {
+  background: #e74c3c;
+}
 
 .wpsp-dashboard-body .wpsp_calendar_loader,
 .wpsp-dashboard-body .wpsp_loader {

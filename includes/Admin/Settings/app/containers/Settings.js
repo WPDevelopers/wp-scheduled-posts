@@ -42,6 +42,13 @@ const Settings = ({ wpspObject }) => {
             }}
         >
             {(props) => {
+                if (props.dirty === true) {
+                    window.onbeforeunload = function () {
+                        return 'Do you really want to close?'
+                    }
+                } else {
+                    window.onbeforeunload = null
+                }
                 return (
                     <form onSubmit={props.handleSubmit}>
                         <Tabs
@@ -72,7 +79,11 @@ const Settings = ({ wpspObject }) => {
                             ))}
                         </Tabs>
                         <button
-                            className={'btn-submit'}
+                            className={
+                                props.dirty === false
+                                    ? 'btn-submit'
+                                    : 'btn-submit btn-submit--changed'
+                            }
                             type='submit'
                             disabled={props.isSubmitting}
                         >

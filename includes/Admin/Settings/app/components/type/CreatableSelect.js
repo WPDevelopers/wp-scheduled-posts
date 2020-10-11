@@ -1,6 +1,6 @@
 import React from 'react'
 import CreatableSelect2 from 'react-select/creatable'
-import { useFormikContext, useField } from 'formik'
+import { useField } from 'formik'
 
 const CreatableSelect = ({
     id,

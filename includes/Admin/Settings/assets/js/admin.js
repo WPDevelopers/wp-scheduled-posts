@@ -796,6 +796,14 @@ const Settings = ({
       }).then(json => processOkResponse(json, 'saved'), err => console.log('error', err));
     }
   }, props => {
+    if (props.dirty === true) {
+      window.onbeforeunload = function () {
+        return 'Do you really want to close?';
+      };
+    } else {
+      window.onbeforeunload = null;
+    }
+
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
       onSubmit: props.handleSubmit
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_tabs__WEBPACK_IMPORTED_MODULE_1__["Tabs"], {
@@ -811,7 +819,7 @@ const Settings = ({
       key: fieldIndex,
       values: props.values
     })))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-      className: 'btn-submit',
+      className: props.dirty === false ? 'btn-submit' : 'btn-submit btn-submit--changed',
       type: "submit",
       disabled: props.isSubmitting
     }, "Submit"));
