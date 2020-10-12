@@ -199,13 +199,13 @@ if (!isset($_GET['wpsptab'])) {
     </div>
 
     <!-- Pro Features Section start-->
-    <div class="wpsp_pro_features_wrapper">
+    <div class="wpsp_features_wrapper">
         <?php
         include WPSP_VIEW_DIR_PATH . 'upgrade.php';
         ?>
-        <div class="wpsp_pro_features_lists">
+        <div class="wpsp_features_lists">
             <h3><?php esc_html_e('WP Scheduled Posts - Pro Features', 'wp-scheduled-posts'); ?></h3>
-            <div class="wpsp_pro_support_panel">
+            <div class="wpsp_support_panel">
                 <?php
                 if (!class_exists('WpScp_Pro')) :
                 ?>
@@ -213,7 +213,7 @@ if (!isset($_GET['wpsptab'])) {
                 <?php
                 endif;
                 ?>
-                <div class="wpsp_pro_suppurt_lists">
+                <div class="wpsp_suppurt_lists">
                     <div class="wpsp_support_items">
 
                         <a href="https://wpdeveloper.net/docs/wp-scheduled-posts/how-does-auto-scheduler-work/" target="__blank">

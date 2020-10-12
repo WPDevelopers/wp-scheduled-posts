@@ -9,7 +9,7 @@ if (class_exists('WpScp_Pro')) {
 	$p_title = 'WP Scheduled Posts';
 }
 ?>
-<div class="wpsp_pro_features_upgrade">
+<div class="wpsp_features_upgrade">
 	<h1 class="wpsp_promo_title"><?php esc_html_e('WP Scheduled Posts Pro', 'wp-scheduled-posts'); ?></h1>
 	<img src="<?php echo esc_url(WPSP_ASSETS_URI . 'images/wpsp.png'); ?>" alt="">
 	<h2><?php echo $p_title; ?></h2>

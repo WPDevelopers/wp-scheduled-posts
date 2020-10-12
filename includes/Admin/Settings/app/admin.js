@@ -6,7 +6,6 @@ if (!window._babelPolyfill) {
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Admin from './containers/Admin'
-
 document.addEventListener('DOMContentLoaded', function () {
     ReactDOM.render(
         <Admin wpspObject={window.wpspSettingsGlobal} />,

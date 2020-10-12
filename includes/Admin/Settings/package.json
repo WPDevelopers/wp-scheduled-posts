@@ -10,6 +10,7 @@
     "author": "tusharimran",
     "dependencies": {
         "@babel/polyfill": "^7.0.0",
+        "@wordpress/hooks": "^2.10.0",
         "@wordpress/i18n": "^3.15.0",
         "formik": "^2.1.4",
         "isomorphic-fetch": "^3.0.0",

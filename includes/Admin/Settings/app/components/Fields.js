@@ -9,6 +9,7 @@ import Error from './type/Error'
 import Select from './type/Select'
 import CreatableSelect from './type/CreatableSelect'
 import Collapsible from './type/Collapsible'
+import SocialProfile from './type/SocialProfile'
 
 const Fields = (props) => {
     const isFalseConditionalStatus = compareConditionValue(
@@ -40,6 +41,9 @@ const Fields = (props) => {
             break
         case 'collapsible':
             renderComponent = <Collapsible {...props} />
+            break
+        case 'socialprofile':
+            renderComponent = <SocialProfile {...props} />
             break
         default:
             renderComponent = <Error {...props} />

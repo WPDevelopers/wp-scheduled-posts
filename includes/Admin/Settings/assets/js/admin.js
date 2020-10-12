@@ -137,6 +137,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _type_Select__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./type/Select */ "./app/components/type/Select.js");
 /* harmony import */ var _type_CreatableSelect__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./type/CreatableSelect */ "./app/components/type/CreatableSelect.js");
 /* harmony import */ var _type_Collapsible__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./type/Collapsible */ "./app/components/type/Collapsible.js");
+/* harmony import */ var _type_SocialProfile__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./type/SocialProfile */ "./app/components/type/SocialProfile.js");
+
 
 
 
@@ -186,6 +188,10 @@ const Fields = props => {
       renderComponent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_type_Collapsible__WEBPACK_IMPORTED_MODULE_10__["default"], props);
       break;
 
+    case 'socialprofile':
+      renderComponent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_type_SocialProfile__WEBPACK_IMPORTED_MODULE_11__["default"], props);
+      break;
+
     default:
       renderComponent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_type_Error__WEBPACK_IMPORTED_MODULE_7__["default"], props);
       break;
@@ -201,6 +207,80 @@ const Fields = props => {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Fields);
+
+/***/ }),
+
+/***/ "./app/components/Instruction/index.js":
+/*!*********************************************!*\
+  !*** ./app/components/Instruction/index.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+const Instruction = ({
+  icon,
+  title,
+  desc,
+  button
+}) => {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "instruction_item"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "instruction_item_top"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "instruction_log"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: icon,
+    alt: "Documentation"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+    className: "instruction_label"
+  }, title)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, desc), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    href: button.url,
+    rel: "nofollow",
+    className: "instructin_btn"
+  }, button.text)));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Instruction);
+
+/***/ }),
+
+/***/ "./app/components/Support/index.js":
+/*!*****************************************!*\
+  !*** ./app/components/Support/index.js ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+const Support = ({
+  link,
+  title,
+  icon
+}) => {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "wpsp_support_items"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    href: link,
+    target: "__blank"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: icon,
+    alt: "icon"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, title))));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Support);
 
 /***/ }),
 
@@ -243,6 +323,49 @@ function Topbar({
     className: "pro"
   }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Pro Version: ', 'wp-scheduled-posts'), proVersion))))));
 }
+
+/***/ }),
+
+/***/ "./app/components/Upgrade/index.js":
+/*!*****************************************!*\
+  !*** ./app/components/Upgrade/index.js ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/i18n */ "./node_modules/@wordpress/i18n/build-module/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+
+
+
+const Upgrade = ({
+  icon,
+  proVersion
+}) => {
+  console.log(proVersion);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "wpsp_features_upgrade"
+  }, proVersion !== '' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h1", {
+    className: "wpsp_promo_title"
+  }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__["__"])('SchedulePress Pro', 'wp-scheduled-posts')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
+    src: icon,
+    alt: "logo"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h2", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__["__"])('SchedulePress Pro', 'wp-scheduled-posts')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+    href: 'https://wpdeveloper.net/account'
+  }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__["__"])('Manage License', 'wp-scheduled-posts'))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h1", {
+    className: "wpsp_promo_title"
+  }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__["__"])('SchedulePress', 'wp-scheduled-posts')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
+    src: icon,
+    alt: "logo"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h2", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__["__"])('SchedulePress', 'wp-scheduled-posts')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+    href: 'http://wpdeveloper.net/in/wp-scheduled-posts'
+  }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__["__"])('UPGRADE TO PRO', 'wp-scheduled-posts')))));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Upgrade);
 
 /***/ }),
 
@@ -612,6 +735,45 @@ const Select = ({
 
 /***/ }),
 
+/***/ "./app/components/type/SocialProfile.js":
+/*!**********************************************!*\
+  !*** ./app/components/type/SocialProfile.js ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var formik__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! formik */ "./node_modules/formik/dist/formik.esm.js");
+
+
+
+const SocialProfile = ({
+  id,
+  title,
+  subtitle,
+  desc,
+  setFieldValue
+}) => {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-info"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: id
+  }, title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "sub-title"
+  }, subtitle)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-body"
+  }, "Social Profile"));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (SocialProfile);
+
+/***/ }),
+
 /***/ "./app/components/type/Text.js":
 /*!*************************************!*\
   !*** ./app/components/type/Text.js ***!
@@ -739,6 +901,134 @@ const Admin = ({
 
 /***/ }),
 
+/***/ "./app/containers/Document.js":
+/*!************************************!*\
+  !*** ./app/containers/Document.js ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "./node_modules/@wordpress/i18n/build-module/index.js");
+/* harmony import */ var _components_Instruction__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../components/Instruction */ "./app/components/Instruction/index.js");
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+
+
+
+
+const Document = ({
+  pluginRootURI
+}) => {
+  const assetsURI = pluginRootURI + 'assets/images/';
+  const instructionData = [{
+    icon: assetsURI + 'documentation.png',
+    title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Documentation', 'wp-scheduled-posts'),
+    desc: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Get started spending some time with the documentation to get familiar with WP Scheduled Posts. Build awesome websites for you or your clients with ease.', 'wp-scheduled-posts'),
+    button: {
+      text: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Documentation', 'wp-scheduled-posts'),
+      url: 'https://wpdeveloper.net/docs/wp-scheduled-posts/?utm_medium=admin&utm_source=wp.org&utm_term=wpsp'
+    }
+  }, {
+    icon: assetsURI + 'contribute.png',
+    title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Contribute to WP Scheduled Posts', 'wp-scheduled-posts'),
+    desc: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('You can contribute to make WP Scheduled Posts better reporting bugs, creating issues, pull requests at Github.', 'wp-scheduled-posts'),
+    button: {
+      text: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Report A Bug', 'wp-scheduled-posts'),
+      url: 'https://github.com/WPDevelopers/wp-scheduled-posts/issues/new'
+    }
+  }, {
+    icon: assetsURI + 'chat.png',
+    title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Need Help?', 'wp-scheduled-posts'),
+    desc: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Stuck with something? Get help from the community WPDeveloper Forum or Facebook Community. In case of emergency, initiate live chat at WP Scheduled Posts website.', 'wp-scheduled-posts'),
+    button: {
+      text: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Get Support', 'wp-scheduled-posts'),
+      url: 'https://wpdeveloper.net/support/'
+    }
+  }, {
+    icon: assetsURI + 'love.png',
+    title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Show your Love', 'wp-scheduled-posts'),
+    desc: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('We love to have you in WP Scheduled Posts family. We are making it more awesome everyday.', 'wp-scheduled-posts'),
+    button: {
+      text: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Leave a Review', 'wp-scheduled-posts'),
+      url: 'https://wordpress.org/support/plugin/wp-scheduled-posts/reviews/?rate=5#new-post'
+    }
+  }];
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "instruction_wrapper"
+  }, instructionData.map((item, index) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Instruction__WEBPACK_IMPORTED_MODULE_2__["default"], _extends({
+    key: index
+  }, item))));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Document);
+
+/***/ }),
+
+/***/ "./app/containers/Features.js":
+/*!************************************!*\
+  !*** ./app/containers/Features.js ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "./node_modules/@wordpress/i18n/build-module/index.js");
+/* harmony import */ var _components_Upgrade__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../components/Upgrade */ "./app/components/Upgrade/index.js");
+/* harmony import */ var _components_Support__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../components/Support */ "./app/components/Support/index.js");
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+
+
+
+
+
+const Features = ({
+  pluginRootURI,
+  proVersion
+}) => {
+  const assetsURI = pluginRootURI + 'assets/images/';
+  const supportData = [{
+    link: 'https://wpdeveloper.net/docs/wp-scheduled-posts/how-does-auto-scheduler-work/',
+    title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Auto Scheduler', 'wp-scheduled-posts'),
+    icon: assetsURI + 'auto_scheduler.png'
+  }, {
+    link: 'https://wpdeveloper.net/docs/wp-scheduled-posts/how-does-manual-scheduler-work/',
+    title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Manual Scheduler', 'wp-scheduled-posts'),
+    icon: assetsURI + 'manual_scheduler.png'
+  }, {
+    link: 'https://wpdeveloper.net/docs/wp-scheduled-posts/how-to-handle-the-missed-schedule-error-using-wp-scheduled-post/',
+    title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Missed Schedule Handler', 'wp-scheduled-posts'),
+    icon: assetsURI + 'manual_scheduler_handler.png'
+  }, {
+    link: 'https://wpdeveloper.net/support/',
+    title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Premium Support', 'wp-scheduled-posts'),
+    icon: assetsURI + 'premium_support_care.png'
+  }];
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Upgrade__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    icon: assetsURI + 'wpsp.png',
+    proVersion: proVersion
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "wpsp_features_lists"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('SchedulePress - Pro Features', 'wp-scheduled-posts')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "wpsp_support_panel"
+  }, proVersion === '' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('In Pro version, You will get following supports:', 'wp-scheduled-posts')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "wpsp_suppurt_lists"
+  }, supportData.map((item, index) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Support__WEBPACK_IMPORTED_MODULE_3__["default"], _extends({
+    key: index
+  }, item)))))));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Features);
+
+/***/ }),
+
 /***/ "./app/containers/Settings.js":
 /*!************************************!*\
   !*** ./app/containers/Settings.js ***!
@@ -755,7 +1045,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/react-toastify.esm.js");
 /* harmony import */ var _utils_fetchWP__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../utils/fetchWP */ "./app/utils/fetchWP.js");
 /* harmony import */ var _components_Fields__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./../components/Fields */ "./app/components/Fields.js");
+/* harmony import */ var _Document__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Document */ "./app/containers/Document.js");
+/* harmony import */ var _Features__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Features */ "./app/containers/Features.js");
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+
 
 
 
@@ -820,7 +1114,6 @@ const Settings = ({
       window.onbeforeunload = null;
     }
 
-    console.log(wpspObject.settings);
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
       onSubmit: props.handleSubmit
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_tabs__WEBPACK_IMPORTED_MODULE_1__["Tabs"], {
@@ -830,10 +1123,14 @@ const Settings = ({
       key: index
     }, item.title))), wpspObject.settings.map((item, index) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_tabs__WEBPACK_IMPORTED_MODULE_1__["TabPanel"], {
       key: index
-    }, Object.keys(props.values).length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, // sub tabs
+    }, Object.keys(props.values).length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: item.id
+    }, // sub tabs
     item.sub_tabs !== undefined && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_tabs__WEBPACK_IMPORTED_MODULE_1__["Tabs"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_tabs__WEBPACK_IMPORTED_MODULE_1__["TabList"], null, Object.entries(item.sub_tabs).map(([subIndex, subItem]) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_tabs__WEBPACK_IMPORTED_MODULE_1__["Tab"], {
       key: subIndex
-    }, subItem.title))), Object.entries(item.sub_tabs).map(([subIndex, subItem]) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_tabs__WEBPACK_IMPORTED_MODULE_1__["TabPanel"], null, item.sub_tabs[subIndex].fields !== undefined && item.sub_tabs[subIndex].fields.map((subTabFieldItem, subTabFieldIndex) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Fields__WEBPACK_IMPORTED_MODULE_5__["default"], _extends({}, subTabFieldItem, {
+    }, subItem.title))), Object.entries(item.sub_tabs).map(([subIndex, subItem]) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_tabs__WEBPACK_IMPORTED_MODULE_1__["TabPanel"], {
+      key: subIndex
+    }, item.sub_tabs[subIndex].fields !== undefined && item.sub_tabs[subIndex].fields.map((subTabFieldItem, subTabFieldIndex) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Fields__WEBPACK_IMPORTED_MODULE_5__["default"], _extends({}, subTabFieldItem, {
       setFieldValue: props.setFieldValue // formik
       ,
       key: subTabFieldIndex,
@@ -844,10 +1141,17 @@ const Settings = ({
       ,
       key: fieldIndex,
       values: props.values
-    }))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    })))), item.id === 'wpsp_general' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "wpsp-feature-wrap"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Features__WEBPACK_IMPORTED_MODULE_7__["default"], {
+      pluginRootURI: wpspObject.plugin_root_uri,
+      proVersion: wpspObject.pro_version
+    })))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       className: props.dirty === false ? 'btn-submit' : 'btn-submit btn-submit--changed',
       type: "submit"
-    }, "Submit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_toastify__WEBPACK_IMPORTED_MODULE_3__["ToastContainer"], null));
+    }, "Submit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_toastify__WEBPACK_IMPORTED_MODULE_3__["ToastContainer"], null), tabIndex == 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Document__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      pluginRootURI: wpspObject.plugin_root_uri
+    }));
   });
 };
 

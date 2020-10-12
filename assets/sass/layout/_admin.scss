@@ -86,7 +86,6 @@
         .react-tabs__tab-panel {
             padding: 25px 0;
             .form-group {
-                width: 30%;
                 display: flex;
                 color: #687b95;
                 font-size: 14px;
@@ -121,6 +120,17 @@
                 outline: none;
                 &:focus {
                     outline: none;
+                }
+            }
+            // main view fields
+            &--selected {
+                display: flex;
+                .wpsp_general {
+                    width: 30%;
+                }
+                .wpsp-feature-wrap {
+                    width: 70%;
+                    padding: 0 0 15px 30px;
                 }
             }
         }
@@ -1998,14 +2008,8 @@
     font-weight: normal;
 }
 
-/* Pro Features Sections */
-.wpsp_pro_features_wrapper {
-    width: 70%;
-    float: left;
-    padding: 0 0 15px 30px;
-    box-sizing: border-box;
-}
-.wpsp_pro_features_upgrade {
+/* Upgrade */
+.wpsp_features_upgrade {
     width: 100%;
     padding: 30px;
     box-sizing: border-box;
@@ -2028,12 +2032,12 @@
     text-align: center;
     margin: 0;
 }
-.wpsp_pro_features_upgrade img {
+.wpsp_features_upgrade img {
     float: left;
     position: relative;
     z-index: 100;
 }
-.wpsp_pro_features_upgrade h2 {
+.wpsp_features_upgrade h2 {
     float: left;
     color: #e9eff3;
     font-size: 36pt;
@@ -2044,7 +2048,7 @@
     left: 15%;
     transform: translate(0, -50%);
 }
-.wpsp_pro_features_upgrade a {
+.wpsp_features_upgrade a {
     background: #6c62ff;
     border: navajowhite;
     color: #fff;
@@ -2061,21 +2065,21 @@
     display: inline-block;
     text-decoration: none;
 }
-.wpsp_pro_features_lists {
+.wpsp_features_lists {
     margin-top: 50px;
 }
-.wpsp_pro_features_lists h3 {
+.wpsp_features_lists h3 {
     color: #405068;
     font-size: 26pt;
 }
-.wpsp_pro_support_panel {
+.wpsp_support_panel {
     padding: 30px;
     box-sizing: border-box;
     width: 100%;
     background: #fff;
     border-radius: 5px;
 }
-.wpsp_pro_suppurt_lists {
+.wpsp_suppurt_lists {
     width: 100%;
     display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
     display: -moz-box; /* OLD - Firefox 19 */
@@ -2380,14 +2384,14 @@
         padding-left: 0;
     }
 
-    .wpsp_pro_features_upgrade h2 {
+    .wpsp_features_upgrade h2 {
         position: relative;
         transform: none;
         left: 0;
         top: auto;
         margin-bottom: 20px;
     }
-    .wpsp_pro_features_upgrade a {
+    .wpsp_features_upgrade a {
         position: relative;
         top: auto;
         right: auto;
@@ -2395,7 +2399,7 @@
         margin-left: 30px;
         float: left;
     }
-    .wpsp_pro_features_upgrade:before {
+    .wpsp_features_upgrade:before {
         margin-left: 0;
         line-height: auto;
         margin-top: 30px;
@@ -2431,34 +2435,34 @@
     .wpsp_promo_title {
         font-size: 3.8vw !important;
     }
-    .wpsp_pro_features_lists h3 {
+    .wpsp_features_lists h3 {
         font-size: 24px;
     }
-    .wpsp_pro_features_upgrade img {
+    .wpsp_features_upgrade img {
         width: 13%;
     }
-    .wpsp_pro_features_upgrade h2 {
+    .wpsp_features_upgrade h2 {
         font-size: 28px;
         margin-left: 25px;
     }
-    .wpsp_pro_features_upgrade a {
+    .wpsp_features_upgrade a {
         padding: 15px 25px;
         font-size: 12pt;
     }
-    .wpsp_pro_support_panel {
+    .wpsp_support_panel {
         padding: 20px;
     }
-    .wpsp_pro_support_panel h4 {
+    .wpsp_support_panel h4 {
         font-size: 16pt;
     }
-    .wpsp_pro_suppurt_lists h4 {
+    .wpsp_suppurt_lists h4 {
         font-size: 14pt;
     }
-    .wpsp_pro_support_panel h4 {
+    .wpsp_support_panel h4 {
         margin: 1.33em 0;
         font-size: 18px;
     }
-    .wpsp_pro_suppurt_lists {
+    .wpsp_suppurt_lists {
         width: 100%;
         grid-template-columns: repeat(2, 1fr);
         grid-column-gap: 10px;
@@ -2499,7 +2503,7 @@
         margin: 20px 0;
         width: 100%;
     }
-    .wpsp_pro_features_upgrade:before {
+    .wpsp_features_upgrade:before {
         font-size: 30pt;
         margin-left: -55px;
     }
