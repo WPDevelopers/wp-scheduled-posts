@@ -94,7 +94,7 @@ class MultiProfile
      * @since 2.5.0
      * @return json
      */
-    public function add_social_profile()
+    public function add_social_profile($request)
     {
         $request = $_POST;
         $type = (isset($_POST['type']) ? $_POST['type'] : '');

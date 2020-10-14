@@ -1,7 +1,6 @@
 import { __ } from '@wordpress/i18n'
 import React from 'react'
 const Upgrade = ({ icon, proVersion }) => {
-    console.log(proVersion)
     return (
         <React.Fragment>
             <div className='wpsp_features_upgrade'>

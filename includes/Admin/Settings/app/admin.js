@@ -5,10 +5,14 @@ if (!window._babelPolyfill) {
 
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
+import store from './redux/store'
 import Admin from './containers/Admin'
 document.addEventListener('DOMContentLoaded', function () {
     ReactDOM.render(
-        <Admin wpspObject={window.wpspSettingsGlobal} />,
+        <Provider store={store}>
+            <Admin wpspObject={window.wpspSettingsGlobal} />
+        </Provider>,
         document.getElementById('wpsp-dashboard-body')
     )
 })

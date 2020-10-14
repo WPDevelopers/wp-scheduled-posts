@@ -243,10 +243,24 @@ class Config
             'type' => 'socialprofile',
             'title' => __('Facebook Profile', 'wp-scheduled-posts'),
             'subtitle' => __('You can enable/disable facebook social share. For details on facebook configuration, check out this Doc', 'wp-scheduled-posts'),
+            'app'   => [
+                'platform'  => 'facebook',
+                'type'      => 'default'
+            ]
         ]);
         Builder::add_sub_tab('wpsp_social_profile', [
             'id' => 'twitter',
             'title' => __('Twitter', 'wp-scheduled-posts'),
+        ]);
+        Builder::add_sub_field('wpsp_social_profile', 'twitter', [
+            'id' => 'twitter_profile',
+            'type' => 'socialprofile',
+            'title' => __('Twitter Profile', 'wp-scheduled-posts'),
+            'subtitle' => __('You can enable/disable twitter social share. For details on twitter configuration, check out this ', 'wp-scheduled-posts'),
+            'app'   => [
+                'platform'  => 'twitter',
+                'type'      => 'custom'
+            ]
         ]);
         Builder::add_sub_tab('wpsp_social_profile', [
             'id' => 'linkedin',

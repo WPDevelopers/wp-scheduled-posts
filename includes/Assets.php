@@ -98,13 +98,13 @@ class Assets
                     'calendar_rest_route' => site_url('/?rest_route=/wpscp/v1/post_type=post/month=' . $month . '/year=' . $year)
                 )
             );
-            wp_enqueue_script('wpscp-socialprofile', WPSP_ASSETS_URI . 'js/wpscp-socialprofile.js', array('jquery'), filemtime(WPSP_ASSETS_DIR_PATH . 'js/wpscp-socialprofile.js'), true);
-            wp_localize_script('wpscp-socialprofile', 'wpscpSocialProfile', array(
-                'plugin_url'    => \WPSP_PLUGIN_ROOT_URI,
-                'nonce'            => wp_create_nonce('wpscp-pro-social-profile'),
-                'redirect_url'  => \WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE,
-                'is_active_pro' => class_exists('WpScp_Pro')
-            ));
+            // wp_enqueue_script('wpscp-socialprofile', WPSP_ASSETS_URI . 'js/wpscp-socialprofile.js', array('jquery'), filemtime(WPSP_ASSETS_DIR_PATH . 'js/wpscp-socialprofile.js'), true);
+            // wp_localize_script('wpscp-socialprofile', 'wpscpSocialProfile', array(
+            //     'plugin_url'    => \WPSP_PLUGIN_ROOT_URI,
+            //     'nonce'            => wp_create_nonce('wpscp-pro-social-profile'),
+            //     'redirect_url'  => \WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE,
+            //     'is_active_pro' => class_exists('WpScp_Pro')
+            // ));
         }
         // admin notice for all wordpress dashboard
         wp_enqueue_style('wpscp-admin-notice', WPSP_ASSETS_URI . 'css/wpscp-admin-notice.css', array(), filemtime(WPSP_ASSETS_DIR_PATH . 'css/wpscp-admin-notice.css'), 'all');

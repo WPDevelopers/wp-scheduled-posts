@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
+import { connect } from 'react-redux'
+import { fetch_social_popup_info } from './../redux/actions/social.actions'
+import { bindActionCreators } from 'redux'
 import { Formik, Form } from 'formik'
 import { ToastContainer, toast } from 'react-toastify'
 import fetchWP from './../utils/fetchWP'
@@ -7,12 +10,28 @@ import Fields from './../components/Fields'
 import Document from './Document'
 import Features from './Features'
 
-const Settings = ({ wpspObject }) => {
+const Settings = ({
+    wpspObject,
+    redirectFromOauth,
+    fetch_social_popup_info,
+}) => {
     const [tabIndex, setTabIndex] = useState(0)
     const [formValue, setFormValue] = useState({})
+    const [isLoaded, setIsLoaded] = useState(false)
+
     useEffect(() => {
+        // social
+        fetch_social_popup_info()
+        if (redirectFromOauth) {
+            setTabIndex(2)
+        }
+        // settings
         getSetting()
-    }, [])
+        // loader
+        setTimeout(() => {
+            setIsLoaded(true)
+        }, 3000)
+    }, [redirectFromOauth])
     const FETCHWP = new fetchWP({
         restURL: wpspObject.api_url,
         restNonce: wpspObject.api_nonce,
@@ -66,6 +85,17 @@ const Settings = ({ wpspObject }) => {
                 }
                 return (
                     <form onSubmit={props.handleSubmit}>
+                        {!isLoaded && (
+                            <div className='wpsp_loader'>
+                                <img
+                                    src={
+                                        wpspObject.plugin_root_uri +
+                                        'assets/images/wpscp-logo.gif'
+                                    }
+                                    alt='Loader'
+                                />
+                            </div>
+                        )}
                         <Tabs
                             selectedIndex={tabIndex}
                             onSelect={(tabIndex) => setTabIndex(tabIndex)}
@@ -219,4 +249,17 @@ const Settings = ({ wpspObject }) => {
     )
 }
 
-export default Settings
+const mapStateToProps = (state) => ({
+    redirectFromOauth: state.social.redirectFromOauth,
+})
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetch_social_popup_info: bindActionCreators(
+            fetch_social_popup_info,
+            dispatch
+        ),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Settings)

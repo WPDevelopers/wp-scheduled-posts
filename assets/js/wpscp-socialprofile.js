@@ -644,13 +644,13 @@ jQuery(document).ready(function ($) {
                     )
                 }
                 // remove unnecessary query string
-                if (history.pushState) {
-                    history.pushState(
-                        null,
-                        null,
-                        window.location.href.split('&')[0]
-                    )
-                }
+                // if (history.pushState) {
+                //     history.pushState(
+                //         null,
+                //         null,
+                //         window.location.href.split('&')[0]
+                //     )
+                // }
             })
         }
     })
