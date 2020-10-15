@@ -83,6 +83,7 @@ const SocialProfile = ({
             oauthToken: localSocial.social.queryString.get('oauth_token'),
         }
         jQuery.post(ajaxurl, data, function (response) {
+            console.log(response)
             setRequestSending(false)
             if (response.success) {
                 setFbPage(response.page)
@@ -274,12 +275,20 @@ const SocialProfile = ({
                                         data={responseData}
                                     />
                                 ),
-                                pinterest: (
-                                    <CustomAppForm
+                                linkedin: (
+                                    <Profile
                                         fieldName={fieldList.name}
                                         field={fieldList}
-                                        page={fbPage}
-                                        group={fbGroup}
+                                        platform={socialPlatform}
+                                        data={responseData}
+                                    />
+                                ),
+                                pinterest: (
+                                    <Profile
+                                        fieldName={fieldList.name}
+                                        field={fieldList}
+                                        platform={socialPlatform}
+                                        data={responseData}
                                     />
                                 ),
                             }[socialPlatform]

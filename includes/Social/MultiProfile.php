@@ -303,7 +303,6 @@ class MultiProfile
                 $acessToken = $linkedin->getAccessToken($code);
                 $getPerson = $linkedin->getPerson($acessToken);
 
-                $oldData  = (empty(get_option(WPSCP_LINKEDIN_OPTION_NAME)) ? array() : get_option(WPSCP_LINKEDIN_OPTION_NAME));
                 $image = $getPerson->profilePicture->{'displayImage~'}->elements[0]->identifiers[0]->identifier;
                 $info = array(
                     'id' => $getPerson->id,
@@ -319,10 +318,7 @@ class MultiProfile
                     $info['app_id']         = $app_id;
                     $info['app_secret']     = $app_secret;
                 }
-                array_push($oldData, $info);
 
-                $updatedData = $oldData;
-                $updatedData = update_option(WPSCP_LINKEDIN_OPTION_NAME, $updatedData);
                 $response = array(
                     'success'   => true,
                     'data'      => $info,
@@ -700,10 +696,10 @@ class MultiProfile
 
 
         if ($type == 'pinterest') {
-            if (!$this->social_single_profile_checkpoint($type)) {
-                wp_send_json_error($this->multiProfileErrorMessage);
-                wp_die();
-            }
+            // if (!$this->social_single_profile_checkpoint($type)) {
+            //     wp_send_json_error($this->multiProfileErrorMessage);
+            //     wp_die();
+            // }
             try {
                 $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=wp-scheduled-posts'));
                 $pinterest = new Pinterest(
@@ -722,10 +718,10 @@ class MultiProfile
                 wp_die();
             }
         } else if ($type == 'linkedin') {
-            if (!$this->social_single_profile_checkpoint($type)) {
-                wp_send_json_error($this->multiProfileErrorMessage);
-                wp_die();
-            }
+            // if (!$this->social_single_profile_checkpoint($type)) {
+            //     wp_send_json_error($this->multiProfileErrorMessage);
+            //     wp_die();
+            // }
             try {
                 $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=wp-scheduled-posts'));
                 $state = base64_encode(json_encode($request));

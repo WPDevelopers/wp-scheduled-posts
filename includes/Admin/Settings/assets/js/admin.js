@@ -1159,6 +1159,7 @@ const SocialProfile = ({
       oauthToken: localSocial.social.queryString.get('oauth_token')
     };
     jQuery.post(ajaxurl, data, function (response) {
+      console.log(response);
       setRequestSending(false);
 
       if (response.success) {
@@ -1310,11 +1311,17 @@ const SocialProfile = ({
       platform: socialPlatform,
       data: responseData
     }),
-    pinterest: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_CustomAppForm__WEBPACK_IMPORTED_MODULE_11__["default"], {
+    linkedin: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Social_Profile__WEBPACK_IMPORTED_MODULE_10__["default"], {
       fieldName: fieldList.name,
       field: fieldList,
-      page: fbPage,
-      group: fbGroup
+      platform: socialPlatform,
+      data: responseData
+    }),
+    pinterest: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Social_Profile__WEBPACK_IMPORTED_MODULE_10__["default"], {
+      fieldName: fieldList.name,
+      field: fieldList,
+      platform: socialPlatform,
+      data: responseData
     })
   }[socialPlatform], /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: "wpsp-modal-save-close-button",
