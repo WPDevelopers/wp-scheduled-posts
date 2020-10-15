@@ -266,16 +266,30 @@ class Config
             'id' => 'linkedin',
             'title' => __('Linekdin', 'wp-scheduled-posts'),
         ]);
+        Builder::add_sub_field('wpsp_social_profile', 'linkedin', [
+            'id' => 'linkedin_profile',
+            'type' => 'socialprofile',
+            'title' => __('Linkedin Profile', 'wp-scheduled-posts'),
+            'subtitle' => __('You can enable/disable twitter social share. For details on twitter configuration, check out this ', 'wp-scheduled-posts'),
+            'app'   => [
+                'platform'  => 'linkedin',
+                'type'      => 'custom'
+            ]
+        ]);
         Builder::add_sub_tab('wpsp_social_profile', [
             'id' => 'pinterest',
             'title' => __('Pinterest', 'wp-scheduled-posts'),
         ]);
-
-        // Builder::add_field('wpsp_social_profile', [
-        //     'id' => 'social_profiles',
-        //     'type' => 'social',
-        //     'title' => __('Social Profile', 'wp-scheduled-posts'),
-        // ]);
+        Builder::add_sub_field('wpsp_social_profile', 'pinterest', [
+            'id' => 'pinterest_profile',
+            'type' => 'socialprofile',
+            'title' => __('Pinterest Profile', 'wp-scheduled-posts'),
+            'subtitle' => __('You can enable/disable twitter social share. For details on twitter configuration, check out this ', 'wp-scheduled-posts'),
+            'app'   => [
+                'platform'  => 'pinterest',
+                'type'      => 'custom'
+            ]
+        ]);
     }
 
     /**

@@ -351,7 +351,7 @@ class MultiProfile
                 );
 
 
-                $oldData = (empty(get_option(WPSCP_TWITTER_OPTION_NAME)) ? array() : get_option(WPSCP_TWITTER_OPTION_NAME));
+
                 // get user data
                 $connection = new TwitterOAuth(
                     $app_id,
@@ -377,10 +377,8 @@ class MultiProfile
                         $info['app_id']         = $app_id;
                         $info['app_secret']     = $app_secret;
                     }
-                    array_push($oldData, $info);
                 }
-                $updatedData = $oldData;
-                $updatedData = update_option(WPSCP_TWITTER_OPTION_NAME, $updatedData);
+
                 $response = array(
                     'success'   => true,
                     'data'      => $info,
@@ -746,10 +744,10 @@ class MultiProfile
                 wp_die();
             }
         } else if ($type == 'twitter') {
-            if (!$this->social_single_profile_checkpoint($type)) {
-                wp_send_json_error($this->multiProfileErrorMessage);
-                wp_die();
-            }
+            // if (!$this->social_single_profile_checkpoint($type)) {
+            //     wp_send_json_error($this->multiProfileErrorMessage);
+            //     wp_die();
+            // }
             try {
                 $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=wp-scheduled-posts'));
                 $connection = new TwitterOAuth(

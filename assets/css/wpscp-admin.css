@@ -972,7 +972,6 @@
   -webkit-animation-name: Toastify__slideOutDown;
           animation-name: Toastify__slideOutDown;
 }
-/* PRO Settings Page CSS */
 .wpsp-dashboard-body {
   position: relative;
 }
@@ -1063,6 +1062,10 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   color: #687b95;
   font-size: 14px;
   background: #fff;
@@ -1129,6 +1132,78 @@
 }
 .wpsp-dashboard-body .btn-submit--changed {
   background: #e74c3c;
+}
+
+.wpsp-modal-social-platform .entry-head {
+  color: #fff;
+  height: 40px;
+  padding: 0 10px;
+  border-radius: 5px;
+  line-height: 40px;
+  margin-bottom: 10px;
+}
+.wpsp-modal-social-platform .entry-head img {
+  width: 15px;
+  height: 15px;
+}
+.wpsp-modal-social-platform .entry-head .entry-head-title {
+  display: inline-block;
+  margin: 0 0 0 10px;
+  color: #fff;
+}
+.wpsp-modal-social-platform .entry-head.facebook {
+  background: #3b5997;
+}
+.wpsp-modal-social-platform ul li .item-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border: 1px solid #e7e7e7;
+  padding: 5px 15px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+.wpsp-modal-social-platform ul li .item-content .entry-title {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  margin: 0;
+}
+.wpsp-modal-social-platform ul li .item-content .type {
+  background: #f0efff;
+  color: #3b5997;
+  padding: 5px 25px;
+  border-radius: 25px;
+}
+.wpsp-modal-social-platform ul li .item-content .entry-thumbnail {
+  margin-right: 10px;
+  line-height: 0;
+}
+.wpsp-modal-social-platform ul li .item-content .entry-thumbnail img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid #e7e7e7;
+}
+
+.wpsp-modal-save-close-button {
+  background: #6c62ff;
+  color: #fff;
+  font-size: 15px;
+  padding: 10px 25px;
+  font-weight: 500;
+  border: none;
+  border-radius: 5px;
+  text-transform: capitalize;
+  cursor: pointer;
+  -webkit-box-shadow: none;
+  box-shadow: none;
 }
 
 .wpsp-dashboard-body .wpsp_calendar_loader,

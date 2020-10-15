@@ -122,6 +122,103 @@ document.addEventListener('DOMContentLoaded', function () {
 
 /***/ }),
 
+/***/ "./app/components/CustomAppForm/index.js":
+/*!***********************************************!*\
+  !*** ./app/components/CustomAppForm/index.js ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+const CustomAppForm = ({
+  requestHandler
+}) => {
+  const [redirectURI, SetRedirectURI] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('https://api.schedulepress.com/callback.php');
+  const [appID, SetAppID] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('');
+  const [appSecret, SetAppSecret] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('');
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "modalbody"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "wpsp-social-account-insert-modal"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "wpsp-social-modal-header"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Twitter"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "For details on Twitter configuration, check out this", ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    className: "docs",
+    href: "https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/",
+    target: "_blank"
+  }, "Doc"), ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    href: "https://developer.twitter.com/",
+    target: "_blank"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, "Click here")), ' ', "here to Retrieve Your API Keys from your Twitter account")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "hidden",
+    name: "tempmodaltype",
+    value: "twitter"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+    className: "form-table"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+    colspan: "2",
+    align: "left"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group redirect-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-label"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Redirect URI: ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-input"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    value: redirectURI,
+    placeholder: "Redirect URI",
+    onChange: e => SetRedirectURI(e.target.value)
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "doc"
+  }, "Copy this and paste it in your Twitter app Callback uri field."))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+    colspan: "2",
+    align: "left"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-label"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "App ID: ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-input"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    value: appID,
+    placeholder: "App ID",
+    onChange: e => SetAppID(e.target.value)
+  }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+    colspan: "2",
+    align: "left"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-label"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "App Secret: ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-input"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    value: appSecret,
+    placeholder: "App Secret",
+    onChange: e => SetAppSecret(e.target.value)
+  }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+    colspan: "2",
+    align: "left"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    onClick: () => requestHandler(redirectURI, appID, appSecret),
+    className: "submit"
+  }, "Generate Access Token")))))))));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (CustomAppForm);
+
+/***/ }),
+
 /***/ "./app/components/Facebook/index.js":
 /*!******************************************!*\
   !*** ./app/components/Facebook/index.js ***!
@@ -134,57 +231,76 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Facebook; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var formik__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! formik */ "./node_modules/formik/dist/formik.esm.js");
+
 
 function Facebook({
+  fieldName,
+  field,
   page,
   group
 }) {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "wpsp-modal-social-platform"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "entry-head facebook"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: "https://itushar.me/dev/wp-content/plugins/wp-scheduled-posts/admin/assets/images/icon-facebook-small-white.png",
-    alt: "logo"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
-    className: "entry-head-title"
-  }, "Facebook")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Pages: "), page.map((item, index) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-    id: 'facebook_page_' + index,
-    key: index
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "item-content"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "entry-thumbnail"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: "https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-1/cp0/p50x50/104447021_103269271446191_8892114688067945178_o.png?_nc_cat=104&_nc_sid=dbb9e7&_nc_ohc=X_6m8nD-nooAX8Duvu3&_nc_ht=scontent-lax3-1.xx&oh=61b337157a9eca69e54506b10d5d42ac&oe=5FAB5877",
-    alt: "logo"
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
-    className: "entry-title"
-  }, item.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "control"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "checkbox",
-    name: "pagekey",
-    value: "0"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Groups: "), group.map((item, index) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-    id: 'facebook_group_' + index,
-    key: index
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "item-content"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "entry-thumbnail"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: "https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-0/cp0/c4.0.50.50a/p50x50/92595996_125168682430858_158405003831148544_o.jpg?_nc_cat=110&_nc_sid=ca434c&_nc_ohc=PTOt5c-m8f0AX_1QHr9&_nc_ht=scontent-lax3-1.xx&_nc_tp=27&oh=0c4fb3be6bedbb2941357af39e6d6f66&oe=5FAB1EF7",
-    alt: "logo"
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
-    className: "entry-title"
-  }, item.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "control"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "checkbox",
-    name: "groupkey",
-    value: "0"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null))))))));
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_1__["FieldArray"], {
+    name: fieldName,
+    render: arrayHelpers => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "wpsp-modal-social-platform"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "entry-head facebook"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      src: "https://itushar.me/dev/wp-content/plugins/wp-scheduled-posts/admin/assets/images/icon-facebook-small-white.png",
+      alt: "logo"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+      className: "entry-head-title"
+    }, "Facebook")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Pages: "), page.map((item, index) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      id: 'facebook_page_' + index,
+      key: index
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "item-content"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "entry-thumbnail"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      src: "https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-1/cp0/p50x50/104447021_103269271446191_8892114688067945178_o.png?_nc_cat=104&_nc_sid=dbb9e7&_nc_ohc=X_6m8nD-nooAX8Duvu3&_nc_ht=scontent-lax3-1.xx&oh=61b337157a9eca69e54506b10d5d42ac&oe=5FAB5877",
+      alt: "logo"
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
+      className: "entry-title"
+    }, item.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "control"
+    }, console.log(field), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      type: "checkbox",
+      name: "".concat(field.name, ".").concat(index),
+      onChange: e => {
+        if (e.target.checked) {
+          return arrayHelpers.insert(index, item);
+        } else {
+          return arrayHelpers.remove(index);
+        }
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Group: "), group.map((item, index) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      id: 'facebook_group_' + index,
+      key: index
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "item-content"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "entry-thumbnail"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      src: "https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-1/cp0/p50x50/104447021_103269271446191_8892114688067945178_o.png?_nc_cat=104&_nc_sid=dbb9e7&_nc_ohc=X_6m8nD-nooAX8Duvu3&_nc_ht=scontent-lax3-1.xx&oh=61b337157a9eca69e54506b10d5d42ac&oe=5FAB5877",
+      alt: "logo"
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
+      className: "entry-title"
+    }, item.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "control"
+    }, console.log(field), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      type: "checkbox",
+      name: "".concat(field.name, ".").concat(index),
+      onChange: e => {
+        if (e.target.checked) {
+          return arrayHelpers.insert(index, item);
+        } else {
+          return arrayHelpers.remove(index);
+        }
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null)))))))
+  }));
 }
 
 /***/ }),
@@ -321,6 +437,138 @@ const Instruction = ({
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Instruction);
+
+/***/ }),
+
+/***/ "./app/components/Social/Profile.js":
+/*!******************************************!*\
+  !*** ./app/components/Social/Profile.js ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var formik__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! formik */ "./node_modules/formik/dist/formik.esm.js");
+
+
+
+const Profile = ({
+  platform,
+  fieldName,
+  field,
+  data
+}) => {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_1__["FieldArray"], {
+    name: fieldName,
+    render: arrayHelpers => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "wpsp-modal-social-platform"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "entry-head facebook"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      src: "https://itushar.me/dev/wp-content/plugins/wp-scheduled-posts/admin/assets/images/icon-facebook-small-white.png",
+      alt: "logo"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+      className: "entry-head-title"
+    }, platform)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, data.map((item, index) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      id: 'facebook_page_' + index,
+      key: index
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "item-content"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "entry-thumbnail"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      src: "https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-1/cp0/p50x50/104447021_103269271446191_8892114688067945178_o.png?_nc_cat=104&_nc_sid=dbb9e7&_nc_ohc=X_6m8nD-nooAX8Duvu3&_nc_ht=scontent-lax3-1.xx&oh=61b337157a9eca69e54506b10d5d42ac&oe=5FAB5877",
+      alt: "logo"
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
+      className: "entry-title"
+    }, item.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "control"
+    }, console.log(field), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      type: "checkbox",
+      name: "".concat(field.name, ".").concat(index),
+      onChange: e => {
+        if (e.target.checked) {
+          return arrayHelpers.insert(index, item);
+        } else {
+          return arrayHelpers.remove(index);
+        }
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null)))))))
+  }));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Profile);
+
+/***/ }),
+
+/***/ "./app/components/Social/SocialTabHeader.js":
+/*!**************************************************!*\
+  !*** ./app/components/Social/SocialTabHeader.js ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+const SocialTabHeader = ({
+  socialPlatform,
+  field
+}) => {
+  const socialData = {
+    facebook: {
+      icon: 'Facebook',
+      title: 'Facebook',
+      subtitle: 'You can enable/disable facebook social share. For details on facebook configuration, check out this Doc'
+    },
+    twitter: {
+      icon: 'twitter',
+      title: 'Twitter',
+      subtitle: 'You can enable/disable facebook social share. For details on facebook configuration, check out this Doc'
+    },
+    linkedin: {
+      icon: 'linkedin',
+      title: 'Linkedin',
+      subtitle: 'You can enable/disable facebook social share. For details on facebook configuration, check out this Doc'
+    },
+    pinterest: {
+      icon: 'pinterest',
+      title: 'Pinterest',
+      subtitle: 'You can enable/disable facebook social share. For details on facebook configuration, check out this Doc'
+    }
+  };
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "wpscp-social-tab__item-header wpscp-social-tab__item-header--facebook"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "entry-icon"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: "https://itushar.me/dev/wp-content/plugins/wp-scheduled-posts/admin/partials/./../assets/images/icon-facebook.png",
+    alt: "icon"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "entry-content"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, socialData[socialPlatform].title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, socialData[socialPlatform].subtitle)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "entry-control"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "checkbox_wrap"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "wpsp_switch"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "checkbox",
+    checked: field.value,
+    name: field.name,
+    onChange: () => setFieldValue(field.name, !field.value)
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "wpsp_switch_slider"
+  }))))));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (SocialTabHeader);
 
 /***/ }),
 
@@ -826,7 +1074,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var formik__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! formik */ "./node_modules/formik/dist/formik.esm.js");
 /* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-modal */ "./node_modules/react-modal/lib/index.js");
 /* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_modal__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _Facebook__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./../Facebook */ "./app/components/Facebook/index.js");
+/* harmony import */ var _Social_SocialTabHeader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./../Social/SocialTabHeader */ "./app/components/Social/SocialTabHeader.js");
+/* harmony import */ var _Facebook__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./../Facebook */ "./app/components/Facebook/index.js");
+/* harmony import */ var _Social_Profile__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./../Social/Profile */ "./app/components/Social/Profile.js");
+/* harmony import */ var _components_CustomAppForm__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./../../components/CustomAppForm */ "./app/components/CustomAppForm/index.js");
+
+
+
 
 
 
@@ -859,32 +1113,42 @@ const SocialProfile = ({
   close_redirect_popup
 }) => {
   const [modalIsOpen, setModalIsOpen] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
+  const [customAppModalIsOpen, setCustomAppModalIsOpen] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
   const [localSocial, setLocalSocial] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])();
+  const [requestSending, setRequestSending] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
+  const [fbPage, setFbPage] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]);
+  const [fbGroup, setFbGroup] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]);
+  const [responseData, setResponseData] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]);
+  const [socialPlatform, setSocialPlatform] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('');
   const [field] = Object(formik__WEBPACK_IMPORTED_MODULE_6__["useField"])(id);
-  console.log(field);
+  const [fieldStatus] = Object(formik__WEBPACK_IMPORTED_MODULE_6__["useField"])(field.name + '_status');
+  const [fieldList] = Object(formik__WEBPACK_IMPORTED_MODULE_6__["useField"])(field.name + '_list');
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
     setLocalSocial(_redux_store__WEBPACK_IMPORTED_MODULE_2__["default"].getState('social'));
 
     if (localSocial !== undefined && localSocial.social.redirectFromOauth === true) {
       setModalIsOpen(true); // remove unnecessary query string
-
-      if (history.pushState) {
-        history.pushState(null, null, window.location.href.split('&')[0]);
-      }
+      // if (history.pushState) {
+      //     history.pushState(
+      //         null,
+      //         null,
+      //         window.location.href.split('&')[0]
+      //     )
+      // }
     }
   }, [localSocial]);
-  const [fbPage, setFbPage] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]);
-  const [fbGroup, setFbGroup] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]);
-  const [socialPlatform, setSocialPlatform] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('');
 
   function openModal() {
     setModalIsOpen(true);
   }
 
   function afterOpenModal() {
+    setRequestSending(true);
+    setSocialPlatform(localSocial.social.queryString.get('type'));
     /**
      * send ajax requrest for generate access token and fetch user, page info
      */
+
     var data = {
       action: 'wpscp_social_profile_fetch_user_info_and_token',
       type: localSocial.social.queryString.get('type'),
@@ -895,10 +1159,12 @@ const SocialProfile = ({
       oauthToken: localSocial.social.queryString.get('oauth_token')
     };
     jQuery.post(ajaxurl, data, function (response) {
+      setRequestSending(false);
+
       if (response.success) {
         setFbPage(response.page);
         setFbGroup(response.group);
-        setSocialPlatform(response.type);
+        setResponseData([response.data]);
       } else {
         console.log('error, response: ', response);
       }
@@ -921,6 +1187,32 @@ const SocialProfile = ({
     });
   };
 
+  const customAppProfileRequest = (redirectURI, appID, appSecret) => {
+    var data = {
+      action: 'wpscp_social_temp_add_profile',
+      redirectURI: redirectURI,
+      appId: appID,
+      appSecret: appSecret,
+      type: app.platform
+    }; // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
+
+    jQuery.post(ajaxurl, data, function (response) {
+      console.log(response);
+
+      if (response.success) {
+        open(response.data, '_self');
+      } else {}
+    });
+  };
+
+  const openCustomAppModal = () => {
+    setCustomAppModalIsOpen(true);
+  };
+
+  const closeCustomAppModalIsOpen = () => {
+    setCustomAppModalIsOpen(false);
+  };
+
   function closeModal() {
     setModalIsOpen(false);
     close_redirect_popup();
@@ -928,80 +1220,107 @@ const SocialProfile = ({
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-group"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "wpscp-social-tab__item-header wpscp-social-tab__item-header--facebook"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "entry-icon"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Social_SocialTabHeader__WEBPACK_IMPORTED_MODULE_8__["default"], {
+    socialPlatform: app.platform,
+    field: fieldStatus
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "wpscp-social-tab__item-list"
+  }, fieldList.value !== undefined && Array.isArray(fieldList.value) && fieldList.value.map((item, index) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "wpscp-social-tab__item-list__single_item",
+    key: index
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "entry-thumbnail"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: item.thumbnail_url,
+    alt: "icon"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "entry-content"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Facebook"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "You can enable/disable facebook social share. For details on facebook configuration, check out this Doc")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
+    className: "entry-content__title"
+  }, item.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "entry-content__doc"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, item.added_by), "on", item.added_date)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "entry-control"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "checkbox_wrap"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "wpsp_switch"
+    className: "checkbox-toggle"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "checkbox",
-    checked: field.value,
-    name: field.name,
-    onChange: () => setFieldValue(field.name, !field.value)
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "wpsp_switch_slider"
-  }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "wpscp-social-tab__item-list"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "wpsp_field_activate",
+    checked: item.status
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
+    className: "is_checked",
+    xmlns: "http://www.w3.org/2000/svg",
+    viewBox: "0 0 426.67 426.67"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+    d: "M153.504 366.84c-8.657 0-17.323-3.303-23.927-9.912L9.914 237.265c-13.218-13.218-13.218-34.645 0-47.863 13.218-13.218 34.645-13.218 47.863 0l95.727 95.727 215.39-215.387c13.218-13.214 34.65-13.218 47.86 0 13.22 13.218 13.22 34.65 0 47.863L177.435 356.928c-6.61 6.605-15.27 9.91-23.932 9.91z"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
+    className: "is_unchecked",
+    xmlns: "http://www.w3.org/2000/svg",
+    viewBox: "0 0 212.982 212.982"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+    d: "M131.804 106.49l75.936-75.935c6.99-6.99 6.99-18.323 0-25.312-6.99-6.99-18.322-6.99-25.312 0L106.49 81.18 30.555 5.242c-6.99-6.99-18.322-6.99-25.312 0-6.99 6.99-6.99 18.323 0 25.312L81.18 106.49 5.24 182.427c-6.99 6.99-6.99 18.323 0 25.312 6.99 6.99 18.322 6.99 25.312 0L106.49 131.8l75.938 75.937c6.99 6.99 18.322 6.99 25.312 0 6.99-6.99 6.99-18.323 0-25.313l-75.936-75.936z",
+    "fill-rule": "evenodd",
+    "clip-rule": "evenodd"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "entry-control__more-link"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "btn-more-link"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: "images/icon-more.png",
+    alt: "more item"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+    className: "entry-control__more-link__group_absolute"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "btn btn-refresh"
+  }, "Refresh"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "btn btn-remove"
+  }, "Remove")))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
     className: "wpscp-social-tab__btn wpscp-social-tab__btn--facebook wpscp-social-tab__btn--addnew-profile",
-    onClick: () => app.type == 'custom' ? openModal(app.platform) : sendAddProfileRequest(app.platform)
+    onClick: () => app.type == 'custom' ? openCustomAppModal(app.platform) : sendAddProfileRequest(app.platform)
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: "#",
     alt: "icon"
   }), "Add New Profile"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_modal__WEBPACK_IMPORTED_MODULE_7___default.a, {
+    isOpen: customAppModalIsOpen,
+    onRequestClose: closeCustomAppModalIsOpen,
+    style: customStyles,
+    ariaHideApp: false
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_CustomAppForm__WEBPACK_IMPORTED_MODULE_11__["default"], {
+    requestHandler: customAppProfileRequest
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_modal__WEBPACK_IMPORTED_MODULE_7___default.a, {
     isOpen: modalIsOpen,
     onAfterOpen: afterOpenModal,
     onRequestClose: closeModal,
     style: customStyles,
     contentLabel: "Example Modal",
     ariaHideApp: false
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_6__["FieldArray"], {
-    name: "facebook_profile",
-    render: arrayHelpers => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "wpsp-modal-social-platform"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "entry-head facebook"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-      src: "https://itushar.me/dev/wp-content/plugins/wp-scheduled-posts/admin/assets/images/icon-facebook-small-white.png",
-      alt: "logo"
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
-      className: "entry-head-title"
-    }, "Facebook")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Pages: "), fbPage.map((item, index) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-      id: 'facebook_page_' + index,
-      key: index
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "item-content"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "entry-thumbnail"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-      src: "https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-1/cp0/p50x50/104447021_103269271446191_8892114688067945178_o.png?_nc_cat=104&_nc_sid=dbb9e7&_nc_ohc=X_6m8nD-nooAX8Duvu3&_nc_ht=scontent-lax3-1.xx&oh=61b337157a9eca69e54506b10d5d42ac&oe=5FAB5877",
-      alt: "logo"
-    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
-      className: "entry-title"
-    }, item.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "control"
-    }, console.log(field), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-      type: "checkbox",
-      name: "".concat(field.name, ".").concat(index),
-      onChange: e => {
-        if (e.target.checked) {
-          return arrayHelpers.insert(index, item);
-        } else {
-          return arrayHelpers.remove(index);
-        }
-      }
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null))))))))
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+  }, requestSending ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "wpsp-modal-info"
+  }, "Generating Token & Fetching User Data") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, {
+    facebook: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Facebook__WEBPACK_IMPORTED_MODULE_9__["default"], {
+      fieldName: fieldList.name,
+      field: fieldList,
+      page: fbPage,
+      group: fbGroup
+    }),
+    twitter: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Social_Profile__WEBPACK_IMPORTED_MODULE_10__["default"], {
+      fieldName: fieldList.name,
+      field: fieldList,
+      platform: socialPlatform,
+      data: responseData
+    }),
+    pinterest: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_CustomAppForm__WEBPACK_IMPORTED_MODULE_11__["default"], {
+      fieldName: fieldList.name,
+      field: fieldList,
+      page: fbPage,
+      group: fbGroup
+    })
+  }[socialPlatform], /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "wpsp-modal-save-close-button",
+    type: "submit",
     onClick: closeModal
-  }, "close")));
+  }, "Close"))));
 };
 
 const mapDispatchToProps = dispatch => {
@@ -1306,10 +1625,12 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 const Settings = ({
   wpspObject,
+  socialPlatform,
   redirectFromOauth,
   fetch_social_popup_info
 }) => {
   const [tabIndex, setTabIndex] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(0);
+  const [subTabIndex, setSubTabIndex] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(0);
   const [formValue, setFormValue] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({});
   const [isLoaded, setIsLoaded] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
@@ -1318,6 +1639,14 @@ const Settings = ({
 
     if (redirectFromOauth) {
       setTabIndex(2);
+    }
+
+    if (socialPlatform == 'twitter') {
+      setSubTabIndex(1);
+    } else if (socialPlatform == 'linkedin') {
+      setSubTabIndex(2);
+    } else if (socialPlatform == 'pinterest') {
+      setSubTabIndex(3);
     } // settings
 
 
@@ -1392,7 +1721,10 @@ const Settings = ({
     }, Object.keys(props.values).length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: item.id
     }, // sub tabs
-    item.sub_tabs !== undefined && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_tabs__WEBPACK_IMPORTED_MODULE_1__["Tabs"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_tabs__WEBPACK_IMPORTED_MODULE_1__["TabList"], null, Object.entries(item.sub_tabs).map(([subIndex, subItem]) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_tabs__WEBPACK_IMPORTED_MODULE_1__["Tab"], {
+    item.sub_tabs !== undefined && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_tabs__WEBPACK_IMPORTED_MODULE_1__["Tabs"], {
+      selectedIndex: subTabIndex,
+      onSelect: subTabIndex => setSubTabIndex(subTabIndex)
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_tabs__WEBPACK_IMPORTED_MODULE_1__["TabList"], null, Object.entries(item.sub_tabs).map(([subIndex, subItem]) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_tabs__WEBPACK_IMPORTED_MODULE_1__["Tab"], {
       key: subIndex
     }, subItem.title))), Object.entries(item.sub_tabs).map(([subIndex, subItem]) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_tabs__WEBPACK_IMPORTED_MODULE_1__["TabPanel"], {
       key: subIndex
@@ -1422,7 +1754,8 @@ const Settings = ({
 };
 
 const mapStateToProps = state => ({
-  redirectFromOauth: state.social.redirectFromOauth
+  redirectFromOauth: state.social.redirectFromOauth,
+  socialPlatform: state.social.type
 });
 
 const mapDispatchToProps = dispatch => {
@@ -1453,6 +1786,7 @@ const IS_SHOW_REDIRECT_POPUP = 'IS_SHOW_REDIRECT_POPUP';
 const fetch_social_popup_info = () => {
   let queryString = new URLSearchParams(window.location.search);
   let redirectFromOauth = false;
+  let type = queryString.get('type');
 
   if (queryString.get('action') === 'wpscp_social_add_profile' || queryString.get('action') === 'wpscp_social_temp_add_profile' && queryString.get('code') || queryString.get('oauth_verifier') && queryString.get('oauth_token')) {
     redirectFromOauth = true;
@@ -1460,7 +1794,8 @@ const fetch_social_popup_info = () => {
 
   let social = {
     redirectFromOauth,
-    queryString
+    queryString,
+    type
   };
   return dispatch => {
     dispatch({

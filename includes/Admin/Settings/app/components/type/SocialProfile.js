@@ -6,7 +6,10 @@ import { close_redirect_popup } from './../../redux/actions/social.actions'
 import { bindActionCreators } from 'redux'
 import { useField, Formik, Form, Field, FieldArray } from 'formik'
 import Modal from 'react-modal'
+import SocialTabHeader from './../Social/SocialTabHeader'
 import Facebook from './../Facebook'
+import Profile from './../Social/Profile'
+import CustomAppForm from './../../components/CustomAppForm'
 
 const customStyles = {
     content: {
@@ -31,9 +34,17 @@ const SocialProfile = ({
     close_redirect_popup,
 }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false)
+    const [customAppModalIsOpen, setCustomAppModalIsOpen] = useState(false)
     const [localSocial, setLocalSocial] = useState()
+    const [requestSending, setRequestSending] = useState(false)
+    const [fbPage, setFbPage] = useState([])
+    const [fbGroup, setFbGroup] = useState([])
+    const [responseData, setResponseData] = useState([])
+    const [socialPlatform, setSocialPlatform] = useState('')
     const [field] = useField(id)
-    console.log(field)
+    const [fieldStatus] = useField(field.name + '_status')
+    const [fieldList] = useField(field.name + '_list')
+
     useEffect(() => {
         setLocalSocial(store.getState('social'))
         if (
@@ -42,25 +53,23 @@ const SocialProfile = ({
         ) {
             setModalIsOpen(true)
             // remove unnecessary query string
-            if (history.pushState) {
-                history.pushState(
-                    null,
-                    null,
-                    window.location.href.split('&')[0]
-                )
-            }
+            // if (history.pushState) {
+            //     history.pushState(
+            //         null,
+            //         null,
+            //         window.location.href.split('&')[0]
+            //     )
+            // }
         }
     }, [localSocial])
-
-    const [fbPage, setFbPage] = useState([])
-    const [fbGroup, setFbGroup] = useState([])
-    const [socialPlatform, setSocialPlatform] = useState('')
 
     function openModal() {
         setModalIsOpen(true)
     }
 
     function afterOpenModal() {
+        setRequestSending(true)
+        setSocialPlatform(localSocial.social.queryString.get('type'))
         /**
          * send ajax requrest for generate access token and fetch user, page info
          */
@@ -74,10 +83,11 @@ const SocialProfile = ({
             oauthToken: localSocial.social.queryString.get('oauth_token'),
         }
         jQuery.post(ajaxurl, data, function (response) {
+            setRequestSending(false)
             if (response.success) {
                 setFbPage(response.page)
                 setFbGroup(response.group)
-                setSocialPlatform(response.type)
+                setResponseData([response.data])
             } else {
                 console.log('error, response: ', response)
             }
@@ -100,47 +110,121 @@ const SocialProfile = ({
             }
         })
     }
+
+    const customAppProfileRequest = (redirectURI, appID, appSecret) => {
+        var data = {
+            action: 'wpscp_social_temp_add_profile',
+            redirectURI: redirectURI,
+            appId: appID,
+            appSecret: appSecret,
+            type: app.platform,
+        }
+
+        // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
+        jQuery.post(ajaxurl, data, function (response) {
+            console.log(response)
+            if (response.success) {
+                open(response.data, '_self')
+            } else {
+            }
+        })
+    }
+
+    const openCustomAppModal = () => {
+        setCustomAppModalIsOpen(true)
+    }
+    const closeCustomAppModalIsOpen = () => {
+        setCustomAppModalIsOpen(false)
+    }
+
     function closeModal() {
         setModalIsOpen(false)
         close_redirect_popup()
     }
+
     return (
         <div className='form-group'>
-            <div className='wpscp-social-tab__item-header wpscp-social-tab__item-header--facebook'>
-                <div className='entry-icon'>
-                    {/* <img src="#" alt="icon" /> */}
-                </div>
-                <div className='entry-content'>
-                    <h3>Facebook</h3>
-                    <p>
-                        You can enable/disable facebook social share. For
-                        details on facebook configuration, check out this Doc
-                    </p>
-                </div>
-                <div className='entry-control'>
-                    <div className='checkbox_wrap'>
-                        <div className='wpsp_switch'>
-                            <input
-                                type='checkbox'
-                                checked={field.value}
-                                name={field.name}
-                                onChange={() =>
-                                    setFieldValue(field.name, !field.value)
-                                }
-                            />
-                            <span className='wpsp_switch_slider'></span>
+            <SocialTabHeader
+                socialPlatform={app.platform}
+                field={fieldStatus}
+            />
+
+            <div className='wpscp-social-tab__item-list'>
+                {fieldList.value !== undefined &&
+                    Array.isArray(fieldList.value) &&
+                    fieldList.value.map((item, index) => (
+                        <div
+                            className='wpscp-social-tab__item-list__single_item'
+                            key={index}
+                        >
+                            <div className='entry-thumbnail'>
+                                <img src={item.thumbnail_url} alt='icon' />
+                            </div>
+                            <div className='entry-content'>
+                                <h4 className='entry-content__title'>
+                                    {item.name}
+                                </h4>
+                                <p className='entry-content__doc'>
+                                    <strong>{item.added_by}</strong>
+                                    on
+                                    {item.added_date}
+                                </p>
+                            </div>
+                            <div className='entry-control'>
+                                <div className='checkbox-toggle'>
+                                    <input
+                                        type='checkbox'
+                                        className='wpsp_field_activate'
+                                        checked={item.status}
+                                    />
+                                    <svg
+                                        className='is_checked'
+                                        xmlns='http://www.w3.org/2000/svg'
+                                        viewBox='0 0 426.67 426.67'
+                                    >
+                                        <path d='M153.504 366.84c-8.657 0-17.323-3.303-23.927-9.912L9.914 237.265c-13.218-13.218-13.218-34.645 0-47.863 13.218-13.218 34.645-13.218 47.863 0l95.727 95.727 215.39-215.387c13.218-13.214 34.65-13.218 47.86 0 13.22 13.218 13.22 34.65 0 47.863L177.435 356.928c-6.61 6.605-15.27 9.91-23.932 9.91z' />
+                                    </svg>
+                                    <svg
+                                        className='is_unchecked'
+                                        xmlns='http://www.w3.org/2000/svg'
+                                        viewBox='0 0 212.982 212.982'
+                                    >
+                                        <path
+                                            d='M131.804 106.49l75.936-75.935c6.99-6.99 6.99-18.323 0-25.312-6.99-6.99-18.322-6.99-25.312 0L106.49 81.18 30.555 5.242c-6.99-6.99-18.322-6.99-25.312 0-6.99 6.99-6.99 18.323 0 25.312L81.18 106.49 5.24 182.427c-6.99 6.99-6.99 18.323 0 25.312 6.99 6.99 18.322 6.99 25.312 0L106.49 131.8l75.938 75.937c6.99 6.99 18.322 6.99 25.312 0 6.99-6.99 6.99-18.323 0-25.313l-75.936-75.936z'
+                                            fill-rule='evenodd'
+                                            clip-rule='evenodd'
+                                        />
+                                    </svg>
+                                </div>
+                                <div className='entry-control__more-link'>
+                                    <button className='btn-more-link'>
+                                        <img
+                                            src='images/icon-more.png'
+                                            alt='more item'
+                                        />
+                                    </button>
+                                    <ul className='entry-control__more-link__group_absolute'>
+                                        <li>
+                                            <button className='btn btn-refresh'>
+                                                Refresh
+                                            </button>
+                                            <button className='btn btn-remove'>
+                                                Remove
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                    ))}
             </div>
-            <div className='wpscp-social-tab__item-list'></div>
 
             <button
                 type='button'
                 className='wpscp-social-tab__btn wpscp-social-tab__btn--facebook wpscp-social-tab__btn--addnew-profile'
                 onClick={() =>
                     app.type == 'custom'
-                        ? openModal(app.platform)
+                        ? openCustomAppModal(app.platform)
                         : sendAddProfileRequest(app.platform)
                 }
             >
@@ -149,6 +233,16 @@ const SocialProfile = ({
             </button>
 
             <Modal
+                isOpen={customAppModalIsOpen}
+                onRequestClose={closeCustomAppModalIsOpen}
+                style={customStyles}
+                ariaHideApp={false}
+            >
+                <CustomAppForm requestHandler={customAppProfileRequest} />
+            </Modal>
+
+            {/* default app facebook and pinterest */}
+            <Modal
                 isOpen={modalIsOpen}
                 onAfterOpen={afterOpenModal}
                 onRequestClose={closeModal}
@@ -156,71 +250,49 @@ const SocialProfile = ({
                 contentLabel='Example Modal'
                 ariaHideApp={false}
             >
-                {/* <Facebook page={fbPage} group={fbGroup} /> */}
-
-                <FieldArray
-                    name='facebook_profile'
-                    render={(arrayHelpers) => (
-                        <div>
-                            <div className='wpsp-modal-social-platform'>
-                                <div className='entry-head facebook'>
-                                    <img
-                                        src='https://itushar.me/dev/wp-content/plugins/wp-scheduled-posts/admin/assets/images/icon-facebook-small-white.png'
-                                        alt='logo'
+                {requestSending ? (
+                    <div className='wpsp-modal-info'>
+                        Generating Token & Fetching User Data
+                    </div>
+                ) : (
+                    <React.Fragment>
+                        {
+                            {
+                                facebook: (
+                                    <Facebook
+                                        fieldName={fieldList.name}
+                                        field={fieldList}
+                                        page={fbPage}
+                                        group={fbGroup}
                                     />
-                                    <h2 className='entry-head-title'>
-                                        Facebook
-                                    </h2>
-                                </div>
-                                <ul>
-                                    <li>Pages: </li>
-                                    {fbPage.map((item, index) => (
-                                        <li
-                                            id={'facebook_page_' + index}
-                                            key={index}
-                                        >
-                                            <div className='item-content'>
-                                                <div className='entry-thumbnail'>
-                                                    <img
-                                                        src='https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-1/cp0/p50x50/104447021_103269271446191_8892114688067945178_o.png?_nc_cat=104&amp;_nc_sid=dbb9e7&amp;_nc_ohc=X_6m8nD-nooAX8Duvu3&amp;_nc_ht=scontent-lax3-1.xx&amp;oh=61b337157a9eca69e54506b10d5d42ac&amp;oe=5FAB5877'
-                                                        alt='logo'
-                                                    />
-                                                </div>
-                                                <h4 className='entry-title'>
-                                                    {item.name}
-                                                </h4>
-                                                <div className='control'>
-                                                    {console.log(field)}
-                                                    <input
-                                                        type='checkbox'
-                                                        name={`${field.name}.${index}`}
-                                                        onChange={(e) => {
-                                                            if (
-                                                                e.target.checked
-                                                            ) {
-                                                                return arrayHelpers.insert(
-                                                                    index,
-                                                                    item
-                                                                )
-                                                            } else {
-                                                                return arrayHelpers.remove(
-                                                                    index
-                                                                )
-                                                            }
-                                                        }}
-                                                    />
-                                                    <div></div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        </div>
-                    )}
-                />
-
-                <button onClick={closeModal}>close</button>
+                                ),
+                                twitter: (
+                                    <Profile
+                                        fieldName={fieldList.name}
+                                        field={fieldList}
+                                        platform={socialPlatform}
+                                        data={responseData}
+                                    />
+                                ),
+                                pinterest: (
+                                    <CustomAppForm
+                                        fieldName={fieldList.name}
+                                        field={fieldList}
+                                        page={fbPage}
+                                        group={fbGroup}
+                                    />
+                                ),
+                            }[socialPlatform]
+                        }
+                        <button
+                            className='wpsp-modal-save-close-button'
+                            type='submit'
+                            onClick={closeModal}
+                        >
+                            Close
+                        </button>
+                    </React.Fragment>
+                )}
             </Modal>
         </div>
     )

@@ -12,10 +12,12 @@ import Features from './Features'
 
 const Settings = ({
     wpspObject,
+    socialPlatform,
     redirectFromOauth,
     fetch_social_popup_info,
 }) => {
     const [tabIndex, setTabIndex] = useState(0)
+    const [subTabIndex, setSubTabIndex] = useState(0)
     const [formValue, setFormValue] = useState({})
     const [isLoaded, setIsLoaded] = useState(false)
 
@@ -24,6 +26,13 @@ const Settings = ({
         fetch_social_popup_info()
         if (redirectFromOauth) {
             setTabIndex(2)
+        }
+        if (socialPlatform == 'twitter') {
+            setSubTabIndex(1)
+        } else if (socialPlatform == 'linkedin') {
+            setSubTabIndex(2)
+        } else if (socialPlatform == 'pinterest') {
+            setSubTabIndex(3)
         }
         // settings
         getSetting()
@@ -114,7 +123,18 @@ const Settings = ({
                                                     // sub tabs
                                                     item.sub_tabs !==
                                                         undefined && (
-                                                        <Tabs>
+                                                        <Tabs
+                                                            selectedIndex={
+                                                                subTabIndex
+                                                            }
+                                                            onSelect={(
+                                                                subTabIndex
+                                                            ) =>
+                                                                setSubTabIndex(
+                                                                    subTabIndex
+                                                                )
+                                                            }
+                                                        >
                                                             {/* sub tabs menu item */}
                                                             <TabList>
                                                                 {Object.entries(
@@ -251,6 +271,7 @@ const Settings = ({
 
 const mapStateToProps = (state) => ({
     redirectFromOauth: state.social.redirectFromOauth,
+    socialPlatform: state.social.type,
 })
 
 const mapDispatchToProps = (dispatch) => {

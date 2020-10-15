@@ -3,6 +3,7 @@ export const IS_SHOW_REDIRECT_POPUP = 'IS_SHOW_REDIRECT_POPUP'
 export const fetch_social_popup_info = () => {
     let queryString = new URLSearchParams(window.location.search)
     let redirectFromOauth = false
+    let type = queryString.get('type')
     if (
         queryString.get('action') === 'wpscp_social_add_profile' ||
         (queryString.get('action') === 'wpscp_social_temp_add_profile' &&
@@ -14,6 +15,7 @@ export const fetch_social_popup_info = () => {
     let social = {
         redirectFromOauth,
         queryString,
+        type,
     }
     return (dispatch) => {
         dispatch({
