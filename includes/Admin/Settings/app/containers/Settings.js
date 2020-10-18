@@ -7,6 +7,7 @@ import { Formik, Form } from 'formik'
 import { ToastContainer, toast } from 'react-toastify'
 import fetchWP from './../utils/fetchWP'
 import Fields from './../components/Fields'
+import Group from './../components/type/Group'
 import Document from './Document'
 import Features from './Features'
 
@@ -228,6 +229,11 @@ const Settings = ({
                                                             )
                                                         )
                                                 }
+                                                {item.group !== undefined &&
+                                                    Object.keys(item.group)
+                                                        .length > 0 && (
+                                                        <Group {...item} />
+                                                    )}
                                             </div>
                                             {item.id === 'wpsp_general' && (
                                                 <div className='wpsp-feature-wrap'>

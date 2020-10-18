@@ -10,6 +10,7 @@ import Select from './type/Select'
 import CreatableSelect from './type/CreatableSelect'
 import Collapsible from './type/Collapsible'
 import SocialProfile from './type/SocialProfile'
+import Group from './type/Group'
 
 const Fields = (props) => {
     const isFalseConditionalStatus = compareConditionValue(
@@ -32,6 +33,9 @@ const Fields = (props) => {
             break
         case 'radio':
             renderComponent = <Radio {...props} />
+            break
+        case 'group':
+            renderComponent = <Group {...props} />
             break
         case 'select':
             renderComponent = <Select {...props} />

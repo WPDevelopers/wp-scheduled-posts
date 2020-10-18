@@ -323,6 +323,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _type_CreatableSelect__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./type/CreatableSelect */ "./app/components/type/CreatableSelect.js");
 /* harmony import */ var _type_Collapsible__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./type/Collapsible */ "./app/components/type/Collapsible.js");
 /* harmony import */ var _type_SocialProfile__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./type/SocialProfile */ "./app/components/type/SocialProfile.js");
+/* harmony import */ var _type_Group__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./type/Group */ "./app/components/type/Group.js");
+
 
 
 
@@ -359,6 +361,10 @@ const Fields = props => {
 
     case 'radio':
       renderComponent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_type_Radio__WEBPACK_IMPORTED_MODULE_5__["default"], props);
+      break;
+
+    case 'group':
+      renderComponent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_type_Group__WEBPACK_IMPORTED_MODULE_12__["default"], props);
       break;
 
     case 'select':
@@ -995,6 +1001,58 @@ const Error = () => {
 
 /***/ }),
 
+/***/ "./app/components/type/Group.js":
+/*!**************************************!*\
+  !*** ./app/components/type/Group.js ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var formik__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! formik */ "./node_modules/formik/dist/formik.esm.js");
+/* harmony import */ var _Fields__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../Fields */ "./app/components/Fields.js");
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+
+
+
+
+
+const Group = ({
+  id,
+  group
+}) => {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, Object.entries(group).map(([index, item]) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    id: "wpsp_".concat(item.id, "_template"),
+    className: "wpsp-integ-item_section wpsp-integ-active",
+    key: index
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "wpsp-integ-bar wpsp-integ-active"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h3", null, item.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, "To configure the Twitter Tweet Settings, check out this", ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+    className: "docs",
+    href: "https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/",
+    target: "_blank"
+  }, "Doc"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "wpsp-integ-content wpsp-social-integ-content"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_2__["FieldArray"], {
+    name: id,
+    render: arrayHelpers => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, item.fields !== undefined && item.fields.length > 0 && item.fields.map((fieldItem, fieldIndex) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Fields__WEBPACK_IMPORTED_MODULE_3__["default"], _extends({}, fieldItem, {
+      key: fieldIndex,
+      id: "".concat(id, "[").concat(index, "].").concat(fieldItem.id),
+      arrayHelpers: arrayHelpers
+    }))), console.log(arrayHelpers))
+  })))));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Group);
+
+/***/ }),
+
 /***/ "./app/components/type/Radio.js":
 /*!**************************************!*\
   !*** ./app/components/type/Radio.js ***!
@@ -1379,6 +1437,7 @@ const Text = ({
   title,
   subtitle,
   desc,
+  arrayHelpers,
   setFieldValue
 }) => {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1633,9 +1692,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/react-toastify.esm.js");
 /* harmony import */ var _utils_fetchWP__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./../utils/fetchWP */ "./app/utils/fetchWP.js");
 /* harmony import */ var _components_Fields__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./../components/Fields */ "./app/components/Fields.js");
-/* harmony import */ var _Document__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Document */ "./app/containers/Document.js");
-/* harmony import */ var _Features__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Features */ "./app/containers/Features.js");
+/* harmony import */ var _components_type_Group__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./../components/type/Group */ "./app/components/type/Group.js");
+/* harmony import */ var _Document__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Document */ "./app/containers/Document.js");
+/* harmony import */ var _Features__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./Features */ "./app/containers/Features.js");
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
 
 
 
@@ -1765,15 +1826,15 @@ const Settings = ({
       ,
       key: fieldIndex,
       values: props.values
-    })))), item.id === 'wpsp_general' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    }))), item.group !== undefined && Object.keys(item.group).length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_type_Group__WEBPACK_IMPORTED_MODULE_9__["default"], item)), item.id === 'wpsp_general' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "wpsp-feature-wrap"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Features__WEBPACK_IMPORTED_MODULE_10__["default"], {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Features__WEBPACK_IMPORTED_MODULE_11__["default"], {
       pluginRootURI: wpspObject.plugin_root_uri,
       proVersion: wpspObject.pro_version
     })))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       className: props.dirty === false ? 'btn-submit' : 'btn-submit btn-submit--changed',
       type: "submit"
-    }, "Submit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_toastify__WEBPACK_IMPORTED_MODULE_6__["ToastContainer"], null), tabIndex == 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Document__WEBPACK_IMPORTED_MODULE_9__["default"], {
+    }, "Submit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_toastify__WEBPACK_IMPORTED_MODULE_6__["ToastContainer"], null), tabIndex == 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Document__WEBPACK_IMPORTED_MODULE_10__["default"], {
       pluginRootURI: wpspObject.plugin_root_uri
     }));
   });

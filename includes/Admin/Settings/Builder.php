@@ -21,6 +21,18 @@ class Builder
         // Assign to the tabs array
         return self::$tabs[$tab['id']] = $tab;
     }
+    // group
+    public static function add_group($tab, $group)
+    {
+        self::$tabs[$tab]['group'][$group['id']] = $group;
+    }
+    public static function add_group_field($tab, $group_id, $fields)
+    {
+        return self::$tabs[$tab]['group'][$group_id]['fields'][]  = $fields;
+    }
+
+
+    // sub tab
     public static function add_sub_tab($tab, $sub_tab)
     {
 

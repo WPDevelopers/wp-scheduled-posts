@@ -290,6 +290,47 @@ class Config
                 'type'      => 'custom'
             ]
         ]);
+        // social template
+        Builder::add_tab([
+            'title' => __('Social Templates', 'wp-scheduled-posts'),
+            'id' => 'wpsp_social_templates',
+        ]);
+        // facebook
+        Builder::add_group('wpsp_social_templates', [
+            'id' => 'facebook',
+            'title' => __(' Facebook Status Settings', 'wp-scheduled-posts'),
+        ]);
+        Builder::add_group_field('wpsp_social_templates', 'facebook', [
+            'id' => 'is_show_meta',
+            'type' => 'checkbox',
+            'title' => __('Facebook Meta Data', 'wp-scheduled-posts'),
+            'desc'  => __('Add Open Graph meta data to your site head section
+            and other social network use this data when your pages are shared.', 'wp-scheduled-posts'),
+            'default' => true,
+        ]);
+        Builder::add_group_field('wpsp_social_templates', 'facebook', [
+            'id' => 'content_type',
+            'type' => 'radio',
+            'title' => __('Content Type', 'wp-scheduled-posts'),
+            'options' => array(
+                'link' => __('Link', 'wp-scheudled-posts'),
+                'status' => __('Status', 'wp-scheudled-posts'),
+                'statuswithlink' => __('Status + Link', 'wp-scheudled-posts'),
+            ),
+            'default' => 'link',
+        ]);
+        // twitter
+        Builder::add_group('wpsp_social_templates', [
+            'id' => 'twitter',
+            'title' => __('Twitter Tweet Settings', 'wp-scheduled-posts'),
+        ]);
+        Builder::add_group_field('wpsp_social_templates', 'twitter', [
+            'id' => 'template_structure',
+            'type' => 'text',
+            'title' => __('Tweet Template Settings', 'wp-scheduled-posts'),
+            'subtitle'  => __('Default Structure: {title}{content}{url}{tags}', 'wp-scheduled-posts'),
+            'default' => '{title}{content}{url}{tags}',
+        ]);
     }
 
     /**

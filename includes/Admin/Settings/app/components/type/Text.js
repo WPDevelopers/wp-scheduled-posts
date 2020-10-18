@@ -1,7 +1,7 @@
 import React from 'react'
 import { Field } from 'formik'
 
-const Text = ({ id, title, subtitle, desc, setFieldValue }) => {
+const Text = ({ id, title, subtitle, desc, arrayHelpers, setFieldValue }) => {
     return (
         <div className='form-group'>
             <div className='form-info'>

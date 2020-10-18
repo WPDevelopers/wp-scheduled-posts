@@ -139,5 +139,5 @@ function WPSP_Start()
 WPSP_Start();
 
 
-// var_dump(get_option('wpsp_settings'));
-// exit;
+print_r(get_option('wpsp_settings'));
+exit;

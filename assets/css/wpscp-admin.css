@@ -1062,10 +1062,6 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
   color: #687b95;
   font-size: 14px;
   background: #fff;
@@ -1230,6 +1226,10 @@
 
 .wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .wpsp_social_profile .form-group {
   background: none;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 
 .wpsp-dashboard-body .wpsp_calendar_loader,

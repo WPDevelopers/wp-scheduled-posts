@@ -86,7 +86,6 @@
             padding: 25px 0;
             .form-group {
                 display: flex;
-                flex-direction: column;
                 color: #687b95;
                 font-size: 14px;
                 background: #fff;
@@ -251,6 +250,7 @@
     .wpsp_social_profile
     .form-group {
     background: none;
+    flex-direction: column;
 }
 
 .wpsp-dashboard-body .wpsp_calendar_loader,
