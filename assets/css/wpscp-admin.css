@@ -1154,6 +1154,15 @@
 .wpsp-modal-social-platform .entry-head.facebook {
   background: #3b5997;
 }
+.wpsp-modal-social-platform .entry-head.twitter {
+  background: #55acee;
+}
+.wpsp-modal-social-platform .entry-head.linkedin {
+  background: #0e76a8;
+}
+.wpsp-modal-social-platform .entry-head.pinterest {
+  background: #c8232c;
+}
 .wpsp-modal-social-platform ul li .item-content {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1204,6 +1213,23 @@
   cursor: pointer;
   -webkit-box-shadow: none;
   box-shadow: none;
+}
+
+.wpsp-modal-generate-token-button {
+  display: inline-block;
+  background: #6c62ff;
+  color: #fff;
+  padding: 0 25px;
+  border-radius: 4px;
+  height: 50px;
+  font-weight: 500;
+  line-height: 50px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .wpsp_social_profile .form-group {
+  background: none;
 }
 
 .wpsp-dashboard-body .wpsp_calendar_loader,
@@ -4521,6 +4547,7 @@
   top: 13px;
 }
 .wpscp-social-tab__btn {
+  width: 190px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -4537,6 +4564,7 @@
   cursor: pointer;
   height: 45px;
   border: 0;
+  margin-left: 15px;
 }
 .wpscp-social-tab__btn img {
   width: 30px;
@@ -4644,7 +4672,6 @@
   background: #fff;
   -webkit-box-shadow: 0 0 15px rgba(33, 39, 45, 0.15);
           box-shadow: 0 0 15px rgba(33, 39, 45, 0.15);
-  display: none;
 }
 .wpscp-social-tab__item-list__single_item .entry-control__more-link__group_absolute li {
   display: -webkit-box;
@@ -5113,82 +5140,6 @@
   position: absolute;
   top: -17px;
   right: 40px;
-}
-
-/**
-* wpscp dashaboard token generate modal
-*/
-#wpscpproMultiSocialTokenModel {
-  text-align: center;
-}
-
-/**
-* Temp app css it will be delete after approve real app
-*/
-#wpscpproTempModalForInsertAccount {
-  max-width: 750px;
-}
-#wpscpproTempModalForInsertAccount .wpsp-social-modal-header h3 {
-  font-size: 24px;
-  color: #687b95;
-}
-#wpscpproTempModalForInsertAccount .wpsp-social-modal-header p {
-  font-size: 15px;
-}
-#wpscpproTempModalForInsertAccount .wpsp-social-modal-header p a {
-  font-size: 15px;
-  font-weight: 500;
-}
-#wpscpproTempModalForInsertAccount .form-group {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-#wpscpproTempModalForInsertAccount .form-group.redirect-group {
-  position: relative;
-  margin-bottom: 30px;
-}
-#wpscpproTempModalForInsertAccount .form-group.redirect-group .doc {
-  position: absolute;
-  left: 0;
-  bottom: -30px;
-}
-#wpscpproTempModalForInsertAccount .form-group .form-control {
-  border: 1px solid #e7e7e7;
-  border-radius: 4px;
-  width: 100%;
-  height: 50px;
-}
-#wpscpproTempModalForInsertAccount .form-group .form-label {
-  width: 115px;
-  white-space: nowrap;
-  font-weight: 500;
-  font-size: 15px;
-  color: #687b95;
-}
-#wpscpproTempModalForInsertAccount .form-group .form-input {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
-  position: relative;
-}
-#wpscpproTempModalForInsertAccount .form-group .submit {
-  background: #6c62ff;
-  color: #fff;
-  padding: 0 25px;
-  border-radius: 4px;
-  height: 50px;
-  font-weight: 500;
-  line-height: 50px;
-  font-size: 14px;
-  cursor: pointer;
-}
-#wpscpproTempModalForInsertAccount .modalerror {
-  color: red;
-  margin-left: 50px;
 }
 
 .wpscp-calendar-wrap .fc-dayGridWeek-view .fc-content-skeleton,

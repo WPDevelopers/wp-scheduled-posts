@@ -1,5 +1,6 @@
 import React from 'react'
 import { FieldArray } from 'formik'
+import { wpspGetPluginRootURI } from './../../utils/helper'
 const Profile = ({ platform, fieldName, field, data }) => {
     return (
         <React.Fragment>
@@ -7,16 +8,21 @@ const Profile = ({ platform, fieldName, field, data }) => {
                 name={fieldName}
                 render={(arrayHelpers) => (
                     <div className='wpsp-modal-social-platform'>
-                        <div className='entry-head facebook'>
+                        <div className={'entry-head ' + platform}>
                             <img
-                                src='https://itushar.me/dev/wp-content/plugins/wp-scheduled-posts/admin/assets/images/icon-facebook-small-white.png'
+                                src={
+                                    wpspGetPluginRootURI +
+                                    'assets/images/icon-' +
+                                    platform +
+                                    '-small-white.png'
+                                }
                                 alt='logo'
                             />
                             <h2 className='entry-head-title'>{platform}</h2>
                         </div>
                         <ul>
                             {data.map((item, index) => (
-                                <li id={'facebook_page_' + index} key={index}>
+                                <li key={index}>
                                     <div className='item-content'>
                                         <div className='entry-thumbnail'>
                                             <img
@@ -28,7 +34,6 @@ const Profile = ({ platform, fieldName, field, data }) => {
                                             {item.name}
                                         </h4>
                                         <div className='control'>
-                                            {console.log(field)}
                                             <input
                                                 type='checkbox'
                                                 name={`${field.name}.${index}`}

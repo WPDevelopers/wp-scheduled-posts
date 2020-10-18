@@ -29,7 +29,6 @@ export default function Facebook({ fieldName, field, page, group }) {
                                             {item.name}
                                         </h4>
                                         <div className='control'>
-                                            {console.log(field)}
                                             <input
                                                 type='checkbox'
                                                 name={`${field.name}.${index}`}
@@ -65,7 +64,6 @@ export default function Facebook({ fieldName, field, page, group }) {
                                             {item.name}
                                         </h4>
                                         <div className='control'>
-                                            {console.log(field)}
                                             <input
                                                 type='checkbox'
                                                 name={`${field.name}.${index}`}

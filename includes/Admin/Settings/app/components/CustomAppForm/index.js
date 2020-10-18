@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-const CustomAppForm = ({ requestHandler }) => {
+import { socialPopUpData } from './../../utils/helper'
+const CustomAppForm = ({ platform, requestHandler }) => {
     const [redirectURI, SetRedirectURI] = useState(
         'https://api.schedulepress.com/callback.php'
     )
@@ -10,32 +11,18 @@ const CustomAppForm = ({ requestHandler }) => {
             <div className='modalbody'>
                 <div className='wpsp-social-account-insert-modal'>
                     <div className='wpsp-social-modal-header'>
-                        <h3>Twitter</h3>
-                        <p>
-                            For details on Twitter configuration, check out this{' '}
-                            <a
-                                className='docs'
-                                href='https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/'
-                                target='_blank'
-                            >
-                                Doc
-                            </a>{' '}
-                            <br />
-                            <a
-                                href='https://developer.twitter.com/'
-                                target='_blank'
-                            >
-                                <strong>Click here</strong>
-                            </a>{' '}
-                            here to Retrieve Your API Keys from your Twitter
-                            account
-                        </p>
+                        <h3>{socialPopUpData[platform].title}</h3>
+                        <p
+                            dangerouslySetInnerHTML={{
+                                __html: socialPopUpData[platform].subtitle,
+                            }}
+                        ></p>
                     </div>
                     <input type='hidden' name='tempmodaltype' value='twitter' />
                     <table className='form-table'>
                         <tbody>
                             <tr>
-                                <td colspan='2' align='left'>
+                                <td align='left'>
                                     <div className='form-group redirect-group'>
                                         <div className='form-label'>
                                             <label>Redirect URI: </label>
@@ -53,14 +40,15 @@ const CustomAppForm = ({ requestHandler }) => {
                                             />
                                             <div className='doc'>
                                                 Copy this and paste it in your
-                                                Twitter app Callback uri field.
+                                                {platform} app Callback uri
+                                                field.
                                             </div>
                                         </div>
                                     </div>
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan='2' align='left'>
+                                <td align='left'>
                                     <div className='form-group'>
                                         <div className='form-label'>
                                             <label>App ID: </label>
@@ -79,7 +67,7 @@ const CustomAppForm = ({ requestHandler }) => {
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan='2' align='left'>
+                                <td align='left'>
                                     <div className='form-group'>
                                         <div className='form-label'>
                                             <label>App Secret: </label>
@@ -98,7 +86,7 @@ const CustomAppForm = ({ requestHandler }) => {
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan='2' align='left'>
+                                <td align='left'>
                                     <div className='form-group'>
                                         <a
                                             onClick={() =>
@@ -108,7 +96,7 @@ const CustomAppForm = ({ requestHandler }) => {
                                                     appSecret
                                                 )
                                             }
-                                            className='submit'
+                                            className='wpsp-modal-generate-token-button'
                                         >
                                             Generate Access Token
                                         </a>

@@ -1,44 +1,30 @@
 import React from 'react'
+import { socialTabHeaderData, wpspGetPluginRootURI } from './../../utils/helper'
 
-const SocialTabHeader = ({ socialPlatform, field }) => {
-    const socialData = {
-        facebook: {
-            icon: 'Facebook',
-            title: 'Facebook',
-            subtitle:
-                'You can enable/disable facebook social share. For details on facebook configuration, check out this Doc',
-        },
-        twitter: {
-            icon: 'twitter',
-            title: 'Twitter',
-            subtitle:
-                'You can enable/disable facebook social share. For details on facebook configuration, check out this Doc',
-        },
-        linkedin: {
-            icon: 'linkedin',
-            title: 'Linkedin',
-            subtitle:
-                'You can enable/disable facebook social share. For details on facebook configuration, check out this Doc',
-        },
-        pinterest: {
-            icon: 'pinterest',
-            title: 'Pinterest',
-            subtitle:
-                'You can enable/disable facebook social share. For details on facebook configuration, check out this Doc',
-        },
-    }
+const SocialTabHeader = ({ socialPlatform, setFieldValue, field }) => {
     return (
         <React.Fragment>
-            <div className='wpscp-social-tab__item-header wpscp-social-tab__item-header--facebook'>
+            <div
+                className={
+                    'wpscp-social-tab__item-header wpscp-social-tab__item-header--' +
+                    socialPlatform
+                }
+            >
                 <div className='entry-icon'>
                     <img
-                        src='https://itushar.me/dev/wp-content/plugins/wp-scheduled-posts/admin/partials/./../assets/images/icon-facebook.png'
+                        width='74'
+                        height='74'
+                        src={
+                            wpspGetPluginRootURI +
+                            'assets/images/' +
+                            socialTabHeaderData[socialPlatform].icon
+                        }
                         alt='icon'
                     />
                 </div>
                 <div className='entry-content'>
-                    <h3>{socialData[socialPlatform].title}</h3>
-                    <p>{socialData[socialPlatform].subtitle}</p>
+                    <h3>{socialTabHeaderData[socialPlatform].title}</h3>
+                    <p>{socialTabHeaderData[socialPlatform].subtitle}</p>
                 </div>
                 <div className='entry-control'>
                     <div className='checkbox_wrap'>
