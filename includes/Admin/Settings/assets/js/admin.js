@@ -1042,19 +1042,20 @@ const Group = ({
     id: "wpsp_".concat(item.id, "_template"),
     className: "wpsp-integ-item_section wpsp-integ-active",
     key: index
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+  }, console.log(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "wpsp-integ-bar wpsp-integ-active"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h3", null, item.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, "To configure the Twitter Tweet Settings, check out this", ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
-    className: "docs",
-    href: "https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/",
-    target: "_blank"
-  }, "Doc"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h3", null, item.title), item.subtitle !== undefined && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
+    dangerouslySetInnerHTML: {
+      __html: item.subtitle
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "wpsp-integ-content wpsp-social-integ-content"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_2__["FieldArray"], {
     name: "".concat(id, ".").concat(item.id),
     render: arrayHelpers => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, item.fields !== undefined && item.fields.length > 0 && item.fields.map((fieldItem, fieldIndex) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Fields__WEBPACK_IMPORTED_MODULE_3__["default"], _extends({}, fieldItem, {
       key: fieldIndex,
       arrayHelpers: arrayHelpers,
+      groupName: "".concat(id, ".").concat(item.id),
       index: fieldIndex,
       value: values[id][item.id]
     }))))
@@ -1087,11 +1088,18 @@ const Radio = ({
   options,
   desc,
   setFieldValue,
+  groupName,
   arrayHelpers,
   index,
   value
 }) => {
   const [field] = Object(formik__WEBPACK_IMPORTED_MODULE_1__["useField"])(id);
+
+  if (value !== undefined) {
+    console.log(value[index][id]);
+  }
+
+  console.log(groupName);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-group"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1105,35 +1113,21 @@ const Radio = ({
   }, Object.keys(options).map((item, optionIndex) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "radio-item",
     key: optionIndex
-  }, arrayHelpers !== undefined ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    id: id + item // value={
-    //     value !== undefined &&
-    //     value[index] !== undefined
-    //         ? value[index][id]
-    //         : ''
-    // }
-    // checked={
-    //     value !== undefined &&
-    //     value[index] !== undefined
-    //         ? value[index][id] == item
-    //         : false
-    // }
-    ,
-    name: id,
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, arrayHelpers !== undefined ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    value: item,
+    checked: value !== undefined && value[index] !== undefined ? value[index][id] === item : '',
+    name: "".concat(groupName, ".").concat(id),
     type: "radio",
-    onChange: () => arrayHelpers.replace(index, {
-      [id]: item
+    onChange: e => arrayHelpers.replace(index, {
+      [id]: e.target.value
     })
   }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    id: id + item,
     value: item,
     checked: field.value == item,
     name: id,
     type: "radio",
     onChange: () => setFieldValue(field.name, item)
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    htmlFor: id + item
-  }, options[item]))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+  }), options[item]))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "desc"
   }, desc)));
 };

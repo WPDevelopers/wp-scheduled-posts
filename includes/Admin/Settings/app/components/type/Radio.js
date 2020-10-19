@@ -8,11 +8,17 @@ const Radio = ({
     options,
     desc,
     setFieldValue,
+    groupName,
     arrayHelpers,
     index,
     value,
 }) => {
     const [field] = useField(id)
+
+    if (value !== undefined) {
+        console.log(value[index][id])
+    }
+    console.log(groupName)
     return (
         <div className='form-group'>
             <div className='form-info'>
@@ -22,40 +28,37 @@ const Radio = ({
             <div className='form-body'>
                 {Object.keys(options).map((item, optionIndex) => (
                     <div className='radio-item' key={optionIndex}>
-                        {arrayHelpers !== undefined ? (
-                            <input
-                                id={id + item}
-                                // value={
-                                //     value !== undefined &&
-                                //     value[index] !== undefined
-                                //         ? value[index][id]
-                                //         : ''
-                                // }
-                                // checked={
-                                //     value !== undefined &&
-                                //     value[index] !== undefined
-                                //         ? value[index][id] == item
-                                //         : false
-                                // }
-                                name={id}
-                                type='radio'
-                                onChange={() =>
-                                    arrayHelpers.replace(index, {
-                                        [id]: item,
-                                    })
-                                }
-                            />
-                        ) : (
-                            <input
-                                id={id + item}
-                                value={item}
-                                checked={field.value == item}
-                                name={id}
-                                type='radio'
-                                onChange={() => setFieldValue(field.name, item)}
-                            />
-                        )}
-                        <label htmlFor={id + item}>{options[item]}</label>
+                        <label>
+                            {arrayHelpers !== undefined ? (
+                                <input
+                                    value={item}
+                                    checked={
+                                        value !== undefined &&
+                                        value[index] !== undefined
+                                            ? value[index][id] === item
+                                            : ''
+                                    }
+                                    name={`${groupName}.${id}`}
+                                    type='radio'
+                                    onChange={(e) =>
+                                        arrayHelpers.replace(index, {
+                                            [id]: e.target.value,
+                                        })
+                                    }
+                                />
+                            ) : (
+                                <input
+                                    value={item}
+                                    checked={field.value == item}
+                                    name={id}
+                                    type='radio'
+                                    onChange={() =>
+                                        setFieldValue(field.name, item)
+                                    }
+                                />
+                            )}
+                            {options[item]}
+                        </label>
                     </div>
                 ))}
                 <span className='desc'>{desc}</span>

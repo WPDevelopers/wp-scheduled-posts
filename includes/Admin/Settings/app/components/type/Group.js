@@ -1,32 +1,26 @@
 import { object } from 'prop-types'
 import React from 'react'
-import { useField, FieldArray } from 'formik'
+import { FieldArray } from 'formik'
 import Fields from './../Fields'
 const Group = ({ id, group, values }) => {
     return (
         <React.Fragment>
-            {/* {group !== undefined &&
-                Object.keys(group).length > 0 &&
-                object.keys(group).map((index, item) => console.log(index))} */}
             {Object.entries(group).map(([index, item]) => (
                 <div
                     id={`wpsp_${item.id}_template`}
                     className='wpsp-integ-item_section wpsp-integ-active'
                     key={index}
                 >
+                    {console.log()}
                     <div className='wpsp-integ-bar wpsp-integ-active'>
                         <h3>{item.title}</h3>
-                        <p>
-                            To configure the Twitter Tweet Settings, check out
-                            this{' '}
-                            <a
-                                className='docs'
-                                href='https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/'
-                                target='_blank'
-                            >
-                                Doc
-                            </a>
-                        </p>
+                        {item.subtitle !== undefined && (
+                            <p
+                                dangerouslySetInnerHTML={{
+                                    __html: item.subtitle,
+                                }}
+                            ></p>
+                        )}
                     </div>
                     <div className='wpsp-integ-content wpsp-social-integ-content'>
                         <FieldArray
@@ -41,6 +35,7 @@ const Group = ({ id, group, values }) => {
                                                     {...fieldItem}
                                                     key={fieldIndex}
                                                     arrayHelpers={arrayHelpers}
+                                                    groupName={`${id}.${item.id}`}
                                                     index={fieldIndex}
                                                     value={values[id][item.id]}
                                                 />

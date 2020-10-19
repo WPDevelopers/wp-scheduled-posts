@@ -299,6 +299,7 @@ class Config
         Builder::add_group('wpsp_social_templates', [
             'id' => 'facebook',
             'title' => __(' Facebook Status Settings', 'wp-scheduled-posts'),
+            'subtitle'  => 'To configure the Facebook Status Settings, check out this<a className="docs" href="https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/" target="_blank">Doc</a>'
         ]);
         Builder::add_group_field('wpsp_social_templates', 'facebook', [
             'id' => 'is_show_meta',
@@ -353,6 +354,7 @@ class Config
         Builder::add_group('wpsp_social_templates', [
             'id' => 'twitter',
             'title' => __('Twitter Tweet Settings', 'wp-scheduled-posts'),
+            'subtitle'  => 'To configure the Twitter Tweet Settings, check out this<a className="docs" href="https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/" target="_blank">Doc</a>'
         ]);
         Builder::add_group_field('wpsp_social_templates', 'twitter', [
             'id' => 'template_structure',
@@ -394,6 +396,7 @@ class Config
         Builder::add_group('wpsp_social_templates', [
             'id' => 'linkedin',
             'title' => __('Linkedin Status Settings', 'wp-scheduled-posts'),
+            'subtitle'  => 'To configure the Linkedin Status Settings, check out this<a className="docs" href="https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/" target="_blank">Doc</a>'
         ]);
         Builder::add_group_field('wpsp_social_templates', 'linkedin', [
             'id' => 'content_type',
@@ -439,6 +442,7 @@ class Config
         Builder::add_group('wpsp_social_templates', [
             'id' => 'pinterest',
             'title' => __(' Pinterest Pin Settings', 'wp-scheduled-posts'),
+            'subtitle'  => 'To configure the Pinterest Pin Settings, check out this<a className="docs" href="https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/" target="_blank">Doc</a>'
         ]);
         Builder::add_group_field('wpsp_social_templates', 'pinterest', [
             'id' => 'is_set_image_link',
