@@ -1,7 +1,17 @@
 import React from 'react'
 import { Field } from 'formik'
 
-const Text = ({ id, title, subtitle, desc, arrayHelpers, setFieldValue }) => {
+const Text = ({
+    id,
+    title,
+    subtitle,
+    desc,
+    arrayHelpers,
+    index,
+    setFieldValue,
+    value,
+}) => {
+    console.log(id)
     return (
         <div className='form-group'>
             <div className='form-info'>
@@ -9,12 +19,29 @@ const Text = ({ id, title, subtitle, desc, arrayHelpers, setFieldValue }) => {
                 <span className='sub-title'>{subtitle}</span>
             </div>
             <div className='form-body'>
-                <Field
-                    type='text'
-                    id={id}
-                    name={id}
-                    onChange={(e) => setFieldValue(id, e.target.value)}
-                />
+                {arrayHelpers !== undefined ? (
+                    <Field
+                        type='text'
+                        name={id}
+                        value={
+                            value !== undefined && value[index] !== undefined
+                                ? value[index][id]
+                                : ''
+                        }
+                        onChange={(e) =>
+                            arrayHelpers.replace(index, {
+                                [id]: e.target.value,
+                            })
+                        }
+                    />
+                ) : (
+                    <Field
+                        type='text'
+                        id={id}
+                        name={id}
+                        onChange={(e) => setFieldValue(id, e.target.value)}
+                    />
+                )}
                 <span className='desc'>{desc}</span>
             </div>
         </div>

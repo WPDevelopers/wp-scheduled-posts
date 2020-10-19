@@ -777,9 +777,17 @@ const Checkbox = ({
   title,
   subtitle,
   desc,
-  setFieldValue
+  setFieldValue,
+  arrayHelpers,
+  index,
+  value
 }) => {
   const [field] = Object(formik__WEBPACK_IMPORTED_MODULE_1__["useField"])(id);
+
+  if (value !== undefined) {
+    console.log(value[id]);
+  }
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-group"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -794,7 +802,19 @@ const Checkbox = ({
     className: "checkbox_wrap"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "wpsp_switch"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+  }, arrayHelpers !== undefined ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "checkbox" // checked={
+    //     value !== undefined &&
+    //     value[index] !== undefined
+    //         ? value[index][id]
+    //         : false
+    // }
+    ,
+    name: id,
+    onChange: e => arrayHelpers.replace(index, {
+      [id]: e.target.checked
+    })
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "checkbox",
     checked: field.value,
     name: field.name,
@@ -1025,7 +1045,8 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 const Group = ({
   id,
-  group
+  group,
+  values
 }) => {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, Object.entries(group).map(([index, item]) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     id: "wpsp_".concat(item.id, "_template"),
@@ -1043,9 +1064,10 @@ const Group = ({
     name: id,
     render: arrayHelpers => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, item.fields !== undefined && item.fields.length > 0 && item.fields.map((fieldItem, fieldIndex) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Fields__WEBPACK_IMPORTED_MODULE_3__["default"], _extends({}, fieldItem, {
       key: fieldIndex,
-      id: "".concat(id, "[").concat(index, "].").concat(fieldItem.id),
-      arrayHelpers: arrayHelpers
-    }))), console.log(arrayHelpers))
+      arrayHelpers: arrayHelpers,
+      index: fieldIndex,
+      value: values[id][item.id]
+    }))))
   })))));
 };
 
@@ -1068,33 +1090,62 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const Radio = props => {
-  const [field] = Object(formik__WEBPACK_IMPORTED_MODULE_1__["useField"])(props.id);
+const Radio = ({
+  id,
+  title,
+  subtitle,
+  options,
+  desc,
+  setFieldValue,
+  arrayHelpers,
+  index,
+  value
+}) => {
+  const [field] = Object(formik__WEBPACK_IMPORTED_MODULE_1__["useField"])(id);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-group"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-info"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    htmlFor: props.id
-  }, props.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    htmlFor: id
+  }, title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "sub-title"
-  }, props.subtitle)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, subtitle)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-body"
-  }, Object.keys(props.options).map((item, index) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, Object.keys(options).map((item, optionIndex) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "radio-item",
-    key: index
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    id: props.id + item,
+    key: optionIndex
+  }, arrayHelpers !== undefined ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    id: id + item // value={
+    //     value !== undefined &&
+    //     value[index] !== undefined
+    //         ? value[index][id]
+    //         : ''
+    // }
+    // checked={
+    //     value !== undefined &&
+    //     value[index] !== undefined
+    //         ? value[index][id] == item
+    //         : false
+    // }
+    ,
+    name: id,
+    type: "radio",
+    onChange: () => arrayHelpers.replace(index, {
+      [id]: item
+    })
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    id: id + item,
     value: item,
     checked: field.value == item,
-    name: props.id,
+    name: id,
     type: "radio",
-    onChange: () => props.setFieldValue(field.name, item)
+    onChange: () => setFieldValue(field.name, item)
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    htmlFor: props.id + item
-  }, props.options[item]))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    htmlFor: id + item
+  }, options[item]))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "desc"
-  }, props.desc)));
+  }, desc)));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Radio);
@@ -1438,8 +1489,11 @@ const Text = ({
   subtitle,
   desc,
   arrayHelpers,
-  setFieldValue
+  index,
+  setFieldValue,
+  value
 }) => {
+  console.log(id);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-group"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1450,7 +1504,14 @@ const Text = ({
     className: "sub-title"
   }, subtitle)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-body"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_1__["Field"], {
+  }, arrayHelpers !== undefined ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_1__["Field"], {
+    type: "text",
+    name: id,
+    value: value !== undefined && value[index] !== undefined ? value[index][id] : '',
+    onChange: e => arrayHelpers.replace(index, {
+      [id]: e.target.value
+    })
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_1__["Field"], {
     type: "text",
     id: id,
     name: id,
@@ -1826,7 +1887,9 @@ const Settings = ({
       ,
       key: fieldIndex,
       values: props.values
-    }))), item.group !== undefined && Object.keys(item.group).length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_type_Group__WEBPACK_IMPORTED_MODULE_9__["default"], item)), item.id === 'wpsp_general' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    }))), item.group !== undefined && Object.keys(item.group).length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_type_Group__WEBPACK_IMPORTED_MODULE_9__["default"], _extends({}, item, {
+      values: props.values
+    }))), item.id === 'wpsp_general' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "wpsp-feature-wrap"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Features__WEBPACK_IMPORTED_MODULE_11__["default"], {
       pluginRootURI: wpspObject.plugin_root_uri,
@@ -4730,10 +4793,10 @@ var createI18n = function createI18n(initialData, initialDomain) {
 
   var setLocaleData = function setLocaleData(data) {
     var domain = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'default';
-    tannin.data[domain] = _objectSpread({}, DEFAULT_LOCALE_DATA, {}, tannin.data[domain], {}, data); // Populate default domain configuration (supported locale date which omits
+    tannin.data[domain] = _objectSpread(_objectSpread(_objectSpread({}, DEFAULT_LOCALE_DATA), tannin.data[domain]), data); // Populate default domain configuration (supported locale date which omits
     // a plural forms expression).
 
-    tannin.data[domain][''] = _objectSpread({}, DEFAULT_LOCALE_DATA[''], {}, tannin.data[domain]['']);
+    tannin.data[domain][''] = _objectSpread(_objectSpread({}, DEFAULT_LOCALE_DATA['']), tannin.data[domain]['']);
   };
   /**
    * Wrapper for Tannin's `dcnpgettext`. Populates default locale data if not
@@ -5030,7 +5093,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sprintf", function() { return sprintf; });
 /* harmony import */ var memize__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! memize */ "./node_modules/memize/index.js");
 /* harmony import */ var memize__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(memize__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var sprintf_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! sprintf-js */ "./node_modules/@wordpress/i18n/node_modules/sprintf-js/src/sprintf.js");
+/* harmony import */ var sprintf_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! sprintf-js */ "./node_modules/sprintf-js/src/sprintf.js");
 /* harmony import */ var sprintf_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(sprintf_js__WEBPACK_IMPORTED_MODULE_1__);
 /**
  * External dependencies
@@ -5072,249 +5135,6 @@ function sprintf(format) {
   }
 }
 //# sourceMappingURL=sprintf.js.map
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/i18n/node_modules/sprintf-js/src/sprintf.js":
-/*!*****************************************************************************!*\
-  !*** ./node_modules/@wordpress/i18n/node_modules/sprintf-js/src/sprintf.js ***!
-  \*****************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
-
-!function() {
-    'use strict'
-
-    var re = {
-        not_string: /[^s]/,
-        not_bool: /[^t]/,
-        not_type: /[^T]/,
-        not_primitive: /[^v]/,
-        number: /[diefg]/,
-        numeric_arg: /[bcdiefguxX]/,
-        json: /[j]/,
-        not_json: /[^j]/,
-        text: /^[^\x25]+/,
-        modulo: /^\x25{2}/,
-        placeholder: /^\x25(?:([1-9]\d*)\$|\(([^)]+)\))?(\+)?(0|'[^$])?(-)?(\d+)?(?:\.(\d+))?([b-gijostTuvxX])/,
-        key: /^([a-z_][a-z_\d]*)/i,
-        key_access: /^\.([a-z_][a-z_\d]*)/i,
-        index_access: /^\[(\d+)\]/,
-        sign: /^[+-]/
-    }
-
-    function sprintf(key) {
-        // `arguments` is not an array, but should be fine for this call
-        return sprintf_format(sprintf_parse(key), arguments)
-    }
-
-    function vsprintf(fmt, argv) {
-        return sprintf.apply(null, [fmt].concat(argv || []))
-    }
-
-    function sprintf_format(parse_tree, argv) {
-        var cursor = 1, tree_length = parse_tree.length, arg, output = '', i, k, ph, pad, pad_character, pad_length, is_positive, sign
-        for (i = 0; i < tree_length; i++) {
-            if (typeof parse_tree[i] === 'string') {
-                output += parse_tree[i]
-            }
-            else if (typeof parse_tree[i] === 'object') {
-                ph = parse_tree[i] // convenience purposes only
-                if (ph.keys) { // keyword argument
-                    arg = argv[cursor]
-                    for (k = 0; k < ph.keys.length; k++) {
-                        if (arg == undefined) {
-                            throw new Error(sprintf('[sprintf] Cannot access property "%s" of undefined value "%s"', ph.keys[k], ph.keys[k-1]))
-                        }
-                        arg = arg[ph.keys[k]]
-                    }
-                }
-                else if (ph.param_no) { // positional argument (explicit)
-                    arg = argv[ph.param_no]
-                }
-                else { // positional argument (implicit)
-                    arg = argv[cursor++]
-                }
-
-                if (re.not_type.test(ph.type) && re.not_primitive.test(ph.type) && arg instanceof Function) {
-                    arg = arg()
-                }
-
-                if (re.numeric_arg.test(ph.type) && (typeof arg !== 'number' && isNaN(arg))) {
-                    throw new TypeError(sprintf('[sprintf] expecting number but found %T', arg))
-                }
-
-                if (re.number.test(ph.type)) {
-                    is_positive = arg >= 0
-                }
-
-                switch (ph.type) {
-                    case 'b':
-                        arg = parseInt(arg, 10).toString(2)
-                        break
-                    case 'c':
-                        arg = String.fromCharCode(parseInt(arg, 10))
-                        break
-                    case 'd':
-                    case 'i':
-                        arg = parseInt(arg, 10)
-                        break
-                    case 'j':
-                        arg = JSON.stringify(arg, null, ph.width ? parseInt(ph.width) : 0)
-                        break
-                    case 'e':
-                        arg = ph.precision ? parseFloat(arg).toExponential(ph.precision) : parseFloat(arg).toExponential()
-                        break
-                    case 'f':
-                        arg = ph.precision ? parseFloat(arg).toFixed(ph.precision) : parseFloat(arg)
-                        break
-                    case 'g':
-                        arg = ph.precision ? String(Number(arg.toPrecision(ph.precision))) : parseFloat(arg)
-                        break
-                    case 'o':
-                        arg = (parseInt(arg, 10) >>> 0).toString(8)
-                        break
-                    case 's':
-                        arg = String(arg)
-                        arg = (ph.precision ? arg.substring(0, ph.precision) : arg)
-                        break
-                    case 't':
-                        arg = String(!!arg)
-                        arg = (ph.precision ? arg.substring(0, ph.precision) : arg)
-                        break
-                    case 'T':
-                        arg = Object.prototype.toString.call(arg).slice(8, -1).toLowerCase()
-                        arg = (ph.precision ? arg.substring(0, ph.precision) : arg)
-                        break
-                    case 'u':
-                        arg = parseInt(arg, 10) >>> 0
-                        break
-                    case 'v':
-                        arg = arg.valueOf()
-                        arg = (ph.precision ? arg.substring(0, ph.precision) : arg)
-                        break
-                    case 'x':
-                        arg = (parseInt(arg, 10) >>> 0).toString(16)
-                        break
-                    case 'X':
-                        arg = (parseInt(arg, 10) >>> 0).toString(16).toUpperCase()
-                        break
-                }
-                if (re.json.test(ph.type)) {
-                    output += arg
-                }
-                else {
-                    if (re.number.test(ph.type) && (!is_positive || ph.sign)) {
-                        sign = is_positive ? '+' : '-'
-                        arg = arg.toString().replace(re.sign, '')
-                    }
-                    else {
-                        sign = ''
-                    }
-                    pad_character = ph.pad_char ? ph.pad_char === '0' ? '0' : ph.pad_char.charAt(1) : ' '
-                    pad_length = ph.width - (sign + arg).length
-                    pad = ph.width ? (pad_length > 0 ? pad_character.repeat(pad_length) : '') : ''
-                    output += ph.align ? sign + arg + pad : (pad_character === '0' ? sign + pad + arg : pad + sign + arg)
-                }
-            }
-        }
-        return output
-    }
-
-    var sprintf_cache = Object.create(null)
-
-    function sprintf_parse(fmt) {
-        if (sprintf_cache[fmt]) {
-            return sprintf_cache[fmt]
-        }
-
-        var _fmt = fmt, match, parse_tree = [], arg_names = 0
-        while (_fmt) {
-            if ((match = re.text.exec(_fmt)) !== null) {
-                parse_tree.push(match[0])
-            }
-            else if ((match = re.modulo.exec(_fmt)) !== null) {
-                parse_tree.push('%')
-            }
-            else if ((match = re.placeholder.exec(_fmt)) !== null) {
-                if (match[2]) {
-                    arg_names |= 1
-                    var field_list = [], replacement_field = match[2], field_match = []
-                    if ((field_match = re.key.exec(replacement_field)) !== null) {
-                        field_list.push(field_match[1])
-                        while ((replacement_field = replacement_field.substring(field_match[0].length)) !== '') {
-                            if ((field_match = re.key_access.exec(replacement_field)) !== null) {
-                                field_list.push(field_match[1])
-                            }
-                            else if ((field_match = re.index_access.exec(replacement_field)) !== null) {
-                                field_list.push(field_match[1])
-                            }
-                            else {
-                                throw new SyntaxError('[sprintf] failed to parse named argument key')
-                            }
-                        }
-                    }
-                    else {
-                        throw new SyntaxError('[sprintf] failed to parse named argument key')
-                    }
-                    match[2] = field_list
-                }
-                else {
-                    arg_names |= 2
-                }
-                if (arg_names === 3) {
-                    throw new Error('[sprintf] mixing positional and named placeholders is not (yet) supported')
-                }
-
-                parse_tree.push(
-                    {
-                        placeholder: match[0],
-                        param_no:    match[1],
-                        keys:        match[2],
-                        sign:        match[3],
-                        pad_char:    match[4],
-                        align:       match[5],
-                        width:       match[6],
-                        precision:   match[7],
-                        type:        match[8]
-                    }
-                )
-            }
-            else {
-                throw new SyntaxError('[sprintf] unexpected placeholder')
-            }
-            _fmt = _fmt.substring(match[0].length)
-        }
-        return sprintf_cache[fmt] = parse_tree
-    }
-
-    /**
-     * export to either browser or node.js
-     */
-    /* eslint-disable quote-props */
-    if (true) {
-        exports['sprintf'] = sprintf
-        exports['vsprintf'] = vsprintf
-    }
-    if (typeof window !== 'undefined') {
-        window['sprintf'] = sprintf
-        window['vsprintf'] = vsprintf
-
-        if (true) {
-            !(__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
-                return {
-                    'sprintf': sprintf,
-                    'vsprintf': vsprintf
-                }
-            }).call(exports, __webpack_require__, exports, module),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
-        }
-    }
-    /* eslint-enable quote-props */
-}(); // eslint-disable-line
-
 
 /***/ }),
 
@@ -15397,12 +15217,13 @@ function useFormik(_ref) {
     });
   }, []);
   var setValues = useEventCallback(function (values, shouldValidate) {
+    var resolvedValues = isFunction(values) ? values(state.values) : values;
     dispatch({
       type: 'SET_VALUES',
-      payload: values
+      payload: resolvedValues
     });
     var willValidate = shouldValidate === undefined ? validateOnChange : shouldValidate;
-    return willValidate ? validateFormWithLowPriority(values) : Promise.resolve();
+    return willValidate ? validateFormWithLowPriority(resolvedValues) : Promise.resolve();
   });
   var setFieldError = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(function (field, value) {
     dispatch({
@@ -22741,7 +22562,7 @@ module.exports = ReactPropTypesSecret;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/** @license React v16.13.1
+/** @license React v16.14.0
  * react-dom.development.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -47311,7 +47132,7 @@ function injectIntoDevTools(devToolsConfig) {
     // Enables DevTools to append owner stacks to error messages in DEV mode.
     getCurrentFiber:  function () {
       return current;
-    } 
+    }
   }));
 }
 var IsSomeRendererActing$1 = ReactSharedInternals.IsSomeRendererActing;
@@ -47663,7 +47484,7 @@ implementation) {
   };
 }
 
-var ReactVersion = '16.13.1';
+var ReactVersion = '16.14.0';
 
 setAttemptUserBlockingHydration(attemptUserBlockingHydration$1);
 setAttemptContinuousHydration(attemptContinuousHydration$1);
@@ -62004,7 +61825,7 @@ var classNamesShape =  true ? prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/** @license React v16.13.1
+/** @license React v16.14.0
  * react.development.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -62024,7 +61845,7 @@ if (true) {
 var _assign = __webpack_require__(/*! object-assign */ "./node_modules/object-assign/index.js");
 var checkPropTypes = __webpack_require__(/*! prop-types/checkPropTypes */ "./node_modules/prop-types/checkPropTypes.js");
 
-var ReactVersion = '16.13.1';
+var ReactVersion = '16.14.0';
 
 // The Symbol used to tag the ReactElement-like types. If there is no native Symbol
 // nor polyfill, then a plain number is used for performance.
@@ -66385,6 +66206,249 @@ exports.unstable_Profiling = unstable_Profiling;
 if (false) {} else {
   module.exports = __webpack_require__(/*! ./cjs/scheduler.development.js */ "./node_modules/scheduler/cjs/scheduler.development.js");
 }
+
+
+/***/ }),
+
+/***/ "./node_modules/sprintf-js/src/sprintf.js":
+/*!************************************************!*\
+  !*** ./node_modules/sprintf-js/src/sprintf.js ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
+
+!function() {
+    'use strict'
+
+    var re = {
+        not_string: /[^s]/,
+        not_bool: /[^t]/,
+        not_type: /[^T]/,
+        not_primitive: /[^v]/,
+        number: /[diefg]/,
+        numeric_arg: /[bcdiefguxX]/,
+        json: /[j]/,
+        not_json: /[^j]/,
+        text: /^[^\x25]+/,
+        modulo: /^\x25{2}/,
+        placeholder: /^\x25(?:([1-9]\d*)\$|\(([^)]+)\))?(\+)?(0|'[^$])?(-)?(\d+)?(?:\.(\d+))?([b-gijostTuvxX])/,
+        key: /^([a-z_][a-z_\d]*)/i,
+        key_access: /^\.([a-z_][a-z_\d]*)/i,
+        index_access: /^\[(\d+)\]/,
+        sign: /^[+-]/
+    }
+
+    function sprintf(key) {
+        // `arguments` is not an array, but should be fine for this call
+        return sprintf_format(sprintf_parse(key), arguments)
+    }
+
+    function vsprintf(fmt, argv) {
+        return sprintf.apply(null, [fmt].concat(argv || []))
+    }
+
+    function sprintf_format(parse_tree, argv) {
+        var cursor = 1, tree_length = parse_tree.length, arg, output = '', i, k, ph, pad, pad_character, pad_length, is_positive, sign
+        for (i = 0; i < tree_length; i++) {
+            if (typeof parse_tree[i] === 'string') {
+                output += parse_tree[i]
+            }
+            else if (typeof parse_tree[i] === 'object') {
+                ph = parse_tree[i] // convenience purposes only
+                if (ph.keys) { // keyword argument
+                    arg = argv[cursor]
+                    for (k = 0; k < ph.keys.length; k++) {
+                        if (arg == undefined) {
+                            throw new Error(sprintf('[sprintf] Cannot access property "%s" of undefined value "%s"', ph.keys[k], ph.keys[k-1]))
+                        }
+                        arg = arg[ph.keys[k]]
+                    }
+                }
+                else if (ph.param_no) { // positional argument (explicit)
+                    arg = argv[ph.param_no]
+                }
+                else { // positional argument (implicit)
+                    arg = argv[cursor++]
+                }
+
+                if (re.not_type.test(ph.type) && re.not_primitive.test(ph.type) && arg instanceof Function) {
+                    arg = arg()
+                }
+
+                if (re.numeric_arg.test(ph.type) && (typeof arg !== 'number' && isNaN(arg))) {
+                    throw new TypeError(sprintf('[sprintf] expecting number but found %T', arg))
+                }
+
+                if (re.number.test(ph.type)) {
+                    is_positive = arg >= 0
+                }
+
+                switch (ph.type) {
+                    case 'b':
+                        arg = parseInt(arg, 10).toString(2)
+                        break
+                    case 'c':
+                        arg = String.fromCharCode(parseInt(arg, 10))
+                        break
+                    case 'd':
+                    case 'i':
+                        arg = parseInt(arg, 10)
+                        break
+                    case 'j':
+                        arg = JSON.stringify(arg, null, ph.width ? parseInt(ph.width) : 0)
+                        break
+                    case 'e':
+                        arg = ph.precision ? parseFloat(arg).toExponential(ph.precision) : parseFloat(arg).toExponential()
+                        break
+                    case 'f':
+                        arg = ph.precision ? parseFloat(arg).toFixed(ph.precision) : parseFloat(arg)
+                        break
+                    case 'g':
+                        arg = ph.precision ? String(Number(arg.toPrecision(ph.precision))) : parseFloat(arg)
+                        break
+                    case 'o':
+                        arg = (parseInt(arg, 10) >>> 0).toString(8)
+                        break
+                    case 's':
+                        arg = String(arg)
+                        arg = (ph.precision ? arg.substring(0, ph.precision) : arg)
+                        break
+                    case 't':
+                        arg = String(!!arg)
+                        arg = (ph.precision ? arg.substring(0, ph.precision) : arg)
+                        break
+                    case 'T':
+                        arg = Object.prototype.toString.call(arg).slice(8, -1).toLowerCase()
+                        arg = (ph.precision ? arg.substring(0, ph.precision) : arg)
+                        break
+                    case 'u':
+                        arg = parseInt(arg, 10) >>> 0
+                        break
+                    case 'v':
+                        arg = arg.valueOf()
+                        arg = (ph.precision ? arg.substring(0, ph.precision) : arg)
+                        break
+                    case 'x':
+                        arg = (parseInt(arg, 10) >>> 0).toString(16)
+                        break
+                    case 'X':
+                        arg = (parseInt(arg, 10) >>> 0).toString(16).toUpperCase()
+                        break
+                }
+                if (re.json.test(ph.type)) {
+                    output += arg
+                }
+                else {
+                    if (re.number.test(ph.type) && (!is_positive || ph.sign)) {
+                        sign = is_positive ? '+' : '-'
+                        arg = arg.toString().replace(re.sign, '')
+                    }
+                    else {
+                        sign = ''
+                    }
+                    pad_character = ph.pad_char ? ph.pad_char === '0' ? '0' : ph.pad_char.charAt(1) : ' '
+                    pad_length = ph.width - (sign + arg).length
+                    pad = ph.width ? (pad_length > 0 ? pad_character.repeat(pad_length) : '') : ''
+                    output += ph.align ? sign + arg + pad : (pad_character === '0' ? sign + pad + arg : pad + sign + arg)
+                }
+            }
+        }
+        return output
+    }
+
+    var sprintf_cache = Object.create(null)
+
+    function sprintf_parse(fmt) {
+        if (sprintf_cache[fmt]) {
+            return sprintf_cache[fmt]
+        }
+
+        var _fmt = fmt, match, parse_tree = [], arg_names = 0
+        while (_fmt) {
+            if ((match = re.text.exec(_fmt)) !== null) {
+                parse_tree.push(match[0])
+            }
+            else if ((match = re.modulo.exec(_fmt)) !== null) {
+                parse_tree.push('%')
+            }
+            else if ((match = re.placeholder.exec(_fmt)) !== null) {
+                if (match[2]) {
+                    arg_names |= 1
+                    var field_list = [], replacement_field = match[2], field_match = []
+                    if ((field_match = re.key.exec(replacement_field)) !== null) {
+                        field_list.push(field_match[1])
+                        while ((replacement_field = replacement_field.substring(field_match[0].length)) !== '') {
+                            if ((field_match = re.key_access.exec(replacement_field)) !== null) {
+                                field_list.push(field_match[1])
+                            }
+                            else if ((field_match = re.index_access.exec(replacement_field)) !== null) {
+                                field_list.push(field_match[1])
+                            }
+                            else {
+                                throw new SyntaxError('[sprintf] failed to parse named argument key')
+                            }
+                        }
+                    }
+                    else {
+                        throw new SyntaxError('[sprintf] failed to parse named argument key')
+                    }
+                    match[2] = field_list
+                }
+                else {
+                    arg_names |= 2
+                }
+                if (arg_names === 3) {
+                    throw new Error('[sprintf] mixing positional and named placeholders is not (yet) supported')
+                }
+
+                parse_tree.push(
+                    {
+                        placeholder: match[0],
+                        param_no:    match[1],
+                        keys:        match[2],
+                        sign:        match[3],
+                        pad_char:    match[4],
+                        align:       match[5],
+                        width:       match[6],
+                        precision:   match[7],
+                        type:        match[8]
+                    }
+                )
+            }
+            else {
+                throw new SyntaxError('[sprintf] unexpected placeholder')
+            }
+            _fmt = _fmt.substring(match[0].length)
+        }
+        return sprintf_cache[fmt] = parse_tree
+    }
+
+    /**
+     * export to either browser or node.js
+     */
+    /* eslint-disable quote-props */
+    if (true) {
+        exports['sprintf'] = sprintf
+        exports['vsprintf'] = vsprintf
+    }
+    if (typeof window !== 'undefined') {
+        window['sprintf'] = sprintf
+        window['vsprintf'] = vsprintf
+
+        if (true) {
+            !(__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
+                return {
+                    'sprintf': sprintf,
+                    'vsprintf': vsprintf
+                }
+            }).call(exports, __webpack_require__, exports, module),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
+        }
+    }
+    /* eslint-enable quote-props */
+}(); // eslint-disable-line
 
 
 /***/ }),

@@ -137,7 +137,3 @@ function WPSP_Start()
 
 // Plugin Start
 WPSP_Start();
-
-
-print_r(get_option('wpsp_settings'));
-exit;

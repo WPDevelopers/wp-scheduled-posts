@@ -2,7 +2,7 @@ import { object } from 'prop-types'
 import React from 'react'
 import { useField, FieldArray } from 'formik'
 import Fields from './../Fields'
-const Group = ({ id, group }) => {
+const Group = ({ id, group, values }) => {
     return (
         <React.Fragment>
             {/* {group !== undefined &&
@@ -40,12 +40,12 @@ const Group = ({ id, group }) => {
                                                 <Fields
                                                     {...fieldItem}
                                                     key={fieldIndex}
-                                                    id={`${id}[${index}].${fieldItem.id}`}
                                                     arrayHelpers={arrayHelpers}
+                                                    index={fieldIndex}
+                                                    value={values[id][item.id]}
                                                 />
                                             )
                                         )}
-                                    {console.log(arrayHelpers)}
                                 </div>
                             )}
                         />

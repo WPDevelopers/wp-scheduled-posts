@@ -319,6 +319,36 @@ class Config
             ),
             'default' => 'link',
         ]);
+        Builder::add_group_field('wpsp_social_templates', 'facebook', [
+            'id' => 'is_category_as_tags',
+            'type' => 'checkbox',
+            'title' => __('Add Category as a tags', 'wp-scheduled-posts'),
+            'default' => false,
+        ]);
+        Builder::add_group_field('wpsp_social_templates', 'facebook', [
+            'id' => 'content_source',
+            'type' => 'radio',
+            'title' => __('Content Source', 'wp-scheduled-posts'),
+            'options' => array(
+                'excerpt' => __('Excerpt', 'wp-scheudled-posts'),
+                'content' => __('Content', 'wp-scheudled-posts')
+            ),
+            'default' => 'excerpt',
+        ]);
+        Builder::add_group_field('wpsp_social_templates', 'facebook', [
+            'id' => 'template_structure',
+            'type' => 'text',
+            'title' => __('Status Template Settings', 'wp-scheduled-posts'),
+            'desc'  => __('Default Structure: {title}{content}{url}{tags}', 'wp-scheduled-posts'),
+            'default' => '{title}{content}{url}{tags}',
+        ]);
+        Builder::add_group_field('wpsp_social_templates', 'facebook', [
+            'id' => 'status_limit',
+            'type' => 'text',
+            'title' => __('Status Limit', 'wp-scheduled-posts'),
+            'desc'  => __('Maximum Limit: 63206 character', 'wp-scheduled-posts'),
+            'default' => '63206',
+        ]);
         // twitter
         Builder::add_group('wpsp_social_templates', [
             'id' => 'twitter',
@@ -328,8 +358,123 @@ class Config
             'id' => 'template_structure',
             'type' => 'text',
             'title' => __('Tweet Template Settings', 'wp-scheduled-posts'),
-            'subtitle'  => __('Default Structure: {title}{content}{url}{tags}', 'wp-scheduled-posts'),
+            'desc'  => __('Default Structure: {title}{content}{url}{tags}', 'wp-scheduled-posts'),
             'default' => '{title}{content}{url}{tags}',
+        ]);
+        Builder::add_group_field('wpsp_social_templates', 'twitter', [
+            'id' => 'is_category_as_tags',
+            'type' => 'checkbox',
+            'title' => __('Add Category as a tags', 'wp-scheduled-posts'),
+            'default' => false,
+        ]);
+        Builder::add_group_field('wpsp_social_templates', 'twitter', [
+            'id' => 'is_show_post_thumbnail',
+            'type' => 'checkbox',
+            'title' => __('Show Post Thumbnail', 'wp-scheduled-posts'),
+            'default' => false,
+        ]);
+        Builder::add_group_field('wpsp_social_templates', 'twitter', [
+            'id' => 'content_source',
+            'type' => 'radio',
+            'title' => __('Content Source', 'wp-scheduled-posts'),
+            'options' => array(
+                'excerpt' => __('Excerpt', 'wp-scheudled-posts'),
+                'content' => __('Content', 'wp-scheudled-posts')
+            ),
+            'default' => 'excerpt',
+        ]);
+        Builder::add_group_field('wpsp_social_templates', 'twitter', [
+            'id' => 'tweet_limit',
+            'type' => 'text',
+            'title' => __('Tweet Limit', 'wp-scheduled-posts'),
+            'desc'  => __('Maximum Limit: 280 character', 'wp-scheduled-posts'),
+            'default' => '280',
+        ]);
+        // linkedin
+        Builder::add_group('wpsp_social_templates', [
+            'id' => 'linkedin',
+            'title' => __('Linkedin Status Settings', 'wp-scheduled-posts'),
+        ]);
+        Builder::add_group_field('wpsp_social_templates', 'linkedin', [
+            'id' => 'content_type',
+            'type' => 'radio',
+            'title' => __('Content Type', 'wp-scheduled-posts'),
+            'options' => array(
+                'link' => __('Link', 'wp-scheudled-posts'),
+                'status' => __('Status', 'wp-scheudled-posts')
+            ),
+            'default' => 'link',
+        ]);
+        Builder::add_group_field('wpsp_social_templates', 'linkedin', [
+            'id' => 'is_category_as_tags',
+            'type' => 'checkbox',
+            'title' => __('Add Category as a tags', 'wp-scheduled-posts'),
+            'default' => false,
+        ]);
+        Builder::add_group_field('wpsp_social_templates', 'linkedin', [
+            'id' => 'content_source',
+            'type' => 'radio',
+            'title' => __('Content Source', 'wp-scheduled-posts'),
+            'options' => array(
+                'excerpt' => __('Excerpt', 'wp-scheudled-posts'),
+                'content' => __('Content', 'wp-scheudled-posts')
+            ),
+            'default' => 'excerpt',
+        ]);
+        Builder::add_group_field('wpsp_social_templates', 'linkedin', [
+            'id' => 'template_structure',
+            'type' => 'text',
+            'title' => __('Status Template Settings', 'wp-scheduled-posts'),
+            'desc'  => __('Default Structure: {title}{content}{url}{tags}', 'wp-scheduled-posts'),
+            'default' => '{title}{content}{tags}',
+        ]);
+        Builder::add_group_field('wpsp_social_templates', 'linkedin', [
+            'id' => 'status_limit',
+            'type' => 'text',
+            'title' => __('Status Limit', 'wp-scheduled-posts'),
+            'desc'  => __('Maximum Limit: 1300 character', 'wp-scheduled-posts'),
+            'default' => '1300',
+        ]);
+        // pinterest
+        Builder::add_group('wpsp_social_templates', [
+            'id' => 'pinterest',
+            'title' => __(' Pinterest Pin Settings', 'wp-scheduled-posts'),
+        ]);
+        Builder::add_group_field('wpsp_social_templates', 'pinterest', [
+            'id' => 'is_set_image_link',
+            'type' => 'checkbox',
+            'title' => __('Add Image Link', 'wp-scheduled-posts'),
+            'default' => true,
+        ]);
+        Builder::add_group_field('wpsp_social_templates', 'pinterest', [
+            'id' => 'is_category_as_tags',
+            'type' => 'checkbox',
+            'title' => __('Add Category as a tags', 'wp-scheduled-posts'),
+            'default' => false,
+        ]);
+        Builder::add_group_field('wpsp_social_templates', 'pinterest', [
+            'id' => 'content_source',
+            'type' => 'radio',
+            'title' => __('Content Source', 'wp-scheduled-posts'),
+            'options' => array(
+                'excerpt' => __('Excerpt', 'wp-scheudled-posts'),
+                'content' => __('Content', 'wp-scheudled-posts')
+            ),
+            'default' => 'excerpt',
+        ]);
+        Builder::add_group_field('wpsp_social_templates', 'pinterest', [
+            'id' => 'template_structure',
+            'type' => 'text',
+            'title' => __('Status Template Settings', 'wp-scheduled-posts'),
+            'desc'  => __('Default Structure: {title}{content}{url}{tags}', 'wp-scheduled-posts'),
+            'default' => '{title}',
+        ]);
+        Builder::add_group_field('wpsp_social_templates', 'pinterest', [
+            'id' => 'note_limit',
+            'type' => 'text',
+            'title' => __('Pin Note Limit', 'wp-scheduled-posts'),
+            'desc'  => __('Maximum Limit: 500 character', 'wp-scheduled-posts'),
+            'default' => '500',
         ]);
     }
 
@@ -343,14 +488,28 @@ class Config
     public static function set_default_settings_fields_data()
     {
         self::$setting_array =  Builder::load();
-        $list_column = array_column(self::$setting_array, 'fields');
-        $list_array = array_merge(...$list_column);
-        $new_value = \json_encode(wp_list_pluck($list_array, 'default', 'id'));
-
+        $field = array();
+        foreach (self::$setting_array as $setting_item) {
+            if (!isset($setting_item['group'])) {
+                //normal field
+                foreach ($setting_item['fields'] as $fieldItem) {
+                    $field[$fieldItem['id']] = $fieldItem['default'];
+                }
+            } else {
+                // group field
+                foreach ($setting_item['group'] as $groupKey => $groupItem) {
+                    $group = [];
+                    foreach ($groupItem['fields'] as $groupField) {
+                        $group[][$groupField['id']] = $groupField['default'];
+                    }
+                    $field[$setting_item['id']][$groupKey] = $group;
+                }
+            }
+        }
         if (get_option(self::$settings_name) !== false) {
-            update_option(self::$settings_name, $new_value);
+            update_option(self::$settings_name, json_encode($field));
         } else {
-            add_option(self::$settings_name, $new_value);
+            add_option(self::$settings_name, json_encode($field));
         }
     }
 }
