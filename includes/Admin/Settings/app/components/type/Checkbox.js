@@ -12,9 +12,6 @@ const Checkbox = ({
     value,
 }) => {
     const [field] = useField(id)
-    if (value !== undefined) {
-        console.log(value[id])
-    }
     return (
         <div className='form-group'>
             <div className='form-info'>
@@ -27,12 +24,12 @@ const Checkbox = ({
                         {arrayHelpers !== undefined ? (
                             <input
                                 type='checkbox'
-                                // checked={
-                                //     value !== undefined &&
-                                //     value[index] !== undefined
-                                //         ? value[index][id]
-                                //         : false
-                                // }
+                                checked={
+                                    value !== undefined &&
+                                    value[index] !== undefined
+                                        ? value[index][id]
+                                        : false
+                                }
                                 name={id}
                                 onChange={(e) =>
                                     arrayHelpers.replace(index, {

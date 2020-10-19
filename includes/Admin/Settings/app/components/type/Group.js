@@ -30,7 +30,7 @@ const Group = ({ id, group, values }) => {
                     </div>
                     <div className='wpsp-integ-content wpsp-social-integ-content'>
                         <FieldArray
-                            name={id}
+                            name={`${id}.${item.id}`}
                             render={(arrayHelpers) => (
                                 <div>
                                     {item.fields !== undefined &&

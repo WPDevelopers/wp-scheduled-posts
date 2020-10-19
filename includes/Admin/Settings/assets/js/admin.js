@@ -783,11 +783,6 @@ const Checkbox = ({
   value
 }) => {
   const [field] = Object(formik__WEBPACK_IMPORTED_MODULE_1__["useField"])(id);
-
-  if (value !== undefined) {
-    console.log(value[id]);
-  }
-
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-group"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -803,13 +798,8 @@ const Checkbox = ({
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "wpsp_switch"
   }, arrayHelpers !== undefined ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "checkbox" // checked={
-    //     value !== undefined &&
-    //     value[index] !== undefined
-    //         ? value[index][id]
-    //         : false
-    // }
-    ,
+    type: "checkbox",
+    checked: value !== undefined && value[index] !== undefined ? value[index][id] : false,
     name: id,
     onChange: e => arrayHelpers.replace(index, {
       [id]: e.target.checked
@@ -1061,7 +1051,7 @@ const Group = ({
   }, "Doc"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "wpsp-integ-content wpsp-social-integ-content"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_2__["FieldArray"], {
-    name: id,
+    name: "".concat(id, ".").concat(item.id),
     render: arrayHelpers => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, item.fields !== undefined && item.fields.length > 0 && item.fields.map((fieldItem, fieldIndex) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Fields__WEBPACK_IMPORTED_MODULE_3__["default"], _extends({}, fieldItem, {
       key: fieldIndex,
       arrayHelpers: arrayHelpers,
