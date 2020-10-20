@@ -11,6 +11,7 @@ import CreatableSelect from './type/CreatableSelect'
 import Collapsible from './type/Collapsible'
 import SocialProfile from './type/SocialProfile'
 import Group from './type/Group'
+import ScheduleTable from './type/ScheduleTable'
 
 const Fields = (props) => {
     const isFalseConditionalStatus = compareConditionValue(
@@ -48,6 +49,9 @@ const Fields = (props) => {
             break
         case 'socialprofile':
             renderComponent = <SocialProfile {...props} />
+            break
+        case 'scheduletable':
+            renderComponent = <ScheduleTable {...props} />
             break
         default:
             renderComponent = <Error {...props} />

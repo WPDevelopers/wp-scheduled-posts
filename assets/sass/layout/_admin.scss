@@ -1747,52 +1747,6 @@
     width: 80px;
 }
 /* Manual Schedule CSS */
-.wpsp_man_time_setting {
-    width: 100%;
-    overflow: hidden;
-}
-.wpsp_man_time_setting li {
-    float: left;
-    border-radius: 5px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    margin-top: 20px;
-}
-.wpsp_man_time_setting li:first-child,
-.wpsp_man_time_setting li:nth-child(2) {
-    width: 45%;
-    height: 50px;
-    background: #fff;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    box-sizing: border-box;
-    margin-left: 15px;
-}
-.wpsp_man_time_setting li:first-child span,
-.wpsp_man_time_setting li:nth-child(2) span {
-    display: inline-block;
-    color: #687b95;
-    font-size: 14px;
-}
-.wpsp_man_time_setting li:first-child select,
-.wpsp_man_time_setting li:nth-child(2) input[type='text'] {
-    float: right;
-    text-align: center;
-    width: 100%;
-    max-width: 120px;
-    color: #6c62ff;
-    font-weight: 600;
-    border-radius: 5px;
-}
-.wpsp_man_time_setting li:last-child {
-    margin: 0 3%;
-    padding: 10px 0;
-}
-.wpsp_man_time_setting li:last-child input[type='submit'] {
-    background-color: #6c62ff;
-    margin: 0 3%;
-}
 .wpsp-dashboard-body .schedule-list {
     width: 100%;
 }
@@ -1839,42 +1793,6 @@
 .wpsp-dashboard-body .schedule-list li > span.current_day_active:first-child {
     background: linear-gradient(60deg, #7768fd 0%, #b88ef6 75%);
     color: #fff;
-}
-
-@media screen and (max-width: 1450px) {
-    .wpsp_man_time_setting li:first-child,
-    .wpsp_man_time_setting li:nth-child(2) {
-        height: auto;
-    }
-    .wpsp_man_time_setting li:first-child span,
-    .wpsp_man_time_setting li:nth-child(2) span {
-        display: block;
-    }
-    .wpsp_man_time_setting li:first-child select,
-    .wpsp_man_time_setting li:nth-child(2) input[type='text'] {
-        float: none;
-        margin: 0.5em;
-    }
-    .wpsp-schedule-table table th span,
-    .wpsp_time_interval_option_table table th span {
-        display: block;
-    }
-}
-
-@media screen and (min-width: 1800px) {
-    .wpsp_man_time_setting li:first-child,
-    .wpsp_man_time_setting li:nth-child(2) {
-        width: 36%;
-    }
-    .wpsp_man_time_setting li:last-child {
-        margin: 0;
-    }
-    .wpsp_man_time_setting li:last-child input[type='submit'] {
-        margin: 1em 3%;
-    }
-    .wpsp-dashboard-body .chung-timepicker {
-        margin: 2px -105px 0px;
-    }
 }
 
 .wpsp-dashboard-body {
