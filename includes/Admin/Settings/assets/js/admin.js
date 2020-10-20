@@ -113,6 +113,7 @@ if (!window._babelPolyfill) {
 
 
 document.addEventListener('DOMContentLoaded', function () {
+  console.log(window.wpspSettingsGlobal);
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_2__["Provider"], {
     store: _redux_store__WEBPACK_IMPORTED_MODULE_3__["default"]
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_containers_Admin__WEBPACK_IMPORTED_MODULE_4__["default"], {
@@ -1042,7 +1043,7 @@ const Group = ({
     id: "wpsp_".concat(item.id, "_template"),
     className: "wpsp-integ-item_section wpsp-integ-active",
     key: index
-  }, console.log(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "wpsp-integ-bar wpsp-integ-active"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h3", null, item.title), item.subtitle !== undefined && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
     dangerouslySetInnerHTML: {
@@ -1094,12 +1095,6 @@ const Radio = ({
   value
 }) => {
   const [field] = Object(formik__WEBPACK_IMPORTED_MODULE_1__["useField"])(id);
-
-  if (value !== undefined) {
-    console.log(value[index][id]);
-  }
-
-  console.log(groupName);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-group"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1477,7 +1472,6 @@ const Text = ({
   setFieldValue,
   value
 }) => {
-  console.log(id);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-group"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {

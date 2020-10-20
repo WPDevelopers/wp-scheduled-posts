@@ -11,7 +11,6 @@ const Text = ({
     setFieldValue,
     value,
 }) => {
-    console.log(id)
     return (
         <div className='form-group'>
             <div className='form-info'>

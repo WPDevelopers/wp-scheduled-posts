@@ -14,11 +14,6 @@ const Radio = ({
     value,
 }) => {
     const [field] = useField(id)
-
-    if (value !== undefined) {
-        console.log(value[index][id])
-    }
-    console.log(groupName)
     return (
         <div className='form-group'>
             <div className='form-info'>

@@ -11,7 +11,6 @@ const Group = ({ id, group, values }) => {
                     className='wpsp-integ-item_section wpsp-integ-active'
                     key={index}
                 >
-                    {console.log()}
                     <div className='wpsp-integ-bar wpsp-integ-active'>
                         <h3>{item.title}</h3>
                         {item.subtitle !== undefined && (

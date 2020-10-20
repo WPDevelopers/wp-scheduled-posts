@@ -480,6 +480,7 @@ class Config
             'desc'  => __('Maximum Limit: 500 character', 'wp-scheduled-posts'),
             'default' => '500',
         ]);
+        do_action('wpsp_settings_config');
     }
 
     /**
@@ -496,22 +497,28 @@ class Config
         foreach (self::$setting_array as $setting_item) {
             if (!isset($setting_item['group'])) {
                 //normal field
-                foreach ($setting_item['fields'] as $fieldItem) {
-                    $field[$fieldItem['id']] = $fieldItem['default'];
+                if (isset($setting_item['fields'])) {
+                    foreach ($setting_item['fields'] as $fieldItem) {
+                        $field[$fieldItem['id']] = $fieldItem['default'];
+                    }
                 }
             } else {
                 // group field
                 foreach ($setting_item['group'] as $groupKey => $groupItem) {
                     $group = [];
-                    foreach ($groupItem['fields'] as $groupField) {
-                        $group[][$groupField['id']] = $groupField['default'];
+                    if (isset($groupItem['fields'])) {
+                        foreach ($groupItem['fields'] as $groupField) {
+                            $group[][$groupField['id']] = $groupField['default'];
+                        }
                     }
                     $field[$setting_item['id']][$groupKey] = $group;
                 }
             }
         }
         if (get_option(self::$settings_name) !== false) {
-            update_option(self::$settings_name, json_encode($field));
+            $defaults = json_decode(get_option(self::$settings_name), true);
+            $args = wp_parse_args($defaults, $field);
+            update_option(self::$settings_name, json_encode($args));
         } else {
             add_option(self::$settings_name, json_encode($field));
         }

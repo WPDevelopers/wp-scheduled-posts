@@ -51,7 +51,6 @@ class Builder
     {
         foreach ($fields as $key => $value) {
             $tabs[$key]['fields'] = $value;
-            error_log(print_r($value, true));
         }
         return array_values($tabs);
     }
