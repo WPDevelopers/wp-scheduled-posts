@@ -204,6 +204,16 @@ const Settings = ({
                                                         </Tabs>
                                                     )
                                                 }
+                                                {item.group !== undefined &&
+                                                    Object.keys(item.group)
+                                                        .length > 0 && (
+                                                        <Group
+                                                            {...item}
+                                                            values={
+                                                                props.values
+                                                            }
+                                                        />
+                                                    )}
                                                 {
                                                     // main tabs fields
                                                     item.fields !== undefined &&
@@ -229,16 +239,6 @@ const Settings = ({
                                                             )
                                                         )
                                                 }
-                                                {item.group !== undefined &&
-                                                    Object.keys(item.group)
-                                                        .length > 0 && (
-                                                        <Group
-                                                            {...item}
-                                                            values={
-                                                                props.values
-                                                            }
-                                                        />
-                                                    )}
                                             </div>
                                             {item.id === 'wpsp_general' && (
                                                 <div className='wpsp-feature-wrap'>

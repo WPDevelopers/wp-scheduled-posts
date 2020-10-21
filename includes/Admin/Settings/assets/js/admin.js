@@ -1598,6 +1598,7 @@ const Text = ({
   }, subtitle)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-body"
   }, arrayHelpers !== undefined ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_1__["Field"], {
+    className: "text-field",
     type: "text",
     name: id,
     value: value !== undefined && value[index] !== undefined ? value[index][id] : '',
@@ -1605,6 +1606,7 @@ const Text = ({
       [id]: e.target.value
     })
   }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_1__["Field"], {
+    className: "text-field",
     type: "text",
     id: id,
     name: id,
@@ -1974,15 +1976,15 @@ const Settings = ({
       ,
       key: subTabFieldIndex,
       values: props.values
-    })))))), // main tabs fields
+    })))))), item.group !== undefined && Object.keys(item.group).length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_type_Group__WEBPACK_IMPORTED_MODULE_9__["default"], _extends({}, item, {
+      values: props.values
+    })), // main tabs fields
     item.fields !== undefined && item.fields.length > 0 && item.fields.map((fieldItem, fieldIndex) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Fields__WEBPACK_IMPORTED_MODULE_8__["default"], _extends({}, fieldItem, {
       setFieldValue: props.setFieldValue // formik
       ,
       key: fieldIndex,
       values: props.values
-    }))), item.group !== undefined && Object.keys(item.group).length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_type_Group__WEBPACK_IMPORTED_MODULE_9__["default"], _extends({}, item, {
-      values: props.values
-    }))), item.id === 'wpsp_general' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    })))), item.id === 'wpsp_general' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "wpsp-feature-wrap"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Features__WEBPACK_IMPORTED_MODULE_11__["default"], {
       pluginRootURI: wpspObject.plugin_root_uri,

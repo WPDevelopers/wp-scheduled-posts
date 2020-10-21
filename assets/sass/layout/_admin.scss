@@ -86,6 +86,7 @@
             padding: 25px 0;
             .form-group {
                 display: flex;
+                align-items: center;
                 color: #687b95;
                 font-size: 14px;
                 background: #fff;
@@ -97,8 +98,17 @@
                     align-items: center;
                 }
                 .form-body {
-                    .checkbox_wrap {
-                        text-align: right;
+                    text-align: right;
+                    .text-field {
+                        background: #f4f7f9;
+                        color: #687b95;
+                        border: 1px solid #e7e7e7;
+                        border-radius: 3px;
+                        height: 40px;
+                    }
+                    .radio-item {
+                        display: inline-block;
+                        margin-left: 10px;
                     }
                     .desc {
                         display: block;
@@ -132,6 +142,15 @@
                     padding: 0 0 15px 30px;
                 }
             }
+            // social
+            .facebook_profile,
+            .twitter_profile,
+            .linkedin_profile,
+            .pinterest_profile {
+                .form-group {
+                    align-items: flex-start;
+                }
+            }
         }
     }
     .btn-submit {
@@ -152,8 +171,35 @@
             background: #e74c3c;
         }
     }
+    // social template
+    .wpsp_social_templates {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        background: #fff;
+        > div {
+            width: 50%;
+            padding: 30px;
+            border: 1px solid #e7e7e7;
+            box-sizing: border-box;
+        }
+    }
+    // manage schedule
     .wpsp_pro_manage_schedule {
         width: 100%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        background: #fff;
+        > div {
+            width: 50%;
+            padding: 30px;
+            border-left: 1px solid #e7e7e7;
+            border-top: 1px solid #e7e7e7;
+            box-sizing: border-box;
+            margin-left: auto;
+        }
         ul.manual-schedule-builder {
             display: flex;
             li {
@@ -2309,116 +2355,6 @@
 }
 
 /* option page css end */
-
-/* wpsp integration css start */
-
-.wpsp-integ-wrapper {
-    width: 100%;
-}
-.wpsp-integ-item {
-    /* background: #fff; */
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    color: #687b95;
-}
-.wpsp-integ-item:before,
-.wpsp-integ-item:after {
-    content: '';
-    width: 100%;
-    display: block;
-}
-.wpsp-integ-item:after {
-    clear: both;
-}
-.wpsp-integ-item:nth-child(1) .wpsp-integ-active input[type='radio'] {
-    border: 1px solid #26ade1;
-}
-.wpsp-integ-item:nth-child(1)
-    .wpsp-integ-active
-    input[type='radio']:checked:before {
-    background-color: #26ade1;
-}
-.wpsp-integ-item:nth-child(2) .wpsp-integ-active input[type='radio'] {
-    border: 1px solid #9091ff;
-}
-.wpsp-integ-item:nth-child(2)
-    .wpsp-integ-active
-    input[type='radio']:checked:before {
-    background-color: #9091ff;
-}
-.wpsp-integ-item:nth-child(3) .wpsp-integ-active input[type='radio'] {
-    border: 1px solid #ff6969;
-}
-.wpsp-integ-item:nth-child(3)
-    .wpsp-integ-active
-    input[type='radio']:checked:before {
-    background-color: #ff6969;
-}
-.wpsp-integ-item_section {
-    float: left;
-    width: calc(50%);
-    box-sizing: border-box;
-    background: #fff;
-    padding: 30px 0 30px 30px;
-    min-height: 495px;
-    .wpsp_number_field {
-        width: 100px;
-    }
-}
-.social-integrations {
-    .wpsp-integ-item {
-        -webkit-column-count: 2;
-        -moz-column-count: 2;
-        column-count: 2;
-        -webkit-column-gap: 1.25rem;
-        -moz-column-gap: 1.25rem;
-        column-gap: 1.25rem;
-        .wpsp-integ-item_section {
-            display: inline-block;
-            width: 100%;
-            min-height: 230px;
-            float: none;
-            margin-bottom: 1.25rem;
-        }
-    }
-}
-
-.wpsp-integ-item_section:nth-child(even) {
-    border-left: 1px solid #f5f5f5;
-}
-.wpsp-integ-item_section #PinterestAcessTokenGen {
-    margin-left: 35%;
-    margin-top: 10px;
-}
-.woofilter-form-control {
-    padding: 10px;
-}
-.wpsp-integ-bar {
-    width: 100%;
-    padding: 0px 10px;
-    box-sizing: border-box;
-    cursor: pointer;
-}
-.wpsp-integ-bar h3 {
-    font-size: 18px;
-    display: inline-block;
-    color: #687b95;
-    margin-bottom: 0;
-}
-.wpsp-integ-bar p {
-    font-size: 12px;
-    margin: 2px 0 0 0;
-    font-style: italic;
-}
-.wpsp-integ-content {
-    padding: 0;
-    box-sizing: border-box;
-}
-
-.wpsp-integ-content form table td {
-    padding: 10px;
-}
-
 .wpsp_form_group label {
     width: 35%;
     font-size: 15px;

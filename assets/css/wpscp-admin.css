@@ -1237,6 +1237,9 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   color: #687b95;
   font-size: 14px;
   background: #fff;
@@ -1252,8 +1255,19 @@
       -ms-flex-align: center;
           align-items: center;
 }
-.wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .form-group .form-body .checkbox_wrap {
+.wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .form-group .form-body {
   text-align: right;
+}
+.wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .form-group .form-body .text-field {
+  background: #f4f7f9;
+  color: #687b95;
+  border: 1px solid #e7e7e7;
+  border-radius: 3px;
+  height: 40px;
+}
+.wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .form-group .form-body .radio-item {
+  display: inline-block;
+  margin-left: 10px;
 }
 .wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .form-group .form-body .desc {
   display: block;
@@ -1285,6 +1299,14 @@
   width: 70%;
   padding: 0 0 15px 30px;
 }
+.wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .facebook_profile .form-group,
+.wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .twitter_profile .form-group,
+.wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .linkedin_profile .form-group,
+.wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .pinterest_profile .form-group {
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+}
 .wpsp-dashboard-body .btn-submit {
   background: #6c62ff;
   color: #fff;
@@ -1304,8 +1326,47 @@
 .wpsp-dashboard-body .btn-submit--changed {
   background: #e74c3c;
 }
+.wpsp-dashboard-body .wpsp_social_templates {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  background: #fff;
+}
+.wpsp-dashboard-body .wpsp_social_templates > div {
+  width: 50%;
+  padding: 30px;
+  border: 1px solid #e7e7e7;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
 .wpsp-dashboard-body .wpsp_pro_manage_schedule {
   width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  background: #fff;
+}
+.wpsp-dashboard-body .wpsp_pro_manage_schedule > div {
+  width: 50%;
+  padding: 30px;
+  border-left: 1px solid #e7e7e7;
+  border-top: 1px solid #e7e7e7;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin-left: auto;
 }
 .wpsp-dashboard-body .wpsp_pro_manage_schedule ul.manual-schedule-builder {
   display: -webkit-box;
@@ -3890,126 +3951,6 @@
 }
 
 /* option page css end */
-/* wpsp integration css start */
-.wpsp-integ-wrapper {
-  width: 100%;
-}
-
-.wpsp-integ-item {
-  /* background: #fff; */
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  color: #687b95;
-}
-
-.wpsp-integ-item:before,
-.wpsp-integ-item:after {
-  content: "";
-  width: 100%;
-  display: block;
-}
-
-.wpsp-integ-item:after {
-  clear: both;
-}
-
-.wpsp-integ-item:nth-child(1) .wpsp-integ-active input[type=radio] {
-  border: 1px solid #26ade1;
-}
-
-.wpsp-integ-item:nth-child(1) .wpsp-integ-active input[type=radio]:checked:before {
-  background-color: #26ade1;
-}
-
-.wpsp-integ-item:nth-child(2) .wpsp-integ-active input[type=radio] {
-  border: 1px solid #9091ff;
-}
-
-.wpsp-integ-item:nth-child(2) .wpsp-integ-active input[type=radio]:checked:before {
-  background-color: #9091ff;
-}
-
-.wpsp-integ-item:nth-child(3) .wpsp-integ-active input[type=radio] {
-  border: 1px solid #ff6969;
-}
-
-.wpsp-integ-item:nth-child(3) .wpsp-integ-active input[type=radio]:checked:before {
-  background-color: #ff6969;
-}
-
-.wpsp-integ-item_section {
-  float: left;
-  width: calc(50%);
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  background: #fff;
-  padding: 30px 0 30px 30px;
-  min-height: 495px;
-}
-.wpsp-integ-item_section .wpsp_number_field {
-  width: 100px;
-}
-
-.social-integrations .wpsp-integ-item {
-  -webkit-column-count: 2;
-  -moz-column-count: 2;
-  column-count: 2;
-  -webkit-column-gap: 1.25rem;
-  -moz-column-gap: 1.25rem;
-  column-gap: 1.25rem;
-}
-.social-integrations .wpsp-integ-item .wpsp-integ-item_section {
-  display: inline-block;
-  width: 100%;
-  min-height: 230px;
-  float: none;
-  margin-bottom: 1.25rem;
-}
-
-.wpsp-integ-item_section:nth-child(even) {
-  border-left: 1px solid #f5f5f5;
-}
-
-.wpsp-integ-item_section #PinterestAcessTokenGen {
-  margin-left: 35%;
-  margin-top: 10px;
-}
-
-.woofilter-form-control {
-  padding: 10px;
-}
-
-.wpsp-integ-bar {
-  width: 100%;
-  padding: 0px 10px;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  cursor: pointer;
-}
-
-.wpsp-integ-bar h3 {
-  font-size: 18px;
-  display: inline-block;
-  color: #687b95;
-  margin-bottom: 0;
-}
-
-.wpsp-integ-bar p {
-  font-size: 12px;
-  margin: 2px 0 0 0;
-  font-style: italic;
-}
-
-.wpsp-integ-content {
-  padding: 0;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-}
-
-.wpsp-integ-content form table td {
-  padding: 10px;
-}
-
 .wpsp_form_group label {
   width: 35%;
   font-size: 15px;

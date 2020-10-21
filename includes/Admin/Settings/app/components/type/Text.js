@@ -20,6 +20,7 @@ const Text = ({
             <div className='form-body'>
                 {arrayHelpers !== undefined ? (
                     <Field
+                        className='text-field'
                         type='text'
                         name={id}
                         value={
@@ -35,6 +36,7 @@ const Text = ({
                     />
                 ) : (
                     <Field
+                        className='text-field'
                         type='text'
                         id={id}
                         name={id}
