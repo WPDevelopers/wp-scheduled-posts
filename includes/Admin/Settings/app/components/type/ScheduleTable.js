@@ -28,15 +28,16 @@ const ScheduleTable = ({
     const [selectTime, setSelectTime] = useState(now.format(format))
     return (
         <React.Fragment>
-            <div className='man_options'>
+            <div className='manual-schedule'>
                 <FieldArray
                     name={`${groupName}.${id}.${selectDay.value}`}
                     render={(arrayHelpers) => (
                         <div>
-                            <ul className='wpsp_man_time_setting'>
+                            <ul className='manual-schedule-builder'>
                                 <li>
                                     <span>Select Days</span>
                                     <Select2
+                                        className='select-days'
                                         value={selectDay}
                                         onChange={(option) =>
                                             setSelectDay(option)
@@ -46,7 +47,7 @@ const ScheduleTable = ({
                                     />
                                 </li>
                                 <li>
-                                    <span>Time Settings</span>
+                                    <span>Select Time</span>
                                     <TimePicker
                                         showSecond={false}
                                         defaultValue={now}
@@ -60,30 +61,52 @@ const ScheduleTable = ({
                                     />
                                 </li>
                                 <li>
-                                    <input
+                                    <button
+                                        className='btn-schedule'
                                         type='button'
                                         onClick={() => {
                                             arrayHelpers.insert([], selectTime)
                                         }}
-                                        value='Save Schedule'
-                                    />
+                                    >
+                                        Save Schedule
+                                    </button>
                                 </li>
                             </ul>
                         </div>
                     )}
                 />
-            </div>
-            <ul className='schedule-list'>
-                {value !== undefined &&
-                    Object.entries(value[id]).map(([index, item]) => (
-                        <li data-day={index} key={index}>
-                            <span>{index}</span>
-                            {item.map((item, index) => (
-                                <button key={index}>{item}</button>
-                            ))}
-                        </li>
+                <ul className='schedule-list'>
+                    {options.map((item, index) => (
+                        <FieldArray
+                            key={index}
+                            name={`${groupName}.${id}.${item.value}`}
+                            render={(arrayHelpers) => (
+                                <li data-day={index} key={index}>
+                                    <span>{item.label}</span>
+                                    {value.weekdata[item.value] !== undefined &&
+                                        value.weekdata[item.value].map(
+                                            (item, index) => (
+                                                <span key={index}>
+                                                    {item}
+                                                    <button
+                                                        type='button'
+                                                        onClick={() => {
+                                                            arrayHelpers.remove(
+                                                                index
+                                                            )
+                                                        }}
+                                                    >
+                                                        <span className='dashicons dashicons-no-alt'></span>
+                                                    </button>
+                                                </span>
+                                            )
+                                        )}
+                                </li>
+                            )}
+                        />
                     ))}
-            </ul>
+                </ul>
+            </div>
         </React.Fragment>
     )
 }

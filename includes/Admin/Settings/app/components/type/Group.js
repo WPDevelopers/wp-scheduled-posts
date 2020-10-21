@@ -7,7 +7,7 @@ const Group = ({ id, group, values }) => {
         <React.Fragment>
             {Object.entries(group).map(([index, item]) => (
                 <div
-                    id={`wpsp_${item.id}_template`}
+                    id={`wpsp_${item.id}`}
                     className='wpsp-integ-item_section wpsp-integ-active'
                     key={index}
                 >
@@ -21,11 +21,11 @@ const Group = ({ id, group, values }) => {
                             ></p>
                         )}
                     </div>
-                    <div className='wpsp-integ-content wpsp-social-integ-content'>
+                    <div className={'group-fields ' + item.id}>
                         <FieldArray
                             name={`${id}.${item.id}`}
                             render={(arrayHelpers) => (
-                                <div>
+                                <React.Fragment>
                                     {item.fields !== undefined &&
                                         item.fields.length > 0 &&
                                         item.fields.map(
@@ -40,7 +40,7 @@ const Group = ({ id, group, values }) => {
                                                 />
                                             )
                                         )}
-                                </div>
+                                </React.Fragment>
                             )}
                         />
                     </div>

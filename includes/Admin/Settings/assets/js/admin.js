@@ -1045,7 +1045,7 @@ const Group = ({
   values
 }) => {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, Object.entries(group).map(([index, item]) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-    id: "wpsp_".concat(item.id, "_template"),
+    id: "wpsp_".concat(item.id),
     className: "wpsp-integ-item_section wpsp-integ-active",
     key: index
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -1055,10 +1055,10 @@ const Group = ({
       __html: item.subtitle
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-    className: "wpsp-integ-content wpsp-social-integ-content"
+    className: 'group-fields ' + item.id
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_2__["FieldArray"], {
     name: "".concat(id, ".").concat(item.id),
-    render: arrayHelpers => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, item.fields !== undefined && item.fields.length > 0 && item.fields.map((fieldItem, fieldIndex) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Fields__WEBPACK_IMPORTED_MODULE_3__["default"], _extends({}, fieldItem, {
+    render: arrayHelpers => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, item.fields !== undefined && item.fields.length > 0 && item.fields.map((fieldItem, fieldIndex) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Fields__WEBPACK_IMPORTED_MODULE_3__["default"], _extends({}, fieldItem, {
       key: fieldIndex,
       arrayHelpers: arrayHelpers,
       groupName: "".concat(id, ".").concat(item.id),
@@ -1195,17 +1195,18 @@ const ScheduleTable = ({
   const [selectDay, setSelectDay] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(options[0]);
   const [selectTime, setSelectTime] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(now.format(format));
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "man_options"
+    className: "manual-schedule"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_3__["FieldArray"], {
     name: "".concat(groupName, ".").concat(id, ".").concat(selectDay.value),
     render: arrayHelpers => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-      className: "wpsp_man_time_setting"
+      className: "manual-schedule-builder"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Select Days"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_select__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      className: "select-days",
       value: selectDay,
       onChange: option => setSelectDay(option),
       options: options,
       isMulti: false
-    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Time Settings"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(rc_time_picker__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Select Time"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(rc_time_picker__WEBPACK_IMPORTED_MODULE_1__["default"], {
       showSecond: false,
       defaultValue: now,
       className: "xxx",
@@ -1213,21 +1214,32 @@ const ScheduleTable = ({
       format: format,
       use12Hours: true,
       inputReadOnly: true
-    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      className: "btn-schedule",
       type: "button",
       onClick: () => {
         arrayHelpers.insert([], selectTime);
-      },
-      value: "Save Schedule"
-    }))))
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+      }
+    }, "Save Schedule"))))
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
     className: "schedule-list"
-  }, value !== undefined && Object.entries(value[id]).map(([index, item]) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-    "data-day": index,
-    key: index
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, index), item.map((item, index) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    key: index
-  }, item))))));
+  }, options.map((item, index) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_3__["FieldArray"], {
+    key: index,
+    name: "".concat(groupName, ".").concat(id, ".").concat(item.value),
+    render: arrayHelpers => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      "data-day": index,
+      key: index
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, item.label), value.weekdata[item.value] !== undefined && value.weekdata[item.value].map((item, index) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      key: index
+    }, item, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      type: "button",
+      onClick: () => {
+        arrayHelpers.remove(index);
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      className: "dashicons dashicons-no-alt"
+    })))))
+  })))));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (ScheduleTable);

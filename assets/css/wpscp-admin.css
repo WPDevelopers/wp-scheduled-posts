@@ -1304,6 +1304,106 @@
 .wpsp-dashboard-body .btn-submit--changed {
   background: #e74c3c;
 }
+.wpsp-dashboard-body .wpsp_pro_manage_schedule {
+  width: 100%;
+}
+.wpsp-dashboard-body .wpsp_pro_manage_schedule ul.manual-schedule-builder {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.wpsp-dashboard-body .wpsp_pro_manage_schedule ul.manual-schedule-builder li {
+  width: 37.5%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 5px 10px;
+  margin-right: 15px;
+}
+.wpsp-dashboard-body .wpsp_pro_manage_schedule ul.manual-schedule-builder li:last-child {
+  width: 25%;
+  border: 0;
+  margin-right: 0;
+}
+.wpsp-dashboard-body .wpsp_pro_manage_schedule ul.manual-schedule-builder li .rc-time-picker input,
+.wpsp-dashboard-body .wpsp_pro_manage_schedule ul.manual-schedule-builder li .rc-time-picker,
+.wpsp-dashboard-body .wpsp_pro_manage_schedule ul.manual-schedule-builder li .select-days {
+  width: 150px;
+  height: 40px;
+  margin-left: auto;
+  background: white;
+}
+.wpsp-dashboard-body .wpsp_pro_manage_schedule ul.manual-schedule-builder li .rc-time-picker-clear {
+  top: 8px;
+}
+.wpsp-dashboard-body .wpsp_pro_manage_schedule ul.manual-schedule-builder .btn-schedule {
+  padding: 5px 20px;
+  background-color: #2278f6;
+  border: none;
+  text-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  height: 40px;
+  color: #fff;
+  border-radius: 4px;
+}
+.wpsp-dashboard-body .group-fields.auto_schedule {
+  background-color: #f8fafc;
+  color: #4d4d4d;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+.wpsp-dashboard-body .group-fields.auto_schedule .standard-fields {
+  width: 48%;
+  display: inline-block;
+  margin: 1%;
+}
+.wpsp-dashboard-body .group-fields.auto_schedule .standard-fields .form-group {
+  border: 1px solid #e7e7e7;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.wpsp-dashboard-body .group-fields.auto_schedule .standard-fields .form-group .form-info label {
+  color: #687b95;
+}
+.wpsp-dashboard-body .group-fields.auto_schedule .standard-fields .form-group .form-info span {
+  color: #a4b0c1;
+  font-size: 12px;
+}
+.wpsp-dashboard-body .group-fields.auto_schedule .standard-fields.is_active_status {
+  width: 100%;
+}
+.wpsp-dashboard-body .group-fields.auto_schedule .standard-fields .form-body {
+  text-align: right;
+}
+.wpsp-dashboard-body .group-fields.auto_schedule .standard-fields.saturday_post_limit {
+  display: block;
+}
+.wpsp-dashboard-body .group-fields.auto_schedule .standard-fields input[type=text] {
+  text-align: center;
+  width: 70px;
+  height: 40px;
+  background: #f4f7f9;
+  color: #6c62ff;
+  font-size: 16px;
+  font-weight: 500;
+  border: 0.5px solid #e7e7e7;
+}
 
 .wpsp-modal-social-platform .entry-head {
   color: #fff;
