@@ -1415,6 +1415,23 @@
   color: #fff;
   border-radius: 4px;
 }
+.wpsp-dashboard-body .wpsp_pro_manage_schedule .is_active_missed_schedule {
+  background: -o-linear-gradient(30deg, #6674f5 0%, #43d8bf 75%);
+  background: linear-gradient(60deg, #6674f5 0%, #43d8bf 75%);
+  padding: 20px;
+  font-size: 16px;
+  margin-top: 25px;
+  border-radius: 3px;
+  color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+.wpsp-dashboard-body .wpsp_pro_manage_schedule .is_active_missed_schedule .form-group {
+  background: none;
+  color: #fff;
+}
+.wpsp-dashboard-body .wpsp_pro_manage_schedule .is_active_missed_schedule .form-group .form-info label {
+  display: block;
+}
 .wpsp-dashboard-body .group-fields.auto_schedule {
   background-color: #f8fafc;
   color: #4d4d4d;
@@ -2561,16 +2578,6 @@
   color: #ccc;
   height: 10px;
   width: 10px;
-}
-
-.wpsp-dashboard-body .miss-schedule-form {
-  background-color: #30d6a9;
-  padding: 20px;
-  font-size: 16px;
-  margin-top: 25px;
-  border-radius: 3px;
-  color: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .wpsp-dashboard-body .wpsp-schedule-table {

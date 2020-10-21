@@ -12,6 +12,7 @@ import Collapsible from './type/Collapsible'
 import SocialProfile from './type/SocialProfile'
 import Group from './type/Group'
 import ScheduleTable from './type/ScheduleTable'
+import License from './type/License'
 
 const Fields = (props) => {
     const isFalseConditionalStatus = compareConditionValue(
@@ -52,6 +53,9 @@ const Fields = (props) => {
             break
         case 'scheduletable':
             renderComponent = <ScheduleTable {...props} />
+            break
+        case 'license':
+            renderComponent = <License {...props} />
             break
         default:
             renderComponent = <Error {...props} />

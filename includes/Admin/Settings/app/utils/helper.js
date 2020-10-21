@@ -11,6 +11,8 @@ export const compareConditionValue = (condition, allFieldsValue) => {
     return flag
 }
 
+export const wpspSettingsGlobal = window.wpspSettingsGlobal
+
 export const wpspGetPluginRootURI = window.wpspSettingsGlobal.plugin_root_uri
 
 export const socialTabHeaderData = {

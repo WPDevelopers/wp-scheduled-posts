@@ -241,6 +241,24 @@
                 border-radius: 4px;
             }
         }
+        .is_active_missed_schedule {
+            background: linear-gradient(60deg, #6674f5 0%, #43d8bf 75%);
+            padding: 20px;
+            font-size: 16px;
+            margin-top: 25px;
+            border-radius: 3px;
+            color: #fff;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            .form-group {
+                background: none;
+                color: #fff;
+                .form-info {
+                    label {
+                        display: block;
+                    }
+                }
+            }
+        }
     }
     .group-fields {
         &.auto_schedule {
@@ -1210,16 +1228,6 @@
     color: #ccc;
     height: 10px;
     width: 10px;
-}
-
-.wpsp-dashboard-body .miss-schedule-form {
-    background-color: #30d6a9;
-    padding: 20px;
-    font-size: 16px;
-    margin-top: 25px;
-    border-radius: 3px;
-    color: #fff;
-    border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .wpsp-dashboard-body .wpsp-schedule-table {
