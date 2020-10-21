@@ -26,11 +26,13 @@ const ScheduleTable = ({
     ]
     const [selectDay, setSelectDay] = useState(options[0])
     const [selectTime, setSelectTime] = useState(now.format(format))
+    console.log(index)
+    console.log(value)
     return (
         <React.Fragment>
             <div className='manual-schedule'>
                 <FieldArray
-                    name={`${groupName}.${id}.${selectDay.value}`}
+                    name={`${groupName}.${index}.${id}.[${selectDay.value}]`}
                     render={(arrayHelpers) => (
                         <div>
                             <ul className='manual-schedule-builder'>
@@ -76,15 +78,18 @@ const ScheduleTable = ({
                     )}
                 />
                 <ul className='schedule-list'>
-                    {options.map((item, index) => (
+                    {options.map((item, optionIndex) => (
                         <FieldArray
-                            key={index}
-                            name={`${groupName}.${id}.${item.value}`}
+                            key={optionIndex}
+                            name={`${groupName}.${index}.${id}.${item.value}`}
                             render={(arrayHelpers) => (
-                                <li data-day={index} key={index}>
+                                <li data-day={optionIndex} key={optionIndex}>
                                     <span>{item.label}</span>
-                                    {value.weekdata[item.value] !== undefined &&
-                                        value.weekdata[item.value].map(
+                                    {value !== undefined &&
+                                        value[index].weekdata !== null &&
+                                        value[index].weekdata[item.value] !==
+                                            undefined &&
+                                        value[index].weekdata[item.value].map(
                                             (item, index) => (
                                                 <span key={index}>
                                                     {item}

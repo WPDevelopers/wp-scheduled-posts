@@ -9,6 +9,7 @@ const Text = ({
     arrayHelpers,
     index,
     setFieldValue,
+    groupName,
     value,
 }) => {
     return (
@@ -22,7 +23,7 @@ const Text = ({
                     <Field
                         className='text-field'
                         type='text'
-                        name={id}
+                        name={`${groupName}.${id}`}
                         value={
                             value !== undefined && value[index] !== undefined
                                 ? value[index][id]

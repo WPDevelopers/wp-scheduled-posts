@@ -784,11 +784,13 @@ const Checkbox = ({
   subtitle,
   desc,
   setFieldValue,
+  groupName,
   arrayHelpers,
   index,
   value
 }) => {
   const [field] = Object(formik__WEBPACK_IMPORTED_MODULE_1__["useField"])(id);
+  console.log(groupName);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-group"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -806,7 +808,7 @@ const Checkbox = ({
   }, arrayHelpers !== undefined ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "checkbox",
     checked: value !== undefined && value[index] !== undefined ? value[index][id] : false,
-    name: id,
+    name: "".concat(groupName, ".").concat(id),
     onChange: e => arrayHelpers.replace(index, {
       [id]: e.target.checked
     })
@@ -1194,10 +1196,12 @@ const ScheduleTable = ({
   }];
   const [selectDay, setSelectDay] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(options[0]);
   const [selectTime, setSelectTime] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(now.format(format));
+  console.log(index);
+  console.log(value);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "manual-schedule"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_3__["FieldArray"], {
-    name: "".concat(groupName, ".").concat(id, ".").concat(selectDay.value),
+    name: "".concat(groupName, ".").concat(index, ".").concat(id, ".[").concat(selectDay.value, "]"),
     render: arrayHelpers => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
       className: "manual-schedule-builder"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Select Days"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_select__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -1223,13 +1227,13 @@ const ScheduleTable = ({
     }, "Save Schedule"))))
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
     className: "schedule-list"
-  }, options.map((item, index) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_3__["FieldArray"], {
-    key: index,
-    name: "".concat(groupName, ".").concat(id, ".").concat(item.value),
+  }, options.map((item, optionIndex) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_3__["FieldArray"], {
+    key: optionIndex,
+    name: "".concat(groupName, ".").concat(index, ".").concat(id, ".").concat(item.value),
     render: arrayHelpers => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-      "data-day": index,
-      key: index
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, item.label), value.weekdata[item.value] !== undefined && value.weekdata[item.value].map((item, index) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      "data-day": optionIndex,
+      key: optionIndex
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, item.label), value !== undefined && value[index].weekdata !== null && value[index].weekdata[item.value] !== undefined && value[index].weekdata[item.value].map((item, index) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       key: index
     }, item, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       type: "button",
@@ -1585,6 +1589,7 @@ const Text = ({
   arrayHelpers,
   index,
   setFieldValue,
+  groupName,
   value
 }) => {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1600,7 +1605,7 @@ const Text = ({
   }, arrayHelpers !== undefined ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_1__["Field"], {
     className: "text-field",
     type: "text",
-    name: id,
+    name: "".concat(groupName, ".").concat(id),
     value: value !== undefined && value[index] !== undefined ? value[index][id] : '',
     onChange: e => arrayHelpers.replace(index, {
       [id]: e.target.value

@@ -7,11 +7,13 @@ const Checkbox = ({
     subtitle,
     desc,
     setFieldValue,
+    groupName,
     arrayHelpers,
     index,
     value,
 }) => {
     const [field] = useField(id)
+    console.log(groupName)
     return (
         <div className='form-group'>
             <div className='form-info'>
@@ -30,7 +32,7 @@ const Checkbox = ({
                                         ? value[index][id]
                                         : false
                                 }
-                                name={id}
+                                name={`${groupName}.${id}`}
                                 onChange={(e) =>
                                     arrayHelpers.replace(index, {
                                         [id]: e.target.checked,
