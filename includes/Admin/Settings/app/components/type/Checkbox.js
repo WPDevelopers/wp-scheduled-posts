@@ -13,7 +13,6 @@ const Checkbox = ({
     value,
 }) => {
     const [field] = useField(id)
-    console.log(groupName)
     return (
         <div className='form-group'>
             <div className='form-info'>

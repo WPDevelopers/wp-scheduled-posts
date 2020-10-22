@@ -325,7 +325,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _type_SocialProfile__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./type/SocialProfile */ "./app/components/type/SocialProfile.js");
 /* harmony import */ var _type_Group__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./type/Group */ "./app/components/type/Group.js");
 /* harmony import */ var _type_ScheduleTable__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./type/ScheduleTable */ "./app/components/type/ScheduleTable.js");
-/* harmony import */ var _type_License__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./type/License */ "./app/components/type/License.js");
+/* harmony import */ var _type_License__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./type/License */ "./app/components/type/License.js");
 
 
 
@@ -392,7 +392,7 @@ const Fields = props => {
       break;
 
     case 'license':
-      renderComponent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_type_License__WEBPACK_IMPORTED_MODULE_15__["default"], props);
+      renderComponent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_type_License__WEBPACK_IMPORTED_MODULE_14__["default"], props);
       break;
 
     default:
@@ -796,7 +796,6 @@ const Checkbox = ({
   value
 }) => {
   const [field] = Object(formik__WEBPACK_IMPORTED_MODULE_1__["useField"])(id);
-  console.log(groupName);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-group"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1091,19 +1090,33 @@ const Group = ({
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _utils_helper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../../utils/helper */ "./app/utils/helper.js");
-/* harmony import */ var _Upgrade__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../Upgrade */ "./app/components/Upgrade/index.js");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "./node_modules/@wordpress/i18n/build-module/index.js");
+/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/react-toastify.esm.js");
+/* harmony import */ var _utils_helper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../utils/helper */ "./app/utils/helper.js");
+/* harmony import */ var _Upgrade__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../Upgrade */ "./app/components/Upgrade/index.js");
 
 
 
 
-const License = ({
-  id,
-  setFieldValue,
-  value
-}) => {
+
+
+const License = () => {
+  const [inputChanged, setInputChanged] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
   const [tempKey, setTempKey] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('');
-  const [isRequestSend, setIsRequestSend] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
+  const [valid, setValid] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
+  const [isRequestSend, setIsRequestSend] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null);
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
+    var data = {
+      action: 'get_license',
+      _wpnonce: wpscp_pro_ajax_object.license_nonce
+    };
+    jQuery.post(ajaxurl, data, function (response) {
+      if (response.success === true) {
+        setValid(response.data.status);
+        setTempKey(response.data.key);
+      }
+    });
+  }, []);
 
   const activeLicense = () => {
     setIsRequestSend(true);
@@ -1114,18 +1127,56 @@ const License = ({
     };
     jQuery.post(ajaxurl, data, function (response) {
       setIsRequestSend(null);
-      console.log(response);
+      setInputChanged(false);
+
+      if (response.success === true) {
+        setTempKey(response.data.key);
+        react_toastify__WEBPACK_IMPORTED_MODULE_2__["toast"].success('Your License successfully activated!', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined
+        });
+      }
     });
   };
 
-  const saveKeyValue = key => {
-    setTempKey(key);
-    setFieldValue(id, key);
+  const deactiveLicense = () => {
+    setIsRequestSend(true);
+    var data = {
+      action: 'deactivate_license',
+      _wpnonce: wpscp_pro_ajax_object.license_nonce
+    };
+    jQuery.post(ajaxurl, data, function (response) {
+      setIsRequestSend(null);
+      setInputChanged(false);
+
+      if (response.success === true) {
+        setTempKey('');
+        react_toastify__WEBPACK_IMPORTED_MODULE_2__["toast"].success('Your License successfully deactivated!', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined
+        });
+      }
+    });
   };
 
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Upgrade__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    icon: _utils_helper__WEBPACK_IMPORTED_MODULE_1__["wpspGetPluginRootURI"] + 'assets/images/wpsp.png',
-    proVersion: _utils_helper__WEBPACK_IMPORTED_MODULE_1__["wpspSettingsGlobal"].pro_version
+  const changed = value => {
+    setInputChanged(true);
+    setTempKey(value);
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Upgrade__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    icon: _utils_helper__WEBPACK_IMPORTED_MODULE_3__["wpspGetPluginRootURI"] + 'assets/images/wpsp.png',
+    proVersion: _utils_helper__WEBPACK_IMPORTED_MODULE_3__["wpspSettingsGlobal"].pro_version
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "wpsp-license-wrapper"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1133,72 +1184,81 @@ const License = ({
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "wpsp-lockscreen-icons"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: _utils_helper__WEBPACK_IMPORTED_MODULE_1__["wpspGetPluginRootURI"] + 'assets/images/lock_close.png',
+    src: _utils_helper__WEBPACK_IMPORTED_MODULE_3__["wpspGetPluginRootURI"] + 'assets/images/lock_close.png',
     alt: "Lock Close"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: _utils_helper__WEBPACK_IMPORTED_MODULE_1__["wpspGetPluginRootURI"] + 'assets/images/lock_close.png',
+    src: _utils_helper__WEBPACK_IMPORTED_MODULE_3__["wpspGetPluginRootURI"] + 'assets/images/lock_close.png',
     alt: "Forwards"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: _utils_helper__WEBPACK_IMPORTED_MODULE_1__["wpspGetPluginRootURI"] + 'assets/images/lock_key.png',
+    src: _utils_helper__WEBPACK_IMPORTED_MODULE_3__["wpspGetPluginRootURI"] + 'assets/images/lock_key.png',
     alt: "Lock Key"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: _utils_helper__WEBPACK_IMPORTED_MODULE_1__["wpspGetPluginRootURI"] + 'assets/images/forward.png',
+    src: _utils_helper__WEBPACK_IMPORTED_MODULE_3__["wpspGetPluginRootURI"] + 'assets/images/forward.png',
     alt: "Forwards"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: _utils_helper__WEBPACK_IMPORTED_MODULE_1__["wpspGetPluginRootURI"] + 'assets/images/lock_open.png',
+    src: _utils_helper__WEBPACK_IMPORTED_MODULE_3__["wpspGetPluginRootURI"] + 'assets/images/lock_open.png',
     alt: "Lock Open"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
     className: "wpsp-validation-title"
-  }, "Just one more step to go!")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Just one more step to go!', 'wp-scheduled-posts'))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "wpsp-license-instruction"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Enter your license key here, to activate", ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, "WP Scheduled Posts"), ", and get automatic updates and premium support."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Visit the", ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Enter your license key here, to activate', 'wp-scheduled-posts'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('WP Scheduled Posts', 'wp-scheduled-posts')), Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])(', and get automatic updates and premium support.', 'wp-scheduled-posts')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Visit the', 'wp-scheduled-posts'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     href: "%s",
     target: "_blank"
-  }, "Validation Guide"), ' ', "for help."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ol", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Log in to", ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+  }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Validation Guide', 'wp-scheduled-posts')), Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('for help.', 'wp-scheduled-posts')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ol", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Log in to', 'wp-scheduled-posts'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     href: "%s",
     target: "_blank"
-  }, "your account"), ' ', "to get your license key."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "If you don\\'t yet have a license key, get", ' ', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+  }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('your account', 'wp-scheduled-posts')), Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('to get your license key.', 'wp-scheduled-posts')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])("If you don't yet have a license key, get", 'wp-scheduled-posts'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     href: "%s",
     target: "_blank"
-  }, "WP Scheduled Posts now"), "."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Copy the license key from your account and paste it below."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Click on ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, "\"Activate License\""), " button."))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('WP Scheduled Posts now', 'wp-scheduled-posts')), "."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Copy the license key from your account and paste it below.', 'wp-scheduled-posts')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Click on', 'wp-scheduled-posts'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('"Activate License"', 'wp-scheduled-posts')), Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('button.', 'wp-scheduled-posts')))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "validated-feature-list"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "validated-feature-list-item"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "validated-feature-list-icon"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: _utils_helper__WEBPACK_IMPORTED_MODULE_1__["wpspGetPluginRootURI"] + 'assets/images/auto_update.png',
+    src: _utils_helper__WEBPACK_IMPORTED_MODULE_3__["wpspGetPluginRootURI"] + 'assets/images/auto_update.png',
     alt: "Auto Update"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "validated-feature-list-content"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Auto Update"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Update the plugin right from your WordPress Dashboard."))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Auto Update', 'wp-scheduled-posts')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Update the plugin right from your WordPress Dashboard.', 'wp-scheduled-posts')))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "validated-feature-list-item"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "validated-feature-list-icon"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: _utils_helper__WEBPACK_IMPORTED_MODULE_1__["wpspGetPluginRootURI"] + 'assets/images/premium_support.png',
+    src: _utils_helper__WEBPACK_IMPORTED_MODULE_3__["wpspGetPluginRootURI"] + 'assets/images/premium_support.png',
     alt: "Premium Support"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "validated-feature-list-content"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Premium Support"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Supported by professional and courteous staff.")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Premium Support', 'wp-scheduled-posts')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Supported by professional and courteous staff.', 'wp-scheduled-posts'))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "wpsp-license-container"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "wpsp-license-icon"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: _utils_helper__WEBPACK_IMPORTED_MODULE_1__["wpspGetPluginRootURI"] + 'assets/images/activate.png',
+    src: _utils_helper__WEBPACK_IMPORTED_MODULE_3__["wpspGetPluginRootURI"] + 'assets/images/activate.png',
     alt: "Active"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "wpsp-license-input"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     id: "wp-scheduled-posts-pro-license-key",
-    placeholder: "Place Your License Key and Activate"
+    placeholder: "Place Your License Key and Activate",
+    onChange: e => changed(e.target.value),
+    value: tempKey !== false ? tempKey : ''
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "wpsp-license-buttons"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+  }, valid ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     id: "submit",
     type: "button",
-    className: "wpsp-license-buttons"
-  }, "Activate License")))));
+    className: inputChanged ? 'wpsp-license-deactivation-btn changed' : 'wpsp-license-deactivation-btn',
+    onClick: () => deactiveLicense()
+  }, isRequestSend == true ? 'Request Sending...' : 'Deactivate License') : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    id: "submit",
+    type: "button",
+    className: inputChanged ? 'wpsp-license-buttons changed' : 'wpsp-license-buttons',
+    onClick: () => activeLicense(),
+    disabled: !tempKey
+  }, isRequestSend == true ? 'Request Sending...' : 'Activate License')))));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (License);
@@ -1327,8 +1387,6 @@ const ScheduleTable = ({
   }];
   const [selectDay, setSelectDay] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(options[0]);
   const [selectTime, setSelectTime] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(now.format(format));
-  console.log(index);
-  console.log(value);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "manual-schedule"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_3__["FieldArray"], {

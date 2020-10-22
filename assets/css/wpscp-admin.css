@@ -2980,6 +2980,7 @@
 }
 
 .wpsp-license-container .wpsp-license-buttons #submit {
+  cursor: pointer;
   height: 50px;
   margin: 0;
   line-height: 1;
@@ -2998,6 +2999,9 @@
   border-radius: 5px;
   padding: 20px 25px;
   font-weight: 700;
+}
+.wpsp-license-container .wpsp-license-buttons #submit.changed {
+  background: #e74c3c;
 }
 
 .wpsp-license-container .wpsp-license-buttons #submit.wpsp-license-activation-btn:hover {

@@ -127,7 +127,8 @@ final class WPSP
  */
 function WPSP_Start()
 {
-	return WPSP::init();
+	WPSP::init();
+	do_action('wpsp_core_loaded');
 }
 
 // Plugin Start

@@ -26,8 +26,6 @@ const ScheduleTable = ({
     ]
     const [selectDay, setSelectDay] = useState(options[0])
     const [selectTime, setSelectTime] = useState(now.format(format))
-    console.log(index)
-    console.log(value)
     return (
         <React.Fragment>
             <div className='manual-schedule'>

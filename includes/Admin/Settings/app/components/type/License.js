@@ -1,9 +1,26 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { __ } from '@wordpress/i18n'
+import { toast } from 'react-toastify'
 import { wpspSettingsGlobal, wpspGetPluginRootURI } from './../../utils/helper'
 import Upgrade from './../Upgrade'
-const License = ({ id, setFieldValue, value }) => {
+const License = () => {
+    const [inputChanged, setInputChanged] = useState(false)
     const [tempKey, setTempKey] = useState('')
-    const [isRequestSend, setIsRequestSend] = useState(false)
+    const [valid, setValid] = useState(false)
+    const [isRequestSend, setIsRequestSend] = useState(null)
+    useEffect(() => {
+        var data = {
+            action: 'get_license',
+            _wpnonce: wpscp_pro_ajax_object.license_nonce,
+        }
+        jQuery.post(ajaxurl, data, function (response) {
+            if (response.success === true) {
+                setValid(response.data.status)
+                setTempKey(response.data.key)
+            }
+        })
+    }, [])
+
     const activeLicense = () => {
         setIsRequestSend(true)
         var data = {
@@ -13,13 +30,49 @@ const License = ({ id, setFieldValue, value }) => {
         }
         jQuery.post(ajaxurl, data, function (response) {
             setIsRequestSend(null)
-            console.log(response)
+            setInputChanged(false)
+            if (response.success === true) {
+                setTempKey(response.data.key)
+                toast.success('Your License successfully activated!', {
+                    position: 'top-right',
+                    autoClose: 5000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                })
+            }
         })
     }
-    const saveKeyValue = (key) => {
-        setTempKey(key)
-        setFieldValue(id, key)
+    const deactiveLicense = () => {
+        setIsRequestSend(true)
+        var data = {
+            action: 'deactivate_license',
+            _wpnonce: wpscp_pro_ajax_object.license_nonce,
+        }
+        jQuery.post(ajaxurl, data, function (response) {
+            setIsRequestSend(null)
+            setInputChanged(false)
+            if (response.success === true) {
+                setTempKey('')
+                toast.success('Your License successfully deactivated!', {
+                    position: 'top-right',
+                    autoClose: 5000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                })
+            }
+        })
     }
+    const changed = (value) => {
+        setInputChanged(true)
+        setTempKey(value)
+    }
+
     return (
         <React.Fragment>
             <Upgrade
@@ -66,44 +119,67 @@ const License = ({ id, setFieldValue, value }) => {
                         />
                     </div>
                     <h1 className='wpsp-validation-title'>
-                        Just one more step to go!
+                        {__('Just one more step to go!', 'wp-scheduled-posts')}
                     </h1>
                 </div>
                 <div className='wpsp-license-instruction'>
                     <p>
-                        Enter your license key here, to activate{' '}
-                        <strong>WP Scheduled Posts</strong>, and get automatic
-                        updates and premium support.
+                        {__(
+                            'Enter your license key here, to activate',
+                            'wp-scheduled-posts'
+                        )}
+                        <strong>
+                            {__('WP Scheduled Posts', 'wp-scheduled-posts')}
+                        </strong>
+                        {__(
+                            ', and get automatic updates and premium support.',
+                            'wp-scheduled-posts'
+                        )}
                     </p>
                     <p>
-                        Visit the{' '}
+                        {__('Visit the', 'wp-scheduled-posts')}
                         <a href='%s' target='_blank'>
-                            Validation Guide
-                        </a>{' '}
-                        for help.
+                            {__('Validation Guide', 'wp-scheduled-posts')}
+                        </a>
+                        {__('for help.', 'wp-scheduled-posts')}
                     </p>
 
                     <ol>
                         <li>
-                            Log in to{' '}
+                            {__('Log in to', 'wp-scheduled-posts')}
                             <a href='%s' target='_blank'>
-                                your account
-                            </a>{' '}
-                            to get your license key.
+                                {__('your account', 'wp-scheduled-posts')}
+                            </a>
+                            {__(
+                                'to get your license key.',
+                                'wp-scheduled-posts'
+                            )}
                         </li>
                         <li>
-                            If you don\'t yet have a license key, get{' '}
+                            {__(
+                                "If you don't yet have a license key, get",
+                                'wp-scheduled-posts'
+                            )}
                             <a href='%s' target='_blank'>
-                                WP Scheduled Posts now
+                                {__(
+                                    'WP Scheduled Posts now',
+                                    'wp-scheduled-posts'
+                                )}
                             </a>
                             .
                         </li>
                         <li>
-                            Copy the license key from your account and paste it
-                            below.
+                            {__(
+                                'Copy the license key from your account and paste it below.',
+                                'wp-scheduled-posts'
+                            )}
                         </li>
                         <li>
-                            Click on <strong>"Activate License"</strong> button.
+                            {__('Click on', 'wp-scheduled-posts')}
+                            <strong>
+                                {__('"Activate License"', 'wp-scheduled-posts')}
+                            </strong>
+                            {__('button.', 'wp-scheduled-posts')}
                         </li>
                     </ol>
                 </div>
@@ -120,10 +196,12 @@ const License = ({ id, setFieldValue, value }) => {
                             />
                         </div>
                         <div className='validated-feature-list-content'>
-                            <h4>Auto Update</h4>
+                            <h4>{__('Auto Update', 'wp-scheduled-posts')}</h4>
                             <p>
-                                Update the plugin right from your WordPress
-                                Dashboard.
+                                {__(
+                                    'Update the plugin right from your WordPress Dashboard.',
+                                    'wp-scheduled-posts'
+                                )}
                             </p>
                         </div>
                     </div>
@@ -139,9 +217,14 @@ const License = ({ id, setFieldValue, value }) => {
                             />
                         </div>
                         <div className='validated-feature-list-content'>
-                            <h4>Premium Support</h4>
+                            <h4>
+                                {__('Premium Support', 'wp-scheduled-posts')}
+                            </h4>
                             <p>
-                                Supported by professional and courteous staff.
+                                {__(
+                                    'Supported by professional and courteous staff.',
+                                    'wp-scheduled-posts'
+                                )}
                             </p>
                         </div>
                     </div>
@@ -160,16 +243,43 @@ const License = ({ id, setFieldValue, value }) => {
                         <input
                             id='wp-scheduled-posts-pro-license-key'
                             placeholder='Place Your License Key and Activate'
+                            onChange={(e) => changed(e.target.value)}
+                            value={tempKey !== false ? tempKey : ''}
                         />
                     </div>
                     <div className='wpsp-license-buttons'>
-                        <button
-                            id='submit'
-                            type='button'
-                            className='wpsp-license-buttons'
-                        >
-                            Activate License
-                        </button>
+                        {valid ? (
+                            <button
+                                id='submit'
+                                type='button'
+                                className={
+                                    inputChanged
+                                        ? 'wpsp-license-deactivation-btn changed'
+                                        : 'wpsp-license-deactivation-btn'
+                                }
+                                onClick={() => deactiveLicense()}
+                            >
+                                {isRequestSend == true
+                                    ? 'Request Sending...'
+                                    : 'Deactivate License'}
+                            </button>
+                        ) : (
+                            <button
+                                id='submit'
+                                type='button'
+                                className={
+                                    inputChanged
+                                        ? 'wpsp-license-buttons changed'
+                                        : 'wpsp-license-buttons'
+                                }
+                                onClick={() => activeLicense()}
+                                disabled={!tempKey}
+                            >
+                                {isRequestSend == true
+                                    ? 'Request Sending...'
+                                    : 'Activate License'}
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>
