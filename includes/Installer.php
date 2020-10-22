@@ -4,6 +4,20 @@ namespace WPSP;
 
 class Installer
 {
+    public static function set_settings_transient()
+    {
+        \WPSP\Admin\Settings\Config::build_settings();
+        if (class_exists('WPSP_PRO')) {
+            \WPSP_PRO\Admin\Settings\Config::build_settings();
+        }
+        \WPSP\Admin\Settings\Config::set_default_settings_fields_data();
+        if (get_transient(WPSP_SETTINGS_NAME) === false) {
+            set_transient(WPSP_SETTINGS_NAME, \WPSP\Admin\Settings\Builder::load());
+        } else {
+            delete_transient(WPSP_SETTINGS_NAME);
+            set_transient(WPSP_SETTINGS_NAME, \WPSP\Admin\Settings\Builder::load());
+        }
+    }
     /**
      * Default Data Saving
      */
@@ -69,6 +83,8 @@ class Installer
     public static function run()
     {
         self::create_databse_table();
+        self::set_settings_transient();
+
         self::set_default_settings();
         /**
          * Reqrite the rules on activation.

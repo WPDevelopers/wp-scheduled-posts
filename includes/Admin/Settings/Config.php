@@ -18,9 +18,6 @@ class Config
      */
     private static $setting_array = array();
 
-
-
-
     public static function build_settings()
     {
         $get_users = get_users(array('fields' => array('user_login', 'user_email')));
@@ -480,7 +477,6 @@ class Config
             'desc'  => __('Maximum Limit: 500 character', 'wp-scheduled-posts'),
             'default' => '500',
         ]);
-        do_action('wpsp_settings_config');
     }
 
     /**
@@ -508,7 +504,7 @@ class Config
                     $group = [];
                     if (isset($groupItem['fields'])) {
                         foreach ($groupItem['fields'] as $groupField) {
-                            $group[][$groupField['id']] = $groupField['default'];
+                            $group[][$groupField['id']] = (isset($groupField['default']) ? $groupField['default'] : '');
                         }
                     }
                     $field[$setting_item['id']][$groupKey] = $group;
