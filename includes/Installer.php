@@ -70,6 +70,23 @@ class Installer
             $settings->notify_author_post_scheduled_by_email = get_option('wpscp_notify_author_post_schedule_email');
             $settings->notify_author_post_scheduled_to_publish = get_option('wpscp_notify_author_schedule_post_is_publish');
             $settings->notify_author_post_is_publish = get_option('wpscp_notify_author_post_is_publish');
+            // social profile - facebook
+            $facebook = get_option('wpscp_facebook_account');
+            $linkedin = get_option('wpscp_linkedin_account');
+            $twitter = get_option('wpscp_twitter_account');
+            $pinterest = get_option('wpscp_pinterest_account');
+            if ($facebook) {
+                $settings->facebook_profile_list = $facebook;
+            }
+            if ($twitter) {
+                $settings->twitter_profile_list = $twitter;
+            }
+            if ($linkedin) {
+                $settings->linkedin_profile_list = $linkedin;
+            }
+            if ($pinterest) {
+                $settings->pinterest_profile_list = $pinterest;
+            }
             // social template - facebook
             $settings->social_templates->facebook[0]->is_show_meta = get_option('wpscp_pro_fb_meta_head_support');
             $settings->social_templates->facebook[1]->content_type = get_option('wpscp_pro_fb_content_type');
@@ -91,17 +108,14 @@ class Installer
             $settings->social_templates->linkedin[4]->status_limit = get_option('wpscp_pro_linkedin_status_limit');
             // social template - pinterest
             $pinterest = get_option('wpscp_pro_pinterest_template_settings');
-            $settings->social_templates->pinterest[0]->is_set_image_link = $pinterest['add_image_link'];
-            $settings->social_templates->pinterest[1]->is_category_as_tags = $pinterest['template_category_tags_support'];
-            $settings->social_templates->pinterest[2]->content_source = $pinterest['content_source'];
-            $settings->social_templates->pinterest[3]->template_structure = $pinterest['template_structure'];
-            $settings->social_templates->pinterest[4]->note_limit = $pinterest['pin_note_limit'];
-
-
-
-
+            if ($pinterest !== false && is_array($pinterest)) {
+                $settings->social_templates->pinterest[0]->is_set_image_link = $pinterest['add_image_link'];
+                $settings->social_templates->pinterest[1]->is_category_as_tags = $pinterest['template_category_tags_support'];
+                $settings->social_templates->pinterest[2]->content_source = $pinterest['content_source'];
+                $settings->social_templates->pinterest[3]->template_structure = $pinterest['template_structure'];
+                $settings->social_templates->pinterest[4]->note_limit = $pinterest['pin_note_limit'];
+            }
             update_option(WPSP_SETTINGS_NAME, json_encode($settings));
-
             update_option('wpsp_react_settings_migrate', true);
         }
     }
