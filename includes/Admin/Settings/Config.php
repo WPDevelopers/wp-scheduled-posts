@@ -58,14 +58,16 @@ class Config
             'id' => 'allow_categories',
             'type' => 'select',
             'title' => __('Show Categories:', 'wp-scheduled-posts'),
-            'default' => 'all',
+            'default' => ['all'],
+            'multiple' => true,
             'options' => \WPSP\Helper::get_all_category(),
         ]);
         Builder::add_field('wpsp_general', [
             'id' => 'allow_user_by_role',
             'type' => 'select',
             'title' => __('Allow users:', 'wp-scheduled-posts'),
-            'default' => 'administrator',
+            'default' => ['administrator'],
+            'multiple' => true,
             'options' => \WPSP\Helper::get_all_roles(),
         ]);
         Builder::add_field('wpsp_general', [
@@ -76,37 +78,37 @@ class Config
         ]);
         // adminbar 
         Builder::add_field('wpsp_general', [
-            'id' => 'adminbar_sp_list_structure',
+            'id' => 'adminbar_list_structure',
             'type' => 'collapsible',
             'title' => __('Custom item template for scheduled posts list in adminbar:', 'wp-scheduled-posts'),
             'default' => false,
         ]);
         Builder::add_field('wpsp_general', [
-            'id' => 'adminbar_sp_list_structure_template',
+            'id' => 'adminbar_list_structure_template',
             'type' => 'text',
             'title' => __('Item template:', 'wp-scheduled-posts'),
             'default'   => '<strong>%TITLE%</strong> / %AUTHOR% / %DATE%',
             'condition' => [
-                'adminbar_sp_list_structure' => true,
+                'adminbar_list_structure' => true,
             ],
         ]);
         Builder::add_field('wpsp_general', [
-            'id' => 'adminbar_sp_list_structure_title_length',
+            'id' => 'adminbar_list_structure_title_length',
             'type' => 'text',
             'title' => __('Title length:', 'wp-scheduled-posts'),
             'default'   => '45',
             'condition' => [
-                'adminbar_sp_list_structure' => true,
+                'adminbar_list_structure' => true,
             ],
         ]);
         Builder::add_field('wpsp_general', [
-            'id' => 'adminbar_sp_list_structure_date_format',
+            'id' => 'adminbar_list_structure_date_format',
             'type' => 'text',
             'title' => __('Date format:', 'wp-scheduled-posts'),
             'default'   => 'M-d h:i:a',
             'desc'   => __('For item template use %TITLE% for post title, %AUTHOR% for post author and %DATE% for post scheduled date-time. You can use HTML tags with styles also', 'wp-scheduled-posts'),
             'condition' => [
-                'adminbar_sp_list_structure' => true,
+                'adminbar_list_structure' => true,
             ]
         ]);
 
@@ -136,7 +138,8 @@ class Config
             'type' => 'select',
             'title' => __('Role', 'wp-scheduled-posts'),
             'options' => \WPSP\Helper::get_all_roles(),
-            'default'   => '',
+            'default'   => [],
+            'multiple' => true,
             'condition' => [
                 'notify_author_post_is_review' => true,
             ],
@@ -183,7 +186,8 @@ class Config
             'type' => 'select',
             'title' => __('Role', 'wp-scheduled-posts'),
             'options' => \WPSP\Helper::get_all_roles(),
-            'default'   => '',
+            'default'   => [],
+            'multiple' => true,
             'condition' => [
                 'notify_author_post_is_scheduled' => true,
             ],
@@ -229,13 +233,13 @@ class Config
         // social profile
         Builder::add_tab([
             'title' => __('Social Profile', 'wp-scheduled-posts'),
-            'id' => 'wpsp_social_profile',
+            'id' => 'social_profile',
         ]);
-        Builder::add_sub_tab('wpsp_social_profile', [
+        Builder::add_sub_tab('social_profile', [
             'id' => 'facebook',
             'title' => __('Facebook', 'wp-scheduled-posts'),
         ]);
-        Builder::add_sub_field('wpsp_social_profile', 'facebook', [
+        Builder::add_sub_field('social_profile', 'facebook', [
             'id' => 'facebook_profile',
             'type' => 'socialprofile',
             'title' => __('Facebook Profile', 'wp-scheduled-posts'),
@@ -245,11 +249,11 @@ class Config
                 'type'      => 'default'
             ]
         ]);
-        Builder::add_sub_tab('wpsp_social_profile', [
+        Builder::add_sub_tab('social_profile', [
             'id' => 'twitter',
             'title' => __('Twitter', 'wp-scheduled-posts'),
         ]);
-        Builder::add_sub_field('wpsp_social_profile', 'twitter', [
+        Builder::add_sub_field('social_profile', 'twitter', [
             'id' => 'twitter_profile',
             'type' => 'socialprofile',
             'title' => __('Twitter Profile', 'wp-scheduled-posts'),
@@ -259,11 +263,11 @@ class Config
                 'type'      => 'custom'
             ]
         ]);
-        Builder::add_sub_tab('wpsp_social_profile', [
+        Builder::add_sub_tab('social_profile', [
             'id' => 'linkedin',
             'title' => __('Linekdin', 'wp-scheduled-posts'),
         ]);
-        Builder::add_sub_field('wpsp_social_profile', 'linkedin', [
+        Builder::add_sub_field('social_profile', 'linkedin', [
             'id' => 'linkedin_profile',
             'type' => 'socialprofile',
             'title' => __('Linkedin Profile', 'wp-scheduled-posts'),
@@ -273,11 +277,11 @@ class Config
                 'type'      => 'custom'
             ]
         ]);
-        Builder::add_sub_tab('wpsp_social_profile', [
+        Builder::add_sub_tab('social_profile', [
             'id' => 'pinterest',
             'title' => __('Pinterest', 'wp-scheduled-posts'),
         ]);
-        Builder::add_sub_field('wpsp_social_profile', 'pinterest', [
+        Builder::add_sub_field('social_profile', 'pinterest', [
             'id' => 'pinterest_profile',
             'type' => 'socialprofile',
             'title' => __('Pinterest Profile', 'wp-scheduled-posts'),
@@ -290,15 +294,15 @@ class Config
         // social template
         Builder::add_tab([
             'title' => __('Social Templates', 'wp-scheduled-posts'),
-            'id' => 'wpsp_social_templates',
+            'id' => 'social_templates',
         ]);
         // facebook
-        Builder::add_group('wpsp_social_templates', [
+        Builder::add_group('social_templates', [
             'id' => 'facebook',
             'title' => __(' Facebook Status Settings', 'wp-scheduled-posts'),
             'subtitle'  => 'To configure the Facebook Status Settings, check out this<a className="docs" href="https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/" target="_blank">Doc</a>'
         ]);
-        Builder::add_group_field('wpsp_social_templates', 'facebook', [
+        Builder::add_group_field('social_templates', 'facebook', [
             'id' => 'is_show_meta',
             'type' => 'checkbox',
             'title' => __('Facebook Meta Data', 'wp-scheduled-posts'),
@@ -306,7 +310,7 @@ class Config
             and other social network use this data when your pages are shared.', 'wp-scheduled-posts'),
             'default' => true,
         ]);
-        Builder::add_group_field('wpsp_social_templates', 'facebook', [
+        Builder::add_group_field('social_templates', 'facebook', [
             'id' => 'content_type',
             'type' => 'radio',
             'title' => __('Content Type', 'wp-scheduled-posts'),
@@ -317,13 +321,13 @@ class Config
             ),
             'default' => 'link',
         ]);
-        Builder::add_group_field('wpsp_social_templates', 'facebook', [
+        Builder::add_group_field('social_templates', 'facebook', [
             'id' => 'is_category_as_tags',
             'type' => 'checkbox',
             'title' => __('Add Category as a tags', 'wp-scheduled-posts'),
             'default' => false,
         ]);
-        Builder::add_group_field('wpsp_social_templates', 'facebook', [
+        Builder::add_group_field('social_templates', 'facebook', [
             'id' => 'content_source',
             'type' => 'radio',
             'title' => __('Content Source', 'wp-scheduled-posts'),
@@ -333,14 +337,14 @@ class Config
             ),
             'default' => 'excerpt',
         ]);
-        Builder::add_group_field('wpsp_social_templates', 'facebook', [
+        Builder::add_group_field('social_templates', 'facebook', [
             'id' => 'template_structure',
             'type' => 'text',
             'title' => __('Status Template Settings', 'wp-scheduled-posts'),
             'desc'  => __('Default Structure: {title}{content}{url}{tags}', 'wp-scheduled-posts'),
             'default' => '{title}{content}{url}{tags}',
         ]);
-        Builder::add_group_field('wpsp_social_templates', 'facebook', [
+        Builder::add_group_field('social_templates', 'facebook', [
             'id' => 'status_limit',
             'type' => 'text',
             'title' => __('Status Limit', 'wp-scheduled-posts'),
@@ -348,31 +352,31 @@ class Config
             'default' => '63206',
         ]);
         // twitter
-        Builder::add_group('wpsp_social_templates', [
+        Builder::add_group('social_templates', [
             'id' => 'twitter',
             'title' => __('Twitter Tweet Settings', 'wp-scheduled-posts'),
             'subtitle'  => 'To configure the Twitter Tweet Settings, check out this<a className="docs" href="https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/" target="_blank">Doc</a>'
         ]);
-        Builder::add_group_field('wpsp_social_templates', 'twitter', [
+        Builder::add_group_field('social_templates', 'twitter', [
             'id' => 'template_structure',
             'type' => 'text',
             'title' => __('Tweet Template Settings', 'wp-scheduled-posts'),
             'desc'  => __('Default Structure: {title}{content}{url}{tags}', 'wp-scheduled-posts'),
             'default' => '{title}{content}{url}{tags}',
         ]);
-        Builder::add_group_field('wpsp_social_templates', 'twitter', [
+        Builder::add_group_field('social_templates', 'twitter', [
             'id' => 'is_category_as_tags',
             'type' => 'checkbox',
             'title' => __('Add Category as a tags', 'wp-scheduled-posts'),
             'default' => false,
         ]);
-        Builder::add_group_field('wpsp_social_templates', 'twitter', [
+        Builder::add_group_field('social_templates', 'twitter', [
             'id' => 'is_show_post_thumbnail',
             'type' => 'checkbox',
             'title' => __('Show Post Thumbnail', 'wp-scheduled-posts'),
             'default' => false,
         ]);
-        Builder::add_group_field('wpsp_social_templates', 'twitter', [
+        Builder::add_group_field('social_templates', 'twitter', [
             'id' => 'content_source',
             'type' => 'radio',
             'title' => __('Content Source', 'wp-scheduled-posts'),
@@ -382,7 +386,7 @@ class Config
             ),
             'default' => 'excerpt',
         ]);
-        Builder::add_group_field('wpsp_social_templates', 'twitter', [
+        Builder::add_group_field('social_templates', 'twitter', [
             'id' => 'tweet_limit',
             'type' => 'text',
             'title' => __('Tweet Limit', 'wp-scheduled-posts'),
@@ -390,12 +394,12 @@ class Config
             'default' => '280',
         ]);
         // linkedin
-        Builder::add_group('wpsp_social_templates', [
+        Builder::add_group('social_templates', [
             'id' => 'linkedin',
             'title' => __('Linkedin Status Settings', 'wp-scheduled-posts'),
             'subtitle'  => 'To configure the Linkedin Status Settings, check out this<a className="docs" href="https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/" target="_blank">Doc</a>'
         ]);
-        Builder::add_group_field('wpsp_social_templates', 'linkedin', [
+        Builder::add_group_field('social_templates', 'linkedin', [
             'id' => 'content_type',
             'type' => 'radio',
             'title' => __('Content Type', 'wp-scheduled-posts'),
@@ -405,13 +409,13 @@ class Config
             ),
             'default' => 'link',
         ]);
-        Builder::add_group_field('wpsp_social_templates', 'linkedin', [
+        Builder::add_group_field('social_templates', 'linkedin', [
             'id' => 'is_category_as_tags',
             'type' => 'checkbox',
             'title' => __('Add Category as a tags', 'wp-scheduled-posts'),
             'default' => false,
         ]);
-        Builder::add_group_field('wpsp_social_templates', 'linkedin', [
+        Builder::add_group_field('social_templates', 'linkedin', [
             'id' => 'content_source',
             'type' => 'radio',
             'title' => __('Content Source', 'wp-scheduled-posts'),
@@ -421,14 +425,14 @@ class Config
             ),
             'default' => 'excerpt',
         ]);
-        Builder::add_group_field('wpsp_social_templates', 'linkedin', [
+        Builder::add_group_field('social_templates', 'linkedin', [
             'id' => 'template_structure',
             'type' => 'text',
             'title' => __('Status Template Settings', 'wp-scheduled-posts'),
             'desc'  => __('Default Structure: {title}{content}{url}{tags}', 'wp-scheduled-posts'),
             'default' => '{title}{content}{tags}',
         ]);
-        Builder::add_group_field('wpsp_social_templates', 'linkedin', [
+        Builder::add_group_field('social_templates', 'linkedin', [
             'id' => 'status_limit',
             'type' => 'text',
             'title' => __('Status Limit', 'wp-scheduled-posts'),
@@ -436,24 +440,24 @@ class Config
             'default' => '1300',
         ]);
         // pinterest
-        Builder::add_group('wpsp_social_templates', [
+        Builder::add_group('social_templates', [
             'id' => 'pinterest',
             'title' => __(' Pinterest Pin Settings', 'wp-scheduled-posts'),
             'subtitle'  => 'To configure the Pinterest Pin Settings, check out this<a className="docs" href="https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/" target="_blank">Doc</a>'
         ]);
-        Builder::add_group_field('wpsp_social_templates', 'pinterest', [
+        Builder::add_group_field('social_templates', 'pinterest', [
             'id' => 'is_set_image_link',
             'type' => 'checkbox',
             'title' => __('Add Image Link', 'wp-scheduled-posts'),
             'default' => true,
         ]);
-        Builder::add_group_field('wpsp_social_templates', 'pinterest', [
+        Builder::add_group_field('social_templates', 'pinterest', [
             'id' => 'is_category_as_tags',
             'type' => 'checkbox',
             'title' => __('Add Category as a tags', 'wp-scheduled-posts'),
             'default' => false,
         ]);
-        Builder::add_group_field('wpsp_social_templates', 'pinterest', [
+        Builder::add_group_field('social_templates', 'pinterest', [
             'id' => 'content_source',
             'type' => 'radio',
             'title' => __('Content Source', 'wp-scheduled-posts'),
@@ -463,14 +467,14 @@ class Config
             ),
             'default' => 'excerpt',
         ]);
-        Builder::add_group_field('wpsp_social_templates', 'pinterest', [
+        Builder::add_group_field('social_templates', 'pinterest', [
             'id' => 'template_structure',
             'type' => 'text',
             'title' => __('Status Template Settings', 'wp-scheduled-posts'),
             'desc'  => __('Default Structure: {title}{content}{url}{tags}', 'wp-scheduled-posts'),
             'default' => '{title}',
         ]);
-        Builder::add_group_field('wpsp_social_templates', 'pinterest', [
+        Builder::add_group_field('social_templates', 'pinterest', [
             'id' => 'note_limit',
             'type' => 'text',
             'title' => __('Pin Note Limit', 'wp-scheduled-posts'),
