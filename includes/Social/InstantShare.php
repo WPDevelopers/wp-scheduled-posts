@@ -206,10 +206,10 @@ class InstantShare
     {
         $allProfile = array();
         // get data from db
-        $facebook = wpscp_get_social_profile(WPSCP_FACEBOOK_OPTION_NAME);
-        $twitter = wpscp_get_social_profile(WPSCP_TWITTER_OPTION_NAME);
-        $linkedin = wpscp_get_social_profile(WPSCP_LINKEDIN_OPTION_NAME);
-        $pinterest = wpscp_get_social_profile(WPSCP_PINTEREST_OPTION_NAME);
+        $facebook = \WPSP\Helper::get_social_profile(WPSCP_FACEBOOK_OPTION_NAME);
+        $twitter = \WPSP\Helper::get_social_profile(WPSCP_TWITTER_OPTION_NAME);
+        $linkedin = \WPSP\Helper::get_social_profile(WPSCP_LINKEDIN_OPTION_NAME);
+        $pinterest = \WPSP\Helper::get_social_profile(WPSCP_PINTEREST_OPTION_NAME);
         // get data from ajax request
         $is_facebook_share = $_REQUEST['is_facebook_share'];
         $is_twitter_share = $_REQUEST['is_twitter_share'];
@@ -270,7 +270,7 @@ class InstantShare
         $pinterestBoardName = (isset($_POST['pinterest_custom_board_name']) ? $_POST['pinterest_custom_board_name'] : '');
         // all social platfrom
         if ($platform == 'facebook') {
-            $facebook = wpscp_get_social_profile(WPSCP_FACEBOOK_OPTION_NAME);
+            $facebook = \WPSP\Helper::get_social_profile(WPSCP_FACEBOOK_OPTION_NAME);
             // if disable account then it will be off
             if ($facebook[$platformKey]['status'] == false) {
                 wp_die();
@@ -288,7 +288,7 @@ class InstantShare
             );
             wp_die();
         } else if ($platform == 'twitter') {
-            $twitter = wpscp_get_social_profile(WPSCP_TWITTER_OPTION_NAME);
+            $twitter = \WPSP\Helper::get_social_profile(WPSCP_TWITTER_OPTION_NAME);
             // if disable account then it will be off
             if ($twitter[$platformKey]['status'] == false) {
                 wp_die();
@@ -305,7 +305,7 @@ class InstantShare
             );
             wp_die();
         } else if ($platform == 'linkedin') {
-            $linkedin = wpscp_get_social_profile(WPSCP_LINKEDIN_OPTION_NAME);
+            $linkedin = \WPSP\Helper::get_social_profile(WPSCP_LINKEDIN_OPTION_NAME);
             // if disable account then it will be off
             if ($linkedin[$platformKey]['status'] == false) {
                 wp_die();
@@ -321,7 +321,7 @@ class InstantShare
             );
             wp_die();
         } else if ($platform == 'pinterest') {
-            $pinterest = wpscp_get_social_profile(WPSCP_PINTEREST_OPTION_NAME);
+            $pinterest = \WPSP\Helper::get_social_profile(WPSCP_PINTEREST_OPTION_NAME);
             // if disable account then it will be off
             if ($pinterest[$platformKey]['status'] == false) {
                 wp_die();

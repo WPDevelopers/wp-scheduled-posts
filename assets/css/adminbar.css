@@ -95,3 +95,6 @@
     background: url('./../images/arrow.png') no-repeat;
     background-size: cover;
 }
+.wpsp_arrow_pagi {
+    cursor: pointer;
+}

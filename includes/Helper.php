@@ -99,4 +99,84 @@ class Helper
         }
         return false;
     }
+
+    /**
+     * Email Notify review Email List
+     * @return array
+     */
+    public static function email_notify_review_email_list()
+    {
+        global $wpdb;
+        $email = array();
+        // collect email from role
+        $roles = get_option('wpscp_notify_author_role_sent_review');
+        if (!empty($roles)) {
+            $email = wp_list_pluck(get_users(array(
+                'fields'     => array('user_email'),
+                'role__in'    => $roles
+            )), 'user_email');
+        }
+        // collect email from email fields
+        $meta_email = array_values(get_option('wpscp_notify_author_email_sent_review'));
+        if (!empty($meta_email)) {
+            $email = array_merge($email, $meta_email);
+        }
+        // get email from username
+        $meta_username = get_option('wpscp_notify_author_username_sent_review');
+        if (!empty($meta_username)) {
+            $email = array_merge($email, wp_list_pluck(get_users(array(
+                'fields'     => array('user_email'),
+                'login__in'    => $meta_username
+            )), 'user_email'));
+        }
+        return array_unique($email);
+    }
+
+    public static function email_notify_schedule_email_list()
+    {
+        global $wpdb;
+        $email = array();
+        // collect email from role
+        $roles = get_option('wpscp_notify_author_post_schedule_role');
+        if (!empty($roles)) {
+            $email = wp_list_pluck(get_users(array(
+                'fields'     => array('user_email'),
+                'role__in'    => $roles
+            )), 'user_email');
+        }
+        // collect email from email fields
+        $meta_email = array_values(get_option('wpscp_notify_author_post_schedule_email'));
+        if (!empty($meta_email)) {
+            $email = array_merge($email, $meta_email);
+        }
+        // get email from username
+        $meta_username = get_option('wpscp_notify_author_post_schedule_username');
+        if (!empty($meta_username)) {
+            $email = array_merge($email, wp_list_pluck(get_users(array(
+                'fields'     => array('user_email'),
+                'login__in'    => $meta_username
+            )), 'user_email'));
+        }
+        return array_unique($email);
+    }
+
+    /**
+     * social single profile data return
+     * wpscp_get_social_profile
+     *
+     * @param  mixed $profile
+     * @return array
+     * @since 3.3.0
+     */
+
+    public static function get_social_profile($profile)
+    {
+        $profile = get_option($profile);
+        $is_pro_wpscp = apply_filters('wpscp_social_profile_limit_checkpoint', $profile);
+        if (class_exists('WpScp_Pro') && $is_pro_wpscp === true) {
+            return $profile;
+        }
+        $new_profile = $profile[0];
+        return [$new_profile];
+    }
 }

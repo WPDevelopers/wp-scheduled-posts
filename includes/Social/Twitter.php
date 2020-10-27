@@ -190,7 +190,7 @@ class Twitter
         if (get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
             return;
         }
-        $profiles = wpscp_get_social_profile(WPSCP_TWITTER_OPTION_NAME);
+        $profiles = \WPSP\Helper::get_social_profile(WPSCP_TWITTER_OPTION_NAME);
         if (is_array($profiles) && count($profiles) > 0) {
             foreach ($profiles as $profile_key => $profile) {
                 // skip if status is false
@@ -219,7 +219,7 @@ class Twitter
         if (get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
             return;
         }
-        $profiles = wpscp_get_social_profile(WPSCP_TWITTER_OPTION_NAME);
+        $profiles = \WPSP\Helper::get_social_profile(WPSCP_TWITTER_OPTION_NAME);
         if (is_array($profiles) && count($profiles) > 0) {
             foreach ($profiles as $profile_key => $profile) {
                 // skip if status is false

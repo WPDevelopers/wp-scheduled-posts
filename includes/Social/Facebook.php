@@ -311,7 +311,7 @@ class Facebook
      */
     public function wpscp_pro_republish_facebook_post($post_id)
     {
-        $profiles = wpscp_get_social_profile(WPSCP_FACEBOOK_OPTION_NAME);
+        $profiles = \WPSP\Helper::get_social_profile(WPSCP_FACEBOOK_OPTION_NAME);
         if (is_array($profiles) && count($profiles) > 0) {
             foreach ($profiles as $profile_key => $profile) {
                 // skip if status is false
@@ -339,7 +339,7 @@ class Facebook
      */
     public function WpScp_Facebook_post($post_id)
     {
-        $profiles = wpscp_get_social_profile(WPSCP_FACEBOOK_OPTION_NAME);
+        $profiles = \WPSP\Helper::get_social_profile(WPSCP_FACEBOOK_OPTION_NAME);
         if (is_array($profiles) && count($profiles) > 0) {
             foreach ($profiles as $profile_key => $profile) {
                 // skip if status is false

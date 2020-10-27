@@ -180,7 +180,7 @@ class Linkedin
             return;
         }
 
-        $profiles = wpscp_get_social_profile(WPSCP_LINKEDIN_OPTION_NAME);
+        $profiles = \WPSP\Helper::get_social_profile(WPSCP_LINKEDIN_OPTION_NAME);
         if (is_array($profiles) && count($profiles) > 0) {
             foreach ($profiles as $profile_key => $profile) {
                 // skip if status is false
@@ -208,7 +208,7 @@ class Linkedin
             return;
         }
 
-        $profiles = wpscp_get_social_profile(WPSCP_LINKEDIN_OPTION_NAME);
+        $profiles = \WPSP\Helper::get_social_profile(WPSCP_LINKEDIN_OPTION_NAME);
         if (is_array($profiles) && count($profiles) > 0) {
             foreach ($profiles as $profile_key => $profile) {
                 // skip if status is false

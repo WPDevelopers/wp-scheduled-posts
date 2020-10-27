@@ -52,6 +52,7 @@ final class WPSP
 		define('WPSP_PLUGIN_FILE', __FILE__);
 		define('WPSP_PLUGIN_BASENAME', plugin_basename(__FILE__));
 		define('WPSP_PLUGIN_SLUG', 'wp-scheduled-posts');
+		define('WPSP_SETTINGS_SLUG', 'schedulepress');
 		define('WPSP_PLUGIN_ROOT_URI', plugins_url("/", __FILE__));
 		define('WPSP_PLUGIN_ROOT_PATH', plugin_basename(dirname(__FILE__)));
 		define('WPSP_ADMIN_URL', WPSP_PLUGIN_ROOT_URI . 'includes/Admin/');

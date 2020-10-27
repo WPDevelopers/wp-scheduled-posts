@@ -115,7 +115,7 @@ class Email
 
         // pending review
         if ($this->notify_author_is_sent_review == 1 && $new_status == 'pending') {
-            $reviewEmailList = wpscp_email_notify_review_email_list();
+            $reviewEmailList = \WPSP\Helper::email_notify_review_email_list();
             if (!empty($reviewEmailList) && is_array($reviewEmailList)) {
                 $subject = 'New Post Pending Your Approval.';
                 $message = 'Hello Moderator, <br/>A new post written by "%author%" titled "%title%" was submitted for your review. Click here %permalink%';
@@ -131,7 +131,7 @@ class Email
         }
         // post is schedule
         else if ($this->notify_author_post_is_schedule == 1 && $new_status == 'future') {
-            $futureEmailList = wpscp_email_notify_schedule_email_list();
+            $futureEmailList = \WPSP\Helper::email_notify_schedule_email_list();
             if (!empty($futureEmailList) && is_array($futureEmailList)) {
                 $subject = 'New post "%title%" is schedule on "%date%"';
                 $message = 'Hello Moderator, <br/>Recently Moderator for your site scheduled a new post titled "%title%". The blog is scheduled for "%date%"';
