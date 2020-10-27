@@ -169,7 +169,7 @@ class Helper
     public static function get_social_profile($profile)
     {
         $profile = get_option($profile);
-        $is_pro_wpscp = apply_filters('wpscp_social_profile_limit_checkpoint', $profile);
+        $is_pro_wpscp = apply_filters('wpsp_social_profile_limit_checkpoint', $profile);
         if (class_exists('WpScp_Pro') && $is_pro_wpscp === true) {
             return $profile;
         }
