@@ -69,6 +69,15 @@ class Helper
         return false;
     }
 
+    public static function get_settings($key)
+    {
+        global $wpsp_settings;
+        if (isset($wpsp_settings->{$key})) {
+            return $wpsp_settings->{$key};
+        }
+        return;
+    }
+
     /**
      * Check Supported Post type for admin page and plugin main settings page
      * 
@@ -78,9 +87,7 @@ class Helper
 
     public static function plugin_page_hook_suffix($current_post_type, $hook)
     {
-        global $wpscp_options;
-        $post_types = Helper::get_all_post_type();
-        $allow_post_types = ($wpscp_options['allow_post_types'] == '' ? array('post') : $wpscp_options['allow_post_types']);
+        $allow_post_types = (!empty(self::get_settings('allow_post_types')) ? array('post') : self::get_settings('allow_post_types'));
         if (
             in_array($current_post_type, $allow_post_types) ||
             $hook == 'posts_page_wp-scheduled-calendar-post' ||

@@ -23,6 +23,7 @@ final class WPSP
 	private function __construct()
 	{
 		$this->define_constants();
+		$this->set_global_settings();
 		$this->installer = new WPSP\Installer();
 		register_activation_hook(__FILE__, [$this, 'activate']);
 		add_action('plugins_loaded', [$this, 'init_plugin']);
@@ -70,15 +71,12 @@ final class WPSP
 	 */
 	public function init_plugin()
 	{
-		$this->set_global_settings_option();
 		new WPSP\Assets();
-
 		if (is_admin()) {
 			new WPSP\Admin();
 			new WPSP\Social();
 		}
 		$this->load_textdomain();
-
 		new WPSP\API();
 	}
 
@@ -92,9 +90,9 @@ final class WPSP
 		);
 	}
 
-	public function set_global_settings_option()
+	public function set_global_settings()
 	{
-		$GLOBALS['wpscp_options'] = get_option(WPSP_SETTINGS_NAME);
+		$GLOBALS['wpsp_settings'] = json_decode(get_option(WPSP_SETTINGS_NAME));
 	}
 
 	/**
@@ -105,8 +103,7 @@ final class WPSP
 	public function activate()
 	{
 		$this->installer->run();
-		do_action('wpsp_lite_installer_run');
-		// add_option('wpsp_do_activation_redirect', true);
+		add_option('wpsp_do_activation_redirect', true);
 	}
 
 	public function run_migrator()
@@ -139,9 +136,3 @@ function WPSP_Start()
 
 // Plugin Start
 WPSP_Start();
-
-$settings = json_decode(get_option(WPSP_SETTINGS_NAME));
-
-echo '<pre>';
-print_r($settings);
-exit;

@@ -2,6 +2,8 @@
 
 namespace WPSP;
 
+use WPSP\Social\Linkedin;
+
 class Installer
 {
     public function set_version()
@@ -38,13 +40,14 @@ class Installer
      */
     public function run()
     {
-        $this->set_version();
         $this->set_settings();
     }
 
     public function migrate()
     {
         if (!get_option('wpsp_react_settings_migrate')) {
+            // version update
+            $this->set_version(); // previous version
             $old_settings = get_option('wpscp_options');
             // general settings
             $settings = json_decode(get_option(WPSP_SETTINGS_NAME), true);
@@ -72,20 +75,28 @@ class Installer
             $settings->notify_author_post_is_publish = get_option('wpscp_notify_author_post_is_publish');
             // social profile - facebook
             $facebook = get_option('wpscp_facebook_account');
+            $facebook_status = get_option('wpsp_facebook_integration_status');
             $linkedin = get_option('wpscp_linkedin_account');
+            $Linkedin_status = get_option('wpsp_linkedin_integration_status');
             $twitter = get_option('wpscp_twitter_account');
+            $twitter_status = get_option('wpsp_twitter_integration_status');
             $pinterest = get_option('wpscp_pinterest_account');
+            $pinterest_status = get_option('wpsp_pinterest_integration_status');
             if ($facebook) {
                 $settings->facebook_profile_list = $facebook;
+                $settings->facebook_profile_status = ($facebook_status == 'on' ? true : false);
             }
             if ($twitter) {
                 $settings->twitter_profile_list = $twitter;
+                $settings->twitter_profile_status = ($twitter_status == 'on' ? true : false);
             }
             if ($linkedin) {
                 $settings->linkedin_profile_list = $linkedin;
+                $settings->linkedin_profile_status = ($Linkedin_status == 'on' ? true : false);
             }
             if ($pinterest) {
                 $settings->pinterest_profile_list = $pinterest;
+                $settings->pinterest_profile_status = ($pinterest_status == 'on' ? true : false);
             }
             // social template - facebook
             $settings->social_templates->facebook[0]->is_show_meta = get_option('wpscp_pro_fb_meta_head_support');
@@ -115,6 +126,7 @@ class Installer
                 $settings->social_templates->pinterest[3]->template_structure = $pinterest['template_structure'];
                 $settings->social_templates->pinterest[4]->note_limit = $pinterest['pin_note_limit'];
             }
+
             update_option(WPSP_SETTINGS_NAME, json_encode($settings));
             update_option('wpsp_react_settings_migrate', true);
         }

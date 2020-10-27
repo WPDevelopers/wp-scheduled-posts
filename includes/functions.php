@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * Getting First item from array
  * written as polyfill
@@ -26,16 +27,20 @@ if (!function_exists('wpscp_scheduled_post_menu')) {
 	function wpscp_scheduled_post_menu()
 	{
 		global $wp_admin_bar;
-		global $wpscp_options;
-		if ($wpscp_options['show_in_adminbar'] || $wpscp_options['show_in_front_end_adminbar']) {
-			if (is_admin() && !$wpscp_options['show_in_adminbar']) return;
-			if (!is_admin() && !$wpscp_options['show_in_front_end_adminbar']) return;
+		$is_show_admin_bar_posts = \WPSP\Helper::get_settings('is_show_admin_bar_posts');
+		$is_show_sitewide_bar_posts = \WPSP\Helper::get_settings('is_show_sitewide_bar_posts');
+		$allow_post_types = \WPSP\Helper::get_settings('allow_post_types');
+		$adminbar_list_structure_template = \WPSP\Helper::get_settings('adminbar_list_structure_template');
+		$adminbar_list_structure_title_length = \WPSP\Helper::get_settings('adminbar_list_structure_title_length');
+		$adminbar_list_structure_date_format = \WPSP\Helper::get_settings('adminbar_list_structure_date_format');
 
-
+		if ($is_show_admin_bar_posts || $is_show_sitewide_bar_posts) {
+			if (is_admin() && !$is_show_admin_bar_posts) return;
+			if (!is_admin() && !$is_show_sitewide_bar_posts) return;
 			if (WPSP\Helper::is_user_allow()) {
 				global $wpdb;
 				$item_id = 0;
-				$post_types = ($wpscp_options['allow_post_types'] !== "" ? $wpscp_options['allow_post_types'] : array('post'));
+				$post_types = (!empty($allow_post_types) ? $allow_post_types : array('post'));
 				$result = get_posts(array(
 					'post_type' 		=> $post_types,
 					'post_status' 		=> 'future',
@@ -55,16 +60,16 @@ if (!function_exists('wpscp_scheduled_post_menu')) {
 
 				if (is_array($result)) {
 					$totalPostAllowed = 0;
-					$list_template = $wpscp_options['adminbar_item_template'];
+					$list_template = $adminbar_list_structure_template;
 					if ($list_template == '') {
 						$list_template = "<strong>%TITLE%</strong> / %AUTHOR% / %DATE%";
 					}
 					$list_template = stripslashes($list_template);
-					$title_length = intval($wpscp_options['adminbar_title_length']);
+					$title_length = intval($adminbar_list_structure_title_length);
 					if ($title_length == 0) {
 						$title_length = 45;
 					}
-					$date_format = $wpscp_options['adminbar_date_format'];
+					$date_format = $adminbar_list_structure_date_format;
 					if ($date_format == '') {
 						$date_format = 'M-d h:i:a';
 					}
@@ -111,16 +116,6 @@ if (!function_exists('wpscp_scheduled_post_menu')) {
 
 					$item_id++;
 ?>
-
-					<style>
-						#wp-admin-bar-wpscp-default .wpsp_arrow_prev,
-						#wp-admin-bar-wpscp-default .wpsp_arrow_next {
-							background: url('<?php echo plugins_url(); ?>/wp-scheduled-posts/admin/assets/images/arrow.png') no-repeat;
-							background-size: cover;
-
-						}
-					</style>
-
 			<?php
 					$Powered_by_text = '<div style="margin-top:5px; text-align:center;"><span class="wpsp_arrow_prev wpsp_arrow_pagi"></span>Powered By <span style="color:#fff"><a  style="padding:0;display:inline;" href="https://wpdeveloper.net/in/wpsp">WP Scheduled Posts</a></span>
 					<span class="wpsp_arrow_next wpsp_arrow_pagi"></span>
@@ -144,7 +139,7 @@ if (!function_exists('wpscp_scheduled_post_menu')) {
 							)
 						);
 					}
-				} //if(is_array($result))
+				}
 			}
 		}
 	}
