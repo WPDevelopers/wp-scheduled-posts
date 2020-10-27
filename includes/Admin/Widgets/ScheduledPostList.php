@@ -21,12 +21,10 @@ class ScheduledPostList
      */
     public function widget_scheduled_post_markup()
     {
-        global $wpdb;
-        global $wpscp_options;
-        $post_types     =    (isset($wpscp_options['allow_post_types']) ? $wpscp_options['allow_post_types'] : array('post'));
-
-        $post_cats = $wpscp_options['allow_categories'];
-        if (is_array($post_cats) && $post_cats[0] == 0 && count($post_cats) == 1) {
+        $post_types     =    \WPSP\Helper::get_settings('allow_post_types');
+        $post_types     =   (!empty($post_types) ? $post_types : array('post'));
+        $allow_categories = \WPSP\Helper::get_settings('allow_categories');
+        if (empty($allow_categories)) {
             $result = new \WP_Query(array(
                 'post_type' => $post_types,
                 'post_status' => 'future'
@@ -44,9 +42,6 @@ class ScheduledPostList
                 ),
             ));
         }
-
-
-
         echo '<table class="widefat">';
         if ($result->have_posts()) :
             while ($result->have_posts()) : $result->the_post();
@@ -71,8 +66,7 @@ class ScheduledPostList
      */
     public function wpscp_widget_post_scheduled()
     {
-        global $wpscp_options;
-        if ($wpscp_options['show_dashboard_widget']) {
+        if (\WPSP\Helper::get_settings('is_show_dashboard_widget')) {
             if (\WPSP\Helper::is_user_allow()) {
                 wp_add_dashboard_widget('wp_scp_dashboard_widget', 'Scheduled Posts', array($this, 'widget_scheduled_post_markup'));
             }

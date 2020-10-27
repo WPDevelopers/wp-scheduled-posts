@@ -209,9 +209,8 @@ if (!function_exists('wpscp_prevent_future_post_markup')) {
 if (!function_exists('wpscp_submit_box_future_post')) {
 	function wpscp_submit_box_future_post()
 	{
-		global $wpscp_options;
 		add_filter('wp_insert_post_data', 'wpscp_prevent_future_type');
-		if (isset($_GET['action']) && $_GET['action'] == 'edit' && $wpscp_options['prevent_future_post'] == true) {
+		if (isset($_GET['action']) && $_GET['action'] == 'edit' && \WPSP\Helper::get_settings('show_publish_post_button') == true) {
 			add_action('post_submitbox_misc_actions', 'wpscp_prevent_future_post_markup');
 		}
 	}

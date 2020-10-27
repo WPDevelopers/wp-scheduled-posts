@@ -61,6 +61,8 @@ class Installer
             $settings->adminbar_list_structure_title_length = $old_settings['adminbar_title_length'];
             $settings->adminbar_list_structure_date_format = $old_settings['adminbar_date_format'];
             $settings->show_publish_post_button = $old_settings['prevent_future_post'];
+            $settings->calendar_schedule_time = $old_settings['calendar_default_schedule_time'];
+            $settings->is_republish_social_share = $old_settings['is_republish_social_share'];
             // email notify
             $settings->notify_author_post_is_review = get_option('wpscp_notify_author_is_sent_review');
             $settings->notify_author_post_review_by_role = get_option('wpscp_notify_author_role_sent_review');

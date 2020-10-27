@@ -26,9 +26,7 @@ class Pinterest
      */
     public function schedule_republish_social_share_hook()
     {
-        $wpscp_options = get_option('wpscp_options');
-        $is_republish_social_share = (isset($wpscp_options[0]['is_republish_social_share']) ? $wpscp_options[0]['is_republish_social_share'] : false);
-        if ($is_republish_social_share) {
+        if (\WPSP\Helper::get_settings('is_republish_social_share')) {
             add_action('wpscp_pro_schedule_republish_share', array($this, 'wpscp_pro_republish_pinterest_post'), 15, 1);
         }
     }

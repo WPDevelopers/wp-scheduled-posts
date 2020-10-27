@@ -54,18 +54,15 @@ class Helper
     public static function is_user_allow()
     {
         global $current_user;
-        global $wpscp_options;
-
+        $allow_user_by_role = \WPSP\Helper::get_settings('allow_user_by_role');
+        $allow_user_by_role = (!is_array($allow_user_by_role) && count($allow_user_by_role) == 0) ? array('administrator') : $allow_user_by_role;
         if (!is_array($current_user->roles)) return false;
-        if (!is_array($wpscp_options['allow_user_role'])) $wpscp_options['allow_user_role'] = array('administrator');
-
         foreach ($current_user->roles as $ur) {
-            if (in_array($ur, $wpscp_options['allow_user_role'])) {
+            if (in_array($ur, $allow_user_by_role)) {
                 return true;
                 break;
             }
         }
-
         return false;
     }
 

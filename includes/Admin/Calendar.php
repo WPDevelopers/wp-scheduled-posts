@@ -4,12 +4,10 @@ namespace WPSP\Admin;
 
 class Calendar
 {
-    public $wpscp_options;
+
     public function __construct()
     {
         $this->hooks();
-        global $wpscp_options;
-        $this->wpscp_options = $wpscp_options;
     }
     /**
      * Calendar Hooks
@@ -99,7 +97,7 @@ class Calendar
         if (!wp_verify_nonce($nonce, 'wpscp-calendar-ajax-nonce')) {
             die(__('Security check', 'wp-scheduled-posts'));
         }
-
+        $calendar_schedule_time = \WPSP\Helper::get_settings('calendar_schedule_time');
         $post_status = '';
         if (!empty($_POST['post_status']) && $_POST['post_status'] != '') {
             $post_status = (($_POST['post_status'] == 'Scheduled') ? 'future' : 'draft');
@@ -118,8 +116,8 @@ class Calendar
             $postdate_gmt = ($postdateformat != "" ? gmdate('Y-m-d H:i:s', strtotime($postdateformat)) : '');
         } else if ($dateStr != "Invalid Date" && !empty($postid)) {
             $default_schedule_time = '12:00 am';
-            if (isset($this->wpscp_options['calendar_default_schedule_time']) && $this->wpscp_options['calendar_default_schedule_time'] != null) {
-                $default_schedule_time = $this->wpscp_options['calendar_default_schedule_time'];
+            if (!empty($calendar_schedule_time)) {
+                $default_schedule_time = $calendar_schedule_time;
             }
 
             $date_string = substr($dateStr, 0, 16) . $default_schedule_time;

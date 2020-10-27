@@ -18,8 +18,8 @@ class InstantShare
     }
     public function instant_share_metabox()
     {
-        $wpscp_options = get_option('wpscp_options');
-        $allow_post_types = isset($wpscp_options['allow_post_types']) && !empty($wpscp_options['allow_post_types']) ? $wpscp_options['allow_post_types'] : ['post'];
+        $allow_post_types = \WPSP\Helper::get_settings('allow_post_types');
+        $allow_post_types = (!empty($allow_post_types) ? $allow_post_types : array('post'));
         add_meta_box('WpScp_instantshare_meta_box', __('Social Share Settings', 'wp-scheduled-posts-pro'), array($this, 'instant_share_metabox_markup'), $allow_post_types, 'side', 'low');
     }
     public function instant_share_metabox_markup()
