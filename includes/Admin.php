@@ -13,7 +13,6 @@ class Admin
         add_filter('plugin_row_meta', array($this, 'insert_plugin_row_meta'), 10, 2);
         $this->admin_notice();
         $this->usage_tracker();
-        $this->set_option_settings();
         Admin\WPDev\WPDevFeedWidget::instance();
         $this->send_email_notification();
         $this->load_dashboard_widgets();
@@ -25,10 +24,6 @@ class Admin
     public function load_dashboard_widgets()
     {
         new Admin\Widgets\ScheduledPostList();
-    }
-    public function set_option_settings()
-    {
-        new Admin\SettingOption();
     }
     public function send_email_notification()
     {
