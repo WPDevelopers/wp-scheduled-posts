@@ -87,10 +87,9 @@ class Helper
         $allow_post_types = (!empty(self::get_settings('allow_post_types')) ? array('post') : self::get_settings('allow_post_types'));
         if (
             in_array($current_post_type, $allow_post_types) ||
-            $hook == 'posts_page_wp-scheduled-calendar-post' ||
-            $hook == 'toplevel_page_wp-scheduled-posts' ||
-            $hook == 'admin_page_wpscp-quick-setup-wizard' ||
-            $hook == 'scheduled-posts_page_wp-scheduled-calendar'
+            $hook == 'posts_page_' . WPSP_SETTINGS_SLUG . '-post' ||
+            $hook == 'toplevel_page_' .  WPSP_SETTINGS_SLUG ||
+            $hook == 'scheduled-posts_page_' . WPSP_SETTINGS_SLUG
         ) {
             return true;
         }

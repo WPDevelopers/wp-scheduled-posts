@@ -31,9 +31,9 @@ class Menu
      */
     public function admin_menu()
     {
-        add_menu_page(__('Scheduled Posts', 'wp-scheduled-posts'), __('Scheduled Posts', 'wp-scheduled-posts'), 'manage_options', WPSP_PLUGIN_ROOT_PATH, [$this, 'load_settings_template'], esc_url(WPSP_ASSETS_URI . 'images/wpsp-icon.png'), 80);
-        add_submenu_page(WPSP_PLUGIN_ROOT_PATH, __('Settings', 'wp-scheduled-posts'), __('Settings', 'wp-scheduled-posts'), 'manage_options', WPSP_PLUGIN_ROOT_PATH, [$this, 'load_settings_template']);
-        add_submenu_page(WPSP_PLUGIN_ROOT_PATH, 'Calendar', 'Calendar', 'manage_options', 'wp-scheduled-calendar', array($this, 'load_calendar_template'));
+        add_menu_page(__('SchedulePress', 'wp-scheduled-posts'), __('SchedulePress', 'wp-scheduled-posts'), 'manage_options', WPSP_SETTINGS_SLUG, [$this, 'load_settings_template'], esc_url(WPSP_ASSETS_URI . 'images/wpsp-icon.png'), 80);
+        add_submenu_page(WPSP_SETTINGS_SLUG, __('Settings', 'wp-scheduled-posts'), __('Settings', 'wp-scheduled-posts'), 'manage_options', WPSP_SETTINGS_SLUG, [$this, 'load_settings_template']);
+        add_submenu_page(WPSP_SETTINGS_SLUG, 'Calendar', 'Calendar', 'manage_options', WPSP_SETTINGS_SLUG . '-calendar', array($this, 'load_calendar_template'));
         $this->add_sub_menu_for_calendar_supported_post_type();
     }
 
@@ -46,7 +46,7 @@ class Menu
         $allow_post_types =  ($wpscp_all_options['allow_post_types'] == '' ? array('post') : $wpscp_all_options['allow_post_types']);
         foreach ($allow_post_types as $post_types) {
             $admin_menu_url = ($post_types != 'post' ? 'edit.php?post_type=' . $post_types : 'edit.php');
-            add_submenu_page($admin_menu_url, __('Calendar', 'wp-scheduled-posts'), __('Calendar', 'wp-scheduled-posts'), 'edit_posts', 'wp-scheduled-calendar-' . $post_types, array($this, 'load_calendar_template'));
+            add_submenu_page($admin_menu_url, __('Calendar', 'wp-scheduled-posts'), __('Calendar', 'wp-scheduled-posts'), 'edit_posts', WPSP_SETTINGS_SLUG . '-' . $post_types, array($this, 'load_calendar_template'));
         }
     }
 

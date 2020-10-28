@@ -105,7 +105,7 @@ class Assets
 
     public function settings_scripts($hook)
     {
-        if ($hook !== 'toplevel_page_' . WPSP_PLUGIN_SLUG) return;
+        if ($hook !== 'toplevel_page_' . WPSP_SETTINGS_SLUG) return;
         // Load admin style sheet and JavaScript
         wp_enqueue_style(WPSP_PLUGIN_SLUG . '-style', WPSP_ADMIN_URL . 'Settings/assets/css/admin.css', array());
 

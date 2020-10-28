@@ -114,7 +114,7 @@ final class WPSP
 	{
 		if (get_option('wpsp_do_activation_redirect', false)) {
 			delete_option('wpsp_do_activation_redirect');
-			wp_redirect("admin.php?page=wp-scheduled-posts");
+			wp_redirect("admin.php?page=" . WPSP_SETTINGS_SLUG);
 		}
 	}
 	public function load_calendar()
