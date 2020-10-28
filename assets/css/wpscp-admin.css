@@ -1326,7 +1326,7 @@
 .wpsp-dashboard-body .btn-submit--changed {
   background: #e74c3c;
 }
-.wpsp-dashboard-body .wpsp_social_templates {
+.wpsp-dashboard-body .social_templates {
   width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1339,14 +1339,14 @@
       flex-wrap: wrap;
   background: #fff;
 }
-.wpsp-dashboard-body .wpsp_social_templates > div {
+.wpsp-dashboard-body .social_templates > div {
   width: 50%;
   padding: 30px;
   border: 1px solid #e7e7e7;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
-.wpsp-dashboard-body .wpsp_pro_manage_schedule {
+.wpsp-dashboard-body .manage_schedule {
   width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1359,7 +1359,7 @@
       flex-wrap: wrap;
   background: #fff;
 }
-.wpsp-dashboard-body .wpsp_pro_manage_schedule > div {
+.wpsp-dashboard-body .manage_schedule > div {
   width: 50%;
   padding: 30px;
   border-left: 1px solid #e7e7e7;
@@ -1368,12 +1368,12 @@
           box-sizing: border-box;
   margin-left: auto;
 }
-.wpsp-dashboard-body .wpsp_pro_manage_schedule ul.manual-schedule-builder {
+.wpsp-dashboard-body .manage_schedule ul.manual-schedule-builder {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
 }
-.wpsp-dashboard-body .wpsp_pro_manage_schedule ul.manual-schedule-builder li {
+.wpsp-dashboard-body .manage_schedule ul.manual-schedule-builder li {
   width: 37.5%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1388,23 +1388,23 @@
   padding: 5px 10px;
   margin-right: 15px;
 }
-.wpsp-dashboard-body .wpsp_pro_manage_schedule ul.manual-schedule-builder li:last-child {
+.wpsp-dashboard-body .manage_schedule ul.manual-schedule-builder li:last-child {
   width: 25%;
   border: 0;
   margin-right: 0;
 }
-.wpsp-dashboard-body .wpsp_pro_manage_schedule ul.manual-schedule-builder li .rc-time-picker input,
-.wpsp-dashboard-body .wpsp_pro_manage_schedule ul.manual-schedule-builder li .rc-time-picker,
-.wpsp-dashboard-body .wpsp_pro_manage_schedule ul.manual-schedule-builder li .select-days {
+.wpsp-dashboard-body .manage_schedule ul.manual-schedule-builder li .rc-time-picker input,
+.wpsp-dashboard-body .manage_schedule ul.manual-schedule-builder li .rc-time-picker,
+.wpsp-dashboard-body .manage_schedule ul.manual-schedule-builder li .select-days {
   width: 150px;
   height: 40px;
   margin-left: auto;
   background: white;
 }
-.wpsp-dashboard-body .wpsp_pro_manage_schedule ul.manual-schedule-builder li .rc-time-picker-clear {
+.wpsp-dashboard-body .manage_schedule ul.manual-schedule-builder li .rc-time-picker-clear {
   top: 8px;
 }
-.wpsp-dashboard-body .wpsp_pro_manage_schedule ul.manual-schedule-builder .btn-schedule {
+.wpsp-dashboard-body .manage_schedule ul.manual-schedule-builder .btn-schedule {
   padding: 5px 20px;
   background-color: #2278f6;
   border: none;
@@ -1415,7 +1415,7 @@
   color: #fff;
   border-radius: 4px;
 }
-.wpsp-dashboard-body .wpsp_pro_manage_schedule .is_active_missed_schedule {
+.wpsp-dashboard-body .manage_schedule .is_active_missed_schedule {
   background: -o-linear-gradient(30deg, #6674f5 0%, #43d8bf 75%);
   background: linear-gradient(60deg, #6674f5 0%, #43d8bf 75%);
   padding: 20px;
@@ -1425,11 +1425,11 @@
   color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.05);
 }
-.wpsp-dashboard-body .wpsp_pro_manage_schedule .is_active_missed_schedule .form-group {
+.wpsp-dashboard-body .manage_schedule .is_active_missed_schedule .form-group {
   background: none;
   color: #fff;
 }
-.wpsp-dashboard-body .wpsp_pro_manage_schedule .is_active_missed_schedule .form-group .form-info label {
+.wpsp-dashboard-body .manage_schedule .is_active_missed_schedule .form-group .form-info label {
   display: block;
 }
 .wpsp-dashboard-body .group-fields.auto_schedule {
@@ -1577,7 +1577,7 @@
   cursor: pointer;
 }
 
-.wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .wpsp_social_profile .form-group {
+.wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .social_profile .form-group {
   background: none;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;

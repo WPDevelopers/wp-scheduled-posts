@@ -28,6 +28,15 @@ class Config
             'title' => __('General', 'wp-scheduled-posts'),
             'id' => 'wpsp_general',
         ]);
+        // schedule republish
+        if (class_exists('WPSP_PRO')) {
+            Builder::add_field('wpsp_general', [
+                'id' => 'is_republish_social_share',
+                'type' => 'checkbox',
+                'title' => __('Active Republish Social Share', 'wp-scheduled-posts'),
+                'default' => false,
+            ]);
+        }
         Builder::add_field('wpsp_general', [
             'id' => 'is_show_dashboard_widget',
             'type' => 'checkbox',
