@@ -7,7 +7,6 @@ class Admin
     public function __construct()
     {
         $this->load_plugin_menu_pages();
-        $this->load_quick_setup_wizard();
         $this->pro_enabled();
         // Core
         add_filter('plugin_action_links_' . WPSP_PLUGIN_BASENAME, array($this, 'insert_plugin_links'));
@@ -34,10 +33,6 @@ class Admin
     public function send_email_notification()
     {
         new Admin\Email();
-    }
-    public function load_quick_setup_wizard()
-    {
-        Admin\QuickSetup::load();
     }
 
     /**

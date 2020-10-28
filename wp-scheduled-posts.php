@@ -1,6 +1,4 @@
 <?php
-
-use WPSP\Admin\Settings\Builder;
 /*
  * Plugin Name: WP Scheduled Posts
  * Description: A complete solution for WordPress Post Schedule. Manage schedule through editorial calendar and enable auto scheduler. Also handles auto social share in Facebook, Twitter, linkedIn, Pinterest & Instagram. Get an admin Bar & Dashboard Widget showing all your scheduled posts.
@@ -116,7 +114,7 @@ final class WPSP
 	{
 		if (get_option('wpsp_do_activation_redirect', false)) {
 			delete_option('wpsp_do_activation_redirect');
-			wp_redirect("admin.php?page=wpscp-quick-setup-wizard");
+			wp_redirect("admin.php?page=wp-scheduled-posts");
 		}
 	}
 	public function load_calendar()

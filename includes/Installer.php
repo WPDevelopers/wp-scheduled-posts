@@ -45,12 +45,14 @@ class Installer
 
     public function migrate()
     {
-        if (!get_option('wpsp_react_settings_migrate')) {
-            // version update
-            $this->set_version(); // previous version
-            $old_settings = get_option('wpscp_options');
+        // version update
+        $this->set_version();
+
+        $old_settings = get_option('wpscp_options');
+        if (!get_option('wpsp_react_settings_migrate') && $old_settings !== false) {
             // general settings
-            $settings = json_decode(get_option(WPSP_SETTINGS_NAME), true);
+            global $wpsp_settings;
+            $settings = $wpsp_settings;
             $settings->is_show_dashboard_widget = $old_settings['show_dashboard_widget'];
             $settings->is_show_sitewide_bar_posts = $old_settings['show_in_front_end_adminbar'];
             $settings->is_show_admin_bar_posts = $old_settings['show_in_adminbar'];

@@ -39,6 +39,7 @@ const Select = ({
     }
     return (
         <div className='form-group'>
+            {console.log(field)}
             <div className='form-info'>
                 <label htmlFor={id}>{title}</label>
                 <span className='sub-title'>{subtitle}</span>

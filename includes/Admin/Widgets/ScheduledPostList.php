@@ -37,7 +37,7 @@ class ScheduledPostList
                     array(
                         'taxonomy' => 'category',
                         'field'    => 'term_id',
-                        'terms'    => $post_cats,
+                        'terms'    => $allow_categories,
                     ),
                 ),
             ));
