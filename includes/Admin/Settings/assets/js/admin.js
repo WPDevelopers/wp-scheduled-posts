@@ -320,12 +320,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _type_Email__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./type/Email */ "./app/components/type/Email.js");
 /* harmony import */ var _type_Error__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./type/Error */ "./app/components/type/Error.js");
 /* harmony import */ var _type_Select__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./type/Select */ "./app/components/type/Select.js");
-/* harmony import */ var _type_CreatableSelect__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./type/CreatableSelect */ "./app/components/type/CreatableSelect.js");
-/* harmony import */ var _type_Collapsible__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./type/Collapsible */ "./app/components/type/Collapsible.js");
-/* harmony import */ var _type_SocialProfile__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./type/SocialProfile */ "./app/components/type/SocialProfile.js");
-/* harmony import */ var _type_Group__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./type/Group */ "./app/components/type/Group.js");
-/* harmony import */ var _type_ScheduleTable__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./type/ScheduleTable */ "./app/components/type/ScheduleTable.js");
-/* harmony import */ var _type_License__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./type/License */ "./app/components/type/License.js");
+/* harmony import */ var _type_ManageScheduleToggle__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./type/ManageScheduleToggle */ "./app/components/type/ManageScheduleToggle.js");
+/* harmony import */ var _type_CreatableSelect__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./type/CreatableSelect */ "./app/components/type/CreatableSelect.js");
+/* harmony import */ var _type_Collapsible__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./type/Collapsible */ "./app/components/type/Collapsible.js");
+/* harmony import */ var _type_SocialProfile__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./type/SocialProfile */ "./app/components/type/SocialProfile.js");
+/* harmony import */ var _type_Group__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./type/Group */ "./app/components/type/Group.js");
+/* harmony import */ var _type_ScheduleTable__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./type/ScheduleTable */ "./app/components/type/ScheduleTable.js");
+/* harmony import */ var _type_License__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./type/License */ "./app/components/type/License.js");
+
 
 
 
@@ -368,7 +370,7 @@ const Fields = props => {
       break;
 
     case 'group':
-      renderComponent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_type_Group__WEBPACK_IMPORTED_MODULE_12__["default"], props);
+      renderComponent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_type_Group__WEBPACK_IMPORTED_MODULE_13__["default"], props);
       break;
 
     case 'select':
@@ -376,23 +378,27 @@ const Fields = props => {
       break;
 
     case 'creatableselect':
-      renderComponent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_type_CreatableSelect__WEBPACK_IMPORTED_MODULE_9__["default"], props);
+      renderComponent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_type_CreatableSelect__WEBPACK_IMPORTED_MODULE_10__["default"], props);
       break;
 
     case 'collapsible':
-      renderComponent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_type_Collapsible__WEBPACK_IMPORTED_MODULE_10__["default"], props);
+      renderComponent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_type_Collapsible__WEBPACK_IMPORTED_MODULE_11__["default"], props);
       break;
 
     case 'socialprofile':
-      renderComponent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_type_SocialProfile__WEBPACK_IMPORTED_MODULE_11__["default"], props);
+      renderComponent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_type_SocialProfile__WEBPACK_IMPORTED_MODULE_12__["default"], props);
       break;
 
     case 'scheduletable':
-      renderComponent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_type_ScheduleTable__WEBPACK_IMPORTED_MODULE_13__["default"], props);
+      renderComponent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_type_ScheduleTable__WEBPACK_IMPORTED_MODULE_14__["default"], props);
+      break;
+
+    case 'manageScheduleToggle':
+      renderComponent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_type_ManageScheduleToggle__WEBPACK_IMPORTED_MODULE_9__["default"], props);
       break;
 
     case 'license':
-      renderComponent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_type_License__WEBPACK_IMPORTED_MODULE_14__["default"], props);
+      renderComponent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_type_License__WEBPACK_IMPORTED_MODULE_15__["default"], props);
       break;
 
     default:
@@ -1262,6 +1268,68 @@ const License = () => {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (License);
+
+/***/ }),
+
+/***/ "./app/components/type/ManageScheduleToggle.js":
+/*!*****************************************************!*\
+  !*** ./app/components/type/ManageScheduleToggle.js ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var formik__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! formik */ "./node_modules/formik/dist/formik.esm.js");
+
+
+
+const ManageScheduleToggle = ({
+  id,
+  title,
+  subtitle,
+  desc,
+  groupName,
+  arrayHelpers
+}) => {
+  const {
+    setFieldValue
+  } = Object(formik__WEBPACK_IMPORTED_MODULE_1__["useFormikContext"])();
+  const [field] = Object(formik__WEBPACK_IMPORTED_MODULE_1__["useField"])('manage_schedule.activeScheduleSystem');
+  const [, scheduleName] = groupName.split('.');
+
+  const saveToggleSchedule = e => {
+    setFieldValue('manage_schedule.activeScheduleSystem', scheduleName);
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-info"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: id
+  }, title), subtitle && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "sub-title"
+  }, subtitle)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-body"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "checkbox_wrap"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "wpsp_switch"
+  }, arrayHelpers !== undefined && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "checkbox",
+    checked: field.value == scheduleName ? true : false,
+    onChange: e => saveToggleSchedule(e)
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "wpsp_switch_slider"
+  }))), desc && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "desc"
+  }, desc)));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (ManageScheduleToggle);
 
 /***/ }),
 
@@ -19785,7 +19853,7 @@ function useFormik(_ref) {
   // The thinking is that validation as a result of onChange and onBlur
   // should never block user input. Note: This method should never be called
   // during the submission phase because validation prior to submission
-  // is actaully high-priority since we absolutely need to guarantee the
+  // is actually high-priority since we absolutely need to guarantee the
   // form is valid before executing props.onSubmit.
 
   var validateFormWithLowPriority = useEventCallback(function (values) {
@@ -19793,7 +19861,7 @@ function useFormik(_ref) {
       values = state.values;
     }
 
-    return Object(scheduler__WEBPACK_IMPORTED_MODULE_7__["unstable_runWithPriority"])(scheduler__WEBPACK_IMPORTED_MODULE_7__["unstable_LowPriority"], function () {
+    return runWithLowPriority(function () {
       return runAllValidations(values).then(function (combinedErrors) {
         if (!!isMounted.current) {
           dispatch({
@@ -20519,6 +20587,16 @@ function arrayMerge(target, source, options) {
     }
   });
   return destination;
+}
+/**
+ * Schedule function as low priority by the scheduler API
+ */
+
+
+function runWithLowPriority(fn) {
+  return Object(scheduler__WEBPACK_IMPORTED_MODULE_7__["unstable_runWithPriority"])(scheduler__WEBPACK_IMPORTED_MODULE_7__["unstable_LowPriority"], function () {
+    return Object(scheduler__WEBPACK_IMPORTED_MODULE_7__["unstable_scheduleCallback"])(scheduler__WEBPACK_IMPORTED_MODULE_7__["unstable_LowPriority"], fn);
+  });
 }
 /** Return multi select values based on an array of options */
 
@@ -82079,9 +82157,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 
-var ReactReduxContext =
-/*#__PURE__*/
-react__WEBPACK_IMPORTED_MODULE_0___default.a.createContext(null);
+var ReactReduxContext = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createContext(null);
 
 if (true) {
   ReactReduxContext.displayName = 'ReactRedux';
@@ -82140,7 +82216,7 @@ function Provider(_ref) {
     };
   }, [contextValue, previousState]);
   var Context = context || _Context__WEBPACK_IMPORTED_MODULE_2__["ReactReduxContext"];
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Context.Provider, {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Context.Provider, {
     value: contextValue
   }, children);
 }
@@ -82311,14 +82387,14 @@ function connectAdvanced(
 /*
   selectorFactory is a func that is responsible for returning the selector function used to
   compute new props from state, props, and dispatch. For example:
-      export default connectAdvanced((dispatch, options) => (state, props) => ({
+     export default connectAdvanced((dispatch, options) => (state, props) => ({
       thing: state.things[props.thingId],
       saveThing: fields => dispatch(actionCreators.saveThing(props.thingId, fields)),
     }))(YourComponent)
-    Access to dispatch is provided to the factory so selectorFactories can bind actionCreators
+   Access to dispatch is provided to the factory so selectorFactories can bind actionCreators
   outside of their selector as an optimization. Options passed to connectAdvanced are passed to
   the selectorFactory, along with displayName and WrappedComponent, as the second argument.
-    Note that selectorFactory is responsible for all caching/memoization of inbound and outbound
+   Note that selectorFactory is responsible for all caching/memoization of inbound and outbound
   props. Do not use connectAdvanced directly without memoizing results between calls to your
   selector, otherwise the Connect component will re-render on every state or props change.
 */
@@ -82415,7 +82491,7 @@ _ref) {
       var ContextToUse = Object(react__WEBPACK_IMPORTED_MODULE_3__["useMemo"])(function () {
         // Users may optionally pass in a custom context instance to use instead of our ReactReduxContext.
         // Memoize the check that determines which context instance we should use.
-        return propsContext && propsContext.Consumer && Object(react_is__WEBPACK_IMPORTED_MODULE_4__["isContextConsumer"])(react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(propsContext.Consumer, null)) ? propsContext : Context;
+        return propsContext && propsContext.Consumer && Object(react_is__WEBPACK_IMPORTED_MODULE_4__["isContextConsumer"])( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(propsContext.Consumer, null)) ? propsContext : Context;
       }, [propsContext, Context]); // Retrieve the store and ancestor subscription via context, if available
 
       var contextValue = Object(react__WEBPACK_IMPORTED_MODULE_3__["useContext"])(ContextToUse); // The store _must_ exist as either a prop or in context.
@@ -82511,7 +82587,7 @@ _ref) {
       // We memoize the elements for the rendered child component as an optimization.
 
       var renderedWrappedComponent = Object(react__WEBPACK_IMPORTED_MODULE_3__["useMemo"])(function () {
-        return react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(WrappedComponent, Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, actualChildProps, {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(WrappedComponent, Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, actualChildProps, {
           ref: reactReduxForwardedRef
         }));
       }, [reactReduxForwardedRef, WrappedComponent, actualChildProps]); // If React sees the exact same element reference as last time, it bails out of re-rendering
@@ -82522,7 +82598,7 @@ _ref) {
           // If this component is subscribed to store updates, we need to pass its own
           // subscription instance down to our descendants. That means rendering the same
           // Context instance, and putting a different value into the context.
-          return react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(ContextToUse.Provider, {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(ContextToUse.Provider, {
             value: overriddenContextValue
           }, renderedWrappedComponent);
         }
@@ -82539,7 +82615,7 @@ _ref) {
 
     if (forwardRef) {
       var forwarded = react__WEBPACK_IMPORTED_MODULE_3___default.a.forwardRef(function forwardConnectRef(props, ref) {
-        return react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(Connect, Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, props, {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(Connect, Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, props, {
           reactReduxForwardedRef: ref
         }));
       });
@@ -82751,7 +82827,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function defaultMergeProps(stateProps, dispatchProps, ownProps) {
-  return Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, ownProps, {}, stateProps, {}, dispatchProps);
+  return Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, ownProps, stateProps, dispatchProps);
 }
 function wrapMergePropsFunc(mergeProps) {
   return function initMergePropsProxy(dispatch, _ref) {
@@ -83057,9 +83133,7 @@ function createDispatchHook(context) {
  * }
  */
 
-var useDispatch =
-/*#__PURE__*/
-createDispatchHook();
+var useDispatch = /*#__PURE__*/createDispatchHook();
 
 /***/ }),
 
@@ -83258,9 +83332,7 @@ function createSelectorHook(context) {
  * }
  */
 
-var useSelector =
-/*#__PURE__*/
-createSelectorHook();
+var useSelector = /*#__PURE__*/createSelectorHook();
 
 /***/ }),
 
@@ -83320,9 +83392,7 @@ function createStoreHook(context) {
  * }
  */
 
-var useStore =
-/*#__PURE__*/
-createStoreHook();
+var useStore = /*#__PURE__*/createStoreHook();
 
 /***/ }),
 
@@ -83467,9 +83537,7 @@ function createListenerCollection() {
   };
 }
 
-var Subscription =
-/*#__PURE__*/
-function () {
+var Subscription = /*#__PURE__*/function () {
   function Subscription(store, parentSub) {
     this.store = store;
     this.parentSub = parentSub;
