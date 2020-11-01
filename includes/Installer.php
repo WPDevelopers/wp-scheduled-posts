@@ -6,6 +6,11 @@ use WPSP\Social\Linkedin;
 
 class Installer
 {
+    public function __construct()
+    {
+        add_action('wpsp_run_active_installer', array($this, 'set_settings_page_data'));
+        add_action('admin_init', array($this, 'wpsp_plugin_redirect'));
+    }
     public function set_version()
     {
         if (!get_option('WPSP_VERSION')) {
@@ -14,34 +19,29 @@ class Installer
             update_option('WPSP_VERSION', WPSP_VERSION);
         }
     }
-    public function set_settings()
+    public function set_settings_page_data()
     {
+        delete_transient(WPSP_SETTINGS_NAME);
+
         \WPSP\Admin\Settings\Config::build_settings();
         if (class_exists('WPSP_PRO')) {
             \WPSP_PRO\Admin\Settings\Config::build_settings();
         }
         \WPSP\Admin\Settings\Config::set_default_settings_fields_data();
-        if (get_transient(WPSP_SETTINGS_NAME) === false) {
-            set_transient(WPSP_SETTINGS_NAME, \WPSP\Admin\Settings\Builder::load());
-        } else {
-            delete_transient(WPSP_SETTINGS_NAME);
-            set_transient(WPSP_SETTINGS_NAME, \WPSP\Admin\Settings\Builder::load());
+        set_transient(WPSP_SETTINGS_NAME, \WPSP\Admin\Settings\Builder::load());
+
+        add_option('wpsp_do_activation_redirect', true);
+    }
+
+    public function wpsp_plugin_redirect()
+    {
+        if (get_option('wpsp_do_activation_redirect', false)) {
+            delete_option('wpsp_do_activation_redirect');
+            wp_redirect("admin.php?page=" . WPSP_SETTINGS_SLUG);
+            exit();
         }
     }
 
-
-
-    /**
-     * Short Description. (use period)
-     *
-     * Long Description.
-     *
-     * @since    1.0.0
-     */
-    public function run()
-    {
-        $this->set_settings();
-    }
 
     public function migrate()
     {

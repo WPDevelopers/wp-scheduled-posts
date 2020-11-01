@@ -22,11 +22,10 @@ final class WPSP
 	{
 		$this->define_constants();
 		$this->set_global_settings();
-		$this->installer = new WPSP\Installer();
 		register_activation_hook(__FILE__, [$this, 'activate']);
+		$this->installer = new WPSP\Installer();
 		add_action('plugins_loaded', [$this, 'init_plugin']);
 		add_action('wp_loaded', [$this, 'run_migrator']);
-		add_action('admin_init', [$this, 'redirect_to_quick_setup']);
 		add_action('init', [$this, 'load_calendar']);
 	}
 
@@ -101,21 +100,12 @@ final class WPSP
 	 */
 	public function activate()
 	{
-		$this->installer->run();
-		add_option('wpsp_do_activation_redirect', true);
+		do_action('wpsp_run_active_installer');
 	}
 
 	public function run_migrator()
 	{
 		$this->installer->migrate();
-	}
-
-	public function redirect_to_quick_setup()
-	{
-		if (get_option('wpsp_do_activation_redirect', false)) {
-			delete_option('wpsp_do_activation_redirect');
-			wp_redirect("admin.php?page=" . WPSP_SETTINGS_SLUG);
-		}
 	}
 	public function load_calendar()
 	{
