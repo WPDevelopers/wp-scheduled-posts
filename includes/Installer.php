@@ -38,7 +38,6 @@ class Installer
         if (get_option('wpsp_do_activation_redirect', false)) {
             delete_option('wpsp_do_activation_redirect');
             wp_redirect("admin.php?page=" . WPSP_SETTINGS_SLUG);
-            exit();
         }
     }
 
