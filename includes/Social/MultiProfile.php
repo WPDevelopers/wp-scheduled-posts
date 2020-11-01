@@ -104,7 +104,7 @@ class MultiProfile
                 wp_die();
             }
             try {
-                $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=wp-scheduled-posts'));
+                $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=' . WPSP_SETTINGS_SLUG));
                 $pinterest = new Pinterest(
                     WPSCP_PINTEREST_APP_ID,
                     WPSCP_PINTEREST_APP_SECRET
@@ -126,7 +126,7 @@ class MultiProfile
                 wp_die();
             }
             try {
-                $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=wp-scheduled-posts'));
+                $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=' . WPSP_SETTINGS_SLUG));
                 $state = base64_encode(json_encode($request));
                 $linkedin = new LinkedIn(
                     WPSCP_LINKEDIN_CLIENT_ID,
@@ -147,7 +147,7 @@ class MultiProfile
                 wp_send_json_error($this->multiProfileErrorMessage);
                 wp_die();
             }
-            $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=wp-scheduled-posts'));
+            $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=' . WPSP_SETTINGS_SLUG));
             $state = base64_encode(json_encode($request));
             $url = "https://www.facebook.com/dialog/oauth?client_id="
                 . WPSCP_FACEBOOK_APP_ID . "&redirect_uri=" . urlencode(WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE) . "&state="
@@ -160,7 +160,7 @@ class MultiProfile
                 wp_die();
             }
             try {
-                $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=wp-scheduled-posts'));
+                $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=' . WPSP_SETTINGS_SLUG));
                 $connection = new TwitterOAuth(WPSCP_TWITTER_API_KEY, WPSCP_TWITTER_API_SECRET_KEY);
                 $oauth_callback = WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE . '?' . http_build_query($request);
                 $request_token = $connection->oauth('oauth/request_token', array('oauth_callback' => $oauth_callback));
@@ -701,7 +701,7 @@ class MultiProfile
             //     wp_die();
             // }
             try {
-                $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=wp-scheduled-posts'));
+                $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=' . WPSP_SETTINGS_SLUG));
                 $pinterest = new Pinterest(
                     $app_id,
                     $app_secret
@@ -723,7 +723,7 @@ class MultiProfile
             //     wp_die();
             // }
             try {
-                $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=wp-scheduled-posts'));
+                $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=' . WPSP_SETTINGS_SLUG));
                 $state = base64_encode(json_encode($request));
                 $linkedin = new LinkedIn(
                     $app_id,
@@ -745,7 +745,7 @@ class MultiProfile
             //     wp_die();
             // }
             try {
-                $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=wp-scheduled-posts'));
+                $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=' . WPSP_SETTINGS_SLUG));
                 $connection = new TwitterOAuth(
                     $app_id,
                     $app_secret
