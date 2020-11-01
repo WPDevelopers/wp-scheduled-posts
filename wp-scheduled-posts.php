@@ -44,7 +44,7 @@ final class WPSP
 		/**
 		 * Defines CONSTANTS for Whole plugins.
 		 */
-		define('WPSP_VERSION', '3.3.1');
+		define('WPSP_VERSION', '3.4');
 		define('WPSP_SETTINGS_NAME', 'wpsp_settings');
 		define('WPSP_PLUGIN_FILE', __FILE__);
 		define('WPSP_PLUGIN_BASENAME', plugin_basename(__FILE__));

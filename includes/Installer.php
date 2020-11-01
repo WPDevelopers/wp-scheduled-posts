@@ -49,6 +49,7 @@ class Installer
 
         $old_settings = get_option('wpscp_options');
         if (!get_option('wpsp_react_settings_migrate') && $old_settings !== false) {
+            do_action('wpsp_run_active_installer');
             // general settings
             global $wpsp_settings;
             $settings = $wpsp_settings;
