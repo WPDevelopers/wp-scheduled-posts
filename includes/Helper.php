@@ -26,7 +26,7 @@ class Helper
     {
         $p = '';
         $r = '';
-        $editable_roles = get_editable_roles();
+        $editable_roles = \get_editable_roles();
         if (is_array($editable_roles) && count($editable_roles) > 0) {
             foreach ($editable_roles as $role => $details) {
                 if ($role == 'subscriber' && $skip_subscribe == true) {
@@ -46,7 +46,7 @@ class Helper
 
     public static function get_all_roles()
     {
-        $allroles = wp_list_pluck(get_editable_roles(), 'name');
+        $allroles = wp_list_pluck(\get_editable_roles(), 'name');
         unset($allroles['subscriber']);
         return $allroles;
     }
