@@ -46,6 +46,9 @@ class Helper
 
     public static function get_all_roles()
     {
+        if (!function_exists('get_editable_roles')) {
+            require_once ABSPATH . 'wp-admin/includes/user.php';
+        }
         $allroles = wp_list_pluck(\get_editable_roles(), 'name');
         unset($allroles['subscriber']);
         return $allroles;
