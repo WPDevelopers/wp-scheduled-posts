@@ -8,7 +8,7 @@ class Installer
 {
     public function __construct()
     {
-        add_action('wpsp_run_active_installer', array($this, 'set_settings_page_data'));
+        add_action('wpsp_run_active_installer', array($this, 'run_active_installer'));
         add_action('admin_init', array($this, 'wpsp_plugin_redirect'));
     }
     public function set_version()
@@ -19,6 +19,12 @@ class Installer
             update_option('WPSP_VERSION', WPSP_VERSION);
         }
     }
+    public function run_active_installer()
+    {
+        $this->set_settings_page_data();
+        add_option('wpsp_do_activation_redirect', true);
+    }
+
     public function set_settings_page_data()
     {
         delete_transient(WPSP_SETTINGS_NAME);
@@ -29,8 +35,6 @@ class Installer
         }
         \WPSP\Admin\Settings\Config::set_default_settings_fields_data();
         set_transient(WPSP_SETTINGS_NAME, \WPSP\Admin\Settings\Builder::load());
-
-        add_option('wpsp_do_activation_redirect', true);
     }
 
     public function wpsp_plugin_redirect()
@@ -49,7 +53,7 @@ class Installer
 
         $old_settings = get_option('wpscp_options');
         if (!get_option('wpsp_react_settings_migrate') && $old_settings !== false) {
-            do_action('wpsp_run_active_installer');
+            $this->set_settings_page_data();
             // general settings
             global $wpsp_settings;
             $settings = $wpsp_settings;
