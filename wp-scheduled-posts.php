@@ -25,7 +25,7 @@ final class WPSP
 		register_activation_hook(__FILE__, [$this, 'activate']);
 		$this->installer = new WPSP\Installer();
 		add_action('plugins_loaded', [$this, 'init_plugin']);
-		add_action('plugins_loaded', [$this, 'run_migrator']);
+		add_action('wp_loaded', [$this, 'run_migrator']);
 		add_action('init', [$this, 'load_calendar']);
 	}
 

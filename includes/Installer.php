@@ -22,19 +22,19 @@ class Installer
     public function run_active_installer()
     {
         $this->set_settings_page_data();
-        add_option('wpsp_do_activation_redirect', true);
     }
 
     public function set_settings_page_data()
     {
-        delete_transient(WPSP_SETTINGS_NAME);
-
-        \WPSP\Admin\Settings\Config::build_settings();
-        if (class_exists('WPSP_PRO')) {
-            \WPSP_PRO\Admin\Settings\Config::build_settings();
+        if (did_action('wpsp_run_active_installer') === 1) {
+            delete_transient(WPSP_SETTINGS_NAME);
+            \WPSP\Admin\Settings\Config::build_settings();
+            if (class_exists('WPSP_PRO')) {
+                \WPSP_PRO\Admin\Settings\Config::build_settings();
+            }
+            \WPSP\Admin\Settings\Config::set_default_settings_fields_data();
+            set_transient(WPSP_SETTINGS_NAME, \WPSP\Admin\Settings\Builder::load());
         }
-        \WPSP\Admin\Settings\Config::set_default_settings_fields_data();
-        set_transient(WPSP_SETTINGS_NAME, \WPSP\Admin\Settings\Builder::load());
     }
 
     public function wpsp_plugin_redirect()
@@ -53,7 +53,7 @@ class Installer
 
         $old_settings = get_option('wpscp_options');
         if (!get_option('wpsp_react_settings_migrate') && $old_settings !== false) {
-            $this->set_settings_page_data();
+            do_action('wpsp_run_active_installer');
             // general settings
             global $wpsp_settings;
             $settings = $wpsp_settings;
