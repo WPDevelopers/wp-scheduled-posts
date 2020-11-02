@@ -100,7 +100,7 @@ final class WPSP
 	 */
 	public function activate()
 	{
-		do_action('wpsp_run_active_installer');
+		do_action('wpsp_run_active_installer', 'activate');
 	}
 
 	public function run_migrator()

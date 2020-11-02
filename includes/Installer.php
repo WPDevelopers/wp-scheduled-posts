@@ -9,7 +9,7 @@ class Installer
     public function __construct()
     {
         add_action('wpsp_run_active_installer', array($this, 'run_active_installer'));
-        add_action('admin_init', array($this, 'wpsp_plugin_redirect'));
+        // add_action('admin_init', array($this, 'wpsp_plugin_redirect'));
     }
     public function set_version()
     {
@@ -19,22 +19,26 @@ class Installer
             update_option('WPSP_VERSION', WPSP_VERSION);
         }
     }
-    public function run_active_installer()
+    public function run_active_installer($type)
     {
-        $this->set_settings_page_data();
+        if ($type === 'migrate') {
+            if (did_action('wpsp_run_active_installer') === 1) {
+                $this->set_settings_page_data();
+            }
+        } else {
+            $this->set_settings_page_data();
+        }
     }
 
     public function set_settings_page_data()
     {
-        if (did_action('wpsp_run_active_installer') === 1) {
-            delete_transient(WPSP_SETTINGS_NAME);
-            \WPSP\Admin\Settings\Config::build_settings();
-            if (class_exists('WPSP_PRO')) {
-                \WPSP_PRO\Admin\Settings\Config::build_settings();
-            }
-            \WPSP\Admin\Settings\Config::set_default_settings_fields_data();
-            set_transient(WPSP_SETTINGS_NAME, \WPSP\Admin\Settings\Builder::load());
+        delete_transient(WPSP_SETTINGS_NAME);
+        \WPSP\Admin\Settings\Config::build_settings();
+        if (class_exists('WPSP_PRO')) {
+            \WPSP_PRO\Admin\Settings\Config::build_settings();
         }
+        \WPSP\Admin\Settings\Config::set_default_settings_fields_data();
+        set_transient(WPSP_SETTINGS_NAME, \WPSP\Admin\Settings\Builder::load());
     }
 
     public function wpsp_plugin_redirect()
@@ -53,7 +57,7 @@ class Installer
 
         $old_settings = get_option('wpscp_options');
         if (!get_option('wpsp_react_settings_migrate') && $old_settings !== false) {
-            do_action('wpsp_run_active_installer');
+            do_action('wpsp_run_active_installer', 'migrate');
             // general settings
             global $wpsp_settings;
             $settings = $wpsp_settings;
