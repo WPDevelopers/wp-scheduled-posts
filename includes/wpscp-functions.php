@@ -770,6 +770,19 @@ if (!function_exists('wpscp_twitter_app_notice_ajax_callback')) {
 	}
 }
 
+/**
+ * Social Profile Facebook error message
+ * @since 3.3.2
+ */
+add_action('wp_ajax_wpscp_facebook_app_notice', 'wpscp_facebook_app_notice_ajax_callback');
+if (!function_exists('wpscp_facebook_app_notice_ajax_callback')) {
+	function wpscp_facebook_app_notice_ajax_callback()
+	{
+		set_transient('wpscp_facebook_app_notice_is_disable', true);
+		wp_die(); // this is required to terminate immediately and return a proper response
+	}
+}
+
 add_action('wpscp_social_profile_twitter_notice', 'wpscp_social_profile_twitter_notice_callback');
 if (!function_exists('wpscp_social_profile_twitter_notice_callback')) {
 	function wpscp_social_profile_twitter_notice_callback()
@@ -783,6 +796,25 @@ if (!function_exists('wpscp_social_profile_twitter_notice_callback')) {
 		?>
 			<div class="notice notice-error is-dismissible wpscp-twitter-app-notice">
 				<p><strong><?php esc_html_e('Recommended:', 'wp-schedule-posts'); ?></strong><?php esc_html_e(' Due to Twitter Rules, make sure to create your own Twitter App to use this feature. For more info, check out this ', 'wp-schedule-posts'); ?><a class="docs" href="https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/" target="_blank"><?php esc_html_e('Doc', 'wp-schedule-posts'); ?></a></p>
+			</div>
+		<?php
+		}
+	}
+}
+
+add_action('wpscp_social_profile_facebook_notice', 'wpscp_social_profile_facebook_notice_callback');
+if (!function_exists('wpscp_social_profile_facebook_notice_callback')) {
+	function wpscp_social_profile_facebook_notice_callback()
+	{
+		$facebookSocialProfile = get_option(WPSCP_FACEBOOK_OPTION_NAME);
+		if (
+			is_array($facebookSocialProfile)  &&
+			count($facebookSocialProfile) > 0 &&
+			boolval(get_transient('wpscp_facebook_app_notice_is_disable')) !== true
+		) {
+		?>
+			<div class="notice notice-error is-dismissible wpscp-facebook-app-notice">
+				<p><strong><?php esc_html_e('Recommended:', 'wp-schedule-posts'); ?></strong><?php esc_html_e(' Due to Facebook Rules, make sure to create your own Facebook App to use this feature. For more info, check out this ', 'wp-schedule-posts'); ?><a class="docs" href="https://wpdeveloper.net/docs/share-scheduled-posts-facebook/" target="_blank"><?php esc_html_e('Doc', 'wp-schedule-posts'); ?></a></p>
 			</div>
 <?php
 		}

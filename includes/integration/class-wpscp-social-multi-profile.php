@@ -763,6 +763,18 @@ if (!class_exists('wpscp_social_multi_profile')) {
                     wp_send_json_error($error->getMessage());
                     wp_die();
                 }
+            } else if ($type == 'facebook') {
+                if (!$this->social_single_profile_checkpoint($type)) {
+                    wp_send_json_error($this->multiProfileErrorMessage);
+                    wp_die();
+                }
+                $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=wp-scheduled-posts'));
+                $state = base64_encode(json_encode($request));
+                $url = "https://www.facebook.com/dialog/oauth?client_id="
+                    . $app_id . "&redirect_uri=" . urlencode(WPSCP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE) . "&state="
+                    . $state . "&scope=" . WPSCP_FACEBOOK_SCOPE;
+                wp_send_json_success($url);
+                wp_die();
             }
         }
     }

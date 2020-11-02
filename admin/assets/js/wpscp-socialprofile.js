@@ -1123,6 +1123,12 @@ jQuery(document).ready(function ($) {
                 '<a class="docs" href="https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/" target="_blank">Doc</a> <br />' +
                 '<a href="https://developer.twitter.com/" target="_blank"><strong>Click here</strong></a> here to Retrieve Your API Keys from your Twitter account</p>' +
                 '</div>'
+            var facebook =
+                '<h3>Facebook</h3>' +
+                '<p> For details on Facebook configuration, check out this ' +
+                '<a class="docs" href="https://wpdeveloper.net/docs/share-scheduled-posts-facebook/" target="_blank">Doc</a> <br />' +
+                '<a href="https://developers.facebook.com/" target="_blank"><strong>Click here</strong></a> here to Retrieve Your API Keys from your Facebook account</p>' +
+                '</div>'
 
             // add header markup
             var header = ''
@@ -1130,15 +1136,19 @@ jQuery(document).ready(function ($) {
             if (type === 'pinterest') {
                 header = pinterest
                 redirectURLDescription =
-                    'Copy this and paste it in your Pinterest app redirect uri field.'
+                    'Copy this and paste it in your Pinterest app redirect URI field.'
             } else if (type === 'linkedin') {
                 header = linkedin
                 redirectURLDescription =
-                    'Copy this and paste it in your Linkdin app redirect uri field.'
+                    'Copy this and paste it in your Linkdin app redirect URI field.'
             } else if (type === 'twitter') {
                 header = twitter
                 redirectURLDescription =
-                    'Copy this and paste it in your Twitter app Callback uri field.'
+                    'Copy this and paste it in your Twitter app Callback URI field.'
+            } else if (type === 'facebook') {
+                header = facebook
+                redirectURLDescription =
+                    'Copy this and paste it in your Facebook app Callback URI field.'
             }
             header +=
                 '<input type="hidden" name="tempmodaltype" value="' +
@@ -1265,6 +1275,24 @@ jQuery(document).ready(function ($) {
         function () {
             var data = {
                 action: 'wpscp_twitter_app_notice',
+                whatever: 1234,
+            }
+
+            // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
+            jQuery.post(ajaxurl, data, function (response) {
+                console.log(response)
+            })
+        }
+    )
+    /**
+     * Facebook Notice for temp
+     * @since 3.3.2
+     */
+    jQuery('.wpscp-facebook-app-notice .notice-dismiss').on(
+        'click',
+        function () {
+            var data = {
+                action: 'wpscp_facebook_app_notice',
                 whatever: 1234,
             }
 

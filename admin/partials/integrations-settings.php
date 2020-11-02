@@ -63,13 +63,15 @@
 			</div>
 			<div class="wpscp-social-tab__item-list">
 				<?php
+				do_action('wpscp_social_profile_facebook_notice');
 				do_action('wpscp_social_profile_template_list_view',  array(
 					'social_profile'	=> 'facebook',
 					'status'			=> $facebookStatus
 				));
 				?>
 			</div>
-			<button class="wpscp-social-tab__btn wpscp-social-tab__btn--facebook wpscp-social-tab__btn--addnew-profile">
+			<!-- temp account add it will be remove after approve real app -->
+			<button data-type="facebook" class="wpscp-social-tab__btn wpscp-social-tab__btn--facebook wpscp-social-tab__btn--temp-addnew-profile">
 				<img src="<?php print plugin_dir_url(__FILE__) . './../assets/images/icon-facebook.png'; ?>" alt="<?php esc_attr_e('icon', 'wp-scheduled-posts-pro'); ?>">
 				<?php esc_html_e('Add New Profile', 'wp-scheduled-posts-pro'); ?>
 			</button>
