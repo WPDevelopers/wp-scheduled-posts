@@ -80,6 +80,11 @@ class Installer
             // general settings
             global $wpsp_settings;
             $settings = $wpsp_settings;
+            // if failed run migration then it will start
+            if (empty($settings)) {
+                do_action('wpsp_run_active_installer', 'migrate');
+            }
+
             if (!empty($old_settings['show_dashboard_widget'])) {
                 $settings->is_show_dashboard_widget = $old_settings['show_dashboard_widget'];
             }
