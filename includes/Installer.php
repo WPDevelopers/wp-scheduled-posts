@@ -39,23 +39,21 @@ class Installer
 
     public function run_deactivate_installer()
     {
-        if (delete_transient(WPSP_SETTINGS_NAME)) {
-            \WPSP\Admin\Settings\Config::build_settings();
-            set_transient(WPSP_SETTINGS_NAME, \WPSP\Admin\Settings\Builder::load());
-        }
+        delete_transient(WPSP_SETTINGS_NAME);
+        \WPSP\Admin\Settings\Config::build_settings();
+        set_transient(WPSP_SETTINGS_NAME, \WPSP\Admin\Settings\Builder::load());
     }
 
     public function set_settings_page_data()
     {
-        if (delete_transient(WPSP_SETTINGS_NAME)) {
-            \WPSP\Admin\Settings\Config::build_settings();
-            if (class_exists('WPSP_PRO')) {
-                \WPSP_PRO\Admin\Settings\Config::build_settings();
-                set_transient('wpsp_pro_build_setting_is_done', true);
-            }
-            \WPSP\Admin\Settings\Config::set_default_settings_fields_data();
-            set_transient(WPSP_SETTINGS_NAME, \WPSP\Admin\Settings\Builder::load());
+        delete_transient(WPSP_SETTINGS_NAME);
+        \WPSP\Admin\Settings\Config::build_settings();
+        if (class_exists('WPSP_PRO')) {
+            \WPSP_PRO\Admin\Settings\Config::build_settings();
+            set_transient('wpsp_pro_build_setting_is_done', true);
         }
+        \WPSP\Admin\Settings\Config::set_default_settings_fields_data();
+        set_transient(WPSP_SETTINGS_NAME, \WPSP\Admin\Settings\Builder::load());
     }
 
     public function wpsp_plugin_redirect()
@@ -269,7 +267,6 @@ class Installer
                 $settings->social_templates->pinterest[3]->template_structure = $pinterest['template_structure'];
                 $settings->social_templates->pinterest[4]->note_limit = $pinterest['pin_note_limit'];
             }
-
             update_option(WPSP_SETTINGS_NAME, json_encode($settings));
             update_option('wpsp_react_settings_migrate', true);
         }
