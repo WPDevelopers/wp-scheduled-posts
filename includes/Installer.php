@@ -22,8 +22,11 @@ class Installer
     public function run_active_installer($type)
     {
         if ($type === 'migrate') {
-            if (did_action('wpsp_run_active_installer') === 1) {
-                $this->set_settings_page_data();
+            if (get_transient('wpsp_pro_build_setting_is_done')) {
+                if (did_action('wpsp_run_active_installer') === 1) {
+                    $this->set_settings_page_data();
+                }
+                delete_transient('wpsp_pro_build_setting_is_done');
             }
         } else {
             if (get_transient('wpsp_pro_build_setting_is_done')) {
