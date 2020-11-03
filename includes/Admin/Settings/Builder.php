@@ -4,20 +4,28 @@ namespace WPSP\Admin\Settings;
 
 class Builder
 {
-    public static $tabs = array();
-    public static $fields = array();
     public static function load()
+    {
+        static $instance = false;
+
+        if (!$instance) {
+            $instance = self::innerload();
+        }
+
+        return $instance;
+    }
+    private static function innerload()
     {
         return self::build_settings(self::$tabs, self::$fields);
     }
-
+    public static $tabs = array();
+    public static $fields = array();
     public static function add_tab($tab)
     {
         // Bail if not array.
         if (!is_array($tab)) {
             return false;
         }
-
         // Assign to the tabs array
         return self::$tabs[$tab['id']] = $tab;
     }

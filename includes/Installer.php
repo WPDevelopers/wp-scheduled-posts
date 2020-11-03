@@ -21,39 +21,36 @@ class Installer
     }
     public function run_active_installer($type)
     {
-        if ($type === 'migrate') {
-            if (did_action('wpsp_run_active_installer') === 1) {
-                $this->set_settings_page_data();
-            }
-        } else {
-            if (get_transient('wpsp_pro_build_setting_is_done')) {
-                if (did_action('wpsp_run_active_installer') === 1) {
-                    $this->set_settings_page_data();
-                }
-                delete_transient('wpsp_pro_build_setting_is_done');
-            } else {
-                $this->set_settings_page_data();
-            }
-        }
+        $this->set_settings_page_data();
     }
 
     public function run_deactivate_installer()
     {
-        delete_transient(WPSP_SETTINGS_NAME);
-        \WPSP\Admin\Settings\Config::build_settings();
-        set_transient(WPSP_SETTINGS_NAME, \WPSP\Admin\Settings\Builder::load());
+        if (delete_transient(WPSP_SETTINGS_NAME)) {
+            \WPSP\Admin\Settings\Config::build_settings();
+            set_transient(WPSP_SETTINGS_NAME, \WPSP\Admin\Settings\Builder::load());
+        }
     }
 
     public function set_settings_page_data()
     {
         delete_transient(WPSP_SETTINGS_NAME);
-        \WPSP\Admin\Settings\Config::build_settings();
-        if (class_exists('WPSP_PRO')) {
-            \WPSP_PRO\Admin\Settings\Config::build_settings();
-            set_transient('wpsp_pro_build_setting_is_done', true);
+        if (isset($_REQUEST['checked']) && is_array($_REQUEST['checked'])) {
+            if (class_exists('WPSP_PRO')) {
+                \WPSP\Admin\Settings\Config::build_settings();
+                \WPSP_PRO\Admin\Settings\Config::build_settings();
+                \WPSP\Admin\Settings\Config::set_default_settings_fields_data();
+                set_transient(WPSP_SETTINGS_NAME,  \WPSP\Admin\Settings\Builder::load());
+            }
+        } else {
+            \WPSP\Admin\Settings\Config::build_settings();
+            if (class_exists('WPSP_PRO')) {
+                \WPSP_PRO\Admin\Settings\Config::build_settings();
+                delete_transient(WPSP_SETTINGS_NAME);
+            }
+            \WPSP\Admin\Settings\Config::set_default_settings_fields_data();
+            set_transient(WPSP_SETTINGS_NAME,  \WPSP\Admin\Settings\Builder::load());
         }
-        \WPSP\Admin\Settings\Config::set_default_settings_fields_data();
-        set_transient(WPSP_SETTINGS_NAME, \WPSP\Admin\Settings\Builder::load());
     }
 
     public function wpsp_plugin_redirect()
@@ -67,15 +64,16 @@ class Installer
 
     public function migrate()
     {
+        // general settings
+        global $wpsp_settings;
+        $settings = $wpsp_settings;
+
         // version update
         $this->set_version();
 
         $old_settings = get_option('wpscp_options');
-        if (!get_option('wpsp_react_settings_migrate') && $old_settings !== false) {
+        if ((!get_option('wpsp_react_settings_migrate') && $old_settings !== false) || empty($settings)) {
             do_action('wpsp_run_active_installer', 'migrate');
-            // general settings
-            global $wpsp_settings;
-            $settings = $wpsp_settings;
             // if failed run migration then it will start
             if (empty($settings)) {
                 do_action('wpsp_run_active_installer', 'migrate');

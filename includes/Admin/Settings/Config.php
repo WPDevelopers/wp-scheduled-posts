@@ -524,7 +524,6 @@ class Config
                 }
             }
         }
-        error_log(print_r($field, true));
         if (get_option(self::$settings_name) !== false) {
             $defaults = json_decode(get_option(self::$settings_name), true);
             $args = wp_parse_args($field, $defaults);
