@@ -81,40 +81,40 @@ class Installer
                 do_action('wpsp_run_active_installer', 'migrate');
             }
 
-            if (!empty($old_settings['show_dashboard_widget'])) {
+            if (isset($old_settings['show_dashboard_widget'])) {
                 $settings->is_show_dashboard_widget = $old_settings['show_dashboard_widget'];
             }
-            if (!empty($old_settings['show_in_front_end_adminbar'])) {
+            if (isset($old_settings['show_in_front_end_adminbar'])) {
                 $settings->is_show_sitewide_bar_posts = $old_settings['show_in_front_end_adminbar'];
             }
-            if (!empty($old_settings['show_in_adminbar'])) {
+            if (isset($old_settings['show_in_adminbar'])) {
                 $settings->is_show_admin_bar_posts = $old_settings['show_in_adminbar'];
             }
-            if (!empty($old_settings['allow_post_types'])) {
+            if (isset($old_settings['allow_post_types'])) {
                 $settings->allow_post_types = $old_settings['allow_post_types'];
             }
-            if (!empty($old_settings['allow_user_role'])) {
+            if (isset($old_settings['allow_user_role'])) {
                 $settings->allow_user_by_role = $old_settings['allow_user_role'];
             }
-            if (!empty($old_settings['allow_categories'])) {
+            if (isset($old_settings['allow_categories'])) {
                 $settings->allow_categories = $old_settings['allow_categories'];
             }
-            if (!empty($old_settings['adminbar_item_template'])) {
+            if (isset($old_settings['adminbar_item_template'])) {
                 $settings->adminbar_list_structure_template = $old_settings['adminbar_item_template'];
             }
-            if (!empty($old_settings['adminbar_title_length'])) {
+            if (isset($old_settings['adminbar_title_length'])) {
                 $settings->adminbar_list_structure_title_length = $old_settings['adminbar_title_length'];
             }
-            if (!empty($old_settings['adminbar_date_format'])) {
+            if (isset($old_settings['adminbar_date_format'])) {
                 $settings->adminbar_list_structure_date_format = $old_settings['adminbar_date_format'];
             }
-            if (!empty($old_settings['prevent_future_post'])) {
+            if (isset($old_settings['prevent_future_post'])) {
                 $settings->show_publish_post_button = $old_settings['prevent_future_post'];
             }
-            if (!empty($old_settings['calendar_default_schedule_time'])) {
+            if (isset($old_settings['calendar_default_schedule_time'])) {
                 $settings->calendar_schedule_time = $old_settings['calendar_default_schedule_time'];
             }
-            if (!empty($old_settings['is_republish_social_share'])) {
+            if (isset($old_settings['is_republish_social_share'])) {
                 $settings->is_republish_social_share = $old_settings['is_republish_social_share'];
             }
 
@@ -191,7 +191,7 @@ class Installer
             }
             // social template - facebook
             $wpscp_pro_fb_meta_head_support = get_option('wpscp_pro_fb_meta_head_support');
-            if (!empty($wpscp_pro_fb_meta_head_support)) {
+            if (!empty($wpscp_pro_fb_meta_head_support) && isset($settings->social_templates->facebook[0]->is_show_meta)) {
                 $settings->social_templates->facebook[0]->is_show_meta = $wpscp_pro_fb_meta_head_support;
             }
             $wpscp_pro_fb_content_type = get_option('wpscp_pro_fb_content_type');
