@@ -26,7 +26,14 @@ class Installer
                 $this->set_settings_page_data();
             }
         } else {
-            $this->set_settings_page_data();
+            if (get_transient('wpsp_pro_build_setting_is_done')) {
+                if (did_action('wpsp_run_active_installer') === 1) {
+                    $this->set_settings_page_data();
+                }
+                delete_transient('wpsp_pro_build_setting_is_done');
+            } else {
+                $this->set_settings_page_data();
+            }
         }
     }
 
@@ -36,6 +43,7 @@ class Installer
         \WPSP\Admin\Settings\Config::build_settings();
         if (class_exists('WPSP_PRO')) {
             \WPSP_PRO\Admin\Settings\Config::build_settings();
+            set_transient('wpsp_pro_build_setting_is_done', true);
         }
         \WPSP\Admin\Settings\Config::set_default_settings_fields_data();
         set_transient(WPSP_SETTINGS_NAME, \WPSP\Admin\Settings\Builder::load());

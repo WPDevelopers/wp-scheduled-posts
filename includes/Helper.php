@@ -87,7 +87,7 @@ class Helper
 
     public static function plugin_page_hook_suffix($current_post_type, $hook)
     {
-        $allow_post_types = (!empty(self::get_settings('allow_post_types')) ? array('post') : self::get_settings('allow_post_types'));
+        $allow_post_types = (!empty(self::get_settings('allow_post_types')) ? self::get_settings('allow_post_types') : array('post'));
         if (
             in_array($current_post_type, $allow_post_types) ||
             $hook == 'posts_page_' . WPSP_SETTINGS_SLUG . '-post' ||
