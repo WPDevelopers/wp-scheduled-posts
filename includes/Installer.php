@@ -22,11 +22,8 @@ class Installer
     public function run_active_installer($type)
     {
         if ($type === 'migrate') {
-            if (get_transient('wpsp_pro_build_setting_is_done')) {
-                if (did_action('wpsp_run_active_installer') === 1) {
-                    $this->set_settings_page_data();
-                }
-                delete_transient('wpsp_pro_build_setting_is_done');
+            if (did_action('wpsp_run_active_installer') === 1) {
+                $this->set_settings_page_data();
             }
         } else {
             if (get_transient('wpsp_pro_build_setting_is_done')) {
@@ -50,14 +47,15 @@ class Installer
 
     public function set_settings_page_data()
     {
-        delete_transient(WPSP_SETTINGS_NAME);
-        \WPSP\Admin\Settings\Config::build_settings();
-        if (class_exists('WPSP_PRO')) {
-            \WPSP_PRO\Admin\Settings\Config::build_settings();
-            set_transient('wpsp_pro_build_setting_is_done', true);
+        if (delete_transient(WPSP_SETTINGS_NAME)) {
+            \WPSP\Admin\Settings\Config::build_settings();
+            if (class_exists('WPSP_PRO')) {
+                \WPSP_PRO\Admin\Settings\Config::build_settings();
+                set_transient('wpsp_pro_build_setting_is_done', true);
+            }
+            \WPSP\Admin\Settings\Config::set_default_settings_fields_data();
+            set_transient(WPSP_SETTINGS_NAME, \WPSP\Admin\Settings\Builder::load());
         }
-        \WPSP\Admin\Settings\Config::set_default_settings_fields_data();
-        set_transient(WPSP_SETTINGS_NAME, \WPSP\Admin\Settings\Builder::load());
     }
 
     public function wpsp_plugin_redirect()
@@ -83,6 +81,7 @@ class Installer
             // if failed run migration then it will start
             if (empty($settings)) {
                 do_action('wpsp_run_active_installer', 'migrate');
+                return;
             }
 
             if (!empty($old_settings['show_dashboard_widget'])) {
@@ -177,19 +176,19 @@ class Installer
             $twitter_status = get_option('wpsp_twitter_integration_status');
             $pinterest = get_option('wpscp_pinterest_account');
             $pinterest_status = get_option('wpsp_pinterest_integration_status');
-            if ($facebook) {
+            if (is_array($facebook)) {
                 $settings->facebook_profile_list = $facebook;
                 $settings->facebook_profile_status = ($facebook_status == 'on' ? true : false);
             }
-            if ($twitter) {
+            if (is_array(($twitter))) {
                 $settings->twitter_profile_list = $twitter;
                 $settings->twitter_profile_status = ($twitter_status == 'on' ? true : false);
             }
-            if ($linkedin) {
+            if (is_array($linkedin)) {
                 $settings->linkedin_profile_list = $linkedin;
                 $settings->linkedin_profile_status = ($Linkedin_status == 'on' ? true : false);
             }
-            if ($pinterest) {
+            if (is_array($pinterest)) {
                 $settings->pinterest_profile_list = $pinterest;
                 $settings->pinterest_profile_status = ($pinterest_status == 'on' ? true : false);
             }
