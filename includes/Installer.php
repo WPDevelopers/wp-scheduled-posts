@@ -9,7 +9,7 @@ class Installer
     public function __construct()
     {
         add_action('wpsp_run_active_installer', array($this, 'run_active_installer'));
-        // add_action('admin_init', array($this, 'wpsp_plugin_redirect'));
+        add_action('wpsp_run_deactivate_installer', array($this, 'run_deactivate_installer'));
     }
     public function set_version()
     {
@@ -37,6 +37,14 @@ class Installer
             } else {
                 $this->set_settings_page_data();
             }
+        }
+    }
+
+    public function run_deactivate_installer()
+    {
+        if (delete_transient(WPSP_SETTINGS_NAME)) {
+            \WPSP\Admin\Settings\Config::build_settings();
+            set_transient(WPSP_SETTINGS_NAME, \WPSP\Admin\Settings\Builder::load());
         }
     }
 
