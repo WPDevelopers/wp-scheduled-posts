@@ -35,22 +35,19 @@ class Installer
     public function set_settings_page_data()
     {
         delete_transient(WPSP_SETTINGS_NAME);
-        if (isset($_REQUEST['checked']) && is_array($_REQUEST['checked'])) {
-            if (class_exists('WPSP_PRO')) {
-                \WPSP\Admin\Settings\Config::build_settings();
-                \WPSP_PRO\Admin\Settings\Config::build_settings();
-                \WPSP\Admin\Settings\Config::set_default_settings_fields_data();
-                set_transient(WPSP_SETTINGS_NAME,  \WPSP\Admin\Settings\Builder::load());
-            }
+        if (isset($_REQUEST['checked']) && is_array($_REQUEST['checked']) && class_exists('WPSP_PRO')) {
+            \WPSP\Admin\Settings\Config::build_settings();
+            \WPSP_PRO\Admin\Settings\Config::build_settings();
+            \WPSP\Admin\Settings\Config::set_default_settings_fields_data();
+        } else if (class_exists('WPSP_PRO')) {
+            \WPSP\Admin\Settings\Config::build_settings();
+            \WPSP_PRO\Admin\Settings\Config::build_settings();
+            \WPSP\Admin\Settings\Config::set_default_settings_fields_data();
         } else {
             \WPSP\Admin\Settings\Config::build_settings();
-            if (class_exists('WPSP_PRO')) {
-                \WPSP_PRO\Admin\Settings\Config::build_settings();
-                delete_transient(WPSP_SETTINGS_NAME);
-            }
             \WPSP\Admin\Settings\Config::set_default_settings_fields_data();
-            set_transient(WPSP_SETTINGS_NAME,  \WPSP\Admin\Settings\Builder::load());
         }
+        set_transient(WPSP_SETTINGS_NAME,  \WPSP\Admin\Settings\Builder::load());
     }
 
     public function wpsp_plugin_redirect()
@@ -77,6 +74,7 @@ class Installer
             // if failed run migration then it will start
             if (empty($settings)) {
                 do_action('wpsp_run_active_installer', 'migrate');
+                return;
             }
 
             if (isset($old_settings['show_dashboard_widget'])) {
@@ -171,19 +169,19 @@ class Installer
             $twitter_status = get_option('wpsp_twitter_integration_status');
             $pinterest = get_option('wpscp_pinterest_account');
             $pinterest_status = get_option('wpsp_pinterest_integration_status');
-            if (is_array($facebook)) {
+            if (!empty($facebook) && is_array($facebook)) {
                 $settings->facebook_profile_list = $facebook;
                 $settings->facebook_profile_status = ($facebook_status == 'on' ? true : false);
             }
-            if (is_array(($twitter))) {
+            if (!empty($twitter) && is_array(($twitter))) {
                 $settings->twitter_profile_list = $twitter;
                 $settings->twitter_profile_status = ($twitter_status == 'on' ? true : false);
             }
-            if (is_array($linkedin)) {
+            if (!empty($linkedin) && is_array($linkedin)) {
                 $settings->linkedin_profile_list = $linkedin;
                 $settings->linkedin_profile_status = ($Linkedin_status == 'on' ? true : false);
             }
-            if (is_array($pinterest)) {
+            if (!empty($pinterest) && is_array($pinterest)) {
                 $settings->pinterest_profile_list = $pinterest;
                 $settings->pinterest_profile_status = ($pinterest_status == 'on' ? true : false);
             }
