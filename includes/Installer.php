@@ -79,7 +79,6 @@ class Installer
             // if failed run migration then it will start
             if (empty($settings)) {
                 do_action('wpsp_run_active_installer', 'migrate');
-                return;
             }
 
             if (!empty($old_settings['show_dashboard_widget'])) {
