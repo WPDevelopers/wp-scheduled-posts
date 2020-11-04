@@ -393,14 +393,14 @@ if (!class_exists('wpscp_social_multi_profile')) {
             } else if ($type == 'facebook' && $code != "") {
                 try {
                     $tempAccessToken = $this->facebookGetAccessTokenDetails(
-                        WPSCP_FACEBOOK_APP_ID,
-                        WPSCP_FACEBOOK_APP_SECRET,
+                        $app_id,
+                        $app_secret,
                         WPSCP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE,
                         $code
                     );
 
                     if ($tempAccessToken != "") {
-                        $response = wp_remote_get('https://graph.facebook.com/v6.0/oauth/access_token?grant_type=fb_exchange_token&client_id=' . WPSCP_FACEBOOK_APP_ID . '&client_secret=' . WPSCP_FACEBOOK_APP_SECRET . '&fb_exchange_token=' . $tempAccessToken . '');
+                        $response = wp_remote_get('https://graph.facebook.com/v6.0/oauth/access_token?grant_type=fb_exchange_token&client_id=' . $app_id . '&client_secret=' . $app_secret . '&fb_exchange_token=' . $tempAccessToken . '');
                         if (is_array($response)) {
                             $header = $response['headers']; // array of http header lines
                             $body = $response['body']; // use the content
