@@ -35,10 +35,12 @@ class Installer
     public function set_settings_page_data()
     {
         delete_transient(WPSP_SETTINGS_NAME);
-        if (isset($_REQUEST['checked']) && is_array($_REQUEST['checked']) && class_exists('WPSP_PRO')) {
-            \WPSP\Admin\Settings\Config::build_settings();
-            \WPSP_PRO\Admin\Settings\Config::build_settings();
-            \WPSP\Admin\Settings\Config::set_default_settings_fields_data();
+        if (isset($_REQUEST['checked']) && is_array($_REQUEST['checked'])) {
+            if (class_exists('WPSP_PRO')) {
+                \WPSP\Admin\Settings\Config::build_settings();
+                \WPSP_PRO\Admin\Settings\Config::build_settings();
+                \WPSP\Admin\Settings\Config::set_default_settings_fields_data();
+            }
         } else if (class_exists('WPSP_PRO')) {
             \WPSP\Admin\Settings\Config::build_settings();
             \WPSP_PRO\Admin\Settings\Config::build_settings();
