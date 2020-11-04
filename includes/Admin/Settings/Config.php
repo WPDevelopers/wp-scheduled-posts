@@ -525,11 +525,9 @@ class Config
             }
         }
         if (get_option(self::$settings_name) !== false) {
-            $defaults = json_decode(get_option(self::$settings_name), true);
-            $args = wp_parse_args($field, $defaults);
-            update_option(self::$settings_name, json_encode($args));
+            update_option(self::$settings_name, json_encode(\wp_parse_args(\json_decode(get_option(self::$settings_name), true), $field)));
         } else {
-            add_option(self::$settings_name, json_encode($field));
+            add_option(self::$settings_name, \json_encode($field));
         }
     }
 }
