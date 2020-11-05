@@ -418,6 +418,8 @@ if (!class_exists('wpscp_social_multi_profile')) {
                         foreach ($userInfo->accounts->data as $page_item) {
                             array_push($page_array, array(
                                 'id' => $page_item->id,
+                                'app_id'  =>  $app_id,
+                                'app_secret' => $app_secret,
                                 'name' => $page_item->name,
                                 'thumbnail_url' => $page_item->picture->data->url,
                                 'type' => 'page',
@@ -437,6 +439,8 @@ if (!class_exists('wpscp_social_multi_profile')) {
                             if ($group->administrator === true) {
                                 array_push($group_array, array(
                                     'id' => $group->id,
+                                    'app_id'  =>  $app_id,
+                                    'app_secret' => $app_secret,
                                     'name' => $group->name,
                                     'thumbnail_url' => $group->picture->data->url,
                                     'type' => 'group',
