@@ -23,7 +23,7 @@ if (!class_exists('WpScp_Integration')) {
             $this->define('WPSCP_FACEBOOK_APP_ID', '2550061111706782');
             $this->define('WPSCP_FACEBOOK_APP_SECRET', '8bfa7101ac90a6cafd37d260a54c195b');
             $this->define('WPSCP_FACEBOOK_OPTION_NAME', 'wpscp_facebook_account');
-            $this->define('WPSCP_FACEBOOK_SCOPE', 'publish_pages,manage_pages,publish_to_groups');
+            $this->define('WPSCP_FACEBOOK_SCOPE', 'pages_show_list,publish_to_groups,pages_read_engagement,pages_manage_metadata,pages_read_user_content,pages_manage_ads,pages_manage_posts,pages_manage_engagement');
             // twitter
             $this->define('WPSCP_TWITTER_API_KEY', 'mN2t8LSxPAbp989EyeEL8GGdP');
             $this->define('WPSCP_TWITTER_API_SECRET_KEY', 'vbpvkuYbSOkueDLiaho047vMs4TY6V3j6qS1Qfwbi5skooMNp1');
