@@ -135,6 +135,12 @@ class Config
             'title' => __('Email Notify', 'wp-scheduled-posts'),
             'id' => 'wpsp_email_notify',
         ]);
+        // info
+        Builder::add_field('wpsp_email_notify', [
+            'id' => 'notify_doc',
+            'type' => 'rawhtml',
+            'content'   => esc_html__('To configure the Email Notify Settings, check out this', 'wp-scheduled-posts') . ' <a class="docs" href="https://wpdeveloper.net/docs/email-notification-wordpress" target="_blank">' . esc_html__('Doc', 'wp-scheduled-posts') . '</a>'
+        ]);
         // under review
         Builder::add_field('wpsp_email_notify', [
             'id' => 'notify_author_post_is_review',
