@@ -122,10 +122,9 @@ class Helper
      */
     public static function email_notify_review_email_list()
     {
-        global $wpdb;
         $email = array();
         // collect email from role
-        $roles = get_option('wpscp_notify_author_role_sent_review');
+        $roles = self::get_settings('notify_author_post_review_by_role');
         if (!empty($roles)) {
             $email = wp_list_pluck(get_users(array(
                 'fields'     => array('user_email'),
@@ -133,12 +132,12 @@ class Helper
             )), 'user_email');
         }
         // collect email from email fields
-        $meta_email = array_values(get_option('wpscp_notify_author_email_sent_review'));
+        $meta_email = array_values(self::get_settings('notify_author_post_review_by_email'));
         if (!empty($meta_email)) {
             $email = array_merge($email, $meta_email);
         }
         // get email from username
-        $meta_username = get_option('wpscp_notify_author_username_sent_review');
+        $meta_username = self::get_settings('notify_author_post_review_by_username');
         if (!empty($meta_username)) {
             $email = array_merge($email, wp_list_pluck(get_users(array(
                 'fields'     => array('user_email'),
@@ -150,10 +149,9 @@ class Helper
 
     public static function email_notify_schedule_email_list()
     {
-        global $wpdb;
         $email = array();
         // collect email from role
-        $roles = get_option('wpscp_notify_author_post_schedule_role');
+        $roles = self::get_settings('notify_author_post_scheduled_by_role');
         if (!empty($roles)) {
             $email = wp_list_pluck(get_users(array(
                 'fields'     => array('user_email'),
@@ -161,12 +159,12 @@ class Helper
             )), 'user_email');
         }
         // collect email from email fields
-        $meta_email = array_values(get_option('wpscp_notify_author_post_schedule_email'));
+        $meta_email = array_values(self::get_settings('notify_author_post_scheduled_by_email'));
         if (!empty($meta_email)) {
             $email = array_merge($email, $meta_email);
         }
         // get email from username
-        $meta_username = get_option('wpscp_notify_author_post_schedule_username');
+        $meta_username = self::get_settings('notify_author_post_scheduled_by_username');
         if (!empty($meta_username)) {
             $email = array_merge($email, wp_list_pluck(get_users(array(
                 'fields'     => array('user_email'),
