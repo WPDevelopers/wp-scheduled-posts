@@ -9,6 +9,7 @@ class Installer
     public function __construct()
     {
         add_action('wpsp_run_active_installer', array($this, 'run_active_installer'));
+        add_action('plugins_loaded', array($this, 'plugin_redirect'), 90);
         add_action('wpsp_run_deactivate_installer', array($this, 'run_deactivate_installer'));
     }
     public function set_version()
@@ -52,11 +53,11 @@ class Installer
         set_transient(WPSP_SETTINGS_NAME,  \WPSP\Admin\Settings\Builder::load());
     }
 
-    public function wpsp_plugin_redirect()
+    public function plugin_redirect()
     {
         if (get_option('wpsp_do_activation_redirect', false)) {
             delete_option('wpsp_do_activation_redirect');
-            wp_redirect("admin.php?page=" . WPSP_SETTINGS_SLUG);
+            wp_safe_redirect(admin_url('admin.php?page=' . WPSP_SETTINGS_SLUG));
         }
     }
 
