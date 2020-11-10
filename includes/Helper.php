@@ -108,7 +108,8 @@ class Helper
             in_array($current_post_type, $allow_post_types) ||
             $hook == 'posts_page_' . WPSP_SETTINGS_SLUG . '-post' ||
             $hook == 'toplevel_page_' .  WPSP_SETTINGS_SLUG ||
-            $hook == 'scheduled-posts_page_' . WPSP_SETTINGS_SLUG
+            $hook == WPSP_SETTINGS_SLUG . '_page_' . WPSP_SETTINGS_SLUG ||
+            $hook == WPSP_SETTINGS_SLUG . '_page_' . WPSP_SETTINGS_SLUG . '-calendar'
         ) {
             return true;
         }
