@@ -7,6 +7,12 @@ use WPSP\Traits\SocialHelper;
 class Facebook
 {
     use SocialHelper;
+    private $is_show_meta;
+    private $content_type;
+    private $is_category_as_tags;
+    private $content_source;
+    private $template_structure;
+    private $status_limit;
 
     public function __construct()
     {
@@ -14,6 +20,15 @@ class Facebook
 
     public function instance()
     {
+        $settings = \WPSP\Helper::get_settings('social_templates');
+        $settings = $settings->facebook;
+        $this->is_show_meta = (isset($settings[0]->is_show_meta) ? $settings[0]->is_show_meta : '');
+        $this->content_type = (isset($settings[1]->content_type) ? $settings[1]->content_type : '');
+        $this->is_category_as_tags = (isset($settings[2]->is_category_as_tags) ? $settings[2]->is_category_as_tags : '');
+        $this->content_source = (isset($settings[3]->content_source) ? $settings[3]->content_source : '');
+        $this->template_structure = (isset($settings[4]->template_structure) ? $settings[4]->template_structure : '');
+        $this->status_limit = (isset($settings[5]->status_limit) ? $settings[5]->status_limit : '');
+
         $this->facebook_head_meta_data();
         // hook
         add_action('publish_future_post', array($this, 'WpScp_Facebook_post_event'), 30, 1);
@@ -53,7 +68,8 @@ class Facebook
 
     public function facebook_head_meta_data()
     {
-        if (get_option('wpscp_pro_fb_meta_head_support') == 'yes') {
+        $settings = \WPSP\Helper::get_settings('social_templates');
+        if (isset($settings->facebook[0]->is_show_meta) && $settings->facebook[0]->is_show_meta == 'yes') {
             add_filter('language_attributes', array($this, 'wpscp_pro_add_opengraph_doctype'));
             add_action('wp_head', array($this, 'WpScp_Facebook_meta_head'), 5);
         }
@@ -122,7 +138,7 @@ class Facebook
         // post permalink
         $title = get_the_title($post_id);
         $post_link = esc_url(get_permalink($post_id));
-        if (get_option('wpscp_pro_fb_content_source') === 'excerpt' && has_excerpt($post_details->ID)) {
+        if ($this->content_source === 'excerpt' && has_excerpt($post_details->ID)) {
             $desc = wp_strip_all_tags($post_details->post_excerpt);
         } else {
             $desc = wp_strip_all_tags($post_details->post_content);
@@ -130,19 +146,19 @@ class Facebook
 
 
         $hashTags = (($this->getPostHasTags($post_id) != false) ? $this->getPostHasTags($post_id) : '');
-        if (get_option('wpscp_pro_fb_template_category_tags_support') == 'yes') {
+        if ($this->is_category_as_tags == true) {
             $hashTags .= ' ' . $this->getPostHasCats($post_id);
         }
-        $content_type = get_option('wpscp_pro_fb_content_type');
+        $content_type = $this->content_type;
         if ($content_type == 'status' || $content_type == 'statusandlink') {
 
             // change structure
-            $facebook_template_structure = get_option('WpScp_Facebook_template_structure');
+            $facebook_template_structure = $this->template_structure;
             if (empty($facebook_template_structure) || $facebook_template_structure == '') {
                 $facebook_template_structure = '{title}{content}{url}{tags}';
             }
 
-            $content_limit = (get_option('WpScp_Facebook_status_limit') !== false ? get_option('WpScp_Facebook_status_limit') : 63206);
+            $content_limit = (!empty($this->status_limit) ? $this->status_limit : 63206);
 
             // text formated
             $formatedText = $this->social_share_content_template_structure(

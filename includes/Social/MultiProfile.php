@@ -16,7 +16,6 @@ class MultiProfile
          * Social Mulit Profile ajax 
          * @since 2.5.0
          */
-        add_action('wp_ajax_wpscp_multi_social_remove_profile', array($this, 'multi_social_remove_profile'));
         // social profile oauth url generator
         add_action('wp_ajax_wpscp_social_add_profile', array($this, 'add_social_profile'));
         add_action('wp_ajax_wpscp_social_profile_fetch_user_info_and_token', array($this, 'social_profile_fetch_user_info_and_token'));
@@ -40,49 +39,27 @@ class MultiProfile
 
 
 
-    /**
-     * Ajax Social multi profile item remove
-     * @since 2.5.0
-     * @return bool
-     */
-    public function multi_social_remove_profile()
-    {
-        $ID = (($_POST['ID'] != "") ? $_POST['ID'] : null);
-        $option_name = (isset($_POST['option_name']) ? $_POST['option_name'] : '');
-        $existingData = get_option($option_name);
-        if ($existingData != false) {
-            if (array_key_exists($ID, $existingData)) {
-                unset($existingData[$ID]); // remove item
-                $updateData = update_option($option_name, $existingData);
-                wp_send_json_success($updateData);
-                wp_die();
-            }
-        } else {
-            wp_send_json_error("Setting Api Option name or remove id not found. please try again");
-            wp_die();
-        }
-    }
 
     public function social_single_profile_checkpoint($platform)
     {
         if ($platform == 'pinterest') {
-            $social_profile = get_option(WPSCP_PINTEREST_OPTION_NAME);
-            if ($social_profile !== false && count($social_profile) >= 1 && !class_exists('WpScp_Pro')) {
+            $social_profile = \WPSP\Helper::get_settings('pinterest_profile_list');
+            if ($social_profile !== false && count($social_profile) >= 1 && !class_exists('WPSP_PRO')) {
                 return false;
             }
         } else if ($platform == 'facebook') {
-            $social_profile = get_option(WPSCP_FACEBOOK_OPTION_NAME);
-            if ($social_profile !== false && count($social_profile) >= 1 && !class_exists('WpScp_Pro')) {
+            $social_profile = \WPSP\Helper::get_settings('facebook_profile_list');
+            if ($social_profile !== false && count($social_profile) >= 1 && !class_exists('WPSP_PRO')) {
                 return false;
             }
         } else if ($platform == 'twitter') {
-            $social_profile = get_option(WPSCP_TWITTER_OPTION_NAME);
-            if ($social_profile !== false && count($social_profile) >= 1 && !class_exists('WpScp_Pro')) {
+            $social_profile = \WPSP\Helper::get_settings('twitter_profile_list');
+            if ($social_profile !== false && count($social_profile) >= 1 && !class_exists('WPSP_PRO')) {
                 return false;
             }
         } else if ($platform == 'linkedin') {
-            $social_profile = get_option(WPSCP_LINKEDIN_OPTION_NAME);
-            if ($social_profile !== false && count($social_profile) >= 1 && !class_exists('WpScp_Pro')) {
+            $social_profile = \WPSP\Helper::get_settings('linkedin_profile_list');
+            if ($social_profile !== false && count($social_profile) >= 1 && !class_exists('WPSP_PRO')) {
                 return false;
             }
         }

@@ -8,12 +8,15 @@ use WPSP\Traits\SocialHelper;
 class Linkedin
 {
     use SocialHelper;
+    private $settings;
     public function __construct()
     {
     }
 
     public function instance()
     {
+        $this->settings = \WPSP\Helper::get_settings('social_templates');
+        $this->settings = $this->settings->linkedin;
         // hook
         add_action('publish_future_post', array($this, 'WpScp_linkedin_post_event'), 30, 1);
         add_action('WpScp_linkedin_post', array($this, 'WpScp_linkedin_post'), 15, 1);
@@ -70,21 +73,21 @@ class Linkedin
         $post_details = get_post($post_id);
         $title = get_the_title($post_id);
         $post_link = esc_url(get_permalink($post_id));;
-        if (get_option('WpScp_linkedin_content_source') === 'excerpt' && has_excerpt($post_details->ID)) {
+        if (isset($this->settings[2]->content_source) && $this->settings[2]->content_source === 'excerpt' && has_excerpt($post_details->ID)) {
             $desc = wp_strip_all_tags($post_details->post_excerpt);
         } else {
             $desc = wp_strip_all_tags($post_details->post_content);
         }
         $hashTags = (($this->getPostHasTags($post_id) != false) ? $this->getPostHasTags($post_id) : '');
-        if (get_option('wpscp_pro_liinkedin_template_category_tags_support') == 'yes') {
+        if (isset($this->settings[1]->is_category_as_tags) && $this->settings[1]->is_category_as_tags == true) {
             $hashTags .= ' ' . $this->getPostHasCats($post_id);
         }
 
         // status limit
-        $status_limit = (get_option('WpScp_linkedin_status_limit') !== false ? get_option('WpScp_linkedin_status_limit') : 1300);
+        $status_limit = (isset($this->settings[4]->status_limit) ? $this->settings[4]->status_limit : 1300);
 
         // change structure
-        $linkedin_template_structure = get_option('WpScp_linkedin_template_structure');
+        $linkedin_template_structure = $this->settings[3]->template_structure;
         if (empty($linkedin_template_structure) || $linkedin_template_structure == '') {
             $linkedin_template_structure = '{title}{content}{url}{tags}';
         }
@@ -126,14 +129,14 @@ class Linkedin
             $getPersonID = $linkedin->getPersonID($acessToken);
 
             $results = "";
-            if (get_option('WpScp_linkedin_content_type') == 'status') {
+            if (isset($this->settings[2]->content_source) && $this->settings[2]->content_source == 'status') {
                 $formatedText = $this->get_formatted_text($post_id);
                 $results = $linkedin->linkedInTextPost($acessToken, $getPersonID, $formatedText);
             } else {
                 $post_details = get_post($post_id);
                 $title = get_the_title($post_id);
                 $post_link = get_permalink($post_id);
-                if (get_option('WpScp_linkedin_content_source') === 'excerpt' && has_excerpt($post_details->ID)) {
+                if (isset($this->settings[2]->content_source) && $this->settings[2]->content_source == 'excerpt' && has_excerpt($post_details->ID)) {
                     $desc = wp_strip_all_tags($post_details->post_excerpt);
                 } else {
                     $desc = wp_strip_all_tags($post_details->post_content);

@@ -9,12 +9,25 @@ use WPSP\Traits\SocialHelper;
 class Twitter
 {
     use SocialHelper;
+    private $template_structure;
+    private $is_category_as_tags;
+    private $is_show_post_thumbnail;
+    private $content_source;
+    private $tweet_limit;
+
     public function __construct()
     {
     }
 
     public function instance()
     {
+        $settings = \WPSP\Helper::get_settings('social_templates');
+        $settings = $settings->twitter;
+        $this->template_structure = (isset($settings[0]->template_structure) ? $settings[0]->template_structure : '');
+        $this->is_category_as_tags = (isset($settings[1]->is_category_as_tags) ? $settings[1]->is_category_as_tags : '');
+        $this->is_show_post_thumbnail = (isset($settings[2]->is_show_post_thumbnail) ? $settings[2]->is_show_post_thumbnail : '');
+        $this->content_source = (isset($settings[3]->content_source) ? $settings[3]->content_source : '');
+        $this->tweet_limit = (isset($settings[4]->tweet_limit) ? $settings[4]->tweet_limit : '');
         // 'wpsp_twitter_post_event' runs when a Post is Published
         add_action('publish_future_post', array($this, 'wpsp_twitter_post_event'), 20, 1);
         add_action('wpsp_twitter_post', array($this, 'wpsp_twitter_post'), 10, 1);
@@ -72,7 +85,7 @@ class Twitter
         $post_details = get_post($post_id);
         $post_link = esc_url(get_permalink($post_id));
         $title = $post_details->post_title;
-        if (get_option('wpscp_twitter_content_source') === 'excerpt' && has_excerpt($post_details->ID)) {
+        if ($this->content_source === 'excerpt' && has_excerpt($post_details->ID)) {
             $desc = wp_strip_all_tags($post_details->post_excerpt);
         } else {
             $desc = wp_strip_all_tags($post_details->post_content);
@@ -80,19 +93,19 @@ class Twitter
 
 
         $hashTags = (($this->getPostHasTags($post_id) != false) ? $this->getPostHasTags($post_id) : '');
-        if (get_option('wpscp_twitter_template_category_tags_support') == 'yes') {
+        if ($this->is_category_as_tags == true) {
             $hashTags .= ' ' . $this->getPostHasCats($post_id);
         }
 
         $parameters = [];
 
         // change structure
-        $twitter_template_structure = get_option('wpscp_twitter_template_structure');
+        $twitter_template_structure = $this->template_structure;
         if (empty($twitter_template_structure)) {
             $twitter_template_structure = '{title}{content}{url}{tags}';
         }
         // limit
-        $tweet_limit = (get_option('wpscp_twitter_tweet_limit') !== false ? get_option('wpscp_twitter_tweet_limit') : 280);
+        $tweet_limit = (!empty($this->tweet_limit) ? $this->tweet_limit : 280);
 
         // text formated
         $formatedText = $this->social_share_content_template_structure(
@@ -130,7 +143,7 @@ class Twitter
             $parameters = $this->get_share_content_args($post_id);
 
             // allow thumbnail will be share
-            if (get_option('wpscp_twitter_template_thumbnail') == 'yes') {
+            if ($this->is_show_post_thumbnail == true) {
                 $socialShareImage = get_post_meta($post_id, '_wpscppro_custom_social_share_image', true);
                 if ($socialShareImage != "") {
                     $thumbnail_src = wp_get_attachment_image_src($socialShareImage, 'full');

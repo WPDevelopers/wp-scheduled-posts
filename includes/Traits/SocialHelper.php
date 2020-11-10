@@ -82,7 +82,7 @@ trait SocialHelper
      */
     public function setOptionForSocialTokenExpired($option_name, $key)
     {
-        $oldData = get_option($option_name);
+        $oldData = \WPSP\Helper::get_settings($option_name);
         $oldData[$key]['token_expired'] = true;
         $oldData[$key]['status'] = false;
         $updatedData = $oldData;

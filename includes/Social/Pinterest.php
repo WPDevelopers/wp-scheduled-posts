@@ -7,12 +7,24 @@ use WPSP\Traits\SocialHelper;
 class Pinterest
 {
     use SocialHelper;
+    private $is_set_image_link;
+    private $is_category_as_tags;
+    private $content_source;
+    private $template_structure;
+    private $note_limit;
     public function __construct()
     {
     }
 
     public function instance()
     {
+        $settings = \WPSP\Helper::get_settings('social_templates');
+        $settings = $settings->pinterest;
+        $this->is_set_image_link = (isset($settings[0]->is_set_image_link) ? $settings[0]->is_set_image_link : '');
+        $this->is_category_as_tags = (isset($settings[1]->is_category_as_tags) ? $settings[1]->is_category_as_tags : '');
+        $this->content_source = (isset($settings[2]->content_source) ? $settings[2]->content_source : '');
+        $this->template_structure = (isset($settings[3]->template_structure) ? $settings[3]->template_structure : '');
+        $this->note_limit = (isset($settings[4]->note_limit) ? $settings[4]->note_limit : '');
         // hook
         add_action('publish_future_post', array($this, 'WpScp_pinterest_post_event'), 30, 1);
         add_action('WpScp_pinterest_post', array($this, 'WpScp_pinterest_post'), 15, 2);
@@ -88,12 +100,11 @@ class Pinterest
         }
 
         // generate pin note content
-        $template_settings = get_option('WpScp_pinterest_template_settings');
-        $template_content_strucutre = (isset($template_settings['template_structure']) ? $template_settings['template_structure'] : '{title}');
-        $template_category_tags_support = (isset($template_settings['template_category_tags_support']) ? $template_settings['template_category_tags_support'] : '');
-        $add_image_link = (isset($template_settings['add_image_link']) ? $template_settings['add_image_link'] : 'yes');
-        $pin_note_limit = (isset($template_settings['pin_note_limit']) ? $template_settings['pin_note_limit'] : 500);
-        $content_source = (isset($template_settings['content_source']) ? $template_settings['content_source'] : '');
+        $template_content_strucutre = $this->template_structure;
+        $template_category_tags_support = $this->is_category_as_tags;
+        $add_image_link = $this->is_set_image_link;
+        $pin_note_limit = (!empty($this->note_limit) ? $this->note_limit : 500);
+        $content_source = $this->content_source;
         // tags
         $hashTags = (($this->getPostHasTags($post_id) != false) ? $this->getPostHasTags($post_id) : '');
         if ($template_category_tags_support == 'yes') {

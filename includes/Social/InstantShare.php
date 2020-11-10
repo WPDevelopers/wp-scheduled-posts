@@ -26,16 +26,15 @@ class InstantShare
     {
         wp_nonce_field(basename(__FILE__), 'wpscp_pro_instant_social_share_nonce');
         // status
-        $twitterIntegation = get_option('wpsp_twitter_integration_status');
-        $facebookIntegation = get_option('wpsp_facebook_integration_status');
-        $linkedinIntegation = get_option('wpsp_linkedin_integration_status');
-        $instagramIntegation = get_option('wpsp_instagram_integration_status');
-        $pinterestIntegation = get_option('wpsp_pinterest_integration_status');
+        $twitterIntegation = \WPSP\Helper::get_settings('twitter_profile_status');
+        $facebookIntegation = \WPSP\Helper::get_settings('facebook_profile_status');
+        $linkedinIntegation = \WPSP\Helper::get_settings('linkedin_profile_status');
+        $pinterestIntegation = \WPSP\Helper::get_settings('pinterest_profile_status');
         // profile
-        $facebookProfile = get_option(WPSCP_FACEBOOK_OPTION_NAME);
-        $twitterProfile = get_option(WPSCP_TWITTER_OPTION_NAME);
-        $linkedinProfile = get_option(WPSCP_LINKEDIN_OPTION_NAME);
-        $pinterestProfile = get_option(WPSCP_PINTEREST_OPTION_NAME);
+        $facebookProfile = \WPSP\Helper::get_settings('facebook_profile_list');
+        $twitterProfile = \WPSP\Helper::get_settings('twitter_profile_list');
+        $linkedinProfile = \WPSP\Helper::get_settings('linkedin_profile_list');
+        $pinterestProfile = \WPSP\Helper::get_settings('pinterest_profile_list');
 ?>
         <div class="wpscppro-instantshare">
             <!-- skip share -->

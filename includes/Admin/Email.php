@@ -17,22 +17,19 @@ class Email
     public $notify_author_post_is_publish;
     public function __construct()
     {
-        $this->set_local_variable_data_from_db();
+        $this->notify_author_is_sent_review = \WPSP\Helper::get_settings('notify_author_post_is_review');
+        $this->notify_author_role_sent_review = \WPSP\Helper::get_settings('notify_author_post_review_by_role');
+        $this->notify_author_username_sent_review = \WPSP\Helper::get_settings('notify_author_post_review_by_username');
+        $this->notify_author_email_sent_review = \WPSP\Helper::get_settings('notify_author_post_review_by_email');
+        $this->notify_author_post_is_rejected = \WPSP\Helper::get_settings('notify_author_post_is_rejected');
+        $this->notify_author_post_is_schedule = \WPSP\Helper::get_settings('notify_author_post_is_scheduled');
+        $this->notify_author_post_schedule_role = \WPSP\Helper::get_settings('notify_author_post_scheduled_by_role');
+        $this->notify_author_post_schedule_username = \WPSP\Helper::get_settings('notify_author_post_scheduled_by_username');
+        $this->notify_author_post_schedule_email = \WPSP\Helper::get_settings('notify_author_post_scheduled_by_email');
+        $this->notify_author_schedule_post_is_publish = \WPSP\Helper::get_settings('notify_author_post_scheduled_to_publish');
+        $this->notify_author_post_is_publish = \WPSP\Helper::get_settings('notify_author_post_is_publish');
+
         $this->send_email_notification();
-    }
-    public function set_local_variable_data_from_db()
-    {
-        $this->notify_author_is_sent_review = get_option('wpscp_notify_author_is_sent_review');
-        $this->notify_author_role_sent_review = get_option('wpscp_notify_author_role_sent_review');
-        $this->notify_author_username_sent_review = get_option('wpscp_notify_author_username_sent_review');
-        $this->notify_author_email_sent_review = get_option('wpscp_notify_author_email_sent_review');
-        $this->notify_author_post_is_rejected = get_option('wpscp_notify_author_post_is_rejected');
-        $this->notify_author_post_is_schedule = get_option('wpscp_notify_author_post_is_schedule');
-        $this->notify_author_post_schedule_role = get_option('wpscp_notify_author_post_schedule_role');
-        $this->notify_author_post_schedule_username = get_option('wpscp_notify_author_post_schedule_username');
-        $this->notify_author_post_schedule_email = get_option('wpscp_notify_author_post_schedule_email');
-        $this->notify_author_schedule_post_is_publish = get_option('wpscp_notify_author_schedule_post_is_publish');
-        $this->notify_author_post_is_publish = get_option('wpscp_notify_author_post_is_publish');
     }
 
     /**
