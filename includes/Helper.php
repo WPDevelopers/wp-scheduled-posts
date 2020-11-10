@@ -44,6 +44,21 @@ class Helper
         return $p . $r;
     }
 
+    public static function get_all_cats_id_to_slugs($allids)
+    {
+        $catSlug = array();
+        if (is_array($allids)) {
+            foreach ($allids as $id) {
+                if ($id == 0) {
+                    $catSlug[] = 'All Categories';
+                } else {
+                    $catSlug[] = \get_the_category_by_ID($id);
+                }
+            }
+        }
+        return $catSlug;
+    }
+
     public static function get_all_roles()
     {
         if (!function_exists('get_editable_roles')) {

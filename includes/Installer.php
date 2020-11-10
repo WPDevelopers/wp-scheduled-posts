@@ -95,7 +95,7 @@ class Installer
                 $settings->allow_user_by_role = $old_settings['allow_user_role'];
             }
             if (isset($old_settings['allow_categories'])) {
-                $settings->allow_categories = $old_settings['allow_categories'];
+                $settings->allow_categories = Helper::get_all_cats_id_to_slugs($old_settings['allow_categories']);
             }
             if (isset($old_settings['adminbar_item_template'])) {
                 $settings->adminbar_list_structure_template = $old_settings['adminbar_item_template'];
@@ -189,7 +189,7 @@ class Installer
             }
             // social template - facebook
             $wpscp_pro_fb_meta_head_support = get_option('wpscp_pro_fb_meta_head_support');
-            if (!empty($wpscp_pro_fb_meta_head_support) && isset($settings->social_templates->facebook[0]->is_show_meta)) {
+            if (!empty($wpscp_pro_fb_meta_head_support)) {
                 $settings->social_templates->facebook[0]->is_show_meta = $wpscp_pro_fb_meta_head_support;
             }
             $wpscp_pro_fb_content_type = get_option('wpscp_pro_fb_content_type');
