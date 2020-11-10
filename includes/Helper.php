@@ -50,9 +50,10 @@ class Helper
         if (is_array($allids)) {
             foreach ($allids as $id) {
                 if ($id == 0) {
-                    $catSlug[] = 'All Categories';
+                    $catSlug[] = 'all';
                 } else {
-                    $catSlug[] = \get_the_category_by_ID($id);
+                    $category = \get_category($id);
+                    $catSlug[] = $category->slug;
                 }
             }
         }
