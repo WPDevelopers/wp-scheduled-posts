@@ -197,16 +197,16 @@ class Pinterest
         if (is_array($profiles) && count($profiles) > 0) {
             foreach ($profiles as $profile_key => $profile) {
                 // skip if status is false
-                if ($profile['status'] == false) {
+                if ($profile[$profile_key]->status == false) {
                     continue;
                 }
                 // share
                 $this->remote_post(
-                    (isset($profile['app_id']) ? $profile['app_id'] : WPSCP_PINTEREST_APP_ID),
-                    (isset($profile['app_secret']) ? $profile['app_secret'] : WPSCP_PINTEREST_APP_SECRET),
-                    $profile['access_token'],
+                    $profile[$profile_key]->app_id,
+                    $profile[$profile_key]->app_secret,
+                    $profile[$profile_key]->access_token,
                     $post_id,
-                    (isset($profile['default_board_name']) ? $profile['default_board_name'] : ''),
+                    $profile[$profile_key]->default_board_name,
                     $profile_key
                 );
             }
@@ -226,16 +226,16 @@ class Pinterest
         if (is_array($profiles) && count($profiles) > 0) {
             foreach ($profiles as $profile_key => $profile) {
                 // skip if status is false
-                if ($profile['status'] == false) {
+                if ($profile[$profile_key]->status == false) {
                     continue;
                 }
                 // share
                 $this->remote_post(
-                    (isset($profile['app_id']) ? $profile['app_id'] : WPSCP_PINTEREST_APP_ID),
-                    (isset($profile['app_secret']) ? $profile['app_secret'] : WPSCP_PINTEREST_APP_SECRET),
-                    $profile['access_token'],
+                    $profile[$profile_key]->app_id,
+                    $profile[$profile_key]->app_secret,
+                    $profile[$profile_key]->access_token,
                     $post_id,
-                    (isset($profile['default_board_name']) ? $profile['default_board_name'] : ''),
+                    $profile[$profile_key]->default_board_name,
                     $profile_key
                 );
             }

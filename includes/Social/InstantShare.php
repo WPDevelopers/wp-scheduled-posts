@@ -213,7 +213,6 @@ class InstantShare
         $is_facebook_share = $_REQUEST['is_facebook_share'];
         $is_twitter_share = $_REQUEST['is_twitter_share'];
         $is_linkedin_share = $_REQUEST['is_linkedin_share'];
-        $is_instagram_share = $_REQUEST['is_instagram_share'];
         $is_pinterest_share = $_REQUEST['is_pinterest_share'];
 
         if ($is_facebook_share === "true") {
@@ -240,9 +239,9 @@ class InstantShare
                 foreach ($profile as $key => $profileItem) {
                     $markup .= '<li id="' . $profileName . '_' . $key . '">
                             <div class="item-content">
-                                ' . (isset($profileItem['thumbnail_url']) ? '<div class="entry-thumbnail"><img src="' . $profileItem['thumbnail_url'] . '" alt="logo"></div>' : '') . '
-                                <h4 class="entry-title">' . $profileItem['name'] . '</h4>
-                                ' . (isset($profileItem['type']) ? '<span class="type">' . $profileItem['type'] . '</span>' : '') . '
+                                ' . (isset($profileItem->thumbnail_url) ? '<div class="entry-thumbnail"><img src="' . $profileItem->thumbnail_url . '" alt="logo"></div>' : '') . '
+                                <h4 class="entry-title">' . $profileItem->name . '</h4>
+                                ' . (isset($profileItem->type) ? '<span class="type">' . $profileItem->type . '</span>' : '') . '
                                 <span class="entry-status">
                                     <span class="status">Request Sending...</span>
                                 </span>
@@ -271,17 +270,17 @@ class InstantShare
         if ($platform == 'facebook') {
             $facebook = \WPSP\Helper::get_social_profile(WPSCP_FACEBOOK_OPTION_NAME);
             // if disable account then it will be off
-            if ($facebook[$platformKey]['status'] == false) {
+            if ($facebook[$platformKey]->status == false) {
                 wp_die();
             }
             // share    
-            $facebookshare = new Facebook();
+            $facebookshare = new \WPSP\Social\Facebook();
             $facebookshare->socialMediaInstantShare(
-                (isset($facebook[$platformKey]['app_id']) ? $facebook[$platformKey]['app_id'] : WPSCP_FACEBOOK_APP_ID),
-                (isset($facebook[$platformKey]['app_secret']) ? $facebook[$platformKey]['app_secret'] : WPSCP_FACEBOOK_APP_SECRET),
-                (isset($facebook[$platformKey]['access_token']) ? $facebook[$platformKey]['access_token'] : ''),
-                (isset($facebook[$platformKey]['type']) ? $facebook[$platformKey]['type'] : ''),
-                (isset($facebook[$platformKey]['id']) ? $facebook[$platformKey]['id'] : ''),
+                (isset($facebook[$platformKey]->app_id) ? $facebook[$platformKey]->app_id : ''),
+                (isset($facebook[$platformKey]->app_secret) ? $facebook[$platformKey]->app_secret : ''),
+                (isset($facebook[$platformKey]->access_token) ? $facebook[$platformKey]->access_token : ''),
+                (isset($facebook[$platformKey]->type) ? $facebook[$platformKey]->type : ''),
+                (isset($facebook[$platformKey]->id) ? $facebook[$platformKey]->id : ''),
                 $postid,
                 $platformKey
             );
@@ -289,16 +288,16 @@ class InstantShare
         } else if ($platform == 'twitter') {
             $twitter = \WPSP\Helper::get_social_profile(WPSCP_TWITTER_OPTION_NAME);
             // if disable account then it will be off
-            if ($twitter[$platformKey]['status'] == false) {
+            if ($twitter[$platformKey]->status == false) {
                 wp_die();
             }
             // share
-            $wpscptwitter = new Twitter();
+            $wpscptwitter = new \WPSP\Social\Twitter();
             $wpscptwitter->socialMediaInstantShare(
-                (isset($twitter[$platformKey]['app_id']) ? $twitter[$platformKey]['app_id'] : WPSCP_TWITTER_API_KEY),
-                (isset($twitter[$platformKey]['app_secret']) ? $twitter[$platformKey]['app_secret'] : WPSCP_TWITTER_API_SECRET_KEY),
-                (isset($twitter[$platformKey]['oauth_token']) ? $twitter[$platformKey]['oauth_token'] : ''),
-                (isset($twitter[$platformKey]['oauth_token_secret']) ? $twitter[$platformKey]['oauth_token_secret'] : ''),
+                (isset($twitter[$platformKey]->app_id) ? $twitter[$platformKey]->app_id : ''),
+                (isset($twitter[$platformKey]->app_secret) ? $twitter[$platformKey]->app_secret : ''),
+                (isset($twitter[$platformKey]->oauth_token) ? $twitter[$platformKey]->oauth_token : ''),
+                (isset($twitter[$platformKey]->oauth_token_secret) ? $twitter[$platformKey]->oauth_token_secret : ''),
                 $postid,
                 $platformKey
             );
@@ -306,15 +305,15 @@ class InstantShare
         } else if ($platform == 'linkedin') {
             $linkedin = \WPSP\Helper::get_social_profile(WPSCP_LINKEDIN_OPTION_NAME);
             // if disable account then it will be off
-            if ($linkedin[$platformKey]['status'] == false) {
+            if ($linkedin[$platformKey]->status == false) {
                 wp_die();
             }
             // share
-            $linkedinshare = new Linkedin();
+            $linkedinshare = new \WPSP\Social\Linkedin();
             $linkedinshare->socialMediaInstantShare(
-                (isset($linkedin[$platformKey]['app_id']) ? $linkedin[$platformKey]['app_id'] : WPSCP_LINKEDIN_CLIENT_ID),
-                (isset($linkedin[$platformKey]['app_secret']) ? $linkedin[$platformKey]['app_secret'] : WPSCP_LINKEDIN_CLIENT_SECRET),
-                (isset($linkedin[$platformKey]['access_token']) ? $linkedin[$platformKey]['access_token'] : ''),
+                (isset($linkedin[$platformKey]->app_id) ? $linkedin[$platformKey]->app_id : ''),
+                (isset($linkedin[$platformKey]->app_secret) ? $linkedin[$platformKey]->app_secret : ''),
+                (isset($linkedin[$platformKey]->access_token) ? $linkedin[$platformKey]->access_token : ''),
                 $postid,
                 $platformKey
             );
@@ -322,17 +321,17 @@ class InstantShare
         } else if ($platform == 'pinterest') {
             $pinterest = \WPSP\Helper::get_social_profile(WPSCP_PINTEREST_OPTION_NAME);
             // if disable account then it will be off
-            if ($pinterest[$platformKey]['status'] == false) {
+            if ($pinterest[$platformKey]->status == false) {
                 wp_die();
             }
             // share
-            $pinterestshare = new Pinterest();
+            $pinterestshare = new \WPSP\Social\Pinterest();
             $pinterestshare->socialMediaInstantShare(
-                (isset($pinterest[$platformKey]['app_id']) ? $pinterest[$platformKey]['app_id'] : WPSCP_PINTEREST_APP_ID),
-                (isset($pinterest[$platformKey]['app_secret']) ? $pinterest[$platformKey]['app_secret'] : WPSCP_PINTEREST_APP_SECRET),
-                (isset($pinterest[$platformKey]['access_token']) ? $pinterest[$platformKey]['access_token'] : ''),
+                (isset($pinterest[$platformKey]->app_id) ? $pinterest[$platformKey]->app_id : ''),
+                (isset($pinterest[$platformKey]->app_secret) ? $pinterest[$platformKey]->app_secret : ''),
+                (isset($pinterest[$platformKey]->access_token) ? $pinterest[$platformKey]->access_token : ''),
                 $postid,
-                ($pinterestBoardName != "" ? $pinterestBoardName : $pinterest[$platformKey]['default_board_name']),
+                ($pinterestBoardName != "" ? $pinterestBoardName : $pinterest[$platformKey]->default_board_name),
                 $platformKey
             );
             wp_die();

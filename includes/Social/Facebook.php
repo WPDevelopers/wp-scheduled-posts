@@ -329,16 +329,16 @@ class Facebook
         if (is_array($profiles) && count($profiles) > 0) {
             foreach ($profiles as $profile_key => $profile) {
                 // skip if status is false
-                if ($profile['status'] == false) {
+                if ($profile[$profile_key]->status == false) {
                     continue;
                 }
                 // call social share method
                 $this->remote_post(
-                    (isset($profile['app_id']) ? $profile['app_id'] : WPSCP_FACEBOOK_APP_ID),
-                    (isset($profile['app_secret']) ? $profile['app_secret'] : WPSCP_FACEBOOK_APP_SECRET),
-                    $profile['access_token'],
-                    $profile['type'],
-                    (isset($profile['id']) ? $profile['id'] : null),
+                    $profile[$profile_key]->app_id,
+                    $profile[$profile_key]->app_secret,
+                    $profile[$profile_key]->access_token,
+                    $profile[$profile_key]->type,
+                    $profile[$profile_key]->id,
                     $post_id,
                     $profile_key
                 );
@@ -357,16 +357,16 @@ class Facebook
         if (is_array($profiles) && count($profiles) > 0) {
             foreach ($profiles as $profile_key => $profile) {
                 // skip if status is false
-                if ($profile['status'] == false) {
+                if ($profile[$profile_key]->status == false) {
                     continue;
                 }
                 // call social share method
                 $this->remote_post(
-                    (isset($profile['app_id']) ? $profile['app_id'] : WPSCP_FACEBOOK_APP_ID),
-                    (isset($profile['app_secret']) ? $profile['app_secret'] : WPSCP_FACEBOOK_APP_SECRET),
-                    $profile['access_token'],
-                    $profile['type'],
-                    (isset($profile['id']) ? $profile['id'] : null),
+                    $profile[$profile_key]->app_id,
+                    $profile[$profile_key]->app_secret,
+                    $profile[$profile_key]->access_token,
+                    $profile[$profile_key]->type,
+                    $profile[$profile_key]->id,
                     $post_id,
                     $profile_key
                 );

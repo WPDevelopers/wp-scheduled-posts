@@ -1747,7 +1747,7 @@ const SocialProfile = ({
 
   const customAppProfileRequest = (redirectURI, appID, appSecret) => {
     var data = {
-      action: 'wpscp_social_temp_add_profile',
+      action: 'wpsp_social_add_social_profile',
       redirectURI: redirectURI,
       appId: appID,
       appSecret: appSecret,

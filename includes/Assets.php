@@ -98,6 +98,13 @@ class Assets
                     'calendar_rest_route' => site_url('/?rest_route=/wpscp/v1/post_type=post/month=' . $month . '/year=' . $year)
                 )
             );
+            wp_enqueue_script('wpsp-socialprofile', WPSP_ASSETS_URI . 'js/wpsp-socialprofile.js', array('jquery'), filemtime(WPSP_ASSETS_DIR_PATH . 'js/wpsp-socialprofile.js'), true);
+            wp_localize_script('wpsp-socialprofile', 'wpscpSocialProfile', array(
+                'plugin_url'    => WPSP_PLUGIN_ROOT_URI,
+                'nonce'            => wp_create_nonce('wpscp-pro-social-profile'),
+                'redirect_url'  => WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE,
+                'is_active_pro' => class_exists('WPSP_PRO')
+            ));
         }
         // admin notice for all wordpress dashboard
         wp_enqueue_style('wpscp-admin-notice', WPSP_ASSETS_URI . 'css/wpscp-admin-notice.css', array(), filemtime(WPSP_ASSETS_DIR_PATH . 'css/wpscp-admin-notice.css'), 'all');

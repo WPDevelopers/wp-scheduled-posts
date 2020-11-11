@@ -16,29 +16,10 @@ class MultiProfile
          * Social Mulit Profile ajax 
          * @since 2.5.0
          */
-        // social profile oauth url generator
-        add_action('wp_ajax_wpscp_social_add_profile', array($this, 'add_social_profile'));
+        add_action('wp_ajax_wpsp_social_add_social_profile', array($this, 'add_social_profile'));
         add_action('wp_ajax_wpscp_social_profile_fetch_user_info_and_token', array($this, 'social_profile_fetch_user_info_and_token'));
-
-        // pinterest
-        add_action('wp_ajax_wpscp_social_profile_pinterest_data_save', array($this, 'social_profile_pinterest_data_save'));
-        // facebook
-        add_action('wp_ajax_wpscp_social_profile_facebook_data_save', array($this, 'social_profile_facebook_data_save'));
-        // profile on/off toggle
-        add_action('wp_ajax_wpscp_social_group_profile_switch_toggle', array($this, 'social_group_profile_switch_toggle'));
-        add_action('wp_ajax_wpscp_social_single_profile_switch_toggle', array($this, 'social_single_profile_switch_toggle'));
-        // token refresh
-        add_action('wp_ajax_wpscp_social_profile_access_token_refresh', array($this, 'social_profile_access_token_refresh'));
-        // temp account add ajax, it will be delete after app approve
-        add_action('wp_ajax_wpscp_social_temp_add_profile', array($this, 'temp_add_profile'));
-
         $this->multiProfileErrorMessage = esc_html__('Multi Profile is a Premium Feature. To use this feature, Upgrade to PRO.', 'wp-scheduled-posts');
     }
-
-
-
-
-
 
     public function social_single_profile_checkpoint($platform)
     {
@@ -66,93 +47,6 @@ class MultiProfile
         return true;
     }
 
-    /**
-     * ajax social multi profile oauth token url generator
-     * @since 2.5.0
-     * @return json
-     */
-    public function add_social_profile($request)
-    {
-        $request = $_POST;
-        $type = (isset($_POST['type']) ? $_POST['type'] : '');
-        if ($type == 'pinterest') {
-            if (!$this->social_single_profile_checkpoint($type)) {
-                wp_send_json_error($this->multiProfileErrorMessage);
-                wp_die();
-            }
-            try {
-                $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=' . WPSP_SETTINGS_SLUG));
-                $pinterest = new Pinterest(
-                    WPSCP_PINTEREST_APP_ID,
-                    WPSCP_PINTEREST_APP_SECRET
-                );
-                // state
-                if (is_array($request)) {
-                    $pinterest->auth->setState(json_encode($request));
-                }
-                $loginurl = $pinterest->auth->getLoginUrl(WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE, array('read_public', 'write_public', 'read_relationships', 'write_relationships'));
-                wp_send_json_success($loginurl);
-                wp_die();
-            } catch (\Exception $error) {
-                wp_send_json_error($error->getMessage());
-                wp_die();
-            }
-        } else if ($type == 'linkedin') {
-            if (!$this->social_single_profile_checkpoint($type)) {
-                wp_send_json_error($this->multiProfileErrorMessage);
-                wp_die();
-            }
-            try {
-                $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=' . WPSP_SETTINGS_SLUG));
-                $state = base64_encode(json_encode($request));
-                $linkedin = new LinkedIn(
-                    WPSCP_LINKEDIN_CLIENT_ID,
-                    WPSCP_LINKEDIN_CLIENT_SECRET,
-                    WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE,
-                    WPSCP_LINKEDIN_SCOPE,
-                    true,
-                    $state
-                );
-                wp_send_json_success($linkedin->getAuthUrl());
-                wp_die();
-            } catch (\Exception $error) {
-                wp_send_json_error($error->getMessage());
-                wp_die();
-            }
-        } else if ($type == 'facebook') {
-            if (!$this->social_single_profile_checkpoint($type)) {
-                wp_send_json_error($this->multiProfileErrorMessage);
-                wp_die();
-            }
-            $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=' . WPSP_SETTINGS_SLUG));
-            $state = base64_encode(json_encode($request));
-            $url = "https://www.facebook.com/dialog/oauth?client_id="
-                . WPSCP_FACEBOOK_APP_ID . "&redirect_uri=" . urlencode(WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE) . "&state="
-                . $state . "&scope=" . WPSCP_FACEBOOK_SCOPE;
-            wp_send_json_success($url);
-            wp_die();
-        } else if ($type == 'twitter') {
-            if (!$this->social_single_profile_checkpoint($type)) {
-                wp_send_json_error($this->multiProfileErrorMessage);
-                wp_die();
-            }
-            try {
-                $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=' . WPSP_SETTINGS_SLUG));
-                $connection = new TwitterOAuth(WPSCP_TWITTER_API_KEY, WPSCP_TWITTER_API_SECRET_KEY);
-                $oauth_callback = WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE . '?' . http_build_query($request);
-                $request_token = $connection->oauth('oauth/request_token', array('oauth_callback' => $oauth_callback));
-                $url = $connection->url('oauth/authorize', array('oauth_token' => $request_token['oauth_token']));
-                wp_send_json_success($url);
-                wp_die();
-            } catch (\Exception $error) {
-                wp_send_json_error($error->getMessage());
-                wp_die();
-            }
-        } else {
-            wp_send_json_error(esc_html__('Failed, Your app id, app secret and redirect url is not set', 'wp-scheduled-posts-pro'));
-            wp_die();
-        }
-    }
 
     /**
      * Facebook access token
@@ -440,231 +334,9 @@ class MultiProfile
     }
 
     /**
-     * ajax social profile pinterest data save
+     * Add Social Profile
      */
-    public function social_profile_pinterest_data_save()
-    {
-        $info = (isset($_POST['info']) ? $_POST['info'] : '');
-        $boardurl = (isset($_POST['boardurl']) ? $_POST['boardurl'] : '');
-        if ($boardurl != "") {
-            $info['default_board_name'] = substr($boardurl, 26, -1);
-        }
-        $oldData  = (empty(get_option(WPSCP_PINTEREST_OPTION_NAME)) ? array() : get_option(WPSCP_PINTEREST_OPTION_NAME));
-        array_push($oldData, $info);
-
-        $updatedData = $oldData;
-        update_option(WPSCP_PINTEREST_OPTION_NAME, $updatedData);
-
-        wp_send_json_success($info);
-        wp_die();
-    }
-    /**
-     * ajax social profile facebook data save
-     */
-    public function social_profile_facebook_data_save()
-    {
-        $page = (isset($_POST['page']) ? $_POST['page'] : '');
-        $group = (isset($_POST['group']) ? $_POST['group'] : '');
-        $new_added_profile = array();
-        $oldData = (empty(get_option(WPSCP_FACEBOOK_OPTION_NAME)) ? array() : get_option(WPSCP_FACEBOOK_OPTION_NAME));
-        if (is_array($page) && count($page) > 0 && is_array($group) && count($group) > 0) {
-            $pageAndGroup = array_merge($page, $group);
-            $new_added_profile = $pageAndGroup;
-            $updatedData = array_merge($oldData, $pageAndGroup);
-        } else if (is_array($page) && count($page) > 0 && !is_array($group)) {
-            $updatedData = array_merge($oldData, $page);
-            $new_added_profile = $page;
-        } else if (is_array($group) && count($group) > 0 && !is_array($page)) {
-            $updatedData = array_merge($oldData, $group);
-            $new_added_profile = $group;
-        }
-        update_option(WPSCP_FACEBOOK_OPTION_NAME, $updatedData);
-        wp_send_json_success($new_added_profile);
-        wp_die();
-    }
-
-    /**
-     * ajax requrest for facebook token refresh
-     */
-    public function social_profile_access_token_refresh()
-    {
-        if (wp_verify_nonce($_POST['_wpscpnonce'], 'wpscp-pro-social-profile')) {
-            $type = (isset($_POST['type']) ? $_POST['type'] : '');
-            $key = (isset($_POST['item']) ? $_POST['item'] : '');
-            $option_name = (isset($_POST['option_name']) ? $_POST['option_name'] : '');
-            // facebook
-            if ($type == 'facebook') {
-                $oldData = get_option($option_name);
-                $existingData = $oldData[$key];
-                // user toke for group
-                if ($existingData['type'] == 'group') {
-                    try {
-                        $code_response = wp_remote_get("https://graph.facebook.com/v6.0/oauth/client_code?client_id=" . WPSCP_FACEBOOK_APP_ID . "&client_secret=" . WPSCP_FACEBOOK_APP_SECRET . "&redirect_uri=" . WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE . "&access_token=" . $existingData['access_token']);
-                        $code = wp_remote_retrieve_body($code_response);
-                        $code = json_decode($code);
-                        $code = $code->{'code'};
-                        $token_response = wp_remote_get('https://graph.facebook.com/v6.0/oauth/access_token?code=' . $code . '&client_id=' . WPSCP_FACEBOOK_APP_ID . '&redirect_uri=' . WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE);
-                        $token = wp_remote_retrieve_body($token_response);
-                        $token = json_decode($token);
-                        $access_token = $token->{'access_token'};
-                        // update old data and insert into db
-                        $oldData[$key]['access_token'] = $access_token;
-                        $updatedData = $oldData;
-                        $is_data_update = update_option($option_name, $updatedData);
-                        if ($is_data_update) {
-                            wp_send_json_success($is_data_update);
-                            wp_die();
-                        } else {
-                            wp_send_json_error($is_data_update);
-                            wp_die();
-                        }
-                    } catch (\Exception $error) {
-                        wp_send_json_error($error->getMessage());
-                        wp_die();
-                    }
-                } else if ($existingData['type'] == 'page') {
-                    $code_response = wp_remote_get("https://graph.facebook.com/v6.0/oauth/client_code?client_id=" . WPSCP_FACEBOOK_APP_ID . "&client_secret=" . WPSCP_FACEBOOK_APP_SECRET . "&redirect_uri=" . WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE . "&access_token=" . $existingData['access_token']);
-                    $code = wp_remote_retrieve_body($code_response);
-                    $code = json_decode($code);
-                    $code = $code->{'code'};
-                    $token_response = wp_remote_get('https://graph.facebook.com/v6.0/oauth/access_token?code=' . $code . '&client_id=' . WPSCP_FACEBOOK_APP_ID . '&redirect_uri=' . WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE);
-                    $token = wp_remote_retrieve_body($token_response);
-                    $token = json_decode($token);
-                    $access_token = $token->{'access_token'};
-                    $userInfo = $this->facebookGetUserDetails($access_token);
-                    $tokenList = wp_list_pluck($userInfo->accounts->data, 'access_token', 'id');
-                    $current_page_refresh_token = $tokenList[$existingData['id']];
-                    // update old data and insert into db
-                    $oldData[$key]['access_token'] = $current_page_refresh_token;
-                    $updatedData = $oldData;
-                    $is_data_update = update_option($option_name, $updatedData);
-                    if ($is_data_update) {
-                        wp_send_json_success($is_data_update);
-                        wp_die();
-                    } else {
-                        wp_send_json_error($is_data_update);
-                        wp_die();
-                    }
-                }
-            }
-        } else {
-            wp_send_json_error(__('Invailed Nonce', 'wp-scheduled-posts-pro'));
-            wp_die();
-        }
-    }
-
-    /**
-     * Ajax Social Multi Profile on/off
-     * @since 2.5.0
-     * @return bool
-     */
-    public function social_group_profile_switch_toggle()
-    {
-        $option_name = (isset($_POST['option_name']) ? $_POST['option_name'] : '');
-        $status = (isset($_POST['status']) ? $_POST['status'] : "");
-        $message = '';
-
-        if ($option_name != "") {
-            update_option($option_name, $status);
-        }
-
-        if ($option_name == 'wpsp_facebook_integration_status') {
-            if ($status == 'on') {
-                $message = __('Facebook Integration Activated', 'wp-scheduled-posts-pro');
-            } else {
-                $message = __('Facebook Integration Deactivated', 'wp-scheduled-posts-pro');
-            }
-        } else if ($option_name == 'wpsp_twitter_integration_status') {
-            if ($status == 'on') {
-                $message = __('Twitter Integration Activated', 'wp-scheduled-posts-pro');
-            } else {
-                $message = __('Twitter Integration Deactivated', 'wp-scheduled-posts-pro');
-            }
-        } else if ($option_name == 'wpsp_linkedin_integration_status') {
-            if ($status == 'on') {
-                $message = __('Linkedin Integration Activated', 'wp-scheduled-posts-pro');
-            } else {
-                $message = __('Linkedin Integration Deactivated', 'wp-scheduled-posts-pro');
-            }
-        } else if ($option_name == 'wpsp_pinterest_integration_status') {
-            if ($status == 'on') {
-                $message = __('Pinterest Integration Activated', 'wp-scheduled-posts-pro');
-            } else {
-                $message = __('Pinterest Integration Deactivated', 'wp-scheduled-posts-pro');
-            }
-        }
-        wp_send_json(array(
-            'status' => $status,
-            'data'  =>  $message
-        ));
-        wp_die();
-    }
-    /**
-     * Ajax Social Single Profile on/off
-     * @since 2.5.0
-     * @return bool
-     */
-    public function social_single_profile_switch_toggle()
-    {
-
-        $option_name = (isset($_POST['option_name']) ? $_POST['option_name'] : '');
-        $status = (isset($_POST['status']) ? $_POST['status'] : 0);
-        $ID = (isset($_POST['ID']) ? $_POST['ID'] : "");
-        $message = '';
-        if (!empty($option_name) && $ID != "") {
-            $oldData = get_option($option_name);
-            $oldData[intval($ID)]['status'] = boolval($status);
-            $updatedData = $oldData;
-            update_option($option_name, $updatedData);
-            // message
-            if ($option_name == WPSCP_FACEBOOK_OPTION_NAME) {
-                if ($status == true) {
-                    $message = __('Facebook Social Share is Activated', 'wp-scheduled-posts-pro');
-                } else {
-                    $message = __('Facebook Social Share is Deactivated', 'wp-scheduled-posts-pro');
-                }
-            } else if ($option_name == WPSCP_TWITTER_OPTION_NAME) {
-                if ($status == true) {
-                    $message = __('Twitter Social Share is Activated', 'wp-scheduled-posts-pro');
-                } else {
-                    $message = __('Twitter Social Share is Deactivated', 'wp-scheduled-posts-pro');
-                }
-            } else if ($option_name == WPSCP_LINKEDIN_OPTION_NAME) {
-                if ($status == true) {
-                    $message = __('Linkedin Social Share is Activated', 'wp-scheduled-posts-pro');
-                } else {
-                    $message = __('Linkedin Social Share is Deactivated', 'wp-scheduled-posts-pro');
-                }
-            } else if ($option_name == WPSCP_PINTEREST_OPTION_NAME) {
-                if ($status == true) {
-                    $message = __('Pinterest Social Share is Activated', 'wp-scheduled-posts-pro');
-                } else {
-                    $message = __('Pinterest Social Share is Deactivated', 'wp-scheduled-posts-pro');
-                }
-            }
-            // check token is expired or not
-            if ($oldData[intval($ID)]['token_expired']) {
-                wp_send_json(array(
-                    'token_expired' => $oldData[intval($ID)]['token_expired'],
-                    'status'        => $status,
-                    'data' => $message
-                ));
-                wp_die();
-            }
-            wp_send_json(array(
-                'token_expired' => $oldData[intval($ID)]['token_expired'],
-                'status'        => $status,
-                'data'          => $message
-            ));
-            wp_die();
-        }
-        wp_die();
-    }
-
-    /**
-     * Temp app account, it will delete after app approve
-     */
-    public function temp_add_profile()
+    public function add_social_profile()
     {
         $request = $_POST;
         $type = (isset($_POST['type']) ? $_POST['type'] : '');
@@ -673,10 +345,10 @@ class MultiProfile
 
 
         if ($type == 'pinterest') {
-            // if (!$this->social_single_profile_checkpoint($type)) {
-            //     wp_send_json_error($this->multiProfileErrorMessage);
-            //     wp_die();
-            // }
+            if (!$this->social_single_profile_checkpoint($type)) {
+                wp_send_json_error($this->multiProfileErrorMessage);
+                wp_die();
+            }
             try {
                 $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=' . WPSP_SETTINGS_SLUG));
                 $pinterest = new Pinterest(
@@ -695,10 +367,10 @@ class MultiProfile
                 wp_die();
             }
         } else if ($type == 'linkedin') {
-            // if (!$this->social_single_profile_checkpoint($type)) {
-            //     wp_send_json_error($this->multiProfileErrorMessage);
-            //     wp_die();
-            // }
+            if (!$this->social_single_profile_checkpoint($type)) {
+                wp_send_json_error($this->multiProfileErrorMessage);
+                wp_die();
+            }
             try {
                 $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=' . WPSP_SETTINGS_SLUG));
                 $state = base64_encode(json_encode($request));
@@ -717,10 +389,10 @@ class MultiProfile
                 wp_die();
             }
         } else if ($type == 'twitter') {
-            // if (!$this->social_single_profile_checkpoint($type)) {
-            //     wp_send_json_error($this->multiProfileErrorMessage);
-            //     wp_die();
-            // }
+            if (!$this->social_single_profile_checkpoint($type)) {
+                wp_send_json_error($this->multiProfileErrorMessage);
+                wp_die();
+            }
             try {
                 $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=' . WPSP_SETTINGS_SLUG));
                 $connection = new TwitterOAuth(

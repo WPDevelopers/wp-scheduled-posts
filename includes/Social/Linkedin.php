@@ -8,15 +8,24 @@ use WPSP\Traits\SocialHelper;
 class Linkedin
 {
     use SocialHelper;
-    private $settings;
+    private $content_type;
+    private $is_category_as_tags;
+    private $content_source;
+    private $template_structure;
+    private $status_limit;
     public function __construct()
     {
     }
 
     public function instance()
     {
-        $this->settings = \WPSP\Helper::get_settings('social_templates');
-        $this->settings = $this->settings->linkedin;
+        $settings = \WPSP\Helper::get_settings('social_templates');
+        $settings = $settings->linkedin;
+        $this->content_type = (isset($settings[0]->content_type) ? $settings[0]->content_type : '');
+        $this->is_category_as_tags = (isset($settings[1]->is_category_as_tags) ? $settings[1]->is_category_as_tags : '');
+        $this->content_source = (isset($settings[2]->content_source) ? $settings[2]->content_source : '');
+        $this->template_structure = (isset($settings[3]->template_structure) ? $settings[3]->template_structure : '');
+        $this->status_limit = (isset($settings[4]->status_limit) ? $settings[4]->status_limit : '');
         // hook
         add_action('publish_future_post', array($this, 'WpScp_linkedin_post_event'), 30, 1);
         add_action('WpScp_linkedin_post', array($this, 'WpScp_linkedin_post'), 15, 1);
@@ -73,21 +82,21 @@ class Linkedin
         $post_details = get_post($post_id);
         $title = get_the_title($post_id);
         $post_link = esc_url(get_permalink($post_id));;
-        if (isset($this->settings[2]->content_source) && $this->settings[2]->content_source === 'excerpt' && has_excerpt($post_details->ID)) {
+        if ($this->content_source === 'excerpt' && has_excerpt($post_details->ID)) {
             $desc = wp_strip_all_tags($post_details->post_excerpt);
         } else {
             $desc = wp_strip_all_tags($post_details->post_content);
         }
         $hashTags = (($this->getPostHasTags($post_id) != false) ? $this->getPostHasTags($post_id) : '');
-        if (isset($this->settings[1]->is_category_as_tags) && $this->settings[1]->is_category_as_tags == true) {
+        if ($this->is_category_as_tags == true) {
             $hashTags .= ' ' . $this->getPostHasCats($post_id);
         }
 
         // status limit
-        $status_limit = (isset($this->settings[4]->status_limit) ? $this->settings[4]->status_limit : 1300);
+        $status_limit = (!empty($this->status_limit) ? $this->status_limit : 1300);
 
         // change structure
-        $linkedin_template_structure = $this->settings[3]->template_structure;
+        $linkedin_template_structure = $this->template_structure;
         if (empty($linkedin_template_structure) || $linkedin_template_structure == '') {
             $linkedin_template_structure = '{title}{content}{url}{tags}';
         }
@@ -129,14 +138,14 @@ class Linkedin
             $getPersonID = $linkedin->getPersonID($acessToken);
 
             $results = "";
-            if (isset($this->settings[2]->content_source) && $this->settings[2]->content_source == 'status') {
+            if ($this->content_source == 'status') {
                 $formatedText = $this->get_formatted_text($post_id);
                 $results = $linkedin->linkedInTextPost($acessToken, $getPersonID, $formatedText);
             } else {
                 $post_details = get_post($post_id);
                 $title = get_the_title($post_id);
                 $post_link = get_permalink($post_id);
-                if (isset($this->settings[2]->content_source) && $this->settings[2]->content_source == 'excerpt' && has_excerpt($post_details->ID)) {
+                if ($this->content_source == 'excerpt' && has_excerpt($post_details->ID)) {
                     $desc = wp_strip_all_tags($post_details->post_excerpt);
                 } else {
                     $desc = wp_strip_all_tags($post_details->post_content);
@@ -185,14 +194,14 @@ class Linkedin
         if (is_array($profiles) && count($profiles) > 0) {
             foreach ($profiles as $profile_key => $profile) {
                 // skip if status is false
-                if ($profile['status'] == false) {
+                if ($profile[$profile_key]->status == false) {
                     continue;
                 }
                 // call social share method
                 $this->remote_post(
-                    (isset($profile['app_id']) ? $profile['app_id'] : WPSCP_LINKEDIN_CLIENT_ID),
-                    (isset($profile['app_secret']) ? $profile['app_secret'] : WPSCP_LINKEDIN_CLIENT_SECRET),
-                    $profile['access_token'],
+                    $profile[$profile_key]->app_id,
+                    $profile[$profile_key]->app_secret,
+                    $profile[$profile_key]->access_token,
                     $post_id,
                     $profile_key
                 );
@@ -213,14 +222,14 @@ class Linkedin
         if (is_array($profiles) && count($profiles) > 0) {
             foreach ($profiles as $profile_key => $profile) {
                 // skip if status is false
-                if ($profile['status'] == false) {
+                if ($profile[$profile_key]->status == false) {
                     continue;
                 }
                 // call social share method
                 $this->remote_post(
-                    (isset($profile['app_id']) ? $profile['app_id'] : WPSCP_LINKEDIN_CLIENT_ID),
-                    (isset($profile['app_secret']) ? $profile['app_secret'] : WPSCP_LINKEDIN_CLIENT_SECRET),
-                    $profile['access_token'],
+                    $profile[$profile_key]->app_id,
+                    $profile[$profile_key]->app_secret,
+                    $profile[$profile_key]->access_token,
                     $post_id,
                     $profile_key
                 );
