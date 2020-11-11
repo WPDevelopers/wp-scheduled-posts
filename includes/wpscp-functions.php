@@ -814,7 +814,7 @@ if (!function_exists('wpscp_social_profile_facebook_notice_callback')) {
 		) {
 		?>
 			<div class="notice notice-error is-dismissible wpscp-facebook-app-notice">
-				<p><strong><?php esc_html_e('Recommended:', 'wp-schedule-posts'); ?></strong><?php esc_html_e(' Due to Facebook Rules, make sure to create your own Facebook App to use this feature. For more info, check out this ', 'wp-schedule-posts'); ?><a class="docs" href="https://wpdeveloper.net/docs/share-scheduled-posts-facebook/" target="_blank"><?php esc_html_e('Doc', 'wp-schedule-posts'); ?></a></p>
+				<p><strong><?php esc_html_e('Recommended:', 'wp-schedule-posts'); ?></strong><?php esc_html_e(' Due to changes in Facebook Rules, make sure to create your own Facebook App to use this feature. For more info, check out this ', 'wp-schedule-posts'); ?><a class="docs" href="https://wpdeveloper.net/docs/share-scheduled-posts-facebook/" target="_blank"><?php esc_html_e('Doc', 'wp-schedule-posts'); ?></a></p>
 			</div>
 <?php
 		}
