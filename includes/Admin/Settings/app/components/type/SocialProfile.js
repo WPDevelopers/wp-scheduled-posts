@@ -66,7 +66,7 @@ const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
          * send ajax requrest for generate access token and fetch user, page info
          */
         var data = {
-            action: 'wpscp_social_profile_fetch_user_info_and_token',
+            action: 'wpsp_social_profile_fetch_user_info_and_token',
             type: localSocial.social.queryString.get('type'),
             code: localSocial.social.queryString.get('code'),
             appId: localSocial.social.queryString.get('appId'),
@@ -82,23 +82,6 @@ const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
                 setResponseData([response.data])
             } else {
                 console.log('error, response: ', response)
-            }
-        })
-    }
-
-    const sendAddProfileRequest = () => {
-        var data = {
-            action: 'wpscp_social_add_profile',
-            type: 'facebook',
-        }
-
-        // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
-        jQuery.post(ajaxurl, data, function (response) {
-            if (response.success) {
-                open(response.data, '_self')
-            } else {
-                // error message
-                console.log(response)
             }
         })
     }
@@ -168,11 +151,7 @@ const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
                     app.platform +
                     ' wpscp-social-tab__btn--addnew-profile'
                 }
-                onClick={() =>
-                    app.type == 'custom'
-                        ? openCustomAppModal(app.platform)
-                        : sendAddProfileRequest(app.platform)
-                }
+                onClick={() => openCustomAppModal(app.platform)}
             >
                 <img
                     src={

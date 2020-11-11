@@ -144,15 +144,19 @@ const CustomAppForm = ({
   const [redirectURI, SetRedirectURI] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('https://api.schedulepress.com/callback.php');
   const [appID, SetAppID] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('');
   const [appSecret, SetAppSecret] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('');
+  const {
+    title,
+    subtitle
+  } = _utils_helper__WEBPACK_IMPORTED_MODULE_1__["socialPopUpData"][platform];
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "modalbody"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "wpsp-social-account-insert-modal"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "wpsp-social-modal-header"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, _utils_helper__WEBPACK_IMPORTED_MODULE_1__["socialPopUpData"][platform].title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     dangerouslySetInnerHTML: {
-      __html: _utils_helper__WEBPACK_IMPORTED_MODULE_1__["socialPopUpData"][platform].subtitle
+      __html: subtitle
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "hidden",
@@ -633,6 +637,11 @@ const SocialTabHeader = ({
   setFieldValue,
   field
 }) => {
+  const {
+    icon,
+    title,
+    subtitle
+  } = _utils_helper__WEBPACK_IMPORTED_MODULE_1__["socialTabHeaderData"][socialPlatform];
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: 'wpscp-social-tab__item-header wpscp-social-tab__item-header--' + socialPlatform
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -640,11 +649,11 @@ const SocialTabHeader = ({
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     width: "74",
     height: "74",
-    src: _utils_helper__WEBPACK_IMPORTED_MODULE_1__["wpspGetPluginRootURI"] + 'assets/images/' + _utils_helper__WEBPACK_IMPORTED_MODULE_1__["socialTabHeaderData"][socialPlatform].icon,
+    src: _utils_helper__WEBPACK_IMPORTED_MODULE_1__["wpspGetPluginRootURI"] + 'assets/images/' + icon,
     alt: "icon"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "entry-content"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, _utils_helper__WEBPACK_IMPORTED_MODULE_1__["socialTabHeaderData"][socialPlatform].title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, _utils_helper__WEBPACK_IMPORTED_MODULE_1__["socialTabHeaderData"][socialPlatform].subtitle)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, subtitle)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "entry-control"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "checkbox_wrap"
@@ -1708,7 +1717,7 @@ const SocialProfile = ({
      */
 
     var data = {
-      action: 'wpscp_social_profile_fetch_user_info_and_token',
+      action: 'wpsp_social_profile_fetch_user_info_and_token',
       type: localSocial.social.queryString.get('type'),
       code: localSocial.social.queryString.get('code'),
       appId: localSocial.social.queryString.get('appId'),
@@ -1728,22 +1737,6 @@ const SocialProfile = ({
       }
     });
   }
-
-  const sendAddProfileRequest = () => {
-    var data = {
-      action: 'wpscp_social_add_profile',
-      type: 'facebook'
-    }; // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
-
-    jQuery.post(ajaxurl, data, function (response) {
-      if (response.success) {
-        open(response.data, '_self');
-      } else {
-        // error message
-        console.log(response);
-      }
-    });
-  };
 
   const customAppProfileRequest = (redirectURI, appID, appSecret) => {
     var data = {
@@ -1797,7 +1790,7 @@ const SocialProfile = ({
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
     className: 'wpscp-social-tab__btn wpscp-social-tab__btn--' + app.platform + ' wpscp-social-tab__btn--addnew-profile',
-    onClick: () => app.type == 'custom' ? openCustomAppModal(app.platform) : sendAddProfileRequest(app.platform)
+    onClick: () => openCustomAppModal(app.platform)
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: _utils_helper__WEBPACK_IMPORTED_MODULE_6__["wpspGetPluginRootURI"] + 'assets/images/icon-' + app.platform + '.png',
     alt: "icon"
@@ -2332,7 +2325,7 @@ const fetch_social_popup_info = () => {
   let redirectFromOauth = false;
   let type = queryString.get('type');
 
-  if (queryString.get('action') === 'wpscp_social_add_profile' || queryString.get('action') === 'wpscp_social_temp_add_profile' && queryString.get('code') || queryString.get('oauth_verifier') && queryString.get('oauth_token')) {
+  if (queryString.get('action') === 'wpsp_social_add_social_profile' || queryString.get('action') === 'wpsp_social_add_social_profile' && queryString.get('code') || queryString.get('oauth_verifier') && queryString.get('oauth_token')) {
     redirectFromOauth = true;
   }
 
@@ -2547,6 +2540,10 @@ const socialTabHeaderData = {
   }
 };
 const socialPopUpData = {
+  facebook: {
+    title: 'Facebook',
+    subtitle: 'For details on Facebook configuration, check out this <a target="_blank" href="https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/">Doc</a> <br /> <a target="_blank" href="https://developer.facebook.com/">Click here</a> to Retrieve Your API Keys from your Facebook account'
+  },
   twitter: {
     title: 'Twitter',
     subtitle: 'For details on Twitter configuration, check out this <a target="_blank" href="https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/">Doc</a> <br /> <a target="_blank" href="https://developer.twitter.com/">Click here</a> to Retrieve Your API Keys from your Twitter account'

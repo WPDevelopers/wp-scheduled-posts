@@ -6,15 +6,16 @@ const CustomAppForm = ({ platform, requestHandler }) => {
     )
     const [appID, SetAppID] = useState('')
     const [appSecret, SetAppSecret] = useState('')
+    const { title, subtitle } = socialPopUpData[platform]
     return (
         <React.Fragment>
             <div className='modalbody'>
                 <div className='wpsp-social-account-insert-modal'>
                     <div className='wpsp-social-modal-header'>
-                        <h3>{socialPopUpData[platform].title}</h3>
+                        <h3>{title}</h3>
                         <p
                             dangerouslySetInnerHTML={{
-                                __html: socialPopUpData[platform].subtitle,
+                                __html: subtitle,
                             }}
                         ></p>
                     </div>

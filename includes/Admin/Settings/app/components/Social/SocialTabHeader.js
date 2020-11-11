@@ -2,6 +2,7 @@ import React from 'react'
 import { socialTabHeaderData, wpspGetPluginRootURI } from './../../utils/helper'
 
 const SocialTabHeader = ({ socialPlatform, setFieldValue, field }) => {
+    const { icon, title, subtitle } = socialTabHeaderData[socialPlatform]
     return (
         <React.Fragment>
             <div
@@ -14,17 +15,13 @@ const SocialTabHeader = ({ socialPlatform, setFieldValue, field }) => {
                     <img
                         width='74'
                         height='74'
-                        src={
-                            wpspGetPluginRootURI +
-                            'assets/images/' +
-                            socialTabHeaderData[socialPlatform].icon
-                        }
+                        src={wpspGetPluginRootURI + 'assets/images/' + icon}
                         alt='icon'
                     />
                 </div>
                 <div className='entry-content'>
-                    <h3>{socialTabHeaderData[socialPlatform].title}</h3>
-                    <p>{socialTabHeaderData[socialPlatform].subtitle}</p>
+                    <h3>{title}</h3>
+                    <p>{subtitle}</p>
                 </div>
                 <div className='entry-control'>
                     <div className='checkbox_wrap'>

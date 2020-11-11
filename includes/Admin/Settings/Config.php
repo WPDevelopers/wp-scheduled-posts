@@ -261,7 +261,7 @@ class Config
             'subtitle' => __('You can enable/disable facebook social share. For details on facebook configuration, check out this Doc', 'wp-scheduled-posts'),
             'app'   => [
                 'platform'  => 'facebook',
-                'type'      => 'default'
+                'type'      => 'custom'
             ]
         ]);
         Builder::add_sub_tab('social_profile', [

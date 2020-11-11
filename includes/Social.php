@@ -21,22 +21,14 @@ class Social
     private function define_constants()
     {
         // facebook
-        $this->define('WPSCP_FACEBOOK_APP_ID', '2550061111706782');
-        $this->define('WPSCP_FACEBOOK_APP_SECRET', '8bfa7101ac90a6cafd37d260a54c195b');
         $this->define('WPSCP_FACEBOOK_OPTION_NAME', 'facebook_profile_list');
-        $this->define('WPSCP_FACEBOOK_SCOPE', 'publish_pages,manage_pages,publish_to_groups');
+        $this->define('WPSCP_FACEBOOK_SCOPE', 'pages_show_list,publish_to_groups,pages_read_engagement,pages_manage_metadata,pages_read_user_content,pages_manage_posts,pages_manage_engagement');
         // twitter
-        $this->define('WPSCP_TWITTER_API_KEY', 'mN2t8LSxPAbp989EyeEL8GGdP');
-        $this->define('WPSCP_TWITTER_API_SECRET_KEY', 'vbpvkuYbSOkueDLiaho047vMs4TY6V3j6qS1Qfwbi5skooMNp1');
         $this->define('WPSCP_TWITTER_OPTION_NAME', 'twitter_profile_list');
         // linkedin
-        $this->define('WPSCP_LINKEDIN_CLIENT_ID', '78iadscla7c407');
-        $this->define('WPSCP_LINKEDIN_CLIENT_SECRET', 'fwYuo1rXKQdahIL7');
         $this->define('WPSCP_LINKEDIN_SCOPE', 'r_emailaddress r_liteprofile w_member_social');
         $this->define('WPSCP_LINKEDIN_OPTION_NAME', 'linkedin_profile_list');
         // pinterest
-        $this->define('WPSCP_PINTEREST_APP_ID', '5078354275936023710');
-        $this->define('WPSCP_PINTEREST_APP_SECRET', '88ced81e088c6c2e4c0ba60701bec5bf892a7f3f22f2a6fa1e1f5ed6c7ed1f93');
         $this->define('WPSCP_PINTEREST_OPTION_NAME', 'pinterest_profile_list');
     }
     /**

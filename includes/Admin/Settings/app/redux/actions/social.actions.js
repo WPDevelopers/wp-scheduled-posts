@@ -5,8 +5,8 @@ export const fetch_social_popup_info = () => {
     let redirectFromOauth = false
     let type = queryString.get('type')
     if (
-        queryString.get('action') === 'wpscp_social_add_profile' ||
-        (queryString.get('action') === 'wpscp_social_temp_add_profile' &&
+        queryString.get('action') === 'wpsp_social_add_social_profile' ||
+        (queryString.get('action') === 'wpsp_social_add_social_profile' &&
             queryString.get('code')) ||
         (queryString.get('oauth_verifier') && queryString.get('oauth_token'))
     ) {

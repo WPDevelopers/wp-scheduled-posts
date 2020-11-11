@@ -17,7 +17,7 @@ class MultiProfile
          * @since 2.5.0
          */
         add_action('wp_ajax_wpsp_social_add_social_profile', array($this, 'add_social_profile'));
-        add_action('wp_ajax_wpscp_social_profile_fetch_user_info_and_token', array($this, 'social_profile_fetch_user_info_and_token'));
+        add_action('wp_ajax_wpsp_social_profile_fetch_user_info_and_token', array($this, 'social_profile_fetch_user_info_and_token'));
         $this->multiProfileErrorMessage = esc_html__('Multi Profile is a Premium Feature. To use this feature, Upgrade to PRO.', 'wp-scheduled-posts');
     }
 
@@ -121,8 +121,8 @@ class MultiProfile
             try {
                 // in this block, we just sending user info and token, not saving in db
                 $pinterest = new Pinterest(
-                    (!empty($app_id) ? $app_id : WPSCP_PINTEREST_APP_ID),
-                    (!empty($app_secret) ? $app_secret : WPSCP_PINTEREST_APP_SECRET)
+                    $app_id,
+                    $app_secret
                 );
                 $token = $pinterest->auth->getOAuthToken($code);
                 $pinterest->auth->setOAuthToken($token->access_token);
@@ -164,8 +164,8 @@ class MultiProfile
         } else if ($type == 'linkedin') {
             try {
                 $linkedin = new LinkedIn(
-                    (!empty($app_id) ? $app_id : WPSCP_LINKEDIN_CLIENT_ID),
-                    (!empty($app_secret) ? $app_secret : WPSCP_LINKEDIN_CLIENT_SECRET),
+                    $app_id,
+                    $app_secret,
                     WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE,
                     WPSCP_LINKEDIN_SCOPE,
                     true,
@@ -260,14 +260,14 @@ class MultiProfile
         } else if ($type == 'facebook' && $code != "") {
             try {
                 $tempAccessToken = $this->facebookGetAccessTokenDetails(
-                    WPSCP_FACEBOOK_APP_ID,
-                    WPSCP_FACEBOOK_APP_SECRET,
+                    $app_id,
+                    $app_secret,
                     WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE,
                     $code
                 );
 
                 if ($tempAccessToken != "") {
-                    $response = wp_remote_get('https://graph.facebook.com/v6.0/oauth/access_token?grant_type=fb_exchange_token&client_id=' . WPSCP_FACEBOOK_APP_ID . '&client_secret=' . WPSCP_FACEBOOK_APP_SECRET . '&fb_exchange_token=' . $tempAccessToken . '');
+                    $response = wp_remote_get('https://graph.facebook.com/v6.0/oauth/access_token?grant_type=fb_exchange_token&client_id=' . $app_id . '&client_secret=' . $app_secret . '&fb_exchange_token=' . $tempAccessToken . '');
                     if (is_array($response)) {
                         $header = $response['headers']; // array of http header lines
                         $body = $response['body']; // use the content
@@ -402,6 +402,23 @@ class MultiProfile
                 $oauth_callback = WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE . '?' . http_build_query($request);
                 $request_token = $connection->oauth('oauth/request_token', array('oauth_callback' => $oauth_callback));
                 $url = $connection->url('oauth/authorize', array('oauth_token' => $request_token['oauth_token']));
+                wp_send_json_success($url);
+                wp_die();
+            } catch (\Exception $error) {
+                wp_send_json_error($error->getMessage());
+                wp_die();
+            }
+        } else if ($type == 'facebook') {
+            if (!$this->social_single_profile_checkpoint($type)) {
+                wp_send_json_error($this->multiProfileErrorMessage);
+                wp_die();
+            }
+            try {
+                $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=' . WPSP_SETTINGS_SLUG));
+                $state = base64_encode(json_encode($request));
+                $url = "https://www.facebook.com/dialog/oauth?client_id="
+                    . $app_id . "&redirect_uri=" . urlencode(WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE) . "&state="
+                    . $state . "&scope=" . WPSCP_FACEBOOK_SCOPE;
                 wp_send_json_success($url);
                 wp_die();
             } catch (\Exception $error) {

@@ -43,6 +43,11 @@ export const socialTabHeaderData = {
 }
 
 export const socialPopUpData = {
+    facebook: {
+        title: 'Facebook',
+        subtitle:
+            'For details on Facebook configuration, check out this <a target="_blank" href="https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/">Doc</a> <br /> <a target="_blank" href="https://developer.facebook.com/">Click here</a> to Retrieve Your API Keys from your Facebook account',
+    },
     twitter: {
         title: 'Twitter',
         subtitle:
