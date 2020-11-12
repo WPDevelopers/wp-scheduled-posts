@@ -14,6 +14,7 @@ import SocialProfile from './type/SocialProfile'
 import Group from './type/Group'
 import ScheduleTable from './type/ScheduleTable'
 import RawHTML from './type/RawHTML'
+import Time from './type/Time'
 import License from './type/License'
 
 const Fields = (props) => {
@@ -64,6 +65,9 @@ const Fields = (props) => {
             break
         case 'rawhtml':
             renderComponent = <RawHTML {...props} />
+            break
+        case 'time':
+            renderComponent = <Time {...props} />
             break
         default:
             renderComponent = <Error {...props} />

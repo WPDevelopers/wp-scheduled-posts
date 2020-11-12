@@ -23,6 +23,7 @@ final class WPSP
 		$this->define_constants();
 		$this->set_global_settings();
 		register_activation_hook(__FILE__, [$this, 'activate']);
+		register_deactivation_hook(__FILE__, [$this, 'deactivate']);
 		$this->installer = new WPSP\Installer();
 		add_action('plugins_loaded', [$this, 'init_plugin']);
 		add_action('wp_loaded', [$this, 'run_migrator']);
@@ -103,6 +104,17 @@ final class WPSP
 		update_option('wpsp_do_activation_redirect', true);
 		do_action('wpsp_run_active_installer', 'activate');
 	}
+
+	/**
+	 * Do stuff upon plugin deactive
+	 *
+	 * @return void
+	 */
+	public function deactivate()
+	{
+		do_action('wpsp_run_deactivate_installer');
+	}
+
 
 	public function run_migrator()
 	{

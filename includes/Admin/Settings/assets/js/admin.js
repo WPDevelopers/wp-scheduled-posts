@@ -331,7 +331,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _type_Group__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./type/Group */ "./app/components/type/Group.js");
 /* harmony import */ var _type_ScheduleTable__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./type/ScheduleTable */ "./app/components/type/ScheduleTable.js");
 /* harmony import */ var _type_RawHTML__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./type/RawHTML */ "./app/components/type/RawHTML.js");
-/* harmony import */ var _type_License__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./type/License */ "./app/components/type/License.js");
+/* harmony import */ var _type_Time__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./type/Time */ "./app/components/type/Time.js");
+/* harmony import */ var _type_License__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./type/License */ "./app/components/type/License.js");
+
 
 
 
@@ -404,11 +406,15 @@ const Fields = props => {
       break;
 
     case 'license':
-      renderComponent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_type_License__WEBPACK_IMPORTED_MODULE_16__["default"], props);
+      renderComponent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_type_License__WEBPACK_IMPORTED_MODULE_17__["default"], props);
       break;
 
     case 'rawhtml':
       renderComponent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_type_RawHTML__WEBPACK_IMPORTED_MODULE_15__["default"], props);
+      break;
+
+    case 'time':
+      renderComponent = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_type_Time__WEBPACK_IMPORTED_MODULE_16__["default"], props);
       break;
 
     default:
@@ -1955,6 +1961,88 @@ const Textarea = ({
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Textarea);
+
+/***/ }),
+
+/***/ "./app/components/type/Time.js":
+/*!*************************************!*\
+  !*** ./app/components/type/Time.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var rc_time_picker__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rc-time-picker */ "./node_modules/rc-time-picker/es/index.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var formik__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! formik */ "./node_modules/formik/dist/formik.esm.js");
+
+
+
+
+
+const Time = ({
+  id,
+  title,
+  subtitle,
+  desc,
+  arrayHelpers,
+  index,
+  setFieldValue,
+  groupName,
+  value
+}) => {
+  let groupTimeFlug = false;
+  let groupNow;
+  const [field] = Object(formik__WEBPACK_IMPORTED_MODULE_3__["useField"])(id);
+  const format = 'h:mm a';
+  const now = field.value ? moment__WEBPACK_IMPORTED_MODULE_2___default()(field.value, format) : moment__WEBPACK_IMPORTED_MODULE_2___default()().hour(0).minute(0);
+
+  if (value && value[index] && value[index][id]) {
+    groupNow = value[index][id] ? moment__WEBPACK_IMPORTED_MODULE_2___default()(value[index][id], format) : moment__WEBPACK_IMPORTED_MODULE_2___default()().hour(0).minute(0);
+    groupTimeFlug = true;
+  }
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-info"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: id
+  }, title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "sub-title"
+  }, subtitle)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-body"
+  }, arrayHelpers !== undefined && groupTimeFlug ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(rc_time_picker__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    name: "".concat(groupName, ".").concat(id),
+    showSecond: false,
+    defaultValue: groupNow,
+    className: "timepicker",
+    onChange: value => arrayHelpers.replace(index, {
+      [id]: value.format(format)
+    }),
+    format: format,
+    use12Hours: true,
+    inputReadOnly: true
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(rc_time_picker__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    id: id,
+    name: field.name,
+    showSecond: false,
+    defaultValue: now,
+    className: "timepicker",
+    onChange: value => setFieldValue(id, value.format(format)),
+    format: format,
+    use12Hours: true,
+    inputReadOnly: true
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "desc"
+  }, desc)));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Time);
 
 /***/ }),
 

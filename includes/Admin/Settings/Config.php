@@ -81,7 +81,7 @@ class Config
         ]);
         Builder::add_field('wpsp_general', [
             'id' => 'calendar_schedule_time',
-            'type' => 'text',
+            'type' => 'time',
             'title' => __('Calendar Default Schedule Time:', 'wp-scheduled-posts'),
             'default' => '12:00 am',
         ]);
