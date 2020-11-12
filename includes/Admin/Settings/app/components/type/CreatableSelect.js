@@ -39,15 +39,17 @@ const CreatableSelect = ({
                 <span className='sub-title'>{subtitle}</span>
             </div>
             <div className='form-body'>
-                <CreatableSelect2
-                    isClearable
-                    id={field.id}
-                    name={field.name}
-                    value={getValue()}
-                    onChange={onChange}
-                    options={modifiedOptions}
-                    isMulti={multiple === true ? true : false}
-                />
+                <div className='select-field'>
+                    <CreatableSelect2
+                        isClearable
+                        id={field.id}
+                        name={field.name}
+                        value={getValue()}
+                        onChange={onChange}
+                        options={modifiedOptions}
+                        isMulti={multiple === true ? true : false}
+                    />
+                </div>
                 <span className='desc'>{desc}</span>
             </div>
         </div>

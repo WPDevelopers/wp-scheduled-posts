@@ -965,6 +965,8 @@ const CreatableSelect = ({
     className: "sub-title"
   }, subtitle)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-body"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "select-field"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_select_creatable__WEBPACK_IMPORTED_MODULE_1__["default"], {
     isClearable: true,
     id: field.id,
@@ -973,7 +975,7 @@ const CreatableSelect = ({
     onChange: onChange,
     options: modifiedOptions,
     isMulti: multiple === true ? true : false
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "desc"
   }, desc)));
 };
@@ -1617,6 +1619,8 @@ const Select = ({
     className: "sub-title"
   }, subtitle)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-body"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "select-field"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_select__WEBPACK_IMPORTED_MODULE_2__["default"], {
     id: field.id,
     name: field.name,
@@ -1624,7 +1628,7 @@ const Select = ({
     onChange: onChange,
     options: modifiedOptions,
     isMulti: multiple === true ? true : false
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "desc"
   }, desc)));
 };

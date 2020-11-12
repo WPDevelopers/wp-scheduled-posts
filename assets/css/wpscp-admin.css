@@ -1258,6 +1258,9 @@
 .wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .form-group .form-body {
   text-align: right;
 }
+.wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .form-group .form-body .select-field {
+  text-align: left;
+}
 .wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .form-group .form-body .text-field {
   background: #f4f7f9;
   color: #687b95;
@@ -1484,6 +1487,62 @@
 }
 .wpsp-dashboard-body .group-fields.auto_schedule .standard-fields .timepicker input[type=text] {
   width: 95px !important;
+}
+.wpsp-dashboard-body ul.schedule-list {
+  background-color: #f8fafc;
+  margin: 0;
+  padding: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row;
+          flex-flow: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  border-radius: 3px;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+.wpsp-dashboard-body ul.schedule-list li {
+  padding: 5px;
+  text-align: center;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+.wpsp-dashboard-body ul.schedule-list li > span {
+  padding: 8px;
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 14px;
+  margin-top: 7px;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+}
+.wpsp-dashboard-body ul.schedule-list li > span button {
+  color: #fff;
+  text-decoration: none;
+  border-radius: 50%;
+  display: inline-block;
+  text-align: center;
+  opacity: 0.75;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  padding: 0;
+  font-size: 14px;
+}
+.wpsp-dashboard-body ul.schedule-list li > span button button:hover {
+  opacity: 1;
+}
+.wpsp-dashboard-body ul.schedule-list li > span button .dashicons {
+  color: #ccc;
+  font-size: 16px;
 }
 
 .wpsp-modal-social-platform .entry-head {
@@ -2516,71 +2575,6 @@
 /* Manage Schedule Page */
 .wpsp-dashboard-body #man_form {
   margin-left: 30px;
-}
-
-.wpsp-dashboard-body .schedule-list {
-  background-color: #f8fafc;
-  margin: 0;
-  padding: 5px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-flow: row nowrap;
-          flex-flow: row nowrap;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  border-radius: 3px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.wpsp-dashboard-body .schedule-list li {
-  padding: 5px;
-  text-align: center;
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
-}
-
-.wpsp-dashboard-body .schedule-list li > span {
-  padding: 8px;
-  display: block;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-top: 7px;
-  background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.07);
-}
-
-.wpsp-dashboard-body .schedule-list li > span button {
-  color: #fff;
-  text-decoration: none;
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  display: inline-block;
-  text-align: center;
-  opacity: 0.75;
-  cursor: pointer;
-  border: none;
-  background: transparent;
-  padding: 0;
-  height: 10px;
-  width: 10px;
-}
-
-.wpsp-dashboard-body .schedule-list li > span button:hover {
-  opacity: 1;
-}
-
-.wpsp-dashboard-body .schedule-list li > span button .dashicons {
-  font-size: 15px;
-  line-height: 20px;
-  color: #ccc;
-  height: 10px;
-  width: 10px;
 }
 
 .wpsp-dashboard-body .wpsp-schedule-table {

@@ -99,6 +99,9 @@
                 }
                 .form-body {
                     text-align: right;
+                    .select-field {
+                        text-align: left;
+                    }
                     .text-field {
                         background: #f4f7f9;
                         color: #687b95;
@@ -309,6 +312,54 @@
                 .timepicker {
                     input[type='text'] {
                         width: 95px !important;
+                    }
+                }
+            }
+        }
+    }
+
+    // schedule list
+    ul.schedule-list {
+        background-color: #f8fafc;
+        margin: 0;
+        padding: 5px;
+        display: flex;
+        flex-flow: row;
+        justify-content: space-between;
+        border-radius: 3px;
+        flex-wrap: wrap;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        li {
+            padding: 5px;
+            text-align: center;
+            flex: 1;
+            > span {
+                padding: 8px;
+                display: block;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                font-size: 14px;
+                margin-top: 7px;
+                background-color: #fff;
+                border: 1px solid rgba(0, 0, 0, 0.07);
+                button {
+                    color: #fff;
+                    text-decoration: none;
+                    border-radius: 50%;
+                    display: inline-block;
+                    text-align: center;
+                    opacity: 0.75;
+                    cursor: pointer;
+                    border: none;
+                    background: transparent;
+                    padding: 0;
+                    font-size: 14px;
+                    button:hover {
+                        opacity: 1;
+                    }
+                    .dashicons {
+                        color: #ccc;
+                        font-size: 16px;
                     }
                 }
             }
@@ -1178,61 +1229,6 @@
 /* Manage Schedule Page */
 .wpsp-dashboard-body #man_form {
     margin-left: 30px;
-}
-
-.wpsp-dashboard-body .schedule-list {
-    background-color: #f8fafc;
-    margin: 0;
-    padding: 5px;
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-    border-radius: 3px;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.wpsp-dashboard-body .schedule-list li {
-    padding: 5px;
-    text-align: center;
-    flex: 1;
-}
-.wpsp-dashboard-body .schedule-list li > span {
-    padding: 8px;
-    display: block;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-top: 7px;
-    background-color: #fff;
-    border: 1px solid rgba(0, 0, 0, 0.07);
-}
-
-.wpsp-dashboard-body .schedule-list li > span button {
-    color: #fff;
-    text-decoration: none;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    display: inline-block;
-    text-align: center;
-    opacity: 0.75;
-    cursor: pointer;
-    border: none;
-    background: transparent;
-    padding: 0;
-    height: 10px;
-    width: 10px;
-}
-
-.wpsp-dashboard-body .schedule-list li > span button:hover {
-    opacity: 1;
-}
-
-.wpsp-dashboard-body .schedule-list li > span button .dashicons {
-    font-size: 15px;
-    line-height: 20px;
-    color: #ccc;
-    height: 10px;
-    width: 10px;
 }
 
 .wpsp-dashboard-body .wpsp-schedule-table {
