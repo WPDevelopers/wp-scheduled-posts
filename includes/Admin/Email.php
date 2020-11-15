@@ -40,9 +40,74 @@ class Email
         if ($this->notify_author_schedule_post_is_publish == 1) {
             add_action('publish_future_post', array($this, 'notify_content_author'), 90, 1);
         }
-        // add_filter("transition_post_status", array($this, "notify_status_change"), 10, 3);
-        add_action('transition_post_status', array($this, "notify_status_change"), 90, 3);
+        add_action('transition_post_status', array($this, "transition_post_action"), 10, 3);
     }
+
+    public function transition_post_action($new_status, $old_status, $post)
+    {
+        $current_screen = get_current_screen();
+        if (\method_exists($current_screen, 'is_block_editor')) {
+            if (isset($_POST['original_' . $post->post_type . '_status'])) {
+                $old_status = $_POST['original_' . $post->post_type . '_status'];
+            }
+            $this->notify_status_change($new_status, $old_status, $post);
+        } else {
+            $this->notify_status_change($new_status, $old_status, $post);
+        }
+    }
+
+    /**
+     * Notify status change
+     * the main function which controls posts status changes
+     * @param string $new_status 
+     * @param string $old_status
+     * @param object $post
+     * @return void
+     */
+    public function notify_status_change($new_status, $old_status, $post)
+    {
+        if ($old_status == $new_status) {
+            return;
+        }
+        // pending review
+        if ($this->notify_author_is_sent_review == 1 && $new_status == 'pending') {
+            $reviewEmailList = \WPSP\Helper::email_notify_review_email_list();
+            if (!empty($reviewEmailList) && is_array($reviewEmailList)) {
+                $subject = 'New Post Pending Your Approval.';
+                $message = 'Hello Moderator, <br/>A new post written by "%author%" titled "%title%" was submitted for your review. Click here %permalink%';
+                $this->notify_custom_user(array_values($reviewEmailList), $post->ID, $subject, $message);
+            }
+        }
+        // review is rejected
+        else if ($this->notify_author_post_is_rejected == 1 && $new_status == 'trash') {
+            // send mail for rejected
+            $subject = 'Your Post titled "%title%" has been Rejected.';
+            $message = 'Hello Author, <br/>You recently submitted a new article titled "%title%". Your Article is not well standard. Please, improve it and try again.';
+            $this->notify_content_author($post->ID, $subject, $message);
+        }
+        // post is schedule
+        else if ($this->notify_author_post_is_schedule == 1 && $new_status == 'future') {
+            $futureEmailList = \WPSP\Helper::email_notify_schedule_email_list();
+            if (!empty($futureEmailList) && is_array($futureEmailList)) {
+                $subject = 'New post "%title%" is schedule on "%date%"';
+                $message = 'Hello Moderator, <br/>Recently Moderator for your site scheduled a new post titled "%title%". The blog is scheduled for "%date%"';
+                $this->notify_custom_user(array_values($futureEmailList), $post->ID, $subject, $message);
+            }
+            // send author 
+            $subject = 'Your Post is scheduled for "%date%"';
+            $message = 'Hello Author, <br/>Your blog titled "%title%" was scheduled for "%date%"';
+            $this->notify_content_author($post->ID, $subject, $message);
+        }
+        // post is publish
+        else if ($this->notify_author_schedule_post_is_publish == 1 && $new_status == 'publish') {
+            // send mail for publish post
+            $subject = 'Your post titled "%title%" is Live Now.';
+            $message = 'Hello Author, <br/>Your blog titled "%title%" was published. Here is your published blog url: %permalink%';
+            $this->notify_content_author($post->ID, $subject, $message);
+        }
+    }
+
+
     // publish status
     public function get_publish_post_notify_email_title($post_title, $subject, $post_date)
     {
@@ -95,56 +160,5 @@ class Email
         $body = $this->get_publish_post_notify_email_body($post_title, get_the_permalink($post_id), $message, $post_date, $author_user_name);
         $headers = array('Content-Type: text/html; charset=UTF-8');
         wp_mail($to, $subject, $body, $headers);
-    }
-    /**
-     * Notify status change
-     * the main function which controls posts status changes
-     * @param string $new_status 
-     * @param string $old_status
-     * @param object $post
-     * @return void
-     */
-    public function notify_status_change($new_status, $old_status, $post)
-    {
-        if ($old_status == $new_status) {
-            return;
-        }
-
-        // pending review
-        if ($this->notify_author_is_sent_review == 1 && $new_status == 'pending') {
-            $reviewEmailList = \WPSP\Helper::email_notify_review_email_list();
-            if (!empty($reviewEmailList) && is_array($reviewEmailList)) {
-                $subject = 'New Post Pending Your Approval.';
-                $message = 'Hello Moderator, <br/>A new post written by "%author%" titled "%title%" was submitted for your review. Click here %permalink%';
-                $this->notify_custom_user(array_values($reviewEmailList), $post->ID, $subject, $message);
-            }
-        }
-        // review is rejected
-        else if ($this->notify_author_post_is_rejected == 1 && $new_status == 'trash') {
-            // send mail for rejected
-            $subject = 'Your Post titled "%title%" has been Rejected.';
-            $message = 'Hello Author, <br/>You recently submitted a new article titled "%title%". Your Article is not well standard. Please, improve it and try again.';
-            $this->notify_content_author($post->ID, $subject, $message);
-        }
-        // post is schedule
-        else if ($this->notify_author_post_is_schedule == 1 && $new_status == 'future') {
-            $futureEmailList = \WPSP\Helper::email_notify_schedule_email_list();
-            if (!empty($futureEmailList) && is_array($futureEmailList)) {
-                $subject = 'New post "%title%" is schedule on "%date%"';
-                $message = 'Hello Moderator, <br/>Recently Moderator for your site scheduled a new post titled "%title%". The blog is scheduled for "%date%"';
-                $this->notify_custom_user(array_values($futureEmailList), $post->ID, $subject, $message);
-            }
-            // send author 
-            $subject = 'Your Post is scheduled for "%date%"';
-            $message = 'Hello Author, <br/>Your blog titled "%title%" was scheduled for "%date%"';
-            $this->notify_content_author($post->ID, $subject, $message);
-        }
-        // post is publish
-        else if ($this->notify_author_schedule_post_is_publish == 1 && $new_status == 'publish') {
-            // send mail for publish post
-            $subject = 'Your post titled "%title%" is Live Now.';
-            $message = 'Hello Author, <br/>Your blog titled "%title%" was published. Here is your published blog url: %permalink%';
-            $this->notify_content_author($post->ID, $subject, $message);
-        }
     }
 }
