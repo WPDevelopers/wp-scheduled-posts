@@ -196,7 +196,7 @@
 }
 
 .Toastify__toast-container--top-right {
-  top: 1em;
+  top: 2em;
   right: 1em;
 }
 
@@ -247,7 +247,7 @@
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   margin-bottom: 1rem;
-  padding: 8px;
+  padding: 8px 20px;
   border-radius: 1px;
   -webkit-box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1), 0 2px 15px 0 rgba(0, 0, 0, 0.05);
           box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1), 0 2px 15px 0 rgba(0, 0, 0, 0.05);
@@ -278,7 +278,7 @@
 }
 
 .Toastify__toast--success {
-  background: #07bc0c;
+  background: #6c62ff;
 }
 
 .Toastify__toast--warning {
@@ -294,6 +294,7 @@
   -ms-flex: 1;
   -webkit-box-flex: 1;
           flex: 1;
+  font-weight: 700;
 }
 
 @media only screen and (max-width: 480px) {
@@ -316,6 +317,11 @@
   transition: 0.3s ease;
   -ms-flex-item-align: start;
   align-self: flex-start;
+}
+
+.Toastify__close-button svg {
+  color: #fff;
+  width: 20px;
 }
 
 .Toastify__close-button--default {
@@ -1150,6 +1156,18 @@
 .wpsp-dashboard-body {
   position: relative;
 }
+.wpsp-dashboard-body p strong {
+  margin-left: 5px;
+}
+.wpsp-dashboard-body p a {
+  display: inline-block;
+  margin-left: 5px;
+}
+.wpsp-dashboard-body ul li a,
+.wpsp-dashboard-body ol li a {
+  display: inline-block;
+  margin-left: 5px;
+}
 .wpsp-dashboard-body .wpsp_switch {
   position: relative;
   display: inline-block;
@@ -1435,6 +1453,11 @@
 .wpsp-dashboard-body .manage_schedule .is_active_missed_schedule .form-group .form-info label {
   display: block;
 }
+.wpsp-dashboard-body .group-item__head p > a {
+  display: inline-block;
+  margin-left: 5px;
+  font-weight: 700;
+}
 .wpsp-dashboard-body .group-fields.auto_schedule {
   background-color: #f8fafc;
   color: #4d4d4d;
@@ -1461,6 +1484,7 @@
 }
 .wpsp-dashboard-body .group-fields.auto_schedule .standard-fields .form-group .form-info label {
   color: #687b95;
+  display: block;
 }
 .wpsp-dashboard-body .group-fields.auto_schedule .standard-fields .form-group .form-info span {
   color: #a4b0c1;
@@ -1485,8 +1509,11 @@
   font-weight: 500;
   border: 0.5px solid #e7e7e7;
 }
+.wpsp-dashboard-body .group-fields.auto_schedule .standard-fields .timepicker .rc-time-picker-clear {
+  top: 9px;
+}
 .wpsp-dashboard-body .group-fields.auto_schedule .standard-fields .timepicker input[type=text] {
-  width: 95px !important;
+  width: 135px !important;
 }
 .wpsp-dashboard-body ul.schedule-list {
   background-color: #f8fafc;
@@ -1536,9 +1563,18 @@
   background: transparent;
   padding: 0;
   font-size: 14px;
+  outline: none;
 }
-.wpsp-dashboard-body ul.schedule-list li > span button button:hover {
+.wpsp-dashboard-body ul.schedule-list li > span button:hover {
   opacity: 1;
+}
+.wpsp-dashboard-body ul.schedule-list li > span button:hover .dashicons {
+  color: #444;
+}
+.wpsp-dashboard-body ul.schedule-list li > span button:focus {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  outline: none;
 }
 .wpsp-dashboard-body ul.schedule-list li > span button .dashicons {
   color: #ccc;
@@ -4629,6 +4665,7 @@
       -ms-flex: 1;
           flex: 1;
   padding-left: 20px;
+  padding-right: 20px;
 }
 .wpscp-social-tab__item-header .entry-content h3 {
   margin: 0;
@@ -4645,6 +4682,7 @@
 }
 .wpscp-social-tab__item-header .entry-content a {
   color: #fff;
+  font-weight: 700;
 }
 .wpscp-social-tab__item-header .entry-control .checkbox-toggle {
   margin-right: 0;

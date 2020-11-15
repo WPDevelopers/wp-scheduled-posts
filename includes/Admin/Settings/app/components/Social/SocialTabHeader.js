@@ -21,7 +21,7 @@ const SocialTabHeader = ({ socialPlatform, setFieldValue, field }) => {
                 </div>
                 <div className='entry-content'>
                     <h3>{title}</h3>
-                    <p>{subtitle}</p>
+                    <p dangerouslySetInnerHTML={{ __html: subtitle }}></p>
                 </div>
                 <div className='entry-control'>
                     <div className='checkbox_wrap'>

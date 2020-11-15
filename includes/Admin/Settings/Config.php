@@ -89,7 +89,7 @@ class Config
         Builder::add_field('wpsp_general', [
             'id' => 'adminbar_list_structure',
             'type' => 'collapsible',
-            'title' => __('Custom item template for scheduled posts list in adminbar:', 'wp-scheduled-posts'),
+            'title' => __('Custom item template for scheduled posts list in the admin bar:', 'wp-scheduled-posts'),
             'default' => false,
         ]);
         Builder::add_field('wpsp_general', [
@@ -115,7 +115,7 @@ class Config
             'type' => 'text',
             'title' => __('Date format:', 'wp-scheduled-posts'),
             'default'   => 'M-d h:i:a',
-            'desc'   => __('For item template use %TITLE% for post title, %AUTHOR% for post author and %DATE% for post scheduled date-time. You can use HTML tags with styles also', 'wp-scheduled-posts'),
+            'desc'   => __('For item template use %TITLE% for the post title, %AUTHOR% for post author, and %DATE% for post scheduled date-time. You can use HTML tags with styles also.', 'wp-scheduled-posts'),
             'condition' => [
                 'adminbar_list_structure' => true,
             ]
@@ -258,7 +258,6 @@ class Config
             'id' => 'facebook_profile',
             'type' => 'socialprofile',
             'title' => __('Facebook Profile', 'wp-scheduled-posts'),
-            'subtitle' => __('You can enable/disable facebook social share. For details on facebook configuration, check out this Doc', 'wp-scheduled-posts'),
             'app'   => [
                 'platform'  => 'facebook',
                 'type'      => 'custom'
@@ -272,7 +271,6 @@ class Config
             'id' => 'twitter_profile',
             'type' => 'socialprofile',
             'title' => __('Twitter Profile', 'wp-scheduled-posts'),
-            'subtitle' => __('You can enable/disable twitter social share. For details on twitter configuration, check out this ', 'wp-scheduled-posts'),
             'app'   => [
                 'platform'  => 'twitter',
                 'type'      => 'custom'
@@ -286,7 +284,6 @@ class Config
             'id' => 'linkedin_profile',
             'type' => 'socialprofile',
             'title' => __('Linkedin Profile', 'wp-scheduled-posts'),
-            'subtitle' => __('You can enable/disable twitter social share. For details on twitter configuration, check out this ', 'wp-scheduled-posts'),
             'app'   => [
                 'platform'  => 'linkedin',
                 'type'      => 'custom'
@@ -300,7 +297,6 @@ class Config
             'id' => 'pinterest_profile',
             'type' => 'socialprofile',
             'title' => __('Pinterest Profile', 'wp-scheduled-posts'),
-            'subtitle' => __('You can enable/disable twitter social share. For details on twitter configuration, check out this ', 'wp-scheduled-posts'),
             'app'   => [
                 'platform'  => 'pinterest',
                 'type'      => 'custom'
@@ -315,14 +311,13 @@ class Config
         Builder::add_group('social_templates', [
             'id' => 'facebook',
             'title' => __(' Facebook Status Settings', 'wp-scheduled-posts'),
-            'subtitle'  => 'To configure the Facebook Status Settings, check out this<a className="docs" href="https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/" target="_blank">Doc</a>'
+            'subtitle'  => 'To configure the Facebook Status Settings, check out this<a className="docs" href="https://wpdeveloper.net/docs/share-scheduled-posts-facebook/" target="_blank">Doc</a>'
         ]);
         Builder::add_group_field('social_templates', 'facebook', [
             'id' => 'is_show_meta',
             'type' => 'checkbox',
             'title' => __('Facebook Meta Data', 'wp-scheduled-posts'),
-            'desc'  => __('Add Open Graph meta data to your site head section
-            and other social network use this data when your pages are shared.', 'wp-scheduled-posts'),
+            'desc'  => __('Add Open Graph metadata to your site head section and other social networks use this data when your pages are shared.', 'wp-scheduled-posts'),
             'default' => true,
         ]);
         Builder::add_group_field('social_templates', 'facebook', [
@@ -412,7 +407,7 @@ class Config
         Builder::add_group('social_templates', [
             'id' => 'linkedin',
             'title' => __('Linkedin Status Settings', 'wp-scheduled-posts'),
-            'subtitle'  => 'To configure the Linkedin Status Settings, check out this<a className="docs" href="https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/" target="_blank">Doc</a>'
+            'subtitle'  => 'To configure the Linkedin Status Settings, check out this<a className="docs" href="https://wpdeveloper.net/docs/share-wordpress-posts-on-linkedin/" target="_blank">Doc</a>'
         ]);
         Builder::add_group_field('social_templates', 'linkedin', [
             'id' => 'content_type',
@@ -458,7 +453,7 @@ class Config
         Builder::add_group('social_templates', [
             'id' => 'pinterest',
             'title' => __(' Pinterest Pin Settings', 'wp-scheduled-posts'),
-            'subtitle'  => 'To configure the Pinterest Pin Settings, check out this<a className="docs" href="https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/" target="_blank">Doc</a>'
+            'subtitle'  => 'To configure the Pinterest Pin Settings, check out this<a className="docs" href="https://wpdeveloper.net/docs/wordpress-posts-on-pinterest/" target="_blank">Doc</a>'
         ]);
         Builder::add_group_field('social_templates', 'pinterest', [
             'id' => 'is_set_image_link',

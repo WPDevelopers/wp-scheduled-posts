@@ -1,5 +1,23 @@
 .wpsp-dashboard-body {
     position: relative;
+    p {
+        strong {
+            margin-left: 5px;
+        }
+        a {
+            display: inline-block;
+            margin-left: 5px;
+        }
+    }
+    ul,
+    ol {
+        li {
+            a {
+                display: inline-block;
+                margin-left: 5px;
+            }
+        }
+    }
     // switch
     .wpsp_switch {
         position: relative;
@@ -263,6 +281,18 @@
             }
         }
     }
+    // group
+    .group-item {
+        &__head {
+            p {
+                > a {
+                    display: inline-block;
+                    margin-left: 5px;
+                    font-weight: 700;
+                }
+            }
+        }
+    }
     .group-fields {
         &.auto_schedule {
             background-color: #f8fafc;
@@ -283,6 +313,7 @@
                     .form-info {
                         label {
                             color: #687b95;
+                            display: block;
                         }
                         span {
                             color: #a4b0c1;
@@ -310,8 +341,11 @@
                     border: 0.5px solid #e7e7e7;
                 }
                 .timepicker {
+                    .rc-time-picker-clear {
+                        top: 9px;
+                    }
                     input[type='text'] {
-                        width: 95px !important;
+                        width: 135px !important;
                     }
                 }
             }
@@ -354,8 +388,16 @@
                     background: transparent;
                     padding: 0;
                     font-size: 14px;
-                    button:hover {
+                    outline: none;
+                    &:hover {
                         opacity: 1;
+                        .dashicons {
+                            color: #444;
+                        }
+                    }
+                    &:focus {
+                        box-shadow: none;
+                        outline: none;
                     }
                     .dashicons {
                         color: #ccc;
@@ -2955,6 +2997,7 @@
         .entry-content {
             flex: 1;
             padding-left: 20px;
+            padding-right: 20px;
             h3 {
                 margin: 0;
                 color: #fff;
@@ -2970,6 +3013,7 @@
             }
             a {
                 color: #fff;
+                font-weight: 700;
             }
         }
         .entry-control {

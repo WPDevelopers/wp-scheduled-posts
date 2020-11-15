@@ -6,12 +6,8 @@ const Group = ({ id, group, values }) => {
     return (
         <React.Fragment>
             {Object.entries(group).map(([index, item]) => (
-                <div
-                    id={`wpsp_${item.id}`}
-                    className='wpsp-integ-item_section wpsp-integ-active'
-                    key={index}
-                >
-                    <div className='wpsp-integ-bar wpsp-integ-active'>
+                <div id={`wpsp_${item.id}`} className='group-item' key={index}>
+                    <div className='group-item group-item__head'>
                         <h3>{item.title}</h3>
                         {item.subtitle !== undefined && (
                             <p

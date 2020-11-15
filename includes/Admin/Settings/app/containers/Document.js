@@ -8,7 +8,7 @@ const Document = ({ pluginRootURI }) => {
             icon: assetsURI + 'documentation.png',
             title: __('Documentation', 'wp-scheduled-posts'),
             desc: __(
-                'Get started spending some time with the documentation to get familiar with WP Scheduled Posts. Build awesome websites for you or your clients with ease.',
+                'Get started spending some time with the documentation to get familiar with SchedulePress. Build awesome websites for you or your clients with ease.',
                 'wp-scheduled-posts'
             ),
             button: {
@@ -19,7 +19,7 @@ const Document = ({ pluginRootURI }) => {
         },
         {
             icon: assetsURI + 'contribute.png',
-            title: __('Contribute to WP Scheduled Posts', 'wp-scheduled-posts'),
+            title: __('Contribute to SchedulePress', 'wp-scheduled-posts'),
             desc: __(
                 'You can contribute to make WP Scheduled Posts better reporting bugs, creating issues, pull requests at Github.',
                 'wp-scheduled-posts'
@@ -34,7 +34,7 @@ const Document = ({ pluginRootURI }) => {
             icon: assetsURI + 'chat.png',
             title: __('Need Help?', 'wp-scheduled-posts'),
             desc: __(
-                'Stuck with something? Get help from the community WPDeveloper Forum or Facebook Community. In case of emergency, initiate live chat at WP Scheduled Posts website.',
+                'Stuck with something? Get help from the community WPDeveloper Forum or Facebook Community. In case of emergency, initiate live chat at the SchedulePress website.',
                 'wp-scheduled-posts'
             ),
             button: {
@@ -46,11 +46,11 @@ const Document = ({ pluginRootURI }) => {
             icon: assetsURI + 'love.png',
             title: __('Show your Love', 'wp-scheduled-posts'),
             desc: __(
-                'We love to have you in WP Scheduled Posts family. We are making it more awesome everyday.',
+                'We love to have you in the SchedulePress family. We are making it more awesome every day.',
                 'wp-scheduled-posts'
             ),
             button: {
-                text: __('Leave a Review', 'wp-scheduled-posts'),
+                text: __('Show your Love', 'wp-scheduled-posts'),
                 url:
                     'https://wordpress.org/support/plugin/wp-scheduled-posts/reviews/?rate=5#new-post',
             },
