@@ -2,7 +2,7 @@
 /*
  * Plugin Name: WP Scheduled Posts
  * Description: Automate your content workflow with WP Scheduled Posts. Take a quick glance at your content planning with Schedule Calendar, Dashboard widget & Sitewide admin bar. Instantly share your posts on social media platforms such as Facebook, Twitter & many more.
- * Version: 3.3.2
+ * Version: 3.3.3
  * Author: WPDeveloper
  * Author URI: https://wpdeveloper.net
  * Text Domain: wp-scheduled-posts
@@ -13,7 +13,7 @@ if (!defined('ABSPATH')) exit;
 /**
  * Defines CONSTANTS for Whole plugins.
  */
-define('WPSP_VERSION', '3.3.2');
+define('WPSP_VERSION', '3.3.3');
 define('WPSP_PLUGIN_FILE', __FILE__);
 define('WPSP_PLUGIN_BASENAME', plugin_basename(__FILE__));
 define('WPSCP_PLUGIN_SLUG', 'wp-scheduled-posts');

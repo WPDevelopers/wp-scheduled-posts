@@ -4,7 +4,7 @@ Tags: post schedule, editor calendar, schedule-calendar, editorial calendar, soc
 Requires at least: 4.0
 Tested up to: 5.5
 Requires PHP: 5.4
-Stable tag: 3.3.2
+Stable tag: 3.3.3
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -12,7 +12,7 @@ A complete solution for WordPress Post Schedule. Manage schedule through editori
 
 == Description ==
 
-A complete solution for WordPress Post Schedule. Manage schedule through editorial calendar and enable auto scheduler. Also handles auto social share in Facebook, Twitter, linkedIn, Pinterest & Instagram. Get an Admin Bar & Dashboard Widget showing all your scheduled posts.
+Automate your content workflow with WP Scheduled Posts. Take a quick glance at your content planning with Schedule Calendar, Dashboard widget & Sitewide admin bar. Instantly share your posts on social media platforms such as Facebook, Twitter & many more.
 
 https://www.youtube.com/watch?v=yyvm6ml_OA4
 
@@ -135,6 +135,10 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 
 == Changelog ==
+
+= 3.3.3 - 2020-11-15 =
+* Fixed : Facebook Share not working
+* Fixed : Few minor bug fix and improvements
 
 = 3.3.2 - 2020-09-30 =
 * Fixed     : Twitter Share not working 
