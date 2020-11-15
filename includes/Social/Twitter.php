@@ -23,7 +23,7 @@ class Twitter
     {
         $settings = \WPSP\Helper::get_settings('social_templates');
         $settings = $settings->twitter;
-        $this->template_structure = (isset($settings[0]->template_structure) ? $settings[0]->template_structure : '');
+        $this->template_structure = (isset($settings[0]->template_structure) ? $settings[0]->template_structure : '{title}{content}{url}{tags}');
         $this->is_category_as_tags = (isset($settings[1]->is_category_as_tags) ? $settings[1]->is_category_as_tags : '');
         $this->is_show_post_thumbnail = (isset($settings[2]->is_show_post_thumbnail) ? $settings[2]->is_show_post_thumbnail : '');
         $this->content_source = (isset($settings[3]->content_source) ? $settings[3]->content_source : '');
@@ -99,17 +99,12 @@ class Twitter
 
         $parameters = [];
 
-        // change structure
-        $twitter_template_structure = $this->template_structure;
-        if (empty($twitter_template_structure)) {
-            $twitter_template_structure = '{title}{content}{url}{tags}';
-        }
         // limit
         $tweet_limit = (!empty($this->tweet_limit) ? $this->tweet_limit : 280);
 
         // text formated
         $formatedText = $this->social_share_content_template_structure(
-            $twitter_template_structure,
+            $this->template_structure,
             $title,
             $desc,
             $post_link,

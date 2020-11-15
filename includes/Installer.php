@@ -195,7 +195,7 @@ class Installer
             }
             $wpscp_pro_fb_content_type = get_option('wpscp_pro_fb_content_type');
             if (!empty($wpscp_pro_fb_content_type)) {
-                $settings->social_templates->facebook[1]->content_type = $wpscp_pro_fb_content_type;
+                $settings->social_templates->facebook[1]->content_type = ($wpscp_pro_fb_content_type == 'statusandlink' ? 'statuswithlink' : $wpscp_pro_fb_content_type);
             }
             $wpscp_pro_fb_template_category_tags_support = get_option('wpscp_pro_fb_template_category_tags_support');
             if (!empty($wpscp_pro_fb_template_category_tags_support)) {

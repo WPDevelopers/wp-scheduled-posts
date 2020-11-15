@@ -100,7 +100,6 @@ class Pinterest
         }
 
         // generate pin note content
-        $template_content_strucutre = $this->template_structure;
         $template_category_tags_support = $this->is_category_as_tags;
         $add_image_link = $this->is_set_image_link;
         $pin_note_limit = (!empty($this->note_limit) ? $this->note_limit : 500);
@@ -119,7 +118,7 @@ class Pinterest
         }
 
         $note_content = $this->social_share_content_template_structure(
-            $template_content_strucutre,
+            $this->template_structure,
             $PostTitle,
             $desc,
             $PostPermalink,

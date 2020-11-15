@@ -26,7 +26,7 @@ class Facebook
         $this->content_type = (isset($settings[1]->content_type) ? $settings[1]->content_type : '');
         $this->is_category_as_tags = (isset($settings[2]->is_category_as_tags) ? $settings[2]->is_category_as_tags : '');
         $this->content_source = (isset($settings[3]->content_source) ? $settings[3]->content_source : '');
-        $this->template_structure = (isset($settings[4]->template_structure) ? $settings[4]->template_structure : '');
+        $this->template_structure = (isset($settings[4]->template_structure) ? $settings[4]->template_structure : '{title}{content}{url}{tags}');
         $this->status_limit = (isset($settings[5]->status_limit) ? $settings[5]->status_limit : '');
 
         $this->facebook_head_meta_data();
@@ -69,9 +69,9 @@ class Facebook
     public function facebook_head_meta_data()
     {
         $settings = \WPSP\Helper::get_settings('social_templates');
-        if (isset($settings->facebook[0]->is_show_meta) && $settings->facebook[0]->is_show_meta == 'yes') {
-            add_filter('language_attributes', array($this, 'wpscp_pro_add_opengraph_doctype'));
-            add_action('wp_head', array($this, 'WpScp_Facebook_meta_head'), 5);
+        if (isset($settings->facebook[0]->is_show_meta) && $settings->facebook[0]->is_show_meta == true) {
+            add_filter('language_attributes', array($this, 'set_opengraph_doctype'));
+            add_action('wp_head', array($this, 'meta_head'), 5);
         }
     }
 
@@ -93,13 +93,13 @@ class Facebook
 
 
     //Adding the Open Graph in the Language Attributes
-    public function wpscp_pro_add_opengraph_doctype($output)
+    public function set_opengraph_doctype($output)
     {
         return $output . ' xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.com/2008/fbml"';
     }
 
     //Lets add Open Graph Meta Info
-    public function WpScp_Facebook_meta_head()
+    public function meta_head()
     {
         global $post;
         if (!is_singular()) //if it is not a post or a page
@@ -150,19 +150,12 @@ class Facebook
             $hashTags .= ' ' . $this->getPostHasCats($post_id);
         }
         $content_type = $this->content_type;
-        if ($content_type == 'status' || $content_type == 'statusandlink') {
-
-            // change structure
-            $facebook_template_structure = $this->template_structure;
-            if (empty($facebook_template_structure) || $facebook_template_structure == '') {
-                $facebook_template_structure = '{title}{content}{url}{tags}';
-            }
+        if ($content_type == 'status' || $content_type == 'statuswithlink') {
 
             $content_limit = (!empty($this->status_limit) ? $this->status_limit : 63206);
-
             // text formated
             $formatedText = $this->social_share_content_template_structure(
-                $facebook_template_structure,
+                $this->template_structure,
                 $title,
                 $desc,
                 $post_link,
@@ -173,7 +166,7 @@ class Facebook
                 $linkData = [
                     'message' => $formatedText,
                 ];
-            } else if ($content_type == 'statusandlink') {
+            } else if ($content_type == 'statuswithlink') {
                 $linkData = [
                     'message' => $formatedText,
                     'link' => $post_link,

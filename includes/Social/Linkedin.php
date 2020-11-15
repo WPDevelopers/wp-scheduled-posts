@@ -24,7 +24,7 @@ class Linkedin
         $this->content_type = (isset($settings[0]->content_type) ? $settings[0]->content_type : '');
         $this->is_category_as_tags = (isset($settings[1]->is_category_as_tags) ? $settings[1]->is_category_as_tags : '');
         $this->content_source = (isset($settings[2]->content_source) ? $settings[2]->content_source : '');
-        $this->template_structure = (isset($settings[3]->template_structure) ? $settings[3]->template_structure : '');
+        $this->template_structure = (isset($settings[3]->template_structure) ? $settings[3]->template_structure : '{title}{content}{url}{tags}');
         $this->status_limit = (isset($settings[4]->status_limit) ? $settings[4]->status_limit : '');
         // hook
         add_action('publish_future_post', array($this, 'WpScp_linkedin_post_event'), 30, 1);
@@ -95,13 +95,9 @@ class Linkedin
         // status limit
         $status_limit = (!empty($this->status_limit) ? $this->status_limit : 1300);
 
-        // change structure
-        $linkedin_template_structure = $this->template_structure;
-        if (empty($linkedin_template_structure) || $linkedin_template_structure == '') {
-            $linkedin_template_structure = '{title}{content}{url}{tags}';
-        }
+
         $formatedText = $this->social_share_content_template_structure(
-            $linkedin_template_structure,
+            $this->template_structure,
             $title,
             $desc,
             $post_link,

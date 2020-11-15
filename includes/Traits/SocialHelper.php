@@ -12,17 +12,17 @@ trait SocialHelper
      */
     public function getPostHasTags($post_id)
     {
-        if (get_the_tags($post_id) != false) {
-            $tags = wp_list_pluck(get_the_tags($post_id), 'name', 'term_id');
+        if (\get_the_tags($post_id) != false) {
+            $tags = \wp_list_pluck(\get_the_tags($post_id), 'name', 'term_id');
             $search = array(' ', '-', '_');
             $replace = '';
-            array_walk(
+            \array_walk(
                 $tags,
                 function (&$v) use ($search, $replace) {
                     $v = str_replace($search, $replace, $v);
                 }
             );
-            return '#' . implode(' #', $tags);
+            return '#' . \implode(' #', $tags);
         }
         return false;
     }
@@ -32,8 +32,8 @@ trait SocialHelper
      */
     public function getPostHasCats($post_id)
     {
-        if (get_the_category($post_id) != false) {
-            $categories = wp_list_pluck(get_the_category($post_id), 'name', 'term_id');
+        if (\get_the_category($post_id) != false) {
+            $categories = wp_list_pluck(\get_the_category($post_id), 'name', 'term_id');
             $search = array(' ', '-', '_');
             $replace = '';
             array_walk(
@@ -42,7 +42,7 @@ trait SocialHelper
                     $v = str_replace($search, $replace, $v);
                 }
             );
-            return '#' . implode(' #', $categories);
+            return '#' . \implode(' #', $categories);
         }
         return false;
     }
