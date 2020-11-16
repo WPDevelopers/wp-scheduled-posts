@@ -174,7 +174,6 @@ class Facebook
                 'link' => $post_link,
             ];
         }
-        error_log(print_r($linkData, true));
         return $linkData;
     }
 

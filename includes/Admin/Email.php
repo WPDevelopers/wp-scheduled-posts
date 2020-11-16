@@ -28,15 +28,12 @@ class Email
         $this->notify_author_post_schedule_email = \WPSP\Helper::get_settings('notify_author_post_scheduled_by_email');
         $this->notify_author_schedule_post_is_publish = \WPSP\Helper::get_settings('notify_author_post_scheduled_to_publish');
         $this->notify_author_post_is_publish = \WPSP\Helper::get_settings('notify_author_post_is_publish');
-
-        $this->send_email_notification();
-    }
-
-    /**
-     * Send Email Notification
-     */
-    public function send_email_notification()
-    {
+        /**
+         * Send Email Notification
+         */
+        if ($this->notify_author_schedule_post_is_publish) {
+            add_action('publish_future_post', array($this, 'send_mail_to_author'), 90, 1);
+        }
         add_action('transition_post_status', array($this, "transition_post_action"), 10, 3);
     }
 
@@ -72,7 +69,7 @@ class Email
             if (!empty($reviewEmailList) && is_array($reviewEmailList)) {
                 $subject = 'New Post Pending Your Approval.';
                 $message = 'Hello Moderator, <br/>A new post written by "%author%" titled "%title%" was submitted for your review. Click here %permalink%';
-                $this->notify_custom_user(array_values($reviewEmailList), $post->ID, $subject, $message);
+                $this->send_mail_to_custom_users(array_values($reviewEmailList), $post->ID, $subject, $message);
             }
         }
         // review is rejected
@@ -80,7 +77,7 @@ class Email
             // send mail for rejected
             $subject = 'Your Post titled "%title%" has been Rejected.';
             $message = 'Hello Author, <br/>You recently submitted a new article titled "%title%". Your Article is not well standard. Please, improve it and try again.';
-            $this->notify_content_author($post->ID, $subject, $message);
+            $this->send_mail_to_author($post->ID, $subject, $message);
         }
         // post is schedule
         else if ($this->notify_author_post_is_schedule == 1 && $new_status == 'future') {
@@ -88,31 +85,31 @@ class Email
             if (!empty($futureEmailList) && is_array($futureEmailList)) {
                 $subject = 'New post "%title%" is schedule on "%date%"';
                 $message = 'Hello Moderator, <br/>Recently Moderator for your site scheduled a new post titled "%title%". The blog is scheduled for "%date%"';
-                $this->notify_custom_user(array_values($futureEmailList), $post->ID, $subject, $message);
+                $this->send_mail_to_custom_users(array_values($futureEmailList), $post->ID, $subject, $message);
             }
             // send author 
             $subject = 'Your Post is scheduled for "%date%"';
             $message = 'Hello Author, <br/>Your blog titled "%title%" was scheduled for "%date%"';
-            $this->notify_content_author($post->ID, $subject, $message);
+            $this->send_mail_to_author($post->ID, $subject, $message);
         }
         // post is publish
         else if ($this->notify_author_schedule_post_is_publish == 1 && $new_status == 'publish') {
             // send mail for publish post
             $subject = 'Your post titled "%title%" is Live Now.';
             $message = 'Hello Author, <br/>Your blog titled "%title%" was published. Here is your published blog url: %permalink%';
-            $this->notify_content_author($post->ID, $subject, $message);
+            $this->send_mail_to_author($post->ID, $subject, $message);
         }
     }
 
 
     // publish status
-    public function get_publish_post_notify_email_title($post_title, $subject, $post_date)
+    public function get_formatted_subject($post_title, $subject, $post_date)
     {
         $subject = str_replace("%title%", $post_title, $subject);
         $formatedTitle = str_replace("%date%", $post_date, $subject);
         return $formatedTitle;
     }
-    public function get_publish_post_notify_email_body($post_title, $permalink, $message, $post_date, $author)
+    public function get_formatted_body($post_title, $permalink, $message, $post_date, $author)
     {
         $message = str_replace("%title%", $post_title, $message);
         $message = str_replace("%permalink%", $permalink, $message);
@@ -125,7 +122,7 @@ class Email
      * Notify Spacific user from plugin setting page
      * @param array
      */
-    public function notify_custom_user($email_id, $post_id, $subject, $message)
+    public function send_mail_to_custom_users($email_id, $post_id, $subject, $message)
     {
         $post_title = wp_trim_words(get_the_title($post_id), 5, '...');
         $author = get_post_field('post_author', $post_id);
@@ -133,8 +130,8 @@ class Email
         $post_date = get_the_time(get_option('date_format'), $post_id);
         $to = $email_id;
 
-        $subject = $this->get_publish_post_notify_email_title($post_title, $subject, $post_date);
-        $body = $this->get_publish_post_notify_email_body($post_title, get_the_permalink($post_id), $message, $post_date, $author_user_name);
+        $subject = $this->get_formatted_subject($post_title, $subject, $post_date);
+        $body = $this->get_formatted_body($post_title, get_the_permalink($post_id), $message, $post_date, $author_user_name);
         $headers = array('Content-Type: text/html; charset=UTF-8');
         wp_mail($to, $subject, $body, $headers);
     }
@@ -143,7 +140,7 @@ class Email
      * Notify Author for only publish post
      * 
      */
-    public function notify_content_author($post_id, $subject, $message)
+    public function send_mail_to_author($post_id, $subject, $message)
     {
         // get author from post_id
         $author = get_post_field('post_author', $post_id);
@@ -153,8 +150,8 @@ class Email
         $post_date = get_the_time(get_option('date_format'), $post_id);
         $to = $author_email_address;
 
-        $subject = $this->get_publish_post_notify_email_title($post_title, $subject, $post_date);
-        $body = $this->get_publish_post_notify_email_body($post_title, get_the_permalink($post_id), $message, $post_date, $author_user_name);
+        $subject = $this->get_formatted_subject($post_title, $subject, $post_date);
+        $body = $this->get_formatted_body($post_title, get_the_permalink($post_id), $message, $post_date, $author_user_name);
         $headers = array('Content-Type: text/html; charset=UTF-8');
         wp_mail($to, $subject, $body, $headers);
     }
