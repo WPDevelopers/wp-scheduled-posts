@@ -273,14 +273,15 @@ class InstantShare
             if ($facebook[$platformKey]->status == false) {
                 wp_die();
             }
+            error_log(print_r($facebook[$platformKey], true));
             // share    
             $facebookshare = new \WPSP\Social\Facebook();
             $facebookshare->socialMediaInstantShare(
-                (isset($facebook[$platformKey]->app_id) ? $facebook[$platformKey]->app_id : ''),
-                (isset($facebook[$platformKey]->app_secret) ? $facebook[$platformKey]->app_secret : ''),
-                (isset($facebook[$platformKey]->access_token) ? $facebook[$platformKey]->access_token : ''),
-                (isset($facebook[$platformKey]->type) ? $facebook[$platformKey]->type : ''),
-                (isset($facebook[$platformKey]->id) ? $facebook[$platformKey]->id : ''),
+                $facebook[$platformKey]->app_id,
+                $facebook[$platformKey]->app_secret,
+                $facebook[$platformKey]->access_token,
+                $facebook[$platformKey]->type,
+                $facebook[$platformKey]->id,
                 $postid,
                 $platformKey
             );
@@ -294,10 +295,10 @@ class InstantShare
             // share
             $wpscptwitter = new \WPSP\Social\Twitter();
             $wpscptwitter->socialMediaInstantShare(
-                (isset($twitter[$platformKey]->app_id) ? $twitter[$platformKey]->app_id : ''),
-                (isset($twitter[$platformKey]->app_secret) ? $twitter[$platformKey]->app_secret : ''),
-                (isset($twitter[$platformKey]->oauth_token) ? $twitter[$platformKey]->oauth_token : ''),
-                (isset($twitter[$platformKey]->oauth_token_secret) ? $twitter[$platformKey]->oauth_token_secret : ''),
+                $twitter[$platformKey]->app_id,
+                $twitter[$platformKey]->app_secret,
+                $twitter[$platformKey]->oauth_token,
+                $twitter[$platformKey]->oauth_token_secret,
                 $postid,
                 $platformKey
             );
@@ -311,9 +312,9 @@ class InstantShare
             // share
             $linkedinshare = new \WPSP\Social\Linkedin();
             $linkedinshare->socialMediaInstantShare(
-                (isset($linkedin[$platformKey]->app_id) ? $linkedin[$platformKey]->app_id : ''),
-                (isset($linkedin[$platformKey]->app_secret) ? $linkedin[$platformKey]->app_secret : ''),
-                (isset($linkedin[$platformKey]->access_token) ? $linkedin[$platformKey]->access_token : ''),
+                $linkedin[$platformKey]->app_id,
+                $linkedin[$platformKey]->app_secret,
+                $linkedin[$platformKey]->access_token,
                 $postid,
                 $platformKey
             );
@@ -327,9 +328,9 @@ class InstantShare
             // share
             $pinterestshare = new \WPSP\Social\Pinterest();
             $pinterestshare->socialMediaInstantShare(
-                (isset($pinterest[$platformKey]->app_id) ? $pinterest[$platformKey]->app_id : ''),
-                (isset($pinterest[$platformKey]->app_secret) ? $pinterest[$platformKey]->app_secret : ''),
-                (isset($pinterest[$platformKey]->access_token) ? $pinterest[$platformKey]->access_token : ''),
+                $pinterest[$platformKey]->app_id,
+                $pinterest[$platformKey]->app_secret,
+                $pinterest[$platformKey]->access_token,
                 $postid,
                 ($pinterestBoardName != "" ? $pinterestBoardName : $pinterest[$platformKey]->default_board_name),
                 $platformKey

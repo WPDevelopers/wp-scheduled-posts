@@ -189,7 +189,7 @@ class Facebook
     public function remote_post($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key)
     {
         // check post is skip social sharing
-        if (get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
+        if (empty($app_id) && empty($app_secret) && get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
             return;
         }
         $errorFlag = false;

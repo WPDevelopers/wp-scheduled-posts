@@ -25,22 +25,22 @@ class MultiProfile
     {
         if ($platform == 'pinterest') {
             $social_profile = \WPSP\Helper::get_settings('pinterest_profile_list');
-            if ($social_profile !== false && count($social_profile) >= 1 && !class_exists('WPSP_PRO')) {
+            if (!empty($social_profile) && \count($social_profile) >= 1 && !class_exists('WPSP_PRO')) {
                 return false;
             }
         } else if ($platform == 'facebook') {
             $social_profile = \WPSP\Helper::get_settings('facebook_profile_list');
-            if ($social_profile !== false && count($social_profile) >= 1 && !class_exists('WPSP_PRO')) {
+            if (!empty($social_profile) && \count($social_profile) >= 1 && !class_exists('WPSP_PRO')) {
                 return false;
             }
         } else if ($platform == 'twitter') {
             $social_profile = \WPSP\Helper::get_settings('twitter_profile_list');
-            if ($social_profile !== false && count($social_profile) >= 1 && !class_exists('WPSP_PRO')) {
+            if (!empty($social_profile) && \count($social_profile) >= 1 && !class_exists('WPSP_PRO')) {
                 return false;
             }
         } else if ($platform == 'linkedin') {
             $social_profile = \WPSP\Helper::get_settings('linkedin_profile_list');
-            if ($social_profile !== false && count($social_profile) >= 1 && !class_exists('WPSP_PRO')) {
+            if (!empty($social_profile) && \count($social_profile) >= 1 && !class_exists('WPSP_PRO')) {
                 return false;
             }
         }
@@ -109,7 +109,6 @@ class MultiProfile
     public function social_profile_fetch_user_info_and_token()
     {
         $type = (isset($_POST['type']) ? $_POST['type'] : '');
-        $option_name = (isset($_POST['option_name']) ? $_POST['option_name'] : '');
         $code = (isset($_POST['code']) ? $_POST['code'] : '');
         $app_id = (isset($_POST['appId']) ? $_POST['appId'] : '');
         $app_secret = (isset($_POST['appSecret']) ? $_POST['appSecret'] : '');
@@ -132,6 +131,8 @@ class MultiProfile
 
                 $info = array(
                     'id'            => $userinfo->id,
+                    'app_id' => $app_id,
+                    'app_secret' => $app_secret,
                     'name'          => $userinfo->first_name . " " . $userinfo->last_name,
                     'thumbnail_url' => $userinfo->image['large']['url'],
                     'status'        => true,
@@ -177,6 +178,8 @@ class MultiProfile
                 $image = $getPerson->profilePicture->{'displayImage~'}->elements[0]->identifiers[0]->identifier;
                 $info = array(
                     'id' => $getPerson->id,
+                    'app_id' => $app_id,
+                    'app_secret' => $app_secret,
                     'name' => $getPerson->firstName->localized->en_US . " " . $getPerson->lastName->localized->en_US,
                     'thumbnail_url' => $image,
                     'status' => true,
@@ -231,6 +234,8 @@ class MultiProfile
                 if (is_array($access_token) && count($access_token) > 0) {
                     $info = array(
                         'id' => $content->id,
+                        'app_id' => $app_id,
+                        'app_secret' => $app_secret,
                         'name' => $content->name,
                         'thumbnail_url' => $content->profile_image_url,
                         'status' => true,
@@ -285,6 +290,8 @@ class MultiProfile
                     foreach ($userInfo->accounts->data as $page_item) {
                         array_push($page_array, array(
                             'id' => $page_item->id,
+                            'app_id' => $app_id,
+                            'app_secret' => $app_secret,
                             'name' => $page_item->name,
                             'thumbnail_url' => $page_item->picture->data->url,
                             'type' => 'page',
@@ -304,6 +311,8 @@ class MultiProfile
                         if ($group->administrator === true) {
                             array_push($group_array, array(
                                 'id' => $group->id,
+                                'app_id' => $app_id,
+                                'app_secret' => $app_secret,
                                 'name' => $group->name,
                                 'thumbnail_url' => $group->picture->data->url,
                                 'type' => 'group',
