@@ -273,7 +273,7 @@ class InstantShare
             if ($facebook[$platformKey]->status == false) {
                 wp_die();
             }
-            error_log(print_r($facebook[$platformKey], true));
+
             // share    
             $facebookshare = new \WPSP\Social\Facebook();
             $facebookshare->socialMediaInstantShare(

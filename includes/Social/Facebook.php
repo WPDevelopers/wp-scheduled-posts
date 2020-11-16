@@ -16,10 +16,6 @@ class Facebook
 
     public function __construct()
     {
-    }
-
-    public function instance()
-    {
         $settings = \WPSP\Helper::get_settings('social_templates');
         $settings = $settings->facebook;
         $this->is_show_meta = (isset($settings[0]->is_show_meta) ? $settings[0]->is_show_meta : '');
@@ -28,8 +24,11 @@ class Facebook
         $this->content_source = (isset($settings[3]->content_source) ? $settings[3]->content_source : '');
         $this->template_structure = (isset($settings[4]->template_structure) ? $settings[4]->template_structure : '{title}{content}{url}{tags}');
         $this->status_limit = (isset($settings[5]->status_limit) ? $settings[5]->status_limit : '');
-
         $this->facebook_head_meta_data();
+    }
+
+    public function instance()
+    {
         // hook
         add_action('publish_future_post', array($this, 'WpScp_Facebook_post_event'), 30, 1);
         add_action('WpScp_Facebook_post', array($this, 'WpScp_Facebook_post'), 15, 1);
@@ -68,8 +67,7 @@ class Facebook
 
     public function facebook_head_meta_data()
     {
-        $settings = \WPSP\Helper::get_settings('social_templates');
-        if (isset($settings->facebook[0]->is_show_meta) && $settings->facebook[0]->is_show_meta == true) {
+        if ($this->is_show_meta) {
             add_filter('language_attributes', array($this, 'set_opengraph_doctype'));
             add_action('wp_head', array($this, 'meta_head'), 5);
         }
@@ -149,8 +147,8 @@ class Facebook
         if ($this->is_category_as_tags == true) {
             $hashTags .= ' ' . $this->getPostHasCats($post_id);
         }
-        $content_type = $this->content_type;
-        if ($content_type == 'status' || $content_type == 'statuswithlink') {
+        error_log(print_r($this->content_type, true));
+        if ($this->content_type == 'status' || $this->content_type == 'statuswithlink') {
 
             $content_limit = (!empty($this->status_limit) ? $this->status_limit : 63206);
             // text formated
@@ -162,11 +160,11 @@ class Facebook
                 $hashTags,
                 $content_limit
             );
-            if ($content_type == 'status') {
+            if ($this->content_type == 'status') {
                 $linkData = [
                     'message' => $formatedText,
                 ];
-            } else if ($content_type == 'statuswithlink') {
+            } else if ($this->content_type == 'statuswithlink') {
                 $linkData = [
                     'message' => $formatedText,
                     'link' => $post_link,
@@ -177,6 +175,7 @@ class Facebook
                 'link' => $post_link,
             ];
         }
+        error_log(print_r($linkData, true));
         return $linkData;
     }
 

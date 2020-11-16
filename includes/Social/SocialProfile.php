@@ -7,7 +7,7 @@ use DirkGroenen\Pinterest\Pinterest;
 use myPHPNotes\LinkedIn;
 
 
-class MultiProfile
+class SocialProfile
 {
     private $multiProfileErrorMessage;
     public function __construct()

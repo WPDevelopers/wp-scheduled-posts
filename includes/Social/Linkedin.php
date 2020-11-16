@@ -15,10 +15,6 @@ class Linkedin
     private $status_limit;
     public function __construct()
     {
-    }
-
-    public function instance()
-    {
         $settings = \WPSP\Helper::get_settings('social_templates');
         $settings = $settings->linkedin;
         $this->content_type = (isset($settings[0]->content_type) ? $settings[0]->content_type : '');
@@ -26,6 +22,10 @@ class Linkedin
         $this->content_source = (isset($settings[2]->content_source) ? $settings[2]->content_source : '');
         $this->template_structure = (isset($settings[3]->template_structure) ? $settings[3]->template_structure : '{title}{content}{url}{tags}');
         $this->status_limit = (isset($settings[4]->status_limit) ? $settings[4]->status_limit : '');
+    }
+
+    public function instance()
+    {
         // hook
         add_action('publish_future_post', array($this, 'WpScp_linkedin_post_event'), 30, 1);
         add_action('WpScp_linkedin_post', array($this, 'WpScp_linkedin_post'), 15, 1);

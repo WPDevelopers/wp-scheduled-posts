@@ -45,7 +45,7 @@ class Social
     }
     public function load_dependancy()
     {
-        new Social\MultiProfile();
+        new Social\SocialProfile();
     }
     public function load_third_party_integration()
     {

@@ -14,10 +14,6 @@ class Pinterest
     private $note_limit;
     public function __construct()
     {
-    }
-
-    public function instance()
-    {
         $settings = \WPSP\Helper::get_settings('social_templates');
         $settings = $settings->pinterest;
         $this->is_set_image_link = (isset($settings[0]->is_set_image_link) ? $settings[0]->is_set_image_link : '');
@@ -25,6 +21,10 @@ class Pinterest
         $this->content_source = (isset($settings[2]->content_source) ? $settings[2]->content_source : '');
         $this->template_structure = (isset($settings[3]->template_structure) ? $settings[3]->template_structure : '');
         $this->note_limit = (isset($settings[4]->note_limit) ? $settings[4]->note_limit : '');
+    }
+
+    public function instance()
+    {
         // hook
         add_action('publish_future_post', array($this, 'WpScp_pinterest_post_event'), 30, 1);
         add_action('WpScp_pinterest_post', array($this, 'WpScp_pinterest_post'), 15, 2);

@@ -73,8 +73,8 @@ final class WPSP
 		new WPSP\Assets();
 		if (is_admin()) {
 			new WPSP\Admin();
-			new WPSP\Social();
 		}
+		new WPSP\Social();
 		$this->load_textdomain();
 		new WPSP\API();
 	}

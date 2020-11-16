@@ -17,10 +17,6 @@ class Twitter
 
     public function __construct()
     {
-    }
-
-    public function instance()
-    {
         $settings = \WPSP\Helper::get_settings('social_templates');
         $settings = $settings->twitter;
         $this->template_structure = (isset($settings[0]->template_structure) ? $settings[0]->template_structure : '{title}{content}{url}{tags}');
@@ -28,6 +24,10 @@ class Twitter
         $this->is_show_post_thumbnail = (isset($settings[2]->is_show_post_thumbnail) ? $settings[2]->is_show_post_thumbnail : '');
         $this->content_source = (isset($settings[3]->content_source) ? $settings[3]->content_source : '');
         $this->tweet_limit = (isset($settings[4]->tweet_limit) ? $settings[4]->tweet_limit : '');
+    }
+
+    public function instance()
+    {
         // 'wpsp_twitter_post_event' runs when a Post is Published
         add_action('publish_future_post', array($this, 'wpsp_twitter_post_event'), 20, 1);
         add_action('wpsp_twitter_post', array($this, 'wpsp_twitter_post'), 10, 1);
