@@ -100,7 +100,7 @@ class Facebook
     public function meta_head()
     {
         global $post;
-        if (!is_singular()) //if it is not a post or a page
+        if (!is_singular()) // work only single pages
         {
             return;
         }
@@ -147,7 +147,6 @@ class Facebook
         if ($this->is_category_as_tags == true) {
             $hashTags .= ' ' . $this->getPostHasCats($post_id);
         }
-        error_log(print_r($this->content_type, true));
         if ($this->content_type == 'status' || $this->content_type == 'statuswithlink') {
 
             $content_limit = (!empty($this->status_limit) ? $this->status_limit : 63206);

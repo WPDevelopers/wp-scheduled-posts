@@ -37,9 +37,6 @@ class Email
      */
     public function send_email_notification()
     {
-        if ($this->notify_author_schedule_post_is_publish == 1) {
-            add_action('publish_future_post', array($this, 'notify_content_author'), 90, 1);
-        }
         add_action('transition_post_status', array($this, "transition_post_action"), 10, 3);
     }
 
