@@ -186,14 +186,14 @@ class Linkedin
         if (is_array($profiles) && count($profiles) > 0) {
             foreach ($profiles as $profile_key => $profile) {
                 // skip if status is false
-                if ($profile[$profile_key]->status == false) {
+                if ($profile->status == false) {
                     continue;
                 }
                 // call social share method
                 $this->remote_post(
-                    $profile[$profile_key]->app_id,
-                    $profile[$profile_key]->app_secret,
-                    $profile[$profile_key]->access_token,
+                    $profile->app_id,
+                    $profile->app_secret,
+                    $profile->access_token,
                     $post_id,
                     $profile_key
                 );
@@ -214,14 +214,14 @@ class Linkedin
         if (is_array($profiles) && count($profiles) > 0) {
             foreach ($profiles as $profile_key => $profile) {
                 // skip if status is false
-                if ($profile[$profile_key]->status == false) {
+                if ($profile->status == false) {
                     continue;
                 }
                 // call social share method
                 $this->remote_post(
-                    $profile[$profile_key]->app_id,
-                    $profile[$profile_key]->app_secret,
-                    $profile[$profile_key]->access_token,
+                    $profile->app_id,
+                    $profile->app_secret,
+                    $profile->access_token,
                     $post_id,
                     $profile_key
                 );

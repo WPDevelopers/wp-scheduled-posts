@@ -190,6 +190,6 @@ class Helper
         if (class_exists('WPSP_PRO') && $is_pro_wpscp === true) {
             return $profile;
         }
-        return array($profile[0]);
+        return (is_array($profile) ? array_slice($profile, 0, 1) : []);
     }
 }
