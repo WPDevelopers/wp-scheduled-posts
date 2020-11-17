@@ -20,7 +20,7 @@ class Pinterest
         $this->is_category_as_tags = (isset($settings[1]->is_category_as_tags) ? $settings[1]->is_category_as_tags : '');
         $this->content_source = (isset($settings[2]->content_source) ? $settings[2]->content_source : '');
         $this->template_structure = (isset($settings[3]->template_structure) ? $settings[3]->template_structure : '');
-        $this->note_limit = (isset($settings[4]->note_limit) ? $settings[4]->note_limit : '');
+        $this->note_limit = (isset($settings[4]->note_limit) ? $settings[4]->note_limit : 500);
     }
 
     public function instance()
@@ -99,19 +99,14 @@ class Pinterest
             $board_name = $custom_board_name;
         }
 
-        // generate pin note content
-        $template_category_tags_support = $this->is_category_as_tags;
-        $add_image_link = $this->is_set_image_link;
-        $pin_note_limit = (!empty($this->note_limit) ? $this->note_limit : 500);
-        $content_source = $this->content_source;
         // tags
         $hashTags = (($this->getPostHasTags($post_id) != false) ? $this->getPostHasTags($post_id) : '');
-        if ($template_category_tags_support == 'yes') {
+        if ($this->is_category_as_tags == true) {
             $hashTags .= ' ' . $this->getPostHasCats($post_id);
         }
 
         // content
-        if ($content_source === 'excerpt' && has_excerpt($post_details->ID)) {
+        if ($this->content_source === 'excerpt' && has_excerpt($post_details->ID)) {
             $desc = wp_strip_all_tags($post_details->post_excerpt);
         } else {
             $desc = wp_strip_all_tags($post_details->post_content);
@@ -123,7 +118,7 @@ class Pinterest
             $desc,
             $PostPermalink,
             $hashTags,
-            $pin_note_limit
+            $this->note_limit
         );
         // main arguments
         $pinterest_create_args = array(
@@ -131,7 +126,7 @@ class Pinterest
             'link' => $PostPermalink,
             "board" => $board_name,
         );
-        if ($add_image_link === 'yes') {
+        if ($this->is_set_image_link === true) {
             $pinterest_create_args['image_url'] = $PostThumbnailURI;
         }
         return $pinterest_create_args;

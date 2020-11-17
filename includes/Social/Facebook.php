@@ -23,7 +23,7 @@ class Facebook
         $this->is_category_as_tags = (isset($settings[2]->is_category_as_tags) ? $settings[2]->is_category_as_tags : '');
         $this->content_source = (isset($settings[3]->content_source) ? $settings[3]->content_source : '');
         $this->template_structure = (isset($settings[4]->template_structure) ? $settings[4]->template_structure : '{title}{content}{url}{tags}');
-        $this->status_limit = (isset($settings[5]->status_limit) ? $settings[5]->status_limit : '');
+        $this->status_limit = (isset($settings[5]->status_limit) ? $settings[5]->status_limit : 63206);
         $this->facebook_head_meta_data();
     }
 
@@ -148,8 +148,6 @@ class Facebook
             $hashTags .= ' ' . $this->getPostHasCats($post_id);
         }
         if ($this->content_type == 'status' || $this->content_type == 'statuswithlink') {
-
-            $content_limit = (!empty($this->status_limit) ? $this->status_limit : 63206);
             // text formated
             $formatedText = $this->social_share_content_template_structure(
                 $this->template_structure,
@@ -157,7 +155,7 @@ class Facebook
                 $desc,
                 $post_link,
                 $hashTags,
-                $content_limit
+                $this->status_limit
             );
             if ($this->content_type == 'status') {
                 $linkData = [

@@ -23,7 +23,7 @@ class Twitter
         $this->is_category_as_tags = (isset($settings[1]->is_category_as_tags) ? $settings[1]->is_category_as_tags : '');
         $this->is_show_post_thumbnail = (isset($settings[2]->is_show_post_thumbnail) ? $settings[2]->is_show_post_thumbnail : '');
         $this->content_source = (isset($settings[3]->content_source) ? $settings[3]->content_source : '');
-        $this->tweet_limit = (isset($settings[4]->tweet_limit) ? $settings[4]->tweet_limit : '');
+        $this->tweet_limit = (isset($settings[4]->tweet_limit) ? $settings[4]->tweet_limit : 280);
     }
 
     public function instance()
@@ -99,8 +99,6 @@ class Twitter
 
         $parameters = [];
 
-        // limit
-        $tweet_limit = (!empty($this->tweet_limit) ? $this->tweet_limit : 280);
 
         // text formated
         $formatedText = $this->social_share_content_template_structure(
@@ -109,7 +107,7 @@ class Twitter
             $desc,
             $post_link,
             $hashTags,
-            $tweet_limit
+            $this->tweet_limit
         );
         $parameters['status'] = $formatedText;
         return $parameters;
