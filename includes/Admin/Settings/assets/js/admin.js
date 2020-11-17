@@ -1135,20 +1135,24 @@ __webpack_require__.r(__webpack_exports__);
 
 const License = () => {
   const [inputChanged, setInputChanged] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
-  const [tempKey, setTempKey] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('');
-  const [valid, setValid] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
+  const [tempKey, setTempKey] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(localStorage.getItem('wpsp_temp_key'));
+  const [valid, setValid] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(localStorage.getItem('wpsp_is_valid'));
   const [isRequestSend, setIsRequestSend] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
-    var data = {
-      action: 'get_license',
-      _wpnonce: wpscp_pro_ajax_object.license_nonce
-    };
-    jQuery.post(ajaxurl, data, function (response) {
-      if (response.success === true) {
-        setValid(response.data.status);
-        setTempKey(response.data.key);
-      }
-    });
+    if (!localStorage.getItem('wpsp_is_valid')) {
+      var data = {
+        action: 'get_license',
+        _wpnonce: wpscp_pro_ajax_object.license_nonce
+      };
+      jQuery.post(ajaxurl, data, function (response) {
+        if (response.success === true) {
+          localStorage.setItem('wpsp_is_valid', response.data.status);
+          localStorage.setItem('wpsp_temp_key', response.data.key);
+          setValid(response.data.status);
+          setTempKey(response.data.key);
+        }
+      });
+    }
   }, []);
 
   const activeLicense = () => {
@@ -1163,6 +1167,8 @@ const License = () => {
       setInputChanged(false);
 
       if (response.success === true) {
+        localStorage.setItem('wpsp_is_valid', response.data.status);
+        localStorage.setItem('wpsp_temp_key', response.data.key);
         setTempKey(response.data.key);
         setValid(response.data.status);
         react_toastify__WEBPACK_IMPORTED_MODULE_2__["toast"].success('Your License successfully activated!', {
@@ -1189,6 +1195,8 @@ const License = () => {
       setInputChanged(false);
 
       if (response.success === true) {
+        localStorage.removeItem('wpsp_is_valid');
+        localStorage.removeItem('wpsp_temp_key');
         setValid(response.data.status);
         setTempKey('');
         react_toastify__WEBPACK_IMPORTED_MODULE_2__["toast"].success('Your License successfully deactivated!', {

@@ -5,20 +5,26 @@ import { wpspSettingsGlobal, wpspGetPluginRootURI } from './../../utils/helper'
 import Upgrade from './../Upgrade'
 const License = () => {
     const [inputChanged, setInputChanged] = useState(false)
-    const [tempKey, setTempKey] = useState('')
-    const [valid, setValid] = useState(false)
+    const [tempKey, setTempKey] = useState(
+        localStorage.getItem('wpsp_temp_key')
+    )
+    const [valid, setValid] = useState(localStorage.getItem('wpsp_is_valid'))
     const [isRequestSend, setIsRequestSend] = useState(null)
     useEffect(() => {
-        var data = {
-            action: 'get_license',
-            _wpnonce: wpscp_pro_ajax_object.license_nonce,
-        }
-        jQuery.post(ajaxurl, data, function (response) {
-            if (response.success === true) {
-                setValid(response.data.status)
-                setTempKey(response.data.key)
+        if (!localStorage.getItem('wpsp_is_valid')) {
+            var data = {
+                action: 'get_license',
+                _wpnonce: wpscp_pro_ajax_object.license_nonce,
             }
-        })
+            jQuery.post(ajaxurl, data, function (response) {
+                if (response.success === true) {
+                    localStorage.setItem('wpsp_is_valid', response.data.status)
+                    localStorage.setItem('wpsp_temp_key', response.data.key)
+                    setValid(response.data.status)
+                    setTempKey(response.data.key)
+                }
+            })
+        }
     }, [])
 
     const activeLicense = () => {
@@ -32,6 +38,8 @@ const License = () => {
             setIsRequestSend(null)
             setInputChanged(false)
             if (response.success === true) {
+                localStorage.setItem('wpsp_is_valid', response.data.status)
+                localStorage.setItem('wpsp_temp_key', response.data.key)
                 setTempKey(response.data.key)
                 setValid(response.data.status)
                 toast.success('Your License successfully activated!', {
@@ -56,6 +64,8 @@ const License = () => {
             setIsRequestSend(null)
             setInputChanged(false)
             if (response.success === true) {
+                localStorage.removeItem('wpsp_is_valid')
+                localStorage.removeItem('wpsp_temp_key')
                 setValid(response.data.status)
                 setTempKey('')
                 toast.success('Your License successfully deactivated!', {
