@@ -162,7 +162,7 @@ if (!function_exists('wpscp_prevent_future_type')) {
 				$post_data['post_status'] = 'publish';
 				remove_action('future_post', '_future_post_hook');
 			}
-		} else if (isset($_POST['wpscp-manual-schedule-date'])) {
+		} else if (isset($_POST['wpscp-manual-schedule-date']) && !empty($_POST['wpscp-manual-schedule-date'])) {
 			$post_data['post_date'] = $_POST['wpscp-manual-schedule-date'];
 			$post_data['post_date_gmt'] = $_POST['wpscp-manual-schedule-date'];
 		}
