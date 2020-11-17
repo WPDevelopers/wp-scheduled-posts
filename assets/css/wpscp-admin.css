@@ -1459,6 +1459,13 @@
 .wpsp-dashboard-body .manage_schedule .is_active_missed_schedule .form-group .form-info label {
   display: block;
 }
+.wpsp-dashboard-body .group-item__head h3 {
+  font-size: 18px;
+  color: #687b95;
+}
+.wpsp-dashboard-body .group-item__head p {
+  font-style: italic;
+}
 .wpsp-dashboard-body .group-item__head p > a {
   display: inline-block;
   margin-left: 5px;
@@ -1592,6 +1599,9 @@
 .wpsp-dashboard-body ul.schedule-list li > span button .dashicons {
   color: #ccc;
   font-size: 16px;
+}
+.wpsp-dashboard-body .wpsp_pro_license {
+  width: 70%;
 }
 
 .wpsp-modal-social-platform .entry-head {
@@ -2906,7 +2916,6 @@
 
 /* Lock screen */
 .wpsp-lockscreen {
-  max-width: 320px;
   padding: 15px;
 }
 
@@ -2914,12 +2923,13 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  margin-bottom: 25px;
 }
 
 .wpsp-lockscreen img {
@@ -2928,7 +2938,7 @@
 
 .wpsp-validation-title {
   margin: 15px auto;
-  font-size: 24px;
+  font-size: 30px !important;
   text-align: left;
   color: #405068;
   margin-top: 35px;

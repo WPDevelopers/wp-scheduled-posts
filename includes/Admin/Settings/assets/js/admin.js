@@ -1164,6 +1164,7 @@ const License = () => {
 
       if (response.success === true) {
         setTempKey(response.data.key);
+        setValid(response.data.status);
         react_toastify__WEBPACK_IMPORTED_MODULE_2__["toast"].success('Your License successfully activated!', {
           position: 'top-right',
           autoClose: 5000,
@@ -1188,6 +1189,7 @@ const License = () => {
       setInputChanged(false);
 
       if (response.success === true) {
+        setValid(response.data.status);
         setTempKey('');
         react_toastify__WEBPACK_IMPORTED_MODULE_2__["toast"].success('Your License successfully deactivated!', {
           position: 'top-right',
@@ -1212,39 +1214,7 @@ const License = () => {
     proVersion: _utils_helper__WEBPACK_IMPORTED_MODULE_3__["wpspSettingsGlobal"].pro_version
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "wpsp-license-wrapper"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "wpsp-lockscreen"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "wpsp-lockscreen-icons"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: _utils_helper__WEBPACK_IMPORTED_MODULE_3__["wpspGetPluginRootURI"] + 'assets/images/lock_close.png',
-    alt: "Lock Close"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: _utils_helper__WEBPACK_IMPORTED_MODULE_3__["wpspGetPluginRootURI"] + 'assets/images/lock_close.png',
-    alt: "Forwards"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: _utils_helper__WEBPACK_IMPORTED_MODULE_3__["wpspGetPluginRootURI"] + 'assets/images/lock_key.png',
-    alt: "Lock Key"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: _utils_helper__WEBPACK_IMPORTED_MODULE_3__["wpspGetPluginRootURI"] + 'assets/images/forward.png',
-    alt: "Forwards"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: _utils_helper__WEBPACK_IMPORTED_MODULE_3__["wpspGetPluginRootURI"] + 'assets/images/lock_open.png',
-    alt: "Lock Open"
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-    className: "wpsp-validation-title"
-  }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Just one more step to go!', 'wp-scheduled-posts'))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "wpsp-license-instruction"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Enter your license key here, to activate', 'wp-scheduled-posts'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('WP Scheduled Posts', 'wp-scheduled-posts')), Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])(', and get automatic updates and premium support.', 'wp-scheduled-posts')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Visit the', 'wp-scheduled-posts'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    href: "https://wpdeveloper.net/docs/wp-scheduled-posts/",
-    target: "_blank"
-  }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Validation Guide', 'wp-scheduled-posts')), Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('for help.', 'wp-scheduled-posts')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ol", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Log in to', 'wp-scheduled-posts'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    href: "https://wpdeveloper.net/account/",
-    target: "_blank"
-  }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('your account', 'wp-scheduled-posts')), Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('to get your license key.', 'wp-scheduled-posts')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])("If you don't yet have a license key, get", 'wp-scheduled-posts'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    href: "https://wpdeveloper.net/in/wpsp",
-    target: "_blank"
-  }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('WP Scheduled Posts now.', 'wp-scheduled-posts'))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Copy the license key from your account and paste it below.', 'wp-scheduled-posts')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Click on', 'wp-scheduled-posts'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])(' "Activate License" ', 'wp-scheduled-posts')), Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('button.', 'wp-scheduled-posts')))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, valid ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "validated-feature-list"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "validated-feature-list-item"
@@ -1264,7 +1234,39 @@ const License = () => {
     alt: "Premium Support"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "validated-feature-list-content"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Premium Support', 'wp-scheduled-posts')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Supported by professional and courteous staff.', 'wp-scheduled-posts'))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Premium Support', 'wp-scheduled-posts')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Supported by professional and courteous staff.', 'wp-scheduled-posts'))))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "wpsp-lockscreen"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "wpsp-lockscreen-icons"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: _utils_helper__WEBPACK_IMPORTED_MODULE_3__["wpspGetPluginRootURI"] + 'assets/images/lock_close.png',
+    alt: "Lock Close"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: _utils_helper__WEBPACK_IMPORTED_MODULE_3__["wpspGetPluginRootURI"] + 'assets/images/forward.png',
+    alt: "Forwards"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: _utils_helper__WEBPACK_IMPORTED_MODULE_3__["wpspGetPluginRootURI"] + 'assets/images/lock_key.png',
+    alt: "Lock Key"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: _utils_helper__WEBPACK_IMPORTED_MODULE_3__["wpspGetPluginRootURI"] + 'assets/images/forward.png',
+    alt: "Forwards"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: _utils_helper__WEBPACK_IMPORTED_MODULE_3__["wpspGetPluginRootURI"] + 'assets/images/lock_open.png',
+    alt: "Lock Open"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+    className: "wpsp-validation-title"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Just one more step to go!', 'wp-scheduled-posts')))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "wpsp-license-instruction"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Enter your license key here, to activate', 'wp-scheduled-posts'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('WP Scheduled Posts', 'wp-scheduled-posts')), Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])(', and get automatic updates and premium support.', 'wp-scheduled-posts')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Visit the', 'wp-scheduled-posts'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    href: "https://wpdeveloper.net/docs/wp-scheduled-posts/",
+    target: "_blank"
+  }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Validation Guide', 'wp-scheduled-posts')), Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('for help.', 'wp-scheduled-posts')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ol", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Log in to', 'wp-scheduled-posts'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    href: "https://wpdeveloper.net/account/",
+    target: "_blank"
+  }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('your account', 'wp-scheduled-posts')), Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('to get your license key.', 'wp-scheduled-posts')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])("If you don't yet have a license key, get", 'wp-scheduled-posts'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    href: "https://wpdeveloper.net/in/wpsp",
+    target: "_blank"
+  }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('WP Scheduled Posts now.', 'wp-scheduled-posts'))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Copy the license key from your account and paste it below.', 'wp-scheduled-posts')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Click on', 'wp-scheduled-posts'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])(' "Activate License" ', 'wp-scheduled-posts')), Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('button.', 'wp-scheduled-posts'))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "wpsp-license-container"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "wpsp-license-icon"
@@ -2133,7 +2135,7 @@ const Document = ({
   }, {
     icon: assetsURI + 'contribute.png',
     title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Contribute to SchedulePress', 'wp-scheduled-posts'),
-    desc: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('You can contribute to make WP Scheduled Posts better reporting bugs, creating issues, pull requests at Github.', 'wp-scheduled-posts'),
+    desc: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('You can contribute to making SchedulePress better by reporting bugs, creating issues, pull requests at Github.', 'wp-scheduled-posts'),
     button: {
       text: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Report A Bug', 'wp-scheduled-posts'),
       url: 'https://github.com/WPDevelopers/wp-scheduled-posts/issues/new'
@@ -2627,40 +2629,40 @@ const socialTabHeaderData = {
   facebook: {
     icon: 'icon-facebook.png',
     title: 'Facebook',
-    subtitle: 'You can enable/disable facebook social share. For details on facebook configuration, check out this <a href="https://wpdeveloper.net/docs/share-scheduled-posts-facebook/" target="_blank">Doc</a>'
+    subtitle: 'You can enable/disable facebook social share. For details on facebook configuration, check out this <a href="https://wpdeveloper.net/docs/share-scheduled-posts-facebook/" target="_blank">Doc.</a>'
   },
   twitter: {
     icon: 'icon-twitter.png',
     title: 'Twitter',
-    subtitle: 'You can enable/disable twitter social share. For details on twitter configuration, check out this <a href="https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/" target="_blank">Doc</a>'
+    subtitle: 'You can enable/disable twitter social share. For details on twitter configuration, check out this <a href="https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/" target="_blank">Doc.</a>'
   },
   linkedin: {
     icon: 'icon-linkedin.png',
     title: 'Linkedin',
-    subtitle: 'You can enable/disable linkedin social share. For details on linkedin configuration, check out this <a href="https://wpdeveloper.net/docs/share-wordpress-posts-on-linkedin/" target="_blank">Doc</a>'
+    subtitle: 'You can enable/disable linkedin social share. For details on linkedin configuration, check out this <a href="https://wpdeveloper.net/docs/share-wordpress-posts-on-linkedin/" target="_blank">Doc.</a>'
   },
   pinterest: {
     icon: 'icon-pinterest.png',
     title: 'Pinterest',
-    subtitle: 'You can enable/disable pinterest social share. For details on pinterest configuration, check out this <a href="https://wpdeveloper.net/docs/wordpress-posts-on-pinterest/" target="_blank">Doc</a>'
+    subtitle: 'You can enable/disable pinterest social share. For details on pinterest configuration, check out this <a href="https://wpdeveloper.net/docs/wordpress-posts-on-pinterest/" target="_blank">Doc.</a>'
   }
 };
 const socialPopUpData = {
   facebook: {
     title: 'Facebook',
-    subtitle: 'For details on Facebook configuration, check out this <a target="_blank" href="https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/">Doc</a> <br /> <a target="_blank" href="https://developer.facebook.com/">Click here</a> to Retrieve Your API Keys from your Facebook account'
+    subtitle: 'For details on Facebook configuration, check out this <a target="_blank" href="https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/">Doc</a> <br /> <a target="_blank" href="https://developer.facebook.com/">Click here</a> to Retrieve Your API Keys from your Facebook account.'
   },
   twitter: {
     title: 'Twitter',
-    subtitle: 'For details on Twitter configuration, check out this <a target="_blank" href="https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/">Doc</a> <br /> <a target="_blank" href="https://developer.twitter.com/">Click here</a> to Retrieve Your API Keys from your Twitter account'
+    subtitle: 'For details on Twitter configuration, check out this <a target="_blank" href="https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/">Doc</a> <br /> <a target="_blank" href="https://developer.twitter.com/">Click here</a> to Retrieve Your API Keys from your Twitter account.'
   },
   linkedin: {
     title: 'Linkedin',
-    subtitle: 'For details on Linkedin configuration, check out this <a target="_blank" href="https://wpdeveloper.net/docs/share-wordpress-posts-on-linkedin">Doc</a> <br /> <a target="_blank" href="https://www.linkedin.com/developers/">Click here</a> to Retrieve Your API Keys from your Linkedin account'
+    subtitle: 'For details on Linkedin configuration, check out this <a target="_blank" href="https://wpdeveloper.net/docs/share-wordpress-posts-on-linkedin">Doc</a> <br /> <a target="_blank" href="https://www.linkedin.com/developers/">Click here</a> to Retrieve Your API Keys from your Linkedin account.'
   },
   pinterest: {
     title: 'Pinterest',
-    subtitle: 'For details on Pinterest configuration, check out this <a target="_blank" href="https://wpdeveloper.net/docs/wordpress-posts-on-pinterest/">Doc</a> <br /> <a target="_blank" href="https://developers.pinterest.com">Click here</a> to Retrieve Your API Keys from your Pinterest account'
+    subtitle: 'For details on Pinterest configuration, check out this <a target="_blank" href="https://wpdeveloper.net/docs/wordpress-posts-on-pinterest/">Doc</a> <br /> <a target="_blank" href="https://developers.pinterest.com">Click here</a> to Retrieve Your API Keys from your Pinterest account.'
   }
 };
 

@@ -21,7 +21,7 @@ const Document = ({ pluginRootURI }) => {
             icon: assetsURI + 'contribute.png',
             title: __('Contribute to SchedulePress', 'wp-scheduled-posts'),
             desc: __(
-                'You can contribute to make WP Scheduled Posts better reporting bugs, creating issues, pull requests at Github.',
+                'You can contribute to making SchedulePress better by reporting bugs, creating issues, pull requests at Github.',
                 'wp-scheduled-posts'
             ),
             button: {

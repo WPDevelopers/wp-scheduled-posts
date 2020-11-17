@@ -290,7 +290,12 @@
     // group
     .group-item {
         &__head {
+            h3 {
+                font-size: 18px;
+                color: #687b95;
+            }
             p {
+                font-style: italic;
                 > a {
                     display: inline-block;
                     margin-left: 5px;
@@ -415,6 +420,9 @@
                 }
             }
         }
+    }
+    .wpsp_pro_license {
+        width: 70%;
     }
 }
 // all modal style
@@ -1550,20 +1558,20 @@
 /* Lock screen */
 
 .wpsp-lockscreen {
-    max-width: 320px;
     padding: 15px;
 }
 .wpsp-lockscreen-icons {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-bottom: 25px;
 }
 .wpsp-lockscreen img {
     margin-right: 20px;
 }
 .wpsp-validation-title {
     margin: 15px auto;
-    font-size: 24px;
+    font-size: 30px !important;
     text-align: left;
     color: #405068;
     margin-top: 35px;
