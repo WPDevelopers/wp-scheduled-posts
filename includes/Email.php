@@ -31,7 +31,6 @@ class Email
         /**
          * Send Email Notification
          */
-        add_action('publish_future_post', array($this, 'publish_future_post_action'), 90, 1);
         add_action('transition_post_status', array($this, "transition_post_action"), 10, 3);
     }
 
@@ -45,16 +44,6 @@ class Email
             $this->notify_status_change($new_status, $old_status, $post);
         } else {
             $this->notify_status_change($new_status, $old_status, $post);
-        }
-    }
-
-    public function publish_future_post_action($ID)
-    {
-        if ($this->notify_author_schedule_post_is_publish == 1) {
-            // send mail for publish post
-            $subject = 'Your post titled "%title%" is Live Now.';
-            $message = 'Hello Author, <br/>Your blog titled "%title%" was published. Here is your published blog url: %permalink%';
-            $this->send_mail_to_author($ID, $subject, $message);
         }
     }
 
