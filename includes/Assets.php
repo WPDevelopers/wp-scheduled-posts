@@ -116,7 +116,7 @@ class Assets
         // Load admin style sheet and JavaScript
         wp_enqueue_style(WPSP_PLUGIN_SLUG . '-style', WPSP_ADMIN_URL . 'Settings/assets/css/admin.css', array());
 
-        wp_enqueue_script(WPSP_PLUGIN_SLUG . '-admin-script', WPSP_ADMIN_URL . 'Settings/assets/js/admin.js', array('wp-i18n'));
+        wp_enqueue_script(WPSP_PLUGIN_SLUG . '-admin-script', WPSP_ADMIN_URL . 'Settings/assets/js/admin.js',);
         wp_localize_script(WPSP_PLUGIN_SLUG . '-admin-script', 'wpspSettingsGlobal', array(
             'api_nonce' => wp_create_nonce('wp_rest'),
             'api_url' => rest_url(WPSP_PLUGIN_SLUG . '/v1/'),
