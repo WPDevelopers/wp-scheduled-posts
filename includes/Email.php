@@ -36,6 +36,9 @@ class Email
 
     public function transition_post_action($new_status, $old_status, $post)
     {
+        if (!function_exists('get_current_screen')) {
+            require_once ABSPATH . '/wp-admin/includes/screen.php';
+        }
         $current_screen = \get_current_screen();
         if (\method_exists($current_screen, 'is_block_editor')) {
             if (isset($_POST['original_' . $post->post_type . '_status'])) {
