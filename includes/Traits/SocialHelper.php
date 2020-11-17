@@ -65,6 +65,8 @@ trait SocialHelper
         if (!empty($hashTags)) {
             $post_content_limit = intval($post_content_limit) - strlen($hashTags);
             $template_structure = str_replace('{tags}', '::::' . $hashTags . '::::', $template_structure);
+        } else {
+            $template_structure = str_replace('{tags}', '', $template_structure);
         }
 
         if (!empty($desc)) {
