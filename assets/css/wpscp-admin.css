@@ -1253,6 +1253,9 @@
 .wpsp-dashboard-body .react-tabs .react-tabs__tab-panel {
   padding: 25px 0;
 }
+.wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .adminbar_list_structure .form-body {
+  padding: 0;
+}
 .wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .form-group {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1274,6 +1277,10 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  width: 100%;
+}
+.wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .form-group label {
+  white-space: nowrap;
 }
 .wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .form-group .form-body {
   text-align: right;
@@ -1676,6 +1683,9 @@
   font-size: 14px;
   cursor: pointer;
 }
+.wpsp-modal-generate-token-button:hover {
+  color: #fff;
+}
 
 .wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .social_profile .form-group {
   background: none;
@@ -1768,6 +1778,22 @@
   background: -webkit-gradient(linear, left top, right top, from(#3084c2), to(#8c70ed));
   background: -o-linear-gradient(left, #3084c2 0%, #8c70ed 100%);
   background: linear-gradient(90deg, #3084c2 0%, #8c70ed 100%);
+}
+
+.ReactModal__Overlay.ReactModal__Overlay--after-open {
+  z-index: 9999;
+}
+
+.wpsp-social-account-insert-modal .form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+.wpsp-social-account-insert-modal .form-group input {
+  width: 100%;
+  padding-left: 15px;
+  padding-right: 15px;
+  height: 40px;
 }
 
 /* Admin Bar Style */

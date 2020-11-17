@@ -509,7 +509,9 @@ class Config
                 //normal field
                 if (isset($setting_item['fields'])) {
                     foreach ($setting_item['fields'] as $fieldItem) {
-                        $field[$fieldItem['id']] = $fieldItem['default'];
+                        if (isset($fieldItem['default'])) {
+                            $field[$fieldItem['id']] = $fieldItem['default'];
+                        }
                     }
                 }
             } else {

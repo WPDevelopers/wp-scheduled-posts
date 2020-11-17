@@ -104,6 +104,11 @@
         //  tabs - body
         .react-tabs__tab-panel {
             padding: 25px 0;
+            .adminbar_list_structure {
+                .form-body {
+                    padding: 0;
+                }
+            }
             .form-group {
                 display: flex;
                 align-items: center;
@@ -116,6 +121,10 @@
                     flex: 1 1 auto;
                     padding: 15px 15px 10px 15px;
                     align-items: center;
+                    width: 100%;
+                }
+                label {
+                    white-space: nowrap;
                 }
                 .form-body {
                     text-align: right;
@@ -499,6 +508,9 @@
     line-height: 50px;
     font-size: 14px;
     cursor: pointer;
+    &:hover {
+        color: #fff;
+    }
 }
 // social profile remove white bg
 .wpsp-dashboard-body
@@ -576,6 +588,25 @@
 }
 .wpsp-dashboard-body .pro-feature-wrap .pro-feature-item:last-child strong {
     background: linear-gradient(90deg, #3084c2 0%, #8c70ed 100%);
+}
+// modal
+.ReactModal__Overlay.ReactModal__Overlay--after-open {
+    z-index: 9999;
+}
+.wpsp-social-account-insert-modal {
+    .form-group {
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        input {
+            width: 100%;
+            padding-left: 15px;
+            padding-right: 15px;
+            height: 40px;
+        }
+    }
 }
 
 /* Admin Bar Style */

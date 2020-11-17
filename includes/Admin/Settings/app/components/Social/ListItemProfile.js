@@ -21,9 +21,7 @@ export default function ListItemProfile({
                 <div className='entry-content'>
                     <h4 className='entry-content__title'>{item.name}</h4>
                     <p className='entry-content__doc'>
-                        <strong>{item.added_by}</strong>
-                        on
-                        {item.added_date}
+                        <strong>{item.added_by}</strong> on {item.added_date}
                     </p>
                 </div>
                 <div className='entry-control'>
