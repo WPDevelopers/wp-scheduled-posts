@@ -104,11 +104,6 @@
         //  tabs - body
         .react-tabs__tab-panel {
             padding: 25px 0;
-            .adminbar_list_structure {
-                .form-body {
-                    padding: 0;
-                }
-            }
             .form-group {
                 display: flex;
                 align-items: center;
@@ -121,10 +116,10 @@
                     flex: 1 1 auto;
                     padding: 15px 15px 10px 15px;
                     align-items: center;
-                    width: 100%;
                 }
-                label {
-                    white-space: nowrap;
+                .wpscp-social-tab__item-list {
+                    width: 100%;
+                    padding: 0;
                 }
                 .form-body {
                     text-align: right;
@@ -322,6 +317,7 @@
                     display: flex;
                     align-items: center;
                     .form-info {
+                        padding-right: 0;
                         label {
                             color: #687b95;
                             display: block;
@@ -352,11 +348,13 @@
                     border: 0.5px solid #e7e7e7;
                 }
                 .timepicker {
+                    text-align: left;
                     .rc-time-picker-clear {
                         top: 9px;
+                        right: 1px;
                     }
                     input[type='text'] {
-                        width: 135px !important;
+                        width: 100px !important;
                     }
                 }
             }
@@ -3610,11 +3608,5 @@
         position: absolute;
         top: -17px;
         right: 40px;
-    }
-}
-// responsive
-@media all and (max-width: 1440px) {
-    .wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .form-group label {
-        white-space: break-spaces;
     }
 }

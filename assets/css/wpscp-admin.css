@@ -1253,9 +1253,6 @@
 .wpsp-dashboard-body .react-tabs .react-tabs__tab-panel {
   padding: 25px 0;
 }
-.wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .adminbar_list_structure .form-body {
-  padding: 0;
-}
 .wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .form-group {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1277,10 +1274,10 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  width: 100%;
 }
-.wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .form-group label {
-  white-space: nowrap;
+.wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .form-group .wpscp-social-tab__item-list {
+  width: 100%;
+  padding: 0;
 }
 .wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .form-group .form-body {
   text-align: right;
@@ -1491,6 +1488,9 @@
       -ms-flex-align: center;
           align-items: center;
 }
+.wpsp-dashboard-body .group-fields.auto_schedule .standard-fields .form-group .form-info {
+  padding-right: 0;
+}
 .wpsp-dashboard-body .group-fields.auto_schedule .standard-fields .form-group .form-info label {
   color: #687b95;
   display: block;
@@ -1518,11 +1518,15 @@
   font-weight: 500;
   border: 0.5px solid #e7e7e7;
 }
+.wpsp-dashboard-body .group-fields.auto_schedule .standard-fields .timepicker {
+  text-align: left;
+}
 .wpsp-dashboard-body .group-fields.auto_schedule .standard-fields .timepicker .rc-time-picker-clear {
   top: 9px;
+  right: 1px;
 }
 .wpsp-dashboard-body .group-fields.auto_schedule .standard-fields .timepicker input[type=text] {
-  width: 135px !important;
+  width: 100px !important;
 }
 .wpsp-dashboard-body ul.schedule-list {
   background-color: #f8fafc;
@@ -5332,11 +5336,6 @@
   right: 40px;
 }
 
-@media all and (max-width: 1440px) {
-  .wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .form-group label {
-    white-space: break-spaces;
-  }
-}
 .wpscp-calendar-wrap .fc-dayGridWeek-view .fc-content-skeleton,
 .wpscp-calendar-wrap .fc-dayGridDay-view .fc-content-skeleton {
   padding-bottom: 1em;
