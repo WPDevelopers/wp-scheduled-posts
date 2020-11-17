@@ -130,7 +130,7 @@ class Linkedin
             $getPersonID = $linkedin->getPersonID($acessToken);
 
             $results = "";
-            if ($this->content_source == 'status') {
+            if ($this->content_type == 'status') {
                 $formatedText = $this->get_formatted_text($post_id);
                 $results = $linkedin->linkedInTextPost($acessToken, $getPersonID, $formatedText);
             } else {
