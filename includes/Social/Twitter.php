@@ -173,10 +173,6 @@ class Twitter
                 $response = __('Twitter Connection Problem. error code: ', 'wp-scheduled-posts-pro') . $TwitterConnection->getLastHttpCode();
             }
         } catch (\Exception $e) {
-            // update option meta if token expire
-            if ($e->getCode() == 89) {
-                $this->setOptionForSocialTokenExpired(WPSCP_TWITTER_OPTION_NAME, $profile_key);
-            }
             $errorFlag = false;
             $response = $e->getMessage();
         }

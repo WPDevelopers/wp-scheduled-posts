@@ -163,10 +163,6 @@ class Linkedin
                 $response = $result->message;
             }
         } catch (\Exception $e) {
-            // update option meta if token expire
-            if ($e->getCode() == 401) {
-                $this->setOptionForSocialTokenExpired(WPSCP_LINKEDIN_OPTION_NAME, $profile_key);
-            }
             $errorFlag = false;
             $response = $e->getMessage();
         }

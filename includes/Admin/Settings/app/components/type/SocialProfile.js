@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { close_redirect_popup } from './../../redux/actions/social.actions'
 import { bindActionCreators } from 'redux'
 import { useField, FieldArray } from 'formik'
-import { wpspGetPluginRootURI } from './../../utils/helper'
+import { wpspSettingsGlobal, wpspGetPluginRootURI } from './../../utils/helper'
 import Modal from 'react-modal'
 import SocialTabHeader from './../Social/SocialTabHeader'
 import Facebook from './../Facebook'
@@ -124,25 +124,46 @@ const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
                 field={fieldStatus}
                 setFieldValue={setFieldValue}
             />
-            {fieldList.value !== undefined && Array.isArray(fieldList.value) && (
-                <div className='wpscp-social-tab__item-list'>
-                    <FieldArray
-                        name={fieldList.name}
-                        render={(arrayHelpers) =>
-                            fieldList.value.map((item, index) => (
-                                <ListItemProfile
-                                    groupFieldStatus={fieldStatus}
-                                    fieldList={fieldList}
-                                    arrayHelpers={arrayHelpers}
-                                    item={item}
-                                    key={index}
-                                    index={index}
-                                />
-                            ))
-                        }
-                    />
-                </div>
-            )}
+            {fieldList.value !== undefined &&
+                Array.isArray(fieldList.value) && (
+                    <div className='wpscp-social-tab__item-list'>
+                        {wpspSettingsGlobal.pro_version ? (
+                            <FieldArray
+                                name={fieldList.name}
+                                render={(arrayHelpers) =>
+                                    fieldList.value.map((item, index) => (
+                                        <ListItemProfile
+                                            groupFieldStatus={fieldStatus}
+                                            fieldList={fieldList}
+                                            arrayHelpers={arrayHelpers}
+                                            item={item}
+                                            key={index}
+                                            index={index}
+                                        />
+                                    ))
+                                }
+                            />
+                        ) : (
+                            <FieldArray
+                                name={fieldList.name}
+                                render={(arrayHelpers) =>
+                                    fieldList.value
+                                        .slice(0, 1)
+                                        .map((item, index) => (
+                                            <ListItemProfile
+                                                groupFieldStatus={fieldStatus}
+                                                fieldList={fieldList}
+                                                arrayHelpers={arrayHelpers}
+                                                item={item}
+                                                key={index}
+                                                index={index}
+                                            />
+                                        ))
+                                }
+                            />
+                        )}
+                    </div>
+                )}
 
             <button
                 type='button'

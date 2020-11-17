@@ -76,16 +76,4 @@ trait SocialHelper
         $template_structure = str_replace('::::', "\n", $template_structure);
         return $template_structure;
     }
-
-    /**
-     * Set expire meta for all social media
-     */
-    public function setOptionForSocialTokenExpired($option_name, $key)
-    {
-        $oldData = \WPSP\Helper::get_settings($option_name);
-        $oldData[$key]['token_expired'] = true;
-        $oldData[$key]['status'] = false;
-        $updatedData = $oldData;
-        return update_option($option_name, $updatedData);
-    }
 }

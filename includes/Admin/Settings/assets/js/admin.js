@@ -1791,9 +1791,19 @@ const SocialProfile = ({
     setFieldValue: setFieldValue
   }), fieldList.value !== undefined && Array.isArray(fieldList.value) && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "wpscp-social-tab__item-list"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_5__["FieldArray"], {
+  }, _utils_helper__WEBPACK_IMPORTED_MODULE_6__["wpspSettingsGlobal"].pro_version ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_5__["FieldArray"], {
     name: fieldList.name,
     render: arrayHelpers => fieldList.value.map((item, index) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Social_ListItemProfile__WEBPACK_IMPORTED_MODULE_11__["default"], {
+      groupFieldStatus: fieldStatus,
+      fieldList: fieldList,
+      arrayHelpers: arrayHelpers,
+      item: item,
+      key: index,
+      index: index
+    }))
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_5__["FieldArray"], {
+    name: fieldList.name,
+    render: arrayHelpers => fieldList.value.slice(0, 1).map((item, index) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Social_ListItemProfile__WEBPACK_IMPORTED_MODULE_11__["default"], {
       groupFieldStatus: fieldStatus,
       fieldList: fieldList,
       arrayHelpers: arrayHelpers,

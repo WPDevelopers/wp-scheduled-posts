@@ -219,17 +219,9 @@ class Facebook
                     $response = $shareInfo;
                 }
             } catch (\Facebook\Exceptions\FacebookResponseException $e) {
-                // update option meta if token expire
-                if ($e->getCode() == 463 || $e->getCode() == 190 || $e->getCode() == 467) {
-                    $this->setOptionForSocialTokenExpired(WPSCP_FACEBOOK_OPTION_NAME, $profile_key);
-                }
                 $errorFlag = false;
                 $response = 'Graph returned an error: ' . $e->getMessage();
             } catch (\Facebook\Exceptions\FacebookSDKException $e) {
-                // update option meta if token expire
-                if ($e->getCode() == 463 || $e->getCode() == 190 || $e->getCode() == 467) {
-                    $this->setOptionForSocialTokenExpired(WPSCP_FACEBOOK_OPTION_NAME, $profile_key);
-                }
                 $errorFlag = false;
                 $response = 'SDK returned an error: ' . $e->getMessage();
             }
@@ -252,17 +244,9 @@ class Facebook
                     $response = $shareInfo;
                 }
             } catch (\Facebook\Exceptions\FacebookResponseException $e) {
-                // update option meta if token expire
-                if ($e->getCode() == 463 || $e->getCode() == 190 || $e->getCode() == 467) {
-                    $this->setOptionForSocialTokenExpired(WPSCP_FACEBOOK_OPTION_NAME, $profile_key);
-                }
                 $errorFlag = false;
                 $response = 'Graph returned an error: ' . $e->getMessage();
             } catch (\Facebook\Exceptions\FacebookSDKException $e) {
-                // update option meta if token expire
-                if ($e->getCode() == 463 || $e->getCode() == 190 || $e->getCode() == 467) {
-                    $this->setOptionForSocialTokenExpired(WPSCP_FACEBOOK_OPTION_NAME, $profile_key);
-                }
                 $errorFlag = false;
                 $response = 'SDK returned an error: ' . $e->getMessage();
             }
@@ -286,17 +270,9 @@ class Facebook
                     $response = $shareInfo;
                 }
             } catch (\Facebook\Exceptions\FacebookResponseException $e) {
-                // update option meta if token expire
-                if ($e->getCode() == 463 || $e->getCode() == 190 || $e->getCode() == 467) {
-                    $this->setOptionForSocialTokenExpired(WPSCP_FACEBOOK_OPTION_NAME, $profile_key);
-                }
                 $errorFlag = false;
                 $response = 'Graph returned an error: ' . $e->getMessage();
             } catch (\Facebook\Exceptions\FacebookSDKException $e) {
-                // update option meta if token expire
-                if ($e->getCode() == 463 || $e->getCode() == 190 || $e->getCode() == 467) {
-                    $this->setOptionForSocialTokenExpired(WPSCP_FACEBOOK_OPTION_NAME, $profile_key);
-                }
                 $errorFlag = false;
                 $response = 'SDK returned an error: ' . $e->getMessage();
             }
