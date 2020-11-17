@@ -1162,11 +1162,13 @@
 .wpsp-dashboard-body p a {
   display: inline-block;
   margin-left: 5px;
+  margin-right: 5px;
 }
 .wpsp-dashboard-body ul li a,
 .wpsp-dashboard-body ol li a {
   display: inline-block;
   margin-left: 5px;
+  margin-right: 5px;
 }
 .wpsp-dashboard-body .wpsp_switch {
   position: relative;

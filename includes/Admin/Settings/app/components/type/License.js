@@ -138,7 +138,10 @@ const License = () => {
                     </p>
                     <p>
                         {__('Visit the', 'wp-scheduled-posts')}
-                        <a href='%s' target='_blank'>
+                        <a
+                            href='https://wpdeveloper.net/docs/wp-scheduled-posts/'
+                            target='_blank'
+                        >
                             {__('Validation Guide', 'wp-scheduled-posts')}
                         </a>
                         {__('for help.', 'wp-scheduled-posts')}
@@ -147,7 +150,10 @@ const License = () => {
                     <ol>
                         <li>
                             {__('Log in to', 'wp-scheduled-posts')}
-                            <a href='%s' target='_blank'>
+                            <a
+                                href='https://wpdeveloper.net/account/'
+                                target='_blank'
+                            >
                                 {__('your account', 'wp-scheduled-posts')}
                             </a>
                             {__(
@@ -160,13 +166,15 @@ const License = () => {
                                 "If you don't yet have a license key, get",
                                 'wp-scheduled-posts'
                             )}
-                            <a href='%s' target='_blank'>
+                            <a
+                                href='https://wpdeveloper.net/in/wpsp'
+                                target='_blank'
+                            >
                                 {__(
-                                    'WP Scheduled Posts now',
+                                    'WP Scheduled Posts now.',
                                     'wp-scheduled-posts'
                                 )}
                             </a>
-                            .
                         </li>
                         <li>
                             {__(
@@ -177,7 +185,10 @@ const License = () => {
                         <li>
                             {__('Click on', 'wp-scheduled-posts')}
                             <strong>
-                                {__('"Activate License"', 'wp-scheduled-posts')}
+                                {__(
+                                    ' "Activate License" ',
+                                    'wp-scheduled-posts'
+                                )}
                             </strong>
                             {__('button.', 'wp-scheduled-posts')}
                         </li>
