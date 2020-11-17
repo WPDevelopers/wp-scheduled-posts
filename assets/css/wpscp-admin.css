@@ -5332,6 +5332,11 @@
   right: 40px;
 }
 
+@media all and (max-width: 1440px) {
+  .wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .form-group label {
+    white-space: break-spaces;
+  }
+}
 .wpscp-calendar-wrap .fc-dayGridWeek-view .fc-content-skeleton,
 .wpscp-calendar-wrap .fc-dayGridDay-view .fc-content-skeleton {
   padding-bottom: 1em;

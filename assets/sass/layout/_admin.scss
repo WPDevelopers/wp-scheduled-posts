@@ -3612,3 +3612,9 @@
         right: 40px;
     }
 }
+// responsive
+@media all and (max-width: 1440px) {
+    .wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .form-group label {
+        white-space: break-spaces;
+    }
+}
