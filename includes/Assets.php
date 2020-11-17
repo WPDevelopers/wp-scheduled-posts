@@ -50,7 +50,7 @@ class Assets
      */
     public function plugin_scripts($hook)
     {
-        $current_screen = get_current_screen();
+        $current_screen = \get_current_screen();
         if (is_admin() && Helper::plugin_page_hook_suffix($current_screen->post_type, $hook)) {
             wp_enqueue_style('select2-css', WPSP_ASSETS_URI . 'css/vendor/select2.min.css', array(), filemtime(WPSP_ASSETS_DIR_PATH . 'css/vendor/select2.min.css'), 'all');
             wp_enqueue_style('jquery-datetimepicker', WPSP_ASSETS_URI . 'css/vendor/jquery.datetimepicker.min.css', array(), filemtime(WPSP_ASSETS_DIR_PATH . 'css/vendor/jquery.datetimepicker.min.css'), 'all');
