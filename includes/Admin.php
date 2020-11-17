@@ -14,7 +14,6 @@ class Admin
         $this->admin_notice();
         $this->usage_tracker();
         Admin\WPDev\WPDevFeedWidget::instance();
-        $this->send_email_notification();
         $this->load_dashboard_widgets();
     }
     public function load_plugin_menu_pages()
@@ -24,10 +23,6 @@ class Admin
     public function load_dashboard_widgets()
     {
         new Admin\Widgets\ScheduledPostList();
-    }
-    public function send_email_notification()
-    {
-        new Admin\Email();
     }
 
     /**

@@ -74,6 +74,7 @@ final class WPSP
 		if (is_admin()) {
 			new WPSP\Admin();
 		}
+		new WPSP\Email();
 		new WPSP\Social();
 		$this->load_textdomain();
 		new WPSP\API();
