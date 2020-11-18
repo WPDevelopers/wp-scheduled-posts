@@ -1,6 +1,5 @@
-import React from 'react'
-import TimePicker from 'rc-time-picker'
-import moment from 'moment'
+import React, { useState } from 'react'
+import DatePicker from 'react-datepicker'
 import { useField } from 'formik'
 
 const Time = ({
@@ -15,20 +14,19 @@ const Time = ({
     value,
 }) => {
     let groupTimeFlug = false
-    let groupNow
+    let now = new Date()
     const [field] = useField(id)
-    const format = 'h:mm a'
-    const now = field.value
-        ? moment(field.value, format)
-        : moment().hour(0).minute(0)
+    const startDate = field.value
+        ? new Date(now.toLocaleDateString('en-US') + ' ' + field.value)
+        : new Date()
 
+    let groupNow = new Date()
     if (value && value[index] && value[index][id]) {
-        groupNow = value[index][id]
-            ? moment(value[index][id], format)
-            : moment().hour(0).minute(0)
+        groupNow = new Date(
+            now.toLocaleDateString('en-US') + ' ' + value[index][id]
+        )
         groupTimeFlug = true
     }
-
     return (
         <div className='form-group'>
             <div className='form-info'>
@@ -37,33 +35,40 @@ const Time = ({
             </div>
             <div className='form-body'>
                 {arrayHelpers !== undefined && groupTimeFlug ? (
-                    <TimePicker
+                    <DatePicker
                         name={`${groupName}.${id}`}
-                        showSecond={false}
-                        defaultValue={groupNow}
-                        className='timepicker'
-                        onChange={(value) =>
+                        selected={groupNow}
+                        onChange={(date) =>
                             arrayHelpers.replace(index, {
-                                [id]: value.format(format),
+                                [id]: date.toLocaleTimeString([], {
+                                    timeStyle: 'short',
+                                }),
                             })
                         }
-                        format={format}
-                        use12Hours
-                        inputReadOnly
+                        showTimeSelect
+                        showTimeSelectOnly
+                        timeIntervals={15}
+                        timeCaption='Time'
+                        dateFormat='h:mm aa'
                     />
                 ) : (
-                    <TimePicker
+                    <DatePicker
                         id={id}
                         name={field.name}
-                        showSecond={false}
-                        defaultValue={now}
-                        className='timepicker'
-                        onChange={(value) =>
-                            setFieldValue(id, value.format(format))
+                        selected={startDate}
+                        onChange={(date) =>
+                            setFieldValue(
+                                id,
+                                date.toLocaleTimeString([], {
+                                    timeStyle: 'short',
+                                })
+                            )
                         }
-                        format={format}
-                        use12Hours
-                        inputReadOnly
+                        showTimeSelect
+                        showTimeSelectOnly
+                        timeIntervals={15}
+                        timeCaption='Time'
+                        dateFormat='h:mm aa'
                     />
                 )}
                 <span className='desc'>{desc}</span>

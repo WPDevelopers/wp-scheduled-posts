@@ -126,6 +126,13 @@
                     .select-field {
                         text-align: left;
                     }
+                    .react-datepicker-wrapper {
+                        border-color: hsl(0, 0%, 80%);
+                        input[type='text'] {
+                            width: 95px !important;
+                            height: 45px !important;
+                        }
+                    }
                     .text-field {
                         background: #f4f7f9;
                         color: #687b95;
@@ -229,7 +236,7 @@
         }
         ul.manual-schedule-builder {
             display: flex;
-            li {
+            > li {
                 width: 37.5%;
                 display: flex;
                 align-items: center;
@@ -244,8 +251,14 @@
                     border: 0;
                     margin-right: 0;
                 }
-                .rc-time-picker input,
-                .rc-time-picker,
+                .react-datepicker-wrapper {
+                    margin-left: auto;
+                    border-color: hsl(0, 0%, 80%);
+                    input {
+                        width: 95px;
+                        height: 45px;
+                    }
+                }
                 .select-days {
                     width: 150px;
                     height: 40px;
@@ -352,14 +365,11 @@
                     font-weight: 500;
                     border: 0.5px solid #e7e7e7;
                 }
-                .timepicker {
-                    text-align: left;
-                    .rc-time-picker-clear {
-                        top: 9px;
-                        right: 1px;
-                    }
+                .react-datepicker-wrapper {
+                    border-color: hsl(0, 0%, 80%);
                     input[type='text'] {
-                        width: 100px !important;
+                        width: 95px !important;
+                        height: 45px !important;
                     }
                 }
             }

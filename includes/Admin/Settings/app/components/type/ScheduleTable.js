@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import TimePicker from 'rc-time-picker'
+import DatePicker from 'react-datepicker'
 import Select2 from 'react-select'
 import { FieldArray } from 'formik'
-import moment from 'moment'
 const ScheduleTable = ({
     id,
     title,
@@ -13,8 +12,6 @@ const ScheduleTable = ({
     setFieldValue,
     value,
 }) => {
-    const format = 'h:mm a'
-    const now = moment().hour(0).minute(0)
     const options = [
         { value: 'saturday', label: 'Saturday' },
         { value: 'sunday', label: 'Sunday' },
@@ -25,7 +22,7 @@ const ScheduleTable = ({
         { value: 'friday', label: 'Friday' },
     ]
     const [selectDay, setSelectDay] = useState(options[0])
-    const [selectTime, setSelectTime] = useState(now.format(format))
+    const [selectTime, setSelectTime] = useState(new Date())
     return (
         <React.Fragment>
             <div className='manual-schedule'>
@@ -48,16 +45,14 @@ const ScheduleTable = ({
                                 </li>
                                 <li>
                                     <span>Select Time</span>
-                                    <TimePicker
-                                        showSecond={false}
-                                        defaultValue={now}
-                                        className='xxx'
-                                        onChange={(value) =>
-                                            setSelectTime(value.format(format))
-                                        }
-                                        format={format}
-                                        use12Hours
-                                        inputReadOnly
+                                    <DatePicker
+                                        selected={selectTime}
+                                        onChange={(date) => setSelectTime(date)}
+                                        showTimeSelect
+                                        showTimeSelectOnly
+                                        timeIntervals={15}
+                                        timeCaption='Time'
+                                        dateFormat='h:mm aa'
                                     />
                                 </li>
                                 <li>
@@ -65,7 +60,15 @@ const ScheduleTable = ({
                                         className='btn-schedule'
                                         type='button'
                                         onClick={() => {
-                                            arrayHelpers.insert([], selectTime)
+                                            arrayHelpers.insert(
+                                                [],
+                                                selectTime.toLocaleTimeString(
+                                                    [],
+                                                    {
+                                                        timeStyle: 'short',
+                                                    }
+                                                )
+                                            )
                                         }}
                                     >
                                         Save Schedule
