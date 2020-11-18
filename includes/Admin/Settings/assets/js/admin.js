@@ -1707,6 +1707,8 @@ const SocialProfile = ({
   close_redirect_popup
 }) => {
   const [modalIsOpen, setModalIsOpen] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
+  const [modalMultiProfileErrorIsOpen, setModalMultiProfileErrorIsOpen] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
+  const [multiProfileErrorMessage, setMultiProfileErrrorMessage] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
   const [customAppModalIsOpen, setCustomAppModalIsOpen] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
   const [localSocial, setLocalSocial] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])();
   const [requestSending, setRequestSending] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
@@ -1775,7 +1777,9 @@ const SocialProfile = ({
       if (response.success) {
         open(response.data, '_self');
       } else {
-        console.log(response);
+        setMultiProfileErrrorMessage(response.data);
+        setModalMultiProfileErrorIsOpen(true);
+        setCustomAppModalIsOpen(false);
       }
     });
   };
@@ -1786,6 +1790,10 @@ const SocialProfile = ({
 
   const closeCustomAppModalIsOpen = () => {
     setCustomAppModalIsOpen(false);
+  };
+
+  const closeModalMultiProfileErrorIsOpen = () => {
+    setModalMultiProfileErrorIsOpen(false);
   };
 
   function closeModal() {
@@ -1837,6 +1845,13 @@ const SocialProfile = ({
     platform: app.platform,
     requestHandler: customAppProfileRequest
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_modal__WEBPACK_IMPORTED_MODULE_7___default.a, {
+    isOpen: modalMultiProfileErrorIsOpen,
+    onRequestClose: closeModalMultiProfileErrorIsOpen,
+    style: customStyles,
+    ariaHideApp: false
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "wpsp-mulit-profile-error-message"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, multiProfileErrorMessage))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_modal__WEBPACK_IMPORTED_MODULE_7___default.a, {
     isOpen: modalIsOpen,
     onAfterOpen: afterOpenModal,
     onRequestClose: closeModal,

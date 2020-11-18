@@ -26,6 +26,13 @@ const customStyles = {
 
 const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false)
+    const [
+        modalMultiProfileErrorIsOpen,
+        setModalMultiProfileErrorIsOpen,
+    ] = useState(false)
+    const [multiProfileErrorMessage, setMultiProfileErrrorMessage] = useState(
+        false
+    )
     const [customAppModalIsOpen, setCustomAppModalIsOpen] = useState(false)
     const [localSocial, setLocalSocial] = useState()
     const [requestSending, setRequestSending] = useState(false)
@@ -100,7 +107,9 @@ const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
             if (response.success) {
                 open(response.data, '_self')
             } else {
-                console.log(response)
+                setMultiProfileErrrorMessage(response.data)
+                setModalMultiProfileErrorIsOpen(true)
+                setCustomAppModalIsOpen(false)
             }
         })
     }
@@ -110,6 +119,10 @@ const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
     }
     const closeCustomAppModalIsOpen = () => {
         setCustomAppModalIsOpen(false)
+    }
+
+    const closeModalMultiProfileErrorIsOpen = () => {
+        setModalMultiProfileErrorIsOpen(false)
     }
 
     function closeModal() {
@@ -185,7 +198,7 @@ const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
                 />
                 Add New Profile
             </button>
-
+            {/* app insert form */}
             <Modal
                 isOpen={customAppModalIsOpen}
                 onRequestClose={closeCustomAppModalIsOpen}
@@ -198,7 +211,19 @@ const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
                 />
             </Modal>
 
-            {/* default app facebook and pinterest */}
+            {/* profile error */}
+            <Modal
+                isOpen={modalMultiProfileErrorIsOpen}
+                onRequestClose={closeModalMultiProfileErrorIsOpen}
+                style={customStyles}
+                ariaHideApp={false}
+            >
+                <div className='wpsp-mulit-profile-error-message'>
+                    <h2>{multiProfileErrorMessage}</h2>
+                </div>
+            </Modal>
+
+            {/* after auth then it will fire */}
             <Modal
                 isOpen={modalIsOpen}
                 onAfterOpen={afterOpenModal}
