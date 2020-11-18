@@ -1338,7 +1338,11 @@ const ManageScheduleToggle = ({
   const [, scheduleName] = groupName.split('.');
 
   const saveToggleSchedule = e => {
-    setFieldValue('manage_schedule.activeScheduleSystem', scheduleName);
+    if (field.value === scheduleName) {
+      setFieldValue('manage_schedule.activeScheduleSystem', '');
+    } else {
+      setFieldValue('manage_schedule.activeScheduleSystem', scheduleName);
+    }
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
