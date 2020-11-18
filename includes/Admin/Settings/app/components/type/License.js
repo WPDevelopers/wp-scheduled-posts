@@ -199,10 +199,7 @@ const License = () => {
                                     'wp-scheduled-posts'
                                 )}
                                 <strong>
-                                    {__(
-                                        'WP Scheduled Posts',
-                                        'wp-scheduled-posts'
-                                    )}
+                                    {__('SchedulePress', 'wp-scheduled-posts')}
                                 </strong>
                                 {__(
                                     ', and get automatic updates and premium support.',
@@ -250,7 +247,7 @@ const License = () => {
                                         target='_blank'
                                     >
                                         {__(
-                                            'WP Scheduled Posts now.',
+                                            'SchedulePress now.',
                                             'wp-scheduled-posts'
                                         )}
                                     </a>

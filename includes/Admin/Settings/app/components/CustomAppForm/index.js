@@ -40,7 +40,7 @@ const CustomAppForm = ({ platform, requestHandler }) => {
                                                 }
                                             />
                                             <div className='doc'>
-                                                Copy this and paste it in your
+                                                Copy this and paste it in your{' '}
                                                 {platform} app Callback uri
                                                 field.
                                             </div>
