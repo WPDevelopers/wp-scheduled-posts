@@ -231,7 +231,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Facebook; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var formik__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! formik */ "./node_modules/formik/dist/formik.esm.js");
+/* harmony import */ var _utils_helper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../../utils/helper */ "./app/utils/helper.js");
+/* harmony import */ var formik__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! formik */ "./node_modules/formik/dist/formik.esm.js");
+
 
 
 function Facebook({
@@ -240,7 +242,30 @@ function Facebook({
   page,
   group
 }) {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_1__["FieldArray"], {
+  const [isErrorMessage, setIsErrorMessage] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
+
+  const addProfileToggle = (item, index, arrayHelpers, e) => {
+    if (e.target.checked) {
+      // free
+      if (!_utils_helper__WEBPACK_IMPORTED_MODULE_1__["wpspSettingsGlobal"].pro_version) {
+        if (field.value.length == 0) {
+          arrayHelpers.insert(index, item);
+        } else {
+          setIsErrorMessage(true);
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      } else {
+        setIsErrorMessage(false);
+        arrayHelpers.insert(index, item);
+      }
+    } else {
+      setIsErrorMessage(false);
+      arrayHelpers.remove(index);
+    }
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_2__["FieldArray"], {
     name: fieldName,
     render: arrayHelpers => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "wpsp-modal-social-platform"
@@ -251,7 +276,9 @@ function Facebook({
       alt: "logo"
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
       className: "entry-head-title"
-    }, "Facebook")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Pages: "), page.map((item, index) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+    }, "Facebook")), isErrorMessage && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "error-message"
+    }, "Multi Profile is a Premium Feature. To use this feature, Upgrade to PRO."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Pages: "), page.map((item, index) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
       id: 'facebook_page_' + index,
       key: index
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -268,13 +295,7 @@ function Facebook({
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
       type: "checkbox",
       name: `${field.name}.${index}`,
-      onChange: e => {
-        if (e.target.checked) {
-          return arrayHelpers.insert(index, item);
-        } else {
-          return arrayHelpers.remove(index);
-        }
-      }
+      onChange: e => addProfileToggle(item, index, arrayHelpers, e)
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Group: "), group.map((item, index) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
       id: 'facebook_group_' + index,
       key: index
@@ -292,13 +313,7 @@ function Facebook({
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
       type: "checkbox",
       name: `${field.name}.${index}`,
-      onChange: e => {
-        if (e.target.checked) {
-          return arrayHelpers.insert(index, item);
-        } else {
-          return arrayHelpers.remove(index);
-        }
-      }
+      onChange: e => addProfileToggle(item, index, arrayHelpers, e)
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null)))))))
   }));
 }

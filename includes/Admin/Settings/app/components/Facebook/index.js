@@ -1,6 +1,28 @@
-import React from 'react'
-import { FieldArray } from 'formik'
+import React, { useState } from 'react'
+import { wpspSettingsGlobal } from './../../utils/helper'
+import { FieldArray, Form } from 'formik'
 export default function Facebook({ fieldName, field, page, group }) {
+    const [isErrorMessage, setIsErrorMessage] = useState(false)
+    const addProfileToggle = (item, index, arrayHelpers, e) => {
+        if (e.target.checked) {
+            // free
+            if (!wpspSettingsGlobal.pro_version) {
+                if (field.value.length == 0) {
+                    arrayHelpers.insert(index, item)
+                } else {
+                    setIsErrorMessage(true)
+                    e.preventDefault()
+                    e.stopPropagation()
+                }
+            } else {
+                setIsErrorMessage(false)
+                arrayHelpers.insert(index, item)
+            }
+        } else {
+            setIsErrorMessage(false)
+            arrayHelpers.remove(index)
+        }
+    }
     return (
         <React.Fragment>
             <FieldArray
@@ -14,6 +36,12 @@ export default function Facebook({ fieldName, field, page, group }) {
                             />
                             <h2 className='entry-head-title'>Facebook</h2>
                         </div>
+                        {isErrorMessage && (
+                            <div className='error-message'>
+                                Multi Profile is a Premium Feature. To use this
+                                feature, Upgrade to PRO.
+                            </div>
+                        )}
                         <ul>
                             <li>Pages: </li>
                             {page.map((item, index) => (
@@ -32,18 +60,14 @@ export default function Facebook({ fieldName, field, page, group }) {
                                             <input
                                                 type='checkbox'
                                                 name={`${field.name}.${index}`}
-                                                onChange={(e) => {
-                                                    if (e.target.checked) {
-                                                        return arrayHelpers.insert(
-                                                            index,
-                                                            item
-                                                        )
-                                                    } else {
-                                                        return arrayHelpers.remove(
-                                                            index
-                                                        )
-                                                    }
-                                                }}
+                                                onChange={(e) =>
+                                                    addProfileToggle(
+                                                        item,
+                                                        index,
+                                                        arrayHelpers,
+                                                        e
+                                                    )
+                                                }
                                             />
                                             <div></div>
                                         </div>
@@ -67,18 +91,14 @@ export default function Facebook({ fieldName, field, page, group }) {
                                             <input
                                                 type='checkbox'
                                                 name={`${field.name}.${index}`}
-                                                onChange={(e) => {
-                                                    if (e.target.checked) {
-                                                        return arrayHelpers.insert(
-                                                            index,
-                                                            item
-                                                        )
-                                                    } else {
-                                                        return arrayHelpers.remove(
-                                                            index
-                                                        )
-                                                    }
-                                                }}
+                                                onChange={(e) =>
+                                                    addProfileToggle(
+                                                        item,
+                                                        index,
+                                                        arrayHelpers,
+                                                        e
+                                                    )
+                                                }
                                             />
                                             <div></div>
                                         </div>
