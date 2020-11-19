@@ -154,7 +154,7 @@ class SocialProfile
                     'success' => true,
                     'boards'   => wp_remote_retrieve_body($boards),
                     'type'      => 'pinterest',
-                    'info'      => $info
+                    'data'      => $info
                 );
                 wp_send_json($response);
                 wp_die();
