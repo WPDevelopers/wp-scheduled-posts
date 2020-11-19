@@ -1986,6 +1986,8 @@
 .wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .form-group .form-body .react-datepicker-wrapper input[type=text] {
   width: 95px !important;
   height: 45px !important;
+  text-align: center;
+  border-color: #e7e7e7;
 }
 .wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .form-group .form-body .text-field {
   background: #f4f7f9;
@@ -1999,8 +2001,11 @@
   margin-left: 10px;
 }
 .wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .form-group .form-body .desc {
+  display: inline-block;
+  margin-top: 5px;
   display: block;
   font-size: 12px;
+  font-weight: 400;
 }
 .wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .conditional-fields .form-group {
   margin-top: -12px;
@@ -2087,6 +2092,9 @@
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
   background: #fff;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
 }
 .wpsp-dashboard-body .manage_schedule > div {
   width: 50%;
@@ -2095,7 +2103,6 @@
   border-top: 1px solid #e7e7e7;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  margin-left: auto;
 }
 .wpsp-dashboard-body .manage_schedule ul.manual-schedule-builder {
   display: -webkit-box;
@@ -2111,10 +2118,10 @@
       -ms-flex-align: center;
           align-items: center;
   background: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  border: 1px solid #e7e7e7;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  padding: 5px 10px;
+  padding: 5px 5px 5px 20px;
   margin-right: 15px;
 }
 .wpsp-dashboard-body .manage_schedule ul.manual-schedule-builder > li:last-child {
@@ -2129,10 +2136,11 @@
 .wpsp-dashboard-body .manage_schedule ul.manual-schedule-builder > li .react-datepicker-wrapper input {
   width: 95px;
   height: 45px;
+  text-align: center;
+  border-color: #e7e7e7;
 }
 .wpsp-dashboard-body .manage_schedule ul.manual-schedule-builder > li .select-days {
-  width: 150px;
-  height: 40px;
+  width: 110px;
   margin-left: auto;
   background: white;
 }
@@ -2140,7 +2148,7 @@
   top: 8px;
 }
 .wpsp-dashboard-body .manage_schedule ul.manual-schedule-builder .btn-schedule {
-  padding: 5px 20px;
+  padding: 5px 15px;
   background-color: #2278f6;
   border: none;
   text-shadow: none;
@@ -2149,13 +2157,18 @@
   height: 40px;
   color: #fff;
   border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+}
+.wpsp-dashboard-body .manage_schedule ul.manual-schedule-builder .btn-schedule:focus {
+  outline: none;
 }
 .wpsp-dashboard-body .manage_schedule .is_active_missed_schedule {
   background: -o-linear-gradient(30deg, #6674f5 0%, #43d8bf 75%);
   background: linear-gradient(60deg, #6674f5 0%, #43d8bf 75%);
   padding: 20px;
   font-size: 16px;
-  margin-top: 25px;
+  margin-top: 0;
   border-radius: 3px;
   color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.05);
@@ -2178,6 +2191,36 @@
   display: inline-block;
   margin-left: 5px;
   font-weight: 700;
+}
+.wpsp-dashboard-body .group-fields.manual_schedule {
+  background-color: #f8fafc;
+  color: #4d4d4d;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+.wpsp-dashboard-body .group-fields.manual_schedule .standard-fields .form-group {
+  border: 1px solid #e7e7e7;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.wpsp-dashboard-body .group-fields.manual_schedule .standard-fields .form-group .form-info {
+  padding-right: 0;
+}
+.wpsp-dashboard-body .group-fields.manual_schedule .standard-fields .form-group .form-info label {
+  color: #687b95;
+  display: block;
+}
+.wpsp-dashboard-body .group-fields.manual_schedule .standard-fields .form-group .form-info span {
+  color: #a4b0c1;
+  font-size: 12px;
 }
 .wpsp-dashboard-body .group-fields.auto_schedule {
   background-color: #f8fafc;
@@ -2239,11 +2282,12 @@
 .wpsp-dashboard-body .group-fields.auto_schedule .standard-fields .react-datepicker-wrapper input[type=text] {
   width: 95px !important;
   height: 45px !important;
+  text-align: center;
+  border-color: #e7e7e7;
 }
 .wpsp-dashboard-body ul.schedule-list {
   background-color: #f8fafc;
   margin: 0;
-  padding: 5px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2254,10 +2298,8 @@
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  border-radius: 3px;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
-  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 .wpsp-dashboard-body ul.schedule-list li {
   padding: 5px;
@@ -2267,14 +2309,21 @@
           flex: 1;
 }
 .wpsp-dashboard-body ul.schedule-list li > span {
-  padding: 8px;
+  position: relative;
+  padding: 5px 12px;
   display: block;
   text-transform: uppercase;
   letter-spacing: 1px;
-  font-size: 14px;
+  font-size: 13px;
   margin-top: 7px;
   background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.07);
+  border: 1px solid #e7e7e7;
+  text-align: left;
+}
+.wpsp-dashboard-body ul.schedule-list li > span.dayname {
+  text-align: center;
+  padding: 8px 10px;
+  font-size: 13px;
 }
 .wpsp-dashboard-body ul.schedule-list li > span button {
   color: #fff;
@@ -2289,6 +2338,9 @@
   padding: 0;
   font-size: 14px;
   outline: none;
+  position: absolute;
+  right: 3px;
+  top: 7px;
 }
 .wpsp-dashboard-body ul.schedule-list li > span button:hover {
   opacity: 1;
@@ -2337,6 +2389,12 @@
 }
 .wpsp-modal-social-platform .entry-head.pinterest {
   background: #c8232c;
+}
+.wpsp-modal-social-platform .error-message {
+  color: #444;
+}
+.wpsp-modal-social-platform .error-message a {
+  color: #dc3232;
 }
 .wpsp-modal-social-platform ul li .item-content {
   display: -webkit-box;
@@ -2411,6 +2469,9 @@
   font-weight: 400;
   line-height: 30px;
   text-align: center;
+}
+.wpsp-mulit-profile-error-message h2 a {
+  color: #dc3232;
 }
 
 .wpsp-dashboard-body .react-tabs .react-tabs__tab-panel .social_profile .form-group {
@@ -4218,10 +4279,6 @@
   background: -o-linear-gradient(30deg, #7768fd 0%, #b88ef6 75%);
   background: linear-gradient(60deg, #7768fd 0%, #b88ef6 75%);
   color: #fff;
-}
-
-.wpsp-dashboard-body {
-  padding: 0px 15px;
 }
 
 .wpsp-dashboard-body .media-upload-form .notice,
@@ -6058,6 +6115,46 @@
   right: 40px;
 }
 
+@media all and (max-width: 1440px) and (min-width: 1025px) {
+  .wpsp-dashboard-body .manage_schedule > div {
+    padding: 15px;
+  }
+
+  .wpsp-dashboard-body .manage_schedule ul.manual-schedule-builder > li {
+    padding: 5px;
+  }
+}
+@media all and (max-width: 1024px) {
+  .wpsp-dashboard-body .manage_schedule > div {
+    width: 100%;
+  }
+
+  .wpsp-dashboard-body .wpsp_pro_license {
+    width: 100%;
+  }
+
+  .wpsp-dashboard-body .react-tabs .react-tabs__tab-panel--selected {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .wpsp-dashboard-body .react-tabs .react-tabs__tab-panel--selected .wpsp-feature-wrap,
+.wpsp-dashboard-body .react-tabs .react-tabs__tab-panel--selected .wpsp_general {
+    width: 100%;
+    padding: 0;
+  }
+
+  .wpsp-dashboard-body .social_templates {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .wpsp-dashboard-body .social_templates > div {
+    width: 100%;
+  }
+}
 .wpscp-calendar-wrap .fc-dayGridWeek-view .fc-content-skeleton,
 .wpscp-calendar-wrap .fc-dayGridDay-view .fc-content-skeleton {
   padding-bottom: 1em;

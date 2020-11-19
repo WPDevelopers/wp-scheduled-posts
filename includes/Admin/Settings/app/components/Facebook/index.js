@@ -39,11 +39,14 @@ export default function Facebook({ fieldName, field, page, group }) {
                         {isErrorMessage && (
                             <div className='error-message'>
                                 Multi Profile is a Premium Feature. To use this
-                                feature, Upgrade to PRO.
+                                feature,{' '}
+                                <a href='https://wpdeveloper.net/in/wpsp'>
+                                    Upgrade to PRO.
+                                </a>
                             </div>
                         )}
                         <ul>
-                            <li>Pages: </li>
+                            {page.length > 0 && <li>Pages: </li>}
                             {page.map((item, index) => (
                                 <li id={'facebook_page_' + index} key={index}>
                                     <div className='item-content'>
@@ -74,7 +77,9 @@ export default function Facebook({ fieldName, field, page, group }) {
                                     </div>
                                 </li>
                             ))}
-                            <li>Group: </li>
+
+                            {group.length > 0 && <li>Group: </li>}
+
                             {group.map((item, index) => (
                                 <li id={'facebook_group_' + index} key={index}>
                                     <div className='item-content'>

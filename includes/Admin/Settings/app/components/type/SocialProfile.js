@@ -219,7 +219,11 @@ const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
                 ariaHideApp={false}
             >
                 <div className='wpsp-mulit-profile-error-message'>
-                    <h2>{multiProfileErrorMessage}</h2>
+                    <h2
+                        dangerouslySetInnerHTML={{
+                            __html: multiProfileErrorMessage,
+                        }}
+                    ></h2>
                 </div>
             </Modal>
 

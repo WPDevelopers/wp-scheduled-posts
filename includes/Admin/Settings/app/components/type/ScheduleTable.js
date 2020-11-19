@@ -85,7 +85,9 @@ const ScheduleTable = ({
                             name={`${groupName}.${index}.${id}.${item.value}`}
                             render={(arrayHelpers) => (
                                 <li data-day={optionIndex} key={optionIndex}>
-                                    <span>{item.label}</span>
+                                    <span className='dayname'>
+                                        {item.label}
+                                    </span>
                                     {value !== undefined &&
                                         value[index].weekdata !== null &&
                                         value[index].weekdata[item.value] !==

@@ -24,7 +24,12 @@ const ManageScheduleToggle = ({
     return (
         <div className='form-group'>
             <div className='form-info'>
-                <label htmlFor={id}>{title}</label>
+                <label htmlFor={id}>
+                    {title}{' '}
+                    {field.value == scheduleName
+                        ? '(Activated)'
+                        : '(Deactivated)'}
+                </label>
                 {subtitle && <span className='sub-title'>{subtitle}</span>}
             </div>
             <div className='form-body'>
