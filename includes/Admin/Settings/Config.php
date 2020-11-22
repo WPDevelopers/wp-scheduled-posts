@@ -278,12 +278,12 @@ class Config
         ]);
         Builder::add_sub_tab('social_profile', [
             'id' => 'linkedin',
-            'title' => __('Linekdin', 'wp-scheduled-posts'),
+            'title' => __('LinkedIn', 'wp-scheduled-posts'),
         ]);
         Builder::add_sub_field('social_profile', 'linkedin', [
             'id' => 'linkedin_profile',
             'type' => 'socialprofile',
-            'title' => __('Linkedin Profile', 'wp-scheduled-posts'),
+            'title' => __('LinkedIn Profile', 'wp-scheduled-posts'),
             'app'   => [
                 'platform'  => 'linkedin',
                 'type'      => 'custom'
@@ -406,8 +406,8 @@ class Config
         // linkedin
         Builder::add_group('social_templates', [
             'id' => 'linkedin',
-            'title' => __('Linkedin Status Settings', 'wp-scheduled-posts'),
-            'subtitle'  => 'To configure the Linkedin Status Settings, check out this<a className="docs" href="https://wpdeveloper.net/docs/share-wordpress-posts-on-linkedin/" target="_blank">Doc.</a>'
+            'title' => __('LinkedIn Status Settings', 'wp-scheduled-posts'),
+            'subtitle'  => 'To configure the LinkedIn Status Settings, check out this<a className="docs" href="https://wpdeveloper.net/docs/share-wordpress-posts-on-linkedin/" target="_blank">Doc.</a>'
         ]);
         Builder::add_group_field('social_templates', 'linkedin', [
             'id' => 'content_type',

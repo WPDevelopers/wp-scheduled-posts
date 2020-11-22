@@ -30,7 +30,7 @@ export const socialTabHeaderData = {
     },
     linkedin: {
         icon: 'icon-linkedin.png',
-        title: 'Linkedin',
+        title: 'LinkedIn',
         subtitle:
             'You can enable/disable linkedin social share. For details on linkedin configuration, check out this <a href="https://wpdeveloper.net/docs/share-wordpress-posts-on-linkedin/" target="_blank">Doc.</a>',
     },
@@ -54,9 +54,9 @@ export const socialPopUpData = {
             'For details on Twitter configuration, check out this <a target="_blank" href="https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/">Doc</a> <br /> <a target="_blank" href="https://developer.twitter.com/">Click here</a> to Retrieve Your API Keys from your Twitter account.',
     },
     linkedin: {
-        title: 'Linkedin',
+        title: 'LinkedIn',
         subtitle:
-            'For details on Linkedin configuration, check out this <a target="_blank" href="https://wpdeveloper.net/docs/share-wordpress-posts-on-linkedin">Doc</a> <br /> <a target="_blank" href="https://www.linkedin.com/developers/">Click here</a> to Retrieve Your API Keys from your Linkedin account.',
+            'For details on LinkedIn configuration, check out this <a target="_blank" href="https://wpdeveloper.net/docs/share-wordpress-posts-on-linkedin">Doc</a> <br /> <a target="_blank" href="https://www.linkedin.com/developers/">Click here</a> to Retrieve Your API Keys from your LinkedIn account.',
     },
     pinterest: {
         title: 'Pinterest',
