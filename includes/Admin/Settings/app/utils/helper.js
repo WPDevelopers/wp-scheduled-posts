@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n'
 export const compareConditionValue = (condition, allFieldsValue) => {
     let flag = true
     if (condition === undefined) return flag
@@ -18,49 +19,121 @@ export const wpspGetPluginRootURI = window.wpspSettingsGlobal.plugin_root_uri
 export const socialTabHeaderData = {
     facebook: {
         icon: 'icon-facebook.png',
-        title: 'Facebook',
+        title: __('Facebook', 'wp-scheduled-posts'),
         subtitle:
-            'You can enable/disable facebook social share. For details on facebook configuration, check out this <a href="https://wpdeveloper.net/docs/share-scheduled-posts-facebook/" target="_blank">Doc.</a>',
+            __(
+                'You can enable/disable facebook social share. For details on facebook configuration, check out this',
+                'wp-scheduled-posts'
+            ) +
+            ' <a href="https://wpdeveloper.net/docs/share-scheduled-posts-facebook/" target="_blank">' +
+            __('Doc.', 'wp-scheduled-posts') +
+            '</a>',
     },
     twitter: {
         icon: 'icon-twitter.png',
-        title: 'Twitter',
+        title: __('Twitter', 'wp-scheduled-posts'),
         subtitle:
-            'You can enable/disable twitter social share. For details on twitter configuration, check out this <a href="https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/" target="_blank">Doc.</a>',
+            __(
+                'You can enable/disable twitter social share. For details on twitter configuration, check out this',
+                'wp-scheduled-posts'
+            ) +
+            ' <a href="https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/" target="_blank">' +
+            __('Doc.', 'wp-scheduled-posts') +
+            '</a>',
     },
     linkedin: {
         icon: 'icon-linkedin.png',
-        title: 'LinkedIn',
+        title: __('LinkedIn', 'wp-scheduled-posts'),
         subtitle:
-            'You can enable/disable linkedin social share. For details on linkedin configuration, check out this <a href="https://wpdeveloper.net/docs/share-wordpress-posts-on-linkedin/" target="_blank">Doc.</a>',
+            __(
+                'You can enable/disable linkedin social share. For details on linkedin configuration, check out this',
+                'wp-scheduled-posts'
+            ) +
+            ' <a href="https://wpdeveloper.net/docs/share-wordpress-posts-on-linkedin/" target="_blank">' +
+            __('Doc.', 'wp-scheduled-posts') +
+            '</a>',
     },
     pinterest: {
         icon: 'icon-pinterest.png',
-        title: 'Pinterest',
+        title: __('Pinterest', 'wp-scheduled-posts'),
         subtitle:
-            'You can enable/disable pinterest social share. For details on pinterest configuration, check out this <a href="https://wpdeveloper.net/docs/wordpress-posts-on-pinterest/" target="_blank">Doc.</a>',
+            __(
+                'You can enable/disable pinterest social share. For details on pinterest configuration, check out this',
+                'wp-scheduled-posts'
+            ) +
+            ' <a href="https://wpdeveloper.net/docs/wordpress-posts-on-pinterest/" target="_blank">' +
+            __('Doc.', 'wp-scheduled-posts') +
+            '</a>',
     },
 }
 
 export const socialPopUpData = {
     facebook: {
-        title: 'Facebook',
+        title: __('Facebook', 'wp-scheduled-posts'),
         subtitle:
-            'For details on Facebook configuration, check out this <a target="_blank" href="https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/">Doc</a> <br /> <a target="_blank" href="https://developer.facebook.com/">Click here</a> to Retrieve Your API Keys from your Facebook account.',
+            __(
+                'For details on Facebook configuration, check out this',
+                'wp-scheduled-posts'
+            ) +
+            ' <a target="_blank" href="https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/">' +
+            __('Doc', 'wp-scheduled-posts') +
+            '</a> <br /> <a target="_blank" href="https://developer.facebook.com/">' +
+            __('Click here', 'wp-scheduled-posts') +
+            '</a>' +
+            __(
+                'to Retrieve Your API Keys from your Facebook account.',
+                'wp-scheduled-posts'
+            ),
     },
     twitter: {
-        title: 'Twitter',
+        title: __('Twitter', 'wp-scheduled-posts'),
         subtitle:
-            'For details on Twitter configuration, check out this <a target="_blank" href="https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/">Doc</a> <br /> <a target="_blank" href="https://developer.twitter.com/">Click here</a> to Retrieve Your API Keys from your Twitter account.',
+            __(
+                'For details on Twitter configuration, check out this',
+                'wp-scheduled-posts'
+            ) +
+            ' <a target="_blank" href="https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/">' +
+            __('Doc', 'wp-scheduled-posts') +
+            '</a> <br /> <a target="_blank" href="https://developer.twitter.com/">' +
+            __('Click here', 'wp-scheduled-posts') +
+            '</a>' +
+            __(
+                'to Retrieve Your API Keys from your Twitter account.',
+                'wp-scheduled-posts'
+            ),
     },
     linkedin: {
-        title: 'LinkedIn',
+        title: __('LinkedIn', 'wp-scheduled-posts'),
         subtitle:
-            'For details on LinkedIn configuration, check out this <a target="_blank" href="https://wpdeveloper.net/docs/share-wordpress-posts-on-linkedin">Doc</a> <br /> <a target="_blank" href="https://www.linkedin.com/developers/">Click here</a> to Retrieve Your API Keys from your LinkedIn account.',
+            __(
+                'For details on LinkedIn configuration, check out this',
+                'wp-scheduled-posts'
+            ) +
+            '<a target="_blank" href="https://wpdeveloper.net/docs/share-wordpress-posts-on-linkedin">' +
+            __('Doc', 'wp-scheduled-posts') +
+            '</a> <br /> <a target="_blank" href="https://www.linkedin.com/developers/">' +
+            __('Click here', 'wp-scheduled-posts') +
+            '</a> ' +
+            __(
+                'to Retrieve Your API Keys from your LinkedIn account.',
+                'wp-scheduled-posts'
+            ),
     },
     pinterest: {
-        title: 'Pinterest',
+        title: __('Pinterest', 'wp-scheduled-posts'),
         subtitle:
-            'For details on Pinterest configuration, check out this <a target="_blank" href="https://wpdeveloper.net/docs/wordpress-posts-on-pinterest/">Doc</a> <br /> <a target="_blank" href="https://developers.pinterest.com">Click here</a> to Retrieve Your API Keys from your Pinterest account.',
+            __(
+                'For details on Pinterest configuration, check out this',
+                'wp-scheduled-posts'
+            ) +
+            ' <a target="_blank" href="https://wpdeveloper.net/docs/wordpress-posts-on-pinterest/">' +
+            __('Doc', 'wp-scheduled-posts') +
+            '</a> <br /> <a target="_blank" href="https://developers.pinterest.com">' +
+            __('Click here', 'wp-scheduled-posts') +
+            '</a>' +
+            __(
+                'to Retrieve Your API Keys from your Pinterest account.',
+                'wp-scheduled-posts'
+            ),
     },
 }

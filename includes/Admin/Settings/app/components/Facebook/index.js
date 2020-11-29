@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { __ } from '@wordpress/i18n'
 import { wpspSettingsGlobal } from './../../utils/helper'
 import { FieldArray, Form } from 'formik'
 export default function Facebook({ fieldName, field, page, group }) {
@@ -40,19 +41,28 @@ export default function Facebook({ fieldName, field, page, group }) {
                                 }
                                 alt='logo'
                             />
-                            <h2 className='entry-head-title'>Facebook</h2>
+                            <h2 className='entry-head-title'>
+                                {__('Facebook', 'wp-scheduled-posts')}
+                            </h2>
                         </div>
                         {isErrorMessage && (
                             <div className='error-message'>
-                                Multi Profile is a Premium Feature. To use this
-                                feature,{' '}
+                                {__(
+                                    'Multi Profile is a Premium Feature. To use this feature,',
+                                    'wp-scheduled-posts'
+                                )}
                                 <a href='https://wpdeveloper.net/in/wpsp'>
-                                    Upgrade to PRO.
+                                    {__(
+                                        'Upgrade to PRO.',
+                                        'wp-scheduled-posts'
+                                    )}
                                 </a>
                             </div>
                         )}
                         <ul>
-                            {page.length > 0 && <li>Pages: </li>}
+                            {page.length > 0 && (
+                                <li>{__('Pages:', 'wp-scheduled-posts')} </li>
+                            )}
                             {page.map((item, index) => (
                                 <li id={'facebook_page_' + index} key={index}>
                                     <div className='item-content'>
@@ -84,7 +94,9 @@ export default function Facebook({ fieldName, field, page, group }) {
                                 </li>
                             ))}
 
-                            {group.length > 0 && <li>Group: </li>}
+                            {group.length > 0 && (
+                                <li>{__('Group:', 'wp-scheduled-posts')} </li>
+                            )}
 
                             {group.map((item, index) => (
                                 <li id={'facebook_group_' + index} key={index}>

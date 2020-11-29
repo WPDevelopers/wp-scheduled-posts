@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { __ } from '@wordpress/i18n'
 import { socialPopUpData } from './../../utils/helper'
 const CustomAppForm = ({ platform, requestHandler }) => {
     const [redirectURI, SetRedirectURI] = useState(
@@ -26,13 +27,21 @@ const CustomAppForm = ({ platform, requestHandler }) => {
                                 <td align='left'>
                                     <div className='form-group redirect-group'>
                                         <div className='form-label'>
-                                            <label>Redirect URI: </label>
+                                            <label>
+                                                {__(
+                                                    'Redirect URI:',
+                                                    'wp-scheduled-posts'
+                                                )}{' '}
+                                            </label>
                                         </div>
                                         <div className='form-input'>
                                             <input
                                                 type='text'
                                                 value={redirectURI}
-                                                placeholder='Redirect URI'
+                                                placeholder={__(
+                                                    'Redirect URI',
+                                                    'wp-scheduled-posts'
+                                                )}
                                                 onChange={(e) =>
                                                     SetRedirectURI(
                                                         e.target.value
@@ -40,9 +49,15 @@ const CustomAppForm = ({ platform, requestHandler }) => {
                                                 }
                                             />
                                             <div className='doc'>
-                                                Copy this and paste it in your{' '}
-                                                {platform} app Callback uri
-                                                field.
+                                                {__(
+                                                    'Copy this and paste it in your',
+                                                    'wp-scheduled-posts'
+                                                )}
+                                                {platform}{' '}
+                                                {__(
+                                                    'app Callback url field.',
+                                                    'wp-scheduled-posts'
+                                                )}
                                             </div>
                                         </div>
                                     </div>
@@ -52,13 +67,21 @@ const CustomAppForm = ({ platform, requestHandler }) => {
                                 <td align='left'>
                                     <div className='form-group'>
                                         <div className='form-label'>
-                                            <label>App ID: </label>
+                                            <label>
+                                                {__(
+                                                    'App ID:',
+                                                    'wp-scheduled-posts'
+                                                )}{' '}
+                                            </label>
                                         </div>
                                         <div className='form-input'>
                                             <input
                                                 type='text'
                                                 value={appID}
-                                                placeholder='App ID'
+                                                placeholder={__(
+                                                    'App ID',
+                                                    'wp-scheduled-posts'
+                                                )}
                                                 onChange={(e) =>
                                                     SetAppID(e.target.value)
                                                 }
@@ -71,13 +94,21 @@ const CustomAppForm = ({ platform, requestHandler }) => {
                                 <td align='left'>
                                     <div className='form-group'>
                                         <div className='form-label'>
-                                            <label>App Secret: </label>
+                                            <label>
+                                                {__(
+                                                    'App Secret:',
+                                                    'wp-scheduled-posts'
+                                                )}{' '}
+                                            </label>
                                         </div>
                                         <div className='form-input'>
                                             <input
                                                 type='text'
                                                 value={appSecret}
-                                                placeholder='App Secret'
+                                                placeholder={__(
+                                                    'App Secret',
+                                                    'wp-scheduled-posts'
+                                                )}
                                                 onChange={(e) =>
                                                     SetAppSecret(e.target.value)
                                                 }
@@ -99,7 +130,10 @@ const CustomAppForm = ({ platform, requestHandler }) => {
                                             }
                                             className='wpsp-modal-generate-token-button'
                                         >
-                                            Generate Access Token
+                                            {__(
+                                                'Generate Access Token',
+                                                'wp-scheduled-posts'
+                                            )}
                                         </a>
                                     </div>
                                 </td>

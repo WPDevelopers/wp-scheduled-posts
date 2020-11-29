@@ -5,6 +5,7 @@ import { wpspSettingsGlobal, wpspGetPluginRootURI } from './../../utils/helper'
 import Upgrade from './../Upgrade'
 const License = () => {
     const [inputChanged, setInputChanged] = useState(false)
+    const [errorMessage, setErrorMessage] = useState('')
     const [tempKey, setTempKey] = useState(
         localStorage.getItem('wpsp_temp_key')
     )
@@ -42,15 +43,26 @@ const License = () => {
                 localStorage.setItem('wpsp_temp_key', response.data.key)
                 setTempKey(response.data.key)
                 setValid(response.data.status)
-                toast.success('Your License successfully activated!', {
-                    position: 'top-right',
-                    autoClose: 5000,
-                    hideProgressBar: true,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                })
+                toast.success(
+                    <div>
+                        <span className='dashicons dashicons-yes-alt'></span>
+                        {__(
+                            'Your License successfully activated!',
+                            'wp-scheduled-posts'
+                        )}
+                    </div>,
+                    {
+                        position: 'top-right',
+                        autoClose: 5000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    }
+                )
+            } else {
+                setErrorMessage(response.data)
             }
         })
     }
@@ -68,15 +80,24 @@ const License = () => {
                 localStorage.removeItem('wpsp_temp_key')
                 setValid(response.data.status)
                 setTempKey('')
-                toast.success('Your License successfully deactivated!', {
-                    position: 'top-right',
-                    autoClose: 5000,
-                    hideProgressBar: true,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                })
+                toast.success(
+                    <div>
+                        <span className='dashicons dashicons-yes-alt'></span>
+                        {__(
+                            'Your License successfully deactivated!',
+                            'wp-scheduled-posts'
+                        )}
+                    </div>,
+                    {
+                        position: 'top-right',
+                        autoClose: 5000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    }
+                )
             }
         })
     }
@@ -325,6 +346,7 @@ const License = () => {
                         )}
                     </div>
                 </div>
+                <p className='error-message'>{errorMessage}</p>
             </div>
         </React.Fragment>
     )

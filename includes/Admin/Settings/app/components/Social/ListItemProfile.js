@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { __ } from '@wordpress/i18n'
 import { wpspGetPluginRootURI } from './../../utils/helper'
 
 export default function ListItemProfile({
@@ -83,7 +84,7 @@ export default function ListItemProfile({
                                             return arrayHelpers.remove(index)
                                         }}
                                     >
-                                        Remove
+                                        {__('Remove', 'wp-scheduled-posts')}
                                     </button>
                                 </li>
                             </ul>

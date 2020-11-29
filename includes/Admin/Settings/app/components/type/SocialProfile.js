@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { __ } from '@wordpress/i18n'
 import store from './../../redux/store'
 import { connect } from 'react-redux'
 import { close_redirect_popup } from './../../redux/actions/social.actions'
@@ -61,10 +62,6 @@ const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
             }
         }
     }, [localSocial])
-
-    function openModal() {
-        setModalIsOpen(true)
-    }
 
     function afterOpenModal() {
         setRequestSending(true)
@@ -196,9 +193,8 @@ const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
                     }
                     alt='icon'
                 />
-                Add New Profile
+                {__('Add New Profile', 'wp-scheduled-posts')}
             </button>
-            {/* app insert form */}
             <Modal
                 isOpen={customAppModalIsOpen}
                 onRequestClose={closeCustomAppModalIsOpen}
@@ -210,8 +206,6 @@ const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
                     requestHandler={customAppProfileRequest}
                 />
             </Modal>
-
-            {/* profile error */}
             <Modal
                 isOpen={modalMultiProfileErrorIsOpen}
                 onRequestClose={closeModalMultiProfileErrorIsOpen}
@@ -233,12 +227,14 @@ const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
                 onAfterOpen={afterOpenModal}
                 onRequestClose={closeModal}
                 style={customStyles}
-                contentLabel='Example Modal'
                 ariaHideApp={false}
             >
                 {requestSending ? (
                     <div className='wpsp-modal-info'>
-                        Generating Token & Fetching User Data
+                        {__(
+                            'Generating Token & Fetching User Data',
+                            'wp-scheduled-posts'
+                        )}
                     </div>
                 ) : (
                     <React.Fragment>
@@ -283,7 +279,7 @@ const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
                             type='submit'
                             onClick={closeModal}
                         >
-                            Close
+                            {__('Close', 'wp-scheduled-posts')}
                         </button>
                     </React.Fragment>
                 )}

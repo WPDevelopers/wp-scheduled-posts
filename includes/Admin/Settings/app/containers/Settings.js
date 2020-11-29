@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import { connect } from 'react-redux'
+import { __ } from '@wordpress/i18n'
 import { fetch_social_popup_info } from './../redux/actions/social.actions'
 import { bindActionCreators } from 'redux'
 import { Formik, Form } from 'formik'
@@ -47,15 +48,21 @@ const Settings = ({
         restNonce: wpspObject.api_nonce,
     })
     const notify = (status) => {
-        return toast.success('Settings Saved!', {
-            position: 'top-right',
-            autoClose: 5000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-        })
+        return toast.success(
+            <div>
+                <span className='dashicons dashicons-yes-alt'></span>{' '}
+                {__('Settings Saved!', 'wp-scheduled-posts')}
+            </div>,
+            {
+                position: 'top-right',
+                autoClose: 5000,
+                hideProgressBar: true,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: false,
+                progress: undefined,
+            }
+        )
     }
     const processOkResponse = (json, action) => {
         if (json.success) {
@@ -88,7 +95,10 @@ const Settings = ({
             {(props) => {
                 if (props.dirty === true) {
                     window.onbeforeunload = function () {
-                        return 'Do you really want to close?'
+                        return __(
+                            'Do you really want to close?',
+                            'wp-scheduled-posts'
+                        )
                     }
                 } else {
                     window.onbeforeunload = null
@@ -265,9 +275,9 @@ const Settings = ({
                             }
                             type='submit'
                         >
-                            Submit
+                            {__('Submit', 'wp-scheduled-posts')}
                         </button>
-                        <ToastContainer />
+                        <ToastContainer closeButton={false} />
                         {tabIndex == 0 && (
                             <Document
                                 pluginRootURI={wpspObject.plugin_root_uri}

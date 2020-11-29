@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { __ } from '@wordpress/i18n'
 import DatePicker from 'react-datepicker'
 import Select2 from 'react-select'
 import { FieldArray } from 'formik'
@@ -32,7 +33,12 @@ const ScheduleTable = ({
                         <div>
                             <ul className='manual-schedule-builder'>
                                 <li>
-                                    <span>Select Days</span>
+                                    <span>
+                                        {__(
+                                            'Select Days',
+                                            'wp-scheduled-posts'
+                                        )}
+                                    </span>
                                     <Select2
                                         className='select-days'
                                         value={selectDay}
@@ -44,7 +50,12 @@ const ScheduleTable = ({
                                     />
                                 </li>
                                 <li>
-                                    <span>Select Time</span>
+                                    <span>
+                                        {__(
+                                            'Select Time',
+                                            'wp-scheduled-posts'
+                                        )}
+                                    </span>
                                     <DatePicker
                                         selected={selectTime}
                                         onChange={(date) => setSelectTime(date)}
@@ -71,7 +82,10 @@ const ScheduleTable = ({
                                             )
                                         }}
                                     >
-                                        Save Schedule
+                                        {__(
+                                            'Save Schedule',
+                                            'wp-scheduled-posts'
+                                        )}
                                     </button>
                                 </li>
                             </ul>
