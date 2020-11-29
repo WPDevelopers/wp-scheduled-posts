@@ -78,6 +78,7 @@ final class WPSP
 		new WPSP\Social();
 		$this->load_textdomain();
 		new WPSP\API();
+		new WPSP\Ajax();
 	}
 
 	public function load_textdomain()

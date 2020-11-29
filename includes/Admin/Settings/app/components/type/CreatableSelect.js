@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import CreatableSelect2 from 'react-select/creatable'
 import { useField } from 'formik'
 
@@ -11,11 +11,18 @@ const CreatableSelect = ({
     options,
     setFieldValue,
 }) => {
+    const [isFetchData, setIsFetchData] = useState(false)
+    const [optionsData, setOptionsData] = useState([])
     const [field] = useField(id)
-    let modifiedOptions = Object.entries(options).map(([key, value]) => ({
-        value: key,
-        label: value,
-    }))
+
+    useEffect(() => {
+        setOptionsData(
+            Object.entries(options).map(([key, value]) => ({
+                value: key,
+                label: value,
+            }))
+        )
+    }, [])
 
     const onChange = (option, actionMeta) => {
         if (option == null) {
@@ -25,6 +32,26 @@ const CreatableSelect = ({
             field.name,
             multiple ? option.map((item) => item.value) : option.value
         )
+    }
+    const fetchData = () => {
+        if (!isFetchData) {
+            setIsFetchData(true)
+            var data = {
+                action: 'wpsp_get_select2_field_data',
+                _wpnonce: wpspSettingsGlobal.api_nonce,
+                type: id,
+            }
+            jQuery.post(ajaxurl, data, function (response) {
+                if (response.success === true) {
+                    setOptionsData(
+                        Object.entries(response.data).map(([key, value]) => ({
+                            value: key,
+                            label: value,
+                        }))
+                    )
+                }
+            })
+        }
     }
     const getValue = () => {
         return Object.entries(field.value).map(([key, value]) => ({
@@ -45,8 +72,9 @@ const CreatableSelect = ({
                         id={field.id}
                         name={field.name}
                         value={getValue()}
+                        onMenuOpen={() => fetchData()}
                         onChange={onChange}
-                        options={modifiedOptions}
+                        options={optionsData}
                         isMulti={multiple === true ? true : false}
                     />
                 </div>
