@@ -84,7 +84,6 @@ const License = () => {
         setInputChanged(true)
         setTempKey(value)
     }
-
     return (
         <React.Fragment>
             <Upgrade
@@ -92,7 +91,7 @@ const License = () => {
                 proVersion={wpspSettingsGlobal.pro_version}
             />
             <div className='wpsp-license-wrapper'>
-                {valid ? (
+                {valid == 'valid' ? (
                     <div className='validated-feature-list'>
                         <div className='validated-feature-list-item'>
                             <div className='validated-feature-list-icon'>
@@ -292,7 +291,7 @@ const License = () => {
                         />
                     </div>
                     <div className='wpsp-license-buttons'>
-                        {valid ? (
+                        {valid == 'valid' ? (
                             <button
                                 id='submit'
                                 type='button'
