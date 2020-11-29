@@ -20,7 +20,7 @@ class InstantShare
     {
         $allow_post_types = \WPSP\Helper::get_settings('allow_post_types');
         $allow_post_types = (!empty($allow_post_types) ? $allow_post_types : array('post'));
-        add_meta_box('WpScp_instantshare_meta_box', __('Social Share Settings', 'wp-scheduled-posts-pro'), array($this, 'instant_share_metabox_markup'), $allow_post_types, 'side', 'low');
+        add_meta_box('WpScp_instantshare_meta_box', __('Social Share Settings', 'wp-scheduled-posts'), array($this, 'instant_share_metabox_markup'), $allow_post_types, 'side', 'low');
     }
     public function instant_share_metabox_markup()
     {
@@ -41,7 +41,7 @@ class InstantShare
             <div>
                 <label>
                     <input type="hidden" name="postid" id="wpscppropostid" value="<?php print get_the_ID(); ?>">
-                    <input type="checkbox" id="wpscpprodontshare" name="wpscppro-dont-share-socialmedia" <?php checked('on', get_post_meta(get_the_ID(), '_wpscppro_dont_share_socialmedia', true), true); ?> /> <?php esc_html_e('Disable Social Share', 'wp-scheduled-posts-pro') ?>
+                    <input type="checkbox" id="wpscpprodontshare" name="wpscppro-dont-share-socialmedia" <?php checked('on', get_post_meta(get_the_ID(), '_wpscppro_dont_share_socialmedia', true), true); ?> /> <?php esc_html_e('Disable Social Share', 'wp-scheduled-posts') ?>
                 </label>
             </div>
             <?php
@@ -70,7 +70,7 @@ class InstantShare
                         <input type="button" id="wpscppro_btn_remove_meta_image_upload" class="button button-danger" value="Remove Banner" <?php print($socialshareimage == "" ? 'style="display:none;"' : ''); ?>>
                     </span>
                 </div>
-                <h4 class="meta-heading"><?php esc_html_e('Choose Social Share Platform', 'wp-scheduled-posts-pro'); ?></h4>
+                <h4 class="meta-heading"><?php esc_html_e('Choose Social Share Platform', 'wp-scheduled-posts'); ?></h4>
                 <ul>
                     <?php
                     if ($facebookIntegation == 'on' && is_array($facebookProfile) && count($facebookProfile) > 0) :
@@ -78,7 +78,7 @@ class InstantShare
                     ?>
                         <li class="facebook">
                             <label>
-                                <input type="checkbox" id="wpscpprofacebookis" name="wpscppro-instant-share-facebook" checked /> <?php esc_html_e('Facebook', 'wp-scheduled-posts-pro'); ?>
+                                <input type="checkbox" id="wpscpprofacebookis" name="wpscppro-instant-share-facebook" checked /> <?php esc_html_e('Facebook', 'wp-scheduled-posts'); ?>
                                 <?php
                                 if (is_array($facebookShareCount) && count($facebookShareCount) > 0) :
                                 ?>
@@ -95,7 +95,7 @@ class InstantShare
                     ?>
                         <li class="twitter">
                             <label>
-                                <input type="checkbox" id="wpscpprotwitteris" name="wpscppro-instant-share-twitter" checked /> <?php esc_html_e('Twitter', 'wp-scheduled-posts-pro'); ?>
+                                <input type="checkbox" id="wpscpprotwitteris" name="wpscppro-instant-share-twitter" checked /> <?php esc_html_e('Twitter', 'wp-scheduled-posts'); ?>
                                 <?php
                                 if (is_array($twitterShareCount) && count($twitterShareCount) > 0) :
                                 ?>
@@ -114,7 +114,7 @@ class InstantShare
                     ?>
                         <li class="linkedin">
                             <label>
-                                <input type="checkbox" id="wpscpprolinkedinis" name="wpscppro-instant-share-linkedin" checked /> <?php esc_html_e('Linkedin', 'wp-scheduled-posts-pro'); ?>
+                                <input type="checkbox" id="wpscpprolinkedinis" name="wpscppro-instant-share-linkedin" checked /> <?php esc_html_e('Linkedin', 'wp-scheduled-posts'); ?>
                                 <?php
                                 if (is_array($linkedinShareCount) && count($linkedinShareCount) > 0) :
                                 ?>
@@ -137,7 +137,7 @@ class InstantShare
                     ?>
                         <li class="pinterest">
                             <label>
-                                <input type="checkbox" id="wpscppropinterestis" name="wpscppro-instant-share-pinterest" checked /> <?php esc_html_e('Pinterest', 'wp-scheduled-posts-pro'); ?>
+                                <input type="checkbox" id="wpscppropinterestis" name="wpscppro-instant-share-pinterest" checked /> <?php esc_html_e('Pinterest', 'wp-scheduled-posts'); ?>
                                 <?php
                                 if (is_array($pinterestShareCount) && count($pinterestShareCount) > 0) :
                                 ?>
@@ -148,8 +148,8 @@ class InstantShare
                                 <span class="ajaxrequest"></span>
                             </label>
                             <p class="boardname">
-                                <label><input type="radio" name="pinterestboardtype" value="default" <?php checked($pinterestDefaultBoard, 'default', true); ?>><?php esc_html_e('Default Board', 'wp-scheduled-posts-pro'); ?></label>
-                                <label><input type="radio" name="pinterestboardtype" value="custom" <?php checked($pinterestDefaultBoard, 'custom', true); ?>><?php esc_html_e('Custom Board', 'wp-scheduled-posts-pro'); ?> </label>
+                                <label><input type="radio" name="pinterestboardtype" value="default" <?php checked($pinterestDefaultBoard, 'default', true); ?>><?php esc_html_e('Default Board', 'wp-scheduled-posts'); ?></label>
+                                <label><input type="radio" name="pinterestboardtype" value="custom" <?php checked($pinterestDefaultBoard, 'custom', true); ?>><?php esc_html_e('Custom Board', 'wp-scheduled-posts'); ?> </label>
                                 <input type="text" id="wpscppropinterestboardname" name="wpscppro-pinterest-board-name" placeholder="pinterest_username/boardname" value="<?php print($pinterestCustomBoardName != "" ? $pinterestCustomBoardName : ''); ?>" <?php print(($pinterestDefaultBoard == "default") ? 'style="display: none;"' : ''); ?>>
                             </p>
                             <div class="errorlog"></div>
@@ -158,7 +158,7 @@ class InstantShare
                     endif;
                     ?>
                 </ul>
-                <button id="wpscpproinstantsharenow" class="button button-primary button-large"><?php esc_html_e('Share Now', 'wp-scheduled-posts-pro'); ?></button>
+                <button id="wpscpproinstantsharenow" class="button button-primary button-large"><?php esc_html_e('Share Now', 'wp-scheduled-posts'); ?></button>
                 <div class="wpscppro-ajax-status"></div>
             </div>
         </div>
@@ -252,7 +252,7 @@ class InstantShare
                 $markup .= '</ul>';
             }
         } else {
-            $markup .= esc_html__('Failed!, Your are not selected any social media.', 'wp-scheduled-posts-pro');
+            $markup .= esc_html__('Failed!, Your are not selected any social media.', 'wp-scheduled-posts');
         }
 
         wp_send_json(array('markup' => $markup, 'profile' => $allProfile));
@@ -337,7 +337,7 @@ class InstantShare
             );
             wp_die();
         } else {
-            wp_send_json_error(__('Sorry, your requested platform integation is not added.', 'wp-scheduled-posts-pro'));
+            wp_send_json_error(__('Sorry, your requested platform integation is not added.', 'wp-scheduled-posts'));
             wp_die();
         }
     }

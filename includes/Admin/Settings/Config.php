@@ -325,9 +325,9 @@ class Config
             'type' => 'radio',
             'title' => __('Content Type', 'wp-scheduled-posts'),
             'options' => array(
-                'link' => __('Link', 'wp-scheudled-posts'),
-                'status' => __('Status', 'wp-scheudled-posts'),
-                'statuswithlink' => __('Status + Link', 'wp-scheudled-posts'),
+                'link' => __('Link', 'wp-scheduled-posts'),
+                'status' => __('Status', 'wp-scheduled-posts'),
+                'statuswithlink' => __('Status + Link', 'wp-scheduled-posts'),
             ),
             'default' => 'link',
         ]);
@@ -342,8 +342,8 @@ class Config
             'type' => 'radio',
             'title' => __('Content Source', 'wp-scheduled-posts'),
             'options' => array(
-                'excerpt' => __('Excerpt', 'wp-scheudled-posts'),
-                'content' => __('Content', 'wp-scheudled-posts')
+                'excerpt' => __('Excerpt', 'wp-scheduled-posts'),
+                'content' => __('Content', 'wp-scheduled-posts')
             ),
             'default' => 'excerpt',
         ]);
@@ -391,8 +391,8 @@ class Config
             'type' => 'radio',
             'title' => __('Content Source', 'wp-scheduled-posts'),
             'options' => array(
-                'excerpt' => __('Excerpt', 'wp-scheudled-posts'),
-                'content' => __('Content', 'wp-scheudled-posts')
+                'excerpt' => __('Excerpt', 'wp-scheduled-posts'),
+                'content' => __('Content', 'wp-scheduled-posts')
             ),
             'default' => 'excerpt',
         ]);
@@ -414,8 +414,8 @@ class Config
             'type' => 'radio',
             'title' => __('Content Type', 'wp-scheduled-posts'),
             'options' => array(
-                'link' => __('Link', 'wp-scheudled-posts'),
-                'status' => __('Status', 'wp-scheudled-posts')
+                'link' => __('Link', 'wp-scheduled-posts'),
+                'status' => __('Status', 'wp-scheduled-posts')
             ),
             'default' => 'link',
         ]);
@@ -430,8 +430,8 @@ class Config
             'type' => 'radio',
             'title' => __('Content Source', 'wp-scheduled-posts'),
             'options' => array(
-                'excerpt' => __('Excerpt', 'wp-scheudled-posts'),
-                'content' => __('Content', 'wp-scheudled-posts')
+                'excerpt' => __('Excerpt', 'wp-scheduled-posts'),
+                'content' => __('Content', 'wp-scheduled-posts')
             ),
             'default' => 'excerpt',
         ]);
@@ -472,8 +472,8 @@ class Config
             'type' => 'radio',
             'title' => __('Content Source', 'wp-scheduled-posts'),
             'options' => array(
-                'excerpt' => __('Excerpt', 'wp-scheudled-posts'),
-                'content' => __('Content', 'wp-scheudled-posts')
+                'excerpt' => __('Excerpt', 'wp-scheduled-posts'),
+                'content' => __('Content', 'wp-scheduled-posts')
             ),
             'default' => 'excerpt',
         ]);

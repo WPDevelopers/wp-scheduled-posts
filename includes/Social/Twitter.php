@@ -168,7 +168,7 @@ class Twitter
                 $response = $shareInfo;
             } else {
                 $errorFlag = false;
-                $response = __('Twitter Connection Problem. error code: ', 'wp-scheduled-posts-pro') . $TwitterConnection->getLastHttpCode();
+                $response = __('Twitter Connection Problem. error code: ', 'wp-scheduled-posts') . $TwitterConnection->getLastHttpCode();
             }
         } catch (\Exception $e) {
             $errorFlag = false;

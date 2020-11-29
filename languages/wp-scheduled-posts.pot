@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the WP Scheduled Posts package.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Scheduled Posts 3.3.1\n"
+"Project-Id-Version: WP Scheduled Posts 3.5\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/wp-scheduled-posts\n"
-"POT-Creation-Date: 2020-09-29 06:57:32+00:00\n"
+"POT-Creation-Date: 2020-11-29 11:44:18+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,686 +25,306 @@ msgstr ""
 "X-Textdomain-Support: yes\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
 
-#: admin/partials/social-settings.php:70
-msgid "280"
-msgstr ""
-
-#: admin/class-wpscp-admin.php:38
-msgid "Scheduled Posts"
-msgstr ""
-
-#: admin/class-wpscp-admin.php:39 includes/class-wpscp.php:275
-msgid "Settings"
-msgstr ""
-
-#: admin/class-wpscp-admin.php:51
-msgid "Calendar"
-msgstr ""
-
-#: admin/class-wpscp-calendar.php:97
+#: includes/Admin/Calendar.php:98
 msgid "Security check"
 msgstr ""
 
-#. Plugin Name of the plugin/theme
-msgid "WP Scheduled Posts"
+#: includes/Admin/Menu.php:34 views/calendar.php:12
+msgid "SchedulePress"
 msgstr ""
 
-#: admin/partials/calendar.php:13
-#: admin/setup-wizard/inc/class-wpscp-setup-wizard.php:125
-msgid "Version "
+#: includes/Admin/Menu.php:35 includes/Admin.php:50
+msgid "Settings"
 msgstr ""
 
-#: admin/partials/calendar.php:28
-msgid "New "
+#: includes/Admin/Menu.php:49
+msgid "Calendar"
 msgstr ""
 
-#: admin/partials/calendar.php:34
-msgid "Title"
-msgstr ""
-
-#: admin/partials/calendar.php:37 admin/partials/social-settings.php:59
-#: admin/partials/social-settings.php:146
-#: admin/partials/social-settings.php:239
-#: admin/partials/social-settings.php:338
-msgid "Content"
-msgstr ""
-
-#: admin/partials/calendar.php:41
-msgid "Draft"
-msgstr ""
-
-#: admin/partials/calendar.php:42
-msgid "Scheduled"
-msgstr ""
-
-#: admin/partials/calendar.php:43
-msgid "Publish"
-msgstr ""
-
-#: admin/partials/calendar.php:53
-msgid "Save"
-msgstr ""
-
-#: admin/partials/calendar.php:54
-msgid "Cancel"
-msgstr ""
-
-#: admin/partials/calendar.php:64
-msgid "Unscheduled "
-msgstr ""
-
-#: admin/partials/calendar.php:83
-msgid "Edit"
-msgstr ""
-
-#: admin/partials/calendar.php:84
-msgid "Quick Edit"
-msgstr ""
-
-#: admin/partials/calendar.php:87
-msgid "Delete"
-msgstr ""
-
-#: admin/partials/calendar.php:88
-msgid " View"
-msgstr ""
-
-#: admin/partials/calendar.php:100
-msgid "New Draft"
-msgstr ""
-
-#: admin/partials/integrations-settings.php:7
-#: admin/partials/integrations-settings.php:15
-#: admin/partials/integrations-settings.php:23
-#: admin/partials/integrations-settings.php:31
-#: admin/partials/integrations-settings.php:44
-#: admin/partials/integrations-settings.php:73
-#: admin/partials/integrations-settings.php:83
-#: admin/partials/integrations-settings.php:114
-#: admin/partials/integrations-settings.php:124
-#: admin/partials/integrations-settings.php:162
-#: admin/partials/integrations-settings.php:172
-#: admin/partials/integrations-settings.php:203
-#: admin/partials/integrations-settings.php:209
-#: includes/wpscp-functions.php:490 includes/wpscp-functions.php:561
-#: includes/wpscp-functions.php:632 includes/wpscp-functions.php:704
-msgid "icon"
-msgstr ""
-
-#: admin/partials/integrations-settings.php:9
-#: admin/partials/integrations-settings.php:47
-#: includes/integration/instantshare/class-wpscp-instantshare.php:80
-msgid "Facebook"
-msgstr ""
-
-#: admin/partials/integrations-settings.php:17
-#: admin/partials/integrations-settings.php:86
-#: includes/integration/instantshare/class-wpscp-instantshare.php:97
-msgid "Twitter"
-msgstr ""
-
-#: admin/partials/integrations-settings.php:25
-#: admin/partials/integrations-settings.php:127
-msgid "LinkedIn"
-msgstr ""
-
-#: admin/partials/integrations-settings.php:33
-#: admin/partials/integrations-settings.php:175
-#: includes/integration/instantshare/class-wpscp-instantshare.php:139
-msgid "Pinterest"
-msgstr ""
-
-#: admin/partials/integrations-settings.php:48
-msgid ""
-"You can enable/disable facebook social share. For details on facebook "
-"configuration, check out this"
-msgstr ""
-
-#: admin/partials/integrations-settings.php:48
-#: admin/partials/integrations-settings.php:87
-#: admin/partials/integrations-settings.php:128
-#: admin/partials/integrations-settings.php:176 admin/partials/options.php:327
-#: admin/partials/social-settings.php:7 admin/partials/social-settings.php:91
-#: admin/partials/social-settings.php:197
-#: admin/partials/social-settings.php:290 includes/wpscp-functions.php:785
-msgid "Doc"
-msgstr ""
-
-#: admin/partials/integrations-settings.php:74
-#: admin/partials/integrations-settings.php:115
-#: admin/partials/integrations-settings.php:163
-#: admin/partials/integrations-settings.php:210
-msgid "Add New Profile"
-msgstr ""
-
-#: admin/partials/integrations-settings.php:87
-msgid ""
-"You can enable/disable twitter social share. For details on twitter "
-"configuration, check out this"
-msgstr ""
-
-#: admin/partials/integrations-settings.php:128
-msgid ""
-"You can enable/disable LinkedIn social share. For details on LinkedIn "
-"configuration, check out this"
-msgstr ""
-
-#: admin/partials/integrations-settings.php:129
-#: admin/partials/integrations-settings.php:177
-msgid "Click here"
-msgstr ""
-
-#: admin/partials/integrations-settings.php:129
-msgid "to Retrieve Your API Keys from your LinkedIn account"
-msgstr ""
-
-#: admin/partials/integrations-settings.php:176
-msgid ""
-"You can enable/disable pinterest social share. For details on pinterest "
-"configuration, check out this"
-msgstr ""
-
-#: admin/partials/integrations-settings.php:177
-msgid "to Retrieve Your API Keys from your Pinterest account"
-msgstr ""
-
-#: admin/partials/options.php:30
-msgid "Show Scheduled Posts in Dashboard Widget"
-msgstr ""
-
-#: admin/partials/options.php:40
-#: admin/setup-wizard/wpscp-setup-wizard-config.php:34
-msgid "Show Scheduled Posts in Sitewide Admin Bar"
-msgstr ""
-
-#: admin/partials/options.php:50
-#: admin/setup-wizard/wpscp-setup-wizard-config.php:40
-msgid "Show Scheduled Posts in Admin Bar"
-msgstr ""
-
-#: admin/partials/options.php:59
-msgid "Show Post Types:"
-msgstr ""
-
-#: admin/partials/options.php:79
-msgid "Show Categories:"
-msgstr ""
-
-#: admin/partials/options.php:118
-msgid "Allow users:"
-msgstr ""
-
-#: admin/partials/options.php:131
-msgid "Calendar Default Schedule Time "
-msgstr ""
-
-#: admin/partials/options.php:134
-msgid "12:00 am"
-msgstr ""
-
-#: admin/partials/options.php:145
-msgid "Custom item template for scheduled posts list in adminbar:"
-msgstr ""
-
-#: admin/partials/options.php:150
-msgid "Item template:"
-msgstr ""
-
-#: admin/partials/options.php:155
-msgid "Title length:"
-msgstr ""
-
-#: admin/partials/options.php:160
-msgid "Date format:"
-msgstr ""
-
-#: admin/partials/options.php:166
-msgid "For item template use"
-msgstr ""
-
-#: admin/partials/options.php:166
-msgid "for post title,"
-msgstr ""
-
-#: admin/partials/options.php:166
-msgid "for post author and"
-msgstr ""
-
-#: admin/partials/options.php:166
-msgid "for post scheduled date-time. You can use HTML tags with styles also"
-msgstr ""
-
-#: admin/partials/options.php:179
-#: admin/setup-wizard/wpscp-setup-wizard-config.php:46
-msgid "Show Publish Post Immediately Button"
-msgstr ""
-
-#: admin/partials/options.php:183
-msgid ""
-"(A checkbox will be appeared in date-time edit section in the post edit "
-"panel)"
-msgstr ""
-
-#: admin/partials/options.php:206
-msgid "WP Scheduled Posts - Pro Features"
-msgstr ""
-
-#: admin/partials/options.php:211
-msgid "In Pro version, You will get following supports:"
-msgstr ""
-
-#: admin/partials/options.php:221
-#: admin/setup-wizard/inc/wpscp-setup-wizard-helper-functions.php:53
-msgid "Auto Scheduler"
-msgstr ""
-
-#: admin/partials/options.php:231
-#: admin/setup-wizard/inc/wpscp-setup-wizard-helper-functions.php:64
-msgid "Manual Scheduler"
-msgstr ""
-
-#: admin/partials/options.php:238
-#: admin/setup-wizard/inc/wpscp-setup-wizard-helper-functions.php:75
-msgid "Missed Schedule Handler"
-msgstr ""
-
-#: admin/partials/options.php:245
-msgid "Premium Support"
-msgstr ""
-
-#: admin/partials/options.php:261 admin/partials/options.php:264
-msgid "Documentation"
-msgstr ""
-
-#: admin/partials/options.php:263
-msgid ""
-"Get started spending some time with the documentation to get familiar with "
-"WP Scheduled Posts. Build awesome websites for you or your clients with "
-"ease."
-msgstr ""
-
-#: admin/partials/options.php:272
-msgid "Contribute to WP Scheduled Posts"
-msgstr ""
-
-#: admin/partials/options.php:274
-msgid ""
-"You can contribute to make WP Scheduled Posts better reporting bugs, "
-"creating issues, pull requests at Github."
-msgstr ""
-
-#: admin/partials/options.php:275
-msgid "Report A Bug"
-msgstr ""
-
-#: admin/partials/options.php:283
-msgid "Need Help?"
-msgstr ""
-
-#: admin/partials/options.php:285
-msgid ""
-"Stuck with something? Get help from the community WPDeveloper Forum or "
-"Facebook Community. In case of emergency, initiate live chat at WP "
-"Scheduled Posts website."
-msgstr ""
-
-#: admin/partials/options.php:286
-msgid "Get Support"
-msgstr ""
-
-#: admin/partials/options.php:294
-msgid "Show your Love"
-msgstr ""
-
-#: admin/partials/options.php:296
-msgid ""
-"We love to have you in WP Scheduled Posts family. We are making it more "
-"awesome everyday."
-msgstr ""
-
-#: admin/partials/options.php:297
-msgid "Leave a Review"
-msgstr ""
-
-#: admin/partials/options.php:327
-msgid "To configure the Email Notify Settings, check out this"
-msgstr ""
-
-#: admin/partials/options.php:336
-msgid " Notify User when a post is \"Under Review\""
-msgstr ""
-
-#: admin/partials/options.php:342
-msgid "Role:"
-msgstr ""
-
-#: admin/partials/options.php:352
-msgid "User Name"
-msgstr ""
-
-#: admin/partials/options.php:363
-msgid "Email Address"
-msgstr ""
-
-#: admin/partials/options.php:382
-msgid "Notify Author when a post is \"Rejected\""
-msgstr ""
-
-#: admin/partials/options.php:393
-msgid "Notify User when a post is \"Scheduled\""
-msgstr ""
-
-#: admin/partials/options.php:399
-msgid "Role"
-msgstr ""
-
-#: admin/partials/options.php:409
-msgid "Username"
-msgstr ""
-
-#: admin/partials/options.php:420
-msgid "Email"
-msgstr ""
-
-#: admin/partials/options.php:442
-msgid "Notify Author when a Scheduled Post is \"Published\""
-msgstr ""
-
-#: admin/partials/options.php:454
-msgid "Notify Author when a post is \"Published\""
-msgstr ""
-
-#: admin/partials/social-settings.php:6
-msgid "Twitter Tweet Settings"
-msgstr ""
-
-#: admin/partials/social-settings.php:7
-msgid "To configure the Twitter Tweet Settings, check out this"
-msgstr ""
-
-#: admin/partials/social-settings.php:19
-msgid "Tweet Template Settings"
-msgstr ""
-
-#: admin/partials/social-settings.php:20 admin/partials/social-settings.php:253
-#: admin/partials/social-settings.php:349
-msgid "Template Settings"
-msgstr ""
-
-#: admin/partials/social-settings.php:26 admin/partials/social-settings.php:166
-#: admin/partials/social-settings.php:259
-#: admin/partials/social-settings.php:355
-msgid "Default Structure:"
-msgstr ""
-
-#: admin/partials/social-settings.php:32 admin/partials/social-settings.php:130
-#: admin/partials/social-settings.php:223
-#: admin/partials/social-settings.php:323
-msgid "Add Category as a tags"
-msgstr ""
-
-#: admin/partials/social-settings.php:33 admin/partials/social-settings.php:44
-#: admin/partials/social-settings.php:106
-#: admin/partials/social-settings.php:131
-#: admin/partials/social-settings.php:313
-#: admin/partials/social-settings.php:324
-msgid "Yes"
-msgstr ""
-
-#: admin/partials/social-settings.php:43
-msgid "Show Post Thumbnail"
-msgstr ""
-
-#: admin/partials/social-settings.php:54 admin/partials/social-settings.php:141
-#: admin/partials/social-settings.php:234
-#: admin/partials/social-settings.php:334
-msgid "Content Source"
-msgstr ""
-
-#: admin/partials/social-settings.php:58 admin/partials/social-settings.php:145
-#: admin/partials/social-settings.php:238
-#: admin/partials/social-settings.php:337
-msgid "Excerpt"
-msgstr ""
-
-#: admin/partials/social-settings.php:69
-msgid "Tweet Limit"
-msgstr ""
-
-#: admin/partials/social-settings.php:70
-msgid "Maximum Limit: 280 character"
-msgstr ""
-
-#: admin/partials/social-settings.php:90
-msgid "Facebook Status Settings"
-msgstr ""
-
-#: admin/partials/social-settings.php:91
-msgid "To configure the Facebook Share Settings, check out this"
-msgstr ""
-
-#: admin/partials/social-settings.php:105
-msgid "Facebook Meta Data"
-msgstr ""
-
-#: admin/partials/social-settings.php:110
-msgid "Add Open Graph meta data to your site head section"
-msgstr ""
-
-#: admin/partials/social-settings.php:110
-msgid "and other social network use this data when your pages are shared."
-msgstr ""
-
-#: admin/partials/social-settings.php:117
-#: admin/partials/social-settings.php:211
-msgid "Content Type"
-msgstr ""
-
-#: admin/partials/social-settings.php:118
-#: admin/partials/social-settings.php:212
-msgid "Link"
-msgstr ""
-
-#: admin/partials/social-settings.php:119
-#: admin/partials/social-settings.php:213
-msgid "Status"
-msgstr ""
-
-#: admin/partials/social-settings.php:120
-msgid "Status + Link"
-msgstr ""
-
-#: admin/partials/social-settings.php:159
-#: admin/partials/social-settings.php:252
-msgid "Status Template Settings"
-msgstr ""
-
-#: admin/partials/social-settings.php:175
-#: admin/partials/social-settings.php:268
-msgid "Status Limit"
-msgstr ""
-
-#: admin/partials/social-settings.php:176
-msgid "Maximum Limit: 63206 character"
-msgstr ""
-
-#: admin/partials/social-settings.php:196
-msgid "Linkedin Status Settings"
-msgstr ""
-
-#: admin/partials/social-settings.php:197
-msgid "To configure the Linkedin Share Settings, check out this"
-msgstr ""
-
-#: admin/partials/social-settings.php:269
-msgid "Maximum Limit: 1300 character"
-msgstr ""
-
-#: admin/partials/social-settings.php:289
-msgid "Pinterest Pin Settings"
-msgstr ""
-
-#: admin/partials/social-settings.php:290
-msgid "To configure the Pinterest Share Settings, check out this"
-msgstr ""
-
-#: admin/partials/social-settings.php:312
-msgid "Add Image Link"
-msgstr ""
-
-#: admin/partials/social-settings.php:348
-msgid "Pin Template Settings"
-msgstr ""
-
-#: admin/partials/social-settings.php:364
-msgid "Pin Note Limit"
-msgstr ""
-
-#: admin/partials/social-settings.php:365
-msgid "Maximum Limit: 500 character"
-msgstr ""
-
-#: admin/partials/topbar.php:10
-msgid "Core Version: "
-msgstr ""
-
-#: admin/partials/topbar.php:12
-msgid "Pro Version: "
-msgstr ""
-
-#: admin/partials/topbar.php:33
+#: includes/Admin/Settings/Config.php:28
 msgid "General"
 msgstr ""
 
-#: admin/partials/topbar.php:34
+#: includes/Admin/Settings/Config.php:36
+msgid "Active Republish Social Share"
+msgstr ""
+
+#: includes/Admin/Settings/Config.php:43
+msgid "Show Scheduled Posts in Dashboard Widget"
+msgstr ""
+
+#: includes/Admin/Settings/Config.php:49
+msgid "Show Scheduled Posts in Sitewide Admin Bar"
+msgstr ""
+
+#: includes/Admin/Settings/Config.php:55
+msgid "Show Scheduled Posts in Admin Bar"
+msgstr ""
+
+#: includes/Admin/Settings/Config.php:61
+msgid "Show Post Types:"
+msgstr ""
+
+#: includes/Admin/Settings/Config.php:69
+msgid "Show Categories:"
+msgstr ""
+
+#: includes/Admin/Settings/Config.php:77
+msgid "Allow users:"
+msgstr ""
+
+#: includes/Admin/Settings/Config.php:85
+msgid "Calendar Default Schedule Time:"
+msgstr ""
+
+#: includes/Admin/Settings/Config.php:92
+msgid "Custom item template for scheduled posts list in the admin bar:"
+msgstr ""
+
+#: includes/Admin/Settings/Config.php:98
+msgid "Item template:"
+msgstr ""
+
+#: includes/Admin/Settings/Config.php:107
+msgid "Title length:"
+msgstr ""
+
+#: includes/Admin/Settings/Config.php:116
+msgid "Date format:"
+msgstr ""
+
+#: includes/Admin/Settings/Config.php:118
+msgid ""
+"For item template use %TITLE% for the post title, %AUTHOR% for post author, "
+"and %DATE% for post scheduled date-time. You can use HTML tags with styles "
+"also."
+msgstr ""
+
+#: includes/Admin/Settings/Config.php:128
+msgid "Show Publish Post Immediately Button"
+msgstr ""
+
+#: includes/Admin/Settings/Config.php:135
 msgid "Email Notify"
 msgstr ""
 
-#: admin/partials/topbar.php:35
+#: includes/Admin/Settings/Config.php:142
+msgid "To configure the Email Notify Settings, check out this"
+msgstr ""
+
+#: includes/Admin/Settings/Config.php:142
+msgid "Doc"
+msgstr ""
+
+#: includes/Admin/Settings/Config.php:148
+msgid "Notify User when a post is \"Under Review\""
+msgstr ""
+
+#: includes/Admin/Settings/Config.php:154
+#: includes/Admin/Settings/Config.php:202
+msgid "Role"
+msgstr ""
+
+#: includes/Admin/Settings/Config.php:165
+#: includes/Admin/Settings/Config.php:213
+msgid "Username"
+msgstr ""
+
+#: includes/Admin/Settings/Config.php:176
+#: includes/Admin/Settings/Config.php:224
+msgid "Email"
+msgstr ""
+
+#: includes/Admin/Settings/Config.php:189
+msgid "Notify Author when a post is \"Rejected\""
+msgstr ""
+
+#: includes/Admin/Settings/Config.php:196
+msgid "Notify User when a post is \"Scheduled\""
+msgstr ""
+
+#: includes/Admin/Settings/Config.php:237
+msgid "Notify Author when a Scheduled Post is \"Published\""
+msgstr ""
+
+#: includes/Admin/Settings/Config.php:244
+msgid "Notify Author when a post is \"Published\""
+msgstr ""
+
+#: includes/Admin/Settings/Config.php:250
 msgid "Social Profile"
 msgstr ""
 
-#: admin/partials/topbar.php:36
+#: includes/Admin/Settings/Config.php:255 includes/Social/InstantShare.php:81
+msgid "Facebook"
+msgstr ""
+
+#: includes/Admin/Settings/Config.php:260
+msgid "Facebook Profile"
+msgstr ""
+
+#: includes/Admin/Settings/Config.php:268 includes/Social/InstantShare.php:98
+msgid "Twitter"
+msgstr ""
+
+#: includes/Admin/Settings/Config.php:273
+msgid "Twitter Profile"
+msgstr ""
+
+#: includes/Admin/Settings/Config.php:281
+msgid "LinkedIn"
+msgstr ""
+
+#: includes/Admin/Settings/Config.php:286
+msgid "LinkedIn Profile"
+msgstr ""
+
+#: includes/Admin/Settings/Config.php:294 includes/Social/InstantShare.php:140
+msgid "Pinterest"
+msgstr ""
+
+#: includes/Admin/Settings/Config.php:299
+msgid "Pinterest Profile"
+msgstr ""
+
+#: includes/Admin/Settings/Config.php:307
 msgid "Social Templates"
 msgstr ""
 
-#: admin/partials/upgrade.php:13
-msgid "WP Scheduled Posts Pro"
+#: includes/Admin/Settings/Config.php:313
+msgid " Facebook Status Settings"
 msgstr ""
 
-#: admin/setup-wizard/inc/class-wpscp-setup-wizard.php:142
-msgid "Previous"
+#: includes/Admin/Settings/Config.php:319
+msgid "Facebook Meta Data"
 msgstr ""
 
-#: admin/setup-wizard/inc/class-wpscp-setup-wizard.php:143
-msgid "Next"
+#: includes/Admin/Settings/Config.php:320
+msgid ""
+"Add Open Graph metadata to your site head section and other social networks "
+"use this data when your pages are shared."
 msgstr ""
 
-#: admin/setup-wizard/inc/class-wpscp-setup-wizard.php:146
-msgid "We collect non-sensitive diagnostic data and plugin usage"
+#: includes/Admin/Settings/Config.php:326
+#: includes/Admin/Settings/Config.php:415
+msgid "Content Type"
 msgstr ""
 
-#: admin/setup-wizard/inc/class-wpscp-setup-wizard.php:146
-msgid "information. Your site URL, WordPress & PHP version,"
+#: includes/Admin/Settings/Config.php:328
+#: includes/Admin/Settings/Config.php:417
+msgid "Link"
 msgstr ""
 
-#: admin/setup-wizard/inc/class-wpscp-setup-wizard.php:146
-msgid "plugins & themes and email address to send you the discount"
+#: includes/Admin/Settings/Config.php:329
+#: includes/Admin/Settings/Config.php:418
+msgid "Status"
 msgstr ""
 
-#: admin/setup-wizard/inc/class-wpscp-setup-wizard.php:146
-msgid "coupon. This data lets us make sure this plugin always stays"
+#: includes/Admin/Settings/Config.php:330
+msgid "Status + Link"
 msgstr ""
 
-#: admin/setup-wizard/inc/class-wpscp-setup-wizard.php:146
-msgid "compatible with the most popular plugins and themes. No spam, we promise."
+#: includes/Admin/Settings/Config.php:337
+#: includes/Admin/Settings/Config.php:380
+#: includes/Admin/Settings/Config.php:425
+#: includes/Admin/Settings/Config.php:467
+msgid "Add Category as a tags"
 msgstr ""
 
-#: admin/setup-wizard/inc/class-wpscp-setup-wizard.php:147
-msgid "What We Collect?"
+#: includes/Admin/Settings/Config.php:343
+#: includes/Admin/Settings/Config.php:392
+#: includes/Admin/Settings/Config.php:431
+#: includes/Admin/Settings/Config.php:473
+msgid "Content Source"
 msgstr ""
 
-#: admin/setup-wizard/inc/class-wpscp-setup-wizard.php:150
-msgid "Skip This Step"
+#: includes/Admin/Settings/Config.php:345
+#: includes/Admin/Settings/Config.php:394
+#: includes/Admin/Settings/Config.php:433
+#: includes/Admin/Settings/Config.php:475
+msgid "Excerpt"
 msgstr ""
 
-#: admin/setup-wizard/inc/wpscp-setup-wizard-helper-functions.php:35
-msgid "Your Email Address"
+#: includes/Admin/Settings/Config.php:346
+#: includes/Admin/Settings/Config.php:395
+#: includes/Admin/Settings/Config.php:434
+#: includes/Admin/Settings/Config.php:476 views/calendar.php:41
+msgid "Content"
 msgstr ""
 
-#: admin/setup-wizard/inc/wpscp-setup-wizard-helper-functions.php:57
-#: admin/setup-wizard/inc/wpscp-setup-wizard-helper-functions.php:68
-#: admin/setup-wizard/inc/wpscp-setup-wizard-helper-functions.php:79
-#: admin/setup-wizard/wpscp-setup-wizard-config.php:88
-msgid "Pro"
+#: includes/Admin/Settings/Config.php:353
+#: includes/Admin/Settings/Config.php:441
+#: includes/Admin/Settings/Config.php:483
+msgid "Status Template Settings"
 msgstr ""
 
-#: admin/setup-wizard/wpscp-setup-wizard-config.php:9
-msgid "01"
+#: includes/Admin/Settings/Config.php:354
+#: includes/Admin/Settings/Config.php:374
+#: includes/Admin/Settings/Config.php:442
+#: includes/Admin/Settings/Config.php:484
+msgid "Default Structure: {title}{content}{url}{tags}"
 msgstr ""
 
-#: admin/setup-wizard/wpscp-setup-wizard-config.php:10
-#: admin/setup-wizard/wpscp-setup-wizard-config.php:23
-#: admin/setup-wizard/wpscp-setup-wizard-config.php:56
-#: admin/setup-wizard/wpscp-setup-wizard-config.php:89
-msgid "Step"
+#: includes/Admin/Settings/Config.php:360
+#: includes/Admin/Settings/Config.php:448
+msgid "Status Limit"
 msgstr ""
 
-#: admin/setup-wizard/wpscp-setup-wizard-config.php:14
-msgid "Getting Started"
+#: includes/Admin/Settings/Config.php:361
+msgid "Maximum Limit: 63206 character"
 msgstr ""
 
-#: admin/setup-wizard/wpscp-setup-wizard-config.php:22
-msgid "02"
+#: includes/Admin/Settings/Config.php:367
+msgid "Twitter Tweet Settings"
 msgstr ""
 
-#: admin/setup-wizard/wpscp-setup-wizard-config.php:27
-msgid "Dashboard Widget Show/Hide"
+#: includes/Admin/Settings/Config.php:373
+msgid "Tweet Template Settings"
 msgstr ""
 
-#: admin/setup-wizard/wpscp-setup-wizard-config.php:28
-msgid "Show Scheduled Posts in  Widget"
+#: includes/Admin/Settings/Config.php:386
+msgid "Show Post Thumbnail"
 msgstr ""
 
-#: admin/setup-wizard/wpscp-setup-wizard-config.php:33
-msgid "Sitewide Admin Bar Widget Show/Hide"
+#: includes/Admin/Settings/Config.php:402
+msgid "Tweet Limit"
 msgstr ""
 
-#: admin/setup-wizard/wpscp-setup-wizard-config.php:39
-msgid "Admin Bar Widget Show/Hide"
+#: includes/Admin/Settings/Config.php:403
+msgid "Maximum Limit: 280 character"
 msgstr ""
 
-#: admin/setup-wizard/wpscp-setup-wizard-config.php:45
-msgid "Publish Post Button Show/Hide"
+#: includes/Admin/Settings/Config.php:409
+msgid "LinkedIn Status Settings"
 msgstr ""
 
-#: admin/setup-wizard/wpscp-setup-wizard-config.php:55
-msgid "03"
+#: includes/Admin/Settings/Config.php:449
+msgid "Maximum Limit: 1300 character"
 msgstr ""
 
-#: admin/setup-wizard/wpscp-setup-wizard-config.php:60
-msgid "Post Types Support"
+#: includes/Admin/Settings/Config.php:455
+msgid " Pinterest Pin Settings"
 msgstr ""
 
-#: admin/setup-wizard/wpscp-setup-wizard-config.php:66
-msgid "Show Categories"
+#: includes/Admin/Settings/Config.php:461
+msgid "Add Image Link"
 msgstr ""
 
-#: admin/setup-wizard/wpscp-setup-wizard-config.php:72
-msgid "Allow users"
+#: includes/Admin/Settings/Config.php:490
+msgid "Pin Note Limit"
 msgstr ""
 
-#: admin/setup-wizard/wpscp-setup-wizard-config.php:93
-msgid "Pro Features"
+#: includes/Admin/Settings/Config.php:491
+msgid "Maximum Limit: 500 character"
 msgstr ""
 
-#: includes/class-plugin-usage-tracker.php:319
+#: includes/Admin/WPDev/PluginUsageTracker.php:309
 msgid ""
 "We can't detect any plugin information. This is most probably because you "
 "have not included the code in the plugin main file."
 msgstr ""
 
-#: includes/class-plugin-usage-tracker.php:712
+#: includes/Admin/WPDev/PluginUsageTracker.php:701
 msgid ""
 "Thank you for installing our plugin. We would like to track its usage on "
 "your site. We don't record any sensitive data, only information regarding "
@@ -712,14 +332,14 @@ msgid ""
 "make improvements to the plugin. Tracking is completely optional."
 msgstr ""
 
-#: includes/class-plugin-usage-tracker.php:715
+#: includes/Admin/WPDev/PluginUsageTracker.php:704
 msgid ""
-"Want to help make <strong>WP Scheduled Posts</strong> even more awesome? "
-"You can get a <strong>10% discount coupon</strong> for Pro upgrade if you "
-"allow. <a class=\"insights-data-we-collect\" href=\"#\">What we collect.</a>"
+"Want to help make <strong>SchedulePress</strong> even more awesome? You can "
+"get a <strong>10% discount coupon</strong> for Pro upgrade if you allow. <a "
+"class=\"insights-data-we-collect\" href=\"#\">What we collect.</a>"
 msgstr ""
 
-#: includes/class-plugin-usage-tracker.php:723
+#: includes/Admin/WPDev/PluginUsageTracker.php:712
 msgid ""
 "We collect non-sensitive diagnostic data and plugin usage information. Your "
 "site URL, WordPress & PHP version, plugins & themes and email address to "
@@ -728,145 +348,141 @@ msgid ""
 "I promise."
 msgstr ""
 
-#: includes/class-plugin-usage-tracker.php:726
+#: includes/Admin/WPDev/PluginUsageTracker.php:715
 msgid "Sure, I'd like to help"
 msgstr ""
 
-#: includes/class-plugin-usage-tracker.php:727
+#: includes/Admin/WPDev/PluginUsageTracker.php:716
 msgid "No Thanks"
 msgstr ""
 
-#: includes/class-plugin-usage-tracker.php:767
+#: includes/Admin/WPDev/PluginUsageTracker.php:756
 msgid ""
 "Thank you for opting in to tracking. Would you like to receive occasional "
 "news about this plugin, including details of new features and special "
 "offers?"
 msgstr ""
 
-#: includes/class-plugin-usage-tracker.php:774
+#: includes/Admin/WPDev/PluginUsageTracker.php:763
 msgid "Yes Please"
 msgstr ""
 
-#: includes/class-plugin-usage-tracker.php:775
+#: includes/Admin/WPDev/PluginUsageTracker.php:764
 msgid "No Thank You"
 msgstr ""
 
-#: includes/class-plugin-usage-tracker.php:809
+#: includes/Admin/WPDev/PluginUsageTracker.php:798
 msgid "Sorry to see you go"
 msgstr ""
 
-#: includes/class-plugin-usage-tracker.php:810
+#: includes/Admin/WPDev/PluginUsageTracker.php:799
 msgid ""
 "Before you deactivate the plugin, would you quickly give us your reason for "
 "doing so?"
 msgstr ""
 
-#: includes/class-plugin-usage-tracker.php:813
+#: includes/Admin/WPDev/PluginUsageTracker.php:802
 msgid "I no longer need the plugin"
 msgstr ""
 
-#: includes/class-plugin-usage-tracker.php:815
+#: includes/Admin/WPDev/PluginUsageTracker.php:804
 msgid "I found a better plugin"
 msgstr ""
 
-#: includes/class-plugin-usage-tracker.php:816
+#: includes/Admin/WPDev/PluginUsageTracker.php:805
 msgid "Please share which plugin"
 msgstr ""
 
-#: includes/class-plugin-usage-tracker.php:818
+#: includes/Admin/WPDev/PluginUsageTracker.php:807
 msgid "I couldn't get the plugin to work"
 msgstr ""
 
-#: includes/class-plugin-usage-tracker.php:819
+#: includes/Admin/WPDev/PluginUsageTracker.php:808
 msgid "It's a temporary deactivation"
 msgstr ""
 
-#: includes/class-plugin-usage-tracker.php:822
+#: includes/Admin/WPDev/PluginUsageTracker.php:811
 msgid "Other"
 msgstr ""
 
-#: includes/class-plugin-usage-tracker.php:823
+#: includes/Admin/WPDev/PluginUsageTracker.php:812
 msgid "Please share the reason"
 msgstr ""
 
-#: includes/class-plugin-usage-tracker.php:884
+#: includes/Admin/WPDev/PluginUsageTracker.php:873
 msgid "Submitting form"
 msgstr ""
 
-#: includes/class-plugin-usage-tracker.php:1009
+#: includes/Admin/WPDev/PluginUsageTracker.php:1018
 msgid "Submit and Deactivate"
 msgstr ""
 
-#: includes/class-plugin-usage-tracker.php:1009
+#: includes/Admin/WPDev/PluginUsageTracker.php:1018
 msgid "Just Deactivate"
 msgstr ""
 
-#: includes/class-wpdev-core-install.php:55
+#: includes/Admin/WPDev/WPDevCoreInstaller.php:63
 msgid "You don't have permission to install the plugins"
 msgstr ""
 
-#: includes/class-wpdev-core-install.php:62
+#: includes/Admin/WPDev/WPDevCoreInstaller.php:70
 msgid "You don't have set any slug and file name to install the plugins"
 msgstr ""
 
-#: includes/class-wpdeveloper-dashboard-widget.php:42
+#: includes/Admin/WPDev/WPDevFeedWidget.php:41
 msgid "WPDeveloper Feed"
 msgstr ""
 
-#: includes/class-wpdeveloper-dashboard-widget.php:64
+#: includes/Admin/WPDev/WPDevFeedWidget.php:63
 msgid "No recent news."
 msgstr ""
 
-#: includes/class-wpdeveloper-dashboard-widget.php:74
+#: includes/Admin/WPDev/WPDevFeedWidget.php:73
 msgid "Posted on %s"
 msgstr ""
 
-#: includes/class-wpdeveloper-dashboard-widget.php:80
+#: includes/Admin/WPDev/WPDevFeedWidget.php:79
 msgid "Keep Your Eyes on"
 msgstr ""
 
-#: includes/class-wpscp.php:141
-msgid "Publish Post Immediately"
-msgstr ""
-
-#: includes/class-wpscp.php:279
+#: includes/Admin.php:54
 msgid "Go Pro"
 msgstr ""
 
-#: includes/class-wpscp.php:294
+#: includes/Admin.php:69
 msgid "Docs & FAQs"
 msgstr ""
 
-#: includes/class-wpscp.php:327
+#: includes/Admin.php:102
 msgid "Ok, you deserve it!"
 msgstr ""
 
-#: includes/class-wpscp.php:332
+#: includes/Admin.php:107
 msgid "I already did"
 msgstr ""
 
-#: includes/class-wpscp.php:340
+#: includes/Admin.php:115
 msgid "Maybe Later"
 msgstr ""
 
-#: includes/class-wpscp.php:348
+#: includes/Admin.php:123
 msgid "I need help"
 msgstr ""
 
-#: includes/class-wpscp.php:353
+#: includes/Admin.php:128
 msgid "Never show again"
 msgstr ""
 
-#: includes/class-wpscp.php:365
+#: includes/Admin.php:140
 msgid ""
-"We hope you're enjoying WP Scheduled Posts! Could you please do us a BIG "
-"favor and give it a 5-star rating on WordPress to help us spread the word "
-"and boost our motivation?"
+"We hope you're enjoying SchedulePress! Could you please do us a BIG favor "
+"and give it a 5-star rating on WordPress to help us spread the word and "
+"boost our motivation?"
 msgstr ""
 
-#: includes/class-wpscp.php:373
+#: includes/Admin.php:148
 msgid ""
-"Enjoying <strong>WP Scheduled Posts</strong>? Why not check our <strong><a "
+"Enjoying <strong>SchedulePress</strong>? Why not check our <strong><a "
 "href=\"https://wpdeveloper.net/in/wp-scheduled-posts-pro\" "
 "target=\"_blank\">Pro version</a></strong> which will enable auto schedule, "
 "multi social account share and many more features! [<strong><a "
@@ -874,173 +490,127 @@ msgid ""
 "target=\"_blank\">Learn More</a></strong>]"
 msgstr ""
 
-#: includes/class-wpscp.php:380
+#: includes/Admin.php:155
 msgid "Install Pro"
 msgstr ""
 
-#: includes/integration/class-wpscp-social-multi-profile.php:34
-msgid "Multi Profile is a Premium Feature. To use this feature, Upgrade to PRO."
+#: includes/Assets.php:36
+msgid "Publish Post Immediately"
 msgstr ""
 
-#: includes/integration/class-wpscp-social-multi-profile.php:173
-msgid "Failed, Your app id, app secret and redirect url is not set"
-msgstr ""
-
-#: includes/integration/class-wpscp-social-multi-profile.php:578
-msgid "Invailed Nonce"
-msgstr ""
-
-#: includes/integration/class-wpscp-social-multi-profile.php:600
-msgid "Facebook Integration Activated"
-msgstr ""
-
-#: includes/integration/class-wpscp-social-multi-profile.php:602
-msgid "Facebook Integration Deactivated"
-msgstr ""
-
-#: includes/integration/class-wpscp-social-multi-profile.php:606
-msgid "Twitter Integration Activated"
-msgstr ""
-
-#: includes/integration/class-wpscp-social-multi-profile.php:608
-msgid "Twitter Integration Deactivated"
-msgstr ""
-
-#: includes/integration/class-wpscp-social-multi-profile.php:612
-msgid "Linkedin Integration Activated"
-msgstr ""
-
-#: includes/integration/class-wpscp-social-multi-profile.php:614
-msgid "Linkedin Integration Deactivated"
-msgstr ""
-
-#: includes/integration/class-wpscp-social-multi-profile.php:618
-msgid "Pinterest Integration Activated"
-msgstr ""
-
-#: includes/integration/class-wpscp-social-multi-profile.php:620
-msgid "Pinterest Integration Deactivated"
-msgstr ""
-
-#: includes/integration/class-wpscp-social-multi-profile.php:649
-msgid "Facebook Social Share is Activated"
-msgstr ""
-
-#: includes/integration/class-wpscp-social-multi-profile.php:651
-msgid "Facebook Social Share is Deactivated"
-msgstr ""
-
-#: includes/integration/class-wpscp-social-multi-profile.php:655
-msgid "Twitter Social Share is Activated"
-msgstr ""
-
-#: includes/integration/class-wpscp-social-multi-profile.php:657
-msgid "Twitter Social Share is Deactivated"
-msgstr ""
-
-#: includes/integration/class-wpscp-social-multi-profile.php:661
-msgid "Linkedin Social Share is Activated"
-msgstr ""
-
-#: includes/integration/class-wpscp-social-multi-profile.php:663
-msgid "Linkedin Social Share is Deactivated"
-msgstr ""
-
-#: includes/integration/class-wpscp-social-multi-profile.php:667
-msgid "Pinterest Social Share is Activated"
-msgstr ""
-
-#: includes/integration/class-wpscp-social-multi-profile.php:669
-msgid "Pinterest Social Share is Deactivated"
-msgstr ""
-
-#: includes/integration/class-wpscp-twitter.php:164
-msgid "Twitter Connection Problem. error code: "
-msgstr ""
-
-#: includes/integration/instantshare/class-wpscp-instantshare.php:21
+#: includes/Social/InstantShare.php:23
 msgid "Social Share Settings"
 msgstr ""
 
-#: includes/integration/instantshare/class-wpscp-instantshare.php:43
+#: includes/Social/InstantShare.php:44
 msgid "Disable Social Share"
 msgstr ""
 
-#: includes/integration/instantshare/class-wpscp-instantshare.php:72
+#: includes/Social/InstantShare.php:73
 msgid "Choose Social Share Platform"
 msgstr ""
 
-#: includes/integration/instantshare/class-wpscp-instantshare.php:116
+#: includes/Social/InstantShare.php:117
 msgid "Linkedin"
 msgstr ""
 
-#: includes/integration/instantshare/class-wpscp-instantshare.php:150
+#: includes/Social/InstantShare.php:151
 msgid "Default Board"
 msgstr ""
 
-#: includes/integration/instantshare/class-wpscp-instantshare.php:151
+#: includes/Social/InstantShare.php:152
 msgid "Custom Board"
 msgstr ""
 
-#: includes/integration/instantshare/class-wpscp-instantshare.php:160
+#: includes/Social/InstantShare.php:161
 msgid "Share Now"
 msgstr ""
 
-#: includes/integration/instantshare/class-wpscp-instantshare.php:255
+#: includes/Social/InstantShare.php:255
 msgid "Failed!, Your are not selected any social media."
 msgstr ""
 
-#: includes/integration/instantshare/class-wpscp-instantshare.php:339
+#: includes/Social/InstantShare.php:340
 msgid "Sorry, your requested platform integation is not added."
 msgstr ""
 
-#: includes/wpscp-functions.php:244
+#: includes/Social/SocialProfile.php:21
+msgid "Multi Profile is a Premium Feature. To use this feature, "
+msgstr ""
+
+#: includes/Social/Twitter.php:171
+msgid "Twitter Connection Problem. error code: "
+msgstr ""
+
+#: includes/functions.php:193
 msgid "Publish future post immediately"
 msgstr ""
 
-#: includes/wpscp-functions.php:247
+#: includes/functions.php:196
 msgid ""
 "If you schedule this post and check this option then your post will be "
 "published immediately but post date-time will not set current date. Post "
 "date-time will be your scheduled future date-time."
 msgstr ""
 
-#: includes/wpscp-functions.php:501 includes/wpscp-functions.php:572
-#: includes/wpscp-functions.php:643 includes/wpscp-functions.php:715
-msgid "Added by"
+#: views/calendar.php:13
+msgid "Version "
 msgstr ""
 
-#: includes/wpscp-functions.php:506 includes/wpscp-functions.php:577
-#: includes/wpscp-functions.php:648 includes/wpscp-functions.php:720
-msgid "on "
+#: views/calendar.php:32
+msgid "New "
 msgstr ""
 
-#: includes/wpscp-functions.php:524 includes/wpscp-functions.php:595
-#: includes/wpscp-functions.php:666 includes/wpscp-functions.php:742
-msgid "more item"
+#: views/calendar.php:38
+msgid "Title"
 msgstr ""
 
-#: includes/wpscp-functions.php:527 includes/wpscp-functions.php:598
-msgid "Refresh"
+#: views/calendar.php:45
+msgid "Draft"
 msgstr ""
 
-#: includes/wpscp-functions.php:528 includes/wpscp-functions.php:599
-#: includes/wpscp-functions.php:671 includes/wpscp-functions.php:747
-msgid "Remove"
+#: views/calendar.php:46
+msgid "Scheduled"
 msgstr ""
 
-#: includes/wpscp-functions.php:725
-msgid "Default Board: "
+#: views/calendar.php:47
+msgid "Publish"
 msgstr ""
 
-#: includes/wpscp-functions.php:785
-msgid "Recommended:"
+#: views/calendar.php:57
+msgid "Save"
 msgstr ""
 
-#: includes/wpscp-functions.php:785
-msgid ""
-" Due to Twitter Rules, make sure to create your own Twitter App to use this "
-"feature. For more info, check out this "
+#: views/calendar.php:58
+msgid "Cancel"
+msgstr ""
+
+#: views/calendar.php:68
+msgid "Unscheduled "
+msgstr ""
+
+#: views/calendar.php:87
+msgid "Edit"
+msgstr ""
+
+#: views/calendar.php:88
+msgid "Quick Edit"
+msgstr ""
+
+#: views/calendar.php:91
+msgid "Delete"
+msgstr ""
+
+#: views/calendar.php:92
+msgid " View"
+msgstr ""
+
+#: views/calendar.php:104
+msgid "New Draft"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "WP Scheduled Posts"
 msgstr ""
 
 #. Description of the plugin/theme
