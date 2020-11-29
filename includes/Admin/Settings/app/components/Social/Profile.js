@@ -26,7 +26,7 @@ const Profile = ({ platform, fieldName, field, data }) => {
                                     <div className='item-content'>
                                         <div className='entry-thumbnail'>
                                             <img
-                                                src='https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-1/cp0/p50x50/104447021_103269271446191_8892114688067945178_o.png?_nc_cat=104&amp;_nc_sid=dbb9e7&amp;_nc_ohc=X_6m8nD-nooAX8Duvu3&amp;_nc_ht=scontent-lax3-1.xx&amp;oh=61b337157a9eca69e54506b10d5d42ac&amp;oe=5FAB5877'
+                                                src={item.thumbnail_url}
                                                 alt='logo'
                                             />
                                         </div>

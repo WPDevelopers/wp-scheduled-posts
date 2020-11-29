@@ -8,8 +8,10 @@ export default function Facebook({ fieldName, field, page, group }) {
             // free
             if (!wpspSettingsGlobal.pro_version) {
                 if (field.value.length == 0) {
+                    e.target.disabled = true
                     arrayHelpers.insert(index, item)
                 } else {
+                    e.target.disabled = true
                     setIsErrorMessage(true)
                     e.preventDefault()
                     e.stopPropagation()
@@ -19,6 +21,7 @@ export default function Facebook({ fieldName, field, page, group }) {
                 arrayHelpers.insert(index, item)
             }
         } else {
+            e.target.disabled = false
             setIsErrorMessage(false)
             arrayHelpers.remove(index)
         }
@@ -31,7 +34,10 @@ export default function Facebook({ fieldName, field, page, group }) {
                     <div className='wpsp-modal-social-platform'>
                         <div className='entry-head facebook'>
                             <img
-                                src='https://itushar.me/dev/wp-content/plugins/wp-scheduled-posts/admin/assets/images/icon-facebook-small-white.png'
+                                src={
+                                    wpspSettingsGlobal.plugin_root_uri +
+                                    'assets/images/icon-facebook-small-white.png'
+                                }
                                 alt='logo'
                             />
                             <h2 className='entry-head-title'>Facebook</h2>
@@ -52,7 +58,7 @@ export default function Facebook({ fieldName, field, page, group }) {
                                     <div className='item-content'>
                                         <div className='entry-thumbnail'>
                                             <img
-                                                src='https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-1/cp0/p50x50/104447021_103269271446191_8892114688067945178_o.png?_nc_cat=104&amp;_nc_sid=dbb9e7&amp;_nc_ohc=X_6m8nD-nooAX8Duvu3&amp;_nc_ht=scontent-lax3-1.xx&amp;oh=61b337157a9eca69e54506b10d5d42ac&amp;oe=5FAB5877'
+                                                src={item.thumbnail_url}
                                                 alt='logo'
                                             />
                                         </div>
@@ -85,7 +91,7 @@ export default function Facebook({ fieldName, field, page, group }) {
                                     <div className='item-content'>
                                         <div className='entry-thumbnail'>
                                             <img
-                                                src='https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-1/cp0/p50x50/104447021_103269271446191_8892114688067945178_o.png?_nc_cat=104&amp;_nc_sid=dbb9e7&amp;_nc_ohc=X_6m8nD-nooAX8Duvu3&amp;_nc_ht=scontent-lax3-1.xx&amp;oh=61b337157a9eca69e54506b10d5d42ac&amp;oe=5FAB5877'
+                                                src={item.thumbnail_url}
                                                 alt='logo'
                                             />
                                         </div>
