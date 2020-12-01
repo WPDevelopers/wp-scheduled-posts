@@ -367,6 +367,9 @@
                 width: 48%;
                 display: inline-block;
                 margin: 1%;
+                &.rawhtml {
+                    width: 100%;
+                }
                 .form-group {
                     border: 1px solid #e7e7e7;
                     box-sizing: border-box;
@@ -430,7 +433,7 @@
             flex: 1;
             > span {
                 position: relative;
-                padding: 5px 12px;
+                padding: 5px 12px 5px 8px;
                 display: block;
                 text-transform: uppercase;
                 letter-spacing: 1px;
@@ -458,8 +461,9 @@
                     font-size: 14px;
                     outline: none;
                     position: absolute;
-                    right: 3px;
-                    top: 7px;
+                    right: 0;
+                    margin-top: -8px;
+                    top: 50%;
                     &:hover {
                         opacity: 1;
                         .dashicons {

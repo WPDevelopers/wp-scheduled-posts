@@ -1523,7 +1523,7 @@ const RawHTML = ({
   content
 }) => {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "form-group"
+    className: "form-group rawhtml"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-info",
     dangerouslySetInnerHTML: {
@@ -1570,25 +1570,25 @@ const ScheduleTable = ({
 }) => {
   const options = [{
     value: 'saturday',
-    label: 'Saturday'
+    label: 'Sat'
   }, {
     value: 'sunday',
-    label: 'Sunday'
+    label: 'Sun'
   }, {
     value: 'monday',
-    label: 'Monday'
+    label: 'Mon'
   }, {
     value: 'tuesday',
-    label: 'Tuesday'
+    label: 'Tue'
   }, {
     value: 'wednesday',
-    label: 'Wednesday'
+    label: 'Wed'
   }, {
     value: 'thursday',
-    label: 'Thursday'
+    label: 'Thu'
   }, {
     value: 'friday',
-    label: 'Friday'
+    label: 'Fri'
   }];
   const [selectDay, setSelectDay] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(options[0]);
   const [selectTime, setSelectTime] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(new Date());
@@ -2518,7 +2518,7 @@ const Settings = ({
     })))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       className: props.dirty === false ? 'btn-submit' : 'btn-submit btn-submit--changed',
       type: "submit"
-    }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])('Submit', 'wp-scheduled-posts')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_toastify__WEBPACK_IMPORTED_MODULE_7__["ToastContainer"], {
+    }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])('Save Settings', 'wp-scheduled-posts')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_toastify__WEBPACK_IMPORTED_MODULE_7__["ToastContainer"], {
       closeButton: false
     }), tabIndex == 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Document__WEBPACK_IMPORTED_MODULE_11__["default"], {
       pluginRootURI: wpspObject.plugin_root_uri

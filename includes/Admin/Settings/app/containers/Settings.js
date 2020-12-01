@@ -275,7 +275,7 @@ const Settings = ({
                             }
                             type='submit'
                         >
-                            {__('Submit', 'wp-scheduled-posts')}
+                            {__('Save Settings', 'wp-scheduled-posts')}
                         </button>
                         <ToastContainer closeButton={false} />
                         {tabIndex == 0 && (

@@ -2235,6 +2235,9 @@
   display: inline-block;
   margin: 1%;
 }
+.wpsp-dashboard-body .group-fields.auto_schedule .standard-fields.rawhtml {
+  width: 100%;
+}
 .wpsp-dashboard-body .group-fields.auto_schedule .standard-fields .form-group {
   border: 1px solid #e7e7e7;
   -webkit-box-sizing: border-box;
@@ -2310,7 +2313,7 @@
 }
 .wpsp-dashboard-body ul.schedule-list li > span {
   position: relative;
-  padding: 5px 12px;
+  padding: 5px 12px 5px 8px;
   display: block;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -2339,8 +2342,9 @@
   font-size: 14px;
   outline: none;
   position: absolute;
-  right: 3px;
-  top: 7px;
+  right: 0;
+  margin-top: -8px;
+  top: 50%;
 }
 .wpsp-dashboard-body ul.schedule-list li > span button:hover {
   opacity: 1;
