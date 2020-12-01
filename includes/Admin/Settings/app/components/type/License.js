@@ -304,12 +304,22 @@ const License = () => {
                         />
                     </div>
                     <div className='wpsp-license-input'>
-                        <input
-                            id='wp-scheduled-posts-pro-license-key'
-                            placeholder='Place Your License Key and Activate'
-                            onChange={(e) => changed(e.target.value)}
-                            value={tempKey !== false ? tempKey : ''}
-                        />
+                        {tempKey && valid == 'valid' ? (
+                            <input
+                                id='wp-scheduled-posts-pro-license-key'
+                                placeholder='Place Your License Key and Activate'
+                                onChange={(e) => changed(e.target.value)}
+                                value={tempKey}
+                                disabled='disabled'
+                            />
+                        ) : (
+                            <input
+                                id='wp-scheduled-posts-pro-license-key'
+                                placeholder='Place Your License Key and Activate'
+                                onChange={(e) => changed(e.target.value)}
+                                value={tempKey !== false ? tempKey : ''}
+                            />
+                        )}
                     </div>
                     <div className='wpsp-license-buttons'>
                         {valid == 'valid' ? (
