@@ -17,17 +17,19 @@ const Settings = ({
     socialPlatform,
     redirectFromOauth,
     fetch_social_popup_info,
+    currentTab,
 }) => {
     const [tabIndex, setTabIndex] = useState(0)
     const [subTabIndex, setSubTabIndex] = useState(0)
     const [formValue, setFormValue] = useState({})
     const [isLoaded, setIsLoaded] = useState(false)
-
     useEffect(() => {
         // social
         fetch_social_popup_info()
         if (redirectFromOauth) {
             setTabIndex(2)
+        } else if (currentTab === 'license') {
+            setTabIndex(5)
         }
         if (socialPlatform == 'twitter') {
             setSubTabIndex(1)
@@ -293,6 +295,7 @@ const Settings = ({
 const mapStateToProps = (state) => ({
     redirectFromOauth: state.social.redirectFromOauth,
     socialPlatform: state.social.type,
+    currentTab: state.social.tab,
 })
 
 const mapDispatchToProps = (dispatch) => {

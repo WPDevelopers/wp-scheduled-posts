@@ -75,11 +75,11 @@ export const socialPopUpData = {
                 'For details on Facebook configuration, check out this',
                 'wp-scheduled-posts'
             ) +
-            ' <a target="_blank" href="https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/">' +
+            ' <a target="_blank" href="https://wpdeveloper.net/docs/share-scheduled-posts-facebook/">' +
             __('Doc', 'wp-scheduled-posts') +
             '</a> <br /> <a target="_blank" href="https://developer.facebook.com/">' +
             __('Click here', 'wp-scheduled-posts') +
-            '</a>' +
+            '</a> ' +
             __(
                 'to Retrieve Your API Keys from your Facebook account.',
                 'wp-scheduled-posts'
@@ -96,7 +96,7 @@ export const socialPopUpData = {
             __('Doc', 'wp-scheduled-posts') +
             '</a> <br /> <a target="_blank" href="https://developer.twitter.com/">' +
             __('Click here', 'wp-scheduled-posts') +
-            '</a>' +
+            '</a> ' +
             __(
                 'to Retrieve Your API Keys from your Twitter account.',
                 'wp-scheduled-posts'
@@ -130,7 +130,7 @@ export const socialPopUpData = {
             __('Doc', 'wp-scheduled-posts') +
             '</a> <br /> <a target="_blank" href="https://developers.pinterest.com">' +
             __('Click here', 'wp-scheduled-posts') +
-            '</a>' +
+            '</a> ' +
             __(
                 'to Retrieve Your API Keys from your Pinterest account.',
                 'wp-scheduled-posts'

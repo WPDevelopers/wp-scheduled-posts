@@ -52,7 +52,7 @@ const CustomAppForm = ({ platform, requestHandler }) => {
                                                 {__(
                                                     'Copy this and paste it in your',
                                                     'wp-scheduled-posts'
-                                                )}
+                                                )}{' '}
                                                 {platform}{' '}
                                                 {__(
                                                     'app Callback url field.',
