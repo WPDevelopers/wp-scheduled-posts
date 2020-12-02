@@ -47,7 +47,7 @@ const License = () => {
                     <div>
                         <span className='dashicons dashicons-yes-alt'></span>
                         {__(
-                            'Your License successfully activated!',
+                            'Your License is Successfully Activated.',
                             'wp-scheduled-posts'
                         )}
                     </div>,
@@ -84,7 +84,7 @@ const License = () => {
                     <div>
                         <span className='dashicons dashicons-yes-alt'></span>
                         {__(
-                            'Your License successfully deactivated!',
+                            'Your License is Successfully Deactivated.',
                             'wp-scheduled-posts'
                         )}
                     </div>,
