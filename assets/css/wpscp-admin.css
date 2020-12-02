@@ -2080,6 +2080,25 @@
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
+.wpsp-dashboard-body .social_templates .group-fields {
+  background-color: #f8fafc;
+  color: #4d4d4d;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+.wpsp-dashboard-body .social_templates .group-fields .form-group {
+  border: 1px solid #e7e7e7;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
 .wpsp-dashboard-body .manage_schedule {
   width: 100%;
   display: -webkit-box;

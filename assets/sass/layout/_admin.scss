@@ -223,6 +223,25 @@
             border: 1px solid #e7e7e7;
             box-sizing: border-box;
         }
+        .group-fields {
+            background-color: #f8fafc;
+            color: #4d4d4d;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 3px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            .form-group {
+                border: 1px solid #e7e7e7;
+                -webkit-box-sizing: border-box;
+                box-sizing: border-box;
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-align: center;
+                -ms-flex-align: center;
+                align-items: center;
+            }
+        }
     }
     // manage schedule
     .manage_schedule {
