@@ -269,16 +269,18 @@ const Settings = ({
                                 </TabPanel>
                             ))}
                         </Tabs>
-                        <button
-                            className={
-                                props.dirty === false
-                                    ? 'btn-submit'
-                                    : 'btn-submit btn-submit--changed'
-                            }
-                            type='submit'
-                        >
-                            {__('Save Settings', 'wp-scheduled-posts')}
-                        </button>
+                        {tabIndex !== 5 && (
+                            <button
+                                className={
+                                    props.dirty === false
+                                        ? 'btn-submit'
+                                        : 'btn-submit btn-submit--changed'
+                                }
+                                type='submit'
+                            >
+                                {__('Save Settings', 'wp-scheduled-posts')}
+                            </button>
+                        )}
                         <ToastContainer closeButton={false} />
                         {tabIndex == 0 && (
                             <Document
