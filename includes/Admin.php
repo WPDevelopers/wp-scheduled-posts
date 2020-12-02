@@ -47,7 +47,7 @@ class Admin
     public function insert_plugin_links($links)
     {
         // settings
-        $links[] = sprintf('<a href="admin.php?page=wp-scheduled-posts">' . __('Settings', 'wp-scheduled-posts') . '</a>');
+        $links[] = sprintf('<a href="admin.php?page='.WPSP_SETTINGS_SLUG.'">' . __('Settings', 'wp-scheduled-posts') . '</a>');
 
         // go pro
         if (!$this->pro_enabled()) {
