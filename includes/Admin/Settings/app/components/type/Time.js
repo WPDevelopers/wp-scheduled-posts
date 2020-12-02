@@ -16,9 +16,13 @@ const Time = ({
     let groupTimeFlug = false
     let now = new Date()
     const [field] = useField(id)
-    const startDate = field.value
+
+    let startDate = field.value
         ? new Date(now.toLocaleDateString('en-US') + ' ' + field.value)
         : new Date()
+    if (isNaN(startDate.getTime())) {
+        startDate = new Date()
+    }
 
     let groupNow = new Date()
     if (value && value[index] && value[index][id]) {
@@ -26,6 +30,9 @@ const Time = ({
             now.toLocaleDateString('en-US') + ' ' + value[index][id]
         )
         groupTimeFlug = true
+    }
+    if (isNaN(groupNow.getTime())) {
+        groupNow = new Date()
     }
     return (
         <div className='form-group'>
