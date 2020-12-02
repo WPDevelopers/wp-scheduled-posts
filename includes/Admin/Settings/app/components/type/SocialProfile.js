@@ -14,6 +14,9 @@ import ListItemProfile from './../Social/ListItemProfile'
 import CustomAppForm from './../../components/CustomAppForm'
 
 const customStyles = {
+    overlay: {
+        background: 'rgba(1, 17, 50, 0.7)',
+    },
     content: {
         top: '50%',
         left: '50%',
