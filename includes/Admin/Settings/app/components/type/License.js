@@ -15,7 +15,7 @@ const License = () => {
         if (!localStorage.getItem('wpsp_is_valid')) {
             var data = {
                 action: 'get_license',
-                _wpnonce: wpscp_pro_ajax_object.license_nonce,
+                _wpnonce: wpspSettingsGlobal.license_nonce,
             }
             jQuery.post(ajaxurl, data, function (response) {
                 if (response.success === true) {
@@ -33,7 +33,7 @@ const License = () => {
         var data = {
             action: 'activate_license',
             key: tempKey,
-            _wpnonce: wpscp_pro_ajax_object.license_nonce,
+            _wpnonce: wpspSettingsGlobal.license_nonce,
         }
         jQuery.post(ajaxurl, data, function (response) {
             setIsRequestSend(null)
@@ -70,7 +70,7 @@ const License = () => {
         setIsRequestSend(true)
         var data = {
             action: 'deactivate_license',
-            _wpnonce: wpscp_pro_ajax_object.license_nonce,
+            _wpnonce: wpspSettingsGlobal.license_nonce,
         }
         jQuery.post(ajaxurl, data, function (response) {
             setIsRequestSend(null)

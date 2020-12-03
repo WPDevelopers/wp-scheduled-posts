@@ -117,7 +117,7 @@ class Assets
         wp_enqueue_style(WPSP_PLUGIN_SLUG . '-style', WPSP_ADMIN_URL . 'Settings/assets/css/admin.css', array());
 
         wp_enqueue_script(WPSP_PLUGIN_SLUG . '-admin-script', WPSP_ADMIN_URL . 'Settings/assets/js/admin.js', array());
-        wp_localize_script(WPSP_PLUGIN_SLUG . '-admin-script', 'wpspSettingsGlobal', array(
+        wp_localize_script(WPSP_PLUGIN_SLUG . '-admin-script', 'wpspSettingsGlobal', apply_filters('wpsp_settings_global', array(
             'api_nonce' => wp_create_nonce('wp_rest'),
             'api_url' => rest_url(WPSP_PLUGIN_SLUG . '/v1/'),
             'settings' => get_transient(WPSP_SETTINGS_NAME),
@@ -125,7 +125,7 @@ class Assets
             'plugin_root_path' => WPSP_ROOT_DIR_PATH,
             'free_version'     => WPSP_VERSION,
             'pro_version'      => (defined('WPSP_PRO_VERSION') ? WPSP_PRO_VERSION : '')
-        ));
+        )));
     }
 
     /**
