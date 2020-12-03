@@ -605,13 +605,25 @@
     }
 }
 .wpsp-mulit-profile-error-message {
+    text-align: center;
+    padding: 40px 50px;
     h2 {
-        font-size: 26px;
-        font-weight: 400;
-        line-height: 30px;
-        text-align: center;
+        p {
+            font-size: 15px;
+            font-weight: 400;
+            line-height: 22px;
+            text-align: center;
+            color: #687b95;
+            margin-bottom: 30px;
+        }
         a {
-            color: #dc3232;
+            font-size: 15px;
+            font-weight: 400;
+            background: #6c62ff;
+            color: #fff;
+            text-decoration: none;
+            padding: 15px;
+            border-radius: 4px;
         }
     }
 }

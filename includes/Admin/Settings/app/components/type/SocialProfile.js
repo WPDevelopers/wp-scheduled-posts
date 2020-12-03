@@ -216,6 +216,15 @@ const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
                 ariaHideApp={false}
             >
                 <div className='wpsp-mulit-profile-error-message'>
+                    <div>
+                        <img
+                            src={
+                                wpspGetPluginRootURI +
+                                'assets/images/soft-warning.png'
+                            }
+                            alt='warning'
+                        />
+                    </div>
                     <h2
                         dangerouslySetInnerHTML={{
                             __html: multiProfileErrorMessage,
