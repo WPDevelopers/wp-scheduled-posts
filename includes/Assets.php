@@ -113,11 +113,32 @@ class Assets
     public function settings_scripts($hook)
     {
         if ($hook !== 'toplevel_page_' . WPSP_SETTINGS_SLUG) return;
-        // Load admin style sheet and JavaScript
-        wp_enqueue_style(WPSP_PLUGIN_SLUG . '-style', WPSP_ADMIN_URL . 'Settings/assets/css/admin.css', array());
+        add_action('wp_print_scripts', function () {
+            $isSkip = apply_filters('schedulepress_skip_no_conflict', false);
 
-        wp_enqueue_script(WPSP_PLUGIN_SLUG . '-admin-script', WPSP_ADMIN_URL . 'Settings/assets/js/admin.js', array());
-        wp_localize_script(WPSP_PLUGIN_SLUG . '-admin-script', 'wpspSettingsGlobal', apply_filters('wpsp_settings_global', array(
+            if ($isSkip) {
+                return;
+            }
+
+            global $wp_scripts;
+            if (!$wp_scripts) {
+                return;
+            }
+
+            $pluginUrl = plugins_url();
+            foreach ($wp_scripts->queue as $script) {
+                $src = $wp_scripts->registered[$script]->src;
+                if (strpos($src, $pluginUrl) !== false && !strpos($src, WPSP_PLUGIN_SLUG) !== false) {
+                    wp_dequeue_script($wp_scripts->registered[$script]->handle);
+                }
+            }
+        }, 1);
+
+        // Load admin style sheet and JavaScript
+        wp_enqueue_style(WPSP_PLUGIN_SLUG, WPSP_ADMIN_URL . 'Settings/assets/css/admin.css', array());
+
+        wp_enqueue_script(WPSP_PLUGIN_SLUG, WPSP_ADMIN_URL . 'Settings/assets/js/admin.js', array());
+        wp_localize_script(WPSP_PLUGIN_SLUG, 'wpspSettingsGlobal', apply_filters('wpsp_settings_global', array(
             'api_nonce' => wp_create_nonce('wp_rest'),
             'api_url' => rest_url(WPSP_PLUGIN_SLUG . '/v1/'),
             'settings' => get_transient(WPSP_SETTINGS_NAME),
