@@ -173,6 +173,7 @@
             // main view fields
             &--selected {
                 display: flex;
+                max-width: 100%;
                 .wpsp_general {
                     width: 30%;
                 }

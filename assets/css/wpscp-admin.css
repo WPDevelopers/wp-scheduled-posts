@@ -2025,6 +2025,7 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  max-width: 100%;
 }
 .wpsp-dashboard-body .react-tabs .react-tabs__tab-panel--selected .wpsp_general {
   width: 30%;
