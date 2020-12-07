@@ -104,7 +104,7 @@ final class WPSP
 	public function activate()
 	{
 		update_option('wpsp_do_activation_redirect', true);
-		do_action('wpsp_run_active_installer', 'activate');
+		do_action('wpsp_run_active_installer' );
 	}
 
 	/**

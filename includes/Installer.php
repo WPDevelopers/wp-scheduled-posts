@@ -2,8 +2,6 @@
 
 namespace WPSP;
 
-use WPSP\Social\Linkedin;
-
 class Installer
 {
     public function __construct()
