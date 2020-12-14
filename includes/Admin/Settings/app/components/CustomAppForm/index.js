@@ -68,20 +68,32 @@ const CustomAppForm = ({ platform, requestHandler }) => {
                                     <div className='form-group'>
                                         <div className='form-label'>
                                             <label>
-                                                {__(
-                                                    'App ID:',
-                                                    'wp-scheduled-posts'
-                                                )}{' '}
+                                                {platform === 'twitter'
+                                                    ? __(
+                                                          'API key:',
+                                                          'wp-scheduled-posts'
+                                                      )
+                                                    : __(
+                                                          'App ID:',
+                                                          'wp-scheduled-posts'
+                                                      )}
                                             </label>
                                         </div>
                                         <div className='form-input'>
                                             <input
                                                 type='text'
                                                 value={appID}
-                                                placeholder={__(
-                                                    'App ID',
-                                                    'wp-scheduled-posts'
-                                                )}
+                                                placeholder={
+                                                    platform === 'twitter'
+                                                        ? __(
+                                                              'API key',
+                                                              'wp-scheduled-posts'
+                                                          )
+                                                        : __(
+                                                              'App ID',
+                                                              'wp-scheduled-posts'
+                                                          )
+                                                }
                                                 onChange={(e) =>
                                                     SetAppID(e.target.value)
                                                 }
@@ -95,20 +107,32 @@ const CustomAppForm = ({ platform, requestHandler }) => {
                                     <div className='form-group'>
                                         <div className='form-label'>
                                             <label>
-                                                {__(
-                                                    'App Secret:',
-                                                    'wp-scheduled-posts'
-                                                )}{' '}
+                                                {platform === 'twitter'
+                                                    ? __(
+                                                          'API Secret Key:',
+                                                          'wp-scheduled-posts'
+                                                      )
+                                                    : __(
+                                                          'App Secret:',
+                                                          'wp-scheduled-posts'
+                                                      )}
                                             </label>
                                         </div>
                                         <div className='form-input'>
                                             <input
                                                 type='text'
                                                 value={appSecret}
-                                                placeholder={__(
-                                                    'App Secret',
-                                                    'wp-scheduled-posts'
-                                                )}
+                                                placeholder={
+                                                    platform === 'twitter'
+                                                        ? __(
+                                                              'API Secret Key',
+                                                              'wp-scheduled-posts'
+                                                          )
+                                                        : __(
+                                                              'App Secret',
+                                                              'wp-scheduled-posts'
+                                                          )
+                                                }
                                                 onChange={(e) =>
                                                     SetAppSecret(e.target.value)
                                                 }
