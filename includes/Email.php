@@ -31,7 +31,7 @@ class Email
         /**
          * Send Email Notification
          */
-        add_action('transition_post_status', array($this, "transition_post_action"), 10, 3);
+        add_action('transition_post_status', array($this, "transition_post_action"), 90, 3);
     }
 
     public function transition_post_action($new_status, $old_status, $post)
@@ -60,9 +60,10 @@ class Email
      */
     public function notify_status_change($new_status, $old_status, $post)
     {
-        if ($old_status == $new_status) {
+        if ($old_status == $new_status ||  get_transient( 'wpsp_email_is_send_flag' ) !== false) {
             return;
         }
+        
         // pending review
         if ($this->notify_author_is_sent_review == 1 && $new_status == 'pending') {
             $reviewEmailList = \WPSP\Helper::email_notify_review_email_list();
@@ -134,6 +135,7 @@ class Email
         $body = $this->get_formatted_body($post_title, get_the_permalink($post_id), $message, $post_date, $author_user_name);
         $headers = array('Content-Type: text/html; charset=UTF-8');
         wp_mail($to, $subject, $body, $headers);
+        set_transient( 'wpsp_email_is_send_flag', 'done', 10 );
     }
 
     /**
@@ -154,5 +156,6 @@ class Email
         $body = $this->get_formatted_body($post_title, get_the_permalink($post_id), $message, $post_date, $author_user_name);
         $headers = array('Content-Type: text/html; charset=UTF-8');
         wp_mail($to, $subject, $body, $headers);
+        set_transient( 'wpsp_email_is_send_flag', 'done', 10 );
     }
 }
