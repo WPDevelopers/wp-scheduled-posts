@@ -136,10 +136,10 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 == Changelog ==
 
-= 4.0 - 2020-12-24 =
+= 4.0 - 2021-01-06 =
 * Revamped     : Rebuilt entire settings with ReactJS 
 * Revamped     : Code Structure for better performance
-* Redesigned   : Settings, Schedule Calendar & Social Share UI
+* Redesigned   : Settings & Social Share UI
 * Added        : WordPress 5.6 Support
 * Fixed        : Few minor bug fix & improvements
 
