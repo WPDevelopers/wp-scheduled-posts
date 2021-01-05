@@ -117,7 +117,7 @@ if (!function_exists('wpscp_scheduled_post_menu')) {
 					$item_id++;
 ?>
 			<?php
-					$Powered_by_text = '<div style="margin-top:5px; text-align:center;"><span class="wpsp_arrow_prev wpsp_arrow_pagi"></span>Powered By <span style="color:#fff"><a  style="padding:0;display:inline;" href="https://wpdeveloper.net/in/wpsp">SchedulePress</a></span>
+					$Powered_by_text = '<div style="margin-top:5px; text-align:center;"><span class="wpsp_arrow_prev wpsp_arrow_pagi"></span>Powered By <span style="color:#fff"><a  style="padding:0;display:inline;" href="https://wpdeveloper.net/in/schedulepress">SchedulePress</a></span>
 					<span class="wpsp_arrow_next wpsp_arrow_pagi"></span>
 					</div>';
 

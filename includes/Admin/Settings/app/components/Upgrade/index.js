@@ -24,7 +24,7 @@ const Upgrade = ({ icon, proVersion }) => {
                         <h2>{__('SchedulePress', 'wp-scheduled-posts')}</h2>
                         <a
                             href={
-                                'http://wpdeveloper.net/in/wp-scheduled-posts'
+                                'https://wpdeveloper.net/in/schedulepress-pro'
                             }
                         >
                             {__('UPGRADE TO PRO', 'wp-scheduled-posts')}

@@ -51,7 +51,7 @@ class Admin
 
         // go pro
         if (!$this->pro_enabled()) {
-            $links[] = sprintf('<a href="https://wpdeveloper.net/in/wp-scheduled-posts-pro" target="_blank" style="color: #39b54a; font-weight: bold;">' . __('Go Pro', 'wp-scheduled-posts') . '</a>');
+            $links[] = sprintf('<a href="https://wpdeveloper.net/in/schedulepress-pro" target="_blank" style="color: #39b54a; font-weight: bold;">' . __('Go Pro', 'wp-scheduled-posts') . '</a>');
         }
 
         return $links;
@@ -66,7 +66,7 @@ class Admin
     {
         if (WPSP_PLUGIN_BASENAME == $file) {
             // docs & faq
-            $links[] = sprintf('<a href="https://wpdeveloper.net/docs/wp-scheduled-posts/?utm_medium=admin&utm_source=wp.org&utm_term=wpsp" target="_blank">' . __('Docs & FAQs', 'wp-scheduled-posts') . '</a>');
+            $links[] = sprintf('<a href="https://wpdeveloper.net/docs/schedulepress" target="_blank">' . __('Docs & FAQs', 'wp-scheduled-posts') . '</a>');
 
             // video tutorials
             // $links[] = sprintf('<a href="https://www.youtube.com/channel/UCOjzLEdsnpnFVkm1JKFurPA?utm_medium=admin&utm_source=wp.org&utm_term=ea" target="_blank">' . __('Video Tutorials') . '</a>');
