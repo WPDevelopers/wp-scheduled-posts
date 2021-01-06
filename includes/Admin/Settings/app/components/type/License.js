@@ -229,7 +229,7 @@ const License = () => {
                             <p>
                                 {__('Visit the', 'wp-scheduled-posts')}
                                 <a
-                                    href='https://wpdeveloper.net/docs/wp-scheduled-posts/'
+                                    href='https://wpdeveloper.net/docs/schedulepress'
                                     target='_blank'
                                 >
                                     {__(
