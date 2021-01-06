@@ -6,7 +6,6 @@ import thunk from 'redux-thunk'
 import rootReducer from './reducers'
 
 let middleware = [thunk]
-console.log(process.env.NODE_ENV)
 if (process.env.NODE_ENV !== 'production') {
     middleware = [...middleware, logger]
 }

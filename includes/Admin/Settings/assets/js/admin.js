@@ -968,10 +968,14 @@ const CreatableSelect = ({
   const [optionsData, setOptionsData] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]);
   const [field] = Object(formik__WEBPACK_IMPORTED_MODULE_2__["useField"])(id);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
-    setOptionsData(Object.entries(options).map(([key, value]) => ({
-      value: key,
-      label: value
-    })));
+    if (options) {
+      setOptionsData(Object.entries(options).map(([key, value]) => ({
+        value: key,
+        label: value
+      })));
+    } else {
+      setOptionsData([]);
+    }
   }, []);
 
   const onChange = (option, actionMeta) => {
@@ -1678,10 +1682,14 @@ const Select = ({
   const [optionsData, setOptionsData] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]);
   const [field] = Object(formik__WEBPACK_IMPORTED_MODULE_1__["useField"])(id);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
-    setOptionsData(Object.entries(options).map(([key, value]) => ({
-      value: key,
-      label: value
-    })));
+    if (options) {
+      setOptionsData(Object.entries(options).map(([key, value]) => ({
+        value: key,
+        label: value
+      })));
+    } else {
+      setOptionsData([]);
+    }
   }, []);
 
   const onChange = option => {
@@ -2681,7 +2689,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let middleware = [redux_thunk__WEBPACK_IMPORTED_MODULE_3__["default"]];
-console.log("development");
 
 if (true) {
   middleware = [...middleware, redux_logger__WEBPACK_IMPORTED_MODULE_2___default.a];

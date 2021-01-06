@@ -16,12 +16,16 @@ const CreatableSelect = ({
     const [field] = useField(id)
 
     useEffect(() => {
-        setOptionsData(
-            Object.entries(options).map(([key, value]) => ({
-                value: key,
-                label: value,
-            }))
-        )
+        if (options) {
+            setOptionsData(
+                Object.entries(options).map(([key, value]) => ({
+                    value: key,
+                    label: value,
+                }))
+            )
+        } else {
+            setOptionsData([])
+        }
     }, [])
 
     const onChange = (option, actionMeta) => {
