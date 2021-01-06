@@ -263,7 +263,7 @@ const License = () => {
                                         'wp-scheduled-posts'
                                     )}
                                     <a
-                                        href='https://wpdeveloper.net/in/wpsp'
+                                        href='https://wpdeveloper.net/in/schedulepress-pro'
                                         target='_blank'
                                     >
                                         {__(
