@@ -60,10 +60,12 @@ const Select = ({
     }
 
     const getValue = () => {
-        return Object.entries(field.value).map(([key, value]) => ({
-            value: value,
-            label: value,
-        }))
+        if (field.value) {
+            return Object.entries(field.value).map(([key, value]) => ({
+                value: value,
+                label: value,
+            }))
+        }
     }
 
     return (
