@@ -4,7 +4,7 @@ Tags: post schedule, editor calendar, schedule-calendar, editorial calendar, soc
 Requires at least: 4.0
 Tested up to: 5.6
 Requires PHP: 5.4
-Stable tag: 4.0
+Stable tag: 4.0.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -158,7 +158,7 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 == Changelog ==
 
-= 4.0 - 2021-01-07 =
+= 4.0.0 - 2021-01-07 =
 * Revamped     : Rebuilt entire settings with ReactJS 
 * Revamped     : Code Structure for better performance
 * Redesigned   : Settings & Social Share UI
