@@ -12,10 +12,10 @@ class Installer
     }
     public function set_version()
     {
-        if (!get_option('WPSP_VERSION')) {
-            add_option('WPSP_VERSION', WPSP_VERSION);
+        if (!get_option('wpsp_version')) {
+            add_option('wpsp_version', WPSP_VERSION);
         } else {
-            update_option('WPSP_VERSION', WPSP_VERSION);
+            update_option('wpsp_version', WPSP_VERSION);
         }
     }
     public function run_active_installer($type)
