@@ -13,8 +13,7 @@ const Document = ({ pluginRootURI }) => {
             ),
             button: {
                 text: __('Documentation', 'wp-scheduled-posts'),
-                url:
-                    'https://wpdeveloper.net/docs/wp-scheduled-posts/?utm_medium=admin&utm_source=wp.org&utm_term=wpsp',
+                url: 'https://wpdeveloper.net/docs/schedulepress',
             },
         },
         {
