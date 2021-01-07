@@ -9,7 +9,7 @@
                 <img src="<?php echo esc_url(WPSP_ASSETS_URI . 'images/wpsp-icon.svg'); ?>" alt="">
             </div>
             <div class="wpsp_top_bar_heading">
-                <h2 class="wpsp_topbar_title"><?php esc_html_e('SchedulePress', 'wp-scheduled-posts'); ?></h2>
+                <h2 class="wpsp_topbar_title"><?php esc_html_e('SchedulePress (Formerly Known as WP Scheduled Posts)', 'wp-scheduled-posts'); ?></h2>
                 <p class="wpsp_topbar_version_name"><?php echo esc_html__('Version ', 'wp-scheduled-posts') . WPSP_VERSION; ?></p>
             </div>
         </div>
