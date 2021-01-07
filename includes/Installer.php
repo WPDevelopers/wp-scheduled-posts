@@ -71,7 +71,8 @@ class Installer
 
         $old_settings = get_option('wpscp_options');
         if ((!get_option('wpsp_react_settings_migrate') && $old_settings !== false) || empty($settings)) {
-            do_action('wpsp_run_active_installer', 'migrate');
+            $this->set_settings_page_data();
+
             
             if (isset($old_settings['show_dashboard_widget'])) {
                 $settings->is_show_dashboard_widget = $old_settings['show_dashboard_widget'];
