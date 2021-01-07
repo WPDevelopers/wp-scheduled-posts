@@ -1,9 +1,6 @@
-const { registerPlugin } = wp.plugins;
-import { default as AdminPublishButton } from './admin/assets/gutenberg';
+const { registerPlugin } = wp.plugins
+import { default as AdminPublishButton } from './assets/gutenberg'
 
-registerPlugin(
-	'wps-publish-button',
-	{
-		render: AdminPublishButton
-	}
-);
+registerPlugin('wps-publish-button', {
+    render: AdminPublishButton,
+})

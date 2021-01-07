@@ -1,86 +1,108 @@
-=== WP Scheduled Posts - Missed Schedule, Auto Social Share & Best Editorial Calendar ===
+=== SchedulePress (a.k.a. WP Scheduled Posts) - Missed Schedule, Auto Social Share & Best Editorial Calendar ===
 Contributors: wpdevteam, Asif2BD, re_enter_rupok, priyomukul, shajalal, tusharimran
-Tags: post schedule, editor calendar, schedule-calendar, editorial calendar, social share, auto share, facebook, twitter. schedule bar, scheduled posts, schedule, schedule widget, scheduler, schedule menu bar, admin bar, dashboard widget, missed scheduled, calendar, missed schedule, future post, schedule issue, post later, admin bar, admin, multi author
+Tags: post schedule, editor calendar, schedule-calendar, editorial calendar, social share, auto share, facebook, twitter. schedule bar, scheduled posts, schedule, SchedulePress, schedule widget, scheduler, schedule menu bar, admin bar, dashboard widget, missed scheduled, calendar, missed schedule, future post, schedule issue, post later, admin bar, admin, multi author
 Requires at least: 4.0
-Tested up to: 5.5
+Tested up to: 5.6
 Requires PHP: 5.4
-Stable tag: 3.3.3
+Stable tag: 4.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-A complete solution for WordPress Post Schedule. Manage schedule through editorial calendar and enable auto scheduler. Also handles auto social share in Facebook, Twitter, linkedIn, Pinterest & Instagram.
+A complete solution for WordPress Post Schedule. Manage schedule through editorial calendar and enable auto scheduler. Also handles auto social share in Facebook, Twitter, linkedIn, & Pinterest.
 
 == Description ==
 
-Automate your content workflow with WP Scheduled Posts. Take a quick glance at your content planning with Schedule Calendar, Dashboard widget & Sitewide admin bar. Instantly share your posts on social media platforms such as Facebook, Twitter & many more.
+Automate your content workflow with SchedulePress. Take a quick glance at your content planning with Schedule Calendar, Auto Scheduler, Manual Scheduler & more. Automatically share your posts on social media platforms configuring social templates such as Facebook, Twitter & many more.
 
-https://www.youtube.com/watch?v=yyvm6ml_OA4
+https://youtu.be/yyvm6ml_OA4
 
-### Schedule your WordPress posts in advance and have them posted automatically for you.
+### SCHEDULE YOUR WORDPRESS POSTS IN ADVANCE AND HAVE THEM POSTED AUTOMATICALLY FOR YOU.
 
-- With no notifications or reminders.
-- Schedule hundreds of post using the editorial calendar
-- Manage multiple authors from one place
+-With no notifications or reminders.
+-Schedule hundreds of post using the editorial calendar
+-Manage multiple authors from one place
+-Revamp the entire user interface for more flexibility
+-Query optimization to reduce load time & make faster
+-Auto publish missed schedule posts [pro]
+-Send email alerts to WordPress users 
+-Auto share blogs on multi social profiles [pro]
+-Customize social share templates outlook
 
-You will be on vacation from next Saturday but want your website to stay active as your regular day? Yes, you can schedule posts in advance for those days and WP Scheduled Posts brings you the editorial calendar with it to lets you see when your posts have been scheduled. 
+
+You will be on vacation from next Saturday but want your website to stay active as your regular day? Yes, you can schedule posts in advance for those days and SchedulePress brings you the editorial calendar with it to lets you see when your posts have been scheduled. 
 
 
 From one place, you can easily get an overview of your blog posts and when each post will be published. Not just that, it allows you to drag and drop to edit and move posts right from the editorial calendar. 
 
 
-## Manage Your Post Scheduling With Super Handy Features (FREE)
+## MANAGE YOUR POST SCHEDULING WITH SUPER HANDY FEATURES (FREE)
 
 
-**Schedule Calendar:** Manage your content with a great visual calendar. You can add posts in the queue, and WP Scheduled Posts will publish them on your desired days and hours. You can move the scheduled post on a different date right from the schedule calendar. 
+**Schedule Calendar:** Manage your content with a great visual calendar. You can add posts in the queue, and SchedulePress will publish them on your desired days and hours. You can move the scheduled post on a different date right from the schedule calendar.
 
 
-**Dashboard Widget:** Check your scheduled & draft post right from the dashboard as WP Scheduled Posts will enable a widget in your WordPress dashboard. Either you are running a multi-author blog or a single author blog, seeing all your posts status from dashboard could be super convenient.
+**Dashboard Widget:** Check your scheduled & draft post right from the dashboard as SchedulePress will enable a widget in your WordPress dashboard. Either you are running a multi-author blog or a single author blog, seeing all your posts status from dashboard could be super convenient.
 
 **Drag & Drop Feature:** While organizing your scheduled content, you can quickly organize content using easy-to-use drag & drop feature. 
 
-**Save Times On Content Creation:** If you want to create a new post or add a photo to be published on a specific time period, you don't need to go back on your dashboard and click on Post to Add New Post. You can create a new post right from the WP Scheduled calendar.
+**Save Times On Content Creation:** If you want to create a new post or add a photo to be published on a specific time period, you don't need to go back on your dashboard and click on Post to Add New Post. You can create a new post right from the Schedule calendar.
 
 **Manage Multiple Author Efficiently:** Managing multiple authors for a blog is never an easy task. But you can make the process easier using our schedule calendar and manage co-authors from one place.
 
+**Manage Multiple Author Efficiently:** Managing multiple authors for a blog is never an easy task. But you can make the process easier using our schedule calendar and manage co-authors from one place.
 
-## WP Scheduled Posts PREMIUM
+**Get Full Control Over Scheduling Posts:** Configure specific post types, categories, and allow users who can maintain your WordPress blog schedules. It can be only the administrator, editor, author, or more. 
 
-**[WP Scheduled Posts Pro](https://wpdeveloper.net/plugins/wp-scheduled-posts/)** includes all features of the free version and awesome additional features including:
+**Notify WordPress Users With Email:** Send WordPress users' email alerts when a post is published, trashed, or has been scheduled. It will let our users be aware of the status of their current blog posts. 
 
-**Auto Scheduler:** Get absolute control over your content schedule as you can create rules to post content automatically. You just need to specify the time interval in which you want to have your posts scheduled and this plugin will publish it on the exact time. You can also set exact date and time to create flexible schedule.
+**Auto Share Posts On Multi Social Profiles:** Easily schedule, auto-share, or do instant share your blog posts from WordPress dashboard to multiple social media platforms like Facebook page & group, Twitter, Pinterest, and LinkedIn profiles.
+
+**Configure Auto Social Share Templates:** Personalize your WordPress blog's preferred social media platforms' social templates' entire outlook configuring all exclusive features. Each social share channel template comes with specific and unique features.
+
+
+
+## SchedulePress PREMIUM
+
+**[SchedulePress Pro](https://wpdeveloper.net/in/schedulepress)** includes all features of the free version and awesome additional features including:
+
+**Auto Scheduler:** Get absolute control over your content schedule as you can create rules to post content automatically. You just need to specify the time interval in which you want to have your posts scheduled and this plugin will publish it on the definite time interval. You can also set an exact date and time to create a flexible schedule.
  
-**Missed Schedule Handler:** As a content creator, you might have faced that WordPress might miss the schdule of a post and it could happen for a various reason. However, you don’t have to worry about that anymore as WP Scheduled Posts will take care of missed schedule and to publish the post automatically.
+**Missed Schedule Handler:** As a content creator, you might have faced that WordPress might miss the schedule of a post and it could happen for a various reason. However, you don’t have to worry about that anymore as SchedulePress will take care of missed schedules and to publish the post automatically.
 
-https://www.youtube.com/watch?v=y80iDuolrRU
+**Manual Scheduler:** If you want to schedule your WordPress blog posts at an exact time avoiding the random schedule. You can configure this in a manual process setting up your preferred time & date. It will publish your posts at that particular time.  
 
 **Premium Support:** Get faster support with a pro license. We have extra-ordinary support team ready to help you. Ask your questions in the support forum, or contact us directly through live chat and support ticket.
 
+
+https://youtu.be/y80iDuolrRU
+
+
 ## Review & Press Coverage
 
-**WP Scheduled Post** has been loved by lots of users, bloggers and content marketers. It's now better with modern interface and lots of new features.
+**SchedulePress** has been loved by lots of users, bloggers and content marketers. It's now better with modern interface and lots of new features.
 
 - [WP Optimus](https://www.wpoptimus.com/534/schedule-post-wordppress-show-upcoming-articles/)
-“WP Scheduled Posts is specially useful for multi-author blog. Even its useful for single author blog who use the built-in Schedule function of WordPress.”
+“SchedulePress is specially useful for multi-author blog. Even its useful for single author blog who use the built-in Schedule function of WordPress.”
 
 - [MH Themes](https://www.mhthemes.com/blog/scheduling-posts-wordpress/)
-“The WP Scheduled Posts plugin further enhances WordPress core functionality of scheduling posts. The plugin adds a customizable dashboard widget that will display a list of all upcoming scheduled posts and allows you to customize other post scheduling elements with ease.”
+“The SchedulePress plugin further enhances WordPress core functionality of scheduling posts. The plugin adds a customizable dashboard widget that will display a list of all upcoming scheduled posts and allows you to customize other post scheduling elements with ease.”
 
 - [WP Glossy](https://www.wpglossy.com/schedule-blog-post-wordpress/)
-“WP Scheduled Posts is the best extension when it comes to scheduling WordPress posts for the site that has several admins and authors.”
+“SchedulePress is the best extension when it comes to scheduling WordPress posts for the site that has several admins and authors.”
 
-https://www.youtube.com/watch?v=q9xVaL1lI5g
+https://youtu.be/q9xVaL1lI5g
 
 
 ## 🔥 WHAT’S NEXT
-If you like WP Scheduled Posts, then consider checking out our other WordPress Plugins:
+If you like SchedulePress, then consider checking out our other WordPress Plugins:
 
-🔝[Essential Addons For Elementor](https://essential-addons.com/elementor/) – Most popular Elementor extensions with 600,000+ active users in the WordPress repository.
+🔝[Essential Addons For Elementor](https://essential-addons.com/elementor/) – Most popular Elementor extensions with 1 million active users in the WordPress repository.
 
 🔔[NotificationX](https://notificationx.com/) – Best Social Proof & FOMO Marketing Solution to increase conversion rates.
 
 🗒️ [BetterDocs](https://betterdocs.co/) – Best Documentation & Knowledge Base Plugin for WordPress, whcih also reduce your manual support request.
 
-📄 [EmbedPress](https://embedpress.com/): EmbedPress lets you embed videos, images, posts, audio, maps and upload PDF, DOC, PPT & all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors. 
+📄 [EmbedPress](https://embedpress.com/): EmbedPress lets you embed videos, images, posts, audio, maps and upload PDF, DOC, PPT & all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors.
 
 ☁ [Templately](https://wordpress.org/plugins/templately/): Free templates library for Elementor & Gutenberg along with the cloud collaboration for WordPress
 
@@ -95,11 +117,11 @@ Visit [WPDeveloper](https://wpdeveloper.net/) to learn more about how to do bett
 
 = Modern Way: =
 1. Go to the WordPress Dashboard "Add New Plugin" section.
-2. Search For "WP Scheduled Posts". 
+2. Search For "SchedulePress". 
 3. Install, then Activate it.
 
 = Old Way: =
-1. Upload the `wp-scheduled-post` folder to the `/wp-content/plugins/` directory
+1. Upload the `wp-scheduled-posts` folder to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 
 
@@ -135,6 +157,14 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 
 == Changelog ==
+
+= 4.0 - 2021-01-07 =
+* Revamped     : Rebuilt entire settings with ReactJS 
+* Revamped     : Code Structure for better performance
+* Redesigned   : Settings & Social Share UI
+* Added        : WordPress 5.6 Support
+* Fixed        : Few minor bug fix & improvements
+
 
 = 3.3.3 - 2020-11-15 =
 * Fixed : Facebook Share not working
@@ -346,5 +376,5 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 
 == Upgrade Notice ==
-= 3.3.1 - 2020-09-23 =
-* Minor update, bug fixes.
+= 4.0.0 - 2021-01-07 =
+* Major Update, Must Update.
