@@ -48,7 +48,10 @@ class Installer
             \WPSP\Admin\Settings\Config::build_settings();
             \WPSP\Admin\Settings\Config::set_default_settings_fields_data();
         }
-        set_transient(WPSP_SETTINGS_NAME,  \WPSP\Admin\Settings\Builder::load());
+        $settings = \WPSP\Admin\Settings\Builder::load();
+        if(!empty($settings)){
+            set_transient(WPSP_SETTINGS_NAME,  $settings);
+        }
     }
 
     public function plugin_redirect()
@@ -259,8 +262,10 @@ class Installer
                 $settings->social_templates->pinterest[3]->template_structure = $pinterest['template_structure'];
                 $settings->social_templates->pinterest[4]->note_limit = $pinterest['pin_note_limit'];
             }
-            update_option(WPSP_SETTINGS_NAME, json_encode($settings));
-            update_option('wpsp_react_settings_migrate', true);
+            if(!empty($settings)){
+                update_option(WPSP_SETTINGS_NAME, json_encode($settings));
+                update_option('wpsp_react_settings_migrate', true);
+            }
         }
     }
 }
