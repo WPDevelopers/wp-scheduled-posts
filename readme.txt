@@ -1,6 +1,6 @@
-=== SchedulePress (Formerly Known as WP Scheduled Posts) - Missed Schedule, Auto Social Share & Best Editorial Calendar ===
+=== SchedulePress (a.k.a. WP Scheduled Posts) - Missed Schedule, Auto Social Share & Best Editorial Calendar ===
 Contributors: wpdevteam, Asif2BD, re_enter_rupok, priyomukul, shajalal, tusharimran
-Tags: post schedule, editor calendar, schedule-calendar, editorial calendar, social share, auto share, facebook, twitter. schedule bar, scheduled posts, schedule, schedule widget, scheduler, schedule menu bar, admin bar, dashboard widget, missed scheduled, calendar, missed schedule, future post, schedule issue, post later, admin bar, admin, multi author
+Tags: post schedule, editor calendar, schedule-calendar, editorial calendar, social share, auto share, facebook, twitter. schedule bar, scheduled posts, schedule, SchedulePress, schedule widget, scheduler, schedule menu bar, admin bar, dashboard widget, missed scheduled, calendar, missed schedule, future post, schedule issue, post later, admin bar, admin, multi author
 Requires at least: 4.0
 Tested up to: 5.6
 Requires PHP: 5.4
@@ -8,7 +8,7 @@ Stable tag: 4.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-A complete solution for WordPress Post Schedule. Manage schedule through editorial calendar and enable auto scheduler. Also handles auto social share in Facebook, Twitter, linkedIn, Pinterest & Instagram.
+A complete solution for WordPress Post Schedule. Manage schedule through editorial calendar and enable auto scheduler. Also handles auto social share in Facebook, Twitter, linkedIn, & Pinterest.
 
 == Description ==
 
@@ -158,7 +158,7 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 == Changelog ==
 
-= 4.0 - 2021-01-06 =
+= 4.0 - 2021-01-07 =
 * Revamped     : Rebuilt entire settings with ReactJS 
 * Revamped     : Code Structure for better performance
 * Redesigned   : Settings & Social Share UI
@@ -372,5 +372,5 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 
 == Upgrade Notice ==
-= 3.3.1 - 2020-09-23 =
-* Minor update, bug fixes.
+= 4.0.0 - 2021-01-07 =
+* Major Update, Must Update.
