@@ -6,45 +6,7 @@ class Installer
 {
     public function __construct()
     {
-        add_action('wpsp_run_active_installer', array($this, 'run_active_installer'));
         add_action('plugins_loaded', array($this, 'plugin_redirect'), 90);
-        add_action('wpsp_run_deactivate_installer', array($this, 'run_deactivate_installer'));
-    }
-    
-    public function run_active_installer($type)
-    {
-        $this->set_settings_page_data();
-    }
-
-    public function run_deactivate_installer()
-    {
-        if (delete_transient(WPSP_SETTINGS_NAME)) {
-            \WPSP\Admin\Settings\Config::build_settings();
-            set_transient(WPSP_SETTINGS_NAME, \WPSP\Admin\Settings\Builder::load());
-        }
-    }
-
-    public function set_settings_page_data()
-    {
-        delete_transient(WPSP_SETTINGS_NAME);
-        if (isset($_REQUEST['checked']) && is_array($_REQUEST['checked'])) {
-            if (class_exists('WPSP_PRO')) {
-                \WPSP\Admin\Settings\Config::build_settings();
-                \WPSP_PRO\Admin\Settings\Config::build_settings();
-                \WPSP\Admin\Settings\Config::set_default_settings_fields_data();
-            }
-        } else if (class_exists('WPSP_PRO')) {
-            \WPSP\Admin\Settings\Config::build_settings();
-            \WPSP_PRO\Admin\Settings\Config::build_settings();
-            \WPSP\Admin\Settings\Config::set_default_settings_fields_data();
-        } else {
-            \WPSP\Admin\Settings\Config::build_settings();
-            \WPSP\Admin\Settings\Config::set_default_settings_fields_data();
-        }
-        $settings = \WPSP\Admin\Settings\Builder::load();
-        if(!empty($settings)){
-            set_transient(WPSP_SETTINGS_NAME,  $settings);
-        }
     }
 
     public function plugin_redirect()
@@ -62,14 +24,11 @@ class Installer
         global $wpsp_settings;
         $settings = $wpsp_settings;
 
-        
-
         $old_settings = get_option('wpscp_options');
         if (version_compare(get_option('wpsp_version'), WPSP_VERSION, '<') || empty($settings)) {
-            $this->set_settings_page_data();
-
+            do_action('wpsp_save_settings_default_value');
             // old version is installed
-            if($old_settings != false){
+            if ($old_settings != false) {
                 if (isset($old_settings['show_dashboard_widget'])) {
                     $settings->is_show_dashboard_widget = $old_settings['show_dashboard_widget'];
                 }
@@ -106,7 +65,7 @@ class Installer
                 if (isset($old_settings['is_republish_social_share'])) {
                     $settings->is_republish_social_share = $old_settings['is_republish_social_share'];
                 }
-    
+
                 // email notify
                 $wpscp_notify_author_is_sent_review = get_option('wpscp_notify_author_is_sent_review');
                 if (!empty($wpscp_notify_author_is_sent_review)) {
@@ -152,7 +111,7 @@ class Installer
                 if (!empty($wpscp_notify_author_post_is_publish)) {
                     $settings->notify_author_post_is_publish = $wpscp_notify_author_post_is_publish;
                 }
-    
+
                 // social profile - facebook
                 $facebook = get_option('wpscp_facebook_account');
                 $facebook_status = get_option('wpsp_facebook_integration_status');
@@ -224,7 +183,7 @@ class Installer
                 if (!empty($wpscp_twitter_tweet_limit)) {
                     $settings->social_templates->twitter[4]->tweet_limit = $wpscp_twitter_tweet_limit;
                 }
-    
+
                 // social template - linkedin
                 $wpscp_pro_linkedin_content_type = get_option('wpscp_pro_linkedin_content_type');
                 if (!empty($wpscp_pro_linkedin_content_type)) {
@@ -255,7 +214,7 @@ class Installer
                     $settings->social_templates->pinterest[3]->template_structure = $pinterest['template_structure'];
                     $settings->social_templates->pinterest[4]->note_limit = $pinterest['pin_note_limit'];
                 }
-                if(!empty($settings)){
+                if (!empty($settings)) {
                     update_option(WPSP_SETTINGS_NAME, json_encode($settings));
                 }
             }

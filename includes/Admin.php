@@ -2,6 +2,7 @@
 
 namespace WPSP;
 
+
 class Admin
 {
     public function __construct()
@@ -15,6 +16,7 @@ class Admin
         $this->usage_tracker();
         Admin\WPDev\WPDevFeedWidget::instance();
         $this->load_dashboard_widgets();
+        $this->load_settings();
     }
     public function load_plugin_menu_pages()
     {
@@ -47,7 +49,7 @@ class Admin
     public function insert_plugin_links($links)
     {
         // settings
-        $links[] = sprintf('<a href="admin.php?page='.WPSP_SETTINGS_SLUG.'">' . __('Settings', 'wp-scheduled-posts') . '</a>');
+        $links[] = sprintf('<a href="admin.php?page=' . WPSP_SETTINGS_SLUG . '">' . __('Settings', 'wp-scheduled-posts') . '</a>');
 
         // go pro
         if (!$this->pro_enabled()) {
@@ -178,5 +180,10 @@ class Admin
             true,
             1
         );
+    }
+
+    public function load_settings()
+    {
+        new Admin\Settings(WPSP_SETTINGS_SLUG, WPSP_SETTINGS_NAME);
     }
 }

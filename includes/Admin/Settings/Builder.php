@@ -62,4 +62,9 @@ class Builder
         }
         return array_values($tabs);
     }
+
+    public static function get_settings()
+    {
+        return self::build_settings(self::$tabs, self::$fields);
+    }
 }
