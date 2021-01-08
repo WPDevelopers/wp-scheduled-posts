@@ -17,13 +17,13 @@ class Facebook
     public function __construct()
     {
         $settings = \WPSP\Helper::get_settings('social_templates');
-        $settings = $settings->facebook;
-        $this->is_show_meta = (isset($settings[0]->is_show_meta) ? $settings[0]->is_show_meta : '');
-        $this->content_type = (isset($settings[1]->content_type) ? $settings[1]->content_type : '');
-        $this->is_category_as_tags = (isset($settings[2]->is_category_as_tags) ? $settings[2]->is_category_as_tags : '');
-        $this->content_source = (isset($settings[3]->content_source) ? $settings[3]->content_source : '');
-        $this->template_structure = (isset($settings[4]->template_structure) ? $settings[4]->template_structure : '{title}{content}{url}{tags}');
-        $this->status_limit = (isset($settings[5]->status_limit) ? $settings[5]->status_limit : 63206);
+        $settings = json_decode(json_encode($settings->facebook), true);
+        $this->is_show_meta = (isset($settings[0]['is_show_meta']) ? $settings[0]['is_show_meta'] : '');
+        $this->content_type = (isset($settings[1]['content_type']) ? $settings[1]['content_type'] : '');
+        $this->is_category_as_tags = (isset($settings[2]['is_category_as_tags']) ? $settings[2]['is_category_as_tags'] : '');
+        $this->content_source = (isset($settings[3]['content_source']) ? $settings[3]['content_source'] : '');
+        $this->template_structure = (isset($settings[4]['template_structure']) ? $settings[4]['template_structure'] : '{title}{content}{url}{tags}');
+        $this->status_limit = (isset($settings[5]['status_limit']) ? $settings[5]['status_limit'] : 63206);
         $this->facebook_head_meta_data();
     }
 

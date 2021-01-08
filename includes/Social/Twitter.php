@@ -18,12 +18,12 @@ class Twitter
     public function __construct()
     {
         $settings = \WPSP\Helper::get_settings('social_templates');
-        $settings = $settings->twitter;
-        $this->template_structure = (isset($settings[0]->template_structure) ? $settings[0]->template_structure : '{title}{content}{url}{tags}');
-        $this->is_category_as_tags = (isset($settings[1]->is_category_as_tags) ? $settings[1]->is_category_as_tags : '');
-        $this->is_show_post_thumbnail = (isset($settings[2]->is_show_post_thumbnail) ? $settings[2]->is_show_post_thumbnail : '');
-        $this->content_source = (isset($settings[3]->content_source) ? $settings[3]->content_source : '');
-        $this->tweet_limit = (isset($settings[4]->tweet_limit) ? $settings[4]->tweet_limit : 280);
+        $settings = json_decode(json_encode($settings->twitter), true);
+        $this->template_structure = (isset($settings[0]['template_structure']) ? $settings[0]['template_structure'] : '{title}{content}{url}{tags}');
+        $this->is_category_as_tags = (isset($settings[1]['is_category_as_tags']) ? $settings[1]['is_category_as_tags'] : '');
+        $this->is_show_post_thumbnail = (isset($settings[2]['is_show_post_thumbnail']) ? $settings[2]['is_show_post_thumbnail'] : '');
+        $this->content_source = (isset($settings[3]['content_source']) ? $settings[3]['content_source'] : '');
+        $this->tweet_limit = (isset($settings[4]['tweet_limit']) ? $settings[4]['tweet_limit'] : 280);
     }
 
     public function instance()
