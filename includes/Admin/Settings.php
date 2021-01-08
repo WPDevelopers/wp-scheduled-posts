@@ -23,8 +23,8 @@ class Settings
         $this->set_settings_config_callback($this->builder);
         do_action('wpsp/admin/settings/set_settings_config', $this->builder);
         $this->settings = $this->builder->get_settings();
-        $this->data  = new Settings\Data($this->option_name, $this->settings);
         new Settings\Assets($this->slug, $this->settings);
+        $this->data  = new Settings\Data($this->option_name, $this->settings);
         add_action('wpsp_save_settings_default_value', array($this->data, 'save_option_value'));
     }
     public function set_settings_config_callback($Builder)

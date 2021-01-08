@@ -21,7 +21,7 @@ class Data
      *
      * @since 1.0.0
      */
-    public static function save_option_value()
+    public function save_option_value()
     {
         $field = array();
         foreach (self::$setting_array as $setting_item) {
@@ -47,13 +47,10 @@ class Data
                 }
             }
         }
-
         if (get_option(self::$option) !== false) {
-            $defaults = json_decode(get_option(self::$option), true);
-            $args = wp_parse_args($defaults, $field);
-            update_option(self::$option, json_encode($args));
+            update_option(self::$option, json_encode(\wp_parse_args(\json_decode(get_option(self::$option), true), $field)));
         } else {
-            add_option(self::$option, json_encode($field));
+            add_option(self::$option, \json_encode($field));
         }
     }
 }
