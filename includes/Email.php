@@ -40,7 +40,7 @@ class Email
             require_once ABSPATH . '/wp-admin/includes/screen.php';
         }
         $current_screen = \get_current_screen();
-        if (\method_exists($current_screen, 'is_block_editor')) {
+        if (\is_object($current_screen) && \method_exists($current_screen, 'is_block_editor')) {
             if (isset($_POST['original_' . $post->post_type . '_status'])) {
                 $old_status = $_POST['original_' . $post->post_type . '_status'];
             }
@@ -60,10 +60,10 @@ class Email
      */
     public function notify_status_change($new_status, $old_status, $post)
     {
-        if ($old_status == $new_status ||  get_transient( 'wpsp_email_is_send_flag' ) !== false) {
+        if ($old_status == $new_status ||  get_transient('wpsp_email_is_send_flag') !== false) {
             return;
         }
-        
+
         // pending review
         if ($this->notify_author_is_sent_review == 1 && $new_status == 'pending') {
             $reviewEmailList = \WPSP\Helper::email_notify_review_email_list();
@@ -135,7 +135,7 @@ class Email
         $body = $this->get_formatted_body($post_title, get_the_permalink($post_id), $message, $post_date, $author_user_name);
         $headers = array('Content-Type: text/html; charset=UTF-8');
         wp_mail($to, $subject, $body, $headers);
-        set_transient( 'wpsp_email_is_send_flag', 'done', 10 );
+        set_transient('wpsp_email_is_send_flag', 'done', 10);
     }
 
     /**
@@ -156,6 +156,6 @@ class Email
         $body = $this->get_formatted_body($post_title, get_the_permalink($post_id), $message, $post_date, $author_user_name);
         $headers = array('Content-Type: text/html; charset=UTF-8');
         wp_mail($to, $subject, $body, $headers);
-        set_transient( 'wpsp_email_is_send_flag', 'done', 10 );
+        set_transient('wpsp_email_is_send_flag', 'done', 10);
     }
 }
