@@ -21,7 +21,7 @@ class Data
      *
      * @since 1.0.0
      */
-    public function save_option_value()
+    public function save_option_value($type)
     {
         $field = array();
         foreach (self::$setting_array as $setting_item) {
@@ -48,7 +48,9 @@ class Data
             }
         }
         if (get_option(self::$option) !== false) {
-            update_option(self::$option, json_encode(\wp_parse_args(\json_decode(get_option(self::$option), true), $field)));
+            $default = \json_decode(get_option(self::$option), true);
+            $value = \wp_parse_args($field, $default);
+            update_option(self::$option, \json_encode($value));
         } else {
             add_option(self::$option, \json_encode($field));
         }

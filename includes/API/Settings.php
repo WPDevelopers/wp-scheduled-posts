@@ -113,7 +113,6 @@ class Settings
     public function get_value($request)
     {
         $wpsp_option = get_option($this->settings_name);
-
         // Don't return false if there is no option
         if (!$wpsp_option) {
             return new \WP_REST_Response(array(

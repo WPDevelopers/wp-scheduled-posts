@@ -104,7 +104,6 @@ final class WPSP
 	public function activate()
 	{
 		update_option('wpsp_do_activation_redirect', true);
-		do_action('wpsp_save_settings_default_value');
 	}
 
 	/**
@@ -135,8 +134,7 @@ final class WPSP
  */
 function WPSP_Start()
 {
-	WPSP::init();
-	do_action('wpsp_core_init');
+	return WPSP::init();
 }
 
 // Plugin Start

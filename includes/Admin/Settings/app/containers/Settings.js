@@ -23,6 +23,7 @@ const Settings = ({
     const [subTabIndex, setSubTabIndex] = useState(0)
     const [formValue, setFormValue] = useState({})
     const [isLoaded, setIsLoaded] = useState(false)
+    const [isFetchSettings, setFetchSettings] = useState(false)
     useEffect(() => {
         // social
         fetch_social_popup_info()
@@ -38,8 +39,9 @@ const Settings = ({
         } else if (socialPlatform == 'pinterest') {
             setSubTabIndex(3)
         }
-        // settings
-        getSetting()
+        if (!isFetchSettings) {
+            getSetting()
+        }
         // loader
         setTimeout(() => {
             setIsLoaded(true)
@@ -80,6 +82,7 @@ const Settings = ({
             (json) => setFormValue(JSON.parse(json.value)),
             (err) => console.log('error', err)
         )
+        setFetchSettings(true)
     }
     return (
         <Formik

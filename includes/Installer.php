@@ -20,15 +20,16 @@ class Installer
 
     public function migrate()
     {
-        // if old version data exists then run migration
-        if(get_option('wpscp_options')){
-            Migration::version_3_to_4();
-        }
         // update version
         if (version_compare(get_option('wpsp_version'), WPSP_VERSION, '<')) {
+            do_action('wpsp_save_settings_default_value' );
             if (get_option('wpsp_version') != WPSP_VERSION) {
                 update_option('wpsp_version', WPSP_VERSION);
             }
+        }
+        // if old version data exists then run migration
+        if(get_option('wpscp_options')){
+            Migration::version_3_to_4();
         }
     }
 }

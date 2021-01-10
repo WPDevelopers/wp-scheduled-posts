@@ -5,8 +5,7 @@ namespace WPSP;
 class Migration {
     public static function version_3_to_4(){
         if (get_option('wpsp_data_migration_3_to_4') == false) {
-            global $wpsp_settings;
-            $settings = json_decode(json_encode($wpsp_settings), true);
+            $settings = json_decode(get_option(WPSP_SETTINGS_NAME), true);;
             $old_settings = get_option('wpscp_options');
             // old version is installed
             if ($old_settings != false) {
