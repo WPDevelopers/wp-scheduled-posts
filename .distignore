@@ -14,6 +14,7 @@ webpack.config.js
 node_modules
 src
 .github/
+includes/Admin/Settings/node_modules
 includes/Admin/Settings/app
 assets/sass
 .babelrc
