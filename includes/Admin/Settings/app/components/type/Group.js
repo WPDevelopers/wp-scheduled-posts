@@ -26,7 +26,9 @@ const Group = ({ id, group, values }) => {
                                         item.fields.length > 0 &&
                                         item.fields.map(
                                             (fieldItem, fieldIndex) => (
-                                                <React.Fragment>
+                                                <React.Fragment
+                                                    key={fieldIndex}
+                                                >
                                                     {values[id] &&
                                                     values[id][item.id] ? (
                                                         <Fields
