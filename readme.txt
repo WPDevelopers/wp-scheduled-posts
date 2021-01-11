@@ -381,5 +381,5 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 
 == Upgrade Notice ==
-= 4.0.0 - 2021-01-07 =
-* Major Update, Must Update.
+= 4.0.1 - 2021-01-11 =
+* Minor Update, Must Update.
