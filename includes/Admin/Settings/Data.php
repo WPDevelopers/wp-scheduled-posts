@@ -49,7 +49,7 @@ class Data
         }
         if (get_option(self::$option) !== false) {
             $default = \json_decode(get_option(self::$option), true);
-            $value = \wp_parse_args($field, $default);
+            $value = \wp_parse_args($default, $field);
             update_option(self::$option, \json_encode($value));
         } else {
             add_option(self::$option, \json_encode($field));

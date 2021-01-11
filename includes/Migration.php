@@ -197,8 +197,8 @@ class Migration {
                 if (!empty($settings)) {
                     update_option(WPSP_SETTINGS_NAME, json_encode($settings));
                 }
+                update_option( 'wpsp_data_migration_3_to_4', true );
             }
-            update_option( 'wpsp_data_migration_3_to_4', true );
         }
     }
 }
