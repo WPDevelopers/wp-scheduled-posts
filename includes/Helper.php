@@ -74,12 +74,14 @@ class Helper
     {
         global $current_user;
         $allow_user_by_role = \WPSP\Helper::get_settings('allow_user_by_role');
-        $allow_user_by_role = (!is_array($allow_user_by_role) && count($allow_user_by_role) == 0) ? array('administrator') : $allow_user_by_role;
+        $allow_user_by_role = (is_array($allow_user_by_role) && count($allow_user_by_role) > 0) ? $allow_user_by_role : array('administrator');
         if (!is_array($current_user->roles)) return false;
-        foreach ($current_user->roles as $ur) {
-            if (in_array($ur, $allow_user_by_role)) {
-                return true;
-                break;
+        if(is_array($allow_user_by_role)){
+            foreach ($current_user->roles as $ur) {
+                if (in_array($ur, $allow_user_by_role)) {
+                    return true;
+                    break;
+                }
             }
         }
         return false;
