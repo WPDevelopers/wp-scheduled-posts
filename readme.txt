@@ -158,7 +158,7 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 == Changelog ==
 
-= 4.0.1 - 2021-01-11 =
+= 4.0.1 - 2021-01-12 =
 * Added     : Compatibility with PHP 8
 * Fixed     : Migration issue with the new version
 * Fixed     : Few minor bug fix and improvements
