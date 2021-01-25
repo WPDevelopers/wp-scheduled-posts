@@ -123,7 +123,7 @@ class Twitter
     public function remote_post($app_id, $app_secret, $oauth_token, $oauth_token_secret, $post_id, $profile_key)
     {
         // check post is skip social sharing
-        if (empty($app_id) && empty($app_secret) && get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
+        if (empty($app_id) || empty($app_secret) || get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
             return;
         }
 
