@@ -18,6 +18,7 @@ class API
     public function whitelist_API($endpoints)
     {
         $endpoints[] = '/wp-json/wp-scheduled-posts/v1/*';
+        $endpoints[] = '/index.php?rest_route=/wp-scheduled-posts/v1/*';
         return $endpoints;
     }
 }
