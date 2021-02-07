@@ -28,6 +28,7 @@ final class WPSP
 		add_action('plugins_loaded', [$this, 'init_plugin']);
 		add_action('wp_loaded', [$this, 'run_migrator']);
 		add_action('init', [$this, 'load_calendar']);
+		add_filter('jwt_auth_whitelist', array($this, 'whitelist_API'));
 	}
 
 	public static function init()
@@ -125,6 +126,12 @@ final class WPSP
 	{
 		new WPSP\Admin\Calendar();
 	}
+	public function whitelist_API($endpoints)
+    {
+        $endpoints[] = '/wp-json/wp-scheduled-posts/v1/*';
+        $endpoints[] = '/index.php?rest_route=/wp-scheduled-posts/v1/*';
+        return $endpoints;
+    }
 }
 
 /**
