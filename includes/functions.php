@@ -160,6 +160,8 @@ if (!function_exists('wpscp_prevent_future_type')) {
 		if (isset($_POST['prevent_future_post']) && $_POST['prevent_future_post'] == true) {
 			if ($post_data['post_status'] == 'future') {
 				$post_data['post_status'] = 'publish';
+				$post_data['post_date'] = current_time( 'mysql' );
+				$post_data['post_date_gmt'] = current_time( 'mysql', 1 );
 				remove_action('future_post', '_future_post_hook');
 			}
 		} else if (isset($_POST['wpscp-manual-schedule-date']) && !empty($_POST['wpscp-manual-schedule-date'])) {
