@@ -3426,6 +3426,9 @@
 /**
 * Instant share modal in wp editor
 */
+.jquery-modal.blocker {
+    z-index: 9999;
+}
 #wpscpproInstantShareModal {
     padding: 20px 20px 10px 20px;
     .log {
