@@ -124,7 +124,9 @@ class Twitter
     {
         // check post is skip social sharing
         if (empty($app_id) || empty($app_secret) || get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
-            return;
+            if(get_post_meta($post_id, '_wpsp_is_twitter_share', true) != 'on'){
+                return;
+            }
         }
 
         $errorFlag = false;
