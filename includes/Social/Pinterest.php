@@ -142,9 +142,11 @@ class Pinterest
     {
         // check post is skip social sharing
         if (empty($app_id) || empty($app_secret) || get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
-            if(get_post_meta($post_id, '_wpsp_is_pinterest_share', true) != 'on'){
-                return;
-            }
+            return;
+        }
+
+        if(get_post_meta($post_id, '_wpsp_is_pinterest_share', true) != 'on') {
+            return;
         }
 
         $errorFlag = false;
