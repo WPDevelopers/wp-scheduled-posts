@@ -3429,6 +3429,10 @@
 .jquery-modal.blocker {
     z-index: 9999;
 }
+.modal {
+    position: relative !important;
+    overflow: visible !important;
+}
 #wpscpproInstantShareModal {
     padding: 20px 20px 10px 20px;
     .log {
