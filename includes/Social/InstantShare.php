@@ -75,10 +75,11 @@ class InstantShare
                     <?php
                     if ($facebookIntegation == 'on' && is_array($facebookProfile) && count($facebookProfile) > 0) :
                         $facebookShareCount = get_post_meta(get_the_ID(), '__wpscppro_social_share_facebook');
+                        $isFacebook = get_post_meta(get_the_ID(), '_wpsp_is_facebook_share', true);
                     ?>
                         <li class="facebook">
                             <label>
-                                <input type="checkbox" id="wpscpprofacebookis" name="_wpsp_is_facebook_share" <?php checked('on', get_post_meta(get_the_ID(), '_wpsp_is_facebook_share', true), true); ?> /> <?php esc_html_e('Facebook', 'wp-scheduled-posts'); ?>
+                                <input type="checkbox" id="wpscpprofacebookis" name="_wpsp_is_facebook_share" <?php (!empty($isFacebook) ? checked('on', $isFacebook, true) : checked('', $isFacebook, true)  ); ?> /> <?php esc_html_e('Facebook', 'wp-scheduled-posts'); ?>
                                 <?php
                                 if (is_array($facebookShareCount) && count($facebookShareCount) > 0) :
                                 ?>
@@ -92,10 +93,11 @@ class InstantShare
                     endif;
                     if ($twitterIntegation == 'on' && is_array($twitterProfile) && count($twitterProfile) > 0) :
                         $twitterShareCount = get_post_meta(get_the_ID(), '__wpscppro_social_share_twitter', true);
+                        $isTwitter = get_post_meta(get_the_ID(), '_wpsp_is_twitter_share', true);
                     ?>
                         <li class="twitter">
                             <label>
-                                <input type="checkbox" id="wpscpprotwitteris" name="_wpsp_is_twitter_share" <?php checked('on', get_post_meta(get_the_ID(), '_wpsp_is_twitter_share', true), true); ?> /> <?php esc_html_e('Twitter', 'wp-scheduled-posts'); ?>
+                                <input type="checkbox" id="wpscpprotwitteris" name="_wpsp_is_twitter_share" <?php (!empty($isTwitter) ? checked('on', $isTwitter, true) : checked('', $isTwitter, true)  ); ?> /> <?php esc_html_e('Twitter', 'wp-scheduled-posts'); ?>
                                 <?php
                                 if (is_array($twitterShareCount) && count($twitterShareCount) > 0) :
                                 ?>
@@ -111,10 +113,11 @@ class InstantShare
                     endif;
                     if ($linkedinIntegation == 'on' && is_array($linkedinProfile) && count($linkedinProfile) > 0) :
                         $linkedinShareCount = get_post_meta(get_the_ID(), '__wpscppro_social_share_linkedin', true);
+                        $isLinkedin = get_post_meta(get_the_ID(), '_wpsp_is_linkedin_share', true);
                     ?>
                         <li class="linkedin">
                             <label>
-                                <input type="checkbox" id="wpscpprolinkedinis" name="_wpsp_is_linkedin_share" <?php checked('on', get_post_meta(get_the_ID(), '_wpsp_is_linkedin_share', true), true); ?> /> <?php esc_html_e('Linkedin', 'wp-scheduled-posts'); ?>
+                                <input type="checkbox" id="wpscpprolinkedinis" name="_wpsp_is_linkedin_share" <?php (!empty($isLinkedin) ? checked('on', $isLinkedin, true) : checked('', $isLinkedin, true)  ); ?> /> <?php esc_html_e('Linkedin', 'wp-scheduled-posts'); ?>
                                 <?php
                                 if (is_array($linkedinShareCount) && count($linkedinShareCount) > 0) :
                                 ?>
@@ -134,10 +137,11 @@ class InstantShare
                         $pinterestCustomBoardName = get_post_meta(get_the_ID(), '_wpscppro_pinterest_board_name', true);
                         $pinterestBoardType = get_post_meta(get_the_ID(), '_wpscppro_pinterestboardtype', true);
                         $pinterestDefaultBoard = ($pinterestBoardType == "" ? 'default' : $pinterestBoardType);
+                        $isPinterest = get_post_meta(get_the_ID(), '_wpsp_is_pinterest_share', true);
                     ?>
                         <li class="pinterest">
                             <label>
-                                <input type="checkbox" id="wpscppropinterestis" name="_wpsp_is_pinterest_share" <?php checked('on', get_post_meta(get_the_ID(), '_wpsp_is_pinterest_share', true), true); ?> /> <?php esc_html_e('Pinterest', 'wp-scheduled-posts'); ?>
+                                <input type="checkbox" id="wpscppropinterestis" name="_wpsp_is_pinterest_share" <?php (!empty($isPinterest) ? checked('on', $isPinterest, true) : checked('', $isPinterest, true)  ); ?> /> <?php esc_html_e('Pinterest', 'wp-scheduled-posts'); ?>
                                 <?php
                                 if (is_array($pinterestShareCount) && count($pinterestShareCount) > 0) :
                                 ?>
@@ -187,29 +191,16 @@ class InstantShare
             delete_post_meta($post_id, '_wpscppro_dont_share_socialmedia');
         }
         // facebook
-        if (isset($_POST['_wpsp_is_facebook_share'])) {
-            update_post_meta($post_id, '_wpsp_is_facebook_share', sanitize_text_field($_POST['_wpsp_is_facebook_share']));
-        } else {
-            delete_post_meta($post_id, '_wpsp_is_facebook_share');
-        }
+        update_post_meta($post_id, '_wpsp_is_facebook_share', sanitize_text_field((isset($_POST['_wpsp_is_facebook_share']) ? $_POST['_wpsp_is_facebook_share'] : 'off')));
+        
         // twitter
-        if (isset($_POST['_wpsp_is_twitter_share'])) {
-            update_post_meta($post_id, '_wpsp_is_twitter_share', sanitize_text_field($_POST['_wpsp_is_twitter_share']));
-        } else {
-            delete_post_meta($post_id, '_wpsp_is_twitter_share');
-        }
+        update_post_meta($post_id, '_wpsp_is_twitter_share', sanitize_text_field((isset($_POST['_wpsp_is_twitter_share']) ? $_POST['_wpsp_is_twitter_share'] : 'off')));
+        
         // linkedin
-        if (isset($_POST['_wpsp_is_linkedin_share'])) {
-            update_post_meta($post_id, '_wpsp_is_linkedin_share', sanitize_text_field($_POST['_wpsp_is_linkedin_share']));
-        } else {
-            delete_post_meta($post_id, '_wpsp_is_linkedin_share');
-        }
+        update_post_meta($post_id, '_wpsp_is_linkedin_share', sanitize_text_field((isset($_POST['_wpsp_is_linkedin_share']) ? $_POST['_wpsp_is_linkedin_share'] : 'off')));
+        
         // pinterest
-        if (isset($_POST['_wpsp_is_pinterest_share'])) {
-            update_post_meta($post_id, '_wpsp_is_pinterest_share', sanitize_text_field($_POST['_wpsp_is_pinterest_share']));
-        } else {
-            delete_post_meta($post_id, '_wpsp_is_pinterest_share');
-        }
+        update_post_meta($post_id, '_wpsp_is_pinterest_share', sanitize_text_field((isset($_POST['_wpsp_is_pinterest_share']) ? $_POST['_wpsp_is_pinterest_share'] : 'off')));
 
         // pinterest meta checkbox
         if (isset($_POST['pinterestboardtype'])) {
