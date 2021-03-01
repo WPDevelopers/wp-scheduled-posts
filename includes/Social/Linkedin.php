@@ -109,67 +109,66 @@ class Linkedin
      * @since 2.5.0
      * @return array
      */
-    public function remote_post($app_id, $app_secret, $access_token, $post_id, $profile_key)
+    public function remote_post($app_id, $app_secret, $access_token, $post_id, $profile_key, $force_share = false)
     {
         // check post is skip social sharing
         if (empty($app_id) || empty($app_secret) || get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
             return;
         }
 
-        if(get_post_meta($post_id, '_wpsp_is_linkedin_share', true) != 'on') {
-            return;
-        }
-
-        $errorFlag = false;
-        $response = '';
-
-        try {
-            $linkedin = new \myPHPNotes\LinkedIn(
-                $app_id,
-                $app_secret,
-                WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE,
-                WPSCP_LINKEDIN_SCOPE
-            );
-            $acessToken = $access_token;
-            $getPersonID = $linkedin->getPersonID($acessToken);
-
-            $results = "";
-            if ($this->content_type == 'status') {
-                $formatedText = $this->get_formatted_text($post_id);
-                $results = $linkedin->linkedInTextPost($acessToken, $getPersonID, $formatedText);
-            } else {
-                $post_details = get_post($post_id);
-                $title = get_the_title($post_id);
-                $post_link = get_permalink($post_id);
-                if ($this->content_source == 'excerpt' && has_excerpt($post_details->ID)) {
-                    $desc = wp_strip_all_tags($post_details->post_excerpt);
-                } else {
-                    $desc = wp_strip_all_tags($post_details->post_content);
-                }
-                $results = $linkedin->linkedInLinkPost($acessToken, $getPersonID, $this->get_formatted_text($post_id), $title, wp_trim_words($desc, 10, '...'), $post_link);
-            }
-            $result = json_decode($results);
-            // linkedin sdk has no Exception handler, that's why we handle it 
-            if (property_exists($result, 'id') && $result->id != "") {
-                $shareInfo = array(
-                    'share_id' => (isset($result->id) ? $result->id : ''),
-                    'publish_date' => time(),
-                );
-                $this->save_metabox_social_share($post_id, $shareInfo, $profile_key);
-                $errorFlag = true;
-                $response = $shareInfo;
-            } else if (property_exists($result, 'serviceErrorCode') && $result->serviceErrorCode != "") {
-                $errorFlag = false;
-                $response = $result->message;
-            }
-        } catch (\Exception $e) {
+        if(get_post_meta($post_id, '_wpsp_is_linkedin_share', true) == 'on' || $force_share) {
             $errorFlag = false;
-            $response = $e->getMessage();
+            $response = '';
+    
+            try {
+                $linkedin = new \myPHPNotes\LinkedIn(
+                    $app_id,
+                    $app_secret,
+                    WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE,
+                    WPSCP_LINKEDIN_SCOPE
+                );
+                $acessToken = $access_token;
+                $getPersonID = $linkedin->getPersonID($acessToken);
+    
+                $results = "";
+                if ($this->content_type == 'status') {
+                    $formatedText = $this->get_formatted_text($post_id);
+                    $results = $linkedin->linkedInTextPost($acessToken, $getPersonID, $formatedText);
+                } else {
+                    $post_details = get_post($post_id);
+                    $title = get_the_title($post_id);
+                    $post_link = get_permalink($post_id);
+                    if ($this->content_source == 'excerpt' && has_excerpt($post_details->ID)) {
+                        $desc = wp_strip_all_tags($post_details->post_excerpt);
+                    } else {
+                        $desc = wp_strip_all_tags($post_details->post_content);
+                    }
+                    $results = $linkedin->linkedInLinkPost($acessToken, $getPersonID, $this->get_formatted_text($post_id), $title, wp_trim_words($desc, 10, '...'), $post_link);
+                }
+                $result = json_decode($results);
+                // linkedin sdk has no Exception handler, that's why we handle it 
+                if (property_exists($result, 'id') && $result->id != "") {
+                    $shareInfo = array(
+                        'share_id' => (isset($result->id) ? $result->id : ''),
+                        'publish_date' => time(),
+                    );
+                    $this->save_metabox_social_share($post_id, $shareInfo, $profile_key);
+                    $errorFlag = true;
+                    $response = $shareInfo;
+                } else if (property_exists($result, 'serviceErrorCode') && $result->serviceErrorCode != "") {
+                    $errorFlag = false;
+                    $response = $result->message;
+                }
+            } catch (\Exception $e) {
+                $errorFlag = false;
+                $response = $e->getMessage();
+            }
+            return array(
+                'success' => $errorFlag,
+                'log' => $response
+            );   
         }
-        return array(
-            'success' => $errorFlag,
-            'log' => $response
-        );
+        return;
     }
 
     /**
@@ -233,7 +232,7 @@ class Linkedin
 
     public function socialMediaInstantShare($app_id, $app_secret, $access_token, $post_id, $profile_key)
     {
-        $response = $this->remote_post($app_id, $app_secret, $access_token, $post_id, $profile_key);
+        $response = $this->remote_post($app_id, $app_secret, $access_token, $post_id, $profile_key, true);
         if ($response['success'] == false) {
             wp_send_json_error($response['log']);
         } else {

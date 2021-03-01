@@ -181,110 +181,109 @@ class Facebook
      * @since 2.5.0
      * @return array
      */
-    public function remote_post($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key)
+    public function remote_post($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key, $force_share = false)
     {
         // check post is skip social sharing
         if (empty($app_id) || empty($app_secret) || get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
             return;
         }
         
-        if(get_post_meta($post_id, '_wpsp_is_facebook_share', true) != 'on') {
-            return;
-        }
-
-        $errorFlag = false;
-        $response = '';
-
-        $fb = new \Facebook\Facebook([
-            'app_id'        => $app_id,
-            'app_secret'    => $app_secret,
-            'default_graph_version' => 'v6.0',
-        ]);
-
-        $linkData = $this->get_share_content_args($post_id);
-
-
-        // group api
-        if ($type === 'group') {
-            try {
-                // group post
-                $response = $fb->post('/' . $ID . '/feed',  $linkData, $app_access_token);
-                $isError = $response->isError();
-                if ($isError == false) {
-                    $graphNode = $response->getGraphNode();
-                    $shareInfo = array(
-                        'share_id' => $graphNode['id'],
-                        'publish_date' => time(),
-                    );
-                    // save shareinfo in metabox
-                    $this->save_metabox_social_share_metabox($post_id, $shareInfo, $profile_key);
-                    $errorFlag = true;
-                    $response = $shareInfo;
+        if(get_post_meta($post_id, '_wpsp_is_facebook_share', true) == 'on' || $force_share) {
+            $errorFlag = false;
+            $response = '';
+    
+            $fb = new \Facebook\Facebook([
+                'app_id'        => $app_id,
+                'app_secret'    => $app_secret,
+                'default_graph_version' => 'v6.0',
+            ]);
+    
+            $linkData = $this->get_share_content_args($post_id);
+    
+    
+            // group api
+            if ($type === 'group') {
+                try {
+                    // group post
+                    $response = $fb->post('/' . $ID . '/feed',  $linkData, $app_access_token);
+                    $isError = $response->isError();
+                    if ($isError == false) {
+                        $graphNode = $response->getGraphNode();
+                        $shareInfo = array(
+                            'share_id' => $graphNode['id'],
+                            'publish_date' => time(),
+                        );
+                        // save shareinfo in metabox
+                        $this->save_metabox_social_share_metabox($post_id, $shareInfo, $profile_key);
+                        $errorFlag = true;
+                        $response = $shareInfo;
+                    }
+                } catch (\Facebook\Exceptions\FacebookResponseException $e) {
+                    $errorFlag = false;
+                    $response = 'Graph returned an error: ' . $e->getMessage();
+                } catch (\Facebook\Exceptions\FacebookSDKException $e) {
+                    $errorFlag = false;
+                    $response = 'SDK returned an error: ' . $e->getMessage();
                 }
-            } catch (\Facebook\Exceptions\FacebookResponseException $e) {
-                $errorFlag = false;
-                $response = 'Graph returned an error: ' . $e->getMessage();
-            } catch (\Facebook\Exceptions\FacebookSDKException $e) {
-                $errorFlag = false;
-                $response = 'SDK returned an error: ' . $e->getMessage();
             }
-        }
-        // page api
-        if ($type === 'page') {
-            try {
-                // Returns a `Facebook\FacebookResponse` object
-                $response = $fb->post('/' . $ID . '/feed', $linkData, $app_access_token);
-                $isError = $response->isError();
-                if ($isError == false) {
-                    $graphNode = $response->getGraphNode();
-                    $shareInfo = array(
-                        'share_id' => $graphNode['id'],
-                        'publish_date' => time(),
-                    );
-                    // save shareinfo in metabox
-                    $this->save_metabox_social_share_metabox($post_id, $shareInfo, $profile_key);
-                    $errorFlag = true;
-                    $response = $shareInfo;
+            // page api
+            if ($type === 'page') {
+                try {
+                    // Returns a `Facebook\FacebookResponse` object
+                    $response = $fb->post('/' . $ID . '/feed', $linkData, $app_access_token);
+                    $isError = $response->isError();
+                    if ($isError == false) {
+                        $graphNode = $response->getGraphNode();
+                        $shareInfo = array(
+                            'share_id' => $graphNode['id'],
+                            'publish_date' => time(),
+                        );
+                        // save shareinfo in metabox
+                        $this->save_metabox_social_share_metabox($post_id, $shareInfo, $profile_key);
+                        $errorFlag = true;
+                        $response = $shareInfo;
+                    }
+                } catch (\Facebook\Exceptions\FacebookResponseException $e) {
+                    $errorFlag = false;
+                    $response = 'Graph returned an error: ' . $e->getMessage();
+                } catch (\Facebook\Exceptions\FacebookSDKException $e) {
+                    $errorFlag = false;
+                    $response = 'SDK returned an error: ' . $e->getMessage();
                 }
-            } catch (\Facebook\Exceptions\FacebookResponseException $e) {
-                $errorFlag = false;
-                $response = 'Graph returned an error: ' . $e->getMessage();
-            } catch (\Facebook\Exceptions\FacebookSDKException $e) {
-                $errorFlag = false;
-                $response = 'SDK returned an error: ' . $e->getMessage();
             }
-        }
-
-        // old user option
-        if ($type == 'oldAccount') {
-            try {
-                // Returns a `Facebook\FacebookResponse` object
-                $response = $fb->post('/me/feed', $linkData, $app_access_token);
-                $isError = $response->isError();
-                if ($isError == false) {
-                    $graphNode = $response->getGraphNode();
-                    $shareInfo = array(
-                        'post_id'           => $graphNode['id'],
-                        'publish_date'      => time()
-                    );
-                    // save shareinfo in metabox
-                    $this->save_metabox_social_share_metabox($post_id, $shareInfo, $profile_key);
-                    $errorFlag = true;
-                    $response = $shareInfo;
+    
+            // old user option
+            if ($type == 'oldAccount') {
+                try {
+                    // Returns a `Facebook\FacebookResponse` object
+                    $response = $fb->post('/me/feed', $linkData, $app_access_token);
+                    $isError = $response->isError();
+                    if ($isError == false) {
+                        $graphNode = $response->getGraphNode();
+                        $shareInfo = array(
+                            'post_id'           => $graphNode['id'],
+                            'publish_date'      => time()
+                        );
+                        // save shareinfo in metabox
+                        $this->save_metabox_social_share_metabox($post_id, $shareInfo, $profile_key);
+                        $errorFlag = true;
+                        $response = $shareInfo;
+                    }
+                } catch (\Facebook\Exceptions\FacebookResponseException $e) {
+                    $errorFlag = false;
+                    $response = 'Graph returned an error: ' . $e->getMessage();
+                } catch (\Facebook\Exceptions\FacebookSDKException $e) {
+                    $errorFlag = false;
+                    $response = 'SDK returned an error: ' . $e->getMessage();
                 }
-            } catch (\Facebook\Exceptions\FacebookResponseException $e) {
-                $errorFlag = false;
-                $response = 'Graph returned an error: ' . $e->getMessage();
-            } catch (\Facebook\Exceptions\FacebookSDKException $e) {
-                $errorFlag = false;
-                $response = 'SDK returned an error: ' . $e->getMessage();
             }
+    
+            return array(
+                'success' => $errorFlag,
+                'log' => $response
+            );   
         }
-
-        return array(
-            'success' => $errorFlag,
-            'log' => $response
-        );
+        return;
     }
 
     /**
@@ -350,7 +349,7 @@ class Facebook
      */
     public function socialMediaInstantShare($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key)
     {
-        $response = $this->remote_post($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key);
+        $response = $this->remote_post($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key, true);
         if ($response['success'] == false) {
             wp_send_json_error($response['log']);
         } else {

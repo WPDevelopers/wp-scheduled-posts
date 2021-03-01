@@ -120,68 +120,67 @@ class Twitter
      * @since 2.5.0
      * @return array
      */
-    public function remote_post($app_id, $app_secret, $oauth_token, $oauth_token_secret, $post_id, $profile_key)
+    public function remote_post($app_id, $app_secret, $oauth_token, $oauth_token_secret, $post_id, $profile_key, $force_share = false)
     {
         // check post is skip social sharing
         if (empty($app_id) || empty($app_secret) || get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
             return;
         }
 
-        if(get_post_meta($post_id, '_wpsp_is_twitter_share', true) != 'on') {
-            return;
-        }
-
-        $errorFlag = false;
-        $response = '';
-
-        try {
-            $TwitterConnection = new \Abraham\TwitterOAuth\TwitterOAuth($app_id, $app_secret, $oauth_token, $oauth_token_secret);
-
-            $parameters = $this->get_share_content_args($post_id);
-
-            // allow thumbnail will be share
-            if ($this->is_show_post_thumbnail == true) {
-                $socialShareImage = get_post_meta($post_id, '_wpscppro_custom_social_share_image', true);
-                if ($socialShareImage != "") {
-                    $thumbnail_src = wp_get_attachment_image_src($socialShareImage, 'full');
-                    $featuredImage = $thumbnail_src[0];
-                    $uploads = wp_upload_dir();
-                    $file_path = str_replace($uploads['baseurl'], $uploads['basedir'], $featuredImage);
-                    $media = $TwitterConnection->upload('media/upload', ['media' => $file_path]);
-                    $parameters['media_ids'] = $media->media_id_string;
-                } else {
-                    if (has_post_thumbnail($post_id)) {
-                        $featuredImage = ((has_post_thumbnail($post_id)) ? get_the_post_thumbnail_url($post_id, 'full') : '');
+        if(get_post_meta($post_id, '_wpsp_is_twitter_share', true) == 'on' || $force_share) {
+            $errorFlag = false;
+            $response = '';
+    
+            try {
+                $TwitterConnection = new \Abraham\TwitterOAuth\TwitterOAuth($app_id, $app_secret, $oauth_token, $oauth_token_secret);
+    
+                $parameters = $this->get_share_content_args($post_id);
+    
+                // allow thumbnail will be share
+                if ($this->is_show_post_thumbnail == true) {
+                    $socialShareImage = get_post_meta($post_id, '_wpscppro_custom_social_share_image', true);
+                    if ($socialShareImage != "") {
+                        $thumbnail_src = wp_get_attachment_image_src($socialShareImage, 'full');
+                        $featuredImage = $thumbnail_src[0];
                         $uploads = wp_upload_dir();
                         $file_path = str_replace($uploads['baseurl'], $uploads['basedir'], $featuredImage);
                         $media = $TwitterConnection->upload('media/upload', ['media' => $file_path]);
                         $parameters['media_ids'] = $media->media_id_string;
+                    } else {
+                        if (has_post_thumbnail($post_id)) {
+                            $featuredImage = ((has_post_thumbnail($post_id)) ? get_the_post_thumbnail_url($post_id, 'full') : '');
+                            $uploads = wp_upload_dir();
+                            $file_path = str_replace($uploads['baseurl'], $uploads['basedir'], $featuredImage);
+                            $media = $TwitterConnection->upload('media/upload', ['media' => $file_path]);
+                            $parameters['media_ids'] = $media->media_id_string;
+                        }
                     }
                 }
-            }
-
-            $result = $TwitterConnection->post('statuses/update', $parameters);
-            if ($TwitterConnection->getLastHttpCode() == 200) {
-                $shareInfo = array(
-                    'share_id' => $result->id,
-                    'publish_date' => time(),
-                );
-                // save shareinfo in metabox
-                $this->save_metabox_social_share($post_id, $shareInfo, $profile_key);
-                $errorFlag = true;
-                $response = $shareInfo;
-            } else {
+    
+                $result = $TwitterConnection->post('statuses/update', $parameters);
+                if ($TwitterConnection->getLastHttpCode() == 200) {
+                    $shareInfo = array(
+                        'share_id' => $result->id,
+                        'publish_date' => time(),
+                    );
+                    // save shareinfo in metabox
+                    $this->save_metabox_social_share($post_id, $shareInfo, $profile_key);
+                    $errorFlag = true;
+                    $response = $shareInfo;
+                } else {
+                    $errorFlag = false;
+                    $response = __('Twitter Connection Problem. error code: ', 'wp-scheduled-posts') . $TwitterConnection->getLastHttpCode();
+                }
+            } catch (\Exception $e) {
                 $errorFlag = false;
-                $response = __('Twitter Connection Problem. error code: ', 'wp-scheduled-posts') . $TwitterConnection->getLastHttpCode();
+                $response = $e->getMessage();
             }
-        } catch (\Exception $e) {
-            $errorFlag = false;
-            $response = $e->getMessage();
+            return array(
+                'success' => $errorFlag,
+                'log' => $response
+            );   
         }
-        return array(
-            'success' => $errorFlag,
-            'log' => $response
-        );
+        return;
     }
 
     /**
@@ -247,7 +246,7 @@ class Twitter
 
     public function socialMediaInstantShare($app_id, $app_secret, $oauth_token, $oauth_token_secret, $post_id, $profile_key)
     {
-        $response = $this->remote_post($app_id, $app_secret, $oauth_token, $oauth_token_secret, $post_id, $profile_key);
+        $response = $this->remote_post($app_id, $app_secret, $oauth_token, $oauth_token_secret, $post_id, $profile_key, true);
         if ($response['success'] == false) {
             wp_send_json_error($response['log']);
         } else {

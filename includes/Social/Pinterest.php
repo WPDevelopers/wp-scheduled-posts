@@ -138,43 +138,42 @@ class Pinterest
      * @since 2.5.0
      * @return array
      */
-    public function remote_post($app_id, $app_secret, $app_access_token, $post_id, $board_name, $profile_key)
+    public function remote_post($app_id, $app_secret, $app_access_token, $post_id, $board_name, $profile_key, $force_share = false)
     {
         // check post is skip social sharing
         if (empty($app_id) || empty($app_secret) || get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
             return;
         }
 
-        if(get_post_meta($post_id, '_wpsp_is_pinterest_share', true) != 'on') {
-            return;
-        }
-
-        $errorFlag = false;
-        $response = '';
-
-        $pin_args = $this->get_create_pin_args($post_id, $board_name);
-
-        try {
-            $pinterest = new \DirkGroenen\Pinterest\Pinterest($app_id, $app_secret);
-            $pinterest->auth->setOAuthToken($app_access_token);
-            $results = $pinterest->pins->create($pin_args);
-            if ($results != "") {
-                $shareInfo = array(
-                    'share_id' => $results->id,
-                    'publish_date' => time(),
-                );
-                $this->save_metabox_social_share_metabox($post_id, $shareInfo, $profile_key);
-            }
-            $errorFlag = true;
-            $response = $results;
-        } catch (\Exception $e) {
+        if(get_post_meta($post_id, '_wpsp_is_pinterest_share', true) == 'on' || $force_share) {
             $errorFlag = false;
-            $response = $e->getMessage();
+            $response = '';
+
+            $pin_args = $this->get_create_pin_args($post_id, $board_name);
+
+            try {
+                $pinterest = new \DirkGroenen\Pinterest\Pinterest($app_id, $app_secret);
+                $pinterest->auth->setOAuthToken($app_access_token);
+                $results = $pinterest->pins->create($pin_args);
+                if ($results != "") {
+                    $shareInfo = array(
+                        'share_id' => $results->id,
+                        'publish_date' => time(),
+                    );
+                    $this->save_metabox_social_share_metabox($post_id, $shareInfo, $profile_key);
+                }
+                $errorFlag = true;
+                $response = $results;
+            } catch (\Exception $e) {
+                $errorFlag = false;
+                $response = $e->getMessage();
+            }
+            return array(
+                'success' => $errorFlag,
+                'log' => $response
+            );
         }
-        return array(
-            'success' => $errorFlag,
-            'log' => $response
-        );
+        return;
     }
 
     /**
@@ -239,7 +238,7 @@ class Pinterest
 
     public function socialMediaInstantShare($app_id, $app_secret, $app_access_token, $post_id, $board_name, $profile_key)
     {
-        $response = $this->remote_post($app_id, $app_secret, $app_access_token, $post_id, $board_name, $profile_key);
+        $response = $this->remote_post($app_id, $app_secret, $app_access_token, $post_id, $board_name, $profile_key, true);
         if ($response['success'] == false) {
             wp_send_json_error($response['log']);
         } else {
