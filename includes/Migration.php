@@ -201,4 +201,21 @@ class Migration {
             }
         }
     }
+    public static function scheduled_post_social_share_meta_update(){
+        global $wpdb;
+        $post_types = \WPSP\Helper::get_settings('allow_post_types');
+        if(is_array($post_types) && count($post_types) > 0){
+            foreach($post_types as $post_type){
+                $results = $wpdb->get_results( "SELECT ID, post_type FROM {$wpdb->prefix}posts WHERE post_type = '{$post_type}' AND post_status = 'future'", OBJECT );
+                if(is_array($results) && count($results) > 0){
+                    foreach($results as $result){
+                        update_post_meta($result->ID, '_wpsp_is_facebook_share', 'on');
+                        update_post_meta($result->ID, '_wpsp_is_twitter_share', 'on');
+                        update_post_meta($result->ID, '_wpsp_is_linkedin_share', 'on');
+                        update_post_meta($result->ID, '_wpsp_is_pinterest_share', 'on');
+                    }
+                }
+            }
+        }
+    }
 }
