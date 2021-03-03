@@ -158,6 +158,12 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 == Changelog ==
 
+= 4.0.2 - 2021-03-03 =
+* Added     : Option to disable/enable schedule social share from individual posts
+* Fixed     : Classic Editor Instant Publish Post Date Issue
+* Fixed     : Classic Editor Instant Share Modal Overlap Issue
+* Fixed     : Few minor bug fix & improvements
+
 = 4.0.1 - 2021-01-12 =
 * Added     : Compatibility with PHP 8
 * Fixed     : Migration issue with the new version
