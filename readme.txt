@@ -176,9 +176,13 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 1. Schedule Calendar 
 2. Creating and Scheduling Post right from the Calendar
-3. Auto Scheduler (Pro Feature)
-4. Manual Scheduler (Pro Feature)
-5. General Options Page
+3. General Options Page
+4. Email Notify
+5. Social Profile
+6. Social Templates
+7. Auto Scheduler (Pro Feature)
+8. Manual Scheduler (Pro Feature)
+9. Missed Schedule Handler (Pro Feature)
 
 
 == Changelog ==
