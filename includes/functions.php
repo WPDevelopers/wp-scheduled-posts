@@ -160,8 +160,10 @@ if (!function_exists('wpscp_prevent_future_type')) {
 		if (isset($_POST['prevent_future_post']) && $_POST['prevent_future_post'] == true) {
 			if ($post_data['post_status'] == 'future') {
 				$post_data['post_status'] = 'publish';
-				$post_data['post_date'] = current_time( 'mysql' );
-				$post_data['post_date_gmt'] = current_time( 'mysql', 1 );
+				if(isset($_POST['date_type']) && $_POST['date_type'] == 'current'){
+					$post_data['post_date'] = current_time( 'mysql' );
+					$post_data['post_date_gmt'] = current_time( 'mysql', 1 );
+				}
 				remove_action('future_post', '_future_post_hook');
 			}
 		} else if (isset($_POST['wpscp-manual-schedule-date']) && !empty($_POST['wpscp-manual-schedule-date'])) {
@@ -191,9 +193,14 @@ if (!function_exists('wpscp_prevent_future_post_markup')) {
 
 			?>
 			<div style="padding:10px;" id="prevent_future_post_box">
-				<input type="checkbox" name="prevent_future_post" value="yes" id="prevent_future_post_no" <?php echo ($post_gmt_timestamp > $current_gmt_timestamp && $post->post_status != 'future') ? ' checked="checked"' : ''; ?> />
-				<label for="prevent_future_post_no"> <?php esc_html_e('Publish future post immediately', 'wp-scheduled-posts'); ?></label>
-				<a id="wpscp-future-post-help-handler" href="javascript:void();" title="Show/Hide Help"><?php print esc_html('(?)'); ?></a>
+				<input type="checkbox" name="prevent_future_post" value="yes" id="wpsp_prevent_future_post" <?php echo ($post_gmt_timestamp > $current_gmt_timestamp && $post->post_status != 'future') ? ' checked="checked"' : ''; ?> />
+				<label for="wpsp_prevent_future_post"> <?php esc_html_e('Publish future post immediately', 'wp-scheduled-posts'); ?><a id="wpscp-future-post-help-handler" href="javascript:void();" title="Show/Hide Help"><?php print esc_html('(?)'); ?></a></label>
+				<div id="wpsp_date_type" style="margin-left: 25px; display: none;">
+					<input type="radio" id="current_date" name="date_type" value="current">
+					<label for="current_date">Current Date</label>
+					<input type="radio" id="future_date" name="date_type" value="future" checked>
+					<label for="future_date">Future Date</label>
+				</div>
 				<div style="border:1px solid #FFEBE8; background:#FEFFE8; padding:5px; display:none;" id="wpscp-future-post-help-info">
 					<?php esc_html_e('If you schedule this post and check this option then your post will be published immediately but post date-time will not set current date. Post date-time will be your scheduled future date-time.', 'wp-scheduled-posts'); ?>
 				</div>
