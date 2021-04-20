@@ -1,8 +1,6 @@
 const path = require('path')
 
 module.exports = (env, argv) => {
-    let production = argv.mode === 'production'
-
     return {
         entry: {
             'js/admin': path.resolve(__dirname, 'app/admin.js'),
@@ -12,8 +10,6 @@ module.exports = (env, argv) => {
             filename: '[name].js',
             path: path.resolve(__dirname, 'assets'),
         },
-
-        devtool: production ? '' : 'source-map',
 
         resolve: {
             extensions: ['.js', '.jsx', '.json'],
