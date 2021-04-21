@@ -77,7 +77,8 @@ class Calendar
                 $markup .= '</div>';
                 array_push($allData, array(
                     'title'  => $markup,
-                    'start'  => get_the_date('Y-m-d H:i:s'),
+                    'start'  => get_the_date('Y-m-d'),
+                    'end'  => get_the_date('Y-m-d H:i:s'),
                     'allDay' => false,
                 ));
             endwhile;
