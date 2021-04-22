@@ -237,6 +237,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         response !== null && response !== ''
                             ? JSON.parse(response)
                             : []
+
                     if (
                         obj.type == 'addEvent' &&
                         obj.post_status == 'Scheduled'
@@ -259,7 +260,10 @@ document.addEventListener('DOMContentLoaded', function () {
                         // add event
                         calendar.addEvent({
                             title: wpscpEventTemplateStructure(jsonData[0]),
-                            start: new Date(jsonData[0].post_date),
+                            start: new Date(
+                                jsonData[0].post_date.split(' ')[0]
+                            ),
+                            end: new Date(jsonData[0].post_date),
                             allDay: false,
                         })
 
@@ -286,7 +290,10 @@ document.addEventListener('DOMContentLoaded', function () {
                         // add event
                         calendar.addEvent({
                             title: wpscpEventTemplateStructure(jsonData[0]),
-                            start: new Date(jsonData[0].post_date),
+                            start: new Date(
+                                jsonData[0].post_date.split(' ')[0]
+                            ),
+                            end: new Date(jsonData[0].post_date),
                             allDay: false,
                         })
                         // send notification
@@ -314,7 +321,10 @@ document.addEventListener('DOMContentLoaded', function () {
                         // add event
                         calendar.addEvent({
                             title: wpscpEventTemplateStructure(jsonData[0]),
-                            start: new Date(jsonData[0].post_date),
+                            start: new Date(
+                                jsonData[0].post_date.split(' ')[0]
+                            ),
+                            end: new Date(jsonData[0].post_date),
                             allDay: false,
                         })
                         // send notification
