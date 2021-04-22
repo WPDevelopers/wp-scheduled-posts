@@ -111,18 +111,17 @@ class Calendar
         $postTitle = (isset($_POST['postTitle']) ? $_POST['postTitle'] : '');
         $postContent = (isset($_POST['postContent']) ? $_POST['postContent'] : '');
 
-        if ($dateStr != "Invalid Date" && !empty($postid)) {
-            $postdate = new \DateTime(substr($dateStr, 0, 25));
-            $postdateformat = $postdate->format('Y-m-d H:i:s');
-            $postdate_gmt = ($postdateformat != "" ? gmdate('Y-m-d H:i:s', strtotime($postdateformat)) : '');
-        } else if ($dateStr != "Invalid Date" && empty($postid)) {
+        if(empty($postid)) {
             $default_schedule_time = '12:00 am';
             if (!empty($calendar_schedule_time)) {
                 $default_schedule_time = $calendar_schedule_time;
             }
-
             $date_string = substr($dateStr, 0, 16) . $default_schedule_time;
             $postdate = new \DateTime($date_string);
+            $postdateformat = $postdate->format('Y-m-d H:i:s');
+            $postdate_gmt = ($postdateformat != "" ? gmdate('Y-m-d H:i:s', strtotime($postdateformat)) : '');
+        } else {
+            $postdate = new \DateTime(substr($dateStr, 0, 25));
             $postdateformat = $postdate->format('Y-m-d H:i:s');
             $postdate_gmt = ($postdateformat != "" ? gmdate('Y-m-d H:i:s', strtotime($postdateformat)) : '');
         }
