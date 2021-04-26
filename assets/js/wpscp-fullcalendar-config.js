@@ -123,7 +123,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 ID: jQuery(info.el).find('.wpscp-event-post').data('postid'),
                 post_status: 'Scheduled',
                 type: 'eventDrop',
-                date: new Date(info.event.end),
+                date: new Date(
+                    info.event.end ? info.event.end : info.event.start
+                ),
             })
         },
     })
