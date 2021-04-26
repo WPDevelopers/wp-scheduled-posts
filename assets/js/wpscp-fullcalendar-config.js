@@ -470,6 +470,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 modalTime.val() != '' ? modalTime.val() : '12:00 AM'
             )
             var dateStr = new Date(modalDate.val() + ' ' + dateTime)
+            if (dateStr == 'Invalid Date') {
+                dateStr = new Date()
+            }
             jQuery('*[data-date="' + modalDate.val() + '"]')
                 .children('.spinner')
                 .css('visibility', 'visible')

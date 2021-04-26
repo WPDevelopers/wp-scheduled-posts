@@ -110,7 +110,7 @@ class Calendar
         $postid = (isset($_POST['ID']) ? $_POST['ID'] : '');
         $postTitle = (isset($_POST['postTitle']) ? $_POST['postTitle'] : '');
         $postContent = (isset($_POST['postContent']) ? $_POST['postContent'] : '');
-
+        
         if(empty($postid)) {
             $default_schedule_time = '12:00 am';
             if (!empty($calendar_schedule_time)) {
