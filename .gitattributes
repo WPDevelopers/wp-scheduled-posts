@@ -46,6 +46,7 @@ prepros-6.config                           export-ignore
 prepros.config                             export-ignore
 includes/Admin/Settings/node_modules       export-ignore
 includes/Admin/Settings/app                export-ignore
+includes/Admin/Settings/**/admin.js.LICENSE.txt     export-ignore
 assets/sass                                export-ignore
 .prettierignore                            export-ignore
 .prettierrc.json                           export-ignore

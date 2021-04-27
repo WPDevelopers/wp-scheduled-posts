@@ -46,6 +46,7 @@ prepros-6.config
 prepros.config
 includes/Admin/Settings/node_modules
 includes/Admin/Settings/app
+includes/Admin/Settings/**/admin.js.LICENSE.txt
 assets/sass
 .prettierignore
 .prettierrc.json
