@@ -12,10 +12,10 @@ jobs:
       - uses: actions/checkout@v2
       - name: Running NPM Install & Build For Gutenberg
         run: |
-          npm install && npm run build
+          npm install --silent && npm run build
       - name: Running NPM Install & Build for Admin Panel
         run: |
-          cd includes/Admin/Settings && npm install && npm run prod && cd ../../..
+          cd includes/Admin/Settings && npm install --silent && npm run prod && cd ../../..
       - name: WordPress Plugin Deploy
         id: deploy
         uses: 10up/action-wordpress-plugin-deploy@stable

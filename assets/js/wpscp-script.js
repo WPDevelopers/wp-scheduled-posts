@@ -1,13 +1,12 @@
 jQuery(document).ready(function ($) {
     var get_query_vars = function (name) {
         var vars = {}
-        window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (
-            m,
-            key,
-            value
-        ) {
-            vars[key] = value
-        })
+        window.location.href.replace(
+            /[?&]+([^=&]+)=([^&]*)/gi,
+            function (m, key, value) {
+                vars[key] = value
+            }
+        )
         if (name != '') {
             return vars[name]
         }
@@ -147,14 +146,28 @@ jQuery(document).ready(function ($) {
     /**
      * WP admin sidebar Remove Image
      */
-    $('body').on('click', '#wpscppro_btn_remove_meta_image_upload', function (
-        e
-    ) {
-        e.preventDefault()
-        $('#wpscppro_custom_social_share_image').val('')
-        $('#wpscpprouploadimagepreviewold').hide()
-        $('#wpscpprouploadimagepreview').empty()
-        $(this).hide()
+    $('body').on(
+        'click',
+        '#wpscppro_btn_remove_meta_image_upload',
+        function (e) {
+            e.preventDefault()
+            $('#wpscppro_custom_social_share_image').val('')
+            $('#wpscpprouploadimagepreviewold').hide()
+            $('#wpscpprouploadimagepreview').empty()
+            $(this).hide()
+        }
+    )
+
+    // publish future post immediately
+    jQuery('#wpscp-future-post-help-handler').on('click', function () {
+        jQuery('#wpscp-future-post-help-info').toggle()
+    })
+    jQuery('#wpsp_prevent_future_post').on('click', function () {
+        if ($(this).prop('checked') == true) {
+            jQuery('#wpsp_date_type').slideDown('fast')
+        } else if ($(this).prop('checked') == false) {
+            jQuery('#wpsp_date_type').slideUp('fast')
+        }
     })
 })
 

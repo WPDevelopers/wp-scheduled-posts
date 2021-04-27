@@ -77,7 +77,8 @@ class Calendar
                 $markup .= '</div>';
                 array_push($allData, array(
                     'title'  => $markup,
-                    'start'  => get_the_date('Y-m-d H:i:s'),
+                    'start'  => get_the_date('Y-m-d'),
+                    'end'  => get_the_date('Y-m-d H:i:s'),
                     'allDay' => false,
                 ));
             endwhile;
@@ -109,12 +110,8 @@ class Calendar
         $postid = (isset($_POST['ID']) ? $_POST['ID'] : '');
         $postTitle = (isset($_POST['postTitle']) ? $_POST['postTitle'] : '');
         $postContent = (isset($_POST['postContent']) ? $_POST['postContent'] : '');
-
-        if ($dateStr != "Invalid Date" && empty($postid)) {
-            $postdate = new \DateTime(substr($dateStr, 0, 25));
-            $postdateformat = $postdate->format('Y-m-d H:i:s');
-            $postdate_gmt = ($postdateformat != "" ? gmdate('Y-m-d H:i:s', strtotime($postdateformat)) : '');
-        } else if ($dateStr != "Invalid Date" && !empty($postid)) {
+        
+        if($type == 'drop') {
             $default_schedule_time = '12:00 am';
             if (!empty($calendar_schedule_time)) {
                 $default_schedule_time = $calendar_schedule_time;
@@ -124,7 +121,12 @@ class Calendar
             $postdate = new \DateTime($date_string);
             $postdateformat = $postdate->format('Y-m-d H:i:s');
             $postdate_gmt = ($postdateformat != "" ? gmdate('Y-m-d H:i:s', strtotime($postdateformat)) : '');
+        } else {
+            $postdate = new \DateTime(substr($dateStr, 0, 25));
+            $postdateformat = $postdate->format('Y-m-d H:i:s');
+            $postdate_gmt = ($postdateformat != "" ? gmdate('Y-m-d H:i:s', strtotime($postdateformat)) : '');
         }
+
 
         /**
          * Post Status Change and Date modifired
