@@ -3,8 +3,6 @@ name: Deploy to WordPress.org
 
 on:
   push:
-    branches:
-      - latest
     tags:
     - "*"
 jobs:
@@ -12,6 +10,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Running NPM Install & Build
+      - name: Running NPM Install & Build For Gutenberg
         run: |
-          npm install && npm run build && cd includes/Admin/Settings && npm install && npm run prod && cd ../../..
+          npm install && npm run build
+      - name: Running NPM Install & Build for Admin Panel
+        run: |
+          cd includes/Admin/Settings && npm install && npm run prod && cd ../../..
+      - name: WordPress Plugin Deploy
+        id: deploy
+        uses: 10up/action-wordpress-plugin-deploy@stable
+        env:
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
