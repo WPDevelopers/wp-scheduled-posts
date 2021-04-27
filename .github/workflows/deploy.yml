@@ -14,4 +14,4 @@ jobs:
       - uses: actions/checkout@v2
       - name: Running NPM Install & Build
         run: |
-          npm install && npm run build && cd includes/Admin/Settings && npm install && npm run build && cd ../../..
+          npm install && npm run build && cd includes/Admin/Settings && npm install && npm run prod && cd ../../..
