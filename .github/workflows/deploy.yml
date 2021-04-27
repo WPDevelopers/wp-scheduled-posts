@@ -3,7 +3,8 @@ name: Deploy to WordPress.org
 
 on:
   push:
-    brances: [ 'latest' ]
+    branches:
+      - latest
     tags:
     - "*"
 jobs:
