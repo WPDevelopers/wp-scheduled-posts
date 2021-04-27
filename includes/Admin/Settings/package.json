@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "build": "webpack --progress --colors --watch --mode=development",
-        "prod": "webpack --progress --colors --watch -p --config webpack.config.js --mode=production"
+        "prod": "webpack --progress --colors -p --config webpack.config.js --mode=production"
     },
     "author": "tusharimran",
     "dependencies": {

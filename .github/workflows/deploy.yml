@@ -3,6 +3,7 @@ name: Deploy to WordPress.org
 
 on:
   push:
+    brances: [ 'latest' ]
     tags:
     - "*"
 jobs:
@@ -11,10 +12,5 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Running NPM Install & Build
-        run: npm run build
-      - name: WordPress Plugin Deploy
-        id: deploy
-        uses: 10up/action-wordpress-plugin-deploy@stable
-        env:
-          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
-          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+        run: |
+          npm install && npm run build && cd includes/Admin/Settings && npm install && npm run build && cd ../../..
