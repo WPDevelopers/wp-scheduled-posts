@@ -2,7 +2,7 @@
 Contributors: wpdevteam, Asif2BD, re_enter_rupok, priyomukul, shajalal, tusharimran
 Tags: post schedule, editor calendar, schedule-calendar, editorial calendar, social share, auto share, facebook, twitter, pinterest, linkedin, schedule bar, scheduled posts, schedule, SchedulePress, schedule widget, scheduler, schedule menu bar, admin bar, dashboard widget, missed scheduled, calendar, missed schedule, future post, schedule issue, post later, admin bar, admin, multi author, auto publish, inbound marketing, content marketing, auto post, post publish, social media automation, automation, marketing, content editing, post alert, facebook marketing, auto sharing, content calendar
 Requires at least: 4.0
-Tested up to: 5.7
+Tested up to: 5.7.1
 Requires PHP: 5.4
 Stable tag: 4.0.2
 License: GPLv3 or later
@@ -186,6 +186,11 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 
 == Changelog ==
+
+= 4.0.3 - 2021-04-27 =
+* Added: Classic Editor Instant Publish Post Date Issue
+* Fixed: Moving Post from one date to another changed the date to default time.
+* Fixed: Few minor bug fix & improvements
 
 = 4.0.2 - 2021-03-04 =
 * Added     : Option to disable/enable schedule social share from individual posts
