@@ -8,7 +8,7 @@ export default function Facebook({ fieldName, field, page, group }) {
         if (e.target.checked) {
             // free
             if (!wpspSettingsGlobal.pro_version) {
-                if (field.value.length == 0) {
+                if (!field.value || (field.value && field.value.length == 0)) {
                     e.target.disabled = true
                     arrayHelpers.insert(index, item)
                 } else {
