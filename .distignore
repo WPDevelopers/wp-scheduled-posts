@@ -41,6 +41,7 @@ node_modules
 *.tar.gz
 *.zip
 *.map
+.wordpress-org
 index.js
 prepros-6.config
 prepros.config

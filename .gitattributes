@@ -41,6 +41,7 @@ node_modules                               export-ignore
 *.tar.gz                                   export-ignore
 *.zip                                      export-ignore
 *.map                                      export-ignore
+.wordpress-org                             export-ignore
 index.js                                   export-ignore
 prepros-6.config                           export-ignore
 prepros.config                             export-ignore
