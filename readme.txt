@@ -188,7 +188,7 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 == Changelog ==
 
 = 4.0.3 - 2021-04-27 =
-* Added: Classic Editor Instant Publish Post Date Issue
+* Update: Classic Editor Instant Publish Post Date Issue
 * Fixed: Moving Post from one date to another changed the date to default time.
 * Fixed: Few minor bug fix & improvements
 
