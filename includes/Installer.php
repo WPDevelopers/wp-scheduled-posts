@@ -20,6 +20,11 @@ class Installer
 
     public function migrate()
     {
+        // Settings FallBack
+        $settings = json_decode(get_option('wpsp_settings', '{}'));
+        if( ! is_object( $settings ) || ( is_object( $settings ) && ! isset($settings->is_show_dashboard_widget) ) ) {
+            do_action('wpsp_save_settings_default_value', WPSP_VERSION );
+        }
         // social share meta migration
         if(version_compare(get_option('wpsp_version'), '4.0.1', '<=')){
             Migration::scheduled_post_social_share_meta_update();
@@ -27,12 +32,11 @@ class Installer
 
         // update version
         if (version_compare(get_option('wpsp_version'), WPSP_VERSION, '<')) {
-            do_action('wpsp_save_settings_default_value' );
             if (get_option('wpsp_version') != WPSP_VERSION) {
                 update_option('wpsp_version', WPSP_VERSION);
             }
         }
-        
+
         // if old version data exists then run migration
         if(get_option('wpscp_options')){
             Migration::version_3_to_4();
