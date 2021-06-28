@@ -332,6 +332,65 @@
             }
         }
     }
+    // miss scheudle
+    .miss-schedule {
+        width: 100%;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        background: #fff;
+        -webkit-box-pack: end;
+        -ms-flex-pack: end;
+        justify-content: flex-end;
+        > div {
+            width: 50%;
+            padding: 30px;
+            border-left: 1px solid #e7e7e7;
+            border-top: 1px solid #e7e7e7;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        .form-info {
+            display: flex;
+            label {
+                font-size: 18px;
+                font-weight: 600;
+                color: #405068;
+                margin-right: 30px;
+            }
+        }
+        .description {
+            font-size: 15px;
+        }
+        ul.docs {
+            li {
+                position: relative;
+                margin-bottom: 10px;
+                padding-left: 15px;
+                &::before {
+                    content: '';
+                    display: block;
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 50%;
+                    background: #687b95;
+                    position: absolute;
+                    left: 0;
+                    top: 4px;
+                }
+                a {
+                    text-decoration: none;
+                    color: #687b95;
+                }
+            }
+        }
+    }
     // group
     .group-item {
         &__head {

@@ -15,6 +15,7 @@ import Group from './type/Group'
 import ScheduleTable from './type/ScheduleTable'
 import RawHTML from './type/RawHTML'
 import Time from './type/Time'
+import MissSchedule from './type/MissSchedule'
 import License from './type/License'
 
 const Fields = (props) => {
@@ -68,6 +69,9 @@ const Fields = (props) => {
             break
         case 'time':
             renderComponent = <Time {...props} />
+            break
+        case 'MissSchedule':
+            renderComponent = <MissSchedule {...props} />
             break
         default:
             renderComponent = <Error {...props} />
