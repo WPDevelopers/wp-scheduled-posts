@@ -17,7 +17,10 @@ const MissSchedule = ({
     return (
         <div className='miss-schedule'>
             <div className='group-item'>
-                <div className='form-info' style={{ marginBottom: '15px' }}>
+                <div
+                    className='form-info'
+                    style={{ marginBottom: '15px', marginTop: '20px' }}
+                >
                     <label htmlFor={id}>{title}</label>
                     <div className='wpsp_switch'>
                         {arrayHelpers !== undefined ? (
