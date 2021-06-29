@@ -395,6 +395,11 @@
                 }
             }
         }
+        .video-box {
+            iframe {
+                max-width: 100%;
+            }
+        }
     }
     // group
     .group-item {
