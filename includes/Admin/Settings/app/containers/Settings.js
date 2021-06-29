@@ -272,7 +272,7 @@ const Settings = ({
                                 </TabPanel>
                             ))}
                         </Tabs>
-                        {tabIndex !== 5 && (
+                        {tabIndex !== 6 && (
                             <button
                                 className={
                                     props.dirty === false
