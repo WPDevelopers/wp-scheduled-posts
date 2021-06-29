@@ -14,7 +14,6 @@ class Admin
         add_filter('plugin_row_meta', array($this, 'insert_plugin_row_meta'), 10, 2);
         $this->admin_notice();
         $this->usage_tracker();
-        Admin\WPDev\WPDevFeedWidget::instance();
         $this->load_dashboard_widgets();
         $this->load_settings();
     }
