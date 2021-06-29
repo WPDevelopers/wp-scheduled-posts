@@ -366,12 +366,17 @@
             }
         }
         .description {
-            font-size: 15px;
+            font-size: 14px;
+            line-height: 28px;
+            margin-bottom: 65px;
+        }
+        .doc-title {
+            margin-bottom: 25px;
         }
         ul.docs {
             li {
                 position: relative;
-                margin-bottom: 10px;
+                margin-bottom: 25px;
                 padding-left: 15px;
                 &::before {
                     content: '';
