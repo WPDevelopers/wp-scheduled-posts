@@ -1,0 +1,18 @@
+# Assets Update to WP.org
+name: Assets Update to WP.org
+
+on:
+  push:
+    branches:
+    - master
+jobs:
+  assets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Assets Update
+        id: assets
+        uses: 10up/action-wordpress-plugin-asset-update@stable
+        env:
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
