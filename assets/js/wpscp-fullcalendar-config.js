@@ -554,21 +554,16 @@ document.addEventListener('DOMContentLoaded', function () {
      * Get Post Type Name form Query Sting
      */
     function wpscpGetPostTypeNameSkipUnderScore(oldRestUrl, obj) {
-        // return oldRestUrl
-        var urlParams = new URLSearchParams(window.location.search)
-
         var query = JSON.parse(new URLSearchParams(oldRestUrl).get('query'))
-        var mergeQuery = Object.assign(query, obj)
-
-        // var postTypeName =
-        //     urlParams.get('post_type') == 'elementor_library'
-        //         ? 'elementorlibrary'
-        //         : urlParams.get('post_type')
-        return (
-            wpscp_calendar_ajax_object.site_url +
-            '?rest_route=/wpscp/v1/calendar&query=' +
-            JSON.stringify(mergeQuery)
-        )
+        if (query) {
+            var mergeQuery = Object.assign(query, obj)
+            return (
+                wpscp_calendar_ajax_object.site_url +
+                '?rest_route=/wpscp/v1/calendar&query=' +
+                JSON.stringify(mergeQuery)
+            )
+        }
+        return oldRestUrl
     }
 
     /**
@@ -754,9 +749,10 @@ document.addEventListener('DOMContentLoaded', function () {
                             e.params.data.element.dataset.termlist !== '' &&
                             e.params.data.element.dataset.termlist !== undefined
                         ) {
-                            var termlist = e.params.data.element.dataset.termlist.split(
-                                ' '
-                            )
+                            var termlist =
+                                e.params.data.element.dataset.termlist.split(
+                                    ' '
+                                )
                             termlist.forEach(function (item) {
                                 // console.log(item)
                                 jQuery(
