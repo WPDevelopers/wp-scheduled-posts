@@ -188,8 +188,8 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 == Changelog ==
 
 = 4.0.4 - 2021-06-29 =
-* Remove - WPDeveloper Feed Widget 
-* Update - Settings Page default data saving fallback logic
+* Removed - WPDeveloper Feed Widget 
+* Updated - Settings Page default data saving fallback logic
 * Fixed: Few minor bug fix & improvements
 
 = 4.0.3 - 2021-04-28 =
