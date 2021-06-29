@@ -65,7 +65,7 @@ const MissSchedule = ({
                 <ul className='docs'>
                     <li>
                         <a
-                            href='https://wpdeveloper.net/docs/wp-scheduled-posts/how-to-handle-the-missed-schedule-error-using-wp-scheduled-post/'
+                            href='https://wpdeveloper.net/manage-missed-schedule-wordpress/'
                             target='_blank'
                         >
                             {__(
@@ -76,7 +76,7 @@ const MissSchedule = ({
                     </li>
                     <li>
                         <a
-                            href='https://wpdeveloper.net/docs/prevent-missed-schedule-errors/'
+                            href='https://wpdeveloper.net/docs/wp-scheduled-posts/how-to-handle-the-missed-schedule-error-using-wp-scheduled-post/#0-toc-title'
                             target='_blank'
                         >
                             {__(
