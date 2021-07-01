@@ -42,10 +42,6 @@ const Settings = ({
         if (!isFetchSettings) {
             getSetting()
         }
-        // loader
-        setTimeout(() => {
-            setIsLoaded(true)
-        }, 3000)
     }, [redirectFromOauth])
     const FETCHWP = new fetchWP({
         restURL: wpspObject.api_url,
@@ -79,7 +75,10 @@ const Settings = ({
 
     const getSetting = () => {
         FETCHWP.get('settings').then(
-            (json) => setFormValue(JSON.parse(json.value)),
+            (json) => {
+                setFormValue(JSON.parse(json.value))
+                setIsLoaded(true)
+            },
             (err) => console.log('error', err)
         )
         setFetchSettings(true)
