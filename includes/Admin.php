@@ -16,6 +16,8 @@ class Admin
         $this->usage_tracker();
         $this->load_dashboard_widgets();
         $this->load_settings();
+
+        add_action('elementor/editor/footer', [$this, 'schedulepress_el_tab'], 100 );
     }
     public function load_plugin_menu_pages()
     {
@@ -184,5 +186,53 @@ class Admin
     public function load_settings()
     {
         new Admin\Settings(WPSP_SETTINGS_SLUG, WPSP_SETTINGS_NAME);
+    }
+
+    public function schedulepress_el_tab () { ?>
+	    <div class="dialog-widget dialog-lightbox-widget dialog-type-buttons dialog-type-lightbox elementor-templates-modal"
+		    id="schedulepress-elementor-modal" style="display: none;">
+		    <div class="dialog-widget-content dialog-lightbox-widget-content"
+		         style="top: 50%;left: 50%;transform: translate(-50%, -50%);">
+			    <div class="dialog-header dialog-lightbox-header">
+				    <div class="elementor-templates-modal__header">
+					    <div class="elementor-templates-modal__header__logo-area">
+						    <div class="elementor-templates-modal__header__logo">
+								<span class="elementor-templates-modal__header__logo__icon-wrapper e-logo-wrapper">
+									<i class="eicon-elementor"></i>
+								</span>
+							    <span class="elementor-templates-modal__header__logo__title"><?php esc_html_e( 'SchedulePress', 'wp-scheduled-posts' ); ?></span>
+						    </div>
+					    </div>
+					    <div class="elementor-templates-modal__header__menu-area"></div>
+					    <div class="elementor-templates-modal__header__items-area">
+						    <div class="elementor-templates-modal__header__close elementor-templates-modal__header__close--normal elementor-templates-modal__header__item">
+							    <i class="eicon-close" aria-hidden="true" title="Close"></i>
+							    <span class="elementor-screen-only"><?php esc_html_e( 'Close', 'wp-scheduled-posts' ); ?></span>
+						    </div>
+						    <div id="elementor-template-library-header-tools"></div>
+					    </div>
+				    </div>
+			    </div>
+			    <div class="dialog-message dialog-lightbox-message">
+				    <div class="dialog-content dialog-lightbox-content">
+                        <form action="<?php echo admin_url( 'admin-ajax.php' ); ?>" method="post">
+	                        <?php wp_nonce_field( 'wpsp-el-editor', 'wpsp-el-editor' ); ?>
+                            <input type="hidden" name="action" value="wpsp-el-form">
+                            <input type="text" name="text">
+                        </form>
+                        <div class="wpsp-el-result"></div>
+                    </div>
+				    <div class="dialog-loading dialog-lightbox-loading"></div>
+			    </div>
+			    <div class="dialog-buttons-wrapper dialog-lightbox-buttons-wrapper" style="display: flex;">
+				    <button class="elementor-button elementor-button-success dialog-button wpsp-el-form-submit"><?php esc_html_e( 'Apply', 'wp-scheduled-posts' ); ?></button>
+			    </div>
+		    </div>
+	    </div>
+        <div id="elementor-panel-footer-sub-menu-item-wpsp" class="elementor-panel-footer-sub-menu-item">
+            <i class="elementor-icon eicon-folder" aria-hidden="true"></i>
+            <span class="elementor-title"><?php esc_html_e( 'WPSP', 'wp-scheduled-posts' ); ?></span>
+        </div>
+<?php
     }
 }
