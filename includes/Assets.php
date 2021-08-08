@@ -13,9 +13,9 @@ class Assets
         add_action('admin_enqueue_scripts', [$this, 'adminbar_script']);
         add_action('wp_enqueue_scripts', [$this, 'adminbar_script']);
 
-        add_action( 'elementor/editor/after_enqueue_scripts', function () {
-	        wp_enqueue_script('wpscp-el-editor', WPSP_ASSETS_URI . 'js/elementor-editor.js', array('jquery'), time(), true);
-        });
+	    add_action( 'elementor/editor/after_enqueue_scripts', function () {
+		    wp_enqueue_script( 'wpscp-el-editor', WPSP_ASSETS_URI . 'js/elementor-editor.js', array( 'jquery' ), time(), true );
+	    } );
     }
 
     /**

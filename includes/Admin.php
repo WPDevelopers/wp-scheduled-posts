@@ -17,7 +17,8 @@ class Admin
         $this->load_dashboard_widgets();
         $this->load_settings();
 
-        add_action('elementor/editor/footer', [$this, 'schedulepress_el_tab'], 100 );
+	    add_action( 'elementor/editor/footer', [ $this, 'schedulepress_el_tab' ], 100 );
+	    add_action( 'wp_ajax_wpsp_el_editor_form', [ $this, 'wpsp_el_tab_action' ] );
     }
     public function load_plugin_menu_pages()
     {
@@ -189,10 +190,56 @@ class Admin
     }
 
     public function schedulepress_el_tab () { ?>
+        <style>
+            #schedulepress-elementor-modal.elementor-templates-modal .dialog-message {
+                max-height: 50vh;
+            }
+
+            @media (max-width: 1439px) {
+                #schedulepress-elementor-modal.elementor-templates-modal .dialog-widget-content {
+                    max-width: 500px;
+                }
+            }
+
+            @media (min-width: 1440px) {
+                #schedulepress-elementor-modal.elementor-templates-modal .dialog-widget-content {
+                    max-width: 500px;
+                }
+            }
+
+            #schedulepress-elementor-modal form label {
+                display: flex;
+                align-items: center;
+                text-align: left;
+            }
+
+            #schedulepress-elementor-modal form label input {
+                background: #fff;
+            }
+
+            #schedulepress-elementor-modal form label + label {
+                margin-top: 15px;
+                cursor: no-drop;
+                opacity: .5;
+            }
+
+            #schedulepress-elementor-modal form label + label input {
+                cursor: no-drop;
+            }
+
+            #schedulepress-elementor-modal form label > span {
+                white-space: nowrap;
+                width: 120px;
+                font-weight: 700;
+            }
+
+            .wpsp-el-form-submit.elementor-button-state > .elementor-state-icon + span {
+                display: none;
+            }
+        </style>
 	    <div class="dialog-widget dialog-lightbox-widget dialog-type-buttons dialog-type-lightbox elementor-templates-modal"
 		    id="schedulepress-elementor-modal" style="display: none;">
-		    <div class="dialog-widget-content dialog-lightbox-widget-content"
-		         style="top: 50%;left: 50%;transform: translate(-50%, -50%);">
+		    <div class="dialog-widget-content dialog-lightbox-widget-content" style="top: 50%;left: 50%;transform: translate(-50%, -50%);">
 			    <div class="dialog-header dialog-lightbox-header">
 				    <div class="elementor-templates-modal__header">
 					    <div class="elementor-templates-modal__header__logo-area">
@@ -216,17 +263,39 @@ class Admin
 			    <div class="dialog-message dialog-lightbox-message">
 				    <div class="dialog-content dialog-lightbox-content">
                         <form action="<?php echo admin_url( 'admin-ajax.php' ); ?>" method="post">
-	                        <?php wp_nonce_field( 'wpsp-el-editor', 'wpsp-el-editor' ); ?>
-                            <input type="hidden" name="action" value="wpsp-el-form">
-                            <input type="text" name="text">
+						    <?php
+						    wp_nonce_field( 'wpsp-el-editor', 'wpsp-el-editor' );
+						    $post_id = get_the_ID();
+						    $post    = get_post( $post_id );
+						    ?>
+                            <input type="hidden" name="action" value="wpsp_el_editor_form">
+                            <input type="hidden" name="id" value="<?php echo $post_id; ?>">
+
+                            <label>
+                                <span><?php esc_html_e( 'Publish On', 'wp-scheduled-posts' ); ?></span>
+                                <input id="wpsp-schedule-datetime" type="text" name="date" value="<?php echo esc_attr( $post->post_date ) ?>" readonly>
+                            </label>
+                            <label title="<?php esc_html_e( 'Pro Feature', 'wp-scheduled-posts' ); ?>">
+                                <span><?php esc_html_e( 'Republish On', 'wp-scheduled-posts' ); ?></span>
+                                <input type="text" disabled>
+                            </label>
+                            <label title="<?php esc_html_e( 'Pro Feature', 'wp-scheduled-posts' ); ?>">
+                                <span><?php esc_html_e( 'Unpublish On', 'wp-scheduled-posts' ); ?></span>
+                                <input type="text" disabled>
+                            </label>
                         </form>
                         <div class="wpsp-el-result"></div>
                     </div>
 				    <div class="dialog-loading dialog-lightbox-loading"></div>
 			    </div>
-			    <div class="dialog-buttons-wrapper dialog-lightbox-buttons-wrapper" style="display: flex;">
-				    <button class="elementor-button elementor-button-success dialog-button wpsp-el-form-submit"><?php esc_html_e( 'Apply', 'wp-scheduled-posts' ); ?></button>
-			    </div>
+                <div class="dialog-buttons-wrapper dialog-lightbox-buttons-wrapper" style="display: flex;">
+                    <button class="elementor-button elementor-button-success dialog-button wpsp-el-form-submit">
+                        <span class="elementor-state-icon">
+                            <i class="eicon-loading eicon-animation-spin" aria-hidden="true"></i>
+                        </span>
+                        <span><?php esc_html_e( 'Apply', 'wp-scheduled-posts' ); ?></span>
+                    </button>
+                </div>
 		    </div>
 	    </div>
         <div id="elementor-panel-footer-sub-menu-item-wpsp" class="elementor-panel-footer-sub-menu-item">
@@ -235,4 +304,23 @@ class Admin
         </div>
 <?php
     }
+
+	public function wpsp_el_tab_action() {
+		if ( check_ajax_referer( 'wpsp-el-editor', 'wpsp-el-editor' ) ) {
+			$args = wp_parse_args( $_POST, [
+				'id'          => 0,
+				'date'        => '',
+				'post_status' => 'future'
+			] );
+
+			$updated = wp_update_post( [
+				'ID'            => absint( $args['id'] ),
+				'post_date'     => $args['date'],
+				'post_date_gmt' => $args['date'],
+				'post_status'   => $args['post_status']
+			] );
+
+			wp_send_json_success( $updated );
+		}
+	}
 }
