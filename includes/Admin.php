@@ -302,6 +302,12 @@ class Admin
             <i class="elementor-icon eicon-folder" aria-hidden="true"></i>
             <span class="elementor-title"><?php esc_html_e( 'WPSP', 'wp-scheduled-posts' ); ?></span>
         </div>
+        <div id="elementor-panel-footer-wpsp-modal" class="elementor-panel-footer-tool tooltip-target" data-tooltip="<?php esc_attr_e( 'SchedulePress', 'wp-scheduled-posts' ); ?>">
+            <span id="elementor-panel-footer-wpsp-modal-label">
+                <i class="eicon-preview-medium" aria-hidden="true"></i>
+                <span class="elementor-screen-only"><?php echo __( 'SchedulePress', 'wp-scheduled-posts' ); ?></span>
+            </span>
+        </div>
 <?php
     }
 

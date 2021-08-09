@@ -1,9 +1,11 @@
 (function ($) {
     var wpsp_menu = $('#elementor-panel-footer-sub-menu-item-wpsp'),
-        modal = $('#schedulepress-elementor-modal');
+        modal = $('#schedulepress-elementor-modal'),
+        wpsp_quick_button = $('#elementor-panel-footer-wpsp-modal');
 
     $(window).on('load', function () {
         $('.elementor-panel-footer-sub-menu-wrapper .elementor-panel-footer-sub-menu').append(wpsp_menu);
+        wpsp_quick_button.insertAfter('#elementor-panel-footer-saver-preview');
         $("#wpsp-schedule-datetime").flatpickr({
             enableTime: true,
             dateFormat: "Y-m-dTH:i:S",
@@ -12,7 +14,7 @@
         });
     });
 
-    $(document).on('click', '#elementor-panel-footer-sub-menu-item-wpsp', function (e) {
+    $(document).on('click', '#elementor-panel-footer-sub-menu-item-wpsp, #elementor-panel-footer-wpsp-modal', function (e) {
         e.preventDefault();
         modal.fadeIn();
     }).on('click', '.elementor-templates-modal__header__close > i, #schedulepress-elementor-modal', function (e) {
