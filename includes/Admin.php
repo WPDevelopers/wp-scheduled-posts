@@ -191,8 +191,40 @@ class Admin
 
     public function schedulepress_el_tab () { ?>
         <style>
+            #schedulepress-elementor-modal.elementor-templates-modal .dialog-widget-content {
+                background: #f5f7fd;
+            }
+
+            #schedulepress-elementor-modal.elementor-templates-modal .dialog-header {
+                background: #fff;
+                box-shadow: none;
+            }
+
+            #schedulepress-elementor-modal .elementor-templates-modal__header__close--normal {
+                border-left: none;
+            }
+
+            #schedulepress-elementor-modal .elementor-templates-modal__header__close--normal svg {
+                cursor: pointer;
+                transition: .3s;
+            }
+
+            #schedulepress-elementor-modal .elementor-templates-modal__header__close--normal svg:hover {
+                transform: scale(1.3);
+            }
+
+            #schedulepress-elementor-modal .dialog-widget-content {
+                border-radius: 10px;
+            }
+
+            #schedulepress-elementor-modal.elementor-templates-modal .dialog-buttons-wrapper {
+                background: transparent;
+                box-shadow: none;
+            }
+
             #schedulepress-elementor-modal.elementor-templates-modal .dialog-message {
-                max-height: 50vh;
+                height: auto;
+                padding-bottom: 20px;
             }
 
             @media (max-width: 1439px) {
@@ -208,32 +240,92 @@ class Admin
             }
 
             #schedulepress-elementor-modal form label {
-                display: flex;
-                align-items: center;
+                display: block;
                 text-align: left;
             }
 
             #schedulepress-elementor-modal form label input {
-                background: #fff;
+                background-color: #e6eaf8;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 200 200' style='enable-background:new 0 0 200 200;' width='10' xml:space='preserve'%3E%3Cstyle type='text/css'%3E .st0%7Bfill:%239E9ED8;%7D%0A%3C/style%3E%3Cpath class='st0' d='M175,24.7h-8.3V8.1c0-4.6-3.7-8.3-8.3-8.3H150c-4.6,0-8.3,3.7-8.3,8.3v16.7H58.3V8.1c0-4.6-3.7-8.3-8.3-8.3 h-8.3c-4.6,0-8.3,3.7-8.3,8.3v16.7H25c-13.8,0-25,11.2-25,25v125c0,13.8,11.2,25,25,25h150c13.8,0,25-11.2,25-25v-125 C200,36,188.8,24.7,175,24.7z M183.3,174.7c0,4.6-3.7,8.3-8.3,8.3H25c-4.6,0-8.3-3.7-8.3-8.3V83.4h166.7V174.7z'/%3E%3C/svg%3E%0A");
+                background-repeat: no-repeat;
+                background-position: calc(100% - 15px) center;
+                border: none;
+                border-radius: 5px;
+                height: 35px;
+                padding: 0 15px;
+                color: #303042;
             }
 
             #schedulepress-elementor-modal form label + label {
                 margin-top: 15px;
-                cursor: no-drop;
-                opacity: .5;
-            }
-
-            #schedulepress-elementor-modal form label + label input {
-                cursor: no-drop;
             }
 
             #schedulepress-elementor-modal form label > span {
-                white-space: nowrap;
-                width: 120px;
+                display: block;
+                color: #303042;
                 font-weight: 700;
+                margin-bottom: 5px;
             }
 
-            .wpsp-el-form-submit.elementor-button-state > .elementor-state-icon + span {
+            #schedulepress-elementor-modal .wpsp-pro-fields label {
+                margin-top: 15px;
+            }
+
+            #schedulepress-elementor-modal .wpsp-pro-fields label > span {
+                color: #9696af;
+            }
+
+            #schedulepress-elementor-modal .wpsp-pro-fields label > span > span {
+                background: #6d64ff;
+                border-radius: 5px;
+                line-height: 10px;
+                display: inline-block;
+                font-size: 8px;
+                padding: 0 4px;
+                margin-left: 5px;
+                color: #f5f7fd;
+                transform: translateY(-1px);
+            }
+
+            #schedulepress-elementor-modal form .wpsp-pro-fields label input {
+                opacity: .5;
+            }
+
+            #schedulepress-elementor-modal .elementor-button {
+                color: #6d64ff;
+                background: rgba(109, 100, 255, .2);
+                height: 35px;
+                font-size: 15px;
+                padding: 0 25px;
+                border-radius: 18px;
+                font-weight: 400;
+                text-transform: initial;
+            }
+
+            #schedulepress-elementor-modal .elementor-button.wpsp-el-form-submit {
+                background: rgba(109, 100, 255, 1);
+                color: #fff;
+            }
+
+            #schedulepress-elementor-modal .elementor-button + .elementor-button {
+                margin-left: 15px;
+            }
+
+            #schedulepress-elementor-modal.elementor-templates-modal .dialog-buttons-wrapper {
+                padding: 0 30px 30px;
+            }
+
+            #schedulepress-elementor-modal .wpsp-el-result {
+                text-align: left;
+                color: red;
+                padding-top: 10px;
+            }
+
+            #schedulepress-elementor-modal .wpsp-el-result.wpsp-msg-success {
+                color: green;
+            }
+
+            #schedulepress-elementor-modal .wpsp-el-form-submit.elementor-button-state > .elementor-state-icon + span {
                 display: none;
             }
         </style>
@@ -244,17 +336,23 @@ class Admin
 				    <div class="elementor-templates-modal__header">
 					    <div class="elementor-templates-modal__header__logo-area">
 						    <div class="elementor-templates-modal__header__logo">
-								<span class="elementor-templates-modal__header__logo__icon-wrapper e-logo-wrapper">
-									<i class="eicon-elementor"></i>
-								</span>
-							    <span class="elementor-templates-modal__header__logo__title"><?php esc_html_e( 'SchedulePress', 'wp-scheduled-posts' ); ?></span>
+                                <img src="<?php echo plugins_url( 'assets/images/wpsp-el-editor-modal-logo.png', WPSP_PLUGIN_BASENAME ); ?>" alt="<?php esc_html_e( 'WPSP Logo', 'wp-scheduled-posts' ); ?>">
 						    </div>
 					    </div>
 					    <div class="elementor-templates-modal__header__menu-area"></div>
 					    <div class="elementor-templates-modal__header__items-area">
 						    <div class="elementor-templates-modal__header__close elementor-templates-modal__header__close--normal elementor-templates-modal__header__item">
-							    <i class="eicon-close" aria-hidden="true" title="Close"></i>
-							    <span class="elementor-screen-only"><?php esc_html_e( 'Close', 'wp-scheduled-posts' ); ?></span>
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                     viewBox="0 0 200 200" style="enable-background:new 0 0 200 200; width: 11px;" xml:space="preserve">
+                                    <g>
+                                        <path style="fill: #303042;" d="M10.3,199.8c-2.6,0-5.3-1-7.3-3c-4-4-4-10.5,0-14.6L182.4,2.8c4-4,10.5-4,14.6,0c4,4,4,10.5,0,14.6L17.6,196.8
+        C15.6,198.8,12.9,199.8,10.3,199.8z"/>
+                                        <path style="fill: #303042;" d="M189.9,199.8c-2.6,0-5.2-1-7.2-3L6,20.1c-4-4-4-10.4,0-14.3s10.4-4,14.3,0L197,182.5c4,4,4,10.4,0,14.3
+        C195,198.8,192.5,199.8,189.9,199.8z"/>
+                                    </g>
+                                </svg>
+
+                                <span class="elementor-screen-only"><?php esc_html_e( 'Close', 'wp-scheduled-posts' ); ?></span>
 						    </div>
 						    <div id="elementor-template-library-header-tools"></div>
 					    </div>
@@ -265,8 +363,9 @@ class Admin
                         <form action="<?php echo admin_url( 'admin-ajax.php' ); ?>" method="post">
 						    <?php
 						    wp_nonce_field( 'wpsp-el-editor', 'wpsp-el-editor' );
-						    $post_id = get_the_ID();
-						    $post    = get_post( $post_id );
+						    $post_id   = get_the_ID();
+						    $post      = get_post( $post_id );
+						    $is_future = get_post_status( $post_id ) === 'future';
 						    ?>
                             <input type="hidden" name="action" value="wpsp_el_editor_form">
                             <input type="hidden" name="id" value="<?php echo $post_id; ?>">
@@ -275,21 +374,26 @@ class Admin
                                 <span><?php esc_html_e( 'Publish On', 'wp-scheduled-posts' ); ?></span>
                                 <input id="wpsp-schedule-datetime" type="text" name="date" value="<?php echo esc_attr( $post->post_date ) ?>" readonly>
                             </label>
-                            <label title="<?php esc_html_e( 'Pro Feature', 'wp-scheduled-posts' ); ?>">
-                                <span><?php esc_html_e( 'Republish On', 'wp-scheduled-posts' ); ?></span>
-                                <input type="text" disabled>
-                            </label>
-                            <label title="<?php esc_html_e( 'Pro Feature', 'wp-scheduled-posts' ); ?>">
-                                <span><?php esc_html_e( 'Unpublish On', 'wp-scheduled-posts' ); ?></span>
-                                <input type="text" disabled>
-                            </label>
+                            <div class="wpsp-pro-fields">
+                                <label title="<?php esc_html_e( 'Pro Feature', 'wp-scheduled-posts' ); ?>">
+                                    <span><?php esc_html_e( 'Republish On', 'wp-scheduled-posts' ); ?><span><?php esc_html_e( 'PRO', 'wp-scheduled-posts' ); ?></span></span>
+                                    <input type="text" disabled>
+                                </label>
+                                <label title="<?php esc_html_e( 'Pro Feature', 'wp-scheduled-posts' ); ?>">
+                                    <span><?php esc_html_e( 'Unpublish On', 'wp-scheduled-posts' ); ?><span><?php esc_html_e( 'PRO', 'wp-scheduled-posts' ); ?></span></span>
+                                    <input type="text" disabled>
+                                </label>
+                            </div>
                         </form>
-                        <div class="wpsp-el-result"></div>
+                        <div class="wpsp-el-result" style="display: none;"></div>
                     </div>
 				    <div class="dialog-loading dialog-lightbox-loading"></div>
 			    </div>
                 <div class="dialog-buttons-wrapper dialog-lightbox-buttons-wrapper" style="display: flex;">
-                    <button class="elementor-button elementor-button-success dialog-button wpsp-el-form-submit">
+                    <button class="elementor-button wpsp-immediately-publish" style="<?php if ( ! $is_future ) { echo 'display: none;'; } ?>">
+                        <?php esc_html_e( 'Publish Post Immediately', 'wp-scheduled-posts' ); ?>
+                    </button>
+                    <button class="elementor-button wpsp-el-form-submit">
                         <span class="elementor-state-icon">
                             <i class="eicon-loading eicon-animation-spin" aria-hidden="true"></i>
                         </span>
@@ -298,10 +402,12 @@ class Admin
                 </div>
 		    </div>
 	    </div>
+
         <div id="elementor-panel-footer-sub-menu-item-wpsp" class="elementor-panel-footer-sub-menu-item">
             <i class="elementor-icon eicon-folder" aria-hidden="true"></i>
-            <span class="elementor-title"><?php esc_html_e( 'WPSP', 'wp-scheduled-posts' ); ?></span>
+            <span class="elementor-title"><?php esc_html_e( 'SchedulePress', 'wp-scheduled-posts' ); ?></span>
         </div>
+
         <div id="elementor-panel-footer-wpsp-modal" class="elementor-panel-footer-tool tooltip-target" data-tooltip="<?php esc_attr_e( 'SchedulePress', 'wp-scheduled-posts' ); ?>">
             <span id="elementor-panel-footer-wpsp-modal-label">
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -350,14 +456,32 @@ class Admin
 				'post_status' => 'future'
 			] );
 
-			$updated = wp_update_post( [
+			if ( empty( $args['id'] ) ) {
+				wp_send_json_error( [
+					'msg' => __( 'Your post id is empty', 'wp-scheduled-posts' )
+				] );
+			}
+
+			$id = wp_update_post( [
 				'ID'            => absint( $args['id'] ),
 				'post_date'     => $args['date'],
 				'post_date_gmt' => $args['date'],
 				'post_status'   => $args['post_status']
 			] );
 
-			wp_send_json_success( $updated );
+			$status = get_post_status( $id );
+
+			if ( $status === 'future' ) {
+				$msg = __( 'Your post successfully scheduled', 'wp-scheduled-posts' );
+			} else {
+				$msg = __( 'Your post successfully published', 'wp-scheduled-posts' );
+            }
+
+			wp_send_json_success( [
+				'id'     => $id,
+				'status' => $status,
+				'msg'    => $msg
+			] );
 		}
 	}
 }
