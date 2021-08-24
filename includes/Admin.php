@@ -17,6 +17,9 @@ class Admin
         $this->load_dashboard_widgets();
         $this->load_settings();
 
+	    if ( ! $this->pro_enabled ) {
+		    add_action( 'wpsp_el_modal_pro_fields', [ $this, 'wpsp_el_modal_pro_fields' ] );
+	    }
 	    add_action( 'elementor/editor/footer', [ $this, 'schedulepress_el_tab' ], 100 );
 	    add_action( 'wp_ajax_wpsp_el_editor_form', [ $this, 'wpsp_el_tab_action' ] );
     }
@@ -287,7 +290,7 @@ class Admin
                 transform: translateY(-1px);
             }
 
-            #schedulepress-elementor-modal form .wpsp-pro-fields label input {
+            #schedulepress-elementor-modal form .wpsp-pro-fields:not(.wpsp-pro-activated) label input {
                 opacity: .5;
             }
 
@@ -374,16 +377,7 @@ class Admin
                                 <span><?php esc_html_e( 'Publish On', 'wp-scheduled-posts' ); ?></span>
                                 <input id="wpsp-schedule-datetime" type="text" name="date" value="<?php echo esc_attr( $post->post_date ) ?>" readonly>
                             </label>
-                            <div class="wpsp-pro-fields">
-                                <label title="<?php esc_html_e( 'Pro Feature', 'wp-scheduled-posts' ); ?>">
-                                    <span><?php esc_html_e( 'Republish On', 'wp-scheduled-posts' ); ?><span><?php esc_html_e( 'PRO', 'wp-scheduled-posts' ); ?></span></span>
-                                    <input type="text" disabled>
-                                </label>
-                                <label title="<?php esc_html_e( 'Pro Feature', 'wp-scheduled-posts' ); ?>">
-                                    <span><?php esc_html_e( 'Unpublish On', 'wp-scheduled-posts' ); ?><span><?php esc_html_e( 'PRO', 'wp-scheduled-posts' ); ?></span></span>
-                                    <input type="text" disabled>
-                                </label>
-                            </div>
+	                        <?php do_action( 'wpsp_el_modal_pro_fields', $post_id ); ?>
                         </form>
                         <div class="wpsp-el-result" style="display: none;"></div>
                     </div>
@@ -448,13 +442,37 @@ class Admin
 <?php
     }
 
+    public function wpsp_el_modal_pro_fields( $post_id ) { ?>
+        <div class="wpsp-pro-fields">
+            <label title="<?php esc_html_e( 'Pro Feature', 'wp-scheduled-posts' ); ?>">
+                <span><?php esc_html_e( 'Republish On', 'wp-scheduled-posts' ); ?><span><?php esc_html_e( 'PRO', 'wp-scheduled-posts' ); ?></span></span>
+                <input type="text" disabled>
+            </label>
+            <label title="<?php esc_html_e( 'Pro Feature', 'wp-scheduled-posts' ); ?>">
+                <span><?php esc_html_e( 'Unpublish On', 'wp-scheduled-posts' ); ?><span><?php esc_html_e( 'PRO', 'wp-scheduled-posts' ); ?></span></span>
+                <input type="text" disabled>
+            </label>
+        </div>
+        <?php
+    }
+
 	public function wpsp_el_tab_action() {
 		if ( check_ajax_referer( 'wpsp-el-editor', 'wpsp-el-editor' ) ) {
-			$args = wp_parse_args( $_POST, [
-				'id'          => 0,
-				'date'        => '',
-				'post_status' => 'future'
+			$offset = get_option( 'gmt_offset' );
+			$offset = $offset == 0 ? 0 : ( 0 - $offset );
+			$args   = wp_parse_args( $_POST, [
+				'id'                 => 0,
+				'date'               => '',
+				'republish_datetime' => '',
+				'unpublish_datetime' => '',
+				'post_status'        => 'future'
 			] );
+
+			if ( $offset !== 0 ) {
+				$date_gmt = date( "Y-m-d H:i:s", strtotime( $args['date'] ) + $offset * HOUR_IN_SECONDS );
+			} else {
+				$date_gmt = $args['date'];
+			}
 
 			if ( empty( $args['id'] ) ) {
 				wp_send_json_error( [
@@ -465,9 +483,19 @@ class Admin
 			$id = wp_update_post( [
 				'ID'            => absint( $args['id'] ),
 				'post_date'     => $args['date'],
-				'post_date_gmt' => $args['date'],
+				'post_date_gmt' => $date_gmt,
 				'post_status'   => $args['post_status']
 			] );
+
+			if ( $this->pro_enabled ) {
+				if ( ! empty( $args['republish_datetime'] ) ) {
+					update_post_meta( $args['id'], '_wpscp_schedule_republish_date', sanitize_text_field( $args['republish_datetime'] ) );
+				}
+
+				if ( ! empty( $args['unpublish_datetime'] ) ) {
+					update_post_meta( $args['id'], '_wpscp_schedule_draft_date', sanitize_text_field( $args['unpublish_datetime'] ) );
+				}
+			}
 
 			$status = get_post_status( $id );
 
@@ -476,6 +504,8 @@ class Admin
 			} else {
 				$msg = __( 'Your post successfully published', 'wp-scheduled-posts' );
             }
+
+			do_action( 'wpsp_el_action', absint( $args['id'] ), null, null );
 
 			wp_send_json_success( [
 				'id'     => $id,

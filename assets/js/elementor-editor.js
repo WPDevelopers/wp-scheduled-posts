@@ -9,10 +9,19 @@
         wpsp_quick_button.insertAfter('#elementor-panel-footer-saver-preview');
         wpsp_date = flatpickr("#wpsp-schedule-datetime", {
             enableTime: true,
-            dateFormat: "Y-m-dTH:i:S",
+            dateFormat: "Y-m-d H:i:S",
             altInput: true,
             altFormat: "F j, Y h:i K",
         });
+
+        if ($('.wpsp-pro-fields.wpsp-pro-activated label input').length) {
+            flatpickr(".wpsp-pro-fields.wpsp-pro-activated label input", {
+                enableTime: true,
+                dateFormat: "Y/m/d H:i",
+                altInput: true,
+                altFormat: "F j, Y h:i K",
+            });
+        }
     });
 
     $(document).on('click', '#elementor-panel-footer-sub-menu-item-wpsp, #elementor-panel-footer-wpsp-modal', function (e) {
