@@ -2,6 +2,11 @@
     var wpsp_menu = $('#elementor-panel-footer-sub-menu-item-wpsp'),
         modal = $('#schedulepress-elementor-modal'),
         wpsp_quick_button = $('#elementor-panel-footer-wpsp-modal'),
+        wpsp_submit_button = $('.wpsp-el-form-submit'),
+        wpsp_submit_button_text = $('span:nth-child(2)', wpsp_submit_button),
+        label_schedule = wpsp_submit_button.data('label-schedule'),
+        label_publish = wpsp_submit_button.data('label-publish'),
+        label_update = wpsp_submit_button.data('label-update'),
         wpsp_date;
 
     $(window).on('load', function () {
@@ -13,6 +18,16 @@
             altInput: true,
             altFormat: "F j, Y h:i K",
             appendTo: window.document.querySelector('.wpsp-el-modal-date-picker'),
+            onChange: function(selectedDates, dateStr, instance) {
+                var current_time = new Date(),
+                    selected_time = new Date(dateStr);
+
+                if (current_time.getTime() < selected_time.getTime()) {
+                    wpsp_submit_button_text.text(label_schedule)
+                } else {
+                    wpsp_submit_button_text.text(label_publish)
+                }
+            }
         });
 
         if ($('.wpsp-pro-fields.wpsp-pro-activated label input').length) {
@@ -36,10 +51,6 @@
         }
     }).on('click', '.wpsp-immediately-publish', function (e) {
         e.preventDefault();
-        var wpsp_submit_button = $('.wpsp-el-form-submit'),
-            wpsp_submit_button_text = $('span:nth-child(2)', wpsp_submit_button),
-            label_publish = wpsp_submit_button.data('label-publish');
-
         wpsp_date.clear();
         wpsp_submit_button_text.text(label_publish);
     }).on('click', 'button.wpsp-el-form-submit', function (e) {
@@ -47,10 +58,6 @@
         var $form = modal.find('form'),
             url = $form.attr('action'),
             data = $form.serialize(),
-            wpsp_submit_button = $('.wpsp-el-form-submit'),
-            wpsp_submit_button_text = $('span:nth-child(2)', wpsp_submit_button),
-            label_schedule = wpsp_submit_button.data('label-schedule'),
-            label_update = wpsp_submit_button.data('label-update'),
             wpsp_el_result = $(".wpsp-el-result");
 
         $('#elementor-panel-saver-button-publish').trigger('click');
