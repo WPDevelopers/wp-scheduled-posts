@@ -366,16 +366,18 @@ class Admin
                         <form action="<?php echo admin_url( 'admin-ajax.php' ); ?>" method="post">
 						    <?php
 						    wp_nonce_field( 'wpsp-el-editor', 'wpsp-el-editor' );
-						    $post_id   = get_the_ID();
-						    $post      = get_post( $post_id );
-						    $is_future = get_post_status( $post_id ) === 'future';
+						    $post_id     = get_the_ID();
+						    $post        = get_post( $post_id );
+						    $is_future   = get_post_status( $post_id ) === 'future';
+						    $placeholder = date( 'F j, Y h:i A', current_time( 'U' ) );
 						    ?>
                             <input type="hidden" name="action" value="wpsp_el_editor_form">
                             <input type="hidden" name="id" value="<?php echo $post_id; ?>">
 
                             <label>
                                 <span><?php esc_html_e( 'Publish On', 'wp-scheduled-posts' ); ?></span>
-                                <input id="wpsp-schedule-datetime" type="text" name="date" value="<?php echo esc_attr( $post->post_date ) ?>" readonly>
+                                <input id="wpsp-schedule-datetime" type="text" name="date" value="<?php echo esc_attr( $post->post_date ) ?>"
+                                       placeholder="<?php echo esc_attr( $placeholder ); ?>" readonly>
                             </label>
 	                        <?php do_action( 'wpsp_el_modal_pro_fields', $post_id ); ?>
                         </form>
