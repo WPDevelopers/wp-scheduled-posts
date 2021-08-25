@@ -43,6 +43,8 @@
             wpsp_submit_button = $('.wpsp-el-form-submit'),
             wpsp_el_result = $(".wpsp-el-result");
 
+        $('#elementor-panel-saver-button-publish').trigger('click');
+
         wpsp_submit_button.addClass('elementor-button-state');
         $.post(url, data, function (data) {
             wpsp_el_result.html(data.data.msg).slideDown();
