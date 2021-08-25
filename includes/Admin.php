@@ -196,6 +196,8 @@ class Admin
         <style>
             #schedulepress-elementor-modal.elementor-templates-modal .dialog-widget-content {
                 background: #f5f7fd;
+                top: 50px !important;
+                transform: translateX(-50%) !important;
             }
 
             #schedulepress-elementor-modal.elementor-templates-modal .dialog-header {
