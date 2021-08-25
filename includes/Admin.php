@@ -468,6 +468,10 @@ class Admin
 				'post_status'        => 'future'
 			] );
 
+			if ( empty( $args['date'] ) ) {
+				$args['date'] = date( 'Y-m-d H:i:s', current_time( 'U' ) );
+			}
+
 			if ( $offset !== 0 ) {
 				$date_gmt = date( "Y-m-d H:i:s", strtotime( $args['date'] ) + $offset * HOUR_IN_SECONDS );
 			} else {
