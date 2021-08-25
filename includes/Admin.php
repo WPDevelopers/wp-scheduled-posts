@@ -317,6 +317,11 @@ class Admin
                 color: #fff;
             }
 
+            #schedulepress-elementor-modal .elementor-button.wpsp-immediately-publish.active {
+                background: #00cc76;
+                color: #fff;
+            }
+
             #schedulepress-elementor-modal .elementor-button + .elementor-button {
                 margin-left: 15px;
             }

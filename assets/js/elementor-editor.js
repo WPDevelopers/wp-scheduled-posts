@@ -53,6 +53,7 @@
         e.preventDefault();
         wpsp_date.clear();
         wpsp_submit_button_text.text(label_publish);
+        $(this).addClass('active');
     }).on('click', 'button.wpsp-el-form-submit', function (e) {
         e.preventDefault();
         var $form = modal.find('form'),
@@ -75,7 +76,7 @@
                     immediately_btn.show();
                     wpsp_submit_button_text.text(label_schedule);
                 } else {
-                    immediately_btn.hide();
+                    immediately_btn.hide().removeClass('active');
                     wpsp_submit_button_text.text(label_update);
                 }
             }
