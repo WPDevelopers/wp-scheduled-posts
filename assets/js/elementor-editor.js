@@ -36,14 +36,21 @@
         }
     }).on('click', '.wpsp-immediately-publish', function (e) {
         e.preventDefault();
+        var wpsp_submit_button = $('.wpsp-el-form-submit'),
+            wpsp_submit_button_text = $('span:nth-child(2)', wpsp_submit_button),
+            label_publish = wpsp_submit_button.data('label-publish');
+
         wpsp_date.clear();
-        $('.wpsp-el-form-submit span:nth-child(2)').text('Publish');
+        wpsp_submit_button_text.text(label_publish);
     }).on('click', 'button.wpsp-el-form-submit', function (e) {
         e.preventDefault();
         var $form = modal.find('form'),
             url = $form.attr('action'),
             data = $form.serialize(),
             wpsp_submit_button = $('.wpsp-el-form-submit'),
+            wpsp_submit_button_text = $('span:nth-child(2)', wpsp_submit_button),
+            label_schedule = wpsp_submit_button.data('label-schedule'),
+            label_update = wpsp_submit_button.data('label-update'),
             wpsp_el_result = $(".wpsp-el-result");
 
         $('#elementor-panel-saver-button-publish').trigger('click');
@@ -59,8 +66,10 @@
 
                 if (data.data.status === 'future') {
                     immediately_btn.show();
+                    wpsp_submit_button_text.text(label_schedule);
                 } else {
                     immediately_btn.hide();
+                    wpsp_submit_button_text.text(label_update);
                 }
             }
 

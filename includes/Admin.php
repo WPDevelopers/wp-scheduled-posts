@@ -396,7 +396,9 @@ class Admin
                     <button class="elementor-button wpsp-immediately-publish" style="<?php if ( ! $is_future ) { echo 'display: none;'; } ?>">
                         <?php esc_html_e( 'Publish Post Immediately', 'wp-scheduled-posts' ); ?>
                     </button>
-                    <button class="elementor-button wpsp-el-form-submit">
+                    <button class="elementor-button wpsp-el-form-submit" data-label-schedule="<?php esc_html_e( 'Schedule', 'wp-scheduled-posts' ); ?>"
+                            data-label-publish="<?php esc_html_e( 'Publish', 'wp-scheduled-posts' ); ?>"
+                            data-label-update="<?php esc_html_e( 'Update', 'wp-scheduled-posts' ); ?>">
                         <span class="elementor-state-icon">
                             <i class="eicon-loading eicon-animation-spin" aria-hidden="true"></i>
                         </span>
