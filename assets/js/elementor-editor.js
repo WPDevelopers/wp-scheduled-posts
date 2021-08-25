@@ -37,6 +37,7 @@
     }).on('click', '.wpsp-immediately-publish', function (e) {
         e.preventDefault();
         wpsp_date.clear();
+        $('.wpsp-el-form-submit span:nth-child(2)').text('Publish');
     }).on('click', 'button.wpsp-el-form-submit', function (e) {
         e.preventDefault();
         var $form = modal.find('form'),

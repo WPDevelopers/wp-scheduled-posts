@@ -400,7 +400,15 @@ class Admin
                         <span class="elementor-state-icon">
                             <i class="eicon-loading eicon-animation-spin" aria-hidden="true"></i>
                         </span>
-                        <span><?php esc_html_e( 'Apply', 'wp-scheduled-posts' ); ?></span>
+                        <span>
+                        <?php
+                        if ( $is_future ) {
+	                        esc_html_e( 'Schedule', 'wp-scheduled-posts' );
+                        } else {
+	                        esc_html_e( 'Publish', 'wp-scheduled-posts' );
+                        }
+                        ?>
+                        </span>
                     </button>
                 </div>
                 <div class="wpsp-el-modal-date-picker"></div>
