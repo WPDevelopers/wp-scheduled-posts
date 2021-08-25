@@ -196,8 +196,13 @@ class Admin
         <style>
             #schedulepress-elementor-modal.elementor-templates-modal .dialog-widget-content {
                 background: #f5f7fd;
-                top: 50px !important;
-                transform: translateX(-50%) !important;
+            }
+
+            .wpsp-el-modal-date-picker .flatpickr-calendar {
+                left: 50% !important;
+                top: 50% !important;
+                transform: translate(-50%, -50%);
+                animation: none !important;
             }
 
             #schedulepress-elementor-modal.elementor-templates-modal .dialog-header {
@@ -398,6 +403,7 @@ class Admin
                         <span><?php esc_html_e( 'Apply', 'wp-scheduled-posts' ); ?></span>
                     </button>
                 </div>
+                <div class="wpsp-el-modal-date-picker"></div>
 		    </div>
 	    </div>
 
