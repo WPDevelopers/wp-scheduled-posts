@@ -493,8 +493,11 @@ class Admin
 				'post_status'        => 'future'
 			] );
 
+			$is_future = true;
+
 			if ( empty( $args['date'] ) ) {
 				$args['date'] = date( 'Y-m-d H:i:s', current_time( 'U' ) );
+				$is_future = false;
 			}
 
 			if ( $offset !== 0 ) {
@@ -515,6 +518,15 @@ class Admin
 				'post_date_gmt' => $date_gmt,
 				'post_status'   => $args['post_status']
 			] );
+
+			if ( $is_future && get_post_status( $id ) !== 'future' ) {
+				$id = wp_update_post( [
+					'ID'            => absint( $args['id'] ),
+					'post_date'     => $args['date'],
+					'post_date_gmt' => $date_gmt,
+					'post_status'   => $args['post_status']
+				] );
+			}
 
 			if ( $this->pro_enabled ) {
 				if ( ! empty( $args['republish_datetime'] ) ) {
