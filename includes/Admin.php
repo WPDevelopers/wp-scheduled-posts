@@ -380,7 +380,8 @@ class Admin
 						    wp_nonce_field( 'wpsp-el-editor', 'wpsp-el-editor' );
 						    $post_id   = get_the_ID();
 						    $post      = get_post( $post_id );
-						    $is_future = get_post_status( $post_id ) === 'future';
+						    $status    = get_post_status( $post_id );
+						    $is_future = $status === 'future';
 						    ?>
                             <input type="hidden" name="action" value="wpsp_el_editor_form">
                             <input type="hidden" name="id" value="<?php echo $post_id; ?>">
@@ -409,6 +410,8 @@ class Admin
                         <?php
                         if ( $is_future ) {
 	                        esc_html_e( 'Schedule', 'wp-scheduled-posts' );
+                        } elseif( $status == 'publish') {
+	                        esc_html_e( 'Update', 'wp-scheduled-posts' );
                         } else {
 	                        esc_html_e( 'Publish', 'wp-scheduled-posts' );
                         }
