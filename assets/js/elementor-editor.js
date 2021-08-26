@@ -54,6 +54,7 @@
         wpsp_date.clear();
         wpsp_submit_button_text.text(label_publish);
         $(this).addClass('active');
+        wpsp_submit_button_text.trigger('click');
     }).on('click', 'button.wpsp-el-form-submit', function (e) {
         e.preventDefault();
         var $form = modal.find('form'),
@@ -71,6 +72,7 @@
                 var immediately_btn = $('.wpsp-immediately-publish');
                 wpsp_submit_button.removeClass('elementor-button-state');
                 wpsp_el_result.addClass('wpsp-msg-success');
+                wpsp_date.setDate(data.data.post_time);
 
                 if (data.data.status === 'future') {
                     immediately_btn.show();

@@ -493,9 +493,12 @@ class Admin
 
 			$is_future = true;
 
+			$msg = __( 'Your post successfully updated', 'wp-scheduled-posts' );
+
 			if ( empty( $args['date'] ) ) {
 				$args['date'] = date( 'Y-m-d H:i:s', current_time( 'U' ) );
-				$is_future = false;
+				$is_future    = false;
+				$msg          = __( 'Your post successfully published', 'wp-scheduled-posts' );
 			}
 
 			if ( $offset !== 0 ) {
@@ -540,16 +543,15 @@ class Admin
 
 			if ( $status === 'future' ) {
 				$msg = __( 'Your post successfully scheduled', 'wp-scheduled-posts' );
-			} else {
-				$msg = __( 'Your post successfully published', 'wp-scheduled-posts' );
-            }
+			}
 
 			do_action( 'wpsp_el_action', absint( $args['id'] ), null, null );
 
 			wp_send_json_success( [
-				'id'     => $id,
-				'status' => $status,
-				'msg'    => $msg
+				'id'        => $id,
+				'status'    => $status,
+				'post_time' => $args['date'],
+				'msg'       => $msg
 			] );
 		}
 	}
