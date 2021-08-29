@@ -2,9 +2,9 @@
 Contributors: wpdevteam, Asif2BD, re_enter_rupok, priyomukul, shajalal, tusharimran
 Tags: post schedule, editor calendar, schedule-calendar, editorial calendar, social share, auto share, facebook, twitter, pinterest, linkedin, schedule bar, scheduled posts, schedule, SchedulePress, schedule widget, scheduler, schedule menu bar, admin bar, dashboard widget, missed scheduled, calendar, missed schedule, future post, schedule issue, post later, admin bar, admin, multi author, auto publish, inbound marketing, content marketing, auto post, post publish, social media automation, automation, marketing, content editing, post alert, facebook marketing, auto sharing, content calendar
 Requires at least: 4.0
-Tested up to: 5.7
+Tested up to: 5.8
 Requires PHP: 5.4
-Stable tag: 4.0.4
+Stable tag: 4.1.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -186,6 +186,10 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 
 == Changelog ==
+
+= 4.1.0 - 2021-08-29 =
+* Added: Scheduling feature in Elementor editor.
+* Fixed: Few minor bug fix & improvements
 
 = 4.0.4 - 2021-06-30 =
 * Removed: WPDeveloper Feed Widget 
