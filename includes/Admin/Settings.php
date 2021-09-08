@@ -55,6 +55,13 @@ class Settings
             'title' => __('Show Scheduled Posts in Admin Bar', 'wp-scheduled-posts'),
             'default' => true,
         ]);
+	    $Builder::add_field('wpsp_general', [
+		    'id' => 'is_show_on_elementor_editor',
+		    'type' => 'checkbox',
+		    'title' => __('Show Scheduled Posts in Elementor Editor', 'wp-scheduled-posts'),
+		    'default' => true,
+	    ]);
+
         $Builder::add_field('wpsp_general', [
             'id' => 'allow_post_types',
             'type' => 'select',
