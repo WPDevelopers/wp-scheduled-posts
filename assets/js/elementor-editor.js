@@ -39,6 +39,37 @@
                 appendTo: window.document.querySelector('.wpsp-el-modal-date-picker'),
             });
         }
+
+        //Tooltip and icon swapping
+        function addTooltip($el) {
+            $el.tipsy({
+                // `n` for down, `s` for up
+                gravity: 's',
+                offset: $el.data('tooltip-offset'),
+                title: function (){
+                    return $el.data('tooltip');
+                },
+            });
+        }
+        let $schedulePress_icon = $('#elementor-panel-footer-wpsp-modal');
+        let $previewIcon = $('#elementor-panel-footer-saver-preview');
+        if ($schedulePress_icon.length > 0 && $previewIcon.length > 0 ) {
+            // swap wpsp icon
+            let clonedPrevIcon = $previewIcon.clone();
+            let clonedSpIcon = $schedulePress_icon.clone();
+            $previewIcon.replaceWith(clonedSpIcon);
+            $schedulePress_icon.replaceWith(clonedPrevIcon);
+            //Add tooltip to elementor panel schedulepress icon and preview icon after dom change
+            addTooltip($('#elementor-panel-footer-saver-preview')); // need to pass new query
+            addTooltip($('#elementor-panel-footer-wpsp-modal'));
+
+        }else {
+            //Add tooltip to elementor panel schedulepress icon
+            if ($schedulePress_icon.length > 0){
+                addTooltip($schedulePress_icon);// use cached query
+            }
+        }
+
     });
 
     $(document).on('click', '#elementor-panel-footer-sub-menu-item-wpsp, #elementor-panel-footer-wpsp-modal', function (e) {
@@ -89,20 +120,7 @@
         });
     });
 
-    //Tooltip and icon swapping
-    function addTooltip($el) {
-            $el.tipsy({
-                // `n` for down, `s` for up
-                gravity: 's',
-                offset: $el.data('tooltip-offset'),
-                title: function (){
-                    return $el.data('tooltip');
-                },
-            });
-    }
-    let $schedulePress_icon = $('#elementor-panel-footer-wpsp-modal');
-    //Add tooltip to elementor panel icon
-    addTooltip($schedulePress_icon);
+
 
 
 })(jQuery);
