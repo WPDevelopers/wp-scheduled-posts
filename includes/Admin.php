@@ -16,11 +16,11 @@ class Admin
         $this->usage_tracker();
         $this->load_dashboard_widgets();
         $this->load_settings();
-
+        $this->load_elementor_panel_icon();
 	    if ( ! $this->pro_enabled ) {
 		    add_action( 'wpsp_el_modal_pro_fields', [ $this, 'wpsp_el_modal_pro_fields' ] );
 	    }
-	    add_action( 'elementor/editor/footer', [ $this, 'schedulepress_el_tab' ], 100 );
+
 	    add_action( 'wp_ajax_wpsp_el_editor_form', [ $this, 'wpsp_el_tab_action' ] );
     }
     public function load_plugin_menu_pages()
@@ -30,6 +30,13 @@ class Admin
     public function load_dashboard_widgets()
     {
         new Admin\Widgets\ScheduledPostList();
+    }
+
+	public function load_elementor_panel_icon() {
+		$is_show_on_elementor_editor = Helper::get_settings('is_show_on_elementor_editor');
+		if ( $is_show_on_elementor_editor ) {
+			add_action( 'elementor/editor/footer', [ $this, 'schedulepress_el_tab' ], 100 );
+		}
     }
 
     /**
