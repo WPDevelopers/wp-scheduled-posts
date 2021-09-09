@@ -423,7 +423,7 @@ class Admin
 		    </div>
 	    </div>
 
-        <div id="elementor-panel-footer-sub-menu-item-wpsp" class="elementor-panel-footer-sub-menu-item">
+        <div id="elementor-panel-footer-sub-menu-item-wpsp" class="elementor-panel-footer-sub-menu-item elementor-panel-footer-tool tooltip-target" data-tooltip="<?php esc_attr_e( 'SchedulePress', 'wp-scheduled-posts' ); ?>">
             <i class="elementor-icon eicon-folder" aria-hidden="true"></i>
             <span class="elementor-title"><?php esc_html_e( 'SchedulePress', 'wp-scheduled-posts' ); ?></span>
         </div>

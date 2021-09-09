@@ -88,4 +88,21 @@
             }, 3000);
         });
     });
+
+    //Tooltip and icon swapping
+    function addTooltip($el) {
+            $el.tipsy({
+                // `n` for down, `s` for up
+                gravity: 's',
+                offset: $el.data('tooltip-offset'),
+                title: function (){
+                    return $el.data('tooltip');
+                },
+            });
+    }
+    let $schedulePress_icon = $('#elementor-panel-footer-wpsp-modal');
+    //Add tooltip to elementor panel icon
+    addTooltip($schedulePress_icon);
+
+
 })(jQuery);
