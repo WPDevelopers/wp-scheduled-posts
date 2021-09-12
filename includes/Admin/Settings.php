@@ -55,12 +55,6 @@ class Settings
             'title' => __('Show Scheduled Posts in Admin Bar', 'wp-scheduled-posts'),
             'default' => true,
         ]);
-	    $Builder::add_field('wpsp_general', [
-		    'id' => 'is_show_on_elementor_editor',
-		    'type' => 'checkbox',
-		    'title' => __('Show Scheduled Posts in Elementor Editor', 'wp-scheduled-posts'),
-		    'default' => true,
-	    ]);
 
         $Builder::add_field('wpsp_general', [
             'id' => 'allow_post_types',
@@ -135,7 +129,12 @@ class Settings
             'title' => __('Show Publish Post Immediately Button', 'wp-scheduled-posts'),
             'default' => true,
         ]);
-
+	    $Builder::add_field('wpsp_general', [
+		    'id' => 'hide_on_elementor_editor',
+		    'type' => 'checkbox',
+		    'title' => __('Disable Scheduled Posts in Elementor', 'wp-scheduled-posts'),
+		    'default' => false,
+	    ]);
 
         // second tab
         $Builder::add_tab([

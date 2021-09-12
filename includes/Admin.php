@@ -5,7 +5,12 @@ namespace WPSP;
 
 class Admin
 {
-    public function __construct()
+	/**
+	 * @var bool
+	 */
+	private $pro_enabled;
+
+	public function __construct()
     {
         $this->load_plugin_menu_pages();
         $this->pro_enabled();
@@ -33,8 +38,8 @@ class Admin
     }
 
 	public function load_elementor_panel_icon() {
-		$is_show_on_elementor_editor = Helper::get_settings('is_show_on_elementor_editor');
-		if ( $is_show_on_elementor_editor ) {
+		$hide_on_elementor_editor = Helper::get_settings('hide_on_elementor_editor');
+		if ( ! $hide_on_elementor_editor ) {
 			add_action( 'elementor/editor/footer', [ $this, 'schedulepress_el_tab' ], 100 );
 		}
     }
