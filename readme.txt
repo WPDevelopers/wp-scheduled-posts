@@ -4,7 +4,7 @@ Tags: post schedule, editor calendar, schedule-calendar, editorial calendar, soc
 Requires at least: 4.0
 Tested up to: 5.8
 Requires PHP: 5.4
-Stable tag: 4.1.0
+Stable tag: 4.1.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -187,6 +187,12 @@ Contact at WPDeveloper.net [Support Page](https://wpdeveloper.net/support)
 
 
 == Changelog ==
+
+= 4.1.1 - 2021-09-13 =
+* Added: Control for disabling SchedulePress from Elementor
+* Added: Tooltip on SchedulePress icon.
+* Changed: SchedulePress icon position on Elementor.
+* Fixed: Few minor bug fix & improvements
 
 = 4.1.0 - 2021-08-29 =
 * Added: Scheduling feature in Elementor editor.
