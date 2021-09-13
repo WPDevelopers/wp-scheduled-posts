@@ -1,5 +1,5 @@
 === SchedulePress - Best Editorial Calendar, Missed Schedule & Auto Social Share to Facebook, Twitter  ===
-Contributors: wpdevteam, Asif2BD, re_enter_rupok, priyomukul, shajalal, tusharimran, rudlinkon
+Contributors: wpdevteam, Asif2BD, re_enter_rupok, priyomukul, shajalal, tusharimran, rudlinkon, kamalahmed
 Tags: post schedule, editor calendar, schedule-calendar, editorial calendar, social share, auto share, facebook, twitter, pinterest, linkedin, schedule bar, scheduled posts, schedule, SchedulePress, schedule widget, scheduler, Elementor schedule, admin bar, dashboard widget, missed scheduled, calendar, missed schedule, future post, schedule issue, post later, admin bar, admin, multi author, auto publish, inbound marketing, content marketing, auto post, post publish, social media automation, automation, marketing, content editing, post alert, auto sharing, content calendar
 Requires at least: 4.0
 Tested up to: 5.8
