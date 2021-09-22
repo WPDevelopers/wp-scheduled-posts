@@ -9,6 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Running NPM Install & Build
+        run: |
+          npm install --silent && npm run build
+      - name: Running NPM Install & Build for Admin Panel
+        run: |
+          cd includes/Admin/Settings && npm install --silent && npm run prod && cd ../../..
       - name: Assets Update
         id: assets
         uses: 10up/action-wordpress-plugin-asset-update@stable
