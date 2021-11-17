@@ -12,6 +12,13 @@ import Group from './../components/type/Group'
 import Document from './Document'
 import Features from './Features'
 
+const SuccessMessage = ({ closeToast, toastProps }) => (
+<div onClick={closeToast} >
+    <span className='dashicons dashicons-yes-alt'></span>{' '}
+    {__('Settings Saved!', 'wp-scheduled-posts')}
+</div>
+)
+
 const Settings = ({
     wpspObject,
     socialPlatform,
@@ -52,17 +59,20 @@ const Settings = ({
         restNonce: wpspObject.api_nonce,
     })
     const notify = (status) => {
+        const oldNotice = document.querySelector('.Toastify__toast-container');
+        if (oldNotice) {
+            oldNotice.innerHTML = '';
+        }
+        toast.dismiss();
         return toast.success(
-            <div>
-                <span className='dashicons dashicons-yes-alt'></span>{' '}
-                {__('Settings Saved!', 'wp-scheduled-posts')}
-            </div>,
+            <SuccessMessage/>
+            ,
             {
                 position: 'top-right',
-                autoClose: 5000,
-                hideProgressBar: true,
-                closeOnClick: false,
-                pauseOnHover: true,
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
                 draggable: false,
                 progress: undefined,
             }
@@ -71,8 +81,6 @@ const Settings = ({
     const processOkResponse = (json, action) => {
         if (json.success) {
             setFormValue(JSON.parse(json.value))
-        } else {
-            console.log(`Setting was not ${action}.`, json)
         }
         notify(json.success)
     }
@@ -284,7 +292,7 @@ const Settings = ({
                                 {__('Save Settings', 'wp-scheduled-posts')}
                             </button>
                         )}
-                        <ToastContainer closeButton={false} />
+                        <ToastContainer closeButton={false} autoClose={3000} />
                         {tabIndex == 0 && (
                             <Document
                                 pluginRootURI={wpspObject.plugin_root_uri}
