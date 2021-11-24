@@ -8,3 +8,4 @@ includes/Admin/Settings/assets/js/admin.js.map
 .git
 *.xml
 **/*.map
+.idea/*
