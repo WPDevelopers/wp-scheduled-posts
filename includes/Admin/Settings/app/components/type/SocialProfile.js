@@ -88,7 +88,6 @@ const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
                 setFbGroup(response.group)
                 setResponseData([response.data])
             } else {
-                console.log('error, response: ', response)
             }
         })
     }

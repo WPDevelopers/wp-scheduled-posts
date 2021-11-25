@@ -838,13 +838,10 @@ class WPDevNotice
                                 },
                                 success: function(response) {
                                     $('.notice').hide();
-                                    console.log('Successfully saved!');
                                 },
                                 error: function(error) {
-                                    console.log('Something went wrong!');
                                 },
                                 complete: function() {
-                                    console.log('Its Complete.');
                                 }
                             });
                         });
@@ -918,13 +915,10 @@ class WPDevNotice
                             dismiss: true
                         },
                         success: function(response) {
-                            console.log('Successfully saved!');
                         },
                         error: function(error) {
-                            console.log('Something went wrong!');
                         },
                         complete: function() {
-                            console.log('Its Complete.');
                         }
                     });
                 });

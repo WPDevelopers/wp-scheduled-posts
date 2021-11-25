@@ -5608,7 +5608,6 @@ Docs & License: https://fullcalendar.io/
             var reducerFunc = _a[_i];
             nextState = reducerFunc(nextState, action, calendar);
         }
-        // console.log(action.type, nextState)
         return nextState;
     }
     function reduceViewType(currentViewType, action) {

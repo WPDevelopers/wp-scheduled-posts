@@ -110,7 +110,7 @@ class Calendar
         $postid = (isset($_POST['ID']) ? $_POST['ID'] : '');
         $postTitle = (isset($_POST['postTitle']) ? $_POST['postTitle'] : '');
         $postContent = (isset($_POST['postContent']) ? $_POST['postContent'] : '');
-        
+
         if($type == 'drop') {
             $default_schedule_time = '12:00 am';
             if (!empty($calendar_schedule_time)) {
@@ -160,10 +160,14 @@ class Calendar
                 'post_status'  => 'draft',
                 'post_author'  => get_current_user_id(),
             ));
+
             if ($post_id != 0) {
-                print json_encode(query_posts(array('p' => $post_id, 'post_type' => $post_type)));
+                $res = json_encode(query_posts(array('p' => $post_id, 'post_type' => $post_type)));
+
+				print $res;
             }
         } else if ($type == 'addEvent') {
+
             // only works if update event is fired
             if ($postid != "") {
                 wp_update_post(array(

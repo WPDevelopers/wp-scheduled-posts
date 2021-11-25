@@ -181,16 +181,17 @@ document.addEventListener('DOMContentLoaded', function () {
      */
     function wpscpEventTemplateStructure(obj) {
         var trimTitle =
-            obj.post_title != ''
+            obj.post_title !== ''
                 ? obj.post_title.length > 20
                     ? obj.post_title.slice(0, 20) + '...'
                     : obj.post_title
-                : ''
+                : '';
+
         var markup = ''
         markup += '<div class="wpscp-event-post" data-postid="' + obj.ID + '">'
         markup +=
             '<div class="postlink "><span><span class="posttime">[' +
-            wpscpFormatAMPM(new Date(obj.post_date)) +
+            wpscpFormatAMPM(new Date(obj.post_date.replace(/-/g, '/'))) +
             ']</span> ' +
             trimTitle +
             ' [' +
@@ -227,22 +228,26 @@ document.addEventListener('DOMContentLoaded', function () {
             ID: obj.ID,
             postTitle: obj.postTitle,
             postContent: obj.postContent,
-        }
+        };
 
         // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
         jQuery.post(
             wpscp_calendar_ajax_object.ajax_url,
             data,
             function (response, status) {
-                if (status == 'success') {
+
+                if (status === 'success') {
                     var jsonData =
                         response !== null && response !== ''
                             ? JSON.parse(response)
-                            : []
+                            : [];
+                    jsonData[0].post_date = jsonData[0].post_date.replace(/-/g, '/');
+
                     if (
-                        obj.type == 'addEvent' &&
-                        obj.post_status == 'Scheduled'
+                        obj.type === 'addEvent' &&
+                        obj.post_status === 'Scheduled'
                     ) {
+
                         var notifi_type = 'newpost'
                         // if find post id then it will be post update action
                         if (obj.ID !== '') {
@@ -262,9 +267,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         calendar.addEvent({
                             title: wpscpEventTemplateStructure(jsonData[0]),
                             start: new Date(
-                                jsonData[0].post_date.split(' ')[0]
+                                jsonData[0].post_date.split(' ')[0].replace(/-/g, '/')
                             ),
-                            end: new Date(jsonData[0].post_date),
+                            end: new Date(jsonData[0].post_date.replace(/-/g, '/')),
                             allDay: false,
                         })
 
@@ -272,9 +277,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         wpscp_calendar_notifi({
                             type: notifi_type,
                             post_status: obj.post_status,
-                            post_date: jsonData[0].post_date,
+                            post_date: jsonData[0].post_date.replace(/-/g, '/'),
                         })
-                    } else if (obj.type == 'drop') {
+                    } else if (obj.type === 'drop') {
                         // remove old
                         if (obj.ID !== '') {
                             // remove event
@@ -292,9 +297,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         calendar.addEvent({
                             title: wpscpEventTemplateStructure(jsonData[0]),
                             start: new Date(
-                                jsonData[0].post_date.split(' ')[0]
+                                jsonData[0].post_date.split(' ')[0].replace(/-/g, '/')
                             ),
-                            end: new Date(jsonData[0].post_date),
+                            end: new Date(jsonData[0].post_date.replace(/-/g, '/')),
                             allDay: false,
                         })
                         // send notification
@@ -304,9 +309,9 @@ document.addEventListener('DOMContentLoaded', function () {
                                 jsonData.length > 0
                                     ? jsonData[0].post_status
                                     : 'future',
-                            post_date: obj.date,
+                            post_date: obj.date.replace(/-/g, '/'),
                         })
-                    } else if (obj.type == 'eventDrop') {
+                    } else if (obj.type === 'eventDrop') {
                         if (obj.ID !== '') {
                             // remove event
                             var allevents = calendar.getEvents()
@@ -323,9 +328,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         calendar.addEvent({
                             title: wpscpEventTemplateStructure(jsonData[0]),
                             start: new Date(
-                                jsonData[0].post_date.split(' ')[0]
+                                jsonData[0].post_date.split(' ')[0].replace(/-/g, '/')
                             ),
-                            end: new Date(jsonData[0].post_date),
+                            end: new Date(jsonData[0].post_date.replace(/-/g, '/')),
                             allDay: false,
                         })
                         // send notification
@@ -335,9 +340,9 @@ document.addEventListener('DOMContentLoaded', function () {
                                 jsonData.length > 0
                                     ? jsonData[0].post_status
                                     : 'future',
-                            post_date: obj.date,
+                            post_date: obj.date.replace(/-/g, '/'),
                         })
-                    } else if (obj.type == 'draftDrop') {
+                    } else if (obj.type === 'draftDrop') {
                         jQuery('#draft_loading').parent().remove()
                         jQuery("<div class='fc-event'>")
                             .appendTo('#external-events-listing')
@@ -350,7 +355,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                     ? jsonData[0].post_status
                                     : 'draft',
                         })
-                    } else if (obj.post_status == 'Draft') {
+                    } else if (obj.post_status === 'Draft') {
                         jQuery("<div class='fc-event'>")
                             .appendTo('#external-events-listing')
                             .html(wpscpEventTemplateStructure(jsonData[0]))
@@ -403,7 +408,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 var anchor = item.querySelector('.daynewlink')
                 var hasBtnClass = item.contains(anchor)
 
-                if (hasBtnClass == false) {
+                if (hasBtnClass === false) {
                     item.append(spinner)
                     item.append(newPostBtn)
                 }
@@ -446,8 +451,8 @@ document.addEventListener('DOMContentLoaded', function () {
      */
     function wpscp_calendar_modal() {
         jQuery(document).on('click', 'a.daynewlink', function (e) {
-            e.preventDefault()
-            if (jQuery(this).data('type') != 'Draft') {
+            e.preventDefault();
+            if (jQuery(this).data('type') !== 'Draft') {
                 jQuery('select#wpsp-status').val('Scheduled')
                 jQuery('#timeEditControls').show()
             }
@@ -469,10 +474,12 @@ document.addEventListener('DOMContentLoaded', function () {
         modalSubmit.on('click', function (e) {
             e.preventDefault()
             var dateTime = wpscpFormat24Hours(
-                modalTime.val() != '' ? modalTime.val() : '12:00 AM'
-            )
-            var dateStr = new Date(modalDate.val() + ' ' + dateTime)
-            if (dateStr == 'Invalid Date') {
+                modalTime.val() !== '' ? modalTime.val() : '12:00 AM'
+            );
+
+            var dateStr = new Date(modalDate.val().replace(/-/g, '/') + ' ' + dateTime);
+
+            if (dateStr === 'Invalid Date') {
                 dateStr = new Date()
             }
             jQuery('*[data-date="' + modalDate.val() + '"]')
@@ -514,8 +521,8 @@ document.addEventListener('DOMContentLoaded', function () {
      * @param {date string} date
      */
     function wpscpFormatAMPM(date) {
-        var hours = date.getHours()
-        var minutes = date.getMinutes()
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
         var ampm = hours >= 12 ? 'pm' : 'am'
         hours = hours % 12
         hours = hours ? hours : 12 // the hour '0' should be '12'
@@ -625,8 +632,8 @@ document.addEventListener('DOMContentLoaded', function () {
             wpscp_calendar_ajax_object.ajax_url,
             data,
             function (response, status) {
-                if (status == 'success') {
-                    var jsonData = response != '' ? JSON.parse(response) : []
+                if (status === 'success') {
+                    var jsonData = response !== '' ? JSON.parse(response) : []
                     var PostDate = jsonData[0].post_date
                     var PostDateArray = PostDate.split(' ')
                     modalTitle.val(jsonData[0].post_title)
@@ -634,10 +641,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     modalDate.val(PostDateArray[0])
                     postID.val(jsonData[0].ID)
                     modalTime.val(
-                        wpscpFormatAMPM(new Date(jsonData[0].post_date))
+                        wpscpFormatAMPM(new Date(jsonData[0].post_date.replace(/-/g, '/')))
                     )
                     modalStatus.val(
-                        jsonData[0].post_status == 'future'
+                        jsonData[0].post_status === 'future'
                             ? 'Scheduled'
                             : jsonData[0].post_status
                     )
@@ -709,15 +716,15 @@ document.addEventListener('DOMContentLoaded', function () {
         var EventDateList = []
         EventDateList.push(jQuery('.fc-center h2').text())
         var monthList = {
-            January: 01,
-            February: 02,
-            March: 03,
-            April: 04,
-            May: 05,
-            June: 06,
-            July: 07,
-            August: 08,
-            September: 09,
+            January: 1,
+            February: 2,
+            March: 3,
+            April: 4,
+            May: 5,
+            June: 6,
+            July: 7,
+            August: 8,
+            September: 9,
             October: 10,
             November: 11,
             December: 12,
