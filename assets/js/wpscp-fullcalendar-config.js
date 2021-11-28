@@ -478,9 +478,10 @@ document.addEventListener('DOMContentLoaded', function () {
             );
 
             var dateStr = new Date(modalDate.val().replace(/-/g, '/') + ' ' + dateTime);
+            console.dir(dateStr);
 
-            if (dateStr === 'Invalid Date') {
-                dateStr = new Date()
+            if (dateStr == 'Invalid Date') {
+                dateStr = new Date();
             }
             jQuery('*[data-date="' + modalDate.val() + '"]')
                 .children('.spinner')
