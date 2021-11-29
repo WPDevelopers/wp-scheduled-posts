@@ -59,24 +59,26 @@ const Settings = ({
         restNonce: wpspObject.api_nonce,
     })
     const notify = (status) => {
-        const oldNotice = document.querySelector('.Toastify__toast-container');
-        if (oldNotice) {
-            oldNotice.innerHTML = '';
-        }
-        toast.dismiss();
-        return toast.success(
+        let $handler = setTimeout(function () {
+            const oldNotice = document.querySelector('.Toastify__toast-container');
+            if (oldNotice) {
+                oldNotice.innerHTML = '';
+            }
+        }, 2500);
+
+        toast.success(
             <SuccessMessage/>
             ,
             {
                 position: 'top-right',
-                autoClose: 2500,
+                autoClose: false,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: false,
                 draggable: false,
                 progress: undefined,
             }
-        )
+        );
     }
     const processOkResponse = (json, action) => {
         if (json.success) {
