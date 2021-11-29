@@ -309,7 +309,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 jsonData.length > 0
                                     ? jsonData[0].post_status
                                     : 'future',
-                            post_date: obj.date.replace(/-/g, '/'),
+                            post_date: obj.date,
                         })
                     } else if (obj.type === 'eventDrop') {
                         if (obj.ID !== '') {
