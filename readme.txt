@@ -4,7 +4,7 @@ Tags: post schedule, editor calendar, schedule-calendar, editorial calendar, soc
 Requires at least: 4.0
 Tested up to: 5.8
 Requires PHP: 5.4
-Stable tag: 4.1.1
+Stable tag: 4.1.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -14,7 +14,7 @@ A complete solution for WordPress Post Schedule. Manage schedule through editori
 
 ### Best Content Marketing Tool For WordPress - Schedule, Organize, & Auto Share Blog Posts
 
-Automate your content workflow with [SchedulePress](https://wpdeveloper.net/plugins/wp-scheduled-posts/) . Take a quick glance at your content planning with Schedule Calendar, Auto Scheduler, Manual Scheduler & more. Automatically share your posts on following social media platforms:
+Automate your content workflow with [SchedulePress](https://wpdeveloper.com/plugins/wp-scheduled-posts/) . Take a quick glance at your content planning with Schedule Calendar, Auto Scheduler, Manual Scheduler & more. Automatically share your posts on following social media platforms:
 
 -   Facebook
 -   Twitter
@@ -22,7 +22,7 @@ Automate your content workflow with [SchedulePress](https://wpdeveloper.net/plug
 -   Pinterest
 -   Instagram (Coming soon)
 
-[MORE ABOUT PLUGIN](https://wpdeveloper.net/plugins/wp-scheduled-posts/) ◼️ [DOCUMENTATION](https://wpdeveloper.net/docs-category/wp-scheduled-posts/) ◼️ [SUPPORT FORUM](https://wordpress.org/support/plugin/wp-scheduled-posts/)
+[MORE ABOUT PLUGIN](https://wpdeveloper.com/plugins/wp-scheduled-posts/) ◼️ [DOCUMENTATION](https://wpdeveloper.com/docs-category/wp-scheduled-posts/) ◼️ [SUPPORT FORUM](https://wordpress.org/support/plugin/wp-scheduled-posts/)
 
 
 https://youtu.be/oBD7MbtWvcQ
@@ -76,7 +76,7 @@ https://www.youtube.com/watch?v=K8zP6fTOneg
 
 ### 🌟 Seamless Compatibility With Elementor Website Builder
 
-SchedulePress is fully compatible with Elementor. You can manage your [WordPress posts scheduling from Elementor editor](https://wpdeveloper.net/docs/schedule-posts-from-elementor/). Check out what you can do more with this SchedulePress & Elementor powerful integration: 
+SchedulePress is fully compatible with Elementor. You can manage your [WordPress posts scheduling from Elementor editor](https://wpdeveloper.com/docs/schedule-posts-from-elementor/). Check out what you can do more with this SchedulePress & Elementor powerful integration: 
 
 -   Schedule WordPress content directly from Elementor editor panel.
 -   Unpublish posts that no longer need to be live on your website. 
@@ -86,7 +86,7 @@ SchedulePress is fully compatible with Elementor. You can manage your [WordPress
 
 ### 🌟 More Features With SchedulePress [PRO]
 
-Along with all features of the free version and [SchedulePress Pro](https://wpdeveloper.net/in/schedulepress) has some additional features including:
+Along with all features of the free version and [SchedulePress Pro](https://wpdeveloper.com/in/schedulepress) has some additional features including:
 
 **◾ Auto Scheduler:** Get absolute control over your content schedule as you can create rules to post content automatically. You just need to specify the time interval in which you want to have your posts scheduled and this plugin will publish it on the definite time interval. You can also set an exact date and time to create a flexible schedule.
 
@@ -148,7 +148,7 @@ If you like SchedulePress, then consider checking out our other WordPress Plugin
 
 
 
-Visit [WPDeveloper](https://wpdeveloper.net/) to learn more about how to do better in WordPress with [Help Tutorial, Tips & Tricks](https://wpdeveloper.net/blog).
+Visit [WPDeveloper](https://wpdeveloper.com/) to learn more about how to do better in WordPress with [Help Tutorial, Tips & Tricks](https://wpdeveloper.com/blog).
 
 
 == Installation ==
@@ -172,19 +172,19 @@ You are good to go!
 
 = Where Did WP Scheduled Posts Go? =
 
-[WP Scheduled Posts](https://wpdeveloper.net/plugins/wp-scheduled-posts/) has been rebranded as [SchedulePress](https://schedulepress.com/). The good news is – all the features you loved about WP Scheduled Posts will remain the same along with additional new & improved user interfaces. Your WordPress content will not be affected by this. Read our [announcement blog post](https://wpdeveloper.net/rebranding-wp-scheduled-posts-is-schedulepress/) here to find out more [details](https://wpdeveloper.net/docs/where-did-wp-scheduled-posts-go/). 
+[WP Scheduled Posts](https://wpdeveloper.com/plugins/wp-scheduled-posts/) has been rebranded as [SchedulePress](https://schedulepress.com/). The good news is – all the features you loved about WP Scheduled Posts will remain the same along with additional new & improved user interfaces. Your WordPress content will not be affected by this. Read our [announcement blog post](https://wpdeveloper.com/rebranding-wp-scheduled-posts-is-schedulepress/) here to find out more [details](https://wpdeveloper.com/docs/where-did-wp-scheduled-posts-go/). 
 
 
 = Can I Share Scheduled Posts on Social Media? =
 
-Yes, you can share scheduled posts on social media by using [SchedulePress](https://wordpress.org/plugins/wp-scheduled-posts/) that offer integrations with the most popular Social Media platforms, [Facebook](https://wpdeveloper.net/docs/share-scheduled-posts-facebook/) & [Twitter](https://wpdeveloper.net/docs/share-scheduled-posts-facebook/), [LinkedIn](https://wpdeveloper.net/docs/share-wordpress-posts-on-linkedin/), and [Pinterest](https://wpdeveloper.net/docs/wordpress-posts-on-pinterest/). By simply connecting SchedulePress with your Facebook, Twitter, LinkedIn, or Pinterest Account, your scheduled posts will be automatically shared on the respective platforms.
+Yes, you can share scheduled posts on social media by using [SchedulePress](https://wordpress.org/plugins/wp-scheduled-posts/) that offer integrations with the most popular Social Media platforms, [Facebook](https://wpdeveloper.com/docs/share-scheduled-posts-facebook/) & [Twitter](https://wpdeveloper.com/docs/share-scheduled-posts-facebook/), [LinkedIn](https://wpdeveloper.com/docs/share-wordpress-posts-on-linkedin/), and [Pinterest](https://wpdeveloper.com/docs/wordpress-posts-on-pinterest/). By simply connecting SchedulePress with your Facebook, Twitter, LinkedIn, or Pinterest Account, your scheduled posts will be automatically shared on the respective platforms.
 
-You can check out the step-by-step visual guide to sharing your content on multiple social media [sites](https://wpdeveloper.net/wordpress-auto-social-sharing/) using SchedulePress [here](https://wpdeveloper.net/docs/share-scheduled-posts-on-social-media/).
+You can check out the step-by-step visual guide to sharing your content on multiple social media [sites](https://wpdeveloper.com/wordpress-auto-social-sharing/) using SchedulePress [here](https://wpdeveloper.com/docs/share-scheduled-posts-on-social-media/).
 
 
 = Where Can I Find SchedulePress Documentation? =
 
-You can find all the documentation for SchedulePress [here with this link](https://wpdeveloper.net/docs-category/wp-scheduled-posts/). If you run into any issues, feel free to contact our dedicated and super friendly [support team](https://wpdeveloper.net/docs-category/wp-scheduled-posts/) to assist you with anything related to SchedulePress.
+You can find all the documentation for SchedulePress [here with this link](https://wpdeveloper.com/docs-category/wp-scheduled-posts/). If you run into any issues, feel free to contact our dedicated and super friendly [support team](https://wpdeveloper.com/docs-category/wp-scheduled-posts/) to assist you with anything related to SchedulePress.
 
 Or if you want to see the live demonstration for all exclusive features of this plugin, then you can go with this [SchedulePress YouTube Video tutorials](https://www.youtube.com/playlist?list=PLWHp1xKHCfxDgooG8tj4i-w-XIfRrwGpF) here to explore more.
 
@@ -208,6 +208,12 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 
 == Changelog ==
+
+= 4.1.2 - 2021-11-29 =
+* Removed: Unnecessary console messages. 
+* Fixed: Toast message duplication issue.
+* Fixed: Calendar date and time showing NaN in Safari Browser.
+* Fixed: Few minor bug fix & improvements
 
 = 4.1.1 - 2021-09-13 =
 * Added: Control for disabling SchedulePress from Elementor
