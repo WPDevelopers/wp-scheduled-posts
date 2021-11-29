@@ -340,7 +340,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 jsonData.length > 0
                                     ? jsonData[0].post_status
                                     : 'future',
-                            post_date: obj.date.replace(/-/g, '/'),
+                            post_date: obj.date,
                         })
                     } else if (obj.type === 'draftDrop') {
                         jQuery('#draft_loading').parent().remove()
@@ -478,7 +478,6 @@ document.addEventListener('DOMContentLoaded', function () {
             );
 
             var dateStr = new Date(modalDate.val().replace(/-/g, '/') + ' ' + dateTime);
-            console.dir(dateStr);
 
             if (dateStr == 'Invalid Date') {
                 dateStr = new Date();
