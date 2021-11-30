@@ -44,16 +44,22 @@ jQuery(document).ready(function ($) {
             .removeClass('wpsp_nav_tab_content_active')
     })
 
-    if (jQuery.type(get_query_vars('page')) !== 'undefined') {
-        var query_vars = get_query_vars('page').split('#')
-        if (query_vars[0] === 'wp-scheduled-posts') {
-            var query_ID =
-                query_vars[1] !== undefined ? query_vars[1].split('?') : ''
-            $(
-                '.wpsp_top_nav_link_wrapper ul li[data-tab="' +
-                    query_ID[0] +
-                    '"]'
-            ).trigger('click')
+    if (jQuery.type(get_query_vars('page')) !== 'undefined' && jQuery.type(get_query_vars('tab')) !== 'undefined') {
+        let sp_page = get_query_vars('page').toLowerCase();
+        let tabName = get_query_vars('tab').toLowerCase();
+        let hashtable = {
+            'general' : 'react-tabs-0',
+            'email-notify' : 'react-tabs-2',
+            'social-profile' : 'react-tabs-4',
+            'social-templates' : 'react-tabs-6',
+            'manage-schedule' : 'react-tabs-8',
+            'missed-schedule' : 'react-tabs-10',
+            'license' : 'react-tabs-12',
+
+        };
+        if (sp_page === 'schedulepress' && hashtable[tabName]) {
+            $('.react-tabs__tab-list li#' + hashtable[tabName]
+            ).trigger('click');
         }
     }
 
