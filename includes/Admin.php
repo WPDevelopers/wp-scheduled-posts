@@ -560,7 +560,7 @@ class Admin
 				$msg = __( 'Your post successfully scheduled', 'wp-scheduled-posts' );
 			}
 
-			do_action( 'wpsp_el_action', absint( $args['id'] ), null, null );
+			do_action( 'wpsp_el_action', absint( $args['id'] ) );
 
 			wp_send_json_success( [
 				'id'        => $id,
