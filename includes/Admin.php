@@ -70,7 +70,7 @@ class Admin
 
         // go pro
         if (!$this->pro_enabled()) {
-            $links[] = sprintf('<a href="https://wpdeveloper.net/in/schedulepress-pro" target="_blank" style="color: #39b54a; font-weight: bold;">' . __('Go Pro', 'wp-scheduled-posts') . '</a>');
+            $links[] = sprintf('<a href="https://wpdeveloper.com/in/schedulepress-pro" target="_blank" style="color: #39b54a; font-weight: bold;">' . __('Go Pro', 'wp-scheduled-posts') . '</a>');
         }
 
         return $links;
@@ -85,7 +85,7 @@ class Admin
     {
         if (WPSP_PLUGIN_BASENAME == $file) {
             // docs & faq
-            $links[] = sprintf('<a href="https://wpdeveloper.net/docs/schedulepress" target="_blank">' . __('Docs & FAQs', 'wp-scheduled-posts') . '</a>');
+            $links[] = sprintf('<a href="https://wpdeveloper.com/docs/schedulepress" target="_blank">' . __('Docs & FAQs', 'wp-scheduled-posts') . '</a>');
 
             // video tutorials
             // $links[] = sprintf('<a href="https://www.youtube.com/channel/UCOjzLEdsnpnFVkm1JKFurPA?utm_medium=admin&utm_source=wp.org&utm_term=ea" target="_blank">' . __('Video Tutorials') . '</a>');
@@ -116,7 +116,7 @@ class Admin
         $notice->links = [
             'review' => array(
                 'later' => array(
-                    'link' => 'https://wpdeveloper.net/go/review-wpsp',
+                    'link' => 'https://wpdeveloper.com/go/review-wpsp',
                     'target' => '_blank',
                     'label' => __('Ok, you deserve it!', 'wp-scheduled-posts'),
                     'icon_class' => 'dashicons dashicons-external',
@@ -138,7 +138,7 @@ class Admin
                     ],
                 ),
                 'support' => array(
-                    'link' => 'https://wpdeveloper.net/support',
+                    'link' => 'https://wpdeveloper.com/support',
                     'label' => __('I need help', 'wp-scheduled-posts'),
                     'icon_class' => 'dashicons dashicons-sos',
                 ),
@@ -164,7 +164,7 @@ class Admin
          * Message message for showing.
          */
         $notice->classes('upsale', 'notice is-dismissible ');
-        $notice->message('upsale', '<p>' . __('Enjoying <strong>SchedulePress</strong>? Why not check our <strong><a href="https://wpdeveloper.net/in/wp-scheduled-posts-pro" target="_blank">Pro version</a></strong> which will enable auto schedule, multi social account share and many more features! [<strong><a href="https://wpdeveloper.net/plugins/wp-scheduled-posts/" target="_blank">Learn More</a></strong>]', 'wp-scheduled-posts') . '</p>');
+        $notice->message('upsale', '<p>' . __('Enjoying <strong>SchedulePress</strong>? Why not check our <strong><a href="https://wpdeveloper.com/in/wp-scheduled-posts-pro" target="_blank">Pro version</a></strong> which will enable auto schedule, multi social account share and many more features! [<strong><a href="https://wpdeveloper.com/plugins/wp-scheduled-posts/" target="_blank">Learn More</a></strong>]', 'wp-scheduled-posts') . '</p>');
         $notice->thumbnail('upsale', plugins_url('assets/images/wpsp-logo.svg', WPSP_PLUGIN_BASENAME));
 
         $notice->upsale_args = array(
@@ -191,7 +191,7 @@ class Admin
     {
         new Admin\WPDev\PluginUsageTracker(
             WPSP_PLUGIN_FILE,
-            'http://app.wpdeveloper.net',
+            'http://app.wpdeveloper.com',
             array(),
             true,
             true,

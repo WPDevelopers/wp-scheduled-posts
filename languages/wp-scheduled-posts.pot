@@ -33,7 +33,7 @@ msgid "WPDeveloper"
 msgstr ""
 
 #. Author URI of the plugin
-msgid "https://wpdeveloper.net"
+msgid "https://wpdeveloper.com"
 msgstr ""
 
 #: includes/Admin.php:50
@@ -74,7 +74,7 @@ msgid "We hope you're enjoying SchedulePress! Could you please do us a BIG favor
 msgstr ""
 
 #: includes/Admin.php:148
-msgid "Enjoying <strong>SchedulePress</strong>? Why not check our <strong><a href=\"https://wpdeveloper.net/in/wp-scheduled-posts-pro\" target=\"_blank\">Pro version</a></strong> which will enable auto schedule, multi social account share and many more features! [<strong><a href=\"https://wpdeveloper.net/plugins/wp-scheduled-posts/\" target=\"_blank\">Learn More</a></strong>]"
+msgid "Enjoying <strong>SchedulePress</strong>? Why not check our <strong><a href=\"https://wpdeveloper.com/in/wp-scheduled-posts-pro\" target=\"_blank\">Pro version</a></strong> which will enable auto schedule, multi social account share and many more features! [<strong><a href=\"https://wpdeveloper.com/plugins/wp-scheduled-posts/\" target=\"_blank\">Learn More</a></strong>]"
 msgstr ""
 
 #: includes/Admin.php:155

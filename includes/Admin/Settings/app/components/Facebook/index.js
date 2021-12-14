@@ -51,7 +51,7 @@ export default function Facebook({ fieldName, field, page, group }) {
                                     'Multi Profile is a Premium Feature. To use this feature,',
                                     'wp-scheduled-posts'
                                 )}
-                                <a href='https://wpdeveloper.net/in/wpsp'>
+                                <a href='https://wpdeveloper.com/in/wpsp'>
                                     {__(
                                         'Upgrade to PRO.',
                                         'wp-scheduled-posts'

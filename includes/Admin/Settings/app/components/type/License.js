@@ -229,7 +229,7 @@ const License = () => {
                             <p>
                                 {__('Visit the', 'wp-scheduled-posts')}
                                 <a
-                                    href='https://wpdeveloper.net/docs/schedulepress'
+                                    href='https://wpdeveloper.com/docs/schedulepress'
                                     target='_blank'
                                 >
                                     {__(
@@ -244,7 +244,7 @@ const License = () => {
                                 <li>
                                     {__('Log in to', 'wp-scheduled-posts')}
                                     <a
-                                        href='https://wpdeveloper.net/account/'
+                                        href='https://store.wpdeveloper.com/'
                                         target='_blank'
                                     >
                                         {__(
@@ -263,7 +263,7 @@ const License = () => {
                                         'wp-scheduled-posts'
                                     )}
                                     <a
-                                        href='https://wpdeveloper.net/in/schedulepress-pro'
+                                        href='https://wpdeveloper.com/in/schedulepress-pro'
                                         target='_blank'
                                     >
                                         {__(

@@ -7,24 +7,24 @@ const Features = ({ pluginRootURI, proVersion }) => {
     const supportData = [
         {
             link:
-                'https://wpdeveloper.net/docs/wp-scheduled-posts/how-does-auto-scheduler-work/',
+                'https://wpdeveloper.com/docs/wp-scheduled-posts/how-does-auto-scheduler-work/',
             title: __('Auto Scheduler', 'wp-scheduled-posts'),
             icon: assetsURI + 'auto_scheduler.png',
         },
         {
             link:
-                'https://wpdeveloper.net/docs/wp-scheduled-posts/how-does-manual-scheduler-work/',
+                'https://wpdeveloper.com/docs/wp-scheduled-posts/how-does-manual-scheduler-work/',
             title: __('Manual Scheduler', 'wp-scheduled-posts'),
             icon: assetsURI + 'manual_scheduler.png',
         },
         {
             link:
-                'https://wpdeveloper.net/docs/wp-scheduled-posts/how-to-handle-the-missed-schedule-error-using-wp-scheduled-post/',
+                'https://wpdeveloper.com/docs/wp-scheduled-posts/how-to-handle-the-missed-schedule-error-using-wp-scheduled-post/',
             title: __('Missed Schedule Handler', 'wp-scheduled-posts'),
             icon: assetsURI + 'manual_scheduler_handler.png',
         },
         {
-            link: 'https://wpdeveloper.net/support/',
+            link: 'https://wpdeveloper.com/support/',
             title: __('Premium Support', 'wp-scheduled-posts'),
             icon: assetsURI + 'premium_support_care.png',
         },

@@ -13,7 +13,7 @@ const Document = ({ pluginRootURI }) => {
             ),
             button: {
                 text: __('Documentation', 'wp-scheduled-posts'),
-                url: 'https://wpdeveloper.net/docs/schedulepress',
+                url: 'https://wpdeveloper.com/docs/schedulepress',
             },
         },
         {
@@ -38,7 +38,7 @@ const Document = ({ pluginRootURI }) => {
             ),
             button: {
                 text: __('Get Support', 'wp-scheduled-posts'),
-                url: 'https://wpdeveloper.net/support/',
+                url: 'https://wpdeveloper.com/support/',
             },
         },
         {

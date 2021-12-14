@@ -18,7 +18,7 @@ class SocialProfile
          */
         add_action('wp_ajax_wpsp_social_add_social_profile', array($this, 'add_social_profile'));
         add_action('wp_ajax_wpsp_social_profile_fetch_user_info_and_token', array($this, 'social_profile_fetch_user_info_and_token'));
-        $this->multiProfileErrorMessage = '<p>' . esc_html__('Multi Profile is a Premium Feature. To use this feature, Upgrade to Pro.', 'wp-scheduled-posts') . '</p><a href="https://wpdeveloper.net/in/wpsp">Upgrade to Pro</a>';
+        $this->multiProfileErrorMessage = '<p>' . esc_html__('Multi Profile is a Premium Feature. To use this feature, Upgrade to Pro.', 'wp-scheduled-posts') . '</p><a href="https://wpdeveloper.com/in/wpsp">Upgrade to Pro</a>';
     }
 
     public function social_single_profile_checkpoint($platform)

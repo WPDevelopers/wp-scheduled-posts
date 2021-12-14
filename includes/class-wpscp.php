@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) exit;
  * @since      1.0.0
  * @package    wp-scheduled-posts
  * @subpackage wp-scheduled-posts/includes
- * @author     WPDeveloper <support@wpdeveloper.net>
+ * @author     WPDeveloper <support@wpdeveloper.com>
  */
 final class WpScp
 {
@@ -278,7 +278,7 @@ final class WpScp
 
         // go pro
         if (!$this->pro_enabled()) {
-            $links[] = sprintf('<a href="https://wpdeveloper.net/in/wp-scheduled-posts-pro" target="_blank" style="color: #39b54a; font-weight: bold;">' . __('Go Pro', 'wp-scheduled-posts') . '</a>');
+            $links[] = sprintf('<a href="https://wpdeveloper.com/in/wp-scheduled-posts-pro" target="_blank" style="color: #39b54a; font-weight: bold;">' . __('Go Pro', 'wp-scheduled-posts') . '</a>');
         }
 
         return $links;
@@ -293,7 +293,7 @@ final class WpScp
     {
         if (WPSP_PLUGIN_BASENAME == $file) {
             // docs & faq
-            $links[] = sprintf('<a href="https://wpdeveloper.net/docs/wp-scheduled-posts/?utm_medium=admin&utm_source=wp.org&utm_term=wpsp" target="_blank">' . __('Docs & FAQs', 'wp-scheduled-posts') . '</a>');
+            $links[] = sprintf('<a href="https://wpdeveloper.com/docs/wp-scheduled-posts/?utm_medium=admin&utm_source=wp.org&utm_term=wpsp" target="_blank">' . __('Docs & FAQs', 'wp-scheduled-posts') . '</a>');
 
             // video tutorials
             // $links[] = sprintf('<a href="https://www.youtube.com/channel/UCOjzLEdsnpnFVkm1JKFurPA?utm_medium=admin&utm_source=wp.org&utm_term=ea" target="_blank">' . __('Video Tutorials') . '</a>');
@@ -324,7 +324,7 @@ final class WpScp
         $notice->links = [
             'review' => array(
                 'later' => array(
-                    'link' => 'https://wpdeveloper.net/go/review-wpsp',
+                    'link' => 'https://wpdeveloper.com/go/review-wpsp',
                     'target' => '_blank',
                     'label' => __('Ok, you deserve it!', 'wp-scheduled-posts'),
                     'icon_class' => 'dashicons dashicons-external',
@@ -346,7 +346,7 @@ final class WpScp
                     ],
                 ),
                 'support' => array(
-                    'link' => 'https://wpdeveloper.net/support',
+                    'link' => 'https://wpdeveloper.com/support',
                     'label' => __('I need help', 'wp-scheduled-posts'),
                     'icon_class' => 'dashicons dashicons-sos',
                 ),
@@ -372,7 +372,7 @@ final class WpScp
          * Message message for showing.
          */
         $notice->classes('upsale', 'notice is-dismissible ');
-        $notice->message('upsale', '<p>' . __('Enjoying <strong>WP Scheduled Posts</strong>? Why not check our <strong><a href="https://wpdeveloper.net/in/wp-scheduled-posts-pro" target="_blank">Pro version</a></strong> which will enable auto schedule, multi social account share and many more features! [<strong><a href="https://wpdeveloper.net/plugins/wp-scheduled-posts/" target="_blank">Learn More</a></strong>]', 'wp-scheduled-posts') . '</p>');
+        $notice->message('upsale', '<p>' . __('Enjoying <strong>WP Scheduled Posts</strong>? Why not check our <strong><a href="https://wpdeveloper.com/in/wp-scheduled-posts-pro" target="_blank">Pro version</a></strong> which will enable auto schedule, multi social account share and many more features! [<strong><a href="https://wpdeveloper.com/plugins/wp-scheduled-posts/" target="_blank">Learn More</a></strong>]', 'wp-scheduled-posts') . '</p>');
         $notice->thumbnail('upsale', plugins_url('admin/assets/images/wpsp-logo.svg', WPSP_PLUGIN_BASENAME));
 
         $notice->upsale_args = array(

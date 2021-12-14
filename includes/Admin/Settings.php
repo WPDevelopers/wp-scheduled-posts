@@ -145,7 +145,7 @@ class Settings
         $Builder::add_field('wpsp_email_notify', [
             'id' => 'notify_doc',
             'type' => 'rawhtml',
-            'content'   => esc_html__('To configure the Email Notify Settings, check out this', 'wp-scheduled-posts') . ' <a class="docs" href="https://wpdeveloper.net/docs/email-notification-wordpress" target="_blank">' . esc_html__('Doc', 'wp-scheduled-posts') . '</a>'
+            'content'   => esc_html__('To configure the Email Notify Settings, check out this', 'wp-scheduled-posts') . ' <a class="docs" href="https://wpdeveloper.com/docs/email-notification-wordpress" target="_blank">' . esc_html__('Doc', 'wp-scheduled-posts') . '</a>'
         ]);
         // under review
         $Builder::add_field('wpsp_email_notify', [
@@ -317,7 +317,7 @@ class Settings
         $Builder::add_group('social_templates', [
             'id' => 'facebook',
             'title' => __(' Facebook Status Settings', 'wp-scheduled-posts'),
-            'subtitle'  => 'To configure the Facebook Status Settings, check out this<a className="docs" href="https://wpdeveloper.net/docs/share-scheduled-posts-facebook/" target="_blank">Doc.</a>'
+            'subtitle'  => 'To configure the Facebook Status Settings, check out this<a className="docs" href="https://wpdeveloper.com/docs/share-scheduled-posts-facebook/" target="_blank">Doc.</a>'
         ]);
         $Builder::add_group_field('social_templates', 'facebook', [
             'id' => 'is_show_meta',
@@ -371,7 +371,7 @@ class Settings
         $Builder::add_group('social_templates', [
             'id' => 'twitter',
             'title' => __('Twitter Tweet Settings', 'wp-scheduled-posts'),
-            'subtitle'  => 'To configure the Twitter Tweet Settings, check out this<a className="docs" href="https://wpdeveloper.net/docs/automatically-tweet-wordpress-posts/" target="_blank">Doc.</a>'
+            'subtitle'  => 'To configure the Twitter Tweet Settings, check out this<a className="docs" href="https://wpdeveloper.com/docs/automatically-tweet-wordpress-posts/" target="_blank">Doc.</a>'
         ]);
         $Builder::add_group_field('social_templates', 'twitter', [
             'id' => 'template_structure',
@@ -413,7 +413,7 @@ class Settings
         $Builder::add_group('social_templates', [
             'id' => 'linkedin',
             'title' => __('LinkedIn Status Settings', 'wp-scheduled-posts'),
-            'subtitle'  => 'To configure the LinkedIn Status Settings, check out this<a className="docs" href="https://wpdeveloper.net/docs/share-wordpress-posts-on-linkedin/" target="_blank">Doc.</a>'
+            'subtitle'  => 'To configure the LinkedIn Status Settings, check out this<a className="docs" href="https://wpdeveloper.com/docs/share-wordpress-posts-on-linkedin/" target="_blank">Doc.</a>'
         ]);
         $Builder::add_group_field('social_templates', 'linkedin', [
             'id' => 'content_type',
@@ -459,7 +459,7 @@ class Settings
         $Builder::add_group('social_templates', [
             'id' => 'pinterest',
             'title' => __(' Pinterest Pin Settings', 'wp-scheduled-posts'),
-            'subtitle'  => 'To configure the Pinterest Pin Settings, check out this<a className="docs" href="https://wpdeveloper.net/docs/wordpress-posts-on-pinterest/" target="_blank">Doc.</a>'
+            'subtitle'  => 'To configure the Pinterest Pin Settings, check out this<a className="docs" href="https://wpdeveloper.com/docs/wordpress-posts-on-pinterest/" target="_blank">Doc.</a>'
         ]);
         $Builder::add_group_field('social_templates', 'pinterest', [
             'id' => 'is_set_image_link',

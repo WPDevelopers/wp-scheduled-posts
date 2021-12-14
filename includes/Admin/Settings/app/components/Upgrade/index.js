@@ -11,7 +11,7 @@ const Upgrade = ({ icon, proVersion }) => {
                         </h1>
                         <img src={icon} alt='logo' />
                         <h2>{__('SchedulePress Pro', 'wp-scheduled-posts')}</h2>
-                        <a href={'https://wpdeveloper.net/account'}>
+                        <a href={'https://store.wpdeveloper.com'}>
                             {__('Manage License', 'wp-scheduled-posts')}
                         </a>
                     </React.Fragment>
@@ -24,7 +24,7 @@ const Upgrade = ({ icon, proVersion }) => {
                         <h2>{__('SchedulePress', 'wp-scheduled-posts')}</h2>
                         <a
                             href={
-                                'https://wpdeveloper.net/in/schedulepress-pro'
+                                'https://wpdeveloper.com/in/schedulepress-pro'
                             }
                         >
                             {__('UPGRADE TO PRO', 'wp-scheduled-posts')}
