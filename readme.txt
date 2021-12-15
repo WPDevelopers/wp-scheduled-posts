@@ -209,7 +209,7 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 == Changelog ==
 
-= 4.1.3 - 2021-12-14 =
+= 4.1.3 - 2021-12-15 =
 * Fixed: License tab redirection issue.
 * Fixed: Few minor bug fix & improvements
 
