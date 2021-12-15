@@ -4,7 +4,8 @@
     "description": "=== WP Scheduled Posts ===\r Contributors: wpdevteam, Asif2BD, re_enter_rupok, onetarek, hakimcseru, nayanchamp7\r Tags: post schedule, editor calendar, schedule-calendar, schedule bar, scheduled posts, schedule, schedule widget, scheduler, schedule menu bar, admin bar, dashboard widget, missed scheduled, calendar, missed schedule, future post, schedule issue, post later, admin bar, admin, multi author\r Requires at least: 4.0\r Tested up to: 5.0\r Requires PHP: 5.4\r Stable tag: 2.0.2\r License: GPLv3\r License URI: https://opensource.org/licenses/GPL-3.0",
     "scripts": {
         "build": "cross-env NODE_ENV=production webpack",
-        "dev": "cross-env BABEL_ENV=default webpack --watch"
+        "dev": "cross-env BABEL_ENV=default webpack --watch",
+        "packages-update": "wp-scripts packages-update"
     },
     "repository": {
         "type": "git",
@@ -24,17 +25,17 @@
         "@babel/core": "^7.13.15",
         "@babel/plugin-proposal-class-properties": "^7.13.0",
         "@babel/preset-env": "^7.13.15",
-        "@wordpress/babel-plugin-import-jsx-pragma": "^3.0.3",
-        "@wordpress/babel-preset-default": "^5.2.1",
-        "@wordpress/blocks": "^8.0.2",
-        "@wordpress/components": "^13.0.2",
-        "@wordpress/compose": "^3.25.2",
-        "@wordpress/data": "^4.27.2",
-        "@wordpress/edit-post": "^3.27.2",
-        "@wordpress/editor": "^9.26.2",
-        "@wordpress/element": "^2.20.2",
-        "@wordpress/i18n": "^3.19.2",
-        "@wordpress/plugins": "^2.25.2",
+        "@wordpress/babel-plugin-import-jsx-pragma": "^3.1.0",
+        "@wordpress/babel-preset-default": "^6.4.1",
+        "@wordpress/blocks": "^11.1.4",
+        "@wordpress/compose": "^5.0.6",
+        "@wordpress/data": "^6.1.4",
+        "@wordpress/edit-post": "^5.0.17",
+        "@wordpress/editor": "^12.0.14",
+        "@wordpress/element": "^4.0.4",
+        "@wordpress/i18n": "^4.2.4",
+        "@wordpress/plugins": "^4.0.6",
+        "@wordpress/scripts": "^19.2.2",
         "autoprefixer": "^10.2.5",
         "babel-core": "^6.26.3",
         "babel-loader": "^8.2.2",
@@ -59,5 +60,7 @@
         ],
         "plugins": []
     },
-    "dependencies": {}
+    "dependencies": {
+        "@wordpress/components": "^19.1.5"
+    }
 }
