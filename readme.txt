@@ -468,5 +468,5 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 
 == Upgrade Notice ==
-= 4.1.0 - 2021-08-29 =
-* Major Update: Elementor Integration
+= 4.1.3 - 2021-12-15 =
+* Few minor bug fix & improvements
