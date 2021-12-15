@@ -1,4 +1,4 @@
-name: Deploy to WordPress.org
+name: Assets Update to WordPress.org
 
 on:
   push:
