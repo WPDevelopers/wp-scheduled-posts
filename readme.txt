@@ -2,7 +2,7 @@
 Contributors: wpdevteam, Asif2BD, re_enter_rupok, priyomukul, shajalal, tusharimran, rudlinkon, kamalahmed
 Tags: post schedule, editor calendar, schedule-calendar, editorial calendar, social share, auto share, facebook, twitter, pinterest, linkedin, schedule bar, scheduled posts, schedule, SchedulePress, schedule widget, scheduler, Elementor schedule, admin bar, dashboard widget, missed scheduled, calendar, missed schedule, future post, schedule issue, post later, admin bar, admin, multi author, auto publish, inbound marketing, content marketing, auto post, post publish, social media automation, automation, marketing, content editing, post alert, auto sharing, content calendar
 Requires at least: 4.0
-Tested up to: 5.8
+Tested up to: 5.9
 Requires PHP: 5.4
 Stable tag: 4.1.3
 License: GPLv3 or later
@@ -140,7 +140,7 @@ If you like SchedulePress, then consider checking out our other WordPress Plugin
 
 ⭐ [ReviewX](https://wordpress.org/plugins/reviewx/): WooCommerce Product review plugin that allows users to submit product reviews with multiple criteria, photos, video and more.
 
-🎨 [Flexia](https://flexia.pro/): Most lightweight, customizable & multi-purpose flexible WordPress theme for WordPress and seamlessly compatible with WooCommerce. 
+🎨 [Flexia](https://flexia.pro/): Most lightweight, customizable & multi-purpose flexible WordPress theme for WordPress and seamlessly compatible with WooCommerce.
 
 🔗 [BetterLinks](https://wordpress.org/plugins/betterlinks/): Exclusively provides an easy method of redirecting requests to another page on your site or elsewhere on the web.
 
@@ -172,7 +172,7 @@ You are good to go!
 
 = Where Did WP Scheduled Posts Go? =
 
-[WP Scheduled Posts](https://wpdeveloper.com/plugins/wp-scheduled-posts/) has been rebranded as [SchedulePress](https://schedulepress.com/). The good news is – all the features you loved about WP Scheduled Posts will remain the same along with additional new & improved user interfaces. Your WordPress content will not be affected by this. Read our [announcement blog post](https://wpdeveloper.com/rebranding-wp-scheduled-posts-is-schedulepress/) here to find out more [details](https://wpdeveloper.com/docs/where-did-wp-scheduled-posts-go/). 
+[WP Scheduled Posts](https://wpdeveloper.com/plugins/wp-scheduled-posts/) has been rebranded as [SchedulePress](https://schedulepress.com/). The good news is – all the features you loved about WP Scheduled Posts will remain the same along with additional new & improved user interfaces. Your WordPress content will not be affected by this. Read our [announcement blog post](https://wpdeveloper.com/rebranding-wp-scheduled-posts-is-schedulepress/) here to find out more [details](https://wpdeveloper.com/docs/where-did-wp-scheduled-posts-go/).
 
 
 = Can I Share Scheduled Posts on Social Media? =
@@ -191,7 +191,7 @@ Or if you want to see the live demonstration for all exclusive features of this 
 
 = Do I Need Any Additional Plugins To Use SchedulePress? =
 
-No, SchedulePress doesn’t require any additional plugin. All you have to do is to install and activate [SchedulePress](https://wordpress.org/plugins/wp-scheduled-posts/) on your WordPress website and you are ready to go. You can check out the video below to know how to install this plugin. 
+No, SchedulePress doesn’t require any additional plugin. All you have to do is to install and activate [SchedulePress](https://wordpress.org/plugins/wp-scheduled-posts/) on your WordPress website and you are ready to go. You can check out the video below to know how to install this plugin.
 
 
 == Screenshots ==
@@ -214,7 +214,7 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 * Fixed: Few minor bug fix & improvements
 
 = 4.1.2 - 2021-11-29 =
-* Removed: Unnecessary console messages. 
+* Removed: Unnecessary console messages.
 * Fixed: Toast message duplication issue.
 * Fixed: Calendar date and time showing NaN in Safari Browser.
 * Fixed: Few minor bug fix & improvements
@@ -230,8 +230,8 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 * Fixed: Few minor bug fix & improvements
 
 = 4.0.4 - 2021-06-30 =
-* Removed: WPDeveloper Feed Widget 
-* Updated: Default data saving fallback logic in the Settings Page 
+* Removed: WPDeveloper Feed Widget
+* Updated: Default data saving fallback logic in the Settings Page
 * Fixed: Few minor bug fix & improvements
 
 = 4.0.3 - 2021-04-28 =
