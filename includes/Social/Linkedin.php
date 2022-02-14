@@ -129,11 +129,33 @@ class Linkedin
                 );
                 $acessToken = $access_token;
                 $getPersonID = $linkedin->getPersonID($acessToken);
-    
+                $image_path = '';
+                $socialShareImage = get_post_meta($post_id, '_wpscppro_custom_social_share_image', true);
+                if ($socialShareImage != "") {
+                    $thumbnail_src = wp_get_attachment_image_src($socialShareImage, 'full');
+                    $image_path = $thumbnail_src[0];
+                } else {
+                    if (has_post_thumbnail($post_id)) { //the post does not have featured image, use a default image
+                        $thumbnail_src = wp_get_attachment_image_src(get_post_thumbnail_id($post_id), 'full');
+                        $image_path = $thumbnail_src[0];
+                    }
+                }
+
                 $results = "";
                 if ($this->content_type == 'status') {
                     $formatedText = $this->get_formatted_text($post_id);
                     $results = $linkedin->linkedInTextPost($acessToken, $getPersonID, $formatedText);
+                } else if ($this->content_type == 'media' && $image_path) {
+                    $post_details = get_post($post_id);
+                    $title        = get_the_title($post_id);
+                    $post_link    = get_permalink($post_id);
+                    if ($this->content_source == 'excerpt' && has_excerpt($post_details->ID)) {
+                        $desc = wp_strip_all_tags($post_details->post_excerpt);
+                    } else {
+                        $desc = wp_strip_all_tags($post_details->post_content);
+                    }
+                    // linkedInPhotoPost($accessToken,   $person_id, $message, $image_path,  $image_title, $image_description, $visibility = "PUBLIC")
+                    $results = $linkedin->linkedInPhotoPost( $acessToken, $getPersonID, $this->get_formatted_text($post_id), $image_path, $title, wp_trim_words($desc, 10, '...') );
                 } else {
                     $post_details = get_post($post_id);
                     $title = get_the_title($post_id);
@@ -146,7 +168,7 @@ class Linkedin
                     $results = $linkedin->linkedInLinkPost($acessToken, $getPersonID, $this->get_formatted_text($post_id), $title, wp_trim_words($desc, 10, '...'), $post_link);
                 }
                 $result = json_decode($results);
-                // linkedin sdk has no Exception handler, that's why we handle it 
+                // linkedin sdk has no Exception handler, that's why we handle it
                 if (property_exists($result, 'id') && $result->id != "") {
                     $shareInfo = array(
                         'share_id' => (isset($result->id) ? $result->id : ''),
@@ -166,7 +188,7 @@ class Linkedin
             return array(
                 'success' => $errorFlag,
                 'log' => $response
-            );   
+            );
         }
         return;
     }

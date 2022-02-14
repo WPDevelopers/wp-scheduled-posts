@@ -86,7 +86,7 @@ class Settings
             'title' => __('Calendar Default Schedule Time:', 'wp-scheduled-posts'),
             'default' => '12:00 am',
         ]);
-        // adminbar 
+        // adminbar
         $Builder::add_field('wpsp_general', [
             'id' => 'adminbar_list_structure',
             'type' => 'collapsible',
@@ -420,8 +420,9 @@ class Settings
             'type' => 'radio',
             'title' => __('Content Type', 'wp-scheduled-posts'),
             'options' => array(
-                'link' => __('Link', 'wp-scheduled-posts'),
-                'status' => __('Status', 'wp-scheduled-posts')
+                'link'   => __('Link', 'wp-scheduled-posts'),
+                'status' => __('Status', 'wp-scheduled-posts'),
+                'media'  => __('Media', 'wp-scheduled-posts'),
             ),
             'default' => 'link',
         ]);

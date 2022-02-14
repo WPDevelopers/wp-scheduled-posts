@@ -2,7 +2,7 @@
 
 namespace myPHPNotes;
 
-// use GuzzleHttp\Client;
+use GuzzleHttp\Client;
 class LinkedIn
 {
     protected $app_id;
