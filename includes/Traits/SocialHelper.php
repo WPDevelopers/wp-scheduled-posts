@@ -53,6 +53,8 @@ trait SocialHelper
      */
     public function social_share_content_template_structure($template_structure, $title, $desc, $post_link, $hashTags, $limit)
     {
+        $title              = html_entity_decode($title);
+        $desc               = html_entity_decode($desc);
         $post_content_limit = intval($limit);
         if (!empty($title)) {
             $post_content_limit = intval($post_content_limit) - strlen($title);
