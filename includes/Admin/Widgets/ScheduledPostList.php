@@ -24,6 +24,9 @@ class ScheduledPostList
         $post_types     =    \WPSP\Helper::get_settings('allow_post_types');
         $post_types     =   (!empty($post_types) ? $post_types : array('post'));
         $allow_categories = \WPSP\Helper::get_settings('allow_categories');
+        if (($key = array_search('all', $allow_categories)) !== false) {
+            unset($allow_categories);
+        }
         if (empty($allow_categories)) {
             $result = new \WP_Query(array(
                 'post_type' => $post_types,
@@ -36,7 +39,7 @@ class ScheduledPostList
                 'tax_query' => array(
                     array(
                         'taxonomy' => 'category',
-                        'field'    => 'term_id',
+                        'field'    => 'slug',
                         'terms'    => $allow_categories,
                     ),
                 ),
@@ -48,8 +51,8 @@ class ScheduledPostList
                 echo '<tr>
                             <td><a href="' . get_edit_post_link(get_the_ID()) . '">' . get_the_title() . '</a></td>
                             <td>' . get_the_date('d F, Y') . '</td>
-                            <td>' . get_the_author() . '</td>
                             <td>' . get_the_date('g:i a') . '</td>
+                            <td>' . get_the_author() . '</td>
                         </tr>';
             endwhile;
             wp_reset_postdata();
