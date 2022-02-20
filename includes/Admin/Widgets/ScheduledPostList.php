@@ -30,12 +30,14 @@ class ScheduledPostList
         if (empty($allow_categories)) {
             $result = new \WP_Query(array(
                 'post_type' => $post_types,
-                'post_status' => 'future'
+                'post_status' => 'future',
+                'order' => 'ASC',
             ));
         } else {
             $result = new \WP_Query(array(
                 'post_type' => $post_types,
                 'post_status' => 'future',
+                'order' => 'ASC',
                 'tax_query' => array(
                     array(
                         'taxonomy' => 'category',
@@ -45,8 +47,8 @@ class ScheduledPostList
                 ),
             ));
         }
-        echo '<table class="widefat">';
         if ($result->have_posts()) :
+            echo '<table class="widefat">';
             while ($result->have_posts()) : $result->the_post();
                 echo '<tr>
                             <td><a href="' . get_edit_post_link(get_the_ID()) . '">' . get_the_title() . '</a></td>
@@ -56,8 +58,10 @@ class ScheduledPostList
                         </tr>';
             endwhile;
             wp_reset_postdata();
+            echo "</table>";
+        else:
+            echo "No post is scheduled.";
         endif;
-        echo "</table>";
     }
 
 
