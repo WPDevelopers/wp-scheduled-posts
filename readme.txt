@@ -2,9 +2,9 @@
 Contributors: wpdevteam, Asif2BD, re_enter_rupok, priyomukul, shajalal, tusharimran, rudlinkon, kamalahmed
 Tags: post schedule, editor calendar, schedule-calendar, editorial calendar, social share, auto share, facebook, twitter, pinterest, linkedin, schedule bar, scheduled posts, schedule, SchedulePress, schedule widget, scheduler, Elementor schedule, admin bar, dashboard widget, missed scheduled, calendar, missed schedule, future post, schedule issue, post later, admin bar, admin, multi author, auto publish, inbound marketing, content marketing, auto post, post publish, social media automation, automation, marketing, content editing, post alert, auto sharing, content calendar
 Requires at least: 4.0
-Tested up to: 5.8
+Tested up to: 5.9
 Requires PHP: 5.4
-Stable tag: 4.1.3
+Stable tag: 4.1.4
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -209,35 +209,42 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 == Changelog ==
 
+= 4.1.4 - 2022-02-20 =
+* Fixed: Dashboard data fetching issue.
+* Fixed: Excerpt option for LinkedIn share.
+* Fixed: Line breaking issues for Social share.
+* Fixed: Featured images wasn’t showing on LinkedIn
+* Few minor bug fix & improvements
+
 = 4.1.3 - 2021-12-15 =
 * Fixed: License tab redirection issue.
-* Fixed: Few minor bug fix & improvements
+* Few minor bug fix & improvements
 
 = 4.1.2 - 2021-11-29 =
 * Removed: Unnecessary console messages. 
 * Fixed: Toast message duplication issue.
 * Fixed: Calendar date and time showing NaN in Safari Browser.
-* Fixed: Few minor bug fix & improvements
+* Few minor bug fix & improvements
 
 = 4.1.1 - 2021-09-13 =
 * Added: Control for disabling SchedulePress from Elementor
 * Added: Tooltip on SchedulePress icon.
 * Changed: SchedulePress icon position on Elementor.
-* Fixed: Few minor bug fix & improvements
+* Few minor bug fix & improvements
 
 = 4.1.0 - 2021-08-29 =
 * Added: Scheduling feature in Elementor editor.
-* Fixed: Few minor bug fix & improvements
+* Few minor bug fix & improvements
 
 = 4.0.4 - 2021-06-30 =
 * Removed: WPDeveloper Feed Widget 
 * Updated: Default data saving fallback logic in the Settings Page 
-* Fixed: Few minor bug fix & improvements
+* Few minor bug fix & improvements
 
 = 4.0.3 - 2021-04-28 =
 * Update: Classic Editor Instant Publish Post Date Issue
 * Fixed: Moving Post from one date to another changed the date to default time.
-* Fixed: Few minor bug fix & improvements
+* Few minor bug fix & improvements
 
 = 4.0.2 - 2021-03-04 =
 * Added     : Option to disable/enable schedule social share from individual posts
