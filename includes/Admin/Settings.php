@@ -362,10 +362,11 @@ class Settings
         ]);
         $Builder::add_group_field('social_templates', 'facebook', [
             'id' => 'status_limit',
-            'type' => 'text',
+            'type' => 'number',
             'title' => __('Status Limit', 'wp-scheduled-posts'),
             'desc'  => __('Maximum Limit: 63206 character', 'wp-scheduled-posts'),
             'default' => '63206',
+            'max' => '63206',
         ]);
         // twitter
         $Builder::add_group('social_templates', [
@@ -404,10 +405,11 @@ class Settings
         ]);
         $Builder::add_group_field('social_templates', 'twitter', [
             'id' => 'tweet_limit',
-            'type' => 'text',
+            'type' => 'number',
             'title' => __('Tweet Limit', 'wp-scheduled-posts'),
             'desc'  => __('Maximum Limit: 280 character', 'wp-scheduled-posts'),
             'default' => '280',
+            'max' => '280',
         ]);
         // linkedin
         $Builder::add_group('social_templates', [
@@ -451,10 +453,11 @@ class Settings
         ]);
         $Builder::add_group_field('social_templates', 'linkedin', [
             'id' => 'status_limit',
-            'type' => 'text',
+            'type' => 'number',
             'title' => __('Status Limit', 'wp-scheduled-posts'),
             'desc'  => __('Maximum Limit: 1300 character', 'wp-scheduled-posts'),
             'default' => '1300',
+            'max' => '1300',
         ]);
         // pinterest
         $Builder::add_group('social_templates', [
@@ -493,10 +496,11 @@ class Settings
         ]);
         $Builder::add_group_field('social_templates', 'pinterest', [
             'id' => 'note_limit',
-            'type' => 'text',
+            'type' => 'number',
             'title' => __('Pin Note Limit', 'wp-scheduled-posts'),
             'desc'  => __('Maximum Limit: 500 character', 'wp-scheduled-posts'),
             'default' => '500',
+            'max' => '500',
         ]);
     }
 }

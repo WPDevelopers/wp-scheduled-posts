@@ -17,6 +17,7 @@ import RawHTML from './type/RawHTML'
 import Time from './type/Time'
 import MissSchedule from './type/MissSchedule'
 import License from './type/License'
+import Number from './type/Number'
 
 const Fields = (props) => {
     const isFalseConditionalStatus = compareConditionValue(
@@ -27,6 +28,9 @@ const Fields = (props) => {
     switch (props.type) {
         case 'text':
             renderComponent = <Text {...props} />
+            break
+        case 'number':
+            renderComponent = <Number {...props} />
             break
         case 'email':
             renderComponent = <Email {...props} />

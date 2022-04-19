@@ -455,6 +455,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (jQuery(this).data('type') !== 'Draft') {
                 jQuery('select#wpsp-status').val('Scheduled')
                 jQuery('#timeEditControls').show()
+                jQuery('#wpsp_time').timepicker({})
             }
             jQuery(this).prev('.spinner').css('visibility', 'visible')
             modalDate.val(jQuery(this).parent('.fc-day-top').data('date'))
