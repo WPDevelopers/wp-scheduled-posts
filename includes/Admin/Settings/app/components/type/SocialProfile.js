@@ -106,7 +106,19 @@ const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
             if (response.success) {
                 open(response.data, '_self')
             } else {
-                setMultiProfileErrrorMessage(response.data)
+                let message;
+                try {
+                    let _message = JSON.parse(response.data);
+                    if(_message?.errors?.[0]?.message){
+                        message = _message.errors[0].message;
+                    }
+                    else{
+                        message = response.data;
+                    }
+                } catch (e) {
+                    message = response.data;
+                }
+                setMultiProfileErrrorMessage(message)
                 setModalMultiProfileErrorIsOpen(true)
                 setCustomAppModalIsOpen(false)
             }
