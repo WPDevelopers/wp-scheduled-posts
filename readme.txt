@@ -4,7 +4,7 @@ Tags: post schedule, editor calendar, schedule-calendar, editorial calendar, soc
 Requires at least: 4.0
 Tested up to: 5.9
 Requires PHP: 5.4
-Stable tag: 4.1.4
+Stable tag: 4.1.5
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -208,6 +208,11 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 
 == Changelog ==
+
+= 4.1.5 - 2022-04-25 =
+* Fixed: Time validation issue in SchedulePress Calendar.
+* Improvement: Added error notice in Twitter API. 
+* Few minor bug fix & improvements
 
 = 4.1.4 - 2022-02-20 =
 * Fixed: Dashboard data fetching issue.
