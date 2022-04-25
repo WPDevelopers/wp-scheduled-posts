@@ -236,7 +236,7 @@ document.addEventListener('DOMContentLoaded', function () {
             data,
             function (response, status) {
 
-                if (status === 'success') {
+                if (status === 'success' && response) {
                     var jsonData =
                         response !== null && response !== ''
                             ? JSON.parse(response)
