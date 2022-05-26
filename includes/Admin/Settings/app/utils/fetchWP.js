@@ -23,6 +23,7 @@ export default class fetchWP {
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
+                    'cache-control': 'no-store',
                     'X-WP-Nonce': this.options.restNonce,
                 },
             }
