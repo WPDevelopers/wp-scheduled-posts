@@ -24,6 +24,11 @@
 
             $calendar_schedule_time = \WPSP\Helper::get_settings('calendar_schedule_time');
             $calendar_schedule_time = (!empty($calendar_schedule_time) ? $calendar_schedule_time : '12:00 AM');
+
+            $allow_categories = \WPSP\Helper::get_settings('allow_categories');
+            if (($key = array_search('all', $allow_categories)) !== false) {
+                unset($allow_categories);
+            }
             ?>
             <!-- modal -->
             <div id="wpscp_quickedit" class="modal">
@@ -67,11 +72,21 @@
                         <div id='external-events-listing'>
                             <h4 class="unscheduled"><?php print esc_html__('Unscheduled ', 'wp-scheduled-posts') . (($post_type == null || $post_type == "") ? 'Posts' : $post_type); ?><span class="spinner"></span></h4>
                             <?php
-                            $query = new \WP_Query(array(
+                            $query_args = array(
                                 'post_type'         => $allow_post_types,
                                 'post_status'       => array('draft', 'pending'),
                                 'posts_per_page'    => -1
-                            ));
+                            );
+                            if (!empty($allow_categories)) {
+                                $query_args['tax_query'] = array(
+                                    array(
+                                        'taxonomy' => 'category',
+                                        'field'    => 'slug',
+                                        'terms'    => $allow_categories,
+                                    ),
+                                );
+                            }
+                            $query = new \WP_Query($query_args);
                             while ($query->have_posts()) : $query->the_post();
                             ?>
                                 <div class='fc-event'>
