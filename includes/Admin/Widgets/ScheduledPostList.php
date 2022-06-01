@@ -21,30 +21,41 @@ class ScheduledPostList
      */
     public function widget_scheduled_post_markup()
     {
-        $post_types     =    \WPSP\Helper::get_settings('allow_post_types');
-        $post_types     =   (!empty($post_types) ? $post_types : array('post'));
-        $allow_categories = \WPSP\Helper::get_settings('allow_categories');
+        $_allow_categories = ['relation' => 'OR'];
+        $post_types        = \WPSP\Helper::get_settings('allow_post_types');
+        $post_types        = (!empty($post_types) ? $post_types : array('post'));
+        $allow_categories  = \WPSP\Helper::get_settings('allow_categories');
         if (($key = array_search('all', $allow_categories)) !== false) {
             unset($allow_categories);
         }
+        else{
+            foreach ($allow_categories as $key => $value) {
+                list($taxonomy, $term) = preg_split("/\./", $value, 2);
+                if(empty($_allow_categories[$taxonomy])){
+                    $_allow_categories[$taxonomy] = [
+                        'taxonomy' => $taxonomy,
+                        'field'    => 'slug',
+                        'terms'    => [$term],
+                    ];
+                }
+                else{
+                    $_allow_categories[$taxonomy]['terms'][] = $term;
+                }
+            }
+        }
+
         if (empty($allow_categories)) {
             $result = new \WP_Query(array(
-                'post_type' => $post_types,
+                'post_type'   => $post_types,
                 'post_status' => 'future',
-                'order' => 'ASC',
+                'order'       => 'ASC',
             ));
         } else {
             $result = new \WP_Query(array(
-                'post_type' => $post_types,
+                'post_type'   => $post_types,
                 'post_status' => 'future',
-                'order' => 'ASC',
-                'tax_query' => array(
-                    array(
-                        'taxonomy' => 'category',
-                        'field'    => 'slug',
-                        'terms'    => $allow_categories,
-                    ),
-                ),
+                'order'       => 'ASC',
+                'tax_query'   => ($_allow_categories),
             ));
         }
         if ($result->have_posts()) :

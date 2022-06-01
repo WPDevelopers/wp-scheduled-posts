@@ -175,6 +175,35 @@ jQuery(document).ready(function ($) {
             jQuery('#wpsp_date_type').slideUp('fast')
         }
     })
+
+    $("#external-events-filter").select2({});
+    $("#external-events-filter").on('change', function(e){
+        var lists = jQuery('#external-events-listing .fc-event');
+        var selectedOptions = jQuery(e.target).find(':selected');
+        var selectedOptionsArr = selectedOptions.toArray().map(item => item.value);
+
+        if(selectedOptions.length == 0 || jQuery.inArray('all', selectedOptionsArr) != -1){
+            lists.show();
+            return;
+        }
+        else{
+            lists.hide();
+        }
+
+        lists.each(function(i, element){
+            var post = jQuery(element).find('.wpscp-event-post');
+            var terms = post.data('terms');
+            selectedOptions.each(function(index, elm){
+                var tax = jQuery(elm).data('tax');
+                var term = elm.value.replace(/(.+?)\.(.+)/, '$2');
+                if(typeof terms[tax] != 'undefined' && jQuery.inArray(term, terms[tax]) != -1){
+                    jQuery(element).show();
+                    return false;
+                }
+            })
+        });
+    })
+    $("#external-events-filter").trigger('change');
 })
 
 function wpscp_formatDate_from_string(strr) {

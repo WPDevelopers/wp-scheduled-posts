@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace WPSP;
 class Ajax {
     public function __construct()
@@ -13,7 +13,7 @@ class Ajax {
         if($type == 'allow_post_types'){
             $data = Helper::get_all_post_type();
         } else if($type == 'allow_categories'){
-            $data = Helper::get_all_category();
+            $data = Helper::_get_all_category();
         } else if($type == 'allow_user_by_role' || $type == 'notify_author_post_review_by_role' || $type == 'notify_author_post_scheduled_by_role'){
             $data = Helper::get_all_roles();
         } else if($type == 'notify_author_post_review_by_username' || $type == 'notify_author_post_scheduled_by_username'){

@@ -622,9 +622,12 @@ document.addEventListener('DOMContentLoaded', function () {
         var editPostId = jQuery(this)
             .closest('[data-postid], .wpscp-event-post')
             .data('postid')
+        var postType = jQuery(this)
+            .closest('[data-post-type], .wpscp-event-post')
+            .data('post-type')
         var data = {
             action: 'wpscp_quick_edit',
-            post_type: wpscpGetPostTypeName(),
+            post_type: postType,
             ID: editPostId,
         }
 

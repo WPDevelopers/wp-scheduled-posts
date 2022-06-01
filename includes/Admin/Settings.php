@@ -70,7 +70,7 @@ class Settings
             'title' => __('Show Categories:', 'wp-scheduled-posts'),
             'default' => ['all'],
             'multiple' => true,
-            'options' => \WPSP\Helper::get_all_category(),
+            'options' => \WPSP\Helper::_get_all_category(),
         ]);
         $Builder::add_field('wpsp_general', [
             'id' => 'allow_user_by_role',

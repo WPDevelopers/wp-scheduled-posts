@@ -18,17 +18,19 @@
             <?php
             //get all options
             $post_type = (isset($_GET['post_type']) ? $_GET['post_type'] : '');
+            if(isset($_GET['page']) && $_GET['page'] === 'schedulepress-post'){
+                $post_type = 'post';
+            }
 
             $allow_post_types  = \WPSP\Helper::get_settings('allow_post_types');
             $allow_post_types  = (!empty($allow_post_types) ? $allow_post_types : array('post'));
+
+            $tax_terms  = \WPSP\Helper::get_all_tax_term($post_type ? $post_type : $allow_post_types);
 
             $calendar_schedule_time = \WPSP\Helper::get_settings('calendar_schedule_time');
             $calendar_schedule_time = (!empty($calendar_schedule_time) ? $calendar_schedule_time : '12:00 AM');
 
             $allow_categories = \WPSP\Helper::get_settings('allow_categories');
-            if (($key = array_search('all', $allow_categories)) !== false) {
-                unset($allow_categories);
-            }
             ?>
             <!-- modal -->
             <div id="wpscp_quickedit" class="modal">
@@ -71,26 +73,36 @@
                     <div id='external-events'>
                         <div id='external-events-listing'>
                             <h4 class="unscheduled"><?php print esc_html__('Unscheduled ', 'wp-scheduled-posts') . (($post_type == null || $post_type == "") ? 'Posts' : $post_type); ?><span class="spinner"></span></h4>
+                            <?php if($post_type !== "page"):?>
+                            <select id="external-events-filter" multiple="multiple" style="width: 100%">
+                                <option value="all" <?php echo in_array('all', $allow_categories) ? 'selected' : '';?>>All Categories</option>
+                                <?php foreach ($tax_terms as $tax_label => $terms):?>
+                                    <optgroup label="<?php echo $tax_label;?>">
+                                    <?php foreach ($terms as $term_slug => $term):?>
+                                        <option value="<?php echo "{$term['taxonomy']}.$term_slug";?>" data-tax="<?php echo $term['taxonomy'];?>" <?php echo in_array("{$term['taxonomy']}.$term_slug", $allow_categories) ? 'selected' : '';?>><?php echo $term['name'];?></option>
+                                    <?php endforeach;?>
+                                    </optgroup>
+                                <?php endforeach;?>
+                            </select>
+                            <?php endif;?>
                             <?php
-                            $query_args = array(
-                                'post_type'         => $allow_post_types,
+                            $query = new \WP_Query(array(
+                                'post_type'         => $post_type ? $post_type : $allow_post_types,
                                 'post_status'       => array('draft', 'pending'),
                                 'posts_per_page'    => -1
-                            );
-                            if (!empty($allow_categories)) {
-                                $query_args['tax_query'] = array(
-                                    array(
-                                        'taxonomy' => 'category',
-                                        'field'    => 'slug',
-                                        'terms'    => $allow_categories,
-                                    ),
-                                );
-                            }
-                            $query = new \WP_Query($query_args);
+                            ));
                             while ($query->have_posts()) : $query->the_post();
+                                $taxonomies = [];
+                                $tax = get_object_taxonomies(get_post_type());
+                                $terms = wp_get_post_terms(get_the_id(), $tax);
+                                foreach ($terms as $key => $term) {
+                                    $taxonomies[$term->taxonomy][] = $term->slug;
+                                }
+                                // print_r([$taxonomies]);
+
                             ?>
                                 <div class='fc-event'>
-                                    <div class="wpscp-event-post" data-postid="<?php print get_the_id(); ?>">
+                                    <div class="wpscp-event-post" data-postid="<?php print get_the_id(); ?>" data-post-type="<?php print get_post_type(); ?>" data-terms='<?php echo json_encode($taxonomies)?>'>
                                         <div class="postlink ">
                                             <span>
                                                 <span class="posttime">[<?php print get_the_time('', get_the_id()); ?>]</span> <?php print wp_trim_words(get_the_title(), 3, '...') . ' ' . '[' . get_post_status(get_the_id()) . ']'; ?>

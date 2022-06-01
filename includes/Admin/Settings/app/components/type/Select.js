@@ -17,12 +17,17 @@ const Select = ({
 
     useEffect(() => {
         if (options) {
-            setOptionsData(
-                Object.entries(options).map(([key, value]) => ({
-                    value: key,
-                    label: value,
-                }))
-            )
+            if(options?.length){
+                setOptionsData(options)
+            }
+            else{
+                setOptionsData(
+                    Object.entries(options).map(([key, value]) => ({
+                        value: key,
+                        label: value,
+                    }))
+                )
+            }
         } else {
             setOptionsData([])
         }
@@ -48,12 +53,17 @@ const Select = ({
             }
             jQuery.post(ajaxurl, data, function (response) {
                 if (response.success === true) {
-                    setOptionsData(
-                        Object.entries(response.data).map(([key, value]) => ({
-                            value: key,
-                            label: value,
-                        }))
-                    )
+                    if(options?.length){
+                        setOptionsData(response.data)
+                    }
+                    else{
+                        setOptionsData(
+                            Object.entries(response.data).map(([key, value]) => ({
+                                value: key,
+                                label: value,
+                            }))
+                        )
+                    }
                 }
             })
         }
@@ -61,11 +71,27 @@ const Select = ({
 
     const getValue = () => {
         if (field.value) {
-            return Object.entries(field.value).map(([key, value]) => ({
-                value: value,
-                label: value,
-            }))
+            return Object.entries(field.value).map(([key, value]) => {
+                var label = getLabel(value);
+                return {
+                    value: value,
+                    label: label,
+                }
+            })
         }
+    }
+
+    const getLabel = (value) => {
+        if(optionsData?.length){
+            let _optionsData = optionsData;
+            // checking if this is optgroup
+            if(!optionsData[0]?.value){
+                _optionsData = [].concat(...optionsData.map(optGroup => optGroup.options));
+            }
+            const option = _optionsData.find(option => option.value == value);
+            return option?.label || value;
+        }
+        return value;
     }
 
     return (

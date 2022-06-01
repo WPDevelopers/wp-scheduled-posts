@@ -5,7 +5,7 @@ namespace WPSP\Admin;
 class Menu
 {
     /**
-     * add plugin menu page and submenu pages 
+     * add plugin menu page and submenu pages
      */
     public function __construct()
     {
@@ -18,7 +18,7 @@ class Menu
      * All Hooks Written Here
      * @method hooks
      * @since 1.0.0
-     * 
+     *
      */
     public function hooks()
     {

@@ -22,6 +22,62 @@ class Helper
         return array_merge(array('all' => 'All Categories'), $category);
     }
 
+    public static function _get_all_category()
+    {
+        $return = ['result' => []];
+        $allow_post_types  = \WPSP\Helper::get_settings('allow_post_types');
+        $taxonomies = self::get_all_tax_term($allow_post_types);
+
+        foreach ($taxonomies as $tax_label => $terms) {
+            foreach ($terms as $term) {
+                if(empty($return['result'][$term['taxonomy']])){
+                    $return['result'][$term['taxonomy']] = [
+                        'label' => $tax_label,
+                        'options' => [[
+                            'value' => $term['taxonomy'] . '.' . $term['slug'],
+                            'label' => $term['name'],
+                        ]],
+                    ];
+                }
+                else{
+                    $return['result'][$term['taxonomy']]['options'][] = [
+                        'value' => $term['taxonomy'] . '.' . $term['slug'],
+                        'label' => $term['name'],
+                    ];
+                }
+
+            }
+        }
+        $return['result'] = array_values($return['result']);
+        return $return['result'];
+    }
+
+    public static function get_all_tax_term($postTypes)
+    {
+        $taxonomies = [];
+        $postTypes = (array) $postTypes;
+        foreach ($postTypes as $key => $postType) {
+            $tax = get_object_taxonomies($postType, 'objects');
+            if(!empty($tax)){
+                $terms = get_terms( array(
+                    'taxonomy'   => array_keys($tax),
+                    'hide_empty' => false,
+                    // 'fields'     => 'id=>name',
+                ) );
+                foreach ($terms as $key => $term) {
+                    $tax_label = $tax[$term->taxonomy]->label;
+                    $taxonomies[$tax_label . " ($postType)"][$term->slug] = [
+                        'slug'     => $term->slug,
+                        'name'     => $term->name,
+                        'taxonomy' => $term->taxonomy,
+                    ];
+                }
+            }
+        }
+        // $taxonomies = wp_list_pluck($taxonomies, 'name', 'slug');
+        return $taxonomies;
+    }
+
     public static function get_all_roles_as_dropdown($selected = array(), $skip_subscribe = false)
     {
         $p = '';
@@ -98,7 +154,7 @@ class Helper
 
     /**
      * Check Supported Post type for admin page and plugin main settings page
-     * 
+     *
      * @return bool
      * @version 3.1.12
      */
