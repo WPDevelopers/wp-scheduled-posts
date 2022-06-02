@@ -75,7 +75,7 @@
                             <h4 class="unscheduled"><?php print esc_html__('Unscheduled ', 'wp-scheduled-posts') . (($post_type == null || $post_type == "") ? 'Posts' : $post_type); ?><span class="spinner"></span></h4>
                             <?php if($post_type !== "page"):?>
                             <select id="external-events-filter" multiple="multiple" style="width: 100%">
-                                <option value="all" <?php echo in_array('all', $allow_categories) ? 'selected' : '';?>>All</option>
+                                <option value="all" <?php echo (in_array('all', $allow_categories) || empty($allow_categories)) ? 'selected' : '';?>>All</option>
                                 <?php foreach ($tax_terms as $tax_label => $terms):?>
                                     <optgroup label="<?php echo $tax_label;?>">
                                     <?php foreach ($terms as $term_slug => $term):?>
