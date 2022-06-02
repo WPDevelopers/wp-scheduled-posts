@@ -25,19 +25,19 @@
   background: #f0f2f6;
   color: #405068;
 }
-.wpscp-calendar-wrap .fc th, 
+.wpscp-calendar-wrap .fc th,
 .wpscp-calendar-wrap .fc td {
   border-width: 2px;
 }
-.wpscp-calendar-wrap .fc-unthemed th, 
-.wpscp-calendar-wrap .fc-unthemed td, 
-.wpscp-calendar-wrap .fc-unthemed thead, 
-.wpscp-calendar-wrap .fc-unthemed tbody, 
-.wpscp-calendar-wrap .fc-unthemed .fc-divider, 
-.wpscp-calendar-wrap .fc-unthemed .fc-row, 
-.wpscp-calendar-wrap .fc-unthemed .fc-content, 
-.wpscp-calendar-wrap .fc-unthemed .fc-popover, 
-.wpscp-calendar-wrap .fc-unthemed .fc-list-view, 
+.wpscp-calendar-wrap .fc-unthemed th,
+.wpscp-calendar-wrap .fc-unthemed td,
+.wpscp-calendar-wrap .fc-unthemed thead,
+.wpscp-calendar-wrap .fc-unthemed tbody,
+.wpscp-calendar-wrap .fc-unthemed .fc-divider,
+.wpscp-calendar-wrap .fc-unthemed .fc-row,
+.wpscp-calendar-wrap .fc-unthemed .fc-content,
+.wpscp-calendar-wrap .fc-unthemed .fc-popover,
+.wpscp-calendar-wrap .fc-unthemed .fc-list-view,
 .wpscp-calendar-wrap .fc-unthemed .fc-list-heading td {
   border-color: #fff;
 }
@@ -162,7 +162,7 @@
     -moz-transition: all .3s ease;
     transition: all .3s ease;
   }
-  .wpscp-calendar-wrap .wpscp-event-post:hover .postactions { 
+  .wpscp-calendar-wrap .wpscp-event-post:hover .postactions {
     opacity: 1;
     transform: translateY(0);
   }
@@ -202,12 +202,12 @@
 }
 .wpscp-calendar-wrap .fc-today-button.fc-button.fc-button-primary,
 .wpscp-calendar-wrap .fc-button-primary:hover,
-.wpscp-calendar-wrap .fc-button-primary:not(:disabled):active, 
+.wpscp-calendar-wrap .fc-button-primary:not(:disabled):active,
 .wpscp-calendar-wrap .fc-button-primary:not(:disabled).fc-button-active {
   background-color: #1c64ce;
   border-color: #1c64ce;
 }
-.wpscp-calendar-wrap .fc-button-primary:not(:disabled):active:focus, 
+.wpscp-calendar-wrap .fc-button-primary:not(:disabled):active:focus,
 .wpscp-calendar-wrap .fc-button-primary:not(:disabled).fc-button-active:focus,
 .wpscp-calendar-wrap .fc-button-primary:hover,
 .wpscp-calendar-wrap .fc-button-primary:focus {
@@ -231,24 +231,24 @@
   border-color: #3788d8;
 }
 
-        
+
 .wpscp-calendar-wrap #external-events h4 {
     font-size: 16px;
     margin-top: 0;
     padding-top: 1em;
 }
-    
+
 .wpscp-calendar-wrap #external-events .fc-event {
     margin: 10px 0;
     cursor: pointer;
 }
-    
+
 .wpscp-calendar-wrap #external-events p {
     margin: 1.5em 0;
     font-size: 11px;
     color: #666;
 }
-    
+
 .wpscp-calendar-wrap #external-events p input {
     margin: 0;
     vertical-align: middle;
@@ -261,7 +261,7 @@
   text-transform: capitalize;
   color: #fff;
   padding: 20px 15px;
-  margin: 0 -10px;
+  margin: 0 -10px 10px;
 }
 #wpscp_quickedit a.close-modal {
     display: none !important;

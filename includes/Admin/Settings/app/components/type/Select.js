@@ -11,6 +11,7 @@ const Select = ({
     options,
     setFieldValue,
 }) => {
+    const [isOptGroup, setIsOptGroup] = useState(false)
     const [isFetchData, setIsFetchData] = useState(false)
     const [optionsData, setOptionsData] = useState([])
     const [field] = useField(id)
@@ -18,9 +19,11 @@ const Select = ({
     useEffect(() => {
         if (options) {
             if(options?.length){
+                setIsOptGroup(true)
                 setOptionsData(options)
             }
             else{
+                setIsOptGroup(false)
                 setOptionsData(
                     Object.entries(options).map(([key, value]) => ({
                         value: key,
@@ -31,6 +34,7 @@ const Select = ({
         } else {
             setOptionsData([])
         }
+        fetchData();
     }, [])
 
     const onChange = (option) => {
@@ -54,9 +58,11 @@ const Select = ({
             jQuery.post(ajaxurl, data, function (response) {
                 if (response.success === true) {
                     if(options?.length){
+                        setIsOptGroup(true)
                         setOptionsData(response.data)
                     }
                     else{
+                        setIsOptGroup(false)
                         setOptionsData(
                             Object.entries(response.data).map(([key, value]) => ({
                                 value: key,
@@ -85,8 +91,8 @@ const Select = ({
         if(optionsData?.length){
             let _optionsData = optionsData;
             // checking if this is optgroup
-            if(!optionsData[0]?.value){
-                _optionsData = [].concat(...optionsData.map(optGroup => optGroup.options));
+            if(isOptGroup){
+                _optionsData = [].concat(...optionsData.map(optGroup => optGroup?.options || optGroup));
             }
             const option = _optionsData.find(option => option.value == value);
             return option?.label || value;

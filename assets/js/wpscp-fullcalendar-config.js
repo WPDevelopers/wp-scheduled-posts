@@ -75,6 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     .data('postid'),
                 type: 'drop',
                 date: info.date,
+                post_type: wpscpGetPostTypeName(info.draggedEl),
             })
         },
         eventRender: function (info) {
@@ -109,6 +110,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         .find('.wpscp-event-post')
                         .data('postid'),
                     type: 'draftDrop',
+                    post_type: wpscpGetPostTypeName(info.el),
                 })
             }
         },
@@ -122,6 +124,7 @@ document.addEventListener('DOMContentLoaded', function () {
             wpscp_calender_ajax_request({
                 ID: jQuery(info.el).find('.wpscp-event-post').data('postid'),
                 post_status: 'Scheduled',
+                post_type: wpscpGetPostTypeName(info.el),
                 type: 'eventDrop',
                 date: new Date(
                     info.event.end ? info.event.end : info.event.start
@@ -188,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 : '';
 
         var markup = ''
-        markup += '<div class="wpscp-event-post" data-postid="' + obj.ID + '">'
+        markup += '<div class="wpscp-event-post" data-postid="' + obj.ID + '" data-post-type="' + obj.post_type + '" data-terms=\'' + JSON.stringify(obj.taxonomies || {}) + '\'>'
         markup +=
             '<div class="postlink "><span><span class="posttime">[' +
             wpscpFormatAMPM(new Date(obj.post_date.replace(/-/g, '/'))) +
@@ -220,7 +223,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var data = {
             action: 'wpscp_calender_ajax_request',
             nonce: wpscp_calendar_ajax_object.nonce,
-            post_type: wpscpGetPostTypeName(),
+            post_type: obj.post_type || 'post',
             post_status: obj.post_status,
             type: obj.type,
             date: obj.date,
@@ -569,6 +572,11 @@ document.addEventListener('DOMContentLoaded', function () {
             urlParams.get('post_type') == 'elementor_library'
                 ? 'elementorlibrary'
                 : urlParams.get('post_type')
+        if(postTypeName == null){
+            if(urlParams.get('page') == 'schedulepress-calendar'){
+                postTypeName = 'all';
+            }
+        }
         var updateRestUrl =
             postTypeName !== null
                 ? oldRestUrl.replace(
@@ -596,12 +604,11 @@ document.addEventListener('DOMContentLoaded', function () {
     /**
      * Get Post Type Name form Query Sting
      */
-    function wpscpGetPostTypeName() {
-        var urlParams = new URLSearchParams(window.location.search)
-        var postTypeName = urlParams.get('post_type')
-        return postTypeName == null || postTypeName == ''
-            ? 'post'
-            : postTypeName
+    function wpscpGetPostTypeName(elem) {
+        var selector = '[data-post-type], .wpscp-event-post';
+        var postType = jQuery(elem).closest(selector).data('post-type') ||
+                       jQuery(elem).find(selector).data('post-type');
+        return postType;
     }
 
     /**

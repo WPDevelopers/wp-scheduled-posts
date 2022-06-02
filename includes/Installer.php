@@ -29,6 +29,9 @@ class Installer
         if(version_compare(get_option('wpsp_version'), '4.0.1', '<=')){
             Migration::scheduled_post_social_share_meta_update();
         }
+        if(version_compare(get_option('wpsp_version'), '4.1.6', '<=')){
+            Migration::allow_categories();
+        }
 
         // update version
         if (version_compare(get_option('wpsp_version'), WPSP_VERSION, '<')) {

@@ -41,6 +41,9 @@ class Calendar
         // post type
         $post_type = urldecode($request->get_param('post_type'));
         $post_type = (($post_type == 'elementorlibrary') ? 'elementor_library' : $post_type);
+        if($post_type == 'all'){
+            $post_type = \WPSP\Helper::get_settings('allow_post_types');
+        }
         // date
         $now = new \DateTime('now');
         $now_month = $now->format('m');
@@ -150,7 +153,10 @@ class Calendar
                 'post_status' => 'draft',
             ));
             if (!is_wp_error($post_id)) {
-                print json_encode(query_posts(array('p' => $post_id, 'post_type' => $post_type)));
+                $taxonomies = \WPSP\Helper::get_all_post_terms($postid);
+                $post = query_posts(array('p' => $post_id, 'post_type' => $post_type));
+                $post[0]->taxonomies = $taxonomies;
+                print json_encode($post);
             }
         } else if ($post_status == 'draft') {
             $post_id = wp_insert_post(array(

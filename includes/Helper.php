@@ -24,14 +24,19 @@ class Helper
 
     public static function _get_all_category()
     {
-        $return = ['result' => []];
+        $return = ['result' => [
+            [
+                'value' => 'all',
+                'label' => "All",
+            ]
+        ]];
         $allow_post_types  = \WPSP\Helper::get_settings('allow_post_types');
         $taxonomies = self::get_all_tax_term($allow_post_types);
 
         foreach ($taxonomies as $tax_label => $terms) {
             foreach ($terms as $term) {
-                if(empty($return['result'][$term['taxonomy']])){
-                    $return['result'][$term['taxonomy']] = [
+                if(empty($return['result'][$tax_label])){
+                    $return['result'][$tax_label] = [
                         'label' => $tax_label,
                         'options' => [[
                             'value' => $term['taxonomy'] . '.' . $term['slug'],
@@ -40,7 +45,7 @@ class Helper
                     ];
                 }
                 else{
-                    $return['result'][$term['taxonomy']]['options'][] = [
+                    $return['result'][$tax_label]['options'][] = [
                         'value' => $term['taxonomy'] . '.' . $term['slug'],
                         'label' => $term['name'],
                     ];
@@ -75,6 +80,17 @@ class Helper
             }
         }
         // $taxonomies = wp_list_pluck($taxonomies, 'name', 'slug');
+        return $taxonomies;
+    }
+
+    public static function get_all_post_terms($pid = null){
+        $pid = $pid ? $pid : get_the_id();
+        $taxonomies = [];
+        $tax = get_object_taxonomies(get_post_type($pid));
+        $terms = wp_get_post_terms($pid, $tax);
+        foreach ($terms as $key => $term) {
+            $taxonomies[$term->taxonomy][] = $term->slug;
+        }
         return $taxonomies;
     }
 

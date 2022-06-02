@@ -201,6 +201,20 @@ class Migration {
             }
         }
     }
+    public static function allow_categories(){
+        if (get_option('wpsp_data_migration_allow_categories') == false) {
+            $settings = json_decode(get_option(WPSP_SETTINGS_NAME), true);
+            if (!empty($settings['allow_categories'])) {
+                foreach ($settings['allow_categories'] as $key => $value) {
+                    if($value == 'all') continue;
+                    $settings['allow_categories'][$key] = "category." . $value;
+                }
+
+                update_option(WPSP_SETTINGS_NAME, json_encode($settings));
+                update_option( 'wpsp_data_migration_allow_categories', true );
+            }
+        }
+    }
     public static function scheduled_post_social_share_meta_update(){
         global $wpdb;
         $post_types = \WPSP\Helper::get_settings('allow_post_types');

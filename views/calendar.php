@@ -75,7 +75,7 @@
                             <h4 class="unscheduled"><?php print esc_html__('Unscheduled ', 'wp-scheduled-posts') . (($post_type == null || $post_type == "") ? 'Posts' : $post_type); ?><span class="spinner"></span></h4>
                             <?php if($post_type !== "page"):?>
                             <select id="external-events-filter" multiple="multiple" style="width: 100%">
-                                <option value="all" <?php echo in_array('all', $allow_categories) ? 'selected' : '';?>>All Categories</option>
+                                <option value="all" <?php echo in_array('all', $allow_categories) ? 'selected' : '';?>>All</option>
                                 <?php foreach ($tax_terms as $tax_label => $terms):?>
                                     <optgroup label="<?php echo $tax_label;?>">
                                     <?php foreach ($terms as $term_slug => $term):?>
@@ -92,13 +92,7 @@
                                 'posts_per_page'    => -1
                             ));
                             while ($query->have_posts()) : $query->the_post();
-                                $taxonomies = [];
-                                $tax = get_object_taxonomies(get_post_type());
-                                $terms = wp_get_post_terms(get_the_id(), $tax);
-                                foreach ($terms as $key => $term) {
-                                    $taxonomies[$term->taxonomy][] = $term->slug;
-                                }
-                                // print_r([$taxonomies]);
+                                $taxonomies = \WPSP\Helper::get_all_post_terms();
 
                             ?>
                                 <div class='fc-event'>
