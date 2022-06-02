@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     .data('postid'),
                 type: 'drop',
                 date: info.date,
-                post_type: wpscpGetPostTypeName(info.draggedEl),
+                post_type: _wpscpGetPostTypeName(info.draggedEl),
             })
         },
         eventRender: function (info) {
@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         .find('.wpscp-event-post')
                         .data('postid'),
                     type: 'draftDrop',
-                    post_type: wpscpGetPostTypeName(info.el),
+                    post_type: _wpscpGetPostTypeName(info.el),
                 })
             }
         },
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function () {
             wpscp_calender_ajax_request({
                 ID: jQuery(info.el).find('.wpscp-event-post').data('postid'),
                 post_status: 'Scheduled',
-                post_type: wpscpGetPostTypeName(info.el),
+                post_type: _wpscpGetPostTypeName(info.el),
                 type: 'eventDrop',
                 date: new Date(
                     info.event.end ? info.event.end : info.event.start
@@ -497,6 +497,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 post_status: modalStatus.val(),
                 ID: postID.val(),
                 postTitle: modalTitle.val(),
+                post_type: wpscpGetPostTypeName(),
                 postContent: modalContent.val(),
             })
 
@@ -604,11 +605,21 @@ document.addEventListener('DOMContentLoaded', function () {
     /**
      * Get Post Type Name form Query Sting
      */
-    function wpscpGetPostTypeName(elem) {
+    function _wpscpGetPostTypeName(elem) {
         var selector = '[data-post-type], .wpscp-event-post';
         var postType = jQuery(elem).closest(selector).data('post-type') ||
                        jQuery(elem).find(selector).data('post-type');
         return postType;
+    }
+    /**
+     * Get Post Type Name form Query Sting
+     */
+    function wpscpGetPostTypeName() {
+        var urlParams = new URLSearchParams(window.location.search)
+        var postTypeName = urlParams.get('post_type')
+        return postTypeName == null || postTypeName == ''
+            ? 'post'
+            : postTypeName
     }
 
     /**
