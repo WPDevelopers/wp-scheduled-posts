@@ -71,7 +71,7 @@ class Calendar
         if ($query->have_posts()) {
             while ($query->have_posts()) : $query->the_post();
                 $markup = '';
-                $markup .= '<div class="wpscp-event-post" data-postid="' . get_the_ID() . '">';
+                $markup .= '<div class="wpscp-event-post" data-postid="' . get_the_ID() . '" data-post-type="' .  get_post_type() . '">';
                 $markup .= '<div class="postlink"><span><span class="posttime">[' . get_the_date('g:i a') . ']</span> ' . wp_trim_words(get_the_title(), 3, '...') . ' [' . get_post_status(get_the_ID()) . ']</span></div>';
                 $link = '';
                 $link .= '<div class="edit"><a href="' . get_site_url() . '/wp-admin/post.php?post=' . get_the_ID() . '&action=edit""><i class="dashicons dashicons-edit"></i>Edit</a><a class="wpscpquickedit" href="#" data-type="quickedit"><i class="dashicons dashicons-welcome-write-blog"></i>Quick Edit</a></div>';
