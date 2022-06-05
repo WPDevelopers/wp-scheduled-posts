@@ -209,6 +209,11 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 == Changelog ==
 
+= 4.1.6 - 2022-06-05 =
+* Fixed: Settings weren’t being saved without hard refresh.
+* Added: Category filter in SchedulePress Calendar.
+* Few minor bug fix & improvements
+
 = 4.1.5 - 2022-04-25 =
 * Fixed: Time validation issue in SchedulePress Calendar.
 * Improvement: Added error notice in Twitter API.
