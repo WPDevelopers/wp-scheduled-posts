@@ -497,7 +497,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 post_status: modalStatus.val(),
                 ID: postID.val(),
                 postTitle: modalTitle.val(),
-                post_type: wpscpGetPostTypeName(),
+                post_type: wpscpGetPostTypeName(postID.val()),
                 postContent: modalContent.val(),
             })
 
@@ -614,9 +614,12 @@ document.addEventListener('DOMContentLoaded', function () {
     /**
      * Get Post Type Name form Query Sting
      */
-    function wpscpGetPostTypeName() {
+    function wpscpGetPostTypeName(postID) {
         var urlParams = new URLSearchParams(window.location.search)
         var postTypeName = urlParams.get('post_type')
+        if(!postTypeName && postID){
+            postTypeName = jQuery('[data-postid=' + postID + ']').data('post-type');
+        }
         return postTypeName == null || postTypeName == ''
             ? 'post'
             : postTypeName
