@@ -9,7 +9,9 @@ export default function ListItemProfile({
     fieldList,
     index,
 }) {
-    const [showItemControl, setItemControl] = useState(false)
+    const [showItemControl, setItemControl] = useState(false);
+    const boardName = item.boards?.find(board => board.id == item.default_board_name)?.name;
+    console.log(item);
     return (
         <React.Fragment>
             <div
@@ -24,6 +26,13 @@ export default function ListItemProfile({
                     <p className='entry-content__doc'>
                         <strong>{item.added_by}</strong> on {item.added_date}
                     </p>
+                    {
+                        item.default_board_name && (
+                            <p className='entry-content__doc'>
+                                <strong>Default Board:</strong> {boardName}
+                            </p>
+                        )
+                    }
                 </div>
                 <div className='entry-control'>
                     <div className='checkbox-toggle'>

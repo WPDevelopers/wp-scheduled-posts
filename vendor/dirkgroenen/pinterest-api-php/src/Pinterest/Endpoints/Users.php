@@ -25,7 +25,7 @@ class Users extends Endpoint {
      */
     public function me(array $data = [])
     {
-        $response = $this->request->get("me/", $data);
+        $response = $this->request->get("user_account/", $data);
         return new User($this->master, $response);
     }
 
@@ -99,7 +99,7 @@ class Users extends Endpoint {
      */
     public function getMeBoards(array $data = [])
     {
-        $response = $this->request->get("me/boards/", $data);
+        $response = $this->request->get("boards/", $data);
         return new Collection($this->master, $response, "Board");
     }
 

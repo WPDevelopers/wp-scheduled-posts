@@ -21,7 +21,7 @@ class Request {
      *
      * @var string
      */
-    private $host = "https://api.pinterest.com/v1/";
+    private $host = "https://api.pinterest.com/v5/";
 
     /**
      * Access token
@@ -90,12 +90,12 @@ class Request {
      *
      * @access public
      * @param  string   $endpoint
-     * @param  array    $parameters
+     * @param  array|string    $parameters
      * @return Response
      */
-    public function post($endpoint, array $parameters = array())
+    public function post($endpoint, $parameters = array(), $headers = array())
     {
-        return $this->execute("POST", sprintf("%s%s", $this->host, $endpoint), $parameters);
+        return $this->execute("POST", sprintf("%s%s", $this->host, $endpoint), $parameters, $headers);
     }
 
     /**
@@ -103,10 +103,10 @@ class Request {
      *
      * @access public
      * @param  string   $endpoint
-     * @param  array    $parameters
+     * @param  array|string    $parameters
      * @return Response
      */
-    public function put($endpoint, array $parameters = array())
+    public function put($endpoint, $parameters = array())
     {
         return $this->execute("PUT", sprintf("%s%s", $this->host, $endpoint), $parameters);
     }
@@ -116,10 +116,10 @@ class Request {
      *
      * @access public
      * @param  string   $endpoint
-     * @param  array    $parameters
+     * @param  array|string    $parameters
      * @return Response
      */
-    public function delete($endpoint, array $parameters = array())
+    public function delete($endpoint, $parameters = array())
     {
         return $this->execute("DELETE", sprintf("%s%s", $this->host, $endpoint) . "/", $parameters);
     }
@@ -129,11 +129,11 @@ class Request {
      *
      * @access public
      * @param  string   $endpoint
-     * @param  array    $parameters
+     * @param  array|string    $parameters
      * @param  array    $queryparameters
      * @return Response
      */
-    public function update($endpoint, array $parameters = array(), array $queryparameters = array())
+    public function update($endpoint, $parameters = array(), array $queryparameters = array())
     {
         if (!empty($queryparameters)) {
             $path = sprintf("%s?%s", $endpoint, http_build_query($queryparameters));
@@ -160,13 +160,13 @@ class Request {
      * @access public
      * @param  string $method
      * @param  string $apiCall
-     * @param  array $parameters
+     * @param  array|string $parameters
      * @param  array $headers
      * @return Response
      * @throws CurlException
      * @throws PinterestException
      */
-    public function execute($method, $apiCall, array $parameters = array(), $headers = array())
+    public function execute($method, $apiCall, $parameters = array(), $headers = array())
     {
         // Check if the access token needs to be added
         if ($this->access_token != null) {
@@ -201,7 +201,7 @@ class Request {
             case 'POST':
                 $ch->setOptions(array(
                     CURLOPT_CUSTOMREQUEST   => "POST",
-                    CURLOPT_POST            => count($parameters),
+                    CURLOPT_POST            => is_array($parameters) ? count($parameters) : 1,
                     CURLOPT_POSTFIELDS      => $parameters
                 ));
 
@@ -219,7 +219,7 @@ class Request {
             case 'PATCH':
                 $ch->setOptions(array(
                     CURLOPT_CUSTOMREQUEST   => "PATCH",
-                    CURLOPT_POST            => count($parameters),
+                    CURLOPT_POST            => is_array($parameters) ? count($parameters) : 1,
                     CURLOPT_POSTFIELDS      => $parameters
                 ));
                 break;

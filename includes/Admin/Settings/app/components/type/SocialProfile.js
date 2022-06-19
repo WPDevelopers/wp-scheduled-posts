@@ -12,6 +12,7 @@ import Facebook from './../Facebook'
 import Profile from './../Social/Profile'
 import ListItemProfile from './../Social/ListItemProfile'
 import CustomAppForm from './../../components/CustomAppForm'
+import Pinterest from '../Pinterest'
 
 const customStyles = {
     overlay: {
@@ -42,6 +43,7 @@ const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
     const [requestSending, setRequestSending] = useState(false)
     const [fbPage, setFbPage] = useState([])
     const [fbGroup, setFbGroup] = useState([])
+    const [pinterestBoards, setPinterestBoards] = useState([])
     const [responseData, setResponseData] = useState([])
     const [socialPlatform, setSocialPlatform] = useState('')
     const [field] = useField(id)
@@ -87,6 +89,7 @@ const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
                 setFbPage(response.page)
                 setFbGroup(response.group)
                 setResponseData([response.data])
+                setPinterestBoards(response.boards)
             } else {
             }
         })
@@ -288,11 +291,12 @@ const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
                                     />
                                 ),
                                 pinterest: (
-                                    <Profile
+                                    <Pinterest
                                         fieldName={fieldList.name}
                                         field={fieldList}
                                         platform={socialPlatform}
                                         data={responseData}
+                                        boards={pinterestBoards}
                                     />
                                 ),
                             }[socialPlatform]
