@@ -47,7 +47,7 @@ class PinterestOAuth {
     /**
      * Pinterest's oauth endpoint
      */
-    const AUTH_HOST = "https://api.pinterest.com/oauth/";
+    const AUTH_HOST = "https://www.pinterest.com/oauth/";
 
     /**
      * Construct
@@ -128,18 +128,23 @@ class PinterestOAuth {
      * @param  string   $code
      * @return \DirkGroenen\Pinterest\Transport\Response
      */
-    public function getOAuthToken($code)
+    public function getOAuthToken($code, $redirect_uri)
     {
+        $authorization = base64_encode($this->client_id . ":" . $this->client_secret);
+        // $this->setOAuthToken($authorization);
+        $headers = [
+            "Content-Type: application/x-www-form-urlencoded",
+            "Authorization: Basic $authorization",
+        ];
         // Build data array
         $data = array(
-            "grant_type"    => "authorization_code",
-            "client_id"     => $this->client_id,
-            "client_secret" => $this->client_secret,
-            "code"          => $code
+            "grant_type"   => "authorization_code",
+            "code"         => $code,
+            "redirect_uri" => $redirect_uri,
         );
 
         // Perform post request
-        $response = $this->request->post("oauth/token", $data);
+        $response = $this->request->post("oauth/token", http_build_query($data), $headers);
 
         return $response;
     }

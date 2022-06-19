@@ -59,7 +59,7 @@ class Pinterest
 
     /**
      * Saved Post Meta info
-     * 
+     *
      */
     public function save_metabox_social_share_metabox($post_id, $response)
     {
@@ -93,9 +93,9 @@ class Pinterest
             $PostThumbnailURI = get_the_post_thumbnail_url($post_id, 'full');
         }
 
-        // board name
+        // board name // it was overriding the value passed vai ajax.
         $custom_board_name = get_post_meta($post_id, '_wpscppro_pinterest_board_name', true);
-        if ($custom_board_name != "" && !empty($custom_board_name)) {
+        if (empty($board_name) && !empty($custom_board_name)) {
             $board_name = $custom_board_name;
         }
 
@@ -122,12 +122,15 @@ class Pinterest
         );
         // main arguments
         $pinterest_create_args = array(
-            "note" => substr($note_content, 0, 140),
+            "description" => substr($note_content, 0, 140),
             'link' => $PostPermalink,
-            "board" => $board_name,
+            "board_id" => $board_name,
         );
-        if ($this->is_set_image_link === true) {
-            $pinterest_create_args['image_url'] = $PostThumbnailURI;
+        if ($this->is_set_image_link === true && $PostThumbnailURI) {
+            $pinterest_create_args['media_source'] = [
+                'source_type' => 'image_url',
+                'url'         => $PostThumbnailURI,
+            ];
         }
         return $pinterest_create_args;
     }

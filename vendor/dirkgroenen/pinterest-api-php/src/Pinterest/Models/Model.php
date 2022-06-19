@@ -52,7 +52,7 @@ class Model implements \JsonSerializable {
             $this->fill($modeldata);
         }
         else if ($modeldata instanceof \DirkGroenen\Pinterest\Transport\Response) {
-            $this->fill($modeldata->data);
+            $this->fill($modeldata->all());
         }
     }
 
