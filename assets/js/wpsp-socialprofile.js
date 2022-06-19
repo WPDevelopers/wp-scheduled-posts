@@ -39,9 +39,7 @@ jQuery(document).ready(function ($) {
         var linkedin = jQuery('#wpscpprolinkedinis').is(':checked')
         var instagram = jQuery('#wpscpproinstagramis').is(':checked')
         var pinterest = jQuery('#wpscppropinterestis').is(':checked')
-        var pinterestCustomBoardName = jQuery(
-            '#wpscppropinterestboardname'
-        ).val()
+        var pinterestBoardType = jQuery("input:radio[name='pinterestboardtype']:checked").val()
         var data = {
             action: 'wpscp_instant_share_fetch_profile',
             _nonce: nonce,
@@ -51,7 +49,6 @@ jQuery(document).ready(function ($) {
             is_linkedin_share: linkedin,
             is_instagram_share: instagram,
             is_pinterest_share: pinterest,
-            pinterest_custom_board_name: pinterestCustomBoardName,
         }
 
         jQuery.post(ajaxurl, data, function (response, status) {
@@ -64,6 +61,8 @@ jQuery(document).ready(function ($) {
                  */
                 $.each(response.profile, function (profile, profileKey) {
                     Object.keys(profileKey).forEach(function (key) {
+                        var access_token = md5(profileKey[key].access_token);
+                        var pinterestCustomBoardName = pinterestBoardType == 'custom' ? jQuery("[name='wpscppro-pinterest-board-name[" + access_token + "]']").val() : null;
                         var data = {
                             action: 'wpscp_instant_social_single_profile_share',
                             platform: profile,
