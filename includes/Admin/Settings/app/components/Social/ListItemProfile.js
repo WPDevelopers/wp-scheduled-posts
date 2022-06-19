@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { __ } from '@wordpress/i18n'
 import { wpspGetPluginRootURI } from './../../utils/helper'
 
@@ -10,8 +10,17 @@ export default function ListItemProfile({
     index,
 }) {
     const [showItemControl, setItemControl] = useState(false);
-    const boardName = item.boards?.find(board => board.id == item.default_board_name)?.name;
-    console.log(item);
+    const [defaultBoard, setDefaultBoard] = useState(item.default_board_name);
+    useEffect(() => {
+        arrayHelpers.replace(
+            index,
+            {
+                ...item,
+                default_board_name: defaultBoard,
+            }
+        )
+    }, [defaultBoard])
+
     return (
         <React.Fragment>
             <div
@@ -29,7 +38,15 @@ export default function ListItemProfile({
                     {
                         item.default_board_name && (
                             <p className='entry-content__doc'>
-                                <strong>Default Board:</strong> {boardName}
+                                <strong>Default Board:</strong>
+                                <select value={defaultBoard} onChange={event => setDefaultBoard(event.target.value)}>
+                                    {
+                                        item.boards?.map(board => {
+                                            return <option key={board.id} value={board.id}>{board.name || board.id}</option>;
+                                        })
+                                    }
+                                </select>
+
                             </p>
                         )
                     }

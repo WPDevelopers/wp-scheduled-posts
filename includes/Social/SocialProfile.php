@@ -148,14 +148,22 @@ class SocialProfile
 
 
                 // get all board list
-                // @todo maybe do a loop and get other pages.
-                $boards = $pinterest->users->getMeBoards(array(
-                    'page_size' => 100,
-                ));
-                $boards_arr = $boards->toArray();
+                $boards_arr = [];
+                $page_size  = 1;
+                $_boards_arr = ['page' => null];
+                do {
+                    $boards      = $pinterest->users->getMeBoards(array(
+                        'page_size' => $page_size,
+                        'bookmark'  => $_boards_arr['page'],
+                    ));
+                    $_boards_arr = $boards->toArray();
+                    $boards_arr  = array_merge($boards_arr, $_boards_arr['data']);
+                }
+                while(!empty($_boards_arr['page']));
+
                 $response = array(
                     'success' => true,
-                    'boards'  => $boards_arr['data'],
+                    'boards'  => $boards_arr,
                     'type'    => 'pinterest',
                     'data'    => $info
                 );

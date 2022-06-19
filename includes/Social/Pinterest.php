@@ -80,11 +80,12 @@ class Pinterest
      * @return array
      * @since 2.5.1
      */
-    public function get_create_pin_args($post_id, $board_name)
+    public function get_create_pin_args($post_id, $board_name, $board_name_key, $instant_share = false)
     {
         $post_details = get_post($post_id);
         $PostTitle = get_the_title($post_id);
         $PostPermalink = esc_url(get_permalink($post_id));;
+        $board_type = get_post_meta($post_id, '_wpscppro_pinterestboardtype', true);
         $customThumbnailID = get_post_meta($post_id, '_wpscppro_custom_social_share_image', true);
         if ($customThumbnailID != "") {
             $customThumbnail = wp_get_attachment_image_src($customThumbnailID, 'full', false);
@@ -93,10 +94,12 @@ class Pinterest
             $PostThumbnailURI = get_the_post_thumbnail_url($post_id, 'full');
         }
 
-        // board name // it was overriding the value passed vai ajax.
-        $custom_board_name = get_post_meta($post_id, '_wpscppro_pinterest_board_name', true);
-        if (empty($board_name) && !empty($custom_board_name)) {
-            $board_name = $custom_board_name;
+        if(!$instant_share && $board_type === 'custom') {
+            // overriding default board name from meta.
+            $custom_board_name = get_post_meta($post_id, '_wpscppro_pinterest_board_name', true);
+            if($custom_board_name && !empty($custom_board_name[$board_name_key])){
+                $board_name = $custom_board_name[$board_name_key];
+            }
         }
 
         // tags
@@ -141,7 +144,7 @@ class Pinterest
      * @since 2.5.0
      * @return array
      */
-    public function remote_post($app_id, $app_secret, $app_access_token, $post_id, $board_name, $profile_key, $force_share = false)
+    public function remote_post($app_id, $app_secret, $app_access_token, $post_id, $board_name, $profile_key, $force_share = false, $instant_share = false)
     {
         // check post is skip social sharing
         if (empty($app_id) || empty($app_secret) || get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
@@ -152,7 +155,7 @@ class Pinterest
             $errorFlag = false;
             $response = '';
 
-            $pin_args = $this->get_create_pin_args($post_id, $board_name);
+            $pin_args = $this->get_create_pin_args($post_id, $board_name, md5($app_access_token), $instant_share);
 
             try {
                 $pinterest = new \DirkGroenen\Pinterest\Pinterest($app_id, $app_secret);
@@ -241,7 +244,7 @@ class Pinterest
 
     public function socialMediaInstantShare($app_id, $app_secret, $app_access_token, $post_id, $board_name, $profile_key)
     {
-        $response = $this->remote_post($app_id, $app_secret, $app_access_token, $post_id, $board_name, $profile_key, true);
+        $response = $this->remote_post($app_id, $app_secret, $app_access_token, $post_id, $board_name, $profile_key, true, true);
         if ($response['success'] == false) {
             wp_send_json_error($response['log']);
         } else {
