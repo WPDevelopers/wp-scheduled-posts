@@ -30,6 +30,23 @@ const customStyles = {
   },
 };
 
+const customStylesForPaintarist = {
+  overlay: {
+    background: "rgba(1, 17, 50, 0.7)",
+  },
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    width: "600px",
+    maxWidth: "90%",
+    transform: "translate(-50%, -50%)",
+    overflow: "visible!important"
+  },
+};
+
 const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalMultiProfileErrorIsOpen, setModalMultiProfileErrorIsOpen] =
@@ -276,7 +293,7 @@ const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
         isOpen={modalIsOpen}
         onAfterOpen={afterOpenModal}
         onRequestClose={closeModal}
-        style={customStyles}
+        style={customStylesForPaintarist}
         ariaHideApp={false}
       >
         {requestSending ? (
