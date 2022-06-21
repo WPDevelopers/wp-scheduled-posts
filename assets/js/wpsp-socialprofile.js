@@ -62,13 +62,16 @@ jQuery(document).ready(function ($) {
                 $.each(response.profile, function (profile, profileKey) {
                     Object.keys(profileKey).forEach(function (key) {
                         var access_token = md5(profileKey[key].access_token);
-                        var pinterestCustomBoardName = pinterestBoardType == 'custom' ? jQuery("[name='wpscppro-pinterest-board-name[" + access_token + "]']").val() : null;
+                        var pinterestCustomBoardName = jQuery("[name='wpscppro-pinterest-board-name[" + access_token + "]']").val();
+                        var pinterestCustomSectionName = jQuery("[name='wpscppro-pinterest-section-name[" + access_token + "]']").val();
                         var data = {
                             action: 'wpscp_instant_social_single_profile_share',
                             platform: profile,
                             platformKey: key,
                             postid: postid,
+                            pinterest_board_type: pinterestBoardType,
                             pinterest_custom_board_name: pinterestCustomBoardName,
+                            pinterest_custom_section_name: pinterestCustomSectionName,
                         }
                         jQuery.post(ajaxurl, data, function (response, status) {
                             WpScp_Social_single_profile_share_response_markup(

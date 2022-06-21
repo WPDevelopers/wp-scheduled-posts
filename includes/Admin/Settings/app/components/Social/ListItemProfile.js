@@ -1,25 +1,48 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { __ } from '@wordpress/i18n'
-import { wpspGetPluginRootURI } from './../../utils/helper'
+import { wpspGetPluginRootURI, wpspSettingsGlobal } from './../../utils/helper'
+import Select2 from 'react-select'
 
 export default function ListItemProfile({
     item,
     arrayHelpers,
+    fetchSectionData,
     groupFieldStatus,
     fieldList,
     index,
+    noSection,
 }) {
     const [showItemControl, setItemControl] = useState(false);
     const [defaultBoard, setDefaultBoard] = useState(item.default_board_name);
+    const [defaultSection, setDefaultSection] = useState(item.defaultSection || noSection);
+    const [sectionOptions, setSectionOptions] = useState([noSection]);
+
+    const options = item.boards?.map(board => {
+        return {
+            label: board.name || board.id,
+            value: board.id,
+        };
+    })
     useEffect(() => {
         arrayHelpers.replace(
             index,
             {
                 ...item,
-                default_board_name: defaultBoard,
+                default_board_name: defaultBoard || null,
             }
-        )
-    }, [defaultBoard])
+        );
+    }, [defaultBoard]);
+    useEffect(() => {
+        arrayHelpers.replace(
+            index,
+            {
+                ...item,
+                defaultSection: defaultSection || null,
+            }
+        );
+    }, [defaultSection]);
+
+
 
     return (
         <React.Fragment>
@@ -36,18 +59,27 @@ export default function ListItemProfile({
                         <strong>{item.added_by}</strong> on {item.added_date}
                     </p>
                     {
-                        item.default_board_name && (
-                            <p className='entry-content__doc'>
+                        item.boards && (
+                            <>
+                            <div className='entry-content__doc'>
                                 <strong>Default Board:</strong>
-                                <select value={defaultBoard} onChange={event => setDefaultBoard(event.target.value)}>
-                                    {
-                                        item.boards?.map(board => {
-                                            return <option key={board.id} value={board.id}>{board.name || board.id}</option>;
-                                        })
-                                    }
-                                </select>
-
-                            </p>
+                                <Select2
+                                    value={defaultBoard}
+                                    // onMenuOpen={() => fetchData()}
+                                    onChange={setDefaultBoard}
+                                    options={options}
+                                />
+                            </div>
+                            <div className='entry-content__doc'>
+                                <strong>Default Section:</strong>
+                                <Select2
+                                    value={defaultSection}
+                                    onMenuOpen={() => fetchSectionData(defaultBoard?.value, item, setSectionOptions)}
+                                    onChange={setDefaultSection}
+                                    options={sectionOptions}
+                                />
+                            </div>
+                            </>
                         )
                     }
                 </div>

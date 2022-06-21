@@ -18,6 +18,7 @@ class SocialProfile
          */
         add_action('wp_ajax_wpsp_social_add_social_profile', array($this, 'add_social_profile'));
         add_action('wp_ajax_wpsp_social_profile_fetch_user_info_and_token', array($this, 'social_profile_fetch_user_info_and_token'));
+        add_action('wp_ajax_wpsp_social_profile_fetch_pinterest_section', array($this, 'social_profile_fetch_pinterest_section'));
         $this->multiProfileErrorMessage = '<p>' . esc_html__('Multi Profile is a Premium Feature. To use this feature, Upgrade to Pro.', 'wp-scheduled-posts') . '</p><a href="https://wpdeveloper.com/in/wpsp">Upgrade to Pro</a>';
     }
 
@@ -101,6 +102,35 @@ class SocialProfile
         }
         return null;
     }
+
+    /**
+     * Facebook user group Details
+     */
+    public function social_profile_fetch_pinterest_section()
+    {
+        $_wpnonce = (isset($_POST['_wpnonce']) ? $_POST['_wpnonce'] : '');
+        $defaultBoard = (isset($_POST['defaultBoard']) ? $_POST['defaultBoard'] : '');
+        $profile = (isset($_POST['profile']) ? $_POST['profile'] : '');
+
+        if(!is_array($profile)){
+            $pinterest = \WPSP\Helper::get_social_profile(WPSCP_PINTEREST_OPTION_NAME);
+            $profile = (array) $pinterest[(int) $profile];
+        }
+
+        if(wp_verify_nonce($_wpnonce, 'wp_rest')){
+
+            $pinterest = new \DirkGroenen\Pinterest\Pinterest($profile['app_id'], $profile['app_secret']);
+            $pinterest->auth->setOAuthToken($profile['access_token']);
+            $sections = $pinterest->sections->get($defaultBoard, [
+                'page_size' => 100,
+            ]);
+            $sections = $sections->toArray();
+
+            wp_send_json_success($sections['data']);
+            wp_die();
+        }
+    }
+
     /**
      * ajax social multi profile fetch user info and generate token from oauth code
      * @since 2.5.0

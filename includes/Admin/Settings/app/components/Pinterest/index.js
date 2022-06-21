@@ -1,11 +1,26 @@
 import React, { useEffect, useState } from 'react'
 import { FieldArray } from 'formik'
 import { wpspGetPluginRootURI } from '../../utils/helper'
-const Pinterest = ({ platform, fieldName, field, data, boards }) => {
-    const [defaultBoard, setDefaultBoard] = useState('');
+import Select2 from 'react-select'
+const Pinterest = ({ platform, fieldName, field, data, boards, fetchSectionData, noSection }) => {
+    const boardOptions = boards?.map(board => {
+        return {
+            label: board.name || board.id,
+            value: board.id,
+        };
+    })
+    const [defaultBoard, setDefaultBoard] = useState();
+    const [defaultSection, setDefaultSection] = useState(noSection);
+    const [sectionOptions, setSectionOptions] = useState([noSection]);
+    const update = (index, item) => {
+        arrayHelpers.replace(
+            index,
+            {...item, boards, defaultSection, default_board_name: defaultBoard}
+        )
+    }
 
     useEffect(() => {
-      setDefaultBoard(boards[0]?.id);
+      setDefaultBoard(boardOptions?.[0]);
     }, [boards])
 
     return (
@@ -40,13 +55,20 @@ const Pinterest = ({ platform, fieldName, field, data, boards }) => {
                                             {item.name}
                                         </h4>
                                         <div className='control'>
-                                            <select onChange={event => setDefaultBoard(event.target.value)}>
-                                                {
-                                                    boards?.map(board => {
-                                                        return <option value={board.id}>{board.name || board.id}</option>;
-                                                    })
-                                                }
-                                            </select>
+                                            <Select2
+                                                value={defaultBoard}
+                                                // onMenuOpen={() => fetchData()}
+                                                onChange={setDefaultBoard}
+                                                options={boardOptions}
+                                            />
+                                        </div>
+                                        <div className='control'>
+                                            <Select2
+                                                value={defaultSection}
+                                                onMenuOpen={() => fetchSectionData(defaultBoard?.value, item, setSectionOptions)}
+                                                onChange={setDefaultSection}
+                                                options={sectionOptions}
+                                            />
                                         </div>
                                         <div className='control'>
                                             <input
@@ -57,7 +79,7 @@ const Pinterest = ({ platform, fieldName, field, data, boards }) => {
                                                         console.log({default_board_name: defaultBoard});
                                                         return arrayHelpers.insert(
                                                             index,
-                                                            {...item, boards, default_board_name: defaultBoard}
+                                                            {...item, boards, defaultSection, default_board_name: defaultBoard}
                                                         )
                                                     } else {
                                                         return arrayHelpers.remove(

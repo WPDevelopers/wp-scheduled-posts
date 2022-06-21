@@ -202,7 +202,7 @@ final class WpScp
             wp_localize_script(
                 'wpscp-script',
                 'wpscp_ajax',
-                array('ajax_url' => admin_url('admin-ajax.php'))
+                array('ajax_url' => admin_url('admin-ajax.php'), '_wpnonce' => wp_create_nonce('wp_rest'))
             );
             // calendar
             wp_enqueue_script('fullcalendar-core', WPSCP_ADMIN_URL . 'assets/js/vendor/fullcalendar/core/main.js', array('jquery'), filemtime(WPSCP_ADMIN_DIR_PATH . 'assets/js/vendor/fullcalendar/core/main.js'), false);
@@ -240,7 +240,7 @@ final class WpScp
     /**
      * Admin bar Script
      * add some css and js in adminbar
-     * 
+     *
      * @since 2.3.1
      */
     public function adminbar_script()
@@ -368,7 +368,7 @@ final class WpScp
         $notice->thumbnail('review', plugins_url('admin/assets/images/wpsp-logo.svg', WPSP_PLUGIN_BASENAME));
         /**
          * This is upsale notice settings
-         * classes for wrapper, 
+         * classes for wrapper,
          * Message message for showing.
          */
         $notice->classes('upsale', 'notice is-dismissible ');

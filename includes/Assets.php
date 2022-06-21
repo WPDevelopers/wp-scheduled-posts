@@ -77,7 +77,7 @@ class Assets
             wp_localize_script(
                 'wpscp-script',
                 'wpscp_ajax',
-                array('ajax_url' => admin_url('admin-ajax.php'))
+                array('ajax_url' => admin_url('admin-ajax.php'), '_wpnonce' => wp_create_nonce('wp_rest'))
             );
             // calendar
             wp_enqueue_script('fullcalendar-core', WPSP_ASSETS_URI . 'js/vendor/fullcalendar/core/main.js', array('jquery'), filemtime(WPSP_ASSETS_DIR_PATH . 'js/vendor/fullcalendar/core/main.js'), false);

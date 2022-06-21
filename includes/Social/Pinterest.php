@@ -80,7 +80,7 @@ class Pinterest
      * @return array
      * @since 2.5.1
      */
-    public function get_create_pin_args($post_id, $board_name, $board_name_key, $instant_share = false)
+    public function get_create_pin_args($post_id, $board_name, $board_name_key, $section_name, $instant_share = false)
     {
         $post_details = get_post($post_id);
         $PostTitle = get_the_title($post_id);
@@ -100,6 +100,16 @@ class Pinterest
             if($custom_board_name && !empty($custom_board_name[$board_name_key])){
                 $board_name = $custom_board_name[$board_name_key];
             }
+            $custom_section_name = get_post_meta($post_id, '_wpscppro_pinterest_section_name', true);
+            if($custom_section_name && !empty($custom_section_name[$board_name_key])){
+                $section_name = $custom_section_name[$board_name_key];
+            }
+        }
+        if(is_object($board_name)){
+            $board_name = $board_name->value;
+        }
+        if(is_object($section_name)){
+            $section_name = $section_name->value;
         }
 
         // tags
@@ -125,10 +135,13 @@ class Pinterest
         );
         // main arguments
         $pinterest_create_args = array(
-            "description" => substr($note_content, 0, 140),
-            'link' => $PostPermalink,
-            "board_id" => $board_name,
+            "description"      => substr($note_content, 0, 140),
+            'link'             => $PostPermalink,
+            "board_id"         => $board_name,
         );
+        if($section_name){
+            $pinterest_create_args['board_section_id'] = $section_name;
+        }
         if ($this->is_set_image_link === true && $PostThumbnailURI) {
             $pinterest_create_args['media_source'] = [
                 'source_type' => 'image_url',
@@ -144,7 +157,7 @@ class Pinterest
      * @since 2.5.0
      * @return array
      */
-    public function remote_post($app_id, $app_secret, $app_access_token, $post_id, $board_name, $profile_key, $force_share = false, $instant_share = false)
+    public function remote_post($app_id, $app_secret, $app_access_token, $post_id, $board_name, $section_name, $profile_key, $force_share = false, $instant_share = false)
     {
         // check post is skip social sharing
         if (empty($app_id) || empty($app_secret) || get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
@@ -155,7 +168,7 @@ class Pinterest
             $errorFlag = false;
             $response = '';
 
-            $pin_args = $this->get_create_pin_args($post_id, $board_name, md5($app_access_token), $instant_share);
+            $pin_args = $this->get_create_pin_args($post_id, $board_name, md5($app_access_token), $section_name, $instant_share);
 
             try {
                 $pinterest = new \DirkGroenen\Pinterest\Pinterest($app_id, $app_secret);
@@ -206,6 +219,7 @@ class Pinterest
                     $profile->access_token,
                     $post_id,
                     $profile->default_board_name,
+                    $profile->defaultSection,
                     $profile_key
                 );
             }
@@ -235,6 +249,7 @@ class Pinterest
                     $profile->access_token,
                     $post_id,
                     $profile->default_board_name,
+                    $profile->defaultSection,
                     $profile_key
                 );
             }
@@ -242,9 +257,9 @@ class Pinterest
     }
 
 
-    public function socialMediaInstantShare($app_id, $app_secret, $app_access_token, $post_id, $board_name, $profile_key)
+    public function socialMediaInstantShare($app_id, $app_secret, $app_access_token, $post_id, $board_name, $section_name, $profile_key)
     {
-        $response = $this->remote_post($app_id, $app_secret, $app_access_token, $post_id, $board_name, $profile_key, true, true);
+        $response = $this->remote_post($app_id, $app_secret, $app_access_token, $post_id, $board_name, $section_name, $profile_key, true, true);
         if ($response['success'] == false) {
             wp_send_json_error($response['log']);
         } else {
