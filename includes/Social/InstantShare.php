@@ -78,7 +78,7 @@ class InstantShare
                         $isFacebook = get_post_meta(get_the_ID(), '_wpsp_is_facebook_share', true);
                     ?>
                         <li class="facebook">
-                            <label>
+                            <label style="margin-bottom: 10px;">
                                 <input type="checkbox" id="wpscpprofacebookis" name="_wpsp_is_facebook_share" <?php (!empty($isFacebook) ? checked('on', $isFacebook, true) : checked('', $isFacebook, true)  ); ?> /> <?php esc_html_e('Facebook', 'wp-scheduled-posts'); ?>
                                 <?php
                                 if (is_array($facebookShareCount) && count($facebookShareCount) > 0) :
@@ -96,7 +96,7 @@ class InstantShare
                         $isTwitter = get_post_meta(get_the_ID(), '_wpsp_is_twitter_share', true);
                     ?>
                         <li class="twitter">
-                            <label>
+                            <label style="margin-bottom: 10px;">
                                 <input type="checkbox" id="wpscpprotwitteris" name="_wpsp_is_twitter_share" <?php (!empty($isTwitter) ? checked('on', $isTwitter, true) : checked('', $isTwitter, true)  ); ?> /> <?php esc_html_e('Twitter', 'wp-scheduled-posts'); ?>
                                 <?php
                                 if (is_array($twitterShareCount) && count($twitterShareCount) > 0) :
@@ -116,7 +116,7 @@ class InstantShare
                         $isLinkedin = get_post_meta(get_the_ID(), '_wpsp_is_linkedin_share', true);
                     ?>
                         <li class="linkedin">
-                            <label>
+                            <label style="margin-bottom: 10px;">
                                 <input type="checkbox" id="wpscpprolinkedinis" name="_wpsp_is_linkedin_share" <?php (!empty($isLinkedin) ? checked('on', $isLinkedin, true) : checked('', $isLinkedin, true)  ); ?> /> <?php esc_html_e('Linkedin', 'wp-scheduled-posts'); ?>
                                 <?php
                                 if (is_array($linkedinShareCount) && count($linkedinShareCount) > 0) :
@@ -141,7 +141,7 @@ class InstantShare
                         $isPinterest = get_post_meta(get_the_ID(), '_wpsp_is_pinterest_share', true);
                     ?>
                         <li class="pinterest">
-                            <label>
+                            <label style="margin-bottom: 10px;">
                                 <input type="checkbox" id="wpscppropinterestis" name="_wpsp_is_pinterest_share" <?php (!empty($isPinterest) ? checked('on', $isPinterest, true) : checked('', $isPinterest, true)  ); ?> /> <?php esc_html_e('Pinterest', 'wp-scheduled-posts'); ?>
                                 <?php
                                 if (is_array($pinterestShareCount) && count($pinterestShareCount) > 0) :
@@ -152,32 +152,35 @@ class InstantShare
                                 ?>
                                 <span class="ajaxrequest"></span>
                             </label>
-                            <p class="boardname">
+                            <div class="boardname">
                                 <label><input type="radio" name="pinterestboardtype" value="default" <?php checked($pinterestDefaultBoard, 'default', true); ?>><?php esc_html_e('Default Board', 'wp-scheduled-posts'); ?></label>
                                 <label><input type="radio" name="pinterestboardtype" value="custom" <?php checked($pinterestDefaultBoard, 'custom', true); ?>><?php esc_html_e('Custom Board', 'wp-scheduled-posts'); ?> </label>
-                            </p>
-                            <div id="wpscppropinterestboardname" <?php print(($pinterestDefaultBoard == "default") ? 'style="display: none;"' : ''); ?>>
-                            <?php
-                            foreach ($pinterestProfile as $key => $profile) {
-                                if(!empty($profile->boards) && is_array($profile->boards)){
-                                    $index = md5($profile->access_token);
-                                    $selected_board = isset($pinterestCustomBoardName[$index]) ? $pinterestCustomBoardName[$index] : false;
-                                    $selected_section = isset($pinterestCustomSectionName[$index]) ? $pinterestCustomSectionName[$index] : false;
-                                    echo "<p>";
-                                    echo "<label>{$profile->name}</label>";
-                                    echo "<select class='pinterest-board' name='wpscppro-pinterest-board-name[{$index}]'>";
-                                    // echo "<option value='default'>Default ({$profile->default_board_name})</option>";
-                                    foreach ($profile->boards as $board_key => $board) {
-                                        $_selected = $selected_board === $board->id ? "selected='selected'" : '';
-                                        echo "<option value='{$board->id}' $_selected>{$board->name}</option>";
+
+                                <div id="wpscppropinterestboardname" <?php print(($pinterestDefaultBoard == "default") ? 'style="display: none;"' : ''); ?>>
+                                <?php
+                                foreach ($pinterestProfile as $key => $profile) {
+                                    if(!empty($profile->boards) && is_array($profile->boards)){
+                                        $index = md5($profile->access_token);
+                                        $selected_board = isset($pinterestCustomBoardName[$index]) ? $pinterestCustomBoardName[$index] : false;
+                                        $selected_section = isset($pinterestCustomSectionName[$index]) ? $pinterestCustomSectionName[$index] : false;
+                                        echo "<p>";
+                                        echo "<label><b>Profile Name:</b> {$profile->name}</label>";
+                                        echo "<label style='margin-top: 5px'>Boards</label>";
+                                        echo "<select class='pinterest-board painterest-select' name='wpscppro-pinterest-board-name[{$index}]'>";
+                                        // echo "<option value='default'>Default ({$profile->default_board_name})</option>";
+                                        foreach ($profile->boards as $board_key => $board) {
+                                            $_selected = $selected_board === $board->id ? "selected='selected'" : '';
+                                            echo "<option value='{$board->id}' $_selected>{$board->name}</option>";
+                                        }
+                                        echo "</select>";
+                                        echo "<label style='margin-top: 5px'>Sections</label>";
+                                        echo "<select class='pinterest-section painterest-select' data-index='$key' name='wpscppro-pinterest-section-name[$index]' data-value='$selected_section'>";
+                                        echo "</select>";
+                                        echo "</p>";
                                     }
-                                    echo "</select>";
-                                    echo "<select class='pinterest-section' data-index='$key' name='wpscppro-pinterest-section-name[$index]' data-value='$selected_section'>";
-                                    echo "</select>";
-                                    echo "</p>";
                                 }
-                            }
-                            ?>
+                                ?>
+                                </div>
                             </div>
                             <div class="errorlog"></div>
                         </li>
