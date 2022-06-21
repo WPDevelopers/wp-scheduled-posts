@@ -135,6 +135,7 @@ class InstantShare
                     if ($pinterestIntegation == 'on' && is_array($pinterestProfile) && count($pinterestProfile) > 0) :
                         $pinterestShareCount = get_post_meta(get_the_ID(), '__wpscppro_social_share_pinterest', true);
                         $pinterestCustomBoardName = get_post_meta(get_the_ID(), '_wpscppro_pinterest_board_name', true);
+                        $pinterestCustomSectionName = get_post_meta(get_the_ID(), '_wpscppro_pinterest_section_name', true);
                         $pinterestBoardType = get_post_meta(get_the_ID(), '_wpscppro_pinterestboardtype', true);
                         $pinterestDefaultBoard = ($pinterestBoardType == "" ? 'default' : $pinterestBoardType);
                         $isPinterest = get_post_meta(get_the_ID(), '_wpsp_is_pinterest_share', true);
@@ -154,28 +155,30 @@ class InstantShare
                             <p class="boardname">
                                 <label><input type="radio" name="pinterestboardtype" value="default" <?php checked($pinterestDefaultBoard, 'default', true); ?>><?php esc_html_e('Default Board', 'wp-scheduled-posts'); ?></label>
                                 <label><input type="radio" name="pinterestboardtype" value="custom" <?php checked($pinterestDefaultBoard, 'custom', true); ?>><?php esc_html_e('Custom Board', 'wp-scheduled-posts'); ?> </label>
-                                <div id="wpscppropinterestboardname" <?php print(($pinterestDefaultBoard == "default") ? 'style="display: none;"' : ''); ?>>
-                                <?php
-                                foreach ($pinterestProfile as $key => $profile) {
-                                    if(!empty($profile->boards) && is_array($profile->boards)){
-                                        $index = md5($profile->access_token);
-                                        $selected_board = isset($pinterestCustomBoardName[$index]) ? $pinterestCustomBoardName[$index] : false;
-                                        echo "<label>{$profile->name}</label>";
-                                        echo "<select name='wpscppro-pinterest-board-name[{$index}]'>";
-                                        // echo "<option value='default'>Default ({$profile->default_board_name})</option>";
-                                        foreach ($profile->boards as $board_key => $board) {
-                                            $_selected = $selected_board === $board->id ? "selected='selected'" : '';
-                                            echo "<option value='{$board->id}' $_selected>{$board->name}</option>";
-                                        }
-                                        echo "</select>";
-                                    }
-                                }
-                                ?>
-                                </div>
-
-
-
                             </p>
+                            <div id="wpscppropinterestboardname" <?php print(($pinterestDefaultBoard == "default") ? 'style="display: none;"' : ''); ?>>
+                            <?php
+                            foreach ($pinterestProfile as $key => $profile) {
+                                if(!empty($profile->boards) && is_array($profile->boards)){
+                                    $index = md5($profile->access_token);
+                                    $selected_board = isset($pinterestCustomBoardName[$index]) ? $pinterestCustomBoardName[$index] : false;
+                                    $selected_section = isset($pinterestCustomSectionName[$index]) ? $pinterestCustomSectionName[$index] : false;
+                                    echo "<p>";
+                                    echo "<label>{$profile->name}</label>";
+                                    echo "<select class='pinterest-board' name='wpscppro-pinterest-board-name[{$index}]'>";
+                                    // echo "<option value='default'>Default ({$profile->default_board_name})</option>";
+                                    foreach ($profile->boards as $board_key => $board) {
+                                        $_selected = $selected_board === $board->id ? "selected='selected'" : '';
+                                        echo "<option value='{$board->id}' $_selected>{$board->name}</option>";
+                                    }
+                                    echo "</select>";
+                                    echo "<select class='pinterest-section' data-index='$key' name='wpscppro-pinterest-section-name[$index]' data-value='$selected_section'>";
+                                    echo "</select>";
+                                    echo "</p>";
+                                }
+                            }
+                            ?>
+                            </div>
                             <div class="errorlog"></div>
                         </li>
                     <?php
@@ -230,6 +233,10 @@ class InstantShare
         if (isset($_POST['wpscppro-pinterest-board-name']) && is_array($_POST['wpscppro-pinterest-board-name'])) {
             $board_names = array_filter($_POST['wpscppro-pinterest-board-name'], 'sanitize_text_field');
             update_post_meta($post_id, '_wpscppro_pinterest_board_name', $board_names);
+        }
+        if (isset($_POST['wpscppro-pinterest-section-name']) && is_array($_POST['wpscppro-pinterest-section-name'])) {
+            $section_names = array_filter($_POST['wpscppro-pinterest-section-name'], 'sanitize_text_field');
+            update_post_meta($post_id, '_wpscppro_pinterest_section_name', $section_names);
         }
     }
 
@@ -303,7 +310,9 @@ class InstantShare
         $postid = intval($_REQUEST['postid']);
         $platform = (isset($_POST['platform']) ? $_POST['platform'] : '');
         $platformKey = (isset($_POST['platformKey']) ? $_POST['platformKey'] : '');
+        $pinterest_board_type = (isset($_POST['pinterest_board_type']) ? $_POST['pinterest_board_type'] : '');
         $pinterestBoardName = (isset($_POST['pinterest_custom_board_name']) ? $_POST['pinterest_custom_board_name'] : '');
+        $pinterestSectionName = (isset($_POST['pinterest_custom_section_name']) ? $_POST['pinterest_custom_section_name'] : '');
         // all social platfrom
         if ($platform == 'facebook') {
             $facebook = \WPSP\Helper::get_social_profile(WPSCP_FACEBOOK_OPTION_NAME);
@@ -370,7 +379,8 @@ class InstantShare
                 $pinterest[$platformKey]->app_secret,
                 $pinterest[$platformKey]->access_token,
                 $postid,
-                ($pinterestBoardName != "" ? $pinterestBoardName : $pinterest[$platformKey]->default_board_name),
+                ($pinterest_board_type === "custom" ? $pinterestBoardName : $pinterest[$platformKey]->default_board_name),
+                ($pinterest_board_type === "custom" ? $pinterestSectionName : $pinterest[$platformKey]->defaultSection),
                 $platformKey
             );
             wp_die();
