@@ -300,7 +300,7 @@ class InstantShare
                 $markup .= '</ul>';
             }
         } else {
-            $markup .= esc_html__('Failed!, Your are not selected any social media.', 'wp-scheduled-posts');
+            $markup .= esc_html__("Failed!, You didn't select any social media.", 'wp-scheduled-posts');
         }
 
         wp_send_json(array('markup' => $markup, 'profile' => $allProfile));
