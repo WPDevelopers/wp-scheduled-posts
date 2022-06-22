@@ -81,6 +81,7 @@ const Pinterest = ({
                       <input
                         type="checkbox"
                         name={`${field.name}.${index}`}
+                        disabled={!boards?.length}
                         onChange={(e) => {
                           if (e.target.checked) {
                             console.log({ default_board_name: defaultBoard });
@@ -97,6 +98,11 @@ const Pinterest = ({
                       />
                       <div></div>
                     </div>
+                    {
+                      !boards?.length && (
+                        <p style={{flex: "1 1 100%", color: "#f00"}}>Please create a board first to publish pin.</p>
+                      )
+                    }
                   </div>
                 </li>
               ))}

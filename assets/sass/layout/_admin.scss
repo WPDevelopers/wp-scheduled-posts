@@ -617,6 +617,7 @@
     li {
       .item-content {
         display: flex;
+        flex-wrap: wrap;
         justify-content: center;
         align-items: center;
         border: 1px solid #e7e7e7;
