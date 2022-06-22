@@ -160,7 +160,7 @@ const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
               });
               options = [...options, ...sections];
               updateOptions(options);
-              setCashedSectionData({...cashedSectionData, [defaultBoard]: sections});
+              setCashedSectionData({...cashedSectionData, [defaultBoard]: options});
             }
           })
           .fail(function () {
