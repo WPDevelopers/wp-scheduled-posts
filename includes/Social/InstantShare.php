@@ -161,8 +161,8 @@ class InstantShare
                                 foreach ($pinterestProfile as $key => $profile) {
                                     if(!empty($profile->boards) && is_array($profile->boards)){
                                         $index = md5($profile->access_token);
-                                        $selected_board = isset($pinterestCustomBoardName[$index]) ? $pinterestCustomBoardName[$index] : false;
-                                        $selected_section = isset($pinterestCustomSectionName[$index]) ? $pinterestCustomSectionName[$index] : false;
+                                        $selected_board = isset($pinterestCustomBoardName[$index]) ? $pinterestCustomBoardName[$index] : (isset($profile->default_board_name->value) ? $profile->default_board_name->value : '');
+                                        $selected_section = isset($pinterestCustomSectionName[$index]) ? $pinterestCustomSectionName[$index] : (isset($profile->defaultSection->value) ? $profile->defaultSection->value : '');
                                         echo "<p>";
                                         echo "<label><b>Profile Name:</b> {$profile->name}</label>";
                                         echo "<label style='margin-top: 5px'>Boards</label>";
