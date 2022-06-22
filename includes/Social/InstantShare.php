@@ -166,7 +166,7 @@ class InstantShare
                                         echo "<p>";
                                         echo "<label><b>Profile Name:</b> {$profile->name}</label>";
                                         echo "<label style='margin-top: 5px'>Boards</label>";
-                                        echo "<select class='pinterest-board painterest-select' name='wpscppro-pinterest-board-name[{$index}]'>";
+                                        echo "<select class='pinterest-board pinterest-select' name='wpscppro-pinterest-board-name[{$index}]'>";
                                         // echo "<option value='default'>Default ({$profile->default_board_name})</option>";
                                         foreach ($profile->boards as $board_key => $board) {
                                             $_selected = $selected_board === $board->id ? "selected='selected'" : '';
@@ -174,7 +174,7 @@ class InstantShare
                                         }
                                         echo "</select>";
                                         echo "<label style='margin-top: 5px'>Sections</label>";
-                                        echo "<select class='pinterest-section painterest-select' data-index='$key' name='wpscppro-pinterest-section-name[$index]' data-value='$selected_section'>";
+                                        echo "<select class='pinterest-section pinterest-select' data-index='$key' name='wpscppro-pinterest-section-name[$index]' data-value='$selected_section'>";
                                         echo "</select>";
                                         echo "</p>";
                                     }

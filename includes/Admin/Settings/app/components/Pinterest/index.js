@@ -55,7 +55,7 @@ const Pinterest = ({
                       <img src={item.thumbnail_url} alt="logo" />
                     </div>
                     <h4 className="entry-title">{item.name}</h4>
-                    <div className="control">
+                    <div className="control pinterest-select">
                       <Select2
                         value={defaultBoard}
                         // onMenuOpen={() => fetchData()}
@@ -63,7 +63,7 @@ const Pinterest = ({
                         options={boardOptions}
                       />
                     </div>
-                    <div className="control painterest-select">
+                    <div className="control pinterest-select">
                       <Select2
                         value={defaultSection}
                         onMenuOpen={() =>
