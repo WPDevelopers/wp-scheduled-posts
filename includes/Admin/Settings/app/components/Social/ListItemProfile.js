@@ -71,7 +71,10 @@ return (
                 <Select2
                   value={defaultBoard}
                   // onMenuOpen={() => fetchData()}
-                  onChange={setDefaultBoard}
+                  onChange={option => {
+                    setDefaultBoard(option);
+                    setDefaultSection(noSection)
+                  }}
                   options={options}
                 />
               </div>
