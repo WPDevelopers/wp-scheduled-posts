@@ -100,9 +100,15 @@ class Pinterest
             if($custom_board_name && !empty($custom_board_name[$board_name_key])){
                 $board_name = $custom_board_name[$board_name_key];
             }
+            else{
+                $board_name = '';
+            }
             $custom_section_name = get_post_meta($post_id, '_wpscppro_pinterest_section_name', true);
             if($custom_section_name && !empty($custom_section_name[$board_name_key])){
                 $section_name = $custom_section_name[$board_name_key];
+            }
+            else{
+                $section_name = '';
             }
         }
         if(is_object($board_name)){
