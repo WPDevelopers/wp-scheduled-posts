@@ -346,7 +346,7 @@ const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
               type="submit"
               onClick={closeModal}
             >
-              {__("Close", "wp-scheduled-posts")}
+              {__("Save", "wp-scheduled-posts")}
             </button>
           </React.Fragment>
         )}
