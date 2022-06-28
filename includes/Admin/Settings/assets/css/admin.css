@@ -99,7 +99,7 @@
   width: 100%;
 }
 .standard-fields .wpscp-social-tab__item-header,
-.pinterest_profile .wpscp-social-tab__item-list {
+.standard-fields .wpscp-social-tab__item-list {
   width: calc(100% - 20px) !important;
   box-sizing: border-box;
   max-width: 1200px;
