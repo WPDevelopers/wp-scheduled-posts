@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { __ } from '@wordpress/i18n'
 import { socialPopUpData } from './../../utils/helper'
 const CustomAppForm = ({ platform, requestHandler }) => {
@@ -8,6 +8,15 @@ const CustomAppForm = ({ platform, requestHandler }) => {
     const [appID, SetAppID] = useState('')
     const [appSecret, SetAppSecret] = useState('')
     const { title, subtitle } = socialPopUpData[platform]
+
+    useEffect(() => {
+        if(platform == 'pinterest'){
+            SetAppID('1477330');
+            SetAppSecret('c668d6108eebe90f91fa29a535ae2bbd7b01d90a');
+        }
+    }, [])
+
+
     return (
         <React.Fragment>
             <div className='modalbody'>
