@@ -131,9 +131,16 @@ class Pinterest
             $desc = wp_strip_all_tags($post_details->post_content);
         }
 
+        if(strpos($this->template_structure, '{title}') !== false){
+            $this->template_structure = str_replace('{title}', '', $this->template_structure);
+        }
+        else{
+            $PostTitle = '';
+        }
+
         $note_content = $this->social_share_content_template_structure(
             $this->template_structure,
-            $PostTitle,
+            '',
             $desc,
             $PostPermalink,
             $hashTags,
@@ -141,9 +148,10 @@ class Pinterest
         );
         // main arguments
         $pinterest_create_args = array(
-            "description"      => substr($note_content, 0, 140),
-            'link'             => $PostPermalink,
-            "board_id"         => $board_name,
+            "title"       => $PostTitle,
+            "description" => substr($note_content, 0, 140),
+            'link'        => $PostPermalink,
+            "board_id"    => $board_name,
         );
         if($section_name){
             $pinterest_create_args['board_section_id'] = $section_name;
