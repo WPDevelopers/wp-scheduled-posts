@@ -77,7 +77,7 @@ class Collection implements \JsonSerializable, \ArrayAccess, \IteratorAggregate{
             $this->items = $items;
         } else if ($items instanceof \DirkGroenen\Pinterest\Transport\Response) {
             $this->response = $items;
-            $this->items = $items->data;
+            $this->items = $items->items;
         } else {
             throw new PinterestException("$items needs to be an instance of Transport\Response or an array.");
         }
@@ -86,8 +86,8 @@ class Collection implements \JsonSerializable, \ArrayAccess, \IteratorAggregate{
         $this->items = $this->buildCollectionModels($this->items);
 
         // Add pagination object
-        if (isset($this->response->page) && !empty($this->response->page['next'])) {
-            $this->pagination = $this->response->page;
+        if (isset($this->response->bookmark)) {
+            $this->pagination = $this->response->bookmark;
         } else {
             $this->pagination = false;
         }
@@ -131,7 +131,15 @@ class Collection implements \JsonSerializable, \ArrayAccess, \IteratorAggregate{
      */
     public function hasNextPage()
     {
-        return ($this->response != null && isset($this->response->page['next']));
+        return ($this->response != null && !empty($this->response->bookmark));
+    }
+
+    public function nextPage()
+    {
+        if ($this->hasNextPage()) {
+            $response = $this->master->request->execute('GET', $this->response->bookmark);
+            return new self($this->master, $response, $this->model);
+        }
     }
 
     /**

@@ -110,7 +110,64 @@ jQuery(document).ready(function ($) {
         } else {
             $('#wpscppropinterestboardname').hide()
         }
+    });
+
+    // instant share
+    var cachedSections = {};
+    $('#wpscppropinterestboardname .pinterest-board').on('change', function(event){
+        var boardName = jQuery(this).val();
+        var $section  = jQuery(this).siblings('.pinterest-section');
+        if(!cachedSections || typeof cachedSections[boardName] == 'undefined'){
+            var index     = $section.data('index');
+            var value     = $section.data('value');
+
+            var data      = {
+            action      : "wpsp_social_profile_fetch_pinterest_section",
+            _wpnonce    : wpscp_ajax._wpnonce,
+            defaultBoard: boardName,
+            profile     : index,
+            };
+
+            $section.removeAttr('data-value');
+            $section.find('option').remove()
+            $section.append(jQuery('<option>', {
+                value: '',
+                text: 'No Section',
+            }))
+            jQuery
+            .post(ajaxurl, data, function (response) {
+                if (response.success === true) {
+                    cachedSections[boardName] = response.data;
+                    jQuery.each(response.data, function (i, item) {
+                        $section.append(jQuery('<option>', {
+                            value   : item.id,
+                            text    : item.name,
+                            selected: value === item.id,
+                        }));
+                    });
+                }
+            })
+            .fail(function () {
+
+            });
+        }
+        else{
+            $section.find('option').remove()
+            $section.append(jQuery('<option>', {
+                value: '',
+                text: 'No Section',
+            }))
+            jQuery.each(cachedSections[boardName], function (i, item) {
+                $section.append(jQuery('<option>', {
+                    value: item.id,
+                    text : item.name,
+                }));
+            });
+        }
     })
+    $('#wpscppropinterestboardname .pinterest-board').trigger('change');
+    // instant share
+
 
     /**
      * WP admin sidebar Upload Image

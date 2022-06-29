@@ -41,10 +41,8 @@ class Sections extends Endpoint {
      */
     public function get(string $board, array $data = [])
     {
-        $response = $this->request->get(sprintf("board/%s/sections/", $board), $data);
-        return new Collection($this->master, array_map(function($r) {
-            return ['id' => $r];
-        }, $response->data), "Section");
+        $response = $this->request->get(sprintf("boards/%s/sections/", $board), $data);
+        return new Collection($this->master, $response, "Section");
     }
 
     /**

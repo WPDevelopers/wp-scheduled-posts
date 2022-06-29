@@ -63,6 +63,17 @@ class Response {
     }
 
     /**
+     * Get all items from the response
+     *
+     * @access public
+     * @return array
+     */
+    public function all()
+    {
+        return $this->response;
+    }
+
+    /**
      * Return the requested key data
      *
      * @access public

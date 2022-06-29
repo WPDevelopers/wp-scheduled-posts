@@ -13,11 +13,12 @@ class SocialProfile
     public function __construct()
     {
         /**
-         * Social Mulit Profile ajax 
+         * Social Mulit Profile ajax
          * @since 2.5.0
          */
         add_action('wp_ajax_wpsp_social_add_social_profile', array($this, 'add_social_profile'));
         add_action('wp_ajax_wpsp_social_profile_fetch_user_info_and_token', array($this, 'social_profile_fetch_user_info_and_token'));
+        add_action('wp_ajax_wpsp_social_profile_fetch_pinterest_section', array($this, 'social_profile_fetch_pinterest_section'));
         $this->multiProfileErrorMessage = '<p>' . esc_html__('Multi Profile is a Premium Feature. To use this feature, Upgrade to Pro.', 'wp-scheduled-posts') . '</p><a href="https://wpdeveloper.com/in/wpsp">Upgrade to Pro</a>';
     }
 
@@ -101,6 +102,35 @@ class SocialProfile
         }
         return null;
     }
+
+    /**
+     * Facebook user group Details
+     */
+    public function social_profile_fetch_pinterest_section()
+    {
+        $_wpnonce = (isset($_POST['_wpnonce']) ? $_POST['_wpnonce'] : '');
+        $defaultBoard = (isset($_POST['defaultBoard']) ? $_POST['defaultBoard'] : '');
+        $profile = (isset($_POST['profile']) ? $_POST['profile'] : '');
+
+        if(!is_array($profile)){
+            $pinterest = \WPSP\Helper::get_social_profile(WPSCP_PINTEREST_OPTION_NAME);
+            $profile = (array) $pinterest[(int) $profile];
+        }
+
+        if(wp_verify_nonce($_wpnonce, 'wp_rest')){
+
+            $pinterest = new \DirkGroenen\Pinterest\Pinterest($profile['app_id'], $profile['app_secret']);
+            $pinterest->auth->setOAuthToken($profile['access_token']);
+            $sections = $pinterest->sections->get($defaultBoard, [
+                'page_size' => 100,
+            ]);
+            $sections = $sections->toArray();
+
+            wp_send_json_success($sections['data']);
+            wp_die();
+        }
+    }
+
     /**
      * ajax social multi profile fetch user info and generate token from oauth code
      * @since 2.5.0
@@ -123,18 +153,18 @@ class SocialProfile
                     $app_id,
                     $app_secret
                 );
-                $token = $pinterest->auth->getOAuthToken($code);
+                $token = $pinterest->auth->getOAuthToken($code, WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE);
                 $pinterest->auth->setOAuthToken($token->access_token);
-                $userinfo = $pinterest->users->me(array(
-                    'fields' => 'username,first_name,last_name,image[large]'
-                ));
+                $userinfo = $pinterest->users->me();
 
                 $info = array(
-                    'id'            => $userinfo->id,
-                    'app_id' => $app_id,
-                    'app_secret' => $app_secret,
-                    'name'          => $userinfo->first_name . " " . $userinfo->last_name,
-                    'thumbnail_url' => $userinfo->image['large']['url'],
+                    'id'            => $userinfo->username,
+                    'app_id'        => $app_id,
+                    'app_secret'    => $app_secret,
+                    'name'          => $userinfo->username,
+                    'website_url'   => $userinfo->website_url,
+                    'account_type'  => $userinfo->account_type,
+                    'thumbnail_url' => $userinfo->profile_image,
                     'status'        => true,
                     'access_token'  => $token->access_token,
                     'added_by'      => $current_user->user_login,
@@ -147,14 +177,25 @@ class SocialProfile
                 }
 
 
-                // get all board list  
-                $boardEndPoint      = 'https://api.pinterest.com/v1/me/boards/?access_token=' . $token->access_token . '&fields=id%2Cname%2Curl';
-                $boards = wp_remote_get(esc_url_raw($boardEndPoint));
+                // get all board list
+                $boards_arr = [];
+                $page_size  = 1;
+                $_boards_arr = ['page' => null];
+                do {
+                    $boards      = $pinterest->users->getMeBoards(array(
+                        'page_size' => $page_size,
+                        'bookmark'  => $_boards_arr['page'],
+                    ));
+                    $_boards_arr = $boards->toArray();
+                    $boards_arr  = array_merge($boards_arr, $_boards_arr['data']);
+                }
+                while(!empty($_boards_arr['page']));
+
                 $response = array(
                     'success' => true,
-                    'boards'   => wp_remote_retrieve_body($boards),
-                    'type'      => 'pinterest',
-                    'data'      => $info
+                    'boards'  => $boards_arr,
+                    'type'    => 'pinterest',
+                    'data'    => $info
                 );
                 wp_send_json($response);
                 wp_die();
@@ -368,7 +409,7 @@ class SocialProfile
                 if (is_array($request)) {
                     $pinterest->auth->setState(json_encode($request));
                 }
-                $loginurl = $pinterest->auth->getLoginUrl(WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE, array('read_public', 'write_public', 'read_relationships', 'write_relationships'));
+                $loginurl = $pinterest->auth->getLoginUrl(WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE, array('boards:read', 'boards:write', 'pins:read', 'pins:write', 'user_accounts:read'));
                 wp_send_json_success($loginurl);
                 wp_die();
             } catch (\Exception $error) {

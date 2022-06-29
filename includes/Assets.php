@@ -77,7 +77,7 @@ class Assets
             wp_localize_script(
                 'wpscp-script',
                 'wpscp_ajax',
-                array('ajax_url' => admin_url('admin-ajax.php'))
+                array('ajax_url' => admin_url('admin-ajax.php'), '_wpnonce' => wp_create_nonce('wp_rest'))
             );
             // calendar
             wp_enqueue_script('fullcalendar-core', WPSP_ASSETS_URI . 'js/vendor/fullcalendar/core/main.js', array('jquery'), filemtime(WPSP_ASSETS_DIR_PATH . 'js/vendor/fullcalendar/core/main.js'), false);
@@ -98,7 +98,8 @@ class Assets
                     'calendar_rest_route' => site_url('/?rest_route=/wpscp/v1/post_type=post/month=' . $month . '/year=' . $year)
                 )
             );
-            wp_enqueue_script('wpsp-socialprofile', WPSP_ASSETS_URI . 'js/wpsp-socialprofile.js', array('jquery'), filemtime(WPSP_ASSETS_DIR_PATH . 'js/wpsp-socialprofile.js'), true);
+            wp_enqueue_script('md5.min.js', WPSP_ASSETS_URI . 'js/vendor/md5.min.js', array(), filemtime(WPSP_ASSETS_DIR_PATH . 'js/vendor/md5.min.js'), true);
+            wp_enqueue_script('wpsp-socialprofile', WPSP_ASSETS_URI . 'js/wpsp-socialprofile.js', array('jquery', 'md5.min.js'), filemtime(WPSP_ASSETS_DIR_PATH . 'js/wpsp-socialprofile.js'), true);
             wp_localize_script('wpsp-socialprofile', 'wpscpSocialProfile', array(
                 'plugin_url'    => WPSP_PLUGIN_ROOT_URI,
                 'nonce'            => wp_create_nonce('wpscp-pro-social-profile'),
@@ -113,7 +114,7 @@ class Assets
     /**
      * Admin bar Script
      * add some css and js in adminbar
-     * 
+     *
      * @since 2.3.1
      */
     public function adminbar_script()
