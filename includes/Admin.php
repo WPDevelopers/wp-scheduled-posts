@@ -110,6 +110,7 @@ class Admin
         $notice->maybe_later_time = '7 Day';
 
         $notice->text_domain = 'wp-scheduled-posts';
+        $plugin_name = basename(WPSP_PLUGIN_BASENAME, '.php');
 
         $scheme = (parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY)) ? '&' : '?';
         $url = $_SERVER['REQUEST_URI'] . $scheme;
@@ -168,7 +169,7 @@ class Admin
         $notice->thumbnail('upsale', plugins_url('assets/images/wpsp-logo.svg', WPSP_PLUGIN_BASENAME));
 
         $notice->classes( 'freedom30', 'notice is-dismissible' );
-        $notice->message( 'freedom30', '<p>'. __( 'Celebrate independence & upgrade now with <strong>30% OFF</strong> to use all premium features.', 'wp-scheduled-posts' ) .' <a class="button button-primary btn-wpsp" target="_blank" href="https://schedulepress.com/#pricing">Claim My Offer</a><button class="notice-dismiss" data-notice="freedom30"></button></p>' );
+        $notice->message( 'freedom30', '<p>'. __( 'Celebrate independence & upgrade to <strong>SchedulePress PRO</strong> with <strong>30% OFF</strong> to use all the premium features from today', 'wp-scheduled-posts' ) .' <a class="button button-primary btn-wpsp" target="_blank" href="https://schedulepress.com/#pricing">Claim My Offer</a><button class="notice-dismiss '. $plugin_name .'" data-notice="freedom30"></button></p>' );
         $notice->thumbnail('freedom30', plugins_url('assets/images/freedom30.png', WPSP_PLUGIN_BASENAME));
 
         $notice->upsale_args = array(
@@ -189,11 +190,13 @@ class Admin
             ],
         );
 
-
-        if( $notice->timestamp < strtotime( '5th July 2022 11:59:59 PM' ) ) {
-            $notice->options_args['notice_will_show']['freedom30'] = $notice->timestamp;
+        if( ! $this->pro_enabled() ) {
+            if( $notice->timestamp < strtotime( '5th July 2022 11:59:59 PM' ) ) {
+                $notice->options_args['notice_will_show']['freedom30'] = $notice->timestamp;
+            }
+            $notice->freedom30_off();
         }
-        $notice->freedom30_off();
+
 
         // main notice init
         $notice->init();

@@ -348,7 +348,7 @@ class WPDevNotice
         if ($this->has_thumbnail($current_notice)) {
             $classes .= ' notice-has-thumbnail';
         }
-
+        $classes .= ' ' . $this->plugin_name;
         echo '<div class="' . $classes . ' wpdeveloper-' . $current_notice . '-notice">';
     }
     /**
@@ -796,6 +796,7 @@ class WPDevNotice
         $dismiss = isset($_POST['dismiss']) ? $_POST['dismiss'] : false;
         $notice = isset($_POST['notice']) ? $_POST['notice'] : false;
         if ($dismiss) {
+            update_user_meta( get_current_user_id(), $this->plugin_name . '_' . $notice, true );
             $this->update($notice);
             echo 'success';
         } else {
@@ -836,7 +837,7 @@ class WPDevNotice
             jQuery(document).ready(function($) {
                 if ($('.notice').length > 0) {
                     if ($('.notice').find('.notice-dismiss').length > 0) {
-                        $('.notice').on('click', 'button.notice-dismiss', function(e) {
+                        $('.notice.<?php echo $this->plugin_name; ?>').on('click', 'button.notice-dismiss', function(e) {
                             e.preventDefault();
                             $.ajax({
                                 url: '<?php echo admin_url('admin-ajax.php'); ?>',
@@ -848,7 +849,9 @@ class WPDevNotice
                                     notice: $(this).data('notice'),
                                 },
                                 success: function(response) {
-                                    $('.notice').hide();
+                                    if( response === 'success' ) {
+                                        e.target.offsetParent.style.display = 'none';
+                                    }
                                 },
                                 error: function(error) {
                                 },
@@ -941,9 +944,9 @@ class WPDevNotice
 
 
     public function freedom30_off(){
-        if ( ! get_user_meta( get_current_user_id(), $this->plugin_name . '_' . $clicked_from, true ) ) {
+        if ( ! get_user_meta( get_current_user_id(), $this->plugin_name . '_freedom30', true ) ) {
             if( $notice->timestamp > strtotime( '5th July 2022 11:59:59 PM' ) ) {
-                update_user_meta( get_current_user_id(), $this->plugin_name . '_' . $clicked_from, true );
+                update_user_meta( get_current_user_id(), $this->plugin_name . '_freedom30', true );
             }
         }
     }
