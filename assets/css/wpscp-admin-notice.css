@@ -175,13 +175,19 @@ a.wpsp-notice-cta {
 
 .notice-has-thumbnail.wpdeveloper-freedom30-notice {
     display: grid;
-    grid-template-columns: 70px 1fr;
+    grid-template-columns: 50px 1fr;
     align-items: center;
     position: relative;
 }
 .notice-has-thumbnail.wpdeveloper-freedom30-notice .wpdeveloper-notice-thumbnail {
-    width: 70px;
+    width: 40px;
+    padding-left: 10px;
 }
 .notice-has-thumbnail.wpdeveloper-freedom30-notice .wpdeveloper-notice-thumbnail img {
-    width: 50px;
+    width: 40px;
+    display: block;
+}
+.notice-has-thumbnail.wpdeveloper-freedom30-notice .wpdeveloper-notice-message p {
+    margin: 0;
+    padding: 0;
 }
