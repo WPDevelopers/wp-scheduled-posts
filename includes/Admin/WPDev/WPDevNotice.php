@@ -854,8 +854,7 @@ class WPDevNotice
                                     }
                                 },
                                 error: function(error) {
-                                },
-                                complete: function() {
+                                    console.log('WPSP: Something went wrong!');
                                 }
                             });
                         });
