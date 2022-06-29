@@ -291,12 +291,17 @@ class WPDevNotice
                     case 'upsale':
                         $later_time = $this->makeTime($this->timestamp,  $this->maybe_later_time);
                         break;
+
+                    default:
+                        $dismiss    = ( isset( $plugin_action ) ) ? $plugin_action : false;
+                        break;
                 }
 
                 if (isset($later) && $later == true) {
                     $options_data[$this->plugin_name]['notice_will_show'][$clicked_from] = $later_time;
                 }
                 if (isset($dismiss) && $dismiss == true) {
+                    update_user_meta( get_current_user_id(), $this->plugin_name . '_' . $clicked_from, true );
                     $this->update($clicked_from);
                 }
                 $this->update_options_data($options_data[$this->plugin_name]);
@@ -341,7 +346,7 @@ class WPDevNotice
         }
 
         if ($this->has_thumbnail($current_notice)) {
-            $classes .= 'notice-has-thumbnail';
+            $classes .= ' notice-has-thumbnail';
         }
 
         echo '<div class="' . $classes . ' wpdeveloper-' . $current_notice . '-notice">';
@@ -384,6 +389,12 @@ class WPDevNotice
                 do_action('wpdeveloper_review_notice_for_' . $this->plugin_name);
                 $this->get_thumbnail('review');
                 $this->get_message('review');
+                break;
+            default:
+                do_action( 'wpdeveloper_'. $notice .'_notice_for_' . $this->plugin_name );
+                $this->get_thumbnail( $notice );
+                $this->get_message( $notice );
+                $this->dismiss_button_scripts();
                 break;
         }
     }
@@ -794,7 +805,7 @@ class WPDevNotice
     }
 
     /**
-     * This function is responsible for do action when 
+     * This function is responsible for do action when
      * the dismiss button clicked in upsale notice.
      */
     public function upsale_notice_dissmiss()
@@ -926,5 +937,14 @@ class WPDevNotice
         </script>
 
 <?php
+    }
+
+
+    public function freedom30_off(){
+        if ( ! get_user_meta( get_current_user_id(), $this->plugin_name . '_' . $clicked_from, true ) ) {
+            if( $notice->timestamp > strtotime( '5th July 2022 11:59:59 PM' ) ) {
+                update_user_meta( get_current_user_id(), $this->plugin_name . '_' . $clicked_from, true );
+            }
+        }
     }
 }

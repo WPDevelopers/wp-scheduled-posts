@@ -168,3 +168,7 @@ a.wpsp-notice-cta {
 .wpscp-twitter-app-notice {
     margin-bottom: 20px;
 }
+
+.button.button-primary.btn-wpsp {
+    background-color: #6c62ff;
+}

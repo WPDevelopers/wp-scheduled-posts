@@ -160,12 +160,16 @@ class Admin
         $notice->thumbnail('review', plugins_url('assets/images/wpsp-logo.svg', WPSP_PLUGIN_BASENAME));
         /**
          * This is upsale notice settings
-         * classes for wrapper, 
+         * classes for wrapper,
          * Message message for showing.
          */
         $notice->classes('upsale', 'notice is-dismissible ');
         $notice->message('upsale', '<p>' . __('Enjoying <strong>SchedulePress</strong>? Why not check our <strong><a href="https://wpdeveloper.com/in/wp-scheduled-posts-pro" target="_blank">Pro version</a></strong> which will enable auto schedule, multi social account share and many more features! [<strong><a href="https://wpdeveloper.com/plugins/wp-scheduled-posts/" target="_blank">Learn More</a></strong>]', 'wp-scheduled-posts') . '</p>');
         $notice->thumbnail('upsale', plugins_url('assets/images/wpsp-logo.svg', WPSP_PLUGIN_BASENAME));
+
+        $notice->classes( 'freedom30', 'notice is-dismissible' );
+        $notice->message( 'freedom30', '<p>'. __( 'Celebrate independence & upgrade now with <strong>30% OFF</strong> to use all premium features.', 'wp-scheduled-posts' ) .' <a class="button button-primary btn-wpsp" target="_blank" href="https://schedulepress.com/#pricing">Claim My Offer</a><button class="notice-dismiss" data-notice="freedom30"></button></p>' );
+        $notice->thumbnail('freedom30', plugins_url('assets/images/freedom30.png', WPSP_PLUGIN_BASENAME));
 
         $notice->upsale_args = array(
             'slug'      => 'wp-scheduled-posts-pro',
@@ -179,11 +183,18 @@ class Admin
         );
         $notice->options_args = array(
             'notice_will_show' => [
-                'opt_in' => $notice->timestamp,
+                'opt_in' => $notice->makeTime( $notice->timestamp, '3 Day' ),
                 'upsale' => $notice->makeTime($notice->timestamp, '7 Day'),
-                'review' => $notice->makeTime($notice->timestamp, '3 Day'), // after 3 days
+                'review' => $notice->makeTime($notice->timestamp, '5 Day'), // after 3 days
             ],
         );
+
+
+        if( $notice->timestamp < strtotime( '5th July 2022 11:59:59 PM' ) ) {
+            $notice->options_args['notice_will_show']['freedom30'] = $notice->timestamp;
+        }
+        $notice->freedom30_off();
+
         // main notice init
         $notice->init();
     }
