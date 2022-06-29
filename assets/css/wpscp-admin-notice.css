@@ -173,7 +173,7 @@ a.wpsp-notice-cta {
     background-color: #6c62ff;
 }
 
-.notice-has-thumbnail.wpdeveloper-freedom30-notice {
+.notice.notice-has-thumbnail.wpdeveloper-freedom30-notice {
     display: grid;
     grid-template-columns: 50px 1fr;
     align-items: center;
