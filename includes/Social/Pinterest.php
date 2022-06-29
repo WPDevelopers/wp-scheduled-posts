@@ -148,7 +148,7 @@ class Pinterest
         );
         // main arguments
         $pinterest_create_args = array(
-            "title"       => $PostTitle,
+            "title"       => html_entity_decode($PostTitle),
             "description" => substr($note_content, 0, 140),
             'link'        => $PostPermalink,
             "board_id"    => $board_name,
