@@ -187,6 +187,9 @@ a.wpsp-notice-cta {
     width: 40px;
     display: block;
 }
+.notice-has-thumbnail.wpdeveloper-freedom30-notice .wpdeveloper-notice-message {
+    padding: 10px 0px;
+}
 .notice-has-thumbnail.wpdeveloper-freedom30-notice .wpdeveloper-notice-message p {
     margin: 0;
     padding: 0;
