@@ -134,14 +134,6 @@ class Collection implements \JsonSerializable, \ArrayAccess, \IteratorAggregate{
         return ($this->response != null && !empty($this->response->bookmark));
     }
 
-    public function nextPage()
-    {
-        if ($this->hasNextPage()) {
-            $response = $this->master->request->execute('GET', $this->response->bookmark);
-            return new self($this->master, $response, $this->model);
-        }
-    }
-
     /**
      * Return the item at the given index
      *
