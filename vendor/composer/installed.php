@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '80c4440b05e916bda48ceec2e11d65fe477dbee0',
+        'reference' => 'da294be529bcf0ebb69b90e9fc5f30a128803524',
         'name' => 'schedulepress/wp-schedule-posts',
         'dev' => true,
     ),
@@ -99,7 +99,7 @@
             'aliases' => array(
                 0 => '9999999-dev',
             ),
-            'reference' => '2d3fc6fa4b7a04fd2bad06dac5faa589cd623f6a',
+            'reference' => 'd6300563a1b06f61639864b4e3a03c675a688ae6',
             'dev_requirement' => false,
         ),
         'psr/http-message' => array(
@@ -132,7 +132,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '80c4440b05e916bda48ceec2e11d65fe477dbee0',
+            'reference' => 'da294be529bcf0ebb69b90e9fc5f30a128803524',
             'dev_requirement' => false,
         ),
         'symfony/polyfill-intl-idn' => array(
