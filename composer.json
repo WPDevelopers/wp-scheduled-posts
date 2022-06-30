@@ -6,11 +6,22 @@
             "name": "wpdevteam"
         }
     ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/priyomukul/wp-notice"
+        }
+    ],
     "require": {
-        "abraham/twitteroauth": "^1.1",
-        "facebook/graph-sdk": "^5.7",
-        "aymericdev/linkedin-sdk-php": "^1.0",
-        "dirkgroenen/pinterest-api-php": "^0.2.12"
+        "priyomukul/wp-notice": "dev-main",
+        "abraham/twitteroauth": "1.2.0",
+        "facebook/graph-sdk": "5.7.0",
+        "aymericdev/linkedin-sdk-php": "v1.0.4",
+        "dirkgroenen/pinterest-api-php": "0.2.13",
+        "guzzlehttp/promises": "1.4.0",
+        "guzzlehttp/psr7": "1.7.0",
+        "paragonie/random_compat": "v9.99.99",
+        "guzzlehttp/guzzle": "6.5.5"
     },
     "autoload": {
         "psr-4": {
