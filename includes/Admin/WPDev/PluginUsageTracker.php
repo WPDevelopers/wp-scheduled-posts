@@ -706,7 +706,7 @@ class PluginUsageTracker
             // And we allow you to filter the text anyway
             $notice_text = apply_filters('wpins_notice_text_' . esc_attr($this->plugin_name), $notice_text); ?>
 
-            <div class="notice notice-info updated put-dismiss-notice">
+            <div class="wpsp-optin">
                 <p><?php echo __($notice_text, 'wp-scheduled-posts'); ?></p>
                 <div class="eael-insights-data" style="display: none;">
                     <p><?php echo __('We collect non-sensitive diagnostic data and plugin usage information. Your site URL, WordPress & PHP version, plugins & themes and email address to send you the discount coupon. This data lets us make sure this plugin always stays compatible with the most popular plugins and themes. No spam, I promise.', 'wp-scheduled-posts'); ?></p>

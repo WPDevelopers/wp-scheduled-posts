@@ -61,3 +61,8 @@ vendor/*.cache    export-ignore
 vendor/*.xml    export-ignore
 vendor/**/LICENSE   export-ignore
 vendor/**/build-phar.sh     export-ignore
+vendor/priyomukul/vendor    export-ignore
+vendor/priyomukul/.editorconfig     export-ignore
+vendor/priyomukul/.gitignore       export-ignore
+vendor/priyomukul/composer.json     export-ignore
+vendor/priyomukul/README.md     export-ignore

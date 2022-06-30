@@ -11,6 +11,8 @@ class Admin
 	 */
 	private $pro_enabled;
 
+    private $insights = null;
+
 	public function __construct()
     {
         $this->load_plugin_menu_pages();
@@ -18,8 +20,8 @@ class Admin
         // Core
         add_filter('plugin_action_links_' . WPSP_PLUGIN_BASENAME, array($this, 'insert_plugin_links'));
         add_filter('plugin_row_meta', array($this, 'insert_plugin_row_meta'), 10, 2);
-        $this->admin_notice();
         $this->usage_tracker();
+        $this->admin_notice();
         $this->load_dashboard_widgets();
         $this->load_settings();
         $this->load_elementor_panel_icon();
@@ -105,12 +107,65 @@ class Admin
             'storage_key' => 'notices',
             'version'     => '1.0.0',
             'lifetime'    => 3,
-            // 'styles'      => self::ASSET_URL . 'css/wpdeveloper-review-notice.css',
+            'styles'      => WPSP_ASSETS_URI . 'css/wpscp-admin-notice.css',
         ]);
+
+
+        /**
+         * This is review message and thumbnail.
+         */
+        $_review_notice = [
+            'thumbnail' => $_asset_url . 'images/wpsp-logo.svg',
+            'html' => '<p>' . __('We hope you\'re enjoying SchedulePress! Could you please do us a BIG favor and give it a 5-star rating on WordPress to help us spread the word and boost our motivation?', 'wp-scheduled-posts') . '</p>',
+            'links' => [
+                'later' => array(
+                    'link' => 'https://wpdeveloper.com/go/review-wpsp',
+                    'target' => '_blank',
+                    'label' => __('Ok, you deserve it!', 'wp-scheduled-posts'),
+                    'icon_class' => 'dashicons dashicons-external',
+                ),
+                'allready' => array(
+                    'label' => __('I already did', 'wp-scheduled-posts'),
+                    'icon_class' => 'dashicons dashicons-smiley',
+                    'attributes' => [
+                        'data-dismiss' => true
+                    ],
+                ),
+                'maybe_later' => array(
+                    'label' => __('Maybe Later', 'wp-scheduled-posts'),
+                    'icon_class' => 'dashicons dashicons-calendar-alt',
+                    'attributes' => [
+                        'data-later' => true
+                    ],
+                ),
+                'support' => array(
+                    'link' => 'https://wpdeveloper.com/support',
+                    'label' => __('I need help', 'wp-scheduled-posts'),
+                    'icon_class' => 'dashicons dashicons-sos',
+                ),
+                'never_show_again' => array(
+                    'label' => __('Never show again', 'wp-scheduled-posts'),
+                    'icon_class' => 'dashicons dashicons-dismiss',
+                    'attributes' => [
+                        'data-dismiss' => true
+                    ],
+                ),
+            ],
+        ];
+
+        $notices->add(
+            'review',
+            $_review_notice,
+            [
+                'start'       => $notices->strtotime( '+15 day' ),
+                'recurrence'  => 30,
+                'dismissible' => true,
+            ]
+        );
 
         $_freedom30_notice= [
             'thumbnail' => $_asset_url . 'images/freedom30.png',
-            'html' => '<p>'. __( 'Celebrate independence & upgrade to <strong>SchedulePress PRO</strong> with <strong>30% OFF</strong> to use all the premium features from today', 'wp-scheduled-posts' ) .' <a class="button button-primary btn-nx-cta" target="_blank" href="https://notificationx.com/#pricing">Claim My Offer</a></p>',
+            'html' => '<p>'. __( 'Celebrate independence & upgrade to <strong>SchedulePress PRO</strong> with <strong>30% OFF</strong> to use all the premium features from today', 'wp-scheduled-posts' ) .' <a class="button button-primary btn-wpsp" target="_blank" href="https://schedulepress.com/#pricing">Claim My Offer</a></p>',
         ];
 
         $notices->add(
@@ -121,124 +176,64 @@ class Admin
                 'expire'      => strtotime( '5th July 2022 11:59:59 PM' ),
                 'recurrence'  => false,
                 'dismissible' => true,
-                // 'display_if'  => ! is_array( $notices->is_installed( 'notificationx-pro/notificationx-pro.php' ) )
+                'display_if'  => ! is_array( $notices->is_installed( 'wp-scheduled-posts-pro/wp-scheduled-posts-pro.php' ) )
+            ]
+        );
+
+        $_upsale_notice = [
+            'thumbnail' => $_asset_url . 'images/wpsp-logo.svg',
+            'html' => '<p>' . __('Enjoying <strong>SchedulePress</strong>? Why not check our <strong><a href="https://wpdeveloper.com/in/wp-scheduled-posts-pro" target="_blank">Pro version</a></strong> which will enable auto schedule, multi social account share and many more features! [<strong><a href="https://wpdeveloper.com/plugins/wp-scheduled-posts/" target="_blank">Learn More</a></strong>]', 'wp-scheduled-posts') . '</p>',
+        ];
+
+        $notices->add(
+            'upsale',
+            $_upsale_notice,
+            [
+                'start'       => $notices->strtotime( '+20 day' ),
+                'recurrence'  => false,
+                'dismissible' => true,
+                'display_if'  => ! is_array( $notices->is_installed( 'wp-scheduled-posts-pro/wp-scheduled-posts-pro.php' ) )
+            ]
+        );
+
+        ob_start();
+        $this->insights->optin_notice();
+        $opt_in_content = ob_get_clean();
+
+        $notices->add(
+            'optin',
+            $opt_in_content,
+            [
+                'start'       => $notices->strtotime( '+20 day' ),
+                'recurrence'  => false,
+                'dismissible' => true,
+                'display_if'  => ! is_array( $notices->is_installed( 'wp-scheduled-posts-pro/wp-scheduled-posts-pro.php' ) )
             ]
         );
 
         $notices->init();
 
-
-        return;
-
-
-        $notice = new Admin\WPDev\WPDevNotice(WPSP_PLUGIN_BASENAME, WPSP_VERSION);
-
-        /**
-         * Current Notice End Time.
-         * Notice will dismiss in 3 days if user does nothing.
-         */
-        $notice->cne_time = '3 Day';
-        /**
-         * Current Notice Maybe Later Time.
-         * Notice will show again in 7 days
-         */
-        $notice->maybe_later_time = '7 Day';
-
-        $notice->text_domain = 'wp-scheduled-posts';
-        $plugin_name = basename(WPSP_PLUGIN_BASENAME, '.php');
-
-        $scheme = (parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY)) ? '&' : '?';
-        $url = $_SERVER['REQUEST_URI'] . $scheme;
-        $notice->links = [
-            'review' => array(
-                'later' => array(
-                    'link' => 'https://wpdeveloper.com/go/review-wpsp',
-                    'target' => '_blank',
-                    'label' => __('Ok, you deserve it!', 'wp-scheduled-posts'),
-                    'icon_class' => 'dashicons dashicons-external',
-                ),
-                'allready' => array(
-                    'link' => $url,
-                    'label' => __('I already did', 'wp-scheduled-posts'),
-                    'icon_class' => 'dashicons dashicons-smiley',
-                    'data_args' => [
-                        'dismiss' => true,
-                    ],
-                ),
-                'maybe_later' => array(
-                    'link' => $url,
-                    'label' => __('Maybe Later', 'wp-scheduled-posts'),
-                    'icon_class' => 'dashicons dashicons-calendar-alt',
-                    'data_args' => [
-                        'later' => true,
-                    ],
-                ),
-                'support' => array(
-                    'link' => 'https://wpdeveloper.com/support',
-                    'label' => __('I need help', 'wp-scheduled-posts'),
-                    'icon_class' => 'dashicons dashicons-sos',
-                ),
-                'never_show_again' => array(
-                    'link' => $url,
-                    'label' => __('Never show again', 'wp-scheduled-posts'),
-                    'icon_class' => 'dashicons dashicons-dismiss',
-                    'data_args' => [
-                        'dismiss' => true,
-                    ],
-                ),
-            ),
-        ];
-
-        /**
-         * This is review message and thumbnail.
-         */
-        $notice->message('review', '<p>' . __('We hope you\'re enjoying SchedulePress! Could you please do us a BIG favor and give it a 5-star rating on WordPress to help us spread the word and boost our motivation?', 'wp-scheduled-posts') . '</p>');
-        $notice->thumbnail('review', plugins_url('assets/images/wpsp-logo.svg', WPSP_PLUGIN_BASENAME));
-        /**
-         * This is upsale notice settings
-         * classes for wrapper,
-         * Message message for showing.
-         */
-        $notice->classes('upsale', 'notice is-dismissible ');
-        $notice->message('upsale', '<p>' . __('Enjoying <strong>SchedulePress</strong>? Why not check our <strong><a href="https://wpdeveloper.com/in/wp-scheduled-posts-pro" target="_blank">Pro version</a></strong> which will enable auto schedule, multi social account share and many more features! [<strong><a href="https://wpdeveloper.com/plugins/wp-scheduled-posts/" target="_blank">Learn More</a></strong>]', 'wp-scheduled-posts') . '</p>');
-        $notice->thumbnail('upsale', plugins_url('assets/images/wpsp-logo.svg', WPSP_PLUGIN_BASENAME));
-
-        $notice->classes( 'freedom30', 'notice is-dismissible' );
-        $notice->message( 'freedom30', '<p>'. __( 'Celebrate independence & upgrade to <strong>SchedulePress PRO</strong> with <strong>30% OFF</strong> to use all the premium features from today', 'wp-scheduled-posts' ) .' <a class="button button-primary btn-wpsp" target="_blank" href="https://schedulepress.com/#pricing">Claim My Offer</a><button class="notice-dismiss '. $plugin_name .'" data-notice="freedom30"></button></p>' );
-        $notice->thumbnail('freedom30', plugins_url('assets/images/freedom30.png', WPSP_PLUGIN_BASENAME));
-
-        $notice->upsale_args = array(
-            'slug'      => 'wp-scheduled-posts-pro',
-            'page_slug' => 'wp-scheduled-posts-pro',
-            'file'      => 'wp-scheduled-posts-pro.php',
-            'btn_text'  => __('Install Pro', 'wp-scheduled-posts'),
-            'condition' => [
-                'by' => 'class',
-                'class' => 'WpScp_Pro'
-            ],
-        );
-        $notice->options_args = array(
-            'notice_will_show' => [
-                'opt_in' => $notice->makeTime( $notice->timestamp, '3 Day' ),
-                'upsale' => $notice->makeTime($notice->timestamp, '7 Day'),
-                'review' => $notice->makeTime($notice->timestamp, '5 Day'), // after 3 days
-            ],
-        );
-
-        if( ! $this->pro_enabled() ) {
-            if( $notice->timestamp < strtotime( '5th July 2022 11:59:59 PM' ) ) {
-                $notice->options_args['notice_will_show']['freedom30'] = $notice->timestamp;
-            }
-            $notice->freedom30_off();
-        }
-
-
-        // main notice init
-        $notice->init();
+        // $notice->upsale_args = array(
+        //     'slug'      => 'wp-scheduled-posts-pro',
+        //     'page_slug' => 'wp-scheduled-posts-pro',
+        //     'file'      => 'wp-scheduled-posts-pro.php',
+        //     'btn_text'  => __('Install Pro', 'wp-scheduled-posts'),
+        //     'condition' => [
+        //         'by' => 'class',
+        //         'class' => 'WpScp_Pro'
+        //     ],
+        // );
+        // $notice->options_args = array(
+        //     'notice_will_show' => [
+        //         'opt_in' => $notice->makeTime( $notice->timestamp, '3 Day' ),
+        //         'upsale' => $notice->makeTime($notice->timestamp, '7 Day'),
+        //         'review' => $notice->makeTime($notice->timestamp, '5 Day'), // after 3 days
+        //     ],
+        // );
     }
     public function usage_tracker()
     {
-        new Admin\WPDev\PluginUsageTracker(
+        $this->insights = new Admin\WPDev\PluginUsageTracker(
             WPSP_PLUGIN_FILE,
             'http://app.wpdeveloper.com',
             array(),

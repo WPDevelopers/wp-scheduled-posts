@@ -61,3 +61,8 @@ vendor/*.cache
 vendor/*.xml
 vendor/**/LICENSE
 vendor/**/build-phar.sh
+vendor/priyomukul/vendor
+vendor/priyomukul/.editorconfig
+vendor/priyomukul/.gitignore
+vendor/priyomukul/composer.json
+vendor/priyomukul/README.md

@@ -108,7 +108,7 @@ class Assets
             ));
         }
         // admin notice for all wordpress dashboard
-        wp_enqueue_style('wpscp-admin-notice', WPSP_ASSETS_URI . 'css/wpscp-admin-notice.css', array(), filemtime(WPSP_ASSETS_DIR_PATH . 'css/wpscp-admin-notice.css'), 'all');
+        // wp_enqueue_style('wpscp-admin-notice', WPSP_ASSETS_URI . 'css/wpscp-admin-notice.css', array(), filemtime(WPSP_ASSETS_DIR_PATH . 'css/wpscp-admin-notice.css'), 'all');
     }
 
     /**

@@ -1,4 +1,13 @@
 /* review notice */
+.wpnotice-thumbnail-wrapper img {
+    display: block;
+}
+
+.notice-schedulepress-optin {
+    display: block !important;
+}
+
+/* review notice */
 .wpsp-notice {
     background-color: #f7f6d4;
     padding: 10px 15px;
@@ -40,7 +49,7 @@
     display: block;
 }
 
-.wpdeveloper-review-notice {
+.notice-schedulepress-review {
     padding: 10px;
     background-color: #fff;
     border-radius: 3px;
@@ -50,7 +59,7 @@
     align-items: center;
 }
 
-.wpdeveloper-review-notice:after {
+.notice-schedulepress-review:after {
     content: '';
     display: table;
     clear: both;
@@ -90,28 +99,22 @@
     margin: 0 0 5px;
 }
 
-.wpdeveloper-notice-link {
+.schedulepress-notice-links {
     margin: 8px 0 0 0;
     padding: 0;
 }
 
-.wpdeveloper-notice-link li {
-    display: inline-block;
+.schedulepress-notice-links li {
+    display: inline-flex;
     margin-right: 15px;
+    align-items: center;
 }
 
-.wpdeveloper-notice-link li a {
+.schedulepress-notice-links li a {
     display: inline-block;
     color: #10738b;
     text-decoration: none;
-    padding-left: 26px;
     position: relative;
-}
-
-.wpdeveloper-notice-link li a span {
-    position: absolute;
-    left: 0;
-    top: -2px;
 }
 
 .wpdeveloper-notice-message {
