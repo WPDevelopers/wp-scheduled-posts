@@ -82,6 +82,7 @@ class Pinterest
      */
     public function get_create_pin_args($post_id, $board_name, $board_name_key, $section_name, $instant_share = false)
     {
+        $has_url = false;
         $post_details = get_post($post_id);
         $PostTitle = get_the_title($post_id);
         $PostPermalink = esc_url(get_permalink($post_id));;
@@ -130,7 +131,10 @@ class Pinterest
         } else {
             $desc = wp_strip_all_tags($post_details->post_content);
         }
-
+        if(strpos($this->template_structure, '{url}') !== false){
+            $has_url = true;
+            $this->template_structure = str_replace('{url}', '', $this->template_structure);
+        }
         if(strpos($this->template_structure, '{title}') !== false){
             $this->template_structure = str_replace('{title}', '', $this->template_structure);
         }
@@ -142,15 +146,15 @@ class Pinterest
             $this->template_structure,
             '',
             $desc,
-            $PostPermalink,
+            '',
             $hashTags,
             $this->note_limit
         );
         // main arguments
         $pinterest_create_args = array(
             "title"       => html_entity_decode($PostTitle),
-            "description" => substr($note_content, 0, 140),
-            'link'        => $PostPermalink,
+            "description" => substr($note_content, 0, $this->note_limit),
+            'link'        => $has_url ? $PostPermalink : '',
             "board_id"    => $board_name,
         );
         if($section_name){

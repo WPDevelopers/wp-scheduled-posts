@@ -186,15 +186,16 @@ class Request {
 
         // Set default options
         $ch->setOptions(array(
-            CURLOPT_URL             => $apiCall,
-            CURLOPT_HTTPHEADER      => $headers,
-            CURLOPT_CONNECTTIMEOUT  => 20,
-            CURLOPT_TIMEOUT         => 90,
-            CURLOPT_RETURNTRANSFER  => true,
-            CURLOPT_SSL_VERIFYPEER  => false,
-            CURLOPT_SSL_VERIFYHOST  => false,
-            CURLOPT_HEADER          => false,
-            CURLINFO_HEADER_OUT     => true
+            CURLOPT_URL            => $apiCall,
+            CURLOPT_HTTPHEADER     => $headers,
+            CURLOPT_ENCODING       => "gzip",
+            CURLOPT_CONNECTTIMEOUT => 20,
+            CURLOPT_TIMEOUT        => 90,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_SSL_VERIFYHOST => false,
+            CURLOPT_HEADER         => false,
+            CURLINFO_HEADER_OUT    => true
         ));
 
         switch ($method) {
