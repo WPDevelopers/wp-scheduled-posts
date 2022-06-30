@@ -2,6 +2,7 @@
 
 namespace WPSP;
 
+use PriyoMukul\WPNotice\Notices;
 
 class Admin
 {
@@ -96,6 +97,40 @@ class Admin
 
     public function admin_notice()
     {
+        $_asset_url = plugins_url('assets/', WPSP_PLUGIN_BASENAME);
+
+        $notices = new Notices([
+            'id'          => 'schedulepress',
+            'store'       => 'options',
+            'storage_key' => 'notices',
+            'version'     => '1.0.0',
+            'lifetime'    => 3,
+            // 'styles'      => self::ASSET_URL . 'css/wpdeveloper-review-notice.css',
+        ]);
+
+        $_freedom30_notice= [
+            'thumbnail' => $_asset_url . 'images/freedom30.png',
+            'html' => '<p>'. __( 'Celebrate independence & upgrade to <strong>SchedulePress PRO</strong> with <strong>30% OFF</strong> to use all the premium features from today', 'wp-scheduled-posts' ) .' <a class="button button-primary btn-nx-cta" target="_blank" href="https://notificationx.com/#pricing">Claim My Offer</a></p>',
+        ];
+
+        $notices->add(
+            'freedom30',
+            $_freedom30_notice,
+            [
+                'start'       => $notices->time(),
+                'expire'      => strtotime( '5th July 2022 11:59:59 PM' ),
+                'recurrence'  => false,
+                'dismissible' => true,
+                // 'display_if'  => ! is_array( $notices->is_installed( 'notificationx-pro/notificationx-pro.php' ) )
+            ]
+        );
+
+        $notices->init();
+
+
+        return;
+
+
         $notice = new Admin\WPDev\WPDevNotice(WPSP_PLUGIN_BASENAME, WPSP_VERSION);
 
         /**
