@@ -209,7 +209,7 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 == Changelog ==
 
-= 4.1.7 - 2022-06-29 =
+= 4.1.7 - 2022-06-30 =
 * Fixed: Fixed Pinterest social share.
 * Few minor bug fix & improvements
 
