@@ -141,7 +141,7 @@ class RedirectMiddleware
     }
 
     /**
-     * Check for too many redirects.
+     * Check for too many redirects
      *
      * @return void
      *
@@ -190,7 +190,7 @@ class RedirectMiddleware
             $modify['body'] = '';
         }
 
-        $uri = self::redirectUri($request, $response, $protocols);
+        $uri = $this->redirectUri($request, $response, $protocols);
         if (isset($options['idn_conversion']) && ($options['idn_conversion'] !== false)) {
             $idnOptions = ($options['idn_conversion'] === true) ? IDNA_DEFAULT : $options['idn_conversion'];
             $uri = Utils::idnUriConvert($uri, $idnOptions);
@@ -210,42 +210,16 @@ class RedirectMiddleware
             $modify['remove_headers'][] = 'Referer';
         }
 
-        // Remove Authorization and Cookie headers if required.
-        if (self::shouldStripSensitiveHeaders($request->getUri(), $modify['uri'])) {
+        // Remove Authorization header if host is different.
+        if ($request->getUri()->getHost() !== $modify['uri']->getHost()) {
             $modify['remove_headers'][] = 'Authorization';
-            $modify['remove_headers'][] = 'Cookie';
         }
 
         return Psr7\modify_request($request, $modify);
     }
 
     /**
-     * Determine if we should strip sensitive headers from the request.
-     *
-     * We return true if either of the following conditions are true:
-     *
-     * 1. the host is different;
-     * 2. the scheme has changed, and now is non-https.
-     *
-     * @return bool
-     */
-    private static function shouldStripSensitiveHeaders(
-        UriInterface $originalUri,
-        UriInterface $modifiedUri
-    ) {
-        if (strcasecmp($originalUri->getHost(), $modifiedUri->getHost()) !== 0) {
-            return true;
-        }
-
-        if ($originalUri->getScheme() !== $modifiedUri->getScheme() && 'https' !== $modifiedUri->getScheme()) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Set the appropriate URL on the request based on the location header.
+     * Set the appropriate URL on the request based on the location header
      *
      * @param RequestInterface  $request
      * @param ResponseInterface $response
@@ -253,7 +227,7 @@ class RedirectMiddleware
      *
      * @return UriInterface
      */
-    private static function redirectUri(
+    private function redirectUri(
         RequestInterface $request,
         ResponseInterface $response,
         array $protocols
