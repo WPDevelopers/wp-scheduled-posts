@@ -625,7 +625,7 @@ class PluginUsageTracker
         update_option('wpins_admin_emails', $admin_emails);
     }
 
-    public function clicked()
+    public function clicked( $notice = null )
     {
         // Check for plugin args
         if (isset($_GET['plugin']) && isset($_GET['plugin_action'])) {
@@ -638,6 +638,10 @@ class PluginUsageTracker
                 $this->set_is_tracking_allowed(false, $plugin);
             }
             $this->update_block_notice($plugin);
+
+            if( ! is_null ( $notice ) ) {
+                $notice->dismiss->dismiss_notice();
+            }
         }
     }
 

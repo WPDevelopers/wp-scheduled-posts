@@ -163,23 +163,6 @@ class Admin
             ]
         );
 
-        $_freedom30_notice= [
-            'thumbnail' => $_asset_url . 'images/freedom30.png',
-            'html' => '<p>'. __( 'Celebrate independence & upgrade to <strong>SchedulePress PRO</strong> with <strong>30% OFF</strong> to use all the premium features from today', 'wp-scheduled-posts' ) .' <a class="button button-primary btn-wpsp" target="_blank" href="https://schedulepress.com/#pricing">Claim My Offer</a></p>',
-        ];
-
-        $notices->add(
-            'freedom30',
-            $_freedom30_notice,
-            [
-                'start'       => $notices->time(),
-                'expire'      => strtotime( '5th July 2022 11:59:59 PM' ),
-                'recurrence'  => false,
-                'dismissible' => true,
-                'display_if'  => ! is_array( $notices->is_installed( 'wp-scheduled-posts-pro/wp-scheduled-posts-pro.php' ) )
-            ]
-        );
-
         $_upsale_notice = [
             'thumbnail' => $_asset_url . 'images/wpsp-logo.svg',
             'html' => '<p>' . __('Enjoying <strong>SchedulePress</strong>? Why not check our <strong><a href="https://wpdeveloper.com/in/wp-scheduled-posts-pro" target="_blank">Pro version</a></strong> which will enable auto schedule, multi social account share and many more features! [<strong><a href="https://wpdeveloper.com/plugins/wp-scheduled-posts/" target="_blank">Learn More</a></strong>]', 'wp-scheduled-posts') . '</p>',
@@ -196,17 +179,14 @@ class Admin
             ]
         );
 
-        ob_start();
-        $this->insights->optin_notice();
-        $opt_in_content = ob_get_clean();
-
         $notices->add(
             'optin',
-            $opt_in_content,
+            [ $this->insights, 'optin_notice' ],
             [
-                'start'       => $notices->strtotime( '+20 day' ),
-                'recurrence'  => false,
+                'start'       => $notices->time(),
+                'recurrence'  => 30,
                 'dismissible' => true,
+                'do_action'   => 'wpdeveloper_notice_clicked_for_wp-scheduled-posts',
                 'display_if'  => ! is_array( $notices->is_installed( 'wp-scheduled-posts-pro/wp-scheduled-posts-pro.php' ) )
             ]
         );
