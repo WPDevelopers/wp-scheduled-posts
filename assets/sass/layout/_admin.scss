@@ -578,6 +578,9 @@
 }
 // all modal style
 .wpsp-modal-social-platform {
+  max-height: 65vh;
+  overflow-y: auto;
+
   .entry-head {
     color: #fff;
     height: 40px;
