@@ -21,6 +21,7 @@ class PublishButton extends Component {
 			this.setState({ isClicked : true });
 			this.setState({ isChecked : false });
 			this.props.editPost( value );
+			this.props.savePost();
 			return;
 		}
 	}
