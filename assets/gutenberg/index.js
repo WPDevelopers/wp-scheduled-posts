@@ -20,7 +20,6 @@ class AdminPublishButton extends Component {
   }
 
   render() {
-	console.log(this.props);
     if (publish_button_off == "" || !(this.props.isScheduled && ! this.props.isPublished)) {
       return "";
     }
