@@ -222,11 +222,18 @@ if (!function_exists('wpscp_submit_box_future_post')) {
 		if (isset($_GET['action']) && $_GET['action'] == 'edit' && \WPSP\Helper::get_settings('show_publish_post_button') == true) {
 			add_action('post_submitbox_misc_actions', 'wpscp_prevent_future_post_markup');
 		}
+		$allow_post_types = \WPSP\Helper::get_settings('allow_post_types');
+		$post_types = (!empty($allow_post_types) ? $allow_post_types : array('post'));
+
+		foreach ($post_types as $key => $post_type) {
+			add_filter("rest_prepare_$post_type", 'wpscp_rest_prepare', 10, 3);
+		}
 	}
 }
 add_action('init', 'wpscp_submit_box_future_post');
 
-add_filter('rest_prepare_page', function($response, $post, $request){
+
+function wpscp_rest_prepare($response, $post, $request){
 	if(!empty($request['meta']['prevent_future_post'])){
 		update_post_meta( $post->ID, 'prevent_future_post', $post->post_date );
 		$data = $response->get_data();
@@ -234,7 +241,7 @@ add_filter('rest_prepare_page', function($response, $post, $request){
 		$response->set_data($data);
 	}
 	return $response;
-}, 10, 3);
+}
 
 add_filter('wp_insert_post_data', function($post_data, $postarr = []){
 	$id = isset($postarr['ID']) ? $postarr['ID'] : 0;
