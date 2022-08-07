@@ -54,13 +54,14 @@ class AdminPublishButton extends Component {
             />
             <a
               id="wpscp-future-post-help-handler"
+              className="dashicons dashicons-info"
               href="javascript:void();"
               title="Show/Hide Help"
               onClick={() => {
                 this.setState({ showHelp: !this.state.showHelp });
               }}
             >
-              (?)
+
             </a>
           </div>
           {this.state.publishImmediately && (
@@ -78,11 +79,8 @@ class AdminPublishButton extends Component {
             </div>
           )}
           {this.state.showHelp && (
-            <div style={{ marginTop: 5 }}>
-              If you schedule this post and check this option then your post
-              will be published immediately but post date-time will not set
-              current date. Post date-time will be your scheduled future
-              date-time.
+            <div style={{ marginTop: 5, color: "#757575" }}>
+              If you choose to publish this future post with the Future Date, it will be published immediately but the post’s date time will not set the current date rather it will be your scheduled future date time.
             </div>
           )}
         </div>
