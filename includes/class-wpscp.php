@@ -136,9 +136,11 @@ final class WpScp
             return;
         }
 
+        wp_enqueue_style('wps-publish-button', WPSP_ASSETS_URI . 'css/wpspl-admin.css', array(), filemtime(WPSP_ASSETS_DIR_PATH . 'css/wpspl-admin.css'), 'all');
         wp_enqueue_script('wps-publish-button', WPSCP_ADMIN_URL . 'assets/js/wpspl-admin.min.js', array('wp-components', 'wp-data', 'wp-edit-post', 'wp-editor', 'wp-element', 'wp-i18n', 'wp-plugins'), '1.0.0', true);
         wp_localize_script('wps-publish-button', 'WPSchedulePostsFree', array(
-            'publishImmediately' => __('Publish Post Immediately', 'wp-scheduled-posts'),
+            'publishImmediately' => __('Current Date', 'wp-scheduled-posts'),
+            'publishFutureDate' => __('Future Date', 'wp-scheduled-posts'),
             'publish_button_off' => $wpspc_options['prevent_future_post'],
             'allowedPostTypes' => $post_types,
             'currentTime' => array(
