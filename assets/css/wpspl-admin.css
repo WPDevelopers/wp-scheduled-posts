@@ -1,6 +1,16 @@
-.sc-publish-future .components-checkbox-control, .sc-publish-future .components-base-control__field{
+.sc-publish-future .components-checkbox-control,
+.sc-publish-future .components-base-control__field {
     display: inline;
 }
-.sc-publish-future .components-checkbox-control__label{
+
+.sc-publish-future .components-checkbox-control__label {
     margin-right: 3px;
+}
+
+.sc-publish-future-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
 }
