@@ -3,8 +3,8 @@ Contributors: wpdevteam, Asif2BD, re_enter_rupok, priyomukul, shajalal, alimuzza
 Tags: post schedule, editor calendar, schedule-calendar, editorial calendar, social share, auto share, facebook, twitter, pinterest, linkedin, schedule bar, scheduled posts, schedule, SchedulePress, schedule widget, scheduler, Elementor schedule, admin bar, dashboard widget, missed scheduled, calendar, missed schedule, future post, schedule issue, post later, admin bar, admin, multi author, auto publish, inbound marketing, content marketing, auto post, post publish, social media automation, automation, marketing, content editing, post alert, auto sharing, content calendar
 Requires at least: 4.0
 Tested up to: 6.0
-Requires PHP: 5.4
-Stable tag: 4.1.7
+Requires PHP: 7.2
+Stable tag: 4.1.8
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -208,6 +208,11 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 
 == Changelog ==
+
+= 4.1.8 - 2022-08-08 =
+* Added: Publish Post with Future date on Gutenberg editor.
+* Added: Scrollable feature on the popup box to connect social media pages/groups.
+* Few minor bug fix & improvements
 
 = 4.1.7 - 2022-06-30 =
 * Fixed: Fixed Pinterest social share.
