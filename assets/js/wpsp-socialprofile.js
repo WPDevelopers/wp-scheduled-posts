@@ -18,11 +18,11 @@ jQuery(document).ready(function ($) {
         // modal append if not exists dom
         if ($('#wpscpproInstantShareModal').length === 0) {
             jQuery('body').append(
-                '<div id="wpscpproInstantShareModal"><div class="modalBody autoOverflowModal">Fetch Your Selected Profile</div></div>'
+                '<div id="wpscpproInstantShareModal"><div class="modalBody">Fetch Your Selected Profile</div></div>'
             )
         } else {
             jQuery('body #wpscpproInstantShareModal').html(
-                '<div class="modalBody autoOverflowModal">Fetch Your Selected Profile</div>'
+                '<div class="modalBody">Fetch Your Selected Profile</div>'
             )
         }
         // call modal

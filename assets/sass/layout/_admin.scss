@@ -577,7 +577,7 @@
   }
 }
 // all modal style
-.autoOverflowModal ul {
+.autoOverflowModal {
   max-height: 65vh;
   overflow-y: auto;
 }
@@ -3587,7 +3587,7 @@
       }
     }
     ul {
-      margin: 0 10px;
+      padding: 0 10px;
       li {
         .item-content {
           display: flex;

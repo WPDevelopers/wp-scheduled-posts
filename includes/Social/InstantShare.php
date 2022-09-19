@@ -283,7 +283,7 @@ class InstantShare
                         <img src="' . WPSP_ASSETS_URI . 'images/icon-' . $profileName . '-small-white.png' . '" alt="logo" />
                         <h2 class="entry-head-title">' . $profileName . '</h2>
                     </div>
-                    <ul>';
+                    <ul class="autoOverflowModal">';
                 foreach ($profile as $key => $profileItem) {
                     $markup .= '<li id="' . $profileName . '_' . $key . '">
                             <div class="item-content">
