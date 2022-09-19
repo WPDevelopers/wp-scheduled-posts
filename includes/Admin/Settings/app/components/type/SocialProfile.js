@@ -18,31 +18,30 @@ const noSection = {label: 'No Section', value: ''};
 const customStyles = {
   overlay: {
     background: "rgba(1, 17, 50, 0.7)",
+    padding: "50px 20px",
+    display: "flex",
+    overflow: "auto",
   },
   content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
+    margin: "auto",
+    maxWidth: "100%",
     width: "450px",
-    transform: "translate(-50%, -50%)",
+    position: "static",
   },
 };
 
 const customStylesForPaintarist = {
   overlay: {
     background: "rgba(1, 17, 50, 0.7)",
+    padding: "50px 20px",
+    display: "flex",
+    overflow: "auto",
   },
   content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
     width: "600px",
-    maxWidth: "90%",
-    transform: "translate(-50%, -50%)",
+    maxWidth: "100%",
+    margin: "auto",
+    position: "static",
     overflow: "visible!important"
   },
 };
