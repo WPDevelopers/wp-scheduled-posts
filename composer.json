@@ -10,6 +10,10 @@
         {
             "type": "vcs",
             "url": "https://github.com/priyomukul/wp-notice"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/WPDevelopers/pinterest-api-php"
         }
     ],
     "require": {
@@ -17,7 +21,7 @@
         "abraham/twitteroauth": "1.2.0",
         "facebook/graph-sdk": "5.7.0",
         "aymericdev/linkedin-sdk-php": "v1.0.4",
-        "dirkgroenen/pinterest-api-php": "0.2.13",
+        "wpdevelopers/pinterest-api-php": "dev-master",
         "guzzlehttp/promises": "1.4.0",
         "guzzlehttp/psr7": "1.7.0",
         "paragonie/random_compat": "v9.99.99",
@@ -30,5 +34,10 @@
         "files": [
             "includes/functions.php"
         ]
-    }
+    },
+	"config": {
+		"platform": {
+			"php": "7.2"
+		}
+	}
 }

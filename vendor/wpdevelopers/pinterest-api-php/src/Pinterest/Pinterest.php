@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Copyright 2015 Dirk Groenen
  *
@@ -23,8 +22,7 @@ use DirkGroenen\Pinterest\Exceptions\InvalidEndpointException;
  * @property \DirkGroenen\Pinterest\Endpoints\Users users
  * @property \DirkGroenen\Pinterest\Endpoints\Sections sections
  */
-class Pinterest
-{
+class Pinterest {
 
     /**
      * Reference to authentication class instance

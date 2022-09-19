@@ -174,57 +174,6 @@
             "install-path": "./ca-bundle"
         },
         {
-            "name": "dirkgroenen/pinterest-api-php",
-            "version": "0.2.13",
-            "version_normalized": "0.2.13.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/dirkgroenen/Pinterest-API-PHP.git",
-                "reference": "214cde9ff8f6ecdc93c75b805227bcd21e50974f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/dirkgroenen/Pinterest-API-PHP/zipball/214cde9ff8f6ecdc93c75b805227bcd21e50974f",
-                "reference": "214cde9ff8f6ecdc93c75b805227bcd21e50974f",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "php": ">=5.4"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "8.5.*",
-                "vlucas/phpdotenv": "^2.2"
-            },
-            "time": "2020-01-27T07:54:59+00:00",
-            "type": "library",
-            "installation-source": "dist",
-            "autoload": {
-                "psr-4": {
-                    "DirkGroenen\\Pinterest\\": "src/Pinterest"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Dirk Groenen",
-                    "email": "dirk@bitlabs.nl",
-                    "homepage": "http://dirkgroenen.nl",
-                    "role": "Creator/Developer"
-                }
-            ],
-            "description": "PHP Wrapper for the official Pinterest API",
-            "keywords": [
-                "api",
-                "pinterest",
-                "wrapper"
-            ],
-            "install-path": "../dirkgroenen/pinterest-api-php"
-        },
-        {
             "name": "facebook/graph-sdk",
             "version": "5.7.0",
             "version_normalized": "5.7.0.0",
@@ -918,6 +867,65 @@
                 }
             ],
             "install-path": "../symfony/polyfill-php72"
+        },
+        {
+            "name": "wpdevelopers/pinterest-api-php",
+            "version": "dev-master",
+            "version_normalized": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/WPDevelopers/pinterest-api-php.git",
+                "reference": "079461d19897991abb04e50d62147796de098600"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/WPDevelopers/pinterest-api-php/zipball/079461d19897991abb04e50d62147796de098600",
+                "reference": "079461d19897991abb04e50d62147796de098600",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "8.5.*",
+                "vlucas/phpdotenv": "^2.2"
+            },
+            "time": "2022-09-18T11:49:43+00:00",
+            "default-branch": true,
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "DirkGroenen\\Pinterest\\": "src/Pinterest"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "DirkGroenen\\Pinterest\\Tests\\": "tests/Pinterest"
+                }
+            },
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Dirk Groenen",
+                    "email": "dirk@bitlabs.nl",
+                    "homepage": "http://dirkgroenen.nl",
+                    "role": "Creator/Developer"
+                }
+            ],
+            "description": "PHP Wrapper for the official Pinterest API",
+            "keywords": [
+                "api",
+                "pinterest",
+                "wrapper"
+            ],
+            "support": {
+                "source": "https://github.com/WPDevelopers/pinterest-api-php/tree/master"
+            },
+            "install-path": "../wpdevelopers/pinterest-api-php"
         }
     ],
     "dev": true,
