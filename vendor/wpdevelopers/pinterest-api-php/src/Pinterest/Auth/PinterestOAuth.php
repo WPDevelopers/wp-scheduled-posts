@@ -150,6 +150,32 @@ class PinterestOAuth {
     }
 
     /**
+     * Change the code for an access_token
+     *
+     * @param  string   $code
+     * @return \DirkGroenen\Pinterest\Transport\Response
+     */
+    public function getRefreshToToken($refresh_token)
+    {
+        $authorization = base64_encode($this->client_id . ":" . $this->client_secret);
+        // $this->setOAuthToken($authorization);
+        $headers = [
+            "Content-Type: application/x-www-form-urlencoded",
+            "Authorization: Basic $authorization",
+        ];
+        // Build data array
+        $data = array(
+            "grant_type"    => "refresh_token",
+            "refresh_token" => $refresh_token,
+        );
+
+        // Perform post request
+        $response = $this->request->post("oauth/token", http_build_query($data), $headers);
+
+        return $response;
+    }
+
+    /**
      * Set the access_token for further requests
      *
      * @access public

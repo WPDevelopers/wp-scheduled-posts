@@ -266,4 +266,45 @@ class Helper
         }
         return (is_array($profile) ? array_slice($profile, 0, 1) : []);
     }
+
+    /**
+     * generate access token from refresh token.
+     *
+     * @param  mixed $profile
+     * @return string
+     */
+    public static function get_access_token($type, $platformKey, $access_token = null)
+    {
+        global $wpsp_settings;
+        $token        = [];
+        $platformOptions = [
+            'facebook'  => WPSCP_FACEBOOK_OPTION_NAME,
+            'twitter'   => WPSCP_TWITTER_OPTION_NAME,
+            'linkedin'  => WPSCP_LINKEDIN_OPTION_NAME,
+            'pinterest' => WPSCP_PINTEREST_OPTION_NAME,
+        ];
+
+        $opt_name = isset($platformOptions[$type]) ? $platformOptions[$type] : '';
+        if(empty($wpsp_settings->{$opt_name}[$platformKey])) return $access_token;
+        $profile  = &$wpsp_settings->{$opt_name}[$platformKey];
+
+        if(isset($profile->expires_in, $profile->rt_expires_in) && $profile->expires_in < time() && $profile->rt_expires_in > time()){
+            $refresh_token_url = add_query_arg([
+                'type'          => $type,
+                'refresh_token' => $profile->refresh_token,
+            ], $profile->redirectURI);
+
+            $response = wp_remote_get($refresh_token_url, ['sslverify' => false]);
+
+            if (!is_wp_error($response)) {
+                $body                  = wp_remote_retrieve_body($response);
+                $token                 = json_decode($body);
+                $profile->access_token = $token->access_token;
+                $profile->expires_in   = time() + $token->expires_in;
+                update_option(WPSP_SETTINGS_NAME, json_encode($wpsp_settings));
+            }
+        }
+
+        return $profile->access_token;
+    }
 }

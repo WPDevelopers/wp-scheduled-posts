@@ -109,25 +109,25 @@ class Linkedin
      * @since 2.5.0
      * @return array
      */
-    public function remote_post($app_id, $app_secret, $access_token, $post_id, $profile_key, $force_share = false)
+    public function remote_post($post_id, $profile_key, $force_share = false)
     {
         // check post is skip social sharing
-        if (empty($app_id) || empty($app_secret) || get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
+        if (empty($app_id) || get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
             return;
         }
 
         if(get_post_meta($post_id, '_wpsp_is_linkedin_share', true) == 'on' || $force_share) {
             $errorFlag = false;
             $response = '';
-    
+
             try {
                 $linkedin = new \myPHPNotes\LinkedIn(
-                    $app_id,
-                    $app_secret,
+                    null,
+                    '',
                     WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE,
                     WPSCP_LINKEDIN_SCOPE
                 );
-                $acessToken = $access_token;
+                $acessToken = \WPSP\Helper::get_access_token('linkedin', $profile_key);
                 $getPersonID = $linkedin->getPersonID($acessToken);
                 $image_path = '';
                 $socialShareImage = get_post_meta($post_id, '_wpscppro_custom_social_share_image', true);
@@ -212,9 +212,6 @@ class Linkedin
                 }
                 // call social share method
                 $this->remote_post(
-                    $profile->app_id,
-                    $profile->app_secret,
-                    $profile->access_token,
                     $post_id,
                     $profile_key
                 );
@@ -240,9 +237,6 @@ class Linkedin
                 }
                 // call social share method
                 $this->remote_post(
-                    $profile->app_id,
-                    $profile->app_secret,
-                    $profile->access_token,
                     $post_id,
                     $profile_key
                 );
@@ -252,9 +246,9 @@ class Linkedin
 
 
 
-    public function socialMediaInstantShare($app_id, $app_secret, $access_token, $post_id, $profile_key)
+    public function socialMediaInstantShare($post_id, $profile_key)
     {
-        $response = $this->remote_post($app_id, $app_secret, $access_token, $post_id, $profile_key, true);
+        $response = $this->remote_post($post_id, $profile_key, true);
         if ($response['success'] == false) {
             wp_send_json_error($response['log']);
         } else {

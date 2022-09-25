@@ -64,6 +64,7 @@ const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
   const [fieldStatus] = useField(field.name + "_status");
   const [fieldList] = useField(field.name + "_list");
   const [cashedSectionData, setCashedSectionData] = useState({});
+  const [error, setError] = useState("")
 
   useEffect(() => {
     setLocalSocial(store.getState("social"));
@@ -82,17 +83,27 @@ const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
   function afterOpenModal() {
     setRequestSending(true);
     setSocialPlatform(localSocial.social.queryString.get("type"));
+    const error = localSocial.social.queryString.get("error_message");
+    if(error){
+      setError(error);
+      return;
+    }
     /**
      * send ajax requrest for generate access token and fetch user, page info
      */
     var data = {
-      action: "wpsp_social_profile_fetch_user_info_and_token",
-      type: localSocial.social.queryString.get("type"),
-      code: localSocial.social.queryString.get("code"),
-      appId: localSocial.social.queryString.get("appId"),
-      appSecret: localSocial.social.queryString.get("appSecret"),
+      action       : "wpsp_social_profile_fetch_user_info_and_token",
+      type         : localSocial.social.queryString.get("type"),
+      appId        : localSocial.social.queryString.get("appId"),
+      appSecret    : localSocial.social.queryString.get("appSecret"),
+      code         : localSocial.social.queryString.get("code"),
+      redirectURI  : localSocial.social.queryString.get("redirectURI"),
+      access_token : localSocial.social.queryString.get("access_token"),
+      refresh_token: localSocial.social.queryString.get("refresh_token"),
+      expires_in   : localSocial.social.queryString.get("expires_in"),
+      rt_expires_in: localSocial.social.queryString.get("rt_expires_in"),
       oauthVerifier: localSocial.social.queryString.get("oauth_verifier"),
-      oauthToken: localSocial.social.queryString.get("oauth_token"),
+      oauthToken   : localSocial.social.queryString.get("oauth_token"),
     };
     jQuery.post(ajaxurl, data, function (response) {
       setRequestSending(false);
@@ -297,7 +308,7 @@ const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
       >
         {requestSending ? (
           <div className="wpsp-modal-info">
-            {__("Generating Token & Fetching User Data", "wp-scheduled-posts")}
+            {error ? error : __("Generating Token & Fetching User Data", "wp-scheduled-posts")}
           </div>
         ) : (
           <React.Fragment>

@@ -175,10 +175,10 @@ class Pinterest
      * @since 2.5.0
      * @return array
      */
-    public function remote_post($app_id, $app_secret, $app_access_token, $post_id, $board_name, $section_name, $profile_key, $force_share = false, $instant_share = false)
+    public function remote_post($post_id, $board_name, $section_name, $profile_key, $force_share = false, $instant_share = false)
     {
         // check post is skip social sharing
-        if (empty($app_id) || empty($app_secret) || get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
+        if (get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
             return;
         }
 
@@ -186,10 +186,11 @@ class Pinterest
             $errorFlag = false;
             $response = '';
 
+            $app_access_token = \WPSP\Helper::get_access_token('pinterest', $profile_key);
             $pin_args = $this->get_create_pin_args($post_id, $board_name, md5($app_access_token), $section_name, $instant_share);
 
             try {
-                $pinterest = new \DirkGroenen\Pinterest\Pinterest($app_id, $app_secret);
+                $pinterest = new \DirkGroenen\Pinterest\Pinterest(null, null);
                 $pinterest->auth->setOAuthToken($app_access_token);
                 $results = $pinterest->pins->create($pin_args);
                 if ($results != "") {
@@ -232,9 +233,6 @@ class Pinterest
                 }
                 // share
                 $this->remote_post(
-                    $profile->app_id,
-                    $profile->app_secret,
-                    $profile->access_token,
                     $post_id,
                     $profile->default_board_name,
                     $profile->defaultSection,
@@ -262,9 +260,6 @@ class Pinterest
                 }
                 // share
                 $this->remote_post(
-                    $profile->app_id,
-                    $profile->app_secret,
-                    $profile->access_token,
                     $post_id,
                     $profile->default_board_name,
                     $profile->defaultSection,
@@ -275,9 +270,9 @@ class Pinterest
     }
 
 
-    public function socialMediaInstantShare($app_id, $app_secret, $app_access_token, $post_id, $board_name, $section_name, $profile_key)
+    public function socialMediaInstantShare($post_id, $board_name, $section_name, $profile_key)
     {
-        $response = $this->remote_post($app_id, $app_secret, $app_access_token, $post_id, $board_name, $section_name, $profile_key, true, true);
+        $response = $this->remote_post($post_id, $board_name, $section_name, $profile_key, true, true);
         if ($response['success'] == false) {
             wp_send_json_error($response['log']);
         } else {

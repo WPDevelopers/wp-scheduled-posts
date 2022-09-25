@@ -362,9 +362,6 @@ class InstantShare
             // share
             $linkedinshare = new \WPSP\Social\Linkedin();
             $linkedinshare->socialMediaInstantShare(
-                $linkedin[$platformKey]->app_id,
-                $linkedin[$platformKey]->app_secret,
-                $linkedin[$platformKey]->access_token,
                 $postid,
                 $platformKey
             );
@@ -378,9 +375,6 @@ class InstantShare
             // share
             $pinterestshare = new \WPSP\Social\Pinterest();
             $pinterestshare->socialMediaInstantShare(
-                $pinterest[$platformKey]->app_id,
-                $pinterest[$platformKey]->app_secret,
-                $pinterest[$platformKey]->access_token,
                 $postid,
                 ($pinterest_board_type === "custom" ? $pinterestBoardName : $pinterest[$platformKey]->default_board_name),
                 ($pinterest_board_type === "custom" ? $pinterestSectionName : $pinterest[$platformKey]->defaultSection),
