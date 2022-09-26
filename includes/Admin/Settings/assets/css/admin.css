@@ -116,3 +116,72 @@
   width: 40%;
   margin-right: 5%;
 }
+
+.menual_connection_checker_wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.menual_connection_checker {
+  display: inline-flex;
+  justify-content: center;
+  column-gap: 10px;
+  row-gap: 5px;
+}
+
+.menual_connection_checker input[type="checkbox"] {
+  display: none;
+}
+
+.toggler_wrapper{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.toggler_wrapper .text{
+  font-weight: 500;
+}
+
+.toggler {
+  height: 20px;
+  width: 34px;
+  flex-shrink: 0;
+  border: 1px solid #6c62ff;
+  background: #fff;
+  border-radius: 50px;
+  cursor: pointer;
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  transition: background 0.2s linear;
+}
+
+.toggler:before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  height: 14px;
+  width: 14px;
+  border-radius: 50px;
+  background: #6c62ff;
+  flex-shrink: 0;
+  transition: all 0.2s linear;
+  transition-property: background, left;
+}
+
+.toggler.checked {
+  background: #6c62ff;
+}
+
+.toggler.checked:before {
+  background: #fff;
+  left: 16px;
+}
+
+.wpsp-social-modal-header {
+  font-size: 18px;
+}
