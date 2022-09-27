@@ -112,7 +112,7 @@ class Linkedin
     public function remote_post($post_id, $profile_key, $force_share = false)
     {
         // check post is skip social sharing
-        if (empty($app_id) || get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
+        if (get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
             return;
         }
 

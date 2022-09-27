@@ -34,11 +34,11 @@ const CustomAppForm = ({ platform, requestHandler }) => {
                       setIsManual(e.target.checked);
                     }}
                   />
-                  <span className="text">Connect Automaticly</span>
+                  <span className="text">Connect Automatically</span>
                   <span
                     className={`toggler ${isManual ? "checked" : ""}`}
                   ></span>
-                  <span className="text">Connect Menually</span>
+                  <span className="text">Connect Manually</span>
                 </label>
               </div>
               {!isManual && (
@@ -46,7 +46,7 @@ const CustomAppForm = ({ platform, requestHandler }) => {
                   <a
                     onClick={() =>
                       requestHandler(
-                        "https://api.schedulepress.com.test/v2/callback.php",
+                        "https://devapi.schedulepress.com/v2/callback.php",
                         null,
                         null
                       )
