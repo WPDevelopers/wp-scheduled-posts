@@ -129,19 +129,21 @@
   justify-content: center;
   column-gap: 10px;
   row-gap: 5px;
+  margin-left: auto;
+  font-size: 13px;
 }
 
 .menual_connection_checker input[type="checkbox"] {
   display: none;
 }
 
-.toggler_wrapper{
+.toggler_wrapper {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.toggler_wrapper .text{
+.toggler_wrapper .text {
   font-weight: 500;
 }
 
@@ -173,15 +175,19 @@
   transition-property: background, left;
 }
 
-.toggler.checked {
-  background: #6c62ff;
-}
-
 .toggler.checked:before {
-  background: #fff;
   left: 16px;
 }
 
 .wpsp-social-modal-header {
   font-size: 18px;
+}
+
+.wpsp-social-modal-header.flex {
+  display: flex;
+  gap: 10px;
+}
+
+.wpsp-social-modal-description {
+  text-align: center;
 }
