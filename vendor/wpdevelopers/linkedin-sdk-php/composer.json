@@ -1,5 +1,5 @@
 {
-    "name": "aymericdev/linkedin-sdk-php",
+    "name": "wpdevelopers/linkedin-sdk-php",
     "require": {
 	  	"guzzlehttp/guzzle": "~6.0",
 	  	"ext-json": "*",

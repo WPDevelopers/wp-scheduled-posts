@@ -14,13 +14,17 @@
         {
             "type": "vcs",
             "url": "https://github.com/WPDevelopers/pinterest-api-php"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/WPDevelopers/linkedin-sdk-php"
         }
     ],
     "require": {
         "priyomukul/wp-notice": "dev-main",
         "abraham/twitteroauth": "1.2.0",
         "facebook/graph-sdk": "5.7.0",
-        "aymericdev/linkedin-sdk-php": "v1.0.4",
+        "wpdevelopers/linkedin-sdk-php": "dev-master",
         "wpdevelopers/pinterest-api-php": "dev-master",
         "guzzlehttp/promises": "1.4.0",
         "guzzlehttp/psr7": "1.7.0",

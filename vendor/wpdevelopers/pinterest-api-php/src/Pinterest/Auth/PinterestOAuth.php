@@ -168,10 +168,8 @@ class PinterestOAuth {
             "grant_type"    => "refresh_token",
             "refresh_token" => $refresh_token,
         );
-
         // Perform post request
         $response = $this->request->post("oauth/token", http_build_query($data), $headers);
-
         return $response;
     }
 

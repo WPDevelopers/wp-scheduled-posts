@@ -124,7 +124,7 @@ class Linkedin
                 $linkedin = new \myPHPNotes\LinkedIn(
                     null,
                     '',
-                    WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE,
+                    null,
                     WPSCP_LINKEDIN_SCOPE
                 );
                 $acessToken = \WPSP\Helper::get_access_token('linkedin', $profile_key);

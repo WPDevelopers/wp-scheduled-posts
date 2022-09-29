@@ -65,7 +65,7 @@ class ComposerStaticInit48794e87e1e7e8b8306b8fcb09ba56c6
     public static $prefixDirsPsr4 = array (
         'myPHPNotes\\' => 
         array (
-            0 => __DIR__ . '/..' . '/aymericdev/linkedin-sdk-php',
+            0 => __DIR__ . '/..' . '/wpdevelopers/linkedin-sdk-php',
         ),
         'WPSP\\' => 
         array (

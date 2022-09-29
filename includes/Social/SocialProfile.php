@@ -156,8 +156,12 @@ class SocialProfile
                 // in this block, we just sending user info and token, not saving in db
                 $pinterest = new Pinterest(
                     $app_id,
-                    null
+                    $app_secret,
                 );
+                if(empty($access_token) && !empty($code)){
+                    $token = $pinterest->auth->getOAuthToken($code, $redirectURI);
+                    $access_token = $token->access_token;
+                }
                 $pinterest->auth->setOAuthToken($access_token);
                 $userinfo = $pinterest->users->me();
 
@@ -216,12 +220,16 @@ class SocialProfile
                 $app_id = $app_id ? $app_id : WPSP_SOCIAL_OAUTH2_LINKEDIN_APP_ID;
                 $linkedin = new LinkedIn(
                     $app_id,
-                    null,
-                    WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE,
+                    $app_secret,
+                    $redirectURI,
                     WPSCP_LINKEDIN_SCOPE,
                     true,
                     null
                 );
+                if(empty($access_token) && !empty($code)){
+                    $accessToken = $linkedin->getAccessToken($code);
+                    $access_token = $accessToken->access_token;
+                }
                 $getPerson = $linkedin->getPerson($access_token);
 
                 $image = $getPerson->profilePicture->{'displayImage~'}->elements[0]->identifiers[0]->identifier;
@@ -318,7 +326,7 @@ class SocialProfile
                 $tempAccessToken = $this->facebookGetAccessTokenDetails(
                     $app_id,
                     $app_secret,
-                    WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE,
+                    $redirectURI,
                     $code
                 );
 
@@ -460,7 +468,7 @@ class SocialProfile
                     $app_id,
                     $app_secret
                 );
-                $oauth_callback = WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE . '?' . http_build_query($request);
+                $oauth_callback = $redirectURI . '?' . http_build_query($request);
                 $request_token = $connection->oauth('oauth/request_token', array('oauth_callback' => $oauth_callback));
                 $url = $connection->url('oauth/authorize', array('oauth_token' => $request_token['oauth_token']));
                 wp_send_json_success($url);
@@ -478,7 +486,7 @@ class SocialProfile
                 $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=' . WPSP_SETTINGS_SLUG));
                 $state = base64_encode(json_encode($request));
                 $url = "https://www.facebook.com/dialog/oauth?client_id="
-                    . $app_id . "&redirect_uri=" . urlencode(WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE) . "&state="
+                    . $app_id . "&redirect_uri=" . urlencode($redirectURI) . "&state="
                     . $state . "&scope=" . WPSCP_FACEBOOK_SCOPE;
                 wp_send_json_success($url);
                 wp_die();

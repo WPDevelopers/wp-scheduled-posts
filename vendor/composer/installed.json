@@ -61,40 +61,6 @@
             "install-path": "../abraham/twitteroauth"
         },
         {
-            "name": "aymericdev/linkedin-sdk-php",
-            "version": "v1.0.4",
-            "version_normalized": "1.0.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Hoax017/LinkedIn-SDK-PHP.git",
-                "reference": "3a0acde72902731e3e631622d89ec0813a829cae"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Hoax017/LinkedIn-SDK-PHP/zipball/3a0acde72902731e3e631622d89ec0813a829cae",
-                "reference": "3a0acde72902731e3e631622d89ec0813a829cae",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "guzzlehttp/guzzle": "~6.0",
-                "php": ">=5.4"
-            },
-            "time": "2019-11-18T15:16:27+00:00",
-            "type": "library",
-            "installation-source": "dist",
-            "autoload": {
-                "psr-4": {
-                    "myPHPNotes\\": "/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "install-path": "../aymericdev/linkedin-sdk-php"
-        },
-        {
             "name": "composer/ca-bundle",
             "version": "1.3.3",
             "version_normalized": "1.3.3.0",
@@ -869,18 +835,55 @@
             "install-path": "../symfony/polyfill-php72"
         },
         {
+            "name": "wpdevelopers/linkedin-sdk-php",
+            "version": "dev-master",
+            "version_normalized": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/WPDevelopers/LinkedIn-SDK-PHP.git",
+                "reference": "08e9e0a8288c1ae3b0d896466e08129663a9c912"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/WPDevelopers/LinkedIn-SDK-PHP/zipball/08e9e0a8288c1ae3b0d896466e08129663a9c912",
+                "reference": "08e9e0a8288c1ae3b0d896466e08129663a9c912",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "guzzlehttp/guzzle": "~6.0",
+                "php": ">=5.4"
+            },
+            "time": "2022-09-25T12:36:23+00:00",
+            "default-branch": true,
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "myPHPNotes\\": "/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "support": {
+                "source": "https://github.com/WPDevelopers/LinkedIn-SDK-PHP/tree/master"
+            },
+            "install-path": "../wpdevelopers/linkedin-sdk-php"
+        },
+        {
             "name": "wpdevelopers/pinterest-api-php",
             "version": "dev-master",
             "version_normalized": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WPDevelopers/pinterest-api-php.git",
-                "reference": "079461d19897991abb04e50d62147796de098600"
+                "reference": "365040bfab0a79727a6374d0691707bc97accd66"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WPDevelopers/pinterest-api-php/zipball/079461d19897991abb04e50d62147796de098600",
-                "reference": "079461d19897991abb04e50d62147796de098600",
+                "url": "https://api.github.com/repos/WPDevelopers/pinterest-api-php/zipball/365040bfab0a79727a6374d0691707bc97accd66",
+                "reference": "365040bfab0a79727a6374d0691707bc97accd66",
                 "shasum": ""
             },
             "require": {
@@ -891,7 +894,7 @@
                 "phpunit/phpunit": "8.5.*",
                 "vlucas/phpdotenv": "^2.2"
             },
-            "time": "2022-09-18T11:49:43+00:00",
+            "time": "2022-09-25T12:38:10+00:00",
             "default-branch": true,
             "type": "library",
             "installation-source": "dist",

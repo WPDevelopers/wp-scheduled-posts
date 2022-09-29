@@ -6,7 +6,7 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'myPHPNotes\\' => array($vendorDir . '/aymericdev/linkedin-sdk-php'),
+    'myPHPNotes\\' => array($vendorDir . '/wpdevelopers/linkedin-sdk-php'),
     'WPSP\\' => array($baseDir . '/includes'),
     'Symfony\\Polyfill\\Php72\\' => array($vendorDir . '/symfony/polyfill-php72'),
     'Symfony\\Polyfill\\Intl\\Normalizer\\' => array($vendorDir . '/symfony/polyfill-intl-normalizer'),
