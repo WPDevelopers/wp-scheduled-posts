@@ -10,6 +10,12 @@ const CustomAppForm = ({ platform, requestHandler }) => {
   const [isManual, setIsManual] = useState(false);
   const { title, subtitle } = socialPopUpData[platform];
 
+  useEffect(() => {
+    if(platform == "linkedin" || platform == 'pinterest'){
+      SetRedirectURI('https://devapi.schedulepress.com/v2/callback.php');
+    }
+  }, []);
+
   return (
     <React.Fragment>
       <div className="modalbody">
@@ -46,7 +52,7 @@ const CustomAppForm = ({ platform, requestHandler }) => {
                   <a
                     onClick={() =>
                       requestHandler(
-                        "https://devapi.schedulepress.com/v2/callback.php",
+                        redirectURI,
                         null,
                         null
                       )
