@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { __ } from "@wordpress/i18n";
 import { socialPopUpData } from "./../../utils/helper";
 const CustomAppForm = ({ platform, requestHandler }) => {
+  const redirectURIv2 = "https://api.schedulepress.com/v2/callback.php";
   const [redirectURI, SetRedirectURI] = useState(
-    "https://devapi.schedulepress.com/callback.php"
+    "https://api.schedulepress.com/callback.php"
   );
   const [appID, SetAppID] = useState("");
   const [appSecret, SetAppSecret] = useState("");
@@ -62,7 +63,7 @@ const CustomAppForm = ({ platform, requestHandler }) => {
               <a
                 onClick={() =>
                   requestHandler(
-                    "https://devapi.schedulepress.com/v2/callback.php",
+                    redirectURIv2,
                     null,
                     null
                   )
