@@ -3,7 +3,7 @@
         'name' => 'schedulepress/wp-schedule-posts',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '1985fa272064fd252869e56fb06f41ecbea2ae7a',
+        'reference' => 'cfd1d541b7f9baecd26d3fa8a57dc78a72fa1906',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -111,7 +111,7 @@
         'schedulepress/wp-schedule-posts' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '1985fa272064fd252869e56fb06f41ecbea2ae7a',
+            'reference' => 'cfd1d541b7f9baecd26d3fa8a57dc78a72fa1906',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -147,7 +147,7 @@
         'wpdevelopers/linkedin-sdk-php' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '08e9e0a8288c1ae3b0d896466e08129663a9c912',
+            'reference' => '6487b8002158aec5bbbc231fa53c3aac44fddc31',
             'type' => 'library',
             'install_path' => __DIR__ . '/../wpdevelopers/linkedin-sdk-php',
             'aliases' => array(

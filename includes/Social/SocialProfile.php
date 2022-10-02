@@ -159,8 +159,11 @@ class SocialProfile
                     $app_secret,
                 );
                 if(empty($access_token) && !empty($code)){
-                    $token = $pinterest->auth->getOAuthToken($code, $redirectURI);
-                    $access_token = $token->access_token;
+                    $token         = $pinterest->auth->getOAuthToken($code, $redirectURI);
+                    $access_token  = $token->access_token;
+                    $refresh_token = $token->refresh_token;
+                    $expires_in    = time() + $token->expires_in;
+                    $rt_expires_in = time() + $token->refresh_token_expires_in;
                 }
                 $pinterest->auth->setOAuthToken($access_token);
                 $userinfo = $pinterest->users->me();

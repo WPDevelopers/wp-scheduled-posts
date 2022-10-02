@@ -841,12 +841,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/WPDevelopers/LinkedIn-SDK-PHP.git",
-                "reference": "08e9e0a8288c1ae3b0d896466e08129663a9c912"
+                "reference": "6487b8002158aec5bbbc231fa53c3aac44fddc31"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WPDevelopers/LinkedIn-SDK-PHP/zipball/08e9e0a8288c1ae3b0d896466e08129663a9c912",
-                "reference": "08e9e0a8288c1ae3b0d896466e08129663a9c912",
+                "url": "https://api.github.com/repos/WPDevelopers/LinkedIn-SDK-PHP/zipball/6487b8002158aec5bbbc231fa53c3aac44fddc31",
+                "reference": "6487b8002158aec5bbbc231fa53c3aac44fddc31",
                 "shasum": ""
             },
             "require": {
@@ -854,7 +854,7 @@
                 "guzzlehttp/guzzle": "~6.0",
                 "php": ">=5.4"
             },
-            "time": "2022-09-25T12:36:23+00:00",
+            "time": "2022-10-02T07:59:03+00:00",
             "default-branch": true,
             "type": "library",
             "installation-source": "dist",

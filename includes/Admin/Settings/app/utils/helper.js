@@ -109,7 +109,7 @@ export const socialPopUpData = {
                 'For details on LinkedIn configuration, check out this',
                 'wp-scheduled-posts'
             ) +
-            '<a target="_blank" href="https://wpdeveloper.com/docs/share-wordpress-posts-on-linkedin">' +
+            ' <a target="_blank" href="https://wpdeveloper.com/docs/share-wordpress-posts-on-linkedin">' +
             __('Doc', 'wp-scheduled-posts') +
             '</a> <br /> <a target="_blank" href="https://www.linkedin.com/developers/">' +
             __('Click here', 'wp-scheduled-posts') +

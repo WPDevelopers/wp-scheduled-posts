@@ -3,7 +3,7 @@ import { __ } from "@wordpress/i18n";
 import { socialPopUpData } from "./../../utils/helper";
 const CustomAppForm = ({ platform, requestHandler }) => {
   const [redirectURI, SetRedirectURI] = useState(
-    "https://api.schedulepress.com/callback.php"
+    "https://devapi.schedulepress.com/callback.php"
   );
   const [appID, SetAppID] = useState("");
   const [appSecret, SetAppSecret] = useState("");
@@ -62,7 +62,7 @@ const CustomAppForm = ({ platform, requestHandler }) => {
               <a
                 onClick={() =>
                   requestHandler(
-                    "https://api.schedulepress.com.test/v2/callback.php",
+                    "https://devapi.schedulepress.com/v2/callback.php",
                     null,
                     null
                   )
@@ -74,6 +74,7 @@ const CustomAppForm = ({ platform, requestHandler }) => {
             </div>
           )}
           {(isManual || platform == "facebook" || platform == "twitter") && (
+            <form>
             <table className="form-table">
               <tbody>
                 <tr>
@@ -87,17 +88,32 @@ const CustomAppForm = ({ platform, requestHandler }) => {
                       <div className="form-input">
                         <input
                           type="text"
+                          required
                           value={redirectURI}
                           placeholder={__("Redirect URI", "wp-scheduled-posts")}
                           onChange={(e) => SetRedirectURI(e.target.value)}
                         />
                         <div className="doc">
+                        {platform == "linkedin" &&
+                        __(
+                          "Add this URL in the Authorized redirect URLs field of your LinkedIn app.",
+                          "wp-scheduled-posts"
+                        )}
+                        {platform == "pinterest" &&
+                        __(
+                          "Add this URL in the Redirect URLs field of your Pinterest app.",
+                          "wp-scheduled-posts"
+                        )}
+                        {platform !== "linkedin" && platform !== "pinterest" && (
+                          <>
                           {__(
                             "Copy this and paste it in your",
                             "wp-scheduled-posts"
                           )}{" "}
                           {platform}{" "}
                           {__("app Callback url field.", "wp-scheduled-posts")}
+                          </>
+                        )}
                         </div>
                       </div>
                     </div>
@@ -116,6 +132,7 @@ const CustomAppForm = ({ platform, requestHandler }) => {
                       <div className="form-input">
                         <input
                           type="text"
+                          required
                           value={appID}
                           placeholder={
                             platform === "twitter"
@@ -141,6 +158,7 @@ const CustomAppForm = ({ platform, requestHandler }) => {
                       <div className="form-input">
                         <input
                           type="text"
+                          required
                           value={appSecret}
                           placeholder={
                             platform === "twitter"
@@ -162,19 +180,23 @@ const CustomAppForm = ({ platform, requestHandler }) => {
                         justifyContent: hasAutomatic ? "center" : "flex-start",
                       }}
                     >
-                      <a
-                        onClick={() =>
-                          requestHandler(redirectURI, appID, appSecret)
+                      <button
+                      type="submit"
+                      className="wpsp-modal-generate-token-button"
+                      onClick={(event) => {
+                        if(redirectURI && appID && appSecret){
+                          requestHandler(redirectURI, appID, appSecret);
+                          event.preventDefault();
                         }
-                        className="wpsp-modal-generate-token-button"
-                      >
-                        {__("Connect your Account", "wp-scheduled-posts")}
-                      </a>
+                      }}>
+                         {__("Connect your account", "wp-scheduled-posts")}
+                      </button>
                     </div>
                   </td>
                 </tr>
               </tbody>
             </table>
+            </form>
           )}
           {hasAutomatic && (
             <p
