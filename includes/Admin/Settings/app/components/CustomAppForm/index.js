@@ -10,27 +10,26 @@ const CustomAppForm = ({ platform, requestHandler }) => {
   const [isManual, setIsManual] = useState(false);
   const { title, subtitle } = socialPopUpData[platform];
 
-  // useEffect(() => {
-  //   if(platform == "linkedin" || platform == 'pinterest'){
-  //     SetRedirectURI('https://devapi.schedulepress.com/v2/callback.php');
-  //   }
-  // }, []);
+  const hasAutomatic = platform == "linkedin" || platform == "pinterest";
 
   return (
     <React.Fragment>
       <div className="modalbody">
         <div className="wpsp-social-account-insert-modal">
-          <div className="wpsp-social-modal-header">
+          <div
+            className={`wpsp-social-modal-header ${
+              platform == "linkedin" || platform == "pinterest" ? "flex" : ""
+            }`}
+          >
             <h3>{title}</h3>
-            <p
-              dangerouslySetInnerHTML={{
-                __html: subtitle,
-              }}
-            ></p>
-          </div>
-          <input type="hidden" name="tempmodaltype" value="twitter" />
-          {(platform == "linkedin" || platform == "pinterest") && (
-            <div className="menual_connection_checker_wrapper">
+            {!hasAutomatic && (
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: subtitle,
+                }}
+              ></p>
+            )}
+            {hasAutomatic && (
               <div className="menual_connection_checker">
                 <label className="toggler_wrapper">
                   <input
@@ -40,29 +39,38 @@ const CustomAppForm = ({ platform, requestHandler }) => {
                       setIsManual(e.target.checked);
                     }}
                   />
-                  <span className="text">Connect Automatically</span>
+                  <span className="text">
+                    Connect with {!isManual ? "App credentials" : "Account"}
+                  </span>
                   <span
                     className={`toggler ${isManual ? "checked" : ""}`}
                   ></span>
-                  <span className="text">Connect Manually</span>
                 </label>
               </div>
-              {!isManual && (
-                <div style={{ display: "flex", justifyContent: "center" }}>
-                  <a
-                    onClick={() =>
-                      requestHandler(
-                        'https://api.schedulepress.com/v2/callback.php',
-                        null,
-                        null
-                      )
-                    }
-                    className="wpsp-modal-generate-token-button"
-                  >
-                    {__("Connect your account", "wp-scheduled-posts")}
-                  </a>
-                </div>
-              )}
+            )}
+          </div>
+          <input type="hidden" name="tempmodaltype" value="twitter" />
+          {hasAutomatic && !isManual && (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: 5,
+                marginBottom: 15,
+              }}
+            >
+              <a
+                onClick={() =>
+                  requestHandler(
+                    "https://api.schedulepress.com.test/v2/callback.php",
+                    null,
+                    null
+                  )
+                }
+                className="wpsp-modal-generate-token-button"
+              >
+                {__("Connect your account", "wp-scheduled-posts")}
+              </a>
             </div>
           )}
           {(isManual || platform == "facebook" || platform == "twitter") && (
@@ -147,20 +155,34 @@ const CustomAppForm = ({ platform, requestHandler }) => {
                 </tr>
                 <tr>
                   <td align="left">
-                    <div className="form-group">
+                    <div
+                      className="form-group"
+                      style={{
+                        display: "flex",
+                        justifyContent: hasAutomatic ? "center" : "flex-start",
+                      }}
+                    >
                       <a
                         onClick={() =>
                           requestHandler(redirectURI, appID, appSecret)
                         }
                         className="wpsp-modal-generate-token-button"
                       >
-                        {__("Generate Access Token", "wp-scheduled-posts")}
+                        {__("Connect your Account", "wp-scheduled-posts")}
                       </a>
                     </div>
                   </td>
                 </tr>
               </tbody>
             </table>
+          )}
+          {hasAutomatic && (
+            <p
+              className="wpsp-social-modal-description"
+              dangerouslySetInnerHTML={{
+                __html: subtitle,
+              }}
+            ></p>
           )}
         </div>
       </div>
