@@ -191,3 +191,42 @@
 .wpsp-social-modal-description {
   text-align: center;
 }
+
+.copyButton {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  cursor: pointer;
+}
+
+.copyButton img {
+  width: 16px;
+  filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.15));
+  opacity: 0.8;
+}
+
+.copyTooltip {
+  position: absolute;
+  right: 50%;
+  bottom: calc(100% + 5px);
+  transform: translateX(50%);
+  background: black;
+  color: white;
+  border-radius: 3px;
+  padding: 3px 8px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+.copyTooltip:before {
+  position: absolute;
+  right: 50%;
+  top: 100%;
+  transform: translateX(50%);
+  content: "";
+  border-top: 3px solid black;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+}
