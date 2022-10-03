@@ -13,7 +13,7 @@ import Profile from "./../Social/Profile";
 import ListItemProfile from "./../Social/ListItemProfile";
 import CustomAppForm from "./../../components/CustomAppForm";
 import Pinterest from "../Pinterest";
-const noSection = {label: 'No Section', value: ''};
+const noSection = { label: "No Section", value: "" };
 
 const customStyles = {
   overlay: {
@@ -27,6 +27,7 @@ const customStyles = {
     maxWidth: "100%",
     width: "450px",
     position: "static",
+    overflow: "hidden",
   },
 };
 
@@ -42,16 +43,19 @@ const customStylesForPaintarist = {
     maxWidth: "100%",
     margin: "auto",
     position: "static",
-    overflow: "visible!important"
+    overflow: "visible!important",
   },
 };
 
 const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [modalMultiProfileErrorIsOpen, setModalMultiProfileErrorIsOpen] =
-    useState(false);
-  const [multiProfileErrorMessage, setMultiProfileErrrorMessage] =
-    useState(false);
+  const [
+    modalMultiProfileErrorIsOpen,
+    setModalMultiProfileErrorIsOpen,
+  ] = useState(false);
+  const [multiProfileErrorMessage, setMultiProfileErrrorMessage] = useState(
+    false
+  );
   const [customAppModalIsOpen, setCustomAppModalIsOpen] = useState(false);
   const [localSocial, setLocalSocial] = useState();
   const [requestSending, setRequestSending] = useState(false);
@@ -64,7 +68,7 @@ const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
   const [fieldStatus] = useField(field.name + "_status");
   const [fieldList] = useField(field.name + "_list");
   const [cashedSectionData, setCashedSectionData] = useState({});
-  const [error, setError] = useState("")
+  const [error, setError] = useState("");
 
   useEffect(() => {
     setLocalSocial(store.getState("social"));
@@ -84,7 +88,7 @@ const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
     setRequestSending(true);
     setSocialPlatform(localSocial.social.queryString.get("type"));
     const error = localSocial.social.queryString.get("error_message");
-    if(error){
+    if (error) {
       setError(error);
       return;
     }
@@ -92,18 +96,18 @@ const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
      * send ajax requrest for generate access token and fetch user, page info
      */
     var data = {
-      action       : "wpsp_social_profile_fetch_user_info_and_token",
-      type         : localSocial.social.queryString.get("type"),
-      appId        : localSocial.social.queryString.get("appId"),
-      appSecret    : localSocial.social.queryString.get("appSecret"),
-      code         : localSocial.social.queryString.get("code"),
-      redirectURI  : localSocial.social.queryString.get("redirectURI"),
-      access_token : localSocial.social.queryString.get("access_token"),
+      action: "wpsp_social_profile_fetch_user_info_and_token",
+      type: localSocial.social.queryString.get("type"),
+      appId: localSocial.social.queryString.get("appId"),
+      appSecret: localSocial.social.queryString.get("appSecret"),
+      code: localSocial.social.queryString.get("code"),
+      redirectURI: localSocial.social.queryString.get("redirectURI"),
+      access_token: localSocial.social.queryString.get("access_token"),
       refresh_token: localSocial.social.queryString.get("refresh_token"),
-      expires_in   : localSocial.social.queryString.get("expires_in"),
+      expires_in: localSocial.social.queryString.get("expires_in"),
       rt_expires_in: localSocial.social.queryString.get("rt_expires_in"),
       oauthVerifier: localSocial.social.queryString.get("oauth_verifier"),
-      oauthToken   : localSocial.social.queryString.get("oauth_token"),
+      oauthToken: localSocial.social.queryString.get("oauth_token"),
     };
     jQuery.post(ajaxurl, data, function (response) {
       setRequestSending(false);
@@ -151,7 +155,7 @@ const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
 
   const fetchSectionData = (defaultBoard, profile, updateOptions) => {
     let options = [noSection];
-    if(!cashedSectionData?.[defaultBoard]){
+    if (!cashedSectionData?.[defaultBoard]) {
       if (defaultBoard) {
         var data = {
           action: "wpsp_social_profile_fetch_pinterest_section",
@@ -170,15 +174,17 @@ const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
               });
               options = [...options, ...sections];
               updateOptions(options);
-              setCashedSectionData({...cashedSectionData, [defaultBoard]: options});
+              setCashedSectionData({
+                ...cashedSectionData,
+                [defaultBoard]: options,
+              });
             }
           })
           .fail(function () {
             updateOptions(options);
           });
       }
-    }
-    else{
+    } else {
       updateOptions(cashedSectionData?.[defaultBoard]);
     }
   };
@@ -308,7 +314,12 @@ const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
       >
         {requestSending ? (
           <div className="wpsp-modal-info">
-            {error ? error : __("Generating Token & Fetching User Data", "wp-scheduled-posts")}
+            {error
+              ? error
+              : __(
+                  "Generating Token & Fetching User Data",
+                  "wp-scheduled-posts"
+                )}
           </div>
         ) : (
           <React.Fragment>
