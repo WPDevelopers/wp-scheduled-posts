@@ -156,7 +156,7 @@ class SocialProfile
                 // in this block, we just sending user info and token, not saving in db
                 $pinterest = new Pinterest(
                     $app_id,
-                    $app_secret,
+                    $app_secret
                 );
                 if(empty($access_token) && !empty($code)){
                     $token         = $pinterest->auth->getOAuthToken($code, $redirectURI);
