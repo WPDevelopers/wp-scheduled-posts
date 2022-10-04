@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the SchedulePress (Formerly Known as WP Scheduled Posts) plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: SchedulePress (Formerly Known as WP Scheduled Posts) 4.1.7\n"
+"Project-Id-Version: SchedulePress (Formerly Known as WP Scheduled Posts) 4.1.9\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-scheduled-posts\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-08-07T12:36:26+00:00\n"
+"POT-Creation-Date: 2022-10-04T06:23:23+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: wp-scheduled-posts\n"
@@ -635,7 +635,7 @@ msgstr ""
 msgid "Failed!, You didn't select any social media."
 msgstr ""
 
-#: includes/Social/InstantShare.php:391
+#: includes/Social/InstantShare.php:385
 msgid "Sorry, your requested platform integation is not added."
 msgstr ""
 
@@ -668,7 +668,7 @@ msgid "Scheduled"
 msgstr ""
 
 #: views/calendar.php:64
-#: includes/Admin/Settings/app/components/type/SocialProfile.js:349
+#: includes/Admin/Settings/app/components/type/SocialProfile.js:370
 msgid "Save"
 msgstr ""
 
@@ -700,69 +700,77 @@ msgstr ""
 msgid "New Draft"
 msgstr ""
 
-#: includes/Admin/Settings/app/components/CustomAppForm/index.js:40
+#: includes/Admin/Settings/app/components/CustomAppForm/index.js:70
+#: includes/Admin/Settings/app/components/CustomAppForm/index.js:221
+msgid "Connect your account"
+msgstr ""
+
+#: includes/Admin/Settings/app/components/CustomAppForm/index.js:83
 #: includes/Admin/Settings/assets/js/admin.js:3393
 msgid "Redirect URI:"
 msgstr ""
 
-#: includes/Admin/Settings/app/components/CustomAppForm/index.js:50
+#: includes/Admin/Settings/app/components/CustomAppForm/index.js:95
 #: includes/Admin/Settings/assets/js/admin.js:3403
 msgid "Redirect URI"
 msgstr ""
 
-#: includes/Admin/Settings/app/components/CustomAppForm/index.js:61
+#: includes/Admin/Settings/app/components/CustomAppForm/index.js:122
+msgid "Add this URL in the Authorized redirect URLs field of your LinkedIn app."
+msgstr ""
+
+#: includes/Admin/Settings/app/components/CustomAppForm/index.js:127
+msgid "Add this URL in the Redirect URLs field of your Pinterest app."
+msgstr ""
+
+#: includes/Admin/Settings/app/components/CustomAppForm/index.js:134
 #: includes/Admin/Settings/assets/js/admin.js:3414
 msgid "Copy this and paste it in your"
 msgstr ""
 
-#: includes/Admin/Settings/app/components/CustomAppForm/index.js:66
+#: includes/Admin/Settings/app/components/CustomAppForm/index.js:139
 #: includes/Admin/Settings/assets/js/admin.js:3419
 msgid "app Callback url field."
 msgstr ""
 
-#: includes/Admin/Settings/app/components/CustomAppForm/index.js:81
+#: includes/Admin/Settings/app/components/CustomAppForm/index.js:156
 #: includes/Admin/Settings/assets/js/admin.js:3434
 msgid "API key:"
 msgstr ""
 
-#: includes/Admin/Settings/app/components/CustomAppForm/index.js:85
+#: includes/Admin/Settings/app/components/CustomAppForm/index.js:157
 #: includes/Admin/Settings/assets/js/admin.js:3438
 msgid "App ID:"
 msgstr ""
 
-#: includes/Admin/Settings/app/components/CustomAppForm/index.js:97
+#: includes/Admin/Settings/app/components/CustomAppForm/index.js:167
 #: includes/Admin/Settings/assets/js/admin.js:3450
 msgid "API key"
 msgstr ""
 
-#: includes/Admin/Settings/app/components/CustomAppForm/index.js:101
+#: includes/Admin/Settings/app/components/CustomAppForm/index.js:168
 #: includes/Admin/Settings/assets/js/admin.js:3454
 msgid "App ID"
 msgstr ""
 
-#: includes/Admin/Settings/app/components/CustomAppForm/index.js:120
+#: includes/Admin/Settings/app/components/CustomAppForm/index.js:182
 #: includes/Admin/Settings/assets/js/admin.js:3473
 msgid "API Secret Key:"
 msgstr ""
 
-#: includes/Admin/Settings/app/components/CustomAppForm/index.js:124
+#: includes/Admin/Settings/app/components/CustomAppForm/index.js:183
 #: includes/Admin/Settings/assets/js/admin.js:3477
 msgid "App Secret:"
 msgstr ""
 
-#: includes/Admin/Settings/app/components/CustomAppForm/index.js:136
+#: includes/Admin/Settings/app/components/CustomAppForm/index.js:193
 #: includes/Admin/Settings/assets/js/admin.js:3489
 msgid "API Secret Key"
 msgstr ""
 
-#: includes/Admin/Settings/app/components/CustomAppForm/index.js:140
+#: includes/Admin/Settings/app/components/CustomAppForm/index.js:194
 #: includes/Admin/Settings/assets/js/admin.js:3493
 msgid "App Secret"
-msgstr ""
-
-#: includes/Admin/Settings/app/components/CustomAppForm/index.js:166
-#: includes/Admin/Settings/assets/js/admin.js:3519
-msgid "Generate Access Token"
 msgstr ""
 
 #: includes/Admin/Settings/app/components/Facebook/index.js:50
@@ -948,12 +956,12 @@ msgstr ""
 msgid "Save Schedule"
 msgstr ""
 
-#: includes/Admin/Settings/app/components/type/SocialProfile.js:257
+#: includes/Admin/Settings/app/components/type/SocialProfile.js:273
 #: includes/Admin/Settings/assets/js/admin.js:5330
 msgid "Add New Profile"
 msgstr ""
 
-#: includes/Admin/Settings/app/components/type/SocialProfile.js:301
+#: includes/Admin/Settings/app/components/type/SocialProfile.js:319
 #: includes/Admin/Settings/assets/js/admin.js:5377
 msgid "Generating Token & Fetching User Data"
 msgstr ""
@@ -1149,4 +1157,8 @@ msgstr ""
 #: includes/Admin/Settings/app/utils/helper.js:134
 #: includes/Admin/Settings/assets/js/admin.js:6326
 msgid "to Retrieve Your API Keys from your Pinterest account."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:3519
+msgid "Generate Access Token"
 msgstr ""

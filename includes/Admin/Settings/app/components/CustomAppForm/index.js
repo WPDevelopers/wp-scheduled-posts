@@ -11,15 +11,15 @@ const CustomAppForm = ({ platform, requestHandler }) => {
   const [appID, SetAppID] = useState("");
   const [appSecret, SetAppSecret] = useState("");
   const [isManual, setIsManual] = useState(false);
-  const [coppied, setCoppied] = useState(false);
+  const [copied, setCopied] = useState(false);
   const { title, subtitle } = socialPopUpData[platform];
 
   const hasAutomatic = platform == "linkedin" || platform == "pinterest";
 
   const handleURICopy = () => {
-    setCoppied(true);
+    setCopied(true);
     setTimeout(() => {
-      setCoppied(false);
+      setCopied(false);
     }, 2000);
   };
 
@@ -108,8 +108,8 @@ const CustomAppForm = ({ platform, requestHandler }) => {
                                 onClick={() => handleURICopy(redirectURI)}
                               >
                                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABmJLR0QA/wD/AP+gvaeTAAACuElEQVR4nO2bPWgUQRiGn9PAiUZBQQknghYW/jQWNqL4U5giWqsINpIgWqa10MpCEBQsJFiIIPYmhRAwFnaHiBCtLESD50/EQxQiBi0mK7Ozu7nMztx+u+s8MLAzszO88zJ/d/cdBP5vGg7tTgKngd3Aem+K/LIIdIAZ4A4w56PTLcAT4E/F0k9g1HXwg8DLEgzGJTmZcL0EA/AxE7ZFA7LZA5rAZ+LrvQvcBt5a9FMkTWAEGDbKrwJXbDs7QNLNo44Ci+Ixcd1Po4pVFp1sMvLfULtrFZg08kPRg40BbeC7ln+EcrMKLBj5gcTDCuigpvwY8B644a4rUBRjxPeAN1FFrxkwtJRW901aPr4C74Df/eh8ALgAvEb+zF4uzQO3UDfTXmTOAJN1JI+Msqc5YF9eA8xT4C5wvEdnZaOFOuY252msG3AYOOVDkQAt4HKehvomeM6oWwAuAVMkz1FJGsAe1MfbXVr5WWAch42xTXyd3MyvsRAOkdwPtme8u6I9YKPR6JUvpX1iNqXMvK73ZLmrcNmvuWn6rL/hsvksUEuCAdICpAkGSAuQJhggLUCaYIC0AGmCAdICpAkGSAuQJhggLUCaYIC0AGmCAdICpAkGSAuQJhggLUCaYIC0AGmCAdICCmKHke9GDzZRYlWkARwDLhrl/35YresMGAQeoIKppoENRv3D6KGuM2AcOJNRN40K+gDqOwNaGeUvMIypqwETxMN6u8A14CDwRX+xrkugDewE9qMG/Bz4lfZiXQ0A+EgySjyBvgQWjbqmVzn+WZNSZh0hphvQMepGbDsrmBMpZR9sO9GXwAwq9CxiGBU2O0n54gT3okLfdGaBTy4dt4AfyMf+5k3nXQYfYQYUViVN4TGkf5RqzYT7wNq8g80KLNy6ZMQR1NIo2x8m5lG3unvAM2EtgUrzFzG21zF8JcAYAAAAAElFTkSuQmCC" />
-                                {coppied && (
-                                  <span className="copyTooltip">Coppied</span>
+                                {copied && (
+                                  <span className="copyTooltip">Copied</span>
                                 )}
                               </span>
                             </CopyToClipboard>
