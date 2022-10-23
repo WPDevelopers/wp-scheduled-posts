@@ -345,6 +345,9 @@ function filter_user_has_cap( array $allcaps, array $caps, array $args, \WP_User
 add_filter('rest_pre_dispatch', function($return, $server, $request){
 	// return $return;
 	// WP_REST_Server
+	if(!empty($request['meta']['wpsp_status']) && $request['meta']['wpsp_status'] == 'draft'){
+		return $return;
+	}
 	$r = new ReflectionMethod($server, 'match_request_to_handler');
 	$r->setAccessible(true);
 	$matched = $r->invoke($server, $request);
