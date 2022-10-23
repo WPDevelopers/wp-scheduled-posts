@@ -21,6 +21,9 @@
             if(isset($_GET['page']) && $_GET['page'] === 'schedulepress-post'){
                 $post_type = 'post';
             }
+            else if(isset($_GET['page']) && strpos($_GET['page'], 'schedulepress-') === 0){
+                $post_type = str_replace('schedulepress-', '', $_GET['page']);
+            }
 
             $allow_post_types  = \WPSP\Helper::get_settings('allow_post_types');
             $allow_post_types  = (!empty($allow_post_types) ? $allow_post_types : array('post'));
