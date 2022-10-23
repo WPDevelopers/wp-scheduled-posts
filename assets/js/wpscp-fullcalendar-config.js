@@ -617,6 +617,10 @@ document.addEventListener('DOMContentLoaded', function () {
     function wpscpGetPostTypeName(postID) {
         var urlParams = new URLSearchParams(window.location.search)
         var postTypeName = urlParams.get('post_type')
+        var page = urlParams.get('page');
+        if(page && page.indexOf('schedulepress-') === 0){
+            postTypeName = page.replace('schedulepress-', '');
+        }
         if(!postTypeName && postID){
             postTypeName = jQuery('[data-postid=' + postID + ']').data('post-type');
         }
