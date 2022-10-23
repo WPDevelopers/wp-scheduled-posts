@@ -183,7 +183,8 @@ class Helper
             $hook == 'posts_page_' . WPSP_SETTINGS_SLUG . '-post' ||
             $hook == 'toplevel_page_' .  WPSP_SETTINGS_SLUG ||
             $hook == WPSP_SETTINGS_SLUG . '_page_' . WPSP_SETTINGS_SLUG ||
-            $hook == WPSP_SETTINGS_SLUG . '_page_' . WPSP_SETTINGS_SLUG . '-calendar'
+            $hook == WPSP_SETTINGS_SLUG . '_page_' . WPSP_SETTINGS_SLUG . '-calendar' ||
+            strpos($hook, '_page_' . WPSP_SETTINGS_SLUG) !== false
         ) {
             return true;
         }
