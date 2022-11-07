@@ -196,7 +196,7 @@ class InstantShare
     }
     public function instant_share_metabox_data_save($post_id, $post)
     {
-        if (!isset($_POST['wpscp_pro_instant_social_share_nonce']) || !wp_verify_nonce($_POST['wpscp_pro_instant_social_share_nonce'], basename(__FILE__))) {
+        if (!did_action('wpsp_schedule_published') && (!isset($_POST['wpscp_pro_instant_social_share_nonce']) || !wp_verify_nonce($_POST['wpscp_pro_instant_social_share_nonce'], basename(__FILE__)))) {
             return;
         }
         //don't do anything for autosaves
