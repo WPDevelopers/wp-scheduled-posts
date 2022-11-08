@@ -18,6 +18,7 @@ import Time from './type/Time'
 import MissSchedule from './type/MissSchedule'
 import License from './type/License'
 import Number from './type/Number'
+import Screenshot from './type/Screenshot'
 
 const Fields = (props) => {
     const isFalseConditionalStatus = compareConditionValue(
@@ -76,6 +77,9 @@ const Fields = (props) => {
             break
         case 'MissSchedule':
             renderComponent = <MissSchedule {...props} />
+            break
+        case 'screenshot':
+            renderComponent = <Screenshot {...props} />
             break
         default:
             renderComponent = <Error {...props} />

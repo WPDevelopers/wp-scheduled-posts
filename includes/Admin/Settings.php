@@ -502,5 +502,34 @@ class Settings
             'default' => '500',
             'max' => '500',
         ]);
+
+        if(!defined('WPSP_PRO_VERSION')){
+            // Manage Schedule
+            $Builder::add_tab([
+                'title' => __('Manage Schedule', 'wp-scheduled-posts-pro'),
+                'id' => '_manage_schedule',
+            ]);
+
+            $Builder::add_field('_manage_schedule', [
+                'id' => 'is_show_dashboard_widget',
+                'type' => 'screenshot',
+                'title' => __('Show Scheduled Posts in Dashboard Widget', 'wp-scheduled-posts'),
+                'src' => WPSP_ASSETS_URI . 'images/screenshot/Group 83.png',
+            ]);
+
+            // active missed schedule
+            $Builder::add_tab([
+                'title' => __('Missed Schedule', 'wp-scheduled-posts-pro'),
+                'id' => 'wpsp_pro_miss_schedule',
+            ]);
+
+            $Builder::add_field('wpsp_pro_miss_schedule', [
+                'id' => 'is_show_dashboard_widget',
+                'type' => 'screenshot',
+                'title' => __('Show Scheduled Posts in Dashboard Widget', 'wp-scheduled-posts'),
+                'src' => WPSP_ASSETS_URI . 'images/screenshot/Group 83.png',
+            ]);
+        }
+
     }
 }

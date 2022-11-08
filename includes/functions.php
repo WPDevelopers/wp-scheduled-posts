@@ -47,6 +47,13 @@ if (!function_exists('wpscp_scheduled_post_menu')) {
 					'posts_per_page' 	=> -1,
 					'order'				=> 'ASC'
 				));
+				$result = apply_filters('wpsp_admin_bar_menu_posts', $result, $post_types);
+				usort($result, function($a, $b) {
+					$t1 = strtotime($a->post_date_gmt);
+					$t2 = strtotime($b->post_date_gmt);
+					return $t1 - $t2;
+				});
+
 				$totalPost = 0;
 				if (is_array($result)) {
 					$totalPost 	= count($result);
@@ -78,21 +85,20 @@ if (!function_exists('wpscp_scheduled_post_menu')) {
 
 					$counter = 0;
 					foreach ($chunk as $scposts) {
+						$wp_admin_bar->add_menu(
+							array(
+								'id' => 'wpscp_sub_' . $counter,
+								'parent' => 'wpscp',
+								'title' => 'Sub ' . $counter,
+							)
+						);
 
 						foreach ($scposts as $scpost) {
-
-							$wp_admin_bar->add_menu(
-								array(
-									'id' => 'wpscp_sub_' . $counter,
-									'parent' => 'wpscp',
-									'title' => 'Sub ' . $counter,
-								)
-							);
 
 							// $title = substr($scpost->post_title, 0,$title_length);
 							$title = $scpost->post_title;
 							$author = get_the_author_meta('user_nicename', $scpost->post_author);
-							$date = get_the_date($format = $date_format, $scpost->ID);
+							$date = get_the_date($date_format, $scpost);
 
 							$list_item_template	= str_replace("%TITLE%", $title, $list_template);
 							$list_item_template	= str_replace("%AUTHOR%", $author, $list_item_template);
