@@ -3897,3 +3897,42 @@
 .ui-timepicker-container {
   z-index: 99999 !important;
 }
+
+.wpsp-pro-disabled-badge {
+  position: relative;
+  margin-right: 20px;
+  img,
+  svg {
+    max-width: 100%;
+    width: 100%;
+    opacity: 0.75;
+  }
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(#6b61ff, 0.3);
+  }
+  .wpsp-get-pro-button {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px 30px;
+    border-radius: 5px;
+    background: #6b61ff;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
