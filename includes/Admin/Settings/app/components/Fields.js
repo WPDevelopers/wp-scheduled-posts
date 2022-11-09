@@ -8,6 +8,7 @@ import Email from './type/Email'
 import Error from './type/Error'
 import Select from './type/Select'
 import ManageScheduleToggle from './type/ManageScheduleToggle'
+import ManageDelayedSchedule from './type/ManageDelayedSchedule'
 import CreatableSelect from './type/CreatableSelect'
 import Collapsible from './type/Collapsible'
 import SocialProfile from './type/SocialProfile'
@@ -62,6 +63,9 @@ const Fields = (props) => {
             break
         case 'scheduletable':
             renderComponent = <ScheduleTable {...props} />
+            break
+        case 'manageDelayedSchedule':
+            renderComponent = <ManageDelayedSchedule {...props} />
             break
         case 'manageScheduleToggle':
             renderComponent = <ManageScheduleToggle {...props} />
