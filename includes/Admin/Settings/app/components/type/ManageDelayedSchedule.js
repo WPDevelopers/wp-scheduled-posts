@@ -31,7 +31,7 @@ const ManageDelayedSchedule = ({ id, title, desc, ...props }) => {
       <div className="form-info">
         <h3 className="wpsp-title">
           <label htmlFor={id}>
-            {title} ({_value ? "Enabled" : "Disabled"})
+            {title}
           </label>
         </h3>
         {desc && <span className="desc">{desc}</span>}
