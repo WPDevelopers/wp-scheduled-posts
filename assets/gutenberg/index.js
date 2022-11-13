@@ -55,9 +55,10 @@ class AdminPublishButton extends Component {
             <a
               id="wpscp-future-post-help-handler"
               className="dashicons dashicons-info"
-              href="javascript:void();"
+              href="#"
               title="Show/Hide Help"
-              onClick={() => {
+              onClick={(event) => {
+                event.preventDefault();
                 this.setState({ showHelp: !this.state.showHelp });
               }}
             >

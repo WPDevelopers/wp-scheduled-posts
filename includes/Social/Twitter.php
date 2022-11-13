@@ -29,7 +29,7 @@ class Twitter
     public function instance()
     {
         // 'wpsp_twitter_post_event' runs when a Post is Published
-        add_action('publish_future_post', array($this, 'wpsp_twitter_post_event'), 20, 1);
+        add_action('wpsp_publish_future_post', array($this, 'wpsp_twitter_post_event'), 20, 1);
         add_action('wpsp_twitter_post', array($this, 'wpsp_twitter_post'), 10, 1);
         // republish hook
         $this->schedule_republish_social_share_hook();
@@ -130,12 +130,12 @@ class Twitter
         if(get_post_meta($post_id, '_wpsp_is_twitter_share', true) == 'on' || $force_share) {
             $errorFlag = false;
             $response = '';
-    
+
             try {
                 $TwitterConnection = new \Abraham\TwitterOAuth\TwitterOAuth($app_id, $app_secret, $oauth_token, $oauth_token_secret);
-    
+
                 $parameters = $this->get_share_content_args($post_id);
-    
+
                 // allow thumbnail will be share
                 if ($this->is_show_post_thumbnail == true) {
                     $socialShareImage = get_post_meta($post_id, '_wpscppro_custom_social_share_image', true);
@@ -156,7 +156,7 @@ class Twitter
                         }
                     }
                 }
-    
+
                 $result = $TwitterConnection->post('statuses/update', $parameters);
                 if ($TwitterConnection->getLastHttpCode() == 200) {
                     $shareInfo = array(
@@ -178,7 +178,7 @@ class Twitter
             return array(
                 'success' => $errorFlag,
                 'log' => $response
-            );   
+            );
         }
         return;
     }
