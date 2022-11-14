@@ -515,7 +515,7 @@ class Settings
                 'type' => 'screenshot',
                 'title' => __('Show Scheduled Posts in Dashboard Widget', 'wp-scheduled-posts'),
                 'src' => WPSP_ASSETS_URI . 'images/screenshot/manage-schedule.png',
-                'link' => 'https://www.wpdeveloper.com',
+                'link' => 'https://wpdeveloper.com/in/schedulepress-pro',
             ]);
 
             // active missed schedule
@@ -529,7 +529,7 @@ class Settings
                 'type' => 'screenshot',
                 'title' => __('Show Scheduled Posts in Dashboard Widget', 'wp-scheduled-posts'),
                 'src' => WPSP_ASSETS_URI . 'images/screenshot/missed-schedule.png',
-                'link' => 'https://www.wpdeveloper.com',
+                'link' => 'https://wpdeveloper.com/in/schedulepress-pro',
             ]);
         }
     }
