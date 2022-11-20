@@ -73,7 +73,7 @@ class Calendar
                 do_action('wpscp_calender_the_post');
                 $markup = '';
                 $markup .= '<div class="wpscp-event-post" data-postid="' . get_the_ID() . '" data-post-type="' .  get_post_type() . '">';
-                $markup .= '<div class="postlink"><span><span class="posttime">[' . get_the_date('g:i a') . ']</span> ' . wp_trim_words(get_the_title(), 3, '...') . ' [' . get_post_status(get_the_ID()) . ']</span></div>';
+                $markup .= '<div class="postlink"><span><span class="posttime">[' . get_the_date('g:i a') . ']</span> ' . wp_trim_words(get_the_title(), 3, '...') . ' [' . get_post_status() . ']</span></div>';
                 $link = '';
                 $link .= '<div class="edit"><a href="' . get_site_url() . '/wp-admin/post.php?post=' . get_the_ID() . '&action=edit""><i class="dashicons dashicons-edit"></i>Edit</a><a class="wpscpquickedit" href="#" data-type="quickedit"><i class="dashicons dashicons-welcome-write-blog"></i>Quick Edit</a></div>';
                 $link .= '<div class="deleteview"><a class="wpscpEventDelete" href="#"><i class="dashicons dashicons-trash"></i> Delete</a><a href="' . get_the_permalink() . '"><i class="dashicons dashicons-admin-links"></i> View</a></div>';
@@ -124,11 +124,11 @@ class Calendar
             $date_string = substr($dateStr, 0, 16) . $default_schedule_time;
             $postdate = new \DateTime($date_string);
             $postdateformat = $postdate->format('Y-m-d H:i:s');
-            $postdate_gmt = ($postdateformat != "" ? gmdate('Y-m-d H:i:s', strtotime($postdateformat)) : '');
+            $postdate_gmt = ($postdateformat != "" ? get_gmt_from_date($postdateformat) : '');
         } else {
             $postdate = new \DateTime(substr($dateStr, 0, 25));
             $postdateformat = $postdate->format('Y-m-d H:i:s');
-            $postdate_gmt = ($postdateformat != "" ? gmdate('Y-m-d H:i:s', strtotime($postdateformat)) : '');
+            $postdate_gmt = ($postdateformat != "" ? get_gmt_from_date($postdateformat) : '');
         }
 
 
@@ -208,14 +208,20 @@ class Calendar
                 }
             }
         } else if ($type == 'eventDrop') {
-            $post_id = wp_update_post(array(
-                'ID'            => $postid,
-                'post_type'     => $post_type,
-                'post_status'   => 'future',
-                'post_date'     => (isset($postdateformat) ? $postdateformat : ''),
-                'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''),
-                'edit_date'     => true,
-            ));
+            $change = apply_filters('wpsp_pre_eventDrop', null, $postid, $postdateformat, $postdate_gmt);
+            if($change){
+                $post_id = $change;
+            }
+            else{
+                $post_id = wp_update_post(array(
+                    'ID'            => $postid,
+                    'post_type'     => $post_type,
+                    'post_status'   => 'future',
+                    'post_date'     => (isset($postdateformat) ? $postdateformat : ''),
+                    'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''),
+                    'edit_date'     => true,
+                ));
+            }
             if ($post_id != 0) {
                 print json_encode(query_posts(array('p' => $post_id, 'post_type' => $post_type)));
             }

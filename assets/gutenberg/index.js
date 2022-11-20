@@ -27,6 +27,13 @@ class AdminPublishButton extends Component {
     };
   }
 
+  componentWillReceiveProps = (nextProps) => {
+    if(this.props.post.status == 'publish' && nextProps.post.status == 'future'){
+      this.setState({ publishImmediately: false });
+      console.log(this.props.post.status, nextProps.post.status);
+    }
+  }
+
   handleChange(checked) {}
   render() {
     if (

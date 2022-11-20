@@ -32,7 +32,7 @@ class Email
          * Send Email Notification
          */
         add_action('transition_post_status', array($this, "transition_post_action"), 90, 3);
-        add_action('wpsp_transition_post_status', array($this, "transition_post_action"), 10, 3);
+        add_action('wpsp_transition_post_status', array($this, "notify_status_change"), 10, 3);
     }
 
     public function transition_post_action($new_status, $old_status, $post)
@@ -96,6 +96,26 @@ class Email
         }
         // post is publish
         else if ($this->notify_author_schedule_post_is_publish == 1 && $new_status == 'publish') {
+            // send mail for publish post
+            $subject = 'Your post titled "%title%" is Live Now.';
+            $message = 'Hello Author, <br/>Your blog titled "%title%" was published. Here is your published blog url: %permalink%';
+            $this->send_mail_to_author($post, $subject, $message);
+        }
+        // post is schedule
+        else if ($this->notify_author_post_is_schedule == 1 && $new_status == 'delayed_future') {
+            $futureEmailList = \WPSP\Helper::email_notify_schedule_email_list();
+            if (!empty($futureEmailList) && is_array($futureEmailList)) {
+                $subject = 'New post "%title%" is schedule on "%date%"';
+                $message = 'Hello Moderator, <br/>Recently Moderator for your site scheduled your post titled "%title%". Your scheduled post is still in publish status, but the newly updated content will be published on  "%date%"';
+                $this->send_mail_to_custom_users(array_values($futureEmailList), $post, $subject, $message);
+            }
+            // send author
+            $subject = 'Your Post is scheduled for "%date%"';
+            $message = 'Hello Author, <br/>Your blog titled "%title%" is updated with new content. Here is your published blog url: %permalink%';
+            $this->send_mail_to_author($post, $subject, $message);
+        }
+        // post is publish
+        else if ($this->notify_author_schedule_post_is_publish == 1 && $new_status == 'delayed_publish') {
             // send mail for publish post
             $subject = 'Your post titled "%title%" is Live Now.';
             $message = 'Hello Author, <br/>Your blog titled "%title%" was published. Here is your published blog url: %permalink%';

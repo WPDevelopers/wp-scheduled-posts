@@ -14,7 +14,7 @@ export default function Topbar({ pluginRootUri, freeVersion, proVersion }) {
                 <div className='wpsp_top_bar_heading'>
                     <h2 className='wpsp_topbar_title'>
                         {__(
-                            'SchedulePress (Formerly Known as WP Scheduled Posts)',
+                            'SchedulePress',
                             'wp-scheduled-posts'
                         )}
                     </h2>
