@@ -183,7 +183,7 @@ class Admin
             'optin',
             [ $this->insights, 'optin_notice' ],
             [
-                'start'       => $notices->time(),
+                'start'       => $notices->strtotime( '+30 days' ),
                 'recurrence'  => 30,
                 'dismissible' => true,
                 'do_action'   => 'wpdeveloper_notice_clicked_for_wp-scheduled-posts',
@@ -191,7 +191,26 @@ class Admin
             ]
         );
 
-        $notices->init();
+        $notice_text = sprintf('%s <a href="%s">%s</a>', __( 'Black Friday Exclusive: SAVE up to 40% & access to <strong>SchedulePress Pro</strong> features.', 'wp-scheduled-posts' ), esc_url( 'https://schedulepress.com/#pricing' ), __('Grab The Offer', 'wp-scheduled-posts') );
+
+        $_black_friday = [
+            'thumbnail' => $_asset_url . 'images/wpsp-logo.svg',
+            'html' => $notice_text,
+        ];
+
+        $notices->add(
+            'black_friday',
+            $_black_friday,
+            [
+                'start'       => $notices->time(),
+                'recurrence'  => false,
+                'dismissible' => true,
+                'expire'      => strtotime( 'Wed, 30 Nov 2022 23:59:59 GMT' ),
+            ]
+        );
+
+
+        // $notices->init();
 
         // $notice->upsale_args = array(
         //     'slug'      => 'wp-scheduled-posts-pro',
