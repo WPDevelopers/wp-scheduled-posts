@@ -209,7 +209,7 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 == Changelog ==
 
-= 4.2.1 - 2022-11-22 =
+= 4.2.1 - 2022-11-23 =
 * Few minor bug fix & improvements
 
 = 4.2.0 - 2022-10-04 =
