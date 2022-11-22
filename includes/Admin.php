@@ -160,6 +160,7 @@ class Admin
                 'start'       => $notices->strtotime( '+15 day' ),
                 'recurrence'  => 30,
                 'dismissible' => true,
+                'refresh'     => WPSP_VERSION,
             ]
         );
 
@@ -175,6 +176,7 @@ class Admin
                 'start'       => $notices->strtotime( '+20 day' ),
                 'recurrence'  => false,
                 'dismissible' => true,
+                'refresh'     => WPSP_VERSION,
                 'display_if'  => ! is_array( $notices->is_installed( 'wp-scheduled-posts-pro/wp-scheduled-posts-pro.php' ) )
             ]
         );
@@ -186,6 +188,7 @@ class Admin
                 'start'       => $notices->strtotime( '+30 days' ),
                 'recurrence'  => 30,
                 'dismissible' => true,
+                'refresh'     => WPSP_VERSION,
                 'do_action'   => 'wpdeveloper_notice_clicked_for_wp-scheduled-posts',
                 'display_if'  => ! is_array( $notices->is_installed( 'wp-scheduled-posts-pro/wp-scheduled-posts-pro.php' ) )
             ]
@@ -205,6 +208,7 @@ class Admin
                 'start'       => $notices->time(),
                 'recurrence'  => false,
                 'dismissible' => true,
+                'refresh'     => WPSP_VERSION,
                 'expire'      => strtotime( 'Wed, 30 Nov 2022 23:59:59 GMT' ),
             ]
         );
