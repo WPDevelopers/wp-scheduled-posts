@@ -67,6 +67,7 @@ class Notice extends Base {
 			$this->options = wp_parse_args( $queue[ $id ], $this->options );
 		}
 
+
 		if( isset( $this->options['do_action'] ) ) {
 			add_action( 'admin_init', [ $this, 'do_action' ] );
 		}
