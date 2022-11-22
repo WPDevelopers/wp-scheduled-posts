@@ -26,7 +26,7 @@ class Pinterest
     public function instance()
     {
         // hook
-        add_action('publish_future_post', array($this, 'WpScp_pinterest_post_event'), 30, 1);
+        add_action('wpsp_publish_future_post', array($this, 'WpScp_pinterest_post_event'), 30, 1);
         add_action('WpScp_pinterest_post', array($this, 'WpScp_pinterest_post'), 15, 2);
         // republish hook
         $this->schedule_republish_social_share_hook();

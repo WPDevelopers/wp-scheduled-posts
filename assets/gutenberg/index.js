@@ -27,6 +27,13 @@ class AdminPublishButton extends Component {
     };
   }
 
+  componentWillReceiveProps = (nextProps) => {
+    if(this.props.post.status == 'publish' && nextProps.post.status == 'future'){
+      this.setState({ publishImmediately: false });
+      console.log(this.props.post.status, nextProps.post.status);
+    }
+  }
+
   handleChange(checked) {}
   render() {
     if (
@@ -55,9 +62,10 @@ class AdminPublishButton extends Component {
             <a
               id="wpscp-future-post-help-handler"
               className="dashicons dashicons-info"
-              href="javascript:void();"
+              href="#"
               title="Show/Hide Help"
-              onClick={() => {
+              onClick={(event) => {
+                event.preventDefault();
                 this.setState({ showHelp: !this.state.showHelp });
               }}
             >

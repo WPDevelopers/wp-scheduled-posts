@@ -9,7 +9,7 @@
                 <img src="<?php echo esc_url(WPSP_ASSETS_URI . 'images/wpsp-icon.svg'); ?>" alt="">
             </div>
             <div class="wpsp_top_bar_heading">
-                <h2 class="wpsp_topbar_title"><?php esc_html_e('SchedulePress (Formerly Known as WP Scheduled Posts)', 'wp-scheduled-posts'); ?></h2>
+                <h2 class="wpsp_topbar_title"><?php esc_html_e('SchedulePress', 'wp-scheduled-posts'); ?></h2>
                 <p class="wpsp_topbar_version_name"><?php echo esc_html__('Version ', 'wp-scheduled-posts') . WPSP_VERSION; ?></p>
             </div>
         </div>
@@ -20,6 +20,9 @@
             $post_type = (isset($_GET['post_type']) ? $_GET['post_type'] : '');
             if(isset($_GET['page']) && $_GET['page'] === 'schedulepress-post'){
                 $post_type = 'post';
+            }
+            else if(isset($_GET['page']) && strpos($_GET['page'], 'schedulepress-') === 0){
+                $post_type = str_replace('schedulepress-', '', $_GET['page']);
             }
 
             $allow_post_types  = \WPSP\Helper::get_settings('allow_post_types');

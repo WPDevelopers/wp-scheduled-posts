@@ -10,7 +10,7 @@ class Assets
     public function __construct($slug, $settings)
     {
         $this->pageSlug = $slug;
-        $this->setting_array =  $settings;
+        $this->setting_array = $settings;
         // settings enqueue
         add_action('admin_enqueue_scripts', [$this, 'settings_scripts']);
     }

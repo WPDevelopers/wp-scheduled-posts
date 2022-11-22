@@ -45,8 +45,15 @@ class Menu
         $allow_post_types = \WPSP\Helper::get_settings('allow_post_types');
         if (is_array($allow_post_types)) {
             foreach ($allow_post_types as $post_type) {
+                $extra = '';
+                $post_type_object = get_post_type_object($post_type);
                 $admin_menu_url = ($post_type != 'post' ? 'edit.php?post_type=' . $post_type : 'edit.php');
-                add_submenu_page($admin_menu_url, __('Calendar', 'wp-scheduled-posts'), __('Calendar', 'wp-scheduled-posts'), 'edit_posts', WPSP_SETTINGS_SLUG . '-' . $post_type, array($this, 'load_calendar_template'));
+                if(is_string($post_type_object->show_in_menu)){
+                    // print_r($post_type_object);
+                    $extra = $admin_menu_url !== $post_type_object->show_in_menu ? " ({$post_type_object->label})" : '';
+                    $admin_menu_url = $post_type_object->show_in_menu;
+                }
+                add_submenu_page($admin_menu_url, __('Calendar', 'wp-scheduled-posts'), __('Calendar', 'wp-scheduled-posts') . $extra, 'edit_posts', WPSP_SETTINGS_SLUG . '-' . $post_type, array($this, 'load_calendar_template'));
             }
         }
     }

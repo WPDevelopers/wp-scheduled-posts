@@ -14,7 +14,14 @@ class Social
         $this->load_dependancy();
         $this->load_third_party_integration();
         $this->instant_social_share();
+        add_action('publish_future_post', array($this, 'publish_future_post'), 30, 1);
+
     }
+
+    public function publish_future_post($post_id){
+        do_action('wpsp_publish_future_post', $post_id);
+    }
+
     /**
      * Define WC Constants.
      */

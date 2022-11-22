@@ -8,6 +8,7 @@ import Email from './type/Email'
 import Error from './type/Error'
 import Select from './type/Select'
 import ManageScheduleToggle from './type/ManageScheduleToggle'
+import ManageDelayedSchedule from './type/ManageDelayedSchedule'
 import CreatableSelect from './type/CreatableSelect'
 import Collapsible from './type/Collapsible'
 import SocialProfile from './type/SocialProfile'
@@ -18,6 +19,7 @@ import Time from './type/Time'
 import MissSchedule from './type/MissSchedule'
 import License from './type/License'
 import Number from './type/Number'
+import Screenshot from './type/Screenshot'
 
 const Fields = (props) => {
     const isFalseConditionalStatus = compareConditionValue(
@@ -62,6 +64,9 @@ const Fields = (props) => {
         case 'scheduletable':
             renderComponent = <ScheduleTable {...props} />
             break
+        case 'manageDelayedSchedule':
+            renderComponent = <ManageDelayedSchedule {...props} />
+            break
         case 'manageScheduleToggle':
             renderComponent = <ManageScheduleToggle {...props} />
             break
@@ -76,6 +81,9 @@ const Fields = (props) => {
             break
         case 'MissSchedule':
             renderComponent = <MissSchedule {...props} />
+            break
+        case 'screenshot':
+            renderComponent = <Screenshot {...props} />
             break
         default:
             renderComponent = <Error {...props} />

@@ -30,7 +30,7 @@ class Facebook
     public function instance()
     {
         // hook
-        add_action('publish_future_post', array($this, 'WpScp_Facebook_post_event'), 30, 1);
+        add_action('wpsp_publish_future_post', array($this, 'WpScp_Facebook_post_event'), 30, 1);
         add_action('WpScp_Facebook_post', array($this, 'WpScp_Facebook_post'), 15, 1);
         // republish hook
         $this->schedule_republish_social_share_hook();
@@ -187,20 +187,20 @@ class Facebook
         if (empty($app_id) || empty($app_secret) || get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
             return;
         }
-        
+
         if(get_post_meta($post_id, '_wpsp_is_facebook_share', true) == 'on' || $force_share) {
             $errorFlag = false;
             $response = '';
-    
+
             $fb = new \Facebook\Facebook([
                 'app_id'        => $app_id,
                 'app_secret'    => $app_secret,
                 'default_graph_version' => 'v6.0',
             ]);
-    
+
             $linkData = $this->get_share_content_args($post_id);
-    
-    
+
+
             // group api
             if ($type === 'group') {
                 try {
@@ -251,7 +251,7 @@ class Facebook
                     $response = 'SDK returned an error: ' . $e->getMessage();
                 }
             }
-    
+
             // old user option
             if ($type == 'oldAccount') {
                 try {
@@ -277,11 +277,11 @@ class Facebook
                     $response = 'SDK returned an error: ' . $e->getMessage();
                 }
             }
-    
+
             return array(
                 'success' => $errorFlag,
                 'log' => $response
-            );   
+            );
         }
         return;
     }
