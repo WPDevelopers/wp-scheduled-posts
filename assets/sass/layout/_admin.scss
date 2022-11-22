@@ -1,5 +1,6 @@
 .wpsp-dashboard-body {
   position: relative;
+  padding-right: 15px;
   p {
     strong {
       margin-left: 5px;
@@ -3898,11 +3899,18 @@
   z-index: 99999 !important;
 }
 
+.wpsp_pro_miss_schedule,
+._manage_schedule {
+  width: 100%;
+}
+
 .wpsp-pro-disabled-badge {
   position: relative;
   margin-right: 20px;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  min-height: 200px;
   img,
   svg {
     max-width: 100%;
