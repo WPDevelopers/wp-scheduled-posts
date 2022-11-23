@@ -514,7 +514,7 @@ class Settings
                 'id' => 'is_show_dashboard_widget',
                 'type' => 'screenshot',
                 'title' => __('Show Scheduled Posts in Dashboard Widget', 'wp-scheduled-posts'),
-                'src' => WPSP_ASSETS_URI . 'images/screenshot/manage-schedule.png',
+                'src' => WPSP_ASSETS_URI . 'images/screenshot/manage-schedule.jpg',
                 'link' => 'https://wpdeveloper.com/in/schedulepress-pro',
             ]);
 
@@ -528,7 +528,7 @@ class Settings
                 'id' => 'is_show_dashboard_widget',
                 'type' => 'screenshot',
                 'title' => __('Show Scheduled Posts in Dashboard Widget', 'wp-scheduled-posts'),
-                'src' => WPSP_ASSETS_URI . 'images/screenshot/missed-schedule.png',
+                'src' => WPSP_ASSETS_URI . 'images/screenshot/missed-schedule.jpg',
                 'link' => 'https://wpdeveloper.com/in/schedulepress-pro',
             ]);
         }
