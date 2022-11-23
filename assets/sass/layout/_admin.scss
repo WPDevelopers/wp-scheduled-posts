@@ -300,6 +300,14 @@
       font-size: 16px;
       line-height: 1.9;
       color: #fff;
+      a {
+        color: #43d8bf;
+        text-decoration: none;
+        &:hover {
+          color: #00ffd5;
+          text-decoration: underline;
+        }
+      }
     }
     #wpsp_auto_schedule,
     #wpsp_manual_schedule {

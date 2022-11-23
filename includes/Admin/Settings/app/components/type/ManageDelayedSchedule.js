@@ -34,7 +34,7 @@ const ManageDelayedSchedule = ({ id, title, desc, ...props }) => {
             {title}
           </label>
         </h3>
-        {desc && <span className="desc">{desc}</span>}
+        {desc && <span className="desc" dangerouslySetInnerHTML={{__html: desc}}></span>}
       </div>
     </div>
   );
