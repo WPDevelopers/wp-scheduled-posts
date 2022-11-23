@@ -223,7 +223,9 @@ class Calendar
                 ));
             }
             if ($post_id != 0) {
-                print json_encode(query_posts(array('p' => $post_id, 'post_type' => $post_type)));
+                $posts = query_posts(array('p' => $post_id, 'post_type' => $post_type));
+                $posts = apply_filters('wpsp_eventDrop_posts', $posts, $post_id);
+                print(json_encode($posts));
             }
         } else if ($post_status != 'draft') { // future post date modify date
             wp_update_post(array(
@@ -248,7 +250,9 @@ class Calendar
         $post_type = (isset($_POST['post_type']) ? $_POST['post_type'] : '');
         $postId = (isset($_POST['ID']) ? intval($_POST['ID']) : '');
         if ($postId != 0) {
-            print json_encode(query_posts(array('p' => $postId, 'post_type' => $post_type)));
+            $posts = query_posts(array('p' => $postId, 'post_type' => $post_type));
+            $posts = apply_filters('wpsp_eventDrop_posts', $posts, $postId);
+            print json_encode($posts);
         }
         wp_die(); // this is required to terminate immediately and return a proper response
     }
