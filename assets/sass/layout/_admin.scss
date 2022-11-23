@@ -3915,7 +3915,6 @@
   svg {
     max-width: 100%;
     width: 100%;
-    opacity: 0.75;
     pointer-events: none;
   }
   &::before {
@@ -3925,7 +3924,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(#6b61ff, 0.3);
+    background: rgba(#6b61ff, 0.4);
   }
   .wpsp-get-pro-button {
     position: absolute;
