@@ -31,7 +31,7 @@ const License = () => {
     const activeLicense = () => {
         setIsRequestSend(true)
         var data = {
-            action: 'activate_license',
+            action: 'wpsp_activate_license',
             key: tempKey,
             _wpnonce: wpspSettingsGlobal.license_nonce,
         }
@@ -69,7 +69,7 @@ const License = () => {
     const deactiveLicense = () => {
         setIsRequestSend(true)
         var data = {
-            action: 'deactivate_license',
+            action: 'wpsp_deactivate_license',
             _wpnonce: wpspSettingsGlobal.license_nonce,
         }
         jQuery.post(ajaxurl, data, function (response) {
