@@ -24,7 +24,7 @@
             else if(isset($_GET['page']) && strpos($_GET['page'], 'schedulepress-') === 0){
                 $post_type = str_replace('schedulepress-', '', $_GET['page']);
             }
-            if($post_type == 'calender'){
+            if($post_type == 'calendar'){
                 $post_type = 'post';
             }
 
