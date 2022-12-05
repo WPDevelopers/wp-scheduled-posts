@@ -1,34 +1,24 @@
 # Copyright (C) 2022 WPDeveloper
-# This file is distributed under the same license as the SchedulePress plugin.
+# This file is distributed under the same license as the SchedulePress (Formerly Known as WP Scheduled Posts) plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: SchedulePress 4.2.1\n"
+"Project-Id-Version: SchedulePress (Formerly Known as WP Scheduled Posts) 4.1.9\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-scheduled-posts\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-11-23T11:07:40+00:00\n"
+"POT-Creation-Date: 2022-10-04T06:23:23+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.7.0\n"
+"X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: wp-scheduled-posts\n"
 
 #. Plugin Name of the plugin
-#: includes/Admin.php:484
-#: includes/Admin.php:486
-#: includes/Admin.php:489
-#: includes/Admin.php:523
-#: includes/Admin/Menu.php:34
 #: views/calendar.php:12
 #: includes/Admin/Settings/app/components/Topbar/index.js:16
-#: includes/Admin/Settings/app/components/type/License.js:222
-#: includes/Admin/Settings/app/components/Upgrade/index.js:21
-#: includes/Admin/Settings/app/components/Upgrade/index.js:24
-#: includes/Admin/Settings/assets/js/admin.js:4076
-#: includes/Admin/Settings/assets/js/admin.js:4079
-#: includes/Admin/Settings/assets/js/admin.js:4616
-msgid "SchedulePress"
+#: includes/Admin/Settings/assets/js/admin.js:4030
+msgid "SchedulePress (Formerly Known as WP Scheduled Posts)"
 msgstr ""
 
 #. Description of the plugin
@@ -88,90 +78,96 @@ msgstr ""
 msgid "Never show again"
 msgstr ""
 
-#: includes/Admin.php:169
+#: includes/Admin.php:168
 msgid "Enjoying <strong>SchedulePress</strong>? Why not check our <strong><a href=\"https://wpdeveloper.com/in/wp-scheduled-posts-pro\" target=\"_blank\">Pro version</a></strong> which will enable auto schedule, multi social account share and many more features! [<strong><a href=\"https://wpdeveloper.com/plugins/wp-scheduled-posts/\" target=\"_blank\">Learn More</a></strong>]"
 msgstr ""
 
-#: includes/Admin.php:196
-msgid "<p><strong>Black Friday Exclusive:</strong> SAVE up to 40% & access to <strong>SchedulePress Pro</strong> features.</p>"
-msgstr ""
-
-#: includes/Admin.php:196
-msgid "Grab The Offer"
-msgstr ""
-
-#: includes/Admin.php:412
+#: includes/Admin.php:390
 msgid "WPSP Logo"
 msgstr ""
 
-#: includes/Admin.php:428
+#: includes/Admin.php:406
 #: includes/Admin/Settings/assets/js/admin.js:5425
 msgid "Close"
 msgstr ""
 
-#: includes/Admin.php:448
+#: includes/Admin.php:426
 msgid "Publish On"
 msgstr ""
 
-#: includes/Admin.php:459
+#: includes/Admin.php:437
 msgid "Publish Post Immediately"
 msgstr ""
 
-#: includes/Admin.php:461
-#: includes/Admin.php:470
+#: includes/Admin.php:439
+#: includes/Admin.php:448
 msgid "Schedule"
 msgstr ""
 
-#: includes/Admin.php:462
-#: includes/Admin.php:474
-#: views/calendar.php:57
+#: includes/Admin.php:440
+#: includes/Admin.php:452
+#: views/calendar.php:54
 msgid "Publish"
 msgstr ""
 
-#: includes/Admin.php:463
-#: includes/Admin.php:472
+#: includes/Admin.php:441
+#: includes/Admin.php:450
 msgid "Update"
 msgstr ""
 
-#: includes/Admin.php:531
-#: includes/Admin.php:535
+#: includes/Admin.php:462
+#: includes/Admin.php:464
+#: includes/Admin.php:467
+#: includes/Admin.php:501
+#: includes/Admin/Menu.php:34
+#: includes/Admin/Settings/app/components/type/License.js:222
+#: includes/Admin/Settings/app/components/Upgrade/index.js:21
+#: includes/Admin/Settings/app/components/Upgrade/index.js:24
+#: includes/Admin/Settings/assets/js/admin.js:4076
+#: includes/Admin/Settings/assets/js/admin.js:4079
+#: includes/Admin/Settings/assets/js/admin.js:4616
+msgid "SchedulePress"
+msgstr ""
+
+#: includes/Admin.php:509
+#: includes/Admin.php:513
 msgid "Pro Feature"
 msgstr ""
 
-#: includes/Admin.php:532
+#: includes/Admin.php:510
 msgid "Republish On"
 msgstr ""
 
-#: includes/Admin.php:532
-#: includes/Admin.php:536
+#: includes/Admin.php:510
+#: includes/Admin.php:514
 msgid "PRO"
 msgstr ""
 
-#: includes/Admin.php:536
+#: includes/Admin.php:514
 msgid "Unpublish On"
 msgstr ""
 
-#: includes/Admin.php:557
+#: includes/Admin.php:535
 msgid "Your post successfully updated"
 msgstr ""
 
-#: includes/Admin.php:562
+#: includes/Admin.php:540
 msgid "Your post successfully published"
 msgstr ""
 
-#: includes/Admin.php:573
+#: includes/Admin.php:551
 msgid "Your post id is empty"
 msgstr ""
 
-#: includes/Admin.php:606
+#: includes/Admin.php:584
 msgid "Your post successfully scheduled"
 msgstr ""
 
-#: includes/Admin/Calendar.php:103
+#: includes/Admin/Calendar.php:102
 msgid "Security check"
 msgstr ""
 
-#: includes/Admin/Menu.php:56
+#: includes/Admin/Menu.php:49
 msgid "Calendar"
 msgstr ""
 
@@ -180,8 +176,6 @@ msgid "General"
 msgstr ""
 
 #: includes/Admin/Settings.php:43
-#: includes/Admin/Settings.php:516
-#: includes/Admin/Settings.php:530
 msgid "Show Scheduled Posts in Dashboard Widget"
 msgstr ""
 
@@ -409,7 +403,7 @@ msgstr ""
 #: includes/Admin/Settings.php:402
 #: includes/Admin/Settings.php:443
 #: includes/Admin/Settings.php:486
-#: views/calendar.php:51
+#: views/calendar.php:48
 msgid "Content"
 msgstr ""
 
@@ -601,11 +595,11 @@ msgstr ""
 msgid "Install Pro"
 msgstr ""
 
-#: includes/functions.php:203
+#: includes/functions.php:197
 msgid "Publish future post immediately"
 msgstr ""
 
-#: includes/functions.php:211
+#: includes/functions.php:205
 msgid "If you choose to publish this future post with the Future Date, it will be published immediately but the post’s date time will not set the current date rather it will be your scheduled future date time."
 msgstr ""
 
@@ -657,52 +651,52 @@ msgstr ""
 msgid "Version "
 msgstr ""
 
-#: views/calendar.php:42
+#: views/calendar.php:39
 msgid "New "
 msgstr ""
 
-#: views/calendar.php:48
+#: views/calendar.php:45
 msgid "Title"
 msgstr ""
 
-#: views/calendar.php:55
+#: views/calendar.php:52
 msgid "Draft"
 msgstr ""
 
-#: views/calendar.php:56
+#: views/calendar.php:53
 msgid "Scheduled"
 msgstr ""
 
-#: views/calendar.php:67
+#: views/calendar.php:64
 #: includes/Admin/Settings/app/components/type/SocialProfile.js:370
 msgid "Save"
 msgstr ""
 
-#: views/calendar.php:68
+#: views/calendar.php:65
 msgid "Cancel"
 msgstr ""
 
-#: views/calendar.php:78
+#: views/calendar.php:75
 msgid "Unscheduled "
 msgstr ""
 
-#: views/calendar.php:111
+#: views/calendar.php:108
 msgid "Edit"
 msgstr ""
 
-#: views/calendar.php:112
+#: views/calendar.php:109
 msgid "Quick Edit"
 msgstr ""
 
-#: views/calendar.php:115
+#: views/calendar.php:112
 msgid "Delete"
 msgstr ""
 
-#: views/calendar.php:116
+#: views/calendar.php:113
 msgid " View"
 msgstr ""
 
-#: views/calendar.php:128
+#: views/calendar.php:125
 msgid "New Draft"
 msgstr ""
 
@@ -1167,8 +1161,4 @@ msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:3519
 msgid "Generate Access Token"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:4030
-msgid "SchedulePress (Formerly Known as WP Scheduled Posts)"
 msgstr ""

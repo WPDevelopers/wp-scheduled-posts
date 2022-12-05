@@ -624,7 +624,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if(!postTypeName && postID){
             postTypeName = jQuery('[data-postid=' + postID + ']').data('post-type');
         }
-        return postTypeName == null || postTypeName == '' || postTypeName == 'calendar'
+        return postTypeName == null || postTypeName == ''
             ? 'post'
             : postTypeName
     }
