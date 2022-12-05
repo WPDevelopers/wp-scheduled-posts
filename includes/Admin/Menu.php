@@ -48,7 +48,7 @@ class Menu
                 $extra = '';
                 $post_type_object = get_post_type_object($post_type);
                 $admin_menu_url = ($post_type != 'post' ? 'edit.php?post_type=' . $post_type : 'edit.php');
-                if(is_string($post_type_object->show_in_menu)){
+                if(isset($post_type_object->show_in_menu) && is_string($post_type_object->show_in_menu)){
                     // print_r($post_type_object);
                     $extra = $admin_menu_url !== $post_type_object->show_in_menu ? " ({$post_type_object->label})" : '';
                     $admin_menu_url = $post_type_object->show_in_menu;
