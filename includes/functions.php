@@ -249,7 +249,7 @@ function wpscp_rest_prepare($response, $post, $request){
 	return $response;
 }
 
-add_filter('wp_insert_post_data', function($post_data, $postarr, $unsanitized_postarr, $update){
+add_filter('wp_insert_post_data', function($post_data, $postarr){
 	$id = isset($postarr['ID']) ? $postarr['ID'] : 0;
 	$prevent_future_post = get_post_meta( $id, 'prevent_future_post', true );
 	if ($prevent_future_post == $post_data['post_date']) {
@@ -262,4 +262,4 @@ add_filter('wp_insert_post_data', function($post_data, $postarr, $unsanitized_po
 		delete_post_meta($id, 'prevent_future_post');
 	}
 	return $post_data;
-}, 10, 4);
+}, 10, 2);
