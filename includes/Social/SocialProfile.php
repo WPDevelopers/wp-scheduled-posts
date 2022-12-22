@@ -20,6 +20,20 @@ class SocialProfile
         add_action('wp_ajax_wpsp_social_profile_fetch_user_info_and_token', array($this, 'social_profile_fetch_user_info_and_token'));
         add_action('wp_ajax_wpsp_social_profile_fetch_pinterest_section', array($this, 'social_profile_fetch_pinterest_section'));
         $this->multiProfileErrorMessage = '<p>' . esc_html__('Multi Profile is a Premium Feature. To use this feature, Upgrade to Pro.', 'wp-scheduled-posts') . '</p><a href="https://wpdeveloper.com/in/wpsp">Upgrade to Pro</a>';
+
+
+		$allow_post_types = \WPSP\Helper::get_settings('allow_post_types');
+		$post_types = (!empty($allow_post_types) ? $allow_post_types : array());
+
+		foreach ($post_types as $key => $post_type) {
+            add_action("rest_after_insert_$post_type", function($post, $request){
+                $post = $request->get_json_params();
+                if(!empty($post['meta']['publishImmediately'])){
+                    do_action('wpsp_publish_future_post', $request['id']);
+                }
+            }, 10, 3);
+        }
+
     }
 
     public function social_single_profile_checkpoint($platform)

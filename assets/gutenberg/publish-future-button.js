@@ -24,6 +24,7 @@ class PublishFutureButton extends Component {
 			value = '{"status" : "publish"}';
 			this.props.editPost( value );
 			this.props.setMetaValue( {
+				publishImmediately: true,
 				prevent_future_post: true,
 				date_type: "future"
 			} );
