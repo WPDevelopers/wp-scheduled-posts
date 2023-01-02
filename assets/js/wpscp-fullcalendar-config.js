@@ -56,6 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
         textEscape: true,
         dragRevertDuration: 0,
         eventLimit: true, // for all non-TimeGrid views
+        firstDay: parseInt(wpscp_calendar_ajax_object.start_of_week) || 0,
         views: {
             dayGrid: {
                 eventLimit: 3,
@@ -132,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function () {
             })
         },
     })
-    calendar.render()
+    calendar.render();
     // end main calendar functionality
 
     /**

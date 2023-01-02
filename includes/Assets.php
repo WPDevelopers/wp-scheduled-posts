@@ -97,7 +97,8 @@ class Assets
                 array(
                     'ajax_url' => admin_url('admin-ajax.php'),
                     'nonce' => wp_create_nonce('wpscp-calendar-ajax-nonce'),
-                    'calendar_rest_route' => site_url('/?rest_route=/wpscp/v1/post_type=post/month=' . $month . '/year=' . $year)
+                    'calendar_rest_route' => site_url('/?rest_route=/wpscp/v1/post_type=post/month=' . $month . '/year=' . $year),
+                    'start_of_week' => (int) get_option('start_of_week', 0),
                 )
             );
             wp_enqueue_script('md5.min.js', WPSP_ASSETS_URI . 'js/vendor/md5.min.js', array(), filemtime(WPSP_ASSETS_DIR_PATH . 'js/vendor/md5.min.js'), true);
