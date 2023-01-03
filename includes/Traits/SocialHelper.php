@@ -51,27 +51,27 @@ trait SocialHelper
      * @param template, post_title, post_description, post_link, post_tags
      * @since 2.5.1
      */
-    public function social_share_content_template_structure($template_structure, $title, $desc, $post_link, $hashTags, $limit)
+    public function social_share_content_template_structure($template_structure, $title, $desc, $post_link, $hashTags, $limit, $url_limit = null)
     {
         $title              = html_entity_decode($title);
         $desc               = html_entity_decode($desc);
         $post_content_limit = intval($limit);
-        if (!empty($title)) {
+        if (!empty($title) && strpos($template_structure, '{title}') !== false) {
             $post_content_limit = intval($post_content_limit) - strlen($title);
             $template_structure = str_replace('{title}', '::::' . $title . '::::', $template_structure);
         }
-        if (!empty($post_link)) {
-            $post_content_limit = intval($post_content_limit) - strlen($post_link);
+        if (!empty($post_link) && strpos($template_structure, '{url}') !== false) {
+            $post_content_limit = intval($post_content_limit) - ($url_limit ? $url_limit : strlen($post_link));
             $template_structure = str_replace('{url}', '::::' . $post_link . '::::', $template_structure);
         }
-        if (!empty($hashTags)) {
+        if (!empty($hashTags) && strpos($template_structure, '{tags}') !== false) {
             $post_content_limit = intval($post_content_limit) - strlen($hashTags);
             $template_structure = str_replace('{tags}', '::::' . $hashTags . '::::', $template_structure);
         } else {
             $template_structure = str_replace('{tags}', '', $template_structure);
         }
 
-        if (!empty($desc)) {
+        if (!empty($desc) && strpos($template_structure, '{content}') !== false) {
             $post_content = substr($desc, 0, $post_content_limit);
             $template_structure = str_replace('{content}', '::::' . $post_content . '::::', $template_structure);
         }
