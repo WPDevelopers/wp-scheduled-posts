@@ -109,8 +109,9 @@ class Dismiss extends Base {
 
 		if( isset( $_POST['later'] ) ) {
 			$_recurrence = intval( $this->recurrence ) || 15;
-			$_queue = $this->app->storage()->get();
-			$_queue[ $this->id ]['start'] = $this->strtotime( "+$_recurrence days" );
+			$_queue      = $this->app->storage()->get();
+
+			$_queue[ $this->id ]['start']  = $this->strtotime( "+$_recurrence days" );
 			$_queue[ $this->id ]['expire'] = $this->strtotime( "+". ($_recurrence + 3) ." days" );
 			$this->app->storage()->save( $_queue );
 			return;
