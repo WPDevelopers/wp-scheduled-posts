@@ -20,6 +20,8 @@ class Calendar
         add_action('wp_ajax_wpscp_calender_ajax_request', array($this, 'calender_ajax_request_php'));
         add_action('wp_ajax_wpscp_quick_edit', array($this, 'quick_edit_action'));
         add_action('wp_ajax_wpscp_delete_event', array($this, 'delete_event_action'));
+        add_filter('wpsp_pre_eventDrop', [$this, 'wpsp_pre_eventDrop'], 10, 4 );
+        add_filter('wpsp_eventDrop_posts', [$this, 'wpsp_eventDrop_posts'], 10, 2 );
     }
 
     public function wpscp_register_custom_route()
@@ -124,7 +126,7 @@ class Calendar
         $republish_date = get_post_meta(get_the_ID(), '_wpscp_schedule_republish_date', true);
 
         if($status == 'publish' && !empty($republish_date)){
-            $status = 'reschedule';
+            $status = 'republish';
         }
 
         return $status;
@@ -309,5 +311,28 @@ class Calendar
             print $postId;
         }
         wp_die(); // this is required to terminate immediately and return a proper response
+    }
+
+    public function wpsp_pre_eventDrop($return, $pid, $postdateformat, $postdate_gmt){
+        $republish_date = get_post_meta($pid, '_wpscp_schedule_republish_date', true);
+        if(!empty($republish_date)){
+            update_post_meta($pid, '_wpscp_schedule_republish_date', get_date_from_gmt($postdate_gmt, 'Y/m/d H:i:s'));
+            return $pid;
+        }
+
+        return $return;
+    }
+
+    public function wpsp_eventDrop_posts($posts, $pid){
+        foreach ($posts as $key => $published_post) {
+            $republish_date = get_post_meta($published_post->ID, '_wpscp_schedule_republish_date', true);
+            if(!empty($republish_date)){
+                $published_post->post_status   = 'republish';
+                $published_post->post_date     = date("Y-m-d H:i:s", strtotime($republish_date));
+                $published_post->post_date_gmt = get_gmt_from_date($republish_date, 'Y-m-d H:i:s');
+            }
+        }
+
+        return $posts;
     }
 }
