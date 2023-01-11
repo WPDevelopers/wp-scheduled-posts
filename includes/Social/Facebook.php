@@ -55,10 +55,14 @@ class Facebook
     public function WpScp_Facebook_post_event($post_id)
     {
         //post data
-        $post_details = get_post($post_id);
+        $post_details = $post_id;
+        if ( !is_object( $post_id ) ){
+            $post_details = get_post($post_id);
+        }
+
         if ($post_details->post_status == 'publish') {
             // Schedule the actual event
-            wp_schedule_single_event(time(), 'WpScp_Facebook_post', array($post_id));
+            wp_schedule_single_event(time(), 'WpScp_Facebook_post', array($post_details->ID));
         }
     }
 

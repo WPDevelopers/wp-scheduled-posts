@@ -29,7 +29,10 @@ class SocialProfile
             add_action("rest_after_insert_$post_type", function($post, $request){
                 $post = $request->get_json_params();
                 if(!empty($post['meta']['publishImmediately'])){
-                    do_action('wpsp_publish_future_post', $request['id']);
+                    do_action('wpsp_publish_future_post', (object) [
+                        'ID'          => $post['id'],
+                        'post_status' => $post['status'],
+                    ]);
                 }
             }, 10, 3);
         }
