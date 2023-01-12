@@ -118,18 +118,19 @@ class Calendar
     public function get_post_status(){
         $status = get_post_status();
         $scheduled      = get_post_meta(get_the_ID(), 'wpscp_pending_schedule', true);
-
-        if($status == 'future' && !empty($scheduled)){
-            $status = 'advanced';
-        }
-
         $republish_date = get_post_meta(get_the_ID(), '_wpscp_schedule_republish_date', true);
 
-        if($status == 'publish' && !empty($republish_date)){
-            $status = 'republish';
+        if($status == 'future' && !empty($scheduled)){
+            $status = 'Advanced Scheduled';
+        }
+        else if($status == 'publish' && !empty($republish_date)){
+            $status = 'Republish';
+        }
+        else if($status == 'future'){
+            $status = 'Scheduled';
         }
 
-        return $status;
+        return ucwords($status);
     }
 
     /**
