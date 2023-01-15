@@ -23,6 +23,7 @@ class SocialProfile
 
 
 		$allow_post_types = \WPSP\Helper::get_settings('allow_post_types');
+        /** @var array */
 		$post_types = (!empty($allow_post_types) ? $allow_post_types : array());
 
 		foreach ($post_types as $key => $post_type) {
@@ -36,6 +37,17 @@ class SocialProfile
                 }
             }, 10, 3);
         }
+
+        add_action('post_updated', function ($post_ID, $post_after, $post_before) use($post_types) {
+            $type = get_post_type($post_after);
+            if(in_array($type, $post_types) && !empty($_POST['prevent_future_post']) && $_POST['prevent_future_post'] === "yes"){
+                do_action('wpsp_publish_future_post', (object) [
+                    'ID'          => $post_ID,
+                    'post_status' => $post_after->post_status,
+                ]);
+            }
+
+        }, 10, 3);
 
     }
 
