@@ -56,17 +56,33 @@ trait SocialHelper
         $title              = html_entity_decode($title);
         $desc               = html_entity_decode($desc);
         $post_content_limit = intval($limit);
-        if (!empty($title) && strpos($template_structure, '{title}') !== false) {
-            $post_content_limit = intval($post_content_limit) - strlen($title);
-            $template_structure = str_replace('{title}', '::::' . $title . '::::', $template_structure);
-        }
         if (!empty($post_link) && strpos($template_structure, '{url}') !== false) {
             $post_content_limit = intval($post_content_limit) - ($url_limit ? $url_limit : strlen($post_link));
             $template_structure = str_replace('{url}', '::::' . $post_link . '::::', $template_structure);
         }
+        if (!empty($title) && strpos($template_structure, '{title}') !== false) {
+            $title              = substr($title, 0, $post_content_limit);
+            $post_content_limit = intval($post_content_limit) - strlen($title);
+            $template_structure = str_replace('{title}', '::::' . $title . '::::', $template_structure);
+        }
         if (!empty($hashTags) && strpos($template_structure, '{tags}') !== false) {
-            $post_content_limit = intval($post_content_limit) - strlen($hashTags);
-            $template_structure = str_replace('{tags}', '::::' . $hashTags . '::::', $template_structure);
+            $tags = '';
+            $_tags = explode('#', $hashTags);
+            foreach ($_tags as $tag) {
+                $tag = trim($tag);
+                if (empty($tag))
+                    continue;
+                $_tag = "#$tag ";
+                $post_content_limit = intval($post_content_limit) - strlen($_tag);
+                if($post_content_limit > 0){
+                    $tags .= $_tag;
+                }
+                else{
+                    break;
+                }
+            }
+
+            $template_structure = str_replace('{tags}', '::::' . $tags . '::::', $template_structure);
         } else {
             $template_structure = str_replace('{tags}', '', $template_structure);
         }
