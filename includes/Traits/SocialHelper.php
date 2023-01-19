@@ -94,6 +94,6 @@ trait SocialHelper
 
         $template_structure = trim($template_structure, '::::');
         $template_structure = str_replace('::::', "\n", $template_structure);
-        return $template_structure;
+        return trim($template_structure);
     }
 }

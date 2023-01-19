@@ -111,8 +111,7 @@ class Twitter
             $desc,
             $post_link,
             $hashTags,
-            $this->tweet_limit,
-            30
+            $this->tweet_limit - 5
         );
         $parameters['status'] = $formatedText;
         return $parameters;
