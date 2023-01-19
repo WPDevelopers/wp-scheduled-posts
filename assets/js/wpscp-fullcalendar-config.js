@@ -570,6 +570,7 @@ document.addEventListener('DOMContentLoaded', function () {
      */
     function wpscpGetPostTypeNameSkipUnderScore(oldRestUrl, month, year) {
         var urlParams = new URLSearchParams(window.location.search)
+        var page = urlParams.get('page');
         var postTypeName =
             urlParams.get('post_type') == 'elementor_library'
                 ? 'elementorlibrary'
@@ -579,6 +580,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 postTypeName = 'all';
             }
         }
+        else if(page && page !== 'schedulepress-calendar'){
+            postTypeName = page.replace('schedulepress-', '');
+        }
+
         var updateRestUrl =
             postTypeName !== null
                 ? oldRestUrl.replace(
