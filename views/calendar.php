@@ -17,6 +17,7 @@
         <div class="wpscp-calendar-wrap">
             <?php
             //get all options
+            $_page = isset($_GET['page']) ? $_GET['page'] : '';
             $post_type = (isset($_GET['post_type']) ? $_GET['post_type'] : '');
             if(isset($_GET['page']) && $_GET['page'] === 'schedulepress-post'){
                 $post_type = 'post';
@@ -93,7 +94,7 @@
                             <?php endif;?>
                             <?php
                             $query = new \WP_Query(array(
-                                'post_type'         => $post_type ? $post_type : $allow_post_types,
+                                'post_type'         => ($post_type && $_page != 'schedulepress-calendar') ? $post_type : $allow_post_types,
                                 'post_status'       => array('draft', 'pending'),
                                 'posts_per_page'    => -1
                             ));
