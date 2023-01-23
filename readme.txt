@@ -4,7 +4,7 @@ Tags: post schedule, editor calendar, schedule-calendar, editorial calendar, soc
 Requires at least: 4.0
 Tested up to: 6.1
 Requires PHP: 7.2
-Stable tag: 4.2.1
+Stable tag: 4.2.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -208,6 +208,15 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 
 == Changelog ==
+
+= 4.2.2 - 2023-01-24 =
+* Fixed: Conflict with older versions of WordPress.
+* Fixed: Draft posts are not showing on the Calendar view.
+* Fixed: New posts weren't creating properly from the SchedulePress calendar.
+* Added: Social Sharing when clicking on the Publish Post Immediately.
+* Improvement: Added republished Posts on SchedulePress Calendar with proper tags.
+* Improvement: SchedulePress Calendar Week Starts according to the settings page.
+* Few minor bug fixes & improvements.
 
 = 4.2.1 - 2022-11-23 =
 * Few minor bug fix & improvements
