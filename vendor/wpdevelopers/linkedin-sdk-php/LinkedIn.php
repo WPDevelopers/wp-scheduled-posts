@@ -33,28 +33,28 @@ class LinkedIn {
             'grant_type' => 'authorization_code',
         ];
         $response = $this->curl($url, http_build_query($params), "application/x-www-form-urlencoded");
-        $accessToken = json_decode($response);
+        $accessToken = json_decode($response['result']);
         return $accessToken;
     }
     public function getPerson($accessToken) {
         $url = "https://api.linkedin.com/v2/me?projection=(id,firstName,lastName,profilePicture(displayImage~:playableStreams))&oauth2_access_token=" . $accessToken;
         $params = [];
         $response = $this->curl($url, http_build_query($params), "application/x-www-form-urlencoded", false);
-        $person = json_decode($response);
+        $person = json_decode($response['result']);
         return $person;
     }
     public function getPersonID($accessToken) {
         $url = "https://api.linkedin.com/v2/me?oauth2_access_token=" . $accessToken;
         $params = [];
         $response = $this->curl($url, http_build_query($params), "application/x-www-form-urlencoded", false);
-        $personID = json_decode($response)->id;
+        $personID = json_decode($response['result'])->id;
         return $personID;
     }
     public function getCompanyPages($accessToken) {
 
         $company_pages = "https://api.linkedin.com/v2/organizations/55042594?format=json&is-company-admin=true&oauth2_access_token=" . trim($accessToken);
         $pages = $this->curl($company_pages, json_encode([]), "application/json", false);
-        return json_decode($pages);
+        return json_decode($pages['result']);
     }
     public function linkedInTextPost($accessToken, $person_id,  $message, $visibility = "PUBLIC") {
         $post_url = "https://api.linkedin.com/rest/posts";
@@ -77,12 +77,12 @@ class LinkedIn {
             "isReshareDisabledByAuthor" => false,
         ];
         $post = $this->curl($post_url, json_encode($request), "application/json", true, $header);
-        if (empty($post)) {
-            $post = json_encode([
+        if ($post['code'] === 201) {
+            return json_encode([
                 'id' => rand(),
             ]);
         }
-        return $post;
+        return $post['result'];
     }
 
 
@@ -103,23 +103,11 @@ class LinkedIn {
 
 
     public function uploadImage($access_token, $person_id, $image_path) {
-        $url = "https://api.linkedin.com/rest/assets?action=registerUpload";
+        $url = "https://api.linkedin.com/rest/images?action=initializeUpload";
         $content_type = "application/json";
         $parameters = json_encode([
-            "registerUploadRequest" => [
+            "initializeUploadRequest" => [
                 "owner" => "urn:li:person:" . $person_id,
-                "recipes" => [
-                    "urn:li:digitalmediaRecipe:feedshare-image"
-                ],
-                "serviceRelationships" => [
-                    [
-                        "identifier" => "urn:li:userGeneratedContent",
-                        "relationshipType" => "OWNER"
-                    ]
-                ],
-                "supportedUploadMechanism" => [
-                    "SYNCHRONOUS_UPLOAD"
-                ]
             ]
         ]);
         $headers = [
@@ -129,9 +117,8 @@ class LinkedIn {
         ];
 
         $response = $this->curl($url, $parameters, $content_type, true, $headers);
-        $response = json_decode($response, true);
-        $_response = array_values($response['value']['uploadMechanism']);
-        $upload_url = $_response[0]['uploadUrl'];
+        $result = json_decode($response['result'], true);
+        $upload_url = $result['value']['uploadUrl'];
 
         $url = $upload_url;
         $parameters = file_get_contents($image_path);
@@ -142,109 +129,94 @@ class LinkedIn {
             "X-RestLi-Protocol-Version: 2.0.0",
             "Content-Length: " . strlen($parameters),
         ];
-        $response = $this->curl($url, $parameters, $content_type, true, $headers);
+        $upload = $this->curl($url, $parameters, $content_type, true, $headers);
 
-        return $response;
+        if($upload['code'] !== 201){
+            return $upload;
+        }
+        else{
+            return $result;
+        }
     }
 
-    public function linkedInLinkPost($accessToken, $person_id, $message, $link_title, $link_desc, $link_url, $visibility = "PUBLIC") {
-        $post_url = "https://api.linkedin.com/v2/ugcPosts?oauth2_access_token=" . $accessToken;
-        $request = [
-            "author" => "urn:li:person:" . $person_id,
-            "lifecycleState" => "PUBLISHED",
-            "specificContent" => [
-                "com.linkedin.ugc.ShareContent" => [
-                    "shareCommentary" => [
-                        "text" => $message
-                    ],
-                    "shareMediaCategory" => "ARTICLE",
-                    "media" => [[
-                        "status" => "READY",
-                        "description" => [
-                            "text" => substr($link_desc, 0, 200),
-                        ],
-                        "originalUrl" =>  $link_url,
-                        "title" => [
-                            "text" => html_entity_decode($link_title),
-                        ],
-                    ]],
-                ],
-
+    public function linkedInLinkPost($access_token, $person_id, $commentary, $source, $thumbnail, $title, $description) {
+        $url = "https://api.linkedin.com/rest/posts";
+        $data = array(
+            "author"       => "urn:li:person:$person_id",
+            "commentary"   => $commentary,
+            "visibility"   => "PUBLIC",
+            "distribution" => [
+                "feedDistribution"               => "MAIN_FEED",
+                "targetEntities"                 => [],
+                "thirdPartyDistributionChannels" => []
             ],
-            "visibility" => [
-                "com.linkedin.ugc.MemberNetworkVisibility" => $visibility,
-            ]
+            "content" => array(
+                "article" => array(
+                    "source"      => $source,
+                    "thumbnail"   => $thumbnail,
+                    "title"       => $title,
+                    "description" => $description
+                )
+            ),
+            "lifecycleState"            => "PUBLISHED",
+            "isReshareDisabledByAuthor" => false
+        );
+
+        $parameters = json_encode($data);
+        $content_type = "application/json";
+        $headers = [
+            "Authorization: Bearer {$access_token}",
+            'LinkedIn-Version: 202301',
+            "X-RestLi-Protocol-Version: 2.0.0",
+            "Content-Length: " . strlen($parameters),
         ];
 
-        $post = $this->curl($post_url, json_encode($request), "application/json", true);
-        return $post;
+        $post = $this->curl($url, $parameters, $content_type, true, $headers);
+        if ($post['code'] === 201) {
+            return json_encode([
+                'id' => rand(),
+            ]);
+        }
+        return $post['result'];
     }
-    public function linkedInPhotoPost($accessToken,   $person_id, $message, $image_path,  $image_title, $image_description, $visibility = "PUBLIC") {
+    public function linkedInPhotoPost($accessToken, $person_id, $imageUrn, $title, $commentary) {
+        $url = 'https://api.linkedin.com/rest/posts';
 
-        $prepareUrl = "https://api.linkedin.com/v2/assets?action=registerUpload&oauth2_access_token=" . $accessToken;
-        $prepareRequest =  [
-            "registerUploadRequest" => [
-                "recipes" => [
-                    "urn:li:digitalmediaRecipe:feedshare-image"
-                ],
-                "owner" => "urn:li:person:" . $person_id,
-                "serviceRelationships" => [
-                    [
-                        "relationshipType" => "OWNER",
-                        "identifier" => "urn:li:userGeneratedContent"
-                    ],
-                ],
+        $postData = [
+            "author"       => "urn:li:person:$person_id",
+            "commentary"   => $commentary,
+            "visibility"   => "PUBLIC",
+            "distribution" => [
+                "feedDistribution"               => "MAIN_FEED",
+                "targetEntities"                 => [],
+                "thirdPartyDistributionChannels" => []
             ],
+            "content" => [
+                "media" => [
+                    "title" => $title,
+                    "id"    => $imageUrn
+                ]
+            ],
+            "lifecycleState"            => "PUBLISHED",
+            "isReshareDisabledByAuthor" => false
         ];
 
-        $prepareReponse = $this->curl($prepareUrl, json_encode($prepareRequest), "application/json");
-        $uploadURL = json_decode($prepareReponse)->value->uploadMechanism->{"com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest"}->uploadUrl;
-        $asset_id = json_decode($prepareReponse)->value->asset;;
-        // dump($photo);
+        $parameters = json_encode($postData);
 
-
-        $client = new Client();
-        $response = $client->request('PUT', $uploadURL, [
-            'headers' => ['Authorization' => 'Bearer ' . $accessToken],
-            'body' => fopen($image_path, 'r'),
-            'verify' => $this->ssl
-        ]);
-
-        // dump($response);
-
-
-        $post_url = "https://api.linkedin.com/v2/ugcPosts?oauth2_access_token=" . $accessToken;
-        $request = [
-            "author" => "urn:li:person:" . $person_id,
-            "lifecycleState" => "PUBLISHED",
-            "specificContent" => [
-                "com.linkedin.ugc.ShareContent" => [
-                    "shareCommentary" => [
-                        "text" => $message
-                    ],
-                    "shareMediaCategory" => "IMAGE",
-                    "media" => [[
-                        "status" => "READY",
-                        "description" => [
-                            "text" => substr($image_description, 0, 200),
-                        ],
-                        "media" =>  $asset_id,
-
-                        "title" => [
-                            "text" => $image_title,
-                        ],
-                    ]],
-                ],
-
-            ],
-            "visibility" => [
-                "com.linkedin.ugc.MemberNetworkVisibility" => $visibility,
-            ]
+        $headers = [
+            "Authorization: Bearer {$accessToken}",
+            'LinkedIn-Version: 202301',
+            "X-RestLi-Protocol-Version: 2.0.0",
+            "Content-Length: " . strlen($parameters),
         ];
 
-        $post = $this->curl($post_url, json_encode($request), "application/json");
-        // dd($post);
-        return $post;
+        $result = $this->curl($url, $parameters, 'application/json', true, $headers);
+        if ($result['code'] === 201) {
+            return json_encode([
+                'id' => rand(),
+            ]);
+        }
+        return $result['result'];
     }
     public function curl($url, $parameters, $content_type, $post = true, $headers = []) {
         $ch = curl_init();
@@ -260,6 +232,11 @@ class LinkedIn {
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         $result = curl_exec($ch);
         curl_close($ch);
-        return $result;
+        $response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return [
+            'result' => $result,
+            'code'   => $response_code
+        ];
     }
 }

@@ -174,14 +174,16 @@ class Linkedin
                 } else {
                     $post_details = get_post($post_id);
                     $title = get_the_title($post_id);
-                    $post_link = get_permalink($post_id);
+                    $formatedText = $this->get_formatted_text($post_id);
+                    $post_link = "https://wpdeveloper.com/docs/manual-scheduler/";// get_permalink($post_id);
                     if ($this->content_source == 'excerpt' && has_excerpt($post_details->ID)) {
                         $desc = wp_strip_all_tags($post_details->post_excerpt);
                     } else {
                         $desc = wp_strip_all_tags($post_details->post_content);
                     }
                     $results = $linkedin->uploadImage( $acessToken, $getPersonID, $image_path);
-                    $results = $linkedin->linkedInLinkPost($acessToken, $getPersonID, $this->get_formatted_text($post_id), $title, wp_trim_words($desc, 10, '...'), $post_link);
+                    $upload_url = isset($results['value']['image']) ? $results['value']['image'] : '';
+                    $results = $linkedin->linkedInLinkPost($acessToken, $getPersonID, $formatedText, $post_link, $upload_url, $this->filter_little_text($title), $this->filter_little_text($desc));
                 }
                 $result = json_decode($results);
                 // linkedin sdk has no Exception handler, that's why we handle it
