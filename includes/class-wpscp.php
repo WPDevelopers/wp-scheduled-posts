@@ -132,7 +132,7 @@ final class WpScp
         global $post_type;
         $wpspc_options = get_option('wpscp_options');
         $post_types = isset($wpspc_options['allow_post_types']) && !empty($wpspc_options['allow_post_types']) ? $wpspc_options['allow_post_types'] : ['post'];
-        if (!in_array($post_type, $post_types)) {
+        if (!in_array($post_type, $post_types) || !is_admin()) {
             return;
         }
 
