@@ -62,9 +62,9 @@ final class WPSP
 		define('WPSP_ASSETS_URI', WPSP_PLUGIN_ROOT_URI . 'assets/');
 		define('WPSCP_ADMIN_DIR_PATH', WPSP_ROOT_DIR_PATH . '/includes/Admin/');
 		// Midleware
-		define('WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE', 'https://api.schedulepress.com/callback.php');
+		define('WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE', 'https://api.schedulepress.com.test/callback.php');
 		define('WPSP_SOCIAL_OAUTH2_PINTEREST_APP_ID', '1477330');
-		define('WPSP_SOCIAL_OAUTH2_LINKEDIN_APP_ID', '868kqwob6sft7b');
+		define('WPSP_SOCIAL_OAUTH2_LINKEDIN_APP_ID', '77nbfvpkganvt6');
 
 	}
 

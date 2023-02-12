@@ -474,12 +474,13 @@ class SocialProfile
             }
             try {
                 $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=' . WPSP_SETTINGS_SLUG));
+                $request['appId'] = $app_id ? $app_id : WPSP_SOCIAL_OAUTH2_LINKEDIN_APP_ID;
                 $state = base64_encode(json_encode($request));
                 $linkedin = new LinkedIn(
                     $app_id ? $app_id : WPSP_SOCIAL_OAUTH2_LINKEDIN_APP_ID,
                     $app_secret,  // unnecessary
                     $redirectURI,
-                    WPSCP_LINKEDIN_SCOPE,
+                    urlencode(WPSCP_LINKEDIN_SCOPE),
                     true,
                     $state
                 );

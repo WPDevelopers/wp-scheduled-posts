@@ -3,16 +3,15 @@
 namespace myPHPNotes;
 
 use GuzzleHttp\Client;
-class LinkedIn
-{
+
+class LinkedIn {
     protected $app_id;
     protected $app_secret;
     protected $callback;
     protected $csrf;
     protected $scopes;
     protected $ssl;
-    public function __construct($app_id, $app_secret, $callback, $scopes, $ssl = true, $state = null)
-    {
+    public function __construct($app_id, $app_secret, $callback, $scopes, $ssl = true, $state = null) {
         $this->app_id = $app_id;
         $this->app_secret = $app_secret;
         $this->scopes =  $scopes;
@@ -20,13 +19,11 @@ class LinkedIn
         $this->callback = $callback;
         $this->ssl = $ssl;
     }
-    public function getAuthUrl()
-    {
+    public function getAuthUrl() {
         $_SESSION['linkedincsrf']  = $this->csrf;
         return "https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=" . $this->app_id . "&redirect_uri=" . $this->callback . "&state=" . $this->csrf . "&scope=" . $this->scopes;
     }
-    public function getAccessToken($code)
-    {
+    public function getAccessToken($code) {
         $url = "https://www.linkedin.com/oauth/v2/accessToken";
         $params = [
             'client_id' => $this->app_id,
@@ -39,56 +36,58 @@ class LinkedIn
         $accessToken = json_decode($response);
         return $accessToken;
     }
-    public function getPerson($accessToken)
-    {
+    public function getPerson($accessToken) {
         $url = "https://api.linkedin.com/v2/me?projection=(id,firstName,lastName,profilePicture(displayImage~:playableStreams))&oauth2_access_token=" . $accessToken;
         $params = [];
         $response = $this->curl($url, http_build_query($params), "application/x-www-form-urlencoded", false);
         $person = json_decode($response);
         return $person;
     }
-    public function getPersonID($accessToken)
-    {
+    public function getPersonID($accessToken) {
         $url = "https://api.linkedin.com/v2/me?oauth2_access_token=" . $accessToken;
         $params = [];
         $response = $this->curl($url, http_build_query($params), "application/x-www-form-urlencoded", false);
         $personID = json_decode($response)->id;
         return $personID;
     }
-    public function getCompanyPages($accessToken)
-    {
+    public function getCompanyPages($accessToken) {
 
         $company_pages = "https://api.linkedin.com/v2/organizations/55042594?format=json&is-company-admin=true&oauth2_access_token=" . trim($accessToken);
         $pages = $this->curl($company_pages, json_encode([]), "application/json", false);
         return json_decode($pages);
     }
-    public function linkedInTextPost($accessToken, $person_id,  $message, $visibility = "PUBLIC")
-    {
-        $post_url = "https://api.linkedin.com/v2/ugcPosts?oauth2_access_token=" . $accessToken;
-        $request = [
-            "author" => "urn:li:person:" . $person_id,
-            "lifecycleState" => "PUBLISHED",
-            "specificContent" => [
-                "com.linkedin.ugc.ShareContent" => [
-                    "shareCommentary" => [
-                        "text" => html_entity_decode($message)
-                    ],
-                    "shareMediaCategory" => "NONE",
-                ],
-
-            ],
-            "visibility" => [
-                "com.linkedin.ugc.MemberNetworkVisibility" => $visibility,
-            ]
+    public function linkedInTextPost($accessToken, $person_id,  $message, $visibility = "PUBLIC") {
+        $post_url = "https://api.linkedin.com/rest/posts";
+        $header = [
+            "Authorization: Bearer {$accessToken}",
+            'X-Restli-Protocol-Version: 2.0.0',
+            'LinkedIn-Version: 202301',
         ];
-        $post = $this->curl($post_url, json_encode($request), "application/json", true);
+        $request = [
+            // "author": "urn:li:organization:5515715",
+            "author"         => "urn:li:person:" . $person_id,
+            "commentary"     => html_entity_decode($message),
+            "visibility"     => $visibility,
+            "lifecycleState" => "PUBLISHED",
+            "distribution"   => [
+                "feedDistribution"               => "MAIN_FEED",
+                "targetEntities"                 => [],
+                "thirdPartyDistributionChannels" => []
+            ],
+            "isReshareDisabledByAuthor" => false,
+        ];
+        $post = $this->curl($post_url, json_encode($request), "application/json", true, $header);
+        if (empty($post)) {
+            $post = json_encode([
+                'id' => rand(),
+            ]);
+        }
         return $post;
     }
 
 
     // page post
-    public function linkedInPageTextPost($accessToken, $person_id,  $message, $visibility = "PUBLIC")
-    {
+    public function linkedInPageTextPost($accessToken, $person_id,  $message, $visibility = "PUBLIC") {
         $post_url = "https://api.linkedin.com/v2/shares?oauth2_access_token=" . $accessToken;
         $request = array(
             'distribution' => array(
@@ -103,9 +102,52 @@ class LinkedIn
     }
 
 
+    public function uploadImage($access_token, $person_id, $image_path) {
+        $url = "https://api.linkedin.com/rest/assets?action=registerUpload";
+        $content_type = "application/json";
+        $parameters = json_encode([
+            "registerUploadRequest" => [
+                "owner" => "urn:li:person:" . $person_id,
+                "recipes" => [
+                    "urn:li:digitalmediaRecipe:feedshare-image"
+                ],
+                "serviceRelationships" => [
+                    [
+                        "identifier" => "urn:li:userGeneratedContent",
+                        "relationshipType" => "OWNER"
+                    ]
+                ],
+                "supportedUploadMechanism" => [
+                    "SYNCHRONOUS_UPLOAD"
+                ]
+            ]
+        ]);
+        $headers = [
+            "Authorization: Bearer {$access_token}",
+            'LinkedIn-Version: 202301',
+            "X-RestLi-Protocol-Version: 2.0.0"
+        ];
 
-    public function linkedInLinkPost($accessToken, $person_id, $message, $link_title, $link_desc, $link_url, $visibility = "PUBLIC")
-    {
+        $response = $this->curl($url, $parameters, $content_type, true, $headers);
+        $response = json_decode($response, true);
+        $_response = array_values($response['value']['uploadMechanism']);
+        $upload_url = $_response[0]['uploadUrl'];
+
+        $url = $upload_url;
+        $parameters = file_get_contents($image_path);
+        $content_type = "image/jpeg";
+        $headers = [
+            "Authorization: Bearer {$access_token}",
+            'LinkedIn-Version: 202301',
+            "X-RestLi-Protocol-Version: 2.0.0",
+            "Content-Length: " . strlen($parameters),
+        ];
+        $response = $this->curl($url, $parameters, $content_type, true, $headers);
+
+        return $response;
+    }
+
+    public function linkedInLinkPost($accessToken, $person_id, $message, $link_title, $link_desc, $link_url, $visibility = "PUBLIC") {
         $post_url = "https://api.linkedin.com/v2/ugcPosts?oauth2_access_token=" . $accessToken;
         $request = [
             "author" => "urn:li:person:" . $person_id,
@@ -137,8 +179,7 @@ class LinkedIn
         $post = $this->curl($post_url, json_encode($request), "application/json", true);
         return $post;
     }
-    public function linkedInPhotoPost($accessToken,   $person_id, $message, $image_path,  $image_title, $image_description, $visibility = "PUBLIC")
-    {
+    public function linkedInPhotoPost($accessToken,   $person_id, $message, $image_path,  $image_title, $image_description, $visibility = "PUBLIC") {
 
         $prepareUrl = "https://api.linkedin.com/v2/assets?action=registerUpload&oauth2_access_token=" . $accessToken;
         $prepareRequest =  [
@@ -205,8 +246,7 @@ class LinkedIn
         // dd($post);
         return $post;
     }
-    public function curl($url, $parameters, $content_type, $post = true)
-    {
+    public function curl($url, $parameters, $content_type, $post = true, $headers = []) {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->ssl);
@@ -215,10 +255,11 @@ class LinkedIn
             curl_setopt($ch, CURLOPT_POSTFIELDS, $parameters);
         }
         curl_setopt($ch, CURLOPT_POST, $post);
-        $headers = [];
+
         $headers[] = "Content-Type: {$content_type}";
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         $result = curl_exec($ch);
+        curl_close($ch);
         return $result;
     }
 }

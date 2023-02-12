@@ -98,13 +98,24 @@ class Linkedin
 
         $formatedText = $this->social_share_content_template_structure(
             $this->template_structure,
-            $title,
-            $desc,
+            $this->filter_little_text($title),
+            $this->filter_little_text($desc),
             $post_link,
             $hashTags,
             $this->status_limit
         );
         return $formatedText;
+    }
+
+    function filter_little_text($text) {
+        $mention_regex = '/@\[.*?\]\(urn:li:organization:[0-9]+\)/';
+        $hashtag_regex = '/#[a-zA-Z0-9]+/';
+
+        $filtered_text = preg_replace('/[^a-zA-Z0-9 \-\.\,\{\}]+/', '', $text);
+        $filtered_text = preg_replace($hashtag_regex, '$0', $filtered_text);
+        $filtered_text = preg_replace($mention_regex, '$0', $filtered_text);
+
+        return $filtered_text;
     }
 
     /**
@@ -169,11 +180,12 @@ class Linkedin
                     } else {
                         $desc = wp_strip_all_tags($post_details->post_content);
                     }
+                    $results = $linkedin->uploadImage( $acessToken, $getPersonID, $image_path);
                     $results = $linkedin->linkedInLinkPost($acessToken, $getPersonID, $this->get_formatted_text($post_id), $title, wp_trim_words($desc, 10, '...'), $post_link);
                 }
                 $result = json_decode($results);
                 // linkedin sdk has no Exception handler, that's why we handle it
-                if (property_exists($result, 'id') && $result->id != "") {
+                if (!empty($result) && property_exists($result, 'id') && $result->id != "") {
                     $shareInfo = array(
                         'share_id' => (isset($result->id) ? $result->id : ''),
                         'publish_date' => time(),
@@ -181,7 +193,10 @@ class Linkedin
                     $this->save_metabox_social_share($post_id, $shareInfo, $profile_key);
                     $errorFlag = true;
                     $response = $shareInfo;
-                } else if (property_exists($result, 'serviceErrorCode') && $result->serviceErrorCode != "") {
+                } else if (!empty($result) && property_exists($result, 'serviceErrorCode') && $result->serviceErrorCode != "") {
+                    $errorFlag = false;
+                    $response = $result->message;
+                } else if (isset($result->code, $result->message) && $result->code === 'INVALID_STRING_FORMAT') {
                     $errorFlag = false;
                     $response = $result->message;
                 }
