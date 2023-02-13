@@ -147,12 +147,10 @@ class Linkedin
                 $image_path = '';
                 $socialShareImage = get_post_meta($post_id, '_wpscppro_custom_social_share_image', true);
                 if ($socialShareImage != "") {
-                    $thumbnail_src = wp_get_attachment_image_src($socialShareImage, 'full');
-                    $image_path = $thumbnail_src[0];
+                    $image_path = wp_get_original_image_path($socialShareImage);
                 } else {
                     if (has_post_thumbnail($post_id)) { //the post does not have featured image, use a default image
-                        $thumbnail_src = wp_get_attachment_image_src(get_post_thumbnail_id($post_id), 'full');
-                        $image_path = $thumbnail_src[0];
+                        $image_path = wp_get_original_image_path(get_post_thumbnail_id($post_id));
                     }
                 }
 
@@ -169,13 +167,16 @@ class Linkedin
                     } else {
                         $desc = wp_strip_all_tags($post_details->post_content);
                     }
-                    // linkedInPhotoPost($accessToken,   $person_id, $message, $image_path,  $image_title, $image_description, $visibility = "PUBLIC")
-                    $results = $linkedin->linkedInPhotoPost( $acessToken, $getPersonID, $this->get_formatted_text($post_id), $image_path, $title, wp_trim_words($desc, 10, '...') );
+
+                    $formatedText = $this->get_formatted_text($post_id);
+                    $results = $linkedin->uploadImage( $acessToken, $getPersonID, $image_path);
+                    $imageUrn = isset($results['value']['image']) ? $results['value']['image'] : '';
+                    $results = $linkedin->linkedInPhotoPost( $acessToken, $getPersonID, $imageUrn, $this->filter_little_text($title), $formatedText );
                 } else {
                     $post_details = get_post($post_id);
                     $title = get_the_title($post_id);
                     $formatedText = $this->get_formatted_text($post_id);
-                    $post_link = "https://wpdeveloper.com/docs/manual-scheduler/";// get_permalink($post_id);
+                    $post_link = get_permalink($post_id);
                     if ($this->content_source == 'excerpt' && has_excerpt($post_details->ID)) {
                         $desc = wp_strip_all_tags($post_details->post_excerpt);
                     } else {

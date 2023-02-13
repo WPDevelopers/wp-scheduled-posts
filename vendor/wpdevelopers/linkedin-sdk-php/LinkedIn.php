@@ -72,11 +72,12 @@ class LinkedIn {
             "distribution"   => [
                 "feedDistribution"               => "MAIN_FEED",
                 "targetEntities"                 => [],
-                "thirdPartyDistributionChannels" => []
+                "thirdPartyDistributionChannels" => [],
             ],
             "isReshareDisabledByAuthor" => false,
         ];
         $post = $this->curl($post_url, json_encode($request), "application/json", true, $header);
+
         if ($post['code'] === 201) {
             return json_encode([
                 'id' => rand(),
@@ -161,6 +162,9 @@ class LinkedIn {
             "lifecycleState"            => "PUBLISHED",
             "isReshareDisabledByAuthor" => false
         );
+        if(empty($data['content']['article']['thumbnail'])){
+            unset($data['content']['article']['thumbnail']);
+        }
 
         $parameters = json_encode($data);
         $content_type = "application/json";
@@ -172,6 +176,7 @@ class LinkedIn {
         ];
 
         $post = $this->curl($url, $parameters, $content_type, true, $headers);
+
         if ($post['code'] === 201) {
             return json_encode([
                 'id' => rand(),
@@ -193,8 +198,9 @@ class LinkedIn {
             ],
             "content" => [
                 "media" => [
-                    "title" => $title,
-                    "id"    => $imageUrn
+                    "id"      => $imageUrn,
+                    "title"   => $title,
+                    "altText" => "",
                 ]
             ],
             "lifecycleState"            => "PUBLISHED",
@@ -211,6 +217,7 @@ class LinkedIn {
         ];
 
         $result = $this->curl($url, $parameters, 'application/json', true, $headers);
+
         if ($result['code'] === 201) {
             return json_encode([
                 'id' => rand(),
@@ -231,8 +238,7 @@ class LinkedIn {
         $headers[] = "Content-Type: {$content_type}";
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         $result = curl_exec($ch);
-        curl_close($ch);
-        $response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $response_code = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
         curl_close($ch);
         return [
             'result' => $result,

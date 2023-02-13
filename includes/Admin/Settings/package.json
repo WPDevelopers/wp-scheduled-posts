@@ -5,6 +5,7 @@
     "main": "index.js",
     "scripts": {
         "dev": "webpack --watch --mode development",
+        "build": "webpack --mode production",
         "prod": "webpack --mode production"
     },
     "author": "tusharimran",
