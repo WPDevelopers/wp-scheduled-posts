@@ -88,6 +88,9 @@
         wpsp_submit_button_text.trigger('click');
     }).on('click', 'button.wpsp-el-form-submit', function (e) {
         e.preventDefault();
+        if($(this).hasClass('wpsp-advanced-schedule')){
+            $('#advanced').val(true);
+        }
         var $form = modal.find('form'),
             url = $form.attr('action'),
             data = $form.serialize(),

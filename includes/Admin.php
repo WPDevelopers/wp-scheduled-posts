@@ -443,6 +443,7 @@ class Admin
 						    ?>
                             <input type="hidden" name="action" value="wpsp_el_editor_form">
                             <input type="hidden" name="id" value="<?php echo $post_id; ?>">
+                            <input type="hidden" name="advanced" id="advanced" value="">
 
                             <label>
                                 <span><?php esc_html_e( 'Publish On', 'wp-scheduled-posts' ); ?></span>
@@ -475,6 +476,9 @@ class Admin
                         }
                         ?>
                         </span>
+                    </button>
+                    <button class="elementor-button wpsp-el-form-submit wpsp-advanced-schedule" style="<?php if ( $status !== 'publish' ) { echo 'display: none;'; } ?>">
+                        <?php esc_html_e( 'Advanced Schedule', 'wp-scheduled-posts' ); ?>
                     </button>
                 </div>
                 <div class="wpsp-el-modal-date-picker"></div>
@@ -549,8 +553,37 @@ class Admin
 				'date'               => '',
 				'republish_datetime' => '',
 				'unpublish_datetime' => '',
-				'post_status'        => 'future'
+				'post_status'        => 'future',
+				'advanced'           => null,
 			] );
+
+			if ( $this->pro_enabled ) {
+				if ( ! empty( $args['republish_datetime'] ) ) {
+					update_post_meta( $args['id'], '_wpscp_schedule_republish_date', sanitize_text_field( $args['republish_datetime'] ) );
+				}
+
+				if ( ! empty( $args['unpublish_datetime'] ) ) {
+					update_post_meta( $args['id'], '_wpscp_schedule_draft_date', sanitize_text_field( $args['unpublish_datetime'] ) );
+				}
+			}
+
+            if(isset($args['advanced']) && $args['advanced'] == 'true'){
+                $id = $args['id'];
+                $args['post_status'] = get_post_status( $id );
+                if($args['post_status'] === 'publish'){
+                    update_post_meta($id, 'wpscp_el_pending_schedule', [
+                        'id'        => $id,
+                        'status'    => $args['post_status'],
+                        'post_time' => $args['date'],
+                    ]);
+                    wp_send_json_success( [
+                        'id'        => $id,
+                        'status'    => $args['post_status'],
+                        'post_time' => $args['date'],
+                        'msg'       => "Successss",
+                    ] );
+                }
+            }
 
 			$is_future = true;
 
@@ -588,16 +621,6 @@ class Admin
 					'post_date_gmt' => $date_gmt,
 					'post_status'   => $args['post_status']
 				] );
-			}
-
-			if ( $this->pro_enabled ) {
-				if ( ! empty( $args['republish_datetime'] ) ) {
-					update_post_meta( $args['id'], '_wpscp_schedule_republish_date', sanitize_text_field( $args['republish_datetime'] ) );
-				}
-
-				if ( ! empty( $args['unpublish_datetime'] ) ) {
-					update_post_meta( $args['id'], '_wpscp_schedule_draft_date', sanitize_text_field( $args['unpublish_datetime'] ) );
-				}
 			}
 
 			$status = get_post_status( $id );
