@@ -111,7 +111,9 @@ class Linkedin
         $mention_regex = '/@\[.*?\]\(urn:li:organization:[0-9]+\)/';
         $hashtag_regex = '/#[a-zA-Z0-9]+/';
 
-        $filtered_text = preg_replace('/[^a-zA-Z0-9 \-\.\,\{\}]+/', '', $text);
+        $filtered_text = preg_replace_callback('/([\(\)\{\}\[\]])|([@*<>|\\\\\_~])/m', function ($matches) {
+            return '\\'.$matches[0];
+            }, $text);
         $filtered_text = preg_replace($hashtag_regex, '$0', $filtered_text);
         $filtered_text = preg_replace($mention_regex, '$0', $filtered_text);
 
