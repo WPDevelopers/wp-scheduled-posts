@@ -209,7 +209,7 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 == Changelog ==
 
-= 4.2.3 - 27/02/2023 =
+= 4.2.3 - 26/02/2023 =
 * Updated: LinkedIn API versioning
 * Few minor bug fixes and improvements
 
