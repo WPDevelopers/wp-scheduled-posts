@@ -7,7 +7,18 @@
         label_schedule = wpsp_submit_button.data('label-schedule'),
         label_publish = wpsp_submit_button.data('label-publish'),
         label_update = wpsp_submit_button.data('label-update'),
+        advanced_schedule = $('.wpsp-advanced-schedule'),
+        status = advanced_schedule.data('status'),
+        isAdvanced = advanced_schedule.data('is-advanced'),
         wpsp_date;
+
+    var updateLabel = function(current_time, selected_time){
+        if (current_time.getTime() < selected_time.getTime()) {
+            wpsp_submit_button_text.text(label_schedule)
+        } else {
+            wpsp_submit_button_text.text(label_publish)
+        }
+    }
 
     $(window).on('load', function () {
         $('.elementor-panel-footer-sub-menu-wrapper .elementor-panel-footer-sub-menu').append(wpsp_menu);
@@ -22,10 +33,12 @@
                 var current_time = new Date(),
                     selected_time = new Date(dateStr);
 
-                if (current_time.getTime() < selected_time.getTime()) {
-                    wpsp_submit_button_text.text(label_schedule)
+                updateLabel(current_time, selected_time);
+
+                if (status === 'publish' && !isAdvanced && current_time.getTime() < selected_time.getTime()) {
+                    advanced_schedule.show();
                 } else {
-                    wpsp_submit_button_text.text(label_publish)
+                    advanced_schedule.hide();
                 }
             }
         });
@@ -70,7 +83,31 @@
             }
         }
 
+        var current_time = new Date(),
+        selected_time = wpsp_date.selectedDates && wpsp_date.selectedDates[0] ? wpsp_date.selectedDates[0] : current_time;
+
+
+        updateLabel(current_time, selected_time);
+        if (status === 'publish' && !isAdvanced && current_time.getTime() < selected_time.getTime()) {
+            advanced_schedule.show();
+        } else {
+            advanced_schedule.hide();
+        }
+
+        // $e.commands.on('document/elements/settings', function(args){
+        //     console.error('XXXXX', args);
+        // });
+        // jQuery(window).on('elementor/commands/run/before', function(event){
+        //     var detail = event.detail;
+        //     if(detail.command === 'document/elements/settings'){
+        //         // console.error(detail);
+        //         if(detail.args.settings && detail.args.settings.post_status === "publish"){
+        //             console.error('XXXXX', detail.args);
+        //         }
+        //     }
+        // });
     });
+
 
     $(document).on('click', '#elementor-panel-footer-sub-menu-item-wpsp, #elementor-panel-footer-wpsp-modal', function (e) {
         e.preventDefault();
@@ -101,18 +138,27 @@
         wpsp_submit_button.addClass('elementor-button-state');
         $.post(url, data, function (data) {
             wpsp_el_result.html(data.data.msg).slideDown();
+            $('#advanced').val(false);
 
             if (data.success) {
                 var immediately_btn = $('.wpsp-immediately-publish');
                 wpsp_submit_button.removeClass('elementor-button-state');
                 wpsp_el_result.addClass('wpsp-msg-success');
                 wpsp_date.setDate(data.data.post_time);
+                isAdvanced = data.data.advanced;
 
                 if (data.data.status === 'future') {
+                    advanced_schedule.hide();
                     immediately_btn.show();
                     wpsp_submit_button_text.text(label_schedule);
                 } else {
-                    immediately_btn.hide().removeClass('active');
+                    if(isAdvanced){
+                        advanced_schedule.hide();
+                        immediately_btn.show().addClass('active');
+                    }
+                    else{
+                        immediately_btn.hide().removeClass('active');
+                    }
                     wpsp_submit_button_text.text(label_update);
                 }
             }

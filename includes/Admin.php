@@ -293,6 +293,7 @@ class Admin
             #schedulepress-elementor-modal.elementor-templates-modal .dialog-message {
                 height: auto;
                 padding-bottom: 20px;
+                overflow: auto;
             }
 
             @media (max-width: 1439px) {
@@ -436,10 +437,12 @@ class Admin
                         <form action="<?php echo admin_url( 'admin-ajax.php' ); ?>" method="post">
 						    <?php
 						    wp_nonce_field( 'wpsp-el-editor', 'wpsp-el-editor' );
-						    $post_id   = get_the_ID();
-						    $post      = get_post( $post_id );
-						    $status    = get_post_status( $post_id );
-						    $is_future = $status === 'future';
+                            $post_id     = get_the_ID();
+                            $post        = get_post( $post_id );
+                            $status      = get_post_status( $post_id );
+                            $is_advanced = get_post_meta($post_id, 'wpscp_el_pending_schedule', true);
+                            $is_future   = $status === 'future';
+                            $post_date   = !empty($is_advanced['post_time']) ? $is_advanced['post_time'] : $post->post_date;
 						    ?>
                             <input type="hidden" name="action" value="wpsp_el_editor_form">
                             <input type="hidden" name="id" value="<?php echo $post_id; ?>">
@@ -447,7 +450,7 @@ class Admin
 
                             <label>
                                 <span><?php esc_html_e( 'Publish On', 'wp-scheduled-posts' ); ?></span>
-                                <input id="wpsp-schedule-datetime" type="text" name="date" value="<?php echo esc_attr( $post->post_date ) ?>" readonly>
+                                <input id="wpsp-schedule-datetime" type="text" name="date" value="<?php echo esc_attr( $post_date ) ?>" readonly>
                             </label>
 	                        <?php do_action( 'wpsp_el_modal_pro_fields', $post_id ); ?>
                         </form>
@@ -456,7 +459,7 @@ class Admin
 				    <div class="dialog-loading dialog-lightbox-loading"></div>
 			    </div>
                 <div class="dialog-buttons-wrapper dialog-lightbox-buttons-wrapper" style="display: flex;">
-                    <button class="elementor-button wpsp-immediately-publish" style="<?php if ( ! $is_future ) { echo 'display: none;'; } ?>">
+                    <button class="elementor-button wpsp-immediately-publish" style="<?php if ( ! $is_future && !$is_advanced ) { echo 'display: none;'; } ?>">
                         <?php esc_html_e( 'Publish Post Immediately', 'wp-scheduled-posts' ); ?>
                     </button>
                     <button class="elementor-button wpsp-el-form-submit" data-label-schedule="<?php esc_html_e( 'Schedule', 'wp-scheduled-posts' ); ?>"
@@ -477,7 +480,11 @@ class Admin
                         ?>
                         </span>
                     </button>
-                    <button class="elementor-button wpsp-el-form-submit wpsp-advanced-schedule" style="<?php if ( $status !== 'publish' ) { echo 'display: none;'; } ?>">
+                    <button
+                    class="elementor-button wpsp-el-form-submit wpsp-advanced-schedule"
+                    data-status="<?php echo $status;?>"
+                    data-is-advanced="<?php echo (bool) $is_advanced;?>"
+                    style="<?php echo 'display: none;'; ?>">
                         <?php esc_html_e( 'Advanced Schedule', 'wp-scheduled-posts' ); ?>
                     </button>
                 </div>
@@ -557,6 +564,7 @@ class Admin
 				'advanced'           => null,
 			] );
 
+            // @todo moved to pro, will be removed in next version...
 			if ( $this->pro_enabled ) {
 				if ( ! empty( $args['republish_datetime'] ) ) {
 					update_post_meta( $args['id'], '_wpscp_schedule_republish_date', sanitize_text_field( $args['republish_datetime'] ) );
@@ -567,23 +575,7 @@ class Admin
 				}
 			}
 
-            if(isset($args['advanced']) && $args['advanced'] == 'true'){
-                $id = $args['id'];
-                $args['post_status'] = get_post_status( $id );
-                if($args['post_status'] === 'publish'){
-                    update_post_meta($id, 'wpscp_el_pending_schedule', [
-                        'id'        => $id,
-                        'status'    => $args['post_status'],
-                        'post_time' => $args['date'],
-                    ]);
-                    wp_send_json_success( [
-                        'id'        => $id,
-                        'status'    => $args['post_status'],
-                        'post_time' => $args['date'],
-                        'msg'       => "Successss",
-                    ] );
-                }
-            }
+			do_action( 'wpsp_el_action_before', $args );
 
 			$is_future = true;
 
