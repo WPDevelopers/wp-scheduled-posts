@@ -174,7 +174,7 @@ if (!function_exists('wpscp_prevent_future_type')) {
 			}
 		} else if (isset($_POST['wpscp-manual-schedule-date']) && !empty($_POST['wpscp-manual-schedule-date'])) {
 			$post_data['post_date'] = $_POST['wpscp-manual-schedule-date'];
-			$post_data['post_date_gmt'] = $_POST['wpscp-manual-schedule-date'];
+			$post_data['post_date_gmt'] = get_gmt_from_date($_POST['wpscp-manual-schedule-date']);
 		}
 		return $post_data;
 	}
