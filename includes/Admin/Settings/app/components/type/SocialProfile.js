@@ -13,6 +13,7 @@ import Profile from "./../Social/Profile";
 import ListItemProfile from "./../Social/ListItemProfile";
 import CustomAppForm from "./../../components/CustomAppForm";
 import Pinterest from "../Pinterest";
+import LinkedIn from "../LinkedIn";
 const noSection = { label: "No Section", value: "" };
 
 const customStyles = {
@@ -63,6 +64,7 @@ const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
   const [fbGroup, setFbGroup] = useState([]);
   const [pinterestBoards, setPinterestBoards] = useState([]);
   const [responseData, setResponseData] = useState([]);
+  const [linkedInData, setLinkedInData] = useState({})
   const [socialPlatform, setSocialPlatform] = useState("");
   const [field] = useField(id);
   const [fieldStatus] = useField(field.name + "_status");
@@ -115,6 +117,7 @@ const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
         setFbPage(response.page);
         setFbGroup(response.group);
         setResponseData([response.data]);
+        setLinkedInData(response.linkedin);
         setPinterestBoards(response.boards);
       } else {
       }
@@ -225,7 +228,7 @@ const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
                     arrayHelpers={arrayHelpers}
                     fetchSectionData={fetchSectionData}
                     item={item}
-                    key={item.access_token}
+                    key={item.id}
                     index={index}
                     noSection={noSection}
                   />
@@ -245,7 +248,7 @@ const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
                       arrayHelpers={arrayHelpers}
                       fetchSectionData={fetchSectionData}
                       item={item}
-                      key={item.access_token}
+                      key={item.id}
                       index={index}
                     />
                   ))
@@ -342,11 +345,11 @@ const SocialProfile = ({ id, app, setFieldValue, close_redirect_popup }) => {
                   />
                 ),
                 linkedin: (
-                  <Profile
+                  <LinkedIn
                     fieldName={fieldList.name}
                     field={fieldList}
                     platform={socialPlatform}
-                    data={responseData}
+                    data={linkedInData}
                   />
                 ),
                 pinterest: (

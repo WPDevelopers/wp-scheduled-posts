@@ -262,21 +262,19 @@ class SocialProfile
                     $accessToken = $linkedin->getAccessToken($code);
                     $access_token = $accessToken->access_token;
                 }
-                $getPerson = $linkedin->getPerson($access_token);
+                $profiles = $linkedin->getCompanyPages($access_token);
+                $profiles[] = $linkedin->getPerson($access_token);
 
-                $image = $getPerson->profilePicture->{'displayImage~'}->elements[0]->identifiers[0]->identifier;
                 $info = array(
-                    'id'            => $getPerson->id,
                     'app_id'        => $app_id,
                     'app_secret'    => $app_secret,
-                    'name'          => $getPerson->firstName->localized->en_US . " " . $getPerson->lastName->localized->en_US,
-                    'thumbnail_url' => $image,
                     'status'        => true,
                     'redirectURI'   => $redirectURI,
                     'access_token'  => $access_token,
                     'expires_in'    => $expires_in,
+                    'profiles'      => $profiles,
                     'added_by'      => $current_user->user_login,
-                    'added_date'    => current_time('mysql')
+                    'added_date'    => current_time('mysql'),
                 );
                 // if app id is exists then app secret, redirect uri will be also there, it will be delete after approve real app
                 if (!empty($app_id)) {
@@ -285,9 +283,9 @@ class SocialProfile
                 }
 
                 $response = array(
-                    'success'   => true,
-                    'data'      => $info,
-                    'type'      => 'linkedin',
+                    'success'  => true,
+                    'linkedin' => $info,
+                    'type'     => 'linkedin',
                 );
                 wp_send_json($response);
                 wp_die();

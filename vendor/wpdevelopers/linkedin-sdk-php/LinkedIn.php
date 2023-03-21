@@ -41,6 +41,13 @@ class LinkedIn {
         $params = [];
         $response = $this->curl($url, http_build_query($params), "application/x-www-form-urlencoded", false);
         $person = json_decode($response['result']);
+        $image = $person->profilePicture->{'displayImage~'}->elements[0]->identifiers[0]->identifier;
+        $person = [
+            'type'          => 'person',
+            'id'            => $person->id,
+            'name'          => $person->firstName->localized->en_US . " " . $person->lastName->localized->en_US,
+            'thumbnail_url' => $image,
+        ];
         return $person;
     }
     public function getPersonID($accessToken) {
@@ -51,12 +58,34 @@ class LinkedIn {
         return $personID;
     }
     public function getCompanyPages($accessToken) {
+        $header = [
+            "Authorization: Bearer {$accessToken}",
+            'X-Restli-Protocol-Version: 2.0.0',
+            'LinkedIn-Version: 202301',
+        ];
 
-        $company_pages = "https://api.linkedin.com/v2/organizations/55042594?format=json&is-company-admin=true&oauth2_access_token=" . trim($accessToken);
-        $pages = $this->curl($company_pages, json_encode([]), "application/json", false);
-        return json_decode($pages['result']);
+        $company_pages = "https://api.linkedin.com/v2/organizationalEntityAcls?q=roleAssignee&role=ADMINISTRATOR&state=APPROVED&projection=(elements*(organizationalTarget~(id,localizedName,logoV2(original~:playableStreams))))";
+        $pages = $this->curl($company_pages, json_encode([]), "application/json", false, $header);
+        $pages = json_decode($pages['result'], true);
+
+        $companies = [];
+        if(is_array($pages['elements']) && count($pages['elements']) > 0){
+
+            foreach ($pages['elements'] as $company) {
+                $logo = !empty($company['organizationalTarget~']['logoV2']) ? $company['organizationalTarget~']['logoV2']['original~']['elements'][0]['identifiers'][0]['identifier'] : '';
+                $companies[] = [
+                    'type'          => 'organization',
+                    'urn'           => $company['organizationalTarget'],
+                    'id'            => $company['organizationalTarget~']['id'],
+                    'name'          => $company['organizationalTarget~']['localizedName'],
+                    'thumbnail_url' => $logo,
+                ];
+            }
+        }
+
+        return $companies;
     }
-    public function linkedInTextPost($accessToken, $person_id,  $message, $visibility = "PUBLIC") {
+    public function linkedInTextPost($accessToken, $type, $person_id,  $message, $visibility = "PUBLIC") {
         $post_url = "https://api.linkedin.com/rest/posts";
         $header = [
             "Authorization: Bearer {$accessToken}",
@@ -65,7 +94,7 @@ class LinkedIn {
         ];
         $request = [
             // "author": "urn:li:organization:5515715",
-            "author"         => "urn:li:person:" . $person_id,
+            "author"         => "urn:li:$type:" . $person_id,
             "commentary"     => html_entity_decode($message),
             "visibility"     => $visibility,
             "lifecycleState" => "PUBLISHED",
@@ -88,13 +117,13 @@ class LinkedIn {
 
 
     // page post
-    public function linkedInPageTextPost($accessToken, $person_id,  $message, $visibility = "PUBLIC") {
+    public function linkedInPageTextPost($accessToken, $type, $person_id,  $message, $visibility = "PUBLIC") {
         $post_url = "https://api.linkedin.com/v2/shares?oauth2_access_token=" . $accessToken;
         $request = array(
             'distribution' => array(
                 'linkedInDistributionTarget' => new \ArrayObject(),
             ),
-            "owner"            => "urn:li:organization:55042594",
+            "owner"            => "urn:li:$type:55042594",
             'subject'           => 'linkedin post share testing for schedule posts',
             'text'              => array('text' => 'now testing linkedin posts again')
         );
@@ -103,12 +132,12 @@ class LinkedIn {
     }
 
 
-    public function uploadImage($access_token, $person_id, $image_path) {
+    public function uploadImage($access_token, $type, $person_id, $image_path) {
         $url = "https://api.linkedin.com/rest/images?action=initializeUpload";
         $content_type = "application/json";
         $parameters = json_encode([
             "initializeUploadRequest" => [
-                "owner" => "urn:li:person:" . $person_id,
+                "owner" => "urn:li:$type:" . $person_id,
             ]
         ]);
         $headers = [
@@ -140,10 +169,10 @@ class LinkedIn {
         }
     }
 
-    public function linkedInLinkPost($access_token, $person_id, $commentary, $source, $thumbnail, $title, $description) {
+    public function linkedInLinkPost($access_token, $type, $person_id, $commentary, $source, $thumbnail, $title, $description) {
         $url = "https://api.linkedin.com/rest/posts";
         $data = array(
-            "author"       => "urn:li:person:$person_id",
+            "author"       => "urn:li:$type:$person_id",
             "commentary"   => $commentary,
             "visibility"   => "PUBLIC",
             "distribution" => [
@@ -184,11 +213,11 @@ class LinkedIn {
         }
         return $post['result'];
     }
-    public function linkedInPhotoPost($accessToken, $person_id, $imageUrn, $title, $commentary) {
+    public function linkedInPhotoPost($accessToken, $type, $person_id, $imageUrn, $title, $commentary) {
         $url = 'https://api.linkedin.com/rest/posts';
 
         $postData = [
-            "author"       => "urn:li:person:$person_id",
+            "author"       => "urn:li:$type:$person_id",
             "commentary"   => $commentary,
             "visibility"   => "PUBLIC",
             "distribution" => [

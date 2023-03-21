@@ -33,7 +33,7 @@ class Social
         // twitter
         $this->define('WPSCP_TWITTER_OPTION_NAME', 'twitter_profile_list');
         // linkedin
-        $this->define('WPSCP_LINKEDIN_SCOPE', 'r_emailaddress r_liteprofile w_member_social');
+        $this->define('WPSCP_LINKEDIN_SCOPE', 'r_emailaddress w_member_social rw_organization_admin w_organization_social r_basicprofile r_organization_social');
         $this->define('WPSCP_LINKEDIN_OPTION_NAME', 'linkedin_profile_list');
         // pinterest
         $this->define('WPSCP_PINTEREST_OPTION_NAME', 'pinterest_profile_list');

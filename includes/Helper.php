@@ -308,4 +308,53 @@ class Helper
 
         return $profile->access_token;
     }
+
+    /**
+     * generate access token from refresh token.
+     *
+     * @param  mixed $profile
+     * @return array
+     */
+    public static function get_profiles($type)
+    {
+        global $wpsp_settings;
+        $platformOptions = [
+            'facebook'  => WPSCP_FACEBOOK_OPTION_NAME,
+            'twitter'   => WPSCP_TWITTER_OPTION_NAME,
+            'linkedin'  => WPSCP_LINKEDIN_OPTION_NAME,
+            'pinterest' => WPSCP_PINTEREST_OPTION_NAME,
+        ];
+
+        $opt_name = isset($platformOptions[$type]) ? $platformOptions[$type] : '';
+        if(!empty($wpsp_settings->{$opt_name})){
+            return $wpsp_settings->{$opt_name};
+        }
+        else{
+            return [];
+        }
+
+        return [];
+    }
+
+    /**
+     * generate access token from refresh token.
+     *
+     * @param  mixed $profile
+     * @return object
+     */
+    public static function get_profile($type, $platformKey = null)
+    {
+        $platformOptions = self::get_profiles($type);
+
+        if(false === $platformKey || null === $platformKey){
+            return $platformOptions;
+        }
+        else{
+            if(!empty($platformOptions[$platformKey])){
+                return $platformOptions[$platformKey];
+            }
+        }
+
+        return (object) [];
+    }
 }

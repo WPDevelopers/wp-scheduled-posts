@@ -140,9 +140,11 @@ class Linkedin
                     null,
                     WPSCP_LINKEDIN_SCOPE
                 );
-                $acessToken = \WPSP\Helper::get_access_token('linkedin', $profile_key);
-                $getPersonID = $linkedin->getPersonID($acessToken);
-                $image_path = '';
+                $profile          = \WPSP\Helper::get_profile('linkedin', $profile_key);
+                $accessToken      = \WPSP\Helper::get_access_token('linkedin', $profile_key);
+                $getPersonID      = $profile->id;
+                $type             = isset($profile->type) ? $profile->type : 'person';
+                $image_path       = '';
                 $socialShareImage = get_post_meta($post_id, '_wpscppro_custom_social_share_image', true);
                 if ($socialShareImage != "") {
                     $image_path = wp_get_original_image_path($socialShareImage);
@@ -155,7 +157,7 @@ class Linkedin
                 $results = "";
                 if ($this->content_type == 'status') {
                     $formatedText = $this->get_formatted_text($post_id);
-                    $results = $linkedin->linkedInTextPost($acessToken, $getPersonID, $formatedText);
+                    $results = $linkedin->linkedInTextPost($accessToken, $type, $getPersonID, $formatedText);
                 } else if ($this->content_type == 'media' && $image_path) {
                     $post_details = get_post($post_id);
                     $title        = get_the_title($post_id);
@@ -167,9 +169,9 @@ class Linkedin
                     }
 
                     $formatedText = $this->get_formatted_text($post_id);
-                    $results = $linkedin->uploadImage( $acessToken, $getPersonID, $image_path);
+                    $results = $linkedin->uploadImage( $accessToken, $type, $getPersonID, $image_path);
                     $imageUrn = isset($results['value']['image']) ? $results['value']['image'] : '';
-                    $results = $linkedin->linkedInPhotoPost( $acessToken, $getPersonID, $imageUrn, $this->filter_little_text($title), $formatedText );
+                    $results = $linkedin->linkedInPhotoPost( $accessToken, $type, $getPersonID, $imageUrn, $this->filter_little_text($title), $formatedText );
                 } else {
                     $post_details = get_post($post_id);
                     $title = get_the_title($post_id);
@@ -180,9 +182,9 @@ class Linkedin
                     } else {
                         $desc = wp_strip_all_tags($post_details->post_content);
                     }
-                    $results = $linkedin->uploadImage( $acessToken, $getPersonID, $image_path);
+                    $results = $linkedin->uploadImage( $accessToken, $type, $getPersonID, $image_path);
                     $upload_url = isset($results['value']['image']) ? $results['value']['image'] : '';
-                    $results = $linkedin->linkedInLinkPost($acessToken, $getPersonID, $formatedText, $post_link, $upload_url, $this->filter_little_text($title), $this->filter_little_text($desc));
+                    $results = $linkedin->linkedInLinkPost($accessToken, $type, $getPersonID, $formatedText, $post_link, $upload_url, $this->filter_little_text($title), $this->filter_little_text($desc));
                 }
                 $result = json_decode($results);
                 // linkedin sdk has no Exception handler, that's why we handle it
