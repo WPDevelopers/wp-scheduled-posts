@@ -443,6 +443,7 @@ class Admin
                             $is_advanced = get_post_meta($post_id, 'wpscp_el_pending_schedule', true);
                             $is_future   = $status === 'future';
                             $post_date   = !empty($is_advanced['post_time']) ? $is_advanced['post_time'] : $post->post_date;
+                            $delayed_schedule = \WPSP\Helper::get_settings('is_delayed_schedule_active');
 						    ?>
                             <input type="hidden" name="action" value="wpsp_el_editor_form">
                             <input type="hidden" name="id" value="<?php echo $post_id; ?>">
@@ -480,6 +481,7 @@ class Admin
                         ?>
                         </span>
                     </button>
+                    <?php if($delayed_schedule !== null ? $delayed_schedule : true):?>
                     <button
                     class="elementor-button wpsp-el-form-submit wpsp-advanced-schedule"
                     data-status="<?php echo $status;?>"
@@ -487,6 +489,7 @@ class Admin
                     style="<?php echo 'display: none;'; ?>">
                         <?php esc_html_e( 'Advanced Schedule', 'wp-scheduled-posts' ); ?>
                     </button>
+                    <?php endif;?>
                 </div>
                 <div class="wpsp-el-modal-date-picker"></div>
 		    </div>

@@ -154,7 +154,7 @@
                 } else {
                     if(isAdvanced){
                         advanced_schedule.hide();
-                        immediately_btn.show().addClass('active');
+                        immediately_btn.show().removeClass('active');
                     }
                     else{
                         immediately_btn.hide().removeClass('active');
