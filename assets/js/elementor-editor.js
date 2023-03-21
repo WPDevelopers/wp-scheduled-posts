@@ -88,24 +88,19 @@
 
 
         updateLabel(current_time, selected_time);
-        if (status === 'publish' && !isAdvanced && current_time.getTime() < selected_time.getTime()) {
+        if ('publish' === status && !isAdvanced && current_time.getTime() < selected_time.getTime()) {
             advanced_schedule.show();
         } else {
             advanced_schedule.hide();
         }
 
-        // $e.commands.on('document/elements/settings', function(args){
-        //     console.error('XXXXX', args);
-        // });
-        // jQuery(window).on('elementor/commands/run/before', function(event){
-        //     var detail = event.detail;
-        //     if(detail.command === 'document/elements/settings'){
-        //         // console.error(detail);
-        //         if(detail.args.settings && detail.args.settings.post_status === "publish"){
-        //             console.error('XXXXX', detail.args);
-        //         }
-        //     }
-        // });
+        // deprecated event
+        elementor.saver.on('page:status:change', function(_status, oldStatus){
+            if('publish' == _status && 'draft' == oldStatus){
+                status = 'publish';
+            }
+        });
+
     });
 
 
