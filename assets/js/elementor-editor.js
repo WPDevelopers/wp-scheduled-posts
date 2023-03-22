@@ -106,6 +106,8 @@
 
 
 
+        var current_time  = new Date();
+        var selected_time = wpsp_date.selectedDates && wpsp_date.selectedDates[0] ? wpsp_date.selectedDates[0] : current_time;
         updateLabel(current_time, selected_time);
         if ('publish' === status && !isAdvanced && isFuture()) {
             advanced_schedule.show();
