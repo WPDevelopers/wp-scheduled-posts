@@ -120,11 +120,15 @@ class Calendar
     }
 
     public function get_post_status($republish = false){
-        $status = get_post_status();
+        $status         = get_post_status();
         $scheduled      = get_post_meta(get_the_ID(), 'wpscp_pending_schedule', true);
+        $el_scheduled   = get_post_meta(get_the_ID(), 'wpscp_el_pending_schedule', true);
         $republish_date = $republish ? get_post_meta(get_the_ID(), '_wpscp_schedule_republish_date', true) : null;
 
         if($status == 'future' && !empty($scheduled)){
+            $status = 'Advanced Scheduled';
+        }
+        else if($status == 'future' && !empty($el_scheduled['post_time'])){
             $status = 'Advanced Scheduled';
         }
         else if($status == 'publish' && !empty($republish_date)){

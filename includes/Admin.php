@@ -293,6 +293,7 @@ class Admin
             #schedulepress-elementor-modal.elementor-templates-modal .dialog-message {
                 height: auto;
                 padding-bottom: 20px;
+                overflow: auto;
             }
 
             @media (max-width: 1439px) {
@@ -436,17 +437,21 @@ class Admin
                         <form action="<?php echo admin_url( 'admin-ajax.php' ); ?>" method="post">
 						    <?php
 						    wp_nonce_field( 'wpsp-el-editor', 'wpsp-el-editor' );
-						    $post_id   = get_the_ID();
-						    $post      = get_post( $post_id );
-						    $status    = get_post_status( $post_id );
-						    $is_future = $status === 'future';
+                            $post_id     = get_the_ID();
+                            $post        = get_post( $post_id );
+                            $status      = get_post_status( $post_id );
+                            $is_advanced = get_post_meta($post_id, 'wpscp_el_pending_schedule', true);
+                            $is_future   = $status === 'future';
+                            $post_date   = !empty($is_advanced['post_time']) ? $is_advanced['post_time'] : $post->post_date;
+                            $delayed_schedule = \WPSP\Helper::get_settings('is_delayed_schedule_active');
 						    ?>
                             <input type="hidden" name="action" value="wpsp_el_editor_form">
                             <input type="hidden" name="id" value="<?php echo $post_id; ?>">
+                            <input type="hidden" name="advanced" id="advanced" value="">
 
                             <label>
                                 <span><?php esc_html_e( 'Publish On', 'wp-scheduled-posts' ); ?></span>
-                                <input id="wpsp-schedule-datetime" type="text" name="date" value="<?php echo esc_attr( $post->post_date ) ?>" readonly>
+                                <input id="wpsp-schedule-datetime" type="text" name="date" value="<?php echo esc_attr( $post_date ) ?>" readonly>
                             </label>
 	                        <?php do_action( 'wpsp_el_modal_pro_fields', $post_id ); ?>
                         </form>
@@ -455,10 +460,14 @@ class Admin
 				    <div class="dialog-loading dialog-lightbox-loading"></div>
 			    </div>
                 <div class="dialog-buttons-wrapper dialog-lightbox-buttons-wrapper" style="display: flex;">
-                    <button class="elementor-button wpsp-immediately-publish" style="<?php if ( ! $is_future ) { echo 'display: none;'; } ?>">
+                    <button class="elementor-button wpsp-immediately-publish" style="<?php if ( ! $is_future && !$is_advanced ) { echo 'display: none;'; } ?>">
+                        <span class="elementor-state-icon">
+                            <i class="eicon-loading eicon-animation-spin" aria-hidden="true"></i>
+                        </span>
                         <?php esc_html_e( 'Publish Post Immediately', 'wp-scheduled-posts' ); ?>
                     </button>
-                    <button class="elementor-button wpsp-el-form-submit" data-label-schedule="<?php esc_html_e( 'Schedule', 'wp-scheduled-posts' ); ?>"
+                    <button class="elementor-button wpsp-el-form-submit"
+                            data-label-schedule="<?php esc_html_e( 'Schedule', 'wp-scheduled-posts' ); ?>"
                             data-label-publish="<?php esc_html_e( 'Publish', 'wp-scheduled-posts' ); ?>"
                             data-label-update="<?php esc_html_e( 'Update', 'wp-scheduled-posts' ); ?>">
                         <span class="elementor-state-icon">
@@ -476,6 +485,22 @@ class Admin
                         ?>
                         </span>
                     </button>
+                    <?php if($delayed_schedule !== null ? $delayed_schedule : true):?>
+                    <button
+                    class="elementor-button wpsp-el-form-submit wpsp-advanced-schedule"
+                    data-status="<?php echo $status;?>"
+                    data-is-advanced="<?php echo (bool) $is_advanced;?>"
+                    data-label-schedule="<?php esc_html_e( 'Advanced Schedule', 'wp-scheduled-posts' ); ?>"
+                    data-label-update="<?php esc_html_e( 'Update', 'wp-scheduled-posts' ); ?>"
+                    style="<?php echo 'display: none;'; ?>">
+                        <span class="elementor-state-icon">
+                            <i class="eicon-loading eicon-animation-spin" aria-hidden="true"></i>
+                        </span>
+                        <span>
+                            <?php esc_html_e( 'Advanced Schedule', 'wp-scheduled-posts' ); ?>
+                        </span>
+                    </button>
+                    <?php endif;?>
                 </div>
                 <div class="wpsp-el-modal-date-picker"></div>
 		    </div>
@@ -549,8 +574,22 @@ class Admin
 				'date'               => '',
 				'republish_datetime' => '',
 				'unpublish_datetime' => '',
-				'post_status'        => 'future'
+				'post_status'        => 'future',
+				'advanced'           => null,
 			] );
+
+            // @todo moved to pro, will be removed in next version...
+			if ( $this->pro_enabled ) {
+				if ( ! empty( $args['republish_datetime'] ) ) {
+					update_post_meta( $args['id'], '_wpscp_schedule_republish_date', sanitize_text_field( $args['republish_datetime'] ) );
+				}
+
+				if ( ! empty( $args['unpublish_datetime'] ) ) {
+					update_post_meta( $args['id'], '_wpscp_schedule_draft_date', sanitize_text_field( $args['unpublish_datetime'] ) );
+				}
+			}
+
+			do_action( 'wpsp_el_action_before', $args );
 
 			$is_future = true;
 
@@ -588,16 +627,6 @@ class Admin
 					'post_date_gmt' => $date_gmt,
 					'post_status'   => $args['post_status']
 				] );
-			}
-
-			if ( $this->pro_enabled ) {
-				if ( ! empty( $args['republish_datetime'] ) ) {
-					update_post_meta( $args['id'], '_wpscp_schedule_republish_date', sanitize_text_field( $args['republish_datetime'] ) );
-				}
-
-				if ( ! empty( $args['unpublish_datetime'] ) ) {
-					update_post_meta( $args['id'], '_wpscp_schedule_draft_date', sanitize_text_field( $args['unpublish_datetime'] ) );
-				}
 			}
 
 			$status = get_post_status( $id );
