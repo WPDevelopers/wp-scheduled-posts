@@ -8,6 +8,7 @@
         label_publish = wpsp_submit_button.data('label-publish'),
         label_update = wpsp_submit_button.data('label-update'),
         advanced_schedule = $('.wpsp-advanced-schedule'),
+        advanced_schedule_text = $('span:nth-child(2)', advanced_schedule),
         avd_label_schedule = advanced_schedule.data('label-schedule'),
         avd_label_update = advanced_schedule.data('label-update'),
         status = advanced_schedule.data('status'),
@@ -51,11 +52,11 @@
                     advanced_schedule.show();
                     if(isAdvanced){
                         wpsp_submit_button.hide();
-                        advanced_schedule.text(avd_label_update);
+                        advanced_schedule_text.text(avd_label_update);
                     }
                     else{
                         wpsp_submit_button.show();
-                        advanced_schedule.text(avd_label_schedule);
+                        advanced_schedule_text.text(avd_label_schedule);
                     }
                 } else {
                     wpsp_submit_button.show();
@@ -117,16 +118,15 @@
 
 
         if ('publish' === status){
-            advanced_schedule.show();
             if(isAdvanced){
                 wpsp_submit_button.hide();
                 immediately_btn.show().removeClass('active');
-                advanced_schedule.text(avd_label_update);
+                advanced_schedule_text.text(avd_label_update);
             }
             else{
                 wpsp_submit_button.show();
                 immediately_btn.hide().removeClass('active');
-                advanced_schedule.text(avd_label_schedule);
+                advanced_schedule_text.text(avd_label_schedule);
             }
         }
 
@@ -153,10 +153,12 @@
         wpsp_date.clear();
         wpsp_submit_button_text.text(label_publish);
         $(this).addClass('active');
-        wpsp_submit_button_text.trigger('click');
-    }).on('click', 'button.wpsp-el-form-submit', function (e) {
+        wpsp_submit_button_text.trigger('click', [$(this)]);
+    }).on('click', 'button.wpsp-el-form-submit', function (e, immediately) {
         e.preventDefault();
-        if($(this).hasClass('wpsp-advanced-schedule')){
+        var clickedButton = immediately || $(this);
+        var isAdvancedButton = $(this).hasClass('wpsp-advanced-schedule');
+        if(isAdvancedButton){
             $('#advanced').val(true);
         }
         var $form = modal.find('form'),
@@ -166,13 +168,13 @@
 
         $('#elementor-panel-saver-button-publish').trigger('click');
 
-        wpsp_submit_button.addClass('elementor-button-state');
+        clickedButton.addClass('elementor-button-state');
         $.post(url, data, function (data) {
             wpsp_el_result.html(data.data.msg).slideDown();
             $('#advanced').val(false);
 
             if (data.success) {
-                wpsp_submit_button.removeClass('elementor-button-state');
+                clickedButton.removeClass('elementor-button-state');
                 wpsp_el_result.addClass('wpsp-msg-success');
                 wpsp_date.setDate(data.data.post_time);
                 isAdvanced = data.data.advanced;
@@ -190,12 +192,12 @@
                     if(isAdvanced){
                         wpsp_submit_button.hide();
                         immediately_btn.show().removeClass('active');
-                        advanced_schedule.text(avd_label_update);
+                        advanced_schedule_text.text(avd_label_update);
                     }
                     else{
                         wpsp_submit_button.show();
                         immediately_btn.hide().removeClass('active');
-                        advanced_schedule.text(avd_label_schedule);
+                        advanced_schedule_text.text(avd_label_schedule);
                     }
                     wpsp_submit_button_text.text(label_update);
                 }

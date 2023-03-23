@@ -461,6 +461,9 @@ class Admin
 			    </div>
                 <div class="dialog-buttons-wrapper dialog-lightbox-buttons-wrapper" style="display: flex;">
                     <button class="elementor-button wpsp-immediately-publish" style="<?php if ( ! $is_future && !$is_advanced ) { echo 'display: none;'; } ?>">
+                        <span class="elementor-state-icon">
+                            <i class="eicon-loading eicon-animation-spin" aria-hidden="true"></i>
+                        </span>
                         <?php esc_html_e( 'Publish Post Immediately', 'wp-scheduled-posts' ); ?>
                     </button>
                     <button class="elementor-button wpsp-el-form-submit"
@@ -490,7 +493,12 @@ class Admin
                     data-label-schedule="<?php esc_html_e( 'Advanced Schedule', 'wp-scheduled-posts' ); ?>"
                     data-label-update="<?php esc_html_e( 'Update', 'wp-scheduled-posts' ); ?>"
                     style="<?php echo 'display: none;'; ?>">
-                        <?php esc_html_e( 'Advanced Schedule', 'wp-scheduled-posts' ); ?>
+                        <span class="elementor-state-icon">
+                            <i class="eicon-loading eicon-animation-spin" aria-hidden="true"></i>
+                        </span>
+                        <span>
+                            <?php esc_html_e( 'Advanced Schedule', 'wp-scheduled-posts' ); ?>
+                        </span>
                     </button>
                     <?php endif;?>
                 </div>
