@@ -18,15 +18,10 @@ const LinkedIn = ({ platform, fieldName, field, data }) => {
         if (e.target.checked) {
             // free
             if (!wpspSettingsGlobal.pro_version) {
-                if (!field.value || (field.value && field.value.length == 0)) {
-                    e.target.disabled = true
-                    arrayHelpers.insert(index, item)
-                } else {
-                    e.target.disabled = true
-                    setIsErrorMessage(true)
-                    e.preventDefault()
-                    e.stopPropagation()
-                }
+                e.target.disabled = true
+                setIsErrorMessage(true)
+                e.preventDefault()
+                e.stopPropagation()
             } else {
                 setIsErrorMessage(false)
                 arrayHelpers.insert(index, item)
@@ -59,7 +54,7 @@ const LinkedIn = ({ platform, fieldName, field, data }) => {
                         {isErrorMessage && (
                             <div className='error-message'>
                                 {__(
-                                    'Multi Profile is a Premium Feature. To use this feature,',
+                                    'LinkedIn page is a Premium Feature. To use this feature,',
                                     'wp-scheduled-posts'
                                 )}
                                 {" "}
@@ -126,14 +121,19 @@ const LinkedIn = ({ platform, fieldName, field, data }) => {
                                             <input
                                                 type='checkbox'
                                                 name={`${field.name}.${index}`}
-                                                onChange={(e) =>
-                                                    addProfileToggle(
-                                                        item,
-                                                        index,
-                                                        arrayHelpers,
-                                                        e
-                                                    )
-                                                }
+                                                onChange={(e) => {
+                                                    if (e.target.checked) {
+                                                        return arrayHelpers.insert(
+                                                            index,
+                                                            item
+                                                        )
+                                                    } else {
+                                                        return arrayHelpers.remove(
+                                                            index
+                                                        )
+                                                    }
+                                                }}
+
                                             />
                                             <div></div>
                                         </div>
