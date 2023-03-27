@@ -110,7 +110,7 @@
         var current_time  = new Date();
         var selected_time = wpsp_date.selectedDates && wpsp_date.selectedDates[0] ? wpsp_date.selectedDates[0] : current_time;
         updateLabel(current_time, selected_time);
-        if ('publish' === status && !isAdvanced && isFuture()) {
+        if ('publish' === status && isFuture()) {
             advanced_schedule.show();
         } else {
             advanced_schedule.hide();
@@ -154,13 +154,14 @@
         wpsp_submit_button_text.text(label_publish);
         $(this).addClass('active');
         wpsp_submit_button_text.trigger('click', [$(this)]);
-    }).on('click', 'button.wpsp-el-form-submit', function (e, immediately) {
+    }).on('click', '.wpsp-advanced-schedule', function (e) {
         e.preventDefault();
-        var clickedButton = immediately || $(this);
-        var isAdvancedButton = $(this).hasClass('wpsp-advanced-schedule');
-        if(isAdvancedButton){
-            $('#advanced').val(true);
-        }
+        $('#advanced').val(true);
+        wpsp_submit_button_text.trigger('click', [$(this)]);
+    }).on('click', 'button.wpsp-el-form-submit', function (e, target) {
+        e.preventDefault();
+        var clickedButton = target || $(this);
+
         var $form = modal.find('form'),
             url = $form.attr('action'),
             data = $form.serialize(),

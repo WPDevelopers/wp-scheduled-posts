@@ -371,7 +371,7 @@ class Admin
                 text-transform: initial;
             }
 
-            #schedulepress-elementor-modal .elementor-button.wpsp-el-form-submit {
+            #schedulepress-elementor-modal .elementor-button.wpsp-el-form-submit, #schedulepress-elementor-modal .elementor-button.wpsp-advanced-schedule {
                 background: rgba(109, 100, 255, 1);
                 color: #fff;
             }
@@ -399,7 +399,7 @@ class Admin
                 color: green;
             }
 
-            #schedulepress-elementor-modal .wpsp-el-form-submit.elementor-button-state > .elementor-state-icon + span {
+            #schedulepress-elementor-modal .wpsp-el-form-submit.elementor-button-state > .elementor-state-icon + span, #schedulepress-elementor-modal .wpsp-advanced-schedule.elementor-button-state > .elementor-state-icon + span {
                 display: none;
             }
         </style>
@@ -440,14 +440,11 @@ class Admin
                             $post_id     = get_the_ID();
                             $post        = get_post( $post_id );
                             $status      = get_post_status( $post_id );
-                            $is_advanced = get_post_meta($post_id, 'wpscp_el_pending_schedule', true);
                             $is_future   = $status === 'future';
-                            $post_date   = !empty($is_advanced['post_time']) ? $is_advanced['post_time'] : $post->post_date;
-                            $delayed_schedule = \WPSP\Helper::get_settings('is_delayed_schedule_active');
+                            $post_date   = apply_filters('wpsp_el_modal_post_date', $post->post_date, $post);
 						    ?>
                             <input type="hidden" name="action" value="wpsp_el_editor_form">
                             <input type="hidden" name="id" value="<?php echo $post_id; ?>">
-                            <input type="hidden" name="advanced" id="advanced" value="">
 
                             <label>
                                 <span><?php esc_html_e( 'Publish On', 'wp-scheduled-posts' ); ?></span>
@@ -460,7 +457,7 @@ class Admin
 				    <div class="dialog-loading dialog-lightbox-loading"></div>
 			    </div>
                 <div class="dialog-buttons-wrapper dialog-lightbox-buttons-wrapper" style="display: flex;">
-                    <button class="elementor-button wpsp-immediately-publish" style="<?php if ( ! $is_future && !$is_advanced ) { echo 'display: none;'; } ?>">
+                    <button class="elementor-button wpsp-immediately-publish" style="<?php if ( ! $is_future ) { echo 'display: none;'; } ?>">
                         <span class="elementor-state-icon">
                             <i class="eicon-loading eicon-animation-spin" aria-hidden="true"></i>
                         </span>
@@ -485,22 +482,7 @@ class Admin
                         ?>
                         </span>
                     </button>
-                    <?php if($delayed_schedule !== null ? $delayed_schedule : true):?>
-                    <button
-                    class="elementor-button wpsp-el-form-submit wpsp-advanced-schedule"
-                    data-status="<?php echo $status;?>"
-                    data-is-advanced="<?php echo (bool) $is_advanced;?>"
-                    data-label-schedule="<?php esc_html_e( 'Advanced Schedule', 'wp-scheduled-posts' ); ?>"
-                    data-label-update="<?php esc_html_e( 'Update', 'wp-scheduled-posts' ); ?>"
-                    style="<?php echo 'display: none;'; ?>">
-                        <span class="elementor-state-icon">
-                            <i class="eicon-loading eicon-animation-spin" aria-hidden="true"></i>
-                        </span>
-                        <span>
-                            <?php esc_html_e( 'Advanced Schedule', 'wp-scheduled-posts' ); ?>
-                        </span>
-                    </button>
-                    <?php endif;?>
+                    <?php do_action("wpsp_el_after_publish_button", $post);?>
                 </div>
                 <div class="wpsp-el-modal-date-picker"></div>
 		    </div>
