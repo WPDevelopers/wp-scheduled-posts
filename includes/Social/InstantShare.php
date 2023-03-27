@@ -285,6 +285,14 @@ class InstantShare
                     </div>
                     <ul class="autoOverflowModal">';
                 foreach ($profile as $key => $profileItem) {
+                    if(isset($profileItem->type)){
+                        if('organization' === $profileItem->type){
+                            $profileItem->type = 'Page';
+                        }
+                        else if('person' === $profileItem->type){
+                            $profileItem->type = 'Profile';
+                        }
+                    }
                     $markup .= '<li id="' . $profileName . '_' . $key . '">
                             <div class="item-content">
                                 ' . (isset($profileItem->thumbnail_url) ? '<div class="entry-thumbnail"><img src="' . $profileItem->thumbnail_url . '" alt="logo"></div>' : '') . '

@@ -262,19 +262,20 @@ class SocialProfile
                     $accessToken = $linkedin->getAccessToken($code);
                     $access_token = $accessToken->access_token;
                 }
-                $profiles = $linkedin->getCompanyPages($access_token);
-                $profiles[] = $linkedin->getPerson($access_token);
+                $pages    = $linkedin->getCompanyPages($access_token);
+                $profiles = $linkedin->getPerson($access_token);
 
                 $info = array(
-                    'app_id'        => $app_id,
-                    'app_secret'    => $app_secret,
-                    'status'        => true,
-                    'redirectURI'   => $redirectURI,
-                    'access_token'  => $access_token,
-                    'expires_in'    => $expires_in,
-                    'profiles'      => $profiles,
-                    'added_by'      => $current_user->user_login,
-                    'added_date'    => current_time('mysql'),
+                    'app_id'       => $app_id,
+                    'app_secret'   => $app_secret,
+                    'status'       => true,
+                    'redirectURI'  => $redirectURI,
+                    'access_token' => $access_token,
+                    'expires_in'   => $expires_in,
+                    'profiles'     => [$profiles],
+                    'pages'        => $pages,
+                    'added_by'     => $current_user->user_login,
+                    'added_date'   => current_time('mysql'),
                 );
                 // if app id is exists then app secret, redirect uri will be also there, it will be delete after approve real app
                 if (!empty($app_id)) {
