@@ -87,10 +87,18 @@ class Linkedin
         $title = get_the_title($post_id);
         $post_link = esc_url(get_permalink($post_id));;
         if ($this->content_source === 'excerpt' && has_excerpt($post_details->ID)) {
-            $desc = wp_strip_all_tags($post_details->post_excerpt);
+            $desc = get_the_excerpt($post_details);
         } else {
             $desc = wp_strip_all_tags($post_details->post_content);
         }
+
+        if(class_exists('Elementor\Plugin')){
+            $document = \Elementor\Plugin::$instance->documents->get($post_id);
+            if($document && $document->is_built_with_elementor()){
+                $desc = get_the_excerpt($post_details);
+            }
+        }
+
         $hashTags = (($this->getPostHasTags($post_id) != false) ? $this->getPostHasTags($post_id) : '');
         if ($this->is_category_as_tags == true) {
             $hashTags .= ' ' . $this->getPostHasCats($post_id);
