@@ -60,10 +60,16 @@ trait SocialHelper
             $post_content_limit = intval($post_content_limit) - ($url_limit ? $url_limit : strlen($post_link));
             $template_structure = str_replace('{url}', '::::' . $post_link . '::::', $template_structure);
         }
+        else{
+            $template_structure = str_replace('{url}', '', $template_structure);
+        }
         if (!empty($title) && strpos($template_structure, '{title}') !== false) {
             $title              = substr($title, 0, $post_content_limit);
             $post_content_limit = intval($post_content_limit) - strlen($title);
             $template_structure = str_replace('{title}', '::::' . $title . '::::', $template_structure);
+        }
+        else{
+            $template_structure = str_replace('{title}', '', $template_structure);
         }
         if (!empty($hashTags) && strpos($template_structure, '{tags}') !== false) {
             $tags = '';
@@ -90,6 +96,9 @@ trait SocialHelper
         if (!empty($desc) && strpos($template_structure, '{content}') !== false) {
             $post_content = substr($desc, 0, $post_content_limit);
             $template_structure = str_replace('{content}', '::::' . $post_content . '::::', $template_structure);
+        }
+        else{
+            $template_structure = str_replace('{content}', '', $template_structure);
         }
 
         $template_structure = trim($template_structure, '::::');
