@@ -602,6 +602,9 @@ class Admin
 				'post_status'   => $args['post_status']
 			] );
 
+            /**
+             * When scheduling draft post the post status is set to publish by wp.
+             */
 			if ( $is_future && get_post_status( $id ) !== 'future' ) {
 				$id = wp_update_post( [
 					'ID'            => absint( $args['id'] ),
