@@ -167,10 +167,11 @@
             data = $form.serialize(),
             wpsp_el_result = $(".wpsp-el-result");
 
-        $('#elementor-panel-saver-button-publish').trigger('click');
 
         clickedButton.addClass('elementor-button-state');
         $.post(url, data, function (data) {
+            $('#elementor-panel-saver-button-publish').trigger('click');
+
             wpsp_el_result.html(data.data.msg).slideDown();
             $('#advanced').val(false);
 
