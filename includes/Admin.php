@@ -599,7 +599,8 @@ class Admin
 				'ID'            => absint( $args['id'] ),
 				'post_date'     => $args['date'],
 				'post_date_gmt' => $date_gmt,
-				'post_status'   => $args['post_status']
+				'post_status'   => $args['post_status'],
+				'edit_date'     => true,
 			] );
 
             /**
