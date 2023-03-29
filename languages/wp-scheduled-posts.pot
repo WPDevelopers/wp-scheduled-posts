@@ -2,23 +2,23 @@
 # This file is distributed under the same license as the SchedulePress plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: SchedulePress 4.2.3\n"
+"Project-Id-Version: SchedulePress 4.2.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-scheduled-posts\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-02-26T08:04:08+00:00\n"
+"POT-Creation-Date: 2023-03-29T07:14:27+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.0\n"
 "X-Domain: wp-scheduled-posts\n"
 
 #. Plugin Name of the plugin
-#: includes/Admin.php:484
-#: includes/Admin.php:486
-#: includes/Admin.php:489
-#: includes/Admin.php:523
+#: includes/Admin.php:491
+#: includes/Admin.php:493
+#: includes/Admin.php:496
+#: includes/Admin.php:530
 #: includes/Admin/Menu.php:34
 #: views/calendar.php:12
 #: includes/Admin/Settings/app/components/Topbar/index.js:16
@@ -100,74 +100,74 @@ msgstr ""
 msgid "Grab The Offer"
 msgstr ""
 
-#: includes/Admin.php:412
+#: includes/Admin.php:413
 msgid "WPSP Logo"
 msgstr ""
 
-#: includes/Admin.php:428
+#: includes/Admin.php:429
 #: includes/Admin/Settings/assets/js/admin.js:5425
 msgid "Close"
 msgstr ""
 
-#: includes/Admin.php:448
+#: includes/Admin.php:450
 msgid "Publish On"
 msgstr ""
 
-#: includes/Admin.php:459
+#: includes/Admin.php:464
 msgid "Publish Post Immediately"
 msgstr ""
 
-#: includes/Admin.php:461
-#: includes/Admin.php:470
+#: includes/Admin.php:467
+#: includes/Admin.php:476
 msgid "Schedule"
 msgstr ""
 
-#: includes/Admin.php:462
-#: includes/Admin.php:474
+#: includes/Admin.php:468
+#: includes/Admin.php:480
 #: views/calendar.php:61
 msgid "Publish"
 msgstr ""
 
-#: includes/Admin.php:463
-#: includes/Admin.php:472
+#: includes/Admin.php:469
+#: includes/Admin.php:478
 msgid "Update"
 msgstr ""
 
-#: includes/Admin.php:531
-#: includes/Admin.php:535
+#: includes/Admin.php:538
+#: includes/Admin.php:542
 msgid "Pro Feature"
 msgstr ""
 
-#: includes/Admin.php:532
+#: includes/Admin.php:539
 msgid "Republish On"
 msgstr ""
 
-#: includes/Admin.php:532
-#: includes/Admin.php:536
+#: includes/Admin.php:539
+#: includes/Admin.php:543
 msgid "PRO"
 msgstr ""
 
-#: includes/Admin.php:536
+#: includes/Admin.php:543
 msgid "Unpublish On"
 msgstr ""
 
-#: includes/Admin.php:557
+#: includes/Admin.php:578
 msgid "Your post successfully updated"
 msgstr ""
 
-#: includes/Admin.php:562
+#: includes/Admin.php:583
 msgid "Your post successfully published"
 msgstr ""
 
-#: includes/Admin.php:573
+#: includes/Admin.php:594
 msgid "Your post id is empty"
 msgstr ""
 
-#: includes/Admin.php:606
+#: includes/Admin.php:621
 msgid "Your post successfully scheduled"
 msgstr ""
 
-#: includes/Admin/Calendar.php:152
+#: includes/Admin/Calendar.php:156
 msgid "Security check"
 msgstr ""
 
@@ -637,11 +637,11 @@ msgstr ""
 msgid "Share Now"
 msgstr ""
 
-#: includes/Social/InstantShare.php:303
+#: includes/Social/InstantShare.php:311
 msgid "Failed!, You didn't select any social media."
 msgstr ""
 
-#: includes/Social/InstantShare.php:385
+#: includes/Social/InstantShare.php:393
 msgid "Sorry, your requested platform integation is not added."
 msgstr ""
 
@@ -674,7 +674,7 @@ msgid "Scheduled"
 msgstr ""
 
 #: views/calendar.php:71
-#: includes/Admin/Settings/app/components/type/SocialProfile.js:370
+#: includes/Admin/Settings/app/components/type/SocialProfile.js:373
 msgid "Save"
 msgstr ""
 
@@ -784,19 +784,29 @@ msgstr ""
 msgid "Multi Profile is a Premium Feature. To use this feature,"
 msgstr ""
 
-#: includes/Admin/Settings/app/components/Facebook/index.js:55
+#: includes/Admin/Settings/app/components/Facebook/index.js:56
+#: includes/Admin/Settings/app/components/LinkedIn/index.js:62
 #: includes/Admin/Settings/assets/js/admin.js:3590
 msgid "Upgrade to PRO."
 msgstr ""
 
-#: includes/Admin/Settings/app/components/Facebook/index.js:64
+#: includes/Admin/Settings/app/components/Facebook/index.js:65
+#: includes/Admin/Settings/app/components/LinkedIn/index.js:71
 #: includes/Admin/Settings/assets/js/admin.js:3599
 msgid "Pages:"
 msgstr ""
 
-#: includes/Admin/Settings/app/components/Facebook/index.js:98
+#: includes/Admin/Settings/app/components/Facebook/index.js:99
 #: includes/Admin/Settings/assets/js/admin.js:3633
 msgid "Group:"
+msgstr ""
+
+#: includes/Admin/Settings/app/components/LinkedIn/index.js:56
+msgid "LinkedIn page is a Premium Feature. To use this feature,"
+msgstr ""
+
+#: includes/Admin/Settings/app/components/LinkedIn/index.js:106
+msgid "Profile:"
 msgstr ""
 
 #: includes/Admin/Settings/app/components/Social/ListItemProfile.js:145
@@ -962,12 +972,12 @@ msgstr ""
 msgid "Save Schedule"
 msgstr ""
 
-#: includes/Admin/Settings/app/components/type/SocialProfile.js:273
+#: includes/Admin/Settings/app/components/type/SocialProfile.js:276
 #: includes/Admin/Settings/assets/js/admin.js:5330
 msgid "Add New Profile"
 msgstr ""
 
-#: includes/Admin/Settings/app/components/type/SocialProfile.js:319
+#: includes/Admin/Settings/app/components/type/SocialProfile.js:322
 #: includes/Admin/Settings/assets/js/admin.js:5377
 msgid "Generating Token & Fetching User Data"
 msgstr ""
