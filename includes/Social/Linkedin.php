@@ -146,7 +146,7 @@ class Linkedin
                     null,
                     '',
                     null,
-                    WPSCP_LINKEDIN_SCOPE
+                    null
                 );
                 $profile          = \WPSP\Helper::get_profile('linkedin', $profile_key);
                 $accessToken      = \WPSP\Helper::get_access_token('linkedin', $profile_key);

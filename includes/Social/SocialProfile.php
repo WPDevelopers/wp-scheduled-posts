@@ -254,7 +254,7 @@ class SocialProfile
                     $app_id,
                     $app_secret,
                     $redirectURI,
-                    WPSCP_LINKEDIN_SCOPE,
+                    null,
                     true,
                     null
                 );
@@ -476,10 +476,10 @@ class SocialProfile
                 $request['appId'] = $app_id ? $app_id : WPSP_SOCIAL_OAUTH2_LINKEDIN_APP_ID;
                 $state = base64_encode(json_encode($request));
                 $linkedin = new LinkedIn(
-                    $app_id ? $app_id : WPSP_SOCIAL_OAUTH2_LINKEDIN_APP_ID,
+                    $request['appId'],
                     $app_secret,  // unnecessary
                     $redirectURI,
-                    urlencode(WPSCP_LINKEDIN_SCOPE),
+                    urlencode($request['appId'] === WPSP_SOCIAL_OAUTH2_LINKEDIN_APP_ID ? WPSCP_LINKEDIN_BUSINESS_SCOPE : WPSCP_LINKEDIN_SCOPE),
                     true,
                     $state
                 );
