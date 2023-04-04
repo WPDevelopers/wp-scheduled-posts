@@ -28,17 +28,25 @@ wpDependencies.forEach((name) => {
 })
 
 module.exports = {
-    mode: 'production',
+    mode: 'development',
 
     // https://webpack.js.org/configuration/entry-context/
     entry: {
         editor: './index.js',
+        "elementor-editor": './assets/elementor/index.js',
     },
 
     // https://webpack.js.org/configuration/output/
     output: {
         path: __dirname + '/assets/js/',
         filename: 'wpspl-admin.min.js',
+        filename: (pathData) => {
+            if("editor" === pathData.chunk.name){
+                return 'wpspl-admin.min.js';
+            }
+
+			return "[name].js";
+		},
     },
 
     // https://webpack.js.org/configuration/externals/
