@@ -1,65 +1,51 @@
-const externals = {
-    jquery: 'jQuery',
-    lodash: 'lodash',
-    react: 'React',
-    'react-dom': 'ReactDOM',
-}
+const path = require("path");
+const defaultConfig = require("@wordpress/scripts/config/webpack.config");
+const MiniCSSExtractPlugin = require("mini-css-extract-plugin");
 
-// Define WordPress dependencies
-const wpDependencies = [
-    'components',
-    'compose',
-    'data',
-    'edit-post',
-    'editor',
-    'element',
-    'i18n',
-    'plugins',
-]
+const isProduction = process.env.NODE_ENV === "production";
 
-function camelCaseDash(string) {
-    return string.replace(/-([a-z])/, (match, letter) => letter.toUpperCase())
-}
+const plugins = defaultConfig.plugins.filter(
+    (plugin) =>
+        plugin.constructor.name != "MiniCssExtractPlugin" &&
+        plugin.constructor.name != "CleanWebpackPlugin"
+);
 
-wpDependencies.forEach((name) => {
-    externals[`@wordpress/${name}`] = {
-        this: ['wp', camelCaseDash(name)],
-    }
-})
-
-module.exports = {
-    mode: 'development',
-
-    // https://webpack.js.org/configuration/entry-context/
+const config = {
+    ...defaultConfig,
+    mode: isProduction ? "production" : "development",
     entry: {
-        editor: './index.js',
-        "elementor-editor": './assets/elementor/index.js',
+        editor: path.resolve(__dirname, "index.js"),
+        "elementor-editor": path.resolve(__dirname, "assets/elementor/index.js"),
     },
-
-    // https://webpack.js.org/configuration/output/
     output: {
-        path: __dirname + '/assets/js/',
-        filename: 'wpspl-admin.min.js',
+        path: path.join(__dirname, "assets/"),
         filename: (pathData) => {
-            if("editor" === pathData.chunk.name){
-                return 'wpspl-admin.min.js';
+            if ("editor" === pathData.chunk.name) {
+                return 'js/wpspl-admin.min.js';
             }
-
-			return "[name].js";
-		},
+            return "js/[name].js";
+        },
     },
 
-    // https://webpack.js.org/configuration/externals/
-    externals,
-
-    // https://github.com/babel/babel-loader#usage
     module: {
+        ...defaultConfig.module,
         rules: [
+            ...defaultConfig.module.rules,
             {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                use: 'babel-loader',
+                test: /\.(jpg|png|gif|svg)$/,
+                type: 'asset/resource',
+                generator: {
+                    filename: 'images/[name][ext]',
+                },
             },
-        ],
+        ]
     },
-}
+    plugins: [
+        ...plugins,
+        new MiniCSSExtractPlugin({
+            filename: "css/[name].css",
+        })
+    ]
+};
+
+module.exports = config;
