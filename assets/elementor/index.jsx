@@ -1,4 +1,4 @@
-const { __ } = wp.i18n;
+import { __ } from '@wordpress/i18n'
 import React from "react";
 import ReactDOM from "react-dom";
 import Wrapper from "./Wrapper";
@@ -6,14 +6,14 @@ import Wrapper from "./Wrapper";
 // import component from "./component.js";
 
 
-jQuery( window ).on( 'elementor:loaded', () => {
+jQuery(window).on('elementor:loaded', () => {
     const component = require("./component.js").default;
     const modal = jQuery('#schedulepress-elementor-modal');
-    const openModal = (e)=> {
+    const openModal = (e) => {
         e.preventDefault();
         modal.fadeIn();
     }
-    const closeModal = function(e){
+    const closeModal = function (e) {
         e.preventDefault();
         if (e.target === this) {
             modal.fadeOut();
@@ -22,22 +22,17 @@ jQuery( window ).on( 'elementor:loaded', () => {
 
     const Component = new component({
         manager: {
-            addPanelMenuItem: ()=> {
-
-
+            addPanelMenuItem: () => {
                 let xDiv = document.createElement('div');
                 xDiv.id = 'elementor-panel-footer-wpsp-modal';
                 xDiv.classList.add('elementor-panel-footer-tool');
                 xDiv.classList.add('tooltip-target');
-                xDiv.setAttribute('data-tooltip', __( 'SchedulePress', 'wp-scheduled-posts' ));
+                xDiv.setAttribute('data-tooltip', __('SchedulePress', 'wp-scheduled-posts'));
 
                 document.getElementById('elementor-panel-footer-tools').insertBefore(xDiv, document.getElementById('elementor-panel-footer-saver-publish'));
 
-                ReactDOM.render(
-                    <Wrapper />,
-                    xDiv
-                );
-
+                const root = ReactDOM.createRoot(xDiv);
+                root.render(<Wrapper />);
                 return;
 
                 // elementor.panel.currentView.footer.currentView.ui.menuButtons.find('#elementor-panel-footer-saver-preview');
@@ -57,7 +52,5 @@ jQuery( window ).on( 'elementor:loaded', () => {
         }
     });
 
-    $e.components.register( Component );
-
-
+    $e.components.register(Component);
 });

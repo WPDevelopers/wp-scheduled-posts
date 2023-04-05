@@ -2,10 +2,10 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./assets/elementor/ModalButton.js":
-/*!*****************************************!*\
-  !*** ./assets/elementor/ModalButton.js ***!
-  \*****************************************/
+/***/ "./assets/elementor/ModalButton.jsx":
+/*!******************************************!*\
+  !*** ./assets/elementor/ModalButton.jsx ***!
+  \******************************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
@@ -13,11 +13,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
 
 
-const {
-  __
-} = wp.i18n;
+
 const ModalButton = props => {
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
     id: "elementor-panel-footer-wpsp-modal-label"
@@ -26,7 +26,12 @@ const ModalButton = props => {
     x: "0px",
     y: "0px",
     viewBox: "0 0 500 500",
-    style: "enable-background:new 0 0 500 500;display:block;width:13px;margin:0 auto;"
+    style: {
+      "enable-background": "new 0 0 500 500",
+      display: 'block',
+      width: '13px',
+      margin: '0 auto'
+    }
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("style", {
     type: "text/css"
   }, ".st0", "{fill:#A4AFB7;}", "#elementor-panel-footer-wpsp-modal:hover .st0", "{fill:#d5dadf;}"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("g", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("g", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("path", {
@@ -55,9 +60,34 @@ const ModalButton = props => {
     d: "M493.8,277.6h-51.2c-3.4,0-6.2,2.8-6.2,6.2v45.5c0,3.4,2.8,6.2,6.2,6.2h51.2c3.4,0,6.2-2.8,6.2-6.2v-45.5 C500,280.2,497.2,277.6,493.8,277.6z"
   })))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
     class: "elementor-screen-only"
-  }, __('SchedulePress', 'wp-scheduled-posts')));
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('SchedulePress', 'wp-scheduled-posts')));
 };
 /* harmony default export */ __webpack_exports__["default"] = (ModalButton);
+
+/***/ }),
+
+/***/ "./assets/elementor/Wrapper.jsx":
+/*!**************************************!*\
+  !*** ./assets/elementor/Wrapper.jsx ***!
+  \**************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _ModalButton__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ModalButton */ "./assets/elementor/ModalButton.jsx");
+
+
+
+
+const Wrapper = props => {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ModalButton__WEBPACK_IMPORTED_MODULE_3__["default"], null));
+};
+/* harmony default export */ __webpack_exports__["default"] = (Wrapper);
 
 /***/ }),
 
@@ -238,6 +268,16 @@ module.exports = window["ReactDOM"];
 
 module.exports = window["wp"]["element"];
 
+/***/ }),
+
+/***/ "@wordpress/i18n":
+/*!******************************!*\
+  !*** external ["wp","i18n"] ***!
+  \******************************/
+/***/ (function(module) {
+
+module.exports = window["wp"]["i18n"];
+
 /***/ })
 
 /******/ 	});
@@ -311,18 +351,21 @@ module.exports = window["wp"]["element"];
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 !function() {
-/*!***********************************!*\
-  !*** ./assets/elementor/index.js ***!
-  \***********************************/
+/*!************************************!*\
+  !*** ./assets/elementor/index.jsx ***!
+  \************************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "react-dom");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _ModalButton__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ModalButton */ "./assets/elementor/ModalButton.js");
-const {
-  __
-} = wp.i18n;
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-dom */ "react-dom");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _Wrapper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Wrapper */ "./assets/elementor/Wrapper.jsx");
+
+
 
 
 
@@ -349,14 +392,10 @@ jQuery(window).on('elementor:loaded', () => {
         xDiv.id = 'elementor-panel-footer-wpsp-modal';
         xDiv.classList.add('elementor-panel-footer-tool');
         xDiv.classList.add('tooltip-target');
-        xDiv.setAttribute('data-tooltip', __('SchedulePress', 'wp-scheduled-posts'));
+        xDiv.setAttribute('data-tooltip', (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('SchedulePress', 'wp-scheduled-posts'));
         document.getElementById('elementor-panel-footer-tools').insertBefore(xDiv, document.getElementById('elementor-panel-footer-saver-publish'));
-
-        // ReactDOM.render(
-        //     <ModalButton config={notificationX} />,
-        //     xDiv
-        // );
-
+        const root = react_dom__WEBPACK_IMPORTED_MODULE_3___default().createRoot(xDiv);
+        root.render((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Wrapper__WEBPACK_IMPORTED_MODULE_4__["default"], null));
         return;
 
         // elementor.panel.currentView.footer.currentView.ui.menuButtons.find('#elementor-panel-footer-saver-preview');

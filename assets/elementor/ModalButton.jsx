@@ -1,5 +1,5 @@
 import React from "react";
-const { __ } = wp.i18n;
+import { __ } from '@wordpress/i18n'
 
 const ModalButton = (props)=>{
 
