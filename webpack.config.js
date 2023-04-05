@@ -15,7 +15,7 @@ const config = {
     mode: isProduction ? "production" : "development",
     entry: {
         editor: path.resolve(__dirname, "index.js"),
-        "elementor-editor": path.resolve(__dirname, "assets/elementor/index.js"),
+        "elementor-editor": path.resolve(__dirname, "assets/elementor/index.jsx"),
     },
     output: {
         path: path.join(__dirname, "assets/"),

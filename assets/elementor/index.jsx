@@ -1,7 +1,7 @@
 const { __ } = wp.i18n;
 import React from "react";
 import ReactDOM from "react-dom";
-import ModalButton from "./ModalButton";
+import Wrapper from "./Wrapper";
 // import "./elementor-editor.js";
 // import component from "./component.js";
 
@@ -33,10 +33,10 @@ jQuery( window ).on( 'elementor:loaded', () => {
 
                 document.getElementById('elementor-panel-footer-tools').insertBefore(xDiv, document.getElementById('elementor-panel-footer-saver-publish'));
 
-                // ReactDOM.render(
-                //     <ModalButton config={notificationX} />,
-                //     xDiv
-                // );
+                ReactDOM.render(
+                    <Wrapper />,
+                    xDiv
+                );
 
                 return;
 

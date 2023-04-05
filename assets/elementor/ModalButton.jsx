@@ -9,7 +9,7 @@ const ModalButton = (props)=>{
     return (
         <span id="elementor-panel-footer-wpsp-modal-label">
             <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                viewBox="0 0 500 500" style="enable-background:new 0 0 500 500;display:block;width:13px;margin:0 auto;">
+                viewBox="0 0 500 500" style={{"enable-background":"new 0 0 500 500", display:'block', width:'13px',margin:'0 auto'}}>
                 <style type="text/css">
                     .st0{"{fill:#A4AFB7;}"}
                     #elementor-panel-footer-wpsp-modal:hover .st0{"{fill:#d5dadf;}"}
