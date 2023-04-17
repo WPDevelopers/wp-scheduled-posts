@@ -14,7 +14,6 @@ const ManageDelayedSchedule = ({ id, title, desc, ...props }) => {
 
   return (
     <div className="form-group wpsp-delayed-schedule-status">
-      {console.log(field.value)}
       <div className="form-body">
         <div className="checkbox_wrap">
           <div className="wpsp_switch">
