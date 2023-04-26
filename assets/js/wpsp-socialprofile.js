@@ -26,7 +26,7 @@ jQuery(document).ready(function ($) {
             )
         }
         // call modal
-        jQuery('body #wpscpproInstantShareModal').modal({
+        jQuery('body #wpscpproInstantShareModal').kylefoxModal({
             escapeClose: false,
             clickClose: false,
             showClose: true,
