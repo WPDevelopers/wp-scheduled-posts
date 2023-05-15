@@ -190,8 +190,11 @@ class Linkedin
                     } else {
                         $desc = wp_strip_all_tags($post_details->post_content);
                     }
-                    $results = $linkedin->uploadImage( $accessToken, $type, $getPersonID, $image_path);
-                    $upload_url = isset($results['value']['image']) ? $results['value']['image'] : '';
+                    $upload_url = '';
+                    if($image_path){
+                        $results = $linkedin->uploadImage( $accessToken, $type, $getPersonID, $image_path);
+                        $upload_url = isset($results['value']['image']) ? $results['value']['image'] : '';
+                    }
                     $results = $linkedin->linkedInLinkPost($accessToken, $type, $getPersonID, $formatedText, $post_link, $upload_url, $this->filter_little_text($title), $this->filter_little_text($desc));
                 }
                 $result = json_decode($results);
