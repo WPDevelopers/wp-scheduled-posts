@@ -12,8 +12,16 @@ trait SocialHelper
      */
     public function getPostHasTags($post_id)
     {
-        if (\get_the_tags($post_id) != false) {
-            $tags = \wp_list_pluck(\get_the_tags($post_id), 'name', 'term_id');
+        $terms = null;
+        $post_type = get_post_type($post_id);
+        if('product' === $post_type){
+            $terms = get_the_terms( $post_id, 'product_tag' );
+        }
+        else{
+            $terms = \get_the_tags($post_id);
+        }
+        if ($terms != false) {
+            $tags = \wp_list_pluck($terms, 'name', 'term_id');
             $search = array(' ', '-', '_');
             $replace = '';
             \array_walk(
@@ -32,8 +40,16 @@ trait SocialHelper
      */
     public function getPostHasCats($post_id)
     {
-        if (\get_the_category($post_id) != false) {
-            $categories = wp_list_pluck(\get_the_category($post_id), 'name', 'term_id');
+        $terms = null;
+        $post_type = get_post_type($post_id);
+        if('product' === $post_type){
+            $terms = get_the_terms( $post_id, 'product_cat' );
+        }
+        else{
+            $terms = \get_the_category($post_id);
+        }
+        if ($terms != false) {
+            $categories = wp_list_pluck($terms, 'name', 'term_id');
             $search = array(' ', '-', '_');
             $replace = '';
             array_walk(
