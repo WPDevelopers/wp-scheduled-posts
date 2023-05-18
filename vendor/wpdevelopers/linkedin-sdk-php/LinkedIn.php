@@ -69,7 +69,7 @@ class LinkedIn {
         $pages = json_decode($pages['result'], true);
 
         $companies = [];
-        if(is_array($pages['elements']) && count($pages['elements']) > 0){
+        if(!empty($pages['elements']) && is_array($pages['elements']) && count($pages['elements']) > 0){
 
             foreach ($pages['elements'] as $company) {
                 $logo = !empty($company['organizationalTarget~']['logoV2']) ? $company['organizationalTarget~']['logoV2']['original~']['elements'][0]['identifiers'][0]['identifier'] : '';
