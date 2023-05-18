@@ -114,60 +114,62 @@ class Settings
     {
         $wpsp_option = get_option($this->settings_name);
         $wpsp_option = json_decode($wpsp_option);
-        $wpsp_option->manage_schedule = (object) [
-            'delayed_schedule' => [
-                0 => [
-                    'is_delayed_schedule_active' => true,
-                ],
-            ],
-            'auto_schedule' => [
-                0 => [
-                    'is_active_status' => true,
-                ],
-                1 => [
-                    'sunday_post_limit' => '0',
-                ],
-                2 => [
-                    'monday_post_limit' => '0',
-                ],
-                3 => [
-                    'tuesday_post_limit' => '0',
-                ],
-                4 => [
-                    'wednesday_post_limit' => '0',
-                ],
-                5 => [
-                    'thursday_post_limit' => '0',
-                ],
-                6 => [
-                    'friday_post_limit' => '0',
-                ],
-                7 => [
-                    'saturday_post_limit' => '0',
-                ],
-                8 => [
-                    'start_time' => '12:01 am',
-                ],
-                9 => [
-                    'end_time' => '11:59 pm',
-                ],
-            ],
-            'manual_schedule' => [
-                0 => [
-                    'is_active_status' => false,
-                ],
-                1 => [
-                    'weekdata' => [
-                        'monday' => [],
-                        'saturday' => [],
-                        'tuesday' => [],
-                        'wednesday' => [],
-                        'sunday' => [],
+        if(empty($wpsp_option->manage_schedule)){
+            $wpsp_option->manage_schedule = (object) [
+                'delayed_schedule' => [
+                    0 => [
+                        'is_delayed_schedule_active' => true,
                     ],
                 ],
-            ],
-            'activeScheduleSystem' => 'auto_schedule',
-        ];
+                'auto_schedule' => [
+                    0 => [
+                        'is_active_status' => true,
+                    ],
+                    1 => [
+                        'sunday_post_limit' => '0',
+                    ],
+                    2 => [
+                        'monday_post_limit' => '0',
+                    ],
+                    3 => [
+                        'tuesday_post_limit' => '0',
+                    ],
+                    4 => [
+                        'wednesday_post_limit' => '0',
+                    ],
+                    5 => [
+                        'thursday_post_limit' => '0',
+                    ],
+                    6 => [
+                        'friday_post_limit' => '0',
+                    ],
+                    7 => [
+                        'saturday_post_limit' => '0',
+                    ],
+                    8 => [
+                        'start_time' => '12:01 am',
+                    ],
+                    9 => [
+                        'end_time' => '11:59 pm',
+                    ],
+                ],
+                'manual_schedule' => [
+                    0 => [
+                        'is_active_status' => false,
+                    ],
+                    1 => [
+                        'weekdata' => [
+                            'monday' => [],
+                            'saturday' => [],
+                            'tuesday' => [],
+                            'wednesday' => [],
+                            'sunday' => [],
+                        ],
+                    ],
+                ],
+                'activeScheduleSystem' => 'auto_schedule',
+            ];
+        }
         // Don't return false if there is no option
         if (!$wpsp_option) {
             return new \WP_REST_Response(array(
