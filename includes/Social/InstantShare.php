@@ -285,6 +285,10 @@ class InstantShare
                     </div>
                     <ul class="autoOverflowModal">';
                 foreach ($profile as $key => $profileItem) {
+                    if ($profileItem->status == false) {
+                        unset($allProfile[$profileName][$key]);
+                        continue;
+                    }
                     if(isset($profileItem->type)){
                         if('organization' === $profileItem->type){
                             $profileItem->type = 'Page';
