@@ -121,7 +121,7 @@ class Linkedin
             return '\\'.$matches[0];
         }, $text);
 
-        return $filtered_text;
+        return substr($filtered_text, 0, 4086);
     }
 
     /**
