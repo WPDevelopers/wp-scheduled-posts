@@ -327,15 +327,35 @@ class TwitterOAuth extends Config
      */
     private function uploadMediaNotChunked(string $path, array $parameters)
     {
-        if (
-            !is_readable($parameters['media']) ||
-            ($file = file_get_contents($parameters['media'])) === false
-        ) {
-            throw new \InvalidArgumentException(
-                'You must supply a readable file'
-            );
-        }
+		if(filter_var($parameters['media'], FILTER_VALIDATE_URL))
+		{
+			$tempFilePath = 'temp_file.txt'; // Path to temporarily store the downloaded file
+			$file = '';
+			$url=$parameters['media'];
+			// Download the file
+			if (copy($url, $tempFilePath)) {
+				// Read the content of the downloaded file
+				$file = file_get_contents($tempFilePath);
+
+				// Delete the temporary file
+				unlink($tempFilePath);
+			} else {
+				throw new \RuntimeException('Failed to download file from URL: ' . $url);
+			}
+		}
+		else{
+			if (
+				!is_readable($parameters['media']) ||
+				($file = file_get_contents($parameters['media'])) === false
+			) {
+				throw new \InvalidArgumentException(
+					'You must supply a readable file umesh' .$parameters['media']
+				);
+			}
+		}
+
         $parameters['media'] = base64_encode($file);
+
         return $this->http(
             'POST',
             self::UPLOAD_HOST,
@@ -344,6 +364,35 @@ class TwitterOAuth extends Config
             false
         );
     }
+	private function downloadFileAndReadContent(array $parameters)
+{
+    $url = $parameters['media'];
+    if (!filter_var($url, FILTER_VALIDATE_URL)) {
+        throw new \InvalidArgumentException('Invalid URL: ' . $url);
+    }
+
+    $tempFilePath = 'temp_file.txt'; // Path to temporarily store the downloaded file
+    $content = '';
+
+    // Download the file
+    if (copy($url, $tempFilePath)) {
+        // Read the content of the downloaded file
+        $content = file_get_contents($tempFilePath);
+
+        // Delete the temporary file
+        unlink($tempFilePath);
+    } else {
+        throw new \RuntimeException('Failed to download file from URL: ' . $url);
+    }
+
+    // Perform any additional processing on the content if needed
+    // ...
+
+    return $content;
+}
+
+
+
 
     /**
      * Private method to upload media (chunked) to upload.twitter.com.
