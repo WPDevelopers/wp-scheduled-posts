@@ -180,7 +180,7 @@ final class WpScp
         $current_screen = get_current_screen();
         if (is_admin() && wpscp_is_supported_plugin_page_hook_suffix($current_screen->post_type, $hook)) {
             wp_enqueue_style('select2-css', WPSCP_ADMIN_URL . 'assets/css/vendor/select2.min.css', array(), WPSP_VERSION, 'all');
-            wp_enqueue_style('jquery-datetimepicker', WPSCP_ADMIN_URL . 'assets/css/vendor/jquery.datetimepicker.min.css', array(), WPSP_VERSION, 'all');
+            wp_enqueue_style('wpscp-jquery-datetimepicker', WPSCP_ADMIN_URL . 'assets/css/vendor/jquery.datetimepicker.min.css', array(), WPSP_VERSION, 'all');
             wp_enqueue_style('chung-timepicker', WPSCP_ADMIN_URL . 'assets/css/vendor/chung-timepicker.css', array(), WPSP_VERSION, 'all');
             wp_enqueue_style('notifi', WPSCP_ADMIN_URL . 'assets/css/vendor/notifi.css', array(), WPSP_VERSION, 'all');
             wp_enqueue_style('full-calendar', WPSCP_ADMIN_URL . 'assets/css/vendor/full-calendar.css', array(), WPSP_VERSION, 'all');
@@ -193,7 +193,7 @@ final class WpScp
              */
             wp_enqueue_script('jquery-ui-draggable');
             wp_enqueue_script('jquery-ui-droppable');
-            wp_enqueue_script('jquery-datetimepicker', WPSCP_ADMIN_URL . 'assets/js/vendor/jquery.datetimepicker.full.min.js', array('jquery'), WPSP_VERSION, false);
+            wp_enqueue_script('wpscp-jquery-datetimepicker', WPSCP_ADMIN_URL . 'assets/js/vendor/jquery.datetimepicker.full.min.js', array('jquery'), WPSP_VERSION, false);
             wp_enqueue_script('chung-timepicker', WPSCP_ADMIN_URL . 'assets/js/vendor/chung-timepicker.js', array('jquery'), WPSP_VERSION, false);
             wp_enqueue_script('timepicker', WPSCP_ADMIN_URL . 'assets/js/vendor/jquery.timepicker.min.js', array('jquery'), WPSP_VERSION, false);
             wp_enqueue_script('jquery-modal', WPSCP_ADMIN_URL . 'assets/js/vendor/jquery.modal.min.js', array('jquery'), WPSP_VERSION, false);
