@@ -2695,22 +2695,216 @@ button.wprf-btn {
 
 
 /*# sourceMappingURL=react-draft-wysiwyg.css.map*/
-/*!********************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[3]!./app/sass/index.scss ***!
-  \********************************************************************************************************************************************************************************************************************************************/
-.wpsp-dashboard-body {
+/*!***************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[3]!./app/assets/sass/index.scss ***!
+  \***************************************************************************************************************************************************************************************************************************************************/
+.nx-admin-header {
+  background: #fff;
+  padding: 20px 40px;
+}
+
+.nx-admin-wrapper {
+  border-top: 2px solid #F9FAFC;
   display: flex;
-  gap: 30px;
+  justify-content: space-between;
 }
-.wpsp-dashboard-body .nx-admin-content {
+.nx-admin-wrapper .nx-admin-content {
   flex-grow: 1;
+  padding: 30px;
+  background: #F9FAFC;
 }
-.wpsp-dashboard-body .nx-admin-sidebar {
-  padding-top: 30px;
+.nx-admin-wrapper .nx-admin-content .wprf-tabs-wrapper {
+  margin: 0px !important;
+}
+.nx-admin-wrapper .nx-admin-content .wprf-tabs-wrapper .wprf-tab-menu-wrapper {
+  margin-bottom: 24px !important;
+}
+.nx-admin-wrapper .nx-admin-content .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav-item {
+  padding: 16px 20px !important;
+  font-size: 16px !important;
+  background-color: transparent !important;
+  color: #6E6E8D !important;
+  border-top: 0px !important;
+  border-width: 0 0 1px 0;
+  border-style: solid;
+  border-color: #F0EFFF !important;
+}
+.nx-admin-wrapper .nx-admin-content .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-active-nav {
+  border-color: #6648fe !important;
+  color: #6648fe !important;
+  font-weight: 600 !important;
+}
+.nx-admin-wrapper .nx-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper {
+  flex: auto;
+  flex-basis: auto;
+}
+.nx-admin-wrapper .nx-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-control-section {
+  margin-bottom: 0 !important;
+  border: none !important;
+  padding-bottom: 0 !important;
+}
+.nx-admin-wrapper .nx-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-control-section h4 {
+  font-family: Inter;
+  font-size: 24px;
+  line-height: 30px;
+  letter-spacing: 0px !important;
+  font-weight: 600 !important;
+  color: #1B1B50 !important;
+  margin-bottom: 30px !important;
+  text-transform: capitalize !important;
+  background: transparent !important;
+  padding: 0px !important;
+}
+.nx-admin-wrapper .nx-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-control-section .wprf-section-fields {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+.nx-admin-wrapper .nx-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-submit button {
+  padding: 16px 26px;
+  background: #6C62FF;
+  color: #fff;
+  border-radius: 6px;
+  font-family: inter;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 17px;
+  cursor: pointer;
+}
+.nx-admin-wrapper .nx-admin-sidebar {
+  padding: 30px;
+  background: #fff;
+}
+.nx-admin-wrapper .nx-admin-sidebar .card {
+  margin-top: 0 !important;
+  padding: 20px !important;
+  min-width: 220px !important;
+  max-width: 296px !important;
+  border: 1px solid #EBEEF5 !important;
+  box-shadow: none !important;
+}
+.nx-admin-wrapper .nx-admin-sidebar .card > h3 {
+  font-family: Inter;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 22px;
+  color: #1B1B50;
+  margin: 0 0 14px;
+}
+.nx-admin-wrapper .nx-admin-sidebar .card > p {
+  font-family: Inter;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  color: #6E6E8D;
+  margin: 0 0 20px;
+}
+.nx-admin-wrapper .nx-admin-sidebar .card > button {
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #6C62FF;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: Inter;
+  font-weight: 500;
+  line-height: 18px;
 }
 
 .nx-admin-sidebar h1 {
   color: #a70f0f;
+}
+
+.wprf-tab-heading-wrapper {
+  display: none;
+}
+
+.wprf-control-wrapper {
+  justify-content: space-between;
+  border: 1px solid #EBEEF5;
+  border-radius: 6px;
+  padding: 24px;
+  margin-bottom: 12px !important;
+}
+.wprf-control-wrapper .wprf-badge-wrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+.wprf-control-wrapper .wprf-badge-wrapper .wprf-control-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.wprf-control-wrapper .wprf-badge-wrapper .wprf-control-label .wprf-badge {
+  display: flex;
+}
+.wprf-control-wrapper .wprf-badge-wrapper .wprf-control-label .wprf-badge .wprf-badge-item {
+  padding: 6px 10px;
+  background: #FF9437;
+  color: #fff;
+  border-radius: 20px;
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: 500;
+  text-transform: uppercase;
+  font-family: inter;
+}
+.wprf-control-wrapper .wprf-control-label {
+  flex-basis: auto;
+}
+.wprf-control-wrapper .wprf-control-label label {
+  color: #1B1B50;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: inter;
+  line-height: 20px;
+}
+.wprf-control-wrapper .wprf-control-field {
+  flex-basis: auto;
+}
+
+.wprf-toggle-wrap label.wprf-input-label {
+  width: 47px;
+  position: relative;
+  min-height: 24px;
+  height: 24px;
+  max-height: 24px;
+  margin-bottom: 0;
+  cursor: pointer;
+  display: inline-block;
+  margin-right: 0px !important;
+}
+
+.wprf-toggle-wrap label.wprf-input-label:before {
+  background: #f0f0f0;
+  width: 47px;
+  height: 24px;
+  border: 0;
+  left: 0;
+  top: 0;
+  border-radius: 16px;
+  transition: all 0.4s ease;
+}
+
+.wprf-toggle-wrap.wprf-checked:before, .wprf-toggle-wrap input:checked + label:before {
+  background: #2df16e;
+}
+
+.wprf-toggle-wrap label.wprf-input-label:after {
+  left: 1px;
+  top: 1px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fbfbfb;
+  transition: left 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), padding 0.3s ease, margin 0.3s ease;
+  box-shadow: none;
+}
+
+.wprf-toggle-wrap input:checked + label:after {
+  left: auto;
+  right: 1px;
 }
 
 /*# sourceMappingURL=admin.css.map*/

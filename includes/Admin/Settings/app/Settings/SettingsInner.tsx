@@ -29,14 +29,18 @@ const SettingsInner = (props) => {
 
 
     return (
-        <>
+        <div className='nx-admin-wrapper'>
             <Content>
                 <FormBuilder {...builderContext} onChange={onChange} />
             </Content>
             <Sidebar>
-                <h1>Hello World</h1>
+                <div className='card'>
+                    <h3>Documentation</h3>
+                    <p>Get started spending some time with the documentation to get familiar with SchedulePress.</p>
+                    <button>Documentation</button>
+                </div>
             </Sidebar>
-        </>
+        </div>
     )
 }
 

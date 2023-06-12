@@ -2218,6 +2218,33 @@ var Content = function (_a) {
 
 /***/ }),
 
+/***/ "./app/Settings/Header.tsx":
+/*!*********************************!*\
+  !*** ./app/Settings/Header.tsx ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+// import mainLogo from '../assets/images/mainLogo.png';
+var Header = function () {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "nx-admin-header"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
+    src: "".concat(),
+    alt: 'mainLogo'
+  }));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Header);
+
+/***/ }),
+
 /***/ "./app/Settings/SettingsInner.tsx":
 /*!****************************************!*\
   !*** ./app/Settings/SettingsInner.tsx ***!
@@ -2264,9 +2291,13 @@ var SettingsInner = function (props) {
     // builderContext.registerAlert('toast', ToastAlert);
   }, []);
   var onChange = function (event) {};
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Content__WEBPACK_IMPORTED_MODULE_2__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(quickbuilder__WEBPACK_IMPORTED_MODULE_1__.FormBuilder, __assign({}, builderContext, {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: 'nx-admin-wrapper'
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Content__WEBPACK_IMPORTED_MODULE_2__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(quickbuilder__WEBPACK_IMPORTED_MODULE_1__.FormBuilder, __assign({}, builderContext, {
     onChange: onChange
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Sidebar__WEBPACK_IMPORTED_MODULE_3__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", null, "Hello World")));
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Sidebar__WEBPACK_IMPORTED_MODULE_3__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: 'card'
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", null, "Documentation"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "Get started spending some time with the documentation to get familiar with SchedulePress."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "Documentation"))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SettingsInner);
 
@@ -2289,20 +2320,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var quickbuilder__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(quickbuilder__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _SettingsInner__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SettingsInner */ "./app/Settings/SettingsInner.tsx");
 /* harmony import */ var quickbuilder_dist_index_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! quickbuilder/dist/index.css */ "./node_modules/quickbuilder/dist/index.css");
-/* harmony import */ var _sass_index_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../sass/index.scss */ "./app/sass/index.scss");
+/* harmony import */ var _Header__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Header */ "./app/Settings/Header.tsx");
+/* harmony import */ var _assets_sass_index_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../assets/sass/index.scss */ "./app/assets/sass/index.scss");
+
 
 
 
 
 
 var SettingsWrapper = function (props) {
-  console.log(props);
   var builder = (0,quickbuilder__WEBPACK_IMPORTED_MODULE_1__.useBuilder)(props.wpspObject.settings);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(quickbuilder__WEBPACK_IMPORTED_MODULE_1__.BuilderProvider, {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Header__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(quickbuilder__WEBPACK_IMPORTED_MODULE_1__.BuilderProvider, {
     value: builder
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_SettingsInner__WEBPACK_IMPORTED_MODULE_2__["default"], {
     props: props
-  }));
+  })));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SettingsWrapper);
 
@@ -34019,10 +34051,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./app/sass/index.scss":
-/*!*****************************!*\
-  !*** ./app/sass/index.scss ***!
-  \*****************************/
+/***/ "./app/assets/sass/index.scss":
+/*!************************************!*\
+  !*** ./app/assets/sass/index.scss ***!
+  \************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
