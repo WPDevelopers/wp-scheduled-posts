@@ -1,18 +1,10 @@
-/* global window, document */
-if (!window._babelPolyfill) {
-    require('@babel/polyfill/noConflict')
-}
+import React from 'react';
+import ReactDOM from 'react-dom';
+import SettingWrapper from './Settings/SettingsWrapper';
 
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { Provider } from 'react-redux'
-import store from './redux/store'
-import Admin from './containers/Admin'
 document.addEventListener('DOMContentLoaded', function () {
     ReactDOM.render(
-        <Provider store={store}>
-            <Admin wpspObject={window.wpspSettingsGlobal} />
-        </Provider>,
+        <SettingWrapper wpspObject={window.wpspSettingsGlobal} />,
         document.getElementById('wpsp-dashboard-body')
     )
 })

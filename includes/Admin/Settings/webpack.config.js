@@ -1,7 +1,15 @@
 const path = require('path')
+const MiniCSSExtractPlugin = require("mini-css-extract-plugin");
+const defaultConfig = require("@wordpress/scripts/config/webpack.config");
 
-module.exports = (env, argv) => {
-    return {
+const plugins = defaultConfig.plugins.filter(
+    (plugin) =>
+        plugin.constructor.name != "MiniCssExtractPlugin" &&
+        plugin.constructor.name != "CleanWebpackPlugin"
+);
+
+module.exports = {
+        ...defaultConfig,
         entry: {
             'js/admin': path.resolve(__dirname, 'app/admin.js'),
         },
@@ -12,17 +20,24 @@ module.exports = (env, argv) => {
         },
 
         resolve: {
-            extensions: ['.js', '.jsx', '.json'],
+            extensions: [".tsx", ".ts", '.js', '.jsx', '.json'],
         },
 
         module: {
+            ...defaultConfig.module,
             rules: [
+                ...defaultConfig.module.rules,
                 {
-                    test: /\.jsx?$/,
+                    test: /\.tsx?$/,
+                    use: "ts-loader",
                     exclude: /node_modules/,
-                    loader: 'babel-loader',
                 },
             ],
         },
+        plugins: [
+            new MiniCSSExtractPlugin({
+                filename: `css/admin.css`,
+            }),
+            ...plugins,
+        ],
     }
-}
