@@ -195,14 +195,75 @@ class Settings {
                         ],
                     ]
                 ],
+                'layout_calender'         => [
+                    'id'       => 'layout_calender',
+                    'name'     => 'layout_calender',
+                    'type'     => 'section',
+                    'label'    => __('Calender', 'wp-scheduled-posts'),
+                    'priority' => 10,
+                    'fields'   => [
+                       
+                    ]
+                ],
                 'layout_email_notify'         => [
                     'id'       => 'layout_email_notify',
                     'name'     => 'layout_email_notify',
                     'type'     => 'section',
                     'label'    => __('Email Notify', 'wp-scheduled-posts'),
-                    'priority' => 6,
+                    'priority' => 15,
                     'fields'   => [
-                       
+                        'email_notify'     => [
+                            'name'     => 'email_notify',
+                            'type'     => 'section',
+                            'label'    => __( 'Email Notify', 'wp-scheduled-posts' ),
+                            'priority' => 1,
+                            'fields'    => [
+                                'notify_author_post_is_review'       => [
+                                    'name'     => 'notify_author_post_is_review',
+                                    'type'     => 'toggle',
+                                    'label'    => __('Notify User when a post is "Under Review"', 'wp-scheduled-posts'),
+                                    'default'  => 1,
+                                    'priority' => 5,
+                                ],
+                                'notify_author_post_review_by_role' => [
+                                    'name'     => 'notify_author_post_review_by_role',
+                                    'label'    => __('Role', 'notificationx'),
+                                    'type'     => 'select',
+                                    'multiple' => true,
+                                    'priority' => 10,
+                                    'options'  => $this->normalize_options( \WPSP\Helper::get_all_roles() ),
+                                    'rules'       => Rules::logicalRule([
+                                        Rules::is( 'notify_author_post_is_review', true ),
+                                    ]),
+                                ],
+                                'notify_author_post_is_rejected'       => [
+                                    'name'     => 'notify_author_post_is_rejected',
+                                    'type'     => 'toggle',
+                                    'label'    => __('Notify Author when a post is "Rejected"', 'wp-scheduled-posts'),
+                                    'default'  => 1,
+                                    'priority' => 15,
+                                ],
+                                'notify_author_post_is_scheduled'       => [
+                                    'name'     => 'notify_author_post_is_scheduled',
+                                    'type'     => 'toggle',
+                                    'label'    => __('Notify User when a post is "Under Review"', 'wp-scheduled-posts'),
+                                    'priority' => 20,
+                                ],
+                                'notify_author_post_scheduled_to_publish'       => [
+                                    'name'     => 'notify_author_post_scheduled_to_publish',
+                                    'type'     => 'toggle',
+                                    'label'    => __('Notify Author when a Scheduled Post is "Published"', 'wp-scheduled-posts'),
+                                    'priority' => 25,
+                                ],
+                                'notify_author_post_is_publish'       => [
+                                    'name'     => 'notify_author_post_is_publish',
+                                    'type'     => 'toggle',
+                                    'label'    => __('Notify Author when a post is "Published"', 'wp-scheduled-posts'),
+                                    'default'  => 1,
+                                    'priority' => 30,
+                                ],
+                            ],
+                        ],
                     ]
                 ],
                 'layout_social_profile'       => [
@@ -210,7 +271,7 @@ class Settings {
                     'name'     => 'layout_social_profile',
                     'type'     => 'section',
                     'label'    => __('Social Profile', 'wp-scheduled-posts'),
-                    'priority' => 7,
+                    'priority' => 20,
                     'fields'   => [
                       
                     ]
@@ -220,7 +281,7 @@ class Settings {
                     'name'     => 'layout_social_template',
                     'type'     => 'section',
                     'label'    => __('Social Template', 'wp-scheduled-posts'),
-                    'priority' => 7,
+                    'priority' => 25,
                     'fields'   => [
                       
                     ]
@@ -230,7 +291,19 @@ class Settings {
                     'name'     => 'layout_manage_schedule',
                     'type'     => 'section',
                     'label'    => __('Manage Schedule', 'wp-scheduled-posts'),
-                    'priority' => 7,
+                    'priority' => 30,
+                    'is_pro'   => true,
+                    'fields'   => [
+                      
+                    ]
+                ],
+                'layout_advance_schedule'       => [
+                    'id'       => 'layout_advance_schedule',
+                    'name'     => 'layout_advance_schedule',
+                    'type'     => 'section',
+                    'label'    => __('Advance Schedule', 'wp-scheduled-posts'),
+                    'priority' => 35,
+                    'is_pro'   => true,
                     'fields'   => [
                       
                     ]
@@ -240,7 +313,8 @@ class Settings {
                     'name'     => 'layout_missed_schedule',
                     'type'     => 'section',
                     'label'    => __('Missed Schedule', 'wp-scheduled-posts'),
-                    'priority' => 7,
+                    'priority' => 40,
+                    'is_pro'   => true,
                     'fields'   => [
                       
                     ]
