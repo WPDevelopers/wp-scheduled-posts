@@ -1,0 +1,16 @@
+
+
+.wpsp-dashboard-body {
+    display: flex;
+    gap: 30px;
+    .nx-admin-content {
+        flex-grow: 1;
+    }
+    .nx-admin-sidebar {
+        padding-top: 30px;
+    }
+}
+
+.nx-admin-sidebar h1 {
+    color: #a70f0f;
+}
