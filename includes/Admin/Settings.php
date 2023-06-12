@@ -18,7 +18,6 @@ class Settings {
 
     public function load_dependency() {
         $this->builder = new Settings\Builder();
-        add_filter( 'wpsp_post_type', array( $this, 'get_post_type') );
         do_action('wpsp/admin/settings/set_settings_config', $this->builder);
         $this->settings = $this->builder->get_settings();
         new Settings\Assets($this->slug, $this->get_settings_array());
@@ -26,15 +25,6 @@ class Settings {
         add_action('wpsp_save_settings_default_value', array($this->data, 'save_option_value'));
     }
 
-    /**
-     * Get all post type
-     */
-    public function get_post_type()
-    {
-        $post_type = get_post_types();
-        $options = $this->normalize_options($post_type);
-       return $options;
-    }
     /**
      * Convert `fields` associative array to numeric array recursively.
      * @todo improve implementation.
@@ -121,36 +111,52 @@ class Settings {
                             'label'    => __( 'General Settings', 'wp-scheduled-posts' ),
                             'priority' => 1,
                             'fields'    => [
-                                'sp_dashboard_widget'       => [
-                                    'name'     => 'sp_dashboard_widget',
+                                'is_show_dashboard_widget'       => [
+                                    'name'     => 'is_show_dashboard_widget',
                                     'type'     => 'toggle',
                                     'label'    => __('Show Scheduled Posts in Dashboard Widget', 'wp-scheduled-posts'),
                                     'default'  => 1,
                                     'priority' => 1,
                                 ],
-                                'sp_sidebar_widget'       => [
-                                    'name'     => 'sp_sidebar_widget',
+                                'is_show_sitewide_bar_posts'  => [
+                                    'name'     => 'is_show_sitewide_bar_posts',
                                     'type'     => 'toggle',
                                     'label'    => __('Show Scheduled Posts in Sitewide Admin Bar', 'wp-scheduled-posts'),
                                     'priority' => 5,
                                 ],
-                                'allow_post_types' => array(
+                                'allow_post_types' => [
+                                    'name'     => 'allow_post_types',
                                     'label'    => __('Show Post Types:', 'notificationx'),
-                                    'name'     => 'sp_sidebar_widget',
                                     'type'     => 'select',
                                     'multiple' => true,
                                     'priority' => 7,
-                                    'options'  => apply_filters('wpsp_post_type', []),
-                                ),
-                                'sp_admin_bar'       => [
-                                    'name'     => 'sp_admin_bar',
+                                    'options'  => $this->normalize_options(\WPSP\Helper::get_all_post_type()),
+                                ],
+                                'allow_categories' => [
+                                    'name'     => 'allow_categories',
+                                    'label'    => __('Show Categories:', 'notificationx'),
+                                    'type'     => 'select',
+                                    'multiple' => true,
+                                    'priority' => 8,
+                                    'options'  => $this->normalize_options(\WPSP\Helper::_get_all_category()),
+                                ],
+                                'allow_user_by_role' => [
+                                    'name'     => 'allow_user_by_role',
+                                    'label'    => __('Allow users:', 'notificationx'),
+                                    'type'     => 'select',
+                                    'multiple' => true,
+                                    'priority' => 9,
+                                    'options'  => $this->normalize_options(\WPSP\Helper::get_all_roles()),
+                                ],
+                                'is_show_admin_bar_posts'       => [
+                                    'name'     => 'is_show_admin_bar_posts',
                                     'type'     => 'toggle',
                                     'label'    => __('Show Scheduled Posts in Admin Bar', 'wp-scheduled-posts'),
                                     'default'  => 1,
                                     'priority' => 10,
                                 ],
-                                'cd_schedule_time' => [
-                                    'name'     => 'cd_schedule_time',
+                                'adminbar_list_structure' => [
+                                    'name'     => 'adminbar_list_structure',
                                     'type'     => 'toggle',
                                     'label'    => __('Custom item template for scheduled posts list in the admin bar:', 'wp-scheduled-posts'),
                                     'default'  => 1,
