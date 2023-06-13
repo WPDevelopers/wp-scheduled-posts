@@ -29,14 +29,13 @@ const SettingsInner = (props) => {
 
 
     return (
-        <>
+        <div className='nx-admin-wrapper'>
             <Content>
                 <FormBuilder {...builderContext} onChange={onChange} />
             </Content>
-            <Sidebar>
-                <h1>Hello World</h1>
-            </Sidebar>
-        </>
+                
+            <Sidebar />
+        </div>
     )
 }
 
