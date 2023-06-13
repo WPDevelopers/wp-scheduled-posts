@@ -235,6 +235,28 @@ class Settings {
                                         Rules::is( 'notify_author_post_is_review', true ),
                                     ]),
                                 ],
+                                'notify_author_post_review_by_username' => [
+                                    'name'     => 'notify_author_post_review_by_username',
+                                    'label'    => __('Username:', 'notificationx'),
+                                    'type'     => 'select',
+                                    'multiple' => true,
+                                    'priority' => 11,
+                                    'options'  => $this->normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_login', 'user_login') ),
+                                    'rules'       => Rules::logicalRule([
+                                        Rules::is( 'notify_author_post_is_review', true ),
+                                    ]),
+                                ],
+                                'notify_author_post_review_by_email' => [
+                                    'name'     => 'notify_author_post_review_by_email',
+                                    'label'    => __('Email:', 'notificationx'),
+                                    'type'     => 'select',
+                                    'multiple' => true,
+                                    'priority' => 12,
+                                    'options'  => $this->normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_email', 'user_email') ),
+                                    'rules'       => Rules::logicalRule([
+                                        Rules::is( 'notify_author_post_is_review', true ),
+                                    ]),
+                                ],
                                 'notify_author_post_is_rejected'       => [
                                     'name'     => 'notify_author_post_is_rejected',
                                     'type'     => 'toggle',
