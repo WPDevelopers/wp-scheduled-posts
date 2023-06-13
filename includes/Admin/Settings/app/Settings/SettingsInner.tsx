@@ -33,13 +33,8 @@ const SettingsInner = (props) => {
             <Content>
                 <FormBuilder {...builderContext} onChange={onChange} />
             </Content>
-            <Sidebar>
-                <div className='card'>
-                    <h3>Documentation</h3>
-                    <p>Get started spending some time with the documentation to get familiar with SchedulePress.</p>
-                    <button>Documentation</button>
-                </div>
-            </Sidebar>
+                
+            <Sidebar />
         </div>
     )
 }

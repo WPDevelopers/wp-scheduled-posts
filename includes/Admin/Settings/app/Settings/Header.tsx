@@ -1,11 +1,12 @@
 import React from 'react';
-// import mainLogo from '../assets/images/mainLogo.png';
+const mainLogo =  require("../assets/images/mainLogo.png");
 
 
 const Header = () => {
     return (
         <div className="nx-admin-header">
-            <img src={`${}`} alt='mainLogo' />
+            <img src={mainLogo} alt='mainLogo' />
+            {/* <img src={require('../assets/images/mainLogo.png')} alt="mainLogo" /> */}
         </div>
     )
 }
