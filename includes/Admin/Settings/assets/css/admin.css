@@ -2748,7 +2748,7 @@ button.wprf-btn {
   color: #6E6E8D !important;
   border-top: 0px !important;
 }
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 1023px) {
   .nx-admin-wrapper .nx-admin-content .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-tab-nav-item {
     padding: 10px 12px !important;
     font-size: 14px !important;
