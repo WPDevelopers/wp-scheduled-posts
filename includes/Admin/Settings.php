@@ -172,8 +172,7 @@ class Settings {
                                 'hide_on_elementor_editor' => [
                                     'name'     => 'hide_on_elementor_editor',
                                     'type'     => 'toggle',
-                                    'label'    => __('Disable Scheduled Posts in Elementor', 'wp-scheduled-posts'),
-                                    'default'  => 1,
+                                    'label'    => __('Show Scheduled Posts in Elementor', 'wp-scheduled-posts'),
                                     'priority' => 25,
                                 ],
                                 'republish_social_share' => [
@@ -283,7 +282,256 @@ class Settings {
                     'label'    => __('Social Template', 'wp-scheduled-posts'),
                     'priority' => 25,
                     'fields'   => [
-                      
+                        'tab_social_template'  => [
+                            'id'       => 'tab_social_template',
+                            'name'     => 'tab_social_template',
+                            'type'     => 'tab',
+                            'priority' => 25,
+                            'completionTrack' => true,
+                            'sidebar'         => true,
+                            'config'          => [
+                                'active'  => 'layouts_facebook',
+                                'sidebar' => false,
+                                'title'   => false
+                            ],
+                            'submit'          => [
+                                'show' => false
+                            ],
+                            'step'            => [
+                                'show' => false
+                            ],
+                            'fields'   => [
+                                'layouts_facebook'  => [
+                                    'id'            => 'layouts_facebook',
+                                    'name'          => 'layouts_facebook',
+                                    'label'         => __('Facebook', 'wp-scheduled-posts'),
+                                    'priority'      => 10,
+                                    'fields'        => [
+                                        'facebook_wrapper'     => [
+                                            'id'            => 'facebook_wrapper',
+                                            'type'          => 'section',
+                                            'name'          => 'facebook_wrapper',
+                                            'label'         => __('Facebook', 'wp-scheduled-posts'),
+                                            'priority'      => 10,
+                                            'fields'        => [
+                                                'facebook'  => [
+                                                    'name'     => "facebook",
+                                                    'type'     => "group",
+                                                    'priority' => 10,
+                                                    'fields'    => [
+                                                        'is_show_meta'  => [
+                                                            'id'            => 'facebook_show_meta',
+                                                            'name'          => 'is_show_meta',
+                                                            'type'          => 'toggle',
+                                                            'default'       => 1,
+                                                            'label'         => __('Facebook Status Settings', 'wp-scheduled-posts'),
+                                                            'description'   => __('Add Open Graph metadata to your site head section and other social networks use this data when your pages are shared.', 'wp-scheduled-posts'),
+                                                            'priority'      => 5,
+                                                        ],
+                                                        'is_category_as_tags'  => [
+                                                            'id'            => 'facebook_cat_tags',
+                                                            'name'          => 'is_category_as_tags',
+                                                            'type'          => 'toggle',
+                                                            'label'         => __('Add Category as a tags', 'wp-scheduled-posts'),
+                                                            'priority'      => 10,
+                                                        ],
+                                                        'template_structure'  => [
+                                                            'id'            => 'facebook_structure',
+                                                            'name'          => 'template_structure',
+                                                            'type'          => 'text',
+                                                            'label'         => __('Status Template Settings', 'wp-scheduled-posts'),
+                                                            'default'       => '{title}{content}{url}{tags}',
+                                                            'description'   => __('Default Structure: {title}{content}{url}{tags}', 'wp-scheduled-posts'),
+                                                            'priority'      => 15,
+                                                        ],
+                                                        'status_limit'  => [
+                                                            'id'            => 'facebook_status_limit',
+                                                            'name'          => 'status_limit',
+                                                            'type'          => 'number',
+                                                            'label'         => __('Status Limit', 'wp-scheduled-posts'),
+                                                            'priority'      => 20,
+                                                            'default'       => '63206',
+                                                            'max'           => '63206',
+                                                            'description'   => __('Maximum Limit: 63206 character', 'wp-scheduled-posts'),
+                                                        ],
+                                                    ]
+                                                ]
+                                                
+                                            ]
+                                        ]
+                                    ]
+                                ],
+                                'layouts_twitter'  => [
+                                    'id'            => 'layouts_twitter',
+                                    'name'          => 'layouts_twitter',
+                                    'label'         => __('Twitter', 'wp-scheduled-posts'),
+                                    'priority'      => 20,
+                                    'fields'        => [
+                                        'twitter_wrapper'     => [
+                                            'id'            => 'twitter_wrapper',
+                                            'type'          => 'section',
+                                            'name'          => 'twitter_wrapper',
+                                            'label'         => __('Twitter', 'wp-scheduled-posts'),
+                                            'priority'      => 10,
+                                            'fields'        => [
+                                                'twitter'  => [
+                                                    'name'     => "twitter",
+                                                    'type'     => "group",
+                                                    'priority' => 10,
+                                                    'fields'    => [
+                                                        'template_structure'  => [
+                                                            'id'            => 'twitter_template',
+                                                            'name'          => 'template_structure',
+                                                            'type'          => 'text',
+                                                            'label'         => __('Tweet Template Settings', 'wp-scheduled-posts'),
+                                                            'desc'          => __('Default Structure: {title}{content}{url}{tags}', 'wp-scheduled-posts'),
+                                                            'priority'      => 5,
+                                                        ],
+                                                        'is_category_as_tags'  => [
+                                                            'id'            => 'twitter_cat_tags',
+                                                            'name'          => 'is_category_as_tags',
+                                                            'type'          => 'toggle',
+                                                            'label'         => __('Add Category as a tags', 'wp-scheduled-posts'),
+                                                            'priority'      => 10,
+                                                        ],
+                                                        'is_show_post_thumbnail'  => [
+                                                            'id'            => 'twitter_post_thumbnail',
+                                                            'name'          => 'is_show_post_thumbnail',
+                                                            'type'          => 'text',
+                                                            'label'         => __('Add Category as a tags', 'wp-scheduled-posts'),
+                                                            'default'       => '{title}{content}{url}{tags}',
+                                                            'desc'          => __('Default Structure: {title}{content}{url}{tags}', 'wp-scheduled-posts'),
+                                                            'priority'      => 15,
+                                                        ],
+                                                        'status_limit'  => [
+                                                            'id'            => 'twitter_status_limit',
+                                                            'name'          => 'status_limit',
+                                                            'type'          => 'number',
+                                                            'label'         => __('Status Limit', 'wp-scheduled-posts'),
+                                                            'priority'      => 20,
+                                                            'default'       => '280',
+                                                            'max'           => '280',
+                                                            'description'   => __('Maximum Limit: 280 character', 'wp-scheduled-posts'),
+                                                        ],
+                                                    ]
+                                                ]
+                                                
+                                            ]
+                                        ]
+                                    ]
+                                ],
+                                'layouts_linkedin'  => [
+                                    'id'            => 'layouts_linkedin',
+                                    'name'          => 'layouts_linkedin',
+                                    'label'         => __('Linkedin', 'wp-scheduled-posts'),
+                                    'priority'      => 30,
+                                    'fields'        => [
+                                        'linkedin_wrapper'     => [
+                                            'id'            => 'linkedin_wrapper',
+                                            'type'          => 'section',
+                                            'name'          => 'linkedin_wrapper',
+                                            'label'         => __('Linkedin', 'wp-scheduled-posts'),
+                                            'priority'      => 10,
+                                            'fields'        => [
+                                                'linkedin'  => [
+                                                    'name'     => "linkedin",
+                                                    'type'     => "group",
+                                                    'priority' => 10,
+                                                    'fields'    => [
+                                                        'is_category_as_tags'  => [
+                                                            'id'            => 'linkedin_cat_tags',
+                                                            'name'          => 'is_category_as_tags',
+                                                            'type'          => 'toggle',
+                                                            'label'         => __('Add Category as a tags', 'wp-scheduled-posts'),
+                                                            'priority'      => 10,
+                                                        ],
+                                                        'template_structure'  => [
+                                                            'id'            => 'linkedin_template',
+                                                            'name'          => 'template_structure',
+                                                            'type'          => 'text',
+                                                            'label'         => __('Tweet Template Settings', 'wp-scheduled-posts'),
+                                                            'default'       => '{title}{content}{tags}',
+                                                            'desc'          => __('Default Structure: {title}{content}{url}{tags}', 'wp-scheduled-posts'),
+                                                            'priority'      => 5,
+                                                        ],
+                                                        'status_limit'  => [
+                                                            'id'            => 'linkedin_status_limit',
+                                                            'name'          => 'status_limit',
+                                                            'type'          => 'number',
+                                                            'label'         => __('Status Limit', 'wp-scheduled-posts'),
+                                                            'priority'      => 20,
+                                                            'default'       => '1300',
+                                                            'max'           => '1300',
+                                                            'description'   => __('Maximum Limit: 1300 character', 'wp-scheduled-posts'),
+                                                        ],
+                                                    ]
+                                                ]
+                                                
+                                            ]
+                                        ]
+                                    ]
+                                ],
+                                'layouts_pinterest'  => [
+                                    'id'            => 'layouts_pinterest',
+                                    'name'          => 'layouts_pinterest',
+                                    'label'         => __('Pinterest', 'wp-scheduled-posts'),
+                                    'priority'      => 40,
+                                    'fields'        => [
+                                        'pinterest_wrapper'     => [
+                                            'id'            => 'pinterest_wrapper',
+                                            'type'          => 'section',
+                                            'name'          => 'pinterest_wrapper',
+                                            'label'         => __('Linkedin', 'wp-scheduled-posts'),
+                                            'priority'      => 10,
+                                            'fields'        => [
+                                                'pinterest'  => [
+                                                    'name'     => "pinterest",
+                                                    'type'     => "group",
+                                                    'priority' => 10,
+                                                    'fields'    => [
+                                                        'is_set_image_link'  => [
+                                                            'id'            => 'pinterest_image_link',
+                                                            'name'          => 'is_set_image_link',
+                                                            'type'          => 'toggle',
+                                                            'label'         => __('Add Image Link', 'wp-scheduled-posts'),
+                                                            'priority'      => 5,
+                                                            'default'       => 1,
+                                                        ],
+                                                        'is_category_as_tags'  => [
+                                                            'id'            => 'pinterest_cat_tags',
+                                                            'name'          => 'is_category_as_tags',
+                                                            'type'          => 'toggle',
+                                                            'label'         => __('Add Category as a tags', 'wp-scheduled-posts'),
+                                                            'priority'      => 10,
+                                                        ],
+                                                        'template_structure'  => [
+                                                            'id'            => 'template_structure',
+                                                            'name'          => 'template_structure',
+                                                            'type'          => 'text',
+                                                            'label'         => __('Status Template Settings', 'wp-scheduled-posts'),
+                                                            'desc'          => __('Default Structure: {title}{content}{url}{tags}', 'wp-scheduled-posts'),
+                                                            'default'       => '{title}',
+                                                            'priority'      => 15,
+                                                        ],
+                                                        'status_limit'  => [
+                                                            'id'            => 'linkedin_status_limit',
+                                                            'name'          => 'status_limit',
+                                                            'type'          => 'number',
+                                                            'label'         => __('Status Limit', 'wp-scheduled-posts'),
+                                                            'priority'      => 20,
+                                                            'default'       => '500',
+                                                            'max'           => '500',
+                                                            'description'   => __('Maximum Limit: 500 character', 'wp-scheduled-posts'),
+                                                        ],
+                                                    ]
+                                                ]
+                                                
+                                            ]
+                                        ]
+                                    ]
+                                ],
+                            ]
+                        ]
                     ]
                 ],
                 'layout_manage_schedule'       => [
