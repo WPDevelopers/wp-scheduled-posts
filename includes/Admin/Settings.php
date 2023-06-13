@@ -80,7 +80,7 @@ class Settings {
         return $this->normalize([
             'id'              => 'tab-sidebar-layout',
             'name'            => 'tab_sidebar_layout',
-            'label'           => __('Layout', 'betterdocs'),
+            'label'           => __('Layout', 'wp-scheduled-posts'),
             'classes'         => 'tab-layout',
             'type'            => "tab",
             'active'          => "layout_documentation_page",
@@ -99,498 +99,496 @@ class Settings {
             ],
             'priority'        => 20,
             'fields'          => [
-                'layout_documentation_page' => [
-                    'id'       => 'layout_documentation_page',
-                    'name'     => 'layout_documentation_page',
-                    'type'     => 'section',
-                    'label'    => __('Documentation Page', 'betterdocs'),
+                'layout_general' => [
+                    'id'       => 'layout_general',
+                    'name'     => 'layout_general',
+                    'label'    => __('General', 'wp-scheduled-posts'),
                     'priority' => 5,
                     'fields'   => [
-                        // 'doc_page'                  => [
-                        //     'name'     => 'doc_page',
-                        //     'type'     => 'title',
-                        //     'label'    => __( 'Documentation Page', 'betterdocs' ),
-                        //     'priority' => 1
-                        // ],
-                        'live_search'               => [
-                            'name'     => 'live_search',
-                            'type'     => 'checkbox',
-                            'label'    => __('Enable Live Search', 'betterdocs'),
-                            'default'  => 1,
-                            'priority' => 2
+                        'general_settings'     => [
+                            'name'     => 'general_settings',
+                            'type'     => 'section',
+                            'label'    => __( 'General Settings', 'wp-scheduled-posts' ),
+                            'priority' => 1,
+                            'fields'    => [
+                                'is_show_dashboard_widget'       => [
+                                    'name'     => 'is_show_dashboard_widget',
+                                    'type'     => 'toggle',
+                                    'label'    => __('Show Scheduled Posts in Dashboard Widget', 'wp-scheduled-posts'),
+                                    'default'  => 1,
+                                    'priority' => 1,
+                                ],
+                                'is_show_sitewide_bar_posts'  => [
+                                    'name'     => 'is_show_sitewide_bar_posts',
+                                    'type'     => 'toggle',
+                                    'label'    => __('Show Scheduled Posts in Sitewide Admin Bar', 'wp-scheduled-posts'),
+                                    'priority' => 5,
+                                ],
+                                'allow_post_types' => [
+                                    'name'     => 'allow_post_types',
+                                    'label'    => __('Show Post Types:', 'notificationx'),
+                                    'type'     => 'select',
+                                    'multiple' => true,
+                                    'priority' => 7,
+                                    'options'  => $this->normalize_options(\WPSP\Helper::get_all_post_type()),
+                                ],
+                                'allow_categories' => [
+                                    'name'     => 'allow_categories',
+                                    'label'    => __('Show Categories:', 'notificationx'),
+                                    'type'     => 'select',
+                                    'multiple' => true,
+                                    'priority' => 8,
+                                    'options'  => $this->normalize_options(\WPSP\Helper::_get_all_category()),
+                                ],
+                                'allow_user_by_role' => [
+                                    'name'     => 'allow_user_by_role',
+                                    'label'    => __('Allow users:', 'notificationx'),
+                                    'type'     => 'select',
+                                    'multiple' => true,
+                                    'priority' => 9,
+                                    'options'  => $this->normalize_options(\WPSP\Helper::get_all_roles()),
+                                ],
+                                'is_show_admin_bar_posts'       => [
+                                    'name'     => 'is_show_admin_bar_posts',
+                                    'type'     => 'toggle',
+                                    'label'    => __('Show Scheduled Posts in Admin Bar', 'wp-scheduled-posts'),
+                                    'default'  => 1,
+                                    'priority' => 10,
+                                ],
+                                'adminbar_list_structure' => [
+                                    'name'     => 'adminbar_list_structure',
+                                    'type'     => 'toggle',
+                                    'label'    => __('Custom item template for scheduled posts list in the admin bar:', 'wp-scheduled-posts'),
+                                    'default'  => 1,
+                                    'priority' => 15,
+                                ],
+                                'show_publish_post_button' => [
+                                    'name'     => 'show_publish_post_button',
+                                    'type'     => 'toggle',
+                                    'label'    => __('Show Publish Post Immediately Button', 'wp-scheduled-posts'),
+                                    'default'  => 1,
+                                    'priority' => 20,
+                                ],
+                                'hide_on_elementor_editor' => [
+                                    'name'     => 'hide_on_elementor_editor',
+                                    'type'     => 'toggle',
+                                    'label'    => __('Show Scheduled Posts in Elementor', 'wp-scheduled-posts'),
+                                    'priority' => 25,
+                                ],
+                                'republish_social_share' => [
+                                    'name'     => 'republish_social_share',
+                                    'type'     => 'toggle',
+                                    'label'    => __('Active Republish Social Share', 'wp-scheduled-posts'),
+                                    'priority' => 25,
+                                    'is_pro'   => true,
+                                ],
+                                'post_republish_unpublish' => [
+                                    'name'     => 'post_republish_unpublish',
+                                    'type'     => 'toggle',
+                                    'label'    => __('Post Republish and Unpublish', 'wp-scheduled-posts'),
+                                    'priority' => 30,
+                                    'is_pro'   => true,
+                                ],
+
+                            ],
                         ],
-                        'advance_search'            => apply_filters('betterdocs_advance_search_settings', [
-                            'name'     => 'advance_search',
-                            'type'     => 'checkbox',
-                            'label'    => __('Enable Advanced Search', 'betterdocs'),
-                            'default'  => '',
-                            'priority' => 3,
-                            'is_pro'   => true
-                        ]),
-                        'child_category_exclude'    => apply_filters('child_category_exclude', [
-                            'name'     => 'child_category_exclude',
-                            'type'     => 'checkbox',
-                            'label'    => __('Exclude Child Terms In Category Search', 'betterdocs'),
-                            'default'  => '',
-                            'priority' => 4,
-                            'is_pro'   => true
-                        ]),
-                        'popular_keyword_limit'     => apply_filters('betterdocs_popular_keyword_limit_settings', [
-                            'name'     => 'popular_keyword_limit',
-                            'type'     => 'number',
-                            'label'    => __('Minimum amount of Keywords Search', 'betterdocs'),
-                            'default'  => 5,
-                            'priority' => 5,
-                            'is_pro'   => true
-                        ]),
-                        'search_letter_limit'       => [
-                            'name'     => 'search_letter_limit',
-                            'type'     => 'number',
-                            'label'    => __('Minimum Character Limit For Search Result', 'betterdocs'),
-                            'priority' => 6,
-                            'default'  => 3
+                    ]
+                ],
+                'layout_calender'         => [
+                    'id'       => 'layout_calender',
+                    'name'     => 'layout_calender',
+                    'type'     => 'section',
+                    'label'    => __('Calender', 'wp-scheduled-posts'),
+                    'priority' => 10,
+                    'fields'   => [
+                       
+                    ]
+                ],
+                'layout_email_notify'         => [
+                    'id'       => 'layout_email_notify',
+                    'name'     => 'layout_email_notify',
+                    'type'     => 'section',
+                    'label'    => __('Email Notify', 'wp-scheduled-posts'),
+                    'priority' => 15,
+                    'fields'   => [
+                        'email_notify'     => [
+                            'name'     => 'email_notify',
+                            'type'     => 'section',
+                            'label'    => __( 'Email Notify', 'wp-scheduled-posts' ),
+                            'priority' => 1,
+                            'fields'    => [
+                                'notify_author_post_is_review'       => [
+                                    'name'     => 'notify_author_post_is_review',
+                                    'type'     => 'toggle',
+                                    'label'    => __('Notify User when a post is "Under Review"', 'wp-scheduled-posts'),
+                                    'default'  => 1,
+                                    'priority' => 5,
+                                ],
+                                'notify_author_post_review_by_role' => [
+                                    'name'     => 'notify_author_post_review_by_role',
+                                    'label'    => __('Role', 'notificationx'),
+                                    'type'     => 'select',
+                                    'multiple' => true,
+                                    'priority' => 10,
+                                    'options'  => $this->normalize_options( \WPSP\Helper::get_all_roles() ),
+                                    'rules'       => Rules::logicalRule([
+                                        Rules::is( 'notify_author_post_is_review', true ),
+                                    ]),
+                                ],
+                                'notify_author_post_review_by_username' => [
+                                    'name'     => 'notify_author_post_review_by_username',
+                                    'label'    => __('Username:', 'notificationx'),
+                                    'type'     => 'select',
+                                    'multiple' => true,
+                                    'priority' => 11,
+                                    'options'  => $this->normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_login', 'user_login') ),
+                                    'rules'       => Rules::logicalRule([
+                                        Rules::is( 'notify_author_post_is_review', true ),
+                                    ]),
+                                ],
+                                'notify_author_post_review_by_email' => [
+                                    'name'     => 'notify_author_post_review_by_email',
+                                    'label'    => __('Email:', 'notificationx'),
+                                    'type'     => 'select',
+                                    'multiple' => true,
+                                    'priority' => 12,
+                                    'options'  => $this->normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_email', 'user_email') ),
+                                    'rules'       => Rules::logicalRule([
+                                        Rules::is( 'notify_author_post_is_review', true ),
+                                    ]),
+                                ],
+                                'notify_author_post_is_rejected'       => [
+                                    'name'     => 'notify_author_post_is_rejected',
+                                    'type'     => 'toggle',
+                                    'label'    => __('Notify Author when a post is "Rejected"', 'wp-scheduled-posts'),
+                                    'default'  => 1,
+                                    'priority' => 15,
+                                ],
+                                'notify_author_post_is_scheduled'       => [
+                                    'name'     => 'notify_author_post_is_scheduled',
+                                    'type'     => 'toggle',
+                                    'label'    => __('Notify User when a post is "Under Review"', 'wp-scheduled-posts'),
+                                    'priority' => 20,
+                                ],
+                                'notify_author_post_scheduled_to_publish'       => [
+                                    'name'     => 'notify_author_post_scheduled_to_publish',
+                                    'type'     => 'toggle',
+                                    'label'    => __('Notify Author when a Scheduled Post is "Published"', 'wp-scheduled-posts'),
+                                    'priority' => 25,
+                                ],
+                                'notify_author_post_is_publish'       => [
+                                    'name'     => 'notify_author_post_is_publish',
+                                    'type'     => 'toggle',
+                                    'label'    => __('Notify Author when a post is "Published"', 'wp-scheduled-posts'),
+                                    'default'  => 1,
+                                    'priority' => 30,
+                                ],
+                            ],
                         ],
-                        'search_placeholder'        => [
-                            'name'     => 'search_placeholder',
-                            'type'     => 'text',
-                            'label'    => __('Search Placeholder', 'betterdocs'),
-                            'default'  => 'Search..',
-                            'priority' => 7
-                        ],
-                        'search_button_text'        => apply_filters('betterdocs_search_button_text', [
-                            'name'     => 'search_button_text',
-                            'type'     => 'text',
-                            'label'    => __('Search Button Text', 'betterdocs'),
-                            'priority' => 8,
-                            'default'  => __('Search', 'betterdocs'),
-                            'is_pro'   => true
-                        ]),
-                        'search_not_found_text'     => [
-                            'name'     => 'search_not_found_text',
-                            'type'     => 'text',
-                            'label'    => __('Search Not Found Text', 'betterdocs'),
-                            'default'  => 'Sorry, no docs were found.',
-                            'priority' => 9
-                        ],
-                        'search_result_image'       => [
-                            'name'     => 'search_result_image',
-                            'type'     => 'checkbox',
-                            'label'    => __('Search Result Image', 'betterdocs'),
-                            'default'  => 1,
-                            'priority' => 10
-                        ],
-                        'kb_based_search'           => apply_filters('betterdocs_kb_based_search_settings', [
-                            'name'     => 'kb_based_search',
-                            'type'     => 'checkbox',
-                            'label'    => __('Search Result based on KB', 'betterdocs'),
-                            'default'  => '',
-                            'priority' => 11,
-                            'is_pro'   => true
-                        ]),
-                        'masonry_layout'            => [
-                            'name'     => 'masonry_layout',
-                            'type'     => 'checkbox',
-                            'label'    => __('Enable Masonry', 'betterdocs'),
-                            'default'  => 1,
-                            'priority' => 12
-                        ],
-                        'terms_orderby'             => [
-                            'name'     => 'terms_orderby',
-                            'type'     => 'select',
-                            'label'    => __('Terms Order By', 'betterdocs'),
-                            'default'  => 'betterdocs_order',
-                            'options'  => $this->normalize_options(
-                                apply_filters('betterdocs_terms_orderby_options', [
-                                    'none'             => __('No order', 'betterdocs'),
-                                    'name'             => __('Name', 'betterdocs'),
-                                    'slug'             => __('Slug', 'betterdocs'),
-                                    'term_group'       => __('Term Group', 'betterdocs'),
-                                    'term_id'          => __('Term ID', 'betterdocs'),
-                                    'id'               => __('ID', 'betterdocs'),
-                                    'description'      => __('Description', 'betterdocs'),
-                                    'parent'           => __('Parent', 'betterdocs'),
-                                    'betterdocs_order' => __('BetterDocs Order', 'betterdocs')
-                                ])
-                            ),
-                            'priority' => 13
-                        ],
-                        'alphabetically_order_term' => [
-                            'name'     => 'alphabetically_order_term',
-                            'type'     => 'checkbox',
-                            'label'    => __('Order Terms Alphabetically', 'betterdocs'),
-                            'default'  => '',
-                            'priority' => 14
-                        ],
-                        'terms_order'               => [
-                            'name'     => 'terms_order',
-                            'type'     => 'select',
-                            'label'    => __('Terms Order', 'betterdocs'),
-                            'default'  => 'ASC',
-                            'options'  => $this->normalize_options([
-                                'ASC'  => 'Ascending',
-                                'DESC' => 'Descending'
-                            ]),
-                            'priority' => 15
-                        ],
-                        'alphabetically_order_post' => [
-                            'name'     => 'alphabetically_order_post',
-                            'type'     => 'select',
-                            'label'    => __('Docs Order By', 'betterdocs'),
-                            'default'  => 'betterdocs_order',
-                            'options'  => $this->normalize_options([
-                                'none'             => __('No order', 'betterdocs'),
-                                'ID'               => __('Post ID', 'betterdocs'),
-                                'author'           => __('Post Author', 'betterdocs'),
-                                '1'                => __('Title', 'betterdocs'), // value is 1 to cope up with existing user data
-                                'date'             => __('Date', 'betterdocs'),
-                                'modified'         => __('Last Modified Date', 'betterdocs'),
-                                'parent'           => __('Parent Id', 'betterdocs'),
-                                'rand'             => __('Random', 'betterdocs'),
-                                'comment_count'    => __('Comment Count', 'betterdocs'),
-                                'menu_order'       => __('Menu Order', 'betterdocs'),
-                                'betterdocs_order' => __('BetterDocs Order', 'betterdocs')
-                            ]),
-                            'priority' => 16
-                        ],
-                        'docs_order'                => [
-                            'name'     => 'docs_order',
-                            'type'     => 'select',
-                            'label'    => __('Docs Order', 'betterdocs'),
-                            'default'  => 'ASC',
-                            'options'  => $this->normalize_options([
-                                'ASC'  => 'Ascending',
-                                'DESC' => 'Descending'
-                            ]),
-                            'priority' => 17
-                        ],
-                        'nested_subcategory'        => [
-                            'name'     => 'nested_subcategory',
-                            'type'     => 'checkbox',
-                            'label'    => __('Nested Subcategory', 'betterdocs'),
-                            'default'  => '',
-                            'priority' => 18
-                        ],
-                        'column_number'             => [
-                            'name'     => 'column_number',
-                            'type'     => 'number',
-                            'label'    => __('Number of Columns', 'betterdocs'),
-                            'default'  => 3,
-                            'priority' => 19
-                        ],
-                        'posts_number'              => apply_filters('betterdocs_posts_number', [
-                            'name'     => 'posts_number',
-                            'type'     => 'number',
-                            'label'    => __('Number of Docs', 'betterdocs'),
-                            'default'  => 10,
-                            'priority' => 20
-                        ]),
-                        'post_count'                => [
-                            'name'     => 'post_count',
-                            'type'     => 'checkbox',
-                            'label'    => __('Enable Doc Count', 'betterdocs'),
-                            'default'  => 1,
-                            'priority' => 21
-                        ],
-                        'count_text'                => [
-                            'name'     => 'count_text',
-                            'type'     => 'text',
-                            'label'    => __('Count Text', 'betterdocs'),
-                            'default'  => __('articles', 'betterdocs'),
-                            'priority' => 22
-                        ],
-                        'count_text_singular'       => [
-                            'name'     => 'count_text_singular',
-                            'type'     => 'text',
-                            'label'    => __('Count Text Singular', 'betterdocs'),
-                            'default'  => __('article', 'betterdocs'),
-                            'priority' => 23
-                        ],
-                        'exploremore_btn'           => [
-                            'name'     => 'exploremore_btn',
-                            'type'     => 'checkbox',
-                            'label'    => __('Enable Explore More Button', 'betterdocs'),
-                            'default'  => 1,
-                            'priority' => 24
-                        ],
-                        'exploremore_btn_txt'       => [
-                            'name'     => 'exploremore_btn_txt',
-                            'type'     => 'text',
-                            'label'    => __('Button Text', 'betterdocs'),
-                            'default'  => __('Explore More', 'betterdocs'),
+                    ]
+                ],
+                'layout_social_profile'       => [
+                    'id'       => 'layout_social_profile',
+                    'name'     => 'layout_social_profile',
+                    'type'     => 'section',
+                    'label'    => __('Social Profile', 'wp-scheduled-posts'),
+                    'priority' => 20,
+                    'fields'   => [
+                      
+                    ]
+                ],
+                'layout_social_template'       => [
+                    'id'       => 'layout_social_template',
+                    'name'     => 'layout_social_template',
+                    'type'     => 'section',
+                    'label'    => __('Social Template', 'wp-scheduled-posts'),
+                    'priority' => 25,
+                    'fields'   => [
+                        'tab_social_template'  => [
+                            'id'       => 'tab_social_template',
+                            'name'     => 'tab_social_template',
+                            'type'     => 'tab',
                             'priority' => 25,
-                            'rules'    => Rules::is('exploremore_btn', true)
+                            'completionTrack' => true,
+                            'sidebar'         => true,
+                            'config'          => [
+                                'active'  => 'layouts_facebook',
+                                'sidebar' => false,
+                                'title'   => false
+                            ],
+                            'submit'          => [
+                                'show' => false
+                            ],
+                            'step'            => [
+                                'show' => false
+                            ],
+                            'fields'   => [
+                                'layouts_facebook'  => [
+                                    'id'            => 'layouts_facebook',
+                                    'name'          => 'layouts_facebook',
+                                    'label'         => __('Facebook', 'wp-scheduled-posts'),
+                                    'priority'      => 10,
+                                    'fields'        => [
+                                        'facebook_wrapper'     => [
+                                            'id'            => 'facebook_wrapper',
+                                            'type'          => 'section',
+                                            'name'          => 'facebook_wrapper',
+                                            'label'         => __('Facebook', 'wp-scheduled-posts'),
+                                            'priority'      => 10,
+                                            'fields'        => [
+                                                'facebook'  => [
+                                                    'name'     => "facebook",
+                                                    'type'     => "group",
+                                                    'priority' => 10,
+                                                    'fields'    => [
+                                                        'is_show_meta'  => [
+                                                            'id'            => 'facebook_show_meta',
+                                                            'name'          => 'is_show_meta',
+                                                            'type'          => 'toggle',
+                                                            'default'       => 1,
+                                                            'label'         => __('Facebook Status Settings', 'wp-scheduled-posts'),
+                                                            'description'   => __('Add Open Graph metadata to your site head section and other social networks use this data when your pages are shared.', 'wp-scheduled-posts'),
+                                                            'priority'      => 5,
+                                                        ],
+                                                        'is_category_as_tags'  => [
+                                                            'id'            => 'facebook_cat_tags',
+                                                            'name'          => 'is_category_as_tags',
+                                                            'type'          => 'toggle',
+                                                            'label'         => __('Add Category as a tags', 'wp-scheduled-posts'),
+                                                            'priority'      => 10,
+                                                        ],
+                                                        'template_structure'  => [
+                                                            'id'            => 'facebook_structure',
+                                                            'name'          => 'template_structure',
+                                                            'type'          => 'text',
+                                                            'label'         => __('Status Template Settings', 'wp-scheduled-posts'),
+                                                            'default'       => '{title}{content}{url}{tags}',
+                                                            'description'   => __('Default Structure: {title}{content}{url}{tags}', 'wp-scheduled-posts'),
+                                                            'priority'      => 15,
+                                                        ],
+                                                        'status_limit'  => [
+                                                            'id'            => 'facebook_status_limit',
+                                                            'name'          => 'status_limit',
+                                                            'type'          => 'number',
+                                                            'label'         => __('Status Limit', 'wp-scheduled-posts'),
+                                                            'priority'      => 20,
+                                                            'default'       => '63206',
+                                                            'max'           => '63206',
+                                                            'description'   => __('Maximum Limit: 63206 character', 'wp-scheduled-posts'),
+                                                        ],
+                                                    ]
+                                                ]
+                                                
+                                            ]
+                                        ]
+                                    ]
+                                ],
+                                'layouts_twitter'  => [
+                                    'id'            => 'layouts_twitter',
+                                    'name'          => 'layouts_twitter',
+                                    'label'         => __('Twitter', 'wp-scheduled-posts'),
+                                    'priority'      => 20,
+                                    'fields'        => [
+                                        'twitter_wrapper'     => [
+                                            'id'            => 'twitter_wrapper',
+                                            'type'          => 'section',
+                                            'name'          => 'twitter_wrapper',
+                                            'label'         => __('Twitter', 'wp-scheduled-posts'),
+                                            'priority'      => 10,
+                                            'fields'        => [
+                                                'twitter'  => [
+                                                    'name'     => "twitter",
+                                                    'type'     => "group",
+                                                    'priority' => 10,
+                                                    'fields'    => [
+                                                        'template_structure'  => [
+                                                            'id'            => 'twitter_template',
+                                                            'name'          => 'template_structure',
+                                                            'type'          => 'text',
+                                                            'label'         => __('Tweet Template Settings', 'wp-scheduled-posts'),
+                                                            'desc'          => __('Default Structure: {title}{content}{url}{tags}', 'wp-scheduled-posts'),
+                                                            'priority'      => 5,
+                                                        ],
+                                                        'is_category_as_tags'  => [
+                                                            'id'            => 'twitter_cat_tags',
+                                                            'name'          => 'is_category_as_tags',
+                                                            'type'          => 'toggle',
+                                                            'label'         => __('Add Category as a tags', 'wp-scheduled-posts'),
+                                                            'priority'      => 10,
+                                                        ],
+                                                        'is_show_post_thumbnail'  => [
+                                                            'id'            => 'twitter_post_thumbnail',
+                                                            'name'          => 'is_show_post_thumbnail',
+                                                            'type'          => 'text',
+                                                            'label'         => __('Add Category as a tags', 'wp-scheduled-posts'),
+                                                            'default'       => '{title}{content}{url}{tags}',
+                                                            'desc'          => __('Default Structure: {title}{content}{url}{tags}', 'wp-scheduled-posts'),
+                                                            'priority'      => 15,
+                                                        ],
+                                                        'status_limit'  => [
+                                                            'id'            => 'twitter_status_limit',
+                                                            'name'          => 'status_limit',
+                                                            'type'          => 'number',
+                                                            'label'         => __('Status Limit', 'wp-scheduled-posts'),
+                                                            'priority'      => 20,
+                                                            'default'       => '280',
+                                                            'max'           => '280',
+                                                            'description'   => __('Maximum Limit: 280 character', 'wp-scheduled-posts'),
+                                                        ],
+                                                    ]
+                                                ]
+                                                
+                                            ]
+                                        ]
+                                    ]
+                                ],
+                                'layouts_linkedin'  => [
+                                    'id'            => 'layouts_linkedin',
+                                    'name'          => 'layouts_linkedin',
+                                    'label'         => __('Linkedin', 'wp-scheduled-posts'),
+                                    'priority'      => 30,
+                                    'fields'        => [
+                                        'linkedin_wrapper'     => [
+                                            'id'            => 'linkedin_wrapper',
+                                            'type'          => 'section',
+                                            'name'          => 'linkedin_wrapper',
+                                            'label'         => __('Linkedin', 'wp-scheduled-posts'),
+                                            'priority'      => 10,
+                                            'fields'        => [
+                                                'linkedin'  => [
+                                                    'name'     => "linkedin",
+                                                    'type'     => "group",
+                                                    'priority' => 10,
+                                                    'fields'    => [
+                                                        'is_category_as_tags'  => [
+                                                            'id'            => 'linkedin_cat_tags',
+                                                            'name'          => 'is_category_as_tags',
+                                                            'type'          => 'toggle',
+                                                            'label'         => __('Add Category as a tags', 'wp-scheduled-posts'),
+                                                            'priority'      => 10,
+                                                        ],
+                                                        'template_structure'  => [
+                                                            'id'            => 'linkedin_template',
+                                                            'name'          => 'template_structure',
+                                                            'type'          => 'text',
+                                                            'label'         => __('Tweet Template Settings', 'wp-scheduled-posts'),
+                                                            'default'       => '{title}{content}{tags}',
+                                                            'desc'          => __('Default Structure: {title}{content}{url}{tags}', 'wp-scheduled-posts'),
+                                                            'priority'      => 5,
+                                                        ],
+                                                        'status_limit'  => [
+                                                            'id'            => 'linkedin_status_limit',
+                                                            'name'          => 'status_limit',
+                                                            'type'          => 'number',
+                                                            'label'         => __('Status Limit', 'wp-scheduled-posts'),
+                                                            'priority'      => 20,
+                                                            'default'       => '1300',
+                                                            'max'           => '1300',
+                                                            'description'   => __('Maximum Limit: 1300 character', 'wp-scheduled-posts'),
+                                                        ],
+                                                    ]
+                                                ]
+                                                
+                                            ]
+                                        ]
+                                    ]
+                                ],
+                                'layouts_pinterest'  => [
+                                    'id'            => 'layouts_pinterest',
+                                    'name'          => 'layouts_pinterest',
+                                    'label'         => __('Pinterest', 'wp-scheduled-posts'),
+                                    'priority'      => 40,
+                                    'fields'        => [
+                                        'pinterest_wrapper'     => [
+                                            'id'            => 'pinterest_wrapper',
+                                            'type'          => 'section',
+                                            'name'          => 'pinterest_wrapper',
+                                            'label'         => __('Linkedin', 'wp-scheduled-posts'),
+                                            'priority'      => 10,
+                                            'fields'        => [
+                                                'pinterest'  => [
+                                                    'name'     => "pinterest",
+                                                    'type'     => "group",
+                                                    'priority' => 10,
+                                                    'fields'    => [
+                                                        'is_set_image_link'  => [
+                                                            'id'            => 'pinterest_image_link',
+                                                            'name'          => 'is_set_image_link',
+                                                            'type'          => 'toggle',
+                                                            'label'         => __('Add Image Link', 'wp-scheduled-posts'),
+                                                            'priority'      => 5,
+                                                            'default'       => 1,
+                                                        ],
+                                                        'is_category_as_tags'  => [
+                                                            'id'            => 'pinterest_cat_tags',
+                                                            'name'          => 'is_category_as_tags',
+                                                            'type'          => 'toggle',
+                                                            'label'         => __('Add Category as a tags', 'wp-scheduled-posts'),
+                                                            'priority'      => 10,
+                                                        ],
+                                                        'template_structure'  => [
+                                                            'id'            => 'template_structure',
+                                                            'name'          => 'template_structure',
+                                                            'type'          => 'text',
+                                                            'label'         => __('Status Template Settings', 'wp-scheduled-posts'),
+                                                            'desc'          => __('Default Structure: {title}{content}{url}{tags}', 'wp-scheduled-posts'),
+                                                            'default'       => '{title}',
+                                                            'priority'      => 15,
+                                                        ],
+                                                        'status_limit'  => [
+                                                            'id'            => 'linkedin_status_limit',
+                                                            'name'          => 'status_limit',
+                                                            'type'          => 'number',
+                                                            'label'         => __('Status Limit', 'wp-scheduled-posts'),
+                                                            'priority'      => 20,
+                                                            'default'       => '500',
+                                                            'max'           => '500',
+                                                            'description'   => __('Maximum Limit: 500 character', 'wp-scheduled-posts'),
+                                                        ],
+                                                    ]
+                                                ]
+                                                
+                                            ]
+                                        ]
+                                    ]
+                                ],
+                            ]
                         ]
                     ]
                 ],
-                'layout_single_doc'         => [
-                    'id'       => 'layout_single_doc',
-                    'name'     => 'layout_single_doc',
+                'layout_manage_schedule'       => [
+                    'id'       => 'layout_manage_schedule',
+                    'name'     => 'layout_manage_schedule',
                     'type'     => 'section',
-                    'label'    => __('Single Doc', 'betterdocs'),
-                    'priority' => 6,
+                    'label'    => __('Manage Schedule', 'wp-scheduled-posts'),
+                    'priority' => 30,
+                    'is_pro'   => true,
                     'fields'   => [
-                        // 'doc_single'                 => [
-                        //     'name'     => 'doc_single',
-                        //     'type'     => 'title',
-                        //     'label'    => __( 'Single Doc', 'betterdocs' ),
-                        //     'priority' => 1
-                        // ],
-                        'enable_toc'                 => [
-                            'name'     => 'enable_toc',
-                            'type'     => 'checkbox',
-                            'label'    => __('Enable Table of Contents (TOC)', 'betterdocs'),
-                            'default'  => 1,
-                            'priority' => 2
-                        ],
-                        'toc_title'                  => [
-                            'name'     => 'toc_title',
-                            'type'     => 'text',
-                            'label'    => __('TOC Title', 'betterdocs'),
-                            'default'  => __('Table of Contents', 'betterdocs'),
-                            'priority' => 3,
-                            'rules'    => Rules::is('enable_toc', true)
-
-                        ],
-                        'toc_hierarchy'              => [
-                            'name'     => 'toc_hierarchy',
-                            'type'     => 'checkbox',
-                            'label'    => __('TOC Hierarchy', 'betterdocs'),
-                            'default'  => 1,
-                            'priority' => 4,
-                            'rules'    => Rules::is('enable_toc', true)
-                        ],
-                        'toc_list_number'            => [
-                            'name'     => 'toc_list_number',
-                            'type'     => 'checkbox',
-                            'label'    => __('TOC List Number', 'betterdocs'),
-                            'default'  => 1,
-                            'priority' => 5,
-                            'rules'    => Rules::is('enable_toc', true)
-                        ],
-                        'toc_dynamic_title'          => [
-                            'name'     => 'toc_dynamic_title',
-                            'type'     => 'checkbox',
-                            'label'    => __('Show TOC Title in Anchor Links', 'betterdocs'),
-                            'default'  => 0,
-                            'priority' => 6,
-                            'rules'    => Rules::is('enable_toc', true)
-                        ],
-                        'enable_sticky_toc'          => [
-                            'name'     => 'enable_sticky_toc',
-                            'type'     => 'checkbox',
-                            'label'    => __('Enable Sticky TOC', 'betterdocs'),
-                            'default'  => 1,
-                            'priority' => 7,
-                            'rules'    => Rules::is('enable_toc', true)
-                        ],
-                        'sticky_toc_offset'          => [
-                            'name'        => 'sticky_toc_offset',
-                            'type'        => 'number',
-                            'label'       => __('Content Offset', 'betterdocs'),
-                            'default'     => 100,
-                            'priority'    => 8,
-                            'description' => __('content offset from top on scroll.', 'betterdocs'),
-                            'rules'       => Rules::is('enable_toc', true)
-                        ],
-                        'collapsible_toc_mobile'     => [
-                            'name'     => 'collapsible_toc_mobile',
-                            'type'     => 'checkbox',
-                            'label'    => __('Collapsible TOC on small devices', 'betterdocs'),
-                            'default'  => '',
-                            'priority' => 9,
-                            'rules'    => Rules::is('enable_toc', true)
-                        ],
-                        'supported_heading_tag'      => [
-                            'name'     => 'supported_heading_tag',
-                            'label'    => __('TOC Supported Heading Tag', 'betterdocs'),
-                            'type'     => 'select',
-                            'multiple' => true,
-                            'priority' => 10,
-                            'default'  => ['1', '2', '3', '4', '5', '6'],
-                            'options'  => $this->normalize_options([
-                                '1' => 'h1',
-                                '2' => 'h2',
-                                '3' => 'h3',
-                                '4' => 'h4',
-                                '5' => 'h5',
-                                '6' => 'h6'
-                            ]),
-                            'rules'    => Rules::is('enable_toc', true)
-                        ],
-                        'enable_post_title'          => [
-                            'name'     => 'enable_post_title',
-                            'type'     => 'checkbox',
-                            'label'    => __('Enable Post Title', 'betterdocs'),
-                            'default'  => 1,
-                            'priority' => 11
-                        ],
-                        'title_link_ctc'             => [
-                            'name'     => 'title_link_ctc',
-                            'type'     => 'checkbox',
-                            'label'    => __('Title Link Copy To Clipboard', 'betterdocs'),
-                            'default'  => 1,
-                            'priority' => 12
-                        ],
-                        'enable_breadcrumb'          => [
-                            'name'     => 'enable_breadcrumb',
-                            'type'     => 'checkbox',
-                            'label'    => __('Enable Breadcrumb', 'betterdocs'),
-                            'default'  => 1,
-                            'priority' => 13
-                        ],
-                        'breadcrumb_home_text'       => [
-                            'name'     => 'breadcrumb_home_text',
-                            'type'     => 'text',
-                            'label'    => __('Breadcrumb Home Text', 'betterdocs'),
-                            'default'  => __('Home', 'betterdocs'),
-                            'priority' => 14,
-                            'rules'    => Rules::is('enable_breadcrumb', true)
-
-                        ],
-                        'breadcrumb_home_url'        => [
-                            'name'     => 'breadcrumb_home_url',
-                            'type'     => 'text',
-                            'label'    => __('Breadcrumb Home URL', 'betterdocs'),
-                            'priority' => 15,
-                            'default'  => get_home_url(),
-                            'rules'    => Rules::is('enable_breadcrumb', true)
-                        ],
-                        'enable_breadcrumb_category' => [
-                            'name'     => 'enable_breadcrumb_category',
-                            'type'     => 'checkbox',
-                            'label'    => __('Enable Category on Breadcrumb', 'betterdocs'),
-                            'default'  => 1,
-                            'priority' => 16,
-                            'rules'    => Rules::is('enable_breadcrumb', true)
-                        ],
-                        'enable_breadcrumb_title'    => [
-                            'name'     => 'enable_breadcrumb_title',
-                            'type'     => 'checkbox',
-                            'label'    => __('Enable Title on Breadcrumb', 'betterdocs'),
-                            'default'  => 1,
-                            'priority' => 17,
-                            'rules'    => Rules::is('enable_breadcrumb', true)
-                        ],
-                        'enable_sidebar_cat_list'    => [
-                            'name'     => 'enable_sidebar_cat_list',
-                            'type'     => 'checkbox',
-                            'label'    => __('Enable Sidebar Category List', 'betterdocs'),
-                            'default'  => 1,
-                            'priority' => 18
-                        ],
-                        'enable_print_icon'          => [
-                            'name'     => 'enable_print_icon',
-                            'type'     => 'checkbox',
-                            'label'    => __('Enable Print Icon', 'betterdocs'),
-                            'default'  => 1,
-                            'priority' => 19
-                        ],
-                        'enable_tags'                => [
-                            'name'     => 'enable_tags',
-                            'type'     => 'checkbox',
-                            'label'    => __('Enable Tags', 'betterdocs'),
-                            'default'  => 1,
-                            'priority' => 20
-                        ],
-                        'email_feedback'             => [
-                            'name'     => 'email_feedback',
-                            'type'     => 'checkbox',
-                            'label'    => __('Enable Email Feedback', 'betterdocs'),
-                            'default'  => 1,
-                            'priority' => 21
-                        ],
-                        'feedback_link_text'         => [
-                            'name'     => 'feedback_link_text',
-                            'type'     => 'text',
-                            'label'    => __('Feedback Link Text', 'betterdocs'),
-                            'default'  => __('Still stuck? How can we help?', 'betterdocs'),
-                            'priority' => 22,
-                            'rules'    => Rules::is('email_feedback', true)
-                        ],
-                        'feedback_url'               => [
-                            'name'     => 'feedback_url',
-                            'type'     => 'text',
-                            'label'    => __('Feedback URL', 'betterdocs'),
-                            'default'  => '',
-                            'priority' => 23,
-                            'rules'    => Rules::is('email_feedback', true)
-                        ],
-                        'feedback_form_title'        => [
-                            'name'     => 'feedback_form_title',
-                            'type'     => 'text',
-                            'label'    => __('Feedback Form Title', 'betterdocs'),
-                            'default'  => __('How can we help?', 'betterdocs'),
-                            'priority' => 24,
-                            'rules'    => Rules::is('email_feedback', true)
-                        ],
-                        'email_address'              => [
-                            'name'        => 'email_address',
-                            'type'        => 'text',
-                            'label'       => __('Email Address', 'betterdocs'),
-                            'default'     => get_option('admin_email'),
-                            'priority'    => 25,
-                            'description' => __('The email address where the Feedback from will be sent', 'betterdocs'),
-                            'rules'       => Rules::is('email_feedback', true)
-                        ],
-                        'show_last_update_time'      => [
-                            'name'     => 'show_last_update_time',
-                            'type'     => 'checkbox',
-                            'label'    => __('Show Last Update Time', 'betterdocs'),
-                            'default'  => 1,
-                            'priority' => 26
-                        ],
-                        'enable_navigation'          => [
-                            'name'     => 'enable_navigation',
-                            'type'     => 'checkbox',
-                            'label'    => __('Enable Navigation', 'betterdocs'),
-                            'default'  => 1,
-                            'priority' => 27
-                        ],
-                        'enable_comment'             => [
-                            'name'     => 'enable_comment',
-                            'type'     => 'checkbox',
-                            'label'    => __('Enable Comment', 'betterdocs'),
-                            'default'  => '',
-                            'priority' => 28
-                        ],
-                        'enable_credit'              => [
-                            'name'     => 'enable_credit',
-                            'type'     => 'checkbox',
-                            'label'    => __('Enable Credit', 'betterdocs'),
-                            'default'  => 1,
-                            'priority' => 29
-                        ]
+                      
                     ]
                 ],
-                'layout_archive_page'       => [
-                    'id'       => 'layout_archive_page',
-                    'name'     => 'layout_archive_page',
+                'layout_advance_schedule'       => [
+                    'id'       => 'layout_advance_schedule',
+                    'name'     => 'layout_advance_schedule',
                     'type'     => 'section',
-                    'label'    => __('Archive Page', 'betterdocs'),
-                    'priority' => 7,
+                    'label'    => __('Advance Schedule', 'wp-scheduled-posts'),
+                    'priority' => 35,
+                    'is_pro'   => true,
                     'fields'   => [
-                        // 'archive_page_title'         => [
-                        //     'name'     => 'archive_page_title',
-                        //     'type'     => 'title',
-                        //     'label'    => __( 'Archive Page', 'betterdocs' ),
-                        //     'priority' => 30
-                        // ],
-                        'enable_archive_sidebar'     => [
-                            'name'     => 'enable_archive_sidebar',
-                            'type'     => 'checkbox',
-                            'label'    => __('Enable Sidebar Category List', 'betterdocs'),
-                            'default'  => 1,
-                            'priority' => 31
-                        ],
-                        'archive_nested_subcategory' => [
-                            'name'     => 'archive_nested_subcategory',
-                            'type'     => 'checkbox',
-                            'label'    => __('Nested Subcategory', 'betterdocs'),
-                            'default'  => 1,
-                            'priority' => 32
-                        ]
+                      
                     ]
-                ]
+                ],
+                'layout_missed_schedule'       => [
+                    'id'       => 'layout_missed_schedule',
+                    'name'     => 'layout_missed_schedule',
+                    'type'     => 'section',
+                    'label'    => __('Missed Schedule', 'wp-scheduled-posts'),
+                    'priority' => 40,
+                    'is_pro'   => true,
+                    'fields'   => [
+                      
+                    ]
+                ],
             ]
         ]);
     }
