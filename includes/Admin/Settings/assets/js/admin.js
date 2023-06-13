@@ -2232,13 +2232,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 
-var mainLogo = __webpack_require__(/*! ../assets/images/mainLogo.png */ "./app/assets/images/mainLogo.png");
 var Header = function () {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "nx-admin-header"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
-    src: mainLogo,
-    alt: 'mainLogo'
+    src: "".concat(wpspSettingsGlobal === null || wpspSettingsGlobal === void 0 ? void 0 : wpspSettingsGlobal.image_path, "mainLogo.png"),
+    alt: "mainLogo"
   }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Header);
@@ -55887,17 +55886,6 @@ var __WEBPACK_AMD_DEFINE_RESULT__;//////////////////////////////////////////////
 
 "use strict";
 module.exports = __webpack_require__.p + "images/doc.a365f740.png";
-
-/***/ }),
-
-/***/ "./app/assets/images/mainLogo.png":
-/*!****************************************!*\
-  !*** ./app/assets/images/mainLogo.png ***!
-  \****************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-"use strict";
-module.exports = __webpack_require__.p + "images/mainLogo.b7fac98e.png";
 
 /***/ }),
 
