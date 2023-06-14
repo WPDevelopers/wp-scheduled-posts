@@ -176,18 +176,20 @@ class Settings {
                                     'priority' => 25,
                                 ],
                                 'republish_social_share' => [
-                                    'name'     => 'republish_social_share',
-                                    'type'     => 'toggle',
-                                    'label'    => __('Active Republish Social Share', 'wp-scheduled-posts'),
-                                    'priority' => 25,
-                                    'is_pro'   => true,
+                                    'name'          => 'republish_social_share',
+                                    'type'          => 'toggle',
+                                    'label'         => __('Active Republish Social Share', 'wp-scheduled-posts'),
+                                    'description'   => 'Upgrade to Premium',
+                                    'priority'      => 30,
+                                    'is_pro'        => true,
                                 ],
                                 'post_republish_unpublish' => [
-                                    'name'     => 'post_republish_unpublish',
-                                    'type'     => 'toggle',
-                                    'label'    => __('Post Republish and Unpublish', 'wp-scheduled-posts'),
-                                    'priority' => 30,
-                                    'is_pro'   => true,
+                                    'name'          => 'post_republish_unpublish',
+                                    'type'          => 'toggle',
+                                    'label'         => __('Post Republish and Unpublish', 'wp-scheduled-posts'),
+                                    'priority'      => 35,
+                                    'description'   => 'Upgrade to Premium',
+                                    'is_pro'        => true,
                                 ],
 
                             ],
@@ -563,6 +565,7 @@ class Settings {
                     'label'    => __('Manage Schedule', 'wp-scheduled-posts'),
                     'priority' => 30,
                     'is_pro'   => true,
+                    'classes'  => 'pro_feature',
                     'fields'   => [
                       
                     ]
@@ -574,6 +577,7 @@ class Settings {
                     'label'    => __('Advance Schedule', 'wp-scheduled-posts'),
                     'priority' => 35,
                     'is_pro'   => true,
+                    'classes'  => 'pro_feature',
                     'fields'   => [
                       
                     ]
@@ -585,6 +589,7 @@ class Settings {
                     'label'    => __('Missed Schedule', 'wp-scheduled-posts'),
                     'priority' => 40,
                     'is_pro'   => true,
+                    'classes'  => 'pro_feature',
                     'fields'   => [
                       
                     ]
