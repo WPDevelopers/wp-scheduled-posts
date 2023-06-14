@@ -85,6 +85,7 @@ class Settings {
             'type'            => "tab",
             'active'          => "layout_documentation_page",
             'completionTrack' => true,
+            'is_pro_active'   => (defined('WPSP_PRO_VERSION') ? WPSP_PRO_VERSION : ''),
             'sidebar'         => false,
             'config'          => [
                 'active'  => 'layout_documentation_page',
@@ -105,18 +106,62 @@ class Settings {
                     'label'    => __('General', 'wp-scheduled-posts'),
                     'priority' => 5,
                     'fields'   => [
+                        'pro_features_section'  => [
+                            'name'     => 'pro_features_section',
+                            'type'     => 'section',
+                            'label'    => null,
+                            'priority' => 1,
+                            'fields'   => [
+                                'pro_features'      => [
+                                    'name'          => 'pro_features',
+                                    'type'          => 'features',
+                                    'priority'      => 2,
+                                    'is_pro'        => true,
+                                    'content'  => [
+                                        'heading'       => 'SchedulePress - Pro Features',
+                                        'button_text'   => 'View All Features',
+                                        'button_link'   => 'https://google.com',
+                                        'options'   => [
+                                            [
+                                                'icon'  => 'wpsp-',
+                                                'title' => 'Auto Scheduler',
+                                                'link'  => 'https://wpdeveloper.com',
+                                            ],
+                                            [
+                                                'icon'  => 'icon',
+                                                'title' => 'Manual Scheduler',
+                                                'link'  => 'https://wpdeveloper.com',
+                                            ],
+                                            [
+                                                'icon'  => 'icon',
+                                                'title' => 'Missed Scheduler Handler',
+                                                'link'  => 'https://wpdeveloper.com',
+                                            ],
+                                            [
+                                                'icon'  => 'icon',
+                                                'title' => 'Premium Support',
+                                                'link'  => 'https://wpdeveloper.com',
+                                            ],
+                                        ],
+                                    ],
+                                    'label'    => __('Show Scheduled Posts in Dashboard Widget', 'wp-scheduled-posts'),
+                                ],
+                            ]
+                        ],
+                        
                         'general_settings'     => [
                             'name'     => 'general_settings',
                             'type'     => 'section',
                             'label'    => __( 'General Settings', 'wp-scheduled-posts' ),
-                            'priority' => 1,
+                            'priority' => 6,
                             'fields'    => [
+                                
                                 'is_show_dashboard_widget'       => [
                                     'name'     => 'is_show_dashboard_widget',
                                     'type'     => 'toggle',
                                     'label'    => __('Show Scheduled Posts in Dashboard Widget', 'wp-scheduled-posts'),
                                     'default'  => 1,
-                                    'priority' => 1,
+                                    'priority' => 3,
                                 ],
                                 'is_show_sitewide_bar_posts'  => [
                                     'name'     => 'is_show_sitewide_bar_posts',

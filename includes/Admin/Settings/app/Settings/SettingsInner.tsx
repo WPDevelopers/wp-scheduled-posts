@@ -3,7 +3,6 @@ import React, { useEffect } from 'react'
 import { FormBuilder, useBuilderContext } from 'quickbuilder';
 
 import Content from './Content';
-import Sidebar from './Sidebar';
 
 
 const SettingsInner = (props) => {
@@ -33,8 +32,6 @@ const SettingsInner = (props) => {
             <Content>
                 <FormBuilder {...builderContext} onChange={onChange} />
             </Content>
-                
-            <Sidebar />
         </div>
     )
 }
