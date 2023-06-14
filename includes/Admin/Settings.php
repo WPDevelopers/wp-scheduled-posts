@@ -176,18 +176,20 @@ class Settings {
                                     'priority' => 25,
                                 ],
                                 'republish_social_share' => [
-                                    'name'     => 'republish_social_share',
-                                    'type'     => 'toggle',
-                                    'label'    => __('Active Republish Social Share', 'wp-scheduled-posts'),
-                                    'priority' => 25,
-                                    'is_pro'   => true,
+                                    'name'          => 'republish_social_share',
+                                    'type'          => 'toggle',
+                                    'label'         => __('Active Republish Social Share', 'wp-scheduled-posts'),
+                                    'description'   => 'Upgrade to Premium',
+                                    'priority'      => 30,
+                                    'is_pro'        => true,
                                 ],
                                 'post_republish_unpublish' => [
-                                    'name'     => 'post_republish_unpublish',
-                                    'type'     => 'toggle',
-                                    'label'    => __('Post Republish and Unpublish', 'wp-scheduled-posts'),
-                                    'priority' => 30,
-                                    'is_pro'   => true,
+                                    'name'          => 'post_republish_unpublish',
+                                    'type'          => 'toggle',
+                                    'label'         => __('Post Republish and Unpublish', 'wp-scheduled-posts'),
+                                    'priority'      => 35,
+                                    'description'   => 'Upgrade to Premium',
+                                    'is_pro'        => true,
                                 ],
 
                             ],
@@ -231,6 +233,28 @@ class Settings {
                                     'multiple' => true,
                                     'priority' => 10,
                                     'options'  => $this->normalize_options( \WPSP\Helper::get_all_roles() ),
+                                    'rules'       => Rules::logicalRule([
+                                        Rules::is( 'notify_author_post_is_review', true ),
+                                    ]),
+                                ],
+                                'notify_author_post_review_by_username' => [
+                                    'name'     => 'notify_author_post_review_by_username',
+                                    'label'    => __('Username:', 'notificationx'),
+                                    'type'     => 'select',
+                                    'multiple' => true,
+                                    'priority' => 11,
+                                    'options'  => $this->normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_login', 'user_login') ),
+                                    'rules'       => Rules::logicalRule([
+                                        Rules::is( 'notify_author_post_is_review', true ),
+                                    ]),
+                                ],
+                                'notify_author_post_review_by_email' => [
+                                    'name'     => 'notify_author_post_review_by_email',
+                                    'label'    => __('Email:', 'notificationx'),
+                                    'type'     => 'select',
+                                    'multiple' => true,
+                                    'priority' => 12,
+                                    'options'  => $this->normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_email', 'user_email') ),
                                     'rules'       => Rules::logicalRule([
                                         Rules::is( 'notify_author_post_is_review', true ),
                                     ]),
@@ -541,6 +565,7 @@ class Settings {
                     'label'    => __('Manage Schedule', 'wp-scheduled-posts'),
                     'priority' => 30,
                     'is_pro'   => true,
+                    'classes'  => 'pro_feature',
                     'fields'   => [
                       
                     ]
@@ -552,6 +577,7 @@ class Settings {
                     'label'    => __('Advance Schedule', 'wp-scheduled-posts'),
                     'priority' => 35,
                     'is_pro'   => true,
+                    'classes'  => 'pro_feature',
                     'fields'   => [
                       
                     ]
@@ -563,6 +589,7 @@ class Settings {
                     'label'    => __('Missed Schedule', 'wp-scheduled-posts'),
                     'priority' => 40,
                     'is_pro'   => true,
+                    'classes'  => 'pro_feature',
                     'fields'   => [
                       
                     ]
