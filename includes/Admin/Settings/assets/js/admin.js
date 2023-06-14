@@ -2275,7 +2275,6 @@ var __assign = undefined && undefined.__assign || function () {
 
 var SettingsInner = function (props) {
   var builderContext = (0,quickbuilder__WEBPACK_IMPORTED_MODULE_1__.useBuilderContext)();
-  console.log(props, builderContext);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // let iconLists = {};
     // iconLists['source'] = <SourceIcon />

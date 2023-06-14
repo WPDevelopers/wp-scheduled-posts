@@ -1,8 +1,11 @@
 .wpsp-admin-sidebar {
     padding: 32px;
     background: #fff;
-    flex-basis: 20% !important;
+    flex-basis: 30% !important;
     justify-content: flex-start !important;
+    border-radius: 6px 0 0 6px;
+    box-shadow: none;
+    box-sizing: border-box;
     @media screen and (max-width: 767px)  { 
         //flex: 0 0 30% !important;
         padding: 24px;
