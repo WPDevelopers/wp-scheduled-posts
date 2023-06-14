@@ -4,7 +4,7 @@ const upgradePro =  require("../assets/images/upgrade-pro.png");
 
 const Sidebar = () => {
     return (
-        <div className="nx-admin-sidebar">
+        <div className="wpsp-admin-sidebar">
             <div className='upgrade-pro'>
                 <img className='icon-wrapper' src={upgradePro} alt='icon-1' />
                 <h3>Documentation</h3>

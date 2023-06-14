@@ -2211,7 +2211,7 @@ __webpack_require__.r(__webpack_exports__);
 var Content = function (_a) {
   var children = _a.children;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "nx-admin-content"
+    className: "wpsp-admin-content"
   }, children);
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Content);
@@ -2234,7 +2234,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var Header = function () {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "nx-admin-header"
+    className: "wpsp-admin-header"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
     src: "".concat(wpspSettingsGlobal === null || wpspSettingsGlobal === void 0 ? void 0 : wpspSettingsGlobal.image_path, "mainLogo.png"),
     alt: "mainLogo"
@@ -2291,7 +2291,7 @@ var SettingsInner = function (props) {
   }, []);
   var onChange = function (event) {};
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: 'nx-admin-wrapper'
+    className: 'wpsp-admin-wrapper'
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Content__WEBPACK_IMPORTED_MODULE_2__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(quickbuilder__WEBPACK_IMPORTED_MODULE_1__.FormBuilder, __assign({}, builderContext, {
     onChange: onChange
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Sidebar__WEBPACK_IMPORTED_MODULE_3__["default"], null));
@@ -2355,7 +2355,7 @@ var docIcon = __webpack_require__(/*! ../assets/images/doc.png */ "./app/assets/
 var upgradePro = __webpack_require__(/*! ../assets/images/upgrade-pro.png */ "./app/assets/images/upgrade-pro.png");
 var Sidebar = function () {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "nx-admin-sidebar"
+    className: "wpsp-admin-sidebar"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: 'upgrade-pro'
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {

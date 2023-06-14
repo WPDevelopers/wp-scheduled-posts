@@ -29,7 +29,7 @@ const SettingsInner = (props) => {
 
 
     return (
-        <div className='nx-admin-wrapper'>
+        <div className='wpsp-admin-wrapper'>
             <Content>
                 <FormBuilder {...builderContext} onChange={onChange} />
             </Content>
