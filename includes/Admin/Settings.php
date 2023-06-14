@@ -105,12 +105,12 @@ class Settings {
                     'name'     => 'layout_general',
                     'label'    => __('General', 'wp-scheduled-posts'),
                     'priority' => 5,
-                    'fields'   => [
+                    'fields'   => apply_filters('wpsp_general_fields',[
                         'pro_features_section'  => [
                             'name'     => 'pro_features_section',
                             'type'     => 'section',
                             'label'    => null,
-                            'priority' => 1,
+                            'priority' => 2,
                             'fields'   => [
                                 'pro_features'      => [
                                     'name'          => 'pro_features',
@@ -119,27 +119,27 @@ class Settings {
                                     'is_pro'        => true,
                                     'content'  => [
                                         'heading'       => 'SchedulePress - Pro Features',
-                                        'button_text'   => 'View All Features',
+                                        'button_text'   => __('View All Features','wp-scheduled-posts'),
                                         'button_link'   => 'https://google.com',
                                         'options'   => [
                                             [
                                                 'icon'  => 'wpsp-',
-                                                'title' => 'Auto Scheduler',
+                                                'title' => __('Auto Scheduler','wp-scheduled-posts'),
                                                 'link'  => 'https://wpdeveloper.com',
                                             ],
                                             [
                                                 'icon'  => 'icon',
-                                                'title' => 'Manual Scheduler',
+                                                'title' => __('Manual Scheduler','wp-scheduled-posts'),
                                                 'link'  => 'https://wpdeveloper.com',
                                             ],
                                             [
                                                 'icon'  => 'icon',
-                                                'title' => 'Missed Scheduler Handler',
+                                                'title' => __('Missed Scheduler Handler','wp-scheduled-posts'),
                                                 'link'  => 'https://wpdeveloper.com',
                                             ],
                                             [
                                                 'icon'  => 'icon',
-                                                'title' => 'Premium Support',
+                                                'title' => __('Premium Support','wp-scheduled-posts'),
                                                 'link'  => 'https://wpdeveloper.com',
                                             ],
                                         ],
@@ -239,7 +239,7 @@ class Settings {
 
                             ],
                         ],
-                    ]
+                    ])
                 ],
                 'layout_calender'         => [
                     'id'       => 'layout_calender',
