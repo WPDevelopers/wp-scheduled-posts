@@ -7,7 +7,7 @@ import Content from './Content';
 
 const SettingsInner = (props) => {
     const builderContext = useBuilderContext();
-    console.log(props, builderContext);
+    // console.log(props, builderContext);
 
     useEffect(() => {
         // let iconLists = {};

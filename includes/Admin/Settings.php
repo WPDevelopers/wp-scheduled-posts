@@ -341,7 +341,13 @@ class Settings {
                     'label'    => __('Social Profile', 'wp-scheduled-posts'),
                     'priority' => 20,
                     'fields'   => [
-                      
+                      'social_profile'  => [
+                        'id'       => 'social_profile',
+                        'name'     => 'social_profile',
+                        'type'     => 'social_profile',
+                        'label'    => __('Social Profile', 'wp-scheduled-posts'),
+                        'priority' => 5,
+                      ]
                     ]
                 ],
                 'layout_social_template'       => [
@@ -612,7 +618,7 @@ class Settings {
                     'is_pro'   => true,
                     'classes'  => 'pro_feature',
                     'fields'   => [
-                      
+                        
                     ]
                 ],
                 'layout_advance_schedule'       => [
