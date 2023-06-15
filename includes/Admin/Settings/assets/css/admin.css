@@ -2702,6 +2702,9 @@ button.wprf-btn {
 /*!*******************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[3]!./app/assets/sass/index.scss (1) ***!
   \*******************************************************************************************************************************************************************************************************************************************************/
+#wpsp-dashboard-body {
+  font-family: "Inter";
+}
 #wpsp-dashboard-body .wpsp-admin-header {
   background: #fff;
   padding: 20px 40px;
@@ -2713,9 +2716,6 @@ button.wprf-btn {
 }
 #wpsp-dashboard-body .wprf-tab-heading-wrapper {
   display: none;
-}
-#wpsp-dashboard-body .wpsp-admin-wrapper {
-  border-top: 2px solid #F9FAFC;
 }
 #wpsp-dashboard-body .wpsp-admin-content {
   background: #F9FAFC;
@@ -2894,13 +2894,51 @@ button.wprf-btn {
   #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings h4,
   #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify h4 {
     font-size: 18px;
-    padding-bottom: 24px !important;
+    margin-bottom: 20px !important;
   }
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings .wprf-section-fields,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields {
   padding-left: 0px !important;
   padding-right: 0px !important;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings .wprf-section-fields .wprf-type-select,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields .wprf-type-select {
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings .wprf-section-fields .wprf-type-select .wprf-select__control,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields .wprf-type-select .wprf-select__control {
+  background-color: #F9FAFC;
+  border-color: #EBEEF5;
+  border-radius: 8px;
+  padding: 9px;
+}
+@media screen and (max-width: 1023px) {
+  #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings .wprf-section-fields .wprf-type-select .wprf-select__control,
+  #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields .wprf-type-select .wprf-select__control {
+    padding: 5px;
+  }
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings .wprf-section-fields .wprf-type-select .wprf-select__control .css-1wa3eu0-placeholder,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields .wprf-type-select .wprf-select__control .css-1wa3eu0-placeholder {
+  font-size: 16px;
+  color: #6E6E8D;
+  font-weight: 500;
+}
+@media screen and (max-width: 1023px) {
+  #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings .wprf-section-fields .wprf-type-select .wprf-select__control .css-1wa3eu0-placeholder,
+  #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields .wprf-type-select .wprf-select__control .css-1wa3eu0-placeholder {
+    font-size: 14px;
+  }
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings .wprf-section-fields .wprf-type-select .wprf-select__control .css-1okebmr-indicatorSeparator,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields .wprf-type-select .wprf-select__control .css-1okebmr-indicatorSeparator {
+  background-color: #989FAB;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings .wprf-section-fields .wprf-type-select .wprf-select__control .css-tlfecz-indicatorContainer,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields .wprf-type-select .wprf-select__control .css-tlfecz-indicatorContainer {
+  color: #989FAB;
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings .wprf-section-fields .wprf-control-wrapper,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields .wprf-control-wrapper {
@@ -2910,6 +2948,12 @@ button.wprf-btn {
   border-radius: 6px;
   padding: 24px;
   margin-bottom: 12px !important;
+}
+@media screen and (max-width: 1023px) {
+  #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings .wprf-section-fields .wprf-control-wrapper,
+  #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields .wprf-control-wrapper {
+    padding: 20px;
+  }
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings .wprf-section-fields .wprf-control-wrapper .wprf-control-label,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields .wprf-control-wrapper .wprf-control-label {
@@ -2922,6 +2966,12 @@ button.wprf-btn {
   font-weight: 500;
   font-family: inter;
   line-height: 20px;
+}
+@media screen and (max-width: 1023px) {
+  #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings .wprf-section-fields .wprf-control-wrapper .wprf-control-label label,
+  #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields .wprf-control-wrapper .wprf-control-label label {
+    font-size: 14px;
+  }
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings .wprf-section-fields .wprf-control-wrapper .wprf-control-field,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields .wprf-control-wrapper .wprf-control-field {
@@ -2988,24 +3038,43 @@ button.wprf-btn {
 #wpsp-dashboard-body .wpsp-admin-sidebar {
   padding: 32px;
   background: #fff;
-  flex-basis: 30% !important;
+  flex: 30%;
   justify-content: flex-start !important;
   border-radius: 6px 0 0 6px;
   box-shadow: none;
   box-sizing: border-box;
 }
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 1023px) {
   #wpsp-dashboard-body .wpsp-admin-sidebar {
     padding: 24px;
   }
 }
 #wpsp-dashboard-body .wpsp-admin-sidebar .upgrade-pro {
   text-align: center;
-  padding: 20px;
+  padding: 16px 20px 24px !important;
   border-radius: 8px;
-  background: linear-gradient(145.02deg, #FFEFE1 43.19%, #FFD6B3 86.78%);
+  background-color: #FCF4ED;
   box-sizing: border-box;
-  margin-bottom: 20px;
+  margin-bottom: 32px !important;
+  position: relative;
+  z-index: 1;
+}
+#wpsp-dashboard-body .wpsp-admin-sidebar .upgrade-pro:before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 70%;
+  background: linear-gradient(rgb(255, 214, 178), rgb(255, 239, 225));
+  z-index: -1;
+  -webkit-clip-path: ellipse(85% 100% at center bottom);
+          clip-path: ellipse(85% 100% at center bottom);
+}
+@media screen and (max-width: 1023px) {
+  #wpsp-dashboard-body .wpsp-admin-sidebar .upgrade-pro {
+    margin-bottom: 24px;
+  }
 }
 #wpsp-dashboard-body .wpsp-admin-sidebar .upgrade-pro > img {
   margin-bottom: 15px;
@@ -3015,7 +3084,7 @@ button.wprf-btn {
   font-size: 18px;
   font-weight: 500;
   line-height: 22px;
-  color: #FF9437;
+  color: #FF9437 !important;
   margin: 0 0 14px;
 }
 #wpsp-dashboard-body .wpsp-admin-sidebar .upgrade-pro > p {
@@ -3023,19 +3092,23 @@ button.wprf-btn {
   font-size: 12px;
   font-weight: 400;
   line-height: 16px;
-  color: #1B1B50;
-  margin: 0 0 16px;
+  color: #1B1B50 !important;
+  margin: 0 0 16px !important;
 }
 #wpsp-dashboard-body .wpsp-admin-sidebar .upgrade-pro > button {
-  padding: 16px 24px;
+  padding: 16px 24px !important;
   border: none;
-  background: transparent;
-  color: #6C62FF;
+  background: #FF9437 !important;
+  color: #fff !important;
   cursor: pointer;
   font-size: 14px;
   font-family: Inter;
   font-weight: 500;
   line-height: 18px;
+  border-radius: 6px;
+}
+#wpsp-dashboard-body .wpsp-admin-sidebar .card:last-child {
+  margin-bottom: 0px;
 }
 #wpsp-dashboard-body .wpsp-admin-sidebar .card {
   margin-top: 0 !important;
@@ -3043,6 +3116,7 @@ button.wprf-btn {
   border: 1px solid #EBEEF5 !important;
   border-radius: 6px;
   box-shadow: none !important;
+  margin-bottom: 12px;
 }
 #wpsp-dashboard-body .wpsp-admin-sidebar .card > img {
   margin-bottom: 15px;

@@ -1,22 +1,38 @@
 .wpsp-admin-sidebar {
     padding: 32px;
     background: #fff;
-    flex-basis: 30% !important;
+    flex: 30%;
     justify-content: flex-start !important;
     border-radius: 6px 0 0 6px;
     box-shadow: none;
     box-sizing: border-box;
-    @media screen and (max-width: 767px)  { 
+    @media screen and (max-width: 1023px)  { 
         //flex: 0 0 30% !important;
         padding: 24px;
     }
     .upgrade-pro {
         text-align: center;
-        padding: 20px;
+        padding: 16px 20px 24px !important;
         border-radius: 8px;
-        background: linear-gradient(145.02deg, #FFEFE1 43.19%, #FFD6B3 86.78%);
+        background-color: #FCF4ED;
         box-sizing: border-box;
-        margin-bottom: 20px;
+        margin-bottom: 32px !important;
+        position: relative;
+        z-index: 1;
+        &:before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 70%;
+            background: linear-gradient(rgba(255, 214, 178, 1),rgba(255, 239, 225, 1));
+            z-index: -1;
+            clip-path: ellipse(85% 100% at center bottom);
+        }
+        @media screen and (max-width: 1023px)  { 
+            margin-bottom: 24px;
+        }
         > img {
             margin-bottom: 15px;
         }
@@ -25,7 +41,7 @@
             font-size: 18px;
             font-weight: 500;
             line-height: 22px;
-            color: #FF9437;
+            color: #FF9437 !important;
             margin: 0 0 14px;
         }
         > p {
@@ -33,20 +49,24 @@
             font-size: 12px;
             font-weight: 400;
             line-height: 16px;
-            color: #1B1B50;
-            margin: 0 0 16px;
+            color: #1B1B50 !important;
+            margin: 0 0 16px !important;
         }
         > button {
-            padding: 16px 24px;
+            padding: 16px 24px !important;
             border: none;
-            background: transparent;
-            color: #6C62FF;
+            background: #FF9437 !important;
+            color: #fff !important;
             cursor: pointer;
             font-size: 14px;
             font-family: Inter;
             font-weight: 500;
             line-height: 18px;
+            border-radius: 6px;
         }
+    }
+    .card:last-child {
+        margin-bottom: 0px;
     }
     .card {
         margin-top: 0 !important;
@@ -54,6 +74,7 @@
         border: 1px solid #EBEEF5 !important;
         border-radius: 6px;
         box-shadow: none !important;
+        margin-bottom: 12px;
         > img {
             margin-bottom: 15px;
         }
