@@ -3148,6 +3148,13 @@ button.wprf-btn {
   font-weight: 500;
   line-height: 18px;
 }
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper {
+  border: none !important;
+  flex-direction: row;
+  background-color: #fff;
+  padding: 32px !important;
+  border-radius: 6px;
+}
 
 .wprf-toggle-wrap label.wprf-input-label {
   width: 47px;
