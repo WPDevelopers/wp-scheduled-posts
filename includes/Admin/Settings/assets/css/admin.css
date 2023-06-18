@@ -3183,7 +3183,8 @@ button.wprf-btn {
 }
 @media screen and (max-width: 1023px) {
   #wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-tab-nav-item {
-    font-size: 16px !important;
+    font-size: 14px !important;
+    margin-bottom: 8px;
   }
 }
 #wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-tab-nav-item:last-child {
@@ -3217,15 +3218,52 @@ button.wprf-btn {
   font-weight: 600 !important;
   margin-top: 0px;
 }
+@media screen and (max-width: 1023px) {
+  #wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-contents .wprf-control-section h4 {
+    font-size: 20px;
+    margin-bottom: 16px !important;
+  }
+}
 #wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-contents .wprf-section-fields {
   padding: 0 !important;
 }
-#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-contents .wprf-section-fields .wprf-group-control-inner {
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-contents .wprf-section-fields .wprf-group-control {
+  display: block !important;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-contents .wprf-section-fields .wprf-group-control .wprf-control-wrapper {
   display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  flex-direction: column;
+  flex-wrap: nowrap !important;
+  justify-content: space-between;
+  flex-basis: 100% !important;
+  border: 1px solid #EBEEF5;
+  border-radius: 6px;
+  padding: 14px 16px;
+  margin-bottom: 16px !important;
+  background: #fff !important;
   gap: 16px;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-contents .wprf-section-fields .wprf-group-control .wprf-control-wrapper:last-child {
+  margin-bottom: 0 !important;
+}
+@media screen and (max-width: 1023px) {
+  #wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-contents .wprf-section-fields .wprf-group-control .wprf-control-wrapper {
+    padding: 12px 14px;
+  }
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-contents .wprf-section-fields .wprf-group-control .wprf-control-wrapper .wprf-control-label {
+  flex-basis: 35% !important;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-contents .wprf-section-fields .wprf-group-control .wprf-control-wrapper .wprf-control-label label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1B1B50;
+  line-height: 16px;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-contents .wprf-section-fields .wprf-group-control .wprf-control-wrapper .wprf-control-field {
+  flex-basis: 65% !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+  gap: 8px;
 }
 
 .wprf-toggle-wrap label.wprf-input-label {
