@@ -65,6 +65,13 @@
                 }
                 .wprf-section-fields {
                     padding: 0 !important;
+                    .wprf-group-control-inner {
+                        display: flex;
+                        align-items: center;
+                        flex-wrap: wrap;
+                        flex-direction: column;
+                        gap: 16px;
+                    }
                 }
             }
         }
