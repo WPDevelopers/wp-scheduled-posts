@@ -1,9 +1,75 @@
 .wprf-tab-layout_social_template {
     .wprf-tabs-wrapper {
+        flex-basis: 20% !important;
         border: none !important;
         flex-direction: row;
         background-color: #fff;
         padding: 32px !important;
         border-radius: 6px;
+        gap: 16px;
+        @media screen and (max-width: 1023px)  { 
+            padding: 24px;
+        }
+        .wprf-tab-menu-wrapper {
+            margin-bottom: 0px !important;
+            border-width: 1px;
+            border-style: solid;
+            border-color: #EBEEF5 !important;
+            border-radius: 6px;
+            padding: 12px;
+            background: #fff !important;
+            .wprf-tab-nav {
+                padding: 0 !important;
+                border-style: none;
+                .wprf-tab-nav-item {
+                    font-size: 18px !important;
+                    font-weight: 500 !important;
+                    color: #1B1B50 !important;
+                    margin-bottom: 12px;
+                    @media screen and (max-width: 1023px)  { 
+                        font-size: 16px !important;
+                    }
+                    &:last-child {
+                        margin-bottom: 0px;
+                    }
+                }
+                .wprf-active-nav {
+                    color: #1B1B50 !important;
+                    background: #F5F9FE !important;
+                    border-radius: 6px;
+                    border-right: none;
+                    box-shadow: none;
+                }
+            }
+        }
+        .wprf-tab-content-wrapper {
+            flex-basis: 80%;
+            background: #F9FAFC !important;
+            padding: 32px !important;
+            border-radius: 6px;
+            .wprf-tab-contents {
+                flex:auto !important;
+                padding: 0 !important;
+                .wprf-control-section {
+                    h4 {
+                        font-size: 24px;
+                        color: #1B1B50 !important;
+                        margin-bottom: 24px !important;
+                        text-transform: capitalize !important;
+                        background: transparent !important;
+                        padding: 0 !important;
+                        letter-spacing: 0px !important;
+                        font-weight: 600 !important;
+                        margin-top: 0px;
+                    }
+                }
+                .wprf-section-fields {
+                    padding: 0 !important;
+                }
+            }
+        }
+
+
+
     }
 }
