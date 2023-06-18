@@ -1,20 +1,57 @@
 import React, { useEffect, useState } from "react";
 import { __ } from "@wordpress/i18n";
-const ApiCredentialsForm = ({ platform,requestHandler }) => {
-
-
-    const [appID, SetAppID] = useState("793062612541839");
-    const [appSecret, SetAppSecret] = useState("144f868aa0233914b1e94dabb4edf9f0");
+const ApiCredentialsForm = ({ platform, requestHandler }) => {
+    const [appID, SetAppID] = useState("");
+    const [appSecret, SetAppSecret] = useState("");
+    const [isManual, setIsManual] = useState(false);
 
     const redirectURIv2 = "https://api.schedulepress.com/v2/callback.php";
     const [redirectURI, SetRedirectURI] = useState(
         "https://api.schedulepress.com/callback.php"
     );
- 
+    const hasAutomatic = platform == "linkedin" || platform == "pinterest";
+
   return (
     <React.Fragment>
       <div className="modalbody">
         <div className="wpsp-social-account-insert-modal">
+          {hasAutomatic && (
+              <div className="menual_connection_checker">
+                <label className="toggler_wrapper">
+                  <input
+                    type="checkbox"
+                    value={'true'}
+                    onChange={(e) => {
+                      setIsManual(e.target.checked);
+                    }}
+                  />
+                  <span className="text">
+                    Connect with {!isManual ? "App credentials" : "Account"}
+                  </span>
+                  <span
+                    className={`toggler ${isManual ? "checked" : ""}`}
+                  ></span>
+                </label>
+              </div>
+          )}
+          <input type="hidden" name="tempmodaltype" value="twitter" />
+          {hasAutomatic && !isManual && (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: 5,
+                marginBottom: 15,
+              }}
+            >
+              <a
+                onClick={() => requestHandler(redirectURIv2, '', '', platform)}
+                className="wpsp-modal-generate-token-button"
+              >
+                {__("Connect your account", "wp-scheduled-posts")}
+              </a>
+            </div>
+          )}
           {(platform == "facebook") && (
             <form>
                 <div className="form-group">
@@ -64,7 +101,7 @@ const ApiCredentialsForm = ({ platform,requestHandler }) => {
                 className="wpsp-modal-generate-token-button"
                 onClick={(event) => {
                   if (redirectURI && appID && appSecret) {
-                    requestHandler(redirectURI, appID, appSecret);
+                    requestHandler(redirectURI, appID, appSecret,platform);
                     event.preventDefault();
                   }
                 }}

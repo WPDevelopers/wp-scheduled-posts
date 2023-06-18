@@ -2373,99 +2373,10 @@ var Sidebar = function (_a) {
 
 /***/ }),
 
-/***/ "./app/Settings/fields/Features.tsx":
+/***/ "./app/Settings/fields/Facebook.tsx":
 /*!******************************************!*\
-  !*** ./app/Settings/fields/Features.tsx ***!
+  !*** ./app/Settings/fields/Facebook.tsx ***!
   \******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
-/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-
-
-var Features = function (props) {
-  var _a = props === null || props === void 0 ? void 0 : props.content,
-    heading = _a.heading,
-    button_text = _a.button_text,
-    button_link = _a.button_link,
-    options = _a.options;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
-    className: classnames__WEBPACK_IMPORTED_MODULE_0___default()('wprf-control', 'wprf-features', "wprf-".concat(props.name, "-features"), props === null || props === void 0 ? void 0 : props.classes)
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
-    className: 'header'
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h3", null, heading), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a", {
-    href: button_link
-  }, button_text)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
-    className: 'content'
-  }, options === null || options === void 0 ? void 0 : options.map(function (item) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a", {
-      href: item === null || item === void 0 ? void 0 : item.link,
-      target: "_blank",
-      key: Math.random()
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
-      className: 'single-content'
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("i", {
-      className: "wpsp wpsp-something"
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h5", null, item === null || item === void 0 ? void 0 : item.title)));
-  })));
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Features);
-
-/***/ }),
-
-/***/ "./app/Settings/fields/Field.tsx":
-/*!***************************************!*\
-  !*** ./app/Settings/fields/Field.tsx ***!
-  \***************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Features__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Features */ "./app/Settings/fields/Features.tsx");
-/* harmony import */ var _SocialProfile__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SocialProfile */ "./app/Settings/fields/SocialProfile.tsx");
-var __assign = undefined && undefined.__assign || function () {
-  __assign = Object.assign || function (t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-      s = arguments[i];
-      for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-    }
-    return t;
-  };
-  return __assign.apply(this, arguments);
-};
-
-
-
-var Field = function (r, type, props) {
-  switch (type) {
-    case "features":
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Features__WEBPACK_IMPORTED_MODULE_1__["default"], __assign({}, props));
-    case "social_profile":
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_SocialProfile__WEBPACK_IMPORTED_MODULE_2__["default"], __assign({}, props));
-    default:
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null);
-  }
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Field);
-
-/***/ }),
-
-/***/ "./app/Settings/fields/SocialProfile.tsx":
-/*!***********************************************!*\
-  !*** ./app/Settings/fields/SocialProfile.tsx ***!
-  \***********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2480,7 +2391,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _SocialProfile_ApiCredentialsForm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SocialProfile/ApiCredentialsForm */ "./app/Settings/fields/SocialProfile/ApiCredentialsForm.tsx");
-/* harmony import */ var _SocialProfile_ProfileData__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SocialProfile/ProfileData */ "./app/Settings/fields/SocialProfile/ProfileData.tsx");
+/* harmony import */ var _SocialProfile_Facebook__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SocialProfile/Facebook */ "./app/Settings/fields/SocialProfile/Facebook.tsx");
 /* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-modal */ "./node_modules/react-modal/lib/index.js");
 /* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_modal__WEBPACK_IMPORTED_MODULE_5__);
 var __awaiter = undefined && undefined.__awaiter || function (thisArg, _arguments, P, generator) {
@@ -2624,95 +2535,121 @@ var SocialProfile = function (props) {
     apiCredentialsModal = _a[0],
     setApiCredentialsModal = _a[1];
   var _b = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
-    modalIsOpen = _b[0],
-    setModalIsOpen = _b[1];
+    requestSending = _b[0],
+    setRequestSending = _b[1];
   var _c = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
-    requestSending = _c[0],
-    setRequestSending = _c[1];
+    profileDataModal = _c[0],
+    setProfileDataModal = _c[1];
   var _d = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
-    profileDataModal = _d[0],
-    setProfileDataModal = _d[1];
-  var _e = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(""),
-    error = _e[0],
-    setError = _e[1];
+    profileData = _d[0],
+    setProfileData = _d[1];
+  var _e = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(''),
+    platform = _e[0],
+    setPlatform = _e[1];
+  var _f = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(""),
+    error = _f[0],
+    setError = _f[1];
+  // Send API request
+  var fetchDataFromAPI = function (body) {
+    return __awaiter(void 0, void 0, void 0, function () {
+      var response;
+      return __generator(this, function (_a) {
+        switch (_a.label) {
+          case 0:
+            return [4 /*yield*/, fetch('/wp-admin/admin-ajax.php', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+              },
+              body: new URLSearchParams(body).toString()
+            })];
+          case 1:
+            response = _a.sent();
+            return [2 /*return*/, response];
+        }
+      });
+    });
+  };
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
+    // Send API request fo fetching data
     var getQueryParams = function (query) {
       var params = new URLSearchParams(query);
-      var getProfileData = function () {
-        return __awaiter(void 0, void 0, void 0, function () {
-          var response, responseData;
-          return __generator(this, function (_a) {
-            switch (_a.label) {
-              case 0:
-                return [4 /*yield*/, fetch('/wp-admin/admin-ajax.php', {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                  },
-                  body: new URLSearchParams({
-                    action: "wpsp_social_profile_fetch_user_info_and_token",
-                    type: params.get("type"),
-                    appId: params.get("appId"),
-                    appSecret: params.get("appSecret"),
-                    code: params.get("code"),
-                    redirectURI: params.get("redirectURI"),
-                    access_token: params.get("access_token"),
-                    refresh_token: params.get("refresh_token"),
-                    expires_in: params.get("expires_in"),
-                    rt_expires_in: params.get("rt_expires_in"),
-                    oauthVerifier: params.get("oauth_verifier"),
-                    oauthToken: params.get("oauth_token")
-                  }).toString()
-                })];
-              case 1:
-                response = _a.sent();
-                return [4 /*yield*/, response.json()];
-              case 2:
-                responseData = _a.sent();
-                setProfileDataModal(responseData);
-                return [2 /*return*/];
-            }
-          });
-        });
-      };
+      var error = params.get('error_message');
+      if (error) {
+        setError(error);
+      } else {
+        if (params.get('action') === 'wpsp_social_add_social_profile') {
+          setProfileDataModal(true);
+          setRequestSending(true);
+          var getProfileData = function () {
+            return __awaiter(void 0, void 0, void 0, function () {
+              var data, response, responseData;
+              return __generator(this, function (_a) {
+                switch (_a.label) {
+                  case 0:
+                    data = {
+                      action: "wpsp_social_profile_fetch_user_info_and_token",
+                      type: params.get("type"),
+                      appId: params.get("appId"),
+                      appSecret: params.get("appSecret"),
+                      code: params.get("code"),
+                      redirectURI: params.get("redirectURI"),
+                      access_token: params.get("access_token"),
+                      refresh_token: params.get("refresh_token"),
+                      expires_in: params.get("expires_in"),
+                      rt_expires_in: params.get("rt_expires_in"),
+                      oauthVerifier: params.get("oauth_verifier"),
+                      oauthToken: params.get("oauth_token")
+                    };
+                    return [4 /*yield*/, fetchDataFromAPI(data)];
+                  case 1:
+                    response = _a.sent();
+                    return [4 /*yield*/, response.json()];
+                  case 2:
+                    responseData = _a.sent();
+                    setRequestSending(false);
+                    setProfileData(responseData);
+                    return [2 /*return*/];
+                }
+              });
+            });
+          };
 
-      getProfileData();
+          getProfileData();
+        }
+      }
     };
     getQueryParams(window.location.search);
   }, [window.location]);
-  var openApiCredentialsModal = function () {
+  var openApiCredentialsModal = function (platform) {
+    setPlatform(platform);
     setApiCredentialsModal(true);
   };
   var closeApiCredentialsModal = function () {
+    setPlatform('');
     setApiCredentialsModal(false);
-  };
-  var openProfileDataModal = function () {
-    setProfileDataModal(true);
   };
   var closeProfileDataModal = function () {
     setProfileDataModal(false);
   };
-  var socialProfileRequestHandler = function (redirectURI, appID, appSecret) {
+  var socialProfileRequestHandler = function (redirectURI, appID, appSecret, platform) {
+    console.log(appID, appSecret);
+    // Send API request for fetch url
     var sendRequest = function () {
       return __awaiter(void 0, void 0, void 0, function () {
-        var response, responseData, message, parsedData;
+        var data, response, responseData, message, parsedData;
         var _a, _b;
         return __generator(this, function (_c) {
           switch (_c.label) {
             case 0:
-              return [4 /*yield*/, fetch('/wp-admin/admin-ajax.php', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: new URLSearchParams({
-                  action: 'wpsp_social_add_social_profile',
-                  redirectURI: redirectURI,
-                  appId: appID,
-                  appSecret: appSecret,
-                  type: 'facebook'
-                }).toString()
-              })];
+              data = {
+                action: 'wpsp_social_add_social_profile',
+                redirectURI: redirectURI,
+                appId: appID,
+                appSecret: appSecret,
+                type: platform
+              };
+              return [4 /*yield*/, fetchDataFromAPI(data)];
             case 1:
               response = _c.sent();
               return [4 /*yield*/, response.json()];
@@ -2752,31 +2689,476 @@ var SocialProfile = function (props) {
     type: "button",
     className: "wpscp-social-tab__btn--addnew-profile",
     onClick: function () {
-      return openApiCredentialsModal();
+      return openApiCredentialsModal('facebook');
     }
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Add New", "wp-scheduled-posts"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
-    className: 'social-profile-card'
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h5", null, "Twitter"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("button", null, "Add New")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
-    className: 'social-profile-card'
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h5", null, "Linkedin"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("button", null, "Add New")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
-    className: 'social-profile-card'
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h5", null, "Pinterest"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("button", null, "Add New"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react_modal__WEBPACK_IMPORTED_MODULE_5___default()), {
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Add New", "wp-scheduled-posts")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react_modal__WEBPACK_IMPORTED_MODULE_5___default()), {
     isOpen: apiCredentialsModal,
     onRequestClose: closeApiCredentialsModal,
     ariaHideApp: false,
     style: customStyles
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_SocialProfile_ApiCredentialsForm__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    platform: 'facebook',
+    platform: platform,
     requestHandler: socialProfileRequestHandler
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react_modal__WEBPACK_IMPORTED_MODULE_5___default()), {
-    isOpen: profileDataModal ? true : '',
+    isOpen: profileDataModal,
     onRequestClose: closeProfileDataModal,
     ariaHideApp: false,
     style: customStyles
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_SocialProfile_ProfileData__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    platform: 'facebook',
-    profileData: profileDataModal
+  }, requestSending ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "wpsp-modal-info"
+  }, error ? error : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Generating Token & Fetching User Data", "wp-scheduled-posts")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react__WEBPACK_IMPORTED_MODULE_1___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_SocialProfile_Facebook__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    profileData: profileData
+  }))));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SocialProfile);
+
+/***/ }),
+
+/***/ "./app/Settings/fields/Features.tsx":
+/*!******************************************!*\
+  !*** ./app/Settings/fields/Features.tsx ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+
+
+var Features = function (props) {
+  var _a = props === null || props === void 0 ? void 0 : props.content,
+    heading = _a.heading,
+    button_text = _a.button_text,
+    button_link = _a.button_link,
+    options = _a.options;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: classnames__WEBPACK_IMPORTED_MODULE_0___default()('wprf-control', 'wprf-features', "wprf-".concat(props.name, "-features"), props === null || props === void 0 ? void 0 : props.classes)
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: 'header'
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h3", null, heading), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a", {
+    href: button_link
+  }, button_text)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: 'content'
+  }, options === null || options === void 0 ? void 0 : options.map(function (item) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a", {
+      href: item === null || item === void 0 ? void 0 : item.link,
+      target: "_blank",
+      key: Math.random()
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+      className: 'single-content'
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("i", {
+      className: "wpsp wpsp-something"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h5", null, item === null || item === void 0 ? void 0 : item.title)));
   })));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Features);
+
+/***/ }),
+
+/***/ "./app/Settings/fields/Field.tsx":
+/*!***************************************!*\
+  !*** ./app/Settings/fields/Field.tsx ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Features__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Features */ "./app/Settings/fields/Features.tsx");
+/* harmony import */ var _SocialProfile__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SocialProfile */ "./app/Settings/fields/SocialProfile.tsx");
+/* harmony import */ var _Facebook__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Facebook */ "./app/Settings/fields/Facebook.tsx");
+var __assign = undefined && undefined.__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+      for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+    }
+    return t;
+  };
+  return __assign.apply(this, arguments);
+};
+
+
+
+
+var Field = function (r, type, props) {
+  switch (type) {
+    case "features":
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Features__WEBPACK_IMPORTED_MODULE_1__["default"], __assign({}, props));
+    case "social_profile":
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_SocialProfile__WEBPACK_IMPORTED_MODULE_2__["default"], __assign({}, props));
+    case "facebook":
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Facebook__WEBPACK_IMPORTED_MODULE_3__["default"], __assign({}, props));
+    default:
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null);
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Field);
+
+/***/ }),
+
+/***/ "./app/Settings/fields/SocialProfile.tsx":
+/*!***********************************************!*\
+  !*** ./app/Settings/fields/SocialProfile.tsx ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _SocialProfile_ApiCredentialsForm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SocialProfile/ApiCredentialsForm */ "./app/Settings/fields/SocialProfile/ApiCredentialsForm.tsx");
+/* harmony import */ var _SocialProfile_Facebook__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SocialProfile/Facebook */ "./app/Settings/fields/SocialProfile/Facebook.tsx");
+/* harmony import */ var _SocialProfile_LInkedin__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./SocialProfile/LInkedin */ "./app/Settings/fields/SocialProfile/LInkedin.tsx");
+/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-modal */ "./node_modules/react-modal/lib/index.js");
+/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_modal__WEBPACK_IMPORTED_MODULE_6__);
+var __awaiter = undefined && undefined.__awaiter || function (thisArg, _arguments, P, generator) {
+  function adopt(value) {
+    return value instanceof P ? value : new P(function (resolve) {
+      resolve(value);
+    });
+  }
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+    function step(result) {
+      result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+    }
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+var __generator = undefined && undefined.__generator || function (thisArg, body) {
+  var _ = {
+      label: 0,
+      sent: function () {
+        if (t[0] & 1) throw t[1];
+        return t[1];
+      },
+      trys: [],
+      ops: []
+    },
+    f,
+    y,
+    t,
+    g;
+  return g = {
+    next: verb(0),
+    "throw": verb(1),
+    "return": verb(2)
+  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
+    return this;
+  }), g;
+  function verb(n) {
+    return function (v) {
+      return step([n, v]);
+    };
+  }
+  function step(op) {
+    if (f) throw new TypeError("Generator is already executing.");
+    while (g && (g = 0, op[0] && (_ = 0)), _) try {
+      if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+      if (y = 0, t) op = [op[0] & 2, t.value];
+      switch (op[0]) {
+        case 0:
+        case 1:
+          t = op;
+          break;
+        case 4:
+          _.label++;
+          return {
+            value: op[1],
+            done: false
+          };
+        case 5:
+          _.label++;
+          y = op[1];
+          op = [0];
+          continue;
+        case 7:
+          op = _.ops.pop();
+          _.trys.pop();
+          continue;
+        default:
+          if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+            _ = 0;
+            continue;
+          }
+          if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+            _.label = op[1];
+            break;
+          }
+          if (op[0] === 6 && _.label < t[1]) {
+            _.label = t[1];
+            t = op;
+            break;
+          }
+          if (t && _.label < t[2]) {
+            _.label = t[2];
+            _.ops.push(op);
+            break;
+          }
+          if (t[2]) _.ops.pop();
+          _.trys.pop();
+          continue;
+      }
+      op = body.call(thisArg, _);
+    } catch (e) {
+      op = [6, e];
+      y = 0;
+    } finally {
+      f = t = 0;
+    }
+    if (op[0] & 5) throw op[1];
+    return {
+      value: op[0] ? op[1] : void 0,
+      done: true
+    };
+  }
+};
+
+
+
+
+
+
+
+var SocialProfile = function (props) {
+  var customStyles = {
+    overlay: {
+      background: "rgba(1, 17, 50, 0.7)",
+      padding: "50px 20px",
+      display: "flex",
+      overflow: "auto"
+    },
+    content: {
+      margin: "auto",
+      maxWidth: "100%",
+      width: "450px",
+      position: "static",
+      overflow: "hidden"
+    }
+  };
+  var _a = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
+    apiCredentialsModal = _a[0],
+    setApiCredentialsModal = _a[1];
+  var _b = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
+    requestSending = _b[0],
+    setRequestSending = _b[1];
+  var _c = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
+    profileDataModal = _c[0],
+    setProfileDataModal = _c[1];
+  var _d = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
+    profileData = _d[0],
+    setProfileData = _d[1];
+  var _e = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(''),
+    platform = _e[0],
+    setPlatform = _e[1];
+  var _f = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(""),
+    error = _f[0],
+    setError = _f[1];
+  // Send API request
+  var fetchDataFromAPI = function (body) {
+    return __awaiter(void 0, void 0, void 0, function () {
+      var response;
+      return __generator(this, function (_a) {
+        switch (_a.label) {
+          case 0:
+            return [4 /*yield*/, fetch('/wp-admin/admin-ajax.php', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+              },
+              body: new URLSearchParams(body).toString()
+            })];
+          case 1:
+            response = _a.sent();
+            return [2 /*return*/, response];
+        }
+      });
+    });
+  };
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
+    // Send API request fo fetching data
+    var getQueryParams = function (query) {
+      var params = new URLSearchParams(query);
+      var error = params.get('error_message');
+      if (error) {
+        setError(error);
+      } else {
+        if (params.get('action') === 'wpsp_social_add_social_profile') {
+          setProfileDataModal(true);
+          setRequestSending(true);
+          var getProfileData = function () {
+            return __awaiter(void 0, void 0, void 0, function () {
+              var data, response, responseData;
+              return __generator(this, function (_a) {
+                switch (_a.label) {
+                  case 0:
+                    data = {
+                      action: "wpsp_social_profile_fetch_user_info_and_token",
+                      type: params.get("type"),
+                      appId: params.get("appId"),
+                      appSecret: params.get("appSecret"),
+                      code: params.get("code"),
+                      redirectURI: params.get("redirectURI"),
+                      access_token: params.get("access_token"),
+                      refresh_token: params.get("refresh_token"),
+                      expires_in: params.get("expires_in"),
+                      rt_expires_in: params.get("rt_expires_in"),
+                      oauthVerifier: params.get("oauth_verifier"),
+                      oauthToken: params.get("oauth_token")
+                    };
+                    return [4 /*yield*/, fetchDataFromAPI(data)];
+                  case 1:
+                    response = _a.sent();
+                    return [4 /*yield*/, response.json()];
+                  case 2:
+                    responseData = _a.sent();
+                    setRequestSending(false);
+                    setProfileData(responseData);
+                    return [2 /*return*/];
+                }
+              });
+            });
+          };
+
+          getProfileData();
+        }
+      }
+    };
+    getQueryParams(window.location.search);
+  }, [window.location]);
+  var openApiCredentialsModal = function (platform) {
+    setPlatform(platform);
+    setApiCredentialsModal(true);
+  };
+  var closeApiCredentialsModal = function () {
+    setPlatform('');
+    setApiCredentialsModal(false);
+  };
+  var closeProfileDataModal = function () {
+    setProfileDataModal(false);
+  };
+  var socialProfileRequestHandler = function (redirectURI, appID, appSecret, platform) {
+    console.log(appID, appSecret);
+    // Send API request for fetch url
+    var sendRequest = function () {
+      return __awaiter(void 0, void 0, void 0, function () {
+        var data, response, responseData, message, parsedData;
+        var _a, _b;
+        return __generator(this, function (_c) {
+          switch (_c.label) {
+            case 0:
+              data = {
+                action: 'wpsp_social_add_social_profile',
+                redirectURI: redirectURI,
+                appId: appID,
+                appSecret: appSecret,
+                type: platform
+              };
+              return [4 /*yield*/, fetchDataFromAPI(data)];
+            case 1:
+              response = _c.sent();
+              return [4 /*yield*/, response.json()];
+            case 2:
+              responseData = _c.sent();
+              if (responseData.success) {
+                open(responseData.data, '_self');
+              } else {
+                message = void 0;
+                try {
+                  parsedData = JSON.parse(responseData.data);
+                  if ((_b = (_a = parsedData === null || parsedData === void 0 ? void 0 : parsedData.errors) === null || _a === void 0 ? void 0 : _a[0]) === null || _b === void 0 ? void 0 : _b.message) {
+                    message = parsedData.errors[0].message;
+                  } else {
+                    message = responseData.data;
+                  }
+                } catch (e) {
+                  message = responseData.data;
+                }
+                console.log(message);
+              }
+              return [2 /*return*/];
+          }
+        });
+      });
+    };
+
+    sendRequest();
+  };
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: classnames__WEBPACK_IMPORTED_MODULE_0___default()('wprf-control', 'wprf-social-profile', "wprf-".concat(props.name, "-social-profile"), props === null || props === void 0 ? void 0 : props.classes)
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h2", null, "Social Profile"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "social-card"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: 'social-profile-card'
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h5", null, "Facebook"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("button", {
+    type: "button",
+    className: "wpscp-social-tab__btn--addnew-profile",
+    onClick: function () {
+      return openApiCredentialsModal('facebook');
+    }
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Add New", "wp-scheduled-posts"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: 'social-profile-card'
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h5", null, "Twitter"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("button", null, "Add New")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: 'social-profile-card'
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h5", null, "Linkedin"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("button", {
+    type: "button",
+    className: "wpscp-social-tab__btn--addnew-profile",
+    onClick: function () {
+      return openApiCredentialsModal('linkedin');
+    }
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Add New", "wp-scheduled-posts"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: 'social-profile-card'
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h5", null, "Pinterest"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("button", null, "Add New"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react_modal__WEBPACK_IMPORTED_MODULE_6___default()), {
+    isOpen: apiCredentialsModal,
+    onRequestClose: closeApiCredentialsModal,
+    ariaHideApp: false,
+    style: customStyles
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_SocialProfile_ApiCredentialsForm__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    platform: platform,
+    requestHandler: socialProfileRequestHandler
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react_modal__WEBPACK_IMPORTED_MODULE_6___default()), {
+    isOpen: profileDataModal,
+    onRequestClose: closeProfileDataModal,
+    ariaHideApp: false,
+    style: customStyles
+  }, requestSending ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "wpsp-modal-info"
+  }, error ? error : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Generating Token & Fetching User Data", "wp-scheduled-posts")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react__WEBPACK_IMPORTED_MODULE_1___default().Fragment), null, (profileData === null || profileData === void 0 ? void 0 : profileData.type) == 'facebook' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_SocialProfile_Facebook__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    profileData: profileData
+  }), (profileData === null || profileData === void 0 ? void 0 : profileData.type) == 'linkedin' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_SocialProfile_LInkedin__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    profileData: profileData
+  }))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SocialProfile);
 
@@ -2802,21 +3184,55 @@ __webpack_require__.r(__webpack_exports__);
 var ApiCredentialsForm = function (_a) {
   var platform = _a.platform,
     requestHandler = _a.requestHandler;
-  var _b = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("793062612541839"),
+  var _b = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
     appID = _b[0],
     SetAppID = _b[1];
-  var _c = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("144f868aa0233914b1e94dabb4edf9f0"),
+  var _c = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
     appSecret = _c[0],
     SetAppSecret = _c[1];
+  var _d = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    isManual = _d[0],
+    setIsManual = _d[1];
   var redirectURIv2 = "https://api.schedulepress.com/v2/callback.php";
-  var _d = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("https://api.schedulepress.com/callback.php"),
-    redirectURI = _d[0],
-    SetRedirectURI = _d[1];
+  var _e = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("https://api.schedulepress.com/callback.php"),
+    redirectURI = _e[0],
+    SetRedirectURI = _e[1];
+  var hasAutomatic = platform == "linkedin" || platform == "pinterest";
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "modalbody"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "wpsp-social-account-insert-modal"
-  }, platform == "facebook" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, hasAutomatic && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "menual_connection_checker"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", {
+    className: "toggler_wrapper"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+    type: "checkbox",
+    value: 'true',
+    onChange: function (e) {
+      setIsManual(e.target.checked);
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    className: "text"
+  }, "Connect with ", !isManual ? "App credentials" : "Account"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    className: "toggler ".concat(isManual ? "checked" : "")
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+    type: "hidden",
+    name: "tempmodaltype",
+    value: "twitter"
+  }), hasAutomatic && !isManual && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "center",
+      marginTop: 5,
+      marginBottom: 15
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
+    onClick: function () {
+      return requestHandler(redirectURIv2, '', '', platform);
+    },
+    className: "wpsp-modal-generate-token-button"
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Connect your account", "wp-scheduled-posts"))), platform == "facebook" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "form-group"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", {
     htmlFor: ""
@@ -2860,7 +3276,7 @@ var ApiCredentialsForm = function (_a) {
     className: "wpsp-modal-generate-token-button",
     onClick: function (event) {
       if (redirectURI && appID && appSecret) {
-        requestHandler(redirectURI, appID, appSecret);
+        requestHandler(redirectURI, appID, appSecret, platform);
         event.preventDefault();
       }
     }
@@ -2870,10 +3286,10 @@ var ApiCredentialsForm = function (_a) {
 
 /***/ }),
 
-/***/ "./app/Settings/fields/SocialProfile/ProfileData.tsx":
-/*!***********************************************************!*\
-  !*** ./app/Settings/fields/SocialProfile/ProfileData.tsx ***!
-  \***********************************************************/
+/***/ "./app/Settings/fields/SocialProfile/Facebook.tsx":
+/*!********************************************************!*\
+  !*** ./app/Settings/fields/SocialProfile/Facebook.tsx ***!
+  \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2884,18 +3300,102 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 
-var ProfileData = function (_a) {
+var Facebook = function (_a) {
   var _b;
-  var platform = _a.platform,
-    profileData = _a.profileData;
+  var profileData = _a.profileData;
   console.log('from profile data component', profileData === null || profileData === void 0 ? void 0 : profileData.page);
+  var _c = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    isErrorMessage = _c[0],
+    setIsErrorMessage = _c[1];
+  var addProfileToggle = function (item, index, e) {};
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "modalhead"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", null, "This is modal for facebook header")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "modalbody"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", null, (_b = profileData === null || profileData === void 0 ? void 0 : profileData.page) === null || _b === void 0 ? void 0 : _b.map(function (item, index) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, item.name);
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", {
+    className: "prfile-list"
+  }, (_b = profileData === null || profileData === void 0 ? void 0 : profileData.page) === null || _b === void 0 ? void 0 : _b.map(function (item, index) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", {
+      id: 'facebook_page_' + index,
+      key: index
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      className: 'item-content'
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      className: 'entry-thumbnail'
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
+      src: item.thumbnail_url,
+      alt: 'logo'
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h4", {
+      className: 'entry-title'
+    }, item.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      className: 'control'
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+      type: 'checkbox',
+      name: "test_name",
+      onChange: function (e) {
+        return addProfileToggle(item, index, e);
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null))));
   }))));
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ProfileData);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Facebook);
+
+/***/ }),
+
+/***/ "./app/Settings/fields/SocialProfile/LInkedin.tsx":
+/*!********************************************************!*\
+  !*** ./app/Settings/fields/SocialProfile/LInkedin.tsx ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+var Linkedin = function (_a) {
+  var _b, _c;
+  var profileData = _a.profileData;
+  console.log('from profile data component', profileData === null || profileData === void 0 ? void 0 : profileData.page);
+  var _d = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    isErrorMessage = _d[0],
+    setIsErrorMessage = _d[1];
+  var addProfileToggle = function (item, index, e) {};
+  console.log(profileData);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "modalhead"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", null, "This is modal for linkedin header")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "modalbody"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", {
+    className: "prfile-list"
+  }, (_c = (_b = profileData === null || profileData === void 0 ? void 0 : profileData.linkedin) === null || _b === void 0 ? void 0 : _b.pages) === null || _c === void 0 ? void 0 : _c.map(function (item, index) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", {
+      id: 'linkedin_page_' + index,
+      key: index
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      className: 'item-content'
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      className: 'entry-thumbnail'
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
+      src: item.thumbnail_url,
+      alt: 'logo'
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h4", {
+      className: 'entry-title'
+    }, item.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      className: 'control'
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+      type: 'checkbox',
+      name: "test_name",
+      onChange: function (e) {
+        return addProfileToggle(item, index, e);
+      }
+    }))));
+  }))));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Linkedin);
 
 /***/ }),
 
@@ -36259,7 +36759,7 @@ var rules = {
       if (_typeof(newData) != "function") {
         if (isArray(checkAgainst) && isArray(newData)) {
           var _intersect;
-          return (_intersect = intersect__WEBPACK_IMPORTED_MODULE_6___default()(newData, checkAgainst)) === null || _intersect === void 0 ? void 0 : _intersect.length;
+          return !!((_intersect = intersect__WEBPACK_IMPORTED_MODULE_6___default()(newData, checkAgainst)) !== null && _intersect !== void 0 && _intersect.length);
         } else if (isArray(checkAgainst) && _typeof(newData) == "string") {
           return checkAgainst.includes(newData);
         } else if (isArray(newData) && _typeof(checkAgainst) == "string") {
@@ -37684,6 +38184,9 @@ var withProps = function withProps(WrappedComponent) {
       };
     }, []);
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+      if (['ft_theme_three_line_one', 'ft_theme_three_line_two', 'ft_theme_four_line_two'].includes(props.name)) {
+        return;
+      }
       if (meta.visible && isFieldMounted.current[props.name]) {
         // Not needed / Confused
         if (!isGeneric && field.type !== 'group') {
@@ -37960,14 +38463,19 @@ var Date$1 = withLabel(DateControl);
 
 function ownKeys$8(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread$8(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$8(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$8(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-var Input = function Input(props) {
-  var validProps = validFieldProps(props, ['is_pro', 'visible', 'trigger', 'copyOnClick', 'disable', 'parentIndex', 'context', 'badge', 'popup']);
+var Input = function Input(props, ref) {
+  var type = props.type ? props.type : 'text';
+  var validProps = validFieldProps(_objectSpread$8(_objectSpread$8({}, props), {}, {
+    type: type
+  }), ['is_pro', 'visible', 'trigger', 'copyOnClick', 'disable', 'parentIndex', 'context', 'badge', 'popup', 'tags']);
   var handleChange = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (event) {
     return validProps.onChange(event, {
       popup: props === null || props === void 0 ? void 0 : props.popup,
       isPro: !!props.is_pro
     });
   }, [validProps === null || validProps === void 0 ? void 0 : validProps.value]);
+  var localRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+  var inputRef = ref !== null && ref !== void 0 && ref.current ? ref : localRef;
   if (validProps.type === 'checkbox') {
     if (validProps !== null && validProps !== void 0 && validProps.name) {
       validProps.checked = (validProps === null || validProps === void 0 ? void 0 : validProps.checked) || (validProps === null || validProps === void 0 ? void 0 : validProps.value);
@@ -38015,13 +38523,11 @@ var Input = function Input(props) {
     }, "Copy")));
   }
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement('input', _objectSpread$8(_objectSpread$8({}, validProps), {}, {
-    onChange: handleChange
+    onChange: handleChange,
+    ref: inputRef
   }));
 };
-Input.defaultProps = {
-  type: 'text'
-};
-var GenericInput = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().memo(Input);
+var GenericInput = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().memo( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().forwardRef(Input));
 var Input$1 = withLabel( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().memo(Input));
 
 function ownKeys$7(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
@@ -39682,7 +40188,7 @@ var Content = function Content(_ref) {
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "wprf-tab-contents"
   }, tabs.map(function (tab, index) {
-    var _rest$title;
+    var _rest$title, _rest$title2;
     if (!isVisible(builderContext === null || builderContext === void 0 ? void 0 : builderContext.values, tab)) {
       return '';
     }
@@ -39693,9 +40199,9 @@ var Content = function Content(_ref) {
       id: tab === null || tab === void 0 ? void 0 : tab.id,
       className: componentClasses,
       key: tab === null || tab === void 0 ? void 0 : tab.id
-    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    }, ((tab === null || tab === void 0 ? void 0 : tab.label) && ((_rest$title = rest === null || rest === void 0 ? void 0 : rest.title) !== null && _rest$title !== void 0 ? _rest$title : true) || (rest === null || rest === void 0 ? void 0 : rest.content_heading)) && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "wprf-tab-heading-wrapper"
-    }, (tab === null || tab === void 0 ? void 0 : tab.label) && ((_rest$title = rest === null || rest === void 0 ? void 0 : rest.title) !== null && _rest$title !== void 0 ? _rest$title : true) && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", null, tab.label), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (rest === null || rest === void 0 ? void 0 : rest.content_heading) && Object.keys(rest.content_heading).map(function (button, index) {
+    }, (tab === null || tab === void 0 ? void 0 : tab.label) && ((_rest$title2 = rest === null || rest === void 0 ? void 0 : rest.title) !== null && _rest$title2 !== void 0 ? _rest$title2 : true) && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", null, tab.label), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (rest === null || rest === void 0 ? void 0 : rest.content_heading) && Object.keys(rest.content_heading).map(function (button, index) {
       return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), {
         key: "button_".concat(button, "_").concat(index)
       }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Field$1, rest.content_heading[button]));
@@ -39772,7 +40278,7 @@ var FormBuilder = function FormBuilder(props) {
   var builderContext = useBuilderContext();
   var tabs = props;
   if (!((_tabs = tabs) !== null && _tabs !== void 0 && _tabs.type)) {
-    tabs = _objectSpread(_objectSpread({}, props.config), {}, {
+    tabs = _objectSpread(_objectSpread(_objectSpread({}, props), props.config), {}, {
       value: props.config.active,
       fields: props.tabs,
       tabs: undefined,

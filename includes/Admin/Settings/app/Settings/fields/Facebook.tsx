@@ -146,26 +146,6 @@ const SocialProfile = (props) => {
                         {__("Add New", "wp-scheduled-posts")}
                     </button>
                 </div>
-                <div className='social-profile-card'>
-                    <h5>Twitter</h5>
-                    <button>Add New</button>
-                </div>
-                <div className='social-profile-card'>
-                    <h5>Linkedin</h5>
-                    <button
-                        type="button"
-                        className={
-                        "wpscp-social-tab__btn--addnew-profile"
-                        }
-                        onClick={() => openApiCredentialsModal('linkedin')}
-                        >
-                        {__("Add New", "wp-scheduled-posts")}
-                    </button>
-                </div>
-                <div className='social-profile-card'>
-                    <h5>Pinterest</h5>
-                    <button>Add New</button>
-                </div>
            </div>
             {/* API Credentials Modal  */}
             <Modal
@@ -195,8 +175,7 @@ const SocialProfile = (props) => {
                     </div>
                 ) : (
                     <>
-                        { profileData?.type == 'facebook' && (  <Facebook profileData={profileData} /> ) }
-                        { profileData?.type == 'linkedin' && (  <Linkedin profileData={profileData} /> ) }
+                       <Facebook profileData={profileData} />
                     </>
                 )}
             </Modal>

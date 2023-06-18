@@ -341,10 +341,10 @@ class Settings {
                     'label'    => __('Social Profile', 'wp-scheduled-posts'),
                     'priority' => 20,
                     'fields'   => [
-                      'social_profile'  => [
-                        'id'       => 'social_profile',
-                        'name'     => 'social_profile',
-                        'type'     => 'social_profile',
+                      'facebook'  => [
+                        'id'       => 'facebook',
+                        'name'     => 'facebook',
+                        'type'     => 'facebook',
                         'label'    => __('Social Profile', 'wp-scheduled-posts'),
                         'priority' => 5,
                       ]
