@@ -1,13 +1,15 @@
 .wprf-tab-layout_social_profile {
     padding: 32px;
     background: #fff;
-    h2 {
-        color: #1B1B50 !important;
-        font-size: 24px !important;
-        line-height: 30px;
-        font-weight: 600;
-        margin: 0 !important;
-        padding-bottom: 32px;
+    .wprf-section-title {
+        h4 {
+            color: #1B1B50 !important;
+            font-size: 24px !important;
+            line-height: 30px;
+            font-weight: 600;
+            margin: 0 !important;
+            background: transparent !important;
+        }
     }
     .social-profile-card {
         background: #F9FAFC;

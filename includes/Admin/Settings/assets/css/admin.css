@@ -3158,13 +3158,13 @@ button.wprf-btn {
   padding: 32px;
   background: #fff;
 }
-#wpsp-dashboard-body .wprf-tab-layout_social_profile h2 {
+#wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-title h4 {
   color: #1B1B50 !important;
   font-size: 24px !important;
   line-height: 30px;
   font-weight: 600;
   margin: 0 !important;
-  padding-bottom: 32px;
+  background: transparent !important;
 }
 #wpsp-dashboard-body .wprf-tab-layout_social_profile .social-profile-card {
   background: #F9FAFC;
