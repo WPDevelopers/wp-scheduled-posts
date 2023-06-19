@@ -86,7 +86,7 @@ class Settings {
             'active'          => "layout_documentation_page",
             'completionTrack' => true,
             'is_pro_active'   => '',
-            // 'is_pro_active'   => (defined('WPSP_PRO_VERSION') ? WPSP_PRO_VERSION : ''),
+            'is_pro_active'   => (defined('WPSP_PRO_VERSION') ? WPSP_PRO_VERSION : ''),
             'sidebar'         => false,
             'config'          => [
                 'active'  => 'layout_documentation_page',
@@ -342,20 +342,30 @@ class Settings {
                     'label'    => __('Social Profile', 'wp-scheduled-posts'),
                     'priority' => 20,
                     'fields'   => [
-                      'facebook_profile_list'  => [
-                        'id'       => 'facebook_profile_list',
-                        'name'     => 'facebook_profile_list',
-                        'type'     => 'facebook',
-                        'label'    => __('Social Profile', 'wp-scheduled-posts'),
-                        'priority' => 5,
-                      ],
-                      'linkedin_profile_list'  => [
-                        'id'       => 'linkedin_profile_list',
-                        'name'     => 'linkedin_profile_list',
-                        'type'     => 'linkedin',
-                        'label'    => __('Linkedin', 'wp-scheduled-posts'),
-                        'priority' => 5,
-                      ]
+                        'social_profile_wrapper' => [
+                            'id'        => 'social_profile_wrapper',
+                            'name'      => 'social_profile_wrapper',
+                            'type'      => 'section',
+                            'label'    => __('Social Profile', 'wp-scheduled-posts'),
+                            'priority'  => 5,
+                            'fields'    => [
+                                'facebook_profile_list'  => [
+                                    'id'       => 'facebook_profile_list',
+                                    'name'     => 'facebook_profile_list',
+                                    'type'     => 'facebook',
+                                    'label'    => __('Facebook', 'wp-scheduled-posts'),
+                                    'priority' => 5,
+                                ],
+                                'linkedin_profile_list'  => [
+                                    'id'       => 'linkedin_profile_list',
+                                    'name'     => 'linkedin_profile_list',
+                                    'type'     => 'linkedin',
+                                    'label'    => __('Linkedin', 'wp-scheduled-posts'),
+                                    'priority' => 10,
+                                ]
+                            ]
+                        ]
+                    
                     ]
                 ],
                 'layout_social_template'       => [
