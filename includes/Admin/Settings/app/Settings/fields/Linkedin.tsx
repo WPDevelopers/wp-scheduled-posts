@@ -10,7 +10,7 @@ import ApiCredentialsForm from './SocialProfile/ApiCredentialsForm';
 import Modal from "react-modal";
 import { fetchDataFromAPI,activeSocialTab } from '../helper/helper';
 
-const Facebook = (props) => {
+const Linkedin = (props) => {
     const builderContext = useBuilderContext();
 
     const handleChange = useCallback((event, index) => {
@@ -136,7 +136,7 @@ const Facebook = (props) => {
         sendRequest();
     };
 
-    // Add facebook prifle 
+    // Add linkedin prifle 
     const addProfileToggle = (item, index, e) => {
         if( e.target.checked ) {
             // free
@@ -163,83 +163,54 @@ const Facebook = (props) => {
             setSelectedProfile((prevItems) => prevItems.filter((prevItem) => prevItem.id !== item.id));
         }
     }
+    useEffect(() => {
+        console.log(profileData);
+        
+    },[profileData]);
     return (
         <div className={classNames('wprf-control', 'wprf-social-profile', `wprf-${props.name}-social-profile`, props?.classes)}>
            <h2>Social Profile</h2>
-           {isErrorMessage && (
-                <div className='error-message'>
-                    {__(
-                        'Multi Profile is a Premium Feature. To use this feature,',
-                        'wp-scheduled-posts'
+           <div className="social-card">
+                <div className='social-profile-card'>
+                    {isErrorMessage && (
+                        <div className='error-message'>
+                            {__(
+                                'Multi Profile is a Premium Feature. To use this feature,',
+                                'wp-scheduled-posts'
+                            )}
+                            {" "}
+                            <a target="_blank" href='https://wpdeveloper.com/in/schedulepress-pro'>
+                                {__(
+                                    'Upgrade to PRO.',
+                                    'wp-scheduled-posts'
+                                )}
+                            </a>
+                        </div>
                     )}
-                    {" "}
-                    <a target="_blank" href='https://wpdeveloper.com/in/schedulepress-pro'>
-                        {__(
-                            'Upgrade to PRO.',
-                            'wp-scheduled-posts'
-                        )}
-                    </a>
-                </div>
-            )}
-            <div className='social-profile-card'>
-                <div className="card-header">
-                    <div className="heading">
-                        <h5>Facebook</h5>
-                    </div>
-                    <div className="status">
-                        <input
-                            type='checkbox'
-                            onChange={(e) =>
-                                handleChange(e,1)
-                            }
-                        />
-                    </div>
-                </div>
-                <div className="card-content">
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum dolorem velit nisi vel perspiciatis rerum reprehenderit. Quisquam nisi maiores, voluptatem dignissimos accusamus ipsum recusandae earum. Sed dolorem sint ducimus excepturi.</p>
-                </div>
-                <div className="card-footer">
-                    <select name="" id="">
-                        <option value="">Page</option>
-                        <option value="">Group</option>
-                    </select>
+                    <h5>Linkedin</h5>
+                    <input
+                        type='checkbox'
+                        onChange={(e) =>
+                            handleChange(e,1)
+                        }
+                    />
                     <button
                         type="button"
                         className={
                         "wpscp-social-tab__btn--addnew-profile"
                         }
-                        onClick={() => openApiCredentialsModal('facebook')}
+                        onClick={() => openApiCredentialsModal('linkedin')}
                         >
                         {__("Add New", "wp-scheduled-posts")}
                     </button>
+                    <h4>Selected Profile</h4>
+                    <ul>
+                        {selectedProfile.map((item,index) => (
+                            <li>{item.name}</li>
+                        ))}
+                    </ul>
                 </div>
-                <div className="selected-profile">
-                    <div className="profile-item">
-                        <div className="profile-image">
-                            <img src="" alt="" />
-                        </div>
-                        <div className="profile-data">
-                            <span>Profile</span>
-                            <h4>David Warner</h4>
-                            <span>Admin on 12 June, 2023</span>
-                            <div className="action">
-                                <div className="change-status">
-                                    <input type="checkbox" name="" id="" />
-                                </div>
-                                <div className="remove-profile">
-                                    <button>Delete</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <h4>Selected Profile</h4>
-                <ul>
-                    {selectedProfile.map((item,index) => (
-                        <li>{item.name}</li>
-                    ))}
-                </ul>
-            </div>
+           </div>
             {/* API Credentials Modal  */}
             <Modal
                 isOpen={apiCredentialsModal}
@@ -270,17 +241,17 @@ const Facebook = (props) => {
                 ) : (
                     <>
                         <div className="modalhead">
-                            <h3>This is modal for facebook header</h3>
+                            <h3>This is modal for linkedin header</h3>
                         </div>
                         <div className="modalbody">
                             {/* @ts-ignore */}
-                            { (profileData?.page ?? []).length && (
+                            { (profileData?.linkedin?.pages ?? []).length && (
                                 <div className="profile-list-page">
                                     <h3>Pages</h3>
                                     <ul className="prfile-list">
                                         {/* @ts-ignore */}
-                                        {profileData?.page?.map((item,index) => (
-                                        <li id={'facebook_page_' + index} key={index}>
+                                        {profileData?.linkedin?.pages?.map((item,index) => (
+                                        <li id={'linkedin_page_' + index} key={index}>
                                             <div className='item-content'>
                                                 <div className='entry-thumbnail'>
                                                     <img
@@ -310,13 +281,13 @@ const Facebook = (props) => {
                                 </div>
                             ) }
                             {/* @ts-ignore */}
-                            { (profileData?.group ?? []).length > 0 && (
+                            { (profileData?.linkedin?.profiles ?? []).length > 0 && (
                                 <div className="profile-list-group">
                                     <h3>Group</h3>
                                     <ul className="prfile-list">
                                         {/* @ts-ignore */}
-                                        {profileData?.group?.map((item,index) => (
-                                        <li id={'facebook_page_' + index} key={index}>
+                                        {profileData?.linkedin?.profiles.map((item,index) => (
+                                        <li id={'linkedin_page_' + index} key={index}>
                                             <div className='item-content'>
                                                 <div className='entry-thumbnail'>
                                                     <img
@@ -353,4 +324,4 @@ const Facebook = (props) => {
     )
 }
 
-export default Facebook;
+export default Linkedin;

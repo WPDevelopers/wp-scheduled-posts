@@ -195,8 +195,9 @@ const SocialProfile = (props) => {
                     </div>
                 ) : (
                     <>
+{/*                         
                         { profileData?.type == 'facebook' && (  <Facebook profileData={profileData} /> ) }
-                        { profileData?.type == 'linkedin' && (  <Linkedin profileData={profileData} /> ) }
+                        { profileData?.type == 'linkedin' && (  <Linkedin profileData={profileData} /> ) } */}
                     </>
                 )}
             </Modal>

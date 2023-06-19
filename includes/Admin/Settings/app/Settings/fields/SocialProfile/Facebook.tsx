@@ -36,7 +36,6 @@ const Facebook = ({profileData }) => {
                                         )
                                     }
                                 />
-                                <div></div>
                             </div>
                         </div>
                     </li>
