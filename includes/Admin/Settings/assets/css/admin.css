@@ -3265,6 +3265,29 @@ button.wprf-btn {
   align-items: flex-end !important;
   gap: 8px;
 }
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-contents .wprf-section-fields .wprf-group-control .wprf-control-wrapper .wprf-control-field input {
+  box-shadow: none !important;
+  border: 1px solid #EBEEF5 !important;
+  background-color: #F9FAFC !important;
+  font-size: 12px !important;
+  color: #1B1B50 !important;
+  padding: 8px 12px !important;
+  line-height: 15px !important;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-contents .wprf-section-fields .wprf-group-control .wprf-control-wrapper .wprf-control-field input:focus {
+  border-color: #EBEEF5 !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-contents .wprf-section-fields .wprf-group-control .wprf-control-wrapper .wprf-control-field > p {
+  margin-left: 0px !important;
+  font-size: 10px !important;
+  color: #6E6E8D !important;
+  font-style: italic;
+  margin-bottom: 0;
+  margin-top: 0;
+  text-align: end;
+}
 
 .wprf-toggle-wrap label.wprf-input-label {
   width: 47px;
