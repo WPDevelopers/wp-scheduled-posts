@@ -3158,13 +3158,27 @@ button.wprf-btn {
   padding: 32px;
   background: #fff;
 }
+#wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-title {
+  padding-bottom: 24px;
+}
 #wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-title h4 {
   color: #1B1B50 !important;
   font-size: 24px !important;
   line-height: 30px;
   font-weight: 600;
+  letter-spacing: 0px;
   margin: 0 !important;
+  padding: 0 !important;
+  text-transform: capitalize !important;
   background: transparent !important;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields {
+  padding: 0 !important;
 }
 #wpsp-dashboard-body .wprf-tab-layout_social_profile .social-profile-card {
   background: #F9FAFC;
@@ -3176,11 +3190,48 @@ button.wprf-btn {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  margin-bottom: 20px;
 }
 #wpsp-dashboard-body .wprf-tab-layout_social_profile .social-profile-card .card-header h5 {
   color: #1B1B50;
   font-size: 18px;
   margin: 0;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_profile .social-profile-card .card-content {
+  color: #6E6E8D !important;
+  font-size: 14px !important;
+  line-height: 22px !important;
+  margin: 0 0 20px !important;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_profile .social-profile-card .card-footer {
+  display: flex;
+  gap: 32px;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_profile .social-profile-card .card-footer select {
+  font-size: 14px;
+  line-height: 2;
+  color: #6E6E8D;
+  border-color: #D7DBDF;
+  box-shadow: none;
+  border-radius: 6px;
+  padding: 16px 20px 16px 16px;
+  min-height: 30px;
+  max-width: 25rem;
+  background: #F9FAFC url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E") no-repeat right 5px top 55%;
+  background-size: 16px 16px;
+  cursor: pointer;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_profile .social-profile-card .card-footer button {
+  color: #6C62FF;
+  padding: 16px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 17px;
+  text-align: center;
+  border: 1px solid #6C62FF;
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
 }
 #wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper {
   flex-basis: 20% !important;
