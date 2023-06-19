@@ -2955,6 +2955,49 @@ button.wprf-btn {
     padding: 20px;
   }
 }
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings .wprf-section-fields .wprf-control-wrapper .pro-deactivated,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields .wprf-control-wrapper .pro-deactivated {
+  display: flex;
+  align-items: center;
+  flex-basis: 100%;
+  justify-content: space-between;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings .wprf-section-fields .wprf-control-wrapper .pro-deactivated .wprf-control-label,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields .wprf-control-wrapper .pro-deactivated .wprf-control-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings .wprf-section-fields .wprf-control-wrapper .pro-deactivated .wprf-control-label .wprf-badge,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields .wprf-control-wrapper .pro-deactivated .wprf-control-label .wprf-badge {
+  display: flex;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings .wprf-section-fields .wprf-control-wrapper .pro-deactivated .wprf-control-label .wprf-badge .wprf-badge-item,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields .wprf-control-wrapper .pro-deactivated .wprf-control-label .wprf-badge .wprf-badge-item {
+  padding: 6px 10px;
+  background: #FF9437;
+  color: #fff;
+  border-radius: 20px;
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: 500;
+  text-transform: uppercase;
+  font-family: inter;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings .wprf-section-fields .wprf-control-wrapper .pro-deactivated .wprf-control-field .wprf-toggle-wrap,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields .wprf-control-wrapper .pro-deactivated .wprf-control-field .wprf-toggle-wrap {
+  order: 1;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings .wprf-section-fields .wprf-control-wrapper .pro-deactivated .wprf-control-field .wprf-description,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields .wprf-control-wrapper .pro-deactivated .wprf-control-field .wprf-description {
+  position: relative;
+  font-family: "Inter";
+  font-weight: 500;
+  color: #FF9437;
+  margin-left: 0 !important;
+  font-size: 14px !important;
+  margin-right: 24px;
+}
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings .wprf-section-fields .wprf-control-wrapper .wprf-control-label,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields .wprf-control-wrapper .wprf-control-label {
   flex-basis: auto;
@@ -2976,43 +3019,6 @@ button.wprf-btn {
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings .wprf-section-fields .wprf-control-wrapper .wprf-control-field,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields .wprf-control-wrapper .wprf-control-field {
   flex-basis: auto;
-}
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings .wprf-section-fields .wprf-control-wrapper .wprf-control-field .wprf-toggle-wrap,
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields .wprf-control-wrapper .wprf-control-field .wprf-toggle-wrap {
-  order: 1;
-}
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings .wprf-section-fields .wprf-control-wrapper .wprf-control-field .wprf-description,
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields .wprf-control-wrapper .wprf-control-field .wprf-description {
-  position: relative;
-  font-family: "Inter";
-  font-weight: 500;
-  color: #FF9437;
-  margin-left: 0 !important;
-  font-size: 14px !important;
-  margin-right: 24px;
-  cursor: pointer;
-}
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings .wprf-section-fields .wprf-control-wrapper .wprf-control-field .wprf-control-label,
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields .wprf-control-wrapper .wprf-control-field .wprf-control-label {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings .wprf-section-fields .wprf-control-wrapper .wprf-control-field .wprf-control-label .wprf-badge,
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields .wprf-control-wrapper .wprf-control-field .wprf-control-label .wprf-badge {
-  display: flex;
-}
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings .wprf-section-fields .wprf-control-wrapper .wprf-control-field .wprf-control-label .wprf-badge .wprf-badge-item,
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields .wprf-control-wrapper .wprf-control-field .wprf-control-label .wprf-badge .wprf-badge-item {
-  padding: 6px 10px;
-  background: #FF9437;
-  color: #fff;
-  border-radius: 20px;
-  font-size: 14px;
-  line-height: 16px;
-  font-weight: 500;
-  text-transform: uppercase;
-  font-family: inter;
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-submit {
   margin-top: 0 !important;
@@ -3147,6 +3153,34 @@ button.wprf-btn {
   font-family: Inter;
   font-weight: 500;
   line-height: 18px;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_profile {
+  padding: 32px;
+  background: #fff;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_profile h2 {
+  color: #1B1B50 !important;
+  font-size: 24px !important;
+  line-height: 30px;
+  font-weight: 600;
+  margin: 0 !important;
+  padding-bottom: 32px;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_profile .social-profile-card {
+  background: #F9FAFC;
+  border-radius: 6px;
+  padding: 24px;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_profile .social-profile-card .card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_profile .social-profile-card .card-header h5 {
+  color: #1B1B50;
+  font-size: 18px;
+  margin: 0;
 }
 #wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper {
   flex-basis: 20% !important;
