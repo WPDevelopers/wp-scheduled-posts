@@ -2790,7 +2790,7 @@ button.wprf-btn {
   justify-content: space-between;
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents {
-  flex: 70%;
+  flex: 90%;
   padding: 0 32px;
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-control-section {
@@ -3047,9 +3047,9 @@ button.wprf-btn {
   cursor: pointer;
 }
 #wpsp-dashboard-body .wpsp-admin-sidebar {
-  padding: 32px;
+  padding: 20px;
   background: #fff;
-  flex: 30%;
+  flex: 10%;
   justify-content: flex-start !important;
   border-radius: 6px 0 0 6px;
   box-shadow: none;
@@ -3057,16 +3057,16 @@ button.wprf-btn {
 }
 @media screen and (max-width: 1023px) {
   #wpsp-dashboard-body .wpsp-admin-sidebar {
-    padding: 24px;
+    padding: 16px;
   }
 }
 #wpsp-dashboard-body .wpsp-admin-sidebar .upgrade-pro {
   text-align: center;
-  padding: 16px 20px 24px !important;
+  padding: 16px 16px 20px !important;
   border-radius: 8px;
   background-color: #FCF4ED;
   box-sizing: border-box;
-  margin-bottom: 32px !important;
+  margin-bottom: 20px !important;
   position: relative;
   z-index: 1;
 }
@@ -3076,11 +3076,11 @@ button.wprf-btn {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 70%;
+  height: 75%;
   background: linear-gradient(rgb(255, 214, 178), rgb(255, 239, 225));
   z-index: -1;
-  -webkit-clip-path: ellipse(85% 100% at center bottom);
-          clip-path: ellipse(85% 100% at center bottom);
+  -webkit-clip-path: ellipse(95% 100% at center bottom);
+          clip-path: ellipse(95% 100% at center bottom);
 }
 @media screen and (max-width: 1023px) {
   #wpsp-dashboard-body .wpsp-admin-sidebar .upgrade-pro {
@@ -3123,7 +3123,7 @@ button.wprf-btn {
 }
 #wpsp-dashboard-body .wpsp-admin-sidebar .card {
   margin-top: 0 !important;
-  padding: 20px !important;
+  padding: 16px;
   border: 1px solid #EBEEF5 !important;
   border-radius: 6px;
   box-shadow: none !important;
