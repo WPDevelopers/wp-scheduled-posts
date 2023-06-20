@@ -2423,8 +2423,6 @@ var Facebook = function (props) {
     var _a = (0,quickbuilder__WEBPACK_IMPORTED_MODULE_3__.executeChange)(event),
       field = _a.field,
       value = _a.val;
-    console.log(builderContext);
-    console.log(selectedProfile);
     builderContext.setFieldValue([props.name, field], value);
   }, [props.value]);
   var customStyles = {
@@ -2449,8 +2447,8 @@ var Facebook = function (props) {
       page: [],
       group: []
     }),
-    profileData = _b[0],
-    setProfileData = _b[1];
+    fbProfileData = _b[0],
+    setFbProfileData = _b[1];
   var _c = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(''),
     platform = _c[0],
     setPlatform = _c[1];
@@ -2469,8 +2467,8 @@ var Facebook = function (props) {
     setApiCredentialsModal(false);
   };
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
-    console.log(profileData);
-  }, [profileData]);
+    console.log(fbProfileData);
+  }, [fbProfileData]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: classnames__WEBPACK_IMPORTED_MODULE_0___default()('wprf-control', 'wprf-social-profile', "wprf-".concat(props.name, "-social-profile"), props === null || props === void 0 ? void 0 : props.classes)
   }, isErrorMessage && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
@@ -2544,12 +2542,14 @@ var Facebook = function (props) {
     requestHandler: _helper_helper__WEBPACK_IMPORTED_MODULE_6__.socialProfileRequestHandler
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_SocialProfile_SocialModal__WEBPACK_IMPORTED_MODULE_7__["default"], {
     customStyles: customStyles,
-    pages: profileData === null || profileData === void 0 ? void 0 : profileData.page,
-    profiles: profileData === null || profileData === void 0 ? void 0 : profileData.group,
-    setProfileData: setProfileData,
+    pages: fbProfileData === null || fbProfileData === void 0 ? void 0 : fbProfileData.page,
+    profiles: fbProfileData === null || fbProfileData === void 0 ? void 0 : fbProfileData.group,
     selectedProfile: selectedProfile,
     setSelectedProfile: setSelectedProfile,
     setIsErrorMessage: setIsErrorMessage,
+    setFbProfileData: setFbProfileData,
+    setLinkedInProfileData: [],
+    setPinterestBoards: [],
     type: "facebook"
   }));
 };
@@ -2620,6 +2620,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Features__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Features */ "./app/Settings/fields/Features.tsx");
 /* harmony import */ var _Facebook__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Facebook */ "./app/Settings/fields/Facebook.tsx");
 /* harmony import */ var _Linkedin__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Linkedin */ "./app/Settings/fields/Linkedin.tsx");
+/* harmony import */ var _Pinterest__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Pinterest */ "./app/Settings/fields/Pinterest.tsx");
 var __assign = undefined && undefined.__assign || function () {
   __assign = Object.assign || function (t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -2634,6 +2635,7 @@ var __assign = undefined && undefined.__assign || function () {
 
 
 
+
 var Field = function (r, type, props) {
   switch (type) {
     case "features":
@@ -2642,6 +2644,8 @@ var Field = function (r, type, props) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Facebook__WEBPACK_IMPORTED_MODULE_2__["default"], __assign({}, props));
     case "linkedin":
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Linkedin__WEBPACK_IMPORTED_MODULE_3__["default"], __assign({}, props));
+    case "pinterest":
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Pinterest__WEBPACK_IMPORTED_MODULE_4__["default"], __assign({}, props));
     default:
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null);
   }
@@ -2702,13 +2706,10 @@ var __rest = undefined && undefined.__rest || function (s, e) {
 
 var Linkedin = function (props) {
   var builderContext = (0,quickbuilder__WEBPACK_IMPORTED_MODULE_3__.useBuilderContext)();
-  console.log(builderContext.values);
   var handleChange = (0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)(function (event, index) {
     var _a = (0,quickbuilder__WEBPACK_IMPORTED_MODULE_3__.executeChange)(event),
       field = _a.field,
       value = _a.val;
-    console.log(builderContext);
-    console.log(selectedProfile);
     builderContext.setFieldValue([props.name, field], value);
   }, [props.value]);
   var customStyles = {
@@ -2741,6 +2742,9 @@ var Linkedin = function (props) {
   var _e = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
     isErrorMessage = _e[0],
     setIsErrorMessage = _e[1];
+  var _f = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({}),
+    linkedInProfileData = _f[0],
+    setLinkedInProfileData = _f[1];
   var openApiCredentialsModal = function (platform) {
     setPlatform(platform);
     setApiCredentialsModal(true);
@@ -2750,12 +2754,12 @@ var Linkedin = function (props) {
     setApiCredentialsModal(false);
   };
   // @ts-ignore
-  var _f = profileData !== null && profileData !== void 0 ? profileData : {},
-    _g = _f.profiles,
-    profiles = _g === void 0 ? [] : _g,
-    _h = _f.pages,
-    pages = _h === void 0 ? [] : _h,
-    appData = __rest(_f, ["profiles", "pages"]);
+  var _g = linkedInProfileData !== null && linkedInProfileData !== void 0 ? linkedInProfileData : {},
+    _h = _g.profiles,
+    profiles = _h === void 0 ? [] : _h,
+    _j = _g.pages,
+    pages = _j === void 0 ? [] : _j,
+    appData = __rest(_g, ["profiles", "pages"]);
   profiles = profiles ? profiles : [];
   profiles = profiles.map(function (val, i) {
     return __assign(__assign({}, appData), val);
@@ -2838,14 +2842,194 @@ var Linkedin = function (props) {
     customStyles: customStyles,
     pages: pages,
     profiles: profiles,
-    setProfileData: setProfileData,
     selectedProfile: selectedProfile,
     setSelectedProfile: setSelectedProfile,
     setIsErrorMessage: setIsErrorMessage,
+    setFbProfileData: [],
+    setLinkedInProfileData: setLinkedInProfileData,
+    setPinterestBoards: [],
     type: "linkedin"
   }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Linkedin);
+
+/***/ }),
+
+/***/ "./app/Settings/fields/Pinterest.tsx":
+/*!*******************************************!*\
+  !*** ./app/Settings/fields/Pinterest.tsx ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var quickbuilder__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! quickbuilder */ "./node_modules/quickbuilder/dist/index.js");
+/* harmony import */ var quickbuilder__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(quickbuilder__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _SocialProfile_ApiCredentialsForm__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SocialProfile/ApiCredentialsForm */ "./app/Settings/fields/SocialProfile/ApiCredentialsForm.tsx");
+/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-modal */ "./node_modules/react-modal/lib/index.js");
+/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_modal__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _helper_helper__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../helper/helper */ "./app/Settings/helper/helper.ts");
+/* harmony import */ var _SocialProfile_SocialModal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./SocialProfile/SocialModal */ "./app/Settings/fields/SocialProfile/SocialModal.tsx");
+
+
+
+
+
+
+
+
+var Pinterest = function (props) {
+  var builderContext = (0,quickbuilder__WEBPACK_IMPORTED_MODULE_3__.useBuilderContext)();
+  var handleChange = (0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)(function (event, index) {
+    var _a = (0,quickbuilder__WEBPACK_IMPORTED_MODULE_3__.executeChange)(event),
+      field = _a.field,
+      value = _a.val;
+    builderContext.setFieldValue([props.name, field], value);
+  }, [props.value]);
+  var customStyles = {
+    overlay: {
+      background: "rgba(1, 17, 50, 0.7)",
+      padding: "50px 20px",
+      display: "flex",
+      overflow: "auto"
+    },
+    content: {
+      margin: "auto",
+      maxWidth: "100%",
+      width: "450px",
+      position: "static",
+      overflow: "hidden"
+    }
+  };
+  var _a = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
+    apiCredentialsModal = _a[0],
+    setApiCredentialsModal = _a[1];
+  var _b = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
+      page: [],
+      group: []
+    }),
+    profileData = _b[0],
+    setProfileData = _b[1];
+  var _c = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(''),
+    platform = _c[0],
+    setPlatform = _c[1];
+  var _d = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
+    selectedProfile = _d[0],
+    setSelectedProfile = _d[1];
+  var _e = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
+    isErrorMessage = _e[0],
+    setIsErrorMessage = _e[1];
+  var _f = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
+    pinterestBoards = _f[0],
+    setPinterestBoards = _f[1];
+  var _g = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
+    responseData = _g[0],
+    setResponseData = _g[1];
+  var openApiCredentialsModal = function (platform) {
+    setPlatform(platform);
+    setApiCredentialsModal(true);
+  };
+  var closeApiCredentialsModal = function () {
+    setPlatform('');
+    setApiCredentialsModal(false);
+  };
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
+    console.log(pinterestBoards);
+  }, [pinterestBoards]);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: classnames__WEBPACK_IMPORTED_MODULE_0___default()('wprf-control', 'wprf-social-profile', "wprf-".concat(props.name, "-social-profile"), props === null || props === void 0 ? void 0 : props.classes)
+  }, isErrorMessage && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: 'error-message'
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Multi Profile is a Premium Feature. To use this feature,', 'wp-scheduled-posts'), " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a", {
+    target: "_blank",
+    href: 'https://wpdeveloper.com/in/schedulepress-pro'
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Upgrade to PRO.', 'wp-scheduled-posts'))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: 'social-profile-card'
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "main-profile"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "card-header"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "heading"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h5", null, "Pinterest")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "status"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("input", {
+    type: 'checkbox',
+    onChange: function (e) {
+      return handleChange(e, 1);
+    }
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "card-content"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("p", null, "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum dolorem velit nisi vel perspiciatis rerum reprehenderit. Quisquam nisi maiores, voluptatem dignissimos accusamus ipsum recusandae earum. Sed dolorem sint ducimus excepturi.")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "card-footer"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("select", {
+    name: "",
+    id: ""
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("option", {
+    value: ""
+  }, "Page"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("option", {
+    value: ""
+  }, "Group")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("button", {
+    type: "button",
+    className: "wpscp-social-tab__btn--addnew-profile",
+    onClick: function () {
+      return openApiCredentialsModal('pinterest');
+    }
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Add New", "wp-scheduled-posts")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "selected-profile"
+  }, selectedProfile.map(function (item, index) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+      className: "profile-item",
+      key: Math.random()
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+      className: "profile-image"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("img", {
+      src: "",
+      alt: ""
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+      className: "profile-data"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("span", null, "Profile"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h4", null, item.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("span", null, "Admin on 12 June, 2023"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+      className: "action"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+      className: "change-status"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("input", {
+      type: "checkbox",
+      name: "",
+      id: ""
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+      className: "remove-profile"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("button", null, "Delete")))));
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react_modal__WEBPACK_IMPORTED_MODULE_5___default()), {
+    isOpen: apiCredentialsModal,
+    onRequestClose: closeApiCredentialsModal,
+    ariaHideApp: false,
+    style: customStyles
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_SocialProfile_ApiCredentialsForm__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    platform: platform,
+    requestHandler: _helper_helper__WEBPACK_IMPORTED_MODULE_6__.socialProfileRequestHandler
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_SocialProfile_SocialModal__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    customStyles: customStyles,
+    pages: profileData === null || profileData === void 0 ? void 0 : profileData.page,
+    profiles: profileData === null || profileData === void 0 ? void 0 : profileData.group,
+    selectedProfile: selectedProfile,
+    setSelectedProfile: setSelectedProfile,
+    setIsErrorMessage: setIsErrorMessage,
+    setFbProfileData: [],
+    setLinkedInProfileData: [],
+    setPinterestBoards: setPinterestBoards,
+    type: "pinterest"
+  }));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Pinterest);
 
 /***/ }),
 
@@ -3010,10 +3194,12 @@ function SocialModal(_a) {
   var customStyles = _a.customStyles,
     pages = _a.pages,
     profiles = _a.profiles,
-    setProfileData = _a.setProfileData,
     selectedProfile = _a.selectedProfile,
     setSelectedProfile = _a.setSelectedProfile,
     setIsErrorMessage = _a.setIsErrorMessage,
+    setFbProfileData = _a.setFbProfileData,
+    setLinkedInProfileData = _a.setLinkedInProfileData,
+    setPinterestBoards = _a.setPinterestBoards,
     type = _a.type;
   var builderContext = (0,quickbuilder__WEBPACK_IMPORTED_MODULE_4__.useBuilderContext)();
   var _b = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
@@ -3043,9 +3229,11 @@ function SocialModal(_a) {
           (0,_helper_helper__WEBPACK_IMPORTED_MODULE_3__.getProfileData)(params).then(function (res) {
             setRequestSending(false);
             if (type === 'linkedin') {
-              setProfileData(res.linkedin);
+              setLinkedInProfileData(res.linkedin);
+            } else if (type == 'pinterest') {
+              setPinterestBoards(res);
             } else {
-              setProfileData(res);
+              setFbProfileData(res);
             }
           });
         }
@@ -3322,7 +3510,6 @@ var activeSocialTab = function () {
     element.classList.add('wprf-active-nav');
   });
 };
-// export const socialProfileRequestHandler = (redirectURI, appID, appSecret, platform) => {
 // Send API request for fetch url
 var socialProfileRequestHandler = function (redirectURI, appID, appSecret, platform) {
   return __awaiter(void 0, void 0, void 0, function () {
@@ -3365,11 +3552,10 @@ var socialProfileRequestHandler = function (redirectURI, appID, appSecret, platf
     });
   });
 };
-//     sendRequest();
-// };
+
 var getProfileData = function (params) {
   return __awaiter(void 0, void 0, void 0, function () {
-    var data, response, responseData;
+    var data, response;
     return __generator(this, function (_a) {
       switch (_a.label) {
         case 0:
@@ -3390,10 +3576,7 @@ var getProfileData = function (params) {
           return [4 /*yield*/, fetchDataFromAPI(data)];
         case 1:
           response = _a.sent();
-          return [4 /*yield*/, response.json()];
-        case 2:
-          responseData = _a.sent();
-          return [2 /*return*/, responseData];
+          return [2 /*return*/, response.json()];
       }
     });
   });

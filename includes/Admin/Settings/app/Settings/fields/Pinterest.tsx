@@ -8,10 +8,10 @@ import {
 
 import ApiCredentialsForm from './SocialProfile/ApiCredentialsForm';
 import Modal from "react-modal";
-import { fetchDataFromAPI,activeSocialTab,socialProfileRequestHandler, getProfileData } from '../helper/helper';
+import { socialProfileRequestHandler } from '../helper/helper';
 import SocialModal from './SocialProfile/SocialModal';
 
-const Linkedin = (props) => {
+const Pinterest = (props) => {
     const builderContext = useBuilderContext();
     const handleChange = useCallback((event, index) => {
         const { field, val: value } = executeChange(event);
@@ -35,13 +35,17 @@ const Linkedin = (props) => {
     };
 
     const [apiCredentialsModal,setApiCredentialsModal] = useState(false);
-    
-    const [profileData, setProfileData] = useState(false);
+    const [profileData, setProfileData] = useState({
+        page: [],
+        group: []
+    });
     const [platform, setPlatform] = useState('');
     const [selectedProfile, setSelectedProfile] = useState([]);
     const [isErrorMessage, setIsErrorMessage] = useState(false)
-    const [linkedInProfileData, setLinkedInProfileData] = useState({})
-    
+    const [pinterestBoards, setPinterestBoards] = useState([]);
+    const [responseData, setResponseData] = useState([]);
+
+
     const openApiCredentialsModal = (platform) => {
         setPlatform(platform);
         setApiCredentialsModal(true);
@@ -51,18 +55,10 @@ const Linkedin = (props) => {
         setApiCredentialsModal(false);
     };
 
-   
-
-    // @ts-ignore
-    let { profiles = [], pages = [], ...appData} = linkedInProfileData ?? {};
-    profiles = profiles ? profiles : [];
-    profiles = profiles.map((val, i) => {
-        return {...appData, ...val}
-    });
-    pages = pages ? pages : [];
-    pages = pages.map((val, i) => {
-        return {...appData, ...val}
-    });
+    useEffect(() => {
+      console.log(pinterestBoards);
+    }, [pinterestBoards])
+    
     return (
         <div className={classNames('wprf-control', 'wprf-social-profile', `wprf-${props.name}-social-profile`, props?.classes)}>
            {/* <h2>Social Profile</h2> */}
@@ -81,38 +77,39 @@ const Linkedin = (props) => {
                     </a>
                 </div>
             )}
-           <div className='social-profile-card'>
-                <div className="card-header">
-                    <div className="heading">
-                        <h5>Linkedin</h5>
+            <div className='social-profile-card'>
+                <div className="main-profile">
+                    <div className="card-header">
+                        <div className="heading">
+                            <h5>Pinterest</h5>
+                        </div>
+                        <div className="status">
+                            <input
+                                type='checkbox'
+                                onChange={(e) =>
+                                    handleChange(e,1)
+                                }
+                            />
+                        </div>
                     </div>
-                    <div className="status">
-                        <input
-                            name='enabled'
-                            type='checkbox'
-                            onChange={(e) =>
-                                handleChange(e,1)
+                    <div className="card-content">
+                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum dolorem velit nisi vel perspiciatis rerum reprehenderit. Quisquam nisi maiores, voluptatem dignissimos accusamus ipsum recusandae earum. Sed dolorem sint ducimus excepturi.</p>
+                    </div>
+                    <div className="card-footer">
+                        <select name="" id="">
+                            <option value="">Page</option>
+                            <option value="">Group</option>
+                        </select>
+                        <button
+                            type="button"
+                            className={
+                            "wpscp-social-tab__btn--addnew-profile"
                             }
-                        />
+                            onClick={() => openApiCredentialsModal('pinterest')}
+                            >
+                            {__("Add New", "wp-scheduled-posts")}
+                        </button>
                     </div>
-                </div>
-                <div className="card-content">
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum dolorem velit nisi vel perspiciatis rerum reprehenderit. Quisquam nisi maiores, voluptatem dignissimos accusamus ipsum recusandae earum. Sed dolorem sint ducimus excepturi.</p>
-                </div>
-                <div className="card-footer">
-                    <select name="" id="">
-                        <option value="">Page</option>
-                        <option value="">Group</option>
-                    </select>
-                    <button
-                        type="button"
-                        className={
-                        "wpscp-social-tab__btn--addnew-profile"
-                        }
-                        onClick={() => openApiCredentialsModal('linkedin')}
-                        >
-                        {__("Add New", "wp-scheduled-posts")}
-                    </button>
                 </div>
                 <div className="selected-profile">
                     {selectedProfile.map((item,index) => (
@@ -145,26 +142,25 @@ const Linkedin = (props) => {
                 style={customStyles}
                 >
                 
-                <ApiCredentialsForm platform={platform} requestHandler={socialProfileRequestHandler} />
+                <ApiCredentialsForm  platform={platform} requestHandler={socialProfileRequestHandler} />
             </Modal>
 
             {/* Profile Data Modal  */}
-
-            <SocialModal 
+            {/* @ts-ignore */}
+            <SocialModal
                 customStyles={customStyles}
-                pages={pages}
-                profiles={profiles}
+                pages={profileData?.page}
+                profiles={profileData?.group}
                 selectedProfile={selectedProfile}
                 setSelectedProfile={setSelectedProfile}
                 setIsErrorMessage={setIsErrorMessage}
                 setFbProfileData={[]}
-                setLinkedInProfileData={setLinkedInProfileData}
-                setPinterestBoards={[]}
-                type="linkedin"
+                setLinkedInProfileData={[]}
+                setPinterestBoards={setPinterestBoards}
+                type="pinterest"
             />
-            
         </div>
     )
 }
 
-export default Linkedin;
+export default Pinterest;
