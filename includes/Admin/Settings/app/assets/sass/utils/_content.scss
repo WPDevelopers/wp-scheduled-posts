@@ -14,9 +14,9 @@
                 flex-wrap: wrap;
                 gap: 8px;
                 padding: 24px 32px 0;
-                @media screen and (max-width: 1023px)  { 
+                @media screen and (max-width: 1317px)  { 
                     gap: 5px;
-                    padding: 16px 24px 0;
+                    padding: 16px 20px 0;
                 }
                 .wprf-tab-nav-item {
                     padding: 16px 20px !important;
@@ -24,16 +24,19 @@
                     background-color: transparent !important;
                     color: #6E6E8D !important;
                     border-top: 0px !important;
-                    @media screen and (max-width: 1433px)  { 
+                    @media screen and (max-width: 1486px)  { 
                         padding: 14px 16px !important;
                         font-size: 14px !important;
                     }
-                    @media screen and (max-width: 1269px)  { 
+                    @media screen and (max-width: 1270px)  { 
                         padding: 12px 14px !important;
                         font-size: 12px !important;
                     }
                     @media screen and (max-width: 1138px)  { 
-                        padding: 10px 8px !important;
+                        padding: 10px 6px !important;
+                    }
+                    @media screen and (max-width: 1004px)  { 
+                        padding: 10px 3px !important;
                     }
                 }
                 .wprf-active-nav {
