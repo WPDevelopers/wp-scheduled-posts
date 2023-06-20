@@ -1,3 +1,7 @@
+/*!***************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[3]!./app/assets/sass/index.scss ***!
+  \***************************************************************************************************************************************************************************************************************************************************/
+@import url(https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap);
 /*!**********************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./node_modules/quickbuilder/dist/index.css ***!
   \**********************************************************************************************************************************************************************************************/
@@ -2695,53 +2699,55 @@ button.wprf-btn {
 
 
 /*# sourceMappingURL=react-draft-wysiwyg.css.map*/
-/*!***************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[3]!./app/assets/sass/index.scss ***!
-  \***************************************************************************************************************************************************************************************************************************************************/
-.nx-admin-header {
+/*!*******************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[3]!./app/assets/sass/index.scss (1) ***!
+  \*******************************************************************************************************************************************************************************************************************************************************/
+#wpsp-dashboard-body .wpsp-admin-header {
   background: #fff;
   padding: 20px 40px;
 }
 @media screen and (max-width: 767px) {
-  .nx-admin-header {
+  #wpsp-dashboard-body .wpsp-admin-header {
     padding: 20px 30px;
   }
 }
-
-.nx-admin-wrapper {
+#wpsp-dashboard-body .wprf-tab-heading-wrapper {
+  display: none;
+}
+#wpsp-dashboard-body .wpsp-admin-wrapper {
   border-top: 2px solid #F9FAFC;
   display: flex;
   justify-content: space-between;
 }
-.nx-admin-wrapper .nx-admin-content {
+#wpsp-dashboard-body .wpsp-admin-content {
   flex-basis: 80% !important;
   padding: 32px;
   background: #F9FAFC;
 }
 @media all and (max-width: 767px) {
-  .nx-admin-wrapper .nx-admin-content {
+  #wpsp-dashboard-body .wpsp-admin-content {
     padding: 20px;
   }
 }
-.nx-admin-wrapper .nx-admin-content .wprf-tabs-wrapper {
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper {
   margin: 0px !important;
 }
-.nx-admin-wrapper .nx-admin-content .wprf-tabs-wrapper .wprf-tab-menu-wrapper {
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-menu-wrapper {
   margin-bottom: 24px !important;
 }
 @media all and (max-width: 767px) {
-  .nx-admin-wrapper .nx-admin-content .wprf-tabs-wrapper .wprf-tab-menu-wrapper {
+  #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-menu-wrapper {
     margin-bottom: 20px !important;
   }
 }
-.nx-admin-wrapper .nx-admin-content .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav {
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav {
   border-width: 0 0 1px 0;
   border-style: solid;
   border-color: #F0EFFF !important;
   flex-wrap: wrap;
   gap: 8px;
 }
-.nx-admin-wrapper .nx-admin-content .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-tab-nav-item {
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-tab-nav-item {
   padding: 16px 20px !important;
   font-size: 16px !important;
   background-color: transparent !important;
@@ -2749,33 +2755,33 @@ button.wprf-btn {
   border-top: 0px !important;
 }
 @media screen and (max-width: 1023px) {
-  .nx-admin-wrapper .nx-admin-content .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-tab-nav-item {
+  #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-tab-nav-item {
     padding: 10px 12px !important;
     font-size: 14px !important;
   }
 }
-.nx-admin-wrapper .nx-admin-content .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-active-nav {
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-active-nav {
   border-color: #6C62FF !important;
   color: #6C62FF !important;
   font-weight: 600 !important;
   box-shadow: 0px 1px #6C62FF;
 }
-.nx-admin-wrapper .nx-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper {
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper {
   flex: auto;
   flex-basis: auto;
   padding: 32px !important;
 }
 @media all and (max-width: 767px) {
-  .nx-admin-wrapper .nx-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper {
+  #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper {
     padding: 24px !important;
   }
 }
-.nx-admin-wrapper .nx-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-control-section {
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-control-section {
   margin-bottom: 0 !important;
   border: none !important;
   padding-bottom: 0 !important;
 }
-.nx-admin-wrapper .nx-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-control-section h4 {
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-control-section h4 {
   font-family: Inter;
   font-size: 24px;
   line-height: 30px;
@@ -2787,116 +2793,11 @@ button.wprf-btn {
   background: transparent !important;
   padding: 0px !important;
 }
-.nx-admin-wrapper .nx-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-control-section .wprf-section-fields {
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-control-section .wprf-section-fields {
   padding-left: 0px !important;
   padding-right: 0px !important;
 }
-.nx-admin-wrapper .nx-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-submit button {
-  padding: 16px 26px;
-  background: #6C62FF;
-  color: #fff;
-  border-radius: 6px;
-  font-family: inter;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 17px;
-  cursor: pointer;
-}
-.nx-admin-wrapper .nx-admin-sidebar {
-  padding: 32px;
-  background: #fff;
-  flex-basis: 20% !important;
-}
-@media screen and (max-width: 767px) {
-  .nx-admin-wrapper .nx-admin-sidebar {
-    padding: 24px;
-  }
-}
-.nx-admin-wrapper .nx-admin-sidebar .upgrade-pro {
-  text-align: center;
-  padding: 20px;
-  border-radius: 8px;
-  background: linear-gradient(145.02deg, #FFEFE1 43.19%, #FFD6B3 86.78%);
-  box-sizing: border-box;
-  margin-bottom: 20px;
-}
-.nx-admin-wrapper .nx-admin-sidebar .upgrade-pro > img {
-  margin-bottom: 15px;
-}
-.nx-admin-wrapper .nx-admin-sidebar .upgrade-pro > h3 {
-  font-family: Inter;
-  font-size: 18px;
-  font-weight: 500;
-  line-height: 22px;
-  color: #FF9437;
-  margin: 0 0 14px;
-}
-.nx-admin-wrapper .nx-admin-sidebar .upgrade-pro > p {
-  font-family: Inter;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 16px;
-  color: #1B1B50;
-  margin: 0 0 16px;
-}
-.nx-admin-wrapper .nx-admin-sidebar .upgrade-pro > button {
-  padding: 16px 24px;
-  border: none;
-  background: transparent;
-  color: #6C62FF;
-  cursor: pointer;
-  font-size: 14px;
-  font-family: Inter;
-  font-weight: 500;
-  line-height: 18px;
-}
-.nx-admin-wrapper .nx-admin-sidebar .card {
-  margin-top: 0 !important;
-  padding: 20px !important;
-  border: 1px solid #EBEEF5 !important;
-  border-radius: 6px;
-  box-shadow: none !important;
-}
-.nx-admin-wrapper .nx-admin-sidebar .card > img {
-  margin-bottom: 15px;
-}
-.nx-admin-wrapper .nx-admin-sidebar .card > h3 {
-  font-family: Inter;
-  font-size: 18px;
-  font-weight: 500;
-  line-height: 22px;
-  color: #1B1B50;
-  margin: 0 0 14px;
-}
-.nx-admin-wrapper .nx-admin-sidebar .card > p {
-  font-family: Inter;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 22px;
-  color: #6E6E8D;
-  margin: 0 0 20px;
-}
-.nx-admin-wrapper .nx-admin-sidebar .card > button {
-  padding: 0;
-  border: none;
-  background: transparent;
-  color: #6C62FF;
-  cursor: pointer;
-  font-size: 14px;
-  font-family: Inter;
-  font-weight: 500;
-  line-height: 18px;
-}
-
-.nx-admin-sidebar h1 {
-  color: #a70f0f;
-}
-
-.wprf-tab-heading-wrapper {
-  display: none;
-}
-
-.wprf-control-wrapper {
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-control-section .wprf-section-fields .wprf-control-wrapper {
   gap: 20px;
   justify-content: space-between;
   border: 1px solid #EBEEF5;
@@ -2904,21 +2805,34 @@ button.wprf-btn {
   padding: 24px;
   margin-bottom: 12px !important;
 }
-.wprf-control-wrapper .wprf-badge-wrapper {
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-control-label {
+  flex-basis: auto;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-control-label label {
+  color: #1B1B50;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: inter;
+  line-height: 20px;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-control-field {
+  flex-basis: auto;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper {
   display: flex;
   align-items: center;
   width: 100%;
   justify-content: space-between;
 }
-.wprf-control-wrapper .wprf-badge-wrapper .wprf-control-label {
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-label {
   display: flex;
   align-items: center;
   gap: 12px;
 }
-.wprf-control-wrapper .wprf-badge-wrapper .wprf-control-label .wprf-badge {
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-label .wprf-badge {
   display: flex;
 }
-.wprf-control-wrapper .wprf-badge-wrapper .wprf-control-label .wprf-badge .wprf-badge-item {
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-label .wprf-badge .wprf-badge-item {
   padding: 6px 10px;
   background: #FF9437;
   color: #fff;
@@ -2929,18 +2843,102 @@ button.wprf-btn {
   text-transform: uppercase;
   font-family: inter;
 }
-.wprf-control-wrapper .wprf-control-label {
-  flex-basis: auto;
-}
-.wprf-control-wrapper .wprf-control-label label {
-  color: #1B1B50;
-  font-size: 16px;
-  font-weight: 500;
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-submit button {
+  padding: 16px 26px;
+  background: #6C62FF;
+  color: #fff;
+  border-radius: 6px;
   font-family: inter;
-  line-height: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 17px;
+  cursor: pointer;
 }
-.wprf-control-wrapper .wprf-control-field {
-  flex-basis: auto;
+#wpsp-dashboard-body .wpsp-admin-sidebar {
+  padding: 32px;
+  background: #fff;
+  flex-basis: 20% !important;
+  justify-content: flex-start !important;
+}
+@media screen and (max-width: 767px) {
+  #wpsp-dashboard-body .wpsp-admin-sidebar {
+    padding: 24px;
+  }
+}
+#wpsp-dashboard-body .wpsp-admin-sidebar .upgrade-pro {
+  text-align: center;
+  padding: 20px;
+  border-radius: 8px;
+  background: linear-gradient(145.02deg, #FFEFE1 43.19%, #FFD6B3 86.78%);
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+#wpsp-dashboard-body .wpsp-admin-sidebar .upgrade-pro > img {
+  margin-bottom: 15px;
+}
+#wpsp-dashboard-body .wpsp-admin-sidebar .upgrade-pro > h3 {
+  font-family: Inter;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 22px;
+  color: #FF9437;
+  margin: 0 0 14px;
+}
+#wpsp-dashboard-body .wpsp-admin-sidebar .upgrade-pro > p {
+  font-family: Inter;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: #1B1B50;
+  margin: 0 0 16px;
+}
+#wpsp-dashboard-body .wpsp-admin-sidebar .upgrade-pro > button {
+  padding: 16px 24px;
+  border: none;
+  background: transparent;
+  color: #6C62FF;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: Inter;
+  font-weight: 500;
+  line-height: 18px;
+}
+#wpsp-dashboard-body .wpsp-admin-sidebar .card {
+  margin-top: 0 !important;
+  padding: 20px !important;
+  border: 1px solid #EBEEF5 !important;
+  border-radius: 6px;
+  box-shadow: none !important;
+}
+#wpsp-dashboard-body .wpsp-admin-sidebar .card > img {
+  margin-bottom: 15px;
+}
+#wpsp-dashboard-body .wpsp-admin-sidebar .card > h3 {
+  font-family: Inter;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 22px;
+  color: #1B1B50;
+  margin: 0 0 14px;
+}
+#wpsp-dashboard-body .wpsp-admin-sidebar .card > p {
+  font-family: Inter;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  color: #6E6E8D;
+  margin: 0 0 20px;
+}
+#wpsp-dashboard-body .wpsp-admin-sidebar .card > button {
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #6C62FF;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: Inter;
+  font-weight: 500;
+  line-height: 18px;
 }
 
 .wprf-toggle-wrap label.wprf-input-label {

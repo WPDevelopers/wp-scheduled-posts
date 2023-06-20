@@ -2211,7 +2211,7 @@ __webpack_require__.r(__webpack_exports__);
 var Content = function (_a) {
   var children = _a.children;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "nx-admin-content"
+    className: "wpsp-admin-content"
   }, children);
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Content);
@@ -2234,7 +2234,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var Header = function () {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "nx-admin-header"
+    className: "wpsp-admin-header"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
     src: "".concat(wpspSettingsGlobal === null || wpspSettingsGlobal === void 0 ? void 0 : wpspSettingsGlobal.image_path, "mainLogo.png"),
     alt: "mainLogo"
@@ -2260,7 +2260,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var quickbuilder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! quickbuilder */ "./node_modules/quickbuilder/dist/index.js");
 /* harmony import */ var quickbuilder__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(quickbuilder__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _Content__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Content */ "./app/Settings/Content.tsx");
-/* harmony import */ var _Sidebar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Sidebar */ "./app/Settings/Sidebar.tsx");
 var __assign = undefined && undefined.__assign || function () {
   __assign = Object.assign || function (t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -2271,7 +2270,6 @@ var __assign = undefined && undefined.__assign || function () {
   };
   return __assign.apply(this, arguments);
 };
-
 
 
 
@@ -2291,10 +2289,10 @@ var SettingsInner = function (props) {
   }, []);
   var onChange = function (event) {};
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: 'nx-admin-wrapper'
+    className: 'wpsp-admin-wrapper'
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Content__WEBPACK_IMPORTED_MODULE_2__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(quickbuilder__WEBPACK_IMPORTED_MODULE_1__.FormBuilder, __assign({}, builderContext, {
     onChange: onChange
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Sidebar__WEBPACK_IMPORTED_MODULE_3__["default"], null));
+  }))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SettingsInner);
 
@@ -2353,9 +2351,10 @@ __webpack_require__.r(__webpack_exports__);
 
 var docIcon = __webpack_require__(/*! ../assets/images/doc.png */ "./app/assets/images/doc.png");
 var upgradePro = __webpack_require__(/*! ../assets/images/upgrade-pro.png */ "./app/assets/images/upgrade-pro.png");
-var Sidebar = function () {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "nx-admin-sidebar"
+var Sidebar = function (_a) {
+  var props = _a.props;
+  return props.id === 'tab-sidebar-layout' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "wpsp-admin-sidebar"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: 'upgrade-pro'
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
@@ -2368,9 +2367,94 @@ var Sidebar = function () {
     className: 'icon-wrapper',
     src: docIcon,
     alt: 'icon-1'
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", null, "Documentation"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "Get started spending some time with the documentation to get familiar with SchedulePress."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "Documentation")));
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", null, "Documentation"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "Get started spending some time with the documentation to get familiar with SchedulePress."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "Documentation"))) : null;
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Sidebar);
+
+/***/ }),
+
+/***/ "./app/Settings/fields/Features.tsx":
+/*!******************************************!*\
+  !*** ./app/Settings/fields/Features.tsx ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+
+
+var Features = function (props) {
+  var _a = props === null || props === void 0 ? void 0 : props.content,
+    heading = _a.heading,
+    button_text = _a.button_text,
+    button_link = _a.button_link,
+    options = _a.options;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: classnames__WEBPACK_IMPORTED_MODULE_0___default()('wprf-control', 'wprf-features', "wprf-".concat(props.name, "-features"), props === null || props === void 0 ? void 0 : props.classes)
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: 'header'
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h3", null, heading), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a", {
+    href: button_link
+  }, button_text)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: 'content'
+  }, options === null || options === void 0 ? void 0 : options.map(function (item) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a", {
+      href: item === null || item === void 0 ? void 0 : item.link,
+      target: "_blank",
+      key: Math.random()
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+      className: 'single-content'
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("i", {
+      className: "wpsp wpsp-something"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h5", null, item === null || item === void 0 ? void 0 : item.title)));
+  })));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Features);
+
+/***/ }),
+
+/***/ "./app/Settings/fields/Field.tsx":
+/*!***************************************!*\
+  !*** ./app/Settings/fields/Field.tsx ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Features__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Features */ "./app/Settings/fields/Features.tsx");
+var __assign = undefined && undefined.__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+      for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+    }
+    return t;
+  };
+  return __assign.apply(this, arguments);
+};
+
+
+var Field = function (r, type, props) {
+  switch (type) {
+    case "features":
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Features__WEBPACK_IMPORTED_MODULE_1__["default"], __assign({}, props));
+    default:
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null);
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Field);
 
 /***/ }),
 
@@ -57656,12 +57740,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "react-dom");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _Settings_SettingsWrapper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Settings/SettingsWrapper */ "./app/Settings/SettingsWrapper.tsx");
+/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/hooks */ "@wordpress/hooks");
+/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _Settings_SettingsWrapper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Settings/SettingsWrapper */ "./app/Settings/SettingsWrapper.tsx");
+/* harmony import */ var _Settings_Sidebar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Settings/Sidebar */ "./app/Settings/Sidebar.tsx");
+/* harmony import */ var _Settings_fields_Field__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Settings/fields/Field */ "./app/Settings/fields/Field.tsx");
+
+
+
 
 
 
 document.addEventListener('DOMContentLoaded', function () {
-  react_dom__WEBPACK_IMPORTED_MODULE_1___default().render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Settings_SettingsWrapper__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  (0,_wordpress_hooks__WEBPACK_IMPORTED_MODULE_2__.addFilter)('wprf_tab_content', 'SchedulePress', (x, props) => {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Settings_Sidebar__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      props: props
+    });
+  });
+  (0,_wordpress_hooks__WEBPACK_IMPORTED_MODULE_2__.addFilter)('custom_field', 'SchedulePress', _Settings_fields_Field__WEBPACK_IMPORTED_MODULE_5__["default"]);
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default().render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Settings_SettingsWrapper__WEBPACK_IMPORTED_MODULE_3__["default"], {
     wpspObject: window.wpspSettingsGlobal
   }), document.getElementById('wpsp-dashboard-body'));
 });

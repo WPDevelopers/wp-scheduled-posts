@@ -2,9 +2,10 @@ import React from 'react';
 const docIcon =  require("../assets/images/doc.png");
 const upgradePro =  require("../assets/images/upgrade-pro.png");
 
-const Sidebar = () => {
+const Sidebar = ({ props }) => {
     return (
-        <div className="nx-admin-sidebar">
+      props.id === 'tab-sidebar-layout' ? (
+        <div className="wpsp-admin-sidebar">
             <div className='upgrade-pro'>
                 <img className='icon-wrapper' src={upgradePro} alt='icon-1' />
                 <h3>Documentation</h3>
@@ -18,7 +19,8 @@ const Sidebar = () => {
                 <button>Documentation</button>
             </div>
         </div>
-    )
-}
+      ) : null
+    );
+  };
 
 export default Sidebar;

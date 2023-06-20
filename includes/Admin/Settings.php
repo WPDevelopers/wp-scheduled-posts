@@ -85,6 +85,7 @@ class Settings {
             'type'            => "tab",
             'active'          => "layout_documentation_page",
             'completionTrack' => true,
+            'is_pro_active'   => (defined('WPSP_PRO_VERSION') ? WPSP_PRO_VERSION : ''),
             'sidebar'         => false,
             'config'          => [
                 'active'  => 'layout_documentation_page',
@@ -104,19 +105,63 @@ class Settings {
                     'name'     => 'layout_general',
                     'label'    => __('General', 'wp-scheduled-posts'),
                     'priority' => 5,
-                    'fields'   => [
+                    'fields'   => apply_filters('wpsp_general_fields',[
+                        'pro_features_section'  => [
+                            'name'     => 'pro_features_section',
+                            'type'     => 'section',
+                            'label'    => null,
+                            'priority' => 2,
+                            'fields'   => [
+                                'pro_features'      => [
+                                    'name'          => 'pro_features',
+                                    'type'          => 'features',
+                                    'priority'      => 2,
+                                    'is_pro'        => true,
+                                    'content'  => [
+                                        'heading'       => 'SchedulePress - Pro Features',
+                                        'button_text'   => __('View All Features','wp-scheduled-posts'),
+                                        'button_link'   => 'https://google.com',
+                                        'options'   => [
+                                            [
+                                                'icon'  => 'wpsp-',
+                                                'title' => __('Auto Scheduler','wp-scheduled-posts'),
+                                                'link'  => 'https://wpdeveloper.com',
+                                            ],
+                                            [
+                                                'icon'  => 'icon',
+                                                'title' => __('Manual Scheduler','wp-scheduled-posts'),
+                                                'link'  => 'https://wpdeveloper.com',
+                                            ],
+                                            [
+                                                'icon'  => 'icon',
+                                                'title' => __('Missed Scheduler Handler','wp-scheduled-posts'),
+                                                'link'  => 'https://wpdeveloper.com',
+                                            ],
+                                            [
+                                                'icon'  => 'icon',
+                                                'title' => __('Premium Support','wp-scheduled-posts'),
+                                                'link'  => 'https://wpdeveloper.com',
+                                            ],
+                                        ],
+                                    ],
+                                    'label'    => __('Show Scheduled Posts in Dashboard Widget', 'wp-scheduled-posts'),
+                                ],
+                            ]
+                        ],
+                        
                         'general_settings'     => [
                             'name'     => 'general_settings',
                             'type'     => 'section',
                             'label'    => __( 'General Settings', 'wp-scheduled-posts' ),
-                            'priority' => 1,
+                            'priority' => 6,
                             'fields'    => [
+                                
                                 'is_show_dashboard_widget'       => [
                                     'name'     => 'is_show_dashboard_widget',
                                     'type'     => 'toggle',
                                     'label'    => __('Show Scheduled Posts in Dashboard Widget', 'wp-scheduled-posts'),
                                     'default'  => 1,
-                                    'priority' => 1,
+                                    'priority' => 3,
                                 ],
                                 'is_show_sitewide_bar_posts'  => [
                                     'name'     => 'is_show_sitewide_bar_posts',
@@ -176,23 +221,25 @@ class Settings {
                                     'priority' => 25,
                                 ],
                                 'republish_social_share' => [
-                                    'name'     => 'republish_social_share',
-                                    'type'     => 'toggle',
-                                    'label'    => __('Active Republish Social Share', 'wp-scheduled-posts'),
-                                    'priority' => 25,
-                                    'is_pro'   => true,
+                                    'name'          => 'republish_social_share',
+                                    'type'          => 'toggle',
+                                    'label'         => __('Active Republish Social Share', 'wp-scheduled-posts'),
+                                    'description'   => 'Upgrade to Premium',
+                                    'priority'      => 30,
+                                    'is_pro'        => true,
                                 ],
                                 'post_republish_unpublish' => [
-                                    'name'     => 'post_republish_unpublish',
-                                    'type'     => 'toggle',
-                                    'label'    => __('Post Republish and Unpublish', 'wp-scheduled-posts'),
-                                    'priority' => 30,
-                                    'is_pro'   => true,
+                                    'name'          => 'post_republish_unpublish',
+                                    'type'          => 'toggle',
+                                    'label'         => __('Post Republish and Unpublish', 'wp-scheduled-posts'),
+                                    'priority'      => 35,
+                                    'description'   => 'Upgrade to Premium',
+                                    'is_pro'        => true,
                                 ],
 
                             ],
                         ],
-                    ]
+                    ])
                 ],
                 'layout_calender'         => [
                     'id'       => 'layout_calender',
@@ -563,6 +610,7 @@ class Settings {
                     'label'    => __('Manage Schedule', 'wp-scheduled-posts'),
                     'priority' => 30,
                     'is_pro'   => true,
+                    'classes'  => 'pro_feature',
                     'fields'   => [
                       
                     ]
@@ -574,6 +622,7 @@ class Settings {
                     'label'    => __('Advance Schedule', 'wp-scheduled-posts'),
                     'priority' => 35,
                     'is_pro'   => true,
+                    'classes'  => 'pro_feature',
                     'fields'   => [
                       
                     ]
@@ -585,6 +634,7 @@ class Settings {
                     'label'    => __('Missed Schedule', 'wp-scheduled-posts'),
                     'priority' => 40,
                     'is_pro'   => true,
+                    'classes'  => 'pro_feature',
                     'fields'   => [
                       
                     ]

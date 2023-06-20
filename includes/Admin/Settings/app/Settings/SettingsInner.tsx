@@ -3,7 +3,6 @@ import React, { useEffect } from 'react'
 import { FormBuilder, useBuilderContext } from 'quickbuilder';
 
 import Content from './Content';
-import Sidebar from './Sidebar';
 
 
 const SettingsInner = (props) => {
@@ -29,12 +28,10 @@ const SettingsInner = (props) => {
 
 
     return (
-        <div className='nx-admin-wrapper'>
+        <div className='wpsp-admin-wrapper'>
             <Content>
                 <FormBuilder {...builderContext} onChange={onChange} />
             </Content>
-                
-            <Sidebar />
         </div>
     )
 }
