@@ -21,40 +21,36 @@ export const activeSocialTab = () => {
     });
 }
 
-// export const socialProfileRequestHandler = (redirectURI, appID, appSecret, platform) => {
-        
-    // Send API request for fetch url
-   export const socialProfileRequestHandler = async (redirectURI, appID, appSecret, platform) => {
-        const data = {
-            action: 'wpsp_social_add_social_profile',      
-            redirectURI: redirectURI,
-            appId: appID,
-            appSecret: appSecret,
-            type: platform,
-        };
-
-        const response = await fetchDataFromAPI(data);
-        
-        const responseData = await response.json();
-        if (responseData.success) {
-            open(responseData.data, '_self');
-          } else {
-            let message;
-            try {
-              const parsedData = JSON.parse(responseData.data);
-              if (parsedData?.errors?.[0]?.message) {
-                message = parsedData.errors[0].message;
-              } else {
-                message = responseData.data;
-              }
-            } catch (e) {
-              message = responseData.data;
-            }
-            console.log(message);
-        }
+// Send API request for fetch url
+export const socialProfileRequestHandler = async (redirectURI, appID, appSecret, platform) => {
+    const data = {
+        action: 'wpsp_social_add_social_profile',      
+        redirectURI: redirectURI,
+        appId: appID,
+        appSecret: appSecret,
+        type: platform,
     };
-//     sendRequest();
-// };
+
+    const response = await fetchDataFromAPI(data);
+    
+    const responseData = await response.json();
+    if (responseData.success) {
+        open(responseData.data, '_self');
+        } else {
+        let message;
+        try {
+            const parsedData = JSON.parse(responseData.data);
+            if (parsedData?.errors?.[0]?.message) {
+            message = parsedData.errors[0].message;
+            } else {
+            message = responseData.data;
+            }
+        } catch (e) {
+            message = responseData.data;
+        }
+        console.log(message);
+    }
+};
 
 export const getProfileData = async (params) => {
     const data = {
@@ -72,6 +68,5 @@ export const getProfileData = async (params) => {
         oauthToken: params.get("oauth_token"),
     };
     const response = await fetchDataFromAPI(data);
-    const responseData = await response.json();
-    return responseData;
+    return response.json();
 }

@@ -6,7 +6,7 @@ import {
     useBuilderContext,
 } from "quickbuilder";
 
-function SocialModal({ customStyles, pages, profiles, setProfileData, selectedProfile, setSelectedProfile, setIsErrorMessage, type }) {
+function SocialModal({ customStyles, pages, profiles, selectedProfile, setSelectedProfile, setIsErrorMessage,setFbProfileData,setLinkedInProfileData,setPinterestBoards, type }) {
     const builderContext = useBuilderContext();
 
     const [requestSending, setRequestSending] = useState(false);
@@ -31,9 +31,11 @@ function SocialModal({ customStyles, pages, profiles, setProfileData, selectedPr
                     getProfileData(params).then(res => {
                         setRequestSending(false);
                         if( type === 'linkedin' ) {
-                            setProfileData(res.linkedin);
+                            setLinkedInProfileData(res.linkedin);
+                        }else if( type == 'pinterest' ){
+                            setPinterestBoards(res);
                         }else {
-                            setProfileData(res);
+                            setFbProfileData(res);
                         }
                     })
                 }
@@ -131,6 +133,7 @@ function SocialModal({ customStyles, pages, profiles, setProfileData, selectedPr
                             </ul>
                         </div>
                     ) }
+
                     {/* @ts-ignore */}
                     { (profiles ?? []).length > 0 && (
                         <div className="profile-list-group">

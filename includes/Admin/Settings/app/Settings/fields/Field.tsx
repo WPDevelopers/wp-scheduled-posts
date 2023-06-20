@@ -3,6 +3,7 @@ import { __ } from '@wordpress/i18n';
 import Features from './Features';
 import Facebook from './Facebook';
 import Linkedin from './Linkedin';
+import Pinterest from './Pinterest';
 
 const Field = (r, type, props) => {
 
@@ -13,6 +14,8 @@ const Field = (r, type, props) => {
             return <Facebook {...props} />;
         case "linkedin":
             return <Linkedin {...props} />;
+        case "pinterest":
+            return <Pinterest {...props} />;
         default:
             return <></>;
     }

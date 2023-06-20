@@ -16,8 +16,6 @@ const Facebook = (props) => {
 
     const handleChange = useCallback((event, index) => {
         const { field, val: value } = executeChange(event);
-        console.log(builderContext);
-        console.log(selectedProfile);
         builderContext.setFieldValue([props.name, field], value);
     }, [props.value]);
 
@@ -38,14 +36,14 @@ const Facebook = (props) => {
     };
 
     const [apiCredentialsModal,setApiCredentialsModal] = useState(false);
-    const [profileData, setProfileData] = useState({
+    const [fbProfileData, setFbProfileData] = useState({
         page: [],
         group: []
     });
     const [platform, setPlatform] = useState('');
     const [selectedProfile, setSelectedProfile] = useState([]);
     const [isErrorMessage, setIsErrorMessage] = useState(false)
-
+    
     const openApiCredentialsModal = (platform) => {
         setPlatform(platform);
         setApiCredentialsModal(true);
@@ -56,8 +54,8 @@ const Facebook = (props) => {
     };
 
     useEffect(() => {
-      console.log(profileData);
-    }, [profileData])
+      console.log(fbProfileData);
+    }, [fbProfileData])
     
     return (
         <div className={classNames('wprf-control', 'wprf-social-profile', `wprf-${props.name}-social-profile`, props?.classes)}>
@@ -149,12 +147,14 @@ const Facebook = (props) => {
             {/* @ts-ignore */}
             <SocialModal
                 customStyles={customStyles}
-                pages={profileData?.page}
-                profiles={profileData?.group}
-                setProfileData={setProfileData}
+                pages={fbProfileData?.page}
+                profiles={fbProfileData?.group}
                 selectedProfile={selectedProfile}
                 setSelectedProfile={setSelectedProfile}
                 setIsErrorMessage={setIsErrorMessage}
+                setFbProfileData={setFbProfileData}
+                setLinkedInProfileData={[]}
+                setPinterestBoards={[]}
                 type="facebook"
             />
         </div>

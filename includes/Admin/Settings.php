@@ -362,7 +362,14 @@ class Settings {
                                     'type'     => 'linkedin',
                                     'label'    => __('Linkedin', 'wp-scheduled-posts'),
                                     'priority' => 10,
-                                ]
+                                ],
+                                'pinterest_profile_list'  => [
+                                    'id'       => 'pinterest_profile_list',
+                                    'name'     => 'pinterest_profile_list',
+                                    'type'     => 'pinterest',
+                                    'label'    => __('Pinterest', 'wp-scheduled-posts'),
+                                    'priority' => 1,
+                                ],
                             ]
                         ]
                     
