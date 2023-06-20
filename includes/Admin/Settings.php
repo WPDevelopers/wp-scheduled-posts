@@ -85,6 +85,7 @@ class Settings {
             'type'            => "tab",
             'active'          => "layout_documentation_page",
             'completionTrack' => true,
+            'is_pro_active'   => '',
             'is_pro_active'   => (defined('WPSP_PRO_VERSION') ? WPSP_PRO_VERSION : ''),
             'sidebar'         => false,
             'config'          => [
@@ -341,7 +342,37 @@ class Settings {
                     'label'    => __('Social Profile', 'wp-scheduled-posts'),
                     'priority' => 20,
                     'fields'   => [
-                      
+                        'social_profile_wrapper' => [
+                            'id'        => 'social_profile_wrapper',
+                            'name'      => 'social_profile_wrapper',
+                            'type'      => 'section',
+                            'label'    => __('Social Profile', 'wp-scheduled-posts'),
+                            'priority'  => 5,
+                            'fields'    => [
+                                'facebook_profile_list'  => [
+                                    'id'       => 'facebook_profile_list',
+                                    'name'     => 'facebook_profile_list',
+                                    'type'     => 'facebook',
+                                    'label'    => __('Facebook', 'wp-scheduled-posts'),
+                                    'priority' => 5,
+                                ],
+                                'linkedin_profile_list'  => [
+                                    'id'       => 'linkedin_profile_list',
+                                    'name'     => 'linkedin_profile_list',
+                                    'type'     => 'linkedin',
+                                    'label'    => __('Linkedin', 'wp-scheduled-posts'),
+                                    'priority' => 10,
+                                ],
+                                'pinterest_profile_list'  => [
+                                    'id'       => 'pinterest_profile_list',
+                                    'name'     => 'pinterest_profile_list',
+                                    'type'     => 'pinterest',
+                                    'label'    => __('Pinterest', 'wp-scheduled-posts'),
+                                    'priority' => 1,
+                                ],
+                            ]
+                        ]
+                    
                     ]
                 ],
                 'layout_social_template'       => [
@@ -612,7 +643,7 @@ class Settings {
                     'is_pro'   => true,
                     'classes'  => 'pro_feature',
                     'fields'   => [
-                      
+                        
                     ]
                 ],
                 'layout_advance_schedule'       => [
