@@ -2,6 +2,7 @@
 
 namespace WPSP\Admin;
 
+use WPSP\API\Settings as APISettings;
 
 class Settings {
     protected $builder;
@@ -17,12 +18,12 @@ class Settings {
     }
 
     public function load_dependency() {
-        $this->builder = new Settings\Builder();
-        do_action('wpsp/admin/settings/set_settings_config', $this->builder);
-        $this->settings = $this->builder->get_settings();
+        // $this->builder = new Settings\Builder();
+        // do_action('wpsp/admin/settings/set_settings_config', $this->builder);
+        // $this->settings = $this->builder->get_settings();
         new Settings\Assets($this->slug, $this->get_settings_array());
-        $this->data  = new Settings\Data($this->option_name, $this->settings);
-        add_action('wpsp_save_settings_default_value', array($this->data, 'save_option_value'));
+        // $this->data  = new Settings\Data($this->option_name, $this->settings);
+        // add_action('wpsp_save_settings_default_value', array($this->data, 'save_option_value'));
     }
 
     /**
@@ -77,29 +78,28 @@ class Settings {
     }
 
     public function get_settings_array() {
+        $wpsp_option = get_option($this->option_name);
+        $wpsp_option = json_decode($wpsp_option);
+
         return $this->normalize([
             'id'              => 'tab-sidebar-layout',
             'name'            => 'tab_sidebar_layout',
             'label'           => __('Layout', 'wp-scheduled-posts'),
             'classes'         => 'tab-layout',
             'type'            => "tab",
-            'active'          => "layout_documentation_page",
+            'active'          => "layout_general",
             'completionTrack' => true,
-            'is_pro_active'   => '',
-            'is_pro_active'   => (defined('WPSP_PRO_VERSION') ? WPSP_PRO_VERSION : ''),
             'sidebar'         => false,
-            'config'          => [
-                'active'  => 'layout_documentation_page',
-                'sidebar' => false,
-                'title'   => false
-            ],
+            'title'           => false,
             'submit'          => [
                 'show' => true
             ],
             'step'            => [
                 'show' => false
             ],
-            'priority'        => 20,
+            'is_pro_active'   => (defined('WPSP_PRO_VERSION') ? WPSP_PRO_VERSION : ''),
+            'savedValues'     => $wpsp_option,
+            'values'          => $wpsp_option,
             'fields'          => [
                 'layout_general' => [
                     'id'       => 'layout_general',
@@ -149,14 +149,14 @@ class Settings {
                                 ],
                             ]
                         ],
-                        
+
                         'general_settings'     => [
                             'name'     => 'general_settings',
                             'type'     => 'section',
                             'label'    => __( 'General Settings', 'wp-scheduled-posts' ),
                             'priority' => 6,
                             'fields'    => [
-                                
+
                                 'is_show_dashboard_widget'       => [
                                     'name'     => 'is_show_dashboard_widget',
                                     'type'     => 'toggle',
@@ -249,7 +249,7 @@ class Settings {
                     'label'    => __('Calender', 'wp-scheduled-posts'),
                     'priority' => 10,
                     'fields'   => [
-                       
+
                     ]
                 ],
                 'layout_email_notify'         => [
@@ -372,7 +372,7 @@ class Settings {
                                 ],
                             ]
                         ]
-                    
+
                     ]
                 ],
                 'layout_social_template'       => [
@@ -383,17 +383,14 @@ class Settings {
                     'priority' => 25,
                     'fields'   => [
                         'tab_social_template'  => [
-                            'id'       => 'tab_social_template',
-                            'name'     => 'tab_social_template',
-                            'type'     => 'tab',
-                            'priority' => 25,
+                            'id'              => 'tab_social_template',
+                            'name'            => 'tab_social_template',
+                            'type'            => 'tab',
+                            'priority'        => 25,
                             'completionTrack' => true,
                             'sidebar'         => true,
-                            'config'          => [
-                                'active'  => 'layouts_facebook',
-                                'sidebar' => false,
-                                'title'   => false
-                            ],
+                            'title'           => false,
+                            'default'         => 'layouts_facebook',
                             'submit'          => [
                                 'show' => false
                             ],
@@ -456,7 +453,7 @@ class Settings {
                                                         ],
                                                     ]
                                                 ]
-                                                
+
                                             ]
                                         ]
                                     ]
@@ -515,7 +512,7 @@ class Settings {
                                                         ],
                                                     ]
                                                 ]
-                                                
+
                                             ]
                                         ]
                                     ]
@@ -566,7 +563,7 @@ class Settings {
                                                         ],
                                                     ]
                                                 ]
-                                                
+
                                             ]
                                         ]
                                     ]
@@ -625,7 +622,7 @@ class Settings {
                                                         ],
                                                     ]
                                                 ]
-                                                
+
                                             ]
                                         ]
                                     ]
@@ -643,7 +640,7 @@ class Settings {
                     'is_pro'   => true,
                     'classes'  => 'pro_feature',
                     'fields'   => [
-                        
+
                     ]
                 ],
                 'layout_advance_schedule'       => [
@@ -655,7 +652,7 @@ class Settings {
                     'is_pro'   => true,
                     'classes'  => 'pro_feature',
                     'fields'   => [
-                      
+
                     ]
                 ],
                 'layout_missed_schedule'       => [
@@ -667,7 +664,7 @@ class Settings {
                     'is_pro'   => true,
                     'classes'  => 'pro_feature',
                     'fields'   => [
-                      
+
                     ]
                 ],
             ]

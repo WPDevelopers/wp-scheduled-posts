@@ -12,6 +12,7 @@
     "author": "tusharimran",
     "dependencies": {
         "@babel/polyfill": "*",
+        "@wordpress/api-fetch": "^6.32.0",
         "@wordpress/hooks": "^2.12.2",
         "@wordpress/i18n": "^3.19.2",
         "babel-preset-es2015": "^6.24.1",
