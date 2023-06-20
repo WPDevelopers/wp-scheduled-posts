@@ -192,47 +192,11 @@
                                 @media screen and (max-width: 1023px)  { 
                                     padding: 20px;
                                 }
-                                .wprf-control-label {
-                                    flex-basis: auto;
-                                    label {
-                                        color: #1B1B50;
-                                        font-size: 16px;
-                                        font-weight: 500;
-                                        font-family: inter;
-                                        line-height: 20px;
-                                        @media screen and (max-width: 1023px)  { 
-                                            font-size: 14px;
-                                        }
-                                    }
-                                }
-                                .wprf-control-field {
-                                    flex-basis: auto;
-                                    .wprf-toggle-wrap {
-                                        order: 1;
-                                    }
-                                    .wprf-description {
-                                        position: relative;
-                                        font-family: 'Inter';
-                                        font-weight: 500;
-                                        color: #FF9437;
-                                        margin-left: 0 !important;
-                                        font-size: 14px !important;
-                                        margin-right: 24px;
-                                        cursor: pointer;
-                                        // p.wprf-description:before {
-                                        //     content: 'aa';
-                                        //     left: -45px;
-                                        //     top: 50%;
-                                        //     transform: translateY(-50%);
-                                        //     width: 35px;
-                                        //     height: 35px;
-                                        //     background: #ff9437;
-                                        //     position: absolute;
-                                        //     color: #fff;
-                                        //     text-align: center;
-                                        //     line-height: 35px;
-                                        // }
-                                    }
+                                .pro-deactivated {
+                                    display: flex;
+                                    align-items: center;
+                                    flex-basis: 100%;
+                                    justify-content: space-between;
                                     .wprf-control-label {
                                         display: flex;
                                         align-items: center;
@@ -252,9 +216,39 @@
                                             }
                                         }
                                     }
-                                    // .wprf-control-field {
-                                        
-                                    // }
+                                    .wprf-control-field {
+                                        .wprf-toggle-wrap {
+                                            order: 1;
+                                        }
+                                        .wprf-description {
+                                            position: relative;
+                                            font-family: 'Inter';
+                                            font-weight: 500;
+                                            color: #FF9437;
+                                            margin-left: 0 !important;
+                                            font-size: 14px !important;
+                                            margin-right: 24px;
+                                        }
+                                    }
+                                }
+                                .wprf-control-label {
+                                    flex-basis: auto;
+                                    label {
+                                        color: #1B1B50;
+                                        font-size: 16px;
+                                        font-weight: 500;
+                                        font-family: inter;
+                                        line-height: 20px;
+                                        @media screen and (max-width: 1023px)  { 
+                                            font-size: 14px;
+                                        }
+                                    }
+                                }
+                                .wprf-control-field {
+                                    flex-basis: auto;
+                                    
+                                    
+                                    // 
                                     // .wprf-toggle-wrap {
                                     //     .wprf-checked:before {
                                     //         background: #2df16e;
@@ -292,13 +286,6 @@
                                     //     }
                                     // }
                                 }
-                                // .wprf-badge-wrapper {
-                                //     display: flex;
-                                //     align-items: center;
-                                //     width: 100%;
-                                //     justify-content: space-between;
-                                    
-                                // }
                             }
                         }
                     }
