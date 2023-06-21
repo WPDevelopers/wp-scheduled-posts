@@ -370,6 +370,13 @@ class Settings {
                                     'label'    => __('Pinterest', 'wp-scheduled-posts'),
                                     'priority' => 1,
                                 ],
+                                'twitter_profile_list'  => [
+                                    'id'       => 'twitter_profile_list',
+                                    'name'     => 'twitter_profile_list',
+                                    'type'     => 'twitter',
+                                    'label'    => __('Twitter', 'wp-scheduled-posts'),
+                                    'priority' => 15,
+                                ],
                             ]
                         ]
                     

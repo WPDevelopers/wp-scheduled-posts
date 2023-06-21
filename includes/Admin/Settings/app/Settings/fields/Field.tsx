@@ -4,6 +4,7 @@ import Features from './Features';
 import Facebook from './Facebook';
 import Linkedin from './Linkedin';
 import Pinterest from './Pinterest';
+import Twitter from './Twitter';
 
 const Field = (r, type, props) => {
 
@@ -16,6 +17,8 @@ const Field = (r, type, props) => {
             return <Linkedin {...props} />;
         case "pinterest":
             return <Pinterest {...props} />;
+        case "twitter":
+            return <Twitter {...props} />;
         default:
             return <></>;
     }

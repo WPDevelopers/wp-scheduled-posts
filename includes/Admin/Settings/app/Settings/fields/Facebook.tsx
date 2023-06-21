@@ -6,10 +6,10 @@ import {
     executeChange,
 } from "quickbuilder";
 
-import ApiCredentialsForm from './SocialProfile/ApiCredentialsForm';
+import ApiCredentialsForm from './Modals/ApiCredentialsForm';
 import Modal from "react-modal";
 import { socialProfileRequestHandler } from '../helper/helper';
-import SocialModal from './SocialProfile/SocialModal';
+import SocialModal from './Modals/SocialModal';
 
 const Facebook = (props) => {
     const builderContext = useBuilderContext();
@@ -43,7 +43,7 @@ const Facebook = (props) => {
     const [platform, setPlatform] = useState('');
     const [selectedProfile, setSelectedProfile] = useState([]);
     const [isErrorMessage, setIsErrorMessage] = useState(false)
-    
+
     const openApiCredentialsModal = (platform) => {
         setPlatform(platform);
         setApiCredentialsModal(true);
@@ -147,14 +147,9 @@ const Facebook = (props) => {
             {/* @ts-ignore */}
             <SocialModal
                 customStyles={customStyles}
-                pages={fbProfileData?.page}
-                profiles={fbProfileData?.group}
                 selectedProfile={selectedProfile}
                 setSelectedProfile={setSelectedProfile}
                 setIsErrorMessage={setIsErrorMessage}
-                setFbProfileData={setFbProfileData}
-                setLinkedInProfileData={[]}
-                setPinterestBoards={[]}
                 type="facebook"
             />
         </div>

@@ -8,11 +8,12 @@ import {
 
 import ApiCredentialsForm from './Modals/ApiCredentialsForm';
 import Modal from "react-modal";
-import { fetchDataFromAPI,activeSocialTab,socialProfileRequestHandler, getProfileData } from '../helper/helper';
+import { socialProfileRequestHandler } from '../helper/helper';
 import SocialModal from './Modals/SocialModal';
 
-const Linkedin = (props) => {
+const Twitter = (props) => {
     const builderContext = useBuilderContext();
+
     const handleChange = useCallback((event, index) => {
         const { field, val: value } = executeChange(event);
         builderContext.setFieldValue([props.name, field], value);
@@ -35,10 +36,13 @@ const Linkedin = (props) => {
     };
 
     const [apiCredentialsModal,setApiCredentialsModal] = useState(false);
+    const [fbProfileData, setFbProfileData] = useState({
+        page: [],
+        group: []
+    });
     const [platform, setPlatform] = useState('');
     const [selectedProfile, setSelectedProfile] = useState([]);
     const [isErrorMessage, setIsErrorMessage] = useState(false)
-    const [linkedInProfileData, setLinkedInProfileData] = useState({})
     
     const openApiCredentialsModal = (platform) => {
         setPlatform(platform);
@@ -49,18 +53,10 @@ const Linkedin = (props) => {
         setApiCredentialsModal(false);
     };
 
-   
-
-    // @ts-ignore
-    let { profiles = [], pages = [], ...appData} = linkedInProfileData ?? {};
-    profiles = profiles ? profiles : [];
-    profiles = profiles.map((val, i) => {
-        return {...appData, ...val}
-    });
-    pages = pages ? pages : [];
-    pages = pages.map((val, i) => {
-        return {...appData, ...val}
-    });
+    useEffect(() => {
+      console.log(fbProfileData);
+    }, [fbProfileData])
+    
     return (
         <div className={classNames('wprf-control', 'wprf-social-profile', `wprf-${props.name}-social-profile`, props?.classes)}>
            {/* <h2>Social Profile</h2> */}
@@ -79,38 +75,39 @@ const Linkedin = (props) => {
                     </a>
                 </div>
             )}
-           <div className='social-profile-card'>
-                <div className="card-header">
-                    <div className="heading">
-                        <h5>Linkedin</h5>
+            <div className='social-profile-card'>
+                <div className="main-profile">
+                    <div className="card-header">
+                        <div className="heading">
+                            <h5>Twitter</h5>
+                        </div>
+                        <div className="status">
+                            <input
+                                type='checkbox'
+                                onChange={(e) =>
+                                    handleChange(e,1)
+                                }
+                            />
+                        </div>
                     </div>
-                    <div className="status">
-                        <input
-                            name='enabled'
-                            type='checkbox'
-                            onChange={(e) =>
-                                handleChange(e,1)
+                    <div className="card-content">
+                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum dolorem velit nisi vel perspiciatis rerum reprehenderit. Quisquam nisi maiores, voluptatem dignissimos accusamus ipsum recusandae earum. Sed dolorem sint ducimus excepturi.</p>
+                    </div>
+                    <div className="card-footer">
+                        <select name="" id="">
+                            <option value="">Page</option>
+                            <option value="">Group</option>
+                        </select>
+                        <button
+                            type="button"
+                            className={
+                            "wpscp-social-tab__btn--addnew-profile"
                             }
-                        />
+                            onClick={() => openApiCredentialsModal('twitter')}
+                            >
+                            {__("Add New", "wp-scheduled-posts")}
+                        </button>
                     </div>
-                </div>
-                <div className="card-content">
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum dolorem velit nisi vel perspiciatis rerum reprehenderit. Quisquam nisi maiores, voluptatem dignissimos accusamus ipsum recusandae earum. Sed dolorem sint ducimus excepturi.</p>
-                </div>
-                <div className="card-footer">
-                    <select name="" id="">
-                        <option value="">Page</option>
-                        <option value="">Group</option>
-                    </select>
-                    <button
-                        type="button"
-                        className={
-                        "wpscp-social-tab__btn--addnew-profile"
-                        }
-                        onClick={() => openApiCredentialsModal('linkedin')}
-                        >
-                        {__("Add New", "wp-scheduled-posts")}
-                    </button>
                 </div>
                 <div className="selected-profile">
                     {selectedProfile.map((item,index) => (
@@ -143,21 +140,20 @@ const Linkedin = (props) => {
                 style={customStyles}
                 >
                 
-                <ApiCredentialsForm platform={platform} requestHandler={socialProfileRequestHandler} />
+                <ApiCredentialsForm  platform={platform} requestHandler={socialProfileRequestHandler} />
             </Modal>
 
             {/* Profile Data Modal  */}
-
-            <SocialModal 
+            {/* @ts-ignore */}
+            <SocialModal
                 customStyles={customStyles}
                 selectedProfile={selectedProfile}
                 setSelectedProfile={setSelectedProfile}
                 setIsErrorMessage={setIsErrorMessage}
-                type="linkedin"
+                type="twitter"
             />
-            
         </div>
     )
 }
 
-export default Linkedin;
+export default Twitter;

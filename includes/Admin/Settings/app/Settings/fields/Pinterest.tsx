@@ -6,15 +6,18 @@ import {
     executeChange,
 } from "quickbuilder";
 
-import ApiCredentialsForm from './SocialProfile/ApiCredentialsForm';
+import ApiCredentialsForm from './Modals/ApiCredentialsForm';
 import Modal from "react-modal";
 import { socialProfileRequestHandler } from '../helper/helper';
-import SocialModal from './SocialProfile/SocialModal';
+import SocialModal from './Modals/SocialModal';
 
 const Pinterest = (props) => {
     const builderContext = useBuilderContext();
+
     const handleChange = useCallback((event, index) => {
         const { field, val: value } = executeChange(event);
+        console.log(builderContext);
+        console.log(selectedProfile);
         builderContext.setFieldValue([props.name, field], value);
     }, [props.value]);
 
@@ -56,8 +59,8 @@ const Pinterest = (props) => {
     };
 
     useEffect(() => {
-      console.log(pinterestBoards);
-    }, [pinterestBoards])
+      console.log(profileData);
+    }, [profileData])
     
     return (
         <div className={classNames('wprf-control', 'wprf-social-profile', `wprf-${props.name}-social-profile`, props?.classes)}>
@@ -149,14 +152,9 @@ const Pinterest = (props) => {
             {/* @ts-ignore */}
             <SocialModal
                 customStyles={customStyles}
-                pages={profileData?.page}
-                profiles={profileData?.group}
                 selectedProfile={selectedProfile}
                 setSelectedProfile={setSelectedProfile}
                 setIsErrorMessage={setIsErrorMessage}
-                setFbProfileData={[]}
-                setLinkedInProfileData={[]}
-                setPinterestBoards={setPinterestBoards}
                 type="pinterest"
             />
         </div>

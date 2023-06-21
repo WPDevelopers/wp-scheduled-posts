@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { __ } from "@wordpress/i18n";
 const ApiCredentialsForm = ({ platform, requestHandler }) => {
-  const [appID, SetAppID] = useState("793062612541839");
-  const [appSecret, SetAppSecret] = useState("144f868aa0233914b1e94dabb4edf9f0");
+  const [appID, SetAppID] = useState("");
+  const [appSecret, SetAppSecret] = useState("");
   const [isManual, setIsManual] = useState(false);
 
   const redirectURIv2 = "https://api.schedulepress.com/v2/callback.php";
@@ -52,7 +52,7 @@ const ApiCredentialsForm = ({ platform, requestHandler }) => {
               </a>
             </div>
           )}
-          {(platform == "facebook") && (
+          {(platform == "facebook" || platform == "twitter") && (
             <form>
                 <div className="form-group">
                     <label htmlFor="">Redirect URI:</label>
