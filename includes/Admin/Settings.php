@@ -499,6 +499,7 @@ class Settings {
                                                             'name'    => "content_type",
                                                             'type'    => "radio-card",
                                                             'default' => "link",
+                                                            'priority'=> 6,
                                                             'options' => [ 
                                                                 [
                                                                     'label' => __( 'Link','wp-scheduled-posts' ),
@@ -520,6 +521,23 @@ class Settings {
                                                             'type'          => 'toggle',
                                                             'label'         => __('Add Category as a tags', 'wp-scheduled-posts'),
                                                             'priority'      => 10,
+                                                        ],
+                                                        'content_source' => [
+                                                            'label'   => __('Content Source:','wp-scheduled-posts'),
+                                                            'name'    => "content_source",
+                                                            'type'    => "radio-card",
+                                                            'default' => "excerpt",
+                                                            'priority'=> 11,
+                                                            'options' => [ 
+                                                                [
+                                                                    'label' => __( 'Excerpt','wp-scheduled-posts' ),
+                                                                    'value' => 'excerpt',
+                                                                ],
+                                                                [
+                                                                    'label' => __( 'Content','wp-scheduled-posts' ),
+                                                                    'value' => 'content',
+                                                                ],
+                                                             ],
                                                         ],
                                                         'template_structure'  => [
                                                             'id'            => 'facebook_structure',
@@ -581,6 +599,23 @@ class Settings {
                                                             'label'         => __('Add Category as a tags', 'wp-scheduled-posts'),
                                                             'priority'      => 10,
                                                         ],
+                                                        'content_source' => [
+                                                            'label'         => __('Content Source:','wp-scheduled-posts'),
+                                                            'name'          => "content_source",
+                                                            'type'          => "radio-card",
+                                                            'default'       => "excerpt",
+                                                            'priority'      => 11,
+                                                            'options' => [ 
+                                                                [
+                                                                    'label' => __( 'Excerpt','wp-scheduled-posts' ),
+                                                                    'value' => 'excerpt',
+                                                                ],
+                                                                [
+                                                                    'label' => __( 'Content','wp-scheduled-posts' ),
+                                                                    'value' => 'content',
+                                                                ],
+                                                             ],
+                                                        ],
                                                         'is_show_post_thumbnail'  => [
                                                             'id'            => 'twitter_post_thumbnail',
                                                             'name'          => 'is_show_post_thumbnail',
@@ -624,12 +659,50 @@ class Settings {
                                                     'type'     => "group",
                                                     'priority' => 10,
                                                     'fields'    => [
+                                                        'content_type' => [
+                                                            'label'   => __('Content Type:','wp-scheduled-posts'),
+                                                            'name'    => "content_type",
+                                                            'type'    => "radio-card",
+                                                            'default' => "link",
+                                                            'priority'=> 6,
+                                                            'options' => [ 
+                                                                [
+                                                                    'label' => __( 'Link','wp-scheduled-posts' ),
+                                                                    'value' => 'link',
+                                                                ],
+                                                                [
+                                                                    'label' => __( 'Status','wp-scheduled-posts' ),
+                                                                    'value' => 'status',
+                                                                ],
+                                                                [
+                                                                    'label' => __( 'Media','wp-scheduled-posts' ),
+                                                                    'value' => 'media',
+                                                                ],
+                                                             ],
+                                                        ],
                                                         'is_category_as_tags'  => [
                                                             'id'            => 'linkedin_cat_tags',
                                                             'name'          => 'is_category_as_tags',
                                                             'type'          => 'toggle',
                                                             'label'         => __('Add Category as a tags', 'wp-scheduled-posts'),
                                                             'priority'      => 10,
+                                                        ],
+                                                        'content_source' => [
+                                                            'label'         => __('Content Type:','wp-scheduled-posts'),
+                                                            'name'          => "content_source",
+                                                            'type'          => "radio-card",
+                                                            'default'       => "excerpt",
+                                                            'priority'      => 11,
+                                                            'options' => [ 
+                                                                [
+                                                                    'label' => __( 'Excerpt','wp-scheduled-posts' ),
+                                                                    'value' => 'excerpt',
+                                                                ],
+                                                                [
+                                                                    'label' => __( 'Content','wp-scheduled-posts' ),
+                                                                    'value' => 'content',
+                                                                ],
+                                                             ],
                                                         ],
                                                         'template_structure'  => [
                                                             'id'            => 'linkedin_template',
@@ -689,6 +762,23 @@ class Settings {
                                                             'type'          => 'toggle',
                                                             'label'         => __('Add Category as a tags', 'wp-scheduled-posts'),
                                                             'priority'      => 10,
+                                                        ],
+                                                        'content_source' => [
+                                                            'label'         => __('Content Type:','wp-scheduled-posts'),
+                                                            'name'          => "content_source",
+                                                            'type'          => "radio-card",
+                                                            'default'       => "excerpt",
+                                                            'priority'      => 11,
+                                                            'options' => [ 
+                                                                [
+                                                                    'label' => __( 'Excerpt','wp-scheduled-posts' ),
+                                                                    'value' => 'excerpt',
+                                                                ],
+                                                                [
+                                                                    'label' => __( 'Content','wp-scheduled-posts' ),
+                                                                    'value' => 'content',
+                                                                ],
+                                                             ],
                                                         ],
                                                         'template_structure'  => [
                                                             'id'            => 'template_structure',

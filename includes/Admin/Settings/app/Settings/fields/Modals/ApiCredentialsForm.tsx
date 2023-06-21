@@ -13,8 +13,12 @@ const ApiCredentialsForm = ({ platform, requestHandler }) => {
   
   return (
     <React.Fragment>
-      <div className="modalbody">
+      <div className={`modalbody ${ platform ? platform + '_wrapper' : ""}`}>
         <div className="wpsp-social-account-insert-modal">
+          <div className="platform-info">
+            <img src="" alt="" />
+            <h4>Facebook</h4>
+          </div>
           {hasAutomatic && (
               <div className="menual_connection_checker">
                 <label className="toggler_wrapper">
@@ -67,6 +71,7 @@ const ApiCredentialsForm = ({ platform, requestHandler }) => {
                         style={{ marginRight: 30 }}
                         onChange={(e) => SetRedirectURI(e.target.value)}
                     />
+                    <span className="redirect-note">Copy this and paste it in your facebook app Callback url field.</span>
                 </div>
                 <div className="form-group">
                     <label htmlFor="">App ID: </label>
@@ -85,6 +90,7 @@ const ApiCredentialsForm = ({ platform, requestHandler }) => {
                 <div className="form-group">
                     <label htmlFor="">App Secret: </label>
                     <input
+                        className="test"
                         type="text"
                         required
                         value={appSecret}
@@ -109,6 +115,7 @@ const ApiCredentialsForm = ({ platform, requestHandler }) => {
                 >Connect Your Account</button>
             </form>
           )}
+          <p>For details on Facebook configuration, check out this <a href="#">Doc</a>. Click here to Retrieve Your API Keys from your Facebook account.</p>
         </div>
       </div>
     </React.Fragment>
