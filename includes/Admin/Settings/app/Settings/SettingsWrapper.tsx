@@ -6,14 +6,14 @@ import 'quickbuilder/dist/index.css';
 import Header from './Header';
 import '../assets/sass/index.scss';
 
-const SettingsWrapper = (props) => {
-    const builder = useBuilder(props.wpspObject.settings);
+const SettingsWrapper = ({wpspObject}) => {
+    const builder = useBuilder(wpspObject.settings);
 
     return (
         <>
             <Header />
             <BuilderProvider value={builder}>
-                <SettingsInner props={props} />
+                <SettingsInner {...wpspObject} />
             </BuilderProvider>
         </>
     )
