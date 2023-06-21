@@ -108,12 +108,14 @@
                                 }
                                 .content {
                                     display: flex;
-                                    gap: 24px;
+                                    gap: 20px;
+                                    justify-content: space-between;
                                     a {
                                         padding: 24px;
                                         background: #fff;
                                         border-radius: 8px;
                                         text-decoration: none;
+                                        min-width: 220px;
                                         .single-content {
                                             display: flex;
                                             align-items: center;

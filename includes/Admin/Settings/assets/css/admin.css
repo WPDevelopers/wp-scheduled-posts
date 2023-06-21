@@ -2851,13 +2851,15 @@ button.wprf-btn {
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .pro_features_section .wprf-section-fields .wprf-pro_features-features .content {
   display: flex;
-  gap: 24px;
+  gap: 20px;
+  justify-content: space-between;
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .pro_features_section .wprf-section-fields .wprf-pro_features-features .content a {
   padding: 24px;
   background: #fff;
   border-radius: 8px;
   text-decoration: none;
+  min-width: 220px;
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .pro_features_section .wprf-section-fields .wprf-pro_features-features .content a .single-content {
   display: flex;
@@ -3410,7 +3412,7 @@ button.wprf-btn {
 }
 
 .wprf-toggle-wrap.wprf-checked:before, .wprf-toggle-wrap input:checked + label:before {
-  background: #2df16e;
+  background: #02AC6E;
 }
 
 .wprf-toggle-wrap label.wprf-input-label:after {
