@@ -3213,7 +3213,7 @@ button.wprf-btn {
 }
 #wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields .wprf-control .social-profile-card .card-footer {
   display: flex;
-  gap: 32px;
+  gap: 16px;
 }
 @media screen and (max-width: 1023px) {
   #wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields .wprf-control .social-profile-card .card-footer {
@@ -3234,6 +3234,12 @@ button.wprf-btn {
   background-size: 16px 16px;
   cursor: pointer;
 }
+@media screen and (max-width: 1770px) {
+  #wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields .wprf-control .social-profile-card .card-footer select {
+    font-size: 12px;
+    min-width: 100px;
+  }
+}
 #wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields .wprf-control .social-profile-card .card-footer button {
   color: #6C62FF;
   padding: 8px 12px;
@@ -3246,6 +3252,11 @@ button.wprf-btn {
   min-height: 44px;
   background: transparent;
   cursor: pointer;
+}
+@media screen and (max-width: 1770px) {
+  #wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields .wprf-control .social-profile-card .card-footer button {
+    font-size: 12px;
+  }
 }
 #wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper {
   flex-basis: 20% !important;
