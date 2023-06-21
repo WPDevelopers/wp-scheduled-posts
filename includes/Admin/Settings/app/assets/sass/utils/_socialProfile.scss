@@ -25,63 +25,114 @@
             .social-profile-card {
                 background: #F9FAFC;
                 border-radius: 6px;
-                padding: 24px;
-                .card-header {
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    gap: 12px;
-                    margin-bottom: 20px;
-                    h5 {
-                        color: #1B1B50;
-                        font-size: 18px;
-                        margin: 0;
-                    }
-                }
-                .card-content {
-                    color: #6E6E8D !important;
-                    font-size: 14px !important;
-                    line-height: 22px !important;
-                    margin: 0 0 20px !important;
-                }
-                .card-footer {
-                    display: flex;
-                    gap: 16px;
-                    @media screen and (max-width: 1023px)  { 
-                        gap: 20px;
-                    }
-                    select {
-                        font-size: 14px;
-                        line-height: 2;
-                        color: #6E6E8D;
-                        border-color: #D7DBDF;
-                        box-shadow: none;
-                        border-radius: 6px;
-                        padding: 0 16px;
-                        min-height: 44px;
-                        min-width: 120px;
-                        background: #F9FAFC url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E) no-repeat right 5px top 55%;
-                        background-size: 16px 16px;
-                        cursor: pointer;
-                        @media screen and (max-width: 1770px)  { 
-                            font-size: 12px;
-                            min-width: 100px;
+                padding: 8px;
+                .main-profile {
+                    padding: 16px;
+                    .card-header {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        gap: 12px;
+                        margin-bottom: 20px;
+                        .heading {
+                            display: flex;
+                            align-items: center;
+                            gap: 14px;
+                            h5 {
+                                color: #1B1B50;
+                                font-size: 18px;
+                                margin: 0;
+                            }
                         }
                     }
-                    button {
-                        color: #6C62FF;
-                        padding: 8px 12px;
-                        font-size: 14px;
-                        font-weight: 500;
-                        line-height: 17px;
-                        text-align: center;
-                        border: 1px solid #6C62FF;
-                        border-radius: 6px;
-                        min-height: 44px;
-                        background: transparent;
-                        cursor: pointer;
-                        @media screen and (max-width: 1770px)  { 
-                            font-size: 12px;
+                    .card-content {
+                        color: #6E6E8D !important;
+                        font-size: 14px !important;
+                        line-height: 22px !important;
+                        margin: 0 0 20px !important;
+                    }
+                    .card-footer {
+                        display: flex;
+                        gap: 16px;
+                        @media screen and (max-width: 1023px)  { 
+                            gap: 20px;
+                        }
+                        select {
+                            font-size: 14px;
+                            line-height: 2;
+                            color: #6E6E8D;
+                            border-color: #D7DBDF;
+                            box-shadow: none;
+                            border-radius: 6px;
+                            padding: 0 16px;
+                            min-height: 44px;
+                            min-width: 120px;
+                            background: #F9FAFC url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E) no-repeat right 5px top 55%;
+                            background-size: 16px 16px;
+                            cursor: pointer;
+                            @media screen and (max-width: 1770px)  { 
+                                font-size: 12px;
+                                min-width: 100px;
+                            }
+                        }
+                        button {
+                            color: #6C62FF;
+                            padding: 8px 12px;
+                            font-size: 14px;
+                            font-weight: 500;
+                            line-height: 17px;
+                            text-align: center;
+                            border: 1px solid #6C62FF;
+                            border-radius: 6px;
+                            min-height: 44px;
+                            background: transparent;
+                            cursor: pointer;
+                            @media screen and (max-width: 1770px)  { 
+                                font-size: 12px;
+                            }
+                        }
+                    }
+                }
+                .profile-item {
+                    background: #fff;
+                    border-radius: 4px;
+                    padding: 24px;
+                    margin-top: 8px;
+                    display: flex;
+                    gap: 16px;
+                    position: relative;
+                    .profile-data {
+                        .badge {
+                            background: #F3F2FF;
+                            border-radius: 20px;
+                            padding: 6px 8px;
+                            font-size: 8px;
+                            line-height: 10px;
+                            font-weight: 500;
+                            color: #6C62FF;
+                            text-transform: uppercase;
+                            position: absolute;
+                            right: 8px;
+                            top: 8px;
+                        }
+                        h4 {
+                            font-size: 16px !important;
+                            margin: 0 0 8px !important;
+                            color: #1B1B50;
+                            font-weight: 500;
+                            line-height: 1.25em;
+                        }
+                        span {
+                            color: #6E6E8D;
+                            font-size: 14px;
+                            line-height: 1.1em;
+                            padding-bottom: 20px;
+                            display: block;
+                        }
+                        .action {
+                            display: flex;
+                            align-items: center;
+                            gap: 16px;
                         }
                     }
                 }
@@ -89,4 +140,28 @@
         }
     }
     
+}
+.wpsp-modal-generate-token-button {
+    background: red !important;
+}
+.ReactModal__Overlay {
+    position: fixed;
+    inset: 0px;
+    background: rgba(228, 3, 3, 0.7) !important;
+    padding: 50px 20px;
+    display: flex;
+    overflow: auto;
+    .ReactModal__Content {
+        position: static;
+        inset: 40px;
+        border: 1px solid rgb(204, 204, 204);
+        background: rgb(48, 36, 36) !important;
+        overflow: hidden;
+        border-radius: 4px;
+        outline: none;
+        padding: 20px;
+        margin: auto;
+        max-width: 100%;
+        width: 450px;
+    }
 }

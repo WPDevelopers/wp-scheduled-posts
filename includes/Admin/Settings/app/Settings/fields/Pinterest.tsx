@@ -121,7 +121,7 @@ const Pinterest = (props) => {
                                 <img src="" alt="" />
                             </div>
                             <div className="profile-data">
-                                <span>Profile</span>
+                                <span className='badge'>Profile</span>
                                 <h4>{item.name}</h4>
                                 <span>Admin on 12 June, 2023</span>
                                 <div className="action">

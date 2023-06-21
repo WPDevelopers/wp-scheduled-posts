@@ -115,7 +115,7 @@ const ApiCredentialsForm = ({ platform, requestHandler }) => {
                 >Connect Your Account</button>
             </form>
           )}
-          <p>For details on Facebook configuration, check out this <a href="#">Doc</a>. Click here to Retrieve Your API Keys from your Facebook account.</p>
+          <p>For details on Facebook configuration, check out this <a href="#">Doc.</a> Click here to Retrieve Your API Keys from your Facebook account.</p>
         </div>
       </div>
     </React.Fragment>

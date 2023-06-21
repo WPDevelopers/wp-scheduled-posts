@@ -111,13 +111,14 @@
                                     color: #1B1B50 !important;
                                     padding: 8px 12px !important;
                                     line-height: 15px !important;
+                                    min-width: 220px;
                                 }
                                 input:focus {
                                     border-color: #EBEEF5 !important;
                                     box-shadow: none !important;
                                     outline: 0 !important;
                                 }
-                                > p {
+                                .wprf-description {
                                     margin-left: 0px !important;
                                     font-size: 10px !important;
                                     color: #6E6E8D !important;

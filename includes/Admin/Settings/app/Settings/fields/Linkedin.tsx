@@ -80,46 +80,49 @@ const Linkedin = (props) => {
                 </div>
             )}
            <div className='social-profile-card'>
-                <div className="card-header">
-                    <div className="heading">
-                        <h5>Linkedin</h5>
+                <div className="main-profile">
+                    <div className="card-header">
+                        <div className="heading">
+                            <h5>Linkedin</h5>
+                        </div>
+                        <div className="status">
+                            <input
+                                name='enabled'
+                                type='checkbox'
+                                onChange={(e) =>
+                                    handleChange(e,1)
+                                }
+                            />
+                        </div>
                     </div>
-                    <div className="status">
-                        <input
-                            name='enabled'
-                            type='checkbox'
-                            onChange={(e) =>
-                                handleChange(e,1)
+                    <div className="card-content">
+                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum dolorem velit nisi vel perspiciatis rerum reprehenderit. Quisquam nisi maiores, voluptatem dignissimos accusamus ipsum recusandae earum. Sed dolorem sint ducimus excepturi.</p>
+                    </div>
+                    <div className="card-footer">
+                        <select name="" id="">
+                            <option value="">Page</option>
+                            <option value="">Group</option>
+                        </select>
+                        <button
+                            type="button"
+                            className={
+                            "wpscp-social-tab__btn--addnew-profile"
                             }
-                        />
+                            onClick={() => openApiCredentialsModal('linkedin')}
+                            >
+                            {__("Add New", "wp-scheduled-posts")}
+                        </button>
                     </div>
-                </div>
-                <div className="card-content">
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum dolorem velit nisi vel perspiciatis rerum reprehenderit. Quisquam nisi maiores, voluptatem dignissimos accusamus ipsum recusandae earum. Sed dolorem sint ducimus excepturi.</p>
-                </div>
-                <div className="card-footer">
-                    <select name="" id="">
-                        <option value="">Page</option>
-                        <option value="">Group</option>
-                    </select>
-                    <button
-                        type="button"
-                        className={
-                        "wpscp-social-tab__btn--addnew-profile"
-                        }
-                        onClick={() => openApiCredentialsModal('linkedin')}
-                        >
-                        {__("Add New", "wp-scheduled-posts")}
-                    </button>
                 </div>
                 <div className="selected-profile">
                     {selectedProfile.map((item,index) => (
                         <div className="profile-item" key={Math.random()}>
                             <div className="profile-image">
-                                <img src="" alt="" />
+                                {/* @ts-ignore */}
+                                <img src={`${wpspSettingsGlobal?.image_path}author-2.png`} alt="authorImg" />
                             </div>
                             <div className="profile-data">
-                                <span>Profile</span>
+                                <span className='badge'>Profile</span>
                                 <h4>{item.name}</h4>
                                 <span>Admin on 12 June, 2023</span>
                                 <div className="action">
