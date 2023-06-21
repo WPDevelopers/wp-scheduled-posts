@@ -19,22 +19,6 @@ const Facebook = (props) => {
         builderContext.setFieldValue([props.name, field], value);
     }, [props.value]);
 
-    const customStyles = {
-        overlay: {
-          background: "rgba(1, 17, 50, 0.7)",
-          padding: "50px 20px",
-          display: "flex",
-          overflow: "auto",
-        },
-        content: {
-          margin: "auto",
-          maxWidth: "100%",
-          width: "450px",
-          position: "static",
-          overflow: "hidden",
-        },
-    };
-
     const [apiCredentialsModal,setApiCredentialsModal] = useState(false);
     const [fbProfileData, setFbProfileData] = useState({
         page: [],
@@ -79,6 +63,7 @@ const Facebook = (props) => {
                 <div className="main-profile">
                     <div className="card-header">
                         <div className="heading">
+                            <img width={'30px'} src={`${props?.logo}`} alt="" />
                             <h5>Facebook</h5>
                         </div>
                         <div className="status">
@@ -137,7 +122,6 @@ const Facebook = (props) => {
                 isOpen={apiCredentialsModal}
                 onRequestClose={closeApiCredentialsModal}
                 ariaHideApp={false}
-                style={customStyles}
                 >
                 
                 <ApiCredentialsForm  platform={platform} requestHandler={socialProfileRequestHandler} />
@@ -146,7 +130,6 @@ const Facebook = (props) => {
             {/* Profile Data Modal  */}
             {/* @ts-ignore */}
             <SocialModal
-                customStyles={customStyles}
                 selectedProfile={selectedProfile}
                 setSelectedProfile={setSelectedProfile}
                 setIsErrorMessage={setIsErrorMessage}

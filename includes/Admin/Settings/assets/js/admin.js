@@ -2460,21 +2460,6 @@ var Facebook = function (props) {
       value = _a.val;
     builderContext.setFieldValue([props.name, field], value);
   }, [props.value]);
-  var customStyles = {
-    overlay: {
-      background: "rgba(1, 17, 50, 0.7)",
-      padding: "50px 20px",
-      display: "flex",
-      overflow: "auto"
-    },
-    content: {
-      margin: "auto",
-      maxWidth: "100%",
-      width: "450px",
-      position: "static",
-      overflow: "hidden"
-    }
-  };
   var _a = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
     apiCredentialsModal = _a[0],
     setApiCredentialsModal = _a[1];
@@ -2519,7 +2504,11 @@ var Facebook = function (props) {
     className: "card-header"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: "heading"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h5", null, "Facebook")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("img", {
+    width: '30px',
+    src: "".concat(props === null || props === void 0 ? void 0 : props.logo),
+    alt: ""
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h5", null, "Facebook")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: "status"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("input", {
     type: 'checkbox',
@@ -2570,13 +2559,11 @@ var Facebook = function (props) {
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react_modal__WEBPACK_IMPORTED_MODULE_5___default()), {
     isOpen: apiCredentialsModal,
     onRequestClose: closeApiCredentialsModal,
-    ariaHideApp: false,
-    style: customStyles
+    ariaHideApp: false
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_Modals_ApiCredentialsForm__WEBPACK_IMPORTED_MODULE_4__["default"], {
     platform: platform,
     requestHandler: _helper_helper__WEBPACK_IMPORTED_MODULE_6__.socialProfileRequestHandler
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_Modals_SocialModal__WEBPACK_IMPORTED_MODULE_7__["default"], {
-    customStyles: customStyles,
     selectedProfile: selectedProfile,
     setSelectedProfile: setSelectedProfile,
     setIsErrorMessage: setIsErrorMessage,
