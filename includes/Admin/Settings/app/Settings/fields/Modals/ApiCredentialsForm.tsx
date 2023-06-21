@@ -56,7 +56,7 @@ const ApiCredentialsForm = ({ platform, requestHandler }) => {
               </a>
             </div>
           )}
-          {(platform == "facebook" || platform == "twitter") && (
+          {(isManual || platform == "facebook" || platform == "twitter") && (
             <form>
                 <div className="form-group">
                     <label htmlFor="">Redirect URI:</label>

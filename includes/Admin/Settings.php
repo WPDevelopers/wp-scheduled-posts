@@ -170,13 +170,21 @@ class Settings {
                                     'label'    => __('Show Scheduled Posts in Sitewide Admin Bar', 'wp-scheduled-posts'),
                                     'priority' => 5,
                                 ],
-                                'allow_post_types' => [
+                                // 'allow_post_types' => [
+                                //     'name'     => 'allow_post_types',
+                                //     'label'    => __('Show Post Types:', 'notificationx'),
+                                //     'type'     => 'select',
+                                //     'multiple' => true,
+                                //     'priority' => 7,
+                                //     'options'  => $this->normalize_options(\WPSP\Helper::get_all_post_type()),
+                                // ],
+                                'allow_post_types'  => [
                                     'name'     => 'allow_post_types',
                                     'label'    => __('Show Post Types:', 'notificationx'),
-                                    'type'     => 'select',
+                                    'type'     => 'checkbox-select',
                                     'multiple' => true,
                                     'priority' => 7,
-                                    'options'  => $this->normalize_options(\WPSP\Helper::get_all_post_type()),
+                                    'option'  => $this->normalize_options(\WPSP\Helper::get_all_post_type()),
                                 ],
                                 'allow_categories' => [
                                     'name'     => 'allow_categories',
@@ -189,10 +197,10 @@ class Settings {
                                 'allow_user_by_role' => [
                                     'name'     => 'allow_user_by_role',
                                     'label'    => __('Allow users:', 'notificationx'),
-                                    'type'     => 'select',
+                                    'type'     => 'checkbox-select',
                                     'multiple' => true,
                                     'priority' => 9,
-                                    'options'  => $this->normalize_options(\WPSP\Helper::get_all_roles()),
+                                    'option'  => $this->normalize_options(\WPSP\Helper::get_all_roles()),
                                 ],
                                 'is_show_admin_bar_posts'       => [
                                     'name'     => 'is_show_admin_bar_posts',
