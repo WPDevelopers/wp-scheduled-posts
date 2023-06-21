@@ -203,10 +203,39 @@ class Settings {
                                 ],
                                 'adminbar_list_structure' => [
                                     'name'     => 'adminbar_list_structure',
-                                    'type'     => 'toggle',
+                                    'type'     => 'section',
                                     'label'    => __('Custom item template for scheduled posts list in the admin bar:', 'wp-scheduled-posts'),
+                                    'collapsible'  => true,
+                                    'classes'   => 'section-collapsible',
                                     'default'  => 1,
                                     'priority' => 15,
+                                    'fields'   => [
+                                        'adminbar_list_structure_template'  => [
+                                            'id'            => 'adminbar_list_structure_template',
+                                            'name'          => 'adminbar_list_structure_template',
+                                            'type'          => 'text',
+                                            'label'         => __('Item template:', 'wp-scheduled-posts'),
+                                            'default'       => '<strong>%TITLE%</strong> / %AUTHOR% / %DATE%',
+                                            'priority'      => 5,
+                                        ],
+                                        'adminbar_list_structure_title_length'  => [
+                                            'id'            => 'adminbar_list_structure_title_length',
+                                            'name'          => 'adminbar_list_structure_title_length',
+                                            'type'          => 'text',
+                                            'label'         => __('Title length:', 'wp-scheduled-posts'),
+                                            'default'       => '45',
+                                            'priority'      => 10,
+                                        ],
+                                        'adminbar_list_structure_date_format'  => [
+                                            'id'            => 'adminbar_list_structure_date_format',
+                                            'name'          => 'adminbar_list_structure_date_format',
+                                            'type'          => 'text',
+                                            'label'         => __('Date format:', 'wp-scheduled-posts'),
+                                            'default'       => 'M-d h:i:a',
+                                            'description'   => __('For item template use %TITLE% for the post title, %AUTHOR% for post author, and %DATE% for post scheduled date-time. You can use HTML tags with styles also.', 'wp-scheduled-posts'),
+                                            'priority'      => 15,
+                                        ],
+                                    ]
                                 ],
                                 'show_publish_post_button' => [
                                     'name'     => 'show_publish_post_button',
@@ -315,21 +344,54 @@ class Settings {
                                 'notify_author_post_is_scheduled'       => [
                                     'name'     => 'notify_author_post_is_scheduled',
                                     'type'     => 'toggle',
-                                    'label'    => __('Notify User when a post is "Under Review"', 'wp-scheduled-posts'),
+                                    'label'    => __('Notify User when a post is "Scheduled"', 'wp-scheduled-posts'),
                                     'priority' => 20,
+                                ],
+                                'notify_author_post_scheduled_by_role' => [
+                                    'name'     => 'notify_author_post_scheduled_by_role',
+                                    'label'    => __('Role', 'notificationx'),
+                                    'type'     => 'select',
+                                    'multiple' => true,
+                                    'priority' => 25,
+                                    'options'  => $this->normalize_options( \WPSP\Helper::get_all_roles() ),
+                                    'rules'       => Rules::logicalRule([
+                                        Rules::is( 'notify_author_post_is_scheduled', true ),
+                                    ]),
+                                ],
+                                'notify_author_post_scheduled_by_username' => [
+                                    'name'     => 'notify_author_post_scheduled_by_username',
+                                    'label'    => __('Username:', 'notificationx'),
+                                    'type'     => 'select',
+                                    'multiple' => true,
+                                    'priority' => 30,
+                                    'options'  => $this->normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_login', 'user_login') ),
+                                    'rules'       => Rules::logicalRule([
+                                        Rules::is( 'notify_author_post_is_scheduled', true ),
+                                    ]),
+                                ],
+                                'notify_author_post_scheduled_by_email' => [
+                                    'name'     => 'notify_author_post_scheduled_by_email',
+                                    'label'    => __('Email:', 'notificationx'),
+                                    'type'     => 'select',
+                                    'multiple' => true,
+                                    'priority' => 35,
+                                    'options'  => $this->normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_email', 'user_email') ),
+                                    'rules'       => Rules::logicalRule([
+                                        Rules::is( 'notify_author_post_is_scheduled', true ),
+                                    ]),
                                 ],
                                 'notify_author_post_scheduled_to_publish'       => [
                                     'name'     => 'notify_author_post_scheduled_to_publish',
                                     'type'     => 'toggle',
                                     'label'    => __('Notify Author when a Scheduled Post is "Published"', 'wp-scheduled-posts'),
-                                    'priority' => 25,
+                                    'priority' => 40,
                                 ],
                                 'notify_author_post_is_publish'       => [
                                     'name'     => 'notify_author_post_is_publish',
                                     'type'     => 'toggle',
                                     'label'    => __('Notify Author when a post is "Published"', 'wp-scheduled-posts'),
                                     'default'  => 1,
-                                    'priority' => 30,
+                                    'priority' => 45,
                                 ],
                             ],
                         ],
@@ -343,12 +405,12 @@ class Settings {
                     'priority' => 20,
                     'fields'   => [
                         'social_profile_wrapper' => [
-                            'id'        => 'social_profile_wrapper',
-                            'name'      => 'social_profile_wrapper',
-                            'type'      => 'section',
-                            'label'    => __('Social Profile', 'wp-scheduled-posts'),
-                            'priority'  => 5,
-                            'fields'    => [
+                            'id'            => 'social_profile_wrapper',
+                            'name'          => 'social_profile_wrapper',
+                            'type'          => 'section',
+                            'label'         => __('Social Profile', 'wp-scheduled-posts'),
+                            'priority'      => 5,
+                            'fields'        => [
                                 'facebook_profile_list'  => [
                                     'id'       => 'facebook_profile_list',
                                     'name'     => 'facebook_profile_list',
@@ -432,6 +494,26 @@ class Settings {
                                                             'description'   => __('Add Open Graph metadata to your site head section and other social networks use this data when your pages are shared.', 'wp-scheduled-posts'),
                                                             'priority'      => 5,
                                                         ],
+                                                        'content_type' => [
+                                                            'label'   => __('Content Type:','wp-scheduled-posts'),
+                                                            'name'    => "content_type",
+                                                            'type'    => "radio-card",
+                                                            'default' => "link",
+                                                            'options' => [ 
+                                                                [
+                                                                    'label' => __( 'Link','wp-scheduled-posts' ),
+                                                                    'value' => 'link',
+                                                                ],
+                                                                [
+                                                                    'label' => __( 'Status','wp-scheduled-posts' ),
+                                                                    'value' => 'status',
+                                                                ],
+                                                                [
+                                                                    'label' => __( 'Status + Link','wp-scheduled-posts' ),
+                                                                    'value' => 'statuswithlink',
+                                                                ],
+                                                             ],
+                                                        ],
                                                         'is_category_as_tags'  => [
                                                             'id'            => 'facebook_cat_tags',
                                                             'name'          => 'is_category_as_tags',
@@ -454,12 +536,12 @@ class Settings {
                                                             'type'          => 'number',
                                                             'label'         => __('Status Limit', 'wp-scheduled-posts'),
                                                             'priority'      => 20,
-                                                            'default'       => '63206',
-                                                            'max'           => '63206',
+                                                            'default'       => 63206,
+                                                            'max'           => 63206,
                                                             'description'   => __('Maximum Limit: 63206 character', 'wp-scheduled-posts'),
                                                         ],
                                                     ]
-                                                ]
+                                                ]   
 
                                             ]
                                         ]
@@ -488,6 +570,7 @@ class Settings {
                                                             'name'          => 'template_structure',
                                                             'type'          => 'text',
                                                             'label'         => __('Tweet Template Settings', 'wp-scheduled-posts'),
+                                                            'default'       => '{title}{content}{url}{tags}',
                                                             'desc'          => __('Default Structure: {title}{content}{url}{tags}', 'wp-scheduled-posts'),
                                                             'priority'      => 5,
                                                         ],
@@ -501,20 +584,19 @@ class Settings {
                                                         'is_show_post_thumbnail'  => [
                                                             'id'            => 'twitter_post_thumbnail',
                                                             'name'          => 'is_show_post_thumbnail',
-                                                            'type'          => 'text',
-                                                            'label'         => __('Add Category as a tags', 'wp-scheduled-posts'),
-                                                            'default'       => '{title}{content}{url}{tags}',
-                                                            'desc'          => __('Default Structure: {title}{content}{url}{tags}', 'wp-scheduled-posts'),
+                                                            'type'          => 'toggle',
+                                                            'label'         => __('Show Post Thumbnail', 'wp-scheduled-posts'),
+                                                            'default'       => false,
                                                             'priority'      => 15,
                                                         ],
                                                         'status_limit'  => [
                                                             'id'            => 'twitter_status_limit',
                                                             'name'          => 'status_limit',
                                                             'type'          => 'number',
-                                                            'label'         => __('Status Limit', 'wp-scheduled-posts'),
+                                                            'label'         => __('Tweet Limit', 'wp-scheduled-posts'),
                                                             'priority'      => 20,
-                                                            'default'       => '280',
-                                                            'max'           => '280',
+                                                            'default'       => 280,
+                                                            'max'           => 280,
                                                             'description'   => __('Maximum Limit: 280 character', 'wp-scheduled-posts'),
                                                         ],
                                                     ]
@@ -564,8 +646,8 @@ class Settings {
                                                             'type'          => 'number',
                                                             'label'         => __('Status Limit', 'wp-scheduled-posts'),
                                                             'priority'      => 20,
-                                                            'default'       => '1300',
-                                                            'max'           => '1300',
+                                                            'default'       => 1300,
+                                                            'max'           => 1300,
                                                             'description'   => __('Maximum Limit: 1300 character', 'wp-scheduled-posts'),
                                                         ],
                                                     ]
