@@ -2916,10 +2916,15 @@ var ApiCredentialsForm = function (_a) {
     SetRedirectURI = _e[1];
   var hasAutomatic = platform == "linkedin" || platform == "pinterest";
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "modalbody"
+    className: "modalbody ".concat(platform ? platform + '_wrapper' : "")
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "wpsp-social-account-insert-modal"
-  }, hasAutomatic && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "platform-info"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
+    src: "",
+    alt: ""
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h4", null, "Facebook")), hasAutomatic && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "menual_connection_checker"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", {
     className: "toggler_wrapper"
@@ -2964,7 +2969,9 @@ var ApiCredentialsForm = function (_a) {
     onChange: function (e) {
       return SetRedirectURI(e.target.value);
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    className: "redirect-note"
+  }, "Copy this and paste it in your facebook app Callback url field.")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "form-group"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", {
     htmlFor: ""
@@ -2981,6 +2988,7 @@ var ApiCredentialsForm = function (_a) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", {
     htmlFor: ""
   }, "App Secret: "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+    className: "test",
     type: "text",
     required: true,
     value: appSecret,
@@ -2998,7 +3006,9 @@ var ApiCredentialsForm = function (_a) {
         event.preventDefault();
       }
     }
-  }, "Connect Your Account")))));
+  }, "Connect Your Account")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "For details on Facebook configuration, check out this ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
+    href: "#"
+  }, "Doc"), ". Click here to Retrieve Your API Keys from your Facebook account."))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ApiCredentialsForm);
 
