@@ -87,7 +87,7 @@ class Settings {
             'label'           => __('Layout', 'wp-scheduled-posts'),
             'classes'         => 'tab-layout',
             'type'            => "tab",
-            'active'          => "layout_general",
+            'active'          => "layout_calender",
             'completionTrack' => true,
             'sidebar'         => false,
             'title'           => false,
@@ -286,7 +286,20 @@ class Settings {
                     'label'    => __('Calender', 'wp-scheduled-posts'),
                     'priority' => 10,
                     'fields'   => [
-
+                        [
+                            'name'     => 'calender_section',
+                            'type'     => 'section',
+                            'label'    => null,
+                            'priority' => 2,
+                            'fields'   => [
+                                [
+                                    'name'     => 'calender',
+                                    'type'     => 'calender',
+                                    'label'    => null,
+                                    'priority' => 5,
+                                ]
+                            ],
+                        ]
                     ]
                 ],
                 'layout_email_notify'         => [
@@ -511,7 +524,7 @@ class Settings {
                                                             'type'    => "radio-card",
                                                             'default' => "link",
                                                             'priority'=> 6,
-                                                            'options' => [ 
+                                                            'options' => [
                                                                 [
                                                                     'label' => __( 'Link','wp-scheduled-posts' ),
                                                                     'value' => 'link',
@@ -539,7 +552,7 @@ class Settings {
                                                             'type'    => "radio-card",
                                                             'default' => "excerpt",
                                                             'priority'=> 11,
-                                                            'options' => [ 
+                                                            'options' => [
                                                                 [
                                                                     'label' => __( 'Excerpt','wp-scheduled-posts' ),
                                                                     'value' => 'excerpt',
@@ -570,7 +583,7 @@ class Settings {
                                                             'description'   => __('Maximum Limit: 63206 character', 'wp-scheduled-posts'),
                                                         ],
                                                     ]
-                                                ]   
+                                                ]
 
                                             ]
                                         ]
@@ -616,7 +629,7 @@ class Settings {
                                                             'type'          => "radio-card",
                                                             'default'       => "excerpt",
                                                             'priority'      => 11,
-                                                            'options' => [ 
+                                                            'options' => [
                                                                 [
                                                                     'label' => __( 'Excerpt','wp-scheduled-posts' ),
                                                                     'value' => 'excerpt',
@@ -676,7 +689,7 @@ class Settings {
                                                             'type'    => "radio-card",
                                                             'default' => "link",
                                                             'priority'=> 6,
-                                                            'options' => [ 
+                                                            'options' => [
                                                                 [
                                                                     'label' => __( 'Link','wp-scheduled-posts' ),
                                                                     'value' => 'link',
@@ -704,7 +717,7 @@ class Settings {
                                                             'type'          => "radio-card",
                                                             'default'       => "excerpt",
                                                             'priority'      => 11,
-                                                            'options' => [ 
+                                                            'options' => [
                                                                 [
                                                                     'label' => __( 'Excerpt','wp-scheduled-posts' ),
                                                                     'value' => 'excerpt',
@@ -780,7 +793,7 @@ class Settings {
                                                             'type'          => "radio-card",
                                                             'default'       => "excerpt",
                                                             'priority'      => 11,
-                                                            'options' => [ 
+                                                            'options' => [
                                                                 [
                                                                     'label' => __( 'Excerpt','wp-scheduled-posts' ),
                                                                     'value' => 'excerpt',

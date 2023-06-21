@@ -97,7 +97,7 @@ class Assets
                 array(
                     'ajax_url' => admin_url('admin-ajax.php'),
                     'nonce' => wp_create_nonce('wpscp-calendar-ajax-nonce'),
-                    'calendar_rest_route' => site_url('/?rest_route=/wpscp/v1/post_type=post/month=' . $month . '/year=' . $year),
+                    'calendar_rest_route' => '/wpscp/v1/post_type=post/month=' . $month . '/year=' . $year,
                     'start_of_week' => (int) get_option('start_of_week', 0),
                 )
             );
@@ -105,7 +105,7 @@ class Assets
             wp_enqueue_script('wpsp-socialprofile', WPSP_ASSETS_URI . 'js/wpsp-socialprofile.js', array('jquery', 'md5.min.js'), WPSP_VERSION, true);
             wp_localize_script('wpsp-socialprofile', 'wpscpSocialProfile', array(
                 'plugin_url'    => WPSP_PLUGIN_ROOT_URI,
-                'nonce'            => wp_create_nonce('wpscp-pro-social-profile'),
+                'nonce'         => wp_create_nonce('wpscp-pro-social-profile'),
                 'redirect_url'  => WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE,
                 'is_active_pro' => class_exists('WPSP_PRO')
             ));

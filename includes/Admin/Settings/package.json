@@ -12,6 +12,10 @@
     "author": "tusharimran",
     "dependencies": {
         "@babel/polyfill": "*",
+        "@fullcalendar/core": "^6.1.8",
+        "@fullcalendar/daygrid": "^6.1.8",
+        "@fullcalendar/interaction": "^6.1.8",
+        "@fullcalendar/react": "^6.1.8",
         "@wordpress/api-fetch": "^6.32.0",
         "@wordpress/hooks": "^2.12.2",
         "@wordpress/i18n": "^3.19.2",

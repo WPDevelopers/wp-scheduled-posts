@@ -108,15 +108,33 @@ class Calendar
                 $markup .= '<div class="postactions"><div>' . $link . '</div></div>';
                 $markup .= '</div>';
                 array_push($allData, array(
-                    'title'  => $markup,
-                    'start'  => empty($republish_date) ? get_the_date('Y-m-d') : date('Y-m-d', strtotime($republish_date)),
-                    'end'    => empty($republish_date) ? get_the_date('Y-m-d H:i:s') : date('Y-m-d H:i:s', strtotime($republish_date)),
-                    'allDay' => false,
+                    'postId'   => get_the_ID(),
+                    'title'    => wp_trim_words(get_the_title(), 3, '...'),
+                    'href'     => get_the_permalink(),
+                    'edit'     => get_edit_post_link(),
+                    'postType' => get_post_type(),
+                    'status'   => $this->get_post_status($republish),
+                    'postTime' => $this->get_post_time('g:i a', $republish_date),
+                    'start'    => $this->get_post_time('Y-m-d', $republish_date),
+                    'end'      => $this->get_post_time('Y-m-d H:i:s', $republish_date),
+                    'allDay'   => false,
                 ));
             endwhile;
             wp_reset_postdata();
         }
         return $allData;
+    }
+
+    // Define a function to get the post time
+    public function get_post_time($format, $republish_date = '') {
+        // If republish date is empty, use the current post date
+        if (empty($republish_date)) {
+            return get_the_date($format);
+        }
+        // Otherwise, use the republish date
+        else {
+            return date($format, strtotime($republish_date));
+        }
     }
 
     public function get_post_status($republish = false){
