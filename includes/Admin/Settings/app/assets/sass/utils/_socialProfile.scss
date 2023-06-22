@@ -165,3 +165,14 @@
         width: 450px;
     }
 }
+.ReactModal__Overlay{
+    background-color: red !important;
+}
+.ReactModal__Content.ReactModal__Content--after-open {
+    position: fixed;
+    inset: 0px;
+    background: rgba(228, 3, 3, 0.7) !important;
+    padding: 150px 120px !important;
+    display: flex;
+    overflow: auto;
+}

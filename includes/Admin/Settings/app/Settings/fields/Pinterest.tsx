@@ -124,6 +124,7 @@ const Pinterest = (props) => {
                             <div className="profile-data">
                                 <span className='badge'>Profile</span>
                                 <h4>{item.name}</h4>
+                                {/* @ts-ignore */}
                                 <span>Admin on 12 June, 2023</span>
                                 <div className="action">
                                     <div className="change-status">

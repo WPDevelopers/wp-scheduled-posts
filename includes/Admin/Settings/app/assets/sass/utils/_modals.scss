@@ -19,7 +19,7 @@
                                                 line-height: normal !important;
                                                 display: flex;
                                                 align-items: center;
-                                                .wprf-input-label {
+                                                // .wprf-input-label {
                                                     // position: absolute !important;
                                                     // right: -48px !important;
                                                     // top: 0 !important;
@@ -35,7 +35,7 @@
                                                     // padding: 0 !important;
                                                     // margin-bottom: 0 !important;
                                                     // box-sizing: border-box;
-                                                }
+                                                // }
                                                 &:after {
                                                     display: none;
                                                 }
@@ -73,6 +73,10 @@
         }
         
     }
+}
+
+.ReactModal__Overlay{
+    background-color: red !important;
 }
 
         
