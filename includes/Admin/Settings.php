@@ -87,19 +87,21 @@ class Settings {
             'label'           => __('Layout', 'wp-scheduled-posts'),
             'classes'         => 'tab-layout',
             'type'            => "tab",
-            'active'          => "layout_calender",
             'completionTrack' => true,
             'sidebar'         => false,
             'title'           => false,
+            'is_pro_active'   => (defined('WPSP_PRO_VERSION') ? WPSP_PRO_VERSION : ''),
+            'savedValues'     => $wpsp_option,
+            'values'          => $wpsp_option,
             'submit'          => [
                 'show' => true
             ],
             'step'            => [
                 'show' => false
             ],
-            'is_pro_active'   => (defined('WPSP_PRO_VERSION') ? WPSP_PRO_VERSION : ''),
-            'savedValues'     => $wpsp_option,
-            'values'          => $wpsp_option,
+            'config'          => [
+                'active'  => 'layout_calender',
+            ],
             'fields'          => [
                 'layout_general' => [
                     'id'       => 'layout_general',
