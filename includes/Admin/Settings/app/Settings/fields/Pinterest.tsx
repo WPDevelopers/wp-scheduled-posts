@@ -143,6 +143,7 @@ const Pinterest = (props) => {
                 onRequestClose={closeApiCredentialsModal}
                 ariaHideApp={false}
                 style={customStyles}
+                className="modal_wrapper"
                 >
                 
                 <ApiCredentialsForm  platform={platform} requestHandler={socialProfileRequestHandler} />

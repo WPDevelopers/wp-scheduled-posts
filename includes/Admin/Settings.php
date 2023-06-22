@@ -170,14 +170,13 @@ class Settings {
                                     'label'    => __('Show Scheduled Posts in Sitewide Admin Bar', 'wp-scheduled-posts'),
                                     'priority' => 5,
                                 ],
-                                // 'allow_post_types' => [
-                                //     'name'     => 'allow_post_types',
-                                //     'label'    => __('Show Post Types:', 'notificationx'),
-                                //     'type'     => 'select',
-                                //     'multiple' => true,
-                                //     'priority' => 7,
-                                //     'options'  => $this->normalize_options(\WPSP\Helper::get_all_post_type()),
-                                // ],
+                                'is_show_admin_bar_posts'       => [
+                                    'name'     => 'is_show_admin_bar_posts',
+                                    'type'     => 'toggle',
+                                    'label'    => __('Show Scheduled Posts in Admin Bar', 'wp-scheduled-posts'),
+                                    'default'  => 1,
+                                    'priority' => 10,
+                                ],
                                 'allow_post_types'  => [
                                     'name'     => 'allow_post_types',
                                     'label'    => __('Show Post Types:', 'notificationx'),
@@ -189,10 +188,10 @@ class Settings {
                                 'allow_categories' => [
                                     'name'     => 'allow_categories',
                                     'label'    => __('Show Categories:', 'notificationx'),
-                                    'type'     => 'select',
+                                    'type'     => 'checkbox-select',
                                     'multiple' => true,
                                     'priority' => 8,
-                                    'options'  => $this->normalize_options(\WPSP\Helper::_get_all_category()),
+                                    'option'  => $this->normalize_options(\WPSP\Helper::_get_all_category()),
                                 ],
                                 'allow_user_by_role' => [
                                     'name'     => 'allow_user_by_role',
@@ -202,11 +201,10 @@ class Settings {
                                     'priority' => 9,
                                     'option'  => $this->normalize_options(\WPSP\Helper::get_all_roles()),
                                 ],
-                                'is_show_admin_bar_posts'       => [
-                                    'name'     => 'is_show_admin_bar_posts',
-                                    'type'     => 'toggle',
-                                    'label'    => __('Show Scheduled Posts in Admin Bar', 'wp-scheduled-posts'),
-                                    'default'  => 1,
+                                'calendar_schedule_time' => [
+                                    'name'     => 'calendar_schedule_time',
+                                    'label'    => __('Calendar Default Schedule Time:', 'notificationx'),
+                                    'type'     => 'time',
                                     'priority' => 10,
                                 ],
                                 'adminbar_list_structure' => [
