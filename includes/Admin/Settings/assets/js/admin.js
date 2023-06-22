@@ -2420,6 +2420,139 @@ var Sidebar = function (_a) {
 
 /***/ }),
 
+/***/ "./app/Settings/fields/CheckboxSelect.tsx":
+/*!************************************************!*\
+  !*** ./app/Settings/fields/CheckboxSelect.tsx ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_select__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-select */ "./node_modules/react-select/dist/react-select.esm.js");
+/* harmony import */ var react_select__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-select */ "./node_modules/react-select/dist/index-4bd03571.esm.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_1__);
+var __assign = undefined && undefined.__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+      for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+    }
+    return t;
+  };
+  return __assign.apply(this, arguments);
+};
+
+
+
+
+// Prepare options with checkbox
+var Option = function (props) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_select__WEBPACK_IMPORTED_MODULE_2__.c.Option, __assign({}, props), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+    type: "checkbox",
+    checked: props.isSelected,
+    onChange: function () {
+      return null;
+    }
+  }), " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", null, props.label)));
+};
+var CheckboxSelect = function (props) {
+  var _a;
+  var name = props.name,
+    multiple = props.multiple,
+    onChange = props.onChange;
+  var options = Object.entries(props.option).map(function (_a) {
+    var key = _a[0],
+      value = _a[1];
+    return {
+      //@ts-ignore
+      value: value === null || value === void 0 ? void 0 : value.value,
+      //@ts-ignore
+      label: value === null || value === void 0 ? void 0 : value.label,
+      key: key.toString()
+    };
+  });
+  var selectedValue = (_a = props === null || props === void 0 ? void 0 : props.value) === null || _a === void 0 ? void 0 : _a.map(function (item) {
+    var _a;
+    return {
+      value: item,
+      label: (_a = options.find(function (option) {
+        return option.value == item;
+      })) === null || _a === void 0 ? void 0 : _a.label
+    };
+  });
+  var _b = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(selectedValue),
+    optionSelected = _b[0],
+    setOptionSelected = _b[1];
+  // Add and remove
+  var handleChange = function (selected) {
+    setOptionSelected(selected);
+  };
+  var removeItem = function (item) {
+    var updatedItems = optionSelected.filter(function (i) {
+      return i !== item;
+    });
+    setOptionSelected(updatedItems);
+  };
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    onChange({
+      target: {
+        type: "select",
+        name: name,
+        value: optionSelected.map(function (item) {
+          return item.value;
+        }),
+        multiple: multiple
+      }
+    });
+  }, [optionSelected]);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: classnames__WEBPACK_IMPORTED_MODULE_1___default()('wprf-control', 'wprf-control-wrapper', 'wprf-checkbox-select', "wprf-".concat(props.name, "-checkbox-select"), props === null || props === void 0 ? void 0 : props.classes)
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "wprf-control-label"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", {
+    htmlFor: "".concat(props === null || props === void 0 ? void 0 : props.id)
+  }, props === null || props === void 0 ? void 0 : props.label), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "selected-options"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", null, optionSelected === null || optionSelected === void 0 ? void 0 : optionSelected.map(function (item, index) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", {
+      key: index
+    }, " ", item === null || item === void 0 ? void 0 : item.label, " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+      onClick: function () {
+        return removeItem(item);
+      }
+    }, "X"), " ");
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "wprf-control-field"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "wprf-checkbox-select-wrap wprf-checked wprf-label-position-right"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    className: "d-inline-block",
+    "data-toggle": "popover",
+    "data-trigger": "focus",
+    "data-content": "Please select account(s)"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_select__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    options: options,
+    isMulti: true,
+    closeMenuOnSelect: false,
+    hideSelectedOptions: false,
+    components: {
+      Option: Option
+    },
+    onChange: handleChange,
+    value: optionSelected,
+    controlShouldRenderValue: false
+  }))))));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CheckboxSelect);
+
+/***/ }),
+
 /***/ "./app/Settings/fields/Facebook.tsx":
 /*!******************************************!*\
   !*** ./app/Settings/fields/Facebook.tsx ***!
@@ -2641,6 +2774,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Linkedin__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Linkedin */ "./app/Settings/fields/Linkedin.tsx");
 /* harmony import */ var _Pinterest__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Pinterest */ "./app/Settings/fields/Pinterest.tsx");
 /* harmony import */ var _Twitter__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Twitter */ "./app/Settings/fields/Twitter.tsx");
+/* harmony import */ var _CheckboxSelect__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./CheckboxSelect */ "./app/Settings/fields/CheckboxSelect.tsx");
 var __assign = undefined && undefined.__assign || function () {
   __assign = Object.assign || function (t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -2651,6 +2785,7 @@ var __assign = undefined && undefined.__assign || function () {
   };
   return __assign.apply(this, arguments);
 };
+
 
 
 
@@ -2669,6 +2804,8 @@ var Field = function (r, type, props) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Pinterest__WEBPACK_IMPORTED_MODULE_4__["default"], __assign({}, props));
     case "twitter":
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Twitter__WEBPACK_IMPORTED_MODULE_5__["default"], __assign({}, props));
+    case "checkbox-select":
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_CheckboxSelect__WEBPACK_IMPORTED_MODULE_6__["default"], __assign({}, props));
     default:
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null);
   }
@@ -2947,7 +3084,7 @@ var ApiCredentialsForm = function (_a) {
       return requestHandler(redirectURIv2, '', '', platform);
     },
     className: "wpsp-modal-generate-token-button"
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Connect your account", "wp-scheduled-posts"))), (platform == "facebook" || platform == "twitter") && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Connect your account", "wp-scheduled-posts"))), (isManual || platform == "facebook" || platform == "twitter") && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "form-group"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", {
     htmlFor: ""

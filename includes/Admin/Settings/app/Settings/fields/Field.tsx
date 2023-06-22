@@ -5,6 +5,7 @@ import Facebook from './Facebook';
 import Linkedin from './Linkedin';
 import Pinterest from './Pinterest';
 import Twitter from './Twitter';
+import CheckboxSelect from './CheckboxSelect';
 
 const Field = (r, type, props) => {
 
@@ -19,6 +20,8 @@ const Field = (r, type, props) => {
             return <Pinterest {...props} />;
         case "twitter":
             return <Twitter {...props} />;
+        case "checkbox-select":
+            return <CheckboxSelect {...props} />;
         default:
             return <></>;
     }
