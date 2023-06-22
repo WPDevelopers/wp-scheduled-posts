@@ -6,6 +6,7 @@ import Linkedin from './Linkedin';
 import Pinterest from './Pinterest';
 import Twitter from './Twitter';
 import CheckboxSelect from './CheckboxSelect';
+import Time from './Time';
 
 const Field = (r, type, props) => {
 
@@ -22,6 +23,8 @@ const Field = (r, type, props) => {
             return <Twitter {...props} />;
         case "checkbox-select":
             return <CheckboxSelect {...props} />;
+        case "time":
+            return <Time {...props} />;
         default:
             return <></>;
     }

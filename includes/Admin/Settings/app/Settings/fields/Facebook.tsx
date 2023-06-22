@@ -13,7 +13,6 @@ import SocialModal from './Modals/SocialModal';
 
 const Facebook = (props) => {
     const builderContext = useBuilderContext();
-
     const handleChange = useCallback((event, index) => {
         const { field, val: value } = executeChange(event);
         builderContext.setFieldValue([props.name, field], value);
@@ -123,6 +122,7 @@ const Facebook = (props) => {
                 isOpen={apiCredentialsModal}
                 onRequestClose={closeApiCredentialsModal}
                 ariaHideApp={false}
+                className="modal_wrapper"
                 >
                 
                 <ApiCredentialsForm  platform={platform} requestHandler={socialProfileRequestHandler} />

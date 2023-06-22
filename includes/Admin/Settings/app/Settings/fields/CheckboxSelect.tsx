@@ -21,13 +21,17 @@ const Option = (props) => {
 
 const CheckboxSelect = (props) => {
   let { name, multiple, onChange } = props;
-  const options = Object.entries(props.option).map(([key, value]) => ({
-    //@ts-ignore
-    value: value?.value, 
-    //@ts-ignore
-    label: value?.label,
-    key: key.toString(),
-  }));
+  let options = [];
+  if ( props.option ) {
+    options = Object.entries(props?.option)?.map(([key, value]) => ({
+      //@ts-ignore
+      value: value?.value, 
+      //@ts-ignore
+      label: value?.label,
+      key: key.toString(),
+    }));
+  }
+  
   const selectedValue = props?.value?.map((item) => ({
     value: item,
     label: options.find((option) => option.value == item)?.label,

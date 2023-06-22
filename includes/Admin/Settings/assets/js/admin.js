@@ -2462,22 +2462,25 @@ var Option = function (props) {
   }), " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", null, props.label)));
 };
 var CheckboxSelect = function (props) {
-  var _a;
+  var _a, _b;
   var name = props.name,
     multiple = props.multiple,
     onChange = props.onChange;
-  var options = Object.entries(props.option).map(function (_a) {
-    var key = _a[0],
-      value = _a[1];
-    return {
-      //@ts-ignore
-      value: value === null || value === void 0 ? void 0 : value.value,
-      //@ts-ignore
-      label: value === null || value === void 0 ? void 0 : value.label,
-      key: key.toString()
-    };
-  });
-  var selectedValue = (_a = props === null || props === void 0 ? void 0 : props.value) === null || _a === void 0 ? void 0 : _a.map(function (item) {
+  var options = [];
+  if (props.option) {
+    options = (_a = Object.entries(props === null || props === void 0 ? void 0 : props.option)) === null || _a === void 0 ? void 0 : _a.map(function (_a) {
+      var key = _a[0],
+        value = _a[1];
+      return {
+        //@ts-ignore
+        value: value === null || value === void 0 ? void 0 : value.value,
+        //@ts-ignore
+        label: value === null || value === void 0 ? void 0 : value.label,
+        key: key.toString()
+      };
+    });
+  }
+  var selectedValue = (_b = props === null || props === void 0 ? void 0 : props.value) === null || _b === void 0 ? void 0 : _b.map(function (item) {
     var _a;
     return {
       value: item,
@@ -2486,9 +2489,9 @@ var CheckboxSelect = function (props) {
       })) === null || _a === void 0 ? void 0 : _a.label
     };
   });
-  var _b = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(selectedValue),
-    optionSelected = _b[0],
-    setOptionSelected = _b[1];
+  var _c = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(selectedValue),
+    optionSelected = _c[0],
+    setOptionSelected = _c[1];
   // Add and remove
   var handleChange = function (selected) {
     setOptionSelected(selected);
@@ -2694,7 +2697,8 @@ var Facebook = function (props) {
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react_modal__WEBPACK_IMPORTED_MODULE_5___default()), {
     isOpen: apiCredentialsModal,
     onRequestClose: closeApiCredentialsModal,
-    ariaHideApp: false
+    ariaHideApp: false,
+    className: "modal_wrapper"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_Modals_ApiCredentialsForm__WEBPACK_IMPORTED_MODULE_4__["default"], {
     platform: platform,
     requestHandler: _helper_helper__WEBPACK_IMPORTED_MODULE_6__.socialProfileRequestHandler
@@ -2775,6 +2779,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Pinterest__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Pinterest */ "./app/Settings/fields/Pinterest.tsx");
 /* harmony import */ var _Twitter__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Twitter */ "./app/Settings/fields/Twitter.tsx");
 /* harmony import */ var _CheckboxSelect__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./CheckboxSelect */ "./app/Settings/fields/CheckboxSelect.tsx");
+/* harmony import */ var _Time__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Time */ "./app/Settings/fields/Time.tsx");
 var __assign = undefined && undefined.__assign || function () {
   __assign = Object.assign || function (t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -2785,6 +2790,7 @@ var __assign = undefined && undefined.__assign || function () {
   };
   return __assign.apply(this, arguments);
 };
+
 
 
 
@@ -2806,6 +2812,8 @@ var Field = function (r, type, props) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Twitter__WEBPACK_IMPORTED_MODULE_5__["default"], __assign({}, props));
     case "checkbox-select":
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_CheckboxSelect__WEBPACK_IMPORTED_MODULE_6__["default"], __assign({}, props));
+    case "time":
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Time__WEBPACK_IMPORTED_MODULE_7__["default"], __assign({}, props));
     default:
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null);
   }
@@ -2995,7 +3003,8 @@ var Linkedin = function (props) {
     isOpen: apiCredentialsModal,
     onRequestClose: closeApiCredentialsModal,
     ariaHideApp: false,
-    style: customStyles
+    style: customStyles,
+    className: "modal_wrapper"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_Modals_ApiCredentialsForm__WEBPACK_IMPORTED_MODULE_4__["default"], {
     platform: platform,
     requestHandler: _helper_helper__WEBPACK_IMPORTED_MODULE_6__.socialProfileRequestHandler
@@ -3778,7 +3787,8 @@ var Pinterest = function (props) {
     isOpen: apiCredentialsModal,
     onRequestClose: closeApiCredentialsModal,
     ariaHideApp: false,
-    style: customStyles
+    style: customStyles,
+    className: "modal_wrapper"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_Modals_ApiCredentialsForm__WEBPACK_IMPORTED_MODULE_4__["default"], {
     platform: platform,
     requestHandler: _helper_helper__WEBPACK_IMPORTED_MODULE_6__.socialProfileRequestHandler
@@ -3791,6 +3801,76 @@ var Pinterest = function (props) {
   }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Pinterest);
+
+/***/ }),
+
+/***/ "./app/Settings/fields/Time.tsx":
+/*!**************************************!*\
+  !*** ./app/Settings/fields/Time.tsx ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_date__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/date */ "@wordpress/date");
+/* harmony import */ var _wordpress_date__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_date__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+var Time = function (props) {
+  var settings = (0,_wordpress_date__WEBPACK_IMPORTED_MODULE_2__.__experimentalGetSettings)();
+  var _a = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(''),
+    selectedTime = _a[0],
+    setSelectedTime = _a[1];
+  var handleTimeChange = function (event) {
+    setSelectedTime(event.target.value);
+  };
+  var renderTimeOptions = function () {
+    var intervalMinutes = 15;
+    var currentTime = new Date();
+    currentTime.setSeconds(0); // Reset seconds to 0
+    var timeOptions = [];
+    while (currentTime.getDate() === new Date().getDate()) {
+      var formattedTime = (0,_wordpress_date__WEBPACK_IMPORTED_MODULE_2__.format)('H:i', currentTime);
+      var optionLabel = (0,_wordpress_date__WEBPACK_IMPORTED_MODULE_2__.dateI18n)(settings.formats.time, currentTime, true);
+      timeOptions.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("option", {
+        key: formattedTime,
+        value: formattedTime
+      }, optionLabel));
+      currentTime.setMinutes(currentTime.getMinutes() + intervalMinutes);
+    }
+    console.log('Hello', timeOptions);
+  };
+  // renderTimeOptions();
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: classnames__WEBPACK_IMPORTED_MODULE_0___default()('wprf-control', 'wprf-time', "wprf-".concat(props.name, "-time"), props === null || props === void 0 ? void 0 : props.classes)
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "wprf-control-label"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("label", {
+    htmlFor: "".concat(props === null || props === void 0 ? void 0 : props.id)
+  }, props === null || props === void 0 ? void 0 : props.label), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "selected-options"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("ul", null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "wprf-control-field"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "wprf-checkbox-select-wrap wprf-checked wprf-label-position-right"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("select", {
+    name: "",
+    id: ""
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("option", {
+    value: ""
+  }, "HEllo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("option", {
+    value: ""
+  }, "HEllo")))));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Time);
 
 /***/ }),
 
@@ -3947,7 +4027,8 @@ var Twitter = function (props) {
     isOpen: apiCredentialsModal,
     onRequestClose: closeApiCredentialsModal,
     ariaHideApp: false,
-    style: customStyles
+    style: customStyles,
+    className: "modal_wrapper"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_Modals_ApiCredentialsForm__WEBPACK_IMPORTED_MODULE_4__["default"], {
     platform: platform,
     requestHandler: _helper_helper__WEBPACK_IMPORTED_MODULE_6__.socialProfileRequestHandler
