@@ -3620,8 +3620,8 @@ var Pinterest = function (props) {
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
       className: "profile-image"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("img", {
-      src: "",
-      alt: ""
+      src: "".concat(wpspSettingsGlobal === null || wpspSettingsGlobal === void 0 ? void 0 : wpspSettingsGlobal.image_path, "author-3.png"),
+      alt: "authorImg"
     })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
       className: "profile-data"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("span", {
