@@ -683,7 +683,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             ? 'Scheduled'
                             : jsonData[0].post_status
                     )
-                    jQuery('#wpscp_quickedit').modal('show')
+                    jQuery('#wpscp_quickedit').kylefoxModal('show')
                 }
             }
         )
