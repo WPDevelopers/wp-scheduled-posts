@@ -40,7 +40,7 @@
             $allow_categories = \WPSP\Helper::get_settings('allow_categories');
             ?>
             <!-- modal -->
-            <div id="wpscp_quickedit" class="modal">
+            <div id="wpscp_quickedit" class="kylefoxModal">
                 <div class="wpsp-quickedit-inner">
                     <div>
                         <h3 class="entry-title"><?php print esc_html__('New ', 'wp-scheduled-posts') . (($post_type == null || $post_type == "") ? 'Post' : $post_type); ?></h3>

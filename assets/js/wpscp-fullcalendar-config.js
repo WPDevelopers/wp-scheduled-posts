@@ -406,7 +406,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 var newPostBtn = document.createElement('a')
                 newPostBtn.classList.add('daynewlink')
                 newPostBtn.setAttribute('href', '#wpscp_quickedit')
-                newPostBtn.setAttribute('rel', 'modal:open')
+                newPostBtn.setAttribute('rel', 'kylefoxModal:open')
                 newPostBtn.textContent = 'Add New'
 
                 var anchor = item.querySelector('.daynewlink')
