@@ -448,7 +448,7 @@ document.addEventListener('DOMContentLoaded', function () {
         modalStatus.val('')
         modalDate.val('')
         postID.val('')
-        jQuery.modal.close()
+        jQuery.kylefoxModal.close()
     }
     /**
      * Showing Calendar Event Modal
