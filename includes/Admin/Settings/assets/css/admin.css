@@ -3401,7 +3401,7 @@ button.wprf-btn {
   max-width: 100%;
   width: 450px;
 }
-#wpsp-dashboard-body .ReactModal__Overlay {
+#wpsp-dashboard-body .modal_wrapper {
   background-color: red !important;
 }
 #wpsp-dashboard-body .ReactModal__Content.ReactModal__Content--after-open {
@@ -3567,7 +3567,7 @@ button.wprf-btn {
   align-items: center;
 }
 #wpsp-dashboard-body .wprf-tab-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-control-field .wprf-control .wprf-row .wprf-column-3 .wprf-input-radio-option:after {
-  display: none;
+  display: none !important;
 }
 #wpsp-dashboard-body .wprf-tab-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-control-field .wprf-control .wprf-row .wprf-column-3 .wprf-input-radio-option:before {
   display: none !important;
@@ -3581,8 +3581,111 @@ button.wprf-btn {
   background: #09dca8;
   border-radius: 100% !important;
 }
-#wpsp-dashboard-body .ReactModal__Overlay {
-  background-color: red !important;
+
+.ReactModal__Overlay {
+  position: fixed;
+  inset: 0px;
+  background: rgba(1, 17, 50, 0.7) !important;
+  padding: 100px 20px !important;
+  display: flex;
+  overflow: auto;
+}
+
+.modal_wrapper {
+  inset: 40px;
+  border: none !important;
+  background: rgb(255, 255, 255) !important;
+  overflow: hidden;
+  border-radius: 8px;
+  outline: none;
+  padding: 40px;
+  margin: auto;
+  max-width: 100%;
+  width: 600px !important;
+  box-sizing: border-box;
+}
+.modal_wrapper .platform-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 36px;
+}
+.modal_wrapper .platform-info h4 {
+  font-size: 22px !important;
+  margin: 0 !important;
+  color: #1B1B50;
+  line-height: 26px;
+  font-weight: 600 !important;
+}
+.modal_wrapper .toggler_wrapper {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  margin-bottom: 32px;
+}
+.modal_wrapper .toggler_wrapper input {
+  margin: 0 !important;
+  order: 1;
+}
+.modal_wrapper .toggler_wrapper .text {
+  color: #1B1B50;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+}
+.modal_wrapper .wpsp-modal-generate-token-button {
+  display: inline-block;
+  background: #6C62FF !important;
+  color: #fff;
+  padding: 16px 24px !important;
+  border-radius: 6px !important;
+  height: auto !important;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px !important;
+  margin-bottom: 24px;
+}
+.modal_wrapper p {
+  font-size: 14px;
+  line-height: 24px;
+  margin: 0;
+  color: #6E6E8D;
+}
+.modal_wrapper p a {
+  color: #1B1B50 !important;
+}
+.modal_wrapper .modalbody .form-group {
+  margin-bottom: 32px;
+}
+.modal_wrapper .modalbody .form-group label {
+  display: block;
+  margin-bottom: 16px !important;
+  font-weight: 500;
+  color: #1B1B50;
+  line-height: 20px;
+}
+.modal_wrapper .modalbody .form-group input {
+  width: 100%;
+  padding-left: 18px;
+  padding-right: 18px;
+  min-height: 50px !important;
+  border: 1px solid #EBEEF5;
+}
+.modal_wrapper .modalbody .form-group input:focus {
+  box-shadow: none !important;
+  outline: 0 !important;
+}
+.modal_wrapper .modalbody .form-group input::-moz-placeholder {
+  color: #A6A6BA;
+}
+.modal_wrapper .modalbody .form-group input::placeholder {
+  color: #A6A6BA;
+}
+.modal_wrapper .modalbody .form-group .redirect-note {
+  font-size: 14px;
+  color: #6E6E8D;
+  padding-top: 16px;
+  display: block;
 }
 
 .wprf-toggle-wrap label.wprf-input-label {

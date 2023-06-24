@@ -37,7 +37,7 @@
                                                     // box-sizing: border-box;
                                                 // }
                                                 &:after {
-                                                    display: none;
+                                                    display: none !important;
                                                 }
                                                 &:before {
                                                     display: none !important;
@@ -75,9 +75,6 @@
     }
 }
 
-.ReactModal__Overlay{
-    background-color: red !important;
-}
 
         
 

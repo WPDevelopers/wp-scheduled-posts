@@ -40,13 +40,8 @@ const ApiCredentialsForm = ({ platform, requestHandler }) => {
           )}
           <input type="hidden" name="tempmodaltype" value="twitter" />
           {hasAutomatic && !isManual && (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                marginTop: 5,
-                marginBottom: 15,
-              }}
+            <div 
+              className="wpsp-modal-generate-token-button-wrapper"
             >
               <a
                 onClick={() => requestHandler(redirectURIv2, '', '', platform)}
@@ -115,7 +110,7 @@ const ApiCredentialsForm = ({ platform, requestHandler }) => {
                 >Connect Your Account</button>
             </form>
           )}
-          <p>For details on Facebook configuration, check out this <a href="#">Doc.</a> Click here to Retrieve Your API Keys from your Facebook account.</p>
+          <p>For details on Facebook configuration, check out this <a href="#">Doc.</a><br /> Click here to Retrieve Your API Keys from your Facebook account.</p>
         </div>
       </div>
     </React.Fragment>

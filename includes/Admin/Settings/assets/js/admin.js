@@ -3082,12 +3082,7 @@ var ApiCredentialsForm = function (_a) {
     name: "tempmodaltype",
     value: "twitter"
   }), hasAutomatic && !isManual && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    style: {
-      display: "flex",
-      justifyContent: "center",
-      marginTop: 5,
-      marginBottom: 15
-    }
+    className: "wpsp-modal-generate-token-button-wrapper"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
     onClick: function () {
       return requestHandler(redirectURIv2, '', '', platform);
@@ -3147,7 +3142,7 @@ var ApiCredentialsForm = function (_a) {
     }
   }, "Connect Your Account")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "For details on Facebook configuration, check out this ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
     href: "#"
-  }, "Doc."), " Click here to Retrieve Your API Keys from your Facebook account."))));
+  }, "Doc."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), " Click here to Retrieve Your API Keys from your Facebook account."))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ApiCredentialsForm);
 
