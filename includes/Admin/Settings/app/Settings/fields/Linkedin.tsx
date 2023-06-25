@@ -8,7 +8,7 @@ import {
 
 import ApiCredentialsForm from './Modals/ApiCredentialsForm';
 import Modal from "react-modal";
-import { fetchDataFromAPI,activeSocialTab,socialProfileRequestHandler, getProfileData } from '../helper/helper';
+import { socialProfileRequestHandler } from '../helper/helper';
 import SocialModal from './Modals/SocialModal';
 
 const Linkedin = (props) => {
@@ -147,7 +147,7 @@ const Linkedin = (props) => {
                 className="modal_wrapper"
                 >
                 
-                <ApiCredentialsForm platform={platform} requestHandler={socialProfileRequestHandler} />
+                <ApiCredentialsForm props={props} platform={platform} requestHandler={socialProfileRequestHandler} />
             </Modal>
 
             {/* Profile Data Modal  */}

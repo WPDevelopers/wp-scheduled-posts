@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { __ } from '@wordpress/i18n'
 
-export default function Facebook({ platform, data,addProfileToggle }) {
+export default function Twitter({ platform, data,addProfileToggle }) {
     const [isErrorMessage, setIsErrorMessage] = useState(false);
     return (
         <>

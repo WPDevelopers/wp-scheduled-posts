@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { __ } from "@wordpress/i18n";
-const ApiCredentialsForm = ({ props,platform, requestHandler }) => {
+const ApiCredentialsForm = ({ props, platform, requestHandler }) => {
   const [appID, SetAppID] = useState("");
   const [appSecret, SetAppSecret] = useState("");
   const [isManual, setIsManual] = useState(false);
