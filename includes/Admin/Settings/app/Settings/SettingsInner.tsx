@@ -50,7 +50,7 @@ const SettingsInner = (props) => {
   return (
     <div className="wpsp-admin-wrapper">
       <Content>
-        <FormBuilder {...builderContext} value={builderContext.active} onChange={onChange} />
+        <FormBuilder {...builderContext} value={builderContext.config.active} onChange={onChange} />
       </Content>
     </div>
   );

@@ -148,7 +148,7 @@ const Pinterest = (props) => {
                 className="modal_wrapper"
                 >
                 
-                <ApiCredentialsForm  platform={platform} requestHandler={socialProfileRequestHandler} />
+                <ApiCredentialsForm props={props} platform={platform} requestHandler={socialProfileRequestHandler} />
             </Modal>
 
             {/* Profile Data Modal  */}

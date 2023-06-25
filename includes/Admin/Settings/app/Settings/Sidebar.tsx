@@ -1,10 +1,17 @@
+import { useBuilderContext } from 'quickbuilder';
 import React from 'react';
 const docIcon =  require("../assets/images/doc.png");
 // const upgradePro =  require("../assets/images/upgrade-pro.png");
 
 const Sidebar = ({ props }) => {
+    const builderContext = useBuilderContext();
+    console.log(builderContext.config.active);
+
+    if(props.id === 'tab-sidebar-layout' ) {
+        return <></>;
+    }
+
     return (
-      props.id === 'tab-sidebar-layout' ? (
         <div className="wpsp-admin-sidebar">
             <div className='upgrade-pro card'>
                 {/* <img className='icon-wrapper' src={upgradePro} alt='icon-1' /> */}
@@ -47,7 +54,6 @@ const Sidebar = ({ props }) => {
                 <button>Show your Love</button>
             </div>
         </div>
-      ) : null
     );
   };
 

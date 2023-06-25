@@ -87,19 +87,21 @@ class Settings {
             'label'           => __('Layout', 'wp-scheduled-posts'),
             'classes'         => 'tab-layout',
             'type'            => "tab",
-            'active'          => "layout_general",
             'completionTrack' => true,
             'sidebar'         => false,
             'title'           => false,
+            'is_pro_active'   => (defined('WPSP_PRO_VERSION') ? WPSP_PRO_VERSION : ''),
+            'savedValues'     => $wpsp_option,
+            'values'          => $wpsp_option,
             'submit'          => [
                 'show' => true
             ],
             'step'            => [
                 'show' => false
             ],
-            'is_pro_active'   => (defined('WPSP_PRO_VERSION') ? WPSP_PRO_VERSION : ''),
-            'savedValues'     => $wpsp_option,
-            'values'          => $wpsp_option,
+            'config'          => [
+                'active'  => 'layout_general',
+            ],
             'fields'          => [
                 'layout_general' => [
                     'id'       => 'layout_general',
@@ -202,6 +204,7 @@ class Settings {
                                     'option'  => $this->normalize_options(\WPSP\Helper::get_all_roles()),
                                 ],
                                 'calendar_schedule_time' => [
+                                    'id'       => 'calendar_schedule_time',
                                     'name'     => 'calendar_schedule_time',
                                     'label'    => __('Calendar Default Schedule Time:', 'notificationx'),
                                     'type'     => 'time',
@@ -284,7 +287,20 @@ class Settings {
                     'label'    => __('Calender', 'wp-scheduled-posts'),
                     'priority' => 10,
                     'fields'   => [
-
+                        [
+                            'name'     => 'calender_section',
+                            'type'     => 'section',
+                            'label'    => null,
+                            'priority' => 2,
+                            'fields'   => [
+                                [
+                                    'name'     => 'calender',
+                                    'type'     => 'calender',
+                                    'label'    => null,
+                                    'priority' => 5,
+                                ]
+                            ],
+                        ]
                     ]
                 ],
                 'layout_email_notify'         => [
@@ -423,8 +439,13 @@ class Settings {
                                     'type'     => 'facebook',
                                     'label'    => __('Facebook', 'wp-scheduled-posts'),
                                     'default'  => false,
-                                    'doc_link' => 'https://google.com',
                                     'logo'     => 'https://upload.wikimedia.org/wikipedia/en/thumb/0/04/Facebook_f_logo_%282021%29.svg/480px-Facebook_f_logo_%282021%29.svg.png',
+                                    'desc'     => sprintf( __('You can enable/disable Facebook social share. To configure Facebook Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-scheduled-posts-facebook/' ),
+                                    'modal'    => [
+                                        'logo'               => 'https://upload.wikimedia.org/wikipedia/en/thumb/0/04/Facebook_f_logo_%282021%29.svg/480px-Facebook_f_logo_%282021%29.svg.png',
+                                        'redirect_url_desc'  => __('Copy this and paste it in your facebook app Callback url field.','wp-scheduled-posts'),
+                                        'desc'               => sprintf( __('For details on Facebook configuration, check out this <a href="%s">Doc</a>.<br> Click here to Retrieve Your API Keys from your Facebook account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-scheduled-posts-facebook/' ),
+                                    ],
                                     'priority' => 5,
                                 ],
                                 'linkedin_profile_list'  => [
@@ -434,19 +455,19 @@ class Settings {
                                     'label'    => __('Linkedin', 'wp-scheduled-posts'),
                                     'priority' => 10,
                                 ],
-                                'pinterest_profile_list'  => [
-                                    'id'       => 'pinterest_profile_list',
-                                    'name'     => 'pinterest_profile_list',
-                                    'type'     => 'pinterest',
-                                    'label'    => __('Pinterest', 'wp-scheduled-posts'),
-                                    'priority' => 1,
-                                ],
                                 'twitter_profile_list'  => [
                                     'id'       => 'twitter_profile_list',
                                     'name'     => 'twitter_profile_list',
                                     'type'     => 'twitter',
                                     'label'    => __('Twitter', 'wp-scheduled-posts'),
                                     'priority' => 15,
+                                ],
+                                'pinterest_profile_list'  => [
+                                    'id'       => 'pinterest_profile_list',
+                                    'name'     => 'pinterest_profile_list',
+                                    'type'     => 'pinterest',
+                                    'label'    => __('Pinterest', 'wp-scheduled-posts'),
+                                    'priority' => 20,
                                 ],
                             ]
                         ]
@@ -509,7 +530,7 @@ class Settings {
                                                             'type'    => "radio-card",
                                                             'default' => "link",
                                                             'priority'=> 6,
-                                                            'options' => [ 
+                                                            'options' => [
                                                                 [
                                                                     'label' => __( 'Link','wp-scheduled-posts' ),
                                                                     'value' => 'link',
@@ -537,7 +558,7 @@ class Settings {
                                                             'type'    => "radio-card",
                                                             'default' => "excerpt",
                                                             'priority'=> 11,
-                                                            'options' => [ 
+                                                            'options' => [
                                                                 [
                                                                     'label' => __( 'Excerpt','wp-scheduled-posts' ),
                                                                     'value' => 'excerpt',
@@ -568,7 +589,7 @@ class Settings {
                                                             'description'   => __('Maximum Limit: 63206 character', 'wp-scheduled-posts'),
                                                         ],
                                                     ]
-                                                ]   
+                                                ]
 
                                             ]
                                         ]
@@ -614,7 +635,7 @@ class Settings {
                                                             'type'          => "radio-card",
                                                             'default'       => "excerpt",
                                                             'priority'      => 11,
-                                                            'options' => [ 
+                                                            'options' => [
                                                                 [
                                                                     'label' => __( 'Excerpt','wp-scheduled-posts' ),
                                                                     'value' => 'excerpt',
@@ -674,7 +695,7 @@ class Settings {
                                                             'type'    => "radio-card",
                                                             'default' => "link",
                                                             'priority'=> 6,
-                                                            'options' => [ 
+                                                            'options' => [
                                                                 [
                                                                     'label' => __( 'Link','wp-scheduled-posts' ),
                                                                     'value' => 'link',
@@ -702,7 +723,7 @@ class Settings {
                                                             'type'          => "radio-card",
                                                             'default'       => "excerpt",
                                                             'priority'      => 11,
-                                                            'options' => [ 
+                                                            'options' => [
                                                                 [
                                                                     'label' => __( 'Excerpt','wp-scheduled-posts' ),
                                                                     'value' => 'excerpt',
@@ -778,7 +799,7 @@ class Settings {
                                                             'type'          => "radio-card",
                                                             'default'       => "excerpt",
                                                             'priority'      => 11,
-                                                            'options' => [ 
+                                                            'options' => [
                                                                 [
                                                                     'label' => __( 'Excerpt','wp-scheduled-posts' ),
                                                                     'value' => 'excerpt',

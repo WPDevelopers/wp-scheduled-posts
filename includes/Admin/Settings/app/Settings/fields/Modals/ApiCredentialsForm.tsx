@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { __ } from "@wordpress/i18n";
-const ApiCredentialsForm = ({ platform, requestHandler }) => {
+const ApiCredentialsForm = ({ props, platform, requestHandler }) => {
   const [appID, SetAppID] = useState("");
   const [appSecret, SetAppSecret] = useState("");
   const [isManual, setIsManual] = useState(false);
@@ -16,8 +16,8 @@ const ApiCredentialsForm = ({ platform, requestHandler }) => {
       <div className={`modalbody ${ platform ? platform + '_wrapper' : ""}`}>
         <div className="wpsp-social-account-insert-modal">
           <div className="platform-info">
-            <img src="" alt="" />
-            <h4>{platform}</h4>
+            <img width={'30px'} src={`${props?.modal?.logo}`} alt={`${props?.label}`} />
+            <h4>{props?.label}</h4>
           </div>
           {hasAutomatic && (
               <div className="menual_connection_checker">
@@ -66,10 +66,10 @@ const ApiCredentialsForm = ({ platform, requestHandler }) => {
                         style={{ marginRight: 30 }}
                         onChange={(e) => SetRedirectURI(e.target.value)}
                     />
-                    <span className="redirect-note">Copy this and paste it in your facebook app Callback url field.</span>
+                    <span className="redirect-note">{props?.modal?.redirect_url_desc}</span>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="">App ID: </label>
+                    <label htmlFor="">{ __( 'App ID:','wp-scheduled-posts' ) } </label>
                     <input
                         type="text"
                         required
@@ -83,7 +83,7 @@ const ApiCredentialsForm = ({ platform, requestHandler }) => {
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="">App Secret: </label>
+                    <label htmlFor="">{ __( 'App Secret:','wp-scheduled-posts' ) } </label>
                     <input
                         className="test"
                         type="text"
@@ -107,10 +107,10 @@ const ApiCredentialsForm = ({ platform, requestHandler }) => {
                     event.preventDefault();
                   }
                 }}
-                >Connect Your Account</button>
+                >{ __( 'Connect Your Account','wp-scheduled-posts' ) }</button>
             </form>
           )}
-          <p>For details on Facebook configuration, check out this <a href="#">Doc.</a><br /> Click here to Retrieve Your API Keys from your Facebook account.</p>
+          <p dangerouslySetInnerHTML={{ __html: props?.modal?.desc }}></p>
         </div>
       </div>
     </React.Fragment>

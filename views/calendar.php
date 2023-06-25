@@ -1,7 +1,11 @@
 <div id="wpwrap">
     <div class="wpsp-dashboard-body">
         <div class="wpsp_calendar_loader">
-            <img src="<?php echo esc_url(WPSP_ASSETS_URI . 'images/wpscp-logo.gif'); ?>" alt="Loader">
+            <img src="<?php
+
+use WPSP\Helper;
+
+ echo esc_url(WPSP_ASSETS_URI . 'images/wpscp-logo.gif'); ?>" alt="Loader">
         </div>
         <!-- Topbar -->
         <div class="wpsp_top_bar_wrapper">
@@ -18,26 +22,17 @@
             <?php
             //get all options
             $_page = isset($_GET['page']) ? $_GET['page'] : '';
-            $post_type = (isset($_GET['post_type']) ? $_GET['post_type'] : '');
-            if(isset($_GET['page']) && $_GET['page'] === 'schedulepress-post'){
-                $post_type = 'post';
-            }
-            else if(isset($_GET['page']) && strpos($_GET['page'], 'schedulepress-') === 0){
-                $post_type = str_replace('schedulepress-', '', $_GET['page']);
-            }
-            if($post_type == 'calendar'){
-                $post_type = 'post';
-            }
+            $post_type = Helper::get_post_types();
 
-            $allow_post_types  = \WPSP\Helper::get_settings('allow_post_types');
+            $allow_post_types  = Helper::get_settings('allow_post_types');
             $allow_post_types  = (!empty($allow_post_types) ? $allow_post_types : array('post'));
 
-            $tax_terms  = \WPSP\Helper::get_all_tax_term($post_type ? $post_type : $allow_post_types);
+            $tax_terms  = Helper::get_all_tax_term($post_type ? $post_type : $allow_post_types);
 
-            $calendar_schedule_time = \WPSP\Helper::get_settings('calendar_schedule_time');
+            $calendar_schedule_time = Helper::get_settings('calendar_schedule_time');
             $calendar_schedule_time = (!empty($calendar_schedule_time) ? $calendar_schedule_time : '12:00 AM');
 
-            $allow_categories = \WPSP\Helper::get_settings('allow_categories');
+            $allow_categories = Helper::get_settings('allow_categories');
             ?>
             <!-- modal -->
             <div id="wpscp_quickedit" class="modal">
