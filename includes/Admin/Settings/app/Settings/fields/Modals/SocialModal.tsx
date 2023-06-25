@@ -76,7 +76,7 @@ function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage, ty
                     setIsErrorMessage(true)
                 }
             } else {
-                if (!selectedProfile.some((profile) => profile.id === item.id)) {
+                if ( selectedProfile && !selectedProfile.some((profile) => profile.id === item.id)) {
                     setSelectedProfile((prevItems) => [...prevItems, item]);
                     setIsErrorMessage(false)
                 }
@@ -86,6 +86,10 @@ function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage, ty
             setSelectedProfile((prevItems) => prevItems.filter((prevItem) => prevItem.id !== item.id));
         }
     }
+    useEffect(() => {
+        console.log(selectedProfile);
+        
+    },[selectedProfile]);
   return (
     <Modal
         isOpen={profileDataModal}

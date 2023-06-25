@@ -2907,22 +2907,23 @@ var __assign = undefined && undefined.__assign || function () {
 
 
 var Facebook = function (props) {
+  var _a;
   var builderContext = (0,quickbuilder__WEBPACK_IMPORTED_MODULE_3__.useBuilderContext)();
-  var _a = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
-    apiCredentialsModal = _a[0],
-    setApiCredentialsModal = _a[1];
-  var _b = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(''),
-    platform = _b[0],
-    setPlatform = _b[1];
-  var _c = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(props === null || props === void 0 ? void 0 : props.value),
-    selectedProfile = _c[0],
-    setSelectedProfile = _c[1];
-  var _d = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(builderContext.savedValues.facebook_profile_status),
-    profileStatus = _d[0],
-    setProfileStatus = _d[1];
-  var _e = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
-    isErrorMessage = _e[0],
-    setIsErrorMessage = _e[1];
+  var _b = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
+    apiCredentialsModal = _b[0],
+    setApiCredentialsModal = _b[1];
+  var _c = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(''),
+    platform = _c[0],
+    setPlatform = _c[1];
+  var _d = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)((_a = props.value) !== null && _a !== void 0 ? _a : []),
+    selectedProfile = _d[0],
+    setSelectedProfile = _d[1];
+  var _e = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(builderContext.savedValues.facebook_profile_status),
+    profileStatus = _e[0],
+    setProfileStatus = _e[1];
+  var _f = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
+    isErrorMessage = _f[0],
+    setIsErrorMessage = _f[1];
   // Open and Close API credentials modal
   var openApiCredentialsModal = function (platform) {
     setPlatform(platform);
@@ -2968,7 +2969,7 @@ var Facebook = function (props) {
   // Save selected profile data
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
     builderContext.setFieldValue([props.name], selectedProfile);
-  }, [selectedProfile]);
+  }, [props.value]);
   // Save profile status data 
   var onChange = props.onChange;
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
@@ -3033,7 +3034,7 @@ var Facebook = function (props) {
     }
   }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Add New", "wp-scheduled-posts")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: "selected-profile"
-  }, selectedProfile.map(function (item, index) {
+  }, selectedProfile && (selectedProfile === null || selectedProfile === void 0 ? void 0 : selectedProfile.map(function (item, index) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
       className: "profile-item",
       key: Math.random()
@@ -3065,7 +3066,7 @@ var Facebook = function (props) {
         return handleDeleteSelectedProfile(item);
       }
     }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Delete', 'wp-scheduled-posts'))))));
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react_modal__WEBPACK_IMPORTED_MODULE_5___default()), {
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react_modal__WEBPACK_IMPORTED_MODULE_5___default()), {
     isOpen: apiCredentialsModal,
     onRequestClose: closeApiCredentialsModal,
     ariaHideApp: false,
@@ -3390,7 +3391,7 @@ var Linkedin = function (props) {
     }
   }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Add New", "wp-scheduled-posts")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: "selected-profile"
-  }, selectedProfile.map(function (item, index) {
+  }, selectedProfile && selectedProfile.map(function (item, index) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
       className: "profile-item",
       key: Math.random()
@@ -3936,7 +3937,7 @@ function SocialModal(_a) {
           setIsErrorMessage(true);
         }
       } else {
-        if (!selectedProfile.some(function (profile) {
+        if (selectedProfile && !selectedProfile.some(function (profile) {
           return profile.id === item.id;
         })) {
           setSelectedProfile(function (prevItems) {
@@ -3954,6 +3955,9 @@ function SocialModal(_a) {
       });
     }
   };
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
+    console.log(selectedProfile);
+  }, [selectedProfile]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react_modal__WEBPACK_IMPORTED_MODULE_0___default()), {
     isOpen: profileDataModal,
     onRequestClose: closeProfileDataModal,
@@ -4449,7 +4453,7 @@ var Twitter = function (props) {
     }
   }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Add New", "wp-scheduled-posts")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: "selected-profile"
-  }, selectedProfile.map(function (item, index) {
+  }, selectedProfile && (selectedProfile === null || selectedProfile === void 0 ? void 0 : selectedProfile.map(function (item, index) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
       className: "profile-item",
       key: Math.random()
@@ -4481,7 +4485,7 @@ var Twitter = function (props) {
         return handleDeleteSelectedProfile(item);
       }
     }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Delete', 'wp-scheduled-posts'))))));
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react_modal__WEBPACK_IMPORTED_MODULE_5___default()), {
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react_modal__WEBPACK_IMPORTED_MODULE_5___default()), {
     isOpen: apiCredentialsModal,
     onRequestClose: closeApiCredentialsModal,
     ariaHideApp: false,

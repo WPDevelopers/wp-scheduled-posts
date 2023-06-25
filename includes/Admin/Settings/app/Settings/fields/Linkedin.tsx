@@ -152,7 +152,7 @@ const Linkedin = (props) => {
                     </div>
                 </div>
                 <div className="selected-profile">
-                    {selectedProfile.map((item,index) => (
+                    {selectedProfile && selectedProfile.map((item,index) => (
                         <div className="profile-item" key={Math.random()}>
                             <div className="profile-image">
                                 {/* @ts-ignore */}

@@ -15,7 +15,7 @@ const Facebook = (props) => {
     const builderContext = useBuilderContext();
     const [apiCredentialsModal,setApiCredentialsModal] = useState(false);
     const [platform, setPlatform] = useState('');
-    const [selectedProfile, setSelectedProfile] = useState(props?.value);
+    const [selectedProfile, setSelectedProfile] = useState(props.value ?? []);
     const [profileStatus, setProfileStatus] = useState(builderContext.savedValues.facebook_profile_status);
     const [isErrorMessage, setIsErrorMessage] = useState(false)
     
@@ -68,7 +68,7 @@ const Facebook = (props) => {
     // Save selected profile data
     useEffect( () => {
         builderContext.setFieldValue([props.name], selectedProfile);
-    },[selectedProfile] )
+    },[props.value] )
 
     // Save profile status data 
     let { onChange } = props;
@@ -138,7 +138,7 @@ const Facebook = (props) => {
                     </div>
                 </div>
                 <div className="selected-profile">
-                    {selectedProfile.map((item,index) => (
+                    { selectedProfile && selectedProfile?.map((item,index) => (
                         <div className="profile-item" key={Math.random()}>
                             <div className="profile-image">
                                 {/* @ts-ignore */}
