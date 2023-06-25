@@ -107,7 +107,7 @@ const Facebook = (props) => {
                             <h5>{props?.label}</h5>
                         </div>
                         <div className="status">
-                            <label htmlFor="toggle"></label>
+                            <label htmlFor="toggle">
                             <input
                                 id="toggle"
                                 type='checkbox'
@@ -116,6 +116,8 @@ const Facebook = (props) => {
                                     handleProfileStatusChange(event)
                                 }
                             />
+                            </label>
+                            
                         </div>
                     </div>
                     <div className="card-content">
