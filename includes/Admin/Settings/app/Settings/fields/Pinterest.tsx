@@ -118,11 +118,13 @@ const Pinterest = (props) => {
                     {selectedProfile.map((item,index) => (
                         <div className="profile-item" key={Math.random()}>
                             <div className="profile-image">
-                                <img src="" alt="" />
+                                {/* @ts-ignore */}
+                                <img src={`${wpspSettingsGlobal?.image_path}author-3.png`} alt="authorImg" />
                             </div>
                             <div className="profile-data">
-                                <span>Profile</span>
+                                <span className='badge'>Profile</span>
                                 <h4>{item.name}</h4>
+                                {/* @ts-ignore */}
                                 <span>Admin on 12 June, 2023</span>
                                 <div className="action">
                                     <div className="change-status">

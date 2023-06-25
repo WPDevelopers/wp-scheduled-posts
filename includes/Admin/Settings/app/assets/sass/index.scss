@@ -6,10 +6,113 @@
     @import './utils/sidebar';
     @import './utils/socialProfile';
     @import './utils/socialTemplate';
+    @import './utils/modals';
 }
 
 
-
+.ReactModal__Overlay {
+    position: fixed;
+    inset: 0px;
+    background: rgba(1, 17, 50, 0.7) !important;
+    padding: 100px 20px !important;
+    display: flex;
+    overflow: auto;
+}
+.modal_wrapper {
+    inset: 40px;
+    border: none !important;
+    background: rgb(255, 255, 255) !important;
+    overflow: hidden;
+    border-radius: 8px;
+    outline: none;
+    padding: 40px;
+    margin: auto;
+    max-width: 100%;
+    width: 600px !important;
+    box-sizing: border-box;
+    .platform-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 36px;
+        h4 {
+            font-size: 22px !important;
+            margin: 0 !important;
+            color: #1B1B50;
+            line-height: 26px;
+            font-weight: 600 !important;
+        }
+    }
+    .toggler_wrapper {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+        margin-bottom: 32px;
+        input {
+            margin: 0 !important;
+            order: 1;
+        }
+        .text {
+            color: #1B1B50;
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 20px;
+        }
+    }
+    .wpsp-modal-generate-token-button {
+        display: inline-block;
+        background: #6C62FF !important;
+        color: #fff;
+        padding: 16px 24px !important;
+        border-radius: 6px !important;
+        height: auto !important;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 17px !important;
+        margin-bottom: 24px;
+    }
+    p {
+        font-size: 14px;
+        line-height: 24px;
+        margin: 0;
+        color: #6E6E8D;
+        a {
+            color: #1B1B50 !important;
+        }
+    }
+    .modalbody {
+        .form-group {
+            margin-bottom: 32px;
+            label {
+                display: block;
+                margin-bottom: 16px !important;
+                font-weight: 500;
+                color: #1B1B50;
+                line-height: 20px;
+            }
+            input {
+                width: 100%;
+                padding-left: 18px;
+                padding-right: 18px;
+                min-height: 50px !important;
+                border: 1px solid #EBEEF5;
+                &:focus {
+                    box-shadow: none !important;
+                    outline: 0 !important;
+                }
+                &::placeholder {
+                    color: #A6A6BA;
+                }
+            }
+            .redirect-note {
+                font-size: 14px;
+                color: #6E6E8D;
+                padding-top: 16px;
+                display: block;
+            }
+        }
+    }
+}
 
 
 

@@ -1,0 +1,83 @@
+.wprf-tab-content {
+    .wprf-tabs-wrapper {
+        .wprf-tab-content-wrapper {
+            .wprf-tab-content {
+                .wprf-control-section {
+                    .wprf-section-fields {
+                        .wprf-control-wrapper{
+                            .wprf-control-field {
+                                .wprf-control {
+                                    .wprf-row {
+                                        .wprf-column-3 {
+                                            width: 30% !important;
+                                            position: relative !important;
+                                            .wprf-input-radio-option {
+                                                min-height: auto !important;
+                                                position: unset !important;
+                                                box-shadow: 0 0 25px 0 rgba(0, 9, 78, 0.08);
+                                                margin-top: 0 !important;
+                                                line-height: normal !important;
+                                                display: flex;
+                                                align-items: center;
+                                                // .wprf-input-label {
+                                                    // position: absolute !important;
+                                                    // right: -48px !important;
+                                                    // top: 0 !important;
+                                                    // height: auto !important;
+                                                    // width: auto !important;
+                                                    // display: flex;
+                                                    // align-items: center;
+                                                    // justify-content: center;
+                                                    // transition: background 0.3s ease 0s;
+                                                    // background: transparent !important;
+                                                    // font-size: 14px;
+                                                    // border-radius: 5px;
+                                                    // padding: 0 !important;
+                                                    // margin-bottom: 0 !important;
+                                                    // box-sizing: border-box;
+                                                // }
+                                                &:after {
+                                                    display: none !important;
+                                                }
+                                                &:before {
+                                                    display: none !important;
+                                                    right: 2px !important;
+                                                    top: 2px !important;
+                                                    left: auto !important;
+                                                    width: 20px !important;
+                                                    height: 20px !important;
+                                                    box-sizing: border-box;
+                                                    transition: all 0.3s ease 0s;
+                                                    background: #09dca8;
+                                                    border-radius: 100% !important;
+                                                }
+                                            }
+                                            // .wprf-option-selected {
+                                            //     .wprf-input-label {
+                                            //         background-color: transparent !important;
+                                            //         color: black !important;
+                                            //     }
+                                            // }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        
+                    }
+                    
+                }
+                
+            }
+            
+        }
+        
+    }
+}
+
+
+        
+
+
+
+

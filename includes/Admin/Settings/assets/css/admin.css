@@ -2947,6 +2947,76 @@ button.wprf-btn {
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields .wprf-type-select .wprf-select__control .css-tlfecz-indicatorContainer {
   color: #989FAB;
 }
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings .wprf-section-fields .wprf-section-collapsed .wprf-section-title,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields .wprf-section-collapsed .wprf-section-title {
+  margin-bottom: 0px !important;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings .wprf-section-fields .wprf-control-section,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields .wprf-control-section {
+  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #EBEEF5 !important;
+  border-radius: 6px;
+  padding: 24px !important;
+  margin-bottom: 12px !important;
+}
+@media screen and (max-width: 1023px) {
+  #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings .wprf-section-fields .wprf-control-section,
+  #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields .wprf-control-section {
+    padding: 20px;
+  }
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings .wprf-section-fields .wprf-control-section .wprf-section-title,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields .wprf-control-section .wprf-section-title {
+  margin-bottom: 20px;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings .wprf-section-fields .wprf-control-section h4,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields .wprf-control-section h4 {
+  color: #1B1B50 !important;
+  font-size: 16px;
+  font-weight: 500 !important;
+  font-family: inter;
+  line-height: 20px;
+  margin-bottom: 0 !important;
+}
+@media screen and (max-width: 1023px) {
+  #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings .wprf-section-fields .wprf-control-section h4,
+  #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields .wprf-control-section h4 {
+    font-size: 14px;
+  }
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings .wprf-section-fields .wprf-control-section .wprf-control-wrapper .wprf-control-field,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields .wprf-control-section .wprf-control-wrapper .wprf-control-field {
+  flex-direction: column !important;
+  align-items: flex-end !important;
+  gap: 8px;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings .wprf-section-fields .wprf-control-section .wprf-control-wrapper .wprf-control-field input,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields .wprf-control-section .wprf-control-wrapper .wprf-control-field input {
+  box-shadow: none !important;
+  border: 1px solid #EBEEF5 !important;
+  background-color: #F9FAFC !important;
+  font-size: 12px !important;
+  color: #1B1B50 !important;
+  padding: 8px 12px !important;
+  line-height: 15px !important;
+  min-width: 220px;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings .wprf-section-fields .wprf-control-section .wprf-control-wrapper .wprf-control-field .wprf-description,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields .wprf-control-section .wprf-control-wrapper .wprf-control-field .wprf-description {
+  margin-left: 0px !important;
+  font-size: 10px !important;
+  color: #6E6E8D !important;
+  font-style: italic;
+  margin-bottom: 0;
+  margin-top: 0;
+  text-align: end;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings .wprf-section-fields .wprf-control-section .wprf-control-wrapper:last-child,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields .wprf-control-section .wprf-control-wrapper:last-child {
+  margin-bottom: 0px !important;
+}
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .general_settings .wprf-section-fields .wprf-control-wrapper,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .email_notify .wprf-section-fields .wprf-control-wrapper {
   gap: 20px;
@@ -3191,36 +3261,44 @@ button.wprf-btn {
 #wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields .wprf-control .social-profile-card {
   background: #F9FAFC;
   border-radius: 6px;
-  padding: 24px;
+  padding: 8px;
 }
-#wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields .wprf-control .social-profile-card .card-header {
+#wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields .wprf-control .social-profile-card .main-profile {
+  padding: 16px;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields .wprf-control .social-profile-card .main-profile .card-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
   margin-bottom: 20px;
 }
-#wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields .wprf-control .social-profile-card .card-header h5 {
+#wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields .wprf-control .social-profile-card .main-profile .card-header .heading {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields .wprf-control .social-profile-card .main-profile .card-header .heading h5 {
   color: #1B1B50;
   font-size: 18px;
   margin: 0;
 }
-#wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields .wprf-control .social-profile-card .card-content {
+#wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields .wprf-control .social-profile-card .main-profile .card-content {
   color: #6E6E8D !important;
   font-size: 14px !important;
   line-height: 22px !important;
   margin: 0 0 20px !important;
 }
-#wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields .wprf-control .social-profile-card .card-footer {
+#wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields .wprf-control .social-profile-card .main-profile .card-footer {
   display: flex;
-  gap: 32px;
+  gap: 16px;
 }
 @media screen and (max-width: 1023px) {
-  #wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields .wprf-control .social-profile-card .card-footer {
+  #wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields .wprf-control .social-profile-card .main-profile .card-footer {
     gap: 20px;
   }
 }
-#wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields .wprf-control .social-profile-card .card-footer select {
+#wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields .wprf-control .social-profile-card .main-profile .card-footer select {
   font-size: 14px;
   line-height: 2;
   color: #6E6E8D;
@@ -3234,7 +3312,13 @@ button.wprf-btn {
   background-size: 16px 16px;
   cursor: pointer;
 }
-#wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields .wprf-control .social-profile-card .card-footer button {
+@media screen and (max-width: 1770px) {
+  #wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields .wprf-control .social-profile-card .main-profile .card-footer select {
+    font-size: 12px;
+    min-width: 100px;
+  }
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields .wprf-control .social-profile-card .main-profile .card-footer button {
   color: #6C62FF;
   padding: 8px 12px;
   font-size: 14px;
@@ -3246,6 +3330,87 @@ button.wprf-btn {
   min-height: 44px;
   background: transparent;
   cursor: pointer;
+}
+@media screen and (max-width: 1770px) {
+  #wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields .wprf-control .social-profile-card .main-profile .card-footer button {
+    font-size: 12px;
+  }
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields .wprf-control .social-profile-card .profile-item {
+  background: #fff;
+  border-radius: 4px;
+  padding: 24px;
+  margin-top: 8px;
+  display: flex;
+  gap: 16px;
+  position: relative;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields .wprf-control .social-profile-card .profile-item .profile-data .badge {
+  background: #F3F2FF;
+  border-radius: 20px;
+  padding: 6px 8px;
+  font-size: 8px;
+  line-height: 10px;
+  font-weight: 500;
+  color: #6C62FF;
+  text-transform: uppercase;
+  position: absolute;
+  right: 8px;
+  top: 8px;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields .wprf-control .social-profile-card .profile-item .profile-data h4 {
+  font-size: 16px !important;
+  margin: 0 0 8px !important;
+  color: #1B1B50;
+  font-weight: 500;
+  line-height: 1.25em;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields .wprf-control .social-profile-card .profile-item .profile-data span {
+  color: #6E6E8D;
+  font-size: 14px;
+  line-height: 1.1em;
+  padding-bottom: 20px;
+  display: block;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields .wprf-control .social-profile-card .profile-item .profile-data .action {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+#wpsp-dashboard-body .wpsp-modal-generate-token-button {
+  background: red !important;
+}
+#wpsp-dashboard-body .ReactModal__Overlay {
+  position: fixed;
+  inset: 0px;
+  background: rgba(228, 3, 3, 0.7) !important;
+  padding: 50px 20px;
+  display: flex;
+  overflow: auto;
+}
+#wpsp-dashboard-body .ReactModal__Overlay .ReactModal__Content {
+  position: static;
+  inset: 40px;
+  border: 1px solid rgb(204, 204, 204);
+  background: rgb(48, 36, 36) !important;
+  overflow: hidden;
+  border-radius: 4px;
+  outline: none;
+  padding: 20px;
+  margin: auto;
+  max-width: 100%;
+  width: 450px;
+}
+#wpsp-dashboard-body .modal_wrapper {
+  background-color: red !important;
+}
+#wpsp-dashboard-body .ReactModal__Content.ReactModal__Content--after-open {
+  position: fixed;
+  inset: 0px;
+  background: rgba(228, 3, 3, 0.7) !important;
+  padding: 150px 120px !important;
+  display: flex;
+  overflow: auto;
 }
 #wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper {
   flex-basis: 20% !important;
@@ -3372,13 +3537,14 @@ button.wprf-btn {
   color: #1B1B50 !important;
   padding: 8px 12px !important;
   line-height: 15px !important;
+  min-width: 220px;
 }
 #wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-contents .wprf-section-fields .wprf-group-control .wprf-control-wrapper .wprf-control-field input:focus {
   border-color: #EBEEF5 !important;
   box-shadow: none !important;
   outline: 0 !important;
 }
-#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-contents .wprf-section-fields .wprf-group-control .wprf-control-wrapper .wprf-control-field > p {
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-contents .wprf-section-fields .wprf-group-control .wprf-control-wrapper .wprf-control-field .wprf-description {
   margin-left: 0px !important;
   font-size: 10px !important;
   color: #6E6E8D !important;
@@ -3386,6 +3552,140 @@ button.wprf-btn {
   margin-bottom: 0;
   margin-top: 0;
   text-align: end;
+}
+#wpsp-dashboard-body .wprf-tab-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-control-field .wprf-control .wprf-row .wprf-column-3 {
+  width: 30% !important;
+  position: relative !important;
+}
+#wpsp-dashboard-body .wprf-tab-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-control-field .wprf-control .wprf-row .wprf-column-3 .wprf-input-radio-option {
+  min-height: auto !important;
+  position: unset !important;
+  box-shadow: 0 0 25px 0 rgba(0, 9, 78, 0.08);
+  margin-top: 0 !important;
+  line-height: normal !important;
+  display: flex;
+  align-items: center;
+}
+#wpsp-dashboard-body .wprf-tab-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-control-field .wprf-control .wprf-row .wprf-column-3 .wprf-input-radio-option:after {
+  display: none !important;
+}
+#wpsp-dashboard-body .wprf-tab-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-control-field .wprf-control .wprf-row .wprf-column-3 .wprf-input-radio-option:before {
+  display: none !important;
+  right: 2px !important;
+  top: 2px !important;
+  left: auto !important;
+  width: 20px !important;
+  height: 20px !important;
+  box-sizing: border-box;
+  transition: all 0.3s ease 0s;
+  background: #09dca8;
+  border-radius: 100% !important;
+}
+
+.ReactModal__Overlay {
+  position: fixed;
+  inset: 0px;
+  background: rgba(1, 17, 50, 0.7) !important;
+  padding: 100px 20px !important;
+  display: flex;
+  overflow: auto;
+}
+
+.modal_wrapper {
+  inset: 40px;
+  border: none !important;
+  background: rgb(255, 255, 255) !important;
+  overflow: hidden;
+  border-radius: 8px;
+  outline: none;
+  padding: 40px;
+  margin: auto;
+  max-width: 100%;
+  width: 600px !important;
+  box-sizing: border-box;
+}
+.modal_wrapper .platform-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 36px;
+}
+.modal_wrapper .platform-info h4 {
+  font-size: 22px !important;
+  margin: 0 !important;
+  color: #1B1B50;
+  line-height: 26px;
+  font-weight: 600 !important;
+}
+.modal_wrapper .toggler_wrapper {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  margin-bottom: 32px;
+}
+.modal_wrapper .toggler_wrapper input {
+  margin: 0 !important;
+  order: 1;
+}
+.modal_wrapper .toggler_wrapper .text {
+  color: #1B1B50;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+}
+.modal_wrapper .wpsp-modal-generate-token-button {
+  display: inline-block;
+  background: #6C62FF !important;
+  color: #fff;
+  padding: 16px 24px !important;
+  border-radius: 6px !important;
+  height: auto !important;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px !important;
+  margin-bottom: 24px;
+}
+.modal_wrapper p {
+  font-size: 14px;
+  line-height: 24px;
+  margin: 0;
+  color: #6E6E8D;
+}
+.modal_wrapper p a {
+  color: #1B1B50 !important;
+}
+.modal_wrapper .modalbody .form-group {
+  margin-bottom: 32px;
+}
+.modal_wrapper .modalbody .form-group label {
+  display: block;
+  margin-bottom: 16px !important;
+  font-weight: 500;
+  color: #1B1B50;
+  line-height: 20px;
+}
+.modal_wrapper .modalbody .form-group input {
+  width: 100%;
+  padding-left: 18px;
+  padding-right: 18px;
+  min-height: 50px !important;
+  border: 1px solid #EBEEF5;
+}
+.modal_wrapper .modalbody .form-group input:focus {
+  box-shadow: none !important;
+  outline: 0 !important;
+}
+.modal_wrapper .modalbody .form-group input::-moz-placeholder {
+  color: #A6A6BA;
+}
+.modal_wrapper .modalbody .form-group input::placeholder {
+  color: #A6A6BA;
+}
+.modal_wrapper .modalbody .form-group .redirect-note {
+  font-size: 14px;
+  color: #6E6E8D;
+  padding-top: 16px;
+  display: block;
 }
 
 .wprf-toggle-wrap label.wprf-input-label {
