@@ -11,14 +11,8 @@ export const fetchDataFromAPI = async (body) => {
 };
 
 // Active social profile tab
-export const activeSocialTab = () => {
+export const generateTabURL = () => {
     history.pushState(null, null, window.location.href.split("&")[0]);
-    const selectSocialProfileTab = document.querySelectorAll('[data-key="layout_social_profile"]');
-    const selectSocialProfileSection = document.getElementById('layout_social_profile');
-    selectSocialProfileSection.classList.add('wprf-active');
-    selectSocialProfileTab.forEach((element) => {
-        element.classList.add('wprf-active-nav');
-    });
 }
 
 // Send API request for fetch url

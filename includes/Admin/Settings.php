@@ -100,7 +100,7 @@ class Settings {
                 'show' => false
             ],
             'config'          => [
-                'active'  => 'layout_calender',
+                'active'  => 'layout_general',
             ],
             'fields'          => [
                 'layout_general' => [
@@ -439,10 +439,12 @@ class Settings {
                                     'type'     => 'facebook',
                                     'label'    => __('Facebook', 'wp-scheduled-posts'),
                                     'default'  => false,
-                                    'content'  => [
-                                        'doc_link' => 'https://google.com',
-                                        'logo'     => 'https://upload.wikimedia.org/wikipedia/en/thumb/0/04/Facebook_f_logo_%282021%29.svg/480px-Facebook_f_logo_%282021%29.svg.png',
-                                        'desc'     => 'You can enable/disable Twitter social share. To configure Twitter Social Profile, check out this',
+                                    'logo'     => 'https://upload.wikimedia.org/wikipedia/en/thumb/0/04/Facebook_f_logo_%282021%29.svg/480px-Facebook_f_logo_%282021%29.svg.png',
+                                    'desc'     => sprintf( __('You can enable/disable Facebook social share. To configure Facebook Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-scheduled-posts-facebook/' ),
+                                    'modal'    => [
+                                        'logo'               => 'https://upload.wikimedia.org/wikipedia/en/thumb/0/04/Facebook_f_logo_%282021%29.svg/480px-Facebook_f_logo_%282021%29.svg.png',
+                                        'redirect_url_desc'  => __('Copy this and paste it in your facebook app Callback url field.','wp-scheduled-posts'),
+                                        'desc'               => sprintf( __('For details on Facebook configuration, check out this <a href="%s">Doc</a>.<br> Click here to Retrieve Your API Keys from your Facebook account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-scheduled-posts-facebook/' ),
                                     ],
                                     'priority' => 5,
                                 ],
@@ -453,19 +455,19 @@ class Settings {
                                     'label'    => __('Linkedin', 'wp-scheduled-posts'),
                                     'priority' => 10,
                                 ],
-                                'pinterest_profile_list'  => [
-                                    'id'       => 'pinterest_profile_list',
-                                    'name'     => 'pinterest_profile_list',
-                                    'type'     => 'pinterest',
-                                    'label'    => __('Pinterest', 'wp-scheduled-posts'),
-                                    'priority' => 1,
-                                ],
                                 'twitter_profile_list'  => [
                                     'id'       => 'twitter_profile_list',
                                     'name'     => 'twitter_profile_list',
                                     'type'     => 'twitter',
                                     'label'    => __('Twitter', 'wp-scheduled-posts'),
                                     'priority' => 15,
+                                ],
+                                'pinterest_profile_list'  => [
+                                    'id'       => 'pinterest_profile_list',
+                                    'name'     => 'pinterest_profile_list',
+                                    'type'     => 'pinterest',
+                                    'label'    => __('Pinterest', 'wp-scheduled-posts'),
+                                    'priority' => 20,
                                 ],
                             ]
                         ]

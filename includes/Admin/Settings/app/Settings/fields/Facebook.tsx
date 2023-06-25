@@ -74,7 +74,7 @@ const Facebook = (props) => {
                         </div>
                     </div>
                     <div className="card-content">
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum dolorem velit nisi vel perspiciatis rerum reprehenderit. Quisquam nisi maiores, voluptatem dignissimos accusamus ipsum recusandae earum. Sed dolorem sint ducimus excepturi.</p>
+                        <p dangerouslySetInnerHTML={{ __html: props?.desc }}></p>
                     </div>
                     <div className="card-footer">
                         <select name="" id="">
@@ -124,7 +124,7 @@ const Facebook = (props) => {
                 className="modal_wrapper"
                 >
                 
-                <ApiCredentialsForm  platform={platform} requestHandler={socialProfileRequestHandler} />
+                <ApiCredentialsForm props={props} platform={platform} requestHandler={socialProfileRequestHandler} />
             </Modal>
 
             {/* Profile Data Modal  */}

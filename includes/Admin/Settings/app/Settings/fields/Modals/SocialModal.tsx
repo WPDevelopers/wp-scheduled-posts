@@ -1,7 +1,7 @@
 import Modal from "react-modal";
 import React, { useEffect, useState } from 'react';
 import { __ } from "@wordpress/i18n";
-import { activeSocialTab, getProfileData } from "../../helper/helper";
+import { generateTabURL, getProfileData } from "../../helper/helper";
 import Facebook from "./Facebook";
 import Twitter from "./Twitter";
 import Linkedin from "./Linkedin";
@@ -39,10 +39,10 @@ function SocialModal({ customStyles, selectedProfile, setSelectedProfile, setIsE
                     setRequestSending(true);
                     // remove unnecessary query string and active social profile tab
                     if (history.pushState) {
-                        activeSocialTab();                
+                        generateTabURL();  
+                        builderContext.setActiveTab('layout_social_profile');
                     }
                     getProfileData(params).then(response => {
-                        console.log(response);
                         setRequestSending(false);
                         setFbPage(response.page);
                         setFbGroup(response.group);
