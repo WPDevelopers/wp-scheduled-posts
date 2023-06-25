@@ -91,6 +91,7 @@ function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage, ty
         isOpen={profileDataModal}
         onRequestClose={closeProfileDataModal}
         ariaHideApp={false}
+        className="modal_wrapper"
         >
         {requestSending ? (
             <div className="wpsp-modal-info">

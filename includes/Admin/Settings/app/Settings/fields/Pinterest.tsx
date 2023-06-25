@@ -81,9 +81,9 @@ const Pinterest = (props) => {
                             <h5>Pinterest</h5>
                         </div>
                         <div className="status">
-                            <input type="checkbox" checked  id="toggle"/>
+                            {/* <input type="checkbox" checked  id="toggle"/> */}
                             {/* @ts-ignore */}
-                            <label for="toggle"></label>
+                            <label htmlFor="toggle"></label>
                         </div>
                     </div>
                     <div className="card-content">
