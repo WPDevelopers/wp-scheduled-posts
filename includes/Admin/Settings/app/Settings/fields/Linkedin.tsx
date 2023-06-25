@@ -86,13 +86,9 @@ const Linkedin = (props) => {
                             <h5>Linkedin</h5>
                         </div>
                         <div className="status">
-                            <input
-                                name='enabled'
-                                type='checkbox'
-                                onChange={(e) =>
-                                    handleChange(e,1)
-                                }
-                            />
+                            <input type="checkbox" checked id="toggle"/>
+                            {/* @ts-ignore */}
+                            <label for="toggle"></label>
                         </div>
                     </div>
                     <div className="card-content">

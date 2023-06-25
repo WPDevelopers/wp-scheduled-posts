@@ -87,12 +87,9 @@ const Pinterest = (props) => {
                             <h5>Pinterest</h5>
                         </div>
                         <div className="status">
-                            <input
-                                type='checkbox'
-                                onChange={(e) =>
-                                    handleChange(e,1)
-                                }
-                            />
+                            <input type="checkbox" checked  id="toggle"/>
+                            {/* @ts-ignore */}
+                            <label for="toggle"></label>
                         </div>
                     </div>
                     <div className="card-content">

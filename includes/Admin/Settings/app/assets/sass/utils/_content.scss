@@ -173,7 +173,8 @@
                                         }
                                     }
                                 }
-                                .wprf-checkbox-select {
+                                .wprf-checkbox-select,
+                                .wprf-time {
                                     padding: 8px 24px !important;
                                 }
                                 .wprf-time,
@@ -296,14 +297,14 @@
                                                 gap: 12px;
                                                 li {
                                                     margin-bottom: 0 !important;
-                                                    padding: 10px 16px;
+                                                    padding: 8px 12px;
                                                     background: #F3F2FF;
                                                     border-radius: 8px;
                                                     display: flex;
                                                     align-items: center;
                                                     gap: 8px;
                                                     color: #6C62FF;
-                                                    font-size: 16px;
+                                                    font-size: 14px;
                                                     font-weight: 400;
                                                     line-height: 1em;
                                                     button {
@@ -318,7 +319,10 @@
                                             }
                                         }
                                     }
-                                    .wprf-checkbox-select-wrap {
+                                }
+                                .wprf-time,
+                                .wprf-checkbox-select {
+                                    .wprf-checked {
                                         min-width: 250px;
                                         .css-yk16xz-control {
                                             background-color: #F9FAFC !important;

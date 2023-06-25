@@ -2918,7 +2918,8 @@ button.wprf-btn {
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-control-section .wprf-control-wrapper:last-child {
   margin-bottom: 0px !important;
 }
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-checkbox-select {
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-checkbox-select,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-time {
   padding: 8px 24px !important;
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-time,
@@ -3020,14 +3021,14 @@ button.wprf-btn {
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-time .wprf-control-label .selected-options ul li,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-control-label .selected-options ul li {
   margin-bottom: 0 !important;
-  padding: 10px 16px;
+  padding: 8px 12px;
   background: #F3F2FF;
   border-radius: 8px;
   display: flex;
   align-items: center;
   gap: 8px;
   color: #6C62FF;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
   line-height: 1em;
 }
@@ -3040,29 +3041,29 @@ button.wprf-btn {
   cursor: pointer;
   padding: 0;
 }
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-time .wprf-checkbox-select-wrap,
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-checkbox-select-wrap {
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-time .wprf-checked,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-checkbox-select .wprf-checked {
   min-width: 250px;
 }
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-time .wprf-checkbox-select-wrap .css-yk16xz-control,
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-checkbox-select-wrap .css-yk16xz-control {
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-time .wprf-checked .css-yk16xz-control,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-checkbox-select .wprf-checked .css-yk16xz-control {
   background-color: #F9FAFC !important;
   border-color: #EBEEF5 !important;
   border-radius: 8px !important;
   padding: 9px !important;
 }
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-time .wprf-checkbox-select-wrap .css-yk16xz-control .css-1wa3eu0-placeholder,
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-checkbox-select-wrap .css-yk16xz-control .css-1wa3eu0-placeholder {
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-time .wprf-checked .css-yk16xz-control .css-1wa3eu0-placeholder,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-checkbox-select .wprf-checked .css-yk16xz-control .css-1wa3eu0-placeholder {
   font-size: 16px;
   color: #6E6E8D;
   font-weight: 500;
 }
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-time .wprf-checkbox-select-wrap .css-yk16xz-control .css-1okebmr-indicatorSeparator,
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-checkbox-select-wrap .css-yk16xz-control .css-1okebmr-indicatorSeparator {
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-time .wprf-checked .css-yk16xz-control .css-1okebmr-indicatorSeparator,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-checkbox-select .wprf-checked .css-yk16xz-control .css-1okebmr-indicatorSeparator {
   background-color: #989FAB;
 }
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-time .wprf-checkbox-select-wrap .css-yk16xz-control .css-tlfecz-indicatorContainer,
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-checkbox-select-wrap .css-yk16xz-control .css-tlfecz-indicatorContainer {
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-time .wprf-checked .css-yk16xz-control .css-tlfecz-indicatorContainer,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-checkbox-select .wprf-checked .css-yk16xz-control .css-tlfecz-indicatorContainer {
   color: #989FAB;
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-time .wprf-checkbox-select-wrap {
@@ -3277,11 +3278,7 @@ button.wprf-btn {
   line-height: 18px;
 }
 #wpsp-dashboard-body .wprf-tab-layout_social_profile {
-  padding: 32px;
   background: #fff;
-}
-#wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-title {
-  padding-bottom: 24px;
 }
 #wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-title h4 {
   color: #1B1B50 !important;
@@ -3333,6 +3330,9 @@ button.wprf-btn {
   font-size: 14px !important;
   line-height: 22px !important;
   margin: 0 0 20px !important;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields .wprf-control .social-profile-card .main-profile .card-content a {
+  color: #1B1B50;
 }
 #wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields .wprf-control .social-profile-card .main-profile .card-footer {
   display: flex;
@@ -3422,40 +3422,41 @@ button.wprf-btn {
   align-items: center;
   gap: 16px;
 }
-#wpsp-dashboard-body .wpsp-modal-generate-token-button {
-  background: red !important;
-}
-#wpsp-dashboard-body .ReactModal__Overlay {
-  position: fixed;
-  inset: 0px;
-  background: rgba(228, 3, 3, 0.7) !important;
-  padding: 50px 20px;
+#wpsp-dashboard-body .status {
   display: flex;
-  overflow: auto;
+  align-items: center;
 }
-#wpsp-dashboard-body .ReactModal__Overlay .ReactModal__Content {
-  position: static;
-  inset: 40px;
-  border: 1px solid rgb(204, 204, 204);
-  background: rgb(48, 36, 36) !important;
-  overflow: hidden;
-  border-radius: 4px;
-  outline: none;
-  padding: 20px;
-  margin: auto;
-  max-width: 100%;
-  width: 450px;
+#wpsp-dashboard-body .status input[type=checkbox] {
+  visibility: hidden;
 }
-#wpsp-dashboard-body .modal_wrapper {
-  background-color: red !important;
+#wpsp-dashboard-body .status input[type=checkbox]:checked + label {
+  background-color: #02AC6E;
 }
-#wpsp-dashboard-body .ReactModal__Content.ReactModal__Content--after-open {
-  position: fixed;
-  inset: 0px;
-  background: rgba(228, 3, 3, 0.7) !important;
-  padding: 150px 120px !important;
+#wpsp-dashboard-body .status input[type=checkbox]:checked + label:before {
+  transform: translateX(20px);
+  background-color: #FFF;
+}
+#wpsp-dashboard-body .status label {
   display: flex;
-  overflow: auto;
+  width: 40px;
+  height: 20px;
+  border-radius: 16px;
+  position: relative;
+  background: #D7DBDF;
+  transition: transform 0.25s ease-in-out;
+  cursor: pointer;
+}
+#wpsp-dashboard-body .status label:before {
+  transition: transform 0.75s ease;
+  content: "";
+  display: block;
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background-color: #fff;
+  border-radius: 16px;
+  top: 1px;
+  left: 1px;
 }
 #wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper {
   flex-basis: 20% !important;
