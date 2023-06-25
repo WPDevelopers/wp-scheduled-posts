@@ -2835,7 +2835,8 @@ button.wprf-btn {
   background-color: #F9FAFC;
   border-color: #EBEEF5;
   border-radius: 8px;
-  padding: 9px;
+  padding: 0 9px;
+  min-height: 54px;
 }
 @media screen and (max-width: 1023px) {
   #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-type-select .wprf-select__control {
@@ -3017,6 +3018,7 @@ button.wprf-btn {
   display: flex;
   align-items: center;
   gap: 12px;
+  margin: 0;
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-time .wprf-control-label .selected-options ul li,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-control-label .selected-options ul li {
