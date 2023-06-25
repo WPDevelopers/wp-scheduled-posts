@@ -24,7 +24,7 @@ const ApiCredentialsForm = ({ props, platform, requestHandler }) => {
                 <label className="toggler_wrapper">
                   <input
                     type="checkbox"
-                    value={'true'}
+                    checked={isManual}
                     onChange={(e) => {
                       setIsManual(e.target.checked);
                     }}

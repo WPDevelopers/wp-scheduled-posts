@@ -64,3 +64,10 @@ export const getProfileData = async (params) => {
     const response = await fetchDataFromAPI(data);
     return response.json();
 }
+
+// Format date-time
+export const getFormatDateTime = ( dateTime = '' ) => {
+    const date = new Date(dateTime);
+    const formattedDate = date.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
+    return formattedDate;
+}
