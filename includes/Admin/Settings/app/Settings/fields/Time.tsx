@@ -35,7 +35,7 @@ const Time = (props) => {
 			target: {
 				type: "time",
 				name,
-				value: selectedTime?.value.toLowerCase,
+				value: selectedTime?.value?.toLowerCase(),
 			},
 		});
 	}, [selectedTime]);

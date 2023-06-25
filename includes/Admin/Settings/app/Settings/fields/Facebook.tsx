@@ -19,10 +19,6 @@ const Facebook = (props) => {
     }, [props.value]);
 
     const [apiCredentialsModal,setApiCredentialsModal] = useState(false);
-    const [fbProfileData, setFbProfileData] = useState({
-        page: [],
-        group: []
-    });
     const [platform, setPlatform] = useState('');
     const [selectedProfile, setSelectedProfile] = useState([]);
     const [isErrorMessage, setIsErrorMessage] = useState(false)
@@ -35,11 +31,6 @@ const Facebook = (props) => {
         setPlatform('');
         setApiCredentialsModal(false);
     };
-
-    useEffect(() => {
-      console.log(fbProfileData);
-    }, [fbProfileData])
-    
     return (
         <div className={classNames('wprf-control', 'wprf-social-profile', `wprf-${props.name}-social-profile`, props?.classes)}>
            {isErrorMessage && (

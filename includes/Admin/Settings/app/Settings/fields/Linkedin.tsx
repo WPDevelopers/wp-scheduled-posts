@@ -83,7 +83,8 @@ const Linkedin = (props) => {
                 <div className="main-profile">
                     <div className="card-header">
                         <div className="heading">
-                            <h5>Linkedin</h5>
+                            <img width={'30px'} src={`${props?.logo}`} alt={`${props?.label}`} />
+                            <h5>{props?.label}</h5>   
                         </div>
                         <div className="status">
                             <input
@@ -96,7 +97,7 @@ const Linkedin = (props) => {
                         </div>
                     </div>
                     <div className="card-content">
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum dolorem velit nisi vel perspiciatis rerum reprehenderit. Quisquam nisi maiores, voluptatem dignissimos accusamus ipsum recusandae earum. Sed dolorem sint ducimus excepturi.</p>
+                        <p dangerouslySetInnerHTML={{ __html: props?.desc }}></p>
                     </div>
                     <div className="card-footer">
                         <select name="" id="">

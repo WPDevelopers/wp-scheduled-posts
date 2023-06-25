@@ -99,10 +99,6 @@ const Pinterest = (props) => {
                         <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum dolorem velit nisi vel perspiciatis rerum reprehenderit. Quisquam nisi maiores, voluptatem dignissimos accusamus ipsum recusandae earum. Sed dolorem sint ducimus excepturi.</p>
                     </div>
                     <div className="card-footer">
-                        <select name="" id="">
-                            <option value="">Page</option>
-                            <option value="">Group</option>
-                        </select>
                         <button
                             type="button"
                             className={
