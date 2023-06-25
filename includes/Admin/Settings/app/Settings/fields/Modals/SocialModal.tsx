@@ -11,7 +11,7 @@ import {
     useBuilderContext,
 } from "quickbuilder";
 
-function SocialModal({ customStyles, selectedProfile, setSelectedProfile, setIsErrorMessage, type }) {
+function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage, type }) {
     const builderContext = useBuilderContext();
 
     const [requestSending, setRequestSending] = useState(false);
@@ -86,15 +86,11 @@ function SocialModal({ customStyles, selectedProfile, setSelectedProfile, setIsE
             setSelectedProfile((prevItems) => prevItems.filter((prevItem) => prevItem.id !== item.id));
         }
     }
-    useEffect(() => {
-        console.log('pinterest board:',pinterestBoards);
-    },[pinterestBoards]);
   return (
     <Modal
         isOpen={profileDataModal}
         onRequestClose={closeProfileDataModal}
         ariaHideApp={false}
-        style={customStyles}
         >
         {requestSending ? (
             <div className="wpsp-modal-info">
