@@ -2,6 +2,8 @@
 
 namespace WPSP\Admin;
 
+use WPSP\Helper;
+
 class Calendar
 {
 
@@ -35,6 +37,25 @@ class Calendar
                 'permission_callback' => '__return_true'
             )
         );
+        register_rest_route(
+            'wpscp/v1',
+            '/get_tax_terms',
+            array(
+                'methods'  => 'GET',
+                'callback' => array($this, 'get_tax_terms'),
+                'permission_callback' => '__return_true'
+            )
+        );
+    }
+
+    public function get_tax_terms(){
+        $post_type        = Helper::get_post_types();
+        $allow_post_types = Helper::get_settings('allow_post_types');
+        $allow_post_types = (!empty($allow_post_types) ? $allow_post_types : array('post'));
+        $tax_terms        = Helper::get_all_tax_term($post_type ? $post_type : $allow_post_types);
+
+        return $tax_terms;
+
     }
 
 
@@ -99,19 +120,25 @@ class Calendar
                     continue;
                 }
 
-                $markup = '';
-                $markup .= '<div class="wpscp-event-post" data-postid="' . get_the_ID() . '" data-post-type="' .  get_post_type() . '">';
-                $markup .= '<div class="postlink"><span><span class="posttime">[' . (empty($republish_date) ? get_the_date('g:i a') : date('g:i a', strtotime($republish_date))) . ']</span> ' . wp_trim_words(get_the_title(), 3, '...') . ' [' . $this->get_post_status($republish) . ']</span></div>';
-                $link = '';
-                $link .= '<div class="edit"><a href="' . get_site_url() . '/wp-admin/post.php?post=' . get_the_ID() . '&action=edit""><i class="dashicons dashicons-edit"></i>Edit</a><a class="wpscpquickedit" href="#" data-type="quickedit"><i class="dashicons dashicons-welcome-write-blog"></i>Quick Edit</a></div>';
-                $link .= '<div class="deleteview"><a class="wpscpEventDelete" href="#"><i class="dashicons dashicons-trash"></i> Delete</a><a href="' . get_the_permalink() . '"><i class="dashicons dashicons-admin-links"></i> View</a></div>';
-                $markup .= '<div class="postactions"><div>' . $link . '</div></div>';
-                $markup .= '</div>';
+                // $markup = '';
+                // $markup .= '<div class="wpscp-event-post" data-postid="' . get_the_ID() . '" data-post-type="' .  get_post_type() . '">';
+                // $markup .= '<div class="postlink"><span><span class="posttime">[' . (empty($republish_date) ? get_the_date('g:i a') : date('g:i a', strtotime($republish_date))) . ']</span> ' . wp_trim_words(get_the_title(), 3, '...') . ' [' . $this->get_post_status($republish) . ']</span></div>';
+                // $link = '';
+                // $link .= '<div class="edit"><a href="' . get_site_url() . '/wp-admin/post.php?post=' . get_the_ID() . '&action=edit""><i class="dashicons dashicons-edit"></i>Edit</a><a class="wpscpquickedit" href="#" data-type="quickedit"><i class="dashicons dashicons-welcome-write-blog"></i>Quick Edit</a></div>';
+                // $link .= '<div class="deleteview"><a class="wpscpEventDelete" href="#"><i class="dashicons dashicons-trash"></i> Delete</a><a href="' . get_the_permalink() . '"><i class="dashicons dashicons-admin-links"></i> View</a></div>';
+                // $markup .= '<div class="postactions"><div>' . $link . '</div></div>';
+                // $markup .= '</div>';
                 array_push($allData, array(
-                    'title'  => $markup,
-                    'start'  => empty($republish_date) ? get_the_date('Y-m-d') : date('Y-m-d', strtotime($republish_date)),
-                    'end'    => empty($republish_date) ? get_the_date('Y-m-d H:i:s') : date('Y-m-d H:i:s', strtotime($republish_date)),
-                    'allDay' => false,
+                    'postId'   => get_the_ID(),
+                    'title'    => wp_trim_words(get_the_title(), 3, '...'),
+                    'href'     => get_the_permalink(),
+                    'edit'     => get_edit_post_link(),
+                    'postType' => get_post_type(),
+                    'status'   => $this->get_post_status(get_the_ID(), $republish),
+                    'postTime' => $this->get_post_time('g:i a', $republish_date),
+                    'start'    => $this->get_post_time('Y-m-d', $republish_date),
+                    'end'      => $this->get_post_time('Y-m-d H:i:s', $republish_date),
+                    'allDay'   => false,
                 ));
             endwhile;
             wp_reset_postdata();
@@ -119,11 +146,42 @@ class Calendar
         return $allData;
     }
 
-    public function get_post_status($republish = false){
-        $status         = get_post_status();
-        $scheduled      = get_post_meta(get_the_ID(), 'wpscp_pending_schedule', true);
-        $el_scheduled   = get_post_meta(get_the_ID(), 'wpscp_el_pending_schedule', true);
+    public function get_event_data($post = null, $republish = false){
+        $post           = get_post($post);
+        $post_id        = empty( $post->ID ) ? get_the_ID() : $post->ID;
         $republish_date = $republish ? get_post_meta(get_the_ID(), '_wpscp_schedule_republish_date', true) : null;
+
+        return array(
+            'postId'   => $post_id,
+            'title'    => wp_trim_words(get_the_title($post), 3, '...'),
+            'href'     => get_the_permalink($post),
+            'edit'     => get_edit_post_link($post),
+            'postType' => get_post_type($post),
+            'status'   => $this->get_post_status($republish, $post_id),
+            'postTime' => $this->get_post_time('g:i a', $republish_date),
+            'start'    => $this->get_post_time('Y-m-d', $republish_date),
+            'end'      => $this->get_post_time('Y-m-d H:i:s', $republish_date),
+            'allDay'   => false,
+        );
+    }
+
+    // Define a function to get the post time
+    public function get_post_time($format, $republish_date = '') {
+        // If republish date is empty, use the current post date
+        if (empty($republish_date)) {
+            return get_the_date($format);
+        }
+        // Otherwise, use the republish date
+        else {
+            return date($format, strtotime($republish_date));
+        }
+    }
+
+    public function get_post_status($post_id, $republish = false){
+        $status         = get_post_status($post_id);
+        $scheduled      = get_post_meta($post_id, 'wpscp_pending_schedule', true);
+        $el_scheduled   = get_post_meta($post_id, 'wpscp_el_pending_schedule', true);
+        $republish_date = $republish ? get_post_meta($post_id, '_wpscp_schedule_republish_date', true) : null;
 
         if($status == 'future' && !empty($scheduled)){
             $status = 'Advanced Scheduled';

@@ -7,6 +7,7 @@ import Pinterest from './Pinterest';
 import Twitter from './Twitter';
 import CheckboxSelect from './CheckboxSelect';
 import Time from './Time';
+import Calender from './Calender';
 
 const Field = (r, type, props) => {
 
@@ -25,6 +26,8 @@ const Field = (r, type, props) => {
             return <CheckboxSelect {...props} />;
         case "time":
             return <Time {...props} />;
+        case "calender":
+            return <Calender {...props} />;
         default:
             return <></>;
     }

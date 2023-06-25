@@ -57,6 +57,21 @@ class Helper
         return $return['result'];
     }
 
+    public static function get_post_types(){
+        $post_type = (isset($_GET['post_type']) ? $_GET['post_type'] : '');
+        if(isset($_GET['page']) && $_GET['page'] === 'schedulepress-post'){
+            $post_type = 'post';
+        }
+        else if(isset($_GET['page']) && strpos($_GET['page'], 'schedulepress-') === 0){
+            $post_type = str_replace('schedulepress-', '', $_GET['page']);
+        }
+        if($post_type == 'calendar'){
+            $post_type = 'post';
+        }
+
+        return $post_type;
+    }
+
     public static function get_all_tax_term($postTypes)
     {
         $taxonomies = [];
