@@ -202,6 +202,7 @@ class Settings {
                                     'option'  => $this->normalize_options(\WPSP\Helper::get_all_roles()),
                                 ],
                                 'calendar_schedule_time' => [
+                                    'id'       => 'calendar_schedule_time',
                                     'name'     => 'calendar_schedule_time',
                                     'label'    => __('Calendar Default Schedule Time:', 'notificationx'),
                                     'type'     => 'time',
