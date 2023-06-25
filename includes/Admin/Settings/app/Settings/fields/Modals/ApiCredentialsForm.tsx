@@ -17,7 +17,7 @@ const ApiCredentialsForm = ({ platform, requestHandler }) => {
         <div className="wpsp-social-account-insert-modal">
           <div className="platform-info">
             <img src="" alt="" />
-            <h4>Facebook</h4>
+            <h4>{platform}</h4>
           </div>
           {hasAutomatic && (
               <div className="menual_connection_checker">

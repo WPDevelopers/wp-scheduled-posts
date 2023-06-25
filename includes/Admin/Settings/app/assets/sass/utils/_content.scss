@@ -57,299 +57,364 @@
                 .wprf-tab-contents {
                     flex: 90%;
                     padding: 0 32px;
-                    .wprf-control-section {
-                        margin-bottom: 0 !important;
-                        border: none !important;
-                        padding-bottom: 0 !important;
-                        border-radius: 6px;
-                    }
-                    .pro_features_section {
-                        background: #F3F2FF;
-                        padding: 32px !important;
-                        margin-bottom: 32px !important;
-                        @media screen and (max-width: 1023px)  { 
-                            padding: 24px !important;
-                            margin-bottom: 24px !important;
-                        }
-                        .wprf-section-fields {
-                            padding: 0 !important;
-                            .wprf-pro_features-features {
-                                .header {
-                                    display: flex;
-                                    justify-content: space-between;
-                                    align-items: center;
-                                    margin-bottom: 28px;
-                                    @media screen and (max-width: 1023px)  {
-                                        margin-bottom: 20px;
-                                    }
-                                    h3 {
-                                        font-family: Inter;
-                                        font-size: 24px;
-                                        line-height: 30px;
-                                        letter-spacing: 0px !important;
-                                        font-weight: 600 !important;
-                                        color: #1B1B50 !important;
-                                        margin: 0px !important;
-                                        text-transform: capitalize !important;
-                                        background: transparent !important;
-                                        padding: 0px !important;
-                                        @media screen and (max-width: 1023px)  { 
-                                            font-size: 18px;
-                                        }
-                                    }
-                                    a {
-                                        color: #6C62FF;
-                                        text-decoration: none;
-                                        font-weight: 500;
-                                        font-size: 14px;
-                                        line-height: 16px;
-                                        font-family: 'Inter';
-                                    } 
+                    .wprf-tab-content {
+                        .wprf-control-section {
+                            margin-bottom: 0 !important;
+                            border: none !important;
+                            border-radius: 6px;
+                            background: #ffffff;
+                            padding: 32px !important;
+                            @media screen and (max-width: 1023px)  { 
+                                padding: 24px !important;
+                            }
+                            h4 {
+                                font-family: Inter;
+                                font-size: 24px;
+                                line-height: 30px;
+                                letter-spacing: 0px !important;
+                                font-weight: 600 !important;
+                                color: #1B1B50 !important;
+                                margin-bottom: 32px !important;
+                                text-transform: capitalize !important;
+                                background: transparent !important;
+                                padding: 0px !important;
+                                @media screen and (max-width: 1023px)  { 
+                                    font-size: 18px;
+                                    margin-bottom: 20px !important;
                                 }
-                                .content {
-                                    display: flex;
-                                    gap: 20px;
-                                    justify-content: space-between;
-                                    a {
-                                        padding: 24px;
-                                        background: #fff;
+                            }
+                            .wprf-section-fields {
+                                padding-left: 0px !important;
+                                padding-right: 0px !important;
+                                .wprf-type-select {
+                                    padding-top: 8px !important;
+                                    padding-bottom: 8px !important;
+                                    .wprf-select__control {
+                                        background-color: #F9FAFC;
+                                        border-color: #EBEEF5;
                                         border-radius: 8px;
-                                        text-decoration: none;
-                                        min-width: 220px;
-                                        .single-content {
-                                            display: flex;
-                                            align-items: center;
-                                            gap: 16px;
-                                            h5 {
-                                                font-size: 16px;
-                                                font-weight: 500;
-                                                color: #1B1B50;
-                                                line-height: 20px;
-                                                margin: 0 !important;
+                                        padding: 9px;
+                                        @media screen and (max-width: 1023px)  { 
+                                            padding: 5px;
+                                        }
+                                        .css-1wa3eu0-placeholder {
+                                            font-size: 16px;
+                                            color: #6E6E8D;
+                                            font-weight: 500;
+                                            @media screen and (max-width: 1023px)  { 
+                                                font-size: 14px;
                                             }
                                         }
-                                        
-                                    }
-                                } 
-                            }
-                        }
-                    }
-                    .general_settings,
-                    .email_notify {
-                        background: #ffffff;
-                        padding: 32px !important;
-                        @media screen and (max-width: 1023px)  { 
-                            padding: 24px !important;
-                        }
-                        h4 {
-                            font-family: Inter;
-                            font-size: 24px;
-                            line-height: 30px;
-                            letter-spacing: 0px !important;
-                            font-weight: 600 !important;
-                            color: #1B1B50 !important;
-                            margin-bottom: 32px !important;
-                            text-transform: capitalize !important;
-                            background: transparent !important;
-                            padding: 0px !important;
-                            @media screen and (max-width: 1023px)  { 
-                                font-size: 18px;
-                                margin-bottom: 20px !important;
-                            }
-                        }
-                        .wprf-section-fields {
-                            padding-left: 0px !important;
-                            padding-right: 0px !important;
-                            .wprf-type-select {
-                                padding-top: 8px !important;
-                                padding-bottom: 8px !important;
-                                .wprf-select__control {
-                                    background-color: #F9FAFC;
-                                    border-color: #EBEEF5;
-                                    border-radius: 8px;
-                                    padding: 9px;
-                                    @media screen and (max-width: 1023px)  { 
-                                        padding: 5px;
-                                    }
-                                    .css-1wa3eu0-placeholder {
-                                        font-size: 16px;
-                                        color: #6E6E8D;
-                                        font-weight: 500;
-                                        @media screen and (max-width: 1023px)  { 
-                                            font-size: 14px;
+                                        .css-1okebmr-indicatorSeparator {
+                                            background-color: #989FAB;
+                                        }
+                                        .css-tlfecz-indicatorContainer {
+                                            color: #989FAB;
                                         }
                                     }
-                                    .css-1okebmr-indicatorSeparator {
-                                        background-color: #989FAB;
-                                    }
-                                    .css-tlfecz-indicatorContainer {
-                                        color: #989FAB;
-                                    }
                                 }
-                            }
-                            .wprf-section-collapsed {
-                                .wprf-section-title {
-                                    margin-bottom: 0px !important;
-                                }
-                            }
-                            .wprf-control-section {
-                                gap: 20px;
-                                justify-content: space-between;
-                                align-items: center;
-                                border: 1px solid #EBEEF5 !important;
-                                border-radius: 6px;
-                                padding: 24px !important;
-                                margin-bottom: 12px !important;
-                                @media screen and (max-width: 1023px)  { 
-                                    padding: 20px;
-                                }
-                                .wprf-section-title {
-                                    margin-bottom: 20px;
-                                }
-                                h4 {
-                                    color: #1B1B50 !important;
-                                    font-size: 16px;
-                                    font-weight: 500 !important;
-                                    font-family: inter;
-                                    line-height: 20px;
-                                    margin-bottom: 0 !important;
-                                    @media screen and (max-width: 1023px)  { 
-                                        font-size: 14px;
-                                    }
-                                }
-                                .wprf-control-wrapper {
-                                    .wprf-control-field {
-                                        flex-direction: column !important;
-                                        align-items: flex-end !important;
-                                        gap: 8px;
-                                        input {
-                                            box-shadow: none !important;
-                                            border: 1px solid #EBEEF5 !important;
-                                            background-color: #F9FAFC !important;
-                                            font-size: 12px !important;
-                                            color: #1B1B50 !important;
-                                            padding: 8px 12px !important;
-                                            line-height: 15px !important;
-                                            min-width: 220px;
-                                        }
-                                        .wprf-description {
-                                            margin-left: 0px !important;
-                                            font-size: 10px !important;
-                                            color: #6E6E8D !important;
-                                            font-style: italic;
-                                            margin-bottom: 0;
-                                            margin-top: 0;
-                                            text-align: end;
-                                        }
-                                    }
-                                    &:last-child {
+                                .wprf-section-collapsed {
+                                    .wprf-section-title {
                                         margin-bottom: 0px !important;
                                     }
                                 }
-                            }
-                            .wprf-control-wrapper {
-                                gap: 20px;
-                                justify-content: space-between;
-                                border: 1px solid #EBEEF5;
-                                border-radius: 6px;
-                                padding: 24px;
-                                margin-bottom: 12px !important;
-                                @media screen and (max-width: 1023px)  { 
-                                    padding: 20px;
-                                }
-                                .pro-deactivated {
-                                    display: flex;
-                                    align-items: center;
-                                    flex-basis: 100%;
+                                .wprf-control-section {
+                                    gap: 20px;
                                     justify-content: space-between;
-                                    .wprf-control-label {
-                                        display: flex;
-                                        align-items: center;
-                                        gap: 12px;
-                                        .wprf-badge {
-                                            display: flex;
-                                            .wprf-badge-item {
-                                                padding: 6px 10px;
-                                                background: #FF9437;
-                                                color: #fff;
-                                                border-radius: 20px;
-                                                font-size: 14px;
-                                                line-height: 16px;
-                                                font-weight: 500;
-                                                text-transform: uppercase;
-                                                font-family: inter;
-                                            }
-                                        }
+                                    align-items: center;
+                                    border: 1px solid #EBEEF5 !important;
+                                    border-radius: 6px;
+                                    padding: 24px !important;
+                                    margin-bottom: 12px !important;
+                                    @media screen and (max-width: 1023px)  { 
+                                        padding: 20px;
                                     }
-                                    .wprf-control-field {
-                                        .wprf-toggle-wrap {
-                                            order: 1;
-                                        }
-                                        .wprf-description {
-                                            position: relative;
-                                            font-family: 'Inter';
-                                            font-weight: 500;
-                                            color: #FF9437;
-                                            margin-left: 0 !important;
-                                            font-size: 14px !important;
-                                            margin-right: 24px;
-                                        }
+                                    .wprf-section-title {
+                                        margin-bottom: 20px;
                                     }
-                                }
-                                .wprf-control-label {
-                                    flex-basis: auto;
-                                    label {
-                                        color: #1B1B50;
+                                    h4 {
+                                        color: #1B1B50 !important;
                                         font-size: 16px;
-                                        font-weight: 500;
+                                        font-weight: 500 !important;
                                         font-family: inter;
                                         line-height: 20px;
+                                        margin-bottom: 0 !important;
                                         @media screen and (max-width: 1023px)  { 
                                             font-size: 14px;
                                         }
                                     }
+                                    .wprf-control-wrapper {
+                                        .wprf-control-field {
+                                            flex-direction: column !important;
+                                            align-items: flex-end !important;
+                                            gap: 8px;
+                                            input {
+                                                box-shadow: none !important;
+                                                border: 1px solid #EBEEF5 !important;
+                                                background-color: #F9FAFC !important;
+                                                font-size: 16px !important;
+                                                color: #1B1B50 !important;
+                                                padding: 10px 12px !important;
+                                                line-height: 15px !important;
+                                                min-width: 220px;
+                                            }
+                                            .wprf-description {
+                                                margin-left: 0px !important;
+                                                font-size: 10px !important;
+                                                color: #6E6E8D !important;
+                                                font-style: italic;
+                                                margin-bottom: 0;
+                                                margin-top: 0;
+                                                text-align: end;
+                                            }
+                                        }
+                                        &:last-child {
+                                            margin-bottom: 0px !important;
+                                        }
+                                    }
                                 }
-                                .wprf-control-field {
-                                    flex-basis: auto;
-                                    
-                                    
-                                    // 
-                                    // .wprf-toggle-wrap {
-                                    //     .wprf-checked:before {
-                                    //         background: #2df16e;
-                                    //     }
-                                    //     .wprf-input-label {
-                                    //         width: 47px;
-                                    //         position: relative;
-                                    //         min-height: 24px;
-                                    //         height: 24px;
-                                    //         max-height: 24px;
-                                    //         margin-bottom: 0;
-                                    //         cursor: pointer;
-                                    //         display: inline-block;
-                                    //         margin-right: 0px !important;
-                                    //         &:before {
-                                    //             background: #f0f0f0;
-                                    //             width: 47px;
-                                    //             height: 24px;
-                                    //             border: 0;
-                                    //             left: 0;
-                                    //             top: 0;
-                                    //             border-radius: 16px;
-                                    //             transition: all 0.4s ease;
-                                    //         }
-                                    //         &:after {
-                                    //             left: 1px;
-                                    //             top: 1px;
-                                    //             width: 22px;
-                                    //             height: 22px;
-                                    //             border-radius: 50%;
-                                    //             background: #fbfbfb;
-                                    //             transition: left 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), padding 0.3s ease, margin 0.3s ease;
-                                    //             box-shadow: none;
-                                    //         }
-                                    //     }
-                                    // }
+                                .wprf-checkbox-select {
+                                    padding: 8px 24px !important;
+                                }
+                                .wprf-time,
+                                .wprf-control-wrapper {
+                                    display: flex;
+                                    align-items: center;
+                                    flex-wrap: wrap;
+                                    gap: 20px;
+                                    justify-content: space-between;
+                                    border: 1px solid #EBEEF5;
+                                    border-radius: 6px;
+                                    padding: 24px;
+                                    margin-bottom: 12px !important;
+                                    width: auto !important;
+                                    @media screen and (max-width: 1023px)  { 
+                                        padding: 20px;
+                                    }
+                                    .pro-deactivated {
+                                        display: flex;
+                                        align-items: center;
+                                        flex-basis: 100%;
+                                        justify-content: space-between;
+                                        .wprf-control-label {
+                                            display: flex;
+                                            align-items: center;
+                                            gap: 12px;
+                                            .wprf-badge {
+                                                display: flex;
+                                                .wprf-badge-item {
+                                                    padding: 6px 10px;
+                                                    background: #FF9437;
+                                                    color: #fff;
+                                                    border-radius: 20px;
+                                                    font-size: 14px;
+                                                    line-height: 16px;
+                                                    font-weight: 500;
+                                                    text-transform: uppercase;
+                                                    font-family: inter;
+                                                }
+                                            }
+                                        }
+                                        .wprf-control-field {
+                                            .wprf-toggle-wrap {
+                                                order: 1;
+                                            }
+                                            .wprf-description {
+                                                position: relative;
+                                                font-family: 'Inter';
+                                                font-weight: 500;
+                                                color: #FF9437;
+                                                margin-left: 0 !important;
+                                                font-size: 14px !important;
+                                                margin-right: 24px;
+                                            }
+                                        }
+                                    }
+                                    .wprf-control-label {
+                                        flex-basis: auto;
+                                        label {
+                                            color: #1B1B50;
+                                            font-size: 16px;
+                                            font-weight: 500;
+                                            font-family: inter;
+                                            line-height: 20px;
+                                            @media screen and (max-width: 1023px)  { 
+                                                font-size: 14px;
+                                            }
+                                        }
+                                    }
+                                    .wprf-control-field {
+                                        flex-basis: auto;
+                                        
+                                        
+                                        // 
+                                        // .wprf-toggle-wrap {
+                                        //     .wprf-checked:before {
+                                        //         background: #2df16e;
+                                        //     }
+                                        //     .wprf-input-label {
+                                        //         width: 47px;
+                                        //         position: relative;
+                                        //         min-height: 24px;
+                                        //         height: 24px;
+                                        //         max-height: 24px;
+                                        //         margin-bottom: 0;
+                                        //         cursor: pointer;
+                                        //         display: inline-block;
+                                        //         margin-right: 0px !important;
+                                        //         &:before {
+                                        //             background: #f0f0f0;
+                                        //             width: 47px;
+                                        //             height: 24px;
+                                        //             border: 0;
+                                        //             left: 0;
+                                        //             top: 0;
+                                        //             border-radius: 16px;
+                                        //             transition: all 0.4s ease;
+                                        //         }
+                                        //         &:after {
+                                        //             left: 1px;
+                                        //             top: 1px;
+                                        //             width: 22px;
+                                        //             height: 22px;
+                                        //             border-radius: 50%;
+                                        //             background: #fbfbfb;
+                                        //             transition: left 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), padding 0.3s ease, margin 0.3s ease;
+                                        //             box-shadow: none;
+                                        //         }
+                                        //     }
+                                        // }
+                                    }
+                                    .wprf-control-label {
+                                        display: flex;
+                                        align-items: center;
+                                        gap: 32px;
+                                        .selected-options {
+                                            ul {
+                                                display: flex;
+                                                align-items: center;
+                                                gap: 12px;
+                                                li {
+                                                    margin-bottom: 0 !important;
+                                                    padding: 10px 16px;
+                                                    background: #F3F2FF;
+                                                    border-radius: 8px;
+                                                    display: flex;
+                                                    align-items: center;
+                                                    gap: 8px;
+                                                    color: #6C62FF;
+                                                    font-size: 16px;
+                                                    font-weight: 400;
+                                                    line-height: 1em;
+                                                    button {
+                                                        font-size: 12px;
+                                                        border: none;
+                                                        background: transparent;
+                                                        color: #6C62FF;
+                                                        cursor: pointer;
+                                                        padding: 0;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    .wprf-checkbox-select-wrap {
+                                        min-width: 250px;
+                                        .css-yk16xz-control {
+                                            background-color: #F9FAFC !important;
+                                            border-color: #EBEEF5 !important;
+                                            border-radius: 8px !important;
+                                            padding: 9px !important;
+                                            .css-1wa3eu0-placeholder {
+                                                font-size: 16px;
+                                                color: #6E6E8D;
+                                                font-weight: 500;
+                                            }
+                                            .css-1okebmr-indicatorSeparator {
+                                                background-color: #989FAB;
+                                            }
+                                            .css-tlfecz-indicatorContainer {
+                                                color: #989FAB;
+                                            }
+                                        }
+                                    }
+                                }
+                                .wprf-time {
+                                    .wprf-checkbox-select-wrap {
+                                        text-align: end;
+                                    }
+                                }
+
+                            }
+                        }
+                        .pro_features_section {
+                            background: #F3F2FF;
+                            padding: 32px !important;
+                            margin-bottom: 32px !important;
+                            @media screen and (max-width: 1023px)  { 
+                                padding: 24px !important;
+                                margin-bottom: 24px !important;
+                            }
+                            .wprf-section-fields {
+                                padding: 0 !important;
+                                .wprf-pro_features-features {
+                                    .header {
+                                        display: flex;
+                                        justify-content: space-between;
+                                        align-items: center;
+                                        margin-bottom: 28px;
+                                        @media screen and (max-width: 1023px)  {
+                                            margin-bottom: 20px;
+                                        }
+                                        h3 {
+                                            font-family: Inter;
+                                            font-size: 24px;
+                                            line-height: 30px;
+                                            letter-spacing: 0px !important;
+                                            font-weight: 600 !important;
+                                            color: #1B1B50 !important;
+                                            margin: 0px !important;
+                                            text-transform: capitalize !important;
+                                            background: transparent !important;
+                                            padding: 0px !important;
+                                            @media screen and (max-width: 1023px)  { 
+                                                font-size: 18px;
+                                            }
+                                        }
+                                        a {
+                                            color: #6C62FF;
+                                            text-decoration: none;
+                                            font-weight: 500;
+                                            font-size: 14px;
+                                            line-height: 16px;
+                                            font-family: 'Inter';
+                                        } 
+                                    }
+                                    .content {
+                                        display: flex;
+                                        gap: 20px;
+                                        justify-content: space-between;
+                                        a {
+                                            padding: 24px;
+                                            background: #fff;
+                                            border-radius: 8px;
+                                            text-decoration: none;
+                                            min-width: 220px;
+                                            .single-content {
+                                                display: flex;
+                                                align-items: center;
+                                                gap: 16px;
+                                                h5 {
+                                                    font-size: 16px;
+                                                    font-weight: 500;
+                                                    color: #1B1B50;
+                                                    line-height: 20px;
+                                                    margin: 0 !important;
+                                                }
+                                            }
+                                            
+                                        }
+                                    } 
                                 }
                             }
                         }
