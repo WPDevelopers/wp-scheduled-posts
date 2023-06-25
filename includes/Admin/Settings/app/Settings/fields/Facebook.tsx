@@ -42,7 +42,6 @@ const Facebook = (props) => {
     
     return (
         <div className={classNames('wprf-control', 'wprf-social-profile', `wprf-${props.name}-social-profile`, props?.classes)}>
-           {/* <h2>Social Profile</h2> */}
            {isErrorMessage && (
                 <div className='error-message'>
                     {__(
@@ -62,8 +61,8 @@ const Facebook = (props) => {
                 <div className="main-profile">
                     <div className="card-header">
                         <div className="heading">
-                            <img width={'30px'} src={`${props?.logo}`} alt="" />
-                            <h5>Facebook</h5>
+                            <img width={'30px'} src={`${props?.logo}`} alt={`${props?.label}`} />
+                            <h5>{props?.label}</h5>
                         </div>
                         <div className="status">
                             <input

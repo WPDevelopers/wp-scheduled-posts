@@ -424,8 +424,11 @@ class Settings {
                                     'type'     => 'facebook',
                                     'label'    => __('Facebook', 'wp-scheduled-posts'),
                                     'default'  => false,
-                                    'doc_link' => 'https://google.com',
-                                    'logo'     => 'https://upload.wikimedia.org/wikipedia/en/thumb/0/04/Facebook_f_logo_%282021%29.svg/480px-Facebook_f_logo_%282021%29.svg.png',
+                                    'content'  => [
+                                        'doc_link' => 'https://google.com',
+                                        'logo'     => 'https://upload.wikimedia.org/wikipedia/en/thumb/0/04/Facebook_f_logo_%282021%29.svg/480px-Facebook_f_logo_%282021%29.svg.png',
+                                        'desc'     => 'You can enable/disable Twitter social share. To configure Twitter Social Profile, check out this',
+                                    ],
                                     'priority' => 5,
                                 ],
                                 'linkedin_profile_list'  => [
