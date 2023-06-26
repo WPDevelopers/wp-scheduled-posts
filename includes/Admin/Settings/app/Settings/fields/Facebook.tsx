@@ -16,7 +16,7 @@ const Facebook = (props) => {
     const [apiCredentialsModal,setApiCredentialsModal] = useState(false);
     const [platform, setPlatform] = useState('');
     const [selectedProfile, setSelectedProfile] = useState(props?.value);
-    const [profileStatus, setProfileStatus] = useState(builderContext.savedValues.facebook_profile_status);
+    const [profileStatus, setProfileStatus] = useState(builderContext?.savedValues?.facebook_profile_status);
     const [isErrorMessage, setIsErrorMessage] = useState(false)
     
     // Open and Close API credentials modal
@@ -107,7 +107,7 @@ const Facebook = (props) => {
                             <h5>{props?.label}</h5>
                         </div>
                         <div className="status">
-                            <label htmlFor="toggle">
+                            {/* <label htmlFor="toggle">
                             <input
                                 id="toggle"
                                 type='checkbox'
@@ -116,8 +116,34 @@ const Facebook = (props) => {
                                     handleProfileStatusChange(event)
                                 }
                             />
-                            </label>
-                            
+                            </label> */}
+                            {/* <div className="switcher">
+                                <input
+                                    id={`react-switch-new`}
+                                    type='checkbox'
+                                    checked={profileStatus}
+                                    className="react-switch-checkbox"
+                                    onChange={(event) =>
+                                        handleProfileStatusChange(event)
+                                    }
+                                />
+                                <label
+                                    className="react-switch-label"
+                                    htmlFor={`react-switch-new`}
+                                    style={{ background: profileStatus && '#06D6A0' }}
+                                >
+                                    <span className={`react-switch-button`} />
+                                </label>
+                            </div> */}
+                            <label htmlFor="toggle"></label>
+                            <input
+                                id="toggle"
+                                type='checkbox'
+                                checked={profileStatus}
+                                onChange={(event) =>
+                                    handleProfileStatusChange(event)
+                                }
+                            />
                         </div>
                     </div>
                     <div className="card-content">

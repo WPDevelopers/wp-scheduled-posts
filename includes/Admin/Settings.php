@@ -438,7 +438,7 @@ class Settings {
                                     'name'     => 'facebook_profile_list',
                                     'type'     => 'facebook',
                                     'label'    => __('Facebook', 'wp-scheduled-posts'),
-                                    'default'  => false,
+                                    'default'  => [],
                                     'logo'     => 'https://upload.wikimedia.org/wikipedia/en/thumb/0/04/Facebook_f_logo_%282021%29.svg/480px-Facebook_f_logo_%282021%29.svg.png',
                                     'desc'     => sprintf( __('You can enable/disable Facebook social share. To configure Facebook Social Profile, check out this <a target="_blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-scheduled-posts-facebook/' ),
                                     'modal'    => [
@@ -453,7 +453,7 @@ class Settings {
                                     'name'     => 'twitter_profile_list',
                                     'type'     => 'twitter',
                                     'label'    => __('Twitter', 'wp-scheduled-posts'),
-                                    'default'  => false,
+                                    'default'  => [],
                                     'logo'     => 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Logo_of_Twitter.svg/512px-Logo_of_Twitter.svg.png?20220821125553',
                                     'desc'     => sprintf( __('You can enable/disable Twitter social share. To configure Twitter Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-tweet-wordpress-posts/' ),
                                     'modal'    => [
@@ -468,7 +468,7 @@ class Settings {
                                     'name'     => 'linkedin_profile_list',
                                     'type'     => 'linkedin',
                                     'label'    => __('Linkedin', 'wp-scheduled-posts'),
-                                    'default'  => false,
+                                    'default'  => [],
                                     'logo'     => 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/800px-LinkedIn_logo_initials.png',
                                     'desc'     => sprintf( __('You can enable/disable Linkedin social share. To configure Linkedin Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-linkedin/' ),
                                     'modal'    => [
