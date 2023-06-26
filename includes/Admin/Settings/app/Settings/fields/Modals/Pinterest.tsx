@@ -1,8 +1,24 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import { __ } from '@wordpress/i18n'
 
-export default function Pinterest({ platform, data, addProfileToggle }) {
-   
+export default function Pinterest({ platform, data, boards,fetchSectionData,noSection }) {
+    const boardOptions = boards?.map((board) => {
+      return {
+        label: board.name || board.id,
+        value: board.id,
+      };
+    });
+    const [defaultBoard, setDefaultBoard] = useState();
+    const [defaultSection, setDefaultSection] = useState(noSection);
+    const [sectionOptions, setSectionOptions] = useState([noSection]);
+  
+    useEffect(() => {
+      setDefaultSection(noSection);
+  }, [defaultBoard]);
+  
+    useEffect(() => {
+      setDefaultBoard(boardOptions?.[0]);
+    }, [boards]);
     return (
         <>
           <div className="wpsp-modal-social-platform">

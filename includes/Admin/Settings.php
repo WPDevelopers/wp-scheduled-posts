@@ -483,6 +483,13 @@ class Settings {
                                     'name'     => 'pinterest_profile_list',
                                     'type'     => 'pinterest',
                                     'label'    => __('Pinterest', 'wp-scheduled-posts'),
+                                    'logo'     => 'https://upload.wikimedia.org/wikipedia/commons/0/08/Pinterest-logo.png',
+                                    'desc'     => sprintf( __('You can enable/disable Pinterest social share. To configure Pinterest Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-linkedin/' ),
+                                    'modal'    => [
+                                        'logo'               => 'https://upload.wikimedia.org/wikipedia/commons/0/08/Pinterest-logo.png',
+                                        // 'redirect_url_desc'  => __('Copy this and paste it in your linkedin app Callback url field.','wp-scheduled-posts'),
+                                        // 'desc'               => sprintf( __('For details on Linkedin configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your Linkedin account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-linkedin/','https://developer.linkedin.com/' ),
+                                    ],
                                     'priority' => 20,
                                 ],
                             ]

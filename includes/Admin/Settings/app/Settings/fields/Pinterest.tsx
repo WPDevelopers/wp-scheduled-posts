@@ -13,28 +13,6 @@ import SocialModal from './Modals/SocialModal';
 
 const Pinterest = (props) => {
     const builderContext = useBuilderContext();
-
-    const handleChange = useCallback((event, index) => {
-        const { field, val: value } = executeChange(event);
-        builderContext.setFieldValue([props.name, field], value);
-    }, [props.value]);
-
-    const customStyles = {
-        overlay: {
-          background: "rgba(1, 17, 50, 0.7)",
-          padding: "50px 20px",
-          display: "flex",
-          overflow: "auto",
-        },
-        content: {
-          margin: "auto",
-          maxWidth: "100%",
-          width: "450px",
-          position: "static",
-          overflow: "hidden",
-        },
-    };
-
     const [apiCredentialsModal,setApiCredentialsModal] = useState(false);
     const [profileData, setProfileData] = useState({
         page: [],
