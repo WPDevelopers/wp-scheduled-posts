@@ -74,10 +74,10 @@
                                 letter-spacing: 0px !important;
                                 font-weight: 600 !important;
                                 color: #1B1B50 !important;
-                                margin-bottom: 32px !important;
+                                margin: 0 !important;
                                 text-transform: capitalize !important;
                                 background: transparent !important;
-                                padding: 0px !important;
+                                padding: 0 0 32px;
                                 @media screen and (max-width: 1023px)  { 
                                     font-size: 18px;
                                     margin-bottom: 20px !important;
@@ -161,7 +161,7 @@
                                             }
                                             .wprf-description {
                                                 margin-left: 0px !important;
-                                                font-size: 10px !important;
+                                                font-size: 12px !important;
                                                 color: #6E6E8D !important;
                                                 font-style: italic;
                                                 margin-bottom: 0;
@@ -190,6 +190,9 @@
                                     padding: 24px;
                                     margin-bottom: 12px !important;
                                     width: auto !important;
+                                    &:last-child {
+                                        margin-bottom: 0 !important;
+                                    }
                                     @media screen and (max-width: 1023px)  { 
                                         padding: 20px;
                                     }
@@ -403,7 +406,10 @@
                                             background: #fff;
                                             border-radius: 8px;
                                             text-decoration: none;
-                                            min-width: 220px;
+                                            flex-grow: 1;
+                                            &:focus {
+                                                box-shadow: none;
+                                            }
                                             .single-content {
                                                 display: flex;
                                                 align-items: center;

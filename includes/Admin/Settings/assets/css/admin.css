@@ -1731,6 +1731,7 @@ button.wprf-btn {
     background: #6a4bff;
     padding: 5px 20px;
     color: #fff;
+    text-transform: uppercase;
     border-radius: 5px;
     height: 36px;
     display: inline-flex;
@@ -2811,10 +2812,10 @@ button.wprf-btn {
   letter-spacing: 0px !important;
   font-weight: 600 !important;
   color: #1B1B50 !important;
-  margin-bottom: 32px !important;
+  margin: 0 !important;
   text-transform: capitalize !important;
   background: transparent !important;
-  padding: 0px !important;
+  padding: 0 0 32px;
 }
 @media screen and (max-width: 1023px) {
   #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section h4 {
@@ -2908,7 +2909,7 @@ button.wprf-btn {
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-control-section .wprf-control-wrapper .wprf-control-field .wprf-description {
   margin-left: 0px !important;
-  font-size: 10px !important;
+  font-size: 12px !important;
   color: #6E6E8D !important;
   font-style: italic;
   margin-bottom: 0;
@@ -2934,6 +2935,10 @@ button.wprf-btn {
   padding: 24px;
   margin-bottom: 12px !important;
   width: auto !important;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-time:last-child,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-control-wrapper:last-child {
+  margin-bottom: 0 !important;
 }
 @media screen and (max-width: 1023px) {
   #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-time,
@@ -3130,7 +3135,10 @@ button.wprf-btn {
   background: #fff;
   border-radius: 8px;
   text-decoration: none;
-  min-width: 220px;
+  flex-grow: 1;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .pro_features_section .wprf-section-fields .wprf-pro_features-features .content a:focus {
+  box-shadow: none;
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .pro_features_section .wprf-section-fields .wprf-pro_features-features .content a .single-content {
   display: flex;
@@ -3296,7 +3304,6 @@ button.wprf-btn {
   font-weight: 600;
   letter-spacing: 0px;
   margin: 0 !important;
-  padding: 0 !important;
   text-transform: capitalize !important;
   background: transparent !important;
 }
@@ -3393,11 +3400,16 @@ button.wprf-btn {
 #wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields .wprf-control .social-profile-card .profile-item {
   background: #fff;
   border-radius: 4px;
-  padding: 24px;
+  padding: 30px 16px;
   margin-top: 8px;
   display: flex;
-  gap: 16px;
+  gap: 12px;
   position: relative;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields .wprf-control .social-profile-card .profile-item .profile-image img {
+  max-width: 100%;
+  width: 50px;
+  border-radius: 50%;
 }
 #wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields .wprf-control .social-profile-card .profile-item .profile-data .badge {
   background: #F3F2FF;
@@ -3414,10 +3426,11 @@ button.wprf-btn {
 }
 #wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields .wprf-control .social-profile-card .profile-item .profile-data h4 {
   font-size: 16px !important;
-  margin: 0 0 8px !important;
+  margin-bottom: 0 !important;
   color: #1B1B50;
   font-weight: 500;
-  line-height: 1.25em;
+  line-height: 1.25em !important;
+  padding: 0 0 14px !important;
 }
 #wpsp-dashboard-body .wprf-tab-layout_social_profile .wprf-section-fields .wprf-control .social-profile-card .profile-item .profile-data span {
   color: #6E6E8D;
@@ -3532,7 +3545,6 @@ button.wprf-btn {
   margin-bottom: 24px !important;
   text-transform: capitalize !important;
   background: transparent !important;
-  padding: 0 !important;
   letter-spacing: 0px !important;
   font-weight: 600 !important;
   margin-top: 0px;
@@ -3561,9 +3573,6 @@ button.wprf-btn {
   background: #fff !important;
   gap: 16px;
 }
-#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-contents .wprf-section-fields .wprf-group-control .wprf-control-wrapper:last-child {
-  margin-bottom: 0 !important;
-}
 @media screen and (max-width: 1023px) {
   #wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-contents .wprf-section-fields .wprf-group-control .wprf-control-wrapper {
     padding: 12px 14px;
@@ -3587,7 +3596,7 @@ button.wprf-btn {
 #wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-contents .wprf-section-fields .wprf-group-control .wprf-control-wrapper .wprf-control-field input {
   box-shadow: none !important;
   border: 1px solid #EBEEF5 !important;
-  background-color: #F9FAFC !important;
+  background-color: #F9FAFC;
   font-size: 16px !important;
   color: #1B1B50 !important;
   padding: 8px 12px !important;
@@ -3602,30 +3611,56 @@ button.wprf-btn {
 }
 #wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-contents .wprf-section-fields .wprf-group-control .wprf-control-wrapper .wprf-control-field .wprf-description {
   margin-left: 0px !important;
-  font-size: 10px !important;
+  font-size: 12px !important;
   color: #6E6E8D !important;
   font-style: italic;
   margin-bottom: 0;
   margin-top: 0;
   text-align: end;
 }
-#wpsp-dashboard-body .wprf-tab-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-control-field .wprf-control .wprf-row .wprf-column-3 {
-  width: 30% !important;
-  position: relative !important;
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-type-radio-card .wprf-control-field .wprf-row {
+  align-items: center;
+  justify-content: flex-end;
+  gap: 24px;
 }
-#wpsp-dashboard-body .wprf-tab-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-control-field .wprf-control .wprf-row .wprf-column-3 .wprf-input-radio-option {
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-type-radio-card .wprf-control-field .wprf-row .wprf-column-3 {
+  width: auto !important;
+  padding: 0 !important;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-type-radio-card .wprf-control-field .wprf-row .wprf-column-3 .wprf-input-radio-option {
   min-height: auto !important;
   position: unset !important;
-  box-shadow: 0 0 25px 0 rgba(0, 9, 78, 0.08);
+  box-shadow: none !important;
   margin-top: 0 !important;
   line-height: normal !important;
-  display: flex;
-  align-items: center;
+  gap: 8px;
 }
-#wpsp-dashboard-body .wprf-tab-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-control-field .wprf-control .wprf-row .wprf-column-3 .wprf-input-radio-option:after {
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-type-radio-card .wprf-control-field .wprf-row .wprf-column-3 .wprf-input-radio-option .wprf-input-label {
+  height: auto !important;
+  width: auto !important;
+  background: transparent !important;
+  color: #1B1B50 !important;
+  font-size: 14px;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin-bottom: 0;
+  box-sizing: border-box;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-type-radio-card .wprf-control-field .wprf-row .wprf-column-3 .wprf-input-radio-option input {
+  box-shadow: none !important;
+  border: 1px solid #EBEEF5 !important;
+  background-color: transparent !important;
+  color: #1B1B50 !important;
+  padding: 0 !important;
+  line-height: 10px !important;
+  min-width: 10px !important;
+  min-height: 10px !important;
+  display: block !important;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-type-radio-card .wprf-control-field .wprf-row .wprf-column-3 .wprf-input-radio-option:after {
   display: none !important;
 }
-#wpsp-dashboard-body .wprf-tab-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-control-field .wprf-control .wprf-row .wprf-column-3 .wprf-input-radio-option:before {
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-type-radio-card .wprf-control-field .wprf-row .wprf-column-3 .wprf-input-radio-option:before {
   display: none !important;
   right: 2px !important;
   top: 2px !important;
@@ -3664,7 +3699,7 @@ button.wprf-btn {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 36px;
+  margin-bottom: 32px;
 }
 .modal_wrapper .platform-info h4 {
   font-size: 22px !important;

@@ -8,7 +8,6 @@
             font-weight: 600;
             letter-spacing: 0px;
             margin: 0 !important;
-            padding: 0 !important;
             text-transform: capitalize !important;
             background: transparent !important;
         }
@@ -98,11 +97,18 @@
                 .profile-item {
                     background: #fff;
                     border-radius: 4px;
-                    padding: 24px;
+                    padding: 30px 16px;
                     margin-top: 8px;
                     display: flex;
-                    gap: 16px;
+                    gap: 12px;
                     position: relative;
+                    .profile-image {
+                        img {
+                            max-width: 100%;
+                            width: 50px;
+                            border-radius: 50%;
+                        }
+                    }
                     .profile-data {
                         .badge {
                             background: #F3F2FF;
@@ -119,10 +125,11 @@
                         }
                         h4 {
                             font-size: 16px !important;
-                            margin: 0 0 8px !important;
+                            margin-bottom: 0 !important;
                             color: #1B1B50;
                             font-weight: 500;
-                            line-height: 1.25em;
+                            line-height: 1.25em !important;
+                            padding: 0 0 14px !important;
                         }
                         span {
                             color: #6E6E8D;

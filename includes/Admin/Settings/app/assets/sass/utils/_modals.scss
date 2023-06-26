@@ -1,78 +1,91 @@
-.wprf-tab-content {
+.wprf-tab-layout_social_template{
     .wprf-tabs-wrapper {
         .wprf-tab-content-wrapper {
-            .wprf-tab-content {
-                .wprf-control-section {
-                    .wprf-section-fields {
-                        .wprf-control-wrapper{
-                            .wprf-control-field {
-                                .wprf-control {
-                                    .wprf-row {
-                                        .wprf-column-3 {
-                                            width: 30% !important;
-                                            position: relative !important;
-                                            .wprf-input-radio-option {
-                                                min-height: auto !important;
-                                                position: unset !important;
-                                                box-shadow: 0 0 25px 0 rgba(0, 9, 78, 0.08);
-                                                margin-top: 0 !important;
-                                                line-height: normal !important;
-                                                display: flex;
-                                                align-items: center;
-                                                // .wprf-input-label {
-                                                    // position: absolute !important;
-                                                    // right: -48px !important;
-                                                    // top: 0 !important;
-                                                    // height: auto !important;
-                                                    // width: auto !important;
-                                                    // display: flex;
-                                                    // align-items: center;
-                                                    // justify-content: center;
-                                                    // transition: background 0.3s ease 0s;
-                                                    // background: transparent !important;
-                                                    // font-size: 14px;
-                                                    // border-radius: 5px;
-                                                    // padding: 0 !important;
-                                                    // margin-bottom: 0 !important;
-                                                    // box-sizing: border-box;
-                                                // }
-                                                &:after {
-                                                    display: none !important;
-                                                }
-                                                &:before {
-                                                    display: none !important;
-                                                    right: 2px !important;
-                                                    top: 2px !important;
-                                                    left: auto !important;
-                                                    width: 20px !important;
-                                                    height: 20px !important;
-                                                    box-sizing: border-box;
-                                                    transition: all 0.3s ease 0s;
-                                                    background: #09dca8;
-                                                    border-radius: 100% !important;
-                                                }
-                                            }
-                                            // .wprf-option-selected {
-                                            //     .wprf-input-label {
-                                            //         background-color: transparent !important;
-                                            //         color: black !important;
-                                            //     }
-                                            // }
-                                        }
-                                    }
+            .wprf-type-radio-card{
+                .wprf-control-field {
+                    .wprf-row {
+                        align-items: center;
+                        justify-content: flex-end;
+                        gap: 24px;
+                        .wprf-column-3 {
+                            width: auto !important;
+                            padding: 0 !important;
+                            .wprf-input-radio-option {
+                                min-height: auto !important;
+                                position: unset !important;
+                                box-shadow: none !important;
+                                margin-top: 0 !important;
+                                line-height: normal !important;
+                                gap: 8px;
+                                .wprf-input-label {
+                                    height: auto !important;
+                                    width: auto !important;
+                                    background: transparent !important;
+                                    color: #1B1B50 !important;
+                                    font-size: 14px;
+                                    border-radius: 0 !important;
+                                    padding: 0 !important;
+                                    margin-bottom: 0;
+                                    box-sizing: border-box;
+                                }
+                                input {
+                                    box-shadow: none !important;
+                                    border: 1px solid #EBEEF5 !important;
+                                    background-color: transparent !important;
+                                    color: #1B1B50 !important;
+                                    padding: 0 !important;
+                                    line-height: 10px !important;
+                                    min-width: 10px !important;
+                                    min-height: 10px !important;
+                                    display: block !important;
+                                }
+                                // .wprf-input-label {
+                                    // position: absolute !important;
+                                    // right: -48px !important;
+                                    // top: 0 !important;
+                                    // height: auto !important;
+                                    // width: auto !important;
+                                    // display: flex;
+                                    // align-items: center;
+                                    // justify-content: center;
+                                    // transition: background 0.3s ease 0s;
+                                    // background: transparent !important;
+                                    // font-size: 14px;
+                                    // border-radius: 5px;
+                                    // padding: 0 !important;
+                                    // margin-bottom: 0 !important;
+                                    // box-sizing: border-box;
+                                // }
+                                &:after {
+                                    display: none !important;
+                                }
+                                &:before {
+                                    display: none !important;
+                                    right: 2px !important;
+                                    top: 2px !important;
+                                    left: auto !important;
+                                    width: 20px !important;
+                                    height: 20px !important;
+                                    box-sizing: border-box;
+                                    transition: all 0.3s ease 0s;
+                                    background: #09dca8;
+                                    border-radius: 100% !important;
                                 }
                             }
+                            // .wprf-option-selected {
+                            //     .wprf-input-label {
+                            //         background-color: transparent !important;
+                            //         color: black !important;
+                            //     }
+                            // }
                         }
-                        
                     }
                     
                 }
-                
             }
-            
         }
-        
     }
+    
 }
 
 
