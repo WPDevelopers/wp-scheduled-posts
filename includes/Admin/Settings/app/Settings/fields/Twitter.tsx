@@ -17,7 +17,7 @@ const Twitter = (props) => {
     const [platform, setPlatform] = useState('');
     const [selectedProfile, setSelectedProfile] = useState(props?.value);
     const [isErrorMessage, setIsErrorMessage] = useState(false)
-    const [profileStatus, setProfileStatus] = useState(builderContext.savedValues.twitter_profile_status);
+    const [profileStatus, setProfileStatus] = useState(builderContext?.savedValues?.twitter_profile_status);
 
     const openApiCredentialsModal = (platform) => {
         setPlatform(platform);
