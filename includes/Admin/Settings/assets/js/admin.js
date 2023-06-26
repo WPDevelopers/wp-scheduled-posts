@@ -2969,7 +2969,7 @@ var Facebook = function (props) {
   // Save selected profile data
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
     builderContext.setFieldValue([props.name], selectedProfile);
-  }, [selectedProfile]);
+  }, [props.value]);
   // Save profile status data 
   var onChange = props.onChange;
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
@@ -3034,7 +3034,7 @@ var Facebook = function (props) {
     }
   }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Add New", "wp-scheduled-posts")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: "selected-profile"
-  }, selectedProfile.map(function (item, index) {
+  }, selectedProfile && (selectedProfile === null || selectedProfile === void 0 ? void 0 : selectedProfile.map(function (item, index) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
       className: "profile-item",
       key: Math.random()
@@ -3066,7 +3066,7 @@ var Facebook = function (props) {
         return handleDeleteSelectedProfile(item);
       }
     }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Delete', 'wp-scheduled-posts'))))));
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react_modal__WEBPACK_IMPORTED_MODULE_5___default()), {
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react_modal__WEBPACK_IMPORTED_MODULE_5___default()), {
     isOpen: apiCredentialsModal,
     onRequestClose: closeApiCredentialsModal,
     ariaHideApp: false,
@@ -3392,7 +3392,7 @@ var Linkedin = function (props) {
     }
   }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Add New", "wp-scheduled-posts")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: "selected-profile"
-  }, selectedProfile.map(function (item, index) {
+  }, selectedProfile && selectedProfile.map(function (item, index) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
       className: "profile-item",
       key: Math.random()
@@ -3938,7 +3938,7 @@ function SocialModal(_a) {
           setIsErrorMessage(true);
         }
       } else {
-        if (!selectedProfile.some(function (profile) {
+        if (selectedProfile && !selectedProfile.some(function (profile) {
           return profile.id === item.id;
         })) {
           setSelectedProfile(function (prevItems) {
@@ -3956,6 +3956,9 @@ function SocialModal(_a) {
       });
     }
   };
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
+    console.log(selectedProfile);
+  }, [selectedProfile]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react_modal__WEBPACK_IMPORTED_MODULE_0___default()), {
     isOpen: profileDataModal,
     onRequestClose: closeProfileDataModal,
@@ -4449,7 +4452,7 @@ var Twitter = function (props) {
     }
   }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Add New", "wp-scheduled-posts")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: "selected-profile"
-  }, selectedProfile.map(function (item, index) {
+  }, selectedProfile && (selectedProfile === null || selectedProfile === void 0 ? void 0 : selectedProfile.map(function (item, index) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
       className: "profile-item",
       key: Math.random()
@@ -4481,7 +4484,7 @@ var Twitter = function (props) {
         return handleDeleteSelectedProfile(item);
       }
     }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Delete', 'wp-scheduled-posts'))))));
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react_modal__WEBPACK_IMPORTED_MODULE_5___default()), {
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react_modal__WEBPACK_IMPORTED_MODULE_5___default()), {
     isOpen: apiCredentialsModal,
     onRequestClose: closeApiCredentialsModal,
     ariaHideApp: false,

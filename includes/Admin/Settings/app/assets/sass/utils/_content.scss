@@ -93,7 +93,8 @@
                                         background-color: #F9FAFC;
                                         border-color: #EBEEF5;
                                         border-radius: 8px;
-                                        padding: 9px;
+                                        padding: 0 9px;
+                                        min-height: 54px;
                                         @media screen and (max-width: 1023px)  { 
                                             padding: 5px;
                                         }
@@ -246,8 +247,6 @@
                                     }
                                     .wprf-control-field {
                                         flex-basis: auto;
-                                        
-                                        
                                         // 
                                         // .wprf-toggle-wrap {
                                         //     .wprf-checked:before {
@@ -295,6 +294,7 @@
                                                 display: flex;
                                                 align-items: center;
                                                 gap: 12px;
+                                                margin: 0;
                                                 li {
                                                     margin-bottom: 0 !important;
                                                     padding: 8px 12px;
@@ -419,6 +419,22 @@
                                             
                                         }
                                     } 
+                                }
+                            }
+                        }
+                    }
+                    .wprf-tab-layout_social_template {
+                        .wprf-tab-contents {
+                            .wprf-section-fields {
+                                .wprf-control-wrapper {
+                                    padding: 0;
+                                    border: none;
+                                    .wprf-group-control-inner {
+                                        .wprf-control-wrapper {
+                                            padding: 24px;
+                                            border: 1px solid #EBEEF5;;
+                                        }
+                                    }
                                 }
                             }
                         }

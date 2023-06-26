@@ -107,11 +107,12 @@
                                     box-shadow: none !important;
                                     border: 1px solid #EBEEF5 !important;
                                     background-color: #F9FAFC !important;
-                                    font-size: 12px !important;
+                                    font-size: 16px !important;
                                     color: #1B1B50 !important;
                                     padding: 8px 12px !important;
                                     line-height: 15px !important;
                                     min-width: 220px;
+                                    min-height: 50px;
                                 }
                                 input:focus {
                                     border-color: #EBEEF5 !important;
@@ -127,10 +128,6 @@
                                     margin-top: 0;
                                     text-align: end;
                                 }
-                                
-                                
-                                
-
                             }
                         }
                     }
