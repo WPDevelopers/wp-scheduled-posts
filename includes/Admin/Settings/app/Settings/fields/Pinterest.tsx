@@ -16,8 +16,6 @@ const Pinterest = (props) => {
 
     const handleChange = useCallback((event, index) => {
         const { field, val: value } = executeChange(event);
-        console.log(builderContext);
-        console.log(selectedProfile);
         builderContext.setFieldValue([props.name, field], value);
     }, [props.value]);
 
@@ -57,10 +55,6 @@ const Pinterest = (props) => {
         setPlatform('');
         setApiCredentialsModal(false);
     };
-
-    useEffect(() => {
-      console.log(profileData);
-    }, [profileData])
     
     return (
         <div className={classNames('wprf-control', 'wprf-social-profile', `wprf-${props.name}-social-profile`, props?.classes)}>
@@ -87,22 +81,15 @@ const Pinterest = (props) => {
                             <h5>Pinterest</h5>
                         </div>
                         <div className="status">
-                            <input
-                                type='checkbox'
-                                onChange={(e) =>
-                                    handleChange(e,1)
-                                }
-                            />
+                            {/* <input type="checkbox" checked  id="toggle"/> */}
+                            {/* @ts-ignore */}
+                            <label htmlFor="toggle"></label>
                         </div>
                     </div>
                     <div className="card-content">
                         <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum dolorem velit nisi vel perspiciatis rerum reprehenderit. Quisquam nisi maiores, voluptatem dignissimos accusamus ipsum recusandae earum. Sed dolorem sint ducimus excepturi.</p>
                     </div>
                     <div className="card-footer">
-                        <select name="" id="">
-                            <option value="">Page</option>
-                            <option value="">Group</option>
-                        </select>
                         <button
                             type="button"
                             className={
@@ -144,17 +131,15 @@ const Pinterest = (props) => {
                 isOpen={apiCredentialsModal}
                 onRequestClose={closeApiCredentialsModal}
                 ariaHideApp={false}
-                style={customStyles}
                 className="modal_wrapper"
                 >
                 
-                <ApiCredentialsForm  platform={platform} requestHandler={socialProfileRequestHandler} />
+                <ApiCredentialsForm props={props} platform={platform} requestHandler={socialProfileRequestHandler} />
             </Modal>
 
             {/* Profile Data Modal  */}
             {/* @ts-ignore */}
             <SocialModal
-                customStyles={customStyles}
                 selectedProfile={selectedProfile}
                 setSelectedProfile={setSelectedProfile}
                 setIsErrorMessage={setIsErrorMessage}

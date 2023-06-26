@@ -100,7 +100,7 @@ class Settings {
                 'show' => false
             ],
             'config'          => [
-                'active'  => 'layout_calender',
+                'active'  => 'layout_general',
             ],
             'fields'          => [
                 'layout_general' => [
@@ -438,34 +438,52 @@ class Settings {
                                     'name'     => 'facebook_profile_list',
                                     'type'     => 'facebook',
                                     'label'    => __('Facebook', 'wp-scheduled-posts'),
-                                    'default'  => false,
-                                    'content'  => [
-                                        'doc_link' => 'https://google.com',
-                                        'logo'     => 'https://upload.wikimedia.org/wikipedia/en/thumb/0/04/Facebook_f_logo_%282021%29.svg/480px-Facebook_f_logo_%282021%29.svg.png',
-                                        'desc'     => 'You can enable/disable Twitter social share. To configure Twitter Social Profile, check out this',
+                                    'default'  => [],
+                                    'logo'     => 'https://upload.wikimedia.org/wikipedia/en/thumb/0/04/Facebook_f_logo_%282021%29.svg/480px-Facebook_f_logo_%282021%29.svg.png',
+                                    'desc'     => sprintf( __('You can enable/disable Facebook social share. To configure Facebook Social Profile, check out this <a target="_blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-scheduled-posts-facebook/' ),
+                                    'modal'    => [
+                                        'logo'               => 'https://upload.wikimedia.org/wikipedia/en/thumb/0/04/Facebook_f_logo_%282021%29.svg/480px-Facebook_f_logo_%282021%29.svg.png',
+                                        'redirect_url_desc'  => __('Copy this and paste it in your facebook app Callback url field.','wp-scheduled-posts'),
+                                        'desc'               => sprintf( __('For details on Facebook configuration, check out this <a target="_blank" href="%s">Doc</a>.<br> <a target="_blank" href="%s">Click here</a> to Retrieve Your API Keys from your Facebook account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-scheduled-posts-facebook/','https://developers.facebook.com/' ),
                                     ],
                                     'priority' => 5,
-                                ],
-                                'linkedin_profile_list'  => [
-                                    'id'       => 'linkedin_profile_list',
-                                    'name'     => 'linkedin_profile_list',
-                                    'type'     => 'linkedin',
-                                    'label'    => __('Linkedin', 'wp-scheduled-posts'),
-                                    'priority' => 10,
-                                ],
-                                'pinterest_profile_list'  => [
-                                    'id'       => 'pinterest_profile_list',
-                                    'name'     => 'pinterest_profile_list',
-                                    'type'     => 'pinterest',
-                                    'label'    => __('Pinterest', 'wp-scheduled-posts'),
-                                    'priority' => 1,
                                 ],
                                 'twitter_profile_list'  => [
                                     'id'       => 'twitter_profile_list',
                                     'name'     => 'twitter_profile_list',
                                     'type'     => 'twitter',
                                     'label'    => __('Twitter', 'wp-scheduled-posts'),
+                                    'default'  => [],
+                                    'logo'     => 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Logo_of_Twitter.svg/512px-Logo_of_Twitter.svg.png?20220821125553',
+                                    'desc'     => sprintf( __('You can enable/disable Twitter social share. To configure Twitter Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-tweet-wordpress-posts/' ),
+                                    'modal'    => [
+                                        'logo'               => 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Logo_of_Twitter.svg/512px-Logo_of_Twitter.svg.png?20220821125553',
+                                        'redirect_url_desc'  => __('Copy this and paste it in your twitter app Callback url field.','wp-scheduled-posts'),
+                                        'desc'               => sprintf( __('For details on Twitter configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your Twitter account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-tweet-wordpress-posts/','https://developers.twitter.com/' ),
+                                    ],
+                                    'priority' => 10,
+                                ],
+                                'linkedin_profile_list'  => [
+                                    'id'       => 'linkedin_profile_list',
+                                    'name'     => 'linkedin_profile_list',
+                                    'type'     => 'linkedin',
+                                    'label'    => __('Linkedin', 'wp-scheduled-posts'),
+                                    'default'  => [],
+                                    'logo'     => 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/800px-LinkedIn_logo_initials.png',
+                                    'desc'     => sprintf( __('You can enable/disable Linkedin social share. To configure Linkedin Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-linkedin/' ),
+                                    'modal'    => [
+                                        'logo'               => 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/800px-LinkedIn_logo_initials.png',
+                                        'redirect_url_desc'  => __('Copy this and paste it in your linkedin app Callback url field.','wp-scheduled-posts'),
+                                        'desc'               => sprintf( __('For details on Linkedin configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your Linkedin account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-linkedin/','https://developer.linkedin.com/' ),
+                                    ],
                                     'priority' => 15,
+                                ],
+                                'pinterest_profile_list'  => [
+                                    'id'       => 'pinterest_profile_list',
+                                    'name'     => 'pinterest_profile_list',
+                                    'type'     => 'pinterest',
+                                    'label'    => __('Pinterest', 'wp-scheduled-posts'),
+                                    'priority' => 20,
                                 ],
                             ]
                         ]

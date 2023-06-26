@@ -1,7 +1,7 @@
 import Modal from "react-modal";
 import React, { useEffect, useState } from 'react';
 import { __ } from "@wordpress/i18n";
-import { activeSocialTab, getProfileData } from "../../helper/helper";
+import { generateTabURL, getProfileData } from "../../helper/helper";
 import Facebook from "./Facebook";
 import Twitter from "./Twitter";
 import Linkedin from "./Linkedin";
@@ -11,7 +11,7 @@ import {
     useBuilderContext,
 } from "quickbuilder";
 
-function SocialModal({ customStyles, selectedProfile, setSelectedProfile, setIsErrorMessage, type }) {
+function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage, type }) {
     const builderContext = useBuilderContext();
 
     const [requestSending, setRequestSending] = useState(false);
@@ -39,10 +39,10 @@ function SocialModal({ customStyles, selectedProfile, setSelectedProfile, setIsE
                     setRequestSending(true);
                     // remove unnecessary query string and active social profile tab
                     if (history.pushState) {
-                        activeSocialTab();                
+                        generateTabURL();  
+                        builderContext.setActiveTab('layout_social_profile');
                     }
                     getProfileData(params).then(response => {
-                        console.log(response);
                         setRequestSending(false);
                         setFbPage(response.page);
                         setFbGroup(response.group);
@@ -76,7 +76,7 @@ function SocialModal({ customStyles, selectedProfile, setSelectedProfile, setIsE
                     setIsErrorMessage(true)
                 }
             } else {
-                if (!selectedProfile.some((profile) => profile.id === item.id)) {
+                if ( selectedProfile && !selectedProfile.some((profile) => profile.id === item.id)) {
                     setSelectedProfile((prevItems) => [...prevItems, item]);
                     setIsErrorMessage(false)
                 }
@@ -87,14 +87,15 @@ function SocialModal({ customStyles, selectedProfile, setSelectedProfile, setIsE
         }
     }
     useEffect(() => {
-        console.log('pinterest board:',pinterestBoards);
-    },[pinterestBoards]);
+        console.log(selectedProfile);
+        
+    },[selectedProfile]);
   return (
     <Modal
         isOpen={profileDataModal}
         onRequestClose={closeProfileDataModal}
         ariaHideApp={false}
-        style={customStyles}
+        className="modal_wrapper"
         >
         {requestSending ? (
             <div className="wpsp-modal-info">

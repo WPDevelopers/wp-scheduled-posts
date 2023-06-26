@@ -8,38 +8,17 @@ import {
 
 import ApiCredentialsForm from './Modals/ApiCredentialsForm';
 import Modal from "react-modal";
-import { fetchDataFromAPI,activeSocialTab,socialProfileRequestHandler, getProfileData } from '../helper/helper';
+import { socialProfileRequestHandler,getFormatDateTime } from '../helper/helper';
 import SocialModal from './Modals/SocialModal';
 
 const Linkedin = (props) => {
     const builderContext = useBuilderContext();
-    const handleChange = useCallback((event, index) => {
-        const { field, val: value } = executeChange(event);
-        builderContext.setFieldValue([props.name, field], value);
-    }, [props.value]);
-
-    const customStyles = {
-        overlay: {
-          background: "rgba(1, 17, 50, 0.7)",
-          padding: "50px 20px",
-          display: "flex",
-          overflow: "auto",
-        },
-        content: {
-          margin: "auto",
-          maxWidth: "100%",
-          width: "450px",
-          position: "static",
-          overflow: "hidden",
-        },
-    };
-
     const [apiCredentialsModal,setApiCredentialsModal] = useState(false);
     const [platform, setPlatform] = useState('');
-    const [selectedProfile, setSelectedProfile] = useState([]);
+    const [selectedProfile, setSelectedProfile] = useState(props?.value);
     const [isErrorMessage, setIsErrorMessage] = useState(false)
-    const [linkedInProfileData, setLinkedInProfileData] = useState({})
-    
+    const [profileStatus, setProfileStatus] = useState(builderContext?.savedValues?.linkedin_profile_status);
+
     const openApiCredentialsModal = (platform) => {
         setPlatform(platform);
         setApiCredentialsModal(true);
@@ -49,10 +28,8 @@ const Linkedin = (props) => {
         setApiCredentialsModal(false);
     };
 
-   
-
     // @ts-ignore
-    let { profiles = [], pages = [], ...appData} = linkedInProfileData ?? {};
+    let { profiles = [], pages = [], ...appData} = selectedProfile ?? {};
     profiles = profiles ? profiles : [];
     profiles = profiles.map((val, i) => {
         return {...appData, ...val}
@@ -61,6 +38,63 @@ const Linkedin = (props) => {
     pages = pages.map((val, i) => {
         return {...appData, ...val}
     });
+
+
+
+    // Handle profile & selected profile status onChange event
+    const handleProfileStatusChange = (event) => {
+        setProfileStatus(event.target.checked);
+        const updatedData = selectedProfile.map(selectedItem => {
+            if (!event.target.checked) {
+                return {
+                    ...selectedItem,
+                    status: false,
+                };
+            }else{
+                return {
+                    ...selectedItem,
+                    status: true,
+                };
+            }
+        });
+        setSelectedProfile(updatedData);
+    };
+    const handleSelectedProfileStatusChange = (item,event) => {
+        const updatedData = selectedProfile.map(selectedItem => {
+            if (selectedItem.id === item.id) {
+            return {
+                ...selectedItem,
+                status: event.target.checked
+            };
+            }
+            return selectedItem;
+        });
+        setSelectedProfile(updatedData);
+    };
+
+    const handleDeleteSelectedProfile = (item) => {
+        const updatedData = selectedProfile.filter(selectedItem => selectedItem.id !== item.id);
+        setSelectedProfile(updatedData);
+    };
+
+    // Save selected profile data
+    useEffect( () => {
+        builderContext.setFieldValue([props.name], selectedProfile);
+    },[selectedProfile] )
+
+    // Save profile status data 
+    let { onChange } = props;
+    useEffect(() => {
+		onChange({
+			target: {
+				type: "checkbox-select",
+				name : 'linkedin_profile_status',
+				value: profileStatus,
+			},
+		});
+	}, [profileStatus]);
+    console.log(selectedProfile);
+    
     return (
         <div className={classNames('wprf-control', 'wprf-social-profile', `wprf-${props.name}-social-profile`, props?.classes)}>
            {/* <h2>Social Profile</h2> */}
@@ -83,20 +117,23 @@ const Linkedin = (props) => {
                 <div className="main-profile">
                     <div className="card-header">
                         <div className="heading">
-                            <h5>Linkedin</h5>
+                            <img width={'30px'} src={`${props?.logo}`} alt={`${props?.label}`} />
+                            <h5>{props?.label}</h5>   
                         </div>
                         <div className="status">
+                            <label htmlFor="toggle"></label>
                             <input
-                                name='enabled'
+                                id="toggle"
                                 type='checkbox'
-                                onChange={(e) =>
-                                    handleChange(e,1)
+                                checked={profileStatus}
+                                onChange={(event) =>
+                                    handleProfileStatusChange(event)
                                 }
                             />
                         </div>
                     </div>
                     <div className="card-content">
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum dolorem velit nisi vel perspiciatis rerum reprehenderit. Quisquam nisi maiores, voluptatem dignissimos accusamus ipsum recusandae earum. Sed dolorem sint ducimus excepturi.</p>
+                        <p dangerouslySetInnerHTML={{ __html: props?.desc }}></p>
                     </div>
                     <div className="card-footer">
                         <select name="" id="">
@@ -115,22 +152,28 @@ const Linkedin = (props) => {
                     </div>
                 </div>
                 <div className="selected-profile">
-                    {selectedProfile.map((item,index) => (
+                    {selectedProfile && selectedProfile.map((item,index) => (
                         <div className="profile-item" key={Math.random()}>
                             <div className="profile-image">
                                 {/* @ts-ignore */}
-                                <img src={`${wpspSettingsGlobal?.image_path}author-2.png`} alt="authorImg" />
+                                <img src={`${item?.thumbnail_url}`} alt={ __( item?.name,'wp-scheduled-posts' ) } />
                             </div>
                             <div className="profile-data">
-                                <span className='badge'>Profile</span>
-                                <h4>{item.name}</h4>
-                                <span>Admin on 12 June, 2023</span>
+                                <span className='badge'>{ item?.type }</span>
+                                <h4>{ item?.name }</h4>
+                                <span>{ item?.added_by.replace(/^\w/, (c) => c.toUpperCase()) } { __('on','wp-scheduled-posts') } {getFormatDateTime(item?.added_date)}</span>
                                 <div className="action">
                                     <div className="change-status">
-                                        <input type="checkbox" name="" id="" />
+                                    <input
+                                        type='checkbox'
+                                        checked={item?.status}
+                                        onChange={(event) =>
+                                            handleSelectedProfileStatusChange(item,event)
+                                        }
+                                    />
                                     </div>
                                     <div className="remove-profile">
-                                        <button>Delete</button>
+                                        <button onClick={ () => handleDeleteSelectedProfile( item ) }>{ __('Delete','wp-scheduled-posts') }</button>
                                     </div>
                                 </div>
                             </div>
@@ -143,17 +186,15 @@ const Linkedin = (props) => {
                 isOpen={apiCredentialsModal}
                 onRequestClose={closeApiCredentialsModal}
                 ariaHideApp={false}
-                style={customStyles}
                 className="modal_wrapper"
                 >
                 
-                <ApiCredentialsForm platform={platform} requestHandler={socialProfileRequestHandler} />
+                <ApiCredentialsForm props={props} platform={platform} requestHandler={socialProfileRequestHandler} />
             </Modal>
 
             {/* Profile Data Modal  */}
 
-            <SocialModal 
-                customStyles={customStyles}
+            <SocialModal
                 selectedProfile={selectedProfile}
                 setSelectedProfile={setSelectedProfile}
                 setIsErrorMessage={setIsErrorMessage}

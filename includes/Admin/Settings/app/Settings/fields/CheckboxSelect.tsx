@@ -50,9 +50,9 @@ const CheckboxSelect = (props) => {
   useEffect(() => {
 		onChange({
 			target: {
-				type: "select",
+				type: "checkbox-select",
 				name,
-				value: optionSelected.map((item) => item.value),
+				value: optionSelected?.map((item) => item.value),
 				multiple,
 			},
 		});

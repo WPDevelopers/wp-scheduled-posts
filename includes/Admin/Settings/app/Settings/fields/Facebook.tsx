@@ -8,25 +8,18 @@ import {
 
 import ApiCredentialsForm from './Modals/ApiCredentialsForm';
 import Modal from "react-modal";
-import { socialProfileRequestHandler } from '../helper/helper';
+import { socialProfileRequestHandler, getFormatDateTime } from '../helper/helper';
 import SocialModal from './Modals/SocialModal';
 
 const Facebook = (props) => {
     const builderContext = useBuilderContext();
-    const handleChange = useCallback((event, index) => {
-        const { field, val: value } = executeChange(event);
-        builderContext.setFieldValue([props.name, field], value);
-    }, [props.value]);
-
     const [apiCredentialsModal,setApiCredentialsModal] = useState(false);
-    const [fbProfileData, setFbProfileData] = useState({
-        page: [],
-        group: []
-    });
     const [platform, setPlatform] = useState('');
-    const [selectedProfile, setSelectedProfile] = useState([]);
+    const [selectedProfile, setSelectedProfile] = useState(props?.value);
+    const [profileStatus, setProfileStatus] = useState(builderContext?.savedValues?.facebook_profile_status);
     const [isErrorMessage, setIsErrorMessage] = useState(false)
-
+    
+    // Open and Close API credentials modal
     const openApiCredentialsModal = (platform) => {
         setPlatform(platform);
         setApiCredentialsModal(true);
@@ -36,10 +29,59 @@ const Facebook = (props) => {
         setApiCredentialsModal(false);
     };
 
+    // Handle profile & selected profile status onChange event
+    const handleProfileStatusChange = (event) => {
+        setProfileStatus(event.target.checked);
+        const updatedData = selectedProfile.map(selectedItem => {
+            if (!event.target.checked) {
+                return {
+                    ...selectedItem,
+                    status: false,
+                };
+            }else{
+                return {
+                    ...selectedItem,
+                    status: true,
+                };
+            }
+        });
+        setSelectedProfile(updatedData);
+    };
+    const handleSelectedProfileStatusChange = (item,event) => {
+        const updatedData = selectedProfile.map(selectedItem => {
+            if (selectedItem.id === item.id) {
+            return {
+                ...selectedItem,
+                status: event.target.checked
+            };
+            }
+            return selectedItem;
+        });
+        setSelectedProfile(updatedData);
+    };
+
+    const handleDeleteSelectedProfile = (item) => {
+        const updatedData = selectedProfile.filter(selectedItem => selectedItem.id !== item.id);
+        setSelectedProfile(updatedData);
+    };
+
+    // Save selected profile data
+    useEffect( () => {
+        builderContext.setFieldValue([props.name], selectedProfile);
+    },[props.value] )
+
+    // Save profile status data 
+    let { onChange } = props;
     useEffect(() => {
-      console.log(fbProfileData);
-    }, [fbProfileData])
-    
+		onChange({
+			target: {
+				type: "checkbox-select",
+				name : 'facebook_profile_status',
+				value: profileStatus,
+			},
+		});
+	}, [profileStatus]);
+
     return (
         <div className={classNames('wprf-control', 'wprf-social-profile', `wprf-${props.name}-social-profile`, props?.classes)}>
            {isErrorMessage && (
@@ -65,16 +107,47 @@ const Facebook = (props) => {
                             <h5>{props?.label}</h5>
                         </div>
                         <div className="status">
+                            {/* <label htmlFor="toggle">
                             <input
+                                id="toggle"
                                 type='checkbox'
-                                onChange={(e) =>
-                                    handleChange(e,1)
+                                checked={profileStatus}
+                                onChange={(event) =>
+                                    handleProfileStatusChange(event)
+                                }
+                            />
+                            </label> */}
+                            {/* <div className="switcher">
+                                <input
+                                    id={`react-switch-new`}
+                                    type='checkbox'
+                                    checked={profileStatus}
+                                    className="react-switch-checkbox"
+                                    onChange={(event) =>
+                                        handleProfileStatusChange(event)
+                                    }
+                                />
+                                <label
+                                    className="react-switch-label"
+                                    htmlFor={`react-switch-new`}
+                                    style={{ background: profileStatus && '#06D6A0' }}
+                                >
+                                    <span className={`react-switch-button`} />
+                                </label>
+                            </div> */}
+                            <label htmlFor="toggle"></label>
+                            <input
+                                id="toggle"
+                                type='checkbox'
+                                checked={profileStatus}
+                                onChange={(event) =>
+                                    handleProfileStatusChange(event)
                                 }
                             />
                         </div>
                     </div>
                     <div className="card-content">
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum dolorem velit nisi vel perspiciatis rerum reprehenderit. Quisquam nisi maiores, voluptatem dignissimos accusamus ipsum recusandae earum. Sed dolorem sint ducimus excepturi.</p>
+                        <p dangerouslySetInnerHTML={{ __html: props?.desc }}></p>
                     </div>
                     <div className="card-footer">
                         <select name="" id="">
@@ -93,22 +166,28 @@ const Facebook = (props) => {
                     </div>
                 </div>
                 <div className="selected-profile">
-                    {selectedProfile.map((item,index) => (
+                    { selectedProfile && selectedProfile?.map((item,index) => (
                         <div className="profile-item" key={Math.random()}>
                             <div className="profile-image">
                                 {/* @ts-ignore */}
-                                <img src={`${wpspSettingsGlobal?.image_path}author-1.png`} alt="authorImg" />
+                                <img src={`${item?.thumbnail_url}`} alt={ __( item?.name,'wp-scheduled-posts' ) } />
                             </div>
                             <div className="profile-data">
-                                <span className='badge'>Profile</span>
-                                <h4>{item.name}</h4>
-                                <span>Admin on 12 June, 2023</span>
+                                <span className='badge'>{ item?.type }</span>
+                                <h4>{ item?.name }</h4>
+                                <span>{ item?.added_by.replace(/^\w/, (c) => c.toUpperCase()) } { __('on','wp-scheduled-posts') } {getFormatDateTime(item?.added_date)}</span>
                                 <div className="action">
                                     <div className="change-status">
-                                        <input type="checkbox" name="" id="" />
+                                    <input
+                                        type='checkbox'
+                                        checked={item?.status}
+                                        onChange={(event) =>
+                                            handleSelectedProfileStatusChange(item,event)
+                                        }
+                                    />
                                     </div>
                                     <div className="remove-profile">
-                                        <button>Delete</button>
+                                        <button onClick={ () => handleDeleteSelectedProfile( item ) }>{ __('Delete','wp-scheduled-posts') }</button>
                                     </div>
                                 </div>
                             </div>
@@ -124,7 +203,7 @@ const Facebook = (props) => {
                 className="modal_wrapper"
                 >
                 
-                <ApiCredentialsForm  platform={platform} requestHandler={socialProfileRequestHandler} />
+                <ApiCredentialsForm props={props} platform={platform} requestHandler={socialProfileRequestHandler} />
             </Modal>
 
             {/* Profile Data Modal  */}

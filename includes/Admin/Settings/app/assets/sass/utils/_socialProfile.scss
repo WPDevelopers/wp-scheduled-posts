@@ -1,8 +1,6 @@
 .wprf-tab-layout_social_profile {
-    padding: 32px;
     background: #fff;
     .wprf-section-title {
-        padding-bottom: 24px;
         h4 {
             color: #1B1B50 !important;
             font-size: 24px !important;
@@ -44,12 +42,16 @@
                                 margin: 0;
                             }
                         }
+                        
                     }
                     .card-content {
                         color: #6E6E8D !important;
                         font-size: 14px !important;
                         line-height: 22px !important;
                         margin: 0 0 20px !important;
+                        a {
+                            color: #1B1B50;
+                        }
                     }
                     .card-footer {
                         display: flex;
@@ -141,38 +143,118 @@
     }
     
 }
-.wpsp-modal-generate-token-button {
-    background: red !important;
-}
-.ReactModal__Overlay {
-    position: fixed;
-    inset: 0px;
-    background: rgba(228, 3, 3, 0.7) !important;
-    padding: 50px 20px;
+
+
+// .status {
+//     display: flex;
+//     align-items: center;
+//     input[type="checkbox"] {
+//         visibility: hidden;
+//         &:checked + label {
+//             background-color: #02AC6E;
+//             &:before {
+//                 transform: translateX(20px);
+//                 background-color: #FFF;
+//             }
+//         }
+//     }
+//     label {
+//         display: flex;
+//         width: 40px;
+//         height: 20px;
+//         border-radius: 16px;
+//         position: relative;
+//         background: #D7DBDF;
+//         transition: transform .25s ease-in-out;
+//         cursor: pointer;
+//         &:before {
+//             transition: transform .75s ease;
+//             content: "";
+//             display: block;
+//             position: absolute;
+//             width: 18px;
+//             height: 18px;
+//             background-color: #fff;
+//             border-radius: 16px;
+//             top: 1px;
+//             left: 1px;
+//         }
+//     }
+// }
+
+// .wpsp-modal-generate-token-button {
+//     background: red !important;
+// }
+// .ReactModal__Overlay {
+//     position: fixed;
+//     inset: 0px;
+//     background: rgba(228, 3, 3, 0.7) !important;
+//     padding: 50px 20px;
+//     display: flex;
+//     overflow: auto;
+//     .ReactModal__Content {
+//         position: static;
+//         inset: 40px;
+//         border: 1px solid rgb(204, 204, 204);
+//         background: rgb(48, 36, 36) !important;
+//         overflow: hidden;
+//         border-radius: 4px;
+//         outline: none;
+//         padding: 20px;
+//         margin: auto;
+//         max-width: 100%;
+//         width: 450px;
+//     }
+// }
+// .modal_wrapper{
+//     background-color: red !important;
+// }
+// .ReactModal__Content.ReactModal__Content--after-open {
+//     position: fixed;
+//     inset: 0px;
+//     background: rgba(228, 3, 3, 0.7) !important;
+//     padding: 150px 120px !important;
+//     display: flex;
+//     overflow: auto;
+// }
+
+.react-switch-checkbox {
+    height: 0;
+    width: 0;
+    visibility: hidden;
+  }
+  
+  .react-switch-label {
     display: flex;
-    overflow: auto;
-    .ReactModal__Content {
-        position: static;
-        inset: 40px;
-        border: 1px solid rgb(204, 204, 204);
-        background: rgb(48, 36, 36) !important;
-        overflow: hidden;
-        border-radius: 4px;
-        outline: none;
-        padding: 20px;
-        margin: auto;
-        max-width: 100%;
-        width: 450px;
-    }
-}
-.modal_wrapper{
-    background-color: red !important;
-}
-.ReactModal__Content.ReactModal__Content--after-open {
-    position: fixed;
-    inset: 0px;
-    background: rgba(228, 3, 3, 0.7) !important;
-    padding: 150px 120px !important;
-    display: flex;
-    overflow: auto;
-}
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    width: 100px;
+    height: 50px;
+    background: grey;
+    border-radius: 100px;
+    position: relative;
+    transition: background-color .2s;
+  }
+  
+  .react-switch-label .react-switch-button {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 45px;
+    height: 45px;
+    border-radius: 45px;
+    transition: 0.2s;
+    background: #fff;
+    box-shadow: 0 0 2px 0 rgba(10, 10, 10, 0.29);
+  }
+  
+  .react-switch-checkbox:checked + .react-switch-label .react-switch-button {
+    left: calc(100% - 2px);
+    transform: translateX(-100%);
+  }
+  
+  .react-switch-label:active .react-switch-button {
+    width: 60px;
+  }
