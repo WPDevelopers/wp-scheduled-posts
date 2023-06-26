@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { __ } from '@wordpress/i18n'
 
-export default function Facebook({ page, group, addProfileToggle }) {
+export default function Facebook({ page, group, addProfileToggle,savedProfile }) {
     const [isErrorMessage, setIsErrorMessage] = useState(false);
     return (
         <>
@@ -88,6 +88,14 @@ export default function Facebook({ page, group, addProfileToggle }) {
                         </li>
                     ))}
                 </ul>
+                <button
+                type="submit"
+                className="wpsp-modal-save-account"
+                onClick={(event) => {
+                  event.preventDefault();
+                  savedProfile(event)
+                }}
+                >{ __( 'Save','wp-scheduled-posts' ) }</button>
             </div>
         </>
     )

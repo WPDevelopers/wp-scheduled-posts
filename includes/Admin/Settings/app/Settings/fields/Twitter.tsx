@@ -107,15 +107,24 @@ const Twitter = (props) => {
                             <h5>{props?.label}</h5>                        
                         </div>
                         <div className="status">
-                            <label htmlFor="toggle"></label>
-                            <input
-                                id="toggle"
-                                type='checkbox'
-                                checked={profileStatus}
-                                onChange={(event) =>
-                                    handleProfileStatusChange(event)
-                                }
-                            />
+                            <div className="switcher">
+                                <input
+                                    id={props?.id}
+                                    type='checkbox'
+                                    checked={profileStatus}
+                                    className="wprf-switcher-checkbox"
+                                    onChange={(event) =>
+                                        handleProfileStatusChange(event)
+                                    }
+                                />
+                                <label
+                                    className="wprf-switcher-label"
+                                    htmlFor={props?.id}
+                                    style={{ background: profileStatus && '#02AC6E' }}
+                                >
+                                    <span className={`wprf-switcher-button`} />
+                                </label>
+                            </div>
                         </div>
                     </div>
                     <div className="card-content">
@@ -145,14 +154,25 @@ const Twitter = (props) => {
                                 <h4>{ item?.name }</h4>
                                 <span>{ item?.added_by.replace(/^\w/, (c) => c.toUpperCase()) } { __('on','wp-scheduled-posts') } {getFormatDateTime(item?.added_date)}</span>
                                 <div className="action">
-                                    <div className="change-status">
-                                    <input
-                                        type='checkbox'
-                                        checked={item?.status}
-                                        onChange={(event) =>
-                                            handleSelectedProfileStatusChange(item,event)
-                                        }
-                                    />
+                                <div className="status">
+                                        <div className="switcher">
+                                            <input
+                                                id={item?.id}
+                                                type='checkbox'
+                                                className="wprf-switcher-checkbox"
+                                                checked={item?.status}
+                                                onChange={(event) =>
+                                                    handleSelectedProfileStatusChange(item,event)
+                                                }
+                                            />
+                                            <label
+                                                className="wprf-switcher-label"
+                                                htmlFor={item?.id}
+                                                style={{ background: item?.status && '#02AC6E' }}
+                                            >
+                                                <span className={`wprf-switcher-button`} />
+                                            </label>
+                                        </div>
                                     </div>
                                     <div className="remove-profile">
                                         <button onClick={ () => handleDeleteSelectedProfile( item ) }>{ __('Delete','wp-scheduled-posts') }</button>
@@ -170,7 +190,7 @@ const Twitter = (props) => {
                 ariaHideApp={false}
                 className="modal_wrapper"
                 >
-                
+                <button className="close-button" onClick={closeApiCredentialsModal}>X</button>
                 <ApiCredentialsForm props={props}  platform={platform} requestHandler={socialProfileRequestHandler} />
             </Modal>
 
@@ -180,6 +200,7 @@ const Twitter = (props) => {
                 selectedProfile={selectedProfile}
                 setSelectedProfile={setSelectedProfile}
                 setIsErrorMessage={setIsErrorMessage}
+                props={props}
                 type="twitter"
             />
         </div>

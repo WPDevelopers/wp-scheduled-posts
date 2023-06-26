@@ -6,10 +6,6 @@ export default function Pinterest({ platform, data, addProfileToggle }) {
     return (
         <>
           <div className="wpsp-modal-social-platform">
-            <div className={"entry-head " + platform}>
-              
-              <h2 className="entry-head-title">{platform}</h2>
-            </div>
             <ul>
               {data.map((item, index) => (
                 <li key={index}>

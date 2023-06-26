@@ -11,7 +11,7 @@ import {
     useBuilderContext,
 } from "quickbuilder";
 
-function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage, type }) {
+function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage,props, type }) {
     const builderContext = useBuilderContext();
 
     const [requestSending, setRequestSending] = useState(false);
@@ -24,7 +24,9 @@ function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage, ty
     const [pinterestBoards, setPinterestBoards] = useState([]);
     const [responseData, setResponseData] = useState([]);
     const [linkedInData, setLinkedInData] = useState({})
-    const [socialPlatform, setSocialPlatform] = useState("");
+    const [socialPlatform, setSocialPlatform] = useState("");  
+    const [savedProfile,setSavedProfile] = useState([]);
+
 
     useEffect(() => {
         // Send API request fo fetching data
@@ -66,30 +68,31 @@ function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage, ty
             // @ts-ignore
             if (!builderContext.is_pro_active) {
                 // @ts-ignore
-                if (!selectedProfile || (selectedProfile && selectedProfile.length == 0)) {
+                if (!savedProfile || (savedProfile && savedProfile.length == 0)) {
                     setIsErrorMessage(false)
-                    if (!selectedProfile.some((profile) => profile.id === item.id)) {
-                        setSelectedProfile((prevItems) => [...prevItems, item]);
+                    if (!savedProfile.some((profile) => profile.id === item.id)) {
+                        setSavedProfile((prevItems) => [...prevItems, item]);
                     }
                 } else {
                     e.target.checked = false;
                     setIsErrorMessage(true)
                 }
             } else {
-                if ( selectedProfile && !selectedProfile.some((profile) => profile.id === item.id)) {
-                    setSelectedProfile((prevItems) => [...prevItems, item]);
+                if ( savedProfile && !savedProfile.some((profile) => profile.id === item.id)) {
+                    setSavedProfile((prevItems) => [...prevItems, item]);
                     setIsErrorMessage(false)
                 }
             }
         }else{
             setIsErrorMessage(false)
-            setSelectedProfile((prevItems) => prevItems.filter((prevItem) => prevItem.id !== item.id));
+            setSavedProfile((prevItems) => prevItems.filter((prevItem) => prevItem.id !== item.id));
         }
     }
-    useEffect(() => {
-        console.log(selectedProfile);
-        
-    },[selectedProfile]);
+    const addSavedProfile = () => {
+        setSelectedProfile(savedProfile);
+        closeProfileDataModal();
+    }
+
   return (
     <Modal
         isOpen={profileDataModal}
@@ -109,7 +112,11 @@ function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage, ty
         ) : (
             <>
                 <div className="modalhead">
-                    <h3>This is modal for {type} header</h3>
+                    <button className="close-button" onClick={closeProfileDataModal}>X</button>
+                    <div className="platform-info">
+                        <img width={'30px'} src={`${props?.modal?.logo}`} alt={`${props?.label}`} />
+                        <h4>{props?.label}</h4>
+                    </div>
                 </div>
                 <div className="modalbody">
                     {/* @ts-ignore */}
@@ -120,6 +127,7 @@ function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage, ty
                                     page={fbPage}
                                     group={fbGroup}
                                     addProfileToggle={addProfileToggle}
+                                    savedProfile={addSavedProfile}
                                 />
                             ),
                             twitter: (
@@ -127,6 +135,7 @@ function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage, ty
                                     platform={type}
                                     data={responseData}
                                     addProfileToggle={addProfileToggle}
+                                    savedProfile={addSavedProfile}
                                 />
                             ),
                             linkedin: (
@@ -134,6 +143,7 @@ function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage, ty
                                     platform={type}
                                     data={linkedInData}
                                     addProfileToggle={addProfileToggle}
+                                    savedProfile={addSavedProfile}
                                 />
                             ),
                             pinterest: (
