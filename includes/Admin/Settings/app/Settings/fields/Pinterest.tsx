@@ -133,7 +133,7 @@ const Pinterest = (props) => {
                 ariaHideApp={false}
                 className="modal_wrapper"
                 >
-                
+                <button className="close-button" onClick={closeApiCredentialsModal}>X</button>
                 <ApiCredentialsForm props={props} platform={platform} requestHandler={socialProfileRequestHandler} />
             </Modal>
 
@@ -143,6 +143,7 @@ const Pinterest = (props) => {
                 selectedProfile={selectedProfile}
                 setSelectedProfile={setSelectedProfile}
                 setIsErrorMessage={setIsErrorMessage}
+                props={props}
                 type="pinterest"
             />
         </div>

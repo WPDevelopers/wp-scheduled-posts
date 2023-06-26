@@ -1,14 +1,11 @@
 import React, { useState } from 'react'
 import { __ } from '@wordpress/i18n'
 
-export default function Twitter({ platform, data,addProfileToggle }) {
+export default function Twitter({ platform, data,addProfileToggle,savedProfile }) {
     const [isErrorMessage, setIsErrorMessage] = useState(false);
     return (
         <>
            <div className='wpsp-modal-social-platform'>
-                <div className={'entry-head ' + platform}>
-                    <h2 className='entry-head-title'>{platform}</h2>
-                </div>
                 <ul>
                     {data.map((item, index) => (
                         <li key={index}>
@@ -39,6 +36,14 @@ export default function Twitter({ platform, data,addProfileToggle }) {
                         </li>
                     ))}
                 </ul>
+                <button
+                type="submit"
+                className="wpsp-modal-save-account"
+                onClick={(event) => {
+                  event.preventDefault();
+                  savedProfile(event)
+                }}
+                >{ __( 'Save','wp-scheduled-posts' ) }</button>
             </div>
         </>
     )

@@ -10,7 +10,6 @@ const ApiCredentialsForm = ({ props, platform, requestHandler }) => {
       "https://api.schedulepress.com/callback.php"
   );
   const hasAutomatic = platform == "linkedin" || platform == "pinterest";
-  
   return (
     <React.Fragment>
       <div className={`modalbody ${ platform ? platform + '_wrapper' : ""}`}>
@@ -22,19 +21,29 @@ const ApiCredentialsForm = ({ props, platform, requestHandler }) => {
           {hasAutomatic && (
               <div className="menual_connection_checker">
                 <label className="toggler_wrapper">
-                  <input
-                    type="checkbox"
-                    checked={isManual}
-                    onChange={(e) => {
-                      setIsManual(e.target.checked);
-                    }}
-                  />
+                  <div className="status">
+                      <div className="switcher">
+                          <input
+                              id="app_credential_toggle"
+                              type='checkbox'
+                              className="wprf-switcher-checkbox"
+                              checked={isManual}
+                              onChange={(e) => {
+                                setIsManual(e.target.checked);
+                              }}
+                          />
+                          <label
+                              className="wprf-switcher-label"
+                              htmlFor="app_credential_toggle"
+                              style={{ background: isManual && '#02AC6E' }}
+                          >
+                            <span className={`wprf-switcher-button`} />
+                          </label>
+                      </div>
+                  </div>
                   <span className="text">
-                    Connect with {!isManual ? "App credentials" : "Account"}
+                    { __('Connect with','wp-scheduled-posts') } {!isManual ? __("App credentials",'wp-scheduled-posts') : __("Account",'wp-scheduled-posts')}
                   </span>
-                  <span
-                    className={`toggler ${isManual ? "checked" : ""}`}
-                  ></span>
                 </label>
               </div>
           )}
@@ -104,7 +113,6 @@ const ApiCredentialsForm = ({ props, platform, requestHandler }) => {
                   event.preventDefault();
                   if (redirectURI && appID && appSecret) {
                     requestHandler(redirectURI, appID, appSecret,platform);
-                    event.preventDefault();
                   }
                 }}
                 >{ __( 'Connect Your Account','wp-scheduled-posts' ) }</button>

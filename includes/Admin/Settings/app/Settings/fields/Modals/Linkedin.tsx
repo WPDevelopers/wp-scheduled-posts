@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { __ } from '@wordpress/i18n'
 
-export default function Linkedin({ platform, data, addProfileToggle }) {
+export default function Linkedin({ platform, data, addProfileToggle,savedProfile }) {
     let {profiles, pages, ...appData} = data;
     profiles = profiles ? profiles : [];
     profiles = profiles.map((val, i) => {
@@ -15,9 +15,6 @@ export default function Linkedin({ platform, data, addProfileToggle }) {
     return (
         <>
            <div className='wpsp-modal-social-platform'>
-                <div className={'entry-head ' + platform}>
-                    <h2 className='entry-head-title'>{platform}</h2>
-                </div>
                 <ul>
                     {pages.length > 0 && (
                         <li>{__('Pages:', 'wp-scheduled-posts')} </li>
@@ -85,6 +82,14 @@ export default function Linkedin({ platform, data, addProfileToggle }) {
                         </li>
                     ))}
                 </ul>
+                <button
+                type="submit"
+                className="wpsp-modal-save-account"
+                onClick={(event) => {
+                  event.preventDefault();
+                  savedProfile(event)
+                }}
+                >{ __( 'Save','wp-scheduled-posts' ) }</button>
             </div>
         </>
     )

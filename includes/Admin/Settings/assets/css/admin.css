@@ -3823,4 +3823,45 @@ button.wprf-btn {
   right: 1px;
 }
 
+.status .switcher {
+  line-height: 0;
+}
+.status .wprf-switcher-checkbox {
+  height: 0;
+  width: 0;
+  visibility: hidden;
+}
+.status .wprf-switcher-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  width: 40px !important;
+  height: 20px !important;
+  background: grey;
+  border-radius: 100px;
+  position: relative;
+  transition: background-color 0.2s;
+}
+.status .wprf-switcher-label .wprf-switcher-button {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px !important;
+  height: 16px !important;
+  border-radius: 45px;
+  transition: 0.2s;
+  background: #fff;
+  box-shadow: 0 0 2px 0 rgba(10, 10, 10, 0.29);
+  padding: 0 !important;
+}
+.status .wprf-switcher-checkbox:checked + .wprf-switcher-label .wprf-switcher-button {
+  left: calc(100% - 2px);
+  transform: translateX(-100%);
+}
+.status .wprf-switcher-label:active .wprf-switcher-button {
+  width: 60px;
+}
+
 /*# sourceMappingURL=admin.css.map*/

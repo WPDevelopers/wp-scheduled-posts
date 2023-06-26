@@ -326,10 +326,10 @@ class Settings {
                                 'notify_author_post_review_by_role' => [
                                     'name'     => 'notify_author_post_review_by_role',
                                     'label'    => __('Role', 'notificationx'),
-                                    'type'     => 'select',
+                                    'type'     => 'checkbox-select',
                                     'multiple' => true,
                                     'priority' => 10,
-                                    'options'  => $this->normalize_options( \WPSP\Helper::get_all_roles() ),
+                                    'option'   => $this->normalize_options( \WPSP\Helper::get_all_roles() ),
                                     'rules'       => Rules::logicalRule([
                                         Rules::is( 'notify_author_post_is_review', true ),
                                     ]),
@@ -337,10 +337,10 @@ class Settings {
                                 'notify_author_post_review_by_username' => [
                                     'name'     => 'notify_author_post_review_by_username',
                                     'label'    => __('Username:', 'notificationx'),
-                                    'type'     => 'select',
+                                    'type'     => 'checkbox-select',
                                     'multiple' => true,
                                     'priority' => 11,
-                                    'options'  => $this->normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_login', 'user_login') ),
+                                    'option'   => $this->normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_login', 'user_login') ),
                                     'rules'       => Rules::logicalRule([
                                         Rules::is( 'notify_author_post_is_review', true ),
                                     ]),
@@ -348,10 +348,10 @@ class Settings {
                                 'notify_author_post_review_by_email' => [
                                     'name'     => 'notify_author_post_review_by_email',
                                     'label'    => __('Email:', 'notificationx'),
-                                    'type'     => 'select',
+                                    'type'     => 'checkbox-select',
                                     'multiple' => true,
                                     'priority' => 12,
-                                    'options'  => $this->normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_email', 'user_email') ),
+                                    'option'   => $this->normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_email', 'user_email') ),
                                     'rules'       => Rules::logicalRule([
                                         Rules::is( 'notify_author_post_is_review', true ),
                                     ]),
@@ -372,10 +372,10 @@ class Settings {
                                 'notify_author_post_scheduled_by_role' => [
                                     'name'     => 'notify_author_post_scheduled_by_role',
                                     'label'    => __('Role', 'notificationx'),
-                                    'type'     => 'select',
+                                    'type'     => 'checkbox-select',
                                     'multiple' => true,
                                     'priority' => 25,
-                                    'options'  => $this->normalize_options( \WPSP\Helper::get_all_roles() ),
+                                    'option'   => $this->normalize_options( \WPSP\Helper::get_all_roles() ),
                                     'rules'       => Rules::logicalRule([
                                         Rules::is( 'notify_author_post_is_scheduled', true ),
                                     ]),
@@ -383,10 +383,10 @@ class Settings {
                                 'notify_author_post_scheduled_by_username' => [
                                     'name'     => 'notify_author_post_scheduled_by_username',
                                     'label'    => __('Username:', 'notificationx'),
-                                    'type'     => 'select',
+                                    'type'     => 'checkbox-select',
                                     'multiple' => true,
                                     'priority' => 30,
-                                    'options'  => $this->normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_login', 'user_login') ),
+                                    'option'   => $this->normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_login', 'user_login') ),
                                     'rules'       => Rules::logicalRule([
                                         Rules::is( 'notify_author_post_is_scheduled', true ),
                                     ]),
@@ -394,10 +394,10 @@ class Settings {
                                 'notify_author_post_scheduled_by_email' => [
                                     'name'     => 'notify_author_post_scheduled_by_email',
                                     'label'    => __('Email:', 'notificationx'),
-                                    'type'     => 'select',
+                                    'type'     => 'checkbox-select',
                                     'multiple' => true,
                                     'priority' => 35,
-                                    'options'  => $this->normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_email', 'user_email') ),
+                                    'option'   => $this->normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_email', 'user_email') ),
                                     'rules'       => Rules::logicalRule([
                                         Rules::is( 'notify_author_post_is_scheduled', true ),
                                     ]),
@@ -523,7 +523,7 @@ class Settings {
                                             'id'            => 'facebook_wrapper',
                                             'type'          => 'section',
                                             'name'          => 'facebook_wrapper',
-                                            'label'         => __('Facebook', 'wp-scheduled-posts'),
+                                            'label'         => __('Facebook Status Settings', 'wp-scheduled-posts'),
                                             'priority'      => 10,
                                             'fields'        => [
                                                 'facebook'  => [
@@ -621,7 +621,7 @@ class Settings {
                                             'id'            => 'twitter_wrapper',
                                             'type'          => 'section',
                                             'name'          => 'twitter_wrapper',
-                                            'label'         => __('Twitter', 'wp-scheduled-posts'),
+                                            'label'         => __('Twitter Tweet Settings', 'wp-scheduled-posts'),
                                             'priority'      => 10,
                                             'fields'        => [
                                                 'twitter'  => [
@@ -690,14 +690,14 @@ class Settings {
                                 'layouts_linkedin'  => [
                                     'id'            => 'layouts_linkedin',
                                     'name'          => 'layouts_linkedin',
-                                    'label'         => __('Linkedin', 'wp-scheduled-posts'),
+                                    'label'         => __('LinkedIn', 'wp-scheduled-posts'),
                                     'priority'      => 30,
                                     'fields'        => [
                                         'linkedin_wrapper'     => [
                                             'id'            => 'linkedin_wrapper',
                                             'type'          => 'section',
                                             'name'          => 'linkedin_wrapper',
-                                            'label'         => __('Linkedin', 'wp-scheduled-posts'),
+                                            'label'         => __('LinkedIn Status Settings', 'wp-scheduled-posts'),
                                             'priority'      => 10,
                                             'fields'        => [
                                                 'linkedin'  => [
@@ -786,7 +786,7 @@ class Settings {
                                             'id'            => 'pinterest_wrapper',
                                             'type'          => 'section',
                                             'name'          => 'pinterest_wrapper',
-                                            'label'         => __('Linkedin', 'wp-scheduled-posts'),
+                                            'label'         => __('Pinterest Pin Settings', 'wp-scheduled-posts'),
                                             'priority'      => 10,
                                             'fields'        => [
                                                 'pinterest'  => [
