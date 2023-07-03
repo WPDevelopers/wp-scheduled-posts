@@ -126,7 +126,7 @@ class Settings {
                                         'button_link'   => 'https://google.com',
                                         'options'   => [
                                             [
-                                                'icon'  => 'wpsp-',
+                                                'icon'  => 'wpsp-calendar',
                                                 'title' => __('Auto Scheduler','wp-scheduled-posts'),
                                                 'link'  => 'https://wpdeveloper.com',
                                             ],
