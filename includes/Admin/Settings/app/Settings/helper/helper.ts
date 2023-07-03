@@ -24,8 +24,8 @@ export const socialProfileRequestHandler = async (redirectURI, appID, appSecret,
         appSecret: appSecret,
         type: platform,
     };
-
     const response = await fetchDataFromAPI(data);
+    console.log(response);
     
     const responseData = await response.json();
     if (responseData.success) {
@@ -63,6 +63,15 @@ export const getProfileData = async (params) => {
     };
     const response = await fetchDataFromAPI(data);
     return response.json();
+}
+
+export const getPinterestBoardSection = async (defaultBoard,profile) => {
+    var data = {
+        action: "wpsp_social_profile_fetch_pinterest_section",
+      //   _wpnonce: wpspSettingsGlobal.api_nonce,
+        defaultBoard: defaultBoard,
+        profile: profile,
+      };
 }
 
 // Format date-time

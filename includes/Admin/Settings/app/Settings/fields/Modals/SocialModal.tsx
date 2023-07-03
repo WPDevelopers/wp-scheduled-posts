@@ -1,7 +1,7 @@
 import Modal from "react-modal";
 import React, { useEffect, useState } from 'react';
 import { __ } from "@wordpress/i18n";
-import { generateTabURL, getProfileData } from "../../helper/helper";
+import { generateTabURL, getProfileData,getPinterestBoardSection } from "../../helper/helper";
 import Facebook from "./Facebook";
 import Twitter from "./Twitter";
 import Linkedin from "./Linkedin";
@@ -26,6 +26,7 @@ function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage,pro
     const [linkedInData, setLinkedInData] = useState({})
     const [socialPlatform, setSocialPlatform] = useState("");  
     const [savedProfile,setSavedProfile] = useState([]);
+    const [cashedSectionData, setCashedSectionData] = useState({});
 
 
     useEffect(() => {
@@ -92,7 +93,23 @@ function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage,pro
         setSelectedProfile(savedProfile);
         closeProfileDataModal();
     }
+    const noSection = { label: "No Section", value: "" };
 
+    const fetchSectionData = (defaultBoard, profile, updateOptions) => {
+        let options = [noSection];
+        if (!cashedSectionData?.[defaultBoard]) {
+          if (defaultBoard) {
+            getPinterestBoardSection(defaultBoard,profile).then( response => {
+               console.log(response);
+            })
+            .catch(function () {
+                updateOptions(options);
+            });
+          }
+        } else {
+          updateOptions(cashedSectionData?.[defaultBoard]);
+        }
+      };
   return (
     <Modal
         isOpen={profileDataModal}
@@ -148,9 +165,11 @@ function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage,pro
                             ),
                             pinterest: (
                                 <Pinterest
-                                  platform={socialPlatform}
-                                  data={pinterestBoards}
-                                  addProfileToggle={pinterestBoards}
+                                    platform={socialPlatform}
+                                    data={pinterestBoards}
+                                    boards={pinterestBoards}
+                                    fetchSectionData={fetchSectionData}
+                                    noSection={noSection}
                                 />
                               ),
                         }[type]
