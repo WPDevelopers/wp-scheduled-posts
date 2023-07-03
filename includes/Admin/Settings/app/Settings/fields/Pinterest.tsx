@@ -8,7 +8,7 @@ import {
 
 import ApiCredentialsForm from './Modals/ApiCredentialsForm';
 import Modal from "react-modal";
-import { socialProfileRequestHandler } from '../helper/helper';
+import { socialProfileRequestHandler,getFormatDateTime } from '../helper/helper';
 import SocialModal from './Modals/SocialModal';
 
 const Pinterest = (props) => {
@@ -19,7 +19,7 @@ const Pinterest = (props) => {
         group: []
     });
     const [platform, setPlatform] = useState('');
-    const [selectedProfile, setSelectedProfile] = useState([]);
+    const [selectedProfile, setSelectedProfile] = useState(props?.value);
     const [isErrorMessage, setIsErrorMessage] = useState(false)
     const [pinterestBoards, setPinterestBoards] = useState([]);
     const [responseData, setResponseData] = useState([]);
@@ -33,7 +33,28 @@ const Pinterest = (props) => {
         setPlatform('');
         setApiCredentialsModal(false);
     };
-    
+    const handleSelectedProfileStatusChange = (item,event) => {
+        const updatedData = selectedProfile.map(selectedItem => {
+            if (selectedItem.id === item.id) {
+            return {
+                ...selectedItem,
+                status: event.target.checked
+            };
+            }
+            return selectedItem;
+        });
+        setSelectedProfile(updatedData);
+    };
+    const handleDeleteSelectedProfile = (item) => {
+        const updatedData = selectedProfile.filter(selectedItem => selectedItem.id !== item.id);
+        setSelectedProfile(updatedData);
+    };
+
+    // Save selected profile data
+    useEffect( () => {
+        builderContext.setFieldValue([props.name], selectedProfile);
+    },[selectedProfile] )
+
     return (
         <div className={classNames('wprf-control', 'wprf-social-profile', `wprf-${props.name}-social-profile`, props?.classes)}>
            {/* <h2>Social Profile</h2> */}
@@ -56,16 +77,33 @@ const Pinterest = (props) => {
                 <div className="main-profile">
                     <div className="card-header">
                         <div className="heading">
-                            <h5>Pinterest</h5>
-                        </div>
-                        <div className="status">
-                            {/* <input type="checkbox" checked  id="toggle"/> */}
-                            {/* @ts-ignore */}
-                            <label htmlFor="toggle"></label>
+                            <img width={'30px'} src={`${props?.logo}`} alt={`${props?.label}`} />
+                            <h5>{props?.label}</h5>   
+                            <div className="status">
+                                <div className="switcher">
+                                    {/* <input
+                                        id={props?.id}
+                                        type='checkbox'
+                                        checked={profileStatus}
+                                        className="wprf-switcher-checkbox"
+                                        onChange={(event) =>
+                                            handleProfileStatusChange(event)
+                                        }
+                                    /> */}
+                                    <label
+                                        className="wprf-switcher-label"
+                                        htmlFor={props?.id}
+                                        style={{ background: '#02AC6E' }}
+                                        // style={{ background: profileStatus && '#02AC6E' }}
+                                    >
+                                        <span className={`wprf-switcher-button`} />
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div className="card-content">
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum dolorem velit nisi vel perspiciatis rerum reprehenderit. Quisquam nisi maiores, voluptatem dignissimos accusamus ipsum recusandae earum. Sed dolorem sint ducimus excepturi.</p>
+                        <p dangerouslySetInnerHTML={{ __html: props?.desc }}></p>
                     </div>
                     <div className="card-footer">
                         <button
@@ -80,23 +118,40 @@ const Pinterest = (props) => {
                     </div>
                 </div>
                 <div className="selected-profile">
-                    {selectedProfile.map((item,index) => (
+                    {selectedProfile && selectedProfile.map((item,index) => (
                         <div className="profile-item" key={Math.random()}>
                             <div className="profile-image">
                                 {/* @ts-ignore */}
-                                <img src={`${wpspSettingsGlobal?.image_path}author-3.png`} alt="authorImg" />
+                                <img width={'40px'} src={`${item?.thumbnail_url}`} alt={ __( item?.default_board_name?.name,'wp-scheduled-posts' ) } />
                             </div>
                             <div className="profile-data">
-                                <span className='badge'>Profile</span>
-                                <h4>{item.name}</h4>
-                                {/* @ts-ignore */}
-                                <span>Admin on 12 June, 2023</span>
+                                <span className='badge'>{ item?.account_type ? __('Board','wp-scheduled-posts') : '' }</span>
+                                <h4>{ item?.default_board_name?.label }</h4>
+                                <span>{ item?.added_by.replace(/^\w/, (c) => c.toUpperCase()) } { __('on','wp-scheduled-posts') } {getFormatDateTime(item?.added_date)}</span>
                                 <div className="action">
-                                    <div className="change-status">
-                                        <input type="checkbox" name="" id="" />
+                                    <div className="status">
+                                        <div className="switcher">
+                                            <input
+                                                id={item?.id}
+                                                type='checkbox'
+                                                className="wprf-switcher-checkbox"
+                                                checked={item?.status}
+                                                onChange={ (event) =>
+                                                    handleSelectedProfileStatusChange(item,event)
+                                                }
+                                            />
+                                            <label
+                                                className="wprf-switcher-label"
+                                                htmlFor={item?.id}
+                                                style={{ background: item?.status && '#02AC6E' }}
+                                            >
+                                                <span className={`wprf-switcher-button`} />
+                                            </label>
+                                        </div>
                                     </div>
+
                                     <div className="remove-profile">
-                                        <button>Delete</button>
+                                        <button onClick={ () => handleDeleteSelectedProfile( item ) }>{ __('Delete','wp-scheduled-posts') }</button>
                                     </div>
                                 </div>
                             </div>

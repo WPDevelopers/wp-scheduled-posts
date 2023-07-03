@@ -99,17 +99,62 @@ function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage,pro
         let options = [noSection];
         if (!cashedSectionData?.[defaultBoard]) {
           if (defaultBoard) {
-            getPinterestBoardSection(defaultBoard,profile).then( response => {
-               console.log(response);
+            getPinterestBoardSection(defaultBoard,profile).then( (response:any) => {
+                if (response.success === true) {
+                    const sections = response.data?.map((section) => {
+                      return {
+                        label: section.name,
+                        value: section.id,
+                      };
+                    });
+                    options = [...options, ...sections];
+                    updateOptions(options);
+                    setCashedSectionData({
+                      ...cashedSectionData,
+                      [defaultBoard]: options,
+                    });
+                } else {
+                    updateOptions(options);
+                }
             })
             .catch(function () {
+                console.log(error);
                 updateOptions(options);
             });
           }
         } else {
           updateOptions(cashedSectionData?.[defaultBoard]);
         }
-      };
+    };
+
+    const addPinterestProfileToggle = (item,defaultBoard,defaultSection,event) => {
+        const pinterestItem = { ...item, borads : pinterestBoards, defaultSection: defaultSection, default_board_name : defaultBoard };
+        if( event.target.checked ) {
+            // free
+            // @ts-ignore
+            if (!builderContext.is_pro_active) {
+                // @ts-ignore
+                if (!savedProfile || (savedProfile && savedProfile.length == 0)) {
+                    setIsErrorMessage(false)
+                    if (!savedProfile.some((profile) => profile.id === pinterestItem.id)) {
+                        setSavedProfile((prevItems) => [...prevItems, pinterestItem]);
+                    }
+                } else {
+                    event.target.checked = false;
+                    setIsErrorMessage(true)
+                }
+            } else {
+                if ( savedProfile && !savedProfile.some((profile) => profile.id === pinterestItem.id)) {
+                    setSavedProfile((prevItems) => [...prevItems, pinterestItem]);
+                    setIsErrorMessage(false)
+                }
+            }
+        }else{
+            setIsErrorMessage(false)
+            setSavedProfile((prevItems) => prevItems.filter((prevItem) => prevItem.id !== pinterestItem.id));
+        }
+    }
+    
   return (
     <Modal
         isOpen={profileDataModal}
@@ -166,10 +211,12 @@ function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage,pro
                             pinterest: (
                                 <Pinterest
                                     platform={socialPlatform}
-                                    data={pinterestBoards}
+                                    data={responseData}
                                     boards={pinterestBoards}
                                     fetchSectionData={fetchSectionData}
                                     noSection={noSection}
+                                    addProfileToggle={addPinterestProfileToggle}
+                                    savedProfile={addSavedProfile}
                                 />
                               ),
                         }[type]

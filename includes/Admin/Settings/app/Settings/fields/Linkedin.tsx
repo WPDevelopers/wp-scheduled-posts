@@ -167,7 +167,8 @@ const Linkedin = (props) => {
                                 <img src={`${item?.thumbnail_url}`} alt={ __( item?.name,'wp-scheduled-posts' ) } />
                             </div>
                             <div className="profile-data">
-                                <span className='badge'>{ item?.type }</span>
+
+                                <span className='badge'>{ item?.type == 'organization' ? __('Page','wp-scheduled-posts') : __('Profile','wp-scheduled-posts')  }</span>
                                 <h4>{ item?.name }</h4>
                                 <span>{ item?.added_by.replace(/^\w/, (c) => c.toUpperCase()) } { __('on','wp-scheduled-posts') } {getFormatDateTime(item?.added_date)}</span>
                                 <div className="action">
