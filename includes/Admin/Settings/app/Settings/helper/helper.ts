@@ -95,32 +95,32 @@ export const getFormatDateTime = ( dateTime = '' ) => {
 }
 
 // Pro alert
-export const proAlert = (html = null) => {
-    let htmlObject = {};
-    if (html === null) {
-        html = sprintf(
-            __(
-                "You need to upgrade to the <strong><a href='%s' target='_blank'>Premium Version</a></strong> to use this feature.",
-                "notificationx"
-            ),
-            "http://wpdeveloper.com/in/upgrade-notificationx"
-        );
-    }
-    if (isObject(html)) {
-        htmlObject = html;
-        html = html.message || html.html;
-    }
-    let alertOptions = {
-        showConfirmButton: false,
-        showDenyButton: true,
-        type: "warning",
-        title: __("Opps...", "notificationx"),
-        customClass: {
-            actions: "nx-pro-alert-actions",
-        },
-        denyButtonText: "Close",
-        ...htmlObject,
-        html,
-    };
-    return SweetAlert(alertOptions);
-};
+// export const proAlert = (html = null) => {
+//     let htmlObject = {};
+//     if (html === null) {
+//         html = sprintf(
+//             __(
+//                 "You need to upgrade to the <strong><a href='%s' target='_blank'>Premium Version</a></strong> to use this feature.",
+//                 "notificationx"
+//             ),
+//             "http://wpdeveloper.com/in/upgrade-notificationx"
+//         );
+//     }
+//     if (isObject(html)) {
+//         htmlObject = html;
+//         html = html.message || html.html;
+//     }
+//     let alertOptions = {
+//         showConfirmButton: false,
+//         showDenyButton: true,
+//         type: "warning",
+//         title: __("Opps...", "notificationx"),
+//         customClass: {
+//             actions: "nx-pro-alert-actions",
+//         },
+//         denyButtonText: "Close",
+//         ...htmlObject,
+//         html,
+//     };
+//     return SweetAlert(alertOptions);
+// };
