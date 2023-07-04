@@ -263,7 +263,7 @@ class Settings {
                                     'name'          => 'republish_social_share',
                                     'type'          => 'toggle',
                                     'label'         => __('Active Republish Social Share', 'wp-scheduled-posts'),
-                                    'description'   => 'Upgrade to Premium',
+                                    'description'   => __('Upgrade to Premium', 'wp-scheduled-posts'),
                                     'priority'      => 30,
                                     'is_pro'        => true,
                                 ],
@@ -272,7 +272,7 @@ class Settings {
                                     'type'          => 'toggle',
                                     'label'         => __('Post Republish and Unpublish', 'wp-scheduled-posts'),
                                     'priority'      => 35,
-                                    'description'   => 'Upgrade to Premium',
+                                    'description'   => __('Upgrade to Premium', 'wp-scheduled-posts'),
                                     'is_pro'        => true,
                                 ],
 
