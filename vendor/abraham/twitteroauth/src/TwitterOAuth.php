@@ -327,15 +327,21 @@ class TwitterOAuth extends Config
      */
     private function uploadMediaNotChunked(string $path, array $parameters)
     {
-        if (
-            !is_readable($parameters['media']) ||
-            ($file = file_get_contents($parameters['media'])) === false
-        ) {
-            throw new \InvalidArgumentException(
-                'You must supply a readable file'
-            );
+        if(filter_var($parameters['media'], FILTER_VALIDATE_URL)) {
+            $file = $this->downloadFileAndReadContent($parameters);
+        } else {
+            if (
+                !is_readable($parameters['media']) ||
+                ($file = file_get_contents($parameters['media'])) === false
+            ) {
+                throw new \InvalidArgumentException(
+                    'You must supply a readable file ' . $parameters['media']
+                );
+            }
         }
+
         $parameters['media'] = base64_encode($file);
+
         return $this->http(
             'POST',
             self::UPLOAD_HOST,
@@ -343,6 +349,35 @@ class TwitterOAuth extends Config
             $parameters,
             false
         );
+    }
+
+    private function downloadFileAndReadContent(array $parameters) {
+        $url = $parameters['media'];
+        if (!filter_var($url, FILTER_VALIDATE_URL)) {
+            throw new \InvalidArgumentException('Invalid URL: ' . $url);
+        }
+
+        $content = '';
+
+        // Open a stream to read from the URL
+        $source = fopen($url, 'r');
+        if ($source === false) {
+            throw new \RuntimeException('Failed to open URL: ' . $url);
+        }
+
+        // Read the file in chunks of 1024 bytes and append to the content variable
+        while (!feof($source)) {
+            $chunk = fread($source, 1024);
+            $content .= $chunk;
+        }
+
+        // Close the stream
+        fclose($source);
+
+        // Perform any additional processing on the content if needed
+        // ...
+
+        return $content;
     }
 
     /**
