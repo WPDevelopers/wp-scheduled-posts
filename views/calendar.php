@@ -129,7 +129,7 @@
                             ?>
                         </div>
                         <!-- Link to open the modal -->
-                        <p><a class="btn-draft-post-create" href="#wpscp_quickedit" rel="modal:open" data-type="draft"><?php esc_html_e('New Draft', 'wp-scheduled-posts'); ?></a></p>
+                        <p><a class="btn-draft-post-create" href="#wpscp_quickedit" rel="kylefoxModal:open" data-type="draft"><?php esc_html_e('New Draft', 'wp-scheduled-posts'); ?></a></p>
                     </div>
                     <div id='calendar'></div>
                 </div>
