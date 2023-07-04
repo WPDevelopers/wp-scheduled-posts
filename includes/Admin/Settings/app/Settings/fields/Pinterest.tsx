@@ -14,16 +14,10 @@ import SocialModal from './Modals/SocialModal';
 const Pinterest = (props) => {
     const builderContext = useBuilderContext();
     const [apiCredentialsModal,setApiCredentialsModal] = useState(false);
-    const [profileData, setProfileData] = useState({
-        page: [],
-        group: []
-    });
     const [platform, setPlatform] = useState('');
     const [selectedProfile, setSelectedProfile] = useState(props?.value);
     const [isErrorMessage, setIsErrorMessage] = useState(false)
-    const [pinterestBoards, setPinterestBoards] = useState([]);
-    const [responseData, setResponseData] = useState([]);
-
+    const [profileStatus, setProfileStatus] = useState(builderContext?.savedValues?.pinterest_profile_status);
 
     const openApiCredentialsModal = (platform) => {
         setPlatform(platform);
@@ -49,15 +43,44 @@ const Pinterest = (props) => {
         const updatedData = selectedProfile.filter(selectedItem => selectedItem.id !== item.id);
         setSelectedProfile(updatedData);
     };
+    // Handle profile & selected profile status onChange event
+    const handleProfileStatusChange = (event) => {
+        setProfileStatus(event.target.checked);
+        const updatedData = selectedProfile.map(selectedItem => {
+            if (!event.target.checked) {
+                return {
+                    ...selectedItem,
+                    status: false,
+                };
+            }else{
+                return {
+                    ...selectedItem,
+                    status: true,
+                };
+            }
+        });
+        setSelectedProfile(updatedData);
+    };
 
     // Save selected profile data
     useEffect( () => {
         builderContext.setFieldValue([props.name], selectedProfile);
     },[selectedProfile] )
 
+    // Save profile status data 
+    let { onChange } = props;
+    useEffect(() => {
+        onChange({
+            target: {
+                type: "checkbox-select",
+                name : 'pinterest_profile_status',
+                value: profileStatus,
+            },
+        });
+    }, [profileStatus]);
+
     return (
         <div className={classNames('wprf-control', 'wprf-social-profile', `wprf-${props.name}-social-profile`, props?.classes)}>
-           {/* <h2>Social Profile</h2> */}
            {isErrorMessage && (
                 <div className='error-message'>
                     {__(
@@ -81,7 +104,7 @@ const Pinterest = (props) => {
                             <h5>{props?.label}</h5>   
                             <div className="status">
                                 <div className="switcher">
-                                    {/* <input
+                                    <input
                                         id={props?.id}
                                         type='checkbox'
                                         checked={profileStatus}
@@ -89,12 +112,11 @@ const Pinterest = (props) => {
                                         onChange={(event) =>
                                             handleProfileStatusChange(event)
                                         }
-                                    /> */}
+                                    />
                                     <label
                                         className="wprf-switcher-label"
                                         htmlFor={props?.id}
-                                        style={{ background: '#02AC6E' }}
-                                        // style={{ background: profileStatus && '#02AC6E' }}
+                                        style={{ background: profileStatus && '#02AC6E' }}
                                     >
                                         <span className={`wprf-switcher-button`} />
                                     </label>
