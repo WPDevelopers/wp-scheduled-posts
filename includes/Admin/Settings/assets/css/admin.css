@@ -3110,12 +3110,21 @@ button.wprf-btn {
   margin: 0px !important;
   text-transform: capitalize !important;
   background: transparent !important;
-  padding: 0px !important;
+  padding: 0 0 0 36px !important;
+  position: relative;
 }
 @media screen and (max-width: 1023px) {
   #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .pro_features_section .wprf-section-fields .wprf-pro_features-features .header h3 {
     font-size: 18px;
   }
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .pro_features_section .wprf-section-fields .wprf-pro_features-features .header h3:before {
+  position: absolute;
+  content: "\e907";
+  font-family: "wpsp";
+  left: 0;
+  top: 0;
+  color: #FF9437;
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .pro_features_section .wprf-section-fields .wprf-pro_features-features .header a {
   color: #6C62FF;
@@ -3142,8 +3151,13 @@ button.wprf-btn {
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .pro_features_section .wprf-section-fields .wprf-pro_features-features .content a .single-content {
   display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 16px;
+  gap: 18px;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .pro_features_section .wprf-section-fields .wprf-pro_features-features .content a .single-content i {
+  font-size: 32px;
+  color: #6C62FF;
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .pro_features_section .wprf-section-fields .wprf-pro_features-features .content a .single-content h5 {
   font-size: 16px;
