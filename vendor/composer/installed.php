@@ -3,7 +3,7 @@
         'name' => 'schedulepress/wp-schedule-posts',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '7fad165bc0b594106fafda8b9f01b3f8f3475821',
+        'reference' => 'b7230cf4eaf47c7799283aa777866cb50fbd1231',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -102,7 +102,7 @@
         'schedulepress/wp-schedule-posts' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '7fad165bc0b594106fafda8b9f01b3f8f3475821',
+            'reference' => 'b7230cf4eaf47c7799283aa777866cb50fbd1231',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -160,7 +160,7 @@
         'wpdevelopers/twitteroauth' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'debea9d7e61e63190dd4f8ce236b8432dbff6a60',
+            'reference' => '10d051f3e09cbc90fa8d3e84ba9e1ec6ce486963',
             'type' => 'library',
             'install_path' => __DIR__ . '/../wpdevelopers/twitteroauth',
             'aliases' => array(

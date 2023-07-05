@@ -905,12 +905,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/WPDevelopers/twitteroauth.git",
-                "reference": "debea9d7e61e63190dd4f8ce236b8432dbff6a60"
+                "reference": "10d051f3e09cbc90fa8d3e84ba9e1ec6ce486963"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WPDevelopers/twitteroauth/zipball/debea9d7e61e63190dd4f8ce236b8432dbff6a60",
-                "reference": "debea9d7e61e63190dd4f8ce236b8432dbff6a60",
+                "url": "https://api.github.com/repos/WPDevelopers/twitteroauth/zipball/10d051f3e09cbc90fa8d3e84ba9e1ec6ce486963",
+                "reference": "10d051f3e09cbc90fa8d3e84ba9e1ec6ce486963",
                 "shasum": ""
             },
             "require": {
@@ -926,7 +926,7 @@
                 "rector/rector": "^0.15.7",
                 "squizlabs/php_codesniffer": "^3"
             },
-            "time": "2023-07-05T10:56:18+00:00",
+            "time": "2023-07-05T12:09:17+00:00",
             "default-branch": true,
             "type": "library",
             "installation-source": "dist",
