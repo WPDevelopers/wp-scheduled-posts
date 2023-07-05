@@ -113,7 +113,7 @@ class Twitter
             $hashTags,
             $this->tweet_limit - 5
         );
-        $parameters['status'] = $formatedText;
+        $parameters['text'] = $formatedText;
         return $parameters;
     }
 
@@ -156,15 +156,18 @@ class Twitter
                             $uploads = wp_upload_dir();
                             $file_path = str_replace($uploads['baseurl'], $uploads['basedir'], $featuredImage);
                             $media = $TwitterConnection->upload('media/upload', ['media' => $file_path]);
-                            $parameters['media_ids'] = $media->media_id_string;
+                            $parameters['media'] = [
+                                "media_ids" => [ $media->media_id_string ],
+                            ];
                         }
                     }
                 }
 
-                $result = $TwitterConnection->post('statuses/update', $parameters);
-                if ($TwitterConnection->getLastHttpCode() == 200) {
+                $TwitterConnection->setApiVersion(2);
+                $result = $TwitterConnection->post('tweets', $parameters, true);
+                if ($TwitterConnection->getLastHttpCode() == 201) {
                     $shareInfo = array(
-                        'share_id' => $result->id,
+                        'share_id' => $result->data->id,
                         'publish_date' => time(),
                     );
                     // save shareinfo in metabox

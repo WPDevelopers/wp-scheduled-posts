@@ -18,14 +18,18 @@
         {
             "type": "vcs",
             "url": "https://github.com/WPDevelopers/linkedin-sdk-php"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/wpdevelopers/twitteroauth"
         }
     ],
     "require": {
         "priyomukul/wp-notice": "dev-main",
-        "abraham/twitteroauth": "1.2.0",
-        "facebook/graph-sdk": "5.7.0",
+        "wpdevelopers/twitteroauth": "dev-main",
         "wpdevelopers/linkedin-sdk-php": "dev-master",
         "wpdevelopers/pinterest-api-php": "dev-master",
+        "facebook/graph-sdk": "5.7.0",
         "guzzlehttp/promises": "1.4.0",
         "guzzlehttp/psr7": "1.7.0",
         "paragonie/random_compat": "v9.99.99",

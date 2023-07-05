@@ -19,5 +19,5 @@ return array(
     'Facebook\\' => array($vendorDir . '/facebook/graph-sdk/src/Facebook'),
     'DirkGroenen\\Pinterest\\' => array($vendorDir . '/wpdevelopers/pinterest-api-php/src/Pinterest'),
     'Composer\\CaBundle\\' => array($vendorDir . '/composer/ca-bundle/src'),
-    'Abraham\\TwitterOAuth\\' => array($vendorDir . '/abraham/twitteroauth/src'),
+    'Abraham\\TwitterOAuth\\' => array($vendorDir . '/wpdevelopers/twitteroauth/src'),
 );
