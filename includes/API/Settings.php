@@ -102,6 +102,20 @@ class Settings
                 'args'                  => array(),
             ),
         ));
+
+        register_rest_route($namespace, 'fetch_pinterest_section', array(
+            array(
+                'methods'               => \WP_REST_Server::EDITABLE,
+                'callback'              => array($this, 'fetch_pinterest_section'),
+                'permission_callback'   => array($this, 'wpsp_permissions_check'),
+                'args'                  => array(),
+            ),
+        ));
+    }
+
+    public function fetch_pinterest_section($data)
+    {
+       do_action('social_profile_fetch_pinterest_section', $data->get_params());
     }
 
     /**

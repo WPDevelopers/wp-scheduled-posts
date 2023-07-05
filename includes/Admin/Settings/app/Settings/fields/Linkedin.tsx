@@ -10,6 +10,9 @@ import ApiCredentialsForm from './Modals/ApiCredentialsForm';
 import Modal from "react-modal";
 import { socialProfileRequestHandler,getFormatDateTime } from '../helper/helper';
 import SocialModal from './Modals/SocialModal';
+import SelectedProfile from './utils/SelectedProfile';
+import MainProfile from './utils/MainProfile';
+import ProAlert from './utils/ProAlert';
 
 const Linkedin = (props) => {
     const builderContext = useBuilderContext();
@@ -96,108 +99,16 @@ const Linkedin = (props) => {
     
     return (
         <div className={classNames('wprf-control', 'wprf-social-profile', `wprf-${props.name}-social-profile`, props?.classes)}>
-           {/* <h2>Social Profile</h2> */}
            {isErrorMessage && (
-                <div className='error-message'>
-                    {__(
-                        'Multi Profile is a Premium Feature. To use this feature,',
-                        'wp-scheduled-posts'
-                    )}
-                    {" "}
-                    <a target="_blank" href='https://wpdeveloper.com/in/schedulepress-pro'>
-                        {__(
-                            'Upgrade to PRO.',
-                            'wp-scheduled-posts'
-                        )}
-                    </a>
-                </div>
+                <ProAlert />
             )}
            <div className='social-profile-card'>
                 <div className="main-profile">
-                    <div className="card-header">
-                        <div className="heading">
-                            <img width={'30px'} src={`${props?.logo}`} alt={`${props?.label}`} />
-                            <h5>{props?.label}</h5>   
-                        </div>
-                        <div className="status">
-                            <div className="switcher">
-                                <input
-                                    id={props?.id}
-                                    type='checkbox'
-                                    checked={profileStatus}
-                                    className="wprf-switcher-checkbox"
-                                    onChange={(event) =>
-                                        handleProfileStatusChange(event)
-                                    }
-                                />
-                                <label
-                                    className="wprf-switcher-label"
-                                    htmlFor={props?.id}
-                                    style={{ background: profileStatus && '#02AC6E' }}
-                                >
-                                    <span className={`wprf-switcher-button`} />
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="card-content">
-                        <p dangerouslySetInnerHTML={{ __html: props?.desc }}></p>
-                    </div>
-                    <div className="card-footer">
-                        <select name="" id="">
-                            <option value="">Page</option>
-                            <option value="">Group</option>
-                        </select>
-                        <button
-                            type="button"
-                            className={
-                            "wpscp-social-tab__btn--addnew-profile"
-                            }
-                            onClick={() => openApiCredentialsModal('linkedin')}
-                            >
-                            {__("Add New", "wp-scheduled-posts")}
-                        </button>
-                    </div>
+                    <MainProfile props={props} handleProfileStatusChange={handleProfileStatusChange} profileStatus={profileStatus} openApiCredentialsModal={openApiCredentialsModal} />
                 </div>
                 <div className="selected-profile">
-                    {selectedProfile && selectedProfile.map((item,index) => (
-                        <div className="profile-item" key={Math.random()}>
-                            <div className="profile-image">
-                                {/* @ts-ignore */}
-                                <img src={`${item?.thumbnail_url}`} alt={ __( item?.name,'wp-scheduled-posts' ) } />
-                            </div>
-                            <div className="profile-data">
-                                <span className='badge'>{ item?.type }</span>
-                                <h4>{ item?.name }</h4>
-                                <span>{ item?.added_by.replace(/^\w/, (c) => c.toUpperCase()) } { __('on','wp-scheduled-posts') } {getFormatDateTime(item?.added_date)}</span>
-                                <div className="action">
-                                    <div className="status">
-                                        <div className="switcher">
-                                            <input
-                                                id={item?.id}
-                                                type='checkbox'
-                                                className="wprf-switcher-checkbox"
-                                                checked={item?.status}
-                                                onChange={ (event) =>
-                                                    handleSelectedProfileStatusChange(item,event)
-                                                }
-                                            />
-                                            <label
-                                                className="wprf-switcher-label"
-                                                htmlFor={item?.id}
-                                                style={{ background: item?.status && '#02AC6E' }}
-                                            >
-                                                <span className={`wprf-switcher-button`} />
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <div className="remove-profile">
-                                        <button onClick={ () => handleDeleteSelectedProfile( item ) }>{ __('Delete','wp-scheduled-posts') }</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    { selectedProfile && selectedProfile?.map((item,index) => (
+                        <SelectedProfile platform={'linkedin'} item={item} handleSelectedProfileStatusChange={handleSelectedProfileStatusChange} handleDeleteSelectedProfile={handleDeleteSelectedProfile} />
                     ))}
                 </div>
             </div>

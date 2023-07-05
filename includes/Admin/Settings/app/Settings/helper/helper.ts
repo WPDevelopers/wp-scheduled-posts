@@ -1,3 +1,5 @@
+import apiFetch from '@wordpress/api-fetch';
+
 // Fetch data from API
 export const fetchDataFromAPI = async (body) => {
     const response = await fetch('/wp-admin/admin-ajax.php', {
@@ -8,6 +10,16 @@ export const fetchDataFromAPI = async (body) => {
         body: new URLSearchParams(body).toString(),
     });
     return response;
+};
+
+export const fetPinterestBoardData = async (body) => {
+    return apiFetch( {
+        path: 'wp-scheduled-posts/v1/fetch_pinterest_section',
+        method: 'POST',
+        data: body,
+    } ).then( ( res ) => {
+        return res;
+    } );
 };
 
 // Active social profile tab
@@ -25,7 +37,6 @@ export const socialProfileRequestHandler = async (redirectURI, appID, appSecret,
         type: platform,
     };
     const response = await fetchDataFromAPI(data);
-    console.log(response);
     
     const responseData = await response.json();
     if (responseData.success) {
@@ -67,11 +78,13 @@ export const getProfileData = async (params) => {
 
 export const getPinterestBoardSection = async (defaultBoard,profile) => {
     var data = {
-        action: "wpsp_social_profile_fetch_pinterest_section",
-      //   _wpnonce: wpspSettingsGlobal.api_nonce,
         defaultBoard: defaultBoard,
         profile: profile,
-      };
+    };
+    const response = await fetPinterestBoardData(data);
+    console.log(response);
+    
+    return response;
 }
 
 // Format date-time
@@ -80,3 +93,34 @@ export const getFormatDateTime = ( dateTime = '' ) => {
     const formattedDate = date.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
     return formattedDate;
 }
+
+// Pro alert
+// export const proAlert = (html = null) => {
+//     let htmlObject = {};
+//     if (html === null) {
+//         html = sprintf(
+//             __(
+//                 "You need to upgrade to the <strong><a href='%s' target='_blank'>Premium Version</a></strong> to use this feature.",
+//                 "notificationx"
+//             ),
+//             "http://wpdeveloper.com/in/upgrade-notificationx"
+//         );
+//     }
+//     if (isObject(html)) {
+//         htmlObject = html;
+//         html = html.message || html.html;
+//     }
+//     let alertOptions = {
+//         showConfirmButton: false,
+//         showDenyButton: true,
+//         type: "warning",
+//         title: __("Opps...", "notificationx"),
+//         customClass: {
+//             actions: "nx-pro-alert-actions",
+//         },
+//         denyButtonText: "Close",
+//         ...htmlObject,
+//         html,
+//     };
+//     return SweetAlert(alertOptions);
+// };

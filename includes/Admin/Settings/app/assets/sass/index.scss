@@ -208,7 +208,13 @@
     right: 1px;
 }
 
-
+.selected-profile {
+    .profile-item .profile-image img {
+        max-width: 50px;
+        height: auto;
+        border-radius: 50%;
+    }
+}
 .status {
     .switcher {
         line-height: 0;
