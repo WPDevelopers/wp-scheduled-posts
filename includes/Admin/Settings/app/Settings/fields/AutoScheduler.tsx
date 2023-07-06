@@ -14,7 +14,7 @@ const AutoScheduler = (props) => {
                 </div>
             </div>
             <div className="content">
-                <div className="start-time">
+                <div className="start-time set-timing">
                     <div className="time-title">
                         <h4>Start Time</h4>
                         <span>Default : 12:30 AM</span>
@@ -26,7 +26,7 @@ const AutoScheduler = (props) => {
                         </select>
                     </div>
                 </div>
-                <div className="end-time">
+                <div className="end-time set-timing">
                     <div className="time-title">
                         <h4>End Time</h4>
                         <span>Default : 04:00 PM</span>
