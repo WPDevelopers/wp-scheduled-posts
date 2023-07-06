@@ -6,7 +6,7 @@ const ManualScheduler = (props) => {
         <div className={classNames('wprf-control', 'wprf-manual-scheduler', `wprf-${props.name}-manual-scheduler`, props?.classes)}>
             <div className="header">
                 <div className="title">
-                    <h3>Auto Scheduler</h3>
+                    <h3>Manual Scheduler</h3>
                     <span> To configure the Auto Scheduler Settings, check out this <a href="#">Doc</a></span>
                 </div>
                 <div className="switcher">
