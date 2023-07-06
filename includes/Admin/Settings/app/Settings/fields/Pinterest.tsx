@@ -23,7 +23,7 @@ const Pinterest = (props) => {
     const [profileStatus, setProfileStatus] = useState(builderContext?.savedValues?.pinterest_profile_status);
 
     const openApiCredentialsModal = (platform) => {
-        setPlatform(platform);
+        setPlatform('pinterest');
         setApiCredentialsModal(true);
     };
     const closeApiCredentialsModal = () => {
@@ -104,7 +104,7 @@ const Pinterest = (props) => {
                 ariaHideApp={false}
                 className="modal_wrapper"
                 >
-                <button className="close-button" onClick={closeApiCredentialsModal}>X</button>
+                <button className="close-button" onClick={closeApiCredentialsModal}><i className='wpsp-icon wpsp-close'></i></button>
                 <ApiCredentialsForm props={props} platform={platform} requestHandler={socialProfileRequestHandler} />
             </Modal>
 

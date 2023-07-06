@@ -18,6 +18,13 @@ if (file_exists(dirname(__FILE__) . '/vendor/autoload.php')) {
 final class WPSP
 {
 	private $installer;
+	private $assets;
+	private $admin;
+	private $email;
+	private $social;
+	private $api;
+	private $ajax;
+
 	private function __construct()
 	{
 		$this->define_constants();
@@ -75,15 +82,60 @@ final class WPSP
 	 */
 	public function init_plugin()
 	{
-		new WPSP\Assets();
+		$this->getAssets();
+		$this->getEmail();
+		$this->getSocial();
+		$this->getAPI();
+		$this->getAjax();
+
 		if (is_admin()) {
-			new WPSP\Admin();
+			$this->getAdmin();
+			// Your admin code here
 		}
-		new WPSP\Email();
-		new WPSP\Social();
+
 		$this->load_textdomain();
-		new WPSP\API();
-		new WPSP\Ajax();
+	}
+
+	public function getAssets() {
+		if (!$this->assets) {
+			$this->assets = new WPSP\Assets();
+		}
+		return $this->assets;
+	}
+
+	public function getAdmin() {
+		if (!$this->admin) {
+			$this->admin = new WPSP\Admin();
+		}
+		return $this->admin;
+	}
+
+	public function getEmail() {
+		if (!$this->email) {
+			$this->email = new WPSP\Email();
+		}
+		return $this->email;
+	}
+
+	public function getSocial() {
+		if (!$this->social) {
+			$this->social = new WPSP\Social();
+		}
+		return $this->social;
+	}
+
+	public function getAPI() {
+		if (!$this->api) {
+			$this->api = new WPSP\API();
+		}
+		return $this->api;
+	}
+
+	public function getAjax() {
+		if (!$this->ajax) {
+			$this->ajax = new WPSP\Ajax();
+		}
+		return $this->ajax;
 	}
 
 	public function load_textdomain()
@@ -131,11 +183,11 @@ final class WPSP
 		new WPSP\Admin\Calendar();
 	}
 	public function whitelist_API($endpoints)
-    {
-        $endpoints[] = '/wp-json/wp-scheduled-posts/v1/*';
-        $endpoints[] = '/index.php?rest_route=/wp-scheduled-posts/v1/*';
-        return $endpoints;
-    }
+	{
+		$endpoints[] = '/wp-json/wp-scheduled-posts/v1/*';
+		$endpoints[] = '/index.php?rest_route=/wp-scheduled-posts/v1/*';
+		return $endpoints;
+	}
 }
 
 /**

@@ -24,7 +24,7 @@ const Twitter = (props) => {
     const [profileStatus, setProfileStatus] = useState(builderContext?.savedValues?.twitter_profile_status);
 
     const openApiCredentialsModal = (platform) => {
-        setPlatform(platform);
+        setPlatform('twitter');
         setApiCredentialsModal(true);
     };
     const closeApiCredentialsModal = () => {
@@ -107,7 +107,7 @@ const Twitter = (props) => {
                 ariaHideApp={false}
                 className="modal_wrapper"
                 >
-                <button className="close-button" onClick={closeApiCredentialsModal}>X</button>
+                <button className="close-button" onClick={closeApiCredentialsModal}><i className='wpsp-icon wpsp-close'></i></button>
                 <ApiCredentialsForm props={props}  platform={platform} requestHandler={socialProfileRequestHandler} />
             </Modal>
 

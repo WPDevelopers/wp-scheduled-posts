@@ -58,7 +58,6 @@
                         margin-bottom: 24px !important;
                         text-transform: capitalize !important;
                         background: transparent !important;
-                        padding: 0 !important;
                         letter-spacing: 0px !important;
                         font-weight: 600 !important;
                         margin-top: 0px;
@@ -83,9 +82,6 @@
                             margin-bottom: 16px !important;
                             background: #fff !important;
                             gap: 16px;
-                            &:last-child {
-                                margin-bottom: 0 !important;
-                            }
                             @media screen and (max-width: 1023px)  { 
                                 padding: 12px 14px;
                             }
@@ -106,13 +102,12 @@
                                 input {
                                     box-shadow: none !important;
                                     border: 1px solid #EBEEF5 !important;
-                                    background-color: #F9FAFC !important;
+                                    background-color: #F9FAFC;
                                     font-size: 16px !important;
                                     color: #1B1B50 !important;
-                                    padding: 8px 12px !important;
-                                    line-height: 15px !important;
+                                    padding: 10px 12px !important;
+                                    line-height: 20px !important;
                                     min-width: 220px;
-                                    min-height: 50px;
                                 }
                                 input:focus {
                                     border-color: #EBEEF5 !important;
@@ -121,7 +116,7 @@
                                 }
                                 .wprf-description {
                                     margin-left: 0px !important;
-                                    font-size: 10px !important;
+                                    font-size: 12px !important;
                                     color: #6E6E8D !important;
                                     font-style: italic;
                                     margin-bottom: 0;

@@ -8,6 +8,7 @@ use DirkGroenen\Pinterest\Pinterest;
 
 class Social
 {
+    protected $social_profile;
     public function __construct()
     {
         $this->define_constants();
@@ -53,7 +54,13 @@ class Social
     }
     public function load_dependancy()
     {
-        new Social\SocialProfile();
+        $this->socialProfile();
+    }
+    public function socialProfile() {
+        if (!$this->social_profile) {
+            $this->social_profile = new Social\SocialProfile();
+        }
+        return $this->social_profile;
     }
     public function load_third_party_integration()
     {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {Modal} from 'quickbuilder';
+import Modal from 'react-modal';
 // const getToasterIcon = (url) => {
 //     return ( wpspSettingsGlobal?.assets?.admin + url + '?version=' + Math.random());
 // };
@@ -113,13 +113,6 @@ export const ToastAlert = (type, message, args?) => {
     return promise;
 }
 
-export const proAlert = () => {
-    return (
-        <Modal>
-            <h3>Hello World</h3>
-        </Modal>
-    )
-}
 const wpspToast = {
     connected: (message, args?) => ToastAlert('connected', message, args),
     info: (message, args?) => ToastAlert('connected', message, args),
