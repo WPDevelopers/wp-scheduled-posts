@@ -5,6 +5,7 @@ import SettingsInner from './SettingsInner';
 import 'quickbuilder/dist/index.css';
 import Header from './Header';
 import '../assets/sass/index.scss';
+import { ToastContainer } from "react-toastify";
 
 const SettingsWrapper = ({wpspObject}) => {
     const builder = useBuilder(wpspObject.settings);
@@ -14,6 +15,7 @@ const SettingsWrapper = ({wpspObject}) => {
             <Header />
             <BuilderProvider value={builder}>
                 <SettingsInner {...wpspObject} />
+                <ToastContainer />
             </BuilderProvider>
         </>
     )

@@ -2,9 +2,7 @@ import { __ } from "@wordpress/i18n";
 import React, { useCallback, useEffect } from "react";
 import { FormBuilder, useBuilderContext } from "quickbuilder";
 import apiFetch from '@wordpress/api-fetch';
-// import { proAlert } from './helper/helper';
-// import { ToastAlert } from './ToasterMsg';
-
+import wpspToast,{ ToastAlert, proAlert } from './ToasterMsg';
 import Content from "./Content";
 
 const SettingsInner = (props) => {
@@ -37,7 +35,7 @@ const SettingsInner = (props) => {
             wpspSetting: JSON.stringify(context.values, null, 2),
         },
     } ).then( ( res ) => {
-        console.log( res );
+        wpspToast.info(__(`Changes Saved Successfully.`, 'notificationx'));
     } );
   }, []);
 
@@ -45,11 +43,10 @@ const SettingsInner = (props) => {
     // builderContext.setActiveTab(props.settings.active);
     // console.log(builderContext.active);
 
-    // builderContext.registerAlert('pro_alert', proAlert);
-    // builderContext.registerAlert('toast', ToastAlert);
+    builderContext.registerAlert('pro_alert', proAlert);
+    builderContext.registerAlert('toast', ToastAlert);
 
   }, [])
-
 
   return (
     <div className="wpsp-admin-wrapper">
