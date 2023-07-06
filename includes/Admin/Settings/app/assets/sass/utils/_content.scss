@@ -235,7 +235,7 @@
                                                     color: #fff;
                                                     border-radius: 20px;
                                                     font-size: 14px;
-                                                    line-height: 16px;
+                                                    line-height: 17px;
                                                     font-weight: 500;
                                                     text-transform: uppercase;
                                                     font-family: inter;
@@ -254,6 +254,16 @@
                                                 margin-left: 0 !important;
                                                 font-size: 14px !important;
                                                 margin-right: 24px;
+                                                cursor: pointer;
+                                                &:before {
+                                                    position: absolute;
+                                                    content: "\e907";
+                                                    font-family: "wpsp";
+                                                    font-size: 16px;
+                                                    left: -24px;
+                                                    top: -3px;
+                                                    color: #FF9437;
+                                                }
                                             }
                                         }
                                     }
