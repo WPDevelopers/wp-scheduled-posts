@@ -65,7 +65,7 @@ const CheckboxSelect = (props) => {
                 <div className="selected-options">
                     <ul>
                       { optionSelected?.map( (item, index) => (
-                        <li key={index}> { item?.label } <button onClick={() => removeItem(item)}>X</button> </li>
+                        <li key={index}> { item?.label } <button onClick={() => removeItem(item)}> <i className={props?.icon_classes}></i> </button> </li>
                       ))}
                     </ul>
                 </div>

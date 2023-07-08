@@ -1,14 +1,14 @@
 import { __ } from "@wordpress/i18n";
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FormBuilder, useBuilderContext } from "quickbuilder";
 import apiFetch from '@wordpress/api-fetch';
-// import { proAlert } from './helper/helper';
-// import { ToastAlert } from './ToasterMsg';
-
+import wpspToast,{ ToastAlert } from './ToasterMsg';
 import Content from "./Content";
+import Modal from "react-modal";
 
 const SettingsInner = (props) => {
   const builderContext = useBuilderContext();
+  const [ isProAlertModal, setProAlertModal] = useState(false);
 
   useEffect(() => {
     // let iconLists = {};
@@ -24,7 +24,6 @@ const SettingsInner = (props) => {
 
   const onChange = (event) => {
     builderContext.setActiveTab(event?.target?.value);
-    // console.log(event);
   };
 
   builderContext.submit.onSubmit = useCallback((event, context) => {
@@ -37,23 +36,31 @@ const SettingsInner = (props) => {
             wpspSetting: JSON.stringify(context.values, null, 2),
         },
     } ).then( ( res ) => {
-        console.log( res );
+        if( res ) {
+          wpspToast.info(__(`Changes Saved Successfully.`, 'notificationx'));
+        }
     } );
   }, []);
 
   useEffect(() => {
-    // builderContext.setActiveTab(props.settings.active);
-    // console.log(builderContext.active);
-
-    // builderContext.registerAlert('pro_alert', proAlert);
-    // builderContext.registerAlert('toast', ToastAlert);
-
+    builderContext.registerAlert('pro_alert', (props) => {
+      return { fire: () => {
+        setProAlertModal(true)
+      } };
+    });
   }, [])
 
+  const closeProAlertModal = () => {
+    setProAlertModal(false);
+  }
 
   return (
     <div className="wpsp-admin-wrapper">
       <Content>
+        <Modal isOpen={isProAlertModal} ariaHideApp={false}>
+            <h3>HEllo World</h3>
+            <button onClick={closeProAlertModal}>Close</button>
+        </Modal>
         <FormBuilder {...builderContext} value={builderContext.config.active} onChange={onChange} />
       </Content>
     </div>

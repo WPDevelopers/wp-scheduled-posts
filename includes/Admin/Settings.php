@@ -185,6 +185,7 @@ class Settings {
                                     'type'     => 'checkbox-select',
                                     'multiple' => true,
                                     'priority' => 7,
+                                    'icon_classes'  => 'wpsp-icon wpsp-close',
                                     'option'  => $this->normalize_options(\WPSP\Helper::get_all_post_type()),
                                 ],
                                 'allow_categories' => [
@@ -193,6 +194,7 @@ class Settings {
                                     'type'     => 'checkbox-select',
                                     'multiple' => true,
                                     'priority' => 8,
+                                    'icon_classes'  => 'wpsp-icon wpsp-close',
                                     'option'  => $this->normalize_options(\WPSP\Helper::_get_all_category()),
                                 ],
                                 'allow_user_by_role' => [
@@ -201,6 +203,7 @@ class Settings {
                                     'type'     => 'checkbox-select',
                                     'multiple' => true,
                                     'priority' => 9,
+                                    'icon_classes'  => 'wpsp-icon wpsp-close',
                                     'option'  => $this->normalize_options(\WPSP\Helper::get_all_roles()),
                                 ],
                                 'calendar_schedule_time' => [
