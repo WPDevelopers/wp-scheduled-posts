@@ -14,12 +14,12 @@ const ManualScheduler = (props) => {
                 </div>
             </div>
             <div className="content">
-                <div className="select-days">
+                <div className="select-days select-items">
                     <select name="" id="">
                         <option value="">Select Days</option>
                     </select>
                 </div>
-                <div className="select-times">
+                <div className="select-times select-items">
                     <select name="" id="">
                         <option value="">Select Times</option>
                     </select>
