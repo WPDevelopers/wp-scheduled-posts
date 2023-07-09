@@ -1,6 +1,8 @@
-.wprf-tab-layout_manage_schedule {
-    display: flex;
-    gap: 30px;
+.manage-schedule {
+    .wprf-section-fields {
+        display: flex;
+        gap: 30px;
+    }
     .wprf-control-section {
         flex-basis: 50%;
         .header {

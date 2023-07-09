@@ -867,7 +867,7 @@ class Settings {
                     ]
                 ],
                 'layout_manage_schedule'       => [
-                    'id'       => 'layout_manage_schedule',
+                    'id'       => 'manage-schedule',
                     'name'     => 'layout_manage_schedule',
                     'type'     => 'section',
                     'label'    => __('Manage Schedule', 'wp-scheduled-posts'),
@@ -875,35 +875,43 @@ class Settings {
                     'is_pro'   => true,
                     'classes'  => 'pro_feature',
                     'fields'   => [
-                        'auto_scheduler_section'  => [
-                            'id'            => 'auto_scheduler',
-                            'name'          => 'auto_scheduler',
-                            'type'          => 'section',
-                            'label'         => false,
-                            'fields'        => [
-                                'auto_scheduler'  => [
+                        'manage_schedule_wrapper'   => [
+                            'id'        => 'manage-schedule-wrapper',
+                            'type'      => 'section',
+                            'name'      => 'manage-schedule',
+                            'label'     => false,
+                            'fields'    => [
+                                'auto_scheduler_section'  => [
                                     'id'            => 'auto_scheduler',
                                     'name'          => 'auto_scheduler',
-                                    'type'          => 'auto-scheduler',
-                                    'priority'      => 5,
+                                    'type'          => 'section',
+                                    'label'         => false,
+                                    'fields'        => [
+                                        'auto_scheduler'  => [
+                                            'id'            => 'auto_scheduler',
+                                            'name'          => 'auto_scheduler',
+                                            'type'          => 'auto-scheduler',
+                                            'priority'      => 5,
+                                        ],
+                                    ],
                                 ],
-                            ],
-                        ],
-                        'manual_scheduler'  => [
-                            'id'            => 'manual_scheduler',
-                            'name'          => 'manual_scheduler',
-                            'type'          => 'section',
-                            'label'         => false,
-                            'priority'      => 5,
-                            'fields'        => [
-                                'manual_scheduler'  => [
+                                'manual_scheduler_section'  => [
                                     'id'            => 'manual_scheduler',
                                     'name'          => 'manual_scheduler',
-                                    'type'          => 'manual-scheduler',
+                                    'type'          => 'section',
+                                    'label'         => false,
                                     'priority'      => 5,
+                                    'fields'        => [
+                                        'manual_scheduler'  => [
+                                            'id'            => 'manual_scheduler',
+                                            'name'          => 'manual_scheduler',
+                                            'type'          => 'manual-scheduler',
+                                            'priority'      => 5,
+                                        ],
+                                    ],
                                 ],
-                            ],
-                        ],
+                            ]
+                        ]
                     ]
                 ],
                 'layout_advance_schedule'       => [
