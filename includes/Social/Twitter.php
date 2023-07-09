@@ -149,7 +149,9 @@ class Twitter
                         $uploads = wp_upload_dir();
                         $file_path = str_replace($uploads['baseurl'], $uploads['basedir'], $featuredImage);
                         $media = $TwitterConnection->upload('media/upload', ['media' => $file_path]);
-                        $parameters['media_ids'] = $media->media_id_string;
+                        $parameters['media'] = [
+                            "media_ids" => [ $media->media_id_string ],
+                        ];
                     } else {
                         if (has_post_thumbnail($post_id)) {
                             $featuredImage = ((has_post_thumbnail($post_id)) ? get_the_post_thumbnail_url($post_id, 'full') : '');
