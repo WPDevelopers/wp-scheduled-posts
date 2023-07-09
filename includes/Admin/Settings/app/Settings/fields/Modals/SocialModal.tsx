@@ -11,7 +11,7 @@ import {
     useBuilderContext,
 } from "quickbuilder";
 
-function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage,props, type }) {
+function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage,props, type, accountType = '' }) {
     const builderContext = useBuilderContext();
 
     const [requestSending, setRequestSending] = useState(false);
@@ -154,6 +154,7 @@ function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage,pro
             setSavedProfile((prevItems) => prevItems.filter((prevItem) => prevItem.id !== pinterestItem.id));
         }
     }
+    console.log(accountType);
     
   return (
     <Modal

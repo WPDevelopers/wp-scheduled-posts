@@ -1,12 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { __ } from '@wordpress/i18n'
 import Select from "react-select";
 
 export default function MainProfile( { props, handleProfileStatusChange, profileStatus, openApiCredentialsModal } ) {
+    const [accountType,setAccountType] = useState("");
     const options = [
         { value: 'page',    label: __('Page','wp-scheduled-posts') },
         { value: 'group',   label: __('Group','wp-scheduled-posts') }
-    ]      
+    ]
+    const handleAccountType = (selectedOption) => {
+        setAccountType( selectedOption.value )
+    };
     return (
         <>
             <div className="card-header">
@@ -40,6 +44,8 @@ export default function MainProfile( { props, handleProfileStatusChange, profile
             </div>
             { props?.type == 'facebook' && (
                 <Select
+                    id={props?.id}
+                    onChange={handleAccountType}
                     options={options}
                 />
             ) }
@@ -49,7 +55,7 @@ export default function MainProfile( { props, handleProfileStatusChange, profile
                     className={
                     "wpscp-social-tab__btn--addnew-profile"
                     }
-                    onClick={() => openApiCredentialsModal('pinterest')}
+                    onClick={() => openApiCredentialsModal(accountType)}
                     >
                     { __("Add New", "wp-scheduled-posts")}
                 </button>
