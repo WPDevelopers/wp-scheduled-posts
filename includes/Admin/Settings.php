@@ -126,22 +126,22 @@ class Settings {
                                         'button_link'   => 'https://google.com',
                                         'options'   => [
                                             [
-                                                'icon'  => 'wpsp-calendar',
+                                                'icon'  => 'wpsp-auto-sc',
                                                 'title' => __('Auto Scheduler','wp-scheduled-posts'),
                                                 'link'  => 'https://wpdeveloper.com',
                                             ],
                                             [
-                                                'icon'  => 'icon',
+                                                'icon'  => 'wpsp-manual-sc',
                                                 'title' => __('Manual Scheduler','wp-scheduled-posts'),
                                                 'link'  => 'https://wpdeveloper.com',
                                             ],
                                             [
-                                                'icon'  => 'icon',
+                                                'icon'  => 'wpsp-missed-sc',
                                                 'title' => __('Missed Scheduler Handler','wp-scheduled-posts'),
                                                 'link'  => 'https://wpdeveloper.com',
                                             ],
                                             [
-                                                'icon'  => 'icon',
+                                                'icon'  => 'wpsp-premimu-support',
                                                 'title' => __('Premium Support','wp-scheduled-posts'),
                                                 'link'  => 'https://wpdeveloper.com',
                                             ],

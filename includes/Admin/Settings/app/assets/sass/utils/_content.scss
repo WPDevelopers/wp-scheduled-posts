@@ -12,31 +12,51 @@
                 border-style: solid;
                 border-color: #F0EFFF !important;
                 flex-wrap: wrap;
-                gap: 8px;
+                gap: 40px;
                 padding: 24px 32px 0;
-                @media screen and (max-width: 1317px)  { 
-                    gap: 5px;
+                @media screen and (max-width: 1655px)  { 
+                    gap: 20px;
                     padding: 16px 20px 0;
                 }
+                @media screen and (max-width: 1317px)  { 
+                    gap: 20px;
+                }
+                .pro_feature {
+                    position: relative;
+                    &:before {
+                        position: absolute;
+                        content: '\e907';
+                        font-family: 'wpsp';
+                        font-size: 12px;
+                        right: 0;
+                        top: 0;
+                        color: #FF9437;
+                        @media screen and (max-width: 1486px)  { 
+                            right: -2px;
+                            top: -2px;
+                        }
+                    }
+                }
                 .wprf-tab-nav-item {
-                    padding: 16px 20px !important;
+                    padding: 10px 16px 18px!important;
                     font-size: 16px !important;
                     background-color: transparent !important;
                     color: #6E6E8D !important;
                     border-top: 0px !important;
-                    @media screen and (max-width: 1486px)  { 
-                        padding: 14px 16px !important;
+                    @media screen and (max-width: 1655px)  { 
                         font-size: 14px !important;
                     }
+                    @media screen and (max-width: 1486px)  { 
+                        padding: 8px 12px 10px!important;
+                    }
                     @media screen and (max-width: 1270px)  { 
-                        padding: 12px 14px !important;
                         font-size: 12px !important;
                     }
                     @media screen and (max-width: 1138px)  { 
-                        padding: 10px 6px !important;
+                        padding: 8px 6px 10px !important;
                     }
                     @media screen and (max-width: 1004px)  { 
-                        padding: 10px 3px !important;
+                        padding: 8px 3px 10px !important;
                     }
                 }
                 .wprf-active-nav {
@@ -139,7 +159,9 @@
                                         font-weight: 500 !important;
                                         font-family: inter;
                                         line-height: 20px;
+                                        text-transform: unset !important;
                                         margin-bottom: 0 !important;
+                                        padding: 0;
                                         @media screen and (max-width: 1023px)  { 
                                             font-size: 14px;
                                         }
@@ -213,7 +235,7 @@
                                                     color: #fff;
                                                     border-radius: 20px;
                                                     font-size: 14px;
-                                                    line-height: 16px;
+                                                    line-height: 17px;
                                                     font-weight: 500;
                                                     text-transform: uppercase;
                                                     font-family: inter;
@@ -232,6 +254,16 @@
                                                 margin-left: 0 !important;
                                                 font-size: 14px !important;
                                                 margin-right: 24px;
+                                                cursor: pointer;
+                                                &:before {
+                                                    position: absolute;
+                                                    content: "\e907";
+                                                    font-family: "wpsp";
+                                                    font-size: 16px;
+                                                    left: -24px;
+                                                    top: -3px;
+                                                    color: #FF9437;
+                                                }
                                             }
                                         }
                                     }
@@ -383,9 +415,18 @@
                                             margin: 0px !important;
                                             text-transform: capitalize !important;
                                             background: transparent !important;
-                                            padding: 0px !important;
+                                            padding: 0 0 0 36px !important;
+                                            position: relative;
                                             @media screen and (max-width: 1023px)  { 
                                                 font-size: 18px;
+                                            }
+                                            &:before {
+                                                position: absolute;
+                                                content: '\e907';
+                                                font-family: 'wpsp';
+                                                left: 0;
+                                                top: 0;
+                                                color: #FF9437;
                                             }
                                         }
                                         a {
@@ -394,7 +435,17 @@
                                             font-weight: 500;
                                             font-size: 14px;
                                             line-height: 16px;
-                                            font-family: 'Inter';
+                                            padding-right: 23px;
+                                            position: relative;
+                                            &:before {
+                                                position: absolute;
+                                                content: "\e909";
+                                                font-family: "wpsp";
+                                                font-size: 14px;
+                                                right: 0;
+                                                top: 0;
+                                                color: #6C62FF;
+                                            }
                                         } 
                                     }
                                     .content {
@@ -412,8 +463,13 @@
                                             }
                                             .single-content {
                                                 display: flex;
+                                                justify-content: center;
                                                 align-items: center;
-                                                gap: 16px;
+                                                gap: 18px;
+                                                i {
+                                                    font-size: 32px;
+                                                    color: #6C62FF;
+                                                }
                                                 h5 {
                                                     font-size: 16px;
                                                     font-weight: 500;
