@@ -30,7 +30,9 @@ export default function SelectedProfile( { platform, item, handleSelectedProfile
                 }[platform]
             }
             <h4> { platform == 'pinterest' ? item?.default_board_name?.label : item?.name }</h4>
-            <span>{ item?.added_by.replace(/^\w/, (c) => c.toUpperCase()) } { __('on','wp-scheduled-posts') } {getFormatDateTime(item?.added_date)}</span>
+            { console.log('item',item)
+             }
+            <span>{ item?.added_by?.replace(/^\w/, (c) => c.toUpperCase()) } { __('on','wp-scheduled-posts') } {getFormatDateTime(item?.added_date)}</span>
             <div className="action">
                 <div className="status">
                     <div className="switcher">

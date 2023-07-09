@@ -2,15 +2,29 @@ import React, { useState } from 'react'
 import { __ } from '@wordpress/i18n'
 import Select from "react-select";
 
-export default function MainProfile( { props, handleProfileStatusChange, profileStatus, openApiCredentialsModal } ) {
-    const [accountType,setAccountType] = useState("");
-    const options = [
-        { value: 'page',    label: __('Page','wp-scheduled-posts') },
-        { value: 'group',   label: __('Group','wp-scheduled-posts') }
-    ]
+export default function MainProfile( { props, handleProfileStatusChange, profileStatus, openApiCredentialsModal } ) {    
+    let options = [];
+    let pageDisabled = true;
+    // @ts-ignore
+    if( wpspSettingsGlobal?.pro_version ) {
+        pageDisabled = false;
+    }
+    if( props?.type == 'facebook' ) {
+        options = [
+            { value: 'page',    label: __('Page','wp-scheduled-posts') },
+            { value: 'group',   label: __('Group','wp-scheduled-posts') }
+        ]
+    }else{
+        options = [
+            { value: 'profile',    label: __('Profile','wp-scheduled-posts') },
+            { value: 'page',   label: __('Page','wp-scheduled-posts'), isDisabled: pageDisabled }
+        ]
+    }
+    
     const handleAccountType = (selectedOption) => {
-        setAccountType( selectedOption.value )
+        localStorage.setItem('account_type', selectedOption.value);
     };
+    
     return (
         <>
             <div className="card-header">
@@ -40,13 +54,14 @@ export default function MainProfile( { props, handleProfileStatusChange, profile
                 </div>
             </div>
             <div className="card-content">
-                <p dangerouslySetInnerHTML={{ __html: props?.desc }}></p>
+                <p dangerouslySetInnerHTML={{ __html: props?.desc }} />
             </div>
-            { props?.type == 'facebook' && (
+            { ['facebook', 'linkedin'].includes(props?.type) && (
                 <Select
                     id={props?.id}
                     onChange={handleAccountType}
                     options={options}
+                    defaultValue={options[0]}
                 />
             ) }
             <div className="card-footer">
@@ -55,7 +70,7 @@ export default function MainProfile( { props, handleProfileStatusChange, profile
                     className={
                     "wpscp-social-tab__btn--addnew-profile"
                     }
-                    onClick={() => openApiCredentialsModal(accountType)}
+                    onClick={() => openApiCredentialsModal()}
                     >
                     { __("Add New", "wp-scheduled-posts")}
                 </button>

@@ -21,8 +21,10 @@ const Linkedin = (props) => {
     const [selectedProfile, setSelectedProfile] = useState(props?.value);
     const [isErrorMessage, setIsErrorMessage] = useState(false)
     const [profileStatus, setProfileStatus] = useState(builderContext?.savedValues?.linkedin_profile_status);
+    const [accountType, setAccountType] = useState("")
 
-    const openApiCredentialsModal = (platform) => {
+    const openApiCredentialsModal = (accountType) => {
+        setAccountType(accountType);
         setPlatform('linkedin');
         setApiCredentialsModal(true);
     };
@@ -32,17 +34,21 @@ const Linkedin = (props) => {
     };
 
     // @ts-ignore
-    let { profiles = [], pages = [], ...appData} = selectedProfile ?? {};
-    profiles = profiles ? profiles : [];
-    profiles = profiles.map((val, i) => {
-        return {...appData, ...val}
-    });
-    pages = pages ? pages : [];
-    pages = pages.map((val, i) => {
-        return {...appData, ...val}
-    });
-
-
+    let { profiles = [], pages = [], ...appData} = selectedProfile ?? {};;
+    let account_type = localStorage.getItem('account_type');
+    let all_profiles = [];
+    let all_pages = [];
+    if( account_type == 'profile' ) {
+        all_profiles = profiles ? profiles : [];
+        all_profiles = all_profiles.map((val, i) => {
+            return {...appData, ...val}
+        });
+    }else if( account_type == 'page' ) {
+        all_pages = pages ? pages : [];
+        all_pages = all_pages.map((val, i) => {
+            return {...appData, ...val}
+        });
+    }
 
     // Handle profile & selected profile status onChange event
     const handleProfileStatusChange = (event) => {
@@ -96,7 +102,6 @@ const Linkedin = (props) => {
 			},
 		});
 	}, [profileStatus]);
-    
     return (
         <div className={classNames('wprf-control', 'wprf-social-profile', `wprf-${props.name}-social-profile`, props?.classes)}>
            {isErrorMessage && (

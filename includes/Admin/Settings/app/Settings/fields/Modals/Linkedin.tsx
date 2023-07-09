@@ -3,33 +3,39 @@ import { __ } from '@wordpress/i18n'
 
 export default function Linkedin({ platform, data, addProfileToggle,savedProfile }) {
     let {profiles, pages, ...appData} = data;
-    profiles = profiles ? profiles : [];
-    profiles = profiles.map((val, i) => {
-        return {...appData, ...val}
-    });
-    pages = pages ? pages : [];
-    pages = pages.map((val, i) => {
-        return {...appData, ...val}
-    });
-    
+    let account_type = localStorage.getItem('account_type');
+    let all_profiles = [];
+    let all_pages = [];
+    if( account_type == 'profile' ) {
+        all_profiles = profiles ? profiles : [];
+        all_profiles = all_profiles.map((val, i) => {
+            return {...appData, ...val}
+        });
+    }else if( account_type == 'page' ) {
+        all_pages = pages ? pages : [];
+        all_pages = all_pages.map((val, i) => {
+            return {...appData, ...val}
+        });
+    }
+
     return (
         <>
            <div className='wpsp-modal-social-platform'>
                 <ul>
-                    {pages.length > 0 && (
+                    {all_pages.length > 0 && (
                         <li>{__('Pages:', 'wp-scheduled-posts')} </li>
                     )}
-                    {pages.map((item, index) => (
+                    {all_pages.map((item, index) => (
                         <li key={index}>
                             <div className='item-content'>
                                 <div className='entry-thumbnail'>
                                     <img
-                                        src={item.thumbnail_url}
+                                        src={item?.thumbnail_url}
                                         alt='logo'
                                     />
                                 </div>
                                 <h4 className='entry-title'>
-                                    {item.name}
+                                    {item?.name}
                                 </h4>
                                 <div className='control'>
                                     <input
@@ -49,20 +55,20 @@ export default function Linkedin({ platform, data, addProfileToggle,savedProfile
                     ))}
                 </ul>
                 <ul>
-                    {profiles.length > 0 && (
+                    {all_profiles.length > 0 && (
                         <li>{__('Profile:', 'wp-scheduled-posts')} </li>
                     )}
-                    {profiles.map((item, index) => (
+                    {all_profiles.map((item, index) => (
                         <li key={index}>
                             <div className='item-content'>
                                 <div className='entry-thumbnail'>
                                     <img
-                                        src={item.thumbnail_url}
+                                        src={item?.thumbnail_url}
                                         alt='logo'
                                     />
                                 </div>
                                 <h4 className='entry-title'>
-                                    {item.name}
+                                    {item?.name}
                                 </h4>
                                 <div className='control'>
                                     <input
