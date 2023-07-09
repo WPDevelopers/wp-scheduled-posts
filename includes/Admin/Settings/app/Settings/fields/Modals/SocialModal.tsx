@@ -11,14 +11,12 @@ import {
     useBuilderContext,
 } from "quickbuilder";
 
-function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage,props, type, accountType = '' }) {
+function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage,props, type}) {
     const builderContext = useBuilderContext();
 
     const [requestSending, setRequestSending] = useState(false);
     const [profileDataModal, setProfileDataModal] = useState(false);
     const [error, setError] = useState("");
-    const [borads,setBoards] = useState([]);
-    const [twitterData,setTwitterData] = useState([]);
     const [fbPage, setFbPage] = useState([]);
     const [fbGroup, setFbGroup] = useState([]);
     const [pinterestBoards, setPinterestBoards] = useState([]);
@@ -28,6 +26,7 @@ function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage,pro
     const [savedProfile,setSavedProfile] = useState([]);
     const [cashedSectionData, setCashedSectionData] = useState({});
 
+    let account_type = localStorage.getItem('account_type');
 
     useEffect(() => {
         // Send API request fo fetching data
@@ -47,8 +46,14 @@ function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage,pro
                     }
                     getProfileData(params).then(response => {
                         setRequestSending(false);
-                        setFbPage(response.page);
-                        setFbGroup(response.group);
+                        if( account_type == 'page' ) {
+                            setFbPage(response.page);
+                        }else if( account_type == 'group' ) {
+                            setFbGroup(response.group);
+                        }else{
+                            setFbPage(response.page);
+                            setFbGroup(response.group);
+                        }
                         setResponseData([response.data]);
                         setLinkedInData(response.linkedin);
                         setPinterestBoards(response.boards);
@@ -154,8 +159,7 @@ function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage,pro
             setSavedProfile((prevItems) => prevItems.filter((prevItem) => prevItem.id !== pinterestItem.id));
         }
     }
-    console.log(accountType);
-    
+
   return (
     <Modal
         isOpen={profileDataModal}

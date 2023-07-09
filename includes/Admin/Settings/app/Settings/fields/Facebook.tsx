@@ -22,11 +22,9 @@ const Facebook = (props) => {
     const [selectedProfile, setSelectedProfile] = useState(props?.value);
     const [profileStatus, setProfileStatus] = useState(builderContext?.savedValues?.facebook_profile_status);
     const [isErrorMessage, setIsErrorMessage] = useState(false)
-    const [accountType, setAccountType] = useState("")
     
     // Open and Close API credentials modal
-    const openApiCredentialsModal = (accountType) => {
-        setAccountType(accountType);
+    const openApiCredentialsModal = () => {
         setPlatform('facebook');
         setApiCredentialsModal(true);
     };
@@ -121,7 +119,6 @@ const Facebook = (props) => {
                 setIsErrorMessage={setIsErrorMessage}
                 props={props}
                 type="facebook"
-                accountType={accountType}
             />
         </div>
     )
