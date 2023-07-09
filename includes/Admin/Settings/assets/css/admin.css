@@ -4307,21 +4307,21 @@ button.wprf-btn {
   margin-top: 0;
   text-align: end;
 }
-#wpsp-dashboard-body .wprf-tab-layout_manage_schedule {
+#wpsp-dashboard-body .manage-schedule .wprf-section-fields {
   display: flex;
   gap: 30px;
 }
-#wpsp-dashboard-body .wprf-tab-layout_manage_schedule .wprf-control-section {
+#wpsp-dashboard-body .manage-schedule .wprf-control-section {
   flex-basis: 50%;
 }
-#wpsp-dashboard-body .wprf-tab-layout_manage_schedule .wprf-control-section .header {
+#wpsp-dashboard-body .manage-schedule .wprf-control-section .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 20px;
   margin-bottom: 24px;
 }
-#wpsp-dashboard-body .wprf-tab-layout_manage_schedule .wprf-control-section .header .title h3 {
+#wpsp-dashboard-body .manage-schedule .wprf-control-section .header .title h3 {
   font-size: 24px;
   font-weight: 600;
   line-height: 1.2em;
@@ -4329,21 +4329,21 @@ button.wprf-btn {
   padding-bottom: 16px;
   margin: 0;
 }
-#wpsp-dashboard-body .wprf-tab-layout_manage_schedule .wprf-control-section .header .title span {
+#wpsp-dashboard-body .manage-schedule .wprf-control-section .header .title span {
   color: #6E6E8D;
   font-size: 14px;
   line-height: 1.6em;
 }
-#wpsp-dashboard-body .wprf-tab-layout_manage_schedule .wprf-control-section .header .title span a {
+#wpsp-dashboard-body .manage-schedule .wprf-control-section .header .title span a {
   color: #1B1B50;
 }
-#wpsp-dashboard-body .wprf-tab-layout_manage_schedule .auto_scheduler .content {
+#wpsp-dashboard-body .manage-schedule .auto_scheduler .content {
   display: flex;
   justify-content: space-between;
   gap: 10px;
   margin-bottom: 10px;
 }
-#wpsp-dashboard-body .wprf-tab-layout_manage_schedule .auto_scheduler .content .set-timing {
+#wpsp-dashboard-body .manage-schedule .auto_scheduler .content .set-timing {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -4352,19 +4352,19 @@ button.wprf-btn {
   border-radius: 4px;
   padding: 16px 17px;
 }
-#wpsp-dashboard-body .wprf-tab-layout_manage_schedule .auto_scheduler .content .set-timing .time-title h4 {
+#wpsp-dashboard-body .manage-schedule .auto_scheduler .content .set-timing .time-title h4 {
   color: #1B1B50 !important;
   font-size: 14px !important;
   line-height: 1.2em !important;
   font-weight: 500 !important;
   padding: 0 0 12px !important;
 }
-#wpsp-dashboard-body .wprf-tab-layout_manage_schedule .auto_scheduler .content .set-timing .time-title span {
+#wpsp-dashboard-body .manage-schedule .auto_scheduler .content .set-timing .time-title span {
   color: #6E6E8D;
   font-size: 10px;
   line-height: 1.2em;
 }
-#wpsp-dashboard-body .wprf-tab-layout_manage_schedule .auto_scheduler .content .set-timing .time select {
+#wpsp-dashboard-body .manage-schedule .auto_scheduler .content .set-timing .time select {
   font-size: 14px;
   line-height: 1.2em;
   font-weight: 500;
@@ -4373,22 +4373,22 @@ button.wprf-btn {
   border: 1px solid #EBEEF5;
   border-radius: 4px;
 }
-#wpsp-dashboard-body .wprf-tab-layout_manage_schedule .auto_scheduler .content .set-timing .time select:focus {
+#wpsp-dashboard-body .manage-schedule .auto_scheduler .content .set-timing .time select:focus {
   box-shadow: none;
 }
-#wpsp-dashboard-body .wprf-tab-layout_manage_schedule .auto_scheduler .weeks {
+#wpsp-dashboard-body .manage-schedule .auto_scheduler .weeks {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
 }
-#wpsp-dashboard-body .wprf-tab-layout_manage_schedule .auto_scheduler .weeks .week {
+#wpsp-dashboard-body .manage-schedule .auto_scheduler .weeks .week {
   display: flex;
   flex-direction: column;
   padding: 16px 22px;
   border: 1px solid #F3F2FF;
   border-radius: 4px;
 }
-#wpsp-dashboard-body .wprf-tab-layout_manage_schedule .auto_scheduler .weeks .week input {
+#wpsp-dashboard-body .manage-schedule .auto_scheduler .weeks .week input {
   padding: 10px 20px;
   line-height: 2;
   max-height: 30px;
@@ -4400,30 +4400,30 @@ button.wprf-btn {
   border: 1px solid #EBEEF5;
   border-radius: 4px;
 }
-#wpsp-dashboard-body .wprf-tab-layout_manage_schedule .auto_scheduler .weeks .week:focus {
+#wpsp-dashboard-body .manage-schedule .auto_scheduler .weeks .week:focus {
   border-color: none;
   box-shadow: none !important;
   outline: 0;
 }
-#wpsp-dashboard-body .wprf-tab-layout_manage_schedule .auto_scheduler .weeks .week span {
+#wpsp-dashboard-body .manage-schedule .auto_scheduler .weeks .week span {
   font-size: 10px;
   line-height: 1.2em;
   color: #6E6E8D;
   margin-bottom: 16px;
 }
-#wpsp-dashboard-body .wprf-tab-layout_manage_schedule .auto_scheduler .weeks .week h6 {
+#wpsp-dashboard-body .manage-schedule .auto_scheduler .weeks .week h6 {
   font-size: 12px;
   line-height: 1.2em;
   color: #1B1B50;
   margin: 0;
 }
-#wpsp-dashboard-body .wprf-tab-layout_manage_schedule .manual_scheduler .content {
+#wpsp-dashboard-body .manage-schedule .manual_scheduler .content {
   display: flex;
   justify-content: space-between;
   gap: 20px;
   margin-bottom: 24px;
 }
-#wpsp-dashboard-body .wprf-tab-layout_manage_schedule .manual_scheduler .content .select-items select {
+#wpsp-dashboard-body .manage-schedule .manual_scheduler .content .select-items select {
   font-size: 16px;
   line-height: 1.2em;
   color: #2c3338;
@@ -4437,7 +4437,7 @@ button.wprf-btn {
   cursor: pointer;
   vertical-align: middle;
 }
-#wpsp-dashboard-body .wprf-tab-layout_manage_schedule .manual_scheduler .content button {
+#wpsp-dashboard-body .manage-schedule .manual_scheduler .content button {
   background: #6C62FF;
   border: none;
   border-radius: 6px;
@@ -4448,25 +4448,25 @@ button.wprf-btn {
   font-weight: 500;
   cursor: pointer;
 }
-#wpsp-dashboard-body .wprf-tab-layout_manage_schedule .manual_scheduler .weeks {
+#wpsp-dashboard-body .manage-schedule .manual_scheduler .weeks {
   display: flex;
   gap: 8px;
 }
-#wpsp-dashboard-body .wprf-tab-layout_manage_schedule .manual_scheduler .weeks .week {
+#wpsp-dashboard-body .manage-schedule .manual_scheduler .weeks .week {
   display: flex;
   flex-direction: column;
   border: 1px solid #F3F2FF;
   border-radius: 4px;
   padding: 12px 4px 4px;
 }
-#wpsp-dashboard-body .wprf-tab-layout_manage_schedule .manual_scheduler .weeks .week h6 {
+#wpsp-dashboard-body .manage-schedule .manual_scheduler .weeks .week h6 {
   font-size: 12px;
   line-height: 1.2em;
   font-weight: 500;
   color: #1B1B50;
   margin: 0 0 4px;
 }
-#wpsp-dashboard-body .wprf-tab-layout_manage_schedule .manual_scheduler .weeks .week span {
+#wpsp-dashboard-body .manage-schedule .manual_scheduler .weeks .week span {
   background: #F3F2FF;
   padding: 8px;
   border-radius: 4px;
