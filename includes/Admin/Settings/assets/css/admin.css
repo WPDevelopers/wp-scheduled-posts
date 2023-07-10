@@ -3708,10 +3708,10 @@ button.wprf-btn {
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-time .wprf-control-label .selected-options ul li button,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-control-label .selected-options ul li button {
-  font-size: 12px;
+  font-size: 8px;
   border: none;
   background: transparent;
-  color: #6C62FF;
+  color: #6E6E8D;
   cursor: pointer;
   padding: 0;
 }
