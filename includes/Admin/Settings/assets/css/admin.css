@@ -3330,6 +3330,10 @@ button.wprf-btn {
 #wpsp-dashboard-body input[type=number] {
   -moz-appearance: textfield;
 }
+#wpsp-dashboard-body ul {
+  padding: 0;
+  margin: 0;
+}
 #wpsp-dashboard-body .wpsp-admin-header {
   background: #fff;
   padding: 20px 40px;
@@ -4398,6 +4402,7 @@ button.wprf-btn {
   padding: 16px 22px;
   border: 1px solid #F3F2FF;
   border-radius: 4px;
+  align-items: center;
 }
 #wpsp-dashboard-body .manage-schedule .auto_scheduler .weeks .week input {
   padding: 10px 20px;
@@ -4495,6 +4500,142 @@ button.wprf-btn {
   color: #6E6E8D;
   font-size: 6px;
   cursor: pointer;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper {
+  padding: 0 !important;
+  border-radius: 0 !important;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields {
+  display: flex;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section {
+  border-radius: 0 !important;
+  border: none !important;
+  margin-bottom: 0 !important;
+  flex-basis: 50%;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields {
+  display: flex;
+  flex-direction: column;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper {
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  margin-bottom: 40px !important;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-label label,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-label label,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-label label,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-label label {
+  font-size: 24px !important;
+  line-height: 1.2em !important;
+  font-weight: 600 I !important;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-label .wprf-badge .wprf-badge-item,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-label .wprf-badge .wprf-badge-item,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-label .wprf-badge .wprf-badge-item,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-label .wprf-badge .wprf-badge-item {
+  padding: 4px 8px !important;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wpfr-section-html,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wpfr-section-html,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wpfr-section-html,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wpfr-section-html {
+  font-size: 14px;
+  color: #6E6E8D;
+  line-height: 1.6em;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list h4,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list h4,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list h4,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list h4 {
+  font-size: 18px !important;
+  line-height: 1.2em !important;
+  margin-bottom: 24px !important;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item {
+  font-size: 14px;
+  line-height: 1em;
+  color: #6C62FF;
+  list-style: decimal;
+  margin-left: 15px !important;
+  transition: ease-in-out 0.25s;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item:hover,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item:hover,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item:hover,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item:hover {
+  color: #6E6E8D;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li a,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li a,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li a,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li a {
+  color: #6C62FF;
+  line-height: 1em;
+  transition: ease-in-out 0.25s;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li a:hover,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li a:hover,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li a:hover,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li a:hover {
+  color: #6E6E8D;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .advance_schedule_switcher,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .missed_schedule_switcher,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .advance_schedule_switcher,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .missed_schedule_switcher,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .advance_schedule_switcher,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .missed_schedule_switcher,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .advance_schedule_switcher,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .missed_schedule_switcher {
+  border-radius: 0 !important;
+  border-width: 0 1px 0 0 !important;
+  border-color: #EBEEF5 !important;
+  border-style: solid !important;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .advance_video .wprf-video h4,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .missed_video .wprf-video h4,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .advance_video .wprf-video h4,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .missed_video .wprf-video h4,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .advance_video .wprf-video h4,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .missed_video .wprf-video h4,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .advance_video .wprf-video h4,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .missed_video .wprf-video h4 {
+  font-size: 18px !important;
+  font-weight: 500;
+  line-height: 1.2em;
+  color: #1B1B50;
+  margin-bottom: 24px !important;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .advance_video .wprf-video iframe,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .missed_video .wprf-video iframe,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .advance_video .wprf-video iframe,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .missed_video .wprf-video iframe,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .advance_video .wprf-video iframe,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .missed_video .wprf-video iframe,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .advance_video .wprf-video iframe,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .missed_video .wprf-video iframe {
+  width: 100%;
 }
 #wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-type-radio-card .wprf-control-field .wprf-row {
   align-items: center;
