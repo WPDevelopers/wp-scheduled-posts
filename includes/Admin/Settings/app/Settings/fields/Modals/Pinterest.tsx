@@ -2,8 +2,8 @@ import React, { useState,useEffect } from 'react'
 import { __ } from '@wordpress/i18n'
 import { default as ReactSelect } from "react-select";
 
-export default function Pinterest({ platform, data, boards,fetchSectionData,noSection,addProfileToggle,savedProfile }) {
-    const boardOptions = boards?.map((board) => {
+export default function Pinterest({ platform, data, boards,fetchSectionData,noSection,addProfileToggle,savedProfile,singlePinterestBoard }) {
+    let boardOptions = boards?.map((board) => {
       return {
         label: board.name || board.id,
         value: board.id,
@@ -12,7 +12,8 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
     const [defaultBoard, setDefaultBoard] = useState();
     const [defaultSection, setDefaultSection] = useState(noSection);
     const [sectionOptions, setSectionOptions] = useState([noSection]);
-  
+    const [singleBoardOptions, setSingleBoardOptions] = useState([]);
+
     useEffect(() => {
       setDefaultSection(noSection);
     }, [defaultBoard]);
@@ -20,11 +21,17 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
     useEffect(() => {
       setDefaultBoard(boardOptions?.[0]);
     }, [boards]);
-    
+
+    useEffect( () => {
+      if( singlePinterestBoard ) {
+        setSingleBoardOptions([singlePinterestBoard?.default_board_name]);
+        setDefaultSection([singlePinterestBoard?.defaultSection]);
+      }
+    },[singlePinterestBoard] );
     return (
         <>
           <div className="wpsp-modal-social-platform">
-            {data.map( ( item, index ) => (
+            { !singlePinterestBoard && data?.map ( ( item, index ) => (
               <div className="profile-info">
                 <img width={'40px'} src={item?.thumbnail_url} alt={item?.name} />
                 <h3>{item?.name}</h3>
@@ -43,7 +50,9 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
                                 setSectionOptions
                               )
                             }
-                            onChange={setDefaultSection}
+                            onChange={ (event) => {
+                              setDefaultSection(event)
+                            } }
                             options={sectionOptions}
                           />
                         </div>
@@ -74,6 +83,56 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
                   </ul>
               </div>
             ) )}
+            { singlePinterestBoard && (
+              <div className="profile-info">
+                <img width={'40px'} src={singlePinterestBoard?.thumbnail_url} alt={singlePinterestBoard?.name} />
+                <h3>{singlePinterestBoard?.name}</h3>
+                <ul>
+                  {singleBoardOptions?.map((board, board_index) => (
+                    <li key={board_index}>
+                      <div className="item-content">
+                        <h4 className="entry-title">{board?.label}</h4>
+                        <div className="control pinterest-select">
+                          <ReactSelect
+                            value={defaultSection}
+                            onMenuOpen={() =>
+                              fetchSectionData(
+                                board?.value,
+                                singlePinterestBoard,
+                                setSectionOptions
+                              )
+                            }
+                            onChange={setDefaultSection}
+                            options={sectionOptions}
+                          />
+                        </div>
+                        <input
+                            type='checkbox'
+                            onChange={ (event) => {
+                              addProfileToggle(
+                                singlePinterestBoard,
+                                defaultBoard,
+                                defaultSection,
+                                event,
+                                board,
+                              )
+                              }
+                            }
+                        />
+                      </div>
+                    </li>
+                  ))}
+                <button
+                  type="submit"
+                  className="wpsp-modal-save-account"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    savedProfile(event)
+                  }}
+                  >{ __( 'Save','wp-scheduled-posts' ) }</button>
+                  </ul>
+              </div>
+            ) }
             
           </div>
         </>

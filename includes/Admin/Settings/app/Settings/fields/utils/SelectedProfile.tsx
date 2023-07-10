@@ -35,7 +35,7 @@ export default function SelectedProfile( { platform, item, handleSelectedProfile
                     <div className="status">
                         <div className="switcher">
                             <input
-                                id={item?.id}
+                                id={item?.default_board_name?.value}
                                 type='checkbox'
                                 className="wprf-switcher-checkbox"
                                 checked={item?.status}
@@ -45,7 +45,7 @@ export default function SelectedProfile( { platform, item, handleSelectedProfile
                             />
                             <label
                                 className="wprf-switcher-label"
-                                htmlFor={item?.id}
+                                htmlFor={item?.default_board_name?.value}
                                 style={{ background: item?.status && '#02AC6E' }}
                             >
                                 <span className={`wprf-switcher-button`} />

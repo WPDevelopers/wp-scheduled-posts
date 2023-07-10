@@ -25,7 +25,7 @@ function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage,pro
     const [socialPlatform, setSocialPlatform] = useState("");  
     const [savedProfile,setSavedProfile] = useState(props?.value);
     const [cashedSectionData, setCashedSectionData] = useState({});
-
+    const [singlePinterestBoard,setSinglePinterestBoard] = useState('');
     let account_type = localStorage.getItem('account_type');
 
     useEffect(() => {
@@ -66,8 +66,10 @@ function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage,pro
 
     useEffect( () => {
         if( profileItem ) {
+            // @ts-ignore 
+            setSinglePinterestBoard(profileItem);
             setProfileDataModal(true);
-            setPinterestBoards(profileItem?.boards);
+            
         }
         console.log(type);
         
@@ -233,6 +235,7 @@ function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage,pro
                                     noSection={noSection}
                                     addProfileToggle={addPinterestProfileToggle}
                                     savedProfile={addSavedProfile}
+                                    singlePinterestBoard={singlePinterestBoard}
                                 />
                               ),
                         }[type]

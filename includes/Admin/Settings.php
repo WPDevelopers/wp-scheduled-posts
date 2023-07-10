@@ -1026,7 +1026,7 @@ class Settings {
                                             'name'          => 'is_delayed_schedule_active',
                                             'type'          => 'toggle',
                                             'label'         => __('Missed Schedule', 'wp-scheduled-posts'),
-                                            'help'          => __('Enable to publish posts randomly', 'wp-scheduled-posts'),
+                                            'help'   => __('Enable to publish posts randomly', 'wp-scheduled-posts'),
                                             'default'       => 0,
                                             'is_pro'        => true,
                                             'priority'      => 5,

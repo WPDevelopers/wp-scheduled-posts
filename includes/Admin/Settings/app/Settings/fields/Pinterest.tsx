@@ -33,19 +33,20 @@ const Pinterest = (props) => {
         setApiCredentialsModal(false);
     };
     const handleSelectedProfileStatusChange = (item,event) => {
+        console.log(item);
         const updatedData = selectedProfile.map(selectedItem => {
-            if (selectedItem.id === item.id) {
-            return {
-                ...selectedItem,
-                status: event.target.checked
-            };
+            if (selectedItem.default_board_name.value === item.default_board_name.value) {
+                return {
+                    ...selectedItem,
+                    status: event.target.checked
+                };
             }
             return selectedItem;
         });
         setSelectedProfile(updatedData);
     };
     const handleDeleteSelectedProfile = (item) => {
-        const updatedData = selectedProfile.filter(selectedItem => selectedItem.id !== item.id);
+        const updatedData = selectedProfile.filter(selectedItem => selectedItem.default_board_name.value !== item.default_board_name.value);
         setSelectedProfile(updatedData);
     };
     // Handle profile & selected profile status onChange event
