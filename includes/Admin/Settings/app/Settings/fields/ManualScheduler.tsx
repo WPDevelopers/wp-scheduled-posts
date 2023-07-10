@@ -16,9 +16,15 @@ const ManualScheduler = (props) => {
             <div className="content">
                 <select name="days" id="days" className="select-days select-items">
                     <option value="">Select Days</option>
+                    <option value="">Friday</option>
+                    <option value="">Saturday</option>
+                    <option value="">Sunday</option>
                 </select>
                 <select name="time" id="time" className="select-times select-items">
                     <option value="">Select Times</option>
+                    <option value="">12:15 AM</option>
+                    <option value="">12:15 AM</option>
+                    <option value="">12:15 AM</option>
                 </select>
                 <button>Save Schedule</button>
             </div>
