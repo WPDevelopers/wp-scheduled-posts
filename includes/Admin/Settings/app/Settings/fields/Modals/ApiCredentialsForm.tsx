@@ -24,14 +24,15 @@ const ApiCredentialsForm = ({ props, platform, requestHandler }) => {
   }
   const onSubmitHandler = (event) => {
     event.preventDefault();
-      if (redirectURI && appID && appSecret) {
-        requestHandler(redirectURIv2, '', '', platform).then((res) => {
-          if( res?.error ) {
-            setMultiAccountError(true);
-            setMultiAccountErrorMessage(res?.message);
-          }
-       });
-      }
+    if (redirectURI && appID && appSecret) {
+      requestHandler(redirectURI, appID, appSecret,platform).then((res) => {
+        if( res?.error ) {
+          setMultiAccountError(true);
+          setMultiAccountErrorMessage(res?.message);
+        }
+        return res;
+      });
+    }
   }
   return (
     <React.Fragment>

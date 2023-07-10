@@ -11,7 +11,7 @@ import {
     useBuilderContext,
 } from "quickbuilder";
 
-function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage,props, type}) {
+function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage,props, type, profileItem = '', isProfileEditModal = false}) {
     const builderContext = useBuilderContext();
 
     const [requestSending, setRequestSending] = useState(false);
@@ -23,7 +23,7 @@ function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage,pro
     const [responseData, setResponseData] = useState([]);
     const [linkedInData, setLinkedInData] = useState({})
     const [socialPlatform, setSocialPlatform] = useState("");  
-    const [savedProfile,setSavedProfile] = useState([]);
+    const [savedProfile,setSavedProfile] = useState(props?.value);
     const [cashedSectionData, setCashedSectionData] = useState({});
 
     let account_type = localStorage.getItem('account_type');
@@ -64,6 +64,15 @@ function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage,pro
         getQueryParams(window.location.search);        
     },[window.location]);
 
+    useEffect( () => {
+        if( profileItem ) {
+            setProfileDataModal(true);
+            setPinterestBoards(profileItem?.boards);
+        }
+        console.log(type);
+        
+    },[profileItem] )
+
     const closeProfileDataModal = () => {
         setProfileDataModal(false);
     };
@@ -96,9 +105,10 @@ function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage,pro
     }
     const addSavedProfile = () => {
         setSelectedProfile(savedProfile);
+        console.log('selected-profile',selectedProfile);
         closeProfileDataModal();
     }
-    const noSection = { label: "No Section", value: "" };
+    const noSection = { label: __("No Section",'wp-scheduled-posts'), value: "" };
 
     const fetchSectionData = (defaultBoard, profile, updateOptions) => {
         let options = [noSection];
@@ -132,8 +142,8 @@ function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage,pro
         }
     };
 
-    const addPinterestProfileToggle = (item,defaultBoard,defaultSection,event) => {
-        const pinterestItem = { ...item, borads : pinterestBoards, defaultSection: defaultSection, default_board_name : defaultBoard };
+    const addPinterestProfileToggle = (item,defaultBoard,defaultSection,event, board) => {
+        const pinterestItem = { ...item, borads : pinterestBoards, defaultSection: defaultSection, default_board_name : board };
         if( event.target.checked ) {
             // free
             // @ts-ignore
@@ -141,7 +151,7 @@ function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage,pro
                 // @ts-ignore
                 if (!savedProfile || (savedProfile && savedProfile.length == 0)) {
                     setIsErrorMessage(false)
-                    if (!savedProfile.some((profile) => profile.id === pinterestItem.id)) {
+                    if (!savedProfile.some((profile) => profile.default_board_name.value === pinterestItem.default_board_name.value)) {
                         setSavedProfile((prevItems) => [...prevItems, pinterestItem]);
                     }
                 } else {
@@ -149,14 +159,15 @@ function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage,pro
                     setIsErrorMessage(true)
                 }
             } else {
-                if ( savedProfile && !savedProfile.some((profile) => profile.id === pinterestItem.id)) {
+
+                if ( savedProfile && !savedProfile.some((profile) => profile.default_board_name.value === pinterestItem.default_board_name.value)) {
                     setSavedProfile((prevItems) => [...prevItems, pinterestItem]);
                     setIsErrorMessage(false)
                 }
             }
         }else{
             setIsErrorMessage(false)
-            setSavedProfile((prevItems) => prevItems.filter((prevItem) => prevItem.id !== pinterestItem.id));
+            setSavedProfile((prevItems) => prevItems.filter((prevItem) => prevItem.default_board_name.value !== pinterestItem.default_board_name.value));
         }
     }
 
