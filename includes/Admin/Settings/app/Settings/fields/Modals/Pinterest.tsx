@@ -15,12 +15,12 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
   
     useEffect(() => {
       setDefaultSection(noSection);
-  }, [defaultBoard]);
-  
+    }, [defaultBoard]);
+    
     useEffect(() => {
       setDefaultBoard(boardOptions?.[0]);
     }, [boards]);
-
+    
     return (
         <>
           <div className="wpsp-modal-social-platform">
@@ -51,26 +51,27 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
                             type='checkbox'
                             onChange={ (event) => {
                               addProfileToggle(
-                                    item,
-                                    defaultBoard,
-                                    defaultSection,
-                                    event,
-                                )
+                                item,
+                                defaultBoard,
+                                defaultSection,
+                                event,
+                                board,
+                              )
                               }
                             }
                         />
                       </div>
                     </li>
                   ))}
-              <button
-                type="submit"
-                className="wpsp-modal-save-account"
-                onClick={(event) => {
-                  event.preventDefault();
-                  savedProfile(event)
-                }}
-                >{ __( 'Save','wp-scheduled-posts' ) }</button>
-                </ul>
+                <button
+                  type="submit"
+                  className="wpsp-modal-save-account"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    savedProfile(event)
+                  }}
+                  >{ __( 'Save','wp-scheduled-posts' ) }</button>
+                  </ul>
               </div>
             ) )}
             

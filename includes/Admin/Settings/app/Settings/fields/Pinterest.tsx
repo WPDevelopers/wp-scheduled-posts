@@ -19,7 +19,9 @@ const Pinterest = (props) => {
     const [apiCredentialsModal,setApiCredentialsModal] = useState(false);
     const [platform, setPlatform] = useState('');
     const [selectedProfile, setSelectedProfile] = useState(props?.value);
-    const [isErrorMessage, setIsErrorMessage] = useState(false)
+    const [isErrorMessage, setIsErrorMessage] = useState(false);
+    const [isProfileEditModal, setProfileEditModal] = useState(false);
+    const [profileItem, setProfileItem] = useState("");
     const [profileStatus, setProfileStatus] = useState(builderContext?.savedValues?.pinterest_profile_status);
 
     const openApiCredentialsModal = (platform) => {
@@ -82,6 +84,12 @@ const Pinterest = (props) => {
         });
     }, [profileStatus]);
 
+    // Profile edit modal
+    const handleEditSelectedProfile = (item) => {
+        setProfileEditModal(true);
+        setProfileItem(item);
+    }
+
     return (
         <div className={classNames('wprf-control', 'wprf-social-profile', `wprf-${props.name}-social-profile`, props?.classes)}>
            {isErrorMessage && (
@@ -89,11 +97,22 @@ const Pinterest = (props) => {
             )}
             <div className='social-profile-card'>
                 <div className="main-profile">
-                    <MainProfile props={props} handleProfileStatusChange={handleProfileStatusChange} profileStatus={profileStatus} openApiCredentialsModal={openApiCredentialsModal} />
+                    <MainProfile 
+                        props={props} 
+                        handleProfileStatusChange={handleProfileStatusChange} 
+                        profileStatus={profileStatus} 
+                        openApiCredentialsModal={openApiCredentialsModal} 
+                    />
                 </div>
                 <div className="selected-profile">
                     {selectedProfile && selectedProfile.map((item,index) => (
-                        <SelectedProfile platform={'pinterest'} item={item} handleSelectedProfileStatusChange={handleSelectedProfileStatusChange} handleDeleteSelectedProfile={handleDeleteSelectedProfile} />
+                        <SelectedProfile 
+                            platform={'pinterest'} 
+                            item={item} 
+                            handleSelectedProfileStatusChange={handleSelectedProfileStatusChange} 
+                            handleDeleteSelectedProfile={handleDeleteSelectedProfile}  
+                            handleEditSelectedProfile={handleEditSelectedProfile}
+                        />
                     ))}
                 </div>
             </div>
@@ -116,6 +135,8 @@ const Pinterest = (props) => {
                 setIsErrorMessage={setIsErrorMessage}
                 props={props}
                 type="pinterest"
+                profileItem={profileItem}
+                isProfileEditModal={true}
             />
         </div>
     )

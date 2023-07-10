@@ -96,7 +96,13 @@ const Twitter = (props) => {
                 </div>
                 <div className="selected-profile">
                     {selectedProfile && selectedProfile?.map((item,index) => (
-                        <SelectedProfile platform={'twitter'} item={item} handleSelectedProfileStatusChange={handleSelectedProfileStatusChange} handleDeleteSelectedProfile={handleDeleteSelectedProfile} />
+                        <SelectedProfile 
+                            platform={'twitter'} 
+                            item={item} 
+                            handleSelectedProfileStatusChange={handleSelectedProfileStatusChange} 
+                            handleDeleteSelectedProfile={handleDeleteSelectedProfile} 
+                            handleEditSelectedProfile={''}
+                        />
                     ))}
                 </div>
             </div>
