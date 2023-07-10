@@ -102,7 +102,7 @@ class Settings {
             'config'          => [
                 'active'  => 'layout_general',
             ],
-            'fields'          => [
+            'fields'          => apply_filters('wpsp_layout_tabs',[
                 'layout_general' => [
                     'id'       => 'layout_general',
                     'name'     => 'layout_general',
@@ -1075,7 +1075,7 @@ class Settings {
                         
                     ]
                 ],
-            ]
+            ])
         ]);
     }
 
