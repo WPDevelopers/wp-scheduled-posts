@@ -532,8 +532,7 @@ class Settings {
                                 'layouts_facebook'  => [
                                     'id'            => 'layouts_facebook',
                                     'name'          => 'layouts_facebook',
-                                    'label'         => __('Facebookkkkk', 'wp-scheduled-posts'),
-                                    'logo'     => 'https://upload.wikimedia.org/wikipedia/en/thumb/0/04/Facebook_f_logo_%282021%29.svg/480px-Facebook_f_logo_%282021%29.svg.png',
+                                    'label'         => __('Facebook', 'wp-scheduled-posts'),
                                     'priority'      => 10,
                                     'fields'        => [
                                         'facebook_wrapper'     => [
