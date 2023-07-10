@@ -3239,12 +3239,8 @@ var Facebook = function (props) {
   var _f = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
     isErrorMessage = _f[0],
     setIsErrorMessage = _f[1];
-  var _g = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(""),
-    accountType = _g[0],
-    setAccountType = _g[1];
   // Open and Close API credentials modal
-  var openApiCredentialsModal = function (accountType) {
-    setAccountType(accountType);
+  var openApiCredentialsModal = function () {
     setPlatform('facebook');
     setApiCredentialsModal(true);
   };
@@ -3338,8 +3334,7 @@ var Facebook = function (props) {
     setSelectedProfile: setSelectedProfile,
     setIsErrorMessage: setIsErrorMessage,
     props: props,
-    type: "facebook",
-    accountType: accountType
+    type: "facebook"
   }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Facebook);
@@ -3576,7 +3571,11 @@ var Linkedin = function (props) {
   var _f = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)((_a = builderContext === null || builderContext === void 0 ? void 0 : builderContext.savedValues) === null || _a === void 0 ? void 0 : _a.linkedin_profile_status),
     profileStatus = _f[0],
     setProfileStatus = _f[1];
-  var openApiCredentialsModal = function (platform) {
+  var _g = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(""),
+    accountType = _g[0],
+    setAccountType = _g[1];
+  var openApiCredentialsModal = function (accountType) {
+    setAccountType(accountType);
     setPlatform('linkedin');
     setApiCredentialsModal(true);
   };
@@ -3585,20 +3584,27 @@ var Linkedin = function (props) {
     setApiCredentialsModal(false);
   };
   // @ts-ignore
-  var _g = selectedProfile !== null && selectedProfile !== void 0 ? selectedProfile : {},
-    _h = _g.profiles,
-    profiles = _h === void 0 ? [] : _h,
-    _j = _g.pages,
-    pages = _j === void 0 ? [] : _j,
-    appData = __rest(_g, ["profiles", "pages"]);
-  profiles = profiles ? profiles : [];
-  profiles = profiles.map(function (val, i) {
-    return __assign(__assign({}, appData), val);
-  });
-  pages = pages ? pages : [];
-  pages = pages.map(function (val, i) {
-    return __assign(__assign({}, appData), val);
-  });
+  var _h = selectedProfile !== null && selectedProfile !== void 0 ? selectedProfile : {},
+    _j = _h.profiles,
+    profiles = _j === void 0 ? [] : _j,
+    _k = _h.pages,
+    pages = _k === void 0 ? [] : _k,
+    appData = __rest(_h, ["profiles", "pages"]);
+  ;
+  var account_type = localStorage.getItem('account_type');
+  var all_profiles = [];
+  var all_pages = [];
+  if (account_type == 'profile') {
+    all_profiles = profiles ? profiles : [];
+    all_profiles = all_profiles.map(function (val, i) {
+      return __assign(__assign({}, appData), val);
+    });
+  } else if (account_type == 'page') {
+    all_pages = pages ? pages : [];
+    all_pages = all_pages.map(function (val, i) {
+      return __assign(__assign({}, appData), val);
+    });
+  }
   // Handle profile & selected profile status onChange event
   var handleProfileStatusChange = function (event) {
     setProfileStatus(event.target.checked);
@@ -4144,17 +4150,23 @@ function Linkedin(_a) {
   var profiles = data.profiles,
     pages = data.pages,
     appData = __rest(data, ["profiles", "pages"]);
-  profiles = profiles ? profiles : [];
-  profiles = profiles.map(function (val, i) {
-    return __assign(__assign({}, appData), val);
-  });
-  pages = pages ? pages : [];
-  pages = pages.map(function (val, i) {
-    return __assign(__assign({}, appData), val);
-  });
+  var account_type = localStorage.getItem('account_type');
+  var all_profiles = [];
+  var all_pages = [];
+  if (account_type == 'profile') {
+    all_profiles = profiles ? profiles : [];
+    all_profiles = all_profiles.map(function (val, i) {
+      return __assign(__assign({}, appData), val);
+    });
+  } else if (account_type == 'page') {
+    all_pages = pages ? pages : [];
+    all_pages = all_pages.map(function (val, i) {
+      return __assign(__assign({}, appData), val);
+    });
+  }
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: 'wpsp-modal-social-platform'
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", null, pages.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Pages:', 'wp-scheduled-posts'), " "), pages.map(function (item, index) {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", null, all_pages.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Pages:', 'wp-scheduled-posts'), " "), all_pages.map(function (item, index) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", {
       key: index
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
@@ -4162,11 +4174,11 @@ function Linkedin(_a) {
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       className: 'entry-thumbnail'
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
-      src: item.thumbnail_url,
+      src: item === null || item === void 0 ? void 0 : item.thumbnail_url,
       alt: 'logo'
     })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h4", {
       className: 'entry-title'
-    }, item.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    }, item === null || item === void 0 ? void 0 : item.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       className: 'control'
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
       type: 'checkbox',
@@ -4174,7 +4186,7 @@ function Linkedin(_a) {
         return addProfileToggle(item, index, e);
       }
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null))));
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", null, profiles.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Profile:', 'wp-scheduled-posts'), " "), profiles.map(function (item, index) {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", null, all_profiles.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Profile:', 'wp-scheduled-posts'), " "), all_profiles.map(function (item, index) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", {
       key: index
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
@@ -4182,11 +4194,11 @@ function Linkedin(_a) {
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       className: 'entry-thumbnail'
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
-      src: item.thumbnail_url,
+      src: item === null || item === void 0 ? void 0 : item.thumbnail_url,
       alt: 'logo'
     })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h4", {
       className: 'entry-title'
-    }, item.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    }, item === null || item === void 0 ? void 0 : item.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       className: 'control'
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
       type: 'checkbox',
@@ -4356,49 +4368,42 @@ function SocialModal(_a) {
     setSelectedProfile = _a.setSelectedProfile,
     setIsErrorMessage = _a.setIsErrorMessage,
     props = _a.props,
-    type = _a.type,
-    _c = _a.accountType,
-    accountType = _c === void 0 ? '' : _c;
+    type = _a.type;
   var builderContext = (0,quickbuilder__WEBPACK_IMPORTED_MODULE_8__.useBuilderContext)();
+  var _c = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
+    requestSending = _c[0],
+    setRequestSending = _c[1];
   var _d = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
-    requestSending = _d[0],
-    setRequestSending = _d[1];
-  var _e = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
-    profileDataModal = _e[0],
-    setProfileDataModal = _e[1];
-  var _f = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(""),
-    error = _f[0],
-    setError = _f[1];
+    profileDataModal = _d[0],
+    setProfileDataModal = _d[1];
+  var _e = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(""),
+    error = _e[0],
+    setError = _e[1];
+  var _f = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
+    fbPage = _f[0],
+    setFbPage = _f[1];
   var _g = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
-    borads = _g[0],
-    setBoards = _g[1];
+    fbGroup = _g[0],
+    setFbGroup = _g[1];
   var _h = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
-    twitterData = _h[0],
-    setTwitterData = _h[1];
+    pinterestBoards = _h[0],
+    setPinterestBoards = _h[1];
   var _j = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
-    fbPage = _j[0],
-    setFbPage = _j[1];
-  var _k = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
-    fbGroup = _k[0],
-    setFbGroup = _k[1];
-  var _l = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
-    pinterestBoards = _l[0],
-    setPinterestBoards = _l[1];
+    responseData = _j[0],
+    setResponseData = _j[1];
+  var _k = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({}),
+    linkedInData = _k[0],
+    setLinkedInData = _k[1];
+  var _l = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(""),
+    socialPlatform = _l[0],
+    setSocialPlatform = _l[1];
   var _m = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
-    responseData = _m[0],
-    setResponseData = _m[1];
+    savedProfile = _m[0],
+    setSavedProfile = _m[1];
   var _o = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({}),
-    linkedInData = _o[0],
-    setLinkedInData = _o[1];
-  var _p = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(""),
-    socialPlatform = _p[0],
-    setSocialPlatform = _p[1];
-  var _q = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
-    savedProfile = _q[0],
-    setSavedProfile = _q[1];
-  var _r = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({}),
-    cashedSectionData = _r[0],
-    setCashedSectionData = _r[1];
+    cashedSectionData = _o[0],
+    setCashedSectionData = _o[1];
+  var account_type = localStorage.getItem('account_type');
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
     // Send API request fo fetching data
     var getQueryParams = function (query) {
@@ -4417,8 +4422,14 @@ function SocialModal(_a) {
           }
           (0,_helper_helper__WEBPACK_IMPORTED_MODULE_3__.getProfileData)(params).then(function (response) {
             setRequestSending(false);
-            setFbPage(response.page);
-            setFbGroup(response.group);
+            if (account_type == 'page') {
+              setFbPage(response.page);
+            } else if (account_type == 'group') {
+              setFbGroup(response.group);
+            } else {
+              setFbPage(response.page);
+              setFbGroup(response.group);
+            }
             setResponseData([response.data]);
             setLinkedInData(response.linkedin);
             setPinterestBoards(response.boards);
@@ -4550,7 +4561,6 @@ function SocialModal(_a) {
       });
     }
   };
-  console.log(accountType);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react_modal__WEBPACK_IMPORTED_MODULE_0___default()), {
     isOpen: profileDataModal,
     onRequestClose: closeProfileDataModal,
@@ -5127,18 +5137,32 @@ function MainProfile(_a) {
     handleProfileStatusChange = _a.handleProfileStatusChange,
     profileStatus = _a.profileStatus,
     openApiCredentialsModal = _a.openApiCredentialsModal;
-  var _b = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
-    accountType = _b[0],
-    setAccountType = _b[1];
-  var options = [{
-    value: 'page',
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Page', 'wp-scheduled-posts')
-  }, {
-    value: 'group',
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Group', 'wp-scheduled-posts')
-  }];
+  var options = [];
+  var pageDisabled = true;
+  // @ts-ignore
+  if (wpspSettingsGlobal === null || wpspSettingsGlobal === void 0 ? void 0 : wpspSettingsGlobal.pro_version) {
+    pageDisabled = false;
+  }
+  if ((props === null || props === void 0 ? void 0 : props.type) == 'facebook') {
+    options = [{
+      value: 'page',
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Page', 'wp-scheduled-posts')
+    }, {
+      value: 'group',
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Group', 'wp-scheduled-posts')
+    }];
+  } else {
+    options = [{
+      value: 'profile',
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Profile', 'wp-scheduled-posts')
+    }, {
+      value: 'page',
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Page', 'wp-scheduled-posts'),
+      isDisabled: pageDisabled
+    }];
+  }
   var handleAccountType = function (selectedOption) {
-    setAccountType(selectedOption.value);
+    localStorage.setItem('account_type', selectedOption.value);
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "card-header"
@@ -5174,17 +5198,18 @@ function MainProfile(_a) {
     dangerouslySetInnerHTML: {
       __html: props === null || props === void 0 ? void 0 : props.desc
     }
-  })), (props === null || props === void 0 ? void 0 : props.type) == 'facebook' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_select__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  })), ['facebook', 'linkedin'].includes(props === null || props === void 0 ? void 0 : props.type) && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_select__WEBPACK_IMPORTED_MODULE_2__["default"], {
     id: props === null || props === void 0 ? void 0 : props.id,
     onChange: handleAccountType,
-    options: options
+    options: options,
+    defaultValue: options[0]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "card-footer"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
     type: "button",
     className: "wpscp-social-tab__btn--addnew-profile",
     onClick: function () {
-      return openApiCredentialsModal(accountType);
+      return openApiCredentialsModal();
     }
   }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Add New", "wp-scheduled-posts"))));
 }
@@ -5240,7 +5265,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function SelectedProfile(_a) {
-  var _b;
+  var _b, _c;
   var platform = _a.platform,
     item = _a.item,
     handleSelectedProfileStatusChange = _a.handleSelectedProfileStatusChange,
@@ -5268,7 +5293,7 @@ function SelectedProfile(_a) {
     pinterest: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
       className: 'badge'
     }, (item === null || item === void 0 ? void 0 : item.account_type) ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Board', 'wp-scheduled-posts') : item === null || item === void 0 ? void 0 : item.type)
-  }[platform], /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h4", null, " ", platform == 'pinterest' ? (_b = item === null || item === void 0 ? void 0 : item.default_board_name) === null || _b === void 0 ? void 0 : _b.label : item === null || item === void 0 ? void 0 : item.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, item === null || item === void 0 ? void 0 : item.added_by.replace(/^\w/, function (c) {
+  }[platform], /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h4", null, " ", platform == 'pinterest' ? (_b = item === null || item === void 0 ? void 0 : item.default_board_name) === null || _b === void 0 ? void 0 : _b.label : item === null || item === void 0 ? void 0 : item.name), console.log('item', item), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, (_c = item === null || item === void 0 ? void 0 : item.added_by) === null || _c === void 0 ? void 0 : _c.replace(/^\w/, function (c) {
     return c.toUpperCase();
   }), " ", (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('on', 'wp-scheduled-posts'), " ", (0,_helper_helper__WEBPACK_IMPORTED_MODULE_2__.getFormatDateTime)(item === null || item === void 0 ? void 0 : item.added_date)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "action"

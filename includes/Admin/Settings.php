@@ -328,10 +328,11 @@ class Settings {
                                 ],
                                 'notify_author_post_review_by_role' => [
                                     'name'     => 'notify_author_post_review_by_role',
-                                    'label'    => __('Role', 'notificationx'),
+                                    'label'    => __('Role:', 'notificationx'),
                                     'type'     => 'checkbox-select',
                                     'multiple' => true,
                                     'priority' => 10,
+                                    'icon_classes'  => 'wpsp-icon wpsp-close',
                                     'option'   => $this->normalize_options( \WPSP\Helper::get_all_roles() ),
                                     'rules'       => Rules::logicalRule([
                                         Rules::is( 'notify_author_post_is_review', true ),
@@ -343,6 +344,7 @@ class Settings {
                                     'type'     => 'checkbox-select',
                                     'multiple' => true,
                                     'priority' => 11,
+                                    'icon_classes'  => 'wpsp-icon wpsp-close',
                                     'option'   => $this->normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_login', 'user_login') ),
                                     'rules'       => Rules::logicalRule([
                                         Rules::is( 'notify_author_post_is_review', true ),
@@ -354,6 +356,7 @@ class Settings {
                                     'type'     => 'checkbox-select',
                                     'multiple' => true,
                                     'priority' => 12,
+                                    'icon_classes'  => 'wpsp-icon wpsp-close',
                                     'option'   => $this->normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_email', 'user_email') ),
                                     'rules'       => Rules::logicalRule([
                                         Rules::is( 'notify_author_post_is_review', true ),
@@ -374,10 +377,11 @@ class Settings {
                                 ],
                                 'notify_author_post_scheduled_by_role' => [
                                     'name'     => 'notify_author_post_scheduled_by_role',
-                                    'label'    => __('Role', 'notificationx'),
+                                    'label'    => __('Role:', 'notificationx'),
                                     'type'     => 'checkbox-select',
                                     'multiple' => true,
                                     'priority' => 25,
+                                    'icon_classes'  => 'wpsp-icon wpsp-close',
                                     'option'   => $this->normalize_options( \WPSP\Helper::get_all_roles() ),
                                     'rules'       => Rules::logicalRule([
                                         Rules::is( 'notify_author_post_is_scheduled', true ),
@@ -389,6 +393,7 @@ class Settings {
                                     'type'     => 'checkbox-select',
                                     'multiple' => true,
                                     'priority' => 30,
+                                    'icon_classes'  => 'wpsp-icon wpsp-close',
                                     'option'   => $this->normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_login', 'user_login') ),
                                     'rules'       => Rules::logicalRule([
                                         Rules::is( 'notify_author_post_is_scheduled', true ),
@@ -400,6 +405,7 @@ class Settings {
                                     'type'     => 'checkbox-select',
                                     'multiple' => true,
                                     'priority' => 35,
+                                    'icon_classes'  => 'wpsp-icon wpsp-close',
                                     'option'   => $this->normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_email', 'user_email') ),
                                     'rules'       => Rules::logicalRule([
                                         Rules::is( 'notify_author_post_is_scheduled', true ),
@@ -457,10 +463,10 @@ class Settings {
                                     'type'     => 'twitter',
                                     'label'    => __('Twitter', 'wp-scheduled-posts'),
                                     'default'  => [],
-                                    'logo'     => 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Logo_of_Twitter.svg/512px-Logo_of_Twitter.svg.png?20220821125553',
+                                    'logo'     => 'https://cdn4.iconfinder.com/data/icons/social-media-icons-the-circle-set/48/twitter_circle-512.png',
                                     'desc'     => sprintf( __('You can enable/disable Twitter social share. To configure Twitter Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-tweet-wordpress-posts/' ),
                                     'modal'    => [
-                                        'logo'               => 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Logo_of_Twitter.svg/512px-Logo_of_Twitter.svg.png?20220821125553',
+                                        'logo'               => 'https://cdn4.iconfinder.com/data/icons/social-media-icons-the-circle-set/48/twitter_circle-512.png',
                                         'redirect_url_desc'  => __('Copy this and paste it in your twitter app Callback url field.','wp-scheduled-posts'),
                                         'desc'               => sprintf( __('For details on Twitter configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your Twitter account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-tweet-wordpress-posts/','https://developers.twitter.com/' ),
                                     ],
@@ -472,10 +478,10 @@ class Settings {
                                     'type'     => 'linkedin',
                                     'label'    => __('Linkedin', 'wp-scheduled-posts'),
                                     'default'  => [],
-                                    'logo'     => 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/800px-LinkedIn_logo_initials.png',
+                                    'logo'     => 'https://upload.wikimedia.org/wikipedia/commons/f/f8/LinkedIn_icon_circle.svg',
                                     'desc'     => sprintf( __('You can enable/disable Linkedin social share. To configure Linkedin Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-linkedin/' ),
                                     'modal'    => [
-                                        'logo'               => 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/800px-LinkedIn_logo_initials.png',
+                                        'logo'               => 'https://upload.wikimedia.org/wikipedia/commons/f/f8/LinkedIn_icon_circle.svg',
                                         'redirect_url_desc'  => __('Copy this and paste it in your linkedin app Callback url field.','wp-scheduled-posts'),
                                         'desc'               => sprintf( __('For details on Linkedin configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your Linkedin account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-linkedin/','https://developer.linkedin.com/' ),
                                     ],
