@@ -3239,8 +3239,12 @@ var Facebook = function (props) {
   var _f = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
     isErrorMessage = _f[0],
     setIsErrorMessage = _f[1];
+  var _g = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(""),
+    accountType = _g[0],
+    setAccountType = _g[1];
   // Open and Close API credentials modal
-  var openApiCredentialsModal = function (platform) {
+  var openApiCredentialsModal = function (accountType) {
+    setAccountType(accountType);
     setPlatform('facebook');
     setApiCredentialsModal(true);
   };
@@ -3334,7 +3338,8 @@ var Facebook = function (props) {
     setSelectedProfile: setSelectedProfile,
     setIsErrorMessage: setIsErrorMessage,
     props: props,
-    type: "facebook"
+    type: "facebook",
+    accountType: accountType
   }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Facebook);
@@ -3757,37 +3762,85 @@ var ManualScheduler = function (props) {
     id: ""
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "content"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("select", {
+    name: "days",
+    id: "days",
     className: "select-days select-items"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("select", {
-    name: "",
-    id: ""
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", {
     value: ""
-  }, "Select Days"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, "Select Days")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("select", {
+    name: "time",
+    id: "time",
     className: "select-times select-items"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("select", {
-    name: "",
-    id: ""
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", {
     value: ""
-  }, "Select Times"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "Save Schedule")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, "Select Times")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "Save Schedule")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "weeks"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "week"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h6", null, "Sun"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "X")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "X")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "X"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h6", null, "Sun"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+    className: "wpsp-icon wpsp-close"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+    className: "wpsp-icon wpsp-close"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+    className: "wpsp-icon wpsp-close"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "week"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h6", null, "Mon"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "X")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "X")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "X")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "X")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "X")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "X")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "X"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h6", null, "Mon"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+    className: "wpsp-icon wpsp-close"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+    className: "wpsp-icon wpsp-close"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+    className: "wpsp-icon wpsp-close"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+    className: "wpsp-icon wpsp-close"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+    className: "wpsp-icon wpsp-close"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+    className: "wpsp-icon wpsp-close"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "week"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h6", null, "Tue"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "X")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "X"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h6", null, "Tue"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+    className: "wpsp-icon wpsp-close"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+    className: "wpsp-icon wpsp-close"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "week"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h6", null, "Wed"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "X")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "X")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "X"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h6", null, "Wed"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+    className: "wpsp-icon wpsp-close"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+    className: "wpsp-icon wpsp-close"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+    className: "wpsp-icon wpsp-close"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "week"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h6", null, "Thu"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "X")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "X")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "X")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "X"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h6", null, "Thu"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+    className: "wpsp-icon wpsp-close"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+    className: "wpsp-icon wpsp-close"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+    className: "wpsp-icon wpsp-close"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+    className: "wpsp-icon wpsp-close"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "week"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h6", null, "Fri"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "X")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "X")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "X"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h6", null, "Fri"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+    className: "wpsp-icon wpsp-close"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+    className: "wpsp-icon wpsp-close"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+    className: "wpsp-icon wpsp-close"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "week"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h6", null, "Sat"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "X")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "X")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "X")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "X")))));
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h6", null, "Sat"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+    className: "wpsp-icon wpsp-close"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+    className: "wpsp-icon wpsp-close"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+    className: "wpsp-icon wpsp-close"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "12:15 AM ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+    className: "wpsp-icon wpsp-close"
+  })))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ManualScheduler);
 
@@ -4303,47 +4356,49 @@ function SocialModal(_a) {
     setSelectedProfile = _a.setSelectedProfile,
     setIsErrorMessage = _a.setIsErrorMessage,
     props = _a.props,
-    type = _a.type;
+    type = _a.type,
+    _c = _a.accountType,
+    accountType = _c === void 0 ? '' : _c;
   var builderContext = (0,quickbuilder__WEBPACK_IMPORTED_MODULE_8__.useBuilderContext)();
-  var _c = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
-    requestSending = _c[0],
-    setRequestSending = _c[1];
   var _d = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
-    profileDataModal = _d[0],
-    setProfileDataModal = _d[1];
-  var _e = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(""),
-    error = _e[0],
-    setError = _e[1];
-  var _f = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
-    borads = _f[0],
-    setBoards = _f[1];
+    requestSending = _d[0],
+    setRequestSending = _d[1];
+  var _e = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
+    profileDataModal = _e[0],
+    setProfileDataModal = _e[1];
+  var _f = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(""),
+    error = _f[0],
+    setError = _f[1];
   var _g = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
-    twitterData = _g[0],
-    setTwitterData = _g[1];
+    borads = _g[0],
+    setBoards = _g[1];
   var _h = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
-    fbPage = _h[0],
-    setFbPage = _h[1];
+    twitterData = _h[0],
+    setTwitterData = _h[1];
   var _j = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
-    fbGroup = _j[0],
-    setFbGroup = _j[1];
+    fbPage = _j[0],
+    setFbPage = _j[1];
   var _k = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
-    pinterestBoards = _k[0],
-    setPinterestBoards = _k[1];
+    fbGroup = _k[0],
+    setFbGroup = _k[1];
   var _l = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
-    responseData = _l[0],
-    setResponseData = _l[1];
-  var _m = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({}),
-    linkedInData = _m[0],
-    setLinkedInData = _m[1];
-  var _o = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(""),
-    socialPlatform = _o[0],
-    setSocialPlatform = _o[1];
-  var _p = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
-    savedProfile = _p[0],
-    setSavedProfile = _p[1];
-  var _q = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({}),
-    cashedSectionData = _q[0],
-    setCashedSectionData = _q[1];
+    pinterestBoards = _l[0],
+    setPinterestBoards = _l[1];
+  var _m = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
+    responseData = _m[0],
+    setResponseData = _m[1];
+  var _o = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({}),
+    linkedInData = _o[0],
+    setLinkedInData = _o[1];
+  var _p = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(""),
+    socialPlatform = _p[0],
+    setSocialPlatform = _p[1];
+  var _q = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
+    savedProfile = _q[0],
+    setSavedProfile = _q[1];
+  var _r = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({}),
+    cashedSectionData = _r[0],
+    setCashedSectionData = _r[1];
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
     // Send API request fo fetching data
     var getQueryParams = function (query) {
@@ -4495,6 +4550,7 @@ function SocialModal(_a) {
       });
     }
   };
+  console.log(accountType);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react_modal__WEBPACK_IMPORTED_MODULE_0___default()), {
     isOpen: profileDataModal,
     onRequestClose: closeProfileDataModal,
@@ -5071,6 +5127,9 @@ function MainProfile(_a) {
     handleProfileStatusChange = _a.handleProfileStatusChange,
     profileStatus = _a.profileStatus,
     openApiCredentialsModal = _a.openApiCredentialsModal;
+  var _b = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
+    accountType = _b[0],
+    setAccountType = _b[1];
   var options = [{
     value: 'page',
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Page', 'wp-scheduled-posts')
@@ -5078,6 +5137,9 @@ function MainProfile(_a) {
     value: 'group',
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Group', 'wp-scheduled-posts')
   }];
+  var handleAccountType = function (selectedOption) {
+    setAccountType(selectedOption.value);
+  };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "card-header"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
@@ -5113,6 +5175,8 @@ function MainProfile(_a) {
       __html: props === null || props === void 0 ? void 0 : props.desc
     }
   })), (props === null || props === void 0 ? void 0 : props.type) == 'facebook' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_select__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    id: props === null || props === void 0 ? void 0 : props.id,
+    onChange: handleAccountType,
     options: options
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "card-footer"
@@ -5120,7 +5184,7 @@ function MainProfile(_a) {
     type: "button",
     className: "wpscp-social-tab__btn--addnew-profile",
     onClick: function () {
-      return openApiCredentialsModal('pinterest');
+      return openApiCredentialsModal(accountType);
     }
   }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Add New", "wp-scheduled-posts"))));
 }

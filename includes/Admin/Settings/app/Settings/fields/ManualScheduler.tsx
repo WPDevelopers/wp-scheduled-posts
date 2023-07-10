@@ -14,65 +14,60 @@ const ManualScheduler = (props) => {
                 </div>
             </div>
             <div className="content">
-                <div className="select-days select-items">
-                    <select name="" id="">
-                        <option value="">Select Days</option>
-                    </select>
-                </div>
-                <div className="select-times select-items">
-                    <select name="" id="">
-                        <option value="">Select Times</option>
-                    </select>
-                </div>
+                <select name="days" id="days" className="select-days select-items">
+                    <option value="">Select Days</option>
+                </select>
+                <select name="time" id="time" className="select-times select-items">
+                    <option value="">Select Times</option>
+                </select>
                 <button>Save Schedule</button>
             </div>
             <div className="weeks">
                 <div className="week">
                    <h6>Sun</h6>
-                   <span>12:15 AM <button>X</button></span>
-                   <span>12:15 AM <button>X</button></span>
-                   <span>12:15 AM <button>X</button></span>
+                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
+                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
+                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
                 </div>
                 <div className="week">
                     <h6>Mon</h6>
-                   <span>12:15 AM <button>X</button></span>
-                   <span>12:15 AM <button>X</button></span>
-                   <span>12:15 AM <button>X</button></span>
-                   <span>12:15 AM <button>X</button></span>
-                   <span>12:15 AM <button>X</button></span>
-                   <span>12:15 AM <button>X</button></span>
-                   <span>12:15 AM <button>X</button></span>
+                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
+                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
+                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
+                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
+                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
+                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
                 </div>
                 <div className="week">
                     <h6>Tue</h6>
-                   <span>12:15 AM <button>X</button></span>
-                   <span>12:15 AM <button>X</button></span>
+                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
+                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
                 </div>
                 <div className="week">
                     <h6>Wed</h6>
-                   <span>12:15 AM <button>X</button></span>
-                   <span>12:15 AM <button>X</button></span>
-                   <span>12:15 AM <button>X</button></span>
+                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
+                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
+                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
                 </div>
                 <div className="week">
                     <h6>Thu</h6>
-                   <span>12:15 AM <button>X</button></span>
-                   <span>12:15 AM <button>X</button></span>
-                   <span>12:15 AM <button>X</button></span>
-                   <span>12:15 AM <button>X</button></span>
+                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
+                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
+                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
+                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
                 </div>
                 <div className="week">
                     <h6>Fri</h6>
-                   <span>12:15 AM <button>X</button></span>
-                   <span>12:15 AM <button>X</button></span>
-                   <span>12:15 AM <button>X</button></span>
+                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
+                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
+                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
                 </div>
                 <div className="week">
                     <h6>Sat</h6>
-                   <span>12:15 AM <button>X</button></span>
-                   <span>12:15 AM <button>X</button></span>
-                   <span>12:15 AM <button>X</button></span>
-                   <span>12:15 AM <button>X</button></span>
+                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
+                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
+                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
+                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
                 </div>
             </div>
       </div>

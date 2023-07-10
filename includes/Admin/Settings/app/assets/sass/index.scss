@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 #wpsp-dashboard-body {
     font-family: 'Inter';
+    @import './utils/common';
     @import './utils/header';
     @import './utils/content';
     @import './utils/sidebar';
