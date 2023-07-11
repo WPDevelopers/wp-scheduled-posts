@@ -3,7 +3,7 @@ import { __ } from '@wordpress/i18n'
 import { getFormatDateTime } from '../../helper/helper'
 
 export default function SelectedProfile( { platform, item, handleSelectedProfileStatusChange, handleDeleteSelectedProfile } ) {
-    
+
   return (
     <>
     <div className="profile-item" key={Math.random()}>
@@ -30,8 +30,6 @@ export default function SelectedProfile( { platform, item, handleSelectedProfile
                 }[platform]
             }
             <h4> { platform == 'pinterest' ? item?.default_board_name?.label : item?.name }</h4>
-            { console.log('item',item)
-             }
             <span>{ item?.added_by?.replace(/^\w/, (c) => c.toUpperCase()) } { __('on','wp-scheduled-posts') } {getFormatDateTime(item?.added_date)}</span>
             <div className="action">
                 <div className="status">
