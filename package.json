@@ -6,6 +6,7 @@
         "build": "wp-scripts build",
         "start": "wp-scripts start",
         "pot": "wp i18n make-pot . languages/wp-scheduled-posts.pot ",
+        "zip": "npm run build && npm run pot && wp dist-archive .",
         "packages-update": "wp-scripts packages-update"
     },
     "repository": {
