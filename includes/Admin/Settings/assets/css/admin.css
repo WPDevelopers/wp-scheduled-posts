@@ -3976,6 +3976,23 @@ button.wprf-btn {
   font-weight: 500;
   line-height: 18px;
 }
+#wpsp-dashboard-body .wprf-tab-layout_email_notify .wprf-control-section .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-checkbox-select:first-child {
+  margin-top: 50px !important;
+}
+#wpsp-dashboard-body .wprf-tab-layout_email_notify .wprf-control-section .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-checkbox-select .wprf-control-field .wprf-checkbox-select .wprf-checked {
+  min-width: 250px;
+}
+#wpsp-dashboard-body .wprf-tab-layout_email_notify .wprf-control-section .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-checkbox-select .wprf-control-field .wprf-checkbox-select .wprf-checked input {
+  border: none !important;
+  background-color: transparent !important;
+}
+#wpsp-dashboard-body .wprf-tab-layout_email_notify .wprf-control-section .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-checkbox-select .wprf-control-field .wprf-checkbox-select .wprf-checked input:focus {
+  box-shadow: none;
+}
+#wpsp-dashboard-body .wprf-tab-layout_email_notify .wprf-control-section .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-type-toggle {
+  padding: 0 !important;
+  border: none !important;
+}
 #wpsp-dashboard-body .wprf-tab-layout_social_profile {
   background: #fff;
 }
