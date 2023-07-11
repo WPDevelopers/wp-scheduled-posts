@@ -33,7 +33,6 @@ const Pinterest = (props) => {
         setApiCredentialsModal(false);
     };
     const handleSelectedProfileStatusChange = (item,event) => {
-        console.log(item);
         const updatedData = selectedProfile.map(selectedItem => {
             if (selectedItem.default_board_name.value === item.default_board_name.value) {
                 return {

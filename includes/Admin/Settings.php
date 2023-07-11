@@ -319,48 +319,57 @@ class Settings {
                             'label'    => __( 'Email Notify', 'wp-scheduled-posts' ),
                             'priority' => 1,
                             'fields'    => [
-                                'notify_author_post_is_review'       => [
-                                    'name'     => 'notify_author_post_is_review',
-                                    'type'     => 'toggle',
-                                    'label'    => __('Notify User when a post is "Under Review"', 'wp-scheduled-posts'),
-                                    'default'  => 1,
+                                'email_notify_under_review_section'    => [
+                                    'id'       => 'email_notify_under_review',
+                                    'type'     => 'section',
+                                    'label'    => false,
                                     'priority' => 5,
-                                ],
-                                'notify_author_post_review_by_role' => [
-                                    'name'     => 'notify_author_post_review_by_role',
-                                    'label'    => __('Role:', 'notificationx'),
-                                    'type'     => 'checkbox-select',
-                                    'multiple' => true,
-                                    'priority' => 10,
-                                    'icon_classes'  => 'wpsp-icon wpsp-close',
-                                    'option'   => $this->normalize_options( \WPSP\Helper::get_all_roles() ),
-                                    'rules'       => Rules::logicalRule([
-                                        Rules::is( 'notify_author_post_is_review', true ),
-                                    ]),
-                                ],
-                                'notify_author_post_review_by_username' => [
-                                    'name'     => 'notify_author_post_review_by_username',
-                                    'label'    => __('Username:', 'notificationx'),
-                                    'type'     => 'checkbox-select',
-                                    'multiple' => true,
-                                    'priority' => 11,
-                                    'icon_classes'  => 'wpsp-icon wpsp-close',
-                                    'option'   => $this->normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_login', 'user_login') ),
-                                    'rules'       => Rules::logicalRule([
-                                        Rules::is( 'notify_author_post_is_review', true ),
-                                    ]),
-                                ],
-                                'notify_author_post_review_by_email' => [
-                                    'name'     => 'notify_author_post_review_by_email',
-                                    'label'    => __('Email:', 'notificationx'),
-                                    'type'     => 'checkbox-select',
-                                    'multiple' => true,
-                                    'priority' => 12,
-                                    'icon_classes'  => 'wpsp-icon wpsp-close',
-                                    'option'   => $this->normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_email', 'user_email') ),
-                                    'rules'       => Rules::logicalRule([
-                                        Rules::is( 'notify_author_post_is_review', true ),
-                                    ]),
+                                    'classes'  => 'email-notify-under-review',
+                                    'fields'   => [
+                                        'notify_author_post_is_review'       => [
+                                            'name'     => 'notify_author_post_is_review',
+                                            'type'     => 'toggle',
+                                            'label'    => __('Notify User when a post is "Under Review"', 'wp-scheduled-posts'),
+                                            'default'  => 1,
+                                            'priority' => 5,
+                                        ],
+                                        'notify_author_post_review_by_role' => [
+                                            'name'     => 'notify_author_post_review_by_role',
+                                            'label'    => __('Role:', 'notificationx'),
+                                            'type'     => 'checkbox-select',
+                                            'multiple' => true,
+                                            'priority' => 10,
+                                            'icon_classes'  => 'wpsp-icon wpsp-close',
+                                            'option'   => $this->normalize_options( \WPSP\Helper::get_all_roles() ),
+                                            'rules'       => Rules::logicalRule([
+                                                Rules::is( 'notify_author_post_is_review', true ),
+                                            ]),
+                                        ],
+                                        'notify_author_post_review_by_username' => [
+                                            'name'     => 'notify_author_post_review_by_username',
+                                            'label'    => __('Username:', 'notificationx'),
+                                            'type'     => 'checkbox-select',
+                                            'multiple' => true,
+                                            'priority' => 11,
+                                            'icon_classes'  => 'wpsp-icon wpsp-close',
+                                            'option'   => $this->normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_login', 'user_login') ),
+                                            'rules'       => Rules::logicalRule([
+                                                Rules::is( 'notify_author_post_is_review', true ),
+                                            ]),
+                                        ],
+                                        'notify_author_post_review_by_email' => [
+                                            'name'     => 'notify_author_post_review_by_email',
+                                            'label'    => __('Email:', 'notificationx'),
+                                            'type'     => 'checkbox-select',
+                                            'multiple' => true,
+                                            'priority' => 12,
+                                            'icon_classes'  => 'wpsp-icon wpsp-close',
+                                            'option'   => $this->normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_email', 'user_email') ),
+                                            'rules'       => Rules::logicalRule([
+                                                Rules::is( 'notify_author_post_is_review', true ),
+                                            ]),
+                                        ],
+                                    ]
                                 ],
                                 'notify_author_post_is_rejected'       => [
                                     'name'     => 'notify_author_post_is_rejected',
@@ -369,47 +378,56 @@ class Settings {
                                     'default'  => 1,
                                     'priority' => 15,
                                 ],
-                                'notify_author_post_is_scheduled'       => [
-                                    'name'     => 'notify_author_post_is_scheduled',
-                                    'type'     => 'toggle',
-                                    'label'    => __('Notify User when a post is "Scheduled"', 'wp-scheduled-posts'),
-                                    'priority' => 20,
-                                ],
-                                'notify_author_post_scheduled_by_role' => [
-                                    'name'     => 'notify_author_post_scheduled_by_role',
-                                    'label'    => __('Role:', 'notificationx'),
-                                    'type'     => 'checkbox-select',
-                                    'multiple' => true,
-                                    'priority' => 25,
-                                    'icon_classes'  => 'wpsp-icon wpsp-close',
-                                    'option'   => $this->normalize_options( \WPSP\Helper::get_all_roles() ),
-                                    'rules'       => Rules::logicalRule([
-                                        Rules::is( 'notify_author_post_is_scheduled', true ),
-                                    ]),
-                                ],
-                                'notify_author_post_scheduled_by_username' => [
-                                    'name'     => 'notify_author_post_scheduled_by_username',
-                                    'label'    => __('Username:', 'notificationx'),
-                                    'type'     => 'checkbox-select',
-                                    'multiple' => true,
-                                    'priority' => 30,
-                                    'icon_classes'  => 'wpsp-icon wpsp-close',
-                                    'option'   => $this->normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_login', 'user_login') ),
-                                    'rules'       => Rules::logicalRule([
-                                        Rules::is( 'notify_author_post_is_scheduled', true ),
-                                    ]),
-                                ],
-                                'notify_author_post_scheduled_by_email' => [
-                                    'name'     => 'notify_author_post_scheduled_by_email',
-                                    'label'    => __('Email:', 'notificationx'),
-                                    'type'     => 'checkbox-select',
-                                    'multiple' => true,
-                                    'priority' => 35,
-                                    'icon_classes'  => 'wpsp-icon wpsp-close',
-                                    'option'   => $this->normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_email', 'user_email') ),
-                                    'rules'       => Rules::logicalRule([
-                                        Rules::is( 'notify_author_post_is_scheduled', true ),
-                                    ]),
+                                'notify_author_post_is_scheduled_section' => [
+                                    'id'       => 'notify_author_post_is_scheduled',
+                                    'type'     => 'section',
+                                    'label'    => false,
+                                    'priority' => 5,
+                                    'classes'  => 'notify-author-post-is-scheduled',
+                                    'fields'   => [
+                                        'notify_author_post_is_scheduled'       => [
+                                            'name'     => 'notify_author_post_is_scheduled',
+                                            'type'     => 'toggle',
+                                            'label'    => __('Notify User when a post is "Scheduled"', 'wp-scheduled-posts'),
+                                            'priority' => 20,
+                                        ],
+                                        'notify_author_post_scheduled_by_role' => [
+                                            'name'     => 'notify_author_post_scheduled_by_role',
+                                            'label'    => __('Role:', 'notificationx'),
+                                            'type'     => 'checkbox-select',
+                                            'multiple' => true,
+                                            'priority' => 25,
+                                            'icon_classes'  => 'wpsp-icon wpsp-close',
+                                            'option'   => $this->normalize_options( \WPSP\Helper::get_all_roles() ),
+                                            'rules'       => Rules::logicalRule([
+                                                Rules::is( 'notify_author_post_is_scheduled', true ),
+                                            ]),
+                                        ],
+                                        'notify_author_post_scheduled_by_username' => [
+                                            'name'     => 'notify_author_post_scheduled_by_username',
+                                            'label'    => __('Username:', 'notificationx'),
+                                            'type'     => 'checkbox-select',
+                                            'multiple' => true,
+                                            'priority' => 30,
+                                            'icon_classes'  => 'wpsp-icon wpsp-close',
+                                            'option'   => $this->normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_login', 'user_login') ),
+                                            'rules'       => Rules::logicalRule([
+                                                Rules::is( 'notify_author_post_is_scheduled', true ),
+                                            ]),
+                                        ],
+                                        'notify_author_post_scheduled_by_email' => [
+                                            'name'     => 'notify_author_post_scheduled_by_email',
+                                            'label'    => __('Email:', 'notificationx'),
+                                            'type'     => 'checkbox-select',
+                                            'multiple' => true,
+                                            'priority' => 35,
+                                            'icon_classes'  => 'wpsp-icon wpsp-close',
+                                            'option'   => $this->normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_email', 'user_email') ),
+                                            'rules'       => Rules::logicalRule([
+                                                Rules::is( 'notify_author_post_is_scheduled', true ),
+                                            ]),
+                                        ],
+                                    ]
                                 ],
                                 'notify_author_post_scheduled_to_publish'       => [
                                     'name'     => 'notify_author_post_scheduled_to_publish',

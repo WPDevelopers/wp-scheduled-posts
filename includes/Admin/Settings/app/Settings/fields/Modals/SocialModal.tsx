@@ -107,7 +107,6 @@ function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage,pro
     }
     const addSavedProfile = () => {
         setSelectedProfile(savedProfile);
-        console.log('selected-profile',selectedProfile);
         closeProfileDataModal();
     }
     const noSection = { label: __("No Section",'wp-scheduled-posts'), value: "" };
@@ -146,6 +145,8 @@ function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage,pro
 
     const addPinterestProfileToggle = (item,defaultBoard,defaultSection,event, board) => {
         const pinterestItem = { ...item, borads : pinterestBoards, defaultSection: defaultSection, default_board_name : board };
+        console.log('pinterest-item',pinterestItem);
+        
         if( event.target.checked ) {
             // free
             // @ts-ignore
