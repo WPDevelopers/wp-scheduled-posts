@@ -1,9 +1,10 @@
 import React, { useState,useEffect } from 'react'
 import { __ } from '@wordpress/i18n'
 import { default as ReactSelect } from "react-select";
+import PinterestSectionSelect from '../utils/PinterestSectionSelect';
 
-export default function Pinterest({ platform, data, boards,fetchSectionData,noSection,addProfileToggle,savedProfile }) {
-    const boardOptions = boards?.map((board) => {
+export default function Pinterest({ platform, data, boards,fetchSectionData ,noSection, addProfileToggle,savedProfile,singlePinterestBoard }) {
+    let boardOptions = boards?.map((board) => {
       return {
         label: board.name || board.id,
         value: board.id,
@@ -12,39 +13,52 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
     const [defaultBoard, setDefaultBoard] = useState();
     const [defaultSection, setDefaultSection] = useState(noSection);
     const [sectionOptions, setSectionOptions] = useState([noSection]);
-  
+    const [singleBoardOptions, setSingleBoardOptions] = useState([]);
+
     useEffect(() => {
-      setDefaultSection(noSection);
+      if( defaultBoard ) {
+        setDefaultSection(noSection);
+      }
     }, [defaultBoard]);
+
+    useEffect(() => {
+      if( noSection ) {
+        setDefaultSection(noSection);
+      }
+    }, [noSection]);
     
     useEffect(() => {
-      setDefaultBoard(boardOptions?.[0]);
+      if( boards ) {
+        setDefaultBoard(boardOptions?.[0]);
+      }
     }, [boards]);
-    
+
+    useEffect( () => {
+      if( singlePinterestBoard ) {
+        setSingleBoardOptions([singlePinterestBoard?.default_board_name]);
+        setDefaultSection([singlePinterestBoard?.defaultSection]);
+      }
+    },[singlePinterestBoard] );
     return (
         <>
           <div className="wpsp-modal-social-platform">
-            {data.map( ( item, index ) => (
+            { !singlePinterestBoard && data?.map ( ( item, index ) => (
               <div className="profile-info">
                 <img width={'40px'} src={item?.thumbnail_url} alt={item?.name} />
                 <h3>{item?.name}</h3>
                 <ul>
-                  {boardOptions.map((board, board_index) => (
-                    <li key={board_index}>
+                  {boardOptions.map((board, board_index) => {
+                    return (<li key={board_index}>
                       <div className="item-content">
                         <h4 className="entry-title">{board?.label}</h4>
                         <div className="control pinterest-select">
-                          <ReactSelect
-                            value={defaultSection}
-                            onMenuOpen={() =>
-                              fetchSectionData(
-                                board?.value,
-                                item,
-                                setSectionOptions
-                              )
-                            }
-                            onChange={setDefaultSection}
-                            options={sectionOptions}
+                          <PinterestSectionSelect
+                            noSection={noSection}
+                            fetchSectionData={fetchSectionData}
+                            board={board}
+                            item={item}
+                            setSectionOptions={setSectionOptions}
+                            sectionOptions={sectionOptions}
                           />
                         </div>
                         <input
@@ -61,6 +75,39 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
                             }
                         />
                       </div>
+                    </li>);
+                  })}
+                <button
+                  type="submit"
+                  className="wpsp-modal-save-account"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    savedProfile(event)
+                  }}
+                  >{ __( 'Save','wp-scheduled-posts' ) }</button>
+                  </ul>
+              </div>
+            ) )}
+            { singlePinterestBoard && (
+              <div className="profile-info">
+                <img width={'40px'} src={singlePinterestBoard?.thumbnail_url} alt={singlePinterestBoard?.name} />
+                <h3>{singlePinterestBoard?.name}</h3>
+                <ul>
+                  {singleBoardOptions?.map((board, board_index) => (
+                    <li key={board_index}>
+                      <div className="item-content">
+                        <h4 className="entry-title">{board?.label}</h4>
+                        <div className="control pinterest-select">
+                            <PinterestSectionSelect
+                              noSection={defaultSection}
+                              fetchSectionData={fetchSectionData}
+                              board={board}
+                              item={singlePinterestBoard}
+                              setSectionOptions={setSectionOptions}
+                              sectionOptions={sectionOptions}
+                            />
+                        </div>
+                      </div>
                     </li>
                   ))}
                 <button
@@ -73,7 +120,7 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
                   >{ __( 'Save','wp-scheduled-posts' ) }</button>
                   </ul>
               </div>
-            ) )}
+            ) }
             
           </div>
         </>
