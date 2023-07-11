@@ -1,6 +1,7 @@
 import React, { useState,useEffect } from 'react'
 import { __ } from '@wordpress/i18n'
 import { default as ReactSelect } from "react-select";
+import PinterestSectionSelect from '../utils/PinterestSectionSelect';
 
 export default function Pinterest({ platform, data, boards,fetchSectionData,noSection,addProfileToggle,savedProfile,singlePinterestBoard }) {
     let boardOptions = boards?.map((board) => {
@@ -15,11 +16,15 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
     const [singleBoardOptions, setSingleBoardOptions] = useState([]);
 
     useEffect(() => {
-      setDefaultSection(noSection);
+      if( defaultBoard ) {
+        setDefaultSection(noSection);
+      }
     }, [defaultBoard]);
     
     useEffect(() => {
-      setDefaultBoard(boardOptions?.[0]);
+      if( boards ) {
+        setDefaultBoard(boardOptions?.[0]);
+      }
     }, [boards]);
 
     useEffect( () => {
@@ -36,8 +41,9 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
                 <img width={'40px'} src={item?.thumbnail_url} alt={item?.name} />
                 <h3>{item?.name}</h3>
                 <ul>
-                  {boardOptions.map((board, board_index) => (
-                    <li key={board_index}>
+                  {boardOptions.map((board, board_index) => {
+                    console.log(board); 
+                    return (<li key={board_index}>
                       <div className="item-content">
                         <h4 className="entry-title">{board?.label}</h4>
                         <div className="control pinterest-select">
@@ -70,8 +76,8 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
                             }
                         />
                       </div>
-                    </li>
-                  ))}
+                    </li>);
+                  })}
                 <button
                   type="submit"
                   className="wpsp-modal-save-account"
