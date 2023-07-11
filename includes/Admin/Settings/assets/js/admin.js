@@ -3313,7 +3313,8 @@ var Facebook = function (props) {
       platform: 'facebook',
       item: item,
       handleSelectedProfileStatusChange: handleSelectedProfileStatusChange,
-      handleDeleteSelectedProfile: handleDeleteSelectedProfile
+      handleDeleteSelectedProfile: handleDeleteSelectedProfile,
+      handleEditSelectedProfile: ''
     });
   })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react_modal__WEBPACK_IMPORTED_MODULE_4___default()), {
     isOpen: apiCredentialsModal,
@@ -3671,7 +3672,8 @@ var Linkedin = function (props) {
       platform: 'linkedin',
       item: item,
       handleSelectedProfileStatusChange: handleSelectedProfileStatusChange,
-      handleDeleteSelectedProfile: handleDeleteSelectedProfile
+      handleDeleteSelectedProfile: handleDeleteSelectedProfile,
+      handleEditSelectedProfile: ''
     });
   })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react_modal__WEBPACK_IMPORTED_MODULE_4___default()), {
     isOpen: apiCredentialsModal,
@@ -3774,13 +3776,25 @@ var ManualScheduler = function (props) {
     className: "select-days select-items"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", {
     value: ""
-  }, "Select Days")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("select", {
+  }, "Select Days"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", {
+    value: ""
+  }, "Friday"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", {
+    value: ""
+  }, "Saturday"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", {
+    value: ""
+  }, "Sunday")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("select", {
     name: "time",
     id: "time",
     className: "select-times select-items"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", {
     value: ""
-  }, "Select Times")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "Save Schedule")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, "Select Times"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", {
+    value: ""
+  }, "12:15 AM"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", {
+    value: ""
+  }, "12:15 AM"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", {
+    value: ""
+  }, "12:15 AM")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "Save Schedule")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "weeks"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "week"
@@ -3905,11 +3919,12 @@ var ApiCredentialsForm = function (_a) {
   var onSubmitHandler = function (event) {
     event.preventDefault();
     if (redirectURI && appID && appSecret) {
-      requestHandler(redirectURIv2, '', '', platform).then(function (res) {
+      requestHandler(redirectURI, appID, appSecret, platform).then(function (res) {
         if (res === null || res === void 0 ? void 0 : res.error) {
           setMultiAccountError(true);
           setMultiAccountErrorMessage(res === null || res === void 0 ? void 0 : res.message);
         }
+        return res;
       });
     }
   };
@@ -4294,7 +4309,7 @@ function Pinterest(_a) {
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
         type: 'checkbox',
         onChange: function (event) {
-          addProfileToggle(item, defaultBoard, defaultSection, event);
+          addProfileToggle(item, defaultBoard, defaultSection, event, board);
         }
       })));
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
@@ -4368,41 +4383,45 @@ function SocialModal(_a) {
     setSelectedProfile = _a.setSelectedProfile,
     setIsErrorMessage = _a.setIsErrorMessage,
     props = _a.props,
-    type = _a.type;
+    type = _a.type,
+    _c = _a.profileItem,
+    profileItem = _c === void 0 ? '' : _c,
+    _d = _a.isProfileEditModal,
+    isProfileEditModal = _d === void 0 ? false : _d;
   var builderContext = (0,quickbuilder__WEBPACK_IMPORTED_MODULE_8__.useBuilderContext)();
-  var _c = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
-    requestSending = _c[0],
-    setRequestSending = _c[1];
-  var _d = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
-    profileDataModal = _d[0],
-    setProfileDataModal = _d[1];
-  var _e = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(""),
-    error = _e[0],
-    setError = _e[1];
-  var _f = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
-    fbPage = _f[0],
-    setFbPage = _f[1];
-  var _g = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
-    fbGroup = _g[0],
-    setFbGroup = _g[1];
+  var _e = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
+    requestSending = _e[0],
+    setRequestSending = _e[1];
+  var _f = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
+    profileDataModal = _f[0],
+    setProfileDataModal = _f[1];
+  var _g = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(""),
+    error = _g[0],
+    setError = _g[1];
   var _h = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
-    pinterestBoards = _h[0],
-    setPinterestBoards = _h[1];
+    fbPage = _h[0],
+    setFbPage = _h[1];
   var _j = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
-    responseData = _j[0],
-    setResponseData = _j[1];
-  var _k = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({}),
-    linkedInData = _k[0],
-    setLinkedInData = _k[1];
-  var _l = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(""),
-    socialPlatform = _l[0],
-    setSocialPlatform = _l[1];
-  var _m = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
-    savedProfile = _m[0],
-    setSavedProfile = _m[1];
-  var _o = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({}),
-    cashedSectionData = _o[0],
-    setCashedSectionData = _o[1];
+    fbGroup = _j[0],
+    setFbGroup = _j[1];
+  var _k = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
+    pinterestBoards = _k[0],
+    setPinterestBoards = _k[1];
+  var _l = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
+    responseData = _l[0],
+    setResponseData = _l[1];
+  var _m = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({}),
+    linkedInData = _m[0],
+    setLinkedInData = _m[1];
+  var _o = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(""),
+    socialPlatform = _o[0],
+    setSocialPlatform = _o[1];
+  var _p = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(props === null || props === void 0 ? void 0 : props.value),
+    savedProfile = _p[0],
+    setSavedProfile = _p[1];
+  var _q = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({}),
+    cashedSectionData = _q[0],
+    setCashedSectionData = _q[1];
   var account_type = localStorage.getItem('account_type');
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
     // Send API request fo fetching data
@@ -4439,6 +4458,13 @@ function SocialModal(_a) {
     };
     getQueryParams(window.location.search);
   }, [window.location]);
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
+    if (profileItem) {
+      setProfileDataModal(true);
+      setPinterestBoards(profileItem === null || profileItem === void 0 ? void 0 : profileItem.boards);
+    }
+    console.log(type);
+  }, [profileItem]);
   var closeProfileDataModal = function () {
     setProfileDataModal(false);
   };
@@ -4483,10 +4509,11 @@ function SocialModal(_a) {
   };
   var addSavedProfile = function () {
     setSelectedProfile(savedProfile);
+    console.log('selected-profile', selectedProfile);
     closeProfileDataModal();
   };
   var noSection = {
-    label: "No Section",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("No Section", 'wp-scheduled-posts'),
     value: ""
   };
   var fetchSectionData = function (defaultBoard, profile, updateOptions) {
@@ -4518,11 +4545,11 @@ function SocialModal(_a) {
       updateOptions(cashedSectionData === null || cashedSectionData === void 0 ? void 0 : cashedSectionData[defaultBoard]);
     }
   };
-  var addPinterestProfileToggle = function (item, defaultBoard, defaultSection, event) {
+  var addPinterestProfileToggle = function (item, defaultBoard, defaultSection, event, board) {
     var pinterestItem = __assign(__assign({}, item), {
       borads: pinterestBoards,
       defaultSection: defaultSection,
-      default_board_name: defaultBoard
+      default_board_name: board
     });
     if (event.target.checked) {
       // free
@@ -4532,7 +4559,7 @@ function SocialModal(_a) {
         if (!savedProfile || savedProfile && savedProfile.length == 0) {
           setIsErrorMessage(false);
           if (!savedProfile.some(function (profile) {
-            return profile.id === pinterestItem.id;
+            return profile.default_board_name.value === pinterestItem.default_board_name.value;
           })) {
             setSavedProfile(function (prevItems) {
               return __spreadArray(__spreadArray([], prevItems, true), [pinterestItem], false);
@@ -4544,7 +4571,7 @@ function SocialModal(_a) {
         }
       } else {
         if (savedProfile && !savedProfile.some(function (profile) {
-          return profile.id === pinterestItem.id;
+          return profile.default_board_name.value === pinterestItem.default_board_name.value;
         })) {
           setSavedProfile(function (prevItems) {
             return __spreadArray(__spreadArray([], prevItems, true), [pinterestItem], false);
@@ -4556,7 +4583,7 @@ function SocialModal(_a) {
       setIsErrorMessage(false);
       setSavedProfile(function (prevItems) {
         return prevItems.filter(function (prevItem) {
-          return prevItem.id !== pinterestItem.id;
+          return prevItem.default_board_name.value !== pinterestItem.default_board_name.value;
         });
       });
     }
@@ -4734,9 +4761,15 @@ var Pinterest = function (props) {
   var _e = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
     isErrorMessage = _e[0],
     setIsErrorMessage = _e[1];
-  var _f = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)((_a = builderContext === null || builderContext === void 0 ? void 0 : builderContext.savedValues) === null || _a === void 0 ? void 0 : _a.pinterest_profile_status),
-    profileStatus = _f[0],
-    setProfileStatus = _f[1];
+  var _f = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
+    isProfileEditModal = _f[0],
+    setProfileEditModal = _f[1];
+  var _g = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(""),
+    profileItem = _g[0],
+    setProfileItem = _g[1];
+  var _h = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)((_a = builderContext === null || builderContext === void 0 ? void 0 : builderContext.savedValues) === null || _a === void 0 ? void 0 : _a.pinterest_profile_status),
+    profileStatus = _h[0],
+    setProfileStatus = _h[1];
   var openApiCredentialsModal = function (platform) {
     setPlatform('pinterest');
     setApiCredentialsModal(true);
@@ -4793,6 +4826,11 @@ var Pinterest = function (props) {
       }
     });
   }, [profileStatus]);
+  // Profile edit modal
+  var handleEditSelectedProfile = function (item) {
+    setProfileEditModal(true);
+    setProfileItem(item);
+  };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: classnames__WEBPACK_IMPORTED_MODULE_0___default()('wprf-control', 'wprf-social-profile', "wprf-".concat(props.name, "-social-profile"), props === null || props === void 0 ? void 0 : props.classes)
   }, isErrorMessage && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_utils_ProAlert__WEBPACK_IMPORTED_MODULE_9__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
@@ -4811,7 +4849,8 @@ var Pinterest = function (props) {
       platform: 'pinterest',
       item: item,
       handleSelectedProfileStatusChange: handleSelectedProfileStatusChange,
-      handleDeleteSelectedProfile: handleDeleteSelectedProfile
+      handleDeleteSelectedProfile: handleDeleteSelectedProfile,
+      handleEditSelectedProfile: handleEditSelectedProfile
     });
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react_modal__WEBPACK_IMPORTED_MODULE_4___default()), {
     isOpen: apiCredentialsModal,
@@ -4832,7 +4871,9 @@ var Pinterest = function (props) {
     setSelectedProfile: setSelectedProfile,
     setIsErrorMessage: setIsErrorMessage,
     props: props,
-    type: "pinterest"
+    type: "pinterest",
+    profileItem: profileItem,
+    isProfileEditModal: true
   }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Pinterest);
@@ -5055,7 +5096,8 @@ var Twitter = function (props) {
       platform: 'twitter',
       item: item,
       handleSelectedProfileStatusChange: handleSelectedProfileStatusChange,
-      handleDeleteSelectedProfile: handleDeleteSelectedProfile
+      handleDeleteSelectedProfile: handleDeleteSelectedProfile,
+      handleEditSelectedProfile: ''
     });
   })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react_modal__WEBPACK_IMPORTED_MODULE_4___default()), {
     isOpen: apiCredentialsModal,
@@ -5143,22 +5185,27 @@ function MainProfile(_a) {
   if (wpspSettingsGlobal === null || wpspSettingsGlobal === void 0 ? void 0 : wpspSettingsGlobal.pro_version) {
     pageDisabled = false;
   }
+  var currentActiveAccountType = localStorage.getItem('account_type');
   if ((props === null || props === void 0 ? void 0 : props.type) == 'facebook') {
     options = [{
       value: 'page',
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Page', 'wp-scheduled-posts')
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Page', 'wp-scheduled-posts'),
+      selected: currentActiveAccountType == 'page' ? true : false
     }, {
       value: 'group',
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Group', 'wp-scheduled-posts')
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Group', 'wp-scheduled-posts'),
+      selected: currentActiveAccountType == 'group' ? true : false
     }];
   } else {
     options = [{
       value: 'profile',
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Profile', 'wp-scheduled-posts')
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Profile', 'wp-scheduled-posts'),
+      selected: currentActiveAccountType == 'profile' ? true : false
     }, {
       value: 'page',
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Page', 'wp-scheduled-posts'),
-      isDisabled: pageDisabled
+      isDisabled: pageDisabled,
+      selected: currentActiveAccountType == 'page' ? true : false
     }];
   }
   var handleAccountType = function (selectedOption) {
@@ -5172,7 +5219,7 @@ function MainProfile(_a) {
     width: '30px',
     src: "".concat(props === null || props === void 0 ? void 0 : props.logo),
     alt: "".concat(props === null || props === void 0 ? void 0 : props.label)
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h5", null, props === null || props === void 0 ? void 0 : props.label), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h5", null, props === null || props === void 0 ? void 0 : props.label)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "status"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "switcher"
@@ -5192,20 +5239,20 @@ function MainProfile(_a) {
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
     className: "wprf-switcher-button"
-  })))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "card-content"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
     dangerouslySetInnerHTML: {
       __html: props === null || props === void 0 ? void 0 : props.desc
     }
-  })), ['facebook', 'linkedin'].includes(props === null || props === void 0 ? void 0 : props.type) && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_select__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "card-footer"
+  }, ['facebook', 'linkedin'].includes(props === null || props === void 0 ? void 0 : props.type) && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_select__WEBPACK_IMPORTED_MODULE_2__["default"], {
     id: props === null || props === void 0 ? void 0 : props.id,
     onChange: handleAccountType,
     options: options,
     defaultValue: options[0]
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "card-footer"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
     type: "button",
     className: "wpscp-social-tab__btn--addnew-profile",
     onClick: function () {
@@ -5269,7 +5316,8 @@ function SelectedProfile(_a) {
   var platform = _a.platform,
     item = _a.item,
     handleSelectedProfileStatusChange = _a.handleSelectedProfileStatusChange,
-    handleDeleteSelectedProfile = _a.handleDeleteSelectedProfile;
+    handleDeleteSelectedProfile = _a.handleDeleteSelectedProfile,
+    handleEditSelectedProfile = _a.handleEditSelectedProfile;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "profile-item",
     key: Math.random()
@@ -5293,7 +5341,7 @@ function SelectedProfile(_a) {
     pinterest: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
       className: 'badge'
     }, (item === null || item === void 0 ? void 0 : item.account_type) ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Board', 'wp-scheduled-posts') : item === null || item === void 0 ? void 0 : item.type)
-  }[platform], /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h4", null, " ", platform == 'pinterest' ? (_b = item === null || item === void 0 ? void 0 : item.default_board_name) === null || _b === void 0 ? void 0 : _b.label : item === null || item === void 0 ? void 0 : item.name), console.log('item', item), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, (_c = item === null || item === void 0 ? void 0 : item.added_by) === null || _c === void 0 ? void 0 : _c.replace(/^\w/, function (c) {
+  }[platform], /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h4", null, " ", platform == 'pinterest' ? (_b = item === null || item === void 0 ? void 0 : item.default_board_name) === null || _b === void 0 ? void 0 : _b.label : item === null || item === void 0 ? void 0 : item.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, (_c = item === null || item === void 0 ? void 0 : item.added_by) === null || _c === void 0 ? void 0 : _c.replace(/^\w/, function (c) {
     return c.toUpperCase();
   }), " ", (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('on', 'wp-scheduled-posts'), " ", (0,_helper_helper__WEBPACK_IMPORTED_MODULE_2__.getFormatDateTime)(item === null || item === void 0 ? void 0 : item.added_date)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "action"
@@ -5317,7 +5365,13 @@ function SelectedProfile(_a) {
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
     className: "wprf-switcher-button"
-  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  })))), platform == 'pinterest' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "edit-profile"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    onClick: function () {
+      return handleEditSelectedProfile(item);
+    }
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Edit', 'wp-scheduled-posts'))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "remove-profile"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
     onClick: function () {
@@ -5536,7 +5590,6 @@ var socialProfileRequestHandler = function (redirectURI, appID, appSecret, platf
             } catch (e) {
               message = responseData.data;
             }
-            console.log(message);
             return [2 /*return*/, {
               error: true,
               message: message
