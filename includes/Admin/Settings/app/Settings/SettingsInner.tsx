@@ -36,7 +36,7 @@ const SettingsInner = (props) => {
         },
     } ).then( ( res ) => {
         if( res ) {
-          wpspToast.info(__(`Changes Saved Successfully.`, 'notificationx'));
+          wpspToast.info(__(`Changes Saved Successfully.`, 'wp-scheduled-posts'));
         }
     } );
   }, []);
