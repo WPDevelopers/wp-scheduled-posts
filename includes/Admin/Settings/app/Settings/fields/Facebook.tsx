@@ -1,19 +1,17 @@
 import classNames from 'classnames';
-import React, { useState,useEffect,useCallback } from 'react'
+import React, { useState,useEffect } from 'react'
 import { __ } from "@wordpress/i18n";
 import {
     useBuilderContext,
-    executeChange,
 } from "quickbuilder";
 
 import ApiCredentialsForm from './Modals/ApiCredentialsForm';
 import Modal from "react-modal";
-import { socialProfileRequestHandler, getFormatDateTime } from '../helper/helper';
+import { socialProfileRequestHandler } from '../helper/helper';
 import SocialModal from './Modals/SocialModal';
 import SelectedProfile from './utils/SelectedProfile';
 import MainProfile from './utils/MainProfile';
-import ProAlert from './utils/ProAlert';
-
+import { SweetAlertDeleteMsg } from '../ToasterMsg';
 
 const Facebook = (props) => {
     const builderContext = useBuilderContext();
@@ -21,7 +19,6 @@ const Facebook = (props) => {
     const [platform, setPlatform] = useState('');
     const [selectedProfile, setSelectedProfile] = useState(props?.value);
     const [profileStatus, setProfileStatus] = useState(builderContext?.savedValues?.facebook_profile_status);
-    const [isErrorMessage, setIsErrorMessage] = useState(false)
     
     // Open and Close API credentials modal
     const openApiCredentialsModal = () => {
@@ -64,10 +61,12 @@ const Facebook = (props) => {
     };
 
     const handleDeleteSelectedProfile = (item) => {
+        SweetAlertDeleteMsg( { item }, deleteFile );
+    };
+    const deleteFile = (item) => {
         const updatedData = selectedProfile.filter(selectedItem => selectedItem.id !== item.id);
         setSelectedProfile(updatedData);
-    };
-
+    }
     // Save selected profile data
     useEffect( () => {
         builderContext.setFieldValue([props.name], selectedProfile);
@@ -87,9 +86,6 @@ const Facebook = (props) => {
 
     return (
         <div className={classNames('wprf-control', 'wprf-social-profile', `wprf-${props.name}-social-profile`, props?.classes)}>
-           {isErrorMessage && (
-                <ProAlert />
-            )}
             <div className='social-profile-card'>
                 <div className="main-profile">
                     <MainProfile props={props} handleProfileStatusChange={handleProfileStatusChange} profileStatus={profileStatus} openApiCredentialsModal={openApiCredentialsModal} />
@@ -122,7 +118,6 @@ const Facebook = (props) => {
             <SocialModal
                 selectedProfile={selectedProfile}
                 setSelectedProfile={setSelectedProfile}
-                setIsErrorMessage={setIsErrorMessage}
                 props={props}
                 type="facebook"
             />
