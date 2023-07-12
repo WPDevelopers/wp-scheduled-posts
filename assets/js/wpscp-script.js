@@ -86,11 +86,11 @@ jQuery(document).ready(function ($) {
     jQuery(document).on('click', '#calendar a.wpscpquickedit', function () {
         jQuery('#timeEditControls').show()
     })
-    jQuery('a[rel="modal:open"]').on('click', function () {
+    jQuery('a[rel="modal:open"], a[rel="kylefoxModal:open"]').on('click', function () {
         jQuery('#wpsp-status').val('Draft')
         jQuery('#timeEditControls').hide()
     })
-    jQuery('a[rel="modal:close"]').on('click', function () {
+    jQuery('a[rel="modal:close"], a[rel="kylefoxModal:close"]').on('click', function () {
         jQuery('#timeEditControls').hide()
     })
 

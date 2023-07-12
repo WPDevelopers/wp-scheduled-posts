@@ -406,7 +406,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 var newPostBtn = document.createElement('a')
                 newPostBtn.classList.add('daynewlink')
                 newPostBtn.setAttribute('href', '#wpscp_quickedit')
-                newPostBtn.setAttribute('rel', 'modal:open')
+                newPostBtn.setAttribute('rel', 'kylefoxModal:open')
                 newPostBtn.textContent = 'Add New'
 
                 var anchor = item.querySelector('.daynewlink')
@@ -448,7 +448,7 @@ document.addEventListener('DOMContentLoaded', function () {
         modalStatus.val('')
         modalDate.val('')
         postID.val('')
-        jQuery.modal.close()
+        jQuery.kylefoxModal.close()
     }
     /**
      * Showing Calendar Event Modal
@@ -683,7 +683,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             ? 'Scheduled'
                             : jsonData[0].post_status
                     )
-                    jQuery('#wpscp_quickedit').modal('show')
+                    jQuery('#wpscp_quickedit').kylefoxModal('show')
                 }
             }
         )

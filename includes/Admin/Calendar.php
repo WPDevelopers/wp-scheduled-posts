@@ -61,12 +61,18 @@ class Calendar
 
     public function wpscp_future_post_rest_route_output($request)
     {
+        global $wpdb;
         // post type
         $post_type = urldecode($request->get_param('post_type'));
         $post_type = (($post_type == 'elementorlibrary') ? 'elementor_library' : $post_type);
         if($post_type == 'all'){
             $post_type = \WPSP\Helper::get_settings('allow_post_types');
         }
+        else if(empty($post_type)){
+            $post_type = 'post';
+        }
+        $post_type = (array) $post_type;
+
         // date
         $now = new \DateTime('now');
         $now_month = $now->format('m');
@@ -77,9 +83,13 @@ class Calendar
         // year
         $year = urldecode($request->get_param('year'));
         $year = (!empty($year) ? $year : $now_year);
+
+        $first_day = date('Y/m/01', strtotime("$year-$month-01"));
+        $last_day  = date('Y/m/t', strtotime("$year-$month-01"));
+
         // query
-        $query = new \WP_Query(array(
-            'post_type'      => (($post_type != "") ? $post_type : 'post'),
+        $query_1 = new \WP_Query(array(
+            'post_type'      => $post_type,
             'post_status'    => array('future', 'publish'),
             'posts_per_page' => -1,
             'date_query'     => array(
@@ -89,31 +99,35 @@ class Calendar
                 ),
             ),
         ));
-        $query_2 = new \WP_Query(array(
-            'post_type'      => !empty($post_type) ? $post_type : 'post',
-            'post_status'    => array('publish'),
-            'posts_per_page' => -1,
-            'meta_query' => array(
-                array(
-                    'key'          => '_wpscp_schedule_republish_date',
-                    'meta_value'   => [date('Y-m-01'), date('Y-m-t')],
-                    'meta_compare' => 'BETWEEN',
-                ),
-            ),
-            // 'post__not_in'   => array_map(function($post) {
-            //     return isset($post->ID) ? $post->ID : 0;
-            // }, $query->posts),
-        ));
+        $posts_1 = $query_1->get_posts();
+
+        $post_type_placeholders = implode(',', array_fill(0, count($post_type), '%s'));
+        $query = $wpdb->prepare( "
+            SELECT $wpdb->posts.*
+            FROM $wpdb->posts
+            INNER JOIN $wpdb->postmeta ON ( $wpdb->posts.ID = $wpdb->postmeta.post_id )
+            WHERE 1=1 AND (
+                ( $wpdb->postmeta.meta_key = '_wpscp_schedule_republish_date' AND CONVERT($wpdb->postmeta.meta_value, DATE) BETWEEN %s AND %s )
+            )
+            AND $wpdb->posts.post_type IN ($post_type_placeholders)
+            AND $wpdb->posts.post_status = 'publish'
+        ", $first_day, $last_day, ...$post_type );
+
+        $posts_2 = $wpdb->get_results( $query );
+
         $allData = array();
 
-        $allData = $this->calendar_view($query, $allData);
-        $allData = $this->calendar_view($query_2, $allData, true);
+        $allData = $this->calendar_view($posts_1, $allData);
+        $allData = $this->calendar_view($posts_2, $allData, true);
         return $allData;
     }
 
-    protected function calendar_view($query, $allData, $republish = false){
-        if ($query->have_posts()) {
-            while ($query->have_posts()) : $query->the_post();
+    protected function calendar_view($posts, $allData, $republish = false){
+        global $post;
+        if ($posts && is_array($posts)) {
+            foreach ( $posts as $post ) {
+                setup_postdata( $post );
+
                 do_action('wpscp_calender_the_post');
                 $republish_date = $republish ? get_post_meta(get_the_ID(), '_wpscp_schedule_republish_date', true) : null;
                 if($republish && empty($republish_date)){
@@ -140,7 +154,7 @@ class Calendar
                     'end'      => $this->get_post_time('Y-m-d H:i:s', $republish_date),
                     'allDay'   => false,
                 ));
-            endwhile;
+            }
             wp_reset_postdata();
         }
         return $allData;

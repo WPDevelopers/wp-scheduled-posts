@@ -2,7 +2,7 @@
 /*
  * Plugin Name: SchedulePress
  * Description: Automate your content workflow with SchedulePress. Take a quick glance at your content planning with Schedule Calendar, Dashboard widget & Sitewide admin bar. Instantly share your posts on social media platforms such as Facebook, Twitter & many more.
- * Version: 4.2.6
+ * Version: 4.2.7
  * Author: WPDeveloper
  * Author URI: https://wpdeveloper.com
  * Text Domain: wp-scheduled-posts
@@ -10,8 +10,16 @@
 
 if (!defined('ABSPATH')) exit;
 
-if (file_exists(dirname(__FILE__) . '/vendor/autoload.php')) {
-	require_once dirname(__FILE__) . '/vendor/autoload.php';
+if ( ! version_compare( PHP_VERSION, '7.2', '>=' ) ) {
+	add_action( 'admin_notices', 'wpsp_fail_php_version', 51 );
+	return;
+}
+else {
+	if (file_exists(dirname(__FILE__) . '/vendor/autoload.php')) {
+		require_once dirname(__FILE__) . '/vendor/autoload.php';
+	}
+	// Plugin Start
+	WPSP_Start();
 }
 
 
@@ -53,7 +61,7 @@ final class WPSP
 		/**
 		 * Defines CONSTANTS for Whole plugins.
 		 */
-		define('WPSP_VERSION', '4.2.6');
+		define('WPSP_VERSION', '4.2.7');
 		define('WPSP_SETTINGS_NAME', 'wpsp_settings');
 		define('WPSP_PLUGIN_FILE', __FILE__);
 		define('WPSP_PLUGIN_BASENAME', plugin_basename(__FILE__));
@@ -200,5 +208,14 @@ function WPSP_Start()
 	return WPSP::init();
 }
 
-// Plugin Start
-WPSP_Start();
+function wpsp_fail_php_version() {
+	$message = sprintf(
+		/* translators: 1: `<h3>` opening tag, 2: `</h3>` closing tag, 3: PHP version. 4: Link opening tag, 5: Link closing tag. */
+		esc_html__( '%1$sSchedulePress isn’t running because PHP is outdated.%2$s Update to PHP version %3$s and get back to creating!', 'wp-scheduled-posts' ),
+		'<h3>',
+		'</h3>',
+		'7.2'
+	);
+	$html_message = sprintf( '<div class="error">%s</div>', wpautop( $message ) );
+	echo wp_kses_post( $html_message );
+}
