@@ -30,13 +30,32 @@ class Calendar
     {
         register_rest_route(
             'wpscp/v1',
-            '/post_type=(?P<post_type>[a-zA-Z0-9-_]+)/month=(?P<month>[0-9 .\-]+)/year=(?P<year>[0-9 .\-]+)',
+            '/calendar',
             array(
                 'methods'  => 'GET',
                 'callback' => array($this, 'wpscp_future_post_rest_route_output'),
-                'permission_callback' => '__return_true'
+                'permission_callback' => '__return_true',
+                'args' => [
+                    'post_type' => [
+                        'required' => true,
+                        'type' => 'string',
+                        'default' => 'post',
+                    ],
+                    'month' => [
+                        'required' => true,
+                    ],
+                    'year' => [
+                        'required' => true,
+                    ],
+                ],
             )
         );
+
+        register_rest_route( 'wpscp/v1', '/posts', array(
+            'methods' => 'GET',
+            'callback' => [$this, 'myplugin_get_posts'],
+        ) );
+
         register_rest_route(
             'wpscp/v1',
             '/get_tax_terms',
@@ -46,6 +65,52 @@ class Calendar
                 'permission_callback' => '__return_true'
             )
         );
+    }
+
+
+    // Define the callback function for the custom route
+    public function myplugin_get_posts( $request ) {
+        // Get the query parameters from the request
+        $post_type = $request->get_param( 'post_type' );
+        $_page     = $request->get_param( 'page' );
+
+        // Set the default post types to allow
+        $allow_post_types = array( 'post', 'page' );
+
+        // Create a new WP_Query object with the parameters
+        $query = new \WP_Query(array(
+            'post_type'         => ($post_type && $_page != 'schedulepress-calendar') ? $post_type : $allow_post_types,
+            'post_status'       => array('draft', 'pending'),
+            'posts_per_page'    => -1
+        ));
+
+        // Check if the query found any posts
+        if ( $query->have_posts() ) {
+            $allData = array();
+            // Return the posts as a JSON response
+            while ($query->have_posts()) : $query->the_post();
+                do_action('wpscp_calender_the_post');
+
+                array_push($allData, array(
+                    'postId'   => get_the_ID(),
+                    'title'    => wp_trim_words(get_the_title(), 3, '...'),
+                    'href'     => get_the_permalink(),
+                    'edit'     => get_edit_post_link(),
+                    'postType' => get_post_type(),
+                    'status'   => $this->get_post_status(get_the_ID()),
+                    'postTime' => $this->get_post_time('g:i a'),
+                    'start'    => $this->get_post_time('Y-m-d'),
+                    'end'      => $this->get_post_time('Y-m-d H:i:s'),
+                    'allDay'   => false,
+                ));
+            endwhile;
+            wp_reset_postdata();
+
+            return rest_ensure_response( $allData );
+        } else {
+        // Return an empty array as a JSON response
+            return rest_ensure_response( array() );
+        }
     }
 
     public function get_tax_terms(){

@@ -14,7 +14,6 @@ const SettingsInner = (props) => {
 
   builderContext.submit.onSubmit = useCallback((event, context) => {
     context.setSubmitting(true);
-    console.log(context.values);
     apiFetch( {
         path  : 'wp-scheduled-posts/v1/settings',
         method: 'POST',

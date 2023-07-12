@@ -283,24 +283,28 @@ class Settings {
                         ],
                     ])
                 ],
-                'layout_calender'         => [
-                    'id'       => 'layout_calender',
-                    'name'     => 'layout_calender',
+                'layout_calendar'         => [
+                    'id'       => 'layout_calendar',
+                    'name'     => 'layout_calendar',
                     'type'     => 'section',
-                    'label'    => __('Calender', 'wp-scheduled-posts'),
+                    'label'    => __('Calendar', 'wp-scheduled-posts'),
                     'priority' => 10,
                     'fields'   => [
                         [
-                            'name'     => 'calender_section',
+                            'name'     => 'calendar_section',
                             'type'     => 'section',
                             'label'    => null,
                             'priority' => 2,
                             'fields'   => [
                                 [
-                                    'name'     => 'calender',
-                                    'type'     => 'calender',
-                                    'label'    => null,
-                                    'priority' => 5,
+                                    'name'          => 'calendar',
+                                    'type'          => 'calendar',
+                                    'label'         => null,
+                                    'priority'      => 5,
+                                    // 'ajax_url'      => admin_url('admin-ajax.php'),
+                                    // 'nonce'         => wp_create_nonce('wpscp-calendar-ajax-nonce'),
+                                    'start_of_week' => (int) get_option('start_of_week', 0),
+                                    'rest_route'    => '/wpscp/v1/calendar',
                                 ]
                             ],
                         ]
@@ -1096,7 +1100,7 @@ class Settings {
                                 ],
                             ]
                         ],
-                        
+
                     ]
                 ],
             ])

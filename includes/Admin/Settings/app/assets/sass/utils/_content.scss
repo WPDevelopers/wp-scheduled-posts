@@ -173,8 +173,8 @@
                                             gap: 8px;
                                             input {
                                                 box-shadow: none !important;
-                                                border: 1px solid #EBEEF5 !important;
-                                                background-color: #F9FAFC !important;
+                                                border: 1px solid #EBEEF5;
+                                                background-color: #F9FAFC;
                                                 font-size: 16px !important;
                                                 color: #1B1B50 !important;
                                                 padding: 10px 12px !important;
@@ -349,6 +349,7 @@
                                                         color: #6E6E8D;
                                                         cursor: pointer;
                                                         padding: 0;
+                                                        margin-top: 1px;
                                                     }
                                                 }
                                             }
@@ -359,22 +360,8 @@
                                 .wprf-checkbox-select {
                                     .wprf-checked {
                                         min-width: 250px;
-                                        .css-yk16xz-control {
-                                            background-color: #F9FAFC !important;
-                                            border-color: #EBEEF5 !important;
-                                            border-radius: 8px !important;
-                                            padding: 9px !important;
-                                            .css-1wa3eu0-placeholder {
-                                                font-size: 16px;
-                                                color: #6E6E8D;
-                                                font-weight: 500;
-                                            }
-                                            .css-1okebmr-indicatorSeparator {
-                                                background-color: #989FAB;
-                                            }
-                                            .css-tlfecz-indicatorContainer {
-                                                color: #989FAB;
-                                            }
+                                        input:focus {
+                                            box-shadow: none;
                                         }
                                     }
                                 }

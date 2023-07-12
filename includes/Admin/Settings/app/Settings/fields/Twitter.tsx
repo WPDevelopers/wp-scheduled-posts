@@ -32,7 +32,7 @@ const Twitter = (props) => {
         setPlatform('');
         setApiCredentialsModal(false);
     };
-    
+
     // Handle profile & selected profile status onChange event
     const handleProfileStatusChange = (event) => {
         setProfileStatus(event.target.checked);
@@ -75,7 +75,7 @@ const Twitter = (props) => {
         builderContext.setFieldValue([props.name], selectedProfile);
     },[selectedProfile] )
 
-    // Save profile status data 
+    // Save profile status data
     let { onChange } = props;
     useEffect(() => {
 		onChange({
@@ -95,11 +95,12 @@ const Twitter = (props) => {
                 </div>
                 <div className="selected-profile">
                     {selectedProfile && selectedProfile?.map((item,index) => (
-                        <SelectedProfile 
-                            platform={'twitter'} 
-                            item={item} 
-                            handleSelectedProfileStatusChange={handleSelectedProfileStatusChange} 
-                            handleDeleteSelectedProfile={handleDeleteSelectedProfile} 
+                        <SelectedProfile
+                            key={index}
+                            platform={'twitter'}
+                            item={item}
+                            handleSelectedProfileStatusChange={handleSelectedProfileStatusChange}
+                            handleDeleteSelectedProfile={handleDeleteSelectedProfile}
                             handleEditSelectedProfile={''}
                         />
                     ))}

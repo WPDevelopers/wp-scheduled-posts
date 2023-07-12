@@ -1,7 +1,8 @@
 // Import React and other dependencies
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import apiFetch from "@wordpress/api-fetch";
 import { Draggable } from "@fullcalendar/interaction";
+import { addQueryArgs } from '@wordpress/url';
 
 // Define your component
 export default function Sidebar() {
@@ -17,32 +18,32 @@ export default function Sidebar() {
     new Draggable(draggableRef.current, {
       itemSelector: ".fc-event",
       // Associate event data with the element
-      eventData: function (eventEl) {
-        console.log(eventEl);
-
-        return {
-          title: eventEl.innerHTML,
-        };
-      },
     });
+
   }, []);
 
   // Fetch your posts and taxonomies using useEffect hook
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    // Get the _page value from the params object
+    const page = params.get('page');
+
     // Define your query parameters
     const query = {
       post_type: postType ? postType : ["post", "page"], // Use postType state or default to ["post", "page"]
       post_status: ["draft", "pending"],
       posts_per_page: -1,
+      page: page,
     };
     // Fetch your posts using apiFetch
     apiFetch({
-      path: "/wp/v2/posts",
-      //   data: query,
+      path: addQueryArgs("/wpscp/v1/posts", query),
+      // data: query,
     }).then((data: []) => {
       // Set your posts state with the fetched data
       setPosts(data);
     });
+
     // Fetch your taxonomies using apiFetch
     apiFetch({
       path: "/wpscp/v1/get_tax_terms",
@@ -106,6 +107,7 @@ export default function Sidebar() {
                       const term = taxTerms[taxLabel][termLabel];
                       return (
                         <option
+                          key={term.id}
                           value={`${term.taxonomy}.${term.slug}`}
                           data-tax={term.taxonomy}
                         >
@@ -124,17 +126,12 @@ export default function Sidebar() {
             (
               post // Loop through your posts using map method
             ) => (
-              <div className="fc-event">
-                <div
-                  className="wpscp-event-post"
-                  data-postid={post.id}
-                  data-post-type={post.type}
-                  key={post.id}
-                >
+              <div className="fc-event" data-event={JSON.stringify(post)}>
+                <div className="wpscp-event-post">
                   <div className="postlink ">
                     <span>
-                      <span className="posttime">[{post.date}]</span>{" "}
-                      {post.title.rendered} [{post.status}]
+                      <span className="posttime">[{post.postTime}]</span>{" "}
+                      {post.title} [{post.status}]
                     </span>
                   </div>
                 </div>
