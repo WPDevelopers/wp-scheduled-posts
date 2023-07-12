@@ -3562,8 +3562,8 @@ button.wprf-btn {
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-control-section .wprf-control-wrapper .wprf-control-field input {
   box-shadow: none !important;
-  border: 1px solid #EBEEF5 !important;
-  background-color: #F9FAFC !important;
+  border: 1px solid #EBEEF5;
+  background-color: #F9FAFC;
   font-size: 16px !important;
   color: #1B1B50 !important;
   padding: 10px 12px !important;
@@ -3976,17 +3976,11 @@ button.wprf-btn {
   font-weight: 500;
   line-height: 18px;
 }
-#wpsp-dashboard-body .wprf-tab-layout_email_notify .wprf-control-section .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-checkbox-select:first-child {
-  margin-top: 50px !important;
-}
-#wpsp-dashboard-body .wprf-tab-layout_email_notify .wprf-control-section .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-checkbox-select .wprf-control-field .wprf-checkbox-select .wprf-checked {
-  min-width: 250px;
-}
-#wpsp-dashboard-body .wprf-tab-layout_email_notify .wprf-control-section .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-checkbox-select .wprf-control-field .wprf-checkbox-select .wprf-checked input {
+#wpsp-dashboard-body .wprf-tab-layout_email_notify .wprf-control-section .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-control-field .wprf-label-position-right input {
   border: none !important;
   background-color: transparent !important;
 }
-#wpsp-dashboard-body .wprf-tab-layout_email_notify .wprf-control-section .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-checkbox-select .wprf-control-field .wprf-checkbox-select .wprf-checked input:focus {
+#wpsp-dashboard-body .wprf-tab-layout_email_notify .wprf-control-section .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-control-field .wprf-label-position-right input:focus {
   box-shadow: none;
 }
 #wpsp-dashboard-body .wprf-tab-layout_email_notify .wprf-control-section .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-type-toggle {

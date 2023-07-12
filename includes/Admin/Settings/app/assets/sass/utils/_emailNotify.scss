@@ -3,20 +3,14 @@
         .wprf-section-fields{
             .wprf-control-section {
                 .wprf-section-fields {
-                    .wprf-checkbox-select {
-                        &:first-child {
-                            margin-top: 50px !important;
-                        }
+                    .wprf-control-wrapper {
                         .wprf-control-field {
-                            .wprf-checkbox-select {
-                                .wprf-checked {
-                                    min-width: 250px;
-                                    input {
-                                        border: none !important;
-                                        background-color: transparent !important;
-                                        &:focus {
-                                            box-shadow: none;
-                                        }
+                            .wprf-label-position-right {
+                                input {
+                                    border: none !important;
+                                    background-color: transparent !important;
+                                    &:focus {
+                                        box-shadow: none ;
                                     }
                                 }
                             }
@@ -32,3 +26,36 @@
         }
     }
 }
+
+// .wprf-tab-layout_email_notify {
+//     .wprf-control-section {
+//         .wprf-section-fields{
+//             .wprf-control-section {
+//                 .wprf-section-fields {
+//                     .wprf-control-section {
+//                         .wprf-section-fields {
+//                             .wprf-control-wrapper {
+//                                 .wprf-control-field {
+//                                     .wprf-label-position-right {
+//                                         min-width: 250px !important;
+//                                         input {
+//                                             border: none !important;
+//                                             background-color: transparent !important;
+//                                             &:focus {
+//                                                 box-shadow: none ;
+//                                             }
+//                                         }
+//                                     }
+//                                 }
+//                             }
+//                             .wprf-type-toggle {
+//                                 padding: 0 !important;
+//                                 border: none !important;
+//                             }
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//     }
+// }
