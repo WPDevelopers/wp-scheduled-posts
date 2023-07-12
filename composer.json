@@ -28,12 +28,7 @@
         "priyomukul/wp-notice": "dev-main",
         "wpdevelopers/twitteroauth": "dev-main",
         "wpdevelopers/linkedin-sdk-php": "dev-master",
-        "wpdevelopers/pinterest-api-php": "dev-master",
-        "facebook/graph-sdk": "5.7.0",
-        "guzzlehttp/promises": "1.4.0",
-        "guzzlehttp/psr7": "1.7.0",
-        "paragonie/random_compat": "v9.99.99",
-        "guzzlehttp/guzzle": "6.5.5"
+        "wpdevelopers/pinterest-api-php": "dev-master"
     },
     "autoload": {
         "psr-4": {
