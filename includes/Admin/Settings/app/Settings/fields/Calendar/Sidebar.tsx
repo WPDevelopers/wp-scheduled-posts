@@ -85,29 +85,9 @@ export default function Sidebar() {
           Unscheduled {postType ? postType : "Posts"}{" "}
           <span className="spinner"></span>
         </h4>
-        <select name="type" id="type" className="select-type">
-          <option>Type</option>
-          <option>Type</option>
-          <option>Type</option>
+        <select name="select" id="select" className="select">
+          <option>Select</option>
         </select>
-        <div className="card">
-          <span>12:30 AM</span>
-          <h3>AI: Unleashing the
-          Future of Technology</h3>
-          <button>Page</button>
-        </div>
-        <div className="card">
-          <span>12:30 AM</span>
-          <h3>AI: Unleashing the
-          Future of Technology</h3>
-          <button>Page</button>
-        </div>
-        <div className="card">
-          <span>12:30 AM</span>
-          <h3>AI: Unleashing the
-          Future of Technology</h3>
-          <button>Page</button>
-        </div>
         {postType !== "page" && (
           <select
             id="external-events-filter"
@@ -150,13 +130,18 @@ export default function Sidebar() {
               post // Loop through your posts using map method
             ) => (
               <div className="fc-event" data-event={JSON.stringify(post)}>
-                <div className="wpscp-event-post">
-                  <div className="postlink ">
-                    <span>
-                      <span className="posttime">[{post.postTime}]</span>{" "}
-                      {post.title} [{post.status}]
-                    </span>
-                  </div>
+                <div className="card">
+                  <i className="wpsp-icon wpsp-angle-down">
+                    <ul className="edit-area">
+                      <li>view</li>
+                      <li>edit</li>
+                      <li>quick edit</li>
+                      <li>delete</li>
+                    </ul>
+                  </i>
+                  <span>{post.postTime}</span>
+                  <h3>{post.title}</h3>
+                  <span>page</span>
                 </div>
               </div>
             )
