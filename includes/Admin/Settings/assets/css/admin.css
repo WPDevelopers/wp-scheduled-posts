@@ -3949,6 +3949,16 @@ button.wprf-btn {
 #wpsp-dashboard-body .wpsp-admin-sidebar .card > img {
   margin-bottom: 15px;
 }
+#wpsp-dashboard-body .wpsp-admin-sidebar .card > i {
+  font-size: 16px;
+  color: #6C62FF;
+  padding: 12px;
+  background: #F3F2FF;
+  display: inline-block;
+  border-radius: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+}
 #wpsp-dashboard-body .wpsp-admin-sidebar .card > h3 {
   font-family: Inter;
   font-size: 18px;

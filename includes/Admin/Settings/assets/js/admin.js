@@ -2430,24 +2430,20 @@ var Sidebar = function (_a) {
     alt: "upgrade-pro-img"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h3", null, "Get Unlimited Features"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("p", null, "Supercharge your content schedule and have a peace in mind"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("button", null, "Upgrade To Pro")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: 'card'
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("img", {
-    src: "".concat(wpspSettingsGlobal === null || wpspSettingsGlobal === void 0 ? void 0 : wpspSettingsGlobal.image_path, "doc.png"),
-    alt: "doc-icon"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("i", {
+    className: "wpsp-icon wpsp-file"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h3", null, "Documentation"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("p", null, "Get started spending some time with the documentation to get familiar with SchedulePress."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("button", null, "Documentation")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: 'card'
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("img", {
-    src: "".concat(wpspSettingsGlobal === null || wpspSettingsGlobal === void 0 ? void 0 : wpspSettingsGlobal.image_path, "contribute-icon.png"),
-    alt: "contribute-icon"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("i", {
+    className: "wpsp-icon wpsp-file"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h3", null, "Contribute to SchedulePress"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("p", null, "You can contribute to making SchedulePress better by reporting bugs"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("button", null, "Report A Bug")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: 'card'
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("img", {
-    src: "".concat(wpspSettingsGlobal === null || wpspSettingsGlobal === void 0 ? void 0 : wpspSettingsGlobal.image_path, "help.png"),
-    alt: "help-icon"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("i", {
+    className: "wpsp-icon wpsp-file"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h3", null, "Need Help?"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("p", null, "Stuck with something? Get help from the community WPDeveloper Forum or Facebook Community."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("button", null, "Get Support")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: 'card'
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("img", {
-    src: "".concat(wpspSettingsGlobal === null || wpspSettingsGlobal === void 0 ? void 0 : wpspSettingsGlobal.image_path, "love-icon.png"),
-    alt: "love-icon"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("i", {
+    className: "wpsp-icon wpsp-file"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h3", null, "Show your Love"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("p", null, "We love to have you in the SchedulePress family. We are making it more awesome every day."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("button", null, "Show your Love")));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Sidebar);
