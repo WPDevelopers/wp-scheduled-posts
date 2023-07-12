@@ -55,8 +55,6 @@ export const socialProfileRequestHandler = async (redirectURI, appID, appSecret,
         } catch (e) {
             message = responseData.data;
         }
-        console.log(message);
-        
        return { error:true, message };
     }
 };

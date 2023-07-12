@@ -58,34 +58,25 @@
                         @media screen and (max-width: 1023px)  { 
                             gap: 20px;
                         }
-                        select {
-                            font-size: 14px;
-                            line-height: 2;
-                            color: #6E6E8D;
-                            border-color: #D7DBDF;
-                            box-shadow: none;
-                            border-radius: 6px;
-                            padding: 0 16px;
-                            min-height: 44px;
-                            min-width: 120px;
-                            background: #F9FAFC url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E) no-repeat right 5px top 55%;
-                            background-size: 16px 16px;
-                            cursor: pointer;
+                        #facebook_profile_list,
+                        #linkedin_profile_list {
+                            height: 44px;
+                            min-width: 140px;
                             @media screen and (max-width: 1770px)  { 
                                 font-size: 12px;
-                                min-width: 100px;
+                                min-width: 120px;
                             }
                         }
                         button {
                             color: #6C62FF;
-                            padding: 8px 12px;
+                            padding: 8px 16px;
                             font-size: 14px;
                             font-weight: 500;
                             line-height: 17px;
                             text-align: center;
                             border: 1px solid #6C62FF;
                             border-radius: 6px;
-                            min-height: 44px;
+                            height: 44px;
                             background: transparent;
                             cursor: pointer;
                             @media screen and (max-width: 1770px)  { 

@@ -1,0 +1,107 @@
+.wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents {
+    .wprf-tab-layout_advance_schedule,
+    .wprf-tab-layout_missed_schedule {
+        .advance_schedule_wrapper,
+        .missed_schedule_wrapper {
+            padding: 0 !important;
+            border-radius: 0 !important;
+            .wprf-section-fields {
+                display: flex;
+                .wprf-control-section {
+                    border-radius: 0 !important;
+                    border: none !important;
+                    margin-bottom: 0 !important;
+                    flex-basis: 50%;
+                    .wprf-section-fields {
+                        display: flex;
+                        flex-direction: column;
+                        .wprf-control-wrapper {
+                            padding: 0 !important;
+                            border: none !important;
+                            border-radius: 0 !important;
+                            margin-bottom: 40px !important;
+                            gap: 10px !important;
+                            .wprf-badge-wrapper {
+                                .wprf-control-label {
+                                    label {
+                                        font-size: 24px !important;
+                                        line-height: 1.2em !important;
+                                        font-weight: 600 I !important;
+                                    }
+                                    .wprf-badge {
+                                        .wprf-badge-item {
+                                            padding: 4px 8px !important;
+                                        }
+                                    }
+                                }
+                                .wprf-control-field {
+                                    .wprf-help {
+                                        font-size: 14px;
+                                        line-height: 1.6;
+                                        color: #6E6E8D;
+                                    }
+                                }
+                            }
+                        }
+                        .wpfr-section-html {
+                            font-size: 14px;
+                            color: #6E6E8D;
+                            line-height: 1.6em;
+                        }
+                        .wprf-list {
+                            h4 {
+                                font-size: 18px !important;
+                                line-height: 1.2em !important;
+                                margin-bottom: 24px !important;
+                            }
+                            .wprf-list-item {
+                                font-size: 14px;
+                                line-height: 1em;
+                                color: #6C62FF;
+                                list-style: decimal;
+                                margin-left: 15px !important;
+                                transition: ease-in-out .25s;
+                                &:hover {
+                                    color: #6E6E8D;
+                                }
+                                li {
+                                    a {
+                                        color: #6C62FF;
+                                        line-height: 1.5em;
+                                        transition: ease-in-out .25s;
+                                        &:hover {
+                                            color: #6E6E8D;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                .advance_schedule_switcher,
+                .missed_schedule_switcher {
+                    border-radius: 0 !important;
+                    border-width: 0 1px 0 0 !important;
+                    border-color: #EBEEF5 !important;
+                    border-style: solid !important;
+                }
+                .advance_video,
+                .missed_video {
+                    .wprf-video {
+                        h4 {
+                            font-size: 18px !important;
+                            font-weight: 500;
+                            line-height: 1.2em;
+                            color: #1B1B50;
+                            margin-bottom: 24px !important;
+                        }
+                        iframe {
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+        }
+    }
+} 
+

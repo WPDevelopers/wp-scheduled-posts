@@ -21,6 +21,7 @@
             .wprf-tab-nav {
                 padding: 0 !important;
                 border-style: none;
+                min-width: 240px;
                 .wprf-tab-nav-item {
                     font-size: 18px !important;
                     font-weight: 500 !important;
@@ -33,14 +34,35 @@
                     &:last-child {
                         margin-bottom: 0px;
                     }
+                    span {
+                        position: relative;
+                        padding-left: 45px;
+                        &:before {
+                            position: absolute;
+                            content: '\e904';
+                            font-family: 'wpsp';
+                            top: -5px;
+                            left: 0;
+                            font-size: 14px;
+                            line-height: 34px;
+                            text-align: center;
+                            background: #1877F2;
+                            border-radius: 50%;
+                            width: 34px;
+                            height: 34px;
+                            display: inline-block;
+                            color: #fff;
+                        }
+                    }
                 }
                 .wprf-active-nav {
                     color: #1B1B50 !important;
                     background: #F5F9FE !important;
-                    padding: 16px 20px !important;
+                    padding: 20px 20px !important;
                     border-radius: 6px;
                     border-right: none;
                     box-shadow: none;
+                    
                 }
             }
         }

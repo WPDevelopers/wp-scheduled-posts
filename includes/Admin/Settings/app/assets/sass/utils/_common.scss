@@ -10,3 +10,10 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+ul {
+  padding: 0;
+  margin: 0;
+}
+::placeholder {
+  color: rgb(9, 255, 0);
+}

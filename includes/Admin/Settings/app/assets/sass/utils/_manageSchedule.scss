@@ -51,7 +51,7 @@
                         font-size: 14px !important;
                         line-height: 1.2em !important;
                         font-weight: 500 !important;
-                        padding: 0 0 12px !important;
+                        padding: 0 0 8px !important;
                     }
                     span {
                         color: #6E6E8D;
@@ -85,8 +85,9 @@
                 padding: 16px 22px;
                 border: 1px solid #F3F2FF;
                 border-radius: 4px;
+                align-items: center;
                 input {
-                    padding: 10px 20px;
+                    padding: 10px;
                     line-height: 1.2em;
                     display: inline-block;
                     width: 50px;
@@ -95,11 +96,11 @@
                     background-color: #F9FAFC;
                     border: 1px solid #EBEEF5;
                     border-radius: 4px;
-                }
-                &:focus {
-                    border-color: none;
-                    box-shadow: none !important;
-                    outline: 0;
+                    &:focus {
+                        border-color: none;
+                        box-shadow: none !important;
+                        outline: 0;
+                    }
                 }
                 span {
                     font-size: 10px;
