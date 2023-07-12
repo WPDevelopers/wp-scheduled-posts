@@ -141,7 +141,7 @@ class Settings {
                                                 'link'  => 'https://wpdeveloper.com',
                                             ],
                                             [
-                                                'icon'  => 'wpsp-premimu-support',
+                                                'icon'  => 'wpsp-chat',
                                                 'title' => __('Premium Support','wp-scheduled-posts'),
                                                 'link'  => 'https://wpdeveloper.com',
                                             ],
