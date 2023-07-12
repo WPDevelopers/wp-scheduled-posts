@@ -1,27 +1,11 @@
 import React, { useState } from 'react'
 import { __ } from '@wordpress/i18n'
-
+import ProAlert from '../utils/ProAlert';
 export default function Facebook({ page, group, addProfileToggle,savedProfile }) {
     const [isErrorMessage, setIsErrorMessage] = useState(false);
     return (
         <>
             <div className='wpsp-modal-social-platform'>
-            
-                {isErrorMessage && (
-                    <div className='error-message'>
-                        {__(
-                            'Multi Profile is a Premium Feature. To use this feature,',
-                            'wp-scheduled-posts'
-                        )}
-                        {" "}
-                        <a target="_blank" href='https://wpdeveloper.com/in/schedulepress-pro'>
-                            {__(
-                                'Upgrade to PRO.',
-                                'wp-scheduled-posts'
-                            )}
-                        </a>
-                    </div>
-                )}
                 <ul>
                     {page.length > 0 && (
                         <li>{__('Pages:', 'wp-scheduled-posts')} </li>

@@ -1,126 +1,57 @@
 import React, { useState } from 'react'
 import { toast } from 'react-toastify';
+import { __ } from '@wordpress/i18n';
 import 'react-toastify/dist/ReactToastify.css';
-import Modal from 'react-modal';
-// const getToasterIcon = (url) => {
-//     return ( wpspSettingsGlobal?.assets?.admin + url + '?version=' + Math.random());
-// };
+import Swal from 'sweetalert2';
 
-
-export const ToasterIcons = {
-    deleted: ()     => "Icon",
-    regenerated: () => "Icon",
-    enabled: ()     => "Icon",
-    disabled: ()    => "Icon",
-    error: ()       => "Icon",
-    connected: ()   => "Icon",
-}
-
-export const toastDefaultArgs: any = {
-    position: "bottom-right",
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    icon: false,
+// Setup Sweetalert2 toaster
+export const SweetAlertToaster = (args: any = {}) => {
+    return Swal.mixin({
+        icon: args?.icon ?? (args?.type || "success"),
+        title: args?.title ?? __('Changes saved successfully','wp-scheduled-posts'),
+        toast: args?.toast ?? true,
+        position: args?.position ?? 'bottom-end',
+        showConfirmButton: args?.showConfirmButton ?? false,
+        timer: args?.timer ?? 3000,
+        timerProgressBar: args?.toast ?? true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
 };
 
-// export const SuccessMsg = (msg) => {
-export const ConnectedMsg = (msg) => {
-    return (
-        <div className="wprf-toast-wrapper">
-            <img src={ToasterIcons.connected()} alt="" />
-            <p>{msg}</p>
-        </div>
-    )
-}
-
-export const ErrorMsg = (msg) => {
-    return (
-        <div className="wprf-toast-wrapper">
-            <img src={ToasterIcons.error()} alt="" />
-            <p>{msg}</p>
-        </div>
-    )
-}
-
-export const RegeneratedMsg = (msg) => {
-    return (
-        <div className="wprf-toast-wrapper">
-            <img src={ToasterIcons.regenerated()} alt="" />
-            <p>{msg}</p>
-        </div>
-    )
-}
-
-export const EnabledMsg = (msg) => {
-    return (
-        <div className="wprf-toast-wrapper">
-            <img src={ToasterIcons.enabled()} alt="" />
-            <p>{msg}</p>
-        </div>
-    )
-}
-
-export const DisabledMsg = (msg) => {
-    return (
-        <div className="wprf-toast-wrapper">
-            <img src={ToasterIcons.disabled()} alt="" />
-            <p>{msg}</p>
-        </div>
-    )
-}
-export const DeletedMsg = (msg) => {
-    return (
-        <div className="wprf-toast-wrapper">
-            <img src={ToasterIcons.deleted()} alt="" />
-            <p>{msg}</p>
-        </div>
-    )
-}
-
-
-export const ToastAlert = (type, message, args?) => {
-    type = type || null;
-    message = message || null;
-    const promise = new Promise((resolve, reject) => {
-        args = args || {};
-        const defaultArgs = { ...toastDefaultArgs, ...args, onClose: resolve }
-        if (type == 'success' || type == 'connected') {
-            toast.info(ConnectedMsg(message), defaultArgs);
-        }
-        if (type == 'error') {
-            toast.error(ErrorMsg(message), defaultArgs);
-        }
-        if (type == 'regenerated') {
-            toast.info(RegeneratedMsg(message), defaultArgs);
-        }
-        if (type == 'enabled') {
-            toast.info(EnabledMsg(message), defaultArgs);
-        }
-        if (type == 'disabled') {
-            toast.warning(DisabledMsg(message), defaultArgs);
-        }
-        if (type == 'deleted') {
-            toast.error(DeletedMsg(message), defaultArgs);
-        }
-        if (!type) {
-            reject();
-        }
+// Setup Sweetalert2 pro message popup
+export const SweetAlertProMsg = (args: any = {}) => {
+    return Swal.fire({
+        title: args?.title ?? __('Opps','wp-scheduled-posts'),
+        showCancelButton: args?.showCancelButton ?? false,
+        showConfirmButton: args?.showConfirmButton ?? false,
+        html: `
+          <div>
+            <h4>${ args?.message ?? __('You need SchedulePress PRO','wp-scheduled-posts') }</h4>
+            <img src="${ args?.imageUrl ?? wpspSettingsGlobal.admin_image_path + '/upgrade-pro-new.png' }" alt="${__(args?.imageAlt ?? __('Pro Alert'), 'wp-scheduled-posts')}">
+            <a href="${ args?.buttonUrl ?? 'https://wpdeveloper.com/in/schedulepress-pro' }" target="${ args?.target ?? '_blank' }">
+              <button>${ args?.buttonText ?? __('Check Pricing Plans', 'wp-scheduled-posts') }</button>
+            </a>
+          </div>
+        `
     });
-    return promise;
-}
+};
 
-const wpspToast = {
-    connected: (message, args?) => ToastAlert('connected', message, args),
-    info: (message, args?) => ToastAlert('connected', message, args),
-    error: (message, args?) => ToastAlert('error', message, args),
-    regenerated: (message, args?) => ToastAlert('regenerated', message, args),
-    enabled: (message, args?) => ToastAlert('enabled', message, args),
-    disabled: (message, args?) => ToastAlert('disabled', message, args),
-    warning: (message, args?) => ToastAlert('disabled', message, args),
-    deleted: (message, args?) => ToastAlert('deleted', message, args),
-}
-export default wpspToast;
+// Setup Sweetalert2 pro message popup
+export const SweetAlertDeleteMsg = ( args: any = {}, deleteFile?: (item) => void ) => {
+    return Swal.fire({
+        title: args?.title ?? __( 'Are you sure?','wp-scheduled-posts' ),
+        text: args?.text ?? __( "You won't be able to revert this!",'wp-scheduled-posts' ),
+        icon: args?.icon ?? __( 'warning','wp-scheduled-posts' ),
+        showCancelButton: args?.showCancelButton ?? true,
+        confirmButtonColor: args?.confirmButtonColor ?? '#3085d6',
+        cancelButtonColor: args?.cancelButtonColor ?? '#d33',
+        confirmButtonText: args?.confirmButtonText ?? __('Yes, delete it!', 'wp-scheduled-posts'),
+    }).then((result) => {
+        if (result.isConfirmed) {
+            deleteFile(args?.item)
+        }
+    })
+};

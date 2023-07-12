@@ -12,6 +12,7 @@ final class Notices extends Base {
 	public $system_id = 'wpnotice_system';
 	public $app = 'wpnotice';
 	public $version = '1.0.0';
+	public $dev_mode = false; // Add default value for $dev_mode
 
 	private $args = [];
 

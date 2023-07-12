@@ -1,18 +1,18 @@
 import classNames from 'classnames';
-import React, { useState,useEffect,useCallback } from 'react'
+import React, { useState,useEffect } from 'react'
 import { __ } from "@wordpress/i18n";
 import {
     useBuilderContext,
-    executeChange,
 } from "quickbuilder";
 
 import ApiCredentialsForm from './Modals/ApiCredentialsForm';
 import Modal from "react-modal";
-import { socialProfileRequestHandler,getFormatDateTime } from '../helper/helper';
+import { socialProfileRequestHandler } from '../helper/helper';
 import SocialModal from './Modals/SocialModal';
 import SelectedProfile from './utils/SelectedProfile';
 import MainProfile from './utils/MainProfile';
 import ProAlert from './utils/ProAlert';
+import {SweetAlertDeleteMsg} from '../ToasterMsg';
 
 const Linkedin = (props) => {
     const builderContext = useBuilderContext();
@@ -82,10 +82,12 @@ const Linkedin = (props) => {
     };
 
     const handleDeleteSelectedProfile = (item) => {
+        SweetAlertDeleteMsg( { item }, deleteFile );
+    };
+    const deleteFile = (item) => {
         const updatedData = selectedProfile.filter(selectedItem => selectedItem.id !== item.id);
         setSelectedProfile(updatedData);
-    };
-
+    }
     // Save selected profile data
     useEffect( () => {
         builderContext.setFieldValue([props.name], selectedProfile);
@@ -104,9 +106,6 @@ const Linkedin = (props) => {
 	}, [profileStatus]);
     return (
         <div className={classNames('wprf-control', 'wprf-social-profile', `wprf-${props.name}-social-profile`, props?.classes)}>
-           {isErrorMessage && (
-                <ProAlert />
-            )}
            <div className='social-profile-card'>
                 <div className="main-profile">
                     <MainProfile props={props} handleProfileStatusChange={handleProfileStatusChange} profileStatus={profileStatus} openApiCredentialsModal={openApiCredentialsModal} />
@@ -139,7 +138,6 @@ const Linkedin = (props) => {
             <SocialModal
                 selectedProfile={selectedProfile}
                 setSelectedProfile={setSelectedProfile}
-                setIsErrorMessage={setIsErrorMessage}
                 props={props}
                 type="linkedin"
             />

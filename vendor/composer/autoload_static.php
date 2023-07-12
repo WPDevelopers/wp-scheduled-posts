@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit48794e87e1e7e8b8306b8fcb09ba56c6
+class ComposerStaticInit222847855f4ec4c57417c2084bc56c0d
 {
     public static $files = array (
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
@@ -13,8 +13,8 @@ class ComposerStaticInit48794e87e1e7e8b8306b8fcb09ba56c6
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
-        '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         'c65d09b6820da036953a371c8c73a9b1' => __DIR__ . '/..' . '/facebook/graph-sdk/src/Facebook/polyfills.php',
+        '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '0b107c896fcb50616009a9e3dc5b1f1c' => __DIR__ . '/../..' . '/includes/functions.php',
     );
 
@@ -117,7 +117,7 @@ class ComposerStaticInit48794e87e1e7e8b8306b8fcb09ba56c6
         ),
         'Abraham\\TwitterOAuth\\' => 
         array (
-            0 => __DIR__ . '/..' . '/abraham/twitteroauth/src',
+            0 => __DIR__ . '/..' . '/wpdevelopers/twitteroauth/src',
         ),
     );
 
@@ -129,9 +129,9 @@ class ComposerStaticInit48794e87e1e7e8b8306b8fcb09ba56c6
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit48794e87e1e7e8b8306b8fcb09ba56c6::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit48794e87e1e7e8b8306b8fcb09ba56c6::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit48794e87e1e7e8b8306b8fcb09ba56c6::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit222847855f4ec4c57417c2084bc56c0d::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit222847855f4ec4c57417c2084bc56c0d::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit222847855f4ec4c57417c2084bc56c0d::$classMap;
 
         }, null, ClassLoader::class);
     }

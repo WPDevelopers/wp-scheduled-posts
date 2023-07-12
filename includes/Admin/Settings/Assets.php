@@ -52,6 +52,7 @@ class Assets
             'plugin_root_path' => WPSP_ROOT_DIR_PATH,
             'assets_path'     => WPSP_PLUGIN_ROOT_URI.'assets/',
             'image_path'     => WPSP_PLUGIN_ROOT_URI.'assets/images/',
+            'admin_image_path'  => WPSP_PLUGIN_ROOT_URI.'includes/Admin/Settings/app/assets/images',
             'free_version'     => WPSP_VERSION,
             'pro_version'      => (defined('WPSP_PRO_VERSION') ? WPSP_PRO_VERSION : '')
         )));
