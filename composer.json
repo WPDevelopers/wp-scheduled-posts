@@ -21,6 +21,7 @@
         }
     ],
     "require": {
+        "php": "7.2",
         "priyomukul/wp-notice": "dev-main",
         "abraham/twitteroauth": "1.2.0",
         "facebook/graph-sdk": "5.7.0",

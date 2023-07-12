@@ -22,7 +22,7 @@ function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage,pro
     const [pinterestBoards, setPinterestBoards] = useState([]);
     const [responseData, setResponseData] = useState([]);
     const [linkedInData, setLinkedInData] = useState({})
-    const [socialPlatform, setSocialPlatform] = useState("");  
+    const [socialPlatform, setSocialPlatform] = useState("");
     const [savedProfile,setSavedProfile] = useState(props?.value);
     const [cashedSectionData, setCashedSectionData] = useState({});
     const [singlePinterestBoard,setSinglePinterestBoard] = useState('');
@@ -41,7 +41,7 @@ function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage,pro
                     setRequestSending(true);
                     // remove unnecessary query string and active social profile tab
                     if (history.pushState) {
-                        generateTabURL();  
+                        generateTabURL();
                         builderContext.setActiveTab('layout_social_profile');
                     }
                     getProfileData(params).then(response => {
@@ -61,24 +61,24 @@ function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage,pro
                 }
             }
         };
-        getQueryParams(window.location.search);        
+        getQueryParams(window.location.search);
     },[window.location]);
 
     useEffect( () => {
         if( profileItem ) {
-            // @ts-ignore 
+            // @ts-ignore
             setSinglePinterestBoard(profileItem);
             setProfileDataModal(true);
-            
+
         }
         console.log(type);
-        
+
     },[profileItem] )
 
     const closeProfileDataModal = () => {
         setProfileDataModal(false);
     };
-    // Add linkedin prifle 
+    // Add linkedin prifle
     const addProfileToggle = (item, index, e) => {
         if( e.target.checked ) {
             // free
@@ -134,7 +134,6 @@ function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage,pro
                 }
             })
             .catch(function () {
-                console.log(error);
                 updateOptions(options);
             });
           }
@@ -146,7 +145,7 @@ function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage,pro
     const addPinterestProfileToggle = (item,defaultBoard,defaultSection,event, board) => {
         const pinterestItem = { ...item, borads : pinterestBoards, defaultSection: defaultSection, default_board_name : board };
         console.log('pinterest-item',pinterestItem);
-        
+
         if( event.target.checked ) {
             // free
             // @ts-ignore

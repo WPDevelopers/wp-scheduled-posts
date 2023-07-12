@@ -5,10 +5,9 @@ const docIcon =  require("../assets/images/doc.png");
 
 const Sidebar = ({ props }) => {
     const builderContext = useBuilderContext();
-    console.log(builderContext.config.active);
 
-    if(props.id !== 'tab-sidebar-layout' || builderContext.config.active === 'layout_calender' || builderContext.config.active === 'layout_social_profile' ) {
-        return <></>;
+    if(props.id !== 'tab-sidebar-layout' || builderContext.config.active === 'layout_calendar' || builderContext.config.active === 'layout_social_profile' ) {
+        return;
     }
 
     return (

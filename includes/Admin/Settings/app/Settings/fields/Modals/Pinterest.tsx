@@ -3,7 +3,7 @@ import { __ } from '@wordpress/i18n'
 import { default as ReactSelect } from "react-select";
 import PinterestSectionSelect from '../utils/PinterestSectionSelect';
 
-export default function Pinterest({ platform, data, boards,fetchSectionData ,noSection, addProfileToggle,savedProfile,singlePinterestBoard }) {
+export default function Pinterest({ platform, data, boards,fetchSectionData,noSection,addProfileToggle,savedProfile,singlePinterestBoard }) {
     let boardOptions = boards?.map((board) => {
       return {
         label: board.name || board.id,
@@ -20,12 +20,6 @@ export default function Pinterest({ platform, data, boards,fetchSectionData ,noS
         setDefaultSection(noSection);
       }
     }, [defaultBoard]);
-
-    useEffect(() => {
-      if( noSection ) {
-        setDefaultSection(noSection);
-      }
-    }, [noSection]);
     
     useEffect(() => {
       if( boards ) {
@@ -48,10 +42,25 @@ export default function Pinterest({ platform, data, boards,fetchSectionData ,noS
                 <h3>{item?.name}</h3>
                 <ul>
                   {boardOptions.map((board, board_index) => {
+                    console.log(board); 
                     return (<li key={board_index}>
                       <div className="item-content">
                         <h4 className="entry-title">{board?.label}</h4>
                         <div className="control pinterest-select">
+                          {/* <ReactSelect
+                            value={defaultSection}
+                            onMenuOpen={() =>
+                              fetchSectionData(
+                                board?.value,
+                                item,
+                                setSectionOptions
+                              )
+                            }
+                            onChange={ (event) => {
+                              setDefaultSection(event)
+                            } }
+                            options={sectionOptions}
+                          /> */}
                           <PinterestSectionSelect
                             noSection={noSection}
                             fetchSectionData={fetchSectionData}
@@ -59,6 +68,7 @@ export default function Pinterest({ platform, data, boards,fetchSectionData ,noS
                             item={item}
                             setSectionOptions={setSectionOptions}
                             sectionOptions={sectionOptions}
+                            setBoardDefaultSection={setDefaultSection}
                           />
                         </div>
                         <input
@@ -98,15 +108,32 @@ export default function Pinterest({ platform, data, boards,fetchSectionData ,noS
                       <div className="item-content">
                         <h4 className="entry-title">{board?.label}</h4>
                         <div className="control pinterest-select">
-                            <PinterestSectionSelect
-                              noSection={defaultSection}
-                              fetchSectionData={fetchSectionData}
-                              board={board}
-                              item={singlePinterestBoard}
-                              setSectionOptions={setSectionOptions}
-                              sectionOptions={sectionOptions}
-                            />
+                          <ReactSelect
+                            value={defaultSection}
+                            onMenuOpen={() =>
+                              fetchSectionData(
+                                board?.value,
+                                singlePinterestBoard,
+                                setSectionOptions
+                              )
+                            }
+                            onChange={setDefaultSection}
+                            options={sectionOptions}
+                          />
                         </div>
+                        <input
+                            type='checkbox'
+                            onChange={ (event) => {
+                              addProfileToggle(
+                                singlePinterestBoard,
+                                defaultBoard,
+                                defaultSection,
+                                event,
+                                board,
+                              )
+                              }
+                            }
+                        />
                       </div>
                     </li>
                   ))}

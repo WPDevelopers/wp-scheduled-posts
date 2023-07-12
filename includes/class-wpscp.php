@@ -177,6 +177,7 @@ final class WpScp
      */
     public function plugin_scripts($hook)
     {
+        die;
         $current_screen = get_current_screen();
         if (is_admin() && wpscp_is_supported_plugin_page_hook_suffix($current_screen->post_type, $hook)) {
             wp_enqueue_style('select2-css', WPSCP_ADMIN_URL . 'assets/css/vendor/select2.min.css', array(), WPSP_VERSION, 'all');

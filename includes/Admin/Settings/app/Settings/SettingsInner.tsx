@@ -28,7 +28,6 @@ const SettingsInner = (props) => {
 
   builderContext.submit.onSubmit = useCallback((event, context) => {
     context.setSubmitting(true);
-    console.log(context.values);
     apiFetch( {
         path  : 'wp-scheduled-posts/v1/settings',
         method: 'POST',
@@ -37,7 +36,7 @@ const SettingsInner = (props) => {
         },
     } ).then( ( res ) => {
         if( res ) {
-          wpspToast.info(__(`Changes Saved Successfully.`, 'notificationx'));
+          wpspToast.info(__(`Changes Saved Successfully.`, 'wp-scheduled-posts'));
         }
     } );
   }, []);
