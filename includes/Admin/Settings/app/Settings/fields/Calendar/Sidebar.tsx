@@ -85,6 +85,29 @@ export default function Sidebar() {
           Unscheduled {postType ? postType : "Posts"}{" "}
           <span className="spinner"></span>
         </h4>
+        <select name="type" id="type" className="select-type">
+          <option>Type</option>
+          <option>Type</option>
+          <option>Type</option>
+        </select>
+        <div className="card">
+          <span>12:30 AM</span>
+          <h3>AI: Unleashing the
+          Future of Technology</h3>
+          <button>Page</button>
+        </div>
+        <div className="card">
+          <span>12:30 AM</span>
+          <h3>AI: Unleashing the
+          Future of Technology</h3>
+          <button>Page</button>
+        </div>
+        <div className="card">
+          <span>12:30 AM</span>
+          <h3>AI: Unleashing the
+          Future of Technology</h3>
+          <button>Page</button>
+        </div>
         {postType !== "page" && (
           <select
             id="external-events-filter"

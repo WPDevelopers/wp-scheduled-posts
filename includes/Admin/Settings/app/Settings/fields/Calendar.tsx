@@ -58,17 +58,33 @@ export default function Calendar(props) {
 
   return (
     <>
-      <div className="sidebar" style={{width: "500px"}}>
+      <div className="sidebar">
         <Sidebar />
       </div>
-      <div>
+      <div className="main-content">
         <div className="toolbar">
-          <div className="left"></div>
+          <div className="left">
+            <select name="type" id="type" className="select-type">
+              <option>Type</option>
+              <option>Type</option>
+              <option>Type</option>
+            </select>
+            <select name="category" id="category" className="select-category">
+              <option>category</option>
+              <option>category</option>
+              <option>category</option>
+            </select>
+          </div>
           <div className="middle">
             {/* calendar dropdown */}
             {calendar.current && calendar.current.getApi().view.title}
+            <input type="month" id="start" name="start"
+            min="2018-03" value="2018-05"></input>
           </div>
-          <div className="right"></div>
+          <div className="right">
+            <button>Today</button>
+            <i className="wpsp-icon wpsp-auto-sc" />
+          </div>
         </div>
         <FullCalendar
           ref={calendar}

@@ -1,0 +1,38 @@
+.wprf-tab-layout_calendar {
+    .calendar_section {
+        padding: 0 !important;
+        background: transparent !important;
+        .wprf-section-fields {
+            display: flex;
+            gap: 32px;
+            .sidebar {
+                flex-basis: 20%;
+                padding: 32px;
+                background-color: #fff;
+                border-radius: 6px;
+                box-sizing: border-box;
+                select {
+                    min-width: 140px;
+                    height: 44px;
+                }
+            }
+            .main-content {
+                flex-basis: 80%;
+                background: #fff;
+                padding: 30px;
+                border-radius: 6px;
+                .toolbar {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    border-radius: 6px 6px 0 0;
+                    margin-bottom: 20px;
+                    select {
+                        min-width: 140px;
+                        height: 44px;
+                    }
+                }
+            }
+        }
+    }
+}
