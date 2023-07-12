@@ -196,12 +196,6 @@ class Facebook
             $errorFlag = false;
             $response = '';
 
-            $fb = new \Facebook\Facebook([
-                'app_id'        => $app_id,
-                'app_secret'    => $app_secret,
-                'default_graph_version' => 'v6.0',
-            ]);
-
             $linkData = $this->get_share_content_args($post_id);
 
 
