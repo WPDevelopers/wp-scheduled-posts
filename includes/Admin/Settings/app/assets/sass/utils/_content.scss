@@ -322,12 +322,15 @@
                                         display: flex;
                                         align-items: center;
                                         gap: 32px;
+                                        max-width: 60%;
+                                        white-space: nowrap;
                                         .selected-options {
                                             ul {
                                                 display: flex;
                                                 align-items: center;
                                                 gap: 12px;
                                                 margin: 0;
+                                                flex-wrap: wrap;
                                                 li {
                                                     margin-bottom: 0 !important;
                                                     padding: 8px 12px;

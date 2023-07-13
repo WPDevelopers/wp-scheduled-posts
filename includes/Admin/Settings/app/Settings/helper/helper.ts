@@ -15,10 +15,29 @@ export const fetchDataFromAPI = async (body) => {
 };
 
 export const fetPinterestBoardData = async (body) => {
-    return apiFetch( {
+    return await apiFetch( {
         path: 'wp-scheduled-posts/v1/fetch_pinterest_section',
         method: 'POST',
         data: body,
+    } ).then( ( res ) => {
+        return res;
+    } );
+};
+
+export const activateLicense = async (body) => {
+    return apiFetch( {
+        path: 'wp-scheduled-posts/v1/activate_license',
+        method: 'POST',
+        data: body,
+    } ).then( ( res ) => {
+        return res;
+    } );
+};
+
+export const deActivateLicense = async () => {
+    return apiFetch( {
+        path: 'wp-scheduled-posts/v1/deactivate_license',
+        method: 'POST',
     } ).then( ( res ) => {
         return res;
     } );
@@ -79,13 +98,11 @@ export const getProfileData = async (params) => {
 }
 
 export const getPinterestBoardSection = async (defaultBoard,profile) => {
-    var data = {
+    let data = {
         defaultBoard: defaultBoard,
         profile: profile,
     };
     const response = await fetPinterestBoardData(data);
-    console.log(response);
-    
     return response;
 }
 

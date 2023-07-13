@@ -177,7 +177,7 @@ class Settings {
                                     'type'     => 'toggle',
                                     'label'    => __('Show Scheduled Posts in Admin Bar', 'wp-scheduled-posts'),
                                     'default'  => 1,
-                                    'priority' => 10,
+                                    'priority' => 6,
                                 ],
                                 'allow_post_types'  => [
                                     'name'     => 'allow_post_types',
@@ -387,15 +387,17 @@ class Settings {
                                     'type'     => 'section',
                                     'label'    => false,
                                     'priority' => 5,
-                                    'classes'  => 'notify-author-post-is-scheduled',
+                                    'classes'  => 'notify-author-post-is',
                                     'fields'   => [
                                         'notify_author_post_is_scheduled'       => [
+                                            'id'       => 'notify_author_post_is_scheduled',
                                             'name'     => 'notify_author_post_is_scheduled',
                                             'type'     => 'toggle',
                                             'label'    => __('Notify User when a post is "Scheduled"', 'wp-scheduled-posts'),
                                             'priority' => 20,
                                         ],
                                         'notify_author_post_scheduled_by_role' => [
+                                            'id'       => 'notify_author_post_scheduled_by_role',
                                             'name'     => 'notify_author_post_scheduled_by_role',
                                             'label'    => __('Role:', 'notificationx'),
                                             'type'     => 'checkbox-select',
@@ -408,6 +410,7 @@ class Settings {
                                             ]),
                                         ],
                                         'notify_author_post_scheduled_by_username' => [
+                                            'id'       => 'notify_author_post_scheduled_by_username',
                                             'name'     => 'notify_author_post_scheduled_by_username',
                                             'label'    => __('Username:', 'notificationx'),
                                             'type'     => 'checkbox-select',
@@ -420,6 +423,7 @@ class Settings {
                                             ]),
                                         ],
                                         'notify_author_post_scheduled_by_email' => [
+                                            'id'       => 'notify_author_post_scheduled_by_email',
                                             'name'     => 'notify_author_post_scheduled_by_email',
                                             'label'    => __('Email:', 'notificationx'),
                                             'type'     => 'checkbox-select',
