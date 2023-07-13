@@ -94,31 +94,29 @@ const CheckboxSelect = (props) => {
                     </ul>
                 </div>
             </div>
-            <div className="wprf-control-field">
-                <div className="wprf-checkbox-select-wrap wprf-checked wprf-label-position-right">
-                    <span
-                        className="d-inline-block"
-                        data-toggle="popover"
-                        data-trigger="focus"
-                        data-content="Please select account(s)"
-                        >
-                        <ReactSelect
-                            options={options}
-                            styles={customStyles}
-                            isMulti
-                            closeMenuOnSelect={false}
-                            hideSelectedOptions={false}
-                            components={{
-                              Option
-                            }}
-                            autoFocus={false}
-                            onChange={handleChange}
-                            value={optionSelected}
-                            controlShouldRenderValue={false}
-                            className="checkbox-select"
-                        />
-                    </span>
-                </div>
+            <div className="wprf-checkbox-select-wrap wprf-checked wprf-label-position-right">
+                <span
+                  className="d-inline-block"
+                  data-toggle="popover"
+                  data-trigger="focus"
+                  data-content="Please select account(s)"
+                  >
+                  <ReactSelect
+                    options={options}
+                    styles={customStyles}
+                    isMulti
+                    closeMenuOnSelect={false}
+                    hideSelectedOptions={false}
+                    components={{
+                      Option
+                    }}
+                    autoFocus={false}
+                    onChange={handleChange}
+                    value={optionSelected}
+                    controlShouldRenderValue={false}
+                    className="checkbox-select"
+                  />
+                </span>
             </div>
         </div>        
     </>

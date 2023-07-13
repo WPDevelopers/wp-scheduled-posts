@@ -34,6 +34,15 @@ export const activateLicense = async (body) => {
     } );
 };
 
+export const deActivateLicense = async () => {
+    return apiFetch( {
+        path: 'wp-scheduled-posts/v1/deactivate_license',
+        method: 'POST',
+    } ).then( ( res ) => {
+        return res;
+    } );
+};
+
 // Active social profile tab
 export const generateTabURL = () => {
     history.pushState(null, null, window.location.href.split("&")[0]);

@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import classNames from 'classnames';
 import { __ } from '@wordpress/i18n';
-import { activateLicense } from '../helper/helper';
+import { activateLicense,deActivateLicense } from '../helper/helper';
 import { SweetAlertToaster } from '../ToasterMsg';
 function License(props) {
     const [inputChanged, setInputChanged] = useState(false)
-    const [errorMessage, setErrorMessage] = useState('')
     const [tempKey, setTempKey] = useState(
         localStorage.getItem('wpsp_temp_key')
     )
     const [valid, setValid] = useState(localStorage.getItem('wpsp_is_valid'))
     const [isRequestSend, setIsRequestSend] = useState(null)
+
     const handleLicenseActivation = () => {
         setIsRequestSend(true)
         let data = {
@@ -39,21 +39,108 @@ function License(props) {
             } else {
                 // @ts-ignore 
                 let response_data = response.data;
-                setErrorMessage(response_data)
                 SweetAlertToaster({
                     icon : 'error',
                     title : __( response_data, 'wp-scheduled-posts' ),
                 }).fire();
             }
         } ).catch( (error) => {
-            setErrorMessage(error)
-            SweetAlertToaster();
+            SweetAlertToaster({
+                icon : 'error',
+                title : __( error, 'wp-scheduled-posts' ),
+            }).fire();
         } );
     }
+
+    const handleLicenseDeactivation = () => {
+        setIsRequestSend(true)
+        deActivateLicense().then( ( response ) => {
+            setIsRequestSend(null)
+            setInputChanged(false)
+            // @ts-ignore 
+            if (response.success === true) {
+                localStorage.removeItem('wpsp_is_valid')
+                localStorage.removeItem('wpsp_temp_key')
+                // @ts-ignore 
+                setValid(response.data.status)
+                setTempKey('')
+                SweetAlertToaster({
+                    icon : 'success',
+                    title : __( 'Your License is Successfully Deactivated.', 'wp-scheduled-posts' ),
+                }).fire();
+            } else {
+                // @ts-ignore 
+                let response_data = response.data;
+                SweetAlertToaster({
+                    icon : 'error',
+                    title : __( response_data, 'wp-scheduled-posts' ),
+                }).fire();
+            }
+        } ).catch( (error) => {
+            SweetAlertToaster({
+                icon : 'error',
+                title : __( error, 'wp-scheduled-posts' ),
+            }).fire();
+        } );
+    }
+
   return (
     <div className={classNames('wprf-control', 'wprf-license', `wprf-${props.name}-social-profile`, props?.classes)}>
-        <input type="text" value={tempKey} onChange={ (e) => setTempKey(e.target.value) }  />
-        <button onClick={handleLicenseActivation}>Activate</button>
+        <div className='wpsp-license-container'>
+            <h4>{props?.label}</h4>
+            <div className='wpsp-license-input'>
+                {tempKey && valid == 'valid' ? (
+                    <input
+                        id='wp-scheduled-posts-pro-license-key'
+                        placeholder='Place Your License Key and Activate'
+                        onChange={(e) => setTempKey(e.target.value)}
+                        value={tempKey}
+                        disabled={true}
+                    />
+                ) : (
+                    <input
+                        id='wp-scheduled-posts-pro-license-key'
+                        placeholder='Place Your License Key and Activate'
+                        onChange={(e) => setTempKey(e.target.value)}
+                        value={ tempKey ? tempKey : ''}
+                    />
+                )}
+            </div>
+            <div className='wpsp-license-buttons'>
+                {valid == 'valid' ? (
+                    <button
+                        id='submit'
+                        type='button'
+                        className={
+                            inputChanged
+                                ? 'wpsp-license-deactivation-btn changed'
+                                : 'wpsp-license-deactivation-btn'
+                        }
+                        onClick={() => handleLicenseDeactivation()}
+                    >
+                        {isRequestSend == true
+                            ? 'Request Sending...'
+                            : 'Deactivate License'}
+                    </button>
+                ) : (
+                    <button
+                        id='submit'
+                        type='button'
+                        className={
+                            inputChanged
+                                ? 'wpsp-license-buttons changed'
+                                : 'wpsp-license-buttons'
+                        }
+                        onClick={() => handleLicenseActivation()}
+                        disabled={!tempKey}
+                    >
+                        {isRequestSend == true
+                            ? 'Request Sending...'
+                            : 'Activate License'}
+                    </button>
+                )}
+            </div>
+        </div>
     </div>
   )
 }

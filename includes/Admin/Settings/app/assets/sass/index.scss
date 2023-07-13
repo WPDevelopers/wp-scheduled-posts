@@ -292,7 +292,9 @@
     position: relative;
     z-index: 9999;
 }
-
+.swal2-top-end {
+    margin-top: 40px;
+}
 .custom-toast {
     background-color: #333;
     color: #fff;
