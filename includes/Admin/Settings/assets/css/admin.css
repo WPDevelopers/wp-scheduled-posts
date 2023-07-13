@@ -4034,8 +4034,9 @@ button.wprf-btn {
 }
 #wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .sidebar .card i {
   position: absolute;
-  right: 14px;
-  top: 14px;
+  right: 10px;
+  top: 10px;
+  padding: 4px;
   cursor: pointer;
   transition: ease-in-out 0.25s;
 }
@@ -4053,7 +4054,7 @@ button.wprf-btn {
   box-shadow: 0px 12px 48px 0px rgba(27, 27, 80, 0.1019607843);
   position: absolute;
   left: 0px;
-  top: 18px;
+  top: 22px;
   transform: translateX(-50%);
   z-index: 999;
 }
