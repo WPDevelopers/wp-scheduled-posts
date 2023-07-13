@@ -10,9 +10,20 @@ class Dismiss extends Base {
 	use Helper;
 
 	private $id;
-	private $scope = 'user';
-	private $app   = null;
-	private $hook  = null;
+	private $scope       = 'user';
+	private $app         = null;
+	private $hook        = null;
+	private $start       = null;
+	private $recurrence  = null;
+	private $dismissible = null;
+	private $refresh     = null;
+	private $expire      = null;
+	private $do_action   = null;
+	private $display_if  = null;
+	private $classes     = null;
+	private $screens     = null;
+	private $type        = null;
+	private $capability  = null;
 
 	public function __construct( $id, $options, $app ){
 		$this->id = $id;

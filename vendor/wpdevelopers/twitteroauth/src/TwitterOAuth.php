@@ -10,7 +10,13 @@ declare(strict_types=1);
 
 namespace Abraham\TwitterOAuth;
 
-use Abraham\TwitterOAuth\Util\JsonDecoder;
+use Abraham\TwitterOAuth\{
+    Consumer,
+    HmacSha1,
+    Response,
+    Token,
+    Util\JsonDecoder,
+};
 use Composer\CaBundle\CaBundle;
 
 /**
@@ -20,18 +26,17 @@ use Composer\CaBundle\CaBundle;
  */
 class TwitterOAuth extends Config
 {
-    private const API_VERSION = '1.1';
     private const API_HOST = 'https://api.twitter.com';
     private const UPLOAD_HOST = 'https://upload.twitter.com';
 
     /** @var Response details about the result of the last request */
-    private $response;
+    private $response = null;
     /** @var string|null Application bearer token */
-    private $bearer;
+    private $bearer = null;
     /** @var Consumer Twitter application details */
     private $consumer;
     /** @var Token|null User access token details */
-    private $token;
+    private $token = null;
     /** @var HmacSha1 OAuth 1 signature type used by Twitter */
     private $signatureMethod;
     /** @var int Number of attempts we made for the request */
@@ -267,12 +272,16 @@ class TwitterOAuth extends Config
      *
      * @param string $path
      * @param array  $parameters
+     * @param bool   $json
      *
      * @return array|object
      */
-    public function put(string $path, array $parameters = [])
-    {
-        return $this->http('PUT', self::API_HOST, $path, $parameters, false);
+    public function put(
+        string $path,
+        array $parameters = [],
+        bool $json = false
+    ) {
+        return $this->http('PUT', self::API_HOST, $path, $parameters, $json);
     }
 
     /**
@@ -327,21 +336,14 @@ class TwitterOAuth extends Config
      */
     private function uploadMediaNotChunked(string $path, array $parameters)
     {
-        if(filter_var($parameters['media'], FILTER_VALIDATE_URL)) {
-            $file = $this->downloadFileAndReadContent($parameters);
-        } else {
-            if (
-                !is_readable($parameters['media']) ||
-                ($file = file_get_contents($parameters['media'])) === false
-            ) {
-                throw new \InvalidArgumentException(
-                    'You must supply a readable file ' . $parameters['media']
-                );
-            }
+        if (
+            ($file = file_get_contents($parameters['media'])) === false
+        ) {
+            throw new \InvalidArgumentException(
+                'You must supply a readable file'
+            );
         }
-
         $parameters['media'] = base64_encode($file);
-
         return $this->http(
             'POST',
             self::UPLOAD_HOST,
@@ -349,35 +351,6 @@ class TwitterOAuth extends Config
             $parameters,
             false
         );
-    }
-
-    private function downloadFileAndReadContent(array $parameters) {
-        $url = $parameters['media'];
-        if (!filter_var($url, FILTER_VALIDATE_URL)) {
-            throw new \InvalidArgumentException('Invalid URL: ' . $url);
-        }
-
-        $content = '';
-
-        // Open a stream to read from the URL
-        $source = fopen($url, 'r');
-        if ($source === false) {
-            throw new \RuntimeException('Failed to open URL: ' . $url);
-        }
-
-        // Read the file in chunks of 1024 bytes and append to the content variable
-        while (!feof($source)) {
-            $chunk = fread($source, 1024);
-            $content .= $chunk;
-        }
-
-        // Close the stream
-        fclose($source);
-
-        // Perform any additional processing on the content if needed
-        // ...
-
-        return $content;
     }
 
     /**
@@ -477,6 +450,19 @@ class TwitterOAuth extends Config
     }
 
     /**
+     * Get URL extension for current API Version.
+     *
+     * @return string
+     */
+    private function extension()
+    {
+        return [
+            '1.1' => '.json',
+            '2' => '',
+        ][$this->apiVersion];
+    }
+
+    /**
      * @param string $method
      * @param string $host
      * @param string $path
@@ -494,12 +480,37 @@ class TwitterOAuth extends Config
     ) {
         $this->resetLastResponse();
         $this->resetAttemptsNumber();
-        $url = sprintf('%s/%s/%s.json', $host, self::API_VERSION, $path);
         $this->response->setApiPath($path);
         if (!$json) {
             $parameters = $this->cleanUpParameters($parameters);
         }
-        return $this->makeRequests($url, $method, $parameters, $json);
+        return $this->makeRequests(
+            $this->apiUrl($host, $path),
+            $method,
+            $parameters,
+            $json
+        );
+    }
+
+    /**
+     * Generate API URL.
+     *
+     * Overriding this function is not supported and may cause unintended issues.
+     *
+     * @param string $host
+     * @param string $path
+     *
+     * @return string
+     */
+    protected function apiUrl(string $host, string $path)
+    {
+        return sprintf(
+            '%s/%s/%s%s',
+            $host,
+            $this->apiVersion,
+            $path,
+            $this->extension()
+        );
     }
 
     /**
@@ -665,21 +676,22 @@ class TwitterOAuth extends Config
                 break;
             case 'POST':
                 $options[CURLOPT_POST] = true;
-                if ($json) {
-                    $options[CURLOPT_HTTPHEADER][] =
-                        'Content-type: application/json';
-                    $options[CURLOPT_POSTFIELDS] = json_encode($postfields);
-                } else {
-                    $options[CURLOPT_POSTFIELDS] = Util::buildHttpQuery(
-                        $postfields
-                    );
-                }
+                $options = $this->setPostfieldsOptions(
+                    $options,
+                    $postfields,
+                    $json
+                );
                 break;
             case 'DELETE':
                 $options[CURLOPT_CUSTOMREQUEST] = 'DELETE';
                 break;
             case 'PUT':
                 $options[CURLOPT_CUSTOMREQUEST] = 'PUT';
+                $options = $this->setPostfieldsOptions(
+                    $options,
+                    $postfields,
+                    $json
+                );
                 break;
         }
 
@@ -727,7 +739,7 @@ class TwitterOAuth extends Config
         $headers = [];
         foreach (explode("\r\n", $header) as $line) {
             if (strpos($line, ':') !== false) {
-                list($key, $value) = explode(': ', $line);
+                [$key, $value] = explode(': ', $line);
                 $key = str_replace('-', '_', strtolower($key));
                 $headers[$key] = trim($value);
             }
@@ -758,5 +770,29 @@ class TwitterOAuth extends Config
     private function curlCaOpt(string $path): int
     {
         return is_dir($path) ? CURLOPT_CAPATH : CURLOPT_CAINFO;
+    }
+
+    /**
+     * Set options for JSON Requests
+     *
+     * @param array $options
+     * @param array $postfields
+     * @param bool $json
+     *
+     * @return array
+     */
+    private function setPostfieldsOptions(
+        array $options,
+        array $postfields,
+        bool $json
+    ): array {
+        if ($json) {
+            $options[CURLOPT_HTTPHEADER][] = 'Content-type: application/json';
+            $options[CURLOPT_POSTFIELDS] = json_encode($postfields);
+        } else {
+            $options[CURLOPT_POSTFIELDS] = Util::buildHttpQuery($postfields);
+        }
+
+        return $options;
     }
 }

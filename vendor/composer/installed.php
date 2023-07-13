@@ -1,28 +1,19 @@
 <?php return array(
     'root' => array(
         'name' => 'schedulepress/wp-schedule-posts',
-        'pretty_version' => 'dev-latest',
-        'version' => 'dev-latest',
-        'reference' => '0d19992790d600ec652de1933c269f9ac06380db',
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'reference' => 'b7230cf4eaf47c7799283aa777866cb50fbd1231',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'dev' => true,
+        'dev' => false,
     ),
     'versions' => array(
-        'abraham/twitteroauth' => array(
-            'pretty_version' => '1.2.0',
-            'version' => '1.2.0.0',
-            'reference' => 'f5cda73d1deae8b9e3e54f1572a6d28d03e06644',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../abraham/twitteroauth',
-            'aliases' => array(),
-            'dev_requirement' => false,
-        ),
         'composer/ca-bundle' => array(
-            'pretty_version' => '1.3.4',
-            'version' => '1.3.4.0',
-            'reference' => '69098eca243998b53eed7a48d82dedd28b447cd5',
+            'pretty_version' => '1.3.6',
+            'version' => '1.3.6.0',
+            'reference' => '90d087e988ff194065333d16bc5cf649872d9cdb',
             'type' => 'library',
             'install_path' => __DIR__ . '/./ca-bundle',
             'aliases' => array(),
@@ -85,9 +76,9 @@
             'dev_requirement' => false,
         ),
         'psr/http-message' => array(
-            'pretty_version' => '1.0.1',
-            'version' => '1.0.1.0',
-            'reference' => 'f6561bf28d520154e4b0ec72be95418abe6d9363',
+            'pretty_version' => '1.1',
+            'version' => '1.1.0.0',
+            'reference' => 'cb6ce4845ce34a8ad9e68117c10ee90a29919eba',
             'type' => 'library',
             'install_path' => __DIR__ . '/../psr/http-message',
             'aliases' => array(),
@@ -109,9 +100,9 @@
             'dev_requirement' => false,
         ),
         'schedulepress/wp-schedule-posts' => array(
-            'pretty_version' => 'dev-latest',
-            'version' => 'dev-latest',
-            'reference' => '0d19992790d600ec652de1933c269f9ac06380db',
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => 'b7230cf4eaf47c7799283aa777866cb50fbd1231',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -147,7 +138,7 @@
         'wpdevelopers/linkedin-sdk-php' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '6487b8002158aec5bbbc231fa53c3aac44fddc31',
+            'reference' => 'b89df51437a0f369a418fd2bea2afe6dfbb9f27c',
             'type' => 'library',
             'install_path' => __DIR__ . '/../wpdevelopers/linkedin-sdk-php',
             'aliases' => array(
@@ -158,9 +149,20 @@
         'wpdevelopers/pinterest-api-php' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '365040bfab0a79727a6374d0691707bc97accd66',
+            'reference' => 'a5b669c2bae36af96222e9099bf0f7be02272321',
             'type' => 'library',
             'install_path' => __DIR__ . '/../wpdevelopers/pinterest-api-php',
+            'aliases' => array(
+                0 => '9999999-dev',
+            ),
+            'dev_requirement' => false,
+        ),
+        'wpdevelopers/twitteroauth' => array(
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '10d051f3e09cbc90fa8d3e84ba9e1ec6ce486963',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../wpdevelopers/twitteroauth',
             'aliases' => array(
                 0 => '9999999-dev',
             ),
