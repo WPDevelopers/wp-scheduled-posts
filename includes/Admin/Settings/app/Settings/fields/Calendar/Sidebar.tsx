@@ -7,7 +7,7 @@ import { addQueryArgs } from '@wordpress/url';
 import { Button } from "@wordpress/components";
 
 // Define your component
-export default function Sidebar() {
+export default function Sidebar({handleOpenModal}) {
   // Define your state variables
   const [posts, setPosts] = useState([]);
   const [postType, setPostType] = useState(null);
@@ -141,7 +141,7 @@ export default function Sidebar() {
                     <ul className="edit-area">
                       <li><a target="_blank" href={decodeURIComponent(post.href)}>view</a></li>
                       <li><a target="_blank" href={decodeURIComponent(post.edit)}>edit</a></li>
-                      <li><Button>quick edit</Button></li>
+                      <li><Button variant="link" onClick={() => handleOpenModal(post)}>quick edit</Button></li>
                       <li>delete</li>
                     </ul>
                   </i>

@@ -1,18 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
+import { Input, Textarea } from "quickbuilder";
+import { EventData } from "../../types/Calendar";
+import wpFetch from "@wordpress/api-fetch";
+import { addQueryArgs } from "@wordpress/url";
 
-interface AddNewPostModalProps {
-  post: any;
-  isOpen: boolean;
-  onClose: () => void;
+interface EditPostProps {
+  post: {
+    postId  ?: number;
+    postType?: string;
+    status  ?: string;
+  };
+  isOpen    : boolean;
+  closeModal: () => void;
 }
 
-const AddNewPostModal: React.FC<AddNewPostModalProps> = ({
-  post,
-  isOpen,
-  onClose,
-}) => {
-  const [title, setTitle] = useState("");
+interface Post {
+  ID: number;
+  post_title: string;
+  post_content: string;
+  post_status: string;
+  post_type: string;
+}
+
+const EditPost: React.FC<EditPostProps> = ({ post, isOpen, closeModal }) => {
+  const [title, setTitle]     = useState("");
   const [content, setContent] = useState("");
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
@@ -21,19 +33,55 @@ const AddNewPostModal: React.FC<AddNewPostModalProps> = ({
     setContent(event.target.value);
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // handle form submission logic here
-    onClose();
+      // handle form submission logic here
+    closeModal();
+    console.log({ title, content });
   };
+
+  const openModal = (...args) => {
+    console.log("args", ...args);
+    console.log("post", post);
+    if (post?.postId) {
+      wpFetch({
+        path: addQueryArgs(`/wpscp/v1/quick_edit_get_post`, {
+          postId     : post.postId,
+          postType   : post.postType,
+          post_status: post.status,
+        }),
+          // data: query,
+      })
+        .then((posts: Array<Post>) => {
+          if (posts.length > 0) {
+            const post = posts[0];
+            setTitle(post.post_title);
+            setContent(post.post_content);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      setTitle("");
+      setContent("");
+    }
+  };
+
+  useEffect(() => {}, [post]);
+
+  if (isOpen) {
+    console.log(post);
+  }
 
   return (
     <Modal
       isOpen={isOpen}
-      onRequestClose={onClose}
+      onRequestClose={closeModal}
+      onAfterOpen={openModal}
       ariaHideApp={false}
       className="modal_wrapper"
     >
       <div className="modalhead">
-        <button className="close-button" onClick={onClose}>
+        <button className="close-button" onClick={closeModal}>
           <i className="wpsp-icon wpsp-close"></i>
         </button>
         <div className="platform-info">
@@ -43,18 +91,20 @@ const AddNewPostModal: React.FC<AddNewPostModalProps> = ({
       <div className="modalbody">
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="title">Title:</label>
-            <input
+            <Input
               type="text"
               id="title"
+              label="Title"
+              placeholder="Title"
               value={title}
               onChange={handleTitleChange}
             />
           </div>
           <div className="form-group">
-            <label htmlFor="content">Content:</label>
-            <textarea
+            <Textarea
               id="content"
+              label="Content"
+              placeholder="Content"
               value={content}
               onChange={handleContentChange}
             />
@@ -66,4 +116,4 @@ const AddNewPostModal: React.FC<AddNewPostModalProps> = ({
   );
 };
 
-export default AddNewPostModal;
+export default EditPost;

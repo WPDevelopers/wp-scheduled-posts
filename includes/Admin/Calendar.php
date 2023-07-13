@@ -20,7 +20,6 @@ class Calendar
     {
         add_action('rest_api_init', array($this, 'wpscp_register_custom_route'));
         add_action('wp_ajax_wpscp_calender_ajax_request', array($this, 'calender_ajax_request_php'));
-        add_action('wp_ajax_wpscp_quick_edit', array($this, 'quick_edit_action'));
         add_action('wp_ajax_wpscp_delete_event', array($this, 'delete_event_action'));
         add_filter('wpsp_pre_eventDrop', [$this, 'wpsp_pre_eventDrop'], 10, 4 );
         add_filter('wpsp_eventDrop_posts', [$this, 'wpsp_eventDrop_posts'], 10, 2 );
@@ -53,7 +52,7 @@ class Calendar
 
         register_rest_route( 'wpscp/v1', '/posts', array(
             'methods' => 'GET',
-            'callback' => [$this, 'myplugin_get_posts'],
+            'callback' => [$this, 'get_draft_posts'],
         ) );
 
         register_rest_route(
@@ -65,11 +64,18 @@ class Calendar
                 'permission_callback' => '__return_true'
             )
         );
+
+        // convert it to rest api
+        register_rest_route('wpscp/v1', '/quick_edit_get_post', array(
+            'methods' => 'GET',
+            'callback' => [$this, 'quick_edit_get_post'],
+        ));
+
     }
 
 
     // Define the callback function for the custom route
-    public function myplugin_get_posts( $request ) {
+    public function get_draft_posts( $request ) {
         // Get the query parameters from the request
         $post_type = $request->get_param( 'post_type' );
         $_page     = $request->get_param( 'page' );
@@ -432,19 +438,15 @@ class Calendar
 
     /**
      * Ajax Request for quick edit
-     * @method quick_edit_action
+     * @method quick_edit_get_post
+     * @param  \WP_REST_Request $request
      * @version 3.0.1
      */
-    public function quick_edit_action()
-    {
-        $post_type = (isset($_POST['post_type']) ? $_POST['post_type'] : '');
-        $postId = (isset($_POST['ID']) ? intval($_POST['ID']) : '');
-        if ($postId != 0) {
-            $posts = query_posts(array('p' => $postId, 'post_type' => $post_type));
-            $posts = apply_filters('wpsp_eventDrop_posts', $posts, $postId);
-            print json_encode($posts);
-        }
-        wp_die(); // this is required to terminate immediately and return a proper response
+    function quick_edit_get_post( $request ) {
+        $post_id     = $request->get_param( 'postId' );
+        $post        = get_post( (int) $post_id );
+        $posts       = apply_filters( 'wpsp_eventDrop_posts', [$post], $post_id );
+        return $posts;
     }
 
     /**
