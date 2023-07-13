@@ -131,7 +131,7 @@ export default function Sidebar() {
             ) => (
               <div className="fc-event" data-event={JSON.stringify(post)}>
                 <div className="card">
-                  <i className="wpsp-icon wpsp-angle-down">
+                  <i className="wpsp-icon wpsp-dots">
                     <ul className="edit-area">
                       <li>view</li>
                       <li>edit</li>
