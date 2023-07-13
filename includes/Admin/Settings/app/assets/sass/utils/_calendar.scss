@@ -13,7 +13,54 @@
                 box-sizing: border-box;
                 select {
                     min-width: 140px;
-                    height: 44px;
+                    margin-bottom: 20px;
+                }
+                .card {
+                    position: relative;
+                    i {
+                        position: absolute;
+                        right: 14px;
+                        top: 14px;
+                        cursor: pointer;
+                        transition: ease-in-out .25s;
+                        &:hover {
+                            .edit-area{
+                                display: block;
+                                opacity: 1;
+                            }
+                        }
+                        .edit-area {
+                            display: none;
+                            opacity: 0;
+                            padding: 8px !important;
+                            background: #fff;
+                            border-radius: 6px;
+                            width: 120px;
+                            box-shadow: 0px 12px 48px 0px #1B1B501A;
+                            position: absolute;
+                            left: 0px;    
+                            top: 15px;
+                            transform: translateX(-50%);
+                            z-index: 999;
+                            li {
+                                font-family: "Inter" !important;
+                                font-size: 14px;
+                                font-weight: 500;
+                                line-height: 1.2em;
+                                text-transform: capitalize;
+                                color: #1B1B50;
+                                padding: 10px 16px;
+                                background: #fff;
+                                border-radius: 4px;
+                                transition: ease-in-out .25s;
+                                cursor: pointer;
+                                &:hover {
+                                    background: #F3F2FF;
+                                    color: #6C62FF;
+                                }
+                            }
+                        }
+                    }
                 }
             }
             .main-content {
