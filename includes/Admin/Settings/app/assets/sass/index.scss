@@ -193,7 +193,7 @@
     margin-right: 0px !important;
 }
 .wprf-toggle-wrap label.wprf-input-label:before {
-    background: #f0f0f0;
+    background: #D7DBDF;
     width: 47px;
     height: 24px;
     border: 0;
@@ -245,7 +245,7 @@
         cursor: pointer;
         width: 40px !important;
         height: 20px !important;
-        background: grey;
+        background: #D7DBDF;
         border-radius: 100px;
         position: relative;
         transition: background-color .2s;
@@ -255,7 +255,7 @@
         content: '';
         position: absolute;
         top: 2px;
-        left: 2px;
+        left: 1px;
         width: 16px !important;
         height: 16px !important;
         border-radius: 45px;
@@ -266,7 +266,7 @@
     }
     
     .wprf-switcher-checkbox:checked + .wprf-switcher-label .wprf-switcher-button {
-        left: calc(100% - 2px);
+        left: calc(100% - 1px);
         transform: translateX(-100%);
     }
     

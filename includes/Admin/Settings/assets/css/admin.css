@@ -4978,7 +4978,7 @@ button.wprf-btn {
 }
 
 .wprf-toggle-wrap label.wprf-input-label:before {
-  background: #f0f0f0;
+  background: #D7DBDF;
   width: 47px;
   height: 24px;
   border: 0;
@@ -5029,7 +5029,7 @@ button.wprf-btn {
   cursor: pointer;
   width: 40px !important;
   height: 20px !important;
-  background: grey;
+  background: #D7DBDF;
   border-radius: 100px;
   position: relative;
   transition: background-color 0.2s;
@@ -5038,7 +5038,7 @@ button.wprf-btn {
   content: "";
   position: absolute;
   top: 2px;
-  left: 2px;
+  left: 1px;
   width: 16px !important;
   height: 16px !important;
   border-radius: 45px;
@@ -5048,7 +5048,7 @@ button.wprf-btn {
   padding: 0 !important;
 }
 .status .wprf-switcher-checkbox:checked + .wprf-switcher-label .wprf-switcher-button {
-  left: calc(100% - 2px);
+  left: calc(100% - 1px);
   transform: translateX(-100%);
 }
 .status .wprf-switcher-label:active .wprf-switcher-button {
