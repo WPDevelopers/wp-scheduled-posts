@@ -3688,6 +3688,8 @@ button.wprf-btn {
   display: flex;
   align-items: center;
   gap: 32px;
+  max-width: 60%;
+  white-space: nowrap;
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-time .wprf-control-label .selected-options ul,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-control-label .selected-options ul {
@@ -3695,6 +3697,7 @@ button.wprf-btn {
   align-items: center;
   gap: 12px;
   margin: 0;
+  flex-wrap: wrap;
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-time .wprf-control-label .selected-options ul li,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-control-label .selected-options ul li {
@@ -4335,24 +4338,76 @@ button.wprf-btn {
 #wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-tab-nav-item:last-child {
   margin-bottom: 0px;
 }
-#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-tab-nav-item span {
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-tab-nav-item:nth-child(1) span {
   position: relative;
-  padding-left: 45px;
-}
-#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-tab-nav-item span:before {
-  position: absolute;
-  content: "\e904";
-  font-family: "wpsp";
-  top: -5px;
-  left: 0;
-  font-size: 14px;
-  line-height: 34px;
-  text-align: center;
-  background: #1877F2;
-  border-radius: 50%;
-  width: 34px;
-  height: 34px;
+  padding-left: 36px;
   display: inline-block;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-tab-nav-item:nth-child(1) span:before {
+  position: absolute;
+  content: "\e906";
+  font-family: "wpsp";
+  top: 0px;
+  left: 0;
+  font-size: 24px;
+  background: #fff;
+  border-radius: 50%;
+  color: #1877F2;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-tab-nav-item:nth-child(2) span {
+  position: relative;
+  padding-left: 36px;
+  display: inline-block;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-tab-nav-item:nth-child(2) span:before {
+  position: absolute;
+  content: "\e91d";
+  font-family: "wpsp";
+  top: 0px;
+  left: 0;
+  font-size: 24px;
+  background: #fff;
+  border-radius: 50%;
+  color: #41A1F2;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-tab-nav-item:nth-child(3) span {
+  position: relative;
+  padding-left: 36px;
+  display: inline-block;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-tab-nav-item:nth-child(3) span:before {
+  position: absolute;
+  content: "\e921";
+  font-family: "wpsp";
+  top: 0px;
+  left: 0px;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  font-size: 12px;
+  background: #007AB9;
+  border-radius: 50%;
+  color: #fff;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-tab-nav-item:nth-child(4) span {
+  position: relative;
+  padding-left: 36px;
+  display: inline-block;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-tab-nav-item:nth-child(4) span:before {
+  position: absolute;
+  content: "\e924";
+  font-family: "wpsp";
+  top: 0px;
+  left: 0px;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  font-size: 12px;
+  background: #E62027;
+  border-radius: 50%;
   color: #fff;
 }
 #wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-active-nav {
@@ -5072,6 +5127,10 @@ button.wprf-btn {
 .custom-toast-container {
   position: relative;
   z-index: 9999;
+}
+
+.swal2-top-end {
+  margin-top: 40px;
 }
 
 .custom-toast {
