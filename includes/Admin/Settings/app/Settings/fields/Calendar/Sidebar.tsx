@@ -3,6 +3,8 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import apiFetch from "@wordpress/api-fetch";
 import { Draggable } from "@fullcalendar/interaction";
 import { addQueryArgs } from '@wordpress/url';
+// @wordpress/component
+import { Button } from "@wordpress/components";
 
 // Define your component
 export default function Sidebar() {
@@ -18,6 +20,10 @@ export default function Sidebar() {
     new Draggable(draggableRef.current, {
       itemSelector: ".fc-event",
       // Associate event data with the element
+      eventData: function (eventEl) {
+        const post = JSON.parse(eventEl.getAttribute("data-event"));
+        return {...post, setPosts};
+      },
     });
 
   }, []);
@@ -133,9 +139,9 @@ export default function Sidebar() {
                 <div className="card">
                   <i className="wpsp-icon wpsp-dots">
                     <ul className="edit-area">
-                      <li>view</li>
-                      <li>edit</li>
-                      <li>quick edit</li>
+                      <li><a target="_blank" href={decodeURIComponent(post.href)}>view</a></li>
+                      <li><a target="_blank" href={decodeURIComponent(post.edit)}>edit</a></li>
+                      <li><Button>quick edit</Button></li>
                       <li>delete</li>
                     </ul>
                   </i>

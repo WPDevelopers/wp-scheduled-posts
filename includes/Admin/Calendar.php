@@ -95,7 +95,7 @@ class Calendar
                     'postId'   => get_the_ID(),
                     'title'    => wp_trim_words(get_the_title(), 3, '...'),
                     'href'     => get_the_permalink(),
-                    'edit'     => get_edit_post_link(),
+                    'edit'     => get_edit_post_link(get_the_ID(), ''),
                     'postType' => get_post_type(),
                     'status'   => $this->get_post_status(get_the_ID()),
                     'postTime' => $this->get_post_time('g:i a'),

@@ -23,6 +23,8 @@ export const SweetAlertToaster = (args: any = {}) => {
 
 // Setup Sweetalert2 pro message popup
 export const SweetAlertProMsg = (args: any = {}) => {
+    // @ts-ignore
+    const admin_image_path = wpspSettingsGlobal.admin_image_path;
     return Swal.fire({
         title: args?.title ?? __('Opps','wp-scheduled-posts'),
         showCancelButton: args?.showCancelButton ?? false,
@@ -30,7 +32,7 @@ export const SweetAlertProMsg = (args: any = {}) => {
         html: `
           <div>
             <h4>${ args?.message ?? __('You need SchedulePress PRO','wp-scheduled-posts') }</h4>
-            <img src="${ args?.imageUrl ?? wpspSettingsGlobal.admin_image_path + '/upgrade-pro-new.png' }" alt="${__(args?.imageAlt ?? __('Pro Alert'), 'wp-scheduled-posts')}">
+            <img src="${ args?.imageUrl ?? admin_image_path + '/upgrade-pro-new.png' }" alt="${__(args?.imageAlt ?? __('Pro Alert'), 'wp-scheduled-posts')}">
             <a href="${ args?.buttonUrl ?? 'https://wpdeveloper.com/in/schedulepress-pro' }" target="${ args?.target ?? '_blank' }">
               <button>${ args?.buttonText ?? __('Check Pricing Plans', 'wp-scheduled-posts') }</button>
             </a>
