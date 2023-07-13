@@ -201,8 +201,8 @@ class Settings
     /**
      * Create OR Update wpsp
      *
-     * @param WP_REST_Request $request Full data about the request.
-     * @return WP_Error|WP_REST_Request
+     * @param \WP_REST_Request $request Full data about the request.
+     * @return \WP_Error|\WP_REST_Request
      */
     public function update_value($request)
     {

@@ -1,6 +1,30 @@
-import React from "react";
+import React from 'react';
+import { EventContentArg, sliceEvents, createPlugin } from "@fullcalendar/core";
+
+function customView(props) {
+  const segs = sliceEvents(props, true); // allDay=true
+  console.log('segs', segs);
+
+  return (
+    <>
+      <div className='view-title'>
+        {props.dateProfile.currentRange.start.toUTCString()}
+      </div>
+      <div className='view-events'>
+        {segs.length} events
+      </div>
+    </>
+  )
+}
+export const customViewPlugin = createPlugin({
+  name: 'custom',
+  views: {
+    custom: customView
+  }
+});
+
 // a custom render function
-const renderEventContent = (eventInfo) => {
+const renderEventContent = (eventInfo: EventContentArg) => {
   const { title, start, end, allDay } = eventInfo.event;
   const { postId, href, edit, status, postType, postTime } =
     eventInfo.event.extendedProps;
