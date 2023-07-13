@@ -177,7 +177,7 @@ class Settings {
                                     'type'     => 'toggle',
                                     'label'    => __('Show Scheduled Posts in Admin Bar', 'wp-scheduled-posts'),
                                     'default'  => 1,
-                                    'priority' => 10,
+                                    'priority' => 6,
                                 ],
                                 'allow_post_types'  => [
                                     'name'     => 'allow_post_types',
