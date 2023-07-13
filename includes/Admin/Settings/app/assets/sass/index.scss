@@ -302,4 +302,24 @@
     text-align: center;
     font-size: 16px;
 }
+.checkbox-select span , .time-select span{
+    display: none;
+}
 
+.checkbox-select .select2-selection:focus {
+    outline: none;
+}
+.checkbox-select .select2-selection__arrow {
+    content: "\e909";
+    font-family: 'wpsp';
+    background-size: contain;
+    height: 100%;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+}
+  
+.checkbox-select .select2-selection__arrow b {
+    display: none;
+}

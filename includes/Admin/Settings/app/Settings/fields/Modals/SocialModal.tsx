@@ -6,12 +6,13 @@ import Facebook from "./Facebook";
 import Twitter from "./Twitter";
 import Linkedin from "./Linkedin";
 import Pinterest from "./Pinterest";
+import ProAlert from "../utils/ProAlert";
 
 import {
     useBuilderContext,
 } from "quickbuilder";
 
-function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage,props, type, profileItem = '', isProfileEditModal = false}) {
+function SocialModal({selectedProfile, setSelectedProfile,props, type, profileItem = '', isProfileEditModal = false}) {
     const builderContext = useBuilderContext();
 
     const [requestSending, setRequestSending] = useState(false);
@@ -26,6 +27,9 @@ function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage,pro
     const [savedProfile,setSavedProfile] = useState(props?.value);
     const [cashedSectionData, setCashedSectionData] = useState({});
     const [singlePinterestBoard,setSinglePinterestBoard] = useState('');
+    const [isErrorMessage, setIsErrorMessage] = useState(false)
+
+
     let account_type = localStorage.getItem('account_type');
 
     useEffect(() => {
@@ -192,13 +196,16 @@ function SocialModal({selectedProfile, setSelectedProfile, setIsErrorMessage,pro
         ) : (
             <>
                 <div className="modalhead">
-                    <button className="close-button" onClick={closeProfileDataModal}>X</button>
+                    <button className="close-button" onClick={closeProfileDataModal}><i className="wpsp-icon wpsp-close"></i></button>
                     <div className="platform-info">
                         <img width={'30px'} src={`${props?.modal?.logo}`} alt={`${props?.label}`} />
                         <h4>{props?.label}</h4>
                     </div>
                 </div>
                 <div className="modalbody">
+                    {isErrorMessage && (
+                        <ProAlert />
+                    )}
                     {/* @ts-ignore */}
                     {
                         {
