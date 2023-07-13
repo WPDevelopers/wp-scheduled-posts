@@ -3590,7 +3590,7 @@ button.wprf-btn {
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-control-wrapper {
   display: flex;
   align-items: center;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   gap: 20px;
   justify-content: space-between;
   border: 1px solid #EBEEF5;
@@ -3692,7 +3692,6 @@ button.wprf-btn {
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-time .wprf-control-label .selected-options ul,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-control-label .selected-options ul {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   gap: 12px;
   margin: 0;
@@ -4840,6 +4839,7 @@ button.wprf-btn {
   padding: 70px 20px !important;
   display: flex;
   overflow: hidden;
+  z-index: 999;
 }
 .ReactModal__Overlay .modal_wrapper {
   inset: 40px;

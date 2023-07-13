@@ -2287,14 +2287,14 @@ var SettingsInner = function (props) {
     var _a;
     builderContext.setActiveTab((_a = event === null || event === void 0 ? void 0 : event.target) === null || _a === void 0 ? void 0 : _a.value);
   };
+  console.log('values', builderContext.values);
   builderContext.submit.onSubmit = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (event, context) {
+    console.log('values', context.values);
     context.setSubmitting(true);
     _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default()({
       path: 'wp-scheduled-posts/v1/settings',
       method: 'POST',
-      data: {
-        wpspSetting: JSON.stringify(context.values, null, 2)
-      }
+      data: context.values
     }).then(function (res) {
       if (res) {
         (0,_ToasterMsg__WEBPACK_IMPORTED_MODULE_3__.SweetAlertToaster)().fire();
@@ -2309,6 +2309,7 @@ var SettingsInner = function (props) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "wpsp-admin-wrapper"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Content__WEBPACK_IMPORTED_MODULE_4__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(quickbuilder__WEBPACK_IMPORTED_MODULE_1__.FormBuilder, __assign({}, builderContext, {
+    values: {},
     value: builderContext.config.active,
     onChange: onChange
   }))));
@@ -2466,11 +2467,13 @@ var SweetAlertProMsg = function (args) {
   if (args === void 0) {
     args = {};
   }
+  // @ts-ignore
+  var admin_image_path = wpspSettingsGlobal.admin_image_path;
   return sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().fire({
     title: (_a = args === null || args === void 0 ? void 0 : args.title) !== null && _a !== void 0 ? _a : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Opps', 'wp-scheduled-posts'),
     showCancelButton: (_b = args === null || args === void 0 ? void 0 : args.showCancelButton) !== null && _b !== void 0 ? _b : false,
     showConfirmButton: (_c = args === null || args === void 0 ? void 0 : args.showConfirmButton) !== null && _c !== void 0 ? _c : false,
-    html: "\n          <div>\n            <h4>".concat((_d = args === null || args === void 0 ? void 0 : args.message) !== null && _d !== void 0 ? _d : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('You need SchedulePress PRO', 'wp-scheduled-posts'), "</h4>\n            <img src=\"").concat((_e = args === null || args === void 0 ? void 0 : args.imageUrl) !== null && _e !== void 0 ? _e : wpspSettingsGlobal.admin_image_path + '/upgrade-pro-new.png', "\" alt=\"").concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)((_f = args === null || args === void 0 ? void 0 : args.imageAlt) !== null && _f !== void 0 ? _f : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Pro Alert'), 'wp-scheduled-posts'), "\">\n            <a href=\"").concat((_g = args === null || args === void 0 ? void 0 : args.buttonUrl) !== null && _g !== void 0 ? _g : 'https://wpdeveloper.com/in/schedulepress-pro', "\" target=\"").concat((_h = args === null || args === void 0 ? void 0 : args.target) !== null && _h !== void 0 ? _h : '_blank', "\">\n              <button>").concat((_j = args === null || args === void 0 ? void 0 : args.buttonText) !== null && _j !== void 0 ? _j : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Check Pricing Plans', 'wp-scheduled-posts'), "</button>\n            </a>\n          </div>\n        ")
+    html: "\n          <div>\n            <h4>".concat((_d = args === null || args === void 0 ? void 0 : args.message) !== null && _d !== void 0 ? _d : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('You need SchedulePress PRO', 'wp-scheduled-posts'), "</h4>\n            <img src=\"").concat((_e = args === null || args === void 0 ? void 0 : args.imageUrl) !== null && _e !== void 0 ? _e : admin_image_path + '/upgrade-pro-new.png', "\" alt=\"").concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)((_f = args === null || args === void 0 ? void 0 : args.imageAlt) !== null && _f !== void 0 ? _f : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Pro Alert'), 'wp-scheduled-posts'), "\">\n            <a href=\"").concat((_g = args === null || args === void 0 ? void 0 : args.buttonUrl) !== null && _g !== void 0 ? _g : 'https://wpdeveloper.com/in/schedulepress-pro', "\" target=\"").concat((_h = args === null || args === void 0 ? void 0 : args.target) !== null && _h !== void 0 ? _h : '_blank', "\">\n              <button>").concat((_j = args === null || args === void 0 ? void 0 : args.buttonText) !== null && _j !== void 0 ? _j : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Check Pricing Plans', 'wp-scheduled-posts'), "</button>\n            </a>\n          </div>\n        ")
   });
 };
 // Setup Sweetalert2 pro message popup
@@ -2616,19 +2619,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _wordpress_url__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/url */ "@wordpress/url");
 /* harmony import */ var _wordpress_url__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_url__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _fullcalendar_react__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @fullcalendar/react */ "./node_modules/@fullcalendar/react/dist/index.js");
-/* harmony import */ var _fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @fullcalendar/daygrid */ "./node_modules/@fullcalendar/daygrid/index.js");
-/* harmony import */ var _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @fullcalendar/interaction */ "./node_modules/@fullcalendar/interaction/index.js");
+/* harmony import */ var _fullcalendar_react__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @fullcalendar/react */ "./node_modules/@fullcalendar/react/dist/index.js");
+/* harmony import */ var _fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @fullcalendar/daygrid */ "./node_modules/@fullcalendar/daygrid/index.js");
+/* harmony import */ var _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @fullcalendar/interaction */ "./node_modules/@fullcalendar/interaction/index.js");
 /* harmony import */ var _Calendar_Sidebar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Calendar/Sidebar */ "./app/Settings/fields/Calendar/Sidebar.tsx");
 /* harmony import */ var _Calendar_EventRender__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Calendar/EventRender */ "./app/Settings/fields/Calendar/EventRender.tsx");
 /* harmony import */ var quickbuilder__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! quickbuilder */ "./node_modules/quickbuilder/dist/index.js");
 /* harmony import */ var quickbuilder__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(quickbuilder__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _Calendar_Edit__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Calendar/Edit */ "./app/Settings/fields/Calendar/Edit.tsx");
 
 
 
 
 
  // needed for dayClick
+
 
 
 
@@ -2641,6 +2646,19 @@ function Calendar(props) {
   var restRoute = props.rest_route;
   var calendar = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
   var builderContext = (0,quickbuilder__WEBPACK_IMPORTED_MODULE_5__.useBuilderContext)();
+  // AddNewPostModal state
+  var _b = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
+    modalData = _b[0],
+    setModalData = _b[1];
+  var _c = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    isModalOpen = _c[0],
+    setIsModalOpen = _c[1];
+  var handleOpenModal = function () {
+    return setIsModalOpen(true);
+  };
+  var handleCloseModal = function () {
+    return setIsModalOpen(false);
+  };
   var getUrl = function () {
     var _a;
     var date = (_a = calendar.current) === null || _a === void 0 ? void 0 : _a.getApi().view.currentStart;
@@ -2703,21 +2721,44 @@ function Calendar(props) {
     className: "right"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "Today"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
     className: "wpsp-icon wpsp-auto-sc"
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_fullcalendar_react__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_fullcalendar_react__WEBPACK_IMPORTED_MODULE_7__["default"], {
     ref: calendar,
-    plugins: [_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_7__["default"], _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_8__["default"]],
+    plugins: [_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_8__["default"], _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_9__["default"]],
     initialView: "dayGridMonth",
     // weekends={true}
     events: events,
     // firstDay={props.firstDay}
     eventContent: _Calendar_EventRender__WEBPACK_IMPORTED_MODULE_4__["default"],
+    dayCellDidMount: function (args) {
+      console.log('dayCellDidMount', args);
+      var dayTop = args.el.getElementsByClassName('fc-daygrid-day-top');
+      // add a button on dayTop element as child
+      var button = document.createElement('button');
+      button.innerHTML = 'Add New';
+      if (args.isOther) {
+        button.disabled = true;
+      }
+      button.addEventListener('click', function (event) {
+        console.log('click', event, args);
+        handleOpenModal();
+      });
+      dayTop[0].appendChild(button);
+    },
     // dateClick={handleDateClick}
     // Enable droppable option
     editable: true,
     droppable: true,
     // headerToolbar={false}
     // Provide a drop callback function
-    // drop={handleDrop}
+    eventReceive: function (info) {
+      var props = info.event.extendedProps;
+      props.setPosts(function (posts) {
+        return posts.filter(function (p) {
+          return p.postId !== props.postId;
+        });
+      });
+      console.log('drop', info, props);
+    },
     eventClick: function (info) {
       var _a;
       console.log('Event: ', info.event.extendedProps);
@@ -2725,9 +2766,95 @@ function Calendar(props) {
       console.log((_a = calendar.current) === null || _a === void 0 ? void 0 : _a.getApi().view);
       // change the border color just for fun
       info.el.style.border = '1px solid red';
-    }
-  })));
+    },
+    datesSet: function (dateInfo) {}
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Calendar_Edit__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    post: modalData,
+    isOpen: isModalOpen,
+    onClose: handleCloseModal
+  }));
 }
+
+/***/ }),
+
+/***/ "./app/Settings/fields/Calendar/Edit.tsx":
+/*!***********************************************!*\
+  !*** ./app/Settings/fields/Calendar/Edit.tsx ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-modal */ "./node_modules/react-modal/lib/index.js");
+/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_modal__WEBPACK_IMPORTED_MODULE_1__);
+
+
+var AddNewPostModal = function (_a) {
+  var post = _a.post,
+    isOpen = _a.isOpen,
+    onClose = _a.onClose;
+  var _b = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
+    title = _b[0],
+    setTitle = _b[1];
+  var _c = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
+    content = _c[0],
+    setContent = _c[1];
+  var handleTitleChange = function (event) {
+    return setTitle(event.target.value);
+  };
+  var handleContentChange = function (event) {
+    return setContent(event.target.value);
+  };
+  var handleSubmit = function (event) {
+    event.preventDefault();
+    // handle form submission logic here
+    onClose();
+  };
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react_modal__WEBPACK_IMPORTED_MODULE_1___default()), {
+    isOpen: isOpen,
+    onRequestClose: onClose,
+    ariaHideApp: false,
+    className: "modal_wrapper"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "modalhead"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    className: "close-button",
+    onClick: onClose
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+    className: "wpsp-icon wpsp-close"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "platform-info"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h4", null, "Add New Post"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "modalbody"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", {
+    onSubmit: handleSubmit
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "form-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", {
+    htmlFor: "title"
+  }, "Title:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+    type: "text",
+    id: "title",
+    value: title,
+    onChange: handleTitleChange
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "form-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", {
+    htmlFor: "content"
+  }, "Content:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("textarea", {
+    id: "content",
+    value: content,
+    onChange: handleContentChange
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    type: "submit"
+  }, "Save"))));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AddNewPostModal);
 
 /***/ }),
 
@@ -2740,11 +2867,29 @@ function Calendar(props) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   customViewPlugin: () => (/* binding */ customViewPlugin),
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _fullcalendar_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fullcalendar/core */ "./node_modules/@fullcalendar/core/index.js");
 
+
+function customView(props) {
+  var segs = (0,_fullcalendar_core__WEBPACK_IMPORTED_MODULE_1__.sliceEvents)(props, true); // allDay=true
+  console.log('segs', segs);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: 'view-title'
+  }, props.dateProfile.currentRange.start.toUTCString()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: 'view-events'
+  }, segs.length, " events"));
+}
+var customViewPlugin = (0,_fullcalendar_core__WEBPACK_IMPORTED_MODULE_1__.createPlugin)({
+  name: 'custom',
+  views: {
+    custom: customView
+  }
+});
 // a custom render function
 var renderEventContent = function (eventInfo) {
   var _a = eventInfo.event,
@@ -2812,13 +2957,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fullcalendar/interaction */ "./node_modules/@fullcalendar/interaction/index.js");
+/* harmony import */ var _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fullcalendar/interaction */ "./node_modules/@fullcalendar/interaction/index.js");
 /* harmony import */ var _wordpress_url__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/url */ "@wordpress/url");
 /* harmony import */ var _wordpress_url__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_url__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
+var __assign = undefined && undefined.__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+      for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+    }
+    return t;
+  };
+  return __assign.apply(this, arguments);
+};
 // Import React and other dependencies
 
 
 
+
+// @wordpress/component
 
 // Define your component
 function Sidebar() {
@@ -2838,9 +2997,15 @@ function Sidebar() {
   var draggableRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // In your external element component componentDidMount
-    new _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_3__.Draggable(draggableRef.current, {
-      itemSelector: ".fc-event"
+    new _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_4__.Draggable(draggableRef.current, {
+      itemSelector: ".fc-event",
       // Associate event data with the element
+      eventData: function (eventEl) {
+        var post = JSON.parse(eventEl.getAttribute("data-event"));
+        return __assign(__assign({}, post), {
+          setPosts: setPosts
+        });
+      }
     });
   }, []);
   // Fetch your posts and taxonomies using useEffect hook
@@ -2944,7 +3109,13 @@ function Sidebar() {
       className: "wpsp-icon wpsp-dots"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", {
       className: "edit-area"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, "view"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, "edit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, "quick edit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, "delete"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, post.postTime), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", null, post.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "page")));
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
+      target: "_blank",
+      href: decodeURIComponent(post.href)
+    }, "view")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
+      target: "_blank",
+      href: decodeURIComponent(post.edit)
+    }, "edit")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Button, null, "quick edit")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, "delete"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, post.postTime), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", null, post.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "page")));
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
     className: "btn-draft-post-create",
     href: "#wpscp_quickedit",
