@@ -53,17 +53,32 @@
             margin: 0 0 16px !important;
         }
         > button {
-            padding: 16px 24px !important;
+            padding: 16px 24px 16px 50px !important;
             border: none;
             background: #FF9437 !important;
-            color: #fff !important;
-            cursor: pointer;
-            font-size: 14px;
-            font-family: Inter;
-            font-weight: 500;
-            line-height: 18px;
             border-radius: 6px;
-        }
+            cursor: pointer;
+            &:after {
+                display: none;
+            }
+            > span {
+                color: #fff !important;
+                font-size: 14px;
+                font-family: Inter;
+                font-weight: 500;
+                line-height: 18px;
+                position: relative;
+                &:before {
+                    position: absolute;
+                    content: "\e907";
+                    font-family: "wpsp";
+                    left: -24px;
+                    top: 0;
+                    font-size: 18px;
+                    color: #fff;
+                }
+            }
+        } 
     }
     .card:last-child {
         margin-bottom: 0px;
@@ -114,6 +129,16 @@
             font-family: Inter;
             font-weight: 500;
             line-height: 18px;
+            position: relative;
+            &:after {
+                position: absolute;
+                content: "\e909";
+                font-family: "wpsp";
+                right: -24px;
+                top: 0;
+                font-size: 14px;
+                color: #6C62FF;
+            }
         }
     }
 }
