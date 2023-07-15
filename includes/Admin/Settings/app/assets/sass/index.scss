@@ -19,7 +19,68 @@
 
 
 
-
+.swal2-container {
+    background: rgba(27, 27, 80, .4) !important;
+    padding: 100px !important;
+    .swal2-popup {
+        position: relative;
+        box-sizing: border-box;
+        grid-template-columns: minmax(0,100%);
+        width: 550px;
+        max-width: 100%;
+        padding: 40px;
+        border: none;
+        border-radius: 8px;
+        background: #fff;
+        .swal2-title {
+            font-size: 38px;
+            line-height: 1.2em;
+            font-style: italic;
+            color: #FF9437;
+            margin-bottom: 24px;
+            padding: 0px;
+        }
+        .swal2-html-container {
+            margin: 0;
+            h4 {
+                font-size: 22px;
+                line-height: 1.2em;
+                color: #1B1B50;
+                margin: 0 0 32px;
+            }
+            img {
+                border: none;
+                max-width: 100%;
+                width: 400px;
+                display: block;
+                text-align: center;
+                margin: 0 auto;
+            } 
+            a {
+                display: inline-block;
+                background: #6C62FF !important;
+                padding: 20px 24px !important;
+                border-radius: 6px !important;
+                height: auto !important;
+                line-height: 0px;
+                margin-top: 32px;
+                border: none;
+                cursor: pointer;
+                button {
+                    font-weight: 500;
+                    font-size: 14px;
+                    line-height: 1.2em;
+                    color: #fff;
+                    background: transparent;
+                    border: none;
+                    padding: unset;
+                    cursor: pointer;
+                }
+            }
+        }  
+    }
+    
+}
 
 
 
@@ -97,7 +158,9 @@
             font-weight: 500;
             font-size: 14px;
             line-height: 17px !important;
-            margin-bottom: 24px;border: none;
+            margin-bottom: 24px;
+            border: none;
+            cursor: pointer;
         }
         p {
             font-size: 14px;
