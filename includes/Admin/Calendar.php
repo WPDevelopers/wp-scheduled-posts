@@ -3,6 +3,8 @@
 namespace WPSP\Admin;
 
 use WPSP\Helper;
+use WP_REST_Response;
+use WP_Error;
 
 class Calendar
 {
@@ -19,8 +21,8 @@ class Calendar
     public function hooks()
     {
         add_action('rest_api_init', array($this, 'wpscp_register_custom_route'));
-        add_action('wp_ajax_wpscp_calender_ajax_request', array($this, 'calender_ajax_request_php'));
-        add_action('wp_ajax_wpscp_delete_event', array($this, 'delete_event_action'));
+        // add_action('wp_ajax_wpscp_calender_ajax_request', array($this, 'calender_ajax_request_php'));
+        // add_action('wp_ajax_wpscp_delete_event', array($this, 'delete_event_action'));
         add_filter('wpsp_pre_eventDrop', [$this, 'wpsp_pre_eventDrop'], 10, 4 );
         add_filter('wpsp_eventDrop_posts', [$this, 'wpsp_eventDrop_posts'], 10, 2 );
     }
@@ -65,11 +67,24 @@ class Calendar
             )
         );
 
-        // convert it to rest api
-        register_rest_route('wpscp/v1', '/quick_edit_get_post', array(
-            'methods' => 'GET',
-            'callback' => [$this, 'quick_edit_get_post'],
-        ));
+        register_rest_route(
+            'wpscp/v1',
+            '/post',
+            array(
+                array(
+                    'methods' => \WP_REST_Server::READABLE,
+                    'callback' => [$this, 'quick_edit_get_post'],
+                ),
+                array(
+                    'methods' => \WP_REST_Server::EDITABLE,
+                    'callback' => [$this, 'calender_ajax_request_php'],
+                ),
+                array(
+                    'methods' => \WP_REST_Server::DELETABLE,
+                    'callback' => [$this, 'delete_event_action'],
+                ),
+            )
+        );
 
     }
 
@@ -290,26 +305,24 @@ class Calendar
     /**
      * Calendar Main Ajax Operation
      * @method calender_ajax_request_php
+     * @param  \WP_REST_Request $request
      * @version 3.0.1
      */
-    public function calender_ajax_request_php()
+    public function calender_ajax_request_php($request)
     {
-        $nonce = $_POST['nonce'];
-        if (!wp_verify_nonce($nonce, 'wpscp-calendar-ajax-nonce')) {
-            die(__('Security check', 'wp-scheduled-posts'));
-        }
         $calendar_schedule_time = \WPSP\Helper::get_settings('calendar_schedule_time');
-        $post_status = '';
-        if (!empty($_POST['post_status']) && $_POST['post_status'] != '') {
-            $post_status = (($_POST['post_status'] == 'Scheduled') ? 'future' : 'draft');
+        $post_status = $request->get_param('post_status');
+
+        if ($post_status != '') {
+            $post_status = (($post_status == 'Scheduled') ? 'future' : 'draft');
         }
 
-        $type = (isset($_POST['type']) ? $_POST['type'] : '');
-        $post_type = (isset($_POST['post_type']) ? $_POST['post_type'] : '');
-        $dateStr = (isset($_POST['date']) ? $_POST['date'] : '');
-        $postid = (isset($_POST['ID']) ? $_POST['ID'] : '');
-        $postTitle = (isset($_POST['postTitle']) ? $_POST['postTitle'] : '');
-        $postContent = (isset($_POST['postContent']) ? $_POST['postContent'] : '');
+        $type        = $request->get_param('type');
+        $post_type   = $request->get_param('post_type');
+        $dateStr     = $request->get_param('date');
+        $postid      = $request->get_param('ID');
+        $postTitle   = $request->get_param('postTitle');
+        $postContent = $request->get_param('postContent');
 
         if($type == 'drop') {
             $default_schedule_time = '12:00 am';
@@ -365,10 +378,23 @@ class Calendar
             ));
 
             if ($post_id != 0) {
-                $res = json_encode(query_posts(array('p' => $post_id, 'post_type' => $post_type)));
-
-				print $res;
+                $post     = get_post($post_id);
+                $response = array(
+                    'id'      => $post->ID,
+                    'title'   => $post->post_title,
+                    'content' => $post->post_content,
+                    'status'  => $post->post_status,
+                    'author'  => $post->post_author,
+                    'type'    => $post->post_type
+                );
+                return new WP_REST_Response($response, 200);
             }
+            $response = array(
+                'status'  => 'error',
+                'message' => 'Invalid request'
+            );
+            return new WP_REST_Response($response, 400);
+
         } else if ($type == 'addEvent') {
 
             // only works if update event is fired
@@ -443,25 +469,38 @@ class Calendar
      * @version 3.0.1
      */
     function quick_edit_get_post( $request ) {
-        $post_id     = $request->get_param( 'postId' );
-        $post        = get_post( (int) $post_id );
-        $posts       = apply_filters( 'wpsp_eventDrop_posts', [$post], $post_id );
-        return $posts;
+        $post_id = $request->get_param('postId');
+        $post = get_post((int) $post_id);
+        if ($post) {
+            $posts = apply_filters('wpsp_eventDrop_posts', [$post], $post_id);
+            $response = new WP_REST_Response($posts, 200);
+            return $response;
+        }
+        $error = array('error' => 'Post not found');
+        $response = new WP_REST_Response($error, 404);
+        return $response;
     }
 
     /**
      * Ajax Request for delete event action
      * @method delete_event_action
+     * @param  \WP_REST_Request $request
      * @version 3.0.1
      */
-    public function delete_event_action()
+    public function delete_event_action($request)
     {
-        $postId = (isset($_POST['ID']) ? intval($_POST['ID']) : '');
+        $postId = $request->get_param('ID');
         if ($postId != "") {
-            wp_delete_post($postId, true);
-            print $postId;
+            $result = wp_delete_post($postId, true);
+            if ($result === false) {
+                $error = new WP_Error('delete_failed', 'Failed to delete post', array('status' => 500));
+                return new WP_REST_Response($error, 500);
+            }
+            $response = array('message' => 'Post deleted successfully', 'id' => $postId);
+            return new WP_REST_Response($response, 200);
         }
-        wp_die(); // this is required to terminate immediately and return a proper response
+        $error = new WP_Error('missing_id', 'ID parameter is missing', array('status' => 400));
+        return new WP_REST_Response($error, 400);
     }
 
     public function wpsp_pre_eventDrop($return, $pid, $postdateformat, $postdate_gmt){
