@@ -115,8 +115,8 @@ class Settings
     }
 
     /**
-     * Fetch pinterest section 
-     * 
+     * Fetch pinterest section
+     *
      * @param $data
     */
     public function fetch_pinterest_section($data)
@@ -207,16 +207,16 @@ class Settings
     /**
      * Create OR Update wpsp
      *
-     * @param WP_REST_Request $request Full data about the request.
-     * @return WP_Error|WP_REST_Request
+     * @param \WP_REST_Request $request Full data about the request.
+     * @return \WP_Error|\WP_REST_Request
      */
     public function update_value($request)
     {
-        $updated = update_option($this->settings_name, $request->get_param('wpspSetting'));
+        $updated = update_option($this->settings_name, json_encode($request->get_params()));
 
         return new \WP_REST_Response(array(
             'success'   => $updated,
-            'value'     => $request->get_param('wpspSetting')
+            'value'     => $request->get_params()
         ), 200);
     }
 

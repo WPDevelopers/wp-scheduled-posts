@@ -100,9 +100,9 @@ class Settings {
                 'show' => false
             ],
             'config'          => [
-                'active'  => 'layout_general',
+                'active'  => 'layout_calendar',
             ],
-            'fields'          => apply_filters('wpsp_layout_tabs',[
+            'tabs'          => apply_filters('wpsp_layout_tabs',[
                 'layout_general' => [
                     'id'       => 'layout_general',
                     'name'     => 'layout_general',
@@ -141,7 +141,7 @@ class Settings {
                                                 'link'  => 'https://wpdeveloper.com',
                                             ],
                                             [
-                                                'icon'  => 'wpsp-premimu-support',
+                                                'icon'  => 'wpsp-chat',
                                                 'title' => __('Premium Support','wp-scheduled-posts'),
                                                 'link'  => 'https://wpdeveloper.com',
                                             ],
@@ -324,7 +324,7 @@ class Settings {
                             'priority' => 1,
                             'fields'    => [
                                 'email_notify_under_review_section'    => [
-                                    'id'       => 'email_notify_under_review',
+                                    'name'     => 'email_notify_under_review_section',
                                     'type'     => 'section',
                                     'label'    => false,
                                     'priority' => 5,
@@ -383,7 +383,7 @@ class Settings {
                                     'priority' => 15,
                                 ],
                                 'notify_author_post_is_scheduled_section' => [
-                                    'id'       => 'notify_author_post_is_scheduled',
+                                    'name'       => 'notify_author_post_is_scheduled_section',
                                     'type'     => 'section',
                                     'label'    => false,
                                     'priority' => 5,

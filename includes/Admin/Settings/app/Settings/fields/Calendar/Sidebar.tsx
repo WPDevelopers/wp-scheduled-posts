@@ -3,9 +3,11 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import apiFetch from "@wordpress/api-fetch";
 import { Draggable } from "@fullcalendar/interaction";
 import { addQueryArgs } from '@wordpress/url';
+// @wordpress/component
+import { Button } from "@wordpress/components";
 
 // Define your component
-export default function Sidebar() {
+export default function Sidebar({handleOpenModal}) {
   // Define your state variables
   const [posts, setPosts] = useState([]);
   const [postType, setPostType] = useState(null);
@@ -18,6 +20,10 @@ export default function Sidebar() {
     new Draggable(draggableRef.current, {
       itemSelector: ".fc-event",
       // Associate event data with the element
+      eventData: function (eventEl) {
+        const post = JSON.parse(eventEl.getAttribute("data-event"));
+        return {...post, setPosts};
+      },
     });
 
   }, []);
@@ -85,29 +91,9 @@ export default function Sidebar() {
           Unscheduled {postType ? postType : "Posts"}{" "}
           <span className="spinner"></span>
         </h4>
-        <select name="type" id="type" className="select-type">
-          <option>Type</option>
-          <option>Type</option>
-          <option>Type</option>
+        <select name="select" id="select" className="select">
+          <option>Select</option>
         </select>
-        <div className="card">
-          <span>12:30 AM</span>
-          <h3>AI: Unleashing the
-          Future of Technology</h3>
-          <button>Page</button>
-        </div>
-        <div className="card">
-          <span>12:30 AM</span>
-          <h3>AI: Unleashing the
-          Future of Technology</h3>
-          <button>Page</button>
-        </div>
-        <div className="card">
-          <span>12:30 AM</span>
-          <h3>AI: Unleashing the
-          Future of Technology</h3>
-          <button>Page</button>
-        </div>
         {postType !== "page" && (
           <select
             id="external-events-filter"
@@ -150,13 +136,18 @@ export default function Sidebar() {
               post // Loop through your posts using map method
             ) => (
               <div className="fc-event" data-event={JSON.stringify(post)}>
-                <div className="wpscp-event-post">
-                  <div className="postlink ">
-                    <span>
-                      <span className="posttime">[{post.postTime}]</span>{" "}
-                      {post.title} [{post.status}]
-                    </span>
-                  </div>
+                <div className="card">
+                  <i className="wpsp-icon wpsp-dots">
+                    <ul className="edit-area">
+                      <li><a target="_blank" href={decodeURIComponent(post.href)}>view</a></li>
+                      <li><a target="_blank" href={decodeURIComponent(post.edit)}>edit</a></li>
+                      <li><Button variant="link" onClick={() => handleOpenModal(post)}>quick edit</Button></li>
+                      <li>delete</li>
+                    </ul>
+                  </i>
+                  <span>{post.postTime}</span>
+                  <h3>{post.title}</h3>
+                  <span>page</span>
                 </div>
               </div>
             )

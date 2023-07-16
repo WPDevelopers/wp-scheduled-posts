@@ -52,7 +52,7 @@
         "raw-loader": "^4.0.2"
     },
     "dependencies": {
-        "@wordpress/components": "^25.2.0"
+        "@wordpress/components": "^22.1.0"
     },
     "babel": {
         "presets": [

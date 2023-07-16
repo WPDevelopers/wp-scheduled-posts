@@ -2255,18 +2255,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var quickbuilder__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! quickbuilder */ "./node_modules/quickbuilder/dist/index.js");
-/* harmony import */ var quickbuilder__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(quickbuilder__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
-/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _ToasterMsg__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ToasterMsg */ "./app/Settings/ToasterMsg.tsx");
-/* harmony import */ var _Content__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Content */ "./app/Settings/Content.tsx");
-/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-modal */ "./node_modules/react-modal/lib/index.js");
-/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_modal__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var quickbuilder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! quickbuilder */ "./node_modules/quickbuilder/dist/index.js");
+/* harmony import */ var quickbuilder__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(quickbuilder__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _ToasterMsg__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ToasterMsg */ "./app/Settings/ToasterMsg.tsx");
+/* harmony import */ var _Content__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Content */ "./app/Settings/Content.tsx");
 var __assign = undefined && undefined.__assign || function () {
   __assign = Object.assign || function (t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -2282,62 +2278,38 @@ var __assign = undefined && undefined.__assign || function () {
 
 
 
-
-
 var SettingsInner = function (props) {
-  var builderContext = (0,quickbuilder__WEBPACK_IMPORTED_MODULE_2__.useBuilderContext)();
-  var _a = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
+  var builderContext = (0,quickbuilder__WEBPACK_IMPORTED_MODULE_1__.useBuilderContext)();
+  var _a = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
     isProAlertModal = _a[0],
     setProAlertModal = _a[1];
-  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
-    // let iconLists = {};
-    // iconLists['source'] = <SourceIcon />
-    // iconLists['design'] = <DesignIcon />
-    // iconLists['content'] = <ContentIcon />
-    // iconLists['display'] = <DisplayIcon />
-    // iconLists['customize'] = <CustomizeIcon />
-    // builderContext.registerIcons('tabs', iconLists);
-    // builderContext.registerAlert('pro_alert', proAlert);
-    // builderContext.registerAlert('toast', ToastAlert);
-  }, []);
   var onChange = function (event) {
     var _a;
     builderContext.setActiveTab((_a = event === null || event === void 0 ? void 0 : event.target) === null || _a === void 0 ? void 0 : _a.value);
   };
-  builderContext.submit.onSubmit = (0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)(function (event, context) {
+  console.log('values', builderContext.values);
+  builderContext.submit.onSubmit = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (event, context) {
+    console.log('values', context.values);
     context.setSubmitting(true);
-    _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_3___default()({
+    _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default()({
       path: 'wp-scheduled-posts/v1/settings',
       method: 'POST',
-      data: {
-        wpspSetting: JSON.stringify(context.values, null, 2)
-      }
+      data: context.values
     }).then(function (res) {
       if (res) {
-        _ToasterMsg__WEBPACK_IMPORTED_MODULE_4__["default"].info((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Changes Saved Successfully.", 'notificationx'));
+        (0,_ToasterMsg__WEBPACK_IMPORTED_MODULE_3__.SweetAlertToaster)().fire();
       }
     });
   }, []);
-  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     builderContext.registerAlert('pro_alert', function (props) {
-      return {
-        fire: function () {
-          setProAlertModal(true);
-        }
-      };
+      (0,_ToasterMsg__WEBPACK_IMPORTED_MODULE_3__.SweetAlertProMsg)();
     });
   }, []);
-  var closeProAlertModal = function () {
-    setProAlertModal(false);
-  };
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "wpsp-admin-wrapper"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_Content__WEBPACK_IMPORTED_MODULE_5__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react_modal__WEBPACK_IMPORTED_MODULE_6___default()), {
-    isOpen: isProAlertModal,
-    ariaHideApp: false
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h3", null, "HEllo World"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("button", {
-    onClick: closeProAlertModal
-  }, "Close")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(quickbuilder__WEBPACK_IMPORTED_MODULE_2__.FormBuilder, __assign({}, builderContext, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Content__WEBPACK_IMPORTED_MODULE_4__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(quickbuilder__WEBPACK_IMPORTED_MODULE_1__.FormBuilder, __assign({}, builderContext, {
+    values: {},
     value: builderContext.config.active,
     onChange: onChange
   }))));
@@ -2426,22 +2398,22 @@ var Sidebar = function (_a) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("img", {
     src: "".concat(wpspSettingsGlobal === null || wpspSettingsGlobal === void 0 ? void 0 : wpspSettingsGlobal.image_path, "upgrade-pro.png"),
     alt: "upgrade-pro-img"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h3", null, "Get Unlimited Features"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("p", null, "Supercharge your content schedule and have a peace in mind"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("button", null, "Upgrade To Pro")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h3", null, "Get Unlimited Features"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("p", null, "Supercharge your content schedule and have a peace in mind"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("button", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("span", null, "Upgrade To Pro"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: 'card'
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("i", {
     className: "wpsp-icon wpsp-file"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h3", null, "Documentation"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("p", null, "Get started spending some time with the documentation to get familiar with SchedulePress."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("button", null, "Documentation")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: 'card'
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("i", {
-    className: "wpsp-icon wpsp-file"
+    className: "wpsp-icon wpsp-puzzle"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h3", null, "Contribute to SchedulePress"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("p", null, "You can contribute to making SchedulePress better by reporting bugs"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("button", null, "Report A Bug")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: 'card'
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("i", {
-    className: "wpsp-icon wpsp-file"
+    className: "wpsp-icon wpsp-comment"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h3", null, "Need Help?"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("p", null, "Stuck with something? Get help from the community WPDeveloper Forum or Facebook Community."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("button", null, "Get Support")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: 'card'
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("i", {
-    className: "wpsp-icon wpsp-file"
+    className: "wpsp-icon wpsp-chat-2"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h3", null, "Show your Love"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("p", null, "We love to have you in the SchedulePress family. We are making it more awesome every day."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("button", null, "Show your Love")));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Sidebar);
@@ -2457,175 +2429,73 @@ var Sidebar = function (_a) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   ConnectedMsg: () => (/* binding */ ConnectedMsg),
-/* harmony export */   DeletedMsg: () => (/* binding */ DeletedMsg),
-/* harmony export */   DisabledMsg: () => (/* binding */ DisabledMsg),
-/* harmony export */   EnabledMsg: () => (/* binding */ EnabledMsg),
-/* harmony export */   ErrorMsg: () => (/* binding */ ErrorMsg),
-/* harmony export */   RegeneratedMsg: () => (/* binding */ RegeneratedMsg),
-/* harmony export */   ToastAlert: () => (/* binding */ ToastAlert),
-/* harmony export */   ToasterIcons: () => (/* binding */ ToasterIcons),
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
-/* harmony export */   toastDefaultArgs: () => (/* binding */ toastDefaultArgs)
+/* harmony export */   SweetAlertDeleteMsg: () => (/* binding */ SweetAlertDeleteMsg),
+/* harmony export */   SweetAlertProMsg: () => (/* binding */ SweetAlertProMsg),
+/* harmony export */   SweetAlertToaster: () => (/* binding */ SweetAlertToaster)
 /* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/react-toastify.esm.mjs");
-/* harmony import */ var react_toastify_dist_ReactToastify_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-toastify/dist/ReactToastify.css */ "./node_modules/react-toastify/dist/ReactToastify.css");
-var __assign = undefined && undefined.__assign || function () {
-  __assign = Object.assign || function (t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-      s = arguments[i];
-      for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-    }
-    return t;
-  };
-  return __assign.apply(this, arguments);
-};
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_toastify_dist_ReactToastify_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-toastify/dist/ReactToastify.css */ "./node_modules/react-toastify/dist/ReactToastify.css");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_2__);
 
 
 
-// const getToasterIcon = (url) => {
-//     return ( wpspSettingsGlobal?.assets?.admin + url + '?version=' + Math.random());
-// };
-var ToasterIcons = {
-  deleted: function () {
-    return "Icon";
-  },
-  regenerated: function () {
-    return "Icon";
-  },
-  enabled: function () {
-    return "Icon";
-  },
-  disabled: function () {
-    return "Icon";
-  },
-  error: function () {
-    return "Icon";
-  },
-  connected: function () {
-    return "Icon";
+// Setup Sweetalert2 toaster
+var SweetAlertToaster = function (args) {
+  var _a, _b, _c, _d, _e, _f, _g;
+  if (args === void 0) {
+    args = {};
   }
-};
-var toastDefaultArgs = {
-  position: "bottom-right",
-  autoClose: 5000,
-  hideProgressBar: false,
-  closeOnClick: true,
-  pauseOnHover: true,
-  draggable: true,
-  progress: undefined,
-  icon: false
-};
-// export const SuccessMsg = (msg) => {
-var ConnectedMsg = function (msg) {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "wprf-toast-wrapper"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
-    src: ToasterIcons.connected(),
-    alt: ""
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, msg));
-};
-var ErrorMsg = function (msg) {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "wprf-toast-wrapper"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
-    src: ToasterIcons.error(),
-    alt: ""
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, msg));
-};
-var RegeneratedMsg = function (msg) {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "wprf-toast-wrapper"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
-    src: ToasterIcons.regenerated(),
-    alt: ""
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, msg));
-};
-var EnabledMsg = function (msg) {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "wprf-toast-wrapper"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
-    src: ToasterIcons.enabled(),
-    alt: ""
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, msg));
-};
-var DisabledMsg = function (msg) {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "wprf-toast-wrapper"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
-    src: ToasterIcons.disabled(),
-    alt: ""
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, msg));
-};
-var DeletedMsg = function (msg) {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "wprf-toast-wrapper"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
-    src: ToasterIcons.deleted(),
-    alt: ""
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, msg));
-};
-var ToastAlert = function (type, message, args) {
-  type = type || null;
-  message = message || null;
-  var promise = new Promise(function (resolve, reject) {
-    args = args || {};
-    var defaultArgs = __assign(__assign(__assign({}, toastDefaultArgs), args), {
-      onClose: resolve
-    });
-    if (type == 'success' || type == 'connected') {
-      react_toastify__WEBPACK_IMPORTED_MODULE_1__.toast.info(ConnectedMsg(message), defaultArgs);
-    }
-    if (type == 'error') {
-      react_toastify__WEBPACK_IMPORTED_MODULE_1__.toast.error(ErrorMsg(message), defaultArgs);
-    }
-    if (type == 'regenerated') {
-      react_toastify__WEBPACK_IMPORTED_MODULE_1__.toast.info(RegeneratedMsg(message), defaultArgs);
-    }
-    if (type == 'enabled') {
-      react_toastify__WEBPACK_IMPORTED_MODULE_1__.toast.info(EnabledMsg(message), defaultArgs);
-    }
-    if (type == 'disabled') {
-      react_toastify__WEBPACK_IMPORTED_MODULE_1__.toast.warning(DisabledMsg(message), defaultArgs);
-    }
-    if (type == 'deleted') {
-      react_toastify__WEBPACK_IMPORTED_MODULE_1__.toast.error(DeletedMsg(message), defaultArgs);
-    }
-    if (!type) {
-      reject();
+  return sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().mixin({
+    icon: (_a = args === null || args === void 0 ? void 0 : args.icon) !== null && _a !== void 0 ? _a : (args === null || args === void 0 ? void 0 : args.type) || "success",
+    title: (_b = args === null || args === void 0 ? void 0 : args.title) !== null && _b !== void 0 ? _b : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Changes saved successfully', 'wp-scheduled-posts'),
+    toast: (_c = args === null || args === void 0 ? void 0 : args.toast) !== null && _c !== void 0 ? _c : true,
+    position: (_d = args === null || args === void 0 ? void 0 : args.position) !== null && _d !== void 0 ? _d : 'top-end',
+    showConfirmButton: (_e = args === null || args === void 0 ? void 0 : args.showConfirmButton) !== null && _e !== void 0 ? _e : false,
+    timer: (_f = args === null || args === void 0 ? void 0 : args.timer) !== null && _f !== void 0 ? _f : 3000,
+    timerProgressBar: (_g = args === null || args === void 0 ? void 0 : args.toast) !== null && _g !== void 0 ? _g : true,
+    didOpen: function (toast) {
+      toast.addEventListener('mouseenter', (sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().stopTimer));
+      toast.addEventListener('mouseleave', (sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().resumeTimer));
     }
   });
-  return promise;
 };
-var wpspToast = {
-  connected: function (message, args) {
-    return ToastAlert('connected', message, args);
-  },
-  info: function (message, args) {
-    return ToastAlert('connected', message, args);
-  },
-  error: function (message, args) {
-    return ToastAlert('error', message, args);
-  },
-  regenerated: function (message, args) {
-    return ToastAlert('regenerated', message, args);
-  },
-  enabled: function (message, args) {
-    return ToastAlert('enabled', message, args);
-  },
-  disabled: function (message, args) {
-    return ToastAlert('disabled', message, args);
-  },
-  warning: function (message, args) {
-    return ToastAlert('disabled', message, args);
-  },
-  deleted: function (message, args) {
-    return ToastAlert('deleted', message, args);
+// Setup Sweetalert2 pro message popup
+var SweetAlertProMsg = function (args) {
+  var _a, _b, _c, _d, _e, _f, _g, _h, _j;
+  if (args === void 0) {
+    args = {};
   }
+  // @ts-ignore
+  var admin_image_path = wpspSettingsGlobal.admin_image_path;
+  return sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().fire({
+    title: (_a = args === null || args === void 0 ? void 0 : args.title) !== null && _a !== void 0 ? _a : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Opps', 'wp-scheduled-posts'),
+    showCancelButton: (_b = args === null || args === void 0 ? void 0 : args.showCancelButton) !== null && _b !== void 0 ? _b : false,
+    showConfirmButton: (_c = args === null || args === void 0 ? void 0 : args.showConfirmButton) !== null && _c !== void 0 ? _c : false,
+    html: "\n          <div>\n            <h4>".concat((_d = args === null || args === void 0 ? void 0 : args.message) !== null && _d !== void 0 ? _d : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('You need SchedulePress PRO', 'wp-scheduled-posts'), "</h4>\n            <img src=\"").concat((_e = args === null || args === void 0 ? void 0 : args.imageUrl) !== null && _e !== void 0 ? _e : admin_image_path + '/upgrade-pro-new.png', "\" alt=\"").concat((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)((_f = args === null || args === void 0 ? void 0 : args.imageAlt) !== null && _f !== void 0 ? _f : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Pro Alert'), 'wp-scheduled-posts'), "\">\n            <a href=\"").concat((_g = args === null || args === void 0 ? void 0 : args.buttonUrl) !== null && _g !== void 0 ? _g : 'https://wpdeveloper.com/in/schedulepress-pro', "\" target=\"").concat((_h = args === null || args === void 0 ? void 0 : args.target) !== null && _h !== void 0 ? _h : '_blank', "\">\n              <button>").concat((_j = args === null || args === void 0 ? void 0 : args.buttonText) !== null && _j !== void 0 ? _j : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Check Pricing Plans', 'wp-scheduled-posts'), "</button>\n            </a>\n          </div>\n        ")
+  });
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (wpspToast);
+// Setup Sweetalert2 pro message popup
+var SweetAlertDeleteMsg = function (args, deleteFile) {
+  var _a, _b, _c, _d, _e, _f, _g;
+  if (args === void 0) {
+    args = {};
+  }
+  return sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().fire({
+    title: (_a = args === null || args === void 0 ? void 0 : args.title) !== null && _a !== void 0 ? _a : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Are you sure?', 'wp-scheduled-posts'),
+    text: (_b = args === null || args === void 0 ? void 0 : args.text) !== null && _b !== void 0 ? _b : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("You won't be able to revert this!", 'wp-scheduled-posts'),
+    icon: (_c = args === null || args === void 0 ? void 0 : args.icon) !== null && _c !== void 0 ? _c : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('warning', 'wp-scheduled-posts'),
+    showCancelButton: (_d = args === null || args === void 0 ? void 0 : args.showCancelButton) !== null && _d !== void 0 ? _d : true,
+    confirmButtonColor: (_e = args === null || args === void 0 ? void 0 : args.confirmButtonColor) !== null && _e !== void 0 ? _e : '#3085d6',
+    cancelButtonColor: (_f = args === null || args === void 0 ? void 0 : args.cancelButtonColor) !== null && _f !== void 0 ? _f : '#d33',
+    confirmButtonText: (_g = args === null || args === void 0 ? void 0 : args.confirmButtonText) !== null && _g !== void 0 ? _g : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Yes, delete it!', 'wp-scheduled-posts')
+  }).then(function (result) {
+    if (result.isConfirmed) {
+      deleteFile(args === null || args === void 0 ? void 0 : args.item);
+    }
+  });
+};
 
 /***/ }),
 
@@ -2749,19 +2619,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _wordpress_url__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/url */ "@wordpress/url");
 /* harmony import */ var _wordpress_url__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_url__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _fullcalendar_react__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @fullcalendar/react */ "./node_modules/@fullcalendar/react/dist/index.js");
-/* harmony import */ var _fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @fullcalendar/daygrid */ "./node_modules/@fullcalendar/daygrid/index.js");
-/* harmony import */ var _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @fullcalendar/interaction */ "./node_modules/@fullcalendar/interaction/index.js");
+/* harmony import */ var _fullcalendar_react__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @fullcalendar/react */ "./node_modules/@fullcalendar/react/dist/index.js");
+/* harmony import */ var _fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @fullcalendar/daygrid */ "./node_modules/@fullcalendar/daygrid/index.js");
+/* harmony import */ var _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @fullcalendar/interaction */ "./node_modules/@fullcalendar/interaction/index.js");
 /* harmony import */ var _Calendar_Sidebar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Calendar/Sidebar */ "./app/Settings/fields/Calendar/Sidebar.tsx");
 /* harmony import */ var _Calendar_EventRender__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Calendar/EventRender */ "./app/Settings/fields/Calendar/EventRender.tsx");
 /* harmony import */ var quickbuilder__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! quickbuilder */ "./node_modules/quickbuilder/dist/index.js");
 /* harmony import */ var quickbuilder__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(quickbuilder__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _Calendar_Edit__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Calendar/Edit */ "./app/Settings/fields/Calendar/Edit.tsx");
 
 
 
 
 
  // needed for dayClick
+
 
 
 
@@ -2774,6 +2646,19 @@ function Calendar(props) {
   var restRoute = props.rest_route;
   var calendar = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
   var builderContext = (0,quickbuilder__WEBPACK_IMPORTED_MODULE_5__.useBuilderContext)();
+  // AddNewPostModal state
+  var _b = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
+    modalData = _b[0],
+    setModalData = _b[1];
+  var _c = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    isModalOpen = _c[0],
+    setIsModalOpen = _c[1];
+  var handleOpenModal = function () {
+    return setIsModalOpen(true);
+  };
+  var handleCloseModal = function () {
+    return setIsModalOpen(false);
+  };
   var getUrl = function () {
     var _a;
     var date = (_a = calendar.current) === null || _a === void 0 ? void 0 : _a.getApi().view.currentStart;
@@ -2809,33 +2694,71 @@ function Calendar(props) {
   window.calendar = calendar;
   console.log(props);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "sidebar",
-    style: {
-      width: "500px"
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Calendar_Sidebar__WEBPACK_IMPORTED_MODULE_3__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "sidebar"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Calendar_Sidebar__WEBPACK_IMPORTED_MODULE_3__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "main-content"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "toolbar"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "left"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("select", {
+    name: "type",
+    id: "type",
+    className: "select-type"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", null, "Type"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", null, "Type"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", null, "Type")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("select", {
+    name: "category",
+    id: "category",
+    className: "select-category"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", null, "category"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", null, "category"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", null, "category"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "middle"
-  }, calendar.current && calendar.current.getApi().view.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, calendar.current && calendar.current.getApi().view.title, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+    type: "month",
+    id: "start",
+    name: "start",
+    min: "2018-03",
+    value: "2018-05"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "right"
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_fullcalendar_react__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "Today"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+    className: "wpsp-icon wpsp-auto-sc"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_fullcalendar_react__WEBPACK_IMPORTED_MODULE_7__["default"], {
     ref: calendar,
-    plugins: [_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_7__["default"], _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_8__["default"]],
+    plugins: [_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_8__["default"], _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_9__["default"]],
     initialView: "dayGridMonth",
     // weekends={true}
     events: events,
     // firstDay={props.firstDay}
     eventContent: _Calendar_EventRender__WEBPACK_IMPORTED_MODULE_4__["default"],
+    dayCellDidMount: function (args) {
+      console.log('dayCellDidMount', args);
+      var dayTop = args.el.getElementsByClassName('fc-daygrid-day-top');
+      // add a button on dayTop element as child
+      var button = document.createElement('button');
+      button.innerHTML = 'Add New';
+      if (args.isOther) {
+        button.disabled = true;
+      }
+      button.addEventListener('click', function (event) {
+        console.log('click', event, args);
+        handleOpenModal();
+      });
+      dayTop[0].appendChild(button);
+    },
     // dateClick={handleDateClick}
     // Enable droppable option
     editable: true,
     droppable: true,
     // headerToolbar={false}
     // Provide a drop callback function
-    // drop={handleDrop}
+    eventReceive: function (info) {
+      var props = info.event.extendedProps;
+      props.setPosts(function (posts) {
+        return posts.filter(function (p) {
+          return p.postId !== props.postId;
+        });
+      });
+      console.log('drop', info, props);
+    },
     eventClick: function (info) {
       var _a;
       console.log('Event: ', info.event.extendedProps);
@@ -2843,9 +2766,95 @@ function Calendar(props) {
       console.log((_a = calendar.current) === null || _a === void 0 ? void 0 : _a.getApi().view);
       // change the border color just for fun
       info.el.style.border = '1px solid red';
-    }
-  })));
+    },
+    datesSet: function (dateInfo) {}
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Calendar_Edit__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    post: modalData,
+    isOpen: isModalOpen,
+    onClose: handleCloseModal
+  }));
 }
+
+/***/ }),
+
+/***/ "./app/Settings/fields/Calendar/Edit.tsx":
+/*!***********************************************!*\
+  !*** ./app/Settings/fields/Calendar/Edit.tsx ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-modal */ "./node_modules/react-modal/lib/index.js");
+/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_modal__WEBPACK_IMPORTED_MODULE_1__);
+
+
+var AddNewPostModal = function (_a) {
+  var post = _a.post,
+    isOpen = _a.isOpen,
+    onClose = _a.onClose;
+  var _b = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
+    title = _b[0],
+    setTitle = _b[1];
+  var _c = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
+    content = _c[0],
+    setContent = _c[1];
+  var handleTitleChange = function (event) {
+    return setTitle(event.target.value);
+  };
+  var handleContentChange = function (event) {
+    return setContent(event.target.value);
+  };
+  var handleSubmit = function (event) {
+    event.preventDefault();
+    // handle form submission logic here
+    onClose();
+  };
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react_modal__WEBPACK_IMPORTED_MODULE_1___default()), {
+    isOpen: isOpen,
+    onRequestClose: onClose,
+    ariaHideApp: false,
+    className: "modal_wrapper"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "modalhead"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    className: "close-button",
+    onClick: onClose
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+    className: "wpsp-icon wpsp-close"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "platform-info"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h4", null, "Add New Post"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "modalbody"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", {
+    onSubmit: handleSubmit
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "form-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", {
+    htmlFor: "title"
+  }, "Title:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+    type: "text",
+    id: "title",
+    value: title,
+    onChange: handleTitleChange
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "form-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", {
+    htmlFor: "content"
+  }, "Content:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("textarea", {
+    id: "content",
+    value: content,
+    onChange: handleContentChange
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    type: "submit"
+  }, "Save"))));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AddNewPostModal);
 
 /***/ }),
 
@@ -2858,11 +2867,29 @@ function Calendar(props) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   customViewPlugin: () => (/* binding */ customViewPlugin),
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _fullcalendar_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fullcalendar/core */ "./node_modules/@fullcalendar/core/index.js");
 
+
+function customView(props) {
+  var segs = (0,_fullcalendar_core__WEBPACK_IMPORTED_MODULE_1__.sliceEvents)(props, true); // allDay=true
+  console.log('segs', segs);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: 'view-title'
+  }, props.dateProfile.currentRange.start.toUTCString()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: 'view-events'
+  }, segs.length, " events"));
+}
+var customViewPlugin = (0,_fullcalendar_core__WEBPACK_IMPORTED_MODULE_1__.createPlugin)({
+  name: 'custom',
+  views: {
+    custom: customView
+  }
+});
 // a custom render function
 var renderEventContent = function (eventInfo) {
   var _a = eventInfo.event,
@@ -2930,13 +2957,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fullcalendar/interaction */ "./node_modules/@fullcalendar/interaction/index.js");
+/* harmony import */ var _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fullcalendar/interaction */ "./node_modules/@fullcalendar/interaction/index.js");
 /* harmony import */ var _wordpress_url__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/url */ "@wordpress/url");
 /* harmony import */ var _wordpress_url__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_url__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
+var __assign = undefined && undefined.__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+      for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+    }
+    return t;
+  };
+  return __assign.apply(this, arguments);
+};
 // Import React and other dependencies
 
 
 
+
+// @wordpress/component
 
 // Define your component
 function Sidebar() {
@@ -2956,9 +2997,15 @@ function Sidebar() {
   var draggableRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // In your external element component componentDidMount
-    new _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_3__.Draggable(draggableRef.current, {
-      itemSelector: ".fc-event"
+    new _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_4__.Draggable(draggableRef.current, {
+      itemSelector: ".fc-event",
       // Associate event data with the element
+      eventData: function (eventEl) {
+        var post = JSON.parse(eventEl.getAttribute("data-event"));
+        return __assign(__assign({}, post), {
+          setPosts: setPosts
+        });
+      }
     });
   }, []);
   // Fetch your posts and taxonomies using useEffect hook
@@ -3020,7 +3067,11 @@ function Sidebar() {
     className: "unscheduled"
   }, "Unscheduled ", postType ? postType : "Posts", " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
     className: "spinner"
-  })), postType !== "page" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("select", {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("select", {
+    name: "select",
+    id: "select",
+    className: "select"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", null, "Select")), postType !== "page" && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("select", {
     id: "external-events-filter",
     multiple: true,
     style: {
@@ -3053,12 +3104,18 @@ function Sidebar() {
       className: "fc-event",
       "data-event": JSON.stringify(post)
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      className: "wpscp-event-post"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      className: "postlink "
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
-      className: "posttime"
-    }, "[", post.postTime, "]"), " ", post.title, " [", post.status, "]"))));
+      className: "card"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+      className: "wpsp-icon wpsp-dots"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", {
+      className: "edit-area"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
+      target: "_blank",
+      href: decodeURIComponent(post.href)
+    }, "view")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
+      target: "_blank",
+      href: decodeURIComponent(post.edit)
+    }, "edit")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Button, null, "quick edit")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, "delete"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, post.postTime), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", null, post.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "page")));
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
     className: "btn-draft-post-create",
     href: "#wpscp_quickedit",
@@ -3163,6 +3220,35 @@ var CheckboxSelect = function (props) {
       }
     });
   }, [optionSelected]);
+  var customStyles = {
+    control: function (base, state) {
+      return __assign(__assign({}, base), {
+        boxShadow: "none",
+        borderColor: "#EBEEF5",
+        backgroundColor: "#EBEEF5",
+        color: "#6E6E8D",
+        "&:hover": {
+          borderColor: "#cccccc"
+        }
+      });
+    },
+    clearIndicator: function (base) {
+      return __assign(__assign({}, base), {
+        display: 'none',
+        right: 0
+      });
+    },
+    option: function (styles, _a) {
+      var data = _a.data,
+        isDisabled = _a.isDisabled,
+        isFocused = _a.isFocused,
+        isSelected = _a.isSelected;
+      return __assign(__assign({}, styles), {
+        backgroundColor: isFocused || isSelected ? '#F3F2FF' : null,
+        color: "#000"
+      });
+    }
+  };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: classnames__WEBPACK_IMPORTED_MODULE_1___default()('wprf-control', 'wprf-control-wrapper', 'wprf-checkbox-select', "wprf-".concat(props.name, "-checkbox-select"), props === null || props === void 0 ? void 0 : props.classes)
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
@@ -3182,8 +3268,6 @@ var CheckboxSelect = function (props) {
       className: props === null || props === void 0 ? void 0 : props.icon_classes
     }), " "), " ");
   })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "wprf-control-field"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "wprf-checkbox-select-wrap wprf-checked wprf-label-position-right"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
     className: "d-inline-block",
@@ -3192,16 +3276,19 @@ var CheckboxSelect = function (props) {
     "data-content": "Please select account(s)"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_select__WEBPACK_IMPORTED_MODULE_3__["default"], {
     options: options,
+    styles: customStyles,
     isMulti: true,
     closeMenuOnSelect: false,
     hideSelectedOptions: false,
     components: {
       Option: Option
     },
+    autoFocus: false,
     onChange: handleChange,
     value: optionSelected,
-    controlShouldRenderValue: false
-  }))))));
+    controlShouldRenderValue: false,
+    className: "checkbox-select"
+  })))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CheckboxSelect);
 
@@ -3231,7 +3318,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Modals_SocialModal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Modals/SocialModal */ "./app/Settings/fields/Modals/SocialModal.tsx");
 /* harmony import */ var _utils_SelectedProfile__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./utils/SelectedProfile */ "./app/Settings/fields/utils/SelectedProfile.tsx");
 /* harmony import */ var _utils_MainProfile__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./utils/MainProfile */ "./app/Settings/fields/utils/MainProfile.tsx");
-/* harmony import */ var _utils_ProAlert__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./utils/ProAlert */ "./app/Settings/fields/utils/ProAlert.tsx");
+/* harmony import */ var _ToasterMsg__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../ToasterMsg */ "./app/Settings/ToasterMsg.tsx");
 var __assign = undefined && undefined.__assign || function () {
   __assign = Object.assign || function (t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -3267,9 +3354,6 @@ var Facebook = function (props) {
   var _e = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)((_a = builderContext === null || builderContext === void 0 ? void 0 : builderContext.savedValues) === null || _a === void 0 ? void 0 : _a.facebook_profile_status),
     profileStatus = _e[0],
     setProfileStatus = _e[1];
-  var _f = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
-    isErrorMessage = _f[0],
-    setIsErrorMessage = _f[1];
   // Open and Close API credentials modal
   var openApiCredentialsModal = function () {
     setPlatform('facebook');
@@ -3306,6 +3390,11 @@ var Facebook = function (props) {
     setSelectedProfile(updatedData);
   };
   var handleDeleteSelectedProfile = function (item) {
+    (0,_ToasterMsg__WEBPACK_IMPORTED_MODULE_9__.SweetAlertDeleteMsg)({
+      item: item
+    }, deleteFile);
+  };
+  var deleteFile = function (item) {
     var updatedData = selectedProfile.filter(function (selectedItem) {
       return selectedItem.id !== item.id;
     });
@@ -3328,7 +3417,7 @@ var Facebook = function (props) {
   }, [profileStatus]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: classnames__WEBPACK_IMPORTED_MODULE_0___default()('wprf-control', 'wprf-social-profile', "wprf-".concat(props.name, "-social-profile"), props === null || props === void 0 ? void 0 : props.classes)
-  }, isErrorMessage && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_utils_ProAlert__WEBPACK_IMPORTED_MODULE_9__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: 'social-profile-card'
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: "main-profile"
@@ -3364,7 +3453,6 @@ var Facebook = function (props) {
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_Modals_SocialModal__WEBPACK_IMPORTED_MODULE_6__["default"], {
     selectedProfile: selectedProfile,
     setSelectedProfile: setSelectedProfile,
-    setIsErrorMessage: setIsErrorMessage,
     props: props,
     type: "facebook"
   }));
@@ -3446,6 +3534,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Html__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./Html */ "./app/Settings/fields/Html.tsx");
 /* harmony import */ var _AutoScheduler__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./AutoScheduler */ "./app/Settings/fields/AutoScheduler.tsx");
 /* harmony import */ var _ManualScheduler__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./ManualScheduler */ "./app/Settings/fields/ManualScheduler.tsx");
+/* harmony import */ var _License__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./License */ "./app/Settings/fields/License.tsx");
 var __assign = undefined && undefined.__assign || function () {
   __assign = Object.assign || function (t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -3456,6 +3545,7 @@ var __assign = undefined && undefined.__assign || function () {
   };
   return __assign.apply(this, arguments);
 };
+
 
 
 
@@ -3498,6 +3588,8 @@ var Field = function (r, type, props) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Time__WEBPACK_IMPORTED_MODULE_7__["default"], __assign({}, props));
     case "calendar":
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Calendar__WEBPACK_IMPORTED_MODULE_8__["default"], __assign({}, props));
+    case "license":
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_License__WEBPACK_IMPORTED_MODULE_14__["default"], __assign({}, props));
     default:
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null);
   }
@@ -3532,6 +3624,158 @@ var Html = function (props) {
 
 /***/ }),
 
+/***/ "./app/Settings/fields/License.tsx":
+/*!*****************************************!*\
+  !*** ./app/Settings/fields/License.tsx ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _helper_helper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../helper/helper */ "./app/Settings/helper/helper.ts");
+/* harmony import */ var _ToasterMsg__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../ToasterMsg */ "./app/Settings/ToasterMsg.tsx");
+
+
+
+
+
+function License(props) {
+  var _a = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    inputChanged = _a[0],
+    setInputChanged = _a[1];
+  var _b = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(localStorage.getItem('wpsp_temp_key')),
+    tempKey = _b[0],
+    setTempKey = _b[1];
+  var _c = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(localStorage.getItem('wpsp_is_valid')),
+    valid = _c[0],
+    setValid = _c[1];
+  var _d = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+    isRequestSend = _d[0],
+    setIsRequestSend = _d[1];
+  var handleLicenseActivation = function () {
+    setIsRequestSend(true);
+    var data = {
+      key: tempKey
+    };
+    setIsRequestSend(null);
+    setInputChanged(false);
+    (0,_helper_helper__WEBPACK_IMPORTED_MODULE_3__.activateLicense)(data).then(function (response) {
+      setIsRequestSend(null);
+      setInputChanged(false);
+      // @ts-ignore 
+      if (response.success === true) {
+        // @ts-ignore 
+        localStorage.setItem('wpsp_is_valid', response === null || response === void 0 ? void 0 : response.data.status);
+        // @ts-ignore 
+        localStorage.setItem('wpsp_temp_key', response === null || response === void 0 ? void 0 : response.data.key);
+        // @ts-ignore 
+        setTempKey(response.data.key);
+        // @ts-ignore 
+        setValid(response.data.status);
+        (0,_ToasterMsg__WEBPACK_IMPORTED_MODULE_4__.SweetAlertToaster)();
+        (0,_ToasterMsg__WEBPACK_IMPORTED_MODULE_4__.SweetAlertToaster)({
+          icon: 'success',
+          title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Your License is Successfully Activated.', 'wp-scheduled-posts')
+        }).fire();
+      } else {
+        // @ts-ignore 
+        var response_data = response.data;
+        (0,_ToasterMsg__WEBPACK_IMPORTED_MODULE_4__.SweetAlertToaster)({
+          icon: 'error',
+          title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)(response_data, 'wp-scheduled-posts')
+        }).fire();
+      }
+    }).catch(function (error) {
+      (0,_ToasterMsg__WEBPACK_IMPORTED_MODULE_4__.SweetAlertToaster)({
+        icon: 'error',
+        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)(error, 'wp-scheduled-posts')
+      }).fire();
+    });
+  };
+  var handleLicenseDeactivation = function () {
+    setIsRequestSend(true);
+    (0,_helper_helper__WEBPACK_IMPORTED_MODULE_3__.deActivateLicense)().then(function (response) {
+      setIsRequestSend(null);
+      setInputChanged(false);
+      // @ts-ignore 
+      if (response.success === true) {
+        localStorage.removeItem('wpsp_is_valid');
+        localStorage.removeItem('wpsp_temp_key');
+        // @ts-ignore 
+        setValid(response.data.status);
+        setTempKey('');
+        (0,_ToasterMsg__WEBPACK_IMPORTED_MODULE_4__.SweetAlertToaster)({
+          icon: 'success',
+          title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Your License is Successfully Deactivated.', 'wp-scheduled-posts')
+        }).fire();
+      } else {
+        // @ts-ignore 
+        var response_data = response.data;
+        (0,_ToasterMsg__WEBPACK_IMPORTED_MODULE_4__.SweetAlertToaster)({
+          icon: 'error',
+          title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)(response_data, 'wp-scheduled-posts')
+        }).fire();
+      }
+    }).catch(function (error) {
+      (0,_ToasterMsg__WEBPACK_IMPORTED_MODULE_4__.SweetAlertToaster)({
+        icon: 'error',
+        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)(error, 'wp-scheduled-posts')
+      }).fire();
+    });
+  };
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: classnames__WEBPACK_IMPORTED_MODULE_1___default()('wprf-control', 'wprf-license', "wprf-".concat(props.name, "-social-profile"), props === null || props === void 0 ? void 0 : props.classes)
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: 'wpsp-license-container'
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h4", null, props === null || props === void 0 ? void 0 : props.label), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: 'wpsp-license-input'
+  }, tempKey && valid == 'valid' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+    id: 'wp-scheduled-posts-pro-license-key',
+    placeholder: 'Place Your License Key and Activate',
+    onChange: function (e) {
+      return setTempKey(e.target.value);
+    },
+    value: tempKey,
+    disabled: true
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+    id: 'wp-scheduled-posts-pro-license-key',
+    placeholder: 'Place Your License Key and Activate',
+    onChange: function (e) {
+      return setTempKey(e.target.value);
+    },
+    value: tempKey ? tempKey : ''
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: 'wpsp-license-buttons'
+  }, valid == 'valid' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    id: 'submit',
+    type: 'button',
+    className: inputChanged ? 'wpsp-license-deactivation-btn changed' : 'wpsp-license-deactivation-btn',
+    onClick: function () {
+      return handleLicenseDeactivation();
+    }
+  }, isRequestSend == true ? 'Request Sending...' : 'Deactivate License') : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    id: 'submit',
+    type: 'button',
+    className: inputChanged ? 'wpsp-license-buttons changed' : 'wpsp-license-buttons',
+    onClick: function () {
+      return handleLicenseActivation();
+    },
+    disabled: !tempKey
+  }, isRequestSend == true ? 'Request Sending...' : 'Activate License'))));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (License);
+
+/***/ }),
+
 /***/ "./app/Settings/fields/Linkedin.tsx":
 /*!******************************************!*\
   !*** ./app/Settings/fields/Linkedin.tsx ***!
@@ -3556,7 +3800,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Modals_SocialModal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Modals/SocialModal */ "./app/Settings/fields/Modals/SocialModal.tsx");
 /* harmony import */ var _utils_SelectedProfile__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./utils/SelectedProfile */ "./app/Settings/fields/utils/SelectedProfile.tsx");
 /* harmony import */ var _utils_MainProfile__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./utils/MainProfile */ "./app/Settings/fields/utils/MainProfile.tsx");
-/* harmony import */ var _utils_ProAlert__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./utils/ProAlert */ "./app/Settings/fields/utils/ProAlert.tsx");
+/* harmony import */ var _ToasterMsg__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../ToasterMsg */ "./app/Settings/ToasterMsg.tsx");
 var __assign = undefined && undefined.__assign || function () {
   __assign = Object.assign || function (t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -3665,6 +3909,11 @@ var Linkedin = function (props) {
     setSelectedProfile(updatedData);
   };
   var handleDeleteSelectedProfile = function (item) {
+    (0,_ToasterMsg__WEBPACK_IMPORTED_MODULE_9__.SweetAlertDeleteMsg)({
+      item: item
+    }, deleteFile);
+  };
+  var deleteFile = function (item) {
     var updatedData = selectedProfile.filter(function (selectedItem) {
       return selectedItem.id !== item.id;
     });
@@ -3687,7 +3936,7 @@ var Linkedin = function (props) {
   }, [profileStatus]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: classnames__WEBPACK_IMPORTED_MODULE_0___default()('wprf-control', 'wprf-social-profile', "wprf-".concat(props.name, "-social-profile"), props === null || props === void 0 ? void 0 : props.classes)
-  }, isErrorMessage && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_utils_ProAlert__WEBPACK_IMPORTED_MODULE_9__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: 'social-profile-card'
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: "main-profile"
@@ -3723,7 +3972,6 @@ var Linkedin = function (props) {
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_Modals_SocialModal__WEBPACK_IMPORTED_MODULE_6__["default"], {
     selectedProfile: selectedProfile,
     setSelectedProfile: setSelectedProfile,
-    setIsErrorMessage: setIsErrorMessage,
     props: props,
     type: "linkedin"
   }));
@@ -4094,12 +4342,7 @@ function Facebook(_a) {
     setIsErrorMessage = _b[1];
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: 'wpsp-modal-social-platform'
-  }, isErrorMessage && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: 'error-message'
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Multi Profile is a Premium Feature. To use this feature,', 'wp-scheduled-posts'), " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
-    target: "_blank",
-    href: 'https://wpdeveloper.com/in/schedulepress-pro'
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Upgrade to PRO.', 'wp-scheduled-posts'))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", null, page.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Pages:', 'wp-scheduled-posts'), " "), page.map(function (item, index) {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", null, page.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Pages:', 'wp-scheduled-posts'), " "), page.map(function (item, index) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", {
       id: 'facebook_page_' + index,
       key: index
@@ -4279,7 +4522,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_select__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-select */ "./node_modules/react-select/dist/react-select.esm.js");
 /* harmony import */ var _utils_PinterestSectionSelect__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/PinterestSectionSelect */ "./app/Settings/fields/utils/PinterestSectionSelect.tsx");
+
 
 
 
@@ -4316,11 +4561,6 @@ function Pinterest(_a) {
     }
   }, [defaultBoard]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    if (noSection) {
-      setDefaultSection(noSection);
-    }
-  }, [noSection]);
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     if (boards) {
       setDefaultBoard(boardOptions === null || boardOptions === void 0 ? void 0 : boardOptions[0]);
     }
@@ -4341,6 +4581,7 @@ function Pinterest(_a) {
       src: item === null || item === void 0 ? void 0 : item.thumbnail_url,
       alt: item === null || item === void 0 ? void 0 : item.name
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", null, item === null || item === void 0 ? void 0 : item.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", null, boardOptions.map(function (board, board_index) {
+      console.log(board);
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", {
         key: board_index
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
@@ -4355,7 +4596,8 @@ function Pinterest(_a) {
         board: board,
         item: item,
         setSectionOptions: setSectionOptions,
-        sectionOptions: sectionOptions
+        sectionOptions: sectionOptions,
+        setBoardDefaultSection: setDefaultSection
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
         type: 'checkbox',
         onChange: function (event) {
@@ -4385,14 +4627,19 @@ function Pinterest(_a) {
       className: "entry-title"
     }, board === null || board === void 0 ? void 0 : board.label), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       className: "control pinterest-select"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_utils_PinterestSectionSelect__WEBPACK_IMPORTED_MODULE_2__["default"], {
-      noSection: defaultSection,
-      fetchSectionData: fetchSectionData,
-      board: board,
-      item: singlePinterestBoard,
-      setSectionOptions: setSectionOptions,
-      sectionOptions: sectionOptions
-    }))));
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_select__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      value: defaultSection,
+      onMenuOpen: function () {
+        return fetchSectionData(board === null || board === void 0 ? void 0 : board.value, singlePinterestBoard, setSectionOptions);
+      },
+      onChange: setDefaultSection,
+      options: sectionOptions
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+      type: 'checkbox',
+      onChange: function (event) {
+        addProfileToggle(singlePinterestBoard, defaultBoard, defaultSection, event, board);
+      }
+    })));
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
     type: "submit",
     className: "wpsp-modal-save-account",
@@ -4427,8 +4674,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Twitter__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Twitter */ "./app/Settings/fields/Modals/Twitter.tsx");
 /* harmony import */ var _Linkedin__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Linkedin */ "./app/Settings/fields/Modals/Linkedin.tsx");
 /* harmony import */ var _Pinterest__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Pinterest */ "./app/Settings/fields/Modals/Pinterest.tsx");
-/* harmony import */ var quickbuilder__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! quickbuilder */ "./node_modules/quickbuilder/dist/index.js");
-/* harmony import */ var quickbuilder__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(quickbuilder__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _utils_ProAlert__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utils/ProAlert */ "./app/Settings/fields/utils/ProAlert.tsx");
+/* harmony import */ var quickbuilder__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! quickbuilder */ "./node_modules/quickbuilder/dist/index.js");
+/* harmony import */ var quickbuilder__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(quickbuilder__WEBPACK_IMPORTED_MODULE_9__);
 var __assign = undefined && undefined.__assign || function () {
   __assign = Object.assign || function (t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -4457,18 +4705,18 @@ var __spreadArray = undefined && undefined.__spreadArray || function (to, from, 
 
 
 
+
 function SocialModal(_a) {
   var _b;
   var selectedProfile = _a.selectedProfile,
     setSelectedProfile = _a.setSelectedProfile,
-    setIsErrorMessage = _a.setIsErrorMessage,
     props = _a.props,
     type = _a.type,
     _c = _a.profileItem,
     profileItem = _c === void 0 ? '' : _c,
     _d = _a.isProfileEditModal,
     isProfileEditModal = _d === void 0 ? false : _d;
-  var builderContext = (0,quickbuilder__WEBPACK_IMPORTED_MODULE_8__.useBuilderContext)();
+  var builderContext = (0,quickbuilder__WEBPACK_IMPORTED_MODULE_9__.useBuilderContext)();
   var _e = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
     requestSending = _e[0],
     setRequestSending = _e[1];
@@ -4505,6 +4753,9 @@ function SocialModal(_a) {
   var _r = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(''),
     singlePinterestBoard = _r[0],
     setSinglePinterestBoard = _r[1];
+  var _s = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
+    isErrorMessage = _s[0],
+    setIsErrorMessage = _s[1];
   var account_type = localStorage.getItem('account_type');
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
     // Send API request fo fetching data
@@ -4683,7 +4934,9 @@ function SocialModal(_a) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("button", {
     className: "close-button",
     onClick: closeProfileDataModal
-  }, "X"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("i", {
+    className: "wpsp-icon wpsp-close"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: "platform-info"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("img", {
     width: '30px',
@@ -4691,7 +4944,7 @@ function SocialModal(_a) {
     alt: "".concat(props === null || props === void 0 ? void 0 : props.label)
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h4", null, props === null || props === void 0 ? void 0 : props.label))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: "modalbody"
-  }, {
+  }, isErrorMessage && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_utils_ProAlert__WEBPACK_IMPORTED_MODULE_8__["default"], null), {
     facebook: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_Facebook__WEBPACK_IMPORTED_MODULE_4__["default"], {
       page: fbPage,
       group: fbGroup,
@@ -4809,7 +5062,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Modals_SocialModal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Modals/SocialModal */ "./app/Settings/fields/Modals/SocialModal.tsx");
 /* harmony import */ var _utils_SelectedProfile__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./utils/SelectedProfile */ "./app/Settings/fields/utils/SelectedProfile.tsx");
 /* harmony import */ var _utils_MainProfile__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./utils/MainProfile */ "./app/Settings/fields/utils/MainProfile.tsx");
-/* harmony import */ var _utils_ProAlert__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./utils/ProAlert */ "./app/Settings/fields/utils/ProAlert.tsx");
+/* harmony import */ var _ToasterMsg__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../ToasterMsg */ "./app/Settings/ToasterMsg.tsx");
 var __assign = undefined && undefined.__assign || function () {
   __assign = Object.assign || function (t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -4873,7 +5126,13 @@ var Pinterest = function (props) {
     });
     setSelectedProfile(updatedData);
   };
+  // Handle delete selected profile
   var handleDeleteSelectedProfile = function (item) {
+    (0,_ToasterMsg__WEBPACK_IMPORTED_MODULE_9__.SweetAlertDeleteMsg)({
+      item: item
+    }, deleteFile);
+  };
+  var deleteFile = function (item) {
     var updatedData = selectedProfile.filter(function (selectedItem) {
       return selectedItem.default_board_name.value !== item.default_board_name.value;
     });
@@ -4917,7 +5176,7 @@ var Pinterest = function (props) {
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: classnames__WEBPACK_IMPORTED_MODULE_0___default()('wprf-control', 'wprf-social-profile', "wprf-".concat(props.name, "-social-profile"), props === null || props === void 0 ? void 0 : props.classes)
-  }, isErrorMessage && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_utils_ProAlert__WEBPACK_IMPORTED_MODULE_9__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: 'social-profile-card'
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: "main-profile"
@@ -4953,7 +5212,6 @@ var Pinterest = function (props) {
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_Modals_SocialModal__WEBPACK_IMPORTED_MODULE_6__["default"], {
     selectedProfile: selectedProfile,
     setSelectedProfile: setSelectedProfile,
-    setIsErrorMessage: setIsErrorMessage,
     props: props,
     type: "pinterest",
     profileItem: profileItem,
@@ -4980,6 +5238,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react_select__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-select */ "./node_modules/react-select/dist/react-select.esm.js");
+var __assign = undefined && undefined.__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+      for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+    }
+    return t;
+  };
+  return __assign.apply(this, arguments);
+};
 
 
 
@@ -5022,6 +5290,38 @@ var Time = function (props) {
       }
     });
   }, [selectedTime]);
+  var customStyles = {
+    control: function (base, state) {
+      return __assign(__assign({}, base), {
+        boxShadow: "none",
+        borderColor: "#EBEEF5",
+        backgroundColor: "#EBEEF5",
+        color: "#6E6E8D",
+        "&:hover": {
+          borderColor: "#cccccc"
+        }
+      });
+    },
+    clearIndicator: function (base) {
+      return __assign(__assign({}, base), {
+        display: 'none',
+        right: 0
+      });
+    },
+    option: function (styles, _a) {
+      var data = _a.data,
+        isDisabled = _a.isDisabled,
+        isFocused = _a.isFocused,
+        isSelected = _a.isSelected;
+      return __assign(__assign({}, styles), {
+        backgroundColor: isFocused || isSelected ? '#F3F2FF' : null,
+        margin: '0 10px',
+        width: '91%',
+        borderRadius: '5px',
+        color: "#000"
+      });
+    }
+  };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: classnames__WEBPACK_IMPORTED_MODULE_0___default()('wprf-control', 'wprf-time', "wprf-".concat(props.name, "-time"), props === null || props === void 0 ? void 0 : props.classes)
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
@@ -5036,7 +5336,9 @@ var Time = function (props) {
     id: props === null || props === void 0 ? void 0 : props.id,
     value: selectedTime,
     onChange: handleTimeChange,
-    options: timeOptions
+    options: timeOptions,
+    styles: customStyles,
+    className: 'time-select'
   }))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Time);
@@ -5067,7 +5369,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Modals_SocialModal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Modals/SocialModal */ "./app/Settings/fields/Modals/SocialModal.tsx");
 /* harmony import */ var _utils_SelectedProfile__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./utils/SelectedProfile */ "./app/Settings/fields/utils/SelectedProfile.tsx");
 /* harmony import */ var _utils_MainProfile__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./utils/MainProfile */ "./app/Settings/fields/utils/MainProfile.tsx");
-/* harmony import */ var _utils_ProAlert__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./utils/ProAlert */ "./app/Settings/fields/utils/ProAlert.tsx");
+/* harmony import */ var _ToasterMsg__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../ToasterMsg */ "./app/Settings/ToasterMsg.tsx");
 var __assign = undefined && undefined.__assign || function () {
   __assign = Object.assign || function (t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -5142,6 +5444,11 @@ var Twitter = function (props) {
     setSelectedProfile(updatedData);
   };
   var handleDeleteSelectedProfile = function (item) {
+    (0,_ToasterMsg__WEBPACK_IMPORTED_MODULE_9__.SweetAlertDeleteMsg)({
+      item: item
+    }, deleteFile);
+  };
+  var deleteFile = function (item) {
     var updatedData = selectedProfile.filter(function (selectedItem) {
       return selectedItem.id !== item.id;
     });
@@ -5164,7 +5471,7 @@ var Twitter = function (props) {
   }, [profileStatus]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: classnames__WEBPACK_IMPORTED_MODULE_0___default()('wprf-control', 'wprf-social-profile', "wprf-".concat(props.name, "-social-profile"), props === null || props === void 0 ? void 0 : props.classes)
-  }, isErrorMessage && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_utils_ProAlert__WEBPACK_IMPORTED_MODULE_9__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: 'social-profile-card'
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: "main-profile"
@@ -5201,7 +5508,6 @@ var Twitter = function (props) {
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_Modals_SocialModal__WEBPACK_IMPORTED_MODULE_6__["default"], {
     selectedProfile: selectedProfile,
     setSelectedProfile: setSelectedProfile,
-    setIsErrorMessage: setIsErrorMessage,
     props: props,
     type: "twitter"
   }));
@@ -5370,18 +5676,20 @@ function PinterestSectionSelect(_a) {
     board = _a.board,
     item = _a.item,
     setSectionOptions = _a.setSectionOptions,
-    sectionOptions = _a.sectionOptions;
+    sectionOptions = _a.sectionOptions,
+    setBoardDefaultSection = _a.setBoardDefaultSection;
   var _b = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(noSection),
     defaultSection = _b[0],
     setDefaultSection = _b[1];
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_select__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    value: noSection,
+    value: defaultSection,
     onMenuOpen: function () {
       return fetchSectionData(board === null || board === void 0 ? void 0 : board.value, item, setSectionOptions);
     },
     onChange: function (event) {
       setDefaultSection(event);
       noSection(event);
+      setBoardDefaultSection(event);
     },
     options: sectionOptions
   });
@@ -5517,6 +5825,8 @@ function SelectedProfile(_a) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   activateLicense: () => (/* binding */ activateLicense),
+/* harmony export */   deActivateLicense: () => (/* binding */ deActivateLicense),
 /* harmony export */   fetPinterestBoardData: () => (/* binding */ fetPinterestBoardData),
 /* harmony export */   fetchDataFromAPI: () => (/* binding */ fetchDataFromAPI),
 /* harmony export */   generateTabURL: () => (/* binding */ generateTabURL),
@@ -5667,10 +5977,40 @@ var fetchDataFromAPI = function (body) {
 var fetPinterestBoardData = function (body) {
   return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
+      switch (_a.label) {
+        case 0:
+          return [4 /*yield*/, _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default()({
+            path: 'wp-scheduled-posts/v1/fetch_pinterest_section',
+            method: 'POST',
+            data: body
+          }).then(function (res) {
+            return res;
+          })];
+        case 1:
+          return [2 /*return*/, _a.sent()];
+      }
+    });
+  });
+};
+var activateLicense = function (body) {
+  return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
       return [2 /*return*/, _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default()({
-        path: 'wp-scheduled-posts/v1/fetch_pinterest_section',
+        path: 'wp-scheduled-posts/v1/activate_license',
         method: 'POST',
         data: body
+      }).then(function (res) {
+        return res;
+      })];
+    });
+  });
+};
+var deActivateLicense = function () {
+  return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+      return [2 /*return*/, _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default()({
+        path: 'wp-scheduled-posts/v1/deactivate_license',
+        method: 'POST'
       }).then(function (res) {
         return res;
       })];
@@ -5768,7 +6108,6 @@ var getPinterestBoardSection = function (defaultBoard, profile) {
           return [4 /*yield*/, fetPinterestBoardData(data)];
         case 1:
           response = _a.sent();
-          console.log(response);
           return [2 /*return*/, response];
       }
     });
@@ -37251,7 +37590,7 @@ function indexOf(arr, el) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */   "default": () => (/* binding */ memoizeOne)
 /* harmony export */ });
 var safeIsNaN = Number.isNaN ||
     function ponyfill(value) {
@@ -37280,28 +37619,30 @@ function areInputsEqual(newInputs, lastInputs) {
 
 function memoizeOne(resultFn, isEqual) {
     if (isEqual === void 0) { isEqual = areInputsEqual; }
-    var lastThis;
-    var lastArgs = [];
-    var lastResult;
-    var calledOnce = false;
+    var cache = null;
     function memoized() {
         var newArgs = [];
         for (var _i = 0; _i < arguments.length; _i++) {
             newArgs[_i] = arguments[_i];
         }
-        if (calledOnce && lastThis === this && isEqual(newArgs, lastArgs)) {
-            return lastResult;
+        if (cache && cache.lastThis === this && isEqual(newArgs, cache.lastArgs)) {
+            return cache.lastResult;
         }
-        lastResult = resultFn.apply(this, newArgs);
-        calledOnce = true;
-        lastThis = this;
-        lastArgs = newArgs;
+        var lastResult = resultFn.apply(this, newArgs);
+        cache = {
+            lastResult: lastResult,
+            lastArgs: newArgs,
+            lastThis: this,
+        };
         return lastResult;
     }
+    memoized.clear = function clear() {
+        cache = null;
+    };
     return memoized;
 }
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (memoizeOne);
+
 
 
 /***/ }),
@@ -42436,6 +42777,70 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "./node_modules/quickbuilder/node_modules/memoize-one/dist/memoize-one.esm.js":
+/*!************************************************************************************!*\
+  !*** ./node_modules/quickbuilder/node_modules/memoize-one/dist/memoize-one.esm.js ***!
+  \************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var safeIsNaN = Number.isNaN ||
+    function ponyfill(value) {
+        return typeof value === 'number' && value !== value;
+    };
+function isEqual(first, second) {
+    if (first === second) {
+        return true;
+    }
+    if (safeIsNaN(first) && safeIsNaN(second)) {
+        return true;
+    }
+    return false;
+}
+function areInputsEqual(newInputs, lastInputs) {
+    if (newInputs.length !== lastInputs.length) {
+        return false;
+    }
+    for (var i = 0; i < newInputs.length; i++) {
+        if (!isEqual(newInputs[i], lastInputs[i])) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function memoizeOne(resultFn, isEqual) {
+    if (isEqual === void 0) { isEqual = areInputsEqual; }
+    var lastThis;
+    var lastArgs = [];
+    var lastResult;
+    var calledOnce = false;
+    function memoized() {
+        var newArgs = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            newArgs[_i] = arguments[_i];
+        }
+        if (calledOnce && lastThis === this && isEqual(newArgs, lastArgs)) {
+            return lastResult;
+        }
+        lastResult = resultFn.apply(this, newArgs);
+        calledOnce = true;
+        lastThis = this;
+        lastArgs = newArgs;
+        return lastResult;
+    }
+    return memoized;
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (memoizeOne);
+
+
+/***/ }),
+
 /***/ "./node_modules/quickbuilder/node_modules/react-select/async/dist/react-select.esm.js":
 /*!********************************************************************************************!*\
   !*** ./node_modules/quickbuilder/node_modules/react-select/async/dist/react-select.esm.js ***!
@@ -42708,7 +43113,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _emotion_react__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @emotion/react */ "./node_modules/@emotion/react/dist/emotion-react.browser.esm.js");
-/* harmony import */ var memoize_one__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! memoize-one */ "./node_modules/memoize-one/dist/memoize-one.esm.js");
+/* harmony import */ var memoize_one__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! memoize-one */ "./node_modules/quickbuilder/node_modules/memoize-one/dist/memoize-one.esm.js");
 /* harmony import */ var _babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectWithoutProperties */ "./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js");
 
 
@@ -47003,7 +47408,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _emotion_react__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @emotion/react */ "./node_modules/@emotion/react/dist/emotion-element-c39617d8.browser.esm.js");
 /* harmony import */ var _emotion_cache__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @emotion/cache */ "./node_modules/@emotion/cache/dist/emotion-cache.browser.esm.js");
-/* harmony import */ var memoize_one__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! memoize-one */ "./node_modules/memoize-one/dist/memoize-one.esm.js");
+/* harmony import */ var memoize_one__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! memoize-one */ "./node_modules/quickbuilder/node_modules/memoize-one/dist/memoize-one.esm.js");
 /* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
 /* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
 /* harmony import */ var _babel_runtime_helpers_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @babel/runtime/helpers/objectWithoutProperties */ "./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js");
@@ -52043,7 +52448,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var _index_6ea50319_esm_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./index-6ea50319.esm.js */ "./node_modules/react-select/dist/index-6ea50319.esm.js");
 /* harmony import */ var _emotion_react__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @emotion/react */ "./node_modules/@emotion/react/dist/emotion-react.browser.esm.js");
-/* harmony import */ var memoize_one__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! memoize-one */ "./node_modules/react-select/node_modules/memoize-one/dist/memoize-one.esm.js");
+/* harmony import */ var memoize_one__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! memoize-one */ "./node_modules/memoize-one/dist/memoize-one.esm.js");
 /* harmony import */ var _babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectWithoutProperties */ "./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js");
 
 
@@ -56247,72 +56652,6 @@ function useStateManager(_ref) {
 
 /***/ }),
 
-/***/ "./node_modules/react-select/node_modules/memoize-one/dist/memoize-one.esm.js":
-/*!************************************************************************************!*\
-  !*** ./node_modules/react-select/node_modules/memoize-one/dist/memoize-one.esm.js ***!
-  \************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ memoizeOne)
-/* harmony export */ });
-var safeIsNaN = Number.isNaN ||
-    function ponyfill(value) {
-        return typeof value === 'number' && value !== value;
-    };
-function isEqual(first, second) {
-    if (first === second) {
-        return true;
-    }
-    if (safeIsNaN(first) && safeIsNaN(second)) {
-        return true;
-    }
-    return false;
-}
-function areInputsEqual(newInputs, lastInputs) {
-    if (newInputs.length !== lastInputs.length) {
-        return false;
-    }
-    for (var i = 0; i < newInputs.length; i++) {
-        if (!isEqual(newInputs[i], lastInputs[i])) {
-            return false;
-        }
-    }
-    return true;
-}
-
-function memoizeOne(resultFn, isEqual) {
-    if (isEqual === void 0) { isEqual = areInputsEqual; }
-    var cache = null;
-    function memoized() {
-        var newArgs = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            newArgs[_i] = arguments[_i];
-        }
-        if (cache && cache.lastThis === this && isEqual(newArgs, cache.lastArgs)) {
-            return cache.lastResult;
-        }
-        var lastResult = resultFn.apply(this, newArgs);
-        cache = {
-            lastResult: lastResult,
-            lastArgs: newArgs,
-            lastThis: this,
-        };
-        return lastResult;
-    }
-    memoized.clear = function clear() {
-        cache = null;
-    };
-    return memoized;
-}
-
-
-
-
-/***/ }),
-
 /***/ "./node_modules/react-sortablejs/dist/index.js":
 /*!*****************************************************!*\
   !*** ./node_modules/react-sortablejs/dist/index.js ***!
@@ -56322,7 +56661,7 @@ function memoizeOne(resultFn, isEqual) {
 var $8zHUo$sortablejs = __webpack_require__(/*! sortablejs */ "./node_modules/sortablejs/modular/sortable.esm.js");
 var $8zHUo$classnames = __webpack_require__(/*! classnames */ "./node_modules/react-sortablejs/node_modules/classnames/index.js");
 var $8zHUo$react = __webpack_require__(/*! react */ "react");
-var $8zHUo$tinyinvariant = __webpack_require__(/*! tiny-invariant */ "./node_modules/tiny-invariant/dist/tiny-invariant.esm.js");
+var $8zHUo$tinyinvariant = __webpack_require__(/*! tiny-invariant */ "./node_modules/react-sortablejs/node_modules/tiny-invariant/dist/tiny-invariant.esm.js");
 
 function $parcel$interopDefault(a) {
   return a && a.__esModule ? a.default : a;
@@ -56811,6 +57150,36 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	} else {}
 }());
+
+
+/***/ }),
+
+/***/ "./node_modules/react-sortablejs/node_modules/tiny-invariant/dist/tiny-invariant.esm.js":
+/*!**********************************************************************************************!*\
+  !*** ./node_modules/react-sortablejs/node_modules/tiny-invariant/dist/tiny-invariant.esm.js ***!
+  \**********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ invariant)
+/* harmony export */ });
+var isProduction = "development" === 'production';
+var prefix = 'Invariant failed';
+function invariant(condition, message) {
+    if (condition) {
+        return;
+    }
+    if (isProduction) {
+        throw new Error(prefix);
+    }
+    var provided = typeof message === 'function' ? message() : message;
+    var value = provided ? prefix + ": " + provided : prefix;
+    throw new Error(value);
+}
+
+
 
 
 /***/ }),
@@ -64363,36 +64732,6 @@ if (typeof this !== 'undefined' && this.Sweetalert2){  this.swal = this.sweetAle
 
 /***/ }),
 
-/***/ "./node_modules/tiny-invariant/dist/tiny-invariant.esm.js":
-/*!****************************************************************!*\
-  !*** ./node_modules/tiny-invariant/dist/tiny-invariant.esm.js ***!
-  \****************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ invariant)
-/* harmony export */ });
-var isProduction = "development" === 'production';
-var prefix = 'Invariant failed';
-function invariant(condition, message) {
-    if (condition) {
-        return;
-    }
-    if (isProduction) {
-        throw new Error(prefix);
-    }
-    var provided = typeof message === 'function' ? message() : message;
-    var value = provided ? prefix + ": " + provided : prefix;
-    throw new Error(value);
-}
-
-
-
-
-/***/ }),
-
 /***/ "./node_modules/toggle-selection/index.js":
 /*!************************************************!*\
   !*** ./node_modules/toggle-selection/index.js ***!
@@ -67508,7 +67847,7 @@ __webpack_require__.r(__webpack_exports__);
 
 function getWindow(node) {
   var _node$ownerDocument;
-  return (node == null ? void 0 : (_node$ownerDocument = node.ownerDocument) == null ? void 0 : _node$ownerDocument.defaultView) || window;
+  return ((_node$ownerDocument = node.ownerDocument) == null ? void 0 : _node$ownerDocument.defaultView) || window;
 }
 
 function getComputedStyle$1(element) {
@@ -67530,6 +67869,9 @@ function getNodeName(node) {
 
 function isHTMLElement(value) {
   return value instanceof getWindow(value).HTMLElement;
+}
+function isElement(value) {
+  return value instanceof getWindow(value).Element;
 }
 function isShadowRoot(node) {
   // Browsers without `ShadowRoot` support.
@@ -67569,7 +67911,7 @@ const min = Math.min;
 const max = Math.max;
 const round = Math.round;
 const floor = Math.floor;
-const createCoords = v => ({
+const createEmptyCoords = v => ({
   x: v,
   y: v
 });
@@ -67595,10 +67937,6 @@ function getCssDimensions(element) {
   };
 }
 
-function isElement(value) {
-  return value instanceof getWindow(value).Element;
-}
-
 function unwrapElement(element) {
   return !isElement(element) ? element.contextElement : element;
 }
@@ -67606,7 +67944,7 @@ function unwrapElement(element) {
 function getScale(element) {
   const domElement = unwrapElement(element);
   if (!isHTMLElement(domElement)) {
-    return createCoords(1);
+    return createEmptyCoords(1);
   }
   const rect = domElement.getBoundingClientRect();
   const {
@@ -67631,25 +67969,23 @@ function getScale(element) {
   };
 }
 
-const noOffsets = /*#__PURE__*/createCoords(0);
-function getVisualOffsets(element) {
-  const win = getWindow(element);
-  if (!isSafari() || !win.visualViewport) {
+const noOffsets = /*#__PURE__*/createEmptyCoords(0);
+function getVisualOffsets(element, isFixed, floatingOffsetParent) {
+  var _win$visualViewport, _win$visualViewport2;
+  if (isFixed === void 0) {
+    isFixed = true;
+  }
+  if (!isSafari()) {
+    return noOffsets;
+  }
+  const win = element ? getWindow(element) : window;
+  if (!floatingOffsetParent || isFixed && floatingOffsetParent !== win) {
     return noOffsets;
   }
   return {
-    x: win.visualViewport.offsetLeft,
-    y: win.visualViewport.offsetTop
+    x: ((_win$visualViewport = win.visualViewport) == null ? void 0 : _win$visualViewport.offsetLeft) || 0,
+    y: ((_win$visualViewport2 = win.visualViewport) == null ? void 0 : _win$visualViewport2.offsetTop) || 0
   };
-}
-function shouldAddVisualOffsets(element, isFixed, floatingOffsetParent) {
-  if (isFixed === void 0) {
-    isFixed = false;
-  }
-  if (!floatingOffsetParent || isFixed && floatingOffsetParent !== getWindow(element)) {
-    return false;
-  }
-  return isFixed;
 }
 
 function getBoundingClientRect(element, includeScale, isFixedStrategy, offsetParent) {
@@ -67661,7 +67997,7 @@ function getBoundingClientRect(element, includeScale, isFixedStrategy, offsetPar
   }
   const clientRect = element.getBoundingClientRect();
   const domElement = unwrapElement(element);
-  let scale = createCoords(1);
+  let scale = createEmptyCoords(1);
   if (includeScale) {
     if (offsetParent) {
       if (isElement(offsetParent)) {
@@ -67671,7 +68007,7 @@ function getBoundingClientRect(element, includeScale, isFixedStrategy, offsetPar
       scale = getScale(element);
     }
   }
-  const visualOffsets = shouldAddVisualOffsets(domElement, isFixedStrategy, offsetParent) ? getVisualOffsets(domElement) : createCoords(0);
+  const visualOffsets = getVisualOffsets(domElement, isFixedStrategy, offsetParent);
   let x = (clientRect.left + visualOffsets.x) / scale.x;
   let y = (clientRect.top + visualOffsets.y) / scale.y;
   let width = clientRect.width / scale.x;
@@ -67703,6 +68039,10 @@ function getBoundingClientRect(element, includeScale, isFixedStrategy, offsetPar
   });
 }
 
+function getDocumentElement(node) {
+  return ((isNode(node) ? node.ownerDocument : node.document) || window.document).documentElement;
+}
+
 function getNodeScroll(element) {
   if (isElement(element)) {
     return {
@@ -67714,10 +68054,6 @@ function getNodeScroll(element) {
     scrollLeft: element.pageXOffset,
     scrollTop: element.pageYOffset
   };
-}
-
-function getDocumentElement(node) {
-  return ((isNode(node) ? node.ownerDocument : node.document) || window.document).documentElement;
 }
 
 function convertOffsetParentRelativeRectToViewportRelativeRect(_ref) {
@@ -67735,8 +68071,8 @@ function convertOffsetParentRelativeRectToViewportRelativeRect(_ref) {
     scrollLeft: 0,
     scrollTop: 0
   };
-  let scale = createCoords(1);
-  const offsets = createCoords(0);
+  let scale = createEmptyCoords(1);
+  const offsets = createEmptyCoords(0);
   if (isOffsetParentAnElement || !isOffsetParentAnElement && strategy !== 'fixed') {
     if (getNodeName(offsetParent) !== 'body' || isOverflowElement(documentElement)) {
       scroll = getNodeScroll(offsetParent);
@@ -67754,10 +68090,6 @@ function convertOffsetParentRelativeRectToViewportRelativeRect(_ref) {
     x: rect.x * scale.x - scroll.scrollLeft * scale.x + offsets.x,
     y: rect.y * scale.y - scroll.scrollTop * scale.y + offsets.y
   };
-}
-
-function getClientRects(element) {
-  return Array.from(element.getClientRects());
 }
 
 function getWindowScrollBarX(element) {
@@ -67858,7 +68190,7 @@ function getInnerBoundingClientRect(element, strategy) {
   const clientRect = getBoundingClientRect(element, true, strategy === 'fixed');
   const top = clientRect.top + element.clientTop;
   const left = clientRect.left + element.clientLeft;
-  const scale = isHTMLElement(element) ? getScale(element) : createCoords(1);
+  const scale = isHTMLElement(element) ? getScale(element) : createEmptyCoords(1);
   const width = element.clientWidth * scale.x;
   const height = element.clientHeight * scale.y;
   const x = left * scale.x;
@@ -67962,36 +68294,6 @@ function getDimensions(element) {
   return getCssDimensions(element);
 }
 
-function getRectRelativeToOffsetParent(element, offsetParent, strategy) {
-  const isOffsetParentAnElement = isHTMLElement(offsetParent);
-  const documentElement = getDocumentElement(offsetParent);
-  const isFixed = strategy === 'fixed';
-  const rect = getBoundingClientRect(element, true, isFixed, offsetParent);
-  let scroll = {
-    scrollLeft: 0,
-    scrollTop: 0
-  };
-  const offsets = createCoords(0);
-  if (isOffsetParentAnElement || !isOffsetParentAnElement && !isFixed) {
-    if (getNodeName(offsetParent) !== 'body' || isOverflowElement(documentElement)) {
-      scroll = getNodeScroll(offsetParent);
-    }
-    if (isHTMLElement(offsetParent)) {
-      const offsetRect = getBoundingClientRect(offsetParent, true, isFixed, offsetParent);
-      offsets.x = offsetRect.x + offsetParent.clientLeft;
-      offsets.y = offsetRect.y + offsetParent.clientTop;
-    } else if (documentElement) {
-      offsets.x = getWindowScrollBarX(documentElement);
-    }
-  }
-  return {
-    x: rect.left + scroll.scrollLeft - offsets.x,
-    y: rect.top + scroll.scrollTop - offsets.y,
-    width: rect.width,
-    height: rect.height
-  };
-}
-
 function getTrueOffsetParent(element, polyfill) {
   if (!isHTMLElement(element) || getComputedStyle$1(element).position === 'fixed') {
     return null;
@@ -68030,39 +68332,63 @@ function getOffsetParent(element, polyfill) {
   return offsetParent || getContainingBlock(element) || window;
 }
 
-const getElementRects = async function (_ref) {
-  let {
-    reference,
-    floating,
-    strategy
-  } = _ref;
-  const getOffsetParentFn = this.getOffsetParent || getOffsetParent;
-  const getDimensionsFn = this.getDimensions;
-  return {
-    reference: getRectRelativeToOffsetParent(reference, await getOffsetParentFn(floating), strategy),
-    floating: {
-      x: 0,
-      y: 0,
-      ...(await getDimensionsFn(floating))
-    }
+function getRectRelativeToOffsetParent(element, offsetParent, strategy) {
+  const isOffsetParentAnElement = isHTMLElement(offsetParent);
+  const documentElement = getDocumentElement(offsetParent);
+  const isFixed = strategy === 'fixed';
+  const rect = getBoundingClientRect(element, true, isFixed, offsetParent);
+  let scroll = {
+    scrollLeft: 0,
+    scrollTop: 0
   };
-};
-
-function isRTL(element) {
-  return getComputedStyle(element).direction === 'rtl';
+  const offsets = createEmptyCoords(0);
+  if (isOffsetParentAnElement || !isOffsetParentAnElement && !isFixed) {
+    if (getNodeName(offsetParent) !== 'body' || isOverflowElement(documentElement)) {
+      scroll = getNodeScroll(offsetParent);
+    }
+    if (isHTMLElement(offsetParent)) {
+      const offsetRect = getBoundingClientRect(offsetParent, true, isFixed, offsetParent);
+      offsets.x = offsetRect.x + offsetParent.clientLeft;
+      offsets.y = offsetRect.y + offsetParent.clientTop;
+    } else if (documentElement) {
+      offsets.x = getWindowScrollBarX(documentElement);
+    }
+  }
+  return {
+    x: rect.left + scroll.scrollLeft - offsets.x,
+    y: rect.top + scroll.scrollTop - offsets.y,
+    width: rect.width,
+    height: rect.height
+  };
 }
 
 const platform = {
-  convertOffsetParentRelativeRectToViewportRelativeRect,
-  getDocumentElement,
   getClippingRect,
-  getOffsetParent,
-  getElementRects,
-  getClientRects,
-  getDimensions,
-  getScale,
+  convertOffsetParentRelativeRectToViewportRelativeRect,
   isElement,
-  isRTL
+  getDimensions,
+  getOffsetParent,
+  getDocumentElement,
+  getScale,
+  async getElementRects(_ref) {
+    let {
+      reference,
+      floating,
+      strategy
+    } = _ref;
+    const getOffsetParentFn = this.getOffsetParent || getOffsetParent;
+    const getDimensionsFn = this.getDimensions;
+    return {
+      reference: getRectRelativeToOffsetParent(reference, await getOffsetParentFn(floating), strategy),
+      floating: {
+        x: 0,
+        y: 0,
+        ...(await getDimensionsFn(floating))
+      }
+    };
+  },
+  getClientRects: element => Array.from(element.getClientRects()),
+  isRTL: element => getComputedStyle$1(element).direction === 'rtl'
 };
 
 // https://samthor.au/2021/observing-dom/

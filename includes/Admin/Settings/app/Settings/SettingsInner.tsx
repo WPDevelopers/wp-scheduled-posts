@@ -11,15 +11,16 @@ const SettingsInner = (props) => {
   const onChange = (event) => {
     builderContext.setActiveTab(event?.target?.value);
   };
+  console.log('values', builderContext.values);
 
   builderContext.submit.onSubmit = useCallback((event, context) => {
+    console.log('values', context.values);
+
     context.setSubmitting(true);
     apiFetch( {
         path  : 'wp-scheduled-posts/v1/settings',
         method: 'POST',
-        data  : {
-            wpspSetting: JSON.stringify(context.values, null, 2),
-        },
+        data  : context.values,
     } ).then( ( res ) => {
         if( res ) {
           SweetAlertToaster().fire();

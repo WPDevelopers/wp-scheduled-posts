@@ -7,6 +7,8 @@ import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClic
 import Sidebar from "./Calendar/Sidebar";
 import renderEventContent from "./Calendar/EventRender";
 import { useBuilderContext } from "quickbuilder";
+import EditPost from "./Calendar/Edit";
+import { s } from "@fullcalendar/core/internal-common";
 // const events = [{ title: "Meeting", start: new Date() }];
 
 
@@ -16,6 +18,19 @@ export default function Calendar(props) {
   const restRoute = props.rest_route;
   const calendar = useRef<FullCalendar>();
   const builderContext = useBuilderContext();
+
+  // EditPost state
+  const [postData, setPostData] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleOpenModal = (post?) => {
+    setPostData(post || {});
+    setIsModalOpen(true);
+  };
+  const handleCloseModal = () => {
+    setPostData({});
+    setIsModalOpen(false);
+  };
+
 
 
   const getUrl = () => {
@@ -52,14 +67,14 @@ export default function Calendar(props) {
   }, [builderContext.config.active]);
 
   // @ts-ignore
-  window.calendar = calendar;
-  console.log(props);
+  // window.calendar = calendar;
+  // console.log(props);
 
 
   return (
     <>
       <div className="sidebar">
-        <Sidebar />
+        <Sidebar handleOpenModal={handleOpenModal} />
       </div>
       <div className="main-content">
         <div className="toolbar">
@@ -94,13 +109,32 @@ export default function Calendar(props) {
           events={events}
           // firstDay={props.firstDay}
           eventContent={renderEventContent}
+          dayCellDidMount={(args) => {
+            console.log('dayCellDidMount', args);
+            const dayTop = args.el.getElementsByClassName('fc-daygrid-day-top');
+            // add a button on dayTop element as child
+            const button = document.createElement('button');
+            button.innerHTML = 'Add New';
+            if(args.isOther) {
+              button.disabled = true;
+            }
+            button.addEventListener('click', (event) => {
+              console.log('click', event, args);
+              handleOpenModal();
+            });
+            dayTop[0].appendChild(button);
+          }}
           // dateClick={handleDateClick}
           // Enable droppable option
           editable={true}
           droppable={true}
           // headerToolbar={false}
           // Provide a drop callback function
-          // drop={handleDrop}
+          eventReceive={info => {
+            const props = info.event.extendedProps;
+            props.setPosts(posts => posts.filter((p) => p.postId !== props.postId));
+            console.log('drop', info, props);
+          }}
           eventClick={function(info) {
             console.log('Event: ', info.event.extendedProps);
             console.log('info: ', info);
@@ -109,8 +143,12 @@ export default function Calendar(props) {
             // change the border color just for fun
             info.el.style.border = '1px solid red';
           }}
+          datesSet={(dateInfo) => {
+
+          }}
         />
       </div>
+      <EditPost post={postData} isOpen={isModalOpen} closeModal={handleCloseModal} />
     </>
   );
 }
