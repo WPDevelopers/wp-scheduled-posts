@@ -137,14 +137,8 @@
                     padding: 0 !important;
                     background: transparent !important;
                     h4 {
-                        font-size: 24px;
-                        color: #1B1B50 !important;
+                        line-height: 1em !important;
                         padding-bottom: 24px !important;
-                        text-transform: capitalize !important;
-                        background: transparent !important;
-                        letter-spacing: 0px !important;
-                        font-weight: 600 !important;
-                        margin-top: 0px;
                         @media screen and (max-width: 1023px)  { 
                             font-size: 20px;
                             padding-bottom: 16px !important;
