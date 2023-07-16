@@ -5,28 +5,29 @@ import { generateTimeOptions } from '../helper/helper';
 import Select from 'react-select';
 
 const AutoScheduler = (props) => {
-
-    console.log('props-value',props.value);
-    const convertedData = [];
+    const modifiedDayDataFormet = [];
     const weeks = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
     weeks.forEach(day => {
-      const obj = props.value.find(item => item[`${day}_post_limit`]);
+      const obj = props?.value?.find(item => item[`${day}_post_limit`]);
       if (obj) {
-        convertedData.push({
+        modifiedDayDataFormet.push({
           day: day,
           value: obj[`${day}_post_limit`]
         });
       }
     });
-    
-    console.log('converted-data',convertedData);
-    
-
-    const [autoScheduler,setAutoSchedulerValue] = useState(convertedData ?? []);
-    const [setEndSelectedTime, setStartSelectedTime] = useState(null);
+    let getStartTime = props?.value?.find( (item) => item['start_time'] );
+    getStartTime = getStartTime ? getStartTime['start_time'] : '';
+    let getEndTime = props?.value?.find( (item) => item['end_time'] );
+    getEndTime = getEndTime ? getEndTime['end_time'] : '';
+    const startTimeFormat = { label : getStartTime, value : getStartTime };
+    const endTimeFormat = { label : getEndTime, value : getEndTime };
+    const [autoScheduler,setAutoSchedulerValue] = useState(modifiedDayDataFormet ?? []);
+    const [startSelectedTime, setStartSelectedTime] = useState(startTimeFormat);
+    const [endSelectedTime, setEndSelectedTime] = useState(endTimeFormat);
     const timeOptions = generateTimeOptions();
 
-    const handleWeekChange = (day, event) => {
+    const handleDayChange = (day, event) => {
         setAutoSchedulerValue((prevWeeks) => {
             const existingWeekIndex = prevWeeks.findIndex((item) => item.day === day);
             if (existingWeekIndex !== -1) {
@@ -45,13 +46,25 @@ const AutoScheduler = (props) => {
         });
     }
 
+    const handleTimeChange = (type,event) => {
+        
+        if( type === 'start' ) {
+            setStartSelectedTime(event);
+        }else{
+            setEndSelectedTime(event);
+        }
+    }
+
 
     let { name, multiple, onChange } = props;
     useEffect(() => {
-        const valueFormat = autoScheduler?.map( (item) => {
+
+        let valueFormat = autoScheduler?.map( (item) => {
             let property_name = item?.day+'_post_limit';
             return { [property_name] : item?.value }
         } )
+        valueFormat.push( { start_time : startSelectedTime?.value }  );
+        valueFormat.push( { end_time : endSelectedTime?.value }  );
 		onChange({
 			target: {
 				type: "auto-scheduler",
@@ -60,7 +73,7 @@ const AutoScheduler = (props) => {
 				multiple,
 			},
 		});
-	}, [autoScheduler]);
+	}, [autoScheduler,startSelectedTime,endSelectedTime]);
     
     
     return (
@@ -78,12 +91,13 @@ const AutoScheduler = (props) => {
                 <div className="start-time set-timing">
                     <div className="time-title">
                         <h4>Start Time</h4>
-                        <span>Default : 12:30 AM</span>
+                        <span>Default : { startSelectedTime?.label }</span>
                     </div>
                     <div className="time">
                         <Select
-                            options={timeOptions}
-                            // onChange={handleTimeChange}
+                            value={startSelectedTime}
+                            options={ timeOptions }
+                            onChange={ (event) => handleTimeChange('start',event) }
                             className='select-start-time'
                         />
                     </div>
@@ -91,13 +105,15 @@ const AutoScheduler = (props) => {
                 <div className="end-time set-timing">
                     <div className="time-title">
                         <h4>End Time</h4>
-                        <span>Default : 04:00 PM</span>
+                        <span>Default : {endSelectedTime?.label}</span>
                     </div>
                     <div className="time">
-                        <select name="" id="">
-                            <option value=""> 04:00 PM</option>
-                            <option value=""> 04:00 PM</option>
-                        </select>
+                        <Select
+                            value={endSelectedTime}
+                            options={ timeOptions }
+                            onChange={ (event) => handleTimeChange('end',event) }
+                            className='select-start-time'
+                        />
                     </div>
                 </div>
             </div>
@@ -105,7 +121,7 @@ const AutoScheduler = (props) => {
                 {
                     weeks.map( (day,index) => (
                         <div className="week">
-                            <input type="number" value={ autoScheduler.find(item => item.day === day)?.value } onChange={ (event) => handleWeekChange( day, event ) } />
+                            <input type="number" value={ autoScheduler?.find(item => item.day === day)?.value } onChange={ (event) => handleDayChange( day, event ) } />
                             <span>{ __('Number of posts','wp-scheduled-posts') }</span>
                             <h6>{ day.toUpperCase() }</h6>
                         </div>
