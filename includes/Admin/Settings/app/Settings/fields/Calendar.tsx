@@ -74,12 +74,8 @@ export default function Calendar(props) {
           <div className="left">
             <select name="type" id="type" className="select-type">
               <option>Type</option>
-              <option>Type</option>
-              <option>Type</option>
             </select>
             <select name="category" id="category" className="select-category">
-              <option>category</option>
-              <option>category</option>
               <option>category</option>
             </select>
           </div>
@@ -91,7 +87,7 @@ export default function Calendar(props) {
           </div>
           <div className="right">
             <button>Today</button>
-            <i className="wpsp-icon wpsp-auto-sc" />
+            <i className="wpsp-icon wpsp-calendar" />
           </div>
         </div>
         <FullCalendar
