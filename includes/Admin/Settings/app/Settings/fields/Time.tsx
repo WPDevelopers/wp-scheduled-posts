@@ -2,9 +2,10 @@ import classNames from 'classnames';
 import React, {useState,useEffect} from 'react'
 import Select from 'react-select';
 import { generateTimeOptions } from '../helper/helper';
+import { selectStyles } from '../helper/styles';
 
 const Time = (props) => {
-  const [selectedTime, setSelectedTime] = useState(null);
+  const [selectedTime, setSelectedTime] = useState({label : "12:00 AM", value : "12:00 AM"});
 
   const handleTimeChange = (selectedOption) => {
     setSelectedTime(selectedOption);
@@ -22,33 +23,6 @@ const Time = (props) => {
 			},
 		});
 	}, [selectedTime]);
-  const customStyles = {
-    control: (base, state) => ({
-      ...base,
-      boxShadow: "none", 
-      borderColor: "#EBEEF5",
-      backgroundColor: "#F9FAFC",
-      color: "#6E6E8D",
-      "&:hover": {
-          borderColor: "#cccccc"
-      }
-    }),
-    clearIndicator: (base: any) => ({
-      ...base,
-      display: 'none',
-      right: 0,
-    }),
-    option: (styles, { data, isDisabled, isFocused, isSelected }) => {
-      return {
-        ...styles,
-        backgroundColor: isFocused || isSelected ? '#F3F2FF' : null,
-        margin: '0 10px',
-        width: '91%',
-        borderRadius: '5px',
-        color: "#000",
-      };
-    }
-  }
   return (
       <div className={classNames('wprf-control', 'wprf-time', `wprf-${props.name}-time`, props?.classes)}>
           <div className="wprf-control-label">
@@ -61,7 +35,7 @@ const Time = (props) => {
                     value={selectedTime}
                     onChange={handleTimeChange}
                     options={timeOptions}
-                    styles={customStyles}
+                    styles={selectStyles}
                     className='time-select'
                   />
               </div>

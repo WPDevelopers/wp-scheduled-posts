@@ -6,59 +6,50 @@ import Select from 'react-select';
 
 const AutoScheduler = (props) => {
 
-    const [autoScheduler,setAutoSchedulerValue] = useState(props?.value ?? []);
-    const [setEndSelectedTime, setStartSelectedTime] = useState(null);
+    console.log('props-value',props.value);
+    const convertedData = [];
+    const weeks = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
+    weeks.forEach(day => {
+      const obj = props.value.find(item => item[`${day}_post_limit`]);
+      if (obj) {
+        convertedData.push({
+          day: day,
+          value: obj[`${day}_post_limit`]
+        });
+      }
+    });
+    
+    console.log('converted-data',convertedData);
+    
 
-    const weeks = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const [autoScheduler,setAutoSchedulerValue] = useState(convertedData ?? []);
+    const [setEndSelectedTime, setStartSelectedTime] = useState(null);
     const timeOptions = generateTimeOptions();
 
-    const handleWeekChange = (week, event) => {
+    const handleWeekChange = (day, event) => {
         setAutoSchedulerValue((prevWeeks) => {
-            const existingWeekIndex = prevWeeks.findIndex(item => Object.keys(item)[0] === week);
-            // console.log(existingWeekIndex);
-            
+            const existingWeekIndex = prevWeeks.findIndex((item) => item.day === day);
             if (existingWeekIndex !== -1) {
               const updatedWeeks = [...prevWeeks];
-              updatedWeeks[week] = event.target.value;
+              updatedWeeks[existingWeekIndex].value = event.target.value;
               return updatedWeeks;
             } else {
               return [
                 ...prevWeeks,
                 {
-                  [week]: event.target.value,
+                  day: day,
+                  value: event.target.value,
                 },
               ];
             }
         });
-        
-        console.log(autoScheduler);
-        
     }
 
-    const handleStartTimeChange = (selectedStartTime) => {
-        // setAutoSchedulerValue( ( prevValue ) => {
-        //     const existingStartTime = prevValue.findIndex((item) => item.start_time === 'start_time');
-        //     if (existingStartTime !== -1) {
-        //       const updateAutoSchedulerValue = [...prevValue];
-
-        //       updateAutoSchedulerValue[existingStartTime] = selectedStartTime?.value;
-        //       return updateAutoSchedulerValue;
-        //     } else {
-        //         return [
-        //             ...prevValue,
-        //             {
-        //                 start_time : selectedStartTime?.value
-        //             }
-        //         ]
-        //     }
-        // } )
-        // setStartSelectedTime(selectedStartTime);
-    }
 
     let { name, multiple, onChange } = props;
     useEffect(() => {
         const valueFormat = autoScheduler?.map( (item) => {
-            let property_name = item?.week+'_post_limit';
+            let property_name = item?.day+'_post_limit';
             return { [property_name] : item?.value }
         } )
 		onChange({
@@ -70,7 +61,8 @@ const AutoScheduler = (props) => {
 			},
 		});
 	}, [autoScheduler]);
-
+    
+    
     return (
         <div className={classNames('wprf-control', 'wprf-auto-scheduler', `wprf-${props.name}-auto-scheduler`, props?.classes)}>
             <div className="header">
@@ -86,12 +78,12 @@ const AutoScheduler = (props) => {
                 <div className="start-time set-timing">
                     <div className="time-title">
                         <h4>Start Time</h4>
-                        <span>Default : {setEndSelectedTime?.label}</span>
+                        <span>Default : 12:30 AM</span>
                     </div>
                     <div className="time">
                         <Select
                             options={timeOptions}
-                            onChange={handleStartTimeChange}
+                            // onChange={handleTimeChange}
                             className='select-start-time'
                         />
                     </div>
@@ -111,12 +103,11 @@ const AutoScheduler = (props) => {
             </div>
             <div className="weeks">
                 {
-                    weeks.map( (week,index) => (
+                    weeks.map( (day,index) => (
                         <div className="week">
-                             {/* value={ autoScheduler.length > 0 ? autoScheduler[index][item.toLowerCase() + '_post_limit' ] : '' } */}
-                            <input type="number" value={ autoScheduler.find(item => item[week.toLowerCase() + "_post_limit"] !== undefined)?.[week.toLowerCase() + "_post_limit"] } onChange={ (event) => handleWeekChange( week.toLowerCase() + "_post_limit", event) } />
+                            <input type="number" value={ autoScheduler.find(item => item.day === day)?.value } onChange={ (event) => handleWeekChange( day, event ) } />
                             <span>{ __('Number of posts','wp-scheduled-posts') }</span>
-                            <h6>{ week }</h6>
+                            <h6>{ day.toUpperCase() }</h6>
                         </div>
                     ) )
                 }

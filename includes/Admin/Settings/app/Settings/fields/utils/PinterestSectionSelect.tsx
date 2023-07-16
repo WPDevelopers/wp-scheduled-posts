@@ -1,6 +1,7 @@
 import React,{useState} from 'react'
 import { __ } from '@wordpress/i18n'
 import { default as ReactSelect } from "react-select";
+import { selectStyles } from '../../helper/styles';
 
 export default function PinterestSectionSelect( { noSection,fetchSectionData, board, item, setSectionOptions,sectionOptions,setBoardDefaultSection } ) {
     const [defaultSection, setDefaultSection] = useState(noSection);
@@ -19,6 +20,7 @@ export default function PinterestSectionSelect( { noSection,fetchSectionData, bo
                 noSection(event)
                 setBoardDefaultSection(event)
             } }
+            styles={selectStyles}
             options={sectionOptions}
         />
     )
