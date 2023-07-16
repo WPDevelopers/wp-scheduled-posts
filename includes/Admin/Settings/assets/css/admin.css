@@ -3590,7 +3590,7 @@ button.wprf-btn {
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-control-wrapper {
   display: flex;
   align-items: center;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   gap: 20px;
   justify-content: space-between;
   border: 1px solid #EBEEF5;
@@ -3688,14 +3688,16 @@ button.wprf-btn {
   display: flex;
   align-items: center;
   gap: 32px;
+  max-width: 60%;
+  white-space: nowrap;
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-time .wprf-control-label .selected-options ul,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-control-label .selected-options ul {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   gap: 12px;
   margin: 0;
+  flex-wrap: wrap;
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-time .wprf-control-label .selected-options ul li,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-control-label .selected-options ul li {
@@ -4034,8 +4036,9 @@ button.wprf-btn {
 }
 #wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .sidebar .card i {
   position: absolute;
-  right: 14px;
-  top: 14px;
+  right: 10px;
+  top: 10px;
+  padding: 4px;
   cursor: pointer;
   transition: ease-in-out 0.25s;
 }
@@ -4053,7 +4056,7 @@ button.wprf-btn {
   box-shadow: 0px 12px 48px 0px rgba(27, 27, 80, 0.1019607843);
   position: absolute;
   left: 0px;
-  top: 15px;
+  top: 22px;
   transform: translateX(-50%);
   z-index: 999;
 }
@@ -4324,41 +4327,92 @@ button.wprf-btn {
   font-size: 18px !important;
   font-weight: 500 !important;
   color: #1B1B50 !important;
-  margin-bottom: 12px;
+  padding: 20px !important;
 }
 @media screen and (max-width: 1023px) {
   #wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-tab-nav-item {
     font-size: 14px !important;
-    margin-bottom: 8px;
+    padding: 20px 20px !important;
   }
 }
 #wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-tab-nav-item:last-child {
   margin-bottom: 0px;
 }
-#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-tab-nav-item span {
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-tab-nav-item:nth-child(1) span {
   position: relative;
-  padding-left: 45px;
-}
-#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-tab-nav-item span:before {
-  position: absolute;
-  content: "\e904";
-  font-family: "wpsp";
-  top: -5px;
-  left: 0;
-  font-size: 14px;
-  line-height: 34px;
-  text-align: center;
-  background: #1877F2;
-  border-radius: 50%;
-  width: 34px;
-  height: 34px;
+  padding-left: 36px;
   display: inline-block;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-tab-nav-item:nth-child(1) span:before {
+  position: absolute;
+  content: "\e906";
+  font-family: "wpsp";
+  top: 0px;
+  left: 0;
+  font-size: 24px;
+  background: #fff;
+  border-radius: 50%;
+  color: #1877F2;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-tab-nav-item:nth-child(2) span {
+  position: relative;
+  padding-left: 36px;
+  display: inline-block;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-tab-nav-item:nth-child(2) span:before {
+  position: absolute;
+  content: "\e91d";
+  font-family: "wpsp";
+  top: 0px;
+  left: 0;
+  font-size: 24px;
+  background: #fff;
+  border-radius: 50%;
+  color: #41A1F2;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-tab-nav-item:nth-child(3) span {
+  position: relative;
+  padding-left: 36px;
+  display: inline-block;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-tab-nav-item:nth-child(3) span:before {
+  position: absolute;
+  content: "\e921";
+  font-family: "wpsp";
+  top: 0px;
+  left: 0px;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  font-size: 12px;
+  background: #007AB9;
+  border-radius: 50%;
+  color: #fff;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-tab-nav-item:nth-child(4) span {
+  position: relative;
+  padding-left: 36px;
+  display: inline-block;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-tab-nav-item:nth-child(4) span:before {
+  position: absolute;
+  content: "\e924";
+  font-family: "wpsp";
+  top: 0px;
+  left: 0px;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  font-size: 12px;
+  background: #E62027;
+  border-radius: 50%;
   color: #fff;
 }
 #wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-active-nav {
   color: #1B1B50 !important;
   background: #F5F9FE !important;
-  padding: 20px 20px !important;
   border-radius: 6px;
   border-right: none;
   box-shadow: none;
@@ -4373,10 +4427,14 @@ button.wprf-btn {
   flex: auto !important;
   padding: 0 !important;
 }
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-contents .wprf-control-section {
+  padding: 0 !important;
+  background: transparent !important;
+}
 #wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-contents .wprf-control-section h4 {
   font-size: 24px;
   color: #1B1B50 !important;
-  margin-bottom: 24px !important;
+  padding-bottom: 24px !important;
   text-transform: capitalize !important;
   background: transparent !important;
   letter-spacing: 0px !important;
@@ -4386,7 +4444,7 @@ button.wprf-btn {
 @media screen and (max-width: 1023px) {
   #wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-contents .wprf-control-section h4 {
     font-size: 20px;
-    margin-bottom: 16px !important;
+    padding-bottom: 16px !important;
   }
 }
 #wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-contents .wprf-section-fields {
@@ -4832,6 +4890,68 @@ button.wprf-btn {
   border-radius: 100% !important;
 }
 
+.swal2-container {
+  background: rgba(27, 27, 80, 0.4) !important;
+  padding: 100px !important;
+}
+.swal2-container .swal2-popup {
+  position: relative;
+  box-sizing: border-box;
+  grid-template-columns: minmax(0, 100%);
+  width: 550px;
+  max-width: 100%;
+  padding: 40px;
+  border: none;
+  border-radius: 8px;
+  background: #fff;
+}
+.swal2-container .swal2-popup .swal2-title {
+  font-size: 38px;
+  line-height: 1.2em;
+  font-style: italic;
+  color: #FF9437;
+  margin-bottom: 24px;
+  padding: 0px;
+}
+.swal2-container .swal2-popup .swal2-html-container {
+  margin: 0;
+}
+.swal2-container .swal2-popup .swal2-html-container h4 {
+  font-size: 22px;
+  line-height: 1.2em;
+  color: #1B1B50;
+  margin: 0 0 32px;
+}
+.swal2-container .swal2-popup .swal2-html-container img {
+  border: none;
+  max-width: 100%;
+  width: 400px;
+  display: block;
+  text-align: center;
+  margin: 0 auto;
+}
+.swal2-container .swal2-popup .swal2-html-container a {
+  display: inline-block;
+  background: #6C62FF !important;
+  padding: 20px 24px !important;
+  border-radius: 6px !important;
+  height: auto !important;
+  line-height: 0px;
+  margin-top: 32px;
+  border: none;
+  cursor: pointer;
+}
+.swal2-container .swal2-popup .swal2-html-container a button {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.2em;
+  color: #fff;
+  background: transparent;
+  border: none;
+  padding: unset;
+  cursor: pointer;
+}
+
 .ReactModal__Overlay {
   position: fixed;
   inset: 0px;
@@ -4839,6 +4959,7 @@ button.wprf-btn {
   padding: 70px 20px !important;
   display: flex;
   overflow: hidden;
+  z-index: 999;
 }
 .ReactModal__Overlay .modal_wrapper {
   inset: 40px;
@@ -4901,13 +5022,15 @@ button.wprf-btn {
   display: inline-block;
   background: #6C62FF !important;
   color: #fff;
-  padding: 16px 24px !important;
+  padding: 20px 24px !important;
   border-radius: 6px !important;
   height: auto !important;
   font-weight: 500;
   font-size: 14px;
   line-height: 17px !important;
   margin-bottom: 24px;
+  border: none;
+  cursor: pointer;
 }
 .ReactModal__Overlay .modal_wrapper p {
   font-size: 14px;
@@ -4977,7 +5100,7 @@ button.wprf-btn {
 }
 
 .wprf-toggle-wrap label.wprf-input-label:before {
-  background: #f0f0f0;
+  background: #D7DBDF;
   width: 47px;
   height: 24px;
   border: 0;
@@ -5028,7 +5151,7 @@ button.wprf-btn {
   cursor: pointer;
   width: 40px !important;
   height: 20px !important;
-  background: grey;
+  background: #D7DBDF;
   border-radius: 100px;
   position: relative;
   transition: background-color 0.2s;
@@ -5037,7 +5160,7 @@ button.wprf-btn {
   content: "";
   position: absolute;
   top: 2px;
-  left: 2px;
+  left: 1px;
   width: 16px !important;
   height: 16px !important;
   border-radius: 45px;
@@ -5047,7 +5170,7 @@ button.wprf-btn {
   padding: 0 !important;
 }
 .status .wprf-switcher-checkbox:checked + .wprf-switcher-label .wprf-switcher-button {
-  left: calc(100% - 2px);
+  left: calc(100% - 1px);
   transform: translateX(-100%);
 }
 .status .wprf-switcher-label:active .wprf-switcher-button {
@@ -5071,6 +5194,10 @@ button.wprf-btn {
 .custom-toast-container {
   position: relative;
   z-index: 9999;
+}
+
+.swal2-top-end {
+  margin-top: 40px;
 }
 
 .custom-toast {

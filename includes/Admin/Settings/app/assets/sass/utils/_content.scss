@@ -204,7 +204,7 @@
                                 .wprf-control-wrapper {
                                     display: flex;
                                     align-items: center;
-                                    flex-wrap: nowrap;
+                                    flex-wrap: wrap;
                                     gap: 20px;
                                     justify-content: space-between;
                                     border: 1px solid #EBEEF5;
@@ -322,13 +322,15 @@
                                         display: flex;
                                         align-items: center;
                                         gap: 32px;
+                                        max-width: 60%;
+                                        white-space: nowrap;
                                         .selected-options {
                                             ul {
                                                 display: flex;
-                                                flex-wrap: wrap;
                                                 align-items: center;
                                                 gap: 12px;
                                                 margin: 0;
+                                                flex-wrap: wrap;
                                                 li {
                                                     margin-bottom: 0 !important;
                                                     padding: 8px 12px;

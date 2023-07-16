@@ -10,7 +10,7 @@ export const SweetAlertToaster = (args: any = {}) => {
         icon: args?.icon ?? (args?.type || "success"),
         title: args?.title ?? __('Changes saved successfully','wp-scheduled-posts'),
         toast: args?.toast ?? true,
-        position: args?.position ?? 'bottom-end',
+        position: args?.position ?? 'top-end',
         showConfirmButton: args?.showConfirmButton ?? false,
         timer: args?.timer ?? 3000,
         timerProgressBar: args?.toast ?? true,

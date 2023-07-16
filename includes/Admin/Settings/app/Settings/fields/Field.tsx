@@ -13,6 +13,7 @@ import Video from './Video';
 import Html from './Html';
 import AutoScheduler from './AutoScheduler';
 import ManualScheduler from './ManualScheduler';
+import License from './License';
 
 const Field = (r, type, props) => {
 
@@ -43,6 +44,8 @@ const Field = (r, type, props) => {
             return <Time {...props} />;
         case "calendar":
             return <Calendar {...props} />;
+        case "license":
+            return <License {...props} />;
         default:
             return <></>;
     }

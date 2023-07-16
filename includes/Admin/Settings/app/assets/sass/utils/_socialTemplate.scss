@@ -26,39 +26,98 @@
                     font-size: 18px !important;
                     font-weight: 500 !important;
                     color: #1B1B50 !important;
-                    margin-bottom: 12px;
+                    padding: 20px !important;
                     @media screen and (max-width: 1023px)  { 
                         font-size: 14px !important;
-                        margin-bottom: 8px;
+                        padding: 20px 20px !important;
                     }
                     &:last-child {
                         margin-bottom: 0px;
                     }
-                    span {
-                        position: relative;
-                        padding-left: 45px;
-                        &:before {
-                            position: absolute;
-                            content: '\e904';
-                            font-family: 'wpsp';
-                            top: -5px;
-                            left: 0;
-                            font-size: 14px;
-                            line-height: 34px;
-                            text-align: center;
-                            background: #1877F2;
-                            border-radius: 50%;
-                            width: 34px;
-                            height: 34px;
+                    &:nth-child(1) {
+                        span {
+                            position: relative;
+                            padding-left: 36px;
                             display: inline-block;
-                            color: #fff;
+                            &:before {
+                                position: absolute;
+                                content: "\e906";
+                                font-family: "wpsp";
+                                top: 0px;
+                                left: 0;
+                                font-size: 24px;
+                                background: #fff;
+                                border-radius: 50%;
+                                color: #1877F2;
+                            }
+                        }
+                    }
+                    &:nth-child(2) {
+                        span {
+                            position: relative;
+                            padding-left: 36px;
+                            display: inline-block;
+                            &:before {
+                                position: absolute;
+                                content: "\e91d";
+                                font-family: "wpsp";
+                                top: 0px;
+                                left: 0;
+                                font-size: 24px;
+                                background: #fff;
+                                border-radius: 50%;
+                                color: #41A1F2;
+                            }
+                        }
+                    }
+                    &:nth-child(3) {
+                        span {
+                            position: relative;
+                            padding-left: 36px;
+                            display: inline-block;
+                            &:before {
+                                position: absolute;
+                                content: "\e921";
+                                font-family: "wpsp";
+                                top: 0px;
+                                left: 0px;
+                                width: 24px;
+                                height: 24px;
+                                line-height: 24px;
+                                text-align: center;
+                                font-size: 12px;
+                                background: #007AB9;
+                                border-radius: 50%;
+                                color: #fff;
+                            }
+                        }
+                    }
+                    &:nth-child(4) {
+                        span {
+                            position: relative;
+                            padding-left: 36px;
+                            display: inline-block;
+                            &:before {
+                                position: absolute;
+                                content: "\e924";
+                                font-family: "wpsp";
+                                top: 0px;
+                                left: 0px;
+                                width: 24px;
+                                height: 24px;
+                                line-height: 24px;
+                                text-align: center;
+                                font-size: 12px;
+                                background: #E62027;
+                                border-radius: 50%;
+                                color: #fff;
+                            }
                         }
                     }
                 }
                 .wprf-active-nav {
                     color: #1B1B50 !important;
                     background: #F5F9FE !important;
-                    padding: 20px 20px !important;
                     border-radius: 6px;
                     border-right: none;
                     box-shadow: none;
@@ -75,10 +134,12 @@
                 flex:auto !important;
                 padding: 0 !important;
                 .wprf-control-section {
+                    padding: 0 !important;
+                    background: transparent !important;
                     h4 {
                         font-size: 24px;
                         color: #1B1B50 !important;
-                        margin-bottom: 24px !important;
+                        padding-bottom: 24px !important;
                         text-transform: capitalize !important;
                         background: transparent !important;
                         letter-spacing: 0px !important;
@@ -86,7 +147,7 @@
                         margin-top: 0px;
                         @media screen and (max-width: 1023px)  { 
                             font-size: 20px;
-                            margin-bottom: 16px !important;
+                            padding-bottom: 16px !important;
                         }
                     }
                 }

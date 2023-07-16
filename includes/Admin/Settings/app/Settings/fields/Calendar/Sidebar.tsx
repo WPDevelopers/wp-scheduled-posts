@@ -137,7 +137,7 @@ export default function Sidebar({handleOpenModal}) {
             ) => (
               <div className="fc-event" data-event={JSON.stringify(post)}>
                 <div className="card">
-                  <i className="wpsp-icon wpsp-angle-down">
+                  <i className="wpsp-icon wpsp-dots">
                     <ul className="edit-area">
                       <li><a target="_blank" href={decodeURIComponent(post.href)}>view</a></li>
                       <li><a target="_blank" href={decodeURIComponent(post.edit)}>edit</a></li>

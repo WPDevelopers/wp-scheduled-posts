@@ -111,8 +111,14 @@ class Settings
                 'args'                  => array(),
             ),
         ));
+
     }
 
+    /**
+     * Fetch pinterest section 
+     * 
+     * @param $data
+    */
     public function fetch_pinterest_section($data)
     {
        do_action('social_profile_fetch_pinterest_section', $data->get_params());
