@@ -57,12 +57,13 @@ const CheckboxSelect = (props) => {
 			},
 		});
 	}, [optionSelected]);
+  
   const customStyles = {
     control: (base, state) => ({
       ...base,
       boxShadow: "none", 
       borderColor: "#EBEEF5",
-      backgroundColor: "#EBEEF5",
+      backgroundColor: "#F9FAFC",
       color: "#6E6E8D",
       "&:hover": {
           borderColor: "#cccccc"

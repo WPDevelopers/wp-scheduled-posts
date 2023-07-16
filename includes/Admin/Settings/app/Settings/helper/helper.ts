@@ -112,3 +112,22 @@ export const getFormatDateTime = ( dateTime = '' ) => {
     const formattedDate = date.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
     return formattedDate;
 }
+
+// Generate time options
+export const generateTimeOptions = () => {
+    const times = [];
+    const startTime = new Date();
+    startTime.setHours(0, 0, 0, 0); // Set start time to 12:00 AM
+
+    for (let i = 0; i < 24 * 4; i++) {
+      const time = new Date(startTime.getTime() + i * 15 * 60000);
+      const timeString = time.toLocaleString('en-US', {
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true,
+      });
+      times.push({ value: timeString, label: timeString });
+    }
+
+    return times;
+};

@@ -1,31 +1,14 @@
 import classNames from 'classnames';
 import React, {useState,useEffect} from 'react'
 import Select from 'react-select';
+import { generateTimeOptions } from '../helper/helper';
+
 const Time = (props) => {
   const [selectedTime, setSelectedTime] = useState(null);
 
   const handleTimeChange = (selectedOption) => {
     setSelectedTime(selectedOption);
   };
-
-  const generateTimeOptions = () => {
-    const times = [];
-    const startTime = new Date();
-    startTime.setHours(0, 0, 0, 0); // Set start time to 12:00 AM
-
-    for (let i = 0; i < 24 * 4; i++) {
-      const time = new Date(startTime.getTime() + i * 15 * 60000);
-      const timeString = time.toLocaleString('en-US', {
-        hour: 'numeric',
-        minute: '2-digit',
-        hour12: true,
-      });
-      times.push({ value: timeString, label: timeString });
-    }
-
-    return times;
-  };
-
   const timeOptions = generateTimeOptions();
 
   // Save time
@@ -44,7 +27,7 @@ const Time = (props) => {
       ...base,
       boxShadow: "none", 
       borderColor: "#EBEEF5",
-      backgroundColor: "#EBEEF5",
+      backgroundColor: "#F9FAFC",
       color: "#6E6E8D",
       "&:hover": {
           borderColor: "#cccccc"

@@ -921,7 +921,7 @@ class Settings {
                                     'fields'        => [
                                         'auto_scheduler'  => [
                                             'id'            => 'auto_scheduler',
-                                            'name'          => 'auto_scheduler',
+                                            'name'          => 'auto_schedule',
                                             'type'          => 'auto-scheduler',
                                             'priority'      => 5,
                                         ],
