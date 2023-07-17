@@ -391,3 +391,36 @@
 .checkbox-select .select2-selection__arrow b,.main-select .select2-selection__arrow b {
     display: none;
 }
+.selected-options {
+    li {
+        margin-bottom: 0 !important;
+        padding: 8px 12px;
+        background: #F3F2FF;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #6C62FF;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1em;
+        button {
+            font-size: 8px;
+            border: none;
+            background: transparent;
+            color: #6E6E8D;
+            cursor: pointer;
+            padding: 0;
+            margin-top: 1px;
+        }
+    }
+}
+#external-events-listing .main-select {
+    margin-bottom: 15px;
+}
+#external-events-listing .selected-options {
+    margin-bottom: 10px;
+    ul li {
+        margin-bottom: 5px !important;
+    }
+}

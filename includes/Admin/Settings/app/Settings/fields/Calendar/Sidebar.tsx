@@ -7,15 +7,17 @@ import { addQueryArgs } from '@wordpress/url';
 import { Button } from "@wordpress/components";
 import { default as ReactSelect } from "react-select";
 import { selectStyles } from "../../helper/styles";
+import { components } from "react-select";
 
 // Define your component
-export default function Sidebar({handleOpenModal}) {
+export default function Sidebar({props,handleOpenModal}) {
   // Define your state variables
   const [posts, setPosts] = useState([]);
   const [postType, setPostType] = useState(null);
   const [allowCategories, setAllowCategories] = useState([]);
   const [taxTerms, setTaxTerms] = useState({});
   const draggableRef = useRef<HTMLDivElement>();
+  const [optionSelected, setOptionSelected] = useState([]);
 
   useEffect(() => {
     // In your external element component componentDidMount
@@ -96,10 +98,35 @@ export default function Sidebar({handleOpenModal}) {
     });
   }, []);
 
+  // Prepare options with checkbox
+  const Option = (props) => {
+    return (
+      <div>
+        <components.Option {...props}>
+          <input
+            type="checkbox"
+            checked={props.isSelected}
+            onChange={() => null}
+          />{" "}
+          <label>{props.label}</label>
+        </components.Option>
+      </div>
+    );
+  };
+  
   const options = [
     {label : "Option 1",value : "options-1"},
     {label : "Option 2",value : "options-2"},
   ]
+
+  // Add and remove
+  const handleChange = (selected) => {
+    setOptionSelected(selected);
+  };
+  const removeItem = (item) => {
+    const updatedItems = optionSelected.filter((i) => i !== item);
+    setOptionSelected(updatedItems);
+  };
 
   // Return your JSX element
   return (
@@ -110,14 +137,27 @@ export default function Sidebar({handleOpenModal}) {
           <span className="spinner"></span>
         </h4>
         <ReactSelect
-          id="category"
           options={options}
           styles={selectStyles}
           closeMenuOnSelect={false}
           hideSelectedOptions={false}
           autoFocus={false}
+          isMulti
+          components={{
+            Option
+          }}
+          value={optionSelected}
+          onChange={handleChange}
+          controlShouldRenderValue={false}
           className="main-select"
         />
+        <div className="selected-options">
+            <ul>
+              { optionSelected?.map( (item, index) => (
+                <li key={index}> { item?.label } <button onClick={() => removeItem(item)}> <i className='wpsp-icon wpsp-close'></i> </button> </li>
+              ))}
+            </ul>
+        </div>
         {postType !== "page" && (
           <select
             id="external-events-filter"

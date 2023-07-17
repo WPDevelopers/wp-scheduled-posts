@@ -13,6 +13,7 @@ import { s } from "@fullcalendar/core/internal-common";
 import { Button } from "@wordpress/components";
 import { default as ReactSelect } from "react-select";
 import { selectStyles } from "../helper/styles";
+import { components } from "react-select";
 
 export default function Calendar(props) {
   // @ts-ignore
@@ -71,6 +72,22 @@ export default function Calendar(props) {
   // @ts-ignore
   // window.calendar = calendar;
   // console.log(props);
+  // Prepare options with checkbox
+  const Option = (props) => {
+    return (
+      <div>
+        <components.Option {...props}>
+          <input
+            type="checkbox"
+            checked={props.isSelected}
+            onChange={() => null}
+          />{" "}
+          <label>{props.label}</label>
+        </components.Option>
+      </div>
+    );
+  };
+
 
   const options = [
     {label : "Option 1",value : "options-1"},
@@ -80,7 +97,7 @@ export default function Calendar(props) {
   return (
     <>
       <div className="sidebar">
-        <Sidebar handleOpenModal={handleOpenModal} />
+        <Sidebar props={props} handleOpenModal={handleOpenModal} />
       </div>
       <div className="main-content">
         <div className="toolbar">
@@ -91,15 +108,24 @@ export default function Calendar(props) {
               closeMenuOnSelect={false}
               hideSelectedOptions={false}
               autoFocus={false}
+              isMulti
+              components={{
+                Option
+              }}
+              controlShouldRenderValue={false}
               className="main-select"
             />
             <ReactSelect
-              id="category"
               options={options}
               styles={selectStyles}
               closeMenuOnSelect={false}
               hideSelectedOptions={false}
               autoFocus={false}
+              isMulti
+              components={{
+                Option
+              }}
+              controlShouldRenderValue={false}
               className="main-select"
             />
           </div>
