@@ -97,12 +97,19 @@ export default function Calendar(props) {
   ]
   const [month, year] = yearMonth.split('.');
 
+  const [sidebarToogle,setSidebarToggle] = useState(true);
+
+  const handleSlidebarToggle = () => {
+    setSidebarToggle( sidebarToogle ? false : true );  
+  }
   return (
     <>
-      <div className="sidebar">
-        <Sidebar props={props} handleOpenModal={handleOpenModal} />
-      </div>
-      <div className="main-content">
+        { sidebarToogle && (
+          <div className="sidebar">
+              <Sidebar props={props} handleOpenModal={handleOpenModal} />
+          </div>
+        ) }
+      <div className={`main-content ${!sidebarToogle ? 'basis-100' : ''}`}>
         <div className="toolbar">
           <div className="left">
             <ReactSelect
@@ -149,7 +156,7 @@ export default function Calendar(props) {
           </div>
           <div className="right">
             <button>Today</button>
-            <i className="wpsp-icon wpsp-calendar" />
+            <i onClick={handleSlidebarToggle} className={`wpsp-icon wpsp-calendar ${ !sidebarToogle ? 'inactive' : '' }`} />
           </div>
         </div>
         <FullCalendar
