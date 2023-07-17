@@ -21,5 +21,9 @@ export const selectStyles = {
         backgroundColor: isFocused || isSelected ? '#F3F2FF' : null,
         color: "#000",
       };
-    }
+    },
+    menu: (provided) => ({
+      ...provided,
+      zIndex: 9999
+    })
 }

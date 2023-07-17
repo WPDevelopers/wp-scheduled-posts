@@ -13,6 +13,9 @@ import { s } from "@fullcalendar/core/internal-common";
 import { Button } from "@wordpress/components";
 import { default as ReactSelect } from "react-select";
 import { selectStyles } from "../helper/styles";
+import { components } from "react-select";
+import Monthpicker from '@compeon-os/monthpicker'
+
 
 export default function Calendar(props) {
   // @ts-ignore
@@ -20,10 +23,12 @@ export default function Calendar(props) {
   const restRoute = props.rest_route;
   const calendar = useRef<FullCalendar>();
   const builderContext = useBuilderContext();
+  const [yearMonth, setYearMonth] = useState("11.2022") // @todo 
 
   // EditPost state
   const [postData, setPostData] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const handleOpenModal = (post?) => {
     setPostData(post || {});
     setIsModalOpen(true);
@@ -32,8 +37,6 @@ export default function Calendar(props) {
     setPostData({});
     setIsModalOpen(false);
   };
-
-
 
   const getUrl = () => {
     const date  = calendar.current?.getApi().view.currentStart;
@@ -71,16 +74,33 @@ export default function Calendar(props) {
   // @ts-ignore
   // window.calendar = calendar;
   // console.log(props);
+  // Prepare options with checkbox
+  const Option = (props) => {
+    return (
+      <div>
+        <components.Option {...props}>
+          <input
+            type="checkbox"
+            checked={props.isSelected}
+            onChange={() => null}
+          />{" "}
+          <label>{props.label}</label>
+        </components.Option>
+      </div>
+    );
+  };
+
 
   const options = [
     {label : "Option 1",value : "options-1"},
-    {label : "Option 2",value : "options-2"},
+    {label : "Option 2",value : "options-2"}
   ]
+  const [month, year] = yearMonth.split('.');
 
   return (
     <>
       <div className="sidebar">
-        <Sidebar handleOpenModal={handleOpenModal} />
+        <Sidebar props={props} handleOpenModal={handleOpenModal} />
       </div>
       <div className="main-content">
         <div className="toolbar">
@@ -91,23 +111,41 @@ export default function Calendar(props) {
               closeMenuOnSelect={false}
               hideSelectedOptions={false}
               autoFocus={false}
+              isMulti
+              components={{
+                Option
+              }}
+              controlShouldRenderValue={false}
               className="main-select"
             />
             <ReactSelect
-              id="category"
               options={options}
               styles={selectStyles}
               closeMenuOnSelect={false}
               hideSelectedOptions={false}
               autoFocus={false}
+              isMulti
+              components={{
+                Option
+              }}
+              controlShouldRenderValue={false}
               className="main-select"
             />
           </div>
           <div className="middle">
             {/* calendar dropdown */}
-            {calendar.current && calendar.current.getApi().view.title}
-            <input type="month" id="start" name="start"
-            min="2018-03" value="2018-05"></input>
+            {/* <input type="month" id="start" name="start"
+            min="2018-03" value="2018-05"></input> */}
+            <Monthpicker
+              locale="en"
+              format='MM.yyyy' 
+              month={parseInt(month)}
+              year={parseInt(year)}
+              onChange={(event) => {
+              setYearMonth(event)
+            }}>
+              { calendar.current && calendar.current.getApi().view.title }
+            </Monthpicker>
           </div>
           <div className="right">
             <button>Today</button>
@@ -127,6 +165,15 @@ export default function Calendar(props) {
             ref={calendar}
             plugins={[dayGridPlugin, interactionPlugin]}
             initialView="dayGridMonth"
+            dayMaxEvents={1}
+            dayPopoverFormat={{ day: 'numeric' }}
+            moreLinkContent={(arg) => {
+              return (
+                <>
+                  View {arg.num} More
+                </>
+              )
+            }}
             // weekends={true}
             events={events}
             // firstDay={props.firstDay}
