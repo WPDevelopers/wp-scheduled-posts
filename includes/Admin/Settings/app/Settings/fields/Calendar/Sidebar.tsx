@@ -83,6 +83,17 @@ export default function Sidebar({handleOpenModal}) {
     setAllowCategories(values);
   }
 
+  const deletePost = useCallback((id) => {
+    apiFetch({
+      path: addQueryArgs("/wpscp/v1/post", {ID: id}),
+      method: "DELETE",
+      // data: query,
+    }).then((data: []) => {
+      // Set your posts state with the fetched data
+      console.log(data);
+    });
+  }, []);
+
   // Return your JSX element
   return (
     <div id="external-events">
@@ -139,10 +150,16 @@ export default function Sidebar({handleOpenModal}) {
                 <div className="card">
                   <i className="wpsp-icon wpsp-dots">
                     <ul className="edit-area">
-                      <li><a target="_blank" href={decodeURIComponent(post.href)}>view</a></li>
-                      <li><a target="_blank" href={decodeURIComponent(post.edit)}>edit</a></li>
-                      <li><Button variant="link" onClick={() => handleOpenModal(post)}>quick edit</Button></li>
-                      <li>delete</li>
+                      <li><Button variant="link" target="_blank" href={decodeURIComponent(post.href)}>View</Button></li>
+                      <li><Button variant="link" target="_blank" href={decodeURIComponent(post.edit)}>Edit</Button></li>
+                      <li><Button variant="link" href="#" onClick={(event) => {
+                        event.preventDefault();
+                        handleOpenModal(post);
+                      }}>Quick Edit</Button></li>
+                      <li><Button variant="link" href="#" onClick={(event) => {
+                        event.preventDefault();
+                        deletePost(post.postId);
+                      }}>Delete</Button></li>
                     </ul>
                   </i>
                   <span>{post.postTime}</span>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { EventContentArg, sliceEvents, createPlugin } from "@fullcalendar/core";
+import { Button } from "@wordpress/components";
 
 function customView(props) {
   const segs = sliceEvents(props, true); // allDay=true
@@ -44,8 +45,7 @@ const renderEventContent = (eventInfo: EventContentArg) => {
               <i className="dashicons dashicons-edit"></i>Edit
             </button>
             <button className="wpscpquickedit" data-type="quickedit">
-              <i className="dashicons dashicons-welcome-write-blog"></i>Quick
-              Edit
+              <i className="dashicons dashicons-welcome-write-blog"></i>Quick Edit
             </button>
           </div>
           <div className="deleteview">
