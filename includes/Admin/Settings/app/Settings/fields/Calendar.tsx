@@ -154,6 +154,14 @@ export default function Calendar(props) {
             plugins={[dayGridPlugin, interactionPlugin]}
             initialView="dayGridMonth"
             dayMaxEvents={1}
+            dayPopoverFormat={{ day: 'numeric' }}
+            moreLinkContent={(arg) => {
+              return (
+                <>
+                  View {arg.num} More
+                </>
+              )
+            }}
             // weekends={true}
             events={events}
             // firstDay={props.firstDay}
