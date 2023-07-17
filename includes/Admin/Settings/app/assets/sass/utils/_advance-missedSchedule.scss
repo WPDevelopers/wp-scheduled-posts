@@ -1,10 +1,11 @@
 .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents {
     .wprf-tab-layout_advance_schedule,
-    .wprf-tab-layout_missed_schedule {
+    .wprf-tab-layout_missed_schedule,
+    .wprf-tab-layout_license {
         .advance_schedule_wrapper,
-        .missed_schedule_wrapper {
+        .missed_schedule_wrapper,
+        .license_wrapper {
             padding: 0 !important;
-            border-radius: 0 !important;
             .wprf-section-fields {
                 display: flex;
                 .wprf-control-section {
@@ -12,6 +13,7 @@
                     border: none !important;
                     margin-bottom: 0 !important;
                     flex-basis: 50%;
+                    padding: 32px !important;
                     .wprf-section-fields {
                         display: flex;
                         flex-direction: column;
@@ -55,38 +57,93 @@
                                 margin-bottom: 24px !important;
                             }
                             .wprf-list-item {
-                                font-size: 14px;
-                                line-height: 1em;
-                                color: #6C62FF;
-                                list-style: decimal;
-                                margin-left: 15px !important;
-                                transition: ease-in-out .25s;
-                                &:hover {
-                                    color: #6E6E8D;
-                                }
                                 li {
-                                    a {
+                                    font-size: 14px;
+                                    line-height: 1.5em;
+                                    color: #6E6E8D;
+                                    list-style: decimal;
+                                    margin-left: 15px !important;
+                                    transition: ease-in-out .25s;
+                                    &:hover {
                                         color: #6C62FF;
-                                        line-height: 1.5em;
-                                        transition: ease-in-out .25s;
-                                        &:hover {
-                                            color: #6E6E8D;
+                                        a {
+                                            text-decoration: underline;
+                                            color: #6C62FF;
                                         }
                                     }
+                                    a {
+                                        text-decoration: none;
+                                    }
+                                }
+                            }
+                        }
+                        .wprf-active_license-social-profile {
+                            margin-top: 20PX;
+                            h4 {
+                                margin-bottom: 16px !important;
+                            }
+                            .wpsp-license-key-wrapper {
+                                position: relative;
+                                padding: 20px 18px;
+                                border: 1px solid #EBEEF5;
+                                border-radius: 4px;
+                                margin-right: 60px;
+                                input {
+                                    width: 100%;
+                                    border: none;
+                                    font-size: 16px;
+                                    line-height: 1.2em;
+                                    color: #A6A6BA;
+                                    margin: 0;
+                                    padding: 0;
+                                    padding-right: 180px;
+                                    &:focus-visible {
+                                        outline: 0;
+                                    }
+                                }
+                                button {
+                                    background: #6C62FF;
+                                    color: #fff;
+                                    font-size: 14px;
+                                    line-height: 1.2em;
+                                    font-weight: 500;
+                                    border: none;
+                                    border-radius: 6px;
+                                    padding: 16px 24px;
+                                    cursor: pointer;
+                                    position: absolute;
+                                    top: 5px;
+                                    right: 5px;
                                 }
                             }
                         }
                     }
                 }
                 .advance_schedule_switcher,
-                .missed_schedule_switcher {
+                .missed_schedule_switcher,
+                .license_activation {
                     border-radius: 0 !important;
                     border-width: 0 1px 0 0 !important;
                     border-color: #EBEEF5 !important;
                     border-style: solid !important;
+                    background: transparent !important;
+                    .wprf-control-wrapper {
+                        position: relative;
+                        label {
+                            font-size: 18px !important;
+                        }
+                        .wprf-help {
+                            position: absolute;
+                            top: 22px;
+                            left: 0;
+                            font-size: 14px;
+                            color: #6E6E8D;
+                        }
+                    }
                 }
                 .advance_video,
                 .missed_video {
+                    background: transparent !important;
                     .wprf-video {
                         h4 {
                             font-size: 18px !important;

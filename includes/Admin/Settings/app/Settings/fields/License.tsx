@@ -88,57 +88,59 @@ function License(props) {
     <div className={classNames('wprf-control', 'wprf-license', `wprf-${props.name}-social-profile`, props?.classes)}>
         <div className='wpsp-license-container'>
             <h4>{props?.label}</h4>
-            <div className='wpsp-license-input'>
-                {tempKey && valid == 'valid' ? (
-                    <input
-                        id='wp-scheduled-posts-pro-license-key'
-                        placeholder='Place Your License Key and Activate'
-                        onChange={(e) => setTempKey(e.target.value)}
-                        value={tempKey}
-                        disabled={true}
-                    />
-                ) : (
-                    <input
-                        id='wp-scheduled-posts-pro-license-key'
-                        placeholder='Place Your License Key and Activate'
-                        onChange={(e) => setTempKey(e.target.value)}
-                        value={ tempKey ? tempKey : ''}
-                    />
-                )}
-            </div>
-            <div className='wpsp-license-buttons'>
-                {valid == 'valid' ? (
-                    <button
-                        id='submit'
-                        type='button'
-                        className={
-                            inputChanged
-                                ? 'wpsp-license-deactivation-btn changed'
-                                : 'wpsp-license-deactivation-btn'
-                        }
-                        onClick={() => handleLicenseDeactivation()}
-                    >
-                        {isRequestSend == true
-                            ? 'Request Sending...'
-                            : 'Deactivate License'}
-                    </button>
-                ) : (
-                    <button
-                        id='submit'
-                        type='button'
-                        className={
-                            inputChanged
-                                ? 'wpsp-license-buttons changed'
-                                : 'wpsp-license-buttons'
-                        }
-                        onClick={() => handleLicenseActivation()}
-                        disabled={!tempKey}
-                    >
-                        {isRequestSend == true
-                            ? 'Request Sending...'
-                            : 'Activate License'}
-                    </button>
-                )}
+            <div className='wpsp-license-key-wrapper'>
+                <div className='wpsp-license-input'>
+                    {tempKey && valid == 'valid' ? (
+                        <input
+                            id='wp-scheduled-posts-pro-license-key'
+                            placeholder='Place Your License Key and Activate'
+                            onChange={(e) => setTempKey(e.target.value)}
+                            value={tempKey}
+                            disabled={true}
+                        />
+                    ) : (
+                        <input
+                            id='wp-scheduled-posts-pro-license-key'
+                            placeholder='Place Your License Key and Activate'
+                            onChange={(e) => setTempKey(e.target.value)}
+                            value={ tempKey ? tempKey : ''}
+                        />
+                    )}
+                </div>
+                <div className='wpsp-license-buttons'>
+                    {valid == 'valid' ? (
+                        <button
+                            id='submit'
+                            type='button'
+                            className={
+                                inputChanged
+                                    ? 'wpsp-license-deactivation-btn changed'
+                                    : 'wpsp-license-deactivation-btn'
+                            }
+                            onClick={() => handleLicenseDeactivation()}
+                        >
+                            {isRequestSend == true
+                                ? 'Request Sending...'
+                                : 'Deactivate License'}
+                        </button>
+                    ) : (
+                        <button
+                            id='submit'
+                            type='button'
+                            className={
+                                inputChanged
+                                    ? 'wpsp-license-buttons changed'
+                                    : 'wpsp-license-buttons'
+                            }
+                            onClick={() => handleLicenseActivation()}
+                            disabled={!tempKey}
+                        >
+                            {isRequestSend == true
+                                ? 'Request Sending...'
+                                : 'Activate License'}
+                        </button>
+                    )}
+                </div>
             </div>
         </div>
     </div>
