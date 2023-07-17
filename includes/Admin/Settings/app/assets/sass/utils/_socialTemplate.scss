@@ -79,7 +79,7 @@
                                 position: absolute;
                                 content: "\e921";
                                 font-family: "wpsp";
-                                top: 0px;
+                                top: -3px;
                                 left: 0px;
                                 width: 24px;
                                 height: 24px;
@@ -101,7 +101,7 @@
                                 position: absolute;
                                 content: "\e924";
                                 font-family: "wpsp";
-                                top: 0px;
+                                top: -3px;
                                 left: 0px;
                                 width: 24px;
                                 height: 24px;
@@ -177,6 +177,12 @@
                                 flex-direction: column !important;
                                 align-items: flex-end !important;
                                 gap: 8px;
+                                .wprf-toggle-wrap {
+                                    order: unset !important;
+                                }
+                                p {
+                                    margin: 0 !important;
+                                }
                                 input {
                                     box-shadow: none !important;
                                     border: 1px solid #EBEEF5 !important;

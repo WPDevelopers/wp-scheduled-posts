@@ -159,52 +159,71 @@ export default function Calendar(props) {
             <i onClick={handleSlidebarToggle} className={`wpsp-icon wpsp-calendar ${ !sidebarToogle ? 'inactive' : '' }`} />
           </div>
         </div>
-        <FullCalendar
-          ref={calendar}
-          plugins={[dayGridPlugin, interactionPlugin]}
-          initialView="dayGridMonth"
-          // weekends={true}
-          events={events}
-          // firstDay={props.firstDay}
-          eventContent={renderEventContent}
-          dayCellDidMount={(args) => {
-            console.log('dayCellDidMount', args);
-            const dayTop = args.el.getElementsByClassName('fc-daygrid-day-top');
-            // add a button on dayTop element as child
-            const button = document.createElement('button');
-            button.innerHTML = 'Add New';
-            if(args.isOther) {
-              button.disabled = true;
-            }
-            button.addEventListener('click', (event) => {
-              console.log('click', event, args);
-              handleOpenModal();
-            });
-            dayTop[0].appendChild(button);
-          }}
-          // dateClick={handleDateClick}
-          // Enable droppable option
-          editable={true}
-          droppable={true}
-          // headerToolbar={false}
-          // Provide a drop callback function
-          eventReceive={info => {
-            const props = info.event.extendedProps;
-            props.setPosts(posts => posts.filter((p) => p.postId !== props.postId));
-            console.log('drop', info, props);
-          }}
-          eventClick={function(info) {
-            console.log('Event: ', info.event.extendedProps);
-            console.log('info: ', info);
-            console.log(calendar.current?.getApi().view);
+        <div className="wprf-calendar-wrapper">
+          <div className="button-control-month">
+            <button type="button" className="wpsp-prev-button wpsp-button-primary">
+              <i className="wpsp-icon wpsp-next"></i>
+            </button>
+            <button type="button" className="wpsp-next-button wpsp-button-primary">
+              <i className="wpsp-icon wpsp-next"></i>
+            </button>
+          </div>
+          <FullCalendar
+            ref={calendar}
+            plugins={[dayGridPlugin, interactionPlugin]}
+            initialView="dayGridMonth"
+            dayMaxEvents={1}
+            dayPopoverFormat={{ day: 'numeric' }}
+            moreLinkContent={(arg) => {
+              return (
+                <>
+                  View {arg.num} More
+                </>
+              )
+            }}
+            // weekends={true}
+            events={events}
+            // firstDay={props.firstDay}
+            eventContent={renderEventContent}
+            dayCellDidMount={(args) => {
+              console.log('dayCellDidMount', args);
+              const dayTop = args.el.getElementsByClassName('fc-daygrid-day-top');
+              // add a button on dayTop element as child
+              const button = document.createElement('button');
+              button.innerHTML = 'Add New';
+              if(args.isOther) {
+                button.disabled = true;
+              }
+              button.addEventListener('click', (event) => {
+                console.log('click', event, args);
+                handleOpenModal();
+              });
+              dayTop[0].appendChild(button);
+            }}
+            // dateClick={handleDateClick}
+            // Enable droppable option
+            editable={true}
+            droppable={true}
+            // headerToolbar={false}
+            // Provide a drop callback function
+            eventReceive={info => {
+              const props = info.event.extendedProps;
+              props.setPosts(posts => posts.filter((p) => p.postId !== props.postId));
+              console.log('drop', info, props);
+            }}
+            eventClick={function(info) {
+              console.log('Event: ', info.event.extendedProps);
+              console.log('info: ', info);
+              console.log(calendar.current?.getApi().view);
 
-            // change the border color just for fun
-            info.el.style.border = '1px solid red';
-          }}
-          datesSet={(dateInfo) => {
+              // change the border color just for fun
+              info.el.style.border = '1px solid red';
+            }}
+            datesSet={(dateInfo) => {
 
-          }}
-        />
+            }}
+          />
+        </div>
       </div>
       <EditPost post={postData} isOpen={isModalOpen} closeModal={handleCloseModal} />
     </>

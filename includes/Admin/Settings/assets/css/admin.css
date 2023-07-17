@@ -3585,7 +3585,7 @@ button.wprf-btn {
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-control-wrapper {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 20px;
   justify-content: space-between;
   border: 1px solid #EBEEF5;
@@ -3675,6 +3675,16 @@ button.wprf-btn {
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-time .wprf-control-field,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-control-field {
   flex-basis: auto;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-time .wprf-control-field .wprf-toggle-wrap,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-control-field .wprf-toggle-wrap {
+  order: 1;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-time .wprf-control-field .wprf-description,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-control-field .wprf-description {
+  font-size: 14px;
+  color: #6E6E8D;
+  margin: 0 20px 0 0;
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-time .wprf-control-label,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-control-label {
@@ -4068,7 +4078,6 @@ button.wprf-btn {
   background: #E8821E;
   padding: 4px 6px;
   border-radius: 20px;
-  display: inline-block;
 }
 #wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .sidebar .card i {
   position: absolute;
@@ -4159,7 +4168,7 @@ button.wprf-btn {
   justify-content: space-between;
   align-items: center;
   border-radius: 6px 6px 0 0;
-  margin-bottom: 5px;
+  margin-bottom: 18px;
 }
 #wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .main-content .toolbar .left {
   display: flex;
@@ -4206,45 +4215,36 @@ button.wprf-btn {
   padding: 10px;
   border-radius: 6px;
 }
-#wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .main-content .fc-theme-standard .fc-header-toolbar {
-  position: relative !important;
-  margin-bottom: 0;
+#wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .main-content .wprf-calendar-wrapper {
+  position: relative;
 }
-#wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .main-content .fc-theme-standard .fc-header-toolbar .fc-toolbar-chunk .fc-toolbar-title {
-  display: none;
-}
-#wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .main-content .fc-theme-standard .fc-header-toolbar .fc-toolbar-chunk .fc-today-button {
-  display: none;
-}
-#wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .main-content .fc-theme-standard .fc-header-toolbar .fc-toolbar-chunk .fc-button-group {
-  position: unset !important;
-}
-#wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .main-content .fc-theme-standard .fc-header-toolbar .fc-toolbar-chunk .fc-button-group .fc-button-primary {
+#wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .main-content .wprf-calendar-wrapper .button-control-month .wpsp-button-primary {
   background-color: #F3F2FF !important;
   border: 1px solid #EBEEF5 !important;
   border-radius: 0 !important;
   width: 40px !important;
   height: 49px !important;
+  cursor: pointer;
 }
-#wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .main-content .fc-theme-standard .fc-header-toolbar .fc-toolbar-chunk .fc-button-group .fc-button-primary:focus {
-  box-shadow: none;
-}
-#wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .main-content .fc-theme-standard .fc-header-toolbar .fc-toolbar-chunk .fc-button-group .fc-button-primary .fc-icon {
+#wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .main-content .wprf-calendar-wrapper .button-control-month .wpsp-button-primary .wpsp-icon {
   font-size: 16px;
   color: #6C62FF;
 }
-#wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .main-content .fc-theme-standard .fc-header-toolbar .fc-toolbar-chunk .fc-button-group .fc-prev-button {
+#wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .main-content .wprf-calendar-wrapper .button-control-month .wpsp-prev-button {
   position: absolute !important;
   left: 0px;
-  top: 18px;
+  top: 0px;
 }
-#wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .main-content .fc-theme-standard .fc-header-toolbar .fc-toolbar-chunk .fc-button-group .fc-next-button {
+#wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .main-content .wprf-calendar-wrapper .button-control-month .wpsp-next-button {
   position: absolute !important;
   right: 0px;
-  top: 18px;
+  top: 0px;
 }
-#wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .main-content .fc-theme-standard .fc-header-toolbar .fc-toolbar-chunk .fc-button {
-  position: unset !important;
+#wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .main-content .wprf-calendar-wrapper .button-control-month .wpsp-next-button i {
+  transform: rotateY(30deg);
+}
+#wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .main-content .fc-theme-standard .fc-header-toolbar {
+  display: none;
 }
 #wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .main-content .fc-theme-standard .fc-view-harness {
   margin: 0 40px !important;
@@ -4601,7 +4601,7 @@ button.wprf-btn {
   position: absolute;
   content: "\e921";
   font-family: "wpsp";
-  top: 0px;
+  top: -3px;
   left: 0px;
   width: 24px;
   height: 24px;
@@ -4621,7 +4621,7 @@ button.wprf-btn {
   position: absolute;
   content: "\e924";
   font-family: "wpsp";
-  top: 0px;
+  top: -3px;
   left: 0px;
   width: 24px;
   height: 24px;
@@ -4700,6 +4700,12 @@ button.wprf-btn {
   flex-direction: column !important;
   align-items: flex-end !important;
   gap: 8px;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-contents .wprf-section-fields .wprf-group-control .wprf-control-wrapper .wprf-control-field .wprf-toggle-wrap {
+  order: unset !important;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-contents .wprf-section-fields .wprf-group-control .wprf-control-wrapper .wprf-control-field p {
+  margin: 0 !important;
 }
 #wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-contents .wprf-section-fields .wprf-group-control .wprf-control-wrapper .wprf-control-field input {
   box-shadow: none !important;
@@ -5180,7 +5186,7 @@ button.wprf-btn {
 .ReactModal__Overlay {
   position: fixed;
   inset: 0px;
-  background: rgba(1, 17, 50, 0.7) !important;
+  background: rgba(27, 27, 80, 0.4) !important;
   padding: 70px 20px !important;
   display: flex;
   overflow: hidden;
@@ -5197,10 +5203,8 @@ button.wprf-btn {
   margin: 0 auto;
   max-width: 100%;
   width: 600px !important;
-  max-height: 550px;
   box-sizing: border-box;
   position: relative;
-  overflow-y: auto;
 }
 .ReactModal__Overlay .modal_wrapper .close-button {
   position: absolute;

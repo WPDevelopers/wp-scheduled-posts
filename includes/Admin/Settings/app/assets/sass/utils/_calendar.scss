@@ -60,7 +60,6 @@
                         background: #E8821E;
                         padding: 4px 6px;
                         border-radius: 20px;
-                        display: inline-block;
                     }
                     i {
                         position: absolute;
@@ -153,7 +152,7 @@
                     justify-content: space-between;
                     align-items: center;
                     border-radius: 6px 6px 0 0;
-                    margin-bottom: 5px;
+                    margin-bottom: 18px;
                     .left {
                         display: flex;
                         gap: 18px;
@@ -200,48 +199,49 @@
                         }
                     }
                 }
-                .fc-theme-standard {
-                    .fc-header-toolbar {
-                        position: relative !important;
-                        margin-bottom: 0;
-                        .fc-toolbar-chunk {
-                            .fc-toolbar-title {
-                                display: none;
-                            }
-                            .fc-today-button {
-                                display: none;
-                            }
-                            .fc-button-group {
-                                position: unset !important;
-                                .fc-button-primary {
-                                    background-color: #F3F2FF !important;
-                                    border: 1px solid #EBEEF5 !important;
-                                    border-radius: 0 !important;
-                                    width: 40px !important;
-                                    height: 49px !important;
-                                    &:focus {
-                                        box-shadow: none;
-                                    }
-                                    .fc-icon {
-                                        font-size: 16px;
-                                        color: #6C62FF;
-                                    }
-                                }
-                                .fc-prev-button {
-                                    position: absolute !important;
-                                    left: 0px;
-                                    top: 18px;
-                                }
-                                .fc-next-button {
-                                    position: absolute !important;
-                                    right: 0px;
-                                    top: 18px;
-                                }
-                            }
-                            .fc-button {
-                                position: unset !important;
+                .wprf-calendar-wrapper {
+                    position: relative;
+                    .button-control-month {
+                        .wpsp-button-primary {
+                            background-color: #F3F2FF !important;
+                            border: 1px solid #EBEEF5 !important;
+                            border-radius: 0 !important;
+                            width: 40px !important;
+                            height: 49px !important;
+                            cursor: pointer;
+                            .wpsp-icon {
+                                font-size: 16px;
+                                color: #6C62FF;
                             }
                         }
+                        .wpsp-prev-button {
+                            position: absolute !important;
+                            left: 0px;
+                            top: 0px;
+                        }
+                        .wpsp-next-button {
+                            position: absolute !important;
+                            right: 0px;
+                            top: 0px;
+                            i {
+                                transform: rotateY(30deg);
+                            }
+                        }
+                    }
+                }
+                .fc-theme-standard {
+                    .fc-header-toolbar {
+                        display: none;
+                        // position: relative !important;
+                        // margin-bottom: 0;
+                        // .fc-toolbar-chunk {
+                        //     .fc-toolbar-title {
+                        //         display: none;
+                        //     }
+                        //     .fc-today-button {
+                        //         display: none;
+                        //     }
+                        // }
                     }
                     .fc-view-harness {
                         margin: 0 40px !important;
