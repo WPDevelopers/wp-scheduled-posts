@@ -87,7 +87,7 @@
 .ReactModal__Overlay {
     position: fixed;
     inset: 0px;
-    background: rgba(1, 17, 50, 0.7) !important;
+    background: rgba(27, 27, 80, .4) !important;
     padding: 70px 20px !important;
     display: flex;
     overflow: hidden;
@@ -103,10 +103,8 @@
         margin: 0 auto;
         max-width: 100%;
         width: 600px !important;
-        max-height: 550px;
         box-sizing: border-box;
         position: relative;
-        overflow-y: auto;
         .close-button {
             position: absolute;
             top: 24px;
