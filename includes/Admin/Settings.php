@@ -100,9 +100,9 @@ class Settings {
                 'show' => false
             ],
             'config'          => [
-                'active'  => 'layout_general',
+                'active'  => 'layout_calendar',
             ],
-            'fields'          => apply_filters('wpsp_layout_tabs',[
+            'tabs'          => apply_filters('wpsp_layout_tabs',[
                 'layout_general' => [
                     'id'       => 'layout_general',
                     'name'     => 'layout_general',
@@ -214,14 +214,15 @@ class Settings {
                                     'priority' => 10,
                                 ],
                                 'adminbar_list_structure' => [
-                                    'name'     => 'adminbar_list_structure',
-                                    'type'     => 'section',
-                                    'label'    => __('Custom item template for scheduled posts list in the admin bar:', 'wp-scheduled-posts'),
-                                    'collapsible'  => true,
-                                    'classes'   => 'section-collapsible',
-                                    'default'  => 1,
-                                    'priority' => 15,
-                                    'fields'   => [
+                                    'name'          => 'adminbar_list_structure',
+                                    'type'          => 'section',
+                                    'label'         => __('Custom item template for scheduled posts list in the admin bar:', 'wp-scheduled-posts'),
+                                    'collapsible'   => true,
+                                    'collapsed'     => true,
+                                    'classes'       => 'section-collapsible',
+                                    'default'       => 1,
+                                    'priority'      => 15,
+                                    'fields'        => [
                                         'adminbar_list_structure_template'  => [
                                             'id'            => 'adminbar_list_structure_template',
                                             'name'          => 'adminbar_list_structure_template',
@@ -324,7 +325,7 @@ class Settings {
                             'priority' => 1,
                             'fields'    => [
                                 'email_notify_under_review_section'    => [
-                                    'id'       => 'email_notify_under_review',
+                                    'name'     => 'email_notify_under_review_section',
                                     'type'     => 'section',
                                     'label'    => false,
                                     'priority' => 5,
@@ -383,7 +384,7 @@ class Settings {
                                     'priority' => 15,
                                 ],
                                 'notify_author_post_is_scheduled_section' => [
-                                    'id'       => 'notify_author_post_is_scheduled',
+                                    'name'       => 'notify_author_post_is_scheduled_section',
                                     'type'     => 'section',
                                     'label'    => false,
                                     'priority' => 5,
@@ -921,7 +922,7 @@ class Settings {
                                     'fields'        => [
                                         'auto_scheduler'  => [
                                             'id'            => 'auto_scheduler',
-                                            'name'          => 'auto_scheduler',
+                                            'name'          => 'auto_schedule',
                                             'type'          => 'auto-scheduler',
                                             'priority'      => 5,
                                         ],
@@ -951,7 +952,7 @@ class Settings {
                     'name'     => 'layout_advance_schedule',
                     'type'     => 'section',
                     'label'    => __('Advance Schedule', 'wp-scheduled-posts'),
-                    'priority' => 5,
+                    'priority' => 35,
                     'classes'  => 'pro_feature',
                     'fields'   => [
                         'advance_schedule_wrapper'  => [
@@ -1030,7 +1031,7 @@ class Settings {
                     'name'     => 'layout_missed_schedule',
                     'type'     => 'section',
                     'label'    => __('Missed Schedule', 'wp-scheduled-posts'),
-                    'priority' => 5,
+                    'priority' => 40,
                     'classes'  => 'pro_feature',
                     'fields'   => [
                         'missed_schedule_wrapper'   => [

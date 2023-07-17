@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { __ } from '@wordpress/i18n'
 import Select from "react-select";
+import { selectStyles } from '../../helper/styles';
 
 export default function MainProfile( { props, handleProfileStatusChange, profileStatus, openApiCredentialsModal } ) {    
     let options = [];
@@ -25,6 +26,17 @@ export default function MainProfile( { props, handleProfileStatusChange, profile
     const handleAccountType = (selectedOption) => {
         localStorage.setItem('account_type', selectedOption.value);
     };
+
+    const modifiedSelectStyles = { ...selectStyles, control: (base, state) => ({
+        ...base,
+        boxShadow: "none", 
+        borderColor: "#D7DBDF",
+        backgroundColor: "#F9FAFC",
+        color: "#6E6E8D",
+        "&:hover": {
+            borderColor: "#cccccc"
+        }
+      }), }
     
     return (
         <>
@@ -64,6 +76,8 @@ export default function MainProfile( { props, handleProfileStatusChange, profile
                         onChange={handleAccountType}
                         options={options}
                         defaultValue={options[0]}
+                        className='main-select'
+                        styles={modifiedSelectStyles}
                     />
                 ) }
                 <button

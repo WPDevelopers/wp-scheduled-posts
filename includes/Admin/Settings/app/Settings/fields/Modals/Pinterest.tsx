@@ -2,6 +2,7 @@ import React, { useState,useEffect } from 'react'
 import { __ } from '@wordpress/i18n'
 import { default as ReactSelect } from "react-select";
 import PinterestSectionSelect from '../utils/PinterestSectionSelect';
+import { selectStyles } from '../../helper/styles';
 
 export default function Pinterest({ platform, data, boards,fetchSectionData,noSection,addProfileToggle,savedProfile,singlePinterestBoard }) {
     let boardOptions = boards?.map((board) => {
@@ -117,6 +118,7 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
                                 setSectionOptions
                               )
                             }
+                            styles={selectStyles}
                             onChange={setDefaultSection}
                             options={sectionOptions}
                           />

@@ -366,14 +366,16 @@
     text-align: center;
     font-size: 16px;
 }
-.checkbox-select span , .time-select span{
+.checkbox-select span, .main-select span , .time-select span{
     display: none;
 }
 
-.checkbox-select .select2-selection:focus {
+.checkbox-select input:focus, .main-select input:focus {
+    box-shadow: none;
     outline: none;
 }
-.checkbox-select .select2-selection__arrow {
+
+.checkbox-select .select2-selection__arrow,.main-select .selection__arrow {
     content: "\e909";
     font-family: 'wpsp';
     background-size: contain;
@@ -384,6 +386,6 @@
     width: 12px;
 }
 
-.checkbox-select .select2-selection__arrow b {
+.checkbox-select .select2-selection__arrow b,.main-select .select2-selection__arrow b {
     display: none;
 }

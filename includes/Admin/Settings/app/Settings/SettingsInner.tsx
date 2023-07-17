@@ -4,6 +4,7 @@ import { FormBuilder, useBuilderContext } from "quickbuilder";
 import apiFetch from '@wordpress/api-fetch';
 import { SweetAlertToaster,SweetAlertProMsg } from './ToasterMsg';
 import Content from "./Content";
+import Sidebar from "./Sidebar";
 
 const SettingsInner = (props) => {
   const builderContext = useBuilderContext();
@@ -37,7 +38,7 @@ const SettingsInner = (props) => {
   return (
     <div className="wpsp-admin-wrapper">
       <Content>
-        <FormBuilder {...builderContext} values={{}} value={builderContext.config.active} onChange={onChange} />
+        <FormBuilder {...builderContext} value={builderContext.config.active} onChange={onChange} />
       </Content>
     </div>
   );

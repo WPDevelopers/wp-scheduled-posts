@@ -5,9 +5,11 @@ import { Draggable } from "@fullcalendar/interaction";
 import { addQueryArgs } from '@wordpress/url';
 // @wordpress/component
 import { Button } from "@wordpress/components";
+import { default as ReactSelect } from "react-select";
+import { selectStyles } from "../../helper/styles";
 
 // Define your component
-export default function Sidebar() {
+export default function Sidebar({handleOpenModal}) {
   // Define your state variables
   const [posts, setPosts] = useState([]);
   const [postType, setPostType] = useState(null);
@@ -83,6 +85,22 @@ export default function Sidebar() {
     setAllowCategories(values);
   }
 
+  const deletePost = useCallback((id) => {
+    apiFetch({
+      path: addQueryArgs("/wpscp/v1/post", {ID: id}),
+      method: "DELETE",
+      // data: query,
+    }).then((data: []) => {
+      // Set your posts state with the fetched data
+      console.log(data);
+    });
+  }, []);
+
+  const options = [
+    {label : "Option 1",value : "options-1"},
+    {label : "Option 2",value : "options-2"},
+  ]
+
   // Return your JSX element
   return (
     <div id="external-events">
@@ -91,9 +109,15 @@ export default function Sidebar() {
           Unscheduled {postType ? postType : "Posts"}{" "}
           <span className="spinner"></span>
         </h4>
-        <select name="select" id="select" className="select">
-          <option>Select</option>
-        </select>
+        <ReactSelect
+          id="category"
+          options={options}
+          styles={selectStyles}
+          closeMenuOnSelect={false}
+          hideSelectedOptions={false}
+          autoFocus={false}
+          className="main-select"
+        />
         {postType !== "page" && (
           <select
             id="external-events-filter"
@@ -139,10 +163,16 @@ export default function Sidebar() {
                 <div className="card">
                   <i className="wpsp-icon wpsp-dots">
                     <ul className="edit-area">
-                      <li><a target="_blank" href={decodeURIComponent(post.href)}>view</a></li>
-                      <li><a target="_blank" href={decodeURIComponent(post.edit)}>edit</a></li>
-                      <li><Button>quick edit</Button></li>
-                      <li>delete</li>
+                      <li><Button variant="link" target="_blank" href={decodeURIComponent(post.href)}>View</Button></li>
+                      <li><Button variant="link" target="_blank" href={decodeURIComponent(post.edit)}>Edit</Button></li>
+                      <li><Button variant="link" href="#" onClick={(event) => {
+                        event.preventDefault();
+                        handleOpenModal(post);
+                      }}>Quick Edit</Button></li>
+                      <li><Button variant="link" href="#" onClick={(event) => {
+                        event.preventDefault();
+                        deletePost(post.postId);
+                      }}>Delete</Button></li>
                     </ul>
                   </i>
                   <span className="set-time">{post.postTime}</span>
