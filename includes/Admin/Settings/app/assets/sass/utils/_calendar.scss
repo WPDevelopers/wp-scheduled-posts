@@ -17,6 +17,51 @@
                 }
                 .card {
                     position: relative;
+                    margin-top: 20px;
+                    padding: 14px 14px 10px;
+                    min-width: 200px;
+                    max-width: unset;
+                    border: none;
+                    box-shadow: none;
+                    background: #FCF0E4;
+                    border-radius: 6px;
+                    box-sizing: border-box;
+                    &:before {
+                        position: absolute;
+                        content: '';
+                        width: 2px;
+                        height: 64px;
+                        background: #E8821E;
+                        border-radius: 50px;
+                        left: -1px;
+                        top: 18px;
+                    }
+                    .set-time {
+                        font-size: 12px;
+                        font-weight: 500;
+                        line-height: 1.2em;
+                        color: #73400D;
+                        margin-bottom: 10px;
+                        display: block;
+                    }
+                    h3 {
+                        color: #E8821E;
+                        font-size: 14px;
+                        font-weight: 500;
+                        line-height: 1.2em;
+                        margin: 0 0 10px;
+                    }
+                    .Unscheduled-badge {
+                        font-size: 8px;
+                        text-transform: uppercase;
+                        color: #fff;
+                        font-weight: 500;
+                        line-height: 1.2em;
+                        background: #E8821E;
+                        padding: 4px 6px;
+                        border-radius: 20px;
+                        display: inline-block;
+                    }
                     i {
                         position: absolute;
                         right: 10px;
@@ -55,11 +100,45 @@
                                 border-radius: 4px;
                                 transition: ease-in-out .25s;
                                 cursor: pointer;
+                                button, 
+                                a {
+                                    font-size: 14px;
+                                    font-weight: 500;
+                                    line-height: 1.2em;
+                                    text-transform: capitalize;
+                                    color: #1B1B50;
+                                    text-decoration: none;
+                                    border: none;
+                                    padding: unset;
+                                    background: transparent;
+                                    cursor: pointer;
+                                    &:hover {
+                                        background: #F3F2FF;
+                                        color: #6C62FF;
+                                    }
+                                }
                                 &:hover {
                                     background: #F3F2FF;
                                     color: #6C62FF;
                                 }
                             }
+                        }
+                    }
+                }
+                p {
+                    margin: 32px 0 0;
+                    .btn-draft-post-create {
+                        background: #E5FAF4;
+                        padding: 16px 22px;
+                        border-radius: 6px;
+                        font-size: 14px;
+                        font-weight: 500;
+                        line-height: 1.2em;
+                        color: #26D39E;
+                        text-decoration: none;
+                        display: inline-block;
+                        &:hover {
+                            color: #26D39E;
                         }
                     }
                 }
@@ -74,10 +153,176 @@
                     justify-content: space-between;
                     align-items: center;
                     border-radius: 6px 6px 0 0;
-                    margin-bottom: 20px;
-                    select {
-                        min-width: 140px;
-                        height: 44px;
+                    margin-bottom: 5px;
+                    .left {
+                        display: flex;
+                        gap: 18px;
+                        select {
+                            font-size: 16px;
+                            font-weight: 500;
+                            line-height: 1.2em;
+                            color: #6E6E8D;
+                            min-width: 140px;
+                            height: 44px;
+                            border: 1px solid #EBEEF5;
+                            text-transform: capitalize;
+                        }
+                    }
+                    .middle {
+                        font-size: 24px;
+                        font-weight: 600;
+                        line-height: 1.2em;
+                        color: #1B1B50;
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                    }
+                    .right {
+                        display: flex;
+                        align-items: center;
+                        gap: 18px;
+                        button {
+                            background: #F3F2FF;
+                            padding: 16px 22px;
+                            border: none;
+                            box-sizing: border-box;
+                            border-radius: 6px;
+                            color: #6C62FF;
+                            font-size: 14px;
+                            font-weight: 500;
+                        }
+                        i {
+                            font-size: 24px;
+                            color: #fff;
+                            background: #26D39E;
+                            padding: 10px;
+                            border-radius: 6px;
+                        }
+                    }
+                }
+                .fc-theme-standard {
+                    .fc-header-toolbar {
+                        position: relative !important;
+                        margin-bottom: 0;
+                        .fc-toolbar-chunk {
+                            .fc-toolbar-title {
+                                display: none;
+                            }
+                            .fc-today-button {
+                                display: none;
+                            }
+                            .fc-button-group {
+                                position: unset !important;
+                                .fc-button-primary {
+                                    background-color: #F3F2FF !important;
+                                    border: 1px solid #EBEEF5 !important;
+                                    border-radius: 0 !important;
+                                    width: 40px !important;
+                                    height: 49px !important;
+                                    &:focus {
+                                        box-shadow: none;
+                                    }
+                                    .fc-icon {
+                                        font-size: 16px;
+                                        color: #6C62FF;
+                                    }
+                                }
+                                .fc-prev-button {
+                                    position: absolute !important;
+                                    left: 0px;
+                                    top: 18px;
+                                }
+                                .fc-next-button {
+                                    position: absolute !important;
+                                    right: 0px;
+                                    top: 18px;
+                                }
+                            }
+                            .fc-button {
+                                position: unset !important;
+                            }
+                        }
+                    }
+                    .fc-view-harness {
+                        margin: 0 40px !important;
+                        position: relative;
+                        thead {
+                            .fc-scroller {
+                                .fc-col-header-cell {
+                                    padding: 14px 28px !important;
+                                    background: #fff;
+                                    transition: ease-in-out .25s;
+                                    &:hover {
+                                        background: #F3F2FF;
+                                        a {
+                                            color: #6C62FF;
+                                        }
+                                    }
+                                    .fc-col-header-cell-cushion {
+                                        font-size: 12px;
+                                        font-weight: 500;
+                                        color: #1B1B50;
+                                        text-transform: uppercase;
+                                        padding: 0;
+                                    }
+                                }
+                            }
+
+                        }
+                        .fc-daygrid-body {
+                            .fc-daygrid-day-frame {
+                                padding: 6px;
+                                background: #F9FAFC;
+                                .fc-daygrid-day-top {
+                                    display: flex;
+                                    flex-direction: row;
+                                    align-items: center;
+                                    justify-content: space-between;
+                                    gap: 10px;
+                                    .fc-daygrid-day-number {
+                                        font-size: 14px;
+                                        line-height: 1.2em;
+                                        color: #6E6E8D;
+                                        padding: 6px 8px;
+                                        background: #fff;
+                                        border-radius: 4px;
+                                    }
+                                    button {
+                                        font-size: 12px;
+                                        line-height: 1.2em;
+                                        color: #6E6E8D;
+                                        padding: 0;
+                                        border: none;
+                                        background: transparent;
+                                        cursor: pointer;
+                                    }
+                                }
+                                .fc-daygrid-day-events {
+                                    .fc-event {
+                                        border: none;
+                                        background: #ECF5E7;
+                                        padding: 14px;
+                                        border-radius: 6px;
+                                        margin-top: 6px;
+                                        .wpscp-event-post {
+                                            span {
+                                                display: flex;
+                                                flex-direction: column;
+                                                font-size: 14px;
+                                                line-height: 1.2em;
+                                                font-weight: 500;
+                                                color: #64AA3C;
+                                                .posttime {
+                                                    font-size: 12px !important;
+                                                    color: #2C5417;
+                                                    margin-bottom: 10px;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }

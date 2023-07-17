@@ -4,7 +4,6 @@
         gap: 30px;
     }
     .wprf-control-section {
-        flex-basis: 50%;
         .header {
             display: flex;
             justify-content: space-between;
@@ -32,6 +31,7 @@
         }
     }
     .auto_scheduler {
+        flex-basis: 45%;
         .content {
             display: flex;
             justify-content: space-between;
@@ -107,17 +107,20 @@
                     line-height: 1.2em;
                     color: #6E6E8D;
                     margin-bottom: 16px;
+                    text-align: center;
                 }
                 h6 {
                     font-size: 12px;
                     line-height: 1.2em;
                     color: #1B1B50;
                     margin: 0;
+                    text-transform: uppercase;
                 }
             }
         }
     }
     .manual_scheduler {
+        flex-basis: 55%;
         .content {
             display: flex;
             justify-content: space-between;
@@ -162,17 +165,21 @@
                 border: 1px solid #F3F2FF;
                 border-radius: 4px;
                 padding: 12px 4px 4px;
+                flex-grow: 1;
                 h6 {
                     font-size: 12px;
                     line-height: 1.2em;
                     font-weight: 500;
                     color: #1B1B50;
+                    text-transform: uppercase;
+                    text-align: center;
                     margin: 0 0 4px;
                 }
                 span {
                     display: flex;
                     align-items: center;
                     gap: 6px;
+                    justify-content: space-between;
                     font-size: 10px;
                     line-height: 1.6em;
                     color: #6C62FF;

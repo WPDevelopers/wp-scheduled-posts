@@ -162,9 +162,9 @@ export default function Sidebar({handleOpenModal}) {
                       }}>Delete</Button></li>
                     </ul>
                   </i>
-                  <span>{post.postTime}</span>
+                  <span className="set-time">{post.postTime}</span>
                   <h3>{post.title}</h3>
-                  <span>page</span>
+                  <span className="Unscheduled-badge">page</span>
                 </div>
               </div>
             )

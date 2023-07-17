@@ -88,9 +88,8 @@
                                 padding: 24px !important;
                             }
                             h4 {
-                                font-family: Inter;
                                 font-size: 24px;
-                                line-height: 30px;
+                                line-height: 1.2em;
                                 letter-spacing: 0px !important;
                                 font-weight: 600 !important;
                                 color: #1B1B50 !important;
@@ -157,8 +156,7 @@
                                         color: #1B1B50 !important;
                                         font-size: 16px;
                                         font-weight: 500 !important;
-                                        font-family: inter;
-                                        line-height: 20px;
+                                        line-height: 1.2em;
                                         text-transform: unset !important;
                                         margin-bottom: 0 !important;
                                         padding: 0;
@@ -246,7 +244,6 @@
                                             }
                                             .wprf-description {
                                                 position: relative;
-                                                font-family: 'Inter';
                                                 font-weight: 500;
                                                 color: #FF9437;
                                                 margin-left: 0 !important;
@@ -271,8 +268,7 @@
                                             color: #1B1B50;
                                             font-size: 16px;
                                             font-weight: 500;
-                                            font-family: inter;
-                                            line-height: 20px;
+                                            line-height: 1.2em;
                                             @media screen and (max-width: 1023px)  { 
                                                 font-size: 14px;
                                             }
@@ -394,9 +390,8 @@
                                             margin-bottom: 20px;
                                         }
                                         h3 {
-                                            font-family: Inter;
                                             font-size: 24px;
-                                            line-height: 30px;
+                                            line-height: 1.2em;
                                             letter-spacing: 0px !important;
                                             font-weight: 600 !important;
                                             color: #1B1B50 !important;
@@ -503,10 +498,9 @@
                     background: #6C62FF;
                     color: #fff;
                     border-radius: 6px;
-                    font-family: inter;
                     font-size: 14px;
                     font-weight: 500;
-                    line-height: 17px;
+                    line-height: 1.2em;
                     cursor: pointer;
                 }
             }
