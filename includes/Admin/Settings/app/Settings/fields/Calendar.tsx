@@ -14,6 +14,8 @@ import { Button } from "@wordpress/components";
 import { default as ReactSelect } from "react-select";
 import { selectStyles } from "../helper/styles";
 import { components } from "react-select";
+import ReactMonthPicker from 'react-month-picker'
+
 
 export default function Calendar(props) {
   // @ts-ignore
@@ -25,6 +27,12 @@ export default function Calendar(props) {
   // EditPost state
   const [postData, setPostData] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedMonth, setSelectedMonth] = useState(new Date());
+
+  const handleMonthChange = (value, text) => {
+    setSelectedMonth(value);
+  };
+
   const handleOpenModal = (post?) => {
     setPostData(post || {});
     setIsModalOpen(true);
@@ -91,7 +99,7 @@ export default function Calendar(props) {
 
   const options = [
     {label : "Option 1",value : "options-1"},
-    {label : "Option 2",value : "options-2"},
+    {label : "Option 2",value : "options-2"}
   ]
 
   return (
@@ -132,8 +140,18 @@ export default function Calendar(props) {
           <div className="middle">
             {/* calendar dropdown */}
             {calendar.current && calendar.current.getApi().view.title}
-            <input type="month" id="start" name="start"
-            min="2018-03" value="2018-05"></input>
+            {/* <input type="month" id="start" name="start"
+            min="2018-03" value="2018-05"></input> */}
+            <p>Selected Month: {selectedMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</p>
+            {/* <ReactMonthPicker
+              value={{year: 2014, month: 11}}
+              selected={selectedMonth}
+              onChange={handleMonthChange}
+              showYearPicker
+              enableYearChange
+              id="budget-month-picker"
+            /> */}
+
           </div>
           <div className="right">
             <button>Today</button>
