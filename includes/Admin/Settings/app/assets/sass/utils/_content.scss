@@ -202,7 +202,7 @@
                                 .wprf-control-wrapper {
                                     display: flex;
                                     align-items: center;
-                                    flex-wrap: wrap;
+                                    flex-wrap: nowrap;
                                     gap: 20px;
                                     justify-content: space-between;
                                     border: 1px solid #EBEEF5;
@@ -276,6 +276,14 @@
                                     }
                                     .wprf-control-field {
                                         flex-basis: auto;
+                                        .wprf-toggle-wrap {
+                                            order: 1;
+                                        }
+                                        .wprf-description {
+                                            font-size: 14px;
+                                            color: #6E6E8D;
+                                            margin: 0 20px 0 0;
+                                        }
                                         // 
                                         // .wprf-toggle-wrap {
                                         //     .wprf-checked:before {
