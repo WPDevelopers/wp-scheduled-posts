@@ -153,6 +153,7 @@ export default function Calendar(props) {
             ref={calendar}
             plugins={[dayGridPlugin, interactionPlugin]}
             initialView="dayGridMonth"
+            dayMaxEvents={1}
             // weekends={true}
             events={events}
             // firstDay={props.firstDay}
