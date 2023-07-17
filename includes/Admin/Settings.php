@@ -214,14 +214,15 @@ class Settings {
                                     'priority' => 10,
                                 ],
                                 'adminbar_list_structure' => [
-                                    'name'     => 'adminbar_list_structure',
-                                    'type'     => 'section',
-                                    'label'    => __('Custom item template for scheduled posts list in the admin bar:', 'wp-scheduled-posts'),
-                                    'collapsible'  => true,
-                                    'classes'   => 'section-collapsible',
-                                    'default'  => 1,
-                                    'priority' => 15,
-                                    'fields'   => [
+                                    'name'          => 'adminbar_list_structure',
+                                    'type'          => 'section',
+                                    'label'         => __('Custom item template for scheduled posts list in the admin bar:', 'wp-scheduled-posts'),
+                                    'collapsible'   => true,
+                                    'collapsed'     => true,
+                                    'classes'       => 'section-collapsible',
+                                    'default'       => 1,
+                                    'priority'      => 15,
+                                    'fields'        => [
                                         'adminbar_list_structure_template'  => [
                                             'id'            => 'adminbar_list_structure_template',
                                             'name'          => 'adminbar_list_structure_template',

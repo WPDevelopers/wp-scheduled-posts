@@ -5,6 +5,8 @@ import { Draggable } from "@fullcalendar/interaction";
 import { addQueryArgs } from '@wordpress/url';
 // @wordpress/component
 import { Button } from "@wordpress/components";
+import { default as ReactSelect } from "react-select";
+import { selectStyles } from "../../helper/styles";
 
 // Define your component
 export default function Sidebar({handleOpenModal}) {
@@ -94,6 +96,11 @@ export default function Sidebar({handleOpenModal}) {
     });
   }, []);
 
+  const options = [
+    {label : "Option 1",value : "options-1"},
+    {label : "Option 2",value : "options-2"},
+  ]
+
   // Return your JSX element
   return (
     <div id="external-events">
@@ -102,9 +109,15 @@ export default function Sidebar({handleOpenModal}) {
           Unscheduled {postType ? postType : "Posts"}{" "}
           <span className="spinner"></span>
         </h4>
-        <select name="select" id="select" className="select">
-          <option>Select</option>
-        </select>
+        <ReactSelect
+          id="category"
+          options={options}
+          styles={selectStyles}
+          closeMenuOnSelect={false}
+          hideSelectedOptions={false}
+          autoFocus={false}
+          className="main-select"
+        />
         {postType !== "page" && (
           <select
             id="external-events-filter"

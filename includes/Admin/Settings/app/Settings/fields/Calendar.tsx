@@ -11,7 +11,8 @@ import EditPost from "./Calendar/Edit";
 import { s } from "@fullcalendar/core/internal-common";
 // const events = [{ title: "Meeting", start: new Date() }];
 import { Button } from "@wordpress/components";
-
+import { default as ReactSelect } from "react-select";
+import { selectStyles } from "../helper/styles";
 
 export default function Calendar(props) {
   // @ts-ignore
@@ -71,6 +72,10 @@ export default function Calendar(props) {
   // window.calendar = calendar;
   // console.log(props);
 
+  const options = [
+    {label : "Option 1",value : "options-1"},
+    {label : "Option 2",value : "options-2"},
+  ]
 
   return (
     <>
@@ -80,12 +85,23 @@ export default function Calendar(props) {
       <div className="main-content">
         <div className="toolbar">
           <div className="left">
-            <select name="type" id="type" className="select-type">
-              <option>Type</option>
-            </select>
-            <select name="category" id="category" className="select-category">
-              <option>category</option>
-            </select>
+            <ReactSelect
+              options={options}
+              styles={selectStyles}
+              closeMenuOnSelect={false}
+              hideSelectedOptions={false}
+              autoFocus={false}
+              className="main-select"
+            />
+            <ReactSelect
+              id="category"
+              options={options}
+              styles={selectStyles}
+              closeMenuOnSelect={false}
+              hideSelectedOptions={false}
+              autoFocus={false}
+              className="main-select"
+            />
           </div>
           <div className="middle">
             {/* calendar dropdown */}

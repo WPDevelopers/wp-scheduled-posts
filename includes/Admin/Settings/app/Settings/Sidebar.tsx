@@ -5,7 +5,8 @@ const docIcon =  require("../assets/images/doc.png");
 
 const Sidebar = ({ props }) => {
     const builderContext = useBuilderContext();
-
+    console.log("Hello from sidebar");
+    
     if(props.id !== 'tab-sidebar-layout' || builderContext.config.active === 'layout_calendar' ) {
         return;
     }
