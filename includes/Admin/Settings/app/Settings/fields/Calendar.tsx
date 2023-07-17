@@ -14,7 +14,7 @@ import { Button } from "@wordpress/components";
 import { default as ReactSelect } from "react-select";
 import { selectStyles } from "../helper/styles";
 import { components } from "react-select";
-import ReactMonthPicker from 'react-month-picker'
+import Monthpicker from '@compeon-os/monthpicker'
 
 
 export default function Calendar(props) {
@@ -23,15 +23,11 @@ export default function Calendar(props) {
   const restRoute = props.rest_route;
   const calendar = useRef<FullCalendar>();
   const builderContext = useBuilderContext();
+  const [yearMonth, setYearMonth] = useState("11.2022") // @todo 
 
   // EditPost state
   const [postData, setPostData] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedMonth, setSelectedMonth] = useState(new Date());
-
-  const handleMonthChange = (value, text) => {
-    setSelectedMonth(value);
-  };
 
   const handleOpenModal = (post?) => {
     setPostData(post || {});
@@ -41,8 +37,6 @@ export default function Calendar(props) {
     setPostData({});
     setIsModalOpen(false);
   };
-
-
 
   const getUrl = () => {
     const date  = calendar.current?.getApi().view.currentStart;
@@ -101,6 +95,7 @@ export default function Calendar(props) {
     {label : "Option 1",value : "options-1"},
     {label : "Option 2",value : "options-2"}
   ]
+  const [month, year] = yearMonth.split('.');
 
   return (
     <>
@@ -139,19 +134,18 @@ export default function Calendar(props) {
           </div>
           <div className="middle">
             {/* calendar dropdown */}
-            {calendar.current && calendar.current.getApi().view.title}
             {/* <input type="month" id="start" name="start"
             min="2018-03" value="2018-05"></input> */}
-            <p>Selected Month: {selectedMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</p>
-            {/* <ReactMonthPicker
-              value={{year: 2014, month: 11}}
-              selected={selectedMonth}
-              onChange={handleMonthChange}
-              showYearPicker
-              enableYearChange
-              id="budget-month-picker"
-            /> */}
-
+            <Monthpicker
+              locale="en"
+              format='MM.yyyy' 
+              month={parseInt(month)}
+              year={parseInt(year)}
+              onChange={(event) => {
+              setYearMonth(event)
+            }}>
+              { calendar.current && calendar.current.getApi().view.title }
+            </Monthpicker>
           </div>
           <div className="right">
             <button>Today</button>
