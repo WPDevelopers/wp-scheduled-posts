@@ -59,17 +59,17 @@ const AutoScheduler = (props) => {
     let { name, multiple, onChange } = props;
     useEffect(() => {
 
-        let valueFormat = autoScheduler?.map( (item) => {
+        let autoSchedulerObj = autoScheduler?.map( (item) => {
             let property_name = item?.day+'_post_limit';
             return { [property_name] : item?.value }
         } )
-        valueFormat.push( { start_time : startSelectedTime?.value }  );
-        valueFormat.push( { end_time : endSelectedTime?.value }  );
+        autoSchedulerObj.push( { start_time : startSelectedTime?.value }  );
+        autoSchedulerObj.push( { end_time : endSelectedTime?.value }  );
 		onChange({
 			target: {
 				type: "auto-scheduler",
 				name,
-				value: valueFormat,
+				value: autoSchedulerObj,
 				multiple,
 			},
 		});

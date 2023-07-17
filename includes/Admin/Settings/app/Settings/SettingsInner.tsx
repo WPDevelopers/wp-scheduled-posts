@@ -4,6 +4,7 @@ import { FormBuilder, useBuilderContext } from "quickbuilder";
 import apiFetch from '@wordpress/api-fetch';
 import { SweetAlertToaster,SweetAlertProMsg } from './ToasterMsg';
 import Content from "./Content";
+import Sidebar from "./Sidebar";
 
 const SettingsInner = (props) => {
   const builderContext = useBuilderContext();

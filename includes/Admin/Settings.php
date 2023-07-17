@@ -951,7 +951,7 @@ class Settings {
                     'name'     => 'layout_advance_schedule',
                     'type'     => 'section',
                     'label'    => __('Advance Schedule', 'wp-scheduled-posts'),
-                    'priority' => 5,
+                    'priority' => 35,
                     'classes'  => 'pro_feature',
                     'fields'   => [
                         'advance_schedule_wrapper'  => [
@@ -1030,7 +1030,7 @@ class Settings {
                     'name'     => 'layout_missed_schedule',
                     'type'     => 'section',
                     'label'    => __('Missed Schedule', 'wp-scheduled-posts'),
-                    'priority' => 5,
+                    'priority' => 40,
                     'classes'  => 'pro_feature',
                     'fields'   => [
                         'missed_schedule_wrapper'   => [
