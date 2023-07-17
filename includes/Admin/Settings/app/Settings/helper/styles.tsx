@@ -24,6 +24,6 @@ export const selectStyles = {
     },
     menu: (provided) => ({
       ...provided,
-      zIndex: 9999 // Set the desired z-index value
+      zIndex: 9999
     })
 }
