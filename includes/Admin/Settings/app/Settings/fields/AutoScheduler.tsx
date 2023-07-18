@@ -22,6 +22,7 @@ const AutoScheduler = (props) => {
     getEndTime = getEndTime ? getEndTime['end_time'] : '';
     const startTimeFormat = { label : getStartTime, value : getStartTime };
     const endTimeFormat = { label : getEndTime, value : getEndTime };
+    
     const [autoScheduler,setAutoSchedulerValue] = useState(modifiedDayDataFormet ?? []);
     const [startSelectedTime, setStartSelectedTime] = useState(startTimeFormat);
     const [endSelectedTime, setEndSelectedTime] = useState(endTimeFormat);
@@ -90,8 +91,8 @@ const AutoScheduler = (props) => {
             <div className="content">
                 <div className="start-time set-timing">
                     <div className="time-title">
-                        <h4>Start Time</h4>
-                        <span>Default : { startSelectedTime?.label }</span>
+                        <h4>{ __('Start Time','wp-scheduled-posts') }</h4>
+                        <span>{ __('Default','wp-scheduled-posts') } : { startSelectedTime?.label }</span>
                     </div>
                     <div className="time">
                         <Select
@@ -104,8 +105,8 @@ const AutoScheduler = (props) => {
                 </div>
                 <div className="end-time set-timing">
                     <div className="time-title">
-                        <h4>End Time</h4>
-                        <span>Default : {endSelectedTime?.label}</span>
+                        <h4>{ __('End Time','wp-scheduled-posts') }</h4>
+                        <span>{ __('Default','wp-scheduled-posts') } : {endSelectedTime?.label}</span>
                     </div>
                     <div className="time">
                         <Select

@@ -1,94 +1,210 @@
-.wprf-tab-layout_social_template{
-    .wprf-tabs-wrapper {
-        .wprf-tab-content-wrapper {
-            .wprf-type-radio-card{
-                .wprf-control-field {
-                    .wprf-row {
-                        align-items: center;
-                        justify-content: flex-end;
-                        gap: 24px;
-                        .wprf-column-3 {
-                            width: auto !important;
-                            padding: 0 !important;
-                            .wprf-input-radio-option {
-                                min-height: auto !important;
-                                position: unset !important;
-                                box-shadow: none !important;
-                                margin-top: 0 !important;
-                                line-height: normal !important;
-                                gap: 8px;
-                                .wprf-input-label {
-                                    height: auto !important;
-                                    width: auto !important;
-                                    background: transparent !important;
-                                    color: #1B1B50 !important;
-                                    font-size: 14px;
-                                    border-radius: 0 !important;
-                                    padding: 0 !important;
-                                    margin-bottom: 0;
-                                    box-sizing: border-box;
-                                    order: 1;
-                                }
-                                input {
-                                    box-shadow: none !important;
-                                    border: 1px solid #EBEEF5 !important;
-                                    background-color: transparent !important;
-                                    color: #1B1B50 !important;
-                                    padding: 0 !important;
-                                    margin: 0 !important;
-                                    line-height: 10px !important;
-                                    min-width: 10px !important;
-                                    min-height: 10px !important;
-                                    display: block !important;
-                                }
-                                // .wprf-input-label {
-                                    // position: absolute !important;
-                                    // right: -48px !important;
-                                    // top: 0 !important;
-                                    // height: auto !important;
-                                    // width: auto !important;
-                                    // display: flex;
-                                    // align-items: center;
-                                    // justify-content: center;
-                                    // transition: background 0.3s ease 0s;
-                                    // background: transparent !important;
-                                    // font-size: 14px;
-                                    // border-radius: 5px;
-                                    // padding: 0 !important;
-                                    // margin-bottom: 0 !important;
-                                    // box-sizing: border-box;
-                                // }
-                                &:after {
-                                    display: none !important;
-                                }
-                                &:before {
-                                    display: none !important;
-                                    right: 2px !important;
-                                    top: 2px !important;
-                                    left: auto !important;
-                                    width: 20px !important;
-                                    height: 20px !important;
-                                    box-sizing: border-box;
-                                    transition: all 0.3s ease 0s;
-                                    background: #09dca8;
-                                    border-radius: 100% !important;
-                                }
-                            }
-                            // .wprf-option-selected {
-                            //     .wprf-input-label {
-                            //         background-color: transparent !important;
-                            //         color: black !important;
-                            //     }
-                            // }
-                        }
+// .wprf-tab-layout_social_template{
+//     .wprf-tabs-wrapper {
+//         .wprf-tab-content-wrapper {
+            
+//         }
+//     }
+    
+// }
+
+.swal2-container {
+    background: rgba(27, 27, 80, .4) !important;
+    padding: 100px !important;
+    .swal2-modal {
+        position: relative;
+        box-sizing: border-box;
+        grid-template-columns: minmax(0,100%);
+        width: 550px;
+        max-width: 100%;
+        padding: 40px;
+        border: none;
+        border-radius: 8px;
+        background: #fff;
+        .swal2-title {
+            font-size: 38px;
+            line-height: 1.2em;
+            font-style: italic;
+            color: #FF9437;
+            margin-bottom: 24px;
+            padding: 0px;
+        }
+        .swal2-html-container {
+            margin: 0;
+            h4 {
+                font-size: 22px;
+                line-height: 1.2em;
+                color: #1B1B50;
+                margin: 0 0 32px;
+            }
+            img {
+                border: none;
+                max-width: 100%;
+                width: 400px;
+                display: block;
+                text-align: center;
+                margin: 0 auto;
+            } 
+            a {
+                display: inline-block;
+                background: #6C62FF !important;
+                padding: 20px 24px !important;
+                border-radius: 6px !important;
+                height: auto !important;
+                line-height: 0px;
+                margin-top: 32px;
+                border: none;
+                cursor: pointer;
+                button {
+                    font-weight: 500;
+                    font-size: 14px;
+                    line-height: 1.2em;
+                    color: #fff;
+                    background: transparent;
+                    border: none;
+                    padding: unset;
+                    cursor: pointer;
+                }
+            }
+        }  
+    }
+    
+}
+
+.ReactModal__Overlay {
+    position: fixed;
+    inset: 0px;
+    background: rgba(27, 27, 80, .4) !important;
+    padding: 50px 20px !important;
+    display: flex;
+    overflow: auto;
+    z-index: 999;
+    .modal_wrapper {
+        inset: 40px;
+        border: none !important;
+        background: rgb(255, 255, 255) !important;
+        overflow: hidden;
+        border-radius: 8px;
+        outline: none;
+        padding: 40px;
+        margin: auto;
+        max-width: 100%;
+        width: 600px !important;
+        box-sizing: border-box;
+        position: relative;
+        .close-button {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: transparent;
+            border: none;
+            font-size: 16px;
+            color: #989FAB;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .platform-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 32px;
+            h4 {
+                font-size: 22px !important;
+                margin: 0 !important;
+                color: #1B1B50;
+                line-height: 26px;
+                font-weight: 600 !important;
+                text-transform: capitalize;
+            }
+        }
+        .toggler_wrapper {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 32px;
+            input {
+                margin: 0 !important;
+                order: 1;
+            }
+            .text {
+                color: #1B1B50;
+                font-size: 16px;
+                font-weight: 500;
+                line-height: 20px;
+            }
+        }
+        .wpsp-modal-generate-token-button {
+            display: inline-block;
+            background: #6C62FF !important;
+            color: #fff;
+            padding: 20px 24px !important;
+            border-radius: 6px !important;
+            height: auto !important;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 17px !important;
+            margin-bottom: 24px;
+            border: none;
+            cursor: pointer;
+        }
+        p {
+            font-size: 14px;
+            line-height: 24px;
+            margin: 0;
+            color: #6E6E8D;
+            a {
+                color: #1B1B50 !important;
+            }
+        }
+        .modalbody {
+            .form-group {
+                margin-bottom: 32px;
+                label {
+                    display: block;
+                    margin-bottom: 16px !important;
+                    font-weight: 500;
+                    color: #1B1B50;
+                    line-height: 20px;
+                }
+                input {
+                    width: 100%;
+                    padding-left: 18px;
+                    padding-right: 18px;
+                    min-height: 50px !important;
+                    border: 1px solid #EBEEF5;
+                    &:focus {
+                        box-shadow: none !important;
+                        outline: 0 !important;
                     }
-                    
+                    &::placeholder {
+                        color: #A6A6BA;
+                    }
+                }
+                .redirect-note {
+                    font-size: 14px;
+                    color: #6E6E8D;
+                    padding-top: 16px;
+                    display: block;
+                }
+            }
+            .wpsp-modal-social-platform {
+                .wpsp-modal-save-account {
+                    font-size: 14px;
+                    font-weight: 500;
+                    line-height: 1.25em;
+                    color: #fff;
+                    padding: 16px 32px;
+                    border: none;
+                    border-radius: 6px;
+                    background: #6C62FF;
+                    margin-top: 20px;
+                    cursor: pointer;
                 }
             }
         }
     }
-    
 }
+
+
 
 
         

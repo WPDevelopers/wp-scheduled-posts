@@ -24,6 +24,7 @@ export default function Calendar(props) {
   const calendar = useRef<FullCalendar>();
   const builderContext = useBuilderContext();
   const [yearMonth, setYearMonth] = useState("11.2022") // @todo 
+  const [editAreaToggle,setEditAreaToggle] = useState([]);
 
   // EditPost state
   const [postData, setPostData] = useState({});
@@ -151,18 +152,21 @@ export default function Calendar(props) {
               onChange={(event) => {
               setYearMonth(event)
             }}>
-              { calendar.current && calendar.current.getApi().view.title }
+              <div className="calender-selected-month">
+                { calendar.current && calendar.current.getApi().view.title }
+                <span className="dashicons dashicons-arrow-down-alt2"></span>
+              </div>
             </Monthpicker>
           </div>
           <div className="right">
             <button>Today</button>
-            <i onClick={handleSlidebarToggle} className={`wpsp-icon wpsp-calendar ${ !sidebarToogle ? 'inactive' : '' }`} />
+            <i onClick={handleSlidebarToggle} className={`wpsp-icon wpsp-manual-sc ${ !sidebarToogle ? 'inactive' : '' }`} />
           </div>
         </div>
         <div className="wprf-calendar-wrapper">
           <div className="button-control-month">
             <button type="button" className="wpsp-prev-button wpsp-button-primary">
-              <i className="wpsp-icon wpsp-next"></i>
+              <i className="wpsp-icon wpsp-prev"></i>
             </button>
             <button type="button" className="wpsp-next-button wpsp-button-primary">
               <i className="wpsp-icon wpsp-next"></i>
@@ -184,7 +188,7 @@ export default function Calendar(props) {
             // weekends={true}
             events={events}
             // firstDay={props.firstDay}
-            eventContent={renderEventContent}
+            eventContent={renderEventContent(editAreaToggle,setEditAreaToggle)}
             dayCellDidMount={(args) => {
               console.log('dayCellDidMount', args);
               const dayTop = args.el.getElementsByClassName('fc-daygrid-day-top');

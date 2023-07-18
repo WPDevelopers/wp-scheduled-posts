@@ -13,8 +13,9 @@ const Option = (props) => {
           type="checkbox"
           checked={props.isSelected}
           onChange={() => null}
+          id="wpsp-checkbox-select"
         />{" "}
-        <label>{props.label}</label>
+        {props.label}
       </components.Option>
     </div>
   );

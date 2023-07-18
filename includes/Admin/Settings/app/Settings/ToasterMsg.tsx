@@ -27,7 +27,8 @@ export const SweetAlertProMsg = (args: any = {}) => {
     const admin_image_path = wpspSettingsGlobal.admin_image_path;
     return Swal.fire({
         title: args?.title ?? __('Opps','wp-scheduled-posts'),
-        showCancelButton: args?.showCancelButton ?? false,
+        showCancelButton: args?.showCancelButton ?? true,
+        cancelButtonText: '<i class="wpsp-icon wpsp-close"></i>',
         showConfirmButton: args?.showConfirmButton ?? false,
         html: `
           <div>
