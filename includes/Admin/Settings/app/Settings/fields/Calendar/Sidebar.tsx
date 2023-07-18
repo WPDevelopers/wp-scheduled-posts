@@ -128,6 +128,12 @@ export default function Sidebar({props,handleOpenModal}) {
     setOptionSelected(updatedItems);
   };
 
+  const [editAreaToggle,setEditAreaToggle] = useState([]);
+
+  useEffect( () => {
+    console.log(editAreaToggle);
+  },[ editAreaToggle ] )
+
   // Return your JSX element
   return (
     <div id="external-events">
@@ -165,20 +171,44 @@ export default function Sidebar({props,handleOpenModal}) {
             ) => (
               <div className="fc-event" data-event={JSON.stringify(post)}>
                 <div className="card">
-                  <i className="wpsp-icon wpsp-dots">
-                    <ul className="edit-area">
-                      <li><Button variant="link" target="_blank" href={decodeURIComponent(post.href)}>View</Button></li>
-                      <li><Button variant="link" target="_blank" href={decodeURIComponent(post.edit)}>Edit</Button></li>
-                      <li><Button variant="link" href="#" onClick={(event) => {
-                        event.preventDefault();
-                        handleOpenModal(post);
-                      }}>Quick Edit</Button></li>
-                      <li><Button variant="link" href="#" onClick={(event) => {
-                        event.preventDefault();
-                        deletePost(post.postId);
-                      }}>Delete</Button></li>
-                    </ul>
+                  <i 
+                    className="wpsp-icon wpsp-dots"
+                    onClick={ () => {
+                      setEditAreaToggle(() => {
+                        let checkExistingIndex = editAreaToggle.findIndex((item) => item.post === post.postId)
+                        if( checkExistingIndex !== -1 ) {
+                          return [
+                            {
+                              post : post.postId,
+                              value : editAreaToggle[checkExistingIndex].value ? false : true,
+                            }
+                          ];
+                        }else{
+                          return [
+                            {
+                              post: post.postId,
+                              value: true,
+                            },
+                          ];
+                        }
+                      });
+                    } }
+                  >  
                   </i>
+                  { editAreaToggle.find(item => item.post === post.postId)?.value && (
+                    <ul className="edit-area">
+                    <li><Button variant="link" target="_blank" href={decodeURIComponent(post.href)}>View</Button></li>
+                    <li><Button variant="link" target="_blank" href={decodeURIComponent(post.edit)}>Edit</Button></li>
+                    <li><Button variant="link" href="#" onClick={(event) => {
+                      event.preventDefault();
+                      handleOpenModal(post);
+                    }}>Quick Edit</Button></li>
+                    <li><Button variant="link" href="#" onClick={(event) => {
+                      event.preventDefault();
+                      deletePost(post.postId);
+                    }}>Delete</Button></li>
+                  </ul>
+                  ) }
                   <span className="set-time">{post.postTime}</span>
                   <h3>{post.title}</h3>
                   <span className="Unscheduled-badge">page</span>
