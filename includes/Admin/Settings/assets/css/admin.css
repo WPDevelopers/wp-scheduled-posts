@@ -5455,10 +5455,6 @@ button.wprf-btn {
   width: 100%;
 }
 
-.swal2-container {
-  background: rgba(27, 27, 80, 0.4) !important;
-  padding: 100px !important;
-}
 .swal2-container .swal2-modal {
   position: relative;
   box-sizing: border-box;

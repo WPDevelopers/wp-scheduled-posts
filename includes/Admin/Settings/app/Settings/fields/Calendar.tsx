@@ -105,11 +105,7 @@ export default function Calendar(props) {
   }
   return (
     <>
-        { sidebarToogle && (
-          <div className="sidebar">
-              <Sidebar props={props} handleOpenModal={handleOpenModal} />
-          </div>
-        ) }
+       
       <div className={`main-content ${!sidebarToogle ? 'basis-100' : ''}`}>
         <div className="toolbar">
           <div className="left">
@@ -229,6 +225,11 @@ export default function Calendar(props) {
           />
         </div>
       </div>
+      { sidebarToogle && (
+          <div className="sidebar">
+              <Sidebar props={props} handleOpenModal={handleOpenModal} />
+          </div>
+        ) }
       <EditPost post={postData} isOpen={isModalOpen} closeModal={handleCloseModal} />
     </>
   );
