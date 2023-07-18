@@ -149,7 +149,7 @@ export default function Calendar(props) {
           </div>
           <div className="right">
             <button>Today</button>
-            <i className="wpsp-icon wpsp-manual-sc" />
+            <i className="wpsp-icon wpsp-sidebar" />
           </div>
         </div>
         <div className="wprf-calendar-wrapper">
