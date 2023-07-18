@@ -10,3 +10,6 @@ includes/Admin/Settings/assets/js/admin.js.map
 **/*.map
 .idea/*
 .vscode/launch.json
+includes/Admin/Settings/assets/css/admin.css
+includes/Admin/Settings/assets/js/admin.asset.php
+includes/Admin/Settings/assets/js/admin.js
