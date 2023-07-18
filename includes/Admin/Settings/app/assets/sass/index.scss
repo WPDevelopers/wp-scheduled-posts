@@ -15,14 +15,8 @@
 }
 
 
-
-
-
-
 .swal2-container {
-    background: rgba(27, 27, 80, .4) !important;
-    padding: 100px !important;
-    .swal2-popup {
+    .swal2-modal {
         position: relative;
         box-sizing: border-box;
         grid-template-columns: minmax(0,100%);
@@ -81,8 +75,6 @@
     }
     
 }
-
-
 
 .ReactModal__Overlay {
     position: fixed;
@@ -431,3 +423,12 @@
 #wpsp-dashboard-body .main-content .middle {
     cursor: pointer;
 }
+// #wpsp-checkbox-select {
+//     border: 1px solid #D7DBDF;
+//     border-radius: 2px;
+// }
+// #wpsp-checkbox-select:checked {
+//     background-color: #02AC6E;
+//     border: none;
+//     color: #fff;
+// }
