@@ -1,15 +1,6 @@
-// .wprf-tab-layout_social_template{
-//     .wprf-tabs-wrapper {
-//         .wprf-tab-content-wrapper {
-            
-//         }
-//     }
-    
-// }
-
 .swal2-container {
     background: rgba(27, 27, 80, .4) !important;
-    padding: 100px !important;
+    padding: 50px 20px !important;
     .swal2-modal {
         position: relative;
         box-sizing: border-box;
@@ -20,6 +11,24 @@
         border: none;
         border-radius: 8px;
         background: #fff;
+        .swal2-cancel {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: transparent;
+            border: none;
+            font-size: 16px;
+            color: #989FAB;
+            font-weight: 500;
+            box-shadow: none;
+            padding: 0;
+            margin: 0;
+            cursor: pointer;
+            &:focus {
+                box-shadow: none;
+                background-image: none;
+            }
+        }
         .swal2-title {
             font-size: 38px;
             line-height: 1.2em;
@@ -65,6 +74,9 @@
                     cursor: pointer;
                 }
             }
+        }
+        .swal2-styled:hover {
+            background-image: none !important;
         }  
     }
     

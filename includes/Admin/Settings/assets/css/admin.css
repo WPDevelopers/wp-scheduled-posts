@@ -5456,7 +5456,7 @@ button.wprf-btn {
 
 .swal2-container {
   background: rgba(27, 27, 80, 0.4) !important;
-  padding: 100px !important;
+  padding: 50px 20px !important;
 }
 .swal2-container .swal2-modal {
   position: relative;
@@ -5468,6 +5468,24 @@ button.wprf-btn {
   border: none;
   border-radius: 8px;
   background: #fff;
+}
+.swal2-container .swal2-modal .swal2-cancel {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  color: #989FAB;
+  font-weight: 500;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+.swal2-container .swal2-modal .swal2-cancel:focus {
+  box-shadow: none;
+  background-image: none;
 }
 .swal2-container .swal2-modal .swal2-title {
   font-size: 38px;
@@ -5514,6 +5532,9 @@ button.wprf-btn {
   border: none;
   padding: unset;
   cursor: pointer;
+}
+.swal2-container .swal2-modal .swal2-styled:hover {
+  background-image: none !important;
 }
 
 .ReactModal__Overlay {
