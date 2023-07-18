@@ -2,9 +2,9 @@
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./app/assets/sass/index.scss ***!
   \***************************************************************************************************************************************************************************************************************************************************/
 @import url(https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap);
-/*!*************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!D:\Offic work\git\quickbuilder\dist\index.css ***!
-  \*************************************************************************************************************************************************************************************************/
+/*!****************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!../../../../../../../quickbuilder/dist/index.css ***!
+  \****************************************************************************************************************************************************************************************************/
 .toplevel_page_wp-react-form #wpcontent {
   padding-left: 0px; }
 
@@ -1385,13 +1385,9 @@ button.wprf-btn {
     border-radius: 50%;
     background-color: transparent;
     transform: translate(-50%, -50%);
-    box-shadow: 0 0 0 1px #FFF,
- inset 0 0 0 1px #000,
- 0 0 0 2px #000; }
+    box-shadow: 0 0 0 1px #FFF, inset 0 0 0 1px #000, 0 0 0 2px #000; }
     .wprf-colorpicker-wrap .components-button.components-color-picker__saturation-pointer:focus:not(:disabled) {
-      box-shadow: 0 0 0 2px #FFF,
- inset 0 0 0 1px #000,
- 0 0 0 3px #000; }
+      box-shadow: 0 0 0 2px #FFF, inset 0 0 0 1px #000, 0 0 0 3px #000; }
   .wprf-colorpicker-wrap .components-color-picker__toggles {
     flex: 1; }
   .wprf-colorpicker-wrap .components-color-picker__alpha {
@@ -1817,9 +1813,9 @@ button.wprf-btn {
     visibility: visible;
     opacity: 1; }
 
-/*!************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!D:\Offic work\git\quickbuilder\node_modules\react-draft-wysiwyg\dist\react-draft-wysiwyg.css ***!
-  \************************************************************************************************************************************************************************************************************************************************/
+/*!***************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!../../../../../../../quickbuilder/node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css ***!
+  \***************************************************************************************************************************************************************************************************************************************************/
 .rdw-option-wrapper {
   border: 1px solid #F1F1F1;
   padding: 5px;
@@ -2839,7 +2835,8 @@ button.wprf-btn {
   flex: 1;
 }
 .Toastify__toast-icon {
-  margin-inline-end: 10px;
+  -webkit-margin-end: 10px;
+          margin-inline-end: 10px;
   width: 20px;
   flex-shrink: 0;
   display: flex;
@@ -3377,18 +3374,12 @@ button.wprf-btn {
   border-style: solid;
   border-color: #F0EFFF !important;
   flex-wrap: wrap;
-  gap: 40px;
+  gap: 8px;
   padding: 24px 32px 0;
 }
 @media screen and (max-width: 1655px) {
   #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav {
-    gap: 20px;
-    padding: 16px 20px 0;
-  }
-}
-@media screen and (max-width: 1317px) {
-  #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav {
-    gap: 20px;
+    padding: 16px 24px 0;
   }
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .pro_feature {
@@ -3399,19 +3390,16 @@ button.wprf-btn {
   content: "\e907";
   font-family: "wpsp";
   font-size: 12px;
-  right: 0;
-  top: 0;
+  line-height: 12px;
+  right: 12px;
+  top: 4px;
   color: #FF9437;
 }
-@media screen and (max-width: 1486px) {
-  #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .pro_feature:before {
-    right: -2px;
-    top: -2px;
-  }
-}
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-tab-nav-item {
-  padding: 10px 16px 18px !important;
+  padding: 16px 20px !important;
   font-size: 16px !important;
+  font-weight: 500;
+  line-height: 1.2em !important;
   background-color: transparent !important;
   color: #6E6E8D !important;
   border-top: 0px !important;
@@ -3423,7 +3411,7 @@ button.wprf-btn {
 }
 @media screen and (max-width: 1486px) {
   #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-tab-nav-item {
-    padding: 8px 12px 10px !important;
+    padding: 14px 18px !important;
   }
 }
 @media screen and (max-width: 1270px) {
@@ -3431,18 +3419,7 @@ button.wprf-btn {
     font-size: 12px !important;
   }
 }
-@media screen and (max-width: 1138px) {
-  #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-tab-nav-item {
-    padding: 8px 6px 10px !important;
-  }
-}
-@media screen and (max-width: 1004px) {
-  #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-tab-nav-item {
-    padding: 8px 3px 10px !important;
-  }
-}
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-active-nav {
-  border-color: #6C62FF !important;
   color: #6C62FF !important;
   font-weight: 600 !important;
   box-shadow: 0px 1px #6C62FF;
@@ -4094,9 +4071,11 @@ button.wprf-btn {
 }
 #wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .sidebar .card i {
   position: absolute;
-  right: 10px;
-  top: 10px;
+  right: 14px;
+  top: 12px;
   padding: 4px;
+  font-size: 12px;
+  color: #6E6E8D;
   cursor: pointer;
   transition: ease-in-out 0.25s;
 }
@@ -4104,9 +4083,7 @@ button.wprf-btn {
   display: block;
   opacity: 1;
 }
-#wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .sidebar .card i .edit-area {
-  display: none;
-  opacity: 0;
+#wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .sidebar .card .edit-area {
   padding: 8px !important;
   background: #fff;
   border-radius: 6px;
@@ -4118,7 +4095,7 @@ button.wprf-btn {
   transform: translateX(-50%);
   z-index: 999;
 }
-#wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .sidebar .card i .edit-area li {
+#wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .sidebar .card .edit-area li {
   font-family: "Inter" !important;
   font-size: 14px;
   font-weight: 500;
@@ -4127,12 +4104,17 @@ button.wprf-btn {
   color: #1B1B50;
   padding: 10px 16px;
   background: #fff;
-  border-radius: 4px;
-  transition: ease-in-out 0.25s;
-  cursor: pointer;
+  border-radius: 6px;
+  width: 120px;
+  box-shadow: 0px 12px 48px 0px rgba(27, 27, 80, 0.1019607843);
+  position: absolute;
+  left: 0px;
+  top: 20px;
+  transform: translateX(-50%);
+  z-index: 999;
 }
-#wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .sidebar .card i .edit-area li button,
-#wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .sidebar .card i .edit-area li a {
+#wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .sidebar .card .edit-area li li {
+  font-family: "Inter" !important;
   font-size: 14px;
   font-weight: 500;
   line-height: 1.2em;
@@ -4144,12 +4126,27 @@ button.wprf-btn {
   background: transparent;
   cursor: pointer;
 }
-#wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .sidebar .card i .edit-area li button:hover,
-#wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .sidebar .card i .edit-area li a:hover {
+#wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .sidebar .card .edit-area li li button,
+#wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .sidebar .card .edit-area li li a {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2em;
+  text-transform: capitalize;
+  color: #1B1B50;
+  text-decoration: none;
+  border: none;
+  padding: unset;
+  background: transparent;
+  cursor: pointer;
+}
+#wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .sidebar .card .edit-area li li:hover {
   background: #F3F2FF;
   color: #6C62FF;
 }
-#wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .sidebar .card i .edit-area li:hover {
+#wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .sidebar .card .edit-area li li:hover a {
+  color: #6C62FF;
+}
+#wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .sidebar .card .edit-area li:hover {
   background: #F3F2FF;
   color: #6C62FF;
 }
@@ -4220,6 +4217,7 @@ button.wprf-btn {
   color: #6C62FF;
   font-size: 14px;
   font-weight: 500;
+  cursor: pointer;
 }
 #wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .main-content .toolbar .right i {
   font-size: 24px;
@@ -4227,6 +4225,7 @@ button.wprf-btn {
   background: #26D39E;
   padding: 10px;
   border-radius: 6px;
+  cursor: pointer;
 }
 #wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .main-content .wprf-calendar-wrapper {
   position: relative;
@@ -4328,6 +4327,15 @@ button.wprf-btn {
   font-size: 12px !important;
   color: #2C5417;
   margin-bottom: 10px;
+}
+#wpsp-dashboard-body .calender-selected-month {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+#wpsp-dashboard-body .calender-selected-month span {
+  color: #989FAB;
 }
 #wpsp-dashboard-body .wprf-tab-layout_email_notify .wprf-control-section .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-control-field .wprf-label-position-right input {
   border: none !important;
@@ -4531,7 +4539,6 @@ button.wprf-btn {
   width: 60px;
 }
 #wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper {
-  flex-basis: 20% !important;
   border: none !important;
   flex-direction: row;
   background-color: #fff;
@@ -4545,6 +4552,7 @@ button.wprf-btn {
   }
 }
 #wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-menu-wrapper {
+  flex-basis: 20% !important;
   margin-bottom: 0px !important;
   border-width: 1px;
   border-style: solid;
@@ -4556,18 +4564,17 @@ button.wprf-btn {
 #wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav {
   padding: 0 !important;
   border-style: none;
-  min-width: 240px;
 }
 #wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-tab-nav-item {
   font-size: 18px !important;
   font-weight: 500 !important;
   color: #1B1B50 !important;
-  padding: 20px !important;
+  padding: 16px 30px 16px 20px !important;
 }
 @media screen and (max-width: 1023px) {
   #wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-tab-nav-item {
     font-size: 14px !important;
-    padding: 20px 20px !important;
+    padding: 12px 20px !important;
   }
 }
 #wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-menu-wrapper .wprf-tab-nav .wprf-tab-nav-item:last-child {
@@ -4743,6 +4750,72 @@ button.wprf-btn {
   margin-bottom: 0;
   margin-top: 0;
   text-align: end;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-contents .wprf-section-fields .wprf-group-control .wprf-type-radio-card .wprf-control-label {
+  flex-basis: 20% !important;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-contents .wprf-section-fields .wprf-group-control .wprf-type-radio-card .wprf-control-field {
+  flex-basis: 80% !important;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-contents .wprf-section-fields .wprf-group-control .wprf-type-radio-card .wprf-control-field .wprf-row {
+  align-items: center;
+  justify-content: flex-end;
+  gap: 24px;
+  margin-left: 0;
+  margin-right: 0;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-contents .wprf-section-fields .wprf-group-control .wprf-type-radio-card .wprf-control-field .wprf-row .wprf-column-3 {
+  width: auto !important;
+  padding: 0 !important;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-contents .wprf-section-fields .wprf-group-control .wprf-type-radio-card .wprf-control-field .wprf-row .wprf-column-3 .wprf-input-radio-option {
+  min-height: auto !important;
+  position: unset !important;
+  box-shadow: none !important;
+  margin-top: 0 !important;
+  line-height: normal !important;
+  gap: 8px;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-contents .wprf-section-fields .wprf-group-control .wprf-type-radio-card .wprf-control-field .wprf-row .wprf-column-3 .wprf-input-radio-option .wprf-input-label {
+  height: auto !important;
+  width: auto !important;
+  background: transparent !important;
+  color: #1B1B50 !important;
+  font-size: 14px;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin-bottom: 0;
+  box-sizing: border-box;
+  order: 1;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-contents .wprf-section-fields .wprf-group-control .wprf-type-radio-card .wprf-control-field .wprf-row .wprf-column-3 .wprf-input-radio-option input {
+  box-shadow: none !important;
+  border: 1px solid #D7DBDF !important;
+  background-color: transparent !important;
+  color: #1B1B50 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  line-height: 10px !important;
+  min-width: 10px !important;
+  min-height: 10px !important;
+  display: block !important;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-contents .wprf-section-fields .wprf-group-control .wprf-type-radio-card .wprf-control-field .wprf-row .wprf-column-3 .wprf-input-radio-option:after {
+  display: none !important;
+}
+#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-contents .wprf-section-fields .wprf-group-control .wprf-type-radio-card .wprf-control-field .wprf-row .wprf-column-3 .wprf-input-radio-option:before {
+  display: none;
+  content: "";
+  display: none !important;
+  right: 2px !important;
+  top: 2px !important;
+  left: auto !important;
+  width: 20px !important;
+  height: 20px !important;
+  box-sizing: border-box;
+  transition: all 0.3s ease 0s;
+  background: #09dca8;
+  border-radius: 100% !important;
 }
 #wpsp-dashboard-body .manage-schedule .wprf-section-fields {
   display: flex;
@@ -5158,7 +5231,7 @@ button.wprf-btn {
   color: #A6A6BA;
   margin: 0;
   padding: 0;
-  padding-right: 180px;
+  padding-right: 160px;
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper input:focus-visible,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper input:focus-visible,
@@ -5381,68 +5454,12 @@ button.wprf-btn {
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields .missed_video .wprf-video iframe {
   width: 100%;
 }
-#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-type-radio-card .wprf-control-field .wprf-row {
-  align-items: center;
-  justify-content: flex-end;
-  gap: 24px;
-}
-#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-type-radio-card .wprf-control-field .wprf-row .wprf-column-3 {
-  width: auto !important;
-  padding: 0 !important;
-}
-#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-type-radio-card .wprf-control-field .wprf-row .wprf-column-3 .wprf-input-radio-option {
-  min-height: auto !important;
-  position: unset !important;
-  box-shadow: none !important;
-  margin-top: 0 !important;
-  line-height: normal !important;
-  gap: 8px;
-}
-#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-type-radio-card .wprf-control-field .wprf-row .wprf-column-3 .wprf-input-radio-option .wprf-input-label {
-  height: auto !important;
-  width: auto !important;
-  background: transparent !important;
-  color: #1B1B50 !important;
-  font-size: 14px;
-  border-radius: 0 !important;
-  padding: 0 !important;
-  margin-bottom: 0;
-  box-sizing: border-box;
-  order: 1;
-}
-#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-type-radio-card .wprf-control-field .wprf-row .wprf-column-3 .wprf-input-radio-option input {
-  box-shadow: none !important;
-  border: 1px solid #EBEEF5 !important;
-  background-color: transparent !important;
-  color: #1B1B50 !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  line-height: 10px !important;
-  min-width: 10px !important;
-  min-height: 10px !important;
-  display: block !important;
-}
-#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-type-radio-card .wprf-control-field .wprf-row .wprf-column-3 .wprf-input-radio-option:after {
-  display: none !important;
-}
-#wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-type-radio-card .wprf-control-field .wprf-row .wprf-column-3 .wprf-input-radio-option:before {
-  display: none !important;
-  right: 2px !important;
-  top: 2px !important;
-  left: auto !important;
-  width: 20px !important;
-  height: 20px !important;
-  box-sizing: border-box;
-  transition: all 0.3s ease 0s;
-  background: #09dca8;
-  border-radius: 100% !important;
-}
 
 .swal2-container {
   background: rgba(27, 27, 80, 0.4) !important;
   padding: 100px !important;
 }
-.swal2-container .swal2-popup {
+.swal2-container .swal2-modal {
   position: relative;
   box-sizing: border-box;
   grid-template-columns: minmax(0, 100%);
@@ -5453,7 +5470,7 @@ button.wprf-btn {
   border-radius: 8px;
   background: #fff;
 }
-.swal2-container .swal2-popup .swal2-title {
+.swal2-container .swal2-modal .swal2-title {
   font-size: 38px;
   line-height: 1.2em;
   font-style: italic;
@@ -5461,16 +5478,16 @@ button.wprf-btn {
   margin-bottom: 24px;
   padding: 0px;
 }
-.swal2-container .swal2-popup .swal2-html-container {
+.swal2-container .swal2-modal .swal2-html-container {
   margin: 0;
 }
-.swal2-container .swal2-popup .swal2-html-container h4 {
+.swal2-container .swal2-modal .swal2-html-container h4 {
   font-size: 22px;
   line-height: 1.2em;
   color: #1B1B50;
   margin: 0 0 32px;
 }
-.swal2-container .swal2-popup .swal2-html-container img {
+.swal2-container .swal2-modal .swal2-html-container img {
   border: none;
   max-width: 100%;
   width: 400px;
@@ -5478,7 +5495,7 @@ button.wprf-btn {
   text-align: center;
   margin: 0 auto;
 }
-.swal2-container .swal2-popup .swal2-html-container a {
+.swal2-container .swal2-modal .swal2-html-container a {
   display: inline-block;
   background: #6C62FF !important;
   padding: 20px 24px !important;
@@ -5489,7 +5506,7 @@ button.wprf-btn {
   border: none;
   cursor: pointer;
 }
-.swal2-container .swal2-popup .swal2-html-container a button {
+.swal2-container .swal2-modal .swal2-html-container a button {
   font-weight: 500;
   font-size: 14px;
   line-height: 1.2em;
@@ -5504,9 +5521,9 @@ button.wprf-btn {
   position: fixed;
   inset: 0px;
   background: rgba(27, 27, 80, 0.4) !important;
-  padding: 70px 20px !important;
+  padding: 50px 20px !important;
   display: flex;
-  overflow: hidden;
+  overflow: auto;
   z-index: 999;
 }
 .ReactModal__Overlay .modal_wrapper {
@@ -5517,7 +5534,7 @@ button.wprf-btn {
   border-radius: 8px;
   outline: none;
   padding: 40px;
-  margin: 0 auto;
+  margin: auto;
   max-width: 100%;
   width: 600px !important;
   box-sizing: border-box;
@@ -5778,6 +5795,52 @@ button.wprf-btn {
 
 .checkbox-select .select2-selection__arrow b, .main-select .select2-selection__arrow b {
   display: none;
+}
+
+.selected-options li {
+  margin-bottom: 0 !important;
+  padding: 8px 12px;
+  background: #F3F2FF;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #6C62FF;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1em;
+}
+.selected-options li button {
+  font-size: 8px;
+  border: none;
+  background: transparent;
+  color: #6E6E8D;
+  cursor: pointer;
+  padding: 0;
+  margin-top: 1px;
+}
+
+#external-events-listing .main-select {
+  margin-bottom: 15px;
+}
+
+#external-events-listing .selected-options {
+  margin-bottom: 10px;
+}
+#external-events-listing .selected-options ul li {
+  margin-bottom: 5px !important;
+}
+
+#wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .main-content .toolbar .right i.inactive {
+  background-color: #ddd;
+}
+
+#wpsp-dashboard-body .wprf-tab-layout_calendar .calendar_section .wprf-section-fields .main-content.basis-100 {
+  flex-basis: 100%;
+}
+
+#wpsp-dashboard-body .main-content .middle {
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=admin.css.map*/
