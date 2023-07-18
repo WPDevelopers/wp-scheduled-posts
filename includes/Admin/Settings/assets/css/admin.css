@@ -1,10 +1,10 @@
 /*!***************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[3]!./app/assets/sass/index.scss ***!
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./app/assets/sass/index.scss ***!
   \***************************************************************************************************************************************************************************************************************************************************/
 @import url(https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap);
-/*!**********************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./node_modules/quickbuilder/dist/index.css ***!
-  \**********************************************************************************************************************************************************************************************/
+/*!*************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!D:\Offic work\git\quickbuilder\dist\index.css ***!
+  \*************************************************************************************************************************************************************************************************/
 .toplevel_page_wp-react-form #wpcontent {
   padding-left: 0px; }
 
@@ -1385,9 +1385,13 @@ button.wprf-btn {
     border-radius: 50%;
     background-color: transparent;
     transform: translate(-50%, -50%);
-    box-shadow: 0 0 0 1px #FFF, inset 0 0 0 1px #000, 0 0 0 2px #000; }
+    box-shadow: 0 0 0 1px #FFF,
+ inset 0 0 0 1px #000,
+ 0 0 0 2px #000; }
     .wprf-colorpicker-wrap .components-button.components-color-picker__saturation-pointer:focus:not(:disabled) {
-      box-shadow: 0 0 0 2px #FFF, inset 0 0 0 1px #000, 0 0 0 3px #000; }
+      box-shadow: 0 0 0 2px #FFF,
+ inset 0 0 0 1px #000,
+ 0 0 0 3px #000; }
   .wprf-colorpicker-wrap .components-color-picker__toggles {
     flex: 1; }
   .wprf-colorpicker-wrap .components-color-picker__alpha {
@@ -1813,9 +1817,9 @@ button.wprf-btn {
     visibility: visible;
     opacity: 1; }
 
-/*!*******************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css ***!
-  \*******************************************************************************************************************************************************************************************************************/
+/*!************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!D:\Offic work\git\quickbuilder\node_modules\react-draft-wysiwyg\dist\react-draft-wysiwyg.css ***!
+  \************************************************************************************************************************************************************************************************************************************************/
 .rdw-option-wrapper {
   border: 1px solid #F1F1F1;
   padding: 5px;
@@ -2835,8 +2839,7 @@ button.wprf-btn {
   flex: 1;
 }
 .Toastify__toast-icon {
-  -webkit-margin-end: 10px;
-          margin-inline-end: 10px;
+  margin-inline-end: 10px;
   width: 20px;
   flex-shrink: 0;
   display: flex;
@@ -3314,7 +3317,7 @@ button.wprf-btn {
 
 /*# sourceMappingURL=ReactToastify.css.map */
 /*!*******************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[3]!./app/assets/sass/index.scss (1) ***!
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./app/assets/sass/index.scss (1) ***!
   \*******************************************************************************************************************************************************************************************************************************************************/
 #wpsp-dashboard-body {
   font-family: "Inter";
@@ -3336,6 +3339,12 @@ button.wprf-btn {
 }
 #wpsp-dashboard-body a:focus {
   box-shadow: none;
+}
+#wpsp-dashboard-body ::-moz-placeholder {
+  color: #A6A6BA;
+}
+#wpsp-dashboard-body ::placeholder {
+  color: #A6A6BA;
 }
 #wpsp-dashboard-body .wpsp-admin-header {
   background: #fff;
@@ -3535,6 +3544,10 @@ button.wprf-btn {
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-control-section .wprf-section-title {
   margin-bottom: 20px;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-control-section .wprf-section-title button {
+  border: none;
+  background: transparent;
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-content .wprf-control-section .wprf-section-fields .wprf-control-section h4 {
   color: #1B1B50 !important;
@@ -4747,7 +4760,7 @@ button.wprf-btn {
   font-weight: 600;
   line-height: 1.2em;
   color: #1B1B50;
-  padding-bottom: 16px;
+  padding-bottom: 12px;
   margin: 0;
 }
 #wpsp-dashboard-body .manage-schedule .wprf-control-section .header .title span {
@@ -4777,11 +4790,7 @@ button.wprf-btn {
   padding: 16px 17px;
 }
 #wpsp-dashboard-body .manage-schedule .auto_scheduler .content .set-timing .time-title h4 {
-  color: #1B1B50 !important;
   font-size: 14px !important;
-  line-height: 1.2em !important;
-  font-weight: 500 !important;
-  padding: 0 0 8px !important;
 }
 #wpsp-dashboard-body .manage-schedule .auto_scheduler .content .set-timing .time-title span {
   color: #6E6E8D;
@@ -4921,37 +4930,62 @@ button.wprf-btn {
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper,
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper {
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper {
   padding: 0 !important;
-  border-radius: 0 !important;
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper .wprf-section-fields,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields,
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields {
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper .wprf-section-fields,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper .wprf-section-fields,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper .wprf-section-fields,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields {
   display: flex;
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper .wprf-section-fields .wprf-control-section,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section,
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section {
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper .wprf-section-fields .wprf-control-section,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper .wprf-section-fields .wprf-control-section,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper .wprf-section-fields .wprf-control-section,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields .wprf-control-section {
   border-radius: 0 !important;
   border: none !important;
   margin-bottom: 0 !important;
   flex-basis: 50%;
+  padding: 32px !important;
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields,
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields {
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields {
   display: flex;
   flex-direction: column;
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper,
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper {
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper {
   padding: 0 !important;
   border: none !important;
   border-radius: 0 !important;
@@ -4960,94 +4994,367 @@ button.wprf-btn {
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-label label,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-label label,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-label label,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-label label,
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-label label {
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-label label,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-label label,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-label label,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-label label,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-label label {
   font-size: 24px !important;
   line-height: 1.2em !important;
   font-weight: 600 I !important;
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-label .wprf-badge .wprf-badge-item,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-label .wprf-badge .wprf-badge-item,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-label .wprf-badge .wprf-badge-item,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-label .wprf-badge .wprf-badge-item,
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-label .wprf-badge .wprf-badge-item {
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-label .wprf-badge .wprf-badge-item,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-label .wprf-badge .wprf-badge-item,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-label .wprf-badge .wprf-badge-item,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-label .wprf-badge .wprf-badge-item,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-label .wprf-badge .wprf-badge-item {
   padding: 4px 8px !important;
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-field .wprf-help,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-field .wprf-help,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-field .wprf-help,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-field .wprf-help,
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-field .wprf-help {
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-field .wprf-help,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-field .wprf-help,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-field .wprf-help,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-field .wprf-help,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-control-wrapper .wprf-badge-wrapper .wprf-control-field .wprf-help {
   font-size: 14px;
   line-height: 1.6;
   color: #6E6E8D;
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wpfr-section-html,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wpfr-section-html,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wpfr-section-html,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wpfr-section-html,
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wpfr-section-html {
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wpfr-section-html,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wpfr-section-html,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wpfr-section-html,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wpfr-section-html,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wpfr-section-html {
   font-size: 14px;
   color: #6E6E8D;
   line-height: 1.6em;
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list h4,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list h4,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list h4,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list h4,
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list h4 {
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list h4,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list h4,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list h4,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list h4,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list h4 {
   font-size: 18px !important;
   line-height: 1.2em !important;
   margin-bottom: 24px !important;
 }
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item,
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item,
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item,
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item {
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li {
   font-size: 14px;
-  line-height: 1em;
-  color: #6C62FF;
+  line-height: 1.5em;
+  color: #6E6E8D;
   list-style: decimal;
   margin-left: 15px !important;
   transition: ease-in-out 0.25s;
 }
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item:hover,
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item:hover,
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item:hover,
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item:hover {
-  color: #6E6E8D;
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li:hover,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li:hover,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li:hover,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li:hover,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li:hover,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li:hover,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li:hover,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li:hover,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li:hover {
+  color: #6C62FF;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li:hover a,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li:hover a,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li:hover a,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li:hover a,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li:hover a,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li:hover a,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li:hover a,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li:hover a,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li:hover a {
+  text-decoration: underline;
+  color: #6C62FF;
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li a,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li a,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li a,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li a,
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li a {
-  color: #6C62FF;
-  line-height: 1.5em;
-  transition: ease-in-out 0.25s;
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li a,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li a,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li a,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li a,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li a {
+  text-decoration: none;
 }
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li a:hover,
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li a:hover,
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li a:hover,
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-list .wprf-list-item li a:hover {
-  color: #6E6E8D;
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile {
+  margin-top: 20PX;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile h4,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile h4,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile h4,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile h4,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile h4,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile h4,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile h4,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile h4,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile h4 {
+  margin-bottom: 16px !important;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper {
+  position: relative;
+  padding: 20px 18px;
+  border: 1px solid #EBEEF5;
+  border-radius: 4px;
+  margin-right: 60px;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper input,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper input,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper input,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper input,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper input,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper input,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper input,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper input,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper input {
+  width: 100%;
+  border: none;
+  font-size: 16px;
+  line-height: 1.2em;
+  color: #A6A6BA;
+  margin: 0;
+  padding: 0;
+  padding-right: 180px;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper input:focus-visible,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper input:focus-visible,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper input:focus-visible,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper input:focus-visible,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper input:focus-visible,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper input:focus-visible,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper input:focus-visible,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper input:focus-visible,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper input:focus-visible {
+  outline: 0;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper button,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper button,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper button,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper button,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper button,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper button,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper button,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper button,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields .wprf-control-section .wprf-section-fields .wprf-active_license-social-profile .wpsp-license-key-wrapper button {
+  background: #6C62FF;
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.2em;
+  font-weight: 500;
+  border: none;
+  border-radius: 6px;
+  padding: 16px 24px;
+  cursor: pointer;
+  position: absolute;
+  top: 5px;
+  right: 5px;
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .advance_schedule_switcher,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .missed_schedule_switcher,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .license_activation,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .advance_schedule_switcher,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .missed_schedule_switcher,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .license_activation,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper .wprf-section-fields .advance_schedule_switcher,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper .wprf-section-fields .missed_schedule_switcher,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper .wprf-section-fields .license_activation,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .advance_schedule_switcher,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .missed_schedule_switcher,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .license_activation,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .advance_schedule_switcher,
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .missed_schedule_switcher {
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .missed_schedule_switcher,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .license_activation,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper .wprf-section-fields .advance_schedule_switcher,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper .wprf-section-fields .missed_schedule_switcher,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper .wprf-section-fields .license_activation,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper .wprf-section-fields .advance_schedule_switcher,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper .wprf-section-fields .missed_schedule_switcher,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper .wprf-section-fields .license_activation,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper .wprf-section-fields .advance_schedule_switcher,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper .wprf-section-fields .missed_schedule_switcher,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper .wprf-section-fields .license_activation,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields .advance_schedule_switcher,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields .missed_schedule_switcher,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields .license_activation {
   border-radius: 0 !important;
   border-width: 0 1px 0 0 !important;
   border-color: #EBEEF5 !important;
   border-style: solid !important;
+  background: transparent !important;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .advance_schedule_switcher .wprf-control-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .missed_schedule_switcher .wprf-control-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .license_activation .wprf-control-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .advance_schedule_switcher .wprf-control-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .missed_schedule_switcher .wprf-control-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .license_activation .wprf-control-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper .wprf-section-fields .advance_schedule_switcher .wprf-control-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper .wprf-section-fields .missed_schedule_switcher .wprf-control-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper .wprf-section-fields .license_activation .wprf-control-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .advance_schedule_switcher .wprf-control-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .missed_schedule_switcher .wprf-control-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .license_activation .wprf-control-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .advance_schedule_switcher .wprf-control-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .missed_schedule_switcher .wprf-control-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .license_activation .wprf-control-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper .wprf-section-fields .advance_schedule_switcher .wprf-control-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper .wprf-section-fields .missed_schedule_switcher .wprf-control-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper .wprf-section-fields .license_activation .wprf-control-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper .wprf-section-fields .advance_schedule_switcher .wprf-control-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper .wprf-section-fields .missed_schedule_switcher .wprf-control-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper .wprf-section-fields .license_activation .wprf-control-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper .wprf-section-fields .advance_schedule_switcher .wprf-control-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper .wprf-section-fields .missed_schedule_switcher .wprf-control-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper .wprf-section-fields .license_activation .wprf-control-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields .advance_schedule_switcher .wprf-control-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields .missed_schedule_switcher .wprf-control-wrapper,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields .license_activation .wprf-control-wrapper {
+  position: relative;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .advance_schedule_switcher .wprf-control-wrapper label,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .missed_schedule_switcher .wprf-control-wrapper label,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .license_activation .wprf-control-wrapper label,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .advance_schedule_switcher .wprf-control-wrapper label,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .missed_schedule_switcher .wprf-control-wrapper label,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .license_activation .wprf-control-wrapper label,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper .wprf-section-fields .advance_schedule_switcher .wprf-control-wrapper label,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper .wprf-section-fields .missed_schedule_switcher .wprf-control-wrapper label,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper .wprf-section-fields .license_activation .wprf-control-wrapper label,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .advance_schedule_switcher .wprf-control-wrapper label,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .missed_schedule_switcher .wprf-control-wrapper label,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .license_activation .wprf-control-wrapper label,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .advance_schedule_switcher .wprf-control-wrapper label,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .missed_schedule_switcher .wprf-control-wrapper label,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .license_activation .wprf-control-wrapper label,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper .wprf-section-fields .advance_schedule_switcher .wprf-control-wrapper label,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper .wprf-section-fields .missed_schedule_switcher .wprf-control-wrapper label,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper .wprf-section-fields .license_activation .wprf-control-wrapper label,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper .wprf-section-fields .advance_schedule_switcher .wprf-control-wrapper label,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper .wprf-section-fields .missed_schedule_switcher .wprf-control-wrapper label,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper .wprf-section-fields .license_activation .wprf-control-wrapper label,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper .wprf-section-fields .advance_schedule_switcher .wprf-control-wrapper label,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper .wprf-section-fields .missed_schedule_switcher .wprf-control-wrapper label,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper .wprf-section-fields .license_activation .wprf-control-wrapper label,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields .advance_schedule_switcher .wprf-control-wrapper label,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields .missed_schedule_switcher .wprf-control-wrapper label,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields .license_activation .wprf-control-wrapper label {
+  font-size: 18px !important;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .advance_schedule_switcher .wprf-control-wrapper .wprf-help,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .missed_schedule_switcher .wprf-control-wrapper .wprf-help,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .license_activation .wprf-control-wrapper .wprf-help,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .advance_schedule_switcher .wprf-control-wrapper .wprf-help,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .missed_schedule_switcher .wprf-control-wrapper .wprf-help,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .license_activation .wprf-control-wrapper .wprf-help,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper .wprf-section-fields .advance_schedule_switcher .wprf-control-wrapper .wprf-help,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper .wprf-section-fields .missed_schedule_switcher .wprf-control-wrapper .wprf-help,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper .wprf-section-fields .license_activation .wprf-control-wrapper .wprf-help,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .advance_schedule_switcher .wprf-control-wrapper .wprf-help,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .missed_schedule_switcher .wprf-control-wrapper .wprf-help,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .license_activation .wprf-control-wrapper .wprf-help,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .advance_schedule_switcher .wprf-control-wrapper .wprf-help,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .missed_schedule_switcher .wprf-control-wrapper .wprf-help,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .license_activation .wprf-control-wrapper .wprf-help,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper .wprf-section-fields .advance_schedule_switcher .wprf-control-wrapper .wprf-help,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper .wprf-section-fields .missed_schedule_switcher .wprf-control-wrapper .wprf-help,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper .wprf-section-fields .license_activation .wprf-control-wrapper .wprf-help,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper .wprf-section-fields .advance_schedule_switcher .wprf-control-wrapper .wprf-help,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper .wprf-section-fields .missed_schedule_switcher .wprf-control-wrapper .wprf-help,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper .wprf-section-fields .license_activation .wprf-control-wrapper .wprf-help,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper .wprf-section-fields .advance_schedule_switcher .wprf-control-wrapper .wprf-help,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper .wprf-section-fields .missed_schedule_switcher .wprf-control-wrapper .wprf-help,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper .wprf-section-fields .license_activation .wprf-control-wrapper .wprf-help,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields .advance_schedule_switcher .wprf-control-wrapper .wprf-help,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields .missed_schedule_switcher .wprf-control-wrapper .wprf-help,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields .license_activation .wprf-control-wrapper .wprf-help {
+  position: absolute;
+  top: 22px;
+  left: 0;
+  font-size: 14px;
+  color: #6E6E8D;
+}
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .advance_video,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .missed_video,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .advance_video,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .missed_video,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper .wprf-section-fields .advance_video,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper .wprf-section-fields .missed_video,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .advance_video,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .missed_video,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .advance_video,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .missed_video,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper .wprf-section-fields .advance_video,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper .wprf-section-fields .missed_video,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper .wprf-section-fields .advance_video,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper .wprf-section-fields .missed_video,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper .wprf-section-fields .advance_video,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper .wprf-section-fields .missed_video,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields .advance_video,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields .missed_video {
+  background: transparent !important;
 }
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .advance_video .wprf-video h4,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .missed_video .wprf-video h4,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .advance_video .wprf-video h4,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .missed_video .wprf-video h4,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper .wprf-section-fields .advance_video .wprf-video h4,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper .wprf-section-fields .missed_video .wprf-video h4,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .advance_video .wprf-video h4,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .missed_video .wprf-video h4,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .advance_video .wprf-video h4,
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .missed_video .wprf-video h4 {
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .missed_video .wprf-video h4,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper .wprf-section-fields .advance_video .wprf-video h4,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper .wprf-section-fields .missed_video .wprf-video h4,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper .wprf-section-fields .advance_video .wprf-video h4,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper .wprf-section-fields .missed_video .wprf-video h4,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper .wprf-section-fields .advance_video .wprf-video h4,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper .wprf-section-fields .missed_video .wprf-video h4,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields .advance_video .wprf-video h4,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields .missed_video .wprf-video h4 {
   font-size: 18px !important;
   font-weight: 500;
   line-height: 1.2em;
@@ -5058,10 +5365,20 @@ button.wprf-btn {
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .advance_schedule_wrapper .wprf-section-fields .missed_video .wprf-video iframe,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .advance_video .wprf-video iframe,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .missed_schedule_wrapper .wprf-section-fields .missed_video .wprf-video iframe,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper .wprf-section-fields .advance_video .wprf-video iframe,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_advance_schedule .license_wrapper .wprf-section-fields .missed_video .wprf-video iframe,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .advance_video .wprf-video iframe,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .advance_schedule_wrapper .wprf-section-fields .missed_video .wprf-video iframe,
 #wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .advance_video .wprf-video iframe,
-#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .missed_video .wprf-video iframe {
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .missed_schedule_wrapper .wprf-section-fields .missed_video .wprf-video iframe,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper .wprf-section-fields .advance_video .wprf-video iframe,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_missed_schedule .license_wrapper .wprf-section-fields .missed_video .wprf-video iframe,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper .wprf-section-fields .advance_video .wprf-video iframe,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .advance_schedule_wrapper .wprf-section-fields .missed_video .wprf-video iframe,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper .wprf-section-fields .advance_video .wprf-video iframe,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .missed_schedule_wrapper .wprf-section-fields .missed_video .wprf-video iframe,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields .advance_video .wprf-video iframe,
+#wpsp-dashboard-body .wpsp-admin-content .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex .wprf-tab-contents .wprf-tab-layout_license .license_wrapper .wprf-section-fields .missed_video .wprf-video iframe {
   width: 100%;
 }
 #wpsp-dashboard-body .wprf-tab-layout_social_template .wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-type-radio-card .wprf-control-field .wprf-row {
@@ -5439,15 +5756,16 @@ button.wprf-btn {
   font-size: 16px;
 }
 
-.checkbox-select span, .time-select span {
+.checkbox-select span, .main-select span, .time-select span {
   display: none;
 }
 
-.checkbox-select .select2-selection:focus {
+.checkbox-select input:focus, .main-select input:focus {
+  box-shadow: none;
   outline: none;
 }
 
-.checkbox-select .select2-selection__arrow {
+.checkbox-select .select2-selection__arrow, .main-select .selection__arrow {
   content: "\e909";
   font-family: "wpsp";
   background-size: contain;
@@ -5458,7 +5776,7 @@ button.wprf-btn {
   width: 12px;
 }
 
-.checkbox-select .select2-selection__arrow b {
+.checkbox-select .select2-selection__arrow b, .main-select .select2-selection__arrow b {
   display: none;
 }
 

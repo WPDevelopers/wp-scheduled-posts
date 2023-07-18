@@ -63,9 +63,11 @@
                     }
                     i {
                         position: absolute;
-                        right: 10px;
-                        top: 10px;
+                        right: 14px;
+                        top: 12px;
                         padding: 4px;
+                        font-size: 12px;
+                        color: #6E6E8D;
                         cursor: pointer;
                         transition: ease-in-out .25s;
                         &:hover {
@@ -95,11 +97,16 @@
                             color: #1B1B50;
                             padding: 10px 16px;
                             background: #fff;
-                            border-radius: 4px;
-                            transition: ease-in-out .25s;
-                            cursor: pointer;
-                            button, 
-                            a {
+                            border-radius: 6px;
+                            width: 120px;
+                            box-shadow: 0px 12px 48px 0px #1B1B501A;
+                            position: absolute;
+                            left: 0px;    
+                            top: 20px;
+                            transform: translateX(-50%);
+                            z-index: 999;
+                            li {
+                                font-family: "Inter" !important;
                                 font-size: 14px;
                                 font-weight: 500;
                                 line-height: 1.2em;
@@ -110,9 +117,26 @@
                                 padding: unset;
                                 background: transparent;
                                 cursor: pointer;
+                                button, 
+                                a {
+                                    font-size: 14px;
+                                    font-weight: 500;
+                                    line-height: 1.2em;
+                                    text-transform: capitalize;
+                                    color: #1B1B50;
+                                    text-decoration: none;
+                                    border: none;
+                                    padding: unset;
+                                    background: transparent;
+                                    cursor: pointer;
+                                    
+                                }
                                 &:hover {
                                     background: #F3F2FF;
                                     color: #6C62FF;
+                                    a {
+                                        color: #6C62FF;
+                                    }
                                 }
                             }
                             &:hover {
@@ -187,6 +211,7 @@
                             color: #6C62FF;
                             font-size: 14px;
                             font-weight: 500;
+                            cursor: pointer;
                         }
                         i {
                             font-size: 24px;
@@ -194,6 +219,7 @@
                             background: #26D39E;
                             padding: 10px;
                             border-radius: 6px;
+                            cursor: pointer;
                         }
                     }
                 }
