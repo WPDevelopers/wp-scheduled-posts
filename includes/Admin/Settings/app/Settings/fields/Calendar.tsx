@@ -23,7 +23,7 @@ export default function Calendar(props) {
   const restRoute = props.rest_route;
   const calendar = useRef<FullCalendar>();
   const builderContext = useBuilderContext();
-  const [yearMonth, setYearMonth] = useState("11.2022") // @todo 
+  const [yearMonth, setYearMonth] = useState("11.2022") // @todo
   const [editAreaToggle,setEditAreaToggle] = useState([]);
 
   // EditPost state
@@ -101,7 +101,7 @@ export default function Calendar(props) {
   const [sidebarToogle,setSidebarToggle] = useState(true);
 
   const handleSlidebarToggle = () => {
-    setSidebarToggle( sidebarToogle ? false : true );  
+    setSidebarToggle( sidebarToogle ? false : true );
   }
   return (
     <>
@@ -146,7 +146,7 @@ export default function Calendar(props) {
             min="2018-03" value="2018-05"></input> */}
             <Monthpicker
               locale="en"
-              format='MM.yyyy' 
+              format='MM.yyyy'
               month={parseInt(month)}
               year={parseInt(year)}
               onChange={(event) => {
@@ -160,7 +160,7 @@ export default function Calendar(props) {
           </div>
           <div className="right">
             <button>Today</button>
-            <i onClick={handleSlidebarToggle} className={`wpsp-icon wpsp-manual-sc ${ !sidebarToogle ? 'inactive' : '' }`} />
+            <i onClick={handleSlidebarToggle} className={`wpsp-icon wpsp-sidebar ${ !sidebarToogle ? 'inactive' : '' }`} />
           </div>
         </div>
         <div className="wprf-calendar-wrapper">
