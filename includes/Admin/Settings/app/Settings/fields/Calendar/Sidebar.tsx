@@ -130,10 +130,6 @@ export default function Sidebar({props,handleOpenModal}) {
 
   const [editAreaToggle,setEditAreaToggle] = useState([]);
 
-  useEffect( () => {
-    console.log(editAreaToggle);
-  },[ editAreaToggle ] )
-
   // Return your JSX element
   return (
     <div id="external-events">

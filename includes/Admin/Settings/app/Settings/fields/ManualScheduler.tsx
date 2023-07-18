@@ -97,47 +97,6 @@ const ManualScheduler = (props) => {
                         }
                     </div>
                 ))}
-{/*                 
-                <div className="week">
-                    <h6>Mon</h6>
-                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
-                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
-                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
-                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
-                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
-                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
-                </div>
-                <div className="week">
-                    <h6>Tue</h6>
-                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
-                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
-                </div>
-                <div className="week">
-                    <h6>Wed</h6>
-                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
-                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
-                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
-                </div>
-                <div className="week">
-                    <h6>Thu</h6>
-                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
-                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
-                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
-                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
-                </div>
-                <div className="week">
-                    <h6>Fri</h6>
-                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
-                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
-                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
-                </div>
-                <div className="week">
-                    <h6>Sat</h6>
-                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
-                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
-                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
-                   <span>12:15 AM <i className="wpsp-icon wpsp-close"></i></span>
-                </div> */}
             </div>
       </div>
     )

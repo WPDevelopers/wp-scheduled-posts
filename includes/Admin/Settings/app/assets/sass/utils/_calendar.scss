@@ -327,3 +327,12 @@
         }
     }
 }
+.calender-selected-month {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+.calender-selected-month span{
+    color: #989FAB;
+}

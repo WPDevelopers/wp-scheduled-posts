@@ -70,6 +70,8 @@ const Facebook = (props) => {
     // Save selected profile data
     useEffect( () => {
         builderContext.setFieldValue([props.name], selectedProfile);
+        console.log(selectedProfile);
+        
     },[selectedProfile] )
 
     // Save profile status data 

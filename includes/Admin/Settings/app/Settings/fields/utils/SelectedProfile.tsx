@@ -33,24 +33,46 @@ export default function SelectedProfile( { platform, item, handleSelectedProfile
                 <span>{ item?.added_by?.replace(/^\w/, (c) => c.toUpperCase()) } { __('on','wp-scheduled-posts') } {getFormatDateTime(item?.added_date)}</span>
                 <div className="action">
                     <div className="status">
-                        <div className="switcher">
-                            <input
-                                id={item?.default_board_name?.value}
-                                type='checkbox'
-                                className="wprf-switcher-checkbox"
-                                checked={item?.status}
-                                onChange={(event) =>
-                                    handleSelectedProfileStatusChange(item,event)
-                                }
-                            />
-                            <label
-                                className="wprf-switcher-label"
-                                htmlFor={item?.default_board_name?.value}
-                                style={{ background: item?.status && '#02AC6E' }}
-                            >
-                                <span className={`wprf-switcher-button`} />
-                            </label>
-                        </div>
+                        { (platform === 'pinterest') && (
+                            <div className="switcher">
+                                <input
+                                    id={item?.default_board_name?.value}
+                                    type='checkbox'
+                                    className="wprf-switcher-checkbox"
+                                    checked={item?.status}
+                                    onChange={(event) => 
+                                        handleSelectedProfileStatusChange(item,event)
+                                    }
+                                />
+                                <label
+                                    className="wprf-switcher-label"
+                                    htmlFor={item?.default_board_name?.value}
+                                    style={{ background: item?.status && '#02AC6E' }}
+                                >
+                                    <span className={`wprf-switcher-button`} />
+                                </label>
+                            </div>
+                        ) }
+                         { (platform !== 'pinterest') && (
+                            <div className="switcher">
+                                <input
+                                    id={item?.id}
+                                    type='checkbox'
+                                    className="wprf-switcher-checkbox"
+                                    checked={item?.status}
+                                    onChange={(event) => 
+                                        handleSelectedProfileStatusChange(item,event)
+                                    }
+                                />
+                                <label
+                                    className="wprf-switcher-label"
+                                    htmlFor={item?.id}
+                                    style={{ background: item?.status && '#02AC6E' }}
+                                >
+                                    <span className={`wprf-switcher-button`} />
+                                </label>
+                            </div>
+                        ) }
                     </div>
                     { ( platform == 'pinterest' ) && (
                         <div className="edit-profile">

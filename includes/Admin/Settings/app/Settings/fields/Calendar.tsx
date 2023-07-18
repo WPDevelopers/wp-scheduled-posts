@@ -24,6 +24,7 @@ export default function Calendar(props) {
   const calendar = useRef<FullCalendar>();
   const builderContext = useBuilderContext();
   const [yearMonth, setYearMonth] = useState("11.2022") // @todo 
+  const [editAreaToggle,setEditAreaToggle] = useState([]);
 
   // EditPost state
   const [postData, setPostData] = useState({});
@@ -151,7 +152,10 @@ export default function Calendar(props) {
               onChange={(event) => {
               setYearMonth(event)
             }}>
-              { calendar.current && calendar.current.getApi().view.title }
+              <div className="calender-selected-month">
+                { calendar.current && calendar.current.getApi().view.title }
+                <span className="dashicons dashicons-arrow-down-alt2"></span>
+              </div>
             </Monthpicker>
           </div>
           <div className="right">
@@ -184,7 +188,7 @@ export default function Calendar(props) {
             // weekends={true}
             events={events}
             // firstDay={props.firstDay}
-            eventContent={renderEventContent}
+            eventContent={renderEventContent(editAreaToggle,setEditAreaToggle)}
             dayCellDidMount={(args) => {
               console.log('dayCellDidMount', args);
               const dayTop = args.el.getElementsByClassName('fc-daygrid-day-top');
