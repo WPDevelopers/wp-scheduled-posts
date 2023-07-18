@@ -149,13 +149,13 @@ export default function Calendar(props) {
           </div>
           <div className="right">
             <button>Today</button>
-            <i className="wpsp-icon wpsp-calendar" />
+            <i className="wpsp-icon wpsp-manual-sc" />
           </div>
         </div>
         <div className="wprf-calendar-wrapper">
           <div className="button-control-month">
             <button type="button" className="wpsp-prev-button wpsp-button-primary">
-              <i className="wpsp-icon wpsp-next"></i>
+              <i className="wpsp-icon wpsp-prev"></i>
             </button>
             <button type="button" className="wpsp-next-button wpsp-button-primary">
               <i className="wpsp-icon wpsp-next"></i>

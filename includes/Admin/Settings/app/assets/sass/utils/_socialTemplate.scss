@@ -1,6 +1,5 @@
 .wprf-tab-layout_social_template {
     .wprf-tabs-wrapper {
-        flex-basis: 20% !important;
         border: none !important;
         flex-direction: row;
         background-color: #fff;
@@ -11,6 +10,7 @@
             padding: 24px;
         }
         .wprf-tab-menu-wrapper {
+            flex-basis: 20% !important;
             margin-bottom: 0px !important;
             border-width: 1px;
             border-style: solid;
@@ -21,15 +21,14 @@
             .wprf-tab-nav {
                 padding: 0 !important;
                 border-style: none;
-                min-width: 240px;
                 .wprf-tab-nav-item {
                     font-size: 18px !important;
                     font-weight: 500 !important;
                     color: #1B1B50 !important;
-                    padding: 20px !important;
+                    padding: 16px 30px 16px 20px  !important;
                     @media screen and (max-width: 1023px)  { 
                         font-size: 14px !important;
-                        padding: 20px 20px !important;
+                        padding: 12px 20px !important;
                     }
                     &:last-child {
                         margin-bottom: 0px;
@@ -207,6 +206,105 @@
                                     margin-top: 0;
                                     text-align: end;
                                 }
+                            }
+                        }
+                        .wprf-type-radio-card{
+                            .wprf-control-label {
+                                flex-basis: 20% !important;
+                            }
+                            .wprf-control-field {
+                                flex-basis: 80% !important;
+                                .wprf-row {
+                                    align-items: center;
+                                    justify-content: flex-end;
+                                    gap: 24px;
+                                    margin-left: 0;
+                                    margin-right: 0;
+                                    .wprf-column-3 {
+                                        width: auto !important;
+                                        padding: 0 !important;
+                                        .wprf-input-radio-option {
+                                            min-height: auto !important;
+                                            position: unset !important;
+                                            box-shadow: none !important;
+                                            margin-top: 0 !important;
+                                            line-height: normal !important;
+                                            gap: 8px;
+                                            .wprf-input-label {
+                                                height: auto !important;
+                                                width: auto !important;
+                                                background: transparent !important;
+                                                color: #1B1B50 !important;
+                                                font-size: 14px;
+                                                border-radius: 0 !important;
+                                                padding: 0 !important;
+                                                margin-bottom: 0;
+                                                box-sizing: border-box;
+                                                order: 1;
+                                            }
+                                            input {
+                                                box-shadow: none !important;
+                                                border: 1px solid #D7DBDF !important;
+                                                background-color: transparent !important;
+                                                color: #1B1B50 !important;
+                                                padding: 0 !important;
+                                                margin: 0 !important;
+                                                line-height: 10px !important;
+                                                min-width: 10px !important;
+                                                min-height: 10px !important;
+                                                display: block !important;
+                                                // &:checked {
+                                                //     background-color: #6C62FF !important;
+                                                //     width: 5px !important;
+                                                //     height: 5px !important;
+                                                //     line-height: 5px !important;
+                                                //     border-radius: 50%;
+                                                // }
+                                            }
+                                            // .wprf-input-label {
+                                                // position: absolute !important;
+                                                // right: -48px !important;
+                                                // top: 0 !important;
+                                                // height: auto !important;
+                                                // width: auto !important;
+                                                // display: flex;
+                                                // align-items: center;
+                                                // justify-content: center;
+                                                // transition: background 0.3s ease 0s;
+                                                // background: transparent !important;
+                                                // font-size: 14px;
+                                                // border-radius: 5px;
+                                                // padding: 0 !important;
+                                                // margin-bottom: 0 !important;
+                                                // box-sizing: border-box;
+                                            // }
+                                            &:after {
+                                                display: none !important;
+                                            }
+                                            &:before {
+                                                display: none;
+                                                content: '';
+                                                display: none !important;
+                                                right: 2px !important;
+                                                top: 2px !important;
+                                                left: auto !important;
+                                                width: 20px !important;
+                                                height: 20px !important;
+                                                box-sizing: border-box;
+                                                transition: all 0.3s ease 0s;
+                                                background: #09dca8;
+                                                border-radius: 100% !important;
+                                            }
+                                        }
+                                        // .wprf-option-selected {
+                                        //     .wprf-input-label {
+                                        //         background-color: transparent !important;
+                                        //         color: black !important;
+                                        //     }
+                                        // }
+                                    }
+                                }
+                                
                             }
                         }
                     }
