@@ -158,42 +158,6 @@ export default function Sidebar({props,handleOpenModal}) {
               ))}
             </ul>
         </div>
-        {postType !== "page" && (
-          <select
-            id="external-events-filter"
-            multiple={true}
-            style={{ width: "100%" }}
-            onChange={handleSelectChange}
-            value={allowCategories}
-            defaultValue={["all"]}
-          >
-            <option value="all">All</option>
-            {Object.keys(taxTerms).map(
-              (
-                taxLabel // Loop through your taxonomies using map method
-              ) => (
-                <optgroup label={taxLabel}>
-                  {Object.keys(taxTerms[taxLabel]).map?.(
-                    (
-                      termLabel // Loop through your terms using map method
-                    ) => {
-                      const term = taxTerms[taxLabel][termLabel];
-                      return (
-                        <option
-                          key={term.id}
-                          value={`${term.taxonomy}.${term.slug}`}
-                          data-tax={term.taxonomy}
-                        >
-                          {term.name}
-                        </option>
-                      );
-                    }
-                  )}
-                </optgroup>
-              )
-            )}
-          </select>
-        )}
         <div ref={draggableRef}>
           {posts.map(
             (
