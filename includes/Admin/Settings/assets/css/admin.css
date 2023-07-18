@@ -2,9 +2,9 @@
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./app/assets/sass/index.scss ***!
   \***************************************************************************************************************************************************************************************************************************************************/
 @import url(https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap);
-/*!****************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!../../../../../../../quickbuilder/dist/index.css ***!
-  \****************************************************************************************************************************************************************************************************/
+/*!**********************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./node_modules/quickbuilder/dist/index.css ***!
+  \**********************************************************************************************************************************************************************************************/
 .toplevel_page_wp-react-form #wpcontent {
   padding-left: 0px; }
 
@@ -1813,9 +1813,9 @@ button.wprf-btn {
     visibility: visible;
     opacity: 1; }
 
-/*!***************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!../../../../../../../quickbuilder/node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css ***!
-  \***************************************************************************************************************************************************************************************************************************************************/
+/*!*******************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css ***!
+  \*******************************************************************************************************************************************************************************************************************/
 .rdw-option-wrapper {
   border: 1px solid #F1F1F1;
   padding: 5px;
@@ -2835,8 +2835,7 @@ button.wprf-btn {
   flex: 1;
 }
 .Toastify__toast-icon {
-  -webkit-margin-end: 10px;
-          margin-inline-end: 10px;
+  margin-inline-end: 10px;
   width: 20px;
   flex-shrink: 0;
   display: flex;
@@ -4430,7 +4429,7 @@ button.wprf-btn {
   padding: 8px 16px;
   font-size: 14px;
   font-weight: 500;
-  line-height: 17px;
+  line-height: 1em;
   text-align: center;
   border: 1px solid #6C62FF;
   border-radius: 6px;
@@ -5607,6 +5606,11 @@ button.wprf-btn {
 .ReactModal__Overlay .modal_wrapper .modalbody .form-group {
   margin-bottom: 32px;
 }
+.ReactModal__Overlay .modal_wrapper .modalbody .form-group .wprf-control-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: unset;
+}
 .ReactModal__Overlay .modal_wrapper .modalbody .form-group label {
   display: block;
   margin-bottom: 16px !important;
@@ -5614,21 +5618,26 @@ button.wprf-btn {
   color: #1B1B50;
   line-height: 20px;
 }
-.ReactModal__Overlay .modal_wrapper .modalbody .form-group input {
+.ReactModal__Overlay .modal_wrapper .modalbody .form-group input,
+.ReactModal__Overlay .modal_wrapper .modalbody .form-group textarea {
   width: 100%;
-  padding-left: 18px;
-  padding-right: 18px;
-  min-height: 50px !important;
+  font-size: 16px;
+  line-height: 1.2em;
+  color: #A6A6BA;
+  padding: 20px 18px;
+  min-height: 44px !important;
   border: 1px solid #EBEEF5;
 }
-.ReactModal__Overlay .modal_wrapper .modalbody .form-group input:focus {
+.ReactModal__Overlay .modal_wrapper .modalbody .form-group input:focus,
+.ReactModal__Overlay .modal_wrapper .modalbody .form-group textarea:focus {
   box-shadow: none !important;
   outline: 0 !important;
 }
-.ReactModal__Overlay .modal_wrapper .modalbody .form-group input::-moz-placeholder {
+.ReactModal__Overlay .modal_wrapper .modalbody .form-group input::-moz-placeholder, .ReactModal__Overlay .modal_wrapper .modalbody .form-group textarea::-moz-placeholder {
   color: #A6A6BA;
 }
-.ReactModal__Overlay .modal_wrapper .modalbody .form-group input::placeholder {
+.ReactModal__Overlay .modal_wrapper .modalbody .form-group input::placeholder,
+.ReactModal__Overlay .modal_wrapper .modalbody .form-group textarea::placeholder {
   color: #A6A6BA;
 }
 .ReactModal__Overlay .modal_wrapper .modalbody .form-group .redirect-note {
@@ -5636,6 +5645,18 @@ button.wprf-btn {
   color: #6E6E8D;
   padding-top: 16px;
   display: block;
+}
+.ReactModal__Overlay .modal_wrapper .modalbody button[type=submit] {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.25em;
+  color: #fff;
+  padding: 16px 32px;
+  border: none;
+  border-radius: 6px;
+  background: #6C62FF;
+  margin-top: 20px;
+  cursor: pointer;
 }
 .ReactModal__Overlay .modal_wrapper .modalbody .wpsp-modal-social-platform .wpsp-modal-save-account {
   font-size: 14px;
