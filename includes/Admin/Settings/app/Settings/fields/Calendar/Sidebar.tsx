@@ -8,6 +8,7 @@ import { Button } from "@wordpress/components";
 import { default as ReactSelect } from "react-select";
 import { selectStyles } from "../../helper/styles";
 import { components } from "react-select";
+import { __ } from "@wordpress/i18n";
 
 // Define your component
 export default function Sidebar({props,handleOpenModal}) {
@@ -144,6 +145,7 @@ export default function Sidebar({props,handleOpenModal}) {
           closeMenuOnSelect={false}
           hideSelectedOptions={false}
           autoFocus={false}
+          placeholder={ __("Select Category","wp-scheduled-posts") }
           isMulti
           components={{
             Option

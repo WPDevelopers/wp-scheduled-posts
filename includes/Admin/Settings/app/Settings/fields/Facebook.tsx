@@ -94,13 +94,15 @@ const Facebook = (props) => {
                 </div>
                 <div className="selected-profile">
                     { selectedProfile && selectedProfile?.map((item,index) => (
-                        <SelectedProfile 
-                            platform={'facebook'} 
-                            item={item} 
-                            handleSelectedProfileStatusChange={handleSelectedProfileStatusChange} 
-                            handleDeleteSelectedProfile={handleDeleteSelectedProfile} 
-                            handleEditSelectedProfile={''}
-                        />
+                        <div className='selected-facebook-wrapper' key={index}>
+                            <SelectedProfile 
+                                platform={'facebook'} 
+                                item={item} 
+                                handleSelectedProfileStatusChange={handleSelectedProfileStatusChange} 
+                                handleDeleteSelectedProfile={handleDeleteSelectedProfile} 
+                                handleEditSelectedProfile={''}
+                            />
+                        </div>
                     ))}
                 </div>
             </div>

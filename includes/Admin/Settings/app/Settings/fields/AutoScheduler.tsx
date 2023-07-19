@@ -4,6 +4,7 @@ import { __ } from '@wordpress/i18n';
 import { generateTimeOptions } from '../helper/helper';
 import Select from 'react-select';
 import { useBuilderContext } from 'quickbuilder';
+import { selectStyles } from '../helper/styles';
 
 const AutoScheduler = (props) => {
     let { name, multiple, onChange } = props;
@@ -19,9 +20,9 @@ const AutoScheduler = (props) => {
         });
       }
     });
-    let getStartTime = props?.value?.find( (item) => item['start_time'] );
+    let getStartTime = builderContext.values['manage_schedule']?.[name]?.find( (item) => item['start_time'] );
     getStartTime = getStartTime ? getStartTime['start_time'] : '';
-    let getEndTime = props?.value?.find( (item) => item['end_time'] );
+    let getEndTime = builderContext.values['manage_schedule']?.[name]?.find( (item) => item['end_time'] );
     getEndTime = getEndTime ? getEndTime['end_time'] : '';
     const startTimeFormat = { label : getStartTime, value : getStartTime };
     const endTimeFormat = { label : getEndTime, value : getEndTime };
@@ -97,10 +98,11 @@ const AutoScheduler = (props) => {
                     </div>
                     <div className="time">
                         <Select
+                            styles={selectStyles}
                             value={startSelectedTime}
                             options={ timeOptions }
                             onChange={ (event) => handleTimeChange('start',event) }
-                            className='select-start-time'
+                            className='select-start-time main-select'
                         />
                     </div>
                 </div>
@@ -111,10 +113,11 @@ const AutoScheduler = (props) => {
                     </div>
                     <div className="time">
                         <Select
+                            styles={selectStyles}
                             value={endSelectedTime}
                             options={ timeOptions }
                             onChange={ (event) => handleTimeChange('end',event) }
-                            className='select-start-time'
+                            className='select-start-time main-select'
                         />
                     </div>
                 </div>
@@ -122,7 +125,7 @@ const AutoScheduler = (props) => {
             <div className="weeks">
                 {
                     weeks.map( (day,index) => (
-                        <div className="week">
+                        <div key={index} className="week">
                             <input 
                                 type="number" 
                                 defaultValue={0}
