@@ -16,6 +16,7 @@ ul {
 }
 a:focus {
   box-shadow: none;
+  border: none !important;
 }
 ::placeholder {
   color: #A6A6BA;
