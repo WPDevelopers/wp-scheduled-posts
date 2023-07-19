@@ -127,21 +127,21 @@ class Settings {
                                         'options'   => [
                                             [
                                                 'icon'  => 'wpsp-auto-sc',
-                                                'title' => __('Auto Scheduler','wp-scheduled-posts'),
+                                                'title' => __('Auto/Manual Scheduler','wp-scheduled-posts'),
                                                 'link'  => 'https://wpdeveloper.com',
                                             ],
                                             [
                                                 'icon'  => 'wpsp-manual-sc',
-                                                'title' => __('Manual Scheduler','wp-scheduled-posts'),
-                                                'link'  => 'https://wpdeveloper.com',
-                                            ],
-                                            [
-                                                'icon'  => 'wpsp-missed-sc',
                                                 'title' => __('Missed Scheduler Handler','wp-scheduled-posts'),
                                                 'link'  => 'https://wpdeveloper.com',
                                             ],
                                             [
-                                                'icon'  => 'wpsp-chat',
+                                                'icon'  => 'wpsp-missed-sc',
+                                                'title' => __('Advanced Scheduler','wp-scheduled-posts'),
+                                                'link'  => 'https://wpdeveloper.com',
+                                            ],
+                                            [
+                                                'icon'  => 'wpsp-comment1',
                                                 'title' => __('Premium Support','wp-scheduled-posts'),
                                                 'link'  => 'https://wpdeveloper.com',
                                             ],
