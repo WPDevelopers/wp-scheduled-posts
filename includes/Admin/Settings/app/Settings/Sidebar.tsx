@@ -18,7 +18,7 @@ const Sidebar = ({ props }) => {
                 <img src={`${wpspSettingsGlobal?.image_path}upgrade-pro.png`} alt="upgrade-pro-img" />
                 <h3>Get Unlimited Features</h3>
                 <p>Supercharge your content schedule and have a peace in mind</p>
-                <button><span>Upgrade To Pro</span></button>
+                <button><span>Manage License</span></button>
             </div>
             <div className='card'>
                 <i className="wpsp-icon wpsp-file"></i>
