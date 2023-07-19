@@ -233,3 +233,24 @@
 //     border: none;
 //     color: #fff;
 // }
+.wpsp-admin-content #calendar_section .wpsp-calender-content{
+    display: flex;
+    gap: 15px;
+}
+.wpsp-admin-content .wpsp-calender-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 32px;
+    background-color: #fff;
+    margin-bottom: 20px;
+    border-radius: 6px;
+}
+.wpsp-admin-content .wpsp-calender-header .wpsp-post-select {
+    display: flex;
+    gap: 10px;
+    align-content: center;
+}
+.wpsp-admin-content .wpsp-calender-header .wpsp-post-select .selected-options ul{
+    display: flex;
+    gap: 10px;
+}

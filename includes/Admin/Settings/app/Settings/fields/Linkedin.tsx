@@ -112,13 +112,16 @@ const Linkedin = (props) => {
                 </div>
                 <div className="selected-profile">
                     { selectedProfile && selectedProfile?.map((item,index) => (
-                        <SelectedProfile 
-                            platform={'linkedin'} 
-                            item={item} 
-                            handleSelectedProfileStatusChange={handleSelectedProfileStatusChange} 
-                            handleDeleteSelectedProfile={handleDeleteSelectedProfile} 
-                            handleEditSelectedProfile={''}
-                        />
+                        <div className='selected-linkedin-wrapper' key={index}>
+                            <SelectedProfile 
+                                platform={'linkedin'} 
+                                item={item} 
+                                handleSelectedProfileStatusChange={handleSelectedProfileStatusChange} 
+                                handleDeleteSelectedProfile={handleDeleteSelectedProfile} 
+                                handleEditSelectedProfile={''}
+                            />
+                        </div>
+                        
                     ))}
                 </div>
             </div>

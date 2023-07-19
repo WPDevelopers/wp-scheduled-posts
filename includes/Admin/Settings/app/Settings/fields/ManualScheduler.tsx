@@ -3,8 +3,12 @@ import classNames from 'classnames';
 import Select from 'react-select';
 import { __ } from '@wordpress/i18n';
 import { generateTimeOptions } from '../helper/helper';
+import { selectStyles } from '../helper/styles';
+import { useBuilderContext } from 'quickbuilder';
 
 const ManualScheduler = (props) => {
+    const builderContext = useBuilderContext();
+    let { name, multiple, onChange } = props;
     const options = [
         { value: 'saturday', label: 'Sat' },
         { value: 'sunday', label: 'Sun' },
@@ -19,8 +23,9 @@ const ManualScheduler = (props) => {
     const [selectDay, setSelectDay] = useState(options[0])
     const [selectTime, setSelectTime] = useState(timeOptions[0])
     const [savedManualSchedule,setSavedManualSchedule] = useState([]);
-    const [formatedSchedule,setFormatedSchedule] = useState([]);
-
+    const [formatedSchedule,setFormatedSchedule] = useState(builderContext.values['manage_schedule']?.[name]?.weekdata);
+    console.log('manual-scheduler', props);
+    
     const handleSavedManualSchedule = () => {
         setSavedManualSchedule(prevSchedule => {
             const updatedSchedule = [...prevSchedule];
@@ -28,8 +33,9 @@ const ManualScheduler = (props) => {
             return updatedSchedule;
         });
     }
-    let { name, multiple, onChange } = props;
     useEffect( () => {
+        console.log(savedManualSchedule);
+        
         const formattedData = savedManualSchedule.reduce((result, obj) => {
             const key = Object.keys(obj)[0];
             const value = obj[key];
@@ -42,13 +48,11 @@ const ManualScheduler = (props) => {
           
             return result;
         }, {});
-        console.log(formattedData);
-          
         setFormatedSchedule(formattedData)
         onChange({
             target: {
                 type: "auto-scheduler",
-                name:["manage_schedule","weekdata",name],
+                name:["manage_schedule",name],
                 value: formattedData,
                 multiple,
             },
@@ -86,7 +90,8 @@ const ManualScheduler = (props) => {
             </div>
             <div className="content">
                 <Select
-                    className='select-days'
+                    styles={selectStyles}
+                    className='select-days main-select'
                     value={selectDay}
                     onChange={(option) =>
                         setSelectDay(option)
@@ -95,7 +100,8 @@ const ManualScheduler = (props) => {
                     isMulti={false}
                 />
                 <Select
-                    className='select-days'
+                    styles={selectStyles}
+                    className='select-days main-select'
                     value={selectTime}
                     onChange={(option) =>
                         setSelectTime(option)
@@ -107,11 +113,11 @@ const ManualScheduler = (props) => {
             </div>
             <div className="weeks">
                 {options.map((item, optionIndex) => (
-                    <div key={Math.random()} className="week">
+                    <div key={optionIndex} className="week">
                         <h6>{ item.label }</h6>
                         {
                             formatedSchedule[item.value]?.map( ( data,index ) => (
-                                <span>{ data } 
+                                <span key={index}>{ data } 
                                     <i 
                                     onClick={ () => {
                                         const updatedSchedule = savedManualSchedule.filter(_item => {

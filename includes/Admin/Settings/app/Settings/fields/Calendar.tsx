@@ -15,7 +15,8 @@ import { default as ReactSelect } from "react-select";
 import { selectStyles } from "../helper/styles";
 import { components } from "react-select";
 import Monthpicker from '@compeon-os/monthpicker'
-
+import classNames from "classnames";
+import { __ } from "@wordpress/i18n";
 
 export default function Calendar(props) {
   // @ts-ignore
@@ -103,133 +104,165 @@ export default function Calendar(props) {
   const handleSlidebarToggle = () => {
     setSidebarToggle( sidebarToogle ? false : true );  
   }
+  const [optionSelected, setOptionSelected] = useState([]);
+
+  // Add and remove
+  const handleChange = (selected) => {
+    setOptionSelected(selected);
+  };
+  const removeItem = (item) => {
+    const updatedItems = optionSelected.filter((i) => i !== item);
+    setOptionSelected(updatedItems);
+  };
+
   return (
-    <>
-        { sidebarToogle && (
-          <div className="sidebar">
-              <Sidebar props={props} handleOpenModal={handleOpenModal} />
-          </div>
-        ) }
-      <div className={`main-content ${!sidebarToogle ? 'basis-100' : ''}`}>
-        <div className="toolbar">
-          <div className="left">
+    <div className={classNames('wprf-control', 'wprf-calender', `wprf-${props.name}-calender`, props?.classes)}>
+      <div className="wpsp-calender-header">
+          <div className="wpsp-post-select">
             <ReactSelect
               options={options}
               styles={selectStyles}
               closeMenuOnSelect={false}
               hideSelectedOptions={false}
+              placeholder={__("Select Post Type",'wp-scheduled-posts')}
               autoFocus={false}
               isMulti
               components={{
                 Option
               }}
+              value={optionSelected}
+              onChange={handleChange}
               controlShouldRenderValue={false}
               className="main-select"
             />
-            <ReactSelect
-              options={options}
-              styles={selectStyles}
-              closeMenuOnSelect={false}
-              hideSelectedOptions={false}
-              autoFocus={false}
-              isMulti
-              components={{
-                Option
-              }}
-              controlShouldRenderValue={false}
-              className="main-select"
-            />
+            <div className="selected-options">
+                <ul>
+                  { optionSelected?.map( (item, index) => (
+                    <li key={index}> { item?.label } <button onClick={() => removeItem(item)}> <i className='wpsp-icon wpsp-close'></i> </button> </li>
+                  ))}
+                </ul>
+            </div>
           </div>
-          <div className="middle">
-            {/* calendar dropdown */}
-            {/* <input type="month" id="start" name="start"
-            min="2018-03" value="2018-05"></input> */}
-            <Monthpicker
-              locale="en"
-              format='MM.yyyy' 
-              month={parseInt(month)}
-              year={parseInt(year)}
-              onChange={(event) => {
-              setYearMonth(event)
-            }}>
-              <div className="calender-selected-month">
-                { calendar.current && calendar.current.getApi().view.title }
-                <span className="dashicons dashicons-arrow-down-alt2"></span>
-              </div>
-            </Monthpicker>
+          <div className="wpsp-post-search">
+              <input type="text" placeholder="Search" />
           </div>
-          <div className="right">
-            <button>Today</button>
-            <i onClick={handleSlidebarToggle} className={`wpsp-icon wpsp-manual-sc ${ !sidebarToogle ? 'inactive' : '' }`} />
-          </div>
-        </div>
-        <div className="wprf-calendar-wrapper">
-          <div className="button-control-month">
-            <button type="button" className="wpsp-prev-button wpsp-button-primary">
-              <i className="wpsp-icon wpsp-prev"></i>
-            </button>
-            <button type="button" className="wpsp-next-button wpsp-button-primary">
-              <i className="wpsp-icon wpsp-next"></i>
-            </button>
-          </div>
-          <FullCalendar
-            ref={calendar}
-            plugins={[dayGridPlugin, interactionPlugin]}
-            initialView="dayGridMonth"
-            dayMaxEvents={1}
-            dayPopoverFormat={{ day: 'numeric' }}
-            moreLinkContent={(arg) => {
-              return (
-                <>
-                  View {arg.num} More
-                </>
-              )
-            }}
-            // weekends={true}
-            events={events}
-            // firstDay={props.firstDay}
-            eventContent={renderEventContent(editAreaToggle,setEditAreaToggle,handleOpenModal)}
-            dayCellDidMount={(args) => {
-              console.log('dayCellDidMount', args);
-              const dayTop = args.el.getElementsByClassName('fc-daygrid-day-top');
-              // add a button on dayTop element as child
-              const button = document.createElement('button');
-              button.innerHTML = 'Add New';
-              if(args.isOther) {
-                button.disabled = true;
-              }
-              button.addEventListener('click', (event) => {
-                console.log('click', event, args);
-                handleOpenModal();
-              });
-              dayTop[0].appendChild(button);
-            }}
-            // dateClick={handleDateClick}
-            // Enable droppable option
-            editable={true}
-            droppable={true}
-            // headerToolbar={false}
-            // Provide a drop callback function
-            eventReceive={info => {
-              const props = info.event.extendedProps;
-              props.setPosts(posts => posts.filter((p) => p.postId !== props.postId));
-              console.log('drop', info, props);
-            }}
-            eventClick={function(info) {
-              console.log('Event: ', info.event.extendedProps);
-              console.log('info: ', info);
-              console.log(calendar.current?.getApi().view);
-
-              // change the border color just for fun
-              info.el.style.border = '1px solid red';
-            }}
-            datesSet={(dateInfo) => {
-
-            }}
-          />
-        </div>
       </div>
-      <EditPost post={postData} isOpen={isModalOpen} closeModal={handleCloseModal} />
-    </>
+      <div className="wpsp-calender-content main-content-wrapper">
+        <div className={`main-content ${!sidebarToogle ? 'basis-100' : ''}`}>
+          <div className="toolbar">
+            <div className="left">
+              <ReactSelect
+                placeholder={ __("Select Category","wp-scheduled-posts") }
+                options={options}
+                styles={selectStyles}
+                closeMenuOnSelect={false}
+                hideSelectedOptions={false}
+                autoFocus={false}
+                isMulti
+                components={{
+                  Option
+                }}
+                controlShouldRenderValue={false}
+                className="main-select"
+              />
+            </div>
+            <div className="middle">
+              {/* calendar dropdown */}
+              {/* <input type="month" id="start" name="start"
+              min="2018-03" value="2018-05"></input> */}
+              <Monthpicker
+                locale="en"
+                format='MM.yyyy' 
+                month={parseInt(month)}
+                year={parseInt(year)}
+                onChange={(event) => {
+                setYearMonth(event)
+              }}>
+                <div className="calender-selected-month">
+                  { calendar.current && calendar.current.getApi().view.title }
+                  <span className="dashicons dashicons-arrow-down-alt2"></span>
+                </div>
+              </Monthpicker>
+            </div>
+            <div className="right">
+              <button>Today</button>
+              <i onClick={handleSlidebarToggle} className={`wpsp-icon wpsp-manual-sc ${ !sidebarToogle ? 'inactive' : '' }`} />
+            </div>
+          </div>
+          <div className="wprf-calendar-wrapper">
+            <div className="button-control-month">
+              <button type="button" className="wpsp-prev-button wpsp-button-primary">
+                <i className="wpsp-icon wpsp-prev"></i>
+              </button>
+              <button type="button" className="wpsp-next-button wpsp-button-primary">
+                <i className="wpsp-icon wpsp-next"></i>
+              </button>
+            </div>
+            <FullCalendar
+              ref={calendar}
+              plugins={[dayGridPlugin, interactionPlugin]}
+              initialView="dayGridMonth"
+              dayMaxEvents={1}
+              dayPopoverFormat={{ day: 'numeric' }}
+              moreLinkContent={(arg) => {
+                return (
+                  <>
+                    View {arg.num} More
+                  </>
+                )
+              }}
+              // weekends={true}
+              events={events}
+              // firstDay={props.firstDay}
+              eventContent={renderEventContent(editAreaToggle,setEditAreaToggle,handleOpenModal)}
+              dayCellDidMount={(args) => {
+                console.log('dayCellDidMount', args);
+                const dayTop = args.el.getElementsByClassName('fc-daygrid-day-top');
+                // add a button on dayTop element as child
+                const button = document.createElement('button');
+                button.innerHTML = 'Add New';
+                if(args.isOther) {
+                  button.disabled = true;
+                }
+                button.addEventListener('click', (event) => {
+                  console.log('click', event, args);
+                  handleOpenModal();
+                });
+                dayTop[0].appendChild(button);
+              }}
+              // dateClick={handleDateClick}
+              // Enable droppable option
+              editable={true}
+              droppable={true}
+              // headerToolbar={false}
+              // Provide a drop callback function
+              eventReceive={info => {
+                const props = info.event.extendedProps;
+                props.setPosts(posts => posts.filter((p) => p.postId !== props.postId));
+                console.log('drop', info, props);
+              }}
+              eventClick={function(info) {
+                console.log('Event: ', info.event.extendedProps);
+                console.log('info: ', info);
+                console.log(calendar.current?.getApi().view);
+
+                // change the border color just for fun
+                info.el.style.border = '1px solid red';
+              }}
+              datesSet={(dateInfo) => {
+
+              }}
+            />
+          </div>
+        </div>
+        { sidebarToogle && (
+            <div className="sidebar">
+                <Sidebar props={props} handleOpenModal={handleOpenModal} />
+            </div>
+          ) }
+        <EditPost post={postData} isOpen={isModalOpen} closeModal={handleCloseModal} />
+      </div>
+
+    </div>
   );
 }
