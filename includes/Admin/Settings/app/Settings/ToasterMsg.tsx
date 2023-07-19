@@ -51,6 +51,7 @@ export const SweetAlertDeleteMsg = ( args: any = {}, deleteFile?: (item) => void
         showCancelButton: args?.showCancelButton ?? true,
         confirmButtonColor: args?.confirmButtonColor ?? '#3085d6',
         cancelButtonColor: args?.cancelButtonColor ?? '#d33',
+        cancelButtonText: '<i class="wpsp-icon wpsp-close"></i>',
         confirmButtonText: args?.confirmButtonText ?? __('Yes, delete it!', 'wp-scheduled-posts'),
     }).then((result) => {
         if (result.isConfirmed) {
