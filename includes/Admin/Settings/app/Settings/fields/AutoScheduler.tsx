@@ -3,12 +3,15 @@ import classNames from 'classnames';
 import { __ } from '@wordpress/i18n';
 import { generateTimeOptions } from '../helper/helper';
 import Select from 'react-select';
+import { useBuilderContext } from 'quickbuilder';
 
 const AutoScheduler = (props) => {
+    let { name, multiple, onChange } = props;
+    const builderContext = useBuilderContext();
     const modifiedDayDataFormet = [];
     const weeks = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
     weeks.forEach(day => {
-      const obj = props?.value?.find(item => item[`${day}_post_limit`]);
+      const obj = builderContext.values['manage_schedule']?.[name]?.find(item => item[`${day}_post_limit`]);
       if (obj) {
         modifiedDayDataFormet.push({
           day: day,
@@ -57,9 +60,7 @@ const AutoScheduler = (props) => {
     }
 
 
-    let { name, multiple, onChange } = props;
     useEffect(() => {
-
         let autoSchedulerObj = autoScheduler?.map( (item) => {
             let property_name = item?.day+'_post_limit';
             return { [property_name] : item?.value }
@@ -69,7 +70,7 @@ const AutoScheduler = (props) => {
 		onChange({
 			target: {
 				type: "auto-scheduler",
-				name,
+				name:["manage_schedule",name],
 				value: autoSchedulerObj,
 				multiple,
 			},
@@ -122,7 +123,12 @@ const AutoScheduler = (props) => {
                 {
                     weeks.map( (day,index) => (
                         <div className="week">
-                            <input type="number" value={ autoScheduler?.find(item => item.day === day)?.value } onChange={ (event) => handleDayChange( day, event ) } />
+                            <input 
+                                type="number" 
+                                defaultValue={0}
+                                value={ autoScheduler?.find(item => item.day === day)?.value } 
+                                onChange={ (event) => handleDayChange( day, event ) } 
+                            />
                             <span>{ __('Number of posts','wp-scheduled-posts') }</span>
                             <h6>{ day.toUpperCase() }</h6>
                         </div>

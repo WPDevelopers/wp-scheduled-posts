@@ -188,7 +188,7 @@ export default function Calendar(props) {
             // weekends={true}
             events={events}
             // firstDay={props.firstDay}
-            eventContent={renderEventContent(editAreaToggle,setEditAreaToggle)}
+            eventContent={renderEventContent(editAreaToggle,setEditAreaToggle,handleOpenModal)}
             dayCellDidMount={(args) => {
               console.log('dayCellDidMount', args);
               const dayTop = args.el.getElementsByClassName('fc-daygrid-day-top');

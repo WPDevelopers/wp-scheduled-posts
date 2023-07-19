@@ -77,74 +77,6 @@
                             }
                         }
                     }
-                    .edit-area {
-                        padding: 8px !important;
-                        background: #fff;
-                        border-radius: 6px;
-                        width: 120px;
-                        box-shadow: 0px 12px 48px 0px #1B1B501A;
-                        position: absolute;
-                        left: 0px;    
-                        top: 22px;
-                        transform: translateX(-50%);
-                        z-index: 999;
-                        li {
-                            font-family: "Inter" !important;
-                            font-size: 14px;
-                            font-weight: 500;
-                            line-height: 1.2em;
-                            text-transform: capitalize;
-                            color: #1B1B50;
-                            padding: 10px 16px;
-                            background: #fff;
-                            border-radius: 6px;
-                            width: 120px;
-                            box-shadow: 0px 12px 48px 0px #1B1B501A;
-                            position: absolute;
-                            left: 0px;    
-                            top: 20px;
-                            transform: translateX(-50%);
-                            z-index: 999;
-                            li {
-                                font-family: "Inter" !important;
-                                font-size: 14px;
-                                font-weight: 500;
-                                line-height: 1.2em;
-                                text-transform: capitalize;
-                                color: #1B1B50;
-                                text-decoration: none;
-                                border: none;
-                                padding: unset;
-                                background: transparent;
-                                cursor: pointer;
-                                button, 
-                                a {
-                                    font-size: 14px;
-                                    font-weight: 500;
-                                    line-height: 1.2em;
-                                    text-transform: capitalize;
-                                    color: #1B1B50;
-                                    text-decoration: none;
-                                    border: none;
-                                    padding: unset;
-                                    background: transparent;
-                                    cursor: pointer;
-                                    
-                                }
-                                &:hover {
-                                    background: #F3F2FF;
-                                    color: #6C62FF;
-                                    a {
-                                        color: #6C62FF;
-                                    }
-                                }
-                            }
-                            &:hover {
-                                background: #F3F2FF;
-                                color: #6C62FF;
-                            }
-                        }
-                    }
                 }
                 p {
                     margin: 32px 0 0;
@@ -325,7 +257,7 @@
                                     .fc-event {
                                         border: none;
                                         background: #ECF5E7;
-                                        padding: 14px;
+                                        padding: 8px;
                                         border-radius: 6px;
                                         margin-top: 6px;
                                         .wpscp-event-post {
@@ -342,6 +274,12 @@
                                                     margin-bottom: 10px;
                                                 }
                                             }
+                                        }
+                                        .event-rendered-edit-icon {
+                                            position: absolute;
+                                            right: 0;
+                                            top: 0;
+                                            color: #000;
                                         }
                                     }
                                 }
@@ -361,4 +299,83 @@
 }
 .calender-selected-month span{
     color: #989FAB;
+} 
+.wpsp-admin-wrapper #external-events-listing .edit-area, .wpsp-admin-wrapper .wpscp-event-post .edit-area {
+    padding: 8px !important;
+    background: #fff;
+    border-radius: 6px;
+    width: 120px;
+    box-shadow: 0px 12px 48px 0px #1B1B501A;
+    position: absolute;
+    left: 0px;    
+    top: 22px;
+    transform: translateX(-50%);
+    z-index: 999;
+    li a{
+        font-family: "Inter" !important;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1.2em;
+        text-transform: capitalize;
+        color: #1B1B50;
+        padding: 6px 16px;
+        background: #fff;
+        display: block;
+        border-radius: 6px;
+        // width: 120px;
+        // box-shadow: 0px 12px 48px 0px #1B1B501A;
+        // position: absolute;
+        left: 0px;    
+        top: 20px;
+        // transform: translateX(-50%);
+        z-index: 999;
+        text-decoration: none;
+        // li {
+        //     font-family: "Inter" !important;
+        //     font-size: 14px;
+        //     font-weight: 500;
+        //     line-height: 1.2em;
+        //     text-transform: capitalize;
+        //     color: #1B1B50;
+        //     text-decoration: none;
+        //     border: none;
+        //     padding: unset;
+        //     background: transparent;
+        //     cursor: pointer;
+        //     button, 
+        //     a {
+        //         font-size: 14px;
+        //         font-weight: 500;
+        //         line-height: 1.2em;
+        //         text-transform: capitalize;
+        //         color: #1B1B50;
+        //         text-decoration: none;
+        //         border: none;
+        //         padding: unset;
+        //         background: transparent;
+        //         cursor: pointer;
+                
+        //     }
+        //     &:hover {
+        //         background: #F3F2FF;
+        //         color: #6C62FF;
+        //         a {
+        //             color: #6C62FF;
+        //         }
+        //     }
+        // }
+        &:hover {
+            background: #F3F2FF;
+            color: #6C62FF;
+            a {
+                color: #6C62FF;
+            }
+        }
+    }
+}
+.wpsp-admin-wrapper .wpscp-event-post .edit-area {
+    transform: translateX(0%) !important;
+}
+.wpsp-admin-wrapper #external-events-listing .edit-area {
+    transform: translateX(80%) translateY(15px) !important;
 }

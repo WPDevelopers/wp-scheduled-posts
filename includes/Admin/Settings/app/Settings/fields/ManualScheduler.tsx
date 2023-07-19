@@ -28,6 +28,7 @@ const ManualScheduler = (props) => {
             return updatedSchedule;
         });
     }
+    let { name, multiple, onChange } = props;
     useEffect( () => {
         const formattedData = savedManualSchedule.reduce((result, obj) => {
             const key = Object.keys(obj)[0];
@@ -40,10 +41,38 @@ const ManualScheduler = (props) => {
             }
           
             return result;
-          }, {});
-          setFormatedSchedule(formattedData)
+        }, {});
+        console.log(formattedData);
+          
+        setFormatedSchedule(formattedData)
+        onChange({
+            target: {
+                type: "auto-scheduler",
+                name:["manage_schedule","weekdata",name],
+                value: formattedData,
+                multiple,
+            },
+        });
     },[savedManualSchedule] )
 
+    // useEffect(() => {
+
+    //     let autoSchedulerObj = savedManualSchedule?.map( (item) => {
+    //         let property_name = item?.day+'_post_limit';
+    //         return { [property_name] : item?.value }
+    //     } )
+    //     autoSchedulerObj.push( { start_time : startSelectedTime?.value }  );
+    //     autoSchedulerObj.push( { end_time : endSelectedTime?.value }  );
+	// 	onChange({
+	// 		target: {
+	// 			type: "auto-scheduler",
+	// 			name:["manage_schedule",name],
+	// 			value: autoSchedulerObj,
+	// 			multiple,
+	// 		},
+	// 	});
+	// }, [savedManualSchedule]);
+    
     return (
         <div className={classNames('wprf-control', 'wprf-manual-scheduler', `wprf-${props.name}-manual-scheduler`, props?.classes)}>
             <div className="header">
