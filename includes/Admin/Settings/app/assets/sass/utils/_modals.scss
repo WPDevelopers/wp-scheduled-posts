@@ -248,6 +248,12 @@
                         font-weight: 500;
                         margin: 0;
                     }
+                    ul {
+                        margin: 16px 0 0;
+                        li {
+                            margin-bottom: 8px;
+                        }
+                    }
                     .item-content {
                         display: flex;
                         align-items: center;
