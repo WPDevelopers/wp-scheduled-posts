@@ -19,23 +19,30 @@ const ManualScheduler = (props) => {
         { value: 'thursday', label: 'Thu' },
         { value: 'friday', label: 'Fri' },
     ]
-    const formatDBManualScheduledData = Object.entries(builderContext.values['manage_schedule']?.[name]?.weekdata).reduce((result, [day, times]) => {
+    
+    let formatDBManualScheduledData = Object.entries(builderContext?.values?.manage_schedule?.[name]?.[0]?.weekdata).reduce((result, [day, times]) => {
         // @ts-ignore 
         times.forEach(time => {
-          result.push({ [day]: time });
+            result.push({ [day]: time });
         });
         return result;
-        
-      }, []);
-    const timeOptions = generateTimeOptions();
+    }, []);
+    
+    let manualSchedulerStatusDBData;
+      for (const item of Object.entries(builderContext?.values?.manage_schedule?.[name]?.[1])) {
+        if (item[0] === "is_active_status") {
+            manualSchedulerStatusDBData = item[1];
+            break;
+        }
+    }
 
+    const timeOptions = generateTimeOptions();
     const [selectDay, setSelectDay] = useState(options[0])
     const [selectTime, setSelectTime] = useState(timeOptions[0])
-    const [savedManualSchedule,setSavedManualSchedule] = useState(formatDBManualScheduledData);
+    const [savedManualSchedule,setSavedManualSchedule] = useState(formatDBManualScheduledData ?? []);
     const [formatedSchedule,setFormatedSchedule] = useState([]);
-    const [manualSchedulerStatus, setManualSchedulerStatus] = useState( Object.entries(builderContext.values['manage_schedule']?.[name]?.is_active_status) );
-    console.log( 'manusl-status',Object.entries(builderContext.values['manage_schedule']?.[name])  );
-    
+    const [manualSchedulerStatus, setManualSchedulerStatus] = useState(manualSchedulerStatusDBData ?? null);
+
     const handleSavedManualSchedule = () => {
         setSavedManualSchedule(prevSchedule => {
             const updatedSchedule = [...prevSchedule];
@@ -59,7 +66,7 @@ const ManualScheduler = (props) => {
                 return result;
             }, {});
             setFormatedSchedule(formattedData)
-            let manualSchedulerData = { weekdata : formattedData, is_active_status : manualSchedulerStatus };
+            let manualSchedulerData = [ { weekdata : formattedData }, { is_active_status : manualSchedulerStatus } ];
             onChange({
                 target: {
                     type: "manual-scheduler",

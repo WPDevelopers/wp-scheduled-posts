@@ -23,6 +23,7 @@ const AutoScheduler = (props) => {
     let getStartTime = builderContext.values['manage_schedule']?.[name]?.find( (item) => item['start_time'] );
     getStartTime = getStartTime ? getStartTime['start_time'] : '';
     let getEndTime = builderContext.values['manage_schedule']?.[name]?.find( (item) => item['end_time'] );
+    let getAutoSchedulerStatus = builderContext.values['manage_schedule']?.[name]?.find( (item) => item['is_active_status'] );
     getEndTime = getEndTime ? getEndTime['end_time'] : '';
     const startTimeFormat = { label : getStartTime, value : getStartTime };
     const endTimeFormat = { label : getEndTime, value : getEndTime };
@@ -30,7 +31,7 @@ const AutoScheduler = (props) => {
     const [autoScheduler,setAutoSchedulerValue] = useState(modifiedDayDataFormet ?? []);
     const [startSelectedTime, setStartSelectedTime] = useState(startTimeFormat);
     const [endSelectedTime, setEndSelectedTime] = useState(endTimeFormat);
-    const [autoSchedulerStatus, setautoSchedulerStatus] = useState()
+    const [autoSchedulerStatus, setautoSchedulerStatus] = useState(getAutoSchedulerStatus ?? null)
 
     const timeOptions = generateTimeOptions();
 

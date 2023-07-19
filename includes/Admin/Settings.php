@@ -1080,12 +1080,12 @@ class Settings {
                                                     'type'          => 'section',
                                                     'label'         => false,
                                                     'fields'        => [
-                                                        'is_delayed_schedule_active'  => [
-                                                            'id'            => 'is_delayed_schedule_active',
-                                                            'name'          => 'is_delayed_schedule_active',
+                                                        'is_active_missed_schedule'  => [
+                                                            'id'            => 'is_active_missed_schedule',
+                                                            'name'          => 'is_active_missed_schedule',
                                                             'type'          => 'toggle',
                                                             'label'         => __('Missed Schedule', 'wp-scheduled-posts'),
-                                                            'help'   => __('Enable to publish posts randomly', 'wp-scheduled-posts'),
+                                                            'help'          => __('Enable to publish posts randomly', 'wp-scheduled-posts'),
                                                             'default'       => 0,
                                                             'is_pro'        => true,
                                                             'priority'      => 5,
