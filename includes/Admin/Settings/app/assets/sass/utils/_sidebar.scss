@@ -12,12 +12,13 @@
     }
     .upgrade-pro {
         text-align: center;
-        padding: 16px 16px 20px !important;
+        padding: 16px 16px 22px !important;
         border-radius: 8px;
         background-color: #FCF4ED;
         box-sizing: border-box;
         margin-bottom: 20px !important;
         position: relative;
+        border: none !important;
         z-index: 1;
         &:before {
             content: '';
