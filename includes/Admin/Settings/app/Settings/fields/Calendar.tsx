@@ -105,7 +105,11 @@ export default function Calendar(props) {
   }
   return (
     <>
-       
+        { sidebarToogle && (
+          <div className="sidebar">
+              <Sidebar props={props} handleOpenModal={handleOpenModal} />
+          </div>
+        ) }
       <div className={`main-content ${!sidebarToogle ? 'basis-100' : ''}`}>
         <div className="toolbar">
           <div className="left">
@@ -184,7 +188,7 @@ export default function Calendar(props) {
             // weekends={true}
             events={events}
             // firstDay={props.firstDay}
-            eventContent={renderEventContent(editAreaToggle,setEditAreaToggle)}
+            eventContent={renderEventContent(editAreaToggle,setEditAreaToggle,handleOpenModal)}
             dayCellDidMount={(args) => {
               console.log('dayCellDidMount', args);
               const dayTop = args.el.getElementsByClassName('fc-daygrid-day-top');
@@ -225,11 +229,6 @@ export default function Calendar(props) {
           />
         </div>
       </div>
-      { sidebarToogle && (
-          <div className="sidebar">
-              <Sidebar props={props} handleOpenModal={handleOpenModal} />
-          </div>
-        ) }
       <EditPost post={postData} isOpen={isModalOpen} closeModal={handleCloseModal} />
     </>
   );

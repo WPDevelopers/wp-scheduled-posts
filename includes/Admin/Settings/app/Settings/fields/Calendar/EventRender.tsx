@@ -27,7 +27,7 @@ export const customViewPlugin = createPlugin({
 
 // a custom render function
 
-const renderEventContent = ( editAreaToggle,setEditAreaToggle ) => {
+const renderEventContent = ( editAreaToggle,setEditAreaToggle,handleOpenModal ) => {
   return (eventInfo: EventContentArg) => {
     const { title, start, end, allDay } = eventInfo.event;
     const { postId, href, edit, status, postType, postTime } =
@@ -43,7 +43,7 @@ const renderEventContent = ( editAreaToggle,setEditAreaToggle ) => {
         <div className="postactions">
           <div>
           <i 
-          className="wpsp-icon wpsp-dots"
+          className="wpsp-icon wpsp-dots event-rendered-edit-icon"
           onClick={ () => {
             setEditAreaToggle(() => {
               let checkExistingIndex = editAreaToggle.findIndex((item) => item.post === postId)
@@ -68,15 +68,18 @@ const renderEventContent = ( editAreaToggle,setEditAreaToggle ) => {
         </i>
         { editAreaToggle.find(item => item.post === postId)?.value && (
             <ul className="edit-area">
-            <li><Button variant="link" target="_blank" href={decodeURIComponent(href)}>View</Button></li>
-            <li><Button variant="link" target="_blank" href={decodeURIComponent(edit)}>Edit</Button></li>
-            <li><Button variant="link" href="#" onClick={(event) => {
-              event.preventDefault();
-            }}>Quick Edit</Button></li>
-            <li><Button variant="link" href="#" onClick={(event) => {
-              event.preventDefault();
-            }}>Delete</Button></li>
-          </ul>
+              <li><Button variant="link" target="_blank" href={decodeURIComponent(href)}>View</Button></li>
+              <li><Button variant="link" target="_blank" href={decodeURIComponent(edit)}>Edit</Button></li>
+              <li>
+                <Button variant="link" href="#" onClick={(event) => {
+                  event.preventDefault();
+                  handleOpenModal(eventInfo.event.extendedProps);
+                }}>Quick Edit</Button>
+              </li>
+              <li><Button variant="link" href="#" onClick={(event) => {
+                event.preventDefault();
+              }}>Delete</Button></li>
+            </ul>
           ) }
             {/* <div className="edit">
               <button data-href={edit}>
