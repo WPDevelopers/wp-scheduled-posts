@@ -25,7 +25,7 @@ const ManualScheduler = (props) => {
     const [savedManualSchedule,setSavedManualSchedule] = useState([]);
     const [formatedSchedule,setFormatedSchedule] = useState(builderContext.values['manage_schedule']?.[name]?.weekdata);
     console.log('manual-scheduler', props);
-    
+
     const handleSavedManualSchedule = () => {
         setSavedManualSchedule(prevSchedule => {
             const updatedSchedule = [...prevSchedule];
@@ -35,17 +35,17 @@ const ManualScheduler = (props) => {
     }
     useEffect( () => {
         console.log(savedManualSchedule);
-        
+
         const formattedData = savedManualSchedule.reduce((result, obj) => {
             const key = Object.keys(obj)[0];
             const value = obj[key];
-          
+
             if (!result.hasOwnProperty(key)) {
               result[key] = [value];
             } else if (!result[key].includes(value)) {
               result[key].push(value);
             }
-          
+
             return result;
         }, {});
         setFormatedSchedule(formattedData)
@@ -76,7 +76,7 @@ const ManualScheduler = (props) => {
 	// 		},
 	// 	});
 	// }, [savedManualSchedule]);
-    
+
     return (
         <div className={classNames('wprf-control', 'wprf-manual-scheduler', `wprf-${props.name}-manual-scheduler`, props?.classes)}>
             <div className="header">
@@ -116,16 +116,16 @@ const ManualScheduler = (props) => {
                     <div key={optionIndex} className="week">
                         <h6>{ item.label }</h6>
                         {
-                            formatedSchedule[item.value]?.map( ( data,index ) => (
-                                <span key={index}>{ data } 
-                                    <i 
+                            formatedSchedule?.[item.value]?.map( ( data,index ) => (
+                                <span key={index}>{ data }
+                                    <i
                                     onClick={ () => {
                                         const updatedSchedule = savedManualSchedule.filter(_item => {
                                             const propertyValue = _item[item.value];
                                             return propertyValue !== data;
                                         });
                                         setSavedManualSchedule(updatedSchedule);
-                                    } } 
+                                    } }
                                     className="wpsp-icon wpsp-close"></i>
                                 </span>
                             ) )
