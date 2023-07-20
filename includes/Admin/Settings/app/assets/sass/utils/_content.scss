@@ -1,517 +1,266 @@
 .wpsp-admin-content {
-    background: #F9FAFC;
-    .wprf-tabs-wrapper {
-        margin: 0px !important;
-        .wprf-tab-menu-wrapper {
-            margin-bottom: 24px !important;
-            @media all and (max-width: 1023px)  { 
-                margin-bottom: 20px !important;
-            }
-            .wprf-tab-nav {
-                border-width: 0 0 1px 0;
-                border-style: solid;
-                border-color: #F0EFFF !important;
-                flex-wrap: wrap;
-                gap: 8px;
-                padding: 24px 32px 0;
-                @media screen and (max-width: 1655px)  { 
-                    padding: 16px 24px 0;
-                }
-                // @media screen and (max-width: 1317px)  { 
-                // }
-                .pro_feature {
-                    position: relative;
-                    &:before {
-                        position: absolute;
-                        content: '\e907';
-                        font-family: 'wpsp';
-                        font-size: 12px;
-                        line-height: 12px;
-                        right: 12px;
-                        top: 4px;
-                        color: #FF9437;
-                        // @media screen and (max-width: 1486px)  { 
-
-                        // }
-                    }
-                }
-                .wprf-tab-nav-item {
-                    padding: 16px 20px !important;
-                    font-size: 16px !important;
-                    font-weight: 500;
-                    line-height: 1.2em !important;
-                    background-color: transparent !important;
-                    color: #6E6E8D !important;
-                    border-top: 0px !important;
-                    @media screen and (max-width: 1655px)  { 
-                        font-size: 14px !important;
-                    }
-                    @media screen and (max-width: 1486px)  { 
-                        padding: 14px 18px!important;
-                    }
-                    @media screen and (max-width: 1270px)  { 
-                        font-size: 12px !important;
-                    }
-                    // @media screen and (max-width: 1138px)  { 
-                    //     padding: 10px 12px !important;
-                    // }
-                }
-                .wprf-active-nav {
-                    color: #6C62FF !important;
-                    font-weight: 600 !important;
-                    box-shadow: 0px 1px #6C62FF;
-                }
-            }
+  background: #f9fafc;
+  .wprf-tabs-wrapper {
+    margin: 0px !important;
+    .wprf-tab-menu-wrapper:not(.wprf-tab-menu-sidebar) {
+      margin-bottom: 0 !important;
+      .wprf-tab-nav {
+        border-width: 0 0 1px 0;
+        border-style: solid;
+        border-color: #f0efff !important;
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 24px 32px 0;
+        @media screen and (max-width: 1439px) {
+          padding: 20px 24px 0;
+          gap: 4px;
         }
-        .wprf-tab-content-wrapper {
-            flex-basis: 100%;
-            background: transparent;
-            padding: 0;
-            .wprf-tab-flex {
-                display: flex;
-                justify-content: space-between;
-                .wprf-tab-contents {
-                    flex: 90%;
-                    padding: 0 32px;
-                    .wprf-tab-content {
-                        .wprf-control-section {
-                            margin-bottom: 0 !important;
-                            border: none !important;
-                            border-radius: 6px;
-                            background: #ffffff;
-                            padding: 32px;
-                            @media screen and (max-width: 1023px)  { 
-                                padding: 24px !important;
-                            }
-                            h4 {
-                                font-size: 24px;
-                                line-height: 1.2em;
-                                letter-spacing: 0px !important;
-                                font-weight: 600 !important;
-                                color: #1B1B50 !important;
-                                margin: 0 !important;
-                                text-transform: capitalize !important;
-                                background: transparent !important;
-                                padding: 0 0 32px;
-                                @media screen and (max-width: 1023px)  { 
-                                    font-size: 18px;
-                                    margin-bottom: 20px !important;
-                                }
-                            }
-                            .wprf-section-fields {
-                                padding-left: 0px !important;
-                                padding-right: 0px !important;
-                                .wprf-type-select {
-                                    padding-top: 8px !important;
-                                    padding-bottom: 8px !important;
-                                    .wprf-select__control {
-                                        background-color: #F9FAFC;
-                                        border-color: #EBEEF5;
-                                        border-radius: 8px;
-                                        padding: 0 9px;
-                                        min-height: 54px;
-                                        @media screen and (max-width: 1023px)  { 
-                                            padding: 5px;
-                                        }
-                                        .css-1wa3eu0-placeholder {
-                                            font-size: 16px;
-                                            color: #6E6E8D;
-                                            font-weight: 500;
-                                            @media screen and (max-width: 1023px)  { 
-                                                font-size: 14px;
-                                            }
-                                        }
-                                        .css-1okebmr-indicatorSeparator {
-                                            background-color: #989FAB;
-                                        }
-                                        .css-tlfecz-indicatorContainer {
-                                            color: #989FAB;
-                                        }
-                                    }
-                                }
-                                .wprf-section-collapsed {
-                                    .wprf-section-title {
-                                        margin-bottom: 0px !important;
-                                    }
-                                }
-                                .wprf-control-section {
-                                    gap: 20px;
-                                    justify-content: space-between;
-                                    align-items: center;
-                                    border: 1px solid #EBEEF5 !important;
-                                    border-radius: 6px;
-                                    padding: 24px !important;
-                                    margin-bottom: 12px !important;
-                                    @media screen and (max-width: 1023px)  { 
-                                        padding: 20px;
-                                    }
-                                    .wprf-section-title {
-                                        margin-bottom: 20px;
-                                        button {
-                                            border: none;
-                                            background: transparent;
-                                        }
-                                    }
-                                    h4 {
-                                        color: #1B1B50 !important;
-                                        font-size: 16px;
-                                        font-weight: 500 !important;
-                                        line-height: 1.2em;
-                                        text-transform: unset !important;
-                                        margin-bottom: 0 !important;
-                                        padding: 0;
-                                        @media screen and (max-width: 1023px)  { 
-                                            font-size: 14px;
-                                        }
-                                    }
-                                    .wprf-control-wrapper {
-                                        .wprf-control-field {
-                                            flex-direction: column !important;
-                                            align-items: flex-end !important;
-                                            gap: 8px;
-                                            input {
-                                                box-shadow: none !important;
-                                                border: 1px solid #EBEEF5;
-                                                background-color: #F9FAFC;
-                                                font-size: 16px !important;
-                                                color: #1B1B50 !important;
-                                                padding: 10px 12px !important;
-                                                line-height: 20px !important;
-                                                min-width: 220px;
-                                            }
-                                            .wprf-description {
-                                                margin-left: 0px !important;
-                                                font-size: 12px !important;
-                                                color: #6E6E8D !important;
-                                                font-style: italic;
-                                                margin-bottom: 0;
-                                                margin-top: 0;
-                                                text-align: end;
-                                            }
-                                        }
-                                        &:last-child {
-                                            margin-bottom: 0px !important;
-                                        }
-                                    }
-                                }
-                                .wprf-checkbox-select,
-                                .wprf-time {
-                                    padding: 8px 24px !important;
-                                }
-                                .wprf-time,
-                                .wprf-control-wrapper {
-                                    display: flex;
-                                    align-items: center;
-                                    flex-wrap: nowrap;
-                                    gap: 20px;
-                                    justify-content: space-between;
-                                    border: 1px solid #EBEEF5;
-                                    border-radius: 6px;
-                                    padding: 24px;
-                                    margin-bottom: 12px !important;
-                                    width: auto !important;
-                                    &:last-child {
-                                        margin-bottom: 0 !important;
-                                    }
-                                    @media screen and (max-width: 1023px)  { 
-                                        padding: 20px;
-                                    }
-                                    .pro-deactivated {
-                                        display: flex;
-                                        align-items: center;
-                                        flex-basis: 100%;
-                                        justify-content: space-between;
-                                        .wprf-control-label {
-                                            display: flex;
-                                            align-items: center;
-                                            gap: 12px;
-                                            .wprf-badge {
-                                                display: flex;
-                                                .wprf-badge-item {
-                                                    padding: 4px 10px;
-                                                    background: #FF9437;
-                                                    color: #fff;
-                                                    border-radius: 20px;
-                                                    font-size: 14px;
-                                                    font-weight: 500;
-                                                    text-transform: uppercase;
-                                                }
-                                            }
-                                        }
-                                        .wprf-control-field {
-                                            .wprf-toggle-wrap {
-                                                order: 1;
-                                            }
-                                            .wprf-description {
-                                                position: relative;
-                                                font-weight: 500;
-                                                color: #FF9437;
-                                                margin-left: 0 !important;
-                                                font-size: 14px !important;
-                                                margin-right: 24px;
-                                                cursor: pointer;
-                                                &:before {
-                                                    position: absolute;
-                                                    content: "\e907";
-                                                    font-family: "wpsp";
-                                                    font-size: 18px;
-                                                    left: -26px;
-                                                    top: -2px;
-                                                    color: #FF9437;
-                                                }
-                                            }
-                                        }
-                                    }
-                                    .wprf-control-label {
-                                        flex-basis: auto;
-                                        label {
-                                            color: #1B1B50;
-                                            font-size: 16px;
-                                            font-weight: 500;
-                                            line-height: 1.2em;
-                                            @media screen and (max-width: 1023px)  { 
-                                                font-size: 14px;
-                                            }
-                                        }
-                                    }
-                                    .wprf-control-field {
-                                        flex-basis: auto;
-                                        .wprf-toggle-wrap {
-                                            order: 1;
-                                        }
-                                        .wprf-description {
-                                            font-size: 14px;
-                                            color: #6E6E8D;
-                                            margin: 0 20px 0 0;
-                                        }
-                                        // 
-                                        // .wprf-toggle-wrap {
-                                        //     .wprf-checked:before {
-                                        //         background: #2df16e;
-                                        //     }
-                                        //     .wprf-input-label {
-                                        //         width: 47px;
-                                        //         position: relative;
-                                        //         min-height: 24px;
-                                        //         height: 24px;
-                                        //         max-height: 24px;
-                                        //         margin-bottom: 0;
-                                        //         cursor: pointer;
-                                        //         display: inline-block;
-                                        //         margin-right: 0px !important;
-                                        //         &:before {
-                                        //             background: #f0f0f0;
-                                        //             width: 47px;
-                                        //             height: 24px;
-                                        //             border: 0;
-                                        //             left: 0;
-                                        //             top: 0;
-                                        //             border-radius: 16px;
-                                        //             transition: all 0.4s ease;
-                                        //         }
-                                        //         &:after {
-                                        //             left: 1px;
-                                        //             top: 1px;
-                                        //             width: 22px;
-                                        //             height: 22px;
-                                        //             border-radius: 50%;
-                                        //             background: #fbfbfb;
-                                        //             transition: left 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), padding 0.3s ease, margin 0.3s ease;
-                                        //             box-shadow: none;
-                                        //         }
-                                        //     }
-                                        // }
-                                    }
-                                    .wprf-control-label {
-                                        display: flex;
-                                        align-items: center;
-                                        gap: 32px;
-                                        max-width: 60%;
-                                        white-space: nowrap;
-                                        .selected-options {
-                                            ul {
-                                                display: flex;
-                                                align-items: center;
-                                                gap: 12px;
-                                                margin: 0;
-                                                flex-wrap: wrap;
-                                                li {
-                                                    margin-bottom: 0 !important;
-                                                    padding: 8px 12px;
-                                                    background: #F3F2FF;
-                                                    border-radius: 8px;
-                                                    display: flex;
-                                                    align-items: center;
-                                                    gap: 8px;
-                                                    color: #6C62FF;
-                                                    font-size: 14px;
-                                                    font-weight: 400;
-                                                    line-height: 1em;
-                                                    button {
-                                                        font-size: 8px;
-                                                        border: none;
-                                                        background: transparent;
-                                                        color: #6E6E8D;
-                                                        cursor: pointer;
-                                                        padding: 0;
-                                                        margin-top: 1px;
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                                .wprf-time,
-                                .wprf-checkbox-select {
-                                    .wprf-checked {
-                                        min-width: 250px;
-                                        input:focus {
-                                            box-shadow: none;
-                                        }
-                                    }
-                                }
-                                .wprf-time {
-                                    .wprf-checkbox-select-wrap {
-                                        text-align: end;
-                                    }
-                                }
-
-                            }
-                        }
-                        .pro_features_section {
-                            background: #F3F2FF;
-                            padding: 32px !important;
-                            margin-bottom: 32px !important;
-                            @media screen and (max-width: 1023px)  { 
-                                padding: 24px !important;
-                                margin-bottom: 24px !important;
-                            }
-                            .wprf-section-fields {
-                                padding: 0 !important;
-                                .wprf-pro_features-features {
-                                    .header {
-                                        display: flex;
-                                        justify-content: space-between;
-                                        align-items: center;
-                                        margin-bottom: 28px;
-                                        @media screen and (max-width: 1023px)  {
-                                            margin-bottom: 20px;
-                                        }
-                                        h3 {
-                                            font-size: 24px;
-                                            line-height: 1.2em;
-                                            letter-spacing: 0px !important;
-                                            font-weight: 600 !important;
-                                            color: #1B1B50 !important;
-                                            margin: 0px !important;
-                                            text-transform: capitalize !important;
-                                            background: transparent !important;
-                                            padding: 0 0 0 36px !important;
-                                            position: relative;
-                                            @media screen and (max-width: 1023px)  { 
-                                                font-size: 18px;
-                                            }
-                                            &:before {
-                                                position: absolute;
-                                                content: '\e907';
-                                                font-family: 'wpsp';
-                                                left: 0;
-                                                top: 0;
-                                                color: #FF9437;
-                                            }
-                                        }
-                                        a {
-                                            color: #6C62FF;
-                                            text-decoration: none;
-                                            font-weight: 500;
-                                            font-size: 14px;
-                                            line-height: 16px;
-                                            padding-right: 23px;
-                                            position: relative;
-                                            &:before {
-                                                position: absolute;
-                                                content: "\e909";
-                                                font-family: "wpsp";
-                                                font-size: 14px;
-                                                right: 0;
-                                                top: 0;
-                                                color: #6C62FF;
-                                            }
-                                        } 
-                                    }
-                                    .content {
-                                        display: flex;
-                                        gap: 20px;
-                                        justify-content: space-between;
-                                        a {
-                                            padding: 24px;
-                                            background: #fff;
-                                            border-radius: 8px;
-                                            text-decoration: none;
-                                            flex-grow: 1;
-                                            &:focus {
-                                                box-shadow: none;
-                                            }
-                                            .single-content {
-                                                display: flex;
-                                                justify-content: center;
-                                                align-items: center;
-                                                gap: 18px;
-                                                i {
-                                                    font-size: 32px;
-                                                    color: #6C62FF;
-                                                }
-                                                h5 {
-                                                    font-size: 16px;
-                                                    font-weight: 500;
-                                                    color: #1B1B50;
-                                                    line-height: 20px;
-                                                    margin: 0 !important;
-                                                }
-                                            }
-                                            
-                                        }
-                                    } 
-                                }
-                            }
-                        }
-                    }
-                    .wprf-tab-layout_social_template {
-                        .wprf-tab-contents {
-                            .wprf-section-fields {
-                                .wprf-control-wrapper {
-                                    padding: 0;
-                                    border: none;
-                                    .wprf-group-control-inner {
-                                        .wprf-control-wrapper {
-                                            padding: 24px;
-                                            border: 1px solid #EBEEF5;;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            .wprf-submit {
-                margin-top: 0 !important;
-                padding: 32px;
-                width: auto;
-                @media screen and (max-width: 1023px) { 
-                    padding: 24px;
-                }
-                button {
-                    padding: 16px 26px;
-                    background: #6C62FF;
-                    color: #fff;
-                    border-radius: 6px;
-                    font-size: 14px;
-                    font-weight: 500;
-                    line-height: 1.2em;
-                    cursor: pointer;
-                }
-            }
+        @media screen and (max-width: 1023px) {
+          padding: 16px 20px 0;
+          gap: 2px;
         }
+        .wprf-tab-nav-item {
+          padding: 12px 20px 16px !important;
+          font-size: 16px !important;
+          font-weight: 500;
+          line-height: 1.2em !important;
+          background-color: transparent !important;
+          color: #6e6e8d !important;
+          border-top: 0px !important;
+          @media screen and (max-width: 1439px) {
+            font-size: 14px !important;
+            padding: 10px 16px 12px !important;
+          }
+          @media screen and (max-width: 1023px) {
+            font-size: 12px !important;
+          }
+          &.pro_feature {
+            position: relative;
+            &:before {
+              position: absolute;
+              content: '\e907';
+              font-family: 'wpsp';
+              font-size: 12px;
+              line-height: 12px;
+              right: 4px;
+              top: 0;
+              color: #ff9437;
+              @media screen and (max-width: 1439px) {
+                font-size: 10px;
+              }
+              @media screen and (max-width: 1023px) {
+                font-size: 8px;
+              }
+            }
+          }
+          &.wprf-active-nav {
+            color: #6c62ff !important;
+            position: relative;
+            &:after {
+              content: '';
+              position: absolute;
+              top: 100%;
+              left: 0px;
+              right: 0px;
+              height: 1px;
+              background-color: #6c62ff;
+            }
+          }
+        }
+      }
     }
+
+    .wprf-tab-content-wrapper {
+      flex-basis: 100%;
+      background: transparent;
+      padding: 32px;
+      padding-right: 0px;
+      @media screen and (max-width: 1439px) {
+        padding: 24px;
+        padding-right: 0px;
+      }
+      @media screen and (max-width: 1023px) {
+        padding: 20px;
+        padding-right: 0px;
+      }
+      .wprf-tab-flex {
+        display: flex;
+        justify-content: space-between;
+        gap: 32px;
+        @media screen and (max-width: 1439px) {
+          gap: 24px;
+        }
+        @media screen and (max-width: 1023px) {
+          gap: 20px;
+        }
+        .wprf-tab-contents {
+          flex: 90%;
+          .wprf-tab-content {
+            .wprf-control-section {
+              border: none !important;
+              border-radius: 6px;
+              background: #ffffff;
+              padding: 32px;
+              @media screen and (max-width: 1439px) {
+                padding: 24px;
+              }
+              @media screen and (max-width: 1023px) {
+                padding: 20px;
+              }
+              &:last-child {
+                margin-bottom: 0;
+              }
+              &:not(:last-child) {
+                margin-bottom: 32px;
+                @media screen and (max-width: 1439px) {
+                  margin-bottom: 24px;
+                }
+                @media screen and (max-width: 1023px) {
+                  margin-bottom: 20px;
+                }
+              }
+              .wprf-pro_features-features .header,
+              .wprf-section-title {
+                margin: 0 0 32px;
+                @media screen and (max-width: 1439px) {
+                  margin: 0 0 24px;
+                }
+                @media screen and (max-width: 1023px) {
+                  margin: 0 0 20px;
+                }
+                h3,
+                h4 {
+                  font-size: 24px;
+                  line-height: 1.2em;
+                  letter-spacing: 0px;
+                  font-weight: 600;
+                  color: #1b1b50;
+                  text-transform: capitalize;
+                  background: transparent;
+                  margin: 0px;
+                  padding: 0px;
+                  @media screen and (max-width: 1439px) {
+                    font-size: 20px;
+                  }
+                }
+              }
+              .wprf-section-fields {
+                padding: 0;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                @import './fields';
+              }
+
+              &.pro_features_section {
+                background: #f3f2ff;
+                .wprf-section-fields {
+                  .wprf-pro_features-features {
+                    .header {
+                      display: flex;
+                      justify-content: space-between;
+                      align-items: center;
+                      h3 {
+                        padding-left: 1.75em;
+                        position: relative;
+                        &:before {
+                          position: absolute;
+                          content: '\e907';
+                          font-family: 'wpsp';
+                          left: 0;
+                          top: 0;
+                          color: #ff9437;
+                          display: inline-flex;
+                        }
+                      }
+                      a {
+                        color: #6c62ff;
+                        text-decoration: none;
+                        font-weight: 500;
+                        font-size: 14px;
+                        line-height: 1.1;
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 0.7em;
+                        @media screen and (max-width: 1439px) {
+                          font-size: 12px;
+                        }
+                        @media screen and (max-width: 1023px) {
+                          font-size: 10px;
+                        }
+                        &:after {
+                          content: '\e909';
+                          font-family: 'wpsp';
+                          color: #6c62ff;
+                        }
+                      }
+                    }
+                    .content {
+                      display: grid;
+                      grid-template-columns: repeat(4, 1fr);
+                      column-gap: 20px;
+                      row-gap: 16px;
+                      @media screen and (max-width: 1439px) {
+                        column-gap: 16px;
+                        row-gap: 12px;
+                        grid-template-columns: repeat(2, 1fr);
+                      }
+                      a {
+                        width: 100%;
+                        display: flex;
+                        box-sizing: border-box;
+                        padding: 20px;
+                        background: #fff;
+                        border-radius: 8px;
+                        text-decoration: none;
+                        flex-grow: 1;
+                        &:focus {
+                          box-shadow: none;
+                        }
+                        .single-content {
+                          display: flex;
+                          justify-content: center;
+                          align-items: center;
+                          gap: 16px;
+                          i {
+                            font-size: 32px;
+                            color: #6c62ff;
+                          }
+                          h5 {
+                            font-size: 16px;
+                            line-height: 1.3;
+                            font-weight: 500;
+                            color: #1b1b50;
+                            margin: 0 !important;
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      .wprf-submit {
+        margin-top: 0 !important;
+        padding: 32px;
+        width: auto;
+        @media screen and (max-width: 1023px) {
+          padding: 24px;
+        }
+        button {
+          padding: 16px 26px;
+          background: #6c62ff;
+          color: #fff;
+          border-radius: 6px;
+          font-size: 14px;
+          font-weight: 500;
+          line-height: 1.2em;
+          cursor: pointer;
+        }
+      }
+    }
+  }
 }

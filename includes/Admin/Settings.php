@@ -100,7 +100,7 @@ class Settings {
                 'show' => false
             ],
             'config'          => [
-                'active'  => 'layout_calendar',
+                'active'  => 'layout_general',
             ],
             'tabs'          => apply_filters('wpsp_layout_tabs',[
                 'layout_general' => [
@@ -245,7 +245,7 @@ class Settings {
                                             'type'          => 'text',
                                             'label'         => __('Date format:', 'wp-scheduled-posts'),
                                             'default'       => 'M-d h:i:a',
-                                            'description'   => __('For item template use %TITLE% for the post title, %AUTHOR% for post author, and %DATE% for post scheduled date-time. You can use HTML tags with styles also.', 'wp-scheduled-posts'),
+                                            'info'   => __('For item template use %TITLE% for the post title, %AUTHOR% for post author, and %DATE% for post scheduled date-time. You can use HTML tags with styles also.', 'wp-scheduled-posts'),
                                             'priority'      => 15,
                                         ],
                                     ]
