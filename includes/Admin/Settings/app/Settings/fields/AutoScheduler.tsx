@@ -88,7 +88,7 @@ const AutoScheduler = (props) => {
     return (
         <div className={classNames('wprf-control', 'wprf-auto-scheduler', `wprf-${props.name}-auto-scheduler`, props?.classes)}>
             <div className="header">
-                <Toggle name="is_active_status" id="auto_is_active_status" label="Auto Scheduler" description="To configure the Auto Scheduler Settings, check out this Doc" value={autoSchedulerStatus} onChange={handleAutoScheduleStatusToogle}  />
+                <Toggle name="is_active_status" is_pro={true} id="auto_is_active_status" label="Auto Scheduler" description="To configure the Auto Scheduler Settings, check out this Doc" value={autoSchedulerStatus} onChange={handleAutoScheduleStatusToogle}  />
             </div>
             <div className="content">
                 <div className="start-time set-timing">

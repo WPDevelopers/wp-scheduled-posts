@@ -15,12 +15,6 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
     const [defaultSection, setDefaultSection] = useState(noSection);
     const [sectionOptions, setSectionOptions] = useState([noSection]);
     const [singleBoardOptions, setSingleBoardOptions] = useState([]);
-
-    useEffect(() => {
-      if( defaultBoard ) {
-        setDefaultSection(noSection);
-      }
-    }, [defaultBoard]);
     
     useEffect(() => {
       if( boards ) {
@@ -33,6 +27,8 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
         setSingleBoardOptions([singlePinterestBoard?.default_board_name]);
         setDefaultSection([singlePinterestBoard?.defaultSection]);
       }
+      console.log('single-pinterest-board',singlePinterestBoard);
+      
     },[singlePinterestBoard] );
     return (
         <>
