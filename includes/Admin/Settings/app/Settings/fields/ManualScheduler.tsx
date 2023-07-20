@@ -20,7 +20,7 @@ const ManualScheduler = (props) => {
         { value: 'friday', label: 'Fri' },
     ]
     
-    let formatDBManualScheduledData = Object.entries(builderContext?.values?.manage_schedule?.[name]?.[0]?.weekdata).reduce((result, [day, times]) => {
+    let formatDBManualScheduledData = Object.entries(builderContext?.values?.manage_schedule?.[name]?.[0]?.weekdata ?? []).reduce((result, [day, times]) => {
         // @ts-ignore 
         times.forEach(time => {
             result.push({ [day]: time });
@@ -29,7 +29,7 @@ const ManualScheduler = (props) => {
     }, []);
     
     let manualSchedulerStatusDBData;
-      for (const item of Object.entries(builderContext?.values?.manage_schedule?.[name]?.[1])) {
+      for (const item of Object.entries(builderContext?.values?.manage_schedule?.[name]?.[1] ?? [])) {
         if (item[0] === "is_active_status") {
             manualSchedulerStatusDBData = item[1];
             break;
@@ -86,14 +86,7 @@ const ManualScheduler = (props) => {
     return (
         <div className={classNames('wprf-control', 'wprf-manual-scheduler', `wprf-${props.name}-manual-scheduler`, props?.classes)}>
             <div className="header">
-                {/* <div className="title">
-                    <h3>Manual Scheduler</h3>
-                    <span> To configure the Auto Scheduler Settings, check out this <a href="#">Doc</a></span>
-                </div>
-                <div className="switcher">
-                    <input type="checkbox" name="" id="" />
-                </div> */}
-                <Toggle name="is_active_status" id="manual_is_active_status" label="Manual Scheduler" description="To configure the Auto Scheduler Settings, check out this Doc" value={manualSchedulerStatus} onChange={handleAutoScheduleStatusToogle}  />
+                <Toggle name="is_active_status" is_pro={true} id="manual_is_active_status" label="Manual Scheduler" description="To configure the Auto Scheduler Settings, check out this Doc" value={manualSchedulerStatus} onChange={handleAutoScheduleStatusToogle}  />
             </div>
             <div className="content">
                 <Select

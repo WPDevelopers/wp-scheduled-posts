@@ -5,6 +5,7 @@ import { selectStyles } from '../../helper/styles';
 
 export default function PinterestSectionSelect( { noSection,fetchSectionData, board, item, setSectionOptions,sectionOptions,setBoardDefaultSection } ) {
     const [defaultSection, setDefaultSection] = useState(noSection);
+
     return (
         <ReactSelect
             value={defaultSection}
@@ -17,11 +18,12 @@ export default function PinterestSectionSelect( { noSection,fetchSectionData, bo
             }
             onChange={ (event) => {
                 setDefaultSection(event)
-                noSection(event)
                 setBoardDefaultSection(event)
+                
             } }
             styles={selectStyles}
             options={sectionOptions}
+            className='main-select'
         />
     )
 }
