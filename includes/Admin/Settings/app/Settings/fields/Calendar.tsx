@@ -5,9 +5,8 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
 import Sidebar from "./Calendar/Sidebar";
-import renderEventContent from "./Calendar/EventRender";
+import renderEventContent, { PostCardProps } from "./Calendar/EventRender";
 import { useBuilderContext } from "quickbuilder";
-import EditPost from "./Calendar/Edit";
 import { s } from "@fullcalendar/core/internal-common";
 // const events = [{ title: "Meeting", start: new Date() }];
 import { Button } from "@wordpress/components";
@@ -17,6 +16,9 @@ import { components } from "react-select";
 import Monthpicker from '@compeon-os/monthpicker'
 import classNames from "classnames";
 import { __ } from "@wordpress/i18n";
+import { EventContentArg } from "@fullcalendar/core";
+import PostCard from "./Calendar/EventRender";
+import useEditPost, { ModalContent } from "./Calendar/EditPost";
 
 export default function Calendar(props) {
   // @ts-ignore
@@ -25,20 +27,11 @@ export default function Calendar(props) {
   const calendar = useRef<FullCalendar>();
   const builderContext = useBuilderContext();
   const [yearMonth, setYearMonth] = useState("11.2022") // @todo
-  const [editAreaToggle,setEditAreaToggle] = useState([]);
+  const [editAreaToggle, setEditAreaToggle] = useState({});
 
-  // EditPost state
-  const [postData, setPostData] = useState({});
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const editPostModalProps = useEditPost();
 
-  const handleOpenModal = (post?) => {
-    setPostData(post || {});
-    setIsModalOpen(true);
-  };
-  const handleCloseModal = () => {
-    setPostData({});
-    setIsModalOpen(false);
-  };
+
 
   const getUrl = () => {
     const date  = calendar.current?.getApi().view.currentStart;
@@ -67,7 +60,7 @@ export default function Calendar(props) {
   }, []);
 
   useEffect(() => {
-    console.log(builderContext.config.active);
+    // console.log(builderContext.config.active);
     if('layout_calendar' === builderContext.config.active) {
       calendar.current?.getApi().updateSize();
     }
@@ -214,9 +207,28 @@ export default function Calendar(props) {
               // weekends={true}
               events={events}
               // firstDay={props.firstDay}
-              eventContent={renderEventContent(editAreaToggle,setEditAreaToggle,handleOpenModal)}
+              eventContent={(eventInfo: EventContentArg) => {
+                const { title, start, end, allDay } = eventInfo.event;
+                const { postId, href, edit, status, postType, postTime } =
+                  eventInfo.event.extendedProps;
+                const post: PostCardProps['post'] = {
+                  postId  : postId,
+                  postTime: postTime,
+                  postType: postType,
+                  status  : status,
+                  title   : title,
+                  href    : href,
+                  edit    : edit,
+                };
+                return (<PostCard
+                  post={post}
+                  editAreaToggle={editAreaToggle}
+                  setEditAreaToggle={setEditAreaToggle}
+                  openModal={editPostModalProps.openModal}
+                />);
+              }}
               dayCellDidMount={(args) => {
-                console.log('dayCellDidMount', args);
+                // console.log('dayCellDidMount', args);
                 const dayTop = args.el.getElementsByClassName('fc-daygrid-day-top');
                 // add a button on dayTop element as child
                 const button = document.createElement('button');
@@ -226,7 +238,6 @@ export default function Calendar(props) {
                 }
                 button.addEventListener('click', (event) => {
                   console.log('click', event, args);
-                  handleOpenModal();
                 });
                 dayTop[0].appendChild(button);
               }}
@@ -257,12 +268,11 @@ export default function Calendar(props) {
         </div>
         { sidebarToogle && (
             <div className="sidebar">
-                <Sidebar props={props} handleOpenModal={handleOpenModal} />
+                <Sidebar openModal={editPostModalProps.openModal} />
             </div>
           ) }
-        <EditPost post={postData} isOpen={isModalOpen} closeModal={handleCloseModal} />
       </div>
-
+      {<ModalContent {...editPostModalProps} />}
     </div>
   );
 }

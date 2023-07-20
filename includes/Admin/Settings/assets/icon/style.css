@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'wpsp';
-  src:  url('fonts/wpsp.eot?jugieq');
-  src:  url('fonts/wpsp.eot?jugieq#iefix') format('embedded-opentype'),
-    url('fonts/wpsp.ttf?jugieq') format('truetype'),
-    url('fonts/wpsp.woff?jugieq') format('woff'),
-    url('fonts/wpsp.svg?jugieq#wpsp') format('svg');
+  src:  url('fonts/wpsp.eot?abgagr');
+  src:  url('fonts/wpsp.eot?abgagr#iefix') format('embedded-opentype'),
+    url('fonts/wpsp.ttf?abgagr') format('truetype'),
+    url('fonts/wpsp.woff?abgagr') format('woff'),
+    url('fonts/wpsp.svg?abgagr#wpsp') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,9 +25,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.wpsp-sidebar-opc:before {
-  content: "\e915";
-}
 .wpsp-sidebar:before {
   content: "\e916";
 }
@@ -64,44 +61,11 @@
 .wpsp-twitter-3:before {
   content: "\e91d";
 }
-.wpsp-facebook-3:before {
-  content: "\e91e";
-}
-.wpsp-linkedin-2 .path1:before {
-  content: "\e91f";
-  color: rgb(0, 0, 0);
-}
-.wpsp-linkedin-2 .path2:before {
-  content: "\e920";
-  margin-left: -1em;
-  color: rgb(241, 242, 242);
-}
 .wpsp-linkedin:before {
-  content: "\e921";
-}
-.wpsp-pinterest-2 .path1:before {
-  content: "\e922";
-  color: rgb(0, 0, 0);
-}
-.wpsp-pinterest-2 .path2:before {
-  content: "\e923";
-  margin-left: -1em;
-  color: rgb(255, 255, 255);
+  content: "\e91f";
 }
 .wpsp-pinterest:before {
   content: "\e924";
-}
-.wpsp-support:before {
-  content: "\e925";
-}
-.wpsp-Twitter .path1:before {
-  content: "\e926";
-  color: rgb(255, 255, 255);
-}
-.wpsp-Twitter .path2:before {
-  content: "\e927";
-  margin-left: -1em;
-  color: rgb(0, 0, 0);
 }
 .wpsp-angle-down:before {
   content: "\e90a";
@@ -135,9 +99,6 @@
 }
 .wpsp-auto-sc:before {
   content: "\e900";
-}
-.wpsp-chat:before {
-  content: "\e901";
 }
 .wpsp-comment:before {
   content: "\e902";

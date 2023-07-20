@@ -29,12 +29,19 @@
     align-items: center;
     flex-basis: 100%;
     justify-content: space-between;
+    gap: 20px;
+    @media screen and (max-width: 1439px) {
+      gap: 16px;
+    }
+    @media screen and (max-width: 1023px) {
+      gap: 12px;
+    }
     .wprf-control-label {
       display: flex;
       align-items: center;
       gap: 12px;
       .wprf-badge {
-        display: flex;
+        display: none;
         .wprf-badge-item {
           padding: 0.3em 0.75em;
           background: #ff9437;
@@ -75,9 +82,16 @@
           font-size: 11px;
         }
         &:before {
+          height: 1.65em;
+          width: 1.65em;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          background-color: rgba(#ff9437, 0.2);
+          border-radius: 50%;
           content: '\e907';
           font-family: 'wpsp';
-          font-size: 1.1em;
+          font-size: 0.75em;
           color: #ff9437;
         }
       }
@@ -89,9 +103,7 @@
     flex-basis: auto;
     gap: 12px;
     white-space: nowrap;
-    &:has(ul) {
-      flex-grow: 1;
-    }
+    flex-grow: 1;
     label {
       color: #1b1b50;
       font-size: 16px;
@@ -220,14 +232,16 @@
     .wprf-toggle-wrap {
       order: 1;
     }
-    .wprf-description {
-      font-size: 14px;
+    .wprf-help {
+      font-size: 12px;
       color: #6e6e8d;
       margin: 0 20px 0 0;
+      font-style: italic;
     }
   }
 }
 
+.wprf-type-number,
 .wprf-type-text,
 .wprf-checkbox-select,
 .wprf-time {
@@ -302,15 +316,6 @@
     }
   }
   .wprf-control-wrapper {
-    .wprf-control-field {
-      &:has(p) {
-        flex-grow: 1;
-        flex-wrap: nowrap;
-        .wprf-help {
-          order: -1;
-        }
-      }
-    }
     &:last-child {
       margin-bottom: 0px !important;
     }
@@ -318,8 +323,13 @@
 }
 
 .wprf-time,
+.wprf-type-text,
+.wprf-type-number,
 .wprf-checkbox-select {
-  .wprf-checked {
+  .wprf-time-select-wrap,
+  input[type='text'],
+  input[type='number'],
+  .wprf-checkbox-select-wrap {
     min-width: 250px;
     @media screen and (max-width: 1439px) {
       min-width: 200px;
@@ -368,6 +378,7 @@
   }
 }
 
+.wprf-type-number,
 .wprf-type-text {
   input {
     box-shadow: none !important;
@@ -378,5 +389,13 @@
     padding: 10px 12px !important;
     line-height: 20px !important;
     min-width: 220px;
+  }
+}
+
+.wprf-input-radio-set-wrap {
+  .clearfix {
+    &:after {
+      display: none;
+    }
   }
 }

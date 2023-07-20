@@ -12,7 +12,7 @@ const SettingsInner = (props) => {
   const onChange = (event) => {
     builderContext.setActiveTab(event?.target?.value);
   };
-  console.log('values', builderContext.values);
+  // console.log('values', builderContext.values);
 
   builderContext.submit.onSubmit = useCallback((event, context) => {
     console.log('values', context.values);
