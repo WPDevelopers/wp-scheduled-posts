@@ -27,11 +27,11 @@ const AutoScheduler = (props) => {
     getEndTime = getEndTime ? getEndTime['end_time'] : '';
     const startTimeFormat = { label : getStartTime, value : getStartTime };
     const endTimeFormat = { label : getEndTime, value : getEndTime };
-    
+
     const [autoScheduler,setAutoSchedulerValue] = useState(modifiedDayDataFormet ?? []);
     const [startSelectedTime, setStartSelectedTime] = useState(startTimeFormat);
     const [endSelectedTime, setEndSelectedTime] = useState(endTimeFormat);
-    const [autoSchedulerStatus, setautoSchedulerStatus] = useState(getAutoSchedulerStatus ?? null)
+    const [autoSchedulerStatus, setautoSchedulerStatus] = useState(getAutoSchedulerStatus ?? '')
 
     const timeOptions = generateTimeOptions();
 
@@ -55,7 +55,7 @@ const AutoScheduler = (props) => {
     }
 
     const handleTimeChange = (type,event) => {
-        
+
         if( type === 'start' ) {
             setStartSelectedTime(event);
         }else{
@@ -80,11 +80,11 @@ const AutoScheduler = (props) => {
 			},
 		});
 	}, [autoScheduler,startSelectedTime,endSelectedTime, autoSchedulerStatus]);
-    
+
     const handleAutoScheduleStatusToogle = (event) => {
         setautoSchedulerStatus(event.target.checked)
     }
-    
+
     return (
         <div className={classNames('wprf-control', 'wprf-auto-scheduler', `wprf-${props.name}-auto-scheduler`, props?.classes)}>
             <div className="header">
@@ -126,11 +126,10 @@ const AutoScheduler = (props) => {
                 {
                     weeks.map( (day,index) => (
                         <div key={index} className="week">
-                            <input 
-                                type="number" 
-                                defaultValue={0}
-                                value={ autoScheduler?.find(item => item.day === day)?.value } 
-                                onChange={ (event) => handleDayChange( day, event ) } 
+                            <input
+                                type="number"
+                                value={ autoScheduler?.find(item => item.day === day)?.value || 0 }
+                                onChange={ (event) => handleDayChange( day, event ) }
                             />
                             <span>{ __('Number of posts','wp-scheduled-posts') }</span>
                             <h6>{ day.toUpperCase() }</h6>

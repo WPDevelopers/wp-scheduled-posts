@@ -19,15 +19,15 @@ const ManualScheduler = (props) => {
         { value: 'thursday', label: 'Thu' },
         { value: 'friday', label: 'Fri' },
     ]
-    
+
     let formatDBManualScheduledData = Object.entries(builderContext?.values?.manage_schedule?.[name]?.[0]?.weekdata ?? []).reduce((result, [day, times]) => {
-        // @ts-ignore 
+        // @ts-ignore
         times.forEach(time => {
             result.push({ [day]: time });
         });
         return result;
     }, []);
-    
+
     let manualSchedulerStatusDBData;
       for (const item of Object.entries(builderContext?.values?.manage_schedule?.[name]?.[1] ?? [])) {
         if (item[0] === "is_active_status") {
@@ -41,7 +41,7 @@ const ManualScheduler = (props) => {
     const [selectTime, setSelectTime] = useState(timeOptions[0])
     const [savedManualSchedule,setSavedManualSchedule] = useState(formatDBManualScheduledData ?? []);
     const [formatedSchedule,setFormatedSchedule] = useState([]);
-    const [manualSchedulerStatus, setManualSchedulerStatus] = useState(manualSchedulerStatusDBData ?? null);
+    const [manualSchedulerStatus, setManualSchedulerStatus] = useState(manualSchedulerStatusDBData ?? "");
 
     const handleSavedManualSchedule = () => {
         setSavedManualSchedule(prevSchedule => {
@@ -51,18 +51,18 @@ const ManualScheduler = (props) => {
         });
     }
     useEffect( () => {
-        
+
         if( savedManualSchedule.length > 0 ) {
             const formattedData = savedManualSchedule.reduce((result, obj) => {
                 const key = Object.keys(obj)[0];
                 const value = obj[key];
-    
+
                 if (!result.hasOwnProperty(key)) {
                     result[key] = [value];
                 } else if (!result[key].includes(value)) {
                     result[key].push(value);
                 }
-    
+
                 return result;
             }, {});
             setFormatedSchedule(formattedData)
@@ -76,11 +76,11 @@ const ManualScheduler = (props) => {
                 },
             });
         }
-    
+
     },[savedManualSchedule,manualSchedulerStatus] )
-    
+
     const handleAutoScheduleStatusToogle = (event) => {
-        // @ts-ignore 
+        // @ts-ignore
         setManualSchedulerStatus(event.target.checked)
     }
     return (
