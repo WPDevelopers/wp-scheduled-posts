@@ -138,12 +138,6 @@ class Settings {
                                             [
                                                 'icon'  => 'wpsp-missed-sc',
                                                 'title' => __('Advanced Scheduler','wp-scheduled-posts'),
-                                                'title' => __('Missed Scheduler Handler','wp-scheduled-posts'),
-                                                'link'  => 'https://wpdeveloper.com',
-                                            ],
-                                            [
-                                                'icon'  => 'wpsp-missed-sc',
-                                                'title' => __('Advanced Scheduler','wp-scheduled-posts'),
                                                 'link'  => 'https://wpdeveloper.com',
                                             ],
                                             [
@@ -587,7 +581,7 @@ class Settings {
                                                             'type'          => 'toggle',
                                                             'default'       => 1,
                                                             'label'         => __('Facebook Status Settings', 'wp-scheduled-posts'),
-                                                            'help'          => __('Add Open Graph metadata to your site head section and other social networks use this data when your pages are shared.', 'wp-scheduled-posts'),
+                                                            'info'          => __('Add Open Graph metadata to your site head section and other social networks use this data when your pages are shared.', 'wp-scheduled-posts'),
                                                             'priority'      => 5,
                                                         ],
                                                         'content_type' => [

@@ -41,8 +41,10 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
           <div className="wpsp-modal-social-platform">
             { !singlePinterestBoard && data?.map ( ( item, index ) => (
               <div className="profile-info">
-                <img width={'40px'} src={item?.thumbnail_url} alt={item?.name} />
-                <h3>{item?.name}</h3>
+                <div className='author-details'>
+                  <img src={item?.thumbnail_url} alt={item?.name} />
+                  <h3>{item?.name}</h3>
+                </div>
                 <ul>
                   {boardOptions.map((board, board_index) => {
                     console.log(board); 
@@ -102,8 +104,10 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
             ) )}
             { singlePinterestBoard && (
               <div className="profile-info">
-                <img width={'40px'} src={singlePinterestBoard?.thumbnail_url} alt={singlePinterestBoard?.name} />
-                <h3>{singlePinterestBoard?.name}</h3>
+                <div className='author-details'>
+                  <img src={singlePinterestBoard?.thumbnail_url} alt={singlePinterestBoard?.name} />
+                  <h3>{singlePinterestBoard?.name}</h3>
+                </div>
                 <ul>
                   {singleBoardOptions?.map((board, board_index) => (
                     <li key={board_index}>

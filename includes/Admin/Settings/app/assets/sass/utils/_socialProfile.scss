@@ -13,10 +13,11 @@
         }
     }
     .wprf-section-fields {
-        display: grid;
+        display: grid!important;
         grid-template-columns: repeat(4,1fr);
         gap: 20px;
         padding: 0 !important;
+
         .wprf-control {
             margin-bottom: 0px !important;
             .social-profile-card {
