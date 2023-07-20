@@ -52,7 +52,7 @@ export default function SelectedProfile( { platform, item, handleSelectedProfile
                             </label>
                         </div>
                     ) }
-                        { (platform !== 'pinterest') && (
+                    { (platform !== 'pinterest') && (
                         <div className="switcher">
                             <input
                                 id={item?.id}

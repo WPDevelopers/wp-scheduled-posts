@@ -12,7 +12,7 @@ export const SweetAlertToaster = (args: any = {}) => {
         toast: args?.toast ?? true,
         position: args?.position ?? 'top-end',
         showConfirmButton: args?.showConfirmButton ?? false,
-        timer: args?.timer ?? 100000,
+        timer: args?.timer ?? 3000,
         timerProgressBar: args?.toast ?? true,
         didOpen: (toast) => {
           toast.addEventListener('mouseenter', Swal.stopTimer)
