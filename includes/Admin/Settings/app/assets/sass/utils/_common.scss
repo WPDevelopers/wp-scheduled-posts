@@ -10,9 +10,8 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
-ul {
-  padding: 0;
-  margin: 0;
+input[type=text], input[type=search]:focus {
+  box-shadow: none !important;
 }
 a:focus {
   box-shadow: none;

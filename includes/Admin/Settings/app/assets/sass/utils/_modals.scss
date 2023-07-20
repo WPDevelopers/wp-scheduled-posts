@@ -1,4 +1,4 @@
-.swal2-container {
+.swal2-center {
     background: rgba(27, 27, 80, .4) !important;
     padding: 50px 20px !important;
     .swal2-modal {
@@ -233,6 +233,43 @@
                     background: #6C62FF;
                     margin-top: 20px;
                     cursor: pointer;
+                }
+                .profile-info {
+                    img {
+                        width: 32px;
+                        height: 32px;
+                        border-radius: 50%;
+                        max-width: 100%;
+                    }
+                    h3 {
+                        color: #1B1B50;
+                        font-size: 16px;
+                        line-height: 1.2em;
+                        font-weight: 500;
+                        margin: 0;
+                    }
+                    ul {
+                        margin: 16px 0 0;
+                        li {
+                            margin-bottom: 8px;
+                        }
+                    }
+                    .item-content {
+                        display: flex;
+                        align-items: center;
+                        gap: 16px;
+                        border: 1px solid #EBEEF5;
+                        padding: 8px 18px;
+                        border-radius: 4px;
+                        .entry-title {
+                            flex-grow: 1;
+                            margin: 0;
+                            font-size: 14px;
+                            line-height: 1.2em;
+                            font-weight: 500;
+                            text-transform: capitalize;
+                        }
+                    }
                 }
             }
         }
