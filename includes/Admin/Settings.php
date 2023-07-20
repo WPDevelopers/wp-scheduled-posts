@@ -100,7 +100,7 @@ class Settings {
                 'show' => false
             ],
             'config'          => [
-                'active'  => 'layout_calendar',
+                'active'  => 'layout_general',
             ],
             'tabs'          => apply_filters('wpsp_layout_tabs',[
                 'layout_general' => [
@@ -123,7 +123,7 @@ class Settings {
                                     'content'  => [
                                         'heading'       => 'SchedulePress - Pro Features',
                                         'button_text'   => __('View All Features','wp-scheduled-posts'),
-                                        'button_link'   => 'https://google.com',
+                                        'button_link'   => 'https://wpdeveloper.com',
                                         'options'   => [
                                             [
                                                 'icon'  => 'wpsp-auto-sc',
@@ -132,6 +132,12 @@ class Settings {
                                             ],
                                             [
                                                 'icon'  => 'wpsp-manual-sc',
+                                                'title' => __('Missed Schedule Handler','wp-scheduled-posts'),
+                                                'link'  => 'https://wpdeveloper.com',
+                                            ],
+                                            [
+                                                'icon'  => 'wpsp-missed-sc',
+                                                'title' => __('Advanced Scheduler','wp-scheduled-posts'),
                                                 'title' => __('Missed Scheduler Handler','wp-scheduled-posts'),
                                                 'link'  => 'https://wpdeveloper.com',
                                             ],
@@ -245,7 +251,7 @@ class Settings {
                                             'type'          => 'text',
                                             'label'         => __('Date format:', 'wp-scheduled-posts'),
                                             'default'       => 'M-d h:i:a',
-                                            'description'   => __('For item template use %TITLE% for the post title, %AUTHOR% for post author, and %DATE% for post scheduled date-time. You can use HTML tags with styles also.', 'wp-scheduled-posts'),
+                                            'info'   => __('For item template use %TITLE% for the post title, %AUTHOR% for post author, and %DATE% for post scheduled date-time. You can use HTML tags with styles also.', 'wp-scheduled-posts'),
                                             'priority'      => 15,
                                         ],
                                     ]
@@ -533,6 +539,7 @@ class Settings {
 
                     ]
                 ],
+
                 'layout_social_template'       => [
                     'id'       => 'layout_social_template',
                     'name'     => 'layout_social_template',
@@ -899,214 +906,243 @@ class Settings {
                         ]
                     ]
                 ],
-                'layout_manage_schedule'       => [
-                    'id'       => 'manage-schedule',
-                    'name'     => 'layout_manage_schedule',
+                'layout_scheduling_hub'       => [
+                    'id'       => 'layout_scheduling_hub',
+                    'name'     => 'layout_scheduling_hub',
                     'type'     => 'section',
-                    'label'    => __('Manage Schedule', 'wp-scheduled-posts'),
-                    'priority' => 30,
+                    'label'    => __('Scheduling Hub', 'wp-scheduled-posts'),
+                    'priority' => 25,
                     'is_pro'   => true,
                     'classes'  => 'pro_feature',
                     'fields'   => [
-                        'manage_schedule_wrapper'   => [
-                            'id'        => 'manage-schedule-wrapper',
-                            'type'      => 'section',
-                            'name'      => 'manage-schedule',
-                            'label'     => false,
-                            'fields'    => [
-                                'auto_scheduler_section'  => [
-                                    'id'            => 'auto_scheduler',
-                                    'name'          => 'auto_scheduler',
-                                    'type'          => 'section',
-                                    'label'         => false,
-                                    'fields'        => [
-                                        'auto_scheduler'  => [
-                                            'id'            => 'auto_scheduler',
-                                            'name'          => 'auto_schedule',
-                                            'type'          => 'auto-scheduler',
-                                            'priority'      => 5,
-                                        ],
-                                    ],
+                        'tab_scheduling_hub'  => [
+                            'id'              => 'tab_scheduling_hub',
+                            'name'            => 'tab_scheduling_hub',
+                            'type'            => 'tab',
+                            'priority'        => 25,
+                            'completionTrack' => true,
+                            'sidebar'         => true,
+                            'title'           => false,
+                            'default'         => 'layout_manage_schedule',
+                            'submit'          => [
+                                'show' => false
+                            ],
+                            'step'            => [
+                                'show' => false
+                            ],
+                            'fields'          => [
+                                'layout_manage_schedule'       => [
+                                    'id'       => 'manage-schedule',
+                                    'name'     => 'layout_manage_schedule',
+                                    'type'     => 'section',
+                                    'label'    => __('Manage Schedule', 'wp-scheduled-posts'),
+                                    'priority' => 30,
+                                    'is_pro'   => true,
+                                    'classes'  => 'pro_feature',
+                                    'fields'   => [
+                                        'manage_schedule_wrapper'   => [
+                                            'id'        => 'manage-schedule-wrapper',
+                                            'type'      => 'section',
+                                            'name'      => 'manage-schedule',
+                                            'label'     => false,
+                                            'fields'    => [
+                                                'auto_scheduler_section'  => [
+                                                    'id'            => 'auto_scheduler',
+                                                    'name'          => 'auto_scheduler',
+                                                    'type'          => 'section',
+                                                    'label'         => false,
+                                                    'fields'        => [
+                                                        'auto_scheduler'  => [
+                                                            'id'            => 'auto_scheduler',
+                                                            'name'          => 'auto_schedule',
+                                                            'type'          => 'auto-scheduler',
+                                                            'priority'      => 5,
+                                                        ],
+                                                    ],
+                                                ],
+                                                'manual_scheduler_section'  => [
+                                                    'id'            => 'manual_scheduler',
+                                                    'name'          => 'manual_scheduler',
+                                                    'type'          => 'section',
+                                                    'label'         => false,
+                                                    'priority'      => 5,
+                                                    'fields'        => [
+                                                        'manual_scheduler'  => [
+                                                            'id'            => 'manual_scheduler',
+                                                            'name'          => 'manual_schedule',
+                                                            'type'          => 'manual-scheduler',
+                                                            'priority'      => 5,
+                                                        ],
+                                                    ],
+                                                ],
+                                            ]
+                                        ]
+                                    ]
                                 ],
-                                'manual_scheduler_section'  => [
-                                    'id'            => 'manual_scheduler',
-                                    'name'          => 'manual_scheduler',
-                                    'type'          => 'section',
-                                    'label'         => false,
-                                    'priority'      => 5,
-                                    'fields'        => [
-                                        'manual_scheduler'  => [
-                                            'id'            => 'manual_scheduler',
-                                            'name'          => 'manual_scheduler',
-                                            'type'          => 'manual-scheduler',
-                                            'priority'      => 5,
+                                'layout_advance_schedule'       => [
+                                    'id'       => 'layout_advance_schedule',
+                                    'name'     => 'layout_advance_schedule',
+                                    'type'     => 'section',
+                                    'label'    => __('Advance Schedule', 'wp-scheduled-posts'),
+                                    'priority' => 35,
+                                    'classes'  => 'pro_feature',
+                                    'fields'   => [
+                                        'advance_schedule_wrapper'  => [
+                                            'id'        => 'advance_schedule_wrapper',
+                                            'name'      => 'advance_schedule_wrapper',
+                                            'type'      => 'section',
+                                            'label'     => false,
+                                            'priority'  => 5,
+                                            'fields'    => [
+                                                'advance_switcher'  => [
+                                                    'id'            => 'advance_schedule_switcher',
+                                                    'name'          => 'advance_schedule_switcher',
+                                                    'type'          => 'section',
+                                                    'label'         => false,
+                                                    'fields'        => [
+                                                        'is_delayed_schedule_active'  => [
+                                                            'id'            => 'is_delayed_schedule_active',
+                                                            'name'          => 'is_delayed_schedule_active',
+                                                            'type'          => 'toggle',
+                                                            'label'         => __('Advance Schedule', 'wp-scheduled-posts'),
+                                                            'default'       => 0,
+                                                            'is_pro'        => true,
+                                                            'priority'      => 5,
+                                                        ],
+                                                        'advance_switcher_desc'  => [
+                                                            'id'            => 'advance_switcher_desc',
+                                                            'name'          => 'advance_switcher_desc',
+                                                            'type'          => 'html',
+                                                            'html'         => __('Get options to set the published post status when scheduling it. Keep the post published and the updated content will be published according to schedule, or move the post to Draft until it is published.', 'wp-scheduled-posts'),
+                                                            'priority'      => 10,
+                                                        ],
+                                                        'advance_switcher_list'  => [
+                                                            'id'            => 'advance_switcher_list',
+                                                            'name'          => 'advance_switcher_list',
+                                                            'type'          => 'list',
+                                                            'priority'      => 15,
+                                                            'label'         => __('Read Detailed Documentation:','wp-scheduled-posts'),
+                                                            'content'       => [
+                                                                [
+                                                                    'link'  => esc_url('https://wpdeveloper.com/manage-missed-schedule-wordpress/'),
+                                                                    'text'  => __('How To Configure SchedulerPress Advanced Schedule In Elementor?', 'wp-scheduled-posts'),
+                                                                ],
+                                                                [
+                                                                    'link'  => esc_url('https://wpdeveloper.com/docs/wp-scheduled-posts/how-to-handle-the-missed-schedule-error-using-wp-scheduled-post/#0-toc-title'),
+                                                                    'text'  => __('How To Configure SchedulerPress Advanced Schedule In Gutenberg?', 'wp-scheduled-posts'),
+                                                                ],
+                                                            ],
+                                                        ],
+                                                    ],
+                                                ],
+                                                'advance_video'  => [
+                                                    'id'            => 'advance_video',
+                                                    'name'          => 'advance_video',
+                                                    'type'          => 'section',
+                                                    'label'         => false,
+                                                    'priority'      => 5,
+                                                    'fields'        => [
+                                                        'advance_schedule_video'  => [
+                                                            'id'            => 'advance_schedule_video',
+                                                            'name'          => 'advance_schedule_video',
+                                                            'type'          => 'video',
+                                                            'label'         => __('Watch The Video Walkthrough','wp-scheduled=-posts'),
+                                                            'priority'      => 5,
+                                                            'url'           => esc_url('https://www.youtube.com/embed/t0zVpg5ALos'),
+                                                            'width'         => 554,
+                                                            'height'        => 345,
+                                                        ],
+                                                    ],
+                                                ],
+                                            ]
+                                        ]
+                                    ]
+                                ],
+                                'layout_missed_schedule'       => [
+                                    'id'       => 'layout_missed_schedule',
+                                    'name'     => 'layout_missed_schedule',
+                                    'type'     => 'section',
+                                    'label'    => __('Missed Schedule', 'wp-scheduled-posts'),
+                                    'priority' => 40,
+                                    'classes'  => 'pro_feature',
+                                    'fields'   => [
+                                        'missed_schedule_wrapper'   => [
+                                            'id'       => 'missed_schedule_wrapper',
+                                            'name'     => 'missed_schedule_wrapper',
+                                            'type'     => 'section',
+                                            'label'    => false,
+                                            'priority' => 5,
+                                            'classes'  => 'pro_feature',
+                                            'fields'   => [
+                                                'missed_switcher'  => [
+                                                    'id'            => 'missed_schedule_switcher',
+                                                    'name'          => 'missed_schedule_switcher',
+                                                    'type'          => 'section',
+                                                    'label'         => false,
+                                                    'fields'        => [
+                                                        'is_active_missed_schedule'  => [
+                                                            'id'            => 'is_active_missed_schedule',
+                                                            'name'          => 'is_active_missed_schedule',
+                                                            'type'          => 'toggle',
+                                                            'label'         => __('Missed Schedule', 'wp-scheduled-posts'),
+                                                            'help'          => __('Enable to publish posts randomly', 'wp-scheduled-posts'),
+                                                            'default'       => 0,
+                                                            'is_pro'        => true,
+                                                            'priority'      => 5,
+                                                        ],
+                                                        'missed_switcher_desc'  => [
+                                                            'id'            => 'missed_switcher_desc',
+                                                            'name'          => 'missed_switcher_desc',
+                                                            'type'          => 'html',
+                                                            'html'         => __('WordPress might miss the schedule for a post for various reasons. Turn on this option to let SchedulePress take care of this and publish the missed schedule.', 'wp-scheduled-posts'),
+                                                            'priority'      => 10,
+                                                        ],
+                                                        'missed_switcher_list'  => [
+                                                            'id'            => 'missed_switcher_list',
+                                                            'name'          => 'missed_switcher_list',
+                                                            'type'          => 'list',
+                                                            'priority'      => 15,
+                                                            'label'         => __('Read Detailed Documentation:','wp-scheduled-posts'),
+                                                            'content'       => [
+                                                                [
+                                                                    'link'  => esc_url('https://wpdeveloper.com/manage-missed-schedule-wordpress/'),
+                                                                    'text'  => __('How To Manage The Missed Schedule Error In WordPress', 'wp-scheduled-posts'),
+                                                                ],
+                                                                [
+                                                                    'link'  => esc_url('https://wpdeveloper.com/docs/wp-scheduled-posts/how-to-handle-the-missed-schedule-error-using-wp-scheduled-post/#0-toc-title'),
+                                                                    'text'  => __('How To Configure SchedulePress To Handle Missed Schedule Errors', 'wp-scheduled-posts'),
+                                                                ],
+                                                            ],
+                                                        ],
+                                                    ],
+                                                ],
+                                                'missed_video'  => [
+                                                    'id'            => 'missed_video',
+                                                    'name'          => 'missed_video',
+                                                    'type'          => 'section',
+                                                    'label'         => false,
+                                                    'priority'      => 5,
+                                                    'fields'        => [
+                                                        'advance_schedule_video'  => [
+                                                            'id'            => 'advance_schedule_video',
+                                                            'name'          => 'advance_schedule_video',
+                                                            'type'          => 'video',
+                                                            'label'         => __('Watch The Video Walkthrough','wp-scheduled=-posts'),
+                                                            'priority'      => 5,
+                                                            'url'           => esc_url('https://www.youtube.com/embed/t0zVpg5ALos'),
+                                                            'width'         => 554,
+                                                            'height'        => 345,
+                                                        ],
+                                                    ],
+                                                ],
+                                            ]
                                         ],
-                                    ],
+                
+                                    ]
                                 ],
                             ]
                         ]
-                    ]
-                ],
-                'layout_advance_schedule'       => [
-                    'id'       => 'layout_advance_schedule',
-                    'name'     => 'layout_advance_schedule',
-                    'type'     => 'section',
-                    'label'    => __('Advance Schedule', 'wp-scheduled-posts'),
-                    'priority' => 35,
-                    'classes'  => 'pro_feature',
-                    'fields'   => [
-                        'advance_schedule_wrapper'  => [
-                            'id'        => 'advance_schedule_wrapper',
-                            'name'      => 'advance_schedule_wrapper',
-                            'type'      => 'section',
-                            'label'     => false,
-                            'priority'  => 5,
-                            'fields'    => [
-                                'advance_switcher'  => [
-                                    'id'            => 'advance_schedule_switcher',
-                                    'name'          => 'advance_schedule_switcher',
-                                    'type'          => 'section',
-                                    'label'         => false,
-                                    'fields'        => [
-                                        'is_delayed_schedule_active'  => [
-                                            'id'            => 'is_delayed_schedule_active',
-                                            'name'          => 'is_delayed_schedule_active',
-                                            'type'          => 'toggle',
-                                            'label'         => __('Advance Schedule', 'wp-scheduled-posts'),
-                                            'default'       => 0,
-                                            'is_pro'        => true,
-                                            'priority'      => 5,
-                                        ],
-                                        'advance_switcher_desc'  => [
-                                            'id'            => 'advance_switcher_desc',
-                                            'name'          => 'advance_switcher_desc',
-                                            'type'          => 'html',
-                                            'html'         => __('Get options to set the published post status when scheduling it. Keep the post published and the updated content will be published according to schedule, or move the post to Draft until it is published.', 'wp-scheduled-posts'),
-                                            'priority'      => 10,
-                                        ],
-                                        'advance_switcher_list'  => [
-                                            'id'            => 'advance_switcher_list',
-                                            'name'          => 'advance_switcher_list',
-                                            'type'          => 'list',
-                                            'priority'      => 15,
-                                            'label'         => __('Read Detailed Documentation:','wp-scheduled-posts'),
-                                            'content'       => [
-                                                [
-                                                    'link'  => esc_url('https://wpdeveloper.com/manage-missed-schedule-wordpress/'),
-                                                    'text'  => __('How To Configure SchedulerPress Advanced Schedule In Elementor?', 'wp-scheduled-posts'),
-                                                ],
-                                                [
-                                                    'link'  => esc_url('https://wpdeveloper.com/docs/wp-scheduled-posts/how-to-handle-the-missed-schedule-error-using-wp-scheduled-post/#0-toc-title'),
-                                                    'text'  => __('How To Configure SchedulerPress Advanced Schedule In Gutenberg?', 'wp-scheduled-posts'),
-                                                ],
-                                            ],
-                                        ],
-                                    ],
-                                ],
-                                'advance_video'  => [
-                                    'id'            => 'advance_video',
-                                    'name'          => 'advance_video',
-                                    'type'          => 'section',
-                                    'label'         => false,
-                                    'priority'      => 5,
-                                    'fields'        => [
-                                        'advance_schedule_video'  => [
-                                            'id'            => 'advance_schedule_video',
-                                            'name'          => 'advance_schedule_video',
-                                            'type'          => 'video',
-                                            'label'         => __('Watch The Video Walkthrough','wp-scheduled=-posts'),
-                                            'priority'      => 5,
-                                            'url'           => esc_url('https://www.youtube.com/embed/t0zVpg5ALos'),
-                                            'width'         => 554,
-                                            'height'        => 345,
-                                        ],
-                                    ],
-                                ],
-                            ]
-                        ]
-                    ]
-                ],
-                'layout_missed_schedule'       => [
-                    'id'       => 'layout_missed_schedule',
-                    'name'     => 'layout_missed_schedule',
-                    'type'     => 'section',
-                    'label'    => __('Missed Schedule', 'wp-scheduled-posts'),
-                    'priority' => 40,
-                    'classes'  => 'pro_feature',
-                    'fields'   => [
-                        'missed_schedule_wrapper'   => [
-                            'id'       => 'missed_schedule_wrapper',
-                            'name'     => 'missed_schedule_wrapper',
-                            'type'     => 'section',
-                            'label'    => false,
-                            'priority' => 5,
-                            'classes'  => 'pro_feature',
-                            'fields'   => [
-                                'missed_switcher'  => [
-                                    'id'            => 'missed_schedule_switcher',
-                                    'name'          => 'missed_schedule_switcher',
-                                    'type'          => 'section',
-                                    'label'         => false,
-                                    'fields'        => [
-                                        'is_delayed_schedule_active'  => [
-                                            'id'            => 'is_delayed_schedule_active',
-                                            'name'          => 'is_delayed_schedule_active',
-                                            'type'          => 'toggle',
-                                            'label'         => __('Missed Schedule', 'wp-scheduled-posts'),
-                                            'help'   => __('Enable to publish posts randomly', 'wp-scheduled-posts'),
-                                            'default'       => 0,
-                                            'is_pro'        => true,
-                                            'priority'      => 5,
-                                        ],
-                                        'missed_switcher_desc'  => [
-                                            'id'            => 'missed_switcher_desc',
-                                            'name'          => 'missed_switcher_desc',
-                                            'type'          => 'html',
-                                            'html'         => __('WordPress might miss the schedule for a post for various reasons. Turn on this option to let SchedulePress take care of this and publish the missed schedule.', 'wp-scheduled-posts'),
-                                            'priority'      => 10,
-                                        ],
-                                        'missed_switcher_list'  => [
-                                            'id'            => 'missed_switcher_list',
-                                            'name'          => 'missed_switcher_list',
-                                            'type'          => 'list',
-                                            'priority'      => 15,
-                                            'label'         => __('Read Detailed Documentation:','wp-scheduled-posts'),
-                                            'content'       => [
-                                                [
-                                                    'link'  => esc_url('https://wpdeveloper.com/manage-missed-schedule-wordpress/'),
-                                                    'text'  => __('How To Manage The Missed Schedule Error In WordPress', 'wp-scheduled-posts'),
-                                                ],
-                                                [
-                                                    'link'  => esc_url('https://wpdeveloper.com/docs/wp-scheduled-posts/how-to-handle-the-missed-schedule-error-using-wp-scheduled-post/#0-toc-title'),
-                                                    'text'  => __('How To Configure SchedulePress To Handle Missed Schedule Errors', 'wp-scheduled-posts'),
-                                                ],
-                                            ],
-                                        ],
-                                    ],
-                                ],
-                                'missed_video'  => [
-                                    'id'            => 'missed_video',
-                                    'name'          => 'missed_video',
-                                    'type'          => 'section',
-                                    'label'         => false,
-                                    'priority'      => 5,
-                                    'fields'        => [
-                                        'advance_schedule_video'  => [
-                                            'id'            => 'advance_schedule_video',
-                                            'name'          => 'advance_schedule_video',
-                                            'type'          => 'video',
-                                            'label'         => __('Watch The Video Walkthrough','wp-scheduled=-posts'),
-                                            'priority'      => 5,
-                                            'url'           => esc_url('https://www.youtube.com/embed/t0zVpg5ALos'),
-                                            'width'         => 554,
-                                            'height'        => 345,
-                                        ],
-                                    ],
-                                ],
-                            ]
-                        ],
-
-                    ]
+                    ],
                 ],
             ])
         ]);

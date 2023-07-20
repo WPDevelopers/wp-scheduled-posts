@@ -108,13 +108,16 @@ const Pinterest = (props) => {
                 </div>
                 <div className="selected-profile">
                     {selectedProfile && selectedProfile.map((item,index) => (
-                        <SelectedProfile 
-                            platform={'pinterest'} 
-                            item={item} 
-                            handleSelectedProfileStatusChange={handleSelectedProfileStatusChange} 
-                            handleDeleteSelectedProfile={handleDeleteSelectedProfile}  
-                            handleEditSelectedProfile={handleEditSelectedProfile}
-                        />
+                        <div className='selected-pinterest-wrapper' key={index}>
+                            <SelectedProfile 
+                                platform={'pinterest'} 
+                                item={item} 
+                                handleSelectedProfileStatusChange={handleSelectedProfileStatusChange} 
+                                handleDeleteSelectedProfile={handleDeleteSelectedProfile}  
+                                handleEditSelectedProfile={handleEditSelectedProfile}
+                            />
+                        </div>
+                        
                     ))}
                 </div>
             </div>

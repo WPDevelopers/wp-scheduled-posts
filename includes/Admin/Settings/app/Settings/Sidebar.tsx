@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n';
 import { useBuilderContext } from 'quickbuilder';
 import React from 'react';
 const docIcon =  require("../assets/images/doc.png");
@@ -15,7 +16,7 @@ const Sidebar = ({ props }) => {
             <div className='upgrade-pro card'>
                 {/* <img className='icon-wrapper' src={upgradePro} alt='icon-1' /> */}
                 {/* @ts-ignore */}
-                <img src={`${wpspSettingsGlobal?.image_path}upgrade-pro.png`} alt="upgrade-pro-img" />
+                <img src={`${wpspSettingsGlobal?.image_path}upgrade-pro.png`} alt={__('upgrade-pro-img','wp-scheduled-posts')} />
                 <h3>Get Unlimited Features</h3>
                 <p>Supercharge your content schedule and have a peace in mind</p>
                 <button><span>Upgrade To Pro</span></button>

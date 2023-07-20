@@ -1,11 +1,13 @@
-
 .wpsp-admin-header {
-    background: #fff;
-    padding: 20px 40px;
-    @media screen and (max-width: 1023px)  { 
-        padding: 16px 32px;
-    }
+  background: #fff;
+  padding: 20px 40px;
+  @media screen and (max-width: 1439px) {
+    padding: 16px 32px;
+  }
+  @media screen and (max-width: 1023px) {
+    padding: 12px 24px;
+  }
 }
 .wprf-tab-heading-wrapper {
-    display: none;
+  display: none;
 }

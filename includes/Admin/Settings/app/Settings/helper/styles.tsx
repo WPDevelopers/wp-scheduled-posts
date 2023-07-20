@@ -8,7 +8,7 @@ export const selectStyles = {
       "&:hover": {
           borderColor: "#cccccc"
       },
-      minWidth: 140, // Set the minimum width here
+      minWidth: 120, // Set the minimum width here
     }),
     clearIndicator: (base: any) => ({
       ...base,
