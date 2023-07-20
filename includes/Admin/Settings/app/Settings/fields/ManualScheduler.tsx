@@ -86,7 +86,7 @@ const ManualScheduler = (props) => {
     return (
         <div className={classNames('wprf-control', 'wprf-manual-scheduler', `wprf-${props.name}-manual-scheduler`, props?.classes)}>
             <div className="header">
-                <Toggle name="is_active_status" is_pro={true} id="manual_is_active_status" label="Manual Scheduler" description="To configure the Auto Scheduler Settings, check out this Doc" value={manualSchedulerStatus} onChange={handleAutoScheduleStatusToogle}  />
+                <Toggle name="is_active_status" is_pro={true} id="manual_is_active_status" label={ __("Manual Scheduler",'wp-scheduled-posts') } help={__("To configure the Auto Scheduler Settings, check out this Doc",'wp-scheduled-posts')} value={manualSchedulerStatus} onChange={handleAutoScheduleStatusToogle}  />
             </div>
             <div className="content">
                 <Select

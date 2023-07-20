@@ -587,7 +587,7 @@ class Settings {
                                                             'type'          => 'toggle',
                                                             'default'       => 1,
                                                             'label'         => __('Facebook Status Settings', 'wp-scheduled-posts'),
-                                                            'description'   => __('Add Open Graph metadata to your site head section and other social networks use this data when your pages are shared.', 'wp-scheduled-posts'),
+                                                            'help'          => __('Add Open Graph metadata to your site head section and other social networks use this data when your pages are shared.', 'wp-scheduled-posts'),
                                                             'priority'      => 5,
                                                         ],
                                                         'content_type' => [
@@ -641,7 +641,7 @@ class Settings {
                                                             'type'          => 'text',
                                                             'label'         => __('Status Template Settings', 'wp-scheduled-posts'),
                                                             'default'       => '{title}{content}{url}{tags}',
-                                                            'description'   => __('Default Structure: {title}{content}{url}{tags}', 'wp-scheduled-posts'),
+                                                            'help'          => __('Default Structure: {title}{content}{url}{tags}', 'wp-scheduled-posts'),
                                                             'priority'      => 15,
                                                         ],
                                                         'status_limit'  => [
@@ -652,7 +652,7 @@ class Settings {
                                                             'priority'      => 20,
                                                             'default'       => 63206,
                                                             'max'           => 63206,
-                                                            'description'   => __('Maximum Limit: 63206 character', 'wp-scheduled-posts'),
+                                                            'help'          => __('Maximum Limit: 63206 character', 'wp-scheduled-posts'),
                                                         ],
                                                     ]
                                                 ]
@@ -728,7 +728,7 @@ class Settings {
                                                             'priority'      => 20,
                                                             'default'       => 280,
                                                             'max'           => 280,
-                                                            'description'   => __('Maximum Limit: 280 character', 'wp-scheduled-posts'),
+                                                            'help'          => __('Maximum Limit: 280 character', 'wp-scheduled-posts'),
                                                         ],
                                                     ]
                                                 ]
@@ -817,7 +817,7 @@ class Settings {
                                                             'priority'      => 20,
                                                             'default'       => 1300,
                                                             'max'           => 1300,
-                                                            'description'   => __('Maximum Limit: 1300 character', 'wp-scheduled-posts'),
+                                                            'help'          => __('Maximum Limit: 1300 character', 'wp-scheduled-posts'),
                                                         ],
                                                     ]
                                                 ]
@@ -893,7 +893,7 @@ class Settings {
                                                             'priority'      => 20,
                                                             'default'       => '500',
                                                             'max'           => '500',
-                                                            'description'   => __('Maximum Limit: 500 character', 'wp-scheduled-posts'),
+                                                            'help'          => __('Maximum Limit: 500 character', 'wp-scheduled-posts'),
                                                         ],
                                                     ]
                                                 ]
