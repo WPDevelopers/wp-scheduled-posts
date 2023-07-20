@@ -16,6 +16,12 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
     const [sectionOptions, setSectionOptions] = useState([noSection]);
     const [singleBoardOptions, setSingleBoardOptions] = useState([]);
     
+    useEffect( () => {
+      // console.log('default-section',defaultSection);
+      // console.log('pinterest-board',singlePinterestBoard);
+      // console.log('default-board',defaultBoard);
+      // console.log('default-board-name',singlePinterestBoard?.default_board_name);
+    } ,[defaultSection])
     useEffect(() => {
       if( boards ) {
         setDefaultBoard(boardOptions?.[0]);
@@ -75,7 +81,6 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
                             onChange={ (event) => {
                               addProfileToggle(
                                 item,
-                                defaultBoard,
                                 defaultSection,
                                 event,
                                 board,
@@ -119,23 +124,10 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
                               )
                             }
                             styles={selectStyles}
-                            onChange={setDefaultSection}
+                            onChange={(event) => setDefaultSection(event)}
                             options={sectionOptions}
                           />
                         </div>
-                        <input
-                            type='checkbox'
-                            onChange={ (event) => {
-                              addProfileToggle(
-                                singlePinterestBoard,
-                                defaultBoard,
-                                defaultSection,
-                                event,
-                                board,
-                              )
-                              }
-                            }
-                        />
                       </div>
                     </li>
                   ))}
@@ -143,8 +135,13 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
                   type="submit"
                   className="wpsp-modal-save-account"
                   onClick={(event) => {
-                    event.preventDefault();
                     savedProfile(event)
+                    addProfileToggle(
+                      singlePinterestBoard,
+                      defaultSection,
+                      'save-edit',
+                      singlePinterestBoard?.default_board_name,
+                    )
                   }}
                   >{ __( 'Save','wp-scheduled-posts' ) }</button>
                   </ul>
