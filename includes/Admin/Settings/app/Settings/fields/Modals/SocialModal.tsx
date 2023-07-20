@@ -12,7 +12,7 @@ import {
     useBuilderContext,
 } from "quickbuilder";
 
-function SocialModal({selectedProfile, setSelectedProfile,props, type, profileItem = '', isProfileEditModal = false}) {
+function SocialModal({selectedProfile, setSelectedProfile,props, type, profileItem = '', isProfileEditModal = false, setProfileEditModal = null}) {
     const builderContext = useBuilderContext();
 
     const [requestSending, setRequestSending] = useState(false);
@@ -73,13 +73,11 @@ function SocialModal({selectedProfile, setSelectedProfile,props, type, profileIt
             // @ts-ignore
             setSinglePinterestBoard(profileItem);
             setProfileDataModal(true);
-
         }
-        console.log(type);
-
     },[profileItem] )
 
     const closeProfileDataModal = () => {
+        setProfileEditModal(false);
         setProfileDataModal(false);
     };
     // Add linkedin prifle
@@ -184,6 +182,12 @@ function SocialModal({selectedProfile, setSelectedProfile,props, type, profileIt
             setSavedProfile((prevItems) => prevItems.filter((prevItem) => prevItem.default_board_name.value !== pinterestItem.default_board_name.value));
         }
     }
+
+    useEffect( () => {
+        if( isProfileEditModal ) {
+            setProfileDataModal(isProfileEditModal)
+        }
+    },[isProfileEditModal])
 
   return (
     <Modal

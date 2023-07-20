@@ -31,7 +31,7 @@ export default function Linkedin({ platform, data, addProfileToggle,savedProfile
                                 <div className='entry-thumbnail'>
                                     <img
                                         src={item?.thumbnail_url}
-                                        alt='logo'
+                                        alt={ __('page-thumbnail','wp-scheduled-posts') }
                                     />
                                 </div>
                                 <h4 className='entry-title'>
@@ -64,7 +64,7 @@ export default function Linkedin({ platform, data, addProfileToggle,savedProfile
                                 <div className='entry-thumbnail'>
                                     <img
                                         src={item?.thumbnail_url}
-                                        alt='logo'
+                                        alt={ __('profile-thumbnail','wp-scheduled-posts') }
                                     />
                                 </div>
                                 <h4 className='entry-title'>

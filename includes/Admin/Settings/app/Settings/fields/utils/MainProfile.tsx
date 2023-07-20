@@ -5,12 +5,11 @@ import { selectStyles } from '../../helper/styles';
 
 export default function MainProfile( { props, handleProfileStatusChange, profileStatus, openApiCredentialsModal } ) {    
     let options = [];
-    let pageDisabled = true;
+
     // @ts-ignore
-    if( wpspSettingsGlobal?.pro_version ) {
-        pageDisabled = false;
-    }
+    let pageDisabled = wpspSettingsGlobal?.pro_version ? false : true;
     let currentActiveAccountType = localStorage.getItem('account_type');
+
     if( props?.type == 'facebook' ) {
         options = [
             { value: 'page',    label: __('Page','wp-scheduled-posts'), selected : currentActiveAccountType == 'page' ? true : false },
@@ -27,7 +26,7 @@ export default function MainProfile( { props, handleProfileStatusChange, profile
         localStorage.setItem('account_type', selectedOption.value);
     };
 
-    const modifiedSelectStyles = { ...selectStyles, control: (base, state) => ({
+    const mainSelectStyles = { ...selectStyles, control: (base, state) => ({
         ...base,
         boxShadow: "none", 
         borderColor: "#D7DBDF",
@@ -73,11 +72,13 @@ export default function MainProfile( { props, handleProfileStatusChange, profile
                 { ['facebook', 'linkedin'].includes(props?.type) && (
                     <Select
                         id={props?.id}
-                        onChange={handleAccountType}
+                        onChange={(event) => {
+                            handleAccountType(event);
+                        }}
                         options={options}
                         defaultValue={options[0]}
                         className='main-select'
-                        styles={modifiedSelectStyles}
+                        styles={mainSelectStyles}
                     />
                 ) }
                 <button

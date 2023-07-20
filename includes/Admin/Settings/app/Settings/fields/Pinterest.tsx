@@ -19,7 +19,6 @@ const Pinterest = (props) => {
     const [apiCredentialsModal,setApiCredentialsModal] = useState(false);
     const [platform, setPlatform] = useState('');
     const [selectedProfile, setSelectedProfile] = useState(props?.value);
-    const [isErrorMessage, setIsErrorMessage] = useState(false);
     const [isProfileEditModal, setProfileEditModal] = useState(false);
     const [profileItem, setProfileItem] = useState("");
     const [profileStatus, setProfileStatus] = useState(builderContext?.savedValues?.pinterest_profile_status);
@@ -91,6 +90,8 @@ const Pinterest = (props) => {
 
     // Profile edit modal
     const handleEditSelectedProfile = (item) => {
+        console.log(item);
+        
         setProfileEditModal(true);
         setProfileItem(item);
     }
@@ -140,7 +141,8 @@ const Pinterest = (props) => {
                 props={props}
                 type="pinterest"
                 profileItem={profileItem}
-                isProfileEditModal={true}
+                isProfileEditModal={isProfileEditModal}
+                setProfileEditModal={setProfileEditModal}
             />
         </div>
     )

@@ -19,17 +19,14 @@ const Linkedin = (props) => {
     const [apiCredentialsModal,setApiCredentialsModal] = useState(false);
     const [platform, setPlatform] = useState('');
     const [selectedProfile, setSelectedProfile] = useState(props?.value);
-    const [isErrorMessage, setIsErrorMessage] = useState(false)
     const [profileStatus, setProfileStatus] = useState(builderContext?.savedValues?.linkedin_profile_status);
-    const [accountType, setAccountType] = useState("")
 
-    const openApiCredentialsModal = (accountType) => {
-        setAccountType(accountType);
+    const openApiCredentialsModal = () => {
         setPlatform('linkedin');
         setApiCredentialsModal(true);
     };
     const closeApiCredentialsModal = () => {
-        setPlatform('');
+        setPlatform('linkedin');
         setApiCredentialsModal(false);
     };
 
