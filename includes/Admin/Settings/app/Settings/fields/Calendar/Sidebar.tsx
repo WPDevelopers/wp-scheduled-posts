@@ -9,9 +9,11 @@ import { default as ReactSelect } from "react-select";
 import { selectStyles } from "../../helper/styles";
 import { components } from "react-select";
 import { __ } from "@wordpress/i18n";
+import PostCard from "./EventRender";
+import useEditPost from "./EditPost";
 
 // Define your component
-export default function Sidebar({props,handleOpenModal}) {
+export default function Sidebar({openModal}) {
   // Define your state variables
   const [posts, setPosts] = useState([]);
   const [postType, setPostType] = useState(null);
@@ -114,7 +116,7 @@ export default function Sidebar({props,handleOpenModal}) {
       </div>
     );
   };
-  
+
   const options = [
     {label : "Option 1",value : "options-1"},
     {label : "Option 2",value : "options-2"},
@@ -167,50 +169,13 @@ export default function Sidebar({props,handleOpenModal}) {
             (
               post // Loop through your posts using map method
             ) => (
-              <div className="fc-event" data-event={JSON.stringify(post)}>
-                <div className="card">
-                  <i 
-                    className="wpsp-icon wpsp-dots"
-                    onClick={ () => {
-                      setEditAreaToggle(() => {
-                        let checkExistingIndex = editAreaToggle.findIndex((item) => item.post === post.postId)
-                        if( checkExistingIndex !== -1 ) {
-                          return [
-                            {
-                              post : post.postId,
-                              value : editAreaToggle[checkExistingIndex].value ? false : true,
-                            }
-                          ];
-                        }else{
-                          return [
-                            {
-                              post: post.postId,
-                              value: true,
-                            },
-                          ];
-                        }
-                      });
-                    } }
-                  >  
-                  </i>
-                  { editAreaToggle.find(item => item.post === post.postId)?.value && (
-                    <ul className="edit-area">
-                    <li><Button variant="link" target="_blank" href={decodeURIComponent(post.href)}>View</Button></li>
-                    <li><Button variant="link" target="_blank" href={decodeURIComponent(post.edit)}>Edit</Button></li>
-                    <li><Button variant="link" href="#" onClick={(event) => {
-                      event.preventDefault();
-                      handleOpenModal(post);
-                    }}>Quick Edit</Button></li>
-                    <li><Button variant="link" href="#" onClick={(event) => {
-                      event.preventDefault();
-                      deletePost(post.postId);
-                    }}>Delete</Button></li>
-                  </ul>
-                  ) }
-                  <span className="set-time">{post.postTime}</span>
-                  <h3>{post.title}</h3>
-                  <span className="Unscheduled-badge">page</span>
-                </div>
+              <div key={post.postId} className="fc-event" data-event={JSON.stringify(post)}>
+                <PostCard
+                  post={post}
+                  editAreaToggle={editAreaToggle}
+                  setEditAreaToggle={setEditAreaToggle}
+                  openModal={openModal}
+                />
               </div>
             )
           )}
