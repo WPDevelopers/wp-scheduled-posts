@@ -146,11 +146,9 @@ function SocialModal({selectedProfile, setSelectedProfile,props, type, profileIt
         }
     };
 
-    const addPinterestProfileToggle = (item,defaultBoard,defaultSection,event, board) => {
+    const addPinterestProfileToggle = (item,defaultSection,event, board) => {
         const pinterestItem = { ...item, borads : pinterestBoards, defaultSection: defaultSection, default_board_name : board };
-        console.log('pinterest-item',pinterestItem);
-
-        if( event.target.checked ) {
+        if( event?.target?.checked ) {
             // free
             // @ts-ignore
             if (!builderContext.is_pro_active) {
@@ -171,6 +169,16 @@ function SocialModal({selectedProfile, setSelectedProfile,props, type, profileIt
                     setIsErrorMessage(false)
                 }
             }
+        }else if( event === 'save-edit' ) {
+            const updatedJsonData = savedProfile.map(profile => {
+                if (profile?.default_board_name?.label === pinterestItem?.default_board_name?.label) {
+                  return pinterestItem;
+                } else {
+                  return profile;
+                }
+            });
+            setSelectedProfile( updatedJsonData )
+            
         }else{
             setIsErrorMessage(false)
             setSavedProfile((prevItems) => prevItems.filter((prevItem) => prevItem.default_board_name.value !== pinterestItem.default_board_name.value));
@@ -180,7 +188,6 @@ function SocialModal({selectedProfile, setSelectedProfile,props, type, profileIt
   return (
     <Modal
         isOpen={profileDataModal}
-        onRequestClose={closeProfileDataModal}
         ariaHideApp={false}
         className="modal_wrapper"
         >
