@@ -235,18 +235,23 @@
                     cursor: pointer;
                 }
                 .profile-info {
-                    img {
-                        width: 32px;
-                        height: 32px;
-                        border-radius: 50%;
-                        max-width: 100%;
-                    }
-                    h3 {
-                        color: #1B1B50;
-                        font-size: 16px;
-                        line-height: 1.2em;
-                        font-weight: 500;
-                        margin: 0;
+                    .author-details {
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                        img {
+                            width: 32px;
+                            height: 32px;
+                            border-radius: 50%;
+                            max-width: 100%;
+                        }
+                        h3 {
+                            color: #1B1B50;
+                            font-size: 16px;
+                            line-height: 1.2em;
+                            font-weight: 500;
+                            margin: 0;
+                        }
                     }
                     ul {
                         margin: 16px 0 0;
