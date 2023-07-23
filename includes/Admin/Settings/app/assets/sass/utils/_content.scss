@@ -41,24 +41,25 @@
               content: '\e907';
               font-family: 'wpsp';
               font-size: 10px;
-              height: 1.65em;
-              width: 1.65em;
+              height: 1.9em;
+              width: 1.9em;
               display: inline-flex;
               align-items: center;
               justify-content: center;
-              background-color: rgba(#ff9437, 0.2);
+              background-color: #f6e6d7;
               border-radius: 50%;
-              right: 0;
+              right: -4px;
               top: calc(50% - 2px);
               transform: translateY(-50%);
               color: #ff9437;
               @media screen and (max-width: 1439px) {
                 top: calc(50% - 1px);
-                right: -2px;
+                right: -4px;
+                font-size: 9px;
               }
               @media screen and (max-width: 1023px) {
                 font-size: 8px;
-                right: 0px;
+                right: -2px;
                 top: calc(50% - 1px);
               }
             }
@@ -119,9 +120,10 @@
               display: inline-flex;
               align-items: center;
               justify-content: center;
+              flex-shrink: 0;
             }
           }
-          &:nth-child(1) {
+          &[data-key='layouts_facebook'] {
             span {
               &:before {
                 content: '\e906';
@@ -131,8 +133,11 @@
                 color: #1877f2;
               }
             }
+            &.wprf-active-nav {
+              background-color: #f5f9fe;
+            }
           }
-          &:nth-child(2) {
+          &[data-key='layouts_twitter'] {
             span {
               &:before {
                 content: '\e91d';
@@ -142,8 +147,11 @@
                 color: #41a1f2;
               }
             }
+            &.wprf-active-nav {
+              background-color: #f1f8fe;
+            }
           }
-          &:nth-child(3) {
+          &[data-key='layouts_linkedin'] {
             span {
               &:before {
                 content: '\e91f';
@@ -156,8 +164,11 @@
                 color: #fff;
               }
             }
+            &.wprf-active-nav {
+              background-color: #f0faff;
+            }
           }
-          &:nth-child(4) {
+          &[data-key='layouts_pinterest'] {
             span {
               &:before {
                 content: '\e924';
@@ -172,10 +183,12 @@
               }
             }
           }
+          &.wprf-active-nav {
+            background-color: #fef6f6;
+          }
         }
         .wprf-active-nav {
           color: #1b1b50 !important;
-          background: #f5f9fe !important;
           box-shadow: none;
         }
       }
@@ -319,7 +332,14 @@
                           left: 0;
                           top: 0;
                           color: #ff9437;
+                          font-size: 0.67em;
+                          height: 1.9em;
+                          width: 1.9em;
+                          background-color: #f6e6d7;
                           display: inline-flex;
+                          align-items: center;
+                          justify-content: center;
+                          border-radius: 50%;
                         }
                       }
                       a {
