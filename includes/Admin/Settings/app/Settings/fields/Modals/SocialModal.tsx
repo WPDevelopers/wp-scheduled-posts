@@ -11,6 +11,7 @@ import ProAlert from "../utils/ProAlert";
 import {
     useBuilderContext,
 } from "quickbuilder";
+import { Platform } from "@wordpress/element";
 
 function SocialModal({selectedProfile, setSelectedProfile,props, type, profileItem = '', isProfileEditModal = false, setProfileEditModal = null}) {
     const builderContext = useBuilderContext();
@@ -77,7 +78,9 @@ function SocialModal({selectedProfile, setSelectedProfile,props, type, profileIt
     },[profileItem] )
 
     const closeProfileDataModal = () => {
-        setProfileEditModal(false);
+        if( type == 'pinterest' ) {
+            setProfileEditModal(false);
+        }
         setProfileDataModal(false);
     };
     // Add linkedin prifle

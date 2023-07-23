@@ -90,8 +90,6 @@ const Pinterest = (props) => {
 
     // Profile edit modal
     const handleEditSelectedProfile = (item) => {
-        console.log(item);
-        
         setProfileEditModal(true);
         setProfileItem(item);
     }

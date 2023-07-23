@@ -17,10 +17,6 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
     const [singleBoardOptions, setSingleBoardOptions] = useState([]);
     
     useEffect( () => {
-      // console.log('default-section',defaultSection);
-      // console.log('pinterest-board',singlePinterestBoard);
-      // console.log('default-board',defaultBoard);
-      // console.log('default-board-name',singlePinterestBoard?.default_board_name);
     } ,[defaultSection])
     useEffect(() => {
       if( boards ) {
@@ -33,8 +29,6 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
         setSingleBoardOptions([singlePinterestBoard?.default_board_name]);
         setDefaultSection([singlePinterestBoard?.defaultSection]);
       }
-      console.log('single-pinterest-board',singlePinterestBoard);
-      
     },[singlePinterestBoard] );
     return (
         <>
@@ -47,25 +41,10 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
                 </div>
                 <ul>
                   {boardOptions.map((board, board_index) => {
-                    console.log(board); 
                     return (<li key={board_index}>
                       <div className="item-content">
                         <h4 className="entry-title">{board?.label}</h4>
                         <div className="control pinterest-select">
-                          {/* <ReactSelect
-                            value={defaultSection}
-                            onMenuOpen={() =>
-                              fetchSectionData(
-                                board?.value,
-                                item,
-                                setSectionOptions
-                              )
-                            }
-                            onChange={ (event) => {
-                              setDefaultSection(event)
-                            } }
-                            options={sectionOptions}
-                          /> */}
                           <PinterestSectionSelect
                             noSection={noSection}
                             fetchSectionData={fetchSectionData}
@@ -124,6 +103,7 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
                               )
                             }
                             styles={selectStyles}
+                            className='main-select'
                             onChange={(event) => setDefaultSection(event)}
                             options={sectionOptions}
                           />
