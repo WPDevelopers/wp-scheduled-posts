@@ -94,7 +94,7 @@ class Settings {
             'savedValues'     => $wpsp_option,
             'values'          => $wpsp_option,
             'submit'          => [
-                'show' => true
+                'show'        => false,
             ],
             'step'            => [
                 'show' => false
@@ -153,11 +153,12 @@ class Settings {
                         ],
 
                         'general_settings'     => [
-                            'name'     => 'general_settings',
-                            'type'     => 'section',
-                            'label'    => __( 'General Settings', 'wp-scheduled-posts' ),
-                            'priority' => 6,
-                            'fields'    => [
+                            'name'       => 'general_settings',
+                            'type'       => 'section',
+                            'label'      => __( 'General Settings', 'wp-scheduled-posts' ),
+                            'priority'   => 6,
+                            'showSubmit' => true,
+                            'fields'     => [
 
                                 'is_show_dashboard_widget'       => [
                                     'name'     => 'is_show_dashboard_widget',
@@ -287,7 +288,6 @@ class Settings {
                 'layout_calendar'         => [
                     'id'       => 'layout_calendar',
                     'name'     => 'layout_calendar',
-                    'type'     => 'section',
                     'label'    => __('Calendar', 'wp-scheduled-posts'),
                     'priority' => 10,
                     'fields'   => [
@@ -314,7 +314,6 @@ class Settings {
                 'layout_email_notify'         => [
                     'id'       => 'layout_email_notify',
                     'name'     => 'layout_email_notify',
-                    'type'     => 'section',
                     'label'    => __('Email Notify', 'wp-scheduled-posts'),
                     'priority' => 15,
                     'fields'   => [
@@ -323,6 +322,7 @@ class Settings {
                             'type'     => 'section',
                             'label'    => __( 'Email Notify', 'wp-scheduled-posts' ),
                             'priority' => 1,
+                            'showSubmit' => true,
                             'fields'    => [
                                 'email_notify_under_review_section'    => [
                                     'name'     => 'email_notify_under_review_section',
@@ -458,17 +458,17 @@ class Settings {
                 'layout_social_profile'       => [
                     'id'       => 'layout_social_profile',
                     'name'     => 'layout_social_profile',
-                    'type'     => 'section',
                     'label'    => __('Social Profile', 'wp-scheduled-posts'),
                     'priority' => 20,
                     'fields'   => [
                         'social_profile_wrapper' => [
-                            'id'            => 'social_profile_wrapper',
-                            'name'          => 'social_profile_wrapper',
-                            'type'          => 'section',
-                            'label'         => __('Social Profile', 'wp-scheduled-posts'),
-                            'priority'      => 5,
-                            'fields'        => [
+                            'id'         => 'social_profile_wrapper',
+                            'name'       => 'social_profile_wrapper',
+                            'type'       => 'section',
+                            'label'      => __('Social Profile', 'wp-scheduled-posts'),
+                            'priority'   => 5,
+                            'showSubmit' => true,
+                            'fields'     => [
                                 'facebook_profile_list'  => [
                                     'id'       => 'facebook_profile_list',
                                     'name'     => 'facebook_profile_list',
@@ -537,613 +537,631 @@ class Settings {
                 'layout_social_template'       => [
                     'id'       => 'layout_social_template',
                     'name'     => 'layout_social_template',
-                    'type'     => 'section',
                     'label'    => __('Social Templates', 'wp-scheduled-posts'),
                     'priority' => 25,
                     'fields'   => [
-                        'tab_social_template'  => [
-                            'id'              => 'tab_social_template',
-                            'name'            => 'tab_social_template',
-                            'type'            => 'tab',
-                            'priority'        => 25,
-                            'completionTrack' => true,
-                            'sidebar'         => true,
-                            'title'           => false,
-                            'default'         => 'layouts_facebook',
-                            'submit'          => [
-                                'show' => false
+                        'section_social_template' => [
+                            'id'         => 'section_social_template',
+                            'name'       => 'section_social_template',
+                            'type'       => 'section',
+                            'label'      => __('Social Templates', 'wp-scheduled-posts'),
+                            'priority'   => 5,
+                            'showSubmit' => true,
+                            'fields'     => [
+                                'tab_social_template'  => [
+                                    'id'              => 'tab_social_template',
+                                    'name'            => 'tab_social_template',
+                                    'type'            => 'tab',
+                                    'priority'        => 25,
+                                    'completionTrack' => true,
+                                    'sidebar'         => true,
+                                    'title'           => false,
+                                    'default'         => 'layouts_facebook',
+                                    'submit'          => [
+                                        'show' => false
+                                    ],
+                                    'step'            => [
+                                        'show' => false
+                                    ],
+                                    'fields'   => [
+                                        'layouts_facebook'  => [
+                                            'id'            => 'layouts_facebook',
+                                            'name'          => 'layouts_facebook',
+                                            'label'         => __('Facebook', 'wp-scheduled-posts'),
+                                            'priority'      => 10,
+                                            'fields'        => [
+                                                'facebook_wrapper'     => [
+                                                    'id'            => 'facebook_wrapper',
+                                                    'type'          => 'section',
+                                                    'name'          => 'facebook_wrapper',
+                                                    'label'         => __('Facebook Status Settings', 'wp-scheduled-posts'),
+                                                    'priority'      => 10,
+                                                    'fields'        => [
+                                                        'facebook'  => [
+                                                            'name'     => "facebook",
+                                                            'type'     => "group",
+                                                            'priority' => 10,
+                                                            'fields'    => [
+                                                                'is_show_meta'  => [
+                                                                    'id'            => 'facebook_show_meta',
+                                                                    'name'          => 'is_show_meta',
+                                                                    'type'          => 'toggle',
+                                                                    'default'       => 1,
+                                                                    'label'         => __('Facebook Meta Data', 'wp-scheduled-posts'),
+                                                                    'info'          => __('Add Open Graph metadata to your site head section and other social networks use this data when your pages are shared.', 'wp-scheduled-posts'),
+                                                                    'priority'      => 5,
+                                                                ],
+                                                                'content_type' => [
+                                                                    'label'   => __('Content Type:','wp-scheduled-posts'),
+                                                                    'name'    => "content_type",
+                                                                    'type'    => "radio-card",
+                                                                    'default' => "link",
+                                                                    'priority'=> 6,
+                                                                    'options' => [
+                                                                        [
+                                                                            'label' => __( 'Link','wp-scheduled-posts' ),
+                                                                            'value' => 'link',
+                                                                        ],
+                                                                        [
+                                                                            'label' => __( 'Status','wp-scheduled-posts' ),
+                                                                            'value' => 'status',
+                                                                        ],
+                                                                        [
+                                                                            'label' => __( 'Status + Link','wp-scheduled-posts' ),
+                                                                            'value' => 'statuswithlink',
+                                                                        ],
+                                                                    ],
+                                                                ],
+                                                                'is_category_as_tags'  => [
+                                                                    'id'            => 'facebook_cat_tags',
+                                                                    'name'          => 'is_category_as_tags',
+                                                                    'type'          => 'toggle',
+                                                                    'label'         => __('Add Category as a tags', 'wp-scheduled-posts'),
+                                                                    'priority'      => 10,
+                                                                ],
+                                                                'content_source' => [
+                                                                    'label'   => __('Content Source:','wp-scheduled-posts'),
+                                                                    'name'    => "content_source",
+                                                                    'type'    => "radio-card",
+                                                                    'default' => "excerpt",
+                                                                    'priority'=> 11,
+                                                                    'options' => [
+                                                                        [
+                                                                            'label' => __( 'Excerpt','wp-scheduled-posts' ),
+                                                                            'value' => 'excerpt',
+                                                                        ],
+                                                                        [
+                                                                            'label' => __( 'Content','wp-scheduled-posts' ),
+                                                                            'value' => 'content',
+                                                                        ],
+                                                                    ],
+                                                                ],
+                                                                'template_structure'  => [
+                                                                    'id'            => 'facebook_structure',
+                                                                    'name'          => 'template_structure',
+                                                                    'type'          => 'text',
+                                                                    'label'         => __('Status Template Settings', 'wp-scheduled-posts'),
+                                                                    'info'          => 'Default Structure: {title}{content}{url}{tags}',
+                                                                    'default'       => '{title}{content}{url}{tags}',
+                                                                    'help'          => __('Default Structure: {title}{content}{url}{tags}', 'wp-scheduled-posts'),
+                                                                    'priority'      => 15,
+                                                                ],
+                                                                'status_limit'  => [
+                                                                    'id'            => 'facebook_status_limit',
+                                                                    'name'          => 'status_limit',
+                                                                    'type'          => 'number',
+                                                                    'label'         => __('Status Limit', 'wp-scheduled-posts'),
+                                                                    'priority'      => 20,
+                                                                    'default'       => 63206,
+                                                                    'max'           => 63206,
+                                                                    'help'          => __('Maximum Limit: 63206 character', 'wp-scheduled-posts'),
+                                                                ],
+                                                            ]
+                                                        ]
+
+                                                    ]
+                                                ]
+                                            ]
+                                        ],
+                                        'layouts_twitter'  => [
+                                            'id'            => 'layouts_twitter',
+                                            'name'          => 'layouts_twitter',
+                                            'label'         => __('Twitter', 'wp-scheduled-posts'),
+                                            'priority'      => 20,
+                                            'fields'        => [
+                                                'twitter_wrapper'     => [
+                                                    'id'            => 'twitter_wrapper',
+                                                    'type'          => 'section',
+                                                    'name'          => 'twitter_wrapper',
+                                                    'label'         => __('Twitter Tweet Settings', 'wp-scheduled-posts'),
+                                                    'priority'      => 10,
+                                                    'fields'        => [
+                                                        'twitter'  => [
+                                                            'name'     => "twitter",
+                                                            'type'     => "group",
+                                                            'priority' => 10,
+                                                            'fields'    => [
+                                                                'template_structure'  => [
+                                                                    'id'            => 'twitter_template',
+                                                                    'name'          => 'template_structure',
+                                                                    'type'          => 'text',
+                                                                    'label'         => __('Tweet Template Settings', 'wp-scheduled-posts'),
+                                                                    'info'          => 'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet',
+                                                                    'default'       => '{title}{content}{url}{tags}',
+                                                                    'desc'          => __('Default Structure: {title}{content}{url}{tags}', 'wp-scheduled-posts'),
+                                                                    'priority'      => 5,
+                                                                ],
+                                                                'is_category_as_tags'  => [
+                                                                    'id'            => 'twitter_cat_tags',
+                                                                    'name'          => 'is_category_as_tags',
+                                                                    'type'          => 'toggle',
+                                                                    'info'          => 'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet',
+                                                                    'label'         => __('Add Category as a tags', 'wp-scheduled-posts'),
+                                                                    'priority'      => 10,
+                                                                ],
+                                                                'content_source' => [
+                                                                    'label'         => __('Content Source:','wp-scheduled-posts'),
+                                                                    'name'          => "content_source",
+                                                                    'type'          => "radio-card",
+                                                                    'default'       => "excerpt",
+                                                                    'priority'      => 11,
+                                                                    'options' => [
+                                                                        [
+                                                                            'label' => __( 'Excerpt','wp-scheduled-posts' ),
+                                                                            'value' => 'excerpt',
+                                                                        ],
+                                                                        [
+                                                                            'label' => __( 'Content','wp-scheduled-posts' ),
+                                                                            'value' => 'content',
+                                                                        ],
+                                                                    ],
+                                                                ],
+                                                                'is_show_post_thumbnail'  => [
+                                                                    'id'            => 'twitter_post_thumbnail',
+                                                                    'name'          => 'is_show_post_thumbnail',
+                                                                    'type'          => 'toggle',
+                                                                    'label'         => __('Show Post Thumbnail', 'wp-scheduled-posts'),
+                                                                    'default'       => false,
+                                                                    'priority'      => 15,
+                                                                ],
+                                                                'status_limit'  => [
+                                                                    'id'            => 'twitter_status_limit',
+                                                                    'name'          => 'status_limit',
+                                                                    'type'          => 'number',
+                                                                    'label'         => __('Tweet Limit', 'wp-scheduled-posts'),
+                                                                    'priority'      => 20,
+                                                                    'default'       => 280,
+                                                                    'max'           => 280,
+                                                                    'help'          => __('Maximum Limit: 280 character', 'wp-scheduled-posts'),
+                                                                ],
+                                                            ]
+                                                        ]
+
+                                                    ]
+                                                ]
+                                            ]
+                                        ],
+                                        'layouts_linkedin'  => [
+                                            'id'            => 'layouts_linkedin',
+                                            'name'          => 'layouts_linkedin',
+                                            'label'         => __('Linkedin', 'wp-scheduled-posts'),
+                                            'priority'      => 30,
+                                            'fields'        => [
+                                                'linkedin_wrapper'     => [
+                                                    'id'            => 'linkedin_wrapper',
+                                                    'type'          => 'section',
+                                                    'name'          => 'linkedin_wrapper',
+                                                    'label'         => __('Linkedin Status Settings', 'wp-scheduled-posts'),
+                                                    'priority'      => 10,
+                                                    'fields'        => [
+                                                        'linkedin'  => [
+                                                            'name'     => "linkedin",
+                                                            'type'     => "group",
+                                                            'priority' => 10,
+                                                            'fields'    => [
+                                                                'content_type' => [
+                                                                    'label'   => __('Content Type:','wp-scheduled-posts'),
+                                                                    'name'    => "content_type",
+                                                                    'type'    => "radio-card",
+                                                                    'default' => "link",
+                                                                    'priority'=> 6,
+                                                                    'options' => [
+                                                                        [
+                                                                            'label' => __( 'Link','wp-scheduled-posts' ),
+                                                                            'value' => 'link',
+                                                                        ],
+                                                                        [
+                                                                            'label' => __( 'Status','wp-scheduled-posts' ),
+                                                                            'value' => 'status',
+                                                                        ],
+                                                                        [
+                                                                            'label' => __( 'Media','wp-scheduled-posts' ),
+                                                                            'value' => 'media',
+                                                                        ],
+                                                                    ],
+                                                                ],
+                                                                'is_category_as_tags'  => [
+                                                                    'id'            => 'linkedin_cat_tags',
+                                                                    'name'          => 'is_category_as_tags',
+                                                                    'type'          => 'toggle',
+                                                                    'info'          => 'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet',
+                                                                    'label'         => __('Add Category as a tags', 'wp-scheduled-posts'),
+                                                                    'priority'      => 10,
+                                                                ],
+                                                                'linkedin_content_source' => [
+                                                                    'label'   => __('Content Source:','wp-scheduled-posts'),
+                                                                    'name'    => "content_source",
+                                                                    'type'    => "radio-card",
+                                                                    'default' => "excerpt",
+                                                                    'priority'=> 12,
+                                                                    'options' => [
+                                                                        [
+                                                                            'label' => __( 'Excerpt','wp-scheduled-posts' ),
+                                                                            'value' => 'excerpt',
+                                                                        ],
+                                                                        [
+                                                                            'label' => __( 'Content','wp-scheduled-posts' ),
+                                                                            'value' => 'content',
+                                                                        ],
+                                                                    ],
+                                                                ],
+                                                                'template_structure'  => [
+                                                                    'id'            => 'linkedin_template',
+                                                                    'name'          => 'template_structure',
+                                                                    'type'          => 'text',
+                                                                    'label'         => __('Status Template Settings', 'wp-scheduled-posts'),
+                                                                    'default'       => '{title}{content}{tags}',
+                                                                    'info'          => 'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet',
+                                                                    'desc'          => __('Default Structure: {title}{content}{url}{tags}', 'wp-scheduled-posts'),
+                                                                    'priority'      => 5,
+                                                                ],
+                                                                'status_limit'  => [
+                                                                    'id'            => 'linkedin_status_limit',
+                                                                    'name'          => 'status_limit',
+                                                                    'type'          => 'number',
+                                                                    'label'         => __('Status Limit', 'wp-scheduled-posts'),
+                                                                    'priority'      => 20,
+                                                                    'default'       => 1300,
+                                                                    'max'           => 1300,
+                                                                    'help'          => __('Maximum Limit: 1300 character', 'wp-scheduled-posts'),
+                                                                ],
+                                                            ]
+                                                        ]
+
+                                                    ]
+                                                ]
+                                            ]
+                                        ],
+                                        'layouts_pinterest'  => [
+                                            'id'            => 'layouts_pinterest',
+                                            'name'          => 'layouts_pinterest',
+                                            'label'         => __('Pinterest', 'wp-scheduled-posts'),
+                                            'priority'      => 40,
+                                            'fields'        => [
+                                                'pinterest_wrapper'     => [
+                                                    'id'            => 'pinterest_wrapper',
+                                                    'type'          => 'section',
+                                                    'name'          => 'pinterest_wrapper',
+                                                    'label'         => __('Pinterest Pin Settings', 'wp-scheduled-posts'),
+                                                    'priority'      => 10,
+                                                    'fields'        => [
+                                                        'pinterest'  => [
+                                                            'name'     => "pinterest",
+                                                            'type'     => "group",
+                                                            'priority' => 10,
+                                                            'fields'    => [
+                                                                'is_set_image_link'  => [
+                                                                    'id'            => 'pinterest_image_link',
+                                                                    'name'          => 'is_set_image_link',
+                                                                    'type'          => 'toggle',
+                                                                    'label'         => __('Add Image Link', 'wp-scheduled-posts'),
+                                                                    'info'          => 'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet',
+                                                                    'priority'      => 5,
+                                                                    'default'       => 1,
+                                                                ],
+                                                                'is_category_as_tags'  => [
+                                                                    'id'            => 'pinterest_cat_tags',
+                                                                    'name'          => 'is_category_as_tags',
+                                                                    'type'          => 'toggle',
+                                                                    'label'         => __('Add Category as a tags', 'wp-scheduled-posts'),
+                                                                    'info'          => 'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet',
+                                                                    'priority'      => 10,
+                                                                ],
+                                                                'content_source' => [
+                                                                    'label'         => __('Content Source:','wp-scheduled-posts'),
+                                                                    'name'          => "content_source",
+                                                                    'type'          => "radio-card",
+                                                                    'default'       => "excerpt",
+                                                                    'priority'      => 11,
+                                                                    'options' => [
+                                                                        [
+                                                                            'label' => __( 'Excerpt','wp-scheduled-posts' ),
+                                                                            'value' => 'excerpt',
+                                                                        ],
+                                                                        [
+                                                                            'label' => __( 'Content','wp-scheduled-posts' ),
+                                                                            'value' => 'content',
+                                                                        ],
+                                                                    ],
+                                                                ],
+                                                                'template_structure'  => [
+                                                                    'id'            => 'template_structure',
+                                                                    'name'          => 'template_structure',
+                                                                    'type'          => 'text',
+                                                                    'label'         => __('Status Template Settings', 'wp-scheduled-posts'),
+                                                                    'desc'          => __('Default Structure: {title}{content}{url}{tags}', 'wp-scheduled-posts'),
+                                                                    'info'          => 'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet',
+                                                                    'default'       => '{title}',
+                                                                    'priority'      => 15,
+                                                                ],
+                                                                'status_limit'  => [
+                                                                    'id'            => 'linkedin_status_limit',
+                                                                    'name'          => 'status_limit',
+                                                                    'type'          => 'number',
+                                                                    'label'         => __('Status Limit', 'wp-scheduled-posts'),
+                                                                    'priority'      => 20,
+                                                                    'default'       => '500',
+                                                                    'max'           => '500',
+                                                                    'help'          => __('Maximum Limit: 500 character', 'wp-scheduled-posts'),
+                                                                ],
+                                                            ]
+                                                        ]
+
+                                                    ]
+                                                ]
+                                            ]
+                                        ],
+                                    ]
+                                ],
                             ],
-                            'step'            => [
-                                'show' => false
-                            ],
-                            'fields'   => [
-                                'layouts_facebook'  => [
-                                    'id'            => 'layouts_facebook',
-                                    'name'          => 'layouts_facebook',
-                                    'label'         => __('Facebook', 'wp-scheduled-posts'),
-                                    'priority'      => 10,
-                                    'fields'        => [
-                                        'facebook_wrapper'     => [
-                                            'id'            => 'facebook_wrapper',
-                                            'type'          => 'section',
-                                            'name'          => 'facebook_wrapper',
-                                            'label'         => __('Facebook Status Settings', 'wp-scheduled-posts'),
-                                            'priority'      => 10,
-                                            'fields'        => [
-                                                'facebook'  => [
-                                                    'name'     => "facebook",
-                                                    'type'     => "group",
-                                                    'priority' => 10,
-                                                    'fields'    => [
-                                                        'is_show_meta'  => [
-                                                            'id'            => 'facebook_show_meta',
-                                                            'name'          => 'is_show_meta',
-                                                            'type'          => 'toggle',
-                                                            'default'       => 1,
-                                                            'label'         => __('Facebook Meta Data', 'wp-scheduled-posts'),
-                                                            'info'          => __('Add Open Graph metadata to your site head section and other social networks use this data when your pages are shared.', 'wp-scheduled-posts'),
-                                                            'priority'      => 5,
-                                                        ],
-                                                        'content_type' => [
-                                                            'label'   => __('Content Type:','wp-scheduled-posts'),
-                                                            'name'    => "content_type",
-                                                            'type'    => "radio-card",
-                                                            'default' => "link",
-                                                            'priority'=> 6,
-                                                            'options' => [
-                                                                [
-                                                                    'label' => __( 'Link','wp-scheduled-posts' ),
-                                                                    'value' => 'link',
-                                                                ],
-                                                                [
-                                                                    'label' => __( 'Status','wp-scheduled-posts' ),
-                                                                    'value' => 'status',
-                                                                ],
-                                                                [
-                                                                    'label' => __( 'Status + Link','wp-scheduled-posts' ),
-                                                                    'value' => 'statuswithlink',
-                                                                ],
-                                                             ],
-                                                        ],
-                                                        'is_category_as_tags'  => [
-                                                            'id'            => 'facebook_cat_tags',
-                                                            'name'          => 'is_category_as_tags',
-                                                            'type'          => 'toggle',
-                                                            'label'         => __('Add Category as a tags', 'wp-scheduled-posts'),
-                                                            'priority'      => 10,
-                                                        ],
-                                                        'content_source' => [
-                                                            'label'   => __('Content Source:','wp-scheduled-posts'),
-                                                            'name'    => "content_source",
-                                                            'type'    => "radio-card",
-                                                            'default' => "excerpt",
-                                                            'priority'=> 11,
-                                                            'options' => [
-                                                                [
-                                                                    'label' => __( 'Excerpt','wp-scheduled-posts' ),
-                                                                    'value' => 'excerpt',
-                                                                ],
-                                                                [
-                                                                    'label' => __( 'Content','wp-scheduled-posts' ),
-                                                                    'value' => 'content',
-                                                                ],
-                                                             ],
-                                                        ],
-                                                        'template_structure'  => [
-                                                            'id'            => 'facebook_structure',
-                                                            'name'          => 'template_structure',
-                                                            'type'          => 'text',
-                                                            'label'         => __('Status Template Settings', 'wp-scheduled-posts'),
-                                                            'info'          => 'Default Structure: {title}{content}{url}{tags}',
-                                                            'default'       => '{title}{content}{url}{tags}',
-                                                            'help'          => __('Default Structure: {title}{content}{url}{tags}', 'wp-scheduled-posts'),
-                                                            'priority'      => 15,
-                                                        ],
-                                                        'status_limit'  => [
-                                                            'id'            => 'facebook_status_limit',
-                                                            'name'          => 'status_limit',
-                                                            'type'          => 'number',
-                                                            'label'         => __('Status Limit', 'wp-scheduled-posts'),
-                                                            'priority'      => 20,
-                                                            'default'       => 63206,
-                                                            'max'           => 63206,
-                                                            'help'          => __('Maximum Limit: 63206 character', 'wp-scheduled-posts'),
-                                                        ],
-                                                    ]
-                                                ]
-
-                                            ]
-                                        ]
-                                    ]
-                                ],
-                                'layouts_twitter'  => [
-                                    'id'            => 'layouts_twitter',
-                                    'name'          => 'layouts_twitter',
-                                    'label'         => __('Twitter', 'wp-scheduled-posts'),
-                                    'priority'      => 20,
-                                    'fields'        => [
-                                        'twitter_wrapper'     => [
-                                            'id'            => 'twitter_wrapper',
-                                            'type'          => 'section',
-                                            'name'          => 'twitter_wrapper',
-                                            'label'         => __('Twitter Tweet Settings', 'wp-scheduled-posts'),
-                                            'priority'      => 10,
-                                            'fields'        => [
-                                                'twitter'  => [
-                                                    'name'     => "twitter",
-                                                    'type'     => "group",
-                                                    'priority' => 10,
-                                                    'fields'    => [
-                                                        'template_structure'  => [
-                                                            'id'            => 'twitter_template',
-                                                            'name'          => 'template_structure',
-                                                            'type'          => 'text',
-                                                            'label'         => __('Tweet Template Settings', 'wp-scheduled-posts'),
-                                                            'info'          => 'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet',
-                                                            'default'       => '{title}{content}{url}{tags}',
-                                                            'desc'          => __('Default Structure: {title}{content}{url}{tags}', 'wp-scheduled-posts'),
-                                                            'priority'      => 5,
-                                                        ],
-                                                        'is_category_as_tags'  => [
-                                                            'id'            => 'twitter_cat_tags',
-                                                            'name'          => 'is_category_as_tags',
-                                                            'type'          => 'toggle',
-                                                            'info'          => 'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet',
-                                                            'label'         => __('Add Category as a tags', 'wp-scheduled-posts'),
-                                                            'priority'      => 10,
-                                                        ],
-                                                        'content_source' => [
-                                                            'label'         => __('Content Source:','wp-scheduled-posts'),
-                                                            'name'          => "content_source",
-                                                            'type'          => "radio-card",
-                                                            'default'       => "excerpt",
-                                                            'priority'      => 11,
-                                                            'options' => [
-                                                                [
-                                                                    'label' => __( 'Excerpt','wp-scheduled-posts' ),
-                                                                    'value' => 'excerpt',
-                                                                ],
-                                                                [
-                                                                    'label' => __( 'Content','wp-scheduled-posts' ),
-                                                                    'value' => 'content',
-                                                                ],
-                                                             ],
-                                                        ],
-                                                        'is_show_post_thumbnail'  => [
-                                                            'id'            => 'twitter_post_thumbnail',
-                                                            'name'          => 'is_show_post_thumbnail',
-                                                            'type'          => 'toggle',
-                                                            'label'         => __('Show Post Thumbnail', 'wp-scheduled-posts'),
-                                                            'default'       => false,
-                                                            'priority'      => 15,
-                                                        ],
-                                                        'status_limit'  => [
-                                                            'id'            => 'twitter_status_limit',
-                                                            'name'          => 'status_limit',
-                                                            'type'          => 'number',
-                                                            'label'         => __('Tweet Limit', 'wp-scheduled-posts'),
-                                                            'priority'      => 20,
-                                                            'default'       => 280,
-                                                            'max'           => 280,
-                                                            'help'          => __('Maximum Limit: 280 character', 'wp-scheduled-posts'),
-                                                        ],
-                                                    ]
-                                                ]
-
-                                            ]
-                                        ]
-                                    ]
-                                ],
-                                'layouts_linkedin'  => [
-                                    'id'            => 'layouts_linkedin',
-                                    'name'          => 'layouts_linkedin',
-                                    'label'         => __('Linkedin', 'wp-scheduled-posts'),
-                                    'priority'      => 30,
-                                    'fields'        => [
-                                        'linkedin_wrapper'     => [
-                                            'id'            => 'linkedin_wrapper',
-                                            'type'          => 'section',
-                                            'name'          => 'linkedin_wrapper',
-                                            'label'         => __('Linkedin Status Settings', 'wp-scheduled-posts'),
-                                            'priority'      => 10,
-                                            'fields'        => [
-                                                'linkedin'  => [
-                                                    'name'     => "linkedin",
-                                                    'type'     => "group",
-                                                    'priority' => 10,
-                                                    'fields'    => [
-                                                        'content_type' => [
-                                                            'label'   => __('Content Type:','wp-scheduled-posts'),
-                                                            'name'    => "content_type",
-                                                            'type'    => "radio-card",
-                                                            'default' => "link",
-                                                            'priority'=> 6,
-                                                            'options' => [
-                                                                [
-                                                                    'label' => __( 'Link','wp-scheduled-posts' ),
-                                                                    'value' => 'link',
-                                                                ],
-                                                                [
-                                                                    'label' => __( 'Status','wp-scheduled-posts' ),
-                                                                    'value' => 'status',
-                                                                ],
-                                                                [
-                                                                    'label' => __( 'Media','wp-scheduled-posts' ),
-                                                                    'value' => 'media',
-                                                                ],
-                                                             ],
-                                                        ],
-                                                        'is_category_as_tags'  => [
-                                                            'id'            => 'linkedin_cat_tags',
-                                                            'name'          => 'is_category_as_tags',
-                                                            'type'          => 'toggle',
-                                                            'info'          => 'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet',
-                                                            'label'         => __('Add Category as a tags', 'wp-scheduled-posts'),
-                                                            'priority'      => 10,
-                                                        ],
-                                                        'linkedin_content_source' => [
-                                                            'label'   => __('Content Source:','wp-scheduled-posts'),
-                                                            'name'    => "content_source",
-                                                            'type'    => "radio-card",
-                                                            'default' => "excerpt",
-                                                            'priority'=> 12,
-                                                            'options' => [
-                                                                [
-                                                                    'label' => __( 'Excerpt','wp-scheduled-posts' ),
-                                                                    'value' => 'excerpt',
-                                                                ],
-                                                                [
-                                                                    'label' => __( 'Content','wp-scheduled-posts' ),
-                                                                    'value' => 'content',
-                                                                ],
-                                                            ],
-                                                        ],
-                                                        'template_structure'  => [
-                                                            'id'            => 'linkedin_template',
-                                                            'name'          => 'template_structure',
-                                                            'type'          => 'text',
-                                                            'label'         => __('Status Template Settings', 'wp-scheduled-posts'),
-                                                            'default'       => '{title}{content}{tags}',
-                                                            'info'          => 'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet',
-                                                            'desc'          => __('Default Structure: {title}{content}{url}{tags}', 'wp-scheduled-posts'),
-                                                            'priority'      => 5,
-                                                        ],
-                                                        'status_limit'  => [
-                                                            'id'            => 'linkedin_status_limit',
-                                                            'name'          => 'status_limit',
-                                                            'type'          => 'number',
-                                                            'label'         => __('Status Limit', 'wp-scheduled-posts'),
-                                                            'priority'      => 20,
-                                                            'default'       => 1300,
-                                                            'max'           => 1300,
-                                                            'help'          => __('Maximum Limit: 1300 character', 'wp-scheduled-posts'),
-                                                        ],
-                                                    ]
-                                                ]
-
-                                            ]
-                                        ]
-                                    ]
-                                ],
-                                'layouts_pinterest'  => [
-                                    'id'            => 'layouts_pinterest',
-                                    'name'          => 'layouts_pinterest',
-                                    'label'         => __('Pinterest', 'wp-scheduled-posts'),
-                                    'priority'      => 40,
-                                    'fields'        => [
-                                        'pinterest_wrapper'     => [
-                                            'id'            => 'pinterest_wrapper',
-                                            'type'          => 'section',
-                                            'name'          => 'pinterest_wrapper',
-                                            'label'         => __('Pinterest Pin Settings', 'wp-scheduled-posts'),
-                                            'priority'      => 10,
-                                            'fields'        => [
-                                                'pinterest'  => [
-                                                    'name'     => "pinterest",
-                                                    'type'     => "group",
-                                                    'priority' => 10,
-                                                    'fields'    => [
-                                                        'is_set_image_link'  => [
-                                                            'id'            => 'pinterest_image_link',
-                                                            'name'          => 'is_set_image_link',
-                                                            'type'          => 'toggle',
-                                                            'label'         => __('Add Image Link', 'wp-scheduled-posts'),
-                                                            'info'          => 'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet',
-                                                            'priority'      => 5,
-                                                            'default'       => 1,
-                                                        ],
-                                                        'is_category_as_tags'  => [
-                                                            'id'            => 'pinterest_cat_tags',
-                                                            'name'          => 'is_category_as_tags',
-                                                            'type'          => 'toggle',
-                                                            'label'         => __('Add Category as a tags', 'wp-scheduled-posts'),
-                                                            'info'          => 'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet',
-                                                            'priority'      => 10,
-                                                        ],
-                                                        'content_source' => [
-                                                            'label'         => __('Content Source:','wp-scheduled-posts'),
-                                                            'name'          => "content_source",
-                                                            'type'          => "radio-card",
-                                                            'default'       => "excerpt",
-                                                            'priority'      => 11,
-                                                            'options' => [
-                                                                [
-                                                                    'label' => __( 'Excerpt','wp-scheduled-posts' ),
-                                                                    'value' => 'excerpt',
-                                                                ],
-                                                                [
-                                                                    'label' => __( 'Content','wp-scheduled-posts' ),
-                                                                    'value' => 'content',
-                                                                ],
-                                                             ],
-                                                        ],
-                                                        'template_structure'  => [
-                                                            'id'            => 'template_structure',
-                                                            'name'          => 'template_structure',
-                                                            'type'          => 'text',
-                                                            'label'         => __('Status Template Settings', 'wp-scheduled-posts'),
-                                                            'desc'          => __('Default Structure: {title}{content}{url}{tags}', 'wp-scheduled-posts'),
-                                                            'info'          => 'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet',
-                                                            'default'       => '{title}',
-                                                            'priority'      => 15,
-                                                        ],
-                                                        'status_limit'  => [
-                                                            'id'            => 'linkedin_status_limit',
-                                                            'name'          => 'status_limit',
-                                                            'type'          => 'number',
-                                                            'label'         => __('Status Limit', 'wp-scheduled-posts'),
-                                                            'priority'      => 20,
-                                                            'default'       => '500',
-                                                            'max'           => '500',
-                                                            'help'          => __('Maximum Limit: 500 character', 'wp-scheduled-posts'),
-                                                        ],
-                                                    ]
-                                                ]
-
-                                            ]
-                                        ]
-                                    ]
-                                ],
-                            ]
-                        ]
+                        ],
                     ]
                 ],
                 'layout_scheduling_hub'       => [
                     'id'       => 'layout_scheduling_hub',
                     'name'     => 'layout_scheduling_hub',
-                    'type'     => 'section',
                     'label'    => __('Scheduling Hub', 'wp-scheduled-posts'),
                     'priority' => 25,
                     'is_pro'   => true,
                     'classes'  => 'pro_feature',
                     'fields'   => [
-                        'tab_scheduling_hub'  => [
-                            'id'              => 'tab_scheduling_hub',
-                            'name'            => 'tab_scheduling_hub',
-                            'type'            => 'tab',
-                            'priority'        => 25,
-                            'completionTrack' => true,
-                            'sidebar'         => true,
-                            'title'           => false,
-                            'default'         => 'layout_manage_schedule',
-                            'submit'          => [
-                                'show' => false
-                            ],
-                            'step'            => [
-                                'show' => false
-                            ],
-                            'fields'          => [
-                                'layout_manage_schedule'       => [
-                                    'id'       => 'manage-schedule',
-                                    'name'     => 'layout_manage_schedule',
-                                    'type'     => 'section',
-                                    'label'    => __('Manage Schedule', 'wp-scheduled-posts'),
-                                    'priority' => 30,
-                                    'is_pro'   => true,
-                                    'classes'  => 'pro_feature',
-                                    'fields'   => [
-                                        'manage_schedule_wrapper'   => [
-                                            'id'        => 'manage-schedule-wrapper',
-                                            'type'      => 'section',
-                                            'name'      => 'manage-schedule',
-                                            'label'     => false,
-                                            'fields'    => [
-                                                'auto_scheduler_section'  => [
-                                                    'id'            => 'auto_scheduler',
-                                                    'name'          => 'auto_scheduler',
-                                                    'type'          => 'section',
-                                                    'label'         => false,
-                                                    'fields'        => [
-                                                        'auto_scheduler'  => [
-                                                            'id'            => 'auto_scheduler',
-                                                            'name'          => 'auto_schedule',
-                                                            'type'          => 'auto-scheduler',
-                                                            'priority'      => 5,
-                                                        ],
-                                                    ],
-                                                ],
-                                                'manual_scheduler_section'  => [
-                                                    'id'            => 'manual_scheduler',
-                                                    'name'          => 'manual_scheduler',
-                                                    'type'          => 'section',
-                                                    'label'         => false,
-                                                    'priority'      => 5,
-                                                    'fields'        => [
-                                                        'manual_scheduler'  => [
-                                                            'id'            => 'manual_scheduler',
-                                                            'name'          => 'manual_schedule',
-                                                            'type'          => 'manual-scheduler',
-                                                            'priority'      => 5,
-                                                        ],
-                                                    ],
-                                                ],
-                                            ]
-                                        ]
-                                    ]
-                                ],
-                                'layout_advance_schedule'       => [
-                                    'id'       => 'layout_advance_schedule',
-                                    'name'     => 'layout_advance_schedule',
-                                    'type'     => 'section',
-                                    'label'    => __('Advance Schedule', 'wp-scheduled-posts'),
-                                    'priority' => 35,
-                                    'classes'  => 'pro_feature',
-                                    'fields'   => [
-                                        'advance_schedule_wrapper'  => [
-                                            'id'        => 'advance_schedule_wrapper',
-                                            'name'      => 'advance_schedule_wrapper',
-                                            'type'      => 'section',
-                                            'label'     => false,
-                                            'priority'  => 5,
-                                            'fields'    => [
-                                                'advance_switcher'  => [
-                                                    'id'            => 'advance_schedule_switcher',
-                                                    'name'          => 'advance_schedule_switcher',
-                                                    'type'          => 'section',
-                                                    'label'         => false,
-                                                    'fields'        => [
-                                                        'is_delayed_schedule_active'  => [
-                                                            'id'            => 'is_delayed_schedule_active',
-                                                            'name'          => 'is_delayed_schedule_active',
-                                                            'type'          => 'toggle',
-                                                            'label'         => __('Advance Schedule', 'wp-scheduled-posts'),
-                                                            'default'       => 0,
-                                                            'is_pro'        => true,
-                                                            'priority'      => 5,
-                                                        ],
-                                                        'advance_switcher_desc'  => [
-                                                            'id'            => 'advance_switcher_desc',
-                                                            'name'          => 'advance_switcher_desc',
-                                                            'type'          => 'html',
-                                                            'html'         => __('Get options to set the published post status when scheduling it. Keep the post published and the updated content will be published according to schedule, or move the post to Draft until it is published.', 'wp-scheduled-posts'),
-                                                            'priority'      => 10,
-                                                        ],
-                                                        'advance_switcher_list'  => [
-                                                            'id'            => 'advance_switcher_list',
-                                                            'name'          => 'advance_switcher_list',
-                                                            'type'          => 'list',
-                                                            'priority'      => 15,
-                                                            'label'         => __('Read Detailed Documentation:','wp-scheduled-posts'),
-                                                            'content'       => [
-                                                                [
-                                                                    'link'  => esc_url('https://wpdeveloper.com/manage-missed-schedule-wordpress/'),
-                                                                    'text'  => __('How To Configure SchedulerPress Advanced Schedule In Elementor?', 'wp-scheduled-posts'),
-                                                                ],
-                                                                [
-                                                                    'link'  => esc_url('https://wpdeveloper.com/docs/wp-scheduled-posts/how-to-handle-the-missed-schedule-error-using-wp-scheduled-post/#0-toc-title'),
-                                                                    'text'  => __('How To Configure SchedulerPress Advanced Schedule In Gutenberg?', 'wp-scheduled-posts'),
-                                                                ],
-                                                            ],
-                                                        ],
-                                                    ],
-                                                ],
-                                                'advance_video'  => [
-                                                    'id'            => 'advance_video',
-                                                    'name'          => 'advance_video',
-                                                    'type'          => 'section',
-                                                    'label'         => false,
-                                                    'priority'      => 5,
-                                                    'fields'        => [
-                                                        'advance_schedule_video'  => [
-                                                            'id'            => 'advance_schedule_video',
-                                                            'name'          => 'advance_schedule_video',
-                                                            'type'          => 'video',
-                                                            'label'         => __('Watch The Video Walkthrough','wp-scheduled=-posts'),
-                                                            'priority'      => 5,
-                                                            'url'           => esc_url('https://www.youtube.com/embed/t0zVpg5ALos'),
-                                                            'width'         => 554,
-                                                            'height'        => 345,
-                                                        ],
-                                                    ],
-                                                ],
-                                            ]
-                                        ]
-                                    ]
-                                ],
-                                'layout_missed_schedule'       => [
-                                    'id'       => 'layout_missed_schedule',
-                                    'name'     => 'layout_missed_schedule',
-                                    'type'     => 'section',
-                                    'label'    => __('Missed Schedule', 'wp-scheduled-posts'),
-                                    'priority' => 40,
-                                    'classes'  => 'pro_feature',
-                                    'fields'   => [
-                                        'missed_schedule_wrapper'   => [
-                                            'id'       => 'missed_schedule_wrapper',
-                                            'name'     => 'missed_schedule_wrapper',
+                        'section_scheduling_hub' => [
+                            'id'         => 'section_scheduling_hub',
+                            'name'       => 'section_scheduling_hub',
+                            'type'       => 'section',
+                            'label'      => __('Scheduling Hub', 'wp-scheduled-posts'),
+                            'priority'   => 5,
+                            'showSubmit' => true,
+                            'fields'     => [
+                                'tab_scheduling_hub'  => [
+                                    'id'              => 'tab_scheduling_hub',
+                                    'name'            => 'tab_scheduling_hub',
+                                    'type'            => 'tab',
+                                    'priority'        => 25,
+                                    'completionTrack' => true,
+                                    'sidebar'         => true,
+                                    'title'           => false,
+                                    'default'         => 'layout_manage_schedule',
+                                    'submit'          => [
+                                        'show' => false
+                                    ],
+                                    'step'            => [
+                                        'show' => false
+                                    ],
+                                    'fields'          => [
+                                        'layout_manage_schedule'       => [
+                                            'id'       => 'manage-schedule',
+                                            'name'     => 'layout_manage_schedule',
                                             'type'     => 'section',
-                                            'label'    => false,
-                                            'priority' => 5,
+                                            'label'    => __('Manage Schedule', 'wp-scheduled-posts'),
+                                            'priority' => 30,
+                                            'is_pro'   => true,
                                             'classes'  => 'pro_feature',
                                             'fields'   => [
-                                                'missed_switcher'  => [
-                                                    'id'            => 'missed_schedule_switcher',
-                                                    'name'          => 'missed_schedule_switcher',
-                                                    'type'          => 'section',
-                                                    'label'         => false,
-                                                    'fields'        => [
-                                                        'is_active_missed_schedule'  => [
-                                                            'id'            => 'is_active_missed_schedule',
-                                                            'name'          => 'is_active_missed_schedule',
-                                                            'type'          => 'toggle',
-                                                            'label'         => __('Missed Schedule', 'wp-scheduled-posts'),
-                                                            'help'          => __('Enable to publish posts randomly', 'wp-scheduled-posts'),
-                                                            'default'       => 0,
-                                                            'is_pro'        => true,
-                                                            'priority'      => 5,
-                                                        ],
-                                                        'missed_switcher_desc'  => [
-                                                            'id'            => 'missed_switcher_desc',
-                                                            'name'          => 'missed_switcher_desc',
-                                                            'type'          => 'html',
-                                                            'html'         => __('WordPress might miss the schedule for a post for various reasons. Turn on this option to let SchedulePress take care of this and publish the missed schedule.', 'wp-scheduled-posts'),
-                                                            'priority'      => 10,
-                                                        ],
-                                                        'missed_switcher_list'  => [
-                                                            'id'            => 'missed_switcher_list',
-                                                            'name'          => 'missed_switcher_list',
-                                                            'type'          => 'list',
-                                                            'priority'      => 15,
-                                                            'label'         => __('Read Detailed Documentation:','wp-scheduled-posts'),
-                                                            'content'       => [
-                                                                [
-                                                                    'link'  => esc_url('https://wpdeveloper.com/manage-missed-schedule-wordpress/'),
-                                                                    'text'  => __('How To Manage The Missed Schedule Error In WordPress', 'wp-scheduled-posts'),
-                                                                ],
-                                                                [
-                                                                    'link'  => esc_url('https://wpdeveloper.com/docs/wp-scheduled-posts/how-to-handle-the-missed-schedule-error-using-wp-scheduled-post/#0-toc-title'),
-                                                                    'text'  => __('How To Configure SchedulePress To Handle Missed Schedule Errors', 'wp-scheduled-posts'),
+                                                'manage_schedule_wrapper'   => [
+                                                    'id'        => 'manage-schedule-wrapper',
+                                                    'type'      => 'section',
+                                                    'name'      => 'manage-schedule',
+                                                    'label'     => false,
+                                                    'fields'    => [
+                                                        'auto_scheduler_section'  => [
+                                                            'id'            => 'auto_scheduler',
+                                                            'name'          => 'auto_scheduler',
+                                                            'type'          => 'section',
+                                                            'label'         => false,
+                                                            'fields'        => [
+                                                                'auto_scheduler'  => [
+                                                                    'id'            => 'auto_scheduler',
+                                                                    'name'          => 'auto_schedule',
+                                                                    'type'          => 'auto-scheduler',
+                                                                    'priority'      => 5,
                                                                 ],
                                                             ],
                                                         ],
-                                                    ],
-                                                ],
-                                                'missed_video'  => [
-                                                    'id'            => 'missed_video',
-                                                    'name'          => 'missed_video',
-                                                    'type'          => 'section',
-                                                    'label'         => false,
-                                                    'priority'      => 5,
-                                                    'fields'        => [
-                                                        'advance_schedule_video'  => [
-                                                            'id'            => 'advance_schedule_video',
-                                                            'name'          => 'advance_schedule_video',
-                                                            'type'          => 'video',
-                                                            'label'         => __('Watch The Video Walkthrough','wp-scheduled=-posts'),
+                                                        'manual_scheduler_section'  => [
+                                                            'id'            => 'manual_scheduler',
+                                                            'name'          => 'manual_scheduler',
+                                                            'type'          => 'section',
+                                                            'label'         => false,
                                                             'priority'      => 5,
-                                                            'url'           => esc_url('https://www.youtube.com/embed/t0zVpg5ALos'),
-                                                            'width'         => 554,
-                                                            'height'        => 345,
+                                                            'fields'        => [
+                                                                'manual_scheduler'  => [
+                                                                    'id'            => 'manual_scheduler',
+                                                                    'name'          => 'manual_schedule',
+                                                                    'type'          => 'manual-scheduler',
+                                                                    'priority'      => 5,
+                                                                ],
+                                                            ],
                                                         ],
-                                                    ],
-                                                ],
+                                                    ]
+                                                ]
                                             ]
                                         ],
-                
-                                    ]
+                                        'layout_advance_schedule'       => [
+                                            'id'       => 'layout_advance_schedule',
+                                            'name'     => 'layout_advance_schedule',
+                                            'type'     => 'section',
+                                            'label'    => __('Advance Schedule', 'wp-scheduled-posts'),
+                                            'priority' => 35,
+                                            'classes'  => 'pro_feature',
+                                            'fields'   => [
+                                                'advance_schedule_wrapper'  => [
+                                                    'id'        => 'advance_schedule_wrapper',
+                                                    'name'      => 'advance_schedule_wrapper',
+                                                    'type'      => 'section',
+                                                    'label'     => false,
+                                                    'priority'  => 5,
+                                                    'fields'    => [
+                                                        'advance_switcher'  => [
+                                                            'id'            => 'advance_schedule_switcher',
+                                                            'name'          => 'advance_schedule_switcher',
+                                                            'type'          => 'section',
+                                                            'label'         => false,
+                                                            'fields'        => [
+                                                                'is_delayed_schedule_active'  => [
+                                                                    'id'            => 'is_delayed_schedule_active',
+                                                                    'name'          => 'is_delayed_schedule_active',
+                                                                    'type'          => 'toggle',
+                                                                    'label'         => __('Advance Schedule', 'wp-scheduled-posts'),
+                                                                    'default'       => 0,
+                                                                    'is_pro'        => true,
+                                                                    'priority'      => 5,
+                                                                ],
+                                                                'advance_switcher_desc'  => [
+                                                                    'id'            => 'advance_switcher_desc',
+                                                                    'name'          => 'advance_switcher_desc',
+                                                                    'type'          => 'html',
+                                                                    'html'         => __('Get options to set the published post status when scheduling it. Keep the post published and the updated content will be published according to schedule, or move the post to Draft until it is published.', 'wp-scheduled-posts'),
+                                                                    'priority'      => 10,
+                                                                ],
+                                                                'advance_switcher_list'  => [
+                                                                    'id'            => 'advance_switcher_list',
+                                                                    'name'          => 'advance_switcher_list',
+                                                                    'type'          => 'list',
+                                                                    'priority'      => 15,
+                                                                    'label'         => __('Read Detailed Documentation:','wp-scheduled-posts'),
+                                                                    'content'       => [
+                                                                        [
+                                                                            'link'  => esc_url('https://wpdeveloper.com/manage-missed-schedule-wordpress/'),
+                                                                            'text'  => __('How To Configure SchedulerPress Advanced Schedule In Elementor?', 'wp-scheduled-posts'),
+                                                                        ],
+                                                                        [
+                                                                            'link'  => esc_url('https://wpdeveloper.com/docs/wp-scheduled-posts/how-to-handle-the-missed-schedule-error-using-wp-scheduled-post/#0-toc-title'),
+                                                                            'text'  => __('How To Configure SchedulerPress Advanced Schedule In Gutenberg?', 'wp-scheduled-posts'),
+                                                                        ],
+                                                                    ],
+                                                                ],
+                                                            ],
+                                                        ],
+                                                        'advance_video'  => [
+                                                            'id'            => 'advance_video',
+                                                            'name'          => 'advance_video',
+                                                            'type'          => 'section',
+                                                            'label'         => false,
+                                                            'priority'      => 5,
+                                                            'fields'        => [
+                                                                'advance_schedule_video'  => [
+                                                                    'id'            => 'advance_schedule_video',
+                                                                    'name'          => 'advance_schedule_video',
+                                                                    'type'          => 'video',
+                                                                    'label'         => __('Watch The Video Walkthrough','wp-scheduled=-posts'),
+                                                                    'priority'      => 5,
+                                                                    'url'           => esc_url('https://www.youtube.com/embed/t0zVpg5ALos'),
+                                                                    'width'         => 554,
+                                                                    'height'        => 345,
+                                                                ],
+                                                            ],
+                                                        ],
+                                                    ]
+                                                ]
+                                            ]
+                                        ],
+                                        'layout_missed_schedule'       => [
+                                            'id'       => 'layout_missed_schedule',
+                                            'name'     => 'layout_missed_schedule',
+                                            'type'     => 'section',
+                                            'label'    => __('Missed Schedule', 'wp-scheduled-posts'),
+                                            'priority' => 40,
+                                            'classes'  => 'pro_feature',
+                                            'fields'   => [
+                                                'missed_schedule_wrapper'   => [
+                                                    'id'       => 'missed_schedule_wrapper',
+                                                    'name'     => 'missed_schedule_wrapper',
+                                                    'type'     => 'section',
+                                                    'label'    => false,
+                                                    'priority' => 5,
+                                                    'classes'  => 'pro_feature',
+                                                    'fields'   => [
+                                                        'missed_switcher'  => [
+                                                            'id'            => 'missed_schedule_switcher',
+                                                            'name'          => 'missed_schedule_switcher',
+                                                            'type'          => 'section',
+                                                            'label'         => false,
+                                                            'fields'        => [
+                                                                'is_active_missed_schedule'  => [
+                                                                    'id'            => 'is_active_missed_schedule',
+                                                                    'name'          => 'is_active_missed_schedule',
+                                                                    'type'          => 'toggle',
+                                                                    'label'         => __('Missed Schedule', 'wp-scheduled-posts'),
+                                                                    'help'          => __('Enable to publish posts randomly', 'wp-scheduled-posts'),
+                                                                    'default'       => 0,
+                                                                    'is_pro'        => true,
+                                                                    'priority'      => 5,
+                                                                ],
+                                                                'missed_switcher_desc'  => [
+                                                                    'id'            => 'missed_switcher_desc',
+                                                                    'name'          => 'missed_switcher_desc',
+                                                                    'type'          => 'html',
+                                                                    'html'         => __('WordPress might miss the schedule for a post for various reasons. Turn on this option to let SchedulePress take care of this and publish the missed schedule.', 'wp-scheduled-posts'),
+                                                                    'priority'      => 10,
+                                                                ],
+                                                                'missed_switcher_list'  => [
+                                                                    'id'            => 'missed_switcher_list',
+                                                                    'name'          => 'missed_switcher_list',
+                                                                    'type'          => 'list',
+                                                                    'priority'      => 15,
+                                                                    'label'         => __('Read Detailed Documentation:','wp-scheduled-posts'),
+                                                                    'content'       => [
+                                                                        [
+                                                                            'link'  => esc_url('https://wpdeveloper.com/manage-missed-schedule-wordpress/'),
+                                                                            'text'  => __('How To Manage The Missed Schedule Error In WordPress', 'wp-scheduled-posts'),
+                                                                        ],
+                                                                        [
+                                                                            'link'  => esc_url('https://wpdeveloper.com/docs/wp-scheduled-posts/how-to-handle-the-missed-schedule-error-using-wp-scheduled-post/#0-toc-title'),
+                                                                            'text'  => __('How To Configure SchedulePress To Handle Missed Schedule Errors', 'wp-scheduled-posts'),
+                                                                        ],
+                                                                    ],
+                                                                ],
+                                                            ],
+                                                        ],
+                                                        'missed_video'  => [
+                                                            'id'            => 'missed_video',
+                                                            'name'          => 'missed_video',
+                                                            'type'          => 'section',
+                                                            'label'         => false,
+                                                            'priority'      => 5,
+                                                            'fields'        => [
+                                                                'advance_schedule_video'  => [
+                                                                    'id'            => 'advance_schedule_video',
+                                                                    'name'          => 'advance_schedule_video',
+                                                                    'type'          => 'video',
+                                                                    'label'         => __('Watch The Video Walkthrough','wp-scheduled=-posts'),
+                                                                    'priority'      => 5,
+                                                                    'url'           => esc_url('https://www.youtube.com/embed/t0zVpg5ALos'),
+                                                                    'width'         => 554,
+                                                                    'height'        => 345,
+                                                                ],
+                                                            ],
+                                                        ],
+                                                    ]
+                                                ],
+
+                                            ]
+                                        ],
+                                    ],
                                 ],
-                            ]
-                        ]
+                            ],
+                        ],
                     ],
                 ],
             ])
