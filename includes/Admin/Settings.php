@@ -568,6 +568,7 @@ class Settings {
                                             'type'          => 'section',
                                             'name'          => 'facebook_wrapper',
                                             'label'         => __('Facebook Status Settings', 'wp-scheduled-posts'),
+                                            'sub_title'     => sprintf( __('To configure the Facebook Status Settings, check out this <a target="_blank" href="%s">Doc.</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-scheduled-posts-facebook/' ),
                                             'priority'      => 10,
                                             'fields'        => [
                                                 'facebook'  => [
@@ -667,6 +668,7 @@ class Settings {
                                             'type'          => 'section',
                                             'name'          => 'twitter_wrapper',
                                             'label'         => __('Twitter Tweet Settings', 'wp-scheduled-posts'),
+                                            'sub_title'     => sprintf( __('To configure the Twitter Tweet Settings, check out this <a target="_blank" href="%s">Doc.</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-tweet-wordpress-posts/' ),
                                             'priority'      => 10,
                                             'fields'        => [
                                                 'twitter'  => [
@@ -745,6 +747,7 @@ class Settings {
                                             'type'          => 'section',
                                             'name'          => 'linkedin_wrapper',
                                             'label'         => __('Linkedin Status Settings', 'wp-scheduled-posts'),
+                                            'sub_title'     => sprintf( __('To configure the LinkedIn Status Settings, check out this <a target="_blank" href="%s">Doc.</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-linkedin/' ),
                                             'priority'      => 10,
                                             'fields'        => [
                                                 'linkedin'  => [
@@ -836,6 +839,7 @@ class Settings {
                                             'type'          => 'section',
                                             'name'          => 'pinterest_wrapper',
                                             'label'         => __('Pinterest Pin Settings', 'wp-scheduled-posts'),
+                                            'sub_title'     => sprintf( __('To configure the Pinterest Pin Settings, check out this <a target="_blank" href="%s">Doc.</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/wordpress-posts-on-pinterest/' ),
                                             'priority'      => 10,
                                             'fields'        => [
                                                 'pinterest'  => [

@@ -83,6 +83,10 @@ const ManualScheduler = (props) => {
         // @ts-ignore
         setManualSchedulerStatus(event.target.checked)
     }
+
+    // @ts-ignore 
+    let disabledStatus = wpspSettingsGlobal?.pro_version ? false : true;
+
     return (
         <div className={classNames('wprf-control', 'wprf-manual-scheduler', `wprf-${props.name}-manual-scheduler`, props?.classes)}>
             <div className="header">
@@ -98,6 +102,7 @@ const ManualScheduler = (props) => {
                     }
                     options={options}
                     isMulti={false}
+                    isDisabled={disabledStatus}
                 />
                 <Select
                     styles={selectStyles}
@@ -108,6 +113,7 @@ const ManualScheduler = (props) => {
                     }
                     options={timeOptions}
                     isMulti={false}
+                    isDisabled={disabledStatus}
                 />
                 <button onClick={handleSavedManualSchedule}>{ __('Save Schedule','wp-scheduled-posts') }</button>
             </div>

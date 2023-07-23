@@ -85,6 +85,9 @@ const AutoScheduler = (props) => {
         setautoSchedulerStatus(event.target.checked)
     }
 
+    // @ts-ignore 
+    let disabledStatus = wpspSettingsGlobal?.pro_version ? false : true;
+
     return (
         <div className={classNames('wprf-control', 'wprf-auto-scheduler', `wprf-${props.name}-auto-scheduler`, props?.classes)}>
             <div className="header">
@@ -102,6 +105,7 @@ const AutoScheduler = (props) => {
                             value={startSelectedTime}
                             options={ timeOptions }
                             onChange={ (event) => handleTimeChange('start',event) }
+                            isDisabled={disabledStatus}
                             className='select-start-time main-select'
                         />
                     </div>
@@ -117,6 +121,7 @@ const AutoScheduler = (props) => {
                             value={endSelectedTime}
                             options={ timeOptions }
                             onChange={ (event) => handleTimeChange('end',event) }
+                            isDisabled={disabledStatus}
                             className='select-start-time main-select'
                         />
                     </div>
@@ -130,6 +135,7 @@ const AutoScheduler = (props) => {
                                 type="number"
                                 value={ autoScheduler?.find(item => item.day === day)?.value || 0 }
                                 onChange={ (event) => handleDayChange( day, event ) }
+                                disabled={disabledStatus}
                             />
                             <span>{ __('Number of posts','wp-scheduled-posts') }</span>
                             <h6>{ day.toUpperCase() }</h6>
