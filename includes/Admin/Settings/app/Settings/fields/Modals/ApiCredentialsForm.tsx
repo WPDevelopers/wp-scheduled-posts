@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { __ } from "@wordpress/i18n";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+
 const ApiCredentialsForm = ({ props, platform, requestHandler }) => {
   const [appID, SetAppID] = useState("");
   const [appSecret, SetAppSecret] = useState("");
   const [isManual, setIsManual] = useState(false);
   const [isMultiAccountError,setMultiAccountError] = useState(false);
   const [multiAccountErrorMessage,setMultiAccountErrorMessage] = useState();
+  const [copied, setCopied] = useState(false);
 
   const redirectURIv2 = "https://api.schedulepress.com/v2/callback.php";
   const [redirectURI, SetRedirectURI] = useState(
@@ -34,6 +37,12 @@ const ApiCredentialsForm = ({ props, platform, requestHandler }) => {
       });
     }
   }
+  const handleURICopy = () => {
+    setCopied(true);
+    setTimeout(() => {
+      setCopied(false);
+    }, 2000);
+  };
   return (
     <React.Fragment>
       <div className={`modalbody ${ platform ? platform + '_wrapper' : ""}`}>
@@ -89,17 +98,34 @@ const ApiCredentialsForm = ({ props, platform, requestHandler }) => {
               <form onSubmit={onSubmitHandler}>
                   <div className="form-group">
                       <label htmlFor="">{ __('Redirect URI:','wp-scheduled-posts') }</label>
-                      <input
-                          type="text"
-                          required
-                          value={redirectURI}
-                          placeholder={__(
-                          "Redirect URI",
-                          "wp-scheduled-posts"
-                          )}
-                          style={{ marginRight: 30 }}
-                          onChange={(e) => SetRedirectURI(e.target.value)}
-                      />
+                      <span className="redirect_url_wrapper">
+                        <input
+                            type="text"
+                            required
+                            value={redirectURI}
+                            placeholder={__(
+                            "Redirect URI",
+                            "wp-scheduled-posts"
+                            )}
+                            style={{ marginRight: 30 }}
+                            onChange={(e) => SetRedirectURI(e.target.value)}
+                        />
+                        <CopyToClipboard
+                          text={redirectURI}
+                          onCopy={() => handleURICopy()}
+                        >
+                          <span
+                            className="copyButton"
+                            onClick={() => handleURICopy()}
+                          >
+                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABmJLR0QA/wD/AP+gvaeTAAACuElEQVR4nO2bPWgUQRiGn9PAiUZBQQknghYW/jQWNqL4U5giWqsINpIgWqa10MpCEBQsJFiIIPYmhRAwFnaHiBCtLESD50/EQxQiBi0mK7Ozu7nMztx+u+s8MLAzszO88zJ/d/cdBP5vGg7tTgKngd3Aem+K/LIIdIAZ4A4w56PTLcAT4E/F0k9g1HXwg8DLEgzGJTmZcL0EA/AxE7ZFA7LZA5rAZ+LrvQvcBt5a9FMkTWAEGDbKrwJXbDs7QNLNo44Ci+Ixcd1Po4pVFp1sMvLfULtrFZg08kPRg40BbeC7ln+EcrMKLBj5gcTDCuigpvwY8B644a4rUBRjxPeAN1FFrxkwtJRW901aPr4C74Df/eh8ALgAvEb+zF4uzQO3UDfTXmTOAJN1JI+Msqc5YF9eA8xT4C5wvEdnZaOFOuY252msG3AYOOVDkQAt4HKehvomeM6oWwAuAVMkz1FJGsAe1MfbXVr5WWAch42xTXyd3MyvsRAOkdwPtme8u6I9YKPR6JUvpX1iNqXMvK73ZLmrcNmvuWn6rL/hsvksUEuCAdICpAkGSAuQJhggLUCaYIC0AGmCAdICpAkGSAuQJhggLUCaYIC0AGmCAdICpAkGSAuQJhggLUCaYIC0AGmCAdICCmKHke9GDzZRYlWkARwDLhrl/35YresMGAQeoIKppoENRv3D6KGuM2AcOJNRN40K+gDqOwNaGeUvMIypqwETxMN6u8A14CDwRX+xrkugDewE9qMG/Bz4lfZiXQ0A+EgySjyBvgQWjbqmVzn+WZNSZh0hphvQMepGbDsrmBMpZR9sO9GXwAwq9CxiGBU2O0n54gT3okLfdGaBTy4dt4AfyMf+5k3nXQYfYQYUViVN4TGkf5RqzYT7wNq8g80KLNy6ZMQR1NIo2x8m5lG3unvAM2EtgUrzFzG21zF8JcAYAAAAAElFTkSuQmCC" />
+                            {copied && (
+                              <span className="copyTooltip">{__('Copied','wp-scheduled-posts')}</span>
+                            )}
+                          </span>
+                        </CopyToClipboard>
+                      </span>
+                      
                       <span className="redirect-note">{props?.modal?.redirect_url_desc}</span>
                   </div>
                   <div className="form-group">
