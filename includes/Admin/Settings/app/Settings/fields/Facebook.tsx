@@ -21,7 +21,8 @@ const Facebook = (props) => {
     const [profileStatus, setProfileStatus] = useState(builderContext?.savedValues?.facebook_profile_status);
     
     // Open and Close API credentials modal
-    const openApiCredentialsModal = () => {
+    const openApiCredentialsModal = (accountType) => {
+        localStorage.setItem('account_type', accountType);
         setPlatform('facebook');
         setApiCredentialsModal(true);
     };
@@ -70,8 +71,6 @@ const Facebook = (props) => {
     // Save selected profile data
     useEffect( () => {
         builderContext.setFieldValue([props.name], selectedProfile);
-        console.log(selectedProfile);
-        
     },[selectedProfile] )
 
     // Save profile status data 

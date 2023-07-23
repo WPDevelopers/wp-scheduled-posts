@@ -5,7 +5,6 @@ import { selectStyles } from '../../helper/styles';
 
 export default function MainProfile( { props, handleProfileStatusChange, profileStatus, openApiCredentialsModal } ) {    
     let options = [];
-
     // @ts-ignore
     let pageDisabled = wpspSettingsGlobal?.pro_version ? false : true;
     let currentActiveAccountType = localStorage.getItem('account_type');
@@ -21,9 +20,10 @@ export default function MainProfile( { props, handleProfileStatusChange, profile
             { value: 'page',   label: __('Page','wp-scheduled-posts'), isDisabled: pageDisabled, selected : currentActiveAccountType == 'page' ? true : false }
         ]
     }
-    
+
+    const [accountType,setAccountType] = useState(options[0].value);
     const handleAccountType = (selectedOption) => {
-        localStorage.setItem('account_type', selectedOption.value);
+        setAccountType(selectedOption.value)
     };
 
     const mainSelectStyles = { ...selectStyles, control: (base, state) => ({
@@ -86,7 +86,7 @@ export default function MainProfile( { props, handleProfileStatusChange, profile
                     className={
                     "wpscp-social-tab__btn--addnew-profile"
                     }
-                    onClick={() => openApiCredentialsModal()}
+                    onClick={() => openApiCredentialsModal(accountType)}
                     >
                     { __("Add New", "wp-scheduled-posts")}
                 </button>
