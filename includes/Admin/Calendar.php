@@ -134,14 +134,27 @@ class Calendar
         }
     }
 
-    public function get_tax_terms(){
-        $post_type        = Helper::get_post_types();
+    public function get_tax_terms($request){
+        $post_types       = $request->get_param('post_type');
         $allow_post_types = Helper::get_settings('allow_post_types');
         $allow_post_types = (!empty($allow_post_types) ? $allow_post_types : array('post'));
-        $tax_terms        = Helper::get_all_tax_term($post_type ? $post_type : $allow_post_types);
-
-        return $tax_terms;
-
+        $tax_terms        = Helper::get_all_tax_term($post_types ? $post_types : $allow_post_types);
+        $return           = [];
+        foreach ($tax_terms as $tax => $terms) {
+            $return[] = [
+                'label'   => $tax,
+                'options' => array_values(array_map(function($term){
+                    return [
+                        'label'    => $term['name'],
+                        'value'    => "{$term['postType']}-{$term['taxonomy']}-{$term['slug']}",
+                        'slug'     => $term['slug'],
+                        'taxonomy' => $term['taxonomy'],
+                        'postType' => $term['postType'],
+                    ];
+                }, $terms)),
+            ];
+        }
+        return $return;
     }
 
 

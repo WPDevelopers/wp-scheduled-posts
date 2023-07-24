@@ -11,9 +11,10 @@ import { components } from "react-select";
 import { __ } from "@wordpress/i18n";
 import PostCard from "./EventRender";
 import useEditPost from "./EditPost";
+import CategorySelect from "./Category";
 
 // Define your component
-export default function Sidebar({openModal}) {
+export default function Sidebar({openModal, selectedPostType, Option}) {
   // Define your state variables
   const [posts, setPosts] = useState([]);
   const [postType, setPostType] = useState(null);
@@ -101,27 +102,6 @@ export default function Sidebar({openModal}) {
     });
   }, []);
 
-  // Prepare options with checkbox
-  const Option = (props) => {
-    return (
-      <div>
-        <components.Option {...props}>
-          <input
-            type="checkbox"
-            checked={props.isSelected}
-            onChange={() => null}
-          />{" "}
-          <label>{props.label}</label>
-        </components.Option>
-      </div>
-    );
-  };
-
-  const options = [
-    {label : "Option 1",value : "options-1"},
-    {label : "Option 2",value : "options-2"},
-  ]
-
   // Add and remove
   const handleChange = (selected) => {
     setOptionSelected(selected);
@@ -141,22 +121,7 @@ export default function Sidebar({openModal}) {
           Unscheduled {postType ? postType : "Posts"}{" "}
           <span className="spinner"></span>
         </h4>
-        <ReactSelect
-          options={options}
-          styles={selectStyles}
-          closeMenuOnSelect={false}
-          hideSelectedOptions={false}
-          autoFocus={false}
-          placeholder={ __("Select Category","wp-scheduled-posts") }
-          isMulti
-          components={{
-            Option
-          }}
-          value={optionSelected}
-          onChange={handleChange}
-          controlShouldRenderValue={false}
-          className="main-select"
-        />
+        <CategorySelect selectedPostType={selectedPostType} Option={Option} showTags />
         <div className="selected-options">
             <ul>
               { optionSelected?.map( (item, index) => (
