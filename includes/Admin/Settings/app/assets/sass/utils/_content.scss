@@ -95,6 +95,11 @@
         display: flex;
         flex-direction: column;
         gap: 12px;
+        @media screen and (max-width: 1439px) {
+          flex-direction: row;
+          flex-wrap: wrap;
+          gap: 6px;
+        }
         .wprf-tab-nav-item {
           font-size: 18px !important;
           line-height: 1.2;
@@ -106,6 +111,12 @@
           border: none;
           display: flex;
           align-items: center;
+          box-sizing: border-box;
+          @media screen and (max-width: 1439px) {
+            flex: 0 0 calc(50% - 3px);
+            max-width: calc(50% - 3px);
+            border: 1px solid rgba(#ebeef5, 0.5);
+          }
           @media screen and (max-width: 1023px) {
             font-size: 14px !important;
             padding: 12px 20px !important;
@@ -204,6 +215,7 @@
       gap: 16px !important;
       @media screen and (max-width: 1439px) {
         gap: 12px !important;
+        flex-direction: column;
       }
       @media screen and (max-width: 1023px) {
         gap: 10px !important;
@@ -373,9 +385,6 @@
                         gap: 0.7em;
                         @media screen and (max-width: 1439px) {
                           font-size: 12px;
-                        }
-                        @media screen and (max-width: 1023px) {
-                          font-size: 10px;
                         }
                         &:after {
                           content: '\e909';
