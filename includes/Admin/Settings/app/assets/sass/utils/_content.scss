@@ -222,6 +222,7 @@
         .wprf-tab-contents {
           flex: auto !important;
           padding: 0 !important;
+          max-width: 100%!important;
           .wprf-tab-content > .wprf-control-section {
             padding: 0 !important;
             background-color: transparent !important;
@@ -255,6 +256,13 @@
         }
         .wprf-tab-contents {
           flex: 90%;
+          max-width: calc(100% - 332px);
+          @media screen and (max-width: 1439px) {
+            max-width: calc(100% - 324px);
+          }
+          @media screen and (max-width: 1023px) {
+            max-width: calc(100% - 320px);
+          }
           .wprf-tab-content {
             .wprf-control-section {
               border: none !important;
@@ -281,6 +289,9 @@
               }
               .wprf-pro_features-features .header,
               .wprf-section-title {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
                 margin: 0 0 32px;
                 @media screen and (max-width: 1439px) {
                   margin: 0 0 24px;
@@ -303,6 +314,18 @@
                     font-size: 20px;
                   }
                 }
+                p {
+                  margin-top: 10px !important;
+                  margin-bottom: 0 !important;
+                  color: #6e6e8d;
+                  font-size: 14px;
+                  a {
+                    color: #1b1b50;
+                    &:hover {
+                      color: #1877f2;
+                    }
+                  }
+                }
               }
               @import './fields';
 
@@ -314,6 +337,7 @@
                       display: flex;
                       justify-content: space-between;
                       align-items: center;
+                      flex-direction: row !important;
                       h3 {
                         padding-left: 1.75em;
                         position: relative;
@@ -406,10 +430,13 @@
       }
       .wprf-submit {
         margin-top: 0 !important;
-        padding: 32px;
+        padding: 32px 0 0 !important;
         width: auto;
+        @media screen and (max-width: 1439px) {
+          padding: 24px 0 0 !important;
+        }
         @media screen and (max-width: 1023px) {
-          padding: 24px;
+          padding: 20px 0 0 !important;
         }
         button {
           padding: 16px 26px;

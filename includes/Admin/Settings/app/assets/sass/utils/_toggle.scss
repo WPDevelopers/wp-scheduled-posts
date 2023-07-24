@@ -1,0 +1,51 @@
+.wprf-type-toggle {
+  > div {
+    .wprf-toggle-wrap {
+      label.wprf-input-label {
+        width: 47px;
+        position: relative;
+        min-height: 24px;
+        height: 24px;
+        max-height: 24px;
+        margin-bottom: 0;
+        cursor: pointer;
+        display: inline-block;
+        margin-right: 0px !important;
+        &:before {
+          background: #d7dbdf;
+          width: 47px;
+          height: 24px;
+          border: 0;
+          left: 0;
+          top: 0;
+          border-radius: 16px;
+          transition: all 0.4s ease;
+        }
+        &:after {
+          left: 1px;
+          top: 1px;
+          width: 22px;
+          height: 22px;
+          border-radius: 50%;
+          background: #ffffff;
+          transition: left 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+            padding 0.3s ease, margin 0.3s ease;
+          box-shadow: none;
+        }
+      }
+    }
+  }
+  > div:not(.pro-deactivated) {
+    .wprf-toggle-wrap.wprf-checked {
+      label.wprf-input-label {
+        &:before {
+          background: #02ac6e;
+        }
+        &:after {
+          left: auto;
+          right: 1px;
+        }
+      }
+    }
+  }
+}
