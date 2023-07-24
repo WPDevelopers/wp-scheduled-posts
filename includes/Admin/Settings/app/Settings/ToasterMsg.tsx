@@ -30,6 +30,7 @@ export const SweetAlertProMsg = (args: any = {}) => {
         showCancelButton: args?.showCancelButton ?? true,
         cancelButtonText: '<i class="wpsp-icon wpsp-close"></i>',
         showConfirmButton: args?.showConfirmButton ?? false,
+        allowOutsideClick: false, // Prevent closing on outside click
         html: `
           <div>
             <h4>${ args?.message ?? __('You need SchedulePress PRO','wp-scheduled-posts') }</h4>
@@ -48,6 +49,7 @@ export const SweetAlertDeleteMsg = ( args: any = {}, deleteFile?: (item) => void
         title: args?.title ?? __( 'Are you sure?','wp-scheduled-posts' ),
         text: args?.text ?? __( "You won't be able to revert this!",'wp-scheduled-posts' ),
         icon: args?.icon ?? __( 'warning','wp-scheduled-posts' ),
+        allowOutsideClick: false, // Prevent closing on outside click
         showCancelButton: args?.showCancelButton ?? true,
         confirmButtonColor: args?.confirmButtonColor ?? '#3085d6',
         cancelButtonColor: args?.cancelButtonColor ?? '#d33',
