@@ -21,7 +21,8 @@ const Linkedin = (props) => {
     const [selectedProfile, setSelectedProfile] = useState(props?.value);
     const [profileStatus, setProfileStatus] = useState(builderContext?.savedValues?.linkedin_profile_status);
 
-    const openApiCredentialsModal = () => {
+    const openApiCredentialsModal = (accountType) => {
+        localStorage.setItem('account_type', accountType);
         setPlatform('linkedin');
         setApiCredentialsModal(true);
     };
