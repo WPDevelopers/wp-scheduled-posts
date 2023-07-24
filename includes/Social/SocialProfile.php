@@ -255,7 +255,7 @@ class SocialProfile
                     true,
                     null
                 );
-                if(empty($access_token) && !empty($code)){
+                if( (empty($access_token) || $access_token == 'null') && !empty($code)){
                     $accessToken = $linkedin->getAccessToken($code);
                     $access_token = $accessToken->access_token;
                 }

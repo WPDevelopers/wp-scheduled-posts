@@ -9,6 +9,7 @@ import { selectStyles } from '../helper/styles';
 const AutoScheduler = (props) => {
     let { name, multiple, onChange } = props;
     const builderContext = useBuilderContext();
+    const timeOptions = generateTimeOptions();
     const modifiedDayDataFormet = [];
     const weeks = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
     weeks.forEach(day => {
@@ -25,15 +26,14 @@ const AutoScheduler = (props) => {
     let getEndTime = builderContext.values['manage_schedule']?.[name]?.find( (item) => item['end_time'] );
     let getAutoSchedulerStatus = builderContext.values['manage_schedule']?.[name]?.find( (item) => item['is_active_status'] );
     getEndTime = getEndTime ? getEndTime['end_time'] : '';
-    const startTimeFormat = { label : getStartTime, value : getStartTime };
-    const endTimeFormat = { label : getEndTime, value : getEndTime };
+    const startTimeFormat = getStartTime ? { label : getStartTime, value : getStartTime } : null;
+    const endTimeFormat = getEndTime ? { label : getEndTime, value : getEndTime } : null;
 
     const [autoScheduler,setAutoSchedulerValue] = useState(modifiedDayDataFormet ?? []);
-    const [startSelectedTime, setStartSelectedTime] = useState(startTimeFormat);
-    const [endSelectedTime, setEndSelectedTime] = useState(endTimeFormat);
+    const [startSelectedTime, setStartSelectedTime] = useState(startTimeFormat ? startTimeFormat : timeOptions[0]);
+    const [endSelectedTime, setEndSelectedTime] = useState(endTimeFormat ? endTimeFormat : timeOptions[0]);
     const [autoSchedulerStatus, setautoSchedulerStatus] = useState(getAutoSchedulerStatus ?? '')
 
-    const timeOptions = generateTimeOptions();
 
     const handleDayChange = (day, event) => {
         setAutoSchedulerValue((prevWeeks) => {
@@ -104,6 +104,7 @@ const AutoScheduler = (props) => {
                             styles={selectStyles}
                             value={startSelectedTime}
                             options={ timeOptions }
+                            defaultValue={timeOptions[0] }
                             onChange={ (event) => handleTimeChange('start',event) }
                             isDisabled={disabledStatus}
                             className='select-start-time main-select'
@@ -115,6 +116,8 @@ const AutoScheduler = (props) => {
                         <h4>{ __('End Time','wp-scheduled-posts') }</h4>
                         <span>{ __('Default','wp-scheduled-posts') } : {endSelectedTime?.label}</span>
                     </div>
+                    { console.log(timeOptions[0])
+                    }
                     <div className="time">
                         <Select
                             styles={selectStyles}

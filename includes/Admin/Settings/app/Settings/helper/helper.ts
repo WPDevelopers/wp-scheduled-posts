@@ -1,6 +1,5 @@
 import apiFetch from '@wordpress/api-fetch';
-import { sprintf, __ } from "@wordpress/i18n";
-import { isObject } from "quickbuilder";
+import { __ } from "@wordpress/i18n";
 
 // Fetch data from API
 export const fetchDataFromAPI = async (body) => {
