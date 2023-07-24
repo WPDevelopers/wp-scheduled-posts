@@ -200,14 +200,12 @@
       background-color: #fff;
       border-radius: 6px;
       padding-right: 0px;
-      padding: 32px !important;
+      padding: 0 !important;
       gap: 16px !important;
       @media screen and (max-width: 1439px) {
-        padding: 24px !important;
         gap: 12px !important;
       }
       @media screen and (max-width: 1023px) {
-        padding: 20px !important;
         gap: 10px !important;
       }
       .wprf-tab-content-wrapper {
@@ -306,13 +304,7 @@
                   }
                 }
               }
-              .wprf-section-fields {
-                padding: 0;
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-                @import './fields';
-              }
+              @import './fields';
 
               &.pro_features_section {
                 background: #f3f2ff;
