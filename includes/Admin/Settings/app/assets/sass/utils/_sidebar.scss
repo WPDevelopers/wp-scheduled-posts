@@ -7,6 +7,18 @@
   border-radius: 6px 0 0 6px;
   box-shadow: none;
   box-sizing: border-box;
+  @media screen and (max-width: 1439px) {
+    padding: 24px;
+    width: 250px;
+  }
+  @media screen and (max-width: 1023px) {
+    padding: 20px;
+    width: 220px;
+  }
+  .card {
+    min-width: auto;
+    max-width: 100%;
+  }
   .upgrade-pro {
     text-align: center;
     padding: 16px 16px 22px !important;

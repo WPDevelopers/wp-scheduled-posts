@@ -14,15 +14,9 @@
   }
   .wprf-section-fields {
     display: grid !important;
-    grid-template-columns: repeat(4, minmax(300px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
     padding: 0 !important;
-    overflow-x: auto;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    &::-webkit-scrollbar {
-      display: none;
-    }
     .wprf-control {
       margin-bottom: 0px !important;
       .social-profile-card {

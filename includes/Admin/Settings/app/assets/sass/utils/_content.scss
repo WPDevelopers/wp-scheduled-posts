@@ -222,7 +222,7 @@
         .wprf-tab-contents {
           flex: auto !important;
           padding: 0 !important;
-          max-width: 100%!important;
+          max-width: 100% !important;
           .wprf-tab-content > .wprf-control-section {
             padding: 0 !important;
             background-color: transparent !important;
@@ -256,12 +256,12 @@
         }
         .wprf-tab-contents {
           flex: 90%;
-          max-width: calc(100% - 332px);
+          max-width: calc(100% - (300px + 32px));
           @media screen and (max-width: 1439px) {
-            max-width: calc(100% - 324px);
+            max-width: calc(100% - (250px + 24px));
           }
           @media screen and (max-width: 1023px) {
-            max-width: calc(100% - 320px);
+            max-width: calc(100% - (220px + 20px));
           }
           .wprf-tab-content {
             .wprf-control-section {
@@ -312,6 +312,9 @@
                   padding: 0px;
                   @media screen and (max-width: 1439px) {
                     font-size: 20px;
+                  }
+                  @media screen and (max-width: 1023px) {
+                    font-size: 18px;
                   }
                 }
                 p {
@@ -377,6 +380,25 @@
                           content: '\e909';
                           font-family: 'wpsp';
                           color: #6c62ff;
+                        }
+                        @keyframes animate-right {
+                          0% {
+                            transform: translateX(0px) rotateY(0deg);
+                          }
+                          50% {
+                            transform: translateX(10px) rotateY(90deg);
+                          }
+                          51% {
+                            transform: translateX(-10px) rotateY(-90deg);
+                          }
+                          100% {
+                            transform: translateX(0px) rotateY(0deg);
+                          }
+                        }
+                        &:hover {
+                          &:after {
+                            animation: animate-right 0.5s;
+                          }
                         }
                       }
                     }
