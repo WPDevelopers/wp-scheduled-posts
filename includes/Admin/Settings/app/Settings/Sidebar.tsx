@@ -20,9 +20,11 @@ const Sidebar = ({ props }) => {
                 <div className='manage-license card'>
                     {/* @ts-ignore */}
                     <img src={`${wpspSettingsGlobal?.image_path}upgrade-pro-new.png`} alt={__('upgrade-pro-img','wp-scheduled-posts')} />
-                    <h3>{__('Manage License','wp-scheduled-posts')}</h3>
-                    <p>{ __('Supercharge your content schedule and ave a peace in mind','wp-scheduled-posts') }</p>
-                    <a href='#'><span>{__('Manage License','wp-scheduled-posts')}</span></a>
+                    <div className="content">
+                        <h3>{__('Manage License','wp-scheduled-posts')}</h3>
+                        <p>{ __('Supercharge your content schedule and ave a peace in mind','wp-scheduled-posts') }</p>
+                        <a href='#'>{__('Manage License','wp-scheduled-posts')}</a>
+                    </div>
                 </div>
                 )
             }
@@ -32,9 +34,11 @@ const Sidebar = ({ props }) => {
                     {/* <img className='icon-wrapper' src={upgradePro} alt='icon-1' /> */}
                     {/* @ts-ignore */}
                     <img src={`${wpspSettingsGlobal?.image_path}upgrade-pro-new.png`} alt={__('upgrade-pro-img','wp-scheduled-posts')} />
-                    <h3>{__('Get Unlimited Features','wp-scheduled-posts')}</h3>
-                    <p>{ __('Supercharge your content schedule and have a peace in mind','wp-scheduled-posts') }</p>
-                    <a href='#'><span>{__('Upgrade To Pro','wp-scheduled-posts')}</span></a>
+                    <div className="content">
+                        <h3>{__('Get Unlimited Features','wp-scheduled-posts')}</h3>
+                        <p>{ __('Supercharge your content schedule and have a peace in mind','wp-scheduled-posts') }</p>
+                        <a href='#'>{__('Upgrade To Pro','wp-scheduled-posts')}</a>
+                    </div>
                 </div>
                 )
             }

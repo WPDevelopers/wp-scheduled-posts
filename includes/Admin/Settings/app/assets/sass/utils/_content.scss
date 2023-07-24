@@ -242,7 +242,7 @@
       }
       @media screen and (max-width: 1023px) {
         padding: 20px;
-        padding-right: 0px;
+        padding-right: 20px;
       }
       .wprf-tab-flex {
         display: flex;
@@ -253,6 +253,7 @@
         }
         @media screen and (max-width: 1023px) {
           gap: 20px;
+          flex-direction: column;
         }
         .wprf-tab-contents {
           flex: 90%;
@@ -261,7 +262,7 @@
             max-width: calc(100% - (250px + 24px));
           }
           @media screen and (max-width: 1023px) {
-            max-width: calc(100% - (220px + 20px));
+            max-width: 100%;
           }
           .wprf-tab-content {
             .wprf-control-section {
