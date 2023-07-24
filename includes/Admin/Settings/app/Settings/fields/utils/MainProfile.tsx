@@ -45,25 +45,25 @@ export default function MainProfile( { props, handleProfileStatusChange, profile
                     <h5>{props?.label}</h5>
                 </div>
                 <div className="status">
-                        <div className="switcher">
-                            <input
-                                id={props?.id}
-                                type='checkbox'
-                                checked={profileStatus}
-                                className="wprf-switcher-checkbox"
-                                onChange={(event) =>
-                                    handleProfileStatusChange(event)
-                                }
-                            />
-                            <label
-                                className="wprf-switcher-label"
-                                htmlFor={props?.id}
-                                style={{ background: profileStatus && '#02AC6E' }}
-                            >
-                                <span className={`wprf-switcher-button`} />
-                            </label>
-                        </div>
+                    <div className="switcher">
+                        <input
+                            id={props?.id}
+                            type='checkbox'
+                            checked={profileStatus}
+                            className="wprf-switcher-checkbox"
+                            onChange={(event) =>
+                                handleProfileStatusChange(event)
+                            }
+                        />
+                        <label
+                            className="wprf-switcher-label"
+                            htmlFor={props?.id}
+                            style={{ background: profileStatus && '#02AC6E' }}
+                        >
+                            <span className={`wprf-switcher-button`} />
+                        </label>
                     </div>
+                </div>
             </div>
             <div className="card-content">
                 <p dangerouslySetInnerHTML={{ __html: props?.desc }} />

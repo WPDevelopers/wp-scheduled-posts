@@ -33,7 +33,7 @@ export const SweetAlertProMsg = (args: any = {}) => {
         html: `
           <div>
             <h4>${ args?.message ?? __('You need SchedulePress PRO','wp-scheduled-posts') }</h4>
-            <img src="${ args?.imageUrl ?? admin_image_path + '/upgrade-pro-new.png' }" alt="${__(args?.imageAlt ?? __('Pro Alert'), 'wp-scheduled-posts')}">
+            <img src="${ args?.imageUrl ?? admin_image_path + '/upgrade-pro.gif' }" alt="${__(args?.imageAlt ?? __('Pro Alert'), 'wp-scheduled-posts')}">
             <a href="${ args?.buttonUrl ?? 'https://wpdeveloper.com/in/schedulepress-pro' }" target="${ args?.target ?? '_blank' }">
               <button>${ args?.buttonText ?? __('Check Pricing Plans', 'wp-scheduled-posts') }</button>
             </a>
