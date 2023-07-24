@@ -942,7 +942,7 @@ class Settings {
                                     'type'            => 'tab',
                                     'priority'        => 25,
                                     'completionTrack' => true,
-                                    'sidebar'         => true,
+                                    'sidebar'         => false,
                                     'title'           => false,
                                     'default'         => 'layout_manage_schedule',
                                     'submit'          => [

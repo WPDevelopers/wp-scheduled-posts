@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { __ } from '@wordpress/i18n'
+import { __ } from '@wordpress/i18n';
+import React, { useState } from 'react';
 import Select from "react-select";
 import { selectStyles } from '../../helper/styles';
 
@@ -79,6 +79,7 @@ export default function MainProfile( { props, handleProfileStatusChange, profile
                         defaultValue={options[0]}
                         className='main-select'
                         styles={mainSelectStyles}
+                        classNamePrefix='social-media-type-select'
                     />
                 ) }
                 <button

@@ -1,9 +1,9 @@
-import React, { useState,useEffect } from 'react'
-import classNames from 'classnames';
 import { __ } from '@wordpress/i18n';
-import { generateTimeOptions } from '../helper/helper';
-import Select from 'react-select';
+import classNames from 'classnames';
 import { Toggle, useBuilderContext } from 'quickbuilder';
+import React, { useEffect, useState } from 'react';
+import Select from 'react-select';
+import { generateTimeOptions } from '../helper/helper';
 import { selectStyles } from '../helper/styles';
 
 const AutoScheduler = (props) => {
@@ -91,7 +91,7 @@ const AutoScheduler = (props) => {
     return (
         <div className={classNames('wprf-control', 'wprf-auto-scheduler', `wprf-${props.name}-auto-scheduler`, props?.classes)}>
             <div className="header">
-                <Toggle name="is_active_status" is_pro={true} id="auto_is_active_status" label={ __("Auto Scheduler",'wp-scheduled-posts') } help={__('To configure the Auto Scheduler Settings, check out this <a href="#">Doc</a>','wp-scheduled-posts')} value={autoSchedulerStatus} onChange={handleAutoScheduleStatusToogle}  />
+                <Toggle name="is_active_status" type="toggle" is_pro={true} id="auto_is_active_status" label={ __("Auto Scheduler",'wp-scheduled-posts') } help={__('To configure the Auto Scheduler Settings, check out this <a href="#">Doc</a>','wp-scheduled-posts')} value={autoSchedulerStatus} onChange={handleAutoScheduleStatusToogle}  />
             </div>
             <div className="content">
                 <div className="start-time set-timing">
