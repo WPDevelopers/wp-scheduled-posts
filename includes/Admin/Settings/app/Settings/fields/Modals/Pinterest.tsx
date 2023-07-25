@@ -11,25 +11,19 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
         value: board.id,
       };
     });
-    const [defaultBoard, setDefaultBoard] = useState();
-    const [defaultSection, setDefaultSection] = useState(noSection);
+    
+    const [defaultSection, setDefaultSection] = useState(noSection ? [noSection] : []);
+    const [editDefaultSection,setEditDefaultSection]  = useState( singlePinterestBoard?.defaultSection ?? [] );
     const [sectionOptions, setSectionOptions] = useState([noSection]);
     const [singleBoardOptions, setSingleBoardOptions] = useState([]);
-    
-    useEffect( () => {
-    } ,[defaultSection])
-    useEffect(() => {
-      if( boards ) {
-        setDefaultBoard(boardOptions?.[0]);
-      }
-    }, [boards]);
 
     useEffect( () => {
       if( singlePinterestBoard ) {
         setSingleBoardOptions([singlePinterestBoard?.default_board_name]);
-        setDefaultSection([singlePinterestBoard?.defaultSection]);
+        setEditDefaultSection([singlePinterestBoard?.defaultSection]);
       }
     },[singlePinterestBoard] );
+
     return (
         <>
           <div className="wpsp-modal-social-platform">
@@ -53,14 +47,16 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
                             setSectionOptions={setSectionOptions}
                             sectionOptions={sectionOptions}
                             setBoardDefaultSection={setDefaultSection}
+                            prevDefaultSection={defaultSection}
                           />
                         </div>
                         <input
                             type='checkbox'
                             onChange={ (event) => {
+                              let selectedBoardSection = defaultSection.find((item) => item.board === board?.value)
                               addProfileToggle(
                                 item,
-                                defaultSection,
+                                selectedBoardSection,
                                 event,
                                 board,
                               )
@@ -74,7 +70,6 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
                   type="submit"
                   className="wpsp-modal-save-account"
                   onClick={(event) => {
-                    event.preventDefault();
                     savedProfile(event)
                   }}
                   >{ __( 'Save','wp-scheduled-posts' ) }</button>
@@ -94,7 +89,7 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
                         <h4 className="entry-title">{board?.label}</h4>
                         <div className="control pinterest-select">
                           <ReactSelect
-                            value={defaultSection}
+                            value={ editDefaultSection }
                             onMenuOpen={() =>
                               fetchSectionData(
                                 board?.value,
@@ -104,7 +99,7 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
                             }
                             styles={selectStyles}
                             className='main-select'
-                            onChange={(event) => setDefaultSection(event)}
+                            onChange={(event) => setEditDefaultSection(event)}
                             options={sectionOptions}
                           />
                         </div>
@@ -116,9 +111,11 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
                   className="wpsp-modal-save-account"
                   onClick={(event) => {
                     savedProfile(event)
+                    console.log('save-event',editDefaultSection);
+                    
                     addProfileToggle(
                       singlePinterestBoard,
-                      defaultSection,
+                      editDefaultSection,
                       'save-edit',
                       singlePinterestBoard?.default_board_name,
                     )

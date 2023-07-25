@@ -23,13 +23,10 @@ function SocialModal({selectedProfile, setSelectedProfile,props, type, profileIt
     const [pinterestBoards, setPinterestBoards] = useState([]);
     const [responseData, setResponseData] = useState([]);
     const [linkedInData, setLinkedInData] = useState({})
-    const [socialPlatform, setSocialPlatform] = useState("");
     const [savedProfile,setSavedProfile] = useState(props?.value ?? []);
     const [cashedSectionData, setCashedSectionData] = useState({});
     const [singlePinterestBoard,setSinglePinterestBoard] = useState('');
     const [isErrorMessage, setIsErrorMessage] = useState(false)
-
-
     let account_type = localStorage.getItem('account_type');
 
     useEffect(() => {
@@ -169,15 +166,15 @@ function SocialModal({selectedProfile, setSelectedProfile,props, type, profileIt
                 }
             }
         }else if( event === 'save-edit' ) {
-            const updatedJsonData = savedProfile.map(profile => {
+            const pinterestEditedItem = savedProfile.map(profile => {
                 if (profile?.default_board_name?.label === pinterestItem?.default_board_name?.label) {
                   return pinterestItem;
                 } else {
                   return profile;
                 }
             });
-            setSelectedProfile( updatedJsonData )
-            
+            setSavedProfile( pinterestEditedItem );
+            setSelectedProfile( pinterestEditedItem );
         }else{
             setIsErrorMessage(false)
             setSavedProfile((prevItems) => prevItems?.filter((prevItem) => prevItem.default_board_name.value !== pinterestItem.default_board_name.value));
@@ -252,7 +249,7 @@ function SocialModal({selectedProfile, setSelectedProfile,props, type, profileIt
                             ),
                             pinterest: (
                                 <Pinterest
-                                    platform={socialPlatform}
+                                    platform={type}
                                     data={responseData}
                                     boards={pinterestBoards}
                                     fetchSectionData={fetchSectionData}

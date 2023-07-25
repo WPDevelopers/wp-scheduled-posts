@@ -78,6 +78,7 @@ export default function SelectedProfile( { platform, item, handleSelectedProfile
                         <button onClick={ () => handleEditSelectedProfile( item ) }>{ __('Edit','wp-scheduled-posts') }</button>
                     </div>
                 ) }
+                { console.log(platform,item) }
                 <div className="remove-profile">
                     <button onClick={ () => handleDeleteSelectedProfile( item ) }>{ __('Delete','wp-scheduled-posts') }</button>
                 </div>
