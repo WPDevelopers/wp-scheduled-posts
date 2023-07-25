@@ -53,35 +53,46 @@
           }
           .card-footer {
             display: flex;
-            gap: 16px;
-            @media screen and (max-width: 1023px) {
-              gap: 20px;
-            }
-            #facebook_profile_list,
-            #linkedin_profile_list {
-              height: 44px;
+            .main-select {
+              height: 42px;
               flex-grow: 1;
               width: 100%;
-              @media screen and (max-width: 1770px) {
-                font-size: 12px;
+              .social-media-type-select__control {
+                border-top-right-radius: 0px;
+                border-bottom-right-radius: 0px;
+                border-right-width: 0px;
+                .social-media-type-select__value-container {
+                  padding-top: 1px;
+                  padding-bottom: 1px;
+                }
               }
             }
             button {
               color: #6c62ff;
-              padding: 8px 16px;
+              padding: 2px 16px;
+              display: inline-block;
+              align-items: center;
+              justify-content: center;
+              box-sizing: border-box;
               font-size: 14px;
               font-weight: 500;
               line-height: 1em;
               text-align: center;
               border: 1px solid #6c62ff;
-              border-radius: 6px;
-              height: 44px;
+              height: 42px;
               background: transparent;
               margin-left: auto;
               cursor: pointer;
               flex-shrink: 0;
-              @media screen and (max-width: 1770px) {
-                font-size: 12px;
+              &:not(:first-child) {
+                border-radius: 0 6px 6px 0;
+              }
+              &:first-child {
+                border-radius: 6px;
+              }
+              @media screen and (max-width: 1023px) {
+                padding: 2px 12px;
+                letter-spacing: -0.05em;
               }
             }
           }

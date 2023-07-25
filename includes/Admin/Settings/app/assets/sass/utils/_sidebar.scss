@@ -7,17 +7,31 @@
   border-radius: 6px 0 0 6px;
   box-shadow: none;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
   @media screen and (max-width: 1439px) {
     padding: 24px;
     width: 250px;
   }
   @media screen and (max-width: 1023px) {
     padding: 20px;
-    width: 220px;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding-bottom: 8px;
+    border-radius: 6px 6px;
   }
   .card {
     min-width: auto;
     max-width: 100%;
+    @media screen and (max-width: 1023px) {
+      flex: 0 0 calc(50% - 6px);
+      max-width: calc(50% - 6px);
+      margin-bottom: 12px !important;
+      &:nth-child(even) {
+        margin-right: 12px;
+      }
+    }
   }
   .upgrade-pro {
     text-align: center;
@@ -29,6 +43,15 @@
     position: relative;
     border: none !important;
     z-index: 1;
+    @media screen and (max-width: 1023px) {
+      flex: 0 0 100%;
+      max-width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px !important;
+      margin-bottom: 20px !important;
+    }
     &:before {
       content: '';
       position: absolute;
@@ -42,52 +65,74 @@
       );
       z-index: -1;
       clip-path: ellipse(95% 100% at center bottom);
+      @media screen and (max-width: 1023px) {
+        height: 100%;
+        width: 75%;
+        top: 0;
+        left: auto;
+        background: linear-gradient(
+          to right,
+          rgba(255, 214, 178, 1),
+          rgba(255, 239, 225, 1)
+        );
+        clip-path: ellipse(100% 95% at center right);
+      }
     }
     @media screen and (max-width: 1023px) {
       margin-bottom: 24px;
     }
     > img {
       margin-bottom: 15px;
-    }
-    > h3 {
-      font-family: Inter;
-      font-size: 18px;
-      font-weight: 500;
-      line-height: 22px;
-      color: #ff9437 !important;
-      margin: 0 0 14px;
-    }
-    > p {
-      font-family: Inter;
-      font-size: 12px;
-      font-weight: 400;
-      line-height: 16px;
-      color: #1b1b50 !important;
-      margin: 0 0 16px !important;
-    }
-    > button {
-      padding: 16px 24px 16px 50px !important;
-      border: none;
-      background: #ff9437 !important;
-      border-radius: 6px;
-      cursor: pointer;
-      &:after {
-        display: none;
+      @media screen and (max-width: 1023px) {
+        margin-bottom: 0 !important;
+        width: 45%;
       }
-      > span {
+    }
+    .content {
+      > h3 {
+        font-family: Inter;
+        font-size: 18px;
+        font-weight: 500;
+        line-height: 22px;
+        color: #ff9437 !important;
+        margin: 0 0 14px;
+      }
+      > p {
+        font-family: Inter;
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 16px;
+        color: #1b1b50 !important;
+        margin: 0 0 16px !important;
+      }
+      > button,
+      > a {
+        padding: 2px 24px !important;
+        border: none;
+        background: #ff9437 !important;
+        border-radius: 6px;
+        min-height: 48px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
         color: #fff !important;
         font-size: 14px;
         font-family: Inter;
         font-weight: 500;
-        line-height: 18px;
-        position: relative;
+        line-height: 1.3;
+        box-sizing: border-box;
+        gap: 0.5em;
+        @media screen and (max-width: 1439px) {
+          font-size: 13px;
+          padding: 2px 20px !important;
+          min-height: 44px;
+        }
         &:before {
-          position: absolute;
           content: '\e907';
           font-family: 'wpsp';
-          left: -24px;
-          top: 0;
-          font-size: 18px;
+          font-size: 1.25em;
           color: #fff;
         }
       }
