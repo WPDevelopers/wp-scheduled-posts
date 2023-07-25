@@ -110,6 +110,7 @@ const Facebook = (props) => {
                 isOpen={apiCredentialsModal}
                 onRequestClose={closeApiCredentialsModal}
                 ariaHideApp={false}
+                shouldCloseOnOverlayClick={false}
                 className="modal_wrapper"
                 >
                 <button className="close-button" onClick={closeApiCredentialsModal}><i className='wpsp-icon wpsp-close'></i></button>

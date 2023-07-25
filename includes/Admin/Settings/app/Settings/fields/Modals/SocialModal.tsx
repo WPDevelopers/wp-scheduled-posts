@@ -24,7 +24,7 @@ function SocialModal({selectedProfile, setSelectedProfile,props, type, profileIt
     const [responseData, setResponseData] = useState([]);
     const [linkedInData, setLinkedInData] = useState({})
     const [socialPlatform, setSocialPlatform] = useState("");
-    const [savedProfile,setSavedProfile] = useState(props?.value);
+    const [savedProfile,setSavedProfile] = useState(props?.value ?? []);
     const [cashedSectionData, setCashedSectionData] = useState({});
     const [singlePinterestBoard,setSinglePinterestBoard] = useState('');
     const [isErrorMessage, setIsErrorMessage] = useState(false)
@@ -109,10 +109,7 @@ function SocialModal({selectedProfile, setSelectedProfile,props, type, profileIt
             setSavedProfile((prevItems) => prevItems.filter((prevItem) => prevItem.id !== item.id));
         }
     }
-    const addSavedProfile = () => {
-        setSelectedProfile(savedProfile);
-        closeProfileDataModal();
-    }
+
     const noSection = { label: __("No Section",'wp-scheduled-posts'), value: "" };
 
     const fetchSectionData = (defaultBoard, profile, updateOptions) => {
@@ -153,20 +150,22 @@ function SocialModal({selectedProfile, setSelectedProfile,props, type, profileIt
             // @ts-ignore
             if (!builderContext.is_pro_active) {
                 // @ts-ignore
-                if (!savedProfile || (savedProfile && savedProfile.length == 0)) {
+                if (!savedProfile || savedProfile === 'undefined' || (savedProfile && savedProfile.length == 0)) {
                     setIsErrorMessage(false)
-                    if (!savedProfile.some((profile) => profile.default_board_name.value === pinterestItem.default_board_name.value)) {
-                        setSavedProfile((prevItems) => [...prevItems, pinterestItem]);
-                    }
+                    setSavedProfile(pinterestItem)
+                    // if (!savedProfile.some((profile) => profile.default_board_name.value === pinterestItem.default_board_name.value)) {
+                    //     setSavedProfile((prevItems) => [...prevItems, pinterestItem]);
+                    // }
                 } else {
                     event.target.checked = false;
                     setIsErrorMessage(true)
                 }
             } else {
-
                 if ( savedProfile && !savedProfile.some((profile) => profile.default_board_name.value === pinterestItem.default_board_name.value)) {
                     setSavedProfile((prevItems) => [...prevItems, pinterestItem]);
                     setIsErrorMessage(false)
+                }else{
+                    setSavedProfile(pinterestItem)
                 }
             }
         }else if( event === 'save-edit' ) {
@@ -181,7 +180,7 @@ function SocialModal({selectedProfile, setSelectedProfile,props, type, profileIt
             
         }else{
             setIsErrorMessage(false)
-            setSavedProfile((prevItems) => prevItems.filter((prevItem) => prevItem.default_board_name.value !== pinterestItem.default_board_name.value));
+            setSavedProfile((prevItems) => prevItems?.filter((prevItem) => prevItem.default_board_name.value !== pinterestItem.default_board_name.value));
         }
     }
 
@@ -191,10 +190,15 @@ function SocialModal({selectedProfile, setSelectedProfile,props, type, profileIt
         }
     },[isProfileEditModal])
 
+    const addSavedProfile = () => {
+        setSelectedProfile(savedProfile);
+        closeProfileDataModal();
+    }
   return (
     <Modal
         isOpen={profileDataModal}
         ariaHideApp={false}
+        shouldCloseOnOverlayClick={false}
         className="modal_wrapper"
         >
         {requestSending ? (

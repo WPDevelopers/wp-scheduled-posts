@@ -114,6 +114,7 @@ const Twitter = (props) => {
                 onRequestClose={closeApiCredentialsModal}
                 ariaHideApp={false}
                 className="modal_wrapper"
+                shouldCloseOnOverlayClick={false}
                 >
                 <button className="close-button" onClick={closeApiCredentialsModal}><i className='wpsp-icon wpsp-close'></i></button>
                 <ApiCredentialsForm props={props}  platform={platform} requestHandler={socialProfileRequestHandler} />
