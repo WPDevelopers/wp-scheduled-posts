@@ -269,12 +269,17 @@
         }
         .wprf-tab-contents {
           flex: 90%;
-          max-width: calc(100% - (300px + 32px));
-          @media screen and (max-width: 1439px) {
-            max-width: calc(100% - (250px + 24px));
-          }
-          @media screen and (max-width: 1023px) {
+          &:last-child {
             max-width: 100%;
+          }
+          &:not(:last-child) {
+            max-width: calc(100% - (300px + 32px));
+            @media screen and (max-width: 1439px) {
+              max-width: calc(100% - (250px + 24px));
+            }
+            @media screen and (max-width: 1023px) {
+              max-width: 100%;
+            }
           }
           .wprf-tab-content {
             .wprf-control-section {
@@ -479,6 +484,55 @@
           font-weight: 500;
           line-height: 1.2em;
           cursor: pointer;
+        }
+      }
+    }
+
+    .wprf-tab-content-wrapper {
+      .wprf-tab-contents {
+        .wprf-tab-content {
+          .wprf-tabs-wrapper:not(.wprf-tab-menu-as-sidebar) {
+            .wprf-tab-menu-wrapper:not(.wprf-tab-menu-sidebar) {
+              .wprf-tab-nav {
+                display: inline-flex;
+                padding: 8px;
+                background-color: #fff;
+                border-radius: 6px;
+                border: 1px solid #ebeef5;
+                .wprf-tab-nav-item {
+                  min-height: 48px;
+                  display: inline-flex;
+                  align-items: center;
+                  justify-content: center;
+                  padding: 2px 23px !important;
+                  box-sizing: border-box;
+                  background: transparent;
+                  border-radius: 6px;
+                  &.wprf-active-nav {
+                    background: #f3f2ff !important;
+                    color: #6c62ff;
+                  }
+                  &.pro_feature {
+                    &:before,
+                    &:after {
+                      display: none;
+                    }
+                  }
+                }
+              }
+            }
+            .wprf-tab-content-wrapper {
+              background: transparent !important;
+              padding: 0 !important;
+              margin-top: 24px !important;
+              @media screen and (max-width: 1439px) {
+                margin-top: 20px !important;
+              }
+              @media screen and (max-width: 1023px) {
+                margin-top: 16px !important;
+              }
+            }
+          }
         }
       }
     }

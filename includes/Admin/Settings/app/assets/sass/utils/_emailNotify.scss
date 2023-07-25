@@ -1,39 +1,39 @@
-.wprf-tab-layout_email_notify {
-  .wprf-control-section {
-    .wprf-section-fields {
-      .wprf-control-section {
-        .wprf-section-fields {
-          .wprf-control-wrapper {
-            .wprf-control-field {
-              .wprf-label-position-right {
-                input {
-                  border: none !important;
-                  background-color: transparent !important;
-                  &:focus {
-                    box-shadow: none;
-                  }
-                }
-              }
-            }
-          }
-          .wprf-type-toggle {
-            padding: 0 !important;
-            border: none !important;
-            &:last-child {
-              margin-bottom: 0 !important;
-            }
-            &:not(:last-child) {
-              margin-bottom: 24px !important;
-              @media screen and (max-width: 1439px) {
-                margin-bottom: 20px !important;
-              }
-              @media screen and (max-width: 1023px) {
-                margin-bottom: 16px !important;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
+// .wprf-tab-layout_email_notify {
+//   .wprf-control-section {
+//     .wprf-section-fields {
+//       .wprf-control-section {
+//         .wprf-section-fields {
+//           .wprf-control-wrapper {
+//             .wprf-control-field {
+//               .wprf-label-position-right {
+//                 input {
+//                   border: none !important;
+//                   background-color: transparent !important;
+//                   &:focus {
+//                     box-shadow: none;
+//                   }
+//                 }
+//               }
+//             }
+//           }
+//           .wprf-type-toggle {
+//             padding: 0 !important;
+//             border: none !important;
+//             &:last-child {
+//               margin-bottom: 0 !important;
+//             }
+//             &:not(:last-child) {
+//               margin-bottom: 24px !important;
+//               @media screen and (max-width: 1439px) {
+//                 margin-bottom: 20px !important;
+//               }
+//               @media screen and (max-width: 1023px) {
+//                 margin-bottom: 16px !important;
+//               }
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+// }

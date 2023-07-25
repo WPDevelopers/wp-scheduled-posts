@@ -932,7 +932,6 @@ class Settings {
                             'id'         => 'section_scheduling_hub',
                             'name'       => 'section_scheduling_hub',
                             'type'       => 'section',
-                            'label'      => __('Scheduling Hub', 'wp-scheduled-posts'),
                             'priority'   => 5,
                             'showSubmit' => true,
                             'fields'     => [

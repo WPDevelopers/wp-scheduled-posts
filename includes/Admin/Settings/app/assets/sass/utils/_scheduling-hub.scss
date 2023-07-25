@@ -1,0 +1,42 @@
+@import './manageSchedule';
+@import './advance-missedSchedule';
+.wprf-tab-layout_scheduling_hub {
+  > .wprf-control-section {
+    background: transparent !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    .wprf-section-fields {
+      .wprf-tabs-wrapper {
+        .wprf-tab-content-wrapper {
+          .wprf-tab-flex {
+            .wprf-tab-contents {
+              .wprf-tab-content {
+                .wprf-control-section {
+                  &.manage-schedule {
+                    padding: 0 !important;
+                    background: transparent !important;
+                    > .wprf-section-fields {
+                      display: grid;
+                      grid-template-columns: repeat(2, 1fr);
+                      gap: 32px;
+                      @media screen and (max-width: 1439px) {
+                        gap: 24px;
+                      }
+                      @media screen and (max-width: 1023px) {
+                        gap: 20px;
+                      }
+                      > .wprf-control-section {
+                        border: none !important;
+                        margin-bottom: 0!important;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
