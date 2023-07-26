@@ -1117,6 +1117,7 @@ class Settings {
                                                                     'sub_title'     => __('Enable to publish posts randomly', 'wp-scheduled-posts'),
                                                                     'default'       => 0,
                                                                     'priority'      => 5,
+                                                                    'is_pro'        => true,
                                                                 ],
                                                                 'missed_switcher_desc'  => [
                                                                     'id'            => 'missed_switcher_desc',
