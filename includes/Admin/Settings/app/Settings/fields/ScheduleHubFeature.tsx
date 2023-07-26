@@ -21,16 +21,16 @@ let is_pro = wpspSettingsGlobal?.pro_version ? true : false;
             </div>
             <div className="wprf-card-wrapper">
                 <div className="single-card">
-                    <i>Icon</i>
+                    <i className="wpsp-icon wpsp-advance-pro"></i>
                     <h4>Manage Schedule</h4>
                 </div>
                 <div className="single-card">
-                    <i>Icon</i>
+                    <i className="wpsp-icon wpsp-manage-pro"></i>
                     <h4>Advanced Schedule</h4>
                 </div>
                 <div className="single-card">
-                    <i>Icon</i>
-                    <h4>Manage Schedule</h4>
+                    <i className="wpsp-icon wpsp-missed-pro"></i>
+                    <h4>Missed Schedule</h4>
                 </div>
             </div>
         </>

@@ -25,4 +25,77 @@
       }
     }
   }
+  .wprf-scheudle-hub-features {
+    background: #F5EFE9;
+    padding: 32px;
+    border-radius: 6px;
+    margin-bottom: 24px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    .wprf-heading {
+      width: 340px;
+      h2 {
+        font-size: 32px;
+        line-height: 1.25em;
+        color: #1B1B50;
+        font-weight: 600;
+        margin: 0 0 14px;
+      }
+      a {
+        font-size: 14px;
+        line-height: 1.2em;
+        font-weight: 500;
+        color: #6C62FF;
+        text-decoration: none;
+        position: relative;
+        &:after{
+          content: "\e909";
+          font-family: "wpsp";
+          color: #6C62FF;
+          font-size: 1em;
+          position: absolute;
+          right: -22px;
+          top: 1px;
+      }
+      }
+    }
+    .wprf-card-wrapper {
+      display: flex;
+      gap: 24px;
+      .single-card {
+        background: #fff;
+        padding: 16px 64px 16px 24px;
+        border-radius: 8px;
+        position: relative;
+        &:after{
+          content: "\e907";
+          font-family: "wpsp";
+          color: #ff9437;
+          font-size: 0.75em;
+          height: 2.2em;
+          width: 2.2em;
+          background-color: #f6e6d7;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 50%;
+          position: absolute;
+          right: 16px;
+          top: 12px;
+      }
+        i {
+          color: #6C62FF;
+          font-size: 32px;
+        }
+        h4 {
+          font-size: 16px;
+          font-weight: 600;
+          line-height: 1.2em;
+          padding-top: 14px;
+          margin: 0;
+        }
+      }
+    } 
+  }
 }
