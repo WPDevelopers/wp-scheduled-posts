@@ -4,6 +4,8 @@ import { Toggle, useBuilderContext } from 'quickbuilder';
 import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { generateTimeOptions } from '../helper/helper';
+import ProToggle from './utils/ProToggle';
+
 import { selectStyles } from '../helper/styles';
 
 const AutoScheduler = (props) => {
@@ -90,13 +92,14 @@ const AutoScheduler = (props) => {
 
     return (
         <div className={classNames('wprf-control', 'wprf-auto-scheduler', `wprf-${props.name}-auto-scheduler`, props?.classes)}>
-            <div className="header">
-                <div className={`wprf-control-label ${disabledStatus ? 'pro-deactivated' : ''}`}>
-                    <label htmlFor="auto_is_active_status">Auto Scheduler</label>
-                    <p className="wprf-help">To configure the Auto Scheduler Settings, check out this <a href="#">Doc</a></p>
-                </div>
-                <Toggle name="is_active_status" type="toggle" is_pro={true} id="auto_is_active_status" value={autoSchedulerStatus} onChange={handleAutoScheduleStatusToggle} />
-            </div>
+            <ProToggle
+                title={__("Auto Scheduler",'wp-scheduled-posts')}
+                subTitle={__('To configure the Auto Scheduler Settings, check out this <a href="https://wpdeveloper.com/docs/wp-scheduled-posts/how-does-auto-scheduler-work/" target="_blank">Doc</a>')}
+                name={name}
+                disabledStatus={disabledStatus} 
+                status={autoSchedulerStatus} 
+                handleStatusChange={handleAutoScheduleStatusToggle}   
+            />
             <div className={`content ${disabledStatus ? 'pro-deactivated' : ''}`}>
                 <div className="start-time set-timing">
                     <div className="time-title">

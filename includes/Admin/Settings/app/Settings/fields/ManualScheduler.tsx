@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { generateTimeOptions } from '../helper/helper';
 import { selectStyles } from '../helper/styles';
+import ProToggle from './utils/ProToggle';
 
 const ManualScheduler = (props) => {
     const builderContext = useBuilderContext();
@@ -78,7 +79,7 @@ const ManualScheduler = (props) => {
 
     },[savedManualSchedule,manualSchedulerStatus] )
 
-    const handleAutoScheduleStatusToggle = (event) => {
+    const handleManualScheduleStatusToggle = (event) => {
         // @ts-ignore
         setManualSchedulerStatus(event.target.checked)
     }
@@ -88,13 +89,14 @@ const ManualScheduler = (props) => {
 
     return (
         <div className={classNames('wprf-control', 'wprf-manual-scheduler', `wprf-${props.name}-manual-scheduler`, props?.classes)}>
-            <div className="header">
-                <div className={`wprf-control-label ${disabledStatus ? 'pro-deactivated' : ''}`}>
-                    <label htmlFor="manual_is_active_status">Manual Scheduler</label>
-                    <p className="wprf-help">To configure the Manual Scheduler Settings, check out this <a href="#">Doc</a></p>
-                </div>
-                <Toggle name="is_active_status" type="toggle" is_pro={true} id="manual_is_active_status" value={manualSchedulerStatus} onChange={handleAutoScheduleStatusToggle}  />
-            </div>
+            <ProToggle
+                title={__("Manual Scheduler",'wp-scheduled-posts')}
+                subTitle={__('To configure the Manual Scheduler Settings, check out this <a href="https://wpdeveloper.com/docs/wp-scheduled-posts/how-does-manual-scheduler-work/" target="_blank">Doc</a>')}
+                name={name}
+                disabledStatus={disabledStatus} 
+                status={manualSchedulerStatus} 
+                handleStatusChange={handleManualScheduleStatusToggle}   
+            />
             <div className={`content ${disabledStatus ? 'pro-deactivated' : ''}`}>
                 <Select
                     styles={selectStyles}

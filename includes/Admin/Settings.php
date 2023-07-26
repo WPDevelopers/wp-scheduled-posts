@@ -931,7 +931,7 @@ class Settings {
                             'name'     => 'schedule_hub_features',
                             'type'     => 'schedule-hub-features',
                             'label'    => null,
-                            'priority' => 2,
+                            'is_pro'   => true,
                             'fields'   => []
                         ],
                         'section_scheduling_hub' => [
@@ -1002,12 +1002,14 @@ class Settings {
                                                                     'label'         => __('Read Detailed Documentation:','wp-scheduled-posts'),
                                                                     'content'       => [
                                                                         [
-                                                                            'link'  => esc_url('https://wpdeveloper.com/manage-missed-schedule-wordpress/'),
+                                                                            'link'  => esc_url('https://wpdeveloper.com/docs/advanced-schedule-in-elementor/'),
                                                                             'text'  => __('How To Configure SchedulerPress Advanced Schedule In Elementor?', 'wp-scheduled-posts'),
+                                                                            'target'=> '_blank',
                                                                         ],
                                                                         [
-                                                                            'link'  => esc_url('https://wpdeveloper.com/docs/wp-scheduled-posts/how-to-handle-the-missed-schedule-error-using-wp-scheduled-post/#0-toc-title'),
+                                                                            'link'  => esc_url('https://wpdeveloper.com/docs/advanced-schedule-update-published-posts/'),
                                                                             'text'  => __('How To Configure SchedulerPress Advanced Schedule In Gutenberg?', 'wp-scheduled-posts'),
+                                                                            'target'=> '_blank',
                                                                         ],
                                                                     ],
                                                                 ],
@@ -1026,7 +1028,7 @@ class Settings {
                                                                     'type'          => 'video',
                                                                     'label'         => __('Watch The Video Walkthrough','wp-scheduled=-posts'),
                                                                     'priority'      => 5,
-                                                                    'url'           => esc_url('https://www.youtube.com/embed/t0zVpg5ALos'),
+                                                                    'url'           => esc_url('https://www.youtube.com/embed/1ohEsDzTJkA'),
                                                                     'width'         => 554,
                                                                     'height'        => 345,
                                                                 ],

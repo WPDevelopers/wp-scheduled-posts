@@ -9,7 +9,7 @@ const List = (props) => {
           <ul className='wprf-list-item'>
             {props?.content?.map( (item) => (
                 <li key={Math.random()}>
-                    <a href={item?.link}>{item?.text}</a>
+                    <a target={item?.target} href={item?.link}>{item?.text}</a>
                 </li>
             ) )}
           </ul>
