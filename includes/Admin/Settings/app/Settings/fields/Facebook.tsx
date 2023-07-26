@@ -49,8 +49,6 @@ const Facebook = (props) => {
         setSelectedProfile(changeProfileStatus);
     };
     const handleSelectedProfileStatusChange = (item,event) => {
-        console.log('facebook-profile-status',profileStatus);
-        
         if( true === profileStatus ) {
             const changeSelectedProfileStatus = selectedProfile.map(selectedItem => {
                 if (selectedItem.id === item.id) {
