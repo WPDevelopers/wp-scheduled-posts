@@ -93,7 +93,6 @@ const Pinterest = (props) => {
         setProfileEditModal(true);
         setProfileItem(item);
     }
-
     return (
         <div className={classNames('wprf-control', 'wprf-social-profile', `wprf-${props.name}-social-profile`, props?.classes)}>
             <div className='social-profile-card'>

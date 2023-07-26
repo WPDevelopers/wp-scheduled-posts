@@ -182,9 +182,7 @@ function SocialModal({selectedProfile, setSelectedProfile,props, type, profileIt
     }
 
     useEffect( () => {
-        if( isProfileEditModal ) {
-            setProfileDataModal(isProfileEditModal)
-        }
+        setProfileDataModal(isProfileEditModal)
     },[isProfileEditModal])
 
     const addSavedProfile = () => {
@@ -257,6 +255,7 @@ function SocialModal({selectedProfile, setSelectedProfile,props, type, profileIt
                                     addProfileToggle={addPinterestProfileToggle}
                                     savedProfile={addSavedProfile}
                                     singlePinterestBoard={singlePinterestBoard}
+                                    setProfileEditModal={setProfileEditModal}
                                 />
                               ),
                         }[type]

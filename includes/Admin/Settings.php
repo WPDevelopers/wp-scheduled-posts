@@ -927,7 +927,14 @@ class Settings {
                     'priority' => 30,
                     'is_pro'   => true,
                     'classes'  => 'pro_feature',
-                    'fields'   => [
+                    'fields'   => apply_filters( 'wpsp_schedule_hub_fields',[
+                        'schedule_hub_features'  => [
+                            'name'     => 'schedule_hub_features',
+                            'type'     => 'schedule-hub-features',
+                            'label'    => null,
+                            'priority' => 2,
+                            'fields'   => []
+                        ],
                         'section_scheduling_hub' => [
                             'id'         => 'section_scheduling_hub',
                             'name'       => 'section_scheduling_hub',
@@ -1165,7 +1172,7 @@ class Settings {
                                 ],
                             ],
                         ],
-                    ],
+                    ] ),
                 ],
             ])
         ]);

@@ -116,8 +116,6 @@ const AutoScheduler = (props) => {
                         <h4>{ __('End Time','wp-scheduled-posts') }</h4>
                         <span>{ __('Default','wp-scheduled-posts') } : {endSelectedTime?.label}</span>
                     </div>
-                    { console.log(timeOptions[0])
-                    }
                     <div className="time">
                         <Select
                             styles={selectStyles}
