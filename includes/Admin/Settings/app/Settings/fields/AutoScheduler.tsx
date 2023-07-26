@@ -1,9 +1,9 @@
-import React, { useState,useEffect } from 'react'
-import classNames from 'classnames';
 import { __ } from '@wordpress/i18n';
-import { generateTimeOptions } from '../helper/helper';
-import Select from 'react-select';
+import classNames from 'classnames';
 import { Toggle, useBuilderContext } from 'quickbuilder';
+import React, { useEffect, useState } from 'react';
+import Select from 'react-select';
+import { generateTimeOptions } from '../helper/helper';
 import { selectStyles } from '../helper/styles';
 
 const AutoScheduler = (props) => {
@@ -81,7 +81,7 @@ const AutoScheduler = (props) => {
 		});
 	}, [autoScheduler,startSelectedTime,endSelectedTime, autoSchedulerStatus]);
 
-    const handleAutoScheduleStatusToogle = (event) => {
+    const handleAutoScheduleStatusToggle = (event) => {
         setautoSchedulerStatus(event.target.checked)
     }
 
@@ -91,9 +91,13 @@ const AutoScheduler = (props) => {
     return (
         <div className={classNames('wprf-control', 'wprf-auto-scheduler', `wprf-${props.name}-auto-scheduler`, props?.classes)}>
             <div className="header">
-                <Toggle name="is_active_status" is_pro={true} id="auto_is_active_status" label={ __("Auto Scheduler",'wp-scheduled-posts') } help={__('To configure the Auto Scheduler Settings, check out this <a href="#">Doc</a>','wp-scheduled-posts')} value={autoSchedulerStatus} onChange={handleAutoScheduleStatusToogle}  />
+                <div className={`wprf-control-label ${disabledStatus ? 'pro-deactivated' : ''}`}>
+                    <label htmlFor="auto_is_active_status">Auto Scheduler</label>
+                    <p className="wprf-help">To configure the Auto Scheduler Settings, check out this <a href="#">Doc</a></p>
+                </div>
+                <Toggle name="is_active_status" type="toggle" is_pro={true} id="auto_is_active_status" value={autoSchedulerStatus} onChange={handleAutoScheduleStatusToggle} />
             </div>
-            <div className="content">
+            <div className={`content ${disabledStatus ? 'pro-deactivated' : ''}`}>
                 <div className="start-time set-timing">
                     <div className="time-title">
                         <h4>{ __('Start Time','wp-scheduled-posts') }</h4>
@@ -128,7 +132,7 @@ const AutoScheduler = (props) => {
                     </div>
                 </div>
             </div>
-            <div className="weeks">
+            <div className={`weeks ${disabledStatus ? 'pro-deactivated' : ''}`}>
                 {
                     weeks.map( (day,index) => (
                         <div key={index} className="week">
@@ -137,6 +141,7 @@ const AutoScheduler = (props) => {
                                 value={ autoScheduler?.find(item => item.day === day)?.value || 0 }
                                 onChange={ (event) => handleDayChange( day, event ) }
                                 disabled={disabledStatus}
+                                readOnly={disabledStatus}
                             />
                             <span>{ __('Number of posts','wp-scheduled-posts') }</span>
                             <h6>{ day.toUpperCase() }</h6>

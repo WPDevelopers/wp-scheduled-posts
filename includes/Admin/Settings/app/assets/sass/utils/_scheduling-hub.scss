@@ -1,0 +1,28 @@
+.wprf-tab-layout_scheduling_hub {
+  > .wprf-control-section {
+    background: transparent !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    .wprf-section-fields {
+      .wprf-tabs-wrapper {
+        .wprf-tab-content-wrapper {
+          .wprf-tab-flex {
+            .wprf-tab-contents {
+              .wprf-tab-content {
+                .wprf-control-section {
+                  &.manage-schedule {
+                    @import './manageSchedule';
+                  }
+                  &.advance_schedule_wrapper,
+                  &.missed_schedule_wrapper {
+                    @import './advance-missedSchedule';
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

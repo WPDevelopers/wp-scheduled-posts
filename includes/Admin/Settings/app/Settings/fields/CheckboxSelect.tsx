@@ -6,15 +6,9 @@ import { selectStyles } from '../helper/styles';
 // Prepare options with checkbox
 const Option = (props) => {
   return (
-    <div>
+    <div className="checkbox-select-menu-list-item">
       <components.Option {...props}>
-        <input
-          type="checkbox"
-          checked={props.isSelected}
-          onChange={() => null}
-          id="wpsp-checkbox-select"
-        />{' '}
-        {props.label}
+        <span>{props.label}</span>
       </components.Option>
     </div>
   );
@@ -104,6 +98,7 @@ const CheckboxSelect = (props) => {
               value={optionSelected}
               controlShouldRenderValue={false}
               className="checkbox-select"
+              classNamePrefix="checkbox-select"
             />
           </span>
         </div>

@@ -301,10 +301,9 @@ class Settings {
                                     'type'          => 'calendar',
                                     'label'         => null,
                                     'priority'      => 5,
-                                    // 'ajax_url'      => admin_url('admin-ajax.php'),
-                                    // 'nonce'         => wp_create_nonce('wpscp-calendar-ajax-nonce'),
                                     'start_of_week' => (int) get_option('start_of_week', 0),
                                     'rest_route'    => '/wpscp/v1/calendar',
+                                    'post_types'    => array_values($this->normalize_options(\WPSP\Helper::get_allow_post_types())),
                                 ]
                             ],
                         ]
@@ -939,7 +938,6 @@ class Settings {
                             'id'         => 'section_scheduling_hub',
                             'name'       => 'section_scheduling_hub',
                             'type'       => 'section',
-                            'label'      => __('Scheduling Hub', 'wp-scheduled-posts'),
                             'priority'   => 5,
                             'showSubmit' => true,
                             'fields'     => [
@@ -949,7 +947,7 @@ class Settings {
                                     'type'            => 'tab',
                                     'priority'        => 25,
                                     'completionTrack' => true,
-                                    'sidebar'         => true,
+                                    'sidebar'         => false,
                                     'title'           => false,
                                     'default'         => 'layout_manage_schedule',
                                     'submit'          => [

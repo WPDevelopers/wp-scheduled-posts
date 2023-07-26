@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { ReactElement, useEffect, useRef, useState } from "react";
 import apiFetch from '@wordpress/api-fetch';
 import { addQueryArgs } from '@wordpress/url';
 import FullCalendar from "@fullcalendar/react";
@@ -7,27 +7,38 @@ import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClic
 import Sidebar from "./Calendar/Sidebar";
 import renderEventContent, { PostCardProps } from "./Calendar/EventRender";
 import { useBuilderContext } from "quickbuilder";
-import { s } from "@fullcalendar/core/internal-common";
 // const events = [{ title: "Meeting", start: new Date() }];
-import { Button } from "@wordpress/components";
-import { default as ReactSelect } from "react-select";
+import { ActionMeta, MultiValue, default as ReactSelect } from "react-select";
 import { selectStyles } from "../helper/styles";
 import { components } from "react-select";
-import Monthpicker from '@compeon-os/monthpicker'
+import MonthPicker from '@compeon-os/monthpicker'
 import classNames from "classnames";
 import { __ } from "@wordpress/i18n";
 import { EventContentArg } from "@fullcalendar/core";
 import PostCard from "./Calendar/EventRender";
 import useEditPost, { ModalContent } from "./Calendar/EditPost";
+import CategorySelect from "./Calendar/Category";
+import { getYear, getMonth } from 'date-fns';
 
 export default function Calendar(props) {
   // @ts-ignore
-  const [events, setEvents] = useState([]);
   const restRoute = props.rest_route;
   const calendar = useRef<FullCalendar>();
+  // monthPicker
+  const monthPicker = useRef<MonthPicker>();
   const builderContext = useBuilderContext();
-  const [yearMonth, setYearMonth] = useState("11.2022") // @todo
+  const [events, setEvents] = useState([]);
+  //
+  const currentDate = new Date();
+  const [yearMonth, setYearMonth] = useState({
+    month: getMonth(currentDate) + 1,
+    year : getYear(currentDate)
+  });
+  const [sidebarToogle, setSidebarToggle] = useState(true);
   const [editAreaToggle, setEditAreaToggle] = useState({});
+  const allOption = [{label: 'All', value: 'all'}, ...Object.values(props.post_types || [])];
+  const [selectedPostType, setSelectedPostType] = useState<MultiValue<any>>(allOption);
+  const [monthPickerComponent, setMonthPickerComponent] = useState<any>();
 
   const editPostModalProps = useEditPost();
 
@@ -50,7 +61,6 @@ export default function Calendar(props) {
   useEffect(() => {
     calendar.current?.doResize();
     calendar.current?.render();
-
     //
     apiFetch({
       path: getUrl()
@@ -66,10 +76,34 @@ export default function Calendar(props) {
     }
   }, [builderContext.config.active]);
 
-  // @ts-ignore
-  // window.calendar = calendar;
-  // console.log(props);
-  // Prepare options with checkbox
+  useEffect(() => {
+    console.log('yearMonth', yearMonth, new Date (`${yearMonth.year}-${yearMonth.month}-01`));
+    // update calendar current date from MM.yyyy
+    calendar.current?.getApi().gotoDate(new Date (`${yearMonth.year}-${yearMonth.month}-01`));
+
+    setMonthPickerComponent((
+      <MonthPicker
+        ref={monthPicker}
+        locale="en"
+        // format='MM.yyyy'
+        month={yearMonth.month}
+        year={yearMonth.year}
+        onChange={(event) => {
+          console.log('onChange', event);
+
+          setYearMonth(event)
+        }
+      }>
+        <div className="calender-selected-month">
+          { calendar.current && calendar.current.getApi().view.title }
+          <span className="dashicons dashicons-arrow-down-alt2"></span>
+        </div>
+      </MonthPicker>
+
+    ));
+  }, [yearMonth]);
+
+
   const Option = (props) => {
     return (
       <div>
@@ -85,35 +119,50 @@ export default function Calendar(props) {
     );
   };
 
-
-  const options = [
-    {label : "Option 1",value : "options-1"},
-    {label : "Option 2",value : "options-2"}
-  ]
-  const [month, year] = yearMonth.split('.');
-
-  const [sidebarToogle,setSidebarToggle] = useState(true);
-
   const handleSlidebarToggle = () => {
     setSidebarToggle( sidebarToogle ? false : true );
   }
-  const [optionSelected, setOptionSelected] = useState([]);
 
   // Add and remove
-  const handleChange = (selected) => {
-    setOptionSelected(selected);
+  const handleChange = (newValue: MultiValue<any>, actionMeta: ActionMeta<any>) => {
+    console.log(actionMeta, newValue);
+    if (actionMeta.action === 'select-option') {
+      if (actionMeta.option.value === 'all') {
+        newValue = allOption;
+      } else {
+        newValue = newValue.filter((item) => item.value !== 'all');
+        if (newValue.length === Object.values(props.post_types).length) {
+          newValue = allOption;
+        }
+      }
+    } else if (actionMeta.action === 'deselect-option') {
+      if (actionMeta.option.value === 'all') {
+        newValue = [];
+      } else {
+        newValue = newValue.filter((item) => item.value !== 'all');
+        if (newValue.length === 0) {
+          newValue = allOption;
+        }
+      }
+    }
+    setSelectedPostType(newValue);
   };
   const removeItem = (item) => {
-    const updatedItems = optionSelected.filter((i) => i !== item);
-    setOptionSelected(updatedItems);
+    const updatedItems = selectedPostType.filter((i) => i !== item);
+    handleChange(updatedItems, {
+      "action": "deselect-option",
+      "option": item,
+    });
   };
+
+  console.log(monthPicker);
 
   return (
     <div className={classNames('wprf-control', 'wprf-calender', `wprf-${props.name}-calender`, props?.classes)}>
       <div className="wpsp-calender-header">
           <div className="wpsp-post-select">
             <ReactSelect
-              options={options}
+              options={allOption}
               styles={selectStyles}
               closeMenuOnSelect={false}
               hideSelectedOptions={false}
@@ -123,14 +172,14 @@ export default function Calendar(props) {
               components={{
                 Option
               }}
-              value={optionSelected}
+              value={selectedPostType}
               onChange={handleChange}
               controlShouldRenderValue={false}
               className="main-select"
             />
             <div className="selected-options">
                 <ul>
-                  { optionSelected?.map( (item, index) => (
+                  { selectedPostType?.map( (item, index) => (
                     <li key={index}> { item?.label } <button onClick={() => removeItem(item)}> <i className='wpsp-icon wpsp-close'></i> </button> </li>
                   ))}
                 </ul>
@@ -138,56 +187,38 @@ export default function Calendar(props) {
           </div>
           <div className="wpsp-post-search">
               <input type="text" placeholder="Search" />
+              <i className="wpsp-icon wpsp-search"></i>
           </div>
       </div>
       <div className="wpsp-calender-content main-content-wrapper">
         <div className={`main-content ${!sidebarToogle ? 'basis-100' : ''}`}>
           <div className="toolbar">
             <div className="left">
-              <ReactSelect
-                placeholder={ __("Select Category","wp-scheduled-posts") }
-                options={options}
-                styles={selectStyles}
-                closeMenuOnSelect={false}
-                hideSelectedOptions={false}
-                autoFocus={false}
-                isMulti
-                components={{
-                  Option
-                }}
-                controlShouldRenderValue={false}
-                className="main-select"
-              />
+              <CategorySelect selectedPostType={selectedPostType} Option={Option} />
             </div>
             <div className="middle">
               {/* calendar dropdown */}
               {/* <input type="month" id="start" name="start"
               min="2018-03" value="2018-05"></input> */}
-              <Monthpicker
-                locale="en"
-                format='MM.yyyy'
-                month={parseInt(month)}
-                year={parseInt(year)}
-                onChange={(event) => {
-                setYearMonth(event)
-              }}>
-                <div className="calender-selected-month">
-                  { calendar.current && calendar.current.getApi().view.title }
-                  <span className="dashicons dashicons-arrow-down-alt2"></span>
-                </div>
-              </Monthpicker>
+              {monthPickerComponent && monthPickerComponent}
             </div>
             <div className="right">
-              <button>Today</button>
+              <button onClick={() => {
+                calendar.current?.getApi().today();
+              }}>Today</button>
               <i onClick={handleSlidebarToggle} className={`wpsp-icon wpsp-manual-sc ${ !sidebarToogle ? 'inactive' : '' }`} />
             </div>
           </div>
           <div className="wprf-calendar-wrapper">
             <div className="button-control-month">
-              <button type="button" className="wpsp-prev-button wpsp-button-primary">
+              <button type="button" className="wpsp-prev-button wpsp-button-primary" onClick={() => {
+                calendar.current?.getApi().prev();
+              }}>
                 <i className="wpsp-icon wpsp-prev"></i>
               </button>
-              <button type="button" className="wpsp-next-button wpsp-button-primary">
+              <button type="button" className="wpsp-next-button wpsp-button-primary" onClick={() => {
+                calendar.current?.getApi().next();
+              }}>
                 <i className="wpsp-icon wpsp-next"></i>
               </button>
             </div>
@@ -261,14 +292,24 @@ export default function Calendar(props) {
                 info.el.style.border = '1px solid red';
               }}
               datesSet={(dateInfo) => {
-
+                // get the current month and year
+                const month = dateInfo.view.currentStart.getMonth() + 1;
+                const year  = dateInfo.view.currentStart.getFullYear();
+                console.log('datesSet', {year, month});
+                if(yearMonth.year !== year || yearMonth.month !== month) {
+                  // update the state
+                  setYearMonth({
+                    month: month,
+                    year : year,
+                  });
+                }
               }}
             />
           </div>
         </div>
         { sidebarToogle && (
             <div className="sidebar">
-                <Sidebar openModal={editPostModalProps.openModal} />
+                <Sidebar openModal={editPostModalProps.openModal} selectedPostType={selectedPostType} Option={Option} />
             </div>
           ) }
       </div>

@@ -95,6 +95,11 @@
         display: flex;
         flex-direction: column;
         gap: 12px;
+        @media screen and (max-width: 1439px) {
+          flex-direction: row;
+          flex-wrap: wrap;
+          gap: 6px;
+        }
         .wprf-tab-nav-item {
           font-size: 18px !important;
           line-height: 1.2;
@@ -106,6 +111,12 @@
           border: none;
           display: flex;
           align-items: center;
+          box-sizing: border-box;
+          @media screen and (max-width: 1439px) {
+            flex: 0 0 calc(50% - 3px);
+            max-width: calc(50% - 3px);
+            border: 1px solid rgba(#ebeef5, 0.5);
+          }
           @media screen and (max-width: 1023px) {
             font-size: 14px !important;
             padding: 12px 20px !important;
@@ -204,6 +215,7 @@
       gap: 16px !important;
       @media screen and (max-width: 1439px) {
         gap: 12px !important;
+        flex-direction: column;
       }
       @media screen and (max-width: 1023px) {
         gap: 10px !important;
@@ -257,12 +269,17 @@
         }
         .wprf-tab-contents {
           flex: 90%;
-          max-width: calc(100% - (300px + 32px));
-          @media screen and (max-width: 1439px) {
-            max-width: calc(100% - (250px + 24px));
-          }
-          @media screen and (max-width: 1023px) {
+          &:last-child {
             max-width: 100%;
+          }
+          &:not(:last-child) {
+            max-width: calc(100% - (300px + 32px));
+            @media screen and (max-width: 1439px) {
+              max-width: calc(100% - (250px + 24px));
+            }
+            @media screen and (max-width: 1023px) {
+              max-width: 100%;
+            }
           }
           .wprf-tab-content {
             .wprf-control-section {
@@ -374,9 +391,6 @@
                         @media screen and (max-width: 1439px) {
                           font-size: 12px;
                         }
-                        @media screen and (max-width: 1023px) {
-                          font-size: 10px;
-                        }
                         &:after {
                           content: '\e909';
                           font-family: 'wpsp';
@@ -470,6 +484,56 @@
           font-weight: 500;
           line-height: 1.2em;
           cursor: pointer;
+        }
+      }
+    }
+
+    .wprf-tab-content-wrapper {
+      .wprf-tab-contents {
+        .wprf-tab-content {
+          .wprf-tabs-wrapper:not(.wprf-tab-menu-as-sidebar) {
+            .wprf-tab-menu-wrapper:not(.wprf-tab-menu-sidebar) {
+              .wprf-tab-nav {
+                display: inline-flex;
+                padding: 8px;
+                background-color: #fff;
+                border-radius: 6px;
+                border: 1px solid #ebeef5;
+                gap: 0!important;
+                .wprf-tab-nav-item {
+                  min-height: 48px;
+                  display: inline-flex;
+                  align-items: center;
+                  justify-content: center;
+                  padding: 2px 23px !important;
+                  box-sizing: border-box;
+                  background: transparent;
+                  border-radius: 6px;
+                  &.wprf-active-nav {
+                    background: #f3f2ff !important;
+                    color: #6c62ff;
+                  }
+                  &.pro_feature {
+                    &:before,
+                    &:after {
+                      display: none;
+                    }
+                  }
+                }
+              }
+            }
+            .wprf-tab-content-wrapper {
+              background: transparent !important;
+              padding: 0 !important;
+              margin-top: 24px !important;
+              @media screen and (max-width: 1439px) {
+                margin-top: 20px !important;
+              }
+              @media screen and (max-width: 1023px) {
+                margin-top: 16px !important;
+              }
+            }
+          }
         }
       }
     }

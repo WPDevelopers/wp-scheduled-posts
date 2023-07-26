@@ -11,6 +11,21 @@ class Helper
         return array_diff($postType, $not_neccessary_post_types);
     }
 
+    public static function get_allow_post_types()
+    {
+        $post_types       = [];
+        $allow_post_types = \WPSP\Helper::get_settings('allow_post_types');
+        $allow_post_types = (!empty($allow_post_types) ? $allow_post_types : array('post'));
+
+        if (is_array($allow_post_types)) {
+            foreach ($allow_post_types as $post_type) {
+                $post_type_object       = get_post_type_object($post_type);
+                $post_types[$post_type] = $post_type_object->label;
+            }
+        }
+        return $post_types;
+    }
+
     public static function get_all_category()
     {
         $category  = get_categories(array(
@@ -90,6 +105,7 @@ class Helper
                         'slug'     => $term->slug,
                         'name'     => $term->name,
                         'taxonomy' => $term->taxonomy,
+                        'postType' => $postType,
                     ];
                 }
             }

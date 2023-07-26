@@ -31,7 +31,11 @@ const SettingsInner = (props) => {
 
   useEffect(() => {
     builderContext.registerAlert('pro_alert', (props) => {
-      SweetAlertProMsg();
+      return {
+        fire: () => {
+          SweetAlertProMsg();
+        },
+      };
     });
   }, [])
 

@@ -1,11 +1,10 @@
-import React,{useEffect, useState} from 'react'
-import classNames from 'classnames';
-import Select from 'react-select';
 import { __ } from '@wordpress/i18n';
+import classNames from 'classnames';
+import { Toggle, useBuilderContext } from 'quickbuilder';
+import React, { useEffect, useState } from 'react';
+import Select from 'react-select';
 import { generateTimeOptions } from '../helper/helper';
 import { selectStyles } from '../helper/styles';
-import { useBuilderContext } from 'quickbuilder';
-import { Toggle } from 'quickbuilder';
 
 const ManualScheduler = (props) => {
     const builderContext = useBuilderContext();
@@ -79,7 +78,7 @@ const ManualScheduler = (props) => {
 
     },[savedManualSchedule,manualSchedulerStatus] )
 
-    const handleAutoScheduleStatusToogle = (event) => {
+    const handleAutoScheduleStatusToggle = (event) => {
         // @ts-ignore
         setManualSchedulerStatus(event.target.checked)
     }
@@ -90,9 +89,13 @@ const ManualScheduler = (props) => {
     return (
         <div className={classNames('wprf-control', 'wprf-manual-scheduler', `wprf-${props.name}-manual-scheduler`, props?.classes)}>
             <div className="header">
-                <Toggle name="is_active_status" is_pro={true} id="manual_is_active_status" label={ __("Manual Scheduler",'wp-scheduled-posts') } help={__("To configure the Auto Scheduler Settings, check out this Doc",'wp-scheduled-posts')} value={manualSchedulerStatus} onChange={handleAutoScheduleStatusToogle}  />
+                <div className={`wprf-control-label ${disabledStatus ? 'pro-deactivated' : ''}`}>
+                    <label htmlFor="manual_is_active_status">Manual Scheduler</label>
+                    <p className="wprf-help">To configure the Manual Scheduler Settings, check out this <a href="#">Doc</a></p>
+                </div>
+                <Toggle name="is_active_status" type="toggle" is_pro={true} id="manual_is_active_status" value={manualSchedulerStatus} onChange={handleAutoScheduleStatusToggle}  />
             </div>
-            <div className="content">
+            <div className={`content ${disabledStatus ? 'pro-deactivated' : ''}`}>
                 <Select
                     styles={selectStyles}
                     className='select-days main-select'
@@ -115,9 +118,9 @@ const ManualScheduler = (props) => {
                     isMulti={false}
                     isDisabled={disabledStatus}
                 />
-                <button onClick={handleSavedManualSchedule}>{ __('Save Schedule','wp-scheduled-posts') }</button>
+                <button onClick={handleSavedManualSchedule} disabled={disabledStatus}>{ __('Save Schedule','wp-scheduled-posts') }</button>
             </div>
-            <div className="weeks">
+            <div className={`weeks ${disabledStatus ? 'pro-deactivated' : ''}`}>
                 {options.map((item, optionIndex) => (
                     <div key={optionIndex} className="week">
                         <h6>{ item.label }</h6>
