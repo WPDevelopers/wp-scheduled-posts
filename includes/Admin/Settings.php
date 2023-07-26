@@ -100,7 +100,7 @@ class Settings {
                 'show' => false
             ],
             'config'          => [
-                'active'  => 'layout_calendar',
+                'active'  => 'layout_general',
             ],
             'tabs'          => apply_filters('wpsp_layout_tabs',[
                 'layout_general' => [

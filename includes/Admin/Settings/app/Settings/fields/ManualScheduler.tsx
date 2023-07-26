@@ -95,7 +95,7 @@ const ManualScheduler = (props) => {
                 </div>
                 <Toggle name="is_active_status" type="toggle" is_pro={true} id="manual_is_active_status" value={manualSchedulerStatus} onChange={handleAutoScheduleStatusToggle}  />
             </div>
-            <div className="content">
+            <div className={`content ${disabledStatus ? 'pro-deactivated' : ''}`}>
                 <Select
                     styles={selectStyles}
                     className='select-days main-select'
@@ -118,9 +118,9 @@ const ManualScheduler = (props) => {
                     isMulti={false}
                     isDisabled={disabledStatus}
                 />
-                <button onClick={handleSavedManualSchedule}>{ __('Save Schedule','wp-scheduled-posts') }</button>
+                <button onClick={handleSavedManualSchedule} disabled={disabledStatus}>{ __('Save Schedule','wp-scheduled-posts') }</button>
             </div>
-            <div className="weeks">
+            <div className={`weeks ${disabledStatus ? 'pro-deactivated' : ''}`}>
                 {options.map((item, optionIndex) => (
                     <div key={optionIndex} className="week">
                         <h6>{ item.label }</h6>

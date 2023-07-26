@@ -84,6 +84,13 @@
       justify-content: space-between;
       gap: 10px;
       margin-bottom: 10px;
+      &.pro-deactivated {
+        opacity: 0.75;
+        filter: blur(0.5px);
+        -webkit-user-select: none; /* Safari */
+        -ms-user-select: none; /* IE 10 and IE 11 */
+        user-select: none; /* Standard syntax */
+      }
       .set-timing {
         display: flex;
         justify-content: space-between;
@@ -122,6 +129,13 @@
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 10px;
+      &.pro-deactivated {
+        opacity: 0.75;
+        filter: blur(0.5px);
+        -webkit-user-select: none; /* Safari */
+        -ms-user-select: none; /* IE 10 and IE 11 */
+        user-select: none; /* Standard syntax */
+      }
       .week {
         display: flex;
         flex-direction: column;
@@ -169,6 +183,13 @@
       justify-content: space-between;
       gap: 20px;
       margin-bottom: 24px;
+      &.pro-deactivated {
+        opacity: 0.75;
+        filter: blur(0.5px);
+        -webkit-user-select: none; /* Safari */
+        -ms-user-select: none; /* IE 10 and IE 11 */
+        user-select: none; /* Standard syntax */
+      }
       .select-items {
         font-size: 16px;
         line-height: 1.2em;
@@ -204,6 +225,13 @@
     .weeks {
       display: flex;
       gap: 8px;
+      &.pro-deactivated {
+        opacity: 0.75;
+        filter: blur(0.5px);
+        -webkit-user-select: none; /* Safari */
+        -ms-user-select: none; /* IE 10 and IE 11 */
+        user-select: none; /* Standard syntax */
+      }
       .week {
         display: flex;
         flex-direction: column;

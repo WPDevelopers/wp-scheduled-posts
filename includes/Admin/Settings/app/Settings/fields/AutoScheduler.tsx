@@ -97,7 +97,7 @@ const AutoScheduler = (props) => {
                 </div>
                 <Toggle name="is_active_status" type="toggle" is_pro={true} id="auto_is_active_status" value={autoSchedulerStatus} onChange={handleAutoScheduleStatusToggle} />
             </div>
-            <div className="content">
+            <div className={`content ${disabledStatus ? 'pro-deactivated' : ''}`}>
                 <div className="start-time set-timing">
                     <div className="time-title">
                         <h4>{ __('Start Time','wp-scheduled-posts') }</h4>
@@ -134,7 +134,7 @@ const AutoScheduler = (props) => {
                     </div>
                 </div>
             </div>
-            <div className="weeks">
+            <div className={`weeks ${disabledStatus ? 'pro-deactivated' : ''}`}>
                 {
                     weeks.map( (day,index) => (
                         <div key={index} className="week">
@@ -143,6 +143,7 @@ const AutoScheduler = (props) => {
                                 value={ autoScheduler?.find(item => item.day === day)?.value || 0 }
                                 onChange={ (event) => handleDayChange( day, event ) }
                                 disabled={disabledStatus}
+                                readOnly={disabledStatus}
                             />
                             <span>{ __('Number of posts','wp-scheduled-posts') }</span>
                             <h6>{ day.toUpperCase() }</h6>
