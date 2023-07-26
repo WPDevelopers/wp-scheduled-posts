@@ -986,6 +986,7 @@ class Settings {
                                                                     'sub_title'     => __('Enable to get options of scheduling a published post while updating it.','wp-scheduled-posts'),
                                                                     'default'       => 0,
                                                                     'is_pro'        => true,
+                                                                    'disabled_status'        => true,
                                                                     'priority'      => 5,
                                                                 ],
                                                                 'advance_switcher_desc'  => [
@@ -1116,6 +1117,8 @@ class Settings {
                                                                     'title'         => __('Missed Schedule', 'wp-scheduled-posts'),
                                                                     'sub_title'     => __('Enable to publish posts randomly', 'wp-scheduled-posts'),
                                                                     'default'       => 0,
+                                                                    'is_pro'        => true,
+                                                                    'disabled_status'        => true,
                                                                     'priority'      => 5,
                                                                 ],
                                                                 'missed_switcher_desc'  => [

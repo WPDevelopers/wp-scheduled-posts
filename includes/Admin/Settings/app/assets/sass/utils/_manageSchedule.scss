@@ -44,10 +44,17 @@
           }
         }
         .wprf-help {
-          font-size: 12px;
+          font-size: 14px;
           color: #6e6e8d;
           margin: 4px 0 0;
           text-align: left;
+
+          a {
+            color: #1b1b50;
+            &:hover {
+              color: #6c62ff;
+            }
+          }
         }
         &.pro-deactivated {
           label {
