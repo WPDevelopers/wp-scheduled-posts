@@ -94,7 +94,7 @@ const ManualScheduler = (props) => {
                 sub_title={__('To configure the Manual Scheduler Settings, check out this <a href="https://wpdeveloper.com/docs/wp-scheduled-posts/how-does-manual-scheduler-work/" target="_blank">Doc</a>')}
                 name={name}
                 is_pro={!is_pro} 
-                status={manualSchedulerStatus} 
+                value={manualSchedulerStatus} 
                 handle_status_change={handleManualScheduleStatusToggle}   
             />
             <div className={`content ${!is_pro ? 'pro-deactivated' : ''}`}>

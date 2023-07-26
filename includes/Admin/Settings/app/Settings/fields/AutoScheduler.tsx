@@ -97,8 +97,8 @@ const AutoScheduler = (props) => {
                 sub_title={__('To configure the Auto Scheduler Settings, check out this <a href="https://wpdeveloper.com/docs/wp-scheduled-posts/how-does-auto-scheduler-work/">Doc</a>')}
                 name={name}
                 is_pro={!is_pro} 
-                status={autoSchedulerStatus} 
-                handle_status_change={handleAutoScheduleStatusToggle}   
+                value={autoSchedulerStatus} 
+                handle_status_change={ handleAutoScheduleStatusToggle }   
             />
             <div className={`content ${ !is_pro ? 'pro-deactivated' : ''}`}>
                 <div className="start-time set-timing">

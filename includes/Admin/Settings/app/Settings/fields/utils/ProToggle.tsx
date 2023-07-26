@@ -1,7 +1,8 @@
 import React from 'react'
-import { Toggle } from 'quickbuilder';
+import { Toggle,useBuilderContext } from 'quickbuilder';
 
 const ProToggle = ( props ) => {
+  const builderContext = useBuilderContext();
   let { name, onChange,type } = props;
   const handleProToggleChange = (event) => {
     onChange({
@@ -19,7 +20,7 @@ const ProToggle = ( props ) => {
                 <label htmlFor={props?.name}>{ props?.title }</label>
                 <p className="wprf-help" dangerouslySetInnerHTML={{ __html: props?.sub_title }}></p>
             </div>
-            <Toggle name="is_active_status" type="toggle" {...props} is_pro={props?.is_pro} id={props?.name} value={props.status ? props.status : props?.value} onChange={props.handle_status_change ? props.handle_status_change : handleProToggleChange} />
+            <Toggle name="is_active_status" type="toggle" {...props} is_pro={props?.is_pro} id={props?.name} value={ props.value } onChange={ props.handle_status_change ? props.handle_status_change : handleProToggleChange} />
         </div>
   )
 }
