@@ -81,7 +81,7 @@ const AutoScheduler = (props) => {
 		});
 	}, [autoScheduler,startSelectedTime,endSelectedTime, autoSchedulerStatus]);
 
-    const handleAutoScheduleStatusToogle = (event) => {
+    const handleAutoScheduleStatusToggle = (event) => {
         setautoSchedulerStatus(event.target.checked)
     }
 
@@ -91,7 +91,11 @@ const AutoScheduler = (props) => {
     return (
         <div className={classNames('wprf-control', 'wprf-auto-scheduler', `wprf-${props.name}-auto-scheduler`, props?.classes)}>
             <div className="header">
-                <Toggle name="is_active_status" type="toggle" is_pro={true} id="auto_is_active_status" label={ __("Auto Scheduler",'wp-scheduled-posts') } help={__('To configure the Auto Scheduler Settings, check out this <a href="#">Doc</a>','wp-scheduled-posts')} value={autoSchedulerStatus} onChange={handleAutoScheduleStatusToogle}  />
+                <div className={`wprf-control-label ${disabledStatus ? 'pro-deactivated' : ''}`}>
+                    <label htmlFor="auto_is_active_status">Auto Scheduler</label>
+                    <p className="wprf-help">To configure the Auto Scheduler Settings, check out this <a href="#">Doc</a></p>
+                </div>
+                <Toggle name="is_active_status" type="toggle" is_pro={true} id="auto_is_active_status" value={autoSchedulerStatus} onChange={handleAutoScheduleStatusToggle} />
             </div>
             <div className="content">
                 <div className="start-time set-timing">
