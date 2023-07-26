@@ -981,8 +981,9 @@ class Settings {
                                                                 'is_delayed_schedule_active'  => [
                                                                     'id'            => 'is_delayed_schedule_active',
                                                                     'name'          => 'is_delayed_schedule_active',
-                                                                    'type'          => 'toggle',
-                                                                    'label'         => __('Advance Schedule', 'wp-scheduled-posts'),
+                                                                    'type'          => 'pro-toggle',
+                                                                    'title'         => __('Advance Schedule', 'wp-scheduled-posts'),
+                                                                    'sub_title'     => __('Enable to get options of scheduling a published post while updating it.','wp-scheduled-posts'),
                                                                     'default'       => 0,
                                                                     'is_pro'        => true,
                                                                     'priority'      => 5,
@@ -1111,11 +1112,10 @@ class Settings {
                                                                 'is_active_missed_schedule'  => [
                                                                     'id'            => 'is_active_missed_schedule',
                                                                     'name'          => 'is_active_missed_schedule',
-                                                                    'type'          => 'toggle',
-                                                                    'label'         => __('Missed Schedule', 'wp-scheduled-posts'),
-                                                                    'help'          => __('Enable to publish posts randomly', 'wp-scheduled-posts'),
+                                                                    'type'          => 'pro-toggle',
+                                                                    'title'         => __('Missed Schedule', 'wp-scheduled-posts'),
+                                                                    'sub_title'     => __('Enable to publish posts randomly', 'wp-scheduled-posts'),
                                                                     'default'       => 0,
-                                                                    'is_pro'        => true,
                                                                     'priority'      => 5,
                                                                 ],
                                                                 'missed_switcher_desc'  => [

@@ -91,11 +91,11 @@ const ManualScheduler = (props) => {
         <div className={classNames('wprf-control', 'wprf-manual-scheduler', `wprf-${props.name}-manual-scheduler`, props?.classes)}>
             <ProToggle
                 title={__("Manual Scheduler",'wp-scheduled-posts')}
-                subTitle={__('To configure the Manual Scheduler Settings, check out this <a href="https://wpdeveloper.com/docs/wp-scheduled-posts/how-does-manual-scheduler-work/" target="_blank">Doc</a>')}
+                sub_title={__('To configure the Manual Scheduler Settings, check out this <a href="https://wpdeveloper.com/docs/wp-scheduled-posts/how-does-manual-scheduler-work/" target="_blank">Doc</a>')}
                 name={name}
-                disabledStatus={disabledStatus} 
+                disabled_status={disabledStatus} 
                 status={manualSchedulerStatus} 
-                handleStatusChange={handleManualScheduleStatusToggle}   
+                handle_status_change={handleManualScheduleStatusToggle}   
             />
             <div className={`content ${disabledStatus ? 'pro-deactivated' : ''}`}>
                 <Select
