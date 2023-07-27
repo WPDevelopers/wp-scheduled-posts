@@ -202,6 +202,7 @@ a:focus {
 .wpsp-admin-content .wpsp-calender-header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 14px 32px;
   background-color: #fff;
   margin-bottom: 20px;
@@ -210,7 +211,7 @@ a:focus {
 .wpsp-admin-content .wpsp-calender-header .wpsp-post-select {
   display: flex;
   gap: 10px;
-  align-content: center;
+  align-items: center;
 }
 .wpsp-admin-content
   .wpsp-calender-header
@@ -219,6 +220,26 @@ a:focus {
   ul {
   display: flex;
   gap: 10px;
+  margin: 0;
+}
+.wpsp-admin-content .wpsp-calender-header .wpsp-post-search {
+  position: relative;
+  input {
+    font-size: 16px;
+    background: #f9fafc;
+    border-radius: 6px;
+    border: none;
+    height: 44px;
+    width: 240px;
+    padding: 0 16px 0 48px;
+  }
+  i {
+    position: absolute;
+    left: 16px;
+    top: 12px;
+    font-size: 18px;
+    color: #989fab;
+  }
 }
 
 .checkbox-select__menu {
