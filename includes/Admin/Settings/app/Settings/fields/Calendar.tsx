@@ -38,7 +38,6 @@ export default function Calendar(props) {
   const [editAreaToggle, setEditAreaToggle] = useState({});
   const allOption = [{label: 'All', value: 'all'}, ...Object.values(props.post_types || [])];
   const [selectedPostType, setSelectedPostType] = useState<MultiValue<any>>(allOption);
-  const [monthPickerComponent, setMonthPickerComponent] = useState<any>();
 
   const editPostModalProps = useEditPost();
 
@@ -58,6 +57,10 @@ export default function Calendar(props) {
     return addQueryArgs( restRoute, queryParams );
   }
 
+  const MyWrapperComponent = ({ children, ...rest }) => {
+    return React.cloneElement(children, { ...rest });
+  };
+
   useEffect(() => {
     calendar.current?.doResize();
     calendar.current?.render();
@@ -75,34 +78,6 @@ export default function Calendar(props) {
       calendar.current?.getApi().updateSize();
     }
   }, [builderContext.config.active]);
-
-  useEffect(() => {
-    console.log('yearMonth', yearMonth, new Date (`${yearMonth.year}-${yearMonth.month}-01`));
-    // update calendar current date from MM.yyyy
-    calendar.current?.getApi().gotoDate(new Date (`${yearMonth.year}-${yearMonth.month}-01`));
-
-    setMonthPickerComponent((
-      <MonthPicker
-        ref={monthPicker}
-        locale="en"
-        // format='MM.yyyy'
-        month={yearMonth.month}
-        year={yearMonth.year}
-        onChange={(event) => {
-          console.log('onChange', event);
-
-          setYearMonth(event)
-        }
-      }>
-        <div className="calender-selected-month">
-          { calendar.current && calendar.current.getApi().view.title }
-          <span className="dashicons dashicons-arrow-down-alt2"></span>
-        </div>
-      </MonthPicker>
-
-    ));
-  }, [yearMonth]);
-
 
   const Option = (props) => {
     return (
@@ -155,7 +130,7 @@ export default function Calendar(props) {
     });
   };
 
-  console.log(monthPicker);
+  console.log('monthPicker', monthPicker);
 
   return (
     <div className={classNames('wprf-control', 'wprf-calender', `wprf-${props.name}-calender`, props?.classes)}>
@@ -179,9 +154,10 @@ export default function Calendar(props) {
             />
             <div className="selected-options">
                 <ul>
-                  { selectedPostType?.map( (item, index) => (
-                    <li key={index}> { item?.label } <button onClick={() => removeItem(item)}> <i className='wpsp-icon wpsp-close'></i> </button> </li>
-                  ))}
+                  { selectedPostType?.map( (item, index) => {
+
+                    return (<li key={index}> { item?.label } <button onClick={() => removeItem(item)}> <i className='wpsp-icon wpsp-close'></i> </button> </li>);
+                  })}
                 </ul>
             </div>
           </div>
@@ -199,7 +175,24 @@ export default function Calendar(props) {
               {/* calendar dropdown */}
               {/* <input type="month" id="start" name="start"
               min="2018-03" value="2018-05"></input> */}
-              {monthPickerComponent && monthPickerComponent}
+
+              {/* needed wrapper component so that month picker can work when Year prop is changed. */}
+              <MyWrapperComponent
+                locale="en"
+                month={yearMonth.month}
+                year={yearMonth.year}
+                onChange={({ year, month }) => {
+                  setYearMonth({ month, year });
+                  calendar.current?.getApi().gotoDate(new Date(year, month - 1));
+                }}
+              >
+                <MonthPicker ref={monthPicker}>
+                  <div className="calender-selected-month">
+                    { calendar.current && calendar.current.getApi().view.title }
+                    <span className="dashicons dashicons-arrow-down-alt2"></span>
+                  </div>
+                </MonthPicker>
+              </MyWrapperComponent>
             </div>
             <div className="right">
               <button onClick={() => {
