@@ -278,3 +278,28 @@
 .react-switch-label:active .react-switch-button {
   width: 60px;
 }
+
+.social-media-type-select__option {
+  .wprf-select-pro-option {
+    display: inline-flex !important;
+    align-items: center;
+  }
+  &--is-disabled {
+    .wprf-select-pro-option {
+      gap: 0.375em;
+      &:after {
+        height: 1.9em;
+        width: 1.9em;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f6e6d7;
+        border-radius: 50%;
+        content: '\e907';
+        font-family: 'wpsp';
+        font-size: 0.7em;
+        color: #ff9437;
+      }
+    }
+  }
+}
