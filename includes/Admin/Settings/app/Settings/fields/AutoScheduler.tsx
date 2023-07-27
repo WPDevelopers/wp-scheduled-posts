@@ -88,7 +88,7 @@ const AutoScheduler = (props) => {
     }
 
     // @ts-ignore 
-    let disabledStatus = wpspSettingsGlobal?.pro_version ? false : true;
+    let is_pro = wpspSettingsGlobal?.pro_version ? true : false;
 
     return (
         <div className={classNames('wprf-control', 'wprf-auto-scheduler', `wprf-${props.name}-auto-scheduler`, props?.classes)}>
@@ -96,11 +96,11 @@ const AutoScheduler = (props) => {
                 title={__("Auto Scheduler",'wp-scheduled-posts')}
                 sub_title={__('To configure the Auto Scheduler Settings, check out this <a href="https://wpdeveloper.com/docs/wp-scheduled-posts/how-does-auto-scheduler-work/">Doc</a>')}
                 name={name}
-                disabled_status={disabledStatus} 
-                status={autoSchedulerStatus} 
-                handle_status_change={handleAutoScheduleStatusToggle}   
+                is_pro={!is_pro} 
+                value={autoSchedulerStatus} 
+                handle_status_change={ handleAutoScheduleStatusToggle }   
             />
-            <div className={`content ${disabledStatus ? 'pro-deactivated' : ''}`}>
+            <div className={`content ${ !is_pro ? 'pro-deactivated' : ''}`}>
                 <div className="start-time set-timing">
                     <div className="time-title">
                         <h4>{ __('Start Time','wp-scheduled-posts') }</h4>
@@ -113,7 +113,7 @@ const AutoScheduler = (props) => {
                             options={ timeOptions }
                             defaultValue={timeOptions[0] }
                             onChange={ (event) => handleTimeChange('start',event) }
-                            isDisabled={disabledStatus}
+                            isDisabled={!is_pro}
                             className='select-start-time main-select'
                         />
                     </div>
@@ -129,13 +129,13 @@ const AutoScheduler = (props) => {
                             value={endSelectedTime}
                             options={ timeOptions }
                             onChange={ (event) => handleTimeChange('end',event) }
-                            isDisabled={disabledStatus}
+                            isDisabled={!is_pro}
                             className='select-start-time main-select'
                         />
                     </div>
                 </div>
             </div>
-            <div className={`weeks ${disabledStatus ? 'pro-deactivated' : ''}`}>
+            <div className={`weeks ${!is_pro ? 'pro-deactivated' : ''}`}>
                 {
                     weeks.map( (day,index) => (
                         <div key={index} className="week">
@@ -143,8 +143,8 @@ const AutoScheduler = (props) => {
                                 type="number"
                                 value={ autoScheduler?.find(item => item.day === day)?.value || 0 }
                                 onChange={ (event) => handleDayChange( day, event ) }
-                                disabled={disabledStatus}
-                                readOnly={disabledStatus}
+                                disabled={!is_pro}
+                                readOnly={!is_pro}
                             />
                             <span>{ __('Number of posts','wp-scheduled-posts') }</span>
                             <h6>{ day.toUpperCase() }</h6>
