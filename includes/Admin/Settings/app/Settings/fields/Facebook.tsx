@@ -33,23 +33,19 @@ const Facebook = (props) => {
     // Handle profile & selected profile status onChange event
     const handleProfileStatusChange = (event) => {
         setProfileStatus(event.target.checked);
-        const changeProfileStatus = selectedProfile.map(selectedItem => {
-            if (!event.target.checked) {
+        if( event.target.checked == false ) {
+            const changeProfileStatus = selectedProfile.map(selectedItem => {
                 return {
                     ...selectedItem,
                     status: false,
                 };
-            }else{
-                return {
-                    ...selectedItem,
-                    status: true,
-                };
-            }
-        });
-        setSelectedProfile(changeProfileStatus);
+            });
+            setSelectedProfile(changeProfileStatus);
+        }
+       
     };
     const handleSelectedProfileStatusChange = (item,event) => {
-        if( true === profileStatus ) {
+        if( profileStatus == true ) {
             const changeSelectedProfileStatus = selectedProfile.map(selectedItem => {
                 if (selectedItem.id === item.id) {
                     return {

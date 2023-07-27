@@ -6,6 +6,7 @@ const ScheduleHubFeature = (props) => {
 // @ts-ignore 
 let is_pro = wpspSettingsGlobal?.pro_version ? true : false;
   return (
+<<<<<<< Updated upstream
     <div
       className={classNames(
         'wprf-control',
@@ -36,6 +37,38 @@ let is_pro = wpspSettingsGlobal?.pro_version ? true : false;
         </>
     ) }
     </div>
+=======
+      <>
+        { !is_pro && (
+            <div
+            className={classNames(
+              'wprf-control',
+              'wprf-scheudle-hub-features',
+              `wprf-${props.name}-schedule-hub-features`,
+              props?.classes
+            )}>
+              <div className="wprf-heading">
+                  <h2>Upgrade to use these Pro Features</h2>
+                  <a href="#">Upgrade To Pro</a>
+              </div>
+              <div className="wprf-card-wrapper">
+                  <div className="single-card">
+                      <i>Icon</i>
+                      <h4>Manage Schedule</h4>
+                  </div>
+                  <div className="single-card">
+                      <i>Icon</i>
+                      <h4>Advanced Schedule</h4>
+                  </div>
+                  <div className="single-card">
+                      <i>Icon</i>
+                      <h4>Manage Schedule</h4>
+                  </div>
+              </div>
+          </div>
+        ) }
+      </>
+>>>>>>> Stashed changes
   );
 };
 

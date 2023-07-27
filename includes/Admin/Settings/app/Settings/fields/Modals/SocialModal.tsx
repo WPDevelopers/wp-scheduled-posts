@@ -181,9 +181,10 @@ function SocialModal({selectedProfile, setSelectedProfile,props, type, profileIt
         }
     }
 
-    useEffect( () => {
-        setProfileDataModal(isProfileEditModal)
-    },[isProfileEditModal])
+    // useEffect( () => {
+
+    //     setProfileDataModal(isProfileEditModal)
+    // },[isProfileEditModal])
 
     const addSavedProfile = () => {
         setSelectedProfile(savedProfile);
