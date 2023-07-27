@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'wpsp';
-  src:  url('fonts/wpsp.eot?abgagr');
-  src:  url('fonts/wpsp.eot?abgagr#iefix') format('embedded-opentype'),
-    url('fonts/wpsp.ttf?abgagr') format('truetype'),
-    url('fonts/wpsp.woff?abgagr') format('woff'),
-    url('fonts/wpsp.svg?abgagr#wpsp') format('svg');
+  src:  url('fonts/wpsp.eot?11bml6');
+  src:  url('fonts/wpsp.eot?11bml6#iefix') format('embedded-opentype'),
+    url('fonts/wpsp.ttf?11bml6') format('truetype'),
+    url('fonts/wpsp.woff?11bml6') format('woff'),
+    url('fonts/wpsp.svg?11bml6#wpsp') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,6 +25,21 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.wpsp-manage-pro:before {
+  content: "\e919";
+}
+.wpsp-missed-pro:before {
+  content: "\e91a";
+}
+.wpsp-advance-pro:before {
+  content: "\e91b";
+}
+.wpsp-ok:before {
+  content: "\e915";
+}
+.wpsp-search:before {
+  content: "\e901";
+}
 .wpsp-sidebar:before {
   content: "\e916";
 }

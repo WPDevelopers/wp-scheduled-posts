@@ -33,7 +33,7 @@ const Facebook = (props) => {
     // Handle profile & selected profile status onChange event
     const handleProfileStatusChange = (event) => {
         setProfileStatus(event.target.checked);
-        const updatedData = selectedProfile.map(selectedItem => {
+        const changeProfileStatus = selectedProfile.map(selectedItem => {
             if (!event.target.checked) {
                 return {
                     ...selectedItem,
@@ -46,27 +46,30 @@ const Facebook = (props) => {
                 };
             }
         });
-        setSelectedProfile(updatedData);
+        setSelectedProfile(changeProfileStatus);
     };
     const handleSelectedProfileStatusChange = (item,event) => {
-        const updatedData = selectedProfile.map(selectedItem => {
-            if (selectedItem.id === item.id) {
-            return {
-                ...selectedItem,
-                status: event.target.checked
-            };
-            }
-            return selectedItem;
-        });
-        setSelectedProfile(updatedData);
+        if( true === profileStatus ) {
+            const changeSelectedProfileStatus = selectedProfile.map(selectedItem => {
+                if (selectedItem.id === item.id) {
+                    return {
+                        ...selectedItem,
+                        status: event.target.checked
+                    };
+                }
+                return selectedItem;
+            });
+            setSelectedProfile(changeSelectedProfileStatus);
+        }
+
     };
 
     const handleDeleteSelectedProfile = (item) => {
-        SweetAlertDeleteMsg( { item }, deleteFile );
+        SweetAlertDeleteMsg( { item }, deleteSelectedProfile );
     };
-    const deleteFile = (item) => {
-        const updatedData = selectedProfile.filter(selectedItem => selectedItem.id !== item.id);
-        setSelectedProfile(updatedData);
+    const deleteSelectedProfile = (item) => {
+        const updateSelectedProfile = selectedProfile.filter(selectedItem => selectedItem.id !== item.id);
+        setSelectedProfile(updateSelectedProfile);
     }
     // Save selected profile data
     useEffect( () => {

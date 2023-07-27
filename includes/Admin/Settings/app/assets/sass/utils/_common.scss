@@ -7,10 +7,11 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 /* Firefox */
-input[type=number] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
-input[type=text], input[type=search]:focus {
+input[type='text'],
+input[type='search']:focus {
   box-shadow: none !important;
 }
 a:focus {
@@ -18,5 +19,257 @@ a:focus {
   border: none !important;
 }
 ::placeholder {
-  color: #A6A6BA;
+  color: #a6a6ba;
+}
+
+// garbage from index.scss
+
+.toplevel_page_schedulepress {
+  #wpcontent {
+    background-color: #f9fafc !important;
+    padding-left: 0 !important;
+  }
+}
+
+.selected-profile {
+  .profile-item .profile-image img {
+    max-width: 50px;
+    height: auto;
+    border-radius: 50%;
+  }
+}
+.status {
+  .switcher {
+    line-height: 0;
+  }
+  .wprf-switcher-checkbox {
+    height: 0;
+    width: 0;
+    visibility: hidden;
+  }
+
+  .wprf-switcher-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    width: 40px !important;
+    height: 20px !important;
+    background: #d7dbdf;
+    border-radius: 100px;
+    position: relative;
+    transition: background-color 0.2s;
+  }
+
+  .wprf-switcher-label .wprf-switcher-button {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 1px;
+    width: 16px !important;
+    height: 16px !important;
+    border-radius: 45px;
+    transition: 0.2s;
+    background: #fff;
+    box-shadow: 0 0 2px 0 rgba(10, 10, 10, 0.29);
+    padding: 0 !important;
+  }
+
+  .wprf-switcher-checkbox:checked + .wprf-switcher-label .wprf-switcher-button {
+    left: calc(100% - 1px);
+    transform: translateX(-100%);
+  }
+
+  .wprf-switcher-label:active .wprf-switcher-button {
+    width: 60px;
+  }
+}
+/* styles.css */
+.custom-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 9998;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.custom-toast-container {
+  position: relative;
+  z-index: 9999;
+}
+.swal2-top-end {
+  margin-top: 40px;
+}
+.custom-toast {
+  background-color: #333;
+  color: #fff;
+  padding: 16px;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  font-size: 16px;
+}
+.checkbox-select span,
+.main-select span,
+.time-select span {
+  display: none;
+}
+
+.checkbox-select input:focus,
+.main-select input:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+.checkbox-select .select2-selection__arrow,
+.main-select .selection__arrow {
+  content: '\e909';
+  font-family: 'wpsp';
+  background-size: contain;
+  height: 100%;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+}
+
+.checkbox-select .select2-selection__arrow b,
+.main-select .select2-selection__arrow b {
+  display: none;
+}
+.selected-options {
+  li {
+    margin-bottom: 0 !important;
+    padding: 8px 12px;
+    background: #f3f2ff;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #6c62ff;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1em;
+    button {
+      font-size: 8px;
+      border: none;
+      background: transparent;
+      color: #6e6e8d;
+      cursor: pointer;
+      padding: 0;
+      margin-top: 1px;
+    }
+  }
+}
+#external-events-listing .main-select {
+  margin-bottom: 15px;
+}
+#external-events-listing .selected-options {
+  margin-bottom: 10px;
+  ul li {
+    margin-bottom: 5px !important;
+  }
+}
+#wpsp-dashboard-body
+  .wprf-tab-layout_calendar
+  .calendar_section
+  .wprf-section-fields
+  .main-content
+  .toolbar
+  .right
+  i.inactive {
+  background-color: #ddd;
+}
+#wpsp-dashboard-body
+  .wprf-tab-layout_calendar
+  .calendar_section
+  .wprf-section-fields
+  .main-content.basis-100 {
+  flex-basis: 100%;
+}
+#wpsp-dashboard-body .main-content .middle {
+  cursor: pointer;
+}
+.wpsp-admin-content #calendar_section .wpsp-calender-content {
+  display: flex;
+  gap: 15px;
+}
+.wpsp-admin-content .wpsp-calender-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 32px;
+  background-color: #fff;
+  margin-bottom: 20px;
+  border-radius: 6px;
+}
+.wpsp-admin-content .wpsp-calender-header .wpsp-post-select {
+  display: flex;
+  gap: 10px;
+  align-content: center;
+}
+.wpsp-admin-content
+  .wpsp-calender-header
+  .wpsp-post-select
+  .selected-options
+  ul {
+  display: flex;
+  gap: 10px;
+}
+
+.checkbox-select__menu {
+  .checkbox-select__menu-list {
+    padding-top: 9px;
+    padding-bottom: 9px;
+    .checkbox-select-menu-list-item {
+      .checkbox-select__option {
+        display: flex;
+        align-items: center;
+        padding: 0.5625em 1.125em;
+        cursor: pointer;
+        font-size: 16px;
+        span {
+          margin-top: 0;
+          margin-bottom: 0;
+          display: flex !important;
+          align-items: center;
+          gap: 0.75em;
+          font-size: 1em;
+          font-weight: 400;
+          &:before {
+            width: 1.8em;
+            height: 1.8em;
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            content: '';
+            font-family: 'wpsp';
+            border: 1px solid #d7dbdf;
+            border-radius: 2px;
+            color: #fff;
+            font-size: 0.625em;
+          }
+        }
+        &.checkbox-select__option--is-selected,
+        &.checkbox-select__option--is-focused {
+          background: none;
+        }
+        &.checkbox-select__option--is-selected {
+          span {
+            &:before {
+              content: '\e915';
+              background: #02ac6e;
+              border-color: #02ac6e;
+              color: #fff;
+            }
+          }
+        }
+      }
+    }
+  }
 }

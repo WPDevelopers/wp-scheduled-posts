@@ -13,13 +13,19 @@ import Video from './Video';
 import Html from './Html';
 import AutoScheduler from './AutoScheduler';
 import ManualScheduler from './ManualScheduler';
+import ScheduleHubFeature from './ScheduleHubFeature';
 import License from './License';
+import ProToggle from './utils/ProToggle';
 
 const Field = (r, type, props) => {
 
     switch (type) {
         case "features":
             return <Features {...props} />;
+        case "schedule-hub-features":
+            return <ScheduleHubFeature {...props} />;
+        case "pro-toggle":
+            return <ProToggle {...props} />
         case "auto-scheduler":
             return <AutoScheduler {...props} />;
         case "manual-scheduler":

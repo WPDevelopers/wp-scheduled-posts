@@ -4,7 +4,7 @@ import { default as ReactSelect } from "react-select";
 import PinterestSectionSelect from '../utils/PinterestSectionSelect';
 import { selectStyles } from '../../helper/styles';
 
-export default function Pinterest({ platform, data, boards,fetchSectionData,noSection,addProfileToggle,savedProfile,singlePinterestBoard }) {
+export default function Pinterest({ platform, data, boards,fetchSectionData,noSection,addProfileToggle,savedProfile,singlePinterestBoard,setProfileEditModal }) {
     let boardOptions = boards?.map((board) => {
       return {
         label: board.name || board.id,
@@ -16,7 +16,13 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
     const [editDefaultSection,setEditDefaultSection]  = useState( singlePinterestBoard?.defaultSection ?? [] );
     const [sectionOptions, setSectionOptions] = useState([noSection]);
     const [singleBoardOptions, setSingleBoardOptions] = useState([]);
+    const [isSectionUpdate,setIsSectionUpdate] = useState(false);
 
+    useEffect( () => {
+      if( !setProfileEditModal ) {
+        setIsSectionUpdate(false);
+      }
+    },[setProfileEditModal] )
     useEffect( () => {
       if( singlePinterestBoard ) {
         setSingleBoardOptions([singlePinterestBoard?.default_board_name]);
@@ -99,7 +105,11 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
                             }
                             styles={selectStyles}
                             className='main-select'
-                            onChange={(event) => setEditDefaultSection(event)}
+                            onChange={ (event) => {
+                                setEditDefaultSection(event)
+                                setIsSectionUpdate(true);
+                              }
+                            }
                             options={sectionOptions}
                           />
                         </div>
@@ -110,16 +120,18 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
                   type="submit"
                   className="wpsp-modal-save-account"
                   onClick={(event) => {
-                    savedProfile(event)
-                    console.log('save-event',editDefaultSection);
-                    
-                    addProfileToggle(
-                      singlePinterestBoard,
-                      editDefaultSection,
-                      'save-edit',
-                      singlePinterestBoard?.default_board_name,
-                    )
-                  }}
+                      if( isSectionUpdate ) {
+                        savedProfile(event)
+                        addProfileToggle(
+                          singlePinterestBoard,
+                          editDefaultSection,
+                          'save-edit',
+                          singlePinterestBoard?.default_board_name,
+                        )
+                      }else{
+                        setProfileEditModal(false);
+                      }
+                    }}
                   >{ __( 'Save','wp-scheduled-posts' ) }</button>
                   </ul>
               </div>

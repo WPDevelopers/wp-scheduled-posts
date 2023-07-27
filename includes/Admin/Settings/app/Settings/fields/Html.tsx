@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 
 const Html = (props) => {
     return (
-        <div className='wprf-control-wrapper wpfr-section-html' dangerouslySetInnerHTML={{__html: props.html}}/>
+        <div className='wprf-control-wrapper wprf-section-html' dangerouslySetInnerHTML={{__html: props.html}}/>
     )
 }
 

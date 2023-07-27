@@ -163,6 +163,7 @@ export default function Calendar(props) {
           </div>
           <div className="wpsp-post-search">
               <input type="text" placeholder="Search" />
+              <i className="wpsp-icon wpsp-search"></i>
           </div>
       </div>
       <div className="wpsp-calender-content main-content-wrapper">
