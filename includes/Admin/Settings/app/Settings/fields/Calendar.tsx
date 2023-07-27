@@ -83,14 +83,9 @@ export default function Calendar(props) {
 
   const Option = (props) => {
     return (
-      <div>
+      <div className="checkbox-select-menu-list-item">
         <components.Option {...props}>
-          <input
-            type="checkbox"
-            checked={props.isSelected}
-            onChange={() => null}
-          />{" "}
-          <label>{props.label}</label>
+          <span>{props.label}</span>
         </components.Option>
       </div>
     );
@@ -163,6 +158,7 @@ export default function Calendar(props) {
             onChange={handleChange}
             controlShouldRenderValue={false}
             className="main-select"
+            classNamePrefix="checkbox-select"
           />
           <div className="selected-options">
             <ul>

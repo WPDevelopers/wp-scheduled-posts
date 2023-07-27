@@ -12,7 +12,7 @@ import {
     useBuilderContext,
 } from "quickbuilder";
 
-function SocialModal({selectedProfile, setSelectedProfile,props, type, profileItem = '', isProfileEditModal = false, setProfileEditModal = null}) {
+function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfileEditModal = false, setProfileEditModal = null}) {
     const builderContext = useBuilderContext();
 
     const [requestSending, setRequestSending] = useState(false);
@@ -149,10 +149,7 @@ function SocialModal({selectedProfile, setSelectedProfile,props, type, profileIt
                 // @ts-ignore
                 if (!savedProfile || savedProfile === 'undefined' || (savedProfile && savedProfile.length == 0)) {
                     setIsErrorMessage(false)
-                    setSavedProfile(pinterestItem)
-                    // if (!savedProfile.some((profile) => profile.default_board_name.value === pinterestItem.default_board_name.value)) {
-                    //     setSavedProfile((prevItems) => [...prevItems, pinterestItem]);
-                    // }
+                    setSavedProfile((prevItems) => [...prevItems, pinterestItem]);
                 } else {
                     event.target.checked = false;
                     setIsErrorMessage(true)
@@ -162,7 +159,7 @@ function SocialModal({selectedProfile, setSelectedProfile,props, type, profileIt
                     setSavedProfile((prevItems) => [...prevItems, pinterestItem]);
                     setIsErrorMessage(false)
                 }else{
-                    setSavedProfile(pinterestItem)
+                    setSavedProfile((prevItems) => [...prevItems, pinterestItem]);
                 }
             }
         }else if( event === 'save-edit' ) {

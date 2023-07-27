@@ -136,9 +136,7 @@ const Linkedin = (props) => {
             </Modal>
 
             {/* Profile Data Modal  */}
-
             <SocialModal
-                selectedProfile={selectedProfile}
                 setSelectedProfile={setSelectedProfile}
                 props={props}
                 type="linkedin"

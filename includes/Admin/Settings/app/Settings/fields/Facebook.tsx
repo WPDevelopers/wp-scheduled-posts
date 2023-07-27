@@ -119,7 +119,6 @@ const Facebook = (props) => {
             {/* Profile Data Modal  */}
             {/* @ts-ignore */}
             <SocialModal
-                selectedProfile={selectedProfile}
                 setSelectedProfile={setSelectedProfile}
                 props={props}
                 type="facebook"

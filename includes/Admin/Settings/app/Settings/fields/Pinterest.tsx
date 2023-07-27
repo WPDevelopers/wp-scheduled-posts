@@ -74,6 +74,7 @@ const Pinterest = (props) => {
     // Save selected profile data
     useEffect( () => {
         builderContext.setFieldValue([props.name], selectedProfile);
+        console.log( 'selected-profile', selectedProfile );
     },[selectedProfile] )
 
     // Save profile status data 
@@ -115,7 +116,6 @@ const Pinterest = (props) => {
                                 handleEditSelectedProfile={handleEditSelectedProfile}
                             />
                         </div>
-                        
                     ))}
                 </div>
             </div>
@@ -134,7 +134,6 @@ const Pinterest = (props) => {
             {/* Profile Data Modal  */}
             {/* @ts-ignore */}
             <SocialModal
-                selectedProfile={selectedProfile}
                 setSelectedProfile={setSelectedProfile}
                 props={props}
                 type="pinterest"

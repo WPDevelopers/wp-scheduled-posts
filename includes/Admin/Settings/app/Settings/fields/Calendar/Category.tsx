@@ -30,25 +30,30 @@ const CategorySelect = ({ selectedPostType, Option, showTags = false }) => {
 
   return (
     <>
-      <ReactSelect
-        placeholder={__("Select Category", "wp-scheduled-posts")}
-        options={categoryOptions}
-        styles={selectStyles}
-        value={selectedCategories}
-        onChange={(value, actionMeta) => {
-            setSelectedCategories([...value]);
-        }}
-        closeMenuOnSelect={false}
-        hideSelectedOptions={false}
-        autoFocus={false}
-        isMulti
-        components={{
-          Option,
-        }}
-        controlShouldRenderValue={false}
-        className="main-select"
-        // onMenuOpen={memoizedCategoryOptions}
-      />
+      
+      <div className="wprf-checkbox-select-wrap wprf-checked wprf-label-position-right">
+          <ReactSelect
+            placeholder={__("Select Category", "wp-scheduled-posts")}
+            options={categoryOptions}
+            styles={selectStyles}
+            value={selectedCategories}
+            onChange={(value, actionMeta) => {
+                setSelectedCategories([...value]);
+            }}
+            closeMenuOnSelect={false}
+            hideSelectedOptions={false}
+            autoFocus={false}
+            isMulti
+            components={{
+              Option,
+            }}
+            controlShouldRenderValue={false}
+            className="main-select"
+            classNamePrefix="checkbox-select"
+
+            // onMenuOpen={memoizedCategoryOptions}
+          />
+        </div>
       {showTags && (
         <div className="selected-options">
           <ul>
