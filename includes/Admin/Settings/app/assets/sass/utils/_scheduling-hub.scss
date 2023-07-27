@@ -25,52 +25,98 @@
       }
     }
   }
-  .wprf-scheudle-hub-features {
-    background: #F5EFE9;
+  .wprf-schedule-hub-features {
+    background: #f5efe9;
     padding: 32px;
     border-radius: 6px;
     margin-bottom: 24px;
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
+    gap: 24px;
+    @media screen and (max-width: 1439px) {
+      padding: 24px;
+      gap: 20px;
+      flex-direction: column;
+      margin-bottom: 20px;
+    }
+    @media screen and (max-width: 1023px) {
+      padding: 20px;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
     .wprf-heading {
-      width: 340px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 14px;
+      @media screen and (max-width: 1439px) {
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 12px;
+      }
       h2 {
         font-size: 32px;
-        line-height: 1.25em;
-        color: #1B1B50;
+        line-height: 1.1;
+        color: #1b1b50;
         font-weight: 600;
-        margin: 0 0 14px;
+        margin: 0;
+        @media screen and (max-width: 1439px) {
+          font-size: 24px;
+        }
+        @media screen and (max-width: 1023px) {
+          font-size: 20px;
+        }
       }
       a {
         font-size: 14px;
-        line-height: 1.2em;
+        line-height: 1.1;
         font-weight: 500;
-        color: #6C62FF;
+        color: #6c62ff;
         text-decoration: none;
-        position: relative;
-        &:after{
-          content: "\e909";
-          font-family: "wpsp";
-          color: #6C62FF;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5em;
+        @media screen and (max-width: 1439px) {
+          font-size: 12px;
+          margin-left: auto;
+        }
+        &:after {
+          content: '\e909';
+          font-family: 'wpsp';
+          color: #6c62ff;
           font-size: 1em;
-          position: absolute;
-          right: -22px;
-          top: 1px;
-      }
+        }
       }
     }
     .wprf-card-wrapper {
       display: flex;
       gap: 24px;
+      @media screen and (max-width: 1439px) {
+        gap: 20px;
+      }
+      @media screen and (max-width: 1023px) {
+        gap: 16px;
+        flex-wrap: wrap;
+      }
       .single-card {
         background: #fff;
-        padding: 16px 64px 16px 24px;
+        padding: 16px 24px;
+        font-size: 16px;
         border-radius: 8px;
         position: relative;
-        &:after{
-          content: "\e907";
-          font-family: "wpsp";
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex-grow: 1;
+        @media screen and (max-width: 1439px) {
+          padding: 12px 20px;
+          font-size: 14px;
+        }
+        &:after {
+          content: '\e907';
+          font-family: 'wpsp';
           color: #ff9437;
           font-size: 0.75em;
           height: 2.2em;
@@ -83,19 +129,19 @@
           position: absolute;
           right: 16px;
           top: 12px;
-      }
+        }
         i {
-          color: #6C62FF;
-          font-size: 32px;
+          color: #6c62ff;
+          font-size: 2em;
         }
         h4 {
-          font-size: 16px;
+          font-size: 1em;
           font-weight: 600;
-          line-height: 1.2em;
-          padding-top: 14px;
+          line-height: 1.1;
+          padding-top: 0.75em;
           margin: 0;
         }
       }
-    } 
+    }
   }
 }
