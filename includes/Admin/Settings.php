@@ -925,7 +925,7 @@ class Settings {
                     'label'    => __('Scheduling Hub', 'wp-scheduled-posts'),
                     'priority' => 30,
                     'is_pro'   => true,
-                    'classes'  => 'pro_feature',
+                    'classes'  => !defined('WPSP_PRO_VERSION') ? 'pro_feature' : '',
                     'fields'   => apply_filters( 'wpsp_schedule_hub_fields',[
                         'schedule_hub_features'  => [
                             'name'     => 'schedule_hub_features',
