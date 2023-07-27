@@ -1120,6 +1120,7 @@ class Settings {
                                                                     'is_pro'        => true,
                                                                     'disabled_status'        => true,
                                                                     'priority'      => 5,
+                                                                    'is_pro'        => true,
                                                                 ],
                                                                 'missed_switcher_desc'  => [
                                                                     'id'            => 'missed_switcher_desc',

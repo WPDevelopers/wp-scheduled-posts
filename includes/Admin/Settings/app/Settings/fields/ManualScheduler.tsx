@@ -85,7 +85,7 @@ const ManualScheduler = (props) => {
     }
 
     // @ts-ignore 
-    let disabledStatus = wpspSettingsGlobal?.pro_version ? false : true;
+    let is_pro = wpspSettingsGlobal?.pro_version ? true : false;
 
     return (
         <div className={classNames('wprf-control', 'wprf-manual-scheduler', `wprf-${props.name}-manual-scheduler`, props?.classes)}>
@@ -93,11 +93,11 @@ const ManualScheduler = (props) => {
                 title={__("Manual Scheduler",'wp-scheduled-posts')}
                 sub_title={__('To configure the Manual Scheduler Settings, check out this <a href="https://wpdeveloper.com/docs/wp-scheduled-posts/how-does-manual-scheduler-work/" target="_blank">Doc</a>')}
                 name={name}
-                disabled_status={disabledStatus} 
-                status={manualSchedulerStatus} 
+                is_pro={!is_pro} 
+                value={manualSchedulerStatus} 
                 handle_status_change={handleManualScheduleStatusToggle}   
             />
-            <div className={`content ${disabledStatus ? 'pro-deactivated' : ''}`}>
+            <div className={`content ${!is_pro ? 'pro-deactivated' : ''}`}>
                 <Select
                     styles={selectStyles}
                     className='select-days main-select'
@@ -107,7 +107,7 @@ const ManualScheduler = (props) => {
                     }
                     options={options}
                     isMulti={false}
-                    isDisabled={disabledStatus}
+                    isDisabled={!is_pro}
                 />
                 <Select
                     styles={selectStyles}
@@ -118,11 +118,11 @@ const ManualScheduler = (props) => {
                     }
                     options={timeOptions}
                     isMulti={false}
-                    isDisabled={disabledStatus}
+                    isDisabled={!is_pro}
                 />
-                <button onClick={handleSavedManualSchedule} disabled={disabledStatus}>{ __('Save Schedule','wp-scheduled-posts') }</button>
+                <button onClick={handleSavedManualSchedule} disabled={!is_pro}>{ __('Save Schedule','wp-scheduled-posts') }</button>
             </div>
-            <div className={`weeks ${disabledStatus ? 'pro-deactivated' : ''}`}>
+            <div className={`weeks ${!is_pro ? 'pro-deactivated' : ''}`}>
                 {options.map((item, optionIndex) => (
                     <div key={optionIndex} className="week">
                         <h6>{ item.label }</h6>
