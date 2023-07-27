@@ -672,7 +672,7 @@ class Settings {
                                                     'id'            => 'twitter_wrapper',
                                                     'type'          => 'section',
                                                     'name'          => 'twitter_wrapper',
-                                                    'priority'      => 10,                                            
+                                                    'priority'      => 10,
                                                     'sub_title'     => sprintf( __('To configure the Twitter Tweet Settings, check out this <a target="_blank" href="%s">Doc.</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-tweet-wordpress-posts/' ),
                                                     'label'         => __('Twitter Tweet Settings', 'wp-scheduled-posts'),
                                                     'fields'        => [
@@ -986,7 +986,7 @@ class Settings {
                                                                     'sub_title'     => __('Enable to get options of scheduling a published post while updating it.','wp-scheduled-posts'),
                                                                     'default'       => 0,
                                                                     'is_pro'        => true,
-                                                                    'disabled_status'        => true,
+                                                                    'disabled_status'        => "true",
                                                                     'priority'      => 5,
                                                                 ],
                                                                 'advance_switcher_desc'  => [
@@ -1118,7 +1118,7 @@ class Settings {
                                                                     'sub_title'     => __('Enable to publish posts randomly', 'wp-scheduled-posts'),
                                                                     'default'       => 0,
                                                                     'is_pro'        => true,
-                                                                    'disabled_status'        => true,
+                                                                    'disabled_status'        => "true",
                                                                     'priority'      => 5,
                                                                     'is_pro'        => true,
                                                                 ],
