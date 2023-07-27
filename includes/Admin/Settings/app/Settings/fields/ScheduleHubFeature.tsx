@@ -9,7 +9,7 @@ let is_pro = wpspSettingsGlobal?.pro_version ? true : false;
     <div
       className={classNames(
         'wprf-control',
-        'wprf-scheudle-hub-features',
+        'wprf-schedule-hub-features',
         `wprf-${props.name}-schedule-hub-features`,
         props?.classes
       )}>
