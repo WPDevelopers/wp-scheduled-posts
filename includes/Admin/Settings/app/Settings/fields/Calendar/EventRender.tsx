@@ -132,7 +132,7 @@ export interface PostCardProps {
   setEditAreaToggle: React.Dispatch<
     React.SetStateAction<{ [key: number]: boolean }>
   >;
-  openModal: (post: any) => void;
+  openModal: (post: any, eventType: string) => void;
 }
 
 const PostCard: React.FC<PostCardProps> = ({
@@ -183,7 +183,7 @@ const PostCard: React.FC<PostCardProps> = ({
               onClick={(event) => {
                 event.preventDefault();
                 toggleEditArea();
-                openModal(post);
+                openModal(post, "addEvent");
               }}
             >
               Quick Edit
