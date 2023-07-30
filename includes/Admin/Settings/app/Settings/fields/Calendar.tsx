@@ -33,7 +33,13 @@ export default function Calendar(props) {
     year: getYear(currentDate),
   });
 
-  const [modalData, openModal] = useState<{post: any, eventType: string}>({post: null, eventType: null});
+  const [modalData, openModal] = useState<{post: any, eventType: string, post_date?: Date}>({post: null, eventType: null});
+  const onSubmit = (data: any, oldData) => {
+    const newEvents = events.filter((event) => event.postId !== oldData.postId);
+    console.log(newEvents);
+
+    setEvents([...newEvents, data]);
+  };
 
   const [sidebarToggle, setSidebarToggle] = useState(true);
   const [editAreaToggle, setEditAreaToggle] = useState({});
@@ -228,20 +234,18 @@ export default function Calendar(props) {
                 );
               }}
               dayCellDidMount={(args) => {
-                // console.log('dayCellDidMount', args);
-                const dayTop =
-                  args.el.getElementsByClassName("fc-daygrid-day-top");
-                // add a button on dayTop element as child
+                const dayTop = args.el?.getElementsByClassName("fc-daygrid-day-top")[0];
+                if (!dayTop) return;
+
                 const button = document.createElement("button");
                 button.innerHTML = "Add New";
-                if (args.isOther) {
-                  button.disabled = true;
-                }
-                button.addEventListener("click", (event) => {
-                  console.log("click", event, args);
-                  openModal({post: {}, eventType: "addEvent"});
+                button.disabled = args.isOther;
+                button.addEventListener("click", () => {
+                  console.log("click", args);
+                  openModal({ post: null, eventType: "addEvent", post_date: args.date });
                 });
-                dayTop[0].appendChild(button);
+
+                dayTop.appendChild(button);
               }}
               // Provide a drop callback function
               eventReceive={(info) => {
@@ -251,14 +255,14 @@ export default function Calendar(props) {
                 );
                 console.log("drop", info, props);
               }}
-              eventClick={function (info) {
-                console.log("Event: ", info.event.extendedProps);
-                console.log("info: ", info);
-                console.log(calendar.current?.getApi().view);
+              // eventClick={function (info) {
+              //   console.log("Event: ", info.event.extendedProps);
+              //   console.log("info: ", info);
+              //   console.log(calendar.current?.getApi().view);
 
-                // change the border color just for fun
-                // info.el.style.border = "1px solid red";
-              }}
+              //   // change the border color just for fun
+              //   info.el.style.border = "1px solid red";
+              // }}
               datesSet={(dateInfo) => {
                 // get the current month and year
                 const month = dateInfo.view.currentStart.getMonth() + 1;
@@ -284,7 +288,7 @@ export default function Calendar(props) {
           </div>
         )}
       </div>
-      {<ModalContent modalData={modalData} setModalData={openModal} />}
+      {<ModalContent modalData={modalData} setModalData={openModal} onSubmit={onSubmit} />}
     </div>
   );
 }

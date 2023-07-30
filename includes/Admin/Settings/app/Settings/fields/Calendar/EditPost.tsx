@@ -26,7 +26,9 @@ interface EditPostReturnType {
 export const ModalContent = ({
   modalData,
   setModalData,
+  onSubmit,
 }) => {
+  const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [postData, setPostData] = useState<Post>({
     post_title: '',
@@ -44,11 +46,13 @@ export const ModalContent = ({
         type       : modalData?.eventType,
         ID         : postData.ID,
         post_type  : postData.post_type,
-        post_status: postData.post_status,
+        // post_status: postData.post_status,
         postTitle  : postData.post_title,
         postContent: postData.post_content,
         date       : postData.post_date,
       },
+    }).then((data) => {
+      onSubmit(data, modalData?.post);
     }).finally(() => {
       closeModal();
     });
@@ -56,6 +60,7 @@ export const ModalContent = ({
 
   useEffect(() => {
     if (modalData?.post) {
+      setIsOpen(true);
       const post = modalData.post;
       setIsLoading(true);
       wpFetch({
@@ -77,13 +82,19 @@ export const ModalContent = ({
         setIsLoading(false);
       });
     } else {
-      setPostData({});
+      let data = {};
+      if(modalData?.post_date){
+        setIsOpen(true);
+        data = {post_date: modalData?.post_date};
+      }
+      setPostData(data);
     }
   }, [modalData]);
 
   const closeModal = () => {
     setModalData(false);
     setPostData({});
+    setIsOpen(false);
   };
 
   useEffect(() => {
@@ -92,9 +103,12 @@ export const ModalContent = ({
     };
   }, []);
 
+  console.log({...modalData});
+
+
   return (
     <Modal
-      isOpen={!!modalData?.post}
+      isOpen={isOpen}
       onRequestClose={closeModal}
       ariaHideApp={false}
       className="modal_wrapper"
