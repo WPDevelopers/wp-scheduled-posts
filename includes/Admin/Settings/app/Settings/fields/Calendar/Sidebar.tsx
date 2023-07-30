@@ -1,16 +1,11 @@
 // Import React and other dependencies
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import apiFetch from "@wordpress/api-fetch";
 import { Draggable } from "@fullcalendar/interaction";
+import apiFetch from "@wordpress/api-fetch";
 import { addQueryArgs } from '@wordpress/url';
+import React, { useCallback, useEffect, useRef, useState } from "react";
 // @wordpress/component
-import { Button } from "@wordpress/components";
-import { default as ReactSelect } from "react-select";
-import { selectStyles } from "../../helper/styles";
-import { components } from "react-select";
-import { __ } from "@wordpress/i18n";
-import PostCard from "./EventRender";
 import CategorySelect from "./Category";
+import PostCard from "./EventRender";
 import { getValues } from "./Helpers";
 
 // Define your component
@@ -87,7 +82,7 @@ export default function Sidebar({openModal, selectedPostType}) {
           <span className="spinner"></span>
         </h4>
         <CategorySelect selectedPostType={selectedPostType} onChange={setOptionSelected} showTags />
-        <div ref={draggableRef}>
+        <div className="event-wrapper" ref={draggableRef}>
           {posts.map(
             (
               post // Loop through your posts using map method
