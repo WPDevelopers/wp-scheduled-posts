@@ -470,7 +470,7 @@ class Calendar
         } else if ($type == 'addEvent') {
 
             // only works if update event is fired
-            if ($postid != "") {
+            if (!empty($postid)) {
                 wp_update_post(array(
                     'ID'            => $postid,
                     'post_type'     => $post_type,

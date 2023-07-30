@@ -75,9 +75,9 @@ const ReactSelectWrapper: React.FC<Props> = ({ options, value, onChange, showTag
         newValue = [];
       } else {
         newValue = newValue.filter((item) => item.value !== "all");
-        if (newValue.length === 0) {
-          newValue = allOptionFlatten;
-        }
+        // if (newValue.length === 0) {
+        //   newValue = allOptionFlatten;
+        // }
       }
     }
     onChange(newValue);
