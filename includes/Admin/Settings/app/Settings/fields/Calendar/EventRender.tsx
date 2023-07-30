@@ -3,109 +3,7 @@ import { EventContentArg, sliceEvents, createPlugin } from "@fullcalendar/core";
 import { Button } from "@wordpress/components";
 import apiFetch from "@wordpress/api-fetch";
 import { addQueryArgs } from "@wordpress/url";
-import useEditPost from "./EditPost";
 
-// a custom render function
-
-const renderEventContent = (
-  editAreaToggle,
-  setEditAreaToggle,
-  handleOpenModal
-) => {
-  return (eventInfo: EventContentArg) => {
-    const { title, start, end, allDay } = eventInfo.event;
-    const { postId, href, edit, status, postType, postTime } =
-      eventInfo.event.extendedProps;
-    return (
-      <div className="wpscp-event-post">
-        <div className="postlink">
-          <span>
-            <span className="posttime">[{postTime}]</span> {title} [{status}]
-          </span>
-        </div>
-
-        <div className="postactions">
-          <div>
-            <i
-              className="wpsp-icon wpsp-dots event-rendered-edit-icon"
-              onClick={() => {
-                setEditAreaToggle(() => {
-                  let checkExistingIndex = editAreaToggle.findIndex(
-                    (item) => item.post === postId
-                  );
-                  if (checkExistingIndex !== -1) {
-                    return [
-                      {
-                        post: postId,
-                        value: editAreaToggle[checkExistingIndex].value
-                          ? false
-                          : true,
-                      },
-                    ];
-                  } else {
-                    return [
-                      {
-                        post: postId,
-                        value: true,
-                      },
-                    ];
-                  }
-                });
-              }}
-            ></i>
-            {editAreaToggle.find((item) => item.post === postId)?.value && (
-              <ul className="edit-area">
-                <li>
-                  <Button
-                    variant="link"
-                    target="_blank"
-                    href={decodeURIComponent(href)}
-                  >
-                    View
-                  </Button>
-                </li>
-                <li>
-                  <Button
-                    variant="link"
-                    target="_blank"
-                    href={decodeURIComponent(edit)}
-                  >
-                    Edit
-                  </Button>
-                </li>
-                <li>
-                  <Button
-                    variant="link"
-                    href="#"
-                    onClick={(event) => {
-                      event.preventDefault();
-                      handleOpenModal(eventInfo.event.extendedProps);
-                    }}
-                  >
-                    Quick Edit
-                  </Button>
-                </li>
-                <li>
-                  <Button
-                    variant="link"
-                    href="#"
-                    onClick={(event) => {
-                      event.preventDefault();
-                    }}
-                  >
-                    Delete
-                  </Button>
-                </li>
-              </ul>
-            )}
-          </div>
-        </div>
-      </div>
-    );
-  };
-};
-
-// export default renderEventContent;
 
 const deletePost = (id) => {
   apiFetch({
@@ -132,7 +30,7 @@ export interface PostCardProps {
   setEditAreaToggle: React.Dispatch<
     React.SetStateAction<{ [key: number]: boolean }>
   >;
-  openModal: (post: any, eventType: string) => void;
+  openModal: (modalData: {post: any, eventType: string}) => void;
 }
 
 const PostCard: React.FC<PostCardProps> = ({
@@ -183,7 +81,7 @@ const PostCard: React.FC<PostCardProps> = ({
               onClick={(event) => {
                 event.preventDefault();
                 toggleEditArea();
-                openModal(post, "addEvent");
+                openModal({post, eventType: "addEvent"});
               }}
             >
               Quick Edit

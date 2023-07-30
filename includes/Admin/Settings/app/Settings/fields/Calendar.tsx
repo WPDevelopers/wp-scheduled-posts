@@ -15,7 +15,7 @@ import classNames from "classnames";
 import { __ } from "@wordpress/i18n";
 import { EventContentArg } from "@fullcalendar/core";
 import PostCard from "./Calendar/EventRender";
-import useEditPost, { ModalContent } from "./Calendar/EditPost";
+import { ModalContent } from "./Calendar/EditPost";
 import CategorySelect from "./Calendar/Category";
 import { getYear, getMonth } from "date-fns";
 import ReactSelectWrapper, { Option, addAllOption, getOptionsFlatten } from "./Calendar/ReactSelectWrapper";
@@ -35,13 +35,15 @@ export default function Calendar(props) {
     month: getMonth(currentDate) + 1,
     year: getYear(currentDate),
   });
-  const [sidebarToogle, setSidebarToggle] = useState(true);
+
+  const [modalData, openModal] = useState<{post: any, eventType: string}>({post: null, eventType: null});
+
+  const [sidebarToggle, setSidebarToggle] = useState(true);
   const [editAreaToggle, setEditAreaToggle] = useState({});
 
   const [selectedPostType, setSelectedPostType] = useState<Option[]>(addAllOption(getOptionsFlatten(props.post_types)));
   const [selectedCategories, setSelectedCategories] = useState<Option[]>([]);
 
-  const editPostModalProps = useEditPost();
 
   const MyWrapperComponent = ({ children, ...rest }) => {
     return React.cloneElement(children, { ...rest });
@@ -83,7 +85,7 @@ export default function Calendar(props) {
   }, [builderContext.config.active]);
 
   const handleSlidebarToggle = () => {
-    setSidebarToggle(sidebarToogle ? false : true);
+    setSidebarToggle(sidebarToggle ? false : true);
   };
 
   return (
@@ -111,7 +113,7 @@ export default function Calendar(props) {
         </div>
       </div>
       <div className="wpsp-calender-content main-content-wrapper">
-        <div className={`main-content ${!sidebarToogle ? "basis-100" : ""}`}>
+        <div className={`main-content ${!sidebarToggle ? "basis-100" : ""}`}>
           <div className="toolbar">
             <div className="left">
               <CategorySelect
@@ -161,7 +163,7 @@ export default function Calendar(props) {
               <i
                 onClick={handleSlidebarToggle}
                 className={`wpsp-icon wpsp-manual-sc ${
-                  !sidebarToogle ? "inactive" : ""
+                  !sidebarToggle ? "inactive" : ""
                 }`}
               />
             </div>
@@ -191,6 +193,13 @@ export default function Calendar(props) {
               ref={calendar}
               plugins={[dayGridPlugin, interactionPlugin]}
               initialView="dayGridMonth"
+              // dateClick={handleDateClick}
+              // Enable droppable option
+              editable={true}
+              droppable={true}
+              eventResizableFromStart={false}
+              eventDurationEditable={false}
+              // headerToolbar={false}
               dayMaxEvents={1}
               dayPopoverFormat={{ day: "numeric" }}
               moreLinkContent={(arg) => {
@@ -217,7 +226,7 @@ export default function Calendar(props) {
                     post={post}
                     editAreaToggle={editAreaToggle}
                     setEditAreaToggle={setEditAreaToggle}
-                    openModal={editPostModalProps.openModal}
+                    openModal={openModal}
                   />
                 );
               }}
@@ -233,15 +242,10 @@ export default function Calendar(props) {
                 }
                 button.addEventListener("click", (event) => {
                   console.log("click", event, args);
-                  editPostModalProps.openModal(false, "addEvent");
+                  openModal({post: {}, eventType: "addEvent"});
                 });
                 dayTop[0].appendChild(button);
               }}
-              // dateClick={handleDateClick}
-              // Enable droppable option
-              editable={true}
-              droppable={true}
-              // headerToolbar={false}
               // Provide a drop callback function
               eventReceive={(info) => {
                 const props = info.event.extendedProps;
@@ -274,16 +278,16 @@ export default function Calendar(props) {
             />
           </div>
         </div>
-        {sidebarToogle && (
+        {sidebarToggle && (
           <div className="sidebar">
             <Sidebar
-              openModal={editPostModalProps.openModal}
+              openModal={openModal}
               selectedPostType={selectedPostType}
             />
           </div>
         )}
       </div>
-      {<ModalContent {...editPostModalProps} />}
+      {<ModalContent modalData={modalData} setModalData={openModal} />}
     </div>
   );
 }
