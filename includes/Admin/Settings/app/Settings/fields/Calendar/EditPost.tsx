@@ -23,11 +23,11 @@ interface EditPostReturnType {
 }
 
 
-
-const useEditPost = () => {
-  const [isOpen, setIsOpen] = useState(false);
+export const ModalContent = ({
+  modalData,
+  setModalData,
+}) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [eventType, setEventType] = useState('');
   const [postData, setPostData] = useState<Post>({
     post_title: '',
     post_content: '',
@@ -41,7 +41,7 @@ const useEditPost = () => {
       method: "POST",
       path: "/wpscp/v1/post",
       data: {
-        type       : eventType,
+        type       : modalData?.eventType,
         ID         : postData.ID,
         post_type  : postData.post_type,
         post_status: postData.post_status,
@@ -54,15 +54,14 @@ const useEditPost = () => {
     });
   };
 
-  const openModal = (post, eventType) => {
-    setIsOpen(true);
-    setEventType(eventType);
-    if (post) {
+  useEffect(() => {
+    if (modalData?.post) {
+      const post = modalData.post;
       setIsLoading(true);
       wpFetch({
         path: addQueryArgs(`/wpscp/v1/post`, {
-          postId: post.postId,
-          postType: post.postType,
+          postId     : post.postId,
+          postType   : post.postType,
           post_status: post.status,
         }),
       })
@@ -80,12 +79,11 @@ const useEditPost = () => {
     } else {
       setPostData({});
     }
-  };
+  }, [modalData]);
 
   const closeModal = () => {
-    setIsOpen(false);
+    setModalData(false);
     setPostData({});
-    setEventType('');
   };
 
   useEffect(() => {
@@ -94,29 +92,9 @@ const useEditPost = () => {
     };
   }, []);
 
-  return {
-    isOpen,
-    openModal,
-    closeModal,
-    handleSubmit,
-    isLoading,
-    postData, setPostData,
-  };
-};
-
-
-export const ModalContent = ({
-  isOpen,
-  postData,
-  closeModal,
-  handleSubmit,
-  isLoading,
-  setPostData,
-}) => {
-
   return (
     <Modal
-      isOpen={isOpen}
+      isOpen={!!modalData?.post}
       onRequestClose={closeModal}
       ariaHideApp={false}
       className="modal_wrapper"
@@ -168,5 +146,3 @@ export const ModalContent = ({
     </Modal>
   );
 };
-
-export default useEditPost;
