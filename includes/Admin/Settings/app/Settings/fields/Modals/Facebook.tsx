@@ -8,7 +8,7 @@ export default function Facebook({ page, group, addProfileToggle,savedProfile })
             <div className='wpsp-modal-social-platform'>
                 <ul>
                     {page.length > 0 && (
-                        <li>{__('Pages:', 'wp-scheduled-posts')} </li>
+                        <li className='group-title'>{__('Pages:', 'wp-scheduled-posts')} </li>
                     )}
                     {page.map((item, index) => (
                         <li id={'facebook_page_' + index} key={index}>
@@ -40,7 +40,7 @@ export default function Facebook({ page, group, addProfileToggle,savedProfile })
                     ))}
 
                     {group.length > 0 && (
-                        <li>{__('Group:', 'wp-scheduled-posts')} </li>
+                        <li className='group-title'>{__('Group:', 'wp-scheduled-posts')} </li>
                     )}
 
                     {group.map((item, index) => (

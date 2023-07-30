@@ -23,7 +23,7 @@ export default function Linkedin({ platform, data, addProfileToggle,savedProfile
            <div className='wpsp-modal-social-platform'>
                 <ul>
                     {all_pages.length > 0 && (
-                        <li>{__('Pages:', 'wp-scheduled-posts')} </li>
+                        <li className='group-title'>{__('Pages:', 'wp-scheduled-posts')} </li>
                     )}
                     {all_pages.map((item, index) => (
                         <li key={index}>
@@ -56,7 +56,7 @@ export default function Linkedin({ platform, data, addProfileToggle,savedProfile
                 </ul>
                 <ul>
                     {all_profiles.length > 0 && (
-                        <li>{__('Profile:', 'wp-scheduled-posts')} </li>
+                        <li className='group-title'>{__('Profile:', 'wp-scheduled-posts')} </li>
                     )}
                     {all_profiles.map((item, index) => (
                         <li key={index}>

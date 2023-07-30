@@ -11,6 +11,10 @@
     border: none;
     border-radius: 8px;
     background: #fff;
+    @media screen and (max-width: 1439px) {
+      width: 400px;
+      padding: 28px;
+    }
     .swal2-cancel {
       position: absolute;
       top: 24px;
@@ -24,6 +28,11 @@
       padding: 0;
       margin: 0;
       cursor: pointer;
+      @media screen and (max-width: 1439px) {
+        top: 20px;
+        right: 20px;
+        font-size: 12px;
+      }
       &:focus {
         box-shadow: none;
         background-image: none;
@@ -36,6 +45,10 @@
       color: #ff9437;
       margin-bottom: 24px;
       padding: 0px;
+      @media screen and (max-width: 1439px) {
+        font-size: 28px;
+        margin-bottom: 16px;
+      }
     }
     .swal2-html-container {
       margin: 0;
@@ -44,6 +57,10 @@
         line-height: 1.2em;
         color: #1b1b50;
         margin: 0 0 32px;
+        @media screen and (max-width: 1439px) {
+          font-size: 18px;
+          margin: 0 0 24px;
+        }
       }
       img {
         border: none;
@@ -52,6 +69,9 @@
         display: block;
         text-align: center;
         margin: 0 auto;
+        @media screen and (max-width: 1439px) {
+          width: 300px;
+        }
       }
       a {
         display: inline-block;
@@ -63,6 +83,10 @@
         margin-top: 32px;
         border: none;
         cursor: pointer;
+        @media screen and (max-width: 1439px) {
+          padding: 16px 20px !important;
+          margin-top: 24px;
+        }
         button {
           font-weight: 500;
           font-size: 14px;
@@ -72,6 +96,9 @@
           border: none;
           padding: unset;
           cursor: pointer;
+          @media screen and (max-width: 1439px) {
+            font-size: 12px;
+          }
         }
       }
     }
@@ -102,8 +129,15 @@
     width: 600px !important;
     box-sizing: border-box;
     position: relative;
+    @media screen and (max-width: 1439px) {
+      width: 450px !important;
+      padding: 30px;
+    }
     .error-message {
       margin-bottom: 16px;
+      @media screen and (max-width: 1439px) {
+        margin-bottom: 12px;
+      }
     }
     .close-button {
       position: absolute;
@@ -115,12 +149,21 @@
       color: #989fab;
       font-weight: 500;
       cursor: pointer;
+      @media screen and (max-width: 1439px) {
+        top: 20px;
+        right: 20px;
+        font-size: 12px;
+      }
     }
     .platform-info {
       display: flex;
       align-items: center;
       gap: 12px;
       margin-bottom: 32px;
+      @media screen and (max-width: 1439px) {
+        gap: 10px;
+        margin-bottom: 24px;
+      }
       h4 {
         font-size: 22px !important;
         margin: 0 !important;
@@ -128,6 +171,9 @@
         line-height: 26px;
         font-weight: 600 !important;
         text-transform: capitalize;
+        @media screen and (max-width: 1439px) {
+          font-size: 18px !important;
+        }
       }
     }
     .toggler_wrapper {
@@ -135,6 +181,10 @@
       align-items: center;
       gap: 30px;
       margin-bottom: 32px;
+      @media screen and (max-width: 1439px) {
+        gap: 20px;
+        margin-bottom: 24px;
+      }
       input {
         margin: 0 !important;
         order: 1;
@@ -144,6 +194,9 @@
         font-size: 16px;
         font-weight: 500;
         line-height: 20px;
+        @media screen and (max-width: 1439px) {
+          font-size: 14px;
+        }
       }
     }
     .wpsp-modal-generate-token-button {
@@ -155,16 +208,24 @@
       height: auto !important;
       font-weight: 500;
       font-size: 14px;
-      line-height: 17px !important;
+      line-height: 1.2 !important;
       margin-bottom: 24px;
       border: none;
       cursor: pointer;
+      @media screen and (max-width: 1439px) {
+        padding: 16px 20px !important;
+        font-size: 12px;
+        margin-bottom: 20px;
+      }
     }
     p {
       font-size: 14px;
       line-height: 24px;
       margin: 0;
       color: #6e6e8d;
+      @media screen and (max-width: 1439px) {
+        font-size: 12px;
+      }
       a {
         color: #1b1b50 !important;
       }
@@ -172,17 +233,25 @@
     .modalbody {
       .form-group {
         margin-bottom: 32px;
+        @media screen and (max-width: 1439px) {
+          margin-bottom: 24px;
+        }
         .wprf-control-wrapper {
           display: flex;
           flex-direction: column;
           align-items: unset;
         }
         label {
-          display: block;
-          margin-bottom: 16px !important;
+          font-size: 16px;
+          line-height: 1.2;
           font-weight: 500;
           color: #1b1b50;
-          line-height: 20px;
+          display: block;
+          margin-bottom: 16px !important;
+          @media screen and (max-width: 1439px) {
+            font-size: 14px;
+            margin-bottom: 12px !important;
+          }
         }
         input,
         textarea {
@@ -196,6 +265,10 @@
           border-radius: 4px;
           resize: none;
           margin: 0 !important;
+          @media screen and (max-width: 1439px) {
+            font-size: 14px;
+            padding: 16px 12px;
+          }
           &:focus {
             box-shadow: none !important;
             outline: 0 !important;
@@ -209,6 +282,10 @@
           color: #6e6e8d;
           padding-top: 16px;
           display: block;
+          @media screen and (max-width: 1439px) {
+            font-size: 12px;
+            padding-top: 12px;
+          }
         }
       }
       button[type='submit'] {
@@ -222,6 +299,11 @@
         background: #6c62ff;
         margin-top: 20px;
         cursor: pointer;
+        @media screen and (max-width: 1439px) {
+          font-size: 12px;
+          padding: 12px 24px;
+          margin-top: 16px;
+        }
       }
       .wpsp-modal-social-platform {
         .wpsp-modal-save-account {
@@ -235,6 +317,11 @@
           background: #6c62ff;
           margin-top: 20px;
           cursor: pointer;
+          @media screen and (max-width: 1439px) {
+            font-size: 12px;
+            padding: 12px 24px;
+            margin-top: 16px;
+          }
         }
         .pinterest-model-wrapper {
           .author-details {
@@ -246,6 +333,10 @@
               height: 32px;
               border-radius: 50%;
               max-width: 100%;
+              @media screen and (max-width: 1439px) {
+                width: 24px;
+                height: 24px;
+              }
             }
             h3,
             h4 {
@@ -254,11 +345,17 @@
               line-height: 1.2em;
               font-weight: 500;
               margin: 0;
+              @media screen and (max-width: 1439px) {
+                font-size: 14px;
+              }
             }
           }
           .profile-info {
             ul {
               margin: 16px 0 0;
+              @media screen and (max-width: 1439px) {
+                margin: 12px 0 0;
+              }
               li {
                 margin-bottom: 8px;
               }
@@ -270,6 +367,10 @@
               border: 1px solid #ebeef5;
               padding: 8px 18px;
               border-radius: 4px;
+              @media screen and (max-width: 1439px) {
+                gap: 12px;
+                padding: 6px 14px;
+              }
               .entry-title {
                 flex-grow: 1;
                 margin: 0;
@@ -277,6 +378,9 @@
                 line-height: 1.2em;
                 font-weight: 500;
                 text-transform: capitalize;
+                @media screen and (max-width: 1439px) {
+                  font-size: 12px;
+                }
               }
             }
           }
@@ -296,6 +400,10 @@
               height: 32px;
               border-radius: 50%;
               max-width: 100%;
+              @media screen and (max-width: 1439px) {
+                width: 24px;
+                height: 24px;
+              }
             }
             h3,
             h4 {
@@ -304,18 +412,28 @@
               line-height: 1.2em;
               font-weight: 500;
               margin: 0;
+              @media screen and (max-width: 1439px) {
+                font-size: 12px;
+              }
             }
           }
         }
         ul {
           margin: 16px 0 0;
-          // li:first-child {
-          //   color: #1b1b50;
-          //   font-size: 16px;
-          //   line-height: 1.2em;
-          //   font-weight: 500;
-          //   margin: 0 0 16px;
-          // }
+          @media screen and (max-width: 1439px) {
+            margin: 12px 0 0;
+          }
+          .group-title {
+            color: #1b1b50;
+            font-size: 16px;
+            line-height: 1.2em;
+            font-weight: 500;
+            margin: 0 0 16px;
+            @media screen and (max-width: 1439px) {
+              font-size: 14px;
+              margin: 0 0 12px;
+            }
+          }
           li {
             margin-bottom: 8px;
             .item-content {
@@ -325,6 +443,10 @@
               border: 1px solid #ebeef5;
               padding: 8px 18px;
               border-radius: 4px;
+              @media screen and (max-width: 1439px) {
+                gap: 12px;
+                padding: 6px 14px;
+              }
               .entry-title {
                 flex-grow: 1;
                 margin: 0;
@@ -332,6 +454,9 @@
                 line-height: 1.2em;
                 font-weight: 500;
                 text-transform: capitalize;
+                @media screen and (max-width: 1439px) {
+                  font-size: 12px;
+                }
               }
             }
           }
