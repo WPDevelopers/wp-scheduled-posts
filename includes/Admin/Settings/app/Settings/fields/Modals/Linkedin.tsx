@@ -33,10 +33,10 @@ export default function Linkedin({ platform, data, addProfileToggle,savedProfile
                                         src={item?.thumbnail_url}
                                         alt={ __('page-thumbnail','wp-scheduled-posts') }
                                     />
+                                    <h4 className='entry-title'>
+                                        {item?.name}
+                                    </h4>
                                 </div>
-                                <h4 className='entry-title'>
-                                    {item?.name}
-                                </h4>
                                 <div className='control'>
                                     <input
                                         type='checkbox'
@@ -66,10 +66,10 @@ export default function Linkedin({ platform, data, addProfileToggle,savedProfile
                                         src={item?.thumbnail_url}
                                         alt={ __('profile-thumbnail','wp-scheduled-posts') }
                                     />
+                                    <h4 className='entry-title'>
+                                        {item?.name}
+                                    </h4>
                                 </div>
-                                <h4 className='entry-title'>
-                                    {item?.name}
-                                </h4>
                                 <div className='control'>
                                     <input
                                         type='checkbox'

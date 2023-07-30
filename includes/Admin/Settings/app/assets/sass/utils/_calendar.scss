@@ -332,6 +332,9 @@
                                         padding: 8px;
                                         border-radius: 6px;
                                         margin-top: 6px;
+                                        .card {
+                                            min-width: auto;
+                                        }
                                         .wpscp-event-post {
                                             span {
                                                 display: flex;
