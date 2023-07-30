@@ -1,25 +1,22 @@
-import React, { ReactElement, useEffect, useRef, useState } from "react";
-import apiFetch from "@wordpress/api-fetch";
-import { addQueryArgs } from "@wordpress/url";
-import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
-import Sidebar from "./Calendar/Sidebar";
-import renderEventContent, { PostCardProps } from "./Calendar/EventRender";
+import FullCalendar from "@fullcalendar/react";
+import apiFetch from "@wordpress/api-fetch";
 import { useBuilderContext } from "quickbuilder";
+import React, { useEffect, useRef, useState } from "react";
+import { PostCardProps } from "./Calendar/EventRender";
+import Sidebar from "./Calendar/Sidebar";
 // const events = [{ title: "Meeting", start: new Date() }];
-import { selectStyles } from "../helper/styles";
-import { components } from "react-select";
 import MonthPicker from "@compeon-os/monthpicker";
-import classNames from "classnames";
-import { __ } from "@wordpress/i18n";
 import { EventContentArg } from "@fullcalendar/core";
-import PostCard from "./Calendar/EventRender";
-import { ModalContent } from "./Calendar/EditPost";
+import { __ } from "@wordpress/i18n";
+import classNames from "classnames";
+import { getMonth, getYear } from "date-fns";
 import CategorySelect from "./Calendar/Category";
-import { getYear, getMonth } from "date-fns";
-import ReactSelectWrapper, { Option, addAllOption, getOptionsFlatten } from "./Calendar/ReactSelectWrapper";
+import { ModalContent } from "./Calendar/EditPost";
+import PostCard from "./Calendar/EventRender";
 import { getValues } from "./Calendar/Helpers";
+import ReactSelectWrapper, { Option, addAllOption, getOptionsFlatten } from "./Calendar/ReactSelectWrapper";
 
 export default function Calendar(props) {
   // @ts-ignore
@@ -260,7 +257,7 @@ export default function Calendar(props) {
                 console.log(calendar.current?.getApi().view);
 
                 // change the border color just for fun
-                info.el.style.border = "1px solid red";
+                // info.el.style.border = "1px solid red";
               }}
               datesSet={(dateInfo) => {
                 // get the current month and year

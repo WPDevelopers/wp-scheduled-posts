@@ -1,453 +1,466 @@
 .wprf-tab-layout_calendar {
-    .calendar_section {
-        padding: 0 !important;
-        background: transparent !important;
-        .wprf-section-fields {
-            display: flex;
-            gap: 32px;
-            .sidebar {
-                flex-basis: 20%;
-                padding: 32px;
-                background-color: #fff;
-                border-radius: 6px;
-                box-sizing: border-box;
-                select {
-                    min-width: 140px;
-                    margin-bottom: 20px;
-                }
-                .card {
-                    position: relative;
-                    margin-top: 20px;
-                    padding: 14px 14px 10px;
-                    min-width: 200px;
-                    max-width: unset;
-                    border: none;
-                    box-shadow: none;
-                    background: #FCF0E4;
-                    border-radius: 6px;
-                    box-sizing: border-box;
-                    &:before {
-                        position: absolute;
-                        content: '';
-                        width: 2px;
-                        height: 64px;
-                        background: #E8821E;
-                        border-radius: 50px;
-                        left: -1px;
-                        top: 18px;
-                    }
-                    .set-time {
-                        font-size: 12px;
-                        font-weight: 500;
-                        line-height: 1.2em;
-                        color: #73400D;
-                        margin-bottom: 10px;
-                        display: block;
-                    }
-                    h3 {
-                        color: #E8821E;
-                        font-size: 14px;
-                        font-weight: 500;
-                        line-height: 1.2em;
-                        margin: 0 0 10px;
-                    }
-                    .Unscheduled-badge {
-                        font-size: 8px;
-                        text-transform: uppercase;
-                        color: #fff;
-                        font-weight: 500;
-                        line-height: 1.2em;
-                        background: #E8821E;
-                        padding: 4px 6px;
-                        border-radius: 20px;
-                    }
-                    i {
-                        position: absolute;
-                        right: 14px;
-                        top: 12px;
-                        padding: 4px;
-                        font-size: 12px;
-                        color: #6E6E8D;
-                        cursor: pointer;
-                        transition: ease-in-out .25s;
-                        &:hover {
-                            .edit-area{
-                                display: block;
-                                opacity: 1;
-                            }
-                        }
-                    }
-                }
-                p {
-                    margin: 32px 0 0;
-                    .btn-draft-post-create {
-                        background: #E5FAF4;
-                        padding: 16px 22px;
-                        border-radius: 6px;
-                        font-size: 14px;
-                        font-weight: 500;
-                        line-height: 1.2em;
-                        color: #26D39E;
-                        text-decoration: none;
-                        display: inline-block;
-                        &:hover {
-                            color: #26D39E;
-                        }
-                    }
-                }
-            }
-            .main-content {
-                flex-basis: 80%;
-                background: #fff;
-                padding: 30px;
-                border-radius: 6px;
-                .toolbar {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    margin-bottom: 18px;
-                    .left {
-                        display: flex;
-                        gap: 18px;
-                        select {
-                            font-size: 16px;
-                            font-weight: 500;
-                            line-height: 1.2em;
-                            color: #6E6E8D;
-                            min-width: 140px;
-                            height: 44px;
-                            border: 1px solid #EBEEF5;
-                            text-transform: capitalize;
-                        }
-                    }
-                    .middle {
-                        font-size: 24px;
-                        font-weight: 600;
-                        line-height: 1.2em;
-                        color: #1B1B50;
-                        display: flex;
-                        align-items: center;
-                        gap: 10px;
-                        position: relative;
-                        > div > div:nth-child(2) {
-                            margin-left: -100%;
-                            margin-top: 14px;
-                            background: #fff;
-                            border: none;
-                            box-shadow: 0px 12px 48px 0 rgba(27, 27, 80, 0.1);
-                            > div:nth-child(1) {
-                                padding: 12px 12px;
-                                font-weight: bold;
-                                display: flex;
-                                -webkit-box-pack: justify;
-                                justify-content: space-between;
-                                -webkit-box-align: center;
-                                align-items: center;
-                                background-color: transparent;
-                                color: #6C62FF;
-                                border-style: solid;
-                                border-width: 0 0 1px 0;
-                                border-color: #EBEEF5;
-                                border-radius: 0 !important;
-                                span.sc-iGgWBj {
-                                    font-size: 20px;
-                                    font-weight: 600;
-                                }
-                                .crmjJN {
-                                    cursor: pointer;
-                                    fill: #6C62FF;
-                                    background: #F3F2FF;
-                                    border: #EBEEF5;
-                                }
-                                .kzaerY {
-                                    cursor: pointer;
-                                    fill: #6C62FF;
-                                    background: #F3F2FF;
-                                    border: #EBEEF5;
-                                }
-                            }
-                            > div:nth-child(2) {
-                                height: 0px;
-                            }
-                            > div:nth-child(3) {
-                                background-color: transparent;
-                                border-radius: 0px;
-                                width: 400px;
-                                display: flex;
-                                flex-wrap: wrap;
-                                padding: 8px 24px;
-                                > div {
-                                    border: none;
-                                    padding: 16px 0px;
-                                    font-size: 12px;
-                                    font-weight: 500;
-                                    line-height: 1.2em;
-                                    text-transform: uppercase;
-                                    background-color: transparent;
-                                    color: #1B1B50;
-                                    height: unset;
-                                    display: flex;
-                                    -webkit-box-pack: center;
-                                    justify-content: center;
-                                    -webkit-box-align: center;
-                                    align-items: center;
-                                    flex: 0 0 33.33%;
-                                    cursor: pointer;
-                                    &:hover {
-                                        color: #6C62FF;
-                                    }
-                                }
-                                .FeHZw {
-                                    color: #6C62FF !important;
-                                }
-                            }
-                        }
-                    }
-                    .right {
-                        display: flex;
-                        align-items: center;
-                        gap: 18px;
-                        button {
-                            background: #F3F2FF;
-                            padding: 16px 22px;
-                            border: none;
-                            box-sizing: border-box;
-                            border-radius: 6px;
-                            color: #6C62FF;
-                            font-size: 14px;
-                            font-weight: 500;
-                            cursor: pointer;
-                        }
-                        i {
-                            font-size: 24px;
-                            color: #fff;
-                            background: #26D39E;
-                            padding: 10px;
-                            border-radius: 6px;
-                            cursor: pointer;
-                        }
-                    }
-                }
-                .wprf-calendar-wrapper {
-                    position: relative;
-                    .button-control-month {
-                        .wpsp-button-primary {
-                            background-color: #F3F2FF !important;
-                            border: 1px solid #EBEEF5 !important;
-                            border-radius: 0 !important;
-                            width: 40px !important;
-                            height: 49px !important;
-                            cursor: pointer;
-                            .wpsp-icon {
-                                font-size: 16px;
-                                color: #6C62FF;
-                            }
-                        }
-                        .wpsp-prev-button {
-                            position: absolute !important;
-                            left: 0px;
-                            top: 0px;
-                        }
-                        .wpsp-next-button {
-                            position: absolute !important;
-                            right: 0px;
-                            top: 0px;
-                            i {
-                                transform: rotateY(30deg);
-                            }
-                        }
-                    }
-                }
-                .fc-theme-standard {
-                    .fc-header-toolbar {
-                        display: none;
-                        // position: relative !important;
-                        // margin-bottom: 0;
-                        // .fc-toolbar-chunk {
-                        //     .fc-toolbar-title {
-                        //         display: none;
-                        //     }
-                        //     .fc-today-button {
-                        //         display: none;
-                        //     }
-                        // }
-                    }
-                    .fc-view-harness {
-                        margin: 0 40px !important;
-                        position: relative;
-                        thead {
-                            .fc-scroller {
-                                .fc-col-header-cell {
-                                    padding: 14px 28px !important;
-                                    background: #fff;
-                                    transition: ease-in-out .25s;
-                                    &:hover {
-                                        background: #F3F2FF;
-                                        a {
-                                            color: #6C62FF;
-                                        }
-                                    }
-                                    .fc-col-header-cell-cushion {
-                                        font-size: 12px;
-                                        font-weight: 500;
-                                        color: #1B1B50;
-                                        text-transform: uppercase;
-                                        padding: 0;
-                                    }
-                                }
-                            }
-                        }
-                        .fc-daygrid-body {
-                            .fc-daygrid-day-frame {
-                                padding: 6px;
-                                background: #F9FAFC;
-                                .fc-daygrid-day-top {
-                                    display: flex;
-                                    flex-direction: row;
-                                    align-items: center;
-                                    justify-content: space-between;
-                                    gap: 10px;
-                                    .fc-daygrid-day-number {
-                                        font-size: 14px;
-                                        line-height: 1.2em;
-                                        color: #6E6E8D;
-                                        padding: 6px 8px;
-                                        background: #fff;
-                                        border-radius: 4px;
-                                    }
-                                    button {
-                                        font-size: 12px;
-                                        line-height: 1.2em;
-                                        color: #6E6E8D;
-                                        padding: 0;
-                                        border: none;
-                                        background: transparent;
-                                        cursor: pointer;
-                                    }
-                                }
-                                .fc-daygrid-day-events {
-                                    .fc-event {
-                                        border: none;
-                                        background: #ECF5E7;
-                                        padding: 8px;
-                                        border-radius: 6px;
-                                        margin-top: 6px;
-                                        .wpscp-event-post {
-                                            span {
-                                                display: flex;
-                                                flex-direction: column;
-                                                font-size: 14px;
-                                                line-height: 1.2em;
-                                                font-weight: 500;
-                                                color: #64AA3C;
-                                                .posttime {
-                                                    font-size: 12px !important;
-                                                    color: #2C5417;
-                                                    margin-bottom: 10px;
-                                                }
-                                            }
-                                        }
-                                        .event-rendered-edit-icon {
-                                            position: absolute;
-                                            right: 0;
-                                            top: 0;
-                                            color: #000;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+  .calendar_section {
+    padding: 0 !important;
+    background: transparent !important;
+    .wprf-section-fields {
+      display: flex;
+      gap: 32px;
+      .sidebar {
+        flex-basis: 20%;
+        padding: 32px;
+        background-color: #fff;
+        border-radius: 6px;
+        box-sizing: border-box;
+        select {
+          min-width: 140px;
+          margin-bottom: 20px;
         }
+        .event-wrapper {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+        }
+        p {
+          margin: 32px 0 0;
+          .btn-draft-post-create {
+            background: #e5faf4;
+            padding: 16px 22px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.2em;
+            color: #26d39e;
+            text-decoration: none;
+            display: inline-block;
+            &:hover {
+              color: #26d39e;
+            }
+          }
+        }
+      }
+      .main-content {
+        flex-basis: 80%;
+        background: #fff;
+        padding: 30px;
+        border-radius: 6px;
+        .toolbar {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 18px;
+          .left {
+            display: flex;
+            gap: 18px;
+            select {
+              font-size: 16px;
+              font-weight: 500;
+              line-height: 1.2em;
+              color: #6e6e8d;
+              min-width: 140px;
+              height: 44px;
+              border: 1px solid #ebeef5;
+              text-transform: capitalize;
+            }
+          }
+          .middle {
+            font-size: 24px;
+            font-weight: 600;
+            line-height: 1.2em;
+            color: #1b1b50;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            > div > div:nth-child(2) {
+              margin-left: -100%;
+              margin-top: 14px;
+              background: #fff;
+              border: none;
+              box-shadow: 0px 12px 48px 0 rgba(27, 27, 80, 0.1);
+              > div:nth-child(1) {
+                padding: 12px 12px;
+                font-weight: bold;
+                display: flex;
+                -webkit-box-pack: justify;
+                justify-content: space-between;
+                -webkit-box-align: center;
+                align-items: center;
+                background-color: transparent;
+                color: #6c62ff;
+                border-style: solid;
+                border-width: 0 0 1px 0;
+                border-color: #ebeef5;
+                border-radius: 0 !important;
+                span.sc-iGgWBj {
+                  font-size: 20px;
+                  font-weight: 600;
+                }
+                .crmjJN {
+                  cursor: pointer;
+                  fill: #6c62ff;
+                  background: #f3f2ff;
+                  border: #ebeef5;
+                }
+                .kzaerY {
+                  cursor: pointer;
+                  fill: #6c62ff;
+                  background: #f3f2ff;
+                  border: #ebeef5;
+                }
+              }
+              > div:nth-child(2) {
+                height: 0px;
+              }
+              > div:nth-child(3) {
+                background-color: transparent;
+                border-radius: 0px;
+                width: 400px;
+                display: flex;
+                flex-wrap: wrap;
+                padding: 8px 24px;
+                > div {
+                  border: none;
+                  padding: 16px 0px;
+                  font-size: 12px;
+                  font-weight: 500;
+                  line-height: 1.2em;
+                  text-transform: uppercase;
+                  background-color: transparent;
+                  color: #1b1b50;
+                  height: unset;
+                  display: flex;
+                  -webkit-box-pack: center;
+                  justify-content: center;
+                  -webkit-box-align: center;
+                  align-items: center;
+                  flex: 0 0 33.33%;
+                  cursor: pointer;
+                  &:hover {
+                    color: #6c62ff;
+                  }
+                }
+                .FeHZw {
+                  color: #6c62ff !important;
+                }
+              }
+            }
+          }
+          .right {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            button {
+              background: #f3f2ff;
+              padding: 16px 22px;
+              border: none;
+              box-sizing: border-box;
+              border-radius: 6px;
+              color: #6c62ff;
+              font-size: 14px;
+              font-weight: 500;
+              cursor: pointer;
+            }
+            i {
+              font-size: 24px;
+              color: #fff;
+              background: #26d39e;
+              padding: 10px;
+              border-radius: 6px;
+              cursor: pointer;
+            }
+          }
+        }
+        .wprf-calendar-wrapper {
+          position: relative;
+          .button-control-month {
+            .wpsp-button-primary {
+              background-color: #f3f2ff !important;
+              border: 1px solid #ebeef5 !important;
+              border-radius: 0 !important;
+              width: 40px !important;
+              height: 49px !important;
+              cursor: pointer;
+              .wpsp-icon {
+                font-size: 16px;
+                color: #6c62ff;
+              }
+            }
+            .wpsp-prev-button {
+              position: absolute !important;
+              left: 0px;
+              top: 0px;
+            }
+            .wpsp-next-button {
+              position: absolute !important;
+              right: 0px;
+              top: 0px;
+              i {
+                transform: rotateY(30deg);
+              }
+            }
+          }
+        }
+        .fc-theme-standard {
+          .fc-header-toolbar {
+            display: none;
+            // position: relative !important;
+            // margin-bottom: 0;
+            // .fc-toolbar-chunk {
+            //     .fc-toolbar-title {
+            //         display: none;
+            //     }
+            //     .fc-today-button {
+            //         display: none;
+            //     }
+            // }
+          }
+          .fc-view-harness {
+            margin: 0 40px !important;
+            position: relative;
+            thead {
+              .fc-scroller {
+                .fc-col-header-cell {
+                  padding: 14px 28px !important;
+                  background: #fff;
+                  transition: ease-in-out 0.25s;
+                  &:hover {
+                    background: #f3f2ff;
+                    a {
+                      color: #6c62ff;
+                    }
+                  }
+                  .fc-col-header-cell-cushion {
+                    font-size: 12px;
+                    font-weight: 500;
+                    color: #1b1b50;
+                    text-transform: uppercase;
+                    padding: 0;
+                  }
+                }
+              }
+            }
+            .fc-daygrid-body {
+              .fc-daygrid-day-frame {
+                padding: 6px;
+                background: #f9fafc;
+                .fc-daygrid-day-top {
+                  display: flex;
+                  flex-direction: row;
+                  align-items: center;
+                  justify-content: space-between;
+                  gap: 10px;
+                  .fc-daygrid-day-number {
+                    font-size: 14px;
+                    line-height: 1.2em;
+                    color: #6e6e8d;
+                    padding: 6px 8px;
+                    background: #fff;
+                    border-radius: 4px;
+                  }
+                  button {
+                    font-size: 12px;
+                    line-height: 1.2em;
+                    color: #6e6e8d;
+                    padding: 0;
+                    border: none;
+                    background: transparent;
+                    cursor: pointer;
+                  }
+                }
+                .fc-daygrid-day-events {
+                  .fc-event {
+                    border: none;
+                    background: transparent;
+                    padding: 0;
+                    margin-top: 0;
+                    .card {
+                      min-width: auto;
+                      width: 100%;
+                    }
+                    // .wpscp-event-post {
+                    //   span {
+                    //     display: flex;
+                    //     flex-direction: column;
+                    //     font-size: 14px;
+                    //     line-height: 1.2em;
+                    //     font-weight: 500;
+                    //     color: #64aa3c;
+                    //     .posttime {
+                    //       font-size: 12px !important;
+                    //       color: #2c5417;
+                    //       margin-bottom: 10px;
+                    //     }
+                    //   }
+                    // }
+                    // .event-rendered-edit-icon {
+                    //   position: absolute;
+                    //   right: 0;
+                    //   top: 0;
+                    //   color: #000;
+                    // }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      .wpsp-event-card {
+        position: relative;
+        margin-top: 0 !important;
+        padding: 14px 14px 10px;
+        min-width: 200px;
+        max-width: unset;
+        border: none;
+        box-shadow: none;
+        background: #fcf0e4;
+        border-radius: 6px;
+        box-sizing: border-box;
+        &:before {
+          position: absolute;
+          content: '';
+          width: 2px;
+          height: 64px;
+          background: #e8821e;
+          border-radius: 50px;
+          left: -1px;
+          top: 18px;
+        }
+        .set-time {
+          font-size: 12px;
+          font-weight: 500;
+          line-height: 1.2em;
+          color: #73400d;
+          margin-bottom: 10px;
+          display: block;
+        }
+        h3 {
+          color: #e8821e;
+          font-size: 14px;
+          font-weight: 500;
+          line-height: 1.2em;
+          margin: 0 0 10px;
+          white-space: pre-wrap;
+        }
+        .Unscheduled-badge {
+          font-size: 8px;
+          text-transform: uppercase;
+          color: #fff;
+          font-weight: 500;
+          line-height: 1.2em;
+          background: #e8821e;
+          padding: 4px 6px;
+          border-radius: 20px;
+        }
+        i {
+          position: absolute;
+          right: 8px;
+          top: 12px;
+          padding: 4px;
+          font-size: 12px;
+          color: #6e6e8d;
+          cursor: pointer;
+          transition: ease-in-out 0.25s;
+          &:hover {
+            .edit-area {
+              display: block;
+              opacity: 1;
+            }
+          }
+        }
+      }
     }
+  }
 }
 .calender-selected-month {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
 }
-.calender-selected-month span{
-    color: #989FAB;
-} 
-.wpsp-admin-wrapper #external-events-listing .edit-area, .wpsp-admin-wrapper .wpscp-event-post .edit-area {
-    padding: 8px !important;
-    background: #fff;
-    border-radius: 6px;
-    width: 120px;
-    box-shadow: 0px 12px 48px 0px #1B1B501A;
-    position: absolute;
-    left: 0px;    
-    top: 22px;
-    transform: translateX(-50%);
-    z-index: 999;
-    li a{
-        font-family: "Inter" !important;
-        font-size: 14px;
-        font-weight: 500;
-        line-height: 1.2em;
-        text-transform: capitalize;
-        color: #1B1B50;
-        padding: 6px 16px;
-        background: #fff;
-        display: block;
-        border-radius: 6px;
-        // width: 120px;
-        // box-shadow: 0px 12px 48px 0px #1B1B501A;
-        // position: absolute;
-        left: 0px;    
-        top: 20px;
-        // transform: translateX(-50%);
-        z-index: 999;
-        text-decoration: none;
-        // li {
-        //     font-family: "Inter" !important;
-        //     font-size: 14px;
-        //     font-weight: 500;
-        //     line-height: 1.2em;
-        //     text-transform: capitalize;
-        //     color: #1B1B50;
-        //     text-decoration: none;
-        //     border: none;
-        //     padding: unset;
-        //     background: transparent;
-        //     cursor: pointer;
-        //     button, 
-        //     a {
-        //         font-size: 14px;
-        //         font-weight: 500;
-        //         line-height: 1.2em;
-        //         text-transform: capitalize;
-        //         color: #1B1B50;
-        //         text-decoration: none;
-        //         border: none;
-        //         padding: unset;
-        //         background: transparent;
-        //         cursor: pointer;
-                
-        //     }
-        //     &:hover {
-        //         background: #F3F2FF;
-        //         color: #6C62FF;
-        //         a {
-        //             color: #6C62FF;
-        //         }
-        //     }
-        // }
-        &:hover {
-            background: #F3F2FF;
-            color: #6C62FF;
-            a {
-                color: #6C62FF;
-            }
-        }
-    }
+.calender-selected-month span {
+  color: #989fab;
 }
+.wpsp-admin-wrapper #external-events-listing .edit-area,
+.wpsp-admin-wrapper .fc-event .edit-area,
 .wpsp-admin-wrapper .wpscp-event-post .edit-area {
-    transform: translateX(0%) !important;
+  padding: 8px !important;
+  background: #fff;
+  border-radius: 6px;
+  width: 120px;
+  box-shadow: 0px 12px 48px 0px #1b1b501a;
+  position: absolute;
+  left: 0px;
+  top: 22px;
+  transform: translateX(-50%);
+  z-index: 999;
+  li a {
+    font-family: 'Inter' !important;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2em;
+    text-transform: capitalize;
+    color: #1b1b50;
+    padding: 6px 16px;
+    background: #fff;
+    display: block;
+    border-radius: 6px;
+    // width: 120px;
+    // box-shadow: 0px 12px 48px 0px #1B1B501A;
+    // position: absolute;
+    left: 0px;
+    top: 20px;
+    // transform: translateX(-50%);
+    z-index: 999;
+    text-decoration: none;
+    // li {
+    //     font-family: "Inter" !important;
+    //     font-size: 14px;
+    //     font-weight: 500;
+    //     line-height: 1.2em;
+    //     text-transform: capitalize;
+    //     color: #1B1B50;
+    //     text-decoration: none;
+    //     border: none;
+    //     padding: unset;
+    //     background: transparent;
+    //     cursor: pointer;
+    //     button,
+    //     a {
+    //         font-size: 14px;
+    //         font-weight: 500;
+    //         line-height: 1.2em;
+    //         text-transform: capitalize;
+    //         color: #1B1B50;
+    //         text-decoration: none;
+    //         border: none;
+    //         padding: unset;
+    //         background: transparent;
+    //         cursor: pointer;
+
+    //     }
+    //     &:hover {
+    //         background: #F3F2FF;
+    //         color: #6C62FF;
+    //         a {
+    //             color: #6C62FF;
+    //         }
+    //     }
+    // }
+    &:hover {
+      background: #f3f2ff;
+      color: #6c62ff;
+      a {
+        color: #6c62ff;
+      }
+    }
+  }
 }
+.wpsp-admin-wrapper .fc-event .edit-area,
+.wpsp-admin-wrapper .wpscp-event-post .edit-area {
+  transform: translateX(0%) !important;
+}
+.wpsp-admin-wrapper .fc-event .edit-area,
 .wpsp-admin-wrapper #external-events-listing .edit-area {
-    transform: translateX(80%) translateY(15px) !important;
+  transform: translateX(80%) translateY(15px) !important;
 }

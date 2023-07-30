@@ -15,10 +15,10 @@ export default function Twitter({ platform, data, addProfileToggle, savedProfile
                                         src={item.thumbnail_url}
                                         alt='logo'
                                     />
+                                    <h4 className='entry-title'>
+                                        {item.name}
+                                    </h4>
                                 </div>
-                                <h4 className='entry-title'>
-                                    {item.name}
-                                </h4>
                                 <div className='control'>
                                     <input
                                         type='checkbox'
