@@ -83,7 +83,8 @@ export default function Sidebar({openModal, selectedPostType}) {
     <div id="external-events">
       <div id="external-events-listing">
         <h4 className="unscheduled">
-          Unscheduled {Object.values(selectedPostType).length == 1 ? selectedPostType : "Posts"}{" "}
+          {/* {Object.values(selectedPostType).length == 1 ? selectedPostType[0].value : "Posts"} */}
+          Unscheduled Posts {" "}
           <span className="spinner"></span>
         </h4>
         <CategorySelect selectedPostType={selectedPostType} onChange={setOptionSelected} showTags />

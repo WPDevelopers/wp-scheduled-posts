@@ -27,6 +27,7 @@ interface EditPostReturnType {
 const useEditPost = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [eventType, setEventType] = useState('');
   const [postData, setPostData] = useState<Post>({
     post_title: '',
     post_content: '',
@@ -35,11 +36,12 @@ const useEditPost = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    wpFetch({
+
+    return wpFetch({
       method: "POST",
       path: "/wpscp/v1/post",
       data: {
-        type       : "addEvent",
+        type       : eventType,
         ID         : postData.ID,
         post_type  : postData.post_type,
         post_status: postData.post_status,
@@ -47,13 +49,14 @@ const useEditPost = () => {
         postContent: postData.post_content,
         date       : postData.post_date,
       },
+    }).finally(() => {
+      closeModal();
     });
-    closeModal();
   };
 
-  const openModal = (post) => {
+  const openModal = (post, eventType) => {
     setIsOpen(true);
-
+    setEventType(eventType);
     if (post) {
       setIsLoading(true);
       wpFetch({
@@ -82,6 +85,7 @@ const useEditPost = () => {
   const closeModal = () => {
     setIsOpen(false);
     setPostData({});
+    setEventType('');
   };
 
   useEffect(() => {
@@ -89,11 +93,6 @@ const useEditPost = () => {
       closeModal();
     };
   }, []);
-
-  useEffect(() => {
-    console.log('isOpen', isOpen);
-  }, [isOpen])
-
 
   return {
     isOpen,
@@ -133,7 +132,9 @@ export const ModalContent = ({
       <div className="modalbody">
         {isLoading && <div>Loading...</div>}
         {!isLoading && (
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={(event) => {
+            handleSubmit(event).then();
+          }}>
             <div className="form-group">
               <Input
                 type="text"
@@ -141,7 +142,7 @@ export const ModalContent = ({
                 label="Title"
                 placeholder="Title"
                 value={postData.post_title}
-                onChange={(event) => setPostData({...postData, post_title: event.target.value})}
+                onChange={(event) => setPostData((postData) => ({...postData, post_title: event.target.value}))}
               />
             </div>
             <div className="form-group">
@@ -150,13 +151,13 @@ export const ModalContent = ({
                 label="Content"
                 placeholder="Content"
                 value={postData.post_content}
-                onChange={(event) => setPostData({...postData, post_content: event.target.value})}
+                onChange={(event) => setPostData((postData) => ({...postData, post_content: event.target.value}))}
               />
             </div>
 
             <TimePicker
               currentTime={postData.post_date}
-              onChange={(event) => setPostData({...postData, post_date: event.target.value})}
+              onChange={(date) => setPostData((postData) => ({...postData, post_date: date}))}
               is12Hour
             />
 

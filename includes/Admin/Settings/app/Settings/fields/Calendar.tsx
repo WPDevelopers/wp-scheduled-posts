@@ -233,6 +233,7 @@ export default function Calendar(props) {
                 }
                 button.addEventListener("click", (event) => {
                   console.log("click", event, args);
+                  editPostModalProps.openModal(false, "addEvent");
                 });
                 dayTop[0].appendChild(button);
               }}
