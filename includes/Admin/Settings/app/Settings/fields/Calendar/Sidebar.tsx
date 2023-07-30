@@ -70,7 +70,7 @@ export default function Sidebar({openModal, selectedPostType}) {
     });
   }, []);
 
-  console.log(posts);
+  // console.log(posts);
 
   // Return your JSX element
   return (

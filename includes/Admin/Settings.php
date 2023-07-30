@@ -949,7 +949,7 @@ class Settings {
                                     'completionTrack' => true,
                                     'sidebar'         => false,
                                     'title'           => false,
-                                    'default'         => 'layout_manage_schedule',
+                                    'default'         => 'layout_advance_schedule',
                                     'submit'          => [
                                         'show' => false
                                     ],
