@@ -2,6 +2,7 @@
 
 namespace WPSP\Admin;
 
+use WP;
 use WPSP\Helper;
 use WP_REST_Response;
 use WP_Error;
@@ -33,14 +34,19 @@ class Calendar
             'wpscp/v1',
             '/calendar',
             array(
-                'methods'  => 'GET',
+                'methods'  => \WP_REST_Server::EDITABLE,
                 'callback' => array($this, 'wpscp_future_post_rest_route_output'),
                 'permission_callback' => '__return_true',
                 'args' => [
                     'post_type' => [
                         'required' => true,
-                        'type' => 'string',
-                        'default' => 'post',
+                        'type'     => 'array',
+                        'default'  => [],
+                    ],
+                    'taxonomy' => [
+                        'required' => true,
+                        'type'     => 'array',
+                        'default'  => [],
                     ],
                     'month' => [
                         'required' => true,
@@ -53,7 +59,7 @@ class Calendar
         );
 
         register_rest_route( 'wpscp/v1', '/posts', array(
-            'methods' => 'GET',
+            'methods' => 'POST',
             'callback' => [$this, 'get_draft_posts'],
         ) );
 
@@ -92,17 +98,28 @@ class Calendar
     // Define the callback function for the custom route
     public function get_draft_posts( $request ) {
         // Get the query parameters from the request
-        $post_type = $request->get_param( 'post_type' );
-        $_page     = $request->get_param( 'page' );
+        // post type
+        $post_type  = $request->get_param('post_type');
+        $post_type  = !empty($post_type) ? $post_type : [];
+        $taxonomies = $request->get_param('taxonomy');
+        $taxonomies = !empty($taxonomies) ? $taxonomies : [];
 
-        // Set the default post types to allow
-        $allow_post_types = array( 'post', 'page' );
+        if(empty($post_type)){
+            $post_type = \WPSP\Helper::get_settings('allow_post_types');
+        }
+        else if(in_array('elementorlibrary', $post_type)){
+            $post_type   = array_diff($post_type, ['elementorlibrary']);
+            $post_type[] = 'elementor_library';
+        }
+
+
 
         // Create a new WP_Query object with the parameters
         $query = new \WP_Query(array(
-            'post_type'         => ($post_type && $_page != 'schedulepress-calendar') ? $post_type : $allow_post_types,
-            'post_status'       => array('draft', 'pending'),
-            'posts_per_page'    => -1
+            'post_type'      => $post_type,
+            'tax_query'      => $this->get_tax_query($taxonomies),
+            'post_status'    => array('draft', 'pending'),
+            'posts_per_page' => -1,
         ));
 
         // Check if the query found any posts
@@ -145,11 +162,12 @@ class Calendar
                 'label'   => $tax,
                 'options' => array_values(array_map(function($term){
                     return [
+                        'term_id'  => $term['term_id'],
                         'label'    => $term['name'],
-                        'value'    => "{$term['postType']}-{$term['taxonomy']}-{$term['slug']}",
                         'slug'     => $term['slug'],
                         'taxonomy' => $term['taxonomy'],
                         'postType' => $term['postType'],
+                        'value'    => "{$term['postType']}-{$term['taxonomy']}-{$term['slug']}",
                     ];
                 }, $terms)),
             ];
@@ -157,20 +175,48 @@ class Calendar
         return $return;
     }
 
+    public function get_tax_query($taxonomies){
+        $tax_query = [];
+        if(!empty($taxonomies)){
+            foreach ($taxonomies as $key => $value) {
+                if(empty($tax_query[$value['taxonomy']])){
+                    $tax_query[$value['taxonomy']] = array(
+                        'taxonomy' => $value['taxonomy'],
+                        'field'    => 'slug',
+                        'terms'    => [$value['slug']],
+                    );
+                }
+                else{
+                    $tax_query[$value['taxonomy']]['terms'][] = $value['slug'];
+                }
+            }
+            $tax_query = array_merge( ['relation' => 'OR'], $tax_query );
+        }
+        return $tax_query;
+    }
 
+    /**
+     * Calendar Rest Route Output
+     * @method wpscp_future_post_rest_route_output
+     * @param  \WP_REST_Request $request
+     * @version 3.0.1
+     */
     public function wpscp_future_post_rest_route_output($request)
     {
         global $wpdb;
         // post type
-        $post_type = urldecode($request->get_param('post_type'));
-        $post_type = (($post_type == 'elementorlibrary') ? 'elementor_library' : $post_type);
-        if($post_type == 'all'){
+        $post_type  = $request->get_param('post_type');
+        $post_type  = !empty($post_type) ? $post_type : [];
+        $taxonomies = $request->get_param('taxonomy');
+        $taxonomies = !empty($taxonomies) ? $taxonomies : [];
+
+        if(empty($post_type)){
             $post_type = \WPSP\Helper::get_settings('allow_post_types');
         }
-        else if(empty($post_type)){
-            $post_type = 'post';
+        else if(in_array('elementorlibrary', $post_type)){
+            $post_type   = array_diff($post_type, ['elementorlibrary']);
+            $post_type[] = 'elementor_library';
         }
-        $post_type = (array) $post_type;
 
         // date
         $now = new \DateTime('now');
@@ -197,17 +243,30 @@ class Calendar
                     'month' => $month,
                 ),
             ),
+            'tax_query' => $this->get_tax_query($taxonomies),
         ));
         $posts_1 = $query_1->get_posts();
 
         $post_type_placeholders = implode(',', array_fill(0, count($post_type), '%s'));
+        $tax_join = '';
+        $tax_where = '';
+        if(!empty($tax_query)){
+            $_tax_query = new \WP_Tax_Query($tax_query);
+            $_tax_query = $_tax_query->get_sql( $wpdb->posts, 'ID');
+            if(!empty($_tax_query)){
+                $tax_join  = $_tax_query['join'];
+                $tax_where = $_tax_query['where'];
+            }
+        }
         $query = $wpdb->prepare( "
             SELECT $wpdb->posts.*
             FROM $wpdb->posts
             INNER JOIN $wpdb->postmeta ON ( $wpdb->posts.ID = $wpdb->postmeta.post_id )
+            $tax_join
             WHERE 1=1 AND (
                 ( $wpdb->postmeta.meta_key = '_wpscp_schedule_republish_date' AND CONVERT($wpdb->postmeta.meta_value, DATE) BETWEEN %s AND %s )
             )
+            $tax_where
             AND $wpdb->posts.post_type IN ($post_type_placeholders)
             AND $wpdb->posts.post_status = 'publish'
         ", $first_day, $last_day, ...$post_type );

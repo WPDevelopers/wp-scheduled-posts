@@ -12,16 +12,16 @@ import { __ } from "@wordpress/i18n";
 import PostCard from "./EventRender";
 import useEditPost from "./EditPost";
 import CategorySelect from "./Category";
+import { getValues } from "./Helpers";
 
 // Define your component
-export default function Sidebar({openModal, selectedPostType, Option}) {
+export default function Sidebar({openModal, selectedPostType}) {
   // Define your state variables
   const [posts, setPosts] = useState([]);
-  const [postType, setPostType] = useState(null);
-  const [allowCategories, setAllowCategories] = useState([]);
   const [taxTerms, setTaxTerms] = useState({});
   const draggableRef = useRef<HTMLDivElement>();
   const [optionSelected, setOptionSelected] = useState([]);
+  const [editAreaToggle, setEditAreaToggle] = useState([]);
 
   useEffect(() => {
     // In your external element component componentDidMount
@@ -44,52 +44,26 @@ export default function Sidebar({openModal, selectedPostType, Option}) {
 
     // Define your query parameters
     const query = {
-      post_type: postType ? postType : ["post", "page"], // Use postType state or default to ["post", "page"]
+      post_type: getValues(selectedPostType) ?? ["post"], // Use selectedPostType state or default to ["post"]
       post_status: ["draft", "pending"],
       posts_per_page: -1,
-      page: page,
+      taxonomy : (optionSelected),
+      // page: page,
     };
     // Fetch your posts using apiFetch
     apiFetch({
-      path: addQueryArgs("/wpscp/v1/posts", query),
-      // data: query,
+      method: "POST",
+      path: "/wpscp/v1/posts",
+      data: query,
     }).then((data: []) => {
       // Set your posts state with the fetched data
       setPosts(data);
+    }).catch((error) => {
+      console.log('error', error);
     });
 
-    // Fetch your taxonomies using apiFetch
-    apiFetch({
-      path: "/wpscp/v1/get_tax_terms",
-    }).then((data) => {
-      // Set your taxTerms state with the fetched data
-      setTaxTerms(data);
-    });
-  }, [postType]); // Re-run the effect when postType changes
+  }, [selectedPostType, optionSelected]); // Re-run the effect when selectedPostType changes
 
-  // Define your handleDragStart function
-  function handleDragStart(e) {
-    // Get the id of the dragged item
-    let id = e.target.id;
-    // Set the dataTransfer object with the id
-    e.dataTransfer.setData("text/plain", id);
-  }
-
-  // Define your handleSelectChange function
-  function handleSelectChange(e) {
-    // Get the selected options from the event target
-    let options = e.target.options;
-    // Create an array to store the selected values
-    let values = [];
-    // Loop through the options and push the selected values to the array
-    for (let i = 0; i < options.length; i++) {
-      if (options[i].selected) {
-        values.push(options[i].value);
-      }
-    }
-    // Set the allowCategories state with the selected values
-    setAllowCategories(values);
-  }
 
   const deletePost = useCallback((id) => {
     apiFetch({
@@ -102,33 +76,17 @@ export default function Sidebar({openModal, selectedPostType, Option}) {
     });
   }, []);
 
-  // Add and remove
-  const handleChange = (selected) => {
-    setOptionSelected(selected);
-  };
-  const removeItem = (item) => {
-    const updatedItems = optionSelected.filter((i) => i !== item);
-    setOptionSelected(updatedItems);
-  };
-
-  const [editAreaToggle,setEditAreaToggle] = useState([]);
+  console.log(posts);
 
   // Return your JSX element
   return (
     <div id="external-events">
       <div id="external-events-listing">
         <h4 className="unscheduled">
-          Unscheduled {postType ? postType : "Posts"}{" "}
+          Unscheduled {Object.values(selectedPostType).length == 1 ? selectedPostType : "Posts"}{" "}
           <span className="spinner"></span>
         </h4>
-        <CategorySelect selectedPostType={selectedPostType} Option={Option} showTags />
-        <div className="selected-options">
-            <ul>
-              { optionSelected?.map( (item, index) => (
-                <li key={index}> { item?.label } <button onClick={() => removeItem(item)}> <i className='wpsp-icon wpsp-close'></i> </button> </li>
-              ))}
-            </ul>
-        </div>
+        <CategorySelect selectedPostType={selectedPostType} onChange={setOptionSelected} showTags />
         <div ref={draggableRef}>
           {posts.map(
             (

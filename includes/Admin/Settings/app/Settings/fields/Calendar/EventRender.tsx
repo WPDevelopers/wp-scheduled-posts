@@ -206,7 +206,7 @@ const PostCard: React.FC<PostCardProps> = ({
       )}
       <span className="set-time">{post.postTime}</span>
       <h3>{post.title}</h3>
-      <span className="Unscheduled-badge">page</span>
+      <span className="Unscheduled-badge">{post.postType}</span>
     </div>
   );
 };

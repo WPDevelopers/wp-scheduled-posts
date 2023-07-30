@@ -123,7 +123,6 @@ const Twitter = (props) => {
             {/* Profile Data Modal  */}
             {/* @ts-ignore */}
             <SocialModal
-                selectedProfile={selectedProfile}
                 setSelectedProfile={setSelectedProfile}
                 props={props}
                 type="twitter"

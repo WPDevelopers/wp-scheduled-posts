@@ -102,6 +102,7 @@ class Helper
                 foreach ($terms as $key => $term) {
                     $tax_label = $tax[$term->taxonomy]->label;
                     $taxonomies[$tax_label . " ($postType)"][$term->slug] = [
+                        'term_id'  => $term->term_id,
                         'slug'     => $term->slug,
                         'name'     => $term->name,
                         'taxonomy' => $term->taxonomy,
