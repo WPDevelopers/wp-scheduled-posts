@@ -10,7 +10,6 @@ import { selectStyles } from "../../helper/styles";
 import { components } from "react-select";
 import { __ } from "@wordpress/i18n";
 import PostCard from "./EventRender";
-import useEditPost from "./EditPost";
 import CategorySelect from "./Category";
 import { getValues } from "./Helpers";
 
