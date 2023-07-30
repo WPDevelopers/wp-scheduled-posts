@@ -8,7 +8,6 @@ import Sidebar from "./Calendar/Sidebar";
 import renderEventContent, { PostCardProps } from "./Calendar/EventRender";
 import { useBuilderContext } from "quickbuilder";
 // const events = [{ title: "Meeting", start: new Date() }];
-import { ActionMeta, MultiValue, default as ReactSelect } from "react-select";
 import { selectStyles } from "../helper/styles";
 import { components } from "react-select";
 import MonthPicker from "@compeon-os/monthpicker";
@@ -19,6 +18,8 @@ import PostCard from "./Calendar/EventRender";
 import useEditPost, { ModalContent } from "./Calendar/EditPost";
 import CategorySelect from "./Calendar/Category";
 import { getYear, getMonth } from "date-fns";
+import ReactSelectWrapper, { Option, addAllOption, getOptionsFlatten } from "./Calendar/ReactSelectWrapper";
+import { getValues } from "./Calendar/Helpers";
 
 export default function Calendar(props) {
   // @ts-ignore
@@ -36,43 +37,43 @@ export default function Calendar(props) {
   });
   const [sidebarToogle, setSidebarToggle] = useState(true);
   const [editAreaToggle, setEditAreaToggle] = useState({});
-  const allOption = [
-    { label: "All", value: "all" },
-    ...Object.values(props.post_types || []),
-  ];
-  const [selectedPostType, setSelectedPostType] =
-    useState<MultiValue<any>>(allOption);
+
+  const [selectedPostType, setSelectedPostType] = useState<Option[]>(addAllOption(getOptionsFlatten(props.post_types)));
+  const [selectedCategories, setSelectedCategories] = useState<Option[]>([]);
 
   const editPostModalProps = useEditPost();
-
-  const getUrl = () => {
-    const date = calendar.current?.getApi().view.currentStart;
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-    console.warn(date, month, year);
-
-    const queryParams = {
-      post_type: "post",
-      month: month,
-      year: year,
-    };
-    return addQueryArgs(restRoute, queryParams);
-  };
 
   const MyWrapperComponent = ({ children, ...rest }) => {
     return React.cloneElement(children, { ...rest });
   };
 
+  const getEvents = async () => {
+    const date  = calendar.current?.getApi().view.currentStart;
+    const month = date.getMonth() + 1;
+    const year  = date.getFullYear();
+
+    const data = {
+      post_type: getValues(selectedPostType),
+      taxonomy : (selectedCategories),
+      month    : month,
+      year     : year,
+    };
+
+    const results = await apiFetch<Option[]>({
+      method: 'POST',
+      path  : restRoute,
+      data  : data,
+    });
+
+    setEvents(results);
+  };
+
   useEffect(() => {
     calendar.current?.doResize();
     calendar.current?.render();
-    //
-    apiFetch({
-      path: getUrl(),
-    }).then((data: []) => {
-      setEvents(data);
-    });
-  }, []);
+
+    getEvents();
+  }, [selectedPostType, selectedCategories]);
 
   useEffect(() => {
     // console.log(builderContext.config.active);
@@ -81,56 +82,9 @@ export default function Calendar(props) {
     }
   }, [builderContext.config.active]);
 
-  const Option = (props) => {
-    return (
-      <div className="checkbox-select-menu-list-item">
-        <components.Option {...props}>
-          <span>{props.label}</span>
-        </components.Option>
-      </div>
-    );
-  };
-
   const handleSlidebarToggle = () => {
     setSidebarToggle(sidebarToogle ? false : true);
   };
-
-  // Add and remove
-  const handleChange = (
-    newValue: MultiValue<any>,
-    actionMeta: ActionMeta<any>
-  ) => {
-    console.log(actionMeta, newValue);
-    if (actionMeta.action === "select-option") {
-      if (actionMeta.option.value === "all") {
-        newValue = allOption;
-      } else {
-        newValue = newValue.filter((item) => item.value !== "all");
-        if (newValue.length === Object.values(props.post_types).length) {
-          newValue = allOption;
-        }
-      }
-    } else if (actionMeta.action === "deselect-option") {
-      if (actionMeta.option.value === "all") {
-        newValue = [];
-      } else {
-        newValue = newValue.filter((item) => item.value !== "all");
-        if (newValue.length === 0) {
-          newValue = allOption;
-        }
-      }
-    }
-    setSelectedPostType(newValue);
-  };
-  const removeItem = (item) => {
-    const updatedItems = selectedPostType.filter((i) => i !== item);
-    handleChange(updatedItems, {
-      action: "deselect-option",
-      option: item,
-    });
-  };
-
-  console.log("monthPicker", monthPicker);
 
   return (
     <div
@@ -143,39 +97,13 @@ export default function Calendar(props) {
     >
       <div className="wpsp-calender-header">
         <div className="wpsp-post-select">
-          <ReactSelect
-            options={allOption}
-            styles={selectStyles}
-            closeMenuOnSelect={false}
-            hideSelectedOptions={false}
-            placeholder={__("Select Post Type", "wp-scheduled-posts")}
-            autoFocus={false}
-            isMulti
-            components={{
-              Option,
-            }}
+          <ReactSelectWrapper
+            options={Object.values(props.post_types || [])}
             value={selectedPostType}
-            onChange={handleChange}
-            controlShouldRenderValue={false}
-            className="main-select"
-            classNamePrefix="checkbox-select"
+            onChange={setSelectedPostType}
+            placeholder={__("Select Post Type", "wp-scheduled-posts")}
+            showTags={true}
           />
-          <div className="selected-options">
-            <ul>
-              {selectedPostType?.map((item, index) => {
-                return (
-                  <li key={index}>
-                    {" "}
-                    {item?.label}{" "}
-                    <button onClick={() => removeItem(item)}>
-                      {" "}
-                      <i className="wpsp-icon wpsp-close"></i>{" "}
-                    </button>{" "}
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
         </div>
         <div className="wpsp-post-search">
           <input type="text" placeholder="Search" />
@@ -188,7 +116,11 @@ export default function Calendar(props) {
             <div className="left">
               <CategorySelect
                 selectedPostType={selectedPostType}
-                Option={Option}
+                onChange={(value) => {
+                  console.log(value);
+
+                  setSelectedCategories([...value]);
+                }}
               />
             </div>
             <div className="middle">
@@ -346,7 +278,6 @@ export default function Calendar(props) {
             <Sidebar
               openModal={editPostModalProps.openModal}
               selectedPostType={selectedPostType}
-              Option={Option}
             />
           </div>
         )}
