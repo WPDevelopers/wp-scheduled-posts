@@ -43,7 +43,14 @@
     line-height: 1.2em;
     color: #73400d;
     margin-bottom: 10px;
-    display: block;
+    display: inline-flex;
+    align-items: center;
+    gap: .3em;
+    &:before {
+      content: '\e90d';
+      font-family: 'wpsp';
+      color: #73400D;
+  }
   }
   h3 {
     color: #e8821e;
