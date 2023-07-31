@@ -2,18 +2,17 @@
 import { Draggable } from "@fullcalendar/interaction";
 import apiFetch from "@wordpress/api-fetch";
 import { addQueryArgs } from '@wordpress/url';
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { MutableRefObject, forwardRef, useCallback, useEffect, useRef, useState } from "react";
 // @wordpress/component
 import CategorySelect from "./Category";
 import PostCard from "./EventRender";
 import { getValues } from "./Helpers";
+import { PostType, SidebarProps } from "./types";
 
 // Define your component
-export default function Sidebar({openModal, selectedPostType}) {
+const Sidebar = ({openModal, selectedPostType, draftEvents: posts, setDraftEvents: setPosts}: SidebarProps, draggableRef: MutableRefObject<HTMLDivElement>
+  ) => {
   // Define your state variables
-  const [posts, setPosts] = useState([]);
-  const [taxTerms, setTaxTerms] = useState({});
-  const draggableRef = useRef<HTMLDivElement>();
   const [optionSelected, setOptionSelected] = useState([]);
   const [editAreaToggle, setEditAreaToggle] = useState([]);
 
@@ -21,10 +20,12 @@ export default function Sidebar({openModal, selectedPostType}) {
     // In your external element component componentDidMount
     new Draggable(draggableRef.current, {
       itemSelector: ".fc-event",
+      // @ts-ignore
+      dropAccept: ".fc-event",
       // Associate event data with the element
       eventData: function (eventEl) {
         const post = JSON.parse(eventEl.getAttribute("data-event"));
-        return {...post, setPosts};
+        return post;
       },
     });
 
@@ -70,7 +71,7 @@ export default function Sidebar({openModal, selectedPostType}) {
     });
   }, []);
 
-  // console.log(posts);
+  console.log('Sidebar', posts);
 
   // Return your JSX element
   return (
@@ -83,9 +84,9 @@ export default function Sidebar({openModal, selectedPostType}) {
         </h4>
         <CategorySelect selectedPostType={selectedPostType} onChange={setOptionSelected} showTags />
         <div className="event-wrapper" ref={draggableRef}>
-          {posts.map(
+          {posts.sort((a, b) => (new Date(b.end)).getTime() - (new Date(a.end)).getTime()).map(
             (
-              post // Loop through your posts using map method
+              post: PostType // Loop through your posts using map method
             ) => (
               <div key={post.postId} className="fc-event" data-event={JSON.stringify(post)}>
                 <PostCard
@@ -113,3 +114,6 @@ export default function Sidebar({openModal, selectedPostType}) {
     </div>
   );
 }
+
+
+export default forwardRef(Sidebar);

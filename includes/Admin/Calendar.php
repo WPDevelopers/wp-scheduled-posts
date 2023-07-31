@@ -403,7 +403,85 @@ class Calendar
         /**
          * Post Status Change and Date modifired
          */
-        if ($type == 'drop') { // draft post to future post
+        if ($type == 'addEvent') {
+
+            // only works if update event is fired
+            if (!empty($postid)) {
+                $postid = wp_update_post(array(
+                    'ID'            => $postid,
+                    'post_type'     => $post_type,
+                    'post_title'    => wp_strip_all_tags($postTitle),
+                    'post_content'  => $postContent,
+                    'post_status'   => 'future',
+                    'post_author'   => get_current_user_id(),
+                    'post_date'     => (isset($postdateformat) ? $postdateformat : ''),
+                    'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''),
+                    'edit_date'     => true,
+                ));
+                if (!is_wp_error($postid)) {
+                    $post = get_post($postid);
+                    setup_postdata( $post );
+                    $event_data = $this->get_post_data();
+                    wp_reset_postdata();
+                    return rest_ensure_response($event_data);
+                }
+                else{
+                    // return wp error rest response
+                    return $postid;
+                }
+            } else {
+                // only work new event created
+                $post_id = wp_insert_post(array(
+                    'post_title'    => wp_strip_all_tags($postTitle),
+                    'post_type'     => $post_type,
+                    'post_content'  => $postContent,
+                    'post_status'   => 'future',
+                    'post_author'   => get_current_user_id(),
+                    'post_date'     => (isset($postdateformat) ? $postdateformat : ''),
+                    'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''),
+                    'edit_date'     => true,
+                ));
+                if (!is_wp_error($postid)) {
+                    $post = get_post($postid);
+                    setup_postdata( $post );
+                    $event_data = $this->get_post_data();
+                    wp_reset_postdata();
+                    return rest_ensure_response($event_data);
+                }
+                else{
+                    // return wp error rest response
+                    return $postid;
+                }
+            }
+        }
+        else if ($type == 'eventDrop') {
+            $change = apply_filters('wpsp_pre_eventDrop', null, $postid, $postdateformat, $postdate_gmt);
+            if($change){
+                $post_id = $change;
+            }
+            else{
+                $post_id = wp_update_post(array(
+                    'ID'            => $postid,
+                    'post_type'     => $post_type,
+                    'post_status'   => 'future',
+                    'post_date'     => (isset($postdateformat) ? $postdateformat : ''),
+                    'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''),
+                    'edit_date'     => true,
+                ));
+            }
+            if (!is_wp_error($postid)) {
+                $post = get_post($postid);
+                setup_postdata( $post );
+                $event_data = $this->get_post_data();
+                wp_reset_postdata();
+                return rest_ensure_response($event_data);
+            }
+            else{
+                // return wp error rest response
+                return $postid;
+            }
+        }
+        else if ($type == 'drop') { // draft post to future post
             $post_id = wp_update_post(array(
                 'ID'            => $postid,
                 'post_status'   => 'future',
@@ -454,76 +532,6 @@ class Calendar
             );
             return new WP_REST_Response($response, 400);
 
-        } else if ($type == 'addEvent') {
-
-            // only works if update event is fired
-            if (!empty($postid)) {
-                $postid = wp_update_post(array(
-                    'ID'            => $postid,
-                    'post_type'     => $post_type,
-                    'post_title'    => wp_strip_all_tags($postTitle),
-                    'post_content'  => $postContent,
-                    'post_status'   => 'future',
-                    'post_author'   => get_current_user_id(),
-                    'post_date'     => (isset($postdateformat) ? $postdateformat : ''),
-                    'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''),
-                    'edit_date'     => true,
-                ));
-                if (!is_wp_error($postid)) {
-                    $post = get_post($postid);
-                    setup_postdata( $post );
-                    $event_data = $this->get_post_data();
-                    wp_reset_postdata();
-                    return rest_ensure_response($event_data);
-                }
-                else{
-                    // return wp error rest response
-                    return $postid;
-                }
-            } else {
-                // only work new event created
-                $post_id = wp_insert_post(array(
-                    'post_title'    => wp_strip_all_tags($postTitle),
-                    'post_type'     => $post_type,
-                    'post_content'  => $postContent,
-                    'post_status'   => 'future',
-                    'post_author'   => get_current_user_id(),
-                    'post_date'     => (isset($postdateformat) ? $postdateformat : ''),
-                    'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''),
-                    'edit_date'     => true,
-                ));
-                if (!is_wp_error($postid)) {
-                    $post = get_post($postid);
-                    setup_postdata( $post );
-                    $event_data = $this->get_post_data();
-                    wp_reset_postdata();
-                    return rest_ensure_response($event_data);
-                }
-                else{
-                    // return wp error rest response
-                    return $postid;
-                }
-            }
-        } else if ($type == 'eventDrop') {
-            $change = apply_filters('wpsp_pre_eventDrop', null, $postid, $postdateformat, $postdate_gmt);
-            if($change){
-                $post_id = $change;
-            }
-            else{
-                $post_id = wp_update_post(array(
-                    'ID'            => $postid,
-                    'post_type'     => $post_type,
-                    'post_status'   => 'future',
-                    'post_date'     => (isset($postdateformat) ? $postdateformat : ''),
-                    'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''),
-                    'edit_date'     => true,
-                ));
-            }
-            if ($post_id != 0) {
-                $posts = query_posts(array('p' => $post_id, 'post_type' => $post_type));
-                $posts = apply_filters('wpsp_eventDrop_posts', $posts, $post_id);
-                print(json_encode($posts));
-            }
         } else if ($post_status != 'draft') { // future post date modify date
             wp_update_post(array(
                 'ID'            => $postid,

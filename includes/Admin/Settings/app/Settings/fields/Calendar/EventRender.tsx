@@ -1,10 +1,33 @@
+import { EventApi, EventContentArg } from '@fullcalendar/core';
+import { EventImpl } from '@fullcalendar/core/internal';
 import apiFetch from '@wordpress/api-fetch';
 import { Button } from '@wordpress/components';
 import { addQueryArgs } from '@wordpress/url';
 import React from 'react';
+import { PostCardProps, PostType } from './types';
 
-const deletePost = (id) => {
-  apiFetch({
+
+export const getPostFromEvent = (event: EventApi) => {
+  const { title, start, end, allDay } = event;
+  const { postId, href, edit, status, postType, postTime } = event.extendedProps;
+
+  const post: PostType = {
+    postId  : postId,
+    postTime: postTime,
+    postType: postType,
+    status  : status,
+    title   : title,
+    href    : href,
+    edit    : edit,
+    start   : start,
+    end     : end,
+    allDay  : allDay,
+  };
+  return post;
+}
+
+export const deletePost = (id) => {
+  return apiFetch({
     path: addQueryArgs('/wpscp/v1/post', { ID: id }),
     method: 'DELETE',
     // data: query,
@@ -14,21 +37,20 @@ const deletePost = (id) => {
   });
 };
 
-export interface PostCardProps {
-  post: {
-    postId: number;
-    postTime: string;
-    postType: string;
-    status: string;
-    title: string;
-    href: string;
-    edit: string;
-  };
-  editAreaToggle: { [key: number]: boolean };
-  setEditAreaToggle: React.Dispatch<
-    React.SetStateAction<{ [key: number]: boolean }>
-  >;
-  openModal: (modalData: { post: any; eventType: string }) => void;
+export const editPost = (post: PostType, eventType) => {
+  return apiFetch({
+    method: "POST",
+    path: "/wpscp/v1/post",
+    data: {
+      type       : eventType,
+      ID         : post.postId,
+      post_type  : post.postType,
+      post_status: post.status,
+      // postContent: post.post_content,
+      // postTitle  : post.title,
+      date       : post.end,
+    },
+  });
 }
 
 const PostCard: React.FC<PostCardProps> = ({
@@ -45,9 +67,6 @@ const PostCard: React.FC<PostCardProps> = ({
 
   return (
     <div className="wpsp-event-card card">
-      <i
-        className="wpsp-icon wpsp-dots"
-        onClick={toggleEditArea}></i>
       {editAreaToggle?.[post.postId] && (
         <ul className="edit-area">
           <li>
@@ -57,7 +76,8 @@ const PostCard: React.FC<PostCardProps> = ({
               href={decodeURIComponent(post.href)}
               onClick={(event) => {
                 toggleEditArea();
-              }}>
+              }}
+            >
               View
             </Button>
           </li>
@@ -68,7 +88,8 @@ const PostCard: React.FC<PostCardProps> = ({
               href={decodeURIComponent(post.edit)}
               onClick={(event) => {
                 toggleEditArea();
-              }}>
+              }}
+            >
               Edit
             </Button>
           </li>
@@ -79,8 +100,9 @@ const PostCard: React.FC<PostCardProps> = ({
               onClick={(event) => {
                 event.preventDefault();
                 toggleEditArea();
-                openModal({ post, eventType: 'addEvent' });
-              }}>
+                openModal({ post, eventType: "addEvent" });
+              }}
+            >
               Quick Edit
             </Button>
           </li>
@@ -92,13 +114,17 @@ const PostCard: React.FC<PostCardProps> = ({
                 event.preventDefault();
                 toggleEditArea();
                 deletePost(post.postId);
-              }}>
+              }}
+            >
               Delete
             </Button>
           </li>
         </ul>
       )}
-      <span className="set-time">{post.postTime}</span>
+      <i className="wpsp-icon wpsp-dots" onClick={toggleEditArea}></i>
+      <span className="set-time">
+        {post.postTime}
+      </span>
       <h3>{post.title}</h3>
       <span className="badge-wrapper">
         <span className="Unscheduled-badge">{post.postType}</span>

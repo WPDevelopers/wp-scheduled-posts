@@ -1,4 +1,4 @@
-import { Option } from "./ReactSelectWrapper";
+import { Option } from "./types";
 
 export const getValues = (options: Option[]) => {
   const values    = options ?? [];
