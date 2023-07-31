@@ -53,15 +53,39 @@
     margin: 0 0 10px;
     white-space: pre-wrap;
   }
+  .badge-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
   .Unscheduled-badge {
     font-size: 8px;
+    height: 16px;
     text-transform: uppercase;
     color: #fff;
     font-weight: 500;
-    line-height: 1.2em;
+    line-height: 1;
     background: #e8821e;
-    padding: 4px 6px;
+    padding: 0 6px;
     border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
+  }
+  .status-badge {
+    font-size: 8px;
+    min-height: 16px;
+    text-transform: uppercase;
+    color: #451f8b;
+    font-weight: 500;
+    line-height: 1.2em;
+    background: transparent;
+    border: 1px solid #451f8b;
+    padding: 0 6px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
   }
   i {
     position: absolute;
