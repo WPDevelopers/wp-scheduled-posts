@@ -23,8 +23,11 @@ interface EditPostReturnType {
 }
 
 
-
-const useEditPost = () => {
+export const ModalContent = ({
+  modalData,
+  setModalData,
+  onSubmit,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [postData, setPostData] = useState<Post>({
@@ -35,31 +38,35 @@ const useEditPost = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    wpFetch({
+
+    return wpFetch({
       method: "POST",
       path: "/wpscp/v1/post",
       data: {
-        type       : "addEvent",
+        type       : modalData?.eventType,
         ID         : postData.ID,
         post_type  : postData.post_type,
-        post_status: postData.post_status,
+        // post_status: postData.post_status,
         postTitle  : postData.post_title,
         postContent: postData.post_content,
         date       : postData.post_date,
       },
+    }).then((data) => {
+      onSubmit(data, modalData?.post);
+    }).finally(() => {
+      closeModal();
     });
-    closeModal();
   };
 
-  const openModal = (post) => {
-    setIsOpen(true);
-
-    if (post) {
+  useEffect(() => {
+    if (modalData?.post) {
+      setIsOpen(true);
+      const post = modalData.post;
       setIsLoading(true);
       wpFetch({
         path: addQueryArgs(`/wpscp/v1/post`, {
-          postId: post.postId,
-          postType: post.postType,
+          postId     : post.postId,
+          postType   : post.postType,
           post_status: post.status,
         }),
       })
@@ -75,13 +82,19 @@ const useEditPost = () => {
         setIsLoading(false);
       });
     } else {
-      setPostData({});
+      let data = {};
+      if(modalData?.post_date){
+        setIsOpen(true);
+        data = {post_date: modalData?.post_date};
+      }
+      setPostData(data);
     }
-  };
+  }, [modalData]);
 
   const closeModal = () => {
-    setIsOpen(false);
+    setModalData(false);
     setPostData({});
+    setIsOpen(false);
   };
 
   useEffect(() => {
@@ -90,30 +103,8 @@ const useEditPost = () => {
     };
   }, []);
 
-  useEffect(() => {
-    console.log('isOpen', isOpen);
-  }, [isOpen])
+  console.log({...modalData});
 
-
-  return {
-    isOpen,
-    openModal,
-    closeModal,
-    handleSubmit,
-    isLoading,
-    postData, setPostData,
-  };
-};
-
-
-export const ModalContent = ({
-  isOpen,
-  postData,
-  closeModal,
-  handleSubmit,
-  isLoading,
-  setPostData,
-}) => {
 
   return (
     <Modal
@@ -133,7 +124,9 @@ export const ModalContent = ({
       <div className="modalbody">
         {isLoading && <div>Loading...</div>}
         {!isLoading && (
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={(event) => {
+            handleSubmit(event).then();
+          }}>
             <div className="form-group">
               <Input
                 type="text"
@@ -141,7 +134,7 @@ export const ModalContent = ({
                 label="Title"
                 placeholder="Title"
                 value={postData.post_title}
-                onChange={(event) => setPostData({...postData, post_title: event.target.value})}
+                onChange={(event) => setPostData((postData) => ({...postData, post_title: event.target.value}))}
               />
             </div>
             <div className="form-group">
@@ -150,13 +143,13 @@ export const ModalContent = ({
                 label="Content"
                 placeholder="Content"
                 value={postData.post_content}
-                onChange={(event) => setPostData({...postData, post_content: event.target.value})}
+                onChange={(event) => setPostData((postData) => ({...postData, post_content: event.target.value}))}
               />
             </div>
 
             <TimePicker
               currentTime={postData.post_date}
-              onChange={(event) => setPostData({...postData, post_date: event.target.value})}
+              onChange={(date) => setPostData((postData) => ({...postData, post_date: date}))}
               is12Hour
             />
 
@@ -167,5 +160,3 @@ export const ModalContent = ({
     </Modal>
   );
 };
-
-export default useEditPost;

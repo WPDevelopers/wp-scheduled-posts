@@ -91,8 +91,8 @@ class Settings {
             'sidebar'         => false,
             'title'           => false,
             'is_pro_active'   => (defined('WPSP_PRO_VERSION') ? WPSP_PRO_VERSION : ''),
-            // 'savedValues'     => $wpsp_option,
-            // 'values'          => $wpsp_option,
+            'savedValues'     => $wpsp_option,
+            'values'          => $wpsp_option,
             'submit'          => [
                 'show'        => false,
             ],
@@ -949,7 +949,7 @@ class Settings {
                                     'completionTrack' => true,
                                     'sidebar'         => false,
                                     'title'           => false,
-                                    'default'         => 'layout_manage_schedule',
+                                    'default'         => 'layout_advance_schedule',
                                     'submit'          => [
                                         'show' => false
                                     ],

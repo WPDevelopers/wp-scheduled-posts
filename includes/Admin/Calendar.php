@@ -128,19 +128,7 @@ class Calendar
             // Return the posts as a JSON response
             while ($query->have_posts()) : $query->the_post();
                 do_action('wpscp_calender_the_post');
-
-                array_push($allData, array(
-                    'postId'   => get_the_ID(),
-                    'title'    => wp_trim_words(get_the_title(), 3, '...'),
-                    'href'     => get_the_permalink(),
-                    'edit'     => get_edit_post_link(get_the_ID(), ''),
-                    'postType' => get_post_type(),
-                    'status'   => $this->get_post_status(get_the_ID()),
-                    'postTime' => $this->get_post_time('g:i a'),
-                    'start'    => $this->get_post_time('Y-m-d'),
-                    'end'      => $this->get_post_time('Y-m-d H:i:s'),
-                    'allDay'   => false,
-                ));
+                $allData[] = $this->get_post_data();
             endwhile;
             wp_reset_postdata();
 
@@ -206,17 +194,17 @@ class Calendar
         global $wpdb;
         // post type
         $post_type  = $request->get_param('post_type');
-        $post_type  = !empty($post_type) ? $post_type : [];
         $taxonomies = $request->get_param('taxonomy');
         $taxonomies = !empty($taxonomies) ? $taxonomies : [];
 
         if(empty($post_type)){
             $post_type = \WPSP\Helper::get_settings('allow_post_types');
         }
-        else if(in_array('elementorlibrary', $post_type)){
+        else if(is_array($post_type) && in_array('elementorlibrary', $post_type)){
             $post_type   = array_diff($post_type, ['elementorlibrary']);
             $post_type[] = 'elementor_library';
         }
+        $post_type  = !empty($post_type) ? $post_type : ['post'];
 
         // date
         $now = new \DateTime('now');
@@ -291,31 +279,28 @@ class Calendar
                 if($republish && empty($republish_date)){
                     continue;
                 }
-
-                // $markup = '';
-                // $markup .= '<div class="wpscp-event-post" data-postid="' . get_the_ID() . '" data-post-type="' .  get_post_type() . '">';
-                // $markup .= '<div class="postlink"><span><span class="posttime">[' . (empty($republish_date) ? get_the_date('g:i a') : date('g:i a', strtotime($republish_date))) . ']</span> ' . wp_trim_words(get_the_title(), 3, '...') . ' [' . $this->get_post_status($republish) . ']</span></div>';
-                // $link = '';
-                // $link .= '<div class="edit"><a href="' . get_site_url() . '/wp-admin/post.php?post=' . get_the_ID() . '&action=edit""><i class="dashicons dashicons-edit"></i>Edit</a><a class="wpscpquickedit" href="#" data-type="quickedit"><i class="dashicons dashicons-welcome-write-blog"></i>Quick Edit</a></div>';
-                // $link .= '<div class="deleteview"><a class="wpscpEventDelete" href="#"><i class="dashicons dashicons-trash"></i> Delete</a><a href="' . get_the_permalink() . '"><i class="dashicons dashicons-admin-links"></i> View</a></div>';
-                // $markup .= '<div class="postactions"><div>' . $link . '</div></div>';
-                // $markup .= '</div>';
-                array_push($allData, array(
-                    'postId'   => get_the_ID(),
-                    'title'    => wp_trim_words(get_the_title(), 3, '...'),
-                    'href'     => get_the_permalink(),
-                    'edit'     => get_edit_post_link(),
-                    'postType' => get_post_type(),
-                    'status'   => $this->get_post_status(get_the_ID(), $republish),
-                    'postTime' => $this->get_post_time('g:i a', $republish_date),
-                    'start'    => $this->get_post_time('Y-m-d', $republish_date),
-                    'end'      => $this->get_post_time('Y-m-d H:i:s', $republish_date),
-                    'allDay'   => false,
-                ));
+                $allData[] = $this->get_post_data($republish);
             }
             wp_reset_postdata();
         }
         return $allData;
+    }
+
+    public function get_post_data($republish = false){
+        $republish_date = $republish ? get_post_meta(get_the_ID(), '_wpscp_schedule_republish_date', true) : null;
+
+        return array(
+            'postId'   => get_the_ID(),
+            'title'    => wp_trim_words(get_the_title(), 3, '...'),
+            'href'     => get_the_permalink(),
+            'edit'     => get_edit_post_link(),
+            'postType' => get_post_type(),
+            'status'   => $this->get_post_status(get_the_ID(), $republish),
+            'postTime' => $this->get_post_time('g:i a', $republish_date),
+            'start'    => $this->get_post_time('Y-m-d', $republish_date),
+            'end'      => $this->get_post_time('Y-m-d H:i:s', $republish_date),
+            'allDay'   => false,
+        );
     }
 
     public function get_event_data($post = null, $republish = false){
@@ -382,6 +367,8 @@ class Calendar
      */
     public function calender_ajax_request_php($request)
     {
+        global $post;
+
         $calendar_schedule_time = \WPSP\Helper::get_settings('calendar_schedule_time');
         $post_status = $request->get_param('post_status');
 
@@ -470,8 +457,8 @@ class Calendar
         } else if ($type == 'addEvent') {
 
             // only works if update event is fired
-            if ($postid != "") {
-                wp_update_post(array(
+            if (!empty($postid)) {
+                $postid = wp_update_post(array(
                     'ID'            => $postid,
                     'post_type'     => $post_type,
                     'post_title'    => wp_strip_all_tags($postTitle),
@@ -483,7 +470,15 @@ class Calendar
                     'edit_date'     => true,
                 ));
                 if (!is_wp_error($postid)) {
-                    print json_encode(query_posts(array('p' => $postid, 'post_type' => $post_type)));
+                    $post = get_post($postid);
+                    setup_postdata( $post );
+                    $event_data = $this->get_post_data();
+                    wp_reset_postdata();
+                    return rest_ensure_response($event_data);
+                }
+                else{
+                    // return wp error rest response
+                    return $postid;
                 }
             } else {
                 // only work new event created
@@ -497,8 +492,16 @@ class Calendar
                     'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''),
                     'edit_date'     => true,
                 ));
-                if ($post_id != 0) {
-                    print json_encode(query_posts(array('p' => $post_id, 'post_type' => $post_type)));
+                if (!is_wp_error($postid)) {
+                    $post = get_post($postid);
+                    setup_postdata( $post );
+                    $event_data = $this->get_post_data();
+                    wp_reset_postdata();
+                    return rest_ensure_response($event_data);
+                }
+                else{
+                    // return wp error rest response
+                    return $postid;
                 }
             }
         } else if ($type == 'eventDrop') {
