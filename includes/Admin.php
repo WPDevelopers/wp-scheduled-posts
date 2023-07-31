@@ -32,14 +32,12 @@ class Admin
 	    add_action( 'wp_ajax_wpsp_el_editor_form', [ $this, 'wpsp_el_tab_action' ] );
         
         // Add scheduling tab for section
-        add_action( 'elementor/element/section/section_advanced/after_section_end', [ $this, 'register_controls' ] );
-
-        // // Get section tab data
-        // add_action( 'elementor/element/section/section_advanced/after_section_end', [ $this, 'my_custom_control_callback' ],10, 3 );
-
+        add_action( 'elementor/element/section/section_advanced/after_section_end', [ $this, 'register_controls' ],10,2 );
+        
     }
 
-    public function register_controls( $element ) {
+    public function register_controls( $element, $section_id ) {
+
 		$element->start_controls_section(
 			'wpsp_section_schedule',
 			[
@@ -55,6 +53,7 @@ class Admin
 				'type' => \Elementor\Controls_Manager::DATE_TIME,
 			]
 		);
+
         $element->add_control(
 			'wpsp_section_republish_on',
 			[
@@ -62,6 +61,7 @@ class Admin
 				'type' => \Elementor\Controls_Manager::DATE_TIME,
 			]
 		);
+
         $element->add_control(
 			'wpsp_section_unpublish_on',
 			[
@@ -71,13 +71,7 @@ class Admin
 		);
 
 		$element->end_controls_section();
-	}
 
-    public function content_render( $should_render ) {
-		// $settings = $element->get_settings_for_display();
-        // echo "<pre>";
-        // print_r('Hello',$settings);
-		return false;
 	}
 
     public function load_plugin_menu_pages()
