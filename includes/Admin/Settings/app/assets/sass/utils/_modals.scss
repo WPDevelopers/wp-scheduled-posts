@@ -1,19 +1,19 @@
 .swal2-center {
   background: rgba(27, 27, 80, 0.4) !important;
-  padding: 50px 20px !important;
+  padding: 100px 50px !important;
   .swal2-modal {
     position: relative;
     box-sizing: border-box;
     grid-template-columns: minmax(0, 100%);
     width: 550px;
     max-width: 100%;
-    padding: 40px;
+    padding: 40px 70px;
     border: none;
     border-radius: 8px;
     background: #fff;
     @media screen and (max-width: 1439px) {
       width: 400px;
-      padding: 28px;
+      padding: 28px 40px;
     }
     .swal2-cancel {
       position: absolute;
@@ -112,7 +112,7 @@
   position: fixed;
   inset: 0px;
   background: rgba(27, 27, 80, 0.4) !important;
-  padding: 50px 20px !important;
+  padding: 100px 50px !important;
   display: flex;
   overflow: auto;
   z-index: 999;
