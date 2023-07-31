@@ -3,7 +3,9 @@ import { __ } from "@wordpress/i18n";
 
 // Fetch data from API
 export const fetchDataFromAPI = async (body) => {
-    const response = await fetch('/wp-admin/admin-ajax.php', {
+    // @ts-ignore 
+    const ajax_url = wpspSettingsGlobal?.admin_ajax;
+    const response = await fetch(ajax_url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
