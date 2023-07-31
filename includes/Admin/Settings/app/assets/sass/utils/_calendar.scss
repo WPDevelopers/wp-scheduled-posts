@@ -256,6 +256,7 @@
                     padding: 6px 8px;
                     background: #fff;
                     border-radius: 4px;
+                    z-index: initial;
                   }
                   button {
                     font-size: 12px;
@@ -274,9 +275,6 @@
                     padding: 0;
                     margin-top: 0;
                     z-index: initial;
-                    .fc-event-main {
-                      z-index: initial;
-                    }
                     .card {
                       min-width: auto;
                       width: 100%;
@@ -305,70 +303,6 @@
                   }
                 }
               }
-            }
-          }
-        }
-      }
-      .wpsp-event-card {
-        position: relative;
-        margin-top: 0 !important;
-        padding: 14px 14px 10px;
-        min-width: 200px;
-        max-width: unset;
-        border: none;
-        box-shadow: none;
-        background: #fcf0e4;
-        border-radius: 6px;
-        box-sizing: border-box;
-        &:before {
-          position: absolute;
-          content: '';
-          width: 2px;
-          height: 64px;
-          background: #e8821e;
-          border-radius: 50px;
-          left: -1px;
-          top: 18px;
-        }
-        .set-time {
-          font-size: 12px;
-          font-weight: 500;
-          line-height: 1.2em;
-          color: #73400d;
-          margin-bottom: 10px;
-          display: block;
-        }
-        h3 {
-          color: #e8821e;
-          font-size: 14px;
-          font-weight: 500;
-          line-height: 1.2em;
-          margin: 0 0 10px;
-          white-space: pre-wrap;
-        }
-        .Unscheduled-badge {
-          font-size: 8px;
-          text-transform: uppercase;
-          color: #fff;
-          font-weight: 500;
-          line-height: 1.2em;
-          background: #e8821e;
-          padding: 4px 6px;
-          border-radius: 20px;
-        }
-        i {
-          position: absolute;
-          right: 8px;
-          top: 12px;
-          padding: 4px;
-          font-size: 12px;
-          color: #6e6e8d;
-          cursor: pointer;
-          transition: ease-in-out 0.25s;
-          &:hover {
-            .edit-area {
-              display: block;
-              opacity: 1;
             }
           }
         }
@@ -464,7 +398,10 @@
 .wpsp-admin-wrapper .wpscp-event-post .edit-area {
   transform: translateX(0%) !important;
 }
-.wpsp-admin-wrapper .fc-event .edit-area,
+.wpsp-admin-wrapper .fc-event .edit-area {
+  transform: translateX(0%) translateY(10px) !important;
+}
+
 .wpsp-admin-wrapper #external-events-listing .edit-area {
   transform: translateX(80%) translateY(15px) !important;
 }
