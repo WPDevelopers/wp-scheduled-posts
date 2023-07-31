@@ -305,6 +305,28 @@
           margin-top: 16px;
         }
       }
+      .components-datetime__time {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        fieldset {
+          flex-grow: 1;
+          .components-base-control__label {
+            font-size: 1em;
+            line-height: 1.2;
+            font-weight: 500;
+            text-transform: capitalize;
+            color: #1B1B50;
+            margin-bottom: 1em;
+          }
+          .components-datetime__time-wrapper {
+            .components-button-group {
+              display: flex;
+              gap: 4px;
+            }
+          }
+        }
+      }
       .wpsp-modal-social-platform {
         .wpsp-modal-save-account {
           font-size: 14px;
