@@ -405,3 +405,17 @@
 .wpsp-admin-wrapper #external-events-listing .edit-area {
   transform: translateX(80%) translateY(15px) !important;
 }
+.fc-daygrid-day-bottom {
+  .fc-daygrid-more-link {
+    min-height: 25px;
+    padding: 2px 8px;
+    font-size: 12px;
+    border-radius: 4px;
+    background: #f3f2ff;
+    color: #6c62ff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 7px;
+  }
+}
