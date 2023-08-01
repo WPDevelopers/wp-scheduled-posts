@@ -13,6 +13,7 @@ import SelectedProfile from './utils/SelectedProfile';
 import MainProfile from './utils/MainProfile';
 import ProAlert from './utils/ProAlert';
 import { SweetAlertDeleteMsg } from '../ToasterMsg';
+import ViewMore from './utils/ViewMore';
 
 const Pinterest = (props) => {
     const builderContext = useBuilderContext();
@@ -21,6 +22,7 @@ const Pinterest = (props) => {
     const [selectedProfile, setSelectedProfile] = useState(props?.value);
     const [isProfileEditModal, setProfileEditModal] = useState(false);
     const [profileItem, setProfileItem] = useState("");
+    const [selectedProfileViewMore,setSelectedProfileViewMore] = useState(false);
     const [profileStatus, setProfileStatus] = useState(builderContext?.savedValues?.pinterest_profile_status);
 
     const openApiCredentialsModal = (platform) => {
@@ -57,9 +59,7 @@ const Pinterest = (props) => {
     }
     // Handle profile & selected profile status onChange event
     const handleProfileStatusChange = (event) => {
-        if( event.target.checked ) {
-            setProfileStatus(event.target.checked);
-        }
+        setProfileStatus(event.target.checked);
         const updatedData = selectedProfile.map(selectedItem => {
             if (!event.target.checked) {
                 return {
@@ -110,7 +110,7 @@ const Pinterest = (props) => {
                     />
                 </div>
                 <div className="selected-profile">
-                    {selectedProfile && selectedProfile.map((item,index) => (
+                    {selectedProfile && selectedProfile?.slice(0,1).map((item,index) => (
                         <div className='selected-pinterest-wrapper' key={index}>
                             <SelectedProfile 
                                 platform={'pinterest'} 
@@ -121,6 +121,7 @@ const Pinterest = (props) => {
                             />
                         </div>
                     ))}
+                    { ( selectedProfile && selectedProfile.length > 1 ) && <ViewMore setSelectedProfileViewMore={setSelectedProfileViewMore} /> }
                 </div>
             </div>
             {/* API Credentials Modal  */}
@@ -145,6 +146,27 @@ const Pinterest = (props) => {
                 isProfileEditModal={isProfileEditModal}
                 setProfileEditModal={setProfileEditModal}
             />
+            <Modal 
+                isOpen={selectedProfileViewMore}
+                onRequestClose={true}
+                ariaHideApp={false}
+                shouldCloseOnOverlayClick={false}
+                className="modal_wrapper">
+                    <button className="close-button" onClick={ () => setSelectedProfileViewMore(false)}><i className='wpsp-icon wpsp-close'></i></button>
+                    <div className='selected-profile'>
+                        { selectedProfile && selectedProfile?.map((item,index) => (
+                            <div className='selected-pinterest-wrapper' key={index}>
+                                <SelectedProfile 
+                                    platform={'pinterest'} 
+                                    item={item} 
+                                    handleSelectedProfileStatusChange={handleSelectedProfileStatusChange} 
+                                    handleDeleteSelectedProfile={handleDeleteSelectedProfile}  
+                                    handleEditSelectedProfile={handleEditSelectedProfile}
+                                />
+                            </div>
+                        ))}
+                    </div>
+            </Modal>
         </div>
     )
 }

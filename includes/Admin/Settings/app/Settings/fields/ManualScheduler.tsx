@@ -122,7 +122,7 @@ const ManualScheduler = (props) => {
                     isMulti={false}
                     isDisabled={!is_pro}
                 />
-                <button onClick={handleSavedManualSchedule} disabled={!is_pro}>{ __('Save Schedule','wp-scheduled-posts') }</button>
+                <button onClick={handleSavedManualSchedule} disabled={!is_pro}>{ __('Add','wp-scheduled-posts') }</button>
             </div>
             <div className={`weeks ${!is_pro ? 'pro-deactivated' : ''}`}>
                 {options.map((item, optionIndex) => (
