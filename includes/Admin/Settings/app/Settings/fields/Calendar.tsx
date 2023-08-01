@@ -4,7 +4,7 @@ import FullCalendar from "@fullcalendar/react";
 import apiFetch from "@wordpress/api-fetch";
 import { useBuilderContext } from "quickbuilder";
 import React, { useEffect, useRef, useState } from "react";
-import { editPost, getPostFromEvent } from "./Calendar/EventRender";
+import { eventDrop, getPostFromEvent } from "./Calendar/EventRender";
 import Sidebar from "./Calendar/Sidebar";
 // const events = [{ title: "Meeting", start: new Date() }];
 import MonthPicker from "@compeon-os/monthpicker";
@@ -87,7 +87,9 @@ export default function Calendar(props) {
   useEffect(() => {
     // console.log(builderContext.config.active);
     if ("layout_calendar" === builderContext.config.active) {
-      calendar.current?.getApi().updateSize();
+      setTimeout(() => {
+        calendar.current?.getApi().updateSize();
+      }, 100);
     }
   }, [builderContext.config.active]);
 
@@ -289,7 +291,7 @@ export default function Calendar(props) {
                 // eventDropInfo.event.setExtendedProp('status', status);
 
                 const post: PostType = getPostFromEvent(eventDropInfo.event);
-                editPost(post, 'eventDrop');
+                eventDrop(post, 'eventDrop');
                 console.log(post, eventDropInfo);
 
               }}

@@ -37,7 +37,7 @@ export const deletePost = (id) => {
   });
 };
 
-export const editPost = (post: PostType, eventType) => {
+export const eventDrop = (post: PostType, eventType) => {
   return apiFetch({
     method: "POST",
     path: "/wpscp/v1/post",
