@@ -85,20 +85,6 @@ const AutoScheduler = (props) => {
 
     const handleAutoScheduleStatusToggle = (event) => {
         setautoSchedulerStatus(event.target.checked)
-        const prevManualSchedulerValue = builderContext.values['manage_schedule']?.manual_schedule;
-        if( prevManualSchedulerValue ) {
-            if( prevManualSchedulerValue?.[1].is_active_status == true ) {
-                let manualSchedulerData = [ { weekdata : prevManualSchedulerValue?.[0].weekdata }, { is_active_status : false } ];
-                onChange({
-                    target: {
-                        type: 'manual-scheduler',
-                        name:["manage_schedule",'manual_schedule'],
-                        value: manualSchedulerData,
-                        multiple,
-                    },
-                });
-            }
-        }
     }
 
     // @ts-ignore

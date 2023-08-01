@@ -67,6 +67,9 @@ const Linkedin = (props) => {
         setSelectedProfile(updatedData);
     };
     const handleSelectedProfileStatusChange = (item,event) => {
+        if( event.target.checked ) {
+            setProfileStatus(true);
+        }
         const updatedData = selectedProfile.map(selectedItem => {
             if (selectedItem.id === item.id) {
             return {
