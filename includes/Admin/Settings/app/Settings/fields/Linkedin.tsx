@@ -13,12 +13,14 @@ import SelectedProfile from './utils/SelectedProfile';
 import MainProfile from './utils/MainProfile';
 import ProAlert from './utils/ProAlert';
 import {SweetAlertDeleteMsg} from '../ToasterMsg';
+import ViewMore from './utils/ViewMore';
 
 const Linkedin = (props) => {
     const builderContext = useBuilderContext();
     const [apiCredentialsModal,setApiCredentialsModal] = useState(false);
     const [platform, setPlatform] = useState('');
     const [selectedProfile, setSelectedProfile] = useState(props?.value);
+    const [selectedProfileViewMore,setSelectedProfileViewMore] = useState(false);
     const [profileStatus, setProfileStatus] = useState(builderContext?.savedValues?.linkedin_profile_status);
 
     const openApiCredentialsModal = (accountType) => {
@@ -109,7 +111,7 @@ const Linkedin = (props) => {
                     <MainProfile props={props} handleProfileStatusChange={handleProfileStatusChange} profileStatus={profileStatus} openApiCredentialsModal={openApiCredentialsModal} />
                 </div>
                 <div className="selected-profile">
-                    { selectedProfile && selectedProfile?.map((item,index) => (
+                    { selectedProfile && selectedProfile?.slice(0,1).map((item,index) => (
                         <div className='selected-linkedin-wrapper' key={index}>
                             <SelectedProfile 
                                 platform={'linkedin'} 
@@ -119,8 +121,8 @@ const Linkedin = (props) => {
                                 handleEditSelectedProfile={''}
                             />
                         </div>
-                        
                     ))}
+                    { ( selectedProfile && selectedProfile.length > 1 ) && <ViewMore setSelectedProfileViewMore={setSelectedProfileViewMore} /> }
                 </div>
             </div>
             {/* API Credentials Modal  */}
@@ -141,7 +143,27 @@ const Linkedin = (props) => {
                 props={props}
                 type="linkedin"
             />
-            
+            <Modal 
+                isOpen={selectedProfileViewMore}
+                onRequestClose={true}
+                ariaHideApp={false}
+                shouldCloseOnOverlayClick={false}
+                className="modal_wrapper">
+                    <button className="close-button" onClick={ () => setSelectedProfileViewMore(false)}><i className='wpsp-icon wpsp-close'></i></button>
+                    <div className='selected-profile'>
+                        { selectedProfile && selectedProfile?.map((item,index) => (
+                            <div className='selected-linkedin-wrapper' key={index}>
+                                <SelectedProfile 
+                                    platform={'linkedin'} 
+                                    item={item} 
+                                    handleSelectedProfileStatusChange={handleSelectedProfileStatusChange} 
+                                    handleDeleteSelectedProfile={handleDeleteSelectedProfile} 
+                                    handleEditSelectedProfile={''}
+                                />
+                            </div>
+                        ))}
+                    </div>
+            </Modal>
         </div>
     )
 }

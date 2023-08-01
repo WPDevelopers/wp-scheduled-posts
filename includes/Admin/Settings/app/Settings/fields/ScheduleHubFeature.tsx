@@ -20,17 +20,18 @@ let is_pro = wpspSettingsGlobal?.pro_version ? true : false;
               <a href="#">Upgrade To Pro</a>
           </div>
           <div className="wprf-card-wrapper">
+            <div className="single-card">
+                <i className="wpsp-icon wpsp-manage-pro"></i>
+                  <h4>Advance Schedule</h4>
+              </div>
               <div className="single-card">
                   <i className="wpsp-icon wpsp-advance-pro"></i>
-                  <h4>Manage Schedule</h4>
+                  <h4>Auto/Manual Schedule</h4>
               </div>
-              <div className="single-card">
-                <i className="wpsp-icon wpsp-manage-pro"></i>
-                  <h4>Advanced Schedule</h4>
-              </div>
+              
               <div className="single-card">
                   <i className="wpsp-icon wpsp-missed-pro"></i>
-                  <h4>Manage Schedule</h4>
+                  <h4>Missed Schedule</h4>
               </div>
           </div>
         </div>

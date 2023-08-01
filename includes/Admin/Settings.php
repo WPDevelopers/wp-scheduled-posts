@@ -1044,7 +1044,7 @@ class Settings {
                                             'id'       => 'manage-schedule',
                                             'name'     => 'layout_manage_schedule',
                                             'type'     => 'section',
-                                            'label'    => __('Manage Schedule', 'wp-scheduled-posts'),
+                                            'label'    => __('Auto/Manual Schedule', 'wp-scheduled-posts'),
                                             'priority' => 30,
                                             'is_pro'   => true,
                                             'classes'  => 'pro_feature',

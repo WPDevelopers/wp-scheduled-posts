@@ -12,12 +12,14 @@ import SocialModal from './Modals/SocialModal';
 import SelectedProfile from './utils/SelectedProfile';
 import MainProfile from './utils/MainProfile';
 import { SweetAlertDeleteMsg } from '../ToasterMsg';
+import ViewMore from './utils/ViewMore';
 
 const Facebook = (props) => {
     const builderContext = useBuilderContext();
     const [apiCredentialsModal,setApiCredentialsModal] = useState(false);
     const [platform, setPlatform] = useState('');
     const [selectedProfile, setSelectedProfile] = useState(props?.value);
+    const [selectedProfileViewMore,setSelectedProfileViewMore] = useState(false);
     const [profileStatus, setProfileStatus] = useState(builderContext?.savedValues?.facebook_profile_status);
     
     // Open and Close API credentials modal
@@ -45,6 +47,9 @@ const Facebook = (props) => {
        
     };
     const handleSelectedProfileStatusChange = (item,event) => {
+        if( event.target.checked ) {
+            setProfileStatus(true);
+        }
         if( profileStatus == true ) {
             const changeSelectedProfileStatus = selectedProfile.map(selectedItem => {
                 if (selectedItem.id === item.id) {
@@ -91,7 +96,7 @@ const Facebook = (props) => {
                     <MainProfile props={props} handleProfileStatusChange={handleProfileStatusChange} profileStatus={profileStatus} openApiCredentialsModal={openApiCredentialsModal} />
                 </div>
                 <div className="selected-profile">
-                    { selectedProfile && selectedProfile?.map((item,index) => (
+                    { selectedProfile && selectedProfile?.slice(0,1)?.map((item,index) => (
                         <div className='selected-facebook-wrapper' key={index}>
                             <SelectedProfile 
                                 platform={'facebook'} 
@@ -102,6 +107,7 @@ const Facebook = (props) => {
                             />
                         </div>
                     ))}
+                    { ( selectedProfile && selectedProfile.length > 1 ) && <ViewMore setSelectedProfileViewMore={setSelectedProfileViewMore} /> }
                 </div>
             </div>
             {/* API Credentials Modal  */}
@@ -123,6 +129,27 @@ const Facebook = (props) => {
                 props={props}
                 type="facebook"
             />
+            <Modal 
+                isOpen={selectedProfileViewMore}
+                onRequestClose={true}
+                ariaHideApp={false}
+                shouldCloseOnOverlayClick={false}
+                className="modal_wrapper">
+                    <button className="close-button" onClick={ () => setSelectedProfileViewMore(false)}><i className='wpsp-icon wpsp-close'></i></button>
+                    <div className='selected-profile'>
+                        { selectedProfile && selectedProfile?.map((item,index) => (
+                            <div className='selected-facebook-wrapper' key={index}>
+                                <SelectedProfile 
+                                    platform={'facebook'} 
+                                    item={item} 
+                                    handleSelectedProfileStatusChange={handleSelectedProfileStatusChange} 
+                                    handleDeleteSelectedProfile={handleDeleteSelectedProfile} 
+                                    handleEditSelectedProfile={''}
+                                />
+                            </div>
+                        ))}
+                    </div>
+            </Modal>
         </div>
     )
 }
