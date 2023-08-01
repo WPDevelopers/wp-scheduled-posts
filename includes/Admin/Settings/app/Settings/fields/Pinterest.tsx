@@ -32,6 +32,9 @@ const Pinterest = (props) => {
         setApiCredentialsModal(false);
     };
     const handleSelectedProfileStatusChange = (item,event) => {
+        if( event.target.checked ) {
+            setProfileStatus(true);
+        }
         const updatedData = selectedProfile.map(selectedItem => {
             if (selectedItem.default_board_name.value === item.default_board_name.value) {
                 return {
@@ -54,7 +57,9 @@ const Pinterest = (props) => {
     }
     // Handle profile & selected profile status onChange event
     const handleProfileStatusChange = (event) => {
-        setProfileStatus(event.target.checked);
+        if( event.target.checked ) {
+            setProfileStatus(event.target.checked);
+        }
         const updatedData = selectedProfile.map(selectedItem => {
             if (!event.target.checked) {
                 return {
@@ -74,7 +79,6 @@ const Pinterest = (props) => {
     // Save selected profile data
     useEffect( () => {
         builderContext.setFieldValue([props.name], selectedProfile);
-        console.log( 'selected-profile', selectedProfile );
     },[selectedProfile] )
 
     // Save profile status data 
