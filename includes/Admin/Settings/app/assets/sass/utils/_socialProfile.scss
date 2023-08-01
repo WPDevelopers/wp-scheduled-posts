@@ -14,17 +14,25 @@
   }
   .wprf-section-fields {
     display: grid !important;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
     padding: 0 !important;
+    @media screen and (max-width: 1599px) {
+      grid-template-columns: repeat(1, 1fr);
+    }
     .wprf-control {
       margin-bottom: 0px !important;
       .social-profile-card {
         background: #f9fafc;
         border-radius: 6px;
-        padding: 8px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
         .main-profile {
-          padding: 16px;
+          padding: 24px;
+          border-right: 1px solid #f0efff;
+          @media screen and (min-width: 1600px) {
+            padding: 20px;
+          }
           .card-header {
             display: flex;
             align-items: center;
@@ -34,7 +42,10 @@
             .heading {
               display: flex;
               align-items: center;
-              gap: 14px;
+              gap: 12px;
+              img {
+                width: 32px;
+              }
               h5 {
                 color: #1b1b50;
                 font-size: 18px;
@@ -45,14 +56,18 @@
           .card-content {
             color: #6e6e8d !important;
             font-size: 14px !important;
-            line-height: 22px !important;
+            line-height: 1.6px !important;
             margin: 0 0 20px !important;
             a {
               color: #1b1b50;
+              font-size: 1em;
             }
           }
           .card-footer {
             display: flex;
+            &.has-select {
+              max-width: 250px;
+            }
             .main-select {
               height: 42px;
               flex-grow: 1;
@@ -94,52 +109,81 @@
                 padding: 2px 12px;
                 letter-spacing: -0.05em;
               }
+              &.selected {
+                background-color: #6c62ff;
+                color: #fff;
+              }
             }
+          }
+        }
+        .selected-profile {
+          padding: 24px;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          justify-content: center;
+          @media screen and (min-width: 1600px) {
+            padding: 20px;
+          }
+          .empty-image {
+            width: 100%;
+            max-width: 200px;
+            align-self: center;
+            justify-self: center;
           }
         }
         .profile-item {
           background: #fff;
           border-radius: 4px;
           padding: 24px;
-          margin-top: 8px;
           display: flex;
-          gap: 12px;
+          gap: 16px;
           position: relative;
+          @media screen and (min-width: 1600px) {
+            padding: 20px;
+            gap: 8px;
+          }
           .profile-image {
+            flex-shrink: 0;
             img {
               max-width: 100%;
               width: 48px;
               height: 48px;
               border-radius: 50%;
+              @media screen and (min-width: 1600px) {
+                width: 42px;
+                height: 42px;
+              }
             }
           }
           .profile-data {
             .badge {
               background: #f3f2ff;
               border-radius: 20px;
-              padding: 6px 8px;
               font-size: 8px;
-              line-height: 10px;
+              padding: 0.6em 1.1em;
+              line-height: 1;
               font-weight: 500;
               color: #6c62ff;
               text-transform: uppercase;
               position: absolute;
-              right: 8px;
-              top: 8px;
+              right: 1em;
+              top: 1em;
+              box-sizing: border-box;
             }
             h4 {
-              font-size: 14px !important;
+              font-size: 16px !important;
               margin: 0 !important;
               color: #1b1b50;
               font-weight: 500;
               line-height: 1.25em !important;
-              padding: 0 0 10px !important;
+              padding: 0 0 0.5em !important;
             }
             span {
               color: #6e6e8d;
               font-size: 14px;
               line-height: 1.1em;
-              padding-bottom: 20px;
+              padding-bottom: 1.42em;
               display: block;
             }
             .action {
@@ -150,7 +194,7 @@
                 button {
                   font-size: 0.9em;
                   line-height: 1.25;
-                  color: #6E6E8D;
+                  color: #6e6e8d;
                   padding: 0;
                   background: transparent;
                   border: none;
@@ -160,7 +204,7 @@
                   cursor: pointer;
                   &:before {
                     content: '\e911';
-                    font-family: "wpsp";
+                    font-family: 'wpsp';
                     font-size: 0.9em;
                     color: #6e6e8d;
                   }
@@ -180,7 +224,7 @@
                   cursor: pointer;
                   &:before {
                     content: '\e910';
-                    font-family: "wpsp";
+                    font-family: 'wpsp';
                     font-size: 0.9em;
                     color: #6e6e8d;
                   }
