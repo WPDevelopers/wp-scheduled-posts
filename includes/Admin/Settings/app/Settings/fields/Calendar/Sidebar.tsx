@@ -7,24 +7,37 @@ import React, { MutableRefObject, forwardRef, useCallback, useEffect, useRef, us
 import CategorySelect from "./Category";
 import PostCard from "./EventRender";
 import { getValues } from "./Helpers";
-import { PostType, SidebarProps } from "./types";
+import { ModalProps, PostType, SidebarProps } from "./types";
+import { ModalContent } from "./EditPost";
 
 // Define your component
-const Sidebar = ({openModal, selectedPostType, draftEvents: posts, setDraftEvents: setPosts}: SidebarProps, draggableRef: MutableRefObject<HTMLDivElement>
+const Sidebar = ({selectedPostType, draftEvents: posts, setDraftEvents: setPosts}: SidebarProps, draggableRef: MutableRefObject<HTMLDivElement>
   ) => {
   // Define your state variables
   const [optionSelected, setOptionSelected] = useState([]);
   const [editAreaToggle, setEditAreaToggle] = useState([]);
 
+  const [modalData, openModal] = useState<ModalProps>({ post: null, eventType: null });
+  const onSubmit = (data: any, oldData) => {
+    const newEvents = posts.filter((event) => event.postId !== oldData?.postId);
+    setPosts([...newEvents, data]);
+  };
+
+
   useEffect(() => {
     // In your external element component componentDidMount
     new Draggable(draggableRef.current, {
       itemSelector: ".fc-event",
-      // @ts-ignore
-      dropAccept: ".fc-event",
       // Associate event data with the element
       eventData: function (eventEl) {
         const post = JSON.parse(eventEl.getAttribute("data-event"));
+        // const end = new Date(Date.parse(post.end));
+        // post.duration = {
+        //   hours  : end.getHours(),
+        //   minutes: end.getMinutes(),
+        //   seconds: end.getSeconds(),
+        // };
+
         return post;
       },
     });
@@ -33,11 +46,6 @@ const Sidebar = ({openModal, selectedPostType, draftEvents: posts, setDraftEvent
 
   // Fetch your posts and taxonomies using useEffect hook
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    // Get the _page value from the params object
-    const page = params.get('page');
-
-    // Define your query parameters
     const query = {
       post_type: getValues(selectedPostType) ?? ["post"], // Use selectedPostType state or default to ["post"]
       post_status: ["draft", "pending"],
@@ -59,22 +67,8 @@ const Sidebar = ({openModal, selectedPostType, draftEvents: posts, setDraftEvent
 
   }, [selectedPostType, optionSelected]); // Re-run the effect when selectedPostType changes
 
-
-  const deletePost = useCallback((id) => {
-    apiFetch({
-      path: addQueryArgs("/wpscp/v1/post", {ID: id}),
-      method: "DELETE",
-      // data: query,
-    }).then((data: []) => {
-      // Set your posts state with the fetched data
-      console.log(data);
-    });
-  }, []);
-
-  console.log('Sidebar', posts);
-
-  // Return your JSX element
   return (
+  <div id="wpsp-sidebar" className="sidebar" ref={draggableRef}>
     <div id="external-events">
       <div id="external-events-listing">
         <h4 className="unscheduled">
@@ -83,7 +77,7 @@ const Sidebar = ({openModal, selectedPostType, draftEvents: posts, setDraftEvent
           <span className="spinner"></span>
         </h4>
         <CategorySelect selectedPostType={selectedPostType} onChange={setOptionSelected} showTags />
-        <div className="event-wrapper" ref={draggableRef}>
+        <div className="event-wrapper">
           {posts.sort((a, b) => (new Date(b.end)).getTime() - (new Date(a.end)).getTime()).map(
             (
               post: PostType // Loop through your posts using map method
@@ -104,14 +98,31 @@ const Sidebar = ({openModal, selectedPostType, draftEvents: posts, setDraftEvent
       <p>
         <a
           className="btn-draft-post-create"
-          href="#wpscp_quickedit"
+          href="#"
           rel="modal:open"
           data-type="draft"
+          onClick={(e) => {
+            console.log('openModal', e);
+
+            e.preventDefault();
+            openModal({
+              post: null,
+              eventType: "addEvent",
+              openModal: true,
+            });
+          }}
         >
           New Draft
         </a>
       </p>
     </div>
+    <ModalContent
+      modalData={modalData}
+      setModalData={openModal}
+      onSubmit={onSubmit}
+      selectedPostType={selectedPostType}
+    />
+  </div>
   );
 }
 

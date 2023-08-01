@@ -33,11 +33,11 @@ export type PostType = {
     post: any;
     eventType: string;
     post_date?: Date;
+    openModal?: boolean;
   }
 
 
 export type SidebarProps = {
-    openModal: (modalData: ModalProps) => void;
     selectedPostType: Option[];
     draftEvents: Array<PostType>;
     setDraftEvents: (posts: Array<PostType>) => void;
