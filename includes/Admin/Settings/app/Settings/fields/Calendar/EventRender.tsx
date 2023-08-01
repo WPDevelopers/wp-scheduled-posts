@@ -1,4 +1,4 @@
-import { EventApi, EventContentArg } from '@fullcalendar/core';
+import { EventApi, EventContentArg, formatDate } from '@fullcalendar/core';
 import { EventImpl } from '@fullcalendar/core/internal';
 import apiFetch from '@wordpress/api-fetch';
 import { Button } from '@wordpress/components';
@@ -7,7 +7,7 @@ import React from 'react';
 import { PostCardProps, PostType } from './types';
 
 
-export const getPostFromEvent = (event: EventApi) => {
+export const getPostFromEvent = (event: EventApi, dateString = false) => {
   const { title, start, end, allDay } = event;
   const { postId, href, edit, status, postType, postTime } = event.extendedProps;
 
@@ -37,8 +37,9 @@ export const deletePost = (id) => {
   });
 };
 
-export const eventDrop = (post: PostType, eventType) => {
-  return apiFetch({
+export const eventDrop = (event: EventApi, eventType) => {
+  const post: PostType = getPostFromEvent(event, true);
+  return apiFetch<PostType>({
     method: "POST",
     path: "/wpscp/v1/post",
     data: {
@@ -122,7 +123,7 @@ const PostCard: React.FC<PostCardProps> = ({
         </ul>
       )}
       <i className="wpsp-icon wpsp-dots" onClick={toggleEditArea}></i>
-      <span className="set-time">
+      <span className={`set-time ` + ('Published' === post.status ? 'published' : 'scheduled')}>
         {post.postTime}
       </span>
       <h3>{post.title}</h3>

@@ -8,7 +8,7 @@ import { eventDrop, getPostFromEvent } from "./Calendar/EventRender";
 import Sidebar from "./Calendar/Sidebar";
 // const events = [{ title: "Meeting", start: new Date() }];
 import MonthPicker from "@compeon-os/monthpicker";
-import { EventContentArg, EventDropArg } from "@fullcalendar/core";
+import { EventContentArg, EventDropArg, formatDate } from "@fullcalendar/core";
 import { __ } from "@wordpress/i18n";
 import classNames from "classnames";
 import { getMonth, getYear } from "date-fns";
@@ -221,11 +221,13 @@ export default function Calendar(props) {
               // Enable droppable option
               editable={true}
               droppable={true}
+              defaultAllDay={false}
               eventResizableFromStart={false}
               eventDurationEditable={false}
               dragRevertDuration={0}
               // headerToolbar={false}
               dayMaxEvents={1}
+              timeZone='UTC'
               dayPopoverFormat={{ day: "numeric" }}
               moreLinkContent={(arg) => {
                 return <>View {arg.num} More</>;
@@ -262,11 +264,21 @@ export default function Calendar(props) {
               }}
               // Provide a drop callback function
               eventReceive={(info) => {
-                const props = info.event.extendedProps;
+                const event = info.event;
+                const props = event.extendedProps;
                 setDraftEvents((posts) =>
                   posts.filter((p) => p.postId !== props.postId)
                 );
                 console.log("drop", info, props);
+
+                if(event.allDay) {
+                  const date = Date.parse(event.start.toISOString().slice(0, 10) + " " + props.postTime);
+                  event.setAllDay(false);
+                  event.setEnd(date);
+                }
+                eventDrop(event, 'eventDrop').then((post) => {
+                  // setEvents((posts) => [...posts, post]);
+                });
               }}
               eventDragStop={(info: EventDragStopArg) => {
                 if(isEventOverDiv(info.jsEvent.clientX, info.jsEvent.clientY)) {
@@ -287,12 +299,17 @@ export default function Calendar(props) {
 
               }}
               eventDrop={(eventDropInfo: EventDropArg) => {
-                const status = (eventDropInfo.event.end > new Date())
+                // const status = (eventDropInfo.event.end > new Date())
                 // eventDropInfo.event.setExtendedProp('status', status);
-
-                const post: PostType = getPostFromEvent(eventDropInfo.event);
-                eventDrop(post, 'eventDrop');
-                console.log(post, eventDropInfo);
+                // 'Y-m-d H:i:s'
+                eventDrop(eventDropInfo.event, 'eventDrop').then((post) => {
+                  setEvents((events) => events.map((event) => {
+                    if(event.postId === post.postId) {
+                      return post;
+                    }
+                    return event;
+                  }));
+                });
 
               }}
               // eventClick={function (info) {

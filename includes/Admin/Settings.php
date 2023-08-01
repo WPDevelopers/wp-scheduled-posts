@@ -577,10 +577,12 @@ class Settings {
                                                     'sub_title'     => sprintf( __('To configure the Facebook Status Settings, check out this <a target="_blank" href="%s">Doc.</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-scheduled-posts-facebook/' ),
                                                     'fields'        => [
                                                         'facebook'  => [
-                                                            'name'     => "facebook",
-                                                            'type'     => "group",
-                                                            'priority' => 10,
-                                                            'fields'    => [
+                                                            'name'       => "facebook",
+                                                            'parent'     => "social_templates",
+                                                            'parenttype' => "group",
+                                                            'type'       => "group",
+                                                            'priority'   => 10,
+                                                            'fields'     => [
                                                                 'is_show_meta'  => [
                                                                     'id'            => 'facebook_show_meta',
                                                                     'name'          => 'is_show_meta',

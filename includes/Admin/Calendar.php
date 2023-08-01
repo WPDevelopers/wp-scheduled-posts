@@ -28,16 +28,20 @@ class Calendar
         add_filter('wpsp_eventDrop_posts', [$this, 'wpsp_eventDrop_posts'], 10, 2 );
     }
 
+    public function permission_callback() {
+        return current_user_can('edit_posts');
+    }
+
     public function wpscp_register_custom_route()
     {
         register_rest_route(
             'wpscp/v1',
             '/calendar',
             array(
-                'methods'  => \WP_REST_Server::EDITABLE,
-                'callback' => array($this, 'wpscp_future_post_rest_route_output'),
-                'permission_callback' => '__return_true',
-                'args' => [
+                'methods'             => \WP_REST_Server::EDITABLE,
+                'callback'            => array($this, 'wpscp_future_post_rest_route_output'),
+                'permission_callback' => [$this, 'permission_callback'],
+                'args'                => [
                     'post_type' => [
                         'required' => true,
                         'type'     => 'array',
@@ -58,18 +62,19 @@ class Calendar
             )
         );
 
-        register_rest_route( 'wpscp/v1', '/posts', array(
-            'methods' => 'POST',
-            'callback' => [$this, 'get_draft_posts'],
-        ) );
+        register_rest_route('wpscp/v1', '/posts', array(
+            'methods'             => 'POST',
+            'callback'            => [$this, 'get_draft_posts'],
+            'permission_callback' => [$this, 'permission_callback'],
+        ));
 
         register_rest_route(
             'wpscp/v1',
             '/get_tax_terms',
             array(
-                'methods'  => 'GET',
-                'callback' => array($this, 'get_tax_terms'),
-                'permission_callback' => '__return_true'
+                'methods'             => 'GET',
+                'callback'            => array($this, 'get_tax_terms'),
+                'permission_callback' => [$this, 'permission_callback'],
             )
         );
 
@@ -78,16 +83,19 @@ class Calendar
             '/post',
             array(
                 array(
-                    'methods' => \WP_REST_Server::READABLE,
-                    'callback' => [$this, 'quick_edit_get_post'],
+                    'methods'             => \WP_REST_Server::READABLE,
+                    'callback'            => [$this, 'quick_edit_get_post'],
+                    'permission_callback' => [$this, 'permission_callback'],
                 ),
                 array(
-                    'methods' => \WP_REST_Server::EDITABLE,
-                    'callback' => [$this, 'calender_ajax_request_php'],
+                    'methods'             => \WP_REST_Server::EDITABLE,
+                    'callback'            => [$this, 'calender_ajax_request_php'],
+                    'permission_callback' => [$this, 'permission_callback'],
                 ),
                 array(
-                    'methods' => \WP_REST_Server::DELETABLE,
-                    'callback' => [$this, 'delete_event_action'],
+                    'methods'             => \WP_REST_Server::DELETABLE,
+                    'callback'            => [$this, 'delete_event_action'],
+                    'permission_callback' => [$this, 'permission_callback'],
                 ),
             )
         );
@@ -293,28 +301,9 @@ class Calendar
             'postId'   => get_the_ID(),
             'title'    => wp_trim_words(get_the_title(), 3, '...'),
             'href'     => get_the_permalink(),
-            'edit'     => get_edit_post_link(),
+            'edit'     => get_edit_post_link(get_the_ID(), null),
             'postType' => get_post_type(),
             'status'   => $this->get_post_status(get_the_ID(), $republish),
-            'postTime' => $this->get_post_time('g:i a', $republish_date),
-            'start'    => $this->get_post_time('Y-m-d', $republish_date),
-            'end'      => $this->get_post_time('Y-m-d H:i:s', $republish_date),
-            'allDay'   => false,
-        );
-    }
-
-    public function get_event_data($post = null, $republish = false){
-        $post           = get_post($post);
-        $post_id        = empty( $post->ID ) ? get_the_ID() : $post->ID;
-        $republish_date = $republish ? get_post_meta(get_the_ID(), '_wpscp_schedule_republish_date', true) : null;
-
-        return array(
-            'postId'   => $post_id,
-            'title'    => wp_trim_words(get_the_title($post), 3, '...'),
-            'href'     => get_the_permalink($post),
-            'edit'     => get_edit_post_link($post),
-            'postType' => get_post_type($post),
-            'status'   => $this->get_post_status($republish, $post_id),
             'postTime' => $this->get_post_time('g:i a', $republish_date),
             'start'    => $this->get_post_time('Y-m-d', $republish_date),
             'end'      => $this->get_post_time('Y-m-d H:i:s', $republish_date),
@@ -340,14 +329,14 @@ class Calendar
         $el_scheduled   = get_post_meta($post_id, 'wpscp_el_pending_schedule', true);
         $republish_date = $republish ? get_post_meta($post_id, '_wpscp_schedule_republish_date', true) : null;
 
-        if($status == 'future' && !empty($scheduled)){
-            $status = 'Advanced Scheduled';
+        if($status == 'publish' && !empty($republish_date)){
+            $status = 'Republish';
         }
         else if($status == 'future' && !empty($el_scheduled['post_time'])){
             $status = 'Advanced Scheduled';
         }
-        else if($status == 'publish' && !empty($republish_date)){
-            $status = 'Republish';
+        else if($status == 'future' && !empty($scheduled)){
+            $status = 'Advanced Scheduled';
         }
         else if($status == 'future'){
             $status = 'Scheduled';
@@ -370,7 +359,8 @@ class Calendar
         global $post;
 
         $calendar_schedule_time = \WPSP\Helper::get_settings('calendar_schedule_time');
-        $post_status = $request->get_param('post_status');
+        $_post_status           = $request->get_param('post_status');
+        $post_status            = $_post_status;
 
         if ($post_status != '') {
             $post_status = (($post_status == 'Scheduled') ? 'future' : 'draft');
@@ -588,7 +578,7 @@ class Calendar
 
     public function wpsp_pre_eventDrop($return, $pid, $postdateformat, $postdate_gmt){
         $republish_date = get_post_meta($pid, '_wpscp_schedule_republish_date', true);
-        if(!empty($republish_date)){
+        if(!empty($republish_date) && 'publish' === get_post_status($pid)){
             update_post_meta($pid, '_wpscp_schedule_republish_date', get_date_from_gmt($postdate_gmt, 'Y/m/d H:i:s'));
             return $pid;
         }
