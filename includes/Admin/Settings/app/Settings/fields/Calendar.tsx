@@ -38,7 +38,7 @@ export default function Calendar(props) {
 
   const [modalData, openModal] = useState<ModalProps>({ post: null, eventType: null });
   const onSubmit = (data: any, oldData) => {
-    const newEvents = events.filter((event) => event.postId !== oldData.postId);
+    const newEvents = events.filter((event) => event.postId !== oldData?.postId);
     console.log(newEvents);
 
     setEvents([...newEvents, data]);
@@ -276,17 +276,26 @@ export default function Calendar(props) {
                   event.setAllDay(false);
                   event.setEnd(date);
                 }
-                eventDrop(event, 'eventDrop').then((post) => {
-                  // setEvents((posts) => [...posts, post]);
-                });
+                eventDrop(event, 'eventDrop');
+                // .then((post) => {
+                //   // setEvents((posts) => [...posts, post]);
+                // });
               }}
               eventDragStop={(info: EventDragStopArg) => {
                 if(isEventOverDiv(info.jsEvent.clientX, info.jsEvent.clientY)) {
                   info.event.remove();
                   const post: PostType = getPostFromEvent(info.event);
 
-                  console.log('adding draft event');
+                  console.log('adding draft event', post);
                   setDraftEvents((posts) => [...posts, post]);
+                  eventDrop(info.event, 'draftDrop').then((post) => {
+                    setDraftEvents((events) => events.map((event) => {
+                      if(event.postId === post.postId) {
+                        return post;
+                      }
+                      return event;
+                    }));
+                  });
                 }
               }}
               // eventLeave={(info) => {
@@ -337,24 +346,20 @@ export default function Calendar(props) {
           </div>
         </div>
         {sidebarToggle && (
-          <div id="wpsp-sidebar" className="sidebar">
             <Sidebar
               ref={RefSidebar}
-              openModal={openModal}
               selectedPostType={selectedPostType}
               draftEvents={draftEvents}
               setDraftEvents={setDraftEvents}
             />
-          </div>
         )}
       </div>
-      {
-        <ModalContent
-          modalData={modalData}
-          setModalData={openModal}
-          onSubmit={onSubmit}
-        />
-      }
+      <ModalContent
+        modalData={modalData}
+        setModalData={openModal}
+        onSubmit={onSubmit}
+        selectedPostType={selectedPostType}
+      />
     </div>
   );
 }
