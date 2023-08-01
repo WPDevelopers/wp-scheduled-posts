@@ -57,15 +57,18 @@ export default function Calendar(props) {
   };
 
   const getEvents = async () => {
-    const date = calendar.current?.getApi().view.currentStart;
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
+    if(!calendar.current) return;
+    const activeStart = calendar.current.getApi().view.activeStart;
+    const activeEnd   = calendar.current.getApi().view.activeEnd;
+    // const date = calendar.current?.getApi().view.currentStart;
+    // const month = date.getMonth() + 1;
+    // const year = date.getFullYear();
 
     const data = {
       post_type: getValues(selectedPostType),
       taxonomy: selectedCategories,
-      month: month,
-      year: year,
+      activeStart,
+      activeEnd,
     };
 
     const results = await apiFetch<Option[]>({
@@ -88,7 +91,9 @@ export default function Calendar(props) {
     // console.log(builderContext.config.active);
     if ("layout_calendar" === builderContext.config.active) {
       setTimeout(() => {
+        calendar.current?.doResize();
         calendar.current?.getApi().updateSize();
+        calendar.current?.render();
       }, 100);
     }
   }, [builderContext.config.active]);
@@ -161,9 +166,11 @@ export default function Calendar(props) {
                   ref={monthPicker}
                   onChange={({ year, month }) => {
                     setYearMonth({ month, year });
+                    const date = `${year}-${month < 10 ? "0" + month : month}-01`;
+
                     calendar.current
                       ?.getApi()
-                      .gotoDate(new Date(year, month - 1));
+                      .gotoDate(date);
                   }}
                 >
                   <div className="calender-selected-month">
@@ -336,11 +343,13 @@ export default function Calendar(props) {
                 console.log("datesSet", { year, month });
                 if (yearMonth.year !== year || yearMonth.month !== month) {
                   // update the state
+                  // console.log("datesSet", { year, month });
                   setYearMonth({
                     month: month,
                     year: year,
                   });
                 }
+                getEvents();
               }}
             />
           </div>

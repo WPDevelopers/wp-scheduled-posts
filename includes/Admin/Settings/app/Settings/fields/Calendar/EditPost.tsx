@@ -104,8 +104,6 @@ export const ModalContent = ({
     };
   }, []);
 
-  console.log({...modalData});
-
 
   return (
     <Modal

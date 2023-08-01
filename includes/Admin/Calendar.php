@@ -52,10 +52,10 @@ class Calendar
                         'type'     => 'array',
                         'default'  => [],
                     ],
-                    'month' => [
+                    'activeStart' => [
                         'required' => true,
                     ],
-                    'year' => [
+                    'activeEnd' => [
                         'required' => true,
                     ],
                 ],
@@ -214,19 +214,11 @@ class Calendar
         }
         $post_type  = !empty($post_type) ? $post_type : ['post'];
 
-        // date
-        $now = new \DateTime('now');
-        $now_month = $now->format('m');
-        $now_year = $now->format('Y');
-        // month
-        $month = urldecode($request->get_param('month'));
-        $month = (!empty($month) ? $month : $now_month);
-        // year
-        $year = urldecode($request->get_param('year'));
-        $year = (!empty($year) ? $year : $now_year);
+        $first_day = $request->get_param('activeStart');
+        $first_day = (!empty($first_day) ? $first_day : date('Y/m/01', current_time('timestamp')));
+        $last_day = $request->get_param('activeEnd');
+        $last_day = (!empty($last_day) ? $last_day : date('Y/m/t', current_time('timestamp')));
 
-        $first_day = date('Y/m/01', strtotime("$year-$month-01"));
-        $last_day  = date('Y/m/t', strtotime("$year-$month-01"));
 
         // query
         $query_1 = new \WP_Query(array(
@@ -234,10 +226,8 @@ class Calendar
             'post_status'    => array('future', 'publish'),
             'posts_per_page' => -1,
             'date_query'     => array(
-                array(
-                    'year'  => $year,
-                    'month' => $month,
-                ),
+                'after'  => $first_day,
+                'before' => $last_day,
             ),
             'tax_query' => $this->get_tax_query($taxonomies),
         ));
@@ -444,6 +434,7 @@ class Calendar
                 }
             }
         }
+        // moving event from sidebar to calendar
         else if ($type == 'eventDrop') {
             $change = apply_filters('wpsp_pre_eventDrop', null, $postid, $postdateformat, $postdate_gmt);
             if($change){
@@ -471,6 +462,7 @@ class Calendar
                 return $post_id;
             }
         }
+        // dropping event to sidebar
         else if ($type == 'draftDrop') {
             $post_id = wp_update_post(array(
                 'ID'          => $postid,
