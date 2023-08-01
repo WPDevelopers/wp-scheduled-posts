@@ -108,23 +108,6 @@ const Facebook = (props) => {
           />
         </div>
         <div className="selected-profile">
-          {selectedProfile &&
-            selectedProfile?.slice(0, 1)?.map((item, index) => (
-              <div
-                className="selected-facebook-wrapper"
-                key={index}>
-                <SelectedProfile
-                  platform={'facebook'}
-                  item={item}
-                  handleSelectedProfileStatusChange={
-                    handleSelectedProfileStatusChange
-                  }
-                  handleDeleteSelectedProfile={handleDeleteSelectedProfile}
-                  handleEditSelectedProfile={''}
-                />
-              </div>
-            ))}
-          {console.log('check', selectedProfile)}
           {!selectedProfile ||
             (selectedProfile.length == 0 && (
               <img
@@ -134,6 +117,24 @@ const Facebook = (props) => {
                 alt="mainLogo"
               />
             ))}
+          <div className="selected-facebook-scrollbar">
+            {selectedProfile &&
+              selectedProfile?.slice(0, 1)?.map((item, index) => (
+                <div
+                  className="selected-facebook-wrapper"
+                  key={index}>
+                  <SelectedProfile
+                    platform={'facebook'}
+                    item={item}
+                    handleSelectedProfileStatusChange={
+                      handleSelectedProfileStatusChange
+                    }
+                    handleDeleteSelectedProfile={handleDeleteSelectedProfile}
+                    handleEditSelectedProfile={''}
+                  />
+                </div>
+              ))}
+          </div>
           {selectedProfile && selectedProfile.length > 1 && (
             <ViewMore setSelectedProfileViewMore={setSelectedProfileViewMore} />
           )}
