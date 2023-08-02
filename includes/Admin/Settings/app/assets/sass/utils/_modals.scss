@@ -323,6 +323,13 @@
             .components-button-group {
               display: flex;
               gap: 4px;
+              button {
+                background: transparent;
+                border: 1px solid;
+                border-color: rgba(30, 30, 30, .6);
+                padding: 8px;
+                border-radius: 2px;
+            }
             }
           }
         }
