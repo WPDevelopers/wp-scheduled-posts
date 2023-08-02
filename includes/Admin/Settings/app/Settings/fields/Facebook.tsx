@@ -17,6 +17,7 @@ const Facebook = (props) => {
   const [platform, setPlatform] = useState('');
   const [selectedProfile, setSelectedProfile] = useState(props?.value);
   const [selectedProfileViewMore, setSelectedProfileViewMore] = useState(false);
+  const [cachedStatus, setCashedStatus] = useState({});
   const [profileStatus, setProfileStatus] = useState(
     builderContext?.savedValues?.facebook_profile_status
   );
@@ -34,20 +35,28 @@ const Facebook = (props) => {
   // Handle profile & selected profile status onChange event
   const handleProfileStatusChange = (event) => {
     setProfileStatus(event.target.checked);
-    if (event.target.checked == false) {
-      const changeProfileStatus = selectedProfile.map((selectedItem) => {
+    const changeProfileStatus = selectedProfile.map((selectedItem) => {
+      if (!event.target.checked) {
         return {
           ...selectedItem,
           status: false,
         };
-      });
-      setSelectedProfile(changeProfileStatus);
-    }
+      } else {
+        return {
+          ...selectedItem,
+          status : (cachedStatus?.[selectedItem.id] == undefined) ? builderContext?.savedValues?.linkedin_profile_status : cachedStatus?.[selectedItem.id], 
+        };
+      }
+    });
+    setSelectedProfile(changeProfileStatus);
   };
   const handleSelectedProfileStatusChange = (item, event) => {
     if (event.target.checked) {
       setProfileStatus(true);
     }
+    setCashedStatus((prevStatus) => {
+      return { ...prevStatus, [item.id]: event.target.checked };
+    });
     if (profileStatus == true) {
       const changeSelectedProfileStatus = selectedProfile.map(
         (selectedItem) => {

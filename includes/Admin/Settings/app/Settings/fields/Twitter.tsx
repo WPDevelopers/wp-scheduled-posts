@@ -17,7 +17,7 @@ const Twitter = (props) => {
   const [apiCredentialsModal, setApiCredentialsModal] = useState(false);
   const [platform, setPlatform] = useState('');
   const [selectedProfile, setSelectedProfile] = useState(props?.value);
-  const [isErrorMessage, setIsErrorMessage] = useState(false);
+  const [cachedStatus, setCashedStatus] = useState({});
   const [selectedProfileViewMore, setSelectedProfileViewMore] = useState(false);
   const [profileStatus, setProfileStatus] = useState(
     builderContext?.savedValues?.twitter_profile_status
@@ -35,6 +35,7 @@ const Twitter = (props) => {
   // Handle profile & selected profile status onChange event
   const handleProfileStatusChange = (event) => {
     setProfileStatus(event.target.checked);
+    
     const updatedData = selectedProfile.map((selectedItem) => {
       if (!event.target.checked) {
         return {
@@ -44,7 +45,7 @@ const Twitter = (props) => {
       } else {
         return {
           ...selectedItem,
-          status: true,
+          status : (cachedStatus?.[selectedItem.id] == undefined) ? builderContext?.savedValues?.twitter_profile_status : cachedStatus?.[selectedItem.id], 
         };
       }
     });
@@ -54,6 +55,9 @@ const Twitter = (props) => {
     if (event.target.checked) {
       setProfileStatus(true);
     }
+    setCashedStatus((prevStatus) => {
+      return { ...prevStatus, [item.id]: event.target.checked };
+    });
     const updatedData = selectedProfile.map((selectedItem) => {
       if (selectedItem.id === item.id) {
         return {

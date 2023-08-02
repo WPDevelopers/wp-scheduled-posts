@@ -18,6 +18,7 @@ const Pinterest = (props) => {
   const [selectedProfile, setSelectedProfile] = useState(props?.value);
   const [isProfileEditModal, setProfileEditModal] = useState(false);
   const [profileItem, setProfileItem] = useState('');
+  const [cachedStatus, setCashedStatus] = useState({});
   const [selectedProfileViewMore, setSelectedProfileViewMore] = useState(false);
   const [profileStatus, setProfileStatus] = useState(
     builderContext?.savedValues?.pinterest_profile_status
@@ -35,6 +36,9 @@ const Pinterest = (props) => {
     if (event.target.checked) {
       setProfileStatus(true);
     }
+    setCashedStatus((prevStatus) => {
+      return { ...prevStatus, [item.default_board_name.value]: event.target.checked };
+    });
     const updatedData = selectedProfile.map((selectedItem) => {
       if (
         selectedItem.default_board_name.value === item.default_board_name.value
@@ -72,7 +76,7 @@ const Pinterest = (props) => {
       } else {
         return {
           ...selectedItem,
-          status: true,
+          status : (cachedStatus?.[selectedItem.default_board_name.value] == undefined) ? builderContext?.savedValues?.pinterest_profile_status : cachedStatus?.[selectedItem.default_board_name.value], 
         };
       }
     });
