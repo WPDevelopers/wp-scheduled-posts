@@ -99,18 +99,29 @@ const Twitter = (props) => {
                     <MainProfile props={props} handleProfileStatusChange={handleProfileStatusChange} profileStatus={profileStatus} openApiCredentialsModal={openApiCredentialsModal} />
                 </div>
                 <div className="selected-profile">
-                    {selectedProfile && selectedProfile?.slice(0,1)?.map((item,index) => (
-                        <div className='selected-twitter-wrapper' key={index}>
-                            <SelectedProfile
-                                key={index}
-                                platform={'twitter'}
-                                item={item}
-                                handleSelectedProfileStatusChange={handleSelectedProfileStatusChange}
-                                handleDeleteSelectedProfile={handleDeleteSelectedProfile}
-                                handleEditSelectedProfile={''}
-                            />
-                        </div>
+                    {!selectedProfile ||
+                    (selectedProfile.length == 0 && (
+                        <img
+                            className="empty-image"
+                            /* @ts-ignore */
+                            src={`${wpspSettingsGlobal?.image_path}EmptyCard.svg`}
+                            alt="mainLogo"
+                        />
                     ))}
+                    <div className="selected-pinterest-scrollbar">
+                        {selectedProfile && selectedProfile?.slice(0,1)?.map((item,index) => (
+                            <div className='selected-twitter-wrapper' key={index}>
+                                <SelectedProfile
+                                    key={index}
+                                    platform={'twitter'}
+                                    item={item}
+                                    handleSelectedProfileStatusChange={handleSelectedProfileStatusChange}
+                                    handleDeleteSelectedProfile={handleDeleteSelectedProfile}
+                                    handleEditSelectedProfile={''}
+                                />
+                            </div>
+                        ))}
+                    </div>
                 { ( selectedProfile && selectedProfile.length > 1 ) && <ViewMore setSelectedProfileViewMore={setSelectedProfileViewMore} /> }
                 </div>
             </div>
