@@ -362,21 +362,21 @@ class Calendar
         $postTitle   = $request->get_param('postTitle');
         $postContent = $request->get_param('postContent');
 
-        if($type == 'drop') {
-            $default_schedule_time = '12:00 am';
-            if (!empty($calendar_schedule_time)) {
-                $default_schedule_time = $calendar_schedule_time;
-            }
+        // if($type == 'drop') {
+        //     $default_schedule_time = '12:00 am';
+        //     if (!empty($calendar_schedule_time)) {
+        //         $default_schedule_time = $calendar_schedule_time;
+        //     }
 
-            $date_string = substr($dateStr, 0, 16) . $default_schedule_time;
-            $postdate = new \DateTime($date_string);
-            $postdateformat = $postdate->format('Y-m-d H:i:s');
-            $postdate_gmt = ($postdateformat != "" ? get_gmt_from_date($postdateformat) : '');
-        } else {
-            $postdate = new \DateTime(substr($dateStr, 0, 25));
-            $postdateformat = $postdate->format('Y-m-d H:i:s');
-            $postdate_gmt = ($postdateformat != "" ? get_gmt_from_date($postdateformat) : '');
-        }
+        //     $date_string = substr($dateStr, 0, 16) . $default_schedule_time;
+        //     $postdate = new \DateTime($date_string);
+        //     $postdateformat = $postdate->format('Y-m-d H:i:s');
+        //     $postdate_gmt = ($postdateformat != "" ? get_gmt_from_date($postdateformat) : '');
+        // } else {
+            $postdate       = new \DateTime(substr($dateStr, 0, 25));
+            $postdateformat = get_date_from_gmt($dateStr);
+            $postdate_gmt   = $dateStr;
+        // }
 
 
         /**
@@ -413,6 +413,7 @@ class Calendar
                 return $this->get_rest_result($post_id);
             }
         }
+        // moving event from calendar to calendar
         // moving event from sidebar to calendar
         else if ($type == 'eventDrop') {
             $change = apply_filters('wpsp_pre_eventDrop', null, $postid, $postdateformat, $postdate_gmt);

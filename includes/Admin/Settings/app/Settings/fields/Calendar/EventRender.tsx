@@ -41,8 +41,9 @@ export const deletePost = (id) => {
 export const eventDrop = (event: EventApi, eventType) => {
   const post: PostType = getPostFromEvent(event, true);
 
-  let date = DateTime.fromISO(post.end).toFormat('yyyy-MM-dd HH:mm:ss');
-  console.log(date);
+  // let date = post.end.toISOString().replace('T', ' ').replace(/\.\d{3}Z/, '');
+  // let date = DateTime.fromISO(post.end).toFormat('yyyy-MM-dd HH:mm:ss');
+  console.log(post.end);
 
   return apiFetch<PostType>({
     method: "POST",
@@ -54,7 +55,7 @@ export const eventDrop = (event: EventApi, eventType) => {
       post_status: post.status,
       // postContent: post.post_content,
       // postTitle  : post.title,
-      date       : date,
+      date       : post.end,
     },
   });
 }
@@ -129,6 +130,9 @@ const PostCard: React.FC<PostCardProps> = ({
       )}
       <i className="wpsp-icon wpsp-dots" onClick={toggleEditArea}></i>
       <span className={`set-time ` + ('Published' === post.status ? 'published' : 'scheduled')}>
+        {/* "1:00 am" */}
+        {/* @ts-ignore */}
+        {/* {format(post.end, 'h:mm a')} */}
         {post.postTime}
       </span>
       <h3>{post.title}</h3>

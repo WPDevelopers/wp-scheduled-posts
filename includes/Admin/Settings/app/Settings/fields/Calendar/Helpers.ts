@@ -1,4 +1,5 @@
 import { Option } from "./types";
+import { parse, format } from 'date-fns'
 
 export const getValues = (options: Option[]) => {
   const values    = options ?? [];
@@ -41,14 +42,10 @@ export const getUTCDate = (date: string) => {
 
 // use Year month day form startDate and hour minute second from endDate
 export const getEndDate = (startDate: Date, endDate: string) => {
-  const end = getUTCDate(endDate);
-  const year = startDate.getFullYear();
-  const month = startDate.getMonth();
-  const day = startDate.getDate();
-  const hour = end.getHours();
-  const minute = end.getMinutes();
-  const second = end.getSeconds();
-  const _endDate = new Date(Date.UTC(year, month, day, hour, minute, second));
+  // "2023-08-09 06:03:00"
+  const date = parse(endDate, 'yyyy-MM-dd HH:mm:ss', startDate);
 
-  return _endDate;
+  const end = format(startDate, 'yyyy-MM-dd') + ' ' + format(date, 'HH:mm:ss');
+
+  return end;
 }

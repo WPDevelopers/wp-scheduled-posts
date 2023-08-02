@@ -236,8 +236,8 @@ export default function Calendar(props) {
             <FullCalendar
               ref={calendar}
               events={events}
-              timeZone='local'
-              // timeZone={props.timeZone}
+              // timeZone='local'
+              timeZone={props.timeZone}
               initialView="dayGridMonth"
               plugins={[luxonPlugin, dayGridPlugin, interactionPlugin]}
               // weekends={true}
