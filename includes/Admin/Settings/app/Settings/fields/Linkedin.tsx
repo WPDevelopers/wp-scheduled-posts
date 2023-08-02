@@ -59,17 +59,10 @@ const Linkedin = (props) => {
           status: false,
         };
       } else {
-        if (selectedItem.id == cachedStatus?.[selectedItem.id]) {
-          return {
-            ...selectedItem,
-            status: cachedStatus?.[selectedItem.id],
-          };
-        } else {
-          return {
-            ...selectedItem,
-            status: true,
-          };
-        }
+        return {
+          ...selectedItem,
+          status : (cachedStatus?.[selectedItem.id] == undefined) ? builderContext?.savedValues?.linkedin_profile_status : cachedStatus?.[selectedItem.id], 
+        };
       }
     });
     setSelectedProfile(updatedData);
