@@ -6,12 +6,12 @@ import React, { MutableRefObject, forwardRef, useCallback, useEffect, useRef, us
 // @wordpress/component
 import CategorySelect from "./Category";
 import PostCard from "./EventRender";
-import { getValues } from "./Helpers";
+import { getUTCDate, getValues } from "./Helpers";
 import { ModalProps, PostType, SidebarProps } from "./types";
 import { ModalContent } from "./EditPost";
 
 // Define your component
-const Sidebar = ({selectedPostType, draftEvents: posts, setDraftEvents: setPosts}: SidebarProps, draggableRef: MutableRefObject<HTMLDivElement>
+const Sidebar = ({selectedPostType, draftEvents: posts, setDraftEvents: setPosts, calendar}: SidebarProps, draggableRef: MutableRefObject<HTMLDivElement>
   ) => {
   // Define your state variables
   const [optionSelected, setOptionSelected] = useState([]);
@@ -31,12 +31,15 @@ const Sidebar = ({selectedPostType, draftEvents: posts, setDraftEvents: setPosts
       // Associate event data with the element
       eventData: function (eventEl) {
         const post = JSON.parse(eventEl.getAttribute("data-event"));
-        // const end = new Date(Date.parse(post.end));
+        post._end = post.end;
+        // const end = getUTCDate(post.end);
         // post.duration = {
         //   hours  : end.getHours(),
         //   minutes: end.getMinutes(),
         //   seconds: end.getSeconds(),
         // };
+
+        // const event = calendar.current?.getApi().addEvent(post);
 
         return post;
       },
@@ -87,7 +90,7 @@ const Sidebar = ({selectedPostType, draftEvents: posts, setDraftEvents: setPosts
                   post={post}
                   editAreaToggle={editAreaToggle}
                   setEditAreaToggle={setEditAreaToggle}
-                  openModal={openModal}
+                  openModal={(modalData) => openModal({ ...modalData, eventType: 'editDraft' })}
                 />
               </div>
             )
@@ -107,7 +110,7 @@ const Sidebar = ({selectedPostType, draftEvents: posts, setDraftEvents: setPosts
             e.preventDefault();
             openModal({
               post: null,
-              eventType: "addEvent",
+              eventType: "newDraft",
               openModal: true,
             });
           }}

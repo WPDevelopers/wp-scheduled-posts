@@ -30,3 +30,25 @@ export const getPostType = (selectedPostType?: Option[]) => {
   }
   return "post";
 }
+
+// "2023-08-10 11:41:00"
+// create function that can perse this date format and create utc date object
+export const getUTCDate = (date: string) => {
+  const dateObject = new Date(date);
+  const utcDate = new Date(dateObject.getTime() + dateObject.getTimezoneOffset() * 60000);
+  return utcDate;
+}
+
+// use Year month day form startDate and hour minute second from endDate
+export const getEndDate = (startDate: Date, endDate: string) => {
+  const end = getUTCDate(endDate);
+  const year = startDate.getFullYear();
+  const month = startDate.getMonth();
+  const day = startDate.getDate();
+  const hour = end.getHours();
+  const minute = end.getMinutes();
+  const second = end.getSeconds();
+  const _endDate = new Date(Date.UTC(year, month, day, hour, minute, second));
+
+  return _endDate;
+}

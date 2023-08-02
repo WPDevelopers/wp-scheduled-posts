@@ -5,6 +5,7 @@ import { Button } from '@wordpress/components';
 import { addQueryArgs } from '@wordpress/url';
 import React from 'react';
 import { PostCardProps, PostType } from './types';
+import { DateTime } from 'luxon';
 
 
 export const getPostFromEvent = (event: EventApi, dateString = false) => {
@@ -39,6 +40,10 @@ export const deletePost = (id) => {
 
 export const eventDrop = (event: EventApi, eventType) => {
   const post: PostType = getPostFromEvent(event, true);
+
+  let date = DateTime.fromISO(post.end).toFormat('yyyy-MM-dd HH:mm:ss');
+  console.log(date);
+
   return apiFetch<PostType>({
     method: "POST",
     path: "/wpscp/v1/post",
@@ -49,7 +54,7 @@ export const eventDrop = (event: EventApi, eventType) => {
       post_status: post.status,
       // postContent: post.post_content,
       // postTitle  : post.title,
-      date       : post.end,
+      date       : date,
     },
   });
 }
