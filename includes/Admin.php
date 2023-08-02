@@ -383,7 +383,7 @@ class Admin
                 margin-top: 15px;
             }
 
-            #schedulepress-elementor-modal .wpsp-pro-fields:not(.wpsp-pro-activated) label > span {
+            #schedulepress-elementor-modal .wpsp-pro-fields:not(.wpsp-pro-activated) label > span, #schedulepress-elementor-modal .wpsp-pro-fields.disabled label > span {
                 color: #9696af;
             }
 
