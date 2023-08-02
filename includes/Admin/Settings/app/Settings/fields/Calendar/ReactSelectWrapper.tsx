@@ -1,20 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
 import ReactSelect, { ActionMeta, components } from "react-select";
 import { selectStyles } from "../../helper/styles";
+import { Option, SelectWrapperProps } from "./types";
 
-export type Option = {
-  value: string;
-  label: string;
-  options?: Option[];
-};
-
-type Props = {
-  options: Option[];
-  value: Option[];
-  onChange?: (selectedOption: Option[] | null) => void;
-  showTags?: boolean;
-  placeholder?: string;
-};
 
 export const getOptionsFlatten = (options: Option[]) => {
   const optionsArray = [];
@@ -35,7 +23,7 @@ export const addAllOption = (options: Option[]) => {
   ];
 }
 
-const ReactSelectWrapper: React.FC<Props> = ({ options, value, onChange, showTags = false, ...rest }) => {
+const ReactSelectWrapper: React.FC<SelectWrapperProps> = ({ options, value, onChange, showTags = false, ...rest }) => {
   const allOption = useMemo(() => addAllOption(options), [options]);
   const allOptionFlatten = useMemo(() => getOptionsFlatten(allOption), [allOption]);
   // const [selectedPostType, setSelectedPostType] =

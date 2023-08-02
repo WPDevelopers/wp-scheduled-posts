@@ -1,14 +1,14 @@
 import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
+import interactionPlugin, { EventDragStopArg } from "@fullcalendar/interaction"; // needed for dayClick
 import FullCalendar from "@fullcalendar/react";
 import apiFetch from "@wordpress/api-fetch";
 import { useBuilderContext } from "quickbuilder";
 import React, { useEffect, useRef, useState } from "react";
-import { PostCardProps } from "./Calendar/EventRender";
+import { eventDrop, getPostFromEvent } from "./Calendar/EventRender";
 import Sidebar from "./Calendar/Sidebar";
 // const events = [{ title: "Meeting", start: new Date() }];
 import MonthPicker from "@compeon-os/monthpicker";
-import { EventContentArg } from "@fullcalendar/core";
+import { EventContentArg, EventDropArg, formatDate } from "@fullcalendar/core";
 import { __ } from "@wordpress/i18n";
 import classNames from "classnames";
 import { getMonth, getYear } from "date-fns";
@@ -16,16 +16,19 @@ import CategorySelect from "./Calendar/Category";
 import { ModalContent } from "./Calendar/EditPost";
 import PostCard from "./Calendar/EventRender";
 import { getValues } from "./Calendar/Helpers";
-import ReactSelectWrapper, { Option, addAllOption, getOptionsFlatten } from "./Calendar/ReactSelectWrapper";
+import ReactSelectWrapper, { addAllOption, getOptionsFlatten } from "./Calendar/ReactSelectWrapper";
+import { ModalProps, Option, PostType } from "./Calendar/types";
 
 export default function Calendar(props) {
   // @ts-ignore
   const restRoute = props.rest_route;
   const calendar = useRef<FullCalendar>();
+  const RefSidebar = useRef<HTMLDivElement>();
   // monthPicker
   const monthPicker = useRef<MonthPicker>();
   const builderContext = useBuilderContext();
   const [events, setEvents] = useState([]);
+  const [draftEvents, setDraftEvents] = useState([]);
   //
   const currentDate = new Date();
   const [yearMonth, setYearMonth] = useState({
@@ -33,9 +36,9 @@ export default function Calendar(props) {
     year: getYear(currentDate),
   });
 
-  const [modalData, openModal] = useState<{post: any, eventType: string, post_date?: Date}>({post: null, eventType: null});
+  const [modalData, openModal] = useState<ModalProps>({ post: null, eventType: null });
   const onSubmit = (data: any, oldData) => {
-    const newEvents = events.filter((event) => event.postId !== oldData.postId);
+    const newEvents = events.filter((event) => event.postId !== oldData?.postId);
     console.log(newEvents);
 
     setEvents([...newEvents, data]);
@@ -44,30 +47,34 @@ export default function Calendar(props) {
   const [sidebarToggle, setSidebarToggle] = useState(true);
   const [editAreaToggle, setEditAreaToggle] = useState({});
 
-  const [selectedPostType, setSelectedPostType] = useState<Option[]>(addAllOption(getOptionsFlatten(props.post_types)));
+  const [selectedPostType, setSelectedPostType] = useState<Option[]>(
+    addAllOption(getOptionsFlatten(props.post_types))
+  );
   const [selectedCategories, setSelectedCategories] = useState<Option[]>([]);
-
 
   const MyWrapperComponent = ({ children, ...rest }) => {
     return React.cloneElement(children, { ...rest });
   };
 
   const getEvents = async () => {
-    const date  = calendar.current?.getApi().view.currentStart;
-    const month = date.getMonth() + 1;
-    const year  = date.getFullYear();
+    if(!calendar.current) return;
+    const activeStart = calendar.current.getApi().view.activeStart;
+    const activeEnd   = calendar.current.getApi().view.activeEnd;
+    // const date = calendar.current?.getApi().view.currentStart;
+    // const month = date.getMonth() + 1;
+    // const year = date.getFullYear();
 
     const data = {
       post_type: getValues(selectedPostType),
-      taxonomy : (selectedCategories),
-      month    : month,
-      year     : year,
+      taxonomy: selectedCategories,
+      activeStart,
+      activeEnd,
     };
 
     const results = await apiFetch<Option[]>({
-      method: 'POST',
-      path  : restRoute,
-      data  : data,
+      method: "POST",
+      path: restRoute,
+      data: data,
     });
 
     setEvents(results);
@@ -83,12 +90,28 @@ export default function Calendar(props) {
   useEffect(() => {
     // console.log(builderContext.config.active);
     if ("layout_calendar" === builderContext.config.active) {
-      calendar.current?.getApi().updateSize();
+      setTimeout(() => {
+        calendar.current?.doResize();
+        calendar.current?.getApi().updateSize();
+        calendar.current?.render();
+      }, 100);
     }
   }, [builderContext.config.active]);
 
   const handleSlidebarToggle = () => {
     setSidebarToggle(sidebarToggle ? false : true);
+  };
+
+  /*
+   * Check Dragable Event is out of calendar div
+   */
+  const isEventOverDiv = function (x, y) {
+    const external_events = RefSidebar.current;
+    if (!external_events) {
+      return false;
+    }
+    const rect = external_events.getBoundingClientRect();
+    return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
   };
 
   return (
@@ -143,9 +166,11 @@ export default function Calendar(props) {
                   ref={monthPicker}
                   onChange={({ year, month }) => {
                     setYearMonth({ month, year });
+                    const date = `${year}-${month < 10 ? "0" + month : month}-01`;
+
                     calendar.current
                       ?.getApi()
-                      .gotoDate(new Date(year, month - 1));
+                      .gotoDate(date);
                   }}
                 >
                   <div className="calender-selected-month">
@@ -194,36 +219,28 @@ export default function Calendar(props) {
             </div>
             <FullCalendar
               ref={calendar}
-              plugins={[dayGridPlugin, interactionPlugin]}
+              events={events}
               initialView="dayGridMonth"
+              plugins={[dayGridPlugin, interactionPlugin]}
+              // weekends={true}
+              // firstDay={props.firstDay}
               // dateClick={handleDateClick}
               // Enable droppable option
               editable={true}
               droppable={true}
+              defaultAllDay={false}
               eventResizableFromStart={false}
               eventDurationEditable={false}
+              dragRevertDuration={0}
               // headerToolbar={false}
               dayMaxEvents={1}
+              timeZone='UTC'
               dayPopoverFormat={{ day: "numeric" }}
               moreLinkContent={(arg) => {
                 return <>View {arg.num} More</>;
               }}
-              // weekends={true}
-              events={events}
-              // firstDay={props.firstDay}
               eventContent={(eventInfo: EventContentArg) => {
-                const { title, start, end, allDay } = eventInfo.event;
-                const { postId, href, edit, status, postType, postTime } =
-                  eventInfo.event.extendedProps;
-                const post: PostCardProps["post"] = {
-                  postId: postId,
-                  postTime: postTime,
-                  postType: postType,
-                  status: status,
-                  title: title,
-                  href: href,
-                  edit: edit,
-                };
+                const post: PostType = getPostFromEvent(eventInfo.event);
                 return (
                   <PostCard
                     post={post}
@@ -234,7 +251,8 @@ export default function Calendar(props) {
                 );
               }}
               dayCellDidMount={(args) => {
-                const dayTop = args.el?.getElementsByClassName("fc-daygrid-day-top")[0];
+                const dayTop =
+                  args.el?.getElementsByClassName("fc-daygrid-day-top")[0];
                 if (!dayTop) return;
 
                 const button = document.createElement("button");
@@ -242,18 +260,73 @@ export default function Calendar(props) {
                 button.disabled = args.isOther;
                 button.addEventListener("click", () => {
                   console.log("click", args);
-                  openModal({ post: null, eventType: "addEvent", post_date: args.date });
+                  openModal({
+                    post: null,
+                    eventType: "addEvent",
+                    post_date: args.date,
+                  });
                 });
 
                 dayTop.appendChild(button);
               }}
               // Provide a drop callback function
               eventReceive={(info) => {
-                const props = info.event.extendedProps;
-                props.setPosts((posts) =>
+                const event = info.event;
+                const props = event.extendedProps;
+                setDraftEvents((posts) =>
                   posts.filter((p) => p.postId !== props.postId)
                 );
                 console.log("drop", info, props);
+
+                if(event.allDay) {
+                  const date = Date.parse(event.start.toISOString().slice(0, 10) + " " + props.postTime);
+                  event.setAllDay(false);
+                  event.setEnd(date);
+                }
+                eventDrop(event, 'eventDrop');
+                // .then((post) => {
+                //   // setEvents((posts) => [...posts, post]);
+                // });
+              }}
+              eventDragStop={(info: EventDragStopArg) => {
+                if(isEventOverDiv(info.jsEvent.clientX, info.jsEvent.clientY)) {
+                  info.event.remove();
+                  const post: PostType = getPostFromEvent(info.event);
+
+                  console.log('adding draft event', post);
+                  setDraftEvents((posts) => [...posts, post]);
+                  eventDrop(info.event, 'draftDrop').then((post) => {
+                    setDraftEvents((events) => events.map((event) => {
+                      if(event.postId === post.postId) {
+                        return post;
+                      }
+                      return event;
+                    }));
+                  });
+                }
+              }}
+              // eventLeave={(info) => {
+              //   console.log('eventLeave', info);
+
+              // }}
+              eventRemove={(info) => {
+                const props = info.event.extendedProps;
+                setEvents((events) => events.filter((event) => event.postId !== props.postId));
+
+              }}
+              eventDrop={(eventDropInfo: EventDropArg) => {
+                // const status = (eventDropInfo.event.end > new Date())
+                // eventDropInfo.event.setExtendedProp('status', status);
+                // 'Y-m-d H:i:s'
+                eventDrop(eventDropInfo.event, 'eventDrop').then((post) => {
+                  setEvents((events) => events.map((event) => {
+                    if(event.postId === post.postId) {
+                      return post;
+                    }
+                    return event;
+                  }));
+                });
+
               }}
               // eventClick={function (info) {
               //   console.log("Event: ", info.event.extendedProps);
@@ -266,29 +339,36 @@ export default function Calendar(props) {
               datesSet={(dateInfo) => {
                 // get the current month and year
                 const month = dateInfo.view.currentStart.getMonth() + 1;
-                const year = dateInfo.view.currentStart.getFullYear();
+                const year  = dateInfo.view.currentStart.getFullYear();
                 console.log("datesSet", { year, month });
                 if (yearMonth.year !== year || yearMonth.month !== month) {
                   // update the state
+                  // console.log("datesSet", { year, month });
                   setYearMonth({
                     month: month,
                     year: year,
                   });
                 }
+                getEvents();
               }}
             />
           </div>
         </div>
         {sidebarToggle && (
-          <div className="sidebar">
             <Sidebar
-              openModal={openModal}
+              ref={RefSidebar}
               selectedPostType={selectedPostType}
+              draftEvents={draftEvents}
+              setDraftEvents={setDraftEvents}
             />
-          </div>
         )}
       </div>
-      {<ModalContent modalData={modalData} setModalData={openModal} onSubmit={onSubmit} />}
+      <ModalContent
+        modalData={modalData}
+        setModalData={openModal}
+        onSubmit={onSubmit}
+        selectedPostType={selectedPostType}
+      />
     </div>
   );
 }

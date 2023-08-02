@@ -147,22 +147,24 @@ const ManualScheduler = (props) => {
             key={optionIndex}
             className="week">
             <h6>{item.label}</h6>
-            {formatedSchedule?.[item.value]?.map((data, index) => (
-              <span key={index}>
-                {data}
-                <i
-                  onClick={() => {
-                    const updatedSchedule = savedManualSchedule.filter(
-                      (_item) => {
-                        const propertyValue = _item[item.value];
-                        return propertyValue !== data;
-                      }
-                    );
-                    setSavedManualSchedule(updatedSchedule);
-                  }}
-                  className="wpsp-icon wpsp-close"></i>
-              </span>
-            ))}
+            <span className="week-wrapper">
+              {formatedSchedule?.[item.value]?.map((data, index) => (
+                <span key={index}>
+                  {data}
+                  <i
+                    onClick={() => {
+                      const updatedSchedule = savedManualSchedule.filter(
+                        (_item) => {
+                          const propertyValue = _item[item.value];
+                          return propertyValue !== data;
+                        }
+                      );
+                      setSavedManualSchedule(updatedSchedule);
+                    }}
+                    className="wpsp-icon wpsp-close"></i>
+                </span>
+              ))}
+            </span>
           </div>
         ))}
       </div>

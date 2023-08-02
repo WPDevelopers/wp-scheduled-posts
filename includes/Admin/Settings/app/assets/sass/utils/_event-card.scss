@@ -1,0 +1,145 @@
+.wpsp-event-card {
+  position: relative;
+  margin-top: 0 !important;
+  padding: 14px 14px 10px;
+  min-width: 200px;
+  max-width: unset;
+  border: none;
+  box-shadow: none;
+  background: #fcf0e4;
+  border-radius: 6px;
+  box-sizing: border-box;
+  &:before {
+    position: absolute;
+    content: '';
+    width: 2px;
+    height: 64px;
+    background: #e8821e;
+    border-radius: 50px;
+    left: -1px;
+    top: 18px;
+  }
+  .set-time {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.2em;
+    color: #73400d;
+    margin-bottom: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+    &:before {
+      content: '\e90d';
+      font-family: 'wpsp';
+      color: #73400d;
+    }
+  }
+  h3 {
+    color: #e8821e;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2em;
+    margin: 0 0 10px;
+    white-space: pre-wrap;
+  }
+  .badge-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .Unscheduled-badge {
+    font-size: 8px;
+    height: 16px;
+    text-transform: uppercase;
+    color: #fff;
+    font-weight: 500;
+    line-height: 1;
+    background: #e8821e;
+    padding: 0 6px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
+  }
+  .status-badge {
+    font-size: 8px;
+    min-height: 16px;
+    text-transform: uppercase;
+    color: #451f8b;
+    font-weight: 500;
+    line-height: 1.2em;
+    background: transparent;
+    border: 1px solid #451f8b;
+    padding: 0 6px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
+  }
+  i {
+    position: absolute;
+    right: 8px;
+    top: 12px;
+    padding: 4px;
+    font-size: 12px;
+    color: #6e6e8d;
+    cursor: pointer;
+    transition: ease-in-out 0.25s;
+    &:hover {
+      .edit-area {
+        display: block;
+        opacity: 1;
+      }
+    }
+  }
+
+  $light-colors: (
+    0: #fcf0e4,
+    1: #ecf5f4,
+    2: #f5f1fd,
+    3: #ecf5e7,
+    4: #e2eeff,
+    5: #d1ceff,
+  );
+  $full-colors: (
+    0: #e8821e,
+    1: #5ba6a5,
+    2: #7f55dc,
+    3: #64aa3c,
+    4: #418cfd,
+    5: #6c62ff,
+  );
+  $dark-colors: (
+    0: #73400d,
+    1: #285151,
+    2: #451f8b,
+    3: #2c5417,
+    4: #14458f,
+    5: #7f55dc,
+  );
+
+  @for $i from 0 through 5 {
+    &-#{$i} {
+      background-color: map-get($light-colors, $i) !important;
+      &:before {
+        background: map-get($full-colors, $i) !important;
+      }
+      .set-time {
+        color: map-get($dark-colors, $i) !important;
+        &:before {
+          color: map-get($dark-colors, $i) !important;
+        }
+      }
+      h3 {
+        color: map-get($full-colors, $i) !important;
+      }
+      .Unscheduled-badge {
+        background: map-get($full-colors, $i) !important;
+      }
+      .status-badge {
+        color: map-get($full-colors, $i) !important;
+        border: 1px solid map-get($full-colors, $i) !important;
+      }
+    }
+  }
+}

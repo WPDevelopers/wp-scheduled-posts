@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import apiFetch from "@wordpress/api-fetch";
 import { addQueryArgs } from "@wordpress/url";
 import { __ } from "@wordpress/i18n";
-import ReactSelectWrapper, { Option, addAllOption, getOptionsFlatten } from "./ReactSelectWrapper";
+import ReactSelectWrapper, { addAllOption, getOptionsFlatten } from "./ReactSelectWrapper";
+import { Option } from "./types";
 
 const CategorySelect = ({ selectedPostType, onChange, showTags = false }) => {
   const [categoryOptions, setCategoryOptions] = useState<Option[]>([]);

@@ -1,19 +1,19 @@
 .swal2-center {
   background: rgba(27, 27, 80, 0.4) !important;
-  padding: 50px 20px !important;
+  padding: 100px 50px !important;
   .swal2-modal {
     position: relative;
     box-sizing: border-box;
     grid-template-columns: minmax(0, 100%);
     width: 550px;
     max-width: 100%;
-    padding: 40px;
+    padding: 40px 70px;
     border: none;
     border-radius: 8px;
     background: #fff;
     @media screen and (max-width: 1439px) {
       width: 400px;
-      padding: 28px;
+      padding: 28px 40px;
     }
     .swal2-cancel {
       position: absolute;
@@ -112,7 +112,7 @@
   position: fixed;
   inset: 0px;
   background: rgba(27, 27, 80, 0.4) !important;
-  padding: 50px 20px !important;
+  padding: 100px 50px !important;
   display: flex;
   overflow: auto;
   z-index: 999;
@@ -258,7 +258,7 @@
           width: 100%;
           font-size: 16px;
           line-height: 1.3em;
-          color: #a6a6ba;
+          color: #1B1B50;
           padding: 20px 18px;
           min-height: 44px !important;
           border: 1px solid #ebeef5;
@@ -303,6 +303,28 @@
           font-size: 12px;
           padding: 12px 24px;
           margin-top: 16px;
+        }
+      }
+      .components-datetime__time {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        fieldset {
+          flex-grow: 1;
+          .components-base-control__label {
+            font-size: 1em;
+            line-height: 1.2;
+            font-weight: 500;
+            text-transform: capitalize;
+            color: #1B1B50;
+            margin-bottom: 1em;
+          }
+          .components-datetime__time-wrapper {
+            .components-button-group {
+              display: flex;
+              gap: 4px;
+            }
+          }
         }
       }
       .wpsp-modal-social-platform {
