@@ -258,8 +258,8 @@ class Settings {
                                     'default'  => 1,
                                     'priority' => 20,
                                 ],
-                                'hide_on_elementor_editor' => [
-                                    'name'     => 'hide_on_elementor_editor',
+                                'show_on_elementor_editor' => [
+                                    'name'     => 'show_on_elementor_editor',
                                     'type'     => 'toggle',
                                     'label'    => __('Show Scheduled Posts in Elementor', 'wp-scheduled-posts'),
                                     'priority' => 25,

@@ -157,7 +157,6 @@ const Facebook = (props) => {
       />
       <Modal
         isOpen={selectedProfileViewMore}
-        onRequestClose={true}
         ariaHideApp={false}
         shouldCloseOnOverlayClick={false}
         className="modal_wrapper">

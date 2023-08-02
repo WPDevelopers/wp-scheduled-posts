@@ -84,8 +84,8 @@ class Admin
     }
 
 	public function load_elementor_panel_icon() {
-		$hide_on_elementor_editor = Helper::get_settings('hide_on_elementor_editor');
-		if ( ! $hide_on_elementor_editor ) {
+		$show_on_elementor_editor = Helper::get_settings('show_on_elementor_editor');
+		if ( $show_on_elementor_editor ) {
 			add_action( 'elementor/editor/footer', [ $this, 'schedulepress_el_tab' ], 100 );
 		}
     }
