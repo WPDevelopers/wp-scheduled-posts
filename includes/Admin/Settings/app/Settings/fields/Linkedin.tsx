@@ -21,6 +21,7 @@ const Linkedin = (props) => {
     const [platform, setPlatform] = useState('');
     const [selectedProfile, setSelectedProfile] = useState(props?.value);
     const [selectedProfileViewMore,setSelectedProfileViewMore] = useState(false);
+    const [cachedStatus,setCashedStatus] = useState({});
     const [profileStatus, setProfileStatus] = useState(builderContext?.savedValues?.linkedin_profile_status);
 
     const openApiCredentialsModal = (accountType) => {
@@ -50,6 +51,7 @@ const Linkedin = (props) => {
         });
     }
 
+
     // Handle profile & selected profile status onChange event
     const handleProfileStatusChange = (event) => {
         setProfileStatus(event.target.checked);
@@ -60,25 +62,37 @@ const Linkedin = (props) => {
                     status: false,
                 };
             }else{
-                return {
-                    ...selectedItem,
-                    status: true,
-                };
+                if( selectedItem.id == cachedStatus?.[selectedItem.id] ) {
+                    return {
+                        ...selectedItem,
+                        status: cachedStatus?.[selectedItem.id],
+                    };
+                }else{
+                    return {
+                        ...selectedItem,
+                        status: true,
+                    };
+                }
             }
         });
         setSelectedProfile(updatedData);
     };
     const handleSelectedProfileStatusChange = (item,event) => {
-        const updatedData = selectedProfile.map(selectedItem => {
-            if (selectedItem.id === item.id) {
-            return {
-                ...selectedItem,
-                status: event.target.checked
-            };
-            }
-            return selectedItem;
+        setCashedStatus((prevStatus) => {
+            return {...prevStatus, [item.id] : event.target.checked };
         });
-        setSelectedProfile(updatedData);
+        if( profileStatus ) {
+            const updatedData = selectedProfile.map(selectedItem => {
+                if (selectedItem.id === item.id) {
+                    return {
+                        ...selectedItem,
+                        status: event.target.checked
+                    };
+                }
+                return selectedItem;
+            });
+            setSelectedProfile(updatedData);
+        }
     };
 
     const handleDeleteSelectedProfile = (item) => {
@@ -104,6 +118,13 @@ const Linkedin = (props) => {
 			},
 		});
 	}, [profileStatus]);
+
+    let selectedProfileData = [];
+    if( selectedProfile && selectedProfileViewMore ) {
+       selectedProfileData = selectedProfile; 
+    }else if( selectedProfile && !selectedProfileViewMore ) {
+        selectedProfileData = selectedProfile.slice(0,1);
+    }
     return (
         <div className={classNames('wprf-control', 'wprf-social-profile', `wprf-${props.name}-social-profile`, props?.classes)}>
            <div className='social-profile-card'>
@@ -121,7 +142,7 @@ const Linkedin = (props) => {
                         />
                     ))}
                     <div className="selected-linkedin-scrollbar">
-                        { selectedProfile && selectedProfile?.slice(0,1).map((item,index) => (
+                        { selectedProfileData.map((item,index) => (
                             <div className='selected-linkedin-wrapper' key={index}>
                                 <SelectedProfile 
                                     platform={'linkedin'} 
@@ -133,7 +154,7 @@ const Linkedin = (props) => {
                             </div>
                         ))}
                     </div>
-                    { ( selectedProfile && selectedProfile.length > 1 ) && <ViewMore setSelectedProfileViewMore={setSelectedProfileViewMore} /> }
+                    { ( selectedProfileData && selectedProfileData.length == 1 ) && <ViewMore setSelectedProfileViewMore={setSelectedProfileViewMore} /> }
                 </div>
             </div>
             {/* API Credentials Modal  */}
@@ -154,26 +175,6 @@ const Linkedin = (props) => {
                 props={props}
                 type="linkedin"
             />
-            <Modal 
-                isOpen={selectedProfileViewMore}
-                ariaHideApp={false}
-                shouldCloseOnOverlayClick={false}
-                className="modal_wrapper">
-                    <button className="close-button" onClick={ () => setSelectedProfileViewMore(false)}><i className='wpsp-icon wpsp-close'></i></button>
-                    <div className='selected-profile'>
-                        { selectedProfile && selectedProfile?.map((item,index) => (
-                            <div className='selected-linkedin-wrapper' key={index}>
-                                <SelectedProfile 
-                                    platform={'linkedin'} 
-                                    item={item} 
-                                    handleSelectedProfileStatusChange={handleSelectedProfileStatusChange} 
-                                    handleDeleteSelectedProfile={handleDeleteSelectedProfile} 
-                                    handleEditSelectedProfile={''}
-                                />
-                            </div>
-                        ))}
-                    </div>
-            </Modal>
         </div>
     )
 }

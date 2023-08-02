@@ -91,7 +91,12 @@ const Twitter = (props) => {
 			},
 		});
 	}, [profileStatus]);
-
+    let selectedProfileData = [];
+    if( selectedProfile && selectedProfileViewMore ) {
+       selectedProfileData = selectedProfile; 
+    }else if( selectedProfile && !selectedProfileViewMore ) {
+        selectedProfileData = selectedProfile.slice(0,1);
+    }
     return (
         <div className={classNames('wprf-control', 'wprf-social-profile', `wprf-${props.name}-social-profile`, props?.classes)}>
             <div className='social-profile-card'>
@@ -109,7 +114,7 @@ const Twitter = (props) => {
                         />
                     ))}
                     <div className="selected-pinterest-scrollbar">
-                        {selectedProfile && selectedProfile?.slice(0,1)?.map((item,index) => (
+                        { selectedProfileData.map((item,index) => (
                             <div className='selected-twitter-wrapper' key={index}>
                                 <SelectedProfile
                                     key={index}
@@ -122,7 +127,7 @@ const Twitter = (props) => {
                             </div>
                         ))}
                     </div>
-                { ( selectedProfile && selectedProfile.length > 1 ) && <ViewMore setSelectedProfileViewMore={setSelectedProfileViewMore} /> }
+                { ( selectedProfileData && selectedProfileData.length == 1 ) && <ViewMore setSelectedProfileViewMore={setSelectedProfileViewMore} /> }
                 </div>
             </div>
             {/* API Credentials Modal  */}
@@ -144,27 +149,6 @@ const Twitter = (props) => {
                 props={props}
                 type="twitter"
             />
-            <Modal 
-                isOpen={selectedProfileViewMore}
-                ariaHideApp={false}
-                shouldCloseOnOverlayClick={false}
-                className="modal_wrapper">
-                    <button className="close-button" onClick={ () => setSelectedProfileViewMore(false)}><i className='wpsp-icon wpsp-close'></i></button>
-                    <div className='selected-profile'>
-                        { selectedProfile && selectedProfile?.map((item,index) => (
-                            <div className='selected-twitter-wrapper' key={index}>
-                                <SelectedProfile
-                                    key={index}
-                                    platform={'twitter'}
-                                    item={item}
-                                    handleSelectedProfileStatusChange={handleSelectedProfileStatusChange}
-                                    handleDeleteSelectedProfile={handleDeleteSelectedProfile}
-                                    handleEditSelectedProfile={''}
-                                />
-                            </div>
-                        ))}
-                    </div>
-            </Modal>
         </div>
     )
 }
