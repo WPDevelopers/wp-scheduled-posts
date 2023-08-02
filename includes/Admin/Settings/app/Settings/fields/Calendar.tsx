@@ -1,7 +1,7 @@
 import dayGridPlugin from "@fullcalendar/daygrid";
-import FullCalendar from "@fullcalendar/react";
-import luxonPlugin from '@fullcalendar/luxon3'
 import interactionPlugin, { EventDragStopArg } from "@fullcalendar/interaction"; // needed for dayClick
+import luxonPlugin from '@fullcalendar/luxon3';
+import FullCalendar from "@fullcalendar/react";
 import apiFetch from "@wordpress/api-fetch";
 import { useBuilderContext } from "quickbuilder";
 import React, { useEffect, useRef, useState } from "react";
@@ -9,7 +9,7 @@ import { eventDrop, getPostFromEvent } from "./Calendar/EventRender";
 import Sidebar from "./Calendar/Sidebar";
 // const events = [{ title: "Meeting", start: new Date() }];
 import MonthPicker from "@compeon-os/monthpicker";
-import { EventContentArg, EventDropArg, formatDate } from "@fullcalendar/core";
+import { EventContentArg, EventDropArg } from "@fullcalendar/core";
 import { __ } from "@wordpress/i18n";
 import classNames from "classnames";
 import { getMonth, getYear } from "date-fns";
@@ -127,7 +127,7 @@ export default function Calendar(props) {
     return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
   };
 
-  console.log(props.timeZone, calendar.current, calendar.current?.getApi());
+  // console.log(props.timeZone, calendar.current, calendar.current?.getApi());
 
 
   return (
