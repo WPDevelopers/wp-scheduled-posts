@@ -14,16 +14,16 @@ export default function SelectedProfile( { platform, item, handleSelectedProfile
             {
                 {
                     facebook: (
-                        <span className='badge facebook-profile'>{ item.type ? item.type : __('Profile','wp-scheduled-posts') }</span>
+                        <span className={`badge facebook-${item.type}`}>{ item.type ? item.type : __('Profile','wp-scheduled-posts') }</span>
                     ),
                     twitter: (
-                        <span className='badge twitter-profile'>{ item.type ? item.type : __('Profile','wp-scheduled-posts') }</span>
+                        <span className={`badge twitter-${item.type}`}>{ item.type ? item.type : __('Profile','wp-scheduled-posts') }</span>
                     ),
                     linkedin: (
-                        <span className='badge linkedin-page'>{ item?.type == 'organization' ? __('Page','wp-scheduled-posts') : __('Profile','wp-scheduled-posts')  }</span>
+                        <span className={`badge linkedin-${item.type}`}>{ item?.type == 'organization' ? __('Page','wp-scheduled-posts') : __('Profile','wp-scheduled-posts')  }</span>
                     ),
                     pinterest: (
-                        <span className='badge pinterest-board'>{ item?.account_type ? __('Board','wp-scheduled-posts') : item?.type }</span>
+                        <span className={`badge pinterest-${item?.account_type?.toLowerCase()}`}>{ item?.account_type ? __('Board','wp-scheduled-posts') : item?.type }</span>
 
                     ),
                 }[platform]

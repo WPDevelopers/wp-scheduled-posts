@@ -131,6 +131,24 @@
             align-self: center;
             justify-self: center;
           }
+          .selected-linkedin-scrollbar {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 350px;
+            overflow-y: auto;
+            margin-right: -8px;
+            padding-right: 8px;
+            &::-webkit-scrollbar {
+              width: 3px;
+            }
+            &::-webkit-scrollbar-track {
+              background: #f1f1f1;
+            }
+            &::-webkit-scrollbar-thumb {
+              background: #6c62ff;
+            }
+          }
         }
         .profile-item {
           background: #fff;
@@ -161,13 +179,13 @@
               background: #f3f2ff;
               border-radius: 20px;
               font-size: 8px;
-              padding: 0.6em 1.1em;
+              padding: 0.5em 1.1em;
               line-height: 1;
               font-weight: 500;
               color: #6c62ff;
               text-transform: uppercase;
               position: absolute;
-              right: 1em;
+              right: 0.75em;
               top: 1em;
               box-sizing: border-box;
             }
@@ -242,18 +260,18 @@
           background: transparent;
           padding: 0;
           border: none;
-          font-size: .9em;
+          font-size: 0.9em;
           font-weight: 500;
           line-height: 1.2em;
-          color: #6C62FF;
+          color: #6c62ff;
           margin-top: 6px;
           cursor: pointer;
           &:after {
             content: '\e909';
             font-family: 'wpsp';
-            font-size: .9em;
-            color: #6C62FF;
-        }
+            font-size: 0.9em;
+            color: #6c62ff;
+          }
         }
       }
     }

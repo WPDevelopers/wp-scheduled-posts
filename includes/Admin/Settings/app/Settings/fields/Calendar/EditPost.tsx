@@ -4,6 +4,7 @@ import { addQueryArgs } from "@wordpress/url";
 import { TimePicker } from "@wordpress/components";
 import { Input, Textarea } from "quickbuilder";
 import Modal from "react-modal";
+import { getPostType } from "./Helpers";
 
 interface Post {
   ID               ?: number;
@@ -16,17 +17,13 @@ interface Post {
   post_title       ?: string;
   post_type        ?: string;
 }
-interface EditPostReturnType {
-  openModal: (post: Post) => void;
-  closeModal: () => void;
-  modalIsOpen: boolean;
-}
 
 
 export const ModalContent = ({
   modalData,
   setModalData,
   onSubmit,
+  selectedPostType,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -82,10 +79,14 @@ export const ModalContent = ({
         setIsLoading(false);
       });
     } else {
-      let data = {};
+      let data: Post = {
+        post_type: getPostType(selectedPostType),
+      };
       if(modalData?.post_date){
+        data.post_date = modalData?.post_date;
+      }
+      if(modalData?.post_date || modalData?.openModal){
         setIsOpen(true);
-        data = {post_date: modalData?.post_date};
       }
       setPostData(data);
     }
@@ -103,8 +104,6 @@ export const ModalContent = ({
     };
   }, []);
 
-  console.log({...modalData});
-
 
   return (
     <Modal
@@ -118,7 +117,7 @@ export const ModalContent = ({
           <i className="wpsp-icon wpsp-close"></i>
         </button>
         <div className="platform-info">
-          <h4>Add New Post</h4>
+          <h4>Add New {postData.post_type}</h4>
         </div>
       </div>
       <div className="modalbody">

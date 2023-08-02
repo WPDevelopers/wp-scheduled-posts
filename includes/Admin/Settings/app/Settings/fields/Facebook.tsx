@@ -89,7 +89,12 @@ const Facebook = (props) => {
       },
     });
   }, [profileStatus]);
-
+  let selectedProfileData = [];
+  if (selectedProfile && selectedProfileViewMore) {
+    selectedProfileData = selectedProfile;
+  } else if (selectedProfile && !selectedProfileViewMore) {
+    selectedProfileData = selectedProfile.slice(0, 1);
+  }
   return (
     <div
       className={classNames(
@@ -108,18 +113,17 @@ const Facebook = (props) => {
           />
         </div>
         <div className="selected-profile">
-          {!selectedProfile ||
-            (selectedProfile.length == 0 && (
-              <img
-                className="empty-image"
-                /* @ts-ignore */
-                src={`${wpspSettingsGlobal?.image_path}EmptyCard.svg`}
-                alt="mainLogo"
-              />
-            ))}
+          {(!selectedProfile || selectedProfile.length == 0) && (
+            <img
+              className="empty-image"
+              /* @ts-ignore */
+              src={`${wpspSettingsGlobal?.image_path}EmptyCard.svg`}
+              alt="mainLogo"
+            />
+          )}
           <div className="selected-facebook-scrollbar">
             {selectedProfile &&
-              selectedProfile?.slice(0, 1)?.map((item, index) => (
+              selectedProfileData.map((item, index) => (
                 <div
                   className="selected-facebook-wrapper"
                   key={index}>
@@ -135,7 +139,7 @@ const Facebook = (props) => {
                 </div>
               ))}
           </div>
-          {selectedProfile && selectedProfile.length > 1 && (
+          {selectedProfileData && selectedProfileData.length == 1 && (
             <ViewMore setSelectedProfileViewMore={setSelectedProfileViewMore} />
           )}
         </div>
@@ -166,36 +170,6 @@ const Facebook = (props) => {
         props={props}
         type="facebook"
       />
-      <Modal
-        isOpen={selectedProfileViewMore}
-        onRequestClose={true}
-        ariaHideApp={false}
-        shouldCloseOnOverlayClick={false}
-        className="modal_wrapper">
-        <button
-          className="close-button"
-          onClick={() => setSelectedProfileViewMore(false)}>
-          <i className="wpsp-icon wpsp-close"></i>
-        </button>
-        <div className="selected-profile">
-          {selectedProfile &&
-            selectedProfile?.map((item, index) => (
-              <div
-                className="selected-facebook-wrapper"
-                key={index}>
-                <SelectedProfile
-                  platform={'facebook'}
-                  item={item}
-                  handleSelectedProfileStatusChange={
-                    handleSelectedProfileStatusChange
-                  }
-                  handleDeleteSelectedProfile={handleDeleteSelectedProfile}
-                  handleEditSelectedProfile={''}
-                />
-              </div>
-            ))}
-        </div>
-      </Modal>
     </div>
   );
 };
