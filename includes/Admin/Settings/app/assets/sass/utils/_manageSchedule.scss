@@ -91,6 +91,9 @@
       justify-content: space-between;
       gap: 10px;
       margin-bottom: 10px;
+      @media screen and (min-width: 1440px) and (max-width: 1599px) {
+        flex-wrap: wrap;
+      }
       &.pro-deactivated {
         opacity: 0.75;
         filter: blur(0.5px);
@@ -106,6 +109,9 @@
         background: #f3f2ff;
         border-radius: 4px;
         padding: 16px 17px;
+        @media screen and (min-width: 1440px) and (max-width: 1599px) {
+          flex-basis: 100%;
+        }
         .time-title {
           h4 {
             font-size: 14px !important;
@@ -220,17 +226,19 @@
         background: #6c62ff;
         border: none;
         border-radius: 6px;
-        padding: 16px 24px;
+        padding: 4px 24px;
         color: #fff;
         font-size: 14px;
         line-height: 1.2em;
         font-weight: 500;
         cursor: pointer;
-        flex-grow: 1;
+        min-height: 40px;
+        margin-left: auto;
       }
     }
     .weeks {
       display: flex;
+      flex-direction: column;
       gap: 8px;
       &.pro-deactivated {
         opacity: 0.75;
@@ -241,10 +249,9 @@
       }
       .week {
         display: flex;
-        flex-direction: column;
         border: 1px solid #f3f2ff;
         border-radius: 4px;
-        padding: 12px 4px 4px;
+        padding: 12px;
         flex-grow: 1;
         h6 {
           font-size: 12px;
@@ -253,24 +260,31 @@
           color: #1b1b50;
           text-transform: uppercase;
           text-align: center;
-          margin: 0 0 4px;
+          margin: 0;
+          display: inline-block;
+          padding: 6px 10px 6px 0;
         }
-        span {
+        .week-wrapper {
           display: flex;
-          align-items: center;
-          gap: 6px;
-          justify-content: space-between;
-          font-size: 10px;
-          line-height: 1.6em;
-          color: #6c62ff;
-          padding: 8px;
-          background: #f3f2ff;
-          border-radius: 4px;
-          margin-top: 8px;
-          i {
-            color: #6e6e8d;
-            font-size: 6px;
-            cursor: pointer;
+          row-gap: 6px;
+          column-gap: 8px;
+          flex-wrap: wrap;
+          span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            justify-content: space-between;
+            font-size: 10px;
+            line-height: 1.6em;
+            color: #6c62ff;
+            padding: 4px 8px;
+            background: #f3f2ff;
+            border-radius: 4px;
+            i {
+              color: #6e6e8d;
+              font-size: 6px;
+              cursor: pointer;
+            }
           }
         }
       }

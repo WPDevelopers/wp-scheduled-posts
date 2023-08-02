@@ -30,7 +30,50 @@ class Admin
 	    }
 
 	    add_action( 'wp_ajax_wpsp_el_editor_form', [ $this, 'wpsp_el_tab_action' ] );
+        
+        // Add scheduling tab for section
+        add_action( 'elementor/element/section/section_advanced/after_section_end', [ $this, 'register_controls' ],10,2 );
+        
     }
+
+    public function register_controls( $element, $section_id ) {
+
+		$element->start_controls_section(
+			'wpsp_section_schedule',
+			[
+				'label' => __( 'Section Schedule', 'wp-scheduled-posts' ),
+				'tab'   => \Elementor\Controls_Manager::TAB_LAYOUT
+			]
+		);
+
+        $element->add_control(
+			'wpsp_section_publish_on',
+			[
+				'label' => esc_html__( 'Publish On', 'wp-scheduled-posts' ),
+				'type' => \Elementor\Controls_Manager::DATE_TIME,
+			]
+		);
+
+        $element->add_control(
+			'wpsp_section_republish_on',
+			[
+				'label' => esc_html__( 'Republish On', 'wp-scheduled-posts' ),
+				'type' => \Elementor\Controls_Manager::DATE_TIME,
+			]
+		);
+
+        $element->add_control(
+			'wpsp_section_unpublish_on',
+			[
+				'label' => esc_html__( 'Unpublish On', 'wp-scheduled-posts' ),
+				'type' => \Elementor\Controls_Manager::DATE_TIME,
+			]
+		);
+
+		$element->end_controls_section();
+
+	}
+
     public function load_plugin_menu_pages()
     {
         new Admin\Menu();
@@ -41,8 +84,8 @@ class Admin
     }
 
 	public function load_elementor_panel_icon() {
-		$hide_on_elementor_editor = Helper::get_settings('hide_on_elementor_editor');
-		if ( ! $hide_on_elementor_editor ) {
+		$show_on_elementor_editor = Helper::get_settings('show_on_elementor_editor');
+		if ( $show_on_elementor_editor ) {
 			add_action( 'elementor/editor/footer', [ $this, 'schedulepress_el_tab' ], 100 );
 		}
     }
@@ -340,7 +383,7 @@ class Admin
                 margin-top: 15px;
             }
 
-            #schedulepress-elementor-modal .wpsp-pro-fields:not(.wpsp-pro-activated) label > span {
+            #schedulepress-elementor-modal .wpsp-pro-fields:not(.wpsp-pro-activated) label > span, #schedulepress-elementor-modal .wpsp-pro-fields.disabled label > span {
                 color: #9696af;
             }
 

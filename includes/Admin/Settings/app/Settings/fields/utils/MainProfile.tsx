@@ -52,7 +52,7 @@ export default function MainProfile({
     ];
   }
 
-  const [accountType, setAccountType] = useState(options[0].value);
+  const [accountType, setAccountType] = useState();
   const handleAccountType = (selectedOption) => {
     setAccountType(selectedOption.value);
   };
@@ -103,7 +103,10 @@ export default function MainProfile({
       <div className="card-content">
         <p dangerouslySetInnerHTML={{ __html: props?.desc }} />
       </div>
-      <div className="card-footer">
+      <div
+        className={`card-footer ${
+          ['facebook', 'linkedin'].includes(props?.type) ? 'has-select' : ''
+        }`}>
         {['facebook', 'linkedin'].includes(props?.type) && (
           <Select
             id={props?.id}
@@ -114,15 +117,17 @@ export default function MainProfile({
               Option,
             }}
             options={options}
-            defaultValue={options[0]}
             className="main-select"
             styles={mainSelectStyles}
             classNamePrefix="social-media-type-select"
           />
         )}
+        {console.log('selected', accountType)}
         <button
           type="button"
-          className={'wpscp-social-tab__btn--addnew-profile'}
+          className={`wpscp-social-tab__btn--addnew-profile ${
+            accountType ? 'selected' : ''
+          }`}
           onClick={() => openApiCredentialsModal(accountType)}>
           {__('Add New', 'wp-scheduled-posts')}
         </button>

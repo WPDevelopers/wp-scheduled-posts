@@ -98,27 +98,39 @@
     1: #ecf5f4,
     2: #f5f1fd,
     3: #ecf5e7,
-    4: #92e9cf,
-    5: #d1ceff,
+    4: #e2eeff,
+    5: #FFF7E1,
+    6: #FFEDF3,
+    7: #FFF3EF,
+    8: #FCECFF,
+    9: #E4FFF7,
   );
   $full-colors: (
     0: #e8821e,
     1: #5ba6a5,
     2: #7f55dc,
     3: #64aa3c,
-    4: #26d39e,
-    5: #6c62ff,
+    4: #418cfd,
+    5: #E2A50C,
+    6: #AA3C64,
+    7: #FB754E,
+    8: #CC3DE3,
+    9: #26D39E,
   );
   $dark-colors: (
     0: #73400d,
     1: #285151,
     2: #451f8b,
     3: #2c5417,
-    4: #64aa3c,
-    5: #7f55dc,
+    4: #14458f,
+    5: #9B6F00,
+    6: #6D1736,
+    7: #B84B2B,
+    8: #9318A7,
+    9: #0D946A,
   );
 
-  @for $i from 0 through 5 {
+  @for $i from 0 through 9 {
     &-#{$i} {
       background-color: map-get($light-colors, $i) !important;
       &:before {

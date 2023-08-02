@@ -6,17 +6,34 @@ import Swal from 'sweetalert2';
 
 // Setup Sweetalert2 toaster
 export const SweetAlertToaster = (args: any = {}) => {
+  // @ts-ignore 
+  const image_path = wpspSettingsGlobal.image_path + '/toaster-icon/';
+    let toastIcon = '';
+    if( args?.icon ?? (args?.type || "success") == "success" ) {
+      toastIcon = image_path + 'Connected.gif';
+    }else if( args?.type == 'error' ) {
+      toastIcon = image_path + 'Error.gif';
+    }
     return Swal.mixin({
         icon: args?.icon ?? (args?.type || "success"),
-        title: args?.title ?? __('Changes saved successfully','wp-scheduled-posts'),
+        title: args?.title ?? __('Changes Saved Successfully','wp-scheduled-posts'),
         toast: args?.toast ?? true,
         position: args?.position ?? 'top-end',
         showConfirmButton: args?.showConfirmButton ?? false,
         timer: args?.timer ?? 3000,
         timerProgressBar: args?.toast ?? true,
+        showClass: {
+          popup: 'animate__animated animate__fadeOutUp'
+        },
         didOpen: (toast) => {
           toast.addEventListener('mouseenter', Swal.stopTimer)
           toast.addEventListener('mouseleave', Swal.resumeTimer)
+        },
+        iconHtml: `<img src="${toastIcon}" class="wpsp-toaster-icon">`,
+        customClass: {
+          container     : 'wpsp-toast-container',
+          popup         : 'wpsp-toast-popup',
+          title         : 'wpsp-toast-title'
         }
     })
 };

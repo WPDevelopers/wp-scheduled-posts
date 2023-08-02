@@ -13,6 +13,25 @@
   @import './utils/socialTemplate';
   @import './utils/license';
 }
+
 @import './utils/modals';
 @import './utils/toggle';
+.wpsp-toast-container .swal2-icon {
+  border: none;
+}
+.wpsp-toast-container .swal2-popup.wpsp-toast-popup {
+  background: #6c62ff;
+}
+.wpsp-toast-popup .swal2-title {
+  font-size: 14px !important;
+  word-break: break-all;
+  color: #fff;
+  font-weight: 400;
+}
+.wpsp-toaster-icon {
+  width: 45px;
+  height: 45px;
+  border: none;
+  box-shadow: none;
+}
 @import './utils/event-card';
