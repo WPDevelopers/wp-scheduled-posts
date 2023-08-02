@@ -233,6 +233,28 @@
             }
           }
         }
+        .view-all {
+          position: relative;
+          display: inline-flex;
+          justify-content: end;
+          align-items: center;
+          gap: 10px;
+          background: transparent;
+          padding: 0;
+          border: none;
+          font-size: .9em;
+          font-weight: 500;
+          line-height: 1.2em;
+          color: #6C62FF;
+          margin-top: 6px;
+          cursor: pointer;
+          &:after {
+            content: '\e909';
+            font-family: 'wpsp';
+            font-size: .9em;
+            color: #6C62FF;
+        }
+        }
       }
     }
   }

@@ -2,7 +2,7 @@ import React from 'react'
 
 const ViewMore = ( { setSelectedProfileViewMore } ) => {
   return (
-    <button onClick={() => setSelectedProfileViewMore(true)}>View More</button>
+    <button className='view-all' onClick={() => setSelectedProfileViewMore(true)}>View More</button>
   )
 }
 
