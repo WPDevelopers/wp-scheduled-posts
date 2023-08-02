@@ -11,6 +11,25 @@
         background-color: #fff;
         border-radius: 6px;
         box-sizing: border-box;
+        @media screen and (max-width: 1439px) {
+          padding: 28px;
+        }
+        @media screen and (max-width: 1023px) {
+          padding: 24px;
+        }
+        .unscheduled {
+          font-size: 1.5em;
+          line-height: .9em;
+          font-weight: 600;
+          color: #1B1B50;
+          margin: 0px 0 24px;
+          @media screen and (max-width: 1439px) {
+            margin: 0px 0 20px;
+          }
+          @media screen and (max-width: 1023px) {
+            margin: 0px 0 16px;
+          }
+      }
         select {
           min-width: 140px;
           margin-bottom: 20px;
@@ -22,18 +41,25 @@
         }
         p {
           margin: 32px 0 0;
+          @media screen and (max-width: 1439px) {
+            margin: 28px 0 0;
+          }
+          @media screen and (max-width: 1023px) {
+            margin: 24px 0 0;
+          }
           .btn-draft-post-create {
-            background: #e5faf4;
+            background: #26D39E;
             padding: 16px 22px;
             border-radius: 6px;
-            font-size: 14px;
+            font-size: .87em;
             font-weight: 500;
             line-height: 1.2em;
-            color: #26d39e;
+            color: #fff;
             text-decoration: none;
             display: inline-block;
+            transition: ease-in-out .25s;
             &:hover {
-              color: #26d39e;
+              transform: scale(.8);
             }
           }
         }
@@ -41,18 +67,27 @@
       .main-content {
         flex-basis: 80%;
         background: #fff;
-        padding: 30px;
+        padding: 18px 32px 32px;
         border-radius: 6px;
+        @media screen and (max-width: 1439px) {
+          padding: 18px 28px 28px;
+        }
+        @media screen and (max-width: 1023px) {
+          padding: 14px 24px 24px;
+        }
         .toolbar {
           display: flex;
           justify-content: space-between;
           align-items: center;
           margin-bottom: 18px;
+          @media screen and (max-width: 1023px) {
+            margin-bottom: 14px;
+          }
           .left {
             display: flex;
             gap: 18px;
             select {
-              font-size: 16px;
+              font-size: 1em;
               font-weight: 500;
               line-height: 1.2em;
               color: #6e6e8d;
@@ -63,19 +98,21 @@
             }
           }
           .middle {
-            font-size: 24px;
+            font-size: 1.5em;
             font-weight: 600;
-            line-height: 1.2em;
+            line-height: .9em;
             color: #1b1b50;
             display: flex;
             align-items: center;
             gap: 10px;
             position: relative;
             > div > div:nth-child(2) {
-              margin-left: -100%;
-              margin-top: 14px;
+              margin-left: 50%;
+              transform: translateX(-50%);
+              margin-top: 10%;
               background: #fff;
               border: none;
+              animation: unset;
               box-shadow: 0px 12px 48px 0 rgba(27, 27, 80, 0.1);
               > div:nth-child(1) {
                 padding: 12px 12px;
@@ -92,7 +129,7 @@
                 border-color: #ebeef5;
                 border-radius: 0 !important;
                 span.sc-iGgWBj {
-                  font-size: 20px;
+                  font-size: 1.25em;
                   font-weight: 600;
                 }
                 .crmjJN {
@@ -121,9 +158,9 @@
                 > div {
                   border: none;
                   padding: 16px 0px;
-                  font-size: 12px;
+                  font-size: .75em;
                   font-weight: 500;
-                  line-height: 1.2em;
+                  line-height: .8em;
                   text-transform: uppercase;
                   background-color: transparent;
                   color: #1b1b50;
@@ -151,17 +188,18 @@
             gap: 18px;
             button {
               background: #f3f2ff;
-              padding: 16px 22px;
+              padding: 0px 22px;
               border: none;
               box-sizing: border-box;
               border-radius: 6px;
               color: #6c62ff;
-              font-size: 14px;
+              font-size: .87em;
               font-weight: 500;
+              height: 44px;
               cursor: pointer;
             }
             i {
-              font-size: 24px;
+              font-size: 1.5em;
               color: #fff;
               background: #26d39e;
               padding: 10px;
@@ -181,7 +219,7 @@
               height: 49px !important;
               cursor: pointer;
               .wpsp-icon {
-                font-size: 16px;
+                font-size: 1em;
                 color: #6c62ff;
               }
             }
@@ -230,7 +268,7 @@
                     }
                   }
                   .fc-col-header-cell-cushion {
-                    font-size: 12px;
+                    font-size: .75em;
                     font-weight: 500;
                     color: #1b1b50;
                     text-transform: uppercase;
@@ -249,9 +287,10 @@
                   align-items: center;
                   justify-content: space-between;
                   gap: 10px;
+                  margin-bottom: 6px;
                   .fc-daygrid-day-number {
-                    font-size: 14px;
-                    line-height: 1.2em;
+                    font-size: .87em;
+                    line-height: 1em;
                     color: #6e6e8d;
                     padding: 6px 8px;
                     background: #fff;
@@ -259,8 +298,8 @@
                     z-index: initial;
                   }
                   button {
-                    font-size: 12px;
-                    line-height: 1.2em;
+                    font-size: .75em;
+                    line-height: 1em;
                     color: #6e6e8d;
                     padding: 0;
                     border: none;
@@ -278,6 +317,7 @@
                     .card {
                       min-width: auto;
                       width: 100%;
+                      cursor: pointer;
                     }
                     // .wpscp-event-post {
                     //   span {
@@ -334,7 +374,7 @@
   z-index: 999;
   li a {
     font-family: 'Inter' !important;
-    font-size: 14px;
+    font-size: .87em;
     font-weight: 500;
     line-height: 1.2em;
     text-transform: capitalize;
@@ -409,7 +449,7 @@
   .fc-daygrid-more-link {
     min-height: 25px;
     padding: 2px 8px;
-    font-size: 12px;
+    font-size: .75em;
     border-radius: 4px;
     background: #f3f2ff;
     color: #6c62ff;

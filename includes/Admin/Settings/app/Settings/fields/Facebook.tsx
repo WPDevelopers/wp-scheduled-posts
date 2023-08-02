@@ -113,15 +113,14 @@ const Facebook = (props) => {
           />
         </div>
         <div className="selected-profile">
-          {!selectedProfile ||
-            (selectedProfile.length == 0 && (
-              <img
-                className="empty-image"
-                /* @ts-ignore */
-                src={`${wpspSettingsGlobal?.image_path}EmptyCard.svg`}
-                alt="mainLogo"
-              />
-            ))}
+          {(!selectedProfile || selectedProfile.length == 0) && (
+            <img
+              className="empty-image"
+              /* @ts-ignore */
+              src={`${wpspSettingsGlobal?.image_path}EmptyCard.svg`}
+              alt="mainLogo"
+            />
+          )}
           <div className="selected-facebook-scrollbar">
             {selectedProfile &&
               selectedProfileData.map((item, index) => (
