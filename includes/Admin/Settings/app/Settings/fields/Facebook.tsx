@@ -90,10 +90,10 @@ const Facebook = (props) => {
     });
   }, [profileStatus]);
   let selectedProfileData = [];
-  if( selectedProfile && selectedProfileViewMore ) {
-     selectedProfileData = selectedProfile; 
-  }else if( selectedProfile && !selectedProfileViewMore ) {
-      selectedProfileData = selectedProfile.slice(0,1);
+  if (selectedProfile && selectedProfileViewMore) {
+    selectedProfileData = selectedProfile;
+  } else if (selectedProfile && !selectedProfileViewMore) {
+    selectedProfileData = selectedProfile.slice(0, 1);
   }
   return (
     <div
@@ -140,7 +140,7 @@ const Facebook = (props) => {
                 </div>
               ))}
           </div>
-          { selectedProfileData && selectedProfileData.length == 1 && (
+          {selectedProfileData && selectedProfileData.length == 1 && (
             <ViewMore setSelectedProfileViewMore={setSelectedProfileViewMore} />
           )}
         </div>
