@@ -27,6 +27,20 @@
         border-radius: 6px;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
+        .selected-profile {
+          .linkedin-organization {
+            background: #F0FAFF !important;
+            color: #007AB9 !important;
+          }
+          .facebook-group {
+            background: #F5F9FE !important;
+            color: #1877F2 !important;
+          }
+          .pinterest-pinner {
+            background: #FEF6F6 !important;
+            color: #E42228 !important;
+          }
+        }
         .main-profile {
           padding: 24px;
           border-right: 1px solid #f0efff;
@@ -149,6 +163,11 @@
               background: #6c62ff;
             }
           }
+        }
+        .selected-pinterest-scrollbar {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
         }
         .profile-item {
           background: #fff;
