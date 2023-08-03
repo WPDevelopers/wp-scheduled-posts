@@ -127,8 +127,11 @@ export default function Calendar(props) {
     return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
   };
 
-  // console.log(props.timeZone, calendar.current, calendar.current?.getApi());
-
+  let timeZone = props.timeZone;
+  // check if timeZone is  ±HH:MM offset
+  if(props.timeZone && props.timeZone.match(/[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)/)) {
+    timeZone = `UTC${props.timeZone}`;
+  }
 
   return (
     <div
@@ -258,7 +261,7 @@ export default function Calendar(props) {
               ref={calendar}
               events={events}
               // timeZone='local'
-              timeZone={props.timeZone}
+              timeZone={timeZone}
               initialView="dayGridMonth"
               plugins={[luxonPlugin, dayGridPlugin, interactionPlugin]}
               // weekends={true}
