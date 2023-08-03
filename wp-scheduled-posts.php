@@ -32,7 +32,6 @@ final class WPSP
 	private $social;
 	private $api;
 	private $ajax;
-	private $elementor;
 
 	private function __construct()
 	{
@@ -96,7 +95,6 @@ final class WPSP
 		$this->getSocial();
 		$this->getAPI();
 		$this->getAjax();
-		$this->getElementor();
 
 		if (is_admin()) {
 			$this->getAdmin();
@@ -148,12 +146,6 @@ final class WPSP
 		return $this->ajax;
 	}
 
-	public function getElementor() {
-		if( !$this->elementor ) {
-			$this->elementor = new WPSP\Elementor();
-		}
-		return $this->elementor;
-	}
 
 	public function load_textdomain()
 	{
