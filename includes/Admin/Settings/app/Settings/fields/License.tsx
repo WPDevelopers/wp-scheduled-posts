@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
-import classNames from 'classnames';
 import { __ } from '@wordpress/i18n';
-import { activateLicense,deActivateLicense } from '../helper/helper';
+import classNames from 'classnames';
+import React, { useState } from 'react';
 import { SweetAlertToaster } from '../ToasterMsg';
+import { activateLicense, deActivateLicense } from '../helper/helper';
 function License(props) {
     const [inputChanged, setInputChanged] = useState(false)
     const [tempKey, setTempKey] = useState(
@@ -33,20 +33,20 @@ function License(props) {
                 setValid(response.data.status)
                 SweetAlertToaster();
                 SweetAlertToaster({
-                    icon : 'success',
+                    type : 'success',
                     title : __( 'Your License is Successfully Activated.', 'wp-scheduled-posts' ),
                 }).fire();
             } else {
                 // @ts-ignore 
                 let response_data = response.data;
                 SweetAlertToaster({
-                    icon : 'error',
+                    type : 'error',
                     title : __( response_data, 'wp-scheduled-posts' ),
                 }).fire();
             }
         } ).catch( (error) => {
             SweetAlertToaster({
-                icon : 'error',
+                type : 'error',
                 title : __( error, 'wp-scheduled-posts' ),
             }).fire();
         } );
@@ -65,20 +65,20 @@ function License(props) {
                 setValid(response.data.status)
                 setTempKey('')
                 SweetAlertToaster({
-                    icon : 'success',
+                    type : 'success',
                     title : __( 'Your License is Successfully Deactivated.', 'wp-scheduled-posts' ),
                 }).fire();
             } else {
                 // @ts-ignore 
                 let response_data = response.data;
                 SweetAlertToaster({
-                    icon : 'error',
+                    type : 'error',
                     title : __( response_data, 'wp-scheduled-posts' ),
                 }).fire();
             }
         } ).catch( (error) => {
             SweetAlertToaster({
-                icon : 'error',
+                type : 'error',
                 title : __( error, 'wp-scheduled-posts' ),
             }).fire();
         } );
