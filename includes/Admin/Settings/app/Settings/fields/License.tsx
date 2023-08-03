@@ -93,6 +93,7 @@ function License(props) {
                     {tempKey && valid == 'valid' ? (
                         <input
                             id='wp-scheduled-posts-pro-license-key'
+                            className='activated'
                             placeholder='Place Your License Key and Activate'
                             onChange={(e) => setTempKey(e.target.value)}
                             value={tempKey}

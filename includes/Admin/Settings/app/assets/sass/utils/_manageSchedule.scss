@@ -139,6 +139,7 @@
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 10px;
+
       &.pro-deactivated {
         opacity: 0.75;
         filter: blur(0.5px);
@@ -237,6 +238,13 @@
       display: grid;
       grid-template-columns: repeat(7, 1fr);
       gap: 8px;
+      &:not(.pro-deactivated) {
+        .week {
+          i {
+            cursor: pointer;
+          }
+        }
+      }
       &.pro-deactivated {
         opacity: 0.75;
         filter: blur(0.5px);
@@ -287,7 +295,6 @@
             i {
               color: #6e6e8d;
               font-size: 6px;
-              cursor: pointer;
             }
           }
         }

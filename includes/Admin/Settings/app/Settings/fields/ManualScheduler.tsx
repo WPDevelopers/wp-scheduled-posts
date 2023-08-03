@@ -154,13 +154,15 @@ const ManualScheduler = (props) => {
                     {data}
                     <i
                       onClick={() => {
-                        const updatedSchedule = savedManualSchedule.filter(
-                          (_item) => {
-                            const propertyValue = _item[item.value];
-                            return propertyValue !== data;
-                          }
-                        );
-                        setSavedManualSchedule(updatedSchedule);
+                        if( is_pro ) {
+                          const updatedSchedule = savedManualSchedule.filter(
+                            (_item) => {
+                              const propertyValue = _item[item.value];
+                              return propertyValue !== data;
+                            }
+                          );
+                          setSavedManualSchedule(updatedSchedule);
+                        }
                       }}
                       className="wpsp-icon wpsp-close"></i>
                   </span>

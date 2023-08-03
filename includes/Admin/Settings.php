@@ -895,8 +895,8 @@ class Settings {
                                                                     'type'          => 'text',
                                                                     'label'         => __('Status Template Settings', 'wp-scheduled-posts'),
                                                                     'desc'          => __('Default Structure: {title}{content}{url}{tags}', 'wp-scheduled-posts'),
-                                                                    'info'          => 'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet',
-                                                                    'default'       => '{title}',
+                                                                    'info'          => __( 'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet','wp-scheduled-posts' ),
+                                                                    'default'       => '{title}{content}{url}{tags}',
                                                                     'priority'      => 15,
                                                                 ],
                                                                 'status_limit'  => [
