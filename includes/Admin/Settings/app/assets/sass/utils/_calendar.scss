@@ -90,6 +90,7 @@
           margin-bottom: 18px;
           @media screen and (max-width: 1023px) {
             margin-bottom: 14px;
+            gap: 8px;
           }
           .left {
             display: flex;
@@ -220,7 +221,34 @@
             @media screen and (max-width: 1439px) {
               gap: 12px;
             }
-            button {
+            .button-control-month {
+              display: flex;
+              gap: 8px;
+              opacity: 0;
+              @media screen and (max-width: 1439px) {
+                opacity: 1;
+              }
+              .wpsp-button-primary {
+                background-color: #f3f2ff !important;
+                border: 1px solid #ebeef5 !important;
+                border-radius: 6px !important;
+                width: 40px !important;
+                height: 44px !important;
+                cursor: pointer;
+                @media screen and (max-width: 1439px) {
+                  height: 40px !important;
+                }
+                .wpsp-icon {
+                  font-size: 16px;
+                  line-height: 1.2em;
+                  color: #6c62ff;
+                  @media screen and (max-width: 1439px) {
+                    font-size: 14px;
+                  }
+                }
+              }
+            }
+            .today-btn {
               background: #f3f2ff;
               padding: 0px 22px;
               border: none;
@@ -238,17 +266,20 @@
                 height: 40px;
               }
             }
-            i {
+            .calendar-btn {
               font-size: 24px;
-              line-height: 1.2em;
+              line-height: 44px;
+              height: 44px;
               color: #fff;
               background: #26d39e;
-              padding: 10px;
+              padding: 0 10px;
               border-radius: 6px;
               cursor: pointer;
               @media screen and (max-width: 1439px) {
                 font-size: 20px;
-                padding: 8px;
+                padding: 0 8px;
+                line-height: 40px;
+                height: 40px;
               }
             }
           }
@@ -263,9 +294,6 @@
               width: 40px !important;
               height: 49px !important;
               cursor: pointer;
-              // @media screen and (max-width: 1439px) {
-              //   height: 40px !important;
-              // }
               .wpsp-icon {
                 font-size: 16px;
                 line-height: 1.2em;
@@ -279,20 +307,17 @@
               position: absolute !important;
               left: 0px;
               top: 0px;
-              // @media screen and (max-width: 1439px) {
-              //   right: 23%;
-              //   left: auto;
-              //   top: -11%;
-              // }
+              @media screen and (max-width: 1439px) {
+                opacity: 0;
+              }
             }
             .wpsp-next-button {
               position: absolute !important;
               right: 0px;
               top: 0px;
-              // @media screen and (max-width: 1439px) {
-              //   right: 17%;
-              //   top: -11%;
-              // }
+              @media screen and (max-width: 1439px) {
+                opacity: 0;
+              }
             }
           }
         }
@@ -313,9 +338,9 @@
           .fc-view-harness {
             margin: 0 40px !important;
             position: relative;
-            // @media screen and (max-width: 1439px) {
-            //   margin: 0 0px !important;
-            // }
+            @media screen and (max-width: 1439px) {
+              margin: 0 0px !important;
+            }
             thead {
               .fc-scroller {
                 .fc-col-header-cell {

@@ -12,6 +12,9 @@
       margin-bottom: 0 !important;
       flex-basis: 50%;
       background: #fff !important;
+      @media screen and (min-width: 1440px) and (max-width: 1599px) {
+        padding: 20px!important;
+      }
       &:first-child {
         border-radius: 6px 0 0 6px !important;
         border-right: 1px solid #ebeef5 !important;

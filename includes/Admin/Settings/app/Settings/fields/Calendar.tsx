@@ -197,7 +197,28 @@ export default function Calendar(props) {
               </MyWrapperComponent>
             </div>
             <div className="right">
+              <div className="button-control-month">
+                <button
+                  type="button"
+                  className="wpsp-prev-button wpsp-button-primary"
+                  onClick={() => {
+                    calendar.current?.getApi().prev();
+                  }}
+                >
+                  <i className="wpsp-icon wpsp-prev"></i>
+                </button>
+                <button
+                  type="button"
+                  className="wpsp-next-button wpsp-button-primary"
+                  onClick={() => {
+                    calendar.current?.getApi().next();
+                  }}
+                >
+                  <i className="wpsp-icon wpsp-next"></i>
+                </button>
+              </div>
               <button
+              className="today-btn"
                 onClick={() => {
                   calendar.current?.getApi().today();
                 }}
@@ -206,7 +227,7 @@ export default function Calendar(props) {
               </button>
               <i
                 onClick={handleSlidebarToggle}
-                className={`wpsp-icon wpsp-sidebar ${
+                className={`calendar-btn wpsp-icon wpsp-manual-sc ${
                   !sidebarToggle ? "inactive" : ""
                 }`}
               />
