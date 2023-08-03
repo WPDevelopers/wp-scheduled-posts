@@ -150,7 +150,7 @@ ul {
     margin-bottom: 0 !important;
     padding: 8px 12px;
     background: #f3f2ff;
-    border-radius: 8px;
+    border-radius: 4px;
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -235,6 +235,15 @@ ul {
     height: 44px;
     width: 240px;
     padding: 0 16px 0 48px;
+    @media screen and (max-width: 1439px) {
+      font-size: 14px;
+      height: 40px;
+      width: 200px;
+      padding: 0 14px 0 36px;
+    }
+    @media screen and (max-width: 1023px) {
+      font-size: 12px;
+    }
   }
   i {
     position: absolute;
@@ -242,6 +251,13 @@ ul {
     top: 12px;
     font-size: 18px;
     color: #989fab;
+    @media screen and (max-width: 1439px) {
+      font-size: 16px;
+      left: 14px;
+    }
+    @media screen and (max-width: 1023px) {
+      font-size: 14px;
+    }
   }
 }
 

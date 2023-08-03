@@ -18,15 +18,17 @@
           padding: 24px;
         }
         .unscheduled {
-          font-size: 1.5em;
-          line-height: .9em;
+          font-size: 24px;
+          line-height: 1.2em;
           font-weight: 600;
           color: #1B1B50;
           margin: 0px 0 24px;
           @media screen and (max-width: 1439px) {
+            font-size: 20px;
             margin: 0px 0 20px;
           }
           @media screen and (max-width: 1023px) {
+            font-size: 16px;
             margin: 0px 0 16px;
           }
       }
@@ -51,7 +53,7 @@
             background: #26D39E;
             padding: 16px 22px;
             border-radius: 6px;
-            font-size: .87em;
+            font-size: 14px;
             font-weight: 500;
             line-height: 1.2em;
             color: #fff;
@@ -60,6 +62,12 @@
             transition: ease-in-out .25s;
             &:hover {
               transform: scale(.95);
+            }
+            @media screen and (max-width: 1439px) {
+              font-size: 12px;
+            }
+            @media screen and (max-width: 1023px) {
+              font-size: 10px;
             }
           }
         }
@@ -87,7 +95,7 @@
             display: flex;
             gap: 18px;
             select {
-              font-size: 1em;
+              font-size: 16px;
               font-weight: 500;
               line-height: 1.2em;
               color: #6e6e8d;
@@ -95,17 +103,29 @@
               height: 44px;
               border: 1px solid #ebeef5;
               text-transform: capitalize;
+              @media screen and (max-width: 1439px) {
+                font-size: 14px;
+              }
+              @media screen and (max-width: 1023px) {
+                font-size: 12px;
+              }
             }
           }
           .middle {
-            font-size: 1.5em;
+            font-size: 24px;
             font-weight: 600;
-            line-height: .9em;
+            line-height: 1.2em;
             color: #1b1b50;
             display: flex;
             align-items: center;
             gap: 10px;
             position: relative;
+            @media screen and (max-width: 1439px) {
+              font-size: 20px;
+            }
+            @media screen and (max-width: 1023px) {
+              font-size: 16px;
+            }
             > div > div:nth-child(2) {
               margin-left: 50%;
               transform: translateX(-50%);
@@ -130,8 +150,15 @@
                 border-radius: 0 !important;
                 span.sc-iGgWBj {
                   font-size: 20px !important;
+                  line-height: 1.2em;
                   color: #6C62FF;
                   font-weight: 600;
+                  @media screen and (max-width: 1439px) {
+                    font-size: 18px !important;
+                  }
+                  @media screen and (max-width: 1023px) {
+                    font-size: 16px !important;
+                  }
                 }
                 .crmjJN { 
                   cursor: pointer;
@@ -161,7 +188,7 @@
                   padding: 16px 0px;
                   font-size: 12px !important;
                   font-weight: 500;
-                  line-height: .8em;
+                  line-height: 1em;
                   text-transform: uppercase;
                   background-color: transparent;
                   color: #1b1b50;
@@ -176,6 +203,9 @@
                   &:hover {
                     color: #6c62ff;
                   }
+                  @media screen and (max-width: 1023px) {
+                    font-size: 10px;
+                  }
                 }
                 .FeHZw {
                   color: #6c62ff !important;
@@ -186,7 +216,10 @@
           .right {
             display: flex;
             align-items: center;
-            gap: 18px;
+            gap: 16px;
+            @media screen and (max-width: 1439px) {
+              gap: 12px;
+            }
             button {
               background: #f3f2ff;
               padding: 0px 22px;
@@ -194,18 +227,29 @@
               box-sizing: border-box;
               border-radius: 6px;
               color: #6c62ff;
-              font-size: .87em;
+              font-size: 14px;
+              line-height: 1.2em;
               font-weight: 500;
               height: 44px;
               cursor: pointer;
+              @media screen and (max-width: 1439px) {
+                font-size: 12px;
+                padding: 0px 18px;
+                height: 40px;
+              }
             }
             i {
-              font-size: 1.5em;
+              font-size: 24px;
+              line-height: 1.2em;
               color: #fff;
               background: #26d39e;
               padding: 10px;
               border-radius: 6px;
               cursor: pointer;
+              @media screen and (max-width: 1439px) {
+                font-size: 20px;
+                padding: 8px;
+              }
             }
           }
         }
@@ -219,23 +263,36 @@
               width: 40px !important;
               height: 49px !important;
               cursor: pointer;
+              // @media screen and (max-width: 1439px) {
+              //   height: 40px !important;
+              // }
               .wpsp-icon {
-                font-size: 1em;
+                font-size: 16px;
+                line-height: 1.2em;
                 color: #6c62ff;
+                @media screen and (max-width: 1439px) {
+                  font-size: 14px;
+                }
               }
             }
             .wpsp-prev-button {
               position: absolute !important;
               left: 0px;
               top: 0px;
+              // @media screen and (max-width: 1439px) {
+              //   right: 23%;
+              //   left: auto;
+              //   top: -11%;
+              // }
             }
             .wpsp-next-button {
               position: absolute !important;
               right: 0px;
               top: 0px;
-              i {
-                transform: rotateY(30deg);
-              }
+              // @media screen and (max-width: 1439px) {
+              //   right: 17%;
+              //   top: -11%;
+              // }
             }
           }
         }
@@ -256,6 +313,9 @@
           .fc-view-harness {
             margin: 0 40px !important;
             position: relative;
+            // @media screen and (max-width: 1439px) {
+            //   margin: 0 0px !important;
+            // }
             thead {
               .fc-scroller {
                 .fc-col-header-cell {
@@ -269,11 +329,15 @@
                     }
                   }
                   .fc-col-header-cell-cushion {
-                    font-size: .75em;
+                    font-size: 12px;
+                    line-height: 1.2em;
                     font-weight: 500;
                     color: #1b1b50;
                     text-transform: uppercase;
                     padding: 0;
+                    @media screen and (max-width: 1023px) {
+                      font-size: 10px;
+                    }
                   }
                 }
               }
@@ -290,22 +354,31 @@
                   gap: 10px;
                   margin-bottom: 6px;
                   .fc-daygrid-day-number {
-                    font-size: .87em;
-                    line-height: 1em;
+                    font-size: 14px;
+                    line-height: 1.2em;
                     color: #6e6e8d;
                     padding: 6px 8px;
                     background: #fff;
                     border-radius: 4px;
                     z-index: initial;
+                    @media screen and (max-width: 1439px) {
+                      font-size: 12px;
+                    }
+                    @media screen and (max-width: 1023px) {
+                      font-size: 10px;
+                    }
                   }
                   button {
-                    font-size: .75em;
-                    line-height: 1em;
+                    font-size: 12px;
+                    line-height: 1.2em;
                     color: #6e6e8d;
                     padding: 0;
                     border: none;
                     background: transparent;
                     cursor: pointer;
+                    @media screen and (max-width: 1023px) {
+                      font-size: 10px;
+                    }
                   }
                 }
                 .fc-daygrid-day-events {
@@ -375,7 +448,7 @@
   z-index: 999;
   li a {
     font-family: 'Inter' !important;
-    font-size: .87em;
+    font-size: 14px;
     font-weight: 500;
     line-height: 1.2em;
     text-transform: capitalize;
@@ -384,12 +457,18 @@
     background: #fff;
     display: block;
     border-radius: 6px;
+    @media screen and (max-width: 1439px) {
+      font-size: 12px;
+    }
+    @media screen and (max-width: 1023px) {
+      font-size: 10px;
+    }
     // width: 120px;
     // box-shadow: 0px 12px 48px 0px #1B1B501A;
     // position: absolute;
+    // transform: translateX(-50%);
     left: 0px;
     top: 20px;
-    // transform: translateX(-50%);
     z-index: 999;
     text-decoration: none;
     // li {
@@ -450,7 +529,8 @@
   .fc-daygrid-more-link {
     min-height: 25px;
     padding: 2px 8px;
-    font-size: .75em;
+    font-size: 12px;
+    line-height: 1.2em;
     border-radius: 4px;
     background: #f3f2ff;
     color: #6c62ff;
@@ -458,5 +538,17 @@
     align-items: center;
     justify-content: center;
     margin-top: 7px;
+    @media screen and (max-width: 1023px) {
+      font-size: 10px;
+    }
   }
+}
+/* Hide scrollbar for Chrome, Safari and Opera */
+.fc-scroller-liquid-absolute::-webkit-scrollbar {
+  display: none !important;
+}
+/* Hide scrollbar for IE, Edge and Firefox */
+.fc-scroller-liquid-absolute {
+  -ms-overflow-style: none !important;  /* IE and Edge */
+  scrollbar-width: none !important;  /* Firefox */
 }

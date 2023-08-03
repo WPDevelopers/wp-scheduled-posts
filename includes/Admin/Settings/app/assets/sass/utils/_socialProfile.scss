@@ -145,29 +145,14 @@
             align-self: center;
             justify-self: center;
           }
+          .selected-facebook-scrollbar,
+          .selected-twitter-scrollbar,
+          .selected-pinterest-scrollbar,
           .selected-linkedin-scrollbar {
             display: flex;
             flex-direction: column;
             gap: 8px;
-            max-height: 350px;
-            overflow-y: auto;
-            margin-right: -8px;
-            padding-right: 8px;
-            &::-webkit-scrollbar {
-              width: 3px;
-            }
-            &::-webkit-scrollbar-track {
-              background: #f1f1f1;
-            }
-            &::-webkit-scrollbar-thumb {
-              background: #6c62ff;
-            }
           }
-        }
-        .selected-pinterest-scrollbar {
-          display: flex;
-          flex-direction: column;
-          gap: 8px;
         }
         .profile-item {
           background: #fff;
