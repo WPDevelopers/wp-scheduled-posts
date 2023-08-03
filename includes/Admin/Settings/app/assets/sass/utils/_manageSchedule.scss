@@ -234,13 +234,9 @@
       }
     }
     .weeks {
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
       gap: 8px;
-      @media screen and (max-width: 1599px) {
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-      }
       &.pro-deactivated {
         opacity: 0.75;
         filter: blur(0.5px);
@@ -251,21 +247,16 @@
       .week-wrapper {
         display: flex;
         flex: 1;
-        @media screen and (max-width: 1599px) {
-          flex-direction: column;
-        }
+        flex-direction: column;
       }
       .week {
         display: flex;
+        flex-direction: column;
         border: 1px solid #f3f2ff;
         border-radius: 4px;
         padding: 12px;
-        flex-grow: 1;
-        @media screen and (max-width: 1599px) {
-          flex-direction: column;
-          flex-shrink: 0;
-          flex-grow: 0;
-        }
+        flex-shrink: 0;
+        flex-grow: 0;
         h6 {
           font-size: 12px;
           line-height: 1.2em;
@@ -275,19 +266,13 @@
           text-align: center;
           margin: 0;
           display: inline-block;
-          padding: 6px 10px 6px 0;
-          @media screen and (max-width: 1599px) {
-            padding: 6px 10px;
-          }
+          padding: 0 0 6px;
         }
         .week-inner {
           display: flex;
           row-gap: 6px;
           column-gap: 8px;
-          flex-wrap: wrap;
-          @media screen and (max-width: 1599px) {
-            flex-direction: column;
-          }
+          flex-direction: column;
           span {
             display: flex;
             align-items: center;
