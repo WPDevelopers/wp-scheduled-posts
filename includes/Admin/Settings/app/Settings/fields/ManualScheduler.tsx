@@ -143,28 +143,30 @@ const ManualScheduler = (props) => {
       </div>
       <div className={`weeks ${!is_pro ? 'pro-deactivated' : ''}`}>
         {options.map((item, optionIndex) => (
-          <div
-            key={optionIndex}
-            className="week">
-            <h6>{item.label}</h6>
-            <span className="week-wrapper">
-              {formatedSchedule?.[item.value]?.map((data, index) => (
-                <span key={index}>
-                  {data}
-                  <i
-                    onClick={() => {
-                      const updatedSchedule = savedManualSchedule.filter(
-                        (_item) => {
-                          const propertyValue = _item[item.value];
-                          return propertyValue !== data;
-                        }
-                      );
-                      setSavedManualSchedule(updatedSchedule);
-                    }}
-                    className="wpsp-icon wpsp-close"></i>
-                </span>
-              ))}
-            </span>
+          <div className="week-wrapper">
+            <div
+              key={optionIndex}
+              className="week">
+              <h6>{item.label}</h6>
+              <span className="week-inner">
+                {formatedSchedule?.[item.value]?.map((data, index) => (
+                  <span key={index}>
+                    {data}
+                    <i
+                      onClick={() => {
+                        const updatedSchedule = savedManualSchedule.filter(
+                          (_item) => {
+                            const propertyValue = _item[item.value];
+                            return propertyValue !== data;
+                          }
+                        );
+                        setSavedManualSchedule(updatedSchedule);
+                      }}
+                      className="wpsp-icon wpsp-close"></i>
+                  </span>
+                ))}
+              </span>
+            </div>
           </div>
         ))}
       </div>

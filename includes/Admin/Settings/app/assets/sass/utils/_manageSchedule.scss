@@ -5,15 +5,10 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 32px;
-    @media screen and (min-width: 1440px) and (max-width: 1599px) {
+    @media screen and (max-width: 1599px) {
       grid-template-columns: repeat(1, 1fr);
       gap: 24px;
     }
-    @media screen and (max-width: 1439px) {
-      grid-template-columns: repeat(1, 1fr);
-      gap: 24px;
-    }
-    
     @media screen and (max-width: 1023px) {
       gap: 20px;
     }
@@ -96,9 +91,6 @@
       justify-content: space-between;
       gap: 10px;
       margin-bottom: 10px;
-      @media screen and (min-width: 1440px) and (max-width: 1599px) {
-        flex-wrap: wrap;
-      }
       &.pro-deactivated {
         opacity: 0.75;
         filter: blur(0.5px);
@@ -243,8 +235,12 @@
     }
     .weeks {
       display: flex;
-      // flex-direction: column;
+      flex-direction: column;
       gap: 8px;
+      @media screen and (max-width: 1599px) {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+      }
       &.pro-deactivated {
         opacity: 0.75;
         filter: blur(0.5px);
@@ -252,12 +248,24 @@
         -ms-user-select: none; /* IE 10 and IE 11 */
         user-select: none; /* Standard syntax */
       }
+      .week-wrapper {
+        display: flex;
+        flex: 1;
+        @media screen and (max-width: 1599px) {
+          flex-direction: column;
+        }
+      }
       .week {
-        // display: flex;
+        display: flex;
         border: 1px solid #f3f2ff;
         border-radius: 4px;
         padding: 12px;
-        // flex-grow: 1;
+        flex-grow: 1;
+        @media screen and (max-width: 1599px) {
+          flex-direction: column;
+          flex-shrink: 0;
+          flex-grow: 0;
+        }
         h6 {
           font-size: 12px;
           line-height: 1.2em;
@@ -268,12 +276,18 @@
           margin: 0;
           display: inline-block;
           padding: 6px 10px 6px 0;
+          @media screen and (max-width: 1599px) {
+            padding: 6px 10px;
+          }
         }
-        .week-wrapper {
+        .week-inner {
           display: flex;
           row-gap: 6px;
           column-gap: 8px;
           flex-wrap: wrap;
+          @media screen and (max-width: 1599px) {
+            flex-direction: column;
+          }
           span {
             display: flex;
             align-items: center;
