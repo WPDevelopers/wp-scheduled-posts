@@ -1,6 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import React, { useState } from 'react';
 import Select, { components } from 'react-select';
+import { SweetAlertToaster } from '../../ToasterMsg';
 import { selectStyles } from '../../helper/styles';
 
 // Prepare options with checkbox
@@ -127,8 +128,17 @@ export default function MainProfile({
           className={`wpscp-social-tab__btn--addnew-profile ${
             accountType ? 'selected' : ''
           }`}
-          onClick={() => openApiCredentialsModal(accountType)}>
-          {__('Add New', 'wp-scheduled-posts')}
+          onClick={ () => {
+            if( accountType ) {
+              openApiCredentialsModal(accountType)
+            }else{
+              SweetAlertToaster({
+                  type : 'error',
+                  title : __( "Please select any option first!!", 'wp-scheduled-posts' ),
+              }).fire();
+            }
+          } }>
+          { __('Add New', 'wp-scheduled-posts') }
         </button>
       </div>
     </>

@@ -9,6 +9,7 @@
       grid-template-columns: repeat(1, 1fr);
       gap: 24px;
     }
+    
     @media screen and (max-width: 1023px) {
       gap: 20px;
     }
@@ -238,7 +239,7 @@
     }
     .weeks {
       display: flex;
-      flex-direction: column;
+      // flex-direction: column;
       gap: 8px;
       &.pro-deactivated {
         opacity: 0.75;
@@ -248,11 +249,11 @@
         user-select: none; /* Standard syntax */
       }
       .week {
-        display: flex;
+        // display: flex;
         border: 1px solid #f3f2ff;
         border-radius: 4px;
         padding: 12px;
-        flex-grow: 1;
+        // flex-grow: 1;
         h6 {
           font-size: 12px;
           line-height: 1.2em;

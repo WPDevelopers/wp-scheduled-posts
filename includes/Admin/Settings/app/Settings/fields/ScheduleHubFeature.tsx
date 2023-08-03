@@ -26,7 +26,7 @@ let is_pro = wpspSettingsGlobal?.pro_version ? true : false;
               </div>
               <div className="single-card">
                   <i className="wpsp-icon wpsp-manage-pro"></i>
-                  <h4>Auto/Manual Schedule</h4>
+                  <h4>Manual Schedule</h4>
               </div>
               
               <div className="single-card">
