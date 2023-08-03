@@ -18,6 +18,7 @@
         "@fullcalendar/daygrid": "^6.1.8",
         "@fullcalendar/interaction": "^6.1.8",
         "@fullcalendar/luxon3": "^6.1.8",
+        "@fullcalendar/moment-timezone": "^6.1.8",
         "@fullcalendar/react": "^6.1.8",
         "@wordpress/api-fetch": "^6.19.0",
         "@wordpress/components": "^22.1.0",
