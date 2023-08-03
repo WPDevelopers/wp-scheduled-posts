@@ -122,7 +122,6 @@ export default function MainProfile({
             classNamePrefix="social-media-type-select"
           />
         )}
-        {console.log('selected', accountType)}
         <button
           type="button"
           className={`wpscp-social-tab__btn--addnew-profile ${

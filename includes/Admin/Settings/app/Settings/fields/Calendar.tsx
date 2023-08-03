@@ -1,5 +1,6 @@
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin, { EventDragStopArg } from "@fullcalendar/interaction"; // needed for dayClick
+import luxonPlugin from '@fullcalendar/luxon3';
 import FullCalendar from "@fullcalendar/react";
 import apiFetch from "@wordpress/api-fetch";
 import { useBuilderContext } from "quickbuilder";
@@ -8,14 +9,14 @@ import { eventDrop, getPostFromEvent } from "./Calendar/EventRender";
 import Sidebar from "./Calendar/Sidebar";
 // const events = [{ title: "Meeting", start: new Date() }];
 import MonthPicker from "@compeon-os/monthpicker";
-import { EventContentArg, EventDropArg, formatDate } from "@fullcalendar/core";
+import { EventContentArg, EventDropArg } from "@fullcalendar/core";
 import { __ } from "@wordpress/i18n";
 import classNames from "classnames";
 import { getMonth, getYear } from "date-fns";
 import CategorySelect from "./Calendar/Category";
 import { ModalContent } from "./Calendar/EditPost";
 import PostCard from "./Calendar/EventRender";
-import { getValues } from "./Calendar/Helpers";
+import { getEndDate, getValues } from "./Calendar/Helpers";
 import ReactSelectWrapper, { addAllOption, getOptionsFlatten } from "./Calendar/ReactSelectWrapper";
 import { ModalProps, Option, PostType } from "./Calendar/types";
 
@@ -54,6 +55,18 @@ export default function Calendar(props) {
 
   const MyWrapperComponent = ({ children, ...rest }) => {
     return React.cloneElement(children, { ...rest });
+  };
+
+  const updateEvents = (post) => {
+    setEvents((events) => {
+      const index = events.findIndex((event) => event.postId === post.postId);
+      if (index === -1) {
+        return [...events, post];
+      }
+      const updatedEvents = [...events];
+      updatedEvents[index] = post;
+      return updatedEvents;
+    });
   };
 
   const getEvents = async () => {
@@ -113,6 +126,9 @@ export default function Calendar(props) {
     const rect = external_events.getBoundingClientRect();
     return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
   };
+
+  // console.log(props.timeZone, calendar.current, calendar.current?.getApi());
+
 
   return (
     <div
@@ -220,8 +236,10 @@ export default function Calendar(props) {
             <FullCalendar
               ref={calendar}
               events={events}
+              // timeZone='local'
+              timeZone={props.timeZone}
               initialView="dayGridMonth"
-              plugins={[dayGridPlugin, interactionPlugin]}
+              plugins={[luxonPlugin, dayGridPlugin, interactionPlugin]}
               // weekends={true}
               // firstDay={props.firstDay}
               // dateClick={handleDateClick}
@@ -234,7 +252,6 @@ export default function Calendar(props) {
               dragRevertDuration={0}
               // headerToolbar={false}
               dayMaxEvents={1}
-              timeZone='UTC'
               dayPopoverFormat={{ day: "numeric" }}
               moreLinkContent={(arg) => {
                 return <>View {arg.num} More</>;
@@ -279,14 +296,10 @@ export default function Calendar(props) {
                 console.log("drop", info, props);
 
                 if(event.allDay) {
-                  const date = Date.parse(event.start.toISOString().slice(0, 10) + " " + props.postTime);
                   event.setAllDay(false);
-                  event.setEnd(date);
+                  event.setEnd(getEndDate(event.start, props._end));
                 }
-                eventDrop(event, 'eventDrop');
-                // .then((post) => {
-                //   // setEvents((posts) => [...posts, post]);
-                // });
+                eventDrop(event, 'eventDrop').then(updateEvents);
               }}
               eventDragStop={(info: EventDragStopArg) => {
                 if(isEventOverDiv(info.jsEvent.clientX, info.jsEvent.clientY)) {
@@ -296,12 +309,15 @@ export default function Calendar(props) {
                   console.log('adding draft event', post);
                   setDraftEvents((posts) => [...posts, post]);
                   eventDrop(info.event, 'draftDrop').then((post) => {
-                    setDraftEvents((events) => events.map((event) => {
-                      if(event.postId === post.postId) {
-                        return post;
+                    setDraftEvents((events) => {
+                      const index = events.findIndex((event) => event.postId === post.postId);
+                      if (index === -1) {
+                        return [...events, post];
                       }
-                      return event;
-                    }));
+                      const updatedEvents = [...events];
+                      updatedEvents[index] = post;
+                      return updatedEvents;
+                    });
                   });
                 }
               }}
@@ -314,18 +330,9 @@ export default function Calendar(props) {
                 setEvents((events) => events.filter((event) => event.postId !== props.postId));
 
               }}
+              // moving events inside calendar area
               eventDrop={(eventDropInfo: EventDropArg) => {
-                // const status = (eventDropInfo.event.end > new Date())
-                // eventDropInfo.event.setExtendedProp('status', status);
-                // 'Y-m-d H:i:s'
-                eventDrop(eventDropInfo.event, 'eventDrop').then((post) => {
-                  setEvents((events) => events.map((event) => {
-                    if(event.postId === post.postId) {
-                      return post;
-                    }
-                    return event;
-                  }));
-                });
+                eventDrop(eventDropInfo.event, 'eventDrop').then(updateEvents);
 
               }}
               // eventClick={function (info) {
@@ -357,6 +364,7 @@ export default function Calendar(props) {
         {sidebarToggle && (
             <Sidebar
               ref={RefSidebar}
+              calendar={calendar}
               selectedPostType={selectedPostType}
               draftEvents={draftEvents}
               setDraftEvents={setDraftEvents}

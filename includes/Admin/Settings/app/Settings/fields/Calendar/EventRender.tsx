@@ -5,6 +5,7 @@ import { Button } from '@wordpress/components';
 import { addQueryArgs } from '@wordpress/url';
 import React from 'react';
 import { PostCardProps, PostType } from './types';
+import { DateTime } from 'luxon';
 
 
 export const getPostFromEvent = (event: EventApi, dateString = false) => {
@@ -39,6 +40,11 @@ export const deletePost = (id) => {
 
 export const eventDrop = (event: EventApi, eventType) => {
   const post: PostType = getPostFromEvent(event, true);
+
+  // let date = post.end.toISOString().replace('T', ' ').replace(/\.\d{3}Z/, '');
+  // let date = DateTime.fromISO(post.end).toFormat('yyyy-MM-dd HH:mm:ss');
+  console.log(post.end);
+
   return apiFetch<PostType>({
     method: "POST",
     path: "/wpscp/v1/post",
@@ -124,6 +130,9 @@ const PostCard: React.FC<PostCardProps> = ({
       )}
       <i className="wpsp-icon wpsp-dots" onClick={toggleEditArea}></i>
       <span className={`set-time ` + ('Published' === post.status ? 'published' : 'scheduled')}>
+        {/* "1:00 am" */}
+        {/* @ts-ignore */}
+        {/* {format(post.end, 'h:mm a')} */}
         {post.postTime}
       </span>
       <h3>{post.title}</h3>

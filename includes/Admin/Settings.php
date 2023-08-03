@@ -303,6 +303,7 @@ class Settings {
                                     'priority'      => 5,
                                     'start_of_week' => (int) get_option('start_of_week', 0),
                                     'rest_route'    => '/wpscp/v1/calendar',
+                                    'timeZone'      => wp_timezone_string(),
                                     'post_types'    => array_values($this->normalize_options(\WPSP\Helper::get_allow_post_types())),
                                 ]
                             ],

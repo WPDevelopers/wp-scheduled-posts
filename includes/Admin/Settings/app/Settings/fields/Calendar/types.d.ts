@@ -1,3 +1,4 @@
+import FullCalendar from "@fullcalendar/react";
 
 export type Option = {
     value: string;
@@ -40,6 +41,7 @@ export type PostType = {
 export type SidebarProps = {
     selectedPostType: Option[];
     draftEvents: Array<PostType>;
+    calendar: React.MutableRefObject<FullCalendar>;
     setDraftEvents: (posts: Array<PostType>) => void;
   }
 
