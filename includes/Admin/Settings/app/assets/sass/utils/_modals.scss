@@ -320,16 +320,21 @@
             margin-bottom: 1em;
           }
           .components-datetime__time-wrapper {
+            gap: calc(4px);
             .components-button-group {
-              display: flex;
-              gap: 4px;
-              button {
+              border: 2px solid #6C62FF;
+              background: #6C62FF;
+              border-radius: 2px;
+              .components-button {
                 background: transparent;
                 border: 1px solid;
-                border-color: rgba(30, 30, 30, .6);
-                padding: 8px;
+                border-color: transparent;
+                padding: 6px;
                 border-radius: 2px;
-            }
+              }
+              .is-secondary {
+                background: #fff;
+              }
             }
           }
         }
