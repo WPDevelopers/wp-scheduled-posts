@@ -1,6 +1,6 @@
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin, { EventDragStopArg } from "@fullcalendar/interaction"; // needed for dayClick
-import luxonPlugin from '@fullcalendar/luxon3';
+import momentTimezonePlugin from '@fullcalendar/moment-timezone';
 import FullCalendar from "@fullcalendar/react";
 import apiFetch from "@wordpress/api-fetch";
 import { useBuilderContext } from "quickbuilder";
@@ -12,13 +12,13 @@ import MonthPicker from "@compeon-os/monthpicker";
 import { EventContentArg, EventDropArg } from "@fullcalendar/core";
 import { __ } from "@wordpress/i18n";
 import classNames from "classnames";
-import { getMonth, getYear } from "date-fns";
 import CategorySelect from "./Calendar/Category";
 import { ModalContent } from "./Calendar/EditPost";
 import PostCard from "./Calendar/EventRender";
-import { getEndDate, getValues } from "./Calendar/Helpers";
+import { getEndDate, getTimeZone, getValues } from "./Calendar/Helpers";
 import ReactSelectWrapper, { addAllOption, getOptionsFlatten } from "./Calendar/ReactSelectWrapper";
 import { ModalProps, Option, PostType } from "./Calendar/types";
+import { getSettings } from "@wordpress/date";
 
 export default function Calendar(props) {
   // @ts-ignore
@@ -33,8 +33,8 @@ export default function Calendar(props) {
   //
   const currentDate = new Date();
   const [yearMonth, setYearMonth] = useState({
-    month: getMonth(currentDate) + 1,
-    year: getYear(currentDate),
+    month: currentDate.getMonth() + 1,
+    year: currentDate.getFullYear(),
   });
 
   const [modalData, openModal] = useState<ModalProps>({ post: null, eventType: null });
@@ -127,11 +127,11 @@ export default function Calendar(props) {
     return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
   };
 
-  let timeZone = props.timeZone;
-  // check if timeZone is  ±HH:MM offset
-  if(props.timeZone && props.timeZone.match(/[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)/)) {
-    timeZone = `UTC${props.timeZone}`;
-  }
+
+  let timeZone = getTimeZone();
+
+  console.log(timeZone);
+
 
   return (
     <div
@@ -263,7 +263,7 @@ export default function Calendar(props) {
               // timeZone='local'
               timeZone={timeZone}
               initialView="dayGridMonth"
-              plugins={[luxonPlugin, dayGridPlugin, interactionPlugin]}
+              plugins={[momentTimezonePlugin, dayGridPlugin, interactionPlugin]}
               // weekends={true}
               // firstDay={props.firstDay}
               // dateClick={handleDateClick}

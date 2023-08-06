@@ -1,5 +1,19 @@
+import { date, format, getSettings } from "@wordpress/date";
 import { Option } from "./types";
-import { parse, format } from 'date-fns'
+
+console.log(getSettings());
+
+export const getTimeZone = () => {
+  const dateSettings = getSettings();
+  let timeZone = dateSettings.timezone.string;
+
+  if(!timeZone) {
+    const offset = - dateSettings.timezone.offset;
+    const sign   = offset < 0 ? '-' : '+';
+    timeZone     = `Etc/GMT${sign}${Math.abs(offset)}`;
+  }
+  return timeZone;
+}
 
 export const getValues = (options: Option[]) => {
   const values    = options ?? [];
@@ -42,10 +56,8 @@ export const getUTCDate = (date: string) => {
 
 // use Year month day form startDate and hour minute second from endDate
 export const getEndDate = (startDate: Date, endDate: string) => {
-  // "2023-08-09 06:03:00"
-  const date = parse(endDate, 'yyyy-MM-dd HH:mm:ss', startDate);
-
-  const end = format(startDate, 'yyyy-MM-dd') + ' ' + format(date, 'HH:mm:ss');
+  // "2023-08-09 06:03:00" || Y-m-d H:i:s
+  const end = format('Y-m-d', startDate) + ' ' + format('H:i:s', endDate);
 
   return end;
 }

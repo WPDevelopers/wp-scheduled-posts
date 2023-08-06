@@ -5,7 +5,6 @@ import { Button } from '@wordpress/components';
 import { addQueryArgs } from '@wordpress/url';
 import React from 'react';
 import { PostCardProps, PostType } from './types';
-import { DateTime } from 'luxon';
 
 
 export const getPostFromEvent = (event: EventApi, dateString = false) => {

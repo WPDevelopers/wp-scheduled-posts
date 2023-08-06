@@ -108,6 +108,7 @@ const ManualScheduler = (props) => {
 
   return (
     <div
+      key={name}
       className={classNames(
         'wprf-control',
         'wprf-manual-scheduler',
@@ -115,6 +116,7 @@ const ManualScheduler = (props) => {
         props?.classes
       )}>
       <ProToggle
+        key={'pro-toggle'}
         title={__('Manual Scheduler', 'wp-scheduled-posts')}
         sub_title={__(
           'To configure the Manual Scheduler Settings, check out this <a href="https://wpdeveloper.com/docs/wp-scheduled-posts/how-does-manual-scheduler-work/" target="_blank">Doc</a>'
@@ -124,7 +126,7 @@ const ManualScheduler = (props) => {
         value={manualSchedulerStatus}
         handle_status_change={handleManualScheduleStatusToggle}
       />
-      <div className={`content ${!is_pro ? 'pro-deactivated' : ''}`}>
+      <div key='content' className={`content ${!is_pro ? 'pro-deactivated' : ''}`}>
         <Select
           styles={selectStyles}
           className="select-days main-select"
@@ -149,11 +151,10 @@ const ManualScheduler = (props) => {
           {__('Add', 'wp-scheduled-posts')}
         </button>
       </div>
-      <div className={`weeks ${!is_pro ? 'pro-deactivated' : ''}`}>
+      <div key='weeks' className={`weeks ${!is_pro ? 'pro-deactivated' : ''}`}>
         {options.map((item, optionIndex) => (
-          <div className="week-wrapper">
+          <div className="week-wrapper" key={optionIndex}>
             <div
-              key={optionIndex}
               className="week">
               <h6>{item.label}</h6>
               <span className="week-inner">
