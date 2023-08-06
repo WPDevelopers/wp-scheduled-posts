@@ -155,7 +155,7 @@ const Pinterest = (props) => {
                 </div>
               ))}
           </div>
-          {selectedProfileData && selectedProfileData.length == 1 && (
+          { ( !selectedProfileViewMore && selectedProfile && selectedProfile.length >= 2) && (
             <ViewMore setSelectedProfileViewMore={setSelectedProfileViewMore} />
           )}
         </div>
@@ -188,6 +188,7 @@ const Pinterest = (props) => {
         profileItem={profileItem}
         isProfileEditModal={isProfileEditModal}
         setProfileEditModal={setProfileEditModal}
+        profileStatus={profileStatus}
       />
     </div>
   );

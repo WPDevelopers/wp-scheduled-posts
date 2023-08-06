@@ -1,18 +1,18 @@
-import Modal from "react-modal";
-import React, { useEffect, useState } from 'react';
 import { __ } from "@wordpress/i18n";
-import { generateTabURL, getProfileData,getPinterestBoardSection } from "../../helper/helper";
+import React, { useEffect, useState } from 'react';
+import Modal from "react-modal";
+import { generateTabURL, getPinterestBoardSection, getProfileData } from "../../helper/helper";
+import ProAlert from "../utils/ProAlert";
 import Facebook from "./Facebook";
-import Twitter from "./Twitter";
 import Linkedin from "./Linkedin";
 import Pinterest from "./Pinterest";
-import ProAlert from "../utils/ProAlert";
+import Twitter from "./Twitter";
 
 import {
     useBuilderContext,
 } from "quickbuilder";
 
-function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfileEditModal = false, setProfileEditModal = null}) {
+function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfileEditModal = false, setProfileEditModal = null , profileStatus }) {
     const builderContext = useBuilderContext();
 
     const [requestSending, setRequestSending] = useState(false);
@@ -89,6 +89,7 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
                 if (!savedProfile || (savedProfile && savedProfile.length == 0)) {
                     setIsErrorMessage(false)
                     if (!savedProfile.some((profile) => profile.id === item.id)) {
+                        item.status = profileStatus;
                         setSavedProfile((prevItems) => [...prevItems, item]);
                     }
                 } else {
@@ -97,6 +98,7 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
                 }
             } else {
                 if ( savedProfile && !savedProfile.some((profile) => profile.id === item.id)) {
+                    item.status = profileStatus;
                     setSavedProfile((prevItems) => [...prevItems, item]);
                     setIsErrorMessage(false)
                 }
@@ -149,6 +151,7 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
                 // @ts-ignore
                 if (!savedProfile || savedProfile === 'undefined' || (savedProfile && savedProfile.length == 0)) {
                     setIsErrorMessage(false)
+                    pinterestItem.status = profileStatus;
                     setSavedProfile((prevItems) => [...prevItems, pinterestItem]);
                 } else {
                     event.target.checked = false;
@@ -156,9 +159,11 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
                 }
             } else {
                 if ( savedProfile && !savedProfile.some((profile) => profile.default_board_name.value === pinterestItem.default_board_name.value)) {
+                    pinterestItem.status = profileStatus;
                     setSavedProfile((prevItems) => [...prevItems, pinterestItem]);
                     setIsErrorMessage(false)
                 }else{
+                    pinterestItem.status = profileStatus;
                     setSavedProfile((prevItems) => [...prevItems, pinterestItem]);
                 }
             }

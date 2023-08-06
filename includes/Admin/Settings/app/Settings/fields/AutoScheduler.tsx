@@ -1,12 +1,13 @@
 import { __ } from '@wordpress/i18n';
 import classNames from 'classnames';
-import { Toggle, useBuilderContext } from 'quickbuilder';
+import { useBuilderContext } from 'quickbuilder';
 import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { generateTimeOptions } from '../helper/helper';
 import ProToggle from './utils/ProToggle';
 
 import { selectStyles } from '../helper/styles';
+import { SweetAlertToaster } from '../ToasterMsg';
 
 const AutoScheduler = (props) => {
     let { name, multiple, onChange } = props;
@@ -84,7 +85,22 @@ const AutoScheduler = (props) => {
 	}, [autoScheduler,startSelectedTime,endSelectedTime, autoSchedulerStatus]);
 
     const handleAutoScheduleStatusToggle = (event) => {
-        setautoSchedulerStatus(event.target.checked)
+        let manualSchedulerStatusDBData;
+        for (const item of Object.entries(
+          builderContext?.values?.manage_schedule?.['manual_schedule']?.[1] ?? []
+        ))
+        if (item[0] === 'is_active_status') {
+            manualSchedulerStatusDBData = item[1];
+            break;
+        }
+        if( manualSchedulerStatusDBData && event.target.checked ) {
+            SweetAlertToaster({
+                type : 'error',
+                title : __( "Please disable Manual schedule to enable Auto schedule!!", 'wp-scheduled-posts' ),
+            }).fire();
+        }else{
+            setautoSchedulerStatus(event.target.checked)
+        }        
     }
 
     // @ts-ignore
