@@ -4,7 +4,8 @@ import { addQueryArgs } from "@wordpress/url";
 import { TimePicker } from "@wordpress/components";
 import { Input, Textarea } from "quickbuilder";
 import Modal from "react-modal";
-import { getPostType } from "./Helpers";
+import { getPostType, getUTCDate } from "./Helpers";
+import { date, gmdate, getSettings, getDate } from "@wordpress/date";
 
 interface Post {
   ID               ?: number;
@@ -33,8 +34,12 @@ export const ModalContent = ({
     post_date: '',
   });
 
+  console.log(getSettings());
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    let offset = parseFloat(getSettings().timezone.offset) + new Date().getTimezoneOffset() / 60;
+    let postDate = date("Y-m-d\\TH:i:s\\Z", postData.post_date, -offset);
 
     return wpFetch({
       method: "POST",
@@ -46,7 +51,7 @@ export const ModalContent = ({
         // post_status: postData.post_status,
         postTitle  : postData.post_title,
         postContent: postData.post_content,
-        date       : postData.post_date,
+        date       : postDate,
       },
     }).then((data) => {
       onSubmit(data, modalData?.post);
