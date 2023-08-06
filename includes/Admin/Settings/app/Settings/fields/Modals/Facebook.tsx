@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
-import { __ } from '@wordpress/i18n'
-import ProAlert from '../utils/ProAlert';
+import { __ } from '@wordpress/i18n';
+import React, { useState } from 'react';
 export default function Facebook({ page, group, addProfileToggle,savedProfile }) {
     const [isErrorMessage, setIsErrorMessage] = useState(false);
     return (

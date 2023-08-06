@@ -57,7 +57,7 @@ const Facebook = (props) => {
     setCashedStatus((prevStatus) => {
       return { ...prevStatus, [item.id]: event.target.checked };
     });
-    if (profileStatus == true) {
+    // if (profileStatus == true) {
       const changeSelectedProfileStatus = selectedProfile.map(
         (selectedItem) => {
           if (selectedItem.id === item.id) {
@@ -70,7 +70,7 @@ const Facebook = (props) => {
         }
       );
       setSelectedProfile(changeSelectedProfileStatus);
-    }
+    // }
   };
 
   const handleDeleteSelectedProfile = (item) => {
@@ -102,7 +102,7 @@ const Facebook = (props) => {
   if (selectedProfile && selectedProfileViewMore) {
     selectedProfileData = selectedProfile;
   } else if (selectedProfile && !selectedProfileViewMore) {
-    selectedProfileData = selectedProfile.slice(0, 1);
+    selectedProfileData = selectedProfile.slice(0, 2);
   }
   return (
     <div
@@ -148,7 +148,7 @@ const Facebook = (props) => {
                 </div>
               ))}
           </div>
-          {selectedProfileData && selectedProfileData.length == 1 && (
+          { ( !selectedProfileViewMore && selectedProfile && selectedProfile.length >= 2) && (
             <ViewMore setSelectedProfileViewMore={setSelectedProfileViewMore} />
           )}
         </div>
@@ -178,6 +178,7 @@ const Facebook = (props) => {
         setSelectedProfile={setSelectedProfile}
         props={props}
         type="facebook"
+        profileStatus={profileStatus}
       />
     </div>
   );

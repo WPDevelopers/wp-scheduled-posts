@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { useBuilderContext } from 'quickbuilder';
 import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
+import { SweetAlertToaster } from '../ToasterMsg';
 import { generateTimeOptions } from '../helper/helper';
 import { selectStyles } from '../helper/styles';
 import ProToggle from './utils/ProToggle';
@@ -91,8 +92,15 @@ const ManualScheduler = (props) => {
   }, [savedManualSchedule, manualSchedulerStatus]);
 
   const handleManualScheduleStatusToggle = (event) => {
-    // @ts-ignore
-    setManualSchedulerStatus(event.target.checked);
+    let getAutoSchedulerStatus =  builderContext.values['manage_schedule']?.['auto_schedule']?.find( (item) => item['is_active_status'] );
+      if( getAutoSchedulerStatus && event.target.checked ) {
+          SweetAlertToaster({
+              type : 'error',
+              title : __( "Please disable Auto schedule to enable Manual schedule!!", 'wp-scheduled-posts' ),
+          }).fire();
+      }else{
+        setManualSchedulerStatus(event.target.checked)
+      }
   };
 
   // @ts-ignore

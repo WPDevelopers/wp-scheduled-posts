@@ -144,7 +144,7 @@ const Twitter = (props) => {
               </div>
             ))}
           </div>
-          {selectedProfileData && selectedProfileData.length == 1 && (
+          { ( !selectedProfileViewMore && selectedProfile && selectedProfile.length >= 2) && (
             <ViewMore setSelectedProfileViewMore={setSelectedProfileViewMore} />
           )}
         </div>
@@ -174,6 +174,7 @@ const Twitter = (props) => {
         setSelectedProfile={setSelectedProfile}
         props={props}
         type="twitter"
+        profileStatus={profileStatus}
       />
     </div>
   );

@@ -71,7 +71,7 @@ const Linkedin = (props) => {
     setCashedStatus((prevStatus) => {
       return { ...prevStatus, [item.id]: event.target.checked };
     });
-    if (profileStatus) {
+    // if (profileStatus) {
       const updatedData = selectedProfile.map((selectedItem) => {
         if (selectedItem.id === item.id) {
           return {
@@ -82,7 +82,7 @@ const Linkedin = (props) => {
         return selectedItem;
       });
       setSelectedProfile(updatedData);
-    }
+    // }
   };
 
   const handleDeleteSelectedProfile = (item) => {
@@ -160,7 +160,7 @@ const Linkedin = (props) => {
               </div>
             ))}
           </div>
-          {selectedProfileData && selectedProfileData.length == 1 && (
+          { ( !selectedProfileViewMore && selectedProfile && selectedProfile.length >= 2) && (
             <ViewMore setSelectedProfileViewMore={setSelectedProfileViewMore} />
           )}
         </div>
@@ -189,6 +189,7 @@ const Linkedin = (props) => {
         setSelectedProfile={setSelectedProfile}
         props={props}
         type="linkedin"
+        profileStatus={profileStatus}
       />
     </div>
   );

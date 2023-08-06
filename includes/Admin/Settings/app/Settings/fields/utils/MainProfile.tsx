@@ -129,12 +129,12 @@ export default function MainProfile({
             accountType ? 'selected' : ''
           }`}
           onClick={ () => {
-            if( accountType ) {
+            if( accountType || ['twitter','pinterest'].includes(props?.type) ) {
               openApiCredentialsModal(accountType)
             }else{
               SweetAlertToaster({
                   type : 'error',
-                  title : __( "Please select any option first!!", 'wp-scheduled-posts' ),
+                  title : __( "Please select any option!!", 'wp-scheduled-posts' ),
               }).fire();
             }
           } }>
