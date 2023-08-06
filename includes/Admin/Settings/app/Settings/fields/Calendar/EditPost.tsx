@@ -34,7 +34,7 @@ export const ModalContent = ({
     post_date: '',
   });
 
-  console.log(getSettings());
+  // console.log(getSettings());
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

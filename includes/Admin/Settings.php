@@ -489,7 +489,7 @@ class Settings {
                                     'type'     => 'twitter',
                                     'label'    => __('Twitter', 'wp-scheduled-posts'),
                                     'default'  => [],
-                                    'logo'     => WPSP_ASSETS_URI . 'images/twitter.svg',                                    
+                                    'logo'     => WPSP_ASSETS_URI . 'images/twitter.svg',
                                     'desc'     => sprintf( __('You can enable/disable Twitter social share. To configure Twitter Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-tweet-wordpress-posts/' ),
                                     'modal'    => [
                                         'logo'               => WPSP_ASSETS_URI . 'images/twitter.svg',
@@ -504,10 +504,10 @@ class Settings {
                                     'type'     => 'linkedin',
                                     'label'    => __('LinkedIn', 'wp-scheduled-posts'),
                                     'default'  => [],
-                                    'logo'     => WPSP_ASSETS_URI . 'images/linkedin.svg',                                    
+                                    'logo'     => WPSP_ASSETS_URI . 'images/linkedin.svg',
                                     'desc'     => sprintf( __('You can enable/disable LinkedIn social share. To configure LinkedIn Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-linkedin/' ),
                                     'modal'    => [
-                                        'logo'               => WPSP_ASSETS_URI . 'images/linkedin.svg',                                    
+                                        'logo'               => WPSP_ASSETS_URI . 'images/linkedin.svg',
                                         'redirect_url_desc'  => __('Copy this and paste it in your linkedin app Callback url field.','wp-scheduled-posts'),
                                         'desc'               => sprintf( __('For details on LinkedIn configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your LinkedIn account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-linkedin/','https://developer.linkedin.com/' ),
                                     ],
@@ -518,10 +518,10 @@ class Settings {
                                     'name'     => 'pinterest_profile_list',
                                     'type'     => 'pinterest',
                                     'label'    => __('Pinterest', 'wp-scheduled-posts'),
-                                    'logo'     => WPSP_ASSETS_URI . 'images/pinterest.svg',                                    
+                                    'logo'     => WPSP_ASSETS_URI . 'images/pinterest.svg',
                                     'desc'     => sprintf( __('You can enable/disable Pinterest social share. To configure Pinterest Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/wordpress-posts-on-pinterest/' ),
                                     'modal'    => [
-                                        'logo'               => WPSP_ASSETS_URI . 'images/pinterest.svg',                                    
+                                        'logo'               => WPSP_ASSETS_URI . 'images/pinterest.svg',
                                         'redirect_url_desc'  => __('Add this URL in the Redirect URLs field of your Pinterest app.','wp-scheduled-posts'),
                                         'desc'               => sprintf( __('For details on LinkedIn configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your Pinterest account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/wordpress-posts-on-pinterest/','https://developers.pinterest.com/' ),
                                     ],
@@ -580,7 +580,7 @@ class Settings {
                                                         'facebook'  => [
                                                             'name'       => "facebook",
                                                             'parent'     => "social_templates",
-                                                            'parenttype' => "group",
+                                                            // 'parenttype' => "group",
                                                             'type'       => "group",
                                                             'priority'   => 10,
                                                             'fields'     => [
@@ -681,6 +681,7 @@ class Settings {
                                                     'fields'        => [
                                                         'twitter'  => [
                                                             'name'     => "twitter",
+                                                            'parent'     => "social_templates",
                                                             'type'     => "group",
                                                             'priority' => 10,
                                                             'fields'    => [
@@ -760,6 +761,7 @@ class Settings {
                                                     'fields'        => [
                                                         'linkedin'  => [
                                                             'name'     => "linkedin",
+                                                            'parent'     => "social_templates",
                                                             'type'     => "group",
                                                             'priority' => 10,
                                                             'fields'    => [
@@ -852,6 +854,7 @@ class Settings {
                                                     'fields'        => [
                                                         'pinterest'  => [
                                                             'name'     => "pinterest",
+                                                            'parent'     => "social_templates",
                                                             'type'     => "group",
                                                             'priority' => 10,
                                                             'fields'    => [

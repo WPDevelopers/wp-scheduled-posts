@@ -130,7 +130,7 @@ export default function Calendar(props) {
 
   let timeZone = getTimeZone();
 
-  console.log(timeZone);
+  // console.log(timeZone);
 
 
   return (
