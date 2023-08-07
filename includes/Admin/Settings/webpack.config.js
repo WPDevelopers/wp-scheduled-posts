@@ -11,11 +11,12 @@ const plugins = defaultConfig.plugins.filter(
 module.exports = {
         ...defaultConfig,
         entry: {
-            'js/admin': path.resolve(__dirname, 'app/admin.js'),
+            'admin': path.resolve(__dirname, 'app/admin.jsx'),
+            'calendar': path.resolve(__dirname, 'app/calendar.jsx'),
         },
 
         output: {
-            filename: '[name].js',
+            filename: 'js/[name].js',
             path: path.resolve(__dirname, 'assets'),
         },
 
@@ -36,7 +37,7 @@ module.exports = {
         },
         plugins: [
             new MiniCSSExtractPlugin({
-                filename: `css/admin.css`,
+                filename: `css/[name].css`,
             }),
             ...plugins,
         ],

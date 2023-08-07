@@ -2,6 +2,9 @@
 
 namespace WPSP\Admin\Settings;
 
+use WPSP\Admin\Settings;
+use WPSP\Helper;
+
 class Assets
 {
     protected $pageSlug;
@@ -17,7 +20,8 @@ class Assets
 
     public function settings_scripts($hook)
     {
-        if ($hook !== 'toplevel_page_' . WPSP_SETTINGS_SLUG) return;
+        $current_screen = \get_current_screen();
+
         add_action('wp_print_scripts', function () {
             $isSkip = apply_filters('schedulepress_skip_no_conflict', false);
 
@@ -39,23 +43,43 @@ class Assets
             }
         }, 1);
 
-        // Load admin style sheet and JavaScript
-        wp_enqueue_style(WPSP_PLUGIN_SLUG, WPSP_ADMIN_URL . 'Settings/assets/css/admin.css', array(), WPSP_VERSION);
-        wp_enqueue_style(WPSP_PLUGIN_SLUG.'-icon', WPSP_ADMIN_URL . 'Settings/assets/icon/style.css', array(), WPSP_VERSION);
-        $dep = include WPSCP_ADMIN_DIR_PATH . 'Settings/assets/js/admin.asset.php';
-        wp_enqueue_script(WPSP_PLUGIN_SLUG, WPSP_ADMIN_URL . 'Settings/assets/js/admin.js', $dep['dependencies'], WPSP_VERSION);
-        wp_localize_script(WPSP_PLUGIN_SLUG, 'wpspSettingsGlobal', apply_filters('wpsp_settings_global', array(
-            'api_nonce' => wp_create_nonce('wp_rest'),
-            'api_url' => rest_url(WPSP_PLUGIN_SLUG . '/v1/'),
-            'settings' => $this->setting_array,
-            'plugin_root_uri' => WPSP_PLUGIN_ROOT_URI,
-            'plugin_root_path' => WPSP_ROOT_DIR_PATH,
-            'assets_path'     => WPSP_PLUGIN_ROOT_URI.'assets/',
-            'image_path'     => WPSP_PLUGIN_ROOT_URI.'assets/images/',
-            'admin_image_path'  => WPSP_PLUGIN_ROOT_URI.'includes/Admin/Settings/app/assets/images',
-            'free_version'     => WPSP_VERSION,
-            'admin_ajax'       => admin_url( 'admin-ajax.php' ),
-            'pro_version'      => (defined('WPSP_PRO_VERSION') ? WPSP_PRO_VERSION : '')
-        )));
+        if ($hook === 'toplevel_page_' . WPSP_SETTINGS_SLUG){
+            // Load admin style sheet and JavaScript
+            wp_enqueue_style(WPSP_PLUGIN_SLUG, WPSP_ADMIN_URL . 'Settings/assets/css/admin.css', array(), WPSP_VERSION);
+            wp_enqueue_style(WPSP_PLUGIN_SLUG.'-icon', WPSP_ADMIN_URL . 'Settings/assets/icon/style.css', array(), WPSP_VERSION);
+            $dep = include WPSCP_ADMIN_DIR_PATH . 'Settings/assets/js/admin.asset.php';
+            wp_enqueue_script(WPSP_PLUGIN_SLUG, WPSP_ADMIN_URL . 'Settings/assets/js/admin.js', $dep['dependencies'], WPSP_VERSION);
+            wp_localize_script(WPSP_PLUGIN_SLUG, 'wpspSettingsGlobal', apply_filters('wpsp_settings_global', array(
+                'api_nonce' => wp_create_nonce('wp_rest'),
+                'api_url' => rest_url(WPSP_PLUGIN_SLUG . '/v1/'),
+                'settings' => $this->setting_array,
+                'plugin_root_uri' => WPSP_PLUGIN_ROOT_URI,
+                'plugin_root_path' => WPSP_ROOT_DIR_PATH,
+                'assets_path'     => WPSP_PLUGIN_ROOT_URI.'assets/',
+                'image_path'     => WPSP_PLUGIN_ROOT_URI.'assets/images/',
+                'admin_image_path'  => WPSP_PLUGIN_ROOT_URI.'includes/Admin/Settings/app/assets/images',
+                'free_version'     => WPSP_VERSION,
+                'admin_ajax'       => admin_url( 'admin-ajax.php' ),
+                'pro_version'      => (defined('WPSP_PRO_VERSION') ? WPSP_PRO_VERSION : '')
+            )));
+        }
+
+        if (Helper::plugin_page_hook_suffix($current_screen->post_type, $hook)){
+            wp_enqueue_style(WPSP_PLUGIN_SLUG.'-icon', WPSP_ADMIN_URL . 'Settings/assets/icon/style.css', array(), WPSP_VERSION);
+            wp_enqueue_style(WPSP_PLUGIN_SLUG, WPSP_ADMIN_URL . 'Settings/assets/css/calendar.css', array(), WPSP_VERSION);
+            $dep = include WPSCP_ADMIN_DIR_PATH . 'Settings/assets/js/calendar.asset.php';
+            wp_enqueue_script(WPSP_PLUGIN_SLUG, WPSP_ADMIN_URL . 'Settings/assets/js/calendar.js', $dep['dependencies'], WPSP_VERSION);
+            wp_localize_script(WPSP_PLUGIN_SLUG, 'wpspSettingsCalendar', apply_filters('wpsp_settings_calendar', array(
+                'name'          => 'calendar',
+                'type'          => 'calendar',
+                'label'         => null,
+                'priority'      => 5,
+                'start_of_week' => (int) get_option('start_of_week', 0),
+                'rest_route'    => '/wpscp/v1/calendar',
+                'timeZone'      => wp_timezone_string(),
+                'image_path'     => WPSP_PLUGIN_ROOT_URI.'assets/images/',
+                'post_types'    => array_values(Settings::normalize_options(\WPSP\Helper::get_allow_post_types())),
+            )));
+        }
     }
 }

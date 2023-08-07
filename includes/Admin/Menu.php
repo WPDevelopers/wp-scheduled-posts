@@ -33,7 +33,7 @@ class Menu
     {
         add_menu_page(__('SchedulePress', 'wp-scheduled-posts'), __('SchedulePress', 'wp-scheduled-posts'), 'manage_options', WPSP_SETTINGS_SLUG, [$this, 'load_settings_template'], esc_url(WPSP_ASSETS_URI . 'images/wpsp-icon.png'), 80);
         add_submenu_page(WPSP_SETTINGS_SLUG, __('Settings', 'wp-scheduled-posts'), __('Settings', 'wp-scheduled-posts'), 'manage_options', WPSP_SETTINGS_SLUG, [$this, 'load_settings_template']);
-        add_submenu_page(WPSP_SETTINGS_SLUG, 'Calendar', 'Calendar', 'manage_options', WPSP_SETTINGS_SLUG . '-calendar', array($this, 'load_calendar_template'));
+        add_submenu_page(WPSP_SETTINGS_SLUG, 'Calendar', 'Calendar', 'manage_options', WPSP_SETTINGS_SLUG . '-calendar', array($this, 'load_settings_template'));
         $this->add_sub_menu_for_calendar_supported_post_type();
     }
 
@@ -53,7 +53,7 @@ class Menu
                     $extra = $admin_menu_url !== $post_type_object->show_in_menu ? " ({$post_type_object->label})" : '';
                     $admin_menu_url = $post_type_object->show_in_menu;
                 }
-                add_submenu_page($admin_menu_url, __('Calendar', 'wp-scheduled-posts'), __('Calendar', 'wp-scheduled-posts') . $extra, 'edit_posts', WPSP_SETTINGS_SLUG . '-' . $post_type, array($this, 'load_calendar_template'));
+                add_submenu_page($admin_menu_url, __('Calendar', 'wp-scheduled-posts'), __('Calendar', 'wp-scheduled-posts') . $extra, 'edit_posts', WPSP_SETTINGS_SLUG . '-' . $post_type, array($this, 'load_settings_template'));
             }
         }
     }

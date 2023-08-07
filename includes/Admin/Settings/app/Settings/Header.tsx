@@ -1,11 +1,11 @@
 import React from 'react';
 
 
-const Header = () => {
+const Header = ({image_path}) => {
     return (
         <div className="wpsp-admin-header">
             {/* @ts-ignore */}
-            <img src={`${wpspSettingsGlobal?.image_path}mainLogo.png`} alt="mainLogo" />
+            <img src={`${image_path}mainLogo.png`} alt="mainLogo" />
         </div>
     )
 }

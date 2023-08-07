@@ -211,7 +211,12 @@ class Helper
     {
         $allow_post_types = (!empty(self::get_settings('allow_post_types')) ? self::get_settings('allow_post_types') : array('post'));
         if (
-            in_array($current_post_type, $allow_post_types)
+            in_array($current_post_type, $allow_post_types) ||
+            $hook == 'posts_page_' . WPSP_SETTINGS_SLUG . '-post' ||
+            $hook == 'toplevel_page_' .  WPSP_SETTINGS_SLUG ||
+            $hook == WPSP_SETTINGS_SLUG . '_page_' . WPSP_SETTINGS_SLUG ||
+            $hook == WPSP_SETTINGS_SLUG . '_page_' . WPSP_SETTINGS_SLUG . '-calendar' ||
+            strpos($hook, '_page_' . WPSP_SETTINGS_SLUG) !== false
         ) {
             return true;
         }

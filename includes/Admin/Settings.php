@@ -57,7 +57,7 @@ class Settings {
         return $arr;
     }
 
-    public function normalize_options($fields, $key = '', $value = [], $return = []) {
+    public static function normalize_options($fields, $key = '', $value = [], $return = []) {
 
         foreach ($fields as $val => $label) {
             if (empty($return[$val]) && !is_array($label)) {
@@ -188,7 +188,7 @@ class Settings {
                                     'multiple' => true,
                                     'priority' => 7,
                                     'icon_classes'  => 'wpsp-icon wpsp-close',
-                                    'option'  => $this->normalize_options(\WPSP\Helper::get_all_post_type()),
+                                    'option'  => self::normalize_options(\WPSP\Helper::get_all_post_type()),
                                     'default'  => [ 'post' ],
                                 ],
                                 'allow_categories' => [
@@ -198,7 +198,7 @@ class Settings {
                                     'multiple' => true,
                                     'priority' => 8,
                                     'icon_classes'  => 'wpsp-icon wpsp-close',
-                                    'option'  => $this->normalize_options(\WPSP\Helper::_get_all_category()),
+                                    'option'  => self::normalize_options(\WPSP\Helper::_get_all_category()),
                                 ],
                                 'allow_user_by_role' => [
                                     'name'     => 'allow_user_by_role',
@@ -207,7 +207,7 @@ class Settings {
                                     'multiple' => true,
                                     'priority' => 9,
                                     'icon_classes'  => 'wpsp-icon wpsp-close',
-                                    'option'  => $this->normalize_options(\WPSP\Helper::get_all_roles()),
+                                    'option'  => self::normalize_options(\WPSP\Helper::get_all_roles()),
                                     'default'  => [ 'administrator' ],
                                 ],
                                 'calendar_schedule_time' => [
@@ -308,7 +308,7 @@ class Settings {
                                     'start_of_week' => (int) get_option('start_of_week', 0),
                                     'rest_route'    => '/wpscp/v1/calendar',
                                     'timeZone'      => wp_timezone_string(),
-                                    'post_types'    => array_values($this->normalize_options(\WPSP\Helper::get_allow_post_types())),
+                                    'post_types'    => array_values(self::normalize_options(\WPSP\Helper::get_allow_post_types())),
                                 ]
                             ],
                         ]
@@ -348,7 +348,7 @@ class Settings {
                                             'multiple' => true,
                                             'priority' => 10,
                                             'icon_classes'  => 'wpsp-icon wpsp-close',
-                                            'option'   => $this->normalize_options( \WPSP\Helper::get_all_roles() ),
+                                            'option'   => self::normalize_options( \WPSP\Helper::get_all_roles() ),
                                             'rules'       => Rules::logicalRule([
                                                 Rules::is( 'notify_author_post_is_review', true ),
                                             ]),
@@ -360,7 +360,7 @@ class Settings {
                                             'multiple' => true,
                                             'priority' => 11,
                                             'icon_classes'  => 'wpsp-icon wpsp-close',
-                                            'option'   => $this->normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_login', 'user_login') ),
+                                            'option'   => self::normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_login', 'user_login') ),
                                             'rules'       => Rules::logicalRule([
                                                 Rules::is( 'notify_author_post_is_review', true ),
                                             ]),
@@ -372,7 +372,7 @@ class Settings {
                                             'multiple' => true,
                                             'priority' => 12,
                                             'icon_classes'  => 'wpsp-icon wpsp-close',
-                                            'option'   => $this->normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_email', 'user_email') ),
+                                            'option'   => self::normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_email', 'user_email') ),
                                             'rules'       => Rules::logicalRule([
                                                 Rules::is( 'notify_author_post_is_review', true ),
                                             ]),
@@ -408,7 +408,7 @@ class Settings {
                                             'multiple' => true,
                                             'priority' => 25,
                                             'icon_classes'  => 'wpsp-icon wpsp-close',
-                                            'option'   => $this->normalize_options( \WPSP\Helper::get_all_roles() ),
+                                            'option'   => self::normalize_options( \WPSP\Helper::get_all_roles() ),
                                             'rules'       => Rules::logicalRule([
                                                 Rules::is( 'notify_author_post_is_scheduled', true ),
                                             ]),
@@ -421,7 +421,7 @@ class Settings {
                                             'multiple' => true,
                                             'priority' => 30,
                                             'icon_classes'  => 'wpsp-icon wpsp-close',
-                                            'option'   => $this->normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_login', 'user_login') ),
+                                            'option'   => self::normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_login', 'user_login') ),
                                             'rules'       => Rules::logicalRule([
                                                 Rules::is( 'notify_author_post_is_scheduled', true ),
                                             ]),
@@ -434,7 +434,7 @@ class Settings {
                                             'multiple' => true,
                                             'priority' => 35,
                                             'icon_classes'  => 'wpsp-icon wpsp-close',
-                                            'option'   => $this->normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_email', 'user_email') ),
+                                            'option'   => self::normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_email', 'user_email') ),
                                             'rules'       => Rules::logicalRule([
                                                 Rules::is( 'notify_author_post_is_scheduled', true ),
                                             ]),

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import ReactSelect, { ActionMeta, components } from "react-select";
 import { selectStyles } from "../../helper/styles";
 import { Option, SelectWrapperProps } from "./types";
@@ -43,6 +43,16 @@ const ReactSelectWrapper: React.FC<SelectWrapperProps> = ({ options, value, onCh
       </div>
     );
   };
+
+  const isTags = useCallback((item) => {
+    if((allOptionFlatten.length === value.length)){
+      if(allOptionFlatten.length === 2){
+        return item.value !== 'all';
+      }
+      return item.value === 'all';
+    }
+    return true;
+  }, [allOptionFlatten]);
 
   // Add and remove
   const handleChange = (
@@ -109,7 +119,7 @@ const ReactSelectWrapper: React.FC<SelectWrapperProps> = ({ options, value, onCh
     {showTags && (
       <div className="selected-options">
         <ul>
-          {value?.filter(item => (allOptionFlatten.length === value.length) ? (item.value === 'all') : true ).map((item, index) => (
+          {value?.filter(item => isTags(item) ).map((item, index) => (
             <li key={index}>
               {" "}
               {item?.label}{" "}

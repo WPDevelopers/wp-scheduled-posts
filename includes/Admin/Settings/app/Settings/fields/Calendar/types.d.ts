@@ -54,6 +54,7 @@ export type SidebarProps = {
 
 
   export type SelectWrapperProps = {
+    isDisabled?: boolean;
     options: Option[];
     value: Option[];
     onChange?: (selectedOption: Option[] | null) => void;
