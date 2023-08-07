@@ -77,7 +77,7 @@ export const SweetAlertDeleteMsg = ( args: any = {}, deleteFile?: (item) => void
     })
 };
 // Show poup for auto & manual scheduler status change
-export const SweetAlertStatusChangingMsg = ( args: any = {}, handleStatusChange?: (status) => void ) => {
+export const SweetAlertStatusChangingMsg = ( args: any = {}, handleStatusChange?: (status,values,manualSchedulerStatusIndex) => void ) => {
     return Swal.fire({
         title: args?.title ?? __( 'Are you sure?','wp-scheduled-posts' ),
         // text: args?.text ?? __( "You won't be able to revert this!",'wp-scheduled-posts' ),
@@ -90,7 +90,7 @@ export const SweetAlertStatusChangingMsg = ( args: any = {}, handleStatusChange?
         confirmButtonText: args?.confirmButtonText ?? __('Yes, Save it!', 'wp-scheduled-posts'),
     }).then((result) => {
         if (result.isConfirmed) {
-            handleStatusChange(args?.status)
+            handleStatusChange(args?.status , args?.values,args?.manualSchedulerStatusIndex);
         }
     })
 };

@@ -87,16 +87,20 @@ const AutoScheduler = (props) => {
 		});
 	}, [autoScheduler,startSelectedTime,endSelectedTime, autoSchedulerStatus]);
 
+    let manualSchedulerData = builderContext.values['manage_schedule']?.['manual_schedule'];
+    let manualSchedulerStatusIndex = manualSchedulerData.findIndex(obj => obj.hasOwnProperty("is_active_status"));
     const handleAutoScheduleStatusToggle = (event) => {
-        SweetAlertStatusChangingMsg({ status: event.target.checked }, handleStatusChange);
-    }
-    const handleStatusChange = ( status ) => {
-        let manualSchedulerData = builderContext.values['manage_schedule']?.['manual_schedule'];
-        let manualSchedulerStatusIndex = manualSchedulerData.findIndex(obj => obj.hasOwnProperty("is_active_status"));
         if( manualSchedulerStatusIndex !== -1) {
-            manualSchedulerData[manualSchedulerStatusIndex].is_active_status = false;
-            builderContext.setFieldValue(['manage_schedule', 'manual_schedule'], [...manualSchedulerData]);
+                SweetAlertStatusChangingMsg({ status: event.target.checked }, handleStatusChange);
+            }else{
+                setautoSchedulerStatus(event.target.checked);
+            }
         }
+    }
+    
+    const handleStatusChange = ( status ) => {
+        manualSchedulerData[manualSchedulerStatusIndex].is_active_status = false;
+        builderContext.setFieldValue(['manage_schedule', 'manual_schedule'], [...manualSchedulerData]);
         setautoSchedulerStatus(status);
     };
     
