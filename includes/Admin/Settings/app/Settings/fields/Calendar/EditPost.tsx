@@ -56,6 +56,7 @@ export const ModalContent = ({
       },
     }).then((data: PostType | WP_Error) => {
       onSubmit(data, modalData?.post);
+      // @todo show success message
     }).finally(() => {
       closeModal();
     });
@@ -83,6 +84,7 @@ export const ModalContent = ({
       .catch((error) => {
         setPostData({});
         setIsLoading(false);
+        // @todo show error message
       });
     } else {
       let data: Post = {

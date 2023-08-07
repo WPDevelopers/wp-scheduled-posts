@@ -288,6 +288,7 @@ export default function Calendar(props) {
                     editAreaToggle={editAreaToggle}
                     setEditAreaToggle={setEditAreaToggle}
                     openModal={openModal}
+                    setEvents={setEvents}
                   />
                 );
               }}

@@ -34,6 +34,7 @@ export type PostType = {
       React.SetStateAction<{ [key: number]: boolean }>
     >;
     openModal: (modalData: { post: any; eventType: string }) => void;
+    setEvents: React.Dispatch<React.SetStateAction<PostType[]>>;
   }
 
   export type ModalProps = {
