@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
 import { __ } from "@wordpress/i18n";
+import React, { useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const ApiCredentialsForm = ({ props, platform, requestHandler }) => {
@@ -109,6 +109,7 @@ const ApiCredentialsForm = ({ props, platform, requestHandler }) => {
                             )}
                             style={{ marginRight: 30 }}
                             onChange={(e) => SetRedirectURI(e.target.value)}
+                            readOnly
                         />
                         <CopyToClipboard
                           text={redirectURI}

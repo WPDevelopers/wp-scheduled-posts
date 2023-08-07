@@ -155,7 +155,7 @@ const Pinterest = (props) => {
                 </div>
               ))}
           </div>
-          { ( !selectedProfileViewMore && selectedProfile && selectedProfile.length >= 2) && (
+          { ( !selectedProfileViewMore && selectedProfile && selectedProfile.length >= 3) && (
             <ViewMore setSelectedProfileViewMore={setSelectedProfileViewMore} />
           )}
         </div>
