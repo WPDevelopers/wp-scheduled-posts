@@ -7,7 +7,7 @@ import { generateTimeOptions } from '../helper/helper';
 import ProToggle from './utils/ProToggle';
 
 import { selectStyles } from '../helper/styles';
-import { SweetAlertToaster } from '../ToasterMsg';
+import { SweetAlertStatusChangingMsg } from '../ToasterMsg';
 
 const AutoScheduler = (props) => {
     let { name, multiple, onChange } = props;
@@ -27,7 +27,7 @@ const AutoScheduler = (props) => {
     let getStartTime = builderContext.values['manage_schedule']?.[name]?.find( (item) => item['start_time'] );
     getStartTime = getStartTime ? getStartTime['start_time'] : '';
     let getEndTime = builderContext.values['manage_schedule']?.[name]?.find( (item) => item['end_time'] );
-    let getAutoSchedulerStatus = builderContext.values['manage_schedule']?.[name]?.find( (item) => item['is_active_status'] );
+    let getAutoSchedulerStatus = builderContext.values['manage_schedule']?.[name]?.filter( (item) => item.hasOwnProperty('is_active_status') )[0].is_active_status;
     getEndTime = getEndTime ? getEndTime['end_time'] : '';
     const startTimeFormat = getStartTime ? { label : getStartTime, value : getStartTime } : null;
     const endTimeFormat = getEndTime ? { label : getEndTime, value : getEndTime } : null;
@@ -35,8 +35,11 @@ const AutoScheduler = (props) => {
     const [autoScheduler,setAutoSchedulerValue] = useState(modifiedDayDataFormet ?? []);
     const [startSelectedTime, setStartSelectedTime] = useState(startTimeFormat ? startTimeFormat : timeOptions[0]);
     const [endSelectedTime, setEndSelectedTime] = useState(endTimeFormat ? endTimeFormat : timeOptions[0]);
-    const [autoSchedulerStatus, setautoSchedulerStatus] = useState(getAutoSchedulerStatus ?? '')
+    const [autoSchedulerStatus, setautoSchedulerStatus] = useState(getAutoSchedulerStatus ?? false);
 
+    useEffect(() => {
+      setautoSchedulerStatus( getAutoSchedulerStatus )
+    }, [getAutoSchedulerStatus])
 
     const handleDayChange = (day, event) => {
         setAutoSchedulerValue((prevWeeks) => {
@@ -85,24 +88,18 @@ const AutoScheduler = (props) => {
 	}, [autoScheduler,startSelectedTime,endSelectedTime, autoSchedulerStatus]);
 
     const handleAutoScheduleStatusToggle = (event) => {
-        let manualSchedulerStatusDBData;
-        for (const item of Object.entries(
-          builderContext?.values?.manage_schedule?.['manual_schedule']?.[1] ?? []
-        ))
-        if (item[0] === 'is_active_status') {
-            manualSchedulerStatusDBData = item[1];
-            break;
-        }
-        if( manualSchedulerStatusDBData && event.target.checked ) {
-            SweetAlertToaster({
-                type : 'error',
-                title : __( "Please disable Manual schedule to enable Auto schedule!!", 'wp-scheduled-posts' ),
-            }).fire();
-        }else{
-            setautoSchedulerStatus(event.target.checked)
-        }        
+        SweetAlertStatusChangingMsg({ status: event.target.checked }, handleStatusChange);
     }
-
+    const handleStatusChange = ( status ) => {
+        let manualSchedulerData = builderContext.values['manage_schedule']?.['manual_schedule'];
+        let manualSchedulerStatusIndex = manualSchedulerData.findIndex(obj => obj.hasOwnProperty("is_active_status"));
+        if( manualSchedulerStatusIndex !== -1) {
+            manualSchedulerData[manualSchedulerStatusIndex].is_active_status = false;
+            builderContext.setFieldValue(['manage_schedule', 'manual_schedule'], [...manualSchedulerData]);
+        }
+        setautoSchedulerStatus(status);
+    };
+    
     // @ts-ignore
     let is_pro = wpspSettingsGlobal?.pro_version ? true : false;
 
