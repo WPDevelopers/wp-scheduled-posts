@@ -1,13 +1,20 @@
+img {
+  max-width: 100%;
+}
+
 .swal2-center {
   background: rgba(27, 27, 80, 0.4) !important;
-  padding: 100px 50px !important;
+  padding: 48px !important;
+  @media screen and (max-width: 1439px) {
+    padding: 28px 40px !important;
+  }
   .swal2-modal {
     position: relative;
     box-sizing: border-box;
     grid-template-columns: minmax(0, 100%);
     width: 550px;
     max-width: 100%;
-    padding: 40px 70px;
+    padding: 40px 72px;
     border: none;
     border-radius: 8px;
     background: #fff;
@@ -19,7 +26,7 @@
       position: absolute;
       top: 24px;
       right: 24px;
-      background: transparent;
+      background: transparent !important;
       border: none;
       font-size: 16px;
       color: #989fab;
@@ -38,9 +45,12 @@
         background-image: none;
       }
     }
+    .swal2-icon {
+      margin: 0px auto 20px;
+    }
     .swal2-title {
       font-size: 38px;
-      line-height: 1.2em;
+      line-height: 1em;
       font-style: italic;
       color: #ff9437;
       margin-bottom: 24px;
@@ -50,13 +60,47 @@
         margin-bottom: 16px;
       }
     }
-    .swal2-html-container {
+    .swal2-actions {
+      margin: 0 !important;
+    }
+    button {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.2em;
+      color: #fff;
+      background-color: #6c62ff !important;
+      padding: 20px 24px;
       margin: 0;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      &:focus {
+        box-shadow: none;
+      }
+      @media screen and (max-width: 1439px) {
+        font-size: 12px;
+        padding: 16px 20px !important;
+      }
+
+    }
+    .swal2-html-container {
+      font-size: 22px;
+      font-weight: 600;
+      line-height: 1em;
+      color: #1b1b50;
+      margin: 0 0 32px;
+      overflow: hidden;
+      @media screen and (max-width: 1439px) {
+        font-size: 18px;
+        margin: 0 0 24px;
+      }
       h4 {
         font-size: 22px;
-        line-height: 1.2em;
+        font-weight: 600;
+        line-height: 1em;
         color: #1b1b50;
         margin: 0 0 32px;
+        overflow: hidden;
         @media screen and (max-width: 1439px) {
           font-size: 18px;
           margin: 0 0 24px;
@@ -112,10 +156,13 @@
   position: fixed;
   inset: 0px;
   background: rgba(27, 27, 80, 0.4) !important;
-  padding: 100px 50px !important;
+  padding: 48px !important;
   display: flex;
   overflow: auto;
   z-index: 999;
+  @media screen and (max-width: 1439px) {
+    padding: 28px 40px !important;
+  }
   .modal_wrapper {
     inset: 40px;
     border: none !important;
@@ -131,7 +178,7 @@
     position: relative;
     @media screen and (max-width: 1439px) {
       width: 450px !important;
-      padding: 30px;
+      padding: 28px;
     }
     .error-message {
       margin-bottom: 16px;
@@ -143,7 +190,7 @@
       position: absolute;
       top: 24px;
       right: 24px;
-      background: transparent;
+      background: transparent !important;
       border: none;
       font-size: 16px;
       color: #989fab;
@@ -231,6 +278,30 @@
       }
     }
     .modalbody {
+      .author-details {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        img {
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          @media screen and (max-width: 1439px) {
+            width: 28px;
+            height: 28px;
+          }
+        }
+        h3 {
+          color: #1B1B50;
+          font-size: 16px;
+          font-weight: 500;
+          line-height: 1.2em;
+          margin: 0;
+          @media screen and (max-width: 1439px) {
+            font-size: 14px;
+          }
+        }
+      }
       .form-group {
         margin-bottom: 32px;
         @media screen and (max-width: 1439px) {
@@ -267,7 +338,7 @@
           margin: 0 !important;
           @media screen and (max-width: 1439px) {
             font-size: 14px;
-            padding: 16px 12px;
+            padding: 12px 12px;
           }
           &:focus {
             box-shadow: none !important;
@@ -322,18 +393,18 @@
           .components-datetime__time-wrapper {
             gap: calc(4px);
             .components-button-group {
-              border: 2px solid #6C62FF;
-              background: #6C62FF;
+              border: 1px solid #EBEEF5;
+              background: #F9FAFC;
               border-radius: 2px;
               .components-button {
                 background: transparent;
                 border: 1px solid;
                 border-color: transparent;
-                padding: 6px;
+                padding: 7px 6px 8px;
                 border-radius: 2px;
               }
-              .is-secondary {
-                background: #fff;
+              .is-primary {
+                background: #F3F2FF;
               }
             }
           }
@@ -366,10 +437,9 @@
               width: 32px;
               height: 32px;
               border-radius: 50%;
-              max-width: 100%;
               @media screen and (max-width: 1439px) {
-                width: 24px;
-                height: 24px;
+                width: 28px;
+                height: 28px;
               }
             }
             h3,
