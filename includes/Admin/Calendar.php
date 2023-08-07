@@ -362,21 +362,14 @@ class Calendar
         $postTitle   = $request->get_param('postTitle');
         $postContent = $request->get_param('postContent');
 
-        // if($type == 'drop') {
-        //     $default_schedule_time = '12:00 am';
-        //     if (!empty($calendar_schedule_time)) {
-        //         $default_schedule_time = $calendar_schedule_time;
-        //     }
-
-        //     $date_string = substr($dateStr, 0, 16) . $default_schedule_time;
-        //     $postdate = new \DateTime($date_string);
-        //     $postdateformat = $postdate->format('Y-m-d H:i:s');
-        //     $postdate_gmt = ($postdateformat != "" ? get_gmt_from_date($postdateformat) : '');
-        // } else {
-            $postdate       = new \DateTime(substr($dateStr, 0, 25));
+        if(in_array($type, ['newDraft', 'editDraft', 'addEvent'])) {
+            $postdateformat = $dateStr;
+            $postdate_gmt   = get_gmt_from_date($dateStr);
+        } else {
+            // $postdate       = new \DateTime(substr($dateStr, 0, 25));
             $postdateformat = get_date_from_gmt($dateStr);
             $postdate_gmt   = $dateStr;
-        // }
+        }
 
 
         /**
@@ -396,7 +389,7 @@ class Calendar
                     'post_date'     => (isset($postdateformat) ? $postdateformat : ''),
                     'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''),
                     'edit_date'     => true,
-                ));
+                ), true);
                 return $this->get_rest_result($post_id);
             } else {
                 // only work new event created
@@ -409,7 +402,7 @@ class Calendar
                     'post_date'     => (isset($postdateformat) ? $postdateformat : ''),
                     'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''),
                     'edit_date'     => true,
-                ));
+                ), true);
                 return $this->get_rest_result($post_id);
             }
         }
@@ -428,7 +421,7 @@ class Calendar
                     'post_date'     => (isset($postdateformat) ? $postdateformat : ''),
                     'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''),
                     'edit_date'     => true,
-                ));
+                ), true);
             }
             return $this->get_rest_result($post_id);
         }
@@ -438,17 +431,17 @@ class Calendar
                 'ID'          => $postid,
                 'post_type'   => $post_type,
                 'post_status' => 'draft',
-            ));
+            ), true);
             return $this->get_rest_result($post_id);
         }
-        else if ($post_status == 'newDraft') {
+        else if ($type == 'newDraft') {
             $post_id = wp_insert_post(array(
                 'post_title'   => wp_strip_all_tags($postTitle),
                 'post_type'    => $post_type,
                 'post_content' => $postContent,
                 'post_status'  => 'draft',
                 'post_author'  => get_current_user_id(),
-            ));
+            ), true);
             return $this->get_rest_result($post_id);
         } else if ($type == 'editDraft') {
             $post_id = wp_update_post(array(
@@ -461,7 +454,7 @@ class Calendar
                 'post_date'     => (isset($postdateformat) ? $postdateformat : ''),
                 'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''),
                 'edit_date'     => true,
-            ));
+            ), true);
             return $this->get_rest_result($post_id);
         }  else if ($post_status != 'draft') { // future post date modify date
             $post_id = wp_update_post(array(
@@ -471,10 +464,30 @@ class Calendar
                 'post_date'     => (isset($postdateformat) ? $postdateformat : ''),
                 'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''),
                 'edit_date'     => true,
-            ));
+            ), true);
             return $this->get_rest_result($post_id);
         }
-        // exit();
+
+        $error_messages = array();
+
+        if (empty($type)) {
+            $error_messages[] = __('Type is required.', 'wp-scheduled-posts');
+        }
+        if (empty($post_type)) {
+            $error_messages[] = __('Post type is required.', 'wp-scheduled-posts');
+        }
+        if (empty($postTitle)) {
+            $error_messages[] = __('Post title is required.', 'wp-scheduled-posts');
+        }
+        if (empty($postContent)) {
+            $error_messages[] = __('Post content is required.', 'wp-scheduled-posts');
+        }
+        if(empty($error_message)){
+            $error_messages[] = __('Something went wrong.', 'wp-scheduled-posts');
+        }
+
+        $error_message = implode(' ', $error_messages);
+        return new WP_Error('rest_post_update_error', $error_message, array('status' => 400));
     }
 
     public function get_rest_result($post_id){
@@ -487,8 +500,15 @@ class Calendar
             return rest_ensure_response($event_data);
         }
         else{
-            // return wp error rest response
-            return $post_id;
+
+            if(is_wp_error($post_id)){
+                return $post_id;
+            }
+            else{
+                return new WP_Error('rest_post_update_error', __('Something went wrong.', 'wp-scheduled-posts'), array('status' => 400));
+            }
+
+            // return $post_id;
         }
     }
 

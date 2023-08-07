@@ -9,7 +9,7 @@ import { eventDrop, getPostFromEvent } from "./Calendar/EventRender";
 import Sidebar from "./Calendar/Sidebar";
 // const events = [{ title: "Meeting", start: new Date() }];
 import MonthPicker from "@compeon-os/monthpicker";
-import { EventContentArg, EventDropArg } from "@fullcalendar/core";
+import { DayCellMountArg, EventContentArg, EventDropArg } from "@fullcalendar/core";
 import { __ } from "@wordpress/i18n";
 import classNames from "classnames";
 import CategorySelect from "./Calendar/Category";
@@ -18,7 +18,7 @@ import PostCard from "./Calendar/EventRender";
 import { getEndDate, getTimeZone, getValues } from "./Calendar/Helpers";
 import ReactSelectWrapper, { addAllOption, getOptionsFlatten } from "./Calendar/ReactSelectWrapper";
 import { ModalProps, Option, PostType } from "./Calendar/types";
-import { getSettings } from "@wordpress/date";
+import { format } from "@wordpress/date";
 
 export default function Calendar(props) {
   // @ts-ignore
@@ -291,7 +291,7 @@ export default function Calendar(props) {
                   />
                 );
               }}
-              dayCellDidMount={(args) => {
+              dayCellDidMount={(args: DayCellMountArg) => {
                 const dayTop =
                   args.el?.getElementsByClassName("fc-daygrid-day-top")[0];
                 if (!dayTop) return;
@@ -304,7 +304,7 @@ export default function Calendar(props) {
                   openModal({
                     post: null,
                     eventType: "addEvent",
-                    post_date: args.date,
+                    post_date: format("Y-m-d H:i:s", args.date),
                   });
                 });
 

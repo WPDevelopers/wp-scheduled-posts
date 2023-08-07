@@ -33,7 +33,7 @@ export type PostType = {
   export type ModalProps = {
     post: any;
     eventType: string;
-    post_date?: Date;
+    post_date?: Date | string;
     openModal?: boolean;
   }
 
