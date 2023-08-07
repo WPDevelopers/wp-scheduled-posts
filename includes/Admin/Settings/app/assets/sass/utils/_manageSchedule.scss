@@ -119,6 +119,7 @@
         .time-title {
           h4 {
             font-size: 14px !important;
+            margin: 0 0 8px;
           }
           span {
             color: #6e6e8d;
@@ -225,7 +226,9 @@
         flex-grow: 1;
         position: relative;
       }
-
+      .main-select {
+        flex-basis: 40%;
+      }
       button {
         background: #6c62ff;
         border: none;
@@ -238,6 +241,7 @@
         cursor: pointer;
         min-height: 40px;
         margin-left: auto;
+        flex-basis: 20%;
       }
     }
     .weeks {
