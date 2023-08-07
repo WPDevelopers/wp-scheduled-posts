@@ -91,6 +91,7 @@ const AutoScheduler = (props) => {
     let manualSchedulerStatusIndex = manualSchedulerData.findIndex(obj => obj.hasOwnProperty("is_active_status"));
     const handleAutoScheduleStatusToggle = (event) => {
         if( manualSchedulerStatusIndex !== -1) {
+            if(  manualSchedulerData[manualSchedulerStatusIndex].is_active_status && event.target.checked ) {
                 SweetAlertStatusChangingMsg({ status: event.target.checked }, handleStatusChange);
             }else{
                 setautoSchedulerStatus(event.target.checked);
