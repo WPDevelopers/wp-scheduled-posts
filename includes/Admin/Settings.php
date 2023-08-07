@@ -137,7 +137,7 @@ class Settings {
                                             ],
                                             [
                                                 'icon'  => 'wpsp-missed-sc',
-                                                'title' => __('Advanced Scheduler','wp-scheduled-posts'),
+                                                'title' => __('Advanced Schedule','wp-scheduled-posts'),
                                                 'link'  => 'https://wpdeveloper.com',
                                             ],
                                             [
@@ -171,6 +171,7 @@ class Settings {
                                     'name'     => 'is_show_sitewide_bar_posts',
                                     'type'     => 'toggle',
                                     'label'    => __('Show Scheduled Posts in Sitewide Admin Bar', 'wp-scheduled-posts'),
+                                    'default'  => 1,
                                     'priority' => 5,
                                 ],
                                 'is_show_admin_bar_posts'       => [
@@ -188,6 +189,7 @@ class Settings {
                                     'priority' => 7,
                                     'icon_classes'  => 'wpsp-icon wpsp-close',
                                     'option'  => $this->normalize_options(\WPSP\Helper::get_all_post_type()),
+                                    'default'  => [ 'post' ],
                                 ],
                                 'allow_categories' => [
                                     'name'     => 'allow_categories',
@@ -206,6 +208,7 @@ class Settings {
                                     'priority' => 9,
                                     'icon_classes'  => 'wpsp-icon wpsp-close',
                                     'option'  => $this->normalize_options(\WPSP\Helper::get_all_roles()),
+                                    'default'  => [ 'administrator' ],
                                 ],
                                 'calendar_schedule_time' => [
                                     'id'       => 'calendar_schedule_time',
@@ -263,6 +266,7 @@ class Settings {
                                     'type'     => 'toggle',
                                     'label'    => __('Show Scheduled Posts in Elementor', 'wp-scheduled-posts'),
                                     'priority' => 25,
+                                    'default'  => 1,
                                 ],
                                 'post_republish_unpublish' => [
                                     'name'          => 'post_republish_unpublish',
@@ -967,7 +971,7 @@ class Settings {
                                             'id'       => 'layout_advance_schedule',
                                             'name'     => 'layout_advance_schedule',
                                             'type'     => 'section',
-                                            'label'    => __('Advance Schedule', 'wp-scheduled-posts'),
+                                            'label'    => __('Advanced Schedule', 'wp-scheduled-posts'),
                                             'priority' => 25,
                                             'classes'  => 'pro_feature',
                                             'fields'   => [
@@ -988,7 +992,7 @@ class Settings {
                                                                     'id'            => 'is_delayed_schedule_active',
                                                                     'name'          => 'is_delayed_schedule_active',
                                                                     'type'          => 'pro-toggle',
-                                                                    'title'         => __('Advance Schedule', 'wp-scheduled-posts'),
+                                                                    'title'         => __('Advanced Schedule', 'wp-scheduled-posts'),
                                                                     'sub_title'     => __('Enable to get options of scheduling a published post while updating it.','wp-scheduled-posts'),
                                                                     'default'       => 0,
                                                                     'is_pro'        => true,

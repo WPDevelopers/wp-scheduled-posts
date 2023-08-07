@@ -68,6 +68,9 @@ const Linkedin = (props) => {
     setSelectedProfile(updatedData);
   };
   const handleSelectedProfileStatusChange = (item, event) => {
+    if (event.target.checked) {
+      setProfileStatus(true);
+    }
     setCashedStatus((prevStatus) => {
       return { ...prevStatus, [item.id]: event.target.checked };
     });
@@ -160,7 +163,7 @@ const Linkedin = (props) => {
               </div>
             ))}
           </div>
-          { ( !selectedProfileViewMore && selectedProfile && selectedProfile.length >= 2) && (
+          { ( !selectedProfileViewMore && selectedProfile && selectedProfile.length >= 3) && (
             <ViewMore setSelectedProfileViewMore={setSelectedProfileViewMore} />
           )}
         </div>
