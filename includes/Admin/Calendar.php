@@ -473,15 +473,6 @@ class Calendar
         if (empty($type)) {
             $error_messages[] = __('Type is required.', 'wp-scheduled-posts');
         }
-        if (empty($post_type)) {
-            $error_messages[] = __('Post type is required.', 'wp-scheduled-posts');
-        }
-        if (empty($postTitle)) {
-            $error_messages[] = __('Post title is required.', 'wp-scheduled-posts');
-        }
-        if (empty($postContent)) {
-            $error_messages[] = __('Post content is required.', 'wp-scheduled-posts');
-        }
         if(empty($error_message)){
             $error_messages[] = __('Something went wrong.', 'wp-scheduled-posts');
         }

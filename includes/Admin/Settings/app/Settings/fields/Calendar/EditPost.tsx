@@ -6,7 +6,7 @@ import { Input, Textarea } from "quickbuilder";
 import Modal from "react-modal";
 import { getPostType, getUTCDate } from "./Helpers";
 import { date, gmdate, getSettings, getDate } from "@wordpress/date";
-import { PostType } from "./types";
+import { PostType, WP_Error } from "./types";
 
 interface Post {
   ID               ?: number;
@@ -54,7 +54,7 @@ export const ModalContent = ({
         postContent: postData.post_content,
         date       : postData.post_date,
       },
-    }).then((data: PostType) => {
+    }).then((data: PostType | WP_Error) => {
       onSubmit(data, modalData?.post);
     }).finally(() => {
       closeModal();

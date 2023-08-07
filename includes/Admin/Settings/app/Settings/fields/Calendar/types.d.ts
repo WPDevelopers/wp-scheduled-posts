@@ -1,4 +1,10 @@
 import FullCalendar from "@fullcalendar/react";
+// create type for rest response of WP_Error from php
+export type WP_Error = {
+    code: string;
+    message: string;
+    data?: any;
+  };
 
 export type Option = {
     value: string;
