@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { useBuilderContext } from 'quickbuilder';
 import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
-import { SweetAlertToaster } from '../ToasterMsg';
+import { SweetAlertStatusChangingMsg } from '../ToasterMsg';
 import { generateTimeOptions } from '../helper/helper';
 import { selectStyles } from '../helper/styles';
 import ProToggle from './utils/ProToggle';
@@ -11,6 +11,9 @@ import ProToggle from './utils/ProToggle';
 const ManualScheduler = (props) => {
   const builderContext = useBuilderContext();
   let { name, multiple, onChange } = props;
+  // @ts-ignore
+  let is_pro = wpspSettingsGlobal?.pro_version ? true : false;
+  
   const options = [
     { value: 'saturday', label: 'Sat' },
     { value: 'sunday', label: 'Sun' },
@@ -31,15 +34,7 @@ const ManualScheduler = (props) => {
     return result;
   }, []);
 
-  let manualSchedulerStatusDBData;
-  for (const item of Object.entries(
-    builderContext?.values?.manage_schedule?.[name]?.[1] ?? []
-  )) {
-    if (item[0] === 'is_active_status') {
-      manualSchedulerStatusDBData = item[1];
-      break;
-    }
-  }
+  let manualSchedulerStatusDBData = builderContext.values['manage_schedule']?.[name]?.filter( (item) => item.hasOwnProperty('is_active_status') )[0].is_active_status;
 
   const timeOptions = generateTimeOptions();
   const [selectDay, setSelectDay] = useState(options[0]);
@@ -48,9 +43,11 @@ const ManualScheduler = (props) => {
     formatDBManualScheduledData ?? []
   );
   const [formatedSchedule, setFormatedSchedule] = useState([]);
-  const [manualSchedulerStatus, setManualSchedulerStatus] = useState(
-    manualSchedulerStatusDBData ?? ''
-  );
+  const [manualSchedulerStatus, setManualSchedulerStatus] = useState( manualSchedulerStatusDBData ?? false);
+  
+  useEffect(() => {
+    setManualSchedulerStatus( manualSchedulerStatusDBData )
+  }, [manualSchedulerStatusDBData])
 
   const handleSavedManualSchedule = () => {
     setSavedManualSchedule((prevSchedule) => {
@@ -61,7 +58,7 @@ const ManualScheduler = (props) => {
   };
   useEffect(() => {
     if (savedManualSchedule.length > 0) {
-      const formattedData = savedManualSchedule.reduce((result, obj) => {
+      let formattedData = savedManualSchedule.reduce((result, obj) => {
         const key = Object.keys(obj)[0];
         const value = obj[key];
 
@@ -73,6 +70,9 @@ const ManualScheduler = (props) => {
 
         return result;
       }, {});
+      if( !is_pro ) {
+        formattedData = { saturday: ['12:00 AM','12:30 AM','1:00 AM','3:00 PM'], sunday: ['2:00 AM','3:00 PM','1:15 AM','3:15 AM'], monday: ['4:15 AM','4:30 AM','5:00 AM','5:30 PM'], tuesday: ['11:00 AM','1:30 AM','10:00 AM','3:00 PM'], wednesday: ['9:00 AM','7:30 AM','8:00 AM','10:00 PM'], thursday: ['6:00 AM','3:30 AM','4:00 AM','6:00 PM'], friday:['9:00 AM','2:30 AM','5:00 AM','9:00 PM']  };
+      }
       setFormatedSchedule(formattedData);
       let manualSchedulerData = [
         { weekdata: formattedData },
@@ -92,19 +92,22 @@ const ManualScheduler = (props) => {
   }, [savedManualSchedule, manualSchedulerStatus]);
 
   const handleManualScheduleStatusToggle = (event) => {
-    let getAutoSchedulerStatus =  builderContext.values['manage_schedule']?.['auto_schedule']?.find( (item) => item['is_active_status'] );
-      if( getAutoSchedulerStatus && event.target.checked ) {
-          SweetAlertToaster({
-              type : 'error',
-              title : __( "Please disable Auto schedule to enable Manual schedule!!", 'wp-scheduled-posts' ),
-          }).fire();
-      }else{
-        setManualSchedulerStatus(event.target.checked)
-      }
+    SweetAlertStatusChangingMsg({ status: event.target.checked }, handleStatusChange);
   };
 
-  // @ts-ignore
-  let is_pro = wpspSettingsGlobal?.pro_version ? true : false;
+  // Handle status change after confirm from popup alert
+  const handleStatusChange = ( status ) => {
+    let autoSchedulerObj = builderContext.values['manage_schedule']?.['auto_schedule'];
+    const isActiveStatusIndex = autoSchedulerObj.findIndex(obj => obj.hasOwnProperty("is_active_status"));
+    if (isActiveStatusIndex !== -1) {
+      const isAutoActive = autoSchedulerObj[isActiveStatusIndex].is_active_status;
+      if( isAutoActive && status  ) {
+        autoSchedulerObj[isActiveStatusIndex].is_active_status = false;
+        builderContext.setFieldValue(['manage_schedule', 'auto_schedule'], [...autoSchedulerObj]);
+      }
+    }
+    setManualSchedulerStatus(status);
+  }
 
   return (
     <div
