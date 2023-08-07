@@ -4,9 +4,9 @@ img {
 
 .swal2-center {
   background: rgba(27, 27, 80, 0.4) !important;
-  padding: 100px 50px !important;
+  padding: 48px !important;
   @media screen and (max-width: 1439px) {
-    padding: 50px 40px !important;
+    padding: 28px 40px !important;
   }
   .swal2-modal {
     position: relative;
@@ -14,7 +14,7 @@ img {
     grid-template-columns: minmax(0, 100%);
     width: 550px;
     max-width: 100%;
-    padding: 40px 70px;
+    padding: 40px 72px;
     border: none;
     border-radius: 8px;
     background: #fff;
@@ -156,12 +156,12 @@ img {
   position: fixed;
   inset: 0px;
   background: rgba(27, 27, 80, 0.4) !important;
-  padding: 100px 50px !important;
+  padding: 48px !important;
   display: flex;
   overflow: auto;
   z-index: 999;
   @media screen and (max-width: 1439px) {
-    padding: 50px 40px !important;
+    padding: 28px 40px !important;
   }
   .modal_wrapper {
     inset: 40px;
@@ -178,7 +178,7 @@ img {
     position: relative;
     @media screen and (max-width: 1439px) {
       width: 450px !important;
-      padding: 30px;
+      padding: 28px;
     }
     .error-message {
       margin-bottom: 16px;
@@ -393,18 +393,18 @@ img {
           .components-datetime__time-wrapper {
             gap: calc(4px);
             .components-button-group {
-              border: 2px solid #6C62FF;
-              background: #6C62FF;
+              border: 1px solid #EBEEF5;
+              background: #F9FAFC;
               border-radius: 2px;
               .components-button {
                 background: transparent;
                 border: 1px solid;
                 border-color: transparent;
-                padding: 6px;
+                padding: 7px 6px 8px;
                 border-radius: 2px;
               }
-              .is-secondary {
-                background: #fff;
+              .is-primary {
+                background: #F3F2FF;
               }
             }
           }
