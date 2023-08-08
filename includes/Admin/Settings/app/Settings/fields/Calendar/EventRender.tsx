@@ -1,9 +1,9 @@
-import { EventApi, EventContentArg, formatDate } from '@fullcalendar/core';
-import { EventImpl } from '@fullcalendar/core/internal';
+import { EventApi } from '@fullcalendar/core';
 import apiFetch from '@wordpress/api-fetch';
 import { Button } from '@wordpress/components';
 import { addQueryArgs } from '@wordpress/url';
 import React from 'react';
+import { SweetAlertDeleteMsgForPost } from '../../ToasterMsg';
 import { PostCardProps, PostType, WP_Error } from './types';
 
 
@@ -60,7 +60,14 @@ const PostCard: React.FC<PostCardProps> = ({
     });
   };
 
-
+  const handlePostDelete = (item) => {
+    SweetAlertDeleteMsgForPost( { item }, deleteFile );
+  }
+  
+  const deleteFile = (item) => {
+    toggleEditArea();
+    deletePost(item.postId);
+  }
   const deletePost = (id) => {
     // @todo add confirm dialog.
 
@@ -131,8 +138,7 @@ const PostCard: React.FC<PostCardProps> = ({
               href="#"
               onClick={(event) => {
                 event.preventDefault();
-                toggleEditArea();
-                deletePost(post.postId);
+                handlePostDelete(post);
               }}
             >
               Delete
