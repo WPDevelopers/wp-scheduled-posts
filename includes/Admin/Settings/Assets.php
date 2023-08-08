@@ -43,8 +43,7 @@ class Assets
             }
         }, 1);
 
-        if ($hook === 'toplevel_page_' . WPSP_SETTINGS_SLUG){
-            // Load admin style sheet and JavaScript
+        if ($hook === 'toplevel_page_' . WPSP_SETTINGS_SLUG || WPSP_SETTINGS_SLUG . '_page_' . WPSP_SETTINGS_SLUG . '-calendar' === $hook){            // Load admin style sheet and JavaScript
             wp_enqueue_style(WPSP_PLUGIN_SLUG, WPSP_ADMIN_URL . 'Settings/assets/css/admin.css', array(), WPSP_VERSION);
             wp_enqueue_style(WPSP_PLUGIN_SLUG.'-icon', WPSP_ADMIN_URL . 'Settings/assets/icon/style.css', array(), WPSP_VERSION);
             $dep = include WPSCP_ADMIN_DIR_PATH . 'Settings/assets/js/admin.asset.php';
