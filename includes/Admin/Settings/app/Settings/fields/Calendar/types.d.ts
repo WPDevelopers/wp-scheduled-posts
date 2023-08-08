@@ -52,6 +52,7 @@ export type SidebarProps = {
     calendar: React.MutableRefObject<FullCalendar>;
     setDraftEvents: (posts: Array<PostType>) => void;
     getPostTypeColor: (postType: string) => string;
+    postType: string;
   }
 
 

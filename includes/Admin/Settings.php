@@ -21,7 +21,7 @@ class Settings {
         // $this->builder = new Settings\Builder();
         // do_action('wpsp/admin/settings/set_settings_config', $this->builder);
         // $this->settings = $this->builder->get_settings();
-        new Settings\Assets($this->slug, $this->get_settings_array());
+        new Settings\Assets($this->slug, $this);
         // $this->data  = new Settings\Data($this->option_name, $this->settings);
         // add_action('wpsp_save_settings_default_value', array($this->data, 'save_option_value'));
     }

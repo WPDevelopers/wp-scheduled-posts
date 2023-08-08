@@ -52,7 +52,7 @@ export default function Calendar(props) {
   const [editAreaToggle, setEditAreaToggle] = useState({});
 
   const [selectedPostType, setSelectedPostType] = useState<Option[]>(
-    addAllOption(getOptionsFlatten(props.post_types))
+    addAllOption(props.post_types)
   );
   const [selectedCategories, setSelectedCategories] = useState<Option[]>([]);
 
@@ -81,7 +81,7 @@ export default function Calendar(props) {
     // const year = date.getFullYear();
 
     const data = {
-      post_type: getValues(selectedPostType),
+      post_type: props.postType ? [props.postType] : getValues(selectedPostType),
       taxonomy: selectedCategories,
       activeStart,
       activeEnd,
@@ -131,7 +131,7 @@ export default function Calendar(props) {
   };
 
   const getPostTypeColor = (postType: string) => {
-    let index = props.post_types.findIndex((type) => type.value === postType);
+    let index = (props._post_types || props.post_types).findIndex((type) => type.value === postType);
     if (index !== -1) {
       index = index % 10;
       return `wpsp-event-card-${index}`;
@@ -402,6 +402,7 @@ export default function Calendar(props) {
               draftEvents={draftEvents}
               setDraftEvents={setDraftEvents}
               getPostTypeColor={getPostTypeColor}
+              postType={props.postType}
             />
         )}
       </div>
