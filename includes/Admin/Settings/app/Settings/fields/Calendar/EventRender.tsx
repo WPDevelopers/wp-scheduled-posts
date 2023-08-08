@@ -1,9 +1,9 @@
-import { EventApi, EventContentArg, formatDate } from '@fullcalendar/core';
-import { EventImpl } from '@fullcalendar/core/internal';
+import { EventApi } from '@fullcalendar/core';
 import apiFetch from '@wordpress/api-fetch';
 import { Button } from '@wordpress/components';
 import { addQueryArgs } from '@wordpress/url';
 import React from 'react';
+import { SweetAlertDeleteMsgForPost } from '../../ToasterMsg';
 import { PostCardProps, PostType } from './types';
 
 
@@ -71,6 +71,16 @@ const PostCard: React.FC<PostCardProps> = ({
     });
   };
 
+  const handlePostDelete = (item) => {
+    alert('Hello World')
+    SweetAlertDeleteMsgForPost( { item }, deleteFile );
+  }
+  
+  const deleteFile = (item) => {
+    toggleEditArea();
+    deletePost(item.postId);
+  };
+
   return (
     <div className="wpsp-event-card card">
       {editAreaToggle?.[post.postId] && (
@@ -118,8 +128,7 @@ const PostCard: React.FC<PostCardProps> = ({
               href="#"
               onClick={(event) => {
                 event.preventDefault();
-                toggleEditArea();
-                deletePost(post.postId);
+                handlePostDelete(post);
               }}
             >
               Delete
