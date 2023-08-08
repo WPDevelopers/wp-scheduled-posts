@@ -1,11 +1,13 @@
 import classNames from 'classnames';
-import React, {useState,useEffect} from 'react'
+import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { generateTimeOptions } from '../helper/helper';
 import { selectStyles } from '../helper/styles';
 
 const Time = (props) => {
-  const [selectedTime, setSelectedTime] = useState({label : "12:00 AM", value : "12:00 AM"});
+  console.log('time-props',props);
+  
+  const [selectedTime, setSelectedTime] = useState({label : props?.value?.toUpperCase(), value : props?.value?.toUpperCase()});
 
   const handleTimeChange = (selectedOption) => {
     setSelectedTime(selectedOption);
