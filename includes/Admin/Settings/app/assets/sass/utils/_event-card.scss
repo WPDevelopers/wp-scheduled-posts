@@ -13,11 +13,11 @@
     position: absolute;
     content: '';
     width: 2px;
-    height: 64px;
     background: #e8821e;
     border-radius: 50px;
     left: -1px;
-    top: 18px;
+    top: 16px;
+    bottom: 16px;
   }
   .set-time {
     font-size: 12px;
@@ -65,11 +65,11 @@
     font-size: 8px;
     min-height: 16px;
     text-transform: uppercase;
-    color: #451f8b;
+    color: #73400d;
     font-weight: 500;
     line-height: 1em;
     background: transparent;
-    border: 1px solid #451f8b;
+    border: 1px solid #73400d;
     padding: 0 6px;
     border-radius: 20px;
     display: inline-flex;
