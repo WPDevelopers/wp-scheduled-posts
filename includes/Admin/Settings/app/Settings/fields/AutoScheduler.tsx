@@ -16,7 +16,7 @@ const AutoScheduler = (props) => {
     const weeks = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
     weeks.forEach(day => {
         const obj = builderContext.values['manage_schedule']?.[name];
-      if ( obj[`${day}_post_limit`] ) {
+      if ( obj?.[`${day}_post_limit`] ) {
         modifiedDayDataFormet.push({
           day: day,
           value: obj[`${day}_post_limit`]

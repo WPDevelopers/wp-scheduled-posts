@@ -12,7 +12,7 @@ const ManualScheduler = (props) => {
   let { name, multiple, onChange } = props;
   // @ts-ignore
   let is_pro = wpspSettingsGlobal?.pro_version ? true : false;
-  
+
   const options = [
     { value: 'saturday', label: 'Sat' },
     { value: 'sunday', label: 'Sun' },
@@ -25,17 +25,17 @@ const ManualScheduler = (props) => {
   const timeOptions = generateTimeOptions();
   const [selectDay, setSelectDay] = useState(options[0]);
   const [selectTime, setSelectTime] = useState(timeOptions[0]);
-  const [savedManualSchedule, setSavedManualSchedule] = useState(builderContext.values['manage_schedule']?.[name] ?? []);
+  const [savedManualSchedule, setSavedManualSchedule] = useState(builderContext.values['manage_schedule']?.[name] ?? {});
   const [manualSchedulerStatus, setManualSchedulerStatus] = useState( builderContext.values['manage_schedule']?.[name]?.['is_active_status'] ?? false);
-  
+
   // useEffect(() => {
   //   setManualSchedulerStatus( manualSchedulerStatusDBData )
   // }, [manualSchedulerStatusDBData])
 
   const handleSavedManualSchedule = () => {
     setSavedManualSchedule( (prevSchedule) => {
-      const updatedSchedule = prevSchedule;
-      // @ts-ignore 
+      const updatedSchedule = {weekdata: {}, ...prevSchedule};
+      // @ts-ignore
       if( updatedSchedule?.weekdata?.[selectDay.value] ) {
         updatedSchedule?.weekdata?.[selectDay.value].push( selectTime?.value );
       }else{
@@ -86,7 +86,7 @@ const ManualScheduler = (props) => {
   //   setManualSchedulerStatus(status);
   // }
   console.log('saved-manual-scheduler-data',savedManualSchedule);
-  
+
   const weekData = useCallback(
     (item, optionIndex) => (
       <div className="week-wrapper" key={optionIndex}>
@@ -118,7 +118,7 @@ const ManualScheduler = (props) => {
     ),
     [options,savedManualSchedule],
   )
-  
+
 
   return (
     <div
@@ -166,7 +166,34 @@ const ManualScheduler = (props) => {
         </button>
       </div>
       <div key='weeks' className={`weeks ${!is_pro ? 'pro-deactivated' : ''}`}>
-        {options.map( weekData )}
+        {options.map( (item, optionIndex) => (
+      <div className="week-wrapper" key={optionIndex}>
+        <div
+          className="week">
+          <h6>{item.label}</h6>
+          <span className="week-inner">
+            { savedManualSchedule?.weekdata?.[item.value]?.map((data, index) => (
+              <span key={index}>
+                {data}
+                <i
+                  onClick={() => {
+                    if( is_pro ) {
+                      const updatedSchedule = savedManualSchedule.filter(
+                        (_item) => {
+                          const propertyValue = _item[item.value];
+                          return propertyValue !== data;
+                        }
+                      );
+                      setSavedManualSchedule(updatedSchedule);
+                    }
+                  }}
+                  className="wpsp-icon wpsp-close"></i>
+              </span>
+            )) }
+          </span>
+        </div>
+      </div>
+    ) )}
       </div>
     </div>
   );
