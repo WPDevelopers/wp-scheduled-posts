@@ -91,21 +91,23 @@ const ManualScheduler = (props) => {
     }
   }, [savedManualSchedule, manualSchedulerStatus]);
 
+  let autoSchedulerObj = builderContext.values['manage_schedule']?.['auto_schedule'];
+  let isActiveStatusIndex = autoSchedulerObj.findIndex(obj => obj.hasOwnProperty("is_active_status"));
   const handleManualScheduleStatusToggle = (event) => {
-    SweetAlertStatusChangingMsg({ status: event.target.checked }, handleStatusChange);
+    if (isActiveStatusIndex !== -1) {
+      const isAutoActive = autoSchedulerObj[isActiveStatusIndex].is_active_status;
+      if( isAutoActive && event.target.checked  ) {
+        SweetAlertStatusChangingMsg({ status: event.target.checked }, handleStatusChange);
+      }else{
+        setManualSchedulerStatus(event.target.checked);
+      }
+    }
   };
 
   // Handle status change after confirm from popup alert
   const handleStatusChange = ( status ) => {
-    let autoSchedulerObj = builderContext.values['manage_schedule']?.['auto_schedule'];
-    const isActiveStatusIndex = autoSchedulerObj.findIndex(obj => obj.hasOwnProperty("is_active_status"));
-    if (isActiveStatusIndex !== -1) {
-      const isAutoActive = autoSchedulerObj[isActiveStatusIndex].is_active_status;
-      if( isAutoActive && status  ) {
-        autoSchedulerObj[isActiveStatusIndex].is_active_status = false;
-        builderContext.setFieldValue(['manage_schedule', 'auto_schedule'], [...autoSchedulerObj]);
-      }
-    }
+    autoSchedulerObj[isActiveStatusIndex].is_active_status = false;
+    builderContext.setFieldValue(['manage_schedule', 'auto_schedule'], [...autoSchedulerObj]);
     setManualSchedulerStatus(status);
   }
 
