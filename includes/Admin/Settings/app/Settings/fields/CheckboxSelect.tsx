@@ -85,7 +85,7 @@ const CheckboxSelect = (props) => {
             data-trigger="focus"
             data-content="Please select account(s)">
             <ReactSelect
-              options={options}
+              options={props?.option}
               styles={selectStyles}
               isMulti
               closeMenuOnSelect={false}

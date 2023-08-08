@@ -8,12 +8,12 @@ use WPSP\Helper;
 class Assets
 {
     protected $pageSlug;
-    public $setting_array = [];
+    public $settings;
 
     public function __construct($slug, $settings)
     {
         $this->pageSlug = $slug;
-        $this->setting_array = $settings;
+        $this->settings = $settings;
         // settings enqueue
         add_action('admin_enqueue_scripts', [$this, 'settings_scripts']);
     }
@@ -51,7 +51,7 @@ class Assets
             wp_localize_script(WPSP_PLUGIN_SLUG, 'wpspSettingsGlobal', apply_filters('wpsp_settings_global', array(
                 'api_nonce' => wp_create_nonce('wp_rest'),
                 'api_url' => rest_url(WPSP_PLUGIN_SLUG . '/v1/'),
-                'settings' => $this->setting_array,
+                'settings' => $this->settings->get_settings_array(),
                 'plugin_root_uri' => WPSP_PLUGIN_ROOT_URI,
                 'plugin_root_path' => WPSP_ROOT_DIR_PATH,
                 'assets_path'     => WPSP_PLUGIN_ROOT_URI.'assets/',

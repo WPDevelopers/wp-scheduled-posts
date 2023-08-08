@@ -20,7 +20,7 @@ const CalendarWrapper = (props) => {
                     <div className='wprf-tab-layout_calendar'>
                         <div id="calendar_section" className='calendar_section'>
                             <div className='wprf-section-fields'>
-                                <Calendar {...props} post_types={post_types} disablePostType={true} postType={postType} />
+                                <Calendar {...props} _post_types={props.post_types} post_types={post_types} disablePostType={true} postType={postType} />
                             </div>
                         </div>
                     </div>

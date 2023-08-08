@@ -11,7 +11,7 @@ import { ModalProps, PostType, SidebarProps } from "./types";
 import { ModalContent } from "./EditPost";
 
 // Define your component
-const Sidebar = ({selectedPostType, draftEvents: posts, setDraftEvents: setPosts, calendar}: SidebarProps, draggableRef: MutableRefObject<HTMLDivElement>
+const Sidebar = ({selectedPostType, draftEvents: posts, setDraftEvents: setPosts, calendar, getPostTypeColor, postType}: SidebarProps, draggableRef: MutableRefObject<HTMLDivElement>
   ) => {
   // Define your state variables
   const [optionSelected, setOptionSelected] = useState([]);
@@ -50,10 +50,10 @@ const Sidebar = ({selectedPostType, draftEvents: posts, setDraftEvents: setPosts
   // Fetch your posts and taxonomies using useEffect hook
   useEffect(() => {
     const query = {
-      post_type: getValues(selectedPostType) ?? ["post"], // Use selectedPostType state or default to ["post"]
+      post_type: postType ? [postType] : (getValues(selectedPostType) ?? ["post"]), // Use selectedPostType state or default to ["post"]
       post_status: ["draft", "pending"],
       posts_per_page: -1,
-      taxonomy : (optionSelected),
+      taxonomy : getValues(optionSelected, true),
       // page: page,
     };
     // Fetch your posts using apiFetch
@@ -92,6 +92,7 @@ const Sidebar = ({selectedPostType, draftEvents: posts, setDraftEvents: setPosts
                   setEditAreaToggle={setEditAreaToggle}
                   openModal={(modalData) => openModal({ ...modalData, eventType: 'editDraft' })}
                   setEvents={setPosts}
+                  getPostTypeColor={getPostTypeColor}
                 />
               </div>
             )
