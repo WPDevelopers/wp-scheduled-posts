@@ -146,6 +146,14 @@ ul {
   display: none;
 }
 .selected-options {
+  ul {
+    display: flex;
+    align-items: center;
+    row-gap: 8px;
+    column-gap: 12px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+  }
   li {
     margin-bottom: 0 !important;
     padding: 8px 12px;
@@ -174,9 +182,6 @@ ul {
 }
 #external-events-listing .selected-options {
   margin-bottom: 10px;
-  ul li {
-    margin-bottom: 5px !important;
-  }
 }
 #wpsp-dashboard-body
   .wprf-tab-layout_calendar

@@ -81,7 +81,6 @@ img {
         font-size: 12px;
         padding: 16px 20px !important;
       }
-
     }
     .swal2-html-container {
       font-size: 22px;
@@ -118,31 +117,25 @@ img {
         }
       }
       a {
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
         background: #6c62ff !important;
-        padding: 20px 24px !important;
+        color: #fff;
+        font-size: 14px;
+        padding: 16px 24px !important;
         border-radius: 6px !important;
         height: auto !important;
-        line-height: 0px;
+        line-height: 1.2em;
         margin-top: 32px;
         border: none;
         cursor: pointer;
+        font-weight: 500;
+        text-decoration: none;
         @media screen and (max-width: 1439px) {
-          padding: 16px 20px !important;
+          padding: 12px 20px !important;
           margin-top: 24px;
-        }
-        button {
-          font-weight: 500;
-          font-size: 14px;
-          line-height: 1.2em;
-          color: #fff;
-          background: transparent;
-          border: none;
-          padding: unset;
-          cursor: pointer;
-          @media screen and (max-width: 1439px) {
-            font-size: 12px;
-          }
+          font-size: 12px;
         }
       }
     }
@@ -292,7 +285,7 @@ img {
           }
         }
         h3 {
-          color: #1B1B50;
+          color: #1b1b50;
           font-size: 16px;
           font-weight: 500;
           line-height: 1.2em;
@@ -329,7 +322,7 @@ img {
           width: 100%;
           font-size: 16px;
           line-height: 1.3em;
-          color: #1B1B50;
+          color: #1b1b50;
           padding: 20px 18px;
           min-height: 44px !important;
           border: 1px solid #ebeef5;
@@ -387,15 +380,15 @@ img {
             line-height: 1.2;
             font-weight: 500;
             text-transform: capitalize;
-            color: #1B1B50;
+            color: #1b1b50;
             margin-bottom: 1em;
           }
           .components-datetime__time-field-time {
-            border-right: 1px solid #EBEEF5;
+            border-right: 1px solid #ebeef5;
           }
           .components-datetime__time-wrapper {
-            gap: 0; 
-            border: 1px solid #EBEEF5 !important;
+            gap: 0;
+            border: 1px solid #ebeef5 !important;
             border-radius: 2px;
             height: 44px;
             .components-input-control__backdrop {

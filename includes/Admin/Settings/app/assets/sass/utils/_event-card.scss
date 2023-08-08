@@ -13,11 +13,11 @@
     position: absolute;
     content: '';
     width: 2px;
-    height: 64px;
     background: #e8821e;
     border-radius: 50px;
     left: -1px;
-    top: 18px;
+    top: 16px;
+    bottom: 16px;
   }
   .set-time {
     font-size: 12px;
@@ -65,11 +65,11 @@
     font-size: 8px;
     min-height: 16px;
     text-transform: uppercase;
-    color: #451f8b;
+    color: #73400d;
     font-weight: 500;
     line-height: 1em;
     background: transparent;
-    border: 1px solid #451f8b;
+    border: 1px solid #73400d;
     padding: 0 6px;
     border-radius: 20px;
     display: inline-flex;
@@ -99,11 +99,11 @@
     2: #f5f1fd,
     3: #ecf5e7,
     4: #e2eeff,
-    5: #FFF7E1,
-    6: #FFEDF3,
-    7: #FFF3EF,
-    8: #FCECFF,
-    9: #E4FFF7,
+    5: #fff7e1,
+    6: #ffedf3,
+    7: #fff3ef,
+    8: #fcecff,
+    9: #e4fff7,
   );
   $full-colors: (
     0: #e8821e,
@@ -111,11 +111,11 @@
     2: #7f55dc,
     3: #64aa3c,
     4: #418cfd,
-    5: #E2A50C,
-    6: #AA3C64,
-    7: #FB754E,
-    8: #CC3DE3,
-    9: #26D39E,
+    5: #e2a50c,
+    6: #aa3c64,
+    7: #fb754e,
+    8: #cc3de3,
+    9: #26d39e,
   );
   $dark-colors: (
     0: #73400d,
@@ -123,11 +123,11 @@
     2: #451f8b,
     3: #2c5417,
     4: #14458f,
-    5: #9B6F00,
-    6: #6D1736,
-    7: #B84B2B,
-    8: #9318A7,
-    9: #0D946A,
+    5: #9b6f00,
+    6: #6d1736,
+    7: #b84b2b,
+    8: #9318a7,
+    9: #0d946a,
   );
 
   @for $i from 0 through 9 {
@@ -151,6 +151,17 @@
       .status-badge {
         color: map-get($full-colors, $i) !important;
         border: 1px solid map-get($full-colors, $i) !important;
+      }
+    }
+  }
+}
+
+.fc-popover {
+  .fc-popover-body {
+    .fc-event {
+      z-index: initial !important;
+      &:hover {
+        background: transparent!important;
       }
     }
   }
