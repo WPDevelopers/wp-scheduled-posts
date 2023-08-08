@@ -88,13 +88,13 @@ export const SweetAlertDeleteMsgForPost = ( args: any = {}, deleteFile?: (item) 
       confirmButtonColor: args?.confirmButtonColor ?? '#3085d6',
       cancelButtonColor: args?.cancelButtonColor ?? '#d33',
       cancelButtonText: '<i class="wpsp-icon wpsp-close"></i>',
-      confirmButtonText: args?.confirmButtonText ?? __('Yes, delete it!', 'wp-scheduled-posts'),
+      confirmButtonText: args?.confirmButtonText ?? __('Yes, Delete it!', 'wp-scheduled-posts'),
   }).then((result) => {
     if (result.isConfirmed) {
       deleteFile(args?.item)
       Swal.fire(
-        'Deleted!',
-        'Your file has been deleted.',
+        __('Deleted!','wp-scheduled-posts'),
+        __('Your post has been deleted.','wp-scheduled-posts'),
         'success'
       )
     }

@@ -60,14 +60,7 @@ const PostCard: React.FC<PostCardProps> = ({
     });
   };
 
-  const handlePostDelete = (item) => {
-    SweetAlertDeleteMsgForPost( { item }, deleteFile );
-  }
-  
-  const deleteFile = (item) => {
-    toggleEditArea();
-    deletePost(item.postId);
-  }
+
   const deletePost = (id) => {
     // @todo add confirm dialog.
 
@@ -90,7 +83,14 @@ const PostCard: React.FC<PostCardProps> = ({
       }
     });
   };
-
+  const handlePostDelete = (item) => {
+    SweetAlertDeleteMsgForPost( { item }, deleteFile );
+  }
+  
+  const deleteFile = (item) => {
+    toggleEditArea();
+    deletePost(item.postId);
+  };
   return (
     <div className="wpsp-event-card card">
       {editAreaToggle?.[post.postId] && (
