@@ -15,11 +15,14 @@ export const getTimeZone = () => {
   return timeZone;
 }
 
-export const getValues = (options: Option[]) => {
+export const getValues = (options: Option[], returnObject = false) => {
   const values    = options ?? [];
   const allOption = values.find((option) => option.value === "all");
   if(allOption) {
     return [];
+  }
+  else if(returnObject){
+    return values;
   }
   else{
     return values.map(option => option.value)

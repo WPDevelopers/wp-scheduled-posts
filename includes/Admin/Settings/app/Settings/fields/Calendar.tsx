@@ -82,7 +82,7 @@ export default function Calendar(props) {
 
     const data = {
       post_type: props.postType ? [props.postType] : getValues(selectedPostType),
-      taxonomy: selectedCategories,
+      taxonomy: getValues(selectedCategories, true),
       activeStart,
       activeEnd,
     };

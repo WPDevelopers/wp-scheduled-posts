@@ -53,7 +53,7 @@ const Sidebar = ({selectedPostType, draftEvents: posts, setDraftEvents: setPosts
       post_type: postType ? [postType] : (getValues(selectedPostType) ?? ["post"]), // Use selectedPostType state or default to ["post"]
       post_status: ["draft", "pending"],
       posts_per_page: -1,
-      taxonomy : (optionSelected),
+      taxonomy : getValues(optionSelected, true),
       // page: page,
     };
     // Fetch your posts using apiFetch

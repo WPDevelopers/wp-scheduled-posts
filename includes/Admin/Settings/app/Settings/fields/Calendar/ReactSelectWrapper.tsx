@@ -54,7 +54,7 @@ const ReactSelectWrapper: React.FC<SelectWrapperProps> = ({
       }
       return true;
     },
-    [allOptionFlatten]
+    [allOptionFlatten, value]
   );
 
   // Add and remove
