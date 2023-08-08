@@ -150,6 +150,7 @@ class Calendar
     public function get_tax_terms($request){
         $post_types       = $request->get_param('post_type');
         $allow_post_types = Helper::get_settings('allow_post_types');
+        $allow_categories = Helper::get_settings('allow_categories');
         $allow_post_types = (!empty($allow_post_types) ? $allow_post_types : array('post'));
         $tax_terms        = Helper::get_all_tax_term($post_types ? $post_types : $allow_post_types);
         $return           = [];
@@ -163,7 +164,7 @@ class Calendar
                         'slug'     => $term['slug'],
                         'taxonomy' => $term['taxonomy'],
                         'postType' => $term['postType'],
-                        'value'    => "{$term['postType']}-{$term['taxonomy']}-{$term['slug']}",
+                        'value'    => "{$term['postType']}.{$term['taxonomy']}.{$term['slug']}",
                     ];
                 }, $terms)),
             ];

@@ -222,6 +222,16 @@ class Helper
         }
         return false;
     }
+    public static function _plugin_page_hook_suffix($current_post_type, $hook)
+    {
+        $allow_post_types = (!empty(self::get_settings('allow_post_types')) ? self::get_settings('allow_post_types') : array('post'));
+        foreach ($allow_post_types as $key => $post_type) {
+            if ( 'posts_page_' . WPSP_SETTINGS_SLUG . '-' . $post_type == $hook ) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * Email Notify review Email List
