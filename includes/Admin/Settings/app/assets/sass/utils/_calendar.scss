@@ -21,7 +21,7 @@
           font-size: 24px;
           line-height: 1.2em;
           font-weight: 600;
-          color: #1B1B50;
+          color: #1b1b50;
           margin: 0px 0 24px;
           @media screen and (max-width: 1439px) {
             font-size: 20px;
@@ -31,7 +31,7 @@
             font-size: 16px;
             margin: 0px 0 16px;
           }
-      }
+        }
         select {
           min-width: 140px;
           margin-bottom: 20px;
@@ -50,7 +50,7 @@
             margin: 24px 0 0;
           }
           .btn-draft-post-create {
-            background: #26D39E;
+            background: #26d39e;
             border: none;
             padding: 16px 22px;
             border-radius: 6px;
@@ -60,9 +60,9 @@
             color: #fff;
             text-decoration: none;
             display: inline-block;
-            transition: ease-in-out .25s;
+            transition: ease-in-out 0.25s;
             &:hover {
-              transform: scale(.95);
+              transform: scale(0.95);
             }
             @media screen and (max-width: 1439px) {
               font-size: 12px;
@@ -153,7 +153,7 @@
                 span.sc-iGgWBj {
                   font-size: 20px !important;
                   line-height: 1.2em;
-                  color: #6C62FF;
+                  color: #6c62ff;
                   font-weight: 600;
                   @media screen and (max-width: 1439px) {
                     font-size: 18px !important;
@@ -162,7 +162,7 @@
                     font-size: 16px !important;
                   }
                 }
-                .crmjJN { 
+                .crmjJN {
                   cursor: pointer;
                   fill: #6c62ff;
                   background: #f3f2ff;
@@ -468,9 +468,10 @@
   width: 120px;
   box-shadow: 0px 12px 48px 0px #1b1b501a;
   position: absolute;
-  left: 0px;
+  left: auto;
+  right: 0;
   top: 22px;
-  transform: translateX(-50%);
+  transform: translateX(0%) translateY(15px) !important;
   z-index: 999;
   li a {
     font-family: 'Inter' !important;
@@ -540,17 +541,7 @@
     }
   }
 }
-.wpsp-admin-wrapper .fc-event .edit-area,
-.wpsp-admin-wrapper .wpscp-event-post .edit-area {
-  transform: translateX(0%) !important;
-}
-.wpsp-admin-wrapper .fc-event .edit-area {
-  transform: translateX(0%) translateY(10px) !important;
-}
 
-.wpsp-admin-wrapper #external-events-listing .edit-area {
-  transform: translateX(80%) translateY(15px) !important;
-}
 .fc-daygrid-day-bottom {
   .fc-daygrid-more-link {
     min-height: 25px;
@@ -575,6 +566,6 @@
 }
 /* Hide scrollbar for IE, Edge and Firefox */
 .fc-scroller-liquid-absolute {
-  -ms-overflow-style: none !important;  /* IE and Edge */
-  scrollbar-width: none !important;  /* Firefox */
+  -ms-overflow-style: none !important; /* IE and Edge */
+  scrollbar-width: none !important; /* Firefox */
 }
