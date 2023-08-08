@@ -390,21 +390,31 @@ img {
             color: #1B1B50;
             margin-bottom: 1em;
           }
+          .components-datetime__time-field-time {
+            border-right: 1px solid #EBEEF5;
+          }
           .components-datetime__time-wrapper {
-            gap: calc(4px);
+            gap: 0; 
+            border: 1px solid #EBEEF5 !important;
+            border-radius: 2px;
+            height: 44px;
+            .components-input-control__backdrop {
+              border: transparent !important;
+            }
+            .components-datetime__time-separator {
+              border: transparent !important;
+            }
             .components-button-group {
-              border: 1px solid #EBEEF5;
-              background: #F9FAFC;
-              border-radius: 2px;
+              background: #fff;
+              padding: 4px;
               .components-button {
                 background: transparent;
-                border: 1px solid;
-                border-color: transparent;
+                border: none;
                 padding: 7px 6px 8px;
                 border-radius: 2px;
               }
               .is-primary {
-                background: #F3F2FF;
+                background: #d7d5f4;
               }
             }
           }
