@@ -53,7 +53,11 @@ const PostCard: React.FC<PostCardProps> = ({
   setEditAreaToggle,
   openModal,
   setEvents,
+  getPostTypeColor,
 }) => {
+
+  const postColor = getPostTypeColor(post.postType);
+
   const toggleEditArea = () => {
     setEditAreaToggle({
       [post.postId]: !editAreaToggle?.[post.postId] ?? true,
@@ -86,13 +90,13 @@ const PostCard: React.FC<PostCardProps> = ({
   const handlePostDelete = (item) => {
     SweetAlertDeleteMsgForPost( { item }, deleteFile );
   }
-  
+
   const deleteFile = (item) => {
     toggleEditArea();
     deletePost(item.postId);
   };
   return (
-    <div className="wpsp-event-card card">
+    <div className={`wpsp-event-card card ${postColor}`} >
       {editAreaToggle?.[post.postId] && (
         <ul className="edit-area">
           <li>

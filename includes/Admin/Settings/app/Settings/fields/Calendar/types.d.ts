@@ -35,6 +35,7 @@ export type PostType = {
     >;
     openModal: (modalData: { post: any; eventType: string }) => void;
     setEvents: React.Dispatch<React.SetStateAction<PostType[]>>;
+    getPostTypeColor: (postType: string) => string;
   }
 
   export type ModalProps = {
@@ -50,6 +51,7 @@ export type SidebarProps = {
     draftEvents: Array<PostType>;
     calendar: React.MutableRefObject<FullCalendar>;
     setDraftEvents: (posts: Array<PostType>) => void;
+    getPostTypeColor: (postType: string) => string;
   }
 
 

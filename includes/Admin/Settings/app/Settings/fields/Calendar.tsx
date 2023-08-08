@@ -22,10 +22,11 @@ import { format } from "@wordpress/date";
 import "../../assets/sass/utils/_Calendar.scss";
 
 export default function Calendar(props) {
-  console.log(props);
+  // console.log(props);
   // @ts-ignore
-  const restRoute = props.rest_route;
-  const calendar = useRef<FullCalendar>();
+  const timeZone   = getTimeZone();
+  const restRoute  = props.rest_route;
+  const calendar   = useRef<FullCalendar>();
   const RefSidebar = useRef<HTMLDivElement>();
   // monthPicker
   const monthPicker = useRef<MonthPicker>();
@@ -129,9 +130,13 @@ export default function Calendar(props) {
     return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
   };
 
-
-  let timeZone = getTimeZone();
-
+  const getPostTypeColor = (postType: string) => {
+    let index = props.post_types.findIndex((type) => type.value === postType);
+    if (index !== -1) {
+      index = index % 10;
+      return `wpsp-event-card-${index}`;
+    }
+  };
 
 
   return (
@@ -291,6 +296,7 @@ export default function Calendar(props) {
                     setEditAreaToggle={setEditAreaToggle}
                     openModal={openModal}
                     setEvents={setEvents}
+                    getPostTypeColor={getPostTypeColor}
                   />
                 );
               }}
@@ -395,6 +401,7 @@ export default function Calendar(props) {
               selectedPostType={selectedPostType}
               draftEvents={draftEvents}
               setDraftEvents={setDraftEvents}
+              getPostTypeColor={getPostTypeColor}
             />
         )}
       </div>
