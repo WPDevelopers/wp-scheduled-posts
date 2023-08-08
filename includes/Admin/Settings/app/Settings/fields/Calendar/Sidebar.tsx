@@ -91,6 +91,7 @@ const Sidebar = ({selectedPostType, draftEvents: posts, setDraftEvents: setPosts
                   editAreaToggle={editAreaToggle}
                   setEditAreaToggle={setEditAreaToggle}
                   openModal={(modalData) => openModal({ ...modalData, eventType: 'editDraft' })}
+                  setEvents={setPosts}
                 />
               </div>
             )

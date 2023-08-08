@@ -4,7 +4,7 @@ import { Button } from '@wordpress/components';
 import { addQueryArgs } from '@wordpress/url';
 import React from 'react';
 import { SweetAlertDeleteMsgForPost } from '../../ToasterMsg';
-import { PostCardProps, PostType } from './types';
+import { PostCardProps, PostType, WP_Error } from './types';
 
 
 export const getPostFromEvent = (event: EventApi, dateString = false) => {
@@ -25,18 +25,6 @@ export const getPostFromEvent = (event: EventApi, dateString = false) => {
   };
   return post;
 }
-
-export const deletePost = (id) => {
-  return apiFetch({
-    path: addQueryArgs('/wpscp/v1/post', { ID: id }),
-    method: 'DELETE',
-    // data: query,
-  }).then((data: []) => {
-    // Set your posts state with the fetched data
-    console.log(data);
-  });
-};
-
 export const eventDrop = (event: EventApi, eventType) => {
   const post: PostType = getPostFromEvent(event, true);
 
@@ -64,6 +52,7 @@ const PostCard: React.FC<PostCardProps> = ({
   editAreaToggle,
   setEditAreaToggle,
   openModal,
+  setEvents,
 }) => {
   const toggleEditArea = () => {
     setEditAreaToggle({
@@ -72,13 +61,34 @@ const PostCard: React.FC<PostCardProps> = ({
   };
 
   const handlePostDelete = (item) => {
-    alert('Hello World')
     SweetAlertDeleteMsgForPost( { item }, deleteFile );
   }
   
   const deleteFile = (item) => {
     toggleEditArea();
     deletePost(item.postId);
+  }
+  const deletePost = (id) => {
+    // @todo add confirm dialog.
+
+    return apiFetch({
+      path: addQueryArgs('/wpscp/v1/post', { ID: id }),
+      method: 'DELETE',
+      // data: query,
+    }).then((data: {id: string, message: string} | WP_Error) => {
+      if('id' in data) {
+        setEvents((events) => {
+          return events.filter((event) => {
+            return event.postId !== parseInt(data.id);
+          });
+        });
+        // @todo show success message.
+
+      } else {
+        // @todo show error message.
+        console.log(data);
+      }
+    });
   };
 
   return (

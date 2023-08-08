@@ -57,7 +57,7 @@ class Settings {
         return $arr;
     }
 
-    public function normalize_options($fields, $key = '', $value = [], $return = []) {
+    public static function normalize_options($fields, $key = '', $value = [], $return = []) {
 
         foreach ($fields as $val => $label) {
             if (empty($return[$val]) && !is_array($label)) {
@@ -188,7 +188,7 @@ class Settings {
                                     'multiple' => true,
                                     'priority' => 7,
                                     'icon_classes'  => 'wpsp-icon wpsp-close',
-                                    'option'  => $this->normalize_options(\WPSP\Helper::get_all_post_type()),
+                                    'option'  => self::normalize_options(\WPSP\Helper::get_all_post_type()),
                                     'default'  => [ 'post' ],
                                 ],
                                 'allow_categories' => [
@@ -198,7 +198,7 @@ class Settings {
                                     'multiple' => true,
                                     'priority' => 8,
                                     'icon_classes'  => 'wpsp-icon wpsp-close',
-                                    'option'  => $this->normalize_options(\WPSP\Helper::_get_all_category()),
+                                    'option'  => self::normalize_options(\WPSP\Helper::_get_all_category()),
                                 ],
                                 'allow_user_by_role' => [
                                     'name'     => 'allow_user_by_role',
@@ -207,7 +207,7 @@ class Settings {
                                     'multiple' => true,
                                     'priority' => 9,
                                     'icon_classes'  => 'wpsp-icon wpsp-close',
-                                    'option'  => $this->normalize_options(\WPSP\Helper::get_all_roles()),
+                                    'option'  => self::normalize_options(\WPSP\Helper::get_all_roles()),
                                     'default'  => [ 'administrator' ],
                                 ],
                                 'calendar_schedule_time' => [
@@ -308,7 +308,7 @@ class Settings {
                                     'start_of_week' => (int) get_option('start_of_week', 0),
                                     'rest_route'    => '/wpscp/v1/calendar',
                                     'timeZone'      => wp_timezone_string(),
-                                    'post_types'    => array_values($this->normalize_options(\WPSP\Helper::get_allow_post_types())),
+                                    'post_types'    => array_values(self::normalize_options(\WPSP\Helper::get_allow_post_types())),
                                 ]
                             ],
                         ]
@@ -348,7 +348,7 @@ class Settings {
                                             'multiple' => true,
                                             'priority' => 10,
                                             'icon_classes'  => 'wpsp-icon wpsp-close',
-                                            'option'   => $this->normalize_options( \WPSP\Helper::get_all_roles() ),
+                                            'option'   => self::normalize_options( \WPSP\Helper::get_all_roles() ),
                                             'rules'       => Rules::logicalRule([
                                                 Rules::is( 'notify_author_post_is_review', true ),
                                             ]),
@@ -360,7 +360,7 @@ class Settings {
                                             'multiple' => true,
                                             'priority' => 11,
                                             'icon_classes'  => 'wpsp-icon wpsp-close',
-                                            'option'   => $this->normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_login', 'user_login') ),
+                                            'option'   => self::normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_login', 'user_login') ),
                                             'rules'       => Rules::logicalRule([
                                                 Rules::is( 'notify_author_post_is_review', true ),
                                             ]),
@@ -372,7 +372,7 @@ class Settings {
                                             'multiple' => true,
                                             'priority' => 12,
                                             'icon_classes'  => 'wpsp-icon wpsp-close',
-                                            'option'   => $this->normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_email', 'user_email') ),
+                                            'option'   => self::normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_email', 'user_email') ),
                                             'rules'       => Rules::logicalRule([
                                                 Rules::is( 'notify_author_post_is_review', true ),
                                             ]),
@@ -408,7 +408,7 @@ class Settings {
                                             'multiple' => true,
                                             'priority' => 25,
                                             'icon_classes'  => 'wpsp-icon wpsp-close',
-                                            'option'   => $this->normalize_options( \WPSP\Helper::get_all_roles() ),
+                                            'option'   => self::normalize_options( \WPSP\Helper::get_all_roles() ),
                                             'rules'       => Rules::logicalRule([
                                                 Rules::is( 'notify_author_post_is_scheduled', true ),
                                             ]),
@@ -421,7 +421,7 @@ class Settings {
                                             'multiple' => true,
                                             'priority' => 30,
                                             'icon_classes'  => 'wpsp-icon wpsp-close',
-                                            'option'   => $this->normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_login', 'user_login') ),
+                                            'option'   => self::normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_login', 'user_login') ),
                                             'rules'       => Rules::logicalRule([
                                                 Rules::is( 'notify_author_post_is_scheduled', true ),
                                             ]),
@@ -434,7 +434,7 @@ class Settings {
                                             'multiple' => true,
                                             'priority' => 35,
                                             'icon_classes'  => 'wpsp-icon wpsp-close',
-                                            'option'   => $this->normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_email', 'user_email') ),
+                                            'option'   => self::normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_email', 'user_email') ),
                                             'rules'       => Rules::logicalRule([
                                                 Rules::is( 'notify_author_post_is_scheduled', true ),
                                             ]),
@@ -493,7 +493,7 @@ class Settings {
                                     'type'     => 'twitter',
                                     'label'    => __('Twitter', 'wp-scheduled-posts'),
                                     'default'  => [],
-                                    'logo'     => WPSP_ASSETS_URI . 'images/twitter.svg',                                    
+                                    'logo'     => WPSP_ASSETS_URI . 'images/twitter.svg',
                                     'desc'     => sprintf( __('You can enable/disable Twitter social share. To configure Twitter Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-tweet-wordpress-posts/' ),
                                     'modal'    => [
                                         'logo'               => WPSP_ASSETS_URI . 'images/twitter.svg',
@@ -508,10 +508,10 @@ class Settings {
                                     'type'     => 'linkedin',
                                     'label'    => __('LinkedIn', 'wp-scheduled-posts'),
                                     'default'  => [],
-                                    'logo'     => WPSP_ASSETS_URI . 'images/linkedin.svg',                                    
+                                    'logo'     => WPSP_ASSETS_URI . 'images/linkedin.svg',
                                     'desc'     => sprintf( __('You can enable/disable LinkedIn social share. To configure LinkedIn Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-linkedin/' ),
                                     'modal'    => [
-                                        'logo'               => WPSP_ASSETS_URI . 'images/linkedin.svg',                                    
+                                        'logo'               => WPSP_ASSETS_URI . 'images/linkedin.svg',
                                         'redirect_url_desc'  => __('Copy this and paste it in your linkedin app Callback url field.','wp-scheduled-posts'),
                                         'desc'               => sprintf( __('For details on LinkedIn configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your LinkedIn account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-linkedin/','https://developer.linkedin.com/' ),
                                     ],
@@ -522,10 +522,10 @@ class Settings {
                                     'name'     => 'pinterest_profile_list',
                                     'type'     => 'pinterest',
                                     'label'    => __('Pinterest', 'wp-scheduled-posts'),
-                                    'logo'     => WPSP_ASSETS_URI . 'images/pinterest.svg',                                    
+                                    'logo'     => WPSP_ASSETS_URI . 'images/pinterest.svg',
                                     'desc'     => sprintf( __('You can enable/disable Pinterest social share. To configure Pinterest Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/wordpress-posts-on-pinterest/' ),
                                     'modal'    => [
-                                        'logo'               => WPSP_ASSETS_URI . 'images/pinterest.svg',                                    
+                                        'logo'               => WPSP_ASSETS_URI . 'images/pinterest.svg',
                                         'redirect_url_desc'  => __('Add this URL in the Redirect URLs field of your Pinterest app.','wp-scheduled-posts'),
                                         'desc'               => sprintf( __('For details on LinkedIn configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your Pinterest account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/wordpress-posts-on-pinterest/','https://developers.pinterest.com/' ),
                                     ],
@@ -584,7 +584,7 @@ class Settings {
                                                         'facebook'  => [
                                                             'name'       => "facebook",
                                                             'parent'     => "social_templates",
-                                                            'parenttype' => "group",
+                                                            // 'parenttype' => "group",
                                                             'type'       => "group",
                                                             'priority'   => 10,
                                                             'fields'     => [
@@ -685,6 +685,7 @@ class Settings {
                                                     'fields'        => [
                                                         'twitter'  => [
                                                             'name'     => "twitter",
+                                                            'parent'     => "social_templates",
                                                             'type'     => "group",
                                                             'priority' => 10,
                                                             'fields'    => [
@@ -764,6 +765,7 @@ class Settings {
                                                     'fields'        => [
                                                         'linkedin'  => [
                                                             'name'     => "linkedin",
+                                                            'parent'     => "social_templates",
                                                             'type'     => "group",
                                                             'priority' => 10,
                                                             'fields'    => [
@@ -856,6 +858,7 @@ class Settings {
                                                     'fields'        => [
                                                         'pinterest'  => [
                                                             'name'     => "pinterest",
+                                                            'parent'     => "social_templates",
                                                             'type'     => "group",
                                                             'priority' => 10,
                                                             'fields'    => [

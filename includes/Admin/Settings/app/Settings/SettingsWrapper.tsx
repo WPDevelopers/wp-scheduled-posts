@@ -12,7 +12,7 @@ const SettingsWrapper = ({wpspObject}) => {
 
     return (
         <>
-            <Header />
+            <Header image_path={wpspObject?.image_path} />
             <BuilderProvider value={builder}>
                 <SettingsInner {...wpspObject} />
                 <ToastContainer />

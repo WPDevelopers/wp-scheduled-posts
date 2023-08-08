@@ -9,7 +9,7 @@ import { eventDrop, getPostFromEvent } from "./Calendar/EventRender";
 import Sidebar from "./Calendar/Sidebar";
 // const events = [{ title: "Meeting", start: new Date() }];
 import MonthPicker from "@compeon-os/monthpicker";
-import { EventContentArg, EventDropArg } from "@fullcalendar/core";
+import { DayCellMountArg, EventContentArg, EventDropArg } from "@fullcalendar/core";
 import { __ } from "@wordpress/i18n";
 import classNames from "classnames";
 import CategorySelect from "./Calendar/Category";
@@ -18,16 +18,18 @@ import PostCard from "./Calendar/EventRender";
 import { getEndDate, getTimeZone, getValues } from "./Calendar/Helpers";
 import ReactSelectWrapper, { addAllOption, getOptionsFlatten } from "./Calendar/ReactSelectWrapper";
 import { ModalProps, Option, PostType } from "./Calendar/types";
-import { getSettings } from "@wordpress/date";
+import { format } from "@wordpress/date";
+import "../../assets/sass/utils/_Calendar.scss";
 
 export default function Calendar(props) {
+  console.log(props);
   // @ts-ignore
   const restRoute = props.rest_route;
   const calendar = useRef<FullCalendar>();
   const RefSidebar = useRef<HTMLDivElement>();
   // monthPicker
   const monthPicker = useRef<MonthPicker>();
-  const builderContext = useBuilderContext();
+  // const builderContext = useBuilderContext();
   const [events, setEvents] = useState([]);
   const [draftEvents, setDraftEvents] = useState([]);
   //
@@ -102,14 +104,14 @@ export default function Calendar(props) {
 
   useEffect(() => {
     // console.log(builderContext.config.active);
-    if ("layout_calendar" === builderContext.config.active) {
+    if ("layout_calendar" === props.context?.config.active) {
       setTimeout(() => {
         calendar.current?.doResize();
         calendar.current?.getApi().updateSize();
         calendar.current?.render();
       }, 100);
     }
-  }, [builderContext.config.active]);
+  }, [props.context?.config.active]);
 
   const handleSlidebarToggle = () => {
     setSidebarToggle(sidebarToggle ? false : true);
@@ -130,7 +132,6 @@ export default function Calendar(props) {
 
   let timeZone = getTimeZone();
 
-  console.log(timeZone);
 
 
   return (
@@ -145,6 +146,7 @@ export default function Calendar(props) {
       <div className="wpsp-calender-header">
         <div className="wpsp-post-select">
           <ReactSelectWrapper
+            isDisabled={props.disablePostType}
             options={Object.values(props.post_types || [])}
             value={selectedPostType}
             onChange={setSelectedPostType}
@@ -288,10 +290,11 @@ export default function Calendar(props) {
                     editAreaToggle={editAreaToggle}
                     setEditAreaToggle={setEditAreaToggle}
                     openModal={openModal}
+                    setEvents={setEvents}
                   />
                 );
               }}
-              dayCellDidMount={(args) => {
+              dayCellDidMount={(args: DayCellMountArg) => {
                 const dayTop =
                   args.el?.getElementsByClassName("fc-daygrid-day-top")[0];
                 if (!dayTop) return;
@@ -304,7 +307,7 @@ export default function Calendar(props) {
                   openModal({
                     post: null,
                     eventType: "addEvent",
-                    post_date: args.date,
+                    post_date: format("Y-m-d H:i:s", args.date),
                   });
                 });
 

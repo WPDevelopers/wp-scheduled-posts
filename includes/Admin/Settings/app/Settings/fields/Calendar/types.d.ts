@@ -1,4 +1,10 @@
 import FullCalendar from "@fullcalendar/react";
+// create type for rest response of WP_Error from php
+export type WP_Error = {
+    code: string;
+    message: string;
+    data?: any;
+  };
 
 export type Option = {
     value: string;
@@ -28,12 +34,13 @@ export type PostType = {
       React.SetStateAction<{ [key: number]: boolean }>
     >;
     openModal: (modalData: { post: any; eventType: string }) => void;
+    setEvents: React.Dispatch<React.SetStateAction<PostType[]>>;
   }
 
   export type ModalProps = {
     post: any;
     eventType: string;
-    post_date?: Date;
+    post_date?: Date | string;
     openModal?: boolean;
   }
 
@@ -47,6 +54,7 @@ export type SidebarProps = {
 
 
   export type SelectWrapperProps = {
+    isDisabled?: boolean;
     options: Option[];
     value: Option[];
     onChange?: (selectedOption: Option[] | null) => void;

@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { SweetAlertToaster } from "../../ToasterMsg";
 import { getPostType } from "./Helpers";
+import { PostType, WP_Error } from "./types";
 
 interface Post {
   ID               ?: number;
@@ -35,8 +36,12 @@ export const ModalContent = ({
     post_date: '',
   });
 
+  // console.log(getSettings());
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    // let offset = parseFloat(getSettings().timezone.offset) + new Date().getTimezoneOffset() / 60;
+    // let postDate = date("Y-m-d\\TH:i:s\\Z", postData.post_date, -offset);
 
     return wpFetch({
       method: "POST",
@@ -50,8 +55,9 @@ export const ModalContent = ({
         postContent: postData.post_content,
         date       : postData.post_date,
       },
-    }).then((data) => {
+    }).then((data: PostType | WP_Error) => {
       onSubmit(data, modalData?.post);
+      // @todo show success message
     }).finally(() => {
       closeModal();
       SweetAlertToaster({ title : __('New Post has been successfully Created','wp-scheduled-posts') }).fire();
@@ -80,6 +86,7 @@ export const ModalContent = ({
       .catch((error) => {
         setPostData({});
         setIsLoading(false);
+        // @todo show error message
       });
     } else {
       let data: Post = {

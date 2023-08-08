@@ -33,7 +33,18 @@ const SettingsInner = (props) => {
         },
       };
     });
+    // console.log('builderContext', builderContext);
+    // https://schedule.test/wp-admin/admin.php?page=schedulepress-calendar
+    // check if page param = schedulepress-calendar
+    const urlParams = new URLSearchParams(window.location.search);
+    if(urlParams.get('page') === 'schedulepress-calendar') {
+      // set active tab to layout_calendar
+      builderContext.setActiveTab('layout_calendar');
+    }
+
   }, [])
+
+
 
   return (
     <div className="wpsp-admin-wrapper">
