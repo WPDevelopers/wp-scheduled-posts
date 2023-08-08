@@ -15,7 +15,7 @@ export const getTimeZone = () => {
   return timeZone;
 }
 
-export const getValues = (options: Option[], returnObject = false) => {
+export const getValues = (options: Option[], returnObject = false): any[]  => {
   const values    = options ?? [];
   const allOption = values.find((option) => option.value === "all");
   if(allOption) {
@@ -30,8 +30,8 @@ export const getValues = (options: Option[], returnObject = false) => {
 };
 
 export const getPostType = (selectedPostType?: Option[]) => {
-  const postTypes = getValues(selectedPostType);
-  if (postTypes.length && postTypes[0] !== "all") {
+  const postTypes = getValues(selectedPostType).filter((postType) => postType !== "all");
+  if (postTypes.length) {
     return postTypes[0];
   }
   else{

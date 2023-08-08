@@ -88,7 +88,7 @@ export const ModalContent = ({
         setIsLoading(false);
         // @todo show error message
       });
-    } else {
+    } else if(modalData) {
       let data: Post = {
         post_type: getPostType(selectedPostType),
       };
