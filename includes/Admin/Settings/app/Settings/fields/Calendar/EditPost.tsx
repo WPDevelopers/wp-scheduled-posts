@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
 import wpFetch from "@wordpress/api-fetch";
-import { addQueryArgs } from "@wordpress/url";
 import { TimePicker } from "@wordpress/components";
+import { __ } from "@wordpress/i18n";
+import { addQueryArgs } from "@wordpress/url";
 import { Input, Textarea } from "quickbuilder";
+import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
-import { getPostType, getUTCDate } from "./Helpers";
-import { date, gmdate, getSettings, getDate } from "@wordpress/date";
+import { SweetAlertToaster } from "../../ToasterMsg";
+import { getPostType } from "./Helpers";
 import { PostType, WP_Error } from "./types";
 
 interface Post {
@@ -59,6 +60,7 @@ export const ModalContent = ({
       // @todo show success message
     }).finally(() => {
       closeModal();
+      SweetAlertToaster({ title : __('New Post has been successfully Created','wp-scheduled-posts') }).fire();
     });
   };
 

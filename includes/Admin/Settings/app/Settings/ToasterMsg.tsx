@@ -76,6 +76,30 @@ export const SweetAlertDeleteMsg = ( args: any = {}, deleteFile?: (item) => void
         }
     })
 };
+
+// Setup Sweetalert2 pro message popup
+export const SweetAlertDeleteMsgForPost = ( args: any = {}, deleteFile?: (item) => void ) => {
+  return Swal.fire({
+    title: args?.title ?? __( 'Are you sure?','wp-scheduled-posts' ),
+      text: args?.text ?? __( "You won't be able to revert this!",'wp-scheduled-posts' ),
+      icon: args?.icon ?? __( 'warning','wp-scheduled-posts' ),
+      allowOutsideClick: false, // Prevent closing on outside click
+      showCancelButton: args?.showCancelButton ?? true,
+      confirmButtonColor: args?.confirmButtonColor ?? '#3085d6',
+      cancelButtonColor: args?.cancelButtonColor ?? '#d33',
+      cancelButtonText: '<i class="wpsp-icon wpsp-close"></i>',
+      confirmButtonText: args?.confirmButtonText ?? __('Yes, delete it!', 'wp-scheduled-posts'),
+  }).then((result) => {
+    if (result.isConfirmed) {
+      deleteFile(args?.item)
+      Swal.fire(
+        'Deleted!',
+        'Your file has been deleted.',
+        'success'
+      )
+    }
+  })
+};
 // Show poup for auto & manual scheduler status change
 export const SweetAlertStatusChangingMsg = ( args: any = {}, handleStatusChange?: (status,values,manualSchedulerStatusIndex) => void ) => {
     return Swal.fire({
