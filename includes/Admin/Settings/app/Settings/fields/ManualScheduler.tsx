@@ -37,7 +37,9 @@ const ManualScheduler = (props) => {
       const updatedSchedule = {weekdata: {}, ...prevSchedule};
       // @ts-ignore
       if( updatedSchedule?.weekdata?.[selectDay.value] ) {
-        updatedSchedule?.weekdata?.[selectDay.value].push( selectTime?.value );
+        if( !updatedSchedule?.weekdata?.[selectDay.value].includes(selectTime?.value) ){
+          updatedSchedule?.weekdata?.[selectDay.value].push( selectTime?.value );
+        }
       }else{
         updatedSchedule.weekdata[selectDay.value] = [selectTime?.value];
       }
