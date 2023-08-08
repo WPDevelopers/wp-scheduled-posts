@@ -7,7 +7,6 @@ import { generateTimeOptions } from '../helper/helper';
 import ProToggle from './utils/ProToggle';
 
 import { selectStyles } from '../helper/styles';
-import { SweetAlertStatusChangingMsg } from '../ToasterMsg';
 
 const AutoScheduler = (props) => {
     let { name, multiple, onChange } = props;
@@ -16,30 +15,29 @@ const AutoScheduler = (props) => {
     const modifiedDayDataFormet = [];
     const weeks = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
     weeks.forEach(day => {
-      const obj = builderContext.values['manage_schedule']?.[name]?.find(item => item[`${day}_post_limit`]);
-      if (obj) {
+        const obj = builderContext.values['manage_schedule']?.[name];
+      if ( obj[`${day}_post_limit`] ) {
         modifiedDayDataFormet.push({
           day: day,
           value: obj[`${day}_post_limit`]
         });
       }
     });
-    let getStartTime = builderContext.values['manage_schedule']?.[name]?.find( (item) => item['start_time'] );
-    getStartTime = getStartTime ? getStartTime['start_time'] : '';
-    let getEndTime = builderContext.values['manage_schedule']?.[name]?.find( (item) => item['end_time'] );
-    let getAutoSchedulerStatus = builderContext.values['manage_schedule']?.[name]?.filter( (item) => item.hasOwnProperty('is_active_status') )[0].is_active_status;
-    getEndTime = getEndTime ? getEndTime['end_time'] : '';
+    
+    let getStartTime = builderContext.values['manage_schedule']?.[name]?.['start_time'];
+    let getEndTime = builderContext.values['manage_schedule']?.[name]?.['end_time'];
+    let getAutoSchedulerStatus = builderContext.values['manage_schedule']?.[name]?.['is_active_status'];
     const startTimeFormat = getStartTime ? { label : getStartTime, value : getStartTime } : null;
     const endTimeFormat = getEndTime ? { label : getEndTime, value : getEndTime } : null;
 
-    const [autoScheduler,setAutoSchedulerValue] = useState(modifiedDayDataFormet ?? []);
+    const [autoScheduler,setAutoSchedulerValue] = useState( modifiedDayDataFormet ?? [] );
     const [startSelectedTime, setStartSelectedTime] = useState(startTimeFormat ? startTimeFormat : timeOptions[0]);
     const [endSelectedTime, setEndSelectedTime] = useState(endTimeFormat ? endTimeFormat : timeOptions[0]);
     const [autoSchedulerStatus, setautoSchedulerStatus] = useState(getAutoSchedulerStatus ?? false);
 
-    useEffect(() => {
-      setautoSchedulerStatus( getAutoSchedulerStatus )
-    }, [getAutoSchedulerStatus])
+    // useEffect(() => {
+    //   setautoSchedulerStatus( getAutoSchedulerStatus )
+    // }, [getAutoSchedulerStatus])
 
     const handleDayChange = (day, event) => {
         setAutoSchedulerValue((prevWeeks) => {
@@ -61,49 +59,48 @@ const AutoScheduler = (props) => {
     }
 
     const handleTimeChange = (type,event) => {
-
         if( type === 'start' ) {
             setStartSelectedTime(event);
         }else{
             setEndSelectedTime(event);
         }
     }
-
     useEffect(() => {
-        let autoSchedulerObj = autoScheduler?.map( (item) => {
+        let autoSchedulerObj = {};
+        autoScheduler?.map( (item) => {
             let property_name = item?.day+'_post_limit';
-            return { [property_name] : item?.value }
-        } )
-        autoSchedulerObj.push( { start_time : startSelectedTime?.value }  );
-        autoSchedulerObj.push( { end_time : endSelectedTime?.value }  );
-        autoSchedulerObj.push( { is_active_status : autoSchedulerStatus }  );
+            autoSchedulerObj[property_name] = item?.value;
+        } );
+        autoSchedulerObj['start_time'] = startSelectedTime?.value;
+        autoSchedulerObj['end_time'] = endSelectedTime?.value;
+        autoSchedulerObj['is_active_status'] = autoSchedulerStatus;
 		onChange({
 			target: {
 				type: "auto-scheduler",
 				name:["manage_schedule",name],
 				value: autoSchedulerObj,
-				multiple,
+                multiple
 			},
 		});
-	}, [autoScheduler,startSelectedTime,endSelectedTime, autoSchedulerStatus]);
+	}, [autoScheduler, startSelectedTime, endSelectedTime, autoSchedulerStatus ]);
 
-    let manualSchedulerData = builderContext.values['manage_schedule']?.['manual_schedule'];
-    let manualSchedulerStatusIndex = manualSchedulerData.findIndex(obj => obj.hasOwnProperty("is_active_status"));
+    // let manualSchedulerData = builderContext.values['manage_schedule']?.['manual_schedule'];
+    // let manualSchedulerStatusIndex = manualSchedulerData?.findIndex(obj => obj.hasOwnProperty("is_active_status"));
     const handleAutoScheduleStatusToggle = (event) => {
-        if( manualSchedulerStatusIndex !== -1) {
-            if(  manualSchedulerData[manualSchedulerStatusIndex].is_active_status && event.target.checked ) {
-                SweetAlertStatusChangingMsg({ status: event.target.checked }, handleStatusChange);
-            }else{
-                setautoSchedulerStatus(event.target.checked);
-            }
-        }
+        setautoSchedulerStatus(event.target.checked);
+    //     if( manualSchedulerStatusIndex !== -1) {
+    //         if(  manualSchedulerData[manualSchedulerStatusIndex].is_active_status && event.target.checked ) {
+    //             SweetAlertStatusChangingMsg({ status: event.target.checked }, handleStatusChange);
+    //         }else{
+        //         }
+        //     }
     }
     
-    const handleStatusChange = ( status ) => {
-        manualSchedulerData[manualSchedulerStatusIndex].is_active_status = false;
-        builderContext.setFieldValue(['manage_schedule', 'manual_schedule'], [...manualSchedulerData]);
-        setautoSchedulerStatus(status);
-    };
+    // const handleStatusChange = ( status ) => {
+    //     manualSchedulerData[manualSchedulerStatusIndex].is_active_status = false;
+    //     builderContext.setFieldValue(['manage_schedule', 'manual_schedule'], [...manualSchedulerData]);
+    //     setautoSchedulerStatus(status);
+    // };
     
     // @ts-ignore
     let is_pro = wpspSettingsGlobal?.pro_version ? true : false;
