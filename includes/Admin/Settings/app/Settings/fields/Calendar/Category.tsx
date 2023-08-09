@@ -21,8 +21,7 @@ const CategorySelect = ({ selectedPostType, onChange, showTags = false }) => {
       setSelectedCategories(addAllOption(getOptionsFlatten(data)));
     });
   }, [selectedPostType]);
-  console.log('category-options-from-calender',categoryOptions);
-  
+
   return (
     <>
       <ReactSelectWrapper

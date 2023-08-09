@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import classNames from 'classnames';
 import { useBuilderContext } from 'quickbuilder';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Select from 'react-select';
 import { generateTimeOptions } from '../helper/helper';
 import ProToggle from './utils/ProToggle';
@@ -37,9 +37,9 @@ const AutoScheduler = (props) => {
     const [endSelectedTime, setEndSelectedTime] = useState(endTimeFormat ? endTimeFormat : timeOptions[0]);
     const [autoSchedulerStatus, setautoSchedulerStatus] = useState(getAutoSchedulerStatus ?? false);
     
-    // useEffect(() => {
-    //     setautoSchedulerStatus(getAutoSchedulerStatus);
-    // }, [getAutoSchedulerStatus])
+    useMemo( () => {
+        setautoSchedulerStatus(getAutoSchedulerStatus);
+    }, [getAutoSchedulerStatus])
     
     const handleDayChange = (day, event) => {
         setAutoSchedulerValue((prevWeeks) => {
@@ -75,7 +75,7 @@ const AutoScheduler = (props) => {
         } );
         autoSchedulerObj['start_time'] = startSelectedTime?.value;
         autoSchedulerObj['end_time'] = endSelectedTime?.value;
-        autoSchedulerObj['is_active_status'] = autoSchedulerStatus;
+        autoSchedulerObj['is_active_status'] = autoSchedulerStatus ?? false;
 		onChange({
 			target: {
 				type: "auto-scheduler",

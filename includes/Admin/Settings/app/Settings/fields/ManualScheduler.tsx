@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import classNames from 'classnames';
 import { useBuilderContext } from 'quickbuilder';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Select from 'react-select';
 import { SweetAlertStatusChangingMsg } from '../ToasterMsg';
 import { generateTimeOptions } from '../helper/helper';
@@ -35,9 +35,9 @@ const ManualScheduler = (props) => {
   const [manualSchedulerStatus, setManualSchedulerStatus] = useState( builderContext.values['manage_schedule']?.[name]?.['is_active_status'] ?? false);
   
   
-  // useEffect(() => {
-  //   setManualSchedulerStatus( manualSchedulerStatus );
-  // }, [manualSchedulerStatus])
+  useMemo(() => {
+    setManualSchedulerStatus( builderContext.values['manage_schedule']?.[name]?.['is_active_status'] );
+  }, [builderContext.values['manage_schedule']?.[name]?.['is_active_status']])
   
   const handleSavedManualSchedule = () => {
     setSavedManualSchedule( (prevSchedule) => {
@@ -67,7 +67,7 @@ const ManualScheduler = (props) => {
     let weekdata = savedManualSchedule.weekdata;
     let manualSchedulerData = {};
     manualSchedulerData['weekdata'] = weekdata;
-    manualSchedulerData['is_active_status'] = manualSchedulerStatus;
+    manualSchedulerData['is_active_status'] = manualSchedulerStatus ?? false;
     if( is_pro ) {
       onChange({
         target: {
