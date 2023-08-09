@@ -86,7 +86,7 @@ function License(props) {
 
   return (
     <div className={classNames('wprf-control', 'wprf-license', `wprf-${props.name}-social-profile`, props?.classes)}>
-        <div className='wpsp-license-container'>
+        <div className='wpsp-license-container-2'>
             <h4>{props?.label}</h4>
             <div className='wpsp-license-key-wrapper'>
                 <div className='wpsp-license-input'>
