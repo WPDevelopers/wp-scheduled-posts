@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
 import apiFetch from "@wordpress/api-fetch";
-import { addQueryArgs } from "@wordpress/url";
 import { __ } from "@wordpress/i18n";
+import { addQueryArgs } from "@wordpress/url";
+import React, { useEffect, useState } from "react";
 import ReactSelectWrapper, { addAllOption, getOptionsFlatten } from "./ReactSelectWrapper";
 import { Option } from "./types";
 
@@ -21,7 +21,8 @@ const CategorySelect = ({ selectedPostType, onChange, showTags = false }) => {
       setSelectedCategories(addAllOption(getOptionsFlatten(data)));
     });
   }, [selectedPostType]);
-
+  console.log('category-options-from-calender',categoryOptions);
+  
   return (
     <>
       <ReactSelectWrapper

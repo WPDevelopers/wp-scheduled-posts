@@ -104,7 +104,7 @@ export const SweetAlertDeleteMsgForPost = ( args: any = {}, deleteFile?: (item) 
 export const SweetAlertStatusChangingMsg = ( args: any = {}, handleStatusChange?: (status,values,manualSchedulerStatusIndex) => void ) => {
     return Swal.fire({
         title: args?.title ?? __( 'Are you sure?','wp-scheduled-posts' ),
-        // text: args?.text ?? __( "You won't be able to revert this!",'wp-scheduled-posts' ),
+        text: args?.text ?? __( "You won't be able to revert this!",'wp-scheduled-posts' ),
         icon: args?.icon ?? __( 'warning','wp-scheduled-posts' ),
         allowOutsideClick: false, // Prevent closing on outside click
         showCancelButton: args?.showCancelButton ?? true,
