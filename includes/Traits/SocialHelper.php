@@ -118,7 +118,8 @@ trait SocialHelper
         }
 
         $template_structure = trim($template_structure, '::::');
-        $template_structure = str_replace('::::', "\n", $template_structure);
+        $replace_value = apply_filters('wpsp_social_share_content_template_line_break', "\n", func_get_args());
+        $template_structure = str_replace('::::', $replace_value, $template_structure);
         return trim($template_structure);
     }
 }
