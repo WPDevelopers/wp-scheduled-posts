@@ -376,7 +376,7 @@ class Calendar
         /**
          * Post Status Change and Date modifired
          */
-        if ($type == 'addEvent') {
+        if ($type == 'addEvent' || $type == 'editEvent') {
 
             // only works if update event is fired
             if (!empty($postid)) {

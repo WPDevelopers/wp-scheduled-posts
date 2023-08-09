@@ -260,6 +260,7 @@ class Settings {
                                     'type'     => 'toggle',
                                     'label'    => __('Show Publish Post Immediately Button', 'wp-scheduled-posts'),
                                     'default'  => 1,
+                                    'info'     => __('Immediately  Publish Button Only Shows For Scheduled Post Enabling This Settings','wp-scheduled-posts'),
                                     'priority' => 20,
                                 ],
                                 'show_on_elementor_editor' => [

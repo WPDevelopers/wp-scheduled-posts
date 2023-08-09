@@ -1,5 +1,4 @@
 import apiFetch from '@wordpress/api-fetch';
-import { __ } from "@wordpress/i18n";
 
 // Fetch data from API
 export const fetchDataFromAPI = async (body) => {
@@ -132,3 +131,26 @@ export const generateTimeOptions = () => {
 
     return times;
 };
+
+export const findOptionLabelByValue = (data, targetValue) => {
+    if (data[targetValue]) {
+        return { value: targetValue, label: data[targetValue].label };
+    }
+
+    for (const key in data) {
+        if (typeof data[key] === "object" && data[key].value === targetValue) {
+            return { value: targetValue, label: data[key].label };
+        }
+    }
+
+    for (const key in data) {
+        if (typeof data[key] === "object" && data[key].options) {
+            const foundLabel = findOptionLabelByValue(data[key].options, targetValue);
+            if (foundLabel) {
+                return foundLabel;
+            }
+        }
+    }
+
+    return null;
+}

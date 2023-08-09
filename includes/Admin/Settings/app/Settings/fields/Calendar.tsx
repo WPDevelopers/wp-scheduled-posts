@@ -3,23 +3,22 @@ import interactionPlugin, { EventDragStopArg } from "@fullcalendar/interaction";
 import momentTimezonePlugin from '@fullcalendar/moment-timezone';
 import FullCalendar from "@fullcalendar/react";
 import apiFetch from "@wordpress/api-fetch";
-import { useBuilderContext } from "quickbuilder";
 import React, { useEffect, useRef, useState } from "react";
 import { eventDrop, getPostFromEvent } from "./Calendar/EventRender";
 import Sidebar from "./Calendar/Sidebar";
 // const events = [{ title: "Meeting", start: new Date() }];
 import MonthPicker from "@compeon-os/monthpicker";
 import { DayCellMountArg, EventContentArg, EventDropArg } from "@fullcalendar/core";
+import { format } from "@wordpress/date";
 import { __ } from "@wordpress/i18n";
 import classNames from "classnames";
+import "../../assets/sass/utils/_Calendar.scss";
 import CategorySelect from "./Calendar/Category";
 import { ModalContent } from "./Calendar/EditPost";
 import PostCard from "./Calendar/EventRender";
 import { getEndDate, getTimeZone, getValues } from "./Calendar/Helpers";
-import ReactSelectWrapper, { addAllOption, getOptionsFlatten } from "./Calendar/ReactSelectWrapper";
+import ReactSelectWrapper, { addAllOption } from "./Calendar/ReactSelectWrapper";
 import { ModalProps, Option, PostType } from "./Calendar/types";
-import { format } from "@wordpress/date";
-import "../../assets/sass/utils/_Calendar.scss";
 
 export default function Calendar(props) {
   // console.log(props);

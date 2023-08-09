@@ -130,7 +130,7 @@ const PostCard: React.FC<PostCardProps> = ({
               onClick={(event) => {
                 event.preventDefault();
                 toggleEditArea();
-                openModal({ post, eventType: "addEvent" });
+                openModal({ post, eventType: "editEvent" });
               }}
             >
               Quick Edit

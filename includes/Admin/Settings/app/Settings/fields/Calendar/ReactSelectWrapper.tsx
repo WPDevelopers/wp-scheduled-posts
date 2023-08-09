@@ -127,7 +127,7 @@ const ReactSelectWrapper: React.FC<SelectWrapperProps> = ({
                 <li key={index}>
                   {' '}
                   {item?.label}{' '}
-                  <button onClick={() => removeItem(item)}>
+                  <button onClick={ () => !rest.isDisabled && removeItem(item) }>
                     {' '}
                     <i className="wpsp-icon wpsp-close"></i>{' '}
                   </button>{' '}

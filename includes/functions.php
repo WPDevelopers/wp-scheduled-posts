@@ -94,24 +94,26 @@ if (!function_exists('wpscp_scheduled_post_menu')) {
 						);
 
 						foreach ($scposts as $scpost) {
-
-							// $title = substr($scpost->post_title, 0,$title_length);
-							$title = $scpost->post_title;
+							if( !empty( $title_length ) ) {
+								$title = esc_html( substr($scpost->post_title, 0,$title_length) );
+							}else{
+								$title = esc_html( $scpost->post_title );
+							}
 							$author = get_the_author_meta('user_nicename', $scpost->post_author);
 							$date = get_the_date($date_format, $scpost);
 
-							$list_item_template	= str_replace("%TITLE%", $title, $list_template);
-							$list_item_template	= str_replace("%AUTHOR%", $author, $list_item_template);
-							$list_item_template = str_replace("%DATE%", $date, $list_item_template);
+							$list_item_template	= str_replace("%TITLE%", esc_html($title), $list_template);
+							$list_item_template	= str_replace("%AUTHOR%", esc_html($author), $list_item_template);
+							$list_item_template = str_replace("%DATE%", esc_html($date), $list_item_template);
 							$item_id++;
 
 							$wp_admin_bar->add_menu(
 								array(
 									'id' => 'wpscp_sub_' . $counter . '_' . $item_id,
 									'parent' => 'wpscp_sub_' . $counter,
-									'title' => $list_item_template,
+									'title' => wp_kses( $list_item_template, 'post' ),
 									'href' => get_edit_post_link($scpost->ID),
-									'meta' => array('title' => $scpost->post_title)
+									'meta' => array('title' => esc_html( $scpost->post_title ))
 								)
 							);
 						}

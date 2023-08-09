@@ -60,7 +60,24 @@ export const ModalContent = ({
       // @todo show success message
     }).finally(() => {
       closeModal();
-      SweetAlertToaster({ title : __('New Post has been successfully Created','wp-scheduled-posts') }).fire();
+      let message;
+      switch ( modalData?.eventType ) {
+        case 'addEvent':
+          message = __('New Post has been successfully Created','wp-scheduled-posts');
+          break;
+        case 'editEvent':
+          message = __('Post has been successfully Edited','wp-scheduled-posts');
+          break;
+        case 'newDraft':
+          message = __('New Draft Post has been successfully Created','wp-scheduled-posts');
+          break;
+        case 'editDraft':
+          message = __('Draft Post has been successfully Edited','wp-scheduled-posts');
+          break;
+        default:
+          break;
+      }
+      SweetAlertToaster({ title : message }).fire();
     });
   };
 

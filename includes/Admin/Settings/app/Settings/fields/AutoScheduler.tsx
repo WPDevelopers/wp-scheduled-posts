@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import classNames from 'classnames';
 import { useBuilderContext } from 'quickbuilder';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Select from 'react-select';
 import { generateTimeOptions } from '../helper/helper';
 import ProToggle from './utils/ProToggle';
@@ -36,9 +36,11 @@ const AutoScheduler = (props) => {
     const [startSelectedTime, setStartSelectedTime] = useState(startTimeFormat ? startTimeFormat : timeOptions[0]);
     const [endSelectedTime, setEndSelectedTime] = useState(endTimeFormat ? endTimeFormat : timeOptions[0]);
     const [autoSchedulerStatus, setautoSchedulerStatus] = useState(getAutoSchedulerStatus ?? false);
-    console.log('auto-scheduler-status',autoSchedulerStatus);
-
-    // setautoSchedulerStatus( getAutoSchedulerStatus )
+    
+    useMemo( () => {
+        setautoSchedulerStatus(getAutoSchedulerStatus);
+    }, [getAutoSchedulerStatus])
+    
     const handleDayChange = (day, event) => {
         setAutoSchedulerValue((prevWeeks) => {
             const existingWeekIndex = prevWeeks.findIndex((item) => item.day === day);
@@ -73,7 +75,7 @@ const AutoScheduler = (props) => {
         } );
         autoSchedulerObj['start_time'] = startSelectedTime?.value;
         autoSchedulerObj['end_time'] = endSelectedTime?.value;
-        autoSchedulerObj['is_active_status'] = autoSchedulerStatus;
+        autoSchedulerObj['is_active_status'] = autoSchedulerStatus ?? false;
 		onChange({
 			target: {
 				type: "auto-scheduler",
@@ -88,7 +90,7 @@ const AutoScheduler = (props) => {
     const handleAutoScheduleStatusToggle = (event) => {
         let manualScheduleStatus = builderContext.values['manage_schedule']?.['manual_schedule']?.['is_active_status'];
         if(  manualScheduleStatus && event.target.checked ) {
-            SweetAlertStatusChangingMsg({ status: event.target.checked }, handleStatusChange );
+            SweetAlertStatusChangingMsg({ status: event.target.checked,text : __('Enabling Auto Scheduler will deactivate Manual Scheduler automatically.','wp-scheduled-posts') }, handleStatusChange );
         }else{
             setautoSchedulerStatus(event.target.checked);
         }
