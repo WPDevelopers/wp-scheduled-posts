@@ -5,7 +5,7 @@ import { generateTimeOptions } from '../helper/helper';
 import { selectStyles } from '../helper/styles';
 
 const Time = (props) => {
-  const [selectedTime, setSelectedTime] = useState({label : props?.value?.toUpperCase(), value : props?.value?.toUpperCase()});
+  const [selectedTime, setSelectedTime] = useState( { label : props?.value, value : props?.value } );
   const handleTimeChange = (selectedOption) => {
     setSelectedTime(selectedOption);
   };
@@ -18,7 +18,7 @@ const Time = (props) => {
 			target: {
 				type: "time",
 				name,
-				value: selectedTime?.value?.toLowerCase(),
+				value: selectedTime?.value,
 			},
 		});
 	}, [selectedTime]);

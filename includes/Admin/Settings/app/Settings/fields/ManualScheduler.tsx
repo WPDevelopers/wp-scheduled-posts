@@ -1,8 +1,9 @@
 import { __ } from '@wordpress/i18n';
 import classNames from 'classnames';
 import { useBuilderContext } from 'quickbuilder';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
+import { SweetAlertStatusChangingMsg } from '../ToasterMsg';
 import { generateTimeOptions } from '../helper/helper';
 import { selectStyles } from '../helper/styles';
 import ProToggle from './utils/ProToggle';
@@ -27,11 +28,10 @@ const ManualScheduler = (props) => {
   const [selectTime, setSelectTime] = useState(timeOptions[0]);
   const [savedManualSchedule, setSavedManualSchedule] = useState(builderContext.values['manage_schedule']?.[name] ?? {});
   const [manualSchedulerStatus, setManualSchedulerStatus] = useState( builderContext.values['manage_schedule']?.[name]?.['is_active_status'] ?? false);
+  
+  console.log('manual-scheduler-status',manualSchedulerStatus);
 
-  // useEffect(() => {
-  //   setManualSchedulerStatus( manualSchedulerStatusDBData )
-  // }, [manualSchedulerStatusDBData])
-
+  // setManualSchedulerStatus( builderContext.values['manage_schedule']?.[name]?.['is_active_status'] )
   const handleSavedManualSchedule = () => {
     setSavedManualSchedule( (prevSchedule) => {
       const updatedSchedule = {weekdata: {}, ...prevSchedule};
@@ -46,82 +46,53 @@ const ManualScheduler = (props) => {
       return updatedSchedule;
     } );
   };
+
+  const handleDeleteManualSchedule = ( item, data ) => {
+    setSavedManualSchedule( (prevSchedule) => {
+      const updatedSchedule = {weekdata: {}, ...prevSchedule};
+      // @ts-ignore
+      updatedSchedule?.weekdata?.[item.value] = updatedSchedule?.weekdata?.[item.value]?.filter( time => time !== data);
+      return updatedSchedule;
+    } );
+  }
+
   useEffect(() => {
-    if (savedManualSchedule.length > 0) {
-      let weekdata = savedManualSchedule.weekdata;
-      if( !is_pro ) {
-        weekdata = { saturday: ['12:00 AM','12:30 AM','1:00 AM','3:00 PM'], sunday: ['2:00 AM','3:00 PM','1:15 AM','3:15 AM'], monday: ['4:15 AM','4:30 AM','5:00 AM','5:30 PM'], tuesday: ['11:00 AM','1:30 AM','10:00 AM','3:00 PM'], wednesday: ['9:00 AM','7:30 AM','8:00 AM','10:00 PM'], thursday: ['6:00 AM','3:30 AM','4:00 AM','6:00 PM'], friday:['9:00 AM','2:30 AM','5:00 AM','9:00 PM']  };
-      }
-      let manualSchedulerData = {};
-      manualSchedulerData['weekdata'] = weekdata;
-      manualSchedulerData['is_active_status'] = manualSchedulerStatus;
-      if( !is_pro ) {
-        onChange({
-          target: {
-            type: 'manual-scheduler',
-            name: ['manage_schedule', name],
-            value: manualSchedulerData,
-            multiple,
-          },
-        });
-      }
+    let weekdata = savedManualSchedule.weekdata;
+    if( !is_pro ) {
+      weekdata = { saturday: ['12:00 AM','12:30 AM','1:00 AM','3:00 PM'], sunday: ['2:00 AM','3:00 PM','1:15 AM','3:15 AM'], monday: ['4:15 AM','4:30 AM','5:00 AM','5:30 PM'], tuesday: ['11:00 AM','1:30 AM','10:00 AM','3:00 PM'], wednesday: ['9:00 AM','7:30 AM','8:00 AM','10:00 PM'], thursday: ['6:00 AM','3:30 AM','4:00 AM','6:00 PM'], friday:['9:00 AM','2:30 AM','5:00 AM','9:00 PM']  };
+    }
+    let manualSchedulerData = {};
+    manualSchedulerData['weekdata'] = weekdata;
+    manualSchedulerData['is_active_status'] = manualSchedulerStatus;
+    if( is_pro ) {
+      onChange({
+        target: {
+          type: 'manual-scheduler',
+          name: ['manage_schedule', name],
+          value: manualSchedulerData,
+          multiple,
+        },
+      });
     }
   }, [savedManualSchedule, manualSchedulerStatus]);
-
-  // let autoSchedulerObj = builderContext.values['manage_schedule']?.['auto_schedule'];
-  // let isActiveStatusIndex = autoSchedulerObj?.findIndex(obj => obj.hasOwnProperty("is_active_status"));
+  
+  // Handle status changing for auto & manual scheduler
   const handleManualScheduleStatusToggle = (event) => {
-  //   if (isActiveStatusIndex !== -1) {
-  //     const isAutoActive = autoSchedulerObj[isActiveStatusIndex].is_active_status;
-  //     if( isAutoActive && event.target.checked  ) {
-  //       SweetAlertStatusChangingMsg({ status: event.target.checked }, handleStatusChange);
-  //     }else{
-    //     }
-    //   }
-    setManualSchedulerStatus(event.target.checked);
+    let manualScheduleStatus = builderContext.values['manage_schedule']?.['auto_schedule']?.['is_active_status'];
+      if(  manualScheduleStatus && event.target.checked ) {
+          SweetAlertStatusChangingMsg({ status: event.target.checked }, handleStatusChange);
+      }else{
+          setManualSchedulerStatus(event.target.checked);
+      }
+  }
+  
+  const handleStatusChange = ( status ) => {
+      let autoSchedulerData = {...builderContext.values['manage_schedule']?.['auto_schedule'] };
+      autoSchedulerData['is_active_status'] = false;
+      builderContext.setFieldValue(['manage_schedule', 'auto_schedule'], [...autoSchedulerData]);        
+      setManualSchedulerStatus(status);
   };
-
-  // Handle status change after confirm from popup alert
-  // const handleStatusChange = ( status ) => {
-  //   autoSchedulerObj[isActiveStatusIndex].is_active_status = false;
-  //   // builderContext.setFieldValue(['manage_schedule', 'auto_schedule'], [...autoSchedulerObj]);
-  //   setManualSchedulerStatus(status);
-  // }
-  console.log('saved-manual-scheduler-data',savedManualSchedule);
-
-  const weekData = useCallback(
-    (item, optionIndex) => (
-      <div className="week-wrapper" key={optionIndex}>
-        <div
-          className="week">
-          <h6>{item.label}</h6>
-          <span className="week-inner">
-            { savedManualSchedule?.weekdata?.[item.value]?.map((data, index) => (
-              <span key={index}>
-                {data}
-                <i
-                  onClick={() => {
-                    if( is_pro ) {
-                      const updatedSchedule = savedManualSchedule.filter(
-                        (_item) => {
-                          const propertyValue = _item[item.value];
-                          return propertyValue !== data;
-                        }
-                      );
-                      setSavedManualSchedule(updatedSchedule);
-                    }
-                  }}
-                  className="wpsp-icon wpsp-close"></i>
-              </span>
-            )) }
-          </span>
-        </div>
-      </div>
-    ),
-    [options,savedManualSchedule],
-  )
-
-
+  
   return (
     <div
       key={name}
@@ -139,8 +110,8 @@ const ManualScheduler = (props) => {
         )}
         name={name}
         is_pro={!is_pro}
-        value={manualSchedulerStatus}
-        handle_status_change={handleManualScheduleStatusToggle}
+        value={ manualSchedulerStatus }
+        handle_status_change={ handleManualScheduleStatusToggle }
       />
       <div key='content' className={`content ${!is_pro ? 'pro-deactivated' : ''}`}>
         <Select
@@ -169,33 +140,27 @@ const ManualScheduler = (props) => {
       </div>
       <div key='weeks' className={`weeks ${!is_pro ? 'pro-deactivated' : ''}`}>
         {options.map( (item, optionIndex) => (
-      <div className="week-wrapper" key={optionIndex}>
-        <div
-          className="week">
-          <h6>{item.label}</h6>
-          <span className="week-inner">
-            { savedManualSchedule?.weekdata?.[item.value]?.map((data, index) => (
-              <span key={index}>
-                {data}
-                <i
-                  onClick={() => {
-                    if( is_pro ) {
-                      const updatedSchedule = savedManualSchedule.filter(
-                        (_item) => {
-                          const propertyValue = _item[item.value];
-                          return propertyValue !== data;
+          <div className="week-wrapper" key={optionIndex}>
+            <div
+              className="week">
+              <h6>{item.label}</h6>
+              <span className="week-inner">
+                { savedManualSchedule?.weekdata?.[item.value]?.map((data, index) => (
+                  <span key={index}>
+                    {data}
+                    <i
+                      onClick={ () => {
+                        if( is_pro ) {
+                          handleDeleteManualSchedule(item, data)
                         }
-                      );
-                      setSavedManualSchedule(updatedSchedule);
-                    }
-                  }}
-                  className="wpsp-icon wpsp-close"></i>
+                      }}
+                      className="wpsp-icon wpsp-close"></i>
+                  </span>
+                )) }
               </span>
-            )) }
-          </span>
-        </div>
-      </div>
-    ) )}
+            </div>
+          </div>
+        ) )}
       </div>
     </div>
   );

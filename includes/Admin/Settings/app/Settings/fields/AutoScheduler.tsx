@@ -7,6 +7,7 @@ import { generateTimeOptions } from '../helper/helper';
 import ProToggle from './utils/ProToggle';
 
 import { selectStyles } from '../helper/styles';
+import { SweetAlertStatusChangingMsg } from '../ToasterMsg';
 
 const AutoScheduler = (props) => {
     let { name, multiple, onChange } = props;
@@ -23,22 +24,21 @@ const AutoScheduler = (props) => {
         });
       }
     });
-    
-    let getStartTime = builderContext.values['manage_schedule']?.[name]?.['start_time'];
-    let getEndTime = builderContext.values['manage_schedule']?.[name]?.['end_time'];
-    let getAutoSchedulerStatus = builderContext.values['manage_schedule']?.[name]?.['is_active_status'];
+    // @ts-ignore
+    const is_pro = wpspSettingsGlobal?.pro_version ? true : false;
+    const getStartTime = builderContext.values['manage_schedule']?.[name]?.['start_time'];
+    const getEndTime = builderContext.values['manage_schedule']?.[name]?.['end_time'];
+    const getAutoSchedulerStatus = builderContext.values['manage_schedule']?.[name]?.['is_active_status'];
     const startTimeFormat = getStartTime ? { label : getStartTime, value : getStartTime } : null;
     const endTimeFormat = getEndTime ? { label : getEndTime, value : getEndTime } : null;
-
+    
     const [autoScheduler,setAutoSchedulerValue] = useState( modifiedDayDataFormet ?? [] );
     const [startSelectedTime, setStartSelectedTime] = useState(startTimeFormat ? startTimeFormat : timeOptions[0]);
     const [endSelectedTime, setEndSelectedTime] = useState(endTimeFormat ? endTimeFormat : timeOptions[0]);
     const [autoSchedulerStatus, setautoSchedulerStatus] = useState(getAutoSchedulerStatus ?? false);
+    console.log('auto-scheduler-status',autoSchedulerStatus);
 
-    // useEffect(() => {
-    //   setautoSchedulerStatus( getAutoSchedulerStatus )
-    // }, [getAutoSchedulerStatus])
-
+    // setautoSchedulerStatus( getAutoSchedulerStatus )
     const handleDayChange = (day, event) => {
         setAutoSchedulerValue((prevWeeks) => {
             const existingWeekIndex = prevWeeks.findIndex((item) => item.day === day);
@@ -84,32 +84,28 @@ const AutoScheduler = (props) => {
 		});
 	}, [autoScheduler, startSelectedTime, endSelectedTime, autoSchedulerStatus ]);
 
-    // let manualSchedulerData = builderContext.values['manage_schedule']?.['manual_schedule'];
-    // let manualSchedulerStatusIndex = manualSchedulerData?.findIndex(obj => obj.hasOwnProperty("is_active_status"));
+    // Handle status changing for auto and manual scheduler
     const handleAutoScheduleStatusToggle = (event) => {
-        setautoSchedulerStatus(event.target.checked);
-    //     if( manualSchedulerStatusIndex !== -1) {
-    //         if(  manualSchedulerData[manualSchedulerStatusIndex].is_active_status && event.target.checked ) {
-    //             SweetAlertStatusChangingMsg({ status: event.target.checked }, handleStatusChange);
-    //         }else{
-        //         }
-        //     }
+        let manualScheduleStatus = builderContext.values['manage_schedule']?.['manual_schedule']?.['is_active_status'];
+        if(  manualScheduleStatus && event.target.checked ) {
+            SweetAlertStatusChangingMsg({ status: event.target.checked }, handleStatusChange );
+        }else{
+            setautoSchedulerStatus(event.target.checked);
+        }
     }
     
-    // const handleStatusChange = ( status ) => {
-    //     manualSchedulerData[manualSchedulerStatusIndex].is_active_status = false;
-    //     builderContext.setFieldValue(['manage_schedule', 'manual_schedule'], [...manualSchedulerData]);
-    //     setautoSchedulerStatus(status);
-    // };
+    const handleStatusChange = ( status ) => {
+        let manualSchedulerData = {...builderContext.values['manage_schedule']?.['manual_schedule'] };
+        manualSchedulerData['is_active_status'] = false;
+        builderContext.setFieldValue(['manage_schedule', 'manual_schedule'], [...manualSchedulerData]);        
+        setautoSchedulerStatus(status);
+    };
     
-    // @ts-ignore
-    let is_pro = wpspSettingsGlobal?.pro_version ? true : false;
-
     return (
         <div className={classNames('wprf-control', 'wprf-auto-scheduler', `wprf-${props.name}-auto-scheduler`, props?.classes)}>
             <ProToggle
-                title={__("Auto Scheduler",'wp-scheduled-posts')}
-                sub_title={__('To configure the Auto Scheduler Settings, check out this <a href="https://wpdeveloper.com/docs/wp-scheduled-posts/how-does-auto-scheduler-work/">Doc</a>')}
+                title={ __("Auto Scheduler",'wp-scheduled-posts') }
+                sub_title={ __('To configure the Auto Scheduler Settings, check out this <a href="https://wpdeveloper.com/docs/wp-scheduled-posts/how-does-auto-scheduler-work/">Doc</a>') }
                 name={name}
                 is_pro={!is_pro}
                 value={autoSchedulerStatus}

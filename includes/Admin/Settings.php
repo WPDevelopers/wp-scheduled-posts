@@ -215,6 +215,7 @@ class Settings {
                                     'name'     => 'calendar_schedule_time',
                                     'label'    => __('Calendar Default Schedule Time:', 'notificationx'),
                                     'type'     => 'time',
+                                    'default'  => '12:00 AM',
                                     'priority' => 10,
                                 ],
                                 'adminbar_list_structure' => [
