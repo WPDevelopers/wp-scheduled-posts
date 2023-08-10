@@ -1,4 +1,5 @@
-import { Toggle, useBuilderContext } from 'quickbuilder';
+import { useBuilderContext } from 'quickbuilder';
+import Toggle from 'quickbuilder/dist/fields/Toggle';
 import React from 'react';
 
 const ProToggle = ({ handle_status_change, has_toggle = true, ...props }) => {

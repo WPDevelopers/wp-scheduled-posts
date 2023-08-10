@@ -8,6 +8,7 @@
         "build": "wp-scripts build",
         "dev": "npm start",
         "prod": "npm run build",
+        "stats": "webpack --profile --json > stats.json && webpack-bundle-analyzer stats.json",
         "packages-update": "wp-scripts packages-update"
     },
     "author": "tusharimran",

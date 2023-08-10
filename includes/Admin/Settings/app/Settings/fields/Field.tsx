@@ -17,7 +17,7 @@ import ScheduleHubFeature from './ScheduleHubFeature';
 import License from './License';
 import ProToggle from './utils/ProToggle';
 
-const Field = (r, type, props) => {
+const Field = (ret, type, props) => {
 
     switch (type) {
         case "features":
@@ -53,7 +53,7 @@ const Field = (r, type, props) => {
         case "license":
             return <License {...props} />;
         default:
-            return <></>;
+            return ret;
     }
 };
 

@@ -1,6 +1,14 @@
 import { __ } from '@wordpress/i18n';
 import React from 'react'
 import { BuilderProvider, useBuilder } from 'quickbuilder';
+import "quickbuilder/dist/fields/Section";
+import "quickbuilder/dist/fields/Group";
+import "quickbuilder/dist/fields/Input";
+import "quickbuilder/dist/fields/Input";
+import "quickbuilder/dist/fields/Button";
+import "quickbuilder/dist/fields/Toggle";
+import "quickbuilder/dist/fields/RadioCard";
+
 import SettingsInner from './SettingsInner';
 import 'quickbuilder/dist/index.css';
 import Header from './Header';
