@@ -98,7 +98,7 @@ const Twitter = (props) => {
   if (selectedProfile && selectedProfileViewMore) {
     selectedProfileData = selectedProfile;
   } else if (selectedProfile && !selectedProfileViewMore) {
-    selectedProfileData = selectedProfile.slice(0, 1);
+    selectedProfileData = selectedProfile.slice(0, 2);
   }
   return (
     <div
