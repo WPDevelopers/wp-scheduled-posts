@@ -624,6 +624,7 @@ class Settings {
                                                                     'id'            => 'facebook_cat_tags',
                                                                     'name'          => 'is_category_as_tags',
                                                                     'type'          => 'toggle',
+                                                                    'info'          => __('The categories you select will be used as tags.','wp-scheduled-posts'),
                                                                     'label'         => __('Add Category as tags', 'wp-scheduled-posts'),
                                                                     'priority'      => 10,
                                                                 ],
@@ -649,7 +650,7 @@ class Settings {
                                                                     'name'          => 'template_structure',
                                                                     'type'          => 'text',
                                                                     'label'         => __('Status Template Settings', 'wp-scheduled-posts'),
-                                                                    'info'          => 'Default Structure: {title}{content}{url}{tags}',
+                                                                    'info'          => 'Define how to share the content on Facebook by setting the template. <strong>Default Structure: {title}{content}{url}{tags}</strong>',
                                                                     'default'       => '{title}{content}{url}{tags}',
                                                                     'priority'      => 15,
                                                                 ],
@@ -695,9 +696,8 @@ class Settings {
                                                                     'name'          => 'template_structure',
                                                                     'type'          => 'text',
                                                                     'label'         => __('Tweet Template Settings', 'wp-scheduled-posts'),
-                                                                    'info'          => __('Define how to share the content on Twitter by setting the template.','wp-scheduled-posts'),
+                                                                    'info'          => __('Define how to share the content on Twitter by setting the template. <strong>Default Structure: {title}{content}{url}{tags}</strong>','wp-scheduled-posts'),
                                                                     'default'       => '{title}{content}{url}{tags}',
-                                                                    'desc'          => __('Default Structure: {title}{content}{url}{tags}', 'wp-scheduled-posts'),
                                                                     'priority'      => 5,
                                                                 ],
                                                                 'is_category_as_tags'  => [
@@ -822,8 +822,7 @@ class Settings {
                                                                     'type'          => 'text',
                                                                     'label'         => __('Status Template Settings', 'wp-scheduled-posts'),
                                                                     'default'       => '{title}{content}{tags}',
-                                                                    'info'          => __('Define how to share the content on LinkedIn by setting the template.','wp-scheduled-posts'),
-                                                                    'desc'          => __('Default Structure: {title}{content}{url}{tags}', 'wp-scheduled-posts'),
+                                                                    'info'          => __('Define how to share the content on LinkedIn by setting the template. <strong>Default Structure: {title}{content}{url}{tags}</strong>','wp-scheduled-posts'),
                                                                     'priority'      => 15,
                                                                 ],
                                                                 'status_limit'  => [
@@ -902,8 +901,7 @@ class Settings {
                                                                     'name'          => 'template_structure',
                                                                     'type'          => 'text',
                                                                     'label'         => __('Status Template Settings', 'wp-scheduled-posts'),
-                                                                    'desc'          => __('Default Structure: {title}{content}{url}{tags}', 'wp-scheduled-posts'),
-                                                                    'info'          => __( 'Define how to share the content on Pinterest by setting the template.','wp-scheduled-posts' ),
+                                                                    'info'          => __( 'Define how to share the content on Pinterest by setting the template. <strong>Default Structure: {title}{content}{url}{tags}</strong>','wp-scheduled-posts' ),
                                                                     'default'       => '{title}{content}{url}{tags}',
                                                                     'priority'      => 15,
                                                                 ],
@@ -1149,7 +1147,7 @@ class Settings {
                                                                     'content'       => [
                                                                         [
                                                                             'link'  => esc_url('https://wpdeveloper.com/manage-missed-schedule-wordpress/'),
-                                                                            'text'  => __('How To Manage The Missed Schedule Error In WordPress', 'wp-scheduled-posts'),
+                                                                            'text'  => __('How To Manage The Missed Schedule Error In WordPress?', 'wp-scheduled-posts'),
                                                                         ],
                                                                         [
                                                                             'link'  => esc_url('https://wpdeveloper.com/docs/wp-scheduled-posts/how-to-handle-the-missed-schedule-error-using-wp-scheduled-post/'),

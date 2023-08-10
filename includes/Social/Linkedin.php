@@ -17,11 +17,11 @@ class Linkedin
     {
         $settings = \WPSP\Helper::get_settings('social_templates');
         $settings = json_decode(json_encode($settings->linkedin), true);
-        $this->content_type = (isset($settings[0]['content_type']) ? $settings[0]['content_type'] : '');
-        $this->is_category_as_tags = (isset($settings[1]['is_category_as_tags']) ? $settings[1]['is_category_as_tags'] : '');
-        $this->content_source = (isset($settings[2]['content_source']) ? $settings[2]['content_source'] : '');
-        $this->template_structure = (isset($settings[3]['template_structure']) ? $settings[3]['template_structure'] : '{title}{content}{url}{tags}');
-        $this->status_limit = (isset($settings[4]['status_limit']) ? $settings[4]['status_limit'] : 1300);
+        $this->content_type = (isset($settings['content_type']) ? $settings['content_type'] : '');
+        $this->is_category_as_tags = (isset($settings['is_category_as_tags']) ? $settings['is_category_as_tags'] : '');
+        $this->content_source = (isset($settings['content_source']) ? $settings['content_source'] : '');
+        $this->template_structure = (isset($settings['template_structure']) ? $settings['template_structure'] : '{title}{content}{url}{tags}');
+        $this->status_limit = (isset($settings['status_limit']) ? $settings['status_limit'] : 1300);
     }
 
     public function instance()
