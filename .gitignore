@@ -17,3 +17,4 @@ includes/Admin/Settings/yarn.lock
 includes/Admin/Settings/assets/css/calendar.css
 includes/Admin/Settings/assets/js/calendar.asset.php
 includes/Admin/Settings/assets/js/calendar.js
+includes/Admin/Settings/stats.json
