@@ -95,9 +95,16 @@ export default function Calendar(props) {
     setEvents(results);
   };
 
+  const updateSize = () => {
+    setTimeout(() => {
+      calendar.current?.doResize();
+      calendar.current?.getApi().updateSize();
+      calendar.current?.render();
+    }, 100);
+  };
+
   useEffect(() => {
-    calendar.current?.doResize();
-    calendar.current?.render();
+    updateSize();
 
     getEvents();
   }, [selectedPostType, selectedCategories]);
@@ -105,16 +112,13 @@ export default function Calendar(props) {
   useEffect(() => {
     // console.log(builderContext.config.active);
     if ("layout_calendar" === props.context?.config.active) {
-      setTimeout(() => {
-        calendar.current?.doResize();
-        calendar.current?.getApi().updateSize();
-        calendar.current?.render();
-      }, 100);
+      updateSize();
     }
   }, [props.context?.config.active]);
 
   const handleSlidebarToggle = () => {
     setSidebarToggle(sidebarToggle ? false : true);
+    updateSize();
   };
 
   /*
