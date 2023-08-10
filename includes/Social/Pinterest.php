@@ -16,11 +16,11 @@ class Pinterest
     {
         $settings = \WPSP\Helper::get_settings('social_templates');
         $settings = json_decode(json_encode($settings->pinterest), true);
-        $this->is_set_image_link = (isset($settings[0]['is_set_image_link']) ? $settings[0]['is_set_image_link'] : '');
-        $this->is_category_as_tags = (isset($settings[1]['is_category_as_tags']) ? $settings[1]['is_category_as_tags'] : '');
-        $this->content_source = (isset($settings[2]['content_source']) ? $settings[2]['content_source'] : '');
-        $this->template_structure = (isset($settings[3]['template_structure']) ? $settings[3]['template_structure'] : '');
-        $this->note_limit = (isset($settings[4]['note_limit']) ? $settings[4]['note_limit'] : 500);
+        $this->is_set_image_link = (isset($settings['is_set_image_link']) ? $settings['is_set_image_link'] : '');
+        $this->is_category_as_tags = (isset($settings['is_category_as_tags']) ? $settings['is_category_as_tags'] : '');
+        $this->content_source = (isset($settings['content_source']) ? $settings['content_source'] : '');
+        $this->template_structure = (isset($settings['template_structure']) ? $settings['template_structure'] : '');
+        $this->note_limit = (isset($settings['note_limit']) ? $settings['note_limit'] : 500);
     }
 
     public function instance()
