@@ -68,7 +68,7 @@ class Assets
             wp_enqueue_style(WPSP_PLUGIN_SLUG, WPSP_ADMIN_URL . 'Settings/assets/css/calendar.css', array(), WPSP_VERSION);
             $dep = include WPSCP_ADMIN_DIR_PATH . 'Settings/assets/js/calendar.asset.php';
             wp_enqueue_script(WPSP_PLUGIN_SLUG, WPSP_ADMIN_URL . 'Settings/assets/js/calendar.js', $dep['dependencies'], WPSP_VERSION);
-            wp_localize_script(WPSP_PLUGIN_SLUG, 'wpspSettingsCalendar', apply_filters('wpsp_settings_calendar', array(
+            wp_localize_script(WPSP_PLUGIN_SLUG, 'wpspSettingsGlobal', apply_filters('wpsp_settings_calendar', array(
                 'name'          => 'calendar',
                 'type'          => 'calendar',
                 'label'         => null,
