@@ -20,7 +20,7 @@ class SocialProfile
         add_action('wp_ajax_wpsp_social_profile_fetch_user_info_and_token', array($this, 'social_profile_fetch_user_info_and_token'));
         add_action('wp_ajax_wpsp_social_profile_fetch_pinterest_section', array($this, 'social_profile_fetch_pinterest_section'));
         add_action('social_profile_fetch_pinterest_section', array($this, 'social_profile_fetch_pinterest_section'));
-        $this->multiProfileErrorMessage = '<p>' . esc_html__('Multi Profile is a Premium Feature. To use this feature, Upgrade to Pro.', 'wp-scheduled-posts') . '</p><a href="https://wpdeveloper.com/in/wpsp">Upgrade to Pro</a>';
+        $this->multiProfileErrorMessage = '<p>' . esc_html__('Multi Profile is a Premium Feature. To use this feature, Upgrade to Pro.', 'wp-scheduled-posts') . '</p><a target="_blank" href="https://schedulepress.com/#pricing">Upgrade to Pro</a>';
 
 
 		$allow_post_types = \WPSP\Helper::get_settings('allow_post_types');

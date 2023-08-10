@@ -17,7 +17,7 @@ let is_pro = wpspSettingsGlobal?.pro_version ? true : false;
         )}>
           <div className="wprf-heading">
               <h2>Upgrade to use these Pro Features</h2>
-              <a href="#">Upgrade To Pro</a>
+              <a target='_blank' href="https://schedulepress.com/#pricing">Upgrade To Pro</a>
           </div>
           <div className="wprf-card-wrapper">
             <div className="single-card">

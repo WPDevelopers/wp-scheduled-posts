@@ -37,7 +37,7 @@ const Sidebar = ({ props }) => {
                     <div className="content">
                         <h3>{__('Get Unlimited Features','wp-scheduled-posts')}</h3>
                         <p>{ __('Supercharge your content schedule and have a peace in mind','wp-scheduled-posts') }</p>
-                        <a href='#'>{__('Upgrade To Pro','wp-scheduled-posts')}</a>
+                        <a target='_blank' href='https://schedulepress.com/#pricing'>{__('Upgrade To Pro','wp-scheduled-posts')}</a>
                     </div>
                 </div>
                 )
@@ -48,25 +48,25 @@ const Sidebar = ({ props }) => {
                 <i className="wpsp-icon wpsp-file"></i>
                 <h3>{__('Documentation','wp-scheduled-posts')}</h3>
                 <p>{__('Get started spending some time with the documentation to get familiar with SchedulePress.','wp-scheduled-posts')}</p>
-                <a href='#'>{__('Documentation','wp-scheduled-posts')}</a>
+                <a target='_blank' href='https://wpdeveloper.com/docs-category/wp-scheduled-posts/'>{ __('Documentation','wp-scheduled-posts') }</a>
             </div>
             <div className='card'>
                 <i className="wpsp-icon wpsp-puzzle"></i>
                 <h3>{__('Contribute to SchedulePress','wp-scheduled-posts')}</h3>
                 <p>{__('You can contribute to making SchedulePress better by reporting bugs','wp-scheduled-posts')}</p>
-                <a href='#'>{__('Report A Bug','wp-scheduled-posts')}</a>
+                <a target='_blank' href='https://wordpress.org/support/plugin/wp-scheduled-posts/'>{__('Report A Bug','wp-scheduled-posts')}</a>
             </div>
             <div className='card'>
                 <i className="wpsp-icon wpsp-comment"></i>
                 <h3>{__('Need Help?','wp-scheduled-posts')}</h3>
                 <p>{__('Stuck with something? Get help from the community WPDeveloper Forum or Facebook Community.','wp-scheduled-posts')}</p>
-                <a href='#'>{__('Get Support','wp-scheduled-posts')}</a>
+                <a target='_blank' href='https://wpdeveloper.com/support/'>{__('Get Support','wp-scheduled-posts')}</a>
             </div>
             <div className='card'>
                 <i className="wpsp-icon wpsp-chat-2"></i>
                 <h3>{__('Show your Love','wp-scheduled-posts')}</h3>
                 <p>{__('We love to have you in the SchedulePress family. We are making it more awesome every day.','wp-scheduled-posts')}</p>
-                <a href='#'>{__('Show your Love','wp-scheduled-posts')}</a>
+                <a target='_blank' href='https://wordpress.org/support/plugin/wp-scheduled-posts/reviews/'>{__('Show your Love','wp-scheduled-posts')}</a>
             </div>
         </div>
     );
