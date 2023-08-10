@@ -133,7 +133,7 @@ export default function MainProfile({
               openApiCredentialsModal(accountType)
             }else{
               SweetAlertToaster({
-                  type : 'error',
+                  type : 'info',
                   title : __( "Please select any option!!", 'wp-scheduled-posts' ),
               }).fire();
             }

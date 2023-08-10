@@ -41,16 +41,16 @@ export const SweetAlertProMsg = (args: any = {}) => {
     // @ts-ignore
     const image_path = wpspSettingsGlobal.image_path;
     return Swal.fire({
-        title: args?.title ?? __('Opps','wp-scheduled-posts'),
+        title: args?.title ?? __('Opps!','wp-scheduled-posts'),
         showCancelButton: args?.showCancelButton ?? true,
         cancelButtonText: '<i class="wpsp-icon wpsp-close"></i>',
         showConfirmButton: args?.showConfirmButton ?? false,
         allowOutsideClick: false, // Prevent closing on outside click
         html: `
           <div>
-            <h4>${ args?.message ?? __('You need SchedulePress PRO','wp-scheduled-posts') }</h4>
+            <h4>${ args?.message ?? __('You Need SchedulePress PRO','wp-scheduled-posts') }</h4>
             <img src="${ args?.imageUrl ?? image_path + '/upgrade-pro.gif' }" alt="${__(args?.imageAlt ?? __('Pro Alert'), 'wp-scheduled-posts')}">
-            <a href="${ args?.buttonUrl ?? 'https://wpdeveloper.com/in/schedulepress-pro' }" target="${ args?.target ?? '_blank' }">
+            <a href="${ args?.buttonUrl ?? 'https://schedulepress.com/#pricing' }" target="${ args?.target ?? '_blank' }">
               ${ args?.buttonText ?? __('Check Pricing Plans', 'wp-scheduled-posts') }
             </a>
           </div>
@@ -63,7 +63,7 @@ export const SweetAlertDeleteMsg = ( args: any = {}, deleteFile?: (item) => void
     return Swal.fire({
         title: args?.title ?? __( 'Are you sure?','wp-scheduled-posts' ),
         text: args?.text ?? __( "You won't be able to revert this!",'wp-scheduled-posts' ),
-        icon: args?.icon ?? __( 'warning','wp-scheduled-posts' ),
+        icon: args?.icon ?? __( 'error','wp-scheduled-posts' ),
         allowOutsideClick: false, // Prevent closing on outside click
         showCancelButton: args?.showCancelButton ?? true,
         confirmButtonColor: args?.confirmButtonColor ?? '#3085d6',
@@ -80,9 +80,9 @@ export const SweetAlertDeleteMsg = ( args: any = {}, deleteFile?: (item) => void
 // Setup Sweetalert2 pro message popup
 export const SweetAlertDeleteMsgForPost = ( args: any = {}, deleteFile?: (item) => void ) => {
   return Swal.fire({
-    title: args?.title ?? __( 'Are you sure?','wp-scheduled-posts' ),
+      title: args?.title ?? __( 'Are you sure?','wp-scheduled-posts' ),
       text: args?.text ?? __( "You won't be able to revert this!",'wp-scheduled-posts' ),
-      icon: args?.icon ?? __( 'warning','wp-scheduled-posts' ),
+      icon: args?.icon ?? __( 'error','wp-scheduled-posts' ),
       allowOutsideClick: false, // Prevent closing on outside click
       showCancelButton: args?.showCancelButton ?? true,
       confirmButtonColor: args?.confirmButtonColor ?? '#3085d6',

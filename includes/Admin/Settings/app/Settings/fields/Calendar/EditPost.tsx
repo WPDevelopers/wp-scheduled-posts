@@ -63,16 +63,16 @@ export const ModalContent = ({
       let message;
       switch ( modalData?.eventType ) {
         case 'addEvent':
-          message = __('New Post has been successfully Created','wp-scheduled-posts');
+          message = __('New Post has been Successfully Created','wp-scheduled-posts');
           break;
         case 'editEvent':
-          message = __('Post has been successfully Edited','wp-scheduled-posts');
+          message = __('Post has been Successfully Edited','wp-scheduled-posts');
           break;
         case 'newDraft':
-          message = __('New Draft Post has been successfully Created','wp-scheduled-posts');
+          message = __('New Draft Post has been Successfully Created','wp-scheduled-posts');
           break;
         case 'editDraft':
-          message = __('Draft Post has been successfully Edited','wp-scheduled-posts');
+          message = __('Draft Post has been Successfully Edited','wp-scheduled-posts');
           break;
         default:
           break;

@@ -137,8 +137,8 @@ const ApiCredentialsForm = ({ props, platform, requestHandler }) => {
                           value={appID}
                           placeholder={
                               platform === "twitter"
-                              ? __("API Secret Key", "wp-scheduled-posts")
-                              : __("App Secret", "wp-scheduled-posts")
+                              ? __("API ID", "wp-scheduled-posts")
+                              : __("App ID", "wp-scheduled-posts")
                           }
                           onChange={(e) => SetAppID(e.target.value)}
                       />

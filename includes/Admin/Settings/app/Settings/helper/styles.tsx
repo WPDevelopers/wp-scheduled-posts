@@ -20,6 +20,7 @@ export const selectStyles = {
         ...styles,
         backgroundColor: isFocused || isSelected ? '#F3F2FF' : null,
         color: "#000",
+        cursor: 'pointer',
       };
     },
     menu: (provided) => ({

@@ -107,7 +107,7 @@ const AutoScheduler = (props) => {
         <div className={classNames('wprf-control', 'wprf-auto-scheduler', `wprf-${props.name}-auto-scheduler`, props?.classes)}>
             <ProToggle
                 title={ __("Auto Scheduler",'wp-scheduled-posts') }
-                sub_title={ __('To configure the Auto Scheduler Settings, check out this <a href="https://wpdeveloper.com/docs/wp-scheduled-posts/how-does-auto-scheduler-work/">Doc</a>') }
+                sub_title={ __('To configure the Auto Scheduler Settings, check out this <a href="https://wpdeveloper.com/docs/wp-scheduled-posts/how-does-auto-scheduler-work/ ">Doc</a>') }
                 name={name}
                 is_pro={!is_pro}
                 value={autoSchedulerStatus}
