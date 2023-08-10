@@ -1015,8 +1015,13 @@ class Settings {
                                                                     'label'         => __('Read Detailed Documentation:','wp-scheduled-posts'),
                                                                     'content'       => [
                                                                         [
+                                                                            'link'  => esc_url('https://wpdeveloper.com/docs/advanced-schedule-in-elementor/'),
+                                                                            'text'  => __('How To Configure SchedulerPress Advanced Schedule In Elementor?', 'wp-scheduled-posts'),
+                                                                            'target'=> '_blank',
+                                                                        ],
+                                                                        [
                                                                             'link'  => esc_url('https://wpdeveloper.com/docs/advanced-schedule-update-published-posts/'),
-                                                                            'text'  => __('How To Configure SchedulePress Advanced Schedule In Gutenberg To Update Published Posts?', 'wp-scheduled-posts'),
+                                                                            'text'  => __('How To Configure SchedulerPress Advanced Schedule In Gutenberg?', 'wp-scheduled-posts'),
                                                                             'target'=> '_blank',
                                                                         ],
                                                                     ],
@@ -1143,8 +1148,12 @@ class Settings {
                                                                     'label'         => __('Read Detailed Documentation:','wp-scheduled-posts'),
                                                                     'content'       => [
                                                                         [
+                                                                            'link'  => esc_url('https://wpdeveloper.com/manage-missed-schedule-wordpress/'),
+                                                                            'text'  => __('How To Manage The Missed Schedule Error In WordPress', 'wp-scheduled-posts'),
+                                                                        ],
+                                                                        [
                                                                             'link'  => esc_url('https://wpdeveloper.com/docs/wp-scheduled-posts/how-to-handle-the-missed-schedule-error-using-wp-scheduled-post/'),
-                                                                            'text'  => __('How To Handle Missed Schedule Errors Using SchedulePress?', 'wp-scheduled-posts'),
+                                                                            'text'  => __('How To Configure SchedulePress To Handle Missed Schedule Errors?', 'wp-scheduled-posts'),
                                                                         ],
                                                                     ],
                                                                 ],
