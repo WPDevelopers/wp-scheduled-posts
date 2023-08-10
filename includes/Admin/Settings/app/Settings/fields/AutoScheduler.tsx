@@ -99,7 +99,7 @@ const AutoScheduler = (props) => {
     const handleStatusChange = ( status ) => {
         let manualSchedulerData = {...builderContext.values['manage_schedule']?.['manual_schedule'] };
         manualSchedulerData['is_active_status'] = false;
-        builderContext.setFieldValue(['manage_schedule', 'manual_schedule'], [...manualSchedulerData]);        
+        builderContext.setFieldValue( ['manage_schedule', 'manual_schedule'], [...manualSchedulerData,]);
         setautoSchedulerStatus(status);
     };
     
