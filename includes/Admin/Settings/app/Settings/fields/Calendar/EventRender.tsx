@@ -132,11 +132,11 @@ const PostCard: React.FC<PostCardProps> = ({
         <ul className="edit-area">
           <li>
             <Button
-              variant="link"
-              target="_blank"
-              href={decodeURIComponent(post.href)}
+              variant="secondary"
               onClick={(event) => {
+                event.preventDefault();
                 toggleEditArea();
+                window.open(decodeURIComponent(post.href), '_blank');
               }}
             >
               View
@@ -144,11 +144,11 @@ const PostCard: React.FC<PostCardProps> = ({
           </li>
           <li>
             <Button
-              variant="link"
-              target="_blank"
-              href={decodeURIComponent(post.edit)}
+              variant="secondary"
               onClick={(event) => {
+                event.preventDefault();
                 toggleEditArea();
+                window.open(decodeURIComponent(post.edit), '_blank');
               }}
             >
               Edit
@@ -156,8 +156,7 @@ const PostCard: React.FC<PostCardProps> = ({
           </li>
           <li>
             <Button
-              variant="link"
-              href="#"
+              variant="secondary"
               onClick={(event) => {
                 event.preventDefault();
                 toggleEditArea();
@@ -169,8 +168,7 @@ const PostCard: React.FC<PostCardProps> = ({
           </li>
           <li>
             <Button
-              variant="link"
-              href="#"
+              variant="secondary"
               onClick={(event) => {
                 event.preventDefault();
                 handlePostDelete(post);
