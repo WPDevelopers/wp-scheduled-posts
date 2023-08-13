@@ -68,6 +68,7 @@ const AutoScheduler = (props) => {
         }
     }
     useEffect(() => {
+        let manage_schedule = builderContext.values['manage_schedule'] ?? {};
         let autoSchedulerObj = {};
         autoScheduler?.map( (item) => {
             let property_name = item?.day+'_post_limit';
@@ -76,11 +77,15 @@ const AutoScheduler = (props) => {
         autoSchedulerObj['start_time'] = startSelectedTime?.value;
         autoSchedulerObj['end_time'] = endSelectedTime?.value;
         autoSchedulerObj['is_active_status'] = autoSchedulerStatus ?? false;
+        manage_schedule[name] = autoSchedulerObj;
+        if( autoSchedulerStatus ) {
+            manage_schedule['activeScheduleSystem'] = 'auto_schedule';
+        }
 		onChange({
 			target: {
 				type: "auto-scheduler",
-				name:["manage_schedule",name],
-				value: autoSchedulerObj,
+				name:["manage_schedule"],
+				value: manage_schedule,
                 multiple
 			},
 		});

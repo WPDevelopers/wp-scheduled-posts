@@ -64,10 +64,15 @@ const ManualScheduler = (props) => {
   }
 
   useEffect(() => {
+    let manage_schedule = builderContext.values['manage_schedule'] ?? {};
     let weekdata = savedManualSchedule.weekdata;
     let manualSchedulerData = {};
     manualSchedulerData['weekdata'] = weekdata;
     manualSchedulerData['is_active_status'] = manualSchedulerStatus ?? false;
+    manage_schedule[name] = manualSchedulerData;
+    if( manualSchedulerStatus ) {
+      manage_schedule['activeScheduleSystem'] = 'manual_schedule';
+    }
     if( is_pro ) {
       onChange({
         target: {
