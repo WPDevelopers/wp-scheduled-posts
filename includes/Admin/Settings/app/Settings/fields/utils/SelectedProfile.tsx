@@ -1,5 +1,5 @@
-import React from 'react'
 import { __ } from '@wordpress/i18n'
+import React from 'react'
 import { getFormatDateTime } from '../../helper/helper'
 
 export default function SelectedProfile( { platform, item, handleSelectedProfileStatusChange, handleDeleteSelectedProfile, handleEditSelectedProfile } ) {

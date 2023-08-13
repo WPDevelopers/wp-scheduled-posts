@@ -473,7 +473,7 @@
   top: 22px;
   transform: translateX(0%) translateY(15px) !important;
   z-index: 999;
-  li a {
+  li button {
     font-family: 'Inter' !important;
     font-size: 14px;
     font-weight: 500;
@@ -484,6 +484,10 @@
     background: #fff;
     display: block;
     border-radius: 6px;
+    border: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
     @media screen and (max-width: 1439px) {
       font-size: 12px;
     }
