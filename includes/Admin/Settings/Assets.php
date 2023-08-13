@@ -62,8 +62,7 @@ class Assets
                 'pro_version'      => (defined('WPSP_PRO_VERSION') ? WPSP_PRO_VERSION : '')
             )));
         }
-
-        if (Helper::_plugin_page_hook_suffix($current_screen->post_type, $hook)){
+        else if (Helper::_plugin_page_hook_suffix($current_screen->post_type, $hook)){
             $dep = include WPSCP_ADMIN_DIR_PATH . 'Settings/assets/js/calendar.asset.php';
             wp_enqueue_style(WPSP_PLUGIN_SLUG.'-icon', WPSP_ADMIN_URL . 'Settings/assets/icon/style.css', array(), $dep['version']);
             wp_enqueue_style(WPSP_PLUGIN_SLUG, WPSP_ADMIN_URL . 'Settings/assets/css/calendar.css', array(WPSP_PLUGIN_SLUG.'-icon'), $dep['version']);
