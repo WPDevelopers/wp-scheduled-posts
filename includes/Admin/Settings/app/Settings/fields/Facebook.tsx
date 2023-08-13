@@ -21,6 +21,10 @@ const Facebook = (props) => {
   const [profileStatus, setProfileStatus] = useState(
     builderContext?.savedValues?.facebook_profile_status
   );
+  // @ts-ignore
+  const is_pro = wpspSettingsGlobal?.pro_version ? true : false;
+  
+  const [activeStatusCount,setActiveStatusCount] = useState(0);
 
   // Open and Close API credentials modal
   const openApiCredentialsModal = (accountType) => {
@@ -57,14 +61,65 @@ const Facebook = (props) => {
     setCashedStatus((prevStatus) => {
       return { ...prevStatus, [item.id]: event.target.checked };
     });
+    let currentStatus = event.target.checked;
+    if( !is_pro && activeStatusCount <= 1) {
+      // if( activeStatusCount == 1 && currentStatus ) {
+        const changeSelectedProfileStatus = selectedProfile.map(
+          (selectedItem) => {
+            return {
+              ...selectedItem,
+              status: selectedItem.id == item.id ? event.target.checked : false,
+            };
+          }
+        );
+        setSelectedProfile(changeSelectedProfileStatus);
+        // Swal.fire({
+        //   title: 'Are you sure?',
+        //   text: "You won't be able to revert this!",
+        //   icon: 'warning',
+        //   showCancelButton: true,
+        //   confirmButtonColor: '#3085d6',
+        //   cancelButtonColor: '#d33',
+        //   confirmButtonText: 'Yes, delete it!'
+        // }).then((result) => {
+        //   if (result.isConfirmed) {
+        //     // const changeSelectedProfileStatus = selectedProfile.map(
+        //     //   (selectedItem) => {
+        //     //     return {
+        //     //       ...selectedItem,
+        //     //       status: selectedItem.id == item.id ? currentStatus : false,
+        //     //     };
+        //     //   }
+        //     // );
+        //     // setSelectedProfile(changeSelectedProfileStatus);
+        //   }
+        // })
+      // }
+    }else{
+      const updatedData = selectedProfile.map((selectedItem) => {
+        if (selectedItem.id === item.id) {
+          return {
+            ...selectedItem,
+            status: event.target.checked,
+          };
+        }
+        return selectedItem;
+      });
+      setSelectedProfile(updatedData);
+    }
+
     // if (profileStatus == true) {
       const changeSelectedProfileStatus = selectedProfile.map(
         (selectedItem) => {
-          if (selectedItem.id === item.id) {
-            return {
-              ...selectedItem,
-              status: event.target.checked,
-            };
+          if( !is_pro && activeStatusCount <= 1 ) {
+            if( activeStatusCount == 1 ) {
+              if (selectedItem.id === item.id) {
+                return {
+                  ...selectedItem,
+                  status: event.target.checked,
+                };
+              }
+            }
           }
           return selectedItem;
         }
@@ -85,6 +140,13 @@ const Facebook = (props) => {
   // Save selected profile data
   useEffect(() => {
     builderContext.setFieldValue([props.name], selectedProfile);
+    let count = 0;
+    selectedProfile.forEach(element => {
+      if( element.status ) {
+        count++;
+    }
+    setActiveStatusCount( count );
+    });
   }, [selectedProfile]);
 
   // Save profile status data
