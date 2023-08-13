@@ -25,7 +25,7 @@ class ScheduledPostList
         $post_types        = \WPSP\Helper::get_settings('allow_post_types');
         $post_types        = (!empty($post_types) ? $post_types : array('post'));
         $allow_categories  = \WPSP\Helper::get_settings('allow_categories');
-        if (($key = array_search('all', $allow_categories)) !== false) {
+        if ( $allow_categories && ($key = array_search('all', $allow_categories)) !== false) {
             unset($allow_categories);
         }
         else{
