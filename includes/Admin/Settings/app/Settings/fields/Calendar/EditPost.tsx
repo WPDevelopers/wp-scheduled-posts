@@ -9,6 +9,8 @@ import Modal from "react-modal";
 import { SweetAlertToaster } from "../../ToasterMsg";
 import { getPostType } from "./Helpers";
 import { PostType, WP_Error } from "./types";
+import { date, format } from "@wordpress/date";
+import { useBuilderContext } from "quickbuilder";
 
 interface Post {
   ID               ?: number;
@@ -36,6 +38,7 @@ export const ModalContent = ({
     post_content: '',
     post_date: '',
   });
+  const builderContext = useBuilderContext();
 
   // console.log(getSettings());
 
@@ -83,6 +86,7 @@ export const ModalContent = ({
   };
 
   useEffect(() => {
+    // edit existing post.
     if (modalData?.post) {
       setIsOpen(true);
       const post = modalData.post;
@@ -106,17 +110,22 @@ export const ModalContent = ({
         setIsLoading(false);
         // @todo show error message
       });
-    } else if(modalData) {
+    } else if(modalData?.post_date || modalData?.openModal) {
+      // add new post.
       let data: Post = {
         post_type: getPostType(selectedPostType),
       };
-      if(modalData?.post_date){
-        data.post_date = modalData?.post_date;
+      const time = builderContext.values?.calendar_schedule_time || '12:00:00';
+      if (modalData?.post_date) {
+        data.post_date = format('Y-m-d', modalData.post_date) + ' ' + time;
+      } else {
+        data.post_date = date('Y-m-d', undefined, undefined) + ' ' + time;
       }
-      if(modalData?.post_date || modalData?.openModal){
-        setIsOpen(true);
-      }
+      setIsOpen(true);
       setPostData(data);
+    }
+    else{
+      setPostData({});
     }
   }, [modalData]);
 

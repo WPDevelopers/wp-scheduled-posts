@@ -2,7 +2,7 @@ import { EventApi } from '@fullcalendar/core';
 import apiFetch from '@wordpress/api-fetch';
 import { Button } from '@wordpress/components';
 import { addQueryArgs } from '@wordpress/url';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SweetAlertDeleteMsgForPost } from '../../ToasterMsg';
 import { PostCardProps, PostType, WP_Error } from './types';
 
@@ -55,7 +55,7 @@ const PostCard: React.FC<PostCardProps> = ({
   setEvents,
   getPostTypeColor,
 }) => {
-
+  const id = `wpsp-event-card-${post.postId}`;
   const postColor = getPostTypeColor(post.postType);
 
   const toggleEditArea = () => {
@@ -95,8 +95,39 @@ const PostCard: React.FC<PostCardProps> = ({
     toggleEditArea();
     deletePost(item.postId);
   };
+
+  const addEventListeners = () => {
+    document.addEventListener("mousedown", handleClickOutside);
+  };
+  const removeEventListeners = () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+
+  const handleClickOutside = (event) => {
+    if (!document.getElementById(id).contains(event.target)) {
+      setEditAreaToggle({
+        [post.postId]: false,
+      });
+      removeEventListeners();
+    }
+  };
+
+  useEffect(() => {
+    if(editAreaToggle?.[post.postId]) {
+      addEventListeners();
+    }
+    else{
+      removeEventListeners();
+    }
+
+    return () => {
+      removeEventListeners();
+    };
+  }, [editAreaToggle?.[post.postId]]);
+
+
   return (
-    <div className={`wpsp-event-card card ${postColor}`} >
+    <div id={id} className={`wpsp-event-card card ${postColor}`} >
       {editAreaToggle?.[post.postId] && (
         <ul className="edit-area">
           <li>
