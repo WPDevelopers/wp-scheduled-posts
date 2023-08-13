@@ -45,8 +45,8 @@ class Assets
 
         if ($hook === 'toplevel_page_' . WPSP_SETTINGS_SLUG || WPSP_SETTINGS_SLUG . '_page_' . WPSP_SETTINGS_SLUG . '-calendar' === $hook){            // Load admin style sheet and JavaScript
             $dep = include WPSCP_ADMIN_DIR_PATH . 'Settings/assets/js/admin.asset.php';
-            wp_enqueue_style(WPSP_PLUGIN_SLUG, WPSP_ADMIN_URL . 'Settings/assets/css/admin.css', array(), $dep['version']);
             wp_enqueue_style(WPSP_PLUGIN_SLUG.'-icon', WPSP_ADMIN_URL . 'Settings/assets/icon/style.css', array(), $dep['version']);
+            wp_enqueue_style(WPSP_PLUGIN_SLUG, WPSP_ADMIN_URL . 'Settings/assets/css/admin.css', array(WPSP_PLUGIN_SLUG.'-icon'), $dep['version']);
             wp_enqueue_script(WPSP_PLUGIN_SLUG, WPSP_ADMIN_URL . 'Settings/assets/js/admin.js', $dep['dependencies'], $dep['version']);
             wp_localize_script(WPSP_PLUGIN_SLUG, 'wpspSettingsGlobal', apply_filters('wpsp_settings_global', array(
                 'api_nonce' => wp_create_nonce('wp_rest'),
@@ -66,7 +66,7 @@ class Assets
         if (Helper::_plugin_page_hook_suffix($current_screen->post_type, $hook)){
             $dep = include WPSCP_ADMIN_DIR_PATH . 'Settings/assets/js/calendar.asset.php';
             wp_enqueue_style(WPSP_PLUGIN_SLUG.'-icon', WPSP_ADMIN_URL . 'Settings/assets/icon/style.css', array(), $dep['version']);
-            wp_enqueue_style(WPSP_PLUGIN_SLUG, WPSP_ADMIN_URL . 'Settings/assets/css/calendar.css', array(), $dep['version']);
+            wp_enqueue_style(WPSP_PLUGIN_SLUG, WPSP_ADMIN_URL . 'Settings/assets/css/calendar.css', array(WPSP_PLUGIN_SLUG.'-icon'), $dep['version']);
             wp_enqueue_script(WPSP_PLUGIN_SLUG, WPSP_ADMIN_URL . 'Settings/assets/js/calendar.js', $dep['dependencies'], $dep['version']);
             wp_localize_script(WPSP_PLUGIN_SLUG, 'wpspSettingsGlobal', apply_filters('wpsp_settings_calendar', array(
                 'name'          => 'calendar',
