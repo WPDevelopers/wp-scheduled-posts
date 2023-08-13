@@ -11,6 +11,8 @@ export const SweetAlertToaster = (args: any = {}) => {
       toastIcon = image_path + 'Connected.gif';
     }else if( args?.type == 'error' ) {
       toastIcon = image_path + 'Error.gif';
+    }else if( args?.type == 'info' ) {
+      toastIcon = image_path + 'Info.gif';
     }
     return Swal.mixin({
         icon: args?.icon ?? (args?.type || "success"),
