@@ -138,7 +138,9 @@ class SocialProfile
      */
     public function social_profile_fetch_pinterest_section($params)
     {
-       
+       if( wp_doing_ajax() ) {
+        $params = $_POST;
+       }
         $defaultBoard = (isset($params['defaultBoard']) ? $params['defaultBoard'] : '');
         $profile = (isset($params['profile']) ? $params['profile'] : '');
         if(!is_array($profile)){

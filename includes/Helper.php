@@ -297,12 +297,15 @@ class Helper
 
     public static function get_social_profile($profile)
     {
-        $profile =  self::get_settings($profile);
+        $profile =  self::get_settings($profile) ?? [];
         $is_pro_wpscp = apply_filters('wpsp_social_profile_limit_checkpoint', $profile);
         if (class_exists('WPSP_PRO') && $is_pro_wpscp === true) {
             return $profile;
         }
-        return (is_array($profile) ? array_slice($profile, 0, 1) : []);
+        $profile = array_filter( $profile, function($single_profile){
+            return $single_profile->status == true;
+        } );
+        return  array_slice($profile, 0, 1);
     }
 
     /**

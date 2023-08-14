@@ -82,15 +82,41 @@
             &.has-select {
               max-width: 250px;
               &.has-error {
+                position: relative;
+                .error-tooltip {
+                  visibility: visible;
+                  position: absolute;
+                  width: 120px;
+                  background-color: #3FC3EE;
+                  color: #fff;
+                  text-align: center;
+                  padding: 5px 8px;
+                  border-radius: 6px;
+                  z-index: 999;
+                  opacity: 1;
+                  top: -162%;
+                  left: 50%;
+                  margin-left: -60px;
+                  &::after {
+                    content: "";
+                    position: absolute;
+                    top: 100%;
+                    left: 50%;
+                    margin-left: -5px;
+                    border-width: 5px;
+                    border-style: solid;
+                    border-color: #3FC3EE transparent transparent transparent;
+                  }
+                }
                 .main-select {
                   .social-media-type-select__control {
-                    border-color: #cc0000;
+                    border-color: #3FC3EE;
                     .social-media-type-select__placeholder {
-                      color: #cc0000;
+                      color: #3FC3EE;
                     }
                     .social-media-type-select__indicator {
                       svg {
-                        fill: #cc0000;
+                        fill: #3FC3EE;
                       }
                     }
                   }
