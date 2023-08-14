@@ -143,7 +143,7 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
     };
 
     const addPinterestProfileToggle = (item,defaultSection,event, board) => {
-        const pinterestItem = { ...item, borads : pinterestBoards, defaultSection: defaultSection, default_board_name : board };
+        const pinterestItem = { ...item, boards : pinterestBoards, defaultSection: defaultSection, default_board_name : board };
         if( event?.target?.checked ) {
             // free
             // @ts-ignore
