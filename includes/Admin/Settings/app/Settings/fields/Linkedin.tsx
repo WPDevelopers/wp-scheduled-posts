@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { __ } from '@wordpress/i18n';
 import Modal from 'react-modal';
 import Swal from 'sweetalert2';
-import { SweetAlertDeleteMsg } from '../ToasterMsg';
+import { SweetAlertDeleteMsg, SweetAlertProMsg } from '../ToasterMsg';
 import { socialProfileRequestHandler } from '../helper/helper';
 import ApiCredentialsForm from './Modals/ApiCredentialsForm';
 import SocialModal from './Modals/SocialModal';
@@ -79,6 +79,10 @@ const Linkedin = (props) => {
 
   // Handle selected profile status changing 
   const handleSelectedProfileStatusChange = (item, event) => {
+    if( !is_pro && item?.type === 'organization' ){
+      SweetAlertProMsg();
+      return;
+    }
     if (event.target.checked) {
       setProfileStatus(true);
     }

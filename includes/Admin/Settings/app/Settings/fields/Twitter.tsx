@@ -191,7 +191,7 @@ const Twitter = (props) => {
               alt="mainLogo"
             />
           )}
-          <div className="selected-pinterest-scrollbar">
+          <div className="selected-twitter-scrollbar">
             {selectedProfileData.map((item, index) => (
               <div
                 className="selected-twitter-wrapper"
