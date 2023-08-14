@@ -32,6 +32,9 @@ class Installer
         if(version_compare(get_option('wpsp_version'), '4.1.6', '<=')){
             Migration::allow_categories();
         }
+        if(version_compare(get_option('wpsp_version'), '5.0.0', '<')){
+            Migration::version_4_to_5();
+        }
 
         // update version
         if (version_compare(get_option('wpsp_version'), WPSP_VERSION, '<')) {
