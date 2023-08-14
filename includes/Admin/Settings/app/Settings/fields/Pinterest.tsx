@@ -2,7 +2,9 @@ import classNames from 'classnames';
 import { useBuilderContext } from 'quickbuilder';
 import React, { useEffect, useState } from 'react';
 
+import { __ } from '@wordpress/i18n';
 import Modal from 'react-modal';
+import Swal from 'sweetalert2';
 import { SweetAlertDeleteMsg } from '../ToasterMsg';
 import { socialProfileRequestHandler } from '../helper/helper';
 import ApiCredentialsForm from './Modals/ApiCredentialsForm';
@@ -23,7 +25,10 @@ const Pinterest = (props) => {
   const [profileStatus, setProfileStatus] = useState(
     builderContext?.savedValues?.pinterest_profile_status
   );
-
+  const [activeStatusCount,setActiveStatusCount] = useState(0);
+  // @ts-ignore
+  const is_pro = wpspSettingsGlobal?.pro_version ? true : false;
+  
   const openApiCredentialsModal = (platform) => {
     setPlatform('pinterest');
     setApiCredentialsModal(true);
@@ -32,25 +37,65 @@ const Pinterest = (props) => {
     setPlatform('');
     setApiCredentialsModal(false);
   };
+
+  // handle selected profile status changing
   const handleSelectedProfileStatusChange = (item, event) => {
     if (event.target.checked) {
       setProfileStatus(true);
     }
     setCashedStatus((prevStatus) => {
-      return { ...prevStatus, [item.default_board_name.value]: event.target.checked };
-    });
-    const updatedData = selectedProfile.map((selectedItem) => {
-      if (
-        selectedItem.default_board_name.value === item.default_board_name.value
-      ) {
-        return {
-          ...selectedItem,
-          status: event.target.checked,
-        };
+      if( is_pro ) {
+        return { ...prevStatus, [item.id]: event.target.checked };
+      }else{
+        return { [item.id]: event.target.checked };
       }
-      return selectedItem;
     });
-    setSelectedProfile(updatedData);
+    if ( is_pro ) {
+      const updatedData = selectedProfile.map((selectedItem) => {
+        if (selectedItem.id === item.id) {
+          return {
+            ...selectedItem,
+            status: event.target.checked,
+          };
+        }
+        return selectedItem;
+      });
+      setSelectedProfile(updatedData);
+    }else{
+      if( activeStatusCount <= 1 ) {
+        let currentStatus = event.target.checked;
+        if( activeStatusCount === 1 && currentStatus ) {
+          Swal.fire({
+            title: __('Are you sure?','wp-scheduled-posts'),
+            text: __('Enabling this profile will deactivate other profile automatically.','wp-scheduled-posts'),
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: '<i class="wpsp-icon wpsp-close"></i>',
+            confirmButtonText: __('Yes, Enable it!', 'wp-scheduled-posts'),
+          }).then((result) => {
+            if (result.isConfirmed) {
+                const updatedData = selectedProfile.map((selectedItem) => {
+                  return {
+                    ...selectedItem,
+                    status: selectedItem.id === item.id ? currentStatus : false,
+                  };
+              });
+              setSelectedProfile(updatedData);
+            }
+          })
+        }else{
+          const updatedData = selectedProfile.map((selectedItem) => {
+              return {
+                ...selectedItem,
+                status: selectedItem.id === item.id ? currentStatus : false,
+              };
+          });
+          setSelectedProfile(updatedData);
+        }
+      }
+    }
   };
 
   // Handle delete selected profile
@@ -69,6 +114,9 @@ const Pinterest = (props) => {
     setProfileStatus(event.target.checked);
     const updatedData = selectedProfile.map((selectedItem) => {
       if (!event.target.checked) {
+        setCashedStatus((prevStatus) => {
+          return { ...prevStatus, [selectedItem.id]: selectedItem?.status };
+        });
         return {
           ...selectedItem,
           status: false,
@@ -86,6 +134,15 @@ const Pinterest = (props) => {
   // Save selected profile data
   useEffect(() => {
     builderContext.setFieldValue([props.name], selectedProfile);
+    let count = 0;
+      if( selectedProfile ) {
+        selectedProfile.forEach(element => {
+          if( element.status ) {
+            count++;
+        }
+        setActiveStatusCount( count );
+      });
+    }
   }, [selectedProfile]);
 
   // Save profile status data

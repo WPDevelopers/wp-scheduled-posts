@@ -2,12 +2,13 @@ import classNames from 'classnames';
 import { useBuilderContext } from 'quickbuilder';
 import React, { useEffect, useState } from 'react';
 
+import { __ } from '@wordpress/i18n';
 import Modal from 'react-modal';
+import Swal from 'sweetalert2';
+import { SweetAlertDeleteMsg } from '../ToasterMsg';
 import { socialProfileRequestHandler } from '../helper/helper';
 import ApiCredentialsForm from './Modals/ApiCredentialsForm';
 import SocialModal from './Modals/SocialModal';
-
-import { SweetAlertDeleteMsg } from '../ToasterMsg';
 import MainProfile from './utils/MainProfile';
 import SelectedProfile from './utils/SelectedProfile';
 import ViewMore from './utils/ViewMore';
@@ -22,7 +23,11 @@ const Twitter = (props) => {
   const [profileStatus, setProfileStatus] = useState(
     builderContext?.savedValues?.twitter_profile_status
   );
+  const [activeStatusCount,setActiveStatusCount] = useState(0);
 
+  // @ts-ignore
+  const is_pro = wpspSettingsGlobal?.pro_version ? true : false;
+  
   const openApiCredentialsModal = (platform) => {
     setPlatform('twitter');
     setApiCredentialsModal(true);
@@ -38,6 +43,9 @@ const Twitter = (props) => {
     
     const updatedData = selectedProfile.map((selectedItem) => {
       if (!event.target.checked) {
+        setCashedStatus((prevStatus) => {
+          return { ...prevStatus, [selectedItem.id]: selectedItem?.status };
+        });
         return {
           ...selectedItem,
           status: false,
@@ -51,24 +59,69 @@ const Twitter = (props) => {
     });
     setSelectedProfile(updatedData);
   };
+  
+
+  // handle selected profile status changing
   const handleSelectedProfileStatusChange = (item, event) => {
     if (event.target.checked) {
       setProfileStatus(true);
     }
     setCashedStatus((prevStatus) => {
-      return { ...prevStatus, [item.id]: event.target.checked };
-    });
-    const updatedData = selectedProfile.map((selectedItem) => {
-      if (selectedItem.id === item.id) {
-        return {
-          ...selectedItem,
-          status: event.target.checked,
-        };
+      if( is_pro ) {
+        return { ...prevStatus, [item.id]: event.target.checked };
+      }else{
+        return { [item.id]: event.target.checked };
       }
-      return selectedItem;
     });
-    setSelectedProfile(updatedData);
+    if ( is_pro ) {
+      const updatedData = selectedProfile.map((selectedItem) => {
+        if (selectedItem.id === item.id) {
+          return {
+            ...selectedItem,
+            status: event.target.checked,
+          };
+        }
+        return selectedItem;
+      });
+      setSelectedProfile(updatedData);
+    }else{
+      if( activeStatusCount <= 1 ) {
+        let currentStatus = event.target.checked;
+        if( activeStatusCount === 1 && currentStatus ) {
+          Swal.fire({
+            title: __('Are you sure?','wp-scheduled-posts'),
+            text: __('Enabling this profile will deactivate other profile automatically.','wp-scheduled-posts'),
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: '<i class="wpsp-icon wpsp-close"></i>',
+            confirmButtonText: __('Yes, Enable it!', 'wp-scheduled-posts'),
+          }).then((result) => {
+            if (result.isConfirmed) {
+                const updatedData = selectedProfile.map((selectedItem) => {
+                  return {
+                    ...selectedItem,
+                    status: selectedItem.id === item.id ? currentStatus : false,
+                  };
+              });
+              setSelectedProfile(updatedData);
+            }
+          })
+        }else{
+          const updatedData = selectedProfile.map((selectedItem) => {
+              return {
+                ...selectedItem,
+                status: selectedItem.id === item.id ? currentStatus : false,
+              };
+          });
+          setSelectedProfile(updatedData);
+        }
+      }
+    }
   };
+
+  // Handle delete selected profile
   const handleDeleteSelectedProfile = (item) => {
     SweetAlertDeleteMsg({ item }, deleteFile);
   };
@@ -78,9 +131,19 @@ const Twitter = (props) => {
     );
     setSelectedProfile(updatedData);
   };
+  
   // Save selected profile data
   useEffect(() => {
     builderContext.setFieldValue([props.name], selectedProfile);
+    let count = 0;
+    if( selectedProfile ) {
+      selectedProfile.forEach(element => {
+        if( element.status ) {
+            count++;
+        }
+        setActiveStatusCount( count );
+      });
+    }
   }, [selectedProfile]);
 
   // Save profile status data
@@ -94,6 +157,8 @@ const Twitter = (props) => {
       },
     });
   }, [profileStatus]);
+
+  // Prepare selected profile data
   let selectedProfileData = [];
   if (selectedProfile && selectedProfileViewMore) {
     selectedProfileData = selectedProfile;

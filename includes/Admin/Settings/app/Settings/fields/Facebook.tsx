@@ -1,8 +1,9 @@
+import { __ } from '@wordpress/i18n';
 import classNames from 'classnames';
 import { useBuilderContext } from 'quickbuilder';
 import React, { useEffect, useState } from 'react';
-
 import Modal from 'react-modal';
+import Swal from 'sweetalert2';
 import { SweetAlertDeleteMsg } from '../ToasterMsg';
 import { socialProfileRequestHandler } from '../helper/helper';
 import ApiCredentialsForm from './Modals/ApiCredentialsForm';
@@ -20,11 +21,12 @@ const Facebook = (props) => {
   const [cachedStatus, setCashedStatus] = useState({});
   const [profileStatus, setProfileStatus] = useState(
     builderContext?.savedValues?.facebook_profile_status
-  );
+    );
+  const [activeStatusCount,setActiveStatusCount] = useState(0);
+  
   // @ts-ignore
   const is_pro = wpspSettingsGlobal?.pro_version ? true : false;
   
-  const [activeStatusCount,setActiveStatusCount] = useState(0);
 
   // Open and Close API credentials modal
   const openApiCredentialsModal = (accountType) => {
@@ -41,6 +43,9 @@ const Facebook = (props) => {
     setProfileStatus(event.target.checked);
     const changeProfileStatus = selectedProfile.map((selectedItem) => {
       if (!event.target.checked) {
+        setCashedStatus((prevStatus) => {
+          return { ...prevStatus, [selectedItem.id]: selectedItem?.status };
+        });
         return {
           ...selectedItem,
           status: false,
@@ -48,54 +53,25 @@ const Facebook = (props) => {
       } else {
         return {
           ...selectedItem,
-          status : (cachedStatus?.[selectedItem.id] == undefined) ? builderContext?.savedValues?.linkedin_profile_status : cachedStatus?.[selectedItem.id], 
+          status : (cachedStatus?.[selectedItem.id] == undefined) ?  false : cachedStatus?.[selectedItem.id], 
         };
       }
     });
     setSelectedProfile(changeProfileStatus);
   };
+  
   const handleSelectedProfileStatusChange = (item, event) => {
     if (event.target.checked) {
       setProfileStatus(true);
     }
     setCashedStatus((prevStatus) => {
-      return { ...prevStatus, [item.id]: event.target.checked };
+      if( is_pro ) {
+        return { ...prevStatus, [item.id]: event.target.checked };
+      }else{
+        return { [item.id]: event.target.checked };
+      }
     });
-    let currentStatus = event.target.checked;
-    if( !is_pro && activeStatusCount <= 1) {
-      // if( activeStatusCount == 1 && currentStatus ) {
-        const changeSelectedProfileStatus = selectedProfile.map(
-          (selectedItem) => {
-            return {
-              ...selectedItem,
-              status: selectedItem.id == item.id ? event.target.checked : false,
-            };
-          }
-        );
-        setSelectedProfile(changeSelectedProfileStatus);
-        // Swal.fire({
-        //   title: 'Are you sure?',
-        //   text: "You won't be able to revert this!",
-        //   icon: 'warning',
-        //   showCancelButton: true,
-        //   confirmButtonColor: '#3085d6',
-        //   cancelButtonColor: '#d33',
-        //   confirmButtonText: 'Yes, delete it!'
-        // }).then((result) => {
-        //   if (result.isConfirmed) {
-        //     // const changeSelectedProfileStatus = selectedProfile.map(
-        //     //   (selectedItem) => {
-        //     //     return {
-        //     //       ...selectedItem,
-        //     //       status: selectedItem.id == item.id ? currentStatus : false,
-        //     //     };
-        //     //   }
-        //     // );
-        //     // setSelectedProfile(changeSelectedProfileStatus);
-        //   }
-        // })
-      // }
-    }else{
+    if ( is_pro ) {
       const updatedData = selectedProfile.map((selectedItem) => {
         if (selectedItem.id === item.id) {
           return {
@@ -106,26 +82,41 @@ const Facebook = (props) => {
         return selectedItem;
       });
       setSelectedProfile(updatedData);
-    }
-
-    // if (profileStatus == true) {
-      const changeSelectedProfileStatus = selectedProfile.map(
-        (selectedItem) => {
-          if( !is_pro && activeStatusCount <= 1 ) {
-            if( activeStatusCount == 1 ) {
-              if (selectedItem.id === item.id) {
-                return {
-                  ...selectedItem,
-                  status: event.target.checked,
-                };
-              }
+    }else{
+      if( activeStatusCount <= 1 ) {
+        let currentStatus = event.target.checked;
+        if( activeStatusCount === 1 && currentStatus ) {
+          Swal.fire({
+            title: __('Are you sure?','wp-scheduled-posts'),
+            text: __('Enabling this profile will deactivate other profile automatically.','wp-scheduled-posts'),
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: '<i class="wpsp-icon wpsp-close"></i>',
+            confirmButtonText: __('Yes, Enable it!', 'wp-scheduled-posts'),
+          }).then((result) => {
+            if (result.isConfirmed) {
+                const updatedData = selectedProfile.map((selectedItem) => {
+                  return {
+                    ...selectedItem,
+                    status: selectedItem.id === item.id ? currentStatus : false,
+                  };
+              });
+              setSelectedProfile(updatedData);
             }
-          }
-          return selectedItem;
+          })
+        }else{
+          const updatedData = selectedProfile.map((selectedItem) => {
+              return {
+                ...selectedItem,
+                status: selectedItem.id === item.id ? currentStatus : false,
+              };
+          });
+          setSelectedProfile(updatedData);
         }
-      );
-      setSelectedProfile(changeSelectedProfileStatus);
-    // }
+      }
+    }
   };
 
   const handleDeleteSelectedProfile = (item) => {
@@ -141,12 +132,14 @@ const Facebook = (props) => {
   useEffect(() => {
     builderContext.setFieldValue([props.name], selectedProfile);
     let count = 0;
-    selectedProfile.forEach(element => {
-      if( element.status ) {
-        count++;
+    if( selectedProfile ) {
+      selectedProfile.forEach(element => {
+        if( element.status ) {
+            count++;
+        }
+        setActiveStatusCount( count );
+      });
     }
-    setActiveStatusCount( count );
-    });
   }, [selectedProfile]);
 
   // Save profile status data

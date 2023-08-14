@@ -134,7 +134,7 @@ export default function MainProfile({
             }else{
               SweetAlertToaster({
                   type : 'info',
-                  title : __( "Please select any option!!", 'wp-scheduled-posts' ),
+                  title : __( "Please select an option!!", 'wp-scheduled-posts' ),
               }).fire();
             }
           } }>
