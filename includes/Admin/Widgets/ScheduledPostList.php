@@ -24,11 +24,11 @@ class ScheduledPostList
         $_allow_categories = ['relation' => 'OR'];
         $post_types        = \WPSP\Helper::get_settings('allow_post_types');
         $post_types        = (!empty($post_types) ? $post_types : array('post'));
-        $allow_categories  = \WPSP\Helper::get_settings('allow_categories');
+        $allow_categories  = \WPSP\Helper::get_settings('allow_categories') ?? [];
         if ( $allow_categories && ($key = array_search('all', $allow_categories)) !== false) {
             unset($allow_categories);
         }
-        else{
+        else {
             foreach ($allow_categories as $key => $value) {
                 list($taxonomy, $term) = preg_split("/\./", $value, 2);
                 if(empty($_allow_categories[$taxonomy])){
