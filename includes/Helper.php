@@ -39,12 +39,7 @@ class Helper
 
     public static function _get_all_category()
     {
-        $return = ['result' => [
-            [
-                'value' => 'all',
-                'label' => "All",
-            ]
-        ]];
+        $return = ['result' => []];
         $allow_post_types  = \WPSP\Helper::get_settings('allow_post_types');
         $taxonomies = self::get_all_tax_term($allow_post_types);
 
