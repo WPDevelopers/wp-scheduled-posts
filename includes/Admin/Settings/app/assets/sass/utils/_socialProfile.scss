@@ -29,16 +29,16 @@
         grid-template-columns: repeat(2, 1fr);
         .selected-profile {
           .linkedin-organization {
-            background: #F0FAFF !important;
-            color: #007AB9 !important;
+            background: #f0faff !important;
+            color: #007ab9 !important;
           }
           .facebook-group {
-            background: #F5F9FE !important;
-            color: #1877F2 !important;
+            background: #f5f9fe !important;
+            color: #1877f2 !important;
           }
           .pinterest-pinner {
-            background: #FEF6F6 !important;
-            color: #E42228 !important;
+            background: #fef6f6 !important;
+            color: #e42228 !important;
           }
         }
         .main-profile {
@@ -81,6 +81,21 @@
             display: flex;
             &.has-select {
               max-width: 250px;
+              &.has-error {
+                .main-select {
+                  .social-media-type-select__control {
+                    border-color: #cc0000;
+                    .social-media-type-select__placeholder {
+                      color: #cc0000;
+                    }
+                    .social-media-type-select__indicator {
+                      svg {
+                        fill: #cc0000;
+                      }
+                    }
+                  }
+                }
+              }
             }
             .main-select {
               height: 42px;

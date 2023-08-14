@@ -226,7 +226,7 @@ class Helper
     {
         $allow_post_types = (!empty(self::get_settings('allow_post_types')) ? self::get_settings('allow_post_types') : array('post'));
         foreach ($allow_post_types as $key => $post_type) {
-            if ( 'posts_page_' . WPSP_SETTINGS_SLUG . '-' . $post_type == $hook ) {
+            if ( strpos($hook, '_page_' . WPSP_SETTINGS_SLUG) !== false ) {
                 return true;
             }
         }

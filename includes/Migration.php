@@ -232,4 +232,67 @@ class Migration {
             }
         }
     }
+
+    public static function version_4_to_5(){
+        if (get_option('wpsp_data_migration_4_to_5') == false) {
+            $old_settings = json_decode(get_option(WPSP_SETTINGS_NAME), true);
+            $settings      = $old_settings ? $old_settings : [];
+            // old version is installed
+            if ($old_settings != false) {
+                // migration code here.
+                // manage_schedule auto_schedule
+                if(isset($old_settings['manage_schedule'])){
+                    $manage_schedule = $old_settings['manage_schedule'];
+                    $settings['manage_schedule'] = [
+                        'auto_schedule'   => [],
+                        'manual_schedule' => [],
+                    ];
+                    if (isset($manage_schedule['auto_schedule'])) {
+                        $auto_schedule = $old_settings['manage_schedule']['auto_schedule'];
+                        foreach ($auto_schedule as $arr_value) {
+                            $key   = key($arr_value);
+                            $value = current($arr_value);
+                            $settings['manage_schedule']['auto_schedule'][$key] = $value;
+                        }
+                    }
+                    if (isset($manage_schedule['manual_schedule'])) {
+                        $manual_schedule = $old_settings['manage_schedule']['manual_schedule'];
+                        foreach ($manual_schedule as $arr_value) {
+                            $key   = key($arr_value);
+                            $value = current($arr_value);
+                            $settings['manage_schedule']['manual_schedule'][$key] = $value;
+                        }
+                    }
+                }
+                // social_templates
+                if(isset($old_settings['social_templates']) && is_array($old_settings['social_templates'])){
+                    $social_templates = $old_settings['social_templates'];
+                    $settings['social_templates'] = [
+                        'facebook'  => [],
+                        'twitter'   => [],
+                        'linkedin'  => [],
+                        'pinterest' => [],
+                    ];
+                    foreach ($social_templates as $social => $template_arr) {
+                        foreach ($template_arr as $arr_value) {
+                            $key   = key($arr_value);
+                            $value = current($arr_value);
+                            if('pinterest' === $social && 'note_limit' === $key
+                             ||'twitter' === $social && 'tweet_limit' === $key
+                            ){
+                                $key = 'status_limit';
+                            }
+                            $settings['social_templates'][$social][$key] = $value;
+                        }
+                    }
+                }
+
+                if (!empty($settings)) {
+                    update_option(WPSP_SETTINGS_NAME, json_encode($settings));
+                }
+                update_option( 'wpsp_data_migration_4_to_5', true );
+            }
+        }
+
+    }
 }
