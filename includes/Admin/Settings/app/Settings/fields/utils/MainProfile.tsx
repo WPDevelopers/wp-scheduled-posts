@@ -1,7 +1,6 @@
 import { __ } from '@wordpress/i18n';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Select, { components } from 'react-select';
-import { SweetAlertToaster } from '../../ToasterMsg';
 import { selectStyles } from '../../helper/styles';
 
 // Prepare options with checkbox
@@ -53,7 +52,8 @@ export default function MainProfile({
     ];
   }
 
-  const [accountType, setAccountType] = useState();
+  const [accountType, setAccountType] = useState(undefined);
+  const [hasError, setHasError] = useState(false);
   const handleAccountType = (selectedOption) => {
     setAccountType(selectedOption.value);
   };
@@ -71,6 +71,20 @@ export default function MainProfile({
       },
     }),
   };
+  // @ts-ignore
+  useEffect(() => {
+    let errorTimeOut;
+    if (hasError) {
+      if (accountType) setHasError(false);
+      else
+        setTimeout(() => {
+          setHasError(false);
+        }, 5000);
+    }
+    return () => {
+      clearTimeout(errorTimeOut);
+    };
+  }, [hasError, accountType]);
 
   return (
     <>
@@ -106,39 +120,49 @@ export default function MainProfile({
       </div>
       <div
         className={`card-footer ${
-          ['facebook', 'linkedin'].includes(props?.type) ? 'has-select' : ''
+          ['facebook', 'linkedin'].includes(props?.type)
+            ? `has-select ${hasError ? 'has-error' : ''}`
+            : ''
         }`}>
         {['facebook', 'linkedin'].includes(props?.type) && (
-          <Select
-            id={props?.id}
-            onChange={(event) => {
-              handleAccountType(event);
-            }}
-            components={{
-              Option,
-            }}
-            options={options}
-            className="main-select"
-            styles={mainSelectStyles}
-            classNamePrefix="social-media-type-select"
-          />
+          <>
+            {hasError ? (
+              <p className="error-tooltip">
+                <span>
+                  {__('Please select an option!!', 'wp-scheduled-posts')}
+                </span>
+              </p>
+            ) : (
+              ''
+            )}
+            <Select
+              id={props?.id}
+              onChange={(event) => {
+                handleAccountType(event);
+              }}
+              components={{
+                Option,
+              }}
+              options={options}
+              className="main-select"
+              styles={mainSelectStyles}
+              classNamePrefix="social-media-type-select"
+            />
+          </>
         )}
         <button
           type="button"
           className={`wpscp-social-tab__btn--addnew-profile ${
             accountType ? 'selected' : ''
           }`}
-          onClick={ () => {
-            if( accountType || ['twitter','pinterest'].includes(props?.type) ) {
-              openApiCredentialsModal(accountType)
-            }else{
-              SweetAlertToaster({
-                  type : 'info',
-                  title : __( "Please select an option!!", 'wp-scheduled-posts' ),
-              }).fire();
+          onClick={() => {
+            if (accountType || ['twitter', 'pinterest'].includes(props?.type)) {
+              openApiCredentialsModal(accountType);
+            } else {
+              setHasError(true);
             }
-          } }>
-          { __('Add New', 'wp-scheduled-posts') }
+          }}>
+          {__('Add New', 'wp-scheduled-posts')}
         </button>
       </div>
     </>
