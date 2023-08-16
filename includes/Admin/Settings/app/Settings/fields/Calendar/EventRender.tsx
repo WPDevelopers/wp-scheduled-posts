@@ -55,7 +55,6 @@ const PostCard: React.FC<PostCardProps> = ({
   setEvents,
   getPostTypeColor,
 }) => {
-  const id = `wpsp-event-card-${post.postId}`;
   const postColor = getPostTypeColor(post.postType);
 
   const toggleEditArea = () => {
@@ -104,7 +103,8 @@ const PostCard: React.FC<PostCardProps> = ({
   };
 
   const handleClickOutside = (event) => {
-    if (!document.getElementById(id).contains(event.target)) {
+    // check if event.target is descendant of the {id} class
+    if (!event.target?.closest(`.wpsp-event-card`)) {
       setEditAreaToggle({
         [post.postId]: false,
       });
@@ -127,7 +127,7 @@ const PostCard: React.FC<PostCardProps> = ({
 
 
   return (
-    <div id={id} className={`wpsp-event-card card ${postColor}`} >
+    <div className={`wpsp-event-card card ${postColor}`} >
       {editAreaToggle?.[post.postId] && (
         <ul className="edit-area">
           <li>
