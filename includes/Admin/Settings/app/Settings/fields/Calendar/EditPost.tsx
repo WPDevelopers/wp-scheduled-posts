@@ -63,8 +63,7 @@ export const ModalContent = ({
     }).then((data: PostType | WP_Error) => {
       onSubmit(data, modalData?.post);
       // @todo show success message
-    }).finally(() => {
-      closeModal();
+    }).then(() => {
       let message;
       switch ( modalData?.eventType ) {
         case 'addEvent':
@@ -83,6 +82,12 @@ export const ModalContent = ({
           break;
       }
       SweetAlertToaster({ title : message }).fire();
+    }).catch((error) => {
+      // @todo show error message
+      let message = error?.message || __('Something went wrong','wp-scheduled-posts');
+      SweetAlertToaster({ type: 'error', title : message }).fire();
+    }).finally(() => {
+      closeModal();
     });
   };
 
