@@ -273,6 +273,7 @@ export default function Calendar(props) {
               // timeZone='local'
               timeZone={timeZone}
               initialView="dayGridMonth"
+              height="auto"
               plugins={[momentTimezonePlugin, dayGridPlugin, interactionPlugin]}
               // weekends={true}
               // firstDay={props.firstDay}

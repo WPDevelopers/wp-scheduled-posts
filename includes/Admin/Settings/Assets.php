@@ -20,7 +20,10 @@ class Assets
 
     public function settings_scripts($hook)
     {
-        $current_screen = \get_current_screen();
+        // $current_screen = \get_current_screen();
+        if(!(strpos($hook, '_page_' . WPSP_SETTINGS_SLUG) !== false)){
+            return;
+        }
 
         add_action('wp_print_scripts', function () {
             $isSkip = apply_filters('schedulepress_skip_no_conflict', false);
@@ -62,7 +65,7 @@ class Assets
                 'pro_version'      => (defined('WPSP_PRO_VERSION') ? WPSP_PRO_VERSION : '')
             )));
         }
-        else if (Helper::_plugin_page_hook_suffix($current_screen->post_type, $hook)){
+        else if (strpos($hook, '_page_' . WPSP_SETTINGS_SLUG) !== false){
             $dep = include WPSCP_ADMIN_DIR_PATH . 'Settings/assets/js/calendar.asset.php';
             wp_enqueue_style(WPSP_PLUGIN_SLUG.'-icon', WPSP_ADMIN_URL . 'Settings/assets/icon/style.css', array(), $dep['version']);
             wp_enqueue_style(WPSP_PLUGIN_SLUG, WPSP_ADMIN_URL . 'Settings/assets/css/calendar.css', array(WPSP_PLUGIN_SLUG.'-icon'), $dep['version']);

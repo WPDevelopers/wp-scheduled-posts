@@ -39,12 +39,7 @@ class Helper
 
     public static function _get_all_category()
     {
-        $return = ['result' => [
-            [
-                'value' => 'all',
-                'label' => "All",
-            ]
-        ]];
+        $return = ['result' => []];
         $allow_post_types  = \WPSP\Helper::get_settings('allow_post_types');
         $taxonomies = self::get_all_tax_term($allow_post_types);
 
@@ -219,16 +214,6 @@ class Helper
             strpos($hook, '_page_' . WPSP_SETTINGS_SLUG) !== false
         ) {
             return true;
-        }
-        return false;
-    }
-    public static function _plugin_page_hook_suffix($current_post_type, $hook)
-    {
-        $allow_post_types = (!empty(self::get_settings('allow_post_types')) ? self::get_settings('allow_post_types') : array('post'));
-        foreach ($allow_post_types as $key => $post_type) {
-            if ( strpos($hook, '_page_' . WPSP_SETTINGS_SLUG) !== false ) {
-                return true;
-            }
         }
         return false;
     }

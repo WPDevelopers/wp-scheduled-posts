@@ -17,7 +17,7 @@ const Option = (props) => {
 };
 
 export const addAllOption = (options: Option[]) => {
-  return [...Object.values(options || [])];
+  return [{ label: 'All', value: 'all' }, ...Object.values(options || [])];
 };
 export const getOptionsFlatten = (options: Option[]) => {
   const optionsArray = [];
@@ -35,7 +35,7 @@ const CheckboxSelect = (props) => {
   let { name, multiple, onChange } = props;
   // let options = [];
   // if (props.option) {
-  //   options = Object.entries(props?.option)?.map(([key, value]) => ({
+  //   options = Object.entries(props.option)?.map(([key, value]) => ({
   //     //@ts-ignore
   //     value: value?.value,
   //     //@ts-ignore
@@ -44,11 +44,11 @@ const CheckboxSelect = (props) => {
   //   }));
   // }
 
-  const selectedValue = props?.value?.map((item) => {
-    return findOptionLabelByValue(props.option, item);
-  });
 
-  const allOption = useMemo(() => addAllOption(props?.option), [props?.option]);
+  const allOption = useMemo(() => addAllOption(props.option), [props.option]);
+  const selectedValue = props.value?.map((item) => {
+    return findOptionLabelByValue(allOption, item);
+  });
 
   const allOptionFlatten = useMemo(
     () => getOptionsFlatten(allOption),
@@ -120,11 +120,11 @@ const CheckboxSelect = (props) => {
           "wprf-control-wrapper",
           "wprf-checkbox-select",
           `wprf-${props.name}-checkbox-select`,
-          props?.classes
+          props.classes
         )}
       >
         <div className="wprf-control-label">
-          <label htmlFor={`${props?.id}`}>{props?.label}</label>
+          <label htmlFor={`${props.id}`}>{props.label}</label>
           <div className="selected-options">
             <ul>
               {optionSelected &&

@@ -53,6 +53,11 @@ class Menu
                     $extra = $admin_menu_url !== $post_type_object->show_in_menu ? " ({$post_type_object->label})" : '';
                     $admin_menu_url = $post_type_object->show_in_menu;
                 }
+                if('docs' === $post_type && function_exists('betterdocs')){
+                    $admin_menu_url = 'betterdocs-admin';
+                    add_submenu_page('betterdocs-admin', __('Calendar', 'wp-scheduled-posts'), __('Calendar', 'wp-scheduled-posts') . $extra, 'edit_posts', "edit.php?page=" . WPSP_SETTINGS_SLUG . '-' . $post_type, array($this, 'load_settings_template'), 20);
+                    continue;
+                }
                 add_submenu_page($admin_menu_url, __('Calendar', 'wp-scheduled-posts'), __('Calendar', 'wp-scheduled-posts') . $extra, 'edit_posts', WPSP_SETTINGS_SLUG . '-' . $post_type, array($this, 'load_settings_template'));
             }
         }
