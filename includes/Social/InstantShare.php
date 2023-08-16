@@ -394,7 +394,7 @@ class InstantShare
             );
             wp_die();
         } else {
-            wp_send_json_error(__('Sorry, your requested platform integation is not added.', 'wp-scheduled-posts'));
+            wp_send_json_error(__('Sorry, your requested platform integration is not added.', 'wp-scheduled-posts'));
             wp_die();
         }
     }
