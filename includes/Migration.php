@@ -235,7 +235,9 @@ class Migration {
 
     public static function version_4_to_5(){
         if (get_option('wpsp_data_migration_4_to_5') == false) {
-            $old_settings = json_decode(get_option(WPSP_SETTINGS_NAME), true);
+            $old_settings = get_option(WPSP_SETTINGS_NAME);
+            update_option('__' . WPSP_SETTINGS_NAME, $old_settings);
+            $old_settings = json_decode($old_settings, true);
             $settings      = $old_settings ? $old_settings : [];
             // old version is installed
             if ($old_settings != false) {
