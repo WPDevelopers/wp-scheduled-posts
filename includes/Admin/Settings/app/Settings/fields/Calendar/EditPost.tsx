@@ -176,6 +176,7 @@ export const ModalContent = ({
                 label="Title"
                 placeholder="Title"
                 value={postData.post_title}
+                required
                 onChange={(event) => setPostData((postData) => ({...postData, post_title: event.target.value}))}
               />
             </div>
@@ -184,6 +185,7 @@ export const ModalContent = ({
                 id="content"
                 label="Content"
                 placeholder="Content"
+                required
                 value={postData.post_content}
                 onChange={(event) => setPostData((postData) => ({...postData, post_content: event.target.value}))}
               />
