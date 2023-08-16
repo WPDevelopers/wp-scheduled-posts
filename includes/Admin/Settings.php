@@ -869,7 +869,7 @@ class Settings {
                                                                     'label'         => __('Add Image Link', 'wp-scheduled-posts'),
                                                                     'info'          => __('Enable if you want to add the Image link on Pinterest. ','wp-scheduled-posts'),
                                                                     'priority'      => 5,
-                                                                    'default'       => 1,
+                                                                    'default'       => true,
                                                                 ],
                                                                 'is_category_as_tags'  => [
                                                                     'id'            => 'pinterest_cat_tags',
@@ -878,6 +878,7 @@ class Settings {
                                                                     'label'         => __('Add Category as tags', 'wp-scheduled-posts'),
                                                                     'info'          => __('The categories you select will be used as tags.','wp-scheduled-posts'),
                                                                     'priority'      => 10,
+                                                                    'default'       => true,
                                                                 ],
                                                                 'content_source' => [
                                                                     'label'         => __('Content Source:','wp-scheduled-posts'),
@@ -905,9 +906,9 @@ class Settings {
                                                                     'default'       => '{title}{content}{url}{tags}',
                                                                     'priority'      => 15,
                                                                 ],
-                                                                'status_limit'  => [
-                                                                    'id'            => 'linkedin_status_limit',
-                                                                    'name'          => 'status_limit',
+                                                                'note_limit'  => [
+                                                                    'id'            => 'pinterest_note_limit',
+                                                                    'name'          => 'note_limit',
                                                                     'type'          => 'number',
                                                                     'label'         => __('Status Limit', 'wp-scheduled-posts'),
                                                                     'priority'      => 20,
