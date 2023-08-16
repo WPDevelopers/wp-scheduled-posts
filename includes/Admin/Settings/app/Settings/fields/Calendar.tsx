@@ -240,7 +240,7 @@ export default function Calendar(props) {
               </button>
               <i
                 onClick={handleSlidebarToggle}
-                className={`calendar-btn wpsp-icon wpsp-manual-sc ${
+                className={`calendar-btn wpsp-icon wpsp-sidebar ${
                   !sidebarToggle ? "inactive" : ""
                 }`}
               />

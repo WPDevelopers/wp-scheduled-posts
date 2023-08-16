@@ -45,14 +45,14 @@ const Pinterest = (props) => {
     }
     setCashedStatus((prevStatus) => {
       if( is_pro ) {
-        return { ...prevStatus, [item.id]: event.target.checked };
-      }else{
-        return { [item.id]: event.target.checked };
-      }
+      return { ...prevStatus, [item.default_board_name.value]: event.target.checked };
+    }else{
+      return {  [item.default_board_name.value]: event.target.checked };
+    }
     });
     if ( is_pro ) {
       const updatedData = selectedProfile.map((selectedItem) => {
-        if (selectedItem.id === item.id) {
+        if ( selectedItem.default_board_name.value === item.default_board_name.value ) {
           return {
             ...selectedItem,
             status: event.target.checked,
@@ -79,7 +79,7 @@ const Pinterest = (props) => {
                 const updatedData = selectedProfile.map((selectedItem) => {
                   return {
                     ...selectedItem,
-                    status: selectedItem.id === item.id ? currentStatus : false,
+                    status: selectedItem.default_board_name.value === item.default_board_name.value ? currentStatus : false,
                   };
               });
               setSelectedProfile(updatedData);
@@ -89,7 +89,7 @@ const Pinterest = (props) => {
           const updatedData = selectedProfile.map((selectedItem) => {
               return {
                 ...selectedItem,
-                status: selectedItem.id === item.id ? currentStatus : false,
+                status: selectedItem.default_board_name.value === item.default_board_name.value ? currentStatus : false,
               };
           });
           setSelectedProfile(updatedData);
@@ -97,6 +97,7 @@ const Pinterest = (props) => {
       }
     }
   };
+  
 
   // Handle delete selected profile
   const handleDeleteSelectedProfile = (item) => {
@@ -130,7 +131,7 @@ const Pinterest = (props) => {
     });
     setSelectedProfile(updatedData);
   };
-
+  
   // Save selected profile data
   useEffect(() => {
     builderContext.setFieldValue([props.name], selectedProfile);
