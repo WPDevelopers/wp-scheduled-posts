@@ -123,7 +123,7 @@ class Settings {
                                     'content'  => [
                                         'heading'       => 'SchedulePress - Pro Features',
                                         'button_text'   => __('View All Features','wp-scheduled-posts'),
-                                        'button_link'   => 'https://wpdeveloper.com',
+                                        'button_link'   => 'https://schedulepress.com/free-vs-pro',
                                         'options'   => [
                                             [
                                                 'icon'  => 'wpsp-auto-sc',
@@ -278,8 +278,8 @@ class Settings {
                                     'description'   => __('Upgrade to Premium', 'wp-scheduled-posts'),
                                     'is_pro'        => true,
                                 ],
-                                'republish_social_share' => [
-                                    'name'          => 'republish_social_share',
+                                'is_republish_social_share' => [
+                                    'name'          => 'is_republish_social_share',
                                     'type'          => 'toggle',
                                     'label'         => __('Active Republish Social Share', 'wp-scheduled-posts'),
                                     'description'   => __('Upgrade to Premium', 'wp-scheduled-posts'),
