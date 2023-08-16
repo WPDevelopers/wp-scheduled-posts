@@ -407,6 +407,7 @@ export default function Calendar(props) {
               setDraftEvents={setDraftEvents}
               getPostTypeColor={getPostTypeColor}
               postType={props.postType}
+              schedule_time={props.schedule_time}
             />
         )}
       </div>
@@ -415,6 +416,7 @@ export default function Calendar(props) {
         setModalData={openModal}
         onSubmit={onSubmit}
         selectedPostType={selectedPostType}
+        schedule_time={props.schedule_time}
       />
     </div>
   );

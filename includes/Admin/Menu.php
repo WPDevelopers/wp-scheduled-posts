@@ -22,7 +22,7 @@ class Menu
      */
     public function hooks()
     {
-        add_action('admin_menu', array($this, 'admin_menu'));
+        add_action('admin_menu', array($this, 'admin_menu'), 20);
     }
     /**
      * add plugin main & sub menu for supported post type
@@ -54,8 +54,7 @@ class Menu
                     $admin_menu_url = $post_type_object->show_in_menu;
                 }
                 if('docs' === $post_type && function_exists('betterdocs')){
-                    $admin_menu_url = 'betterdocs-admin';
-                    add_submenu_page('betterdocs-admin', __('Calendar', 'wp-scheduled-posts'), __('Calendar', 'wp-scheduled-posts') . $extra, 'edit_posts', "edit.php?page=" . WPSP_SETTINGS_SLUG . '-' . $post_type, array($this, 'load_settings_template'), 20);
+                    add_submenu_page('betterdocs-admin', __('Calendar', 'wp-scheduled-posts'), __('Calendar', 'wp-scheduled-posts') . $extra, 'edit_posts', WPSP_SETTINGS_SLUG . '-' . $post_type, array($this, 'load_settings_template'), 30);
                     continue;
                 }
                 add_submenu_page($admin_menu_url, __('Calendar', 'wp-scheduled-posts'), __('Calendar', 'wp-scheduled-posts') . $extra, 'edit_posts', WPSP_SETTINGS_SLUG . '-' . $post_type, array($this, 'load_settings_template'));

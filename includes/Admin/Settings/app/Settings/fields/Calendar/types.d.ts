@@ -53,6 +53,7 @@ export type SidebarProps = {
     setDraftEvents: (posts: Array<PostType>) => void;
     getPostTypeColor: (postType: string) => string;
     postType: string;
+    schedule_time: string;
   }
 
 

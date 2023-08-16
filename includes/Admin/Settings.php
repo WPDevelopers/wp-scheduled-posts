@@ -3,6 +3,7 @@
 namespace WPSP\Admin;
 
 use WPSP\API\Settings as APISettings;
+use WPSP\Helper;
 
 class Settings {
     protected $builder;
@@ -307,6 +308,7 @@ class Settings {
                                     'type'          => 'calendar',
                                     'label'         => null,
                                     'priority'      => 5,
+                                    'schedule_time' => Helper::get_settings('calendar_schedule_time'),
                                     'start_of_week' => (int) get_option('start_of_week', 0),
                                     'rest_route'    => '/wpscp/v1/calendar',
                                     'timeZone'      => wp_timezone_string(),

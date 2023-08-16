@@ -11,7 +11,7 @@ import { ModalProps, PostType, SidebarProps } from "./types";
 import { ModalContent } from "./EditPost";
 
 // Define your component
-const Sidebar = ({selectedPostType, draftEvents: posts, setDraftEvents: setPosts, calendar, getPostTypeColor, postType}: SidebarProps, draggableRef: MutableRefObject<HTMLDivElement>
+const Sidebar = ({selectedPostType, draftEvents: posts, setDraftEvents: setPosts, calendar, getPostTypeColor, postType, schedule_time}: SidebarProps, draggableRef: MutableRefObject<HTMLDivElement>
   ) => {
   // Define your state variables
   const [optionSelected, setOptionSelected] = useState([]);
@@ -126,6 +126,7 @@ const Sidebar = ({selectedPostType, draftEvents: posts, setDraftEvents: setPosts
       setModalData={openModal}
       onSubmit={onSubmit}
       selectedPostType={selectedPostType}
+      schedule_time={schedule_time}
     />
   </div>
   );

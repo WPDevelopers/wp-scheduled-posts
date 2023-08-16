@@ -93,7 +93,7 @@ const CheckboxSelect = (props) => {
       target: {
         type: "checkbox-select",
         name,
-        value: optionSelected?.map((item) => item.value),
+        value: optionSelected?.filter((item) => item)?.map((item) => item.value),
         multiple,
       },
     });

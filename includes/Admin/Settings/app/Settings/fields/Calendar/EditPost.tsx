@@ -7,7 +7,7 @@ import Textarea from "quickbuilder/dist/fields/Textarea";
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { SweetAlertToaster } from "../../ToasterMsg";
-import { getPostType } from "./Helpers";
+import { getPostType, to24HourFormat } from "./Helpers";
 import { PostType, WP_Error } from "./types";
 import { date, format } from "@wordpress/date";
 import { useBuilderContext } from "quickbuilder";
@@ -30,6 +30,7 @@ export const ModalContent = ({
   setModalData,
   onSubmit,
   selectedPostType,
+  schedule_time,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -115,11 +116,11 @@ export const ModalContent = ({
       let data: Post = {
         post_type: getPostType(selectedPostType),
       };
-      const time = builderContext.values?.calendar_schedule_time || '12:00:00';
+      const time = builderContext?.values?.calendar_schedule_time || schedule_time || '12:00:00';
       if (modalData?.post_date) {
-        data.post_date = format('Y-m-d', modalData.post_date) + ' ' + time;
+        data.post_date = format('Y-m-d', modalData.post_date) + ' ' + to24HourFormat(time);
       } else {
-        data.post_date = date('Y-m-d', undefined, undefined) + ' ' + time;
+        data.post_date = date('Y-m-d', undefined, undefined) + ' ' + to24HourFormat(time);
       }
       setIsOpen(true);
       setPostData(data);
