@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const ApiCredentialsForm = ({ props, platform, requestHandler, appInfo = [] }) => {
-  const [appID, SetAppID] = useState("");
-  const [appSecret, SetAppSecret] = useState("");
+  const [appID, SetAppID] = useState( appInfo['app_id'] ? appInfo['app_id'] : "" );
+  const [appSecret, SetAppSecret] = useState(appInfo['app_secret'] ? appInfo['app_secret'] : "" );
   const [isManual, setIsManual] = useState(false);
   const [isMultiAccountError,setMultiAccountError] = useState(false);
   const [multiAccountErrorMessage,setMultiAccountErrorMessage] = useState();
@@ -134,7 +134,7 @@ const ApiCredentialsForm = ({ props, platform, requestHandler, appInfo = [] }) =
                       <input
                           type="text"
                           required
-                          value={ appInfo['app_id'] ? appInfo['app_id'] :  appID }
+                          value={appID}
                           placeholder={
                               platform === "twitter"
                               ? __("API ID", "wp-scheduled-posts")
@@ -149,7 +149,7 @@ const ApiCredentialsForm = ({ props, platform, requestHandler, appInfo = [] }) =
                           className="test"
                           type="text"
                           required
-                          value={ appInfo['app_secret'] ? appInfo['app_secret'] : appSecret}
+                          value={appSecret}
                           placeholder={
                               platform === "twitter"
                               ? __("API Secret Key", "wp-scheduled-posts")
