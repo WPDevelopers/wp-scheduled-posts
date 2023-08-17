@@ -129,7 +129,7 @@ export default function MainProfile({
             {hasError ? (
               <p className="error-tooltip">
                 <span>
-                  {__('Please select an option!!', 'wp-scheduled-posts')}
+                  {__('Please select an option', 'wp-scheduled-posts')}
                 </span>
               </p>
             ) : (

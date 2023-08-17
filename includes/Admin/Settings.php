@@ -184,7 +184,7 @@ class Settings {
                                 ],
                                 'allow_post_types'  => [
                                     'name'     => 'allow_post_types',
-                                    'label'    => __('Show Post Types:', 'notificationx'),
+                                    'label'    => __('Show Post Types:', 'wp-scheduled-posts'),
                                     'type'     => 'checkbox-select',
                                     'multiple' => true,
                                     'priority' => 7,
@@ -194,7 +194,7 @@ class Settings {
                                 ],
                                 'allow_categories' => [
                                     'name'     => 'allow_categories',
-                                    'label'    => __('Show Categories:', 'notificationx'),
+                                    'label'    => __('Show Categories:', 'wp-scheduled-posts'),
                                     'type'     => 'checkbox-select',
                                     'multiple' => true,
                                     'priority' => 8,
@@ -203,7 +203,7 @@ class Settings {
                                 ],
                                 'allow_user_by_role' => [
                                     'name'     => 'allow_user_by_role',
-                                    'label'    => __('Allow users:', 'notificationx'),
+                                    'label'    => __('Allow users:', 'wp-scheduled-posts'),
                                     'type'     => 'checkbox-select',
                                     'multiple' => true,
                                     'priority' => 9,
@@ -214,7 +214,7 @@ class Settings {
                                 'calendar_schedule_time' => [
                                     'id'       => 'calendar_schedule_time',
                                     'name'     => 'calendar_schedule_time',
-                                    'label'    => __('Calendar Default Schedule Time:', 'notificationx'),
+                                    'label'    => __('Calendar Default Schedule Time:', 'wp-scheduled-posts'),
                                     'type'     => 'time',
                                     'default'  => '12:00 AM',
                                     'priority' => 10,
@@ -261,7 +261,7 @@ class Settings {
                                     'type'     => 'toggle',
                                     'label'    => __('Show Publish Post Immediately Button', 'wp-scheduled-posts'),
                                     'default'  => 1,
-                                    'info'     => __('Immediately  Publish Button Only Shows For Scheduled Post Enabling This Settings','wp-scheduled-posts'),
+                                    'info'     => __('Immediately Publish Button only shows for Scheduled Post, after Enabling this option','wp-scheduled-posts'),
                                     'priority' => 20,
                                 ],
                                 'show_on_elementor_editor' => [
@@ -342,12 +342,11 @@ class Settings {
                                             'name'     => 'notify_author_post_is_review',
                                             'type'     => 'toggle',
                                             'label'    => __('Notify User when a post is "Under Review"', 'wp-scheduled-posts'),
-                                            'default'  => 1,
                                             'priority' => 5,
                                         ],
                                         'notify_author_post_review_by_role' => [
                                             'name'     => 'notify_author_post_review_by_role',
-                                            'label'    => __('Role:', 'notificationx'),
+                                            'label'    => __('Role:', 'wp-scheduled-posts'),
                                             'type'     => 'checkbox-select',
                                             'multiple' => true,
                                             'priority' => 10,
@@ -359,7 +358,7 @@ class Settings {
                                         ],
                                         'notify_author_post_review_by_username' => [
                                             'name'     => 'notify_author_post_review_by_username',
-                                            'label'    => __('Username:', 'notificationx'),
+                                            'label'    => __('Username:', 'wp-scheduled-posts'),
                                             'type'     => 'checkbox-select',
                                             'multiple' => true,
                                             'priority' => 11,
@@ -371,7 +370,7 @@ class Settings {
                                         ],
                                         'notify_author_post_review_by_email' => [
                                             'name'     => 'notify_author_post_review_by_email',
-                                            'label'    => __('Email:', 'notificationx'),
+                                            'label'    => __('Email:', 'wp-scheduled-posts'),
                                             'type'     => 'checkbox-select',
                                             'multiple' => true,
                                             'priority' => 12,
@@ -387,7 +386,6 @@ class Settings {
                                     'name'     => 'notify_author_post_is_rejected',
                                     'type'     => 'toggle',
                                     'label'    => __('Notify Author when a post is "Rejected"', 'wp-scheduled-posts'),
-                                    'default'  => 1,
                                     'priority' => 15,
                                 ],
                                 'notify_author_post_is_scheduled_section' => [
@@ -407,7 +405,7 @@ class Settings {
                                         'notify_author_post_scheduled_by_role' => [
                                             'id'       => 'notify_author_post_scheduled_by_role',
                                             'name'     => 'notify_author_post_scheduled_by_role',
-                                            'label'    => __('Role:', 'notificationx'),
+                                            'label'    => __('Role:', 'wp-scheduled-posts'),
                                             'type'     => 'checkbox-select',
                                             'multiple' => true,
                                             'priority' => 25,
@@ -420,7 +418,7 @@ class Settings {
                                         'notify_author_post_scheduled_by_username' => [
                                             'id'       => 'notify_author_post_scheduled_by_username',
                                             'name'     => 'notify_author_post_scheduled_by_username',
-                                            'label'    => __('Username:', 'notificationx'),
+                                            'label'    => __('Username:', 'wp-scheduled-posts'),
                                             'type'     => 'checkbox-select',
                                             'multiple' => true,
                                             'priority' => 30,
@@ -433,7 +431,7 @@ class Settings {
                                         'notify_author_post_scheduled_by_email' => [
                                             'id'       => 'notify_author_post_scheduled_by_email',
                                             'name'     => 'notify_author_post_scheduled_by_email',
-                                            'label'    => __('Email:', 'notificationx'),
+                                            'label'    => __('Email:', 'wp-scheduled-posts'),
                                             'type'     => 'checkbox-select',
                                             'multiple' => true,
                                             'priority' => 35,
@@ -455,7 +453,6 @@ class Settings {
                                     'name'     => 'notify_author_post_is_publish',
                                     'type'     => 'toggle',
                                     'label'    => __('Notify Author when a post is "Published"', 'wp-scheduled-posts'),
-                                    'default'  => 1,
                                     'priority' => 45,
                                 ],
                             ],
@@ -596,7 +593,6 @@ class Settings {
                                                                     'id'            => 'facebook_show_meta',
                                                                     'name'          => 'is_show_meta',
                                                                     'type'          => 'toggle',
-                                                                    'default'       => 1,
                                                                     'label'         => __('Facebook Meta Data', 'wp-scheduled-posts'),
                                                                     'info'          => __('Add Open Graph metadata to your site head section and other social networks use this data when your pages are shared.', 'wp-scheduled-posts'),
                                                                     'priority'      => 5,

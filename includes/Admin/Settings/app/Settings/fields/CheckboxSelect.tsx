@@ -46,7 +46,7 @@ const CheckboxSelect = (props) => {
 
 
   const allOption = useMemo(() => addAllOption(props.option), [props.option]);
-  const selectedValue = props.value?.map((item) => {
+  const selectedValue = props?.value?.map((item) => {
     return findOptionLabelByValue(allOption, item);
   });
 
