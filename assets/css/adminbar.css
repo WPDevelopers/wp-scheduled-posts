@@ -98,3 +98,22 @@
 .wpsp_arrow_pagi {
     cursor: pointer;
 }
+#wp_scp_dashboard_widget table tbody tr {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #5a6e011c;
+    background: #f6f7f7;
+    flex-wrap: nowrap;
+}
+#wp_scp_dashboard_widget table tbody tr td:first-child{
+    flex-basis: 60%;
+}
+#wp_scp_dashboard_widget table tbody tr td a{
+    color: #2c3338;
+}
+#wp_scp_dashboard_widget table tbody tr td a:first-child{
+    font-weight: 500;
+    color: #2271b1;
+    margin-bottom: 5px;
+    display: inline-block;
+}
