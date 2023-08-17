@@ -2,7 +2,7 @@ import { __ } from "@wordpress/i18n";
 import React, { useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
-const ApiCredentialsForm = ({ props, platform, requestHandler }) => {
+const ApiCredentialsForm = ({ props, platform, requestHandler, appInfo = [] }) => {
   const [appID, SetAppID] = useState("");
   const [appSecret, SetAppSecret] = useState("");
   const [isManual, setIsManual] = useState(false);
@@ -134,7 +134,7 @@ const ApiCredentialsForm = ({ props, platform, requestHandler }) => {
                       <input
                           type="text"
                           required
-                          value={appID}
+                          value={ appInfo['app_id'] ? appInfo['app_id'] :  appID }
                           placeholder={
                               platform === "twitter"
                               ? __("API ID", "wp-scheduled-posts")
@@ -149,7 +149,7 @@ const ApiCredentialsForm = ({ props, platform, requestHandler }) => {
                           className="test"
                           type="text"
                           required
-                          value={appSecret}
+                          value={ appInfo['app_secret'] ? appInfo['app_secret'] : appSecret}
                           placeholder={
                               platform === "twitter"
                               ? __("API Secret Key", "wp-scheduled-posts")

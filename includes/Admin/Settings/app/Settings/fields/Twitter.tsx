@@ -27,7 +27,16 @@ const Twitter = (props) => {
 
   // @ts-ignore
   const is_pro = wpspSettingsGlobal?.pro_version ? true : false;
-  
+  // prepare appId and appSecret
+  let appInfo = [];
+  if( props?.value ) {
+    props?.value?.map( ( profile ) => {
+      if( profile['app_id'] && profile['app_secret'] ) {
+        appInfo['app_id'] = profile['app_id'];
+        appInfo['app_secret'] = profile['app_secret'];
+      }
+    } );
+  }
   const openApiCredentialsModal = (platform) => {
     setPlatform('twitter');
     setApiCredentialsModal(true);
@@ -230,6 +239,7 @@ const Twitter = (props) => {
           props={props}
           platform={platform}
           requestHandler={socialProfileRequestHandler}
+          appInfo={appInfo}
         />
       </Modal>
 

@@ -21,7 +21,19 @@ const Facebook = (props) => {
   const [cachedStatus, setCashedStatus] = useState({});
   const [profileStatus, setProfileStatus] = useState(
     builderContext?.savedValues?.facebook_profile_status
-    );
+  );
+
+  // prepare appId and appSecret
+  let appInfo = [];
+  if( props?.value ) {
+    props?.value?.map( ( profile ) => {
+      if( profile['app_id'] && profile['app_secret'] ) {
+        appInfo['app_id'] = profile['app_id'];
+        appInfo['app_secret'] = profile['app_secret'];
+      }
+    } );
+  }
+  
   const [activeStatusCount,setActiveStatusCount] = useState(0);
   
   // @ts-ignore
@@ -224,6 +236,7 @@ const Facebook = (props) => {
           props={props}
           platform={platform}
           requestHandler={socialProfileRequestHandler}
+          appInfo={appInfo}
         />
       </Modal>
 
