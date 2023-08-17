@@ -5,6 +5,7 @@ img {
 .swal2-center {
   background: rgba(27, 27, 80, 0.4) !important;
   padding: 48px !important;
+  z-index: 99999 !important;
   @media screen and (max-width: 1439px) {
     padding: 28px 40px !important;
   }
@@ -152,7 +153,7 @@ img {
   padding: 48px !important;
   display: flex;
   overflow: auto;
-  z-index: 999;
+  z-index: 99999 !important;
   @media screen and (max-width: 1439px) {
     padding: 28px 40px !important;
   }
