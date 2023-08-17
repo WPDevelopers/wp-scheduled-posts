@@ -39,7 +39,8 @@
         .event-wrapper {
           display: flex;
           flex-direction: column;
-          gap: 20px;
+          gap: 8px;
+          margin-top: 24px;
         }
         p {
           margin: 32px 0 0;
@@ -449,6 +450,9 @@
       }
     }
   }
+}
+.fc .fc-scroller-harness {
+  overflow: visible !important;
 }
 .calender-selected-month {
   display: flex;
