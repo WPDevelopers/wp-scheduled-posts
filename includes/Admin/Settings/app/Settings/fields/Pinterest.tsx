@@ -257,6 +257,7 @@ const Pinterest = (props) => {
         isProfileEditModal={isProfileEditModal}
         setProfileEditModal={setProfileEditModal}
         profileStatus={profileStatus}
+        selectedProfile={selectedProfile}
       />
     </div>
   );

@@ -1,8 +1,8 @@
-import React, { useState,useEffect } from 'react'
-import { __ } from '@wordpress/i18n'
+import { __ } from '@wordpress/i18n';
+import React, { useEffect, useState } from 'react';
 import { default as ReactSelect } from "react-select";
-import PinterestSectionSelect from '../utils/PinterestSectionSelect';
 import { selectStyles } from '../../helper/styles';
+import PinterestSectionSelect from '../utils/PinterestSectionSelect';
 
 export default function Pinterest({ platform, data, boards,fetchSectionData,noSection,addProfileToggle,savedProfile,singlePinterestBoard,setProfileEditModal }) {
     let boardOptions = boards?.map((board) => {

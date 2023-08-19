@@ -12,7 +12,7 @@ import {
     useBuilderContext,
 } from "quickbuilder";
 
-function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfileEditModal = false, setProfileEditModal = null , profileStatus }) {
+function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfileEditModal = false, setProfileEditModal = null , profileStatus,selectedProfile = [] }) {
     const builderContext = useBuilderContext();
 
     const [requestSending, setRequestSending] = useState(false);
@@ -168,8 +168,8 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
                 }
             }
         }else if( event === 'save-edit' ) {
-            const pinterestEditedItem = savedProfile.map(profile => {
-                if (profile?.default_board_name?.label === pinterestItem?.default_board_name?.label) {
+            const pinterestEditedItem = selectedProfile.map(profile => {
+                if (profile?.default_board_name?.label === pinterestItem?.default_board_name?.label) {                    
                   return pinterestItem;
                 } else {
                   return profile;
@@ -183,10 +183,9 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
         }
     }
 
-    // useEffect( () => {
-
-    //     setProfileDataModal(isProfileEditModal)
-    // },[isProfileEditModal])
+    useEffect( () => {
+        setProfileDataModal(isProfileEditModal)
+    },[isProfileEditModal])
 
     const addSavedProfile = () => {
         setSelectedProfile(savedProfile);
