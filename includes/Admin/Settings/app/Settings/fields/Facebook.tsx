@@ -13,15 +13,17 @@ import SelectedProfile from './utils/SelectedProfile';
 import ViewMore from './utils/ViewMore';
 
 const Facebook = (props) => {
+  const cachedLocalData = JSON.parse(localStorage.getItem('facebook'));
   const builderContext = useBuilderContext();
   const [apiCredentialsModal, setApiCredentialsModal] = useState(false);
   const [platform, setPlatform] = useState('');
   const [selectedProfile, setSelectedProfile] = useState(props?.value);
   const [selectedProfileViewMore, setSelectedProfileViewMore] = useState(false);
-  const [cachedStatus, setCashedStatus] = useState({});
+  const [cachedStatus, setCashedStatus] = useState(cachedLocalData ?? {});
   const [profileStatus, setProfileStatus] = useState(
     builderContext?.savedValues?.facebook_profile_status
   );
+  localStorage.setItem('facebook',JSON.stringify(cachedStatus));
 
   // prepare appId and appSecret
   let appInfo = [];

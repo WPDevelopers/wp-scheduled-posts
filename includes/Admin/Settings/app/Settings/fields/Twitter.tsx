@@ -14,16 +14,19 @@ import SelectedProfile from './utils/SelectedProfile';
 import ViewMore from './utils/ViewMore';
 
 const Twitter = (props) => {
+  const cachedLocalData = JSON.parse(localStorage.getItem('twitter'));
+
   const builderContext = useBuilderContext();
   const [apiCredentialsModal, setApiCredentialsModal] = useState(false);
   const [platform, setPlatform] = useState('');
   const [selectedProfile, setSelectedProfile] = useState(props?.value);
-  const [cachedStatus, setCashedStatus] = useState({});
+  const [cachedStatus, setCashedStatus] = useState(cachedLocalData ?? {});
   const [selectedProfileViewMore, setSelectedProfileViewMore] = useState(false);
   const [profileStatus, setProfileStatus] = useState(
     builderContext?.savedValues?.twitter_profile_status
   );
   const [activeStatusCount,setActiveStatusCount] = useState(0);
+  localStorage.setItem('twitter',JSON.stringify(cachedStatus));
 
   // @ts-ignore
   const is_pro = wpspSettingsGlobal?.pro_version ? true : false;

@@ -14,16 +14,20 @@ import SelectedProfile from './utils/SelectedProfile';
 import ViewMore from './utils/ViewMore';
 
 const Linkedin = (props) => {
+  const cachedLocalData = JSON.parse(localStorage.getItem('linkedin'));
   const builderContext = useBuilderContext();
   const [apiCredentialsModal, setApiCredentialsModal] = useState(false);
   const [platform, setPlatform] = useState('');
   const [selectedProfile, setSelectedProfile] = useState(props?.value);
   const [selectedProfileViewMore, setSelectedProfileViewMore] = useState(false);
-  const [cachedStatus, setCashedStatus] = useState({});
+  const [cachedStatus, setCashedStatus] = useState(cachedLocalData ?? {});
   const [activeStatusCount,setActiveStatusCount] = useState(0);
   const [profileStatus, setProfileStatus] = useState(
     builderContext?.savedValues?.linkedin_profile_status
   );
+
+  localStorage.setItem('linkedin',JSON.stringify(cachedStatus));
+
   // @ts-ignore 
   const is_pro = wpspSettingsGlobal?.pro_version ? true : false;
   // prepare appId and appSecret
