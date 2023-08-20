@@ -36,6 +36,11 @@ final class WPSP
 	private function __construct()
 	{
 		$this->define_constants();
+		if( $this->check_pro_compatibility() ) {
+			$this->deactivate_pro();
+			return;
+		}
+
 		$this->set_global_settings();
 		register_activation_hook(__FILE__, [$this, 'activate']);
 		register_deactivation_hook(__FILE__, [$this, 'deactivate']);
@@ -81,6 +86,35 @@ final class WPSP
 		define('WPSP_SOCIAL_OAUTH2_PINTEREST_APP_ID', '1477330');
 		define('WPSP_SOCIAL_OAUTH2_LINKEDIN_APP_ID', '77nbfvpkganvt6');
 
+	}
+
+	public function check_pro_compatibility(){
+		if ( ! function_exists( 'is_plugin_active' ) ) {
+			include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+		}
+
+		if (
+			is_plugin_active( 'wp-scheduled-posts-pro/wp-scheduled-posts-pro.php' ) &&
+			version_compare( get_plugin_data( WP_PLUGIN_DIR . '/wp-scheduled-posts-pro/wp-scheduled-posts-pro.php' )['Version'], '5.0.0', '<' )
+		) {
+			return true;
+		}
+		return false;
+	}
+
+	public function deactivate_pro(){
+		add_action( 'admin_notices', [$this, 'wpsp_fail_pro_version'], 52 );
+		// deactivate pro plugin
+		deactivate_plugins( 'wp-scheduled-posts-pro/wp-scheduled-posts-pro.php' );
+        return;
+	}
+
+	public function wpsp_fail_pro_version() {
+		?>
+		<div class="notice notice-error">
+			<p><?php _e( 'WP Scheduled Posts is required to be installed and activated for WP Scheduled Posts Pro to work.', 'wpsp-pro' ); ?></p>
+		</div>
+		<?php
 	}
 
 	/**
