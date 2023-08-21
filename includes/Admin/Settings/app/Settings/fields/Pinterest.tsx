@@ -14,7 +14,8 @@ import SelectedProfile from './utils/SelectedProfile';
 import ViewMore from './utils/ViewMore';
 
 const Pinterest = (props) => {
-  const sortedSelectedValue  = [...props?.value].sort((a, b) => {
+  const propsValue = props?.value || [];
+  const sortedSelectedValue  = [...propsValue].sort((a, b) => {
     return b.status - a.status; // Sort in descending order by status
   });
   const cachedLocalData = JSON.parse(localStorage.getItem('pinterest'));

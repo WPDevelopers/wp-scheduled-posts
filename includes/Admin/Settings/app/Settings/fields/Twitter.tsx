@@ -14,8 +14,9 @@ import SelectedProfile from './utils/SelectedProfile';
 import ViewMore from './utils/ViewMore';
 
 const Twitter = (props) => {
+  const propsValue = props?.value || [];
   const cachedLocalData = JSON.parse(localStorage.getItem('twitter'));
-  const sortedSelectedValue  = [...props?.value].sort((a, b) => {
+  const sortedSelectedValue  = [...propsValue].sort((a, b) => {
     return b.status - a.status; // Sort in descending order by status
   });
   const builderContext = useBuilderContext();
