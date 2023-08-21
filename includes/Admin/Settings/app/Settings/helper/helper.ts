@@ -113,6 +113,16 @@ export const getFormatDateTime = ( dateTime = '' ) => {
     return formattedDate;
 }
 
+export const  convertTo12HourFormat = (time24) => {
+    const [hours, minutes] = time24.split(':');
+    const isPM = parseInt(hours, 10) >= 12;
+  
+    let hours12 = parseInt(hours, 10) % 12;
+    hours12 = hours12 === 0 ? 12 : hours12; // Handle midnight (00:00) as 12 AM
+  
+    return `${hours12}:${minutes} ${isPM ? 'PM' : 'AM'}`;
+  }
+
 // Generate time options
 export const generateTimeOptions = () => {
     const times = [];
@@ -126,7 +136,14 @@ export const generateTimeOptions = () => {
         minute: '2-digit',
         hour12: true,
       });
-      times.push({ value: timeString, label: timeString });
+        // Format time in 24-hour format for value
+        const valueTimeString = time.toLocaleString('en-US', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false,
+        });
+
+      times.push({ value: valueTimeString, label: timeString });
     }
 
     return times;

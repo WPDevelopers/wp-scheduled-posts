@@ -315,9 +315,6 @@ class Migration {
                     $settings['show_on_elementor_editor'] = !$old_settings['hide_on_elementor_editor'];
                     unset( $settings['hide_on_elementor_editor'] );
                 }
-                if( !empty( $old_settings['calendar_schedule_time'] ) ) {
-                    $settings['calendar_schedule_time'] = self::convert_to_12_hour_format( $old_settings['calendar_schedule_time'] );
-                }
                 if (!empty($settings)) {
                     update_option(WPSP_SETTINGS_NAME, json_encode($settings));
                 }

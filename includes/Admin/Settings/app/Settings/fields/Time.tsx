@@ -1,11 +1,11 @@
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
-import { generateTimeOptions } from '../helper/helper';
+import { convertTo12HourFormat, generateTimeOptions } from '../helper/helper';
 import { selectStyles } from '../helper/styles';
 
 const Time = (props) => {
-  const [selectedTime, setSelectedTime] = useState( { label : props?.value, value : props?.value } );
+  const [selectedTime, setSelectedTime] = useState( { label : convertTo12HourFormat( props?.value ), value : props?.value } );
   const handleTimeChange = (selectedOption) => {
     setSelectedTime(selectedOption);
   };

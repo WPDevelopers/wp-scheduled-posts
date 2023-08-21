@@ -328,6 +328,7 @@ class Settings {
                             'name'     => 'email_notify',
                             'type'     => 'section',
                             'label'    => __( 'Email Notify', 'wp-scheduled-posts' ),
+                            'sub_title' => __('To configure Email Notify Settings, check out this <a href="https://wpdeveloper.com/docs/email-notification-wordpress" target="_blank">Doc</a>','wp-scheduled-posts'),
                             'priority' => 1,
                             'showSubmit' => true,
                             'fields'    => [
@@ -734,7 +735,7 @@ class Settings {
                                                                 ],
                                                                 'status_limit'  => [
                                                                     'id'            => 'twitter_status_limit',
-                                                                    'name'          => 'status_limit',
+                                                                    'name'          => 'tweet_limit',
                                                                     'type'          => 'number',
                                                                     'label'         => __('Tweet Limit', 'wp-scheduled-posts'),
                                                                     'priority'      => 20,

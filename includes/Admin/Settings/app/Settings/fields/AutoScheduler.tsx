@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { useBuilderContext } from 'quickbuilder';
 import React, { useEffect, useMemo, useState } from 'react';
 import Select from 'react-select';
-import { generateTimeOptions } from '../helper/helper';
+import { convertTo12HourFormat, generateTimeOptions } from '../helper/helper';
 import ProToggle from './utils/ProToggle';
 
 import { selectStyles } from '../helper/styles';
@@ -29,8 +29,8 @@ const AutoScheduler = (props) => {
     const getStartTime = builderContext.values['manage_schedule']?.[name]?.['start_time'];
     const getEndTime = builderContext.values['manage_schedule']?.[name]?.['end_time'];
     const getAutoSchedulerStatus = builderContext.values['manage_schedule']?.[name]?.['is_active_status'];
-    const startTimeFormat = getStartTime ? { label : getStartTime, value : getStartTime } : null;
-    const endTimeFormat = getEndTime ? { label : getEndTime, value : getEndTime } : null;
+    const startTimeFormat = getStartTime ? { label : convertTo12HourFormat(getStartTime), value : getStartTime } : null;
+    const endTimeFormat = getEndTime ? { label : convertTo12HourFormat(getEndTime), value : getEndTime } : null;
     
     const [autoScheduler,setAutoSchedulerValue] = useState( modifiedDayDataFormet ?? [] );
     const [startSelectedTime, setStartSelectedTime] = useState(startTimeFormat ? startTimeFormat : timeOptions[0]);
@@ -139,7 +139,7 @@ const AutoScheduler = (props) => {
                 <div className="end-time set-timing">
                     <div className="time-title">
                         <h4>{ __('End Time','wp-scheduled-posts') }</h4>
-                        <span>{ __('Default','wp-scheduled-posts') } : {endSelectedTime?.label}</span>
+                        <span>{ __('Default','wp-scheduled-posts') } : { convertTo12HourFormat(endSelectedTime?.label) }</span>
                     </div>
                     <div className="time">
                         <Select

@@ -1,16 +1,16 @@
 import wpFetch from "@wordpress/api-fetch";
 import { TimePicker } from "@wordpress/components";
+import { date, format } from "@wordpress/date";
 import { __ } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
+import { useBuilderContext } from "quickbuilder";
 import Input from "quickbuilder/dist/fields/Input";
 import Textarea from "quickbuilder/dist/fields/Textarea";
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { SweetAlertToaster } from "../../ToasterMsg";
-import { getPostType, to24HourFormat } from "./Helpers";
+import { getPostType } from "./Helpers";
 import { PostType, WP_Error } from "./types";
-import { date, format } from "@wordpress/date";
-import { useBuilderContext } from "quickbuilder";
 
 interface Post {
   ID               ?: number;
@@ -123,9 +123,9 @@ export const ModalContent = ({
       };
       const time = builderContext?.values?.calendar_schedule_time || schedule_time || '12:00:00';
       if (modalData?.post_date) {
-        data.post_date = format('Y-m-d', modalData.post_date) + ' ' + to24HourFormat(time);
+        data.post_date = format('Y-m-d', modalData.post_date) + ' ' + time;
       } else {
-        data.post_date = date('Y-m-d', undefined, undefined) + ' ' + to24HourFormat(time);
+        data.post_date = date('Y-m-d', undefined, undefined) + ' ' + time;
       }
       setIsOpen(true);
       setPostData(data);

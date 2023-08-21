@@ -4,7 +4,7 @@ import { useBuilderContext } from 'quickbuilder';
 import React, { useEffect, useMemo, useState } from 'react';
 import Select from 'react-select';
 import { SweetAlertStatusChangingMsg } from '../ToasterMsg';
-import { generateTimeOptions } from '../helper/helper';
+import { convertTo12HourFormat, generateTimeOptions } from '../helper/helper';
 import { selectStyles } from '../helper/styles';
 import ProToggle from './utils/ProToggle';
 
@@ -156,7 +156,7 @@ const ManualScheduler = (props) => {
               <span className="week-inner">
                 { savedManualSchedule?.weekdata?.[item.value]?.map((data, index) => (
                   <span key={index}>
-                    {data}
+                    { convertTo12HourFormat( data ) }
                     <i
                       onClick={ () => {
                         if( is_pro ) {
