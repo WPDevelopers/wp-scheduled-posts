@@ -21,7 +21,7 @@ class Installer
     public function migrate()
     {
         // Settings FallBack
-        $settings = json_decode(get_option('wpsp_settings', '{}'));
+        $settings = json_decode(get_option(WPSP_SETTINGS_NAME, '{}'));
         if( ! is_object( $settings ) || ( is_object( $settings ) && ! isset($settings->is_show_dashboard_widget) ) ) {
             do_action('wpsp_save_settings_default_value', WPSP_VERSION );
         }

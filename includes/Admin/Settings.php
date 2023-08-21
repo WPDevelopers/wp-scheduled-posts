@@ -24,7 +24,7 @@ class Settings {
         // $this->settings = $this->builder->get_settings();
         new Settings\Assets($this->slug, $this);
         // $this->data  = new Settings\Data($this->option_name, $this->settings);
-        // add_action('wpsp_save_settings_default_value', array($this->data, 'save_option_value'));
+        add_action('wpsp_save_settings_default_value', array($this, 'save_option_value'));
     }
 
     /**
@@ -523,6 +523,7 @@ class Settings {
                                     'name'     => 'pinterest_profile_list',
                                     'type'     => 'pinterest',
                                     'label'    => __('Pinterest', 'wp-scheduled-posts'),
+                                    'default'  => [],
                                     'logo'     => WPSP_ASSETS_URI . 'images/pinterest.svg',
                                     'desc'     => sprintf( __('You can enable/disable Pinterest social share. To configure Pinterest Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/wordpress-posts-on-pinterest/' ),
                                     'modal'    => [
@@ -1188,6 +1189,42 @@ class Settings {
                 ],
             ])
         ]);
+    }
+
+    public function save_option_value(){
+        $settings = $this->get_settings_array();
+        $defaults = $this->get_field_names($settings['tabs']);
+
+        // wp_send_json([$defaults, $settings]);die;
+
+        update_option(WPSP_SETTINGS_NAME, json_encode($defaults));
+    }
+
+
+    public function get_field_names($fields, $names = []) {
+        foreach ($fields as $key => $field) {
+            if (empty($field['type']) || 'tab' === $field['type']) {
+                $names = $this->get_field_names($field['fields'], $names);
+            } else if ($field['type'] == 'section' || $field['type'] == 'group') { //
+                if ($field['type'] == 'section')
+                    $names = $this->get_field_names($field['fields'], $names);
+                else{
+                    $_names = $this->get_field_names($field['fields'], []);
+                    foreach ($_names as $key => $value) {
+                        if(empty($field['parent'])){
+                            $names[$field['name']][$key] = $value;
+                        }
+                        else{
+                            $names[$field['parent']][$field['name']][$key] = $value;
+                        }
+                    }
+                }
+            } elseif (!empty($field['name'])) {
+                $names[$field['name']] = isset($field['default']) ? $field['default'] : null;
+            }
+        }
+
+        return $names;
     }
 
     public function set_settings_config_callback($Builder) {

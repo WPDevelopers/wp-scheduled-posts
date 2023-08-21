@@ -235,7 +235,7 @@ class Migration {
 
     public static function convert_to_12_hour_format($time24Hour) {
         list($hours, $minutes) = explode(":", $time24Hour);
-        
+
         if ($hours >= 0 && $hours <= 11) {
             $meridiem = "AM";
             if ($hours == 0) {
@@ -247,14 +247,13 @@ class Migration {
                 $hours -= 12;
             }
         }
-        
+
         return sprintf("%02d:%02d %s", $hours, $minutes, $meridiem);
     }
-    
+
     public static function version_4_to_5(){
         if (get_option('wpsp_data_migration_4_to_5') == false) {
-            $old_settings = get_option(WPSP_SETTINGS_NAME);
-            update_option('__' . WPSP_SETTINGS_NAME, $old_settings);
+            $old_settings = get_option('wpsp_settings');
             $old_settings = json_decode($old_settings, true);
             $settings      = $old_settings ? $old_settings : [];
             // old version is installed

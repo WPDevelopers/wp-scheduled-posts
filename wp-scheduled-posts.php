@@ -32,13 +32,18 @@ final class WPSP
 	private $social;
 	private $api;
 	private $ajax;
+	private $basename = 'wp-scheduled-posts-pro/wp-scheduled-posts-pro.php';
 
 	private function __construct()
 	{
 		$this->define_constants();
 		if( $this->check_pro_compatibility() ) {
-			$this->deactivate_pro();
-			return;
+			add_action( 'admin_notices', [$this, 'wpsp_fail_pro_version'], 52 );
+			// deactivate pro plugin
+			if(is_plugin_active( $this->basename )){
+				deactivate_plugins( $this->basename );
+				return;
+			}
 		}
 
 		$this->set_global_settings();
@@ -67,7 +72,7 @@ final class WPSP
 		 * Defines CONSTANTS for Whole plugins.
 		 */
 		define('WPSP_VERSION', '5.0.0');
-		define('WPSP_SETTINGS_NAME', 'wpsp_settings');
+		define('WPSP_SETTINGS_NAME', 'wpsp_settings_v5');
 		define('WPSP_PLUGIN_FILE', __FILE__);
 		define('WPSP_PLUGIN_BASENAME', plugin_basename(__FILE__));
 		define('WPSP_PLUGIN_SLUG', 'wp-scheduled-posts');
@@ -93,26 +98,32 @@ final class WPSP
 			include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 		}
 
+		$abs_path = WP_PLUGIN_DIR . '/' . $this->basename;
+
 		if (
-			is_plugin_active( 'wp-scheduled-posts-pro/wp-scheduled-posts-pro.php' ) &&
-			version_compare( get_plugin_data( WP_PLUGIN_DIR . '/wp-scheduled-posts-pro/wp-scheduled-posts-pro.php' )['Version'], '5.0.0', '<' )
+			$this->is_plugin_installed( $this->basename ) &&
+			version_compare( get_plugin_data( $abs_path )['Version'], '5.0.0', '<' )
 		) {
 			return true;
 		}
 		return false;
 	}
 
-	public function deactivate_pro(){
-		add_action( 'admin_notices', [$this, 'wpsp_fail_pro_version'], 52 );
-		// deactivate pro plugin
-		deactivate_plugins( 'wp-scheduled-posts-pro/wp-scheduled-posts-pro.php' );
-        return;
-	}
+    /**
+     * Check if a plugin is installed
+     *
+     * @since 2.0.0
+     */
+    public function is_plugin_installed($basename)
+    {
+        $plugins = get_plugins();
+        return isset($plugins[$basename]);
+    }
 
 	public function wpsp_fail_pro_version() {
 		?>
 		<div class="notice notice-error">
-			<p><?php _e( 'WP Scheduled Posts is required to be installed and activated for WP Scheduled Posts Pro to work.', 'wpsp-pro' ); ?></p>
+			<p><?php sprintf(_e( 'SchedulePress Free v5.0 needs SchedulePress Pro v5.0 for better performance. Please update SchedulePress Pro plugin to v5.0. Contact our <a href="%s" target="_blank">Support</a> if you need any assistance.', 'wpsp-pro' ), 'https://wpdeveloper.com/support/'); ?></p>
 		</div>
 		<?php
 	}
