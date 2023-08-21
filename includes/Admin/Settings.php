@@ -392,7 +392,7 @@ class Settings {
                                     'name'       => 'notify_author_post_is_scheduled_section',
                                     'type'     => 'section',
                                     'label'    => false,
-                                    'priority' => 5,
+                                    'priority' => 20,
                                     'classes'  => 'notify-author-post-is',
                                     'fields'   => [
                                         'notify_author_post_is_scheduled'       => [
