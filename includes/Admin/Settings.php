@@ -1239,8 +1239,8 @@ class Settings {
                         }
                     }
                 }
-            } elseif (!empty($field['name'])) {
-                $names[$field['name']] = isset($field['default']) ? $field['default'] : null;
+            } elseif (!empty($field['name']) && isset($field['default'])) {
+                $names[$field['name']] = $field['default'];
             }
         }
 
