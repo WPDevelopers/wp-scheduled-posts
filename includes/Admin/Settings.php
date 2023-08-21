@@ -277,6 +277,7 @@ class Settings {
                                     'label'         => __('Post Republish and Unpublish', 'wp-scheduled-posts'),
                                     'priority'      => 30,
                                     'description'   => __('Upgrade to Premium', 'wp-scheduled-posts'),
+                                    'default'      => false,
                                     'is_pro'        => true,
                                 ],
                                 'is_republish_social_share' => [
@@ -344,6 +345,7 @@ class Settings {
                                             'type'     => 'toggle',
                                             'label'    => __('Notify User when a post is "Under Review"', 'wp-scheduled-posts'),
                                             'priority' => 5,
+                                            'default'  => false,
                                         ],
                                         'notify_author_post_review_by_role' => [
                                             'name'     => 'notify_author_post_review_by_role',
@@ -353,6 +355,7 @@ class Settings {
                                             'priority' => 10,
                                             'icon_classes'  => 'wpsp-icon wpsp-close',
                                             'option'   => self::normalize_options( \WPSP\Helper::get_all_roles() ),
+                                            'default'   => [],
                                             'rules'       => Rules::logicalRule([
                                                 Rules::is( 'notify_author_post_is_review', true ),
                                             ]),
@@ -365,6 +368,7 @@ class Settings {
                                             'priority' => 11,
                                             'icon_classes'  => 'wpsp-icon wpsp-close',
                                             'option'   => self::normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_login', 'user_login') ),
+                                            'default'  => [],
                                             'rules'       => Rules::logicalRule([
                                                 Rules::is( 'notify_author_post_is_review', true ),
                                             ]),
@@ -377,6 +381,7 @@ class Settings {
                                             'priority' => 12,
                                             'icon_classes'  => 'wpsp-icon wpsp-close',
                                             'option'   => self::normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_email', 'user_email') ),
+                                            'default'  => [],
                                             'rules'       => Rules::logicalRule([
                                                 Rules::is( 'notify_author_post_is_review', true ),
                                             ]),
@@ -388,6 +393,7 @@ class Settings {
                                     'type'     => 'toggle',
                                     'label'    => __('Notify Author when a post is "Rejected"', 'wp-scheduled-posts'),
                                     'priority' => 15,
+                                    'default'  => false,
                                 ],
                                 'notify_author_post_is_scheduled_section' => [
                                     'name'       => 'notify_author_post_is_scheduled_section',
@@ -402,6 +408,7 @@ class Settings {
                                             'type'     => 'toggle',
                                             'label'    => __('Notify User when a post is "Scheduled"', 'wp-scheduled-posts'),
                                             'priority' => 20,
+                                            'default'  => false,
                                         ],
                                         'notify_author_post_scheduled_by_role' => [
                                             'id'       => 'notify_author_post_scheduled_by_role',
@@ -410,6 +417,7 @@ class Settings {
                                             'type'     => 'checkbox-select',
                                             'multiple' => true,
                                             'priority' => 25,
+                                            'default'  => [],
                                             'icon_classes'  => 'wpsp-icon wpsp-close',
                                             'option'   => self::normalize_options( \WPSP\Helper::get_all_roles() ),
                                             'rules'       => Rules::logicalRule([
@@ -423,6 +431,7 @@ class Settings {
                                             'type'     => 'checkbox-select',
                                             'multiple' => true,
                                             'priority' => 30,
+                                            'default'  => [],
                                             'icon_classes'  => 'wpsp-icon wpsp-close',
                                             'option'   => self::normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_login', 'user_login') ),
                                             'rules'       => Rules::logicalRule([
@@ -438,6 +447,7 @@ class Settings {
                                             'priority' => 35,
                                             'icon_classes'  => 'wpsp-icon wpsp-close',
                                             'option'   => self::normalize_options( \wp_list_pluck(\get_users(array('fields' => array('user_login', 'user_email'))), 'user_email', 'user_email') ),
+                                            'default'  => [],
                                             'rules'       => Rules::logicalRule([
                                                 Rules::is( 'notify_author_post_is_scheduled', true ),
                                             ]),
@@ -449,12 +459,14 @@ class Settings {
                                     'type'     => 'toggle',
                                     'label'    => __('Notify Author when a Scheduled Post is "Published"', 'wp-scheduled-posts'),
                                     'priority' => 40,
+                                    'default'  => false,
                                 ],
                                 'notify_author_post_is_publish'       => [
                                     'name'     => 'notify_author_post_is_publish',
                                     'type'     => 'toggle',
                                     'label'    => __('Notify Author when a post is "Published"', 'wp-scheduled-posts'),
                                     'priority' => 45,
+                                    'default'  => false,
                                 ],
                             ],
                         ],
@@ -597,6 +609,7 @@ class Settings {
                                                                     'label'         => __('Facebook Meta Data', 'wp-scheduled-posts'),
                                                                     'info'          => __('Add Open Graph metadata to your site head section and other social networks use this data when your pages are shared.', 'wp-scheduled-posts'),
                                                                     'priority'      => 5,
+                                                                    'default'       => false,
                                                                 ],
                                                                 'content_type' => [
                                                                     'label'   => __('Content Type:','wp-scheduled-posts'),
@@ -626,6 +639,7 @@ class Settings {
                                                                     'info'          => __('The categories you select will be used as tags.','wp-scheduled-posts'),
                                                                     'label'         => __('Add Category as tags', 'wp-scheduled-posts'),
                                                                     'priority'      => 10,
+                                                                    'default'       => false,
                                                                 ],
                                                                 'content_source' => [
                                                                     'label'   => __('Content Source:','wp-scheduled-posts'),
@@ -706,6 +720,7 @@ class Settings {
                                                                     'info'          => __('The categories you select will be used as tags.','wp-scheduled-posts'),
                                                                     'label'         => __('Add Category as tags', 'wp-scheduled-posts'),
                                                                     'priority'      => 10,
+                                                                    'default'       => false,
                                                                 ],
                                                                 'is_show_post_thumbnail'  => [
                                                                     'id'            => 'twitter_post_thumbnail',
@@ -797,6 +812,7 @@ class Settings {
                                                                     'info'          => __('The categories you select will be used as tags.','wp-scheduled-posts'),
                                                                     'label'         => __('Add Category as tags', 'wp-scheduled-posts'),
                                                                     'priority'      => 10,
+                                                                    'default'       => false,
                                                                 ],
                                                                 'linkedin_content_source' => [
                                                                     'label'   => __('Content Source:','wp-scheduled-posts'),
