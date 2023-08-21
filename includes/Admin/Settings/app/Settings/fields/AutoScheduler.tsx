@@ -31,16 +31,16 @@ const AutoScheduler = (props) => {
     const getAutoSchedulerStatus = builderContext.values['manage_schedule']?.[name]?.['is_active_status'];
     const startTimeFormat = getStartTime ? { label : convertTo12HourFormat(getStartTime), value : getStartTime } : null;
     const endTimeFormat = getEndTime ? { label : convertTo12HourFormat(getEndTime), value : getEndTime } : null;
-    
+
     const [autoScheduler,setAutoSchedulerValue] = useState( modifiedDayDataFormet ?? [] );
     const [startSelectedTime, setStartSelectedTime] = useState(startTimeFormat ? startTimeFormat : timeOptions[0]);
     const [endSelectedTime, setEndSelectedTime] = useState(endTimeFormat ? endTimeFormat : timeOptions[0]);
     const [autoSchedulerStatus, setautoSchedulerStatus] = useState(getAutoSchedulerStatus ?? false);
-    
+
     useMemo( () => {
         setautoSchedulerStatus(getAutoSchedulerStatus);
     }, [getAutoSchedulerStatus])
-    
+
     const handleDayChange = (day, event) => {
         setAutoSchedulerValue((prevWeeks) => {
             const existingWeekIndex = prevWeeks.findIndex((item) => item.day === day);
@@ -100,14 +100,14 @@ const AutoScheduler = (props) => {
             setautoSchedulerStatus(event.target.checked);
         }
     }
-    
+
     const handleStatusChange = ( status ) => {
         let manualSchedulerData = {...builderContext.values['manage_schedule']?.['manual_schedule'] };
         manualSchedulerData['is_active_status'] = false;
         builderContext.setFieldValue( ['manage_schedule', 'manual_schedule'], [...manualSchedulerData,]);
         setautoSchedulerStatus(status);
     };
-    
+
     return (
         <div className={classNames('wprf-control', 'wprf-auto-scheduler', `wprf-${props.name}-auto-scheduler`, props?.classes)}>
             <ProToggle

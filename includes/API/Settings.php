@@ -212,7 +212,21 @@ class Settings
      */
     public function update_value($request)
     {
-        $updated = update_option($this->settings_name, json_encode($request->get_params()));
+        $settings = $request->get_params();
+        $arr = ['allow_post_types', 'allow_categories', 'allow_user_by_role'];
+        $settingObject = WPSP_Start()->getAdmin()->load_settings();
+
+        $settings_arr = $settingObject->get_settings_array();
+        $defaults = $settingObject->get_field_names($settings_arr['tabs']);
+
+        foreach($arr as $key){
+            if(!empty($defaults[$key]) && empty($settings[$key])){
+                $settings[$key] = $defaults[$key];
+            }
+        }
+
+        $settings = apply_filters('wpsp_settings_before_save', $settings);
+        $updated  = update_option($this->settings_name, json_encode($settings));
 
         return new \WP_REST_Response(array(
             'success'   => $updated,

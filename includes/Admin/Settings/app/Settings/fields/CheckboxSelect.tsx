@@ -46,14 +46,13 @@ const CheckboxSelect = (props) => {
 
 
   const allOption = useMemo(() => addAllOption(props.option), [props.option]);
-  const selectedValue = props?.value?.map((item) => {
-    return findOptionLabelByValue(allOption, item);
-  });
-
   const allOptionFlatten = useMemo(
     () => getOptionsFlatten(allOption),
     [allOption]
   );
+  const selectedValue = props.value?.includes('all') ? allOptionFlatten : props.value?.map((item) => {
+    return findOptionLabelByValue(allOption, item);
+  });
 
   const [optionSelected, setOptionSelected] = useState(selectedValue ?? []);
 
@@ -84,8 +83,11 @@ const CheckboxSelect = (props) => {
     // onChange(newValue);
   };
   const removeItem = (item) => {
-    const updatedItems = optionSelected?.filter((i) => i !== item);
-    setOptionSelected(updatedItems);
+    const updatedItems = optionSelected.filter((i) => i !== item);
+    handleChange(updatedItems, {
+      action: 'deselect-option',
+      option: item,
+    });
   };
 
   useEffect(() => {

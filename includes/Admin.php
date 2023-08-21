@@ -13,6 +13,8 @@ class Admin
 
     private $insights = null;
 
+    private $settings;
+
 	public function __construct()
     {
         $this->load_plugin_menu_pages();
@@ -30,10 +32,10 @@ class Admin
 	    }
 
 	    add_action( 'wp_ajax_wpsp_el_editor_form', [ $this, 'wpsp_el_tab_action' ] );
-        
+
         // Add scheduling tab for section
         add_action( 'elementor/element/section/section_advanced/after_section_end', [ $this, 'register_controls' ],10,2 );
-        
+
     }
 
     public function register_controls( $element, $section_id ) {
@@ -288,9 +290,17 @@ class Admin
         );
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return Admin\Settings
+     */
     public function load_settings()
     {
-        new Admin\Settings(WPSP_SETTINGS_SLUG, WPSP_SETTINGS_NAME);
+        if (!$this->settings) {
+            $this->settings = new Admin\Settings(WPSP_SETTINGS_SLUG, WPSP_SETTINGS_NAME);
+        }
+        return $this->settings;
     }
 
     public function schedulepress_el_tab () { ?>

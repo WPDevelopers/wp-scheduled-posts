@@ -197,6 +197,7 @@ class Settings {
                                     'label'    => __('Show Categories:', 'wp-scheduled-posts'),
                                     'type'     => 'checkbox-select',
                                     'multiple' => true,
+                                    'default'  => [ 'all' ],
                                     'priority' => 8,
                                     'icon_classes'  => 'wpsp-icon wpsp-close',
                                     'option'  => self::normalize_options(\WPSP\Helper::_get_all_category()),
@@ -1204,6 +1205,7 @@ class Settings {
 
     public function get_field_names($fields, $names = []) {
         foreach ($fields as $key => $field) {
+            if (empty($field)) continue;
             if (empty($field['type']) || 'tab' === $field['type']) {
                 $names = $this->get_field_names($field['fields'], $names);
             } else if ($field['type'] == 'section' || $field['type'] == 'group') { //

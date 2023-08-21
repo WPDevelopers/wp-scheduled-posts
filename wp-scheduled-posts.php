@@ -31,7 +31,6 @@ final class WPSP
 	private $email;
 	private $social;
 	private $api;
-	private $ajax;
 	private $basename = 'wp-scheduled-posts-pro/wp-scheduled-posts-pro.php';
 
 	private function __construct()
@@ -139,7 +138,6 @@ final class WPSP
 		$this->getEmail();
 		$this->getSocial();
 		$this->getAPI();
-		$this->getAjax();
 
 		if (is_admin()) {
 			$this->getAdmin();
@@ -156,6 +154,11 @@ final class WPSP
 		return $this->assets;
 	}
 
+	/**
+	 * Undocumented function
+	 *
+	 * @return WPSP\Admin
+	 */
 	public function getAdmin() {
 		if (!$this->admin) {
 			$this->admin = new WPSP\Admin();
@@ -182,13 +185,6 @@ final class WPSP
 			$this->api = new WPSP\API();
 		}
 		return $this->api;
-	}
-
-	public function getAjax() {
-		if (!$this->ajax) {
-			$this->ajax = new WPSP\Ajax();
-		}
-		return $this->ajax;
 	}
 
 	public function load_textdomain()
