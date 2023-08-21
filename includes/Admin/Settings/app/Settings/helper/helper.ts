@@ -114,38 +114,51 @@ export const getFormatDateTime = ( dateTime = '' ) => {
 }
 
 export const  convertTo12HourFormat = (time24) => {
-    const [hours, minutes] = time24.split(':');
-    const isPM = parseInt(hours, 10) >= 12;
-  
-    let hours12 = parseInt(hours, 10) % 12;
-    hours12 = hours12 === 0 ? 12 : hours12; // Handle midnight (00:00) as 12 AM
-  
-    return `${hours12}:${minutes} ${isPM ? 'PM' : 'AM'}`;
-  }
+    if ( !/\d{1,2}:\d{2} [ap]m/i.test(time24)) {
+        const [hours, minutes] = time24.split(':');
+        const isPM = parseInt(hours, 10) >= 12;
+    
+        let hours12 = parseInt(hours, 10) % 12;
+        hours12 = hours12 === 0 ? 12 : hours12; // Handle midnight (00:00) as 12 AM
+        return `${hours12}:${minutes} ${isPM ? 'PM' : 'AM'}`;
+    }
+    return time24;
+}
 
+export const to24HourFormat = (time: string) => {
+  if (/\d{1,2}:\d{2} [ap]m/i.test(time)) {
+    const [hours, minutes] = time.match(/\d+/g);
+    const isPM = time.toLowerCase().indexOf('pm') > -1;
+    const _hours = parseInt(hours, 10) + (isPM && hours !== '12' ? 12 : 0) - (hours === '12' && !isPM ? 12 : 0);
+    const hours24 = _hours === 24 ? 0 : _hours;
+    const paddedHours = hours24.toString().padStart(2, '0');
+    const paddedMinutes = minutes.padStart(2, '0');
+    const timeString = `${paddedHours}:${paddedMinutes}:00`;
+    return timeString;
+  }
+  return time;
+}
 // Generate time options
 export const generateTimeOptions = () => {
     const times = [];
     const startTime = new Date();
     startTime.setHours(0, 0, 0, 0); // Set start time to 12:00 AM
-
     for (let i = 0; i < 24 * 4; i++) {
-      const time = new Date(startTime.getTime() + i * 15 * 60000);
-      const timeString = time.toLocaleString('en-US', {
-        hour: 'numeric',
-        minute: '2-digit',
-        hour12: true,
-      });
-        // Format time in 24-hour format for value
-        const valueTimeString = time.toLocaleString('en-US', {
-            hour: '2-digit',
+        const time = new Date(startTime.getTime() + i * 15 * 60000);
+        let hours = time.getHours();
+        const minutes = time.getMinutes();
+        if (hours >= 24) {
+            hours %= 24; // Reset hours to 0 after 23
+        }
+        const timeString = time.toLocaleString('en-US', {
+            hour: 'numeric',
             minute: '2-digit',
-            hour12: false,
+            hour12: true,
         });
-
-      times.push({ value: valueTimeString, label: timeString });
+        // Format time in 24-hour format for value
+        const valueTimeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+        times.push({ value: valueTimeString, label: timeString });
     }
-
     return times;
 };
 
