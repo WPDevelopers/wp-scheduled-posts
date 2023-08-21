@@ -20,7 +20,9 @@ class Helper
         if (is_array($allow_post_types)) {
             foreach ($allow_post_types as $post_type) {
                 $post_type_object       = get_post_type_object($post_type);
-                $post_types[$post_type] = $post_type_object->label;
+                if(!empty($post_type_object)){
+                    $post_types[$post_type] = $post_type_object->label;
+                }
             }
         }
         return $post_types;
