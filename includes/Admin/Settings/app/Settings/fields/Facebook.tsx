@@ -13,11 +13,14 @@ import SelectedProfile from './utils/SelectedProfile';
 import ViewMore from './utils/ViewMore';
 
 const Facebook = (props) => {
+  const sortedSelectedValue  = [...props?.value].sort((a, b) => {
+    return b.status - a.status; // Sort in descending order by status
+  });
   const cachedLocalData = JSON.parse(localStorage.getItem('facebook'));
   const builderContext = useBuilderContext();
   const [apiCredentialsModal, setApiCredentialsModal] = useState(false);
   const [platform, setPlatform] = useState('');
-  const [selectedProfile, setSelectedProfile] = useState(props?.value);
+  const [selectedProfile, setSelectedProfile] = useState( sortedSelectedValue ?? [] );
   const [selectedProfileViewMore, setSelectedProfileViewMore] = useState(false);
   const [cachedStatus, setCashedStatus] = useState(cachedLocalData ?? {});
   const [profileStatus, setProfileStatus] = useState(

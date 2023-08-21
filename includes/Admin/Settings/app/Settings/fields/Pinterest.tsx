@@ -14,11 +14,14 @@ import SelectedProfile from './utils/SelectedProfile';
 import ViewMore from './utils/ViewMore';
 
 const Pinterest = (props) => {
+  const sortedSelectedValue  = [...props?.value].sort((a, b) => {
+    return b.status - a.status; // Sort in descending order by status
+  });
   const cachedLocalData = JSON.parse(localStorage.getItem('pinterest'));
   const builderContext = useBuilderContext();
   const [apiCredentialsModal, setApiCredentialsModal] = useState(false);
   const [platform, setPlatform] = useState('');
-  const [selectedProfile, setSelectedProfile] = useState(props?.value);
+  const [selectedProfile, setSelectedProfile] = useState( sortedSelectedValue ?? [] );
   const [isProfileEditModal, setProfileEditModal] = useState(false);
   const [profileItem, setProfileItem] = useState('');
   const [cachedStatus, setCashedStatus] = useState( cachedLocalData ?? {} );
