@@ -160,7 +160,8 @@ class Settings {
                             'priority'   => 6,
                             'showSubmit' => true,
                             'fields'     => [
-
+                                // this is critical for the default settings value to work
+                                // includes/Installer.php:is_settings_empty()
                                 'is_show_dashboard_widget'       => [
                                     'name'     => 'is_show_dashboard_widget',
                                     'type'     => 'toggle',

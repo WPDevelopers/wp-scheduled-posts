@@ -21,8 +21,9 @@ class Installer
     public function migrate()
     {
         // Settings FallBack
-        $settings = json_decode(get_option(WPSP_SETTINGS_NAME, '{}'));
-        if( ! is_object( $settings ) || ( is_object( $settings ) && ! isset($settings->is_show_dashboard_widget) ) ) {
+        $wpsp_settings = json_decode(get_option('wpsp_settings', '{}'));
+        $settings      = json_decode(get_option(WPSP_SETTINGS_NAME, '{}'));
+        if( $this->is_settings_empty($settings) && $this->is_settings_empty($wpsp_settings) ) {
             do_action('wpsp_save_settings_default_value', WPSP_VERSION );
         }
         // social share meta migration
@@ -47,5 +48,13 @@ class Installer
         if(get_option('wpscp_options')){
             Migration::version_3_to_4();
         }
+    }
+
+    public function is_settings_empty($settings)
+    {
+        if (! is_object( $settings ) || ( is_object( $settings ) && ! isset($settings->is_show_dashboard_widget) )) {
+            return true;
+        }
+        return false;
     }
 }
