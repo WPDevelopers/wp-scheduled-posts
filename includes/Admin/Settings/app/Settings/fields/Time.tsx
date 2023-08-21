@@ -1,16 +1,16 @@
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
-import { convertTo12HourFormat, generateTimeOptions } from '../helper/helper';
+import { convertTo12HourFormat, generateTimeOptions, to24HourFormat } from '../helper/helper';
 import { selectStyles } from '../helper/styles';
 
 const Time = (props) => {
-  const [selectedTime, setSelectedTime] = useState( { label : convertTo12HourFormat( props?.value ), value : props?.value } );
+  const timeValue = props.value || '00:00';
+  const [selectedTime, setSelectedTime] = useState( { label : convertTo12HourFormat( timeValue ), value : to24HourFormat( timeValue ) } );
   const handleTimeChange = (selectedOption) => {
     setSelectedTime(selectedOption);
   };
   const timeOptions = generateTimeOptions();
-
   // Save time
   let { name, onChange } = props;
   useEffect(() => {
@@ -35,6 +35,7 @@ const Time = (props) => {
                     onChange={handleTimeChange}
                     options={timeOptions}
                     styles={selectStyles}
+                    isDisabled={ !(props?.is_pro === undefined || props?.is_pro === null) ? !props?.is_pro : false }
                     className='time-select'
                   />
               </div>

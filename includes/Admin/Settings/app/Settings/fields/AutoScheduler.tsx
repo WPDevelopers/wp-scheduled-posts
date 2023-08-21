@@ -2,12 +2,11 @@ import { __ } from '@wordpress/i18n';
 import classNames from 'classnames';
 import { useBuilderContext } from 'quickbuilder';
 import React, { useEffect, useMemo, useState } from 'react';
-import Select from 'react-select';
 import { convertTo12HourFormat, generateTimeOptions } from '../helper/helper';
 import ProToggle from './utils/ProToggle';
 
-import { selectStyles } from '../helper/styles';
 import { SweetAlertStatusChangingMsg } from '../ToasterMsg';
+import Time from './Time';
 
 const AutoScheduler = (props) => {
     let { name, multiple, onChange } = props;
@@ -29,12 +28,12 @@ const AutoScheduler = (props) => {
     const getStartTime = builderContext.values['manage_schedule']?.[name]?.['start_time'];
     const getEndTime = builderContext.values['manage_schedule']?.[name]?.['end_time'];
     const getAutoSchedulerStatus = builderContext.values['manage_schedule']?.[name]?.['is_active_status'];
-    const startTimeFormat = getStartTime ? { label : convertTo12HourFormat(getStartTime), value : getStartTime } : null;
-    const endTimeFormat = getEndTime ? { label : convertTo12HourFormat(getEndTime), value : getEndTime } : null;
+    // const startTimeFormat = getStartTime ? { label : convertTo12HourFormat(getStartTime), value : to24HourFormat( getStartTime ) } : null;
+    // const endTimeFormat = getEndTime ? { label : convertTo12HourFormat(getEndTime), value : to24HourFormat( getEndTime )  } : null;
 
     const [autoScheduler,setAutoSchedulerValue] = useState( modifiedDayDataFormet ?? [] );
-    const [startSelectedTime, setStartSelectedTime] = useState(startTimeFormat ? startTimeFormat : timeOptions[0]);
-    const [endSelectedTime, setEndSelectedTime] = useState(endTimeFormat ? endTimeFormat : timeOptions[0]);
+    const [startSelectedTime, setStartSelectedTime] = useState( getStartTime ? getStartTime : "00:00" );
+    const [endSelectedTime, setEndSelectedTime] = useState( getEndTime ? getEndTime : "00:00");
     const [autoSchedulerStatus, setautoSchedulerStatus] = useState(getAutoSchedulerStatus ?? false);
 
     useMemo( () => {
@@ -62,9 +61,9 @@ const AutoScheduler = (props) => {
 
     const handleTimeChange = (type,event) => {
         if( type === 'start' ) {
-            setStartSelectedTime(event);
+            setStartSelectedTime(event.target.value);
         }else{
-            setEndSelectedTime(event);
+            setEndSelectedTime(event.target.value);
         }
     }
     useEffect(() => {
@@ -74,8 +73,8 @@ const AutoScheduler = (props) => {
             let property_name = item?.day+'_post_limit';
             autoSchedulerObj[property_name] = item?.value;
         } );
-        autoSchedulerObj['start_time'] = startSelectedTime?.value;
-        autoSchedulerObj['end_time'] = endSelectedTime?.value;
+        autoSchedulerObj['start_time'] = startSelectedTime;
+        autoSchedulerObj['end_time'] = endSelectedTime;
         autoSchedulerObj['is_active_status'] = autoSchedulerStatus ?? false;
         manage_schedule[name] = autoSchedulerObj;
         if( autoSchedulerStatus ) {
@@ -89,6 +88,7 @@ const AutoScheduler = (props) => {
                 multiple
 			},
 		});
+
 	}, [autoScheduler, startSelectedTime, endSelectedTime, autoSchedulerStatus ]);
 
     // Handle status changing for auto and manual scheduler
@@ -122,16 +122,13 @@ const AutoScheduler = (props) => {
                 <div className="start-time set-timing">
                     <div className="time-title">
                         <h4>{ __('Start Time','wp-scheduled-posts') }</h4>
-                        <span>{ __('Default','wp-scheduled-posts') } : { startSelectedTime?.label }</span>
+                        <span>{ __('Default','wp-scheduled-posts') } : { convertTo12HourFormat(startSelectedTime) }</span>
                     </div>
                     <div className="time">
-                        <Select
-                            styles={selectStyles}
-                            value={startSelectedTime}
-                            options={ timeOptions }
-                            defaultValue={timeOptions[0] }
+                        <Time
+                            value={ startSelectedTime }
                             onChange={ (event) => handleTimeChange('start',event) }
-                            isDisabled={!is_pro}
+                            is_pro={  is_pro }
                             className='select-start-time main-select'
                         />
                     </div>
@@ -139,15 +136,13 @@ const AutoScheduler = (props) => {
                 <div className="end-time set-timing">
                     <div className="time-title">
                         <h4>{ __('End Time','wp-scheduled-posts') }</h4>
-                        <span>{ __('Default','wp-scheduled-posts') } : { convertTo12HourFormat(endSelectedTime?.label) }</span>
+                        <span>{ __('Default','wp-scheduled-posts') } : { convertTo12HourFormat(endSelectedTime) }</span>
                     </div>
                     <div className="time">
-                        <Select
-                            styles={selectStyles}
-                            value={endSelectedTime}
-                            options={ timeOptions }
+                        <Time
+                            value={ endSelectedTime }
                             onChange={ (event) => handleTimeChange('end',event) }
-                            isDisabled={!is_pro}
+                            is_pro={  is_pro }
                             className='select-start-time main-select'
                         />
                     </div>
