@@ -100,7 +100,6 @@
 }
 #wp_scp_dashboard_widget table tbody tr {
     display: flex;
-    justify-content: space-between;
     border-bottom: 1px solid #5a6e011c;
     background: #f6f7f7;
     flex-wrap: nowrap;

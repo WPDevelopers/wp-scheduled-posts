@@ -233,6 +233,24 @@ class Migration {
         }
     }
 
+    public static function convert_to_12_hour_format($time24Hour) {
+        list($hours, $minutes) = explode(":", $time24Hour);
+        
+        if ($hours >= 0 && $hours <= 11) {
+            $meridiem = "AM";
+            if ($hours == 0) {
+                $hours = 12;
+            }
+        } else {
+            $meridiem = "PM";
+            if ($hours != 12) {
+                $hours -= 12;
+            }
+        }
+        
+        return sprintf("%02d:%02d %s", $hours, $minutes, $meridiem);
+    }
+    
     public static function version_4_to_5(){
         if (get_option('wpsp_data_migration_4_to_5') == false) {
             $old_settings = get_option(WPSP_SETTINGS_NAME);
@@ -284,17 +302,23 @@ class Migration {
                            if( is_array( $arr_value ) ) {
                                 $key   = key($arr_value);
                                 $value = current($arr_value);
-                                if('pinterest' === $social && 'note_limit' === $key
-                                ||'twitter' === $social && 'tweet_limit' === $key
-                                ){
-                                    $key = 'status_limit';
-                                }
+                                // if('pinterest' === $social && 'note_limit' === $key
+                                // ||'twitter' === $social && 'tweet_limit' === $key
+                                // ){
+                                //     $key = 'status_limit';
+                                // }
                                 $settings['social_templates'][$social][$key] = $value;
                            }
                         }
                     }
                 }
-
+                if( isset( $old_settings['hide_on_elementor_editor'] ) ) {
+                    $settings['show_on_elementor_editor'] = !$old_settings['hide_on_elementor_editor'];
+                    unset( $settings['hide_on_elementor_editor'] );
+                }
+                if( !empty( $old_settings['calendar_schedule_time'] ) ) {
+                    $settings['calendar_schedule_time'] = self::convert_to_12_hour_format( $old_settings['calendar_schedule_time'] );
+                }
                 if (!empty($settings)) {
                     update_option(WPSP_SETTINGS_NAME, json_encode($settings));
                 }
