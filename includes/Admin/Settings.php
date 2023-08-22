@@ -160,7 +160,8 @@ class Settings {
                             'priority'   => 6,
                             'showSubmit' => true,
                             'fields'     => [
-
+                                // this is critical for the default settings value to work
+                                // includes/Installer.php:is_settings_empty()
                                 'is_show_dashboard_widget'       => [
                                     'name'     => 'is_show_dashboard_widget',
                                     'type'     => 'toggle',
@@ -1239,8 +1240,8 @@ class Settings {
                         }
                     }
                 }
-            } elseif (!empty($field['name'])) {
-                $names[$field['name']] = isset($field['default']) ? $field['default'] : null;
+            } elseif (!empty($field['name']) && isset($field['default'])) {
+                $names[$field['name']] = $field['default'];
             }
         }
 
