@@ -1212,6 +1212,10 @@ class Settings {
     }
 
     public function save_option_value(){
+        $settings      = json_decode(get_option(WPSP_SETTINGS_NAME, '{}'));
+        if (( is_object( $settings ) && isset($settings->is_show_dashboard_widget) )) {
+            return true;
+        }
         $settings = $this->get_settings_array();
         $defaults = $this->get_field_names($settings['tabs']);
 

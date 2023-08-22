@@ -262,9 +262,11 @@ class Migration {
                 // manage_schedule auto_schedule
                 if(isset($old_settings['manage_schedule'])){
                     $manage_schedule = $old_settings['manage_schedule'];
+                    $old_active_schedule_system = !empty($old_settings['manage_schedule']['activeScheduleSystem']) ? $old_settings['manage_schedule']['activeScheduleSystem'] : '';
                     $settings['manage_schedule'] = [
                         'auto_schedule'   => [],
                         'manual_schedule' => [],
+                        'activeScheduleSystem' => $old_active_schedule_system,
                     ];
                     if (isset($manage_schedule['auto_schedule'])) {
                         $auto_schedule = $old_settings['manage_schedule']['auto_schedule'];
@@ -272,7 +274,11 @@ class Migration {
                             if( is_array( $arr_value ) ) {
                                 $key   = key($arr_value);
                                 $value = current($arr_value);
-                                $settings['manage_schedule']['auto_schedule'][$key] = $value;
+                                if( 'is_active_status' == $key  ) {
+                                    $settings['manage_schedule']['auto_schedule'][$key] = ( 'auto_schedule' == $old_active_schedule_system ) ? true : false;
+                                }else{
+                                    $settings['manage_schedule']['auto_schedule'][$key] = $value;
+                                }
                             }
                         }
                     }
@@ -282,7 +288,11 @@ class Migration {
                             if( is_array( $arr_value ) ) {
                                 $key   = key($arr_value);
                                 $value = current($arr_value);
-                                $settings['manage_schedule']['manual_schedule'][$key] = $value;
+                                if( 'is_active_status' == $key  ) {
+                                    $settings['manage_schedule']['manual_schedule'][$key] = ( 'manual_schedule' == $old_active_schedule_system ) ? true : false;
+                                }else{
+                                    $settings['manage_schedule']['manual_schedule'][$key] = $value;
+                                }
                             }
                         }
                     }
