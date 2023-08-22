@@ -12,7 +12,7 @@ const Time = (props) => {
   };
   const timeOptions = generateTimeOptions();
   // Save time
-  let { name, onChange } = props;
+  let { name='select', onChange } = props;
   useEffect(() => {
 		onChange({
 			target: {
@@ -23,7 +23,7 @@ const Time = (props) => {
 		});
 	}, [selectedTime]);
   return (
-      <div className={classNames('wprf-control', 'wprf-time', `wprf-${props.name}-time`, props?.classes)}>
+      <div className={classNames('wprf-control', 'wprf-time', `wprf-${props.name}-time`)}>
           <div className="wprf-control-label">
               <label htmlFor={`${props?.id}`}>{props?.label}</label>
           </div>
@@ -36,7 +36,8 @@ const Time = (props) => {
                     options={timeOptions}
                     styles={selectStyles}
                     isDisabled={ !(props?.is_pro === undefined || props?.is_pro === null) ? !props?.is_pro : false }
-                    className='time-select'
+                    className={`time-select wprf-${props.name} ${props?.classes}`}
+                    classNamePrefix={`wprf-${props.name}`}
                   />
               </div>
           </div>

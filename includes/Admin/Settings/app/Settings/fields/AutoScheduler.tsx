@@ -2,7 +2,7 @@ import { __ } from '@wordpress/i18n';
 import classNames from 'classnames';
 import { useBuilderContext } from 'quickbuilder';
 import React, { useEffect, useMemo, useState } from 'react';
-import { convertTo12HourFormat, generateTimeOptions } from '../helper/helper';
+import { generateTimeOptions } from '../helper/helper';
 import ProToggle from './utils/ProToggle';
 
 import { SweetAlertStatusChangingMsg } from '../ToasterMsg';
@@ -122,28 +122,30 @@ const AutoScheduler = (props) => {
                 <div className="start-time set-timing">
                     <div className="time-title">
                         <h4>{ __('Start Time','wp-scheduled-posts') }</h4>
-                        <span>{ __('Default','wp-scheduled-posts') } : { convertTo12HourFormat(startSelectedTime) }</span>
+                        <span>{ __('Default','wp-scheduled-posts') } : { __('12:00 AM','wp-scheduled-posts') }</span>
                     </div>
                     <div className="time">
                         <Time
                             value={ startSelectedTime }
+                            name="time-select"
                             onChange={ (event) => handleTimeChange('start',event) }
                             is_pro={  is_pro }
-                            className='select-start-time main-select'
+                            classes='select-start-time main-select'
                         />
                     </div>
                 </div>
                 <div className="end-time set-timing">
                     <div className="time-title">
                         <h4>{ __('End Time','wp-scheduled-posts') }</h4>
-                        <span>{ __('Default','wp-scheduled-posts') } : { convertTo12HourFormat(endSelectedTime) }</span>
+                        <span>{ __('Default','wp-scheduled-posts') } : { __('11:45 PM','wp-scheduled-posts') }</span>
                     </div>
                     <div className="time">
                         <Time
                             value={ endSelectedTime }
                             onChange={ (event) => handleTimeChange('end',event) }
                             is_pro={  is_pro }
-                            className='select-start-time main-select'
+                            name="time-select"
+                            classes='select-start-time main-select'
                         />
                     </div>
                 </div>

@@ -80,6 +80,13 @@
     &:last-child {
       margin-bottom: 0 !important;
     }
+    &.wprf-time-select-time {
+      border: none;
+      padding: 0 !important;
+      .wprf-time-select-wrap {
+        min-width: 150px;
+      }
+    }
     @media screen and (max-width: 1439px) {
       padding: 20px;
       gap: 16px;
