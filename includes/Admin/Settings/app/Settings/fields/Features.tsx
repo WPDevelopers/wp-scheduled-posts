@@ -13,7 +13,7 @@ const Features = (props) => {
       )}>
       <div className="header">
         <h3>{heading}</h3>
-        <a href={button_link}>{button_text}</a>
+        <a target='_blank' href={button_link}>{button_text}</a>
       </div>
       <div className="content">
         {options?.map((item) => (
