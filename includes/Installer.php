@@ -19,13 +19,12 @@ class Installer
      */
     public function plugin_update_message( $plugin_data, $response ) {
         if ( isset( $response->upgrade_notice ) && !empty($plugin_data['new_version']) ) {
-            $new_version                = $plugin_data['new_version'];
-            $current_version            = WPSP_VERSION;
-            $current_version_minor_part = explode( '.', $current_version )[1];
-            $new_version_minor_part     = explode( '.', $new_version )[1];
-            if( $current_version_minor_part !== $new_version_minor_part ){
-                include WPSCP_ADMIN_DIR_PATH . "Notices/upgrade.php";
-            }
+            $new_version     = explode( '.', $plugin_data['new_version']);
+            $current_version = explode( '.', WPSP_VERSION);
+            $major           = $new_version[0] !== $current_version[0];
+            $minor           = $new_version[1] !== $current_version[1];
+
+            include WPSCP_ADMIN_DIR_PATH . "Notices/upgrade.php";
         }
     }
 

@@ -19,10 +19,13 @@
             padding-bottom: 10px;
             margin-bottom: 20px;
         }
+        .updated-message .schedulepress-plugin-update-message, .updating-message .schedulepress-plugin-update-message {
+            display: none;
+        }
     </style>
 
     <?php
-        if ( $major ) {
+        if ( $major ) { // || $minor
             printf(
                 '<p class="schedulepress-major-update-title">%s</p>',
                 __( 'Heads up, Please backup before upgrade!', 'wp-scheduled-posts' )
