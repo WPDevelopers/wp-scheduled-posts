@@ -121,7 +121,7 @@ final class WPSP
 	public function wpsp_fail_pro_version() {
 		?>
 		<div class="notice notice-error">
-			<p><?php printf(__( 'SchedulePress Free v5.0 needs SchedulePress Pro v5.0 for better performance. Please update SchedulePress Pro plugin to v5.0. Contact our <a href="%s" target="_blank">Support</a> if you need any assistance.', 'wpsp-pro' ), 'https://wpdeveloper.com/support/'); ?></p>
+			<p><?php printf(__( 'SchedulePress Free v5.0 needs SchedulePress Pro v5.0 for better performance. Please update SchedulePress Pro plugin to v5.0. Contact our <a href="%s" target="_blank">Support</a> if you need any assistance.', 'wp-scheduled-posts' ), 'https://wpdeveloper.com/support/'); ?></p>
 		</div>
 		<?php
 	}

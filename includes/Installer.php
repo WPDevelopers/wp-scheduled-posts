@@ -7,6 +7,25 @@ class Installer
     public function __construct()
     {
         add_action('plugins_loaded', array($this, 'plugin_redirect'), 90);
+        add_action( 'in_plugin_update_message-wp-scheduled-posts/wp-scheduled-posts.php', [$this, 'plugin_update_message'], 10, 2 );
+    }
+
+    /**
+     * This is for upgrade message.
+     *
+     * @param mixed $plugin_data
+     * @param mixed $response
+     * @return void
+     */
+    public function plugin_update_message( $plugin_data, $response ) {
+        if ( isset( $response->upgrade_notice ) && !empty($plugin_data['new_version']) ) {
+            $new_version     = explode( '.', $plugin_data['new_version']);
+            $current_version = explode( '.', WPSP_VERSION);
+            $major           = $new_version[0] !== $current_version[0];
+            $minor           = $new_version[1] !== $current_version[1];
+
+            include WPSCP_ADMIN_DIR_PATH . "Notices/upgrade.php";
+        }
     }
 
     public function plugin_redirect()
