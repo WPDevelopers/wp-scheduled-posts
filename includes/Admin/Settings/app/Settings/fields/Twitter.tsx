@@ -220,6 +220,7 @@ const Twitter = (props) => {
                   }
                   handleDeleteSelectedProfile={handleDeleteSelectedProfile}
                   handleEditSelectedProfile={''}
+                  profileStatus={profileStatus}
                 />
               </div>
             ))}

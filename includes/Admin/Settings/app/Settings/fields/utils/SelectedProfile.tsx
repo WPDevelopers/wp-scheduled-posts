@@ -2,7 +2,7 @@ import { __ } from '@wordpress/i18n';
 import React from 'react';
 import { getFormatDateTime } from '../../helper/helper';
 
-export default function SelectedProfile( { platform, item, handleSelectedProfileStatusChange, handleDeleteSelectedProfile, handleEditSelectedProfile } ) {
+export default function SelectedProfile( { platform, item, handleSelectedProfileStatusChange, handleDeleteSelectedProfile, handleEditSelectedProfile, profileStatus = false } ) {
   return (
     <div className="profile-item">
         <div className="profile-image">
@@ -37,7 +37,7 @@ export default function SelectedProfile( { platform, item, handleSelectedProfile
                                 id={item?.default_board_name?.value}
                                 type='checkbox'
                                 className="wprf-switcher-checkbox"
-                                checked={item?.status}
+                                checked={ (profileStatus == true && item?.status) ? true : false }
                                 onChange={(event) => 
                                     handleSelectedProfileStatusChange(item,event)
                                 }
@@ -45,7 +45,7 @@ export default function SelectedProfile( { platform, item, handleSelectedProfile
                             <label
                                 className="wprf-switcher-label"
                                 htmlFor={item?.default_board_name?.value}
-                                style={{ background: item?.status && '#02AC6E' }}
+                                style={{ background:  (profileStatus && item?.status) && '#02AC6E' }}
                             >
                                 <span className={`wprf-switcher-button`} />
                             </label>
@@ -57,7 +57,7 @@ export default function SelectedProfile( { platform, item, handleSelectedProfile
                                 id={item?.id}
                                 type='checkbox'
                                 className="wprf-switcher-checkbox"
-                                checked={item?.status}
+                                checked={ ( profileStatus == true && item?.status ) ? true : false }
                                 onChange={(event) => 
                                     handleSelectedProfileStatusChange(item,event)
                                 }
@@ -65,7 +65,7 @@ export default function SelectedProfile( { platform, item, handleSelectedProfile
                             <label
                                 className="wprf-switcher-label"
                                 htmlFor={item?.id}
-                                style={{ background: item?.status && '#02AC6E' }}
+                                style={{ background:  (profileStatus && item?.status) && '#02AC6E' }}
                             >
                                 <span className={`wprf-switcher-button`} />
                             </label>

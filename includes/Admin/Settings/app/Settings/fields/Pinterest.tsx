@@ -224,6 +224,7 @@ const Pinterest = (props) => {
                     }
                     handleDeleteSelectedProfile={handleDeleteSelectedProfile}
                     handleEditSelectedProfile={handleEditSelectedProfile}
+                    profileStatus={profileStatus}
                   />
                 </div>
               ))}

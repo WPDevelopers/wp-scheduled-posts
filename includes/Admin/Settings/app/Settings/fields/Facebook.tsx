@@ -217,6 +217,7 @@ const Facebook = (props) => {
                     }
                     handleDeleteSelectedProfile={handleDeleteSelectedProfile}
                     handleEditSelectedProfile={''}
+                    profileStatus={profileStatus}
                   />
                 </div>
               ))}
