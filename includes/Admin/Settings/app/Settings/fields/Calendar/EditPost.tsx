@@ -160,7 +160,7 @@ export const ModalContent = ({
           <i className="wpsp-icon wpsp-close"></i>
         </button>
         <div className="platform-info">
-          <h4>Add New {postData.post_type}</h4>
+          { (modalData?.eventType == 'editEvent' || modalData?.eventType == 'editDraft') ? <h4>Edit {postData.post_type}</h4> : <h4>Add New {postData.post_type}</h4> }
         </div>
       </div>
       <div className="modalbody">
