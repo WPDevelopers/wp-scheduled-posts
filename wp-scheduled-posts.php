@@ -206,7 +206,7 @@ final class WPSP
 	{
 		$settings = json_decode(get_option(WPSP_SETTINGS_NAME), true);
 		$is_pro = class_exists('WPSP_PRO');
-		if( empty( $settings['is_pro'] ) || ( !empty( $settings['is_pro'] ) && $settings['is_pro'] !== $is_pro ) ) {
+		if( !empty($settings) && (!isset( $settings['is_pro'] ) || ( $settings['is_pro'] !== $is_pro ) )) {
 			$settings['is_pro'] = $is_pro;
 			if( $is_pro ) {
 				$this->installer->get_social_profile_status_modified_data( $settings, 'revert');
