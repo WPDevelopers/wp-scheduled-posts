@@ -6,9 +6,9 @@ const docIcon =  require("../assets/images/doc.png");
 
 const Sidebar = ({ props }) => {
     const builderContext = useBuilderContext();
-    
+
     if(props.id !== 'tab-sidebar-layout' || builderContext.config.active === 'layout_calendar' ) {
-        return;
+        return null;
     }
     {/* @ts-ignore */}
     const is_pro = wpspSettingsGlobal.pro_version;
@@ -42,8 +42,8 @@ const Sidebar = ({ props }) => {
                 </div>
                 )
             }
-            
-            
+
+
             <div className='card'>
                 <i className="wpsp-icon wpsp-file"></i>
                 <h3>{__('Documentation','wp-scheduled-posts')}</h3>

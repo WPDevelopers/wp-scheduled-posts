@@ -30,15 +30,15 @@ const ManualScheduler = (props) => {
   if( !is_pro && !builderContext.values['manage_schedule']?.[name]?.weekdata ) {
     defaultWeekData =  { weekdata : { saturday: ['12:00 AM','12:30 AM','1:00 AM','3:00 PM'], sunday: ['2:00 AM','3:00 PM','1:15 AM','3:15 AM'], monday: ['4:15 AM','4:30 AM','5:00 AM','5:30 PM'], tuesday: ['11:00 AM','1:30 AM','10:00 AM','3:00 PM'], wednesday: ['9:00 AM','7:30 AM','8:00 AM','10:00 PM'], thursday: ['6:00 AM','3:30 AM','4:00 AM','6:00 PM'], friday:['9:00 AM','2:30 AM','5:00 AM','9:00 PM']  } }
   }
-  
+
   const [savedManualSchedule, setSavedManualSchedule] = useState(builderContext.values['manage_schedule']?.[name] ?? defaultWeekData );
-  const [manualSchedulerStatus, setManualSchedulerStatus] = useState( builderContext.values['manage_schedule']?.[name]?.['is_active_status'] ?? false);
-  
-  
+  const [manualSchedulerStatus, setManualSchedulerStatus] = useState( builderContext.values['manage_schedule']?.[name]?.['is_active_status'] || false);
+
+
   useMemo(() => {
-    setManualSchedulerStatus( builderContext.values['manage_schedule']?.[name]?.['is_active_status'] );
+    setManualSchedulerStatus( builderContext.values['manage_schedule']?.[name]?.['is_active_status'] || false );
   }, [builderContext.values['manage_schedule']?.[name]?.['is_active_status']])
-  
+
   const handleSavedManualSchedule = () => {
     setSavedManualSchedule( (prevSchedule) => {
       const updatedSchedule = {weekdata: {}, ...prevSchedule};
@@ -84,7 +84,7 @@ const ManualScheduler = (props) => {
       });
     }
   }, [savedManualSchedule, manualSchedulerStatus]);
-  
+
   // Handle status changing for auto & manual scheduler
   const handleManualScheduleStatusToggle = (event) => {
     let manualScheduleStatus = builderContext.values['manage_schedule']?.['auto_schedule']?.['is_active_status'];
@@ -94,14 +94,14 @@ const ManualScheduler = (props) => {
           setManualSchedulerStatus(event.target.checked);
       }
   }
-  
+
   const handleStatusChange = ( status ) => {
       let autoSchedulerData = {...builderContext.values['manage_schedule']?.['auto_schedule'] };
       autoSchedulerData['is_active_status'] = false;
       builderContext.setFieldValue(['manage_schedule', 'auto_schedule'], [...autoSchedulerData]);
       setManualSchedulerStatus(status);
   };
-  
+
   return (
     <div
       key={name}

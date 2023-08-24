@@ -27,14 +27,14 @@ const AutoScheduler = (props) => {
     const is_pro = wpspSettingsGlobal?.pro_version ? true : false;
     const getStartTime = builderContext.values['manage_schedule']?.[name]?.['start_time'];
     const getEndTime = builderContext.values['manage_schedule']?.[name]?.['end_time'];
-    const getAutoSchedulerStatus = builderContext.values['manage_schedule']?.[name]?.['is_active_status'];
+    const getAutoSchedulerStatus = builderContext.values['manage_schedule']?.[name]?.['is_active_status'] || false;
     // const startTimeFormat = getStartTime ? { label : convertTo12HourFormat(getStartTime), value : to24HourFormat( getStartTime ) } : null;
     // const endTimeFormat = getEndTime ? { label : convertTo12HourFormat(getEndTime), value : to24HourFormat( getEndTime )  } : null;
 
     const [autoScheduler,setAutoSchedulerValue] = useState( modifiedDayDataFormet ?? [] );
     const [startSelectedTime, setStartSelectedTime] = useState( getStartTime ? getStartTime : "00:00" );
     const [endSelectedTime, setEndSelectedTime] = useState( getEndTime ? getEndTime : "00:00");
-    const [autoSchedulerStatus, setautoSchedulerStatus] = useState(getAutoSchedulerStatus ?? false);
+    const [autoSchedulerStatus, setautoSchedulerStatus] = useState(getAutoSchedulerStatus);
 
     useMemo( () => {
         setautoSchedulerStatus(getAutoSchedulerStatus);
