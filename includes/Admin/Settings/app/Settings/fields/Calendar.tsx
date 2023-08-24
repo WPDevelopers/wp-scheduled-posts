@@ -311,9 +311,11 @@ export default function Calendar(props) {
 
                 const button = document.createElement("button");
                 button.innerHTML = "Add New";
-                button.disabled = args.isOther;
-                button.addEventListener("click", () => {
-                  console.log("click", args);
+                button.addEventListener("click", (event) => {
+                  if (dayTop.parentElement?.parentElement?.classList.contains("fc-day-other")) {
+                    event.preventDefault();
+                    return;
+                  }
                   openModal({
                     post: null,
                     eventType: "addEvent",
