@@ -68,4 +68,40 @@ class Installer
         }
     }
 
+
+   /**
+     * Social profile status modification based on plugin version
+     * @param $flag [which can be convert or anything like revert]
+     */
+	public function get_social_profile_status_modified_data( $settings, $flag = 'convert' )
+	{
+		$profile_list_array = ['facebook_profile_list','twitter_profile_list','linkedin_profile_list','pinterest_profile_list'];
+		foreach ($profile_list_array as  $profile_name) {
+			if( isset( $settings[$profile_name] ) ) {
+				$i = 0;
+				foreach ($settings[$profile_name] as $key => &$profile) {
+					if( $profile_name == 'linkedin_profile_list' && $profile['type'] === 'organization'  ) {
+						if( $flag == 'convert' ) {
+							$profile['__status'] = $profile['status'];
+							$profile['status'] = false;
+						}else{
+							$profile['status'] = $profile['__status'];
+						}
+						continue;
+					}
+					if( $key !== 0 ) {
+						if( $flag == 'convert' ) {
+							$profile['__status'] = $profile['status'];
+							$profile['status'] = false;
+						}else{
+							$profile['status'] = $profile['__status'];
+						}
+					}
+					$i++;
+				}
+			}
+		}
+        update_option(WPSP_SETTINGS_NAME, json_encode($settings));
+	}
+
 }

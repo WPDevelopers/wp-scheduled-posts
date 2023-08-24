@@ -297,6 +297,7 @@ class Migration {
                         }
                     }
                 }
+
                 // social_templates
                 if(isset($old_settings['social_templates']) && is_array($old_settings['social_templates'])){
                     $social_templates = $old_settings['social_templates'];
@@ -307,7 +308,7 @@ class Migration {
                         'pinterest' => [],
                     ];
                     foreach ($social_templates as $social => $template_arr) {
-                        foreach ($template_arr as $arr_value) {
+                        foreach ($template_arr as $key => $arr_value) {
                            if( is_array( $arr_value ) ) {
                                 $key   = key($arr_value);
                                 $value = current($arr_value);

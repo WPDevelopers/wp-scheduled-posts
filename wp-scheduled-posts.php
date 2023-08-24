@@ -44,7 +44,6 @@ final class WPSP
 			}
 		}
 
-		$this->set_global_settings();
 		register_activation_hook(__FILE__, [$this, 'activate']);
 		register_deactivation_hook(__FILE__, [$this, 'deactivate']);
 		$this->installer = new WPSP\Installer();
@@ -52,6 +51,7 @@ final class WPSP
 		add_action('wp_loaded', [$this, 'run_migrator']);
 		add_action('init', [$this, 'load_calendar']);
 		add_filter('jwt_auth_whitelist', array($this, 'whitelist_API'));
+		$this->set_global_settings();
 	}
 
 	public static function init()
@@ -198,7 +198,22 @@ final class WPSP
 
 	public function set_global_settings()
 	{
+		$this->social_profile_status_handler();
 		$GLOBALS['wpsp_settings'] = json_decode(get_option(WPSP_SETTINGS_NAME));
+	}
+
+	public function social_profile_status_handler()
+	{
+		$settings = json_decode(get_option(WPSP_SETTINGS_NAME), true);
+		$is_pro = class_exists('WPSP_PRO');
+		if( empty( $settings['is_pro'] ) || ( !empty( $settings['is_pro'] ) && $settings['is_pro'] !== $is_pro ) ) {
+			$settings['is_pro'] = $is_pro;
+			if( $is_pro ) {
+				$this->installer->get_social_profile_status_modified_data( $settings, 'revert');
+			}else{
+				$this->installer->get_social_profile_status_modified_data( $settings, 'convert');
+			}
+		}
 	}
 
 	/**
