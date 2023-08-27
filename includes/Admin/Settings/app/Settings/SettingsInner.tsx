@@ -37,11 +37,13 @@ const SettingsInner = (props) => {
     if(urlParams.get('page') === 'schedulepress-calendar') {
       // set active tab to layout_calendar
       builderContext.setActiveTab('layout_calendar');
+    }    
+    if(urlParams.get('page') === 'schedulepress' && urlParams.get('tab') === 'license') {
+      // set active tab to layout_calendar
+      builderContext.setActiveTab('layout_license');
     }
 
   }, [])
-
-
 
   return (
     <div className="wpsp-admin-wrapper">
