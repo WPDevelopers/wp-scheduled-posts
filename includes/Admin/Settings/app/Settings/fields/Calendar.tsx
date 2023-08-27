@@ -21,7 +21,6 @@ import ReactSelectWrapper, { addAllOption } from "./Calendar/ReactSelectWrapper"
 import { ModalProps, Option, PostType } from "./Calendar/types";
 
 export default function Calendar(props) {
-  // console.log(props);
   // @ts-ignore
   const timeZone   = getTimeZone();
   const restRoute  = props.rest_route;
@@ -42,8 +41,6 @@ export default function Calendar(props) {
   const [modalData, openModal] = useState<ModalProps>({ post: null, eventType: null });
   const onSubmit = (data: any, oldData) => {
     const newEvents = events.filter((event) => event.postId !== oldData?.postId);
-    console.log(newEvents);
-
     setEvents([...newEvents, data]);
   };
 
@@ -110,7 +107,6 @@ export default function Calendar(props) {
   }, [selectedPostType, selectedCategories]);
 
   useEffect(() => {
-    // console.log(builderContext.config.active);
     if ("layout_calendar" === props.context?.config.active) {
       updateSize();
     }
@@ -174,8 +170,6 @@ export default function Calendar(props) {
               <CategorySelect
                 selectedPostType={selectedPostType}
                 onChange={(value) => {
-                  console.log(value);
-
                   setSelectedCategories([...value]);
                 }}
               />
@@ -332,8 +326,6 @@ export default function Calendar(props) {
                 setDraftEvents((posts) =>
                   posts.filter((p) => p.postId !== props.postId)
                 );
-                console.log("drop", info, props);
-
                 if(event.allDay) {
                   event.setAllDay(false);
                   event.setEnd(getEndDate(event.start, props._end));
@@ -344,8 +336,6 @@ export default function Calendar(props) {
                 if(isEventOverDiv(info.jsEvent.clientX, info.jsEvent.clientY)) {
                   info.event.remove();
                   const post: PostType = getPostFromEvent(info.event);
-
-                  console.log('adding draft event', post);
                   setDraftEvents((posts) => [...posts, post]);
                   eventDrop(info.event, 'draftDrop').then((post) => {
                     setDraftEvents((events) => {
@@ -361,8 +351,6 @@ export default function Calendar(props) {
                 }
               }}
               // eventLeave={(info) => {
-              //   console.log('eventLeave', info);
-
               // }}
               eventRemove={(info) => {
                 const props = info.event.extendedProps;
@@ -386,10 +374,8 @@ export default function Calendar(props) {
                 // get the current month and year
                 const month = dateInfo.view.currentStart.getMonth() + 1;
                 const year  = dateInfo.view.currentStart.getFullYear();
-                console.log("datesSet", { year, month });
                 if (yearMonth.year !== year || yearMonth.month !== month) {
                   // update the state
-                  // console.log("datesSet", { year, month });
                   setYearMonth({
                     month: month,
                     year: year,

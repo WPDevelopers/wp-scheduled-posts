@@ -1,10 +1,8 @@
-import { __ } from "@wordpress/i18n";
-import React, { useCallback, useEffect, useState } from "react";
-import { FormBuilder, useBuilderContext } from "quickbuilder";
 import apiFetch from '@wordpress/api-fetch';
-import { SweetAlertToaster,SweetAlertProMsg } from './ToasterMsg';
+import { FormBuilder, useBuilderContext } from "quickbuilder";
+import React, { useCallback, useEffect, useState } from "react";
 import Content from "./Content";
-import Sidebar from "./Sidebar";
+import { SweetAlertProMsg, SweetAlertToaster } from './ToasterMsg';
 
 const SettingsInner = (props) => {
   const builderContext = useBuilderContext();
@@ -33,7 +31,6 @@ const SettingsInner = (props) => {
         },
       };
     });
-    // console.log('builderContext', builderContext);
     // https://schedule.test/wp-admin/admin.php?page=schedulepress-calendar
     // check if page param = schedulepress-calendar
     const urlParams = new URLSearchParams(window.location.search);

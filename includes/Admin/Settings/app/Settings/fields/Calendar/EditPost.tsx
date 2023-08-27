@@ -41,8 +41,6 @@ export const ModalContent = ({
   });
   const builderContext = useBuilderContext();
 
-  // console.log(getSettings());
-
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // let offset = parseFloat(getSettings().timezone.offset) + new Date().getTimezoneOffset() / 60;

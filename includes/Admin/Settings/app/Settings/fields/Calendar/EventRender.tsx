@@ -30,7 +30,6 @@ export const eventDrop = (event: EventApi, eventType) => {
 
   // let date = post.end.toISOString().replace('T', ' ').replace(/\.\d{3}Z/, '');
   // let date = DateTime.fromISO(post.end).toFormat('yyyy-MM-dd HH:mm:ss');
-  console.log(post.end);
 
   return apiFetch<PostType>({
     method: "POST",
@@ -82,7 +81,6 @@ const PostCard: React.FC<PostCardProps> = ({
 
       } else {
         // @todo show error message.
-        console.log(data);
       }
     });
   };

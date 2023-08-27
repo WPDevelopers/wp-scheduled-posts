@@ -1,14 +1,13 @@
 // Import React and other dependencies
 import { Draggable } from "@fullcalendar/interaction";
 import apiFetch from "@wordpress/api-fetch";
-import { addQueryArgs } from '@wordpress/url';
-import React, { MutableRefObject, forwardRef, useCallback, useEffect, useRef, useState } from "react";
+import React, { MutableRefObject, forwardRef, useEffect, useState } from "react";
 // @wordpress/component
 import CategorySelect from "./Category";
-import PostCard from "./EventRender";
-import { getUTCDate, getValues } from "./Helpers";
-import { ModalProps, PostType, SidebarProps } from "./types";
 import { ModalContent } from "./EditPost";
+import PostCard from "./EventRender";
+import { getValues } from "./Helpers";
+import { ModalProps, PostType, SidebarProps } from "./types";
 
 // Define your component
 const Sidebar = ({selectedPostType, draftEvents: posts, setDraftEvents: setPosts, calendar, getPostTypeColor, postType, schedule_time}: SidebarProps, draggableRef: MutableRefObject<HTMLDivElement>
@@ -65,7 +64,7 @@ const Sidebar = ({selectedPostType, draftEvents: posts, setDraftEvents: setPosts
       // Set your posts state with the fetched data
       setPosts(data);
     }).catch((error) => {
-      console.log('error', error);
+      // console.log('error', error);
     });
 
   }, [selectedPostType, optionSelected]); // Re-run the effect when selectedPostType changes
@@ -107,8 +106,6 @@ const Sidebar = ({selectedPostType, draftEvents: posts, setDraftEvents: setPosts
           rel="modal:open"
           data-type="draft"
           onClick={(e) => {
-            console.log('openModal', e);
-
             e.preventDefault();
             openModal({
               post: null,
