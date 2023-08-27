@@ -10,11 +10,11 @@ includes/Admin/Settings/assets/js/admin.js.map
 **/*.map
 .idea/*
 .vscode/launch.json
-includes/Admin/Settings/assets/css/admin.css
-includes/Admin/Settings/assets/js/admin.asset.php
-includes/Admin/Settings/assets/js/admin.js
+# includes/Admin/Settings/assets/css/admin.css
+# includes/Admin/Settings/assets/js/admin.asset.php
+# includes/Admin/Settings/assets/js/admin.js
+# includes/Admin/Settings/assets/css/calendar.css
+# includes/Admin/Settings/assets/js/calendar.asset.php
+# includes/Admin/Settings/assets/js/calendar.js
 includes/Admin/Settings/yarn.lock
-includes/Admin/Settings/assets/css/calendar.css
-includes/Admin/Settings/assets/js/calendar.asset.php
-includes/Admin/Settings/assets/js/calendar.js
 includes/Admin/Settings/stats.json
