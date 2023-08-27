@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 // Setup Sweetalert2 toaster
 export const SweetAlertToaster = (args: any = {}) => {
   // @ts-ignore 
-  const image_path = wpspSettingsGlobal.image_path + '/toaster-icon/';
+  const image_path = wpspSettingsGlobal.image_path + 'toaster-icon/';
     let toastIcon = '';
     if( args?.icon ?? (args?.type || "success") == "success" ) {
       toastIcon = image_path + 'Connected.gif';
@@ -51,7 +51,7 @@ export const SweetAlertProMsg = (args: any = {}) => {
         html: `
           <div>
             <h4>${ args?.message ?? __('You Need SchedulePress PRO','wp-scheduled-posts') }</h4>
-            <img src="${ args?.imageUrl ?? image_path + '/upgrade-pro.gif' }" alt="${__(args?.imageAlt ?? __('Pro Alert'), 'wp-scheduled-posts')}">
+            <img src="${ args?.imageUrl ?? image_path + 'upgrade-pro.gif' }" alt="${__(args?.imageAlt ?? __('Pro Alert'), 'wp-scheduled-posts')}">
             <a href="${ args?.buttonUrl ?? 'https://schedulepress.com/#pricing' }" target="${ args?.target ?? '_blank' }">
               ${ args?.buttonText ?? __('Check Pricing Plans', 'wp-scheduled-posts') }
             </a>
