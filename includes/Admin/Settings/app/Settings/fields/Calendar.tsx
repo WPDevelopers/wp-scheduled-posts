@@ -12,7 +12,7 @@ import { DayCellMountArg, EventContentArg, EventDropArg } from "@fullcalendar/co
 import { format } from "@wordpress/date";
 import { __ } from "@wordpress/i18n";
 import classNames from "classnames";
-import "../../assets/sass/utils/_Calendar.scss";
+import "../../assets/sass/utils/_calendar.scss";
 import CategorySelect from "./Calendar/Category";
 import { ModalContent } from "./Calendar/EditPost";
 import PostCard from "./Calendar/EventRender";

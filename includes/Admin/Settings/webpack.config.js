@@ -12,7 +12,7 @@ module.exports = {
         ...defaultConfig,
         entry: {
             'admin': path.resolve(__dirname, 'app/admin.jsx'),
-            'calendar': path.resolve(__dirname, 'app/calendar.jsx'),
+            'calendar': path.resolve(__dirname, 'app/Calendar.jsx'),
         },
 
         output: {
