@@ -628,7 +628,11 @@ class PluginUsageTracker
     public function clicked( $notice = null )
     {
         // Check for plugin args
-        if (isset($_GET['plugin']) && isset($_GET['plugin_action'])) {
+        if (isset( $_GET[ '_wpnonce' ] ) && isset($_GET['plugin']) && isset($_GET['plugin_action'])) {
+            if( ! wp_verify_nonce( $_GET[ '_wpnonce' ], '_wpnonce_optin_' . $this->plugin_name ) ) {
+                return;
+            }
+
             $plugin = sanitize_text_field($_GET['plugin']);
             $action = sanitize_text_field($_GET['plugin_action']);
             if ($action == 'yes') {
@@ -698,6 +702,9 @@ class PluginUsageTracker
                 'plugin' => $this->plugin_name,
                 'plugin_action' => 'no',
             ));
+
+            $url_yes = wp_nonce_url( $url_yes, '_wpnonce_optin_' . $this->plugin_name );
+            $url_no = wp_nonce_url( $url_no, '_wpnonce_optin_' . $this->plugin_name );
 
             // Decide on notice text
             if ($this->marketing != 1) {
