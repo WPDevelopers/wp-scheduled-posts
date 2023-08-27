@@ -1,13 +1,28 @@
 import { __ } from '@wordpress/i18n';
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SweetAlertToaster } from '../ToasterMsg';
-import { activateLicense, deActivateLicense } from '../helper/helper';
+import { activateLicense, deActivateLicense, getLicense } from '../helper/helper';
 function License(props) {
     const [inputChanged, setInputChanged] = useState(false)
     const [tempKey, setTempKey] = useState(
         localStorage.getItem('wpsp_temp_key')
     )
+    useEffect(() => {
+        // if (!localStorage.getItem('wpsp_is_valid')) {
+            getLicense( {} ).then( (response) => {
+                // @ts-ignore 
+                localStorage.setItem('wpsp_is_valid', response?.data.status)
+                // @ts-ignore
+                localStorage.setItem('wpsp_temp_key', response?.data.key)
+                // @ts-ignore 
+                setValid(response?.data.status)
+                // @ts-ignore 
+                setTempKey(response?.data.key)
+            } )
+        // }
+    }, [])
+    
     const [valid, setValid] = useState(localStorage.getItem('wpsp_is_valid'))
     const [isRequestSend, setIsRequestSend] = useState(null)
 

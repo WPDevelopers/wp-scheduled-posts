@@ -64,7 +64,7 @@ class ScheduledPostList
                 $get_datetime_format = get_option('date_format') .' '. get_option('time_format');
                 echo '<tr>
                             <td>
-                                <a href="' . get_edit_post_link(get_the_ID()) . '">' . get_the_title() .  '</a> ('.get_post_type(get_the_ID()).') <br/> <strong>Category</strong>: '.get_the_term_list(get_the_ID(),'category','',', ','').'
+                                <a href="' . get_edit_post_link(get_the_ID()) . '">' . esc_html( get_the_title() ) .  '</a> ('.get_post_type(get_the_ID()).') <br/> <strong>Category</strong>: '.get_the_term_list(get_the_ID(),'category','',', ','').'
                             </td>
                             <td>
                                 ' . get_the_date( $get_datetime_format ) . '<br/>

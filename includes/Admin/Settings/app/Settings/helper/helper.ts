@@ -34,6 +34,16 @@ export const activateLicense = async (body) => {
     } );
 };
 
+export const getLicense = async (body) => {
+    return apiFetch( {
+        path: 'wp-scheduled-posts/v1/get_license',
+        method: 'POST',
+        data: body,
+    } ).then( ( res ) => {
+        return res;
+    } );
+};
+
 export const deActivateLicense = async () => {
     return apiFetch( {
         path: 'wp-scheduled-posts/v1/deactivate_license',
