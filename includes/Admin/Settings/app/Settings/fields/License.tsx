@@ -9,7 +9,7 @@ function License(props) {
         localStorage.getItem('wpsp_temp_key')
     )
     useEffect(() => {
-        // if (!localStorage.getItem('wpsp_is_valid')) {
+        if (!localStorage.getItem('wpsp_is_valid')) {
             getLicense( {} ).then( (response) => {
                 // @ts-ignore 
                 localStorage.setItem('wpsp_is_valid', response?.data.status)
@@ -20,7 +20,7 @@ function License(props) {
                 // @ts-ignore 
                 setTempKey(response?.data.key)
             } )
-        // }
+        }
     }, [])
     
     const [valid, setValid] = useState(localStorage.getItem('wpsp_is_valid'))
