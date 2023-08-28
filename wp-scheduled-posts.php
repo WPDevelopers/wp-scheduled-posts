@@ -2,7 +2,7 @@
 /*
  * Plugin Name: SchedulePress
  * Description: Automate your content workflow with SchedulePress. Take a quick glance at your content planning with Schedule Calendar, Dashboard widget & Sitewide admin bar. Instantly share your posts on social media platforms such as Facebook, Twitter & many more.
- * Version: 5.0.0
+ * Version: 5.0.1
  * Author: WPDeveloper
  * Author URI: https://wpdeveloper.com
  * Text Domain: wp-scheduled-posts
@@ -44,6 +44,7 @@ final class WPSP
 			}
 		}
 
+		add_action( 'upgrader_process_complete', [$this, 'upgrade_completed'], 10, 2 );
 		register_activation_hook(__FILE__, [$this, 'activate']);
 		register_deactivation_hook(__FILE__, [$this, 'deactivate']);
 		$this->installer = new WPSP\Installer();
@@ -69,7 +70,7 @@ final class WPSP
 		/**
 		 * Defines CONSTANTS for Whole plugins.
 		 */
-		define('WPSP_VERSION', '5.0.0');
+		define('WPSP_VERSION', '5.0.1');
 		define('WPSP_SETTINGS_NAME', 'wpsp_settings_v5');
 		define('WPSP_PLUGIN_FILE', __FILE__);
 		define('WPSP_PLUGIN_BASENAME', plugin_basename(__FILE__));
@@ -236,6 +237,34 @@ final class WPSP
 		do_action('wpsp_run_deactivate_installer');
 	}
 
+	/**
+	 * This method is called when a plugin upgrade is completed.
+	 * It checks if the upgraded plugin is WP Scheduled Posts and deletes the plugin update transient.
+	 *
+	 * @param object $upgrader_object The upgrader object.
+	 * @param array  $options         The upgrade options.
+	 *
+	 * @return void
+	 */
+	public function upgrade_completed( $upgrader_object, $options){
+		if ($options['action'] == 'update' && $options['type'] == 'plugin' && in_array(WPSP_PLUGIN_BASENAME, $options['plugins'])) {
+			$this->delete_plugin_update_transient();
+		}
+	}
+
+	/**
+	 * This method deletes the plugin update transient and related options.
+	 *
+	 * @return void
+	 */
+	private function delete_plugin_update_transient() {
+		$license = get_option('wp-scheduled-posts-pro-license-key');
+		$string  = "wp-scheduled-posts-pro" . $license;
+		delete_transient('update_plugins');
+		delete_option('_site_transient_update_plugins');
+		delete_option('edd_sl_' . md5( serialize( $string ) ));
+		delete_option('edd_sl_failed_http_' . md5( 'http://api.wpdeveloper.com/' ));
+	}
 
 	public function run_migrator()
 	{
