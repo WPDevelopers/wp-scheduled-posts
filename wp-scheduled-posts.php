@@ -39,8 +39,8 @@ final class WPSP
 		if( $this->check_pro_compatibility() ) {
 			add_action( 'admin_notices', [$this, 'wpsp_fail_pro_version'], 52 );
 			// deactivate pro plugin
-			if(is_plugin_active( $this->basename )){
-				deactivate_plugins( $this->basename );
+			if(!is_plugin_active( $this->basename ) && $this->check_pro_compatibility('4.3.3', '=')){
+				activate_plugins( $this->basename );
 			}
 		}
 
@@ -91,7 +91,7 @@ final class WPSP
 
 	}
 
-	public function check_pro_compatibility(){
+	public function check_pro_compatibility($version2 = '5.0.0', $operator = '<'){
 		if ( ! function_exists( 'is_plugin_active' ) ) {
 			include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 		}
@@ -100,7 +100,7 @@ final class WPSP
 
 		if (
 			$this->is_plugin_installed( $this->basename ) &&
-			version_compare( get_plugin_data( $abs_path )['Version'], '5.0.0', '<' )
+			version_compare( get_plugin_data( $abs_path )['Version'], $version2, $operator )
 		) {
 			return true;
 		}
@@ -199,7 +199,7 @@ final class WPSP
 	public function set_global_settings()
 	{
 		$this->social_profile_status_handler();
-		$GLOBALS['wpsp_settings'] = json_decode(get_option(WPSP_SETTINGS_NAME));
+		$GLOBALS['wpsp_settings_v5'] = json_decode(get_option(WPSP_SETTINGS_NAME));
 	}
 
 	public function social_profile_status_handler()

@@ -190,9 +190,9 @@ class Helper
 
     public static function get_settings($key)
     {
-        global $wpsp_settings;
-        if (isset($wpsp_settings->{$key})) {
-            return $wpsp_settings->{$key};
+        global $wpsp_settings_v5;
+        if (isset($wpsp_settings_v5->{$key})) {
+            return $wpsp_settings_v5->{$key};
         }
         return;
     }
@@ -308,7 +308,7 @@ class Helper
      */
     public static function get_access_token($type, $platformKey, $access_token = null)
     {
-        global $wpsp_settings;
+        global $wpsp_settings_v5;
         $token        = [];
         $platformOptions = [
             'facebook'  => WPSCP_FACEBOOK_OPTION_NAME,
@@ -318,8 +318,8 @@ class Helper
         ];
 
         $opt_name = isset($platformOptions[$type]) ? $platformOptions[$type] : '';
-        if(empty($wpsp_settings->{$opt_name}[$platformKey])) return $access_token;
-        $profile  = &$wpsp_settings->{$opt_name}[$platformKey];
+        if(empty($wpsp_settings_v5->{$opt_name}[$platformKey])) return $access_token;
+        $profile  = &$wpsp_settings_v5->{$opt_name}[$platformKey];
 
         if(isset($profile->expires_in, $profile->rt_expires_in) && $profile->expires_in < time() && $profile->rt_expires_in > time()){
             $refresh_token_url = add_query_arg([
@@ -334,7 +334,7 @@ class Helper
                 $token                 = json_decode($body);
                 $profile->access_token = $token->access_token;
                 $profile->expires_in   = time() + $token->expires_in;
-                update_option(WPSP_SETTINGS_NAME, json_encode($wpsp_settings));
+                update_option(WPSP_SETTINGS_NAME, json_encode($wpsp_settings_v5));
             }
         }
 
@@ -349,7 +349,7 @@ class Helper
      */
     public static function get_profiles($type)
     {
-        global $wpsp_settings;
+        global $wpsp_settings_v5;
         $platformOptions = [
             'facebook'  => WPSCP_FACEBOOK_OPTION_NAME,
             'twitter'   => WPSCP_TWITTER_OPTION_NAME,
@@ -358,8 +358,8 @@ class Helper
         ];
 
         $opt_name = isset($platformOptions[$type]) ? $platformOptions[$type] : '';
-        if(!empty($wpsp_settings->{$opt_name})){
-            return $wpsp_settings->{$opt_name};
+        if(!empty($wpsp_settings_v5->{$opt_name})){
+            return $wpsp_settings_v5->{$opt_name};
         }
         else{
             return [];
