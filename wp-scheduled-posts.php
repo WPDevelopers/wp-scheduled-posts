@@ -73,6 +73,7 @@ final class WPSP
 		 * Defines CONSTANTS for Whole plugins.
 		 */
 		define('WPSP_VERSION', '5.0.1');
+		define('WPSP_SETTINGS_NAME_OLD', 'wpsp_settings');
 		define('WPSP_SETTINGS_NAME', 'wpsp_settings_v5');
 		define('WPSP_PLUGIN_FILE', __FILE__);
 		define('WPSP_PLUGIN_BASENAME', plugin_basename(__FILE__));
@@ -203,6 +204,9 @@ final class WPSP
 	{
 		$this->social_profile_status_handler();
 		$GLOBALS['wpsp_settings_v5'] = json_decode(get_option(WPSP_SETTINGS_NAME));
+		if($this->check_pro_compatibility('5.0.0', '=')){
+			$GLOBALS['wpsp_settings'] = json_decode(get_option(WPSP_SETTINGS_NAME_OLD));
+		}
 	}
 
 	public function social_profile_status_handler()
