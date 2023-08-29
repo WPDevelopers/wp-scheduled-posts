@@ -279,7 +279,7 @@ class Settings {
                                     'label'       => __('Post Republish and Unpublish', 'wp-scheduled-posts'),
                                     'priority'    => 30,
                                     'description' => __('Upgrade to Premium', 'wp-scheduled-posts'),
-                                    'default'     => false,
+                                    'default'     => true,
                                     'is_pro'      => true,
                                 ],
                                 'is_republish_social_share' => [
@@ -288,7 +288,7 @@ class Settings {
                                     'label'       => __('Active Republish Social Share', 'wp-scheduled-posts'),
                                     'description' => __('Upgrade to Premium', 'wp-scheduled-posts'),
                                     'priority'    => 35,
-                                    'default'     => false,
+                                    'default'     => true,
                                     'is_pro'      => true,
                                 ],
                             ],
