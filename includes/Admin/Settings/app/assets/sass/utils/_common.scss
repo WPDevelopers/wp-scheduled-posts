@@ -350,3 +350,28 @@ ul {
     word-break: break-word;
   }
 }
+
+#wpsp-dashboard-body .wpsp-admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.wpsp-admin-version {
+  /* display: block; */
+
+  p {
+    margin: 0;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    font-size: 16px;
+    font-family: 'Inter';
+    font-weight: 600;
+    text-transform: capitalize;
+
+    span.wpsp-version-text {
+      margin-right: 5px;
+  }
+}
+}
