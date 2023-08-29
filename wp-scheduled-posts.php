@@ -38,9 +38,11 @@ final class WPSP
 		$this->define_constants();
 		if( $this->check_pro_compatibility() ) {
 			add_action( 'admin_notices', [$this, 'wpsp_fail_pro_version'], 52 );
-			// deactivate pro plugin
 			if(!is_plugin_active( $this->basename ) && $this->check_pro_compatibility('4.3.3', '=')){
-				activate_plugins( $this->basename );
+				if( !get_option('wpsp_activated_pro_once')){
+					activate_plugins( $this->basename );
+					add_option('wpsp_activated_pro_once', true, false);
+				}
 			}
 		}
 
@@ -224,6 +226,7 @@ final class WPSP
 	 */
 	public function activate()
 	{
+		$this->delete_plugin_update_transient();
 		update_option('wpsp_do_activation_redirect', true);
 	}
 
