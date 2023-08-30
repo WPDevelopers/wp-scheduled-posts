@@ -207,6 +207,11 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 == Changelog ==
 
+= 5.0.1 - 2023-08-30 =
+- Fixed: Manual Scheduler console errors while adding schedule time.
+- Fixed: Conflict with older versions.
+- Few minor bug fix & improvements.
+
 = 5.0.0 - 2023-08-27 =
 - Revamped: Dashboard & Code structure for better performance.
 - Few minor bug fixes & improvements
