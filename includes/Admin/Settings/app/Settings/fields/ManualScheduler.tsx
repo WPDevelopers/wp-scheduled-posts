@@ -4,7 +4,7 @@ import { useBuilderContext } from 'quickbuilder';
 import React, { useEffect, useMemo, useState } from 'react';
 import Select from 'react-select';
 import { SweetAlertStatusChangingMsg } from '../ToasterMsg';
-import { convertTo12HourFormat, generateTimeOptions } from '../helper/helper';
+import { convertTo12HourFormat, generateTimeOptions, isObject } from '../helper/helper';
 import { selectStyles } from '../helper/styles';
 import ProToggle from './utils/ProToggle';
 
@@ -42,10 +42,13 @@ const ManualScheduler = (props) => {
   const handleSavedManualSchedule = () => {
     setSavedManualSchedule( (prevSchedule) => {
       const updatedSchedule = {weekdata: {}, ...prevSchedule};
+      if(!isObject(updatedSchedule.weekdata)){
+        updatedSchedule.weekdata = {};
+      }
       // @ts-ignore
-      if( updatedSchedule?.weekdata?.[selectDay.value] ) {
-        if( !updatedSchedule?.weekdata?.[selectDay.value].includes(selectTime?.value) ){
-          updatedSchedule?.weekdata?.[selectDay.value].push( selectTime?.value );
+      if( updatedSchedule.weekdata[selectDay.value] ) {
+        if( !updatedSchedule.weekdata[selectDay.value].includes(selectTime?.value) ){
+          updatedSchedule.weekdata[selectDay.value].push( selectTime?.value );
         }
       }else{
         updatedSchedule.weekdata[selectDay.value] = [selectTime?.value];
@@ -57,8 +60,11 @@ const ManualScheduler = (props) => {
   const handleDeleteManualSchedule = ( item, data ) => {
     setSavedManualSchedule( (prevSchedule) => {
       const updatedSchedule = {weekdata: {}, ...prevSchedule};
+      if(!isObject(updatedSchedule.weekdata)){
+        updatedSchedule.weekdata = {};
+      }
       // @ts-ignore
-      updatedSchedule?.weekdata?.[item.value] = updatedSchedule?.weekdata?.[item.value]?.filter( time => time !== data);
+      updatedSchedule.weekdata[item.value] = updatedSchedule.weekdata[item.value]?.filter( time => time !== data);
       return updatedSchedule;
     } );
   }

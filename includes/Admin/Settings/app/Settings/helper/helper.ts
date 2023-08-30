@@ -2,7 +2,7 @@ import apiFetch from '@wordpress/api-fetch';
 
 // Fetch data from API
 export const fetchDataFromAPI = async (body) => {
-    // @ts-ignore 
+    // @ts-ignore
     const ajax_url = wpspSettingsGlobal?.admin_ajax;
     const response = await fetch(ajax_url, {
         method: 'POST',
@@ -61,14 +61,14 @@ export const generateTabURL = () => {
 // Send API request for fetch url
 export const socialProfileRequestHandler = async (redirectURI, appID, appSecret, platform) => {
     const data = {
-        action: 'wpsp_social_add_social_profile',      
+        action: 'wpsp_social_add_social_profile',
         redirectURI: redirectURI,
         appId: appID,
         appSecret: appSecret,
         type: platform,
     };
     const response = await fetchDataFromAPI(data);
-    
+
     const responseData = await response.json();
     if (responseData.success) {
         open(responseData.data, '_self');
@@ -127,7 +127,7 @@ export const  convertTo12HourFormat = (time24) => {
     if ( !/\d{1,2}:\d{2} [ap]m/i.test(time24)) {
         const [hours, minutes] = time24.split(':');
         const isPM = parseInt(hours, 10) >= 12;
-    
+
         let hours12 = parseInt(hours, 10) % 12;
         hours12 = hours12 === 0 ? 12 : hours12; // Handle midnight (00:00) as 12 AM
         return `${hours12}:${minutes} ${isPM ? 'PM' : 'AM'}`;
@@ -194,3 +194,7 @@ export const findOptionLabelByValue = (data, targetValue) => {
 
     return null;
 }
+
+export const isObject = (arg) => {
+    return arg !== null && typeof arg === 'object' && !Array.isArray(arg);
+};
