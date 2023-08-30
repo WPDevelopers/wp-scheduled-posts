@@ -46,6 +46,9 @@ final class WPSP
 			}
 		}
 
+		if(version_compare(get_option('wpsp_version'), WPSP_VERSION, '!=')){
+			$this->delete_plugin_update_transient();
+		}
 		add_action( 'upgrader_process_complete', [$this, 'upgrade_completed'], 10, 2 );
 		register_activation_hook(__FILE__, [$this, 'activate']);
 		register_deactivation_hook(__FILE__, [$this, 'deactivate']);
