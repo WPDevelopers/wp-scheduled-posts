@@ -207,7 +207,10 @@ final class WPSP
 	{
 		$this->social_profile_status_handler();
 		$GLOBALS['wpsp_settings_v5'] = json_decode(get_option(WPSP_SETTINGS_NAME));
-		if($this->check_pro_compatibility('5.0.1', '<')){
+		if($this->check_pro_compatibility('5.0.0', '=')){
+			$GLOBALS['wpsp_settings'] = $GLOBALS['wpsp_settings_v5'];
+		}
+		else if($this->check_pro_compatibility('5.0.0', '<')){
 			$GLOBALS['wpsp_settings'] = json_decode(get_option(WPSP_SETTINGS_NAME_OLD));
 		}
 	}
