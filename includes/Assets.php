@@ -32,7 +32,7 @@ class Assets
         }
 
         wp_enqueue_style('wps-publish-button', WPSP_ASSETS_URI . 'css/wpspl-admin.css', array(), WPSP_VERSION, 'all');
-        wp_enqueue_script('wps-publish-button', WPSP_ASSETS_URI . 'js/wpspl-admin.min.js', array('wp-components', 'wp-data', 'wp-edit-post', 'wp-editor', 'wp-element', 'wp-i18n', 'wp-plugins'), '1.0.0', true);
+        wp_enqueue_script('wps-publish-button', WPSP_ASSETS_URI . 'js/wpspl-admin.min.js', array('wp-components', 'wp-data', 'wp-edit-post', 'wp-editor', 'wp-element', 'wp-i18n', 'wp-plugins', 'wp-a11y', 'wp-components', 'wp-compose', 'wp-data', 'wp-deprecated', 'wp-element', 'wp-i18n', 'wp-plugins', 'wp-preferences', 'wp-primitives', 'wp-viewport'), '1.0.0', true);
         wp_localize_script('wps-publish-button', 'WPSchedulePostsFree', array(
             'publishImmediately' => __('Current Date', 'wp-scheduled-posts'),
             'publishFutureDate' => __('Future Date', 'wp-scheduled-posts'),

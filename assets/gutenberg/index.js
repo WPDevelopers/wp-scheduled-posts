@@ -16,6 +16,25 @@ const {
 import { IconButton } from "@wordpress/components";
 import PublishButton from "./publish-button";
 import PublishFutureButton from "./publish-future-button";
+import { ComplementaryArea } from '@wordpress/interface';
+import {SettingsHeader} from '@wordpress/edit-post';
+import { cog } from '@wordpress/icons';
+import { __ } from '@wordpress/i18n';
+import { Animate, Button, Panel, Slot, Fill } from '@wordpress/components';
+import classnames from 'classnames';
+import { useDispatch, useSelect, select } from '@wordpress/data';
+import { closeSmall } from '@wordpress/icons';
+console.log(ComplementaryArea);
+
+function ComplementaryAreaFill( { scope, children, className } ) {
+	return (
+		<Fill name={ `ComplementaryArea/${ scope }` }>
+			<Animate type="slide-in" options={ { origin: 'left' } }>
+				{ () => <div className={ className }>{ children }</div> }
+			</Animate>
+		</Fill>
+	);
+}
 
 class AdminPublishButton extends Component {
   constructor(props) {
@@ -36,63 +55,112 @@ class AdminPublishButton extends Component {
 
   handleChange(checked) {}
   render() {
-    if (
-      publish_button_off == "" ||
-      !(this.props.isScheduled && !this.props.isPublished)
-    ) {
-      return "";
+    const scope = "core/edit-post";
+    let sidebarName = select( 'core/interface' ).getActiveComplementaryArea(
+      'core/edit-post'
+    );
+    const toggleShortcut = select(
+      'core/keyboard-shortcuts'
+    ).getShortcutRepresentation( 'core/edit-post/toggle-sidebar' );
+
+    const openGeneralSidebar = (sidebarName) => {
+      wp.data.dispatch( 'core/interface' ).enableComplementaryArea( 'core/edit-post', sidebarName );
+      this.setState({ sidebarName: sidebarName });
     }
 
-    return (
-      <PluginPostStatusInfo>
-        {/* style={{ display: "flex", flexWrap: "wrap", gap: 5 }} */}
-        <div className="sc-publish-future">
-          {/*  style={{display: 'flex', alignItems: 'center', gap: 5}} */}
-          <div>
-            <CheckboxControl
-              label="Publish future post immediately"
-              checked={this.state.publishImmediately}
-              onChange={(checked) => {
-                this.setState({ publishImmediately: checked });
-                if (checked == false) {
-                  this.setState({ showHelp: false });
-                }
-              }}
-            />
-            <a
-              id="wpscp-future-post-help-handler"
-              className="dashicons dashicons-info"
-              href="#"
-              title="Show/Hide Help"
-              onClick={(event) => {
-                event.preventDefault();
-                this.setState({ showHelp: !this.state.showHelp });
-              }}
-            >
+    const openDocumentSettings = () => openGeneralSidebar( 'edit-post/document' );
+    const openBlockSettings    = () => openGeneralSidebar( 'edit-post/block' );
+    const openWPSPSettings     = () => openGeneralSidebar( 'edit-post/wpsp' );
 
-            </a>
-          </div>
-          {this.state.publishImmediately && (
-            <div className="sc-publish-future-buttons">
-              <PublishButton
-                {...this.props}
-                currentTime={currentTime}
-                publish={publishImmediately}
-              />
-              <PublishFutureButton
-                {...this.props}
-                currentTime={currentTime}
-                publish={publishFutureDate}
+    const [ documentAriaLabel, documentActiveClass ] =
+      sidebarName === 'edit-post/document'
+        ? // translators: ARIA label for the Document sidebar tab, selected. %s: Document label.
+          [ sprintf( __( '%s (selected)' ), "Post" ), 'is-active' ]
+        : [ "Post", '' ];
+
+    const [ blockAriaLabel, blockActiveClass ] =
+      sidebarName === 'edit-post/block'
+        ? // translators: ARIA label for the Block Settings Sidebar tab, selected.
+          [ __( 'Block (selected)' ), 'is-active' ]
+        : // translators: ARIA label for the Block Settings Sidebar tab, not selected.
+          [ __( 'Block' ), '' ];
+    const [ wpspAriaLabel, wpspActiveClass ] =
+      sidebarName === 'edit-post/wpsp'
+        ? // translators: ARIA label for the Block Settings Sidebar tab, selected.
+          [ __( 'WPSP (selected)' ), 'is-active' ]
+        : // translators: ARIA label for the Block Settings Sidebar tab, not selected.
+          [ __( 'Block' ), '' ];
+
+
+    return (
+      <>
+
+				<ComplementaryAreaFill
+					className={ classnames(
+						'interface-complementary-area',
+            'edit-post-sidebar',
+					) }
+					scope={ scope }
+				>
+          <div
+            className={ classnames(
+              'components-panel__header',
+              'interface-complementary-area-header',
+              'edit-post-sidebar__panel-tabs',
+            ) }
+            tabIndex={ -1 }
+          >
+              <ul>
+                <li>
+                  <Button
+                    onClick={ openDocumentSettings }
+                    className={ `edit-post-sidebar__panel-tab ${documentActiveClass}` }
+                  >
+                    Post
+                  </Button>
+                </li>
+                <li>
+                  <Button
+                    onClick={ openBlockSettings }
+                    className={ `edit-post-sidebar__panel-tab ${blockActiveClass}` }
+                    // translators: Data label for the Block Settings Sidebar tab.
+                    data-label={ __( 'Block' ) }
+                  >
+                    {
+                      // translators: Text label for the Block Settings Sidebar tab.
+                      __( 'Block' )
+                    }
+                  </Button>
+                </li>
+                <li>
+                  <Button
+                    onClick={ openWPSPSettings }
+                    className={ `edit-post-sidebar__panel-tab ${wpspActiveClass}` }
+                    aria-label={ "documentAriaLabel" }
+                    data-label={ "documentLabel" }
+                  >
+                    Button
+                  </Button>
+                </li>
+              </ul>
+
+              <Button
+                icon={ closeSmall }
+                onClick={ () => {
+                  openGeneralSidebar('')
+                } }
+                label="Close"
               />
             </div>
-          )}
-          {this.state.showHelp && (
-            <div style={{ marginTop: 5, color: "#757575" }}>
-              If you choose to publish this future post with the Future Date, it will be published immediately but the post’s date time will not set the current date rather it will be your scheduled future date time.
-            </div>
-          )}
-        </div>
-      </PluginPostStatusInfo>
+					<Panel className={ 'panelClassName' }>
+            {sidebarName === 'edit-post/wpsp' && (
+
+              "Hello World"
+
+            )}
+          </Panel>
+				</ComplementaryAreaFill>
+      </>
     );
   }
 }
@@ -134,12 +202,5 @@ export default compose([
       },
       savePost,
     };
-  }),
-  ifCondition(({ postType }) => {
-    if (allowedPostTypes.includes(postType) !== false) {
-      return true;
-    } else {
-      return true;
-    }
   }),
 ])(AdminPublishButton);

@@ -1,34 +1,18 @@
-const externals = {
-    jquery: 'jQuery',
-    lodash: 'lodash',
-    react: 'React',
-    'react-dom': 'ReactDOM',
-}
 
-// Define WordPress dependencies
-const wpDependencies = [
-    'components',
-    'compose',
-    'data',
-    'edit-post',
-    'editor',
-    'element',
-    'i18n',
-    'plugins',
-]
+const defaultConfig = require("@wordpress/scripts/config/webpack.config");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
-function camelCaseDash(string) {
-    return string.replace(/-([a-z])/, (match, letter) => letter.toUpperCase())
-}
+const isProduction = process.env.NODE_ENV === "production";
 
-wpDependencies.forEach((name) => {
-    externals[`@wordpress/${name}`] = {
-        this: ['wp', camelCaseDash(name)],
-    }
-})
+const plugins = defaultConfig.plugins.filter(
+    (plugin) =>
+        // plugin.constructor.name != "MiniCssExtractPlugin" &&
+        plugin.constructor.name != "CleanWebpackPlugin"
+);
 
 module.exports = {
-    mode: 'production',
+    ...defaultConfig,
+    mode: isProduction ? 'production' : 'development',
 
     // https://webpack.js.org/configuration/entry-context/
     entry: {
@@ -40,13 +24,21 @@ module.exports = {
         path: __dirname + '/assets/js/',
         filename: 'wpspl-admin.min.js',
     },
-
-    // https://webpack.js.org/configuration/externals/
-    externals,
-
+    plugins: [
+        new CleanWebpackPlugin({
+            // dry: true,
+            cleanOnceBeforeBuildPatterns: [
+                "assets/js/wpspl-admin.min.js",
+                "assets/js/wpspl-admin.min.asset.php",
+            ],
+        }),
+        ...plugins,
+    ],
     // https://github.com/babel/babel-loader#usage
     module: {
+        ...defaultConfig.module,
         rules: [
+            ...defaultConfig.module.rules,
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
