@@ -9,6 +9,8 @@ use DirkGroenen\Pinterest\Pinterest;
 class Social
 {
     protected $social_profile;
+    protected $instantShare;
+
     public function __construct()
     {
         $this->define_constants();
@@ -103,8 +105,16 @@ class Social
         $WpScp_pinterest = new Social\Pinterest();
         $WpScp_pinterest->instance();
     }
+
+    /**
+     * 
+     * return \WPSP\Social\InstantShare
+     */
     public function instant_social_share()
     {
-        new Social\InstantShare();
+		if (!$this->instantShare) {
+			$this->instantShare = new Social\InstantShare();
+		}
+		return $this->instantShare;
     }
 }

@@ -2,7 +2,7 @@ jQuery(document).ready(function ($) {
     /**
      * WordPress sidebar checkbox control for don't share
      */
-    jQuery('#wpscpprodontshare').on('click', function (e) {
+    jQuery(document).on('click', '#wpscpprodontshare', function (e) {
         if (this.checked == true) {
             jQuery('#socialmedia').hide()
         } else {

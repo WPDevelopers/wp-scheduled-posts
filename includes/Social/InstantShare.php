@@ -20,12 +20,13 @@ class InstantShare
     {
         $allow_post_types = \WPSP\Helper::get_settings('allow_post_types');
         $allow_post_types = (!empty($allow_post_types) ? $allow_post_types : array('post'));
-        add_meta_box('WpScp_instantshare_meta_box', __('Social Share Settings', 'wp-scheduled-posts'), array($this, 'instant_share_metabox_markup'), $allow_post_types, 'side', 'low');
+        // add_meta_box('WpScp_instantshare_meta_box', __('Social Share Settings', 'wp-scheduled-posts'), array($this, 'instant_share_metabox_markup'), $allow_post_types, 'side', 'low');
     }
     public function instant_share_metabox_markup()
     {
-        wp_nonce_field(basename(__FILE__), 'wpscp_pro_instant_social_share_nonce');
+        // wp_nonce_field(basename(__FILE__), 'wpscp_pro_instant_social_share_nonce');
         // status
+
         $twitterIntegation = \WPSP\Helper::get_settings('twitter_profile_status');
         $facebookIntegation = \WPSP\Helper::get_settings('facebook_profile_status');
         $linkedinIntegation = \WPSP\Helper::get_settings('linkedin_profile_status');
@@ -35,7 +36,9 @@ class InstantShare
         $twitterProfile = \WPSP\Helper::get_settings('twitter_profile_list');
         $linkedinProfile = \WPSP\Helper::get_settings('linkedin_profile_list');
         $pinterestProfile = \WPSP\Helper::get_settings('pinterest_profile_list');
-?>
+
+        ob_start();
+    ?>
         <div class="wpscppro-instantshare">
             <!-- skip share -->
             <div>
@@ -193,6 +196,7 @@ class InstantShare
             </div>
         </div>
 <?php
+        return ob_get_clean();
     }
     public function instant_share_metabox_data_save($post_id, $post)
     {

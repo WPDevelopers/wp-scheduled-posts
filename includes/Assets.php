@@ -2,6 +2,8 @@
 
 namespace WPSP;
 
+use WPSP\Social\InstantShare;
+
 class Assets
 {
     public function __construct()
@@ -38,6 +40,7 @@ class Assets
             'publishFutureDate' => __('Future Date', 'wp-scheduled-posts'),
             'publish_button_off' => \WPSP\Helper::get_settings('show_publish_post_button'),
             'allowedPostTypes' => $allow_post_types,
+            'socialShareSettings'   => WPSP_Start()->getSocial()->instant_social_share()->instant_share_metabox_markup(),
             'currentTime' => array(
                 'date' => current_time('mysql'),
                 'date_gmt' => current_time('mysql', 1),
