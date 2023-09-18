@@ -14,3 +14,36 @@
     gap: 10px;
     margin-top: 10px;
 }
+.social-share .social-accordion-item {
+    background: #EBEEF5;
+    padding: 10px;
+
+}
+.social-share .social-accordion-item .social-accordion-button {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+.social-share .social-accordion-item .social-profile {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
+}
+.social-share {
+    margin: 50px 0;
+}
+.social-share .social-accordion-item .social-profile h3 {
+    margin: 0;
+}
+.schedulepress-options h2.components-panel__body-title button{
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 5px;
+    justify-content: start;
+}
+.schedulepress-options h2.components-panel__body-title button span.wpsp-icon{
+    margin: 0;
+}

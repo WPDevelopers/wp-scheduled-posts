@@ -15,6 +15,7 @@ const {
 } = WPSchedulePostsFree;
 import PublishButton from "./publish-button";
 import PublishFutureButton from "./publish-future-button";
+import SocialShare from "./social-share";
 import WpspProSlot from "./wpsp-pro-slot";
 
 class AdminPublishButton extends Component {
@@ -33,11 +34,10 @@ class AdminPublishButton extends Component {
       console.log(this.props.post.status, nextProps.post.status);
     }
   }
-
   handleChange(checked) {}
   render() {
     return (
-      <PluginDocumentSettingPanel name="schedulepress-options" title="SchedulePress" className="schedulepress-options">
+      <PluginDocumentSettingPanel name="schedulepress-options" title="SchedulePress" className="schedulepress-options" icon="wpsp wpsp-icon wpsp-sp-icon">
         {(publish_button_off === "" || !(this.props.isScheduled && !this.props.isPublished)) ? (
           ""
         ) : (
@@ -86,7 +86,8 @@ class AdminPublishButton extends Component {
             )}
           </div>
         )}
-        <div className="social-share" dangerouslySetInnerHTML={ {__html: WPSchedulePostsFree?.socialShareSettings } } />
+        <SocialShare/>
+        {/* <div className="social-share" dangerouslySetInnerHTML={ {__html: WPSchedulePostsFree?.socialShareSettings } } /> */}
         <WpspProSlot.Slot/>
       </PluginDocumentSettingPanel>
     );

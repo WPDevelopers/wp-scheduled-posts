@@ -39,6 +39,47 @@ class Settings
     public function do_hooks()
     {
         add_action('rest_api_init', array($this, 'register_routes'));
+        add_action('rest_api_init', array($this, 'register_social_profile_routes'));
+    }
+
+    public function register_social_profile_routes()
+    {
+        $namespace = WPSP_PLUGIN_SLUG . '/v1';
+        // Get option data
+        register_rest_route($namespace, 'get-option-data', array(
+            'methods' => 'GET',
+            'callback'   => array($this, 'wpsp_get_options_data'),
+            'permission_callback'   => array($this, 'wpsp_permissions_check'),
+        ));
+
+        // Instant share on social media
+        register_rest_route($namespace,'instant-social-share',array(
+            'methods' => 'GET',
+            'callback'   => array($this, 'wpsp_instant_social_share'),
+            'permission_callback'   => array($this, 'wpsp_permissions_check'),
+        ));
+
+    }
+
+    // Instant social share
+    public function wpsp_instant_social_share( $data )
+    {
+        do_action('wpsp_instant_social_single_profile_share', $data->get_params());
+    }
+
+     // Fetch option table data 
+    public function wpsp_get_options_data( $request ) {
+        $option_name = $request->get_param('option_name');
+        if ($option_name) {
+            $option_value = get_option($option_name);
+            if ($option_value !== false) {
+                return rest_ensure_response($option_value);
+            } else {
+                return new \WP_Error('option_not_found', 'Option not found', array('status' => 404));
+            }
+        } else {
+            return new \WP_Error('missing_option_name', 'Option name parameter is missing', array('status' => 400));
+        }
     }
 
     /**
@@ -59,6 +100,7 @@ class Settings
         return self::$instance;
     }
 
+    
     /**
      * Register the routes for the objects of the controller.
      */
@@ -113,6 +155,8 @@ class Settings
         ));
 
     }
+
+   
 
     /**
      * Fetch pinterest section
@@ -203,4 +247,5 @@ class Settings
     {
         return current_user_can('manage_options');
     }
+
 }

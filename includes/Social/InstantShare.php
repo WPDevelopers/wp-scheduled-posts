@@ -13,14 +13,15 @@ class InstantShare
         add_action('add_meta_boxes', array($this, 'instant_share_metabox'));
         add_action('save_post', array($this, 'instant_share_metabox_data_save'), 10, 2);
         // ajax request for fetch selected profile
-        add_action('wp_ajax_wpscp_instant_share_fetch_profile', array($this, 'instant_share_fetch_profile'));
-        add_action('wp_ajax_wpscp_instant_social_single_profile_share', array($this, 'instant_social_single_profile_share'));
+        // add_action('wp_ajax_wpscp_instant_share_fetch_profile', array($this, 'instant_share_fetch_profile'));
+        // add_action('wp_ajax_wpscp_instant_social_single_profile_share', array($this, 'instant_social_single_profile_share'));
+        add_action('wpsp_instant_social_single_profile_share', array($this, 'instant_social_single_profile_share'));
     }
     public function instant_share_metabox()
     {
         $allow_post_types = \WPSP\Helper::get_settings('allow_post_types');
         $allow_post_types = (!empty($allow_post_types) ? $allow_post_types : array('post'));
-        // add_meta_box('WpScp_instantshare_meta_box', __('Social Share Settings', 'wp-scheduled-posts'), array($this, 'instant_share_metabox_markup'), $allow_post_types, 'side', 'low');
+        add_meta_box('WpScp_instantshare_meta_box', __('Social Share Settings', 'wp-scheduled-posts'), array($this, 'instant_share_metabox_markup'), $allow_post_types, 'side', 'low');
     }
     public function instant_share_metabox_markup()
     {
@@ -200,9 +201,9 @@ class InstantShare
     }
     public function instant_share_metabox_data_save($post_id, $post)
     {
-        if (!did_action('wpsp_schedule_published') && (!isset($_POST['wpscp_pro_instant_social_share_nonce']) || !wp_verify_nonce($_POST['wpscp_pro_instant_social_share_nonce'], basename(__FILE__)))) {
-            return;
-        }
+        // if (!did_action('wpsp_schedule_published') && (!isset($_POST['wpscp_pro_instant_social_share_nonce']) || !wp_verify_nonce($_POST['wpscp_pro_instant_social_share_nonce'], basename(__FILE__)))) {
+        //     return;
+        // }
         //don't do anything for autosaves
         if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
             return;
@@ -221,21 +222,29 @@ class InstantShare
             delete_post_meta($post_id, '_wpscppro_dont_share_socialmedia');
         }
         // facebook
-        update_post_meta($post_id, '_wpsp_is_facebook_share', sanitize_text_field((isset($_POST['_wpsp_is_facebook_share']) ? $_POST['_wpsp_is_facebook_share'] : 'off')));
-
+        // if (isset($_POST['_wpsp_is_facebook_share'])) {
+            update_post_meta($post_id, '_wpsp_is_facebook_share', sanitize_text_field((isset($_POST['_wpsp_is_facebook_share']) ? $_POST['_wpsp_is_facebook_share'] : 'off')));
+        // }
+        
         // twitter
-        update_post_meta($post_id, '_wpsp_is_twitter_share', sanitize_text_field((isset($_POST['_wpsp_is_twitter_share']) ? $_POST['_wpsp_is_twitter_share'] : 'off')));
-
+        // if (isset($_POST['_wpsp_is_twitter_share'])) {
+            update_post_meta($post_id, '_wpsp_is_twitter_share', sanitize_text_field((isset($_POST['_wpsp_is_twitter_share']) ? $_POST['_wpsp_is_twitter_share'] : 'off')));
+        // }
+        
         // linkedin
-        update_post_meta($post_id, '_wpsp_is_linkedin_share', sanitize_text_field((isset($_POST['_wpsp_is_linkedin_share']) ? $_POST['_wpsp_is_linkedin_share'] : 'off')));
-
+        // if (isset($_POST['_wpsp_is_linkedin_share'])) {
+            update_post_meta($post_id, '_wpsp_is_linkedin_share', sanitize_text_field((isset($_POST['_wpsp_is_linkedin_share']) ? $_POST['_wpsp_is_linkedin_share'] : 'off')));
+        // }
         // pinterest
-        update_post_meta($post_id, '_wpsp_is_pinterest_share', sanitize_text_field((isset($_POST['_wpsp_is_pinterest_share']) ? $_POST['_wpsp_is_pinterest_share'] : 'off')));
+        // if (isset($_POST['_wpsp_is_pinterest_share'])) {
+            update_post_meta($post_id, '_wpsp_is_pinterest_share', sanitize_text_field((isset($_POST['_wpsp_is_pinterest_share']) ? $_POST['_wpsp_is_pinterest_share'] : 'off')));
+        // }
+        
 
         // pinterest meta checkbox
-        if (isset($_POST['pinterestboardtype'])) {
+        // if (isset($_POST['pinterestboardtype'])) {
             update_post_meta($post_id, '_wpscppro_pinterestboardtype', sanitize_text_field($_POST['pinterestboardtype']));
-        }
+        // }
         // pinterest meta board name save
         if (isset($_POST['wpscppro-pinterest-board-name']) && is_array($_POST['wpscppro-pinterest-board-name'])) {
             $board_names = array_filter($_POST['wpscppro-pinterest-board-name'], 'sanitize_text_field');
@@ -324,11 +333,11 @@ class InstantShare
     }
 
 
-    public function instant_social_single_profile_share()
+    public function instant_social_single_profile_share($params)
     {
-        $postid = intval($_REQUEST['postid']);
-        $platform = (isset($_POST['platform']) ? $_POST['platform'] : '');
-        $platformKey = (isset($_POST['platformKey']) ? $_POST['platformKey'] : '');
+        $postid = intval($_GET['postid']);
+        $platform = (isset($_GET['platform']) ? $_GET['platform'] : '');
+        $platformKey = (isset($_GET['platformKey']) ? $_GET['platformKey'] : '');
         $pinterest_board_type = (isset($_POST['pinterest_board_type']) ? $_POST['pinterest_board_type'] : '');
         $pinterestBoardName = (isset($_POST['pinterest_custom_board_name']) ? $_POST['pinterest_custom_board_name'] : '');
         $pinterestSectionName = (isset($_POST['pinterest_custom_section_name']) ? $_POST['pinterest_custom_section_name'] : '');
