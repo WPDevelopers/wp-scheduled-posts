@@ -33,13 +33,16 @@ class Assets
             return;
         }
 
+        wp_enqueue_style('google-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap', array(), WPSP_VERSION, 'all');
         wp_enqueue_style('wps-publish-button', WPSP_ASSETS_URI . 'css/wpspl-admin.css', array(), WPSP_VERSION, 'all');
+        wp_enqueue_style(WPSP_PLUGIN_SLUG.'-icon', WPSP_ADMIN_URL . 'Settings/assets/icon/style.css', array(), WPSP_VERSION );
         wp_enqueue_script('wps-publish-button', WPSP_ASSETS_URI . 'js/wpspl-admin.min.js', array('wp-components', 'wp-data', 'wp-edit-post', 'wp-editor', 'wp-element', 'wp-i18n', 'wp-plugins'), '1.0.0', true);
         wp_localize_script('wps-publish-button', 'WPSchedulePostsFree', array(
             'publishImmediately' => __('Current Date', 'wp-scheduled-posts'),
             'publishFutureDate' => __('Future Date', 'wp-scheduled-posts'),
             'publish_button_off' => \WPSP\Helper::get_settings('show_publish_post_button'),
             'allowedPostTypes' => $allow_post_types,
+            'assetsURI'        => WPSP_ASSETS_URI,
             'socialShareSettings'   => WPSP_Start()->getSocial()->instant_social_share()->instant_share_metabox_markup(),
             'currentTime' => array(
                 'date' => current_time('mysql'),

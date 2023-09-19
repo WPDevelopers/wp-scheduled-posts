@@ -8,6 +8,7 @@ const {
 	components: { TextControl,Button,DateTimePicker,Popover,Modal },
 	editPost: { PluginDocumentSettingPanel },
 } = wp;
+const { __ } = wp.i18n;
 
 const SocialShare = () => {
     const postid = select('core/editor').getCurrentPostId()
@@ -18,7 +19,6 @@ const SocialShare = () => {
     const [linkedinProfileData,setLinkedinProfileData] = useState([]);
     const [isOpenModal,setIsOpenModal] = useState( false );
     const [selectedSocialProfile,setSelectedSocialProfile] = useState([]);
-    const [isCheckedFacebook, setIsCheckedFacebook] = useState(false);
 
     // Get social profile data from wp_options table
     useEffect(() => {
@@ -66,16 +66,13 @@ const SocialShare = () => {
     }
     const closeModal = () => setIsOpenModal( false );
 
-    // Handle main profile selection
-    const handleMailProfileSelection = (event,platform) => {
-      setIsCheckedFacebook(!isCheckedFacebook);
-    }
-
     // Handle profile selection
-    const handleProfileSelectionCheckbox = ( event, platform, index,id ) => {
+    const handleProfileSelectionCheckbox = ( event, platform, index, id, name, type ) => {
       if( event.target.checked ) {
         setSelectedSocialProfile((prevData) => {
-          prevData.push( { id : id, platform : platform,platformKey: index } );
+          if( id ) {
+            prevData.push( { id, platform, platformKey: index, name, type } );
+          }
           return prevData;
         });
       }else{
@@ -92,72 +89,97 @@ const SocialShare = () => {
     
     return (
       <div className='social-share'>
-        <h3>Choose Social Share Platform</h3>
-        <div className="social-accordion-item">
-            <div className="social-accordion-button">
-                <input type="checkbox" onClick={ (event) => handleMailProfileSelection( event, 'facebook' ) }  />
-                <img src={ WPSchedulePostsFree.assetsURI + '/images/facebook.svg' } alt="" />
-                <button className="accordion-button" onClick={() => toggleAccordion('isOpen')}>Facebook</button>
-            </div>
-          { isOpen === 'isOpen' && (
-            <div className="accordion-content">
-                { facebookProfileData.map( ( facebook, index ) => (
-                  <div className="facebook-profile social-profile">
-                      <input type="checkbox" onClick={ (event) =>  handleProfileSelectionCheckbox( event, 'facebook', index, facebook.id ) } />
-                      <h3>{ facebook?.name } ( { facebook?.type } ) </h3>
-                  </div>
-                ) ) }
-            </div>
-          )}
+        <h2 className="social-share-title">Social Share Settings</h2>
+        <div className="share-checkbox">
+          <input type="checkbox" />
+          <span>Disable Social Share</span>
         </div>
-        <div className="accordion-item">
-            <div className="accordion-button">
-                <input type="checkbox" />
-                <img src={ WPSchedulePostsFree.assetsURI + '/images/twitter.svg' } alt="" />
-                <button className="accordion-button" onClick={() => toggleAccordion('isOpenTwitter')}>Twitter</button>
-            </div>
-          {isOpen === 'isOpenTwitter' && (
-            <div className="accordion-content">
-                { twiiterProfileData.map( ( twitter, index ) => (
-                  <div className="twitter-profile social-profile">
-                      <input type="checkbox" onClick={ (event) =>  handleProfileSelectionCheckbox( event, 'twitter', index, twitter.id ) } />
-                      <h3>{ twitter?.name } ( { twitter?.type } ) </h3>
-                  </div>
-                ) ) }
-            </div>
-          )}
-        </div>
-        <div className="accordion-item">
-            <div className="accordion-button">
-                <input type="checkbox" />
-                <img src={ WPSchedulePostsFree.assetsURI + '/images/linkedin.svg' } alt="" />
-                <button className="accordion-button" onClick={() => toggleAccordion('isOpenTwitter')}>Linkedin</button>
-            </div>
-          {isOpen === 'isOpenTwitter' && (
-            <div className="accordion-content">
-                { twiiterProfileData.map( ( twitter, index ) => (
-                  <div className="twitter-profile social-profile">
-                      <input type="checkbox" onClick={ (event) =>  handleProfileSelectionCheckbox( event, 'twitter', index, twitter.id ) } />
-                      <h3>{ twitter?.name } ( { twitter?.type } ) </h3>
-                  </div>
-                ) ) }
-            </div>
-          )}
-        </div>
-        { isOpenModal && (
-          <Modal title="This is my modal" onRequestClose={ closeModal }>
+        <div className="social-share-wrapper">
+          <h3>Choose Social Share Platform</h3>
+          <div className="social-accordion-item">
+              <div className="social-accordion-button" onClick={() => toggleAccordion('isOpen')}>
+                  <img src={ WPSchedulePostsFree.assetsURI + '/images/facebook.svg' } alt="" />
+                  <span>Facebook</span>
+              </div>
+            { isOpen === 'isOpen' && (
+              <div className="accordion-content">
+                  { facebookProfileData.map( ( facebook, index ) => (
+                    <div className="facebook-profile social-profile">
+                        <input type="checkbox" onClick={ (event) =>  handleProfileSelectionCheckbox( event, 'facebook', index, facebook?.id, facebook?.name, facebook?.type ) } />
+                        <h3>{ facebook?.name } ( { facebook.type ? facebook.type : __('Profile','wp-scheduled-posts') } ) </h3>
+                    </div>
+                  ) ) }
+              </div>
+            )}
+          </div>
+          <div className="social-accordion-item">
+              <div className="social-accordion-button" onClick={() => toggleAccordion('isOpenTwitter')}>
+                  <img src={ WPSchedulePostsFree.assetsURI + '/images/twitter.svg' } alt="" />
+                  <span>Twitter</span>
+              </div>
+            {isOpen === 'isOpenTwitter' && (
+              <div className="accordion-content">
+                  { twiiterProfileData.map( ( twitter, index ) => (
+                    <div className="twitter-profile social-profile">
+                        <input type="checkbox" onClick={ (event) =>  handleProfileSelectionCheckbox( event, 'twitter', index, twitter?.id,twitter?.name, twitter?.type ) } />
+                        <h3>{ twitter?.name } ( { twitter.type ? twitter.type : __('Profile','wp-scheduled-posts') } ) </h3>
+                    </div>
+                  ) ) }
+              </div>
+            )}
+          </div>
+          <div className="social-accordion-item">
+              <div className="social-accordion-button" onClick={() => toggleAccordion('isOpenLinkedin')}>
+                  <img src={ WPSchedulePostsFree.assetsURI + '/images/linkedin.svg' } alt="" />
+                  <span>Linkedin</span>
+              </div>
+            {isOpen === 'isOpenLinkedin' && (
+              <div className="accordion-content">
+                  { linkedinProfileData.map( ( linkedin, index ) => (
+                    <div className="linkedin-profile social-profile">
+                        <input type="checkbox" onClick={ (event) =>  handleProfileSelectionCheckbox( event, 'linkedin', index, linkedin?.id, linkedin?.name, linkedin?.type ) } />
+                        <h3>{ linkedin?.name } ( { linkedin?.type == 'organization' ? __('Page','wp-scheduled-posts') : __('Profile','wp-scheduled-posts')  } ) </h3>
+                    </div>
+                  ) ) }
+              </div>
+            )}
+          </div>
+          { isOpenModal && (
+            <Modal onRequestClose={ closeModal }>
+              { selectedSocialProfile.filter( (profile) => profile.platform === 'facebook' ).length > 0 && 
               <div className="profile-facebook">
                   <h2>Facebook</h2>
-                  { facebookProfileData.map( ( profile ) => (
+                  { selectedSocialProfile.filter( (profile) => profile.platform === 'facebook' ).map( ( profile ) => (
                     <div className="profile-list">
                       { profile?.name }
                     </div>
                   ) ) }
-                  
-              </div>
-          </Modal>
-        ) }
-        <button onClick={ handleShareNow }>Share Now</button>
+                </div>
+              }
+              { selectedSocialProfile.filter( (profile) => profile.platform === 'twitter' ).length > 0 && 
+                <div className="profile-facebook">
+                  <h2>Twitter</h2>
+                  { selectedSocialProfile.filter( (profile) => profile.platform === 'twitter' ).map( ( profile ) => (
+                    <div className="profile-list">
+                      { profile?.name }
+                    </div>
+                  ) ) }
+                </div>
+              }
+              { selectedSocialProfile.filter( (profile) => profile.platform == 'linkedin' ).length > 0 && 
+                <div className="profile-linkedin">
+                    <h2>Linkedin</h2>
+                    { selectedSocialProfile.filter( (profile) => profile.platform === 'linkedin' ).map( ( profile ) => (
+                      <div className="profile-list">
+                        { profile?.name }
+                      </div>
+                    ) ) }
+                </div>
+              }
+            </Modal>
+          ) }
+        </div>
+        <button onClick={ handleShareNow } className="components-button is-primary share-btn">Share Now</button>
       </div>
     );
   };
