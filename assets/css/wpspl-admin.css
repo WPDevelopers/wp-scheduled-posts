@@ -1,42 +1,41 @@
+.schedulepress-options {
+    font-family: "Inter" sans-serif;
+}
 .sc-publish-future .components-checkbox-control,
 .sc-publish-future .components-base-control__field {
-    display: inline;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 .sc-publish-future .components-checkbox-control__label {
     margin-right: 3px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #1B1B50;
 }
-
+.sc-publish-future .components-checkbox-control input[type="checkbox"] {
+    border: 1px solid #ddd;
+    box-shadow: unset;
+}
+.sc-publish-future .components-checkbox-control input[type="checkbox"]:checked {
+    background-color: #02AC6E;
+    /* border: none; */
+}
 .sc-publish-future-buttons {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 10px;
     margin-top: 10px;
+    justify-content: space-between;
 }
-.social-share .social-accordion-item {
-    background: #EBEEF5;
-    padding: 10px;
-
-}
-.social-share .social-accordion-item .social-accordion-button {
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    gap: 5px;
-    margin-bottom: 10px;
-}
-.social-share .social-accordion-item .social-profile {
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    gap: 10px;
-}
-.social-share {
-    margin: 50px 0;
-}
-.social-share .social-accordion-item .social-profile h3 {
-    margin: 0;
+.sc-publish-future-buttons button {
+    border-radius: 6px;
+    padding: 14px;
+    font-size: 14px;
+    background-color: #6C62FF !important;
 }
 .schedulepress-options h2.components-panel__body-title button{
     display: flex;
@@ -46,4 +45,83 @@
 }
 .schedulepress-options h2.components-panel__body-title button span.wpsp-icon{
     margin: 0;
+}
+
+/* Start social share css  */
+.social-share .social-accordion-item {
+    background: #F9FAFC;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #EBEEF5;
+    border-radius: 6px;
+    user-select: none;
+}
+.social-share .social-accordion-item .social-accordion-button {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 8px;
+}
+.social-share .social-accordion-item .social-profile {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+.social-share .social-accordion-item .social-profile input[type="checkbox"]{
+    margin: 0;
+}
+.social-share {
+    margin-top: 30px;
+}
+.social-share .social-accordion-item .social-profile h3 {
+    margin: 0;
+}
+.social-share .social-share-title {
+    font-size: 16px;
+    color: #1B1B50;
+    font-weight: 500;
+    margin: 0 0 20px 0;
+}
+.social-share .share-checkbox span {
+    font-size: 14px;
+    color: #1B1B50;
+    margin-left: 5px;
+}
+.social-share .share-checkbox {
+    margin-bottom: 30px;
+}
+.social-share-wrapper {
+    margin-bottom: 20px;
+}
+.social-share-wrapper .social-accordion-item .social-accordion-button img {
+    width: 24px;
+    height: 24px;
+}
+.social-share-wrapper .social-accordion-item .social-accordion-button span{
+    font-size: 14px;
+    font-weight: 500;
+}
+.social-share .social-share-wrapper .accordion-content {
+    margin-top: 18px;
+}
+.social-share .share-btn {
+    border-radius: 6px;
+    padding: 14px;
+    font-weight: 500;
+    background-color: #6C62FF;
+}
+.interface-complementary-area .unpublish-on h3,
+.interface-complementary-area .republish-on h3 {
+    font-size: 14px;
+    margin-bottom: 0.6rem;
+    display: inline-flex;
+    margin-right: 10px;
+}
+.interface-complementary-area a.info {
+  text-decoration: none;
+}
+.interface-complementary-area .unpublish-on, .interface-complementary-area .republish-on {
+    margin: 20px 0;
 }
