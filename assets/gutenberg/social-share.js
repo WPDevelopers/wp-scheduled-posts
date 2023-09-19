@@ -1,4 +1,4 @@
-import { fetchSocialProfileData } from "./helper";
+import { fetchPinterestSection, fetchSocialProfileData } from "./helper";
 
 const {
 	data: { useSelect, useDispatch, select },
@@ -17,8 +17,11 @@ const SocialShare = () => {
     const [facebookProfileData,setFacebookProfileData] = useState([]);
     const [twiiterProfileData,setTwitterProfileData] = useState([]);
     const [linkedinProfileData,setLinkedinProfileData] = useState([]);
+    const [pinterestProfileData,setPinterestProfileData] = useState([]);
     const [isOpenModal,setIsOpenModal] = useState( false );
     const [selectedSocialProfile,setSelectedSocialProfile] = useState([]);
+    const [responseMessage,setResponseMessage] = useState([]);
+    const [selectionSection, setSelectedSection] = useState('');
 
     // Get social profile data from wp_options table
     useEffect(() => {
@@ -33,6 +36,19 @@ const SocialShare = () => {
         setTwitterProfileData( filtered_twitter_profile_list );
         const filtered_linkedin_profile_list = wpsp_settings?.linkedin_profile_list.filter( item => item.status === true );
         setLinkedinProfileData( filtered_linkedin_profile_list );
+        let filtered_pinterest_profile_list = wpsp_settings?.pinterest_profile_list.filter( item => item.status === true );
+        if( filtered_pinterest_profile_list.length > 0 ) {
+          filtered_pinterest_profile_list.map( (pinterest_profile,index) => {
+            let data = {
+              defaultBoard: pinterest_profile?.default_board_name?.value,
+              profile: pinterest_profile,
+            };
+            fetchPinterestSection(data).then( ( res ) => {
+              filtered_pinterest_profile_list[index].sections = res.data;
+            } )
+          } )
+        }
+        setPinterestProfileData([...filtered_pinterest_profile_list]);
       } ).catch( (error) => {
         console.log('error',error);
       } )
@@ -57,15 +73,21 @@ const SocialShare = () => {
           let queryParams = profile;
           const apiUrl = '/wp-scheduled-posts/v1/instant-social-share';
           fetchSocialProfileData(apiUrl,queryParams).then( (res) => {
-            console.log('res',res);
+            if( profile.id ) {
+              responseMessage.push( { id: profile.id, message : res.data } );
+              setResponseMessage( [...responseMessage] );
+            }
           } ).catch( (error) => {
             console.log('error',error);
           } )
         } )
       }
     }
-    const closeModal = () => setIsOpenModal( false );
-
+    const closeModal = () => {
+      setResponseMessage([]);
+      setIsOpenModal( false )
+    };
+    
     // Handle profile selection
     const handleProfileSelectionCheckbox = ( event, platform, index, id, name, type ) => {
       if( event.target.checked ) {
@@ -83,9 +105,18 @@ const SocialShare = () => {
       }
     }
 
+    // Handle pinterest profile selection 
+    const handlePinterestProfileSelectionCheckbox = ( event, pinterest, index  ) => {
+      console.log('event',event);
+    }
+
+    // Handle section change event
+    const handleSectionChange = (event) => {
+      setSelectedSection( event.target.value )
+    }
     useEffect(() => {
-      console.log('sele',selectedSocialProfile);
-    }, [selectedSocialProfile])
+      console.log('res',selectionSection);
+    }, [selectionSection])
     
     return (
       <div className='social-share'>
@@ -119,20 +150,20 @@ const SocialShare = () => {
               </div>
             {isOpen === 'isOpenTwitter' && (
               <div className="accordion-content">
-                  { twiiterProfileData.map( ( twitter, index ) => (
-                    <div className="twitter-profile social-profile">
-                        <input type="checkbox" onClick={ (event) =>  handleProfileSelectionCheckbox( event, 'twitter', index, twitter?.id,twitter?.name, twitter?.type ) } />
-                        <h3>{ twitter?.name } ( { twitter.type ? twitter.type : __('Profile','wp-scheduled-posts') } ) </h3>
-                    </div>
-                  ) ) }
+                { twiiterProfileData.map( ( twitter, index ) => (
+                  <div className="twitter-profile social-profile">
+                      <input type="checkbox" onClick={ (event) =>  handleProfileSelectionCheckbox( event, 'twitter', index, twitter?.id,twitter?.name, twitter?.type ) } />
+                      <h3>{ twitter?.name } ( { twitter.type ? twitter.type : __('Profile','wp-scheduled-posts') } ) </h3>
+                  </div>
+                ) ) }
               </div>
             )}
           </div>
           <div className="social-accordion-item">
-              <div className="social-accordion-button" onClick={() => toggleAccordion('isOpenLinkedin')}>
-                  <img src={ WPSchedulePostsFree.assetsURI + '/images/linkedin.svg' } alt="" />
-                  <span>Linkedin</span>
-              </div>
+            <div className="social-accordion-button" onClick={() => toggleAccordion('isOpenLinkedin')}>
+                <img src={ WPSchedulePostsFree.assetsURI + '/images/linkedin.svg' } alt="" />
+                <span>Linkedin</span>
+            </div>
             {isOpen === 'isOpenLinkedin' && (
               <div className="accordion-content">
                   { linkedinProfileData.map( ( linkedin, index ) => (
@@ -144,6 +175,28 @@ const SocialShare = () => {
               </div>
             )}
           </div>
+          <div className="social-accordion-item">
+              <div className="social-accordion-button" onClick={() => toggleAccordion('isOpenPinterest')}>
+                  <img src={ WPSchedulePostsFree.assetsURI + '/images/pinterest.svg' } alt="" />
+                  <span>Pinterest</span>
+              </div>
+              {isOpen === 'isOpenPinterest' && (
+                <div className="accordion-content">
+                    { pinterestProfileData.map( ( pinterest, index ) => (
+                      <div className="pinterest-profile social-profile">
+                          <input type="checkbox" onClick={ (event) =>  handlePinterestProfileSelectionCheckbox( event, pinterest, index ) } />
+                          <h3>{ pinterest?.default_board_name?.label } </h3>
+                          <select className="pinterest-sections" onChange={ handleSectionChange }>
+                            <option value="No Section">No Section</option>
+                            { pinterest?.sections?.map( (section) => (
+                              <option value={ section?.id }>{ section?.name }</option>
+                            ) ) }
+                          </select>
+                      </div>
+                    ) ) }
+                </div>
+              )}
+            </div>
           { isOpenModal && (
             <Modal onRequestClose={ closeModal }>
               { selectedSocialProfile.filter( (profile) => profile.platform === 'facebook' ).length > 0 && 
@@ -152,6 +205,7 @@ const SocialShare = () => {
                   { selectedSocialProfile.filter( (profile) => profile.platform === 'facebook' ).map( ( profile ) => (
                     <div className="profile-list">
                       { profile?.name }
+                      { responseMessage.find( (item) => item.id === profile.id )?.id }
                     </div>
                   ) ) }
                 </div>

@@ -19,3 +19,12 @@ export const fetchSocialProfileData = async (url,queryParams, customQuery = true
         return error;
       });
 };
+export const fetchPinterestSection = async (body) => {
+  return await wp.apiFetch( {
+      path: 'wp-scheduled-posts/v1/fetch_pinterest_section',
+      method: 'POST',
+      data: body,
+  } ).then( ( res ) => {
+      return res;
+  } );
+};
