@@ -101,9 +101,7 @@ const SocialShare = () => {
       }
     }
     const closeModal = () => {
-      alert('Hello');
       setResponseMessage([]);
-      setSelectedSocialProfile([]);
       setSelectedSection([]);
       setIsOpenModal( false )
     };
@@ -119,8 +117,10 @@ const SocialShare = () => {
         });
       }else{
         if( selectedSocialProfile.length > 0 ) {
-          const filteredSelectedProfile = selectedSocialProfile.filter((item) => item.id !== id);
-          setSelectedSocialProfile(filteredSelectedProfile);
+          if( id ) {
+            const filteredSelectedProfile = selectedSocialProfile.filter((item) => item.id !== id );
+            setSelectedSocialProfile(filteredSelectedProfile);
+          }
         }
       }
     }
@@ -133,13 +133,13 @@ const SocialShare = () => {
           const board_name = pinterest?.default_board_name?.label;
           const findSection = selectedSection.find( ( item ) => item.board_id === board_id );
           if( pinterest?.default_board_name?.value ) {
-            prevData.push( { id : board_id, platform : 'pinterest', platformKey: index, pinterest_board_type : 'custom', pinterest_custom_board_name:  board_id,pinterest_custom_section_name : findSection?.section_id,name : board_name, thumbnail_url } );
+            return [...prevData, { id : board_id, platform : 'pinterest', platformKey: index, pinterest_board_type : 'custom', pinterest_custom_board_name:  board_id,pinterest_custom_section_name : findSection?.section_id,name : board_name, thumbnail_url } ]
           }
           return prevData;
         });
       }else{
         if( selectedSocialProfile.length > 0 ) {
-          const filteredSelectedProfile = selectedSocialProfile.filter((item) => item.id !== id);
+          const filteredSelectedProfile = selectedSocialProfile.filter((item) => item.id !== pinterest?.default_board_name?.value);
           setSelectedSocialProfile(filteredSelectedProfile);
         }
       }
@@ -169,7 +169,6 @@ const SocialShare = () => {
         </div>
         <div className="social-share-wrapper">
           <h3>Choose Social Share Platform</h3>
-          { facebookProfileData.length > 0 && 
             <div className="social-accordion-item">
               <div className="social-accordion-button" onClick={() => toggleAccordion('isOpen')}>
                   <img src={ WPSchedulePostsFree.assetsURI + '/images/facebook.svg' } alt="" />
@@ -177,17 +176,20 @@ const SocialShare = () => {
               </div>
             { isOpen === 'isOpen' && (
               <div className="accordion-content">
-                  { facebookProfileData.map( ( facebook, index ) => (
-                    <div className="facebook-profile social-profile">
-                        <input type="checkbox" checked={ (selectedSocialProfile.findIndex( ( item ) => item.id === facebook.id ) != -1) ? true : false } onClick={ (event) =>  handleProfileSelectionCheckbox( event, 'facebook', index, facebook?.id, facebook?.name, facebook?.type,facebook?.thumbnail_url ) } />
-                        <h3>{ facebook?.name } ( { facebook.type ? facebook.type : __('Profile','wp-scheduled-posts') } ) </h3>
-                    </div>
-                  ) ) }
+                { facebookProfileData.length > 0 ?
+                  <Fragment>
+                    { facebookProfileData.map( ( facebook, index ) => (
+                      <div className="facebook-profile social-profile">
+                          <input type="checkbox" checked={ (selectedSocialProfile.findIndex( ( item ) => item.id === facebook.id ) != -1) ? true : false } onClick={ (event) =>  handleProfileSelectionCheckbox( event, 'facebook', index, facebook?.id, facebook?.name, facebook?.type,facebook?.thumbnail_url ) } />
+                          <h3>{ facebook?.name } ( { facebook.type ? facebook.type : __('Profile','wp-scheduled-posts') } ) </h3>
+                      </div>
+                    ) ) }
+                  </Fragment>
+                : "No profile found!!"
+                }
               </div>
             )}
           </div>
-          }
-          { twiiterProfileData.length > 0 && 
             <div className="social-accordion-item">
                 <div className="social-accordion-button" onClick={() => toggleAccordion('isOpenTwitter')}>
                     <img src={ WPSchedulePostsFree.assetsURI + '/images/twitter.svg' } alt="" />
@@ -195,17 +197,19 @@ const SocialShare = () => {
                 </div>
               {isOpen === 'isOpenTwitter' && (
                 <div className="accordion-content">
-                  { twiiterProfileData.map( ( twitter, index ) => (
-                    <div className="twitter-profile social-profile">
-                        <input checked={ (selectedSocialProfile.findIndex( ( item ) => item.id === twitter.id ) != -1) ? true : false } type="checkbox" onClick={ (event) =>  handleProfileSelectionCheckbox( event, 'twitter', index, twitter?.id,twitter?.name, twitter?.type, twitter?.thumbnail_url ) } />
-                        <h3>{ twitter?.name } ( { twitter.type ? twitter.type : __('Profile','wp-scheduled-posts') } ) </h3>
-                    </div>
-                  ) ) }
+                { twiiterProfileData.length > 0 ?
+                  <Fragment>
+                    { twiiterProfileData.map( ( twitter, index ) => (
+                      <div className="twitter-profile social-profile">
+                          <input checked={ (selectedSocialProfile.findIndex( ( item ) => item.id === twitter.id ) != -1) ? true : false } type="checkbox" onClick={ (event) =>  handleProfileSelectionCheckbox( event, 'twitter', index, twitter?.id,twitter?.name, twitter?.type, twitter?.thumbnail_url ) } />
+                          <h3>{ twitter?.name } ( { twitter.type ? twitter.type : __('Profile','wp-scheduled-posts') } ) </h3>
+                      </div>
+                    ) ) }
+                  </Fragment>
+                : "No profile found!!" }
                 </div>
               )}
             </div>
-          }
-          { linkedinProfileData.length > 0 &&
             <div className="social-accordion-item">
               <div className="social-accordion-button" onClick={() => toggleAccordion('isOpenLinkedin')}>
                   <img src={ WPSchedulePostsFree.assetsURI + '/images/linkedin.svg' } alt="" />
@@ -213,16 +217,20 @@ const SocialShare = () => {
               </div>
               {isOpen === 'isOpenLinkedin' && (
                 <div className="accordion-content">
-                    { linkedinProfileData.map( ( linkedin, index ) => (
-                      <div className="linkedin-profile social-profile">
-                          <input checked={ (selectedSocialProfile.findIndex( ( item ) => item.id === linkedin.id ) != -1) ? true : false } type="checkbox" onClick={ (event) =>  handleProfileSelectionCheckbox( event, 'linkedin', index, linkedin?.id, linkedin?.name, linkedin?.type, linkedin?.thumbnail_url ) } />
-                          <h3>{ linkedin?.name } ( { linkedin?.type == 'organization' ? __('Page','wp-scheduled-posts') : __('Profile','wp-scheduled-posts')  } ) </h3>
-                      </div>
-                    ) ) }
+                  { linkedinProfileData.length > 0 ?
+                    <Fragment>
+                      { linkedinProfileData.map( ( linkedin, index ) => (
+                        <div className="linkedin-profile social-profile">
+                            <input checked={ (selectedSocialProfile.findIndex( ( item ) => item.id === linkedin.id ) != -1) ? true : false } type="checkbox" onClick={ (event) =>  handleProfileSelectionCheckbox( event, 'linkedin', index, linkedin?.id, linkedin?.name, linkedin?.type, linkedin?.thumbnail_url ) } />
+                            <h3>{ linkedin?.name } ( { linkedin?.type == 'organization' ? __('Page','wp-scheduled-posts') : __('Profile','wp-scheduled-posts')  } ) </h3>
+                        </div>
+                      ) ) }
+                    </Fragment>
+                  : "No profile found!!"
+                  }
                 </div>
               )}
             </div>
-          }
           <div className="social-accordion-item">
               <div className="social-accordion-button" onClick={() => toggleAccordion('isOpenPinterest')}>
                   <img src={ WPSchedulePostsFree.assetsURI + '/images/pinterest.svg' } alt="" />
@@ -240,7 +248,7 @@ const SocialShare = () => {
                     />
                     { pinterestShareType === 'custom' && pinterestProfileData.map( ( pinterest, index ) => (
                       <div className="pinterest-profile social-profile">
-                          <input checked={ (selectedSocialProfile.findIndex( ( item ) => item.id === pinterest.id ) != -1) ? true : false } type="checkbox" onClick={ (event) =>  handlePinterestProfileSelectionCheckbox( event, pinterest, index, pinterest?.thumbnail_url) } />
+                          <input checked={ ( selectedSocialProfile.findIndex( ( item ) => item.id === pinterest?.default_board_name?.value ) != -1 ) ? true : false } type="checkbox" onClick={ (event) =>  handlePinterestProfileSelectionCheckbox( event, pinterest, index, pinterest?.thumbnail_url) } />
                           <h3>{ pinterest?.default_board_name?.label } </h3>
                           <select className="pinterest-sections" onChange={ (event) =>  handleSectionChange(pinterest?.default_board_name?.value,event.target.value) }>
                             <option value="No Section">No Section</option>

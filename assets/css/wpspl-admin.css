@@ -223,3 +223,16 @@
     width: 24px;
     height: 24px;
 }
+
+.css-1dnujmn {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: calc(50px);
+    justify-content: start;
+}
+
+.social-share .social-share-wrapper .accordion-content {
+    padding: 18px 10px 10px;
+    border-top: 1px solid #EBEEF5;
+}
