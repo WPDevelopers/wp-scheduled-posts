@@ -222,29 +222,29 @@ class InstantShare
             delete_post_meta($post_id, '_wpscppro_dont_share_socialmedia');
         }
         // facebook
-        // if (isset($_POST['_wpsp_is_facebook_share'])) {
+        if (isset($_POST['_wpsp_is_facebook_share'])) {
             update_post_meta($post_id, '_wpsp_is_facebook_share', sanitize_text_field((isset($_POST['_wpsp_is_facebook_share']) ? $_POST['_wpsp_is_facebook_share'] : 'off')));
-        // }
+        }
         
         // twitter
-        // if (isset($_POST['_wpsp_is_twitter_share'])) {
+        if (isset($_POST['_wpsp_is_twitter_share'])) {
             update_post_meta($post_id, '_wpsp_is_twitter_share', sanitize_text_field((isset($_POST['_wpsp_is_twitter_share']) ? $_POST['_wpsp_is_twitter_share'] : 'off')));
-        // }
+        }
         
         // linkedin
-        // if (isset($_POST['_wpsp_is_linkedin_share'])) {
+        if (isset($_POST['_wpsp_is_linkedin_share'])) {
             update_post_meta($post_id, '_wpsp_is_linkedin_share', sanitize_text_field((isset($_POST['_wpsp_is_linkedin_share']) ? $_POST['_wpsp_is_linkedin_share'] : 'off')));
-        // }
+        }
         // pinterest
-        // if (isset($_POST['_wpsp_is_pinterest_share'])) {
+        if (isset($_POST['_wpsp_is_pinterest_share'])) {
             update_post_meta($post_id, '_wpsp_is_pinterest_share', sanitize_text_field((isset($_POST['_wpsp_is_pinterest_share']) ? $_POST['_wpsp_is_pinterest_share'] : 'off')));
-        // }
+        }
         
 
         // pinterest meta checkbox
-        // if (isset($_POST['pinterestboardtype'])) {
+        if (isset($_POST['pinterestboardtype'])) {
             update_post_meta($post_id, '_wpscppro_pinterestboardtype', sanitize_text_field($_POST['pinterestboardtype']));
-        // }
+        }
         // pinterest meta board name save
         if (isset($_POST['wpscppro-pinterest-board-name']) && is_array($_POST['wpscppro-pinterest-board-name'])) {
             $board_names = array_filter($_POST['wpscppro-pinterest-board-name'], 'sanitize_text_field');

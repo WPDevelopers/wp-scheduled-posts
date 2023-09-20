@@ -69,6 +69,7 @@
     gap: 10px;
     margin-bottom: 5px;
 }
+
 .social-share .social-accordion-item .social-profile input[type="checkbox"]{
     margin: 0;
 }
@@ -124,4 +125,101 @@
 }
 .interface-complementary-area .unpublish-on, .interface-complementary-area .republish-on {
     margin: 20px 0;
+}
+.social-share .social-accordion-item .social-accordion-button {
+    cursor: pointer;
+}
+.components-modal__frame.social-share-modal {
+    min-width: 600px;
+}
+.social-share-modal > .components-modal__content {
+    margin: 0;
+    position: relative;
+}
+.social-share-modal > .components-modal__content .components-button.has-icon{
+    position: absolute;
+    right: 5px;
+    top: 0;
+}
+.social-share-modal > .components-modal__content .components-modal__header .components-button svg {
+    width: 22px;
+    height: 22px;
+    fill: #989FAB;
+}
+.social-share-modal .social-profile .single-profile{
+    border: 1px solid #EBEEF5;
+    padding: 12px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+.social-share-modal .social-profile .single-profile:last-child{
+    margin-bottom: 0;
+}
+.social-share-modal .social-profile .single-profile .single-profile-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.social-share-modal .social-profile .single-profile .single-profile-content span{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+.social-share-modal .single-profile .profile-list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.social-share-modal .single-profile .profile-list h3 {
+    margin: 0;
+}
+.social-share-modal .single-profile .profile-list img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+.social-share-modal .social-profile .single-profile .message {
+    padding: 8px 12px;
+    border-radius: 4px;
+    background-color: #FFF3E8;
+    margin-top: 8px;
+}
+
+.social-share-modal .social-profile .single-profile .message span{
+    color: #FF9437;
+    font-style: italic;
+}
+.social-share-modal .social-profile .single-profile .message.success {
+    background-color: #ECF5F4;
+}
+.social-share-modal .social-profile .single-profile .message.success span{
+    color: #000;
+}
+.social-share-modal .badge {
+    text-transform: uppercase;
+    padding: 5px 20px;
+    border-radius: 18px;
+    font-size: 12px;
+    font-weight: 500;
+}
+.social-share-modal .badge.facebook-page {
+    color: #1877F2;
+    background: #F5F9FE;
+}
+.social-share-modal .social-profile h2{
+    text-transform: capitalize;
+    font-size: 18px;
+    font-weight: 500;
+}
+.social-share-modal .social-logo {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
+}
+.social-share-modal .social-logo img{
+    width: 24px;
+    height: 24px;
 }

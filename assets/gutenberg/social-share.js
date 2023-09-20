@@ -86,30 +86,34 @@ const SocialShare = () => {
           profile.postid = postid;
           let queryParams = profile;
           const apiUrl = '/wp-scheduled-posts/v1/instant-social-share';
-          console.log('hello from api');
           fetchSocialProfileData(apiUrl,queryParams).then( (res) => {
             if( profile.id ) {
-              responseMessage.push( { id: profile.id, message : res.data } );
+              responseMessage.push( { id: profile.id, message : JSON.stringify( res.data ), success : true } );
               setResponseMessage( [...responseMessage] );
             }
-            console.log('respn',res);
           } ).catch( (error) => {
-            console.log('error',error);
+            if( profile.id ) {
+              responseMessage.push( { id: profile.id, message : JSON.stringify(error), success : false } );
+              setResponseMessage( [...responseMessage] );
+            }
           } )
         } )
       }
     }
     const closeModal = () => {
+      alert('Hello');
       setResponseMessage([]);
+      setSelectedSocialProfile([]);
+      setSelectedSection([]);
       setIsOpenModal( false )
     };
     
     // Handle profile selection
-    const handleProfileSelectionCheckbox = ( event, platform, index, id, name, type ) => {
+    const handleProfileSelectionCheckbox = ( event, platform, index, id, name, type, thumbnail_url = '' ) => {
       if( event.target.checked ) {
         setSelectedSocialProfile((prevData) => {
           if( id ) {
-            return [...prevData,{ id, platform, platformKey: index, name, type } ]
+            return [...prevData,{ id, platform, platformKey: index, name, type, thumbnail_url } ]
           }
           return prevData;
         });
@@ -122,14 +126,14 @@ const SocialShare = () => {
     }
 
     // Handle pinterest profile selection 
-    const handlePinterestProfileSelectionCheckbox = ( event, pinterest, index  ) => {
+    const handlePinterestProfileSelectionCheckbox = ( event, pinterest, index, thumbnail_url = ''  ) => {
       if( event.target.checked ) {
         setSelectedSocialProfile((prevData) => {
           const board_id = pinterest?.default_board_name?.value;
           const board_name = pinterest?.default_board_name?.label;
           const findSection = selectedSection.find( ( item ) => item.board_id === board_id );
           if( pinterest?.default_board_name?.value ) {
-            prevData.push( { id : board_id, platform : 'pinterest', platformKey: index, pinterest_board_type : 'custom', pinterest_custom_board_name:  board_id,pinterest_custom_section_name : findSection?.section_id,name : board_name } );
+            prevData.push( { id : board_id, platform : 'pinterest', platformKey: index, pinterest_board_type : 'custom', pinterest_custom_board_name:  board_id,pinterest_custom_section_name : findSection?.section_id,name : board_name, thumbnail_url } );
           }
           return prevData;
         });
@@ -153,8 +157,8 @@ const SocialShare = () => {
       setSelectedSection(updateSectionArray);
     }
     useEffect(() => {
-      console.log('res',selectedSocialProfile.length);
-    }, [selectedSocialProfile])
+      console.log('res',);
+    }, [])
     
     return (
       <div className='social-share'>
@@ -175,7 +179,7 @@ const SocialShare = () => {
               <div className="accordion-content">
                   { facebookProfileData.map( ( facebook, index ) => (
                     <div className="facebook-profile social-profile">
-                        <input type="checkbox" checked={ (selectedSocialProfile.findIndex( ( item ) => item.id === facebook.id ) != -1) ? true : false } onClick={ (event) =>  handleProfileSelectionCheckbox( event, 'facebook', index, facebook?.id, facebook?.name, facebook?.type ) } />
+                        <input type="checkbox" checked={ (selectedSocialProfile.findIndex( ( item ) => item.id === facebook.id ) != -1) ? true : false } onClick={ (event) =>  handleProfileSelectionCheckbox( event, 'facebook', index, facebook?.id, facebook?.name, facebook?.type,facebook?.thumbnail_url ) } />
                         <h3>{ facebook?.name } ( { facebook.type ? facebook.type : __('Profile','wp-scheduled-posts') } ) </h3>
                     </div>
                   ) ) }
@@ -193,7 +197,7 @@ const SocialShare = () => {
                 <div className="accordion-content">
                   { twiiterProfileData.map( ( twitter, index ) => (
                     <div className="twitter-profile social-profile">
-                        <input checked={ (selectedSocialProfile.findIndex( ( item ) => item.id === twitter.id ) != -1) ? true : false } type="checkbox" onClick={ (event) =>  handleProfileSelectionCheckbox( event, 'twitter', index, twitter?.id,twitter?.name, twitter?.type ) } />
+                        <input checked={ (selectedSocialProfile.findIndex( ( item ) => item.id === twitter.id ) != -1) ? true : false } type="checkbox" onClick={ (event) =>  handleProfileSelectionCheckbox( event, 'twitter', index, twitter?.id,twitter?.name, twitter?.type, twitter?.thumbnail_url ) } />
                         <h3>{ twitter?.name } ( { twitter.type ? twitter.type : __('Profile','wp-scheduled-posts') } ) </h3>
                     </div>
                   ) ) }
@@ -211,7 +215,7 @@ const SocialShare = () => {
                 <div className="accordion-content">
                     { linkedinProfileData.map( ( linkedin, index ) => (
                       <div className="linkedin-profile social-profile">
-                          <input checked={ (selectedSocialProfile.findIndex( ( item ) => item.id === linkedin.id ) != -1) ? true : false } type="checkbox" onClick={ (event) =>  handleProfileSelectionCheckbox( event, 'linkedin', index, linkedin?.id, linkedin?.name, linkedin?.type ) } />
+                          <input checked={ (selectedSocialProfile.findIndex( ( item ) => item.id === linkedin.id ) != -1) ? true : false } type="checkbox" onClick={ (event) =>  handleProfileSelectionCheckbox( event, 'linkedin', index, linkedin?.id, linkedin?.name, linkedin?.type, linkedin?.thumbnail_url ) } />
                           <h3>{ linkedin?.name } ( { linkedin?.type == 'organization' ? __('Page','wp-scheduled-posts') : __('Profile','wp-scheduled-posts')  } ) </h3>
                       </div>
                     ) ) }
@@ -236,7 +240,7 @@ const SocialShare = () => {
                     />
                     { pinterestShareType === 'custom' && pinterestProfileData.map( ( pinterest, index ) => (
                       <div className="pinterest-profile social-profile">
-                          <input checked={ (selectedSocialProfile.findIndex( ( item ) => item.id === pinterest.id ) != -1) ? true : false } type="checkbox" onClick={ (event) =>  handlePinterestProfileSelectionCheckbox( event, pinterest, index ) } />
+                          <input checked={ (selectedSocialProfile.findIndex( ( item ) => item.id === pinterest.id ) != -1) ? true : false } type="checkbox" onClick={ (event) =>  handlePinterestProfileSelectionCheckbox( event, pinterest, index, pinterest?.thumbnail_url) } />
                           <h3>{ pinterest?.default_board_name?.label } </h3>
                           <select className="pinterest-sections" onChange={ (event) =>  handleSectionChange(pinterest?.default_board_name?.value,event.target.value) }>
                             <option value="No Section">No Section</option>
@@ -250,7 +254,7 @@ const SocialShare = () => {
               )}
             </div>
           { isOpenModal && (
-            <Modal onRequestClose={ closeModal }>
+            <Modal className="social-share-modal" onRequestClose={ closeModal }>
               <SelectedSocialProfileModal platform="facebook" selectedSocialProfile={ selectedSocialProfile } responseMessage={ responseMessage } />
               <SelectedSocialProfileModal platform="twitter" selectedSocialProfile={ selectedSocialProfile } responseMessage={ responseMessage }  />
               <SelectedSocialProfileModal platform="linkedin" selectedSocialProfile={ selectedSocialProfile } responseMessage={ responseMessage }  />
