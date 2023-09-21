@@ -204,9 +204,21 @@
     font-size: 12px;
     font-weight: 500;
 }
-.social-share-modal .badge.facebook-page {
+.social-share-modal .badge.facebook {
     color: #1877F2;
     background: #F5F9FE;
+}
+.social-share-modal .badge.twitter {
+    color: #6C62FF;
+    background: #F3F2FF;
+}
+.social-share-modal .badge.linkedin {
+    color: #007AB9;
+    background: #F0FAFF;
+}
+.social-share-modal .badge.pinterest {
+    color: #6C62FF;
+    background: #F3F2FF;
 }
 .social-share-modal .social-profile h2{
     text-transform: capitalize;
@@ -236,3 +248,19 @@
     padding: 18px 10px 10px;
     border-top: 1px solid #EBEEF5;
 }
+.social-share .social-share-wrapper .components-radio-control__input[type=radio]:checked+label {
+    color: #000;
+}
+.social-share .accordion-content .components-base-control.components-radio-control .components-base-control__field > div {
+    /* flex-direction: unset; */
+    /* justify-content: space-between; */
+}
+/* .social-share .accordion-content .components-base-control.components-radio-control .components-radio-control__input[type=radio]:checked:before {
+    background-color: red;
+    border: unset;
+    box-sizing: inherit;
+    height: 12px;
+    margin: 0;
+    width: 12px;
+    transform: translate(2px,2px);
+} */

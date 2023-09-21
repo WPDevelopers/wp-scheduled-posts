@@ -4,7 +4,11 @@ const {
 } = wp;
 const { __ } = wp.i18n;
 
-const SelectedSocialProfileModal = ( { platform, selectedSocialProfile, responseMessage } ) => {
+const SelectedSocialProfileModal = ( { platform, selectedSocialProfile, responseMessage, pinterest_board_type = ''} ) => {
+    let filteredSelectedSocialProfile = selectedSocialProfile;
+    if( platform === 'pinterest' ) {
+        filteredSelectedSocialProfile = selectedSocialProfile.filter((profile) => profile?.pinterest_board_type === pinterest_board_type);
+    }
   return (
     <>
         { selectedSocialProfile.filter( (profile) => profile.platform === platform ).length > 0 && 
@@ -13,7 +17,7 @@ const SelectedSocialProfileModal = ( { platform, selectedSocialProfile, response
                 <img src={ `${WPSchedulePostsFree.assetsURI}images/${platform}.svg` } alt="" />
                 <h2>{platform}</h2>
             </div>
-            { selectedSocialProfile.filter( (profile) => profile.platform === platform ).map( ( profile ) => (
+            { filteredSelectedSocialProfile.filter( (profile) => profile.platform === platform ).map( ( profile ) => (
                 <Fragment>
                     <div className='single-profile'>
                         <div className="single-profile-content">
@@ -24,16 +28,16 @@ const SelectedSocialProfileModal = ( { platform, selectedSocialProfile, response
                                     {
                                         {
                                             facebook: (
-                                                <span className={`badge facebook-${profile.type}`}>{ profile.type ? profile.type : __('Profile','wp-scheduled-posts') }</span>
+                                                <span className={`badge facebook`}>{ profile.type ? profile.type : __('Profile','wp-scheduled-posts') }</span>
                                             ),
                                             twitter: (
-                                                <span className={`badge twitter-${ profile.type ? profile.type : 'profile'}`}>{ profile.type ? profile.type : __('Profile','wp-scheduled-posts') }</span>
+                                                <span className={`badge twitter`}>{ profile.type ? profile.type : __('Profile','wp-scheduled-posts') }</span>
                                             ),
                                             linkedin: (
-                                                <span className={`badge linkedin-${profile.type}`}>{ profile?.type == 'organization' ? __('Page','wp-scheduled-posts') : __('Profile','wp-scheduled-posts')  }</span>
+                                                <span className={`badge linkedin`}>{ profile?.type == 'organization' ? __('Page','wp-scheduled-posts') : __('Profile','wp-scheduled-posts')  }</span>
                                             ),
                                             pinterest: (
-                                                <span className={`badge pinterest-${profile?.account_type?.toLowerCase()}`}>{ profile?.account_type ? __('Board','wp-scheduled-posts') : profile?.type }</span>
+                                                <span className={`badge pinterest`}>{  __('Board','wp-scheduled-posts') }</span>
 
                                             ),
                                         }[platform]
@@ -52,7 +56,7 @@ const SelectedSocialProfileModal = ( { platform, selectedSocialProfile, response
                             </div>
                         </div>
                         { responseMessage.find( ( item ) => item.id === profile.id ) && 
-                            <div className={`message ${ responseMessage.find( (item) => item.id === profile.id )?.success ? 'success' : 'error' } `}>
+                            <div className={`message ${ responseMessage.find( (item) => item.id === profile.id )?.success ? 'success' : '' } `}>
                                 <span>{ responseMessage.find( (item) => item.id === profile.id )?.message }</span>
                             </div>
                         }
