@@ -86,9 +86,8 @@ class AdminPublishButton extends Component {
             )}
           </div>
         )}
-        <SocialShare/>
-        {/* <div className="social-share" dangerouslySetInnerHTML={ {__html: WPSchedulePostsFree?.socialShareSettings } } /> */}
         <WpspProSlot.Slot/>
+        <SocialShare/>
       </PluginDocumentSettingPanel>
     );
   }

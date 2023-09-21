@@ -198,7 +198,7 @@ const SocialShare = () => {
                           </div>
                         ) ) }
                       </Fragment>
-                    : "No profile found!!"
+                    : __('You may forget to add or enable profile/page from SchedulePress settings.','wp-scheduled-posts')
                     }
                   </div>
                 )}
@@ -219,7 +219,7 @@ const SocialShare = () => {
                           </div>
                         ) ) }
                       </Fragment>
-                    : "No profile found!!" }
+                    : __('You may forget to add or enable profile/page from SchedulePress settings.','wp-scheduled-posts') }
                     </div>
                   )}
                 </div>
@@ -239,7 +239,7 @@ const SocialShare = () => {
                             </div>
                           ) ) }
                         </Fragment>
-                      : "No profile found!!"
+                      : __('You may forget to add or enable profile/page from SchedulePress settings.','wp-scheduled-posts')
                       }
                     </div>
                   )}
@@ -251,6 +251,8 @@ const SocialShare = () => {
                   </div>
                   {isOpen === 'isOpenPinterest' && (
                     <div className="accordion-content">
+                      { pinterestProfileData.length > 0 ?
+                      <Fragment>
                         <RadioControl
                             selected={ pinterestShareType }
                             options={ [
@@ -271,6 +273,8 @@ const SocialShare = () => {
                               </select>
                           </div>
                         ) ) }
+                      </Fragment>
+                     : __('You may forget to add or enable profile/page from SchedulePress settings.','wp-scheduled-posts') }
                     </div>
                   )}
                 </div>

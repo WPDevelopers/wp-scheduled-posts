@@ -50,7 +50,6 @@
 /* Start social share css  */
 .social-share .social-accordion-item {
     background: #F9FAFC;
-    padding: 10px;
     margin-bottom: 10px;
     border: 1px solid #EBEEF5;
     border-radius: 6px;
@@ -61,13 +60,20 @@
     justify-content: start;
     align-items: center;
     gap: 8px;
+    padding: 10px;
 }
 .social-share .social-accordion-item .social-profile {
     display: flex;
     justify-content: start;
     align-items: center;
     gap: 10px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
+}
+.social-share .social-accordion-item .social-profile.pinterest-profile {
+    justify-content: space-between;
+}
+.social-share .social-accordion-item .social-profile:last-child {
+    margin-bottom: 0;
 }
 
 .social-share .social-accordion-item .social-profile input[type="checkbox"]{
@@ -103,9 +109,6 @@
 .social-share-wrapper .social-accordion-item .social-accordion-button span{
     font-size: 14px;
     font-weight: 500;
-}
-.social-share .social-share-wrapper .accordion-content {
-    margin-top: 18px;
 }
 .social-share .share-btn {
     border-radius: 6px;
@@ -248,19 +251,50 @@
     padding: 18px 10px 10px;
     border-top: 1px solid #EBEEF5;
 }
-.social-share .social-share-wrapper .components-radio-control__input[type=radio]:checked+label {
+.social-share .social-share-wrapper .components-base-control.components-radio-control .components-radio-control__input[type=radio]:checked+label {
     color: #000;
 }
-.social-share .accordion-content .components-base-control.components-radio-control .components-base-control__field > div {
-    /* flex-direction: unset; */
-    /* justify-content: space-between; */
+.social-share .social-share-wrapper .components-base-control.components-radio-control .components-radio-control__input[type=radio]:focus {
+    box-shadow: none;
+    outline: none;
 }
-/* .social-share .accordion-content .components-base-control.components-radio-control .components-radio-control__input[type=radio]:checked:before {
-    background-color: red;
-    border: unset;
+.social-share .accordion-content .components-base-control.components-radio-control {
+    margin-bottom: 15px;
+}
+.social-share .accordion-content .components-base-control.components-radio-control .components-base-control__field > div {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    flex-direction: row;
+    justify-content: start;
+    gap: calc(4px);
+}
+.social-share .social-share-wrapper .social-profile .pinterest-sections {
+    color: #6E6E8D;
+    border-color: #EBEEF5;
+    border-radius: 6px;
+    background: #F9FAFC url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E) no-repeat right 5px top 55%;
+}
+
+.social-share .social-share-wrapper .social-profile .pinterest-sections:focus {
+    border-color: #EBEEF5;
+    color: #6E6E8D;
+    box-shadow: none;
+}
+.social-share .accordion-content .components-base-control.components-radio-control .components-base-control__field .components-radio-control__option label {
+    font-weight: normal;
+}
+.social-share .accordion-content .components-base-control.components-radio-control .components-radio-control__input[type=radio]:checked:before {
+    transform: translate(3px, 3px);
+    background-color: #6C62FF;
+    border: 4px solid #6C62FF;
     box-sizing: inherit;
     height: 12px;
     margin: 0;
     width: 12px;
-    transform: translate(2px,2px);
-} */
+}
+
+.social-share .accordion-content .components-base-control.components-radio-control .components-base-control__field .components-radio-control__input[type=radio]:checked {
+    background: transparent;
+    border: 1px solid #6C62FF;
+}
