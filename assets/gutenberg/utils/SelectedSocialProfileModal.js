@@ -6,9 +6,9 @@ const { __ } = wp.i18n;
 
 const SelectedSocialProfileModal = ( { platform, selectedSocialProfile, responseMessage, pinterest_board_type = ''} ) => {
     let filteredSelectedSocialProfile = selectedSocialProfile;
-    if( platform === 'pinterest' ) {
-        filteredSelectedSocialProfile = selectedSocialProfile.filter((profile) => profile?.pinterest_board_type === pinterest_board_type);
-    }
+    // if( platform === 'pinterest' ) {
+    //     filteredSelectedSocialProfile = selectedSocialProfile.filter((profile) => profile?.pinterest_board_type === pinterest_board_type);
+    // }
   return (
     <>
         { selectedSocialProfile.filter( (profile) => profile.platform === platform ).length > 0 && 

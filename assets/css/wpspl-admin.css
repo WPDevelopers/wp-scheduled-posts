@@ -16,12 +16,13 @@
     color: #1B1B50;
 }
 .sc-publish-future .components-checkbox-control input[type="checkbox"] {
-    border: 1px solid #ddd;
+    border: 1px solid #D7DBDF;
+    border-radius: 4px;
     box-shadow: unset;
 }
 .sc-publish-future .components-checkbox-control input[type="checkbox"]:checked {
     background-color: #02AC6E;
-    /* border: none; */
+    border: 1px solid #02AC6E;
 }
 .sc-publish-future-buttons {
     display: flex;
@@ -78,6 +79,11 @@
 
 .social-share .social-accordion-item .social-profile input[type="checkbox"]{
     margin: 0;
+    width: 18px;
+    height: 18px;
+    border: 1px solid #D7DBDF;
+    border-radius: 4px;
+    background: transparent;
 }
 .social-share {
     margin-top: 30px;
@@ -250,6 +256,10 @@
 .social-share .social-share-wrapper .accordion-content {
     padding: 18px 10px 10px;
     border-top: 1px solid #EBEEF5;
+    color: #6E6E8D;
+}
+.social-share .social-share-wrapper .components-base-control.components-radio-control .components-radio-control__input[type=radio] {
+    border: 1px solid #D7DBDF;
 }
 .social-share .social-share-wrapper .components-base-control.components-radio-control .components-radio-control__input[type=radio]:checked+label {
     color: #000;
@@ -296,5 +306,83 @@
 
 .social-share .accordion-content .components-base-control.components-radio-control .components-base-control__field .components-radio-control__input[type=radio]:checked {
     background: transparent;
-    border: 1px solid #6C62FF;
+    border: 1px solid #D7DBDF;
 }
+
+.social-share .share-checkbox input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #D7DBDF;
+    border-radius: 4px;
+    background: transparent;
+  }
+  
+  .social-share .share-checkbox input[type="checkbox"]:checked::before {
+      /* content: url(data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20d%3D%27M14.83%204.89l1.34.94-5.81%208.38H9.02L5.78%209.67l1.34-1.25%202.57%202.4z%27%20fill%3D%27%23ffffff%27%2F%3E%3C%2Fsvg%3E); */
+      margin: -0.01rem 0 0 -0.1rem;
+      height: 20px;
+      width: 20px;
+  }
+  .social-share .share-checkbox input[type="checkbox"]:focus {
+        box-shadow: none;
+        outline: none;
+    }
+    .social-share .social-accordion-item .social-profile input[type="checkbox"]:focus {
+        box-shadow: none;
+        outline: none;
+    }
+    .social-share .social-accordion-item .social-profile input[type="checkbox"]:checked::before {
+        margin: -0.1rem 0 0 -0.1rem;
+        height: 18px;
+        width: 18px;
+        background: green;
+        border-radius: 4px;
+        border: 1px solid green;
+    }
+
+/* Rasel vai Code  */
+  .unpublish-on .components-base-control .components-base-control__field input.components-text-control__input,
+  .republish-on .components-base-control .components-base-control__field input.components-text-control__input {
+      padding: 8px 10px;
+      color: #6E6E8D;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 16.94px;
+      border: 1px solid #EBEEF5;
+      border-radius: 6px;
+      background: #F9FAFC;
+  }
+  
+  .unpublish-on .components-base-control .components-base-control__field input.components-text-control__input:focus,
+  .republish-on .components-base-control .components-base-control__field input.components-text-control__input:focus {
+      border-color: #EBEEF5;
+      box-shadow: none;
+      outline: none;
+  }
+  
+  .unpublish-popover .components-popover__content,.republish-popover .components-popover__content {
+      padding: 10px;
+  }
+  .republish-popover .components-popover__content .components-datetime,.unpublish-popover .components-popover__content .components-datetime  {
+      margin: 8px;
+  }
+  .schedule-press-section .components-input-control__container {
+      border-radius: 6px;
+      background: transparent;
+  }
+  .schedule-press-section .components-input-control__container .components-select-control__input {
+      height: 100%;
+      padding: 10px 26px 10px 10px;
+      color: #1B1B50;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 16.94px;
+      background: #F9FAFC;
+  }
+  
+  .schedule-press-section .components-flex-item label.components-text {
+      color: #1B1B50;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 16.94px;
+  }

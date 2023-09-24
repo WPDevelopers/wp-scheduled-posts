@@ -25,6 +25,9 @@ const SocialShare = () => {
     const [responseMessage,setResponseMessage] = useState([]);
     const [selectedSection, setSelectedSection] = useState([]);
     const [isSocialShareDisable, setIsDisableSocialShare] = useState(false);
+    const [facebookShareType,setFacebookShareType] = useState('default');
+    const [twitterShareType,setTwitterShareType] = useState('default');
+    const [linkedinShareType,setLinkedinShareType] = useState('default');
     // Get social profile data from wp_options table
     useEffect(() => {
       // fetch facebook profile data
@@ -44,6 +47,7 @@ const SocialShare = () => {
           const filtered_linkedin_profile_list = wpsp_settings?.linkedin_profile_list.filter( item => item.status === true );
           setLinkedinProfileData( filtered_linkedin_profile_list );
         }
+        let default_selected_social_profile = [];
         if( wpsp_settings?.pinterest_profile_status ) {
           let default_selected_section = [];
           let filtered_pinterest_profile_list = wpsp_settings?.pinterest_profile_list.filter( item => item.status === true );
@@ -58,14 +62,41 @@ const SocialShare = () => {
               fetchPinterestSection(data).then( ( res ) => {
                 filtered_pinterest_profile_list[index].sections = res.data;
               } )
-              pinterest_default_share.push( { id : pinterest_profile?.id, platform : 'pinterest', platformKey: index, pinterest_board_type : 'default', pinterest_custom_board_name:  pinterest_profile?.default_board_name?.value, pinterest_custom_section_name : pinterest_profile?.defaultSection?.value , name : pinterest_profile?.default_board_name?.label, thumbnail_url : pinterest_profile?.thumbnail_url } );
+              // default_selected_social_profile.push( { id : pinterest_profile?.default_board_name?.value, platform : 'pinterest', platformKey: index, pinterest_board_type : 'default', pinterest_custom_board_name:  pinterest_profile?.default_board_name?.value, pinterest_custom_section_name : pinterest_profile?.defaultSection?.value , name : pinterest_profile?.default_board_name?.label, thumbnail_url : pinterest_profile?.thumbnail_url } );
+              default_selected_social_profile.push( { id : pinterest_profile?.default_board_name?.value, platform : 'pinterest', platformKey: index, pinterest_custom_board_name:  pinterest_profile?.default_board_name?.value, pinterest_custom_section_name : pinterest_profile?.defaultSection?.value , name : pinterest_profile?.default_board_name?.label, thumbnail_url : pinterest_profile?.thumbnail_url } );
 
             } )
-            setSelectedSocialProfile( [...pinterest_default_share] );
+            // setSelectedSocialProfile( [...pinterest_default_share] );
           }
           setSelectedSection(default_selected_section);
           setPinterestProfileData([...filtered_pinterest_profile_list]);
         }
+
+        // Set default selection for facebook
+        if( wpsp_settings?.facebook_profile_status ) {
+          // let default_facebook_selection = selectedSocialProfile;
+          let facebook_profile_list = wpsp_settings?.facebook_profile_list.filter( item => item.status === true );
+          facebook_profile_list.map( (profile,index) => {
+            default_selected_social_profile.push( { id: profile.id, platform: 'facebook', platformKey: index, name : profile.name, type : profile?.type, thumbnail_url : profile.thumbnail_url, share_type : facebookShareType } );
+          } )
+        }
+        // Handle twiiter default selection
+        if( wpsp_settings?.twitter_profile_status ) {
+          // let default_facebook_selection = selectedSocialProfile;
+          let twitter_profile_list = wpsp_settings?.twitter_profile_list.filter( item => item.status === true );
+          twitter_profile_list.map( (profile,index) => {
+            default_selected_social_profile.push( { id: profile.id, platform: 'twitter', platformKey: index, name : profile.name, type : profile?.type, thumbnail_url : profile.thumbnail_url, share_type : twitterShareType } );
+          } )
+        }
+        // Handle linkedin default selection
+        if( wpsp_settings?.linkedin_profile_status ) {
+          // let default_facebook_selection = selectedSocialProfile;
+          let linkedin_profile_list = wpsp_settings?.linkedin_profile_list.filter( item => item.status === true );
+          linkedin_profile_list.map( (profile,index) => {
+            default_selected_social_profile.push( { id: profile.id, platform: 'linkedin', platformKey: index, name : profile.name, type : profile?.type, thumbnail_url : profile.thumbnail_url, share_type : linkedinShareType } );
+          } )
+        }
+        setSelectedSocialProfile( [...default_selected_social_profile] );
       } ).catch( (error) => {
         console.log('error',error);
       } )
@@ -103,7 +134,6 @@ const SocialShare = () => {
     }
     const closeModal = () => {
       setResponseMessage([]);
-      setSelectedSection([]);
       setIsOpenModal( false )
     };
     
@@ -167,9 +197,11 @@ const SocialShare = () => {
     const handleDisableSocialShare = (event) => {
       setIsDisableSocialShare(event.target.checked);
     }
+
     useEffect(() => {
       console.log('res',selectedSocialProfile);
-    }, [selectedSocialProfile])
+      console.log('sections',selectedSection);
+    }, [selectedSocialProfile,selectedSection])
     
     return (
       <div className='social-share'>
@@ -183,43 +215,59 @@ const SocialShare = () => {
             <div className="social-share-wrapper">
               <h3>Choose Social Share Platform</h3>
                 <div className="social-accordion-item">
-                  <div className="social-accordion-button" onClick={() => toggleAccordion('isOpen')}>
-                      <img src={ WPSchedulePostsFree.assetsURI + '/images/facebook.svg' } alt="" />
-                      <span>Facebook</span>
-                  </div>
+                <div className="social-accordion-button" onClick={() => toggleAccordion('isOpen')}>
+                    <img src={ WPSchedulePostsFree.assetsURI + '/images/facebook.svg' } alt="" />
+                    <span>Facebook</span>
+                </div>
                 { isOpen === 'isOpen' && (
                   <div className="accordion-content">
                     { facebookProfileData.length > 0 ?
                       <Fragment>
-                        { facebookProfileData.map( ( facebook, index ) => (
+                        <RadioControl
+                          selected={ facebookShareType }
+                          options={ [
+                              { label: 'Default', value: 'default' },
+                              { label: 'Custom', value: 'custom' },
+                          ] }
+                          onChange={ ( value ) => setFacebookShareType( value ) }
+                        />
+                        { facebookShareType === 'custom' && facebookProfileData.map( ( facebook, index ) => (
                           <div className="facebook-profile social-profile">
-                              <input type="checkbox" checked={ (selectedSocialProfile.findIndex( ( item ) => item.id === facebook.id ) != -1) ? true : false } onClick={ (event) =>  handleProfileSelectionCheckbox( event, 'facebook', index, facebook?.id, facebook?.name, facebook?.type,facebook?.thumbnail_url ) } />
-                              <h3>{ facebook?.name } ( { facebook.type ? facebook.type : __('Profile','wp-scheduled-posts') } ) </h3>
+                            <input type="checkbox" checked={ (selectedSocialProfile.findIndex( ( item ) => item.id === facebook.id ) != -1) ? true : false } onClick={ (event) =>  handleProfileSelectionCheckbox( event, 'facebook', index, facebook?.id, facebook?.name, facebook?.type,facebook?.thumbnail_url ) } />
+                            <h3>{ facebook?.name } ( { facebook.type ? facebook.type : __('Profile','wp-scheduled-posts') } ) </h3>
                           </div>
                         ) ) }
                       </Fragment>
-                    : __('You may forget to add or enable profile/page from SchedulePress settings.','wp-scheduled-posts')
+                    : <div dangerouslySetInnerHTML={ { __html: "You may forget to add or enable profile/page from SchedulePress settings.<a href='https://schedulepress.test/wp-admin/admin.php?page=schedulepress&tab=social-profile'>Add profile/page</a>" } }></div>
                     }
                   </div>
                 )}
               </div>
                 <div className="social-accordion-item">
-                    <div className="social-accordion-button" onClick={() => toggleAccordion('isOpenTwitter')}>
-                        <img src={ WPSchedulePostsFree.assetsURI + '/images/twitter.svg' } alt="" />
-                        <span>Twitter</span>
-                    </div>
+                  <div className="social-accordion-button" onClick={() => toggleAccordion('isOpenTwitter')}>
+                      <img src={ WPSchedulePostsFree.assetsURI + '/images/twitter.svg' } alt="" />
+                      <span>Twitter</span>
+                  </div>
                   {isOpen === 'isOpenTwitter' && (
                     <div className="accordion-content">
                     { twiiterProfileData.length > 0 ?
                       <Fragment>
-                        { twiiterProfileData.map( ( twitter, index ) => (
+                        <RadioControl
+                          selected={ twitterShareType }
+                          options={ [
+                              { label: 'Default', value: 'default' },
+                              { label: 'Custom', value: 'custom' },
+                          ] }
+                          onChange={ ( value ) => setTwitterShareType( value ) }
+                        />
+                        { twitterShareType === 'custom' && twiiterProfileData.map( ( twitter, index ) => (
                           <div className="twitter-profile social-profile">
                               <input checked={ (selectedSocialProfile.findIndex( ( item ) => item.id === twitter.id ) != -1) ? true : false } type="checkbox" onClick={ (event) =>  handleProfileSelectionCheckbox( event, 'twitter', index, twitter?.id,twitter?.name, twitter?.type, twitter?.thumbnail_url ) } />
                               <h3>{ twitter?.name } ( { twitter.type ? twitter.type : __('Profile','wp-scheduled-posts') } ) </h3>
                           </div>
                         ) ) }
                       </Fragment>
-                    : __('You may forget to add or enable profile/page from SchedulePress settings.','wp-scheduled-posts') }
+                    : <div dangerouslySetInnerHTML={ { __html: "You may forget to add or enable profile/page from SchedulePress settings.<a href='https://schedulepress.test/wp-admin/admin.php?page=schedulepress&tab=social-profile'>Add profile/page</a>" } }></div> }
                     </div>
                   )}
                 </div>
@@ -229,17 +277,26 @@ const SocialShare = () => {
                       <span>Linkedin</span>
                   </div>
                   {isOpen === 'isOpenLinkedin' && (
+                    
                     <div className="accordion-content">
                       { linkedinProfileData.length > 0 ?
                         <Fragment>
-                          { linkedinProfileData.map( ( linkedin, index ) => (
+                          <RadioControl
+                            selected={ linkedinShareType }
+                            options={ [
+                                { label: 'Default', value: 'default' },
+                                { label: 'Custom', value: 'custom' },
+                            ] }
+                            onChange={ ( value ) => setLinkedinShareType( value ) }
+                          />
+                          { linkedinShareType === 'custom' && linkedinProfileData.map( ( linkedin, index ) => (
                             <div className="linkedin-profile social-profile">
                                 <input checked={ (selectedSocialProfile.findIndex( ( item ) => item.id === linkedin.id ) != -1) ? true : false } type="checkbox" onClick={ (event) =>  handleProfileSelectionCheckbox( event, 'linkedin', index, linkedin?.id, linkedin?.name, linkedin?.type, linkedin?.thumbnail_url ) } />
                                 <h3>{ linkedin?.name } ( { linkedin?.type == 'organization' ? __('Page','wp-scheduled-posts') : __('Profile','wp-scheduled-posts')  } ) </h3>
                             </div>
                           ) ) }
                         </Fragment>
-                      : __('You may forget to add or enable profile/page from SchedulePress settings.','wp-scheduled-posts')
+                      : <div dangerouslySetInnerHTML={ { __html: "You may forget to add or enable profile/page from SchedulePress settings.<a href='https://schedulepress.test/wp-admin/admin.php?page=schedulepress&tab=social-profile'>Add profile/page</a>" } }></div>
                       }
                     </div>
                   )}
@@ -254,12 +311,12 @@ const SocialShare = () => {
                       { pinterestProfileData.length > 0 ?
                       <Fragment>
                         <RadioControl
-                            selected={ pinterestShareType }
-                            options={ [
-                                { label: 'Default Board', value: 'default' },
-                                { label: 'Custom Board', value: 'custom' },
-                            ] }
-                            onChange={ ( value ) => handlePinterestBoardTypeSelection( value ) }
+                          selected={ pinterestShareType }
+                          options={ [
+                              { label: 'Default Board', value: 'default' },
+                              { label: 'Custom Board', value: 'custom' },
+                          ] }
+                          onChange={ ( value ) => handlePinterestBoardTypeSelection( value ) }
                         />
                         { pinterestShareType === 'custom' && pinterestProfileData.map( ( pinterest, index ) => (
                           <div className="pinterest-profile social-profile">
@@ -268,13 +325,13 @@ const SocialShare = () => {
                               <select className="pinterest-sections" onChange={ (event) =>  handleSectionChange(pinterest?.default_board_name?.value,event.target.value) }>
                                 <option value="No Section">No Section</option>
                                 { pinterest?.sections?.map( (section) => (
-                                  <option value={ section?.id }>{ section?.name }</option>
+                                  <option value={ section?.id } selected={ (selectedSection.findIndex( (__item) => __item.board_id === pinterest?.default_board_name?.value && __item.section_id === section?.id ) !== -1) ? true : false } >{ section?.name }</option>
                                 ) ) }
                               </select>
                           </div>
                         ) ) }
                       </Fragment>
-                     : __('You may forget to add or enable profile/page from SchedulePress settings.','wp-scheduled-posts') }
+                     : <div dangerouslySetInnerHTML={ { __html: "You may forget to add or enable profile/page from SchedulePress settings.<a href='https://schedulepress.test/wp-admin/admin.php?page=schedulepress&tab=social-profile'>Add profile/page</a>" } }></div> }
                     </div>
                   )}
                 </div>

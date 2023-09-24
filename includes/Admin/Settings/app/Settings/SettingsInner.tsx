@@ -42,6 +42,10 @@ const SettingsInner = (props) => {
       // set active tab to layout_calendar
       builderContext.setActiveTab('layout_license');
     }
+    if(urlParams.get('page') === 'schedulepress' && urlParams.get('tab') === 'social-profile') {
+      // set active tab to layout_calendar
+      builderContext.setActiveTab('layout_social_profile');
+    }
 
   }, [])
 
