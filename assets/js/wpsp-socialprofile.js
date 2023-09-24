@@ -2,13 +2,13 @@ jQuery(document).ready(function ($) {
     /**
      * WordPress sidebar checkbox control for don't share
      */
-    jQuery(document).on('click', '#wpscpprodontshare', function (e) {
-        if (this.checked == true) {
-            jQuery('#socialmedia').hide()
-        } else {
-            jQuery('#socialmedia').show()
-        }
-    })
+    // jQuery(document).on('click', '#wpscpprodontshare', function (e) {
+    //     if (this.checked == true) {
+    //         jQuery('#socialmedia').hide()
+    //     } else {
+    //         jQuery('#socialmedia').show()
+    //     }
+    // })
 
     /**
      * ajax instant share modal

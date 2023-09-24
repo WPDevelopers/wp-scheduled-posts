@@ -52,7 +52,6 @@ const SocialShare = () => {
           let default_selected_section = [];
           let filtered_pinterest_profile_list = wpsp_settings?.pinterest_profile_list.filter( item => item.status === true );
           if( filtered_pinterest_profile_list.length > 0 ) {
-            let pinterest_default_share = [];
             filtered_pinterest_profile_list.map( (pinterest_profile,index) => {
               let data = {
                 defaultBoard: pinterest_profile?.default_board_name?.value,
@@ -62,11 +61,9 @@ const SocialShare = () => {
               fetchPinterestSection(data).then( ( res ) => {
                 filtered_pinterest_profile_list[index].sections = res.data;
               } )
-              // default_selected_social_profile.push( { id : pinterest_profile?.default_board_name?.value, platform : 'pinterest', platformKey: index, pinterest_board_type : 'default', pinterest_custom_board_name:  pinterest_profile?.default_board_name?.value, pinterest_custom_section_name : pinterest_profile?.defaultSection?.value , name : pinterest_profile?.default_board_name?.label, thumbnail_url : pinterest_profile?.thumbnail_url } );
               default_selected_social_profile.push( { id : pinterest_profile?.default_board_name?.value, platform : 'pinterest', platformKey: index, pinterest_custom_board_name:  pinterest_profile?.default_board_name?.value, pinterest_custom_section_name : pinterest_profile?.defaultSection?.value , name : pinterest_profile?.default_board_name?.label, thumbnail_url : pinterest_profile?.thumbnail_url } );
 
             } )
-            // setSelectedSocialProfile( [...pinterest_default_share] );
           }
           setSelectedSection(default_selected_section);
           setPinterestProfileData([...filtered_pinterest_profile_list]);
@@ -74,7 +71,6 @@ const SocialShare = () => {
 
         // Set default selection for facebook
         if( wpsp_settings?.facebook_profile_status ) {
-          // let default_facebook_selection = selectedSocialProfile;
           let facebook_profile_list = wpsp_settings?.facebook_profile_list.filter( item => item.status === true );
           facebook_profile_list.map( (profile,index) => {
             default_selected_social_profile.push( { id: profile.id, platform: 'facebook', platformKey: index, name : profile.name, type : profile?.type, thumbnail_url : profile.thumbnail_url, share_type : facebookShareType } );
@@ -82,7 +78,6 @@ const SocialShare = () => {
         }
         // Handle twiiter default selection
         if( wpsp_settings?.twitter_profile_status ) {
-          // let default_facebook_selection = selectedSocialProfile;
           let twitter_profile_list = wpsp_settings?.twitter_profile_list.filter( item => item.status === true );
           twitter_profile_list.map( (profile,index) => {
             default_selected_social_profile.push( { id: profile.id, platform: 'twitter', platformKey: index, name : profile.name, type : profile?.type, thumbnail_url : profile.thumbnail_url, share_type : twitterShareType } );
@@ -90,7 +85,6 @@ const SocialShare = () => {
         }
         // Handle linkedin default selection
         if( wpsp_settings?.linkedin_profile_status ) {
-          // let default_facebook_selection = selectedSocialProfile;
           let linkedin_profile_list = wpsp_settings?.linkedin_profile_list.filter( item => item.status === true );
           linkedin_profile_list.map( (profile,index) => {
             default_selected_social_profile.push( { id: profile.id, platform: 'linkedin', platformKey: index, name : profile.name, type : profile?.type, thumbnail_url : profile.thumbnail_url, share_type : linkedinShareType } );

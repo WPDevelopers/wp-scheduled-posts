@@ -21,7 +21,7 @@ class InstantShare
     {
         $allow_post_types = \WPSP\Helper::get_settings('allow_post_types');
         $allow_post_types = (!empty($allow_post_types) ? $allow_post_types : array('post'));
-        add_meta_box('WpScp_instantshare_meta_box', __('Social Share Settings', 'wp-scheduled-posts'), array($this, 'instant_share_metabox_markup'), $allow_post_types, 'side', 'low');
+        // add_meta_box('WpScp_instantshare_meta_box', __('Social Share Settings', 'wp-scheduled-posts'), array($this, 'instant_share_metabox_markup'), $allow_post_types, 'side', 'low');
     }
     public function instant_share_metabox_markup()
     {
@@ -216,8 +216,8 @@ class InstantShare
         if (isset($_POST['wpscppro_custom_social_share_image'])) {
             update_post_meta($post_id, '_wpscppro_custom_social_share_image', sanitize_text_field($_POST['wpscppro_custom_social_share_image']));
         }
-        if (isset($_POST['wpscppro-dont-share-socialmedia'])) {
-            update_post_meta($post_id, '_wpscppro_dont_share_socialmedia', sanitize_text_field($_POST['wpscppro-dont-share-socialmedia']));
+        if (isset($_POST['_wpscppro_dont_share_socialmedia'])) {
+            update_post_meta($post_id, '_wpscppro_dont_share_socialmedia', sanitize_text_field($_POST['_wpscppro_dont_share_socialmedia']));
         } else {
             delete_post_meta($post_id, '_wpscppro_dont_share_socialmedia');
         }
