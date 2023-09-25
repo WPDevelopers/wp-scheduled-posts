@@ -101,8 +101,6 @@ const SocialShare = () => {
           } )
         }
         setSelectedSocialProfile( [...default_selected_social_profile] );
-      } ).catch( (error) => {
-        console.log('error',error);
       } )
     }, [])
   

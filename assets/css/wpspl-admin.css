@@ -1,6 +1,9 @@
 .schedulepress-options {
     font-family: "Inter" sans-serif;
 }
+.sc-publish-future {
+    margin-top: 20px;
+}
 .sc-publish-future .components-checkbox-control,
 .sc-publish-future .components-base-control__field {
     display: flex;
@@ -51,8 +54,9 @@
 .schedulepress-options h2.components-panel__body-title button{
     display: flex;
     flex-direction: row-reverse;
-    gap: 5px;
+    gap: 6px;
     justify-content: start;
+    font-size: 16px;
 }
 .schedulepress-options h2.components-panel__body-title button span.wpsp-icon{
     margin: 0;
@@ -274,7 +278,7 @@
     border: 1px solid #D7DBDF;
 }
 .social-share .social-share-wrapper .components-base-control.components-radio-control .components-radio-control__input[type=radio]:checked+label {
-    color: #000;
+    color: #1B1B50;
 }
 .social-share .social-share-wrapper .components-base-control.components-radio-control .components-radio-control__input[type=radio]:focus {
     box-shadow: none;
@@ -305,6 +309,7 @@
 }
 .social-share .accordion-content .components-base-control.components-radio-control .components-base-control__field .components-radio-control__option label {
     font-weight: normal;
+    color: #1B1B50;
 }
 .social-share .accordion-content .components-base-control.components-radio-control .components-radio-control__input[type=radio]:checked:before {
     transform: translate(3px, 3px);
@@ -405,4 +410,44 @@
     width: 16px;
     height: 16px;
     font-size: 18px;
+}
+
+.social-share .social-share-wrapper h3 {
+    color: #1B1B50;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 1.5em;
+    text-transform: capitalize;
+}
+
+
+.schedule-press-section.automatic .components-checkbox-control .components-base-control__field .components-base-control__label {
+    display: block;
+    font-size: 14px;
+    text-transform: capitalize;
+    margin-bottom: 5px
+}
+
+.schedule-press-section.automatic .components-checkbox-control .components-base-control__field span #inspector-checkbox-control-2 {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #D7DBDF;
+    border-radius: 4px;
+}
+
+.schedule-press-section.automatic .components-checkbox-control .components-base-control__field span #inspector-checkbox-control-2:focus {
+    box-shadow: none;
+    outline: none;
+    outline-offset: 0;
+}
+
+.schedule-press-section.automatic .components-checkbox-control .components-base-control__field span #inspector-checkbox-control-2:checked {
+    background: #02AC6E;
+    box-shadow: none;
+    outline: none;
+    border: 1px solid #02AC6E;
+}
+
+.schedule-press-section.automatic .components-checkbox-control .components-base-control__field span.components-checkbox-control__input-container {
+    margin-right: 8px;
 }
