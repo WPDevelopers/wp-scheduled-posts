@@ -2,6 +2,7 @@
 
 namespace WPSP\API;
 
+use WPSP;
 
 class Settings
 {
@@ -40,7 +41,28 @@ class Settings
     {
         add_action('rest_api_init', array($this, 'register_routes'));
         add_action('rest_api_init', array($this, 'register_social_profile_routes'));
+        add_action('rest_api_init', array($this, 'meta_rest_api'));
     }
+    public function meta_rest_api() {
+        $allow_post_types = \WPSP\Helper::get_settings('allow_post_types');
+		$allow_post_types = (!empty($allow_post_types) ? $allow_post_types : array('post'));
+        foreach ($allow_post_types as $type) {
+            register_post_meta(
+                $type,
+                '_wpscppro_dont_share_socialmedia',
+                [
+                    'show_in_rest' => true,
+                    'single'       => true,
+                    'type'         => 'boolean',
+                    'auth_callback' => function() {
+                        return current_user_can( 'edit_posts' );
+                    }
+                ]
+            );
+        }
+        
+    }
+
 
     public function register_social_profile_routes()
     {

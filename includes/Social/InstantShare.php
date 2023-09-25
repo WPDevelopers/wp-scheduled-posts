@@ -218,8 +218,6 @@ class InstantShare
         }
         if (isset($_POST['_wpscppro_dont_share_socialmedia'])) {
             update_post_meta($post_id, '_wpscppro_dont_share_socialmedia', sanitize_text_field($_POST['_wpscppro_dont_share_socialmedia']));
-        } else {
-            delete_post_meta($post_id, '_wpscppro_dont_share_socialmedia');
         }
         // facebook
         if (isset($_POST['_wpsp_is_facebook_share'])) {

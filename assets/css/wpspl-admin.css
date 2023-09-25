@@ -21,8 +21,8 @@
     border: 1px solid #D7DBDF;
     border-radius: 4px;
     box-shadow: unset;
-    height: 17px;
-    width: 17px;
+    height: 20px;
+    width: 20px;
 }
 .sc-publish-future .components-checkbox-control input[type="checkbox"]:checked {
     background-color: #02AC6E;
@@ -43,8 +43,8 @@
     background-color: #6C62FF !important;
 }
 .sc-publish-future .components-checkbox-control .components-base-control__field .components-checkbox-control__input-container {
-    margin-right: 5px;
-    height: 17px;
+    margin-right: 8px;
+    height: 18px;
     width: 16px;
 }
 
@@ -388,7 +388,7 @@
       font-size: 14px !important;
       font-weight: 500 !important;
       line-height: 16.94px;
-      background: #F9FAFC; !important
+      background: #F9FAFC !important;
   }
   
   .schedule-press-section .components-flex-item label.components-text {
@@ -401,3 +401,8 @@
   .unpublish-on .components-base-control .components-base-control__field input.components-text-control__input::placeholder, .republish-on .components-base-control .components-base-control__field input.components-text-control__input::placeholder {
     color: #6E6E8D;
   }
+  #wpscp-future-post-help-handler {
+    width: 16px;
+    height: 16px;
+    font-size: 18px;
+}

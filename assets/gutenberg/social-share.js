@@ -12,6 +12,14 @@ const {
 const { __ } = wp.i18n;
 
 const SocialShare = () => {
+    const {
+      meta,
+      meta: { _wpscppro_dont_share_socialmedia },
+    } = useSelect((select) => ({
+      meta: select('core/editor').getEditedPostAttribute('meta') || {},
+    }));
+    const { editPost } = useDispatch('core/editor');
+
     const postid = select('core/editor').getCurrentPostId()
     const [ pinterestShareType, setPinterestShareType ] = useState('default');
     const [isOpen, setIsOpen] = useState(null); // Use null to represent no accordion open
@@ -23,7 +31,7 @@ const SocialShare = () => {
     const [selectedSocialProfile,setSelectedSocialProfile] = useState([]);
     const [responseMessage,setResponseMessage] = useState([]);
     const [selectedSection, setSelectedSection] = useState([]);
-    const [isSocialShareDisable, setIsDisableSocialShare] = useState(false);
+    const [isSocialShareDisable, setIsDisableSocialShare] = useState( _wpscppro_dont_share_socialmedia );
     const [facebookShareType,setFacebookShareType] = useState('default');
     const [twitterShareType,setTwitterShareType] = useState('default');
     const [linkedinShareType,setLinkedinShareType] = useState('default');
@@ -236,26 +244,30 @@ const SocialShare = () => {
           }
         }
       }
-      
       setSelectedSocialProfile( [...default_selected_social_profile] );
     }
-
+    // Update meta information
     useEffect(() => {
-      console.log('res',selectedSocialProfile);
-      console.log('sections',selectedSection);
-    }, [selectedSocialProfile,selectedSection])
+      editPost({
+        meta: {
+          ...meta,
+          _wpscppro_dont_share_socialmedia: isSocialShareDisable,
+        },
+      })
+      console.log('social-share-dis',isSocialShareDisable);
+    }, [isSocialShareDisable]);
     
     return (
       <div className='social-share'>
-        <h2 className="social-share-title">Social Share Settings</h2>
+        <h2 className="social-share-title">{ __('Social Share Settings','wp-scheduled-posts') }</h2>
         <div className="share-checkbox">
-          <input type="checkbox" onClick={ handleDisableSocialShare } />
-          <span>Disable Social Share</span>
+          <input type="checkbox" checked={isSocialShareDisable} onClick={ handleDisableSocialShare } />
+          <span>{ __('Disable Social Share','wp-scheduled-posts') }</span>
         </div>
         { !isSocialShareDisable && 
           <Fragment>
             <div className="social-share-wrapper">
-              <h3>Choose Social Share Platform</h3>
+              <h3>{ __('Choose Social Share Platform','wp-scheduled-posts') }</h3>
                 <div className="social-accordion-item">
                 <div className="social-accordion-button" onClick={() => toggleAccordion('isOpen')}>
                     <img src={ WPSchedulePostsFree.assetsURI + '/images/facebook.svg' } alt="" />
