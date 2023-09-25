@@ -367,14 +367,14 @@
 /* Rasel vai Code  */
   .unpublish-on .components-base-control .components-base-control__field input.components-text-control__input,
   .republish-on .components-base-control .components-base-control__field input.components-text-control__input {
-      padding: 8px 10px;
-      color: #6E6E8D;
-      font-size: 14px;
-      font-weight: 500;
-      line-height: 16.94px;
-      border: 1px solid #EBEEF5;
-      border-radius: 6px;
-      background: #F9FAFC;
+    padding: 8px 10px;
+    color: #1B1B50;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 16.94px;
+    border: 1px solid #EBEEF5;
+    border-radius: 6px;
+    background: #F9FAFC;  
   }
   
   .unpublish-on .components-base-control .components-base-control__field input.components-text-control__input:focus,
@@ -459,3 +459,152 @@
 .schedule-press-section.automatic .components-checkbox-control .components-base-control__field span.components-checkbox-control__input-container {
     margin-right: 8px;
 }
+
+.schedulepress-options .wpsp-input-wrapper .editor-post-visibility__choice input[type="radio"] {
+    height: 1.25rem;
+    width: 1.25rem;
+    border-radius: 50%;
+    margin-right: 0.25rem;
+    margin-top: 0.15rem;
+    line-height: 0.71428571;
+    border: 1px solid #D7DBDF;
+  }
+  
+  .schedulepress-options .wpsp-schedule-type .wpsp-input-wrapper .editor-post-visibility__dialog-info {
+      margin-left: 2rem;
+  }
+  
+  .schedulepress-options .wpsp-input-wrapper .editor-post-visibility__choice input[type="radio"]:checked {
+    border: 1px solid #6C62FF;
+  }
+  
+  .schedulepress-options .wpsp-input-wrapper .editor-post-visibility__choice input[type="radio"]:focus {
+      box-shadow: none;
+      outline: none;
+  }
+  
+  .schedulepress-options .wpsp-input-wrapper .editor-post-visibility__choice input[type="radio"]:checked::before {
+    content: "";
+    border-radius: 50%;
+    width: 0.75rem;
+    height: 0.75rem;
+    margin: 3px;
+    background-color: #6C62FF;
+    line-height: 1.14285714;
+  }
+
+/* Dummy pro features  */
+.dummy-pro-features {
+    margin-top: 20px;
+}
+.dummy-pro-features h3{
+    font-weight: 500;
+    font-size: 14px;
+    color: #1B1B50;
+    text-transform: capitalize;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+.dummy-pro-features .auto-scheduler{
+    margin-bottom: 10px;
+}
+.dummy-pro-features .manual-scheduler{
+    margin-bottom: 25px;
+}
+.dummy-pro-features .unpublish-republish h2{
+    font-weight: 500;
+    font-size: 16px;
+    color: #1B1B50;
+    text-transform: capitalize;
+    margin-bottom: 15px;
+}
+.dummy-pro-features .unpublish-republish label{
+    font-size: 14px;
+    color: #1B1B50;
+    margin-bottom: 8px;
+    display: block;
+}
+.dummy-pro-features .unpublish-republish .unpublish{
+    margin-bottom: 10px;
+}
+
+/* Pro icon  */
+.dummy-pro-features .auto-scheduler h3::after,.dummy-pro-features .manual-scheduler h3::after, .dummy-pro-features .unpublish-republish h2::after{
+    content: "\e907";
+    font-family: "wpsp";
+    color: #ff9437;
+    font-size: 0.67em;
+    height: 1.9em;
+    width: 1.9em;
+    background-color: #f6e6d7;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    position: absolute;
+    margin-left: 10px;
+}
+.wpsp-pro-modal {
+    width: 550px;
+    text-align: center;
+    border-radius: 10px;
+}
+.wpsp-pro-modal .components-modal__header .components-button svg {
+    fill: #989fab;
+}
+.wpsp-pro-modal .components-modal__content {
+    margin: 0;
+}
+.wpsp-pro-modal img {
+    border: none;
+    max-width: 100%;
+    width: 400px;
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+    border-radius: 15px;
+}
+.wpsp-pro-modal h2 {
+    font-size: 38px;
+    line-height: 1em;
+    font-style: italic;
+    color: #ff9437;
+    margin-bottom: 24px;
+    padding: 0px;
+}
+.wpsp-pro-modal h4 {
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1em;
+    color: #1b1b50;
+    margin: 0 0 32px;
+    overflow: hidden;
+}
+.wpsp-pro-modal a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #6c62ff !important;
+    color: #fff;
+    font-size: 14px;
+    padding: 16px 24px !important;
+    border-radius: 6px !important;
+    height: auto !important;
+    line-height: 1.2em;
+    margin-top: 32px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    text-decoration: none;
+}
+@media screen and (max-width: 1439px) {
+    .wpsp-pro-modal img {
+        width: 300px;
+    }
+}
+@media screen and (min-width: 960px) {
+    .wpsp-pro-modal .components-modal__frame {
+        max-height: 80%;
+    }
+}
+

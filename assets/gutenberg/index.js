@@ -16,6 +16,7 @@ const {
 import PublishButton from "./publish-button";
 import PublishFutureButton from "./publish-future-button";
 import SocialShare from "./social-share";
+import DummyProFeatures from "./utils/DummyProFeatures";
 import WpspProSlot from "./wpsp-pro-slot";
 class AdminPublishButton extends Component {
   constructor(props) {
@@ -65,7 +66,6 @@ class AdminPublishButton extends Component {
           ""
         ) : (
           <div className="sc-publish-future">
-            {/*  style={{display: 'flex', alignItems: 'center', gap: 5}} */}
             <div>
               <CheckboxControl
                 label="Publish future post immediately"
@@ -110,6 +110,7 @@ class AdminPublishButton extends Component {
           </div>
         )}
         <WpspProSlot.Slot/>
+        { !WPSchedulePostsFree?.is_pro && <DummyProFeatures/> }
         <SocialShare/>
       </PluginDocumentSettingPanel>
      </>

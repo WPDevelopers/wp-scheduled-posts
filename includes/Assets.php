@@ -46,6 +46,7 @@ class Assets
             'socialShareSettings'   => WPSP_Start()->getSocial()->instant_social_share()->instant_share_metabox_markup(),
             'adminURL'         => admin_url(),
             'wpsp_settings_name' => WPSP_SETTINGS_NAME,
+            'is_pro'            => class_exists('WPSP_PRO') ? true : false,
             'currentTime' => array(
                 'date' => current_time('mysql'),
                 'date_gmt' => current_time('mysql', 1),
