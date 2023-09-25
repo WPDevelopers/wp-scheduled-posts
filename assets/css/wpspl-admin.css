@@ -19,6 +19,7 @@
     font-size: 14px;
     font-weight: 400;
     color: #1B1B50;
+    user-select: none;
 }
 .sc-publish-future .components-checkbox-control input[type="checkbox"] {
     border: 1px solid #D7DBDF;
@@ -51,6 +52,11 @@
     width: 16px;
 }
 
+.schedulepress-options .components-panel__body-title .components-button svg {
+    margin: 0;
+    width: 25px;
+    height: 25px;
+}
 .schedulepress-options h2.components-panel__body-title button{
     display: flex;
     flex-direction: row-reverse;
@@ -111,10 +117,11 @@
     font-weight: 500;
     margin: 0 0 20px 0;
 }
-.social-share .share-checkbox span {
+.social-share .share-checkbox label {
     font-size: 14px;
     color: #1B1B50;
     margin-left: 5px;
+    user-select: none;
 }
 .social-share .share-checkbox {
     margin-bottom: 30px;
@@ -142,6 +149,7 @@
     margin-bottom: 0.6rem;
     display: inline-flex;
     margin-right: 10px;
+    text-transform: capitalize;
 }
 .interface-complementary-area a.info {
   text-decoration: none;

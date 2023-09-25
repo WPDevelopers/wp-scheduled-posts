@@ -292,8 +292,8 @@ const SocialShare = () => {
       <div className='social-share'>
         <h2 className="social-share-title">{ __('Social Share Settings','wp-scheduled-posts') }</h2>
         <div className="share-checkbox">
-          <input type="checkbox" checked={isSocialShareDisable} onClick={ handleDisableSocialShare } />
-          <span>{ __('Disable Social Share','wp-scheduled-posts') }</span>
+          <input type="checkbox" id="socialShareDisable" checked={isSocialShareDisable} onClick={ handleDisableSocialShare } />
+          <label for="socialShareDisable">{ __('Disable Social Share','wp-scheduled-posts') }</label>
         </div>
         { !isSocialShareDisable && 
           <Fragment>
