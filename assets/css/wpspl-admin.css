@@ -428,20 +428,20 @@
     margin-bottom: 5px
 }
 
-.schedule-press-section.automatic .components-checkbox-control .components-base-control__field span #inspector-checkbox-control-2 {
+.schedule-press-section.automatic .components-checkbox-control .components-base-control__field span .components-checkbox-control__input {
     width: 20px;
     height: 20px;
     border: 1px solid #D7DBDF;
     border-radius: 4px;
 }
 
-.schedule-press-section.automatic .components-checkbox-control .components-base-control__field span #inspector-checkbox-control-2:focus {
+.schedule-press-section.automatic .components-checkbox-control .components-base-control__field span .components-checkbox-control__input:focus {
     box-shadow: none;
     outline: none;
     outline-offset: 0;
 }
 
-.schedule-press-section.automatic .components-checkbox-control .components-base-control__field span #inspector-checkbox-control-2:checked {
+.schedule-press-section.automatic .components-checkbox-control .components-base-control__field span .components-checkbox-control__input:checked {
     background: #02AC6E;
     box-shadow: none;
     outline: none;

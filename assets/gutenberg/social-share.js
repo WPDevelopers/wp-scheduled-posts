@@ -192,7 +192,33 @@ const SocialShare = () => {
 
     // Handle pinterest board type selection 
     const handlePinterestBoardTypeSelection = (value) => {
+      let default_selected_social_profile = selectedSocialProfile;
       setPinterestShareType( value );
+      if( value == 'default' ) {
+        if( wpspSettings?.pinterest_profile_status ) {
+          let default_selected_section = selectedSection;
+          let filtered_pinterest_profile_list = wpspSettings?.pinterest_profile_list.filter( item => item.status === true );
+          if( filtered_pinterest_profile_list.length > 0 ) {
+            filtered_pinterest_profile_list.map( (pinterest_profile,index) => {
+              if( selectedSocialProfile.findIndex((item) => item.id === pinterest_profile?.default_board_name?.value) === -1 ) {
+                let data = {
+                  defaultBoard: pinterest_profile?.default_board_name?.value,
+                  profile: pinterest_profile,
+                };
+                default_selected_section.push( { board_id : pinterest_profile?.default_board_name?.value, section_id : pinterest_profile?.defaultSection?.value  } );
+                fetchPinterestSection(data).then( ( res ) => {
+                  filtered_pinterest_profile_list[index].sections = res.data;
+                } )
+                default_selected_social_profile.push( { id : pinterest_profile?.default_board_name?.value, platform : 'pinterest', platformKey: index, pinterest_custom_board_name:  pinterest_profile?.default_board_name?.value, pinterest_custom_section_name : pinterest_profile?.defaultSection?.value , name : pinterest_profile?.default_board_name?.label, thumbnail_url : pinterest_profile?.thumbnail_url } );
+              }
+            } )
+          }
+          setSelectedSection(default_selected_section);
+          setPinterestProfileData([...filtered_pinterest_profile_list]);
+        }
+        setSelectedSocialProfile( [...default_selected_social_profile] );
+      }
+      
     }
 
     // Handle disable social share 
@@ -212,7 +238,9 @@ const SocialShare = () => {
           if( wpspSettings?.facebook_profile_status ) {
             let facebook_profile_list = wpspSettings?.facebook_profile_list.filter( item => item.status === true );
             facebook_profile_list.map( (profile,index) => {
-              default_selected_social_profile.push( { id: profile.id, platform: 'facebook', platformKey: index, name : profile.name, type : profile?.type, thumbnail_url : profile.thumbnail_url, share_type : facebookShareType } );
+              if( selectedSocialProfile.findIndex((item) => item.id === profile.id) === -1 ) {
+                default_selected_social_profile.push( { id: profile.id, platform: 'facebook', platformKey: index, name : profile.name, type : profile?.type, thumbnail_url : profile.thumbnail_url, share_type : facebookShareType } );
+              }
             } )
           }
         }
@@ -255,6 +283,11 @@ const SocialShare = () => {
       console.log('social-share-dis',isSocialShareDisable);
     }, [isSocialShareDisable]);
     
+    useEffect(() => {
+      console.log('selected',selectedSocialProfile);
+    }, [selectedSocialProfile])
+    
+
     return (
       <div className='social-share'>
         <h2 className="social-share-title">{ __('Social Share Settings','wp-scheduled-posts') }</h2>
