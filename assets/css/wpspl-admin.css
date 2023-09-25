@@ -8,7 +8,9 @@
     align-items: center;
     flex-wrap: wrap;
 }
-
+.sc-publish-future > div {
+    display: inline-flex;
+}
 .sc-publish-future .components-checkbox-control__label {
     margin-right: 3px;
     font-size: 14px;
@@ -19,6 +21,8 @@
     border: 1px solid #D7DBDF;
     border-radius: 4px;
     box-shadow: unset;
+    height: 17px;
+    width: 17px;
 }
 .sc-publish-future .components-checkbox-control input[type="checkbox"]:checked {
     background-color: #02AC6E;
@@ -38,6 +42,12 @@
     font-size: 14px;
     background-color: #6C62FF !important;
 }
+.sc-publish-future .components-checkbox-control .components-base-control__field .components-checkbox-control__input-container {
+    margin-right: 5px;
+    height: 17px;
+    width: 16px;
+}
+
 .schedulepress-options h2.components-panel__body-title button{
     display: flex;
     flex-direction: row-reverse;
@@ -140,6 +150,7 @@
 }
 .components-modal__frame.social-share-modal {
     min-width: 600px;
+    max-width: 900px;
 }
 .social-share-modal > .components-modal__content {
     margin: 0;
@@ -149,6 +160,7 @@
     position: absolute;
     right: 5px;
     top: 0;
+    left: unset !important;
 }
 .social-share-modal > .components-modal__content .components-modal__header .components-button svg {
     width: 22px;
@@ -318,7 +330,6 @@
   }
   
   .social-share .share-checkbox input[type="checkbox"]:checked::before {
-      /* content: url(data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20d%3D%27M14.83%204.89l1.34.94-5.81%208.38H9.02L5.78%209.67l1.34-1.25%202.57%202.4z%27%20fill%3D%27%23ffffff%27%2F%3E%3C%2Fsvg%3E); */
       margin: -0.01rem 0 0 -0.1rem;
       height: 20px;
       width: 20px;
@@ -335,9 +346,9 @@
         margin: -0.1rem 0 0 -0.1rem;
         height: 18px;
         width: 18px;
-        background: green;
+        background: #02AC6E;
         border-radius: 4px;
-        border: 1px solid green;
+        content: url(data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20d%3D%27M14.83%204.89l1.34.94-5.81%208.38H9.02L5.78%209.67l1.34-1.25%202.57%202.4z%27%20fill%3D%27%23ffffff%27%2F%3E%3C%2Fsvg%3E);
     }
 
 /* Rasel vai Code  */
@@ -371,13 +382,13 @@
       background: transparent;
   }
   .schedule-press-section .components-input-control__container .components-select-control__input {
-      height: 100%;
-      padding: 10px 26px 10px 10px;
-      color: #1B1B50;
-      font-size: 14px;
-      font-weight: 500;
+      height: 100% !important;
+      padding: 10px 26px 10px 10px !important;
+      color: #1B1B50 !important;
+      font-size: 14px !important;
+      font-weight: 500 !important;
       line-height: 16.94px;
-      background: #F9FAFC;
+      background: #F9FAFC; !important
   }
   
   .schedule-press-section .components-flex-item label.components-text {
@@ -385,4 +396,8 @@
       font-size: 14px;
       font-weight: 500;
       line-height: 16.94px;
+  }
+
+  .unpublish-on .components-base-control .components-base-control__field input.components-text-control__input::placeholder, .republish-on .components-base-control .components-base-control__field input.components-text-control__input::placeholder {
+    color: #6E6E8D;
   }

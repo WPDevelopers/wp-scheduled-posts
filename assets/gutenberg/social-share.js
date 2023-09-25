@@ -14,7 +14,6 @@ const { __ } = wp.i18n;
 const SocialShare = () => {
     const postid = select('core/editor').getCurrentPostId()
     const [ pinterestShareType, setPinterestShareType ] = useState('default');
-
     const [isOpen, setIsOpen] = useState(null); // Use null to represent no accordion open
     const [facebookProfileData,setFacebookProfileData] = useState([]);
     const [twiiterProfileData,setTwitterProfileData] = useState([]);
@@ -28,10 +27,12 @@ const SocialShare = () => {
     const [facebookShareType,setFacebookShareType] = useState('default');
     const [twitterShareType,setTwitterShareType] = useState('default');
     const [linkedinShareType,setLinkedinShareType] = useState('default');
+    const [wpspSettings,setWpspSettings] = useState(null);
+    
     // Get social profile data from wp_options table
     useEffect(() => {
       // fetch facebook profile data
-      const optionName = `option_name=wpsp_settings_v5`;
+      const optionName = `option_name=${WPSchedulePostsFree?.wpsp_settings_name}`;
       const apiUrl = '/wp-scheduled-posts/v1/get-option-data';
       fetchSocialProfileData(apiUrl,optionName, false).then( (res) => {
         const wpsp_settings = JSON.parse( res );
@@ -67,6 +68,7 @@ const SocialShare = () => {
           }
           setSelectedSection(default_selected_section);
           setPinterestProfileData([...filtered_pinterest_profile_list]);
+          setWpspSettings(wpsp_settings);
         }
 
         // Set default selection for facebook
@@ -192,6 +194,52 @@ const SocialShare = () => {
       setIsDisableSocialShare(event.target.checked);
     }
 
+    // Handle share type 
+    const handleShareType = ( platform,value ) => {
+      let default_selected_social_profile = selectedSocialProfile;
+      
+      // Handle share type facebook
+      if( platform === 'facebook' ) {
+        setFacebookShareType(value);
+        if( value === 'default' ) {
+          // Set default selection for facebook
+          if( wpspSettings?.facebook_profile_status ) {
+            let facebook_profile_list = wpspSettings?.facebook_profile_list.filter( item => item.status === true );
+            facebook_profile_list.map( (profile,index) => {
+              default_selected_social_profile.push( { id: profile.id, platform: 'facebook', platformKey: index, name : profile.name, type : profile?.type, thumbnail_url : profile.thumbnail_url, share_type : facebookShareType } );
+            } )
+          }
+        }
+      }
+      // Handle twiiter default selection
+      if( platform === 'twitter' ) {
+        setTwitterShareType(value)
+        if( value == 'default' ) {
+          if( wpspSettings?.twitter_profile_status ) {
+            let twitter_profile_list = wpspSettings?.twitter_profile_list.filter( item => item.status === true );
+            twitter_profile_list.map( (profile,index) => {
+              default_selected_social_profile.push( { id: profile.id, platform: 'twitter', platformKey: index, name : profile.name, type : profile?.type, thumbnail_url : profile.thumbnail_url, share_type : twitterShareType } );
+            } )
+          }
+        }
+      }
+      
+      // Handle linkedin default selection
+      if( platform === 'linkedin' ) {
+        setLinkedinShareType(value)
+        if( value == 'default' ) {
+          if( wpspSettings?.linkedin_profile_status ) {
+            let linkedin_profile_list = wpsp_settings?.linkedin_profile_list.filter( item => item.status === true );
+            linkedin_profile_list.map( (profile,index) => {
+              default_selected_social_profile.push( { id: profile.id, platform: 'linkedin', platformKey: index, name : profile.name, type : profile?.type, thumbnail_url : profile.thumbnail_url, share_type : linkedinShareType } );
+            } )
+          }
+        }
+      }
+      
+      setSelectedSocialProfile( [...default_selected_social_profile] );
+    }
+
     useEffect(() => {
       console.log('res',selectedSocialProfile);
       console.log('sections',selectedSection);
@@ -223,7 +271,7 @@ const SocialShare = () => {
                               { label: 'Default', value: 'default' },
                               { label: 'Custom', value: 'custom' },
                           ] }
-                          onChange={ ( value ) => setFacebookShareType( value ) }
+                          onChange={ ( value ) => handleShareType( 'facebook', value ) }
                         />
                         { facebookShareType === 'custom' && facebookProfileData.map( ( facebook, index ) => (
                           <div className="facebook-profile social-profile">
@@ -232,7 +280,7 @@ const SocialShare = () => {
                           </div>
                         ) ) }
                       </Fragment>
-                    : <div dangerouslySetInnerHTML={ { __html: "You may forget to add or enable profile/page from SchedulePress settings.<a href='https://schedulepress.test/wp-admin/admin.php?page=schedulepress&tab=social-profile'>Add profile/page</a>" } }></div>
+                    : <div dangerouslySetInnerHTML={ { __html: `You may forget to add or enable profile/page from <a href='${WPSchedulePostsFree?.adminURL}admin.php?page=schedulepress&tab=social-profile'>SchedulePress settings</a>.` } }></div>
                     }
                   </div>
                 )}
@@ -252,7 +300,7 @@ const SocialShare = () => {
                               { label: 'Default', value: 'default' },
                               { label: 'Custom', value: 'custom' },
                           ] }
-                          onChange={ ( value ) => setTwitterShareType( value ) }
+                          onChange={ ( value ) => handleShareType( 'twitter', value ) }
                         />
                         { twitterShareType === 'custom' && twiiterProfileData.map( ( twitter, index ) => (
                           <div className="twitter-profile social-profile">
@@ -261,7 +309,7 @@ const SocialShare = () => {
                           </div>
                         ) ) }
                       </Fragment>
-                    : <div dangerouslySetInnerHTML={ { __html: "You may forget to add or enable profile/page from SchedulePress settings.<a href='https://schedulepress.test/wp-admin/admin.php?page=schedulepress&tab=social-profile'>Add profile/page</a>" } }></div> }
+                    : <div dangerouslySetInnerHTML={ { __html: `You may forget to add or enable profile/page from <a href='${WPSchedulePostsFree?.adminURL}admin.php?page=schedulepress&tab=social-profile'>SchedulePress settings</a>.` } }></div> }
                     </div>
                   )}
                 </div>
@@ -281,7 +329,7 @@ const SocialShare = () => {
                                 { label: 'Default', value: 'default' },
                                 { label: 'Custom', value: 'custom' },
                             ] }
-                            onChange={ ( value ) => setLinkedinShareType( value ) }
+                            onChange={ ( value ) => handleShareType( 'linkedin', value ) }
                           />
                           { linkedinShareType === 'custom' && linkedinProfileData.map( ( linkedin, index ) => (
                             <div className="linkedin-profile social-profile">
@@ -290,7 +338,7 @@ const SocialShare = () => {
                             </div>
                           ) ) }
                         </Fragment>
-                      : <div dangerouslySetInnerHTML={ { __html: "You may forget to add or enable profile/page from SchedulePress settings.<a href='https://schedulepress.test/wp-admin/admin.php?page=schedulepress&tab=social-profile'>Add profile/page</a>" } }></div>
+                      : <div dangerouslySetInnerHTML={ { __html: `You may forget to add or enable profile/page from <a href='${WPSchedulePostsFree?.adminURL}admin.php?page=schedulepress&tab=social-profile'>SchedulePress settings</a>.` } }></div>
                       }
                     </div>
                   )}
@@ -325,7 +373,7 @@ const SocialShare = () => {
                           </div>
                         ) ) }
                       </Fragment>
-                     : <div dangerouslySetInnerHTML={ { __html: "You may forget to add or enable profile/page from SchedulePress settings.<a href='https://schedulepress.test/wp-admin/admin.php?page=schedulepress&tab=social-profile'>Add profile/page</a>" } }></div> }
+                     : <div dangerouslySetInnerHTML={ { __html: `You may forget to add or enable profile/page from <a href='${WPSchedulePostsFree?.adminURL}admin.php?page=schedulepress&tab=social-profile'>SchedulePress settings</a>.` } }></div> }
                     </div>
                   )}
                 </div>

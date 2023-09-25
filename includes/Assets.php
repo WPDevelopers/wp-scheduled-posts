@@ -44,6 +44,8 @@ class Assets
             'allowedPostTypes' => $allow_post_types,
             'assetsURI'        => WPSP_ASSETS_URI,
             'socialShareSettings'   => WPSP_Start()->getSocial()->instant_social_share()->instant_share_metabox_markup(),
+            'adminURL'         => admin_url(),
+            'wpsp_settings_name' => WPSP_SETTINGS_NAME,
             'currentTime' => array(
                 'date' => current_time('mysql'),
                 'date_gmt' => current_time('mysql', 1),
