@@ -195,7 +195,7 @@ class Linkedin
                         $results = $linkedin->uploadImage( $accessToken, $type, $getPersonID, $image_path);
                         $upload_url = isset($results['value']['image']) ? $results['value']['image'] : '';
                     }
-                    $results = $linkedin->linkedInLinkPost($accessToken, $type, $getPersonID, $formatedText, $post_link, $upload_url, $this->filter_little_text($title), $this->filter_little_text($desc));
+                    $results = $linkedin->linkedInLinkPost($accessToken, $type, $getPersonID, $formatedText, $post_link, $upload_url, html_entity_decode($this->filter_little_text($title)), html_entity_decode($this->filter_little_text($desc)));
                 }
                 $result = json_decode($results);
                 // linkedin sdk has no Exception handler, that's why we handle it

@@ -15,14 +15,14 @@ const DummyProFeatures = () => {
   return (
     <div className="dummy-pro-features">
         <div className="auto-scheduler">
-            <h3>Schedule At</h3>
+            <h3>{ __('Auto Scheduler','wp-scheduled-posts') }</h3>
             <div className="auto-schedule">
             <input onClick={ handleProModal } type="checkbox" />
             <label htmlFor="">Wednesday, June 14, 2023 at 9:15 AM</label>
             </div>
         </div>
         <div className="manual-scheduler">
-            <h3>Schedule At</h3>
+            <h3>{ __('Manual Schedule','wp-scheduled-posts') }</h3>
             <SelectControl
                 options={ [
                     { label: 'Wednesday, June 14, 2023 at 2:50 PM', value: '' }
@@ -31,13 +31,13 @@ const DummyProFeatures = () => {
             />
         </div>
         <div className="unpublish-republish">
-            <h2>Scheduling Options</h2>
+            <h2>{ __('Scheduling Options','wp-scheduled-posts') }</h2>
             <div className="unpublish">
-                <label htmlFor="unpublish_on">Unpublish On</label>
+                <label htmlFor="unpublish_on">{ __('Unpublish On','wp-scheduled-posts') }</label>
                 <TextControl onClick={ handleProModal } id="unpublish_on" placeholder="Y/M/D H:M:S" />
             </div>
             <div className="republish">
-                <label htmlFor="republish_on">Republish On</label>
+                <label htmlFor="republish_on">{ __( 'Republish On','wp-scheduled-posts' ) }</label>
                 <TextControl onClick={ handleProModal } id="republish_on" placeholder="Y/M/D H:M:S" />
             </div>
         </div>
