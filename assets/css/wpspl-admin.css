@@ -123,9 +123,6 @@
     margin-left: 5px;
     user-select: none;
 }
-.social-share .share-checkbox {
-    margin-bottom: 30px;
-}
 .social-share-wrapper {
     margin-bottom: 20px;
 }
@@ -552,6 +549,7 @@
     width: 550px;
     text-align: center;
     border-radius: 10px;
+    max-height: 80%;
 }
 .wpsp-pro-modal .components-modal__header .components-button svg {
     fill: #989fab;
@@ -610,4 +608,57 @@
     .wpsp-pro-modal .components-modal__frame {
         max-height: 80%;
     }
+}
+.wpsp_image_upload.has-not-image #wpscppro_btn_remove_meta_image_upload {
+    display: none;
+}
+.wpsp_image_upload img{
+    margin-top: 15px;
+}
+.wpsp_image_upload {
+    margin-bottom: 15px;
+}
+.wpsp_image_upload #wpscppro_btn_meta_image_upload {
+    margin: 10px 0;
+}
+.social-share .share-checkbox {
+    margin-bottom: 10px;
+}
+
+
+.unpublish-republish .unpublish .components-base-control,
+.unpublish-republish .republish .components-base-control {
+    position: relative;
+    user-select: none;
+}
+
+.unpublish-republish .unpublish .components-base-control::before,
+.unpublish-republish .republish .components-base-control::before {
+    content: "";
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #EBEEF5;
+    opacity: 0.3;
+    position: absolute;
+    cursor: pointer;
+}
+
+.manual-scheduler .components-base-control .components-base-control__field .components-select-control .components-input-control__container {
+    position: relative;
+}
+.manual-scheduler .components-base-control .components-base-control__field .components-select-control .components-input-control__container::before {
+    content: "";
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #EBEEF5;
+    opacity: 0.3;
+    position: absolute;
+    cursor: pointer;
+}
+.wpsp-pro-modal .components-modal__content.has-scrolled-content:not(.hide-header) .components-modal__header {
+    border-bottom-color: none;
 }

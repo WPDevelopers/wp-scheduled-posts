@@ -8,13 +8,14 @@ const {
 	element: { useState, useEffect,createElement,Fragment },
 	components: { TextControl,Button,DateTimePicker,Popover,Modal,RadioControl },
 	editPost: { PluginDocumentSettingPanel },
+  media: { wp_get_attachment_image }
 } = wp;
 const { __ } = wp.i18n;
 
 const SocialShare = () => {
     const {
       meta,
-      meta: { _wpscppro_dont_share_socialmedia },
+      meta: { _wpscppro_dont_share_socialmedia,_wpscppro_custom_social_share_image },
     } = useSelect((select) => ({
       meta: select('core/editor').getEditedPostAttribute('meta') || {},
     }));
@@ -280,11 +281,11 @@ const SocialShare = () => {
           _wpscppro_dont_share_socialmedia: isSocialShareDisable,
         },
       })
-      console.log('social-share-dis',isSocialShareDisable);
     }, [isSocialShareDisable]);
     
     useEffect(() => {
       console.log('selected',selectedSocialProfile);
+      console.log('selected-2',_wpscppro_custom_social_share_image);
     }, [selectedSocialProfile])
     
 
@@ -294,6 +295,15 @@ const SocialShare = () => {
         <div className="share-checkbox">
           <input type="checkbox" id="socialShareDisable" checked={isSocialShareDisable} onClick={ handleDisableSocialShare } />
           <label for="socialShareDisable">{ __('Disable Social Share','wp-scheduled-posts') }</label>
+        </div>
+        <div style={ { display: isSocialShareDisable ? 'none' : 'block' } }>
+          <div className={`wpsp_image_upload ${ WPSchedulePostsFree?._wpscppro_custom_social_share_image ? 'has-image' : 'has-not-image'} `}>
+            <div id="wpscpprouploadimagepreview" >
+              <img src={ WPSchedulePostsFree?._wpscppro_custom_social_share_image } />
+            </div>
+            <input type='button' id="wpscppro_btn_meta_image_upload" class='button button-primary' value='Upload Social Share Banner' />
+            <input type='button' id="wpscppro_btn_remove_meta_image_upload" class='button button-danger' value='Remove Banner' />
+          </div>
         </div>
         { !isSocialShareDisable && 
           <Fragment>

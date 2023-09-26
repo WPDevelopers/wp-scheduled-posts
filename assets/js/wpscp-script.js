@@ -169,6 +169,7 @@ jQuery(document).ready(function ($) {
     // instant share
 
 
+    jQuery('form.metabox-base-form').append(`<input type="hidden" id="wpscppro_custom_social_share_image" name="wpscppro_custom_social_share_image" value='${wpscp_ajax?._wpscppro_custom_social_share_image}' />`)
     /**
      * WP admin sidebar Upload Image
      */
@@ -196,6 +197,12 @@ jQuery(document).ready(function ($) {
                     jQuery('#wpscppro_custom_social_share_image').val(
                         attachment.id
                     )
+                    let wpscppro_custom_social_share_image = jQuery('#wpscppro_custom_social_share_image');
+                    if( wpscppro_custom_social_share_image?.length > 0 ) {
+                        wpscppro_custom_social_share_image.val( attachment.id )
+                    }else{
+                        jQuery('form.metabox-base-form').append(`<input type="hidden" id="wpscppro_custom_social_share_image" name="wpscppro_custom_social_share_image" value='${attachment.id}' />`)
+                    }
                     jQuery('#wpscpprouploadimagepreviewold').hide()
                     jQuery('#wpscpprouploadimagepreview').html(
                         '<img class="true_pre_image" src="' +

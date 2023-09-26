@@ -32,6 +32,14 @@ class Assets
         if (!in_array($post_type, $allow_post_types) || !is_admin()) {
             return;
         }
+        $socialshareimage = get_post_meta(get_the_id(), '_wpscppro_custom_social_share_image', true);
+        $imageUrl = '';
+        if( $socialshareimage != '' ) {
+            $imageUrl = wp_get_attachment_image_src($socialshareimage, 'full');
+            if( !empty( $imageUrl[0] ) ) {
+                $imageUrl = $imageUrl[0];
+            }
+        }
 
         wp_enqueue_style('google-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap', array(), WPSP_VERSION, 'all');
         wp_enqueue_style('wps-publish-button', WPSP_ASSETS_URI . 'css/wpspl-admin.css', array(), WPSP_VERSION, 'all');
@@ -46,6 +54,7 @@ class Assets
             'socialShareSettings'   => WPSP_Start()->getSocial()->instant_social_share()->instant_share_metabox_markup(),
             'adminURL'         => admin_url(),
             'wpsp_settings_name' => WPSP_SETTINGS_NAME,
+            '_wpscppro_custom_social_share_image' => $imageUrl,
             'is_pro'            => class_exists('WPSP_PRO') ? true : false,
             'currentTime' => array(
                 'date' => current_time('mysql'),
@@ -62,6 +71,8 @@ class Assets
     public function plugin_scripts($hook)
     {
         $current_screen = \get_current_screen();
+        $_wpscppro_custom_social_share_image = get_post_meta(get_the_id(), '_wpscppro_custom_social_share_image', true);
+
         if (is_admin() && Helper::plugin_page_hook_suffix($current_screen->post_type, $hook)) {
             wp_enqueue_style('select2-css', WPSP_ASSETS_URI . 'css/vendor/select2.min.css', array(), WPSP_VERSION, 'all');
             wp_enqueue_style('wpscp-jquery-datetimepicker', WPSP_ASSETS_URI . 'css/vendor/jquery.datetimepicker.min.css', array(), WPSP_VERSION, 'all');
@@ -87,7 +98,11 @@ class Assets
             wp_localize_script(
                 'wpscp-script',
                 'wpscp_ajax',
-                array('ajax_url' => admin_url('admin-ajax.php'), '_wpnonce' => wp_create_nonce('wp_rest'))
+                array( 
+                    'ajax_url' => admin_url('admin-ajax.php'), 
+                    '_wpnonce' => wp_create_nonce('wp_rest'),
+                    '_wpscppro_custom_social_share_image'   => $_wpscppro_custom_social_share_image,
+                )
             );
             wp_enqueue_script('md5.min.js', WPSP_ASSETS_URI . 'js/vendor/md5.min.js', array(), WPSP_VERSION, true);
             wp_enqueue_script('wpsp-socialprofile', WPSP_ASSETS_URI . 'js/wpsp-socialprofile.js', array('jquery', 'jquery-kylefoxModal', 'md5.min.js'), WPSP_VERSION, true);
