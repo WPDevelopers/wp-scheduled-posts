@@ -37,7 +37,8 @@ const SocialShare = () => {
     const [twitterShareType,setTwitterShareType] = useState('default');
     const [linkedinShareType,setLinkedinShareType] = useState('default');
     const [wpspSettings,setWpspSettings] = useState(null);
-    
+    const [activeTab, setActiveTab] = useState('profile');
+
     // Get social profile data from wp_options table
     useEffect(() => {
       // fetch facebook profile data
@@ -288,6 +289,9 @@ const SocialShare = () => {
       console.log('selected-2',_wpscppro_custom_social_share_image);
     }, [selectedSocialProfile])
     
+    const handleTabClick = (index) => {
+      setActiveTab(index);
+    };
 
     return (
       <div className='social-share' id="wpspSocialShare">
@@ -372,28 +376,43 @@ const SocialShare = () => {
                       <span>Linkedin</span>
                   </div>
                   {isOpen === 'isOpenLinkedin' && (
-                    
-                    <div className="accordion-content">
-                      { linkedinProfileData.length > 0 ?
-                        <Fragment>
-                          <RadioControl
-                            selected={ linkedinShareType }
-                            options={ [
-                                { label: 'Default', value: 'default' },
-                                { label: 'Custom', value: 'custom' },
-                            ] }
-                            onChange={ ( value ) => handleShareType( 'linkedin', value ) }
-                          />
-                          { linkedinShareType === 'custom' && linkedinProfileData.map( ( linkedin, index ) => (
-                            <div className="linkedin-profile social-profile">
-                                <input checked={ (selectedSocialProfile.findIndex( ( item ) => item.id === linkedin.id ) != -1) ? true : false } type="checkbox" onClick={ (event) =>  handleProfileSelectionCheckbox( event, 'linkedin', index, linkedin?.id, linkedin?.name, linkedin?.type, linkedin?.thumbnail_url ) } />
-                                <h3>{ linkedin?.name } ( { linkedin?.type == 'organization' ? __('Page','wp-scheduled-posts') : __('Profile','wp-scheduled-posts')  } ) </h3>
-                            </div>
-                          ) ) }
-                        </Fragment>
-                      : <div dangerouslySetInnerHTML={ { __html: `You may forget to add or enable profile/page from <a href='${WPSchedulePostsFree?.adminURL}admin.php?page=schedulepress&tab=social-profile'>SchedulePress settings</a>.` } }></div>
-                      }
-                    </div>
+                    <Fragment>
+                      <div className="wpsp-custom-tabs">
+                        <div className="wpsp-tab-header">
+                          <div className="tab-profile" onClick={ () => setActiveTab('profile') }>Profile</div>
+                          <div className="tab-page" onClick={ () => setActiveTab('page') }>Page</div>
+                        </div>
+                        <div className="wpsp-tab-content">
+                          { activeTab == 'profile' && 
+                            <div className="content-profile">profile content</div>
+                          }
+                          { activeTab == 'page' &&
+                            <div className="content-page">page-content</div>
+                          }
+                        </div>
+                      </div>
+                      <div className="accordion-content">
+                        { linkedinProfileData.length > 0 ?
+                          <Fragment>
+                            <RadioControl
+                              selected={ linkedinShareType }
+                              options={ [
+                                  { label: 'Default', value: 'default' },
+                                  { label: 'Custom', value: 'custom' },
+                              ] }
+                              onChange={ ( value ) => handleShareType( 'linkedin', value ) }
+                            />
+                            { linkedinShareType === 'custom' && linkedinProfileData.map( ( linkedin, index ) => (
+                              <div className="linkedin-profile social-profile">
+                                  <input checked={ (selectedSocialProfile.findIndex( ( item ) => item.id === linkedin.id ) != -1) ? true : false } type="checkbox" onClick={ (event) =>  handleProfileSelectionCheckbox( event, 'linkedin', index, linkedin?.id, linkedin?.name, linkedin?.type, linkedin?.thumbnail_url ) } />
+                                  <h3>{ linkedin?.name } ( { linkedin?.type == 'organization' ? __('Page','wp-scheduled-posts') : __('Profile','wp-scheduled-posts')  } ) </h3>
+                              </div>
+                            ) ) }
+                          </Fragment>
+                        : <div dangerouslySetInnerHTML={ { __html: `You may forget to add or enable profile/page from <a href='${WPSchedulePostsFree?.adminURL}admin.php?page=schedulepress&tab=social-profile'>SchedulePress settings</a>.` } }></div>
+                        }
+                      </div>
+                    </Fragment>
                   )}
                 </div>
               <div className="social-accordion-item">

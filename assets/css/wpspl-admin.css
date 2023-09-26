@@ -662,3 +662,18 @@
 .wpsp-pro-modal .components-modal__content.has-scrolled-content:not(.hide-header) .components-modal__header {
     border-bottom-color: none;
 }
+.wpsp-custom-tabs {
+    padding: 0 10px;
+}
+.wpsp-custom-tabs .tab-header {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 20px;
+}
+.wpsp-custom-tabs .tab-header {
+    padding: 8px 12px;
+    background: #6c62ff;
+    border-radius: 8px;
+    color: #fff;
+}
