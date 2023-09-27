@@ -699,7 +699,7 @@
     border-radius: 2px;
     cursor: pointer;
 }
-.social-share-wrapper .social-accordion-item .accordion-content .wpsp-custom-tabs .wpsp-tab-header .tab-page.pro-deactivated::after {
+.social-share-wrapper .social-accordion-item .accordion-content .wpsp-custom-tabs .wpsp-tab-header .tab-page.pro-deactivated::before {
     content: "\e907";
     font-family: "wpsp";
     color: #ff9437;
@@ -712,8 +712,8 @@
     justify-content: center;
     border-radius: 50%;
     position: absolute;
-    margin-left: 10px;
-    margin-top: -18px;
+    margin-left: -5px;
+    margin-top: --5px;
 }
 
 .social-share-wrapper .social-accordion-item .accordion-content .wpsp-custom-tabs .wpsp-tab-content {
