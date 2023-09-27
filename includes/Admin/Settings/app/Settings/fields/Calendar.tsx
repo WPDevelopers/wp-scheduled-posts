@@ -12,6 +12,7 @@ import { DayCellMountArg, EventContentArg, EventDropArg } from "@fullcalendar/co
 import { format } from "@wordpress/date";
 import { __ } from "@wordpress/i18n";
 import classNames from "classnames";
+import { useBuilderContext } from "quickbuilder";
 import "../../assets/sass/utils/_calendar.scss";
 import CategorySelect from "./Calendar/Category";
 import { ModalContent } from "./Calendar/EditPost";
@@ -28,7 +29,7 @@ export default function Calendar(props) {
   const RefSidebar = useRef<HTMLDivElement>();
   // monthPicker
   const monthPicker = useRef<MonthPicker>();
-  // const builderContext = useBuilderContext();
+  const builderContext = useBuilderContext();
   const [events, setEvents] = useState([]);
   const [draftEvents, setDraftEvents] = useState([]);
   //
@@ -136,6 +137,8 @@ export default function Calendar(props) {
       return `wpsp-event-card-${index}`;
     }
   };
+  
+  const time = builderContext?.values?.calendar_schedule_time;
 
 
   return (
@@ -328,7 +331,8 @@ export default function Calendar(props) {
                 );
                 if(event.allDay) {
                   event.setAllDay(false);
-                  event.setEnd(getEndDate(event.start, props._end));
+                  const date = time ? `${getEndDate(event.start, props._end).toString().split(' ')[0]} ${time}` : getEndDate(event.start, props._end);
+                  event.setEnd(date);
                 }
                 eventDrop(event, 'eventDrop').then(updateEvents);
               }}

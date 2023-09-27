@@ -298,7 +298,7 @@
     align-items: center;
     flex-direction: row;
     justify-content: start;
-    gap: calc(4px);
+    gap: calc(25px);
 }
 .social-share .social-share-wrapper .social-profile .pinterest-sections {
     color: #6E6E8D;
@@ -676,4 +676,84 @@
     background: #6c62ff;
     border-radius: 8px;
     color: #fff;
+}
+.social-share-wrapper .social-accordion-item .accordion-content .wpsp-custom-tabs {
+    padding: 0;
+}
+  
+.social-share-wrapper .social-accordion-item .accordion-content .wpsp-custom-tabs .wpsp-tab-header {
+    display: inline-flex;
+    justify-content: flex-start;
+    align-items: center;
+    border: 1px solid #EBEEF5;
+    border-radius: 4px;
+    gap: 2px;
+    color: #1B1B50;
+}
+
+.social-share-wrapper .social-accordion-item .accordion-content .wpsp-custom-tabs .wpsp-tab-header .tab-profile,
+.social-share-wrapper .social-accordion-item .accordion-content .wpsp-custom-tabs .wpsp-tab-header .tab-page {
+    padding: 10px 20px;
+    background: #F9FAFC;
+    border-radius: 2px;
+    cursor: pointer;
+}
+.social-share-wrapper .social-accordion-item .accordion-content .wpsp-custom-tabs .wpsp-tab-header .tab-profile.active,
+.social-share-wrapper .social-accordion-item .accordion-content .wpsp-custom-tabs .wpsp-tab-header .tab-page.active {
+    background: #EBEEF5;
+}
+.social-share-wrapper .social-accordion-item .accordion-content .wpsp-custom-tabs .wpsp-tab-content {
+    margin-top: 10px;
+}
+
+/* Unpublish Republish  */
+.unpublish-popover .components-popover__content .components-datetime__time fieldset .components-datetime__time-wrapper .components-datetime__time-field .components-base-control .components-base-control__field .components-flex .components-input-control__container .components-input-control__backdrop,
+.republish-popover .components-popover__content .components-datetime__time fieldset .components-datetime__time-wrapper .components-datetime__time-field .components-base-control .components-base-control__field .components-flex .components-input-control__container .components-input-control__backdrop {
+    box-shadow: none;
+    border: none;
+}
+.unpublish-popover .components-datetime__time fieldset .components-datetime__time-wrapper>*, .republish-popover .components-datetime__time fieldset .components-datetime__time-wrapper>* {
+    box-sizing: border-box;
+    height: 40px;
+}
+.unpublish-popover .components-popover__content .components-datetime__time fieldset .components-datetime__time-wrapper .components-datetime__time-field .components-datetime__time-separator,.republish-popover .components-popover__content .components-datetime__time fieldset .components-datetime__time-wrapper .components-datetime__time-field .components-datetime__time-separator {
+    border: none;
+}
+
+.unpublish-popover .components-popover__content .components-datetime__time fieldset .components-datetime__time-field-time,
+.republish-popover .components-popover__content .components-datetime__time fieldset .components-datetime__time-field-time
+.unpublish-popover .components-popover__content .components-datetime__time fieldset .components-button-group,
+.republish-popover .components-popover__content .components-datetime__time fieldset .components-button-group {
+    border: 1px solid #EBEEF5;
+    border-radius: 4px;
+    padding: 4px;
+    color: #1B1B50;
+}
+.unpublish-popover .components-datetime__time fieldset .components-button-group .components-button, .republish-popover .components-datetime__time fieldset .components-button-group .components-button {
+    height: 100%;
+    border: none;
+    cursor: pointer;
+}
+
+.unpublish-popover .components-datetime__time fieldset .components-button-group .components-button:focus, .republish-popover .components-datetime__time fieldset .components-button-group .components-button:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+.unpublish-popover .components-popover__content .components-datetime__time fieldset .components-datetime__time-wrapper .components-datetime__time-field.components-datetime__time-field-time .components-base-control, .republish-popover .components-popover__content .components-datetime__time fieldset .components-datetime__time-wrapper .components-datetime__time-field.components-datetime__time-field-time .components-base-control {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.unpublish-popover .components-datetime__time fieldset .components-button-group .components-button.is-primary, .republish-popover .components-datetime__time fieldset .components-button-group .components-button.is-primary {
+    background: #6c62ff;
+    color: #fff;
+    box-shadow: none;
+}
+
+.unpublish-popover .components-datetime__time fieldset .components-button-group .components-button.is-secondary, .republish-popover .components-datetime__time fieldset .components-button-group .components-button.is-secondary {
+    background: #EBEEF5;
+    color: #1B1B50;
+    box-shadow: none;
 }
