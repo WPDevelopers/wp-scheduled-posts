@@ -1,4 +1,5 @@
 import { fetchPinterestSection, fetchSocialProfileData } from "./helper";
+import ProModal from "./utils/ProModal";
 import SelectedSocialProfileModal from "./utils/SelectedSocialProfileModal";
 
 const {
@@ -12,7 +13,7 @@ const {
 } = wp;
 const { __ } = wp.i18n;
 
-const SocialShare = () => {
+const SocialShare = ( { is_pro_active } ) => {
     const {
       meta,
       meta: { _wpscppro_dont_share_socialmedia,_wpscppro_custom_social_share_image },
@@ -39,7 +40,7 @@ const SocialShare = () => {
     const [linkedinShareTypePage,setLinkedinShareTypePage] = useState('default');
     const [wpspSettings,setWpspSettings] = useState(null);
     const [activeTab, setActiveTab] = useState('profile');
-
+    const [proModal,setProModal] = useState(false);
     // Get social profile data from wp_options table
     useEffect(() => {
       // fetch facebook profile data
@@ -305,14 +306,13 @@ const SocialShare = () => {
         },
       })
     }, [isSocialShareDisable]);
-    
-    useEffect(() => {
-      console.log('selected',selectedSocialProfile);
-      console.log('selected-2',_wpscppro_custom_social_share_image);
-    }, [selectedSocialProfile])
-    
-    const handleTabClick = (index) => {
-      setActiveTab(index);
+  
+    const handleActiveLinkedinPage = (page) => {
+      if( !is_pro_active ) {
+        setProModal(true);
+      }else{
+        setActiveTab(page);
+      }
     };
     
     return (
@@ -403,7 +403,7 @@ const SocialShare = () => {
                         <div className="wpsp-custom-tabs">
                           <div className="wpsp-tab-header">
                             <div className={ `tab-profile ${ activeTab === 'profile' ? 'active' : '' }` } onClick={ () => setActiveTab('profile') }>{ __('Profile','wp-scheduled-posts') }</div>
-                            <div className={ `tab-page ${ activeTab === 'page' ? 'active' : '' }` } onClick={ () => setActiveTab('page') }>{ __('Page','wp-scheduled-posts') }</div>
+                            <div className={ `tab-page ${ activeTab === 'page' ? 'active' : '' } ${ !is_pro_active ? 'pro-deactivated' : '' }` } onClick={ () => handleActiveLinkedinPage('page') }>{ __('Page','wp-scheduled-posts') }</div>
                           </div>
                           <div className="wpsp-tab-content">
                             { activeTab == 'profile' && 
@@ -504,7 +504,7 @@ const SocialShare = () => {
             <button onClick={ handleShareNow } className="components-button is-primary share-btn" disabled={ selectedSocialProfile.length > 0 ? false : true }>{ __('Share Now','wp-scheduled-posts') }</button>
           </Fragment>
         }
-        
+        <ProModal isOpenModal={ proModal } setProModal={setProModal} />
       </div>
     );
   };

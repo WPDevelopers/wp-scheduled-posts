@@ -698,6 +698,22 @@
     border-radius: 2px;
     cursor: pointer;
 }
+.social-share-wrapper .social-accordion-item .accordion-content .wpsp-custom-tabs .wpsp-tab-header .tab-page.pro-deactivated::after {
+    content: "\e907";
+    font-family: "wpsp";
+    color: #ff9437;
+    font-size: 0.67em;
+    height: 1.9em;
+    width: 1.9em;
+    background-color: #f6e6d7;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    position: absolute;
+    margin-left: 10px;
+    margin-top: -18px;
+}
 .social-share-wrapper .social-accordion-item .accordion-content .wpsp-custom-tabs .wpsp-tab-header .tab-profile.active,
 .social-share-wrapper .social-accordion-item .accordion-content .wpsp-custom-tabs .wpsp-tab-header .tab-page.active {
     background: #EBEEF5;
@@ -789,4 +805,47 @@
     border-radius: 4px;
     padding: 4px;
     color: #1B1B50;
+}
+.social-share .tab-profile, .tab-page {
+    position: relative;
+    z-index: 1;
+} 
+
+.social-share .tab-profile::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: #EBEEF5;
+    transform: translateX(100%);
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+    border: 1px solid #EBEEF5;
+    border-radius: 4px;
+    z-index: -1;
+}
+
+.social-share .tab-page::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #EBEEF5;
+    transform: translateX(-100%);
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+    border: 1px solid #EBEEF5;
+    border-radius: 4px;
+    z-index: -1;
+}
+
+.social-share .tab-profile.active::after,
+.social-share .tab-page.active::after {
+    color: white;
+    transform: translateX(0);
+    opacity: 1;
 }

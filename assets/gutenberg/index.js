@@ -111,7 +111,7 @@ class AdminPublishButton extends Component {
         )}
         <WpspProSlot.Slot/>
         { !WPSchedulePostsFree?.is_pro && <DummyProFeatures/> }
-        <SocialShare/>
+        <SocialShare is_pro_active={ WPSchedulePostsFree?.is_pro ? true : false  } />
       </PluginDocumentSettingPanel>
      </>
     );
