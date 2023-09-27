@@ -340,7 +340,7 @@
   }
   
   .social-share .share-checkbox input[type="checkbox"]:checked::before {
-    margin: -0.1rem 0 0 -1px;
+    margin: -1px 0 0 -1px;
     height: 20px;
     width: 20px;
     background: #02AC6E;
@@ -756,4 +756,37 @@
     background: #EBEEF5;
     color: #1B1B50;
     box-shadow: none;
+}
+.schedule-press-section .components-select-control .components-input-control__container .components-input-control__backdrop,
+.unpublish-popover .components-select-control .components-input-control__container .components-input-control__backdrop,
+.republish-popover .components-select-control .components-input-control__container .components-input-control__backdrop {
+    border-color: #EBEEF5;
+    color: #1B1B50;
+    box-shadow: none;
+    outline: none;
+  }
+  
+  .unpublish-popover .components-base-control.components-input-control .components-input-control__container .components-input-control__backdrop, .republish-popover .components-base-control.components-input-control .components-input-control__container .components-input-control__backdrop  {
+    border-color: #EBEEF5;
+    color: #1B1B50;
+    box-shadow: none;
+    outline: none;
+  }
+  
+  .republish-popover .components-datetime__date .components-flex .components-button.is-tertiary:hover:not(:disabled,[aria-disabled=true]), .unpublish-popover .components-datetime__date .components-flex .components-button.is-tertiary:hover:not(:disabled,[aria-disabled=true]) {
+      background: #EBEEF5;
+  }
+  
+  .unpublish-popover .components-datetime__date .components-flex .components-button.is-tertiary:focus:not(:disabled), .republish-popover .components-datetime__date .components-flex .components-button.is-tertiary:focus:not(:disabled) {
+      box-shadow: none;
+      outline: none;
+  }
+.unpublish-popover .components-popover__content .components-datetime__time fieldset .components-datetime__time-field-time,
+.unpublish-popover .components-popover__content .components-datetime__time fieldset .components-button-group,
+.republish-popover .components-popover__content .components-datetime__time fieldset .components-datetime__time-field-time,
+.republish-popover .components-popover__content .components-datetime__time fieldset .components-button-group{
+    border: 1px solid #EBEEF5;
+    border-radius: 4px;
+    padding: 4px;
+    color: #1B1B50;
 }
