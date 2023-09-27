@@ -33,7 +33,7 @@ const AutoScheduler = (props) => {
 
     const [autoScheduler,setAutoSchedulerValue] = useState( modifiedDayDataFormet ?? [] );
     const [startSelectedTime, setStartSelectedTime] = useState( getStartTime ? getStartTime : "00:00" );
-    const [endSelectedTime, setEndSelectedTime] = useState( getEndTime ? getEndTime : "00:00");
+    const [endSelectedTime, setEndSelectedTime] = useState( getEndTime ? getEndTime : "23:45");
     const [autoSchedulerStatus, setautoSchedulerStatus] = useState(getAutoSchedulerStatus);
 
     useMemo( () => {
