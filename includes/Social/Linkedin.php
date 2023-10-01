@@ -246,7 +246,8 @@ class Linkedin
                 // call social share method
                 $this->remote_post(
                     $post_id,
-                    $profile_key
+                    $profile_key,
+                    true
                 );
             }
         }

@@ -216,7 +216,8 @@ class Twitter
                     $profile->oauth_token,
                     $profile->oauth_token_secret,
                     $post_id,
-                    $profile_key
+                    $profile_key,
+                    true
                 );
             }
         }
