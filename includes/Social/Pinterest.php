@@ -268,7 +268,8 @@ class Pinterest
                     $post_id,
                     $profile->default_board_name,
                     $profile->defaultSection,
-                    $profile_key
+                    $profile_key,
+                    true
                 );
             }
         }

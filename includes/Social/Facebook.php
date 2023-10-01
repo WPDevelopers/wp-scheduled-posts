@@ -340,7 +340,8 @@ class Facebook
                     $profile->type,
                     $profile->id,
                     $post_id,
-                    $profile_key
+                    $profile_key,
+                    true
                 );
             }
         }

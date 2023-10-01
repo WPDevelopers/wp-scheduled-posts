@@ -5,6 +5,7 @@ registerPlugin('wps-publish-button', {
     render: AdminPublishButton,
 })
 
+
 // registerPlugin('wpsp-options',{
 //     render : MyPluginSidebar
 // })
