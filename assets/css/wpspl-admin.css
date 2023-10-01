@@ -411,6 +411,7 @@
       font-size: 14px;
       font-weight: 500;
       line-height: 16.94px;
+      text-transform: capitalize;
   }
 
   .unpublish-on .components-base-control .components-base-control__field input.components-text-control__input::placeholder, .republish-on .components-base-control .components-base-control__field input.components-text-control__input::placeholder {
@@ -663,9 +664,6 @@
 .wpsp-pro-modal .components-modal__content.has-scrolled-content:not(.hide-header) .components-modal__header {
     border-bottom-color: none;
 }
-.wpsp-custom-tabs {
-    padding: 0 10px;
-}
 .wpsp-custom-tabs .tab-header {
     display: flex;
     justify-content: start;
@@ -679,27 +677,34 @@
     color: #fff;
 }
 .social-share-wrapper .social-accordion-item .accordion-content .wpsp-custom-tabs {
-    padding: 0;
+    border: 1px solid #EBEEF5;
+    border-radius: 4px;
 }
   
 .social-share-wrapper .social-accordion-item .accordion-content .wpsp-custom-tabs .wpsp-tab-header {
-    display: inline-flex;
+    display: flex;
     justify-content: flex-start;
     align-items: center;
-    border: 1px solid #EBEEF5;
-    border-radius: 4px;
-    gap: 2px;
-    color: #1B1B50;
 }
 
 .social-share-wrapper .social-accordion-item .accordion-content .wpsp-custom-tabs .wpsp-tab-header .tab-profile,
 .social-share-wrapper .social-accordion-item .accordion-content .wpsp-custom-tabs .wpsp-tab-header .tab-page {
-    padding: 10px 20px;
-    background: #F9FAFC;
-    border-radius: 2px;
+    padding: 10px 30px;
+    color: #1B1B50;
+    font-size: 14px;
     cursor: pointer;
+    transition: all 0.3s;
+    background: #EBEEF5;
+    flex: 1;
+    text-align: center;
 }
-.social-share-wrapper .social-accordion-item .accordion-content .wpsp-custom-tabs .wpsp-tab-header .tab-page.pro-deactivated::before {
+.social-share-wrapper .social-accordion-item .accordion-content .wpsp-custom-tabs .wpsp-tab-header .tab-profile {
+    border-radius: 3px 0;
+}
+.social-share-wrapper .social-accordion-item .accordion-content .wpsp-custom-tabs .wpsp-tab-header .tab-page {
+    border-radius: 0 3px;
+}
+.social-share-wrapper .social-accordion-item .accordion-content .wpsp-custom-tabs .wpsp-tab-header .tab-page.pro-deactivated::after {
     content: "\e907";
     font-family: "wpsp";
     color: #ff9437;
@@ -712,12 +717,11 @@
     justify-content: center;
     border-radius: 50%;
     position: absolute;
-    margin-left: -5px;
-    margin-top: --5px;
+    margin-left: 5px;
 }
 
 .social-share-wrapper .social-accordion-item .accordion-content .wpsp-custom-tabs .wpsp-tab-content {
-    margin-top: 10px;
+    padding: 15px 0 15px 10px;
 }
 
 /* Unpublish Republish  */
@@ -758,6 +762,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 33px;
 }
 
 .unpublish-popover .components-datetime__time fieldset .components-button-group .components-button.is-primary, .republish-popover .components-datetime__time fieldset .components-button-group .components-button.is-primary {
@@ -810,41 +815,7 @@
     width: 100px;
     text-align: center;
 }
-
-.social-share-wrapper .tab-profile::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-    background: #EBEEF5;
-    transform: translateX(100%);
-    opacity: 0;
-    transition: all 0.2s ease-in-out;
-    border: 1px solid #EBEEF5;
-    border-radius: 4px;
-    z-index: -1;
-}
-
-.social-share-wrapper .tab-page::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #EBEEF5;
-    transform: translateX(-100%);
-    opacity: 0;
-    transition: all 0.25s ease-in-out;
-    border: 1px solid #EBEEF5;
-    border-radius: 2px;
-    z-index: -1;
-}
-
-.social-share-wrapper .tab-profile.active::after,
-.social-share-wrapper .tab-page.active::after {
-    transform: translateX(0);
-    opacity: 1;
+.social-share-wrapper .social-accordion-item .accordion-content .wpsp-custom-tabs .wpsp-tab-header .tab-profile.active, .social-share-wrapper .social-accordion-item .accordion-content .wpsp-custom-tabs .wpsp-tab-header .tab-page.active {
+    color: #6C62FF;
+    background: transparent;
 }

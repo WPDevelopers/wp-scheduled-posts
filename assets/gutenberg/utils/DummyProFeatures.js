@@ -15,7 +15,7 @@ const DummyProFeatures = () => {
   return (
     <div className="dummy-pro-features">
         <div className="auto-scheduler">
-            <h3>{ __('Auto Scheduler','wp-scheduled-posts') }</h3>
+            <h3>{ __('Auto Schedule','wp-scheduled-posts') }</h3>
             <div className="auto-schedule">
             <input id="dummyProAutoScheduler" onClick={ handleProModal } type="checkbox" />
             <label htmlFor="dummyProAutoScheduler">Wednesday, June 14, 2023 at 9:15 AM</label>
