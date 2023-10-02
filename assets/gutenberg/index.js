@@ -40,13 +40,19 @@ class AdminPublishButton extends Component {
     jQuery(document).ready(function() {
       jQuery(document).on('click','.edit-post-header__settings button[aria-label="wpsp_options"]', function(event) {
         event.stopPropagation();
-        jQuery(this).toggleClass('active');
         jQuery('.edit-post-header__settings button:not(".is-pressed")[aria-label="Settings"]').trigger('click');
         setTimeout(() => {
-          // jQuery('.edit-post-sidebar__panel-tabs ul .components-button.dit-post-sidebar__panel-tab').trigger('click');
-          jQuery(".edit-post-sidebar .components-panel__body.is-opened:not('.schedulepress-options') .components-panel__body-title .components-button").trigger('click');
           jQuery('.schedulepress-options:not(".is-opened") .components-button.components-panel__body-toggle').trigger('click');
-        }, 100);
+          setTimeout( () => {
+            const targetElement = document.querySelector('.interface-navigable-region.interface-interface-skeleton__sidebar');
+            const status_position = jQuery('.interface-complementary-area.edit-post-sidebar .edit-post-post-status');
+            const wpsp_position = jQuery('.interface-complementary-area.edit-post-sidebar .schedulepress-options');
+            targetElement.scrollTo({
+              top: Math.abs( status_position.offset().top - wpsp_position.offset().top ),
+              behavior: 'smooth',
+            });
+          }, 0)
+        }, 0);
       });
     });
   }
