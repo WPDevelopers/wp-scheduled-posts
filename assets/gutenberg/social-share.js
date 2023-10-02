@@ -344,14 +344,16 @@ const SocialShare = ( { is_pro_active } ) => {
                   <div className="accordion-content">
                     { facebookProfileData.length > 0 ?
                       <Fragment>
-                        <RadioControl
-                          selected={ facebookShareType }
-                          options={ [
-                              { label: 'Default', value: 'default' },
-                              { label: 'Custom', value: 'custom' },
-                          ] }
-                          onChange={ ( value ) => handleShareType( 'facebook', value ) }
-                        />
+                        <div className="facebook-share-type">
+                          <RadioControl
+                            selected={ facebookShareType }
+                            options={ [
+                                { label: <div dangerouslySetInnerHTML={ { __html: `Default <span aria-label="Content will be shared on all the activated social accounts" class="default dashicons dashicons-info"></span>` } }></div>, value: 'default' },
+                                { label: <div dangerouslySetInnerHTML={ { __html: `Custom <span aria-label="Specify your social account choice where you want to share the content"  class="default dashicons dashicons-info"></span>` } }></div>, value: 'custom' },
+                            ] }
+                            onChange={ ( value ) => handleShareType( 'facebook', value ) }
+                          />
+                        </div>
                         { facebookShareType === 'custom' && facebookProfileData.map( ( facebook, index ) => (
                           <div className="facebook-profile social-profile">
                             <input type="checkbox" checked={ (selectedSocialProfile.findIndex( ( item ) => item.id === facebook.id ) != -1) ? true : false } onClick={ (event) =>  handleProfileSelectionCheckbox( event, 'facebook', index, facebook?.id, facebook?.name, facebook?.type,facebook?.thumbnail_url ) } />
@@ -376,8 +378,8 @@ const SocialShare = ( { is_pro_active } ) => {
                         <RadioControl
                           selected={ twitterShareType }
                           options={ [
-                              { label: 'Default', value: 'default' },
-                              { label: 'Custom', value: 'custom' },
+                            { label: <div dangerouslySetInnerHTML={ { __html: `Default <span aria-label="Content will be shared on all the activated social accounts" class="default dashicons dashicons-info"></span>` } }></div>, value: 'default' },
+                            { label: <div dangerouslySetInnerHTML={ { __html: `Custom <span aria-label="Specify your social account choice where you want to share the content"  class="default dashicons dashicons-info"></span>` } }></div>, value: 'custom' },
                           ] }
                           onChange={ ( value ) => handleShareType( 'twitter', value ) }
                         />
@@ -413,8 +415,8 @@ const SocialShare = ( { is_pro_active } ) => {
                                     <RadioControl
                                       selected={ linkedinShareType }
                                       options={ [
-                                          { label: 'Default', value: 'default' },
-                                          { label: 'Custom', value: 'custom' },
+                                        { label: <div dangerouslySetInnerHTML={ { __html: `Default <span aria-label="Content will be shared on all the activated social accounts" class="default dashicons dashicons-info"></span>` } }></div>, value: 'default' },
+                                        { label: <div dangerouslySetInnerHTML={ { __html: `Custom <span aria-label="Specify your social account choice where you want to share the content"  class="default dashicons dashicons-info"></span>` } }></div>, value: 'custom' },
                                       ] }
                                       onChange={ ( value ) => handleShareType( 'linkedin', value ) }
                                     />
@@ -436,8 +438,8 @@ const SocialShare = ( { is_pro_active } ) => {
                                     <RadioControl
                                       selected={ linkedinShareTypePage }
                                       options={ [
-                                          { label: 'Default', value: 'default' },
-                                          { label: 'Custom', value: 'custom' },
+                                        { label: <div dangerouslySetInnerHTML={ { __html: `Default <span aria-label="Content will be shared on all the activated social accounts" class="default dashicons dashicons-info"></span>` } }></div>, value: 'default' },
+                                        { label: <div dangerouslySetInnerHTML={ { __html: `Custom <span aria-label="Specify your social account choice where you want to share the content"  class="default dashicons dashicons-info"></span>` } }></div>, value: 'custom' },
                                       ] }
                                       onChange={ ( value ) => handleShareType( 'linkedin_page', value ) }
                                     />
@@ -470,8 +472,8 @@ const SocialShare = ( { is_pro_active } ) => {
                         <RadioControl
                           selected={ pinterestShareType }
                           options={ [
-                              { label: 'Default', value: 'default' },
-                              { label: 'Custom', value: 'custom' },
+                            { label: <div dangerouslySetInnerHTML={ { __html: `Default <span aria-label="Content will be shared on all the activated social accounts" class="default dashicons dashicons-info"></span>` } }></div>, value: 'default' },
+                            { label: <div dangerouslySetInnerHTML={ { __html: `Custom <span aria-label="Specify your social account choice where you want to share the content"  class="default dashicons dashicons-info"></span>` } }></div>, value: 'custom' },
                           ] }
                           onChange={ ( value ) => handlePinterestBoardTypeSelection( value ) }
                         />

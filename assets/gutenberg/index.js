@@ -38,6 +38,7 @@ class AdminPublishButton extends Component {
   handleChange(checked) {}
   componentDidMount() {
     jQuery(document).ready(function() {
+      // Click event on wpsp_options
       jQuery(document).on('click','.edit-post-header__settings button[aria-label="wpsp_options"]', function(event) {
         event.stopPropagation();
         jQuery('.edit-post-header__settings button:not(".is-pressed")[aria-label="Settings"]').trigger('click');
