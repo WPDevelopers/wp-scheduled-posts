@@ -348,8 +348,8 @@ const SocialShare = ( { is_pro_active } ) => {
                           <RadioControl
                             selected={ facebookShareType }
                             options={ [
-                                { label: <div dangerouslySetInnerHTML={ { __html: `Default <span aria-label="Content will be shared on all the activated social accounts" class="default dashicons dashicons-info"></span>` } }></div>, value: 'default' },
-                                { label: <div dangerouslySetInnerHTML={ { __html: `Custom <span aria-label="Specify your social account choice where you want to share the content"  class="default dashicons dashicons-info"></span>` } }></div>, value: 'custom' },
+                                { label: <div className="wpsp-tooltip" dangerouslySetInnerHTML={ { __html: `Default <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">Content will be shared on all the activated social accounts </span>` } }></div>, value: 'default' },
+                                { label: <div className="wpsp-tooltip custom" dangerouslySetInnerHTML={ { __html: `Custom <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">Specify your social account choice where you want to share the content</span>` } }></div>, value: 'custom' }
                             ] }
                             onChange={ ( value ) => handleShareType( 'facebook', value ) }
                           />
@@ -378,8 +378,8 @@ const SocialShare = ( { is_pro_active } ) => {
                         <RadioControl
                           selected={ twitterShareType }
                           options={ [
-                            { label: <div dangerouslySetInnerHTML={ { __html: `Default <span aria-label="Content will be shared on all the activated social accounts" class="default dashicons dashicons-info"></span>` } }></div>, value: 'default' },
-                            { label: <div dangerouslySetInnerHTML={ { __html: `Custom <span aria-label="Specify your social account choice where you want to share the content"  class="default dashicons dashicons-info"></span>` } }></div>, value: 'custom' },
+                                { label: <div className="wpsp-tooltip" dangerouslySetInnerHTML={ { __html: `Default <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">Content will be shared on all the activated social accounts </span>` } }></div>, value: 'default' },
+                                { label: <div className="wpsp-tooltip custom" dangerouslySetInnerHTML={ { __html: `Custom <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">Specify your social account choice where you want to share the content</span>` } }></div>, value: 'custom' }
                           ] }
                           onChange={ ( value ) => handleShareType( 'twitter', value ) }
                         />
@@ -415,8 +415,8 @@ const SocialShare = ( { is_pro_active } ) => {
                                     <RadioControl
                                       selected={ linkedinShareType }
                                       options={ [
-                                        { label: <div dangerouslySetInnerHTML={ { __html: `Default <span aria-label="Content will be shared on all the activated social accounts" class="default dashicons dashicons-info"></span>` } }></div>, value: 'default' },
-                                        { label: <div dangerouslySetInnerHTML={ { __html: `Custom <span aria-label="Specify your social account choice where you want to share the content"  class="default dashicons dashicons-info"></span>` } }></div>, value: 'custom' },
+                                        { label: <div className="wpsp-tooltip" dangerouslySetInnerHTML={ { __html: `Default <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">Content will be shared on all the activated social accounts </span>` } }></div>, value: 'default' },
+                                      { label: <div className="wpsp-tooltip custom" dangerouslySetInnerHTML={ { __html: `Custom <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">Specify your social account choice where you want to share the content</span>` } }></div>, value: 'custom' }
                                       ] }
                                       onChange={ ( value ) => handleShareType( 'linkedin', value ) }
                                     />
@@ -438,8 +438,8 @@ const SocialShare = ( { is_pro_active } ) => {
                                     <RadioControl
                                       selected={ linkedinShareTypePage }
                                       options={ [
-                                        { label: <div dangerouslySetInnerHTML={ { __html: `Default <span aria-label="Content will be shared on all the activated social accounts" class="default dashicons dashicons-info"></span>` } }></div>, value: 'default' },
-                                        { label: <div dangerouslySetInnerHTML={ { __html: `Custom <span aria-label="Specify your social account choice where you want to share the content"  class="default dashicons dashicons-info"></span>` } }></div>, value: 'custom' },
+                                        { label: <div className="wpsp-tooltip" dangerouslySetInnerHTML={ { __html: `Default <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">Content will be shared on all the activated social accounts </span>` } }></div>, value: 'default' },
+                                        { label: <div className="wpsp-tooltip custom" dangerouslySetInnerHTML={ { __html: `Custom <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">Specify your social account choice where you want to share the content</span>` } }></div>, value: 'custom' }
                                       ] }
                                       onChange={ ( value ) => handleShareType( 'linkedin_page', value ) }
                                     />
@@ -472,8 +472,8 @@ const SocialShare = ( { is_pro_active } ) => {
                         <RadioControl
                           selected={ pinterestShareType }
                           options={ [
-                            { label: <div dangerouslySetInnerHTML={ { __html: `Default <span aria-label="Content will be shared on all the activated social accounts" class="default dashicons dashicons-info"></span>` } }></div>, value: 'default' },
-                            { label: <div dangerouslySetInnerHTML={ { __html: `Custom <span aria-label="Specify your social account choice where you want to share the content"  class="default dashicons dashicons-info"></span>` } }></div>, value: 'custom' },
+                                { label: <div className="wpsp-tooltip" dangerouslySetInnerHTML={ { __html: `Default <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">Content will be shared on all the activated social accounts </span>` } }></div>, value: 'default' },
+                                { label: <div className="wpsp-tooltip custom" dangerouslySetInnerHTML={ { __html: `Custom <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">Specify your social account choice where you want to share the content</span>` } }></div>, value: 'custom' }
                           ] }
                           onChange={ ( value ) => handlePinterestBoardTypeSelection( value ) }
                         />

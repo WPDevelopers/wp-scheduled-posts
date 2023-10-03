@@ -819,28 +819,62 @@
     color: #6C62FF;
     background: transparent;
 }
+.wpsp-tooltip {
+    position: relative;
+}
+
+.wpsp-tooltip .wpsp-tooltiptext {
+    visibility: hidden;
+    width: 180px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 40%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 11px;
+    line-height: 16px;
+
+}
+.wpsp-tooltip.custom .wpsp-tooltiptext {
+    left: -45%;
+}
+.wpsp-tooltip.custom span.wpsp-tooltiptext::after {
+    left: 83%;
+}
+
+.wpsp-tooltip span:first-child {
+    font-size: 16px;
+    width: 18px;
+    height: 18px;
+    line-height: 19px;
+    color: #6e6e8d;
+}
+
+.wpsp-tooltip span.wpsp-tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.wpsp-tooltip span:first-child:hover + .wpsp-tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+  
 .social-accordion-item .accordion-content .components-base-control .components-radio-control__option {
     position: relative;
-}
-.social-accordion-item .accordion-content .components-base-control .components-radio-control__option label span {
-    position: relative;
-}
-.social-accordion-item .accordion-content .components-base-control .components-radio-control__option label span[aria-label]:focus:after,
-.social-accordion-item .accordion-content .components-base-control .components-radio-control__option label span[aria-label]:hover:after {
-  position: absolute;
-  z-index: 1;
-  top: -2em;
-  left: 0;
-  display: block;
-  overflow: hidden;
-  width: 17em;
-  height: 2em;
-  border-radius: .2em;
-  padding: 0 .7em;
-  content: attr(aria-label);
-  color: #fff;
-  background: #000;
-  font-size: 1em;
-  line-height: 2em;
-  text-align: left;
+    display: flex;
+    align-items: center;
 }
