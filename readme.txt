@@ -207,8 +207,12 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 == Changelog ==
 
-= 5.0.2 - 2023-10-01 =
-
+= 5.0.2 - 2023-10-04 =
+- Revamped: SchedulePress controls for Gutenberg Editor.
+- Added: Specify Social Account to share from Gutenberg.
+- Fixed: Calendar Default time after scheduling using drag and drop.
+- Fixed: Social share issue with Special character.
+- Few minor bug fix & improvements.
 
 = 5.0.1 - 2023-08-30 =
 - Fixed: Manual Scheduler console errors while adding schedule time.
