@@ -2,16 +2,16 @@
 # This file is distributed under the same license as the SchedulePress plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: SchedulePress 5.0.1\n"
+"Project-Id-Version: SchedulePress 5.0.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-scheduled-posts\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-08-30T10:13:06+00:00\n"
+"POT-Creation-Date: 2023-10-04T08:05:11+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.7.0\n"
+"X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: wp-scheduled-posts\n"
 
 #. Plugin Name of the plugin
@@ -121,6 +121,7 @@ msgid "Pro Feature"
 msgstr ""
 
 #: includes/Admin.php:551
+#: assets/gutenberg/utils/DummyProFeatures.js:43
 msgid "Republish On"
 msgstr ""
 
@@ -130,6 +131,7 @@ msgid "PRO"
 msgstr ""
 
 #: includes/Admin.php:555
+#: assets/gutenberg/utils/DummyProFeatures.js:37
 msgid "Unpublish On"
 msgstr ""
 
@@ -327,7 +329,7 @@ msgstr ""
 
 #: includes/Admin/Settings.php:492
 #: includes/Admin/Settings.php:587
-#: includes/Social/InstantShare.php:82
+#: includes/Social/InstantShare.php:86
 msgid "Facebook"
 msgstr ""
 
@@ -345,7 +347,7 @@ msgstr ""
 
 #: includes/Admin/Settings.php:507
 #: includes/Admin/Settings.php:690
-#: includes/Social/InstantShare.php:100
+#: includes/Social/InstantShare.php:104
 msgid "Twitter"
 msgstr ""
 
@@ -380,7 +382,7 @@ msgstr ""
 
 #: includes/Admin/Settings.php:537
 #: includes/Admin/Settings.php:863
-#: includes/Social/InstantShare.php:145
+#: includes/Social/InstantShare.php:149
 msgid "Pinterest"
 msgstr ""
 
@@ -705,11 +707,11 @@ msgstr ""
 msgid "You don't have set any slug and file name to install the plugins"
 msgstr ""
 
-#: includes/Assets.php:37
+#: includes/Assets.php:49
 msgid "Current Date"
 msgstr ""
 
-#: includes/Assets.php:38
+#: includes/Assets.php:50
 msgid "Future Date"
 msgstr ""
 
@@ -721,39 +723,38 @@ msgstr ""
 msgid "If you choose to publish this future post with the Future Date, it will be published immediately but the post’s date time will not set the current date rather it will be your scheduled future date time."
 msgstr ""
 
-#: includes/Social/InstantShare.php:23
-msgid "Social Share Settings"
-msgstr ""
-
-#: includes/Social/InstantShare.php:44
+#: includes/Social/InstantShare.php:48
+#: assets/gutenberg/social-share.js:323
 msgid "Disable Social Share"
 msgstr ""
 
-#: includes/Social/InstantShare.php:73
+#: includes/Social/InstantShare.php:77
+#: assets/gutenberg/social-share.js:337
 msgid "Choose Social Share Platform"
 msgstr ""
 
-#: includes/Social/InstantShare.php:120
+#: includes/Social/InstantShare.php:124
 msgid "Linkedin"
 msgstr ""
 
-#: includes/Social/InstantShare.php:156
+#: includes/Social/InstantShare.php:160
 msgid "Default Board"
 msgstr ""
 
-#: includes/Social/InstantShare.php:157
+#: includes/Social/InstantShare.php:161
 msgid "Custom Board"
 msgstr ""
 
-#: includes/Social/InstantShare.php:191
+#: includes/Social/InstantShare.php:195
+#: assets/gutenberg/social-share.js:506
 msgid "Share Now"
 msgstr ""
 
-#: includes/Social/InstantShare.php:315
+#: includes/Social/InstantShare.php:326
 msgid "Failed!, You didn't select any social media."
 msgstr ""
 
-#: includes/Social/InstantShare.php:397
+#: includes/Social/InstantShare.php:408
 msgid "Sorry, your requested platform integration is not added."
 msgstr ""
 
@@ -772,6 +773,47 @@ msgstr ""
 #. translators: 1: `<h3>` opening tag, 2: `</h3>` closing tag, 3: PHP version. 4: Link opening tag, 5: Link closing tag.
 #: wp-scheduled-posts.php:311
 msgid "%1$sSchedulePress isn’t running because PHP is outdated.%2$s Update to PHP version %3$s and get back to creating!"
+msgstr ""
+
+#: assets/gutenberg/social-share.js:320
+msgid "Social Share Settings"
+msgstr ""
+
+#: assets/gutenberg/social-share.js:360
+#: assets/gutenberg/social-share.js:389
+#: assets/gutenberg/social-share.js:407
+#: assets/gutenberg/social-share.js:426
+#: assets/gutenberg/social-share.js:449
+#: assets/gutenberg/utils/SelectedSocialProfileModal.js:31
+#: assets/gutenberg/utils/SelectedSocialProfileModal.js:34
+#: assets/gutenberg/utils/SelectedSocialProfileModal.js:37
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Profile"
+msgstr ""
+
+#: assets/gutenberg/social-share.js:408
+#: assets/gutenberg/social-share.js:426
+#: assets/gutenberg/social-share.js:449
+#: assets/gutenberg/utils/SelectedSocialProfileModal.js:37
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Page"
+msgstr ""
+
+#: assets/gutenberg/utils/DummyProFeatures.js:18
+msgid "Auto Schedule"
+msgstr ""
+
+#: assets/gutenberg/utils/DummyProFeatures.js:25
+msgid "Manual Schedule"
+msgstr ""
+
+#: assets/gutenberg/utils/DummyProFeatures.js:35
+msgid "Scheduling Options"
+msgstr ""
+
+#: assets/gutenberg/utils/SelectedSocialProfileModal.js:40
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Board"
 msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:1
@@ -989,15 +1031,7 @@ msgid "Generating Token & Fetching User Data"
 msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:1
-msgid "Page"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Group"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:1
-msgid "Profile"
 msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:1
@@ -1006,10 +1040,6 @@ msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Add New"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:1
-msgid "Board"
 msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:1
