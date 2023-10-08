@@ -79,20 +79,27 @@ class Settings
     public function register_social_profile_routes()
     {
         $namespace = WPSP_PLUGIN_SLUG . '/v1';
-        // Get option data
-        register_rest_route($namespace, 'get-option-data', array(
-            'methods' => 'GET',
-            'callback'   => array($this, 'wpsp_get_options_data'),
-            'permission_callback'   => array($this, 'wpsp_permissions_check'),
-        ));
+        $allow_post_types = \WPSP\Helper::get_settings('allow_post_types');
+		$allow_post_types = (!empty($allow_post_types) ? $allow_post_types : array('post'));
+        foreach ($allow_post_types as $type) {
+            // Get option data
+            register_rest_route($namespace, 'get-option-data', array(
+                'methods' => 'GET',
+                'callback'   => array($this, 'wpsp_get_options_data'),
+                'auth_callback' => function() {
+                    return current_user_can( 'edit_posts' );
+                }
+            ));
 
-        // Instant share on social media
-        register_rest_route($namespace,'instant-social-share',array(
-            'methods' => 'GET',
-            'callback'   => array($this, 'wpsp_instant_social_share'),
-            'permission_callback'   => array($this, 'wpsp_permissions_check'),
-        ));
-
+            // Instant share on social media
+            register_rest_route($namespace,'instant-social-share',array(
+                'methods' => 'GET',
+                'callback'   => array($this, 'wpsp_instant_social_share'),
+                'auth_callback' => function() {
+                    return current_user_can( 'edit_posts' );
+                }
+            ));
+        }
     }
 
     // Instant social share
