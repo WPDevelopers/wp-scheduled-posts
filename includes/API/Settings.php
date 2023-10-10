@@ -86,7 +86,7 @@ class Settings
             register_rest_route($namespace, 'get-option-data', array(
                 'methods' => 'GET',
                 'callback'   => array($this, 'wpsp_get_options_data'),
-                'auth_callback' => function() {
+                'permission_callback' => function() {
                     return current_user_can( 'edit_posts' );
                 }
             ));
@@ -95,7 +95,7 @@ class Settings
             register_rest_route($namespace,'instant-social-share',array(
                 'methods' => 'GET',
                 'callback'   => array($this, 'wpsp_instant_social_share'),
-                'auth_callback' => function() {
+                'permission_callback' => function() {
                     return current_user_can( 'edit_posts' );
                 }
             ));

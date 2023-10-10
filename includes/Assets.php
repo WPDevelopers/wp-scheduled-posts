@@ -107,10 +107,11 @@ class Assets
             wp_enqueue_script('md5.min.js', WPSP_ASSETS_URI . 'js/vendor/md5.min.js', array(), WPSP_VERSION, true);
             wp_enqueue_script('wpsp-socialprofile', WPSP_ASSETS_URI . 'js/wpsp-socialprofile.js', array('jquery', 'jquery-kylefoxModal', 'md5.min.js'), WPSP_VERSION, true);
             wp_localize_script('wpsp-socialprofile', 'wpscpSocialProfile', array(
-                'plugin_url'    => WPSP_PLUGIN_ROOT_URI,
-                'nonce'         => wp_create_nonce('wpscp-pro-social-profile'),
-                'redirect_url'  => WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE,
-                'is_active_pro' => class_exists('WPSP_PRO')
+                'plugin_url'               => WPSP_PLUGIN_ROOT_URI,
+                'nonce'                    => wp_create_nonce('wpscp-pro-social-profile'),
+                'redirect_url'             => WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE,
+                'is_active_pro'            => class_exists('WPSP_PRO'),
+                'is_active_classis_editor' => class_exists('Classic_Editor'),
             ));
         }
         // admin notice for all wordpress dashboard
