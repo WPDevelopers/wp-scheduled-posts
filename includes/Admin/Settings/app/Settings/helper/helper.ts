@@ -1,6 +1,6 @@
 import apiFetch from '@wordpress/api-fetch';
 
-function removeNull(obj) {
+export const removeNull = (obj) => {
   Object.keys(obj).forEach((key) => {
     if (obj[key] === null) {
       delete obj[key];
