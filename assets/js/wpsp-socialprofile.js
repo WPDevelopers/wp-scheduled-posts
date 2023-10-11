@@ -2,14 +2,16 @@ jQuery(document).ready(function ($) {
     /**
      * WordPress sidebar checkbox control for don't share
      */
-    // jQuery(document).on('click', '#wpscpprodontshare', function (e) {
-    //     if (this.checked == true) {
-    //         jQuery('#socialmedia').hide()
-    //     } else {
-    //         jQuery('#socialmedia').show()
-    //     }
-    // })
-
+    if( wpscpSocialProfile?.is_active_classis_editor ) {
+        jQuery(document).on('click', '#wpscpprodontshare', function (e) {
+            if (this.checked == true) {
+                jQuery('#socialmedia').hide()
+            } else {
+                jQuery('#socialmedia').show()
+            }
+        })
+    }
+    
     /**
      * ajax instant share modal
      */
@@ -73,8 +75,7 @@ jQuery(document).ready(function ($) {
                             data.pinterest_custom_board_name = jQuery("[name='wpscppro-pinterest-board-name[" + access_token + "]']").val();
                             data.pinterest_custom_section_name = jQuery("[name='wpscppro-pinterest-section-name[" + access_token + "]']").val();
                         }
-
-                        jQuery.post(ajaxurl, data, function (response, status) {
+                        jQuery.get(ajaxurl, data, function (response, status) {
                             WpScp_Social_single_profile_share_response_markup(
                                 profile,
                                 key,

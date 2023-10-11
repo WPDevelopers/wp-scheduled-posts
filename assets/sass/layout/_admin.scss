@@ -3086,7 +3086,7 @@
       margin-bottom: 0;
     }
     label {
-      display: block;
+      display: inline-block;
       span.sharecount {
         background: #008ec2;
         color: white;
@@ -3135,6 +3135,7 @@
     text-decoration: none;
   }
 }
+
 
 /** Email Notify **/
 .wpsp-options-email-notify {

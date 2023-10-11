@@ -81,6 +81,7 @@ class InstantShare
                     <?php
                     if ($facebookIntegation == 'on' && is_array($facebookProfile) && count($facebookProfile) > 0) :
                         $facebookShareCount = get_post_meta(get_the_ID(), '__wpscppro_social_share_facebook');
+                        // $isFacebook = get_post_meta(get_the_ID(), '_wpsp_is_facebook_share', true) ? get_post_meta(get_the_ID(), '_wpsp_is_facebook_share', true) : true;
                         $isFacebook = get_post_meta(get_the_ID(), '_wpsp_is_facebook_share', true);
                     ?>
                         <li class="facebook">
@@ -203,9 +204,9 @@ class InstantShare
     }
     public function instant_share_metabox_data_save($post_id, $post)
     {
-        // if (!did_action('wpsp_schedule_published') && (!isset($_POST['wpscp_pro_instant_social_share_nonce']) || !wp_verify_nonce($_POST['wpscp_pro_instant_social_share_nonce'], basename(__FILE__)))) {
-        //     return;
-        // }
+        if (!did_action('wpsp_schedule_published') && (!isset($_POST['wpscp_pro_instant_social_share_nonce']) || !wp_verify_nonce($_POST['wpscp_pro_instant_social_share_nonce'], basename(__FILE__)))) {
+            return;
+        }
         //don't do anything for autosaves
         if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
             return;
