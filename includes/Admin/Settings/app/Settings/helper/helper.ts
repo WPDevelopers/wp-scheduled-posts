@@ -1,5 +1,13 @@
 import apiFetch from '@wordpress/api-fetch';
 
+export const removeNull = (obj) => {
+  Object.keys(obj).forEach((key) => {
+    if (obj[key] === null) {
+      delete obj[key];
+    }
+  });
+  return obj;
+}
 // Fetch data from API
 export const fetchDataFromAPI = async (body) => {
     // @ts-ignore
@@ -9,7 +17,7 @@ export const fetchDataFromAPI = async (body) => {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: new URLSearchParams(body).toString(),
+        body: new URLSearchParams(removeNull(body)).toString(),
     });
     return response;
 };
