@@ -9,19 +9,19 @@ const {
 	element: { useState, useEffect,createElement,Fragment },
 	components: { TextControl,Button,DateTimePicker,Popover,Modal,RadioControl },
 	editPost: { PluginDocumentSettingPanel },
-  media: { wp_get_attachment_image }
+  media: { wp_get_attachment_image },
+  editor : { MediaUpload, MediaUploadCheck },
 } = wp;
 const { __ } = wp.i18n;
 
 const SocialShare = ( { is_pro_active } ) => {
     const {
       meta,
-      meta: { _wpscppro_dont_share_socialmedia,_wpscppro_custom_social_share_image },
+      meta: { _wpscppro_dont_share_socialmedia, _wpscppro_custom_social_share_image },
     } = useSelect((select) => ({
       meta: select('core/editor').getEditedPostAttribute('meta') || {},
     }));
     const { editPost } = useDispatch('core/editor');
-
     const postid = select('core/editor').getCurrentPostId()
     const [ pinterestShareType, setPinterestShareType ] = useState('default');
     const [isOpen, setIsOpen] = useState(null); // Use null to represent no accordion open
@@ -41,6 +41,9 @@ const SocialShare = ( { is_pro_active } ) => {
     const [wpspSettings,setWpspSettings] = useState(null);
     const [activeTab, setActiveTab] = useState('profile');
     const [proModal,setProModal] = useState(false);
+    const [uploadSocialShareBanner, setUploadSocialShareBanner ] = useState( WPSchedulePostsFree?._wpscppro_custom_social_share_image );
+    const [uploadSocialShareBannerId, setUploadSocialShareBannerId ] = useState( _wpscppro_custom_social_share_image );
+
     // Get social profile data from wp_options table
     useEffect(() => {
       // fetch facebook profile data
@@ -181,7 +184,6 @@ const SocialShare = ( { is_pro_active } ) => {
         }
       }
     }
-
     // Handle section change event
     const handleSectionChange = (board_id,section_id) => {
       const updateSectionArray = selectedSection.map((item) => {
@@ -303,10 +305,10 @@ const SocialShare = ( { is_pro_active } ) => {
         meta: {
           ...meta,
           _wpscppro_dont_share_socialmedia: isSocialShareDisable,
+          _wpscppro_custom_social_share_image: uploadSocialShareBannerId,
         },
       })
-    }, [isSocialShareDisable]);
-  
+    }, [isSocialShareDisable,uploadSocialShareBanner]);
     const handleActiveLinkedinPage = (page) => {
       if( !is_pro_active ) {
         setProModal(true);
@@ -314,21 +316,49 @@ const SocialShare = ( { is_pro_active } ) => {
         setActiveTab(page);
       }
     };
-    
     return (
       <div className='social-share' id="wpspSocialShare">
         <h2 className="social-share-title">{ __('Social Share Settings','wp-scheduled-posts') }</h2>
         <div className="share-checkbox">
-          <input type="checkbox" id="socialShareDisable" checked={isSocialShareDisable} onClick={ handleDisableSocialShare } />
-          <label for="socialShareDisable">{ __('Disable Social Share','wp-scheduled-posts') }</label>
+          <input type="checkbox" id="socialShareDisable" checked={isSocialShareDisable} onChange={ handleDisableSocialShare } />
+          <label htmlFor="socialShareDisable">{ __('Disable Social Share','wp-scheduled-posts') }</label>
         </div>
         <div style={ { display: isSocialShareDisable ? 'none' : 'block' } }>
           <div className={`wpsp_image_upload ${ WPSchedulePostsFree?._wpscppro_custom_social_share_image ? 'has-image' : 'has-not-image'} `}>
-            <div id="wpscpprouploadimagepreview" >
+            {/* <div id="wpscpprouploadimagepreview">
               <img src={ WPSchedulePostsFree?._wpscppro_custom_social_share_image } />
             </div>
             <input type='button' id="wpscppro_btn_meta_image_upload" class='button button-primary' value='Upload Social Share Banner' />
-            <input type='button' id="wpscppro_btn_remove_meta_image_upload" class='button button-danger' value='Remove Banner' />
+            <input type='button' id="wpscppro_btn_remove_meta_image_upload" class='button button-danger' value='Remove Banner' /> */}
+            <div id="wpscpprouploadimagepreview">
+              { uploadSocialShareBanner && (
+                <img src={uploadSocialShareBanner} alt="Uploaded" />
+              )}
+            </div>
+            <MediaUploadCheck>
+              <MediaUpload
+                allowedTypes={['image']}
+                onSelect={ (media) => {
+                  console.log(media.url);
+                  setUploadSocialShareBanner( media?.url );
+                  setUploadSocialShareBannerId( media?.id );
+                } }
+                render={ ( { open } ) => (
+                  <button className="button button-primary" onClick={ open } >
+                    { __('Upload Social Share Banner','wp-scheduled-posts') }
+                  </button>
+                )}
+              />
+            </MediaUploadCheck>
+            { uploadSocialShareBanner && 
+            <input
+              type='button' onClick={ () => {
+                setUploadSocialShareBanner( "" )
+                setUploadSocialShareBannerId( null )
+              } } 
+              class='button button-danger remove-banner-image-btn' 
+              value='Remove Banner' /> 
+             }
           </div>
         </div>
         { !isSocialShareDisable && 
@@ -356,7 +386,7 @@ const SocialShare = ( { is_pro_active } ) => {
                         </div>
                         { facebookShareType === 'custom' && facebookProfileData.map( ( facebook, index ) => (
                           <div className="facebook-profile social-profile">
-                            <input type="checkbox" checked={ (selectedSocialProfile.findIndex( ( item ) => item.id === facebook.id ) != -1) ? true : false } onClick={ (event) =>  handleProfileSelectionCheckbox( event, 'facebook', index, facebook?.id, facebook?.name, facebook?.type,facebook?.thumbnail_url ) } />
+                            <input type="checkbox" checked={ (selectedSocialProfile.findIndex( ( item ) => item.id === facebook.id ) != -1) ? true : false } onChange={ (event) =>  handleProfileSelectionCheckbox( event, 'facebook', index, facebook?.id, facebook?.name, facebook?.type,facebook?.thumbnail_url ) } />
                             <h3>{ facebook?.name } ( { facebook.type ? facebook.type : __('Profile','wp-scheduled-posts') } ) </h3>
                           </div>
                         ) ) }
@@ -385,7 +415,7 @@ const SocialShare = ( { is_pro_active } ) => {
                         />
                         { twitterShareType === 'custom' && twiiterProfileData.map( ( twitter, index ) => (
                           <div className="twitter-profile social-profile">
-                              <input checked={ (selectedSocialProfile.findIndex( ( item ) => item.id === twitter.id ) != -1) ? true : false } type="checkbox" onClick={ (event) =>  handleProfileSelectionCheckbox( event, 'twitter', index, twitter?.id,twitter?.name, twitter?.type, twitter?.thumbnail_url ) } />
+                              <input checked={ (selectedSocialProfile.findIndex( ( item ) => item.id === twitter.id ) != -1) ? true : false } type="checkbox" onChange={ (event) =>  handleProfileSelectionCheckbox( event, 'twitter', index, twitter?.id,twitter?.name, twitter?.type, twitter?.thumbnail_url ) } />
                               <h3>{ twitter?.name } ( { twitter.type ? twitter.type : __('Profile','wp-scheduled-posts') } ) </h3>
                           </div>
                         ) ) }
@@ -422,7 +452,7 @@ const SocialShare = ( { is_pro_active } ) => {
                                     />
                                     { linkedinShareType === 'custom' && linkedinProfileData.filter((item) => item.type === 'person').map( ( linkedin, index ) => (
                                       <div className="linkedin-profile social-profile">
-                                          <input checked={ (selectedSocialProfile.findIndex( ( item ) => item.id === linkedin.id ) != -1) ? true : false } type="checkbox" onClick={ (event) =>  handleProfileSelectionCheckbox( event, 'linkedin', index, linkedin?.id, linkedin?.name, linkedin?.type, linkedin?.thumbnail_url ) } />
+                                          <input checked={ (selectedSocialProfile.findIndex( ( item ) => item.id === linkedin.id ) != -1) ? true : false } type="checkbox" onChange={ (event) =>  handleProfileSelectionCheckbox( event, 'linkedin', index, linkedin?.id, linkedin?.name, linkedin?.type, linkedin?.thumbnail_url ) } />
                                           <h3>{ linkedin?.name } ( { linkedin?.type == 'organization' ? __('Page','wp-scheduled-posts') : __('Profile','wp-scheduled-posts')  } ) </h3>
                                       </div>
                                     ) ) }
@@ -445,7 +475,7 @@ const SocialShare = ( { is_pro_active } ) => {
                                     />
                                     { linkedinShareTypePage === 'custom' && linkedinProfileData.filter((item) => item.type !== 'person').map( ( linkedin, index ) => (
                                       <div className="linkedin-profile social-profile">
-                                          <input checked={ (selectedSocialProfile.findIndex( ( item ) => item.id === linkedin.id ) != -1) ? true : false } type="checkbox" onClick={ (event) =>  handleProfileSelectionCheckbox( event, 'linkedin', index, linkedin?.id, linkedin?.name, linkedin?.type, linkedin?.thumbnail_url ) } />
+                                          <input checked={ (selectedSocialProfile.findIndex( ( item ) => item.id === linkedin.id ) != -1) ? true : false } type="checkbox" onChange={ (event) =>  handleProfileSelectionCheckbox( event, 'linkedin', index, linkedin?.id, linkedin?.name, linkedin?.type, linkedin?.thumbnail_url ) } />
                                           <h3>{ linkedin?.name } ( { linkedin?.type == 'organization' ? __('Page','wp-scheduled-posts') : __('Profile','wp-scheduled-posts')  } ) </h3>
                                       </div>
                                     ) ) }

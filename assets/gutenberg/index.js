@@ -73,12 +73,12 @@ class AdminPublishButton extends Component {
           <path d="M20.9114 10.1826H18.7429C18.5989 10.1826 18.4775 10.3039 18.4775 10.448V12.3739C18.4775 12.5179 18.5989 12.6392 18.7429 12.6392H20.9114C21.0555 12.6392 21.1768 12.5179 21.1768 12.3739V10.448C21.1768 10.2963 21.0555 10.1826 20.9114 10.1826Z" fill="#CCCCFF"/>
           <defs>
           <radialGradient id="paint0_radial_1898_55" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(15.9301 15.6268) scale(7.50632)">
-          <stop stop-color="#F3F3FF"/>
-          <stop offset="0.09" stop-color="#E3E2FF"/>
-          <stop offset="0.4" stop-color="#B0ACFF"/>
-          <stop offset="0.66" stop-color="#8B84FF"/>
-          <stop offset="0.87" stop-color="#746CFF"/>
-          <stop offset="1" stop-color="#6C63FF"/>
+          <stop stopColor="#F3F3FF"/>
+          <stop offset="0.09" stopColor="#E3E2FF"/>
+          <stop offset="0.4" stopColor="#B0ACFF"/>
+          <stop offset="0.66" stopColor="#8B84FF"/>
+          <stop offset="0.87" stopColor="#746CFF"/>
+          <stop offset="1" stopColor="#6C63FF"/>
           </radialGradient>
           </defs>
         </svg>
@@ -97,12 +97,12 @@ class AdminPublishButton extends Component {
           <path d="M20.9114 10.1826H18.7429C18.5989 10.1826 18.4775 10.3039 18.4775 10.448V12.3739C18.4775 12.5179 18.5989 12.6392 18.7429 12.6392H20.9114C21.0555 12.6392 21.1768 12.5179 21.1768 12.3739V10.448C21.1768 10.2963 21.0555 10.1826 20.9114 10.1826Z" fill="#CCCCFF"/>
           <defs>
           <radialGradient id="paint0_radial_1898_55" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(15.9301 15.6268) scale(7.50632)">
-          <stop stop-color="#F3F3FF"/>
-          <stop offset="0.09" stop-color="#E3E2FF"/>
-          <stop offset="0.4" stop-color="#B0ACFF"/>
-          <stop offset="0.66" stop-color="#8B84FF"/>
-          <stop offset="0.87" stop-color="#746CFF"/>
-          <stop offset="1" stop-color="#6C63FF"/>
+          <stop stopColor="#F3F3FF"/>
+          <stop offset="0.09" stopColor="#E3E2FF"/>
+          <stop offset="0.4" stopColor="#B0ACFF"/>
+          <stop offset="0.66" stopColor="#8B84FF"/>
+          <stop offset="0.87" stopColor="#746CFF"/>
+          <stop offset="1" stopColor="#6C63FF"/>
           </radialGradient>
           </defs>
         </svg>

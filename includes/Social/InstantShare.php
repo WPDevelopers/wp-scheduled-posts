@@ -11,7 +11,7 @@ class InstantShare
     public function __construct()
     {
         add_action('add_meta_boxes', array($this, 'instant_share_metabox'));
-        add_action('save_post', array($this, 'instant_share_metabox_data_save'), 10, 2);
+        add_action('save_post', array($this, 'instant_share_metabox_data_save'), 100, 2);
         // ajax request for fetch selected profile
         add_action('wp_ajax_wpscp_instant_share_fetch_profile', array($this, 'instant_share_fetch_profile'));
         add_action('wp_ajax_wpscp_instant_social_single_profile_share', array($this, 'instant_social_single_profile_share'));
@@ -66,11 +66,14 @@ class InstantShare
                         <?php
                         if ($socialshareimage != "") :
                             $imageUrl = wp_get_attachment_image_src($socialshareimage, 'full');
-                        ?>
-                            <div>
-                                <img id="wpscpprouploadimagepreviewold" src="<?php print esc_url($imageUrl[0]); ?>" alt="image">
-                            </div>
-                        <?php endif; ?>
+                            if( !empty( $imageUrl[0] ) ) {
+                                ?>
+                                    <div>
+                                        <img id="wpscpprouploadimagepreviewold" src="<?php print esc_url($imageUrl[0]); ?>" alt="image">
+                                    </div>
+                                <?php
+                            }
+                         endif; ?>
                         <div id="wpscpprouploadimagepreview"></div>
                         <input type='button' id="wpscppro_btn_meta_image_upload" class='button button-primary' value='Upload Social Share Banner' />
                         <input type="button" id="wpscppro_btn_remove_meta_image_upload" class="button button-danger" value="Remove Banner" <?php print($socialshareimage == "" ? 'style="display:none;"' : ''); ?>>
@@ -204,8 +207,10 @@ class InstantShare
     }
     public function instant_share_metabox_data_save($post_id, $post)
     {
-        if (!did_action('wpsp_schedule_published') && (!isset($_POST['wpscp_pro_instant_social_share_nonce']) || !wp_verify_nonce($_POST['wpscp_pro_instant_social_share_nonce'], basename(__FILE__)))) {
-            return;
+        if( class_exists('Classic_Editor') ) {
+            if ( !did_action('wpsp_schedule_published') && (!isset($_POST['wpscp_pro_instant_social_share_nonce']) || !wp_verify_nonce($_POST['wpscp_pro_instant_social_share_nonce'], basename(__FILE__)))) {
+                return;
+            }
         }
         //don't do anything for autosaves
         if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
@@ -219,7 +224,7 @@ class InstantShare
         if (isset($_POST['wpscppro_custom_social_share_image'])) {
             update_post_meta($post_id, '_wpscppro_custom_social_share_image', sanitize_text_field($_POST['wpscppro_custom_social_share_image']));
         }
-        if( class_exists('Classic_Editor') && isset($_POST['_wpscppro_dont_share_socialmedia']) ) {
+        if( class_exists('Classic_Editor') ) {
             update_post_meta($post_id, '_wpscppro_dont_share_socialmedia', sanitize_text_field((isset($_POST['wpscppro-dont-share-socialmedia']) ? $_POST['wpscppro-dont-share-socialmedia'] : 'off')));
         }
         // facebook

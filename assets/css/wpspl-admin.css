@@ -623,6 +623,12 @@
 .wpsp_image_upload #wpscppro_btn_meta_image_upload {
     margin: 10px 0;
 }
+.wpsp_image_upload #wpscpprouploadimagepreview {
+    margin-bottom: 10px;
+}
+.remove-banner-image-btn {
+    margin-top: 8px !important;
+}
 .social-share .share-checkbox {
     margin-bottom: 10px;
 }
