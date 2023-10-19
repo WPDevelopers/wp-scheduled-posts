@@ -117,7 +117,9 @@ class Facebook
         $socialShareImage = get_post_meta($post->ID, '_wpscppro_custom_social_share_image', true);
         if ($socialShareImage != "") {
             $thumbnail_src = wp_get_attachment_image_src($socialShareImage, 'full');
-            echo '<meta property="og:image" content="' . esc_attr($thumbnail_src[0]) . '"/>';
+            if( !empty( $thumbnail_src[0] ) ) {
+                echo '<meta property="og:image" content="' . esc_attr($thumbnail_src[0]) . '"/>';
+            }
         } else {
             if (has_post_thumbnail($post->ID)) { //the post does not have featured image, use a default image
                 $thumbnail_src = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'full');
