@@ -79,27 +79,23 @@ class Settings
     public function register_social_profile_routes()
     {
         $namespace = WPSP_PLUGIN_SLUG . '/v1';
-        $allow_post_types = \WPSP\Helper::get_settings('allow_post_types');
-		$allow_post_types = (!empty($allow_post_types) ? $allow_post_types : array('post'));
-        foreach ($allow_post_types as $type) {
-            // Get option data
-            register_rest_route($namespace, 'get-option-data', array(
-                'methods' => 'GET',
-                'callback'   => array($this, 'wpsp_get_options_data'),
-                'permission_callback' => function() {
-                    return current_user_can( 'edit_posts' );
-                }
-            ));
+        // Get option data
+        register_rest_route($namespace, 'get-option-data', array(
+            'methods' => 'GET',
+            'callback'   => array($this, 'wpsp_get_options_data'),
+            'permission_callback' => function() {
+                return current_user_can( 'edit_posts' );
+            }
+        ));
 
-            // Instant share on social media
-            register_rest_route($namespace,'instant-social-share',array(
-                'methods' => 'GET',
-                'callback'   => array($this, 'wpsp_instant_social_share'),
-                'permission_callback' => function() {
-                    return current_user_can( 'edit_posts' );
-                }
-            ));
-        }
+        // Instant share on social media
+        register_rest_route($namespace,'instant-social-share',array(
+            'methods' => 'GET',
+            'callback'   => array($this, 'wpsp_instant_social_share'),
+            'permission_callback' => function() {
+                return current_user_can( 'edit_posts' );
+            }
+        ));
     }
 
     // Instant social share
@@ -110,16 +106,11 @@ class Settings
 
      // Fetch option table data 
     public function wpsp_get_options_data( $request ) {
-        $option_name = $request->get_param('option_name');
-        if ($option_name) {
-            $option_value = get_option($option_name);
-            if ($option_value !== false) {
-                return rest_ensure_response($option_value);
-            } else {
-                return new \WP_Error('option_not_found', 'Option not found', array('status' => 404));
-            }
+        $option_value = get_option('wpsp_settings_v5');
+        if ($option_value !== false) {
+            return rest_ensure_response($option_value);
         } else {
-            return new \WP_Error('missing_option_name', 'Option name parameter is missing', array('status' => 400));
+            return new \WP_Error('option_not_found', 'Option not found', array('status' => 40));
         }
     }
 

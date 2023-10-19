@@ -47,9 +47,8 @@ const SocialShare = ( { is_pro_active } ) => {
     // Get social profile data from wp_options table
     useEffect(() => {
       // fetch facebook profile data
-      const optionName = `option_name=${WPSchedulePostsFree?.wpsp_settings_name}`;
       const apiUrl = '/wp-scheduled-posts/v1/get-option-data';
-      fetchSocialProfileData(apiUrl,optionName, false).then( (res) => {
+      fetchSocialProfileData(apiUrl,null, false).then( (res) => {
         const wpsp_settings = JSON.parse( res );
         if( wpsp_settings?.facebook_profile_status ) {
           const filtered_facebook_profile_list = wpsp_settings?.facebook_profile_list.filter( item => item.status === true );
@@ -378,8 +377,8 @@ const SocialShare = ( { is_pro_active } ) => {
                           <RadioControl
                             selected={ facebookShareType }
                             options={ [
-                                { label: <div className="wpsp-tooltip" dangerouslySetInnerHTML={ { __html: `Default <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">Content will be shared on all the activated social accounts </span>` } }></div>, value: 'default' },
-                                { label: <div className="wpsp-tooltip custom" dangerouslySetInnerHTML={ { __html: `Custom <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">Specify your social account choice where you want to share the content</span>` } }></div>, value: 'custom' }
+                                { label: <div className="wpsp-tooltip">Default <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext"> { __('Content will be shared on all the activated social accounts','wp-scheduled-posts') } </span> </div>, value: 'default' },
+                                { label: <div className="wpsp-tooltip custom">Custom <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">{ __('Specify your social account choice where you want to share the content','wp-scheduled-posts') }</span></div>, value: 'custom' }
                             ] }
                             onChange={ ( value ) => handleShareType( 'facebook', value ) }
                           />
