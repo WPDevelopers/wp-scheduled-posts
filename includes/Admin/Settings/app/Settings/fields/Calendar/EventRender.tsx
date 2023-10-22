@@ -1,5 +1,6 @@
 import { EventApi } from '@fullcalendar/core';
 import apiFetch from '@wordpress/api-fetch';
+import { decodeEntities } from '@wordpress/html-entities';
 import { Button } from '@wordpress/components';
 import { addQueryArgs } from '@wordpress/url';
 import React, { useEffect } from 'react';
@@ -187,7 +188,7 @@ const PostCard: React.FC<PostCardProps> = ({
         {/* {format(post.end, 'h:mm a')} */}
         {post.postTime}
       </span>
-      <h3 dangerouslySetInnerHTML={{ __html: post.title }} />
+      <h3>{ decodeEntities(  post.title ) }</h3>
       <span className="badge-wrapper">
         <span className="Unscheduled-badge">{post.postType}</span>
         <span className="status-badge">{post.status}</span>
