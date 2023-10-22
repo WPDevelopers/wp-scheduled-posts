@@ -122,7 +122,10 @@ const PostCard: React.FC<PostCardProps> = ({
       removeEventListeners();
     };
   }, [editAreaToggle?.[post.postId]]);
-
+  function sanitizeText(inputText) {
+    inputText = inputText.replace(/[^\w\s-]/g, '');
+    return inputText;
+  }
 
   return (
     <div className={`wpsp-event-card card ${postColor}`} >
@@ -184,7 +187,7 @@ const PostCard: React.FC<PostCardProps> = ({
         {/* {format(post.end, 'h:mm a')} */}
         {post.postTime}
       </span>
-      <h3>{post.title}</h3>
+      <h3 dangerouslySetInnerHTML={{ __html: post.title }} />
       <span className="badge-wrapper">
         <span className="Unscheduled-badge">{post.postType}</span>
         <span className="status-badge">{post.status}</span>

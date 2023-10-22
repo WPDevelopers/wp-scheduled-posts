@@ -7931,6 +7931,10 @@ var PostCard = function (_a) {
       removeEventListeners();
     };
   }, [editAreaToggle === null || editAreaToggle === void 0 ? void 0 : editAreaToggle[post.postId]]);
+  function sanitizeText(inputText) {
+    inputText = inputText.replace(/[^\w\s-]/g, '');
+    return inputText;
+  }
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", {
     className: "wpsp-event-card card ".concat(postColor)
   }, (editAreaToggle === null || editAreaToggle === void 0 ? void 0 : editAreaToggle[post.postId]) && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("ul", {
@@ -7970,7 +7974,11 @@ var PostCard = function (_a) {
     onClick: toggleEditArea
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("span", {
     className: "set-time " + ('Published' === post.status ? 'published' : 'scheduled')
-  }, post.postTime), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("h3", null, post.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("span", {
+  }, post.postTime), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("h3", {
+    dangerouslySetInnerHTML: {
+      __html: post.title
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("span", {
     className: "badge-wrapper"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("span", {
     className: "Unscheduled-badge"
