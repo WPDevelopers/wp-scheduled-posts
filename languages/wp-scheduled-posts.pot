@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-10-23T07:18:55+00:00\n"
+"POT-Creation-Date: 2023-10-23T08:39:46+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: wp-scheduled-posts\n"
@@ -800,10 +800,7 @@ msgstr ""
 #: assets/gutenberg/utils/SelectedSocialProfileModal.js:31
 #: assets/gutenberg/utils/SelectedSocialProfileModal.js:34
 #: assets/gutenberg/utils/SelectedSocialProfileModal.js:37
-#: includes/Admin/Settings/assets/js/admin.js:12122
-#: includes/Admin/Settings/assets/js/admin.js:12445
-#: includes/Admin/Settings/assets/js/admin.js:12448
-#: includes/Admin/Settings/assets/js/admin.js:12451
+#: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Profile"
 msgstr ""
 
@@ -811,9 +808,7 @@ msgstr ""
 #: assets/gutenberg/social-share.js:455
 #: assets/gutenberg/social-share.js:478
 #: assets/gutenberg/utils/SelectedSocialProfileModal.js:37
-#: includes/Admin/Settings/assets/js/admin.js:12112
-#: includes/Admin/Settings/assets/js/admin.js:12126
-#: includes/Admin/Settings/assets/js/admin.js:12451
+#: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Page"
 msgstr ""
 
@@ -830,390 +825,354 @@ msgid "Scheduling Options"
 msgstr ""
 
 #: assets/gutenberg/utils/SelectedSocialProfileModal.js:40
-#: includes/Admin/Settings/assets/js/admin.js:12454
+#: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Board"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:6789
-#: includes/Admin/Settings/assets/js/calendar.js:6727
-msgid "Core Version:"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:6793
-#: includes/Admin/Settings/assets/js/calendar.js:6731
-msgid "Pro Version:"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:6978
-#: includes/Admin/Settings/assets/js/admin.js:6988
-msgid "upgrade-pro-img"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:6981
-#: includes/Admin/Settings/assets/js/admin.js:6984
-msgid "Manage License"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:6981
-msgid "Supercharge your content schedule and ave a peace in mind"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:6991
-msgid "Get Unlimited Features"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:6991
-msgid "Supercharge your content schedule and have a peace in mind"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:6994
-msgid "Upgrade To Pro"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:6998
-#: includes/Admin/Settings/assets/js/admin.js:7001
-msgid "Documentation"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:6998
-msgid "Get started spending some time with the documentation to get familiar with SchedulePress."
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:7005
-msgid "Contribute to SchedulePress"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:7005
-msgid "You can contribute to making SchedulePress better by reporting bugs"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:7008
-msgid "Report A Bug"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:7012
-msgid "Need Help?"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:7012
-msgid "Stuck with something? Get help from the community WPDeveloper Forum or Facebook Community."
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:7015
-msgid "Get Support"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:7019
-#: includes/Admin/Settings/assets/js/admin.js:7022
-msgid "Show your Love"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:7019
-msgid "We love to have you in the SchedulePress family. We are making it more awesome every day."
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:7069
-#: includes/Admin/Settings/assets/js/calendar.js:6780
+#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/calendar.js:1
 msgid "Changes Saved Successfully"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:7099
-#: includes/Admin/Settings/assets/js/calendar.js:6810
+#: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Opps!"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:7104
-#: includes/Admin/Settings/assets/js/calendar.js:6815
+#: includes/Admin/Settings/assets/js/admin.js:1
 msgid "You Need SchedulePress PRO"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:7104
-#: includes/Admin/Settings/assets/js/calendar.js:6815
+#: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Check Pricing Plans"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:7114
-#: includes/Admin/Settings/assets/js/admin.js:7136
-#: includes/Admin/Settings/assets/js/admin.js:7159
-#: includes/Admin/Settings/assets/js/admin.js:9292
-#: includes/Admin/Settings/assets/js/admin.js:9944
-#: includes/Admin/Settings/assets/js/admin.js:11466
-#: includes/Admin/Settings/assets/js/admin.js:11901
-#: includes/Admin/Settings/assets/js/calendar.js:6825
-#: includes/Admin/Settings/assets/js/calendar.js:6847
-#: includes/Admin/Settings/assets/js/calendar.js:6870
+#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/calendar.js:1
 msgid "Are you sure?"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:7115
-#: includes/Admin/Settings/assets/js/admin.js:7137
-#: includes/Admin/Settings/assets/js/admin.js:7160
-#: includes/Admin/Settings/assets/js/calendar.js:6826
-#: includes/Admin/Settings/assets/js/calendar.js:6848
-#: includes/Admin/Settings/assets/js/calendar.js:6871
+#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/calendar.js:1
 msgid "You won't be able to revert this!"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:7116
-#: includes/Admin/Settings/assets/js/admin.js:7138
-#: includes/Admin/Settings/assets/js/calendar.js:6827
-#: includes/Admin/Settings/assets/js/calendar.js:6849
+#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/calendar.js:1
 msgid "error"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:7122
-#: includes/Admin/Settings/assets/js/calendar.js:6833
+#: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Yes, delete it!"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:7144
-#: includes/Admin/Settings/assets/js/calendar.js:6855
-msgid "Yes, Delete it!"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:7148
-#: includes/Admin/Settings/assets/js/calendar.js:6859
-msgid "Deleted!"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:7148
-#: includes/Admin/Settings/assets/js/calendar.js:6859
-msgid "Your post has been deleted."
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:7161
-#: includes/Admin/Settings/assets/js/calendar.js:6872
+#: includes/Admin/Settings/assets/js/admin.js:1
 msgid "warning"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:7167
-#: includes/Admin/Settings/assets/js/calendar.js:6878
+#: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Yes, Save it!"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:7319
-msgid "Enabling Auto Scheduler will deactivate Manual Scheduler automatically."
+#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/calendar.js:1
+msgid "Core Version:"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:7335
-msgid "Auto Scheduler"
+#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/calendar.js:1
+msgid "Pro Version:"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:7347
-msgid "Start Time"
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "upgrade-pro-img"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:7347
-#: includes/Admin/Settings/assets/js/admin.js:7361
-msgid "Default"
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Manage License"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:7347
-msgid "12:00 AM"
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Supercharge your content schedule and ave a peace in mind"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:7361
-msgid "End Time"
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Get Unlimited Features"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:7361
-msgid "11:45 PM"
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Supercharge your content schedule and have a peace in mind"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:7388
-msgid "Number of posts"
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Upgrade To Pro"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:7741
-#: includes/Admin/Settings/assets/js/calendar.js:7234
-msgid "Select Post Type"
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Documentation"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:8050
-#: includes/Admin/Settings/assets/js/calendar.js:7543
-msgid "Select Category"
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Get started spending some time with the documentation to get familiar with SchedulePress."
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:8153
-#: includes/Admin/Settings/assets/js/calendar.js:7646
-msgid "New Post has been Successfully Created"
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Contribute to SchedulePress"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:8156
-#: includes/Admin/Settings/assets/js/calendar.js:7649
-msgid "Post has been Successfully Edited"
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "You can contribute to making SchedulePress better by reporting bugs"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:8159
-#: includes/Admin/Settings/assets/js/calendar.js:7652
-msgid "New Draft Post has been Successfully Created"
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Report A Bug"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:8162
-#: includes/Admin/Settings/assets/js/calendar.js:7655
-msgid "Draft Post has been Successfully Edited"
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Need Help?"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:8172
-#: includes/Admin/Settings/assets/js/calendar.js:7665
-msgid "Something went wrong"
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Stuck with something? Get help from the community WPDeveloper Forum or Facebook Community."
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:9293
-#: includes/Admin/Settings/assets/js/admin.js:9945
-#: includes/Admin/Settings/assets/js/admin.js:11467
-#: includes/Admin/Settings/assets/js/admin.js:11902
-msgid "Enabling this profile will deactivate other profile automatically."
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Get Support"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:9299
-#: includes/Admin/Settings/assets/js/admin.js:9951
-#: includes/Admin/Settings/assets/js/admin.js:11473
-#: includes/Admin/Settings/assets/js/admin.js:11908
-msgid "Yes, Enable it!"
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Show your Love"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:9657
-msgid "Your License is Successfully Activated."
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "We love to have you in the SchedulePress family. We are making it more awesome every day."
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:9688
-msgid "Your License is Successfully Deactivated."
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:10281
-msgid "Enabling Manual Scheduler will deactivate Auto Scheduler automatically."
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:10299
-msgid "Manual Scheduler"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:10331
-msgid "Add"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:10470
+#: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Connect with"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:10470
-msgid "App credentials"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:10470
+#: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Account"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:10479
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "App credentials"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Connect your account"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:10485
+#: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Redirect URI:"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:10491
+#: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Redirect URI"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:10513
+#: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Copied"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:10519
+#: includes/Admin/Settings/assets/js/admin.js:1
 msgid "App ID:"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:10523
+#: includes/Admin/Settings/assets/js/admin.js:1
 msgid "API ID"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:10523
+#: includes/Admin/Settings/assets/js/admin.js:1
 msgid "App ID"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:10531
+#: includes/Admin/Settings/assets/js/admin.js:1
 msgid "App Secret:"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:10536
+#: includes/Admin/Settings/assets/js/admin.js:1
 msgid "API Secret Key"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:10536
+#: includes/Admin/Settings/assets/js/admin.js:1
 msgid "App Secret"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:10543
+#: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Connect Your Account"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:10588
-#: includes/Admin/Settings/assets/js/admin.js:10705
-msgid "Pages:"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:10611
-msgid "Group:"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:10639
-#: includes/Admin/Settings/assets/js/admin.js:10754
-#: includes/Admin/Settings/assets/js/admin.js:10870
-#: includes/Admin/Settings/assets/js/admin.js:10911
-#: includes/Admin/Settings/assets/js/admin.js:11318
-msgid "Save"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:10714
-msgid "page-thumbnail"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:10727
-msgid "Profile:"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:10736
-msgid "profile-thumbnail"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:11108
-msgid "No Section"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:11213
-msgid "Generating Token & Fetching User Data"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:12116
-msgid "Group"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:12203
-msgid "Please select an option"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:12225
-msgid "Add New"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:12320
+#: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Multi Profile is a Premium Feature. To use this feature,"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:12323
+#: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Upgrade to PRO."
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:12457
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Pages:"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Group:"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Save"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "page-thumbnail"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Profile:"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "profile-thumbnail"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "No Section"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Generating Token & Fetching User Data"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Group"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Please select an option"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Add New"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
 msgid "on"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:12503
+#: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Edit"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:12509
+#: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Delete"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Enabling this profile will deactivate other profile automatically."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Yes, Enable it!"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/calendar.js:1
+msgid "Yes, Delete it!"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/calendar.js:1
+msgid "Deleted!"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/calendar.js:1
+msgid "Your post has been deleted."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/calendar.js:1
+msgid "Select Category"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/calendar.js:1
+msgid "New Post has been Successfully Created"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/calendar.js:1
+msgid "Post has been Successfully Edited"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/calendar.js:1
+msgid "New Draft Post has been Successfully Created"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/calendar.js:1
+msgid "Draft Post has been Successfully Edited"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/calendar.js:1
+msgid "Something went wrong"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/calendar.js:1
+msgid "Select Post Type"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Auto Scheduler"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Enabling Auto Scheduler will deactivate Manual Scheduler automatically."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Start Time"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Default"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "12:00 AM"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "End Time"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "11:45 PM"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Number of posts"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Manual Scheduler"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Enabling Manual Scheduler will deactivate Auto Scheduler automatically."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Add"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Your License is Successfully Deactivated."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Your License is Successfully Activated."
 msgstr ""
