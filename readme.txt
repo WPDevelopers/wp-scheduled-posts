@@ -4,7 +4,7 @@ Tags: post schedule, editor calendar, schedule-calendar, editorial calendar, soc
 Requires at least: 4.0
 Tested up to: 6.3
 Requires PHP: 7.2
-Stable tag: 5.0.2
+Stable tag: 5.0.3
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -206,6 +206,13 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 8. Social Templates
 
 == Changelog ==
+
+= 5.0.3 - 2023-10-23 =
+- Fixed: Social Profile were not visible for allowed users.
+- Fixed: Scheduling options were missing on Classic Editor.
+- Fixed: Issue on SchedulePress Calendar post title with special character.
+- Fixed: Social Share Upload Banner image was not working.
+- Few minor bug fix & improvements.
 
 = 5.0.2 - 2023-10-04 =
 - Revamped: SchedulePress controls for Gutenberg Editor.
