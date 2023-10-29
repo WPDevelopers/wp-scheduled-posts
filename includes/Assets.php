@@ -98,7 +98,7 @@ class Assets
                 'wpscp-script',
                 'wpscp_ajax',
                 array( 
-                    'is_active_classic_editor' => class_exists('Classic_Editor'),
+                    'is_active_classic_editor' => class_exists('Classic_Editor') || !apply_filters('use_block_editor_for_post', true),
                     'ajax_url' => admin_url('admin-ajax.php'), 
                     '_wpnonce' => wp_create_nonce('wp_rest'),
                     '_wpscppro_custom_social_share_image'   => $_wpscppro_custom_social_share_image,
@@ -111,7 +111,7 @@ class Assets
                 'nonce'                    => wp_create_nonce('wpscp-pro-social-profile'),
                 'redirect_url'             => WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE,
                 'is_active_pro'            => class_exists('WPSP_PRO'),
-                'is_active_classis_editor' => class_exists('Classic_Editor'),
+                'is_active_classis_editor' => class_exists('Classic_Editor') || !apply_filters('use_block_editor_for_post', true),
             ));
         }
         // admin notice for all wordpress dashboard

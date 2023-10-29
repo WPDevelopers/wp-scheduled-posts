@@ -21,7 +21,7 @@ class InstantShare
     {
         $allow_post_types = \WPSP\Helper::get_settings('allow_post_types');
         $allow_post_types = (!empty($allow_post_types) ? $allow_post_types : array('post'));
-        if( class_exists('Classic_Editor') ) {
+        if( class_exists('Classic_Editor') || !apply_filters('use_block_editor_for_post', true) ) {
             add_meta_box('WpScp_instantshare_meta_box', __('Social Share Settings', 'wp-scheduled-posts'), array($this, 'instant_share_metabox_markup'), $allow_post_types, 'side', 'low');
         }
     }
@@ -38,7 +38,7 @@ class InstantShare
         $twitterProfile = \WPSP\Helper::get_settings('twitter_profile_list');
         $linkedinProfile = \WPSP\Helper::get_settings('linkedin_profile_list');
         $pinterestProfile = \WPSP\Helper::get_settings('pinterest_profile_list');
-        if( !class_exists('Classic_Editor') ) {
+        if( !class_exists('Classic_Editor') && apply_filters('use_block_editor_for_post', true) ) {
             return '';
         }
     ?>
@@ -207,7 +207,7 @@ class InstantShare
     }
     public function instant_share_metabox_data_save($post_id, $post)
     {
-        if( class_exists('Classic_Editor') ) {
+        if( class_exists('Classic_Editor') || !apply_filters('use_block_editor_for_post', true) ) {
             if ( !did_action('wpsp_schedule_published') && (!isset($_POST['wpscp_pro_instant_social_share_nonce']) || !wp_verify_nonce($_POST['wpscp_pro_instant_social_share_nonce'], basename(__FILE__)))) {
                 return;
             }
@@ -224,25 +224,25 @@ class InstantShare
         if (isset($_POST['wpscppro_custom_social_share_image'])) {
             update_post_meta($post_id, '_wpscppro_custom_social_share_image', sanitize_text_field($_POST['wpscppro_custom_social_share_image']));
         }
-        if( class_exists('Classic_Editor') ) {
+        if( class_exists('Classic_Editor') || !apply_filters('use_block_editor_for_post', true) ) {
             update_post_meta($post_id, '_wpscppro_dont_share_socialmedia', sanitize_text_field((isset($_POST['wpscppro-dont-share-socialmedia']) ? $_POST['wpscppro-dont-share-socialmedia'] : 'off')));
         }
         // facebook
-        if ( class_exists('Classic_Editor') ) {
+        if ( class_exists('Classic_Editor') || !apply_filters('use_block_editor_for_post', true) ) {
             update_post_meta($post_id, '_wpsp_is_facebook_share', sanitize_text_field((isset($_POST['_wpsp_is_facebook_share']) ? $_POST['_wpsp_is_facebook_share'] : 'off')));
         }
         
         // twitter
-        if ( class_exists('Classic_Editor')  ) {
+        if ( class_exists('Classic_Editor') || !apply_filters('use_block_editor_for_post', true) ) {
             update_post_meta($post_id, '_wpsp_is_twitter_share', sanitize_text_field((isset($_POST['_wpsp_is_twitter_share']) ? $_POST['_wpsp_is_twitter_share'] : 'off')));
         }
         
         // linkedin
-        if ( class_exists('Classic_Editor')  ) {
+        if ( class_exists('Classic_Editor') || !apply_filters('use_block_editor_for_post', true) ) {
             update_post_meta($post_id, '_wpsp_is_linkedin_share', sanitize_text_field( (isset($_POST['_wpsp_is_linkedin_share']) ? $_POST['_wpsp_is_linkedin_share'] : 'off')) );
         }
         // pinterest
-        if ( class_exists('Classic_Editor')  ) {
+        if ( class_exists('Classic_Editor') || !apply_filters('use_block_editor_for_post', true) ) {
             update_post_meta($post_id, '_wpsp_is_pinterest_share', sanitize_text_field((isset($_POST['_wpsp_is_pinterest_share']) ? $_POST['_wpsp_is_pinterest_share'] : 'off')));
         }
         
