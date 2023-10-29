@@ -35,7 +35,6 @@ final class WPSP
 
 	private function __construct()
 	{
-		add_filter('use_block_editor_for_post', '__return_false');
 		$this->define_constants();
 		if( $this->check_pro_compatibility() ) {
 			add_action( 'admin_notices', [$this, 'wpsp_fail_pro_version'], 52 );
@@ -59,7 +58,6 @@ final class WPSP
 		add_action('init', [$this, 'load_calendar']);
 		add_filter('jwt_auth_whitelist', array($this, 'whitelist_API'));
 		$this->set_global_settings();
-		
 	}
 
 	public static function init()
