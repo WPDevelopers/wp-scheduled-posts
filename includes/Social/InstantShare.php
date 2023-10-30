@@ -38,7 +38,7 @@ class InstantShare
         $twitterProfile = \WPSP\Helper::get_settings('twitter_profile_list');
         $linkedinProfile = \WPSP\Helper::get_settings('linkedin_profile_list');
         $pinterestProfile = \WPSP\Helper::get_settings('pinterest_profile_list');
-        if( !class_exists('Classic_Editor') && apply_filters('use_block_editor_for_post', true) && apply_filters('use_block_editor_for_post_type', true, Helper::get_allow_post_types()) ) {
+        if( !class_exists('Classic_Editor') && !class_exists('\OTGS\Toolset\Types\Controller\Compatibility\Gutenberg') && apply_filters('use_block_editor_for_post', true) && apply_filters('use_block_editor_for_post_type', true, Helper::get_allow_post_types()) ) {
             return '';
         }
     ?>

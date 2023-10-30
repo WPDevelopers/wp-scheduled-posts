@@ -397,7 +397,10 @@ class Helper
         $post_types = self::get_allow_post_types();
         foreach ($post_types as $post_type) {
             $post_editor_enabled = apply_filters('use_block_editor_for_post_type', true, $post_type);
-            $block_editor_enabled = apply_filters('use_block_editor_for_post', true);
+            $block_editor_enabled = false;
+            if( !class_exists('\OTGS\Toolset\Types\Controller\Compatibility\Gutenberg') ) {
+                $block_editor_enabled = apply_filters('use_block_editor_for_post', true );
+            }
             return !$post_editor_enabled || !$block_editor_enabled || class_exists('Classic_Editor');
         }
     }
