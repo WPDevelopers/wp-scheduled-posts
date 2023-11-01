@@ -332,8 +332,7 @@ export default function Calendar(props) {
                 if(event.allDay) {
                   event.setAllDay(false);
                   const date = time ? `${getEndDate(event.start, props._end).toString().split(' ')[0]} ${time}` : getEndDate(event.start, props._end);
-                  // @ts-ignore 
-                  event.setEnd(new Date( `${date} ${wpspSettingsGlobal?.timezone_string}` ) );
+                  event.setEnd(date);
                 }
                 eventDrop(event, 'eventDrop').then(updateEvents);
               }}
