@@ -139,7 +139,7 @@ export default function Calendar(props) {
     }
   };
 
-  const time = builderContext?.values?.calendar_schedule_time;
+  const schedule_time = builderContext?.values?.calendar_schedule_time || props.schedule_time;
   const dateSettings = getSettings();
 
 
@@ -337,10 +337,10 @@ export default function Calendar(props) {
 
                   let _date;
 
-                  // If time is provided, format the start date and append the time
-                  if (time) {
+                  // If schedule_time is provided, format the start date and append the schedule_time
+                  if (schedule_time) {
                     const startDateFormatted = format('Y-m-d', event.start);
-                    _date = `${startDateFormatted} ${time}`;
+                    _date = `${startDateFormatted} ${schedule_time}`;
                   } else {
                     // If time is not provided, get the end date
                     _date = getEndDate(event.start, props._end);
