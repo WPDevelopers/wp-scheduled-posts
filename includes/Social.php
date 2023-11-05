@@ -37,6 +37,7 @@ class Social
         $this->define('WPSCP_TWITTER_OPTION_NAME', 'twitter_profile_list');
         // linkedin
         $this->define('WPSCP_LINKEDIN_SCOPE', 'r_emailaddress r_liteprofile w_member_social');
+        $this->define('WPSCP_LINKEDIN_SCOPE_OPENID', 'openid profile email w_member_social');
         $this->define('WPSCP_LINKEDIN_BUSINESS_SCOPE', 'r_emailaddress r_liteprofile w_member_social r_organization_admin w_organization_social');
         $this->define('WPSCP_LINKEDIN_OPTION_NAME', 'linkedin_profile_list');
         // pinterest
@@ -107,7 +108,7 @@ class Social
     }
 
     /**
-     * 
+     *
      * return \WPSP\Social\InstantShare
      */
     public function instant_social_share()

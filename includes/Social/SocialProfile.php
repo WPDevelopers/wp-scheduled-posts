@@ -147,7 +147,7 @@ class SocialProfile
             $pinterest = \WPSP\Helper::get_social_profile(WPSCP_PINTEREST_OPTION_NAME);
             $profile = (array) $pinterest[(int) $profile];
         }
-        
+
         $pinterest = new \DirkGroenen\Pinterest\Pinterest($profile['app_id'], $profile['app_secret']);
         $pinterest->auth->setOAuthToken($profile['access_token']);
         $sections = $pinterest->sections->get($defaultBoard, [
@@ -262,7 +262,7 @@ class SocialProfile
                     $access_token = $accessToken->access_token;
                 }
                 $pages    = $linkedin->getCompanyPages($access_token);
-                $profiles = $linkedin->getPerson($access_token);
+                $profiles = $linkedin->userinfo($access_token);
 
                 $info = array(
                     'app_id'       => $app_id,
@@ -478,7 +478,7 @@ class SocialProfile
                     $request['appId'],
                     $app_secret,  // unnecessary
                     $redirectURI,
-                    urlencode($request['appId'] === WPSP_SOCIAL_OAUTH2_LINKEDIN_APP_ID ? WPSCP_LINKEDIN_BUSINESS_SCOPE : WPSCP_LINKEDIN_SCOPE),
+                    urlencode($request['appId'] === WPSP_SOCIAL_OAUTH2_LINKEDIN_APP_ID ? WPSCP_LINKEDIN_BUSINESS_SCOPE : WPSCP_LINKEDIN_SCOPE_OPENID),
                     true,
                     $state
                 );
