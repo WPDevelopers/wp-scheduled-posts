@@ -13,6 +13,7 @@ class Facebook
     private $content_source;
     private $template_structure;
     private $status_limit;
+    private $post_share_limit;
 
     public function __construct()
     {
@@ -24,6 +25,7 @@ class Facebook
         $this->content_source = (isset($settings['content_source']) ? $settings['content_source'] : '');
         $this->template_structure = (isset($settings['template_structure']) ? $settings['template_structure'] : '{title}{content}{url}{tags}');
         $this->status_limit = (isset($settings['status_limit']) ? $settings['status_limit'] : 63206);
+        $this->post_share_limit = (isset($settings['post_share_limit']) ? $settings['post_share_limit'] : 0);
         $this->facebook_head_meta_data();
     }
 
@@ -80,9 +82,10 @@ class Facebook
     /**
      * Saved Post Meta info
      */
-    public function save_metabox_social_share_metabox($post_id, $response, $profile_key)
+    public function save_metabox_social_share_metabox($post_id, $response, $profile_key, $ID)
     {
         $meta_name = '__wpscppro_facebook_share_log';
+        $count_meta_key = '__wpsp_facebook_share_count_'.$ID;
         $oldData = get_post_meta($post_id, $meta_name, true);
         if ($oldData != "") {
             $oldData[$profile_key] = $response;
@@ -90,6 +93,12 @@ class Facebook
             update_post_meta($post_id, $meta_name, $updateData);
         } else {
             add_post_meta($post_id, $meta_name, array($profile_key => $response));
+        }
+        $old_share_count = get_post_meta( $post_id, $count_meta_key, true );
+        if( $old_share_count != '' ) {
+            update_post_meta($post_id, $count_meta_key, intval( $old_share_count ) + 1);
+        }else{
+            add_post_meta($post_id, $count_meta_key, 1);
         }
     }
 
@@ -115,7 +124,7 @@ class Facebook
         echo '<meta property="og:site_name" content=" ' . get_bloginfo() . ' "/>';
 
         $socialShareImage = get_post_meta($post->ID, '_wpscppro_custom_social_share_image', true);
-        if ($socialShareImage != "") {
+        if ($socialShareImage != "" || $socialShareImage != 0) {
             $thumbnail_src = wp_get_attachment_image_src($socialShareImage, 'full');
             if( !empty( $thumbnail_src[0] ) ) {
                 echo '<meta property="og:image" content="' . esc_attr($thumbnail_src[0]) . '"/>';
@@ -189,11 +198,19 @@ class Facebook
      */
     public function remote_post($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key, $force_share = false)
     {
+        // get share count 
+        $count_meta_key = '__wpsp_facebook_share_count_'.$ID;
         // check post is skip social sharing
-        if (empty($app_id) || empty($app_secret) || get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
+        if (empty($app_id) || empty($app_secret) || get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on' ) {
             return;
         }
-
+        if( ( get_post_meta( $post_id, $count_meta_key, true ) ) && $this->post_share_limit != 0 && get_post_meta( $post_id, $count_meta_key, true ) >= $this->post_share_limit ) {
+            return array(
+                'success' => false,
+                'log' => __('Your max share post limit has been executed!!','wp-scheduled-posts')
+            );
+        }
+        
         if(get_post_meta($post_id, '_wpsp_is_facebook_share', true) == 'on' || $force_share) {
             $errorFlag = false;
             $response = '';
@@ -220,7 +237,7 @@ class Facebook
                             'publish_date' => time(),
                         );
                         // save shareinfo in metabox
-                        $this->save_metabox_social_share_metabox($post_id, $shareInfo, $profile_key);
+                        $this->save_metabox_social_share_metabox($post_id, $shareInfo, $profile_key, $ID);
                         $errorFlag = true;
                         $response = $shareInfo;
                     }
@@ -245,7 +262,7 @@ class Facebook
                             'publish_date' => time(),
                         );
                         // save shareinfo in metabox
-                        $this->save_metabox_social_share_metabox($post_id, $shareInfo, $profile_key);
+                        $this->save_metabox_social_share_metabox($post_id, $shareInfo, $profile_key, $ID);
                         $errorFlag = true;
                         $response = $shareInfo;
                     }
@@ -271,7 +288,7 @@ class Facebook
                             'publish_date'      => time()
                         );
                         // save shareinfo in metabox
-                        $this->save_metabox_social_share_metabox($post_id, $shareInfo, $profile_key);
+                        $this->save_metabox_social_share_metabox($post_id, $shareInfo, $profile_key, $ID);
                         $errorFlag = true;
                         $response = $shareInfo;
                     }

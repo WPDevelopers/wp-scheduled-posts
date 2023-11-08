@@ -13,6 +13,8 @@ class Linkedin
     private $content_source;
     private $template_structure;
     private $status_limit;
+    private $post_share_limit;
+
     public function __construct()
     {
         $settings = \WPSP\Helper::get_settings('social_templates');
@@ -22,6 +24,7 @@ class Linkedin
         $this->content_source = (isset($settings['content_source']) ? $settings['content_source'] : '');
         $this->template_structure = (isset($settings['template_structure']) ? $settings['template_structure'] : '{title}{content}{url}{tags}');
         $this->status_limit = (isset($settings['status_limit']) ? $settings['status_limit'] : 1300);
+        $this->post_share_limit = (isset($settings['post_share_limit']) ? $settings['post_share_limit'] : 0);
     }
 
     public function instance()
@@ -68,9 +71,10 @@ class Linkedin
     /**
      * Saved Post Meta info
      */
-    public function save_metabox_social_share($post_id, $response, $profile_key)
+    public function save_metabox_social_share($post_id, $response, $profile_key, $ID)
     {
         $meta_name = '__wpscppro_linkedin_share_log';
+        $count_meta_key = '__wpsp_linkedin_share_count_'.$ID;
         $oldData = get_post_meta($post_id, $meta_name, true);
         if ($oldData != "") {
             $oldData[$profile_key] = $response;
@@ -78,6 +82,12 @@ class Linkedin
             update_post_meta($post_id, $meta_name, $updateData);
         } else {
             add_post_meta($post_id, $meta_name, array($profile_key => $response));
+        }
+        $old_share_count = get_post_meta( $post_id, $count_meta_key, true );
+        if( $old_share_count != '' ) {
+            update_post_meta($post_id, $count_meta_key, intval( $old_share_count ) + 1);
+        }else{
+            add_post_meta($post_id, $count_meta_key, 1);
         }
     }
 
@@ -132,11 +142,19 @@ class Linkedin
      */
     public function remote_post($post_id, $profile_key, $force_share = false)
     {
+        $profile     = \WPSP\Helper::get_profile('linkedin', $profile_key);
+        $accessToken = \WPSP\Helper::get_access_token('linkedin', $profile_key);
         // check post is skip social sharing
         if (get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
             return;
         }
-
+        $count_meta_key = '__wpsp_linkedin_share_count_'.$profile->id;
+        if( ( get_post_meta( $post_id, $count_meta_key, true ) ) && $this->post_share_limit != 0 && get_post_meta( $post_id, $count_meta_key, true ) >= $this->post_share_limit ) {
+            return array(
+                'success' => false,
+                'log' => __('Your max share post limit has been executed!!','wp-scheduled-posts')
+            );
+        }
         if(get_post_meta($post_id, '_wpsp_is_linkedin_share', true) == 'on' || $force_share) {
             $errorFlag = false;
             $response = '';
@@ -148,13 +166,11 @@ class Linkedin
                     null,
                     null
                 );
-                $profile          = \WPSP\Helper::get_profile('linkedin', $profile_key);
-                $accessToken      = \WPSP\Helper::get_access_token('linkedin', $profile_key);
                 $getPersonID      = $profile->id;
                 $type             = isset($profile->type) ? $profile->type : 'person';
                 $image_path       = '';
                 $socialShareImage = get_post_meta($post_id, '_wpscppro_custom_social_share_image', true);
-                if ($socialShareImage != "") {
+                if ($socialShareImage != "" || $socialShareImage != 0) {
                     $image_path = wp_get_original_image_path($socialShareImage);
                 } else {
                     if (has_post_thumbnail($post_id)) { //the post does not have featured image, use a default image
@@ -204,7 +220,7 @@ class Linkedin
                         'share_id' => (isset($result->id) ? $result->id : ''),
                         'publish_date' => time(),
                     );
-                    $this->save_metabox_social_share($post_id, $shareInfo, $profile_key);
+                    $this->save_metabox_social_share($post_id, $shareInfo, $profile_key, $getPersonID);
                     $errorFlag = true;
                     $response = $shareInfo;
                 } else if (!empty($result) && property_exists($result, 'serviceErrorCode') && $result->serviceErrorCode != "") {
