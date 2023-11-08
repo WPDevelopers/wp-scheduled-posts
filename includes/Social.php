@@ -33,7 +33,7 @@ class Social
         // facebook
         $this->define('WPSCP_FACEBOOK_OPTION_NAME', 'facebook_profile_list');
         // $this->define('WPSCP_FACEBOOK_SCOPE', 'pages_show_list,publish_to_groups,pages_read_engagement,pages_manage_metadata,pages_read_user_content,pages_manage_posts,pages_manage_engagement');
-        $this->define('WPSCP_FACEBOOK_SCOPE', 'pages_show_list,publish_to_groups,pages_read_engagement,pages_manage_metadata,pages_read_user_content,pages_manage_posts,pages_manage_engagement');
+        $this->define('WPSCP_FACEBOOK_SCOPE', 'pages_show_list,pages_read_engagement,pages_manage_metadata,pages_read_user_content,pages_manage_posts,pages_manage_engagement');
         // twitter
         $this->define('WPSCP_TWITTER_OPTION_NAME', 'twitter_profile_list');
         // linkedin

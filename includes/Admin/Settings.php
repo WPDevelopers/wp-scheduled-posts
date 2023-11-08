@@ -684,7 +684,7 @@ class Settings {
                                                                     'label'         => __('How often to share a post?', 'wp-scheduled-posts'),
                                                                     'priority'      => 21,
                                                                     'default'       => 0,
-                                                                    'help'          => __('Zero (0) is for no limit to share', 'wp-scheduled-posts'),
+                                                                    'help'          => __('Keep zero for no limit', 'wp-scheduled-posts'),
                                                                 ],
                                                             ]
                                                         ]
@@ -773,7 +773,7 @@ class Settings {
                                                                     'label'         => __('How often to share a post?', 'wp-scheduled-posts'),
                                                                     'priority'      => 21,
                                                                     'default'       => 0,
-                                                                    'help'          => __('Zero (0) is for no limit to share', 'wp-scheduled-posts'),
+                                                                    'help'          => __('Keep zero for no limit', 'wp-scheduled-posts'),
                                                                 ],
                                                             ]
                                                         ]
@@ -875,7 +875,7 @@ class Settings {
                                                                     'label'         => __('How often to share a post?', 'wp-scheduled-posts'),
                                                                     'priority'      => 21,
                                                                     'default'       => 0,
-                                                                    'help'          => __('Zero (0) is for no limit to share', 'wp-scheduled-posts'),
+                                                                    'help'          => __('Keep zero for no limit', 'wp-scheduled-posts'),
                                                                 ],
                                                             ]
                                                         ]
@@ -965,7 +965,7 @@ class Settings {
                                                                     'label'         => __('How often to share a post?', 'wp-scheduled-posts'),
                                                                     'priority'      => 21,
                                                                     'default'       => 0,
-                                                                    'help'          => __('Zero (0) is for no limit to share', 'wp-scheduled-posts'),
+                                                                    'help'          => __('Keep zero for no limit', 'wp-scheduled-posts'),
                                                                 ],
                                                             ]
                                                         ]
