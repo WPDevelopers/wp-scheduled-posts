@@ -111,6 +111,7 @@ export const getProfileData = async (params) => {
         rt_expires_in: params.get("rt_expires_in"),
         oauthVerifier: params.get("oauth_verifier"),
         oauthToken: params.get("oauth_token"),
+        openIDConnect: params.get("openIDConnect"),
     };
     const response = await fetchDataFromAPI(data);
     return response.json();
