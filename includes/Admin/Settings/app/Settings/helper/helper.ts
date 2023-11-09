@@ -67,13 +67,14 @@ export const generateTabURL = () => {
 }
 
 // Send API request for fetch url
-export const socialProfileRequestHandler = async (redirectURI, appID, appSecret, platform) => {
+export const socialProfileRequestHandler = async (redirectURI, appID, appSecret, platform, openIDConnect) => {
     const data = {
         action: 'wpsp_social_add_social_profile',
         redirectURI: redirectURI,
         appId: appID,
         appSecret: appSecret,
         type: platform,
+        openIDConnect: openIDConnect,
     };
     const response = await fetchDataFromAPI(data);
 
