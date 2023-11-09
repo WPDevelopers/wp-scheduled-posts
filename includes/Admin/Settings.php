@@ -677,6 +677,15 @@ class Settings {
                                                                     'max'           => 63206,
                                                                     'help'          => __('Max: 63206', 'wp-scheduled-posts'),
                                                                 ],
+                                                                'post_share_limit'  => [
+                                                                    'id'            => 'facebook_post_share_limit',
+                                                                    'name'          => 'post_share_limit',
+                                                                    'type'          => 'number',
+                                                                    'label'         => __('How often to share a post?', 'wp-scheduled-posts'),
+                                                                    'priority'      => 21,
+                                                                    'default'       => 0,
+                                                                    'help'          => __('Keep zero for no limit', 'wp-scheduled-posts'),
+                                                                ],
                                                             ]
                                                         ]
 
@@ -756,6 +765,15 @@ class Settings {
                                                                     'default'       => 280,
                                                                     'max'           => 280,
                                                                     'help'          => __('Max: 280', 'wp-scheduled-posts'),
+                                                                ],
+                                                                'post_share_limit'  => [
+                                                                    'id'            => 'twitter_post_share_limit',
+                                                                    'name'          => 'post_share_limit',
+                                                                    'type'          => 'number',
+                                                                    'label'         => __('How often to share a post?', 'wp-scheduled-posts'),
+                                                                    'priority'      => 21,
+                                                                    'default'       => 0,
+                                                                    'help'          => __('Keep zero for no limit', 'wp-scheduled-posts'),
                                                                 ],
                                                             ]
                                                         ]
@@ -850,6 +868,15 @@ class Settings {
                                                                     'max'           => 1300,
                                                                     'help'          => __('Max: 1300', 'wp-scheduled-posts'),
                                                                 ],
+                                                                'post_share_limit'  => [
+                                                                    'id'            => 'linkedin_post_share_limit',
+                                                                    'name'          => 'post_share_limit',
+                                                                    'type'          => 'number',
+                                                                    'label'         => __('How often to share a post?', 'wp-scheduled-posts'),
+                                                                    'priority'      => 21,
+                                                                    'default'       => 0,
+                                                                    'help'          => __('Keep zero for no limit', 'wp-scheduled-posts'),
+                                                                ],
                                                             ]
                                                         ]
 
@@ -930,6 +957,15 @@ class Settings {
                                                                     'default'       => '500',
                                                                     'max'           => '500',
                                                                     'help'          => __('Max: 500', 'wp-scheduled-posts'),
+                                                                ],
+                                                                'post_share_limit'  => [
+                                                                    'id'            => 'pinterest_post_share_limit',
+                                                                    'name'          => 'post_share_limit',
+                                                                    'type'          => 'number',
+                                                                    'label'         => __('How often to share a post?', 'wp-scheduled-posts'),
+                                                                    'priority'      => 21,
+                                                                    'default'       => 0,
+                                                                    'help'          => __('Keep zero for no limit', 'wp-scheduled-posts'),
                                                                 ],
                                                             ]
                                                         ]
