@@ -62,7 +62,8 @@ class Assets
                 'admin_image_path'  => WPSP_PLUGIN_ROOT_URI.'includes/Admin/Settings/app/assets/images',
                 'free_version'     => WPSP_VERSION,
                 'admin_ajax'       => admin_url( 'admin-ajax.php' ),
-                'pro_version'      => (defined('WPSP_PRO_VERSION') ? WPSP_PRO_VERSION : '')
+                'pro_version'      => (defined('WPSP_PRO_VERSION') ? WPSP_PRO_VERSION : ''),
+                'timezone_string'  => wp_timezone_string(),
             )));
         }
         else if (strpos($hook, '_page_' . WPSP_SETTINGS_SLUG) !== false){
@@ -81,6 +82,7 @@ class Assets
                 'timeZone'      => wp_timezone_string(),
                 'image_path'    => WPSP_PLUGIN_ROOT_URI.'assets/images/',
                 'post_types'    => array_values(Settings::normalize_options(\WPSP\Helper::get_allow_post_types())),
+                'timezone_string' => wp_timezone_string(),
             )));
         }
     }
