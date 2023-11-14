@@ -9,7 +9,7 @@ includes/Admin/Settings/assets/js/admin.js.map
 *.xml
 **/*.map
 .idea/*
-.vscode/launch.json
+.vscode/
 # includes/Admin/Settings/assets/css/admin.css
 # includes/Admin/Settings/assets/js/admin.asset.php
 # includes/Admin/Settings/assets/js/admin.js
