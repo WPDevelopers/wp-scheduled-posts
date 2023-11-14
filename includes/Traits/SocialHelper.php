@@ -81,6 +81,7 @@ trait SocialHelper
         }
         if (!empty($title) && strpos($template_structure, '{title}') !== false) {
             $title              = substr($title, 0, $post_content_limit);
+            $title              = apply_filters('wpsp_social_share_title', $title, get_called_class(), $post_link);
             $post_content_limit = intval($post_content_limit) - strlen($title);
             $template_structure = str_replace('{title}', '::::' . $title . '::::', $template_structure);
         }

@@ -167,7 +167,7 @@ class Pinterest
         );
         // main arguments
         $pinterest_create_args = array(
-            "title"       => html_entity_decode($PostTitle),
+            "title"       => apply_filters('wpsp_social_share_title', html_entity_decode($PostTitle), get_called_class(), $PostPermalink, $post_id),
             "description" => substr($note_content, 0, $this->note_limit),
             'link'        => $has_url ? $PostPermalink : '',
             "board_id"    => $board_name,
