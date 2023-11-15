@@ -42,6 +42,16 @@ export const activateLicense = async (body) => {
     } );
 };
 
+export const sendOpt = async (body) => {
+    return apiFetch( {
+        path: 'wp-scheduled-posts/v1/license/submit-otp',
+        method: 'POST',
+        data: body,
+    } ).then( ( res ) => {
+        return res;
+    } );
+}
+
 export const getLicense = async (body) => {
     return apiFetch( {
         path: 'wp-scheduled-posts/v1/license/get_license',
