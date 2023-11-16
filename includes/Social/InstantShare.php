@@ -38,7 +38,7 @@ class InstantShare
         $twitterProfile = \WPSP\Helper::get_settings('twitter_profile_list');
         $linkedinProfile = \WPSP\Helper::get_settings('linkedin_profile_list');
         $pinterestProfile = \WPSP\Helper::get_settings('pinterest_profile_list');
-        if( !class_exists('Classic_Editor') && !class_exists('\OTGS\Toolset\Types\Controller\Compatibility\Gutenberg') && apply_filters('use_block_editor_for_post', true) && apply_filters('use_block_editor_for_post_type', true, Helper::get_allow_post_types()) ) {
+        if( !class_exists('Classic_Editor') && !class_exists('\OTGS\Toolset\Types\Controller\Compatibility\Gutenberg') && !method_exists("\SureCart\WordPress\PostTypes\FormPostTypeService",'forceGutenberg') && apply_filters('use_block_editor_for_post', true) && apply_filters('use_block_editor_for_post_type', true, Helper::get_allow_post_types() ) ) {
             return '';
         }
     ?>
@@ -351,7 +351,7 @@ class InstantShare
         // all social platfrom
         if ($platform == 'facebook') {
             $facebook = \WPSP\Helper::get_social_profile(WPSCP_FACEBOOK_OPTION_NAME);
-            $platformKey = array_search($profileID, array_column($facebook, 'id'));
+            $platformKey = !empty( $profileID ) ? array_search($profileID, array_column($facebook, 'id')) : intval($platformKey);
             if ($facebook[$platformKey]->status == false) {
                 wp_die();
             }
@@ -369,7 +369,7 @@ class InstantShare
             wp_die();
         } else if ($platform == 'twitter') {
             $twitter = \WPSP\Helper::get_social_profile(WPSCP_TWITTER_OPTION_NAME);
-            $platformKey = array_search($profileID, array_column($twitter, 'id'));
+            $platformKey = !empty( $profileID ) ? array_search($profileID, array_column($twitter, 'id')) : intval($platformKey);
             // if disable account then it will be off
             if ($twitter[$platformKey]->status == false) {
                 wp_die();
@@ -387,7 +387,7 @@ class InstantShare
             wp_die();
         } else if ($platform == 'linkedin') {
             $linkedin = \WPSP\Helper::get_social_profile(WPSCP_LINKEDIN_OPTION_NAME);
-            $platformKey = array_search($profileID, array_column($linkedin, 'id'));
+            $platformKey = !empty( $profileID ) ? array_search($profileID, array_column($linkedin, 'id')) : intval($platformKey);
             // if disable account then it will be off
             if ($linkedin[$platformKey]->status == false) {
                 wp_die();
@@ -401,7 +401,7 @@ class InstantShare
             wp_die();
         } else if ($platform == 'pinterest') {
             $pinterest = \WPSP\Helper::get_social_profile(WPSCP_PINTEREST_OPTION_NAME);
-            $platformKey = array_search($profileID, array_column($pinterest, 'id'));
+            $platformKey = !empty( $profileID ) ? array_search($profileID, array_column($pinterest, 'id')) : intval($platformKey);
             // if disable account then it will be off
             if ($pinterest[$platformKey]->status == false) {
                 wp_die();
