@@ -3,11 +3,11 @@
         'name' => 'schedulepress/wp-schedule-posts',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'fba4e194fe97cc994e47207b85ff36b453295298',
+        'reference' => '1df4d0531396b00274d4a39785c6d7b5a55fcac4',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'dev' => false,
+        'dev' => true,
     ),
     'versions' => array(
         'composer/ca-bundle' => array(
@@ -67,7 +67,7 @@
         'priyomukul/wp-notice' => array(
             'pretty_version' => 'v2.x-dev',
             'version' => '2.9999999.9999999.9999999-dev',
-            'reference' => '2bc2059ba8fe532776e1bdc90d5c3c47c9f430d1',
+            'reference' => 'cc674c9b76c74289966d0b395078a9fcfe3a0af1',
             'type' => 'library',
             'install_path' => __DIR__ . '/../priyomukul/wp-notice',
             'aliases' => array(),
@@ -100,7 +100,7 @@
         'schedulepress/wp-schedule-posts' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'fba4e194fe97cc994e47207b85ff36b453295298',
+            'reference' => '1df4d0531396b00274d4a39785c6d7b5a55fcac4',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
