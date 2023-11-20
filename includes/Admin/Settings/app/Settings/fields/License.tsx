@@ -11,48 +11,48 @@ function License(props) {
     useEffect(() => {
         if (!localStorage.getItem('wpsp_is_valid')) {
             getLicense( {} ).then( (response) => {
+                // @ts-ignore 
+                localStorage.setItem('wpsp_is_valid', response?.data.status)
                 // @ts-ignore
-                localStorage.setItem('wpsp_is_valid', response?.status)
-                // @ts-ignore
-                localStorage.setItem('wpsp_temp_key', response?.key)
-                // @ts-ignore
-                setValid(response?.status)
-                // @ts-ignore
-                setTempKey(response?.key)
+                localStorage.setItem('wpsp_temp_key', response?.data.key)
+                // @ts-ignore 
+                setValid(response?.data.status)
+                // @ts-ignore 
+                setTempKey(response?.data.key)
             } )
         }
     }, [])
-
+    
     const [valid, setValid] = useState(localStorage.getItem('wpsp_is_valid'))
     const [isRequestSend, setIsRequestSend] = useState(null)
 
     const handleLicenseActivation = () => {
         setIsRequestSend(true)
         let data = {
-            license_key: tempKey,
+            key: tempKey,
         }
         setIsRequestSend(null)
         setInputChanged(false)
         activateLicense( data ).then( ( response ) => {
             setIsRequestSend(null)
             setInputChanged(false)
-            // @ts-ignore
+            // @ts-ignore 
             if (response.success === true) {
-                // @ts-ignore
-                localStorage.setItem('wpsp_is_valid', response?.status)
-                // @ts-ignore
-                localStorage.setItem('wpsp_temp_key', response?.key)
-                // @ts-ignore
-                setTempKey(response.key)
-                // @ts-ignore
-                setValid(response.status)
+                // @ts-ignore 
+                localStorage.setItem('wpsp_is_valid', response?.data.status)
+                // @ts-ignore 
+                localStorage.setItem('wpsp_temp_key', response?.data.key)
+                // @ts-ignore 
+                setTempKey(response.data.key)
+                // @ts-ignore 
+                setValid(response.data.status)
                 SweetAlertToaster();
                 SweetAlertToaster({
                     type : 'success',
                     title : __( 'Your License is Successfully Activated.', 'wp-scheduled-posts' ),
                 }).fire();
             } else {
-                // @ts-ignore
+                // @ts-ignore 
                 let response_data = response.data;
                 SweetAlertToaster({
                     type : 'error',
@@ -72,11 +72,11 @@ function License(props) {
         deActivateLicense().then( ( response ) => {
             setIsRequestSend(null)
             setInputChanged(false)
-            // @ts-ignore
+            // @ts-ignore 
             if (response.success === true) {
                 localStorage.removeItem('wpsp_is_valid')
                 localStorage.removeItem('wpsp_temp_key')
-                // @ts-ignore
+                // @ts-ignore 
                 setValid(response.data.status)
                 setTempKey('')
                 SweetAlertToaster({
@@ -84,7 +84,7 @@ function License(props) {
                     title : __( 'Your License is Successfully Deactivated.', 'wp-scheduled-posts' ),
                 }).fire();
             } else {
-                // @ts-ignore
+                // @ts-ignore 
                 let response_data = response.data;
                 SweetAlertToaster({
                     type : 'error',
