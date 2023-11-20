@@ -160,21 +160,23 @@ class Twitter
 
                 // allow thumbnail will be share
                 if ($this->is_show_post_thumbnail == true) {
+                    $uploads = wp_upload_dir();
                     $socialShareImage = get_post_meta($post_id, '_wpscppro_custom_social_share_image', true);
-                    if ($socialShareImage != "" || $socialShareImage != 0) {
-                        $thumbnail_src = wp_get_attachment_image_src($socialShareImage, 'full');
-                        $featuredImage = $thumbnail_src[0];
-                        $uploads = wp_upload_dir();
-                        $file_path = str_replace($uploads['baseurl'], $uploads['basedir'], $featuredImage);
+                    if (!empty($socialShareImage) && $socialShareImage != 0) {
+                        // $thumbnail_src = wp_get_attachment_image_src($socialShareImage, 'full');
+                        // $file_path = str_replace($uploads['baseurl'], $uploads['basedir'], $featuredImage);
+                        $thumbnail_src = !empty( wp_get_attachment_metadata($socialShareImage)['file'] ) ? wp_get_attachment_metadata($socialShareImage)['file'] : '';
+                        $file_path = !empty( $uploads['basedir'] ) ? esc_url( $uploads['basedir'] . '/' . $thumbnail_src ) : '';
                         $media = $TwitterConnection->upload('media/upload', ['media' => $file_path]);
                         $parameters['media'] = [
                             "media_ids" => [ $media->media_id_string ],
                         ];
                     } else {
                         if (has_post_thumbnail($post_id)) {
-                            $featuredImage = ((has_post_thumbnail($post_id)) ? get_the_post_thumbnail_url($post_id, 'full') : '');
-                            $uploads = wp_upload_dir();
-                            $file_path = str_replace($uploads['baseurl'], $uploads['basedir'], $featuredImage);
+                            $thumbnail_src = !empty( wp_get_attachment_metadata(get_post_thumbnail_id($post_id))['file'] ) ? wp_get_attachment_metadata(get_post_thumbnail_id($post_id))['file'] : '';
+                            // $featuredImage = ((has_post_thumbnail($post_id)) ? get_the_post_thumbnail_url($post_id, 'full') : '');
+                            // $file_path = str_replace($uploads['baseurl'], $uploads['basedir'], $featuredImage);
+                            $file_path = !empty( $uploads['basedir'] ) ? esc_url( $uploads['basedir'] . '/' . $thumbnail_src ) : '';
                             $media = $TwitterConnection->upload('media/upload', ['media' => $file_path]);
                             $parameters['media'] = [
                                 "media_ids" => [ $media->media_id_string ],
