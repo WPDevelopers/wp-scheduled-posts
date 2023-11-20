@@ -3,7 +3,7 @@
         'name' => 'schedulepress/wp-schedule-posts',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '0fd339f1b3b862fb96a98240e70efaea2b8bfb7e',
+        'reference' => 'eb5c614152099b4953ffde348fd6cb08b7d4c1b4',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -100,7 +100,7 @@
         'schedulepress/wp-schedule-posts' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '0fd339f1b3b862fb96a98240e70efaea2b8bfb7e',
+            'reference' => 'eb5c614152099b4953ffde348fd6cb08b7d4c1b4',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
