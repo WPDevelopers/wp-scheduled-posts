@@ -34,7 +34,7 @@ export const fetPinterestBoardData = async (body) => {
 
 export const activateLicense = async (body) => {
     return apiFetch( {
-        path: 'wp-scheduled-posts/v1/license/activate',
+        path: 'wp-scheduled-posts/v1/activate_license',
         method: 'POST',
         data: body,
     } ).then( ( res ) => {
@@ -44,7 +44,7 @@ export const activateLicense = async (body) => {
 
 export const getLicense = async (body) => {
     return apiFetch( {
-        path: 'wp-scheduled-posts/v1/license/get_license',
+        path: 'wp-scheduled-posts/v1/get_license',
         method: 'POST',
         data: body,
     } ).then( ( res ) => {
