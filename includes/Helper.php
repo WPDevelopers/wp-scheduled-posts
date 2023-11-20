@@ -389,13 +389,13 @@ class Helper
 
         return (object) [];
     }
-    
+
     /**
      * Check is enable classic editor
      */
     public static function is_enable_classic_editor() {
         $current_screen = get_current_screen();
-        if ( method_exists( $current_screen, 'is_block_editor' ) && $current_screen->is_block_editor() ) {
+        if ( is_object($current_screen) && method_exists( $current_screen, 'is_block_editor' ) && $current_screen->is_block_editor() ) {
             return false;
         }
         return true;
