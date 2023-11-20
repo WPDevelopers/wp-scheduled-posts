@@ -197,3 +197,25 @@ a.wpsp-notice-cta {
     margin: 0;
     padding: 0;
 }
+
+
+#wpnotice-schedulepress-black_friday {
+    padding: 16px 0;
+}
+#wpnotice-schedulepress-black_friday.notice-info {
+    border-left-color: #6D64FF;
+}
+#wpnotice-schedulepress-black_friday .wpnotice-thumbnail-wrapper {
+    padding-left: 35px;
+    padding-right: 50px;
+}
+#wpnotice-schedulepress-black_friday .wpnotice-content-wrapper a {
+    text-transform: capitalize;
+    margin-right: 16px;
+}
+#wpnotice-schedulepress-black_friday .wpnotice-content-wrapper button {
+    text-transform: capitalize;
+}
+#wpnotice-schedulepress-black_friday .wpnotice-content-wrapper button:hover {
+    background-color: transparent;
+}

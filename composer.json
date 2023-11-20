@@ -26,7 +26,7 @@
     ],
     "require": {
         "php": "7.2",
-        "priyomukul/wp-notice": "dev-main",
+        "priyomukul/wp-notice": "v2.x-dev",
         "wpdevelopers/twitteroauth": "dev-main",
         "wpdevelopers/linkedin-sdk-php": "dev-master",
         "wpdevelopers/pinterest-api-php": "dev-master",
