@@ -26,8 +26,6 @@ function License(props) {
 
     const [valid, setValid] = useState(localStorage.getItem('wpsp_is_valid'))
     const [isRequestSend, setIsRequestSend] = useState(null)
-    const [isSendingVerificationRequest, setIsSendingVerificationRequest] = useState(false);
-    const [isSendingResendRequest, setIsSendingResendRequest] = useState(false);
     const [isRequiredOtp,setIsRequiredOtp] = useState('');
     const [validLicense,setValidLicense] = useState('');
     const [email,setEmail] = useState('');
@@ -55,7 +53,7 @@ function License(props) {
                 setValidLicense(tempKey);
                 SweetAlertToaster({
                     type : 'info',
-                    title : __( 'Please validate OTP.', 'wp-scheduled-posts' ),
+                    title : __( 'Please validated OTP.', 'wp-scheduled-posts' ),
                 }).fire();
             } else {
                 // @ts-ignore
@@ -112,9 +110,7 @@ function License(props) {
             license: validLicense,
             license_key: validLicense,
         }
-        setIsSendingVerificationRequest(true);
         sendOpt( data ).then( ( response ) => {
-            setIsSendingVerificationRequest(false);
              // @ts-ignore
              localStorage.setItem('wpsp_is_valid', response?.license)
              // @ts-ignore
@@ -131,7 +127,6 @@ function License(props) {
                  title : __( 'Your License is Successfully Activated.', 'wp-scheduled-posts' ),
              }).fire();
         } ).catch( (error) => {
-            setIsSendingVerificationRequest(false);
             SweetAlertToaster({
                 type : 'error',
                 title : __( error.message, 'wp-scheduled-posts' ),
@@ -144,9 +139,7 @@ function License(props) {
             license_key: validLicense,
             license: validLicense,
         }
-        setIsSendingResendRequest(true);
         resendOtp( data ).then( ( response ) => {
-            setIsSendingResendRequest(false);
              // @ts-ignore 
              setIsRequiredOtp(response?.license)
              // @ts-ignore
@@ -156,7 +149,6 @@ function License(props) {
                  title : __( 'Your OTP has been sended again Successfully!!.', 'wp-scheduled-posts' ),
              }).fire();
         } ).catch( (error) => {
-            setIsSendingResendRequest(true);
             SweetAlertToaster({
                 type : 'error',
                 title : __( error.message, 'wp-scheduled-posts' ),
@@ -225,13 +217,13 @@ function License(props) {
             </div>
         </div>
         { isRequiredOtp === 'required_otp' && 
-            <Verification email={email} submitOTP={ handleOtpVerification } resendOTP={ handleResendOtp } isRequestSending={ isSendingVerificationRequest } isSendingResendRequest={isSendingResendRequest}  />
+            <Verification email={email} submitOTP={ handleOtpVerification } resendOTP={ handleResendOtp } isRequestSending={ isRequestSend }  />
         }
         { isRequiredOtp !== 'valid' && 
             <div className="btl-verification-msg">
                 <div className="short-description">
                     <b style={{ fontWeight: 700 }}>{__('Note', 'wp-scheduled-posts')}: </b> {__('Check out this ', 'wp-scheduled-posts')}{' '}
-                    <a href="https://wpdeveloper.com/docs/activate-wp-scheduled-posts-license/" target="_blank">
+                    <a href="https://betterlinks.io/docs/verify-wp-scheduled-posts-license-key/" target="_blank">
                         {__('guide', 'wp-scheduled-posts')}
                     </a>{' '}
                     {__(' to verify your license key. If you need any assistance with retrieving your License Verification Key, please ', 'wp-scheduled-posts')}{' '}
