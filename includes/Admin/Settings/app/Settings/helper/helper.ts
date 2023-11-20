@@ -54,7 +54,7 @@ export const sendOpt = async (body) => {
 
 export const getLicense = async (body) => {
     return apiFetch( {
-        path: 'wp-scheduled-posts/v1/license/get-license',
+        path: 'wp-scheduled-posts/v1/license/get_license',
         method: 'POST',
         data: body,
     } ).then( ( res ) => {
@@ -64,18 +64,8 @@ export const getLicense = async (body) => {
 
 export const deActivateLicense = async () => {
     return apiFetch( {
-        path: 'wp-scheduled-posts/v1/license/deactivate',
+        path: 'wp-scheduled-posts/v1/deactivate_license',
         method: 'POST',
-    } ).then( ( res ) => {
-        return res;
-    } );
-};
-
-export const resendOtp = async (body) => {
-    return apiFetch( {
-        path: 'wp-scheduled-posts/v1/license/resend-otp',
-        method: 'POST',
-        data : body,
     } ).then( ( res ) => {
         return res;
     } );
