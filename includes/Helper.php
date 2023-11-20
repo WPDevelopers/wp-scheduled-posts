@@ -394,16 +394,11 @@ class Helper
      * Check is enable classic editor
      */
     public static function is_enable_classic_editor() {
-        $post_types = self::get_allow_post_types();
-        foreach ($post_types as $post_type) {
-            $post_editor_enabled = apply_filters('use_block_editor_for_post_type', true, $post_type);
-            if( class_exists('\OTGS\Toolset\Types\Controller\Compatibility\Gutenberg') || method_exists("\SureCart\WordPress\PostTypes\FormPostTypeService",'forceGutenberg') ) {
-                $block_editor_enabled = true;
-            }else{
-                $block_editor_enabled = apply_filters('use_block_editor_for_post', true );
-            }
-            return !$post_editor_enabled || !$block_editor_enabled || class_exists('Classic_Editor');
+        $current_screen = get_current_screen();
+        if ( method_exists( $current_screen, 'is_block_editor' ) && $current_screen->is_block_editor() ) {
+            return false;
         }
+        return true;
     }
 }
 
