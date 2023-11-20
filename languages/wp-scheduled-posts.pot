@@ -9,9 +9,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-10-23T08:39:46+00:00\n"
+"POT-Creation-Date: 2023-11-16T15:20:22+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.8.1\n"
+"X-Generator: WP-CLI 2.9.0\n"
 "X-Domain: wp-scheduled-posts\n"
 
 #. Plugin Name of the plugin
@@ -191,8 +191,8 @@ msgid "Missed Schedule Handler"
 msgstr ""
 
 #: includes/Admin/Settings.php:137
-#: includes/Admin/Settings.php:989
-#: includes/Admin/Settings.php:1010
+#: includes/Admin/Settings.php:1025
+#: includes/Admin/Settings.php:1046
 msgid "Advanced Schedule"
 msgstr ""
 
@@ -346,7 +346,7 @@ msgid "For details on Facebook configuration, check out this <a target=\"_blank\
 msgstr ""
 
 #: includes/Admin/Settings.php:507
-#: includes/Admin/Settings.php:690
+#: includes/Admin/Settings.php:699
 #: includes/Social/InstantShare.php:110
 msgid "Twitter"
 msgstr ""
@@ -364,7 +364,7 @@ msgid "For details on Twitter configuration, check out this <a href=\"%s\" targe
 msgstr ""
 
 #: includes/Admin/Settings.php:522
-#: includes/Admin/Settings.php:770
+#: includes/Admin/Settings.php:788
 msgid "LinkedIn"
 msgstr ""
 
@@ -381,7 +381,7 @@ msgid "For details on LinkedIn configuration, check out this <a href=\"%s\" targ
 msgstr ""
 
 #: includes/Admin/Settings.php:537
-#: includes/Admin/Settings.php:863
+#: includes/Admin/Settings.php:890
 #: includes/Social/InstantShare.php:155
 msgid "Pinterest"
 msgstr ""
@@ -420,17 +420,17 @@ msgid "Add Open Graph metadata to your site head section and other social networ
 msgstr ""
 
 #: includes/Admin/Settings.php:615
-#: includes/Admin/Settings.php:788
+#: includes/Admin/Settings.php:806
 msgid "Content Type:"
 msgstr ""
 
 #: includes/Admin/Settings.php:622
-#: includes/Admin/Settings.php:795
+#: includes/Admin/Settings.php:813
 msgid "Link"
 msgstr ""
 
 #: includes/Admin/Settings.php:626
-#: includes/Admin/Settings.php:799
+#: includes/Admin/Settings.php:817
 msgid "Status"
 msgstr ""
 
@@ -439,49 +439,49 @@ msgid "Status + Link"
 msgstr ""
 
 #: includes/Admin/Settings.php:639
-#: includes/Admin/Settings.php:720
-#: includes/Admin/Settings.php:812
-#: includes/Admin/Settings.php:894
+#: includes/Admin/Settings.php:729
+#: includes/Admin/Settings.php:830
+#: includes/Admin/Settings.php:921
 msgid "The categories you select will be used as tags."
 msgstr ""
 
 #: includes/Admin/Settings.php:640
-#: includes/Admin/Settings.php:721
-#: includes/Admin/Settings.php:813
-#: includes/Admin/Settings.php:893
+#: includes/Admin/Settings.php:730
+#: includes/Admin/Settings.php:831
+#: includes/Admin/Settings.php:920
 msgid "Add Category as tags"
 msgstr ""
 
 #: includes/Admin/Settings.php:645
-#: includes/Admin/Settings.php:734
-#: includes/Admin/Settings.php:818
-#: includes/Admin/Settings.php:899
+#: includes/Admin/Settings.php:743
+#: includes/Admin/Settings.php:836
+#: includes/Admin/Settings.php:926
 msgid "Content Source:"
 msgstr ""
 
 #: includes/Admin/Settings.php:652
-#: includes/Admin/Settings.php:741
-#: includes/Admin/Settings.php:825
-#: includes/Admin/Settings.php:906
+#: includes/Admin/Settings.php:750
+#: includes/Admin/Settings.php:843
+#: includes/Admin/Settings.php:933
 msgid "Excerpt"
 msgstr ""
 
 #: includes/Admin/Settings.php:656
-#: includes/Admin/Settings.php:745
-#: includes/Admin/Settings.php:829
-#: includes/Admin/Settings.php:910
+#: includes/Admin/Settings.php:754
+#: includes/Admin/Settings.php:847
+#: includes/Admin/Settings.php:937
 msgid "Content"
 msgstr ""
 
 #: includes/Admin/Settings.php:665
-#: includes/Admin/Settings.php:838
-#: includes/Admin/Settings.php:919
+#: includes/Admin/Settings.php:856
+#: includes/Admin/Settings.php:946
 msgid "Status Template Settings"
 msgstr ""
 
 #: includes/Admin/Settings.php:674
-#: includes/Admin/Settings.php:847
-#: includes/Admin/Settings.php:928
+#: includes/Admin/Settings.php:865
+#: includes/Admin/Settings.php:955
 msgid "Status Limit"
 msgstr ""
 
@@ -489,125 +489,139 @@ msgstr ""
 msgid "Max: 63206"
 msgstr ""
 
-#: includes/Admin/Settings.php:698
+#: includes/Admin/Settings.php:684
+#: includes/Admin/Settings.php:773
+#: includes/Admin/Settings.php:875
+#: includes/Admin/Settings.php:965
+msgid "How often to share a post?"
+msgstr ""
+
+#: includes/Admin/Settings.php:687
+#: includes/Admin/Settings.php:776
+#: includes/Admin/Settings.php:878
+#: includes/Admin/Settings.php:968
+msgid "Keep zero for no limit"
+msgstr ""
+
+#: includes/Admin/Settings.php:707
 msgid "To configure the Twitter Tweet Settings, check out this <a target=\"_blank\" href=\"%s\">Doc.</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:699
+#: includes/Admin/Settings.php:708
 msgid "Twitter Tweet Settings"
 msgstr ""
 
-#: includes/Admin/Settings.php:711
+#: includes/Admin/Settings.php:720
 msgid "Tweet Template Settings"
 msgstr ""
 
-#: includes/Admin/Settings.php:712
+#: includes/Admin/Settings.php:721
 msgid "Define how to share the content on Twitter by setting the template. <strong>Default Structure: {title}{content}{url}{tags}</strong>"
 msgstr ""
 
-#: includes/Admin/Settings.php:729
+#: includes/Admin/Settings.php:738
 msgid "Show Post Thumbnail"
 msgstr ""
 
-#: includes/Admin/Settings.php:754
+#: includes/Admin/Settings.php:763
 msgid "Tweet Limit"
 msgstr ""
 
-#: includes/Admin/Settings.php:758
+#: includes/Admin/Settings.php:767
 msgid "Max: 280"
 msgstr ""
 
-#: includes/Admin/Settings.php:777
+#: includes/Admin/Settings.php:795
 msgid "LinkedIn Status Settings"
 msgstr ""
 
-#: includes/Admin/Settings.php:778
+#: includes/Admin/Settings.php:796
 msgid "To configure the LinkedIn Status Settings, check out this <a target=\"_blank\" href=\"%s\">Doc.</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:803
+#: includes/Admin/Settings.php:821
 msgid "Media"
 msgstr ""
 
-#: includes/Admin/Settings.php:840
+#: includes/Admin/Settings.php:858
 msgid "Define how to share the content on LinkedIn by setting the template. <strong>Default Structure: {title}{content}{url}{tags}</strong>"
 msgstr ""
 
-#: includes/Admin/Settings.php:851
+#: includes/Admin/Settings.php:869
 msgid "Max: 1300"
 msgstr ""
 
-#: includes/Admin/Settings.php:870
+#: includes/Admin/Settings.php:897
 msgid "Pinterest Pin Settings"
 msgstr ""
 
-#: includes/Admin/Settings.php:871
+#: includes/Admin/Settings.php:898
 msgid "To configure the Pinterest Pin Settings, check out this <a target=\"_blank\" href=\"%s\">Doc.</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:884
+#: includes/Admin/Settings.php:911
 msgid "Add Image Link"
 msgstr ""
 
-#: includes/Admin/Settings.php:885
+#: includes/Admin/Settings.php:912
 msgid "Enable if you want to add the Image link on Pinterest. "
 msgstr ""
 
-#: includes/Admin/Settings.php:920
+#: includes/Admin/Settings.php:947
 msgid "Define how to share the content on Pinterest by setting the template. <strong>Default Structure: {title}{content}{url}{tags}</strong>"
 msgstr ""
 
-#: includes/Admin/Settings.php:932
+#: includes/Admin/Settings.php:959
 msgid "Max: 500"
 msgstr ""
 
-#: includes/Admin/Settings.php:950
+#: includes/Admin/Settings.php:986
 msgid "Scheduling Hub"
 msgstr ""
 
-#: includes/Admin/Settings.php:1011
+#: includes/Admin/Settings.php:1047
 msgid "Enable to get options of scheduling a published post while updating it."
 msgstr ""
 
-#: includes/Admin/Settings.php:1021
+#: includes/Admin/Settings.php:1057
 msgid "Get options to set the published post status when scheduling it. Keep the post published and the updated content will be published according to schedule, or move the post to Draft until it is published."
 msgstr ""
 
-#: includes/Admin/Settings.php:1029
-#: includes/Admin/Settings.php:1162
+#: includes/Admin/Settings.php:1065
+#: includes/Admin/Settings.php:1198
 msgid "Read Detailed Documentation:"
 msgstr ""
 
-#: includes/Admin/Settings.php:1033
+#: includes/Admin/Settings.php:1069
 msgid "How To Configure SchedulerPress Advanced Schedule In Elementor?"
 msgstr ""
 
-#: includes/Admin/Settings.php:1038
+#: includes/Admin/Settings.php:1074
 msgid "How To Configure SchedulerPress Advanced Schedule In Gutenberg?"
 msgstr ""
 
-#: includes/Admin/Settings.php:1072
+#: includes/Admin/Settings.php:1108
 msgid "Manage Schedule"
 msgstr ""
 
-#: includes/Admin/Settings.php:1120
-#: includes/Admin/Settings.php:1142
+#: includes/Admin/Settings.php:1156
+#: includes/Admin/Settings.php:1178
 msgid "Missed Schedule"
 msgstr ""
 
-#: includes/Admin/Settings.php:1143
+#: includes/Admin/Settings.php:1179
 msgid "Enable to publish posts randomly"
 msgstr ""
 
-#: includes/Admin/Settings.php:1154
+#: includes/Admin/Settings.php:1190
 msgid "WordPress might miss the schedule for a post for various reasons. Turn on this option to let SchedulePress take care of this and publish the missed schedule."
 msgstr ""
 
-#: includes/Admin/Settings.php:1166
+#: includes/Admin/Settings.php:1202
 msgid "How To Manage The Missed Schedule Error In WordPress?"
 msgstr ""
 
-#: includes/Admin/Settings.php:1170
+#: includes/Admin/Settings.php:1206
 msgid "How To Configure SchedulePress To Handle Missed Schedule Errors?"
 msgstr ""
 
@@ -723,6 +737,13 @@ msgstr ""
 msgid "If you choose to publish this future post with the Future Date, it will be published immediately but the post’s date time will not set the current date rather it will be your scheduled future date time."
 msgstr ""
 
+#: includes/Social/Facebook.php:211
+#: includes/Social/Linkedin.php:155
+#: includes/Social/Pinterest.php:203
+#: includes/Social/Twitter.php:148
+msgid "Your max share post limit has been executed!!"
+msgstr ""
+
 #: includes/Social/InstantShare.php:25
 #: assets/gutenberg/social-share.js:320
 msgid "Social Share Settings"
@@ -759,7 +780,7 @@ msgstr ""
 msgid "Failed!, You didn't select any social media."
 msgstr ""
 
-#: includes/Social/InstantShare.php:416
+#: includes/Social/InstantShare.php:419
 msgid "Sorry, your requested platform integration is not added."
 msgstr ""
 
@@ -767,7 +788,7 @@ msgstr ""
 msgid "Multi Profile is a Premium Feature. To use this feature, Upgrade to Pro."
 msgstr ""
 
-#: includes/Social/Twitter.php:181
+#: includes/Social/Twitter.php:199
 msgid "Twitter Connection Problem. error code: "
 msgstr ""
 
@@ -973,6 +994,10 @@ msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Copied"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "OpenID Connect"
 msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:1

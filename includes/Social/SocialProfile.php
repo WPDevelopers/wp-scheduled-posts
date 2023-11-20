@@ -147,7 +147,7 @@ class SocialProfile
             $pinterest = \WPSP\Helper::get_social_profile(WPSCP_PINTEREST_OPTION_NAME);
             $profile = (array) $pinterest[(int) $profile];
         }
-        
+
         $pinterest = new \DirkGroenen\Pinterest\Pinterest($profile['app_id'], $profile['app_secret']);
         $pinterest->auth->setOAuthToken($profile['access_token']);
         $sections = $pinterest->sections->get($defaultBoard, [
@@ -175,6 +175,7 @@ class SocialProfile
         $refresh_token = (isset($_POST['refresh_token']) ? $_POST['refresh_token'] : '');
         $expires_in    = (isset($_POST['expires_in']) ? $_POST['expires_in'] : '');
         $rt_expires_in = (isset($_POST['rt_expires_in']) ? $_POST['rt_expires_in'] : '');
+        $openIDConnect = (isset($_POST['openIDConnect']) ? $_POST['openIDConnect'] : '');
         // user
         $current_user = wp_get_current_user();
 
@@ -262,7 +263,11 @@ class SocialProfile
                     $access_token = $accessToken->access_token;
                 }
                 $pages    = $linkedin->getCompanyPages($access_token);
-                $profiles = $linkedin->getPerson($access_token);
+                if( $openIDConnect && $openIDConnect !== 'false' ) {
+                    $profiles = $linkedin->userinfo($access_token);
+                }else{
+                    $profiles = $linkedin->getPerson($access_token);
+                }
 
                 $info = array(
                     'app_id'       => $app_id,
@@ -441,7 +446,7 @@ class SocialProfile
         $app_id = (isset($_POST['appId']) ? $_POST['appId'] : '');
         $app_secret = (isset($_POST['appSecret']) ? $_POST['appSecret'] : '');
         $redirectURI = (isset($_POST['redirectURI']) ? $_POST['redirectURI'] : '');
-
+        $openIDConnect = (isset($_POST['openIDConnect']) ? $_POST['openIDConnect'] : '');
 
         if ($type == 'pinterest') {
             if (!$this->social_single_profile_checkpoint($type)) {
@@ -470,6 +475,8 @@ class SocialProfile
                 wp_send_json_error($this->multiProfileErrorMessage);
                 wp_die();
             }
+            $scope = ($openIDConnect && $openIDConnect !== 'false') ? WPSCP_LINKEDIN_SCOPE_OPENID : WPSCP_LINKEDIN_SCOPE;
+
             try {
                 $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=' . WPSP_SETTINGS_SLUG));
                 $request['appId'] = $app_id ? $app_id : WPSP_SOCIAL_OAUTH2_LINKEDIN_APP_ID;
@@ -478,7 +485,7 @@ class SocialProfile
                     $request['appId'],
                     $app_secret,  // unnecessary
                     $redirectURI,
-                    urlencode($request['appId'] === WPSP_SOCIAL_OAUTH2_LINKEDIN_APP_ID ? WPSCP_LINKEDIN_BUSINESS_SCOPE : WPSCP_LINKEDIN_SCOPE),
+                    urlencode($request['appId'] === WPSP_SOCIAL_OAUTH2_LINKEDIN_APP_ID ? WPSCP_LINKEDIN_BUSINESS_SCOPE : $scope ),
                     true,
                     $state
                 );

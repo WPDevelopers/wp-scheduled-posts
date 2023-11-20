@@ -12,6 +12,8 @@ class Pinterest
     private $content_source;
     private $template_structure;
     private $note_limit;
+    private $post_share_limit;
+
     public function __construct()
     {
         $settings = \WPSP\Helper::get_settings('social_templates');
@@ -21,6 +23,8 @@ class Pinterest
         $this->content_source = (isset($settings['content_source']) ? $settings['content_source'] : '');
         $this->template_structure = (isset($settings['template_structure']) ? $settings['template_structure'] : '');
         $this->note_limit = (isset($settings['note_limit']) ? $settings['note_limit'] : 500);
+        $this->post_share_limit = (isset($settings['post_share_limit']) ? $settings['post_share_limit'] : 0);
+
     }
 
     public function instance()
@@ -65,7 +69,7 @@ class Pinterest
      * Saved Post Meta info
      *
      */
-    public function save_metabox_social_share_metabox($post_id, $response)
+    public function save_metabox_social_share_metabox($post_id, $response, $ID)
     {
         if (get_post_meta($post_id, '__wpscppro_social_share_pinterest', true) != "") {
             $root_meta_data = get_post_meta($post_id, '__wpscppro_social_share_pinterest', true);
@@ -76,6 +80,13 @@ class Pinterest
             $root_meta_data = array();
             array_push($root_meta_data, $response);
             add_post_meta($post_id, '__wpscppro_social_share_pinterest', $root_meta_data);
+        }
+        $count_meta_key = '__wpsp_pinterest_share_count_'.$ID;
+        $old_share_count = get_post_meta( $post_id, $count_meta_key, true );
+        if( $old_share_count != '' ) {
+            update_post_meta($post_id, $count_meta_key, intval( $old_share_count ) + 1);
+        }else{
+            add_post_meta($post_id, $count_meta_key, 1);
         }
     }
     /**
@@ -92,7 +103,7 @@ class Pinterest
         $PostPermalink = esc_url(get_permalink($post_id));;
         $board_type = get_post_meta($post_id, '_wpscppro_pinterestboardtype', true);
         $customThumbnailID = get_post_meta($post_id, '_wpscppro_custom_social_share_image', true);
-        if ($customThumbnailID != "") {
+        if ($customThumbnailID != "" || $customThumbnailID != 0) {
             $customThumbnail = wp_get_attachment_image_src($customThumbnailID, 'full', false);
             $PostThumbnailURI = ($customThumbnail != false ? $customThumbnail[0] : '');
         } else {
@@ -156,7 +167,7 @@ class Pinterest
         );
         // main arguments
         $pinterest_create_args = array(
-            "title"       => html_entity_decode($PostTitle),
+            "title"       => apply_filters('wpsp_social_share_title', html_entity_decode($PostTitle), get_called_class(), $PostPermalink, $post_id),
             "description" => substr($note_content, 0, $this->note_limit),
             'link'        => $has_url ? $PostPermalink : '',
             "board_id"    => $board_name,
@@ -181,9 +192,16 @@ class Pinterest
      */
     public function remote_post($post_id, $board_name, $section_name, $profile_key, $force_share = false, $instant_share = false)
     {
+        $count_meta_key = '__wpsp_pinterest_share_count_'.$board_name->value;
         // check post is skip social sharing
         if (get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
             return;
+        }
+        if( ( get_post_meta( $post_id, $count_meta_key, true ) ) && $this->post_share_limit != 0 && get_post_meta( $post_id, $count_meta_key, true ) >= $this->post_share_limit ) {
+            return array(
+                'success' => false,
+                'log' => __('Your max share post limit has been executed!!','wp-scheduled-posts')
+            );
         }
 
         if(get_post_meta($post_id, '_wpsp_is_pinterest_share', true) == 'on' || $force_share) {
@@ -202,7 +220,7 @@ class Pinterest
                         'share_id' => $results->id,
                         'publish_date' => time(),
                     );
-                    $this->save_metabox_social_share_metabox($post_id, $shareInfo, $profile_key);
+                    $this->save_metabox_social_share_metabox($post_id, $shareInfo, $profile_key, $board_name->value);
                 }
                 $errorFlag = true;
                 $response = $results;

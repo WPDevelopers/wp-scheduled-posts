@@ -363,7 +363,7 @@ class Calendar
         $postTitle   = $request->get_param('postTitle');
         $postContent = $request->get_param('postContent');
 
-        if(in_array($type, ['newDraft', 'editDraft', 'addEvent'])) {
+        if(in_array($type, ['newDraft', 'editDraft', 'addEvent', 'editEvent'])) {
             $postdateformat = $dateStr;
             $postdate_gmt   = get_gmt_from_date($dateStr);
         } else {
