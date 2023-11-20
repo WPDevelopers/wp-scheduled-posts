@@ -2,8 +2,7 @@ import { __ } from '@wordpress/i18n';
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { SweetAlertToaster } from '../ToasterMsg';
-import { activateLicense, deActivateLicense, getLicense, resendOtp, sendOpt } from '../helper/helper';
-import Verification from './utils/Verification';
+import { activateLicense, deActivateLicense, getLicense, sendOpt } from '../helper/helper';
 function License(props) {
     const [inputChanged, setInputChanged] = useState(false)
     const [tempKey, setTempKey] = useState(
@@ -27,33 +26,37 @@ function License(props) {
     const [valid, setValid] = useState(localStorage.getItem('wpsp_is_valid'))
     const [isRequestSend, setIsRequestSend] = useState(null)
     const [isRequiredOtp,setIsRequiredOtp] = useState('');
+    const [opt,setOtp] = useState(null);
     const [validLicense,setValidLicense] = useState('');
-    const [email,setEmail] = useState('');
-    const [isSedingActivationRequest,setIsSedingActivationRequest] = useState(false);
 
     const handleLicenseActivation = () => {
         setIsRequestSend(true)
-        setIsSedingActivationRequest(true);
         let data = {
             license_key: tempKey,
         }
         setIsRequestSend(null)
         setInputChanged(false)
         activateLicense( data ).then( ( response ) => {
-            setIsSedingActivationRequest(false);
             setIsRequestSend(null)
             setInputChanged(false)
             // @ts-ignore
             if (response.success === true) {
+                setValidLicense(tempKey);
+                // @ts-ignore
+                localStorage.setItem('wpsp_is_valid', response?.status)
+                // @ts-ignore
+                localStorage.setItem('wpsp_temp_key', response?.key)
+                // @ts-ignore
+                // setTempKey(response.key)
+                setTempKey(response?.license_key)
                 // @ts-ignore 
                 setIsRequiredOtp(response?.license)
-                // @ts-ignore 
-                setEmail( response?.customer_email );
                 // @ts-ignore
-                setValidLicense(tempKey);
+                setValid(response.status)
+                SweetAlertToaster();
                 SweetAlertToaster({
-                    type : 'info',
-                    title : __( 'Please validated OTP.', 'wp-scheduled-posts' ),
+                    type : 'success',
+                    title : __( 'Your License is Successfully Activated.', 'wp-scheduled-posts' ),
                 }).fire();
             } else {
                 // @ts-ignore
@@ -66,7 +69,7 @@ function License(props) {
         } ).catch( (error) => {
             SweetAlertToaster({
                 type : 'error',
-                title : __( error.message, 'wp-scheduled-posts' ),
+                title : __( error, 'wp-scheduled-posts' ),
             }).fire();
         } );
     }
@@ -81,7 +84,7 @@ function License(props) {
                 localStorage.removeItem('wpsp_is_valid')
                 localStorage.removeItem('wpsp_temp_key')
                 // @ts-ignore
-                setValid(response?.license)
+                setValid(response.data.status)
                 setTempKey('')
                 SweetAlertToaster({
                     type : 'success',
@@ -92,67 +95,29 @@ function License(props) {
                 let response_data = response.data;
                 SweetAlertToaster({
                     type : 'error',
-                    title : __( `${response_data}`, 'wp-scheduled-posts' ),
+                    title : __( response_data, 'wp-scheduled-posts' ),
                 }).fire();
             }
         } ).catch( (error) => {
             SweetAlertToaster({
                 type : 'error',
-                title : __( error?.message, 'wp-scheduled-posts' ),
+                title : __( error, 'wp-scheduled-posts' ),
             }).fire();
         } );
     }
 
     // Handle opt verification 
-    const handleOtpVerification = (getOtp) => {
+    const handleOtpVerification = () => {
         let data = {
-            otp: getOtp,
-            license: validLicense,
+            otp: opt,
             license_key: validLicense,
         }
+        console.log(data);
+        
         sendOpt( data ).then( ( response ) => {
-             // @ts-ignore
-             localStorage.setItem('wpsp_is_valid', response?.license)
-             // @ts-ignore
-             localStorage.setItem('wpsp_temp_key', response?.license_key)
-             // @ts-ignore
-             // setTempKey(response.key)
-             setTempKey(response?.license_key)
-             // @ts-ignore 
-             setIsRequiredOtp(response?.license)
-             // @ts-ignore
-             setValid(response?.license)
-             SweetAlertToaster({
-                 type : 'success',
-                 title : __( 'Your License is Successfully Activated.', 'wp-scheduled-posts' ),
-             }).fire();
+            console.log(response);
         } ).catch( (error) => {
-            SweetAlertToaster({
-                type : 'error',
-                title : __( error.message, 'wp-scheduled-posts' ),
-            }).fire();
-        } );
-    }
-
-    const handleResendOtp = () => {
-        let data = {
-            license_key: validLicense,
-            license: validLicense,
-        }
-        resendOtp( data ).then( ( response ) => {
-             // @ts-ignore 
-             setIsRequiredOtp(response?.license)
-             // @ts-ignore
-             setValidLicense(tempKey);
-             SweetAlertToaster({
-                 type : 'success',
-                 title : __( 'Your OTP has been sended again Successfully!!.', 'wp-scheduled-posts' ),
-             }).fire();
-        } ).catch( (error) => {
-            SweetAlertToaster({
-                type : 'error',
-                title : __( error.message, 'wp-scheduled-posts' ),
-            }).fire();
+            console.log(error);
         } );
     }
 
@@ -208,30 +173,29 @@ function License(props) {
                             onClick={() => handleLicenseActivation()}
                             disabled={!tempKey}
                         >
-                        {isSedingActivationRequest == true
-                            ? 'Request Sending...'
-                            : 'Activate License'}
+                            {isRequestSend == true
+                                ? 'Request Sending...'
+                                : 'Activate License'}
                         </button>
                     )}
                 </div>
             </div>
         </div>
         { isRequiredOtp === 'required_otp' && 
-            <Verification email={email} submitOTP={ handleOtpVerification } resendOTP={ handleResendOtp } isRequestSending={ isRequestSend }  />
-        }
-        { isRequiredOtp !== 'valid' && 
-            <div className="btl-verification-msg">
-                <div className="short-description">
-                    <b style={{ fontWeight: 700 }}>{__('Note', 'wp-scheduled-posts')}: </b> {__('Check out this ', 'wp-scheduled-posts')}{' '}
-                    <a href="https://betterlinks.io/docs/verify-wp-scheduled-posts-license-key/" target="_blank">
-                        {__('guide', 'wp-scheduled-posts')}
-                    </a>{' '}
-                    {__(' to verify your license key. If you need any assistance with retrieving your License Verification Key, please ', 'wp-scheduled-posts')}{' '}
-                    <a href="https://wpdeveloper.com/support/" target="_blank">
-                        {__('contact support', 'wp-scheduled-posts')}
-                    </a>
-                    .
-                </div>
+            <div className="wpsp-license-container-2">
+                <input type="number" onChange={ (e) => setOtp(e.target.value) } />
+                    <button
+                        id='submit'
+                        type='button'
+                        className={
+                            inputChanged
+                                ? 'wpsp-license-buttons changed'
+                                : 'wpsp-license-buttons'
+                        }
+                        onClick={() => handleOtpVerification()}
+                    >
+                        Verify
+                    </button>
             </div>
         }
     </div>
