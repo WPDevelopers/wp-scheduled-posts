@@ -128,6 +128,7 @@ class Admin
             'storage_key'    => 'notices',
             'lifetime'       => 3,
             'stylesheet_url' => WPSP_ASSETS_URI . 'css/wpscp-admin-notice.css',
+            'styles' => WPSP_ASSETS_URI . 'css/wpscp-admin-notice.css',
             'priority'       => 8,
         ]);
 
@@ -224,7 +225,7 @@ class Admin
         ];
 
         $notices->add(
-            'black_friday',
+            'black_friday_23',
             $_black_friday,
             [
                 'start'       => $notices->time(),
