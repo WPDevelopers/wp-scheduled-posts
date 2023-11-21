@@ -207,7 +207,7 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 == Changelog ==
 
-= 5.0.4 - 2023-11-20 =
+= 5.0.4 - 2023-11-21 =
 - Added: Post sharing limit for social media.
 - Fixed: Conflict with Toolset, Divi, Surecart plugin
 - Fixed: Twitter post sharing issue.

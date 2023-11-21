@@ -9,7 +9,7 @@ import Sidebar from "./Calendar/Sidebar";
 // const events = [{ title: "Meeting", start: new Date() }];
 import MonthPicker from "@compeon-os/monthpicker";
 import { DayCellMountArg, EventContentArg, EventDropArg } from "@fullcalendar/core";
-import { format, getSettings } from "@wordpress/date";
+import { format, getSettings, __experimentalGetSettings } from "@wordpress/date";
 import moment from 'moment';
 import { __ } from "@wordpress/i18n";
 import classNames from "classnames";
@@ -140,7 +140,7 @@ export default function Calendar(props) {
   };
 
   const schedule_time = builderContext?.values?.calendar_schedule_time || props.schedule_time;
-  const dateSettings = getSettings();
+  const dateSettings = (getSettings || __experimentalGetSettings)();
 
 
   return (
