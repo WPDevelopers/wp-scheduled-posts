@@ -67,7 +67,9 @@ export const generateTabURL = () => {
 }
 
 // Send API request for fetch url
-export const socialProfileRequestHandler = async (redirectURI, appID, appSecret, platform, openIDConnect) => {
+export const socialProfileRequestHandler = async (redirectURI, appID, appSecret, platform, openIDConnect = false) => {
+    const account_type = localStorage.getItem('account_type');
+
     const data = {
         action: 'wpsp_social_add_social_profile',
         redirectURI: redirectURI,
@@ -75,6 +77,7 @@ export const socialProfileRequestHandler = async (redirectURI, appID, appSecret,
         appSecret: appSecret,
         type: platform,
         openIDConnect: openIDConnect,
+        accountType: account_type,
     };
     const response = await fetchDataFromAPI(data);
 

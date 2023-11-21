@@ -170,7 +170,7 @@ class Linkedin
                 $type             = isset($profile->type) ? $profile->type : 'person';
                 $image_path       = '';
                 $socialShareImage = get_post_meta($post_id, '_wpscppro_custom_social_share_image', true);
-                if ($socialShareImage != "" || $socialShareImage != 0) {
+                if ($socialShareImage != "" && $socialShareImage != 0) {
                     $image_path = wp_get_original_image_path($socialShareImage);
                 } else {
                     if (has_post_thumbnail($post_id)) { //the post does not have featured image, use a default image

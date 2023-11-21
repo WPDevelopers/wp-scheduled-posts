@@ -263,7 +263,7 @@ class SocialProfile
                     $access_token = $accessToken->access_token;
                 }
                 $pages    = $linkedin->getCompanyPages($access_token);
-                if( $openIDConnect && $openIDConnect !== 'false' ) {
+                if( $openIDConnect && $openIDConnect !== 'false' && $openIDConnect !== 'undefined' ) {
                     $profiles = $linkedin->userinfo($access_token);
                 }else{
                     $profiles = $linkedin->getPerson($access_token);
@@ -447,6 +447,7 @@ class SocialProfile
         $app_secret = (isset($_POST['appSecret']) ? $_POST['appSecret'] : '');
         $redirectURI = (isset($_POST['redirectURI']) ? $_POST['redirectURI'] : '');
         $openIDConnect = (isset($_POST['openIDConnect']) ? $_POST['openIDConnect'] : '');
+        $accountType = (isset($_POST['accountType']) ? $_POST['accountType'] : '');
 
         if ($type == 'pinterest') {
             if (!$this->social_single_profile_checkpoint($type)) {
@@ -475,7 +476,16 @@ class SocialProfile
                 wp_send_json_error($this->multiProfileErrorMessage);
                 wp_die();
             }
-            $scope = ($openIDConnect && $openIDConnect !== 'false') ? WPSCP_LINKEDIN_SCOPE_OPENID : WPSCP_LINKEDIN_SCOPE;
+            $scope = WPSCP_LINKEDIN_SCOPE;
+            if($openIDConnect && $openIDConnect !== 'false' && $openIDConnect !== 'undefined'){
+                $scope = WPSCP_LINKEDIN_SCOPE_OPENID;
+            }
+            elseif($accountType === 'page'){
+                $scope = WPSCP_LINKEDIN_BUSINESS_SCOPE;
+            }
+            elseif($accountType === 'profile'){
+                $scope = WPSCP_LINKEDIN_SCOPE;
+            }
 
             try {
                 $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=' . WPSP_SETTINGS_SLUG));
@@ -485,7 +495,7 @@ class SocialProfile
                     $request['appId'],
                     $app_secret,  // unnecessary
                     $redirectURI,
-                    urlencode($request['appId'] === WPSP_SOCIAL_OAUTH2_LINKEDIN_APP_ID ? WPSCP_LINKEDIN_BUSINESS_SCOPE : $scope ),
+                    urlencode( $scope ),
                     true,
                     $state
                 );
