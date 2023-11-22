@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 
 // Setup Sweetalert2 toaster
 export const SweetAlertToaster = (args: any = {}) => {
-  // @ts-ignore 
+  // @ts-ignore
   const image_path = wpspSettingsGlobal.image_path + 'toaster-icon/';
     let toastIcon = '';
     if( args?.icon ?? (args?.type || "success") == "success" ) {
@@ -80,7 +80,7 @@ export const SweetAlertDeleteMsg = ( args: any = {}, deleteFile?: (item) => void
 };
 
 // Setup Sweetalert2 pro message popup
-export const SweetAlertDeleteMsgForPost = ( args: any = {}, deleteFile?: (item) => void ) => {
+export const SweetAlertDeleteMsgForPost = ( args: any = {}, deleteFile? ) => {
   return Swal.fire({
       title: args?.title ?? __( 'Are you sure?','wp-scheduled-posts' ),
       text: args?.text ?? __( "You won't be able to revert this!",'wp-scheduled-posts' ),
@@ -93,12 +93,20 @@ export const SweetAlertDeleteMsgForPost = ( args: any = {}, deleteFile?: (item) 
       confirmButtonText: args?.confirmButtonText ?? __('Yes, Delete it!', 'wp-scheduled-posts'),
   }).then((result) => {
     if (result.isConfirmed) {
-      deleteFile(args?.item)
-      Swal.fire(
-        __('Deleted!','wp-scheduled-posts'),
-        __('Your post has been deleted.','wp-scheduled-posts'),
-        'success'
-      )
+      deleteFile(args?.item)?.then((res) => {
+        Swal.fire(
+          __('Deleted!','wp-scheduled-posts'),
+          __('Your post has been deleted.','wp-scheduled-posts'),
+          'success'
+        );
+      })
+      .catch((err) => {
+        Swal.fire(
+          __('Failed!','wp-scheduled-posts'),
+          err?.message || __('Your post can\'t be deleted.','wp-scheduled-posts'),
+          'error'
+        );
+      });
     }
   })
 };

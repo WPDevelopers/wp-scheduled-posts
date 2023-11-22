@@ -28,8 +28,40 @@ class Calendar
         add_filter('wpsp_eventDrop_posts', [$this, 'wpsp_eventDrop_posts'], 10, 2 );
     }
 
+    /**
+     *
+     * @param WP_REST_Request $request
+     * @return bool
+     */
     public function permission_callback() {
         return current_user_can('edit_posts');
+    }
+
+    /**
+     *
+     * @param WP_REST_Request $request
+     * @return bool
+     */
+    public function edit_permission_callback($request) {
+        return current_user_can('edit_post', $request->get_param('ID'));
+    }
+
+    /**
+     *
+     * @param WP_REST_Request $request
+     * @return bool
+     */
+    public function quick_edit_get_permission_callback($request) {
+        return current_user_can('edit_post', $request->get_param('postId'));
+    }
+
+    /**
+     *
+     * @param WP_REST_Request $request
+     * @return bool
+     */
+    public function delete_permission_callback($request) {
+        return current_user_can('delete_post', $request->get_param('ID'));
     }
 
     public function wpscp_register_custom_route()
@@ -85,17 +117,17 @@ class Calendar
                 array(
                     'methods'             => \WP_REST_Server::READABLE,
                     'callback'            => [$this, 'quick_edit_get_post'],
-                    'permission_callback' => [$this, 'permission_callback'],
+                    'permission_callback' => [$this, 'quick_edit_get_permission_callback'],
                 ),
                 array(
                     'methods'             => \WP_REST_Server::EDITABLE,
                     'callback'            => [$this, 'calender_ajax_request_php'],
-                    'permission_callback' => [$this, 'permission_callback'],
+                    'permission_callback' => [$this, 'edit_permission_callback'],
                 ),
                 array(
                     'methods'             => \WP_REST_Server::DELETABLE,
                     'callback'            => [$this, 'delete_event_action'],
-                    'permission_callback' => [$this, 'permission_callback'],
+                    'permission_callback' => [$this, 'delete_permission_callback'],
                 ),
             )
         );
@@ -107,19 +139,21 @@ class Calendar
     public function get_draft_posts( $request ) {
         // Get the query parameters from the request
         // post type
-        $post_type  = $request->get_param('post_type');
-        $post_type  = !empty($post_type) ? $post_type : [];
-        $taxonomies = $request->get_param('taxonomy');
-        $taxonomies = !empty($taxonomies) ? $taxonomies : [];
+        $post_type        = $request->get_param('post_type');
+        $post_type        = !empty($post_type) ? $post_type : [];
+        $taxonomies       = $request->get_param('taxonomy');
+        $taxonomies       = !empty($taxonomies) ? $taxonomies : [];
+        $allow_post_types = Helper::get_settings('allow_post_types');
 
         if(empty($post_type)){
-            $post_type = \WPSP\Helper::get_settings('allow_post_types');
+            $post_type = $allow_post_types;
         }
         else if(in_array('elementorlibrary', $post_type)){
             $post_type   = array_diff($post_type, ['elementorlibrary']);
             $post_type[] = 'elementor_library';
         }
 
+        $post_type = array_intersect($post_type, $allow_post_types);
 
 
         // Create a new WP_Query object with the parameters
@@ -152,6 +186,7 @@ class Calendar
         $allow_post_types = Helper::get_settings('allow_post_types');
         $allow_categories = Helper::get_settings('allow_categories');
         $allow_post_types = (!empty($allow_post_types) ? $allow_post_types : array('post'));
+        $post_types       = array_intersect($post_types, $allow_post_types);
         $tax_terms        = Helper::get_all_tax_term($post_types ? $post_types : $allow_post_types);
         $return           = [];
         foreach ($tax_terms as $tax => $terms) {
@@ -201,19 +236,23 @@ class Calendar
     public function wpscp_future_post_rest_route_output($request)
     {
         global $wpdb;
-        // post type
+        // post type []
         $post_type  = $request->get_param('post_type');
         $taxonomies = $request->get_param('taxonomy');
         $taxonomies = !empty($taxonomies) ? $taxonomies : [];
+        $allow_post_types = \WPSP\Helper::get_settings('allow_post_types');
 
         if(empty($post_type)){
-            $post_type = \WPSP\Helper::get_settings('allow_post_types');
+            $post_type = $allow_post_types;
         }
         else if(is_array($post_type) && in_array('elementorlibrary', $post_type)){
             $post_type   = array_diff($post_type, ['elementorlibrary']);
             $post_type[] = 'elementor_library';
         }
         $post_type  = !empty($post_type) ? $post_type : ['post'];
+
+        // check if all $post_type s exists in $allow_post_types
+        $post_type = array_intersect($post_type, $allow_post_types);
 
         $first_day = $request->get_param('activeStart');
         $first_day = (!empty($first_day) ? $first_day : date('Y/m/01', current_time('timestamp')));
@@ -347,7 +386,8 @@ class Calendar
      */
     public function calender_ajax_request_php($request)
     {
-
+        $allow_post_types = Helper::get_settings('allow_post_types');
+        $allow_post_types = (!empty($allow_post_types) ? $allow_post_types : array());
         $calendar_schedule_time = \WPSP\Helper::get_settings('calendar_schedule_time');
         $_post_status           = $request->get_param('post_status');
         $post_status            = $_post_status;
@@ -362,6 +402,10 @@ class Calendar
         $postid      = $request->get_param('ID');
         $postTitle   = $request->get_param('postTitle');
         $postContent = $request->get_param('postContent');
+
+        if(!in_array($post_type, $allow_post_types)){
+            return new WP_Error('rest_post_update_error', __('Post type isn\'t allowed in Settings page.', 'wp-scheduled-posts'), array('status' => 400));
+        }
 
         if(in_array($type, ['newDraft', 'editDraft', 'addEvent'])) {
             $postdateformat = $dateStr;
@@ -511,7 +555,13 @@ class Calendar
      * @version 3.0.1
      */
     function quick_edit_get_post( $request ) {
-        $post_id = $request->get_param('postId');
+        $post_id          = $request->get_param('postId');
+        $allow_post_types = Helper::get_settings('allow_post_types');
+
+        if(!in_array(get_post_type($post_id), $allow_post_types)){
+            return new WP_Error('rest_post_update_error', __('Post type isn\'t allowed in Settings page.', 'wp-scheduled-posts'), array('status' => 400));
+        }
+
         $post = get_post((int) $post_id);
         if ($post) {
             $posts = apply_filters('wpsp_eventDrop_posts', [$post], $post_id);
@@ -533,6 +583,11 @@ class Calendar
     {
         $postId = $request->get_param('ID');
         if ($postId != "") {
+            $allow_post_types = Helper::get_settings('allow_post_types');
+            if(!in_array(get_post_type($postId), $allow_post_types)){
+                return new WP_Error('rest_post_update_error', __('Post type isn\'t allowed in Settings page.', 'wp-scheduled-posts'), array('status' => 400));
+            }
+
             $result = wp_delete_post($postId, true);
             if ($result === false) {
                 $error = new WP_Error('delete_failed', 'Failed to delete post', array('status' => 500));
