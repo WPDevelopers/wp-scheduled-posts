@@ -91,7 +91,7 @@ const PostCard: React.FC<PostCardProps> = ({
 
   const deleteFile = (item) => {
     toggleEditArea();
-    deletePost(item.postId);
+    return deletePost(item.postId);
   };
 
   const addEventListeners = () => {
