@@ -16,6 +16,7 @@ const Option = (props) => {
   );
 };
 
+
 export const addAllOption = (options: Option[]) => {
   return [{ label: 'All', value: 'all' }, ...Object.values(options || [])];
 };
@@ -129,19 +130,19 @@ const CheckboxSelect = (props) => {
           <label htmlFor={`${props.id}`}>{props.label}</label>
           <div className="selected-options">
             <ul>
-              {optionSelected &&
-                optionSelected
-                  ?.filter((item) => isTags(item))
-                  .map((item, index) => (
-                    <li key={index}>
+            {optionSelected &&
+              optionSelected
+                ?.filter((item) => isTags(item) && item?.label) // Filter items that have a truthy label
+                .map((item, index) => (
+                  <li key={index}>
+                    {" "}
+                    {item.label}{" "}
+                    <button onClick={() => removeItem(item)}>
                       {" "}
-                      {item?.label}{" "}
-                      <button onClick={() => removeItem(item)}>
-                        {" "}
-                        <i className="wpsp-icon wpsp-close"></i>{" "}
-                      </button>{" "}
-                    </li>
-                  ))}
+                      <i className="wpsp-icon wpsp-close"></i>{" "}
+                    </button>{" "}
+                  </li>
+              ))}
             </ul>
           </div>
         </div>

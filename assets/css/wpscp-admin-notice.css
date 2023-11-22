@@ -197,3 +197,26 @@ a.wpsp-notice-cta {
     margin: 0;
     padding: 0;
 }
+
+
+.notice-schedulepress-black_friday_23 {
+    padding: 16px 0;
+    display: flex !important;
+}
+#wpnotice-schedulepress-black_friday_23.notice-info {
+    border-left-color: #6D64FF;
+}
+#wpnotice-schedulepress-black_friday_23 .wpnotice-thumbnail-wrapper {
+    padding-left: 30px !important;
+    padding-right: 28px !important;
+}
+#wpnotice-schedulepress-black_friday_23 .wpnotice-content-wrapper a {
+    text-transform: capitalize;
+    margin-right: 16px;
+}
+#wpnotice-schedulepress-black_friday_23 .wpnotice-content-wrapper button {
+    text-transform: capitalize;
+}
+#wpnotice-schedulepress-black_friday_23 .wpnotice-content-wrapper button:hover {
+    background-color: transparent;
+}

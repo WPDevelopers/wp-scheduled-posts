@@ -2,9 +2,9 @@
 Contributors: wpdevteam, Asif2BD, re_enter_rupok, priyomukul, shajalal, alimuzzamanalim, rudlinkon, shuvo247
 Tags: post schedule, editor calendar, schedule-calendar, editorial calendar, social share, auto share, facebook, twitter, pinterest, linkedin, schedule bar, scheduled posts, schedule, SchedulePress, schedule widget, scheduler, Elementor schedule, admin bar, dashboard widget, missed scheduled, calendar, missed schedule, future post, schedule issue, post later, admin bar, admin, multi author, auto publish, inbound marketing, content marketing, auto post, post publish, social media automation, automation, marketing, content editing, post alert, auto sharing, content calendar, auto posting, facebook social share, social media scheduling, social sharing, social media share
 Requires at least: 4.0
-Tested up to: 6.3
+Tested up to: 6.4
 Requires PHP: 7.2
-Stable tag: 5.0.3
+Stable tag: 5.0.4
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -206,6 +206,15 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 8. Social Templates
 
 == Changelog ==
+
+= 5.0.4 - 2023-11-21 =
+- Added: Post sharing limit for social media.
+- Fixed: Conflict with Toolset, Divi, Surecart plugin
+- Fixed: Twitter post sharing issue.
+- Improved: Facebook and LinkedIn API versioning
+- Fixed: Post sharing issue when Social Share is disable.
+- Fixed: Calendar issue with WordPress Location based timezone.
+- Few minor bug fix & improvements.
 
 = 5.0.3 - 2023-10-23 =
 - Fixed: Social Profile were not visible for allowed users.

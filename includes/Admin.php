@@ -2,20 +2,28 @@
 
 namespace WPSP;
 
+use Exception;
 use PriyoMukul\WPNotice\Notices;
+use PriyoMukul\WPNotice\Utils\CacheBank;
+use PriyoMukul\WPNotice\Utils\NoticeRemover;
 
 class Admin
 {
-	/**
-	 * @var bool
-	 */
-	private $pro_enabled;
+    /**
+     * @var bool
+     */
+    private $pro_enabled;
 
     private $insights = null;
 
     private $settings;
 
-	public function __construct()
+    /**
+     * @var CacheBank
+     */
+    private static $cache_bank;
+
+    public function __construct()
     {
         $this->load_plugin_menu_pages();
         $this->pro_enabled();
@@ -23,16 +31,25 @@ class Admin
         add_filter('plugin_action_links_' . WPSP_PLUGIN_BASENAME, array($this, 'insert_plugin_links'));
         add_filter('plugin_row_meta', array($this, 'insert_plugin_row_meta'), 10, 2);
         $this->usage_tracker();
-        $this->admin_notice();
         $this->load_dashboard_widgets();
         $this->load_settings();
         $this->load_elementor_panel_icon();
-	    if ( ! $this->pro_enabled ) {
-		    add_action( 'wpsp_el_modal_pro_fields', [ $this, 'wpsp_el_modal_pro_fields' ] );
-	    }
+        if ( ! $this->pro_enabled ) {
+            add_action( 'wpsp_el_modal_pro_fields', [ $this, 'wpsp_el_modal_pro_fields' ] );
+        }
 
-	    add_action( 'wp_ajax_wpsp_el_editor_form', [ $this, 'wpsp_el_tab_action' ] );
+        add_action( 'wp_ajax_wpsp_el_editor_form', [ $this, 'wpsp_el_tab_action' ] );
 
+
+        self::$cache_bank = CacheBank::get_instance();
+        try {
+            $this->admin_notice();
+        } catch ( Exception $e ) {
+            unset( $e );
+        }
+
+        // Remove OLD notice from 1.0.0 (if other WPDeveloper plugin has notice)
+        NoticeRemover::get_instance( '1.0.0' );
     }
 
     public function load_plugin_menu_pages()
@@ -44,11 +61,11 @@ class Admin
         new Admin\Widgets\ScheduledPostList();
     }
 
-	public function load_elementor_panel_icon() {
-		$show_on_elementor_editor = Helper::get_settings('show_on_elementor_editor');
-		if ( $show_on_elementor_editor ) {
-			add_action( 'elementor/editor/footer', [ $this, 'schedulepress_el_tab' ], 100 );
-		}
+    public function load_elementor_panel_icon() {
+        $show_on_elementor_editor = Helper::get_settings('show_on_elementor_editor');
+        if ( $show_on_elementor_editor ) {
+            add_action( 'elementor/editor/footer', [ $this, 'schedulepress_el_tab' ], 100 );
+        }
     }
 
     /**
@@ -106,12 +123,13 @@ class Admin
         $_asset_url = plugins_url('assets/', WPSP_PLUGIN_BASENAME);
 
         $notices = new Notices([
-            'id'          => 'schedulepress',
-            'store'       => 'options',
-            'storage_key' => 'notices',
-            'version'     => '1.0.0',
-            'lifetime'    => 3,
-            'styles'      => WPSP_ASSETS_URI . 'css/wpscp-admin-notice.css',
+            'id'             => 'schedulepress',
+            // 'dev_mode'       => true,
+            'storage_key'    => 'notices',
+            'lifetime'       => 3,
+            'stylesheet_url' => WPSP_ASSETS_URI . 'css/wpscp-admin-notice.css',
+            'styles' => WPSP_ASSETS_URI . 'css/wpscp-admin-notice.css',
+            'priority'       => 8,
         ]);
 
 
@@ -197,45 +215,31 @@ class Admin
                 'display_if'  => ! is_array( $notices->is_installed( 'wp-scheduled-posts-pro/wp-scheduled-posts-pro.php' ) )
             ]
         );
-        $notice_text = sprintf('<div style="display: flex; align-items: center;">%s <a class="button button-primary" style="margin-left: 10px; background: #6b63ff; border-color: #6b63ff;" target="_blank" href="%s">%s</a></div>', __( '<p><strong>Black Friday Exclusive:</strong> SAVE up to 40% & access to <strong>SchedulePress Pro</strong> features.</p>', 'wp-scheduled-posts' ), esc_url( 'https://schedulepress.com/#pricing' ), __('Grab The Offer', 'wp-scheduled-posts') );
+
+        $notice_text            = '<p style="margin-top: 0; margin-bottom: 10px;">Black Friday Sale: Get up to 40% off & add <strong>more power to your content scheduling</strong> with premium features 🗓️</p>
+        <a class="button button-primary" href="https://wpdeveloper.com/upgrade/schedulepress-bfcm" target="_blank">Upgrade to pro</a> <button data-dismiss="true" class="dismiss-btn button button-link">I don’t want to save money</button>';
 
         $_black_friday = [
-            'thumbnail' => $_asset_url . 'images/wpsp-logo.svg',
-            'html' => $notice_text,
+            'thumbnail' => $_asset_url . 'images/wpsp-logo-full.svg',
+            'html'      => $notice_text,
         ];
 
         $notices->add(
-            'black_friday',
+            'black_friday_23',
             $_black_friday,
             [
                 'start'       => $notices->time(),
                 'recurrence'  => false,
                 'dismissible' => true,
-                'expire'      => strtotime( 'Wed, 30 Nov 2022 23:59:59 GMT' ),
+                'refresh'     => WPSP_VERSION,
+                "expire"      => strtotime( '11:59:59pm 2nd December, 2023' ),
                 'display_if'  => ! is_array( $notices->is_installed( 'wp-scheduled-posts-pro/wp-scheduled-posts-pro.php' ) )
             ]
         );
 
 
-        $notices->init();
-
-        // $notice->upsale_args = array(
-        //     'slug'      => 'wp-scheduled-posts-pro',
-        //     'page_slug' => 'wp-scheduled-posts-pro',
-        //     'file'      => 'wp-scheduled-posts-pro.php',
-        //     'btn_text'  => __('Install Pro', 'wp-scheduled-posts'),
-        //     'condition' => [
-        //         'by' => 'class',
-        //         'class' => 'WpScp_Pro'
-        //     ],
-        // );
-        // $notice->options_args = array(
-        //     'notice_will_show' => [
-        //         'opt_in' => $notice->makeTime( $notice->timestamp, '3 Day' ),
-        //         'upsale' => $notice->makeTime($notice->timestamp, '7 Day'),
-        //         'review' => $notice->makeTime($notice->timestamp, '5 Day'), // after 3 days
-        //     ],
-        // );
+        self::$cache_bank->create_account( $notices );
+        self::$cache_bank->calculate_deposits( $notices );
     }
     public function usage_tracker()
     {
@@ -415,19 +419,19 @@ class Admin
                 display: none;
             }
         </style>
-	    <div class="dialog-widget dialog-lightbox-widget dialog-type-buttons dialog-type-lightbox elementor-templates-modal"
-		    id="schedulepress-elementor-modal" style="display: none;">
-		    <div class="dialog-widget-content dialog-lightbox-widget-content" style="top: 50%;left: 50%;transform: translate(-50%, -50%);">
-			    <div class="dialog-header dialog-lightbox-header">
-				    <div class="elementor-templates-modal__header">
-					    <div class="elementor-templates-modal__header__logo-area">
-						    <div class="elementor-templates-modal__header__logo">
+        <div class="dialog-widget dialog-lightbox-widget dialog-type-buttons dialog-type-lightbox elementor-templates-modal"
+            id="schedulepress-elementor-modal" style="display: none;">
+            <div class="dialog-widget-content dialog-lightbox-widget-content" style="top: 50%;left: 50%;transform: translate(-50%, -50%);">
+                <div class="dialog-header dialog-lightbox-header">
+                    <div class="elementor-templates-modal__header">
+                        <div class="elementor-templates-modal__header__logo-area">
+                            <div class="elementor-templates-modal__header__logo">
                                 <img src="<?php echo plugins_url( 'assets/images/wpsp-el-editor-modal-logo.png', WPSP_PLUGIN_BASENAME ); ?>" alt="<?php esc_html_e( 'WPSP Logo', 'wp-scheduled-posts' ); ?>">
-						    </div>
-					    </div>
-					    <div class="elementor-templates-modal__header__menu-area"></div>
-					    <div class="elementor-templates-modal__header__items-area">
-						    <div class="elementor-templates-modal__header__close elementor-templates-modal__header__close--normal elementor-templates-modal__header__item">
+                            </div>
+                        </div>
+                        <div class="elementor-templates-modal__header__menu-area"></div>
+                        <div class="elementor-templates-modal__header__items-area">
+                            <div class="elementor-templates-modal__header__close elementor-templates-modal__header__close--normal elementor-templates-modal__header__item">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                      viewBox="0 0 200 200" style="enable-background:new 0 0 200 200; width: 11px;" xml:space="preserve">
                                     <g>
@@ -439,22 +443,22 @@ class Admin
                                 </svg>
 
                                 <span class="elementor-screen-only"><?php esc_html_e( 'Close', 'wp-scheduled-posts' ); ?></span>
-						    </div>
-						    <div id="elementor-template-library-header-tools"></div>
-					    </div>
-				    </div>
-			    </div>
-			    <div class="dialog-message dialog-lightbox-message">
-				    <div class="dialog-content dialog-lightbox-content">
+                            </div>
+                            <div id="elementor-template-library-header-tools"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dialog-message dialog-lightbox-message">
+                    <div class="dialog-content dialog-lightbox-content">
                         <form action="<?php echo admin_url( 'admin-ajax.php' ); ?>" method="post">
-						    <?php
-						    wp_nonce_field( 'wpsp-el-editor', 'wpsp-el-editor' );
+                            <?php
+                            wp_nonce_field( 'wpsp-el-editor', 'wpsp-el-editor' );
                             $post_id     = get_the_ID();
                             $post        = get_post( $post_id );
                             $status      = get_post_status( $post_id );
                             $is_future   = $status === 'future';
                             $post_date   = apply_filters('wpsp_el_modal_post_date', $post->post_date, $post);
-						    ?>
+                            ?>
                             <input type="hidden" name="action" value="wpsp_el_editor_form">
                             <input type="hidden" name="id" value="<?php echo $post_id; ?>">
 
@@ -462,12 +466,12 @@ class Admin
                                 <span><?php esc_html_e( 'Publish On', 'wp-scheduled-posts' ); ?></span>
                                 <input id="wpsp-schedule-datetime" type="text" name="date" value="<?php echo esc_attr( $post_date ) ?>" readonly>
                             </label>
-	                        <?php do_action( 'wpsp_el_modal_pro_fields', $post_id ); ?>
+                            <?php do_action( 'wpsp_el_modal_pro_fields', $post_id ); ?>
                         </form>
                         <div class="wpsp-el-result" style="display: none;"></div>
                     </div>
-				    <div class="dialog-loading dialog-lightbox-loading"></div>
-			    </div>
+                    <div class="dialog-loading dialog-lightbox-loading"></div>
+                </div>
                 <div class="dialog-buttons-wrapper dialog-lightbox-buttons-wrapper" style="display: flex;">
                     <button class="elementor-button wpsp-immediately-publish" style="<?php if ( ! $is_future ) { echo 'display: none;'; } ?>">
                         <span class="elementor-state-icon">
@@ -485,11 +489,11 @@ class Admin
                         <span>
                         <?php
                         if ( $is_future ) {
-	                        esc_html_e( 'Schedule', 'wp-scheduled-posts' );
+                            esc_html_e( 'Schedule', 'wp-scheduled-posts' );
                         } elseif( $status == 'publish') {
-	                        esc_html_e( 'Update', 'wp-scheduled-posts' );
+                            esc_html_e( 'Update', 'wp-scheduled-posts' );
                         } else {
-	                        esc_html_e( 'Publish', 'wp-scheduled-posts' );
+                            esc_html_e( 'Publish', 'wp-scheduled-posts' );
                         }
                         ?>
                         </span>
@@ -497,8 +501,8 @@ class Admin
                     <?php do_action("wpsp_el_after_publish_button", $post);?>
                 </div>
                 <div class="wpsp-el-modal-date-picker"></div>
-		    </div>
-	    </div>
+            </div>
+        </div>
 
         <div id="elementor-panel-footer-sub-menu-item-wpsp" class="elementor-panel-footer-sub-menu-item elementor-panel-footer-tool tooltip-target" data-tooltip="<?php esc_attr_e( 'SchedulePress', 'wp-scheduled-posts' ); ?>">
             <i class="elementor-icon eicon-folder" aria-hidden="true"></i>
@@ -559,88 +563,88 @@ class Admin
         <?php
     }
 
-	public function wpsp_el_tab_action() {
-		if ( check_ajax_referer( 'wpsp-el-editor', 'wpsp-el-editor' ) ) {
-			$offset = get_option( 'gmt_offset' );
-			$offset = $offset == 0 ? 0 : ( 0 - $offset );
-			$args   = wp_parse_args( $_POST, [
-				'id'                 => 0,
-				'date'               => '',
-				'republish_datetime' => '',
-				'unpublish_datetime' => '',
-				'post_status'        => 'future',
-				'advanced'           => null,
-			] );
+    public function wpsp_el_tab_action() {
+        if ( check_ajax_referer( 'wpsp-el-editor', 'wpsp-el-editor' ) ) {
+            $offset = get_option( 'gmt_offset' );
+            $offset = $offset == 0 ? 0 : ( 0 - $offset );
+            $args   = wp_parse_args( $_POST, [
+                'id'                 => 0,
+                'date'               => '',
+                'republish_datetime' => '',
+                'unpublish_datetime' => '',
+                'post_status'        => 'future',
+                'advanced'           => null,
+            ] );
 
             // @todo moved to pro, will be removed in next version...
-			if ( $this->pro_enabled ) {
-				if ( ! empty( $args['republish_datetime'] ) ) {
-					update_post_meta( $args['id'], '_wpscp_schedule_republish_date', sanitize_text_field( $args['republish_datetime'] ) );
-				}
+            if ( $this->pro_enabled ) {
+                if ( ! empty( $args['republish_datetime'] ) ) {
+                    update_post_meta( $args['id'], '_wpscp_schedule_republish_date', sanitize_text_field( $args['republish_datetime'] ) );
+                }
 
-				if ( ! empty( $args['unpublish_datetime'] ) ) {
-					update_post_meta( $args['id'], '_wpscp_schedule_draft_date', sanitize_text_field( $args['unpublish_datetime'] ) );
-				}
-			}
+                if ( ! empty( $args['unpublish_datetime'] ) ) {
+                    update_post_meta( $args['id'], '_wpscp_schedule_draft_date', sanitize_text_field( $args['unpublish_datetime'] ) );
+                }
+            }
 
-			do_action( 'wpsp_el_action_before', $args );
+            do_action( 'wpsp_el_action_before', $args );
 
-			$is_future = true;
+            $is_future = true;
 
-			$msg = __( 'Your post successfully updated', 'wp-scheduled-posts' );
+            $msg = __( 'Your post successfully updated', 'wp-scheduled-posts' );
 
-			if ( empty( $args['date'] ) ) {
-				$args['date'] = date( 'Y-m-d H:i:s', current_time( 'U' ) );
-				$is_future    = false;
-				$msg          = __( 'Your post successfully published', 'wp-scheduled-posts' );
-			}
+            if ( empty( $args['date'] ) ) {
+                $args['date'] = date( 'Y-m-d H:i:s', current_time( 'U' ) );
+                $is_future    = false;
+                $msg          = __( 'Your post successfully published', 'wp-scheduled-posts' );
+            }
 
-			if ( $offset !== 0 ) {
-				$date_gmt = date( "Y-m-d H:i:s", strtotime( $args['date'] ) + $offset * HOUR_IN_SECONDS );
-			} else {
-				$date_gmt = $args['date'];
-			}
+            if ( $offset !== 0 ) {
+                $date_gmt = date( "Y-m-d H:i:s", strtotime( $args['date'] ) + $offset * HOUR_IN_SECONDS );
+            } else {
+                $date_gmt = $args['date'];
+            }
 
-			if ( empty( $args['id'] ) ) {
-				wp_send_json_error( [
-					'msg' => __( 'Your post id is empty', 'wp-scheduled-posts' )
-				] );
-			}
+            if ( empty( $args['id'] ) ) {
+                wp_send_json_error( [
+                    'msg' => __( 'Your post id is empty', 'wp-scheduled-posts' )
+                ] );
+            }
 
-			$id = wp_update_post( [
-				'ID'            => absint( $args['id'] ),
-				'post_date'     => $args['date'],
-				'post_date_gmt' => $date_gmt,
-				'post_status'   => $args['post_status'],
-				'edit_date'     => true,
-			] );
+            $id = wp_update_post( [
+                'ID'            => absint( $args['id'] ),
+                'post_date'     => $args['date'],
+                'post_date_gmt' => $date_gmt,
+                'post_status'   => $args['post_status'],
+                'edit_date'     => true,
+            ] );
 
             /**
              * When scheduling draft post the post status is set to publish by wp.
              */
-			if ( $is_future && get_post_status( $id ) !== 'future' ) {
-				$id = wp_update_post( [
-					'ID'            => absint( $args['id'] ),
-					'post_date'     => $args['date'],
-					'post_date_gmt' => $date_gmt,
-					'post_status'   => $args['post_status']
-				] );
-			}
+            if ( $is_future && get_post_status( $id ) !== 'future' ) {
+                $id = wp_update_post( [
+                    'ID'            => absint( $args['id'] ),
+                    'post_date'     => $args['date'],
+                    'post_date_gmt' => $date_gmt,
+                    'post_status'   => $args['post_status']
+                ] );
+            }
 
-			$status = get_post_status( $id );
+            $status = get_post_status( $id );
 
-			if ( $status === 'future' ) {
-				$msg = __( 'Your post successfully scheduled', 'wp-scheduled-posts' );
-			}
+            if ( $status === 'future' ) {
+                $msg = __( 'Your post successfully scheduled', 'wp-scheduled-posts' );
+            }
 
-			do_action( 'wpsp_el_action', absint( $args['id'] ) );
+            do_action( 'wpsp_el_action', absint( $args['id'] ) );
 
-			wp_send_json_success( [
-				'id'        => $id,
-				'status'    => $status,
-				'post_time' => $args['date'],
-				'msg'       => $msg
-			] );
-		}
-	}
+            wp_send_json_success( [
+                'id'        => $id,
+                'status'    => $status,
+                'post_time' => $args['date'],
+                'msg'       => $msg
+            ] );
+        }
+    }
 }

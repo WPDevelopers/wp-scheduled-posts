@@ -14,6 +14,7 @@ class Twitter
     private $is_show_post_thumbnail;
     private $content_source;
     private $tweet_limit;
+    private $post_share_limit;
 
     public function __construct()
     {
@@ -24,6 +25,7 @@ class Twitter
         $this->is_show_post_thumbnail = (isset($settings['is_show_post_thumbnail']) ? $settings['is_show_post_thumbnail'] : '');
         $this->content_source = (isset($settings['content_source']) ? $settings['content_source'] : '');
         $this->tweet_limit = (isset($settings['tweet_limit']) ? $settings['tweet_limit'] : 280);
+        $this->post_share_limit = (isset($settings['post_share_limit']) ? $settings['post_share_limit'] : 0);    
     }
 
     public function instance()
@@ -69,9 +71,10 @@ class Twitter
     /**
      * Saved Post Meta info
      */
-    public function save_metabox_social_share($post_id, $response, $profile_key)
+    public function save_metabox_social_share($post_id, $response, $profile_key, $ID)
     {
         $meta_name = '__wpscppro_twitter_share_log';
+        $count_meta_key = '__wpsp_twitter_share_count_'.$ID;
         $oldData = get_post_meta($post_id, $meta_name, true);
         if ($oldData != "") {
             $oldData[$profile_key] = $response;
@@ -79,6 +82,12 @@ class Twitter
             update_post_meta($post_id, $meta_name, $updateData);
         } else {
             add_post_meta($post_id, $meta_name, array($profile_key => $response));
+        }
+        $old_share_count = get_post_meta( $post_id, $count_meta_key, true );
+        if( $old_share_count != '' ) {
+            update_post_meta($post_id, $count_meta_key, intval( $old_share_count ) + 1);
+        }else{
+            add_post_meta($post_id, $count_meta_key, 1);
         }
     }
 
@@ -126,9 +135,18 @@ class Twitter
      */
     public function remote_post($app_id, $app_secret, $oauth_token, $oauth_token_secret, $post_id, $profile_key, $force_share = false)
     {
+        $profile     = \WPSP\Helper::get_profile('twitter', $profile_key);
+        $count_meta_key = '__wpsp_twitter_share_count_'.$profile->id;
+        
         // check post is skip social sharing
         if (empty($app_id) || empty($app_secret) || get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
             return;
+        }
+        if( ( get_post_meta( $post_id, $count_meta_key, true ) ) && $this->post_share_limit != 0 && get_post_meta( $post_id, $count_meta_key, true ) >= $this->post_share_limit ) {
+            return array(
+                'success' => false,
+                'log' => __('Your max share post limit has been executed!!','wp-scheduled-posts')
+            );
         }
 
         if(get_post_meta($post_id, '_wpsp_is_twitter_share', true) == 'on' || $force_share) {
@@ -142,21 +160,23 @@ class Twitter
 
                 // allow thumbnail will be share
                 if ($this->is_show_post_thumbnail == true) {
+                    $uploads = wp_upload_dir();
                     $socialShareImage = get_post_meta($post_id, '_wpscppro_custom_social_share_image', true);
-                    if ($socialShareImage != "") {
-                        $thumbnail_src = wp_get_attachment_image_src($socialShareImage, 'full');
-                        $featuredImage = $thumbnail_src[0];
-                        $uploads = wp_upload_dir();
-                        $file_path = str_replace($uploads['baseurl'], $uploads['basedir'], $featuredImage);
+                    if (!empty($socialShareImage) && $socialShareImage != 0) {
+                        // $thumbnail_src = wp_get_attachment_image_src($socialShareImage, 'full');
+                        // $file_path = str_replace($uploads['baseurl'], $uploads['basedir'], $featuredImage);
+                        $thumbnail_src = !empty( wp_get_attachment_metadata($socialShareImage)['file'] ) ? wp_get_attachment_metadata($socialShareImage)['file'] : '';
+                        $file_path = !empty( $uploads['basedir'] ) ? esc_url( $uploads['basedir'] . '/' . $thumbnail_src ) : '';
                         $media = $TwitterConnection->upload('media/upload', ['media' => $file_path]);
                         $parameters['media'] = [
                             "media_ids" => [ $media->media_id_string ],
                         ];
                     } else {
                         if (has_post_thumbnail($post_id)) {
-                            $featuredImage = ((has_post_thumbnail($post_id)) ? get_the_post_thumbnail_url($post_id, 'full') : '');
-                            $uploads = wp_upload_dir();
-                            $file_path = str_replace($uploads['baseurl'], $uploads['basedir'], $featuredImage);
+                            $thumbnail_src = !empty( wp_get_attachment_metadata(get_post_thumbnail_id($post_id))['file'] ) ? wp_get_attachment_metadata(get_post_thumbnail_id($post_id))['file'] : '';
+                            // $featuredImage = ((has_post_thumbnail($post_id)) ? get_the_post_thumbnail_url($post_id, 'full') : '');
+                            // $file_path = str_replace($uploads['baseurl'], $uploads['basedir'], $featuredImage);
+                            $file_path = !empty( $uploads['basedir'] ) ? esc_url( $uploads['basedir'] . '/' . $thumbnail_src ) : '';
                             $media = $TwitterConnection->upload('media/upload', ['media' => $file_path]);
                             $parameters['media'] = [
                                 "media_ids" => [ $media->media_id_string ],
@@ -173,7 +193,7 @@ class Twitter
                         'publish_date' => time(),
                     );
                     // save shareinfo in metabox
-                    $this->save_metabox_social_share($post_id, $shareInfo, $profile_key);
+                    $this->save_metabox_social_share($post_id, $shareInfo, $profile_key, $profile->id);
                     $errorFlag = true;
                     $response = $shareInfo;
                 } else {

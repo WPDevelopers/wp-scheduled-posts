@@ -1,9 +1,9 @@
-import { format, __experimentalGetSettings as getSettings } from "@wordpress/date";
+import { format, getSettings, __experimentalGetSettings } from "@wordpress/date";
 import { Option } from "./types";
 
 
 export const getTimeZone = () => {
-  const dateSettings = getSettings();
+  const dateSettings = (getSettings || __experimentalGetSettings)();
   let timeZone = dateSettings.timezone.string;
 
   if(!timeZone) {

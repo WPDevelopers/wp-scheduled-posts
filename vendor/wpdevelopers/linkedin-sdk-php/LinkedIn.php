@@ -35,6 +35,22 @@ class LinkedIn {
         $accessToken = json_decode($response['result']);
         return $accessToken;
     }
+    public function userinfo($accessToken) {
+        $url = "https://api.linkedin.com/v2/userinfo?oauth2_access_token=" . $accessToken;
+        $params = [];
+        $response = $this->curl($url, http_build_query($params), "application/x-www-form-urlencoded", false);
+        $person = json_decode($response['result']);
+
+        $person = [
+            'type'          => 'person',
+            'id'            => $person->sub,
+            'name'          => $person->name,
+            'given_name'    => $person->given_name,
+            'family_name'   => $person->family_name,
+            'thumbnail_url' => $person->picture,
+        ];
+        return $person;
+    }
     public function getPerson($accessToken) {
         $url = "https://api.linkedin.com/v2/me?projection=(id,firstName,lastName,profilePicture(displayImage~:playableStreams))&oauth2_access_token=" . $accessToken;
         $params = [];

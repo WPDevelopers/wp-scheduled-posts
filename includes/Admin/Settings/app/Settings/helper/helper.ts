@@ -34,7 +34,7 @@ export const fetPinterestBoardData = async (body) => {
 
 export const activateLicense = async (body) => {
     return apiFetch( {
-        path: 'wp-scheduled-posts/v1/license/activate',
+        path: 'wp-scheduled-posts/v1/activate_license',
         method: 'POST',
         data: body,
     } ).then( ( res ) => {
@@ -42,19 +42,9 @@ export const activateLicense = async (body) => {
     } );
 };
 
-export const sendOpt = async (body) => {
-    return apiFetch( {
-        path: 'wp-scheduled-posts/v1/license/submit-otp',
-        method: 'POST',
-        data: body,
-    } ).then( ( res ) => {
-        return res;
-    } );
-}
-
 export const getLicense = async (body) => {
     return apiFetch( {
-        path: 'wp-scheduled-posts/v1/license/get-license',
+        path: 'wp-scheduled-posts/v1/get_license',
         method: 'POST',
         data: body,
     } ).then( ( res ) => {
@@ -64,18 +54,8 @@ export const getLicense = async (body) => {
 
 export const deActivateLicense = async () => {
     return apiFetch( {
-        path: 'wp-scheduled-posts/v1/license/deactivate',
+        path: 'wp-scheduled-posts/v1/deactivate_license',
         method: 'POST',
-    } ).then( ( res ) => {
-        return res;
-    } );
-};
-
-export const resendOtp = async (body) => {
-    return apiFetch( {
-        path: 'wp-scheduled-posts/v1/license/resend-otp',
-        method: 'POST',
-        data : body,
     } ).then( ( res ) => {
         return res;
     } );
@@ -87,13 +67,17 @@ export const generateTabURL = () => {
 }
 
 // Send API request for fetch url
-export const socialProfileRequestHandler = async (redirectURI, appID, appSecret, platform) => {
+export const socialProfileRequestHandler = async (redirectURI, appID, appSecret, platform, openIDConnect = false) => {
+    const account_type = localStorage.getItem('account_type');
+
     const data = {
         action: 'wpsp_social_add_social_profile',
         redirectURI: redirectURI,
         appId: appID,
         appSecret: appSecret,
         type: platform,
+        openIDConnect: openIDConnect,
+        accountType: account_type,
     };
     const response = await fetchDataFromAPI(data);
 
@@ -130,6 +114,7 @@ export const getProfileData = async (params) => {
         rt_expires_in: params.get("rt_expires_in"),
         oauthVerifier: params.get("oauth_verifier"),
         oauthToken: params.get("oauth_token"),
+        openIDConnect: params.get("openIDConnect"),
     };
     const response = await fetchDataFromAPI(data);
     return response.json();

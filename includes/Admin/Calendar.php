@@ -407,7 +407,7 @@ class Calendar
             return new WP_Error('rest_post_update_error', __('Post type isn\'t allowed in Settings page.', 'wp-scheduled-posts'), array('status' => 400));
         }
 
-        if(in_array($type, ['newDraft', 'editDraft', 'addEvent'])) {
+        if(in_array($type, ['newDraft', 'editDraft', 'addEvent', 'editEvent'])) {
             $postdateformat = $dateStr;
             $postdate_gmt   = get_gmt_from_date($dateStr);
         } else {

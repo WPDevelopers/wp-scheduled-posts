@@ -9,6 +9,7 @@ const ApiCredentialsForm = ({ props, platform, requestHandler, appInfo = [] }) =
   const [isMultiAccountError,setMultiAccountError] = useState(false);
   const [multiAccountErrorMessage,setMultiAccountErrorMessage] = useState();
   const [copied, setCopied] = useState(false);
+  const [openIDConnect, setOpenIDConnect] = useState(false);
 
   const redirectURIv2 = "https://api.schedulepress.com/v2/callback.php";
   const [redirectURI, SetRedirectURI] = useState(
@@ -28,7 +29,7 @@ const ApiCredentialsForm = ({ props, platform, requestHandler, appInfo = [] }) =
   const onSubmitHandler = (event) => {
     event.preventDefault();
     if (redirectURI && appID && appSecret) {
-      requestHandler(redirectURI, appID, appSecret,platform).then((res) => {
+      requestHandler(redirectURI, appID, appSecret,platform, openIDConnect).then((res) => {
         if( res?.error ) {
           setMultiAccountError(true);
           setMultiAccountErrorMessage(res?.message);
@@ -129,6 +130,33 @@ const ApiCredentialsForm = ({ props, platform, requestHandler, appInfo = [] }) =
                       
                       <span className="redirect-note">{props?.modal?.redirect_url_desc}</span>
                   </div>
+                  { platform == 'linkedin' && 
+                    <div className="linkedin-openid">
+                      <div className="toggler_wrapper">
+                        <span className="text">{ __( 'OpenID Connect','wp-scheduled-posts' ) }</span>
+                        <div className="status">
+                            <div className="switcher">
+                              <input
+                                  id="linkedin_openid_status"
+                                  type='checkbox'
+                                  className="wprf-switcher-checkbox"
+                                  checked={openIDConnect}
+                                  onChange={(e) => {
+                                    setOpenIDConnect(e.target.checked)
+                                  }}
+                              />
+                              <label
+                                  className="wprf-switcher-label"
+                                  htmlFor="linkedin_openid_status"
+                                  style={{ background: openIDConnect && '#02AC6E' }}
+                              >
+                                <span className={`wprf-switcher-button`} />
+                              </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  }
                   <div className="form-group">
                       <label htmlFor="">{ __( 'App ID:','wp-scheduled-posts' ) } </label>
                       <input

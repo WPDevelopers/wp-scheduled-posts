@@ -9,7 +9,8 @@ import Sidebar from "./Calendar/Sidebar";
 // const events = [{ title: "Meeting", start: new Date() }];
 import MonthPicker from "@compeon-os/monthpicker";
 import { DayCellMountArg, EventContentArg, EventDropArg } from "@fullcalendar/core";
-import { format } from "@wordpress/date";
+import { format, getSettings, __experimentalGetSettings } from "@wordpress/date";
+import moment from 'moment';
 import { __ } from "@wordpress/i18n";
 import classNames from "classnames";
 import { useBuilderContext } from "quickbuilder";
@@ -137,8 +138,9 @@ export default function Calendar(props) {
       return `wpsp-event-card-${index}`;
     }
   };
-  
-  const time = builderContext?.values?.calendar_schedule_time;
+
+  const schedule_time = builderContext?.values?.calendar_schedule_time || props.schedule_time;
+  const dateSettings = (getSettings || __experimentalGetSettings)();
 
 
   return (
@@ -330,9 +332,28 @@ export default function Calendar(props) {
                   posts.filter((p) => p.postId !== props.postId)
                 );
                 if(event.allDay) {
+                  // Set the event to not be an all-day event
                   event.setAllDay(false);
-                  const date = time ? `${getEndDate(event.start, props._end).toString().split(' ')[0]} ${time}` : getEndDate(event.start, props._end);
-                  event.setEnd(date);
+
+                  let _date;
+
+                  // If schedule_time is provided, format the start date and append the schedule_time
+                  if (schedule_time) {
+                    const startDateFormatted = format('Y-m-d', event.start);
+                    _date = `${startDateFormatted} ${schedule_time}`;
+                  } else {
+                    // If time is not provided, get the end date
+                    _date = getEndDate(event.start, props._end);
+                  }
+
+                  // Create a moment object in UTC with the date
+                  const dateMoment = moment.utc(_date);
+
+                  // Adjust the moment object to the correct timezone
+                  dateMoment.utcOffset(+dateSettings.timezone.offset, true);
+
+                  // Set the end of the event to the adjusted date
+                  event.setEnd(dateMoment.toDate());
                 }
                 eventDrop(event, 'eventDrop').then(updateEvents);
               }}
