@@ -18,3 +18,4 @@ includes/Admin/Settings/assets/js/admin.js.map
 # includes/Admin/Settings/assets/js/calendar.js
 includes/Admin/Settings/yarn.lock
 includes/Admin/Settings/stats.json
+.vscode/
