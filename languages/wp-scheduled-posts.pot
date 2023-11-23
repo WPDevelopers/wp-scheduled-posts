@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-11-21T09:37:16+00:00\n"
+"POT-Creation-Date: 2023-11-23T07:05:22+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: wp-scheduled-posts\n"
@@ -143,12 +143,18 @@ msgstr ""
 msgid "Your post successfully scheduled"
 msgstr ""
 
-#: includes/Admin/Calendar.php:475
+#: includes/Admin/Calendar.php:407
+#: includes/Admin/Calendar.php:562
+#: includes/Admin/Calendar.php:588
+msgid "Post type isn't allowed in Settings page."
+msgstr ""
+
+#: includes/Admin/Calendar.php:519
 msgid "Type is required."
 msgstr ""
 
-#: includes/Admin/Calendar.php:478
-#: includes/Admin/Calendar.php:500
+#: includes/Admin/Calendar.php:522
+#: includes/Admin/Calendar.php:544
 msgid "Something went wrong."
 msgstr ""
 
@@ -1109,6 +1115,16 @@ msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:1
 #: includes/Admin/Settings/assets/js/calendar.js:1
+msgid "Failed!"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/calendar.js:1
+msgid "Your post can't be deleted."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/calendar.js:1
 msgid "Select Category"
 msgstr ""
 
@@ -1187,9 +1203,65 @@ msgid "Add"
 msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:1
+msgid "License Verification code has been sent to this "
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid ". Please check your email for the code & insert it below 👇"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Enter Your Verification Code"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Verifying..."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Verify"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Resending..."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Resend"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Note"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Check out this "
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "guide"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid " to verify your license key. If you need any assistance with retrieving your License Verification Key, please "
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "contact support"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Your License is Successfully Deactivated."
 msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Please validate OTP."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Your License is Successfully Activated."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Your OTP has been sended again Successfully!!."
 msgstr ""
