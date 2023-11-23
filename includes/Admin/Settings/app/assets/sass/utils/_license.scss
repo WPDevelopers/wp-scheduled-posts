@@ -223,7 +223,7 @@
         }
       }
     }
-    .btl-verification-msg {
+    .wpsp-verification-msg {
       p {
         color: #3c434a;
         font-size: 13px;
@@ -237,6 +237,7 @@
           font-weight: 500;
           line-height: 20px;
           word-wrap: break-word;
+          text-decoration: none;
         }
     
         span {
@@ -245,15 +246,13 @@
       }
     
       .short-description {
-        padding: 10px;
-        background: #f2f2f2;
         margin: 10px 0;
       }
     
-      .btl-verification-input-container {
+      .wpsp-verification-input-container {
         background: #f6f9ff;
         border-radius: 8px;
-        padding: 40px;
+        padding: 20px;
     
         > p {
           color: #3c434a;
@@ -272,7 +271,7 @@
           }
         }
     
-        .btl-verification-input {
+        .wpsp-verification-input {
           width: auto;
           position: relative;
           display: flex;
