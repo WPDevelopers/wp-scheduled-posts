@@ -2,7 +2,7 @@ import React from 'react'
 import { __ } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
 
-const Verification = ({ email, submitOTP, resendOTP, isRequestSending }) => {
+const Verification = ({ email, submitOTP, resendOTP, isRequestSending, isSendingResendRequest }) => {
 	const [otp, setOTP] = useState('');
 	return (
 		<div className="btl-verification-msg">
@@ -20,7 +20,7 @@ const Verification = ({ email, submitOTP, resendOTP, isRequestSending }) => {
 				<p>
 					{__('Haven’t received an email? Please hit this ')}{' '}
 					<a onClick={resendOTP} style={{ fontWeight: 'bold', cursor: 'pointer' }}>
-						{__('"Resend"', 'wp-scheduled-posts')}
+						{isSendingResendRequest ? __('Resending...', 'wp-scheduled-posts') : __('Resend', 'wp-scheduled-posts')}
 					</a>
 					{__(' button to retry. Please note that this verification code will expire after 15 minutes.')}
 				</p>
