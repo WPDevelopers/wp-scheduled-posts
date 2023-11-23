@@ -227,21 +227,6 @@ function License(props) {
         { isRequiredOtp === 'required_otp' && 
             <Verification email={email} submitOTP={ handleOtpVerification } resendOTP={ handleResendOtp } isRequestSending={ isSendingVerificationRequest } isSendingResendRequest={isSendingResendRequest}  />
         }
-        { isRequiredOtp !== 'valid' && 
-            <div className="btl-verification-msg">
-                <div className="short-description">
-                    <b style={{ fontWeight: 700 }}>{__('Note', 'wp-scheduled-posts')}: </b> {__('Check out this ', 'wp-scheduled-posts')}{' '}
-                    <a href="https://wpdeveloper.com/docs/activate-wp-scheduled-posts-license/" target="_blank">
-                        {__('guide', 'wp-scheduled-posts')}
-                    </a>{' '}
-                    {__(' to verify your license key. If you need any assistance with retrieving your License Verification Key, please ', 'wp-scheduled-posts')}{' '}
-                    <a href="https://wpdeveloper.com/support/" target="_blank">
-                        {__('contact support', 'wp-scheduled-posts')}
-                    </a>
-                    .
-                </div>
-            </div>
-        }
     </div>
   )
 }
