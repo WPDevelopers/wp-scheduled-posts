@@ -66,6 +66,7 @@ function License(props) {
                 }).fire();
             }
         } ).catch( (error) => {
+            setIsSedingActivationRequest(false);
             SweetAlertToaster({
                 type : 'error',
                 title : __( error.message, 'wp-scheduled-posts' ),
@@ -98,6 +99,7 @@ function License(props) {
                 }).fire();
             }
         } ).catch( (error) => {
+            setIsRequestSend(null)
             SweetAlertToaster({
                 type : 'error',
                 title : __( error?.message, 'wp-scheduled-posts' ),
