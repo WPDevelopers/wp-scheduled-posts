@@ -14,6 +14,7 @@ import Html from './Html';
 import AutoScheduler from './AutoScheduler';
 import ManualScheduler from './ManualScheduler';
 import ScheduleHubFeature from './ScheduleHubFeature';
+import License from './License';
 import ProToggle from './utils/ProToggle';
 
 const Field = (ret, type, props) => {
@@ -49,6 +50,8 @@ const Field = (ret, type, props) => {
             return <Time {...props} />;
         case "calendar":
             return <Calendar {...props} />;
+        case "license":
+            return <License {...props} />;
         default:
             return ret;
     }
