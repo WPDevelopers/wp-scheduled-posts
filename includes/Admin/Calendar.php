@@ -43,7 +43,11 @@ class Calendar
      * @return bool
      */
     public function edit_permission_callback($request) {
-        return current_user_can('edit_post', $request->get_param('ID'));
+        $id = $request->get_param('ID');
+        if(!empty($id)){
+            return current_user_can('edit_post', $id);
+        }
+        return current_user_can('publish_posts');
     }
 
     /**
