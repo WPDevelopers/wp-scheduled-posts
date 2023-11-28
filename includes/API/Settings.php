@@ -53,7 +53,7 @@ class Settings
                 [
                     'show_in_rest' => true,
                     'single'       => true,
-                    'type'         => 'boolean',
+                    'type'         => ['boolean', 'string'],
                     'auth_callback' => function() {
                         return current_user_can( 'edit_posts' );
                     }
@@ -72,7 +72,7 @@ class Settings
                 ]
             );
         }
-        
+
     }
 
 
@@ -104,7 +104,7 @@ class Settings
         do_action('wpsp_instant_social_single_profile_share', $data->get_params());
     }
 
-     // Fetch option table data 
+     // Fetch option table data
     public function wpsp_get_options_data( $request ) {
         $option_value = get_option('wpsp_settings_v5');
         if ($option_value !== false) {
@@ -132,7 +132,7 @@ class Settings
         return self::$instance;
     }
 
-    
+
     /**
      * Register the routes for the objects of the controller.
      */
@@ -188,7 +188,7 @@ class Settings
 
     }
 
-   
+
 
     /**
      * Fetch pinterest section
