@@ -207,7 +207,7 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 == Changelog ==
 
-= 5.0.5 - 2023-11-23 =
+= 5.0.5 - 2023-11-28 =
 - Improved: Security enhancement.
 - Few minor bug fixes and improvements.
 
