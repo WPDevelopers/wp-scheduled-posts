@@ -34,7 +34,7 @@ export const fetPinterestBoardData = async (body) => {
 
 export const activateLicense = async (body) => {
     return apiFetch( {
-        path: 'wp-scheduled-posts/v1/license/activate',
+        path: 'wp-scheduled-posts/v1/activate_license',
         method: 'POST',
         data: body,
     } ).then( ( res ) => {
@@ -42,19 +42,10 @@ export const activateLicense = async (body) => {
     } );
 };
 
-export const sendOpt = async (body) => {
-    return apiFetch( {
-        path: 'wp-scheduled-posts/v1/license/submit-otp',
-        method: 'POST',
-        data: body,
-    } ).then( ( res ) => {
-        return res;
-    } );
-}
 
 export const getLicense = async (body) => {
     return apiFetch( {
-        path: 'wp-scheduled-posts/v1/license/get-license',
+        path: 'wp-scheduled-posts/v1/get_license',
         method: 'POST',
         data: body,
     } ).then( ( res ) => {
@@ -64,22 +55,13 @@ export const getLicense = async (body) => {
 
 export const deActivateLicense = async () => {
     return apiFetch( {
-        path: 'wp-scheduled-posts/v1/license/deactivate',
+        path: 'wp-scheduled-posts/v1/deactivate_license',
         method: 'POST',
     } ).then( ( res ) => {
         return res;
     } );
 };
 
-export const resendOtp = async (body) => {
-    return apiFetch( {
-        path: 'wp-scheduled-posts/v1/license/resend-otp',
-        method: 'POST',
-        data : body,
-    } ).then( ( res ) => {
-        return res;
-    } );
-};
 
 // Active social profile tab
 export const generateTabURL = () => {
