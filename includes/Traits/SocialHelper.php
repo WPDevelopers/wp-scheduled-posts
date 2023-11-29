@@ -111,7 +111,11 @@ trait SocialHelper
         }
 
         if (!empty($desc) && strpos($template_structure, '{content}') !== false) {
-            $post_content = substr($desc, 0, $post_content_limit);
+            if ( strlen($desc) > $post_content_limit ) {
+                $post_content = substr($desc, 0, $post_content_limit - 3 ) . '...';
+            }else{
+                $post_content = substr($desc, 0, $post_content_limit );
+            }
             $template_structure = str_replace('{content}', '::::' . $post_content . '::::', $template_structure);
         }
         else{
