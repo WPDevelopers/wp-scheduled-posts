@@ -124,7 +124,7 @@ class Facebook
         echo '<meta property="og:site_name" content=" ' . get_bloginfo() . ' "/>';
 
         $socialShareImage = get_post_meta($post->ID, '_wpscppro_custom_social_share_image', true);
-        if ($socialShareImage != "" || $socialShareImage != 0) {
+        if ($socialShareImage != "" && $socialShareImage != 0) {
             $thumbnail_src = wp_get_attachment_image_src($socialShareImage, 'full');
             if( !empty( $thumbnail_src[0] ) ) {
                 echo '<meta property="og:image" content="' . esc_attr($thumbnail_src[0]) . '"/>';
