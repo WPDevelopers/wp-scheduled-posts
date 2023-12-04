@@ -39,7 +39,7 @@ class Admin
         }
 
         add_action( 'wp_ajax_wpsp_el_editor_form', [ $this, 'wpsp_el_tab_action' ] );
-
+        add_action('wpsp_el_modal_social_share_profile', [ $this, 'wpsp_el_modal_social_share_profile' ] );
 
         self::$cache_bank = CacheBank::get_instance();
         try {
@@ -267,191 +267,6 @@ class Admin
     }
 
     public function schedulepress_el_tab () { ?>
-        <style>
-            #schedulepress-elementor-modal.elementor-templates-modal .dialog-widget-content {
-                background: #f5f7fd;
-            }
-            .elementor-panel-footer-wpsp-modal .wpsp-elementor-topbar-panel-button:hover {
-                background-color: #3e3e3e;
-            }
-            .elementor-panel-footer-wpsp-modal .wpsp-elementor-topbar-panel-button {
-                display: inline-flex;
-                -webkit-box-align: center;
-                align-items: center;
-                -webkit-box-pack: center;
-                justify-content: center;
-                position: relative;
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                background-color: transparent;
-                outline: 0px;
-                border: 0px;
-                margin: 0px;
-                cursor: pointer;
-                user-select: none;
-                vertical-align: middle;
-                appearance: none;
-                text-decoration: none;
-                text-align: center;
-                flex: 0 0 auto;
-                font-size: 1.5rem;
-                padding: 8px;
-                border-radius: 50%;
-                overflow: visible;
-                color: rgb(255, 255, 255);
-                transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-            }
-            .wpsp-el-modal-date-picker .flatpickr-calendar {
-                left: 50% !important;
-                top: 50% !important;
-                transform: translate(-50%, -50%);
-                animation: none !important;
-            }
-
-            #schedulepress-elementor-modal.elementor-templates-modal .dialog-header {
-                background: #fff;
-                box-shadow: none;
-            }
-
-            #schedulepress-elementor-modal .elementor-templates-modal__header__close--normal {
-                border-left: none;
-            }
-
-            #schedulepress-elementor-modal .elementor-templates-modal__header__close--normal svg {
-                cursor: pointer;
-                transition: .3s;
-            }
-
-            #schedulepress-elementor-modal .elementor-templates-modal__header__close--normal svg:hover {
-                transform: scale(1.3);
-            }
-
-            #schedulepress-elementor-modal .dialog-widget-content {
-                border-radius: 10px;
-            }
-
-            #schedulepress-elementor-modal.elementor-templates-modal .dialog-buttons-wrapper {
-                background: transparent;
-                box-shadow: none;
-            }
-
-            #schedulepress-elementor-modal.elementor-templates-modal .dialog-message {
-                height: auto;
-                padding-bottom: 20px;
-                overflow: auto;
-            }
-
-            @media (max-width: 1439px) {
-                #schedulepress-elementor-modal.elementor-templates-modal .dialog-widget-content {
-                    max-width: 500px;
-                }
-            }
-
-            @media (min-width: 1440px) {
-                #schedulepress-elementor-modal.elementor-templates-modal .dialog-widget-content {
-                    max-width: 500px;
-                }
-            }
-
-            #schedulepress-elementor-modal form label {
-                display: block;
-                text-align: left;
-            }
-
-            #schedulepress-elementor-modal form label input {
-                background-color: #e6eaf8;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 200 200' style='enable-background:new 0 0 200 200;' width='10' xml:space='preserve'%3E%3Cstyle type='text/css'%3E .st0%7Bfill:%239E9ED8;%7D%0A%3C/style%3E%3Cpath class='st0' d='M175,24.7h-8.3V8.1c0-4.6-3.7-8.3-8.3-8.3H150c-4.6,0-8.3,3.7-8.3,8.3v16.7H58.3V8.1c0-4.6-3.7-8.3-8.3-8.3 h-8.3c-4.6,0-8.3,3.7-8.3,8.3v16.7H25c-13.8,0-25,11.2-25,25v125c0,13.8,11.2,25,25,25h150c13.8,0,25-11.2,25-25v-125 C200,36,188.8,24.7,175,24.7z M183.3,174.7c0,4.6-3.7,8.3-8.3,8.3H25c-4.6,0-8.3-3.7-8.3-8.3V83.4h166.7V174.7z'/%3E%3C/svg%3E%0A");
-                background-repeat: no-repeat;
-                background-position: calc(100% - 15px) center;
-                border: none;
-                border-radius: 5px;
-                height: 35px;
-                padding: 0 15px;
-                color: #303042;
-            }
-
-            #schedulepress-elementor-modal form label + label {
-                margin-top: 15px;
-            }
-
-            #schedulepress-elementor-modal form label > span {
-                display: block;
-                color: #303042;
-                font-weight: 700;
-                margin-bottom: 5px;
-            }
-
-            #schedulepress-elementor-modal .wpsp-pro-fields label {
-                margin-top: 15px;
-            }
-
-            #schedulepress-elementor-modal .wpsp-pro-fields:not(.wpsp-pro-activated) label > span, #schedulepress-elementor-modal .wpsp-pro-fields.disabled label > span {
-                color: #9696af;
-            }
-
-            #schedulepress-elementor-modal .wpsp-pro-fields label > span > span {
-                background: #6d64ff;
-                border-radius: 5px;
-                line-height: 10px;
-                display: inline-block;
-                font-size: 8px;
-                padding: 0 4px;
-                margin-left: 5px;
-                color: #f5f7fd;
-                transform: translateY(-1px);
-            }
-
-            #schedulepress-elementor-modal form .wpsp-pro-fields:not(.wpsp-pro-activated) label input {
-                opacity: .5;
-            }
-
-            #schedulepress-elementor-modal .elementor-button {
-                color: #6d64ff;
-                background: rgba(109, 100, 255, .2);
-                height: 35px;
-                font-size: 15px;
-                padding: 0 25px;
-                border-radius: 18px;
-                font-weight: 400;
-                text-transform: initial;
-            }
-
-            #schedulepress-elementor-modal .elementor-button.wpsp-el-form-submit, #schedulepress-elementor-modal .elementor-button.wpsp-advanced-schedule {
-                background: rgba(109, 100, 255, 1);
-                color: #fff;
-            }
-
-            #schedulepress-elementor-modal .elementor-button.wpsp-immediately-publish.active {
-                background: #00cc76;
-                color: #fff;
-            }
-
-            #schedulepress-elementor-modal .elementor-button + .elementor-button {
-                margin-left: 15px;
-            }
-
-            #schedulepress-elementor-modal.elementor-templates-modal .dialog-buttons-wrapper {
-                padding: 0 30px 30px;
-            }
-
-            #schedulepress-elementor-modal .wpsp-el-result {
-                text-align: left;
-                color: red;
-                padding-top: 10px;
-            }
-
-            #schedulepress-elementor-modal .wpsp-el-result.wpsp-msg-success {
-                color: green;
-            }
-
-            #schedulepress-elementor-modal .wpsp-el-form-submit.elementor-button-state > .elementor-state-icon + span, #schedulepress-elementor-modal .wpsp-advanced-schedule.elementor-button-state > .elementor-state-icon + span {
-                display: none;
-            }
-            .elementor-panel .elementor-panel-footer-sub-menu-item {
-                justify-content: start;
-                width: 100%;
-            }
-        </style>
         <div class="dialog-widget dialog-lightbox-widget dialog-type-buttons dialog-type-lightbox elementor-templates-modal"
             id="schedulepress-elementor-modal" style="display: none;">
             <div class="dialog-widget-content dialog-lightbox-widget-content" style="top: 50%;left: 50%;transform: translate(-50%, -50%);">
@@ -500,6 +315,7 @@ class Admin
                                 <input id="wpsp-schedule-datetime" type="text" name="date" value="<?php echo esc_attr( $post_date ) ?>" readonly>
                             </label>
                             <?php do_action( 'wpsp_el_modal_pro_fields', $post_id ); ?>
+                            <?php do_action('wpsp_el_modal_social_share_profile') ?>
                         </form>
                         <div class="wpsp-el-result" style="display: none;"></div>
                     </div>
@@ -594,6 +410,88 @@ class Admin
             </label>
         </div>
         <?php
+    }
+
+    public function wpsp_el_modal_social_share_profile() 
+    {
+        // status=
+        $twitterIntegation = \WPSP\Helper::get_settings('twitter_profile_status');
+        $facebookIntegation = \WPSP\Helper::get_settings('facebook_profile_status');
+        $linkedinIntegation = \WPSP\Helper::get_settings('linkedin_profile_status');
+        $pinterestIntegation = \WPSP\Helper::get_settings('pinterest_profile_status');
+        // profile
+        $facebookProfile = \WPSP\Helper::get_settings('facebook_profile_list');
+        $twitterProfile = \WPSP\Helper::get_settings('twitter_profile_list');
+        $linkedinProfile = \WPSP\Helper::get_settings('linkedin_profile_list');
+        $pinterestProfile = \WPSP\Helper::get_settings('pinterest_profile_list');
+        ?>
+           <div class="el-social-share-platform">
+                <h4>Choose Social Share Platform</h4>
+                <div id="el-social-checkbox-wrapper">
+                    <div class="wpsp-el-accordion">
+                        <div class="wpsp-el-accordion-item wpsp-el-accordion-item-facebook">
+                            <div class="wpsp-el-accordion-header"><img src="<?php echo esc_url( WPSP_ASSETS_URI . '/images/facebook.svg' ) ?>" alt=""><span><?php echo esc_html('Facebook') ?></span></div>
+                            <div class="wpsp-el-accordion-content">
+                                <div class="wpsp-el-container">
+                                    <label><input type="radio" data-platform="facebook" name="wpsp-el-content-facebook" value="wpsp-el-social-facebook-default" checked><?php echo esc_html__('Default','wp-scheduled-posts') ?></label>
+                                    <label><input type="radio" data-platform="facebook" name="wpsp-el-content-facebook" value="wpsp-el-social-facebook-custom"><?php echo esc_html__('Custom','wp-scheduled-posts') ?></label>
+                                </div>
+                                <div class="wpsp-el-content wpsp-el-content-facebook" data-value="wpsp-el-social-facebook-custom" style="display: none;">
+                                    <div class="facebook-profile social-profile">
+                                        <input type="checkbox" checked=""><h3>For test ( Profile ) </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="wpsp-el-accordion-item wpsp-el-accordion-item-twitter">
+                            <div class="wpsp-el-accordion-header"><img src="<?php echo esc_url( WPSP_ASSETS_URI . '/images/twitter.svg' ) ?>" alt=""><span><?php echo esc_html('Twitter') ?></span></div>
+                            <div class="wpsp-el-accordion-content">
+                                <div class="wpsp-el-container">
+                                    <label><input type="radio" data-platform="twitter" name="wpsp-el-content-twitter" value="wpsp-el-social-twitter-default" checked><?php echo esc_html__('Default','wp-scheduled-posts') ?></label>
+                                    <label><input type="radio" data-platform="twitter" name="wpsp-el-content-twitter" value="wpsp-el-social-twitter-custom"><?php echo esc_html__('Custom','wp-scheduled-posts') ?></label>
+                                </div>
+                                <div class="wpsp-el-content wpsp-el-content-twitter" data-value="wpsp-el-social-twitter-custom" style="display: none;">
+                                    <div class="twitter-profile social-profile">
+                                        <input type="checkbox" checked=""><h3>For test ( Profile ) </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="wpsp-el-accordion-item wpsp-el-accordion-item-linkedin">
+                            <div class="wpsp-el-accordion-header"><img src="<?php echo esc_url( WPSP_ASSETS_URI . '/images/linkedin.svg' ) ?>" alt=""><span><?php echo esc_html('LinkedIn') ?></span></div>
+                            <div class="wpsp-el-accordion-content">
+                                <div class="wpsp-el-container">
+                                    <label><input type="radio" data-platform="linkedin" name="wpsp-el-content-linkedin" value="wpsp-el-social-linkedin-default" checked><?php echo esc_html__('Default','wp-scheduled-posts') ?></label>
+                                    <label><input type="radio" data-platform="linkedin" name="wpsp-el-content-linkedin" value="wpsp-el-social-linkedin-custom"><?php echo esc_html__('Custom','wp-scheduled-posts') ?></label>
+                                </div>
+                                <div class="wpsp-el-content wpsp-el-content-linkedin" data-value="wpsp-el-social-linkedin-custom" style="display: none;">
+                                    <div class="linkedin-profile social-profile">
+                                        <input type="checkbox" checked=""><h3>For test ( Profile ) </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="wpsp-el-accordion-item wpsp-el-accordion-item-pinterest">
+                            <div class="wpsp-el-accordion-header"><img src="<?php echo esc_url( WPSP_ASSETS_URI . '/images/pinterest.svg' ) ?>" alt=""><span><?php echo esc_html('Pinterest') ?></span></div>
+                            <div class="wpsp-el-accordion-content">
+                                <div class="wpsp-el-container">
+                                    <label><input type="radio" data-platform="pinterest" name="wpsp-el-content-pinterest" value="wpsp-el-social-pinterest-default" checked><?php echo esc_html__('Default','wp-scheduled-posts') ?></label>
+                                    <label><input type="radio" data-platform="pinterest" name="wpsp-el-content-pinterest" value="wpsp-el-social-pinterest-custom"><?php echo esc_html__('Custom','wp-scheduled-posts') ?></label>
+                                </div>
+                                <div class="wpsp-el-content wpsp-el-content-pinterest" data-value="wpsp-el-social-pinterest-custom" style="display: none;">
+                                    <div class="pinterest-profile social-profile">
+                                        <input type="checkbox" checked=""><h3>For test ( Profile ) </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+           </div>
+        <?php 
     }
 
     public function wpsp_el_tab_action() {
