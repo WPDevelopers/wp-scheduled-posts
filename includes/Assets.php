@@ -17,6 +17,7 @@ class Assets
 
 	    add_action( 'elementor/editor/after_enqueue_scripts', function () {
 		    wp_enqueue_script( 'wpscp-el-editor', WPSP_ASSETS_URI . 'js/elementor-editor.js', array( 'jquery', 'tipsy' ), WPSP_VERSION, true );
+		    wp_enqueue_style( 'wpscp-el-editor', WPSP_ASSETS_URI . 'css/elementor-editor.css',array(), WPSP_VERSION, 'all' );
 	    } );
     }
 

@@ -210,8 +210,41 @@
             }, 3000);
         });
     });
+    $(document).ready(function () {
+        $('.wpsp-el-accordion-header').click(function () {
+          // Deactivate all accordions
+          $('.wpsp-el-accordion-header').not(this).removeClass('wpsp-el-active');
+          $('.wpsp-el-accordion-content').not($(this).next('.wpsp-el-accordion-content')).slideUp();
+      
+          // Toggle the active class on the clicked header
+          $(this).toggleClass('wpsp-el-active');
+      
+          // Toggle the display property of the associated content
+          $(this).next('.wpsp-el-accordion-content').slideToggle();
+        });
+    });      
 
+    $(document).ready(function () {
+        updateContent();
+        $('.wpsp-el-accordion-item input[type="radio"]').change(function () {
+            var platform  = $(this).attr('data-platform');
+            updateContent(platform);
+        });
+        function updateContent( platform ) {
+            $(`.wpsp-el-accordion-item-${platform} .wpsp-el-content-${platform}`).hide();
+            const selectedValue = $(`.wpsp-el-accordion-item-${platform} input[name="wpsp-el-content-${platform}"]:checked`).val();
+            $(`.wpsp-el-accordion-item-${platform} .wpsp-el-content-${platform}[data-value="${selectedValue}"]`).show();
+        }
+    });
 
-
-
-})(jQuery);
+    // Checkbox selection  stopPropagation
+    document.addEventListener('DOMContentLoaded', function () {
+        var checkboxesAndRadios = document.querySelectorAll('.el-social-share-platform input[type="checkbox"], .el-social-share-platform input[type="radio"], .el-social-share-platform label');
+        checkboxesAndRadios.forEach(function (checkboxOrRadio) {
+            checkboxOrRadio.addEventListener('click', function (event) {
+                event.stopPropagation();
+            });
+        });
+    });
+    
+})(jQuery);  
