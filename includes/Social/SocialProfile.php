@@ -411,7 +411,7 @@ class SocialProfile
                                 'thumbnail_url' => $group->picture->data->url,
                                 'type' => 'group',
                                 'status' => true,
-                                'access_token' => $access_token,
+                                'access_token' => !empty( $access_token ) ? $access_token : $userAcessToken ,
                                 'added_by' => $current_user->user_login,
                                 'added_date'    => current_time('mysql')
                             ));
