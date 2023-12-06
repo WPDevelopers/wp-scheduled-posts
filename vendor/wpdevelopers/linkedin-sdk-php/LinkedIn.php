@@ -163,20 +163,22 @@ class LinkedIn {
 
         $response = $this->curl($url, $parameters, $content_type, true, $headers);
         $result = json_decode($response['result'], true);
-        $upload_url = $result['value']['uploadUrl'];
+        if(isset($result['value']['uploadUrl'])){
+            $upload_url = $result['value']['uploadUrl'];
 
-        $url = $upload_url;
-        $parameters = file_get_contents($image_path);
-        $content_type = "image/jpeg";
-        $headers = [
-            "Authorization: Bearer {$access_token}",
-            'LinkedIn-Version: 202301',
-            "X-RestLi-Protocol-Version: 2.0.0",
-            "Content-Length: " . strlen($parameters),
-        ];
-        $upload = $this->curl($url, $parameters, $content_type, true, $headers);
+            $url = $upload_url;
+            $parameters = file_get_contents($image_path);
+            $content_type = "image/jpeg";
+            $headers = [
+                "Authorization: Bearer {$access_token}",
+                'LinkedIn-Version: 202301',
+                "X-RestLi-Protocol-Version: 2.0.0",
+                "Content-Length: " . strlen($parameters),
+            ];
+            $upload = $this->curl($url, $parameters, $content_type, true, $headers);
+        }
 
-        if($upload['code'] !== 201){
+        if(isset($upload['code']) && $upload['code'] !== 201){
             return $upload;
         }
         else{
