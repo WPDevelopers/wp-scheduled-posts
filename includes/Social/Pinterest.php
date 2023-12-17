@@ -103,7 +103,7 @@ class Pinterest
         $PostPermalink = esc_url(get_permalink($post_id));;
         $board_type = get_post_meta($post_id, '_wpscppro_pinterestboardtype', true);
         $customThumbnailID = get_post_meta($post_id, '_wpscppro_custom_social_share_image', true);
-        if ($customThumbnailID != "" || $customThumbnailID != 0) {
+        if ($customThumbnailID != "" && $customThumbnailID != 0) {
             $customThumbnail = wp_get_attachment_image_src($customThumbnailID, 'full', false);
             $PostThumbnailURI = ($customThumbnail != false ? $customThumbnail[0] : '');
         } else {
