@@ -64,14 +64,28 @@ const PostCard: React.FC<PostCardProps> = ({
   };
 
 
-  const deletePost = (id) => {
+  const handlePostStatus = (id, post_type, action_type) => {
     // @todo add confirm dialog.
-
-    return apiFetch({
-      path: addQueryArgs('/wpscp/v1/post', { ID: id }),
-      method: 'DELETE',
-      // data: query,
-    }).then((data: {id: string, message: string} | WP_Error) => {
+    let action = {};
+    if( action_type === 'delete' ) {
+      action = {
+        path: addQueryArgs('/wpscp/v1/post', { ID: id }),
+        method: 'DELETE',
+        // data: query,
+      }
+    }else if( action_type === 'trash' ) {
+      action = {
+        path: "/wpscp/v1/post",
+        method: "POST",
+        data: {
+          ID  : id,
+          post_type: post_type,
+          type    : 'trashDrop',
+        },
+      }
+    }
+    
+    return apiFetch(action).then((data: {id: string, message: string} | WP_Error) => {
       if('id' in data) {
         setEvents((events) => {
           return events.filter((event) => {
@@ -91,7 +105,7 @@ const PostCard: React.FC<PostCardProps> = ({
 
   const deleteFile = (item) => {
     toggleEditArea();
-    return deletePost(item.postId);
+    return handlePostStatus(item.postId, item.postType, item.action_type);
   };
 
   const addEventListeners = () => {

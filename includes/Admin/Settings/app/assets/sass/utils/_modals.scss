@@ -670,3 +670,15 @@ img {
     }
   }
 }
+
+.wpsp-post-delete-container .swal2-actions{
+  flex-direction: row-reverse;
+  gap: 20px;
+}
+.wpsp-post-delete-container .swal2-actions{
+  flex-direction: row-reverse;
+  gap: 20px;
+  .swal2-confirm {
+    background-color: #c82333 !important;
+  }
+}

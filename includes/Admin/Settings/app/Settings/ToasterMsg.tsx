@@ -8,7 +8,11 @@ export const SweetAlertToaster = (args: any = {}) => {
   const image_path = wpspSettingsGlobal.image_path + 'toaster-icon/';
     let toastIcon = '';
     if( args?.icon ?? (args?.type || "success") == "success" ) {
-      toastIcon = image_path + 'Connected.gif';
+      if( args?.action_type == 'trash' ) {
+        toastIcon = image_path + 'Trash.gif';
+      }else {
+        toastIcon = image_path + 'Connected.gif';
+      }
     }else if( args?.type == 'error' ) {
       toastIcon = image_path + 'Error.gif';
     }else if( args?.type == 'info' ) {
@@ -87,18 +91,23 @@ export const SweetAlertDeleteMsgForPost = ( args: any = {}, deleteFile? ) => {
       icon: args?.icon ?? __( 'error','wp-scheduled-posts' ),
       allowOutsideClick: false, // Prevent closing on outside click
       showCancelButton: args?.showCancelButton ?? true,
+      showDenyButton:  true,
       confirmButtonColor: args?.confirmButtonColor ?? '#3085d6',
       cancelButtonColor: args?.cancelButtonColor ?? '#d33',
       cancelButtonText: '<i class="wpsp-icon wpsp-close"></i>',
+      denyButtonText: __('Move to Trash', 'wp-scheduled-posts'),
       confirmButtonText: args?.confirmButtonText ?? __('Yes, Delete it!', 'wp-scheduled-posts'),
+      customClass: {
+        container     : 'wpsp-post-delete-container',
+      }
   }).then((result) => {
     if (result.isConfirmed) {
+      args.item.action_type = 'delete';
       deleteFile(args?.item)?.then((res) => {
-        Swal.fire(
-          __('Deleted!','wp-scheduled-posts'),
-          __('Your post has been deleted.','wp-scheduled-posts'),
-          'success'
-        );
+        SweetAlertToaster({
+            type : 'success',
+            title : __( 'Your posts has been deleted', 'wp-scheduled-posts' ),
+        }).fire();
       })
       .catch((err) => {
         Swal.fire(
@@ -108,6 +117,24 @@ export const SweetAlertDeleteMsgForPost = ( args: any = {}, deleteFile? ) => {
         );
       });
     }
+    if(  result.isDenied ) {
+      args.item.action_type = 'trash';
+      deleteFile(args?.item)?.then((res) => {
+        SweetAlertToaster({
+            type : 'success',
+            action_type : 'trash',
+            title : __( 'Your post has been moved to trash', 'wp-scheduled-posts' ),
+        }).fire();
+      })
+      .catch((err) => {
+        Swal.fire(
+          __('Failed!','wp-scheduled-posts'),
+          err?.message || __('Something went wrong!!','wp-scheduled-posts'),
+          'error'
+        );
+      });
+    }
+
   })
 };
 // Show poup for auto & manual scheduler status change
