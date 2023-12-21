@@ -35,7 +35,7 @@ export const SweetAlertToaster = (args: any = {}) => {
         },
         iconHtml: `<img src="${toastIcon}" class="wpsp-toaster-icon">`,
         customClass: {
-          container     : 'wpsp-toast-container',
+          container     : `wpsp-toast-container ${args?.classes}`,
           popup         : 'wpsp-toast-popup',
           title         : 'wpsp-toast-title'
         }
@@ -103,6 +103,7 @@ export const SweetAlertDeleteMsgForPost = ( args: any = {}, deleteFile? ) => {
   }).then((result) => {
     if (result.isConfirmed) {
       args.item.action_type = 'delete';
+      args.item.classes     = 'wpsp-toast-delete';
       deleteFile(args?.item)?.then((res) => {
         SweetAlertToaster({
             type : 'success',
@@ -119,11 +120,13 @@ export const SweetAlertDeleteMsgForPost = ( args: any = {}, deleteFile? ) => {
     }
     if(  result.isDenied ) {
       args.item.action_type = 'trash';
+      args.item.classes = 'wpsp-toast-trash';
       deleteFile(args?.item)?.then((res) => {
         SweetAlertToaster({
-            type : 'success',
-            action_type : 'trash',
-            title : __( 'Your post has been moved to trash', 'wp-scheduled-posts' ),
+            type       : 'success',
+            action_type: 'trash',
+            classes    : 'wpsp-toast-trash',
+            title      : __( 'Your post has been moved to trash', 'wp-scheduled-posts' ),
         }).fire();
       })
       .catch((err) => {
