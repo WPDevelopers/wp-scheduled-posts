@@ -9,7 +9,7 @@ export const SweetAlertToaster = (args: any = {}) => {
     let toastIcon = '';
     if( args?.icon ?? (args?.type || "success") == "success" ) {
       if( args?.action_type == 'trash' ) {
-        toastIcon = image_path + 'Trash.gif';
+        toastIcon = image_path + 'Deleted.gif';
       }else {
         toastIcon = image_path + 'Connected.gif';
       }
@@ -87,7 +87,7 @@ export const SweetAlertDeleteMsg = ( args: any = {}, deleteFile?: (item) => void
 export const SweetAlertDeleteMsgForPost = ( args: any = {}, deleteFile? ) => {
   return Swal.fire({
       title: args?.title ?? __( 'Are you sure?','wp-scheduled-posts' ),
-      text: args?.text ?? __( "You won't be able to revert this!",'wp-scheduled-posts' ),
+      text: args?.text ?? __( "Your post will be moved to the Trash. You can restore it at any time.",'wp-scheduled-posts' ),
       icon: args?.icon ?? __( 'error','wp-scheduled-posts' ),
       allowOutsideClick: false, // Prevent closing on outside click
       showCancelButton: args?.showCancelButton ?? true,
