@@ -139,9 +139,15 @@ class Twitter
         $count_meta_key = '__wpsp_twitter_share_count_'.$profile->id;
         
         // check post is skip social sharing
-        if (empty($app_id) || empty($app_secret) || get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
+        // if (empty($app_id) || empty($app_secret) || get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
+        //     return;
+        // }
+        $dont_share     = get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true);
+        // check post is skip social sharing
+        if (empty($app_id) || empty($app_secret) || $dont_share  == 'on' || $dont_share == 1 ) {
             return;
         }
+
         if( ( get_post_meta( $post_id, $count_meta_key, true ) ) && $this->post_share_limit != 0 && get_post_meta( $post_id, $count_meta_key, true ) >= $this->post_share_limit ) {
             return array(
                 'success' => false,
@@ -217,7 +223,12 @@ class Twitter
     public function wpscp_republish_twitter_post($post_id)
     {
         // check post is skip social sharing
-        if (get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
+        // if (get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
+        //     return;
+        // }
+        $dont_share     = get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true);
+        // check post is skip social sharing
+        if ($dont_share  == 'on' || $dont_share == 1 ) {
             return;
         }
         $profiles = \WPSP\Helper::get_social_profile(WPSCP_TWITTER_OPTION_NAME);
@@ -247,7 +258,12 @@ class Twitter
     public function wpsp_twitter_post($post_id)
     {
         // check post is skip social sharing
-        if (get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
+        // if (get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
+        //     return;
+        // }
+        $dont_share     = get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true);
+        // check post is skip social sharing
+        if ($dont_share  == 'on' || $dont_share == 1 ) {
             return;
         }
         $profiles = \WPSP\Helper::get_social_profile(WPSCP_TWITTER_OPTION_NAME);

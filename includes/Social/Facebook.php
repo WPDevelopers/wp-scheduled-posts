@@ -205,6 +205,7 @@ class Facebook
         if (empty($app_id) || empty($app_secret) || $dont_share  == 'on' || $dont_share == 1 ) {
             return;
         }
+        
         if( ( get_post_meta( $post_id, $count_meta_key, true ) ) && $this->post_share_limit != 0 && get_post_meta( $post_id, $count_meta_key, true ) >= $this->post_share_limit ) {
             return array(
                 'success' => false,
