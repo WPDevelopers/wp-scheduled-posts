@@ -145,7 +145,11 @@ class Linkedin
         $profile     = \WPSP\Helper::get_profile('linkedin', $profile_key);
         $accessToken = \WPSP\Helper::get_access_token('linkedin', $profile_key);
         // check post is skip social sharing
-        if (get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
+        // if (get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
+        //     return;
+        // }
+        $dont_share     = get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true);
+        if ($dont_share  == 'on' || $dont_share == 1 ) {
             return;
         }
         $count_meta_key = '__wpsp_linkedin_share_count_'.$profile->id;
@@ -248,10 +252,13 @@ class Linkedin
     public function wpscp_pro_republish_linkedin_post($post_id)
     {
         // check post is skip social sharing
-        if (get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
+        // if (get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
+        //     return;
+        // }
+        $dont_share     = get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true);
+        if ($dont_share  == 'on' || $dont_share == 1 ) {
             return;
         }
-
         $profiles = \WPSP\Helper::get_social_profile(WPSCP_LINKEDIN_OPTION_NAME);
         if (is_array($profiles) && count($profiles) > 0) {
             foreach ($profiles as $profile_key => $profile) {
@@ -274,10 +281,13 @@ class Linkedin
     public function WpScp_linkedin_post($post_id)
     {
         // check post is skip social sharing
-        if (get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
+        // if (get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
+        //     return;
+        // }
+        $dont_share     = get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true);
+        if ($dont_share  == 'on' || $dont_share == 1 ) {
             return;
         }
-
         $profiles = \WPSP\Helper::get_social_profile(WPSCP_LINKEDIN_OPTION_NAME);
         if (is_array($profiles) && count($profiles) > 0) {
             foreach ($profiles as $profile_key => $profile) {

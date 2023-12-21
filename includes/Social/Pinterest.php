@@ -194,9 +194,14 @@ class Pinterest
     {
         $count_meta_key = '__wpsp_pinterest_share_count_'.$board_name->value;
         // check post is skip social sharing
-        if (get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
+        // if (get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
+        //     return;
+        // }
+        $dont_share     = get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true);
+        if ($dont_share  == 'on' || $dont_share == 1 ) {
             return;
         }
+
         if( ( get_post_meta( $post_id, $count_meta_key, true ) ) && $this->post_share_limit != 0 && get_post_meta( $post_id, $count_meta_key, true ) >= $this->post_share_limit ) {
             return array(
                 'success' => false,
@@ -242,10 +247,13 @@ class Pinterest
     public function wpscp_pro_republish_pinterest_post($post_id)
     {
         // check post is skip social sharing
-        if (get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
+        // if (get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
+        //     return;
+        // }
+        $dont_share     = get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true);
+        if ($dont_share  == 'on' || $dont_share == 1 ) {
             return;
         }
-
         $profiles = \WPSP\Helper::get_social_profile(WPSCP_PINTEREST_OPTION_NAME);
         if (is_array($profiles) && count($profiles) > 0) {
             foreach ($profiles as $profile_key => $profile) {
@@ -270,10 +278,13 @@ class Pinterest
     public function WpScp_pinterest_post($post_id)
     {
         // check post is skip social sharing
-        if (get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
+        // if (get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
+        //     return;
+        // }
+        $dont_share     = get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true);
+        if ($dont_share  == 'on' || $dont_share == 1 ) {
             return;
         }
-
         $profiles = \WPSP\Helper::get_social_profile(WPSCP_PINTEREST_OPTION_NAME);
         if (is_array($profiles) && count($profiles) > 0) {
             foreach ($profiles as $profile_key => $profile) {
