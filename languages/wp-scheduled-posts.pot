@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the SchedulePress plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: SchedulePress 5.0.5\n"
+"Project-Id-Version: SchedulePress 5.0.6\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-scheduled-posts\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-11-28T08:55:46+00:00\n"
+"POT-Creation-Date: 2023-12-24T05:49:17+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: wp-scheduled-posts\n"
@@ -143,18 +143,18 @@ msgstr ""
 msgid "Your post successfully scheduled"
 msgstr ""
 
-#: includes/Admin/Calendar.php:411
-#: includes/Admin/Calendar.php:566
-#: includes/Admin/Calendar.php:592
+#: includes/Admin/Calendar.php:409
+#: includes/Admin/Calendar.php:573
+#: includes/Admin/Calendar.php:599
 msgid "Post type isn't allowed in Settings page."
 msgstr ""
 
-#: includes/Admin/Calendar.php:523
+#: includes/Admin/Calendar.php:530
 msgid "Type is required."
 msgstr ""
 
-#: includes/Admin/Calendar.php:526
-#: includes/Admin/Calendar.php:548
+#: includes/Admin/Calendar.php:533
+#: includes/Admin/Calendar.php:555
 msgid "Something went wrong."
 msgstr ""
 
@@ -735,10 +735,10 @@ msgstr ""
 msgid "If you choose to publish this future post with the Future Date, it will be published immediately but the post’s date time will not set the current date rather it will be your scheduled future date time."
 msgstr ""
 
-#: includes/Social/Facebook.php:211
-#: includes/Social/Linkedin.php:155
-#: includes/Social/Pinterest.php:203
-#: includes/Social/Twitter.php:148
+#: includes/Social/Facebook.php:212
+#: includes/Social/Linkedin.php:159
+#: includes/Social/Pinterest.php:208
+#: includes/Social/Twitter.php:154
 msgid "Your max share post limit has been executed!!"
 msgstr ""
 
@@ -786,7 +786,7 @@ msgstr ""
 msgid "Multi Profile is a Premium Feature. To use this feature, Upgrade to Pro."
 msgstr ""
 
-#: includes/Social/Twitter.php:201
+#: includes/Social/Twitter.php:207
 msgid "Twitter Connection Problem. error code: "
 msgstr ""
 
@@ -871,7 +871,6 @@ msgid "Are you sure?"
 msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:1
-#: includes/Admin/Settings/assets/js/calendar.js:1
 msgid "You won't be able to revert this!"
 msgstr ""
 
@@ -1100,17 +1099,22 @@ msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:1
 #: includes/Admin/Settings/assets/js/calendar.js:1
+msgid "Your post will be moved to the Trash. You can restore it at any time."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/calendar.js:1
+msgid "Move to Trash"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/calendar.js:1
 msgid "Yes, Delete it!"
 msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:1
 #: includes/Admin/Settings/assets/js/calendar.js:1
-msgid "Deleted!"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:1
-#: includes/Admin/Settings/assets/js/calendar.js:1
-msgid "Your post has been deleted."
+msgid "Your posts has been deleted"
 msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:1
@@ -1121,6 +1125,16 @@ msgstr ""
 #: includes/Admin/Settings/assets/js/admin.js:1
 #: includes/Admin/Settings/assets/js/calendar.js:1
 msgid "Your post can't be deleted."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/calendar.js:1
+msgid "Your post has been moved to trash"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/calendar.js:1
+msgid "Something went wrong!!"
 msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:1
