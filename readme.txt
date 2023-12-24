@@ -208,7 +208,7 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 == Changelog ==
 
 = 5.0.6 - 2023-12-24 =
-- Improved: Ellipsis while sharing a long post to Social Media.
+- Improved: Added Ellipsis while sharing a long post to Social Media.
 - Improved: Pinterest API versioning.
 - Improved: Facebook page and group connection process.
 - Few minor bug fix & improvements.
