@@ -477,8 +477,11 @@ class SocialProfile
                 wp_die();
             }
             $scope = WPSCP_LINKEDIN_SCOPE;
-            if($openIDConnect && $openIDConnect !== 'false' && $openIDConnect !== 'undefined'){
+            if($openIDConnect && $openIDConnect !== 'false' && $openIDConnect !== 'undefined' && $accountType === 'profile'){
                 $scope = WPSCP_LINKEDIN_SCOPE_OPENID;
+            }
+            elseif($openIDConnect && $openIDConnect !== 'false' && $openIDConnect !== 'undefined' && $accountType === 'profile') {
+                $scope = WPSCP_LINKEDIN_SCOPE_OPENID_PAGE;
             }
             elseif($accountType === 'page'){
                 $scope = WPSCP_LINKEDIN_BUSINESS_SCOPE;
