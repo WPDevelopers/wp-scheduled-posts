@@ -140,7 +140,7 @@
     });
 
 
-    $(document).on('click', '#elementor-panel-footer-sub-menu-item-wpsp, #elementor-panel-footer-wpsp-modal', function (e) {
+    $(document).on('click', '#elementor-panel-footer-sub-menu-item-wpsp, #elementor-panel-footer-wpsp-modal,.elementor-panel-footer-wpsp-modal', function (e) {
         e.preventDefault();
         modal.fadeIn();
     }).on('click', '.elementor-templates-modal__header__close > svg, .elementor-templates-modal__header__close > svg *, #schedulepress-elementor-modal', function (e) {
@@ -211,7 +211,50 @@
         });
     });
 
+    // Add schedulepress option to elementor topbar panel
+    jQuery('#elementor-editor-wrapper-v2 .eui-box .MuiGrid-root:first-child .eui-stack:last-child').append(`
+        <div class="elementor-panel-footer-wpsp-modal"><span id="elementor-panel-footer-wpsp-modal-label" class="eui-box eui-tooltip MuiBox-root css-0"><button class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium eui-icon-button css-1qy3hz2" tabindex="0" type="button" aria-label="Preview Changes"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 500 500" style="enable-background:new 0 0 500 500;display:block;width:18px;margin:0 auto;" xml:space="preserve">
+        <style type="text/css">
+            .st0{fill:#A4AFB7;}
+            #elementor-panel-footer-wpsp-modal:hover .st0{fill:#d5dadf;}
+        </style>
+        <g>
+            <g>
+                <path class="st0" d="M212.3,462.4C95,462.4-0.4,366.9-0.4,249.7S95,37,212.3,37c37,0,73.2,9.6,105.1,27.9
+                    c9.8,5.7,13.2,18.1,7.5,27.7c-5.7,9.8-18.1,13.2-27.7,7.5c-25.6-14.7-55.1-22.5-84.9-22.5c-94.7,0-171.8,77.1-171.8,171.8
+                    s77.1,171.8,171.8,171.8c48.1,0,92.6-19.4,125.5-54.3c7.8-8.3,20.7-8.5,28.7-1c8.3,7.8,8.5,20.7,1,28.7
+                    C327.4,437.8,271,462.4,212.3,462.4z"></path>
+            </g>
+            <path class="st0" d="M186.1,208.3l-43.2-39.3c-8.3-7.5-21.2-7-28.7,1.3c-7.5,8.3-7,21.2,1.3,28.7l46.8,42.4
+                C165.9,227.7,174.5,215.8,186.1,208.3z"></path>
+            <path class="st0" d="M445.4,81.7c-7-8.8-19.9-10.4-28.7-3.4L250,210.1c11.1,8.3,19.1,20.4,21.7,34.7L442,110.2
+                C451.1,103.2,452.4,90.5,445.4,81.7z"></path>
+            <path class="st0" d="M234.3,222.8c-5.2-2.8-11.1-4.4-17.3-4.4c-5.7,0-10.9,1.3-15.5,3.4c-12.7,6-21.2,18.6-21.2,33.4
+                c0,0.8,0,1.6,0,2.3c1.3,19.1,17.1,34.4,36.7,34.4c18.9,0,34.4-14.2,36.5-32.6c0.3-1.3,0.3-2.8,0.3-4.4
+                C253.7,241.1,245.9,229,234.3,222.8z"></path>
+            <path class="st0" d="M493.8,202.6h-51.2c-3.4,0-6.2,2.8-6.2,6.2v45.5c0,3.4,2.8,6.2,6.2,6.2h51.2c3.4,0,6.2-2.8,6.2-6.2v-45.5
+                C500,205.4,497.2,202.6,493.8,202.6z"></path>
+            <g>
+                <path class="st0" d="M410,202.6h-51.2c-3.4,0-6.2,2.8-6.2,6.2v45.5c0,3.4,2.8,6.2,6.2,6.2H410c3.4,0,6.2-2.8,6.2-6.2v-45.5
+                    C416.4,205.4,413.6,202.6,410,202.6z"></path>
+                <path class="st0" d="M410,277.6h-51.2c-3.4,0-6.2,2.8-6.2,6.2v45.5c0,3.4,2.8,6.2,6.2,6.2H410c3.4,0,6.2-2.8,6.2-6.2v-45.5
+                    C416.4,280.2,413.6,277.6,410,277.6z"></path>
+                <path class="st0" d="M493.8,277.6h-51.2c-3.4,0-6.2,2.8-6.2,6.2v45.5c0,3.4,2.8,6.2,6.2,6.2h51.2c3.4,0,6.2-2.8,6.2-6.2v-45.5
+                    C500,280.2,497.2,277.6,493.8,277.6z"></path>
+            </g>
+        </g>
+        </svg></button></span></div>`);
 
-
+    // Assuming the button has an ID like 'your-button-id'
+    jQuery(document).on('click', '#elementor-editor-wrapper-v2 .MuiBox-root .MuiGrid-root:last-child button[aria-label="Save Options"]', function() {
+        // Append your HTML content to the specified element
+        jQuery('#document-save-options .MuiMenu-list').append(`
+            <hr class="MuiDivider-root MuiDivider-fullWidth eui-divider css-1px5dlw">
+                <div class="elementor-panel-footer-wpsp-modal MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root MuiMenuItem-gutters eui-menu-item css-108tsqf" tabindex="-1" role="menuitem">
+                    <div class="MuiListItemIcon-root eui-list-item-icon css-5n5rd1"><svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium eui-svg-icon css-vubbuv" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M5 4.75C4.66848 4.75 4.35054 4.8817 4.11612 5.11612C3.8817 5.35054 3.75 5.66848 3.75 6V17C3.75 17.3315 3.8817 17.6495 4.11612 17.8839C4.35054 18.1183 4.66848 18.25 5 18.25H19C19.3315 18.25 19.6495 18.1183 19.8839 17.8839C20.1183 17.6495 20.25 17.3315 20.25 17V9C20.25 8.66848 20.1183 8.35054 19.8839 8.11612C19.6495 7.8817 19.3315 7.75 19 7.75H12C11.8011 7.75 11.6103 7.67098 11.4697 7.53033L8.68934 4.75H5ZM3.05546 4.05546C3.57118 3.53973 4.27065 3.25 5 3.25H9C9.19891 3.25 9.38968 3.32902 9.53033 3.46967L12.3107 6.25H19C19.7293 6.25 20.4288 6.53973 20.9445 7.05546C21.4603 7.57118 21.75 8.27065 21.75 9V17C21.75 17.7293 21.4603 18.4288 20.9445 18.9445C20.4288 19.4603 19.7293 19.75 19 19.75H5C4.27065 19.75 3.57118 19.4603 3.05546 18.9445C2.53973 18.4288 2.25 17.7293 2.25 17V6C2.25 5.27065 2.53973 4.57118 3.05546 4.05546Z"></path></svg></div><div class="MuiListItemText-root MuiListItemText-dense eui-list-item-text css-1tsvksn"><span class="MuiTypography-root MuiTypography-body2 MuiListItemText-primary css-14tqbo1">SchedulePress</span>
+                </div>
+            </div>
+        `);
+    });
 
 })(jQuery);

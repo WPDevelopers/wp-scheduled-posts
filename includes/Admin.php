@@ -418,6 +418,10 @@ class Admin
             #schedulepress-elementor-modal .wpsp-el-form-submit.elementor-button-state > .elementor-state-icon + span, #schedulepress-elementor-modal .wpsp-advanced-schedule.elementor-button-state > .elementor-state-icon + span {
                 display: none;
             }
+            .elementor-panel .elementor-panel-footer-sub-menu-item {
+                justify-content: start;
+                width: 100%;
+            }
         </style>
         <div class="dialog-widget dialog-lightbox-widget dialog-type-buttons dialog-type-lightbox elementor-templates-modal"
             id="schedulepress-elementor-modal" style="display: none;">
