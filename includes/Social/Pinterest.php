@@ -228,7 +228,13 @@ class Pinterest
                     $this->save_metabox_social_share_metabox($post_id, $shareInfo, $profile_key, $board_name->value);
                 }
                 $errorFlag = true;
-                $response = $results;
+                $results = json_decode($results, true);
+                $response = [];
+                if (array_key_exists('id', $results) && array_key_exists('created_at', $results)) {
+                    $response['message']    = __('Your post has been successfully shared!', 'wp-scheduled-posts');
+                    $response['id']         = $results['id'];
+                    $response['created_at'] = $results['created_at'];
+                }
             } catch (\Exception $e) {
                 $errorFlag = false;
                 $response = $e->getMessage();
