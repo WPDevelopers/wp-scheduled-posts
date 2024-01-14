@@ -480,7 +480,7 @@ class SocialProfile
             if($openIDConnect && $openIDConnect !== 'false' && $openIDConnect !== 'undefined' && $accountType === 'profile'){
                 $scope = WPSCP_LINKEDIN_SCOPE_OPENID;
             }
-            elseif($openIDConnect && $openIDConnect !== 'false' && $openIDConnect !== 'undefined' && $accountType === 'profile') {
+            elseif($openIDConnect && $openIDConnect !== 'false' && $openIDConnect !== 'undefined' && $accountType === 'page') {
                 $scope = WPSCP_LINKEDIN_SCOPE_OPENID_PAGE;
             }
             elseif($accountType === 'page'){
