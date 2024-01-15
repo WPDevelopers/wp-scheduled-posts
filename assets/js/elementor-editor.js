@@ -246,5 +246,11 @@
             });
         });
     });
+
+    jQuery('.wpsp-el-form-next').click(function(event){
+        event.stopPropagation();
+        $('.wpsp-el-fields-next').addClass('active');
+        $('.wpsp-el-fields-prev').removeClass('active');
+    });
     
 })(jQuery);  
