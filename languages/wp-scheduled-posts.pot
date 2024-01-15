@@ -1,24 +1,24 @@
-# Copyright (C) 2023 WPDeveloper
+# Copyright (C) 2024 WPDeveloper
 # This file is distributed under the same license as the SchedulePress plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: SchedulePress 5.0.6\n"
+"Project-Id-Version: SchedulePress 5.0.7\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-scheduled-posts\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-12-24T09:02:08+00:00\n"
+"POT-Creation-Date: 2024-01-15T09:40:37+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: wp-scheduled-posts\n"
 
 #. Plugin Name of the plugin
-#: includes/Admin.php:507
-#: includes/Admin.php:509
-#: includes/Admin.php:512
-#: includes/Admin.php:546
+#: includes/Admin.php:540
+#: includes/Admin.php:542
+#: includes/Admin.php:545
+#: includes/Admin.php:579
 #: includes/Admin/Menu.php:34
 msgid "SchedulePress"
 msgstr ""
@@ -76,70 +76,70 @@ msgstr ""
 msgid "Enjoying <strong>SchedulePress</strong>? Why not check our <strong><a href=\"https://wpdeveloper.com/in/wp-scheduled-posts-pro\" target=\"_blank\">Pro version</a></strong> which will enable auto schedule, multi social account share and many more features! [<strong><a href=\"https://wpdeveloper.com/plugins/wp-scheduled-posts/\" target=\"_blank\">Learn More</a></strong>]"
 msgstr ""
 
-#: includes/Admin.php:429
+#: includes/Admin.php:462
 msgid "WPSP Logo"
 msgstr ""
 
-#: includes/Admin.php:445
+#: includes/Admin.php:478
 msgid "Close"
 msgstr ""
 
-#: includes/Admin.php:466
+#: includes/Admin.php:499
 msgid "Publish On"
 msgstr ""
 
-#: includes/Admin.php:480
+#: includes/Admin.php:513
 msgid "Publish Post Immediately"
 msgstr ""
 
-#: includes/Admin.php:483
-#: includes/Admin.php:492
+#: includes/Admin.php:516
+#: includes/Admin.php:525
 msgid "Schedule"
 msgstr ""
 
-#: includes/Admin.php:484
-#: includes/Admin.php:496
+#: includes/Admin.php:517
+#: includes/Admin.php:529
 msgid "Publish"
 msgstr ""
 
-#: includes/Admin.php:485
-#: includes/Admin.php:494
+#: includes/Admin.php:518
+#: includes/Admin.php:527
 msgid "Update"
 msgstr ""
 
-#: includes/Admin.php:554
-#: includes/Admin.php:558
+#: includes/Admin.php:587
+#: includes/Admin.php:591
 msgid "Pro Feature"
 msgstr ""
 
-#: includes/Admin.php:555
+#: includes/Admin.php:588
 #: assets/gutenberg/utils/DummyProFeatures.js:43
 msgid "Republish On"
 msgstr ""
 
-#: includes/Admin.php:555
-#: includes/Admin.php:559
+#: includes/Admin.php:588
+#: includes/Admin.php:592
 msgid "PRO"
 msgstr ""
 
-#: includes/Admin.php:559
+#: includes/Admin.php:592
 #: assets/gutenberg/utils/DummyProFeatures.js:37
 msgid "Unpublish On"
 msgstr ""
 
-#: includes/Admin.php:594
+#: includes/Admin.php:627
 msgid "Your post successfully updated"
 msgstr ""
 
-#: includes/Admin.php:599
+#: includes/Admin.php:632
 msgid "Your post successfully published"
 msgstr ""
 
-#: includes/Admin.php:610
+#: includes/Admin.php:643
 msgid "Your post id is empty"
 msgstr ""
 
-#: includes/Admin.php:637
+#: includes/Admin.php:670
 msgid "Your post successfully scheduled"
 msgstr ""
 
@@ -327,7 +327,7 @@ msgstr ""
 
 #: includes/Admin/Settings.php:492
 #: includes/Admin/Settings.php:587
-#: includes/Social/InstantShare.php:92
+#: includes/Social/InstantShare.php:90
 msgid "Facebook"
 msgstr ""
 
@@ -345,7 +345,7 @@ msgstr ""
 
 #: includes/Admin/Settings.php:507
 #: includes/Admin/Settings.php:699
-#: includes/Social/InstantShare.php:110
+#: includes/Social/InstantShare.php:108
 msgid "Twitter"
 msgstr ""
 
@@ -380,7 +380,7 @@ msgstr ""
 
 #: includes/Admin/Settings.php:537
 #: includes/Admin/Settings.php:890
-#: includes/Social/InstantShare.php:155
+#: includes/Social/InstantShare.php:153
 msgid "Pinterest"
 msgstr ""
 
@@ -747,39 +747,43 @@ msgstr ""
 msgid "Social Share Settings"
 msgstr ""
 
-#: includes/Social/InstantShare.php:50
+#: includes/Social/InstantShare.php:48
 #: assets/gutenberg/social-share.js:323
 msgid "Disable Social Share"
 msgstr ""
 
-#: includes/Social/InstantShare.php:82
+#: includes/Social/InstantShare.php:80
 #: assets/gutenberg/social-share.js:366
 msgid "Choose Social Share Platform"
 msgstr ""
 
-#: includes/Social/InstantShare.php:130
+#: includes/Social/InstantShare.php:128
 msgid "Linkedin"
 msgstr ""
 
-#: includes/Social/InstantShare.php:166
+#: includes/Social/InstantShare.php:164
 msgid "Default Board"
 msgstr ""
 
-#: includes/Social/InstantShare.php:167
+#: includes/Social/InstantShare.php:165
 msgid "Custom Board"
 msgstr ""
 
-#: includes/Social/InstantShare.php:201
+#: includes/Social/InstantShare.php:199
 #: assets/gutenberg/social-share.js:535
 msgid "Share Now"
 msgstr ""
 
-#: includes/Social/InstantShare.php:334
+#: includes/Social/InstantShare.php:332
 msgid "Failed!, You didn't select any social media."
 msgstr ""
 
-#: includes/Social/InstantShare.php:419
+#: includes/Social/InstantShare.php:417
 msgid "Sorry, your requested platform integration is not added."
+msgstr ""
+
+#: includes/Social/Pinterest.php:234
+msgid "Your post has been successfully shared!"
 msgstr ""
 
 #: includes/Social/SocialProfile.php:23

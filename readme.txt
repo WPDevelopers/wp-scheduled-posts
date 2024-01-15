@@ -207,6 +207,13 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 == Changelog ==
 
+= 5.0.7 - 2024-01-15 =
+- Added: Elementor topbar header support.
+- Fixed: Design conflict with Elementor.
+- Fixed: Instant Sharing scope.
+- Improved: LinkedIn API versioning.
+- Few minor bug fix & improvements.
+
 = 5.0.6 - 2023-12-24 =
 - Improved: Added Ellipsis while sharing a long post to Social Media.
 - Improved: Pinterest API versioning.
