@@ -299,23 +299,27 @@ class Admin
                 <div class="dialog-message dialog-lightbox-message">
                     <div class="dialog-content dialog-lightbox-content">
                         <form action="<?php echo admin_url( 'admin-ajax.php' ); ?>" method="post">
-                            <?php
-                            wp_nonce_field( 'wpsp-el-editor', 'wpsp-el-editor' );
-                            $post_id     = get_the_ID();
-                            $post        = get_post( $post_id );
-                            $status      = get_post_status( $post_id );
-                            $is_future   = $status === 'future';
-                            $post_date   = apply_filters('wpsp_el_modal_post_date', $post->post_date, $post);
-                            ?>
-                            <input type="hidden" name="action" value="wpsp_el_editor_form">
-                            <input type="hidden" name="id" value="<?php echo $post_id; ?>">
+                            <div class="wpsp-el-fields-prev wpsp-el-fields active">
+                                <?php
+                                wp_nonce_field( 'wpsp-el-editor', 'wpsp-el-editor' );
+                                $post_id     = get_the_ID();
+                                $post        = get_post( $post_id );
+                                $status      = get_post_status( $post_id );
+                                $is_future   = $status === 'future';
+                                $post_date   = apply_filters('wpsp_el_modal_post_date', $post->post_date, $post);
+                                ?>
+                                <input type="hidden" name="action" value="wpsp_el_editor_form">
+                                <input type="hidden" name="id" value="<?php echo $post_id; ?>">
 
-                            <label>
-                                <span><?php esc_html_e( 'Publish On', 'wp-scheduled-posts' ); ?></span>
-                                <input id="wpsp-schedule-datetime" type="text" name="date" value="<?php echo esc_attr( $post_date ) ?>" readonly>
-                            </label>
-                            <?php do_action( 'wpsp_el_modal_pro_fields', $post_id ); ?>
-                            <?php do_action('wpsp_el_modal_social_share_profile') ?>
+                                <label>
+                                    <span><?php esc_html_e( 'Publish On', 'wp-scheduled-posts' ); ?></span>
+                                    <input id="wpsp-schedule-datetime" type="text" name="date" value="<?php echo esc_attr( $post_date ) ?>" readonly>
+                                </label>
+                                <?php do_action( 'wpsp_el_modal_pro_fields', $post_id ); ?>
+                            </div>
+                            <div class="wpsp-el-fields-next wpsp-el-fields">
+                                <?php do_action('wpsp_el_modal_social_share_profile') ?>
+                            </div>
                         </form>
                         <div class="wpsp-el-result" style="display: none;"></div>
                     </div>
@@ -327,6 +331,12 @@ class Admin
                             <i class="eicon-loading eicon-animation-spin" aria-hidden="true"></i>
                         </span>
                         <?php esc_html_e( 'Publish Post Immediately', 'wp-scheduled-posts' ); ?>
+                    </button>
+                    <button class="elementor-button wpsp-el-form-next">
+                        <span><?php echo esc_html__( 'Next','wp-scheduled-posts' ) ?></span>
+                    </button>
+                    <button class="elementor-button wpsp-el-form-prev">
+                        <span><?php echo esc_html__( 'Prev','wp-scheduled-posts' ) ?></span>
                     </button>
                     <button class="elementor-button wpsp-el-form-submit"
                             data-label-schedule="<?php esc_html_e( 'Schedule', 'wp-scheduled-posts' ); ?>"
@@ -437,9 +447,13 @@ class Admin
                                     <label><input type="radio" data-platform="facebook" name="wpsp-el-content-facebook" value="wpsp-el-social-facebook-custom"><?php echo esc_html__('Custom','wp-scheduled-posts') ?></label>
                                 </div>
                                 <div class="wpsp-el-content wpsp-el-content-facebook" data-value="wpsp-el-social-facebook-custom" style="display: none;">
-                                    <div class="facebook-profile social-profile">
-                                        <input type="checkbox" checked=""><h3>For test ( Profile ) </h3>
-                                    </div>
+                                    <?php if( count( $facebookProfile ) > 0 ) : ?>
+                                        <?php foreach( $facebookProfile as $facebook ) : ?>
+                                            <div class="facebook-profile social-profile">
+                                                <input type="checkbox" checked=""><h3><?php echo $facebook->name ? $facebook->name : '' ?> ( <?php echo $facebook->type ? $facebook->type : '' ?> ) </h3>
+                                            </div>
+                                        <?php endforeach ?>
+                                    <?php endif ?>
                                 </div>
                             </div>
                         </div>
@@ -452,9 +466,13 @@ class Admin
                                     <label><input type="radio" data-platform="twitter" name="wpsp-el-content-twitter" value="wpsp-el-social-twitter-custom"><?php echo esc_html__('Custom','wp-scheduled-posts') ?></label>
                                 </div>
                                 <div class="wpsp-el-content wpsp-el-content-twitter" data-value="wpsp-el-social-twitter-custom" style="display: none;">
-                                    <div class="twitter-profile social-profile">
-                                        <input type="checkbox" checked=""><h3>For test ( Profile ) </h3>
-                                    </div>
+                                    <?php if( count( $twitterProfile ) > 0 ) : ?>
+                                        <?php foreach( $twitterProfile as $twitter ) : ?>
+                                            <div class="twitter-profile social-profile">
+                                                <input type="checkbox" checked=""><h3><?php echo $twitter->name ? $twitter->name : '' ?> </h3>
+                                            </div>
+                                        <?php endforeach ?>
+                                    <?php endif ?>
                                 </div>
                             </div>
                         </div>
@@ -467,9 +485,13 @@ class Admin
                                     <label><input type="radio" data-platform="linkedin" name="wpsp-el-content-linkedin" value="wpsp-el-social-linkedin-custom"><?php echo esc_html__('Custom','wp-scheduled-posts') ?></label>
                                 </div>
                                 <div class="wpsp-el-content wpsp-el-content-linkedin" data-value="wpsp-el-social-linkedin-custom" style="display: none;">
-                                    <div class="linkedin-profile social-profile">
-                                        <input type="checkbox" checked=""><h3>For test ( Profile ) </h3>
-                                    </div>
+                                    <?php if( count( $linkedinProfile ) > 0 ) : ?>
+                                        <?php foreach( $linkedinProfile as $linkedin ) : ?>
+                                            <div class="linkedin-profile social-profile">
+                                                <input type="checkbox" checked=""><h3><?php echo isset( $linkedin->name ) ? $linkedin->name : '' ?> <?php isset( $linkedin->type ) && $linkedin->type == 'organization' ? __( '(Page)', 'wp-scheduled-posts' ) : '' ?> </h3>
+                                            </div>
+                                        <?php endforeach ?>
+                                    <?php endif ?>
                                 </div>
                             </div>
                         </div>
@@ -482,9 +504,13 @@ class Admin
                                     <label><input type="radio" data-platform="pinterest" name="wpsp-el-content-pinterest" value="wpsp-el-social-pinterest-custom"><?php echo esc_html__('Custom','wp-scheduled-posts') ?></label>
                                 </div>
                                 <div class="wpsp-el-content wpsp-el-content-pinterest" data-value="wpsp-el-social-pinterest-custom" style="display: none;">
-                                    <div class="pinterest-profile social-profile">
-                                        <input type="checkbox" checked=""><h3>For test ( Profile ) </h3>
-                                    </div>
+                                    <?php if( count( $pinterestProfile ) > 0 ) : ?>
+                                        <?php foreach( $pinterestProfile as $pinterest ) : ?>
+                                            <div class="pinterest-profile social-profile">
+                                                <input type="checkbox" checked=""><h3><?php echo $pinterest->name ? $pinterest->name : '' ?> </h3>
+                                            </div>
+                                        <?php endforeach ?>
+                                    <?php endif ?>
                                 </div>
                             </div>
                         </div>
