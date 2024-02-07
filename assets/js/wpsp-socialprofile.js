@@ -27,12 +27,14 @@ jQuery(document).ready(function ($) {
                 '<div class="modalBody">Fetch Your Selected Profile</div>'
             )
         }
+        
         // call modal
         jQuery('body #wpscpproInstantShareModal').kylefoxModal({
             escapeClose: false,
             clickClose: false,
             showClose: true,
         })
+
         // get data from dom
         var nonce = jQuery('#wpscp_pro_instant_social_share_nonce').val()
         var postid = jQuery('#wpscppropostid').val()

@@ -165,7 +165,9 @@ class SocialProfile
             'page_size' => 100,
         ]);
         $sections = $sections->toArray();
-
+        if( !empty( $params['method_called'] ) ) {
+            return $sections['data'];
+        }
         wp_send_json_success($sections['data']);
         wp_die();
     }

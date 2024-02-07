@@ -219,10 +219,15 @@
     cursor: pointer;
 }
 .el-social-share-platform .wpsp-el-accordion-content .wpsp-el-container label input[type="radio"] {
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     cursor: pointer;
+    opacity: 0.5;
 }
+.el-social-share-platform .wpsp-el-accordion-content .wpsp-el-container label input[type="radio"]:checked {
+    opacity: 1;
+}
+
 .el-social-share-platform .wpsp-el-accordion .wpsp-el-accordion-item .wpsp-el-content {
     margin-top: 10px;
 }
@@ -260,4 +265,349 @@
 }
 #schedulepress-elementor-modal .wpsp-el-fields.active {
     display: block;
+}
+.jquery-kylefoxModal {
+    z-index: 99999;
+}
+#wpscpproInstantShareModal {
+    padding: 20px 20px 10px 20px
+}
+
+#wpscpproInstantShareModal .log {
+    display: none;
+    background-color: #fff8e5;
+    word-break: break-all;
+    border-left-color: #ffb900;
+    border: 1px solid #ffb900;
+    border-left-width: 4px;
+    padding: 5px 10px;
+    margin: 5px 0
+}
+
+#wpscpproInstantShareModal .viewlog {
+    background: #19d167;
+    margin: 0 3px;
+    border-radius: 5px;
+    color: #fff;
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 25px;
+    text-decoration: none
+}
+
+#wpscpproInstantShareModal .viewlog.failed {
+    background: #f53d53
+}
+
+#wpscpproInstantShareModal .status {
+    background: #f0efff;
+    margin: 0 3px;
+    border-radius: 5px;
+    color: #c6c3eb;
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 25px
+}
+
+#wpscpproInstantShareModal .status.failed {
+    background: #feebed;
+    color: #f53e54
+}
+
+#wpscpproInstantShareModal .status.success {
+    background: #e8faef;
+    color: #1ad268
+}
+
+#wpscpproInstantShareModal .modalBody .entry-head {
+    line-height: 30px;
+    color: #fff;
+    height: 30px;
+    padding: 0 10px;
+    border-radius: 5px;
+    margin-bottom: 10px
+}
+
+#wpscpproInstantShareModal .modalBody .entry-head img {
+    width: 15px;
+    height: 15px
+}
+
+#wpscpproInstantShareModal .modalBody .entry-head .entry-head-title {
+    display: inline-block;
+    margin: 0 0 0 10px;
+    color: #fff
+}
+
+#wpscpproInstantShareModal .modalBody .entry-head.facebook {
+    background: #3b5997
+}
+
+#wpscpproInstantShareModal .modalBody .entry-head.twitter {
+    background: #55abed
+}
+
+#wpscpproInstantShareModal .modalBody .entry-head.linkedin {
+    background: #0079b9
+}
+
+#wpscpproInstantShareModal .modalBody .entry-head.pinterest {
+    background: #c8232c
+}
+
+#wpscpproInstantShareModal .modalBody ul {
+    padding: 0 10px
+}
+
+#wpscpproInstantShareModal .modalBody ul li .item-content {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    border: 1px solid #e7e7e7;
+    padding: 5px 15px;
+    margin-bottom: 10px;
+    border-radius: 5px
+}
+
+#wpscpproInstantShareModal .modalBody ul li .item-content .entry-title {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    margin: 0
+}
+
+#wpscpproInstantShareModal .modalBody ul li .item-content .type {
+    background: #f0efff;
+    color: #3b5997;
+    padding: 5px 25px;
+    border-radius: 25px
+}
+
+#wpscpproInstantShareModal .modalBody ul li .item-content .entry-thumbnail {
+    margin-right: 10px;
+    line-height: 0
+}
+
+#wpscpproInstantShareModal .modalBody ul li .item-content .entry-thumbnail img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid #e7e7e7
+}
+
+#wpscpproPinterestBoardSelectModal {
+    padding: 20px
+}
+
+#wpscpproPinterestBoardSelectModal .modalBody .entry-head {
+    color: #fff;
+    height: 40px;
+    padding: 0 10px;
+    border-radius: 5px;
+    line-height: 40px;
+    margin-bottom: 10px
+}
+
+#wpscpproPinterestBoardSelectModal .modalBody .entry-head img {
+    width: 15px;
+    height: 15px
+}
+
+#wpscpproPinterestBoardSelectModal .modalBody .entry-head .entry-head-title {
+    display: inline-block;
+    margin: 0 0 0 10px;
+    color: #fff
+}
+
+#wpscpproPinterestBoardSelectModal .modalBody .entry-head.pinterest {
+    background: #c8232c
+}
+
+#wpscpproPinterestBoardSelectModal .modalBody ul li .item-content {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    border: 1px solid #e7e7e7;
+    padding: 5px 15px;
+    margin-bottom: 10px;
+    border-radius: 5px
+}
+
+#wpscpproPinterestBoardSelectModal .modalBody ul li .item-content .entry-title {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    margin: 0
+}
+
+#wpscpproPinterestBoardSelectModal .modalBody ul li .item-content .type {
+    background: #f0efff;
+    color: #3b5997;
+    padding: 5px 25px;
+    border-radius: 25px
+}
+
+#wpscpproPinterestBoardSelectModal .modalBody ul li .item-content .entry-thumbnail {
+    margin-right: 10px;
+    line-height: 0
+}
+
+#wpscpproPinterestBoardSelectModal .modalBody ul li .item-content .entry-thumbnail img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid #e7e7e7
+}
+
+#wpscpproPinterestBoardSelectModal .modalBody .btn-pinterest-save-board {
+    float: right;
+    background: #29d6a1;
+    border: 0;
+    width: 100px;
+    height: 40px;
+    font-size: 15px;
+    border-radius: 5px;
+    color: #fff;
+    font-weight: 500;
+    cursor: pointer
+}
+
+.jquery-modal .modal .message {
+    padding: 10px 30px
+}
+
+#wpscpproFacebookPageAndGroupSelectModal {
+    padding: 20px;
+    margin-top: 32px
+}
+
+#wpscpproFacebookPageAndGroupSelectModal .modalBody .entry-head {
+    color: #fff;
+    height: 40px;
+    padding: 0 10px;
+    border-radius: 5px;
+    line-height: 40px;
+    margin-bottom: 10px
+}
+
+#wpscpproFacebookPageAndGroupSelectModal .modalBody .entry-head img {
+    width: 15px;
+    height: 15px
+}
+
+#wpscpproFacebookPageAndGroupSelectModal .modalBody .entry-head .entry-head-title {
+    display: inline-block;
+    margin: 0 0 0 10px;
+    color: #fff
+}
+
+#wpscpproFacebookPageAndGroupSelectModal .modalBody .entry-head.facebook {
+    background: #3b5997
+}
+
+#wpscpproFacebookPageAndGroupSelectModal .modalBody ul li .item-content {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    border: 1px solid #e7e7e7;
+    padding: 5px 15px;
+    margin-bottom: 10px;
+    border-radius: 5px
+}
+
+#wpscpproFacebookPageAndGroupSelectModal .modalBody ul li .item-content .entry-title {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    margin: 0
+}
+
+#wpscpproFacebookPageAndGroupSelectModal .modalBody ul li .item-content .type {
+    background: #f0efff;
+    color: #3b5997;
+    padding: 5px 25px;
+    border-radius: 25px
+}
+
+#wpscpproFacebookPageAndGroupSelectModal .modalBody ul li .item-content .entry-thumbnail {
+    margin-right: 10px;
+    line-height: 0
+}
+
+#wpscpproFacebookPageAndGroupSelectModal .modalBody ul li .item-content .entry-thumbnail img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid #e7e7e7
+}
+
+#wpscpproFacebookPageAndGroupSelectModal .modalBody .btn-facebook-save-pagegroup {
+    float: right;
+    background: #29d6a1;
+    border: 0;
+    width: 100px;
+    height: 40px;
+    font-size: 15px;
+    border-radius: 5px;
+    color: #fff;
+    font-weight: 500;
+    cursor: pointer
+}
+
+#wpscpproFacebookGroupNotifyModal {
+    padding: 20px;
+    position: fixed;
+    right: 40px;
+    bottom: 40px;
+    width: 420px;
+    border-radius: 15px;
+    background: #6b61ff;
+    z-index: 2
+}
+
+#wpscpproFacebookGroupNotifyModal .entry-thumbnail {
+    margin-top: -55px
+}
+
+#wpscpproFacebookGroupNotifyModal .entry-thumbnail img {
+    width: 100%;
+    height: auto
+}
+
+#wpscpproFacebookGroupNotifyModal p {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500
+}
+
+#wpscpproFacebookGroupNotifyModal p a {
+    color: #fff
+}
+
+#wpscpproFacebookGroupNotifyModal .btn-close-facebook-group-notify {
+    position: absolute;
+    top: -17px;
+    right: 40px
+}
+.wpsp-el-content-pinterest #wpsp_el_pinterest_board_options {
+    width: 30%;
+    margin-left: 15px;
 }
