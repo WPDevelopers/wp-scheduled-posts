@@ -271,16 +271,26 @@ class InstantShare
     public function instant_share_fetch_profile()
     {
         $allProfile = array();
+        $facebook_selected_profiles  = !empty( $_REQUEST['facebook_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['facebook_selected_profiles'] ) : [];
+        $twitter_selected_profiles   = !empty( $_REQUEST['twitter_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['twitter_selected_profiles'] ) : [];
+        $linkedin_selected_profiles  = !empty( $_REQUEST['linkedin_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['linkedin_selected_profiles'] ) : [];
+        $pinterest_selected_profiles = !empty( $_REQUEST['pinterest_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['pinterest_selected_profiles'] ) : [];
+
         // get data from db
-        $facebook = \WPSP\Helper::get_social_profile(WPSCP_FACEBOOK_OPTION_NAME);
-        $twitter = \WPSP\Helper::get_social_profile(WPSCP_TWITTER_OPTION_NAME);
-        $linkedin = \WPSP\Helper::get_social_profile(WPSCP_LINKEDIN_OPTION_NAME);
+        $facebook  = \WPSP\Helper::get_social_profile(WPSCP_FACEBOOK_OPTION_NAME, $facebook_selected_profiles);
+        $twitter   = \WPSP\Helper::get_social_profile(WPSCP_TWITTER_OPTION_NAME, $twitter_selected_profiles);
+        $linkedin  = \WPSP\Helper::get_social_profile(WPSCP_LINKEDIN_OPTION_NAME, $linkedin_selected_profiles);
         $pinterest = \WPSP\Helper::get_social_profile(WPSCP_PINTEREST_OPTION_NAME);
+        if( !empty( $pinterest_selected_profiles ) ) {
+            $pinterest = array_filter( $pinterest, function($single_pinterest) use( $pinterest_selected_profiles ){
+                return in_array( $single_pinterest->default_board_name->value, $pinterest_selected_profiles );
+            } );
+        }
         // get data from ajax request
-        $is_facebook_share = $_REQUEST['is_facebook_share'];
-        $is_twitter_share = $_REQUEST['is_twitter_share'];
-        $is_linkedin_share = $_REQUEST['is_linkedin_share'];
-        $is_pinterest_share = $_REQUEST['is_pinterest_share'];
+        $is_facebook_share  = !empty( $_REQUEST['is_facebook_share'] ) ? sanitize_text_field( $_REQUEST['is_facebook_share'] ) : null;
+        $is_twitter_share   = !empty( $_REQUEST['is_twitter_share'] ) ? sanitize_text_field( $_REQUEST['is_twitter_share'] ) : null;
+        $is_linkedin_share  = !empty( $_REQUEST['is_linkedin_share'] ) ? sanitize_text_field( $_REQUEST['is_linkedin_share'] ) : null;
+        $is_pinterest_share = !empty( $_REQUEST['is_pinterest_share'] ) ? sanitize_text_field( $_REQUEST['is_pinterest_share'] ) : null;
 
         if ($is_facebook_share === "true") {
             $allProfile['facebook'] = $facebook;

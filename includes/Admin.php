@@ -6,6 +6,7 @@ use Exception;
 use PriyoMukul\WPNotice\Notices;
 use PriyoMukul\WPNotice\Utils\CacheBank;
 use PriyoMukul\WPNotice\Utils\NoticeRemover;
+use WPSP\Social\SocialProfile;
 
 class Admin
 {
@@ -424,6 +425,7 @@ class Admin
 
     public function wpsp_el_modal_social_share_profile() 
     {
+        wp_nonce_field(basename(__FILE__), 'wpscp_pro_instant_social_share_nonce');
         // status=
         $twitterIntegation = \WPSP\Helper::get_settings('twitter_profile_status');
         $facebookIntegation = \WPSP\Helper::get_settings('facebook_profile_status');
@@ -436,7 +438,8 @@ class Admin
         $pinterestProfile = \WPSP\Helper::get_settings('pinterest_profile_list');
         ?>
            <div class="el-social-share-platform">
-                <h4>Choose Social Share Platform</h4>
+                <h4><?php echo esc_html__( 'Choose Social Share Platform', 'wp-scheduled-posts' ) ?></h4>
+                <input type="hidden" name="postid" id="wpscppropostid" value="<?php print get_the_ID(); ?>">
                 <div id="el-social-checkbox-wrapper">
                     <div class="wpsp-el-accordion">
                         <div class="wpsp-el-accordion-item wpsp-el-accordion-item-facebook">
@@ -450,7 +453,8 @@ class Admin
                                     <?php if( count( $facebookProfile ) > 0 ) : ?>
                                         <?php foreach( $facebookProfile as $facebook ) : ?>
                                             <div class="facebook-profile social-profile">
-                                                <input type="checkbox" checked=""><h3><?php echo $facebook->name ? $facebook->name : '' ?> ( <?php echo $facebook->type ? $facebook->type : '' ?> ) </h3>
+                                                <input type="checkbox" value="<?php echo !empty( $facebook->name ) ? $facebook->name : '' ?>" name="wpsp_el_social_facebook" checked>
+                                                <h3><?php echo !empty( $facebook->name ) ? $facebook->name : '' ?> ( <?php echo $facebook->type ? $facebook->type : '' ?> ) </h3>
                                             </div>
                                         <?php endforeach ?>
                                     <?php endif ?>
@@ -469,7 +473,7 @@ class Admin
                                     <?php if( count( $twitterProfile ) > 0 ) : ?>
                                         <?php foreach( $twitterProfile as $twitter ) : ?>
                                             <div class="twitter-profile social-profile">
-                                                <input type="checkbox" checked=""><h3><?php echo $twitter->name ? $twitter->name : '' ?> </h3>
+                                                <input type="checkbox" value="<?php echo !empty( $twitter->name ) ? $twitter->name : '' ?>" name="wpsp_el_social_twitter" checked><h3><?php echo $twitter->name ? $twitter->name : '' ?> </h3>
                                             </div>
                                         <?php endforeach ?>
                                     <?php endif ?>
@@ -488,7 +492,7 @@ class Admin
                                     <?php if( count( $linkedinProfile ) > 0 ) : ?>
                                         <?php foreach( $linkedinProfile as $linkedin ) : ?>
                                             <div class="linkedin-profile social-profile">
-                                                <input type="checkbox" checked=""><h3><?php echo isset( $linkedin->name ) ? $linkedin->name : '' ?> <?php isset( $linkedin->type ) && $linkedin->type == 'organization' ? __( '(Page)', 'wp-scheduled-posts' ) : '' ?> </h3>
+                                                <input type="checkbox" value="<?php echo !empty( $linkedin->name ) ? $linkedin->name : '' ?>" name="wpsp_el_social_linkedin" checked><h3><?php echo isset( $linkedin->name ) ? $linkedin->name : '' ?> <?php isset( $linkedin->type ) && $linkedin->type == 'organization' ? __( '(Page)', 'wp-scheduled-posts' ) : '' ?> </h3>
                                             </div>
                                         <?php endforeach ?>
                                     <?php endif ?>
@@ -505,9 +509,27 @@ class Admin
                                 </div>
                                 <div class="wpsp-el-content wpsp-el-content-pinterest" data-value="wpsp-el-social-pinterest-custom" style="display: none;">
                                     <?php if( count( $pinterestProfile ) > 0 ) : ?>
-                                        <?php foreach( $pinterestProfile as $pinterest ) : ?>
+                                        <?php foreach( $pinterestProfile as $key => $pinterest ) : ?>
+                                            <?php
+                                                if( empty( $pinterest->default_board_name->value ) )  {
+                                                    continue;
+                                                }
+                                            ?>
+                                            <?php 
+                                                $pinterest_section = new SocialProfile();
+                                                $get_pinterest_sections = $pinterest_section->social_profile_fetch_pinterest_section( [ 'defaultBoard'  => $pinterest->default_board_name->value, 'profile' => $key, 'method_called'  => true ]  );
+                                            ?>
                                             <div class="pinterest-profile social-profile">
-                                                <input type="checkbox" checked=""><h3><?php echo $pinterest->name ? $pinterest->name : '' ?> </h3>
+                                                <input type="checkbox" value="<?php echo $pinterest->default_board_name->value ?>" name="wpsp_el_social_pinterest" checked>
+                                                <h3><?php echo !empty( $pinterest->default_board_name->label ) ? $pinterest->default_board_name->label : '' ?> </h3>
+                                                <select name="wpsp_el_pinterest_board" id="wpsp_el_pinterest_section_<?php echo $pinterest->default_board_name->value ?>">
+                                                    <option value=""><?php echo esc_html('No Section','wp-scheduled-posts') ?></option>
+                                                    <?php if( !empty( $get_pinterest_sections ) ) : ?>
+                                                        <?php foreach( $get_pinterest_sections as $section ) : ?>
+                                                            <option value="<?php echo !empty( $section['id'] ) ? $section['id'] : '' ?> "><?php echo !empty( $section['name'] ) ? $section['name'] : '' ?></option>
+                                                        <?php endforeach ?>
+                                                    <?php endif ?>
+                                                </select>
                                             </div>
                                         <?php endforeach ?>
                                     <?php endif ?>
@@ -516,6 +538,7 @@ class Admin
                         </div>
                     </div>
                 </div>
+                <button class="wpsp_el_share_now"><?php echo esc_html__('Share Now','wp-scheduled-posts') ?></button>
            </div>
         <?php 
     }
