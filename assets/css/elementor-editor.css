@@ -1,14 +1,21 @@
 #schedulepress-elementor-modal.elementor-templates-modal .dialog-widget-content {
     background: #f5f7fd;
 }
-
+.wpsp-el-form-prev, .wpsp_el_share_now {
+    display: none;
+}
+.wpsp-d-none {
+    display: none !important;
+}
+.wpsp-d-block {
+    display: block !important;
+}
 .wpsp-el-modal-date-picker .flatpickr-calendar {
     left: 50% !important;
     top: 50% !important;
     transform: translate(-50%, -50%);
     animation: none !important;
 }
-
 #schedulepress-elementor-modal.elementor-templates-modal .dialog-header {
     background: #fff;
     box-shadow: none;
@@ -108,6 +115,9 @@
 #schedulepress-elementor-modal form .wpsp-pro-fields:not(.wpsp-pro-activated) label input[type="text"] {
     opacity: .5;
 }
+#schedulepress-elementor-modal .elementor-button.wpsp-el-form-prev {
+    margin-left: 0 !important;
+}
 
 #schedulepress-elementor-modal .elementor-button {
     color: #6d64ff;
@@ -135,9 +145,11 @@
 }
 
 #schedulepress-elementor-modal.elementor-templates-modal .dialog-buttons-wrapper {
-    padding: 0 30px 30px;
+    padding: 20px 30px 30px;
 }
-
+#schedulepress-elementor-modal .elementor-button.wpsp-immediately-publish {
+    font-size: 12px;
+}
 #schedulepress-elementor-modal .wpsp-el-result {
     text-align: left;
     color: red;
@@ -174,6 +186,7 @@
     font-size: 16px;
     font-weight: 500;
     text-align: left;
+    color: #1B1B50;
 }
 .el-social-share-platform #el-social-checkbox-wrapper {
     margin-top: 10px;
@@ -184,6 +197,9 @@
     text-align: left;
     background-color: #F9FAFC;
     border-radius: 10px;
+  }
+  .el-social-share-platform #el-social-checkbox-wrapper .wpsp-el-accordion-item h3 {
+    color: #1B1B50;
   }
   
   .el-social-share-platform #el-social-checkbox-wrapper .wpsp-el-accordion-header {
@@ -196,6 +212,10 @@
     align-items: center;
     gap: 15px;
 }
+.el-social-share-platform #el-social-checkbox-wrapper .wpsp-el-accordion-header span{
+    color: #1B1B50;
+}
+
 
 .el-social-share-platform #el-social-checkbox-wrapper .wpsp-el-accordion-content {
     display: none;
@@ -217,6 +237,7 @@
     margin-top: 0 !important;
     align-items: center;
     cursor: pointer;
+    color: #1B1B50;
 }
 .el-social-share-platform .wpsp-el-accordion-content .wpsp-el-container label input[type="radio"] {
     width: 16px;
@@ -607,7 +628,27 @@
     top: -17px;
     right: 40px
 }
-.wpsp-el-content-pinterest #wpsp_el_pinterest_board_options {
+.el-social-share-platform .wpsp-el-content-pinterest .pinterest-profile select {
     width: 30%;
     margin-left: 15px;
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 0 5px;
+    height: 32px;
+    width: 30%;
+}
+#wpsp-el-form-update-button .wpsp_el_share_now {
+    padding: 10px 20px;
+    margin-left: auto;
+    margin: 0 auto;
+    text-align: right;
+    border: none;
+    background: #6C62FF;
+    color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+}
+#schedulepress-elementor-modal #wpsp-el-form-update-button {
+    display: flex;
+    gap: 10px;
 }

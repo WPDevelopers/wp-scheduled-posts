@@ -283,6 +283,10 @@
             const selectedValue = $(`.wpsp-el-accordion-item-${platform} input[name="wpsp-el-content-${platform}"]:checked`).val();
             $(`.wpsp-el-accordion-item-${platform} .wpsp-el-content-${platform}[data-value="${selectedValue}"]`).show();
         }
+        // $(document).on('click', '#wpscpproInstantShareModal .close-kylefoxModal',function(){
+        //     jQuery('body #schedulepress-elementor-modal').removeClass('wpsp-d-none').addClass('wpsp-d-block');
+        // });
+
         $(document).on('click', '.wpsp_el_share_now',(function(event){
             event.preventDefault();
             // modal append if not exists dom
@@ -300,56 +304,50 @@
                 clickClose: false,
                 showClose: true,
             })
-            const facebook_selection = $('.wpsp-el-accordion-item-facebook .wpsp-el-container [name="wpsp-el-content-facebook"]:checked').val();
-            const twitter_selection = $('.wpsp-el-accordion-item-twitter .wpsp-el-container [name="wpsp-el-content-twitter"]:checked').val();
-            const linkedin_selection = $('.wpsp-el-accordion-item-linkedin .wpsp-el-container [name="wpsp-el-content-linkedin"]:checked').val();
+            // jQuery('body #schedulepress-elementor-modal').removeClass('wpsp-d-block').addClass('wpsp-d-none');
+
             const pinterest_selection = $('.wpsp-el-accordion-item-pinterest .wpsp-el-container [name="wpsp-el-content-pinterest"]:checked').val();
             
             // selected facebook profile
             let facebook_selected_profiles;
             let is_facebook_share = true;
-            if( facebook_selection === 'wpsp-el-social-facebook-custom' ) {
-                facebook_selected_profiles = $('[name="wpsp_el_social_facebook"]:checked').map(function() {
-                    return $(this).val();
-                }).get();
-                if( facebook_selected_profiles.length == 0 ) {
-                    is_facebook_share = false;
-                }
+            facebook_selected_profiles = $('[name="wpsp_el_social_facebook"]:checked').map(function() {
+                return $(this).val();
+            }).get();
+            if( facebook_selected_profiles.length == 0 ) {
+                is_facebook_share = false;
             }
 
             // selected twitter profile
             let twitter_selected_profiles;
             let is_twitter_share = true;
-            if( twitter_selection === 'wpsp-el-social-twitter-custom' ) {
-                twitter_selected_profiles = $('[name="wpsp_el_social_twitter"]:checked').map(function() {
-                    return $(this).val();
-                }).get();
-                if( twitter_selected_profiles.length == 0 ) {
-                    is_twitter_share = false;
-                }
+            twitter_selected_profiles = $('[name="wpsp_el_social_twitter"]:checked').map(function() {
+                return $(this).val();
+            }).get();
+            if( twitter_selected_profiles.length == 0 ) {
+                is_twitter_share = false;
             }
             // selected twitter profile
             let linkedin_selected_profiles;
             let is_linkedin_share = true;
-            if( linkedin_selection === 'wpsp-el-social-linkedin-custom' ) {
-                linkedin_selected_profiles = $('[name="wpsp_el_social_linkedin"]:checked').map(function() {
-                    return $(this).val();
-                }).get();
-                if( linkedin_selected_profiles.length == 0 ) {
-                    is_linkedin_share = false;
-                }
+            linkedin_selected_profiles = $('[name="wpsp_el_social_linkedin"]:checked').map(function() {
+                return $(this).val();
+            }).get();
+            if( linkedin_selected_profiles.length == 0 ) {
+                is_linkedin_share = false;
             }
 
+            // selected pinterest profile
             let pinterest_selected_profiles;
             let is_pinterest_share = true;
             let pinterestBoardType;
+            pinterest_selected_profiles = $('[name="wpsp_el_social_pinterest"]:checked').map(function() {
+                return $(this).val();
+            }).get();
+            if( pinterest_selected_profiles.length == 0 ) {
+                is_pinterest_share = false;
+            }
             if( pinterest_selection === 'wpsp-el-social-pinterest-custom' ) {
-                pinterest_selected_profiles = $('[name="wpsp_el_social_pinterest"]:checked').map(function() {
-                    return $(this).val();
-                }).get();
-                if( pinterest_selected_profiles.length == 0 ) {
-                    is_pinterest_share = false;
-                }
                 pinterestBoardType = 'custom';
             }
 
@@ -389,8 +387,8 @@
                             }
                             if(profile === 'pinterest' && pinterestBoardType === 'custom'){
                                 pinterest_selected_profiles.forEach(single_pinterest_board => {
-                                    data.pinterest_custom_board_name   = single_pinterest_board.default_board_name.value;
-                                    data.pinterest_custom_section_name = jQuery(".wpsp-el-content-pinterest .social-profile #wpsp_el_pinterest_section_" + single_pinterest_board.default_board_name.value).val();
+                                    data.pinterest_custom_board_name   = single_pinterest_board;
+                                    data.pinterest_custom_section_name = jQuery(".wpsp-el-content-pinterest .social-profile #wpsp_el_pinterest_section_" + single_pinterest_board).val();
                                     jQuery.get(ajaxurl, data, function (response, status) {
                                         WpScp_Social_single_profile_share_response_markup(
                                             profile,
@@ -400,13 +398,13 @@
                                     })
                                 });
                             }else{
-                                // jQuery.get(ajaxurl, data, function (response, status) {
-                                //     WpScp_Social_single_profile_share_response_markup(
-                                //         profile,
-                                //         key,
-                                //         response
-                                //     )
-                                // })
+                                jQuery.get(ajaxurl, data, function (response, status) {
+                                    WpScp_Social_single_profile_share_response_markup(
+                                        profile,
+                                        key,
+                                        response
+                                    )
+                                })
                             }
                             
                         })
@@ -470,8 +468,21 @@
     }
     jQuery('.wpsp-el-form-next').click(function(event){
         event.stopPropagation();
+        $(this).removeClass('wpsp-d-block').addClass('wpsp-d-none');
+        $('.wpsp-el-form-prev').removeClass('wpsp-d-none').addClass('wpsp-d-block');
+        $('.wpsp_el_share_now').removeClass('wpsp-d-none').addClass('wpsp-d-block');
         $('.wpsp-el-fields-next').addClass('active');
         $('.wpsp-el-fields-prev').removeClass('active');
+        $('.wpsp_el_share_now').removeClass('active');
+    });
+    jQuery('.wpsp-el-form-prev').click(function(event){
+        event.stopPropagation();
+        $(this).removeClass('wpsp-d-block').addClass('wpsp-d-none');
+        $('.wpsp_el_share_now').removeClass('wpsp-d-block').addClass('wpsp-d-none');
+        $('.wpsp-el-form-next').removeClass('wpsp-d-none').addClass('wpsp-d-block');
+        $('.wpsp-el-fields-prev').addClass('active');
+        $('.wpsp_el_share_now').addClass('active');
+        $('.wpsp-el-fields-next').removeClass('active');
     });
 
     /**

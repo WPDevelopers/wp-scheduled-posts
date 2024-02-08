@@ -156,17 +156,23 @@ class SocialProfile
         $profile = (isset($params['profile']) ? $params['profile'] : '');
         if(!is_array($profile)){
             $pinterest = \WPSP\Helper::get_social_profile(WPSCP_PINTEREST_OPTION_NAME);
-            $profile = (array) $pinterest[(int) $profile];
+            if( isset( $pinterest[(int) $profile] ) ) {
+                $profile = (array) $pinterest[(int) $profile];
+            }else{
+                return;
+            }
         }
-
+       
         $pinterest = new \DirkGroenen\Pinterest\Pinterest($profile['app_id'], $profile['app_secret']);
         $pinterest->auth->setOAuthToken($profile['access_token']);
+        
         $sections = $pinterest->sections->get($defaultBoard, [
             'page_size' => 100,
         ]);
         $sections = $sections->toArray();
         if( !empty( $params['method_called'] ) ) {
             return $sections['data'];
+            wp_die();
         }
         wp_send_json_success($sections['data']);
         wp_die();

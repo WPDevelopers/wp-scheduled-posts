@@ -367,12 +367,12 @@ class InstantShare
         }
 
         $postid = intval($_GET['postid']);
-        $platform = (isset($_GET['platform']) ? $_GET['platform'] : '');
-        $profileID = (isset($_GET['id']) ? $_GET['id'] : '');
-        $platformKey = (isset($_GET['platformKey']) ? $_GET['platformKey'] : '');
-        $pinterest_board_type = (isset($_POST['pinterest_board_type']) ? $_POST['pinterest_board_type'] : '');
-        $pinterestBoardName = (isset($_POST['pinterest_custom_board_name']) ? $_POST['pinterest_custom_board_name'] : '');
-        $pinterestSectionName = (isset($_POST['pinterest_custom_section_name']) ? $_POST['pinterest_custom_section_name'] : '');
+        $platform = (isset($_GET['platform']) ? sanitize_text_field($_GET['platform']) : '');
+        $profileID = (isset($_GET['id']) ? sanitize_text_field($_GET['id']) : '');
+        $platformKey = (isset($_GET['platformKey']) ? sanitize_text_field($_GET['platformKey']) : '');
+        $pinterest_board_type = (isset($_GET['pinterest_board_type']) ? sanitize_text_field($_GET['pinterest_board_type']) : '');
+        $pinterestBoardName = (isset($_GET['pinterest_custom_board_name']) ? sanitize_text_field($_GET['pinterest_custom_board_name']) : '');
+        $pinterestSectionName = (isset($_GET['pinterest_custom_section_name']) ? sanitize_text_field($_GET['pinterest_custom_section_name']) : '');
         // all social platfrom
         if ($platform == 'facebook') {
             $facebook = \WPSP\Helper::get_social_profile(WPSCP_FACEBOOK_OPTION_NAME);
