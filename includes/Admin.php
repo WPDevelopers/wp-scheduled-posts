@@ -326,38 +326,43 @@ class Admin
                     </div>
                     <div class="dialog-loading dialog-lightbox-loading"></div>
                 </div>
-                <div class="dialog-buttons-wrapper dialog-lightbox-buttons-wrapper" style="display: flex;">
-                    <button class="elementor-button wpsp-immediately-publish" style="<?php if ( ! $is_future ) { echo 'display: none;'; } ?>">
-                        <span class="elementor-state-icon">
-                            <i class="eicon-loading eicon-animation-spin" aria-hidden="true"></i>
-                        </span>
-                        <?php esc_html_e( 'Publish Post Immediately', 'wp-scheduled-posts' ); ?>
-                    </button>
-                    <button class="elementor-button wpsp-el-form-next">
-                        <span><?php echo esc_html__( 'Next','wp-scheduled-posts' ) ?></span>
-                    </button>
-                    <button class="elementor-button wpsp-el-form-prev">
-                        <span><?php echo esc_html__( 'Prev','wp-scheduled-posts' ) ?></span>
-                    </button>
-                    <button class="elementor-button wpsp-el-form-submit"
-                            data-label-schedule="<?php esc_html_e( 'Schedule', 'wp-scheduled-posts' ); ?>"
-                            data-label-publish="<?php esc_html_e( 'Publish', 'wp-scheduled-posts' ); ?>"
-                            data-label-update="<?php esc_html_e( 'Update', 'wp-scheduled-posts' ); ?>">
-                        <span class="elementor-state-icon">
-                            <i class="eicon-loading eicon-animation-spin" aria-hidden="true"></i>
-                        </span>
-                        <span>
-                        <?php
-                        if ( $is_future ) {
-                            esc_html_e( 'Schedule', 'wp-scheduled-posts' );
-                        } elseif( $status == 'publish') {
-                            esc_html_e( 'Update', 'wp-scheduled-posts' );
-                        } else {
-                            esc_html_e( 'Publish', 'wp-scheduled-posts' );
-                        }
-                        ?>
-                        </span>
-                    </button>
+                <div class="dialog-buttons-wrapper dialog-lightbox-buttons-wrapper" style="display: flex; justify-content:space-between;">
+                    <div id="wpsp-el-form-prev-next-button">
+                        <button class="elementor-button wpsp-el-form-next">
+                            <span><?php echo esc_html__( 'Next','wp-scheduled-posts' ) ?></span>
+                        </button>
+                        <button class="elementor-button wpsp-el-form-prev">
+                            <span><?php echo esc_html__( 'Prev','wp-scheduled-posts' ) ?></span>
+                        </button>
+                    </div>
+                    <div id="wpsp-el-form-update-button">
+                        <button class="elementor-button wpsp-immediately-publish" style="<?php if ( ! $is_future ) { echo 'display: none;'; } ?>">
+                            <span class="elementor-state-icon">
+                                <i class="eicon-loading eicon-animation-spin" aria-hidden="true"></i>
+                            </span>
+                            <?php esc_html_e( 'Publish Post Immediately', 'wp-scheduled-posts' ); ?>
+                        </button>
+                        <button class="wpsp_el_share_now"><?php echo esc_html__('Share Now','wp-scheduled-posts') ?></button>
+                        <button class="elementor-button wpsp-el-form-submit"
+                                data-label-schedule="<?php esc_html_e( 'Schedule', 'wp-scheduled-posts' ); ?>"
+                                data-label-publish="<?php esc_html_e( 'Publish', 'wp-scheduled-posts' ); ?>"
+                                data-label-update="<?php esc_html_e( 'Update', 'wp-scheduled-posts' ); ?>">
+                            <span class="elementor-state-icon">
+                                <i class="eicon-loading eicon-animation-spin" aria-hidden="true"></i>
+                            </span>
+                            <span>
+                            <?php
+                            if ( $is_future ) {
+                                esc_html_e( 'Schedule', 'wp-scheduled-posts' );
+                            } elseif( $status == 'publish') {
+                                esc_html_e( 'Update', 'wp-scheduled-posts' );
+                            } else {
+                                esc_html_e( 'Publish', 'wp-scheduled-posts' );
+                            }
+                            ?>
+                            </span>
+                        </button>
+                    </div>
                     <?php do_action("wpsp_el_after_publish_button", $post);?>
                 </div>
                 <div class="wpsp-el-modal-date-picker"></div>
@@ -433,112 +438,130 @@ class Admin
         $pinterestIntegation = \WPSP\Helper::get_settings('pinterest_profile_status');
         // profile
         $facebookProfile = \WPSP\Helper::get_settings('facebook_profile_list');
+        if( !class_exists('WPSP_PRO') ) {
+            $facebookProfile = array_slice( $facebookProfile, 0, 1, true );
+        }
+
         $twitterProfile = \WPSP\Helper::get_settings('twitter_profile_list');
+        if( !class_exists('WPSP_PRO') ) {
+            $twitterProfile = array_slice( $twitterProfile, 0, 1, true );
+        }
         $linkedinProfile = \WPSP\Helper::get_settings('linkedin_profile_list');
+        if( !class_exists('WPSP_PRO') ) {
+            $linkedinProfile = array_slice( $linkedinProfile, 0, 1, true );
+        }
         $pinterestProfile = \WPSP\Helper::get_settings('pinterest_profile_list');
+        if( !class_exists('WPSP_PRO') ) {
+            $pinterestProfile = array_slice( $pinterestProfile, 0, 1, true );
+        }
+
         ?>
            <div class="el-social-share-platform">
                 <h4><?php echo esc_html__( 'Choose Social Share Platform', 'wp-scheduled-posts' ) ?></h4>
                 <input type="hidden" name="postid" id="wpscppropostid" value="<?php print get_the_ID(); ?>">
                 <div id="el-social-checkbox-wrapper">
                     <div class="wpsp-el-accordion">
-                        <div class="wpsp-el-accordion-item wpsp-el-accordion-item-facebook">
-                            <div class="wpsp-el-accordion-header"><img src="<?php echo esc_url( WPSP_ASSETS_URI . '/images/facebook.svg' ) ?>" alt=""><span><?php echo esc_html('Facebook') ?></span></div>
-                            <div class="wpsp-el-accordion-content">
-                                <div class="wpsp-el-container">
-                                    <label><input type="radio" data-platform="facebook" name="wpsp-el-content-facebook" value="wpsp-el-social-facebook-default" checked><?php echo esc_html__('Default','wp-scheduled-posts') ?></label>
-                                    <label><input type="radio" data-platform="facebook" name="wpsp-el-content-facebook" value="wpsp-el-social-facebook-custom"><?php echo esc_html__('Custom','wp-scheduled-posts') ?></label>
-                                </div>
-                                <div class="wpsp-el-content wpsp-el-content-facebook" data-value="wpsp-el-social-facebook-custom" style="display: none;">
-                                    <?php if( count( $facebookProfile ) > 0 ) : ?>
-                                        <?php foreach( $facebookProfile as $facebook ) : ?>
-                                            <div class="facebook-profile social-profile">
-                                                <input type="checkbox" value="<?php echo !empty( $facebook->name ) ? $facebook->name : '' ?>" name="wpsp_el_social_facebook" checked>
-                                                <h3><?php echo !empty( $facebook->name ) ? $facebook->name : '' ?> ( <?php echo $facebook->type ? $facebook->type : '' ?> ) </h3>
-                                            </div>
-                                        <?php endforeach ?>
-                                    <?php endif ?>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="wpsp-el-accordion-item wpsp-el-accordion-item-twitter">
-                            <div class="wpsp-el-accordion-header"><img src="<?php echo esc_url( WPSP_ASSETS_URI . '/images/twitter.svg' ) ?>" alt=""><span><?php echo esc_html('Twitter') ?></span></div>
-                            <div class="wpsp-el-accordion-content">
-                                <div class="wpsp-el-container">
-                                    <label><input type="radio" data-platform="twitter" name="wpsp-el-content-twitter" value="wpsp-el-social-twitter-default" checked><?php echo esc_html__('Default','wp-scheduled-posts') ?></label>
-                                    <label><input type="radio" data-platform="twitter" name="wpsp-el-content-twitter" value="wpsp-el-social-twitter-custom"><?php echo esc_html__('Custom','wp-scheduled-posts') ?></label>
-                                </div>
-                                <div class="wpsp-el-content wpsp-el-content-twitter" data-value="wpsp-el-social-twitter-custom" style="display: none;">
-                                    <?php if( count( $twitterProfile ) > 0 ) : ?>
-                                        <?php foreach( $twitterProfile as $twitter ) : ?>
-                                            <div class="twitter-profile social-profile">
-                                                <input type="checkbox" value="<?php echo !empty( $twitter->name ) ? $twitter->name : '' ?>" name="wpsp_el_social_twitter" checked><h3><?php echo $twitter->name ? $twitter->name : '' ?> </h3>
-                                            </div>
-                                        <?php endforeach ?>
-                                    <?php endif ?>
+                        <?php if( !empty( $facebookIntegation ) ) : ?>
+                            <div class="wpsp-el-accordion-item wpsp-el-accordion-item-facebook">
+                                <div class="wpsp-el-accordion-header"><img src="<?php echo esc_url( WPSP_ASSETS_URI . '/images/facebook.svg' ) ?>" alt=""><span><?php echo esc_html('Facebook') ?></span></div>
+                                <div class="wpsp-el-accordion-content">
+                                    <div class="wpsp-el-container">
+                                        <label><input type="radio" data-platform="facebook" name="wpsp-el-content-facebook" value="wpsp-el-social-facebook-default" checked><?php echo esc_html__('Default','wp-scheduled-posts') ?></label>
+                                        <label><input type="radio" data-platform="facebook" name="wpsp-el-content-facebook" value="wpsp-el-social-facebook-custom"><?php echo esc_html__('Custom','wp-scheduled-posts') ?></label>
+                                    </div>
+                                    <div class="wpsp-el-content wpsp-el-content-facebook" data-value="wpsp-el-social-facebook-custom" style="display: none;">
+                                        <?php if( count( $facebookProfile ) > 0 ) : ?>
+                                            <?php foreach( $facebookProfile as $facebook ) : ?>
+                                                <div class="facebook-profile social-profile">
+                                                    <input type="checkbox" value="<?php echo !empty( $facebook->name ) ? $facebook->name : '' ?>" name="wpsp_el_social_facebook" checked>
+                                                    <h3><?php echo !empty( $facebook->name ) ? $facebook->name : '' ?> ( <?php echo $facebook->type ? $facebook->type : '' ?> ) </h3>
+                                                </div>
+                                            <?php endforeach ?>
+                                        <?php endif ?>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        
-                        <div class="wpsp-el-accordion-item wpsp-el-accordion-item-linkedin">
-                            <div class="wpsp-el-accordion-header"><img src="<?php echo esc_url( WPSP_ASSETS_URI . '/images/linkedin.svg' ) ?>" alt=""><span><?php echo esc_html('LinkedIn') ?></span></div>
-                            <div class="wpsp-el-accordion-content">
-                                <div class="wpsp-el-container">
-                                    <label><input type="radio" data-platform="linkedin" name="wpsp-el-content-linkedin" value="wpsp-el-social-linkedin-default" checked><?php echo esc_html__('Default','wp-scheduled-posts') ?></label>
-                                    <label><input type="radio" data-platform="linkedin" name="wpsp-el-content-linkedin" value="wpsp-el-social-linkedin-custom"><?php echo esc_html__('Custom','wp-scheduled-posts') ?></label>
-                                </div>
-                                <div class="wpsp-el-content wpsp-el-content-linkedin" data-value="wpsp-el-social-linkedin-custom" style="display: none;">
-                                    <?php if( count( $linkedinProfile ) > 0 ) : ?>
-                                        <?php foreach( $linkedinProfile as $linkedin ) : ?>
-                                            <div class="linkedin-profile social-profile">
-                                                <input type="checkbox" value="<?php echo !empty( $linkedin->name ) ? $linkedin->name : '' ?>" name="wpsp_el_social_linkedin" checked><h3><?php echo isset( $linkedin->name ) ? $linkedin->name : '' ?> <?php isset( $linkedin->type ) && $linkedin->type == 'organization' ? __( '(Page)', 'wp-scheduled-posts' ) : '' ?> </h3>
-                                            </div>
-                                        <?php endforeach ?>
-                                    <?php endif ?>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="wpsp-el-accordion-item wpsp-el-accordion-item-pinterest">
-                            <div class="wpsp-el-accordion-header"><img src="<?php echo esc_url( WPSP_ASSETS_URI . '/images/pinterest.svg' ) ?>" alt=""><span><?php echo esc_html('Pinterest') ?></span></div>
-                            <div class="wpsp-el-accordion-content">
-                                <div class="wpsp-el-container">
-                                    <label><input type="radio" data-platform="pinterest" name="wpsp-el-content-pinterest" value="wpsp-el-social-pinterest-default" checked><?php echo esc_html__('Default','wp-scheduled-posts') ?></label>
-                                    <label><input type="radio" data-platform="pinterest" name="wpsp-el-content-pinterest" value="wpsp-el-social-pinterest-custom"><?php echo esc_html__('Custom','wp-scheduled-posts') ?></label>
-                                </div>
-                                <div class="wpsp-el-content wpsp-el-content-pinterest" data-value="wpsp-el-social-pinterest-custom" style="display: none;">
-                                    <?php if( count( $pinterestProfile ) > 0 ) : ?>
-                                        <?php foreach( $pinterestProfile as $key => $pinterest ) : ?>
-                                            <?php
-                                                if( empty( $pinterest->default_board_name->value ) )  {
-                                                    continue;
-                                                }
-                                            ?>
-                                            <?php 
-                                                $pinterest_section = new SocialProfile();
-                                                $get_pinterest_sections = $pinterest_section->social_profile_fetch_pinterest_section( [ 'defaultBoard'  => $pinterest->default_board_name->value, 'profile' => $key, 'method_called'  => true ]  );
-                                            ?>
-                                            <div class="pinterest-profile social-profile">
-                                                <input type="checkbox" value="<?php echo $pinterest->default_board_name->value ?>" name="wpsp_el_social_pinterest" checked>
-                                                <h3><?php echo !empty( $pinterest->default_board_name->label ) ? $pinterest->default_board_name->label : '' ?> </h3>
-                                                <select name="wpsp_el_pinterest_board" id="wpsp_el_pinterest_section_<?php echo $pinterest->default_board_name->value ?>">
-                                                    <option value=""><?php echo esc_html('No Section','wp-scheduled-posts') ?></option>
-                                                    <?php if( !empty( $get_pinterest_sections ) ) : ?>
-                                                        <?php foreach( $get_pinterest_sections as $section ) : ?>
-                                                            <option value="<?php echo !empty( $section['id'] ) ? $section['id'] : '' ?> "><?php echo !empty( $section['name'] ) ? $section['name'] : '' ?></option>
-                                                        <?php endforeach ?>
-                                                    <?php endif ?>
-                                                </select>
-                                            </div>
-                                        <?php endforeach ?>
-                                    <?php endif ?>
+                        <?php endif ?>
+                        <?php if( !empty( $twitterIntegation ) ) : ?>
+                            <div class="wpsp-el-accordion-item wpsp-el-accordion-item-twitter">
+                                <div class="wpsp-el-accordion-header"><img src="<?php echo esc_url( WPSP_ASSETS_URI . '/images/twitter.svg' ) ?>" alt=""><span><?php echo esc_html('Twitter') ?></span></div>
+                                <div class="wpsp-el-accordion-content">
+                                    <div class="wpsp-el-container">
+                                        <label><input type="radio" data-platform="twitter" name="wpsp-el-content-twitter" value="wpsp-el-social-twitter-default" checked><?php echo esc_html__('Default','wp-scheduled-posts') ?></label>
+                                        <label><input type="radio" data-platform="twitter" name="wpsp-el-content-twitter" value="wpsp-el-social-twitter-custom"><?php echo esc_html__('Custom','wp-scheduled-posts') ?></label>
+                                    </div>
+                                    <div class="wpsp-el-content wpsp-el-content-twitter" data-value="wpsp-el-social-twitter-custom" style="display: none;">
+                                        <?php if( count( $twitterProfile ) > 0 ) : ?>
+                                            <?php foreach( $twitterProfile as $twitter ) : ?>
+                                                <div class="twitter-profile social-profile">
+                                                    <input type="checkbox" value="<?php echo !empty( $twitter->name ) ? $twitter->name : '' ?>" name="wpsp_el_social_twitter" checked><h3><?php echo $twitter->name ? $twitter->name : '' ?> </h3>
+                                                </div>
+                                            <?php endforeach ?>
+                                        <?php endif ?>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        <?php endif ?>
+                        <?php if( !empty( $linkedinIntegation ) ) : ?>
+                            <div class="wpsp-el-accordion-item wpsp-el-accordion-item-linkedin">
+                                <div class="wpsp-el-accordion-header"><img src="<?php echo esc_url( WPSP_ASSETS_URI . '/images/linkedin.svg' ) ?>" alt=""><span><?php echo esc_html('LinkedIn') ?></span></div>
+                                <div class="wpsp-el-accordion-content">
+                                    <div class="wpsp-el-container">
+                                        <label><input type="radio" data-platform="linkedin" name="wpsp-el-content-linkedin" value="wpsp-el-social-linkedin-default" checked><?php echo esc_html__('Default','wp-scheduled-posts') ?></label>
+                                        <label><input type="radio" data-platform="linkedin" name="wpsp-el-content-linkedin" value="wpsp-el-social-linkedin-custom"><?php echo esc_html__('Custom','wp-scheduled-posts') ?></label>
+                                    </div>
+                                    <div class="wpsp-el-content wpsp-el-content-linkedin" data-value="wpsp-el-social-linkedin-custom" style="display: none;">
+                                        <?php if( count( $linkedinProfile ) > 0 ) : ?>
+                                            <?php foreach( $linkedinProfile as $linkedin ) : ?>
+                                                <div class="linkedin-profile social-profile">
+                                                    <input type="checkbox" value="<?php echo !empty( $linkedin->name ) ? $linkedin->name : '' ?>" name="wpsp_el_social_linkedin" checked><h3><?php echo isset( $linkedin->name ) ? $linkedin->name : '' ?> <?php isset( $linkedin->type ) && $linkedin->type == 'organization' ? __( '(Page)', 'wp-scheduled-posts' ) : '' ?> </h3>
+                                                </div>
+                                            <?php endforeach ?>
+                                        <?php endif ?>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endif ?>
+                        <?php if( !empty( $pinterestIntegation ) ) : ?>
+                            <div class="wpsp-el-accordion-item wpsp-el-accordion-item-pinterest">
+                                <div class="wpsp-el-accordion-header"><img src="<?php echo esc_url( WPSP_ASSETS_URI . '/images/pinterest.svg' ) ?>" alt=""><span><?php echo esc_html('Pinterest') ?></span></div>
+                                <div class="wpsp-el-accordion-content">
+                                    <div class="wpsp-el-container">
+                                        <label><input type="radio" data-platform="pinterest" name="wpsp-el-content-pinterest" value="wpsp-el-social-pinterest-default" checked><?php echo esc_html__('Default','wp-scheduled-posts') ?></label>
+                                        <label><input type="radio" data-platform="pinterest" name="wpsp-el-content-pinterest" value="wpsp-el-social-pinterest-custom"><?php echo esc_html__('Custom','wp-scheduled-posts') ?></label>
+                                    </div>
+                                    <div class="wpsp-el-content wpsp-el-content-pinterest" data-value="wpsp-el-social-pinterest-custom" style="display: none;">
+                                        <?php if( count( $pinterestProfile ) > 0 ) : ?>
+                                            <?php foreach( $pinterestProfile as $key => $pinterest ) : ?>
+                                                <?php
+                                                    if( empty( $pinterest->default_board_name->value ) )  {
+                                                        continue;
+                                                    }
+                                                ?>
+                                                <?php 
+                                                    $pinterest_section = new SocialProfile();
+                                                    $get_pinterest_sections = $pinterest_section->social_profile_fetch_pinterest_section( [ 'defaultBoard'  => $pinterest->default_board_name->value, 'profile' => $key, 'method_called'  => true ]  );
+                                                ?>
+                                                <div class="pinterest-profile social-profile">
+                                                    <input type="checkbox" value="<?php echo $pinterest->default_board_name->value ?>" name="wpsp_el_social_pinterest" checked>
+                                                    <h3><?php echo !empty( $pinterest->default_board_name->label ) ? $pinterest->default_board_name->label : '' ?> </h3>
+                                                    <select name="wpsp_el_pinterest_board" id="wpsp_el_pinterest_section_<?php echo $pinterest->default_board_name->value ?>">
+                                                        <option value=""><?php echo esc_html('No Section','wp-scheduled-posts') ?></option>
+                                                        <?php if( !empty( $get_pinterest_sections ) ) : ?>
+                                                            <?php foreach( $get_pinterest_sections as $section ) : ?>
+                                                                <option value="<?php echo !empty( $section['id'] ) ? $section['id'] : '' ?> "><?php echo !empty( $section['name'] ) ? $section['name'] : '' ?></option>
+                                                            <?php endforeach ?>
+                                                        <?php endif ?>
+                                                    </select>
+                                                </div>
+                                            <?php endforeach ?>
+                                        <?php endif ?>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endif ?>
                     </div>
                 </div>
-                <button class="wpsp_el_share_now"><?php echo esc_html__('Share Now','wp-scheduled-posts') ?></button>
            </div>
         <?php 
     }
