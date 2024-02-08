@@ -235,9 +235,9 @@
             const selectedValue = $(`.wpsp-el-accordion-item-${platform} input[name="wpsp-el-content-${platform}"]:checked`).val();
             $(`.wpsp-el-accordion-item-${platform} .wpsp-el-content-${platform}[data-value="${selectedValue}"]`).show();
         }
-        // $(document).on('click', '#wpscpproInstantShareModal .close-kylefoxModal',function(){
-        //     jQuery('body #schedulepress-elementor-modal').removeClass('wpsp-d-none').addClass('wpsp-d-block');
-        // });
+        $(document).on('click', '#wpscpproInstantShareModal .close-kylefoxModal',function(){
+            jQuery('body #schedulepress-elementor-modal').css({ 'opacity' : 1 });
+        });
 
         $(document).on('click', '.wpsp_el_share_now',(function(event){
             event.preventDefault();
@@ -256,8 +256,7 @@
                 clickClose: false,
                 showClose: true,
             })
-            // jQuery('body #schedulepress-elementor-modal').removeClass('wpsp-d-block').addClass('wpsp-d-none');
-
+            jQuery('body #schedulepress-elementor-modal').css({'opacity' : 0});
             const pinterest_selection = $('.wpsp-el-accordion-item-pinterest .wpsp-el-container [name="wpsp-el-content-pinterest"]:checked').val();
             
             // selected facebook profile

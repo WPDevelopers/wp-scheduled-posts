@@ -19,6 +19,7 @@
 #schedulepress-elementor-modal.elementor-templates-modal .dialog-header {
     background: #fff;
     box-shadow: none;
+    border: 1px solid #ddd;
 }
 
 #schedulepress-elementor-modal .elementor-templates-modal__header__close--normal {
@@ -41,6 +42,7 @@
 #schedulepress-elementor-modal.elementor-templates-modal .dialog-buttons-wrapper {
     background: transparent;
     box-shadow: none;
+    border: 1px solid #ddd;
 }
 
 #schedulepress-elementor-modal.elementor-templates-modal .dialog-message {
@@ -240,10 +242,31 @@
     color: #1B1B50;
 }
 .el-social-share-platform .wpsp-el-accordion-content .wpsp-el-container label input[type="radio"] {
-    width: 16px;
-    height: 16px;
-    cursor: pointer;
-    opacity: 0.5;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    margin: 0;
+    font: inherit;
+    color: #6C62FF;
+    width: 23px;
+    height: 23px;
+    border: 0.15em solid #6C62FF;
+    border-radius: 50%;
+    transform: translateY(-0.075em);
+    display: grid;
+    place-content: center;
+}
+.el-social-share-platform .wpsp-el-accordion-content .wpsp-el-container label input[type="radio"]::before {
+    content: "";
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    transform: scale(0);
+    transition: 120ms transform ease-in-out;
+    box-shadow: inset 1em 1em #6C62FF;
+}
+.el-social-share-platform .wpsp-el-accordion-content .wpsp-el-container label input[type="radio"]:checked::before {
+    transform: scale(1);
 }
 .el-social-share-platform .wpsp-el-accordion-content .wpsp-el-container label input[type="radio"]:checked {
     opacity: 1;
@@ -400,7 +423,8 @@
     -webkit-box-flex: 1;
     -ms-flex: 1;
     flex: 1;
-    margin: 0
+    margin: 0;
+    color: #595959;
 }
 
 #wpscpproInstantShareModal .modalBody ul li .item-content .type {
@@ -629,13 +653,13 @@
     right: 40px
 }
 .el-social-share-platform .wpsp-el-content-pinterest .pinterest-profile select {
-    width: 30%;
     margin-left: 15px;
     background: #fff;
     border: 1px solid #ddd;
     padding: 0 5px;
     height: 32px;
     width: 30%;
+    color: #000;
 }
 #wpsp-el-form-update-button .wpsp_el_share_now {
     padding: 10px 20px;
