@@ -103,13 +103,13 @@ class Pinterest
         $PostPermalink = esc_url(get_permalink($post_id));;
         $board_type = get_post_meta($post_id, '_wpscppro_pinterestboardtype', true);
         $customThumbnailID = get_post_meta($post_id, '_wpscppro_custom_social_share_image', true);
-        if ($customThumbnailID != "" && $customThumbnailID != 0) {
+        
+        if ( $customThumbnailID != "" && $customThumbnailID != 0 ) {
             $customThumbnail = wp_get_attachment_image_src($customThumbnailID, 'full', false);
             $PostThumbnailURI = ($customThumbnail != false ? $customThumbnail[0] : '');
         } else {
             $PostThumbnailURI = get_the_post_thumbnail_url($post_id, 'full');
         }
-
         if(!$instant_share && $board_type === 'custom') {
             // overriding default board name from meta.
             $custom_board_name = get_post_meta($post_id, '_wpscppro_pinterest_board_name', true);
@@ -192,7 +192,11 @@ class Pinterest
      */
     public function remote_post($post_id, $board_name, $section_name, $profile_key, $force_share = false, $instant_share = false)
     {
-        $count_meta_key = '__wpsp_pinterest_share_count_'.$board_name->value;
+        if( is_object( $board_name ) ) {
+            $count_meta_key = '__wpsp_pinterest_share_count_'.$board_name->value;
+        }else{
+            $count_meta_key = '__wpsp_pinterest_share_count_'.$board_name;
+        }
         // check post is skip social sharing
         // if (get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
         //     return;
@@ -225,7 +229,11 @@ class Pinterest
                         'share_id' => $results->id,
                         'publish_date' => time(),
                     );
-                    $this->save_metabox_social_share_metabox($post_id, $shareInfo, $profile_key, $board_name->value);
+                    if( is_object( $board_name ) ) {
+                        $this->save_metabox_social_share_metabox($post_id, $shareInfo, $profile_key, $board_name->value);
+                    }else{
+                        $this->save_metabox_social_share_metabox($post_id, $shareInfo, $profile_key, $board_name);
+                    }
                 }
                 $errorFlag = true;
                 $results = json_decode($results, true);
