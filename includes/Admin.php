@@ -335,7 +335,7 @@ class Admin
                             <span><?php echo esc_html__( 'Prev','wp-scheduled-posts' ) ?></span>
                         </button>
                     </div>
-                    <div id="wpsp-el-form-update-button">
+                    <div id="wpsp-el-form-update-button" class="wpsp_form_next_button_wrapper">
                         <button class="elementor-button wpsp-immediately-publish" style="<?php if ( ! $is_future ) { echo 'display: none;'; } ?>">
                             <span class="elementor-state-icon">
                                 <i class="eicon-loading eicon-animation-spin" aria-hidden="true"></i>
@@ -362,8 +362,8 @@ class Admin
                             ?>
                             </span>
                         </button>
+                        <?php do_action("wpsp_el_after_publish_button", $post);?>
                     </div>
-                    <?php do_action("wpsp_el_after_publish_button", $post);?>
                 </div>
                 <div class="wpsp-el-modal-date-picker"></div>
             </div>

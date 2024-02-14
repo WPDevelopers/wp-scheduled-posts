@@ -1,8 +1,8 @@
 #schedulepress-elementor-modal.elementor-templates-modal .dialog-widget-content {
     background: #f5f7fd;
 }
-.wpsp-el-form-prev, .wpsp_el_share_now {
-    display: none;
+.wpsp-el-form-prev, .wpsp_form_next_button_wrapper {
+    display: none !important;
 }
 .wpsp-d-none {
     display: none !important;
@@ -125,8 +125,8 @@
     color: #6d64ff;
     background: rgba(109, 100, 255, .2);
     height: 35px;
-    font-size: 15px;
-    padding: 0 25px;
+    font-size: 13px;
+    padding: 0 16px;
     border-radius: 18px;
     font-weight: 400;
     text-transform: initial;
@@ -142,9 +142,9 @@
     color: #fff;
 }
 
-#schedulepress-elementor-modal .elementor-button + .elementor-button {
+/* #schedulepress-elementor-modal .elementor-button + .elementor-button {
     margin-left: 15px;
-}
+} */
 
 #schedulepress-elementor-modal.elementor-templates-modal .dialog-buttons-wrapper {
     padding: 20px 30px 30px;
@@ -248,8 +248,8 @@
     margin: 0;
     font: inherit;
     color: #6C62FF;
-    width: 23px;
-    height: 23px;
+    width: 18px;
+    height: 18px;
     border: 0.15em solid #6C62FF;
     border-radius: 50%;
     transform: translateY(-0.075em);
@@ -258,8 +258,8 @@
 }
 .el-social-share-platform .wpsp-el-accordion-content .wpsp-el-container label input[type="radio"]::before {
     content: "";
-    width: 13px;
-    height: 13px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     transform: scale(0);
     transition: 120ms transform ease-in-out;
@@ -671,6 +671,7 @@
     color: #fff;
     border-radius: 20px;
     cursor: pointer;
+    font-size: 12px;
 }
 #schedulepress-elementor-modal #wpsp-el-form-update-button {
     display: flex;
