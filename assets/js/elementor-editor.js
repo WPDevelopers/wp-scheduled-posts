@@ -421,18 +421,18 @@
         event.stopPropagation();
         $(this).removeClass('wpsp-d-block').addClass('wpsp-d-none');
         $('.wpsp-el-form-prev').removeClass('wpsp-d-none').addClass('wpsp-d-block');
-        $('.wpsp_el_share_now').removeClass('wpsp-d-none').addClass('wpsp-d-block');
+        $('.wpsp_form_next_button_wrapper').removeClass('wpsp-d-none').addClass('wpsp-d-block');
         $('.wpsp-el-fields-next').addClass('active');
         $('.wpsp-el-fields-prev').removeClass('active');
-        $('.wpsp_el_share_now').removeClass('active');
+        $('.wpsp_form_next_button_wrapper').removeClass('active');
     });
     jQuery('.wpsp-el-form-prev').click(function(event){
         event.stopPropagation();
         $(this).removeClass('wpsp-d-block').addClass('wpsp-d-none');
-        $('.wpsp_el_share_now').removeClass('wpsp-d-block').addClass('wpsp-d-none');
+        $('.wpsp_form_next_button_wrapper').removeClass('wpsp-d-block').addClass('wpsp-d-none');
         $('.wpsp-el-form-next').removeClass('wpsp-d-none').addClass('wpsp-d-block');
         $('.wpsp-el-fields-prev').addClass('active');
-        $('.wpsp_el_share_now').addClass('active');
+        $('.wpsp_form_next_button_wrapper').addClass('active');
         $('.wpsp-el-fields-next').removeClass('active');
     });
 
