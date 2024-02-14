@@ -436,6 +436,7 @@
                     //   color: #000;
                     // }
                   }
+                  
                 }
               }
             }
@@ -570,4 +571,7 @@
 .fc-scroller-liquid-absolute {
   -ms-overflow-style: none !important; /* IE and Edge */
   scrollbar-width: none !important; /* Firefox */
+}
+.fc-event.fc-event-past .wpsp-event-card{
+  opacity: 0.5;
 }
