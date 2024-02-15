@@ -17,33 +17,46 @@ const { __ } = wp.i18n;
 const SocialShare = ( { is_pro_active } ) => {
     const {
       meta,
-      meta: { _wpscppro_dont_share_socialmedia, _wpscppro_custom_social_share_image },
+      meta: { _wpscppro_dont_share_socialmedia, _wpscppro_custom_social_share_image, _facebook_share_type, _twitter_share_type, _linkedin_share_type, _pinterest_share_type, _selected_social_profile, _linkedin_share_type_page },
     } = useSelect((select) => ({
       meta: select('core/editor').getEditedPostAttribute('meta') || {},
     }));
     const { editPost } = useDispatch('core/editor');
     const postid = select('core/editor').getCurrentPostId()
-    const [ pinterestShareType, setPinterestShareType ] = useState('default');
     const [isOpen, setIsOpen] = useState(null); // Use null to represent no accordion open
     const [facebookProfileData,setFacebookProfileData] = useState([]);
     const [twiiterProfileData,setTwitterProfileData] = useState([]);
     const [linkedinProfileData,setLinkedinProfileData] = useState([]);
     const [pinterestProfileData,setPinterestProfileData] = useState([]);
     const [isOpenModal,setIsOpenModal] = useState( false );
-    const [selectedSocialProfile,setSelectedSocialProfile] = useState([]);
+    const [selectedSocialProfile,setSelectedSocialProfile] = useState( [] );
     const [responseMessage,setResponseMessage] = useState([]);
     const [selectedSection, setSelectedSection] = useState([]);
     const [isSocialShareDisable, setIsDisableSocialShare] = useState( _wpscppro_dont_share_socialmedia );
-    const [facebookShareType,setFacebookShareType] = useState('default');
-    const [twitterShareType,setTwitterShareType] = useState('default');
-    const [linkedinShareType,setLinkedinShareType] = useState('default');
-    const [linkedinShareTypePage,setLinkedinShareTypePage] = useState('default');
+    const [facebookShareType,setFacebookShareType] = useState( _facebook_share_type ? _facebook_share_type : 'default' );
+    const [twitterShareType,setTwitterShareType] = useState( _twitter_share_type ? _twitter_share_type : 'default' );
+    const [linkedinShareType,setLinkedinShareType] = useState( _linkedin_share_type ? _linkedin_share_type : 'default');
+    const [ pinterestShareType, setPinterestShareType ] = useState( _pinterest_share_type ? _pinterest_share_type : 'default' );
+    const [linkedinShareTypePage,setLinkedinShareTypePage] = useState( _linkedin_share_type_page ? _linkedin_share_type_page : 'default');
     const [wpspSettings,setWpspSettings] = useState(null);
     const [activeTab, setActiveTab] = useState('profile');
     const [proModal,setProModal] = useState(false);
     const [uploadSocialShareBanner, setUploadSocialShareBanner ] = useState( WPSchedulePostsFree?._wpscppro_custom_social_share_image );
     const [uploadSocialShareBannerId, setUploadSocialShareBannerId ] = useState( _wpscppro_custom_social_share_image );
-
+    useEffect(() => {
+      editPost({
+        meta: {
+          ...meta,
+          _facebook_share_type: facebookShareType,
+          _twitter_share_type: twitterShareType,
+          _linkedin_share_type: linkedinShareType,
+          _linkedin_share_type_page: linkedinShareTypePage,
+          _pinterest_share_type: pinterestShareType,
+          _selected_social_profile: selectedSocialProfile,
+        },
+      })
+    }, [facebookShareType, twitterShareType, linkedinShareType, pinterestShareType, selectedSocialProfile])
+    
     // Get social profile data from wp_options table
     useEffect(() => {
       // fetch facebook profile data
@@ -106,7 +119,11 @@ const SocialShare = ( { is_pro_active } ) => {
             default_selected_social_profile.push( { id: profile.id, platform: 'linkedin', platformKey: index, name : profile.name, type : profile?.type, thumbnail_url : profile.thumbnail_url, share_type : linkedinShareType } );
           } )
         }
-        setSelectedSocialProfile( [...default_selected_social_profile] );
+        if( _selected_social_profile.length > 0 ) {
+          setSelectedSocialProfile( [..._selected_social_profile] );
+        }else {
+          setSelectedSocialProfile( [...default_selected_social_profile] );
+        }
       } )
     }, [])
   
