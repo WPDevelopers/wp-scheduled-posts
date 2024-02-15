@@ -14,7 +14,9 @@
 .wpsp-d-block {
     display: block !important;
 }
-
+.wpsp-flex-direction-unset {
+    flex-direction: unset !important;
+}
 .wpsp-el-modal-date-picker .flatpickr-calendar {
     left: 50% !important;
     top: 50% !important;
@@ -718,4 +720,9 @@
 #schedulepress-elementor-modal #wpsp-el-form-update-button {
     display: flex;
     gap: 10px;
+}
+.wpsp-elementor-modal-wrapper {
+    display: flex;
+    justify-content: space-between !important;
+    flex-direction: row-reverse;
 }

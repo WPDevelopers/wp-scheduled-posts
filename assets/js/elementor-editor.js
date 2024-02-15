@@ -371,7 +371,7 @@
 
     // Checkbox selection  stopPropagation
     document.addEventListener('DOMContentLoaded', function () {
-        var checkboxesAndRadios = document.querySelectorAll('.el-social-share-platform input[type="checkbox"], .el-social-share-platform input[type="radio"], .el-social-share-platform label');
+        var checkboxesAndRadios = document.querySelectorAll('.el-social-share-platform input[type="checkbox"], .el-social-share-platform input[type="radio"], .el-social-share-platform label, .wpsp-el-empty-profile-message a');
         checkboxesAndRadios.forEach(function (checkboxOrRadio) {
             checkboxOrRadio.addEventListener('click', function (event) {
                 event.stopPropagation();
@@ -420,6 +420,7 @@
     jQuery('.wpsp-el-form-next').click(function(event){
         event.stopPropagation();
         $(this).removeClass('wpsp-d-block').addClass('wpsp-d-none');
+        $('.wpsp-elementor-modal-wrapper').addClass('wpsp-flex-direction-unset');
         $('.wpsp-el-form-prev').removeClass('wpsp-d-none').addClass('wpsp-d-block');
         $('.wpsp_form_next_button_wrapper').removeClass('wpsp-d-none').addClass('wpsp-d-block');
         $('.wpsp-el-fields-next').addClass('active');
@@ -429,6 +430,7 @@
     jQuery('.wpsp-el-form-prev').click(function(event){
         event.stopPropagation();
         $(this).removeClass('wpsp-d-block').addClass('wpsp-d-none');
+        $('.wpsp-elementor-modal-wrapper').removeClass('wpsp-flex-direction-unset');
         $('.wpsp_form_next_button_wrapper').removeClass('wpsp-d-block').addClass('wpsp-d-none');
         $('.wpsp-el-form-next').removeClass('wpsp-d-none').addClass('wpsp-d-block');
         $('.wpsp-el-fields-prev').addClass('active');
