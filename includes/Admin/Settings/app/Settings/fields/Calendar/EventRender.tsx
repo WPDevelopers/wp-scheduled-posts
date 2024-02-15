@@ -3,7 +3,7 @@ import apiFetch from '@wordpress/api-fetch';
 import { decodeEntities } from '@wordpress/html-entities';
 import { Button } from '@wordpress/components';
 import { addQueryArgs } from '@wordpress/url';
-import React, { Fragment, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { SweetAlertDeleteMsgForPost } from '../../ToasterMsg';
 import { PostCardProps, PostType, WP_Error } from './types';
 
@@ -64,28 +64,14 @@ const PostCard: React.FC<PostCardProps> = ({
   };
 
 
-  const handlePostStatus = (id, post_type, action_type) => {
+  const deletePost = (id) => {
     // @todo add confirm dialog.
-    let action = {};
-    if( action_type === 'delete' ) {
-      action = {
-        path: addQueryArgs('/wpscp/v1/post', { ID: id }),
-        method: 'DELETE',
-        // data: query,
-      }
-    }else if( action_type === 'trash' ) {
-      action = {
-        path: "/wpscp/v1/post",
-        method: "POST",
-        data: {
-          ID  : id,
-          post_type: post_type,
-          type    : 'trashDrop',
-        },
-      }
-    }
-    
-    return apiFetch(action).then((data: {id: string, message: string} | WP_Error) => {
+
+    return apiFetch({
+      path: addQueryArgs('/wpscp/v1/post', { ID: id }),
+      method: 'DELETE',
+      // data: query,
+    }).then((data: {id: string, message: string} | WP_Error) => {
       if('id' in data) {
         setEvents((events) => {
           return events.filter((event) => {
@@ -105,7 +91,7 @@ const PostCard: React.FC<PostCardProps> = ({
 
   const deleteFile = (item) => {
     toggleEditArea();
-    return handlePostStatus(item.postId, item.postType, item.action_type);
+    return deletePost(item.postId);
   };
 
   const addEventListeners = () => {
@@ -143,21 +129,7 @@ const PostCard: React.FC<PostCardProps> = ({
   }
 
   return (
-    <Fragment>
-      <div className={`wpsp-event-card card ${postColor}`} >
-        <i className="wpsp-icon wpsp-dots" onClick={toggleEditArea}></i>
-        <span className={`set-time ` + ('Published' === post.status ? 'published' : 'scheduled')}>
-          {/* "1:00 am" */}
-          {/* @ts-ignore */}
-          {/* {format(post.end, 'h:mm a')} */}
-          {post.postTime}
-        </span>
-        <h3>{ decodeEntities(  post.title ) }</h3>
-        <span className="badge-wrapper">
-          <span className="Unscheduled-badge">{post.postType}</span>
-          <span className="status-badge">{post.status}</span>
-        </span>
-      </div>
+    <div className={`wpsp-event-card card ${postColor}`} >
       {editAreaToggle?.[post.postId] && (
         <ul className="edit-area">
           <li>
@@ -209,7 +181,21 @@ const PostCard: React.FC<PostCardProps> = ({
           </li>
         </ul>
       )}
-    </Fragment>
+      <div className="wpsp-event-card-content">
+        <i className="wpsp-icon wpsp-dots" onClick={toggleEditArea}></i>
+        <span className={`set-time ` + ('Published' === post.status ? 'published' : 'scheduled')}>
+          {/* "1:00 am" */}
+          {/* @ts-ignore */}
+          {/* {format(post.end, 'h:mm a')} */}
+          {post.postTime}
+        </span>
+        <h3>{ decodeEntities(  post.title ) }</h3>
+        <span className="badge-wrapper">
+          <span className="Unscheduled-badge">{post.postType}</span>
+          <span className="status-badge">{post.status}</span>
+        </span>
+      </div>
+    </div>
   );
 };
 
