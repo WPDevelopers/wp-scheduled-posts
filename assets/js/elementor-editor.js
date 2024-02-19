@@ -287,6 +287,22 @@
             jQuery('body #schedulepress-elementor-modal').css({ 'opacity' : 1 });
         });
 
+        // Linkedin tab selection
+        var contentContainers = document.querySelectorAll('.wpsp-el-content-linkedin-tab');
+        var tabs = document.querySelectorAll('[name="wpsp-el-content-linkedin-tab"]');
+        tabs.forEach(function(tab) {
+            tab.addEventListener('change', function() {
+                var selectedValue = this.value;
+                contentContainers.forEach(function(container) {
+                    if (container.classList.contains(selectedValue)) {
+                        container.style.display = 'block';
+                    } else {
+                        container.style.display = 'none';
+                    }
+                });
+            });
+        });
+
         $(document).on('click', '.wpsp_el_share_now',(function(event){
             event.preventDefault();
             // modal append if not exists dom
