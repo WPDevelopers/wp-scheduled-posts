@@ -10,7 +10,9 @@
 .wpsp-d-none {
     display: none !important;
 }
-
+.wpsp-flex-direction-unset {
+    flex-direction: unset !important;
+}
 .wpsp-d-block {
     display: block !important;
 }
@@ -49,6 +51,7 @@
     background: transparent;
     box-shadow: none;
     border: 1px solid #ddd;
+    justify-content: space-between;
 }
 
 #schedulepress-elementor-modal.elementor-templates-modal .dialog-message {
@@ -718,4 +721,9 @@
 #schedulepress-elementor-modal #wpsp-el-form-update-button {
     display: flex;
     gap: 10px;
+}
+.wpsp-elementor-modal-wrapper {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row-reverse;
 }

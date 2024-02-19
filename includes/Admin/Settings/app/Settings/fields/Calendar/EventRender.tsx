@@ -3,7 +3,7 @@ import apiFetch from '@wordpress/api-fetch';
 import { decodeEntities } from '@wordpress/html-entities';
 import { Button } from '@wordpress/components';
 import { addQueryArgs } from '@wordpress/url';
-import React, { useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { SweetAlertDeleteMsgForPost } from '../../ToasterMsg';
 import { PostCardProps, PostType, WP_Error } from './types';
 
@@ -129,7 +129,21 @@ const PostCard: React.FC<PostCardProps> = ({
   }
 
   return (
-    <div className={`wpsp-event-card card ${postColor}`} >
+    <Fragment>
+      <div className={`wpsp-event-card card ${postColor}`} >
+        <i className="wpsp-icon wpsp-dots" onClick={toggleEditArea}></i>
+        <span className={`set-time ` + ('Published' === post.status ? 'published' : 'scheduled')}>
+          {/* "1:00 am" */}
+          {/* @ts-ignore */}
+          {/* {format(post.end, 'h:mm a')} */}
+          {post.postTime}
+        </span>
+        <h3>{ decodeEntities(  post.title ) }</h3>
+        <span className="badge-wrapper">
+          <span className="Unscheduled-badge">{post.postType}</span>
+          <span className="status-badge">{post.status}</span>
+        </span>
+      </div>
       {editAreaToggle?.[post.postId] && (
         <ul className="edit-area">
           <li>
@@ -181,21 +195,7 @@ const PostCard: React.FC<PostCardProps> = ({
           </li>
         </ul>
       )}
-      <div className="wpsp-event-card-content">
-        <i className="wpsp-icon wpsp-dots" onClick={toggleEditArea}></i>
-        <span className={`set-time ` + ('Published' === post.status ? 'published' : 'scheduled')}>
-          {/* "1:00 am" */}
-          {/* @ts-ignore */}
-          {/* {format(post.end, 'h:mm a')} */}
-          {post.postTime}
-        </span>
-        <h3>{ decodeEntities(  post.title ) }</h3>
-        <span className="badge-wrapper">
-          <span className="Unscheduled-badge">{post.postType}</span>
-          <span className="status-badge">{post.status}</span>
-        </span>
-      </div>
-    </div>
+    </Fragment>
   );
 };
 
