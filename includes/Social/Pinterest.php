@@ -2,6 +2,7 @@
 
 namespace WPSP\Social;
 
+use WPSP\Helper;
 use WPSP\Traits\SocialHelper;
 
 class Pinterest
@@ -198,7 +199,21 @@ class Pinterest
             $count_meta_key = '__wpsp_pinterest_share_count_'.$board_name;
         }
         // check post is skip social sharing
-        if (get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
+        // if (get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
+        //     return;
+        // }
+        $dont_share     = get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true);
+        // get social share type 
+        $get_share_type =   get_post_meta($post_id, '_pinterest_share_type', true);
+        if( $get_share_type === 'custom' ) {
+            $get_all_selected_profile     = get_post_meta($post_id, '_selected_social_profile', true);
+            $check_profile_exists         = Helper::is_profile_exits( $board_name->value, $get_all_selected_profile );
+            if( !$check_profile_exists ) {
+                return;
+            }
+        }
+        
+        if ($dont_share  == 'on' || $dont_share == 1 ) {
             return;
         }
         if( ( get_post_meta( $post_id, $count_meta_key, true ) ) && $this->post_share_limit != 0 && get_post_meta( $post_id, $count_meta_key, true ) >= $this->post_share_limit ) {
