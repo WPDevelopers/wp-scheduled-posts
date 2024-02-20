@@ -337,17 +337,16 @@
             // selected facebook profile
             let facebook_selected_profiles;
             let is_facebook_share = true;
-            facebook_selected_profiles = $('[name="wpsp_el_social_facebook"]:checked').map(function() {
+            facebook_selected_profiles = $('[name="wpsp_el_social_facebook[]"]:checked').map(function() {
                 return $(this).val();
             }).get();
             if( facebook_selected_profiles.length == 0 ) {
                 is_facebook_share = false;
             }
-
             // selected twitter profile
             let twitter_selected_profiles;
             let is_twitter_share = true;
-            twitter_selected_profiles = $('[name="wpsp_el_social_twitter"]:checked').map(function() {
+            twitter_selected_profiles = $('[name="wpsp_el_social_twitter[]"]:checked').map(function() {
                 return $(this).val();
             }).get();
             if( twitter_selected_profiles.length == 0 ) {
@@ -356,7 +355,7 @@
             // selected twitter profile
             let linkedin_selected_profiles;
             let is_linkedin_share = true;
-            linkedin_selected_profiles = $('[name="wpsp_el_social_linkedin"]:checked').map(function() {
+            linkedin_selected_profiles = $('[name="wpsp_el_social_linkedin[]"]:checked').map(function() {
                 return $(this).val();
             }).get();
             if( linkedin_selected_profiles.length == 0 ) {
@@ -367,7 +366,7 @@
             let pinterest_selected_profiles;
             let is_pinterest_share = true;
             let pinterestBoardType;
-            pinterest_selected_profiles = $('[name="wpsp_el_social_pinterest"]:checked').map(function() {
+            pinterest_selected_profiles = $('[name="wpsp_el_social_pinterest[]"]:checked').map(function() {
                 return $(this).val();
             }).get();
             if( pinterest_selected_profiles.length == 0 ) {
