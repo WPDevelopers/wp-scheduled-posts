@@ -729,7 +729,7 @@
 }
 .wpsp-el-container.wpsp-el-social-linkedin-tab-wrapper {
     display: flex;
-    border-bottom: 1px solid #ccc;
+    gap: 0;
 }
 
 .wpsp-el-container.wpsp-el-social-linkedin-tab-wrapper label {
@@ -755,4 +755,7 @@
 
 .wpsp-el-tab-content.wpsp-el-social-linkedin-profile {
     display: block;
+}
+.el-social-share-platform .wpsp-el-social-linkedin-tab-wrapper input[type="radio"], .el-social-share-platform .wpsp-el-social-linkedin-tab-wrapper input[type="radio"]:checked {
+    opacity: 0;
 }
