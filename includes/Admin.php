@@ -618,6 +618,7 @@ class Admin
                                                 if( empty( $pinterest->default_board_name->value ) )  {
                                                     continue;
                                                 }
+                                                $pinterest = $this->get_pinterest_from_meta( $pinterest );
                                             ?>
                                             <?php 
                                                 $pinterest_section = new SocialProfile();
@@ -630,7 +631,7 @@ class Admin
                                                     <option value=""><?php echo esc_html('No Section','wp-scheduled-posts') ?></option>
                                                     <?php if( !empty( $get_pinterest_sections ) ) : ?>
                                                         <?php foreach( $get_pinterest_sections as $section ) : ?>
-                                                            <option value="<?php echo !empty( $section['id'] ) && !empty( $pinterest->default_board_name->value ) ? $section['id'] . '|'. $pinterest->default_board_name->value : '' ?> "><?php echo !empty( $section['name'] ) ? $section['name'] : '' ?></option>
+                                                            <option value="<?php echo !empty( $section['id'] ) && !empty( $pinterest->default_board_name->value ) ? $section['id'] . '|'. $pinterest->default_board_name->value : '' ?>" <?php echo !empty( $pinterest->defaultSection->value ) && $pinterest->defaultSection->value == $section['id'] ? 'selected' : '' ?>><?php echo !empty( $section['name'] ) ? $section['name'] : '' ?></option>
                                                         <?php endforeach ?>
                                                     <?php endif ?>
                                                 </select>
@@ -649,6 +650,24 @@ class Admin
                 </div>
            </div>
         <?php 
+    }
+
+    public function get_pinterest_from_meta($pinterest)
+    {
+        if( !empty( $pinterest ) ) {
+            $get_selected_profiles = get_post_meta(get_the_ID(), '_selected_social_profile', true);
+            if( !empty( $get_selected_profiles ) ) {
+                $pinterestSelectedProfile = array_filter($get_selected_profiles, function ($profile) use ( $pinterest ) {
+                    return isset( $profile->default_board_name->value ) && isset( $pinterest->default_board_name->value ) && $profile->default_board_name->value == $pinterest->default_board_name->value;
+                });
+                if( empty( $pinterestSelectedProfile ) ) {
+                    return $pinterest;
+                }else{
+                    return reset( $pinterestSelectedProfile );
+                }
+            }
+        }
+        return $pinterest;
     }
 
     public function wpsp_el_tab_action() {
