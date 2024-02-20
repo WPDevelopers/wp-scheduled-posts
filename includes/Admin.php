@@ -453,7 +453,7 @@ class Admin
         $pinterestShareType    = get_post_meta( get_the_ID(), '_pinterest_share_type', true );
         // get all selected social profile 
         $allSelectedSocialProfiles = get_post_meta( get_the_ID(), '_selected_social_profile', true );
-        $filteredSelectedProfiles = array_map([ $this, 'wpsp_filter_selected_profile_object' ], $allSelectedSocialProfiles);
+        $filteredSelectedProfiles = array_map([ $this, 'wpsp_filter_selected_profile_object' ], !empty( $allSelectedSocialProfiles ) ? $allSelectedSocialProfiles : [] );
         $filteredSelectedProfiles = array_filter($filteredSelectedProfiles);
 
         // profile
@@ -539,25 +539,31 @@ class Admin
                                 <img src="<?php echo esc_url( WPSP_ASSETS_URI . '/images/linkedin.svg' ) ?>" alt=""><span><?php echo esc_html('LinkedIn') ?></span>
                             </div>
                             <div class="wpsp-el-accordion-content">
+                                <div class="wpsp-el-container wpsp-el-social-linkedin-tab-wrapper">
+                                    <label for="wpsp-el-social-linkedin-profile-tab">
+                                        <input type="radio" data-platform="linkedin-tab" id="wpsp-el-social-linkedin-profile-tab" name="wpsp-el-content-linkedin-tab" value="wpsp-el-social-linkedin-profile" checked><?php echo esc_html__('Profile','wp-scheduled-posts') ?>
+                                    </label>
+                                    <label for="wpsp-el-social-linkedin-page-tab">
+                                        <input type="radio" data-platform="linkedin-tab" id="wpsp-el-social-linkedin-page-tab" name="wpsp-el-content-linkedin-tab" value="wpsp-el-social-linkedin-page"><?php echo esc_html__('Page','wp-scheduled-posts') ?>
+                                    </label>
+                                </div>
                                 <?php if( !empty( $linkedinIntegation ) && !empty( $linkedinIntegation ) ) : ?>
-                                    <div class="wpsp-el-container wpsp-el-social-linkedin-tab-wrapper">
-                                        <label><input type="radio" data-platform="linkedin" name="wpsp-el-content-linkedin-tab" value="wpsp-el-social-linkedin-profile" checked><?php echo esc_html__('Profile','wp-scheduled-posts') ?></label>
-                                        <label><input type="radio" data-platform="linkedin" name="wpsp-el-content-linkedin-tab" value="wpsp-el-social-linkedin-page"><?php echo esc_html__('Page','wp-scheduled-posts') ?></label>
-                                    </div>
-                                    <div class="wpsp-el-content wpsp-el-content-linkedin wpsp-el-content-linkedin-tab wpsp-el-social-linkedin-profile" data-value="wpsp-el-social-linkedin-profile">
+                                    <div class="wpsp-el-content wpsp-el-content-linkedin wpsp-el-social-linkedin-profile" data-value="wpsp-el-social-linkedin-profile">
                                         <?php if( count( $linkedinProfile ) > 0 ) : ?>
                                             <?php foreach( $linkedinProfile as $linkedin ) : ?>
                                                 <?php if ($linkedin->type == 'person') : ?>
                                                     <div class="wpsp-el-container">
-                                                        <label><input type="radio" data-platform="linkedin" name="wpsp-el-content-linkedin" value="wpsp-el-social-linkedin-default"><?php echo esc_html__('Default','wp-scheduled-posts') ?></label>
-                                                        <label><input type="radio" data-platform="linkedin" name="wpsp-el-content-linkedin" value="wpsp-el-social-linkedin-custom"><?php echo esc_html__('Custom','wp-scheduled-posts') ?></label>
+                                                        <label><input type="radio" data-platform="linkedin-profile" name="wpsp-el-content-linkedin-profile" value="wpsp-el-social-linkedin-profile-default"><?php echo esc_html__('Default','wp-scheduled-posts') ?></label>
+                                                        <label><input type="radio" data-platform="linkedin-profile" name="wpsp-el-content-linkedin-profile" value="wpsp-el-social-linkedin-profile-custom"><?php echo esc_html__('Custom','wp-scheduled-posts') ?></label>
                                                     </div>
-                                                    <div class="wpsp-el-content wpsp-el-content-linkedin" data-value="wpsp-el-social-linkedin-custom" style="display: none;">
+                                                    <div class="wpsp-el-content wpsp-el-content-linkedin-profile" data-value="wpsp-el-social-linkedin-profile-custom" style="display: none;">
                                                         <?php if( count( $linkedinProfile ) > 0 ) : ?>
                                                             <?php foreach( $linkedinProfile as $linkedin ) : ?>
-                                                                <div class="linkedin-profile social-profile">
-                                                                    <input type="checkbox" value="<?php echo !empty( $linkedin->name ) ? $linkedin->name : '' ?>" name="wpsp_el_social_linkedin[]" <?php echo  in_array( $linkedin->name, $filteredSelectedProfiles ) ? 'checked' : '' ?>><h3><?php echo isset( $linkedin->name ) ? $linkedin->name : '' ?> <?php isset( $linkedin->type ) && $linkedin->type == 'organization' ? __( '(Page)', 'wp-scheduled-posts' ) : '' ?> </h3>
-                                                                </div>
+                                                                <?php if ($linkedin->type == 'person') : ?>
+                                                                    <div class="linkedin-profile social-profile">
+                                                                        <input type="checkbox" value="<?php echo !empty( $linkedin->name ) ? $linkedin->name : '' ?>" name="wpsp_el_social_linkedin[]" <?php echo  in_array( $linkedin->name, $filteredSelectedProfiles ) ? 'checked' : '' ?>><h3><?php echo isset( $linkedin->name ) ? $linkedin->name : '' ?> <?php echo esc_html__('(Profile)', 'wp-scheduled-posts') ?> </h3>
+                                                                    </div>
+                                                                <?php endif; ?>
                                                             <?php endforeach ?>
                                                         <?php endif ?>
                                                     </div>
@@ -565,20 +571,22 @@ class Admin
                                             <?php endforeach ?>
                                         <?php endif ?>
                                     </div>
-                                    <div class="wpsp-el-content wpsp-el-content-linkedin wpsp-el-content-linkedin-tab wpsp-el-social-linkedin-page" data-value="wpsp-el-social-linkedin-page" style="display: none;">
+                                    <div class="wpsp-el-content wpsp-el-content-linkedin wpsp-el-social-linkedin-page" data-value="wpsp-el-social-linkedin-page" style="display: none;">
                                         <?php if( count( $linkedinProfile ) > 0 ) : ?>
                                             <?php foreach( $linkedinProfile as $linkedin ) : ?>
                                                 <?php if ($linkedin->type == 'organization') : ?>
                                                     <div class="wpsp-el-container">
-                                                        <label><input type="radio" data-platform="linkedin" name="wpsp-el-content-linkedin-page" value="wpsp-el-social-linkedin-page-default"><?php echo esc_html__('Default','wp-scheduled-posts') ?></label>
-                                                        <label><input type="radio" data-platform="linkedin" name="wpsp-el-content-linkedin-page" value="wpsp-el-social-linkedin-page-custom"><?php echo esc_html__('Custom','wp-scheduled-posts') ?></label>
+                                                        <label><input type="radio" data-platform="linkedin-page" name="wpsp-el-content-linkedin-page" value="wpsp-el-social-linkedin-page-default"><?php echo esc_html__('Default','wp-scheduled-posts') ?></label>
+                                                        <label><input type="radio" data-platform="linkedin-page" name="wpsp-el-content-linkedin-page" value="wpsp-el-social-linkedin-page-custom"><?php echo esc_html__('Custom','wp-scheduled-posts') ?></label>
                                                     </div>
-                                                    <div class="wpsp-el-content wpsp-el-content-linkedin" data-value="wpsp-el-social-linkedin-custom" style="display: none;">
+                                                    <div class="wpsp-el-content wpsp-el-content-linkedin-page" data-value="wpsp-el-social-linkedin-page-custom">
                                                         <?php if( count( $linkedinProfile ) > 0 ) : ?>
                                                             <?php foreach( $linkedinProfile as $linkedin ) : ?>
-                                                                <div class="linkedin-profile social-profile">
-                                                                    <input type="checkbox" value="<?php echo !empty( $linkedin->name ) ? $linkedin->name : '' ?>" name="wpsp_el_social_linkedin[]" <?php echo  in_array( $linkedin->name, $filteredSelectedProfiles ) ? 'checked' : '' ?>><h3><?php echo isset( $linkedin->name ) ? $linkedin->name : '' ?> <?php isset( $linkedin->type ) && $linkedin->type == 'organization' ? __( '(Page)', 'wp-scheduled-posts' ) : '' ?> </h3>
-                                                                </div>
+                                                                <?php if ($linkedin->type == 'organization') : ?>
+                                                                    <div class="linkedin-profile social-profile">
+                                                                        <input type="checkbox" value="<?php echo !empty( $linkedin->name ) ? $linkedin->name : '' ?>" name="wpsp_el_social_linkedin[]" <?php echo  in_array( $linkedin->name, $filteredSelectedProfiles ) ? 'checked' : '' ?>><h3><?php echo isset( $linkedin->name ) ? $linkedin->name : '' ?> <?php echo esc_html__('(Page)', 'wp-scheduled-posts') ?> </h3>
+                                                                    </div>
+                                                                <?php endif; ?>
                                                             <?php endforeach ?>
                                                         <?php endif ?>
                                                     </div>
@@ -649,20 +657,21 @@ class Admin
             $offset = $offset == 0 ? 0 : ( 0 - $offset );
 
             $args   = wp_parse_args( $_POST, [
-                'id'                        => 0,
-                'date'                      => '',
-                'republish_datetime'        => '',
-                'unpublish_datetime'        => '',
-                'post_status'               => 'future',
-                'advanced'                  => null,
-                'wpsp-el-content-facebook'  => '',
-                'wpsp-el-content-twitter'   => '',
-                'wpsp-el-content-linkedin'  => '',
-                'wpsp-el-content-pinterest' => '',
-                'wpsp_el_social_facebook'   => [],
-                'wpsp_el_social_twitter'   => [],
-                'wpsp_el_social_linkedin'   => [],
-                'wpsp_el_social_pinterest'   => [],
+                'id'                               => 0,
+                'date'                             => '',
+                'republish_datetime'               => '',
+                'unpublish_datetime'               => '',
+                'post_status'                      => 'future',
+                'advanced'                         => null,
+                'wpsp-el-content-facebook'         => '',
+                'wpsp-el-content-twitter'          => '',
+                'wpsp-el-content-linkedin-profile' => '',
+                'wpsp-el-content-linkedin-page'    => '',
+                'wpsp-el-content-pinterest'        => '',
+                'wpsp_el_social_facebook'          => [],
+                'wpsp_el_social_twitter'           => [],
+                'wpsp_el_social_linkedin'          => [],
+                'wpsp_el_social_pinterest'         => [],
             ] );
 
             // @todo moved to pro, will be removed in next version...
@@ -702,7 +711,7 @@ class Admin
                 });
                 $selectedSocialProfiles = array_merge( $twitterSelectedProfile, $selectedSocialProfiles );
             }
-            if( !empty( $args['wpsp_el_social_linkedin'] ) && !empty( $linkedinProfile )  && !empty( $args['wpsp-el-content-linkedin'] ) && $args['wpsp-el-content-linkedin'] == 'wpsp-el-social-linkedin-custom' ) {
+            if( !empty( $args['wpsp_el_social_linkedin'] ) && !empty( $linkedinProfile )  && ( ( !empty( $args['wpsp-el-content-linkedin-page'] ) && $args['wpsp-el-content-linkedin-page'] == 'wpsp-el-social-linkedin-page-custom' ) || (!empty( $args['wpsp-el-content-linkedin-profile'] ) && $args['wpsp-el-content-linkedin-profile'] == 'wpsp-el-social-linkedin-profile-custom') ) ) {
                 $selectedLinkedinProfile = $args['wpsp_el_social_linkedin'];
                 $linkedinSelectedProfile = array_filter($linkedinProfile, function ($obj) use ( $selectedLinkedinProfile ) {
                     return in_array($obj->name, $selectedLinkedinProfile);
@@ -729,9 +738,17 @@ class Admin
                 }
             }
 
-            if( !empty( $args['wpsp-el-content-linkedin'] ) ) {
-                if( $args['wpsp-el-content-linkedin'] == 'wpsp-el-social-linkedin-custom' ) {
+            if( !empty( $args['wpsp-el-content-profile-linkedin'] ) ) {
+                if( $args['wpsp-el-content-linkedin-profile'] == 'wpsp-el-social-linkedin-profile-custom' ) {
                     update_post_meta( $args['id'], '_linkedin_share_type', 'custom' );
+                }else{
+                    update_post_meta( $args['id'], '_linkedin_share_type', 'default' );
+                }
+            }
+
+            if( !empty( $args['wpsp-el-content-page-linkedin'] ) ) {
+                if( $args['wpsp-el-content-linkedin-page'] == 'wpsp-el-social-linkedin-page-custom' ) {
+                    update_post_meta( $args['id'], '_linkedin_share_type_page', 'custom' );
                 }else{
                     update_post_meta( $args['id'], '_linkedin_share_type', 'default' );
                 }
