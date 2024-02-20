@@ -630,7 +630,7 @@ class Admin
                                                     <option value=""><?php echo esc_html('No Section','wp-scheduled-posts') ?></option>
                                                     <?php if( !empty( $get_pinterest_sections ) ) : ?>
                                                         <?php foreach( $get_pinterest_sections as $section ) : ?>
-                                                            <option value="<?php echo !empty( $section['id'] ) ? $section['id'] : '' ?> "><?php echo !empty( $section['name'] ) ? $section['name'] : '' ?></option>
+                                                            <option value="<?php echo !empty( $section['id'] ) && !empty( $pinterest->default_board_name->value ) ? $section['id'] . '|'. $pinterest->default_board_name->value : '' ?> "><?php echo !empty( $section['name'] ) ? $section['name'] : '' ?></option>
                                                         <?php endforeach ?>
                                                     <?php endif ?>
                                                 </select>
@@ -724,15 +724,25 @@ class Admin
                 $pinterestSelectedProfile = array_filter($pinterestProfile, function ($obj) use ( $selectedPinterestProfile ) {
                     return in_array($obj->default_board_name->value, $selectedPinterestProfile);
                 });
+                 // update pinterest section 
+                $pinterest_section = new SocialProfile();
+                if( !empty( $args['wpsp_el_pinterest_board'] ) ) {
+                    foreach ( $args['wpsp_el_pinterest_board'] as $section_of_board) {
+                        $explode_board_and_section = explode( '|', $section_of_board );
+                        if( !empty( $explode_board_and_section[0] ) && !empty( $explode_board_and_section[1] ) ) {
+                            $get_section_array = $pinterest_section->social_fetch_pinterest_section_array( $explode_board_and_section[1], $explode_board_and_section[0] );
+                            // Iterate through the array
+                            foreach ($pinterestSelectedProfile as $pinterest_profile) {
+                                if ( isset($pinterest_profile->default_board_name->value) && $pinterest_profile->default_board_name->value == $explode_board_and_section[1] ) {
+                                    $pinterest_profile->defaultSection = json_decode( json_encode( $get_section_array ) );
+                                }
+                            }
+                        }
+                    }
+                }
                 $selectedSocialProfiles = array_merge( $pinterestSelectedProfile, $selectedSocialProfiles );
             }
-
-            // update pinterest section 
-            // foreach ($pinterestProfile as $key => $pinterest) {
-            //     $pinterest_section = new SocialProfile();
-            //     $pinterest_section->social_profile_fetch_pinterest_section( [ 'defaultBoard'  => $pinterest->default_board_name->value, 'profile' => $key, 'method_called'  => true ]  );
-            // }
-            
+           
             if( !empty( $args['wpsp_el_social_pinterest'] ) || !empty( $args['wpsp_el_social_linkedin'] ) || !empty( $args['wpsp_el_social_twitter'] ) || !empty( $args['wpsp_el_social_facebook'] ) ) {
                 update_post_meta( $args['id'], '_selected_social_profile', $selectedSocialProfiles );
             }
