@@ -204,8 +204,11 @@ class Pinterest
         if( $get_share_type === 'custom' ) {
             $get_all_selected_profile     = get_post_meta($post_id, '_selected_social_profile', true);
             $check_profile_exists         = Helper::is_profile_exits( $board_name->value, $get_all_selected_profile );
-            if( !$check_profile_exists ) {
+            if( empty( $check_profile_exists ) ) {
                 return;
+            }
+            if( !empty( $check_profile_exists->pinterest_custom_section_name ) ) {
+                $section_name = $check_profile_exists->pinterest_custom_section_name;
             }
         }
         
