@@ -268,6 +268,10 @@ class InstantShare
      */
     public function instant_share_fetch_profile()
     {
+        if( !current_user_can('edit_post') ) {
+            wp_send_json_error( [ 'message' => __('You are unauthorized to access social profiles.', 'wp-scheduled-posts') ], 401 );
+            wp_die();
+        }
         $allProfile = array();
         // get data from db
         $facebook = \WPSP\Helper::get_social_profile(WPSCP_FACEBOOK_OPTION_NAME);
