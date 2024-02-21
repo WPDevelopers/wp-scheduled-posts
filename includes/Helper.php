@@ -409,7 +409,7 @@ class Helper
     public static function is_profile_exits($ID, $profiles) {
         foreach ($profiles as $item) {
             if (isset($item['id']) && $item['id'] === $ID) {
-                return true;
+                return $item;
             }
         }
         return false;

@@ -55,6 +55,7 @@ const SocialShare = ( { is_pro_active } ) => {
           _selected_social_profile: selectedSocialProfile,
         },
       })
+      console.log(selectedSocialProfile);
     }, [facebookShareType, twitterShareType, linkedinShareType, pinterestShareType, selectedSocialProfile])
     
     // Get social profile data from wp_options table
@@ -201,6 +202,20 @@ const SocialShare = ( { is_pro_active } ) => {
         }
       }
     }
+    // Function to update the boards with new section IDs
+    function updateBoardSections(boards, sectionsToUpdate) {
+      return boards.map(board => {
+          const update = sectionsToUpdate.find(section => section.board_id === board.id);
+          if (update) {
+              return {
+                  ...board,
+                  pinterest_custom_section_name: update.section_id,
+              };
+          }
+          return board;
+      });
+    }
+
     // Handle section change event
     const handleSectionChange = (board_id,section_id) => {
       const updateSectionArray = selectedSection.map((item) => {
@@ -210,6 +225,8 @@ const SocialShare = ( { is_pro_active } ) => {
         }
         return item;
       });
+      const updateSelectedProfile = updateBoardSections(selectedSocialProfile, updateSectionArray);
+      setSelectedSocialProfile(updateSelectedProfile);
       setSelectedSection(updateSectionArray);
     }
 
@@ -530,9 +547,18 @@ const SocialShare = ( { is_pro_active } ) => {
                               <h3>{ pinterest?.default_board_name?.label } </h3>
                               <select className="pinterest-sections" onChange={ (event) =>  handleSectionChange(pinterest?.default_board_name?.value,event.target.value) }>
                                 <option value="No Section">No Section</option>
-                                { pinterest?.sections?.map( (section) => (
-                                  <option value={ section?.id } selected={ (selectedSection.findIndex( (__item) => __item.board_id === pinterest?.default_board_name?.value && __item.section_id === section?.id ) !== -1) ? true : false } >{ section?.name }</option>
-                                ) ) }
+                                { pinterest?.sections?.map((section) => {
+                                  const isSelectedBasedOnProfile = selectedSocialProfile.findIndex((_item) => _item.id === pinterest?.default_board_name?.value !== -1 && _item?.pinterest_custom_section_name === section?.id );
+                                  const isSelectedBasedOnSection = selectedSection.findIndex((__item) => __item.board_id === pinterest?.default_board_name?.value && __item.section_id === section?.id) !== -1;
+                                  return (
+                                      <option
+                                          value={section?.id}
+                                          selected={ isSelectedBasedOnProfile || isSelectedBasedOnSection }
+                                      >
+                                          {section?.name}
+                                      </option>
+                                  );
+                                })}
                               </select>
                           </div>
                         ) ) }
