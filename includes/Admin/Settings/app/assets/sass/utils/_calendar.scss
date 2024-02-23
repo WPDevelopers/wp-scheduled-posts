@@ -436,6 +436,7 @@
                     //   color: #000;
                     // }
                   }
+                  
                 }
               }
             }
@@ -570,4 +571,23 @@
 .fc-scroller-liquid-absolute {
   -ms-overflow-style: none !important; /* IE and Edge */
   scrollbar-width: none !important; /* Firefox */
+}
+.fc-event.fc-event-past .wpsp-event-card .wpsp-event-card-content{
+  opacity: 0.5;
+}
+.fc-event.fc-event-past:hover .wpsp-event-card .wpsp-event-card-content {
+  opacity: 1;
+}
+.fc-day-today .fc-daygrid-day-frame.fc-scrollgrid-sync-inner {
+  background: #fff !important;
+}
+
+.fc-day-today .fc-daygrid-day-frame.fc-scrollgrid-sync-inner .fc-daygrid-day-top .fc-daygrid-day-number {
+  background: #6c62ff !important;
+  color: #fff !important;
+}
+
+.fc-theme-standard .fc-popover-header {
+  background: #f3f2ff;
+  color: #6c62ff;
 }
