@@ -268,7 +268,7 @@ class InstantShare
      */
     public function instant_share_fetch_profile()
     {
-        if( !current_user_can('edit_post') ) {
+        if( !current_user_can('manage_options') ) {
             wp_send_json_error( [ 'message' => __('You are unauthorized to access social profiles.', 'wp-scheduled-posts') ], 401 );
             wp_die();
         }
@@ -343,6 +343,19 @@ class InstantShare
 
     public function instant_social_single_profile_share($params)
     {
+        // Verify nonce
+        $nonce = sanitize_text_field($_GET['nonce']);
+        if (!wp_verify_nonce($nonce, 'wpscp-pro-social-profile')) {
+            wp_send_json_error(['message' => __('Invalid nonce.', 'wp-scheduled-posts')], 401);
+            die();
+        }
+        
+        // Check user capability
+        if( !current_user_can('manage_options') ) {
+            wp_send_json_error( [ 'message' => __('You are unauthorized to access social profiles.', 'wp-scheduled-posts') ], 401 );
+            wp_die();
+        }
+
         $postid = intval($_GET['postid']);
         $platform = (isset($_GET['platform']) ? $_GET['platform'] : '');
         $profileID = (isset($_GET['id']) ? $_GET['id'] : '');

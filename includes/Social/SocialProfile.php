@@ -139,8 +139,19 @@ class SocialProfile
     public function social_profile_fetch_pinterest_section($params)
     {
        if( wp_doing_ajax() ) {
-        $params = $_POST;
+            $params = $_POST;
+            // Verify nonce
+            $nonce = sanitize_text_field($_POST['_wpnonce']);
+            if (!wp_verify_nonce($nonce, 'wp_rest')) {
+                wp_send_json_error(['message' => __('Invalid nonce.', 'wp-scheduled-posts')], 401);
+                die();
+            }
+            if( !current_user_can('manage_options') ) {
+                wp_send_json_error( [ 'message' => __('You are unauthorized to access social profiles.', 'wp-scheduled-posts') ], 401 );
+                wp_die();
+            }
        }
+
         $defaultBoard = (isset($params['defaultBoard']) ? $params['defaultBoard'] : '');
         $profile = (isset($params['profile']) ? $params['profile'] : '');
         if(!is_array($profile)){
@@ -166,6 +177,19 @@ class SocialProfile
      */
     public function social_profile_fetch_user_info_and_token()
     {
+        // Verify nonce
+        $nonce = sanitize_text_field($_POST['nonce']);
+        if (!wp_verify_nonce($nonce, 'wp_rest')) {
+            wp_send_json_error(['message' => __('Invalid nonce.', 'wp-scheduled-posts')], 401);
+            die();
+        }
+
+        // Check user capability
+        if( !current_user_can('manage_options') ) {
+            wp_send_json_error( [ 'message' => __('You are unauthorized to access social profiles.', 'wp-scheduled-posts') ], 401 );
+            wp_die();
+        }
+
         $type          = (isset($_POST['type']) ? $_POST['type'] : '');
         $code          = (isset($_POST['code']) ? $_POST['code'] : '');
         $app_id        = (isset($_POST['appId']) ? $_POST['appId'] : '');
@@ -441,6 +465,19 @@ class SocialProfile
      */
     public function add_social_profile()
     {
+         // Verify nonce
+        $nonce = sanitize_text_field($_POST['nonce']);
+        if (!wp_verify_nonce($nonce, 'wp_rest')) {
+            wp_send_json_error(['message' => __('Invalid nonce.', 'wp-scheduled-posts')], 401);
+            die();
+        }
+
+        // Check user capability
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(['message' => __('You are unauthorized to access social profiles.', 'wp-scheduled-posts')], 401);
+            die();
+        }
+
         $request = $_POST;
         $type = (isset($_POST['type']) ? $_POST['type'] : '');
         $app_id = (isset($_POST['appId']) ? $_POST['appId'] : '');
