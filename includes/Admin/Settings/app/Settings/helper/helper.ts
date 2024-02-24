@@ -71,8 +71,11 @@ export const generateTabURL = () => {
 // Send API request for fetch url
 export const socialProfileRequestHandler = async (redirectURI, appID, appSecret, platform, openIDConnect = false) => {
     const account_type = localStorage.getItem('account_type');
+    // @ts-ignore 
+    const nonce = wpspSettingsGlobal?.api_nonce;
     const data = {
         action: 'wpsp_social_add_social_profile',
+        nonce: nonce,
         redirectURI: redirectURI,
         appId: appID,
         appSecret: appSecret,
@@ -102,8 +105,11 @@ export const socialProfileRequestHandler = async (redirectURI, appID, appSecret,
 };
 
 export const getProfileData = async (params) => {
+    // @ts-ignore 
+    const nonce = wpspSettingsGlobal?.api_nonce;
     const data = {
         action: "wpsp_social_profile_fetch_user_info_and_token",
+        nonce : nonce,
         type: params.get("type"),
         appId: params.get("appId"),
         appSecret: params.get("appSecret"),

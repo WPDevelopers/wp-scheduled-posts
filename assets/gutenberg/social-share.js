@@ -129,6 +129,7 @@ const SocialShare = ( { is_pro_active } ) => {
             return;
           }
           profile.postid = postid;
+          profile.nonce = WPSchedulePostsFree?.nonce;
           let queryParams = profile;
           const apiUrl = '/wp-scheduled-posts/v1/instant-social-share';
           fetchSocialProfileData(apiUrl,queryParams).then( (res) => {
