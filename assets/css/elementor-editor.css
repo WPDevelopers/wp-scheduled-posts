@@ -10,9 +10,11 @@
 .wpsp-d-none {
     display: none !important;
 }
+
 .wpsp-flex-direction-unset {
     flex-direction: unset !important;
 }
+
 .wpsp-d-block {
     display: block !important;
 }
@@ -243,9 +245,10 @@
 
 
 .el-social-share-platform #el-social-checkbox-wrapper .wpsp-el-accordion-content {
-    display: none;
-    padding: 10px;
-    border-top: 1px solid #EBEEF5;
+    padding: 10px 10px;
+    border: 1px solid #EBEEF5;
+    color: #6E6E8D;
+    margin: 10px;
 }
 
 .el-social-share-platform .wpsp-el-container {
@@ -722,11 +725,13 @@
     display: flex;
     gap: 10px;
 }
+
 .wpsp-elementor-modal-wrapper {
     display: flex;
     justify-content: space-between;
     flex-direction: row-reverse;
 }
+
 .wpsp-el-container.wpsp-el-social-linkedin-tab-wrapper {
     display: flex;
     gap: 0;
@@ -734,28 +739,27 @@
 
 .wpsp-el-container.wpsp-el-social-linkedin-tab-wrapper label {
     flex: 1;
-    text-align: center;
     padding: 10px;
-    cursor: pointer;
-    background-color: #f2f2f2;
-    border: 1px solid #ccc;
-}
+    background-color: transparent;
+    border: none;
 
-.wpsp-el-container.wpsp-el-social-linkedin-tab-wrapper label:hover {
-    background-color: #ddd;
-}
+    .wpsp-el-container.wpsp-el-social-linkedin-tab-wrapper label:hover {
+        background-color: #ddd;
+    }
 
-.wpsp-el-container.wpsp-el-social-linkedin-tab-wrapper input[type="radio"] {
-    display: none;
-}
+    .wpsp-el-container.wpsp-el-social-linkedin-tab-wrapper input[type="radio"] {
+        display: none;
+    }
 
-.wpsp-el-tab-content {
-    display: none;
-}
+    .wpsp-el-tab-content {
+        display: none;
+    }
 
-.wpsp-el-tab-content.wpsp-el-social-linkedin-profile {
-    display: block;
-}
-.el-social-share-platform .wpsp-el-social-linkedin-tab-wrapper input[type="radio"], .el-social-share-platform .wpsp-el-social-linkedin-tab-wrapper input[type="radio"]:checked {
-    opacity: 0;
-}
+    .wpsp-el-tab-content.wpsp-el-social-linkedin-profile {
+        display: block;
+    }
+
+    .el-social-share-platform .wpsp-el-social-linkedin-tab-wrapper input[type="radio"],
+    .el-social-share-platform .wpsp-el-social-linkedin-tab-wrapper input[type="radio"]:checked {
+        opacity: 0;
+    }
