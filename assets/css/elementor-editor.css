@@ -243,12 +243,18 @@
     color: #1B1B50;
 }
 
+.el-social-share-platform #el-social-checkbox-wrapper .wpsp-el-accordion-item.wpsp-el-accordion-item-linkedin .wpsp-el-accordion-content {
+    border: 1px solid #EBEEF5;
+    border-radius: 6px;
+    color: #6E6E8D;
+    padding: 0;
+    margin: 10px;
+}
 
 .el-social-share-platform #el-social-checkbox-wrapper .wpsp-el-accordion-content {
-    padding: 10px 10px;
-    border: 1px solid #EBEEF5;
-    color: #6E6E8D;
-    margin: 10px;
+    display: none;
+    padding: 10px;
+    border-top: 1px solid #EBEEF5;
 }
 
 .el-social-share-platform .wpsp-el-container {
@@ -256,7 +262,11 @@
     display: flex;
     justify-content: start;
     align-items: center;
-    gap: 15px;
+}
+
+.wpsp-el-container.wpsp-el-social-linkedin-tab-wrapper label,
+.wpsp-el-container.wpsp-el-social-linkedin-tab-wrapper label.disabled {
+    background: #EBEEF5;
 }
 
 .el-social-share-platform .wpsp-el-accordion-content .wpsp-el-container label {
@@ -269,6 +279,7 @@
     align-items: center;
     cursor: pointer;
     color: #1B1B50;
+    padding: 10px;
 }
 
 .el-social-share-platform .wpsp-el-accordion-content .wpsp-el-container label input[type="radio"] {
@@ -307,6 +318,10 @@
 
 .el-social-share-platform .wpsp-el-accordion .wpsp-el-accordion-item .wpsp-el-content {
     margin-top: 10px;
+}
+
+.el-social-share-platform .wpsp-el-accordion .wpsp-el-accordion-item .wpsp-el-content.wpsp-el-content-linkedin.wpsp-el-social-linkedin-profile {
+    margin-top: 0;
 }
 
 .el-social-share-platform .wpsp-el-accordion .wpsp-el-accordion-item .wpsp-el-content {
@@ -763,3 +778,8 @@
     .el-social-share-platform .wpsp-el-social-linkedin-tab-wrapper input[type="radio"]:checked {
         opacity: 0;
     }
+}
+
+.wpsp-el-container.wpsp-el-social-linkedin-tab-wrapper label input {
+    display: none !important;
+}
