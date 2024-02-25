@@ -572,10 +572,10 @@
   -ms-overflow-style: none !important; /* IE and Edge */
   scrollbar-width: none !important; /* Firefox */
 }
-.fc-event.fc-event-past .wpsp-event-card .wpsp-event-card-content{
+.fc-day-past .fc-event .wpsp-event-card .wpsp-event-card-content{
   opacity: 0.5;
 }
-.fc-event.fc-event-past:hover .wpsp-event-card .wpsp-event-card-content {
+.fc-day-past .fc-event:hover .wpsp-event-card .wpsp-event-card-content {
   opacity: 1;
 }
 .fc-day-today .fc-daygrid-day-frame.fc-scrollgrid-sync-inner {
