@@ -427,12 +427,11 @@ class Admin
         </div>
         <?php
     }
+    
     function wpsp_filter_selected_profile_object($profile)
     {
-        if ( isset($profile->default_board_name->value)) {
-            return $profile->default_board_name->value;
-        } elseif ( isset($profile->name) ) {
-            return $profile->name;
+       if ( isset($profile['name']) ) {
+           return $profile['name'];
         }
     }
 
@@ -453,7 +452,7 @@ class Admin
         $pinterestShareType    = get_post_meta( get_the_ID(), '_pinterest_share_type', true );
         // get all selected social profile 
         $allSelectedSocialProfiles = get_post_meta( get_the_ID(), '_selected_social_profile', true );
-        $filteredSelectedProfiles = array_map([ $this, 'wpsp_filter_selected_profile_object' ], !empty( $allSelectedSocialProfiles ) ? $allSelectedSocialProfiles : [] );
+        $filteredSelectedProfiles = array_map( [ $this, 'wpsp_filter_selected_profile_object' ], !empty( $allSelectedSocialProfiles ) ? $allSelectedSocialProfiles : [] );
         $filteredSelectedProfiles = array_filter($filteredSelectedProfiles);
 
         // profile
@@ -625,7 +624,7 @@ class Admin
                                                 $get_pinterest_sections = $pinterest_section->social_profile_fetch_pinterest_section( [ 'defaultBoard'  => $pinterest->default_board_name->value, 'profile' => $key, 'method_called'  => true ]  );
                                             ?>
                                             <div class="pinterest-profile social-profile">
-                                                <input type="checkbox" value="<?php echo $pinterest->default_board_name->value ?>" name="wpsp_el_social_pinterest[]" <?php echo  in_array( $pinterest->default_board_name->value, $filteredSelectedProfiles ) ? 'checked' : '' ?>>
+                                                <input type="checkbox" value="<?php echo $pinterest->default_board_name->value ?>" name="wpsp_el_social_pinterest[]" <?php echo  in_array( $pinterest->default_board_name->label, $filteredSelectedProfiles ) ? 'checked' : '' ?>>
                                                 <h3><?php echo !empty( $pinterest->default_board_name->label ) ? $pinterest->default_board_name->label : '' ?> </h3>
                                                 <select name="wpsp_el_pinterest_board[]" id="wpsp_el_pinterest_section_<?php echo $pinterest->default_board_name->value ?>">
                                                     <option value=""><?php echo esc_html('No Section','wp-scheduled-posts') ?></option>
@@ -668,6 +667,46 @@ class Admin
             }
         }
         return $pinterest;
+    }
+
+    public function wpsp_format_profile_data( $selectedSocialProfiles ) {
+        $platformKeyMapping = [
+            'linkedin'  => ['type'],
+            'twitter'   => [],
+            'facebook'  => ['type'],
+            'pinterest' => ['default_board_name', 'defaultSection'],
+        ];
+        foreach ($selectedSocialProfiles as $key => $item) {
+            $platform = '';
+            if (property_exists($item, 'urn')) {
+                $platform = 'linkedin';
+            } elseif (property_exists($item, 'oauth_token')) {
+                $platform = 'twitter';
+            } elseif (property_exists($item, 'type')) {
+                $platform = 'facebook';
+            } elseif (property_exists($item, 'access_token') && !empty($item->boards)) {
+                $platform = 'pinterest';
+            }
+            $formattedItem = [
+                'id'            => $item->id,
+                'platform'      => $platform,
+                'platformKey'   => 0,
+                'name'          => ($platform === 'pinterest') ? $item->default_board_name->label : $item->name,
+                'thumbnail_url' => $item->thumbnail_url,
+                'share_type'    => 'default',
+            ];
+            foreach ($platformKeyMapping[$platform] as $key) {
+                if ($platform === 'pinterest') {
+                    $formattedItem['pinterest_custom_board_name']   = $item->default_board_name->value;
+                    $formattedItem['pinterest_custom_section_name'] = $item->defaultSection->value;
+                    unset( $formattedItem['default_board_name'], $formattedItem['defaultSection'] );
+                } else {
+                    $formattedItem[$key] = $item->$key;
+                }
+            }
+            $formattedData[] = $formattedItem;
+        }
+        return $formattedData;
     }
 
     public function wpsp_el_tab_action() {
@@ -763,6 +802,7 @@ class Admin
             }
            
             if( !empty( $args['wpsp_el_social_pinterest'] ) || !empty( $args['wpsp_el_social_linkedin'] ) || !empty( $args['wpsp_el_social_twitter'] ) || !empty( $args['wpsp_el_social_facebook'] ) ) {
+                $selectedSocialProfiles = $this->wpsp_format_profile_data( $selectedSocialProfiles );
                 update_post_meta( $args['id'], '_selected_social_profile', $selectedSocialProfiles );
             }
 
