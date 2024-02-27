@@ -467,6 +467,9 @@ class Admin
         }
         $linkedinProfile = \WPSP\Helper::get_settings('linkedin_profile_list');
         if( !class_exists('WPSP_PRO') ) {
+            $linkedinProfile = array_filter($linkedinProfile, function($single_linkedin) {
+                return $single_linkedin->type == 'person';
+            });
             $linkedinProfile = array_slice( $linkedinProfile, 0, 1, true );
         }
         $pinterestProfile = \WPSP\Helper::get_settings('pinterest_profile_list');
@@ -543,7 +546,7 @@ class Admin
                                         <input type="radio" data-platform="linkedin-tab" id="wpsp-el-social-linkedin-profile-tab" name="wpsp-el-content-linkedin-tab" value="wpsp-el-social-linkedin-profile" checked><?php echo esc_html__('Profile','wp-scheduled-posts') ?>
                                     </label>
                                     <label for="wpsp-el-social-linkedin-page-tab" class="<?php echo !class_exists('WPSP_PRO') ? 'disabled' : '' ?>">
-                                        <input type="radio" data-platform="linkedin-tab" id="wpsp-el-social-linkedin-page-tab" name="wpsp-el-content-linkedin-tab" value="wpsp-el-social-linkedin-page"><?php echo esc_html__('Page','wp-scheduled-posts') ?>
+                                        <input type="radio" data-platform="linkedin-tab" id="wpsp-el-social-linkedin-page-tab" name="wpsp-el-content-linkedin-tab" value="wpsp-el-social-linkedin-page" <?php echo !class_exists('WPSP_PRO') ? 'disabled' : '' ?>><?php echo esc_html__('Page','wp-scheduled-posts') ?>
                                     </label>
                                 </div>
                                 <?php if( !empty( $linkedinIntegation ) && !empty( $linkedinIntegation ) ) : ?>
@@ -571,7 +574,7 @@ class Admin
                                         <?php endif ?>
                                     </div>
                                     <div class="wpsp-el-content wpsp-el-content-linkedin wpsp-el-social-linkedin-page" data-value="wpsp-el-social-linkedin-page" style="display: none;">
-                                        <?php if( count( $linkedinProfile ) > 0 ) : ?>
+                                        <?php if( count( $linkedinProfile ) > 0 && class_exists('WPSP_PRO') ) : ?>
                                             <?php foreach( $linkedinProfile as $linkedin ) : ?>
                                                 <?php if ($linkedin->type == 'organization') : ?>
                                                     <div class="wpsp-el-container">
