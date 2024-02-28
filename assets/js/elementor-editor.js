@@ -354,15 +354,18 @@
                      * Single Profile Ajax sending via loop
                      */
                     $.each(response.profile, function (profile, profileKey) {
+                        const nonce = wpscpSocialProfile?.nonce;
                         Object.keys(profileKey).forEach(function (key) {
                             var data = {
                                 action: 'wpscp_instant_social_single_profile_share',
                                 platform: profile,
+                                nonce : nonce,
                                 platformKey: key,
                                 postid: postid,
                                 pinterest_board_type: pinterestBoardType,
                             }
                             if(profile === 'pinterest' && pinterestBoardType === 'custom'){
+                                console.log('pinterest_selected_profiles', pinterest_selected_profiles);
                                 pinterest_selected_profiles.forEach(single_pinterest_board => {
                                     data.pinterest_custom_board_name   = single_pinterest_board;
                                     data.pinterest_custom_section_name = jQuery(".wpsp-el-content-pinterest .social-profile #wpsp_el_pinterest_section_" + single_pinterest_board).val();

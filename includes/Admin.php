@@ -463,7 +463,13 @@ class Admin
         $allSelectedSocialProfiles = get_post_meta( get_the_ID(), '_selected_social_profile', true );
         $filteredSelectedProfiles = array_map( [ $this, 'wpsp_filter_selected_profile_object' ], !empty( $allSelectedSocialProfiles ) ? $allSelectedSocialProfiles : [] );
         $getPinterestSections = array_map( [ $this, 'wpsp_get_pinterest_sections' ], !empty( $allSelectedSocialProfiles ) ? $allSelectedSocialProfiles : [] );
-        $getPinterestSections = reset( $getPinterestSections );
+        $getPinterestSections = array_filter($getPinterestSections, function($item) {
+            return !empty($item);
+        });
+        $getPinterestSections = array_reduce($getPinterestSections, function($carry, $item) {
+            return $carry + $item; 
+        }, []);
+
         $filteredSelectedProfiles = array_filter($filteredSelectedProfiles);
 
         // profile

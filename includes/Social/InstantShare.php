@@ -375,6 +375,10 @@ class InstantShare
         $pinterest_board_type = (isset($_GET['pinterest_board_type']) ? sanitize_text_field($_GET['pinterest_board_type']) : '');
         $pinterestBoardName = (isset($_GET['pinterest_custom_board_name']) ? sanitize_text_field($_GET['pinterest_custom_board_name']) : '');
         $pinterestSectionName = (isset($_GET['pinterest_custom_section_name']) ? sanitize_text_field($_GET['pinterest_custom_section_name']) : '');
+        $pinterestCustomSectionName = explode( '|', $pinterestSectionName );
+        if( !empty( $pinterestCustomSectionName[0] ) ) {
+            $pinterestSectionName = $pinterestCustomSectionName[0];
+        }
         // all social platfrom
         if ($platform == 'facebook') {
             $facebook = \WPSP\Helper::get_social_profile(WPSCP_FACEBOOK_OPTION_NAME);
