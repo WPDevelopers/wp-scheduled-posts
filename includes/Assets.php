@@ -20,6 +20,9 @@ class Assets
 		    wp_enqueue_script( 'wpscp-el-editor', WPSP_ASSETS_URI . 'js/elementor-editor.js', array( 'jquery', 'tipsy' ), WPSP_VERSION, true );
             wp_enqueue_style('jquery-kylefoxModal', WPSP_ASSETS_URI . 'css/vendor/jquery.modal.min.css', array(), WPSP_VERSION, 'all');
 		    wp_enqueue_style( 'wpscp-el-editor', WPSP_ASSETS_URI . 'css/elementor-editor.css',array(), WPSP_VERSION, 'all' );
+            wp_localize_script('wpscp-el-editor', 'wpscpSocialProfile', array(
+                'nonce' => wp_create_nonce('wpscp-pro-social-profile'),
+            ));
 	    } );
     }
 
