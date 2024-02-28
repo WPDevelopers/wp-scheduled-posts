@@ -377,8 +377,8 @@
             }
 
             var postid = jQuery('#wpscppropostid').val()
-            var nonce = jQuery('#wpscp_pro_instant_social_share_nonce').val()
-
+            // var nonce = jQuery('#wpscp_pro_instant_social_share_nonce').val()
+            const nonce = wpscpSocialProfile?.nonce;
             var data = {
                 action: 'wpscp_instant_share_fetch_profile',
                 _nonce: nonce,
@@ -413,17 +413,18 @@
                                 pinterest_board_type: pinterestBoardType,
                             }
                             if(profile === 'pinterest' && pinterestBoardType === 'custom'){
-                                console.log('pinterest_selected_profiles', pinterest_selected_profiles);
                                 pinterest_selected_profiles.forEach(single_pinterest_board => {
-                                    data.pinterest_custom_board_name   = single_pinterest_board;
-                                    data.pinterest_custom_section_name = jQuery(".wpsp-el-content-pinterest .social-profile #wpsp_el_pinterest_section_" + single_pinterest_board).val();
-                                    jQuery.get(ajaxurl, data, function (response, status) {
-                                        WpScp_Social_single_profile_share_response_markup(
-                                            profile,
-                                            key,
-                                            response
-                                        )
-                                    })
+                                    if( single_pinterest_board == profileKey[key]?.default_board_name?.value ) {
+                                        data.pinterest_custom_board_name   = single_pinterest_board;
+                                        data.pinterest_custom_section_name = jQuery(".wpsp-el-content-pinterest .social-profile #wpsp_el_pinterest_section_" + single_pinterest_board).val();
+                                        jQuery.get(ajaxurl, data, function (response, status) {
+                                            WpScp_Social_single_profile_share_response_markup(
+                                                profile,
+                                                key,
+                                                response
+                                            )
+                                        })
+                                    }
                                 });
                             }else{
                                 jQuery.get(ajaxurl, data, function (response, status) {
