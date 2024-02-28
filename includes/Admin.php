@@ -704,7 +704,7 @@ class Admin
                 $platform = 'pinterest';
             }
             $formattedItem = [
-                'id'            => $item->id,
+                'id'            => ($platform === 'pinterest') ? $item->default_board_name->value : $item->id,
                 'platform'      => $platform,
                 'platformKey'   => 0,
                 'name'          => ($platform === 'pinterest') ? $item->default_board_name->label : $item->name,
