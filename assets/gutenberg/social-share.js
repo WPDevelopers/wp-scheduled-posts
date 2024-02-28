@@ -126,6 +126,7 @@ const SocialShare = ( { is_pro_active } ) => {
           setSelectedSocialProfile( [...default_selected_social_profile] );
         }
       } )
+      console.log(selectedSocialProfile);
     }, [])
   
     const toggleAccordion = (type) => {
@@ -543,12 +544,12 @@ const SocialShare = ( { is_pro_active } ) => {
                         />
                         { pinterestShareType === 'custom' && pinterestProfileData.map( ( pinterest, index ) => (
                           <div className="pinterest-profile social-profile">
-                              <input checked={ ( selectedSocialProfile.findIndex( ( item ) => item.id === pinterest?.default_board_name?.value ) != -1 ) ? true : false } type="checkbox" onClick={ (event) =>  handlePinterestProfileSelectionCheckbox( event, pinterest, index, pinterest?.thumbnail_url) } />
+                              <input checked={ ( selectedSocialProfile.findIndex( ( item ) => item.pinterest_custom_board_name === pinterest?.default_board_name?.value ) != -1 ) ? true : false } type="checkbox" onClick={ (event) =>  handlePinterestProfileSelectionCheckbox( event, pinterest, index, pinterest?.thumbnail_url) } />
                               <h3>{ pinterest?.default_board_name?.label } </h3>
                               <select className="pinterest-sections" onChange={ (event) =>  handleSectionChange(pinterest?.default_board_name?.value,event.target.value) }>
                                 <option value="No Section">No Section</option>
                                 { pinterest?.sections?.map((section) => {
-                                  const isSelectedBasedOnProfile = selectedSocialProfile.findIndex((_item) => _item.id === pinterest?.default_board_name?.value !== -1 && _item?.pinterest_custom_section_name === section?.id );
+                                  const isSelectedBasedOnProfile = selectedSocialProfile.findIndex((_item) => _item.pinterest_custom_board_name === pinterest?.default_board_name?.value !== -1 && _item?.pinterest_custom_section_name === section?.id );
                                   const isSelectedBasedOnSection = selectedSection.findIndex((__item) => __item.board_id === pinterest?.default_board_name?.value && __item.section_id === section?.id) !== -1;
                                   return (
                                       <option

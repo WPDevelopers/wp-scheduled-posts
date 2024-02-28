@@ -435,6 +435,15 @@ class Admin
         }
     }
 
+    public function wpsp_get_pinterest_sections( $profiles )
+    {
+        if( $profiles['platform'] == 'pinterest' ) {
+            if ( isset( $profiles['pinterest_custom_board_name'] ) && isset( $profiles['pinterest_custom_section_name'] ) ) {
+                return [ $profiles['pinterest_custom_board_name'] => $profiles['pinterest_custom_section_name'] ];
+             }
+        }
+    }
+
     public function wpsp_el_modal_social_share_profile() 
     {
         wp_nonce_field(basename(__FILE__), 'wpscp_pro_instant_social_share_nonce');
@@ -453,6 +462,8 @@ class Admin
         // get all selected social profile 
         $allSelectedSocialProfiles = get_post_meta( get_the_ID(), '_selected_social_profile', true );
         $filteredSelectedProfiles = array_map( [ $this, 'wpsp_filter_selected_profile_object' ], !empty( $allSelectedSocialProfiles ) ? $allSelectedSocialProfiles : [] );
+        $getPinterestSections = array_map( [ $this, 'wpsp_get_pinterest_sections' ], !empty( $allSelectedSocialProfiles ) ? $allSelectedSocialProfiles : [] );
+        $getPinterestSections = reset( $getPinterestSections );
         $filteredSelectedProfiles = array_filter($filteredSelectedProfiles);
 
         // profile
@@ -633,7 +644,9 @@ class Admin
                                                     <option value=""><?php echo esc_html('No Section','wp-scheduled-posts') ?></option>
                                                     <?php if( !empty( $get_pinterest_sections ) ) : ?>
                                                         <?php foreach( $get_pinterest_sections as $section ) : ?>
-                                                            <option value="<?php echo !empty( $section['id'] ) && !empty( $pinterest->default_board_name->value ) ? $section['id'] . '|'. $pinterest->default_board_name->value : '' ?>" <?php echo !empty( $pinterest->defaultSection->value ) && $pinterest->defaultSection->value == $section['id'] ? 'selected' : '' ?>><?php echo !empty( $section['name'] ) ? $section['name'] : '' ?></option>
+                                                            <?php if( !empty( $getPinterestSections[ $pinterest->default_board_name->value ] ) ) : ?>
+                                                                <option value="<?php echo !empty( $section['id'] ) ? $section['id']. '|'. $pinterest->default_board_name->value : '' ?>" <?php echo $getPinterestSections[$pinterest->default_board_name->value] == $section['id'] ? 'selected' : '' ?> ><?php echo !empty( $section['name'] ) ? $section['name'] : '' ?></option>
+                                                            <?php endif ?>
                                                         <?php endforeach ?>
                                                     <?php endif ?>
                                                 </select>
