@@ -270,6 +270,10 @@ class InstantShare
      */
     public function instant_share_fetch_profile()
     {
+        if( !current_user_can('edit_post') ) {
+            wp_send_json_error( [ 'message' => __('You are unauthorized to access social profiles.', 'wp-scheduled-posts') ], 401 );
+            wp_die();
+        }
         $allProfile = array();
         $facebook_selected_profiles  = !empty( $_REQUEST['facebook_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['facebook_selected_profiles'] ) : [];
         $twitter_selected_profiles   = !empty( $_REQUEST['twitter_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['twitter_selected_profiles'] ) : [];

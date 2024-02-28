@@ -592,7 +592,7 @@ class Calendar
                 return new WP_Error('rest_post_update_error', __('Post type isn\'t allowed in Settings page.', 'wp-scheduled-posts'), array('status' => 400));
             }
 
-            $result = wp_delete_post($postId, true);
+            $result = wp_delete_post($postId, false);
             if ($result === false) {
                 $error = new WP_Error('delete_failed', 'Failed to delete post', array('status' => 500));
                 return new WP_REST_Response($error, 500);

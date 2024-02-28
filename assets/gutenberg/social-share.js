@@ -55,7 +55,6 @@ const SocialShare = ( { is_pro_active } ) => {
           _selected_social_profile: selectedSocialProfile,
         },
       })
-      console.log(selectedSocialProfile);
     }, [facebookShareType, twitterShareType, linkedinShareType, pinterestShareType, selectedSocialProfile])
     
     // Get social profile data from wp_options table
@@ -86,6 +85,10 @@ const SocialShare = ( { is_pro_active } ) => {
                 defaultBoard: pinterest_profile?.default_board_name?.value,
                 profile: pinterest_profile,
               };
+              let findSelectedPinterestIndex = selectedSocialProfile.findIndex( ( __selectedProfile ) => __selectedProfile?.id == pinterest_profile?.default_board_name?.value );
+              if( findSelectedPinterestIndex != -1 ) {
+                default_selected_section.push( { board_id : pinterest_profile?.default_board_name?.value, section_id : findSelectedPinterestIndex[findSelectedPinterestIndex].pinterest_custom_section_name  } );
+              }
               default_selected_section.push( { board_id : pinterest_profile?.default_board_name?.value, section_id : pinterest_profile?.defaultSection?.value  } );
               fetchPinterestSection(data).then( ( res ) => {
                 filtered_pinterest_profile_list[index].sections = res.data;
@@ -373,7 +376,6 @@ const SocialShare = ( { is_pro_active } ) => {
               <MediaUpload
                 allowedTypes={['image']}
                 onSelect={ (media) => {
-                  console.log(media.url);
                   setUploadSocialShareBanner( media?.url );
                   setUploadSocialShareBannerId( media?.id );
                 } }
@@ -545,21 +547,37 @@ const SocialShare = ( { is_pro_active } ) => {
                           <div className="pinterest-profile social-profile">
                               <input checked={ ( selectedSocialProfile.findIndex( ( item ) => item.pinterest_custom_board_name === pinterest?.default_board_name?.value ) != -1 ) ? true : false } type="checkbox" onClick={ (event) =>  handlePinterestProfileSelectionCheckbox( event, pinterest, index, pinterest?.thumbnail_url) } />
                               <h3>{ pinterest?.default_board_name?.label } </h3>
-                              <select className="pinterest-sections" onChange={ (event) =>  handleSectionChange(pinterest?.default_board_name?.value,event.target.value) }>
-                                <option value="No Section">No Section</option>
-                                { pinterest?.sections?.map((section) => {
-                                  const isSelectedBasedOnProfile = selectedSocialProfile.findIndex((_item) => _item.pinterest_custom_board_name === pinterest?.default_board_name?.value !== -1 && _item?.pinterest_custom_section_name === section?.id );
-                                  const isSelectedBasedOnSection = selectedSection.findIndex((__item) => __item.board_id === pinterest?.default_board_name?.value && __item.section_id === section?.id) !== -1;
-                                  return (
-                                      <option
+                                { selectedSocialProfile.findIndex( ( _profile ) => _profile?.id  == pinterest?.default_board_name?.value ) != -1 ?
+                                  <select className="pinterest-sections" onChange={(event) => handleSectionChange(pinterest?.default_board_name?.value, event.target.value)}>
+                                    <option value="No Section">No Section</option>
+                                    {pinterest?.sections?.map((section) => {
+                                      const isSelectedBasedOnProfile = selectedSocialProfile.findIndex((_item) => _item.id == pinterest?.default_board_name?.value && _item?.pinterest_custom_section_name == section?.id );
+                                      return (
+                                        <option
+                                          key={section?.id}
                                           value={section?.id}
-                                          selected={ isSelectedBasedOnProfile || isSelectedBasedOnSection }
+                                          selected={ isSelectedBasedOnProfile == -1 ? false : true}
+                                        >
+                                        {section?.name}
+                                        </option>
+                                      );
+                                    })}
+                                 </select> :
+                                 <select className="pinterest-sections" onChange={(event) => handleSectionChange(pinterest?.default_board_name?.value, event.target.value)}>
+                                  <option value="No Section">No Section</option>
+                                  {pinterest?.sections?.map((section) => {
+                                    return (
+                                      <option
+                                        key={section?.id}
+                                        value={section?.id}
+                                        selected={ section?.id == pinterest?.defaultSection?.value ? true : false }
                                       >
-                                          {section?.name}
+                                      {section?.name}
                                       </option>
-                                  );
-                                })}
-                              </select>
+                                    );
+                                  })}
+                                </select>                           
+                                }
                           </div>
                         ) ) }
                       </Fragment>
