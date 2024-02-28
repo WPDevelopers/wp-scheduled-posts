@@ -272,11 +272,12 @@ class InstantShare
     {
         
          // Verify nonce
-         $nonce = sanitize_text_field($_REQUEST['_nonce']);
-         if ( !wp_verify_nonce($nonce, basename(__FILE__)) ) {
-             wp_send_json_error( ['message' => __('Invalid nonce.', 'wp-scheduled-posts') ] );
-             die();
-         }
+          // Verify nonce
+        $nonce = sanitize_text_field($_REQUEST['_nonce']);
+        if (!wp_verify_nonce($nonce, 'wpscp-pro-social-profile')) {
+            wp_send_json_error(['message' => __('Invalid nonce.', 'wp-scheduled-posts')], 401);
+            die();
+        }
  
          if( !current_user_can('manage_options') ) {
              wp_send_json_error( [ 'message' => __('You are unauthorized to access social profiles.', 'wp-scheduled-posts') ], 401 );
