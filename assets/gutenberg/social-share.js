@@ -204,6 +204,7 @@ const SocialShare = ( { is_pro_active } ) => {
           setSelectedSocialProfile(filteredSelectedProfile);
         }
       }
+      console.log('selected-social-profile', selectedSocialProfile);
     }
     // Function to update the boards with new section IDs
     function updateBoardSections(boards, sectionsToUpdate) {
@@ -229,6 +230,8 @@ const SocialShare = ( { is_pro_active } ) => {
         return item;
       });
       const updateSelectedProfile = updateBoardSections(selectedSocialProfile, updateSectionArray);
+      console.log('updateSectionArray',updateSelectedProfile);
+      console.log('updateSectionArray',updateSectionArray);
       setSelectedSocialProfile(updateSelectedProfile);
       setSelectedSection(updateSectionArray);
     }
@@ -550,15 +553,15 @@ const SocialShare = ( { is_pro_active } ) => {
                               <select className="pinterest-sections" onChange={ (event) =>  handleSectionChange(pinterest?.default_board_name?.value,event.target.value) }>
                                 <option value="No Section">No Section</option>
                                 { pinterest?.sections?.map((section, key ) => {
-                                  const isSelectedBasedOnProfile = selectedSocialProfile.findIndex((_item) => _item.id == pinterest?.default_board_name?.value && _item?.pinterest_custom_section_name == section?.id );
-                                  const isSelectedBasedOnSection = selectedSection.findIndex((__item) => __item.board_id === pinterest?.default_board_name?.value && __item.section_id === section?.id);
-                                  if( isSelectedBasedOnProfile == -1 ) {
+                                  const isSelectedBasedOnProfile = selectedSocialProfile.findIndex((_item) => _item.id == pinterest?.default_board_name?.value);
+                                  const isSelectedBasedOnSection = selectedSection.findIndex((__item) => __item.board_id === pinterest?.default_board_name?.value);
+                                  if( isSelectedBasedOnProfile != -1 ) {
                                     return (
-                                      <option value={section?.id} selected={ isSelectedBasedOnSection != -1 ? true : false } > {section?.name} </option>
+                                      <option value={section?.id} selected={ selectedSocialProfile[isSelectedBasedOnProfile]?.pinterest_custom_section_name == section?.id ? true : false } > {section?.name} </option>
                                     );
                                   }else {
                                     return (
-                                      <option value={section?.id} selected={ isSelectedBasedOnProfile != -1 ? true : false } > {section?.name} </option>
+                                      <option value={section?.id} selected={ selectedSocialProfile[isSelectedBasedOnSection]?.pinterest_custom_section_name == section?.id ? true : false } > {section?.name} </option>
                                     );
                                   }
                                 })}
