@@ -238,6 +238,8 @@
             }else if( platform == 'linkedin-tab' ) {
                 $(`.wpsp-el-accordion-item-linkedin .wpsp-el-content-linkedin`).hide();
                 const selectedValue = $(`.wpsp-el-accordion-item-linkedin input[name="wpsp-el-content-${platform}"]:checked`).val();
+                $(`.wpsp-el-accordion-item-linkedin input[name="wpsp-el-content-${platform}"]:checked`).parents('label').siblings().removeClass('active');
+                $(`.wpsp-el-accordion-item-linkedin input[name="wpsp-el-content-${platform}"]:checked`).parents('label').addClass('active');
                 $(`.wpsp-el-accordion-item-linkedin .wpsp-el-content-linkedin[data-value="${selectedValue}"]`).show();
             } else {
                 $(`.wpsp-el-accordion-item-${platform} .wpsp-el-content-${platform}`).hide();
