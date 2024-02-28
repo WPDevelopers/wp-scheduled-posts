@@ -65,9 +65,11 @@ jQuery(document).ready(function ($) {
                  */
                 $.each(response.profile, function (profile, profileKey) {
                     Object.keys(profileKey).forEach(function (key) {
+                        const nonce = wpscpSocialProfile?.nonce;
                         var data = {
                             action: 'wpscp_instant_social_single_profile_share',
                             platform: profile,
+                            nonce : nonce,
                             platformKey: key,
                             postid: postid,
                             pinterest_board_type: pinterestBoardType,
