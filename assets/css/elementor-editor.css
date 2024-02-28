@@ -286,6 +286,14 @@
     padding: 10px;
 }
 
+.wpsp-el-accordion-item.wpsp-el-accordion-item-pinterest .wpsp-el-accordion-content .wpsp-el-container {
+    gap: 20px;
+}
+
+.wpsp-el-accordion-item.wpsp-el-accordion-item-pinterest .wpsp-el-accordion-content .wpsp-el-container label {
+    padding: 0;
+}
+
 .el-social-share-platform .wpsp-el-accordion-content .wpsp-el-container label input[type="radio"] {
     -webkit-appearance: none;
     appearance: none;
