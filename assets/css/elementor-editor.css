@@ -226,6 +226,7 @@
 
 .el-social-share-platform #el-social-checkbox-wrapper .wpsp-el-accordion-item h3 {
     color: #1B1B50;
+    min-width: 110px;
 }
 
 .el-social-share-platform #el-social-checkbox-wrapper .wpsp-el-accordion-header {
@@ -264,9 +265,12 @@
     align-items: center;
 }
 
-.wpsp-el-container.wpsp-el-social-linkedin-tab-wrapper label,
-.wpsp-el-container.wpsp-el-social-linkedin-tab-wrapper label.disabled {
-    background: #EBEEF5;
+.wpsp-el-container.wpsp-el-social-linkedin-tab-wrapper label.active {
+    background: #EBEEF5 !important;
+}
+
+.linkedin-profile.social-profile {
+    padding: 0 10px;
 }
 
 .el-social-share-platform .wpsp-el-accordion-content .wpsp-el-container label {
@@ -782,4 +786,8 @@
 
 .wpsp-el-container.wpsp-el-social-linkedin-tab-wrapper label input {
     display: none !important;
+}
+
+.wpsp-el-content-linkedin .wpsp-el-empty-profile-message {
+    padding: 10px;
 }

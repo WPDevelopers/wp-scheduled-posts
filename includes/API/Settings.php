@@ -101,6 +101,7 @@ class Settings
                                 'type'       => 'object',
                                 'properties' => [
                                     'id'                            => ['type' => ['string','integer']],
+                                    'postid'                        => ['type' => 'integer'],
                                     'platform'                      => ['type' => 'string'],
                                     'platformKey'                   => ['type' => 'integer'],
                                     'pinterest_custom_board_name'   => ['type' => 'string'],
@@ -109,6 +110,8 @@ class Settings
                                     'thumbnail_url'                 => ['type' => 'string'],
                                     'type'                          => ['type' => 'string'],
                                     'share_type'                    => ['type' => 'string'],
+                                    'pinterest_board_type'          => ['type' => 'string'],
+                                    'nonce'                         => ['type' => 'string'],
                                 ],
                             ],
                         ],
