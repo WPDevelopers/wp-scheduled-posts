@@ -162,7 +162,7 @@
 } */
 
 #schedulepress-elementor-modal.elementor-templates-modal .dialog-buttons-wrapper {
-    padding: 20px 30px 30px;
+    padding: 20px 30px;
 }
 
 #schedulepress-elementor-modal .elementor-button.wpsp-immediately-publish {
@@ -228,12 +228,15 @@
     color: #1B1B50;
     min-width: 110px;
 }
-
+.el-social-share-platform .wpsp-el-content-linkedin {
+    padding: 10px;
+    margin-top: 0 !important;
+}
 .el-social-share-platform #el-social-checkbox-wrapper .wpsp-el-accordion-header {
     padding: 10px;
     cursor: pointer;
     font-size: 16px;
-    font-weight: 400;
+    font-weight: 500;
     display: flex;
     justify-content: start;
     align-items: center;
@@ -245,11 +248,14 @@
 }
 
 .el-social-share-platform #el-social-checkbox-wrapper .wpsp-el-accordion-item.wpsp-el-accordion-item-linkedin .wpsp-el-accordion-content {
-    border: 1px solid #EBEEF5;
-    border-radius: 6px;
+    border-top: 1px solid #EBEEF5;
     color: #6E6E8D;
     padding: 0;
-    margin: 10px;
+    padding: 18px 10px 10px;
+}
+.el-social-share-platform #el-social-checkbox-wrapper .wpsp-el-accordion-item.wpsp-el-accordion-item-linkedin .wpsp-el-accordion-content .wpsp-el-custom-linkedin-tab{
+    border: 1px solid #EBEEF5;
+    border-radius: 4px;
 }
 
 .el-social-share-platform #el-social-checkbox-wrapper .wpsp-el-accordion-content {
@@ -263,19 +269,17 @@
     display: flex;
     justify-content: start;
     align-items: center;
+    gap: 20px;
 }
 
 .wpsp-el-container.wpsp-el-social-linkedin-tab-wrapper label.active {
-    background: #EBEEF5 !important;
-}
-
-.linkedin-profile.social-profile {
-    padding: 0 10px;
+    background: transparent !important;
+    color: #6C62FF !important;
 }
 
 .el-social-share-platform .wpsp-el-accordion-content .wpsp-el-container label {
     display: flex !important;
-    justify-content: start;
+    justify-content: center;
     gap: 10px;
     font-size: 14px;
     font-weight: 400;
@@ -283,7 +287,7 @@
     align-items: center;
     cursor: pointer;
     color: #1B1B50;
-    padding: 10px;
+    /* padding: 10px; */
 }
 
 .wpsp-el-accordion-item.wpsp-el-accordion-item-pinterest .wpsp-el-accordion-content .wpsp-el-container {
@@ -346,6 +350,10 @@
     align-items: center;
     gap: 10px;
     margin-bottom: 10px;
+}
+
+.el-social-share-platform .wpsp-el-accordion .wpsp-el-accordion-item .wpsp-el-content .social-profile:last-child {
+    margin-bottom: 0;
 }
 
 .el-social-share-platform .wpsp-el-accordion .wpsp-el-accordion-item .wpsp-el-content .social-profile h3 {
@@ -732,7 +740,7 @@
     padding: 0 5px;
     height: 32px;
     width: 30%;
-    color: #000;
+    color: #6E6E8D;
 }
 
 #wpsp-el-form-update-button .wpsp_el_share_now {
@@ -767,35 +775,32 @@
 .wpsp-el-container.wpsp-el-social-linkedin-tab-wrapper label {
     flex: 1;
     padding: 10px;
-    background-color: transparent;
+    background-color: #EBEEF5;
     border: none;
+}
 
-    .wpsp-el-container.wpsp-el-social-linkedin-tab-wrapper label:hover {
-        background-color: #ddd;
-    }
+.wpsp-el-container.wpsp-el-social-linkedin-tab-wrapper input[type="radio"] {
+    display: none;
+}
 
-    .wpsp-el-container.wpsp-el-social-linkedin-tab-wrapper input[type="radio"] {
-        display: none;
-    }
+.wpsp-el-tab-content {
+    display: none;
+}
 
-    .wpsp-el-tab-content {
-        display: none;
-    }
+.wpsp-el-tab-content.wpsp-el-social-linkedin-profile {
+    display: block;
+}
 
-    .wpsp-el-tab-content.wpsp-el-social-linkedin-profile {
-        display: block;
-    }
-
-    .el-social-share-platform .wpsp-el-social-linkedin-tab-wrapper input[type="radio"],
-    .el-social-share-platform .wpsp-el-social-linkedin-tab-wrapper input[type="radio"]:checked {
-        opacity: 0;
-    }
+.el-social-share-platform .wpsp-el-social-linkedin-tab-wrapper input[type="radio"],
+.el-social-share-platform .wpsp-el-social-linkedin-tab-wrapper input[type="radio"]:checked {
+    opacity: 0;
 }
 
 .wpsp-el-container.wpsp-el-social-linkedin-tab-wrapper label input {
     display: none !important;
 }
 
-.wpsp-el-content-linkedin .wpsp-el-empty-profile-message {
+.wpsp-el-empty-profile-message {
     padding: 10px;
+    color: #1b1b50;
 }
