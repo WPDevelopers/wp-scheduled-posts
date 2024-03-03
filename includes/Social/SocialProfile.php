@@ -5,7 +5,7 @@ namespace WPSP\Social;
 use Abraham\TwitterOAuth\TwitterOAuth;
 use DirkGroenen\Pinterest\Pinterest;
 use myPHPNotes\LinkedIn;
-
+use WPSP\Helper;
 
 class SocialProfile
 {
@@ -146,7 +146,7 @@ class SocialProfile
                 wp_send_json_error(['message' => __('Invalid nonce.', 'wp-scheduled-posts')], 401);
                 die();
             }
-            if( !current_user_can('manage_options') ) {
+            if( !Helper::is_user_allow() ) {
                 wp_send_json_error( [ 'message' => __('You are unauthorized to access social profiles.', 'wp-scheduled-posts') ], 401 );
                 wp_die();
             }
@@ -185,7 +185,7 @@ class SocialProfile
         }
 
         // Check user capability
-        if( !current_user_can('manage_options') ) {
+        if( !Helper::is_user_allow() ) {
             wp_send_json_error( [ 'message' => __('You are unauthorized to access social profiles.', 'wp-scheduled-posts') ], 401 );
             wp_die();
         }
@@ -473,7 +473,7 @@ class SocialProfile
         }
 
         // Check user capability
-        if (!current_user_can('manage_options')) {
+        if ( !Helper::is_user_allow() ) {
             wp_send_json_error(['message' => __('You are unauthorized to access social profiles.', 'wp-scheduled-posts')], 401);
             die();
         }
