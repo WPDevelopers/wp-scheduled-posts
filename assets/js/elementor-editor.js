@@ -143,22 +143,22 @@
     $(document).on('click', '#elementor-panel-footer-sub-menu-item-wpsp, #elementor-panel-footer-wpsp-modal,.elementor-panel-footer-wpsp-modal', function (e) {
         e.preventDefault();
         modal.fadeIn();
-    }).on('click', '.elementor-templates-modal__header__close > svg, .elementor-templates-modal__header__close > svg *, #schedulepress-elementor-modal', function (e) {
-        e.preventDefault();
-        if (e.target === this) {
-            modal.fadeOut();
-        }
-    }).on('click', '.wpsp-immediately-publish', function (e) {
-        e.preventDefault();
-        wpsp_date.clear();
-        wpsp_submit_button_text.text(label_publish);
-        $(this).addClass('active');
-        wpsp_submit_button_text.trigger('click', [$(this)]);
-    }).on('click', '.wpsp-advanced-schedule', function (e) {
-        e.preventDefault();
-        $('#advanced').val(true);
-        wpsp_submit_button_text.trigger('click', [$(this)]);
-    }).on('click', 'button.wpsp-el-form-submit', function (e, target) {
+        }).on('click', '.elementor-templates-modal__header__close > svg, .elementor-templates-modal__header__close > svg *, #schedulepress-elementor-modal', function (e) {
+            e.preventDefault();
+            if (e.target === this) {
+                modal.fadeOut();
+            }
+        }).on('click', '.wpsp-immediately-publish', function (e) {
+            e.preventDefault();
+            wpsp_date.clear();
+            wpsp_submit_button_text.text(label_publish);
+            $(this).addClass('active');
+            wpsp_submit_button_text.trigger('click', [$(this)]);
+        }).on('click', '.wpsp-advanced-schedule', function (e) {
+            e.preventDefault();
+            $('#advanced').val(true);
+            wpsp_submit_button_text.trigger('click', [$(this)]);
+        }).on('click', 'button.wpsp-el-form-submit', function (e, target) {
         e.preventDefault();
         var clickedButton = target || $(this);
 
