@@ -272,7 +272,6 @@ class InstantShare
     {
         
          // Verify nonce
-          // Verify nonce
         $nonce = sanitize_text_field($_REQUEST['_nonce']);
         if (!wp_verify_nonce($nonce, 'wpscp-pro-social-profile')) {
             wp_send_json_error(['message' => __('Invalid nonce.', 'wp-scheduled-posts')], 401);
