@@ -90,8 +90,8 @@ export const SweetAlertDeleteMsgForPost = ( args: any = {}, deleteFile? ) => {
       text: args?.text ?? __( "Your post will be moved to the Trash. You can restore it at any time.",'wp-scheduled-posts' ),
       icon: args?.icon ?? __( 'error','wp-scheduled-posts' ),
       allowOutsideClick: false, // Prevent closing on outside click
-      showDenyButton:  true,
       showCancelButton: args?.showCancelButton ?? true,
+      showDenyButton:  true,
       confirmButtonColor: args?.confirmButtonColor ?? '#3085d6',
       cancelButtonColor: args?.cancelButtonColor ?? '#d33',
       cancelButtonText: '<i class="wpsp-icon wpsp-close"></i>',
@@ -105,11 +105,10 @@ export const SweetAlertDeleteMsgForPost = ( args: any = {}, deleteFile? ) => {
       args.item.action_type = 'delete';
       args.item.classes     = 'wpsp-toast-delete';
       deleteFile(args?.item)?.then((res) => {
-        Swal.fire(
-          __('Deleted!','wp-scheduled-posts'),
-          __('Your post has been deleted.','wp-scheduled-posts'),
-          'success'
-        );
+        SweetAlertToaster({
+            type : 'success',
+            title : __( 'Your posts has been deleted', 'wp-scheduled-posts' ),
+        }).fire();
       })
       .catch((err) => {
         Swal.fire(
@@ -119,6 +118,26 @@ export const SweetAlertDeleteMsgForPost = ( args: any = {}, deleteFile? ) => {
         );
       });
     }
+    if(  result.isDenied ) {
+      args.item.action_type = 'trash';
+      args.item.classes = 'wpsp-toast-trash';
+      deleteFile(args?.item)?.then((res) => {
+        SweetAlertToaster({
+            type       : 'success',
+            action_type: 'trash',
+            classes    : 'wpsp-toast-trash',
+            title      : __( 'Your post has been moved to trash', 'wp-scheduled-posts' ),
+        }).fire();
+      })
+      .catch((err) => {
+        Swal.fire(
+          __('Failed!','wp-scheduled-posts'),
+          err?.message || __('Something went wrong!!','wp-scheduled-posts'),
+          'error'
+        );
+      });
+    }
+
   })
 };
 // Show poup for auto & manual scheduler status change
