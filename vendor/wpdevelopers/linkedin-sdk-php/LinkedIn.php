@@ -76,7 +76,7 @@ class LinkedIn {
         $header = [
             "Authorization: Bearer {$accessToken}",
             'X-Restli-Protocol-Version: 2.0.0',
-            'LinkedIn-Version: 202301',
+            'LinkedIn-Version: 202304',
         ];
 
         $company_pages = "https://api.linkedin.com/v2/organizationalEntityAcls?q=roleAssignee&role=ADMINISTRATOR&state=APPROVED&projection=(elements*(organizationalTarget~(id,localizedName,logoV2(original~:playableStreams))))";
@@ -105,7 +105,7 @@ class LinkedIn {
         $header = [
             "Authorization: Bearer {$accessToken}",
             'X-Restli-Protocol-Version: 2.0.0',
-            'LinkedIn-Version: 202301',
+            'LinkedIn-Version: 202304',
         ];
         $request = [
             // "author": "urn:li:organization:5515715",
@@ -157,26 +157,28 @@ class LinkedIn {
         ]);
         $headers = [
             "Authorization: Bearer {$access_token}",
-            'LinkedIn-Version: 202301',
+            'LinkedIn-Version: 202304',
             "X-RestLi-Protocol-Version: 2.0.0"
         ];
 
         $response = $this->curl($url, $parameters, $content_type, true, $headers);
         $result = json_decode($response['result'], true);
-        $upload_url = $result['value']['uploadUrl'];
+        if(isset($result['value']['uploadUrl'])){
+            $upload_url = $result['value']['uploadUrl'];
 
-        $url = $upload_url;
-        $parameters = file_get_contents($image_path);
-        $content_type = "image/jpeg";
-        $headers = [
-            "Authorization: Bearer {$access_token}",
-            'LinkedIn-Version: 202301',
-            "X-RestLi-Protocol-Version: 2.0.0",
-            "Content-Length: " . strlen($parameters),
-        ];
-        $upload = $this->curl($url, $parameters, $content_type, true, $headers);
+            $url = $upload_url;
+            $parameters = file_get_contents($image_path);
+            $content_type = "image/jpeg";
+            $headers = [
+                "Authorization: Bearer {$access_token}",
+                'LinkedIn-Version: 202304',
+                "X-RestLi-Protocol-Version: 2.0.0",
+                "Content-Length: " . strlen($parameters),
+            ];
+            $upload = $this->curl($url, $parameters, $content_type, true, $headers);
+        }
 
-        if($upload['code'] !== 201){
+        if(isset($upload['code']) && $upload['code'] !== 201){
             return $upload;
         }
         else{
@@ -214,7 +216,7 @@ class LinkedIn {
         $content_type = "application/json";
         $headers = [
             "Authorization: Bearer {$access_token}",
-            'LinkedIn-Version: 202301',
+            'LinkedIn-Version: 202304',
             "X-RestLi-Protocol-Version: 2.0.0",
             "Content-Length: " . strlen($parameters),
         ];
@@ -255,7 +257,7 @@ class LinkedIn {
 
         $headers = [
             "Authorization: Bearer {$accessToken}",
-            'LinkedIn-Version: 202301',
+            'LinkedIn-Version: 202304',
             "X-RestLi-Protocol-Version: 2.0.0",
             "Content-Length: " . strlen($parameters),
         ];
