@@ -276,7 +276,7 @@ class InstantShare
              die();
          }
  
-         if( !current_user_can('manage_options') ) {
+         if( !Helper::is_user_allow() ) {
              wp_send_json_error( [ 'message' => __('You are unauthorized to access social profiles.', 'wp-scheduled-posts') ], 401 );
              wp_die();
          }
@@ -360,7 +360,7 @@ class InstantShare
         }
         
         // Check user capability
-        if( !current_user_can('manage_options') ) {
+        if( !Helper::is_user_allow() ) {
             wp_send_json_error( [ 'message' => __('You are unauthorized to access social profiles.', 'wp-scheduled-posts') ], 401 );
             wp_die();
         }
