@@ -139,7 +139,6 @@
 
     });
 
-
     $(document).on('click', '#elementor-panel-footer-sub-menu-item-wpsp, #elementor-panel-footer-wpsp-modal,.elementor-panel-footer-wpsp-modal', function (e) {
         e.preventDefault();
         modal.fadeIn();
@@ -210,9 +209,50 @@
             }, 3000);
         });
     });
+    $(document).ready(function () {
+        $('.wpsp-el-accordion-header').click(function () {
+          // Deactivate all accordions
+          $('.wpsp-el-accordion-header').not(this).removeClass('wpsp-el-active');
+          $('.wpsp-el-accordion-content').not($(this).next('.wpsp-el-accordion-content')).slideUp();
+      
+          // Toggle the active class on the clicked header
+          $(this).toggleClass('wpsp-el-active');
+      
+          // Toggle the display property of the associated content
+          $(this).next('.wpsp-el-accordion-content').slideToggle();
+        });
+    });      
 
-    $(document).ready(function() {
-        jQuery('#elementor-editor-wrapper-v2 .eui-box .MuiGrid-root:first-child .eui-stack:last-child').append(`
+    $(document).ready(function () {
+        updateContent();
+        $('.wpsp-el-accordion-item input[type="radio"]').change(function () {
+            var platform  = $(this).attr('data-platform');
+            updateContent(platform);
+        });
+        function updateContent( platform ) {
+            if( platform == 'linkedin-page' || platform == 'linkedin-profile' ) {
+                $(`.wpsp-el-accordion-item-linkedin .wpsp-el-content-${platform}`).hide();
+                const selectedValue = $(`.wpsp-el-accordion-item-linkedin input[name="wpsp-el-content-${platform}"]:checked`).val();
+                $(`.wpsp-el-accordion-item-linkedin .wpsp-el-content-${platform}[data-value="${selectedValue}"]`).show();
+            }else if( platform == 'linkedin-tab' ) {
+                $(`.wpsp-el-accordion-item-linkedin .wpsp-el-content-linkedin`).hide();
+                const selectedValue = $(`.wpsp-el-accordion-item-linkedin input[name="wpsp-el-content-${platform}"]:checked`).val();
+                $(`.wpsp-el-accordion-item-linkedin input[name="wpsp-el-content-${platform}"]:checked`).parents('label').siblings().removeClass('active');
+                $(`.wpsp-el-accordion-item-linkedin input[name="wpsp-el-content-${platform}"]:checked`).parents('label').addClass('active');
+                $(`.wpsp-el-accordion-item-linkedin .wpsp-el-content-linkedin[data-value="${selectedValue}"]`).show();
+            } else {
+                $(`.wpsp-el-accordion-item-${platform} .wpsp-el-content-${platform}`).hide();
+                const selectedValue = $(`.wpsp-el-accordion-item-${platform} input[name="wpsp-el-content-${platform}"]:checked`).val();
+                $(`.wpsp-el-accordion-item-${platform} .wpsp-el-content-${platform}[data-value="${selectedValue}"]`).show();
+            }
+        }
+
+        $(document).on('click', '#wpscpproInstantShareModal .close-kylefoxModal',function(){
+            jQuery('body #schedulepress-elementor-modal').css({ 'opacity' : 1 });
+        });
+
+        $(document).ready(function() {
+            jQuery('#elementor-editor-wrapper-v2 .eui-box .MuiGrid-root:first-child .eui-stack:last-child').append(`
             <div class="elementor-panel-footer-wpsp-modal"><span id="elementor-panel-footer-wpsp-modal-label" class="eui-box eui-tooltip MuiBox-root css-0"><button class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium eui-icon-button wpsp-elementor-topbar-panel-button" tabindex="0" type="button" aria-label="Preview Changes"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 500 500" style="enable-background:new 0 0 500 500;display:block;width:18px;margin:0 auto;" xml:space="preserve">
             <style type="text/css">
                 .st0{fill:#A4AFB7;}
@@ -244,19 +284,247 @@
                 </g>
             </g>
             </svg></button></span></div>`);
-    });
 
-
-    // Assuming the button has an ID like 'your-button-id'
-    jQuery(document).on('click', '#elementor-editor-wrapper-v2 .MuiBox-root .MuiGrid-root:last-child button[aria-label="Save Options"]', function() {
-        // Append your HTML content to the specified element
-        jQuery('#document-save-options .MuiMenu-list').append(`
-            <hr class="MuiDivider-root MuiDivider-fullWidth eui-divider css-1px5dlw">
-                <div class="elementor-panel-footer-wpsp-modal MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root MuiMenuItem-gutters eui-menu-item css-108tsqf" tabindex="-1" role="menuitem">
-                    <div class="MuiListItemIcon-root eui-list-item-icon css-5n5rd1"><svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium eui-svg-icon css-vubbuv" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M5 4.75C4.66848 4.75 4.35054 4.8817 4.11612 5.11612C3.8817 5.35054 3.75 5.66848 3.75 6V17C3.75 17.3315 3.8817 17.6495 4.11612 17.8839C4.35054 18.1183 4.66848 18.25 5 18.25H19C19.3315 18.25 19.6495 18.1183 19.8839 17.8839C20.1183 17.6495 20.25 17.3315 20.25 17V9C20.25 8.66848 20.1183 8.35054 19.8839 8.11612C19.6495 7.8817 19.3315 7.75 19 7.75H12C11.8011 7.75 11.6103 7.67098 11.4697 7.53033L8.68934 4.75H5ZM3.05546 4.05546C3.57118 3.53973 4.27065 3.25 5 3.25H9C9.19891 3.25 9.38968 3.32902 9.53033 3.46967L12.3107 6.25H19C19.7293 6.25 20.4288 6.53973 20.9445 7.05546C21.4603 7.57118 21.75 8.27065 21.75 9V17C21.75 17.7293 21.4603 18.4288 20.9445 18.9445C20.4288 19.4603 19.7293 19.75 19 19.75H5C4.27065 19.75 3.57118 19.4603 3.05546 18.9445C2.53973 18.4288 2.25 17.7293 2.25 17V6C2.25 5.27065 2.53973 4.57118 3.05546 4.05546Z"></path></svg></div><div class="MuiListItemText-root MuiListItemText-dense eui-list-item-text css-1tsvksn"><span class="MuiTypography-root MuiTypography-body2 MuiListItemText-primary css-14tqbo1">SchedulePress</span>
+            // Assuming the button has an ID like 'your-button-id'
+            jQuery(document).on('click', '#elementor-editor-wrapper-v2 .MuiBox-root .MuiGrid-root:last-child button[aria-label="Save Options"]', function() {
+            // Append your HTML content to the specified element
+            jQuery('#document-save-options .MuiMenu-list').append(`
+                <hr class="MuiDivider-root MuiDivider-fullWidth eui-divider css-1px5dlw">
+                    <div class="elementor-panel-footer-wpsp-modal MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root MuiMenuItem-gutters eui-menu-item css-108tsqf" tabindex="-1" role="menuitem">
+                        <div class="MuiListItemIcon-root eui-list-item-icon css-5n5rd1"><svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium eui-svg-icon css-vubbuv" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M5 4.75C4.66848 4.75 4.35054 4.8817 4.11612 5.11612C3.8817 5.35054 3.75 5.66848 3.75 6V17C3.75 17.3315 3.8817 17.6495 4.11612 17.8839C4.35054 18.1183 4.66848 18.25 5 18.25H19C19.3315 18.25 19.6495 18.1183 19.8839 17.8839C20.1183 17.6495 20.25 17.3315 20.25 17V9C20.25 8.66848 20.1183 8.35054 19.8839 8.11612C19.6495 7.8817 19.3315 7.75 19 7.75H12C11.8011 7.75 11.6103 7.67098 11.4697 7.53033L8.68934 4.75H5ZM3.05546 4.05546C3.57118 3.53973 4.27065 3.25 5 3.25H9C9.19891 3.25 9.38968 3.32902 9.53033 3.46967L12.3107 6.25H19C19.7293 6.25 20.4288 6.53973 20.9445 7.05546C21.4603 7.57118 21.75 8.27065 21.75 9V17C21.75 17.7293 21.4603 18.4288 20.9445 18.9445C20.4288 19.4603 19.7293 19.75 19 19.75H5C4.27065 19.75 3.57118 19.4603 3.05546 18.9445C2.53973 18.4288 2.25 17.7293 2.25 17V6C2.25 5.27065 2.53973 4.57118 3.05546 4.05546Z"></path></svg></div><div class="MuiListItemText-root MuiListItemText-dense eui-list-item-text css-1tsvksn"><span class="MuiTypography-root MuiTypography-body2 MuiListItemText-primary css-14tqbo1">SchedulePress</span>
+                    </div>
                 </div>
-            </div>
-        `);
+            `);
+        })(jQuery);
+
+        // Linkedin tab selection
+        var contentContainers = document.querySelectorAll('.wpsp-el-content-linkedin-tab');
+        var tabs = document.querySelectorAll('[name="wpsp-el-content-linkedin-tab"]');
+        tabs.forEach(function(tab) {
+            tab.addEventListener('change', function() {
+                var selectedValue = this.value;
+                contentContainers.forEach(function(container) {
+                    if (container.classList.contains(selectedValue)) {
+                        container.style.display = 'block';
+                    } else {
+                        container.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        $(document).on('click', '.wpsp_el_share_now',(function(event){
+            event.preventDefault();
+            // modal append if not exists dom
+            if ($('#wpscpproInstantShareModal').length === 0) {
+                jQuery('body').append(
+                    '<div id="wpscpproInstantShareModal"><div class="modalBody">Fetch Your Selected Profile</div></div>'
+                )
+            } else {
+                jQuery('body #wpscpproInstantShareModal').html(
+                    '<div class="modalBody">Fetch Your Selected Profile</div>'
+                )
+            }
+            jQuery('body #wpscpproInstantShareModal').kylefoxModal({
+                escapeClose: false,
+                clickClose: false,
+                showClose: true,
+            })
+            jQuery('body #schedulepress-elementor-modal').css({'opacity' : 0});
+            const pinterest_selection = $('.wpsp-el-accordion-item-pinterest .wpsp-el-container [name="wpsp-el-content-pinterest"]:checked').val();
+            
+            // selected facebook profile
+            let facebook_selected_profiles;
+            let is_facebook_share = true;
+            facebook_selected_profiles = $('[name="wpsp_el_social_facebook[]"]:checked').map(function() {
+                return $(this).val();
+            }).get();
+            if( facebook_selected_profiles.length == 0 ) {
+                is_facebook_share = false;
+            }
+            // selected twitter profile
+            let twitter_selected_profiles;
+            let is_twitter_share = true;
+            twitter_selected_profiles = $('[name="wpsp_el_social_twitter[]"]:checked').map(function() {
+                return $(this).val();
+            }).get();
+            if( twitter_selected_profiles.length == 0 ) {
+                is_twitter_share = false;
+            }
+            // selected twitter profile
+            let linkedin_selected_profiles;
+            let is_linkedin_share = true;
+            linkedin_selected_profiles = $('[name="wpsp_el_social_linkedin[]"]:checked').map(function() {
+                return $(this).val();
+            }).get();
+            if( linkedin_selected_profiles.length == 0 ) {
+                is_linkedin_share = false;
+            }
+
+            // selected pinterest profile
+            let pinterest_selected_profiles;
+            let is_pinterest_share = true;
+            let pinterestBoardType;
+            pinterest_selected_profiles = $('[name="wpsp_el_social_pinterest[]"]:checked').map(function() {
+                return $(this).val();
+            }).get();
+            if( pinterest_selected_profiles.length == 0 ) {
+                is_pinterest_share = false;
+            }
+            if( pinterest_selection === 'wpsp-el-social-pinterest-custom' ) {
+                pinterestBoardType = 'custom';
+            }
+
+            var postid = jQuery('#wpscppropostid').val()
+            // var nonce = jQuery('#wpscp_pro_instant_social_share_nonce').val()
+            const nonce = wpscpSocialProfile?.nonce;
+            var data = {
+                action: 'wpscp_instant_share_fetch_profile',
+                _nonce: nonce,
+                postid: postid,
+                is_facebook_share,
+                is_twitter_share,
+                is_linkedin_share,
+                is_pinterest_share,
+                facebook_selected_profiles,
+                twitter_selected_profiles,
+                linkedin_selected_profiles,
+                pinterest_selected_profiles,
+            }
+    
+            jQuery.post(ajaxurl, data, function (response, status) {
+                if (status == 'success') {
+                    jQuery('body #wpscpproInstantShareModal .modalBody').html(
+                        response.markup
+                    )
+                    /**
+                     * Single Profile Ajax sending via loop
+                     */
+                    $.each(response.profile, function (profile, profileKey) {
+                        const nonce = wpscpSocialProfile?.nonce;
+                        Object.keys(profileKey).forEach(function (key) {
+                            var data = {
+                                action: 'wpscp_instant_social_single_profile_share',
+                                platform: profile,
+                                nonce : nonce,
+                                platformKey: key,
+                                postid: postid,
+                                pinterest_board_type: pinterestBoardType,
+                            }
+                            if(profile === 'pinterest' && pinterestBoardType === 'custom'){
+                                pinterest_selected_profiles.forEach(single_pinterest_board => {
+                                    if( single_pinterest_board == profileKey[key]?.default_board_name?.value ) {
+                                        data.pinterest_custom_board_name   = single_pinterest_board;
+                                        data.pinterest_custom_section_name = jQuery(".wpsp-el-content-pinterest .social-profile #wpsp_el_pinterest_section_" + single_pinterest_board).val();
+                                        jQuery.get(ajaxurl, data, function (response, status) {
+                                            WpScp_Social_single_profile_share_response_markup(
+                                                profile,
+                                                key,
+                                                response
+                                            )
+                                        })
+                                    }
+                                });
+                            }else{
+                                jQuery.get(ajaxurl, data, function (response, status) {
+                                    WpScp_Social_single_profile_share_response_markup(
+                                        profile,
+                                        key,
+                                        response
+                                    )
+                                })
+                            }
+                            
+                        })
+                    })
+                } else {
+                    jQuery('body #wpscpproInstantShareModal').append(
+                        'failed element'
+                    )
+                }
+            })
+        }))
     });
 
-})(jQuery);
+    // Checkbox selection  stopPropagation
+    document.addEventListener('DOMContentLoaded', function () {
+        var checkboxesAndRadios = document.querySelectorAll('.el-social-share-platform input[type="checkbox"], .el-social-share-platform input[type="radio"], .el-social-share-platform label, .wpsp-el-empty-profile-message a');
+        checkboxesAndRadios.forEach(function (checkboxOrRadio) {
+            checkboxOrRadio.addEventListener('click', function (event) {
+                event.stopPropagation();
+            });
+        });
+    });
+
+    /**
+     * popup social media share modal response
+     * @param {ID} key
+     * @param {ajax response} response
+     * @returns markup
+     */
+    function WpScp_Social_single_profile_share_response_markup(
+        profile,
+        key,
+        response
+    ) {
+        var logStatusSelector = $('#' + profile + '_' + key + ' .entry-status')
+        var logSelector = $('#' + profile + '_' + key + ' .entry-log')
+        var viewLogButton =
+            '<a href="#" data-id="' +
+            profile +
+            '_' +
+            key +
+            '" class="viewlog">View Log</a>'
+        var viewLogButtonFailed =
+            '<a href="#" data-id="' +
+            profile +
+            '_' +
+            key +
+            '" class="viewlog failed">View Log</a>'
+        var successStatus = '<span class="status success">Shared</span>'
+        var failedStatus = '<span class="status failed">Failed</span>'
+        // handle pinterest, twitter, linkedin response
+        if (response.success) {
+            logStatusSelector.replaceWith(successStatus + viewLogButton)
+            logSelector.append(
+                '<div class="log">' + JSON.stringify(response.data) + '</div>'
+            )
+        } else {
+            logStatusSelector.replaceWith(failedStatus + viewLogButtonFailed)
+            logSelector.append('<div class="log">' + response.data + '</div>')
+        }
+    }
+    jQuery('.wpsp-el-form-next').click(function(event){
+        event.stopPropagation();
+        $(this).removeClass('wpsp-d-block').addClass('wpsp-d-none');
+        $('.wpsp-elementor-modal-wrapper').addClass('wpsp-flex-direction-unset');
+        $('.wpsp-el-form-prev').removeClass('wpsp-d-none').addClass('wpsp-d-block');
+        $('.wpsp_form_next_button_wrapper').removeClass('wpsp-d-none').addClass('wpsp-d-block');
+        $('.wpsp-el-fields-next').addClass('active');
+        $('.wpsp-el-fields-prev').removeClass('active');
+        $('.wpsp_form_next_button_wrapper').removeClass('active');
+    });
+    jQuery('.wpsp-el-form-prev').click(function(event){
+        event.stopPropagation();
+        $(this).removeClass('wpsp-d-block').addClass('wpsp-d-none');
+        $('.wpsp-elementor-modal-wrapper').removeClass('wpsp-flex-direction-unset');
+        $('.wpsp_form_next_button_wrapper').removeClass('wpsp-d-block').addClass('wpsp-d-none');
+        $('.wpsp-el-form-next').removeClass('wpsp-d-none').addClass('wpsp-d-block');
+        $('.wpsp-el-fields-prev').addClass('active');
+        $('.wpsp_form_next_button_wrapper').addClass('active');
+        $('.wpsp-el-fields-next').removeClass('active');
+    });
+
+    /**
+     * Modal ajax log view
+    */
+     jQuery(document).on(
+        'click',
+        '#wpscpproInstantShareModal a.viewlog',
+        function (e) {
+            e.preventDefault()
+            jQuery('#' + e.target.dataset.id + ' .log').show() // show log
+            jQuery(this).hide() // hide log button
+        }
+    )
+})(jQuery);  

@@ -27,14 +27,17 @@ jQuery(document).ready(function ($) {
                 '<div class="modalBody">Fetch Your Selected Profile</div>'
             )
         }
+        
         // call modal
         jQuery('body #wpscpproInstantShareModal').kylefoxModal({
             escapeClose: false,
             clickClose: false,
             showClose: true,
         })
+
         // get data from dom
-        var nonce = jQuery('#wpscp_pro_instant_social_share_nonce').val()
+        const __nonce = wpscpSocialProfile?.nonce;
+        // var nonce = jQuery('#wpscp_pro_instant_social_share_nonce').val()
         var postid = jQuery('#wpscppropostid').val()
         var facebook = jQuery('#wpscpprofacebookis').is(':checked')
         var twitter = jQuery('#wpscpprotwitteris').is(':checked')
@@ -44,7 +47,7 @@ jQuery(document).ready(function ($) {
         var pinterestBoardType = jQuery("input:radio[name='pinterestboardtype']:checked").val()
         var data = {
             action: 'wpscp_instant_share_fetch_profile',
-            _nonce: nonce,
+            _nonce: __nonce,
             postid: postid,
             is_facebook_share: facebook,
             is_twitter_share: twitter,

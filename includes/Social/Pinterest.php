@@ -2,6 +2,7 @@
 
 namespace WPSP\Social;
 
+use WPSP\Helper;
 use WPSP\Traits\SocialHelper;
 
 class Pinterest
@@ -103,13 +104,13 @@ class Pinterest
         $PostPermalink = esc_url(get_permalink($post_id));;
         $board_type = get_post_meta($post_id, '_wpscppro_pinterestboardtype', true);
         $customThumbnailID = get_post_meta($post_id, '_wpscppro_custom_social_share_image', true);
-        if ($customThumbnailID != "" && $customThumbnailID != 0) {
+        
+        if ( $customThumbnailID != "" && $customThumbnailID != 0 ) {
             $customThumbnail = wp_get_attachment_image_src($customThumbnailID, 'full', false);
             $PostThumbnailURI = ($customThumbnail != false ? $customThumbnail[0] : '');
         } else {
             $PostThumbnailURI = get_the_post_thumbnail_url($post_id, 'full');
         }
-
         if(!$instant_share && $board_type === 'custom') {
             // overriding default board name from meta.
             $custom_board_name = get_post_meta($post_id, '_wpscppro_pinterest_board_name', true);
@@ -192,16 +193,36 @@ class Pinterest
      */
     public function remote_post($post_id, $board_name, $section_name, $profile_key, $force_share = false, $instant_share = false)
     {
-        $count_meta_key = '__wpsp_pinterest_share_count_'.$board_name->value;
+        if( is_object( $board_name ) ) {
+            $count_meta_key = '__wpsp_pinterest_share_count_'.$board_name->value;
+        }else{
+            $count_meta_key = '__wpsp_pinterest_share_count_'.$board_name;
+        }
         // check post is skip social sharing
         // if (get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
         //     return;
         // }
         $dont_share     = get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true);
+        // get social share type 
+        $get_share_type =   get_post_meta($post_id, '_pinterest_share_type', true);
+        if( $get_share_type === 'custom' ) {
+            $get_all_selected_profile     = get_post_meta($post_id, '_selected_social_profile', true);
+            if( is_object( $board_name ) ) {
+                $check_profile_exists         = Helper::is_profile_exits( $board_name->value, $get_all_selected_profile );
+            }else{
+                $check_profile_exists         = Helper::is_profile_exits( $board_name, $get_all_selected_profile );
+            }
+            if( empty( $check_profile_exists ) ) {
+                return;
+            }
+            if( !empty( $check_profile_exists->pinterest_custom_section_name ) ) {
+                $section_name = $check_profile_exists->pinterest_custom_section_name;
+            }
+        }
+        
         if ($dont_share  == 'on' || $dont_share == 1 ) {
             return;
         }
-
         if( ( get_post_meta( $post_id, $count_meta_key, true ) ) && $this->post_share_limit != 0 && get_post_meta( $post_id, $count_meta_key, true ) >= $this->post_share_limit ) {
             return array(
                 'success' => false,
@@ -225,7 +246,11 @@ class Pinterest
                         'share_id' => $results->id,
                         'publish_date' => time(),
                     );
-                    $this->save_metabox_social_share_metabox($post_id, $shareInfo, $profile_key, $board_name->value);
+                    if( is_object( $board_name ) ) {
+                        $this->save_metabox_social_share_metabox($post_id, $shareInfo, $profile_key, $board_name->value);
+                    }else{
+                        $this->save_metabox_social_share_metabox($post_id, $shareInfo, $profile_key, $board_name);
+                    }
                 }
                 $errorFlag = true;
                 $results = json_decode($results, true);
@@ -253,13 +278,15 @@ class Pinterest
     public function wpscp_pro_republish_pinterest_post($post_id)
     {
         // check post is skip social sharing
-        // if (get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
-        //     return;
-        // }
         $dont_share     = get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true);
         if ($dont_share  == 'on' || $dont_share == 1 ) {
             return;
         }
+
+        // if (get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
+        //     return;
+        // }
+
         $profiles = \WPSP\Helper::get_social_profile(WPSCP_PINTEREST_OPTION_NAME);
         if (is_array($profiles) && count($profiles) > 0) {
             foreach ($profiles as $profile_key => $profile) {
@@ -284,13 +311,10 @@ class Pinterest
     public function WpScp_pinterest_post($post_id)
     {
         // check post is skip social sharing
-        // if (get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
-        //     return;
-        // }
-        $dont_share     = get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true);
-        if ($dont_share  == 'on' || $dont_share == 1 ) {
+        if (get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
             return;
         }
+
         $profiles = \WPSP\Helper::get_social_profile(WPSCP_PINTEREST_OPTION_NAME);
         if (is_array($profiles) && count($profiles) > 0) {
             foreach ($profiles as $profile_key => $profile) {

@@ -2,54 +2,67 @@
   .calendar_section {
     padding: 0 !important;
     background: transparent !important;
+
     .wprf-section-fields {
       display: flex;
       gap: 32px;
+
       .sidebar {
         flex-basis: 20%;
         padding: 32px;
         background-color: #fff;
         border-radius: 6px;
         box-sizing: border-box;
+
         @media screen and (max-width: 1439px) {
           padding: 28px;
         }
+
         @media screen and (max-width: 1023px) {
           padding: 24px;
         }
+
         .unscheduled {
           font-size: 24px;
           line-height: 1.2em;
           font-weight: 600;
           color: #1b1b50;
           margin: 0px 0 24px;
+
           @media screen and (max-width: 1439px) {
             font-size: 20px;
             margin: 0px 0 20px;
           }
+
           @media screen and (max-width: 1023px) {
             font-size: 16px;
             margin: 0px 0 16px;
           }
         }
+
         select {
           min-width: 140px;
           margin-bottom: 20px;
         }
+
         .event-wrapper {
           display: flex;
           flex-direction: column;
           gap: 8px;
           margin-top: 24px;
         }
+
         p {
           margin: 32px 0 0;
+
           @media screen and (max-width: 1439px) {
             margin: 28px 0 0;
           }
+
           @media screen and (max-width: 1023px) {
             margin: 24px 0 0;
           }
+
           .btn-draft-post-create {
             background: #26d39e;
             border: none;
@@ -62,41 +75,51 @@
             text-decoration: none;
             display: inline-block;
             transition: ease-in-out 0.25s;
+
             &:hover {
               transform: scale(0.95);
             }
+
             @media screen and (max-width: 1439px) {
               font-size: 12px;
             }
+
             @media screen and (max-width: 1023px) {
               font-size: 10px;
             }
           }
         }
       }
+
       .main-content {
         flex-basis: 80%;
         background: #fff;
         padding: 18px 32px 32px;
         border-radius: 6px;
+
         @media screen and (max-width: 1439px) {
           padding: 18px 28px 28px;
         }
+
         @media screen and (max-width: 1023px) {
           padding: 14px 24px 24px;
         }
+
         .toolbar {
           display: flex;
           justify-content: space-between;
           align-items: center;
           margin-bottom: 18px;
+
           @media screen and (max-width: 1023px) {
             margin-bottom: 14px;
             gap: 8px;
           }
+
           .left {
             display: flex;
             gap: 18px;
+
             select {
               font-size: 16px;
               font-weight: 500;
@@ -106,14 +129,17 @@
               height: 44px;
               border: 1px solid #ebeef5;
               text-transform: capitalize;
+
               @media screen and (max-width: 1439px) {
                 font-size: 14px;
               }
+
               @media screen and (max-width: 1023px) {
                 font-size: 12px;
               }
             }
           }
+
           .middle {
             font-size: 24px;
             font-weight: 600;
@@ -123,13 +149,16 @@
             align-items: center;
             gap: 10px;
             position: relative;
+
             @media screen and (max-width: 1439px) {
               font-size: 20px;
             }
+
             @media screen and (max-width: 1023px) {
               font-size: 16px;
             }
-            > div > div:nth-child(2) {
+
+            >div>div:nth-child(2) {
               margin-left: 50%;
               transform: translateX(-50%);
               margin-top: 10%;
@@ -137,7 +166,8 @@
               border: none;
               animation: unset;
               box-shadow: 0px 12px 48px 0 rgba(27, 27, 80, 0.1);
-              > div:nth-child(1) {
+
+              >div:nth-child(1) {
                 padding: 12px 12px;
                 font-weight: bold;
                 display: flex;
@@ -151,18 +181,22 @@
                 border-width: 0 0 1px 0;
                 border-color: #ebeef5;
                 border-radius: 0 !important;
+
                 span.sc-iGgWBj {
                   font-size: 20px !important;
                   line-height: 1.2em;
                   color: #6c62ff;
                   font-weight: 600;
+
                   @media screen and (max-width: 1439px) {
                     font-size: 18px !important;
                   }
+
                   @media screen and (max-width: 1023px) {
                     font-size: 16px !important;
                   }
                 }
+
                 svg {
                   cursor: pointer;
                   fill: #6c62ff;
@@ -170,17 +204,20 @@
                   border: #ebeef5;
                 }
               }
-              > div:nth-child(2) {
+
+              >div:nth-child(2) {
                 height: 0px;
               }
-              > div:nth-child(3) {
+
+              >div:nth-child(3) {
                 background-color: transparent;
                 border-radius: 0px;
                 width: 400px;
                 display: flex;
                 flex-wrap: wrap;
                 padding: 8px 24px;
-                > div {
+
+                >div {
                   border: none;
                   padding: 16px 0px;
                   font-size: 12px !important;
@@ -197,33 +234,41 @@
                   align-items: center;
                   flex: 0 0 33.33%;
                   cursor: pointer;
+
                   &:hover {
                     color: #6c62ff;
                   }
+
                   @media screen and (max-width: 1023px) {
                     font-size: 10px;
                   }
                 }
+
                 .FeHZw {
                   color: #6c62ff !important;
                 }
               }
             }
           }
+
           .right {
             display: flex;
             align-items: center;
             gap: 16px;
+
             @media screen and (max-width: 1439px) {
               gap: 12px;
             }
+
             .button-control-month {
               display: flex;
               gap: 8px;
               opacity: 0;
+
               @media screen and (max-width: 1439px) {
                 opacity: 1;
               }
+
               .wpsp-button-primary {
                 background-color: #f3f2ff !important;
                 border: 1px solid #ebeef5 !important;
@@ -231,19 +276,23 @@
                 width: 40px !important;
                 height: 44px !important;
                 cursor: pointer;
+
                 @media screen and (max-width: 1439px) {
                   height: 40px !important;
                 }
+
                 .wpsp-icon {
                   font-size: 16px;
                   line-height: 1.2em;
                   color: #6c62ff;
+
                   @media screen and (max-width: 1439px) {
                     font-size: 14px;
                   }
                 }
               }
             }
+
             .today-btn {
               background: #f3f2ff;
               padding: 0px 22px;
@@ -256,12 +305,14 @@
               font-weight: 500;
               height: 44px;
               cursor: pointer;
+
               @media screen and (max-width: 1439px) {
                 font-size: 12px;
                 padding: 0px 18px;
                 height: 40px;
               }
             }
+
             .calendar-btn {
               font-size: 24px;
               line-height: 44px;
@@ -271,6 +322,7 @@
               padding: 0 10px;
               border-radius: 6px;
               cursor: pointer;
+
               @media screen and (max-width: 1439px) {
                 font-size: 20px;
                 padding: 0 8px;
@@ -280,8 +332,10 @@
             }
           }
         }
+
         .wprf-calendar-wrapper {
           position: relative;
+
           .button-control-month {
             .wpsp-button-primary {
               background-color: #f3f2ff !important;
@@ -290,33 +344,40 @@
               width: 40px !important;
               height: 44px !important;
               cursor: pointer;
+
               .wpsp-icon {
                 font-size: 16px;
                 line-height: 1.2em;
                 color: #6c62ff;
+
                 @media screen and (max-width: 1439px) {
                   font-size: 14px;
                 }
               }
             }
+
             .wpsp-prev-button {
               position: absolute !important;
               left: 0px;
               top: 0px;
+
               @media screen and (max-width: 1439px) {
                 opacity: 0;
               }
             }
+
             .wpsp-next-button {
               position: absolute !important;
               right: 0px;
               top: 0px;
+
               @media screen and (max-width: 1439px) {
                 opacity: 0;
               }
             }
           }
         }
+
         .fc-theme-standard {
           .fc-header-toolbar {
             display: none;
@@ -331,24 +392,30 @@
             //     }
             // }
           }
+
           .fc-view-harness {
             margin: 0 40px !important;
             position: relative;
+
             @media screen and (max-width: 1439px) {
               margin: 0 0px !important;
             }
+
             thead {
               .fc-scroller {
                 .fc-col-header-cell {
                   padding: 14px 28px !important;
                   background: #fff;
                   transition: ease-in-out 0.25s;
+
                   &:hover {
                     background: #f3f2ff;
+
                     a {
                       color: #6c62ff;
                     }
                   }
+
                   .fc-col-header-cell-cushion {
                     font-size: 12px;
                     line-height: 1.2em;
@@ -356,6 +423,7 @@
                     color: #1b1b50;
                     text-transform: uppercase;
                     padding: 0;
+
                     @media screen and (max-width: 1023px) {
                       font-size: 10px;
                     }
@@ -363,10 +431,12 @@
                 }
               }
             }
+
             .fc-daygrid-body {
               .fc-daygrid-day-frame {
                 padding: 6px;
                 background: #f9fafc;
+
                 .fc-daygrid-day-top {
                   display: flex;
                   flex-direction: row;
@@ -374,6 +444,7 @@
                   justify-content: space-between;
                   gap: 10px;
                   margin-bottom: 6px;
+
                   .fc-daygrid-day-number {
                     font-size: 14px;
                     line-height: 1.2em;
@@ -382,13 +453,16 @@
                     background: #fff;
                     border-radius: 4px;
                     z-index: initial;
+
                     @media screen and (max-width: 1439px) {
                       font-size: 12px;
                     }
+
                     @media screen and (max-width: 1023px) {
                       font-size: 10px;
                     }
                   }
+
                   button {
                     font-size: 12px;
                     line-height: 1.2em;
@@ -397,11 +471,13 @@
                     border: none;
                     background: transparent;
                     cursor: pointer;
+
                     @media screen and (max-width: 1023px) {
                       font-size: 10px;
                     }
                   }
                 }
+
                 .fc-daygrid-day-events {
                   .fc-event {
                     border: none;
@@ -409,11 +485,13 @@
                     padding: 0;
                     margin-top: 0;
                     z-index: initial;
+
                     .card {
                       min-width: auto;
                       width: 100%;
                       cursor: pointer;
                     }
+
                     // .wpscp-event-post {
                     //   span {
                     //     display: flex;
@@ -436,7 +514,6 @@
                     //   color: #000;
                     // }
                   }
-                  
                 }
               }
             }
@@ -446,18 +523,22 @@
     }
   }
 }
+
 .fc .fc-scroller-harness {
   overflow: visible !important;
 }
+
 .calender-selected-month {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 5px;
 }
+
 .calender-selected-month span {
   color: #989fab;
 }
+
 .wpsp-admin-wrapper #external-events-listing .edit-area,
 .wpsp-admin-wrapper .fc-event .edit-area,
 .wpsp-admin-wrapper .wpscp-event-post .edit-area {
@@ -472,6 +553,7 @@
   top: 22px;
   transform: translateX(0%) translateY(15px) !important;
   z-index: 999;
+
   li button {
     font-family: 'Inter' !important;
     font-size: 14px;
@@ -487,12 +569,15 @@
     width: 100%;
     text-align: left;
     cursor: pointer;
+
     @media screen and (max-width: 1439px) {
       font-size: 12px;
     }
+
     @media screen and (max-width: 1023px) {
       font-size: 10px;
     }
+
     // width: 120px;
     // box-shadow: 0px 12px 48px 0px #1B1B501A;
     // position: absolute;
@@ -538,6 +623,7 @@
     &:hover {
       background: #f3f2ff;
       color: #6c62ff;
+
       a {
         color: #6c62ff;
       }
@@ -558,19 +644,19 @@
     align-items: center;
     justify-content: center;
     margin-top: 7px;
+
     @media screen and (max-width: 1023px) {
       font-size: 10px;
     }
   }
 }
-/* Hide scrollbar for Chrome, Safari and Opera */
+
 .fc-scroller-liquid-absolute::-webkit-scrollbar {
   display: none !important;
 }
-/* Hide scrollbar for IE, Edge and Firefox */
 .fc-scroller-liquid-absolute {
-  -ms-overflow-style: none !important; /* IE and Edge */
-  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; 
+  scrollbar-width: none !important;
 }
 .fc-day-past .fc-event .wpsp-event-card .wpsp-event-card-content{
   opacity: 0.5;

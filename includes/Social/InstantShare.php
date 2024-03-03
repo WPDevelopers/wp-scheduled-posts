@@ -38,7 +38,9 @@ class InstantShare
         $twitterProfile = \WPSP\Helper::get_settings('twitter_profile_list');
         $linkedinProfile = \WPSP\Helper::get_settings('linkedin_profile_list');
         $pinterestProfile = \WPSP\Helper::get_settings('pinterest_profile_list');
-        // already checked 'Helper::is_enable_classic_editor()'
+        // if( !class_exists('Classic_Editor') && !class_exists('\OTGS\Toolset\Types\Controller\Compatibility\Gutenberg') && !method_exists("\SureCart\WordPress\PostTypes\FormPostTypeService",'forceGutenberg') && apply_filters('use_block_editor_for_post', true) && apply_filters('use_block_editor_for_post_type', true, Helper::get_allow_post_types() ) ) {
+        //     return '';
+        // }
     ?>
         <div class="wpscppro-instantshare">
             <!-- skip share -->
@@ -268,21 +270,40 @@ class InstantShare
      */
     public function instant_share_fetch_profile()
     {
-        if( !current_user_can('manage_options') ) {
-            wp_send_json_error( [ 'message' => __('You are unauthorized to access social profiles.', 'wp-scheduled-posts') ], 401 );
-            wp_die();
+        
+         // Verify nonce
+        $nonce = sanitize_text_field($_REQUEST['_nonce']);
+        if (!wp_verify_nonce($nonce, 'wpscp-pro-social-profile')) {
+            wp_send_json_error(['message' => __('Invalid nonce.', 'wp-scheduled-posts')], 401);
+            die();
         }
+ 
+         if( !Helper::is_user_allow() ) {
+             wp_send_json_error( [ 'message' => __('You are unauthorized to access social profiles.', 'wp-scheduled-posts') ], 401 );
+             wp_die();
+         }
+
         $allProfile = array();
+        $facebook_selected_profiles  = !empty( $_REQUEST['facebook_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['facebook_selected_profiles'] ) : [];
+        $twitter_selected_profiles   = !empty( $_REQUEST['twitter_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['twitter_selected_profiles'] ) : [];
+        $linkedin_selected_profiles  = !empty( $_REQUEST['linkedin_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['linkedin_selected_profiles'] ) : [];
+        $pinterest_selected_profiles = !empty( $_REQUEST['pinterest_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['pinterest_selected_profiles'] ) : [];
+
         // get data from db
-        $facebook = \WPSP\Helper::get_social_profile(WPSCP_FACEBOOK_OPTION_NAME);
-        $twitter = \WPSP\Helper::get_social_profile(WPSCP_TWITTER_OPTION_NAME);
-        $linkedin = \WPSP\Helper::get_social_profile(WPSCP_LINKEDIN_OPTION_NAME);
+        $facebook  = \WPSP\Helper::get_social_profile(WPSCP_FACEBOOK_OPTION_NAME, $facebook_selected_profiles);
+        $twitter   = \WPSP\Helper::get_social_profile(WPSCP_TWITTER_OPTION_NAME, $twitter_selected_profiles);
+        $linkedin  = \WPSP\Helper::get_social_profile(WPSCP_LINKEDIN_OPTION_NAME, $linkedin_selected_profiles);
         $pinterest = \WPSP\Helper::get_social_profile(WPSCP_PINTEREST_OPTION_NAME);
+        if( !empty( $pinterest_selected_profiles ) ) {
+            $pinterest = array_filter( $pinterest, function($single_pinterest) use( $pinterest_selected_profiles ){
+                return in_array( $single_pinterest->default_board_name->value, $pinterest_selected_profiles );
+            } );
+        }
         // get data from ajax request
-        $is_facebook_share = $_REQUEST['is_facebook_share'];
-        $is_twitter_share = $_REQUEST['is_twitter_share'];
-        $is_linkedin_share = $_REQUEST['is_linkedin_share'];
-        $is_pinterest_share = $_REQUEST['is_pinterest_share'];
+        $is_facebook_share  = !empty( $_REQUEST['is_facebook_share'] ) ? sanitize_text_field( $_REQUEST['is_facebook_share'] ) : null;
+        $is_twitter_share   = !empty( $_REQUEST['is_twitter_share'] ) ? sanitize_text_field( $_REQUEST['is_twitter_share'] ) : null;
+        $is_linkedin_share  = !empty( $_REQUEST['is_linkedin_share'] ) ? sanitize_text_field( $_REQUEST['is_linkedin_share'] ) : null;
+        $is_pinterest_share = !empty( $_REQUEST['is_pinterest_share'] ) ? sanitize_text_field( $_REQUEST['is_pinterest_share'] ) : null;
 
         if ($is_facebook_share === "true") {
             $allProfile['facebook'] = $facebook;
@@ -351,18 +372,22 @@ class InstantShare
         }
         
         // Check user capability
-        if( !current_user_can('manage_options') ) {
+        if( !Helper::is_user_allow() ) {
             wp_send_json_error( [ 'message' => __('You are unauthorized to access social profiles.', 'wp-scheduled-posts') ], 401 );
             wp_die();
         }
 
         $postid = intval($_GET['postid']);
-        $platform = (isset($_GET['platform']) ? $_GET['platform'] : '');
-        $profileID = (isset($_GET['id']) ? $_GET['id'] : '');
-        $platformKey = (isset($_GET['platformKey']) ? $_GET['platformKey'] : '');
-        $pinterest_board_type = (isset($_POST['pinterest_board_type']) ? $_POST['pinterest_board_type'] : '');
-        $pinterestBoardName = (isset($_POST['pinterest_custom_board_name']) ? $_POST['pinterest_custom_board_name'] : '');
-        $pinterestSectionName = (isset($_POST['pinterest_custom_section_name']) ? $_POST['pinterest_custom_section_name'] : '');
+        $platform = (isset($_GET['platform']) ? sanitize_text_field($_GET['platform']) : '');
+        $profileID = (isset($_GET['id']) ? sanitize_text_field($_GET['id']) : '');
+        $platformKey = (isset($_GET['platformKey']) ? sanitize_text_field($_GET['platformKey']) : '');
+        $pinterest_board_type = (isset($_GET['pinterest_board_type']) ? sanitize_text_field($_GET['pinterest_board_type']) : '');
+        $pinterestBoardName = (isset($_GET['pinterest_custom_board_name']) ? sanitize_text_field($_GET['pinterest_custom_board_name']) : '');
+        $pinterestSectionName = (isset($_GET['pinterest_custom_section_name']) ? sanitize_text_field($_GET['pinterest_custom_section_name']) : '');
+        $pinterestCustomSectionName = explode( '|', $pinterestSectionName );
+        if( !empty( $pinterestCustomSectionName[0] ) ) {
+            $pinterestSectionName = $pinterestCustomSectionName[0];
+        }
         // all social platfrom
         if ($platform == 'facebook') {
             $facebook = \WPSP\Helper::get_social_profile(WPSCP_FACEBOOK_OPTION_NAME);

@@ -2,6 +2,7 @@
 
 namespace WPSP\Social;
 
+use WPSP\Helper;
 use WPSP\Traits\SocialHelper;
 
 class Facebook
@@ -201,11 +202,22 @@ class Facebook
         // get share count 
         $count_meta_key = '__wpsp_facebook_share_count_'.$ID;
         $dont_share     = get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true);
+
+        // get social share type 
+        $get_share_type =   get_post_meta($post_id, '_facebook_share_type', true);
+        if( $get_share_type === 'custom' ) {
+            $get_all_selected_profile     = get_post_meta($post_id, '_selected_social_profile', true);
+            $check_profile_exists         = Helper::is_profile_exits( $ID, $get_all_selected_profile );
+            if( !$check_profile_exists ) {
+                return;
+            }
+        }
+
+
         // check post is skip social sharing
         if (empty($app_id) || empty($app_secret) || $dont_share  == 'on' || $dont_share == 1 ) {
             return;
         }
-        
         if( ( get_post_meta( $post_id, $count_meta_key, true ) ) && $this->post_share_limit != 0 && get_post_meta( $post_id, $count_meta_key, true ) >= $this->post_share_limit ) {
             return array(
                 'success' => false,

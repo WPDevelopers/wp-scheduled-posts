@@ -391,6 +391,7 @@ class Calendar
     public function calender_ajax_request_php($request)
     {
         $allow_post_types = Helper::get_settings('allow_post_types');
+        $allow_post_types = (!empty($allow_post_types) ? $allow_post_types : array());
         $calendar_schedule_time = \WPSP\Helper::get_settings('calendar_schedule_time');
         $_post_status           = $request->get_param('post_status');
         $post_status            = $_post_status;
@@ -405,6 +406,7 @@ class Calendar
         $postid      = $request->get_param('ID');
         $postTitle   = $request->get_param('postTitle');
         $postContent = $request->get_param('postContent');
+
         if(!in_array($post_type, $allow_post_types)){
             return new WP_Error('rest_post_update_error', __('Post type isn\'t allowed in Settings page.', 'wp-scheduled-posts'), array('status' => 400));
         }
@@ -480,8 +482,7 @@ class Calendar
                 'post_status' => 'draft',
             ), true);
             return $this->get_rest_result($post_id);
-        }
-        else if ($type == 'trashDrop') {
+        }else if ($type == 'trashDrop') {
             $post_id = wp_update_post(array(
                 'ID'          => $postid,
                 'post_type'   => $post_type,

@@ -386,10 +386,10 @@
       outline: none;
   }
   
-  .unpublish-popover .components-popover__content,.republish-popover .components-popover__content {
+  .wpsp-date-popover .components-popover__content,.republish-popover .components-popover__content {
       padding: 10px;
   }
-  .republish-popover .components-popover__content .components-datetime,.unpublish-popover .components-popover__content .components-datetime  {
+  .republish-popover .components-popover__content .components-datetime,.wpsp-date-popover .components-popover__content .components-datetime  {
       margin: 8px;
   }
   .schedule-press-section .components-input-control__container {
@@ -731,59 +731,59 @@
 }
 
 /* Unpublish Republish  */
-.unpublish-popover .components-popover__content .components-datetime__time fieldset .components-datetime__time-wrapper .components-datetime__time-field .components-base-control .components-base-control__field .components-flex .components-input-control__container .components-input-control__backdrop,
+.wpsp-date-popover .components-popover__content .components-datetime__time fieldset .components-datetime__time-wrapper .components-datetime__time-field .components-base-control .components-base-control__field .components-flex .components-input-control__container .components-input-control__backdrop,
 .republish-popover .components-popover__content .components-datetime__time fieldset .components-datetime__time-wrapper .components-datetime__time-field .components-base-control .components-base-control__field .components-flex .components-input-control__container .components-input-control__backdrop {
     box-shadow: none;
     border: none;
 }
-.unpublish-popover .components-datetime__time fieldset .components-datetime__time-wrapper>*, .republish-popover .components-datetime__time fieldset .components-datetime__time-wrapper>* {
+.wpsp-date-popover .components-datetime__time fieldset .components-datetime__time-wrapper>*, .republish-popover .components-datetime__time fieldset .components-datetime__time-wrapper>* {
     box-sizing: border-box;
     height: 40px;
 }
-.unpublish-popover .components-popover__content .components-datetime__time fieldset .components-datetime__time-wrapper .components-datetime__time-field .components-datetime__time-separator,.republish-popover .components-popover__content .components-datetime__time fieldset .components-datetime__time-wrapper .components-datetime__time-field .components-datetime__time-separator {
+.wpsp-date-popover .components-popover__content .components-datetime__time fieldset .components-datetime__time-wrapper .components-datetime__time-field .components-datetime__time-separator,.republish-popover .components-popover__content .components-datetime__time fieldset .components-datetime__time-wrapper .components-datetime__time-field .components-datetime__time-separator {
     border: none;
 }
 
-.unpublish-popover .components-popover__content .components-datetime__time fieldset .components-datetime__time-field-time,
+.wpsp-date-popover .components-popover__content .components-datetime__time fieldset .components-datetime__time-field-time,
 .republish-popover .components-popover__content .components-datetime__time fieldset .components-datetime__time-field-time
-.unpublish-popover .components-popover__content .components-datetime__time fieldset .components-button-group,
+.wpsp-date-popover .components-popover__content .components-datetime__time fieldset .components-button-group,
 .republish-popover .components-popover__content .components-datetime__time fieldset .components-button-group {
     border: 1px solid #EBEEF5;
     border-radius: 4px;
     padding: 4px;
     color: #1B1B50;
 }
-.unpublish-popover .components-datetime__time fieldset .components-button-group .components-button, .republish-popover .components-datetime__time fieldset .components-button-group .components-button {
+.wpsp-date-popover .components-datetime__time fieldset .components-button-group .components-button, .republish-popover .components-datetime__time fieldset .components-button-group .components-button {
     height: 100%;
     border: none;
     cursor: pointer;
 }
 
-.unpublish-popover .components-datetime__time fieldset .components-button-group .components-button:focus, .republish-popover .components-datetime__time fieldset .components-button-group .components-button:focus {
+.wpsp-date-popover .components-datetime__time fieldset .components-button-group .components-button:focus, .republish-popover .components-datetime__time fieldset .components-button-group .components-button:focus {
     box-shadow: none;
     outline: none;
 }
 
-.unpublish-popover .components-popover__content .components-datetime__time fieldset .components-datetime__time-wrapper .components-datetime__time-field.components-datetime__time-field-time .components-base-control, .republish-popover .components-popover__content .components-datetime__time fieldset .components-datetime__time-wrapper .components-datetime__time-field.components-datetime__time-field-time .components-base-control {
+.wpsp-date-popover .components-popover__content .components-datetime__time fieldset .components-datetime__time-wrapper .components-datetime__time-field.components-datetime__time-field-time .components-base-control, .republish-popover .components-popover__content .components-datetime__time fieldset .components-datetime__time-wrapper .components-datetime__time-field.components-datetime__time-field-time .components-base-control {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 33px;
 }
 
-.unpublish-popover .components-datetime__time fieldset .components-button-group .components-button.is-primary, .republish-popover .components-datetime__time fieldset .components-button-group .components-button.is-primary {
+.wpsp-date-popover .components-datetime__time fieldset .components-button-group .components-button.is-primary, .republish-popover .components-datetime__time fieldset .components-button-group .components-button.is-primary {
     background: #6c62ff;
     color: #fff;
     box-shadow: none;
 }
 
-.unpublish-popover .components-datetime__time fieldset .components-button-group .components-button.is-secondary, .republish-popover .components-datetime__time fieldset .components-button-group .components-button.is-secondary {
+.wpsp-date-popover .components-datetime__time fieldset .components-button-group .components-button.is-secondary, .republish-popover .components-datetime__time fieldset .components-button-group .components-button.is-secondary {
     background: #EBEEF5;
     color: #1B1B50;
     box-shadow: none;
 }
 .schedule-press-section .components-select-control .components-input-control__container .components-input-control__backdrop,
-.unpublish-popover .components-select-control .components-input-control__container .components-input-control__backdrop,
+.wpsp-date-popover .components-select-control .components-input-control__container .components-input-control__backdrop,
 .republish-popover .components-select-control .components-input-control__container .components-input-control__backdrop {
     border-color: #EBEEF5;
     color: #1B1B50;
@@ -791,23 +791,23 @@
     outline: none;
   }
   
-  .unpublish-popover .components-base-control.components-input-control .components-input-control__container .components-input-control__backdrop, .republish-popover .components-base-control.components-input-control .components-input-control__container .components-input-control__backdrop  {
+  .wpsp-date-popover .components-base-control.components-input-control .components-input-control__container .components-input-control__backdrop, .republish-popover .components-base-control.components-input-control .components-input-control__container .components-input-control__backdrop  {
     border-color: #EBEEF5;
     color: #1B1B50;
     box-shadow: none;
     outline: none;
   }
   
-  .republish-popover .components-datetime__date .components-flex .components-button.is-tertiary:hover:not(:disabled,[aria-disabled=true]), .unpublish-popover .components-datetime__date .components-flex .components-button.is-tertiary:hover:not(:disabled,[aria-disabled=true]) {
+  .republish-popover .components-datetime__date .components-flex .components-button.is-tertiary:hover:not(:disabled,[aria-disabled=true]), .wpsp-date-popover .components-datetime__date .components-flex .components-button.is-tertiary:hover:not(:disabled,[aria-disabled=true]) {
       background: #EBEEF5;
   }
   
-  .unpublish-popover .components-datetime__date .components-flex .components-button.is-tertiary:focus:not(:disabled), .republish-popover .components-datetime__date .components-flex .components-button.is-tertiary:focus:not(:disabled) {
+  .wpsp-date-popover .components-datetime__date .components-flex .components-button.is-tertiary:focus:not(:disabled), .republish-popover .components-datetime__date .components-flex .components-button.is-tertiary:focus:not(:disabled) {
       box-shadow: none;
       outline: none;
   }
-.unpublish-popover .components-popover__content .components-datetime__time fieldset .components-datetime__time-field-time,
-.unpublish-popover .components-popover__content .components-datetime__time fieldset .components-button-group,
+.wpsp-date-popover .components-popover__content .components-datetime__time fieldset .components-datetime__time-field-time,
+.wpsp-date-popover .components-popover__content .components-datetime__time fieldset .components-button-group,
 .republish-popover .components-popover__content .components-datetime__time fieldset .components-datetime__time-field-time,
 .republish-popover .components-popover__content .components-datetime__time fieldset .components-button-group{
     border: 1px solid #EBEEF5;

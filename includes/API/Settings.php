@@ -71,6 +71,58 @@ class Settings
                     }
                 ]
             );
+
+            $social_media_meta_key = ['_facebook_share_type', '_twitter_share_type', '_linkedin_share_type', '_pinterest_share_type', '_linkedin_share_type_page'];
+            // Social media meta 
+            foreach ($social_media_meta_key as $value) {
+                register_post_meta(
+                    $type,
+                    $value,
+                    [
+                        'show_in_rest' => true,
+                        'single'       => true,
+                        'type'         => 'string',
+                        'auth_callback' => function() {
+                            return current_user_can( 'edit_posts' );
+                        }
+                    ]
+                );
+            }
+
+            // Save selected profile for specific page
+            register_post_meta(
+                $type,
+                '_selected_social_profile',
+                [
+                    'show_in_rest' => [
+                        'schema' => [
+                            'type'  => 'array',
+                            'items' => [
+                                'type'       => 'object',
+                                'properties' => [
+                                    'id'                            => ['type' => ['string','integer']],
+                                    'postid'                        => ['type' => 'integer'],
+                                    'platform'                      => ['type' => 'string'],
+                                    'platformKey'                   => ['type' => 'integer'],
+                                    'pinterest_custom_board_name'   => ['type' => 'string'],
+                                    'pinterest_custom_section_name' => ['type' => 'string'],
+                                    'name'                          => ['type' => 'string'],
+                                    'thumbnail_url'                 => ['type' => 'string'],
+                                    'type'                          => ['type' => 'string'],
+                                    'share_type'                    => ['type' => 'string'],
+                                    'pinterest_board_type'          => ['type' => 'string'],
+                                    'nonce'                         => ['type' => 'string'],
+                                ],
+                            ],
+                        ],
+                    ],
+                    'single'       => true,
+                    'type'         => 'array',
+                    'auth_callback' => function() {
+                        return current_user_can( 'edit_posts' );
+                    }
+                ]
+            );
         }
 
     }

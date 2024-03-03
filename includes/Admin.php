@@ -6,6 +6,7 @@ use Exception;
 use PriyoMukul\WPNotice\Notices;
 use PriyoMukul\WPNotice\Utils\CacheBank;
 use PriyoMukul\WPNotice\Utils\NoticeRemover;
+use WPSP\Social\SocialProfile;
 
 class Admin
 {
@@ -39,7 +40,7 @@ class Admin
         }
 
         add_action( 'wp_ajax_wpsp_el_editor_form', [ $this, 'wpsp_el_tab_action' ] );
-
+        add_action('wpsp_el_modal_social_share_profile', [ $this, 'wpsp_el_modal_social_share_profile' ] );
 
         self::$cache_bank = CacheBank::get_instance();
         try {
@@ -267,191 +268,6 @@ class Admin
     }
 
     public function schedulepress_el_tab () { ?>
-        <style>
-            #schedulepress-elementor-modal.elementor-templates-modal .dialog-widget-content {
-                background: #f5f7fd;
-            }
-            .elementor-panel-footer-wpsp-modal .wpsp-elementor-topbar-panel-button:hover {
-                background-color: #3e3e3e;
-            }
-            .elementor-panel-footer-wpsp-modal .wpsp-elementor-topbar-panel-button {
-                display: inline-flex;
-                -webkit-box-align: center;
-                align-items: center;
-                -webkit-box-pack: center;
-                justify-content: center;
-                position: relative;
-                box-sizing: border-box;
-                -webkit-tap-highlight-color: transparent;
-                background-color: transparent;
-                outline: 0px;
-                border: 0px;
-                margin: 0px;
-                cursor: pointer;
-                user-select: none;
-                vertical-align: middle;
-                appearance: none;
-                text-decoration: none;
-                text-align: center;
-                flex: 0 0 auto;
-                font-size: 1.5rem;
-                padding: 8px;
-                border-radius: 50%;
-                overflow: visible;
-                color: rgb(255, 255, 255);
-                transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-            }
-            .wpsp-el-modal-date-picker .flatpickr-calendar {
-                left: 50% !important;
-                top: 50% !important;
-                transform: translate(-50%, -50%);
-                animation: none !important;
-            }
-
-            #schedulepress-elementor-modal.elementor-templates-modal .dialog-header {
-                background: #fff;
-                box-shadow: none;
-            }
-
-            #schedulepress-elementor-modal .elementor-templates-modal__header__close--normal {
-                border-left: none;
-            }
-
-            #schedulepress-elementor-modal .elementor-templates-modal__header__close--normal svg {
-                cursor: pointer;
-                transition: .3s;
-            }
-
-            #schedulepress-elementor-modal .elementor-templates-modal__header__close--normal svg:hover {
-                transform: scale(1.3);
-            }
-
-            #schedulepress-elementor-modal .dialog-widget-content {
-                border-radius: 10px;
-            }
-
-            #schedulepress-elementor-modal.elementor-templates-modal .dialog-buttons-wrapper {
-                background: transparent;
-                box-shadow: none;
-            }
-
-            #schedulepress-elementor-modal.elementor-templates-modal .dialog-message {
-                height: auto;
-                padding-bottom: 20px;
-                overflow: auto;
-            }
-
-            @media (max-width: 1439px) {
-                #schedulepress-elementor-modal.elementor-templates-modal .dialog-widget-content {
-                    max-width: 500px;
-                }
-            }
-
-            @media (min-width: 1440px) {
-                #schedulepress-elementor-modal.elementor-templates-modal .dialog-widget-content {
-                    max-width: 500px;
-                }
-            }
-
-            #schedulepress-elementor-modal form label {
-                display: block;
-                text-align: left;
-            }
-
-            #schedulepress-elementor-modal form label input {
-                background-color: #e6eaf8;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 200 200' style='enable-background:new 0 0 200 200;' width='10' xml:space='preserve'%3E%3Cstyle type='text/css'%3E .st0%7Bfill:%239E9ED8;%7D%0A%3C/style%3E%3Cpath class='st0' d='M175,24.7h-8.3V8.1c0-4.6-3.7-8.3-8.3-8.3H150c-4.6,0-8.3,3.7-8.3,8.3v16.7H58.3V8.1c0-4.6-3.7-8.3-8.3-8.3 h-8.3c-4.6,0-8.3,3.7-8.3,8.3v16.7H25c-13.8,0-25,11.2-25,25v125c0,13.8,11.2,25,25,25h150c13.8,0,25-11.2,25-25v-125 C200,36,188.8,24.7,175,24.7z M183.3,174.7c0,4.6-3.7,8.3-8.3,8.3H25c-4.6,0-8.3-3.7-8.3-8.3V83.4h166.7V174.7z'/%3E%3C/svg%3E%0A");
-                background-repeat: no-repeat;
-                background-position: calc(100% - 15px) center;
-                border: none;
-                border-radius: 5px;
-                height: 35px;
-                padding: 0 15px;
-                color: #303042;
-            }
-
-            #schedulepress-elementor-modal form label + label {
-                margin-top: 15px;
-            }
-
-            #schedulepress-elementor-modal form label > span {
-                display: block;
-                color: #303042;
-                font-weight: 700;
-                margin-bottom: 5px;
-            }
-
-            #schedulepress-elementor-modal .wpsp-pro-fields label {
-                margin-top: 15px;
-            }
-
-            #schedulepress-elementor-modal .wpsp-pro-fields:not(.wpsp-pro-activated) label > span, #schedulepress-elementor-modal .wpsp-pro-fields.disabled label > span {
-                color: #9696af;
-            }
-
-            #schedulepress-elementor-modal .wpsp-pro-fields label > span > span {
-                background: #6d64ff;
-                border-radius: 5px;
-                line-height: 10px;
-                display: inline-block;
-                font-size: 8px;
-                padding: 0 4px;
-                margin-left: 5px;
-                color: #f5f7fd;
-                transform: translateY(-1px);
-            }
-
-            #schedulepress-elementor-modal form .wpsp-pro-fields:not(.wpsp-pro-activated) label input {
-                opacity: .5;
-            }
-
-            #schedulepress-elementor-modal .elementor-button {
-                color: #6d64ff;
-                background: rgba(109, 100, 255, .2);
-                height: 35px;
-                font-size: 15px;
-                padding: 0 25px;
-                border-radius: 18px;
-                font-weight: 400;
-                text-transform: initial;
-            }
-
-            #schedulepress-elementor-modal .elementor-button.wpsp-el-form-submit, #schedulepress-elementor-modal .elementor-button.wpsp-advanced-schedule {
-                background: rgba(109, 100, 255, 1);
-                color: #fff;
-            }
-
-            #schedulepress-elementor-modal .elementor-button.wpsp-immediately-publish.active {
-                background: #00cc76;
-                color: #fff;
-            }
-
-            #schedulepress-elementor-modal .elementor-button + .elementor-button {
-                margin-left: 15px;
-            }
-
-            #schedulepress-elementor-modal.elementor-templates-modal .dialog-buttons-wrapper {
-                padding: 0 30px 30px;
-            }
-
-            #schedulepress-elementor-modal .wpsp-el-result {
-                text-align: left;
-                color: red;
-                padding-top: 10px;
-            }
-
-            #schedulepress-elementor-modal .wpsp-el-result.wpsp-msg-success {
-                color: green;
-            }
-
-            #schedulepress-elementor-modal .wpsp-el-form-submit.elementor-button-state > .elementor-state-icon + span, #schedulepress-elementor-modal .wpsp-advanced-schedule.elementor-button-state > .elementor-state-icon + span {
-                display: none;
-            }
-            .elementor-panel .elementor-panel-footer-sub-menu-item {
-                justify-content: start;
-                width: 100%;
-            }
-        </style>
         <div class="dialog-widget dialog-lightbox-widget dialog-type-buttons dialog-type-lightbox elementor-templates-modal"
             id="schedulepress-elementor-modal" style="display: none;">
             <div class="dialog-widget-content dialog-lightbox-widget-content" style="top: 50%;left: 50%;transform: translate(-50%, -50%);">
@@ -484,54 +300,70 @@ class Admin
                 <div class="dialog-message dialog-lightbox-message">
                     <div class="dialog-content dialog-lightbox-content">
                         <form action="<?php echo admin_url( 'admin-ajax.php' ); ?>" method="post">
-                            <?php
-                            wp_nonce_field( 'wpsp-el-editor', 'wpsp-el-editor' );
-                            $post_id     = get_the_ID();
-                            $post        = get_post( $post_id );
-                            $status      = get_post_status( $post_id );
-                            $is_future   = $status === 'future';
-                            $post_date   = apply_filters('wpsp_el_modal_post_date', $post->post_date, $post);
-                            ?>
-                            <input type="hidden" name="action" value="wpsp_el_editor_form">
-                            <input type="hidden" name="id" value="<?php echo $post_id; ?>">
+                            <div class="wpsp-el-fields-prev wpsp-el-fields active">
+                                <?php
+                                wp_nonce_field( 'wpsp-el-editor', 'wpsp-el-editor' );
+                                $post_id     = get_the_ID();
+                                $post        = get_post( $post_id );
+                                $status      = get_post_status( $post_id );
+                                $is_future   = $status === 'future';
+                                $post_date   = apply_filters('wpsp_el_modal_post_date', $post->post_date, $post);
+                                ?>
+                                <input type="hidden" name="action" value="wpsp_el_editor_form">
+                                <input type="hidden" name="id" value="<?php echo $post_id; ?>">
 
-                            <label>
-                                <span><?php esc_html_e( 'Publish On', 'wp-scheduled-posts' ); ?></span>
-                                <input id="wpsp-schedule-datetime" type="text" name="date" value="<?php echo esc_attr( $post_date ) ?>" readonly>
-                            </label>
-                            <?php do_action( 'wpsp_el_modal_pro_fields', $post_id ); ?>
+                                <label>
+                                    <span><?php esc_html_e( 'Publish On', 'wp-scheduled-posts' ); ?></span>
+                                    <input id="wpsp-schedule-datetime" type="text" name="date" value="<?php echo esc_attr( $post_date ) ?>" readonly>
+                                </label>
+                                <?php do_action( 'wpsp_el_modal_pro_fields', $post_id ); ?>
+                            </div>
+                            <div class="wpsp-el-fields-next wpsp-el-fields">
+                                <?php do_action('wpsp_el_modal_social_share_profile') ?>
+                            </div>
                         </form>
                         <div class="wpsp-el-result" style="display: none;"></div>
                     </div>
                     <div class="dialog-loading dialog-lightbox-loading"></div>
                 </div>
-                <div class="dialog-buttons-wrapper dialog-lightbox-buttons-wrapper" style="display: flex;">
-                    <button class="elementor-button wpsp-immediately-publish" style="<?php if ( ! $is_future ) { echo 'display: none;'; } ?>">
-                        <span class="elementor-state-icon">
-                            <i class="eicon-loading eicon-animation-spin" aria-hidden="true"></i>
-                        </span>
-                        <?php esc_html_e( 'Publish Post Immediately', 'wp-scheduled-posts' ); ?>
-                    </button>
-                    <button class="elementor-button wpsp-el-form-submit"
-                            data-label-schedule="<?php esc_html_e( 'Schedule', 'wp-scheduled-posts' ); ?>"
-                            data-label-publish="<?php esc_html_e( 'Publish', 'wp-scheduled-posts' ); ?>"
-                            data-label-update="<?php esc_html_e( 'Update', 'wp-scheduled-posts' ); ?>">
-                        <span class="elementor-state-icon">
-                            <i class="eicon-loading eicon-animation-spin" aria-hidden="true"></i>
-                        </span>
-                        <span>
-                        <?php
-                        if ( $is_future ) {
-                            esc_html_e( 'Schedule', 'wp-scheduled-posts' );
-                        } elseif( $status == 'publish') {
-                            esc_html_e( 'Update', 'wp-scheduled-posts' );
-                        } else {
-                            esc_html_e( 'Publish', 'wp-scheduled-posts' );
-                        }
-                        ?>
-                        </span>
-                    </button>
-                    <?php do_action("wpsp_el_after_publish_button", $post);?>
+                <div class="dialog-buttons-wrapper dialog-lightbox-buttons-wrapper wpsp-elementor-modal-wrapper">
+                    <div id="wpsp-el-form-prev-next-button">
+                        <button class="elementor-button wpsp-el-form-next">
+                            <span><?php echo esc_html__( 'Next','wp-scheduled-posts' ) ?></span>
+                        </button>
+                        <button class="elementor-button wpsp-el-form-prev">
+                            <span><?php echo esc_html__( 'Prev','wp-scheduled-posts' ) ?></span>
+                        </button>
+                    </div>
+                    <div id="wpsp-el-form-update-button" class="wpsp_form_next_button_wrapper">
+                        <button class="elementor-button wpsp-immediately-publish" style="<?php if ( ! $is_future ) { echo 'display: none;'; } ?>">
+                            <span class="elementor-state-icon">
+                                <i class="eicon-loading eicon-animation-spin" aria-hidden="true"></i>
+                            </span>
+                            <?php esc_html_e( 'Publish Post Immediately', 'wp-scheduled-posts' ); ?>
+                        </button>
+                        <button class="wpsp_el_share_now"><?php echo esc_html__('Share Now','wp-scheduled-posts') ?></button>
+                        <button class="elementor-button wpsp-el-form-submit"
+                                data-label-schedule="<?php esc_html_e( 'Schedule', 'wp-scheduled-posts' ); ?>"
+                                data-label-publish="<?php esc_html_e( 'Publish', 'wp-scheduled-posts' ); ?>"
+                                data-label-update="<?php esc_html_e( 'Update', 'wp-scheduled-posts' ); ?>">
+                            <span class="elementor-state-icon">
+                                <i class="eicon-loading eicon-animation-spin" aria-hidden="true"></i>
+                            </span>
+                            <span>
+                            <?php
+                            if ( $is_future ) {
+                                esc_html_e( 'Schedule', 'wp-scheduled-posts' );
+                            } elseif( $status == 'publish') {
+                                esc_html_e( 'Update', 'wp-scheduled-posts' );
+                            } else {
+                                esc_html_e( 'Publish', 'wp-scheduled-posts' );
+                            }
+                            ?>
+                            </span>
+                        </button>
+                        <?php do_action("wpsp_el_after_publish_button", $post);?>
+                    </div>
                 </div>
                 <div class="wpsp-el-modal-date-picker"></div>
             </div>
@@ -595,18 +427,350 @@ class Admin
         </div>
         <?php
     }
+    
+    function wpsp_filter_selected_profile_object($profile)
+    {
+       if ( isset($profile['name']) ) {
+           return $profile['name'];
+        }
+    }
+
+    public function wpsp_get_pinterest_sections( $profiles )
+    {
+        if( $profiles['platform'] == 'pinterest' ) {
+            if ( isset( $profiles['pinterest_custom_board_name'] ) && isset( $profiles['pinterest_custom_section_name'] ) ) {
+                return [ $profiles['pinterest_custom_board_name'] => $profiles['pinterest_custom_section_name'] ];
+             }
+        }
+    }
+
+    public function wpsp_el_modal_social_share_profile() 
+    {
+        wp_nonce_field(basename(__FILE__), 'wpscp_pro_instant_social_share_nonce');
+        // status=
+        $twitterIntegation = \WPSP\Helper::get_settings('twitter_profile_status');
+        $facebookIntegation = \WPSP\Helper::get_settings('facebook_profile_status');
+        $linkedinIntegation = \WPSP\Helper::get_settings('linkedin_profile_status');
+        $pinterestIntegation = \WPSP\Helper::get_settings('pinterest_profile_status');
+
+        // social media share type settings 
+        $facebookShareType     = get_post_meta( get_the_ID(), '_facebook_share_type', true );
+        $twitterShareType      = get_post_meta( get_the_ID(), '_twitter_share_type', true );
+        $linkedinShareType     = get_post_meta( get_the_ID(), '_linkedin_share_type', true );
+        $linkedinShareTypePage = get_post_meta( get_the_ID(), '_linkedin_share_type_page', true );
+        $pinterestShareType    = get_post_meta( get_the_ID(), '_pinterest_share_type', true );
+        // get all selected social profile 
+        $allSelectedSocialProfiles = get_post_meta( get_the_ID(), '_selected_social_profile', true );
+        $filteredSelectedProfiles = array_map( [ $this, 'wpsp_filter_selected_profile_object' ], !empty( $allSelectedSocialProfiles ) ? $allSelectedSocialProfiles : [] );
+        $getPinterestSections = array_map( [ $this, 'wpsp_get_pinterest_sections' ], !empty( $allSelectedSocialProfiles ) ? $allSelectedSocialProfiles : [] );
+        $getPinterestSections = array_filter($getPinterestSections, function($item) {
+            return !empty($item);
+        });
+        $getPinterestSections = array_reduce($getPinterestSections, function($carry, $item) {
+            return $carry + $item; 
+        }, []);
+
+        $filteredSelectedProfiles = array_filter($filteredSelectedProfiles);
+
+        // profile
+        $facebookProfile = \WPSP\Helper::get_settings('facebook_profile_list');
+        if( !class_exists('WPSP_PRO') ) {
+            $facebookProfile = array_slice( $facebookProfile, 0, 1, true );
+        }
+
+        $twitterProfile = \WPSP\Helper::get_settings('twitter_profile_list');
+        if( !class_exists('WPSP_PRO') ) {
+            $twitterProfile = array_slice( $twitterProfile, 0, 1, true );
+        }
+        $linkedinProfile = \WPSP\Helper::get_settings('linkedin_profile_list');
+        if( !class_exists('WPSP_PRO') ) {
+            $linkedinProfile = array_filter($linkedinProfile, function($single_linkedin) {
+                return $single_linkedin->type == 'person';
+            });
+            $linkedinProfile = array_slice( $linkedinProfile, 0, 1, true );
+        }
+        $pinterestProfile = \WPSP\Helper::get_settings('pinterest_profile_list');
+        if( !class_exists('WPSP_PRO') ) {
+            $pinterestProfile = array_slice( $pinterestProfile, 0, 1, true );
+        }
+
+        ?>
+           <div class="el-social-share-platform">
+                <h4><?php echo esc_html__( 'Choose Social Share Platform', 'wp-scheduled-posts' ) ?></h4>
+                <input type="hidden" name="postid" id="wpscppropostid" value="<?php print get_the_ID(); ?>">
+                <div id="el-social-checkbox-wrapper">
+                    <div class="wpsp-el-accordion">
+                        <div class="wpsp-el-accordion-item wpsp-el-accordion-item-facebook">
+                            <div class="wpsp-el-accordion-header">
+                                <img src="<?php echo esc_url( WPSP_ASSETS_URI . '/images/facebook.svg' ) ?>" alt=""><span><?php echo esc_html('Facebook') ?></span>
+                            </div>
+                            <div class="wpsp-el-accordion-content">
+                                <?php if( !empty( $facebookIntegation ) && !empty( $facebookProfile ) ) : ?>
+                                    <div class="wpsp-el-container">
+                                        <label><input type="radio" data-platform="facebook" name="wpsp-el-content-facebook" value="wpsp-el-social-facebook-default" <?php echo ( ( !empty( $facebookShareType ) && $facebookShareType == 'default' ) || empty( $facebookShareType ) ) ? 'checked' : ''  ?>><?php echo esc_html__('Default','wp-scheduled-posts') ?></label>
+                                        <label><input type="radio" data-platform="facebook" name="wpsp-el-content-facebook" value="wpsp-el-social-facebook-custom" <?php echo !empty( $facebookShareType ) && $facebookShareType == 'custom' ? 'checked' : ''  ?>><?php echo esc_html__('Custom','wp-scheduled-posts') ?></label>
+                                    </div>
+                                    <div class="wpsp-el-content wpsp-el-content-facebook" data-value="wpsp-el-social-facebook-custom" style="<?php echo !empty( $facebookShareType ) && $facebookShareType == 'custom' ? 'display: block;' : 'display: none;' ?>">
+                                        <?php if( count( $facebookProfile ) > 0 ) : ?>
+                                            <?php foreach( $facebookProfile as $facebook ) : ?>
+                                                <div class="facebook-profile social-profile">
+                                                    <input type="checkbox" value="<?php echo !empty( $facebook->name ) ? $facebook->name : '' ?>" name="wpsp_el_social_facebook[]" <?php echo in_array( $facebook->name, $filteredSelectedProfiles ) ? 'checked' : '' ?>>
+                                                    <h3><?php echo !empty( $facebook->name ) ? $facebook->name : '' ?> ( <?php echo $facebook->type ? $facebook->type : '' ?> ) </h3>
+                                                </div>
+                                            <?php endforeach ?>
+                                        <?php endif ?>
+                                    </div>
+                                <?php else : ?>
+                                    <div class="wpsp-el-empty-profile-message">
+                                        <?php echo sprintf( __( 'You may forget to add or enable profile/page from <a href="%s">SchedulePress settings</a>. ', 'wp-scheduled-posts' ), 'https://schedulepress.test/wp-admin/admin.php?page=schedulepress&amp;tab=social-profile' ) ?>
+                                    </div>
+                                <?php endif ?>
+                            </div>
+                        </div>
+                        <div class="wpsp-el-accordion-item wpsp-el-accordion-item-twitter">
+                            <div class="wpsp-el-accordion-header">
+                                <img src="<?php echo esc_url( WPSP_ASSETS_URI . '/images/twitter.svg' ) ?>" alt=""><span><?php echo esc_html('Twitter') ?></span>
+                            </div>
+                            <div class="wpsp-el-accordion-content">
+                                <?php if( !empty( $twitterIntegation ) && !empty( $twitterProfile ) ) : ?>
+                                    <div class="wpsp-el-container">
+                                        <label><input type="radio" data-platform="twitter" name="wpsp-el-content-twitter" value="wpsp-el-social-twitter-default" <?php echo ( ( !empty( $twitterShareType ) && $twitterShareType == 'default' ) || empty( $twitterShareType ) ) ? 'checked' : ''  ?>><?php echo esc_html__('Default','wp-scheduled-posts') ?></label>
+                                        <label><input type="radio" data-platform="twitter" name="wpsp-el-content-twitter" value="wpsp-el-social-twitter-custom" <?php echo !empty( $twitterShareType ) && $twitterShareType == 'custom' ? 'checked' : ''  ?>><?php echo esc_html__('Custom','wp-scheduled-posts') ?></label>
+                                    </div>
+                                    <div class="wpsp-el-content wpsp-el-content-twitter" data-value="wpsp-el-social-twitter-custom" style="<?php echo !empty( $twitterShareType ) && $twitterShareType == 'custom' ? 'display: block;' : 'display: none;' ?>">
+                                        <?php if( count( $twitterProfile ) > 0 ) : ?>
+                                            <?php foreach( $twitterProfile as $twitter ) : ?>
+                                                <div class="twitter-profile social-profile">
+                                                    <input type="checkbox" value="<?php echo !empty( $twitter->name ) ? $twitter->name : '' ?>" name="wpsp_el_social_twitter[]" <?php echo  in_array( $twitter->name, $filteredSelectedProfiles ) ? 'checked' : '' ?>><h3><?php echo $twitter->name ? $twitter->name : '' ?> </h3>
+                                                </div>
+                                            <?php endforeach ?>
+                                        <?php endif ?>
+                                    </div>
+                                <?php else : ?>
+                                    <div class="wpsp-el-empty-profile-message">
+                                        <?php echo sprintf( __( 'You may forget to add or enable profile/page from <a href="%s">SchedulePress settings</a>. ', 'wp-scheduled-posts' ), 'https://schedulepress.test/wp-admin/admin.php?page=schedulepress&amp;tab=social-profile' ) ?>
+                                    </div>
+                                <?php endif ?>
+                            </div>
+                        </div>
+                        <div class="wpsp-el-accordion-item wpsp-el-accordion-item-linkedin">
+                            <div class="wpsp-el-accordion-header">
+                                <img src="<?php echo esc_url( WPSP_ASSETS_URI . '/images/linkedin.svg' ) ?>" alt=""><span><?php echo esc_html('LinkedIn') ?></span>
+                            </div>
+                            <div class="wpsp-el-accordion-content">
+                                <div class="wpsp-el-custom-linkedin-tab">
+                                    <div class="wpsp-el-container wpsp-el-social-linkedin-tab-wrapper">
+                                        <label for="wpsp-el-social-linkedin-profile-tab" class="active">
+                                            <input type="radio" data-platform="linkedin-tab" id="wpsp-el-social-linkedin-profile-tab" name="wpsp-el-content-linkedin-tab" value="wpsp-el-social-linkedin-profile" checked><?php echo esc_html__('Profile','wp-scheduled-posts') ?>
+                                        </label>
+                                        <label for="wpsp-el-social-linkedin-page-tab" class="<?php echo !class_exists('WPSP_PRO') ? 'disabled' : '' ?>">
+                                            <input type="radio" data-platform="linkedin-tab" id="wpsp-el-social-linkedin-page-tab" name="wpsp-el-content-linkedin-tab" value="wpsp-el-social-linkedin-page" <?php echo !class_exists('WPSP_PRO') ? 'disabled' : '' ?>><?php echo esc_html__('Page','wp-scheduled-posts') ?>
+                                        </label>
+                                    </div>
+                                    <?php if( !empty( $linkedinIntegation ) && !empty( $linkedinIntegation ) ) : ?>
+                                        <div class="wpsp-el-content wpsp-el-content-linkedin wpsp-el-social-linkedin-profile" data-value="wpsp-el-social-linkedin-profile" style="display: block;">
+                                            <?php if( count( $linkedinProfile ) > 0 ) : ?>
+                                                <?php 
+                                                    $count = 0;
+                                                    foreach ($linkedinProfile as $linkedin) {
+                                                        if( $linkedin->type == 'person' ) {
+                                                            $count++;
+                                                        }
+                                                    }
+                                                ?>
+                                                <?php if( $count != 0 ) : ?>
+                                                <div class="wpsp-el-container">
+                                                    <label><input type="radio" data-platform="linkedin-profile" name="wpsp-el-content-linkedin-profile" value="wpsp-el-social-linkedin-profile-default" <?php echo ( ( !empty( $linkedinShareType ) && $linkedinShareType == 'default' ) || empty( $linkedinShareType ) ) ? 'checked' : ''  ?>><?php echo esc_html__('Default','wp-scheduled-posts') ?></label>
+                                                    <label><input type="radio" data-platform="linkedin-profile" name="wpsp-el-content-linkedin-profile" value="wpsp-el-social-linkedin-profile-custom" <?php echo !empty( $linkedinShareType ) && $linkedinShareType == 'custom' ? 'checked' : ''  ?>><?php echo esc_html__('Custom','wp-scheduled-posts') ?></label>
+                                                </div>
+                                                <div class="wpsp-el-content wpsp-el-content-linkedin-profile" data-value="wpsp-el-social-linkedin-profile-custom" style="<?php echo !empty( $linkedinShareType ) && $linkedinShareType == 'custom' ? 'display: block;' : 'display: none;' ?>">
+                                                    <?php foreach( $linkedinProfile as $linkedin ) : ?>
+                                                        <?php if ($linkedin->type == 'person') : ?>
+                                                            <div class="linkedin-profile social-profile">
+                                                                <input type="checkbox" value="<?php echo !empty( $linkedin->name ) ? $linkedin->name : '' ?>" name="wpsp_el_social_linkedin[]" <?php echo  in_array( $linkedin->name, $filteredSelectedProfiles ) ? 'checked' : '' ?>><h3><?php echo isset( $linkedin->name ) ? $linkedin->name : '' ?> <?php echo esc_html__('(Profile)', 'wp-scheduled-posts' )  ?> </h3>
+                                                            </div>
+                                                        <?php endif; ?>
+                                                    <?php endforeach ?>
+                                                </div>
+                                                <?php else : ?>
+                                                    <div class="wpsp-el-empty-profile-message">
+                                                        <?php echo sprintf( __( 'You may forget to add or enable profile/page from <a href="%s">SchedulePress settings</a>. ', 'wp-scheduled-posts' ), 'https://schedulepress.test/wp-admin/admin.php?page=schedulepress&amp;tab=social-profile' ) ?>
+                                                    </div>
+                                                <?php endif ?>
+                                            <?php endif ?>
+                                        </div>
+                                        <div class="wpsp-el-content wpsp-el-content-linkedin wpsp-el-social-linkedin-page" data-value="wpsp-el-social-linkedin-page" style="display: none;">
+                                            <?php if( count( $linkedinProfile ) > 0 && class_exists('WPSP_PRO') ) : ?>
+                                                <?php 
+                                                    $count = 0;
+                                                    foreach ($linkedinProfile as $linkedin) {
+                                                        if( $linkedin->type == 'organization' ) {
+                                                            $count++;
+                                                        }
+                                                    }
+                                                ?>
+                                                <?php if( $count != 0 ) : ?>
+                                                <div class="wpsp-el-container">
+                                                    <label><input type="radio" data-platform="linkedin-page" name="wpsp-el-content-linkedin-page" value="wpsp-el-social-linkedin-page-default" <?php echo ( ( !empty( $linkedinShareTypePage ) && $linkedinShareTypePage == 'default' ) || empty( $linkedinShareTypePage ) ) ? 'checked' : ''  ?>><?php echo esc_html__('Default','wp-scheduled-posts') ?></label>
+                                                    <label><input type="radio" data-platform="linkedin-page" name="wpsp-el-content-linkedin-page" value="wpsp-el-social-linkedin-page-custom" <?php echo !empty( $linkedinShareTypePage ) && $linkedinShareTypePage == 'custom' ? 'checked' : ''  ?>><?php echo esc_html__('Custom','wp-scheduled-posts') ?></label>
+                                                </div>
+                                                <div class="wpsp-el-content wpsp-el-content-linkedin-page" data-value="wpsp-el-social-linkedin-page-custom" style="<?php echo !empty( $linkedinShareTypePage ) && $linkedinShareTypePage == 'custom' ? 'display: block;' : 'display: none;' ?>">
+                                                    <?php foreach( $linkedinProfile as $linkedin ) : ?>
+                                                        <?php if ($linkedin->type == 'organization') : ?>
+                                                            <div class="linkedin-profile social-profile">
+                                                                <input type="checkbox" value="<?php echo !empty( $linkedin->name ) ? $linkedin->name : '' ?>" name="wpsp_el_social_linkedin[]" <?php echo  in_array( $linkedin->name, $filteredSelectedProfiles ) ? 'checked' : '' ?>><h3><?php echo isset( $linkedin->name ) ? $linkedin->name : '' ?> <?php echo esc_html__('(Page)', 'wp-scheduled-posts') ?> </h3>
+                                                            </div>
+                                                        <?php endif; ?>
+                                                    <?php endforeach ?>
+                                                </div>
+                                                <?php else :  ?>
+                                                    <div class="wpsp-el-empty-profile-message">
+                                                        <?php echo sprintf( __( 'You may forget to add or enable profile/page from <a href="%s">SchedulePress settings</a>. ', 'wp-scheduled-posts' ), 'https://schedulepress.test/wp-admin/admin.php?page=schedulepress&amp;tab=social-profile' ) ?>
+                                                    </div>
+                                                <?php endif ?>
+                                            <?php endif ?>
+                                        </div>
+                                    <?php else : ?>
+                                        <div class="wpsp-el-empty-profile-message">
+                                            <?php echo sprintf( __( 'You may forget to add or enable profile/page from <a href="%s">SchedulePress settings</a>. ', 'wp-scheduled-posts' ), 'https://schedulepress.test/wp-admin/admin.php?page=schedulepress&amp;tab=social-profile' ) ?>
+                                        </div>
+                                    <?php endif ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="wpsp-el-accordion-item wpsp-el-accordion-item-pinterest">
+                            <div class="wpsp-el-accordion-header">
+                                <img src="<?php echo esc_url( WPSP_ASSETS_URI . '/images/pinterest.svg' ) ?>" alt=""><span><?php echo esc_html('Pinterest') ?></span>
+                            </div>
+                            <div class="wpsp-el-accordion-content">
+                                <?php if( !empty( $pinterestIntegation ) && !empty( $pinterestIntegation ) ) : ?>
+                                <div class="wpsp-el-container">
+                                    <label><input type="radio" data-platform="pinterest" name="wpsp-el-content-pinterest" value="wpsp-el-social-pinterest-default" <?php echo ( ( !empty( $pinterestShareType ) && $pinterestShareType == 'default' ) || empty( $pinterestShareType ) ) ? 'checked' : ''  ?>><?php echo esc_html__('Default','wp-scheduled-posts') ?></label>
+                                    <label><input type="radio" data-platform="pinterest" name="wpsp-el-content-pinterest" value="wpsp-el-social-pinterest-custom" <?php echo !empty( $pinterestShareType ) && $pinterestShareType == 'custom' ? 'checked' : ''  ?>><?php echo esc_html__('Custom','wp-scheduled-posts') ?></label>
+                                </div>
+                                <div class="wpsp-el-content wpsp-el-content-pinterest" data-value="wpsp-el-social-pinterest-custom" style="<?php echo !empty( $pinterestShareType ) && $pinterestShareType == 'custom' ? 'display: block;' : 'display: none;' ?>">
+                                    <?php if( count( $pinterestProfile ) > 0 ) : ?>
+                                        <?php foreach( $pinterestProfile as $key => $pinterest ) : ?>
+                                            <?php
+                                                if( empty( $pinterest->default_board_name->value ) )  {
+                                                    continue;
+                                                }
+                                                $pinterest = $this->get_pinterest_from_meta( $pinterest );
+                                            ?>
+                                            <?php 
+                                                $pinterest_section = new SocialProfile();
+                                                $get_pinterest_sections = $pinterest_section->social_profile_fetch_pinterest_section( [ 'defaultBoard'  => $pinterest->default_board_name->value, 'profile' => $key, 'method_called'  => true ]  );
+                                            ?>
+                                            <div class="pinterest-profile social-profile">
+                                                <input type="checkbox" value="<?php echo $pinterest->default_board_name->value ?>" name="wpsp_el_social_pinterest[]" <?php echo  in_array( $pinterest->default_board_name->label, $filteredSelectedProfiles ) ? 'checked' : '' ?>>
+                                                <h3><?php echo !empty( $pinterest->default_board_name->label ) ? $pinterest->default_board_name->label : '' ?> </h3>
+                                                <select name="wpsp_el_pinterest_board[]" id="wpsp_el_pinterest_section_<?php echo $pinterest->default_board_name->value ?>">
+                                                    <option value=""><?php echo esc_html('No Section','wp-scheduled-posts') ?></option>
+                                                    <?php if( !empty( $get_pinterest_sections ) ) : ?>
+                                                        <?php foreach( $get_pinterest_sections as $section ) : ?>
+                                                            <?php if( !empty( $getPinterestSections[ $pinterest->default_board_name->value ] ) ) : ?>
+                                                                <option value="<?php echo !empty( $section['id'] ) ? $section['id']. '|'. $pinterest->default_board_name->value : '' ?>" <?php echo $getPinterestSections[$pinterest->default_board_name->value] == $section['id'] ? 'selected' : '' ?> ><?php echo !empty( $section['name'] ) ? $section['name'] : '' ?></option>
+                                                            <?php endif ?>
+                                                        <?php endforeach ?>
+                                                    <?php endif ?>
+                                                </select>
+                                            </div>
+                                        <?php endforeach ?>
+                                    <?php endif ?>
+                                </div>
+                                <?php else : ?>
+                                    <div class="wpsp-el-empty-profile-message">
+                                        <?php echo sprintf( __( 'You may forget to add or enable profile/page from <a href="%s">SchedulePress settings</a>. ', 'wp-scheduled-posts' ), 'https://schedulepress.test/wp-admin/admin.php?page=schedulepress&amp;tab=social-profile' ) ?>
+                                    </div>
+                                <?php endif ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+           </div>
+        <?php 
+    }
+
+    public function get_pinterest_from_meta($pinterest)
+    {
+        if( !empty( $pinterest ) ) {
+            $get_selected_profiles = get_post_meta(get_the_ID(), '_selected_social_profile', true);
+            if( !empty( $get_selected_profiles ) ) {
+                $pinterestSelectedProfile = array_filter($get_selected_profiles, function ($profile) use ( $pinterest ) {
+                    return isset( $profile->default_board_name->value ) && isset( $pinterest->default_board_name->value ) && $profile->default_board_name->value == $pinterest->default_board_name->value;
+                });
+                if( empty( $pinterestSelectedProfile ) ) {
+                    return $pinterest;
+                }else{
+                    return reset( $pinterestSelectedProfile );
+                }
+            }
+        }
+        return $pinterest;
+    }
+
+    public function wpsp_format_profile_data( $selectedSocialProfiles ) {
+        $platformKeyMapping = [
+            'linkedin'  => ['type'],
+            'twitter'   => [],
+            'facebook'  => ['type'],
+            'pinterest' => ['default_board_name', 'defaultSection'],
+        ];
+        foreach ($selectedSocialProfiles as $key => $item) {
+            $platform = '';
+            if (property_exists($item, 'urn')) {
+                $platform = 'linkedin';
+            } elseif (property_exists($item, 'oauth_token')) {
+                $platform = 'twitter';
+            } elseif (property_exists($item, 'type')) {
+                $platform = 'facebook';
+            } elseif (property_exists($item, 'access_token') && !empty($item->boards)) {
+                $platform = 'pinterest';
+            }
+            $formattedItem = [
+                'id'            => ($platform === 'pinterest') ? $item->default_board_name->value : $item->id,
+                'platform'      => $platform,
+                'platformKey'   => 0,
+                'name'          => ($platform === 'pinterest') ? $item->default_board_name->label : $item->name,
+                'thumbnail_url' => $item->thumbnail_url,
+                'share_type'    => 'default',
+            ];
+            foreach ($platformKeyMapping[$platform] as $key) {
+                if ($platform === 'pinterest') {
+                    $formattedItem['pinterest_custom_board_name']   = $item->default_board_name->value;
+                    $formattedItem['pinterest_custom_section_name'] = $item->defaultSection->value;
+                    unset( $formattedItem['default_board_name'], $formattedItem['defaultSection'] );
+                } else {
+                    $formattedItem[$key] = $item->$key;
+                }
+            }
+            $formattedData[] = $formattedItem;
+        }
+        return $formattedData;
+    }
 
     public function wpsp_el_tab_action() {
         if ( check_ajax_referer( 'wpsp-el-editor', 'wpsp-el-editor' ) ) {
             $offset = get_option( 'gmt_offset' );
             $offset = $offset == 0 ? 0 : ( 0 - $offset );
+
             $args   = wp_parse_args( $_POST, [
-                'id'                 => 0,
-                'date'               => '',
-                'republish_datetime' => '',
-                'unpublish_datetime' => '',
-                'post_status'        => 'future',
-                'advanced'           => null,
+                'id'                               => 0,
+                'date'                             => '',
+                'republish_datetime'               => '',
+                'unpublish_datetime'               => '',
+                'post_status'                      => 'future',
+                'advanced'                         => null,
+                'wpsp-el-content-facebook'         => '',
+                'wpsp-el-content-twitter'          => '',
+                'wpsp-el-content-linkedin-profile' => '',
+                'wpsp-el-content-linkedin-page'    => '',
+                'wpsp-el-content-pinterest'        => '',
+                'wpsp_el_social_facebook'          => [],
+                'wpsp_el_social_twitter'           => [],
+                'wpsp_el_social_linkedin'          => [],
+                'wpsp_el_social_pinterest'         => [],
+                'wpsp_el_pinterest_board'          => [],
             ] );
 
             // @todo moved to pro, will be removed in next version...
@@ -625,6 +789,103 @@ class Admin
             $is_future = true;
 
             $msg = __( 'Your post successfully updated', 'wp-scheduled-posts' );
+
+            // update selected profiles
+            $facebookProfile  = \WPSP\Helper::get_settings('facebook_profile_list');
+            $twitterProfile   = \WPSP\Helper::get_settings('twitter_profile_list');
+            $linkedinProfile  = \WPSP\Helper::get_settings('linkedin_profile_list');
+            $pinterestProfile = \WPSP\Helper::get_settings('pinterest_profile_list');
+            $selectedSocialProfiles = [];
+            if( !empty( $args['wpsp_el_social_facebook'] ) && !empty( $facebookProfile ) && !empty( $args['wpsp-el-content-facebook'] ) && $args['wpsp-el-content-facebook'] == 'wpsp-el-social-facebook-custom' ) {
+                $selectedFacebookProfile = $args['wpsp_el_social_facebook'];
+                $facebookSelectedProfile = array_filter($facebookProfile, function ($obj) use ( $selectedFacebookProfile ) {
+                    return in_array($obj->name, $selectedFacebookProfile);
+                });
+                $selectedSocialProfiles = array_merge( $facebookSelectedProfile, $selectedSocialProfiles );
+            }
+            if( !empty( $args['wpsp_el_social_twitter'] ) && !empty( $twitterProfile )  && !empty( $args['wpsp-el-content-twitter'] ) && $args['wpsp-el-content-twitter'] == 'wpsp-el-social-twitter-custom' ) {
+                $selectedTwitterProfile = $args['wpsp_el_social_twitter'];
+                $twitterSelectedProfile = array_filter($twitterProfile, function ($obj) use ( $selectedTwitterProfile ) {
+                    return in_array($obj->name, $selectedTwitterProfile);
+                });
+                $selectedSocialProfiles = array_merge( $twitterSelectedProfile, $selectedSocialProfiles );
+            }
+            if( !empty( $args['wpsp_el_social_linkedin'] ) && !empty( $linkedinProfile )  && ( ( !empty( $args['wpsp-el-content-linkedin-page'] ) && $args['wpsp-el-content-linkedin-page'] == 'wpsp-el-social-linkedin-page-custom' ) || (!empty( $args['wpsp-el-content-linkedin-profile'] ) && $args['wpsp-el-content-linkedin-profile'] == 'wpsp-el-social-linkedin-profile-custom') ) ) {
+                $selectedLinkedinProfile = $args['wpsp_el_social_linkedin'];
+                $linkedinSelectedProfile = array_filter($linkedinProfile, function ($obj) use ( $selectedLinkedinProfile ) {
+                    return in_array($obj->name, $selectedLinkedinProfile);
+                });
+                $selectedSocialProfiles = array_merge( $linkedinSelectedProfile, $selectedSocialProfiles );
+            }
+            if( !empty( $args['wpsp_el_social_pinterest'] ) && !empty( $pinterestProfile ) && !empty( $args['wpsp-el-content-pinterest'] ) && $args['wpsp-el-content-pinterest'] == 'wpsp-el-social-pinterest-custom' ) {
+                $selectedPinterestProfile = $args['wpsp_el_social_pinterest'];
+                $pinterestSelectedProfile = array_filter($pinterestProfile, function ($obj) use ( $selectedPinterestProfile ) {
+                    return in_array($obj->default_board_name->value, $selectedPinterestProfile);
+                });
+                 // update pinterest section 
+                $pinterest_section = new SocialProfile();
+                if( !empty( $args['wpsp_el_pinterest_board'] ) ) {
+                    foreach ( $args['wpsp_el_pinterest_board'] as $section_of_board) {
+                        $explode_board_and_section = explode( '|', $section_of_board );
+                        if( !empty( $explode_board_and_section[0] ) && !empty( $explode_board_and_section[1] ) ) {
+                            $get_section_array = $pinterest_section->social_fetch_pinterest_section_array( $explode_board_and_section[1], $explode_board_and_section[0] );
+                            // Iterate through the array
+                            foreach ($pinterestSelectedProfile as $pinterest_profile) {
+                                if ( isset($pinterest_profile->default_board_name->value) && $pinterest_profile->default_board_name->value == $explode_board_and_section[1] ) {
+                                    $pinterest_profile->defaultSection = json_decode( json_encode( $get_section_array ) );
+                                }
+                            }
+                        }
+                    }
+                }
+                $selectedSocialProfiles = array_merge( $pinterestSelectedProfile, $selectedSocialProfiles );
+            }
+           
+            if( !empty( $args['wpsp_el_social_pinterest'] ) || !empty( $args['wpsp_el_social_linkedin'] ) || !empty( $args['wpsp_el_social_twitter'] ) || !empty( $args['wpsp_el_social_facebook'] ) ) {
+                $selectedSocialProfiles = $this->wpsp_format_profile_data( $selectedSocialProfiles );
+                update_post_meta( $args['id'], '_selected_social_profile', $selectedSocialProfiles );
+            }
+
+            // social media type selection settings
+            if( !empty( $args['wpsp-el-content-facebook'] ) ) {
+                if( $args['wpsp-el-content-facebook'] == 'wpsp-el-social-facebook-custom' ) {
+                    update_post_meta( $args['id'], '_facebook_share_type', 'custom' );
+                }else{
+                    update_post_meta( $args['id'], '_facebook_share_type', 'default' );
+                }
+            }
+
+            if( !empty( $args['wpsp-el-content-linkedin-profile'] ) ) {
+                if( $args['wpsp-el-content-linkedin-profile'] == 'wpsp-el-social-linkedin-profile-custom' ) {
+                    update_post_meta( $args['id'], '_linkedin_share_type', 'custom' );
+                }else{
+                    update_post_meta( $args['id'], '_linkedin_share_type', 'default' );
+                }
+            }
+
+            if( !empty( $args['wpsp-el-content-linkedin-page'] ) ) {
+                if( $args['wpsp-el-content-linkedin-page'] == 'wpsp-el-social-linkedin-page-custom' ) {
+                    update_post_meta( $args['id'], '_linkedin_share_type_page', 'custom' );
+                }else{
+                    update_post_meta( $args['id'], '_linkedin_share_type_page', 'default' );
+                }
+            }
+
+            if( !empty( $args['wpsp-el-content-pinterest'] ) ) {
+                if( $args['wpsp-el-content-pinterest'] == 'wpsp-el-social-pinterest-custom' ) {
+                    update_post_meta( $args['id'], '_pinterest_share_type', 'custom' );
+                }else{
+                    update_post_meta( $args['id'], '_pinterest_share_type', 'default' );
+                }
+            }
+
+            if( !empty( $args['wpsp-el-content-twitter'] ) ) {
+                if( $args['wpsp-el-content-twitter'] == 'wpsp-el-social-twitter-custom' ) {
+                    update_post_meta( $args['id'], '_twitter_share_type', 'custom' );
+                }else{
+                    update_post_meta( $args['id'], '_twitter_share_type', 'default' );
+                }
+            }
 
             if ( empty( $args['date'] ) ) {
                 $args['date'] = date( 'Y-m-d H:i:s', current_time( 'U' ) );
