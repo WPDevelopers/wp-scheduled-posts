@@ -124,7 +124,9 @@ const SocialShare = ( { is_pro_active } ) => {
           } )
         }
         if( _selected_social_profile.length > 0 ) {
-          setSelectedSocialProfile( [..._selected_social_profile] );
+          const default_object_ids = default_selected_social_profile.map(item => item.id);
+          let _final_selected_social_profile = _selected_social_profile.filter(item => default_object_ids.includes(item.id)); 
+          setSelectedSocialProfile( [..._final_selected_social_profile] );
         }else {
           setSelectedSocialProfile( [...default_selected_social_profile] );
         }
@@ -204,7 +206,6 @@ const SocialShare = ( { is_pro_active } ) => {
           setSelectedSocialProfile(filteredSelectedProfile);
         }
       }
-      console.log('selected-social-profile', selectedSocialProfile);
     }
     // Function to update the boards with new section IDs
     function updateBoardSections(boards, sectionsToUpdate) {
@@ -230,8 +231,6 @@ const SocialShare = ( { is_pro_active } ) => {
         return item;
       });
       const updateSelectedProfile = updateBoardSections(selectedSocialProfile, updateSectionArray);
-      console.log('updateSectionArray',updateSelectedProfile);
-      console.log('updateSectionArray',updateSectionArray);
       setSelectedSocialProfile(updateSelectedProfile);
       setSelectedSection(updateSectionArray);
     }

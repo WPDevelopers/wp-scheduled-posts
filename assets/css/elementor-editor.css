@@ -201,9 +201,9 @@
     background-color: #e0e0e0;
 }
 
-.el-social-share-platform {
+/* .el-social-share-platform {
     margin-top: 20px;
-}
+} */
 
 .el-social-share-platform h4 {
     font-size: 20px;
@@ -358,7 +358,7 @@
 
 .el-social-share-platform .wpsp-el-accordion .wpsp-el-accordion-item .wpsp-el-content .social-profile h3 {
     font-weight: 400;
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .el-social-share-platform .wpsp-el-accordion .wpsp-el-accordion-item .wpsp-el-content input[type="checkbox"] {
@@ -405,7 +405,8 @@
     border: 1px solid #ffb900;
     border-left-width: 4px;
     padding: 5px 10px;
-    margin: 5px 0
+    margin: 5px 0;
+    color: #000;
 }
 
 #wpscpproInstantShareModal .viewlog {
