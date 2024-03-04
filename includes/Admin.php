@@ -559,12 +559,15 @@ class Admin
                             </div>
                             <div class="wpsp-el-accordion-content">
                                 <div class="wpsp-el-custom-linkedin-tab">
-                                    <div class="wpsp-el-container wpsp-el-social-linkedin-tab-wrapper">
+                                    <div class="wpsp-el-container wpsp-el-social-linkedin-tab-wrapper wpsp-pro-fields">
                                         <label for="wpsp-el-social-linkedin-profile-tab" class="active">
                                             <input type="radio" data-platform="linkedin-tab" id="wpsp-el-social-linkedin-profile-tab" name="wpsp-el-content-linkedin-tab" value="wpsp-el-social-linkedin-profile" checked><?php echo esc_html__('Profile','wp-scheduled-posts') ?>
                                         </label>
                                         <label for="wpsp-el-social-linkedin-page-tab" class="<?php echo !class_exists('WPSP_PRO') ? 'disabled' : '' ?>">
                                             <input type="radio" data-platform="linkedin-tab" id="wpsp-el-social-linkedin-page-tab" name="wpsp-el-content-linkedin-tab" value="wpsp-el-social-linkedin-page" <?php echo !class_exists('WPSP_PRO') ? 'disabled' : '' ?>><?php echo esc_html__('Page','wp-scheduled-posts') ?>
+                                            <?php if( !class_exists('WPSP_PRO') ) : ?>
+                                                <span><span><?php echo esc_html('PRO') ?></span></span>
+                                            <?php endif ?>
                                         </label>
                                     </div>
                                     <?php if( !empty( $linkedinIntegation ) && !empty( $linkedinIntegation ) ) : ?>
