@@ -4,7 +4,7 @@ Tags: post schedule, schedule calendar, auto scheduler, auto sharing, social sha
 Requires at least: 4.0
 Tested up to: 6.4
 Requires PHP: 7.2
-Stable tag: 5.0.8
+Stable tag: 5.0.9
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -208,6 +208,12 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 == Changelog ==
 
+= 5.0.9 - 2024-03-05 =
+- Added: Social Media selection option for Elementor.
+- Improved: Security Enhancement.
+- Improved: Overall social sharing option.
+- Few minor bug fix & improvements.
+
 = 5.0.8 - 2024-02-25 =
 - Updated: Security patch for better performance.
 - Improved: SchedulePress calendar preview.
@@ -216,3 +222,5 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 [See changelog for all versions](https://schedulepress.com/changelog)
 
 == Upgrade Notice ==
+= 4.1.3 - 2021-12-15 =
+* Few minor bug fix & improvements
