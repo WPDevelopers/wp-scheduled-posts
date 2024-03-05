@@ -98,7 +98,7 @@ https://youtu.be/t0zVpg5ALos
 
 https://youtu.be/qy7zdh5VYlg
 
-**◾ Advanced Scheduler:** Schedule an update for an already published blog post or page, without drafting it or unpublishing it. You can update blog & doc content as well as tags, categories, pictures, feature image, excerpt, and anything else of your choice.
+**◾ Advanced Schedule:** Schedule an update for an already published blog post or page, without drafting it or unpublishing it. You can update blog & doc content as well as tags, categories, pictures, feature image, excerpt, and anything else of your choice.
 
 https://youtu.be/1ohEsDzTJkA
 
