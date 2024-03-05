@@ -1,6 +1,6 @@
 === SchedulePress – Best Editorial Calendar, Missed Schedule & Auto Social Share  ===
 Contributors: wpdevteam, Asif2BD, re_enter_rupok, priyomukul, shajalal, alimuzzamanalim, rudlinkon, shuvo247
-Tags: post schedule, editor calendar, schedule calendar, auto scheduler, auto sharing, social share
+Tags: post schedule, schedule calendar, auto scheduler, auto sharing, social share
 Requires at least: 4.0
 Tested up to: 6.4
 Requires PHP: 7.2
@@ -69,7 +69,7 @@ From one place, you can easily get an overview of your blog posts and when each 
 
 **◾ Configure Auto Social Share Templates:** Personalize your WordPress blog with preferred social media templates by configuring all exclusive features by SchedulePress. Each social share channel template comes with specific and unique features.
 
-https://www.youtube.com/watch?v=K8zP6fTOneg
+https://youtu.be/K8zP6fTOneg
 
 
 ### 🌟 Seamless Compatibility With Elementor Website Builder
@@ -88,19 +88,19 @@ Along with all the features of the free version, [SchedulePress Pro](https://wpd
 
 **◾ Auto Scheduler:** Get absolute control over your content schedule as you can create rules to post content automatically. You need to specify the time interval in which you want to have your posts scheduled and this plugin will publish it on the definite time interval. You can also set an exact date and time to create a flexible schedule.
 
-https://www.youtube.com/watch?v=oBD7MbtWvcQ
+https://youtu.be/oBD7MbtWvcQ
 
 **◾ Missed Schedule Handler:** As a content creator, you might have faced that WordPress might miss the schedule of a post and it could happen for various reasons. However, you don’t have to worry about that anymore as SchedulePress will take care of missed schedules and publish the post automatically.
 
-https://www.youtube.com/watch?v=t0zVpg5ALos
+https://youtu.be/t0zVpg5ALos
 
 **◾ Manual Scheduler:** If you want to schedule your WordPress blog posts at an exact time avoiding the random schedule, you can configure this in a manual process setting up your preferred time & date. It will publish your posts at that particular time.
 
-https://www.youtube.com/watch?v=qy7zdh5VYlg
+https://youtu.be/qy7zdh5VYlg
 
 **◾ Advanced Scheduler:** Schedule an update for an already published blog post or page, without drafting it or unpublishing it. You can update blog & doc content as well as tags, categories, pictures, feature image, excerpt, and anything else of your choice.
 
-https://www.youtube.com/watch?v=qy7zdh5VYlg
+https://youtu.be/1ohEsDzTJkA
 
 
 **◾ Premium Support:** Get faster support with a pro license. We have an extraordinary support team ready to help you. Ask your questions in the support forum, or contact us directly through live chat and support tickets.
@@ -129,7 +129,7 @@ https://youtu.be/y80iDuolrRU
 ## 🎁 [FREEBIE] Handful Plugins To Improve Your WordPress Site
 If you like SchedulePress, then consider checking out our other WordPress Plugins & take your website to next level:
 
-🔝[Essential Addons For Elementor](https://essential-addons.com/elementor/) – Most popular Elementor extensions with 2 million active users in the WordPress repository..
+🔝[Essential Addons For Elementor](https://essential-addons.com/elementor/) – Most popular Elementor extensions with 2 Million+ active users in the WordPress repository..
 
 🔔 [NotificationX](https://notificationx.com/) – Best Social Proof & FOMO Marketing Solution to increase conversion rates.
 
