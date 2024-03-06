@@ -64,28 +64,14 @@ const PostCard: React.FC<PostCardProps> = ({
   };
 
 
-  const handlePostStatus = (id, post_type, action_type) => {
+  const deletePost = (id) => {
     // @todo add confirm dialog.
-    let action = {};
-    if( action_type === 'delete' ) {
-      action = {
-        path: addQueryArgs('/wpscp/v1/post', { ID: id }),
-        method: 'DELETE',
-        // data: query,
-      }
-    }else if( action_type === 'trash' ) {
-      action = {
-        path: "/wpscp/v1/post",
-        method: "POST",
-        data: {
-          ID  : id,
-          post_type: post_type,
-          type    : 'trashDrop',
-        },
-      }
-    }
-    
-    return apiFetch(action).then((data: {id: string, message: string} | WP_Error) => {
+
+    return apiFetch({
+      path: addQueryArgs('/wpscp/v1/post', { ID: id }),
+      method: 'DELETE',
+      // data: query,
+    }).then((data: {id: string, message: string} | WP_Error) => {
       if('id' in data) {
         setEvents((events) => {
           return events.filter((event) => {
@@ -105,7 +91,7 @@ const PostCard: React.FC<PostCardProps> = ({
 
   const deleteFile = (item) => {
     toggleEditArea();
-    return handlePostStatus(item.postId, item.postType, item.action_type);
+    return deletePost(item.postId);
   };
 
   const addEventListeners = () => {
@@ -195,18 +181,20 @@ const PostCard: React.FC<PostCardProps> = ({
           </li>
         </ul>
       )}
-      <i className="wpsp-icon wpsp-dots" onClick={toggleEditArea}></i>
-      <span className={`set-time ` + ('Published' === post.status ? 'published' : 'scheduled')}>
-        {/* "1:00 am" */}
-        {/* @ts-ignore */}
-        {/* {format(post.end, 'h:mm a')} */}
-        {post.postTime}
-      </span>
-      <h3>{ decodeEntities(  post.title ) }</h3>
-      <span className="badge-wrapper">
-        <span className="Unscheduled-badge">{post.postType}</span>
-        <span className="status-badge">{post.status}</span>
-      </span>
+      <div className="wpsp-event-card-content">
+        <i className="wpsp-icon wpsp-dots" onClick={toggleEditArea}></i>
+        <span className={`set-time ` + ('Published' === post.status ? 'published' : 'scheduled')}>
+          {/* "1:00 am" */}
+          {/* @ts-ignore */}
+          {/* {format(post.end, 'h:mm a')} */}
+          {post.postTime}
+        </span>
+        <h3>{ decodeEntities(  post.title ) }</h3>
+        <span className="badge-wrapper">
+          <span className="Unscheduled-badge">{post.postType}</span>
+          <span className="status-badge">{post.status}</span>
+        </span>
+      </div>
     </div>
   );
 };

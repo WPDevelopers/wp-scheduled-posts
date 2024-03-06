@@ -1,0 +1,807 @@
+#schedulepress-elementor-modal.elementor-templates-modal .dialog-widget-content {
+    background: #f5f7fd;
+}
+
+.wpsp-el-form-prev,
+.wpsp_form_next_button_wrapper {
+    display: none !important;
+}
+
+.wpsp-d-none {
+    display: none !important;
+}
+
+.wpsp-flex-direction-unset {
+    flex-direction: unset !important;
+}
+
+.wpsp-d-block {
+    display: block !important;
+}
+
+.wpsp-el-modal-date-picker .flatpickr-calendar {
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%);
+    animation: none !important;
+}
+
+#schedulepress-elementor-modal.elementor-templates-modal .dialog-header {
+    background: #fff;
+    box-shadow: none;
+    border: 1px solid #ddd;
+}
+
+#schedulepress-elementor-modal .elementor-templates-modal__header__close--normal {
+    border-left: none;
+}
+
+#schedulepress-elementor-modal .elementor-templates-modal__header__close--normal svg {
+    cursor: pointer;
+    transition: .3s;
+}
+
+#schedulepress-elementor-modal .elementor-templates-modal__header__close--normal svg:hover {
+    transform: scale(1.3);
+}
+
+#schedulepress-elementor-modal .dialog-widget-content {
+    border-radius: 10px;
+}
+
+#schedulepress-elementor-modal.elementor-templates-modal .dialog-buttons-wrapper {
+    background: transparent;
+    box-shadow: none;
+    border: 1px solid #ddd;
+    justify-content: space-between;
+}
+
+#schedulepress-elementor-modal.elementor-templates-modal .dialog-message {
+    height: auto;
+    padding-bottom: 20px;
+    overflow: auto;
+}
+
+@media (max-width: 1439px) {
+    #schedulepress-elementor-modal.elementor-templates-modal .dialog-widget-content {
+        max-width: 500px;
+    }
+}
+
+@media (min-width: 1440px) {
+    #schedulepress-elementor-modal.elementor-templates-modal .dialog-widget-content {
+        max-width: 500px;
+    }
+}
+
+#schedulepress-elementor-modal form label {
+    display: block;
+    text-align: left;
+}
+
+#schedulepress-elementor-modal form label input[type="text"] {
+    background-color: #e6eaf8;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 200 200' style='enable-background:new 0 0 200 200;' width='10' xml:space='preserve'%3E%3Cstyle type='text/css'%3E .st0%7Bfill:%239E9ED8;%7D%0A%3C/style%3E%3Cpath class='st0' d='M175,24.7h-8.3V8.1c0-4.6-3.7-8.3-8.3-8.3H150c-4.6,0-8.3,3.7-8.3,8.3v16.7H58.3V8.1c0-4.6-3.7-8.3-8.3-8.3 h-8.3c-4.6,0-8.3,3.7-8.3,8.3v16.7H25c-13.8,0-25,11.2-25,25v125c0,13.8,11.2,25,25,25h150c13.8,0,25-11.2,25-25v-125 C200,36,188.8,24.7,175,24.7z M183.3,174.7c0,4.6-3.7,8.3-8.3,8.3H25c-4.6,0-8.3-3.7-8.3-8.3V83.4h166.7V174.7z'/%3E%3C/svg%3E%0A");
+    background-repeat: no-repeat;
+    background-position: calc(100% - 15px) center;
+    border: none;
+    border-radius: 5px;
+    height: 35px;
+    padding: 0 15px;
+    color: #303042;
+}
+
+#schedulepress-elementor-modal form label input[type="checkbox"] {
+    appearance: unset;
+}
+
+#schedulepress-elementor-modal form label+label {
+    margin-top: 15px;
+}
+
+#schedulepress-elementor-modal form label>span {
+    display: block;
+    color: #303042;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+#schedulepress-elementor-modal .wpsp-pro-fields label {
+    margin-top: 15px;
+}
+
+#schedulepress-elementor-modal .wpsp-pro-fields:not(.wpsp-pro-activated) label>span,
+#schedulepress-elementor-modal .wpsp-pro-fields.disabled label>span {
+    color: #9696af;
+}
+
+#schedulepress-elementor-modal .wpsp-pro-fields label>span>span {
+    background: #6d64ff;
+    border-radius: 5px;
+    line-height: 10px;
+    display: inline-block;
+    font-size: 8px;
+    padding: 0 4px;
+    margin-left: 5px;
+    color: #f5f7fd;
+    transform: translateY(-1px);
+}
+
+#schedulepress-elementor-modal form .wpsp-pro-fields:not(.wpsp-pro-activated) label input[type="text"] {
+    opacity: .5;
+}
+
+#schedulepress-elementor-modal .elementor-button.wpsp-el-form-prev {
+    margin-left: 0 !important;
+}
+
+#schedulepress-elementor-modal .elementor-button {
+    color: #6d64ff;
+    background: rgba(109, 100, 255, .2);
+    height: 35px;
+    font-size: 13px;
+    padding: 0 16px;
+    border-radius: 18px;
+    font-weight: 400;
+    text-transform: initial;
+}
+
+#schedulepress-elementor-modal .elementor-button.wpsp-el-form-submit,
+#schedulepress-elementor-modal .elementor-button.wpsp-advanced-schedule {
+    background: rgba(109, 100, 255, 1);
+    color: #fff;
+}
+
+#schedulepress-elementor-modal .elementor-button.wpsp-immediately-publish.active {
+    background: #00cc76;
+    color: #fff;
+}
+
+/* #schedulepress-elementor-modal .elementor-button + .elementor-button {
+    margin-left: 15px;
+} */
+
+#schedulepress-elementor-modal.elementor-templates-modal .dialog-buttons-wrapper {
+    padding: 20px 30px;
+}
+
+#schedulepress-elementor-modal .elementor-button.wpsp-immediately-publish {
+    font-size: 12px;
+}
+
+#schedulepress-elementor-modal .wpsp-el-result {
+    text-align: left;
+    color: red;
+    padding-top: 10px;
+}
+
+#schedulepress-elementor-modal .wpsp-el-result.wpsp-msg-success {
+    color: green;
+}
+
+#schedulepress-elementor-modal .wpsp-el-form-submit.elementor-button-state>.elementor-state-icon+span,
+#schedulepress-elementor-modal .wpsp-advanced-schedule.elementor-button-state>.elementor-state-icon+span {
+    display: none;
+}
+
+.wpsp-el-tabs {
+    display: flex;
+    cursor: pointer;
+}
+
+.wpsp-el-tab {
+    padding: 10px 15px;
+    margin-right: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px 5px 0 0;
+}
+
+.wpsp-el-tab:hover {
+    background-color: #e0e0e0;
+}
+
+/* .el-social-share-platform {
+    margin-top: 20px;
+} */
+
+.el-social-share-platform h4 {
+    font-size: 20px;
+    font-weight: 500;
+    text-align: left;
+    color: #1B1B50;
+}
+
+.el-social-share-platform #el-social-checkbox-wrapper {
+    margin-top: 10px;
+}
+
+.el-social-share-platform #el-social-checkbox-wrapper .wpsp-el-accordion-item {
+    border: 1px solid #EBEEF5;
+    margin-bottom: 5px;
+    text-align: left;
+    background-color: #F9FAFC;
+    border-radius: 10px;
+}
+
+.el-social-share-platform #el-social-checkbox-wrapper .wpsp-el-accordion-item h3 {
+    color: #1B1B50;
+    min-width: 110px;
+}
+.el-social-share-platform .wpsp-el-content-linkedin {
+    padding: 10px;
+    margin-top: 0 !important;
+}
+.el-social-share-platform #el-social-checkbox-wrapper .wpsp-el-accordion-header {
+    padding: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 15px;
+}
+
+.el-social-share-platform #el-social-checkbox-wrapper .wpsp-el-accordion-header span {
+    color: #1B1B50;
+}
+
+.el-social-share-platform #el-social-checkbox-wrapper .wpsp-el-accordion-item.wpsp-el-accordion-item-linkedin .wpsp-el-accordion-content {
+    border-top: 1px solid #EBEEF5;
+    color: #6E6E8D;
+    padding: 0;
+    padding: 18px 10px 10px;
+}
+.el-social-share-platform #el-social-checkbox-wrapper .wpsp-el-accordion-item.wpsp-el-accordion-item-linkedin .wpsp-el-accordion-content .wpsp-el-custom-linkedin-tab{
+    border: 1px solid #EBEEF5;
+    border-radius: 4px;
+}
+
+.el-social-share-platform #el-social-checkbox-wrapper .wpsp-el-accordion-content {
+    display: none;
+    padding: 10px;
+    border-top: 1px solid #EBEEF5;
+}
+
+.el-social-share-platform .wpsp-el-container {
+    text-align: center;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 20px;
+}
+
+.wpsp-el-container.wpsp-el-social-linkedin-tab-wrapper label.active {
+    background: transparent !important;
+    color: #6C62FF !important;
+}
+
+.el-social-share-platform .wpsp-el-accordion-content .wpsp-el-container label {
+    display: flex !important;
+    justify-content: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 400;
+    margin-top: 0 !important;
+    align-items: center;
+    cursor: pointer;
+    color: #1B1B50;
+    /* padding: 10px; */
+}
+
+.wpsp-el-accordion-item.wpsp-el-accordion-item-pinterest .wpsp-el-accordion-content .wpsp-el-container {
+    gap: 20px;
+}
+
+.wpsp-el-accordion-item.wpsp-el-accordion-item-pinterest .wpsp-el-accordion-content .wpsp-el-container label {
+    padding: 0;
+}
+
+.el-social-share-platform .wpsp-el-accordion-content .wpsp-el-container label input[type="radio"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    margin: 0;
+    font: inherit;
+    color: #6C62FF;
+    width: 18px;
+    height: 18px;
+    border: 0.15em solid #6C62FF;
+    border-radius: 50%;
+    transform: translateY(-0.075em);
+    display: grid;
+    place-content: center;
+}
+
+.el-social-share-platform .wpsp-el-accordion-content .wpsp-el-container label input[type="radio"]::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    transform: scale(0);
+    transition: 120ms transform ease-in-out;
+    box-shadow: inset 1em 1em #6C62FF;
+}
+
+.el-social-share-platform .wpsp-el-accordion-content .wpsp-el-container label input[type="radio"]:checked::before {
+    transform: scale(1);
+}
+
+.el-social-share-platform .wpsp-el-accordion-content .wpsp-el-container label input[type="radio"]:checked {
+    opacity: 1;
+}
+
+.el-social-share-platform .wpsp-el-accordion .wpsp-el-accordion-item .wpsp-el-content {
+    margin-top: 10px;
+}
+
+.el-social-share-platform .wpsp-el-accordion .wpsp-el-accordion-item .wpsp-el-content.wpsp-el-content-linkedin.wpsp-el-social-linkedin-profile {
+    margin-top: 0;
+}
+
+.el-social-share-platform .wpsp-el-accordion .wpsp-el-accordion-item .wpsp-el-content {
+    display: none;
+}
+
+.el-social-share-platform .wpsp-el-accordion .wpsp-el-accordion-item .wpsp-el-content .social-profile {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.el-social-share-platform .wpsp-el-accordion .wpsp-el-accordion-item .wpsp-el-content .social-profile:last-child {
+    margin-bottom: 0;
+}
+
+.el-social-share-platform .wpsp-el-accordion .wpsp-el-accordion-item .wpsp-el-content .social-profile h3 {
+    font-weight: 400;
+    font-size: 13px;
+}
+
+.el-social-share-platform .wpsp-el-accordion .wpsp-el-accordion-item .wpsp-el-content input[type="checkbox"] {
+    margin: 0;
+    width: 18px;
+    height: 18px;
+    border: 1px solid #D7DBDF;
+    border-radius: 4px;
+    background: transparent;
+}
+
+.el-social-share-platform .wpsp-el-accordion .wpsp-el-accordion-item .wpsp-el-content input[type="checkbox"]:checked::before {
+    margin: -1px 0 0 -1px;
+    height: 18px;
+    width: 18px;
+    background: #02AC6E;
+    border-radius: 4px;
+    border: none;
+    transform: unset;
+    content: url(data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20d%3D%27M14.83%204.89l1.34.94-5.81%208.38H9.02L5.78%209.67l1.34-1.25%202.57%202.4z%27%20fill%3D%27%23ffffff%27%2F%3E%3C%2Fsvg%3E);
+}
+
+#schedulepress-elementor-modal .wpsp-el-fields {
+    display: none;
+}
+
+#schedulepress-elementor-modal .wpsp-el-fields.active {
+    display: block;
+}
+
+.jquery-kylefoxModal {
+    z-index: 99999;
+}
+
+#wpscpproInstantShareModal {
+    padding: 20px 20px 10px 20px
+}
+
+#wpscpproInstantShareModal .log {
+    display: none;
+    background-color: #fff8e5;
+    word-break: break-all;
+    border-left-color: #ffb900;
+    border: 1px solid #ffb900;
+    border-left-width: 4px;
+    padding: 5px 10px;
+    margin: 5px 0;
+    color: #000;
+}
+
+#wpscpproInstantShareModal .viewlog {
+    background: #19d167;
+    margin: 0 3px;
+    border-radius: 5px;
+    color: #fff;
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 25px;
+    text-decoration: none
+}
+
+#wpscpproInstantShareModal .viewlog.failed {
+    background: #f53d53
+}
+
+#wpscpproInstantShareModal .status {
+    background: #f0efff;
+    margin: 0 3px;
+    border-radius: 5px;
+    color: #c6c3eb;
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 25px
+}
+
+#wpscpproInstantShareModal .status.failed {
+    background: #feebed;
+    color: #f53e54
+}
+
+#wpscpproInstantShareModal .status.success {
+    background: #e8faef;
+    color: #1ad268
+}
+
+#wpscpproInstantShareModal .modalBody .entry-head {
+    line-height: 30px;
+    color: #fff;
+    height: 30px;
+    padding: 0 10px;
+    border-radius: 5px;
+    margin-bottom: 10px
+}
+
+#wpscpproInstantShareModal .modalBody .entry-head img {
+    width: 15px;
+    height: 15px
+}
+
+#wpscpproInstantShareModal .modalBody .entry-head .entry-head-title {
+    display: inline-block;
+    margin: 0 0 0 10px;
+    color: #fff
+}
+
+#wpscpproInstantShareModal .modalBody .entry-head.facebook {
+    background: #3b5997
+}
+
+#wpscpproInstantShareModal .modalBody .entry-head.twitter {
+    background: #55abed
+}
+
+#wpscpproInstantShareModal .modalBody .entry-head.linkedin {
+    background: #0079b9
+}
+
+#wpscpproInstantShareModal .modalBody .entry-head.pinterest {
+    background: #c8232c
+}
+
+#wpscpproInstantShareModal .modalBody ul {
+    padding: 0 10px
+}
+
+#wpscpproInstantShareModal .modalBody ul li .item-content {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    border: 1px solid #e7e7e7;
+    padding: 5px 15px;
+    margin-bottom: 10px;
+    border-radius: 5px
+}
+
+#wpscpproInstantShareModal .modalBody ul li .item-content .entry-title {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    margin: 0;
+    color: #595959;
+}
+
+#wpscpproInstantShareModal .modalBody ul li .item-content .type {
+    background: #f0efff;
+    color: #3b5997;
+    padding: 5px 25px;
+    border-radius: 25px
+}
+
+#wpscpproInstantShareModal .modalBody ul li .item-content .entry-thumbnail {
+    margin-right: 10px;
+    line-height: 0
+}
+
+#wpscpproInstantShareModal .modalBody ul li .item-content .entry-thumbnail img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid #e7e7e7
+}
+
+#wpscpproPinterestBoardSelectModal {
+    padding: 20px
+}
+
+#wpscpproPinterestBoardSelectModal .modalBody .entry-head {
+    color: #fff;
+    height: 40px;
+    padding: 0 10px;
+    border-radius: 5px;
+    line-height: 40px;
+    margin-bottom: 10px
+}
+
+#wpscpproPinterestBoardSelectModal .modalBody .entry-head img {
+    width: 15px;
+    height: 15px
+}
+
+#wpscpproPinterestBoardSelectModal .modalBody .entry-head .entry-head-title {
+    display: inline-block;
+    margin: 0 0 0 10px;
+    color: #fff
+}
+
+#wpscpproPinterestBoardSelectModal .modalBody .entry-head.pinterest {
+    background: #c8232c
+}
+
+#wpscpproPinterestBoardSelectModal .modalBody ul li .item-content {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    border: 1px solid #e7e7e7;
+    padding: 5px 15px;
+    margin-bottom: 10px;
+    border-radius: 5px
+}
+
+#wpscpproPinterestBoardSelectModal .modalBody ul li .item-content .entry-title {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    margin: 0
+}
+
+#wpscpproPinterestBoardSelectModal .modalBody ul li .item-content .type {
+    background: #f0efff;
+    color: #3b5997;
+    padding: 5px 25px;
+    border-radius: 25px
+}
+
+#wpscpproPinterestBoardSelectModal .modalBody ul li .item-content .entry-thumbnail {
+    margin-right: 10px;
+    line-height: 0
+}
+
+#wpscpproPinterestBoardSelectModal .modalBody ul li .item-content .entry-thumbnail img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid #e7e7e7
+}
+
+#wpscpproPinterestBoardSelectModal .modalBody .btn-pinterest-save-board {
+    float: right;
+    background: #29d6a1;
+    border: 0;
+    width: 100px;
+    height: 40px;
+    font-size: 15px;
+    border-radius: 5px;
+    color: #fff;
+    font-weight: 500;
+    cursor: pointer
+}
+
+.jquery-modal .modal .message {
+    padding: 10px 30px
+}
+
+#wpscpproFacebookPageAndGroupSelectModal {
+    padding: 20px;
+    margin-top: 32px
+}
+
+#wpscpproFacebookPageAndGroupSelectModal .modalBody .entry-head {
+    color: #fff;
+    height: 40px;
+    padding: 0 10px;
+    border-radius: 5px;
+    line-height: 40px;
+    margin-bottom: 10px
+}
+
+#wpscpproFacebookPageAndGroupSelectModal .modalBody .entry-head img {
+    width: 15px;
+    height: 15px
+}
+
+#wpscpproFacebookPageAndGroupSelectModal .modalBody .entry-head .entry-head-title {
+    display: inline-block;
+    margin: 0 0 0 10px;
+    color: #fff
+}
+
+#wpscpproFacebookPageAndGroupSelectModal .modalBody .entry-head.facebook {
+    background: #3b5997
+}
+
+#wpscpproFacebookPageAndGroupSelectModal .modalBody ul li .item-content {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    border: 1px solid #e7e7e7;
+    padding: 5px 15px;
+    margin-bottom: 10px;
+    border-radius: 5px
+}
+
+#wpscpproFacebookPageAndGroupSelectModal .modalBody ul li .item-content .entry-title {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    margin: 0
+}
+
+#wpscpproFacebookPageAndGroupSelectModal .modalBody ul li .item-content .type {
+    background: #f0efff;
+    color: #3b5997;
+    padding: 5px 25px;
+    border-radius: 25px
+}
+
+#wpscpproFacebookPageAndGroupSelectModal .modalBody ul li .item-content .entry-thumbnail {
+    margin-right: 10px;
+    line-height: 0
+}
+
+#wpscpproFacebookPageAndGroupSelectModal .modalBody ul li .item-content .entry-thumbnail img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid #e7e7e7
+}
+
+#wpscpproFacebookPageAndGroupSelectModal .modalBody .btn-facebook-save-pagegroup {
+    float: right;
+    background: #29d6a1;
+    border: 0;
+    width: 100px;
+    height: 40px;
+    font-size: 15px;
+    border-radius: 5px;
+    color: #fff;
+    font-weight: 500;
+    cursor: pointer
+}
+
+#wpscpproFacebookGroupNotifyModal {
+    padding: 20px;
+    position: fixed;
+    right: 40px;
+    bottom: 40px;
+    width: 420px;
+    border-radius: 15px;
+    background: #6b61ff;
+    z-index: 2
+}
+
+#wpscpproFacebookGroupNotifyModal .entry-thumbnail {
+    margin-top: -55px
+}
+
+#wpscpproFacebookGroupNotifyModal .entry-thumbnail img {
+    width: 100%;
+    height: auto
+}
+
+#wpscpproFacebookGroupNotifyModal p {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500
+}
+
+#wpscpproFacebookGroupNotifyModal p a {
+    color: #fff
+}
+
+#wpscpproFacebookGroupNotifyModal .btn-close-facebook-group-notify {
+    position: absolute;
+    top: -17px;
+    right: 40px
+}
+
+.el-social-share-platform .wpsp-el-content-pinterest .pinterest-profile select {
+    margin-left: 15px;
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 0 5px;
+    height: 32px;
+    width: 30%;
+    color: #6E6E8D;
+}
+
+#wpsp-el-form-update-button .wpsp_el_share_now {
+    padding: 10px 20px;
+    margin-left: auto;
+    margin: 0 auto;
+    text-align: right;
+    border: none;
+    background: #6C62FF;
+    color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+#schedulepress-elementor-modal #wpsp-el-form-update-button {
+    display: flex;
+    gap: 10px;
+}
+
+.wpsp-elementor-modal-wrapper {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+}
+
+.wpsp-el-container.wpsp-el-social-linkedin-tab-wrapper {
+    display: flex;
+    gap: 0;
+}
+
+.wpsp-el-container.wpsp-el-social-linkedin-tab-wrapper label {
+    flex: 1;
+    padding: 10px;
+    background-color: #EBEEF5;
+    border: none;
+}
+
+.wpsp-el-container.wpsp-el-social-linkedin-tab-wrapper input[type="radio"] {
+    display: none;
+}
+
+.wpsp-el-tab-content {
+    display: none;
+}
+
+.wpsp-el-tab-content.wpsp-el-social-linkedin-profile {
+    display: block;
+}
+
+.el-social-share-platform .wpsp-el-social-linkedin-tab-wrapper input[type="radio"],
+.el-social-share-platform .wpsp-el-social-linkedin-tab-wrapper input[type="radio"]:checked {
+    opacity: 0;
+}
+
+.wpsp-el-container.wpsp-el-social-linkedin-tab-wrapper label input {
+    display: none !important;
+}
+
+.wpsp-el-empty-profile-message {
+    padding: 10px;
+    color: #1b1b50;
+}

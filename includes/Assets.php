@@ -16,7 +16,13 @@ class Assets
         add_action('wp_enqueue_scripts', [$this, 'adminbar_script']);
 
 	    add_action( 'elementor/editor/after_enqueue_scripts', function () {
+            wp_enqueue_script('jquery-kylefoxModal', WPSP_ASSETS_URI . 'js/vendor/jquery.modal.min.js', array('jquery'), WPSP_VERSION, false);
 		    wp_enqueue_script( 'wpscp-el-editor', WPSP_ASSETS_URI . 'js/elementor-editor.js', array( 'jquery', 'tipsy' ), WPSP_VERSION, true );
+            wp_enqueue_style('jquery-kylefoxModal', WPSP_ASSETS_URI . 'css/vendor/jquery.modal.min.css', array(), WPSP_VERSION, 'all');
+		    wp_enqueue_style( 'wpscp-el-editor', WPSP_ASSETS_URI . 'css/elementor-editor.css',array(), WPSP_VERSION, 'all' );
+            wp_localize_script('wpscp-el-editor', 'wpscpSocialProfile', array(
+                'nonce' => wp_create_nonce('wpscp-pro-social-profile'),
+            ));
 	    } );
     }
 
@@ -46,6 +52,7 @@ class Assets
         wp_enqueue_style(WPSP_PLUGIN_SLUG.'-icon', WPSP_ADMIN_URL . 'Settings/assets/icon/style.css', array(), WPSP_VERSION );
         wp_enqueue_script('wps-publish-button', WPSP_ASSETS_URI . 'js/wpspl-admin.min.js', array('wp-components', 'wp-data', 'wp-edit-post', 'wp-editor', 'wp-element', 'wp-i18n', 'wp-plugins'), WPSP_VERSION, true);
         wp_localize_script('wps-publish-button', 'WPSchedulePostsFree', array(
+            'nonce'                               => wp_create_nonce('wpscp-pro-social-profile'),
             'publishImmediately'                  => __('Current Date', 'wp-scheduled-posts'),
             'publishFutureDate'                   => __('Future Date', 'wp-scheduled-posts'),
             'publish_button_off'                  => \WPSP\Helper::get_settings('show_publish_post_button'),

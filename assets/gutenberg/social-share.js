@@ -55,7 +55,6 @@ const SocialShare = ( { is_pro_active } ) => {
           _selected_social_profile: selectedSocialProfile,
         },
       })
-      console.log(selectedSocialProfile);
     }, [facebookShareType, twitterShareType, linkedinShareType, pinterestShareType, selectedSocialProfile])
     
     // Get social profile data from wp_options table
@@ -86,6 +85,10 @@ const SocialShare = ( { is_pro_active } ) => {
                 defaultBoard: pinterest_profile?.default_board_name?.value,
                 profile: pinterest_profile,
               };
+              let findSelectedPinterestIndex = selectedSocialProfile.findIndex( ( __selectedProfile ) => __selectedProfile?.id == pinterest_profile?.default_board_name?.value );
+              if( findSelectedPinterestIndex != -1 ) {
+                default_selected_section.push( { board_id : pinterest_profile?.default_board_name?.value, section_id : findSelectedPinterestIndex[findSelectedPinterestIndex].pinterest_custom_section_name  } );
+              }
               default_selected_section.push( { board_id : pinterest_profile?.default_board_name?.value, section_id : pinterest_profile?.defaultSection?.value  } );
               fetchPinterestSection(data).then( ( res ) => {
                 filtered_pinterest_profile_list[index].sections = res.data;
@@ -121,7 +124,9 @@ const SocialShare = ( { is_pro_active } ) => {
           } )
         }
         if( _selected_social_profile.length > 0 ) {
-          setSelectedSocialProfile( [..._selected_social_profile] );
+          const default_object_ids = default_selected_social_profile.map(item => item.id);
+          let _final_selected_social_profile = _selected_social_profile.filter(item => default_object_ids.includes(item.id)); 
+          setSelectedSocialProfile( [..._final_selected_social_profile] );
         }else {
           setSelectedSocialProfile( [...default_selected_social_profile] );
         }
@@ -147,6 +152,7 @@ const SocialShare = ( { is_pro_active } ) => {
             return;
           }
           profile.postid = postid;
+          profile.nonce = WPSchedulePostsFree?.nonce;
           let queryParams = profile;
           const apiUrl = '/wp-scheduled-posts/v1/instant-social-share';
           fetchSocialProfileData(apiUrl,queryParams).then( (res) => {
@@ -372,7 +378,6 @@ const SocialShare = ( { is_pro_active } ) => {
               <MediaUpload
                 allowedTypes={['image']}
                 onSelect={ (media) => {
-                  console.log(media.url);
                   setUploadSocialShareBanner( media?.url );
                   setUploadSocialShareBannerId( media?.id );
                 } }
@@ -546,17 +551,18 @@ const SocialShare = ( { is_pro_active } ) => {
                               <h3>{ pinterest?.default_board_name?.label } </h3>
                               <select className="pinterest-sections" onChange={ (event) =>  handleSectionChange(pinterest?.default_board_name?.value,event.target.value) }>
                                 <option value="No Section">No Section</option>
-                                { pinterest?.sections?.map((section) => {
-                                  const isSelectedBasedOnProfile = selectedSocialProfile.findIndex((_item) => _item.id === pinterest?.default_board_name?.value !== -1 && _item?.pinterest_custom_section_name === section?.id );
-                                  const isSelectedBasedOnSection = selectedSection.findIndex((__item) => __item.board_id === pinterest?.default_board_name?.value && __item.section_id === section?.id) !== -1;
-                                  return (
-                                      <option
-                                          value={section?.id}
-                                          selected={ isSelectedBasedOnProfile || isSelectedBasedOnSection }
-                                      >
-                                          {section?.name}
-                                      </option>
-                                  );
+                                { pinterest?.sections?.map((section, key ) => {
+                                  const isSelectedBasedOnProfile = selectedSocialProfile.findIndex((_item) => _item.id == pinterest?.default_board_name?.value);
+                                  const isSelectedBasedOnSection = selectedSection.findIndex((__item) => __item.board_id === pinterest?.default_board_name?.value);
+                                  if( isSelectedBasedOnProfile != -1 ) {
+                                    return (
+                                      <option value={section?.id} selected={ selectedSocialProfile[isSelectedBasedOnProfile]?.pinterest_custom_section_name == section?.id ? true : false } > {section?.name} </option>
+                                    );
+                                  }else {
+                                    return (
+                                      <option value={section?.id} selected={ selectedSocialProfile[isSelectedBasedOnSection]?.pinterest_custom_section_name == section?.id ? true : false } > {section?.name} </option>
+                                    );
+                                  }
                                 })}
                               </select>
                           </div>

@@ -287,9 +287,14 @@ class Helper
      * @since 3.3.0
      */
 
-    public static function get_social_profile($profile)
+    public static function get_social_profile($profile, $includes = [])
     {
         $profile =  self::get_settings($profile) ?? [];
+        if( !empty( $includes ) ) {
+            $profile = array_filter( $profile, function($get_single_profile) use($includes) {
+                return in_array( $get_single_profile->name, $includes );
+            } );
+        }
         $is_pro_wpscp = apply_filters('wpsp_social_profile_limit_checkpoint', $profile);
         if (class_exists('WPSP_PRO') && $is_pro_wpscp === true) {
             return $profile;
