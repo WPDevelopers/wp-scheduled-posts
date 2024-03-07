@@ -208,7 +208,7 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 == Changelog ==
 
-= 5.0.9 - 2024-03-06 =
+= 5.0.9 - 2024-03-07 =
 - Added: Social Media selection option for Elementor.
 - Improved: Security Enhancement.
 - Improved: Overall social sharing option.
