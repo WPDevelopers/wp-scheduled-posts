@@ -330,7 +330,7 @@ class Calendar
 
     public function get_post_data($republish = false){
         $republish_date = $republish ? get_post_meta(get_the_ID(), '_wpscp_schedule_republish_date', true) : null;
-
+        $republish_date = get_gmt_from_date( $republish_date, 'Y-m-d H:i:s' );
         return array(
             'postId'   => get_the_ID(),
             'title'    => wp_trim_words(get_the_title(), 3, '...'),
@@ -614,7 +614,7 @@ class Calendar
     public function wpsp_pre_eventDrop($return, $pid, $postdateformat, $postdate_gmt){
         $republish_date = get_post_meta($pid, '_wpscp_schedule_republish_date', true);
         if(!empty($republish_date) && 'publish' === get_post_status($pid)){
-            update_post_meta($pid, '_wpscp_schedule_republish_date', get_date_from_gmt($postdate_gmt, 'Y/m/d H:i:s'));
+            update_post_meta($pid, '_wpscp_schedule_republish_date', $postdateformat);
             return $pid;
         }
 

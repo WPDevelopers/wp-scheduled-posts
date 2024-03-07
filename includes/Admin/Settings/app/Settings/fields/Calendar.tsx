@@ -48,6 +48,7 @@ export default function Calendar(props) {
 
   const [sidebarToggle, setSidebarToggle] = useState(true);
   const [editAreaToggle, setEditAreaToggle] = useState({});
+  const [status, setStatus] = useState( null );
 
   const [selectedPostType, setSelectedPostType] = useState<Option[]>(
     addAllOption(props.post_types)
@@ -59,15 +60,19 @@ export default function Calendar(props) {
   };
 
   const updateEvents = (post) => {
-    setEvents((events) => {
-      const index = events.findIndex((event) => event.postId === post.postId);
-      if (index === -1) {
-        return [...events, post];
-      }
-      const updatedEvents = [...events];
-      updatedEvents[index] = post;
-      return updatedEvents;
-    });
+    getEvents();
+    setTimeout(() => {
+      setEvents((events) => {
+        const index = events.findIndex((event) => event.postId === post.postId);
+        if (index === -1) {
+          return [...events, post];
+        }
+        const updatedEvents = [...events];
+        updatedEvents[index] = post;
+        return updatedEvents;
+      });
+    }, 800);
+    
   };
 
   const getEvents = async () => {
@@ -101,7 +106,7 @@ export default function Calendar(props) {
       calendar.current?.render();
     }, 100);
   };
-
+  
   useEffect(() => {
     updateSize();
 
@@ -300,6 +305,8 @@ export default function Calendar(props) {
                     openModal={openModal}
                     setEvents={setEvents}
                     getPostTypeColor={getPostTypeColor}
+                    status={ status }
+                    setStatus={ setStatus }
                   />
                 );
               }}
@@ -385,7 +392,6 @@ export default function Calendar(props) {
               // moving events inside calendar area
               eventDrop={(eventDropInfo: EventDropArg) => {
                 eventDrop(eventDropInfo.event, 'eventDrop').then(updateEvents);
-
               }}
               // eventClick={function (info) {
               //   console.log("Event: ", info.event.extendedProps);
