@@ -805,3 +805,13 @@
     padding: 10px;
     color: #1b1b50;
 }
+.wpsp-pro-fields .wpsp-el-disabled-text {
+    font-weight: 400;
+    font-size: 13px;
+    text-align: left;
+    float: left;
+    margin-top: 8px;
+}
+.wpsp-pro-unpublish-republish .wpsp-el-disabled-text {
+    margin-bottom: 15px;
+}
