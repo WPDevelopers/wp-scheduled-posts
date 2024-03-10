@@ -614,7 +614,8 @@ class Calendar
     public function wpsp_pre_eventDrop($return, $pid, $postdateformat, $postdate_gmt){
         $republish_date = get_post_meta($pid, '_wpscp_schedule_republish_date', true);
         if(!empty($republish_date) && 'publish' === get_post_status($pid)){
-            update_post_meta($pid, '_wpscp_schedule_republish_date', $postdateformat);
+            update_post_meta($pid, '_wpscp_schedule_republish_date', get_date_from_gmt($postdate_gmt, 'Y/m/d H:i:s'));
+            // update_post_meta($pid, '_wpscp_schedule_republish_date', $postdateformat);
             return $pid;
         }
 
