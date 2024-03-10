@@ -532,6 +532,10 @@
 .dummy-pro-features .unpublish-republish .unpublish{
     margin-bottom: 10px;
 }
+.dummy-pro-features .wpsp-advance-schedule-control .components-flex {
+    flex-direction: row-reverse;
+    margin-top: 10px;
+}
 
 /* Pro icon  */
 .dummy-pro-features .auto-scheduler h3::after,.dummy-pro-features .manual-scheduler h3::after, .dummy-pro-features .unpublish-republish h2::after{

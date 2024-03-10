@@ -108,6 +108,7 @@
 
 #schedulepress-elementor-modal .wpsp-pro-fields label {
     margin-top: 15px;
+    border: none;
 }
 
 #schedulepress-elementor-modal .wpsp-pro-fields:not(.wpsp-pro-activated) label>span,
@@ -118,10 +119,10 @@
 #schedulepress-elementor-modal .wpsp-pro-fields label>span>span {
     background: #6d64ff;
     border-radius: 5px;
-    line-height: 10px;
+    line-height: 9px;
     display: inline-block;
     font-size: 8px;
-    padding: 0 4px;
+    padding: 4px 6px;
     margin-left: 5px;
     color: #f5f7fd;
     transform: translateY(-1px);
@@ -812,6 +813,61 @@
     float: left;
     margin-top: 8px;
 }
-.wpsp-pro-unpublish-republish .wpsp-el-disabled-text {
+.wpsp-pro-fields.wpsp-pro-tooltip .wpsp-el-disabled-text {
     margin-bottom: 15px;
+}
+.wpsp-pro-fields.wpsp-pro-tooltip label {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+.wpsp-pro-fields.wpsp-pro-tooltip label .wpsp-date-input-wrapper {
+    width: 100%;
+}
+
+.wpsp-pro-fields.wpsp-pro-tooltip label .wpsp-date-input-wrapper .tooltiptext {
+    visibility: hidden;
+    max-width: 100%;
+    background-color: #dbdbfe;
+    color: #000 !important;
+    text-align: center;
+    border-radius: 2px;
+    padding: 5px 15px;
+    position: absolute;
+    z-index: 1;
+    top: -20px;
+    left: 5%;
+    font-size: 12px;
+    font-weight: 400 !important;
+    height: 35px;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+.wpsp-pro-fields.wpsp-pro-tooltip label .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 8px;
+    border-style: solid;
+    border-color: #dbdbfe transparent transparent transparent;
+  }
+  
+.wpsp-pro-fields.wpsp-pro-tooltip label .tooltiptext a{
+    text-decoration: underline;
+}
+.wpsp-pro-fields.wpsp-pro-tooltip label .wpsp-date-input-wrapper:hover .tooltiptext {
+    visibility: visible;
+}
+.wpsp-pro-fields label {
+    display: flex !important;
+    justify-content: start;
+    flex-wrap: wrap;
+}
+.wpsp-pro-fields label span{
+    margin-right: 10px;
 }
