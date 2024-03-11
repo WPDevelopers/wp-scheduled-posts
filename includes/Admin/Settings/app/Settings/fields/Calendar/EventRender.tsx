@@ -47,15 +47,15 @@ export const eventDrop = (event: EventApi, eventType) => {
   });
 }
 
-const PostCard: React.FC<PostCardProps> = ({
+const PostCard = ({
   post,
   editAreaToggle,
   setEditAreaToggle,
   openModal,
   setEvents,
   getPostTypeColor,
-  status,
-  setStatus,
+  status = null,
+  setStatus = null,
 }) => {
   const postColor = getPostTypeColor(post.postType);
   

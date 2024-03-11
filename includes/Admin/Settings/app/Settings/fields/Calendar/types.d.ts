@@ -38,7 +38,7 @@ export type PostType = {
     getPostTypeColor: (postType: string) => string;
     status: string;
     setStatus: React.Dispatch<
-      React.SetStateAction<string>
+      React.SetStateAction<boolean>
     >;
   }
 
