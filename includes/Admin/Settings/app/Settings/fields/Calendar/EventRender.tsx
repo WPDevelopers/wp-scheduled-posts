@@ -3,7 +3,7 @@ import apiFetch from '@wordpress/api-fetch';
 import { decodeEntities } from '@wordpress/html-entities';
 import { Button } from '@wordpress/components';
 import { addQueryArgs } from '@wordpress/url';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SweetAlertDeleteMsgForPost } from '../../ToasterMsg';
 import { PostCardProps, PostType, WP_Error } from './types';
 
@@ -54,15 +54,17 @@ const PostCard: React.FC<PostCardProps> = ({
   openModal,
   setEvents,
   getPostTypeColor,
+  status,
+  setStatus,
 }) => {
   const postColor = getPostTypeColor(post.postType);
-
+  
   const toggleEditArea = () => {
     setEditAreaToggle({
       [post.postId]: !editAreaToggle?.[post.postId] ?? true,
     });
-  };
-
+    setStatus( post.status );
+  };  
 
   const deletePost = (id) => {
     // @todo add confirm dialog.
@@ -123,14 +125,10 @@ const PostCard: React.FC<PostCardProps> = ({
       removeEventListeners();
     };
   }, [editAreaToggle?.[post.postId]]);
-  function sanitizeText(inputText) {
-    inputText = inputText.replace(/[^\w\s-]/g, '');
-    return inputText;
-  }
-
+  
   return (
     <div className={`wpsp-event-card card ${postColor}`} >
-      {editAreaToggle?.[post.postId] && (
+      {( editAreaToggle?.[post.postId] && post.status == status ) && (
         <ul className="edit-area">
           <li>
             <Button

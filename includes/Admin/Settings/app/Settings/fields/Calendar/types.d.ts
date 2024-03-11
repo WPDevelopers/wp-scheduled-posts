@@ -36,6 +36,10 @@ export type PostType = {
     openModal: (modalData: { post: any; eventType: string }) => void;
     setEvents: React.Dispatch<React.SetStateAction<PostType[]>>;
     getPostTypeColor: (postType: string) => string;
+    status: string;
+    setStatus: React.Dispatch<
+      React.SetStateAction<string>
+    >;
   }
 
   export type ModalProps = {
