@@ -119,7 +119,7 @@
 
         if ('publish' === status){
             if(isAdvanced){
-                wpsp_submit_button.hide();
+                wpsp_submit_button.show();
                 immediately_btn.show().removeClass('active');
                 advanced_schedule_text.text(avd_label_update);
             }
