@@ -37,10 +37,17 @@ const SettingsInner = (props) => {
     if(urlParams.get('page') === 'schedulepress-calendar') {
       // set active tab to layout_calendar
       builderContext.setActiveTab('layout_calendar');
-    }    
+    }
+    if(urlParams.get('page') === 'schedulepress' && urlParams.get('tab') === 'advanced-schedule') {
+      builderContext.setActiveTab('layout_scheduling_hub');
+    }
     if(urlParams.get('page') === 'schedulepress' && urlParams.get('tab') === 'license') {
       // set active tab to layout_calendar
       builderContext.setActiveTab('layout_license');
+    }
+    if(urlParams.get('page') === 'schedulepress' && urlParams.get('tab') === 'general') {
+      // set active tab to layout_calendar
+      builderContext.setActiveTab('layout_general');
     }
     if(urlParams.get('page') === 'schedulepress' && urlParams.get('tab') === 'social-profile') {
       // set active tab to layout_calendar

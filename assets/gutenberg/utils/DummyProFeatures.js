@@ -2,14 +2,14 @@ import React from 'react';
 import ProModal from './ProModal';
 const {
 	element: { createElement,Fragment,useState },
-    components: { SelectControl, TextControl }
+    components: { SelectControl, TextControl, ToggleControl }
 } = wp;
 const { __ } = wp.i18n;
 
 const DummyProFeatures = () => {
     const [proModal,setProModal] = useState(false);
     const handleProModal = (event) => {
-        event.preventDefault();
+        // event.preventDefault();
         setProModal(true);
     }
   return (
@@ -45,6 +45,13 @@ const DummyProFeatures = () => {
                     <TextControl id="republish_on" placeholder="Y/M/D H:M:S" />
                 </div>
             </div>
+        </div>
+        <div className="advanced-schedule" onClick={ handleProModal }>
+            <ToggleControl
+                label={ __( 'Advanced Schedule','wp-scheduled-posts' ) }
+                checked={ false }
+                className='wpsp-advance-schedule-control'
+            />
         </div>
         <ProModal isOpenModal={ proModal } setProModal={setProModal} />
     </div>

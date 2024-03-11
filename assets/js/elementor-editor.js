@@ -119,7 +119,7 @@
 
         if ('publish' === status){
             if(isAdvanced){
-                wpsp_submit_button.hide();
+                wpsp_submit_button.show();
                 immediately_btn.show().removeClass('active');
                 advanced_schedule_text.text(avd_label_update);
             }
@@ -451,7 +451,7 @@
 
     // Checkbox selection  stopPropagation
     document.addEventListener('DOMContentLoaded', function () {
-        var checkboxesAndRadios = document.querySelectorAll('.el-social-share-platform input[type="checkbox"], .el-social-share-platform input[type="radio"], .el-social-share-platform label, .wpsp-el-empty-profile-message a');
+        var checkboxesAndRadios = document.querySelectorAll('.el-social-share-platform input[type="checkbox"], .wpsp-pro-fields a, .el-social-share-platform input[type="radio"], .el-social-share-platform label, .wpsp-el-empty-profile-message a, .wpsp-el-disabled-text a');
         checkboxesAndRadios.forEach(function (checkboxOrRadio) {
             checkboxOrRadio.addEventListener('click', function (event) {
                 event.stopPropagation();

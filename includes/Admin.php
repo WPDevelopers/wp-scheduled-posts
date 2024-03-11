@@ -417,12 +417,24 @@ class Admin
     public function wpsp_el_modal_pro_fields( $post_id ) { ?>
         <div class="wpsp-pro-fields">
             <label title="<?php esc_html_e( 'Pro Feature', 'wp-scheduled-posts' ); ?>">
-                <span><?php esc_html_e( 'Republish On', 'wp-scheduled-posts' ); ?><span><?php esc_html_e( 'PRO', 'wp-scheduled-posts' ); ?></span></span>
-                <input type="text" disabled>
+                <span><?php esc_html_e( 'Unpublish On', 'wp-scheduled-posts' ); ?>
+                    <a href="https://wpdeveloper.com/docs/advanced-schedule-update-published-posts/" class="advance-schedule-info" target="_blank"><span class="dashicons dashicons-info"></span></a>
+                    <span>
+                        <?php esc_html_e( 'PRO', 'wp-scheduled-posts' ); ?></span>
+                    </span>
+                <input type="text" placeholder="<?php echo esc_attr('Y/M/D H:M:S') ?>" disabled>
             </label>
             <label title="<?php esc_html_e( 'Pro Feature', 'wp-scheduled-posts' ); ?>">
-                <span><?php esc_html_e( 'Unpublish On', 'wp-scheduled-posts' ); ?><span><?php esc_html_e( 'PRO', 'wp-scheduled-posts' ); ?></span></span>
-                <input type="text" disabled>
+                <span><?php esc_html_e( 'Republish On', 'wp-scheduled-posts' ); ?>
+                <a href="https://wpdeveloper.com/docs/advanced-schedule-update-published-posts/" class="advance-schedule-info" target="_blank"><span class="dashicons dashicons-info"></span></a>
+                <span><?php esc_html_e( 'PRO', 'wp-scheduled-posts' ); ?></span></span>
+                <input type="text" placeholder="<?php echo esc_attr('Y/M/D H:M:S') ?>" disabled>
+            </label>
+            <label title="<?php esc_html_e( 'Pro Feature', 'wp-scheduled-posts' ); ?>">
+                <span><?php esc_html_e( 'Advanced Schedule', 'wp-scheduled-posts' ); ?>
+                <a href="https://wpdeveloper.com/docs/advanced-schedule-update-published-posts/" class="advance-schedule-info" target="_blank"><span class="dashicons dashicons-info"></span></a>
+                <span><?php esc_html_e( 'PRO', 'wp-scheduled-posts' ); ?></span></span>
+                <input type="text" placeholder="<?php echo esc_attr('Y/M/D H:M:S') ?>" disabled>
             </label>
         </div>
         <?php
