@@ -1,20 +1,20 @@
 === SchedulePress – Best Editorial Calendar, Missed Schedule & Auto Social Share  ===
 Contributors: wpdevteam, Asif2BD, re_enter_rupok, priyomukul, shajalal, alimuzzamanalim, rudlinkon, shuvo247
-Tags: post schedule, editor calendar, schedule-calendar, editorial calendar, social share, auto share, facebook, twitter, pinterest, linkedin, schedule bar, scheduled posts, schedule, SchedulePress, schedule widget, scheduler, Elementor schedule, admin bar, dashboard widget, missed scheduled, calendar, missed schedule, future post, schedule issue, post later, admin bar, admin, multi author, auto publish, inbound marketing, content marketing, auto post, post publish, social media automation, automation, marketing, content editing, post alert, auto sharing, content calendar, auto posting, facebook social share, social media scheduling, social sharing, social media share
+Tags: post schedule, schedule calendar, auto scheduler, auto sharing, social share
 Requires at least: 4.0
 Tested up to: 6.4
 Requires PHP: 7.2
-Stable tag: 5.0.6
+Stable tag: 5.0.9
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-A complete solution for WordPress Post Schedule. Manage schedule through editorial calendar and enable auto scheduler. Also handles auto social share in Facebook, Twitter, linkedIn, & Pinterest.
+WordPress Post Scheduler with Editorial Calendar & Auto-Scheduling. Automatic Social Sharing on Facebook, Twitter, LinkedIn & Pinterest.
 
 == Description ==
 
 ### Best Content Marketing Tool For WordPress - Schedule, Organize, & Auto Share Blog Posts
 
-Automate your content workflow with [SchedulePress](https://wpdeveloper.com/plugins/wp-scheduled-posts/) . Take a quick glance at your content planning with Schedule Calendar, Auto Scheduler, Manual Scheduler & more. Automatically share your posts on following social media platforms:
+Automate your content workflow with [SchedulePress](https://wpdeveloper.com/plugins/wp-scheduled-posts/). Take a glance at your content planning with a drag-and-drop, visual Schedule Calendar, Auto Scheduler, Manual Scheduler, handle missed schedules easily & more. Automatically share your posts on the following social media platforms:
 
 -   Facebook
 -   Twitter
@@ -24,83 +24,86 @@ Automate your content workflow with [SchedulePress](https://wpdeveloper.com/plug
 
 [MORE ABOUT PLUGIN](https://wpdeveloper.com/plugins/wp-scheduled-posts/) ◼️ [DOCUMENTATION](https://wpdeveloper.com/docs-category/wp-scheduled-posts/) ◼️ [SUPPORT FORUM](https://wordpress.org/support/plugin/wp-scheduled-posts/)
 
-
 https://youtu.be/oBD7MbtWvcQ
 
-### SCHEDULE YOUR WORDPRESS POSTS IN ADVANCED AND POST AUTOMATICALLY ON SOCIAL PLATFORMS:
+### SCHEDULE YOUR WORDPRESS POSTS IN ADVANCE AND POST AUTOMATICALLY ON SOCIAL PLATFORMS:
 
 -   Revamp the entire content writing experience with SchedulePress
 -   Automatically share on Facebook, Twitter, LinkedIn, Pinterest
 -   Schedule hundreds of posts using the editorial calendar
 -   Manage multiple authors from one place
--   Query optimization to reduce load time &amp; make faster
+-   Query optimization to reduce load time & make content management faster
 -   Send email alerts to authors about blog status
 -   Customize social share templates for auto schedule
 -   Directly share without notifications or reminders
 -   Auto publish missed schedule posts [PRO]
 -   Automatically share on selected dates regularly [PRO]
 -   Auto share blogs on multi social profiles [PRO]
--   **[New] Full Scheduling feature in Elementor**
+-   Schedule update for already published blog post or page [PRO]
+-   Full Scheduling feature in Classic Editor, Gutenberg & Elementor
 
 
-You will be on vacation from next Saturday but want your website to stay active as your regular day? Yes, you can schedule posts in advance for those days and SchedulePress brings you the **editorial calendar** with it to lets you see when your posts have been scheduled.
+Want your website to remain active while you're on vacation? Yes, you can schedule posts in advance for those days and SchedulePress brings you the editorial calendar with it to let you see when your posts have been scheduled.
 
-
-From one place, you can easily get an overview of your blog posts and when each post will be published. Not just that, it allows you to drag and drop to edit and move posts right from the editorial calendar.
-
+From one place, you can easily get an overview of your blog posts and when each post will be published. Not only that, it allows you to drag & drop to edit & move posts right from the editorial calendar.
 
 ## MANAGE YOUR POST SCHEDULING WITH SUPER HANDY FEATURES (FREE)
 
 
-**◾ Schedule Calendar:** Manage your content with a great visual calendar. You can add posts in the queue, and SchedulePress will publish them on your desired days and hours. You can move the scheduled post on a different date right from the schedule calendar.
 
+**◾ Schedule Calendar:** Manage your content with a great drag and drop visual calendar. You can add posts to the queue, and SchedulePress will publish them on your desired days and hours. You can also move the scheduled post to a different date right from the scheduled calendar.
 
-**◾ Dashboard Widget:** Check your scheduled & draft post right from the dashboard as SchedulePress will enable a widget in your WordPress dashboard. Either you are running a multi-author blog or a single author blog, seeing all your posts status from dashboard could be super convenient.
+**◾ Dashboard Widget:** Check your scheduled & draft post right from the dashboard, as SchedulePress will enable a widget in your WordPress dashboard. Whether you are running a multi-author blog or a single-author blog, seeing all your post's statuses from the dashboard could be super convenient.
 
-**◾ Drag & Drop Feature:** While organizing your scheduled content, you can quickly organize content using easy-to-use drag & drop feature.
+**◾ Drag & Drop Feature:** While organizing scheduled content, you can quickly organize them using the easy-to-use drag & drop feature.
 
-**◾ Save Times On Content Creation:** If you want to create a new post or add a photo to be published on a specific time period, you don't need to go back on your dashboard and click on Post to Add New Post. You can create a new post right from the SchedulePress Content Calendar.
+**◾ Save Times On Content Creation:** If you want to create a new post or add a photo to be published in a specific time period, you don’t need to go back on your dashboard and click on Post to Add New Post. You can create a new post right from the SchedulePress Content Calendar.
 
 **◾ Manage Multiple Author Efficiently:** Managing multiple authors for a blog is never an easy task. But you can make the process easier using our schedule calendar and manage co-authors from one place.
 
-**◾ Get Full Control Over Scheduling Posts:** Configure specific post types, categories, and allow users who can maintain your WordPress blog schedules. It can be only the administrator, editor, author, or more.
+**◾ Get Full Control Over Scheduling Posts:** Configure specific post types and categories, and allow users who can maintain your WordPress blog schedules. It can be only the administrator, editor, author, or more.
 
 **◾ Notify WordPress Users With Email:** Send email alerts to authors or users when a post is published, trashed, or has been scheduled. It will let our users be aware of the status of their current blog posts.
 
-**◾ Auto Share Posts On Multi Social Profiles:** Easily schedule, auto-share, or do instant share your blog posts from WordPress dashboard to multiple social media platforms like Facebook page & group, Twitter, Pinterest, and LinkedIn profiles.
+**◾ Auto Share Posts On Multi Social Profiles:** Easily schedule, auto-share, or instant share blog posts from the WordPress dashboard to multiple social media platforms like Facebook page & group, Twitter, Pinterest, and LinkedIn profiles.
 
 **◾ Configure Auto Social Share Templates:** Personalize your WordPress blog with preferred social media templates by configuring all exclusive features by SchedulePress. Each social share channel template comes with specific and unique features.
 
-https://www.youtube.com/watch?v=K8zP6fTOneg
+https://youtu.be/K8zP6fTOneg
 
 
 ### 🌟 Seamless Compatibility With Elementor Website Builder
 
-SchedulePress is fully compatible with Elementor. You can manage your [WordPress posts scheduling from Elementor editor](https://wpdeveloper.com/docs/schedule-posts-from-elementor/). Check out what you can do more with this SchedulePress & Elementor powerful integration: 
+SchedulePress is fully compatible with Elementor. You can manage your [WordPress post scheduling from the Elementor editor](https://wpdeveloper.com/docs/schedule-posts-from-elementor/). Check out what you can do more with this SchedulePress & Elementor powerful integration: 
 
--   Schedule WordPress content directly from Elementor editor panel.
--   Unpublish posts that no longer need to be live on your website. 
+-   Schedule WordPress content directly from the Elementor editor panel.
+-   Unpublish posts that no longer need to be live on your website. 
 -   Republish published posts easily from your Elementor editor panel.
 -   Modular control panel to enable or disable scheduling from Elementor.
 
 
 ### 🌟 More Features With SchedulePress [PRO]
 
-Along with all features of the free version and [SchedulePress Pro](https://wpdeveloper.com/in/schedulepress) has some additional features including:
+Along with all the features of the free version, [SchedulePress Pro](https://wpdeveloper.com/in/schedulepress) has some additional features, including:
 
-**◾ Auto Scheduler:** Get absolute control over your content schedule as you can create rules to post content automatically. You just need to specify the time interval in which you want to have your posts scheduled and this plugin will publish it on the definite time interval. You can also set an exact date and time to create a flexible schedule.
+**◾ Auto Scheduler:** Get absolute control over your content schedule as you can create rules to post content automatically. You need to specify the time interval in which you want to have your posts scheduled and this plugin will publish it on the definite time interval. You can also set an exact date and time to create a flexible schedule.
 
-https://www.youtube.com/watch?v=oBD7MbtWvcQ
+https://youtu.be/oBD7MbtWvcQ
 
-**◾ Missed Schedule Handler:** As a content creator, you might have faced that WordPress might miss the schedule of a post and it could happen for a various reason. However, you don’t have to worry about that anymore as SchedulePress will take care of missed schedules and to publish the post automatically.
+**◾ Missed Schedule Handler:** As a content creator, you might have faced that WordPress might miss the schedule of a post and it could happen for various reasons. However, you don’t have to worry about that anymore as SchedulePress will take care of missed schedules and publish the post automatically.
 
-https://www.youtube.com/watch?v=t0zVpg5ALos
+https://youtu.be/t0zVpg5ALos
 
-**◾ Manual Scheduler:** If you want to schedule your WordPress blog posts at an exact time avoiding the random schedule. You can configure this in a manual process setting up your preferred time & date. It will publish your posts at that particular time.
+**◾ Manual Scheduler:** If you want to schedule your WordPress blog posts at an exact time avoiding the random schedule, you can configure this in a manual process setting up your preferred time & date. It will publish your posts at that particular time.
 
-https://www.youtube.com/watch?v=qy7zdh5VYlg
+https://youtu.be/qy7zdh5VYlg
 
-**◾ Premium Support:** Get faster support with a pro license. We have extra-ordinary support team ready to help you. Ask your questions in the support forum, or contact us directly through live chat and support tickets.
+**◾ Advanced Schedule:** Schedule an update for an already published blog post or page, without drafting it or unpublishing it. You can update blog & doc content as well as tags, categories, pictures, feature image, excerpt, and anything else of your choice.
+
+https://youtu.be/1ohEsDzTJkA
+
+
+**◾ Premium Support:** Get faster support with a pro license. We have an extraordinary support team ready to help you. Ask your questions in the support forum, or contact us directly through live chat and support tickets.
 
 https://youtu.be/y80iDuolrRU
 
@@ -116,7 +119,7 @@ https://youtu.be/y80iDuolrRU
 “SchedulePress Pro is for anyone who regularly publishes a large amount of content. That makes it a superb option for content writers, editors, and marketers as well as strategists, blog owners, and community managers.”
 
 - 🌟 [WP Optimus](https://www.wpoptimus.com/534/schedule-post-wordppress-show-upcoming-articles/)
-“SchedulePress is specially useful for multi-author blogs. Even it's useful for single author blog who use the built-in Schedule function of WordPress.”
+“SchedulePress is specially useful for multi-author blogs. It's even useful for single author blogs who use the built-in Schedule function of WordPress.”
 
 - 🌟 [WP Glossy](https://www.wpglossy.com/schedule-blog-post-wordpress/)
 “SchedulePress is the best extension when it comes to scheduling WordPress posts for the site that has several admins and authors.”
@@ -126,25 +129,23 @@ https://youtu.be/y80iDuolrRU
 ## 🎁 [FREEBIE] Handful Plugins To Improve Your WordPress Site
 If you like SchedulePress, then consider checking out our other WordPress Plugins & take your website to next level:
 
-🔝[Essential Addons For Elementor](https://essential-addons.com/elementor/) – Most popular Elementor extensions with 1 million active users in the WordPress repository.
+🔝[Essential Addons For Elementor](https://essential-addons.com/elementor/) – Most popular Elementor extensions with 2 Million+ active users in the WordPress repository..
 
 🔔 [NotificationX](https://notificationx.com/) – Best Social Proof & FOMO Marketing Solution to increase conversion rates.
 
-📝 [BetterDocs](https://betterdocs.co/) – Best Documentation & Knowledge Base Plugin for WordPress, whcih also reduce your manual support request.
+📝 [BetterDocs](https://betterdocs.co/) – Best Documentation & Knowledge Base Plugin for WordPress, which also reduces your manual support request.
 
 🛑 [Disable Comments](https://wordpress.org/plugins/disable-comments/) – Instantly allow or disallow comments from any post type in WordPress and gain complete control over your full website.
 
-📄 [EmbedPress](https://embedpress.com/): EmbedPress lets you embed videos, images, posts, audio, maps and upload PDF, DOC, PPT & all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors.
+📄 [EmbedPress](https://embedpress.com/): EmbedPress lets you embed videos, images, posts, audio, maps, etc, and upload PDF, DOC, PPT & all other types of content into your WordPress site with one-click.
 
 ☁ [Templately](https://wordpress.org/plugins/templately/): Free templates library for Elementor & Gutenberg along with the cloud collaboration for WordPress.
-
-⭐ [ReviewX](https://wordpress.org/plugins/reviewx/): WooCommerce Product review plugin that allows users to submit product reviews with multiple criteria, photos, video and more.
 
 🎨 [Flexia](https://flexia.pro/): Most lightweight, customizable & multi-purpose flexible WordPress theme for WordPress and seamlessly compatible with WooCommerce.
 
 🔗 [BetterLinks](https://wordpress.org/plugins/betterlinks/): Exclusively provides an easy method of redirecting requests to another page on your site or elsewhere on the web.
 
-💼 [Easy.Jobs](http://wordpress.org/plugins/easyjobs): All-in-one recruitment solution for creating & managing job posts to find out the right talent for your company.
+💼 [easy.jobs](https://wordpress.org/plugins/easyjobs): All-in-one recruitment solution for creating & managing job posts to find the right talent for your company.
 
 
 
@@ -207,381 +208,19 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 == Changelog ==
 
-= 5.0.7 - 2024-01-15 =
-- Added: Elementor topbar header support.
-- Fixed: Design conflict with Elementor.
-- Fixed: Instant Sharing scope.
+= 5.0.9 - 2024-03-07 =
+- Added: Social Media selection option for Elementor.
+- Improved: Security Enhancement.
+- Improved: Overall social sharing option.
 - Improved: LinkedIn API versioning.
 - Few minor bug fix & improvements.
 
-= 5.0.6 - 2023-12-24 =
-- Improved: Added Ellipsis while sharing a long post to Social Media.
-- Improved: Pinterest API versioning.
-- Improved: Facebook page and group connection process.
+= 5.0.8 - 2024-02-25 =
+- Updated: Security patch for better performance.
+- Improved: SchedulePress calendar preview.
 - Few minor bug fix & improvements.
 
-= 5.0.5 - 2023-11-28 =
-- Improved: Security enhancement.
-- Few minor bug fixes and improvements.
-
-= 5.0.4 - 2023-11-21 =
-- Added: Post sharing limit for social media.
-- Fixed: Conflict with Toolset, Divi, Surecart plugin
-- Fixed: Twitter post sharing issue.
-- Improved: Facebook and LinkedIn API versioning
-- Fixed: Post sharing issue when Social Share is disable.
-- Fixed: Calendar issue with WordPress Location based timezone.
-- Few minor bug fix & improvements.
-
-= 5.0.3 - 2023-10-23 =
-- Fixed: Social Profile were not visible for allowed users.
-- Fixed: Scheduling options were missing on Classic Editor.
-- Fixed: Issue on SchedulePress Calendar post title with special character.
-- Fixed: Social Share Upload Banner image was not working.
-- Few minor bug fix & improvements.
-
-= 5.0.2 - 2023-10-04 =
-- Revamped: SchedulePress controls for Gutenberg Editor.
-- Added: Specify Social Account to share from Gutenberg.
-- Fixed: Calendar Default time after scheduling using drag and drop.
-- Fixed: Social share issue with Special character.
-- Few minor bug fix & improvements.
-
-= 5.0.1 - 2023-08-30 =
-- Fixed: Manual Scheduler console errors while adding schedule time.
-- Fixed: Conflict with older versions.
-- Few minor bug fix & improvements.
-
-= 5.0.0 - 2023-08-27 =
-- Revamped: Dashboard & Code structure for better performance.
-- Few minor bug fixes & improvements
-
-= 4.2.7 - 2023-07-11 =
-- Fixed: Twitter social share issues.
-- Fixed: Republished Post was showing multiple times on calendar.
-- Fixed: SchedulePress Calendar responsive issues.
-- Fixed: Compatibility issues with PHP 8.2.
-- Few minor bug fixes and improvements.
-
-= 4.2.6 - 2023-06-19 =
-* Fixed : Conflict with WooCommerce in PHP 8.1.9
-* Improvement: AWS support for Twitter OAuth
-* Few minor bug fix & improvements.
-
-= 4.2.5 - 2023-05-15 =
-* Fixed: Product categories and tags were not sharing in social media.
-* Fixed: Auto Scheduler error while changing time.
-* Few minor bug fix & improvements.
-
-= 4.2.4 - 2023-03-29 =
-* Fixed: Missed Scheduled issues for Classic Editor and Calendar view
-* Fixed: Email Notification wasn’t working when scheduling a Post
-* Few minor bug fix & improvements
-
-= 4.2.3 - 27/02/2023 =
-* Updated: LinkedIn API versioning
-* Few minor bug fixes and improvements
-
-= 4.2.2 - 2023-01-24 =
-* Fixed: Conflict with older versions of WordPress.
-* Fixed: Draft posts are not showing on the Calendar view.
-* Fixed: New posts weren't creating properly from the SchedulePress calendar.
-* Added: Social Sharing when clicking on the Publish Post Immediately.
-* Improvement: Added republished Posts on SchedulePress Calendar with proper tags.
-* Improvement: SchedulePress Calendar Week Starts according to the settings page.
-* Few minor bug fixes & improvements.
-
-= 4.2.1 - 2022-11-23 =
-* Few minor bug fix & improvements
-
-= 4.2.0 - 2022-10-04 =
-* Improved: LinkedIn Social share.
-* Improved: Pinterest social share.
-* Few minor bug fix & improvements
-
-= 4.1.8 - 2022-08-08 =
-* Added: Publish Post with Future date on Gutenberg editor.
-* Added: Scrollable feature on the popup box to connect social media pages/groups.
-* Few minor bug fix & improvements
-
-= 4.1.7 - 2022-06-30 =
-* Fixed: Fixed Pinterest social share.
-* Few minor bug fix & improvements
-
-= 4.1.6 - 2022-06-05 =
-* Fixed: Settings weren’t being saved without hard refresh.
-* Added: Category filter in SchedulePress Calendar.
-* Few minor bug fix & improvements
-
-= 4.1.5 - 2022-04-25 =
-* Fixed: Time validation issue in SchedulePress Calendar.
-* Improvement: Added error notice in Twitter API.
-* Few minor bug fix & improvements
-
-= 4.1.4 - 2022-02-20 =
-* Fixed: Dashboard data fetching issue.
-* Fixed: Excerpt option for LinkedIn share.
-* Fixed: Line breaking issues for Social share.
-* Fixed: Featured images wasn’t showing on LinkedIn
-* Few minor bug fix & improvements
-
-= 4.1.3 - 2021-12-15 =
-* Fixed: License tab redirection issue.
-* Few minor bug fix & improvements
-
-= 4.1.2 - 2021-11-29 =
-* Removed: Unnecessary console messages.
-* Fixed: Toast message duplication issue.
-* Fixed: Calendar date and time showing NaN in Safari Browser.
-* Few minor bug fix & improvements
-
-= 4.1.1 - 2021-09-13 =
-* Added: Control for disabling SchedulePress from Elementor
-* Added: Tooltip on SchedulePress icon.
-* Changed: SchedulePress icon position on Elementor.
-* Few minor bug fix & improvements
-
-= 4.1.0 - 2021-08-29 =
-* Added: Scheduling feature in Elementor editor.
-* Few minor bug fix & improvements
-
-= 4.0.4 - 2021-06-30 =
-* Removed: WPDeveloper Feed Widget
-* Updated: Default data saving fallback logic in the Settings Page
-* Few minor bug fix & improvements
-
-= 4.0.3 - 2021-04-28 =
-* Update: Classic Editor Instant Publish Post Date Issue
-* Fixed: Moving Post from one date to another changed the date to default time.
-* Few minor bug fix & improvements
-
-= 4.0.2 - 2021-03-04 =
-* Added     : Option to disable/enable schedule social share from individual posts
-* Fixed     : Classic Editor Instant Publish Post Date Issue
-* Fixed     : Classic Editor Instant Share Modal Overlap Issue
-* Fixed     : Few minor bug fix & improvements
-
-= 4.0.1 - 2021-01-12 =
-* Added     : Compatibility with PHP 8
-* Fixed     : Migration issue with the new version
-* Fixed     : Few minor bug fix and improvements
-
-= 4.0.0 - 2021-01-07 =
-* Revamped     : Rebuilt entire settings with ReactJS
-* Revamped     : Code Structure for better performance
-* Redesigned   : Settings & Social Share UI
-* Added        : WordPress 5.6 Support
-* Fixed        : Few minor bug fix & improvements
-
-
-= 3.3.3 - 2020-11-15 =
-* Fixed : Facebook Share not working
-* Fixed : Few minor bug fix and improvements
-
-= 3.3.2 - 2020-09-30 =
-* Fixed     : Twitter Share not working
-* Fixed     : Few minor bug fix and improvements
-
-= 3.3.1 - 2020-09-23 =
-* Fixed     : REST API issue with WordPress 5.5
-* Fixed     : Group Mail sending issue with Email Notify
-* Fixed     : Conflict with Email Notify and Social Share
-* Fixed     : Few minor bug fix and improvements
-
-
-
-= 3.3.0 - 2020-07-28 =
-* Added     : Social Share Integration
-* Added     : Social Share Templates
-* Fixed     : Schedule Calendar not loading for Custom Post Types
-* Fixed     : Few minor bug fix and improvements
-
-
-= 3.2.1 - 2020-06-29 =
-* Fixed     : Schedule Calendar not showing Pending posts
-* Fixed     : Minor bugs & improvements
-
-= 3.2.0 - 2020-06-03 =
-* Added     : Calendar default schedule time
-* Fixed     : Minor bug fix
-
-= 3.1.16 - 2020-04-13 =
-* Fixed     : Minor bug fix
-
-= 3.1.15 - 2020-04-07 =
-* Fixed     : Assets caching issue
-* Update    : Option Settings Screen name Update
-* Update    : UI Update
-
-= 3.1.14 - 2020-03-29 =
-* Fixed : Admin notice styling issue
-
-= 3.1.13 - 2020-03-25 =
-* Fixed : Settings page styling issue
-
-= 3.1.12 - 2020-03-24 =
-* Fixed : Assets loading issue
-
-= 3.1.11 - 2020-03-23 =
-* Improvement : Calendar loading issue for large posts (tested with 30k posts)
-* Bug Fixed : Calendar http/https issue
-* Bug fixed : Assets conflict for third party plugins
-
-= 3.1.10 - 2020-02-20 =
-* Bug Fixed - jQuery datatimepicker
-* Bug Fixed - Rest Api endpoint
-
-= 3.1.9 - 2020-02-18 =
-* Fixed localization issue
-
-= 3.1.8 - 2020-02-04 =
-* Improved email notification
-
-= 3.1.7 - 2020-01-29 =
-* Improved UI
-* Few minor improvements and bugfix
-
-= 3.1.6 - 2020-01-09 =
-* Improved : Update Email notify Settings
-* Few minor improvements and bugfix
-
-= 3.1.5 - 2019-12-18 =
-* Added : Email Notification when scheduled posts publish
-
-= 3.1.4 - 2019-12-10 =
-* Quick Setup Update
-* Update Stylesheets
-
-= 3.1.3 - 2019-11-21 =
-* Calendar speed up
-* Fixed : Calendar date issue
-* Fixed : Calendar preloader issue
-
-= 3.1.2 - 2019-11-07 =
-* Custom Post Support issue fixing
-* Elementor library issue fixing
-* Calendar event preloader improve
-* Quick setup Wizard Improve
-
-= 3.1.1 - 2019-11-04 =
-* Bugfix : Gutenberg Editor Publish Post Immediately Button
-* Bugfix : Qucik Setup Wizard allow post type, category empty, what's new button error
-* Improvement : Using SASS for all CSS
-* Improved Calendar UI
-* Improved : General Settings Option Data Saving Technique
-* Few minor improvements and bugfix
-
-= 3.1.0 - 2019-10-31 =
-* Quick Setup Wizard Added
-* Schedule Calendar revamped for better performance
-* Lots of minor improvements and bugfix
-
-= 3.0.0 - 2019-10-08 =
-* Completely revamped the plugin with better UI and new features
-* New dashboard with better UX
-* Minified the the functions and assets and removed redundant codes for better performance
-* Lots of minor improvements and bugfix
-
-= 2.3.0 - 2019-05-28 =
-* Refractored code for better performance
-* Calendar Issue fixed with CPT
-* Some minor improvements and bugfix
-
-= 2.2.0 - 2019-03-20 =
-* Refractored code for better performance
-* Better compatibility with WordPress 5.x
-* Some minor improvements and bugfix
-
-= 2.1.2 - 2019-02-26 =
-* Backend performance improved
-* Some minor improvements and bugfix
-
-= 2.1.1 - 2019-02-17 =
-* Some minor improvements and bugfix
-
-= 2.1.0 - 2019-02-14 =
-* Auto Scheduler issue fixed
-* Improved compatibility with older WP and WP 5.x
-* Some minor improvements and bugfix
-
-= 2.0.4 - 2019-01-22 =
-* Old Post Data Issue Fixed for old WP Version
-* List Date issue fixed
-* Fixed : WP 5.0 Publishing Error without Scheduling a post
-* Some minor improvements and bugfix
-
-= 2.0.3 - 2019-01-13 =
-* Gutenberg and WordPress 5.0 compatiblility fixed
-* Some minor improvements and bugfix
-
-= 2.0.2 - 2018-12-9 =
-* Random permalink issue solved
-* Missed schedule improved
-* Some minor improvements and conflict fixed
-
-= 2.0.1 - 2018-12-04 =
-* Some minor improvements and conflict fixed
-
-= 2.0.0 - 2018-12-02 =
-* Completely revamped interface
-* Visual Schedule Calendar added
-* Lots of new features and improvements.
-
-= 1.4.4 - 2017-06-08 =
-* Major Bug Fix
-* Compatible with latest WordPress 4.8
-
-= 1.4.3 - 2017-04-08 =
-* Compatible with latest WordPress 4.7.3
-* Minor Fix
-
-= 1.4.2 - 2016-06-10 =
-* Compatible with latest WordPress 4.5.2
-
-= 1.4.1 - 2015-06-27 =
-* Minor bug fix.
-
-= 1.4.0 - 2015-06-11 =
-* Major bug fix. Reported by user "Bad Feather". No more notice when "WP_DEBUG" is set to true.
-* Little bit design change in Option Page & Admin Bar.
-
-= 1.3.4 - 2015-04-20 =
-* Minor bug fix. Thanks for the tip by @caschy
-
-= 1.3.3 - 2015-04-19 =
-* Security Check!
-* Compatible to WordPress 4.2 RC.
-
-= 1.3.2 - 2015-03-02 =
-* **Minor** bug fix.
-* Compatible to WordPress 4.2 Beta
-
-= 1.3.1 - 2014-12-27 =
-* **Minor** Compatible with WordPress 4.1.
-
-= 1.3.0 - 2014-6-1 =
-* **New** Brand new interface.
-* **New** Ability to control which 'Custom Post Types' will be available to "Scheduled Posts".
-* **New** Ability to control which 'Category' will be available to "Scheduled Posts".
-* **New** Ability to control date time structure, as you need.
-
-= 1.2.1 - 2013-7-7 =
-* Bug fix: Admin bar menu was showing only one scheduled post
-
-= 1.2.0 =
-* New feature: Custom item template and style for scheduled posts list in adminbar.
-* Settings page link added in plugins list page.
-
-= 1.1.0 =
-* New feature: Publish any scheduled post immediately but date-time will be future date-time as you set.
-
-= 1.0.1 =
-* Basic Bug fix
-
-= 1.0.0 =
-* Initial release
-
-
+[See changelog for all versions](https://schedulepress.com/changelog)
 
 == Upgrade Notice ==
 = 4.1.3 - 2021-12-15 =

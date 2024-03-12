@@ -2,6 +2,7 @@
 
 namespace WPSP\Social;
 
+use WPSP\Helper;
 use WPSP\Traits\SocialHelper;
 
 class Facebook
@@ -131,7 +132,7 @@ class Facebook
             }
         } else {
             if (has_post_thumbnail($post->ID)) { //the post does not have featured image, use a default image
-                $thumbnail_src = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'full');
+                $thumbnail_src = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'large');
                 echo '<meta property="og:image" content="' . esc_attr($thumbnail_src[0]) . '"/>';
             }
         }
@@ -201,6 +202,18 @@ class Facebook
         // get share count 
         $count_meta_key = '__wpsp_facebook_share_count_'.$ID;
         $dont_share     = get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true);
+
+        // get social share type 
+        $get_share_type =   get_post_meta($post_id, '_facebook_share_type', true);
+        if( $get_share_type === 'custom' ) {
+            $get_all_selected_profile     = get_post_meta($post_id, '_selected_social_profile', true);
+            $check_profile_exists         = Helper::is_profile_exits( $ID, $get_all_selected_profile );
+            if( !$check_profile_exists ) {
+                return;
+            }
+        }
+
+
         // check post is skip social sharing
         if (empty($app_id) || empty($app_secret) || $dont_share  == 'on' || $dont_share == 1 ) {
             return;

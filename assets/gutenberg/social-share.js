@@ -17,33 +17,46 @@ const { __ } = wp.i18n;
 const SocialShare = ( { is_pro_active } ) => {
     const {
       meta,
-      meta: { _wpscppro_dont_share_socialmedia, _wpscppro_custom_social_share_image },
+      meta: { _wpscppro_dont_share_socialmedia, _wpscppro_custom_social_share_image, _facebook_share_type, _twitter_share_type, _linkedin_share_type, _pinterest_share_type, _selected_social_profile, _linkedin_share_type_page },
     } = useSelect((select) => ({
       meta: select('core/editor').getEditedPostAttribute('meta') || {},
     }));
     const { editPost } = useDispatch('core/editor');
     const postid = select('core/editor').getCurrentPostId()
-    const [ pinterestShareType, setPinterestShareType ] = useState('default');
     const [isOpen, setIsOpen] = useState(null); // Use null to represent no accordion open
     const [facebookProfileData,setFacebookProfileData] = useState([]);
     const [twiiterProfileData,setTwitterProfileData] = useState([]);
     const [linkedinProfileData,setLinkedinProfileData] = useState([]);
     const [pinterestProfileData,setPinterestProfileData] = useState([]);
     const [isOpenModal,setIsOpenModal] = useState( false );
-    const [selectedSocialProfile,setSelectedSocialProfile] = useState([]);
+    const [selectedSocialProfile,setSelectedSocialProfile] = useState( [] );
     const [responseMessage,setResponseMessage] = useState([]);
     const [selectedSection, setSelectedSection] = useState([]);
     const [isSocialShareDisable, setIsDisableSocialShare] = useState( _wpscppro_dont_share_socialmedia );
-    const [facebookShareType,setFacebookShareType] = useState('default');
-    const [twitterShareType,setTwitterShareType] = useState('default');
-    const [linkedinShareType,setLinkedinShareType] = useState('default');
-    const [linkedinShareTypePage,setLinkedinShareTypePage] = useState('default');
+    const [facebookShareType,setFacebookShareType] = useState( _facebook_share_type ? _facebook_share_type : 'default' );
+    const [twitterShareType,setTwitterShareType] = useState( _twitter_share_type ? _twitter_share_type : 'default' );
+    const [linkedinShareType,setLinkedinShareType] = useState( _linkedin_share_type ? _linkedin_share_type : 'default');
+    const [ pinterestShareType, setPinterestShareType ] = useState( _pinterest_share_type ? _pinterest_share_type : 'default' );
+    const [linkedinShareTypePage,setLinkedinShareTypePage] = useState( _linkedin_share_type_page ? _linkedin_share_type_page : 'default');
     const [wpspSettings,setWpspSettings] = useState(null);
     const [activeTab, setActiveTab] = useState('profile');
     const [proModal,setProModal] = useState(false);
     const [uploadSocialShareBanner, setUploadSocialShareBanner ] = useState( WPSchedulePostsFree?._wpscppro_custom_social_share_image );
     const [uploadSocialShareBannerId, setUploadSocialShareBannerId ] = useState( _wpscppro_custom_social_share_image );
-
+    useEffect(() => {
+      editPost({
+        meta: {
+          ...meta,
+          _facebook_share_type: facebookShareType,
+          _twitter_share_type: twitterShareType,
+          _linkedin_share_type: linkedinShareType,
+          _linkedin_share_type_page: linkedinShareTypePage,
+          _pinterest_share_type: pinterestShareType,
+          _selected_social_profile: selectedSocialProfile,
+        },
+      })
+    }, [facebookShareType, twitterShareType, linkedinShareType, pinterestShareType, selectedSocialProfile])
+    
     // Get social profile data from wp_options table
     useEffect(() => {
       // fetch facebook profile data
@@ -72,6 +85,10 @@ const SocialShare = ( { is_pro_active } ) => {
                 defaultBoard: pinterest_profile?.default_board_name?.value,
                 profile: pinterest_profile,
               };
+              let findSelectedPinterestIndex = selectedSocialProfile.findIndex( ( __selectedProfile ) => __selectedProfile?.id == pinterest_profile?.default_board_name?.value );
+              if( findSelectedPinterestIndex != -1 ) {
+                default_selected_section.push( { board_id : pinterest_profile?.default_board_name?.value, section_id : findSelectedPinterestIndex[findSelectedPinterestIndex].pinterest_custom_section_name  } );
+              }
               default_selected_section.push( { board_id : pinterest_profile?.default_board_name?.value, section_id : pinterest_profile?.defaultSection?.value  } );
               fetchPinterestSection(data).then( ( res ) => {
                 filtered_pinterest_profile_list[index].sections = res.data;
@@ -106,7 +123,13 @@ const SocialShare = ( { is_pro_active } ) => {
             default_selected_social_profile.push( { id: profile.id, platform: 'linkedin', platformKey: index, name : profile.name, type : profile?.type, thumbnail_url : profile.thumbnail_url, share_type : linkedinShareType } );
           } )
         }
-        setSelectedSocialProfile( [...default_selected_social_profile] );
+        if( _selected_social_profile.length > 0 ) {
+          const default_object_ids = default_selected_social_profile.map(item => item.id);
+          let _final_selected_social_profile = _selected_social_profile.filter(item => default_object_ids.includes(item.id)); 
+          setSelectedSocialProfile( [..._final_selected_social_profile] );
+        }else {
+          setSelectedSocialProfile( [...default_selected_social_profile] );
+        }
       } )
     }, [])
   
@@ -184,6 +207,20 @@ const SocialShare = ( { is_pro_active } ) => {
         }
       }
     }
+    // Function to update the boards with new section IDs
+    function updateBoardSections(boards, sectionsToUpdate) {
+      return boards.map(board => {
+          const update = sectionsToUpdate.find(section => section.board_id === board.id);
+          if (update) {
+              return {
+                  ...board,
+                  pinterest_custom_section_name: update.section_id,
+              };
+          }
+          return board;
+      });
+    }
+
     // Handle section change event
     const handleSectionChange = (board_id,section_id) => {
       const updateSectionArray = selectedSection.map((item) => {
@@ -193,6 +230,8 @@ const SocialShare = ( { is_pro_active } ) => {
         }
         return item;
       });
+      const updateSelectedProfile = updateBoardSections(selectedSocialProfile, updateSectionArray);
+      setSelectedSocialProfile(updateSelectedProfile);
       setSelectedSection(updateSectionArray);
     }
 
@@ -339,7 +378,6 @@ const SocialShare = ( { is_pro_active } ) => {
               <MediaUpload
                 allowedTypes={['image']}
                 onSelect={ (media) => {
-                  console.log(media.url);
                   setUploadSocialShareBanner( media?.url );
                   setUploadSocialShareBannerId( media?.id );
                 } }
@@ -513,9 +551,19 @@ const SocialShare = ( { is_pro_active } ) => {
                               <h3>{ pinterest?.default_board_name?.label } </h3>
                               <select className="pinterest-sections" onChange={ (event) =>  handleSectionChange(pinterest?.default_board_name?.value,event.target.value) }>
                                 <option value="No Section">No Section</option>
-                                { pinterest?.sections?.map( (section) => (
-                                  <option value={ section?.id } selected={ (selectedSection.findIndex( (__item) => __item.board_id === pinterest?.default_board_name?.value && __item.section_id === section?.id ) !== -1) ? true : false } >{ section?.name }</option>
-                                ) ) }
+                                { pinterest?.sections?.map((section, key ) => {
+                                  const isSelectedBasedOnProfile = selectedSocialProfile.findIndex((_item) => _item.id == pinterest?.default_board_name?.value);
+                                  const isSelectedBasedOnSection = selectedSection.findIndex((__item) => __item.board_id === pinterest?.default_board_name?.value);
+                                  if( isSelectedBasedOnProfile != -1 ) {
+                                    return (
+                                      <option value={section?.id} selected={ selectedSocialProfile[isSelectedBasedOnProfile]?.pinterest_custom_section_name == section?.id ? true : false } > {section?.name} </option>
+                                    );
+                                  }else {
+                                    return (
+                                      <option value={section?.id} selected={ selectedSocialProfile[isSelectedBasedOnSection]?.pinterest_custom_section_name == section?.id ? true : false } > {section?.name} </option>
+                                    );
+                                  }
+                                })}
                               </select>
                           </div>
                         ) ) }

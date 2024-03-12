@@ -156,18 +156,53 @@ class SocialProfile
         $profile = (isset($params['profile']) ? $params['profile'] : '');
         if(!is_array($profile)){
             $pinterest = \WPSP\Helper::get_social_profile(WPSCP_PINTEREST_OPTION_NAME);
-            $profile = (array) $pinterest[(int) $profile];
+            if( isset( $pinterest[(int) $profile] ) ) {
+                $profile = (array) $pinterest[(int) $profile];
+            }else{
+                return;
+            }
         }
-
+       
         $pinterest = new \DirkGroenen\Pinterest\Pinterest($profile['app_id'], $profile['app_secret']);
         $pinterest->auth->setOAuthToken($profile['access_token']);
+        
         $sections = $pinterest->sections->get($defaultBoard, [
             'page_size' => 100,
         ]);
         $sections = $sections->toArray();
-
+        if( !empty( $params['method_called'] ) ) {
+            return $sections['data'];
+            wp_die();
+        }
         wp_send_json_success($sections['data']);
         wp_die();
+    }
+
+
+    public function social_fetch_pinterest_section_array( $board_id, $section_id ) {
+        $pinterest = \WPSP\Helper::get_social_profile(WPSCP_PINTEREST_OPTION_NAME);
+        // Use array_filter to find the object based on default_board_name->value
+        $filteredData = array_filter($pinterest, function ($item) use ($board_id) {
+            return isset($item->default_board_name->value) && $item->default_board_name->value == $board_id;
+        });
+        $profile = reset($filteredData);
+        $pinterest_profile = new \DirkGroenen\Pinterest\Pinterest($profile->app_id, $profile->app_secret);
+        $pinterest_profile->auth->setOAuthToken($profile->access_token);
+        $sections = $pinterest_profile->sections->get( intval($board_id), [
+            'page_size' => 100,
+        ]);
+        $sections = $sections->toArray();
+        if( !empty( $sections['data'] ) ) {
+            $filteredSection = array_filter($sections['data'], function ($item) use ($section_id) {
+                return isset($item['id']) && $item['id'] == $section_id;
+            });
+            $filteredSection = reset($filteredSection);
+            return [
+                'label' => $filteredSection['name'],
+                'value' => $filteredSection['id'],
+                'board' => $board_id,
+            ];
+        }
     }
 
     /**
