@@ -6,6 +6,7 @@ use WP;
 use WPSP\Helper;
 use WP_REST_Response;
 use WP_Error;
+use WPSP_PRO\Scheduled\Published;
 
 class Calendar
 {
@@ -307,7 +308,41 @@ class Calendar
 
         $allData = $this->calendar_view($posts_1, $allData);
         $allData = $this->calendar_view($posts_2, $allData, true);
+        $allData = $this->advanced_scheduled_view($posts_1, $allData);
         return $allData;
+    }
+
+    protected function advanced_scheduled_view( $posts, $allData ) {
+        global $post;
+        if ($posts && is_array($posts)) {
+            foreach ( $posts as $post ) {
+                setup_postdata( $post );
+                $advance_schedule_date = $this->wpsp_get_advance_schedule_date( get_the_ID() );
+                if(empty($advance_schedule_date)){
+                    continue;
+                }
+                $allData[] = $this->get_advanced_post_data();
+            }
+            wp_reset_postdata();
+        }
+        return $allData;
+    }
+
+    public function get_advanced_post_data(){
+        $advance_schedule_date = $this->wpsp_get_advance_schedule_date( get_the_ID() );
+        $advance_schedule_date = get_gmt_from_date( $advance_schedule_date, 'Y-m-d H:i:s' );
+        return array(
+            'postId'   => get_the_ID(),
+            'title'    => wp_trim_words(get_the_title(), 3, '...'),
+            'href'     => get_the_permalink(),
+            'edit'     => get_edit_post_link(get_the_ID(), null),
+            'postType' => get_post_type(),
+            'status'   => $this->get_post_status(get_the_ID(), false, true),
+            'postTime' => $this->get_post_time('g:i a', $advance_schedule_date),
+            'start'    => $this->get_post_time('Y-m-d 00:00:00', $advance_schedule_date),
+            'end'      => $this->get_post_time('Y-m-d H:i:s', $advance_schedule_date),
+            'allDay'   => false,
+        );
     }
 
     protected function calendar_view($posts, $allData, $republish = false){
@@ -357,14 +392,18 @@ class Calendar
         }
     }
 
-    public function get_post_status($post_id, $republish = false){
+    public function get_post_status($post_id, $republish = false, $adv = false){
         $status         = get_post_status($post_id);
         $scheduled      = get_post_meta($post_id, 'wpscp_pending_schedule', true);
         $el_scheduled   = get_post_meta($post_id, 'wpscp_el_pending_schedule', true);
         $republish_date = $republish ? get_post_meta($post_id, '_wpscp_schedule_republish_date', true) : null;
+        $adv_date = $adv ? $this->wpsp_get_advance_schedule_date( $post_id ) : null;
 
         if($status == 'publish' && !empty($republish_date)){
             $status = 'Republish';
+        }
+        else if($status == 'publish' && !empty($adv_date)){
+            $status = 'Adv. Scheduled';
         }
         else if($status == 'future' && !empty($el_scheduled['post_time'])){
             $status = 'Advanced Scheduled';
@@ -380,6 +419,15 @@ class Calendar
         }
 
         return ucwords($status);
+    }
+
+    public function wpsp_get_advance_schedule_date( $post_id ) {
+        $advance_schedule_date = get_post_meta( $post_id, '_wpscppro_advance_schedule_date', true);
+        $wpsp_scheduled_data = get_post_meta( $post_id, 'wpscp_pending_schedule',true );
+        if( empty( $advance_schedule_date ) && !empty( $wpsp_scheduled_data['meta']['_wpscppro_advance_schedule_date'] ) ) {
+            $advance_schedule_date = $wpsp_scheduled_data['meta']['_wpscppro_advance_schedule_date'];
+        }
+        return $advance_schedule_date;
     }
 
     /**
@@ -593,10 +641,19 @@ class Calendar
     public function delete_event_action($request)
     {
         $postId = $request->get_param('ID');
+        $status = $request->get_param('status');
+
         if ($postId != "") {
             $allow_post_types = Helper::get_settings('allow_post_types');
             if(!in_array(get_post_type($postId), $allow_post_types)){
                 return new WP_Error('rest_post_update_error', __('Post type isn\'t allowed in Settings page.', 'wp-scheduled-posts'), array('status' => 400));
+            }
+            
+            if( 'Adv. Scheduled' == $status ) {
+                $published = new Published();
+                $published->wpscp_pending_schedule_fn($postId);
+                $response = array('message' => 'Advanced schedule removed', 'id' => $postId, 'status' => $status );
+                return new WP_REST_Response($response, 200);
             }
 
             $result = wp_delete_post($postId, false);
@@ -604,7 +661,7 @@ class Calendar
                 $error = new WP_Error('delete_failed', 'Failed to delete post', array('status' => 500));
                 return new WP_REST_Response($error, 500);
             }
-            $response = array('message' => 'Post deleted successfully', 'id' => $postId);
+            $response = array('message' => 'Post deleted successfully', 'id' => $postId, 'status' => $status);
             return new WP_REST_Response($response, 200);
         }
         $error = new WP_Error('missing_id', 'ID parameter is missing', array('status' => 400));

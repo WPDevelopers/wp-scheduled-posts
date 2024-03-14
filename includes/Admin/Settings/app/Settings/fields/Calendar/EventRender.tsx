@@ -6,6 +6,7 @@ import { addQueryArgs } from '@wordpress/url';
 import React, { useEffect, useState } from 'react';
 import { SweetAlertDeleteMsgForPost } from '../../ToasterMsg';
 import { PostCardProps, PostType, WP_Error } from './types';
+import { __ } from '@wordpress/i18n';
 
 
 export const getPostFromEvent = (event: EventApi, dateString = false) => {
@@ -66,18 +67,24 @@ const PostCard: React.FC<PostCardProps> = ({
     setStatus( post.status );
   };  
 
-  const deletePost = (id) => {
+  const deletePost = (id, status) => {
     // @todo add confirm dialog.
 
     return apiFetch({
-      path: addQueryArgs('/wpscp/v1/post', { ID: id }),
+      path: addQueryArgs('/wpscp/v1/post', { ID: id, status }),
       method: 'DELETE',
       // data: query,
-    }).then((data: {id: string, message: string} | WP_Error) => {
+    }).then((data: {id: string, message: string, status : string} | WP_Error) => {
       if('id' in data) {
         setEvents((events) => {
           return events.filter((event) => {
-            return event.postId !== parseInt(data.id);
+            if( data.status == 'Adv. Scheduled' ) {
+              if( event.postId == parseInt(data.id) && event.status == data.status ) {
+                return false;
+              }
+              return true;
+            }
+            return (event.postId !== parseInt(data.id) && event.status != data.status);
           });
         });
         // @todo show success message.
@@ -87,13 +94,17 @@ const PostCard: React.FC<PostCardProps> = ({
       }
     });
   };
-  const handlePostDelete = (item) => {
-    SweetAlertDeleteMsgForPost( { item }, deleteFile );
+  const handlePostDelete = (item) => {    
+    if( item.status == "Adv. Scheduled" ) {
+      SweetAlertDeleteMsgForPost( { item, text : __('Your Advanced scheduled data will be delete!'), buttonText :  __('Delete Scheduled Data!') }, deleteFile );
+    }else{
+      SweetAlertDeleteMsgForPost( { item }, deleteFile );
+    }
   }
 
   const deleteFile = (item) => {
     toggleEditArea();
-    return deletePost(item.postId);
+    return deletePost(item.postId, item.status);
   };
 
   const addEventListeners = () => {
@@ -154,7 +165,8 @@ const PostCard: React.FC<PostCardProps> = ({
               Edit
             </Button>
           </li>
-          <li>
+          { status != 'Adv. Scheduled' &&
+            <li>
             <Button
               variant="secondary"
               onClick={(event) => {
@@ -165,7 +177,9 @@ const PostCard: React.FC<PostCardProps> = ({
             >
               Quick Edit
             </Button>
-          </li>
+            </li>
+          }
+          
           <li>
             <Button
               variant="secondary"
