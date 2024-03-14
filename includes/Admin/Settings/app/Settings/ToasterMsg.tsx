@@ -104,10 +104,10 @@ export const SweetAlertDeleteMsgForPost = ( args: any = {}, deleteFile? ) => {
     if (result.isConfirmed) {
       args.item.action_type = 'delete';
       args.item.classes     = 'wpsp-toast-delete';
-      deleteFile(args?.item)?.then((res) => {
+      deleteFile(args?.item)?.then((res) => {        
         SweetAlertToaster({
             type : 'success',
-            title : __( 'Your posts has been deleted', 'wp-scheduled-posts' ),
+            title : args?.successTitle ?? __( 'Your posts has been deleted', 'wp-scheduled-posts' ),
         }).fire();
       })
       .catch((err) => {
@@ -126,7 +126,7 @@ export const SweetAlertDeleteMsgForPost = ( args: any = {}, deleteFile? ) => {
             type       : 'success',
             action_type: 'trash',
             classes    : 'wpsp-toast-trash',
-            title      : __( 'Your post has been moved to trash', 'wp-scheduled-posts' ),
+            title      : args?.successTitle ?? __( 'Your post has been moved to trash', 'wp-scheduled-posts' ),
         }).fire();
       })
       .catch((err) => {

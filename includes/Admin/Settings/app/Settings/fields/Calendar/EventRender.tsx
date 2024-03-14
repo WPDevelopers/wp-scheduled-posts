@@ -48,15 +48,15 @@ export const eventDrop = (event: EventApi, eventType) => {
   });
 }
 
-const PostCard: React.FC<PostCardProps> = ({
+const PostCard = ({
   post,
   editAreaToggle,
   setEditAreaToggle,
   openModal,
   setEvents,
   getPostTypeColor,
-  status,
-  setStatus,
+  status = null,
+  setStatus = null,
 }) => {
   const postColor = getPostTypeColor(post.postType);
   
@@ -96,7 +96,12 @@ const PostCard: React.FC<PostCardProps> = ({
   };
   const handlePostDelete = (item) => {    
     if( item.status == "Adv. Scheduled" ) {
-      SweetAlertDeleteMsgForPost( { item, text : __('Your Advanced scheduled data will be delete!'), buttonText :  __('Delete Scheduled Data!') }, deleteFile );
+      SweetAlertDeleteMsgForPost( 
+          { item, 
+            text        : __('Your Advanced scheduled data will be delete!', 'wp-scheduled-posts'),
+            successTitle: __('Your scheduled data has been deleted!', 'wp-scheduled-posts'),
+            buttonText  : __('Delete Scheduled Data!', 'wp-scheduled-posts')
+        }, deleteFile );
     }else{
       SweetAlertDeleteMsgForPost( { item }, deleteFile );
     }
