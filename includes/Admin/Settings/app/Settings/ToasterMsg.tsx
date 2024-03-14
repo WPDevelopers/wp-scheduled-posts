@@ -95,7 +95,7 @@ export const SweetAlertDeleteMsgForPost = ( args: any = {}, deleteFile? ) => {
       confirmButtonColor: args?.confirmButtonColor ?? '#3085d6',
       cancelButtonColor: args?.cancelButtonColor ?? '#d33',
       cancelButtonText: '<i class="wpsp-icon wpsp-close"></i>',
-      denyButtonText: __('Move to Trash', 'wp-scheduled-posts'),
+      denyButtonText: args?.buttonText ?? __('Move to Trash', 'wp-scheduled-posts'),
       confirmButtonText: args?.confirmButtonText ?? __('Yes, Delete it!', 'wp-scheduled-posts'),
       customClass: {
         container     : 'wpsp-post-delete-container',
@@ -104,10 +104,10 @@ export const SweetAlertDeleteMsgForPost = ( args: any = {}, deleteFile? ) => {
     if (result.isConfirmed) {
       args.item.action_type = 'delete';
       args.item.classes     = 'wpsp-toast-delete';
-      deleteFile(args?.item)?.then((res) => {
+      deleteFile(args?.item)?.then((res) => {        
         SweetAlertToaster({
             type : 'success',
-            title : __( 'Your posts has been deleted', 'wp-scheduled-posts' ),
+            title : args?.successTitle ?? __( 'Your posts has been deleted', 'wp-scheduled-posts' ),
         }).fire();
       })
       .catch((err) => {
@@ -126,7 +126,7 @@ export const SweetAlertDeleteMsgForPost = ( args: any = {}, deleteFile? ) => {
             type       : 'success',
             action_type: 'trash',
             classes    : 'wpsp-toast-trash',
-            title      : __( 'Your post has been moved to trash', 'wp-scheduled-posts' ),
+            title      : args?.successTitle ?? __( 'Your post has been moved to trash', 'wp-scheduled-posts' ),
         }).fire();
       })
       .catch((err) => {
