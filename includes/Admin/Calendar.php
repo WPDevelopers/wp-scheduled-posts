@@ -364,8 +364,11 @@ class Calendar
     }
 
     public function get_post_data($republish = false){
-        $republish_date = $republish ? get_post_meta(get_the_ID(), '_wpscp_schedule_republish_date', true) : null;
-        $republish_date = get_gmt_from_date( $republish_date, 'Y-m-d H:i:s' );
+        $republish_date = '';
+        if( $republish ) {
+            $republish_date = $republish ? get_post_meta(get_the_ID(), '_wpscp_schedule_republish_date', true) : null;
+            $republish_date = get_gmt_from_date( $republish_date, 'Y-m-d H:i:s' );
+        }
         return array(
             'postId'   => get_the_ID(),
             'title'    => wp_trim_words(get_the_title(), 3, '...'),
