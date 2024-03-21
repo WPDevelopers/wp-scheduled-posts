@@ -15,6 +15,7 @@ const Sidebar = ({selectedPostType, draftEvents: posts, setDraftEvents: setPosts
   // Define your state variables
   const [optionSelected, setOptionSelected] = useState([]);
   const [editAreaToggle, setEditAreaToggle] = useState([]);
+  const [status, setStatus] = useState( null );
 
   const [modalData, openModal] = useState<ModalProps>({ post: null, eventType: null });
   const onSubmit = (data: any, oldData) => {
@@ -92,6 +93,8 @@ const Sidebar = ({selectedPostType, draftEvents: posts, setDraftEvents: setPosts
                   openModal={(modalData) => openModal({ ...modalData, eventType: 'editDraft' })}
                   setEvents={setPosts}
                   getPostTypeColor={getPostTypeColor}
+                  status={ status }
+                  setStatus={ setStatus }
                 />
               </div>
             )

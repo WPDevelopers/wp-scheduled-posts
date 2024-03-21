@@ -84,7 +84,7 @@ const PostCard = ({
               }
               return true;
             }
-            return (event.postId !== parseInt(data.id) && event.status != data.status);
+            return (event.postId !== parseInt(data.id));
           });
         });
         // @todo show success message.
