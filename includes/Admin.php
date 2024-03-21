@@ -486,23 +486,23 @@ class Admin
 
         // profile
         $facebookProfile = \WPSP\Helper::get_settings('facebook_profile_list');
-        if( !class_exists('WPSP_PRO') ) {
+        if( !class_exists('WPSP_PRO') && is_array( $facebookProfile ) ) {
             $facebookProfile = array_slice( $facebookProfile, 0, 1, true );
         }
 
         $twitterProfile = \WPSP\Helper::get_settings('twitter_profile_list');
-        if( !class_exists('WPSP_PRO') ) {
+        if( !class_exists('WPSP_PRO') && is_array( $twitterProfile ) ) {
             $twitterProfile = array_slice( $twitterProfile, 0, 1, true );
         }
         $linkedinProfile = \WPSP\Helper::get_settings('linkedin_profile_list');
-        if( !class_exists('WPSP_PRO') ) {
+        if( !class_exists('WPSP_PRO') && is_array( $linkedinProfile ) ) {
             $linkedinProfile = array_filter($linkedinProfile, function($single_linkedin) {
                 return $single_linkedin->type == 'person';
             });
             $linkedinProfile = array_slice( $linkedinProfile, 0, 1, true );
         }
         $pinterestProfile = \WPSP\Helper::get_settings('pinterest_profile_list');
-        if( !class_exists('WPSP_PRO') ) {
+        if( !class_exists('WPSP_PRO') && is_array( $pinterestProfile ) ) {
             $pinterestProfile = array_slice( $pinterestProfile, 0, 1, true );
         }
 
