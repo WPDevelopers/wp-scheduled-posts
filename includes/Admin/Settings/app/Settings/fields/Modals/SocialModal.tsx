@@ -79,7 +79,7 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
         }
         setProfileDataModal(false);
     };
-    // Add linkedin prifle
+    // Add linkedin profile
     const addProfileToggle = (item, index, e) => {
         if( e.target.checked ) {
             // free
@@ -99,8 +99,30 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
             } else {
                 if ( savedProfile && !savedProfile.some((profile) => profile.id === item.id)) {
                     item.status = profileStatus;
-                    setSavedProfile((prevItems) => [...prevItems, item]);
-                    setIsErrorMessage(false)
+                    // Update access token
+                    if( type == 'linkedin' ) {
+                        // Find the matching item in savedProfile and update its access_token
+                        let updatedSavedProfile = savedProfile.map(savedItem => {
+                            if( item.type == 'person' ) {
+                                if (savedItem.profile_id === item.id) {
+                                    return { ...savedItem, access_token: item.access_token };
+                                }
+                                return savedItem;
+                            }else{
+                                if (savedItem.id === item.profile_id) {
+                                    return { ...savedItem, access_token: item.access_token };
+                                }
+                                return savedItem;
+                            }
+                            
+                        });
+                        updatedSavedProfile.push(item);
+                        setSavedProfile(updatedSavedProfile);
+                        setIsErrorMessage(false)
+                    }else{
+                        setIsErrorMessage(false)
+                        setSavedProfile((prevItems) => [...prevItems, item]);
+                    }
                 }
             }
         }else{
