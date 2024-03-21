@@ -49,7 +49,23 @@ class SocialProfile
             }
 
         }, 10, 3);
+        // add profile id to linkedin page
+        add_filter('wpsp_filter_linkedin_pages', [ $this, 'filter_linkedin_page_data' ], 10, 2);
+    }
 
+    // Function to add LinkedIn profile ID to a page
+    public function wpsp_add_linkedin_profile_id_to_page( $page, $profile ) {
+        if( !empty( $profile['id'] ) ) {
+            $page['profile_id'] = $profile['id'];
+        }
+        return $page;
+    }
+
+    // Function to filter LinkedIn page data
+    public function filter_linkedin_page_data( $pages, $profile ) {
+        return array_map(function($page) use ($profile) {
+            return $this->wpsp_add_linkedin_profile_id_to_page($page, $profile);
+        }, $pages);
     }
 
     public function social_single_profile_checkpoint($platform)
@@ -320,25 +336,31 @@ class SocialProfile
                 if( (empty($access_token) || $access_token == 'null') && !empty($code)){
                     $accessToken = $linkedin->getAccessToken($code);
                     $access_token = $accessToken->access_token;
+                    if( !empty( $accessToken->refresh_token ) ) {
+                        $refresh_token = $accessToken->refresh_token;
+                    }
                 }
+
                 $pages    = $linkedin->getCompanyPages($access_token);
                 if( $openIDConnect && $openIDConnect !== 'false' && $openIDConnect !== 'undefined' ) {
                     $profiles = $linkedin->userinfo($access_token);
                 }else{
                     $profiles = $linkedin->getPerson($access_token);
                 }
-
+                $pages = apply_filters('wpsp_filter_linkedin_pages', $pages, $profiles);
                 $info = array(
-                    'app_id'       => $app_id,
-                    'app_secret'   => $app_secret,
-                    'status'       => true,
-                    'redirectURI'  => $redirectURI,
-                    'access_token' => $access_token,
-                    'expires_in'   => $expires_in,
-                    'profiles'     => [$profiles],
-                    'pages'        => $pages,
-                    'added_by'     => $current_user->user_login,
-                    'added_date'   => current_time('mysql'),
+                    'app_id'        => $app_id,
+                    'app_secret'    => $app_secret,
+                    'status'        => true,
+                    'redirectURI'   => $redirectURI,
+                    'access_token'  => $access_token,
+                    'refresh_token' => $refresh_token,
+                    'rt_expires_in' => $rt_expires_in,
+                    'expires_in'    => $expires_in,
+                    'profiles'      => [$profiles],
+                    'pages'         => $pages,
+                    'added_by'      => $current_user->user_login,
+                    'added_date'    => current_time('mysql'),
                 );
                 // if app id is exists then app secret, redirect uri will be also there, it will be delete after approve real app
                 if (!empty($app_id)) {
