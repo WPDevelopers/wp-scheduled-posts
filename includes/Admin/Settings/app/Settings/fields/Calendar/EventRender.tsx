@@ -98,7 +98,7 @@ const PostCard = ({
     if( item.status == "Adv. Scheduled" ) {
       SweetAlertDeleteMsgForPost( 
           { item, 
-            text        : __('Your Advanced scheduled data will be delete!', 'wp-scheduled-posts'),
+            text        : __('Deleting Advanced Scheduling will result in the loss of any changes made using this feature.', 'wp-scheduled-posts'),
             successTitle: __('Your scheduled data has been deleted!', 'wp-scheduled-posts'),
             buttonText  : __('Delete Scheduled Data!', 'wp-scheduled-posts')
         }, deleteFile );
