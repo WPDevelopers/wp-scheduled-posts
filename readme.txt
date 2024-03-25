@@ -209,12 +209,9 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 == Changelog ==
 
 = 5.0.10 - 2024-03-25 =
-- Added: WordPress 6.5 compatibility.
-- Added: Social Media selection option for Elementor.
-- Improved: Security Enhancement for better performance.
-- Improved: Overall social sharing option.
-- Improved: LinkedIn API versioning.
-- Few minor bug fix & improvements.
+- Improved: Social Media authentication process.
+- Fixed: Uncaught TypeError: array_slice().
+- Few minor bug fixes & improvements.
 
 = 5.0.9 - 2024-03-07 =
 - Added: Social Media selection option for Elementor.
