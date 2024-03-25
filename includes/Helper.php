@@ -305,6 +305,26 @@ class Helper
         return  array_slice($profile, 0, 1);
     }
 
+
+    public static function update_access_token( $type, $platformKey, $access_token ) {
+        global $wpsp_settings_v5;
+        $platformOptions = [
+            'facebook'  => WPSCP_FACEBOOK_OPTION_NAME,
+            'twitter'   => WPSCP_TWITTER_OPTION_NAME,
+            'linkedin'  => WPSCP_LINKEDIN_OPTION_NAME,
+            'pinterest' => WPSCP_PINTEREST_OPTION_NAME,
+        ];
+
+        $opt_name = isset($platformOptions[$type]) ? $platformOptions[$type] : '';
+        if(empty($wpsp_settings_v5->{$opt_name}[$platformKey])) return $access_token;
+        $profile  = &$wpsp_settings_v5->{$opt_name}[$platformKey];
+
+        if( isset( $access_token ) ){
+            $profile->access_token = $access_token;
+            update_option(WPSP_SETTINGS_NAME, json_encode($wpsp_settings_v5));
+        }
+    }
+
     /**
      * generate access token from refresh token.
      *
