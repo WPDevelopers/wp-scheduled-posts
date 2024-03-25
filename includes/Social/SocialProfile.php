@@ -445,7 +445,7 @@ class SocialProfile
                     $redirectURI,
                     $code
                 );
-
+                $userAcessToken = '';
                 if ($tempAccessToken != "") {
                     $response = wp_remote_get('https://graph.facebook.com/v6.0/oauth/access_token?grant_type=fb_exchange_token&client_id=' . $app_id . '&client_secret=' . $app_secret . '&fb_exchange_token=' . $tempAccessToken . '');
                     if (is_array($response)) {
@@ -464,16 +464,17 @@ class SocialProfile
                 if (is_array($userInfo->accounts->data) && count($userInfo->accounts->data) > 0) {
                     foreach ($userInfo->accounts->data as $page_item) {
                         array_push($page_array, array(
-                            'id' => $page_item->id,
-                            'app_id' => $app_id,
-                            'app_secret' => $app_secret,
-                            'name' => $page_item->name,
-                            'thumbnail_url' => $page_item->picture->data->url,
-                            'type' => 'page',
-                            'status' => true,
-                            'access_token' => $page_item->access_token,
-                            'added_by' => $current_user->user_login,
-                            'added_date'    => current_time('mysql')
+                            'id'                      => $page_item->id,
+                            'app_id'                  => $app_id,
+                            'app_secret'              => $app_secret,
+                            'name'                    => $page_item->name,
+                            'thumbnail_url'           => $page_item->picture->data->url,
+                            'type'                    => 'page',
+                            'status'                  => true,
+                            'access_token'            => $page_item->access_token,
+                            'long_lived_access_token' => $userAcessToken,
+                            'added_by'                => $current_user->user_login,
+                            'added_date'              => current_time('mysql')
                         ));
                     }
                 }

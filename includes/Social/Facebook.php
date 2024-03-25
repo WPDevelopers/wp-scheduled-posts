@@ -213,6 +213,9 @@ class Facebook
             }
         }
 
+        // get long lived access token 
+        $facebook = \WPSP\Helper::get_social_profile(WPSCP_FACEBOOK_OPTION_NAME);
+        $long_lived_access_token = !empty( $facebook[$profile_key]->long_lived_access_token ) ? $facebook[$profile_key]->long_lived_access_token : '';
 
         // check post is skip social sharing
         if (empty($app_id) || empty($app_secret) || $dont_share  == 'on' || $dont_share == 1 ) {
@@ -270,7 +273,15 @@ class Facebook
                     // Returns a `Facebook\FacebookResponse` object
                     $response = $fb->post('/' . $ID . '/feed', $linkData, $app_access_token);
                     $isError = $response->isError();
-                    if ($isError == false) {
+                    if(  $isError == true ) {
+                        $page_access_token = $fb->get('/' . $ID . '?fields=access_token', $long_lived_access_token)->getGraphNode()->getField('access_token');
+                        if( !empty( $page_access_token ) ) {
+                            Helper::update_access_token( 'facebook', $profile_key, $page_access_token );
+                            $response = $fb->post('/' . $ID . '/feed', $linkData, $page_access_token);
+                            $isError = $response->isError();
+                        }
+                    }
+                    if( $isError == false ) {
                         $graphNode = $response->getGraphNode();
                         $shareInfo = array(
                             'share_id' => $graphNode['id'],
