@@ -290,6 +290,8 @@ final class WPSP
 	public function whitelist_API($endpoints)
 	{
 		$endpoints[] = '/wp-json/wp-scheduled-posts/v1/*';
+		$endpoints[] = '/wp-json/wp-scheduled-posts-pro/v1/*';
+		$endpoints[] = '/wpscp/v1/*';
 		$endpoints[] = '/index.php?rest_route=/wp-scheduled-posts/v1/*';
 		return $endpoints;
 	}
