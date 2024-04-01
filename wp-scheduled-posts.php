@@ -260,8 +260,10 @@ final class WPSP
 	 * @return void
 	 */
 	public function upgrade_completed( $upgrader_object, $options){
-		if ($options['action'] == 'update' && $options['type'] == 'plugin' && in_array(WPSP_PLUGIN_BASENAME, $options['plugins'])) {
-			$this->delete_plugin_update_transient();
+		if( !empty( $options['plugins'] ) && !empty( $options['action'] ) && !empty( $options['type'] ) ) {
+			if ($options['action'] == 'update' && $options['type'] == 'plugin' && in_array(WPSP_PLUGIN_BASENAME, $options['plugins'])) {
+				$this->delete_plugin_update_transient();
+			}
 		}
 	}
 
