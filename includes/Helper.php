@@ -16,6 +16,7 @@ class Helper
         if( in_array( 'all', $allow_post_types ) ) {
             $allow_post_types = self::get_all_post_type();
         }
+        $allow_post_types = array_values( $allow_post_types );
         return $allow_post_types;
     }
 
