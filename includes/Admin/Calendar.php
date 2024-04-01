@@ -148,7 +148,7 @@ class Calendar
         $post_type        = !empty($post_type) ? $post_type : [];
         $taxonomies       = $request->get_param('taxonomy');
         $taxonomies       = !empty($taxonomies) ? $taxonomies : [];
-        $allow_post_types = Helper::get_settings('allow_post_types');
+        $allow_post_types = Helper::get_all_allowed_post_type();
 
         if(empty($post_type)){
             $post_type = $allow_post_types;
@@ -188,7 +188,7 @@ class Calendar
 
     public function get_tax_terms($request){
         $post_types       = $request->get_param('post_type');
-        $allow_post_types = Helper::get_settings('allow_post_types');
+        $allow_post_types = Helper::get_all_allowed_post_type();
         $allow_categories = Helper::get_settings('allow_categories');
         $allow_post_types = (!empty($allow_post_types) ? $allow_post_types : array('post'));
         $post_types       = array_intersect($post_types, $allow_post_types);
@@ -245,7 +245,7 @@ class Calendar
         $post_type  = $request->get_param('post_type');
         $taxonomies = $request->get_param('taxonomy');
         $taxonomies = !empty($taxonomies) ? $taxonomies : [];
-        $allow_post_types = \WPSP\Helper::get_settings('allow_post_types');
+        $allow_post_types = \WPSP\Helper::get_all_allowed_post_type();
 
         if(empty($post_type)){
             $post_type = $allow_post_types;
@@ -441,7 +441,7 @@ class Calendar
      */
     public function calender_ajax_request_php($request)
     {
-        $allow_post_types = Helper::get_settings('allow_post_types');
+        $allow_post_types = Helper::get_all_allowed_post_type();
         $calendar_schedule_time = \WPSP\Helper::get_settings('calendar_schedule_time');
         $_post_status           = $request->get_param('post_status');
         $post_status            = $_post_status;
@@ -618,7 +618,7 @@ class Calendar
      */
     function quick_edit_get_post( $request ) {
         $post_id          = $request->get_param('postId');
-        $allow_post_types = Helper::get_settings('allow_post_types');
+        $allow_post_types = Helper::get_all_allowed_post_type();
 
         if(!in_array(get_post_type($post_id), $allow_post_types)){
             return new WP_Error('rest_post_update_error', __('Post type isn\'t allowed in Settings page.', 'wp-scheduled-posts'), array('status' => 400));
@@ -647,7 +647,7 @@ class Calendar
         $status = $request->get_param('status');
 
         if ($postId != "") {
-            $allow_post_types = Helper::get_settings('allow_post_types');
+            $allow_post_types = Helper::get_all_allowed_post_type();
             if(!in_array(get_post_type($postId), $allow_post_types)){
                 return new WP_Error('rest_post_update_error', __('Post type isn\'t allowed in Settings page.', 'wp-scheduled-posts'), array('status' => 400));
             }

@@ -42,7 +42,7 @@ class Menu
      */
     public function add_sub_menu_for_calendar_supported_post_type()
     {
-        $allow_post_types = \WPSP\Helper::get_settings('allow_post_types');
+        $allow_post_types = \WPSP\Helper::get_all_allowed_post_type();
         if (is_array($allow_post_types)) {
             foreach ($allow_post_types as $post_type) {
                 $extra = '';

@@ -19,7 +19,7 @@ class InstantShare
     }
     public function instant_share_metabox()
     {
-        $allow_post_types = \WPSP\Helper::get_settings('allow_post_types');
+        $allow_post_types = \WPSP\Helper::get_all_allowed_post_type();
         $allow_post_types = (!empty($allow_post_types) ? $allow_post_types : array('post'));
         if( Helper::is_enable_classic_editor() ) {
             add_meta_box('WpScp_instantshare_meta_box', __('Social Share Settings', 'wp-scheduled-posts'), array($this, 'instant_share_metabox_markup'), $allow_post_types, 'side', 'low');
