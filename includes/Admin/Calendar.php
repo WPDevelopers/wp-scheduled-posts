@@ -654,7 +654,7 @@ class Calendar
             
             if( 'Adv. Scheduled' == $status ) {
                 $published = new Published();
-                $published->wpscp_pending_schedule_fn($postId);
+                $published->wpscp_pending_schedule_fn($postId, $status );
                 $response = array('message' => 'Advanced schedule removed', 'id' => $postId, 'status' => $status );
                 return new WP_REST_Response($response, 200);
             }
