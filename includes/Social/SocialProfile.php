@@ -23,7 +23,7 @@ class SocialProfile
         $this->multiProfileErrorMessage = '<p>' . esc_html__('Multi Profile is a Premium Feature. To use this feature, Upgrade to Pro.', 'wp-scheduled-posts') . '</p><a target="_blank" href="https://schedulepress.com/#pricing">Upgrade to Pro</a>';
 
 
-		$allow_post_types = \WPSP\Helper::get_settings('allow_post_types');
+		$allow_post_types = \WPSP\Helper::get_all_allowed_post_type();
         /** @var array */
 		$post_types = (!empty($allow_post_types) ? $allow_post_types : array());
 

@@ -44,7 +44,7 @@ class Settings
         add_action('rest_api_init', array($this, 'meta_rest_api'));
     }
     public function meta_rest_api() {
-        $allow_post_types = \WPSP\Helper::get_settings('allow_post_types');
+        $allow_post_types = \WPSP\Helper::get_all_allowed_post_type();
 		$allow_post_types = (!empty($allow_post_types) ? $allow_post_types : array('post'));
         foreach ($allow_post_types as $type) {
             register_post_meta(
