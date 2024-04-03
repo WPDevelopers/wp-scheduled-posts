@@ -13,6 +13,9 @@ class Helper
 
     public static function get_all_allowed_post_type() {
         $allow_post_types = \WPSP\Helper::get_settings('allow_post_types');
+        if( !is_array( $allow_post_types ) ) {
+            return self::get_all_post_type();
+        }
         if( in_array( 'all', $allow_post_types ) ) {
             $allow_post_types = self::get_all_post_type();
         }
