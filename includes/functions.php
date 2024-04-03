@@ -197,7 +197,7 @@ if (!function_exists('wpscp_prevent_future_post_markup')) {
 
 		$status = get_post_status($postid);
 
-		if ($status !== 'publish') {
+		if ($status === 'future' ) {
 
 			?>
 			<div style="padding:10px;" id="prevent_future_post_box">
