@@ -4,7 +4,7 @@ Tags: post schedule, schedule calendar, auto scheduler, auto sharing, social sha
 Requires at least: 4.0
 Tested up to: 6.5
 Requires PHP: 7.2
-Stable tag: 5.0.10
+Stable tag: 5.0.11
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -208,6 +208,12 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 == Changelog ==
 
+= 5.0.11 - 2024-03-25 =
+- Fixed: Conflict with JWT Auth plugin.
+- Fixed: Post type 'All' was not working.
+- Fixed: Uncaught TypeError: in_array().
+- Few minor bug fixes & improvements.
+
 = 5.0.10 - 2024-03-25 =
 - Improved: Social Media authentication process.
 - Fixed: Uncaught TypeError: array_slice().
@@ -218,11 +224,6 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 - Improved: Security Enhancement.
 - Improved: Overall social sharing option.
 - Improved: LinkedIn API versioning.
-- Few minor bug fix & improvements.
-
-= 5.0.8 - 2024-02-25 =
-- Updated: Security patch for better performance.
-- Improved: SchedulePress calendar preview.
 - Few minor bug fix & improvements.
 
 [See changelog for all versions](https://schedulepress.com/changelog)
