@@ -25,15 +25,16 @@ class Helper
         $post_types       = [];
         $allow_post_types = \WPSP\Helper::get_settings('allow_post_types');
         $allow_post_types = (!empty($allow_post_types) ? $allow_post_types : array('post'));
+        if( !is_array( $allow_post_types ) ) {
+            return self::get_all_post_type();
+        }
         if( in_array( 'all', $allow_post_types ) ) {
             $allow_post_types = self::get_all_post_type();
         }
-        if (is_array($allow_post_types)) {
-            foreach ($allow_post_types as $post_type) {
-                $post_type_object       = get_post_type_object($post_type);
-                if(!empty($post_type_object)){
-                    $post_types[$post_type] = $post_type_object->label;
-                }
+        foreach ($allow_post_types as $post_type) {
+            $post_type_object       = get_post_type_object($post_type);
+            if(!empty($post_type_object)){
+                $post_types[$post_type] = $post_type_object->label;
             }
         }
         return $post_types;
