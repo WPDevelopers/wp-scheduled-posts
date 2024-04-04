@@ -208,7 +208,7 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 == Changelog ==
 
-= 5.0.11 - 2024-03-25 =
+= 5.0.11 - 2024-04-04 =
 - Fixed: Conflict with JWT Auth plugin.
 - Fixed: Post type 'All' was not working.
 - Fixed: Uncaught TypeError: in_array().
