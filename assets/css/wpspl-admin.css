@@ -149,8 +149,10 @@
     text-transform: capitalize;
 }
 .interface-complementary-area a.info {
-  text-decoration: none;
-}
+    text-decoration: none;
+    margin: -1px 0px 0;
+    position: absolute;
+  }
 .interface-complementary-area .unpublish-on, .interface-complementary-area .republish-on {
     margin: 20px 0;
 }
