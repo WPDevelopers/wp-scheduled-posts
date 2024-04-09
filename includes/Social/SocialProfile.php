@@ -20,6 +20,7 @@ class SocialProfile
         add_action('wp_ajax_wpsp_social_profile_fetch_user_info_and_token', array($this, 'social_profile_fetch_user_info_and_token'));
         add_action('wp_ajax_wpsp_social_profile_fetch_pinterest_section', array($this, 'social_profile_fetch_pinterest_section'));
         add_action('social_profile_fetch_pinterest_section', array($this, 'social_profile_fetch_pinterest_section'));
+        add_filter('wpsp_instagram_data', [ $this, 'wpsp_format_instagram_profile_data' ], 10, 2);
         $this->multiProfileErrorMessage = '<p>' . esc_html__('Multi Profile is a Premium Feature. To use this feature, Upgrade to Pro.', 'wp-scheduled-posts') . '</p><a target="_blank" href="https://schedulepress.com/#pricing">Upgrade to Pro</a>';
 
 
@@ -53,6 +54,28 @@ class SocialProfile
         add_filter('wpsp_filter_linkedin_pages', [ $this, 'filter_linkedin_page_data' ], 10, 2);
     }
 
+    // Format instagram profile data 
+    public function wpsp_format_instagram_profile_data( $data, $access_token ) {
+        if( empty( $data->accounts->data ) ) {
+            return __('Something went wrong.', 'wp-scheduled-posts');
+        }
+        $connected_instagram_profiles = array_filter($data->accounts->data, function($item) {
+            return property_exists($item, 'connected_instagram_account');;
+        });
+        $instagram_profiles = [];
+        foreach ($connected_instagram_profiles as $instagram_profile) {
+            $graph_url = "https://graph.facebook.com/". $instagram_profile->connected_instagram_account->id ."?fields=name,profile_picture_url,username&access_token=" . $access_token;
+            $response = wp_remote_get($graph_url);
+            if (is_wp_error($response)) {
+                return false;
+            } else {
+                $body = wp_remote_retrieve_body($response);
+                $data = json_decode($body);
+                array_push($instagram_profiles, $data);
+            }
+        }
+        return $instagram_profiles;
+    }
     // Function to add LinkedIn profile ID to a page
     public function wpsp_add_linkedin_profile_id_to_page( $page, $profile ) {
         if( !empty( $profile['id'] ) ) {
@@ -113,6 +136,21 @@ class SocialProfile
             return $data->access_token;
         }
         return false;
+    }
+
+    public function getInstagramProfile( $access_token ) {
+        $graph_url = "https://graph.facebook.com/me?fields=accounts{connected_instagram_account,name,access_token,picture}&access_token=" . $access_token;
+
+        $response = wp_remote_get($graph_url);
+        if (is_wp_error($response)) {
+            return false;
+        } else {
+            $body = wp_remote_retrieve_body($response);
+            $data = json_decode($body);
+            $data = apply_filters('wpsp_instagram_data', $data, $access_token);
+            return $data;
+        }
+        return null;
     }
     /**
      * Facebook User Details
@@ -513,6 +551,56 @@ class SocialProfile
                 wp_send_json_error($error->getMessage());
                 wp_die();
             }
+        } else if ($type == 'instagram' && $code != "") {
+            try {
+                $tempAccessToken = $this->facebookGetAccessTokenDetails(
+                    $app_id,
+                    $app_secret,
+                    $redirectURI,
+                    $code
+                );
+                $userAcessToken = '';
+                if ($tempAccessToken != "") {
+                    $response = wp_remote_get('https://graph.facebook.com/v6.0/oauth/access_token?grant_type=fb_exchange_token&client_id=' . $app_id . '&client_secret=' . $app_secret . '&fb_exchange_token=' . $tempAccessToken . '');
+                    if (is_array($response)) {
+                        $header = $response['headers']; // array of http header lines
+                        $body = $response['body']; // use the content
+                    }
+                    $longAcessTokenBody = json_decode($body);
+                    $userAcessToken = $longAcessTokenBody->{'access_token'};
+                }
+
+                $userInfo = $this->getInstagramProfile($tempAccessToken);
+                $profile_array = array();
+                if (is_array($userInfo) && count($userInfo) > 0) {
+                    foreach ($userInfo as $profile) {
+                        array_push($profile_array, array(
+                            'id'                      => $profile->id,
+                            'app_id'                  => $app_id,
+                            'app_secret'              => $app_secret,
+                            'name'                    => $profile->name,
+                            'thumbnail_url'           => $profile->profile_picture_url,
+                            'type'                    => 'profile',
+                            'status'                  => true,
+                            'access_token'            => $profile->access_token,
+                            'long_lived_access_token' => $userAcessToken,
+                            'added_by'                => $current_user->user_login,
+                            'added_date'              => current_time('mysql')
+                        ));
+                    }
+                }
+                // response
+                $response = array(
+                    'success'  => true,
+                    'profiles' => $profile_array,
+                    'type'     => 'instagram',
+                );
+                wp_send_json($response);
+                wp_die();
+            } catch (\Exception $error) {
+                wp_send_json_error($error->getMessage());
+                wp_die();
+            }
         }
         wp_send_json_error("Option name and request type missing. please try again");
         wp_die();
@@ -634,6 +722,23 @@ class SocialProfile
                 $url = "https://www.facebook.com/dialog/oauth?client_id="
                     . $app_id . "&redirect_uri=" . urlencode($redirectURI) . "&state="
                     . $state . "&scope=" . WPSCP_FACEBOOK_SCOPE;
+                wp_send_json_success($url);
+                wp_die();
+            } catch (\Exception $error) {
+                wp_send_json_error($error->getMessage());
+                wp_die();
+            }
+        } else if( $type == 'instagram' ) {
+            if (!$this->social_single_profile_checkpoint($type)) {
+                wp_send_json_error($this->multiProfileErrorMessage);
+                wp_die();
+            }
+            try {
+                $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=' . WPSP_SETTINGS_SLUG));
+                $state = base64_encode(json_encode($request));
+                $url = "https://www.facebook.com/dialog/oauth?client_id="
+                    . $app_id . "&redirect_uri=" . urlencode($redirectURI) . "&state="
+                    . $state . "&scope=" . WPSCP_INSTAGRAM_SCOPE;
                 wp_send_json_success($url);
                 wp_die();
             } catch (\Exception $error) {

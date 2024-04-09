@@ -4,6 +4,7 @@ import Features from './Features';
 import Facebook from './Facebook';
 import Linkedin from './Linkedin';
 import Pinterest from './Pinterest';
+import Instagram from './Instagram';
 import Twitter from './Twitter';
 import CheckboxSelect from './CheckboxSelect';
 import Time from './Time';
@@ -40,6 +41,8 @@ const Field = (ret, type, props) => {
             return <Facebook {...props} />;
         case "linkedin":
             return <Linkedin {...props} />;
+        case "instagram":
+            return <Instagram {...props} />;
         case "pinterest":
             return <Pinterest {...props} />;
         case "twitter":

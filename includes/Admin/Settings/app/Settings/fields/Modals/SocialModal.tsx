@@ -7,6 +7,7 @@ import Facebook from "./Facebook";
 import Linkedin from "./Linkedin";
 import Pinterest from "./Pinterest";
 import Twitter from "./Twitter";
+import Instagram from "./Instagram";
 
 import {
     useBuilderContext,
@@ -21,6 +22,7 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
     const [fbPage, setFbPage] = useState([]);
     const [fbGroup, setFbGroup] = useState([]);
     const [pinterestBoards, setPinterestBoards] = useState([]);
+    const [instagramProfiles, setInstagramProfiles] = useState([]);
     const [responseData, setResponseData] = useState([]);
     const [linkedInData, setLinkedInData] = useState({})
     const [savedProfile,setSavedProfile] = useState(props?.value ?? []);
@@ -46,6 +48,8 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
                         builderContext.setActiveTab('layout_social_profile');
                     }
                     getProfileData(params).then(response => {
+                        console.log('res', response);
+                        
                         setRequestSending(false);
                         if( account_type == 'page' ) {
                             setFbPage(response.page);
@@ -55,6 +59,7 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
                             setFbPage(response.page);
                             setFbGroup(response.group);
                         }
+                        setInstagramProfiles(response.profiles)
                         setResponseData([response.data]);
                         setLinkedInData(response.linkedin);
                         setPinterestBoards(response.boards);
@@ -215,6 +220,7 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
         setSelectedProfile(savedProfile);
         closeProfileDataModal();
     }
+    
   return (
     <Modal
         isOpen={profileDataModal}
@@ -282,6 +288,14 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
                                     savedProfile={addSavedProfile}
                                     singlePinterestBoard={singlePinterestBoard}
                                     setProfileEditModal={setProfileEditModal}
+                                />
+                              ),
+                              instagram: (
+                                <Instagram
+                                    platform={type}
+                                    data={instagramProfiles}
+                                    addProfileToggle={addProfileToggle}
+                                    savedProfile={addSavedProfile}
                                 />
                               ),
                         }[type]

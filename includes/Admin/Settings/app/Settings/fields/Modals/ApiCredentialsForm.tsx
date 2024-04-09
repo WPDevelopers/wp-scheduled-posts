@@ -95,7 +95,7 @@ const ApiCredentialsForm = ({ props, platform, requestHandler, appInfo = [] }) =
                 </a>
               </div>
             )}
-            {(isManual || platform == "facebook" || platform == "twitter") && (
+            {(isManual || platform == 'instagram' || platform == "facebook" || platform == "twitter") && (
               <form onSubmit={onSubmitHandler}>
                   <div className="form-group">
                       <label htmlFor="">{ __('Redirect URI:','wp-scheduled-posts') }</label>

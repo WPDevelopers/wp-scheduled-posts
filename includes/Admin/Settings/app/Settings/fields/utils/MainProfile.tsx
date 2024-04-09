@@ -156,7 +156,7 @@ export default function MainProfile({
             accountType ? 'selected' : ''
           }`}
           onClick={() => {
-            if (accountType || ['twitter', 'pinterest'].includes(props?.type)) {
+            if (accountType || ['twitter', 'pinterest', 'instagram'].includes(props?.type)) {
               openApiCredentialsModal(accountType);
             } else {
               setHasError(true);

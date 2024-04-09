@@ -23,7 +23,9 @@ export default function SelectedProfile( { platform, item, handleSelectedProfile
                     ),
                     pinterest: (
                         <span className={`badge pinterest-${item?.account_type?.toLowerCase()}`}>{ item?.account_type ? __('Board','wp-scheduled-posts') : item?.type }</span>
-
+                    ),
+                    instagram: (
+                        <span className={`badge instagram-${item?.account_type?.toLowerCase()}`}>{ item?.account_type ? __('Profile','wp-scheduled-posts') : item?.type }</span>
                     ),
                 }[platform]
             }
