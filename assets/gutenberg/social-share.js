@@ -17,7 +17,7 @@ const { __ } = wp.i18n;
 const SocialShare = ( { is_pro_active } ) => {
     const {
       meta,
-      meta: { _wpscppro_dont_share_socialmedia, _wpscppro_custom_social_share_image, _facebook_share_type, _twitter_share_type, _linkedin_share_type, _pinterest_share_type, _selected_social_profile, _linkedin_share_type_page },
+      meta: { _wpscppro_dont_share_socialmedia, _wpscppro_custom_social_share_image, _facebook_share_type, _twitter_share_type, _linkedin_share_type, _pinterest_share_type, _selected_social_profile, _linkedin_share_type_page, _instagram_share_type },
     } = useSelect((select) => ({
       meta: select('core/editor').getEditedPostAttribute('meta') || {},
     }));
@@ -25,6 +25,7 @@ const SocialShare = ( { is_pro_active } ) => {
     const postid = select('core/editor').getCurrentPostId()
     const [isOpen, setIsOpen] = useState(null); // Use null to represent no accordion open
     const [facebookProfileData,setFacebookProfileData] = useState([]);
+    const [instagramProfileData,setInstagramProfileData] = useState([]);
     const [twiiterProfileData,setTwitterProfileData] = useState([]);
     const [linkedinProfileData,setLinkedinProfileData] = useState([]);
     const [pinterestProfileData,setPinterestProfileData] = useState([]);
@@ -34,6 +35,7 @@ const SocialShare = ( { is_pro_active } ) => {
     const [selectedSection, setSelectedSection] = useState([]);
     const [isSocialShareDisable, setIsDisableSocialShare] = useState( _wpscppro_dont_share_socialmedia );
     const [facebookShareType,setFacebookShareType] = useState( _facebook_share_type ? _facebook_share_type : 'default' );
+    const [instagramShareType,setInstagramShareType] = useState( _instagram_share_type ? _instagram_share_type : 'default' );
     const [twitterShareType,setTwitterShareType] = useState( _twitter_share_type ? _twitter_share_type : 'default' );
     const [linkedinShareType,setLinkedinShareType] = useState( _linkedin_share_type ? _linkedin_share_type : 'default');
     const [ pinterestShareType, setPinterestShareType ] = useState( _pinterest_share_type ? _pinterest_share_type : 'default' );
@@ -48,6 +50,7 @@ const SocialShare = ( { is_pro_active } ) => {
         meta: {
           ...meta,
           _facebook_share_type: facebookShareType,
+          _instagram_share_type: instagramShareType,
           _twitter_share_type: twitterShareType,
           _linkedin_share_type: linkedinShareType,
           _linkedin_share_type_page: linkedinShareTypePage,
@@ -55,7 +58,7 @@ const SocialShare = ( { is_pro_active } ) => {
           _selected_social_profile: selectedSocialProfile,
         },
       })
-    }, [facebookShareType, twitterShareType, linkedinShareType, pinterestShareType, selectedSocialProfile])
+    }, [facebookShareType, instagramShareType, twitterShareType, linkedinShareType, pinterestShareType, selectedSocialProfile])
     
     // Get social profile data from wp_options table
     useEffect(() => {
@@ -66,6 +69,10 @@ const SocialShare = ( { is_pro_active } ) => {
         if( wpsp_settings?.facebook_profile_status ) {
           const filtered_facebook_profile_list = wpsp_settings?.facebook_profile_list.filter( item => item.status === true );
           setFacebookProfileData( filtered_facebook_profile_list  );
+        }
+        if( wpsp_settings?.instagram_profile_status ) {
+          const filtered_instagram_profile_list = wpsp_settings?.instagram_profile_list.filter( item => item.status === true );
+          setInstagramProfileData( filtered_instagram_profile_list  );
         }
         if( wpsp_settings?.twitter_profile_status ) {
           const filtered_twitter_profile_list = wpsp_settings?.twitter_profile_list.filter( item => item.status === true );
@@ -146,6 +153,7 @@ const SocialShare = ( { is_pro_active } ) => {
     // Handle share now actions
     const handleShareNow = () => {
       setIsOpenModal( true );
+      console.log('selected-social-profile', selectedSocialProfile);
       if( selectedSocialProfile.length > 0 ) {
         selectedSocialProfile.map( ( profile ) => {
           if( profile?.pinterest_board_type && pinterestShareType !== profile?.pinterest_board_type ) {
@@ -274,7 +282,22 @@ const SocialShare = ( { is_pro_active } ) => {
     // Handle share type 
     const handleShareType = ( platform,value ) => {
       let default_selected_social_profile = selectedSocialProfile;
-      
+      // Handle share type instagram
+      if( platform === 'instagram' ) {
+        setInstagramShareType(value);
+        if( value === 'default' ) {
+          // Set default selection for instagram
+          if( wpspSettings?.instagram_profile_status ) {
+            let instagram_profile_list = wpspSettings?.instagram_profile_list.filter( item => item.status === true );
+            instagram_profile_list.map( (profile,index) => {
+              if( selectedSocialProfile.findIndex((item) => item.id === profile.id) === -1 ) {
+                default_selected_social_profile.push( { id: profile.id, platform: 'instagram', platformKey: index, name : profile.name, type : profile?.type, thumbnail_url : profile.thumbnail_url, share_type : instagramShareType } );
+              }
+            } )
+          }
+        }
+      }
+
       // Handle share type facebook
       if( platform === 'facebook' ) {
         setFacebookShareType(value);
@@ -321,6 +344,7 @@ const SocialShare = ( { is_pro_active } ) => {
           }
         }
       }
+
       // Handle linkedin default selection
       if( platform === 'linkedin_page' ) {
         setLinkedinShareTypePage(value)
@@ -404,36 +428,36 @@ const SocialShare = ( { is_pro_active } ) => {
             <div className="social-share-wrapper">
               <h3>{ __('Choose Social Share Platform','wp-scheduled-posts') }</h3>
                 <div className="social-accordion-item">
-                <div className="social-accordion-button" onClick={() => toggleAccordion('isOpen')}>
-                    <img src={ WPSchedulePostsFree.assetsURI + '/images/facebook.svg' } alt="" />
-                    <span>Facebook</span>
-                </div>
-                { isOpen === 'isOpen' && (
-                  <div className="accordion-content">
-                    { facebookProfileData.length > 0 ?
-                      <Fragment>
-                        <div className="facebook-share-type">
-                          <RadioControl
-                            selected={ facebookShareType }
-                            options={ [
-                                { label: <div className="wpsp-tooltip">Default <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext"> { __('Content will be shared on all the activated social accounts','wp-scheduled-posts') } </span> </div>, value: 'default' },
-                                { label: <div className="wpsp-tooltip custom">Custom <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">{ __('Specify your social account choice where you want to share the content','wp-scheduled-posts') }</span></div>, value: 'custom' }
-                            ] }
-                            onChange={ ( value ) => handleShareType( 'facebook', value ) }
-                          />
-                        </div>
-                        { facebookShareType === 'custom' && facebookProfileData.map( ( facebook, index ) => (
-                          <div className="facebook-profile social-profile">
-                            <input type="checkbox" checked={ (selectedSocialProfile.findIndex( ( item ) => item.id === facebook.id ) != -1) ? true : false } onChange={ (event) =>  handleProfileSelectionCheckbox( event, 'facebook', index, facebook?.id, facebook?.name, facebook?.type,facebook?.thumbnail_url ) } />
-                            <h3>{ facebook?.name } ( { facebook.type ? facebook.type : __('Profile','wp-scheduled-posts') } ) </h3>
-                          </div>
-                        ) ) }
-                      </Fragment>
-                    : <div dangerouslySetInnerHTML={ { __html: `You may forget to add or enable profile/page from <a href='${WPSchedulePostsFree?.adminURL}admin.php?page=schedulepress&tab=social-profile'>SchedulePress settings</a>.` } }></div>
-                    }
+                  <div className="social-accordion-button" onClick={() => toggleAccordion('isOpen')}>
+                      <img src={ WPSchedulePostsFree.assetsURI + '/images/facebook.svg' } alt="" />
+                      <span>Facebook</span>
                   </div>
-                )}
-              </div>
+                  { isOpen === 'isOpen' && (
+                    <div className="accordion-content">
+                      { facebookProfileData.length > 0 ?
+                        <Fragment>
+                          <div className="facebook-share-type">
+                            <RadioControl
+                              selected={ facebookShareType }
+                              options={ [
+                                  { label: <div className="wpsp-tooltip">Default <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext"> { __('Content will be shared on all the activated social accounts','wp-scheduled-posts') } </span> </div>, value: 'default' },
+                                  { label: <div className="wpsp-tooltip custom">Custom <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">{ __('Specify your social account choice where you want to share the content','wp-scheduled-posts') }</span></div>, value: 'custom' }
+                              ] }
+                              onChange={ ( value ) => handleShareType( 'facebook', value ) }
+                            />
+                          </div>
+                          { facebookShareType === 'custom' && facebookProfileData.map( ( facebook, index ) => (
+                            <div className="facebook-profile social-profile">
+                              <input type="checkbox" checked={ (selectedSocialProfile.findIndex( ( item ) => item.id === facebook.id ) != -1) ? true : false } onChange={ (event) =>  handleProfileSelectionCheckbox( event, 'facebook', index, facebook?.id, facebook?.name, facebook?.type,facebook?.thumbnail_url ) } />
+                              <h3>{ facebook?.name } ( { facebook.type ? facebook.type : __('Profile','wp-scheduled-posts') } ) </h3>
+                            </div>
+                          ) ) }
+                        </Fragment>
+                      : <div dangerouslySetInnerHTML={ { __html: `You may forget to add or enable profile/page from <a href='${WPSchedulePostsFree?.adminURL}admin.php?page=schedulepress&tab=social-profile'>SchedulePress settings</a>.` } }></div>
+                      }
+                    </div>
+                  )}
+                </div>
                 <div className="social-accordion-item">
                   <div className="social-accordion-button" onClick={() => toggleAccordion('isOpenTwitter')}>
                       <img src={ WPSchedulePostsFree.assetsURI + '/images/twitter.svg' } alt="" />
@@ -528,7 +552,7 @@ const SocialShare = ( { is_pro_active } ) => {
                     </Fragment>
                   )}
                 </div>
-              <div className="social-accordion-item">
+                <div className="social-accordion-item">
                   <div className="social-accordion-button" onClick={() => toggleAccordion('isOpenPinterest')}>
                       <img src={ WPSchedulePostsFree.assetsURI + '/images/pinterest.svg' } alt="" />
                       <span>Pinterest</span>
@@ -572,12 +596,44 @@ const SocialShare = ( { is_pro_active } ) => {
                     </div>
                   )}
                 </div>
+                <div className="social-accordion-item">
+                  <div className="social-accordion-button" onClick={() => toggleAccordion('isOpen')}>
+                      <img src={ WPSchedulePostsFree.assetsURI + '/images/instagram.svg' } alt="" />
+                      <span>{ __('Instagram', 'wp-scheduled-posts') }</span>
+                  </div>
+                  { isOpen === 'isOpen' && (
+                    <div className="accordion-content">
+                      { instagramProfileData.length > 0 ?
+                        <Fragment>
+                          <div className="instagram-share-type">
+                            <RadioControl
+                              selected={ instagramShareType }
+                              options={ [
+                                  { label: <div className="wpsp-tooltip">Default <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext"> { __('Content will be shared on all the activated social accounts','wp-scheduled-posts') } </span> </div>, value: 'default' },
+                                  { label: <div className="wpsp-tooltip custom">Custom <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">{ __('Specify your social account choice where you want to share the content','wp-scheduled-posts') }</span></div>, value: 'custom' }
+                              ] }
+                              onChange={ ( value ) => handleShareType( 'instagram', value ) }
+                            />
+                          </div>
+                          { instagramShareType === 'custom' && instagramProfileData.map( ( instagram, index ) => (
+                            <div className="instagram-profile social-profile">
+                              <input type="checkbox" checked={ (selectedSocialProfile.findIndex( ( item ) => item.id === instagram.id ) != -1) ? true : false } onChange={ (event) =>  handleProfileSelectionCheckbox( event, 'instagram', index, instagram?.id, instagram?.name, instagram?.type,instagram?.thumbnail_url ) } />
+                              <h3>{ instagram?.name } ( { instagram.type ? instagram.type : __('Profile','wp-scheduled-posts') } ) </h3>
+                            </div>
+                          ) ) }
+                        </Fragment>
+                      : <div dangerouslySetInnerHTML={ { __html: `You may forget to add or enable profile/page from <a href='${WPSchedulePostsFree?.adminURL}admin.php?page=schedulepress&tab=social-profile'>SchedulePress settings</a>.` } }></div>
+                      }
+                    </div>
+                  )}
+                </div>
               { isOpenModal && (
                 <Modal className="social-share-modal" onRequestClose={ closeModal }>
                   <SelectedSocialProfileModal platform="facebook" selectedSocialProfile={ selectedSocialProfile } responseMessage={ responseMessage } pinterest_board_type={pinterestShareType} />
                   <SelectedSocialProfileModal platform="twitter" selectedSocialProfile={ selectedSocialProfile } responseMessage={ responseMessage } pinterest_board_type={pinterestShareType} />
                   <SelectedSocialProfileModal platform="linkedin" selectedSocialProfile={ selectedSocialProfile } responseMessage={ responseMessage } pinterest_board_type={pinterestShareType} />
                   <SelectedSocialProfileModal platform="pinterest" selectedSocialProfile={ selectedSocialProfile } responseMessage={ responseMessage } pinterest_board_type={pinterestShareType} />
+                  <SelectedSocialProfileModal platform="instagram" selectedSocialProfile={ selectedSocialProfile } responseMessage={ responseMessage } pinterest_board_type={pinterestShareType} />
                 </Modal>
               ) }
             </div>

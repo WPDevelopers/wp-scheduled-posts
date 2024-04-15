@@ -453,6 +453,24 @@ class InstantShare
                 $platformKey
             );
             wp_die();
+        } else if ($platform == 'instagram') {
+            $instagram = \WPSP\Helper::get_social_profile(WPSCP_INSTAGRAM_OPTION_NAME);
+            $platformKey = !empty( $profileID ) ? array_search($profileID, array_column($instagram, 'id')) : intval($platformKey);
+            if ($instagram[$platformKey]->status == false) {
+                wp_die();
+            }
+            // share
+            $instagramshare = new \WPSP\Social\Instagram();
+            $instagramshare->socialMediaInstantShare(
+                $instagram[$platformKey]->app_id,
+                $instagram[$platformKey]->app_secret,
+                $instagram[$platformKey]->access_token,
+                $instagram[$platformKey]->type,
+                $instagram[$platformKey]->id,
+                $postid,
+                $platformKey
+            );
+            wp_die();
         } else {
             wp_send_json_error(__('Sorry, your requested platform integration is not added.', 'wp-scheduled-posts'));
             wp_die();

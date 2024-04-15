@@ -25,10 +25,10 @@ const Instagram = (props) => {
   const [selectedProfile, setSelectedProfile] = useState( sortedSelectedValue ?? [] );
   const [cachedStatus, setCashedStatus] = useState(cachedLocalData ?? {});
   const [activeStatusCount,setActiveStatusCount] = useState(0);
-
   const [profileStatus, setProfileStatus] = useState(
       builderContext?.savedValues?.instagram_profile_status
   );
+  localStorage.setItem('instagram',JSON.stringify(cachedStatus));
 
   // prepare appId and appSecret
   let appInfo = [];
@@ -51,7 +51,24 @@ const Instagram = (props) => {
   };
   // Handle profile & selected profile status onChange event
   const handleProfileStatusChange = (event) => {
-      setProfileStatus(event.target.checked);
+    setProfileStatus(event.target.checked);
+    const changeProfileStatus = selectedProfile.map((selectedItem) => {
+      if (!event.target.checked) {
+        setCashedStatus((prevStatus) => {
+          return { ...prevStatus, [selectedItem.id]: selectedItem?.status };
+        });
+        return {
+          ...selectedItem,
+          status: false,
+        };
+      } else {
+        return {
+          ...selectedItem,
+          status : (cachedStatus?.[selectedItem.id] == undefined) ?  false : cachedStatus?.[selectedItem.id], 
+        };
+      }
+    });
+    setSelectedProfile(changeProfileStatus);
   };
   
   // @ts-ignore
@@ -65,10 +82,8 @@ const Instagram = (props) => {
   const closeApiCredentialsModal = () => {
     setApiCredentialsModal(false);
   };
+  
   const handleSelectedProfileStatusChange = (item, event) => {
-    console.log('event', event.target.checked);
-    console.log('item', item);
-    
     if (event.target.checked) {
       setProfileStatus(true);
     }
@@ -79,7 +94,53 @@ const Instagram = (props) => {
         return { [item.id]: event.target.checked };
       }
     });
-  }
+    if ( is_pro ) {
+      const updatedData = selectedProfile.map((selectedItem) => {
+        if (selectedItem.id === item.id) {
+          return {
+            ...selectedItem,
+            status: event.target.checked,
+          };
+        }
+        return selectedItem;
+      });
+      setSelectedProfile(updatedData);
+    }else{
+      if( activeStatusCount <= 1 ) {
+        let currentStatus = event.target.checked;
+        if( activeStatusCount === 1 && currentStatus ) {
+          Swal.fire({
+            title: __('Are you sure?','wp-scheduled-posts'),
+            text: __('Enabling this profile will deactivate other profile automatically.','wp-scheduled-posts'),
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: '<i class="wpsp-icon wpsp-close"></i>',
+            confirmButtonText: __('Yes, Enable it!', 'wp-scheduled-posts'),
+          }).then((result) => {
+            if (result.isConfirmed) {
+                const updatedData = selectedProfile.map((selectedItem) => {
+                  return {
+                    ...selectedItem,
+                    status: selectedItem.id === item.id ? currentStatus : false,
+                  };
+              });
+              setSelectedProfile(updatedData);
+            }
+          })
+        }else{
+          const updatedData = selectedProfile.map((selectedItem) => {
+              return {
+                ...selectedItem,
+                status: selectedItem.id === item.id ? currentStatus : false,
+              };
+          });
+          setSelectedProfile(updatedData);
+        }
+      }
+    }
+  };
   
   // Save selected profile data
   useEffect(() => {
@@ -105,6 +166,8 @@ const Instagram = (props) => {
         value: profileStatus,
       },
     });    
+    console.log('selected-profiles', selectedProfile);
+    
   }, [profileStatus]);
   let selectedProfileData = [];
   if (selectedProfile && selectedProfileViewMore) {
@@ -158,9 +221,9 @@ const Instagram = (props) => {
                 </div>
               ))}
           </div>
-          {/* { ( !selectedProfileViewMore && selectedProfile && selectedProfile.length >= 3) && (
+          { ( !selectedProfileViewMore && selectedProfile && selectedProfile.length >= 3) && (
             <ViewMore setSelectedProfileViewMore={setSelectedProfileViewMore} />
-          )} */}
+          ) }
         </div>
       </div>
       {/* API Credentials Modal  */}

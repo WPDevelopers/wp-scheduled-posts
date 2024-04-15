@@ -40,6 +40,9 @@ const SelectedSocialProfileModal = ( { platform, selectedSocialProfile, response
                                                 <span className={`badge pinterest`}>{  __('Board','wp-scheduled-posts') }</span>
 
                                             ),
+                                            instagram: (
+                                                <span className={`badge facebook`}>{  __('Profile','wp-scheduled-posts') }</span>
+                                            ),
                                         }[platform]
                                     }
                                 </div>

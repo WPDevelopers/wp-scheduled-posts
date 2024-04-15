@@ -467,6 +467,7 @@ class Admin
 
         // social media share type settings 
         $facebookShareType     = get_post_meta( get_the_ID(), '_facebook_share_type', true );
+        $instagramShareType     = get_post_meta( get_the_ID(), '_instagram_share_type', true );
         $twitterShareType      = get_post_meta( get_the_ID(), '_twitter_share_type', true );
         $linkedinShareType     = get_post_meta( get_the_ID(), '_linkedin_share_type', true );
         $linkedinShareTypePage = get_post_meta( get_the_ID(), '_linkedin_share_type_page', true );
@@ -488,6 +489,12 @@ class Admin
         $facebookProfile = \WPSP\Helper::get_settings('facebook_profile_list');
         if( !class_exists('WPSP_PRO') && is_array( $facebookProfile ) ) {
             $facebookProfile = array_slice( $facebookProfile, 0, 1, true );
+        }
+
+        // profile
+        $instagramProfile = \WPSP\Helper::get_settings('instagram_profile_list');
+        if( !class_exists('WPSP_PRO') && is_array( $instagramProfile ) ) {
+            $instagramProfile = array_slice( $instagramProfile, 0, 1, true );
         }
 
         $twitterProfile = \WPSP\Helper::get_settings('twitter_profile_list');
