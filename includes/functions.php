@@ -29,7 +29,7 @@ if (!function_exists('wpscp_scheduled_post_menu')) {
 		global $wp_admin_bar;
 		$is_show_admin_bar_posts = \WPSP\Helper::get_settings('is_show_admin_bar_posts');
 		$is_show_sitewide_bar_posts = \WPSP\Helper::get_settings('is_show_sitewide_bar_posts');
-		$allow_post_types = \WPSP\Helper::get_settings('allow_post_types');
+		$allow_post_types = \WPSP\Helper::get_all_allowed_post_type();
 		$adminbar_list_structure_template = \WPSP\Helper::get_settings('adminbar_list_structure_template');
 		$adminbar_list_structure_title_length = \WPSP\Helper::get_settings('adminbar_list_structure_title_length');
 		$adminbar_list_structure_date_format = \WPSP\Helper::get_settings('adminbar_list_structure_date_format');
@@ -197,7 +197,7 @@ if (!function_exists('wpscp_prevent_future_post_markup')) {
 
 		$status = get_post_status($postid);
 
-		if ($status !== 'publish') {
+		if ($status === 'future' ) {
 
 			?>
 			<div style="padding:10px;" id="prevent_future_post_box">
@@ -230,7 +230,7 @@ if (!function_exists('wpscp_submit_box_future_post')) {
 		if (isset($_GET['action']) && $_GET['action'] == 'edit' && \WPSP\Helper::get_settings('show_publish_post_button') == true) {
 			add_action('post_submitbox_misc_actions', 'wpscp_prevent_future_post_markup');
 		}
-		$allow_post_types = \WPSP\Helper::get_settings('allow_post_types');
+		$allow_post_types = \WPSP\Helper::get_all_allowed_post_type();
 		$post_types = (!empty($allow_post_types) ? $allow_post_types : array('post'));
 
 		foreach ($post_types as $key => $post_type) {

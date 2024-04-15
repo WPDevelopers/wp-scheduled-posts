@@ -2,7 +2,7 @@
 /*
  * Plugin Name: SchedulePress
  * Description: Automate your content workflow with SchedulePress. Take a quick glance at your content planning with Schedule Calendar, Dashboard widget & Sitewide admin bar. Instantly share your posts on social media platforms such as Facebook, Twitter & many more.
- * Version: 5.0.10
+ * Version: 5.0.11
  * Author: WPDeveloper
  * Author URI: https://wpdeveloper.com
  * Text Domain: wp-scheduled-posts
@@ -75,7 +75,7 @@ final class WPSP
 		/**
 		 * Defines CONSTANTS for Whole plugins.
 		 */
-		define('WPSP_VERSION', '5.0.10');
+		define('WPSP_VERSION', '5.0.11');
 		define('WPSP_SETTINGS_NAME_OLD', 'wpsp_settings');
 		define('WPSP_SETTINGS_NAME', 'wpsp_settings_v5');
 		define('WPSP_PLUGIN_FILE', __FILE__);
@@ -260,8 +260,10 @@ final class WPSP
 	 * @return void
 	 */
 	public function upgrade_completed( $upgrader_object, $options){
-		if ($options['action'] == 'update' && $options['type'] == 'plugin' && in_array(WPSP_PLUGIN_BASENAME, $options['plugins'])) {
-			$this->delete_plugin_update_transient();
+		if( isset( $options['plugins'] ) && is_array( $options['plugins'] ) && !empty( $options['action'] ) && !empty( $options['type'] ) ) {
+			if ($options['action'] == 'update' && $options['type'] == 'plugin' && in_array(WPSP_PLUGIN_BASENAME, $options['plugins'])) {
+				$this->delete_plugin_update_transient();
+			}
 		}
 	}
 
@@ -290,6 +292,8 @@ final class WPSP
 	public function whitelist_API($endpoints)
 	{
 		$endpoints[] = '/wp-json/wp-scheduled-posts/v1/*';
+		$endpoints[] = '/wp-json/wp-scheduled-posts-pro/v1/*';
+		$endpoints[] = '/wpscp/v1/*';
 		$endpoints[] = '/index.php?rest_route=/wp-scheduled-posts/v1/*';
 		return $endpoints;
 	}

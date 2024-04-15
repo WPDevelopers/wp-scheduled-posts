@@ -33,7 +33,7 @@ class Assets
     public function guten_scripts()
     {
         global $post_type;
-        $allow_post_types = \WPSP\Helper::get_settings('allow_post_types');
+        $allow_post_types = \WPSP\Helper::get_all_allowed_post_type();
         $allow_post_types = (!empty($allow_post_types) ? $allow_post_types : array('post'));
         if (!in_array($post_type, $allow_post_types) || !is_admin()) {
             return;

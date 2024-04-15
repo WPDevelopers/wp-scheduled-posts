@@ -11,18 +11,33 @@ class Helper
         return array_diff($postType, $not_neccessary_post_types);
     }
 
+    public static function get_all_allowed_post_type() {
+        $allow_post_types = \WPSP\Helper::get_settings('allow_post_types');
+        if( !is_array( $allow_post_types ) ) {
+            return self::get_all_post_type();
+        }
+        if( in_array( 'all', $allow_post_types ) ) {
+            $allow_post_types = self::get_all_post_type();
+        }
+        $allow_post_types = array_values( $allow_post_types );
+        return $allow_post_types;
+    }
+
     public static function get_allow_post_types()
     {
         $post_types       = [];
         $allow_post_types = \WPSP\Helper::get_settings('allow_post_types');
         $allow_post_types = (!empty($allow_post_types) ? $allow_post_types : array('post'));
-
-        if (is_array($allow_post_types)) {
-            foreach ($allow_post_types as $post_type) {
-                $post_type_object       = get_post_type_object($post_type);
-                if(!empty($post_type_object)){
-                    $post_types[$post_type] = $post_type_object->label;
-                }
+        if( !is_array( $allow_post_types ) ) {
+            return self::get_all_post_type();
+        }
+        if( in_array( 'all', $allow_post_types ) ) {
+            $allow_post_types = self::get_all_post_type();
+        }
+        foreach ($allow_post_types as $post_type) {
+            $post_type_object       = get_post_type_object($post_type);
+            if(!empty($post_type_object)){
+                $post_types[$post_type] = $post_type_object->label;
             }
         }
         return $post_types;
@@ -42,7 +57,7 @@ class Helper
     public static function _get_all_category()
     {
         $return = ['result' => []];
-        $allow_post_types  = \WPSP\Helper::get_settings('allow_post_types');
+        $allow_post_types  = \WPSP\Helper::get_all_allowed_post_type();
         $taxonomies = self::get_all_tax_term($allow_post_types);
 
         foreach ($taxonomies as $tax_label => $terms) {
@@ -206,7 +221,7 @@ class Helper
 
     public static function plugin_page_hook_suffix($current_post_type, $hook)
     {
-        $allow_post_types = (!empty(self::get_settings('allow_post_types')) ? self::get_settings('allow_post_types') : array('post'));
+        $allow_post_types = (!empty(self::get_all_allowed_post_type()) ? self::get_all_allowed_post_type() : array('post'));
         if (
             in_array($current_post_type, $allow_post_types) ||
             $hook == 'posts_page_' . WPSP_SETTINGS_SLUG . '-post' ||
