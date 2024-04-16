@@ -464,6 +464,7 @@ class Admin
         $facebookIntegation = \WPSP\Helper::get_settings('facebook_profile_status');
         $linkedinIntegation = \WPSP\Helper::get_settings('linkedin_profile_status');
         $pinterestIntegation = \WPSP\Helper::get_settings('pinterest_profile_status');
+        $instagramIntegation = \WPSP\Helper::get_settings('instagram_profile_status');
 
         // social media share type settings 
         $facebookShareType     = get_post_meta( get_the_ID(), '_facebook_share_type', true );
@@ -472,6 +473,7 @@ class Admin
         $linkedinShareType     = get_post_meta( get_the_ID(), '_linkedin_share_type', true );
         $linkedinShareTypePage = get_post_meta( get_the_ID(), '_linkedin_share_type_page', true );
         $pinterestShareType    = get_post_meta( get_the_ID(), '_pinterest_share_type', true );
+        $instagramShareType    = get_post_meta( get_the_ID(), '_instagram_share_type', true );
         // get all selected social profile 
         $allSelectedSocialProfiles = get_post_meta( get_the_ID(), '_selected_social_profile', true );
         $filteredSelectedProfiles = array_map( [ $this, 'wpsp_filter_selected_profile_object' ], !empty( $allSelectedSocialProfiles ) ? $allSelectedSocialProfiles : [] );
@@ -707,6 +709,33 @@ class Admin
                                 <?php endif ?>
                             </div>
                         </div>
+                        <div class="wpsp-el-accordion-item wpsp-el-accordion-item-instagram">
+                            <div class="wpsp-el-accordion-header">
+                                <img src="<?php echo esc_url( WPSP_ASSETS_URI . '/images/instagram.svg' ) ?>" alt=""><span><?php echo esc_html('instagram') ?></span>
+                            </div>
+                            <div class="wpsp-el-accordion-content">
+                                <?php if( !empty( $instagramIntegation ) && !empty( $instagramProfile ) ) : ?>
+                                    <div class="wpsp-el-container">
+                                        <label><input type="radio" data-platform="instagram" name="wpsp-el-content-instagram" value="wpsp-el-social-instagram-default" <?php echo ( ( !empty( $instagramShareType ) && $instagramShareType == 'default' ) || empty( $instagramShareType ) ) ? 'checked' : ''  ?>><?php echo esc_html__('Default','wp-scheduled-posts') ?></label>
+                                        <label><input type="radio" data-platform="instagram" name="wpsp-el-content-instagram" value="wpsp-el-social-instagram-custom" <?php echo !empty( $instagramShareType ) && $instagramShareType == 'custom' ? 'checked' : ''  ?>><?php echo esc_html__('Custom','wp-scheduled-posts') ?></label>
+                                    </div>
+                                    <div class="wpsp-el-content wpsp-el-content-instagram" data-value="wpsp-el-social-instagram-custom" style="<?php echo !empty( $instagramShareType ) && $instagramShareType == 'custom' ? 'display: block;' : 'display: none;' ?>">
+                                        <?php if( count( $instagramProfile ) > 0 ) : ?>
+                                            <?php foreach( $instagramProfile as $instagram ) : ?>
+                                                <div class="instagram-profile social-profile">
+                                                    <input type="checkbox" value="<?php echo !empty( $instagram->name ) ? $instagram->name : '' ?>" name="wpsp_el_social_instagram[]" <?php echo in_array( $instagram->name, $filteredSelectedProfiles ) ? 'checked' : '' ?>>
+                                                    <h3><?php echo !empty( $instagram->name ) ? $instagram->name : '' ?> ( <?php echo $instagram->type ? $instagram->type : '' ?> ) </h3>
+                                                </div>
+                                            <?php endforeach ?>
+                                        <?php endif ?>
+                                    </div>
+                                <?php else : ?>
+                                    <div class="wpsp-el-empty-profile-message">
+                                        <?php echo sprintf( __( 'You may forget to add or enable profile/page from <a href="%s">SchedulePress settings</a>. ', 'wp-scheduled-posts' ), 'https://schedulepress.test/wp-admin/admin.php?page=schedulepress&amp;tab=social-profile' ) ?>
+                                    </div>
+                                <?php endif ?>
+                            </div>
+                        </div>
                     </div>
                 </div>
            </div>
@@ -789,6 +818,7 @@ class Admin
                 'wpsp-el-content-linkedin-page'    => '',
                 'wpsp-el-content-pinterest'        => '',
                 'wpsp_el_social_facebook'          => [],
+                'wpsp_el_social_instagram'         => [],
                 'wpsp_el_social_twitter'           => [],
                 'wpsp_el_social_linkedin'          => [],
                 'wpsp_el_social_pinterest'         => [],
@@ -817,6 +847,7 @@ class Admin
             $twitterProfile   = \WPSP\Helper::get_settings('twitter_profile_list');
             $linkedinProfile  = \WPSP\Helper::get_settings('linkedin_profile_list');
             $pinterestProfile = \WPSP\Helper::get_settings('pinterest_profile_list');
+            $instagramProfile = \WPSP\Helper::get_settings('instagram_profile_list');
             $selectedSocialProfiles = [];
             if( !empty( $args['wpsp_el_social_facebook'] ) && !empty( $facebookProfile ) && !empty( $args['wpsp-el-content-facebook'] ) && $args['wpsp-el-content-facebook'] == 'wpsp-el-social-facebook-custom' ) {
                 $selectedFacebookProfile = $args['wpsp_el_social_facebook'];
@@ -867,6 +898,13 @@ class Admin
                 $selectedSocialProfiles = $this->wpsp_format_profile_data( $selectedSocialProfiles );
                 update_post_meta( $args['id'], '_selected_social_profile', $selectedSocialProfiles );
             }
+            if( !empty( $args['wpsp_el_social_instagram'] ) && !empty( $instagramProfile ) && !empty( $args['wpsp-el-content-instagram'] ) && $args['wpsp-el-content-instagram'] == 'wpsp-el-social-instagram-custom' ) {
+                $selectedInstagramProfile = $args['wpsp_el_social_instagram'];
+                $instagramSelectedProfile = array_filter($instagramProfile, function ($obj) use ( $selectedInstagramProfile ) {
+                    return in_array($obj->name, $selectedInstagramProfile);
+                });
+                $selectedSocialProfiles = array_merge( $instagramSelectedProfile, $selectedSocialProfiles );
+            }
 
             // social media type selection settings
             if( !empty( $args['wpsp-el-content-facebook'] ) ) {
@@ -906,6 +944,13 @@ class Admin
                     update_post_meta( $args['id'], '_twitter_share_type', 'custom' );
                 }else{
                     update_post_meta( $args['id'], '_twitter_share_type', 'default' );
+                }
+            }
+            if( !empty( $args['wpsp-el-content-instagram'] ) ) {
+                if( $args['wpsp-el-content-instagram'] == 'wpsp-el-social-instagram-custom' ) {
+                    update_post_meta( $args['id'], '_instagram_share_type', 'custom' );
+                }else{
+                    update_post_meta( $args['id'], '_instagram_share_type', 'default' );
                 }
             }
 

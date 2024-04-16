@@ -378,6 +378,15 @@
                 pinterestBoardType = 'custom';
             }
 
+            // selected instagram profile
+            let instagram_selected_profiles;
+            let is_instagram_share = true;
+            instagram_selected_profiles = $('[name="wpsp_el_social_instagram[]"]:checked').map(function() {
+                return $(this).val();
+            }).get();
+            if( instagram_selected_profiles.length == 0 ) {
+                is_instagram_share = false;
+            }
             var postid = jQuery('#wpscppropostid').val()
             // var nonce = jQuery('#wpscp_pro_instant_social_share_nonce').val()
             const nonce = wpscpSocialProfile?.nonce;
@@ -389,10 +398,12 @@
                 is_twitter_share,
                 is_linkedin_share,
                 is_pinterest_share,
+                is_instagram_share,
                 facebook_selected_profiles,
                 twitter_selected_profiles,
                 linkedin_selected_profiles,
                 pinterest_selected_profiles,
+                instagram_selected_profiles,
             }
     
             jQuery.post(ajaxurl, data, function (response, status) {

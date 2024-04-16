@@ -469,6 +469,10 @@
     background: #3b5997
 }
 
+#wpscpproInstantShareModal .modalBody .entry-head.instagram {
+    background: #a920e9;
+}
+
 #wpscpproInstantShareModal .modalBody .entry-head.twitter {
     background: #55abed
 }

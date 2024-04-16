@@ -197,6 +197,24 @@
               background-color: #fef6f6;
             }
           }
+          &[data-key='layouts_instagram'] {
+            span {
+              &:before {
+                content: '\e921';
+                font-family: 'wpsp';
+                width: 24px;
+                height: 24px;
+                line-height: 24px;
+                text-align: center;
+                font-size: 12px;
+                background: linear-gradient(45deg, #f9ce34, #ee2a7b, #6228d7);
+                color: #fff;
+              }
+            }
+            &.wprf-active-nav {
+              background-color: #fff2f7;
+            }
+          }
         }
         .wprf-active-nav {
           color: #1b1b50 !important;

@@ -106,14 +106,21 @@ const SocialShare = ( { is_pro_active } ) => {
           }
           setSelectedSection(default_selected_section);
           setPinterestProfileData([...filtered_pinterest_profile_list]);
-          setWpspSettings(wpsp_settings);
         }
+        setWpspSettings(wpsp_settings);
 
         // Set default selection for facebook
         if( wpsp_settings?.facebook_profile_status ) {
           let facebook_profile_list = wpsp_settings?.facebook_profile_list.filter( item => item.status === true );
           facebook_profile_list.map( (profile,index) => {
             default_selected_social_profile.push( { id: profile.id, platform: 'facebook', platformKey: index, name : profile.name, type : profile?.type, thumbnail_url : profile.thumbnail_url, share_type : facebookShareType } );
+          } )
+        }
+        // Set default selection for instagram
+        if( wpsp_settings?.instagram_profile_status ) {
+          let instagram_profile_list = wpsp_settings?.instagram_profile_list.filter( item => item.status === true );
+          instagram_profile_list.map( (profile,index) => {
+            default_selected_social_profile.push( { id: profile.id, platform: 'instagram', platformKey: index, name : profile.name, type : profile?.type, thumbnail_url : profile.thumbnail_url, share_type : instagramShareType } );
           } )
         }
         // Handle twiiter default selection
@@ -153,7 +160,6 @@ const SocialShare = ( { is_pro_active } ) => {
     // Handle share now actions
     const handleShareNow = () => {
       setIsOpenModal( true );
-      console.log('selected-social-profile', selectedSocialProfile);
       if( selectedSocialProfile.length > 0 ) {
         selectedSocialProfile.map( ( profile ) => {
           if( profile?.pinterest_board_type && pinterestShareType !== profile?.pinterest_board_type ) {
@@ -597,11 +603,11 @@ const SocialShare = ( { is_pro_active } ) => {
                   )}
                 </div>
                 <div className="social-accordion-item">
-                  <div className="social-accordion-button" onClick={() => toggleAccordion('isOpen')}>
+                  <div className="social-accordion-button" onClick={() => toggleAccordion('isOpenInstagram')}>
                       <img src={ WPSchedulePostsFree.assetsURI + '/images/instagram.svg' } alt="" />
                       <span>{ __('Instagram', 'wp-scheduled-posts') }</span>
                   </div>
-                  { isOpen === 'isOpen' && (
+                  { isOpen === 'isOpenInstagram' && (
                     <div className="accordion-content">
                       { instagramProfileData.length > 0 ?
                         <Fragment>

@@ -989,6 +989,87 @@ class Settings {
                                                 ]
                                             ]
                                         ],
+                                        'layouts_instagram'  => [
+                                            'id'            => 'layouts_instagram',
+                                            'name'          => 'layouts_instagram',
+                                            'label'         => __('Instagram', 'wp-scheduled-posts'),
+                                            'priority'      => 40,
+                                            'fields'        => [
+                                                'instagram_wrapper'     => [
+                                                    'id'            => 'instagram_wrapper',
+                                                    'type'          => 'section',
+                                                    'name'          => 'instagram_wrapper',
+                                                    'label'         => __('Instagram Settings', 'wp-scheduled-posts'),
+                                                    'sub_title'     => sprintf( __('To configure the Instagram Settings, check out this <a target="_blank" href="%s">Doc.</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/wordpress-posts-on-instagram/' ),
+                                                    'priority'      => 10,
+                                                    'fields'        => [
+                                                        'instagram'  => [
+                                                            'name'     => "instagram",
+                                                            'parent'     => "social_templates",
+                                                            'type'     => "group",
+                                                            'priority' => 10,
+                                                            'fields'    => [
+                                                                'is_category_as_tags'  => [
+                                                                    'id'            => 'instagram_cat_tags',
+                                                                    'name'          => 'is_category_as_tags',
+                                                                    'type'          => 'toggle',
+                                                                    'label'         => __('Add Category as tags', 'wp-scheduled-posts'),
+                                                                    'info'          => __('The categories you select will be used as tags.','wp-scheduled-posts'),
+                                                                    'priority'      => 10,
+                                                                    'default'       => true,
+                                                                ],
+                                                                'content_source' => [
+                                                                    'label'         => __('Content Source:','wp-scheduled-posts'),
+                                                                    'name'          => "content_source",
+                                                                    'type'          => "radio-card",
+                                                                    'default'       => "excerpt",
+                                                                    'priority'      => 11,
+                                                                    'options' => [
+                                                                        [
+                                                                            'label' => __( 'Excerpt','wp-scheduled-posts' ),
+                                                                            'value' => 'excerpt',
+                                                                        ],
+                                                                        [
+                                                                            'label' => __( 'Content','wp-scheduled-posts' ),
+                                                                            'value' => 'content',
+                                                                        ],
+                                                                    ],
+                                                                ],
+                                                                'template_structure'  => [
+                                                                    'id'            => 'template_structure',
+                                                                    'name'          => 'template_structure',
+                                                                    'type'          => 'text',
+                                                                    'label'         => __('Status Template Settings', 'wp-scheduled-posts'),
+                                                                    'info'          => __( 'Define how to share the content on Pinterest by setting the template. <strong>Default Structure: {title}{content}{url}{tags}</strong>','wp-scheduled-posts' ),
+                                                                    'default'       => '{title}{content}{url}{tags}',
+                                                                    'priority'      => 15,
+                                                                ],
+                                                                'note_limit'  => [
+                                                                    'id'            => 'instagram_note_limit',
+                                                                    'name'          => 'note_limit',
+                                                                    'type'          => 'number',
+                                                                    'label'         => __('Status Limit', 'wp-scheduled-posts'),
+                                                                    'priority'      => 20,
+                                                                    'default'       => '63206',
+                                                                    'max'           => '63206',
+                                                                    'help'          => __('Max: 63206', 'wp-scheduled-posts'),
+                                                                ],
+                                                                'post_share_limit'  => [
+                                                                    'id'            => 'instagram_post_share_limit',
+                                                                    'name'          => 'post_share_limit',
+                                                                    'type'          => 'number',
+                                                                    'label'         => __('How often to share a post?', 'wp-scheduled-posts'),
+                                                                    'priority'      => 21,
+                                                                    'default'       => 0,
+                                                                    'help'          => __('Keep zero for no limit', 'wp-scheduled-posts'),
+                                                                ],
+                                                            ]
+                                                        ]
+
+                                                    ]
+                                                ]
+                                            ]
+                                        ],
                                     ]
                                 ],
                             ],

@@ -286,6 +286,7 @@ class InstantShare
         $twitter_selected_profiles   = !empty( $_REQUEST['twitter_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['twitter_selected_profiles'] ) : [];
         $linkedin_selected_profiles  = !empty( $_REQUEST['linkedin_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['linkedin_selected_profiles'] ) : [];
         $pinterest_selected_profiles = !empty( $_REQUEST['pinterest_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['pinterest_selected_profiles'] ) : [];
+        $instagram_selected_profiles = !empty( $_REQUEST['instagram_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['instagram_selected_profiles'] ) : [];
 
         // get data from db
         $facebook  = \WPSP\Helper::get_social_profile(WPSCP_FACEBOOK_OPTION_NAME, $facebook_selected_profiles);
@@ -297,11 +298,14 @@ class InstantShare
                 return in_array( $single_pinterest->default_board_name->value, $pinterest_selected_profiles );
             } );
         }
+        $instagram  = \WPSP\Helper::get_social_profile(WPSCP_INSTAGRAM_OPTION_NAME, $instagram_selected_profiles);
+
         // get data from ajax request
         $is_facebook_share  = !empty( $_REQUEST['is_facebook_share'] ) ? sanitize_text_field( $_REQUEST['is_facebook_share'] ) : null;
         $is_twitter_share   = !empty( $_REQUEST['is_twitter_share'] ) ? sanitize_text_field( $_REQUEST['is_twitter_share'] ) : null;
         $is_linkedin_share  = !empty( $_REQUEST['is_linkedin_share'] ) ? sanitize_text_field( $_REQUEST['is_linkedin_share'] ) : null;
         $is_pinterest_share = !empty( $_REQUEST['is_pinterest_share'] ) ? sanitize_text_field( $_REQUEST['is_pinterest_share'] ) : null;
+        $is_instagram_share = !empty( $_REQUEST['is_instagram_share'] ) ? sanitize_text_field( $_REQUEST['is_instagram_share'] ) : null;
 
         if ($is_facebook_share === "true") {
             $allProfile['facebook'] = $facebook;
@@ -314,6 +318,9 @@ class InstantShare
         }
         if ($is_pinterest_share === "true") {
             $allProfile['pinterest'] = $pinterest;
+        }
+        if ($is_instagram_share === "true") {
+            $allProfile['instagram'] = $instagram;
         }
 
         $markup = '';

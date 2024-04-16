@@ -19,7 +19,7 @@ class Instagram
     public function __construct()
     {
         $settings = \WPSP\Helper::get_settings('social_templates');
-        $settings = json_decode(json_encode($settings->facebook), true);
+        $settings = json_decode(json_encode($settings->instagram), true);
         $this->is_show_meta = (isset($settings['is_show_meta']) ? $settings['is_show_meta'] : '');
         $this->content_type = (isset($settings['content_type']) ? $settings['content_type'] : '');
         $this->is_category_as_tags = (isset($settings['is_category_as_tags']) ? $settings['is_category_as_tags'] : '');
@@ -27,7 +27,6 @@ class Instagram
         $this->template_structure = (isset($settings['template_structure']) ? $settings['template_structure'] : '{title}{content}{url}{tags}');
         $this->status_limit = (isset($settings['status_limit']) ? $settings['status_limit'] : 63206);
         $this->post_share_limit = (isset($settings['post_share_limit']) ? $settings['post_share_limit'] : 0);
-        $this->facebook_head_meta_data();
     }
 
     public function instance()
@@ -47,7 +46,7 @@ class Instagram
     public function schedule_republish_social_share_hook()
     {
         if (\WPSP\Helper::get_settings('is_republish_social_share')) {
-            add_action('wpscp_pro_schedule_republish_share', array($this, 'wpscp_pro_republish_facebook_post'), 15, 1);
+            add_action('wpscp_pro_schedule_republish_share', array($this, 'wpscp_pro_republish_instagram_post'), 15, 1);
         }
     }
 
@@ -69,24 +68,13 @@ class Instagram
         }
     }
 
-
-
-
-    public function facebook_head_meta_data()
-    {
-        if ($this->is_show_meta) {
-            add_filter('language_attributes', array($this, 'set_opengraph_doctype'));
-            add_action('wp_head', array($this, 'meta_head'), 5);
-        }
-    }
-
     /**
      * Saved Post Meta info
      */
     public function save_metabox_social_share_metabox($post_id, $response, $profile_key, $ID)
     {
-        $meta_name = '__wpscppro_facebook_share_log';
-        $count_meta_key = '__wpsp_facebook_share_count_'.$ID;
+        $meta_name = '__wpscppro_instagram_share_log';
+        $count_meta_key = '__wpsp_instagram_share_count_'.$ID;
         $oldData = get_post_meta($post_id, $meta_name, true);
         if ($oldData != "") {
             $oldData[$profile_key] = $response;
@@ -101,42 +89,6 @@ class Instagram
         }else{
             add_post_meta($post_id, $count_meta_key, 1);
         }
-    }
-
-
-    //Adding the Open Graph in the Language Attributes
-    public function set_opengraph_doctype($output)
-    {
-        return $output . ' xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.com/2008/fbml"';
-    }
-
-    //Lets add Open Graph Meta Info
-    public function meta_head()
-    {
-        global $post;
-        if (!is_singular()) // work only single pages
-        {
-            return;
-        }
-
-        echo '<meta property="og:title" content="' . get_the_title() . '"/>';
-        echo '<meta property="og:type" content="article"/>';
-        echo '<meta property="og:url" content="' . get_permalink() . '"/>';
-        echo '<meta property="og:site_name" content=" ' . get_bloginfo() . ' "/>';
-
-        $socialShareImage = get_post_meta($post->ID, '_wpscppro_custom_social_share_image', true);
-        if ($socialShareImage != "" && $socialShareImage != 0) {
-            $thumbnail_src = wp_get_attachment_image_src($socialShareImage, 'full');
-            if( !empty( $thumbnail_src[0] ) ) {
-                echo '<meta property="og:image" content="' . esc_attr($thumbnail_src[0]) . '"/>';
-            }
-        } else {
-            if (has_post_thumbnail($post->ID)) { //the post does not have featured image, use a default image
-                $thumbnail_src = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'large');
-                echo '<meta property="og:image" content="' . esc_attr($thumbnail_src[0]) . '"/>';
-            }
-        }
-        echo "";
     }
 
     /**
@@ -163,24 +115,38 @@ class Instagram
         if ($this->is_category_as_tags == true) {
             $hashTags .= ' ' . $this->getPostHasCats($post_id);
         }
-        $thumbnail_src = wp_get_attachment_image_src(get_post_thumbnail_id($post_id));
-        if ($this->content_type == 'status' || $this->content_type == 'statuswithlink') {
-            // text formated
-            $formatedText = $this->social_share_content_template_structure(
-                $this->template_structure,
-                $title,
-                $desc,
-                $post_link,
-                $hashTags,
-                $this->status_limit
-            );
-            $linkData = [
-                'caption' => $formatedText,
-                'image_url' => !empty( $thumbnail_src[0] ) ? $thumbnail_src[0] : '',
-            ];
-        }
+        $thumbnail_src = $this->get_image_url($post_details);
+        // text formated
+        $formatedText = $this->social_share_content_template_structure(
+            $this->template_structure,
+            $title,
+            $desc,
+            $post_link,
+            $hashTags,
+            $this->status_limit
+        );
+        $linkData = [
+            'caption'   => $formatedText,
+            // 'image_url' => !empty( $thumbnail_src ) ? $thumbnail_src : '',
+            'image_url' => 'https://placehold.co/600x400',
+        ];
         
         return $linkData;
+    }
+
+    public function get_image_url( $post ) {
+        $socialShareImage = get_post_meta($post->ID, '_wpscppro_custom_social_share_image', true);
+        if ($socialShareImage != "" && $socialShareImage != 0) {
+            $thumbnail_src = wp_get_attachment_image_src($socialShareImage, 'full');
+            if( !empty( $thumbnail_src[0] ) ) {
+                return $thumbnail_src[0];
+            }
+        } else {
+            if (has_post_thumbnail($post->ID)) { //the post does not have featured image, use a default image
+                $thumbnail_src = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'large');
+                return $thumbnail_src[0];
+            }
+        }
     }
 
     /**
@@ -281,9 +247,9 @@ class Instagram
      * @since 2.5.0
      * @return void
      */
-    public function wpscp_pro_republish_facebook_post($post_id)
+    public function wpscp_pro_republish_instagram_post($post_id)
     {
-        $profiles = \WPSP\Helper::get_social_profile(WPSCP_FACEBOOK_OPTION_NAME);
+        $profiles = \WPSP\Helper::get_social_profile(WPSCP_INSTAGRAM_OPTION_NAME);
         if (is_array($profiles) && count($profiles) > 0) {
             foreach ($profiles as $profile_key => $profile) {
                 // skip if status is false
@@ -312,7 +278,7 @@ class Instagram
      */
     public function WpScp_Instagram_post($post_id)
     {
-        $profiles = \WPSP\Helper::get_social_profile(WPSCP_FACEBOOK_OPTION_NAME);
+        $profiles = \WPSP\Helper::get_social_profile(WPSCP_INSTAGRAM_OPTION_NAME);
         if (is_array($profiles) && count($profiles) > 0) {
             foreach ($profiles as $profile_key => $profile) {
                 if ($profile->status == false) {

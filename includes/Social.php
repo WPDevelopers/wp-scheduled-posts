@@ -85,6 +85,9 @@ class Social
         if (Helper::get_settings('pinterest_profile_status') == true) {
             $this->pinterest();
         }
+        if (Helper::get_settings('instagram_profile_status') == true) {
+            $this->instagram();
+        }
     }
 
 
@@ -109,6 +112,12 @@ class Social
     {
         $WpScp_pinterest = new Social\Pinterest();
         $WpScp_pinterest->instance();
+    }
+
+    public function instagram()
+    {
+        $WpScp_instagram = new Social\Instagram();
+        $WpScp_instagram->instance();
     }
 
     /**
