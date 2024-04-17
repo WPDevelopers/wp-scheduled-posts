@@ -551,10 +551,10 @@ class Settings {
                                     'type'     => 'instagram',
                                     'label'    => __('Instagram', 'wp-scheduled-posts'),
                                     'default'  => [],
-                                    'logo'     => WPSP_ASSETS_URI . 'images/instagram.svg',
+                                    'logo'     => WPSP_ASSETS_URI . 'images/instagram.png',
                                     'desc'     => sprintf( __('You can enable/disable Instagram social share. To configure Instagram Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/wordpress-posts-on-pinterest/' ),
                                     'modal'    => [
-                                        'logo'               => WPSP_ASSETS_URI . 'images/instagram.svg',
+                                        'logo'               => WPSP_ASSETS_URI . 'images/instagram.png',
                                         'redirect_url_desc'  => __('Add this URL in the Redirect URLs field of your Instagram app.','wp-scheduled-posts'),
                                         'desc'               => sprintf( __('For details on LinkedIn configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your Instagram account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/wordpress-posts-on-pinterest/','https://developers.pinterest.com/' ),
                                     ],

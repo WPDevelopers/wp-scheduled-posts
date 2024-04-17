@@ -243,6 +243,10 @@
     align-items: center;
     gap: 15px;
 }
+.el-social-share-platform #el-social-checkbox-wrapper .wpsp-el-accordion-item-instagram .wpsp-el-accordion-header img{
+    width: 32px;
+    height: 32px;
+}
 
 .el-social-share-platform #el-social-checkbox-wrapper .wpsp-el-accordion-header span {
     color: #1B1B50;
@@ -470,7 +474,7 @@
 }
 
 #wpscpproInstantShareModal .modalBody .entry-head.instagram {
-    background: #a920e9;
+    background: #941fcb;
 }
 
 #wpscpproInstantShareModal .modalBody .entry-head.twitter {

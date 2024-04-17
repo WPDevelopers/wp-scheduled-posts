@@ -206,9 +206,13 @@
                 height: 24px;
                 line-height: 24px;
                 text-align: center;
-                font-size: 12px;
-                background: linear-gradient(45deg, #f9ce34, #ee2a7b, #6228d7);
+                font-size: 20px;
+                background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+                -webkit-background-clip: text;
+                background-clip: text;
+                -webkit-text-fill-color: transparent;
                 color: #fff;
+                border-radius: 0;
               }
             }
             &.wprf-active-nav {

@@ -604,7 +604,7 @@ const SocialShare = ( { is_pro_active } ) => {
                 </div>
                 <div className="social-accordion-item">
                   <div className="social-accordion-button" onClick={() => toggleAccordion('isOpenInstagram')}>
-                      <img src={ WPSchedulePostsFree.assetsURI + '/images/instagram.svg' } alt="" />
+                      <img src={ WPSchedulePostsFree.assetsURI + '/images/instagram.png' } alt="" />
                       <span>{ __('Instagram', 'wp-scheduled-posts') }</span>
                   </div>
                   { isOpen === 'isOpenInstagram' && (

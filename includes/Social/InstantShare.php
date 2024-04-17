@@ -33,11 +33,13 @@ class InstantShare
         $facebookIntegation = \WPSP\Helper::get_settings('facebook_profile_status');
         $linkedinIntegation = \WPSP\Helper::get_settings('linkedin_profile_status');
         $pinterestIntegation = \WPSP\Helper::get_settings('pinterest_profile_status');
+        $instagramIntegation = \WPSP\Helper::get_settings('instagram_profile_status');
         // profile
         $facebookProfile = \WPSP\Helper::get_settings('facebook_profile_list');
         $twitterProfile = \WPSP\Helper::get_settings('twitter_profile_list');
         $linkedinProfile = \WPSP\Helper::get_settings('linkedin_profile_list');
         $pinterestProfile = \WPSP\Helper::get_settings('pinterest_profile_list');
+        $instagramProfile = \WPSP\Helper::get_settings('instagram_profile_list');
         // already checked 'Helper::is_enable_classic_editor()'
     ?>
         <div class="wpscppro-instantshare">
@@ -190,6 +192,25 @@ class InstantShare
                                 ?>
                                 </div>
                             </div>
+                            <div class="errorlog"></div>
+                        </li>
+                    <?php
+                    endif;
+                    if ($instagramIntegation == 'on' && is_array($instagramProfile) && count($instagramProfile) > 0) :
+                        $instagramShareCount = get_post_meta(get_the_ID(), '__wpscppro_social_share_instagram');
+                        // $isInstagram = get_post_meta(get_the_ID(), '_wpsp_is_instagram_share', true) ? get_post_meta(get_the_ID(), '_wpsp_is_instagram_share', true) : true;
+                        $isInstagram = get_post_meta(get_the_ID(), '_wpsp_is_instagram_share', true);
+                    ?>
+                        <li class="instagram">
+                            <label style="margin-bottom: 10px;">
+                                <input type="checkbox" id="wpscpproinstagramis" name="_wpsp_is_instagram_share" <?php (!empty($isInstagram) ? checked('on', $isInstagram, true) : checked('', $isInstagram, true)  ); ?> /> <?php esc_html_e('Instagram', 'wp-scheduled-posts'); ?>
+                                <?php
+                                if (is_array($instagramShareCount) && count($instagramShareCount) > 0) :
+                                ?>
+                                    <span class="sharecount"><?php print count($instagramShareCount); ?></span>
+                                <?php endif; ?>
+                                <span class="ajaxrequest"></span>
+                            </label>
                             <div class="errorlog"></div>
                         </li>
                     <?php

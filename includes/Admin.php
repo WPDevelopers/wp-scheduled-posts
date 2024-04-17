@@ -498,7 +498,6 @@ class Admin
         if( !class_exists('WPSP_PRO') && is_array( $instagramProfile ) ) {
             $instagramProfile = array_slice( $instagramProfile, 0, 1, true );
         }
-
         $twitterProfile = \WPSP\Helper::get_settings('twitter_profile_list');
         if( !class_exists('WPSP_PRO') && is_array( $twitterProfile ) ) {
             $twitterProfile = array_slice( $twitterProfile, 0, 1, true );
@@ -711,7 +710,7 @@ class Admin
                         </div>
                         <div class="wpsp-el-accordion-item wpsp-el-accordion-item-instagram">
                             <div class="wpsp-el-accordion-header">
-                                <img src="<?php echo esc_url( WPSP_ASSETS_URI . '/images/instagram.svg' ) ?>" alt=""><span><?php echo esc_html('instagram') ?></span>
+                                <img src="<?php echo esc_url( WPSP_ASSETS_URI . '/images/instagram.png' ) ?>" alt=""><span><?php echo esc_html('Instagram') ?></span>
                             </div>
                             <div class="wpsp-el-accordion-content">
                                 <?php if( !empty( $instagramIntegation ) && !empty( $instagramProfile ) ) : ?>
@@ -763,6 +762,7 @@ class Admin
     public function wpsp_format_profile_data( $selectedSocialProfiles ) {
         $platformKeyMapping = [
             'linkedin'  => ['type'],
+            'instagram' => ['type'],
             'twitter'   => [],
             'facebook'  => ['type'],
             'pinterest' => ['default_board_name', 'defaultSection'],
@@ -773,6 +773,8 @@ class Admin
                 $platform = 'linkedin';
             } elseif (property_exists($item, 'oauth_token')) {
                 $platform = 'twitter';
+            } elseif (property_exists($item, 'type') && $item->type == 'profile' ) {
+                $platform = 'instagram';
             } elseif (property_exists($item, 'type')) {
                 $platform = 'facebook';
             } elseif (property_exists($item, 'access_token') && !empty($item->boards)) {
@@ -893,11 +895,6 @@ class Admin
                 }
                 $selectedSocialProfiles = array_merge( $pinterestSelectedProfile, $selectedSocialProfiles );
             }
-           
-            if( !empty( $args['wpsp_el_social_pinterest'] ) || !empty( $args['wpsp_el_social_linkedin'] ) || !empty( $args['wpsp_el_social_twitter'] ) || !empty( $args['wpsp_el_social_facebook'] ) ) {
-                $selectedSocialProfiles = $this->wpsp_format_profile_data( $selectedSocialProfiles );
-                update_post_meta( $args['id'], '_selected_social_profile', $selectedSocialProfiles );
-            }
             if( !empty( $args['wpsp_el_social_instagram'] ) && !empty( $instagramProfile ) && !empty( $args['wpsp-el-content-instagram'] ) && $args['wpsp-el-content-instagram'] == 'wpsp-el-social-instagram-custom' ) {
                 $selectedInstagramProfile = $args['wpsp_el_social_instagram'];
                 $instagramSelectedProfile = array_filter($instagramProfile, function ($obj) use ( $selectedInstagramProfile ) {
@@ -905,6 +902,9 @@ class Admin
                 });
                 $selectedSocialProfiles = array_merge( $instagramSelectedProfile, $selectedSocialProfiles );
             }
+            $selectedSocialProfiles = $this->wpsp_format_profile_data( $selectedSocialProfiles );
+            update_post_meta( $args['id'], '_selected_social_profile', $selectedSocialProfiles );
+            
 
             // social media type selection settings
             if( !empty( $args['wpsp-el-content-facebook'] ) ) {
