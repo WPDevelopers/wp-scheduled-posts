@@ -116,3 +116,19 @@
     margin-bottom: 5px;
     display: inline-block;
 }
+#wpscpproInstantShareModal .entry-head.instagram {
+    background: #cd486b;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+#wpscpproInstantShareModal .entry-head .entry-head-title {
+    text-transform: capitalize;
+}
+#wpscpproInstantShareModal .entry-head.instagram img {
+    width: 20px;
+    height: 20px;
+    background-color: #fff;
+    padding: 2px;
+    border-radius: 50%;
+}

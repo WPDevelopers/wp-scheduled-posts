@@ -127,8 +127,7 @@ class Instagram
         );
         $linkData = [
             'caption'   => $formatedText,
-            // 'image_url' => !empty( $thumbnail_src ) ? $thumbnail_src : '',
-            'image_url' => 'https://placehold.co/600x400',
+            'image_url' => !empty( $thumbnail_src ) ? $thumbnail_src : '',
         ];
         
         return $linkData;

@@ -3636,9 +3636,17 @@
         display: inline-block;
         margin: 0 0 0 10px;
         color: #fff;
+        text-transform: capitalize;
       }
       &.instagram {
-        background: #941fcb;
+        background: #cd486b;
+        img {
+          width: 20px;
+          height: 20px;
+          background-color: #fff;
+          padding: 2px;
+          border-radius: 50%;
+        }
       }
       &.facebook {
         background: #3b5997;

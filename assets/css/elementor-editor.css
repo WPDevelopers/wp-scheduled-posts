@@ -466,7 +466,8 @@
 #wpscpproInstantShareModal .modalBody .entry-head .entry-head-title {
     display: inline-block;
     margin: 0 0 0 10px;
-    color: #fff
+    color: #fff;
+    text-transform: capitalize;
 }
 
 #wpscpproInstantShareModal .modalBody .entry-head.facebook {
@@ -474,9 +475,19 @@
 }
 
 #wpscpproInstantShareModal .modalBody .entry-head.instagram {
-    background: #941fcb;
+    background: #cd486b;
+    display: flex;
+    justify-content: start;
+    align-items: center;
 }
-
+#wpscpproInstantShareModal .modalBody .entry-head.instagram img {
+    width: 20px;
+    height: 20px;
+    padding: 2px;
+    background: white;
+    border-radius: 50%;
+    padding-top: 2px;
+}
 #wpscpproInstantShareModal .modalBody .entry-head.twitter {
     background: #55abed
 }
