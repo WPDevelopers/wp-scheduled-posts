@@ -541,7 +541,7 @@ class Settings {
                                     'modal'    => [
                                         'logo'               => WPSP_ASSETS_URI . 'images/pinterest.svg',
                                         'redirect_url_desc'  => __('Add this URL in the Redirect URLs field of your Pinterest app.','wp-scheduled-posts'),
-                                        'desc'               => sprintf( __('For details on LinkedIn configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your Pinterest account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/wordpress-posts-on-pinterest/','https://developers.pinterest.com/' ),
+                                        'desc'               => sprintf( __('For details on Pinterest configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your Pinterest account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/wordpress-posts-on-pinterest/','https://developers.pinterest.com/' ),
                                     ],
                                     'priority' => 20,
                                 ],
@@ -556,7 +556,7 @@ class Settings {
                                     'modal'    => [
                                         'logo'               => WPSP_ASSETS_URI . 'images/instagram.png',
                                         'redirect_url_desc'  => __('Add this URL in the Redirect URLs field of your Instagram app.','wp-scheduled-posts'),
-                                        'desc'               => sprintf( __('For details on LinkedIn configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your Instagram account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/wordpress-posts-on-pinterest/','https://developers.pinterest.com/' ),
+                                        'desc'               => sprintf( __('For details on Instagram configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your Instagram account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/wordpress-posts-on-instagram/','https://developers.facebook.com/' ),
                                     ],
                                     'priority' => 25,
                                 ],
@@ -1050,9 +1050,9 @@ class Settings {
                                                                     'type'          => 'number',
                                                                     'label'         => __('Status Limit', 'wp-scheduled-posts'),
                                                                     'priority'      => 20,
-                                                                    'default'       => '63206',
-                                                                    'max'           => '63206',
-                                                                    'help'          => __('Max: 63206', 'wp-scheduled-posts'),
+                                                                    'default'       => '2100',
+                                                                    'max'           => '2100',
+                                                                    'help'          => __('Max: 2100', 'wp-scheduled-posts'),
                                                                 ],
                                                                 'post_share_limit'  => [
                                                                     'id'            => 'instagram_post_share_limit',

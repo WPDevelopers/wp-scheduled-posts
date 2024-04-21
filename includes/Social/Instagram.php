@@ -25,7 +25,7 @@ class Instagram
         $this->is_category_as_tags = (isset($settings['is_category_as_tags']) ? $settings['is_category_as_tags'] : '');
         $this->content_source = (isset($settings['content_source']) ? $settings['content_source'] : '');
         $this->template_structure = (isset($settings['template_structure']) ? $settings['template_structure'] : '{title}{content}{url}{tags}');
-        $this->status_limit = (isset($settings['status_limit']) ? $settings['status_limit'] : 63206);
+        $this->status_limit = (isset($settings['note_limit']) ? $settings['note_limit'] : 2100);
         $this->post_share_limit = (isset($settings['post_share_limit']) ? $settings['post_share_limit'] : 0);
     }
 
