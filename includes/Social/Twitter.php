@@ -27,6 +27,14 @@ class Twitter
         $this->content_source = (isset($settings['content_source']) ? $settings['content_source'] : '');
         $this->tweet_limit = (isset($settings['tweet_limit']) ? $settings['tweet_limit'] : 280);
         $this->post_share_limit = (isset($settings['post_share_limit']) ? $settings['post_share_limit'] : 0);    
+        add_filter('wpsp_filter_social_content_tags', [ $this, 'wpsp_limit_twitter_tags' ], 10, 1);
+    }
+
+    public function wpsp_limit_twitter_tags( $tags ) {
+        if( is_array( $tags ) ) {
+            return array_slice( $tags, 0, 4 );
+        }
+        return $tags;
     }
 
     public function instance()

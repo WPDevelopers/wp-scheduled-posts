@@ -91,6 +91,7 @@ trait SocialHelper
         if (!empty($hashTags) && strpos($template_structure, '{tags}') !== false) {
             $tags = '';
             $_tags = explode('#', $hashTags);
+            $_tags = apply_filters('wpsp_filter_social_content_tags', $_tags);
             foreach ($_tags as $tag) {
                 $tag = trim($tag);
                 if (empty($tag))
