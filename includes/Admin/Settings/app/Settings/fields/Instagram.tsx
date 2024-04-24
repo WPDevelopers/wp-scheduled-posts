@@ -166,8 +166,6 @@ const Instagram = (props) => {
         value: profileStatus,
       },
     });    
-    console.log('selected-profiles', selectedProfile);
-    
   }, [profileStatus]);
   let selectedProfileData = [];
   if (selectedProfile && selectedProfileViewMore) {

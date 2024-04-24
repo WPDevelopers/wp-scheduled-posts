@@ -44,6 +44,8 @@ const ApiCredentialsForm = ({ props, platform, requestHandler, appInfo = [] }) =
       setCopied(false);
     }, 2000);
   };
+  let currentActiveAccountType = localStorage.getItem('account_type');
+  
   return (
     <React.Fragment>
       <div className={`modalbody ${ platform ? platform + '_wrapper' : ""}`}>
@@ -163,6 +165,7 @@ const ApiCredentialsForm = ({ props, platform, requestHandler, appInfo = [] }) =
                           type="text"
                           required
                           value={appID}
+                          disabled={ currentActiveAccountType == 'group' ? true : false }
                           placeholder={
                               platform === "twitter"
                               ? __("API ID", "wp-scheduled-posts")
@@ -176,6 +179,7 @@ const ApiCredentialsForm = ({ props, platform, requestHandler, appInfo = [] }) =
                       <input
                           className="test"
                           type="text"
+                          disabled={ currentActiveAccountType == 'group' ? true : false }
                           required
                           value={appSecret}
                           placeholder={
@@ -186,8 +190,12 @@ const ApiCredentialsForm = ({ props, platform, requestHandler, appInfo = [] }) =
                           onChange={(e) => SetAppSecret(e.target.value)}
                       />
                   </div>
+                  { currentActiveAccountType == 'group' && 
+                    <div className="wpsp-fb-group-warning" dangerouslySetInnerHTML={ { __html: '<a target="_blank" href="https://developers.facebook.com/docs/graph-api/changelog/version19.0">Meta shut down its Facebook Groups API as of April 22, 2024</a>, and SchedulePress will no longer be able to post to Facebook Groups on your behalf.' } }></div>
+                  }
                   <button
                   type="submit"
+                  disabled={ currentActiveAccountType == 'group' ? true : false }
                   className="wpsp-modal-generate-token-button"
                   >{ __( 'Connect Your Account','wp-scheduled-posts' ) }</button>
               </form>

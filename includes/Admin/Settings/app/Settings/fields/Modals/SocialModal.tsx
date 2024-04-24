@@ -48,8 +48,6 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
                         builderContext.setActiveTab('layout_social_profile');
                     }
                     getProfileData(params).then(response => {
-                        console.log('res', response);
-                        
                         setRequestSending(false);
                         if( account_type == 'page' ) {
                             setFbPage(response.page);

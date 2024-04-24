@@ -556,7 +556,7 @@ class Settings {
                                     'modal'    => [
                                         'logo'               => WPSP_ASSETS_URI . 'images/instagram.png',
                                         'redirect_url_desc'  => __('Add this URL in the Redirect URLs field of your Instagram app.','wp-scheduled-posts'),
-                                        'desc'               => sprintf( __('For details on Instagram configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your Instagram account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/wordpress-posts-on-instagram/','https://developers.facebook.com/' ),
+                                        'desc'               => sprintf( __('For details on Instagram configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your Instagram account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-scheduled-wordpress-posts-on-instagram/','https://developers.facebook.com/' ),
                                     ],
                                     'priority' => 25,
                                 ],
@@ -1000,7 +1000,7 @@ class Settings {
                                                     'type'          => 'section',
                                                     'name'          => 'instagram_wrapper',
                                                     'label'         => __('Instagram Settings', 'wp-scheduled-posts'),
-                                                    'sub_title'     => sprintf( __('To configure the Instagram Settings, check out this <a target="_blank" href="%s">Doc.</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/wordpress-posts-on-instagram/' ),
+                                                    'sub_title'     => sprintf( __('To configure the Instagram Settings, check out this <a target="_blank" href="%s">Doc.</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-scheduled-wordpress-posts-on-instagram/' ),
                                                     'priority'      => 10,
                                                     'fields'        => [
                                                         'instagram'  => [
@@ -1040,7 +1040,7 @@ class Settings {
                                                                     'name'          => 'template_structure',
                                                                     'type'          => 'text',
                                                                     'label'         => __('Status Template Settings', 'wp-scheduled-posts'),
-                                                                    'info'          => __( 'Define how to share the content on Pinterest by setting the template. <strong>Default Structure: {title}{content}{url}{tags}</strong>','wp-scheduled-posts' ),
+                                                                    'info'          => __( 'Define how to share the content on Instagram by setting the template. <strong>Default Structure: {title}{content}{url}{tags}</strong>','wp-scheduled-posts' ),
                                                                     'default'       => '{title}{content}{url}{tags}',
                                                                     'priority'      => 15,
                                                                 ],

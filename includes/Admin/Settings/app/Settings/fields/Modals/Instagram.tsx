@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 import { __ } from '@wordpress/i18n'
 
 export default function Instagram({ platform, data, addProfileToggle, savedProfile }) {
-    const [isErrorMessage, setIsErrorMessage] = useState(false);
-    console.log('data',data);
-    
+    let error_message = '';
+    if( data.length <= 0 ) {
+        error_message = __('It seems that there are no Instagram accounts associated to your Facebook profile.', 'wp-scheduled-posts');
+    }
     return (
         <>
            <div className='wpsp-modal-social-platform'>
@@ -38,6 +39,7 @@ export default function Instagram({ platform, data, addProfileToggle, savedProfi
                         </li>
                     ))}
                 </ul>
+                <span className='profile-not-found-message'>{ error_message }</span>
                 <button
                 type="submit"
                 className="wpsp-modal-save-account"

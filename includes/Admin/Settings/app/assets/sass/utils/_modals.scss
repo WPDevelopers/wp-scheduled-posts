@@ -300,6 +300,15 @@ img {
           }
         }
       }
+      .wpsp-fb-group-warning {
+        padding: 5px 10px;
+        background: #69cbdf;
+        border-radius: 4px;
+        color: #000;
+        a {
+          color: #000;
+        }
+      }
       .form-group {
         margin-bottom: 32px;
         @media screen and (max-width: 1439px) {
@@ -344,6 +353,9 @@ img {
           }
           &::placeholder {
             color: #a6a6ba;
+          }
+          &[disabled] {
+            opacity: 0.5;
           }
         }
         .redirect-note {
@@ -687,6 +699,12 @@ img {
   background-color: #c82333 !important;
 }
 .wpsp-modal-social-platform {
+  .profile-not-found-message {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 25px;
+    display: block;
+  }
   input[type=checkbox], input[type=radio] {
     border: 1px solid #D7DBDF;
     border-radius: 4px;
