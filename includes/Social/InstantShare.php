@@ -295,6 +295,11 @@ class InstantShare
         $pinterestProfile = \WPSP\Helper::get_settings('pinterest_profile_list');
         $instagramProfile = \WPSP\Helper::get_settings('instagram_profile_list');
         $selectedSocialProfiles = [];
+        $facebookProfile  = is_array( $facebookProfile ) ? $facebookProfile : [];
+        $twitterProfile   = is_array( $twitterProfile ) ? $twitterProfile : [];
+        $linkedinProfile  = is_array( $linkedinProfile ) ? $linkedinProfile : [];
+        $pinterestProfile = is_array( $pinterestProfile ) ? $pinterestProfile : [];
+        $instagramProfile = is_array( $instagramProfile ) ? $instagramProfile : [];
         $selectedSocialProfiles = array_merge( $facebookProfile, $selectedSocialProfiles );
         $selectedSocialProfiles = array_merge( $twitterProfile, $selectedSocialProfiles );
         $selectedSocialProfiles = array_merge( $linkedinProfile, $selectedSocialProfiles );

@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the SchedulePress plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: SchedulePress 5.0.11\n"
+"Project-Id-Version: SchedulePress 5.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-scheduled-posts\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-04-03T08:57:52+00:00\n"
+"POT-Creation-Date: 2024-04-28T06:31:19+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: wp-scheduled-posts\n"
@@ -101,8 +101,8 @@ msgid "Publish Post Immediately"
 msgstr ""
 
 #: includes/Admin.php:345
-#: includes/Social/InstantShare.php:199
-#: assets/gutenberg/social-share.js:584
+#: includes/Social/InstantShare.php:225
+#: assets/gutenberg/social-share.js:646
 msgid "Share Now"
 msgstr ""
 
@@ -145,87 +145,92 @@ msgstr ""
 
 #: includes/Admin.php:434
 #: includes/Admin/Settings.php:137
-#: includes/Admin/Settings.php:1025
-#: includes/Admin/Settings.php:1046
+#: includes/Admin/Settings.php:1121
+#: includes/Admin/Settings.php:1142
 #: assets/gutenberg/utils/DummyProFeatures.js:51
 msgid "Advanced Schedule"
 msgstr ""
 
-#: includes/Admin.php:511
-#: includes/Social/InstantShare.php:80
-#: assets/gutenberg/social-share.js:405
+#: includes/Admin.php:528
+#: includes/Social/InstantShare.php:83
+#: assets/gutenberg/social-share.js:435
 msgid "Choose Social Share Platform"
 msgstr ""
 
-#: includes/Admin.php:522
-#: includes/Admin.php:549
-#: includes/Admin.php:598
-#: includes/Admin.php:629
-#: includes/Admin.php:663
+#: includes/Admin.php:539
+#: includes/Admin.php:566
+#: includes/Admin.php:615
+#: includes/Admin.php:646
+#: includes/Admin.php:680
+#: includes/Admin.php:727
 #: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Default"
 msgstr ""
 
-#: includes/Admin.php:523
-#: includes/Admin.php:550
-#: includes/Admin.php:599
-#: includes/Admin.php:630
-#: includes/Admin.php:664
+#: includes/Admin.php:540
+#: includes/Admin.php:567
+#: includes/Admin.php:616
+#: includes/Admin.php:647
+#: includes/Admin.php:681
+#: includes/Admin.php:728
 msgid "Custom"
 msgstr ""
 
-#: includes/Admin.php:537
-#: includes/Admin.php:563
-#: includes/Admin.php:612
-#: includes/Admin.php:643
-#: includes/Admin.php:650
-#: includes/Admin.php:698
+#: includes/Admin.php:554
+#: includes/Admin.php:580
+#: includes/Admin.php:629
+#: includes/Admin.php:660
+#: includes/Admin.php:667
+#: includes/Admin.php:715
+#: includes/Admin.php:742
 msgid "You may forget to add or enable profile/page from <a href=\"%s\">SchedulePress settings</a>. "
 msgstr ""
 
-#: includes/Admin.php:576
-#: assets/gutenberg/social-share.js:428
-#: assets/gutenberg/social-share.js:457
-#: assets/gutenberg/social-share.js:475
-#: assets/gutenberg/social-share.js:494
-#: assets/gutenberg/social-share.js:517
+#: includes/Admin.php:593
+#: assets/gutenberg/social-share.js:458
+#: assets/gutenberg/social-share.js:487
+#: assets/gutenberg/social-share.js:505
+#: assets/gutenberg/social-share.js:524
+#: assets/gutenberg/social-share.js:547
+#: assets/gutenberg/social-share.js:627
 #: assets/gutenberg/utils/SelectedSocialProfileModal.js:31
 #: assets/gutenberg/utils/SelectedSocialProfileModal.js:34
 #: assets/gutenberg/utils/SelectedSocialProfileModal.js:37
+#: assets/gutenberg/utils/SelectedSocialProfileModal.js:44
 #: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Profile"
 msgstr ""
 
-#: includes/Admin.php:579
-#: assets/gutenberg/social-share.js:476
-#: assets/gutenberg/social-share.js:494
-#: assets/gutenberg/social-share.js:517
+#: includes/Admin.php:596
+#: assets/gutenberg/social-share.js:506
+#: assets/gutenberg/social-share.js:524
+#: assets/gutenberg/social-share.js:547
 #: assets/gutenberg/utils/SelectedSocialProfileModal.js:37
 #: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Page"
 msgstr ""
 
-#: includes/Admin.php:605
+#: includes/Admin.php:622
 msgid "(Profile)"
 msgstr ""
 
-#: includes/Admin.php:636
+#: includes/Admin.php:653
 msgid "(Page)"
 msgstr ""
 
-#: includes/Admin.php:806
+#: includes/Admin.php:854
 msgid "Your post successfully updated"
 msgstr ""
 
-#: includes/Admin.php:908
+#: includes/Admin.php:992
 msgid "Your post successfully published"
 msgstr ""
 
-#: includes/Admin.php:919
+#: includes/Admin.php:1003
 msgid "Your post id is empty"
 msgstr ""
 
-#: includes/Admin.php:946
+#: includes/Admin.php:1030
 msgid "Your post successfully scheduled"
 msgstr ""
 
@@ -241,6 +246,7 @@ msgstr ""
 
 #: includes/Admin/Calendar.php:584
 #: includes/Admin/Calendar.php:606
+#: includes/Social/SocialProfile.php:60
 msgid "Something went wrong."
 msgstr ""
 
@@ -406,8 +412,8 @@ msgid "Social Profile"
 msgstr ""
 
 #: includes/Admin/Settings.php:492
-#: includes/Admin/Settings.php:587
-#: includes/Social/InstantShare.php:90
+#: includes/Admin/Settings.php:602
+#: includes/Social/InstantShare.php:94
 msgid "Facebook"
 msgstr ""
 
@@ -424,8 +430,8 @@ msgid "For details on Facebook configuration, check out this <a target=\"_blank\
 msgstr ""
 
 #: includes/Admin/Settings.php:507
-#: includes/Admin/Settings.php:699
-#: includes/Social/InstantShare.php:108
+#: includes/Admin/Settings.php:714
+#: includes/Social/InstantShare.php:112
 msgid "Twitter"
 msgstr ""
 
@@ -442,7 +448,7 @@ msgid "For details on Twitter configuration, check out this <a href=\"%s\" targe
 msgstr ""
 
 #: includes/Admin/Settings.php:522
-#: includes/Admin/Settings.php:788
+#: includes/Admin/Settings.php:803
 msgid "LinkedIn"
 msgstr ""
 
@@ -459,8 +465,8 @@ msgid "For details on LinkedIn configuration, check out this <a href=\"%s\" targ
 msgstr ""
 
 #: includes/Admin/Settings.php:537
-#: includes/Admin/Settings.php:890
-#: includes/Social/InstantShare.php:153
+#: includes/Admin/Settings.php:905
+#: includes/Social/InstantShare.php:157
 msgid "Pinterest"
 msgstr ""
 
@@ -473,233 +479,277 @@ msgid "Add this URL in the Redirect URLs field of your Pinterest app."
 msgstr ""
 
 #: includes/Admin/Settings.php:544
-msgid "For details on LinkedIn configuration, check out this <a href=\"%s\" target=\"_blank\">Doc</a>.<br> <a href=\"%s\" target=\"_blank\">Click here</a> to Retrieve Your API Keys from your Pinterest account."
+msgid "For details on Pinterest configuration, check out this <a href=\"%s\" target=\"_blank\">Doc</a>.<br> <a href=\"%s\" target=\"_blank\">Click here</a> to Retrieve Your API Keys from your Pinterest account."
 msgstr ""
 
-#: includes/Admin/Settings.php:557
-#: includes/Admin/Settings.php:564
+#: includes/Admin/Settings.php:552
+#: includes/Admin/Settings.php:995
+#: includes/Social/InstantShare.php:208
+#: assets/gutenberg/social-share.js:608
+msgid "Instagram"
+msgstr ""
+
+#: includes/Admin/Settings.php:555
+msgid "You can enable/disable Instagram social share. To configure Instagram Social Profile, check out this <a target=\"__blank\" href=\"%s\">Doc</a>"
+msgstr ""
+
+#: includes/Admin/Settings.php:558
+msgid "Add this URL in the Redirect URLs field of your Instagram app."
+msgstr ""
+
+#: includes/Admin/Settings.php:559
+msgid "For details on Instagram configuration, check out this <a href=\"%s\" target=\"_blank\">Doc</a>.<br> <a href=\"%s\" target=\"_blank\">Click here</a> to Retrieve Your API Keys from your Instagram account."
+msgstr ""
+
+#: includes/Admin/Settings.php:572
+#: includes/Admin/Settings.php:579
 msgid "Social Templates"
 msgstr ""
 
-#: includes/Admin/Settings.php:594
+#: includes/Admin/Settings.php:609
 msgid "Facebook Status Settings"
 msgstr ""
 
-#: includes/Admin/Settings.php:596
+#: includes/Admin/Settings.php:611
 msgid "To configure the Facebook Status Settings, check out this <a target=\"_blank\" href=\"%s\">Doc.</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:609
+#: includes/Admin/Settings.php:624
 msgid "Facebook Meta Data"
 msgstr ""
 
-#: includes/Admin/Settings.php:610
+#: includes/Admin/Settings.php:625
 msgid "Add Open Graph metadata to your site head section and other social networks use this data when your pages are shared."
 msgstr ""
 
-#: includes/Admin/Settings.php:615
-#: includes/Admin/Settings.php:806
+#: includes/Admin/Settings.php:630
+#: includes/Admin/Settings.php:821
 msgid "Content Type:"
 msgstr ""
 
-#: includes/Admin/Settings.php:622
-#: includes/Admin/Settings.php:813
+#: includes/Admin/Settings.php:637
+#: includes/Admin/Settings.php:828
 msgid "Link"
 msgstr ""
 
-#: includes/Admin/Settings.php:626
-#: includes/Admin/Settings.php:817
+#: includes/Admin/Settings.php:641
+#: includes/Admin/Settings.php:832
 msgid "Status"
 msgstr ""
 
-#: includes/Admin/Settings.php:630
+#: includes/Admin/Settings.php:645
 msgid "Status + Link"
 msgstr ""
 
-#: includes/Admin/Settings.php:639
-#: includes/Admin/Settings.php:729
-#: includes/Admin/Settings.php:830
-#: includes/Admin/Settings.php:921
+#: includes/Admin/Settings.php:654
+#: includes/Admin/Settings.php:744
+#: includes/Admin/Settings.php:845
+#: includes/Admin/Settings.php:936
+#: includes/Admin/Settings.php:1017
 msgid "The categories you select will be used as tags."
 msgstr ""
 
-#: includes/Admin/Settings.php:640
-#: includes/Admin/Settings.php:730
-#: includes/Admin/Settings.php:831
-#: includes/Admin/Settings.php:920
+#: includes/Admin/Settings.php:655
+#: includes/Admin/Settings.php:745
+#: includes/Admin/Settings.php:846
+#: includes/Admin/Settings.php:935
+#: includes/Admin/Settings.php:1016
 msgid "Add Category as tags"
 msgstr ""
 
-#: includes/Admin/Settings.php:645
-#: includes/Admin/Settings.php:743
-#: includes/Admin/Settings.php:836
-#: includes/Admin/Settings.php:926
+#: includes/Admin/Settings.php:660
+#: includes/Admin/Settings.php:758
+#: includes/Admin/Settings.php:851
+#: includes/Admin/Settings.php:941
+#: includes/Admin/Settings.php:1022
 msgid "Content Source:"
 msgstr ""
 
-#: includes/Admin/Settings.php:652
-#: includes/Admin/Settings.php:750
-#: includes/Admin/Settings.php:843
-#: includes/Admin/Settings.php:933
+#: includes/Admin/Settings.php:667
+#: includes/Admin/Settings.php:765
+#: includes/Admin/Settings.php:858
+#: includes/Admin/Settings.php:948
+#: includes/Admin/Settings.php:1029
 msgid "Excerpt"
 msgstr ""
 
-#: includes/Admin/Settings.php:656
-#: includes/Admin/Settings.php:754
-#: includes/Admin/Settings.php:847
-#: includes/Admin/Settings.php:937
+#: includes/Admin/Settings.php:671
+#: includes/Admin/Settings.php:769
+#: includes/Admin/Settings.php:862
+#: includes/Admin/Settings.php:952
+#: includes/Admin/Settings.php:1033
 msgid "Content"
 msgstr ""
 
-#: includes/Admin/Settings.php:665
-#: includes/Admin/Settings.php:856
-#: includes/Admin/Settings.php:946
+#: includes/Admin/Settings.php:680
+#: includes/Admin/Settings.php:871
+#: includes/Admin/Settings.php:961
+#: includes/Admin/Settings.php:1042
 msgid "Status Template Settings"
 msgstr ""
 
-#: includes/Admin/Settings.php:674
-#: includes/Admin/Settings.php:865
-#: includes/Admin/Settings.php:955
+#: includes/Admin/Settings.php:689
+#: includes/Admin/Settings.php:880
+#: includes/Admin/Settings.php:970
+#: includes/Admin/Settings.php:1051
 msgid "Status Limit"
 msgstr ""
 
-#: includes/Admin/Settings.php:678
+#: includes/Admin/Settings.php:693
 msgid "Max: 63206"
 msgstr ""
 
-#: includes/Admin/Settings.php:684
-#: includes/Admin/Settings.php:773
-#: includes/Admin/Settings.php:875
-#: includes/Admin/Settings.php:965
+#: includes/Admin/Settings.php:699
+#: includes/Admin/Settings.php:788
+#: includes/Admin/Settings.php:890
+#: includes/Admin/Settings.php:980
+#: includes/Admin/Settings.php:1061
 msgid "How often to share a post?"
 msgstr ""
 
-#: includes/Admin/Settings.php:687
-#: includes/Admin/Settings.php:776
-#: includes/Admin/Settings.php:878
-#: includes/Admin/Settings.php:968
+#: includes/Admin/Settings.php:702
+#: includes/Admin/Settings.php:791
+#: includes/Admin/Settings.php:893
+#: includes/Admin/Settings.php:983
+#: includes/Admin/Settings.php:1064
 msgid "Keep zero for no limit"
 msgstr ""
 
-#: includes/Admin/Settings.php:707
+#: includes/Admin/Settings.php:722
 msgid "To configure the Twitter Tweet Settings, check out this <a target=\"_blank\" href=\"%s\">Doc.</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:708
+#: includes/Admin/Settings.php:723
 msgid "Twitter Tweet Settings"
 msgstr ""
 
-#: includes/Admin/Settings.php:720
+#: includes/Admin/Settings.php:735
 msgid "Tweet Template Settings"
 msgstr ""
 
-#: includes/Admin/Settings.php:721
+#: includes/Admin/Settings.php:736
 msgid "Define how to share the content on Twitter by setting the template. <strong>Default Structure: {title}{content}{url}{tags}</strong>"
 msgstr ""
 
-#: includes/Admin/Settings.php:738
+#: includes/Admin/Settings.php:753
 msgid "Show Post Thumbnail"
 msgstr ""
 
-#: includes/Admin/Settings.php:763
+#: includes/Admin/Settings.php:778
 msgid "Tweet Limit"
 msgstr ""
 
-#: includes/Admin/Settings.php:767
+#: includes/Admin/Settings.php:782
 msgid "Max: 280"
 msgstr ""
 
-#: includes/Admin/Settings.php:795
+#: includes/Admin/Settings.php:810
 msgid "LinkedIn Status Settings"
 msgstr ""
 
-#: includes/Admin/Settings.php:796
+#: includes/Admin/Settings.php:811
 msgid "To configure the LinkedIn Status Settings, check out this <a target=\"_blank\" href=\"%s\">Doc.</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:821
+#: includes/Admin/Settings.php:836
 msgid "Media"
 msgstr ""
 
-#: includes/Admin/Settings.php:858
+#: includes/Admin/Settings.php:873
 msgid "Define how to share the content on LinkedIn by setting the template. <strong>Default Structure: {title}{content}{url}{tags}</strong>"
 msgstr ""
 
-#: includes/Admin/Settings.php:869
+#: includes/Admin/Settings.php:884
 msgid "Max: 1300"
 msgstr ""
 
-#: includes/Admin/Settings.php:897
+#: includes/Admin/Settings.php:912
 msgid "Pinterest Pin Settings"
 msgstr ""
 
-#: includes/Admin/Settings.php:898
+#: includes/Admin/Settings.php:913
 msgid "To configure the Pinterest Pin Settings, check out this <a target=\"_blank\" href=\"%s\">Doc.</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:911
+#: includes/Admin/Settings.php:926
 msgid "Add Image Link"
 msgstr ""
 
-#: includes/Admin/Settings.php:912
+#: includes/Admin/Settings.php:927
 msgid "Enable if you want to add the Image link on Pinterest. "
 msgstr ""
 
-#: includes/Admin/Settings.php:947
+#: includes/Admin/Settings.php:962
 msgid "Define how to share the content on Pinterest by setting the template. <strong>Default Structure: {title}{content}{url}{tags}</strong>"
 msgstr ""
 
-#: includes/Admin/Settings.php:959
+#: includes/Admin/Settings.php:974
 msgid "Max: 500"
 msgstr ""
 
-#: includes/Admin/Settings.php:986
+#: includes/Admin/Settings.php:1002
+msgid "Instagram Settings"
+msgstr ""
+
+#: includes/Admin/Settings.php:1003
+msgid "To configure the Instagram Settings, check out this <a target=\"_blank\" href=\"%s\">Doc.</a>"
+msgstr ""
+
+#: includes/Admin/Settings.php:1043
+msgid "Define how to share the content on Instagram by setting the template. <strong>Default Structure: {title}{content}{url}{tags}</strong>"
+msgstr ""
+
+#: includes/Admin/Settings.php:1055
+msgid "Max: 2100"
+msgstr ""
+
+#: includes/Admin/Settings.php:1082
 msgid "Scheduling Hub"
 msgstr ""
 
-#: includes/Admin/Settings.php:1047
+#: includes/Admin/Settings.php:1143
 msgid "Enable to get options of scheduling a published post while updating it."
 msgstr ""
 
-#: includes/Admin/Settings.php:1057
+#: includes/Admin/Settings.php:1153
 msgid "Get options to set the published post status when scheduling it. Keep the post published and the updated content will be published according to schedule, or move the post to Draft until it is published."
 msgstr ""
 
-#: includes/Admin/Settings.php:1065
-#: includes/Admin/Settings.php:1198
+#: includes/Admin/Settings.php:1161
+#: includes/Admin/Settings.php:1294
 msgid "Read Detailed Documentation:"
 msgstr ""
 
-#: includes/Admin/Settings.php:1069
+#: includes/Admin/Settings.php:1165
 msgid "How To Configure SchedulerPress Advanced Schedule In Elementor?"
 msgstr ""
 
-#: includes/Admin/Settings.php:1074
+#: includes/Admin/Settings.php:1170
 msgid "How To Configure SchedulerPress Advanced Schedule In Gutenberg?"
 msgstr ""
 
-#: includes/Admin/Settings.php:1108
+#: includes/Admin/Settings.php:1204
 msgid "Manage Schedule"
 msgstr ""
 
-#: includes/Admin/Settings.php:1156
-#: includes/Admin/Settings.php:1178
+#: includes/Admin/Settings.php:1252
+#: includes/Admin/Settings.php:1274
 msgid "Missed Schedule"
 msgstr ""
 
-#: includes/Admin/Settings.php:1179
+#: includes/Admin/Settings.php:1275
 msgid "Enable to publish posts randomly"
 msgstr ""
 
-#: includes/Admin/Settings.php:1190
+#: includes/Admin/Settings.php:1286
 msgid "WordPress might miss the schedule for a post for various reasons. Turn on this option to let SchedulePress take care of this and publish the missed schedule."
 msgstr ""
 
-#: includes/Admin/Settings.php:1202
+#: includes/Admin/Settings.php:1298
 msgid "How To Manage The Missed Schedule Error In WordPress?"
 msgstr ""
 
-#: includes/Admin/Settings.php:1206
+#: includes/Admin/Settings.php:1302
 msgid "How To Configure SchedulePress To Handle Missed Schedule Errors?"
 msgstr ""
 
@@ -816,6 +866,7 @@ msgid "If you choose to publish this future post with the Future Date, it will b
 msgstr ""
 
 #: includes/Social/Facebook.php:228
+#: includes/Social/Instagram.php:185
 #: includes/Social/Linkedin.php:181
 #: includes/Social/Pinterest.php:230
 #: includes/Social/Twitter.php:164
@@ -823,48 +874,52 @@ msgid "Your max share post limit has been executed!!"
 msgstr ""
 
 #: includes/Social/InstantShare.php:25
-#: assets/gutenberg/social-share.js:360
+#: assets/gutenberg/social-share.js:390
 msgid "Social Share Settings"
 msgstr ""
 
-#: includes/Social/InstantShare.php:48
-#: assets/gutenberg/social-share.js:363
+#: includes/Social/InstantShare.php:50
+#: assets/gutenberg/social-share.js:393
 msgid "Disable Social Share"
 msgstr ""
 
-#: includes/Social/InstantShare.php:128
+#: includes/Social/InstantShare.php:132
 msgid "Linkedin"
 msgstr ""
 
-#: includes/Social/InstantShare.php:164
+#: includes/Social/InstantShare.php:168
 msgid "Default Board"
 msgstr ""
 
-#: includes/Social/InstantShare.php:165
+#: includes/Social/InstantShare.php:169
 msgid "Custom Board"
 msgstr ""
 
-#: includes/Social/InstantShare.php:275
-#: includes/Social/InstantShare.php:368
-#: includes/Social/SocialProfile.php:162
-#: includes/Social/SocialProfile.php:234
-#: includes/Social/SocialProfile.php:529
+#: includes/Social/InstantShare.php:222
+msgid "You may forget to add or enable social media from <a href=\"%s\">SchedulePress settings</a>. "
+msgstr ""
+
+#: includes/Social/InstantShare.php:320
+#: includes/Social/InstantShare.php:420
+#: includes/Social/SocialProfile.php:200
+#: includes/Social/SocialProfile.php:272
+#: includes/Social/SocialProfile.php:617
 msgid "Invalid nonce."
 msgstr ""
 
-#: includes/Social/InstantShare.php:280
-#: includes/Social/InstantShare.php:374
-#: includes/Social/SocialProfile.php:166
-#: includes/Social/SocialProfile.php:240
-#: includes/Social/SocialProfile.php:535
+#: includes/Social/InstantShare.php:325
+#: includes/Social/InstantShare.php:426
+#: includes/Social/SocialProfile.php:204
+#: includes/Social/SocialProfile.php:278
+#: includes/Social/SocialProfile.php:623
 msgid "You are unauthorized to access social profiles."
 msgstr ""
 
-#: includes/Social/InstantShare.php:355
+#: includes/Social/InstantShare.php:407
 msgid "Failed!, You didn't select any social media."
 msgstr ""
 
-#: includes/Social/InstantShare.php:457
+#: includes/Social/InstantShare.php:527
 msgid "Sorry, your requested platform integration is not added."
 msgstr ""
 
@@ -872,7 +927,7 @@ msgstr ""
 msgid "Your post has been successfully shared!"
 msgstr ""
 
-#: includes/Social/SocialProfile.php:23
+#: includes/Social/SocialProfile.php:24
 msgid "Multi Profile is a Premium Feature. To use this feature, Upgrade to Pro."
 msgstr ""
 
@@ -889,15 +944,17 @@ msgstr ""
 msgid "%1$sSchedulePress isn’t running because PHP is outdated.%2$s Update to PHP version %3$s and get back to creating!"
 msgstr ""
 
-#: assets/gutenberg/social-share.js:386
+#: assets/gutenberg/social-share.js:416
 msgid "Upload Social Share Banner"
 msgstr ""
 
-#: assets/gutenberg/social-share.js:419
+#: assets/gutenberg/social-share.js:449
+#: assets/gutenberg/social-share.js:618
 msgid "Content will be shared on all the activated social accounts"
 msgstr ""
 
-#: assets/gutenberg/social-share.js:420
+#: assets/gutenberg/social-share.js:450
+#: assets/gutenberg/social-share.js:619
 msgid "Specify your social account choice where you want to share the content"
 msgstr ""
 
@@ -1165,6 +1222,14 @@ msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:1
 msgid "profile-thumbnail"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "It seems that there are no Pinterest Board associated to your Pinterest profile."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "It seems that there are no Instagram accounts associated to your Facebook profile."
 msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:1
