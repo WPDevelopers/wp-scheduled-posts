@@ -443,8 +443,14 @@ class Admin
     function wpsp_filter_selected_profile_object($profile)
     {
        if ( is_array( $profile ) && isset($profile['name']) ) {
+            if( !empty( $profile['default_board_name']['label'] ) ) {
+                return $profile['default_board_name']['label'];
+            }
            return $profile['name'];
         }elseif( is_object( $profile ) && isset( $profile->name ) ) {
+            if( isset( $profile->default_board_name->label ) ) {
+                return $profile->default_board_name->label;
+            }
             return $profile->name;
         } 
         return;
@@ -877,12 +883,16 @@ class Admin
                     $selectedSocialProfiles =  array_merge( $selectedSocialProfiles, $twitterProfile );
                 }
             }
-            if( !empty( $args['wpsp_el_social_linkedin'] ) && !empty( $linkedinProfile )  && ( ( !empty( $args['wpsp-el-content-linkedin-page'] ) && $args['wpsp-el-content-linkedin-page'] == 'wpsp-el-social-linkedin-page-custom' ) || (!empty( $args['wpsp-el-content-linkedin-profile'] ) && $args['wpsp-el-content-linkedin-profile'] == 'wpsp-el-social-linkedin-profile-custom') ) ) {
-                $selectedLinkedinProfile = $args['wpsp_el_social_linkedin'];
-                $linkedinSelectedProfile = array_filter($linkedinProfile, function ($obj) use ( $selectedLinkedinProfile ) {
-                    return in_array($obj->name, $selectedLinkedinProfile);
-                });
-                $selectedSocialProfiles = array_merge( $linkedinSelectedProfile, $selectedSocialProfiles );
+            if( !empty( $args['wpsp_el_social_linkedin'] ) && !empty( $linkedinProfile ) ) {
+                if( ( ( !empty( $args['wpsp-el-content-linkedin-page'] ) && $args['wpsp-el-content-linkedin-page'] == 'wpsp-el-social-linkedin-page-custom' ) || (!empty( $args['wpsp-el-content-linkedin-profile'] ) && $args['wpsp-el-content-linkedin-profile'] == 'wpsp-el-social-linkedin-profile-custom') ) ) {
+                    $selectedLinkedinProfile = $args['wpsp_el_social_linkedin'];
+                    $linkedinSelectedProfile = array_filter($linkedinProfile, function ($obj) use ( $selectedLinkedinProfile ) {
+                        return in_array($obj->name, $selectedLinkedinProfile);
+                    });
+                    $selectedSocialProfiles = array_merge( $linkedinSelectedProfile, $selectedSocialProfiles );
+                }else{
+                    $selectedSocialProfiles =  array_merge( $selectedSocialProfiles, $linkedinProfile );
+                }
             }
             if( !empty( $pinterestProfile ) && !empty( $args['wpsp-el-content-pinterest'] ) ) {
                 if( $args['wpsp-el-content-pinterest'] == 'wpsp-el-social-pinterest-custom' && !empty( $args['wpsp_el_social_pinterest'] ) ) {
@@ -923,7 +933,9 @@ class Admin
                 }
             }
             $selectedSocialProfiles = $this->wpsp_format_profile_data( $selectedSocialProfiles );
-            update_post_meta( $args['id'], '_selected_social_profile', $selectedSocialProfiles );
+            if( Helper::is_enable_classic_editor() ) {
+                update_post_meta( $args['id'], '_selected_social_profile', $selectedSocialProfiles );
+            }
             
 
             // social media type selection settings

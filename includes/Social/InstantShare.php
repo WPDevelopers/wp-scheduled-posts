@@ -300,7 +300,9 @@ class InstantShare
         $selectedSocialProfiles = array_merge( $linkedinProfile, $selectedSocialProfiles );
         $selectedSocialProfiles = array_merge( $pinterestProfile, $selectedSocialProfiles );
         $selectedSocialProfiles = array_merge( $instagramProfile, $selectedSocialProfiles );
-        update_post_meta( $post_id, '_selected_social_profile', json_decode( json_encode( $selectedSocialProfiles ), true ) ); 
+        if( Helper::is_enable_classic_editor() ) {
+            update_post_meta( $post_id, '_selected_social_profile', json_decode( json_encode( $selectedSocialProfiles ), true ) ); 
+        }
     }
 
 
