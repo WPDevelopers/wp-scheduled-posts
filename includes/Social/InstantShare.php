@@ -79,7 +79,9 @@ class InstantShare
                         <input type="button" id="wpscppro_btn_remove_meta_image_upload" class="button button-danger" value="Remove Banner" <?php print($socialshareimage == "" ? 'style="display:none;"' : ''); ?>>
                     </span>
                 </div>
-                <h4 class="meta-heading"><?php esc_html_e('Choose Social Share Platform', 'wp-scheduled-posts'); ?></h4>
+                <?php if( $facebookIntegation == 'on' && $twitterIntegation == 'on' && $linkedinIntegation == 'on' && $pinterestIntegation == 'on' && $instagramIntegation == 'on' ) : ?>
+                    <h4 class="meta-heading"><?php esc_html_e('Choose Social Share Platform', 'wp-scheduled-posts'); ?></h4>
+                <?php endif ?>
                 <ul>
                     <?php
                     if ($facebookIntegation == 'on' && is_array($facebookProfile) && count($facebookProfile) > 0) :
@@ -216,8 +218,11 @@ class InstantShare
                     <?php
                     endif;
                     ?>
+                    <?php if( $facebookIntegation != 'on' && $twitterIntegation != 'on' && $linkedinIntegation != 'on' && $pinterestIntegation != 'on' && $instagramIntegation != 'on' ) : ?>
+                        <?php echo sprintf( __( 'You may forget to add or enable social media from <a href="%s">SchedulePress settings</a>. ', 'wp-scheduled-posts' ), 'https://schedulepress.test/wp-admin/admin.php?page=schedulepress&amp;tab=social-profile' ) ?>
+                    <?php endif ?>
                 </ul>
-                <button id="wpscpproinstantsharenow" class="button button-primary button-large"><?php esc_html_e('Share Now', 'wp-scheduled-posts'); ?></button>
+                <button id="wpscpproinstantsharenow" <?php echo ( $facebookIntegation != 'on' && $twitterIntegation != 'on' && $linkedinIntegation != 'on' && $pinterestIntegation != 'on' && $instagramIntegation != 'on' ) ? 'disabled' : '' ?> class="button button-primary button-large"><?php esc_html_e('Share Now', 'wp-scheduled-posts'); ?></button>
                 <div class="wpscppro-ajax-status"></div>
             </div>
         </div>
@@ -279,6 +284,23 @@ class InstantShare
             $section_names = array_filter($_POST['wpscppro-pinterest-section-name'], 'sanitize_text_field');
             update_post_meta($post_id, '_wpscppro_pinterest_section_name', $section_names);
         }
+        update_post_meta( $post_id, '_facebook_share_type', 'default' );
+        update_post_meta( $post_id, '_twitter_share_type', 'default' );
+        update_post_meta( $post_id, '_linkedin_share_type', 'default' );
+        update_post_meta( $post_id, '_pinterest_share_type', 'default' );
+        update_post_meta( $post_id, '_instagram_share_type', 'default' );
+        $facebookProfile  = \WPSP\Helper::get_settings('facebook_profile_list');
+        $twitterProfile   = \WPSP\Helper::get_settings('twitter_profile_list');
+        $linkedinProfile  = \WPSP\Helper::get_settings('linkedin_profile_list');
+        $pinterestProfile = \WPSP\Helper::get_settings('pinterest_profile_list');
+        $instagramProfile = \WPSP\Helper::get_settings('instagram_profile_list');
+        $selectedSocialProfiles = [];
+        $selectedSocialProfiles = array_merge( $facebookProfile, $selectedSocialProfiles );
+        $selectedSocialProfiles = array_merge( $twitterProfile, $selectedSocialProfiles );
+        $selectedSocialProfiles = array_merge( $linkedinProfile, $selectedSocialProfiles );
+        $selectedSocialProfiles = array_merge( $pinterestProfile, $selectedSocialProfiles );
+        $selectedSocialProfiles = array_merge( $instagramProfile, $selectedSocialProfiles );
+        update_post_meta( $post_id, '_selected_social_profile', json_decode( json_encode( $selectedSocialProfiles ), true ) ); 
     }
 
 

@@ -442,9 +442,12 @@ class Admin
     
     function wpsp_filter_selected_profile_object($profile)
     {
-       if ( isset($profile['name']) ) {
+       if ( is_array( $profile ) && isset($profile['name']) ) {
            return $profile['name'];
-        }
+        }elseif( is_object( $profile ) && isset( $profile->name ) ) {
+            return $profile->name;
+        } 
+        return;
     }
 
     public function wpsp_get_pinterest_sections( $profiles )
@@ -851,19 +854,28 @@ class Admin
             $pinterestProfile = \WPSP\Helper::get_settings('pinterest_profile_list');
             $instagramProfile = \WPSP\Helper::get_settings('instagram_profile_list');
             $selectedSocialProfiles = [];
-            if( !empty( $args['wpsp_el_social_facebook'] ) && !empty( $facebookProfile ) && !empty( $args['wpsp-el-content-facebook'] ) && $args['wpsp-el-content-facebook'] == 'wpsp-el-social-facebook-custom' ) {
-                $selectedFacebookProfile = $args['wpsp_el_social_facebook'];
-                $facebookSelectedProfile = array_filter($facebookProfile, function ($obj) use ( $selectedFacebookProfile ) {
-                    return in_array($obj->name, $selectedFacebookProfile);
-                });
-                $selectedSocialProfiles = array_merge( $facebookSelectedProfile, $selectedSocialProfiles );
+            if( !empty( $args['wpsp_el_social_facebook'] ) && !empty( $facebookProfile ) && !empty( $args['wpsp-el-content-facebook'] ) ) {
+                if( $args['wpsp-el-content-facebook'] == 'wpsp-el-social-facebook-custom' ) {
+                    $selectedFacebookProfile = $args['wpsp_el_social_facebook'];
+                    $facebookSelectedProfile = array_filter($facebookProfile, function ($obj) use ( $selectedFacebookProfile ) {
+                        return in_array($obj->name, $selectedFacebookProfile);
+                    });
+                    $selectedSocialProfiles = array_merge( $facebookSelectedProfile, $selectedSocialProfiles );
+                }else{
+                    $selectedSocialProfiles =  array_merge( $selectedSocialProfiles, $facebookProfile );
+                }
+                
             }
-            if( !empty( $args['wpsp_el_social_twitter'] ) && !empty( $twitterProfile )  && !empty( $args['wpsp-el-content-twitter'] ) && $args['wpsp-el-content-twitter'] == 'wpsp-el-social-twitter-custom' ) {
-                $selectedTwitterProfile = $args['wpsp_el_social_twitter'];
-                $twitterSelectedProfile = array_filter($twitterProfile, function ($obj) use ( $selectedTwitterProfile ) {
-                    return in_array($obj->name, $selectedTwitterProfile);
-                });
-                $selectedSocialProfiles = array_merge( $twitterSelectedProfile, $selectedSocialProfiles );
+            if( !empty( $args['wpsp_el_social_twitter'] ) && !empty( $twitterProfile )  && !empty( $args['wpsp-el-content-twitter'] ) ) {
+                if( $args['wpsp-el-content-twitter'] == 'wpsp-el-social-twitter-custom' ) {
+                    $selectedTwitterProfile = $args['wpsp_el_social_twitter'];
+                    $twitterSelectedProfile = array_filter($twitterProfile, function ($obj) use ( $selectedTwitterProfile ) {
+                        return in_array($obj->name, $selectedTwitterProfile);
+                    });
+                    $selectedSocialProfiles = array_merge( $twitterSelectedProfile, $selectedSocialProfiles );    
+                } else{
+                    $selectedSocialProfiles =  array_merge( $selectedSocialProfiles, $twitterProfile );
+                }
             }
             if( !empty( $args['wpsp_el_social_linkedin'] ) && !empty( $linkedinProfile )  && ( ( !empty( $args['wpsp-el-content-linkedin-page'] ) && $args['wpsp-el-content-linkedin-page'] == 'wpsp-el-social-linkedin-page-custom' ) || (!empty( $args['wpsp-el-content-linkedin-profile'] ) && $args['wpsp-el-content-linkedin-profile'] == 'wpsp-el-social-linkedin-profile-custom') ) ) {
                 $selectedLinkedinProfile = $args['wpsp_el_social_linkedin'];
@@ -872,35 +884,43 @@ class Admin
                 });
                 $selectedSocialProfiles = array_merge( $linkedinSelectedProfile, $selectedSocialProfiles );
             }
-            if( !empty( $args['wpsp_el_social_pinterest'] ) && !empty( $pinterestProfile ) && !empty( $args['wpsp-el-content-pinterest'] ) && $args['wpsp-el-content-pinterest'] == 'wpsp-el-social-pinterest-custom' ) {
-                $selectedPinterestProfile = $args['wpsp_el_social_pinterest'];
-                $pinterestSelectedProfile = array_filter($pinterestProfile, function ($obj) use ( $selectedPinterestProfile ) {
-                    return in_array($obj->default_board_name->value, $selectedPinterestProfile);
-                });
-                 // update pinterest section 
-                $pinterest_section = new SocialProfile();
-                if( !empty( $args['wpsp_el_pinterest_board'] ) ) {
-                    foreach ( $args['wpsp_el_pinterest_board'] as $section_of_board) {
-                        $explode_board_and_section = explode( '|', $section_of_board );
-                        if( !empty( $explode_board_and_section[0] ) && !empty( $explode_board_and_section[1] ) ) {
-                            $get_section_array = $pinterest_section->social_fetch_pinterest_section_array( $explode_board_and_section[1], $explode_board_and_section[0] );
-                            // Iterate through the array
-                            foreach ($pinterestSelectedProfile as $pinterest_profile) {
-                                if ( isset($pinterest_profile->default_board_name->value) && $pinterest_profile->default_board_name->value == $explode_board_and_section[1] ) {
-                                    $pinterest_profile->defaultSection = json_decode( json_encode( $get_section_array ) );
+            if( !empty( $pinterestProfile ) && !empty( $args['wpsp-el-content-pinterest'] ) ) {
+                if( $args['wpsp-el-content-pinterest'] == 'wpsp-el-social-pinterest-custom' && !empty( $args['wpsp_el_social_pinterest'] ) ) {
+                    $selectedPinterestProfile = $args['wpsp_el_social_pinterest'];
+                    $pinterestSelectedProfile = array_filter($pinterestProfile, function ($obj) use ( $selectedPinterestProfile ) {
+                        return in_array($obj->default_board_name->value, $selectedPinterestProfile);
+                    });
+                     // update pinterest section 
+                    $pinterest_section = new SocialProfile();
+                    if( !empty( $args['wpsp_el_pinterest_board'] ) ) {
+                        foreach ( $args['wpsp_el_pinterest_board'] as $section_of_board) {
+                            $explode_board_and_section = explode( '|', $section_of_board );
+                            if( !empty( $explode_board_and_section[0] ) && !empty( $explode_board_and_section[1] ) ) {
+                                $get_section_array = $pinterest_section->social_fetch_pinterest_section_array( $explode_board_and_section[1], $explode_board_and_section[0] );
+                                // Iterate through the array
+                                foreach ($pinterestSelectedProfile as $pinterest_profile) {
+                                    if ( isset($pinterest_profile->default_board_name->value) && $pinterest_profile->default_board_name->value == $explode_board_and_section[1] ) {
+                                        $pinterest_profile->defaultSection = json_decode( json_encode( $get_section_array ) );
+                                    }
                                 }
                             }
                         }
                     }
-                }
-                $selectedSocialProfiles = array_merge( $pinterestSelectedProfile, $selectedSocialProfiles );
+                    $selectedSocialProfiles = array_merge( $pinterestSelectedProfile, $selectedSocialProfiles );
+                }else{
+                    $selectedSocialProfiles =  array_merge( $selectedSocialProfiles, $pinterestProfile );
+                }   
             }
-            if( !empty( $args['wpsp_el_social_instagram'] ) && !empty( $instagramProfile ) && !empty( $args['wpsp-el-content-instagram'] ) && $args['wpsp-el-content-instagram'] == 'wpsp-el-social-instagram-custom' ) {
-                $selectedInstagramProfile = $args['wpsp_el_social_instagram'];
-                $instagramSelectedProfile = array_filter($instagramProfile, function ($obj) use ( $selectedInstagramProfile ) {
-                    return in_array($obj->name, $selectedInstagramProfile);
-                });
-                $selectedSocialProfiles = array_merge( $instagramSelectedProfile, $selectedSocialProfiles );
+            if( !empty( $instagramProfile ) && !empty( $args['wpsp-el-content-instagram'] ) ) {
+                if( $args['wpsp-el-content-instagram'] == 'wpsp-el-social-instagram-custom' && !empty( $args['wpsp_el_social_instagram'] ) ) {
+                    $selectedInstagramProfile = $args['wpsp_el_social_instagram'];
+                    $instagramSelectedProfile = array_filter($instagramProfile, function ($obj) use ( $selectedInstagramProfile ) {
+                        return in_array($obj->name, $selectedInstagramProfile);
+                    });
+                    $selectedSocialProfiles = array_merge( $instagramSelectedProfile, $selectedSocialProfiles );
+                } else{
+                    $selectedSocialProfiles =  array_merge( $selectedSocialProfiles, $instagramProfile );
+                }
             }
             $selectedSocialProfiles = $this->wpsp_format_profile_data( $selectedSocialProfiles );
             update_post_meta( $args['id'], '_selected_social_profile', $selectedSocialProfiles );

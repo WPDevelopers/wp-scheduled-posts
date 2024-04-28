@@ -301,12 +301,15 @@ img {
         }
       }
       .wpsp-fb-group-warning {
-        padding: 5px 10px;
-        background: #69cbdf;
+        background: #f0f8ff;
         border-radius: 4px;
-        color: #000;
+        color: #333333;
+        padding: 10px 20px;
+        font-size: 15px;
+        font-weight: 500;
+        line-height: 1.5;
         a {
-          color: #000;
+          color: #1e90ff;
         }
       }
       .form-group {
@@ -699,11 +702,20 @@ img {
   background-color: #c82333 !important;
 }
 .wpsp-modal-social-platform {
+  .pinterest-model-wrapper {
+    .profile-not-found-message {
+      margin-top: 20px;
+    }
+  }
   .profile-not-found-message {
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 25px;
     display: block;
+    background: rgba(90, 148, 255, .1);
+    border-radius: 4px;
+    color: #333333;
+    padding: 10px 20px;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.5;
   }
   input[type=checkbox], input[type=radio] {
     border: 1px solid #D7DBDF;

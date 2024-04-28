@@ -9,37 +9,41 @@ export default function Instagram({ platform, data, addProfileToggle, savedProfi
     return (
         <>
            <div className='wpsp-modal-social-platform'>
-                <ul>
-                    {data.map((item, index) => (
-                        <li key={index}>
-                            <div className='item-content'>
-                                <div className='entry-thumbnail'>
-                                    <img
-                                        src={item.thumbnail_url}
-                                        alt='logo'
-                                    />
-                                    <h4 className='entry-title'>
-                                        {item.name}
-                                    </h4>
+                { data.length > 0 && 
+                    <ul>
+                        {data.map((item, index) => (
+                            <li key={index}>
+                                <div className='item-content'>
+                                    <div className='entry-thumbnail'>
+                                        <img
+                                            src={item.thumbnail_url}
+                                            alt='logo'
+                                        />
+                                        <h4 className='entry-title'>
+                                            {item.name}
+                                        </h4>
+                                    </div>
+                                    <div className='control'>
+                                        <input
+                                            type='checkbox'
+                                            onChange={(e) => {
+                                                addProfileToggle(
+                                                    item,
+                                                    index,
+                                                    e
+                                                )
+                                            }}
+                                        />
+                                        <div></div>
+                                    </div>
                                 </div>
-                                <div className='control'>
-                                    <input
-                                        type='checkbox'
-                                        onChange={(e) => {
-                                            addProfileToggle(
-                                                item,
-                                                index,
-                                                e
-                                            )
-                                        }}
-                                    />
-                                    <div></div>
-                                </div>
-                            </div>
-                        </li>
-                    ))}
-                </ul>
-                <span className='profile-not-found-message'>{ error_message }</span>
+                            </li>
+                        ))}
+                    </ul>
+                }
+                { data.length <= 0 &&
+                    <span className='profile-not-found-message'>{ error_message }</span>
+                }
                 <button
                 type="submit"
                 className="wpsp-modal-save-account"

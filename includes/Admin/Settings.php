@@ -552,7 +552,7 @@ class Settings {
                                     'label'    => __('Instagram', 'wp-scheduled-posts'),
                                     'default'  => [],
                                     'logo'     => WPSP_ASSETS_URI . 'images/instagram.png',
-                                    'desc'     => sprintf( __('You can enable/disable Instagram social share. To configure Instagram Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/wordpress-posts-on-pinterest/' ),
+                                    'desc'     => sprintf( __('You can enable/disable Instagram social share. To configure Instagram Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-scheduled-wordpress-posts-on-instagram/' ),
                                     'modal'    => [
                                         'logo'               => WPSP_ASSETS_URI . 'images/instagram.png',
                                         'redirect_url_desc'  => __('Add this URL in the Redirect URLs field of your Instagram app.','wp-scheduled-posts'),
@@ -1141,7 +1141,7 @@ class Settings {
                                                                     'type'          => 'pro-toggle',
                                                                     'title'         => __('Advanced Schedule', 'wp-scheduled-posts'),
                                                                     'sub_title'     => __('Enable to get options of scheduling a published post while updating it.','wp-scheduled-posts'),
-                                                                    'default'       => 0,
+                                                                    'default'       => false,
                                                                     'is_pro'        => true,
                                                                     'disabled_status'        => "true",
                                                                     'priority'      => 5,

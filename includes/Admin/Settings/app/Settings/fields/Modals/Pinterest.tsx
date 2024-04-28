@@ -29,7 +29,10 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
         setEditDefaultSection([singlePinterestBoard?.defaultSection]);
       }
     },[singlePinterestBoard] );
-
+    let error_message = '';
+    if( boardOptions.length <= 0 ) {
+        error_message = __('It seems that there are no Pinterest Board associated to your Pinterest profile.','wp-scheduled-posts');
+    }
     return (
         <>
           <div className="wpsp-modal-social-platform">
@@ -40,47 +43,52 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
                   <h3>{item?.name}</h3>
                 </div>
                 <div className="profile-info">
-                  <ul>
-                    {boardOptions.map((board, board_index) => {
-                      return (<li key={board_index}>
-                        <div className="item-content">
-                          <h4 className="entry-title">{board?.label}</h4>
-                          <div className="control pinterest-select">
-                            <PinterestSectionSelect
-                              noSection={noSection}
-                              fetchSectionData={fetchSectionData}
-                              board={board}
-                              item={item}
-                              setSectionOptions={setSectionOptions}
-                              sectionOptions={sectionOptions}
-                              setBoardDefaultSection={setDefaultSection}
-                              prevDefaultSection={defaultSection}
+                  { boardOptions.length > 0 &&
+                    <ul>
+                      {boardOptions.map((board, board_index) => {
+                        return (<li key={board_index}>
+                          <div className="item-content">
+                            <h4 className="entry-title">{board?.label}</h4>
+                            <div className="control pinterest-select">
+                              <PinterestSectionSelect
+                                noSection={noSection}
+                                fetchSectionData={fetchSectionData}
+                                board={board}
+                                item={item}
+                                setSectionOptions={setSectionOptions}
+                                sectionOptions={sectionOptions}
+                                setBoardDefaultSection={setDefaultSection}
+                                prevDefaultSection={defaultSection}
+                              />
+                            </div>
+                            <input
+                                type='checkbox'
+                                onChange={ (event) => {
+                                  let selectedBoardSection = defaultSection.find((item) => item.board === board?.value)
+                                  addProfileToggle(
+                                    item,
+                                    selectedBoardSection,
+                                    event,
+                                    board,
+                                  )
+                                  }
+                                }
                             />
                           </div>
-                          <input
-                              type='checkbox'
-                              onChange={ (event) => {
-                                let selectedBoardSection = defaultSection.find((item) => item.board === board?.value)
-                                addProfileToggle(
-                                  item,
-                                  selectedBoardSection,
-                                  event,
-                                  board,
-                                )
-                                }
-                              }
-                          />
-                        </div>
-                      </li>);
-                    })}
+                        </li>);
+                      })}
+                  </ul>
+                  }
+                  { boardOptions.length <= 0 &&
+                    <span className='profile-not-found-message'>{ error_message }</span>
+                  }
                   <button
-                    type="submit"
-                    className="wpsp-modal-save-account"
-                    onClick={(event) => {
-                      savedProfile(event)
-                    }}
+                      type="submit"
+                      className="wpsp-modal-save-account"
+                      onClick={(event) => {
+                        savedProfile(event)
+                      }}
                     >{ __( 'Save','wp-scheduled-posts' ) }</button>
-                    </ul>
                 </div>
               </div>
             ) )}
@@ -90,7 +98,8 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
                   <img src={singlePinterestBoard?.thumbnail_url} alt={singlePinterestBoard?.name} />
                   <h3>{singlePinterestBoard?.name}</h3>
                 </div>
-                <ul>
+                { singleBoardOptions.length > 0 &&
+                 <ul>
                   {singleBoardOptions?.map((board, board_index) => (
                     <li key={board_index}>
                       <div className="item-content">
@@ -136,9 +145,9 @@ export default function Pinterest({ platform, data, boards,fetchSectionData,noSe
                     }}
                   >{ __( 'Save','wp-scheduled-posts' ) }</button>
                   </ul>
+                  }
               </div>
             ) }
-            
           </div>
         </>
     )
