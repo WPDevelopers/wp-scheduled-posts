@@ -240,6 +240,8 @@ class Pinterest
             $_board_name = '';
             if( is_object( $board_name ) ) { 
                 $_board_name = $board_name->label;
+            }else{
+                $_board_name = $board_name;
             }
             try {
                 $pinterest = new \DirkGroenen\Pinterest\Pinterest(null, null);
