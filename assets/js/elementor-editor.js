@@ -340,7 +340,7 @@
             let facebook_selected_profiles;
             let is_facebook_share = true;
             const el_facebook_profile = $('[name="wpsp-el-content-facebook"]:checked').val();
-            if( el_facebook_profile == 'wpsp-el-social-facebook-default' ) {
+            if( el_facebook_profile == 'wpsp-el-social-facebook-custom' ) {
                 facebook_selected_profiles = $('[name="wpsp_el_social_facebook[]"]:checked').map(function() {
                     return $(this).val();
                 }).get();
