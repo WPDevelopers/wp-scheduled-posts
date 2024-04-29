@@ -305,9 +305,14 @@ class Helper
     public static function get_social_profile($profile, $includes = [])
     {
         $profile =  self::get_settings($profile) ?? [];
+        
         if( !empty( $includes ) ) {
+            $includes = array_map(function($element) {
+                return str_replace('.', ' ', $element);
+            }, $includes);
             $profile = array_filter( $profile, function($get_single_profile) use($includes) {
-                return in_array( $get_single_profile->name, $includes );
+                $single_name = str_replace('.', ' ',$get_single_profile->name);
+                return in_array( $single_name, $includes );
             } );
         }
         $is_pro_wpscp = apply_filters('wpsp_social_profile_limit_checkpoint', $profile);

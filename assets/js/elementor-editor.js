@@ -339,54 +339,107 @@
             // selected facebook profile
             let facebook_selected_profiles;
             let is_facebook_share = true;
-            facebook_selected_profiles = $('[name="wpsp_el_social_facebook[]"]:checked').map(function() {
-                return $(this).val();
-            }).get();
-            if( facebook_selected_profiles.length == 0 ) {
-                is_facebook_share = false;
+            const el_facebook_profile = $('[name="wpsp-el-content-facebook"]:checked').val();
+            if( el_facebook_profile == 'wpsp-el-social-facebook-default' ) {
+                facebook_selected_profiles = $('[name="wpsp_el_social_facebook[]"]:checked').map(function() {
+                    return $(this).val();
+                }).get();
+                if( facebook_selected_profiles.length == 0 ) {
+                    is_facebook_share = false;
+                }
+            }else{
+                facebook_selected_profiles = $('[name="wpsp_el_social_facebook[]"]').map(function() {
+                    return $(this).val();
+                }).get();
+                if( facebook_selected_profiles.length == 0 ) {
+                    is_facebook_share = false;
+                }
             }
             // selected twitter profile
             let twitter_selected_profiles;
             let is_twitter_share = true;
-            twitter_selected_profiles = $('[name="wpsp_el_social_twitter[]"]:checked').map(function() {
-                return $(this).val();
-            }).get();
-            if( twitter_selected_profiles.length == 0 ) {
-                is_twitter_share = false;
+            const el_twitter_profile = $('[name="wpsp-el-content-twitter"]:checked').val();
+            if( el_twitter_profile == 'wpsp-el-social-facebook-custom' ) {
+                twitter_selected_profiles = $('[name="wpsp_el_social_twitter[]"]:checked').map(function() {
+                    return $(this).val();
+                }).get();
+                if( twitter_selected_profiles.length == 0 ) {
+                    is_twitter_share = false;
+                }
+            }else{
+                twitter_selected_profiles = $('[name="wpsp_el_social_twitter[]"]').map(function() {
+                    return $(this).val();
+                }).get();
+                if( twitter_selected_profiles.length == 0 ) {
+                    is_twitter_share = false;
+                }
             }
+
             // selected twitter profile
             let linkedin_selected_profiles;
             let is_linkedin_share = true;
-            linkedin_selected_profiles = $('[name="wpsp_el_social_linkedin[]"]:checked').map(function() {
-                return $(this).val();
-            }).get();
-            if( linkedin_selected_profiles.length == 0 ) {
-                is_linkedin_share = false;
+            const el_linkedin_page = $('[name="wpsp-el-content-linkedin-page"]:checked').val();
+            const el_linkedin_profile = $('[name="wpsp-el-content-linkedin-profile"]:checked').val();
+            if( el_linkedin_page == 'wpsp-el-social-linkedin-page-custom' ||  el_linkedin_profile == 'wpsp-el-social-linkedin-custom-custom' ) {
+                linkedin_selected_profiles = $('[name="wpsp_el_social_linkedin[]"]:checked').map(function() {
+                    return $(this).val();
+                }).get();
+                if( linkedin_selected_profiles.length == 0 ) {
+                    is_linkedin_share = false;
+                }
+            }else{
+                linkedin_selected_profiles = $('[name="wpsp_el_social_linkedin[]"]').map(function() {
+                    return $(this).val();
+                }).get();
+                if( linkedin_selected_profiles.length == 0 ) {
+                    is_linkedin_share = false;
+                }
             }
 
             // selected pinterest profile
             let pinterest_selected_profiles;
             let is_pinterest_share = true;
             let pinterestBoardType;
-            pinterest_selected_profiles = $('[name="wpsp_el_social_pinterest[]"]:checked').map(function() {
-                return $(this).val();
-            }).get();
-            if( pinterest_selected_profiles.length == 0 ) {
-                is_pinterest_share = false;
+            const el_pinterest_profile = $('[name="wpsp-el-content-pinterest"]:checked').val();
+            if( el_pinterest_profile == 'wpsp-el-social-pinterest-custom' ) {
+                pinterest_selected_profiles = $('[name="wpsp_el_social_pinterest[]"]:checked').map(function() {
+                    return $(this).val();
+                }).get();
+                if( pinterest_selected_profiles.length == 0 ) {
+                    is_pinterest_share = false;
+                }
+            }else{
+                pinterest_selected_profiles = $('[name="wpsp_el_social_pinterest[]"]').map(function() {
+                    return $(this).val();
+                }).get();
+                if( pinterest_selected_profiles.length == 0 ) {
+                    is_pinterest_share = false;
+                }
             }
             if( pinterest_selection === 'wpsp-el-social-pinterest-custom' ) {
                 pinterestBoardType = 'custom';
             }
-
+            
             // selected instagram profile
             let instagram_selected_profiles;
             let is_instagram_share = true;
-            instagram_selected_profiles = $('[name="wpsp_el_social_instagram[]"]:checked').map(function() {
-                return $(this).val();
-            }).get();
-            if( instagram_selected_profiles.length == 0 ) {
-                is_instagram_share = false;
+            const el_instagram_profile = $('[name="wpsp-el-content-instagram"]:checked').val();
+            if( el_instagram_profile == 'wpsp-el-social-instagram-custom' ) {
+                instagram_selected_profiles = $('[name="wpsp_el_social_instagram[]"]:checked').map(function() {
+                    return $(this).val();
+                }).get();
+                if( instagram_selected_profiles.length == 0 ) {
+                    is_instagram_share = false;
+                }
+            }else{
+                instagram_selected_profiles = $('[name="wpsp_el_social_instagram[]"]').map(function() {
+                    return $(this).val();
+                }).get();
+                if( instagram_selected_profiles.length == 0 ) {
+                    is_instagram_share = false;
+                }
             }
+            
             var postid = jQuery('#wpscppropostid').val()
             // var nonce = jQuery('#wpscp_pro_instant_social_share_nonce').val()
             const nonce = wpscpSocialProfile?.nonce;

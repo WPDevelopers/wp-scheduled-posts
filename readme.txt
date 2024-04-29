@@ -208,7 +208,7 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 == Changelog ==
 
-= 5.1.0 - 2024-04-28 =
+= 5.1.0 - 2024-04-29 =
 - Added: Instagram Social Share.
 - Improved: Twitter Post sharing.
 - Few minor bug fixes & improvements.

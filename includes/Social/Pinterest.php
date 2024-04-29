@@ -237,7 +237,10 @@ class Pinterest
 
             $app_access_token = \WPSP\Helper::get_access_token('pinterest', $profile_key);
             $pin_args = $this->get_create_pin_args($post_id, $board_name, md5($app_access_token), $section_name, $instant_share);
-
+            $_board_name = '';
+            if( is_object( $board_name ) ) { 
+                $_board_name = $board_name->label;
+            }
             try {
                 $pinterest = new \DirkGroenen\Pinterest\Pinterest(null, null);
                 $pinterest->auth->setOAuthToken($app_access_token);
@@ -256,6 +259,10 @@ class Pinterest
                 $errorFlag = true;
                 $results = json_decode($results, true);
                 $response = [];
+                if( empty( $results['id'] ) && empty( $response['created_at'] ) ) {
+                    $errorFlag = false;
+                    throw new \Exception("this Pinterest board doesn't exits!!", 404);
+                }
                 if (array_key_exists('id', $results) && array_key_exists('created_at', $results)) {
                     $response['message']    = __('Your post has been successfully shared!', 'wp-scheduled-posts');
                     $response['id']         = $results['id'];
@@ -263,7 +270,7 @@ class Pinterest
                 }
             } catch (\Exception $e) {
                 $errorFlag = false;
-                $response = $e->getMessage();
+                $response = $_board_name . ' - ' . $e->getMessage();
             }
             return array(
                 'success' => $errorFlag,
