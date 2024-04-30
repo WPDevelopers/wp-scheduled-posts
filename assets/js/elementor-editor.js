@@ -7,6 +7,7 @@
         label_schedule = wpsp_submit_button.data('label-schedule'),
         label_publish = wpsp_submit_button.data('label-publish'),
         label_update = wpsp_submit_button.data('label-update'),
+        label_draft = wpsp_submit_button.data('label-draft'),
         advanced_schedule = $('.wpsp-advanced-schedule'),
         advanced_schedule_text = $('span:nth-child(2)', advanced_schedule),
         avd_label_schedule = advanced_schedule.data('label-schedule'),
@@ -14,13 +15,19 @@
         status = advanced_schedule.data('status'),
         isAdvanced = advanced_schedule.data('is-advanced'),
         immediately_btn = $('.wpsp-immediately-publish'),
+        wpsp_adv_date,
         wpsp_date;
+        
 
     var updateLabel = function(current_time, selected_time){
         if (current_time.getTime() < selected_time.getTime()) {
             wpsp_submit_button_text.text(label_schedule)
         } else {
-            wpsp_submit_button_text.text(label_publish)
+            if( status == 'draft' ) {
+                wpsp_submit_button_text.text(label_draft)
+            }else{
+                wpsp_submit_button_text.text(label_publish)
+            }
         }
     }
 
@@ -64,7 +71,7 @@
                 }
             }
         });
-
+        
         if ($('.wpsp-pro-fields.wpsp-pro-activated label input').length) {
             flatpickr(".wpsp-pro-fields.wpsp-pro-activated label input", {
                 enableTime: true,
@@ -74,6 +81,14 @@
                 appendTo: window.document.querySelector('.wpsp-el-modal-date-picker'),
             });
         }
+
+        wpsp_adv_date = flatpickr("#wpsp-advanced-schedule-datetime", {
+            enableTime: true,
+            dateFormat: "Y-m-d H:i:S",
+            altInput: true,
+            altFormat: "F j, Y h:i K",
+            appendTo: window.document.querySelector('.wpsp-el-modal-date-picker'),
+        });
 
         //Tooltip and icon swapping
         function addTooltip($el) {
@@ -151,6 +166,7 @@
         }).on('click', '.wpsp-immediately-publish', function (e) {
             e.preventDefault();
             wpsp_date.clear();
+            wpsp_adv_date.clear();
             wpsp_submit_button_text.text(label_publish);
             $(this).addClass('active');
             wpsp_submit_button_text.trigger('click', [$(this)]);
@@ -181,7 +197,6 @@
                 wpsp_date.setDate(data.data.post_time);
                 isAdvanced = data.data.advanced;
                 status = data.data.status;
-
                 if (data.data.status === 'future') {
                     advanced_schedule.hide();
                     immediately_btn.show();
@@ -192,7 +207,7 @@
                     }
 
                     if(isAdvanced){
-                        wpsp_submit_button.hide();
+                        // wpsp_submit_button.hide();
                         immediately_btn.show().removeClass('active');
                         advanced_schedule_text.text(avd_label_update);
                     }
@@ -359,7 +374,7 @@
             let twitter_selected_profiles;
             let is_twitter_share = true;
             const el_twitter_profile = $('[name="wpsp-el-content-twitter"]:checked').val();
-            if( el_twitter_profile == 'wpsp-el-social-facebook-custom' ) {
+            if( el_twitter_profile == 'wpsp-el-social-twitter-custom' ) {
                 twitter_selected_profiles = $('[name="wpsp_el_social_twitter[]"]:checked').map(function() {
                     return $(this).val();
                 }).get();
@@ -380,7 +395,7 @@
             let is_linkedin_share = true;
             const el_linkedin_page = $('[name="wpsp-el-content-linkedin-page"]:checked').val();
             const el_linkedin_profile = $('[name="wpsp-el-content-linkedin-profile"]:checked').val();
-            if( el_linkedin_page == 'wpsp-el-social-linkedin-page-custom' ||  el_linkedin_profile == 'wpsp-el-social-linkedin-custom-custom' ) {
+            if( el_linkedin_page == 'wpsp-el-social-linkedin-page-custom' ||  el_linkedin_profile == 'wpsp-el-social-linkedin-profile-custom' ) {
                 linkedin_selected_profiles = $('[name="wpsp_el_social_linkedin[]"]:checked').map(function() {
                     return $(this).val();
                 }).get();

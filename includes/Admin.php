@@ -345,7 +345,8 @@ class Admin
                         <button class="wpsp_el_share_now"><?php echo esc_html__('Share Now','wp-scheduled-posts') ?></button>
                         <button class="elementor-button wpsp-el-form-submit"
                                 data-label-schedule="<?php esc_html_e( 'Schedule', 'wp-scheduled-posts' ); ?>"
-                                data-label-publish="<?php esc_html_e( 'Publish', 'wp-scheduled-posts' ); ?>"
+                                data-label-publish="<?php esc_html_e( 'Update', 'wp-scheduled-posts' ); ?>"
+                                data-label-draft="<?php esc_html_e( 'Publish', 'wp-scheduled-posts' ); ?>"
                                 data-label-update="<?php esc_html_e( 'Update', 'wp-scheduled-posts' ); ?>">
                             <span class="elementor-state-icon">
                                 <i class="eicon-loading eicon-animation-spin" aria-hidden="true"></i>
@@ -458,7 +459,7 @@ class Admin
 
     public function wpsp_get_pinterest_sections( $profiles )
     {
-        if( $profiles['platform'] == 'pinterest' ) {
+        if( isset( $profiles['platform'] ) && $profiles['platform'] == 'pinterest' ) {
             if ( isset( $profiles['pinterest_custom_board_name'] ) && isset( $profiles['pinterest_custom_section_name'] ) ) {
                 return [ $profiles['pinterest_custom_board_name'] => $profiles['pinterest_custom_section_name'] ];
              }
@@ -822,6 +823,7 @@ class Admin
                 'republish_datetime'               => '',
                 'unpublish_datetime'               => '',
                 'post_status'                      => 'future',
+                '_wpscppro_advance_schedule_date'  => '',
                 'advanced'                         => null,
                 'wpsp-el-content-facebook'         => '',
                 'wpsp-el-content-twitter'          => '',
@@ -836,6 +838,8 @@ class Admin
                 'wpsp_el_pinterest_board'          => [],
             ] );
 
+            do_action( 'wpsp_el_action_before', $args );
+
             // @todo moved to pro, will be removed in next version...
             if ( $this->pro_enabled ) {
                 if ( ! empty( $args['republish_datetime'] ) ) {
@@ -847,7 +851,6 @@ class Admin
                 }
             }
 
-            do_action( 'wpsp_el_action_before', $args );
 
             $is_future = true;
 
