@@ -4,6 +4,7 @@ namespace WPSP\Social;
 
 use Abraham\TwitterOAuth\TwitterOAuth;
 use DirkGroenen\Pinterest\Pinterest;
+use DOMDocument;
 use myPHPNotes\LinkedIn;
 use WPSP\Helper;
 
@@ -501,12 +502,13 @@ class SocialProfile
                 $page_array = array();
                 if (is_array($userInfo->accounts->data) && count($userInfo->accounts->data) > 0) {
                     foreach ($userInfo->accounts->data as $page_item) {
+                        $uploaded_image_url = $this->handle_thumbnail_upload($page_item->picture->data->url, $page_item->name);
                         array_push($page_array, array(
                             'id'                      => $page_item->id,
                             'app_id'                  => $app_id,
                             'app_secret'              => $app_secret,
                             'name'                    => $page_item->name,
-                            'thumbnail_url'           => $page_item->picture->data->url,
+                            'thumbnail_url'           => !empty( $uploaded_image_url ) ? $uploaded_image_url : $page_item->picture->data->url,
                             'type'                    => 'page',
                             'status'                  => true,
                             'access_token'            => $page_item->access_token,
@@ -574,12 +576,13 @@ class SocialProfile
                 $profile_array = array();
                 if (is_array($userInfo) && count($userInfo) > 0) {
                     foreach ($userInfo as $profile) {
+                        $uploaded_image_url = $this->handle_thumbnail_upload($profile->profile_picture_url, $profile->name);
                         array_push($profile_array, array(
                             'id'                      => $profile->id,
                             'app_id'                  => $app_id,
                             'app_secret'              => $app_secret,
                             'name'                    => $profile->name,
-                            'thumbnail_url'           => $profile->profile_picture_url,
+                            'thumbnail_url'           => !empty( $uploaded_image_url ) ? $uploaded_image_url : $profile->profile_picture_url,
                             'type'                    => 'profile',
                             'status'                  => true,
                             'access_token'            => $profile->access_token,
@@ -604,6 +607,23 @@ class SocialProfile
         }
         wp_send_json_error("Option name and request type missing. please try again");
         wp_die();
+    }
+
+    public function handle_thumbnail_upload($imageUrl, $imageTitle = '')
+    {
+        // Check if user is logged in
+        if (is_user_logged_in()) {
+            // Download and attach the image
+            $attachmentHtml = media_sideload_image($imageUrl, 0, $imageTitle);
+            // Check for successful upload
+            if (!is_wp_error($attachmentHtml)) {
+                 // Extract URL using regular expression
+                if (preg_match('/<img.*?src=["\']([^"\']+)["\'].*?>/', $attachmentHtml, $matches)) {
+                    $imageUrl = !empty( $matches[1] ) ? $matches[1] : '';
+                    return $imageUrl;
+                }
+            }
+        }
     }
 
     /**

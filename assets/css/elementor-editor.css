@@ -890,3 +890,9 @@
 .wpsp-pro-fields label span{
     margin-right: 10px;
 }
+.elementor-control-wpsp_section_schedule .elementor-control-content .elementor-panel-heading .elementor-panel-heading-title{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 5px;
+}
