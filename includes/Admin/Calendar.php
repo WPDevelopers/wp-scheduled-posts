@@ -329,11 +329,19 @@ class Calendar
     }
 
     public function get_advanced_post_data(){
+        $adv_data = get_post_meta(get_the_ID(), 'wpscp_pending_schedule', true);
         $advance_schedule_date = $this->wpsp_get_advance_schedule_date( get_the_ID() );
         $advance_schedule_date = get_gmt_from_date( $advance_schedule_date, 'Y-m-d H:i:s' );
+        $post_title = '';
+        if( !empty( $adv_data['post_title'] ) ) {
+            $post_title = wp_trim_words( $adv_data['post_title'], 3, '...');
+        }else{
+            $post_title = wp_trim_words(get_the_title(), 3, '...');
+        }
+
         return array(
             'postId'   => get_the_ID(),
-            'title'    => wp_trim_words(get_the_title(), 3, '...'),
+            'title'    => $post_title,
             'href'     => get_the_permalink(),
             'edit'     => get_edit_post_link(get_the_ID(), null),
             'postType' => get_post_type(),
