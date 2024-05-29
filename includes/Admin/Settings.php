@@ -1170,6 +1170,11 @@ class Settings {
                                                                             'text'  => __('How To Configure SchedulerPress Advanced Schedule In Gutenberg?', 'wp-scheduled-posts'),
                                                                             'target'=> '_blank',
                                                                         ],
+                                                                        [
+                                                                            'link'  => esc_url('https://wpdeveloper.com/docs/advanced-schedule-in-classic-editor/'),
+                                                                            'text'  => __('How to Configure SchedulePress Advanced Schedule in Classic Editor?', 'wp-scheduled-posts'),
+                                                                            'target'=> '_blank',
+                                                                        ],
                                                                     ],
                                                                 ],
                                                             ],
