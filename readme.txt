@@ -1,10 +1,10 @@
-=== SchedulePress – Best Editorial Calendar, Missed Schedule & Auto Social Share  ===
+=== SchedulePress – Auto Post & Publish, Auto Social Share, Schedule Posts with Editorial Calendar & Missed Schedule Post Publisher  ===
 Contributors: wpdevteam, Asif2BD, re_enter_rupok, priyomukul, shajalal, alimuzzamanalim, rudlinkon, shuvo247
 Tags: post schedule, schedule calendar, auto scheduler, auto sharing, social share
 Requires at least: 4.0
 Tested up to: 6.5
 Requires PHP: 7.2
-Stable tag: 5.1.1
+Stable tag: 5.1.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -12,7 +12,7 @@ WordPress Post Scheduler with Editorial Calendar & Auto-Scheduling. Automatic So
 
 == Description ==
 
-### Best Content Marketing Tool For WordPress - Schedule, Organize, & Auto Share Blog Posts
+### Your Content Marketing Tool For WordPress - Schedule, Organize, & Auto Share Blog Posts
 
 Automate your content workflow with [SchedulePress](https://wpdeveloper.com/plugins/wp-scheduled-posts/). Take a glance at your content planning with a drag-and-drop, visual Schedule Calendar, Auto Scheduler, Manual Scheduler, handle missed schedules easily & more. Automatically share your posts on the following social media platforms:
 
@@ -207,6 +207,10 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 8. Social Templates
 
 == Changelog ==
+
+= 5.1.2 - 2024-06-10 =
+- Improved: Allowed Post type for Elementor.
+- Few minor bug fixes & improvements.
 
 = 5.1.1 - 2024-05-29 =
 - Improved: Profile image visibility for connected Social Profiles.

@@ -135,3 +135,8 @@
 .jquery-kylefoxModal {
     z-index: 99999;
 }
+.ReactModal__Overlay .modal_wrapper .modalbody .components-input-control__container .components-select-control__input {
+    height: 38px;
+    min-height: 38px;
+    padding-left: 10px;
+}
