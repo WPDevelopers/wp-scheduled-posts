@@ -60,6 +60,7 @@
     height: auto;
     padding-bottom: 20px;
     overflow: auto;
+    position: relative;
 }
 
 @media (max-width: 1439px) {
@@ -895,4 +896,18 @@
     justify-content: start;
     align-items: center;
     gap: 5px;
+}
+
+#schedulepress-elementor-modal .dialog-content.dialog-lightbox-content.add-overlay {
+    opacity: 0.3;
+    pointer-events: none;
+    margin-top: 20px;
+}
+#schedulepress-elementor-modal .dialog-lightbox-warning .post-type-message span{
+    color: #000;
+    font-size: 14px;
+    line-height: 1.5;
+}
+#schedulepress-elementor-modal .dialog-lightbox-warning .post-type-message span strong{
+    text-transform: capitalize;
 }

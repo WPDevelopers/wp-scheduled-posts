@@ -14,16 +14,20 @@ class Assets
         // adminbar enqueue
         add_action('admin_enqueue_scripts', [$this, 'adminbar_script']);
         add_action('wp_enqueue_scripts', [$this, 'adminbar_script']);
-
-	    add_action( 'elementor/editor/after_enqueue_scripts', function () {
+        
+        add_action( 'elementor/editor/after_enqueue_scripts', function () {
+            $allow_post_types = \WPSP\Helper::get_all_allowed_post_type();
             wp_enqueue_script('jquery-kylefoxModal', WPSP_ASSETS_URI . 'js/vendor/jquery.modal.min.js', array('jquery'), WPSP_VERSION, false);
-		    wp_enqueue_script( 'wpscp-el-editor', WPSP_ASSETS_URI . 'js/elementor-editor.js', array( 'jquery', 'tipsy' ), WPSP_VERSION, true );
+            wp_enqueue_script( 'wpscp-el-editor', WPSP_ASSETS_URI . 'js/elementor-editor.js', array( 'jquery', 'tipsy' ), WPSP_VERSION, true );
             wp_enqueue_style('jquery-kylefoxModal', WPSP_ASSETS_URI . 'css/vendor/jquery.modal.min.css', array(), WPSP_VERSION, 'all');
-		    wp_enqueue_style( 'wpscp-el-editor', WPSP_ASSETS_URI . 'css/elementor-editor.css',array(), WPSP_VERSION, 'all' );
+            wp_enqueue_style( 'wpscp-el-editor', WPSP_ASSETS_URI . 'css/elementor-editor.css',array(), WPSP_VERSION, 'all' );
             wp_localize_script('wpscp-el-editor', 'wpscpSocialProfile', array(
-                'nonce' => wp_create_nonce('wpscp-pro-social-profile'),
+                'nonce'                 => wp_create_nonce('wpscp-pro-social-profile'),
+                'is_post_type_selected' => in_array( get_post_type( get_the_ID() ), $allow_post_types),
             ));
-	    } );
+        } );
+
+	    
     }
 
     /**

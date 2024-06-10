@@ -267,7 +267,9 @@ class Admin
         return $this->settings;
     }
 
-    public function schedulepress_el_tab () { ?>
+    public function schedulepress_el_tab () {
+        $allow_post_types = \WPSP\Helper::get_all_allowed_post_type();
+        ?>
         <div class="dialog-widget dialog-lightbox-widget dialog-type-buttons dialog-type-lightbox elementor-templates-modal"
             id="schedulepress-elementor-modal" style="display: none;">
             <div class="dialog-widget-content dialog-lightbox-widget-content" style="top: 50%;left: 50%;transform: translate(-50%, -50%);">
@@ -298,7 +300,14 @@ class Admin
                     </div>
                 </div>
                 <div class="dialog-message dialog-lightbox-message">
-                    <div class="dialog-content dialog-lightbox-content">
+                    <?php if( !in_array( get_post_type( get_the_ID() ), $allow_post_types) ) : ?>
+                    <div class="dialog-lightbox-warning">
+                        <div class="post-type-message">
+                            <span><?php echo sprintf( __('Sorry, you can\'t schedule this <strong>%s</strong>. Please allow this post type from <a href="%s" target="_blank">SchedulePress settings</a>.', 'wp-scheduled-posts'), get_post_type( get_the_ID() ),  admin_url('admin.php?page=schedulepress') ) ?></span>
+                        </div>
+                    </div>
+                    <?php endif ?>
+                    <div class="dialog-content dialog-lightbox-content <?php echo !in_array( get_post_type( get_the_ID() ), $allow_post_types ) ? 'add-overlay' : '' ?>">
                         <form action="<?php echo admin_url( 'admin-ajax.php' ); ?>" method="post">
                             <div class="wpsp-el-fields-prev wpsp-el-fields active">
                                 <?php
@@ -328,7 +337,7 @@ class Admin
                 </div>
                 <div class="dialog-buttons-wrapper dialog-lightbox-buttons-wrapper wpsp-elementor-modal-wrapper">
                     <div id="wpsp-el-form-prev-next-button">
-                        <button class="elementor-button wpsp-el-form-next">
+                        <button class="elementor-button wpsp-el-form-next" <?php echo !in_array( get_post_type( get_the_ID() ), $allow_post_types ) ? 'disabled' : '' ?>>
                             <span><?php echo esc_html__( 'Next','wp-scheduled-posts' ) ?></span>
                         </button>
                         <button class="elementor-button wpsp-el-form-prev">
@@ -552,7 +561,7 @@ class Admin
                                     </div>
                                 <?php else : ?>
                                     <div class="wpsp-el-empty-profile-message">
-                                        <?php echo sprintf( __( 'You may forget to add or enable profile/page from <a href="%s">SchedulePress settings</a>. ', 'wp-scheduled-posts' ), 'https://schedulepress.test/wp-admin/admin.php?page=schedulepress&amp;tab=social-profile' ) ?>
+                                        <?php echo sprintf( __( 'You may forget to add or enable profile/page from <a href="%s">SchedulePress settings</a>. ', 'wp-scheduled-posts' ), admin_url('admin.php?page=schedulepress&tab=social-profile') ) ?>
                                     </div>
                                 <?php endif ?>
                             </div>
@@ -578,7 +587,7 @@ class Admin
                                     </div>
                                 <?php else : ?>
                                     <div class="wpsp-el-empty-profile-message">
-                                        <?php echo sprintf( __( 'You may forget to add or enable profile/page from <a href="%s">SchedulePress settings</a>. ', 'wp-scheduled-posts' ), 'https://schedulepress.test/wp-admin/admin.php?page=schedulepress&amp;tab=social-profile' ) ?>
+                                        <?php echo sprintf( __( 'You may forget to add or enable profile/page from <a href="%s">SchedulePress settings</a>. ', 'wp-scheduled-posts' ), admin_url('admin.php?page=schedulepress&tab=social-profile') ) ?>
                                     </div>
                                 <?php endif ?>
                             </div>
@@ -627,7 +636,7 @@ class Admin
                                                 </div>
                                                 <?php else : ?>
                                                     <div class="wpsp-el-empty-profile-message">
-                                                        <?php echo sprintf( __( 'You may forget to add or enable profile/page from <a href="%s">SchedulePress settings</a>. ', 'wp-scheduled-posts' ), 'https://schedulepress.test/wp-admin/admin.php?page=schedulepress&amp;tab=social-profile' ) ?>
+                                                        <?php echo sprintf( __( 'You may forget to add or enable profile/page from <a href="%s">SchedulePress settings</a>. ', 'wp-scheduled-posts' ), admin_url('admin.php?page=schedulepress&tab=social-profile') ) ?>
                                                     </div>
                                                 <?php endif ?>
                                             <?php endif ?>
@@ -658,14 +667,14 @@ class Admin
                                                 </div>
                                                 <?php else :  ?>
                                                     <div class="wpsp-el-empty-profile-message">
-                                                        <?php echo sprintf( __( 'You may forget to add or enable profile/page from <a href="%s">SchedulePress settings</a>. ', 'wp-scheduled-posts' ), 'https://schedulepress.test/wp-admin/admin.php?page=schedulepress&amp;tab=social-profile' ) ?>
+                                                        <?php echo sprintf( __( 'You may forget to add or enable profile/page from <a href="%s">SchedulePress settings</a>. ', 'wp-scheduled-posts' ), admin_url('admin.php?page=schedulepress&tab=social-profile') ) ?>
                                                     </div>
                                                 <?php endif ?>
                                             <?php endif ?>
                                         </div>
                                     <?php else : ?>
                                         <div class="wpsp-el-empty-profile-message">
-                                            <?php echo sprintf( __( 'You may forget to add or enable profile/page from <a href="%s">SchedulePress settings</a>. ', 'wp-scheduled-posts' ), 'https://schedulepress.test/wp-admin/admin.php?page=schedulepress&amp;tab=social-profile' ) ?>
+                                            <?php echo sprintf( __( 'You may forget to add or enable profile/page from <a href="%s">SchedulePress settings</a>. ', 'wp-scheduled-posts' ), admin_url('admin.php?page=schedulepress&tab=social-profile') ) ?>
                                         </div>
                                     <?php endif ?>
                                 </div>
@@ -713,7 +722,7 @@ class Admin
                                 </div>
                                 <?php else : ?>
                                     <div class="wpsp-el-empty-profile-message">
-                                        <?php echo sprintf( __( 'You may forget to add or enable profile/page from <a href="%s">SchedulePress settings</a>. ', 'wp-scheduled-posts' ), 'https://schedulepress.test/wp-admin/admin.php?page=schedulepress&amp;tab=social-profile' ) ?>
+                                        <?php echo sprintf( __( 'You may forget to add or enable profile/page from <a href="%s">SchedulePress settings</a>. ', 'wp-scheduled-posts' ), admin_url('admin.php?page=schedulepress&tab=social-profile') ) ?>
                                     </div>
                                 <?php endif ?>
                             </div>
@@ -740,7 +749,7 @@ class Admin
                                     </div>
                                 <?php else : ?>
                                     <div class="wpsp-el-empty-profile-message">
-                                        <?php echo sprintf( __( 'You may forget to add or enable profile/page from <a href="%s">SchedulePress settings</a>. ', 'wp-scheduled-posts' ), 'https://schedulepress.test/wp-admin/admin.php?page=schedulepress&amp;tab=social-profile' ) ?>
+                                        <?php echo sprintf( __( 'You may forget to add or enable profile/page from <a href="%s">SchedulePress settings</a>. ', 'wp-scheduled-posts' ), admin_url('admin.php?page=schedulepress&tab=social-profile') ) ?>
                                     </div>
                                 <?php endif ?>
                             </div>

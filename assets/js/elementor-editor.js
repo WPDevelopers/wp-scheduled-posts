@@ -530,7 +530,7 @@
 
     // Checkbox selection  stopPropagation
     document.addEventListener('DOMContentLoaded', function () {
-        var checkboxesAndRadios = document.querySelectorAll('.el-social-share-platform input[type="checkbox"], .wpsp-pro-fields a, .el-social-share-platform input[type="radio"], .el-social-share-platform label, .wpsp-el-empty-profile-message a, .wpsp-el-disabled-text a');
+        var checkboxesAndRadios = document.querySelectorAll('.el-social-share-platform input[type="checkbox"], .wpsp-pro-fields a, .el-social-share-platform input[type="radio"], .el-social-share-platform label, .wpsp-el-empty-profile-message a, .wpsp-el-disabled-text a, .post-type-message span a');
         checkboxesAndRadios.forEach(function (checkboxOrRadio) {
             checkboxOrRadio.addEventListener('click', function (event) {
                 event.stopPropagation();

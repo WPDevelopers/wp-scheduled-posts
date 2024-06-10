@@ -219,7 +219,7 @@ class InstantShare
                     endif;
                     ?>
                     <?php if( $facebookIntegation != 'on' && $twitterIntegation != 'on' && $linkedinIntegation != 'on' && $pinterestIntegation != 'on' && $instagramIntegation != 'on' ) : ?>
-                        <?php echo sprintf( __( 'You may forget to add or enable social media from <a href="%s">SchedulePress settings</a>. ', 'wp-scheduled-posts' ), 'https://schedulepress.test/wp-admin/admin.php?page=schedulepress&amp;tab=social-profile' ) ?>
+                        <?php echo sprintf( __( 'You may forget to add or enable social media from <a href="%s">SchedulePress settings</a>. ', 'wp-scheduled-posts' ), admin_url('admin.php?page=schedulepress&tab=social-profile') ) ?>
                     <?php endif ?>
                 </ul>
                 <button id="wpscpproinstantsharenow" <?php echo ( $facebookIntegation != 'on' && $twitterIntegation != 'on' && $linkedinIntegation != 'on' && $pinterestIntegation != 'on' && $instagramIntegation != 'on' ) ? 'disabled' : '' ?> class="button button-primary button-large"><?php esc_html_e('Share Now', 'wp-scheduled-posts'); ?></button>
