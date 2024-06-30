@@ -91,6 +91,7 @@ trait SocialHelper
         if (!empty($hashTags) && strpos($template_structure, '{tags}') !== false) {
             $tags = '';
             $_tags = explode('#', $hashTags);
+            $_tags = array_slice( $_tags, 0, 6 );
             foreach ($_tags as $tag) {
                 $tag = trim($tag);
                 if (empty($tag))

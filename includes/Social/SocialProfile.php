@@ -53,6 +53,17 @@ class SocialProfile
         }, 10, 3);
         // add profile id to linkedin page
         add_filter('wpsp_filter_linkedin_pages', [ $this, 'filter_linkedin_page_data' ], 10, 2);
+
+        add_action('admin_init', [ $this, 'store_social_code_to_transient' ], -1 );
+    }
+
+    public function store_social_code_to_transient()
+    {
+        $request = $_REQUEST;
+        if( !empty( $request['code'] ) ) {
+            set_transient('wpsp_social_auth_code', $request['code'], 3600);
+        }
+
     }
 
     // Format instagram profile data 
@@ -292,7 +303,12 @@ class SocialProfile
         $openIDConnect = (isset($_POST['openIDConnect']) ? $_POST['openIDConnect'] : '');
         // user
         $current_user = wp_get_current_user();
-
+        
+        // get code from request if params code is empty
+        if( empty( $code ) ) {
+            $code = get_transient('wpsp_social_auth_code');
+            delete_transient('wpsp_social_auth_code');
+        }
 
         if ($type == 'pinterest') {
             try {
