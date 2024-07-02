@@ -67,7 +67,7 @@ trait SocialHelper
      * @param template, post_title, post_description, post_link, post_tags
      * @since 2.5.1
      */
-    public function social_share_content_template_structure($template_structure, $title, $desc, $post_link, $hashTags, $limit, $url_limit = null)
+    public function social_share_content_template_structure($template_structure, $title, $desc, $post_link, $hashTags, $limit, $url_limit = null, $platform = '')
     {
         $title              = html_entity_decode($title);
         $desc               = html_entity_decode($desc);
@@ -91,6 +91,7 @@ trait SocialHelper
         if (!empty($hashTags) && strpos($template_structure, '{tags}') !== false) {
             $tags = '';
             $_tags = explode('#', $hashTags);
+            $_tags = apply_filters('wpsp_filter_social_content_tags', $_tags, $platform);
             foreach ($_tags as $tag) {
                 $tag = trim($tag);
                 if (empty($tag))
