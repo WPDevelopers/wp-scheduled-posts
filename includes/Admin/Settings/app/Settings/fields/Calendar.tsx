@@ -39,6 +39,7 @@ export default function Calendar(props) {
     month: currentDate.getMonth() + 1,
     year: currentDate.getFullYear(),
   });
+  const calendar_layout = builderContext?.values?.calendar_layouts;
 
   const [modalData, openModal] = useState<ModalProps>({ post: null, eventType: null });
   const onSubmit = (data: any, oldData) => {
@@ -49,7 +50,7 @@ export default function Calendar(props) {
   const [sidebarToggle, setSidebarToggle] = useState(true);
   const [editAreaToggle, setEditAreaToggle] = useState({});
   const [status, setStatus] = useState( null );
-
+  
   const [selectedPostType, setSelectedPostType] = useState<Option[]>(
     addAllOption(props.post_types)
   );
@@ -58,7 +59,7 @@ export default function Calendar(props) {
   const MyWrapperComponent = ({ children, ...rest }) => {
     return React.cloneElement(children, { ...rest });
   };
-
+  
   const updateEvents = (post) => {
     getEvents();
     setTimeout(() => {
@@ -114,6 +115,14 @@ export default function Calendar(props) {
   }, [selectedPostType, selectedCategories]);
 
   useEffect(() => {
+    if( calendar_layout == 'classic' ) {
+      setSidebarToggle(false);
+    }else{
+      setSidebarToggle(true);
+    }
+  }, [calendar_layout]);
+
+  useEffect(() => {
     if ("layout_calendar" === props.context?.config.active) {
       updateSize();
     }
@@ -146,7 +155,11 @@ export default function Calendar(props) {
 
   const schedule_time = builderContext?.values?.calendar_schedule_time || props.schedule_time;
   const dateSettings = (getSettings || __experimentalGetSettings)();
-
+  let editAreaToggleValue;
+  let editArea = Object.values(editAreaToggle);
+  if (editArea.length > 0) {
+    editAreaToggleValue = editArea[0];
+  }  
 
   return (
     <div
@@ -250,7 +263,7 @@ export default function Calendar(props) {
               />
             </div>
           </div>
-          <div className="wprf-calendar-wrapper">
+          <div className={`wprf-calendar-wrapper ${calendar_layout} ${ editAreaToggleValue ? 'edit-area-enabled' : '' }`}>
             <div className="button-control-month">
               <button
                 type="button"
@@ -290,7 +303,7 @@ export default function Calendar(props) {
               eventDurationEditable={false}
               dragRevertDuration={0}
               // headerToolbar={false}
-              dayMaxEvents={1}
+              dayMaxEvents={ calendar_layout == 'standard' ? 1 : false}
               dayPopoverFormat={{ day: "numeric" }}
               moreLinkContent={(arg) => {
                 return <>View {arg.num} More</>;

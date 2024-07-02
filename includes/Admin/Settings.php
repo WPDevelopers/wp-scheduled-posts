@@ -209,6 +209,23 @@ class Settings {
                                     'option'  => self::normalize_options(\WPSP\Helper::get_all_roles()),
                                     'default'  => [ 'administrator' ],
                                 ],
+                                'calendar_layouts' => [
+                                    'label'   => __('Calendar Layouts','wp-scheduled-posts'),
+                                    'name'    => "calendar_layouts",
+                                    'type'    => "radio-card",
+                                    'default' => "standard",
+                                    'priority'=> 9.5,
+                                    'options' => [
+                                        [
+                                            'label' => __( 'Default','wp-scheduled-posts' ),
+                                            'value' => 'standard',
+                                        ],
+                                        [
+                                            'label' => __( 'Standard','wp-scheduled-posts' ),
+                                            'value' => 'classic',
+                                        ]
+                                    ],
+                                ],
                                 'calendar_schedule_time' => [
                                     'id'       => 'calendar_schedule_time',
                                     'name'     => 'calendar_schedule_time',

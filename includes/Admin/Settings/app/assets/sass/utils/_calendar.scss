@@ -376,6 +376,42 @@
               }
             }
           }
+          &.classic {
+            .fc-daygrid-day-events {
+              max-height: 250px;
+              overflow-y: auto;
+              &::-webkit-scrollbar {
+                  width: 5px;
+              }
+              &::-webkit-scrollbar-thumb {
+                  border-radius: 5px;
+                  background: #6c62ff;
+              }
+              &::-webkit-scrollbar-track {
+                  background: #f3f2ff;
+                  border-radius: 5px;
+              }
+              .fc-daygrid-event-harness {
+                margin-bottom: 5px;
+                .fc-daygrid-body .fc-daygrid-day-frame .fc-daygrid-day-events .fc-event .car {
+                  // padding: 5px;
+                }
+                .wpsp-event-card .set-time {
+                  position: absolute;
+                  right: 5px;
+                  bottom: 0;
+                }
+                .wpsp-event-card h3 {
+                  font-size: 12px;
+                }
+              }
+            }
+          }
+          // &.edit-area-enabled.classic {
+          //  .fc-daygrid-day-events {
+          //     overflow-y: visible !important;
+          //   }
+          // }
         }
 
         .fc-theme-standard {

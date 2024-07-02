@@ -14,36 +14,31 @@ export const getPostFromEvent = (event: EventApi, dateString = false) => {
   const { postId, href, edit, status, postType, postTime } = event.extendedProps;
 
   const post: PostType = {
-    postId  : postId,
+    postId: postId,
     postTime: postTime,
     postType: postType,
-    status  : status,
-    title   : title,
-    href    : href,
-    edit    : edit,
-    start   : start,
-    end     : end,
-    allDay  : allDay,
+    status: status,
+    title: title,
+    href: href,
+    edit: edit,
+    start: start,
+    end: end,
+    allDay: allDay,
   };
   return post;
 }
 export const eventDrop = (event: EventApi, eventType) => {
   const post: PostType = getPostFromEvent(event, true);
 
-  // let date = post.end.toISOString().replace('T', ' ').replace(/\.\d{3}Z/, '');
-  // let date = DateTime.fromISO(post.end).toFormat('yyyy-MM-dd HH:mm:ss');
-
   return apiFetch<PostType>({
     method: "POST",
     path: "/wpscp/v1/post",
     data: {
-      type       : eventType,
-      ID         : post.postId,
-      post_type  : post.postType,
+      type: eventType,
+      ID: post.postId,
+      post_type: post.postType,
       post_status: post.status,
-      // postContent: post.post_content,
-      // postTitle  : post.title,
-      date       : post.end,
+      date: post.end,
     },
   });
 }
@@ -59,27 +54,40 @@ const PostCard = ({
   setStatus = null,
 }) => {
   const postColor = getPostTypeColor(post.postType);
-  
+
   const toggleEditArea = () => {
     setEditAreaToggle({
       [post.postId]: !editAreaToggle?.[post.postId] ?? true,
     });
-    setStatus( post.status );
-  };  
+    setStatus(post.status);
+
+    setTimeout(() => {
+      const editArea = document.querySelector(`.wpsp-event-post-${post.postId} .edit-area`);
+      const scrollableContent = document.querySelector('.fc-daygrid-day-events'); // Adjust selector if necessary
+
+      if (editArea && scrollableContent) {
+        const editAreaRect = editArea.getBoundingClientRect();
+        const scrollableContentRect = scrollableContent.getBoundingClientRect();
+        console.log('editAreaRect.bottom',editAreaRect);
+        console.log('scrollableContentRect.bottom',scrollableContentRect);
+        
+        // if (editAreaRect.bottom > scrollableContentRect.bottom) {
+        //   scrollableContent.scrollTop = editArea.offsetTop;
+        // }
+      }
+    }, 0);
+  };
 
   const deletePost = (id, status) => {
-    // @todo add confirm dialog.
-
     return apiFetch({
       path: addQueryArgs('/wpscp/v1/post', { ID: id, status }),
       method: 'DELETE',
-      // data: query,
-    }).then((data: {id: string, message: string, status : string} | WP_Error) => {
-      if('id' in data) {
+    }).then((data: { id: string, message: string, status: string } | WP_Error) => {
+      if ('id' in data) {
         setEvents((events) => {
           return events.filter((event) => {
-            if( data.status == 'Adv. Scheduled' ) {
-              if( event.postId == parseInt(data.id) && event.status == data.status ) {
+            if (data.status == 'Adv. Scheduled') {
+              if (event.postId == parseInt(data.id) && event.status == data.status) {
                 return false;
               }
               return true;
@@ -87,23 +95,23 @@ const PostCard = ({
             return (event.postId !== parseInt(data.id));
           });
         });
-        // @todo show success message.
-
       } else {
         // @todo show error message.
       }
     });
   };
-  const handlePostDelete = (item) => {    
-    if( item.status == "Adv. Scheduled" ) {
-      SweetAlertDeleteMsgForPost( 
-          { item, 
-            text        : __('Deleting Advanced Scheduling will result in the loss of any changes made using this feature.', 'wp-scheduled-posts'),
-            successTitle: __('Your scheduled data has been deleted!', 'wp-scheduled-posts'),
-            buttonText  : __('Delete Scheduled Data!', 'wp-scheduled-posts')
-        }, deleteFile );
-    }else{
-      SweetAlertDeleteMsgForPost( { item }, deleteFile );
+
+  const handlePostDelete = (item) => {
+    if (item.status == "Adv. Scheduled") {
+      SweetAlertDeleteMsgForPost(
+        {
+          item,
+          text: __('Deleting Advanced Scheduling will result in the loss of any changes made using this feature.', 'wp-scheduled-posts'),
+          successTitle: __('Your scheduled data has been deleted!', 'wp-scheduled-posts'),
+          buttonText: __('Delete Scheduled Data!', 'wp-scheduled-posts')
+        }, deleteFile);
+    } else {
+      SweetAlertDeleteMsgForPost({ item }, deleteFile);
     }
   }
 
@@ -115,12 +123,12 @@ const PostCard = ({
   const addEventListeners = () => {
     document.addEventListener("mousedown", handleClickOutside);
   };
+
   const removeEventListeners = () => {
     document.removeEventListener("mousedown", handleClickOutside);
   };
 
   const handleClickOutside = (event) => {
-    // check if event.target is descendant of the {id} class
     if (!event.target?.closest(`.wpsp-event-card`)) {
       setEditAreaToggle({
         [post.postId]: false,
@@ -130,10 +138,10 @@ const PostCard = ({
   };
 
   useEffect(() => {
-    if(editAreaToggle?.[post.postId]) {
+    if (editAreaToggle?.[post.postId]) {
       addEventListeners();
     }
-    else{
+    else {
       removeEventListeners();
     }
 
@@ -141,10 +149,10 @@ const PostCard = ({
       removeEventListeners();
     };
   }, [editAreaToggle?.[post.postId]]);
-  
+
   return (
-    <div className={`wpsp-event-card card ${postColor}`} >
-      {( editAreaToggle?.[post.postId] && post.status == status ) && (
+    <div className={`wpsp-event-card wpsp-event-post-${post.postId} card ${postColor}`}>
+      {(editAreaToggle?.[post.postId] && post.status == status) && (
         <ul className="edit-area">
           <li>
             <Button
@@ -170,21 +178,20 @@ const PostCard = ({
               Edit
             </Button>
           </li>
-          { status != 'Adv. Scheduled' &&
+          {status != 'Adv. Scheduled' &&
             <li>
-            <Button
-              variant="secondary"
-              onClick={(event) => {
-                event.preventDefault();
-                toggleEditArea();
-                openModal({ post, eventType: "editEvent" });
-              }}
-            >
-              Quick Edit
-            </Button>
+              <Button
+                variant="secondary"
+                onClick={(event) => {
+                  event.preventDefault();
+                  toggleEditArea();
+                  openModal({ post, eventType: "editEvent" });
+                }}
+              >
+                Quick Edit
+              </Button>
             </li>
           }
-          
           <li>
             <Button
               variant="secondary"
@@ -201,12 +208,9 @@ const PostCard = ({
       <div className="wpsp-event-card-content">
         <i className="wpsp-icon wpsp-dots" onClick={toggleEditArea}></i>
         <span className={`set-time ` + ('Published' === post.status ? 'published' : 'scheduled')}>
-          {/* "1:00 am" */}
-          {/* @ts-ignore */}
-          {/* {format(post.end, 'h:mm a')} */}
           {post.postTime}
         </span>
-        <h3>{ decodeEntities(  post.title ) }</h3>
+        <h3>{decodeEntities(post.title)}</h3>
         <span className="badge-wrapper">
           <span className="Unscheduled-badge">{post.postType}</span>
           <span className="status-badge">{post.status}</span>
