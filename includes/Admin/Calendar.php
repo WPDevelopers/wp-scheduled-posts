@@ -308,15 +308,26 @@ class Calendar
 
         $allData = $this->calendar_view($posts_1, $allData);
         $allData = $this->calendar_view($posts_2, $allData, true);
-        $allData = $this->advanced_scheduled_view($posts_1, $allData);
+        $allData = $this->advanced_scheduled_view($post_type, $allData);
         return $allData;
     }
 
-    protected function advanced_scheduled_view( $posts, $allData ) {
-        global $post;
-        if ($posts && is_array($posts)) {
-            foreach ( $posts as $post ) {
-                setup_postdata( $post );
+    protected function advanced_scheduled_view( $post_type, $allData ) {
+        $args = array(
+            'post_type'      => $post_type,
+            'post_status'    => 'publish',
+            'meta_query'     => array(
+                array(
+                    'key'     => '_wpscppro_advance_schedule_date',
+                    'compare' => 'EXISTS',
+                ),
+            ),
+            'posts_per_page'    => -1,
+        );
+        $posts = new \WP_Query($args);
+        if ($posts->have_posts()) {
+            while ($posts->have_posts()) {
+                $posts->the_post();
                 $advance_schedule_date = $this->wpsp_get_advance_schedule_date( get_the_ID() );
                 if(empty($advance_schedule_date)){
                     continue;
