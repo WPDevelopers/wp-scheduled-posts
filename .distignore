@@ -53,9 +53,10 @@ assets/sass
 .prettierrc.json
 vendor/abraham/twitteroauth/.github
 vendor/abraham/twitteroauth/tests
-vendor/dirkgroenen/pinterest-api-php/demo
-vendor/dirkgroenen/pinterest-api-php/tests
+vendor/wpdevelopers/pinterest-api-php/demo
+vendor/wpdevelopers/pinterest-api-php/tests
 vendor/*.md
+vendor/wpdevelopers/*demo
 vendor/*.yml
 vendor/*.cache
 vendor/*.xml
