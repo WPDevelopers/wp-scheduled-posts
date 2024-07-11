@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the SchedulePress plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: SchedulePress 5.1.2\n"
+"Project-Id-Version: SchedulePress 5.1.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-scheduled-posts\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-06-10T07:08:31+00:00\n"
+"POT-Creation-Date: 2024-07-07T08:35:43+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: wp-scheduled-posts\n"
@@ -239,19 +239,19 @@ msgstr ""
 msgid "Your post successfully scheduled"
 msgstr ""
 
-#: includes/Admin/Calendar.php:468
-#: includes/Admin/Calendar.php:632
-#: includes/Admin/Calendar.php:660
+#: includes/Admin/Calendar.php:479
+#: includes/Admin/Calendar.php:643
+#: includes/Admin/Calendar.php:671
 msgid "Post type isn't allowed in Settings page."
 msgstr ""
 
-#: includes/Admin/Calendar.php:589
+#: includes/Admin/Calendar.php:600
 msgid "Type is required."
 msgstr ""
 
-#: includes/Admin/Calendar.php:592
-#: includes/Admin/Calendar.php:614
-#: includes/Social/SocialProfile.php:61
+#: includes/Admin/Calendar.php:603
+#: includes/Admin/Calendar.php:625
+#: includes/Social/SocialProfile.php:72
 msgid "Something went wrong."
 msgstr ""
 
@@ -878,7 +878,7 @@ msgstr ""
 #: includes/Social/Instagram.php:185
 #: includes/Social/Linkedin.php:181
 #: includes/Social/Pinterest.php:230
-#: includes/Social/Twitter.php:164
+#: includes/Social/Twitter.php:174
 msgid "Your max share post limit has been executed!!"
 msgstr ""
 
@@ -910,17 +910,17 @@ msgstr ""
 
 #: includes/Social/InstantShare.php:325
 #: includes/Social/InstantShare.php:425
-#: includes/Social/SocialProfile.php:201
-#: includes/Social/SocialProfile.php:273
-#: includes/Social/SocialProfile.php:637
+#: includes/Social/SocialProfile.php:212
+#: includes/Social/SocialProfile.php:284
+#: includes/Social/SocialProfile.php:653
 msgid "Invalid nonce."
 msgstr ""
 
 #: includes/Social/InstantShare.php:330
 #: includes/Social/InstantShare.php:431
-#: includes/Social/SocialProfile.php:205
-#: includes/Social/SocialProfile.php:279
-#: includes/Social/SocialProfile.php:643
+#: includes/Social/SocialProfile.php:216
+#: includes/Social/SocialProfile.php:290
+#: includes/Social/SocialProfile.php:659
 msgid "You are unauthorized to access social profiles."
 msgstr ""
 
@@ -940,7 +940,7 @@ msgstr ""
 msgid "Multi Profile is a Premium Feature. To use this feature, Upgrade to Pro."
 msgstr ""
 
-#: includes/Social/Twitter.php:217
+#: includes/Social/Twitter.php:227
 msgid "Twitter Connection Problem. error code: "
 msgstr ""
 
