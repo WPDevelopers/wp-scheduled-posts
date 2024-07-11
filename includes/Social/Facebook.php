@@ -243,7 +243,10 @@ class Facebook
 
             // Refresh Facebook cache before sharing
             $post_url = get_permalink($post_id);
-            $this->refresh_facebook_cache($app_id, $app_secret, $post_url);
+
+            if( ( get_post_meta( $post_id, $count_meta_key, true ) ) > 0 ) {
+                $this->refresh_facebook_cache($app_id, $app_secret, $post_url);
+            }
 
             // group api
             if ($type === 'group') {
