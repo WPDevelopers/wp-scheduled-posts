@@ -204,44 +204,50 @@ class SocialProfile
      */
     public function social_profile_fetch_pinterest_section($params)
     {
-       if( wp_doing_ajax() ) {
-            $params = $_POST;
-            // Verify nonce
-            $nonce = sanitize_text_field($_POST['_wpnonce']);
-            if (!wp_verify_nonce($nonce, 'wp_rest')) {
-                wp_send_json_error(['message' => __('Invalid nonce.', 'wp-scheduled-posts')], 401);
-                die();
+        try {
+            if( wp_doing_ajax() ) {
+                $params = $_POST;
+                // Verify nonce
+                $nonce = sanitize_text_field($_POST['_wpnonce']);
+                if (!wp_verify_nonce($nonce, 'wp_rest')) {
+                    wp_send_json_error(['message' => __('Invalid nonce.', 'wp-scheduled-posts')], 401);
+                    die();
+                }
+                if( !Helper::is_user_allow() ) {
+                    wp_send_json_error( [ 'message' => __('You are unauthorized to access social profiles.', 'wp-scheduled-posts') ], 401 );
+                    wp_die();
+                }
+           }
+    
+            $defaultBoard = (isset($params['defaultBoard']) ? $params['defaultBoard'] : '');
+            $profile = (isset($params['profile']) ? $params['profile'] : '');
+            if(!is_array($profile)){
+                $pinterest = \WPSP\Helper::get_social_profile(WPSCP_PINTEREST_OPTION_NAME);
+                if( isset( $pinterest[(int) $profile] ) ) {
+                    $profile = (array) $pinterest[(int) $profile];
+                }else{
+                    return;
+                }
             }
-            if( !Helper::is_user_allow() ) {
-                wp_send_json_error( [ 'message' => __('You are unauthorized to access social profiles.', 'wp-scheduled-posts') ], 401 );
+           
+            $pinterest = new \DirkGroenen\Pinterest\Pinterest($profile['app_id'], $profile['app_secret']);
+            $pinterest->auth->setOAuthToken($profile['access_token']);
+            
+            $sections = $pinterest->sections->get($defaultBoard, [
+                'page_size' => 100,
+            ]);
+            $sections = $sections->toArray();
+            if( !empty( $params['method_called'] ) ) {
+                return $sections['data'];
                 wp_die();
             }
-       }
-
-        $defaultBoard = (isset($params['defaultBoard']) ? $params['defaultBoard'] : '');
-        $profile = (isset($params['profile']) ? $params['profile'] : '');
-        if(!is_array($profile)){
-            $pinterest = \WPSP\Helper::get_social_profile(WPSCP_PINTEREST_OPTION_NAME);
-            if( isset( $pinterest[(int) $profile] ) ) {
-                $profile = (array) $pinterest[(int) $profile];
-            }else{
-                return;
-            }
-        }
-       
-        $pinterest = new \DirkGroenen\Pinterest\Pinterest($profile['app_id'], $profile['app_secret']);
-        $pinterest->auth->setOAuthToken($profile['access_token']);
-        
-        $sections = $pinterest->sections->get($defaultBoard, [
-            'page_size' => 100,
-        ]);
-        $sections = $sections->toArray();
-        if( !empty( $params['method_called'] ) ) {
-            return $sections['data'];
+            wp_send_json_success($sections['data']);
+            wp_die();
+        } catch (\Throwable $th) {
+            return [];
             wp_die();
         }
-        wp_send_json_success($sections['data']);
-        wp_die();
+      
     }
 
 
