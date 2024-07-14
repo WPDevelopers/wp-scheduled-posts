@@ -241,6 +241,12 @@ class Facebook
 
             $linkData = $this->get_share_content_args($post_id);
 
+            // Refresh Facebook cache before sharing
+            $post_url = get_permalink($post_id);
+
+            if( ( get_post_meta( $post_id, $count_meta_key, true ) ) > 0 ) {
+                $this->refresh_facebook_cache($app_id, $app_secret, $post_url);
+            }
 
             // group api
             if ($type === 'group') {
@@ -333,6 +339,19 @@ class Facebook
             );
         }
         return;
+    }
+
+
+    public function refresh_facebook_cache($app_id, $app_secret, $url) {
+        $access_token = $app_id . '|' . $app_secret;
+        $api_url = 'https://graph.facebook.com/v20.0';
+        $endpoint = $api_url . '?id=' . urlencode($url) . '&scrape=true&access_token=' . $access_token;
+        $response = wp_remote_post($endpoint);
+        if (is_wp_error($response)) {
+            error_log('Error refreshing Facebook cache: ' . $response->get_error_message());
+        } else {
+            error_log('Facebook cache refreshed for URL: ' . $url);
+        }
     }
 
     /**
