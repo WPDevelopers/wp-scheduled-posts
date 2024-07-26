@@ -17,6 +17,7 @@ import ManualScheduler from './ManualScheduler';
 import ScheduleHubFeature from './ScheduleHubFeature';
 import License from './License';
 import ProToggle from './utils/ProToggle';
+import Medium from './Medium';
 
 const Field = (ret, type, props) => {
 
@@ -47,6 +48,8 @@ const Field = (ret, type, props) => {
             return <Pinterest {...props} />;
         case "twitter":
             return <Twitter {...props} />;
+        case "medium":
+            return <Medium {...props} />;
         case "checkbox-select":
             return <CheckboxSelect {...props} />;
         case "time":

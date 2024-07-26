@@ -159,7 +159,8 @@ const ApiCredentialsForm = ({ props, platform, requestHandler, appInfo = [] }) =
                       </div>
                     </div>
                   }
-                  <div className="form-group">
+                  { platform != 'medium' &&
+                    <div className="form-group">
                       <label htmlFor="">{ __( 'App ID:','wp-scheduled-posts' ) } </label>
                       <input
                           type="text"
@@ -173,7 +174,9 @@ const ApiCredentialsForm = ({ props, platform, requestHandler, appInfo = [] }) =
                           }
                           onChange={(e) => SetAppID(e.target.value)}
                       />
-                  </div>
+                    </div>
+                  }
+                  
                   <div className="form-group">
                       <label htmlFor="">{ __( 'App Secret:','wp-scheduled-posts' ) } </label>
                       <input

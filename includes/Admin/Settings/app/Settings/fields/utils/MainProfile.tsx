@@ -23,7 +23,7 @@ export default function MainProfile({
   let pageDisabled = wpspSettingsGlobal?.pro_version ? false : true;
   let currentActiveAccountType = localStorage.getItem('account_type');
 
-  if (props?.type == 'facebook') {
+  if (props?.type == 'medium') {
     options = [
       {
         value: 'page',
@@ -156,7 +156,7 @@ export default function MainProfile({
             accountType ? 'selected' : ''
           }`}
           onClick={() => {
-            if (accountType || ['twitter', 'pinterest', 'instagram'].includes(props?.type)) {
+            if (accountType || ['twitter', 'pinterest', 'instagram', 'medium' ].includes(props?.type)) {
               openApiCredentialsModal(accountType);
             } else {
               setHasError(true);

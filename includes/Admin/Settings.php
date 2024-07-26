@@ -560,6 +560,21 @@ class Settings {
                                     ],
                                     'priority' => 25,
                                 ],
+                                'medium_profile_list'  => [
+                                    'id'       => 'medium_profile_list',
+                                    'name'     => 'medium_profile_list',
+                                    'type'     => 'medium',
+                                    'label'    => __('Medium', 'wp-scheduled-posts'),
+                                    'default'  => [],
+                                    'logo'     => WPSP_ASSETS_URI . 'images/instagram.png',
+                                    'desc'     => sprintf( __('You can enable/disable Medium social share. To configure Medium Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-scheduled-wordpress-posts-on-medium/' ),
+                                    'modal'    => [
+                                        'logo'               => WPSP_ASSETS_URI . 'images/instagram.png',
+                                        'redirect_url_desc'  => __('Add this URL in the Redirect URLs field of your Medium app.','wp-scheduled-posts'),
+                                        'desc'               => sprintf( __('For details on Medium configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your Medium account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-scheduled-wordpress-posts-on-instagram/','https://developers.facebook.com/' ),
+                                    ],
+                                    'priority' => 30,
+                                ],
                             ]
                         ]
 
