@@ -23,7 +23,7 @@
  */
 namespace Facebook\HttpClients;
 
-use GuzzleHttp\Client;
+use WPSP\Deps\GuzzleHttp\Client;
 use InvalidArgumentException;
 use Exception;
 
@@ -65,7 +65,7 @@ class HttpClientsFactory
             return new FacebookCurlHttpClient();
         }
 
-        if ('guzzle' === $handler && !class_exists('GuzzleHttp\Client')) {
+        if ('guzzle' === $handler && !class_exists('WPSP\Deps\GuzzleHttp\Client')) {
             throw new Exception('The Guzzle HTTP client must be included in order to use the "guzzle" handler.');
         }
 
@@ -76,7 +76,7 @@ class HttpClientsFactory
             return new FacebookGuzzleHttpClient();
         }
 
-        throw new InvalidArgumentException('The http client handler must be set to "curl", "stream", "guzzle", be an instance of GuzzleHttp\Client or an instance of Facebook\HttpClients\FacebookHttpClientInterface');
+        throw new InvalidArgumentException('The http client handler must be set to "curl", "stream", "guzzle", be an instance of WPSP\Deps\GuzzleHttp\Client or an instance of Facebook\HttpClients\FacebookHttpClientInterface');
     }
 
     /**
@@ -90,7 +90,7 @@ class HttpClientsFactory
             return new FacebookCurlHttpClient();
         }
 
-        if (class_exists('GuzzleHttp\Client')) {
+        if (class_exists('WPSP\Deps\GuzzleHttp\Client')) {
             return new FacebookGuzzleHttpClient();
         }
 

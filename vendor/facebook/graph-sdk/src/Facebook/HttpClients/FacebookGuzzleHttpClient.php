@@ -26,20 +26,20 @@ namespace Facebook\HttpClients;
 use Facebook\Http\GraphRawResponse;
 use Facebook\Exceptions\FacebookSDKException;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Message\ResponseInterface;
-use GuzzleHttp\Ring\Exception\RingException;
-use GuzzleHttp\Exception\RequestException;
+use WPSP\Deps\GuzzleHttp\Client;
+use WPSP\Deps\GuzzleHttp\Message\ResponseInterface;
+use WPSP\Deps\GuzzleHttp\Ring\Exception\RingException;
+use WPSP\Deps\GuzzleHttp\Exception\RequestException;
 
 class FacebookGuzzleHttpClient implements FacebookHttpClientInterface
 {
     /**
-     * @var \GuzzleHttp\Client The Guzzle client.
+     * @var \WPSP\Deps\GuzzleHttp\Client The Guzzle client.
      */
     protected $guzzleClient;
 
     /**
-     * @param \GuzzleHttp\Client|null The Guzzle client.
+     * @param \WPSP\Deps\GuzzleHttp\Client|null The Guzzle client.
      */
     public function __construct(Client $guzzleClient = null)
     {
