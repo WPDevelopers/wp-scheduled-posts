@@ -454,5 +454,27 @@ class Helper
         }
         return false;
     }
+
+    public static function wpsp_curl($url, $parameters, $content_type, $post = true, $headers = [], $ssl = true ) 
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $ssl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        if ($post) {
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $parameters);
+        }
+        curl_setopt($ch, CURLOPT_POST, $post);
+
+        $headers[] = "Content-Type: {$content_type}";
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        $result = curl_exec($ch);
+        $response_code = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+        curl_close($ch);
+        return [
+            'result' => $result,
+            'code'   => $response_code
+        ];
+    }
 }
 

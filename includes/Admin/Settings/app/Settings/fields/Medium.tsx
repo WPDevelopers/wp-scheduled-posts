@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import Swal from 'sweetalert2';
 import { SweetAlertDeleteMsg } from '../ToasterMsg';
-import { socialProfileRequestHandler } from '../helper/helper';
+import { fetchDataFromAPI, socialProfileRequestHandler } from '../helper/helper';
 import ApiCredentialsForm from './Modals/ApiCredentialsForm';
 import SocialModal from './Modals/SocialModal';
 import MainProfile from './utils/MainProfile';
@@ -20,35 +20,52 @@ const Medium = (props) => {
     const cachedLocalData = JSON.parse(localStorage.getItem('instagram'));
     const builderContext = useBuilderContext();
     const [apiCredentialsModal, setApiCredentialsModal] = useState(false);
+    const [showProfileInfo, setShowProfileInfo] = useState(false);
+    const [profileInfo, setProfileInfo] = useState({});
     const [selectedProfileViewMore, setSelectedProfileViewMore] = useState(false);
     const [platform, setPlatform] = useState('');
+    const [savedProfile,setSavedProfile] = useState(props?.value ?? []);
     const [selectedProfile, setSelectedProfile] = useState( sortedSelectedValue ?? [] );
     const [cachedStatus, setCashedStatus] = useState(cachedLocalData ?? {});
     const [activeStatusCount,setActiveStatusCount] = useState(0);
     const [profileStatus, setProfileStatus] = useState(
-        builderContext?.savedValues?.instagram_profile_status
+        builderContext?.savedValues?.medium_profile_status
     );
-    localStorage.setItem('instagram',JSON.stringify(cachedStatus));
 
-    // prepare appId and appSecret
-    let appInfo = [];
-    if( props?.value ) {
-    props?.value?.map( ( profile ) => {
-        if( profile['app_id'] && profile['app_secret'] ) {
-        appInfo['app_id'] = profile['app_id'];
-        appInfo['app_secret'] = profile['app_secret'];
-        }
-    } );
+    useEffect(() => {
+        onChange({
+            target: {
+                type: 'checkbox-select',
+                name: 'medium_profile_status',
+                value: profileStatus,
+            },
+            });    
+        }, [profileStatus]);
+        const [isErrorMessage, setIsErrorMessage] = useState(false)
+        localStorage.setItem('medium',JSON.stringify(cachedStatus));
+
+        // prepare appId and appSecret
+        let appInfo = [];
+        if( props?.value ) {
+        props?.value?.map( ( profile ) => {
+            if( profile['app_id'] && profile['app_secret'] ) {
+            appInfo['app_id'] = profile['app_id'];
+            appInfo['app_secret'] = profile['app_secret'];
+            }
+        } );
     }
+
     const handleDeleteSelectedProfile = (item) => {
         SweetAlertDeleteMsg({ item }, deleteSelectedProfile);
     };
+
     const deleteSelectedProfile = (item) => {
         const updateSelectedProfile = selectedProfile.filter(
         (selectedItem) => selectedItem.id !== item.id
         );
         setSelectedProfile(updateSelectedProfile);
     };
+
     // Handle profile & selected profile status onChange event
     const handleProfileStatusChange = (event) => {
         setProfileStatus(event.target.checked);
@@ -147,12 +164,12 @@ const Medium = (props) => {
         builderContext.setFieldValue([props.name], selectedProfile);
         let count = 0;
         if( selectedProfile ) {
-        selectedProfile.forEach(element => {
-            if( element.status ) {
-                count++;
-            }
-            setActiveStatusCount( count );
-        });
+            selectedProfile.forEach(element => {
+                if( element.status ) {
+                    count++;
+                }
+                setActiveStatusCount( count );
+            });
         }
     }, [selectedProfile]);
 
@@ -162,17 +179,92 @@ const Medium = (props) => {
         onChange({
         target: {
             type: 'checkbox-select',
-            name: 'instagram_profile_status',
+            name: 'medium_profile_status',
             value: profileStatus,
         },
         });    
     }, [profileStatus]);
+
     let selectedProfileData = [];
     if (selectedProfile && selectedProfileViewMore) {
         selectedProfileData = selectedProfile;
     } else if (selectedProfile && !selectedProfileViewMore) {
         selectedProfileData = selectedProfile.slice(0, 2);
     }
+    const handleMediumFetchProfile = async (redirectURI, appID, appSecret, platform, openIDConnect = false) => {
+        const account_type = localStorage.getItem('account_type');
+        // @ts-ignore 
+        const nonce = wpspSettingsGlobal?.api_nonce;
+        const data = {
+            action       : 'wpsp_social_add_social_profile',
+            nonce        : nonce,
+            redirectURI  : redirectURI,
+            appId        : appID,
+            appSecret    : appSecret,
+            type         : platform,
+            openIDConnect: openIDConnect,
+            accountType  : account_type,
+        };
+        const response = await fetchDataFromAPI(data);
+        const responseData = await response.json();
+        
+        if( responseData.success ) {
+            setShowProfileInfo(true);
+            setApiCredentialsModal(false);
+            setProfileInfo(responseData?.data);            
+        }
+        
+    };
+
+    const addMediumProfile = (event, profileInfo) => {
+        if( event.target.checked ) {
+            // free
+            // @ts-ignore
+            if (!builderContext.is_pro_active) {
+                // @ts-ignore
+                if (!savedProfile || (savedProfile && savedProfile.length == 0)) {
+                    setIsErrorMessage(false)
+                    if (!savedProfile.some((profile) => profile.id === profileInfo.id)) {
+                        profileInfo.status = profileStatus;
+                        setSavedProfile((prevItems) => [...prevItems, profileInfo]);
+                    }
+                } else {
+                    event.target.checked = false;
+                    setIsErrorMessage(true)
+                }
+            } else {
+                if ( savedProfile && !savedProfile.some((profile) => profile.id === profileInfo.id)) {
+                    profileInfo.status = profileStatus;
+                    let updatedSavedProfile = savedProfile.map(savedItem => {
+                        if (savedItem.id === profileInfo.id) {
+                            return { ...savedItem, access_token: 'token' };
+                        }
+                        return savedItem;
+                        
+                    });
+                    updatedSavedProfile.push(profileInfo);
+                    setSavedProfile(updatedSavedProfile);
+                    setIsErrorMessage(false)
+                }
+            }
+        }else{
+            setIsErrorMessage(false)
+            setSavedProfile((prevItems) => prevItems.filter((prevItem) => prevItem.id !== profileInfo.id));
+        }
+    }
+    
+    const addSavedProfile = () => {
+        setSelectedProfile(savedProfile);
+        setShowProfileInfo(false);
+    }
+
+    useEffect(() => {
+      console.log('selectedProfile', selectedProfile);
+      
+    }, [selectedProfile])
+    console.log('selectedProfileData',selectedProfileData);
+    
+
     return (
         <div
             className={classNames(
@@ -190,6 +282,38 @@ const Medium = (props) => {
                     openApiCredentialsModal={openApiCredentialsModal}
                 />
                 </div>
+                <div className="selected-profile">
+                    {(!selectedProfile || selectedProfile.length == 0) && (
+                        <img
+                        className="empty-image"
+                        /* @ts-ignore */
+                        src={`${wpspSettingsGlobal?.image_path}EmptyCard.svg`}
+                        alt="mainLogo"
+                        />
+                    )}
+                    <div className="selected-facebook-scrollbar">
+                        {selectedProfile &&
+                            selectedProfileData.map((item, index) => (
+                                <div
+                                className="selected-facebook-wrapper"
+                                key={index}>
+                                <SelectedProfile
+                                    platform={'medium'}
+                                    item={item}
+                                    handleSelectedProfileStatusChange={
+                                        handleSelectedProfileStatusChange
+                                    }
+                                    handleDeleteSelectedProfile={handleDeleteSelectedProfile}
+                                    handleEditSelectedProfile={''}
+                                    profileStatus={profileStatus}
+                                />
+                                </div>
+                        ))}
+                    </div>
+                    { ( !selectedProfileViewMore && selectedProfile && selectedProfile.length >= 3) && (
+                        <ViewMore setSelectedProfileViewMore={setSelectedProfileViewMore} />
+                    ) }
+                </div>
             </div>
             {/* API Credentials Modal  */}
             <Modal
@@ -199,24 +323,71 @@ const Medium = (props) => {
                 shouldCloseOnOverlayClick={false}
                 className="modal_wrapper">
                 <button
-                className="close-button"
-                onClick={closeApiCredentialsModal}>
-                <i className="wpsp-icon wpsp-close"></i>
+                    className="close-button"
+                    onClick={closeApiCredentialsModal}>
+                    <i className="wpsp-icon wpsp-close"></i>
                 </button>
-                <ApiCredentialsForm
-                props={props}
-                platform={platform}
-                requestHandler={socialProfileRequestHandler}
-                appInfo={appInfo}
-                />
+                    <ApiCredentialsForm
+                        props={props}
+                        platform={platform}
+                        requestHandler={ handleMediumFetchProfile }
+                        appInfo={appInfo}
+                    />
             </Modal>
             {/* @ts-ignore */}
-            <SocialModal
-                setSelectedProfile={setSelectedProfile}
-                props={props}
-                type="medium"
-                profileStatus={profileStatus}
-            />
+            <Modal
+                isOpen={showProfileInfo}
+                onRequestClose={showProfileInfo}
+                ariaHideApp={false}
+                shouldCloseOnOverlayClick={false}
+                className="modal_wrapper">
+                <button
+                    className="close-button"
+                    onClick={closeApiCredentialsModal}>
+                    <i className="wpsp-icon wpsp-close"></i>
+                </button>
+                <div className={`wpsp-modal-social-platform wpsp-modal-social-${platform}`}>
+                { profileInfo && 
+                    <ul>
+                            <li key='1'>
+                                <div className='item-content'>
+                                    <div className='entry-thumbnail'>
+                                        <img
+                                            // @ts-ignore 
+                                            src={profileInfo?.thumbnail_url}
+                                            alt='logo'
+                                        />
+                                        <h4 className='entry-title'>
+                                            {/* @ts-ignore  */}
+                                            { profileInfo?.name }
+                                        </h4>
+                                    </div>
+                                    <div className='control'>
+                                        <input
+                                            type='checkbox'
+                                            onChange={(e) =>
+                                                addMediumProfile(
+                                                    e,
+                                                    profileInfo
+                                                )
+                                            }
+                                        />
+                                        <div></div>
+                                    </div>
+                                </div>
+                            </li>
+                    </ul>
+                }
+                <button
+                    type="submit"
+                    className="wpsp-modal-save-account"
+                    onClick={(event) => {
+                        event.preventDefault();
+                        addSavedProfile()
+                    }}
+                >{ __( 'Save','wp-scheduled-posts' ) }</button>
+            </div>
+            </Modal>
         </div>
     )
 }

@@ -787,6 +787,37 @@ class SocialProfile
                 wp_send_json_error($error->getMessage());
                 wp_die();
             }
+        } else if( $type == 'medium' ) {
+            try {
+                $headers = [
+                    "Authorization: Bearer $app_id",
+                ];
+                $response = Helper::wpsp_curl('https://api.medium.com/v1/me','', 'application/json', false, $headers);
+                $response = json_decode( $response['result'] );
+                $data = !empty( $response->data ) ? $response->data : [];
+                $current_user = wp_get_current_user();
+                $uploaded_image_url = '';
+                if( !empty( $data->imageUrl ) && !empty( $data->name ) ) {
+                    $uploaded_image_url = $this->handle_thumbnail_upload($data->imageUrl, $data->name );
+                }
+                $res =  [
+                    'id'                      => !empty( $data->id ) ? esc_html( $data->id ) : '',
+                    'app_id'                  => $app_id,
+                    'app_secret'              => $app_secret,
+                    'name'                    => !empty( $data->name ) ? esc_html( $data->name ) : '',
+                    'thumbnail_url'           => !empty( $uploaded_image_url ) ? $uploaded_image_url : $data->imageUrl,
+                    'type'                    => 'profile',
+                    'status'                  => true,
+                    'access_token'            => $app_id,
+                    'added_by'                => $current_user->user_login,
+                    'added_date'              => current_time('mysql')
+                ];
+                wp_send_json_success($res);
+                wp_die();
+            } catch (\Exception $error) {
+                wp_send_json_error($error->getMessage());
+                wp_die();
+            }
         }
     }
 }

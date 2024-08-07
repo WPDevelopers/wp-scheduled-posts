@@ -7,7 +7,7 @@ export default function SelectedProfile( { platform, item, handleSelectedProfile
     <div className="profile-item">
         <div className="profile-image">
             {/* @ts-ignore */}
-            <img src={`${item?.thumbnail_url}`} alt={ __( item?.name,'wp-scheduled-posts' ) } />
+            <img src={`${item?.thumbnail_url}`} alt={ __( item?.name,'wp-scheduled-posts' ) } /> 
         </div>
         <div className="profile-data">
             {
@@ -26,6 +26,9 @@ export default function SelectedProfile( { platform, item, handleSelectedProfile
                     ),
                     instagram: (
                         <span className={`badge instagram-${item?.account_type?.toLowerCase()}`}>{ item?.account_type ? __('Profile','wp-scheduled-posts') : item?.type }</span>
+                    ),
+                    medium: (
+                        <span className={`badge medium-profile`}>{ __('Profile', 'wp-scheduled-posts') }</span>
                     ),
                 }[platform]
             }

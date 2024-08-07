@@ -28,7 +28,7 @@ const ApiCredentialsForm = ({ props, platform, requestHandler, appInfo = [] }) =
   }
   const onSubmitHandler = (event) => {
     event.preventDefault();
-    if (redirectURI && appID && appSecret) {
+    if (redirectURI && appID && appSecret || ( appID && platform == 'medium' )) {
       requestHandler(redirectURI, appID, appSecret,platform, openIDConnect).then((res) => {
         if( res?.error ) {
           setMultiAccountError(true);
@@ -200,6 +200,27 @@ const ApiCredentialsForm = ({ props, platform, requestHandler, appInfo = [] }) =
                   type="submit"
                   disabled={ currentActiveAccountType == 'group' ? true : false }
                   className="wpsp-modal-generate-token-button"
+                  >{ __( 'Connect Your Account','wp-scheduled-posts' ) }</button>
+              </form>
+            )}
+            {(isManual || platform == "medium" ) && (
+              <form onSubmit={onSubmitHandler}>
+                  { platform == 'medium' &&
+                    <div className="form-group">
+                      <label htmlFor="">{ __( 'Access Token:','wp-scheduled-posts' ) } </label>
+                      <input
+                          type="text"
+                          required
+                          value={appID}
+                          placeholder={ __("Access Token", "wp-scheduled-posts") }
+                          onChange={(e) => SetAppID(e.target.value)}
+                      />
+                    </div>
+                  }
+                  <button
+                    type="submit"
+                    disabled={ currentActiveAccountType == 'group' ? true : false }
+                    className="wpsp-modal-generate-token-button"
                   >{ __( 'Connect Your Account','wp-scheduled-posts' ) }</button>
               </form>
             )}

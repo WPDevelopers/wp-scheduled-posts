@@ -660,6 +660,18 @@ img {
         }
       }
     }
+    .wpsp-modal-social-medium {
+      .item-content {
+        justify-content: space-between;
+        margin-top: 30px;
+        .entry-thumbnail {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 8px;
+        }
+      }
+    }
   }
 }
 
