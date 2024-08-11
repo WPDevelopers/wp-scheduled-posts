@@ -566,7 +566,7 @@ class Settings {
                                     'type'     => 'medium',
                                     'label'    => __('Medium', 'wp-scheduled-posts'),
                                     'default'  => [],
-                                    'logo'     => WPSP_ASSETS_URI . 'images/instagram.png',
+                                    'logo'     => WPSP_ASSETS_URI . 'images/medium.svg',
                                     'desc'     => sprintf( __('You can enable/disable Medium social share. To configure Medium Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-scheduled-wordpress-posts-on-medium/' ),
                                     'modal'    => [
                                         'logo'               => WPSP_ASSETS_URI . 'images/instagram.png',
