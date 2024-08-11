@@ -318,6 +318,9 @@ ul {
     }
   }
 }
+.wpsp-toast-container {
+  z-index: 99999 !important;
+}
 .wpsp-toast-container .swal2-icon {
   border: none;
 }

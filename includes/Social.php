@@ -89,6 +89,9 @@ class Social
         if (Helper::get_settings('instagram_profile_status') == true) {
             $this->instagram();
         }
+        if (Helper::get_settings('medium_profile_status') == true) {
+            $this->medium();
+        }
     }
 
 

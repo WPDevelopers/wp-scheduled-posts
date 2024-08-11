@@ -4,7 +4,7 @@ import { useBuilderContext } from 'quickbuilder';
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import Swal from 'sweetalert2';
-import { SweetAlertDeleteMsg } from '../ToasterMsg';
+import { SweetAlertDeleteMsg, SweetAlertToaster } from '../ToasterMsg';
 import { fetchDataFromAPI, socialProfileRequestHandler } from '../helper/helper';
 import ApiCredentialsForm from './Modals/ApiCredentialsForm';
 import SocialModal from './Modals/SocialModal';
@@ -207,13 +207,16 @@ const Medium = (props) => {
         };
         const response = await fetchDataFromAPI(data);
         const responseData = await response.json();
-        
-        if( responseData.success ) {
+        if( responseData?.data?.name && responseData.success )  {
             setShowProfileInfo(true);
             setApiCredentialsModal(false);
-            setProfileInfo(responseData?.data);            
+            setProfileInfo(responseData?.data);   
+        } else {
+            SweetAlertToaster({
+                type : 'error',
+                title : __( 'Please check your access token and try again.', 'wp-scheduled-posts' ),
+            }).fire();
         }
-        
     };
 
     const addMediumProfile = (event, profileInfo) => {
@@ -257,13 +260,6 @@ const Medium = (props) => {
         setSelectedProfile(savedProfile);
         setShowProfileInfo(false);
     }
-
-    useEffect(() => {
-      console.log('selectedProfile', selectedProfile);
-      
-    }, [selectedProfile])
-    console.log('selectedProfileData',selectedProfileData);
-    
 
     return (
         <div
@@ -341,11 +337,17 @@ const Medium = (props) => {
                 ariaHideApp={false}
                 shouldCloseOnOverlayClick={false}
                 className="modal_wrapper">
-                <button
-                    className="close-button"
-                    onClick={closeApiCredentialsModal}>
-                    <i className="wpsp-icon wpsp-close"></i>
-                </button>
+                <div className="modalhead">
+                    <button
+                        className="close-button"
+                        onClick={() => setShowProfileInfo(false)}>
+                        <i className="wpsp-icon wpsp-close"></i>
+                    </button>
+                    <div className="platform-info">
+                        <img width={'30px'} src={`${props?.modal?.logo}`} alt={`${props?.label}`} />
+                        <h4>{props?.label}</h4>
+                    </div>
+                </div>
                 <div className={`wpsp-modal-social-platform wpsp-modal-social-${platform}`}>
                 { profileInfo && 
                     <ul>
@@ -386,7 +388,7 @@ const Medium = (props) => {
                         addSavedProfile()
                     }}
                 >{ __( 'Save','wp-scheduled-posts' ) }</button>
-            </div>
+                </div>
             </Modal>
         </div>
     )

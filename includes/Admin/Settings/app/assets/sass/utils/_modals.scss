@@ -671,6 +671,23 @@ img {
           gap: 8px;
         }
       }
+      .wpsp-modal-save-account {
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1.25em;
+        color: #fff;
+        padding: 16px 32px;
+        border: none;
+        border-radius: 6px;
+        background: #6c62ff;
+        margin-top: 20px;
+        cursor: pointer;
+        @media screen and (max-width: 1439px) {
+          font-size: 12px;
+          padding: 12px 24px;
+          margin-top: 16px;
+        }
+      }
     }
   }
 }

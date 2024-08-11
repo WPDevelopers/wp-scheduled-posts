@@ -102,14 +102,29 @@ class Medium
         $post          = get_post($post_id);
         // Retrieve the post content and other necessary fields
         $title         = get_the_title($post_id);
-        $content       = apply_filters('the_content', $post->post_content);
+        if ($this->content_source === 'excerpt' && has_excerpt($post->ID)) {
+            $content = wp_strip_all_tags($post->post_excerpt);
+        } else {
+            $content = apply_filters('the_content', $post->post_content);
+        }
         $canonical_url = get_permalink($post_id);
-        $tags          = wp_get_post_tags($post_id, ['fields' => 'names']);
-
+        $tags          = [];
+        if ($this->is_category_as_tags == true) {
+            $tags          = wp_get_post_tags($post_id, ['fields' => 'names']);
+        }
+        $post_link = esc_url(get_permalink($post_id));
+        $formatedText = $this->social_share_content_template_structure(
+            $this->template_structure,
+            $title,
+            $content,
+            $post_link,
+            '',
+            $this->status_limit
+        );
         $data = [
             'title'         => $title,
             'contentFormat' => 'html',
-            'content'       => $content,
+            'content'       => $formatedText,
             'canonicalUrl'  => $canonical_url,
             'tags'          => $tags,
             'publishStatus' => 'public'
@@ -184,9 +199,19 @@ class Medium
                     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-                    $response = curl_exec($ch);
                     curl_close($ch);
-                    $errorFlag = true;
+                    $response = curl_exec($ch);
+                    $response = json_decode($response);
+                    if( !empty($response) && !empty( $response->data->title ) ) {
+                        $response = array(
+                            'share_id' => (isset($response->data->id) ? $response->data->id : ''),
+                            'publish_date' => time(),
+                        );
+                        $errorFlag = true;
+                    }else {
+                        $errorFlag = false;
+                        $response = 'Something went wrong..';
+                    }
                 } catch (\Facebook\Exceptions\FacebookResponseException $e) {
                     $errorFlag = false;
                     $response = 'Graph returned an error: ' . $e->getMessage();
