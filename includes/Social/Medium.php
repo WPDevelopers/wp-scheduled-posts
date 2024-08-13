@@ -93,27 +93,52 @@ class Medium
 
     /**
      * Build share content args
-     * @param post_id
+     * @param int $post_id
      * @return array
      * @since 2.5.1
      */
     public function get_share_content_args($post_id)
     {
-        $post          = get_post($post_id);
+        $post = get_post($post_id);
         // Retrieve the post content and other necessary fields
-        $title         = get_the_title($post_id);
+        $title = get_the_title($post_id);
+        
         if ($this->content_source === 'excerpt' && has_excerpt($post->ID)) {
             $content = wp_strip_all_tags($post->post_excerpt);
         } else {
             $content = apply_filters('the_content', $post->post_content);
         }
+
         $canonical_url = get_permalink($post_id);
-        $tags          = [];
+        $tags = [];
         if ($this->is_category_as_tags == true) {
-            $tags          = wp_get_post_tags($post_id, ['fields' => 'names']);
+            $tags = wp_get_post_tags($post_id, ['fields' => 'names']);
         }
+
         $post_link = esc_url(get_permalink($post_id));
-        $formatedText = $this->social_share_content_template_structure(
+
+        // Retrieve custom social share image meta value
+        $socialshareimage_id = get_post_meta($post_id, '_wpscppro_custom_social_share_image', true);
+        $socialshareimage_url = '';
+
+        if (!empty($socialshareimage_id)) {
+            // Get the image URL from the meta value
+            $socialshareimage_url = wp_get_attachment_url($socialshareimage_id);
+        } else {
+            // Fall back to the featured image if meta value is empty
+            if (has_post_thumbnail($post_id)) {
+                $socialshareimage_url = get_the_post_thumbnail_url($post_id, 'full');
+            }
+        }
+
+        // Create image HTML
+        $image_html = '';
+        if (!empty($socialshareimage_url)) {
+            $image_html = '<img src="' . esc_url($socialshareimage_url) . '" alt="' . esc_attr($title) . '" />';
+        }
+
+        // Format the text and prepend the image HTML
+        $formatedText = $image_html . $this->social_share_content_template_structure(
             $this->template_structure,
             $title,
             $content,
@@ -121,6 +146,7 @@ class Medium
             '',
             $this->status_limit
         );
+
         $data = [
             'title'         => $title,
             'contentFormat' => 'html',
@@ -129,8 +155,10 @@ class Medium
             'tags'          => $tags,
             'publishStatus' => 'public'
         ];
+
         return $data;
     }
+
 
     public function get_image_url( $post ) {
         $socialShareImage = get_post_meta($post->ID, '_wpscppro_custom_social_share_image', true);
@@ -199,8 +227,8 @@ class Medium
                     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-                    curl_close($ch);
                     $response = curl_exec($ch);
+                    curl_close($ch);
                     $response = json_decode($response);
                     if( !empty($response) && !empty( $response->data->title ) ) {
                         $response = array(
