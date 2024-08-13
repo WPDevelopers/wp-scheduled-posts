@@ -39,14 +39,31 @@
     "autoload": {
         "psr-4": {
             "WPSP\\": "./includes"
-        },
-        "files": [
-            "includes/functions.php"
-        ]
+        }
+    },
+    "extra": {
+        "mozart": {
+            "dep_namespace": "WPSP\\Deps\\",
+            "dep_directory": "/includes/Deps/",
+            "classmap_directory": "/includes/Deps/classes/",
+            "classmap_prefix": "WPSP_",
+            "delete_vendor_directories": true,
+            "excluded_packages": [
+                "priyomukul/wp-notice",
+                "wpdevelopers/twitteroauth",
+                "wpdevelopers/linkedin-sdk-php",
+                "wpdevelopers/pinterest-api-php",
+                "facebook/graph-sdk",
+                "paragonie/random_compat"
+            ]
+        }
     },
 	"config": {
 		"platform": {
 			"php": "7.2"
 		}
-	}
+	},
+    "require-dev": {
+        "coenjacobs/mozart": "0.6.0"
+    }
 }
