@@ -792,10 +792,11 @@ class SocialProfile
                 $headers = [
                     "Authorization: Bearer $app_id",
                 ];
-                $response = Helper::wpsp_curl('https://api.medium.com/v1/me','', 'application/json', false, $headers);
-                $response = json_decode( $response['result'] );
-                $data = !empty( $response->data ) ? $response->data : [];
-                $current_user = wp_get_current_user();
+                // $response           = Helper::get_medium_data( 'https://api.medium.com/v1/me', $headers );
+                $response           = Helper::wpsp_medium_curl('https://api.medium.com/v1/me','', 'application/json', false, $headers);
+                $response           = json_decode( $response['result'] );
+                $data               = !empty( $response->data ) ? $response->data : [];
+                $current_user       = wp_get_current_user();
                 $uploaded_image_url = '';
                 if( !empty( $data->imageUrl ) && !empty( $data->name ) ) {
                     $uploaded_image_url = $this->handle_thumbnail_upload($data->imageUrl, $data->name );
@@ -812,6 +813,12 @@ class SocialProfile
                     'added_by'                => $current_user->user_login,
                     'added_date'              => current_time('mysql')
                 ];
+                if( !empty( $response->errors ) ) {
+                    $res = [
+                        'message' => $response->errors[0]->message,
+                        'code'    => $response->errors[0]->code,
+                    ];
+                }
                 wp_send_json_success($res);
                 wp_die();
             } catch (\Exception $error) {

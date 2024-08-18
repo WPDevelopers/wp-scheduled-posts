@@ -214,7 +214,7 @@ const Medium = (props) => {
         } else {
             SweetAlertToaster({
                 type : 'error',
-                title : __( 'Please check your access token and try again.', 'wp-scheduled-posts' ),
+                title : responseData?.data.message ?  responseData?.data.message : __( 'Please check your access token and try again.', 'wp-scheduled-posts' ),
             }).fire();
         }
     };

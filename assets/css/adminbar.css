@@ -122,6 +122,12 @@
     justify-content: start;
     align-items: center;
 }
+#wpscpproInstantShareModal .modalBody .entry-head.medium {
+    background: rgb(137 102 102 / 15%);
+}
+#wpscpproInstantShareModal .modalBody .entry-head.medium .entry-head-title{
+    color: #000;
+}
 #wpscpproInstantShareModal .entry-head .entry-head-title {
     text-transform: capitalize;
 }
