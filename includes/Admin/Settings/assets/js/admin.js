@@ -10865,8 +10865,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ToasterMsg__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../ToasterMsg */ "./app/Settings/ToasterMsg.tsx");
 /* harmony import */ var _helper_helper__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../helper/helper */ "./app/Settings/helper/helper.ts");
 /* harmony import */ var _Modals_ApiCredentialsForm__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Modals/ApiCredentialsForm */ "./app/Settings/fields/Modals/ApiCredentialsForm.tsx");
-/* harmony import */ var _Modals_SocialModal__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Modals/SocialModal */ "./app/Settings/fields/Modals/SocialModal.tsx");
-/* harmony import */ var _utils_MainProfile__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./utils/MainProfile */ "./app/Settings/fields/utils/MainProfile.tsx");
+/* harmony import */ var _utils_MainProfile__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./utils/MainProfile */ "./app/Settings/fields/utils/MainProfile.tsx");
+/* harmony import */ var _utils_SelectedProfile__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./utils/SelectedProfile */ "./app/Settings/fields/utils/SelectedProfile.tsx");
+/* harmony import */ var _utils_ViewMore__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./utils/ViewMore */ "./app/Settings/fields/utils/ViewMore.tsx");
 var __assign = undefined && undefined.__assign || function () {
   __assign = Object.assign || function (t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -10876,6 +10877,121 @@ var __assign = undefined && undefined.__assign || function () {
     return t;
   };
   return __assign.apply(this, arguments);
+};
+var __awaiter = undefined && undefined.__awaiter || function (thisArg, _arguments, P, generator) {
+  function adopt(value) {
+    return value instanceof P ? value : new P(function (resolve) {
+      resolve(value);
+    });
+  }
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+    function step(result) {
+      result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+    }
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+var __generator = undefined && undefined.__generator || function (thisArg, body) {
+  var _ = {
+      label: 0,
+      sent: function () {
+        if (t[0] & 1) throw t[1];
+        return t[1];
+      },
+      trys: [],
+      ops: []
+    },
+    f,
+    y,
+    t,
+    g;
+  return g = {
+    next: verb(0),
+    "throw": verb(1),
+    "return": verb(2)
+  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
+    return this;
+  }), g;
+  function verb(n) {
+    return function (v) {
+      return step([n, v]);
+    };
+  }
+  function step(op) {
+    if (f) throw new TypeError("Generator is already executing.");
+    while (g && (g = 0, op[0] && (_ = 0)), _) try {
+      if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+      if (y = 0, t) op = [op[0] & 2, t.value];
+      switch (op[0]) {
+        case 0:
+        case 1:
+          t = op;
+          break;
+        case 4:
+          _.label++;
+          return {
+            value: op[1],
+            done: false
+          };
+        case 5:
+          _.label++;
+          y = op[1];
+          op = [0];
+          continue;
+        case 7:
+          op = _.ops.pop();
+          _.trys.pop();
+          continue;
+        default:
+          if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+            _ = 0;
+            continue;
+          }
+          if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+            _.label = op[1];
+            break;
+          }
+          if (op[0] === 6 && _.label < t[1]) {
+            _.label = t[1];
+            t = op;
+            break;
+          }
+          if (t && _.label < t[2]) {
+            _.label = t[2];
+            _.ops.push(op);
+            break;
+          }
+          if (t[2]) _.ops.pop();
+          _.trys.pop();
+          continue;
+      }
+      op = body.call(thisArg, _);
+    } catch (e) {
+      op = [6, e];
+      y = 0;
+    } finally {
+      f = t = 0;
+    }
+    if (op[0] & 5) throw op[1];
+    return {
+      value: op[0] ? op[1] : void 0,
+      done: true
+    };
+  }
 };
 var __spreadArray = undefined && undefined.__spreadArray || function (to, from, pack) {
   if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
@@ -10897,40 +11013,62 @@ var __spreadArray = undefined && undefined.__spreadArray || function (to, from, 
 
 
 
+
 var Medium = function (props) {
-  var _a, _b;
+  var _a, _b, _c, _d;
   var propsValue = (props === null || props === void 0 ? void 0 : props.value) || [];
   var sortedSelectedValue = __spreadArray([], propsValue, true).sort(function (a, b) {
     return b.status - a.status; // Sort in descending order by status
   });
   var cachedLocalData = JSON.parse(localStorage.getItem('instagram'));
   var builderContext = (0,quickbuilder__WEBPACK_IMPORTED_MODULE_2__.useBuilderContext)();
-  var _c = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(false),
-    apiCredentialsModal = _c[0],
-    setApiCredentialsModal = _c[1];
-  var _d = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(false),
-    selectedProfileViewMore = _d[0],
-    setSelectedProfileViewMore = _d[1];
-  var _e = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(''),
-    platform = _e[0],
-    setPlatform = _e[1];
-  var _f = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(sortedSelectedValue !== null && sortedSelectedValue !== void 0 ? sortedSelectedValue : []),
-    selectedProfile = _f[0],
-    setSelectedProfile = _f[1];
-  var _g = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(cachedLocalData !== null && cachedLocalData !== void 0 ? cachedLocalData : {}),
-    cachedStatus = _g[0],
-    setCashedStatus = _g[1];
-  var _h = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(0),
-    activeStatusCount = _h[0],
-    setActiveStatusCount = _h[1];
-  var _j = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)((_a = builderContext === null || builderContext === void 0 ? void 0 : builderContext.savedValues) === null || _a === void 0 ? void 0 : _a.instagram_profile_status),
-    profileStatus = _j[0],
-    setProfileStatus = _j[1];
-  localStorage.setItem('instagram', JSON.stringify(cachedStatus));
+  var _e = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(false),
+    apiCredentialsModal = _e[0],
+    setApiCredentialsModal = _e[1];
+  var _f = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(false),
+    showProfileInfo = _f[0],
+    setShowProfileInfo = _f[1];
+  var _g = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)({}),
+    profileInfo = _g[0],
+    setProfileInfo = _g[1];
+  var _h = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(false),
+    selectedProfileViewMore = _h[0],
+    setSelectedProfileViewMore = _h[1];
+  var _j = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(''),
+    platform = _j[0],
+    setPlatform = _j[1];
+  var _k = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)((_a = props === null || props === void 0 ? void 0 : props.value) !== null && _a !== void 0 ? _a : []),
+    savedProfile = _k[0],
+    setSavedProfile = _k[1];
+  var _l = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(sortedSelectedValue !== null && sortedSelectedValue !== void 0 ? sortedSelectedValue : []),
+    selectedProfile = _l[0],
+    setSelectedProfile = _l[1];
+  var _m = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(cachedLocalData !== null && cachedLocalData !== void 0 ? cachedLocalData : {}),
+    cachedStatus = _m[0],
+    setCashedStatus = _m[1];
+  var _o = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(0),
+    activeStatusCount = _o[0],
+    setActiveStatusCount = _o[1];
+  var _p = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)((_b = builderContext === null || builderContext === void 0 ? void 0 : builderContext.savedValues) === null || _b === void 0 ? void 0 : _b.medium_profile_status),
+    profileStatus = _p[0],
+    setProfileStatus = _p[1];
+  (0,react__WEBPACK_IMPORTED_MODULE_3__.useEffect)(function () {
+    onChange({
+      target: {
+        type: 'checkbox-select',
+        name: 'medium_profile_status',
+        value: profileStatus
+      }
+    });
+  }, [profileStatus]);
+  var _q = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(false),
+    isErrorMessage = _q[0],
+    setIsErrorMessage = _q[1];
+  localStorage.setItem('medium', JSON.stringify(cachedStatus));
   // prepare appId and appSecret
   var appInfo = [];
   if (props === null || props === void 0 ? void 0 : props.value) {
-    (_b = props === null || props === void 0 ? void 0 : props.value) === null || _b === void 0 ? void 0 : _b.map(function (profile) {
+    (_c = props === null || props === void 0 ? void 0 : props.value) === null || _c === void 0 ? void 0 : _c.map(function (profile) {
       if (profile['app_id'] && profile['app_secret']) {
         appInfo['app_id'] = profile['app_id'];
         appInfo['app_secret'] = profile['app_secret'];
@@ -11054,7 +11192,7 @@ var Medium = function (props) {
     onChange({
       target: {
         type: 'checkbox-select',
-        name: 'instagram_profile_status',
+        name: 'medium_profile_status',
         value: profileStatus
       }
     });
@@ -11065,18 +11203,135 @@ var Medium = function (props) {
   } else if (selectedProfile && !selectedProfileViewMore) {
     selectedProfileData = selectedProfile.slice(0, 2);
   }
+  var handleMediumFetchProfile = function (redirectURI, appID, appSecret, platform, openIDConnect) {
+    if (openIDConnect === void 0) {
+      openIDConnect = false;
+    }
+    return __awaiter(void 0, void 0, void 0, function () {
+      var account_type, nonce, data, response, responseData;
+      var _a;
+      return __generator(this, function (_b) {
+        switch (_b.label) {
+          case 0:
+            account_type = localStorage.getItem('account_type');
+            nonce = wpspSettingsGlobal === null || wpspSettingsGlobal === void 0 ? void 0 : wpspSettingsGlobal.api_nonce;
+            data = {
+              action: 'wpsp_social_add_social_profile',
+              nonce: nonce,
+              redirectURI: redirectURI,
+              appId: appID,
+              appSecret: appSecret,
+              type: platform,
+              openIDConnect: openIDConnect,
+              accountType: account_type
+            };
+            return [4 /*yield*/, (0,_helper_helper__WEBPACK_IMPORTED_MODULE_7__.fetchDataFromAPI)(data)];
+          case 1:
+            response = _b.sent();
+            return [4 /*yield*/, response.json()];
+          case 2:
+            responseData = _b.sent();
+            if (((_a = responseData === null || responseData === void 0 ? void 0 : responseData.data) === null || _a === void 0 ? void 0 : _a.name) && responseData.success) {
+              setShowProfileInfo(true);
+              setApiCredentialsModal(false);
+              setProfileInfo(responseData === null || responseData === void 0 ? void 0 : responseData.data);
+            } else {
+              (0,_ToasterMsg__WEBPACK_IMPORTED_MODULE_6__.SweetAlertToaster)({
+                type: 'error',
+                title: (responseData === null || responseData === void 0 ? void 0 : responseData.data.message) ? responseData === null || responseData === void 0 ? void 0 : responseData.data.message : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Please check your access token and try again.', 'wp-scheduled-posts')
+              }).fire();
+            }
+            return [2 /*return*/];
+        }
+      });
+    });
+  };
+  var addMediumProfile = function (event, profileInfo) {
+    if (event.target.checked) {
+      // free
+      // @ts-ignore
+      if (!builderContext.is_pro_active) {
+        // @ts-ignore
+        if (!savedProfile || savedProfile && savedProfile.length == 0) {
+          setIsErrorMessage(false);
+          if (!savedProfile.some(function (profile) {
+            return profile.id === profileInfo.id;
+          })) {
+            profileInfo.status = profileStatus;
+            setSavedProfile(function (prevItems) {
+              return __spreadArray(__spreadArray([], prevItems, true), [profileInfo], false);
+            });
+          }
+        } else {
+          event.target.checked = false;
+          setIsErrorMessage(true);
+        }
+      } else {
+        if (savedProfile && !savedProfile.some(function (profile) {
+          return profile.id === profileInfo.id;
+        })) {
+          profileInfo.status = profileStatus;
+          var updatedSavedProfile = savedProfile.map(function (savedItem) {
+            if (savedItem.id === profileInfo.id) {
+              return __assign(__assign({}, savedItem), {
+                access_token: 'token'
+              });
+            }
+            return savedItem;
+          });
+          updatedSavedProfile.push(profileInfo);
+          setSavedProfile(updatedSavedProfile);
+          setIsErrorMessage(false);
+        }
+      }
+    } else {
+      setIsErrorMessage(false);
+      setSavedProfile(function (prevItems) {
+        return prevItems.filter(function (prevItem) {
+          return prevItem.id !== profileInfo.id;
+        });
+      });
+    }
+  };
+  var addSavedProfile = function () {
+    setSelectedProfile(savedProfile);
+    setShowProfileInfo(false);
+  };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", {
     className: classnames__WEBPACK_IMPORTED_MODULE_1___default()('wprf-control', 'wprf-social-profile', "wprf-".concat(props.name, "-social-profile"), props === null || props === void 0 ? void 0 : props.classes)
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", {
     className: "social-profile-card"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", {
     className: "main-profile"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement(_utils_MainProfile__WEBPACK_IMPORTED_MODULE_10__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement(_utils_MainProfile__WEBPACK_IMPORTED_MODULE_9__["default"], {
     props: props,
     handleProfileStatusChange: handleProfileStatusChange,
     profileStatus: profileStatus,
     openApiCredentialsModal: openApiCredentialsModal
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement((react_modal__WEBPACK_IMPORTED_MODULE_4___default()), {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", {
+    className: "selected-profile"
+  }, (!selectedProfile || selectedProfile.length == 0) && ( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("img", {
+    className: "empty-image",
+    /* @ts-ignore */
+    src: "".concat(wpspSettingsGlobal === null || wpspSettingsGlobal === void 0 ? void 0 : wpspSettingsGlobal.image_path, "EmptyCard.svg"),
+    alt: "mainLogo"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", {
+    className: "selected-facebook-scrollbar"
+  }, selectedProfile && selectedProfileData.map(function (item, index) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", {
+      className: "selected-facebook-wrapper",
+      key: index
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement(_utils_SelectedProfile__WEBPACK_IMPORTED_MODULE_10__["default"], {
+      platform: 'medium',
+      item: item,
+      handleSelectedProfileStatusChange: handleSelectedProfileStatusChange,
+      handleDeleteSelectedProfile: handleDeleteSelectedProfile,
+      handleEditSelectedProfile: '',
+      profileStatus: profileStatus
+    }));
+  })), !selectedProfileViewMore && selectedProfile && selectedProfile.length >= 3 && ( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement(_utils_ViewMore__WEBPACK_IMPORTED_MODULE_11__["default"], {
+    setSelectedProfileViewMore: setSelectedProfileViewMore
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement((react_modal__WEBPACK_IMPORTED_MODULE_4___default()), {
     isOpen: apiCredentialsModal,
     onRequestClose: closeApiCredentialsModal,
     ariaHideApp: false,
@@ -11090,14 +11345,58 @@ var Medium = function (props) {
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement(_Modals_ApiCredentialsForm__WEBPACK_IMPORTED_MODULE_8__["default"], {
     props: props,
     platform: platform,
-    requestHandler: _helper_helper__WEBPACK_IMPORTED_MODULE_7__.socialProfileRequestHandler,
+    requestHandler: handleMediumFetchProfile,
     appInfo: appInfo
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement(_Modals_SocialModal__WEBPACK_IMPORTED_MODULE_9__["default"], {
-    setSelectedProfile: setSelectedProfile,
-    props: props,
-    type: "medium",
-    profileStatus: profileStatus
-  }));
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement((react_modal__WEBPACK_IMPORTED_MODULE_4___default()), {
+    isOpen: showProfileInfo,
+    onRequestClose: showProfileInfo,
+    ariaHideApp: false,
+    shouldCloseOnOverlayClick: false,
+    className: "modal_wrapper"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", {
+    className: "modalhead"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("button", {
+    className: "close-button",
+    onClick: function () {
+      return setShowProfileInfo(false);
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("i", {
+    className: "wpsp-icon wpsp-close"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", {
+    className: "platform-info"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("img", {
+    width: '30px',
+    src: "".concat((_d = props === null || props === void 0 ? void 0 : props.modal) === null || _d === void 0 ? void 0 : _d.logo),
+    alt: "".concat(props === null || props === void 0 ? void 0 : props.label)
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("h4", null, props === null || props === void 0 ? void 0 : props.label))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", {
+    className: "wpsp-modal-social-platform wpsp-modal-social-".concat(platform)
+  }, profileInfo && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("ul", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("li", {
+    key: '1'
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", {
+    className: 'item-content'
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", {
+    className: 'entry-thumbnail'
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("img", {
+    // @ts-ignore 
+    src: profileInfo === null || profileInfo === void 0 ? void 0 : profileInfo.thumbnail_url,
+    alt: 'logo'
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("h4", {
+    className: 'entry-title'
+  }, profileInfo === null || profileInfo === void 0 ? void 0 : profileInfo.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", {
+    className: 'control'
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("input", {
+    type: 'checkbox',
+    onChange: function (e) {
+      return addMediumProfile(e, profileInfo);
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", null))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("button", {
+    type: "submit",
+    className: "wpsp-modal-save-account",
+    onClick: function (event) {
+      event.preventDefault();
+      addSavedProfile();
+    }
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Save', 'wp-scheduled-posts')))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Medium);
 
@@ -11166,7 +11465,7 @@ var ApiCredentialsForm = function (_a) {
   };
   var onSubmitHandler = function (event) {
     event.preventDefault();
-    if (redirectURI && appID && appSecret) {
+    if (redirectURI && appID && appSecret || appID && platform == 'medium') {
       requestHandler(redirectURI, appID, appSecret, platform, openIDConnect).then(function (res) {
         if (res === null || res === void 0 ? void 0 : res.error) {
           setMultiAccountError(true);
@@ -11323,6 +11622,24 @@ var ApiCredentialsForm = function (_a) {
       __html: '<a target="_blank" href="https://developers.facebook.com/docs/graph-api/changelog/version19.0">Meta shut down its Facebook Groups API as of April 22, 2024</a>, and SchedulePress will no longer be able to post to Facebook Groups on your behalf.'
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("button", {
+    type: "submit",
+    disabled: currentActiveAccountType == 'group' ? true : false,
+    className: "wpsp-modal-generate-token-button"
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Connect Your Account', 'wp-scheduled-posts')))), (isManual || platform == "medium") && ( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("form", {
+    onSubmit: onSubmitHandler
+  }, platform == 'medium' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+    className: "form-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("label", {
+    htmlFor: ""
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Access Token:', 'wp-scheduled-posts'), " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("input", {
+    type: "text",
+    required: true,
+    value: appID,
+    placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Access Token", "wp-scheduled-posts"),
+    onChange: function (e) {
+      return SetAppID(e.target.value);
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("button", {
     type: "submit",
     disabled: currentActiveAccountType == 'group' ? true : false,
     className: "wpsp-modal-generate-token-button"
@@ -13367,7 +13684,10 @@ function SelectedProfile(_a) {
     }, (item === null || item === void 0 ? void 0 : item.account_type) ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Board', 'wp-scheduled-posts') : item === null || item === void 0 ? void 0 : item.type)),
     instagram: ( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("span", {
       className: "badge instagram-".concat((_c = item === null || item === void 0 ? void 0 : item.account_type) === null || _c === void 0 ? void 0 : _c.toLowerCase())
-    }, (item === null || item === void 0 ? void 0 : item.account_type) ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Profile', 'wp-scheduled-posts') : item === null || item === void 0 ? void 0 : item.type))
+    }, (item === null || item === void 0 ? void 0 : item.account_type) ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Profile', 'wp-scheduled-posts') : item === null || item === void 0 ? void 0 : item.type)),
+    medium: ( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("span", {
+      className: "badge medium-profile"
+    }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Profile', 'wp-scheduled-posts')))
   }[platform], /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h4", null, " ", platform == 'pinterest' ? (_d = item === null || item === void 0 ? void 0 : item.default_board_name) === null || _d === void 0 ? void 0 : _d.label : item === null || item === void 0 ? void 0 : item.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("span", null, (_e = item === null || item === void 0 ? void 0 : item.added_by) === null || _e === void 0 ? void 0 : _e.replace(/^\w/, function (c) {
     return c.toUpperCase();
   }), " ", (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('on', 'wp-scheduled-posts'), " ", (0,_helper_helper__WEBPACK_IMPORTED_MODULE_2__.getFormatDateTime)(item === null || item === void 0 ? void 0 : item.added_date)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
