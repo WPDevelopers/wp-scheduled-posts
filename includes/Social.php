@@ -33,6 +33,7 @@ class Social
         // facebook
         $this->define('WPSCP_FACEBOOK_OPTION_NAME', 'facebook_profile_list');
         $this->define('WPSCP_INSTAGRAM_OPTION_NAME', 'instagram_profile_list');
+        $this->define('WPSCP_MEDIUM_OPTION_NAME', 'medium_profile_list');
         // $this->define('WPSCP_FACEBOOK_SCOPE', 'pages_show_list,publish_to_groups,pages_read_engagement,pages_manage_metadata,pages_read_user_content,pages_manage_posts,pages_manage_engagement');
         $this->define('WPSCP_FACEBOOK_SCOPE', 'pages_show_list,pages_read_engagement,pages_manage_metadata,pages_read_user_content,pages_manage_posts,business_management,');
         $this->define('WPSCP_INSTAGRAM_SCOPE', 'pages_show_list,pages_read_engagement,pages_manage_metadata,pages_read_user_content,pages_manage_posts,business_management,ads_management,instagram_basic,instagram_content_publish,');
@@ -88,6 +89,9 @@ class Social
         if (Helper::get_settings('instagram_profile_status') == true) {
             $this->instagram();
         }
+        if (Helper::get_settings('medium_profile_status') == true) {
+            $this->medium();
+        }
     }
 
 
@@ -118,6 +122,12 @@ class Social
     {
         $WpScp_instagram = new Social\Instagram();
         $WpScp_instagram->instance();
+    }
+
+    public function medium()
+    {
+        $WpScp_medium = new Social\Medium();
+        $WpScp_medium->instance();
     }
 
     /**

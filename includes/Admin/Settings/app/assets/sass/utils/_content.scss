@@ -219,6 +219,30 @@
               background-color: #fff2f7;
             }
           }
+          &[data-key='layouts_medium'] {
+            span {
+              &:before {
+                // content: '\e921';
+                // font-family: 'wpsp';
+                width: 24px;
+                height: 24px;
+                line-height: 24px;
+                text-align: center;
+                font-size: 20px;
+                content: url('../images/medium-small.svg');
+                // background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+                // background-image: url('../images/medium.svg');
+                -webkit-background-clip: text;
+                background-clip: text;
+                -webkit-text-fill-color: transparent;
+                color: #fff;
+                border-radius: 0;
+              }
+            }
+            &.wprf-active-nav {
+              background-color: #89666617;
+            }
+          }
         }
         .wprf-active-nav {
           color: #1b1b50 !important;

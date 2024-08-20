@@ -75,7 +75,7 @@ class Installer
      */
 	public function get_social_profile_status_modified_data( $settings, $flag = 'convert' )
 	{
-		$profile_list_array = ['facebook_profile_list','twitter_profile_list','linkedin_profile_list','pinterest_profile_list', 'instagram_profile_list'];
+		$profile_list_array = ['facebook_profile_list','twitter_profile_list','linkedin_profile_list','pinterest_profile_list', 'instagram_profile_list','medium_profile_list'];
 		foreach ($profile_list_array as  $profile_name) {
 			if( isset( $settings[$profile_name] ) ) {
 				$i = 0;

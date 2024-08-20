@@ -34,12 +34,14 @@ class InstantShare
         $linkedinIntegation = \WPSP\Helper::get_settings('linkedin_profile_status');
         $pinterestIntegation = \WPSP\Helper::get_settings('pinterest_profile_status');
         $instagramIntegation = \WPSP\Helper::get_settings('instagram_profile_status');
+        $mediumIntegation = \WPSP\Helper::get_settings('medium_profile_status');
         // profile
         $facebookProfile = \WPSP\Helper::get_settings('facebook_profile_list');
         $twitterProfile = \WPSP\Helper::get_settings('twitter_profile_list');
         $linkedinProfile = \WPSP\Helper::get_settings('linkedin_profile_list');
         $pinterestProfile = \WPSP\Helper::get_settings('pinterest_profile_list');
         $instagramProfile = \WPSP\Helper::get_settings('instagram_profile_list');
+        $mediumProfile = \WPSP\Helper::get_settings('medium_profile_list');
         // already checked 'Helper::is_enable_classic_editor()'
     ?>
         <div class="wpscppro-instantshare">
@@ -218,11 +220,32 @@ class InstantShare
                     <?php
                     endif;
                     ?>
-                    <?php if( $facebookIntegation != 'on' && $twitterIntegation != 'on' && $linkedinIntegation != 'on' && $pinterestIntegation != 'on' && $instagramIntegation != 'on' ) : ?>
+                    <?php
+                    if ($mediumIntegation == 'on' && is_array($mediumProfile) && count($mediumProfile) > 0) :
+                        $mediumShareCount = get_post_meta(get_the_ID(), '__wpscppro_social_share_medium');
+                        // $isInstagram = get_post_meta(get_the_ID(), '_wpsp_is_instagram_share', true) ? get_post_meta(get_the_ID(), '_wpsp_is_instagram_share', true) : true;
+                        $isMedium = get_post_meta(get_the_ID(), '_wpsp_is_medium_share', true);
+                    ?>
+                        <li class="medium">
+                            <label style="margin-bottom: 10px;">
+                                <input type="checkbox" id="wpscppromediumis" name="_wpsp_is_medium_share" <?php (!empty($isMedium) ? checked('on', $isMedium, true) : checked('', $isMedium, true)  ); ?> /> <?php esc_html_e('Medium', 'wp-scheduled-posts'); ?>
+                                <?php
+                                if (is_array($mediumShareCount) && count($mediumShareCount) > 0) :
+                                ?>
+                                    <span class="sharecount"><?php print count($mediumShareCount); ?></span>
+                                <?php endif; ?>
+                                <span class="ajaxrequest"></span>
+                            </label>
+                            <div class="errorlog"></div>
+                        </li>
+                    <?php
+                    endif;
+                    ?>
+                    <?php if( $facebookIntegation != 'on' && $twitterIntegation != 'on' && $linkedinIntegation != 'on' && $pinterestIntegation != 'on' && $instagramIntegation != 'on' && $mediumIntegation != 'on' ) : ?>
                         <?php echo sprintf( __( 'You may forget to add or enable social media from <a href="%s">SchedulePress settings</a>. ', 'wp-scheduled-posts' ), admin_url('admin.php?page=schedulepress&tab=social-profile') ) ?>
                     <?php endif ?>
                 </ul>
-                <button id="wpscpproinstantsharenow" <?php echo ( $facebookIntegation != 'on' && $twitterIntegation != 'on' && $linkedinIntegation != 'on' && $pinterestIntegation != 'on' && $instagramIntegation != 'on' ) ? 'disabled' : '' ?> class="button button-primary button-large"><?php esc_html_e('Share Now', 'wp-scheduled-posts'); ?></button>
+                <button id="wpscpproinstantsharenow" <?php echo ( $facebookIntegation != 'on' && $twitterIntegation != 'on' && $linkedinIntegation != 'on' && $pinterestIntegation != 'on' && $instagramIntegation != 'on' && $mediumIntegation != 'on' ) ? 'disabled' : '' ?> class="button button-primary button-large"><?php esc_html_e('Share Now', 'wp-scheduled-posts'); ?></button>
                 <div class="wpscppro-ajax-status"></div>
             </div>
         </div>
@@ -289,22 +312,26 @@ class InstantShare
         update_post_meta( $post_id, '_linkedin_share_type', 'default' );
         update_post_meta( $post_id, '_pinterest_share_type', 'default' );
         update_post_meta( $post_id, '_instagram_share_type', 'default' );
+        update_post_meta( $post_id, '_medium_share_type', 'default' );
         $facebookProfile  = \WPSP\Helper::get_settings('facebook_profile_list');
         $twitterProfile   = \WPSP\Helper::get_settings('twitter_profile_list');
         $linkedinProfile  = \WPSP\Helper::get_settings('linkedin_profile_list');
         $pinterestProfile = \WPSP\Helper::get_settings('pinterest_profile_list');
         $instagramProfile = \WPSP\Helper::get_settings('instagram_profile_list');
+        $mediumProfile = \WPSP\Helper::get_settings('medium_profile_list');
         $selectedSocialProfiles = [];
         $facebookProfile  = is_array( $facebookProfile ) ? $facebookProfile : [];
         $twitterProfile   = is_array( $twitterProfile ) ? $twitterProfile : [];
         $linkedinProfile  = is_array( $linkedinProfile ) ? $linkedinProfile : [];
         $pinterestProfile = is_array( $pinterestProfile ) ? $pinterestProfile : [];
         $instagramProfile = is_array( $instagramProfile ) ? $instagramProfile : [];
+        $mediumProfile = is_array( $mediumProfile ) ? $mediumProfile : [];
         $selectedSocialProfiles = array_merge( $facebookProfile, $selectedSocialProfiles );
         $selectedSocialProfiles = array_merge( $twitterProfile, $selectedSocialProfiles );
         $selectedSocialProfiles = array_merge( $linkedinProfile, $selectedSocialProfiles );
         $selectedSocialProfiles = array_merge( $pinterestProfile, $selectedSocialProfiles );
         $selectedSocialProfiles = array_merge( $instagramProfile, $selectedSocialProfiles );
+        $selectedSocialProfiles = array_merge( $mediumProfile, $selectedSocialProfiles );
         if( Helper::is_enable_classic_editor() ) {
             update_post_meta( $post_id, '_selected_social_profile', json_decode( json_encode( $selectedSocialProfiles ), true ) ); 
         }
@@ -337,6 +364,7 @@ class InstantShare
         $linkedin_selected_profiles  = !empty( $_REQUEST['linkedin_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['linkedin_selected_profiles'] ) : [];
         $pinterest_selected_profiles = !empty( $_REQUEST['pinterest_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['pinterest_selected_profiles'] ) : [];
         $instagram_selected_profiles = !empty( $_REQUEST['instagram_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['instagram_selected_profiles'] ) : [];
+        $medium_selected_profiles    = !empty( $_REQUEST['medium_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['medium_selected_profiles'] ) : [];
 
         // get data from db
         $facebook  = \WPSP\Helper::get_social_profile(WPSCP_FACEBOOK_OPTION_NAME, $facebook_selected_profiles);
@@ -349,6 +377,7 @@ class InstantShare
             } );
         }
         $instagram  = \WPSP\Helper::get_social_profile(WPSCP_INSTAGRAM_OPTION_NAME, $instagram_selected_profiles);
+        $medium  = \WPSP\Helper::get_social_profile(WPSCP_MEDIUM_OPTION_NAME, $medium_selected_profiles);
 
         // get data from ajax request
         $is_facebook_share  = !empty( $_REQUEST['is_facebook_share'] ) ? sanitize_text_field( $_REQUEST['is_facebook_share'] ) : null;
@@ -356,6 +385,7 @@ class InstantShare
         $is_linkedin_share  = !empty( $_REQUEST['is_linkedin_share'] ) ? sanitize_text_field( $_REQUEST['is_linkedin_share'] ) : null;
         $is_pinterest_share = !empty( $_REQUEST['is_pinterest_share'] ) ? sanitize_text_field( $_REQUEST['is_pinterest_share'] ) : null;
         $is_instagram_share = !empty( $_REQUEST['is_instagram_share'] ) ? sanitize_text_field( $_REQUEST['is_instagram_share'] ) : null;
+        $is_medium_share = !empty( $_REQUEST['is_medium_share'] ) ? sanitize_text_field( $_REQUEST['is_medium_share'] ) : null;
 
         if ($is_facebook_share === "true") {
             $allProfile['facebook'] = $facebook;
@@ -371,6 +401,9 @@ class InstantShare
         }
         if ($is_instagram_share === "true") {
             $allProfile['instagram'] = $instagram;
+        }
+        if ($is_medium_share === "true") {
+            $allProfile['medium'] = $medium;
         }
 
         $markup = '';
@@ -524,6 +557,23 @@ class InstantShare
                 $instagram[$platformKey]->access_token,
                 $instagram[$platformKey]->type,
                 $instagram[$platformKey]->id,
+                $postid,
+                $platformKey
+            );
+            wp_die();
+        } else if ($platform == 'medium') {
+            $medium = \WPSP\Helper::get_social_profile(WPSCP_MEDIUM_OPTION_NAME);
+            $platformKey = !empty( $profileID ) ? array_search($profileID, array_column($medium, 'id')) : intval($platformKey);
+            if ($medium[$platformKey]->status == false) {
+                wp_die();
+            }
+            $mediumshare = new \WPSP\Social\Medium();
+            $mediumshare->socialMediaInstantShare(
+                $medium[$platformKey]->app_id,
+                $medium[$platformKey]->app_secret,
+                $medium[$platformKey]->access_token,
+                $medium[$platformKey]->type,
+                $medium[$platformKey]->id,
                 $postid,
                 $platformKey
             );
