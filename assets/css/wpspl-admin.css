@@ -4,6 +4,10 @@
 .sc-publish-future {
     margin-top: 20px;
 }
+.sc-publish-future .components-base-control .components-checkbox-control__input-container svg {
+    left: 60%;
+}
+
 .sc-publish-future .components-checkbox-control,
 .sc-publish-future .components-base-control__field {
     display: flex;

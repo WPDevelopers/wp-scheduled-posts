@@ -245,6 +245,13 @@ function wpscp_rest_prepare($response, $post, $request){
 	if(!empty($request['meta']['prevent_future_post'])){
 		update_post_meta( $post->ID, 'prevent_future_post', $post->post_date );
 		$data = $response->get_data();
+		if( !empty( $data['status'] ) && $data['status'] == 'future' ) {
+			$post_data = array(
+				'ID'          => $post->ID,
+				'post_status' => 'publish',
+			);
+			wp_update_post($post_data, true);
+		}
 		$data['status'] = 'publish';
 		$response->set_data($data);
 	}
