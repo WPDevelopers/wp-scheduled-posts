@@ -208,7 +208,7 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 == Changelog ==
 
-= 5.1.6 - 2024-04-09 =
+= 5.1.6 - 2024-09-04 =
 - Fixed: Publish Post Immediately wasn't working.
 - Fixed: Scheduled Posts were missing from Admin bar.
 - Few minor bug fixes & improvements.
