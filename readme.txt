@@ -74,10 +74,10 @@ https://youtu.be/K8zP6fTOneg
 
 ### 🌟 Seamless Compatibility With Elementor Website Builder
 
-SchedulePress is fully compatible with Elementor. You can manage your [WordPress post scheduling from the Elementor editor](https://wpdeveloper.com/docs/schedule-posts-from-elementor/). Check out what you can do more with this SchedulePress & Elementor powerful integration: 
+SchedulePress is fully compatible with Elementor. You can manage your [WordPress post scheduling from the Elementor editor](https://wpdeveloper.com/docs/schedule-posts-from-elementor/). Check out what you can do more with this SchedulePress & Elementor powerful integration:
 
 -   Schedule WordPress content directly from the Elementor editor panel.
--   Unpublish posts that no longer need to be live on your website. 
+-   Unpublish posts that no longer need to be live on your website.
 -   Republish published posts easily from your Elementor editor panel.
 -   Modular control panel to enable or disable scheduling from Elementor.
 
@@ -208,7 +208,7 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 == Changelog ==
 
-= 5.1.6 - 2024-09-04 =
+= 5.1.6 - 2024-09-05 =
 - Fixed: Publish Post Immediately wasn't working.
 - Fixed: Scheduled Posts were missing from Admin bar.
 - Few minor bug fixes & improvements.
