@@ -4,7 +4,7 @@ Tags: post schedule, schedule calendar, auto scheduler, auto sharing, social sha
 Requires at least: 4.0
 Tested up to: 6.6
 Requires PHP: 7.2
-Stable tag: 5.1.5
+Stable tag: 5.1.6
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -74,10 +74,10 @@ https://youtu.be/K8zP6fTOneg
 
 ### 🌟 Seamless Compatibility With Elementor Website Builder
 
-SchedulePress is fully compatible with Elementor. You can manage your [WordPress post scheduling from the Elementor editor](https://wpdeveloper.com/docs/schedule-posts-from-elementor/). Check out what you can do more with this SchedulePress & Elementor powerful integration: 
+SchedulePress is fully compatible with Elementor. You can manage your [WordPress post scheduling from the Elementor editor](https://wpdeveloper.com/docs/schedule-posts-from-elementor/). Check out what you can do more with this SchedulePress & Elementor powerful integration:
 
 -   Schedule WordPress content directly from the Elementor editor panel.
--   Unpublish posts that no longer need to be live on your website. 
+-   Unpublish posts that no longer need to be live on your website.
 -   Republish published posts easily from your Elementor editor panel.
 -   Modular control panel to enable or disable scheduling from Elementor.
 
@@ -207,6 +207,11 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 8. Social Templates
 
 == Changelog ==
+
+= 5.1.6 - 2024-09-05 =
+- Fixed: Publish Post Immediately wasn't working.
+- Fixed: Scheduled Posts were missing from Admin bar.
+- Few minor bug fixes & improvements.
 
 = 5.1.5 - 2024-08-11 =
 - Fixed: PHP Fatal error for Guzzelhttp.

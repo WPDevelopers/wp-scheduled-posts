@@ -166,7 +166,9 @@
         }).on('click', '.wpsp-immediately-publish', function (e) {
             e.preventDefault();
             wpsp_date.clear();
-            wpsp_adv_date.clear();
+            if( typeof wpsp_adv_date.clear == 'function' ) {
+				wpsp_adv_date.clear();
+			}
             wpsp_submit_button_text.text(label_publish);
             $(this).addClass('active');
             wpsp_submit_button_text.trigger('click', [$(this)]);
