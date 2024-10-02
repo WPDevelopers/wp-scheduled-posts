@@ -22,6 +22,18 @@ export const fetchDataFromAPI = async (body) => {
     return response;
 };
 
+export const fetchCategories = async (data) => {
+    const { limit, page } = data;
+    const queryString = new URLSearchParams({ limit, page }).toString();
+    return await apiFetch({
+        path: `wp-scheduled-posts/v1/get-categories?${queryString}`,
+        method: 'GET',
+    }).then((res) => {
+        return res;
+    });
+};
+
+
 export const fetPinterestBoardData = async (body) => {
     return await apiFetch( {
         path: 'wp-scheduled-posts/v1/fetch_pinterest_section',

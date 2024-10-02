@@ -145,6 +145,8 @@ class Calendar
         // Get the query parameters from the request
         // post type
         $post_type        = $request->get_param('post_type');
+        $posts_per_page   = $request->get_param('posts_per_page');
+        $page             = $request->get_param('page');
         $post_type        = !empty($post_type) ? $post_type : [];
         $taxonomies       = $request->get_param('taxonomy');
         $taxonomies       = !empty($taxonomies) ? $taxonomies : [];
@@ -166,7 +168,8 @@ class Calendar
             'post_type'      => $post_type,
             'tax_query'      => $this->get_tax_query($taxonomies),
             'post_status'    => array('draft', 'pending'),
-            'posts_per_page' => -1,
+            'posts_per_page' => $posts_per_page,
+            'paged'          => $page,
         ));
 
         // Check if the query found any posts

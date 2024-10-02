@@ -34,17 +34,6 @@ export const getOptionsFlatten = (options: Option[]) => {
 
 const CheckboxSelect = (props) => {
   let { name, multiple, onChange } = props;
-  // let options = [];
-  // if (props.option) {
-  //   options = Object.entries(props.option)?.map(([key, value]) => ({
-  //     //@ts-ignore
-  //     value: value?.value,
-  //     //@ts-ignore
-  //     label: value?.label,
-  //     key: key.toString(),
-  //   }));
-  // }
-
 
   const allOption = useMemo(() => addAllOption(props.option), [props.option]);
   const allOptionFlatten = useMemo(

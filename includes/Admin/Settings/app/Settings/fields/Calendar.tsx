@@ -178,6 +178,8 @@ export default function Calendar(props) {
           <div className="toolbar">
             <div className="left">
               <CategorySelect
+                isCalendar={true}
+                calenderInner={true}
                 selectedPostType={selectedPostType}
                 onChange={(value) => {
                   setSelectedCategories([...value]);

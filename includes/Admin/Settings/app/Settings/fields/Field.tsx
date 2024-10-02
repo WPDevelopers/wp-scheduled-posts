@@ -17,6 +17,7 @@ import ManualScheduler from './ManualScheduler';
 import ScheduleHubFeature from './ScheduleHubFeature';
 import License from './License';
 import ProToggle from './utils/ProToggle';
+import CheckboxSelectAsync from './CheckboxSelectAsync';
 
 const Field = (ret, type, props) => {
 
@@ -49,6 +50,8 @@ const Field = (ret, type, props) => {
             return <Twitter {...props} />;
         case "checkbox-select":
             return <CheckboxSelect {...props} />;
+        case "checkbox-select-async":
+            return <CheckboxSelectAsync {...props} />;
         case "time":
             return <Time {...props} />;
         case "calendar":

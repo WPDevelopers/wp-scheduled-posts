@@ -488,3 +488,20 @@
     }
   }
 }
+
+.wpsp-checkbox-async-loading .checkbox-select__menu {
+  position: absolute;
+  &::after{
+    position: relative;
+    background-color: red;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 99999;
+  }
+}
+.checkbox-select-menu-list-item.blur-item {
+  filter: blur(1.5px);
+  pointer-events: none;
+}
+
