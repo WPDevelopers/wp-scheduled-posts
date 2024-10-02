@@ -166,7 +166,7 @@ class Calendar
         // Create a new WP_Query object with the parameters
         $query = new \WP_Query(array(
             'post_type'      => $post_type,
-            'tax_query'      => $this->get_tax_query($taxonomies),
+            'tax_query'      => $this->__get_tax_query($taxonomies, $post_type),
             'post_status'    => array('draft', 'pending'),
             'posts_per_page' => $posts_per_page,
             'paged'          => $page,
@@ -187,6 +187,30 @@ class Calendar
         // Return an empty array as a JSON response
             return rest_ensure_response( array() );
         }
+    }
+
+    public function __get_tax_query($taxonomies, $post_type) {
+        // Get all taxonomies registered for the given post type
+        $registered_taxonomies = get_object_taxonomies($post_type, 'objects');
+
+        // Prepare an empty array for the tax query
+        $tax_query = array();
+
+        // Loop through the registered taxonomies
+        foreach ($registered_taxonomies as $taxonomy_name => $taxonomy_object) {
+            // Check if any terms match for the current taxonomy
+            if (!empty($taxonomies) && is_array($taxonomies)) {
+                $tax_query[] = array(
+                    'taxonomy' => $taxonomy_name,  // Use the current taxonomy name
+                    'field'    => 'slug',          // Assuming terms are passed as slugs
+                    'terms'    => $taxonomies,     // The terms array (e.g., ['antiquarianism'])
+                    'operator' => 'IN',            // Use 'IN' to match any term in this taxonomy
+                );
+            }
+        }
+
+        // Return the tax_query array if not empty, otherwise return an empty array
+        return !empty($tax_query) ? $tax_query : array();
     }
 
     public function get_tax_terms($request){

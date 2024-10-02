@@ -48,7 +48,6 @@ const Sidebar = (
 
   const handleScroll = throttle(() => {
     if (loading || !hasMore) return; // Prevent scrolling if still loading
-
     const sidebarWrapper = document.getElementById("sidebar-post-wrapper");
     if (sidebarWrapper) {
       const { scrollTop, scrollHeight, clientHeight } = sidebarWrapper;
@@ -58,15 +57,14 @@ const Sidebar = (
     }
   }, 200);
 
-  const fetchPosts = async (page: number) => {
+  const fetchPosts = async (page: number, force = false) => {
     if (loading || !hasMore) return; // Ensure only one request is made at a time
-
     setLoading(true); // Set loading before starting the request
     const query = {
       post_type: postType ? [postType] : getValues(selectedPostType) ?? ["post"],
       post_status: ["draft", "pending"],
       posts_per_page: postsPerPage,
-      taxonomy: getValues(optionSelected, true),
+      taxonomy: getValues(optionSelected),
       page: page,
     };
 
@@ -81,7 +79,14 @@ const Sidebar = (
         setHasMore(false); // No more posts to load
       }
       // @ts-ignore 
-      setPosts((prevPosts) => [...prevPosts, ...data]);
+      if(force) {
+        // @ts-ignore 
+        setHasMore(true);
+        setPosts([ ...data]);
+      }else{
+        // @ts-ignore 
+        setPosts((prevPosts) => [...prevPosts, ...data]);
+      }
     } catch (error) {
       console.error("Error fetching posts:", error);
     } finally {
@@ -98,7 +103,7 @@ const Sidebar = (
         return post;
       },
     });
-
+    
     const sidebarWrapper = document.getElementById("sidebar-post-wrapper");
     if (sidebarWrapper) {
       sidebarWrapper.addEventListener("scroll", handleScroll);
@@ -111,9 +116,16 @@ const Sidebar = (
     };
   }, [selectedPostType, optionSelected]); // Trigger when filters change
 
+
   useEffect(() => {
     fetchPosts(page); // Trigger when page changes
   }, [page]);
+
+  useEffect(() => {
+    setPage(1);
+    fetchPosts(page, true);
+  }, [optionSelected])
+  
 
   return (
     <div id="wpsp-sidebar" className="sidebar" ref={draggableRef}>
@@ -122,7 +134,7 @@ const Sidebar = (
           <h4 className="unscheduled">
             Unscheduled Posts <span className="spinner"></span>
           </h4>
-          <CategorySelect calenderInner={false} isCalendar={true} selectedPostType={selectedPostType} onChange={setOptionSelected} showTags />
+          <CategorySelect selectedPostType={selectedPostType} onChange={setOptionSelected} showTags />
           <div className="event-wrapper" id="sidebar-post-wrapper">
             {posts
               .sort((a, b) => new Date(b.end).getTime() - new Date(a.end).getTime())

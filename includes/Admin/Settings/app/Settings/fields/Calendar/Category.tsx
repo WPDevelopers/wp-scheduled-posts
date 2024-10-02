@@ -4,9 +4,9 @@ import { addQueryArgs } from "@wordpress/url";
 import React, { useEffect, useState } from "react";
 import ReactSelectWrapper, { addAllOption, getOptionsFlatten } from "./ReactSelectWrapper";
 import { Option } from "./types";
-import CheckboxSelectAsync from "../CheckboxSelectAsync";
+import CategorySelectWrapper from "./CategorySelect";
 
-const CategorySelect = ({ isCalendar, selectedPostType, onChange, showTags = false, calenderInner = false }) => {
+const CategorySelect = ({ selectedPostType, onChange, showTags = false }) => {
   const [categoryOptions, setCategoryOptions] = useState<Option[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<Option[]>([]);
 
@@ -22,11 +22,10 @@ const CategorySelect = ({ isCalendar, selectedPostType, onChange, showTags = fal
       setSelectedCategories(addAllOption(getOptionsFlatten(data)));
     });
   }, [selectedPostType]);
-
+  
   return (
     <>
-      <CheckboxSelectAsync
-        isCalendar={isCalendar}
+      <CategorySelectWrapper
         options={categoryOptions}
         value={selectedCategories}
         onChange={(value) => {
@@ -35,9 +34,6 @@ const CategorySelect = ({ isCalendar, selectedPostType, onChange, showTags = fal
         }}
         placeholder={__("Select Category", "wp-scheduled-posts")}
         showTags={showTags}
-        calenderInner={calenderInner}
-        setSelectedCategories={setSelectedCategories}
-        __onChange={onChange}
       />
     </>
   );

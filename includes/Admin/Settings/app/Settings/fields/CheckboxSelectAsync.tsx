@@ -7,6 +7,8 @@ import apiFetch from '@wordpress/api-fetch';
 
 // Prepare options with checkbox
 const Option = (props) => {
+    console.log('props', props);
+    
     const isAllSelected = props.selectProps.value.some((selected) => selected.value === 'all');
     return (
         <div
@@ -43,12 +45,11 @@ export const getOptionsFlatten = (options) => {
 };
 
 const CheckboxSelectAsync = (props) => {
-    const { name, multiple, onChange, isCalendar, calenderInner, selectedCategories, setSelectedCategories, __onChange } = props;
+    const { name, multiple, onChange } = props;
     const [displayedOptions, setDisplayedOptions] = useState([]); // Paginated options
     const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(1);
-    
-    const options = isCalendar ? [{ label: 'All', value: 'all' }] :  props?.value.map((item) => ({
+    const options = props?.value.map((item) => ({
         value: item,
         label: item == 'all' ? 'All' : item,
     }));
@@ -72,8 +73,6 @@ const CheckboxSelectAsync = (props) => {
       }
     }
     setOptionSelected(newValue);
-    setSelectedCategories(newValue)
-    __onChange(newValue)
   };
 
   // Remove an item from selection
@@ -142,37 +141,30 @@ const CheckboxSelectAsync = (props) => {
   return (
     <>
       <div
-        className={ !isCalendar ? classNames(
+        className={classNames(
           "wprf-control",
           "wprf-control-wrapper",
           "wprf-checkbox-select",
           `wprf-${props.name}-checkbox-select`,
           props.classes
-        ) : classNames(
-          "wprf-control",
-          "wprf-checkbox-select",
-          `wprf-${props.name}-checkbox-select`,
-          props.classes
-        ) }
+        )}
       >
         <div className="wprf-control-label">
           <label htmlFor={`${props.id}`}>{props.label}</label>
-          { !isCalendar &&
-            <div className="selected-options">
-              <ul>
-                { (optionSelected && optionSelected[0] !== null) &&
-                  optionSelected
-                    .map((item, index) => (
-                      <li key={index}>
-                        {item.label}
-                        <button onClick={() => removeItem(item)}>
-                          <i className="wpsp-icon wpsp-close"></i>
-                        </button>
-                      </li>
-                    ))}
-              </ul>
-            </div>
-          }
+          <div className="selected-options">
+            <ul>
+              { (optionSelected && optionSelected[0] !== null) &&
+                optionSelected
+                  .map((item, index) => (
+                    <li key={index}>
+                      {item.label}
+                      <button onClick={() => removeItem(item)}>
+                        <i className="wpsp-icon wpsp-close"></i>
+                      </button>
+                    </li>
+                  ))}
+            </ul>
+          </div>
         </div>
         <div className="wprf-checkbox-select-wrap wprf-checked wprf-label-position-right">
           <span className={`d-inline-block ${loading ? 'wpsp-checkbox-async-loading' : ''}`}>
@@ -191,22 +183,6 @@ const CheckboxSelectAsync = (props) => {
               onMenuScrollToBottom={loadMoreOptions}
             />
           </span>
-          { (isCalendar && !calenderInner) &&
-            <div className="selected-options">
-              <ul>
-                { (optionSelected && optionSelected[0] !== null) &&
-                  optionSelected
-                    .map((item, index) => (
-                      <li key={index}>
-                        {item.label}
-                        <button onClick={() => removeItem(item)}>
-                          <i className="wpsp-icon wpsp-close"></i>
-                        </button>
-                      </li>
-                    ))}
-              </ul>
-            </div>
-          }
         </div>
       </div>
     </>
