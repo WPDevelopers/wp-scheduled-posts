@@ -148,6 +148,51 @@ class Settings
                 return current_user_can( 'edit_posts' );
             }
         ));
+
+        register_rest_route($namespace,'get-categories',array(
+            'methods' => 'GET',
+            'callback'   => array($this, 'wpsp_get_categories'),
+            'permission_callback' => function() {
+                return current_user_can( 'edit_posts' );
+            }
+        ));
+    }
+
+    public function wpsp_get_categories(\WP_REST_Request $request)
+    {
+        $limit      = $request->get_param('limit') ?: 10;
+        $page       = $request->get_param('page') ?: 1;
+        $categories = $this->get_options_with_pagination($limit, $page);
+        return rest_ensure_response($categories);
+    }
+
+    /**
+     * Get categories with pagination.
+     *
+     * @param int $limit Number of items per page.
+     * @param int $page  Current page number.
+     *
+     * @return array List of categories.
+     */
+    function get_options_with_pagination($limit, $page) {
+        $offset = ($page - 1) * $limit;
+        $args = [
+            'taxonomy'   => 'category', // Change taxonomy if needed
+            'hide_empty' => false, // Include categories even if they don't have posts
+            'number'     => $limit, // Number of categories per page
+            'offset'     => $offset, // Offset for pagination
+        ];
+        $categories = get_terms($args);
+         // If no errors, format the categories as { label, value }
+        if (!is_wp_error($categories)) {
+            return array_map(function($category) {
+                return [
+                    'label' => $category->name,
+                    'value' => $category->slug
+                ];
+            }, $categories);
+        }
+        return ['error' => 'Unable to fetch categories'];
     }
 
     // Instant social share

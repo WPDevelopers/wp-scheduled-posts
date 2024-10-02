@@ -4,6 +4,7 @@ import { addQueryArgs } from "@wordpress/url";
 import React, { useEffect, useState } from "react";
 import ReactSelectWrapper, { addAllOption, getOptionsFlatten } from "./ReactSelectWrapper";
 import { Option } from "./types";
+import CategorySelectWrapper from "./CategorySelect";
 
 const CategorySelect = ({ selectedPostType, onChange, showTags = false }) => {
   const [categoryOptions, setCategoryOptions] = useState<Option[]>([]);
@@ -21,10 +22,10 @@ const CategorySelect = ({ selectedPostType, onChange, showTags = false }) => {
       setSelectedCategories(addAllOption(getOptionsFlatten(data)));
     });
   }, [selectedPostType]);
-
+  
   return (
     <>
-      <ReactSelectWrapper
+      <CategorySelectWrapper
         options={categoryOptions}
         value={selectedCategories}
         onChange={(value) => {

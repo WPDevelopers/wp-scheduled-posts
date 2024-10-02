@@ -192,12 +192,11 @@ class Settings {
                                 'allow_categories' => [
                                     'name'     => 'allow_categories',
                                     'label'    => __('Show Categories:', 'wp-scheduled-posts'),
-                                    'type'     => 'checkbox-select',
+                                    'type'     => 'checkbox-select-async',
                                     'multiple' => true,
                                     'default'  => [ 'all' ],
                                     'priority' => 8,
                                     'icon_classes'  => 'wpsp-icon wpsp-close',
-                                    'option'  => self::normalize_options(\WPSP\Helper::_get_all_category()),
                                 ],
                                 'allow_user_by_role' => [
                                     'name'     => 'allow_user_by_role',
