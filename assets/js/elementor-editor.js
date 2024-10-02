@@ -454,6 +454,27 @@
                     is_instagram_share = false;
                 }
             }
+
+
+             // selected instagram profile
+             let medium_selected_profiles;
+             let is_medium_share = true;
+             const el_medium_profile = $('[name="wpsp-el-content-medium"]:checked').val();
+             if( el_medium_profile == 'wpsp-el-social-medium-custom' ) {
+                 medium_selected_profiles = $('[name="wpsp_el_social_medium[]"]:checked').map(function() {
+                     return $(this).val();
+                 }).get();
+                 if( medium_selected_profiles.length == 0 ) {
+                     is_medium_share = false;
+                 }
+             }else{
+                 medium_selected_profiles = $('[name="wpsp_el_social_medium[]"]').map(function() {
+                     return $(this).val();
+                 }).get();
+                 if( medium_selected_profiles.length == 0 ) {
+                     is_medium_share = false;
+                 }
+             }
             
             var postid = jQuery('#wpscppropostid').val()
             // var nonce = jQuery('#wpscp_pro_instant_social_share_nonce').val()
@@ -467,11 +488,13 @@
                 is_linkedin_share,
                 is_pinterest_share,
                 is_instagram_share,
+                is_medium_share,
                 facebook_selected_profiles,
                 twitter_selected_profiles,
                 linkedin_selected_profiles,
                 pinterest_selected_profiles,
                 instagram_selected_profiles,
+                medium_selected_profiles,
             }
     
             jQuery.post(ajaxurl, data, function (response, status) {

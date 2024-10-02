@@ -84,7 +84,7 @@ export const socialProfileRequestHandler = async (redirectURI, appID, appSecret,
         accountType: account_type,
     };
     const response = await fetchDataFromAPI(data);
-
+    
     const responseData = await response.json();
     if (responseData.success) {
         open(responseData.data, '_self');

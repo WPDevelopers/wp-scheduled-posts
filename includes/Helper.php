@@ -2,6 +2,10 @@
 
 namespace WPSP;
 
+use WPSP\Deps\GuzzleHttp\Client;
+use WPSP\Deps\GuzzleHttp\Exception\RequestException;
+use WPSP\Deps\GuzzleHttp\Psr7\Request;
+
 class Helper
 {
     public static function get_all_post_type()
@@ -454,6 +458,81 @@ class Helper
             }
         }
         return false;
+    }
+
+    public static function wpsp_curl($url, $parameters, $content_type, $post = true, $headers = [], $ssl = true ) 
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $ssl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        if ($post) {
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $parameters);
+        }
+        curl_setopt($ch, CURLOPT_POST, $post);
+
+        $headers[] = "Content-Type: {$content_type}";
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        $result = curl_exec($ch);
+        $response_code = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+        curl_close($ch);
+        return [
+            'result' => $result,
+            'code'   => $response_code
+        ];
+    }
+
+    public static function wpsp_medium_curl($url, $parameters, $content_type, $post = true, $headers = [], $ssl = true ) 
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $ssl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        if ($post) {
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $parameters);
+        }
+        curl_setopt($ch, CURLOPT_POST, $post);
+    
+        // Add the content type to headers
+        $headers[] = "Content-Type: {$content_type}";
+    
+        // Add the provided headers
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    
+        // Additional options
+        curl_setopt($ch, CURLOPT_ENCODING, '');  // Handle different encodings
+        curl_setopt($ch, CURLOPT_MAXREDIRS, 10); // Follow up to 10 redirects
+        curl_setopt($ch, CURLOPT_TIMEOUT, 0);    // No timeout
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // Follow redirects
+        curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1); // Use HTTP/1.1
+    
+        $result = curl_exec($ch);
+    
+        // Check for errors
+        if (curl_errno($ch)) {
+            echo 'Error:' . curl_error($ch);
+        }
+    
+        // Get the response code
+        $response_code = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+        curl_close($ch);
+    
+        return [
+            'result' => $result,
+            'code'   => $response_code
+        ];
+    }
+
+    public static function get_medium_data($url, $headers) {
+        $client = new Client();
+        try {
+            $request = new Request('GET', $url, $headers);
+            $response = $client->sendAsync($request)->wait();
+            return $response->getBody();
+        } catch (RequestException $e) {
+            // Handle the exception or log it
+            return 'Request failed: ' . $e->getMessage();
+        }
     }
 }
 
