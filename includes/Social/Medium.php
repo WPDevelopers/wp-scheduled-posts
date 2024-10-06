@@ -277,7 +277,7 @@ class Medium
                     $profile->app_secret,
                     $profile->access_token,
                     $profile->type,
-                    $profile->id,
+                    $profile->__id,
                     $post_id,
                     $profile_key,
                     true
@@ -305,7 +305,7 @@ class Medium
                     $profile->app_secret,
                     $profile->access_token,
                     $profile->type,
-                    $profile->id,
+                    $profile->__id,
                     $post_id,
                     $profile_key,
                     true

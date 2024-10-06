@@ -802,16 +802,17 @@ class SocialProfile
                     $uploaded_image_url = $this->handle_thumbnail_upload($data->imageUrl, $data->name );
                 }
                 $res =  [
-                    'id'                      => !empty( $data->id ) ? esc_html( $data->id ) : '',
-                    'app_id'                  => $app_id,
-                    'app_secret'              => $app_secret,
-                    'name'                    => !empty( $data->name ) ? esc_html( $data->name ) : '',
-                    'thumbnail_url'           => !empty( $uploaded_image_url ) ? $uploaded_image_url : $data->imageUrl,
-                    'type'                    => 'profile',
-                    'status'                  => true,
-                    'access_token'            => $app_id,
-                    'added_by'                => $current_user->user_login,
-                    'added_date'              => current_time('mysql')
+                    'id'            => time(),
+                    '__id'          => !empty( $data->id ) ? esc_html( $data->id ) : '',
+                    'app_id'        => $app_id,
+                    'app_secret'    => $app_secret,
+                    'name'          => !empty( $data->name ) ? esc_html( $data->name ) : '',
+                    'thumbnail_url' => !empty( $uploaded_image_url ) ? $uploaded_image_url : $data->imageUrl,
+                    'type'          => 'profile',
+                    'status'        => true,
+                    'access_token'  => $app_id,
+                    'added_by'      => $current_user->user_login,
+                    'added_date'    => current_time('mysql')
                 ];
                 if( !empty( $response->errors ) ) {
                     $res = [

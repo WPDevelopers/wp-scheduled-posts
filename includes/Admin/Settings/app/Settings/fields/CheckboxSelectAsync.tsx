@@ -6,9 +6,7 @@ import { selectStyles } from "../helper/styles";
 import apiFetch from '@wordpress/api-fetch';
 
 // Prepare options with checkbox
-const Option = (props) => {
-    console.log('props', props);
-    
+const Option = (props) => {    
     const isAllSelected = props.selectProps.value.some((selected) => selected.value === 'all');
     return (
         <div

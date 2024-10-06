@@ -573,7 +573,7 @@ class InstantShare
                 $medium[$platformKey]->app_secret,
                 $medium[$platformKey]->access_token,
                 $medium[$platformKey]->type,
-                $medium[$platformKey]->id,
+                $medium[$platformKey]->__id,
                 $postid,
                 $platformKey
             );

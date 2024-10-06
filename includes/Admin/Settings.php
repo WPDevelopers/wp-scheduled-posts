@@ -268,6 +268,16 @@ class Settings {
                                     'priority' => 25,
                                     'default'  => 1,
                                 ],
+                                'show_elementor_section_schedule' => [
+                                    'name'        => 'show_elementor_section_schedule',
+                                    'type'        => 'toggle',
+                                    'label'       => __('Show Elementor Section Schedule', 'wp-scheduled-posts'),
+                                    'priority'    => 26,
+                                    'default'     => false,
+                                    'info'        => __('Schedule any Section of a Page/Post in Elementor with SchedulePress','wp-scheduled-posts'),
+                                    'description' => __('Upgrade to Premium', 'wp-scheduled-posts'),
+                                    'is_pro'      => true,
+                                ],
                                 'post_republish_unpublish' => [
                                     'name'        => 'post_republish_unpublish',
                                     'type'        => 'toggle',
@@ -566,7 +576,7 @@ class Settings {
                                     'label'    => __('Medium', 'wp-scheduled-posts'),
                                     'default'  => [],
                                     'logo'     => WPSP_ASSETS_URI . 'images/medium.svg',
-                                    'desc'     => sprintf( __('You can enable/disable Medium social share. To configure Medium Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-scheduled-wordpress-posts-on-medium/' ),
+                                    'desc'     => sprintf( __('You can enable/disable Medium social share. To configure Medium Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-medium/' ),
                                     'modal'    => [
                                         'logo'               => WPSP_ASSETS_URI . 'images/medium.svg',
                                         'redirect_url_desc'  => __('Add this URL in the Redirect URLs field of your Medium app.','wp-scheduled-posts'),
@@ -1095,7 +1105,7 @@ class Settings {
                                                     'type'          => 'section',
                                                     'name'          => 'medium_wrapper',
                                                     'label'         => __('Medium Settings', 'wp-scheduled-posts'),
-                                                    'sub_title'     => sprintf( __('To configure the Medium Settings, check out this <a target="_blank" href="%s">Doc.</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-scheduled-wordpress-posts-on-medium/' ),
+                                                    'sub_title'     => sprintf( __('To configure the Medium Settings, check out this <a target="_blank" href="%s">Doc.</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-medium/' ),
                                                     'priority'      => 10,
                                                     'fields'        => [
                                                         'medium'  => [
