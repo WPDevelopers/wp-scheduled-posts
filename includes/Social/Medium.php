@@ -181,7 +181,7 @@ class Medium
      * @since 2.5.0
      * @return array
      */
-    public function remote_post($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key, $force_share = false)
+    public function remote_post($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key, $force_share = false, $medium_id)
     {
         // get share count 
         $count_meta_key = '__wpsp_medium_share_count_'.$ID;
@@ -191,7 +191,7 @@ class Medium
         $get_share_type =   get_post_meta($post_id, '_medium_share_type', true);
         if( $get_share_type === 'custom' ) {
             $get_all_selected_profile     = get_post_meta($post_id, '_selected_social_profile', true);
-            $check_profile_exists         = Helper::is_profile_exits( $ID, $get_all_selected_profile );
+            $check_profile_exists         = Helper::is_profile_exits( $medium_id, $get_all_selected_profile );
             if( !$check_profile_exists ) {
                 return;
             }
@@ -280,7 +280,8 @@ class Medium
                     $profile->__id,
                     $post_id,
                     $profile_key,
-                    true
+                    true,
+                    $profile->id
                 );
             }
         }
@@ -308,7 +309,8 @@ class Medium
                     $profile->__id,
                     $post_id,
                     $profile_key,
-                    true
+                    true,
+                    $profile->id,
                 );
             }
         }
@@ -320,9 +322,9 @@ class Medium
      * @since 2.5.0
      * @return ajax response
      */
-    public function socialMediaInstantShare($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key)
+    public function socialMediaInstantShare($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key, $medium_id = '')
     {
-        $response = $this->remote_post($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key, true);
+        $response = $this->remote_post($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key, true, $medium_id);
         if ($response['success'] == false) {
             wp_send_json_error($response['log']);
         } else {

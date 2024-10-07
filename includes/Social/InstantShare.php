@@ -575,7 +575,8 @@ class InstantShare
                 $medium[$platformKey]->type,
                 $medium[$platformKey]->__id,
                 $postid,
-                $platformKey
+                $platformKey,
+                $medium[$platformKey]->id,
             );
             wp_die();
         } else {

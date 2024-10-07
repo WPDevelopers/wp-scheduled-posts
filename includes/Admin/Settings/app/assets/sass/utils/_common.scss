@@ -270,6 +270,17 @@ ul {
   .checkbox-select__menu-list {
     padding-top: 9px;
     padding-bottom: 9px;
+    overflow-x: hidden;
+    &::-webkit-scrollbar {
+      width: 2px;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      background: #6c62ff;
+    }
+    &::-webkit-scrollbar-track {
+      border-radius: 10px;
+    }
     .checkbox-select-menu-list-item {
       .checkbox-select__option {
         display: flex;

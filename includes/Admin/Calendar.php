@@ -166,7 +166,7 @@ class Calendar
         // Create a new WP_Query object with the parameters
         $query = new \WP_Query(array(
             'post_type'      => $post_type,
-            'tax_query'      => $this->__get_tax_query($taxonomies, $post_type),
+            'tax_query'      => $this->get_tax_query($taxonomies),
             'post_status'    => array('draft', 'pending'),
             'posts_per_page' => $posts_per_page,
             'paged'          => $page,
@@ -190,28 +190,36 @@ class Calendar
     }
 
     public function __get_tax_query($taxonomies, $post_type) {
-        // Get all taxonomies registered for the given post type
-        $registered_taxonomies = get_object_taxonomies($post_type, 'objects');
-
-        // Prepare an empty array for the tax query
+        // If $post_type is a string, convert it to an array to handle both types
+        if (!is_array($post_type)) {
+            $post_type = array($post_type);
+        }
+    
+        $taxonomies = array_values(array_map(function($item) {
+            $parts = explode('.', $item);
+            return end($parts);
+        }, $taxonomies));
         $tax_query = array();
-
-        // Loop through the registered taxonomies
-        foreach ($registered_taxonomies as $taxonomy_name => $taxonomy_object) {
-            // Check if any terms match for the current taxonomy
-            if (!empty($taxonomies) && is_array($taxonomies)) {
-                $tax_query[] = array(
-                    'taxonomy' => $taxonomy_name,  // Use the current taxonomy name
-                    'field'    => 'slug',          // Assuming terms are passed as slugs
-                    'terms'    => $taxonomies,     // The terms array (e.g., ['antiquarianism'])
-                    'operator' => 'IN',            // Use 'IN' to match any term in this taxonomy
-                );
+        foreach ($post_type as $type) {
+            $registered_taxonomies = get_object_taxonomies($type, 'objects');
+            foreach ($registered_taxonomies as $taxonomy_name => $taxonomy_object) {
+                if (!empty($taxonomies) && is_array($taxonomies)) {
+                    if (!empty($terms)) {
+                        $tax_query[] = array(
+                            'taxonomy' => $taxonomy_name,  // The taxonomy name (e.g., category, tag, custom taxonomy)
+                            'field'    => 'slug',          // We're using the term slug
+                            'terms'    => $taxonomies,          // The extracted term slugs
+                            'operator' => 'IN',            // Matching terms
+                        );
+                    }
+                }
             }
         }
-
+    
         // Return the tax_query array if not empty, otherwise return an empty array
         return !empty($tax_query) ? $tax_query : array();
     }
+    
 
     public function get_tax_terms($request){
         $post_types       = $request->get_param('post_type');
@@ -337,6 +345,32 @@ class Calendar
         $allData = $this->calendar_view($posts_2, $allData, true);
         $allData = $this->advanced_scheduled_view($post_type, $allData);
         return $allData;
+    }
+
+    function get_formatted_taxonomy_terms_for_post_types($taxonomy = 'category') {
+        $post_types = get_post_types(array('public' => true), 'names');
+        $formatted_terms = array();
+        foreach ($post_types as $post_type) {
+            $terms = get_terms(array(
+                'taxonomy' => $taxonomy,
+                'hide_empty' => false,
+            ));
+    
+            if (!is_wp_error($terms)) {
+                foreach ($terms as $term) {
+                    $formatted_terms[] = array(
+                        'term_id'   => $term->term_id,
+                        'label'     => $term->name,
+                        'slug'      => $term->slug,
+                        'taxonomy'  => $term->taxonomy,
+                        'postType'  => $post_type,
+                        'value'     => "{$post_type}.{$term->taxonomy}.{$term->slug}"
+                    );
+                }
+            }
+        }
+    
+        return $formatted_terms;
     }
 
     protected function advanced_scheduled_view( $post_type, $allData ) {

@@ -19,9 +19,9 @@ const CategorySelect = ({ selectedPostType, onChange, showTags = false }) => {
       path: taxUrl,
     }).then((data: []) => {
       setCategoryOptions(data);
-      setSelectedCategories(addAllOption(getOptionsFlatten(data)));
+      setSelectedCategories(addAllOption(data));
     });
-  }, [selectedPostType]);
+  }, [selectedPostType]);  
   
   return (
     <>

@@ -64,7 +64,7 @@ const Sidebar = (
       post_type: postType ? [postType] : getValues(selectedPostType) ?? ["post"],
       post_status: ["draft", "pending"],
       posts_per_page: postsPerPage,
-      taxonomy: getValues(optionSelected),
+      taxonomy: optionSelected,
       page: page,
     };
 
@@ -78,14 +78,23 @@ const Sidebar = (
       if (data.length < postsPerPage) {
         setHasMore(false); // No more posts to load
       }
-      // @ts-ignore 
-      if(force) {
-        // @ts-ignore 
+      if( optionSelected.length > 0 ) {
         setHasMore(true);
-        setPosts([ ...data]);
-      }else{
+        if( page == 1 ) {
+          setPosts([]);
+        }
         // @ts-ignore 
         setPosts((prevPosts) => [...prevPosts, ...data]);
+      }else{
+        // @ts-ignore 
+        if(force) {
+          // @ts-ignore 
+          setHasMore(true);
+          setPosts([ ...data]);
+        }else{
+          // @ts-ignore 
+          setPosts((prevPosts) => [...prevPosts, ...data]);
+        }
       }
     } catch (error) {
       console.error("Error fetching posts:", error);
@@ -134,7 +143,13 @@ const Sidebar = (
           <h4 className="unscheduled">
             Unscheduled Posts <span className="spinner"></span>
           </h4>
-          <CategorySelect selectedPostType={selectedPostType} onChange={setOptionSelected} showTags />
+          <CategorySelect 
+            selectedPostType={selectedPostType} 
+            onChange={(value) => {
+              setOptionSelected([...value]);
+          }}
+            showTags 
+          />
           <div className="event-wrapper" id="sidebar-post-wrapper">
             {posts
               .sort((a, b) => new Date(b.end).getTime() - new Date(a.end).getTime())

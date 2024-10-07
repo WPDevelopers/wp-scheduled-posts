@@ -166,33 +166,48 @@ class Settings
         return rest_ensure_response($categories);
     }
 
-    /**
+   /**
      * Get categories with pagination.
      *
      * @param int $limit Number of items per page.
      * @param int $page  Current page number.
      *
-     * @return array List of categories.
+     * @return array List of categories with the desired format.
      */
-    function get_options_with_pagination($limit, $page) {
+    function get_options_with_pagination($limit, $page)
+    {
+        $allowed_post_types = \WPSP\Helper::get_all_allowed_post_type(); // Fetch allowed post types
+        $result = ['result' => []];
         $offset = ($page - 1) * $limit;
-        $args = [
-            'taxonomy'   => 'category', // Change taxonomy if needed
-            'hide_empty' => false, // Include categories even if they don't have posts
-            'number'     => $limit, // Number of categories per page
-            'offset'     => $offset, // Offset for pagination
-        ];
-        $categories = get_terms($args);
-         // If no errors, format the categories as { label, value }
-        if (!is_wp_error($categories)) {
-            return array_map(function($category) {
-                return [
-                    'label' => $category->name,
-                    'value' => $category->slug
+
+        foreach ($allowed_post_types as $post_type) {
+            $taxonomies = get_object_taxonomies($post_type); // Get taxonomies for each post type
+
+            foreach ($taxonomies as $taxonomy) {
+                $args = [
+                    'taxonomy'   => $taxonomy,
+                    'hide_empty' => false, // Include terms without posts
+                    'number'     => $limit,
+                    'offset'     => $offset,
                 ];
-            }, $categories);
+
+                $terms = get_terms($args);
+
+                if (!is_wp_error($terms)) {
+                    foreach ($terms as $term) {
+                        $result['result'][] = [
+                            'term_id'  => $term->term_id,
+                            'label'    => $term->name,
+                            'slug'     => $term->slug,
+                            'taxonomy' => $term->taxonomy,
+                            'postType' => $post_type,
+                            'value'    => $post_type . '.' . $term->taxonomy . '.' . $term->slug
+                        ];
+                    }
+                }
+            }
         }
-        return ['error' => 'Unable to fetch categories'];
+        return $result['result']; // Returning the 'result' key
     }
 
     // Instant social share

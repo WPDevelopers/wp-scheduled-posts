@@ -51,7 +51,17 @@
           margin-top: 24px;
           max-height: 600px;
           overflow: scroll;
-          
+          overflow-x: hidden;
+          &::-webkit-scrollbar {
+              width: 2px;
+          }
+          &::-webkit-scrollbar-thumb {
+              border-radius: 10px;
+              background: #6c62ff;
+          }
+          &::-webkit-scrollbar-track {
+              border-radius: 10px;
+          }
         }
 
         p {
