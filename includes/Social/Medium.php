@@ -181,7 +181,7 @@ class Medium
      * @since 2.5.0
      * @return array
      */
-    public function remote_post($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key, $force_share = false, $medium_id)
+    public function remote_post($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key, $force_share = false, $medium_id = '')
     {
         // get share count 
         $count_meta_key = '__wpsp_medium_share_count_'.$ID;
@@ -236,7 +236,9 @@ class Medium
                             'publish_date' => time(),
                         );
                         $errorFlag = true;
-                    }else {
+                    }else if(!empty($response->errors[0]->message)){
+						$response = $response->errors[0]->message;
+					}else {
                         $errorFlag = false;
                         $response = 'Something went wrong..';
                     }

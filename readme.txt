@@ -208,7 +208,7 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 == Changelog ==
 
-= 5.1.7 - 2024-10-07 =
+= 5.1.7 - 2024-10-08 =
 - Added: Support for Medium Social Share.
 - Improvement: Optimized database queries for better performance.
 - Few minor bug fixes & improvements.
