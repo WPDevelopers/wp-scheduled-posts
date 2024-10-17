@@ -19,6 +19,7 @@ import License from './License';
 import ProToggle from './utils/ProToggle';
 import Medium from './Medium';
 import CheckboxSelectAsync from './CheckboxSelectAsync';
+import Threads from './Threads';
 
 const Field = (ret, type, props) => {
 
@@ -51,6 +52,8 @@ const Field = (ret, type, props) => {
             return <Twitter {...props} />;
         case "medium":
             return <Medium {...props} />;
+        case "threads":
+            return <Threads {...props} />;
         case "checkbox-select":
             return <CheckboxSelect {...props} />;
         case "checkbox-select-async":

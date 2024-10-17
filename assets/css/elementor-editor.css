@@ -506,6 +506,12 @@
 #wpscpproInstantShareModal .modalBody .entry-head.medium .entry-head-title{
     color: #000;
 }
+#wpscpproInstantShareModal .modalBody .entry-head.threads {
+    background: rgb(137 102 102 / 15%);
+}
+#wpscpproInstantShareModal .modalBody .entry-head.threads .entry-head-title{
+    color: #000;
+}
 #wpscpproInstantShareModal .modalBody ul {
     padding: 0 10px
 }

@@ -584,6 +584,21 @@ class Settings {
                                     ],
                                     'priority' => 30,
                                 ],
+                                'threads_profile_list'  => [
+                                    'id'       => 'threads_profile_list',
+                                    'name'     => 'threads_profile_list',
+                                    'type'     => 'threads',
+                                    'label'    => __('Threads', 'wp-scheduled-posts'),
+                                    'default'  => [],
+                                    'logo'     => WPSP_ASSETS_URI . 'images/threads.svg',
+                                    'desc'     => sprintf( __('You can enable/disable Threads social share. To configure Threads Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-threads/' ),
+                                    'modal'    => [
+                                        'logo'               => WPSP_ASSETS_URI . 'images/threads.svg',
+                                        'redirect_url_desc'  => __('Add this URL in the Redirect URLs field of your Medium app.','wp-scheduled-posts'),
+                                        'desc'               => sprintf( __('For details on Medium configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your Threads account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-scheduled-wordpress-posts-on-threads/','https://medium.com/me/settings/security/' ),
+                                    ],
+                                    'priority' => 35,
+                                ],
                             ]
                         ]
 
@@ -1171,6 +1186,86 @@ class Settings {
                                                             ]
                                                         ]
 
+                                                    ]
+                                                ]
+                                            ]
+                                        ],
+                                        'layouts_threads'  => [
+                                            'id'            => 'layouts_threads',
+                                            'name'          => 'layouts_threads',
+                                            'label'         => __('Threads', 'wp-scheduled-posts'),
+                                            'priority'      => 40,
+                                            'fields'        => [
+                                                'threads_wrapper'     => [
+                                                    'id'            => 'threads_wrapper',
+                                                    'type'          => 'section',
+                                                    'name'          => 'threads_wrapper',
+                                                    'label'         => __('Threads Settings', 'wp-scheduled-posts'),
+                                                    'sub_title'     => sprintf( __('To configure the Threads Settings, check out this <a target="_blank" href="%s">Doc.</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-threads/' ),
+                                                    'priority'      => 10,
+                                                    'fields'        => [
+                                                        'threads'  => [
+                                                            'name'     => "threads",
+                                                            'parent'     => "social_templates",
+                                                            'type'     => "group",
+                                                            'priority' => 10,
+                                                            'fields'    => [
+                                                                'is_category_as_tags'  => [
+                                                                    'id'            => 'threads_cat_tags',
+                                                                    'name'          => 'is_category_as_tags',
+                                                                    'type'          => 'toggle',
+                                                                    'label'         => __('Add Category as tags', 'wp-scheduled-posts'),
+                                                                    'info'          => __('The categories you select will be used as tags.','wp-scheduled-posts'),
+                                                                    'priority'      => 10,
+                                                                    'default'       => true,
+                                                                ],
+                                                                'content_source' => [
+                                                                    'label'         => __('Content Source:','wp-scheduled-posts'),
+                                                                    'name'          => "content_source",
+                                                                    'type'          => "radio-card",
+                                                                    'default'       => "excerpt",
+                                                                    'priority'      => 11,
+                                                                    'options' => [
+                                                                        [
+                                                                            'label' => __( 'Excerpt','wp-scheduled-posts' ),
+                                                                            'value' => 'excerpt',
+                                                                        ],
+                                                                        [
+                                                                            'label' => __( 'Content','wp-scheduled-posts' ),
+                                                                            'value' => 'content',
+                                                                        ],
+                                                                    ],
+                                                                ],
+                                                                'template_structure'  => [
+                                                                    'id'            => 'template_structure',
+                                                                    'name'          => 'template_structure',
+                                                                    'type'          => 'text',
+                                                                    'label'         => __('Status Template Settings', 'wp-scheduled-posts'),
+                                                                    'info'          => __( 'Define how to share the content on Instagram by setting the template. <strong>Default Structure: {title}{content}{url}{tags}</strong>','wp-scheduled-posts' ),
+                                                                    'default'       => '{title}{content}{url}{tags}',
+                                                                    'priority'      => 15,
+                                                                ],
+                                                                'note_limit'  => [
+                                                                    'id'            => 'threads_note_limit',
+                                                                    'name'          => 'note_limit',
+                                                                    'type'          => 'number',
+                                                                    'label'         => __('Status Limit', 'wp-scheduled-posts'),
+                                                                    'priority'      => 20,
+                                                                    'default'       => '5000',
+                                                                    'max'           => '5000',
+                                                                    'help'          => __('Max: 5000', 'wp-scheduled-posts'),
+                                                                ],
+                                                                'post_share_limit'  => [
+                                                                    'id'            => 'threads_post_share_limit',
+                                                                    'name'          => 'post_share_limit',
+                                                                    'type'          => 'number',
+                                                                    'label'         => __('How often to share a post?', 'wp-scheduled-posts'),
+                                                                    'priority'      => 21,
+                                                                    'default'       => 0,
+                                                                    'help'          => __('Keep zero for no limit', 'wp-scheduled-posts'),
+                                                                ],
+                                                            ]
+                                                        ]
                                                     ]
                                                 ]
                                             ]
