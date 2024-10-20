@@ -1251,9 +1251,9 @@ class Settings {
                                                                     'type'          => 'number',
                                                                     'label'         => __('Status Limit', 'wp-scheduled-posts'),
                                                                     'priority'      => 20,
-                                                                    'default'       => '5000',
-                                                                    'max'           => '5000',
-                                                                    'help'          => __('Max: 5000', 'wp-scheduled-posts'),
+                                                                    'default'       => '500',
+                                                                    'max'           => '500',
+                                                                    'help'          => __('Max: 500', 'wp-scheduled-posts'),
                                                                 ],
                                                                 'post_share_limit'  => [
                                                                     'id'            => 'threads_post_share_limit',

@@ -135,7 +135,6 @@ class Threads
         // get share count 
         $count_meta_key = '__wpsp_threads_share_count_'.$ID;
         $dont_share     = get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true);
-
         // get social share type 
         $get_share_type =   get_post_meta($post_id, '_threads_share_type', true);
         if( $get_share_type === 'custom' ) {
@@ -166,7 +165,7 @@ class Threads
             $errorFlag = false;
             $response = '';
             $text = $this->get_share_content_args($post_id);
-
+            $image_url = get_the_post_thumbnail_url($post_id, 'thumbnail');
             // Profile api
             if ($type === 'profile') {
                 try {
@@ -174,7 +173,7 @@ class Threads
                     $api_threads_url = $api_base_url . '/threads';
                     $body = [
                         'media_type'   => 'IMAGE',
-                        'image_url'    => 'https://picsum.photos/200/300.jpg', // Placeholder image URL
+                        'image_url'    => $image_url,
                         'text'         => $text,
                         'access_token' => $app_access_token,
                     ];
