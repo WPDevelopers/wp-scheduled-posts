@@ -30,7 +30,7 @@ class ScheduledPostList
         }
         else {
             foreach ($allow_categories as $key => $value) {
-                list($taxonomy, $term) = preg_split("/\./", $value, 2);
+                list($post_type, $taxonomy, $term) = preg_split("/\./", $value, 3);
                 if(empty($_allow_categories[$taxonomy])){
                     $_allow_categories[$taxonomy] = [
                         'taxonomy' => $taxonomy,
