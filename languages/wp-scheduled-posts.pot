@@ -2,23 +2,23 @@
 # This file is distributed under the same license as the SchedulePress plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: SchedulePress 5.1.7\n"
+"Project-Id-Version: SchedulePress 5.1.8\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-scheduled-posts\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-10-07T11:00:35+00:00\n"
+"POT-Creation-Date: 2024-10-23T07:34:28+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: wp-scheduled-posts\n"
 
 #. Plugin Name of the plugin
-#: includes/Admin.php:382
-#: includes/Admin.php:384
-#: includes/Admin.php:387
-#: includes/Admin.php:421
+#: includes/Admin.php:403
+#: includes/Admin.php:405
+#: includes/Admin.php:408
+#: includes/Admin.php:442
 #: includes/Admin/Menu.php:34
 msgid "SchedulePress"
 msgstr ""
@@ -76,79 +76,79 @@ msgstr ""
 msgid "Enjoying <strong>SchedulePress</strong>? Why not check our <strong><a href=\"https://wpdeveloper.com/in/wp-scheduled-posts-pro\" target=\"_blank\">Pro version</a></strong> which will enable auto schedule, multi social account share and many more features! [<strong><a href=\"https://wpdeveloper.com/plugins/wp-scheduled-posts/\" target=\"_blank\">Learn More</a></strong>]"
 msgstr ""
 
-#: includes/Admin.php:280
+#: includes/Admin.php:301
 msgid "WPSP Logo"
 msgstr ""
 
-#: includes/Admin.php:296
+#: includes/Admin.php:317
 msgid "Close"
 msgstr ""
 
-#: includes/Admin.php:306
+#: includes/Admin.php:327
 msgid "Sorry, you can't schedule this <strong>%s</strong>. Please allow this post type from <a href=\"%s\" target=\"_blank\">SchedulePress settings</a>."
 msgstr ""
 
-#: includes/Admin.php:325
+#: includes/Admin.php:346
 msgid "Publish On"
 msgstr ""
 
-#: includes/Admin.php:341
+#: includes/Admin.php:362
 msgid "Next"
 msgstr ""
 
-#: includes/Admin.php:344
+#: includes/Admin.php:365
 msgid "Prev"
 msgstr ""
 
-#: includes/Admin.php:352
+#: includes/Admin.php:373
 msgid "Publish Post Immediately"
 msgstr ""
 
-#: includes/Admin.php:354
+#: includes/Admin.php:375
 #: includes/Social/InstantShare.php:248
 #: assets/gutenberg/social-share.js:708
 msgid "Share Now"
 msgstr ""
 
-#: includes/Admin.php:356
-#: includes/Admin.php:366
+#: includes/Admin.php:377
+#: includes/Admin.php:387
 msgid "Schedule"
 msgstr ""
 
-#: includes/Admin.php:357
-#: includes/Admin.php:359
-#: includes/Admin.php:368
+#: includes/Admin.php:378
+#: includes/Admin.php:380
+#: includes/Admin.php:389
 msgid "Update"
 msgstr ""
 
-#: includes/Admin.php:358
-#: includes/Admin.php:370
+#: includes/Admin.php:379
+#: includes/Admin.php:391
 msgid "Publish"
 msgstr ""
 
-#: includes/Admin.php:429
-#: includes/Admin.php:437
-#: includes/Admin.php:443
+#: includes/Admin.php:450
+#: includes/Admin.php:458
+#: includes/Admin.php:464
 msgid "Pro Feature"
 msgstr ""
 
-#: includes/Admin.php:430
+#: includes/Admin.php:451
 #: assets/gutenberg/utils/DummyProFeatures.js:37
 msgid "Unpublish On"
 msgstr ""
 
-#: includes/Admin.php:433
-#: includes/Admin.php:440
-#: includes/Admin.php:446
+#: includes/Admin.php:454
+#: includes/Admin.php:461
+#: includes/Admin.php:467
 msgid "PRO"
 msgstr ""
 
-#: includes/Admin.php:438
+#: includes/Admin.php:459
 #: assets/gutenberg/utils/DummyProFeatures.js:43
 msgid "Republish On"
 msgstr ""
 
-#: includes/Admin.php:444
+#: includes/Admin.php:465
 #: includes/Admin/Settings.php:137
 #: includes/Admin/Settings.php:1226
 #: includes/Admin/Settings.php:1247
@@ -156,45 +156,45 @@ msgstr ""
 msgid "Advanced Schedule"
 msgstr ""
 
-#: includes/Admin.php:543
+#: includes/Admin.php:564
 #: includes/Social/InstantShare.php:85
 #: assets/gutenberg/social-share.js:465
 msgid "Choose Social Share Platform"
 msgstr ""
 
-#: includes/Admin.php:554
-#: includes/Admin.php:581
-#: includes/Admin.php:630
-#: includes/Admin.php:661
-#: includes/Admin.php:695
-#: includes/Admin.php:742
-#: includes/Admin.php:769
+#: includes/Admin.php:575
+#: includes/Admin.php:602
+#: includes/Admin.php:651
+#: includes/Admin.php:682
+#: includes/Admin.php:716
+#: includes/Admin.php:763
+#: includes/Admin.php:790
 #: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Default"
 msgstr ""
 
-#: includes/Admin.php:555
-#: includes/Admin.php:582
-#: includes/Admin.php:631
-#: includes/Admin.php:662
-#: includes/Admin.php:696
-#: includes/Admin.php:743
-#: includes/Admin.php:770
+#: includes/Admin.php:576
+#: includes/Admin.php:603
+#: includes/Admin.php:652
+#: includes/Admin.php:683
+#: includes/Admin.php:717
+#: includes/Admin.php:764
+#: includes/Admin.php:791
 msgid "Custom"
 msgstr ""
 
-#: includes/Admin.php:569
-#: includes/Admin.php:595
-#: includes/Admin.php:644
-#: includes/Admin.php:675
-#: includes/Admin.php:682
-#: includes/Admin.php:730
-#: includes/Admin.php:757
-#: includes/Admin.php:784
+#: includes/Admin.php:590
+#: includes/Admin.php:616
+#: includes/Admin.php:665
+#: includes/Admin.php:696
+#: includes/Admin.php:703
+#: includes/Admin.php:751
+#: includes/Admin.php:778
+#: includes/Admin.php:805
 msgid "You may forget to add or enable profile/page from <a href=\"%s\">SchedulePress settings</a>. "
 msgstr ""
 
-#: includes/Admin.php:608
+#: includes/Admin.php:629
 #: assets/gutenberg/social-share.js:488
 #: assets/gutenberg/social-share.js:517
 #: assets/gutenberg/social-share.js:535
@@ -210,7 +210,7 @@ msgstr ""
 msgid "Profile"
 msgstr ""
 
-#: includes/Admin.php:611
+#: includes/Admin.php:632
 #: assets/gutenberg/social-share.js:536
 #: assets/gutenberg/social-share.js:554
 #: assets/gutenberg/social-share.js:577
@@ -219,27 +219,27 @@ msgstr ""
 msgid "Page"
 msgstr ""
 
-#: includes/Admin.php:637
+#: includes/Admin.php:658
 msgid "(Profile)"
 msgstr ""
 
-#: includes/Admin.php:668
+#: includes/Admin.php:689
 msgid "(Page)"
 msgstr ""
 
-#: includes/Admin.php:902
+#: includes/Admin.php:923
 msgid "Your post successfully updated"
 msgstr ""
 
-#: includes/Admin.php:1059
+#: includes/Admin.php:1080
 msgid "Your post successfully published"
 msgstr ""
 
-#: includes/Admin.php:1070
+#: includes/Admin.php:1091
 msgid "Your post id is empty"
 msgstr ""
 
-#: includes/Admin.php:1097
+#: includes/Admin.php:1118
 msgid "Your post successfully scheduled"
 msgstr ""
 
@@ -931,7 +931,7 @@ msgstr ""
 #: includes/Social/Facebook.php:228
 #: includes/Social/Instagram.php:185
 #: includes/Social/Linkedin.php:181
-#: includes/Social/Medium.php:208
+#: includes/Social/Medium.php:212
 #: includes/Social/Pinterest.php:230
 #: includes/Social/Twitter.php:174
 msgid "Your max share post limit has been executed!!"

@@ -4,7 +4,7 @@ Tags: post schedule, schedule calendar, auto scheduler, auto sharing, social sha
 Requires at least: 4.0
 Tested up to: 6.6
 Requires PHP: 7.2
-Stable tag: 5.1.7
+Stable tag: 5.1.8
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -207,6 +207,11 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 8. Social Templates
 
 == Changelog ==
+
+= 5.1.8 - 2024-10-23 =
+- Fixed: Scheduled posts were't showing on Dashboard widget.
+- Fixed: Categories weren't sharing on Medium.
+- Few minor bug fixes & improvements.
 
 = 5.1.7 - 2024-10-08 =
 - Added: Support for Medium Social Share.
