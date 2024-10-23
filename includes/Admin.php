@@ -245,15 +245,15 @@ class Admin
             'thumbnail' => $_asset_url . 'images/wpsp-logo-full.svg',
             'html'      => $notice_text,
         ];
-
         $notices->add(
-            'halloween',
+            'wpsp_halloween_2024',
             $_halloween_2024,
             [
                 'start'       => $notices->time(),
                 'recurrence'  => false,
                 'dismissible' => true,
                 'refresh'     => WPSP_VERSION,
+                'screens'     => [ 'dashboard' ],
                 "expire"      => strtotime( '11:59:59pm 3nd November, 2024' ),
                 'display_if'  => !is_array( $notices->is_installed( 'wp-scheduled-posts-pro/wp-scheduled-posts-pro.php' ) )
             ]
