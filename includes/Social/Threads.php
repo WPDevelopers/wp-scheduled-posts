@@ -165,7 +165,7 @@ class Threads
             $errorFlag = false;
             $response = '';
             $text = $this->get_share_content_args($post_id);
-            $image_url = get_the_post_thumbnail_url($post_id, 'thumbnail');
+            $image_url = get_the_post_thumbnail_url($post_id, 'full');
             // Profile api
             if ($type === 'profile') {
                 try {
