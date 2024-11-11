@@ -175,6 +175,31 @@ img {
       width: 450px !important;
       padding: 28px;
     }
+    .wpsp-separator-connect {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      font-size: 16px;
+      color: #d0d4d9;
+    }
+    
+    .wpsp-separator-connect::before,
+    .wpsp-separator-connect::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid #d7dbdf;
+    }
+    
+    .wpsp-separator-connect:not(:empty)::before {
+      margin-right: .25em;
+    }
+    
+    .wpsp-separator-connect:not(:empty)::after {
+      margin-left: .25em;
+    }
+    .wpsp-modal-generate-token-button-wrapper {
+      margin-top: 20px;
+    }
     .error-message {
       margin-bottom: 16px;
       @media screen and (max-width: 1439px) {

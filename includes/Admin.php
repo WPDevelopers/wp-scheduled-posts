@@ -125,7 +125,7 @@ class Admin
 
         $notices = new Notices([
             'id'             => 'schedulepress',
-            // 'dev_mode'       => true,
+            'dev_mode'       => false,
             'storage_key'    => 'notices',
             'lifetime'       => 3,
             'stylesheet_url' => WPSP_ASSETS_URI . 'css/wpscp-admin-notice.css',
@@ -217,24 +217,45 @@ class Admin
             ]
         );
 
-        $notice_text            = '<p style="margin-top: 0; margin-bottom: 10px;">Black Friday Sale: Get up to 40% off & add <strong>more power to your content scheduling</strong> with premium features 🗓️</p>
-        <a class="button button-primary" href="https://wpdeveloper.com/upgrade/schedulepress-bfcm" target="_blank">Upgrade to pro</a> <button data-dismiss="true" class="dismiss-btn button button-link">I don’t want to save money</button>';
+        // $notice_text            = '<p style="margin-top: 0; margin-bottom: 10px;">Black Friday Sale: Get up to 40% off & add <strong>more power to your content scheduling</strong> with premium features 🗓️</p>
+        // <a class="button button-primary" href="https://wpdeveloper.com/upgrade/schedulepress-bfcm" target="_blank">Upgrade to pro</a> <button data-dismiss="true" class="dismiss-btn button button-link">I don’t want to save money</button>';
 
-        $_black_friday = [
+        // $_black_friday = [
+        //     'thumbnail' => $_asset_url . 'images/wpsp-logo-full.svg',
+        //     'html'      => $notice_text,
+        // ];
+
+        // $notices->add(
+        //     'black_friday_23',
+        //     $_black_friday,
+        //     [
+        //         'start'       => $notices->time(),
+        //         'recurrence'  => false,
+        //         'dismissible' => true,
+        //         'refresh'     => WPSP_VERSION,
+        //         "expire"      => strtotime( '11:59:59pm 2nd December, 2023' ),
+        //         'display_if'  => ! is_array( $notices->is_installed( 'wp-scheduled-posts-pro/wp-scheduled-posts-pro.php' ) )
+        //     ]
+        // );
+        $crown = WPSP_ASSETS_URI . '/images/crown.svg';
+        // Halloween 2024
+        $notice_text = "<p>🎃 Grab <strong>25% OFF</strong> on SchedulePress PRO & unlock advanced content scheduling features this Halloween.</p><a style='display: inline-flex;column-gap:5px;' class='button button-primary' href='https://schedulepress.com/halloween-2024' target='_blank'><img style='width:15px;' src='{$crown}'/>Upgrade to pro</a>";
+
+        $_halloween_2024 = [
             'thumbnail' => $_asset_url . 'images/wpsp-logo-full.svg',
             'html'      => $notice_text,
         ];
-
         $notices->add(
-            'black_friday_23',
-            $_black_friday,
+            'wpsp_halloween_2024',
+            $_halloween_2024,
             [
                 'start'       => $notices->time(),
                 'recurrence'  => false,
                 'dismissible' => true,
                 'refresh'     => WPSP_VERSION,
-                "expire"      => strtotime( '11:59:59pm 2nd December, 2023' ),
-                'display_if'  => ! is_array( $notices->is_installed( 'wp-scheduled-posts-pro/wp-scheduled-posts-pro.php' ) )
+                'screens'     => [ 'dashboard' ],
+                "expire"      => strtotime( '11:59:59pm 3nd November, 2024' ),
+                'display_if'  => !is_array( $notices->is_installed( 'wp-scheduled-posts-pro/wp-scheduled-posts-pro.php' ) )
             ]
         );
 

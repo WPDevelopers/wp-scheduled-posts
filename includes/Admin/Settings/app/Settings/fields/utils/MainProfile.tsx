@@ -23,7 +23,7 @@ export default function MainProfile({
   let pageDisabled = wpspSettingsGlobal?.pro_version ? false : true;
   let currentActiveAccountType = localStorage.getItem('account_type');
 
-  if (props?.type == 'medium') {
+  if (props?.type == 'facebook') {
     options = [
       {
         value: 'page',

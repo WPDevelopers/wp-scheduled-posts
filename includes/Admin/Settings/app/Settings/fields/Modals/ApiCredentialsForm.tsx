@@ -85,19 +85,7 @@ const ApiCredentialsForm = ({ props, platform, requestHandler, appInfo = [] }) =
                 </div>
             )}
             <input type="hidden" name="tempmodaltype" value="twitter" />
-            {hasAutomatic && !isManual && (
-              <div 
-                className="wpsp-modal-generate-token-button-wrapper"
-              >
-                <a
-                  onClick={ handleProfileConnection }
-                  className="wpsp-modal-generate-token-button"
-                >
-                  {__("Connect your account", "wp-scheduled-posts")}
-                </a>
-              </div>
-            )}
-            {(isManual || platform == 'instagram' || platform == 'threads' || platform == "facebook" || platform == "twitter") && (
+            {(isManual || platform == 'instagram' || platform == "facebook" || platform == "twitter") && (
               <form onSubmit={onSubmitHandler}>
                   <div className="form-group">
                       <label htmlFor="">{ __('Redirect URI:','wp-scheduled-posts') }</label>
@@ -203,7 +191,22 @@ const ApiCredentialsForm = ({ props, platform, requestHandler, appInfo = [] }) =
                   >{ __( 'Connect Your Account','wp-scheduled-posts' ) }</button>
               </form>
             )}
-            {(isManual || platform == "medium" ) && (
+            {hasAutomatic && !isManual && (
+              <>
+                <div className="wpsp-separator-connect">{ __('OR', 'wp-scheduled-posts') }</div>
+                <div 
+                  className="wpsp-modal-generate-token-button-wrapper"
+                >
+                  <a
+                    onClick={ handleProfileConnection }
+                    className="wpsp-modal-generate-token-button"
+                  >
+                    {__("Connect your account", "wp-scheduled-posts")}
+                  </a>
+                </div>
+              </>
+            )}
+            {(platform == "medium" ) && (
               <form onSubmit={onSubmitHandler}>
                   { platform == 'medium' &&
                     <div className="form-group">
