@@ -239,8 +239,7 @@ class Admin
         // );
         $crown = WPSP_ASSETS_URI . '/images/crown.svg';
         // Back Friday 2024
-        $notice_text = "<p>🏷️ Grab <strong>up to 35% OFF</strong> on SchedulePress PRO & unlock advanced content scheduling features this Black Friday.</p><a style='display: inline-flex;column-gap:5px;' class='button button-primary' href='https://schedulepress.com/#pricing' target='_blank'><img style='width:15px;' src='{$crown}'/>Upgrade to pro</a>";
-
+        $notice_text = "<p>🛍️ Grab <strong>up to 35% OFF</strong> on SchedulePress PRO & unlock advanced content scheduling features this Black Friday.</p><a style='display: inline-flex;column-gap:5px;' class='button button-primary' href='https://schedulepress.com/bfcm24-pricing' target='_blank'><img style='width:15px;' src='{$crown}'/>Upgrade to pro</a>";
         $_black_friday_2024 = [
             'thumbnail' => $_asset_url . 'images/wpsp-logo-full.svg',
             'html'      => $notice_text,
