@@ -238,23 +238,22 @@ class Admin
         //     ]
         // );
         $crown = WPSP_ASSETS_URI . '/images/crown.svg';
-        // Halloween 2024
-        $notice_text = "<p>🎃 Grab <strong>25% OFF</strong> on SchedulePress PRO & unlock advanced content scheduling features this Halloween.</p><a style='display: inline-flex;column-gap:5px;' class='button button-primary' href='https://schedulepress.com/halloween-2024' target='_blank'><img style='width:15px;' src='{$crown}'/>Upgrade to pro</a>";
-
-        $_halloween_2024 = [
+        // Back Friday 2024
+        $notice_text = "<p>🛍️ Grab <strong>up to 35% OFF</strong> on SchedulePress PRO & unlock advanced content scheduling features this Black Friday.</p><a style='display: inline-flex;column-gap:5px;' class='button button-primary' href='https://schedulepress.com/bfcm24-pricing' target='_blank'><img style='width:15px;' src='{$crown}'/>Upgrade to pro</a>";
+        $_black_friday_2024 = [
             'thumbnail' => $_asset_url . 'images/wpsp-logo-full.svg',
             'html'      => $notice_text,
         ];
         $notices->add(
-            'wpsp_halloween_2024',
-            $_halloween_2024,
+            'wpsp_black_friday_2024',
+            $_black_friday_2024,
             [
                 'start'       => $notices->time(),
                 'recurrence'  => false,
                 'dismissible' => true,
                 'refresh'     => WPSP_VERSION,
                 'screens'     => [ 'dashboard' ],
-                "expire"      => strtotime( '11:59:59pm 3nd November, 2024' ),
+                "expire"      => strtotime( '11:59:59pm 5th December, 2024' ),
                 'display_if'  => !is_array( $notices->is_installed( 'wp-scheduled-posts-pro/wp-scheduled-posts-pro.php' ) )
             ]
         );
