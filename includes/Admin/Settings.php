@@ -580,7 +580,7 @@ class Settings {
                                     'modal'    => [
                                         'logo'               => WPSP_ASSETS_URI . 'images/medium.svg',
                                         'redirect_url_desc'  => __('Add this URL in the Redirect URLs field of your Medium app.','wp-scheduled-posts'),
-                                        'desc'               => sprintf( __('For details on Medium configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your Medium account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-scheduled-wordpress-posts-on-instagram/','https://medium.com/me/settings/security/' ),
+                                        'desc'               => sprintf( __('For details on Medium configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your Medium account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-medium/','https://medium.com/me/settings/security/' ),
                                     ],
                                     'priority' => 30,
                                 ],
@@ -595,7 +595,7 @@ class Settings {
                                     'modal'    => [
                                         'logo'               => WPSP_ASSETS_URI . 'images/threads.svg',
                                         'redirect_url_desc'  => __('Add this URL in the Redirect URLs field of your Medium app.','wp-scheduled-posts'),
-                                        'desc'               => sprintf( __('For details on Medium configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your Threads account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-scheduled-wordpress-posts-on-threads/','https://medium.com/me/settings/security/' ),
+                                        'desc'               => sprintf( __('For details on Threads configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your Threads account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-threads/','https://developers.facebook.com/' ),
                                     ],
                                     'priority' => 35,
                                 ],
