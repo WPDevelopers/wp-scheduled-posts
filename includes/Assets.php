@@ -13,6 +13,7 @@ class Assets
         add_action('admin_enqueue_scripts', [$this, 'plugin_scripts']);
         // adminbar enqueue
         add_action('admin_enqueue_scripts', [$this, 'adminbar_script']);
+        add_action('admin_enqueue_scripts', [$this, 'dequeue_script']);
         add_action('wp_enqueue_scripts', [$this, 'adminbar_script']);
         
         add_action( 'elementor/editor/after_enqueue_scripts', function () {
@@ -129,6 +130,14 @@ class Assets
         wp_enqueue_style('wpscp-admin-notice', WPSP_ASSETS_URI . 'css/wpscp-admin-notice.css', array(), WPSP_VERSION, 'all');
     }
 
+    public function get_current_page_slug() {
+        if (isset($_GET['page'])) {
+            return sanitize_text_field($_GET['page']);
+        }
+        return '';
+    }
+
+    
     /**
      * Admin bar Script
      * add some css and js in adminbar
@@ -142,4 +151,12 @@ class Assets
             wp_enqueue_script('wpscp-adminbar', WPSP_ASSETS_URI . 'js/adminbar.js', array('jquery'), WPSP_VERSION, false);
         }
     }
+
+    public function dequeue_script()
+    {
+        if ( 'schedulepress' === $this->get_current_page_slug() || 'schedulepress-calendar' === $this->get_current_page_slug() ) {
+            wp_dequeue_style( 'pvfw-admin-css' );
+        }
+    }
+
 }

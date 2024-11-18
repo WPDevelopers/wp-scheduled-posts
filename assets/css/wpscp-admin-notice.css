@@ -223,29 +223,29 @@ a.wpsp-notice-cta {
 
 
 /*
-* Halloween Notice css
+* Black Friday Notice css
 */
-#wpnotice-schedulepress-wpsp_halloween_2024 {
-    border-left-color: #593dbd;
+#wpnotice-schedulepress-wpsp_black_friday_2024 {
+    border-left-color: #1E1E1E;
     padding: 10px 40px 10px 20px;
 }
-#wpnotice-schedulepress-wpsp_halloween_2024 .wpnotice-content-wrapper > a.button-primary,
-#wpnotice-schedulepress-wpsp_halloween_2024 .wpnotice-content-wrapper > a.button-primary:focus,
-#wpnotice-schedulepress-wpsp_halloween_2024 .wpnotice-content-wrapper > a.button-primary:hover {
+#wpnotice-schedulepress-wpsp_black_friday_2024 .wpnotice-content-wrapper > a.button-primary,
+#wpnotice-schedulepress-wpsp_black_friday_2024 .wpnotice-content-wrapper > a.button-primary:focus,
+#wpnotice-schedulepress-wpsp_black_friday_2024 .wpnotice-content-wrapper > a.button-primary:hover {
     background-color: #593dbd;
     border-color: #593dbd;
 }
-#wpnotice-schedulepress-wpsp_halloween_2024 .wpnotice-content-wrapper {
+#wpnotice-schedulepress-wpsp_black_friday_2024 .wpnotice-content-wrapper {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
 }
-#wpnotice-schedulepress-wpsp_halloween_2024 .wpnotice-content-wrapper p{
+#wpnotice-schedulepress-wpsp_black_friday_2024 .wpnotice-content-wrapper p{
     font-size: 15px;
 }
 @media screen and (max-width: 574px) {
-    #wpnotice-schedulepress-wpsp_halloween_2024 {
+    #wpnotice-schedulepress-wpsp_black_friday_2024 {
         display: none !important;
     }
 }
