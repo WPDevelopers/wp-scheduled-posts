@@ -107,6 +107,10 @@ class Medium
             $content = wp_strip_all_tags($post->post_excerpt);
         } else {
             $content = apply_filters('the_content', $post->post_content);
+            if( is_visual_composer_post($post_id) && class_exists('WPBMap') ){
+                \WPBMap::addAllMappedShortcodes();
+                $content = do_shortcode($content);
+            }
         }
 
         $canonical_url = get_permalink($post_id);

@@ -101,6 +101,10 @@ class Linkedin
             $desc = get_the_excerpt($post_details);
         } else {
             $desc = wp_strip_all_tags($post_details->post_content);
+            if( is_visual_composer_post($post_id) && class_exists('WPBMap') ){
+                \WPBMap::addAllMappedShortcodes();
+                $desc = do_shortcode($desc);
+            }
         }
 
         if(class_exists('Elementor\Plugin')){
