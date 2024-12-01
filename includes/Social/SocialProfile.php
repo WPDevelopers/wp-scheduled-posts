@@ -410,6 +410,7 @@ class SocialProfile
                 }
                 $pages = apply_filters('wpsp_filter_linkedin_pages', $pages, $profiles);
                 $info = array(
+                    '__id'          => time(),
                     'app_id'        => $app_id,
                     'app_secret'    => $app_secret,
                     'status'        => true,
