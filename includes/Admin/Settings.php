@@ -1170,9 +1170,9 @@ class Settings {
                                                                     'type'          => 'number',
                                                                     'label'         => __('Status Limit', 'wp-scheduled-posts'),
                                                                     'priority'      => 20,
-                                                                    'default'       => '5000',
-                                                                    'max'           => '5000',
-                                                                    'help'          => __('Max: 5000', 'wp-scheduled-posts'),
+                                                                    'default'       => '45000',
+                                                                    'max'           => '45000',
+                                                                    'help'          => __('Max: 45000', 'wp-scheduled-posts'),
                                                                 ],
                                                                 'post_share_limit'  => [
                                                                     'id'            => 'medium_post_share_limit',

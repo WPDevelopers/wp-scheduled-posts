@@ -460,7 +460,7 @@ class InstantShare
                             <div class="item-content">
                                 ' . (isset($profileItem->thumbnail_url) ? '<div class="entry-thumbnail"><img src="' . $profileItem->thumbnail_url . '" alt="logo"></div>' : '') . '
                                 <h4 class="entry-title">' . $profileItem->name . '</h4>
-                                ' . (isset($profileItem->type) ? '<span class="type">' . $profileItem->type . '</span>' : '') . '
+                                ' . (isset($profileItem->type) ? '<span class="type">' . ucfirst($profileItem->type) . '</span>' : '') . '
                                 <span class="entry-status">
                                     <span class="status">Request Sending...</span>
                                 </span>
