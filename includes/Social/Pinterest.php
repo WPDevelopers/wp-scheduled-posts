@@ -146,6 +146,10 @@ class Pinterest
             $desc = wp_strip_all_tags($post_details->post_excerpt);
         } else {
             $desc = wp_strip_all_tags($post_details->post_content);
+            if( is_visual_composer_post($post_id) && class_exists('WPBMap') ){
+                \WPBMap::addAllMappedShortcodes();
+                $desc = Helper::strip_all_html_and_keep_single_breaks(do_shortcode($desc));
+            }
         }
         if(strpos($this->template_structure, '{url}') !== false){
             $has_url = true;
