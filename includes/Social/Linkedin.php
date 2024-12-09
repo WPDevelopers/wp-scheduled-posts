@@ -111,6 +111,7 @@ class Linkedin
             $document = \Elementor\Plugin::$instance->documents->get($post_id);
             if($document && $document->is_built_with_elementor()){
                 $desc = get_the_excerpt($post_details);
+                $desc = Helper::strip_all_html_and_keep_single_breaks(do_shortcode($desc));
             }
         }
 

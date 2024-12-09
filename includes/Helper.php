@@ -534,5 +534,13 @@ class Helper
             return 'Request failed: ' . $e->getMessage();
         }
     }
+
+    public static function strip_all_html_and_keep_single_breaks($content) {
+        $cleaned_content = wp_strip_all_tags($content);
+        $cleaned_content = preg_replace('/(\s*\n\s*)+/', "\n", $cleaned_content);
+        $cleaned_content = trim($cleaned_content);
+        return $cleaned_content;
+    }
+
 }
 
