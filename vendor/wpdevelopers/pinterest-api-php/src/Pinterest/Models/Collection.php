@@ -183,6 +183,7 @@ class Collection implements \JsonSerializable, \ArrayAccess, \IteratorAggregate{
      * @access public
      * @return array
      */
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return $this->toArray();
@@ -206,6 +207,7 @@ class Collection implements \JsonSerializable, \ArrayAccess, \IteratorAggregate{
      * @param  mixed  $offset
      * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return isset($this->items[$offset]);
@@ -217,6 +219,7 @@ class Collection implements \JsonSerializable, \ArrayAccess, \IteratorAggregate{
      * @param  mixed  $offset
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->items[$offset];
@@ -229,6 +232,7 @@ class Collection implements \JsonSerializable, \ArrayAccess, \IteratorAggregate{
      * @param  mixed  $value
      * @return void
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         $this->items[$offset] = $value;
@@ -240,6 +244,7 @@ class Collection implements \JsonSerializable, \ArrayAccess, \IteratorAggregate{
      * @param  mixed  $offset
      * @return void
      */
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         unset($this->items[$offset]);
@@ -251,6 +256,7 @@ class Collection implements \JsonSerializable, \ArrayAccess, \IteratorAggregate{
      * @access public
      * @return ArrayIterator
      */
+    #[\ReturnTypeWillChange]
     public function getIterator() {
         return new \ArrayIterator($this->items);
     }
