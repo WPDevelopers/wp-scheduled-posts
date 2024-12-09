@@ -505,6 +505,7 @@ class Admin
         $pinterestIntegation = \WPSP\Helper::get_settings('pinterest_profile_status');
         $instagramIntegation = \WPSP\Helper::get_settings('instagram_profile_status');
         $mediumIntegation = \WPSP\Helper::get_settings('medium_profile_status');
+        $threadsIntegation = \WPSP\Helper::get_settings('threads_profile_status');
 
         // social media share type settings 
         $facebookShareType     = get_post_meta( get_the_ID(), '_facebook_share_type', true );
@@ -515,6 +516,7 @@ class Admin
         $pinterestShareType    = get_post_meta( get_the_ID(), '_pinterest_share_type', true );
         $instagramShareType    = get_post_meta( get_the_ID(), '_instagram_share_type', true );
         $mediumShareType    = get_post_meta( get_the_ID(), '_medium_share_type', true );
+        $threadsShareType    = get_post_meta( get_the_ID(), '_threads_share_type', true );
         // get all selected social profile 
         $allSelectedSocialProfiles = get_post_meta( get_the_ID(), '_selected_social_profile', true );
         $filteredSelectedProfiles = array_map( [ $this, 'wpsp_filter_selected_profile_object' ], !empty( $allSelectedSocialProfiles ) ? $allSelectedSocialProfiles : [] );
@@ -557,6 +559,10 @@ class Admin
         $mediumProfile = \WPSP\Helper::get_settings('medium_profile_list');
         if( !class_exists('WPSP_PRO') && is_array( $mediumProfile ) ) {
             $mediumProfile = array_slice( $mediumProfile, 0, 1, true );
+        }
+        $threadsProfile = \WPSP\Helper::get_settings('threads_profile_list');
+        if( !class_exists('WPSP_PRO') && is_array( $threadsProfile ) ) {
+            $threadsProfile = array_slice( $threadsProfile, 0, 1, true );
         }
         ?>
            <div class="el-social-share-platform">
@@ -806,6 +812,33 @@ class Admin
                                 <?php endif ?>
                             </div>
                         </div>
+                        <div class="wpsp-el-accordion-item wpsp-el-accordion-item-threads">
+                            <div class="wpsp-el-accordion-header">
+                                <img src="<?php echo esc_url( WPSP_ASSETS_URI . '/images/threads.svg' ) ?>" width="25" alt=""><span><?php echo esc_html('Threads') ?></span>
+                            </div>
+                            <div class="wpsp-el-accordion-content">
+                                <?php if( !empty( $threadsIntegation ) && !empty( $threadsProfile ) ) : ?>
+                                    <div class="wpsp-el-container">
+                                        <label><input type="radio" data-platform="threads" name="wpsp-el-content-threads" value="wpsp-el-social-threads-default" <?php echo ( ( !empty( $threadsShareType ) && $threadsShareType == 'default' ) || empty( $threadsShareType ) ) ? 'checked' : ''  ?>><?php echo esc_html__('Default','wp-scheduled-posts') ?></label>
+                                        <label><input type="radio" data-platform="threads" name="wpsp-el-content-threads" value="wpsp-el-social-threads-custom" <?php echo !empty( $threadsShareType ) && $threadsShareType == 'custom' ? 'checked' : ''  ?>><?php echo esc_html__('Custom','wp-scheduled-posts') ?></label>
+                                    </div>
+                                    <div class="wpsp-el-content wpsp-el-content-threads" data-value="wpsp-el-social-threads-custom" style="<?php echo !empty( $threadsShareType ) && $threadsShareType == 'custom' ? 'display: block;' : 'display: none;' ?>">
+                                        <?php if( count( $threadsProfile ) > 0 ) : ?>
+                                            <?php foreach( $threadsProfile as $threads ) : ?>
+                                                <div class="threads-profile social-profile">
+                                                    <input type="checkbox" value="<?php echo !empty( $threads->name ) ? $threads->name : '' ?>" name="wpsp_el_social_threads[]" <?php echo in_array( $threads->name, $filteredSelectedProfiles ) ? 'checked' : '' ?>>
+                                                    <h3><?php echo !empty( $threads->name ) ? $threads->name : '' ?> ( <?php echo $threads->type ? $threads->type : '' ?> ) </h3>
+                                                </div>
+                                            <?php endforeach ?>
+                                        <?php endif ?>
+                                    </div>
+                                <?php else : ?>
+                                    <div class="wpsp-el-empty-profile-message">
+                                        <?php echo sprintf( __( 'You may forget to add or enable profile/page from <a href="%s">SchedulePress settings</a>. ', 'wp-scheduled-posts' ), admin_url('admin.php?page=schedulepress&tab=social-profile') ) ?>
+                                    </div>
+                                <?php endif ?>
+                            </div>
+                        </div>
                     </div>
                 </div>
            </div>
@@ -894,12 +927,14 @@ class Admin
                 'wpsp-el-content-linkedin-profile' => '',
                 'wpsp-el-content-linkedin-page'    => '',
                 'wpsp-el-content-pinterest'        => '',
+                'wpsp-el-content-threads'          => '',
                 'wpsp_el_social_facebook'          => [],
                 'wpsp_el_social_instagram'         => [],
                 'wpsp_el_social_medium'            => [],
                 'wpsp_el_social_twitter'           => [],
                 'wpsp_el_social_linkedin'          => [],
                 'wpsp_el_social_pinterest'         => [],
+                'wpsp_el_social_threads'           => [],
                 'wpsp_el_pinterest_board'          => [],
             ] );
 
@@ -928,6 +963,7 @@ class Admin
             $pinterestProfile = \WPSP\Helper::get_settings('pinterest_profile_list');
             $instagramProfile = \WPSP\Helper::get_settings('instagram_profile_list');
             $mediumProfile    = \WPSP\Helper::get_settings('medium_profile_list');
+            $threadsProfile    = \WPSP\Helper::get_settings('threads_profile_list');
             $selectedSocialProfiles = [];
             if( !empty( $args['wpsp_el_social_facebook'] ) && !empty( $facebookProfile ) && !empty( $args['wpsp-el-content-facebook'] ) ) {
                 if( $args['wpsp-el-content-facebook'] == 'wpsp-el-social-facebook-custom' ) {
@@ -1012,6 +1048,18 @@ class Admin
                     $selectedSocialProfiles =  array_merge( $selectedSocialProfiles, $mediumProfile );
                 }
             }
+            // Save selected threads profiles
+            if( !empty( $threadsProfile ) && !empty( $args['wpsp-el-content-threads'] ) ) {
+                if( $args['wpsp-el-content-threads'] == 'wpsp-el-social-threads-custom' && !empty( $args['wpsp_el_social_threads'] ) ) {
+                    $selectedInstagramProfile = $args['wpsp_el_social_threads'];
+                    $threadsSelectedProfile = array_filter($threadsProfile, function ($obj) use ( $selectedInstagramProfile ) {
+                        return in_array($obj->name, $selectedInstagramProfile);
+                    });
+                    $selectedSocialProfiles = array_merge( $threadsSelectedProfile, $selectedSocialProfiles );
+                } else{
+                    $selectedSocialProfiles =  array_merge( $selectedSocialProfiles, $threadsProfile );
+                }
+            }
             $selectedSocialProfiles = $this->wpsp_format_profile_data( $selectedSocialProfiles );
             if( Helper::is_enable_classic_editor() ) {
                 update_post_meta( $args['id'], '_selected_social_profile', $selectedSocialProfiles );
@@ -1072,6 +1120,14 @@ class Admin
                     update_post_meta( $args['id'], '_medium_share_type', 'default' );
                 }
             }
+            if( !empty( $args['wpsp-el-content-threads'] ) ) {
+                if( $args['wpsp-el-content-threads'] == 'wpsp-el-social-threads-custom' ) {
+                    update_post_meta( $args['id'], '_threads_share_type', 'custom' );
+                }else{
+                    update_post_meta( $args['id'], '_threads_share_type', 'default' );
+                }
+            }
+            
 
             if ( empty( $args['date'] ) ) {
                 $args['date'] = date( 'Y-m-d H:i:s', current_time( 'U' ) );

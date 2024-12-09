@@ -150,6 +150,66 @@ class SocialProfile
         return false;
     }
 
+    /**
+     * Facebook access token
+     */
+    public function threadsGetAccessTokenDetails($app_id, $app_secret, $redirect_url, $code)
+    {
+        $token_url = "https://graph.threads.net/oauth/access_token?"
+            . "client_id=" . $app_id . "&redirect_uri=" . urlencode($redirect_url)
+            . "&client_secret=" . $app_secret . "&code=" . $code . "&grant_type=authorization_code";
+
+        $response = wp_remote_get($token_url);
+        if (is_wp_error($response)) {
+            return false;
+        } else {
+            $body = wp_remote_retrieve_body($response);
+            $data = json_decode($body);
+            return $data->access_token;
+        }
+        return false;
+    }
+
+    /**
+     * Get long-lived access token from Threads API.
+     *
+     * @param string $app_secret The Threads app secret.
+     * @param string $short_lived_access_token The short-lived access token.
+     * @return array|false Returns an array containing the 'long_lived_access_token' and 'expires_in' or false on failure.
+     */
+    public function threadsGetLongLivedAccessToken($app_secret, $short_lived_access_token)
+    {
+        // Prepare the URL for exchanging short-lived token for long-lived token
+        $long_token_url = "https://graph.threads.net/access_token"
+            . "?grant_type=th_exchange_token"
+            . "&client_secret=" . $app_secret
+            . "&access_token=" . $short_lived_access_token;
+
+        // Make the request using WordPress HTTP API
+        $response = wp_remote_get($long_token_url);
+
+        // Check if request failed
+        if (is_wp_error($response)) {
+            return false;
+        }
+
+        // Retrieve the body of the response
+        $body = wp_remote_retrieve_body($response);
+        $data = json_decode($body);
+
+        // Ensure the long-lived access token is in the response
+        if (!isset($data->access_token)) {
+            return false;
+        }
+
+        // Return the long-lived token and expiry details
+        return [
+            'long_lived_access_token' => $data->access_token,
+            'expires_in'              => $data->expires_in
+        ];
+    }
+
+
     public function getInstagramProfile( $access_token ) {
         $graph_url = "https://graph.facebook.com/me?fields=accounts{connected_instagram_account,name,access_token,picture}&access_token=" . $access_token;
 
@@ -181,6 +241,25 @@ class SocialProfile
         }
         return null;
     }
+
+    /**
+     * Threads User Details
+     */
+    public function threadsGetUserDetails($access_token)
+    {
+        $graph_url = "https://graph.threads.net/v1.0/me?fields=id,username,name,threads_profile_picture_url,threads_biography&access_token=" . $access_token;
+
+        $response = wp_remote_get($graph_url);
+        if (is_wp_error($response)) {
+            return false;
+        } else {
+            $body = wp_remote_retrieve_body($response);
+            $data = json_decode($body);
+            return $data;
+        }
+        return null;
+    }
+
     /**
      * Facebook user group Details
      */
@@ -626,6 +705,52 @@ class SocialProfile
                 wp_send_json_error($error->getMessage());
                 wp_die();
             }
+        } else if ($type == 'threads' && $code != "") {
+            try {
+                $tempAccessToken = $this->threadsGetAccessTokenDetails(
+                    $app_id,
+                    $app_secret,
+                    $redirectURI,
+                    $code
+                );
+                $userInfo = $this->threadsGetUserDetails($tempAccessToken);
+
+                $longTokenDetails     = $this->threadsGetLongLivedAccessToken($app_secret, $tempAccessToken);
+                $longLivedAccessToken = !empty( $longTokenDetails['long_lived_access_token'] ) ? $longTokenDetails['long_lived_access_token'] : '';
+                $expires_in           = !empty( $longTokenDetails['expires_in'] ) ? $longTokenDetails['expires_in'] : '';
+
+                // page
+                $profile_array = array();
+                if ( !empty($userInfo) && is_object($userInfo) ) {
+                    $uploaded_image_url = $this->handle_thumbnail_upload($userInfo->threads_profile_picture_url, $userInfo->name);
+                    array_push($profile_array, array(
+                        'id'                      => $userInfo->id,
+                        'app_id'                  => $app_id,
+                        'app_secret'              => $app_secret,
+                        'name'                    => $userInfo->name,
+                        'thumbnail_url'           => !empty( $uploaded_image_url ) ? $uploaded_image_url : $userInfo->threads_profile_picture_url,
+                        'type'                    => 'profile',
+                        'status'                  => true,
+                        'access_token'            => $tempAccessToken,
+                        'long_lived_access_token' => $longLivedAccessToken,
+                        'expires_in'              => $expires_in,
+                        'added_by'                => $current_user->user_login,
+                        'added_date'              => current_time('mysql')
+                    ));
+                }
+
+                // response
+                $response = array(
+                    'success'  => true,
+                    'profiles' => $profile_array,
+                    'type'     => 'threads',
+                );
+                wp_send_json($response);
+                wp_die();
+            } catch (\Exception $error) {
+                wp_send_json_error($error->getMessage());
+                wp_die();
+            }
         }
         wp_send_json_error("Option name and request type missing. please try again");
         wp_die();
@@ -821,6 +946,23 @@ class SocialProfile
                     ];
                 }
                 wp_send_json_success($res);
+                wp_die();
+            } catch (\Exception $error) {
+                wp_send_json_error($error->getMessage());
+                wp_die();
+            }
+        } else if ($type == 'threads') {
+            // if (!$this->social_single_profile_checkpoint($type)) {
+            //     wp_send_json_error($this->multiProfileErrorMessage);
+            //     wp_die();
+            // }
+            try {
+                $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=' . WPSP_SETTINGS_SLUG));
+                $state = base64_encode(json_encode($request));
+                $url = "https://threads.net/oauth/authorize?client_id="
+                    . $app_id . "&redirect_uri=" . urlencode($redirectURI) . "&state="
+                    . $state . "&scope=" . WPSCP_THREADS_SCOPE;
+                wp_send_json_success($url);
                 wp_die();
             } catch (\Exception $error) {
                 wp_send_json_error($error->getMessage());

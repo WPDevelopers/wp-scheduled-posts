@@ -17,7 +17,7 @@ const { __ } = wp.i18n;
 const SocialShare = ( { is_pro_active } ) => {
     const {
       meta,
-      meta: { _wpscppro_dont_share_socialmedia, _wpscppro_custom_social_share_image, _facebook_share_type, _twitter_share_type, _linkedin_share_type, _pinterest_share_type, _selected_social_profile, _linkedin_share_type_page, _instagram_share_type, _medium_share_type },
+      meta: { _wpscppro_dont_share_socialmedia, _wpscppro_custom_social_share_image, _facebook_share_type, _twitter_share_type, _linkedin_share_type, _pinterest_share_type, _selected_social_profile, _linkedin_share_type_page, _instagram_share_type, _medium_share_type, _threads_share_type },
     } = useSelect((select) => ({
       meta: select('core/editor').getEditedPostAttribute('meta') || {},
     }));
@@ -29,6 +29,7 @@ const SocialShare = ( { is_pro_active } ) => {
     const [twiiterProfileData,setTwitterProfileData] = useState([]);
     const [linkedinProfileData,setLinkedinProfileData] = useState([]);
     const [ mediumProfileData,setMediumProfileData] = useState([]);
+    const [ threadsProfileData,setThreadsProfileData] = useState([]);
     const [pinterestProfileData,setPinterestProfileData] = useState([]);
     const [isOpenModal,setIsOpenModal] = useState( false );
     const [selectedSocialProfile,setSelectedSocialProfile] = useState( [] );
@@ -38,6 +39,7 @@ const SocialShare = ( { is_pro_active } ) => {
     const [facebookShareType,setFacebookShareType] = useState( _facebook_share_type ? _facebook_share_type : 'default' );
     const [instagramShareType,setInstagramShareType] = useState( _instagram_share_type ? _instagram_share_type : 'default' );
     const [mediumShareType,setMediumShareType] = useState( _medium_share_type ? _medium_share_type : 'default' );
+    const [threadsShareType,setThreadsShareType] = useState( _threads_share_type ? _threads_share_type : 'default' );
     const [twitterShareType,setTwitterShareType] = useState( _twitter_share_type ? _twitter_share_type : 'default' );
     const [linkedinShareType,setLinkedinShareType] = useState( _linkedin_share_type ? _linkedin_share_type : 'default');
     const [ pinterestShareType, setPinterestShareType ] = useState( _pinterest_share_type ? _pinterest_share_type : 'default' );
@@ -58,6 +60,7 @@ const SocialShare = ( { is_pro_active } ) => {
           _linkedin_share_type_page: linkedinShareTypePage,
           _pinterest_share_type: pinterestShareType,
           _medium_share_type: mediumShareType,
+          _threads_share_type: threadsShareType,
           _selected_social_profile: selectedSocialProfile,
         },
       })
@@ -88,6 +91,10 @@ const SocialShare = ( { is_pro_active } ) => {
         if( wpsp_settings?.medium_profile_status ) {
           const filtered_medium_profile_list = wpsp_settings?.medium_profile_list.filter( item => item.status === true );
           setMediumProfileData( filtered_medium_profile_list );
+        }
+        if( wpsp_settings?.threads_profile_status ) {
+          const filtered_threads_profile_list = wpsp_settings?.threads_profile_list.filter( item => item.status === true );
+          setThreadsProfileData( filtered_threads_profile_list );
         }
         let default_selected_social_profile = [];
         if( wpsp_settings?.pinterest_profile_status ) {
@@ -135,6 +142,13 @@ const SocialShare = ( { is_pro_active } ) => {
           let medium_profile_list = wpsp_settings?.medium_profile_list.filter( item => item.status === true );
           medium_profile_list.map( (profile,index) => {
             default_selected_social_profile.push( { id: profile.id, platform: 'medium', platformKey: index, name : profile.name, type : profile?.type, thumbnail_url : profile.thumbnail_url, share_type : mediumShareType } );
+          } )
+        }
+        // Set default selection for medium
+        if( wpsp_settings?.threads_profile_status ) {
+          let threads_profile_list = wpsp_settings?.threads_profile_list.filter( item => item.status === true );
+          threads_profile_list.map( (profile,index) => {
+            default_selected_social_profile.push( { id: profile.id, platform: 'threads', platformKey: index, name : profile.name, type : profile?.type, thumbnail_url : profile.thumbnail_url, share_type : threadsShareType } );
           } )
         }
         // Handle twiiter default selection
@@ -328,6 +342,22 @@ const SocialShare = ( { is_pro_active } ) => {
             medium_profile_list.map( (profile,index) => {
               if( selectedSocialProfile.findIndex((item) => item.id === profile.id) === -1 ) {
                 default_selected_social_profile.push( { id: profile.id, platform: 'medium', platformKey: index, name : profile.name, type : profile?.type, thumbnail_url : profile.thumbnail_url, share_type : mediumShareType } );
+              }
+            } )
+          }
+        }
+      }
+
+      // Handle share type threads
+      if( platform === 'threads' ) {
+        setThreadsShareType(value);
+        if( value === 'default' ) {
+          // Set default selection for threads
+          if( wpspSettings?.threads_profile_status ) {
+            let threads_profile_list = wpspSettings?.threads_profile_list.filter( item => item.status === true );
+            threads_profile_list.map( (profile,index) => {
+              if( selectedSocialProfile.findIndex((item) => item.id === profile.id) === -1 ) {
+                default_selected_social_profile.push( { id: profile.id, platform: 'threads', platformKey: index, name : profile.name, type : profile?.type, thumbnail_url : profile.thumbnail_url, share_type : threadsShareType } );
               }
             } )
           }
@@ -694,6 +724,37 @@ const SocialShare = ( { is_pro_active } ) => {
                     </div>
                   )}
                 </div>
+                <div className="social-accordion-item">
+                  <div className="social-accordion-button" onClick={() => toggleAccordion('isOpenThreads')}>
+                      <img src={ WPSchedulePostsFree.assetsURI + '/images/icon-threads-small-white.png' } alt="" />
+                      <span>{ __('Threads', 'wp-scheduled-posts') }</span>
+                  </div>
+                  { isOpen === 'isOpenThreads' && (
+                    <div className="accordion-content">
+                      { threadsProfileData.length > 0 ?
+                        <Fragment>
+                          <div className="instagram-share-type">
+                            <RadioControl
+                              selected={ threadsShareType }
+                              options={ [
+                                  { label: <div className="wpsp-tooltip">Default <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext"> { __('Content will be shared on all the activated social accounts','wp-scheduled-posts') } </span> </div>, value: 'default' },
+                                  { label: <div className="wpsp-tooltip custom">Custom <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">{ __('Specify your social account choice where you want to share the content','wp-scheduled-posts') }</span></div>, value: 'custom' }
+                              ] }
+                              onChange={ ( value ) => handleShareType( 'threads', value ) }
+                            />
+                          </div>
+                          { threadsShareType === 'custom' && threadsProfileData.map( ( medium, index ) => (
+                            <div className="medium-profile social-profile">
+                              <input type="checkbox" checked={ (selectedSocialProfile.findIndex( ( item ) => item.id === medium.id ) != -1) ? true : false } onChange={ (event) =>  handleProfileSelectionCheckbox( event, 'threads', index, medium?.id, medium?.name, medium?.type,medium?.thumbnail_url ) } />
+                              <h3>{ medium?.name } ( { medium.type ? medium.type : __('Profile','wp-scheduled-posts') } ) </h3>
+                            </div>
+                          ) ) }
+                        </Fragment>
+                      : <div dangerouslySetInnerHTML={ { __html: `You may forget to add or enable profile/page from <a href='${WPSchedulePostsFree?.adminURL}admin.php?page=schedulepress&tab=social-profile'>SchedulePress settings</a>.` } }></div>
+                      }
+                    </div>
+                  )}
+                </div>
               { isOpenModal && (
                 <Modal className="social-share-modal" onRequestClose={ closeModal }>
                   <SelectedSocialProfileModal platform="facebook" selectedSocialProfile={ selectedSocialProfile } responseMessage={ responseMessage } pinterest_board_type={pinterestShareType} />
@@ -702,6 +763,7 @@ const SocialShare = ( { is_pro_active } ) => {
                   <SelectedSocialProfileModal platform="pinterest" selectedSocialProfile={ selectedSocialProfile } responseMessage={ responseMessage } pinterest_board_type={pinterestShareType} />
                   <SelectedSocialProfileModal platform="instagram" selectedSocialProfile={ selectedSocialProfile } responseMessage={ responseMessage } pinterest_board_type={pinterestShareType} />
                   <SelectedSocialProfileModal platform="medium" selectedSocialProfile={ selectedSocialProfile } responseMessage={ responseMessage } pinterest_board_type={pinterestShareType} />
+                  <SelectedSocialProfileModal platform="threads" selectedSocialProfile={ selectedSocialProfile } responseMessage={ responseMessage } pinterest_board_type={pinterestShareType} />
                 </Modal>
               ) }
             </div>

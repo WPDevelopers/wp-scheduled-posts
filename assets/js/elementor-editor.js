@@ -456,7 +456,7 @@
             }
 
 
-             // selected instagram profile
+             // selected medium profile
              let medium_selected_profiles;
              let is_medium_share = true;
              const el_medium_profile = $('[name="wpsp-el-content-medium"]:checked').val();
@@ -476,6 +476,26 @@
                  }
              }
             
+             // selected threads profile
+             let threads_selected_profiles;
+             let is_threads_share = true;
+             const el_threads_profile = $('[name="wpsp-el-content-threads"]:checked').val();
+             if( el_threads_profile == 'wpsp-el-social-threads-custom' ) {
+                 threads_selected_profiles = $('[name="wpsp_el_social_threads[]"]:checked').map(function() {
+                     return $(this).val();
+                 }).get();
+                 if( threads_selected_profiles.length == 0 ) {
+                     is_threads_share = false;
+                 }
+             }else{
+                 threads_selected_profiles = $('[name="wpsp_el_social_threads[]"]').map(function() {
+                     return $(this).val();
+                 }).get();
+                 if( threads_selected_profiles.length == 0 ) {
+                     is_threads_share = false;
+                 }
+             }
+
             var postid = jQuery('#wpscppropostid').val()
             // var nonce = jQuery('#wpscp_pro_instant_social_share_nonce').val()
             const nonce = wpscpSocialProfile?.nonce;
@@ -489,12 +509,14 @@
                 is_pinterest_share,
                 is_instagram_share,
                 is_medium_share,
+                is_threads_share,
                 facebook_selected_profiles,
                 twitter_selected_profiles,
                 linkedin_selected_profiles,
                 pinterest_selected_profiles,
                 instagram_selected_profiles,
                 medium_selected_profiles,
+                threads_selected_profiles,
             }
     
             jQuery.post(ajaxurl, data, function (response, status) {

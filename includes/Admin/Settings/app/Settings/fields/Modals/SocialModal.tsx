@@ -12,6 +12,7 @@ import Instagram from "./Instagram";
 import {
     useBuilderContext,
 } from "quickbuilder";
+import Threads from "./Threads";
 
 function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfileEditModal = false, setProfileEditModal = null , profileStatus,selectedProfile = [] }) {
     const builderContext = useBuilderContext();
@@ -23,6 +24,7 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
     const [fbGroup, setFbGroup] = useState([]);
     const [pinterestBoards, setPinterestBoards] = useState([]);
     const [instagramProfiles, setInstagramProfiles] = useState([]);
+    const [threadsProfiles, setThreadsProfiles] = useState([]);
     const [responseData, setResponseData] = useState([]);
     const [linkedInData, setLinkedInData] = useState({})
     const [savedProfile,setSavedProfile] = useState(props?.value ?? []);
@@ -57,8 +59,11 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
                             setFbPage(response.page);
                             setFbGroup(response.group);
                         }
+                        console.log('res', response);
+                        
                         setInstagramProfiles(response.profiles)
                         setResponseData([response.data]);
+                        setThreadsProfiles(response.profiles);
                         setLinkedInData(response.linkedin);
                         setPinterestBoards(response.boards);
                     })
@@ -292,6 +297,13 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
                                 <Instagram
                                     platform={type}
                                     data={instagramProfiles}
+                                    addProfileToggle={addProfileToggle}
+                                    savedProfile={addSavedProfile}
+                                />
+                              ),
+                              threads: (
+                                <Threads
+                                    profiles={threadsProfiles}
                                     addProfileToggle={addProfileToggle}
                                     savedProfile={addSavedProfile}
                                 />
