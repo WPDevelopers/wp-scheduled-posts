@@ -209,7 +209,7 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 == Changelog ==
 
-= 5.2.0 - 2024-12-10 =
+= 5.2.0 - 2024-12-11 =
 - Added: Threads social share integration.
 - Fixed: Truncated text issue when sharing on Medium.
 - Fixed: Post-sharing issue with WP Bakery Builder.
