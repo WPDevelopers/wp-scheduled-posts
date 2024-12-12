@@ -15,6 +15,14 @@ class Helper
         return array_diff($postType, $not_neccessary_post_types);
     }
 
+    public static function get_all_taxonomies()
+    {
+        $taxonomies = get_taxonomies('', 'names');
+        $not_necessary_taxonomies = array('nav_menu', 'link_category', 'post_format');
+        return array_diff($taxonomies, $not_necessary_taxonomies);
+    }
+
+
     public static function get_all_allowed_post_type() {
         $allow_post_types = \WPSP\Helper::get_settings('allow_post_types');
         if( !is_array( $allow_post_types ) ) {
@@ -25,6 +33,18 @@ class Helper
         }
         $allow_post_types = array_values( $allow_post_types );
         return $allow_post_types;
+    }
+
+    public static function get_all_allowed_taxonomy() {
+        $allow_taxonomy_as_tags = \WPSP\Helper::get_settings('allow_taxonomy_as_tags');
+        if( !is_array( $allow_taxonomy_as_tags ) ) {
+            return self::get_all_taxonomies();
+        }
+        if( in_array( 'all', $allow_taxonomy_as_tags ) ) {
+            $allow_taxonomy_as_tags = self::get_all_taxonomies();
+        }
+        $allow_taxonomy_as_tags = array_values( $allow_taxonomy_as_tags );
+        return $allow_taxonomy_as_tags;
     }
 
     public static function get_allow_post_types()

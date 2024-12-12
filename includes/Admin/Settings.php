@@ -189,6 +189,16 @@ class Settings {
                                     'option'  => self::normalize_options(\WPSP\Helper::get_all_post_type()),
                                     'default'  => [ 'post' ],
                                 ],
+                                'allow_taxonomy_as_tags'  => [
+                                    'name'     => 'allow_taxonomy_as_tags',
+                                    'label'    => __('Allow Taxonomy as Tags:', 'wp-scheduled-posts'),
+                                    'type'     => 'checkbox-select',
+                                    'multiple' => true,
+                                    'priority' => 7.5,
+                                    'icon_classes'  => 'wpsp-icon wpsp-close',
+                                    'option'  => self::normalize_options(\WPSP\Helper::get_all_taxonomies()),
+                                    'default'  => [ 'category', 'post_tag' ],
+                                ],
                                 'allow_categories' => [
                                     'name'     => 'allow_categories',
                                     'label'    => __('Show Categories:', 'wp-scheduled-posts'),
