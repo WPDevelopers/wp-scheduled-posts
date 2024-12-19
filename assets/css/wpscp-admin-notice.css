@@ -296,8 +296,8 @@ a.wpsp-notice-cta {
     max-width: 160px !important;
     padding-left: 12px;
 }
-@media screen and (max-width: 574px) {
-#wpnotice-schedulepress-wpsp_holidays_deal {
+@media screen and (max-width: 768px) {
+    #wpnotice-schedulepress-wpsp_holidays_deal {
         display: none !important;
     }
 }
