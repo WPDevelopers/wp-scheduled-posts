@@ -114,7 +114,7 @@ class Medium
         }
 
         $canonical_url = get_permalink($post_id);
-        $tags = $this->getPostHasTags($post_id, 'medium');
+        $tags = $this->getPostHasTags($post_id, 'medium', $this->is_category_as_tags);
         $post_link = esc_url(get_permalink($post_id));
 
         // Retrieve custom social share image meta value

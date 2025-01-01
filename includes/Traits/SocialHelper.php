@@ -10,7 +10,7 @@ trait SocialHelper
     /**
      * Allowed Tags
      */
-    public function getPostHasTags($post_id, $platform = '')
+    public function getPostHasTags($post_id, $platform = '', $category_as_tags = false)
     {
         $terms = [];
         $post_type = get_post_type($post_id);
@@ -20,6 +20,9 @@ trait SocialHelper
 
         // Iterate through each allowed taxonomy
         foreach ($get_allowed_taxonomy as $taxonomy) {
+            if( $taxonomy == 'category' && $category_as_tags ) {
+                continue;
+            }
             // Check if the taxonomy is associated with the post
             $taxonomy_terms = get_the_terms($post_id, $taxonomy);
             if ($taxonomy_terms && !is_wp_error($taxonomy_terms)) {
