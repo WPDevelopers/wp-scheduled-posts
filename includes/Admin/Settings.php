@@ -21,8 +21,47 @@ class Settings {
     public function load_dependency() {
         new Settings\Assets($this->slug, $this);
         add_action('wpsp_save_settings_default_value', array($this, 'save_option_value'));
+        add_filter('wpsp_settings_before_save', [$this, 'wpsp_update_settings']);
     }
 
+    public function wpsp_update_settings($settings)
+    {
+        $limits = [
+            'facebook' => [
+                'status_limit' => 63206,
+            ],
+            'twitter' => [
+                'tweet_limit' => 280,
+            ],
+            'linkedin' => [
+                'status_limit' => 1300,
+            ],
+            'pinterest' => [
+                'note_limit' => 500,
+            ],
+            'instagram' => [
+                'note_limit' => 2100,
+            ],
+            'medium' => [
+                'note_limit' => 45000,
+            ],
+            'threads' => [
+                'note_limit' => 480,
+            ],
+        ];
+        foreach ($limits as $platform => $platform_limits) {
+            if (isset($settings['social_templates'][$platform]) && is_array($settings['social_templates'][$platform])) {
+                foreach ($platform_limits as $key => $limit) {
+                    if (isset($settings['social_templates'][$platform][$key]) && $settings['social_templates'][$platform][$key] > $limit) {
+                        $settings['social_templates'][$platform][$key] = $limit;
+                    }
+                }
+            }
+        }
+        return $settings;
+    }
+    
+    
     /**
      * Convert `fields` associative array to numeric array recursively.
      * @todo improve implementation.
