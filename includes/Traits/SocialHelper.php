@@ -59,7 +59,7 @@ trait SocialHelper
     /**
      * Category
      */
-    public function getPostHasCats($post_id)
+    public function getPostHasCats($post_id, $platform = '')
     {
         $terms = null;
         $post_type = get_post_type($post_id);
@@ -79,7 +79,13 @@ trait SocialHelper
                     $v = str_replace($search, $replace, $v);
                 }
             );
+            if( !empty($platform) && $platform == 'medium' ) {
+                return $categories;
+            }
             return '#' . \implode(' #', $categories);
+        }
+        if( !empty($platform) && $platform == 'medium' ) {
+            return [];
         }
         return false;
     }
