@@ -306,6 +306,15 @@ class Settings {
                                     'default'     => true,
                                     'is_pro'      => true,
                                 ],
+                                'is_share_on_post_publish' => [
+                                    'name'        => 'is_share_on_post_publish',
+                                    'type'        => 'toggle',
+                                    'label'       => __('Active Social Share on Post Publish', 'wp-scheduled-posts'),
+                                    'description' => __('Upgrade to Premium', 'wp-scheduled-posts'),
+                                    'priority'    => 40,
+                                    'default'     => false,
+                                    'is_pro'      => true,
+                                ],
                             ],
                         ],
                     ])

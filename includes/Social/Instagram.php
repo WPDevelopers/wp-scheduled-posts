@@ -177,6 +177,7 @@ class Instagram
         // get long lived access token 
         $instagram = \WPSP\Helper::get_social_profile(WPSCP_INSTAGRAM_OPTION_NAME);
         $long_lived_access_token = !empty( $instagram[$profile_key]->long_lived_access_token ) ? $instagram[$profile_key]->long_lived_access_token : '';
+        $is_instagram_app = !empty( $instagram[$profile_key]->instagram_app ) ? boolval($instagram[$profile_key]->instagram_app) : false;
 
         // check post is skip social sharing
         if (empty($app_id) || empty($app_secret) || $dont_share  == 'on' || $dont_share == 1 ) {
@@ -202,27 +203,35 @@ class Instagram
 
             if( $type == 'profile' ) {
                 try {
-                    $linkData = $this->get_share_content_args($post_id);
-                    $response = $fb->post('/' . $ID . '/media', $linkData, $long_lived_access_token);
-                    $isError = $response->isError();
-                    if ($isError == false) {
-                        $graphNode = $response->getGraphNode();
-                        $creation_id = $graphNode['id'];
-                        $_params = [
-                            'creation_id'   => $creation_id,
-                        ];
-                        $__response = $fb->post('/' . $ID . '/media_publish', $_params, $long_lived_access_token);
-                        $__isError = $__response->isError();
-                        if( $__isError == false ) {
-                            $_graphNode = $__response->getGraphNode();
-                            $shareInfo = array(
-                                'share_id'     => $_graphNode['id'],
-                                'publish_date' => time(),
-                            );
-                            // save shareinfo in metabox
-                            $this->save_metabox_social_share_metabox($post_id, $shareInfo, $profile_key, $ID);
+                    if( $is_instagram_app ) {
+                        $response = $this->sharePostOnInstagram($post_id, $profile_key, $ID, $app_access_token);
+                        $isSuccess = $response['success'];
+                        if( $isSuccess ) {
                             $errorFlag = true;
-                            $response = $shareInfo;
+                        }
+                    }else{
+                        $linkData = $this->get_share_content_args($post_id);
+                        $response = $fb->post('/' . $ID . '/media', $linkData, $long_lived_access_token);
+                        $isError = $response->isError();
+                        if ($isError == false) {
+                            $graphNode = $response->getGraphNode();
+                            $creation_id = $graphNode['id'];
+                            $_params = [
+                                'creation_id'   => $creation_id,
+                            ];
+                            $__response = $fb->post('/' . $ID . '/media_publish', $_params, $long_lived_access_token);
+                            $__isError = $__response->isError();
+                            if( $__isError == false ) {
+                                $_graphNode = $__response->getGraphNode();
+                                $shareInfo = array(
+                                    'share_id'     => $_graphNode['id'],
+                                    'publish_date' => time(),
+                                );
+                                // save shareinfo in metabox
+                                $this->save_metabox_social_share_metabox($post_id, $shareInfo, $profile_key, $ID);
+                                $errorFlag = true;
+                                $response = $shareInfo;
+                            }
                         }
                     }
                 } catch (\Facebook\Exceptions\FacebookResponseException $e) {
@@ -244,6 +253,73 @@ class Instagram
         return;
     }
 
+    public function sharePostOnInstagram($post_id, $profile_key, $ID, $access_token) {
+        try {
+            // Step 1: Create a media container
+            $create_media_url = "https://graph.instagram.com/v21.0/$ID/media";
+            $post = get_post($post_id);
+            $linkData = $this->get_share_content_args($post_id);
+            // $image_url = $this->get_image_url($post);
+            $image_url = 'https://fastly.picsum.photos/id/5/5000/3334.jpg?hmac=R_jZuyT1jbcfBlpKFxAb0Q3lof9oJ0kREaxsYV3MgCc';
+            $media_response = wp_remote_post($create_media_url, [
+                'body' => [
+                    'image_url'    => $image_url,
+                    'access_token' => $access_token,
+                    'caption'      => !empty( $linkData['caption'] ) ? $linkData['caption'] : '',
+                ],
+            ]);
+    
+            // Check for errors in the response
+            if (is_wp_error($media_response)) {
+                throw new \Exception("Error creating media container: " . $media_response->get_error_message());
+            }
+    
+            $media_body = json_decode(wp_remote_retrieve_body($media_response), true);
+            if (!isset($media_body['id'])) {
+                throw new \Exception("Failed to create media container: " . wp_remote_retrieve_body($media_response));
+            }
+    
+            $creation_id = $media_body['id'];
+    
+            // Step 2: Publish the media container
+            $publish_url = "https://graph.instagram.com/v21.0/$ID/media_publish";
+    
+            $publish_response = wp_remote_post($publish_url, [
+                'body' => [
+                    'creation_id' => $creation_id,
+                    'access_token' => $access_token,
+                ],
+            ]);
+    
+            // Check for errors in the response
+            if (is_wp_error($publish_response)) {
+                throw new \Exception("Error publishing media: " . $publish_response->get_error_message());
+            }
+    
+            $publish_body = json_decode(wp_remote_retrieve_body($publish_response), true);
+            if (!isset($publish_body['id'])) {
+                throw new \Exception("Failed to publish media: " . wp_remote_retrieve_body($publish_response));
+            }
+    
+            $shareInfo = [
+                'share_id'     => $publish_body['id'],
+                'publish_date' => time(),
+            ];
+    
+            // Save share info in a metabox
+            $this->save_metabox_social_share_metabox($post_id, $shareInfo, $profile_key, $ID);
+    
+            return [
+                'success' => true,
+                'data'    => $shareInfo,
+            ];
+        } catch (\Exception $e) {
+            return [
+                'success' => false,
+                'error'   => $e->getMessage(),
+            ];
+        }
+    }
     
     /**
      * Schedule Republish social share hook
