@@ -16,7 +16,80 @@ class InstantShare
         add_action('wp_ajax_wpscp_instant_share_fetch_profile', array($this, 'instant_share_fetch_profile'));
         add_action('wp_ajax_wpscp_instant_social_single_profile_share', array($this, 'instant_social_single_profile_share'));
         add_action('wpsp_instant_social_single_profile_share', array($this, 'instant_social_single_profile_share'));
+        if (\WPSP\Helper::get_settings('is_share_on_post_publish')) {
+            add_action('wp_insert_post', [$this, 'share_post_on_publish'], 100, 3) ;
+        }
     }
+
+    /**
+     * Share post on social media after the first-time publish for specified custom post types.
+     *
+     * @param int     $post_id Post ID.
+     * @param WP_Post $post Post object.
+     * @param bool    $update Whether this is an existing post being updated or not.
+    */
+    public function share_post_on_publish($post_id, $post, $update) {
+        
+        // Define an array of allowed post types
+        $allowed_post_types = \WPSP\Helper::get_settings('allow_post_type_for_share_on_publish') ? \WPSP\Helper::get_settings('allow_post_type_for_share_on_publish') : []; // Replace with your post types
+
+        // Ensure this is one of the allowed post types, not a revision, and it's the first-time publish
+        if (!in_array($post->post_type, $allowed_post_types) || wp_is_post_revision($post_id)) {
+            return;
+        }
+
+        // Check if the post is being published for the first time (status transition from 'draft' to 'publish')
+        if ($post->post_status === 'publish') {
+            // Nonce for security
+            $nonce = wp_create_nonce('wpscp-pro-social-profile');
+
+            // List of social media platforms with their respective option names
+            $social_platforms = [
+                'facebook'  => WPSCP_FACEBOOK_OPTION_NAME,
+                'twitter'   => WPSCP_TWITTER_OPTION_NAME,
+                'linkedin'  => WPSCP_LINKEDIN_OPTION_NAME,
+                'pinterest' => WPSCP_PINTEREST_OPTION_NAME,
+                'instagram' => WPSCP_INSTAGRAM_OPTION_NAME,
+                'medium'    => WPSCP_MEDIUM_OPTION_NAME,
+                'threads'   => WPSCP_THREADS_OPTION_NAME,
+            ];
+
+            // Loop through each platform and share if enabled
+            foreach ($social_platforms as $platform => $option_name) {
+                $selected_profiles = []; // Add logic to fetch selected profiles per platform if needed
+                $profiles = \WPSP\Helper::get_social_profile($option_name, $selected_profiles);
+
+                // Pinterest-specific filtering logic
+                if ($platform === 'pinterest' && !empty($selected_profiles)) {
+                    $profiles = array_filter($profiles, function($single_pinterest) use ($selected_profiles) {
+                        return in_array($single_pinterest->default_board_name->value, $selected_profiles);
+                    });
+                }
+
+                // Share on each profile for the platform
+                foreach ($profiles as $key => $settings) {
+                    if ($settings->status) {
+                        $query_args = [
+                            'nonce'                => $nonce,
+                            'postid'               => $post_id,
+                            'platform'             => $platform,
+                            'id'                   => $settings->id,
+                            'platformKey'          => $key,
+                            'pinterest_board_type' => $settings->pinterest_board_type ?? '',
+                            'pinterest_custom_board_name' => $settings->pinterest_board_name ?? '',
+                            'pinterest_custom_section_name' => $settings->pinterest_section_name ?? '',
+                            'action'               => 'wpscp_instant_social_single_profile_share',
+                        ];
+
+                        // Trigger the sharing action
+                        do_action('wpsp_instant_social_single_profile_share', $query_args);
+                    }
+                }
+            }
+        }
+    }
+
+
     public function instant_share_metabox()
     {
         $allow_post_types = \WPSP\Helper::get_all_allowed_post_type();
@@ -481,6 +554,9 @@ class InstantShare
 
     public function instant_social_single_profile_share($params)
     {
+        if( !wp_doing_ajax() ) {
+            $_GET = $params;
+        }
         // Verify nonce
         $nonce = sanitize_text_field($_GET['nonce']);
         if (!wp_verify_nonce($nonce, 'wpscp-pro-social-profile')) {
