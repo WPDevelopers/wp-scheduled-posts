@@ -179,6 +179,7 @@ class Linkedin
         if ($dont_share  == 'on' || $dont_share == 1 ) {
             return;
         }
+        
         $count_meta_key = '__wpsp_linkedin_share_count_'.$profile->id;
         if( ( get_post_meta( $post_id, $count_meta_key, true ) ) && $this->post_share_limit != 0 && get_post_meta( $post_id, $count_meta_key, true ) >= $this->post_share_limit ) {
             return array(
@@ -206,6 +207,9 @@ class Linkedin
                 } else {
                     if (has_post_thumbnail($post_id)) { //the post does not have featured image, use a default image
                         $image_path = wp_get_original_image_path(get_post_thumbnail_id($post_id));
+                    }else{
+                        $featured_image_id = Helper::get_featured_image_id_from_request();
+                        $image_path = wp_get_attachment_image_url($featured_image_id, 'full');
                     }
                 }
 
@@ -334,9 +338,12 @@ class Linkedin
 
 
 
-    public function socialMediaInstantShare($post_id, $profile_key)
+    public function socialMediaInstantShare($post_id, $profile_key, $is_share_on_publish)
     {
         $response = $this->remote_post($post_id, $profile_key, true);
+        if( $is_share_on_publish ) {
+            return;
+        }
         if ($response['success'] == false) {
             wp_send_json_error($response['log']);
         } else {

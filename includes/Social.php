@@ -10,13 +10,14 @@ class Social
 {
     protected $social_profile;
     protected $instantShare;
-
+    protected $action_before_publish;
     public function __construct()
     {
         $this->define_constants();
         $this->load_dependancy();
         $this->load_third_party_integration();
         $this->instant_social_share();
+        $this->action_before_publish();
         add_action('publish_future_post', array($this, 'publish_future_post'), 30, 1);
 
     }
@@ -151,5 +152,13 @@ class Social
 			$this->instantShare = new Social\InstantShare();
 		}
 		return $this->instantShare;
+    }
+
+    public function action_before_publish() 
+    {
+        if (!$this->action_before_publish) {
+			$this->action_before_publish = new Social\ActionBeforePublish();
+		}
+		return $this->action_before_publish;
     }
 }

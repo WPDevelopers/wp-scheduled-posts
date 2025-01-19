@@ -134,6 +134,12 @@ class Facebook
             if (has_post_thumbnail($post->ID)) { //the post does not have featured image, use a default image
                 $thumbnail_src = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'large');
                 echo '<meta property="og:image" content="' . esc_attr($thumbnail_src[0]) . '"/>';
+            }else {
+                $featured_image_id = Helper::get_featured_image_id_from_request();
+                if( !empty( $featured_image_id ) ) {
+                    $thumbnail_src = wp_get_attachment_image_url($featured_image_id, 'full');
+                    echo '<meta property="og:image" content="' . esc_attr($thumbnail_src[0]) . '"/>';
+                }
             }
         }
         echo "";
@@ -421,9 +427,12 @@ class Facebook
      * @since 2.5.0
      * @return ajax response
      */
-    public function socialMediaInstantShare($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key)
+    public function socialMediaInstantShare($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key, $is_share_on_publish = false)
     {
         $response = $this->remote_post($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key, true);
+        if( $is_share_on_publish ) {
+            return;
+        }
         if ($response['success'] == false) {
             wp_send_json_error($response['log']);
         } else {

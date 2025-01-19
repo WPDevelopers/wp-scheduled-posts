@@ -169,7 +169,15 @@ class Threads
             $errorFlag = false;
             $response = '';
             $text = $this->get_share_content_args($post_id);
-            $image_url = get_the_post_thumbnail_url($post_id, 'full');
+            if( has_post_thumbnail($post_id) ) {
+                $image_url = get_the_post_thumbnail_url($post_id, 'full');
+            }else{
+                $featured_image_id = Helper::get_featured_image_id_from_request();
+                if( !empty( $featured_image_id ) ) {
+                    $image_url = wp_get_attachment_image_url($featured_image_id, 'full');
+                }
+            }
+
             // Profile api
             if ($type === 'profile') {
                 try {
@@ -319,9 +327,12 @@ class Threads
      * @since 2.5.0
      * @return ajax response
      */
-    public function socialMediaInstantShare($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key)
+    public function socialMediaInstantShare($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key, $is_share_on_publish)
     {
         $response = $this->remote_post($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key, true);
+        if( $is_share_on_publish ) {
+            return;
+        }
         if ($response['success'] == false) {
             wp_send_json_error($response['log']);
         } else {

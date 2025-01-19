@@ -16,79 +16,7 @@ class InstantShare
         add_action('wp_ajax_wpscp_instant_share_fetch_profile', array($this, 'instant_share_fetch_profile'));
         add_action('wp_ajax_wpscp_instant_social_single_profile_share', array($this, 'instant_social_single_profile_share'));
         add_action('wpsp_instant_social_single_profile_share', array($this, 'instant_social_single_profile_share'));
-        if (\WPSP\Helper::get_settings('is_share_on_post_publish')) {
-            add_action('wp_insert_post', [$this, 'share_post_on_publish'], 100, 3) ;
-        }
     }
-
-    /**
-     * Share post on social media after the first-time publish for specified custom post types.
-     *
-     * @param int     $post_id Post ID.
-     * @param WP_Post $post Post object.
-     * @param bool    $update Whether this is an existing post being updated or not.
-    */
-    public function share_post_on_publish($post_id, $post, $update) {
-        
-        // Define an array of allowed post types
-        $allowed_post_types = \WPSP\Helper::get_settings('allow_post_type_for_share_on_publish') ? \WPSP\Helper::get_settings('allow_post_type_for_share_on_publish') : []; // Replace with your post types
-
-        // Ensure this is one of the allowed post types, not a revision, and it's the first-time publish
-        if (!in_array($post->post_type, $allowed_post_types) || wp_is_post_revision($post_id)) {
-            return;
-        }
-
-        // Check if the post is being published for the first time (status transition from 'draft' to 'publish')
-        if ($post->post_status === 'publish') {
-            // Nonce for security
-            $nonce = wp_create_nonce('wpscp-pro-social-profile');
-
-            // List of social media platforms with their respective option names
-            $social_platforms = [
-                'facebook'  => WPSCP_FACEBOOK_OPTION_NAME,
-                'twitter'   => WPSCP_TWITTER_OPTION_NAME,
-                'linkedin'  => WPSCP_LINKEDIN_OPTION_NAME,
-                'pinterest' => WPSCP_PINTEREST_OPTION_NAME,
-                'instagram' => WPSCP_INSTAGRAM_OPTION_NAME,
-                'medium'    => WPSCP_MEDIUM_OPTION_NAME,
-                'threads'   => WPSCP_THREADS_OPTION_NAME,
-            ];
-
-            // Loop through each platform and share if enabled
-            foreach ($social_platforms as $platform => $option_name) {
-                $selected_profiles = []; // Add logic to fetch selected profiles per platform if needed
-                $profiles = \WPSP\Helper::get_social_profile($option_name, $selected_profiles);
-
-                // Pinterest-specific filtering logic
-                if ($platform === 'pinterest' && !empty($selected_profiles)) {
-                    $profiles = array_filter($profiles, function($single_pinterest) use ($selected_profiles) {
-                        return in_array($single_pinterest->default_board_name->value, $selected_profiles);
-                    });
-                }
-
-                // Share on each profile for the platform
-                foreach ($profiles as $key => $settings) {
-                    if ($settings->status) {
-                        $query_args = [
-                            'nonce'                => $nonce,
-                            'postid'               => $post_id,
-                            'platform'             => $platform,
-                            'id'                   => $settings->id,
-                            'platformKey'          => $key,
-                            'pinterest_board_type' => $settings->pinterest_board_type ?? '',
-                            'pinterest_custom_board_name' => $settings->pinterest_board_name ?? '',
-                            'pinterest_custom_section_name' => $settings->pinterest_section_name ?? '',
-                            'action'               => 'wpscp_instant_social_single_profile_share',
-                        ];
-
-                        // Trigger the sharing action
-                        do_action('wpsp_instant_social_single_profile_share', $query_args);
-                    }
-                }
-            }
-        }
-    }
-
 
     public function instant_share_metabox()
     {
@@ -572,6 +500,7 @@ class InstantShare
 
         $postid = intval($_GET['postid']);
         $platform = (isset($_GET['platform']) ? sanitize_text_field($_GET['platform']) : '');
+        $is_share_on_publish = (isset($_GET['share_on_publish']) ? $_GET['share_on_publish'] : false);
         $profileID = (isset($_GET['id']) ? sanitize_text_field($_GET['id']) : '');
         $platformKey = (isset($_GET['platformKey']) ? sanitize_text_field($_GET['platformKey']) : '');
         $pinterest_board_type = (isset($_GET['pinterest_board_type']) ? sanitize_text_field($_GET['pinterest_board_type']) : '');
@@ -581,7 +510,7 @@ class InstantShare
         if( !empty( $pinterestCustomSectionName[0] ) ) {
             $pinterestSectionName = $pinterestCustomSectionName[0];
         }
-        // all social platfrom
+        // all social platform
         if ($platform == 'facebook') {
             $facebook = \WPSP\Helper::get_social_profile(WPSCP_FACEBOOK_OPTION_NAME);
             $platformKey = !empty( $profileID ) ? array_search($profileID, array_column($facebook, 'id')) : intval($platformKey);
@@ -597,9 +526,12 @@ class InstantShare
                 $facebook[$platformKey]->type,
                 $facebook[$platformKey]->id,
                 $postid,
-                $platformKey
+                $platformKey,
+                $is_share_on_publish
             );
-            wp_die();
+            if( !$is_share_on_publish ) {
+                wp_die();
+            }
         } else if ($platform == 'twitter') {
             $twitter = \WPSP\Helper::get_social_profile(WPSCP_TWITTER_OPTION_NAME);
             $platformKey = !empty( $profileID ) ? array_search($profileID, array_column($twitter, 'id')) : intval($platformKey);
@@ -615,9 +547,12 @@ class InstantShare
                 $twitter[$platformKey]->oauth_token,
                 $twitter[$platformKey]->oauth_token_secret,
                 $postid,
-                $platformKey
+                $platformKey,
+                $is_share_on_publish
             );
-            wp_die();
+            if( !$is_share_on_publish ) {
+                wp_die();
+            }
         } else if ($platform == 'linkedin') {
             $linkedin = \WPSP\Helper::get_social_profile(WPSCP_LINKEDIN_OPTION_NAME);
             $platformKey = !empty( $profileID ) ? array_search($profileID, array_column($linkedin, 'id')) : intval($platformKey);
@@ -629,9 +564,12 @@ class InstantShare
             $linkedinshare = new \WPSP\Social\Linkedin();
             $linkedinshare->socialMediaInstantShare(
                 $postid,
-                $platformKey
+                $platformKey,
+                $is_share_on_publish,
             );
-            wp_die();
+            if( !$is_share_on_publish ) {
+                wp_die();
+            }
         } else if ($platform == 'pinterest') {
             $pinterest = \WPSP\Helper::get_social_profile(WPSCP_PINTEREST_OPTION_NAME);
             $platformKey = !empty( $profileID ) ? array_search($profileID, array_column($pinterest, 'id')) : intval($platformKey);
@@ -645,9 +583,12 @@ class InstantShare
                 $postid,
                 ($pinterest_board_type === "custom" ? $pinterestBoardName : $pinterest[$platformKey]->default_board_name),
                 ($pinterest_board_type === "custom" ? $pinterestSectionName : $pinterest[$platformKey]->defaultSection),
-                $platformKey
+                $platformKey,
+                $is_share_on_publish,
             );
-            wp_die();
+            if( !$is_share_on_publish ) {
+                wp_die();
+            }
         } else if ($platform == 'instagram') {
             $instagram = \WPSP\Helper::get_social_profile(WPSCP_INSTAGRAM_OPTION_NAME);
             $platformKey = !empty( $profileID ) ? array_search($profileID, array_column($instagram, 'id')) : intval($platformKey);
@@ -663,9 +604,12 @@ class InstantShare
                 $instagram[$platformKey]->type,
                 $instagram[$platformKey]->id,
                 $postid,
-                $platformKey
+                $platformKey,
+                $is_share_on_publish,
             );
-            wp_die();
+            if( !$is_share_on_publish ) {
+                wp_die();
+            }
         } else if ($platform == 'medium') {
             $medium = \WPSP\Helper::get_social_profile(WPSCP_MEDIUM_OPTION_NAME);
             $platformKey = !empty( $profileID ) ? array_search($profileID, array_column($medium, 'id')) : intval($platformKey);
@@ -682,8 +626,11 @@ class InstantShare
                 $postid,
                 $platformKey,
                 $medium[$platformKey]->id,
+                $is_share_on_publish,
             );
-            wp_die();
+            if( !$is_share_on_publish ) {
+                wp_die();
+            }
         }  else if ($platform == 'threads') {
             $threads = \WPSP\Helper::get_social_profile(WPSCP_THREADS_OPTION_NAME);
             $platformKey = !empty( $profileID ) ? array_search($profileID, array_column($threads, 'id')) : intval($platformKey);
@@ -699,8 +646,11 @@ class InstantShare
                 $threads[$platformKey]->id,
                 $postid,
                 $platformKey,
+                $is_share_on_publish,
             );
-            wp_die();
+            if( !$is_share_on_publish ) {
+                wp_die();
+            }
         } else {
             wp_send_json_error(__('Sorry, your requested platform integration is not added.', 'wp-scheduled-posts'));
             wp_die();

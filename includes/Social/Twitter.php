@@ -211,6 +211,15 @@ class Twitter
                             $parameters['media'] = [
                                 "media_ids" => [ $media->media_id_string ],
                             ];
+                        }else{
+                            $featured_image_id = Helper::get_featured_image_id_from_request();
+                            if( !empty( $featured_image_id ) ) {
+                                $file_path = wp_get_attachment_image_url($featured_image_id, 'full');
+                                $media = $TwitterConnection->upload('media/upload', ['media' => $file_path]);
+                                $parameters['media'] = [
+                                    "media_ids" => [ $media->media_id_string ],
+                                ];
+                            }
                         }
                     }
                 }
@@ -315,9 +324,12 @@ class Twitter
 
     // response collect and check all hook
 
-    public function socialMediaInstantShare($app_id, $app_secret, $oauth_token, $oauth_token_secret, $post_id, $profile_key)
+    public function socialMediaInstantShare($app_id, $app_secret, $oauth_token, $oauth_token_secret, $post_id, $profile_key, $is_share_on_publish = false)
     {
         $response = $this->remote_post($app_id, $app_secret, $oauth_token, $oauth_token_secret, $post_id, $profile_key, true);
+        if( $is_share_on_publish ) {
+            return;
+        }
         if ($response['success'] == false) {
             wp_send_json_error($response['log']);
         } else {

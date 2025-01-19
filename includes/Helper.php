@@ -562,5 +562,23 @@ class Helper
         return $cleaned_content;
     }
 
+
+     /**
+     * Retrieves the meta data.
+     *
+     * @return array Selected social profiles or an empty array.
+     */
+    public static function get_featured_image_id_from_request()
+    {
+        if (defined('REST_REQUEST') && REST_REQUEST) {
+            $raw_input = file_get_contents('php://input');
+            $decoded_input = json_decode($raw_input, true);
+
+            return $decoded_input['featured_media'];
+        }
+
+        return null;
+    }
+
 }
 
