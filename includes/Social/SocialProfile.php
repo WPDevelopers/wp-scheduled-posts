@@ -160,11 +160,11 @@ class SocialProfile
 
         // Data to send in the POST request
         $post_data = [
-            'client_id' => $app_id,
+            'client_id'     => $app_id,
             'client_secret' => $app_secret,
-            'grant_type' => 'authorization_code',
-            'redirect_uri' => $redirect_url,
-            'code' => $code,
+            'grant_type'    => 'authorization_code',
+            'redirect_uri'  => $redirect_url,
+            'code'          => $code,
         ];
 
         // Make the POST request
@@ -728,7 +728,7 @@ class SocialProfile
                 );
                 $userAcessToken = '';
                 if ($tempAccessToken != "") {
-                    $response = wp_remote_get('https://graph.facebook.com/v6.0/oauth/access_token?grant_type=fb_exchange_token&client_id=' . $app_id . '&client_secret=' . $app_secret . '&fb_exchange_token=' . $tempAccessToken . '');
+                    $response = wp_remote_get('https://graph.instagram.com/access_token?grant_type=ig_exchange_token&client_secret=' . $app_secret . '&access_token=' . $tempAccessToken . '');
                     if (is_array($response)) {
                         $header = $response['headers']; // array of http header lines
                         $body = $response['body']; // use the content

@@ -204,6 +204,9 @@ class Instagram
             if( $type == 'profile' ) {
                 try {
                     if( $is_instagram_app ) {
+                        if( !empty( $long_lived_access_token ) ) {
+                            $app_access_token = $long_lived_access_token;
+                        }
                         $response = $this->sharePostOnInstagram($post_id, $profile_key, $ID, $app_access_token);
                         $isSuccess = $response['success'];
                         if( $isSuccess ) {
@@ -259,8 +262,7 @@ class Instagram
             $create_media_url = "https://graph.instagram.com/v21.0/$ID/media";
             $post = get_post($post_id);
             $linkData = $this->get_share_content_args($post_id);
-            // $image_url = $this->get_image_url($post);
-            $image_url = 'https://fastly.picsum.photos/id/5/5000/3334.jpg?hmac=R_jZuyT1jbcfBlpKFxAb0Q3lof9oJ0kREaxsYV3MgCc';
+            $image_url = $this->get_image_url($post);
             $media_response = wp_remote_post($create_media_url, [
                 'body' => [
                     'image_url'    => $image_url,

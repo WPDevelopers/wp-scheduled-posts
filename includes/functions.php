@@ -281,4 +281,8 @@ add_filter('wp_insert_post_data', function($post_data, $postarr){
 	return $post_data;
 }, 10, 2);
 
+add_filter( 'http_request_timeout', function( $timeout ) {
+    return 30; // Timeout in seconds (default is usually 15)
+} );
+
 
