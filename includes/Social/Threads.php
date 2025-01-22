@@ -113,7 +113,7 @@ class Threads
         }
 
 
-        $hashTags = (($this->getPostHasTags($post_id) != false) ? $this->getPostHasTags($post_id) : '');
+        $hashTags = (($this->getPostHasTags($post_id, 'threads', $this->is_category_as_tags) != false) ? $this->getPostHasTags($post_id, 'threads', $this->is_category_as_tags) : '');
         if ($this->is_category_as_tags == true) {
             $hashTags .= ' ' . $this->getPostHasCats($post_id);
         }

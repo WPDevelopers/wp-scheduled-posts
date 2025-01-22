@@ -114,7 +114,16 @@ class Medium
         }
 
         $canonical_url = get_permalink($post_id);
-        $tags = $this->getPostHasTags($post_id, 'medium');
+        $tags = $this->getPostHasTags($post_id, 'medium', $this->is_category_as_tags) ?: '';
+        if ($this->is_category_as_tags) {
+            $categories = $this->getPostHasCats($post_id, 'medium');
+            if (is_array($tags)) {
+                $tags = is_array($categories) ? array_merge($tags, $categories) : $tags;
+            } else {
+                $tags = $categories;
+            }
+        }
+        $tags = array_values($tags);
         $post_link = esc_url(get_permalink($post_id));
 
         // Retrieve custom social share image meta value
