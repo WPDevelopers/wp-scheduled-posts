@@ -114,6 +114,7 @@ class Linkedin
                 $desc = Helper::strip_all_html_and_keep_single_breaks(do_shortcode($desc));
             }
         }
+        $desc = preg_replace('/(\r?\n){2,}/', "\n", $desc);
 
         $hashTags = (($this->getPostHasTags($post_id, 'linkedin', $this->is_category_as_tags) != false) ? $this->getPostHasTags($post_id, 'linkedin', $this->is_category_as_tags) : '');
         if ($this->is_category_as_tags == true) {
