@@ -309,7 +309,7 @@ class Settings {
                                 'post_publishing_and_sharing_option' => [
                                     'name'          => 'post_publishing_and_sharing_option',
                                     'type'          => 'section',
-                                    'label'         => __('Enhance Post publishing and sharing options:', 'wp-scheduled-posts'),
+                                    'label'         => __('Enhanced Post Publishing and Sharing Options:', 'wp-scheduled-posts'),
                                     'collapsible'   => true,
                                     'collapsed'     => false,
                                     'classes'       => 'section-collapsible',
@@ -319,8 +319,9 @@ class Settings {
                                         'set_future_date_on_post_publish' => [
                                             'name'        => 'set_future_date_on_post_publish',
                                             'type'        => 'toggle',
-                                            'label'       => __('Post with Future Date', 'wp-scheduled-posts'),
+                                            'label'       => __('Publish Now with Future Date', 'wp-scheduled-posts'),
                                             'description' => __('Upgrade to Premium', 'wp-scheduled-posts'),
+                                            'info'        => __('Toggle to enable the option to publish the post now while showing your selected future date.', 'wp-scheduled-posts'),
                                             'priority'    => 10,
                                             'default'     => false,
                                             'is_pro'      => true,
@@ -328,7 +329,7 @@ class Settings {
                                         'is_share_on_post_publish' => [
                                             'name'        => 'is_share_on_post_publish',
                                             'type'        => 'toggle',
-                                            'label'       => __('Auto-Share on Publish', 'wp-scheduled-posts'),
+                                            'label'       => __('Auto-Share upon Publishing', 'wp-scheduled-posts'),
                                             'description' => __('Upgrade to Premium', 'wp-scheduled-posts'),
                                             'priority'    => 20,
                                             'default'     => false,
@@ -336,7 +337,7 @@ class Settings {
                                         ],
                                         'allow_post_type_for_future_date_and_published_share'  => [
                                             'name'     => 'allow_post_type_for_future_date_and_published_share',
-                                            'label'    => __('Allow Post Type:', 'wp-scheduled-posts'),
+                                            'label'    => __('Show Post Types:', 'wp-scheduled-posts'),
                                             'type'     => 'checkbox-select',
                                             'multiple' => true,
                                             'priority' => 55,
