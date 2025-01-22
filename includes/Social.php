@@ -2,14 +2,13 @@
 
 namespace WPSP;
 
-use myPHPNotes\LinkedIn;
-use DirkGroenen\Pinterest\Pinterest;
-
+use WPSP\Social\ReconnectHandler;
 
 class Social
 {
     protected $social_profile;
     protected $instantShare;
+    protected $reconnect_handler;
 
     public function __construct()
     {
@@ -65,6 +64,9 @@ class Social
     public function load_dependancy()
     {
         $this->socialProfile();
+
+        // Social profile reconnection process handler
+        new ReconnectHandler;
     }
     public function socialProfile() {
         if (!$this->social_profile) {

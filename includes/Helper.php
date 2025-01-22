@@ -562,5 +562,43 @@ class Helper
         return $cleaned_content;
     }
 
+   /**
+     * Retrieves the formatted date and time based on the site’s timezone, adjusting by seconds.
+     *
+     * @param int    $seconds  The number of seconds to adjust the current time.
+     * @param string $format   The format of the date/time to return (e.g., 'Y-m-d H:i:s').
+     * 
+     * @return string The formatted date and time.
+     */
+    public static function getDateFromTimezone($seconds, $format = 'Y-m-d H:i:s') {
+        // Get the site's timezone (either location-based or GMT offset)
+        $timezone = wp_timezone_string();  // e.g., 'Asia/Dhaka' or '+06:00'
+
+        // Get the current UTC time
+        $current_time = time();
+
+        // Check if the timezone is in location format (e.g., 'Asia/Dhaka')
+        if (strpos($timezone, 'GMT') === 0) {
+            // GMT offset format, e.g., 'GMT+6', 'GMT-3', or 'GMT0'
+            preg_match('/([+-]?\d+)/', $timezone, $matches);
+            $gmt_offset = isset($matches[1]) ? (int)$matches[1] : 0;
+
+            // Adjust the time based on the GMT offset and the seconds parameter
+            $adjusted_time = $current_time + ($gmt_offset * 3600) + $seconds;
+            return date($format, $adjusted_time);  // Return the formatted time
+        }
+
+        // If the timezone is a location-based timezone (e.g., 'Asia/Dhaka')
+        try {
+            $timezone_obj = new \DateTimeZone($timezone);
+            $date = new \DateTime("@" . ($current_time + $seconds));  // UTC time + seconds
+            $date->setTimezone($timezone_obj);  // Set the timezone to the user’s location
+
+            // Return the formatted date/time
+            return $date->format($format);
+        } catch (\Exception $e) {
+            return 'Invalid timezone format';  // Return an error if the timezone is invalid
+        }
+    }
 }
 

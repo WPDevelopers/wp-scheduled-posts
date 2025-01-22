@@ -181,7 +181,7 @@ class SocialProfile
 
             // Check if access token exists in response
             if (isset($data->access_token)) {
-                return $data->access_token;
+                return $data;
             }
         }
         return false;
@@ -720,21 +720,25 @@ class SocialProfile
             }
         } else if ($type == 'instagram' && $code != "") {
             try {
-                $tempAccessToken = $this->instagramGetAccessTokenDetails(
+                $tempAccessTokenDetails = $this->instagramGetAccessTokenDetails(
                     $app_id,
                     $app_secret,
                     $redirectURI,
                     $code
                 );
                 $userAcessToken = '';
-                if ($tempAccessToken != "") {
+                $tempAccessToken = '';
+                if ( !empty( $tempAccessTokenDetails->access_token ) ) {
+                    $tempAccessToken = $tempAccessTokenDetails->access_token;
+                    $expires_in      = $tempAccessTokenDetails->expires_in;
                     $response = wp_remote_get('https://graph.instagram.com/access_token?grant_type=ig_exchange_token&client_secret=' . $app_secret . '&access_token=' . $tempAccessToken . '');
                     if (is_array($response)) {
-                        $header = $response['headers']; // array of http header lines
                         $body = $response['body']; // use the content
+                        $longAcessTokenBody = json_decode($body);
+                        $userAcessToken = $longAcessTokenBody->{'access_token'};
+                        $expires_in = $longAcessTokenBody->{'expires_in'};
                     }
-                    $longAcessTokenBody = json_decode($body);
-                    $userAcessToken = $longAcessTokenBody->{'access_token'};
+                    
                 }
 
                 $userInfo = $this->getInstagramProfile($tempAccessToken);
@@ -752,6 +756,7 @@ class SocialProfile
                             'status'                  => true,
                             'access_token'            => $tempAccessToken,
                             'long_lived_access_token' => $userAcessToken,
+                            'expires_at'              => Helper::getDateFromTimezone($expires_in),
                             'added_by'                => $current_user->user_login,
                             'instagram_app'           => true,
                             'added_date'              => current_time('mysql')
@@ -1035,4 +1040,10 @@ class SocialProfile
             }
         }
     }
+
+    public function handle_reconnect()
+    {
+        
+    }
+
 }

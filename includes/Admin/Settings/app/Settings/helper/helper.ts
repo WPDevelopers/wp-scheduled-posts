@@ -65,6 +65,16 @@ export const getLicense = async (body) => {
     } );
 };
 
+export const updateRefreshToken = async (data) => {
+    return await apiFetch({
+        path: 'wp-scheduled-posts/v1/update-refresh-token',
+        method: 'POST',
+        data: data,
+    }).then((res) => {
+        return res;
+    });
+};
+
 export const deActivateLicense = async () => {
     return apiFetch( {
         path: 'wp-scheduled-posts/v1/deactivate_license',

@@ -1,8 +1,9 @@
 <?php
 
 namespace WPSP\API;
-
 use WPSP;
+use WPSP\Social\ReconnectHandler;
+use WPSP\Social\SocialProfile;
 
 class Settings
 {
@@ -156,6 +157,21 @@ class Settings
                 return current_user_can( 'edit_posts' );
             }
         ));
+        register_rest_route($namespace,'update-refresh-token',array(
+            'methods' => 'POST',
+            'callback'   => array($this, 'wpsp_update_refresh_token'),
+            'permission_callback' => function() {
+                return current_user_can( 'edit_posts' );
+            }
+        ));
+    }
+
+
+    public function wpsp_update_refresh_token(\WP_REST_Request $request) {
+        $platform = $request->get_param('platform');
+        $item     = $request->get_param('item');
+        $response = ReconnectHandler::handleProfileReconnect($platform, $item);
+        die();
     }
 
     public function wpsp_get_categories(\WP_REST_Request $request)
