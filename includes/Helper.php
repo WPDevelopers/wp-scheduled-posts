@@ -214,6 +214,7 @@ class Helper
     {
         global $current_user;
         $allow_user_by_role = \WPSP\Helper::get_settings('allow_user_by_role');
+        if (empty($current_user->ID)) return false;
         $allow_user_by_role = (is_array($allow_user_by_role) && count($allow_user_by_role) > 0) ? $allow_user_by_role : array('administrator');
         if ( is_super_admin($current_user->ID) ) return true;
         if (!is_array($current_user->roles)) return false;
