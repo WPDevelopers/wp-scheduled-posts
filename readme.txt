@@ -43,6 +43,7 @@ https://youtu.be/oBD7MbtWvcQ
 -   Auto share blogs on multi social profiles [PRO]
 -   Schedule update for already published blog post or page [PRO]
 -   Full Scheduling feature in Classic Editor, Gutenberg & Elementor
+-   Publish post right away with future date & social shares [PRO]
 
 
 Want your website to remain active while you're on vacation? Yes, you can schedule posts in advance for those days and SchedulePress brings you the editorial calendar with it to let you see when your posts have been scheduled.
@@ -103,6 +104,8 @@ https://youtu.be/qy7zdh5VYlg
 **◾ Advanced Schedule:** Schedule an update for an already published blog post or page, without drafting it or unpublishing it. You can update blog & doc content as well as tags, categories, pictures, feature image, excerpt, and anything else of your choice.
 
 https://youtu.be/1ohEsDzTJkA
+
+**◾ Enhanced Post Publishing and Sharing Options:** Enable the option to publish instantly while displaying a future date for the post that you have set. Turn on auto-share in different social media platforms upon publishing if needed.
 
 
 **◾ Premium Support:** Get faster support with a pro license. We have an extraordinary support team ready to help you. Ask your questions in the support forum, or contact us directly through live chat and support tickets.

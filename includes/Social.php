@@ -146,7 +146,7 @@ class Social
      */
     public function instant_social_share()
     {
-		if (!$this->instantShare) {
+		if (!$this->instantShare && Helper::is_user_allow()) {
 			$this->instantShare = new Social\InstantShare();
 		}
 		return $this->instantShare;

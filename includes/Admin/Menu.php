@@ -2,6 +2,8 @@
 
 namespace WPSP\Admin;
 
+use WPSP\Helper;
+
 class Menu
 {
     /**
@@ -34,7 +36,9 @@ class Menu
         add_menu_page(__('SchedulePress', 'wp-scheduled-posts'), __('SchedulePress', 'wp-scheduled-posts'), 'manage_options', WPSP_SETTINGS_SLUG, [$this, 'load_settings_template'], esc_url(WPSP_ASSETS_URI . 'images/wpsp-icon.png'), 80);
         add_submenu_page(WPSP_SETTINGS_SLUG, __('Settings', 'wp-scheduled-posts'), __('Settings', 'wp-scheduled-posts'), 'manage_options', WPSP_SETTINGS_SLUG, [$this, 'load_settings_template']);
         add_submenu_page(WPSP_SETTINGS_SLUG, 'Calendar', 'Calendar', 'manage_options', WPSP_SETTINGS_SLUG . '-calendar', array($this, 'load_settings_template'));
-        $this->add_sub_menu_for_calendar_supported_post_type();
+        if( Helper::is_user_allow() ) {
+            $this->add_sub_menu_for_calendar_supported_post_type();
+        }
     }
 
     /**
