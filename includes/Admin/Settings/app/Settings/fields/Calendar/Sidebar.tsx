@@ -84,7 +84,8 @@ const Sidebar = (
           setPosts([]);
         }
         // @ts-ignore 
-        setPosts((prevPosts) => [...prevPosts, ...data]);
+        // setPosts((prevPosts) => [...prevPosts, ...data]);
+        setPosts([ ...data]);
       }else{
         // @ts-ignore 
         if(force) {
@@ -93,7 +94,7 @@ const Sidebar = (
           setPosts([ ...data]);
         }else{
           // @ts-ignore 
-          setPosts((prevPosts) => [...prevPosts, ...data]);
+          setPosts([ ...data]);
         }
       }
     } catch (error) {
