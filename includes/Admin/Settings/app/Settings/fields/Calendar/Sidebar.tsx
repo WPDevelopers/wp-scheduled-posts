@@ -16,6 +16,7 @@ const Sidebar = (
   const [status, setStatus] = useState(null);
   const [modalData, openModal] = useState<ModalProps>({ post: null, eventType: null });
   const [page, setPage] = useState(1);
+  const [fetchedPage, setFetchedPage] = useState(null);
   const [loading, setLoading] = useState(false); // Request in progress
   const [hasMore, setHasMore] = useState(true); // If there are more posts to load
   const postsPerPage = 10;
@@ -84,8 +85,9 @@ const Sidebar = (
           setPosts([]);
         }
         // @ts-ignore 
-        // setPosts((prevPosts) => [...prevPosts, ...data]);
-        setPosts([ ...data]);
+        setPosts((prevPosts) => [...prevPosts, ...data]);
+        setFetchedPage(page);
+        // setPosts([ ...data]);
       }else{
         // @ts-ignore 
         if(force) {
@@ -94,7 +96,9 @@ const Sidebar = (
           setPosts([ ...data]);
         }else{
           // @ts-ignore 
-          setPosts([ ...data]);
+          setPosts((prevPosts) => [...prevPosts, ...data]);
+          setFetchedPage(page);
+          // setPosts([ ...data]);
         }
       }
     } catch (error) {
@@ -128,7 +132,9 @@ const Sidebar = (
 
 
   useEffect(() => {
-    fetchPosts(page); // Trigger when page changes
+    if( fetchedPage != page ) {
+      fetchPosts(page); // Trigger when page changes
+    }
   }, [page]);
 
   useEffect(() => {
