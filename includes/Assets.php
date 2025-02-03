@@ -18,6 +18,9 @@ class Assets
         
         add_action( 'elementor/editor/after_enqueue_scripts', function () {
             $allow_post_types = \WPSP\Helper::get_all_allowed_post_type();
+            if( !Helper::is_user_allow() ) {
+                return;
+            }
             wp_enqueue_script('jquery-kylefoxModal', WPSP_ASSETS_URI . 'js/vendor/jquery.modal.min.js', array('jquery'), WPSP_VERSION, false);
             wp_enqueue_script( 'wpscp-el-editor', WPSP_ASSETS_URI . 'js/elementor-editor.js', array( 'jquery', 'tipsy' ), WPSP_VERSION, true );
             wp_enqueue_style('jquery-kylefoxModal', WPSP_ASSETS_URI . 'css/vendor/jquery.modal.min.css', array(), WPSP_VERSION, 'all');
@@ -40,6 +43,9 @@ class Assets
         global $post_type;
         $allow_post_types = \WPSP\Helper::get_all_allowed_post_type();
         $allow_post_types = (!empty($allow_post_types) ? $allow_post_types : array('post'));
+        if( !Helper::is_user_allow() ) {
+            return;
+        }
         if (!in_array($post_type, $allow_post_types) || !is_admin()) {
             return;
         }
@@ -105,7 +111,7 @@ class Assets
             wp_enqueue_script('select2', WPSP_ASSETS_URI . 'js/vendor/select2.full.js', array('jquery'), WPSP_VERSION, false);
             wp_enqueue_script('sweetalert', WPSP_ASSETS_URI . 'js/vendor/sweetalert.min.js', array('jquery'), WPSP_VERSION, false);
             wp_enqueue_script('notifi', WPSP_ASSETS_URI . 'js/vendor/notifi.min.js', array('jquery'), WPSP_VERSION, false);
-            wp_enqueue_script('wpscp-script', WPSP_ASSETS_URI . 'js/wpscp-script.js', array('jquery'), WPSP_VERSION, false);
+            // wp_enqueue_script('wpscp-script', WPSP_ASSETS_URI . 'js/wpscp-script.js', array('jquery'), WPSP_VERSION, false);
             wp_localize_script(
                 'wpscp-script',
                 'wpscp_ajax',

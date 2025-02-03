@@ -10,7 +10,6 @@ class Social
 {
     protected $social_profile;
     protected $instantShare;
-
     public function __construct()
     {
         $this->define_constants();
@@ -34,6 +33,7 @@ class Social
         $this->define('WPSCP_FACEBOOK_OPTION_NAME', 'facebook_profile_list');
         $this->define('WPSCP_INSTAGRAM_OPTION_NAME', 'instagram_profile_list');
         $this->define('WPSCP_MEDIUM_OPTION_NAME', 'medium_profile_list');
+        $this->define('WPSCP_THREADS_OPTION_NAME', 'threads_profile_list');
         // $this->define('WPSCP_FACEBOOK_SCOPE', 'pages_show_list,publish_to_groups,pages_read_engagement,pages_manage_metadata,pages_read_user_content,pages_manage_posts,pages_manage_engagement');
         $this->define('WPSCP_FACEBOOK_SCOPE', 'pages_show_list,pages_read_engagement,pages_manage_metadata,pages_read_user_content,pages_manage_posts,business_management,');
         $this->define('WPSCP_INSTAGRAM_SCOPE', 'pages_show_list,pages_read_engagement,pages_manage_metadata,pages_read_user_content,pages_manage_posts,business_management,ads_management,instagram_basic,instagram_content_publish,');
@@ -44,6 +44,7 @@ class Social
         $this->define('WPSCP_LINKEDIN_SCOPE_OPENID', 'openid profile email w_member_social');
         $this->define('WPSCP_LINKEDIN_SCOPE_OPENID_PAGE', 'openid profile email w_member_social r_organization_admin w_organization_social rw_organization_admin');
         $this->define('WPSCP_LINKEDIN_BUSINESS_SCOPE', 'r_emailaddress r_liteprofile w_member_social r_organization_admin w_organization_social');
+        $this->define('WPSCP_THREADS_SCOPE', 'threads_basic,threads_content_publish');
         $this->define('WPSCP_LINKEDIN_OPTION_NAME', 'linkedin_profile_list');
         // pinterest
         $this->define('WPSCP_PINTEREST_OPTION_NAME', 'pinterest_profile_list');
@@ -92,6 +93,9 @@ class Social
         if (Helper::get_settings('medium_profile_status') == true) {
             $this->medium();
         }
+        if (Helper::get_settings('threads_profile_status') == true) {
+            $this->threads();
+        }
     }
 
 
@@ -130,13 +134,19 @@ class Social
         $WpScp_medium->instance();
     }
 
+    public function threads()
+    {
+        $WpScp_medium = new Social\Threads();
+        $WpScp_medium->instance();
+    }
+
     /**
      *
      * return \WPSP\Social\InstantShare
      */
     public function instant_social_share()
     {
-		if (!$this->instantShare) {
+		if (!$this->instantShare && Helper::is_user_allow()) {
 			$this->instantShare = new Social\InstantShare();
 		}
 		return $this->instantShare;

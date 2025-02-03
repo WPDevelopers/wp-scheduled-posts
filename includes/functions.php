@@ -16,6 +16,14 @@ if (!function_exists('array_key_first')) {
 	}
 }
 
+function is_visual_composer_post($post_id) {
+    $post = get_post($post_id);
+    if (!$post) {
+        return false; // Post doesn't exist
+    }
+    return strpos($post->post_content, '[vc_') !== false;
+}
+
 /**
  * WP Scheduled Post Menu
  * @function wp_scheduled_post_menu
@@ -272,3 +280,5 @@ add_filter('wp_insert_post_data', function($post_data, $postarr){
 	}
 	return $post_data;
 }, 10, 2);
+
+

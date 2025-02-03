@@ -102,23 +102,28 @@ class Medium
         $post = get_post($post_id);
         // Retrieve the post content and other necessary fields
         $title = get_the_title($post_id);
-        
+        $title = sanitize_text_field(html_entity_decode($title, ENT_QUOTES | ENT_HTML5, 'UTF-8'));
         if ($this->content_source === 'excerpt' && has_excerpt($post->ID)) {
             $content = wp_strip_all_tags($post->post_excerpt);
         } else {
             $content = apply_filters('the_content', $post->post_content);
+            if( is_visual_composer_post($post_id) && class_exists('WPBMap') ){
+                \WPBMap::addAllMappedShortcodes();
+                $content = do_shortcode($content);
+            }
         }
 
         $canonical_url = get_permalink($post_id);
-        $tags = [];
-        if ($this->is_category_as_tags == true) {
-            $tags             = wp_get_post_tags($post_id, ['fields' => 'names']);
-            $category_as_tags = wp_get_post_terms($post_id, 'category', ['fields' => 'names']);
-            $tags             = array_merge($tags, $category_as_tags);
-        }else{
-            $tags = wp_get_post_tags($post_id, ['fields' => 'names']); 
+        $tags = $this->getPostHasTags($post_id, 'medium', $this->is_category_as_tags) ?: '';
+        if ($this->is_category_as_tags) {
+            $categories = $this->getPostHasCats($post_id, 'medium');
+            if (is_array($tags)) {
+                $tags = is_array($categories) ? array_merge($tags, $categories) : $tags;
+            } else {
+                $tags = $categories;
+            }
         }
-
+        $tags = array_values($tags);
         $post_link = esc_url(get_permalink($post_id));
 
         // Retrieve custom social share image meta value
@@ -132,6 +137,11 @@ class Medium
             // Fall back to the featured image if meta value is empty
             if (has_post_thumbnail($post_id)) {
                 $socialshareimage_url = get_the_post_thumbnail_url($post_id, 'full');
+            }else {
+                $featured_image_id = Helper::get_featured_image_id_from_request();
+                if( !empty( $featured_image_id ) ) {
+                    $socialshareimage_url = wp_get_attachment_image_url($featured_image_id, 'full');
+                }
             }
         }
 
@@ -154,7 +164,7 @@ class Medium
         $data = [
             'title'         => $title,
             'contentFormat' => 'html',
-            'content'       => $formatedText,
+            'content'       => '<h1>'.$title.'</h1>' . $formatedText,
             'canonicalUrl'  => $canonical_url,
             'tags'          => $tags,
             'publishStatus' => 'public'
@@ -328,9 +338,12 @@ class Medium
      * @since 2.5.0
      * @return ajax response
      */
-    public function socialMediaInstantShare($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key, $medium_id = '')
+    public function socialMediaInstantShare($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key, $medium_id = '', $is_share_on_publish = false)
     {
         $response = $this->remote_post($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key, true, $medium_id);
+        if( $is_share_on_publish ) {
+            return;
+        }
         if ($response['success'] == false) {
             wp_send_json_error($response['log']);
         } else {

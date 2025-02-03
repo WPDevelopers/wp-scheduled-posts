@@ -109,7 +109,14 @@ class Pinterest
             $customThumbnail = wp_get_attachment_image_src($customThumbnailID, 'full', false);
             $PostThumbnailURI = ($customThumbnail != false ? $customThumbnail[0] : '');
         } else {
-            $PostThumbnailURI = get_the_post_thumbnail_url($post_id, 'full');
+            if( has_post_thumbnail($post_id) ) {
+                $PostThumbnailURI = get_the_post_thumbnail_url($post_id, 'full');
+            }else{
+                $featured_image_id = Helper::get_featured_image_id_from_request();
+                if( !empty( $featured_image_id ) ) {
+                    $PostThumbnailURI = wp_get_attachment_image_url($featured_image_id, 'full');
+                }
+            }
         }
         if(!$instant_share && $board_type === 'custom') {
             // overriding default board name from meta.
@@ -136,7 +143,7 @@ class Pinterest
         }
 
         // tags
-        $hashTags = (($this->getPostHasTags($post_id) != false) ? $this->getPostHasTags($post_id) : '');
+        $hashTags = (($this->getPostHasTags($post_id, 'pinterest', $this->is_category_as_tags) != false) ? $this->getPostHasTags($post_id, 'pinterest', $this->is_category_as_tags) : '');
         if ($this->is_category_as_tags == true) {
             $hashTags .= ' ' . $this->getPostHasCats($post_id);
         }
@@ -146,6 +153,10 @@ class Pinterest
             $desc = wp_strip_all_tags($post_details->post_excerpt);
         } else {
             $desc = wp_strip_all_tags($post_details->post_content);
+            if( is_visual_composer_post($post_id) && class_exists('WPBMap') ){
+                \WPBMap::addAllMappedShortcodes();
+                $desc = Helper::strip_all_html_and_keep_single_breaks(do_shortcode($desc));
+            }
         }
         if(strpos($this->template_structure, '{url}') !== false){
             $has_url = true;
@@ -346,9 +357,12 @@ class Pinterest
     }
 
 
-    public function socialMediaInstantShare($post_id, $board_name, $section_name, $profile_key)
+    public function socialMediaInstantShare($post_id, $board_name, $section_name, $profile_key, $is_share_on_publish)
     {
         $response = $this->remote_post($post_id, $board_name, $section_name, $profile_key, true, true);
+        if( $is_share_on_publish ) {
+            return;
+        }
         if ($response['success'] == false) {
             wp_send_json_error($response['log']);
         } else {
