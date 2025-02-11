@@ -107,7 +107,8 @@ class Instagram
         if ($this->content_source === 'excerpt' && has_excerpt($post_details->ID)) {
             $desc = wp_strip_all_tags($post_details->post_excerpt);
         } else {
-            $desc = wp_strip_all_tags($post_details->post_content);
+            // $desc = wp_strip_all_tags($post_details->post_content);
+            $desc = $this->format_post_content($post_id);
             if( is_visual_composer_post($post_id) && class_exists('WPBMap') ){
                 \WPBMap::addAllMappedShortcodes();
                 $desc = Helper::strip_all_html_and_keep_single_breaks(do_shortcode($desc));
@@ -136,6 +137,18 @@ class Instagram
         
         return $linkData;
     }
+
+    // Function to clean and render WordPress block content
+    public function format_post_content($post_id) {
+        // Get the post content
+        $content = get_the_content(null, false, $post_id);
+        $content = apply_filters('the_content', $content);
+        $content = str_replace(['<br>', '<br />'], "\n", $content);
+        $content = str_replace(['</p>', '</div>', '</li>', '</ul>', '</ol>'], "\n", $content);
+        $plain_text = strip_tags($content);
+        return trim($plain_text);
+    }
+    
 
     public function get_image_url( $post ) {
         $socialShareImage = get_post_meta($post->ID, '_wpscppro_custom_social_share_image', true);
