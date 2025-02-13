@@ -161,7 +161,8 @@ class Facebook
         if ($this->content_source === 'excerpt' && has_excerpt($post_details->ID)) {
             $desc = wp_strip_all_tags($post_details->post_excerpt);
         } else {
-            $desc = wp_strip_all_tags($post_details->post_content);
+            // $desc = wp_strip_all_tags($post_details->post_content);
+            $desc = Helper::format_post_content($post_id);
             if( is_visual_composer_post($post_id) && class_exists('WPBMap') ){
                 \WPBMap::addAllMappedShortcodes();
                 $desc = Helper::strip_all_html_and_keep_single_breaks(do_shortcode($desc));

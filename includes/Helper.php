@@ -581,5 +581,16 @@ class Helper
         return null;
     }
 
+     // Function to clean and render WordPress block content
+     public static function format_post_content($post_id) {
+        // Get the post content
+        $content = get_the_content(null, false, $post_id);
+        $content = apply_filters('the_content', $content);
+        $content = str_replace(['<br>', '<br />'], "\n", $content);
+        $content = str_replace(['</p>', '</div>', '</li>', '</ul>', '</ol>'], "\n", $content);
+        $plain_text = strip_tags($content);
+        return trim($plain_text);
+    }
+
 }
 
