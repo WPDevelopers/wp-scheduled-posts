@@ -478,6 +478,8 @@ class SocialProfile
                     $access_token = $accessToken->access_token;
                     if( !empty( $accessToken->refresh_token ) ) {
                         $refresh_token = $accessToken->refresh_token;
+                        $expires_in    = time() + $accessToken->expires_in;
+                        $rt_expires_in = time() + $accessToken->refresh_token_expires_in;
                     }
                 }
 
@@ -488,6 +490,11 @@ class SocialProfile
                     $profiles = $linkedin->getPerson($access_token);
                 }
                 $pages = apply_filters('wpsp_filter_linkedin_pages', $pages, $profiles);
+                // if( !empty( $refresh_token ) && !empty( $expires_in ) ) {
+                //     foreach ($pages as $page) {
+                //         do_action('wpsp_profile_reconnect_linkedin', $page->id, time() + ( $accessToken->expires_in - 86400) );
+                //     }
+                // }
                 $info = array(
                     'app_id'        => $app_id,
                     'app_secret'    => $app_secret,
