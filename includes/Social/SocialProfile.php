@@ -490,11 +490,6 @@ class SocialProfile
                     $profiles = $linkedin->getPerson($access_token);
                 }
                 $pages = apply_filters('wpsp_filter_linkedin_pages', $pages, $profiles);
-                // if( !empty( $refresh_token ) && !empty( $expires_in ) ) {
-                //     foreach ($pages as $page) {
-                //         do_action('wpsp_profile_reconnect_linkedin', $page->id, time() + ( $accessToken->expires_in - 86400) );
-                //     }
-                // }
                 $info = array(
                     'app_id'        => $app_id,
                     'app_secret'    => $app_secret,

@@ -312,7 +312,7 @@ class Settings
         $platform        = $request->get_param('platform');
         $profiles        = $request->get_param('profiles');
         foreach ($profiles as $profile) {
-            do_action("wpsp_profile_reconnect_{$platform}", $profile);
+            do_action("wpsp_profile_reconnect_{$platform}", [ 'id' => $profile ] );
         }
         
     }
