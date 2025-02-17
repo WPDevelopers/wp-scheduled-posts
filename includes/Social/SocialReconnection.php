@@ -7,38 +7,47 @@ final class SocialReconnection
     public function __construct()
     {
         add_action('wpsp_profile_reconnect_linkedin', [$this, 'linkedin_reconnect_cron_event']);
-
         // Fire reconnect related hooks
         add_action('wpsp_linkedin_reconnect_cron_event', [$this, 'linkedin_reconnect'], 10, 1);
     }
 
     /**
-     * Schedule a single event for LinkedIn reconnection
+     * Schedule a single event for LinkedIn reconnection one day before token expiry
      *
      * @param int $id The ID of the profile to reconnect
      */
-    public function linkedin_reconnect_cron_event($id)
+    public function linkedin_reconnect_cron_event($params)
     {
-        if (!wp_next_scheduled('wpsp_linkedin_reconnect_cron_event', [$id])) {
-            $time = time() + 5000; // Schedule after 5000 seconds
-            wp_schedule_single_event($time, 'wpsp_linkedin_reconnect_cron_event', [$id]);
+        if( empty( $params['id'] ) ) {
+            return;
+        }
+        // $profile = $this->get_single_profile($params['id'], 'linkedin_profile_list');
+
+        // if (!$profile || empty($profile->expires_in)) {
+        //     return;
+        // }
+
+        // $expiry_time = intval($profile->expires_in);
+        
+        $schedule_time = time() + (60 * 60 * 24 * 59); // 2 months - 1 day (59 days in seconds)
+        // Ensure the event is scheduled only if it’s not already scheduled
+        if (!wp_next_scheduled('wpsp_linkedin_reconnect_cron_event', [$params['id']])) {
+            wp_schedule_single_event($schedule_time, 'wpsp_linkedin_reconnect_cron_event', [$params['id']]);
         }
     }
+
 
     /**
      * Handles LinkedIn reconnection logic
      *
-     * @param int $id The ID of the profile to reconnect
+     * @param any $id The ID of the profile to reconnect
      */
     public function linkedin_reconnect($id)
     {
         $profile_id = $id;
         if (empty($profile_id)) {
-            error_log('Error: Missing Profile ID in linkedin_reconnect function');
             return;
         }
-
-        error_log('Reconnecting LinkedIn Profile: ' . $profile_id);
 
         $settings = get_option(WPSP_SETTINGS_NAME, []);
         $settings = json_decode($settings);
@@ -49,14 +58,13 @@ final class SocialReconnection
 
         $profile = null;
         foreach ($settings->linkedin_profile_list as &$p) {
-            if (isset($p->id) && $p->id === $profile_id) {
+            if (isset($p->id) && ($p->id === $profile_id)) {
                 $profile = &$p;
                 break;
             }
         }
 
         if (!$profile || empty($profile->refresh_token || empty($profile->app_id) || empty($profile->app_secret))) {
-            error_log('Error: Profile or refresh token not found.');
             return;
         }
 
@@ -74,7 +82,6 @@ final class SocialReconnection
         ]);
 
         if (is_wp_error($response)) {
-            error_log('Error fetching new LinkedIn access token: ' . $response->get_error_message());
             return;
         }
 
@@ -82,11 +89,10 @@ final class SocialReconnection
         $data = json_decode($body, true);
 
         if (empty($data['access_token']) || empty($data['expires_in'])) {
-            error_log('Error: Invalid response from LinkedIn API: ' . $body);
             return;
         }
 
-        $updated = $this->update_profile_option_data(
+        $updates = $this->update_profile_option_data(
             'linkedin_profile_list',
             $profile_id,
             [
@@ -94,11 +100,8 @@ final class SocialReconnection
                 'expires_in' => time() + $data['expires_in'],
             ]
         );
-
-        if ($updated) {
-            error_log('Successfully updated LinkedIn tokens for profile: ' . $profile_id);
-        } else {
-            error_log('Error updating LinkedIn tokens for profile: ' . $profile_id);
+        if( $updates ) {
+            $this->linkedin_reconnect_cron_event($profile_id);
         }
     }
      /**
@@ -111,25 +114,25 @@ final class SocialReconnection
      * @return bool True if updated successfully, false otherwise.
     */
     private function update_profile_option_data($array_key, $id, $updates) {
-        global $wpsp_settings_v5;
-        // Get the existing settings from the static option
-        $settings = get_option($wpsp_settings_v5);
+       // Get the existing settings from the static option
+        $settings = get_option(WPSP_SETTINGS_NAME, '{}'); // Default to '{}' if empty
+        $settings = json_decode($settings, true); // Decode as an associative array
 
         // Check if the key exists and is an array
         if (!empty($settings[$array_key]) && is_array($settings[$array_key])) {
-            array_walk($settings[$array_key], function (&$item) use ($id, $updates) {
-                if (isset($item->id) && $item->id == $id) {
+            foreach ($settings[$array_key] as &$item) {
+                if (isset($item['id']) && $item['id'] == $id) {
                     // Update fields dynamically
                     foreach ($updates as $key => $value) {
-                        $item->$key = $value;
+                        $item[$key] = $value;
                     }
                 }
-            });
-
-            // Save the updated settings
-            return update_option($wpsp_settings_v5, $settings);
+            }
+            unset($item); // Unset reference to avoid accidental modifications
+            return update_option(WPSP_SETTINGS_NAME, json_encode($settings));
         }
 
-        return false;
+        return false; // Return false if update didn't happen
+
     }
 }
