@@ -169,6 +169,7 @@ class Threads
             $errorFlag = false;
             $response = '';
             $text = $this->get_share_content_args($post_id);
+            $image_url = null;
             if( has_post_thumbnail($post_id) ) {
                 $image_url = get_the_post_thumbnail_url($post_id, 'full');
             }else{
