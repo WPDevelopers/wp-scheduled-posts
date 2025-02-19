@@ -76,7 +76,7 @@ class LinkedIn {
         $header = [
             "Authorization: Bearer {$accessToken}",
             'X-Restli-Protocol-Version: 2.0.0',
-            'LinkedIn-Version: 202402',
+            'LinkedIn-Version: 202501',
         ];
 
         $company_pages = "https://api.linkedin.com/v2/organizationalEntityAcls?q=roleAssignee&role=ADMINISTRATOR&state=APPROVED&projection=(elements*(organizationalTarget~(id,localizedName,logoV2(original~:playableStreams))))";
@@ -105,7 +105,7 @@ class LinkedIn {
         $header = [
             "Authorization: Bearer {$accessToken}",
             'X-Restli-Protocol-Version: 2.0.0',
-            'LinkedIn-Version: 202402',
+            'LinkedIn-Version: 202501',
         ];
         $request = [
             // "author": "urn:li:organization:5515715",
@@ -157,7 +157,7 @@ class LinkedIn {
         ]);
         $headers = [
             "Authorization: Bearer {$access_token}",
-            'LinkedIn-Version: 202402',
+            'LinkedIn-Version: 202501',
             "X-RestLi-Protocol-Version: 2.0.0"
         ];
 
@@ -171,7 +171,7 @@ class LinkedIn {
             $content_type = "image/jpeg";
             $headers = [
                 "Authorization: Bearer {$access_token}",
-                'LinkedIn-Version: 202402',
+                'LinkedIn-Version: 202501',
                 "X-RestLi-Protocol-Version: 2.0.0",
                 "Content-Length: " . strlen($parameters),
             ];
@@ -216,7 +216,7 @@ class LinkedIn {
         $content_type = "application/json";
         $headers = [
             "Authorization: Bearer {$access_token}",
-            'LinkedIn-Version: 202402',
+            'LinkedIn-Version: 202501',
             "X-RestLi-Protocol-Version: 2.0.0",
             "Content-Length: " . strlen($parameters),
         ];
@@ -257,7 +257,7 @@ class LinkedIn {
 
         $headers = [
             "Authorization: Bearer {$accessToken}",
-            'LinkedIn-Version: 202402',
+            'LinkedIn-Version: 202501',
             "X-RestLi-Protocol-Version: 2.0.0",
             "Content-Length: " . strlen($parameters),
         ];
