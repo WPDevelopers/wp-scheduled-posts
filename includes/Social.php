@@ -4,7 +4,7 @@ namespace WPSP;
 
 use myPHPNotes\LinkedIn;
 use DirkGroenen\Pinterest\Pinterest;
-
+use WPSP\Social\SocialReconnection;
 
 class Social
 {
@@ -64,6 +64,7 @@ class Social
     public function load_dependancy()
     {
         $this->socialProfile();
+        new SocialReconnection();
     }
     public function socialProfile() {
         if (!$this->social_profile) {

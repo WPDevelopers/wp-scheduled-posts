@@ -298,8 +298,24 @@ class Settings
             ),
         ));
 
+        register_rest_route( $namespace, '/save-profile', array(
+            'methods'             => 'POST',
+            'callback'            => [$this, 'save_profile'],
+            'permission_callback' => [$this, 'wpsp_permissions_check'],
+        ));
+
     }
 
+
+    public function save_profile($request)
+    {
+        $platform        = $request->get_param('platform');
+        $profiles        = $request->get_param('profiles');
+        foreach ($profiles as $profile) {
+            do_action("wpsp_profile_reconnect_{$platform}", [ 'id' => $profile ] );
+        }
+        
+    }
 
 
     /**

@@ -478,6 +478,8 @@ class SocialProfile
                     $access_token = $accessToken->access_token;
                     if( !empty( $accessToken->refresh_token ) ) {
                         $refresh_token = $accessToken->refresh_token;
+                        $expires_in    = time() + $accessToken->expires_in;
+                        $rt_expires_in = time() + $accessToken->refresh_token_expires_in;
                     }
                 }
 
