@@ -16,56 +16,20 @@ const Sidebar = (
   const [status, setStatus] = useState(null);
   const [modalData, openModal] = useState<ModalProps>({ post: null, eventType: null });
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false); // Request in progress
-  const [hasMore, setHasMore] = useState(true); // If there are more posts to load
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
   const postsPerPage = 10;
 
-  const onSubmit = (data: any, oldData) => {
-    const newEvents = posts.filter((event) => event.postId !== oldData?.postId);
-    setPosts([...newEvents, data]);
-  };
-
-  const throttle = (func: Function, limit: number) => {
-    let lastFunc: NodeJS.Timeout | null;
-    let lastRan: number | null;
-
-    return function (...args: any[]) {
-      const context = this;
-      if (!lastRan) {
-        func.apply(context, args);
-        lastRan = Date.now();
-      } else {
-        if (lastFunc) clearTimeout(lastFunc);
-        lastFunc = setTimeout(() => {
-          if (Date.now() - lastRan! >= limit) {
-            func.apply(context, args);
-            lastRan = Date.now();
-          }
-        }, limit - (Date.now() - lastRan!));
-      }
-    };
-  };
-
-  const handleScroll = throttle(() => {
-    if (loading || !hasMore) return; // Prevent scrolling if still loading
-    const sidebarWrapper = document.getElementById("sidebar-post-wrapper");
-    if (sidebarWrapper) {
-      const { scrollTop, scrollHeight, clientHeight } = sidebarWrapper;
-      if (scrollTop + clientHeight >= scrollHeight - 100) {
-        setPage((prevPage) => prevPage + 1);
-      }
-    }
-  }, 200);
-
-  const fetchPosts = async (page: number, force = false) => {
-    if (loading || !hasMore) return; // Ensure only one request is made at a time
-    setLoading(true); // Set loading before starting the request
+  const fetchPosts = async (pageNum: number, force = false) => {
+    if (loading || (!hasMore && !force)) return;
+    
+    setLoading(true);
     const query = {
       post_type: postType ? [postType] : getValues(selectedPostType) ?? ["post"],
       post_status: ["draft", "pending"],
       posts_per_page: postsPerPage,
       taxonomy: optionSelected,
-      page: page,
+      page: pageNum,
     };
 
     try {
@@ -76,43 +40,46 @@ const Sidebar = (
       });
 
       if (data.length < postsPerPage) {
-        setHasMore(false); // No more posts to load
-      }
-      if( optionSelected.length > 0 ) {
+        setHasMore(false);
+      } else {
         setHasMore(true);
-        if( page == 1 ) {
-          setPosts([]);
-        }
+      }
+
+      if (pageNum === 1 || force) {
+        setPosts(data); // Reset posts on new filters
+      } else {
         // @ts-ignore 
         setPosts((prevPosts) => [...prevPosts, ...data]);
-      }else{
-        // @ts-ignore 
-        if(force) {
-          // @ts-ignore 
-          setHasMore(true);
-          setPosts([ ...data]);
-        }else{
-          // @ts-ignore 
-          setPosts((prevPosts) => [...prevPosts, ...data]);
-        }
       }
     } catch (error) {
       console.error("Error fetching posts:", error);
     } finally {
-      setLoading(false); // Reset loading after request completion
+      setLoading(false);
+    }
+  };
+
+  const handleScroll = () => {
+    if (loading || !hasMore) return;
+    
+    const sidebarWrapper = document.getElementById("sidebar-post-wrapper");
+    if (sidebarWrapper) {
+      const { scrollTop, scrollHeight, clientHeight } = sidebarWrapper;
+      if (scrollTop + clientHeight >= scrollHeight - 100) {
+        setPage((prevPage) => prevPage + 1);
+      }
     }
   };
 
   useEffect(() => {
     new Draggable(draggableRef.current, {
       itemSelector: ".fc-event",
-      eventData: function (eventEl) {
+      eventData: (eventEl) => {
         const post = JSON.parse(eventEl.getAttribute("data-event"));
         post._end = post.end;
         return post;
       },
     });
-    
+
     const sidebarWrapper = document.getElementById("sidebar-post-wrapper");
     if (sidebarWrapper) {
       sidebarWrapper.addEventListener("scroll", handleScroll);
@@ -123,18 +90,17 @@ const Sidebar = (
         sidebarWrapper.removeEventListener("scroll", handleScroll);
       }
     };
-  }, [selectedPostType, optionSelected]); // Trigger when filters change
-
+  }, []);
 
   useEffect(() => {
-    fetchPosts(page); // Trigger when page changes
+    fetchPosts(page);
   }, [page]);
 
   useEffect(() => {
     setPage(1);
-    fetchPosts(page, true);
-  }, [optionSelected])
-  
+    setHasMore(true);
+    fetchPosts(1, true);
+  }, [optionSelected]);
 
   return (
     <div id="wpsp-sidebar" className="sidebar" ref={draggableRef}>
@@ -147,7 +113,7 @@ const Sidebar = (
             selectedPostType={selectedPostType} 
             onChange={(value) => {
               setOptionSelected([...value]);
-          }}
+            }}
             showTags 
           />
           <div className="event-wrapper" id="sidebar-post-wrapper">
@@ -191,7 +157,7 @@ const Sidebar = (
       <ModalContent
         modalData={modalData}
         setModalData={openModal}
-        onSubmit={onSubmit}
+        onSubmit={onsubmit}
         selectedPostType={selectedPostType}
         schedule_time={schedule_time}
       />
