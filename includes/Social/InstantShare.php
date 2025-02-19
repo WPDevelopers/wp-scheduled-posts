@@ -555,7 +555,14 @@ class InstantShare
             }
         } else if ($platform == 'linkedin') {
             $linkedin = \WPSP\Helper::get_social_profile(WPSCP_LINKEDIN_OPTION_NAME);
-            $platformKey = !empty( $profileID ) ? array_search($profileID, array_column($linkedin, 'id')) : intval($platformKey);
+            if (($platformKey = array_search($profileID, array_column($linkedin, '__id'))) !== false) {
+                $platformKey = intval($platformKey);
+            } elseif (($platformKey = array_search($profileID, array_column($linkedin, 'id'))) !== false) {
+                $platformKey = intval($platformKey);
+            } else {
+                $platformKey = null; // Or any default value
+            }
+            
             // if disable account then it will be off
             if ($linkedin[$platformKey]->status == false) {
                 wp_die();
