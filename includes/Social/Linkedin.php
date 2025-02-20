@@ -161,7 +161,7 @@ class Linkedin
         $get_share_type =   get_post_meta($post_id, '_linkedin_share_type', true);
         if( $profile->type !== 'organization' && $get_share_type === 'custom' ) {
             $get_all_selected_profile     = get_post_meta($post_id, '_selected_social_profile', true);
-            $check_profile_exists         = Helper::is_profile_exits( $profile->id, $get_all_selected_profile );
+            $check_profile_exists         = Helper::is_profile_exits( isset( $profile->__id ) ? $profile->__id : $profile->id , $get_all_selected_profile );
             if( !$check_profile_exists ) {
                 return;
             }
