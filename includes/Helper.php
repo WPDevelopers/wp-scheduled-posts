@@ -231,11 +231,16 @@ class Helper
 
     public static function get_settings($key)
     {
-        global $wpsp_settings_v5;
+        $wpsp_settings_v5 = json_decode(get_option(WPSP_SETTINGS_NAME, '{}'));
         if (isset($wpsp_settings_v5->{$key})) {
             return $wpsp_settings_v5->{$key};
         }
         return;
+    }
+
+    public static function wpsp_settings_v5()
+    {
+        return json_decode(get_option(WPSP_SETTINGS_NAME, '{}'));
     }
 
     /**
@@ -353,7 +358,7 @@ class Helper
 
 
     public static function update_access_token( $type, $platformKey, $access_token ) {
-        global $wpsp_settings_v5;
+        $wpsp_settings_v5 = self::wpsp_settings_v5();
         $platformOptions = [
             'facebook'  => WPSCP_FACEBOOK_OPTION_NAME,
             'twitter'   => WPSCP_TWITTER_OPTION_NAME,
@@ -379,7 +384,7 @@ class Helper
      */
     public static function get_access_token($type, $platformKey, $access_token = null)
     {
-        global $wpsp_settings_v5;
+        $wpsp_settings_v5 = self::wpsp_settings_v5();
         $token        = [];
         $platformOptions = [
             'facebook'  => WPSCP_FACEBOOK_OPTION_NAME,
@@ -420,7 +425,7 @@ class Helper
      */
     public static function get_profiles($type)
     {
-        global $wpsp_settings_v5;
+        $wpsp_settings_v5 = self::wpsp_settings_v5();
         $platformOptions = [
             'facebook'  => WPSCP_FACEBOOK_OPTION_NAME,
             'twitter'   => WPSCP_TWITTER_OPTION_NAME,
