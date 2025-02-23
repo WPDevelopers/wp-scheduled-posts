@@ -4,7 +4,7 @@ Tags: post schedule, schedule calendar, auto scheduler, auto sharing, social sha
 Requires at least: 4.0
 Tested up to: 6.7
 Requires PHP: 7.2
-Stable tag: 5.2.2
+Stable tag: 5.2.3
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -212,6 +212,16 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 8. Social Templates
 
 == Changelog ==
+
+= 5.2.3 - 2025-02-23 =
+- Fixed: Instagram post formatting issue
+- Fixed: Duplicate draft posts on SchedulePress Calendar
+- Fixed: JSON error while saving a post
+- Fixed: Future-dated posts not publishing properly
+- Fixed: Posts not sharing on LinkedIn profile and page
+- Fixed: Text domain issue
+- Improved: Auto-update for LinkedIn profile and page connection expiration
+- Few minor bug fixes & improvements
 
 = 5.2.2 - 2025-01-27 =
 - Fixed: Post categories were being shared twice on social media.
