@@ -513,6 +513,9 @@ class InstantShare
         // all social platform
         if ($platform == 'facebook') {
             $facebook = \WPSP\Helper::get_social_profile(WPSCP_FACEBOOK_OPTION_NAME);
+			if( empty($profileID) ) {
+                $profileID = !empty($facebook[$platformKey]->id) ? $facebook[$platformKey]->id : null;
+            }
             $platformKey = !empty( $profileID ) ? array_search($profileID, array_column($facebook, 'id')) : intval($platformKey);
             if ($facebook[$platformKey]->status == false) {
                 wp_die();
@@ -534,6 +537,9 @@ class InstantShare
             }
         } else if ($platform == 'twitter') {
             $twitter = \WPSP\Helper::get_social_profile(WPSCP_TWITTER_OPTION_NAME);
+			if( empty($profileID) ) {
+                $profileID = !empty($twitter[$platformKey]->id) ? $twitter[$platformKey]->id : null;
+            }
             $platformKey = !empty( $profileID ) ? array_search($profileID, array_column($twitter, 'id')) : intval($platformKey);
             // if disable account then it will be off
             if ($twitter[$platformKey]->status == false) {
@@ -555,6 +561,9 @@ class InstantShare
             }
         } else if ($platform == 'linkedin') {
             $linkedin = \WPSP\Helper::get_social_profile(WPSCP_LINKEDIN_OPTION_NAME);
+			if( empty($profileID) ) {
+                $profileID = !empty($linkedin[$platformKey]->id) ? $linkedin[$platformKey]->id : null;
+            }
             if (($platformKey = array_search($profileID, array_column($linkedin, '__id'))) !== false) {
                 $platformKey = intval($platformKey);
             } elseif (($platformKey = array_search($profileID, array_column($linkedin, 'id'))) !== false) {
@@ -579,6 +588,9 @@ class InstantShare
             }
         } else if ($platform == 'pinterest') {
             $pinterest = \WPSP\Helper::get_social_profile(WPSCP_PINTEREST_OPTION_NAME);
+			if( empty($profileID) ) {
+                $profileID = !empty($pinterest[$platformKey]->id) ? $pinterest[$platformKey]->id : null;
+            }
             $platformKey = !empty( $profileID ) ? array_search($profileID, array_column($pinterest, 'id')) : intval($platformKey);
             // if disable account then it will be off
             if ($pinterest[$platformKey]->status == false) {
@@ -598,6 +610,9 @@ class InstantShare
             }
         } else if ($platform == 'instagram') {
             $instagram = \WPSP\Helper::get_social_profile(WPSCP_INSTAGRAM_OPTION_NAME);
+			if( empty($profileID) ) {
+                $profileID = !empty($instagram[$platformKey]->id) ? $instagram[$platformKey]->id : null;
+            }
             $platformKey = !empty( $profileID ) ? array_search($profileID, array_column($instagram, 'id')) : intval($platformKey);
             if ($instagram[$platformKey]->status == false) {
                 wp_die();
@@ -619,6 +634,9 @@ class InstantShare
             }
         } else if ($platform == 'medium') {
             $medium = \WPSP\Helper::get_social_profile(WPSCP_MEDIUM_OPTION_NAME);
+			if( empty($profileID) ) {
+                $profileID = !empty($medium[$platformKey]->id) ? $medium[$platformKey]->id : null;
+            }
             $platformKey = !empty( $profileID ) ? array_search($profileID, array_column($medium, 'id')) : intval($platformKey);
             if ($medium[$platformKey]->status == false) {
                 wp_die();
@@ -640,6 +658,9 @@ class InstantShare
             }
         }  else if ($platform == 'threads') {
             $threads = \WPSP\Helper::get_social_profile(WPSCP_THREADS_OPTION_NAME);
+			if( empty($profileID) ) {
+                $profileID = !empty($threads[$platformKey]->id) ? $threads[$platformKey]->id : null;
+            }
             $platformKey = !empty( $profileID ) ? array_search($profileID, array_column($threads, 'id')) : intval($platformKey);
             if ($threads[$platformKey]->status == false) {
                 wp_die();
