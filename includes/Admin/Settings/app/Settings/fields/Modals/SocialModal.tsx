@@ -12,6 +12,9 @@ import Instagram from "./Instagram";
 import {
     useBuilderContext,
 } from "quickbuilder";
+import Threads from "./Threads";
+import apiFetch from "@wordpress/api-fetch";
+import { SweetAlertToaster } from "../../ToasterMsg";
 
 function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfileEditModal = false, setProfileEditModal = null , profileStatus,selectedProfile = [] }) {
     const builderContext = useBuilderContext();
@@ -23,12 +26,15 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
     const [fbGroup, setFbGroup] = useState([]);
     const [pinterestBoards, setPinterestBoards] = useState([]);
     const [instagramProfiles, setInstagramProfiles] = useState([]);
+    const [threadsProfiles, setThreadsProfiles] = useState([]);
     const [responseData, setResponseData] = useState([]);
     const [linkedInData, setLinkedInData] = useState({})
     const [savedProfile,setSavedProfile] = useState(props?.value ?? []);
     const [cashedSectionData, setCashedSectionData] = useState({});
     const [singlePinterestBoard,setSinglePinterestBoard] = useState('');
     const [isErrorMessage, setIsErrorMessage] = useState(false)
+    const [savedProfileId, setSavedProfileId] = useState([]);
+
     let account_type = localStorage.getItem('account_type');
 
     useEffect(() => {
@@ -56,9 +62,10 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
                         }else{
                             setFbPage(response.page);
                             setFbGroup(response.group);
-                        }
+                        }                        
                         setInstagramProfiles(response.profiles)
                         setResponseData([response.data]);
+                        setThreadsProfiles(response.profiles);
                         setLinkedInData(response.linkedin);
                         setPinterestBoards(response.boards);
                     })
@@ -94,6 +101,7 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
                     if (!savedProfile.some((profile) => profile.id === item.id)) {
                         item.status = profileStatus;
                         setSavedProfile((prevItems) => [...prevItems, item]);
+                        setSavedProfileId((prevIds) => [...prevIds, item.id]); // Add ID to savedProfileId
                     }
                 } else {
                     e.target.checked = false;
@@ -121,10 +129,12 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
                         });
                         updatedSavedProfile.push(item);
                         setSavedProfile(updatedSavedProfile);
+                        setSavedProfileId((prevIds) => [...prevIds, item.id]); // Add ID to savedProfileId
                         setIsErrorMessage(false)
                     }else{
                         setIsErrorMessage(false)
                         setSavedProfile((prevItems) => [...prevItems, item]);
+                        setSavedProfileId((prevIds) => [...prevIds, item.id]); // Add ID to savedProfileId
                     }
                 }
             }
@@ -214,11 +224,24 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
         }
     },[isProfileEditModal])
 
-    const addSavedProfile = () => {
+    const addSavedProfile = (event, platform) => {
         setSelectedProfile(savedProfile);
         closeProfileDataModal();
+
+         apiFetch( {
+            path  : 'wp-scheduled-posts/v1/save-profile',
+            method: 'POST',
+            data  : { platform: 'linkedin', profiles : savedProfileId },
+        } ).then( ( res ) => {
+            if( res ) {
+                SweetAlertToaster().fire();
+            }
+        } );
+        
     }
+
     
+
   return (
     <Modal
         isOpen={profileDataModal}
@@ -292,6 +315,13 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
                                 <Instagram
                                     platform={type}
                                     data={instagramProfiles}
+                                    addProfileToggle={addProfileToggle}
+                                    savedProfile={addSavedProfile}
+                                />
+                              ),
+                              threads: (
+                                <Threads
+                                    profiles={threadsProfiles}
                                     addProfileToggle={addProfileToggle}
                                     savedProfile={addSavedProfile}
                                 />

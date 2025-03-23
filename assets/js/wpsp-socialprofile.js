@@ -45,6 +45,7 @@ jQuery(document).ready(function ($) {
         var instagram = jQuery('#wpscpproinstagramis').is(':checked')
         var pinterest = jQuery('#wpscppropinterestis').is(':checked')
         var medium = jQuery('#wpscppromediumis').is(':checked')
+        var threads = jQuery('#wpscpprothreadsis').is(':checked')
         var pinterestBoardType = jQuery("input:radio[name='pinterestboardtype']:checked").val()
         var data = {
             action: 'wpscp_instant_share_fetch_profile',
@@ -56,6 +57,7 @@ jQuery(document).ready(function ($) {
             is_instagram_share: instagram,
             is_pinterest_share: pinterest,
             is_medium_share: medium,
+            is_threads_share: threads,
         }
 
         jQuery.post(ajaxurl, data, function (response, status) {

@@ -2,7 +2,7 @@
 /*
  * Plugin Name: SchedulePress
  * Description: Automate your content workflow with SchedulePress. Take a quick glance at your content planning with Schedule Calendar, Dashboard widget & Sitewide admin bar. Instantly share your posts on social media platforms such as Facebook, Twitter & many more.
- * Version: 5.1.10
+ * Version: 5.2.3
  * Author: WPDeveloper
  * Author URI: https://wpdeveloper.com
  * Text Domain: wp-scheduled-posts
@@ -36,15 +36,19 @@ final class WPSP
 	private function __construct()
 	{
 		$this->define_constants();
-		if( $this->check_pro_compatibility() ) {
-			add_action( 'admin_notices', [$this, 'wpsp_fail_pro_version'], 52 );
-			if(!is_plugin_active( $this->basename ) && $this->check_pro_compatibility('4.3.3', '=')){
-				if( !get_option('wpsp_activated_pro_once')){
-					activate_plugins( $this->basename );
-					add_option('wpsp_activated_pro_once', true, false);
+		add_action('admin_init', function () {
+			if ($this->check_pro_compatibility()) {
+				add_action('admin_notices', [$this, 'wpsp_fail_pro_version'], 52);
+				
+				if (!is_plugin_active($this->basename) && $this->check_pro_compatibility('4.3.3', '=')) {
+					if (!get_option('wpsp_activated_pro_once')) {
+						activate_plugins($this->basename);
+						add_option('wpsp_activated_pro_once', true, false);
+					}
 				}
 			}
-		}
+			$this->set_global_settings();
+		});
 
 		if(version_compare(get_option('wpsp_version'), WPSP_VERSION, '!=')){
 			$this->delete_plugin_update_transient();
@@ -53,11 +57,10 @@ final class WPSP
 		register_activation_hook(__FILE__, [$this, 'activate']);
 		register_deactivation_hook(__FILE__, [$this, 'deactivate']);
 		$this->installer = new WPSP\Installer();
-		add_action('plugins_loaded', [$this, 'init_plugin']);
+		add_action('init', [$this, 'init_plugin']);
 		add_action('wp_loaded', [$this, 'run_migrator']);
 		add_action('init', [$this, 'load_calendar']);
 		add_filter('jwt_auth_whitelist', array($this, 'whitelist_API'));
-		$this->set_global_settings();
 	}
 
 	public static function init()
@@ -75,7 +78,7 @@ final class WPSP
 		/**
 		 * Defines CONSTANTS for Whole plugins.
 		 */
-		define('WPSP_VERSION', '5.1.10');
+		define('WPSP_VERSION', '5.2.3');
 		define('WPSP_SETTINGS_NAME_OLD', 'wpsp_settings');
 		define('WPSP_SETTINGS_NAME', 'wpsp_settings_v5');
 		define('WPSP_PLUGIN_FILE', __FILE__);

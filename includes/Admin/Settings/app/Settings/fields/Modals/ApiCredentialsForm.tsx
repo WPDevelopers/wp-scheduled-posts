@@ -85,7 +85,7 @@ const ApiCredentialsForm = ({ props, platform, requestHandler, appInfo = [] }) =
                 </div>
             )}
             <input type="hidden" name="tempmodaltype" value="twitter" />
-            {(isManual || platform == 'instagram' || platform == "facebook" || platform == "twitter") && (
+            {(isManual || platform == 'instagram' || platform == "facebook" || platform == "twitter" || platform == 'threads') && (
               <form onSubmit={onSubmitHandler}>
                   <div className="form-group">
                       <label htmlFor="">{ __('Redirect URI:','wp-scheduled-posts') }</label>
