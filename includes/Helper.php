@@ -597,5 +597,21 @@ class Helper
         return trim($plain_text);
     }
 
+     /**
+     * Remove css from text
+     *
+     * @param [type] $text
+     * @return string
+     */
+    public static function remove_css_from_text($text) {
+        // Remove CSS block comments (/* ... */)
+        $text = preg_replace('/\/\*[\s\S]*?\*\//', '', $text);
+        // Remove CSS rules inside `{}` including selectors
+        $text = preg_replace('/[^\{\}]+\{[\s\S]*?\}/', '', $text);
+        // Remove extra blank lines caused by removed CSS
+        $text = preg_replace('/\n\s*\n/', "\n", $text);
+        return trim($text);
+    }
+
 }
 

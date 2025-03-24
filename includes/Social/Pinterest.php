@@ -14,6 +14,8 @@ class Pinterest
     private $template_structure;
     private $note_limit;
     private $post_share_limit;
+    private $remove_css_from_content;
+
 
     public function __construct()
     {
@@ -25,7 +27,8 @@ class Pinterest
         $this->template_structure = (isset($settings['template_structure']) ? $settings['template_structure'] : '');
         $this->note_limit = (isset($settings['note_limit']) ? $settings['note_limit'] : 500);
         $this->post_share_limit = (isset($settings['post_share_limit']) ? $settings['post_share_limit'] : 0);
-
+        $this->remove_css_from_content = (isset($settings['remove_css_from_content']) ? $settings['remove_css_from_content'] : true);
+        add_filter('wpsp_social_share_desc', [ $this, 'wpsp_remove_css_from_desc' ], 10, 2);
     }
 
     public function instance()
@@ -175,7 +178,9 @@ class Pinterest
             $desc,
             '',
             $hashTags,
-            $this->note_limit
+            $this->note_limit,
+            null,
+            'pinterest'
         );
         // main arguments
         $pinterest_create_args = array(
@@ -368,5 +373,12 @@ class Pinterest
         } else {
             wp_send_json_success($response['log']);
         }
+    }
+
+    public function wpsp_remove_css_from_desc($desc, $platform) {
+        if( $platform == 'pinterest' && $this->remove_css_from_content ) {
+            return Helper::remove_css_from_text($desc);
+        }
+        return $desc;
     }
 }

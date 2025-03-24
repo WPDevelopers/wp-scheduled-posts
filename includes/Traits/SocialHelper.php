@@ -139,6 +139,7 @@ trait SocialHelper
         }
 
         if (!empty($desc) && strpos($template_structure, '{content}') !== false) {
+            $desc = apply_filters('wpsp_social_share_desc', $desc, $platform);
             if ( strlen($desc) > $post_content_limit ) {
                 $post_content = substr($desc, 0, $post_content_limit - 3 ) . '...';
             }else{
@@ -155,4 +156,7 @@ trait SocialHelper
         $template_structure = str_replace('::::', $replace_value, $template_structure);
         return trim($template_structure);
     }
+
+   
+    
 }
