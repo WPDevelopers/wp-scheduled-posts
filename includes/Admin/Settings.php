@@ -757,13 +757,13 @@ class Settings {
                                                                     'label'         => __('Facebook Meta Data', 'wp-scheduled-posts'),
                                                                     'info'          => __('Add Open Graph metadata to your site head section and other social networks use this data when your pages are shared.', 'wp-scheduled-posts'),
                                                                     'priority'      => 5,
-                                                                    'default'       => false,
+                                                                    'default'       => true,
                                                                 ],
                                                                 'content_type' => [
                                                                     'label'   => __('Content Type:','wp-scheduled-posts'),
                                                                     'name'    => "content_type",
                                                                     'type'    => "radio-card",
-                                                                    'default' => "link",
+                                                                    'default' => "statuswithlink",
                                                                     'priority'=> 6,
                                                                     'options' => [
                                                                         [
