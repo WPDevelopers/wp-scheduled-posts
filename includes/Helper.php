@@ -587,30 +587,17 @@ class Helper
     }
 
      // Function to clean and render WordPress block content
-     public static function format_post_content($post_id) {
+     public static function format_post_content($post_id, $remove_css = false) {
         // Get the post content
         $content = get_the_content(null, false, $post_id);
         $content = apply_filters('the_content', $content);
+        if( $remove_css ) {
+            $content = preg_replace('/<style.*?>.*?<\/style>/is', '', $content);
+        }
         $content = str_replace(['<br>', '<br />'], "\n", $content);
         $content = str_replace(['</p>', '</div>', '</li>', '</ul>', '</ol>'], "\n", $content);
         $plain_text = strip_tags($content);
         return trim($plain_text);
-    }
-
-     /**
-     * Remove css from text
-     *
-     * @param [type] $text
-     * @return string
-     */
-    public static function remove_css_from_text($text) {
-        // Remove CSS block comments (/* ... */)
-        $text = preg_replace('/\/\*[\s\S]*?\*\//', '', $text);
-        // Remove CSS rules inside `{}` including selectors
-        $text = preg_replace('/[^\{\}]+\{[\s\S]*?\}/', '', $text);
-        // Remove extra blank lines caused by removed CSS
-        $text = preg_replace('/\n\s*\n/', "\n", $text);
-        return trim($text);
     }
 
 }

@@ -29,7 +29,6 @@ class Instagram
         $this->status_limit = (isset($settings['note_limit']) ? $settings['note_limit'] : 2100);
         $this->post_share_limit = (isset($settings['post_share_limit']) ? $settings['post_share_limit'] : 0);
         $this->remove_css_from_content = (isset($settings['remove_css_from_content']) ? $settings['remove_css_from_content'] : true);
-        add_filter('wpsp_social_share_desc', [ $this, 'wpsp_remove_css_from_desc' ], 10, 2);
     }
 
     public function instance()
@@ -111,7 +110,7 @@ class Instagram
             $desc = wp_strip_all_tags($post_details->post_excerpt);
         } else {
             // $desc = wp_strip_all_tags($post_details->post_content);
-            $desc = Helper::format_post_content($post_id);
+            $desc =  $this->remove_css_from_content ? Helper::format_post_content($post_id, true) : Helper::format_post_content($post_id);
             if( is_visual_composer_post($post_id) && class_exists('WPBMap') ){
                 \WPBMap::addAllMappedShortcodes();
                 $desc = Helper::strip_all_html_and_keep_single_breaks(do_shortcode($desc));
@@ -326,12 +325,5 @@ class Instagram
         } else {
             wp_send_json_success($response['log']);
         }
-    }
-
-    public function wpsp_remove_css_from_desc($desc, $platform) {
-        if( $platform == 'instagram' && $this->remove_css_from_content ) {
-            return Helper::remove_css_from_text($desc);
-        }
-        return $desc;
     }
 }
