@@ -49,7 +49,7 @@ export default function Instagram({ platform, data, addProfileToggle, savedProfi
                 className="wpsp-modal-save-account"
                 onClick={(event) => {
                   event.preventDefault();
-                  savedProfile(event)
+                  savedProfile(event, platform)
                 }}
                 >{ __( 'Save','wp-scheduled-posts' ) }</button>
             </div>

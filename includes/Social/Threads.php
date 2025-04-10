@@ -15,6 +15,7 @@ class Threads
     private $template_structure;
     private $status_limit;
     private $post_share_limit;
+    private $remove_css_from_content;
 
     public function __construct()
     {
@@ -25,6 +26,7 @@ class Threads
         $this->template_structure = (isset($settings['template_structure']) ? $settings['template_structure'] : '{title}{content}{url}{tags}');
         $this->status_limit = (isset($settings['note_limit']) ? $settings['note_limit'] : 490);
         $this->post_share_limit = (isset($settings['post_share_limit']) ? $settings['post_share_limit'] : 0);
+        $this->remove_css_from_content = (isset($settings['remove_css_from_content']) ? $settings['remove_css_from_content'] : true);
     }
 
     public function instance()
@@ -113,7 +115,7 @@ class Threads
         }
 
 
-        $hashTags = (($this->getPostHasTags($post_id) != false) ? $this->getPostHasTags($post_id) : '');
+        $hashTags = (($this->getPostHasTags($post_id, 'threads', $this->is_category_as_tags) != false) ? $this->getPostHasTags($post_id, 'threads', $this->is_category_as_tags) : '');
         if ($this->is_category_as_tags == true) {
             $hashTags .= ' ' . $this->getPostHasCats($post_id);
         }
@@ -123,7 +125,9 @@ class Threads
             $desc,
             $post_link,
             $hashTags,
-            $this->status_limit
+            $this->status_limit,
+            null,
+            'threads'
         );
         return $formatedText;
     }
@@ -169,7 +173,16 @@ class Threads
             $errorFlag = false;
             $response = '';
             $text = $this->get_share_content_args($post_id);
-            $image_url = get_the_post_thumbnail_url($post_id, 'full');
+            $image_url = null;
+            if( has_post_thumbnail($post_id) ) {
+                $image_url = get_the_post_thumbnail_url($post_id, 'full');
+            }else{
+                $featured_image_id = Helper::get_featured_image_id_from_request();
+                if( !empty( $featured_image_id ) ) {
+                    $image_url = wp_get_attachment_image_url($featured_image_id, 'full');
+                }
+            }
+
             // Profile api
             if ($type === 'profile') {
                 try {
@@ -319,9 +332,12 @@ class Threads
      * @since 2.5.0
      * @return ajax response
      */
-    public function socialMediaInstantShare($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key)
+    public function socialMediaInstantShare($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key, $is_share_on_publish)
     {
         $response = $this->remote_post($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key, true);
+        if( $is_share_on_publish ) {
+            return;
+        }
         if ($response['success'] == false) {
             wp_send_json_error($response['log']);
         } else {

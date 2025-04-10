@@ -21,8 +21,47 @@ class Settings {
     public function load_dependency() {
         new Settings\Assets($this->slug, $this);
         add_action('wpsp_save_settings_default_value', array($this, 'save_option_value'));
+        add_filter('wpsp_settings_before_save', [$this, 'wpsp_update_settings']);
     }
 
+    public function wpsp_update_settings($settings)
+    {
+        $limits = [
+            'facebook' => [
+                'status_limit' => 63206,
+            ],
+            'twitter' => [
+                'tweet_limit' => 280,
+            ],
+            'linkedin' => [
+                'status_limit' => 1300,
+            ],
+            'pinterest' => [
+                'note_limit' => 500,
+            ],
+            'instagram' => [
+                'note_limit' => 2100,
+            ],
+            'medium' => [
+                'note_limit' => 45000,
+            ],
+            'threads' => [
+                'note_limit' => 480,
+            ],
+        ];
+        foreach ($limits as $platform => $platform_limits) {
+            if (isset($settings['social_templates'][$platform]) && is_array($settings['social_templates'][$platform])) {
+                foreach ($platform_limits as $key => $limit) {
+                    if (isset($settings['social_templates'][$platform][$key]) && $settings['social_templates'][$platform][$key] > $limit) {
+                        $settings['social_templates'][$platform][$key] = $limit;
+                    }
+                }
+            }
+        }
+        return $settings;
+    }
+    
+    
     /**
      * Convert `fields` associative array to numeric array recursively.
      * @todo improve implementation.
@@ -314,6 +353,51 @@ class Settings {
                                     'priority'    => 40,
                                     'default'     => false,
                                     'is_pro'      => true,
+                                ],
+                                'post_publishing_and_sharing_option' => [
+                                    'name'          => 'post_publishing_and_sharing_option',
+                                    'type'          => 'section',
+                                    'label'         => __('Enhanced Post Publishing and Sharing Options:', 'wp-scheduled-posts'),
+                                    'collapsible'   => true,
+                                    'collapsed'     => false,
+                                    'classes'       => 'section-collapsible',
+                                    'default'       => 1,
+                                    'priority'      => 40,
+                                    'fields'        => [
+                                        'set_future_date_on_post_publish' => [
+                                            'name'        => 'set_future_date_on_post_publish',
+                                            'type'        => 'toggle',
+                                            'label'       => __('Publish Now with Future Date', 'wp-scheduled-posts'),
+                                            'description' => __('Upgrade to Premium', 'wp-scheduled-posts'),
+                                            'info'        => __('Toggle to enable the option to publish the post now while showing your selected future date.', 'wp-scheduled-posts'),
+                                            'priority'    => 10,
+                                            'default'     => false,
+                                            'is_pro'      => true,
+                                        ],
+                                        'is_share_on_post_publish' => [
+                                            'name'        => 'is_share_on_post_publish',
+                                            'type'        => 'toggle',
+                                            'label'       => __('Auto-Share upon Publishing', 'wp-scheduled-posts'),
+                                            'description' => __('Upgrade to Premium', 'wp-scheduled-posts'),
+                                            'priority'    => 20,
+                                            'default'     => false,
+                                            'is_pro'      => true,
+                                        ],
+                                        'allow_post_type_for_future_date_and_published_share'  => [
+                                            'name'     => 'allow_post_type_for_future_date_and_published_share',
+                                            'label'    => __('Show Post Types:', 'wp-scheduled-posts'),
+                                            'type'     => 'checkbox-select',
+                                            'multiple' => true,
+                                            'priority' => 55,
+                                            'icon_classes'  => 'wpsp-icon wpsp-close',
+                                            'option'  => self::normalize_options(\WPSP\Helper::get_all_post_type()),
+                                            'default'  => [ 'post' ],
+                                            'rules'       => Rules::logicalRule([
+                                                Rules::is( 'set_future_date_on_post_publish', true ),
+                                                Rules::is( 'is_share_on_post_publish', true ),
+                                            ], 'OR'),
+                                        ],
+                                    ]
                                 ],
                             ],
                         ],
@@ -682,13 +766,13 @@ class Settings {
                                                                     'label'         => __('Facebook Meta Data', 'wp-scheduled-posts'),
                                                                     'info'          => __('Add Open Graph metadata to your site head section and other social networks use this data when your pages are shared.', 'wp-scheduled-posts'),
                                                                     'priority'      => 5,
-                                                                    'default'       => false,
+                                                                    'default'       => true,
                                                                 ],
                                                                 'content_type' => [
                                                                     'label'   => __('Content Type:','wp-scheduled-posts'),
                                                                     'name'    => "content_type",
                                                                     'type'    => "radio-card",
-                                                                    'default' => "link",
+                                                                    'default' => "statuswithlink",
                                                                     'priority'=> 6,
                                                                     'options' => [
                                                                         [
@@ -758,6 +842,14 @@ class Settings {
                                                                     'priority'      => 21,
                                                                     'default'       => 0,
                                                                     'help'          => __('Keep zero for no limit', 'wp-scheduled-posts'),
+                                                                ],
+                                                                'remove_css_from_content'  => [
+                                                                    'id'            => 'facebook_remove_css_from_content',
+                                                                    'name'          => 'remove_css_from_content',
+                                                                    'type'          => 'toggle',
+                                                                    'label'         => __('Remove CSS from content', 'wp-scheduled-posts'),
+                                                                    'priority'      => 30,
+                                                                    'default'       => true,
                                                                 ],
                                                             ]
                                                         ]
@@ -848,6 +940,14 @@ class Settings {
                                                                     'default'       => 0,
                                                                     'help'          => __('Keep zero for no limit', 'wp-scheduled-posts'),
                                                                 ],
+                                                                // 'remove_css_from_content'  => [
+                                                                //     'id'            => 'twitter_remove_css_from_content',
+                                                                //     'name'          => 'remove_css_from_content',
+                                                                //     'type'          => 'toggle',
+                                                                //     'label'         => __('Remove CSS from content', 'wp-scheduled-posts'),
+                                                                //     'priority'      => 30,
+                                                                //     'default'       => true,
+                                                                // ],
                                                             ]
                                                         ]
 
@@ -950,6 +1050,14 @@ class Settings {
                                                                     'default'       => 0,
                                                                     'help'          => __('Keep zero for no limit', 'wp-scheduled-posts'),
                                                                 ],
+                                                                // 'remove_css_from_content'  => [
+                                                                //     'id'            => 'linkedin_remove_css_from_content',
+                                                                //     'name'          => 'remove_css_from_content',
+                                                                //     'type'          => 'toggle',
+                                                                //     'label'         => __('Remove CSS from content', 'wp-scheduled-posts'),
+                                                                //     'priority'      => 30,
+                                                                //     'default'       => true,
+                                                                // ],
                                                             ]
                                                         ]
 
@@ -1040,6 +1148,14 @@ class Settings {
                                                                     'default'       => 0,
                                                                     'help'          => __('Keep zero for no limit', 'wp-scheduled-posts'),
                                                                 ],
+                                                                // 'remove_css_from_content'  => [
+                                                                //     'id'            => 'pinterest_remove_css_from_content',
+                                                                //     'name'          => 'remove_css_from_content',
+                                                                //     'type'          => 'toggle',
+                                                                //     'label'         => __('Remove CSS from content', 'wp-scheduled-posts'),
+                                                                //     'priority'      => 30,
+                                                                //     'default'       => true,
+                                                                // ],
                                                             ]
                                                         ]
 
@@ -1120,6 +1236,14 @@ class Settings {
                                                                     'priority'      => 21,
                                                                     'default'       => 0,
                                                                     'help'          => __('Keep zero for no limit', 'wp-scheduled-posts'),
+                                                                ],
+                                                                'remove_css_from_content'  => [
+                                                                    'id'            => 'instagram_remove_css_from_content',
+                                                                    'name'          => 'remove_css_from_content',
+                                                                    'type'          => 'toggle',
+                                                                    'label'         => __('Remove CSS from content', 'wp-scheduled-posts'),
+                                                                    'priority'      => 30,
+                                                                    'default'       => true,
                                                                 ],
                                                             ]
                                                         ]
@@ -1202,6 +1326,14 @@ class Settings {
                                                                     'default'       => 0,
                                                                     'help'          => __('Keep zero for no limit', 'wp-scheduled-posts'),
                                                                 ],
+                                                                // 'remove_css_from_content'  => [
+                                                                //     'id'            => 'medium_remove_css_from_content',
+                                                                //     'name'          => 'remove_css_from_content',
+                                                                //     'type'          => 'toggle',
+                                                                //     'label'         => __('Remove CSS from content', 'wp-scheduled-posts'),
+                                                                //     'priority'      => 30,
+                                                                //     'default'       => true,
+                                                                // ],
                                                             ]
                                                         ]
 
@@ -1283,6 +1415,14 @@ class Settings {
                                                                     'default'       => 0,
                                                                     'help'          => __('Keep zero for no limit', 'wp-scheduled-posts'),
                                                                 ],
+                                                                // 'remove_css_from_content'  => [
+                                                                //     'id'            => 'threads_remove_css_from_content',
+                                                                //     'name'          => 'remove_css_from_content',
+                                                                //     'type'          => 'toggle',
+                                                                //     'label'         => __('Remove CSS from content', 'wp-scheduled-posts'),
+                                                                //     'priority'      => 30,
+                                                                //     'default'       => true,
+                                                                // ],
                                                             ]
                                                         ]
                                                     ]

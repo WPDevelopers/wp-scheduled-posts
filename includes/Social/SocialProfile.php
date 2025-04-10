@@ -542,6 +542,8 @@ class SocialProfile
                     $access_token = $accessToken->access_token;
                     if( !empty( $accessToken->refresh_token ) ) {
                         $refresh_token = $accessToken->refresh_token;
+                        $expires_in    = time() + $accessToken->expires_in;
+                        $rt_expires_in = time() + $accessToken->refresh_token_expires_in;
                     }
                 }
 
@@ -553,6 +555,7 @@ class SocialProfile
                 }
                 $pages = apply_filters('wpsp_filter_linkedin_pages', $pages, $profiles);
                 $info = array(
+                    '__id'          => time(),
                     'app_id'        => $app_id,
                     'app_secret'    => $app_secret,
                     'status'        => true,

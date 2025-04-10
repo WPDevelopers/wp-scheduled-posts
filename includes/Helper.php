@@ -214,6 +214,7 @@ class Helper
     {
         global $current_user;
         $allow_user_by_role = \WPSP\Helper::get_settings('allow_user_by_role');
+        if (empty($current_user->ID)) return false;
         $allow_user_by_role = (is_array($allow_user_by_role) && count($allow_user_by_role) > 0) ? $allow_user_by_role : array('administrator');
         if ( is_super_admin($current_user->ID) ) return true;
         if (!is_array($current_user->roles)) return false;
@@ -230,11 +231,16 @@ class Helper
 
     public static function get_settings($key)
     {
-        global $wpsp_settings_v5;
+        $wpsp_settings_v5 = json_decode(get_option(WPSP_SETTINGS_NAME, '{}'));
         if (isset($wpsp_settings_v5->{$key})) {
             return $wpsp_settings_v5->{$key};
         }
         return;
+    }
+
+    public static function wpsp_settings_v5()
+    {
+        return json_decode(get_option(WPSP_SETTINGS_NAME, '{}'));
     }
 
     /**
@@ -352,7 +358,7 @@ class Helper
 
 
     public static function update_access_token( $type, $platformKey, $access_token ) {
-        global $wpsp_settings_v5;
+        $wpsp_settings_v5 = self::wpsp_settings_v5();
         $platformOptions = [
             'facebook'  => WPSCP_FACEBOOK_OPTION_NAME,
             'twitter'   => WPSCP_TWITTER_OPTION_NAME,
@@ -378,7 +384,7 @@ class Helper
      */
     public static function get_access_token($type, $platformKey, $access_token = null)
     {
-        global $wpsp_settings_v5;
+        $wpsp_settings_v5 = self::wpsp_settings_v5();
         $token        = [];
         $platformOptions = [
             'facebook'  => WPSCP_FACEBOOK_OPTION_NAME,
@@ -419,7 +425,7 @@ class Helper
      */
     public static function get_profiles($type)
     {
-        global $wpsp_settings_v5;
+        $wpsp_settings_v5 = self::wpsp_settings_v5();
         $platformOptions = [
             'facebook'  => WPSCP_FACEBOOK_OPTION_NAME,
             'twitter'   => WPSCP_TWITTER_OPTION_NAME,
@@ -600,5 +606,37 @@ class Helper
             return 'Invalid timezone format';  // Return an error if the timezone is invalid
         }
     }
+
+     /**
+     * Retrieves the meta data.
+     *
+     * @return array Selected social profiles or an empty array.
+     */
+    public static function get_featured_image_id_from_request()
+    {
+        if (defined('REST_REQUEST') && REST_REQUEST) {
+            $raw_input = file_get_contents('php://input');
+            $decoded_input = json_decode($raw_input, true);
+
+            return $decoded_input['featured_media'];
+        }
+
+        return null;
+    }
+
+     // Function to clean and render WordPress block content
+     public static function format_post_content($post_id, $remove_css = false) {
+        // Get the post content
+        $content = get_the_content(null, false, $post_id);
+        $content = apply_filters('the_content', $content);
+        if( $remove_css ) {
+            $content = preg_replace('/<style.*?>.*?<\/style>/is', '', $content);
+        }
+        $content = str_replace(['<br>', '<br />'], "\n", $content);
+        $content = str_replace(['</p>', '</div>', '</li>', '</ul>', '</ol>'], "\n", $content);
+        $plain_text = strip_tags($content);
+        return trim($plain_text);
+    }
+
 }
 

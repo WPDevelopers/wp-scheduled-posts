@@ -17,6 +17,7 @@ class InstantShare
         add_action('wp_ajax_wpscp_instant_social_single_profile_share', array($this, 'instant_social_single_profile_share'));
         add_action('wpsp_instant_social_single_profile_share', array($this, 'instant_social_single_profile_share'));
     }
+
     public function instant_share_metabox()
     {
         $allow_post_types = \WPSP\Helper::get_all_allowed_post_type();
@@ -481,6 +482,9 @@ class InstantShare
 
     public function instant_social_single_profile_share($params)
     {
+        if( !wp_doing_ajax() ) {
+            $_GET = $params;
+        }
         // Verify nonce
         $nonce = sanitize_text_field($_GET['nonce']);
         if (!wp_verify_nonce($nonce, 'wpscp-pro-social-profile')) {
@@ -496,6 +500,7 @@ class InstantShare
 
         $postid = intval($_GET['postid']);
         $platform = (isset($_GET['platform']) ? sanitize_text_field($_GET['platform']) : '');
+        $is_share_on_publish = (isset($_GET['share_on_publish']) ? $_GET['share_on_publish'] : false);
         $profileID = (isset($_GET['id']) ? sanitize_text_field($_GET['id']) : '');
         $platformKey = (isset($_GET['platformKey']) ? sanitize_text_field($_GET['platformKey']) : '');
         $pinterest_board_type = (isset($_GET['pinterest_board_type']) ? sanitize_text_field($_GET['pinterest_board_type']) : '');
@@ -505,9 +510,12 @@ class InstantShare
         if( !empty( $pinterestCustomSectionName[0] ) ) {
             $pinterestSectionName = $pinterestCustomSectionName[0];
         }
-        // all social platfrom
+        // all social platform
         if ($platform == 'facebook') {
             $facebook = \WPSP\Helper::get_social_profile(WPSCP_FACEBOOK_OPTION_NAME);
+			if( empty($profileID) ) {
+                $profileID = !empty($facebook[$platformKey]->id) ? $facebook[$platformKey]->id : null;
+            }
             $platformKey = !empty( $profileID ) ? array_search($profileID, array_column($facebook, 'id')) : intval($platformKey);
             if ($facebook[$platformKey]->status == false) {
                 wp_die();
@@ -521,11 +529,17 @@ class InstantShare
                 $facebook[$platformKey]->type,
                 $facebook[$platformKey]->id,
                 $postid,
-                $platformKey
+                $platformKey,
+                $is_share_on_publish
             );
-            wp_die();
+            if( !$is_share_on_publish ) {
+                wp_die();
+            }
         } else if ($platform == 'twitter') {
             $twitter = \WPSP\Helper::get_social_profile(WPSCP_TWITTER_OPTION_NAME);
+			if( empty($profileID) ) {
+                $profileID = !empty($twitter[$platformKey]->id) ? $twitter[$platformKey]->id : null;
+            }
             $platformKey = !empty( $profileID ) ? array_search($profileID, array_column($twitter, 'id')) : intval($platformKey);
             // if disable account then it will be off
             if ($twitter[$platformKey]->status == false) {
@@ -539,12 +553,25 @@ class InstantShare
                 $twitter[$platformKey]->oauth_token,
                 $twitter[$platformKey]->oauth_token_secret,
                 $postid,
-                $platformKey
+                $platformKey,
+                $is_share_on_publish
             );
-            wp_die();
+            if( !$is_share_on_publish ) {
+                wp_die();
+            }
         } else if ($platform == 'linkedin') {
             $linkedin = \WPSP\Helper::get_social_profile(WPSCP_LINKEDIN_OPTION_NAME);
-            $platformKey = !empty( $profileID ) ? array_search($profileID, array_column($linkedin, 'id')) : intval($platformKey);
+			if( empty($profileID) ) {
+                $profileID = !empty($linkedin[$platformKey]->id) ? $linkedin[$platformKey]->id : null;
+            }
+            if (($platformKey = array_search($profileID, array_column($linkedin, '__id'))) !== false) {
+                $platformKey = intval($platformKey);
+            } elseif (($platformKey = array_search($profileID, array_column($linkedin, 'id'))) !== false) {
+                $platformKey = intval($platformKey);
+            } else {
+                $platformKey = null; // Or any default value
+            }
+            
             // if disable account then it will be off
             if ($linkedin[$platformKey]->status == false) {
                 wp_die();
@@ -553,11 +580,17 @@ class InstantShare
             $linkedinshare = new \WPSP\Social\Linkedin();
             $linkedinshare->socialMediaInstantShare(
                 $postid,
-                $platformKey
+                $platformKey,
+                $is_share_on_publish,
             );
-            wp_die();
+            if( !$is_share_on_publish ) {
+                wp_die();
+            }
         } else if ($platform == 'pinterest') {
             $pinterest = \WPSP\Helper::get_social_profile(WPSCP_PINTEREST_OPTION_NAME);
+			if( empty($profileID) ) {
+                $profileID = !empty($pinterest[$platformKey]->id) ? $pinterest[$platformKey]->id : null;
+            }
             $platformKey = !empty( $profileID ) ? array_search($profileID, array_column($pinterest, 'id')) : intval($platformKey);
             // if disable account then it will be off
             if ($pinterest[$platformKey]->status == false) {
@@ -569,11 +602,17 @@ class InstantShare
                 $postid,
                 ($pinterest_board_type === "custom" ? $pinterestBoardName : $pinterest[$platformKey]->default_board_name),
                 ($pinterest_board_type === "custom" ? $pinterestSectionName : $pinterest[$platformKey]->defaultSection),
-                $platformKey
+                $platformKey,
+                $is_share_on_publish,
             );
-            wp_die();
+            if( !$is_share_on_publish ) {
+                wp_die();
+            }
         } else if ($platform == 'instagram') {
             $instagram = \WPSP\Helper::get_social_profile(WPSCP_INSTAGRAM_OPTION_NAME);
+			if( empty($profileID) ) {
+                $profileID = !empty($instagram[$platformKey]->id) ? $instagram[$platformKey]->id : null;
+            }
             $platformKey = !empty( $profileID ) ? array_search($profileID, array_column($instagram, 'id')) : intval($platformKey);
             if ($instagram[$platformKey]->status == false) {
                 wp_die();
@@ -587,11 +626,17 @@ class InstantShare
                 $instagram[$platformKey]->type,
                 $instagram[$platformKey]->id,
                 $postid,
-                $platformKey
+                $platformKey,
+                $is_share_on_publish,
             );
-            wp_die();
+            if( !$is_share_on_publish ) {
+                wp_die();
+            }
         } else if ($platform == 'medium') {
             $medium = \WPSP\Helper::get_social_profile(WPSCP_MEDIUM_OPTION_NAME);
+			if( empty($profileID) ) {
+                $profileID = !empty($medium[$platformKey]->id) ? $medium[$platformKey]->id : null;
+            }
             $platformKey = !empty( $profileID ) ? array_search($profileID, array_column($medium, 'id')) : intval($platformKey);
             if ($medium[$platformKey]->status == false) {
                 wp_die();
@@ -606,10 +651,16 @@ class InstantShare
                 $postid,
                 $platformKey,
                 $medium[$platformKey]->id,
+                $is_share_on_publish,
             );
-            wp_die();
+            if( !$is_share_on_publish ) {
+                wp_die();
+            }
         }  else if ($platform == 'threads') {
             $threads = \WPSP\Helper::get_social_profile(WPSCP_THREADS_OPTION_NAME);
+			if( empty($profileID) ) {
+                $profileID = !empty($threads[$platformKey]->id) ? $threads[$platformKey]->id : null;
+            }
             $platformKey = !empty( $profileID ) ? array_search($profileID, array_column($threads, 'id')) : intval($platformKey);
             if ($threads[$platformKey]->status == false) {
                 wp_die();
@@ -623,8 +674,11 @@ class InstantShare
                 $threads[$platformKey]->id,
                 $postid,
                 $platformKey,
+                $is_share_on_publish,
             );
-            wp_die();
+            if( !$is_share_on_publish ) {
+                wp_die();
+            }
         } else {
             wp_send_json_error(__('Sorry, your requested platform integration is not added.', 'wp-scheduled-posts'));
             wp_die();

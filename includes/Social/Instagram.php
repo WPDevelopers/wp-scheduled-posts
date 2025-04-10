@@ -15,6 +15,7 @@ class Instagram
     private $template_structure;
     private $status_limit;
     private $post_share_limit;
+    private $remove_css_from_content;
 
     public function __construct()
     {
@@ -27,6 +28,7 @@ class Instagram
         $this->template_structure = (isset($settings['template_structure']) ? $settings['template_structure'] : '{title}{content}{url}{tags}');
         $this->status_limit = (isset($settings['note_limit']) ? $settings['note_limit'] : 2100);
         $this->post_share_limit = (isset($settings['post_share_limit']) ? $settings['post_share_limit'] : 0);
+        $this->remove_css_from_content = (isset($settings['remove_css_from_content']) ? $settings['remove_css_from_content'] : true);
     }
 
     public function instance()
@@ -107,7 +109,8 @@ class Instagram
         if ($this->content_source === 'excerpt' && has_excerpt($post_details->ID)) {
             $desc = wp_strip_all_tags($post_details->post_excerpt);
         } else {
-            $desc = wp_strip_all_tags($post_details->post_content);
+            // $desc = wp_strip_all_tags($post_details->post_content);
+            $desc =  $this->remove_css_from_content ? Helper::format_post_content($post_id, true) : Helper::format_post_content($post_id);
             if( is_visual_composer_post($post_id) && class_exists('WPBMap') ){
                 \WPBMap::addAllMappedShortcodes();
                 $desc = Helper::strip_all_html_and_keep_single_breaks(do_shortcode($desc));
@@ -115,7 +118,7 @@ class Instagram
         }
 
 
-        $hashTags = (($this->getPostHasTags($post_id) != false) ? $this->getPostHasTags($post_id) : '');
+        $hashTags = (($this->getPostHasTags($post_id, 'instagram', $this->is_category_as_tags) != false) ? $this->getPostHasTags($post_id, 'instagram', $this->is_category_as_tags) : '');
         if ($this->is_category_as_tags == true) {
             $hashTags .= ' ' . $this->getPostHasCats($post_id);
         }
@@ -127,7 +130,9 @@ class Instagram
             $desc,
             $post_link,
             $hashTags,
-            $this->status_limit
+            $this->status_limit,
+            null,
+            'instagram'
         );
         $linkData = [
             'caption'   => $formatedText,
@@ -136,6 +141,7 @@ class Instagram
         
         return $linkData;
     }
+    
 
     public function get_image_url( $post ) {
         $socialShareImage = get_post_meta($post->ID, '_wpscppro_custom_social_share_image', true);
@@ -386,9 +392,12 @@ class Instagram
      * @since 2.5.0
      * @return ajax response
      */
-    public function socialMediaInstantShare($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key)
+    public function socialMediaInstantShare($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key,$is_share_on_publish)
     {
         $response = $this->remote_post($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key, true);
+        if( $is_share_on_publish ) {
+            return;
+        }
         if ($response['success'] == false) {
             wp_send_json_error($response['log']);
         } else {

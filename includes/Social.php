@@ -3,6 +3,9 @@
 namespace WPSP;
 
 use WPSP\Social\ReconnectHandler;
+use myPHPNotes\LinkedIn;
+use DirkGroenen\Pinterest\Pinterest;
+use WPSP\Social\SocialReconnection;
 
 class Social
 {
@@ -67,6 +70,7 @@ class Social
 
         // Social profile reconnection process handler
         new ReconnectHandler;
+        new SocialReconnection();
     }
     public function socialProfile() {
         if (!$this->social_profile) {
@@ -149,7 +153,7 @@ class Social
      */
     public function instant_social_share()
     {
-		if (!$this->instantShare) {
+		if (!$this->instantShare && Helper::is_user_allow()) {
 			$this->instantShare = new Social\InstantShare();
 		}
 		return $this->instantShare;

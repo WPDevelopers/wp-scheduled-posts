@@ -15,6 +15,7 @@ class Medium
     private $template_structure;
     private $status_limit;
     private $post_share_limit;
+    private $remove_css_from_content;
 
     public function __construct()
     {
@@ -27,6 +28,7 @@ class Medium
         $this->template_structure = (isset($settings['template_structure']) ? $settings['template_structure'] : '{title}{content}{url}{tags}');
         $this->status_limit = (isset($settings['note_limit']) ? $settings['note_limit'] : 2100);
         $this->post_share_limit = (isset($settings['post_share_limit']) ? $settings['post_share_limit'] : 0);
+        $this->remove_css_from_content = (isset($settings['remove_css_from_content']) ? $settings['remove_css_from_content'] : true);
     }
 
     public function instance()
@@ -114,7 +116,16 @@ class Medium
         }
 
         $canonical_url = get_permalink($post_id);
-        $tags = $this->getPostHasTags($post_id, 'medium');
+        $tags = $this->getPostHasTags($post_id, 'medium', $this->is_category_as_tags) ?: '';
+        if ($this->is_category_as_tags) {
+            $categories = $this->getPostHasCats($post_id, 'medium');
+            if (is_array($tags)) {
+                $tags = is_array($categories) ? array_merge($tags, $categories) : $tags;
+            } else {
+                $tags = $categories;
+            }
+        }
+        $tags = array_values($tags);
         $post_link = esc_url(get_permalink($post_id));
 
         // Retrieve custom social share image meta value
@@ -128,6 +139,11 @@ class Medium
             // Fall back to the featured image if meta value is empty
             if (has_post_thumbnail($post_id)) {
                 $socialshareimage_url = get_the_post_thumbnail_url($post_id, 'full');
+            }else {
+                $featured_image_id = Helper::get_featured_image_id_from_request();
+                if( !empty( $featured_image_id ) ) {
+                    $socialshareimage_url = wp_get_attachment_image_url($featured_image_id, 'full');
+                }
             }
         }
 
@@ -144,7 +160,9 @@ class Medium
             $content,
             $post_link,
             '',
-            $this->status_limit
+            $this->status_limit,
+            null,
+            'linkedin'
         );
 
         $data = [
@@ -324,13 +342,17 @@ class Medium
      * @since 2.5.0
      * @return ajax response
      */
-    public function socialMediaInstantShare($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key, $medium_id = '')
+    public function socialMediaInstantShare($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key, $medium_id = '', $is_share_on_publish = false)
     {
         $response = $this->remote_post($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key, true, $medium_id);
+        if( $is_share_on_publish ) {
+            return;
+        }
         if ($response['success'] == false) {
             wp_send_json_error($response['log']);
         } else {
             wp_send_json_success($response['log']);
         }
     }
+
 }

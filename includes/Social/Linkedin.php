@@ -15,6 +15,7 @@ class Linkedin
     private $template_structure;
     private $status_limit;
     private $post_share_limit;
+    private $remove_css_from_content;
 
     public function __construct()
     {
@@ -26,6 +27,7 @@ class Linkedin
         $this->template_structure = (isset($settings['template_structure']) ? $settings['template_structure'] : '{title}{content}{url}{tags}');
         $this->status_limit = (isset($settings['status_limit']) ? $settings['status_limit'] : 1300);
         $this->post_share_limit = (isset($settings['post_share_limit']) ? $settings['post_share_limit'] : 0);
+        $this->remove_css_from_content = (isset($settings['remove_css_from_content']) ? $settings['remove_css_from_content'] : true);
     }
 
     public function instance()
@@ -114,8 +116,9 @@ class Linkedin
                 $desc = Helper::strip_all_html_and_keep_single_breaks(do_shortcode($desc));
             }
         }
+        $desc = preg_replace('/(\r?\n){2,}/', "\n", $desc);
 
-        $hashTags = (($this->getPostHasTags($post_id) != false) ? $this->getPostHasTags($post_id) : '');
+        $hashTags = (($this->getPostHasTags($post_id, 'linkedin', $this->is_category_as_tags) != false) ? $this->getPostHasTags($post_id, 'linkedin', $this->is_category_as_tags) : '');
         if ($this->is_category_as_tags == true) {
             $hashTags .= ' ' . $this->getPostHasCats($post_id);
         }
@@ -126,7 +129,9 @@ class Linkedin
             $this->filter_little_text($desc),
             $post_link,
             $hashTags,
-            $this->status_limit
+            $this->status_limit,
+            null,
+            'linkedin'
         );
         return $formatedText;
     }
@@ -160,7 +165,7 @@ class Linkedin
         $get_share_type =   get_post_meta($post_id, '_linkedin_share_type', true);
         if( $profile->type !== 'organization' && $get_share_type === 'custom' ) {
             $get_all_selected_profile     = get_post_meta($post_id, '_selected_social_profile', true);
-            $check_profile_exists         = Helper::is_profile_exits( $profile->id, $get_all_selected_profile );
+            $check_profile_exists         = Helper::is_profile_exits( isset( $profile->__id ) ? $profile->__id : $profile->id , $get_all_selected_profile );
             if( !$check_profile_exists ) {
                 return;
             }
@@ -179,6 +184,7 @@ class Linkedin
         if ($dont_share  == 'on' || $dont_share == 1 ) {
             return;
         }
+        
         $count_meta_key = '__wpsp_linkedin_share_count_'.$profile->id;
         if( ( get_post_meta( $post_id, $count_meta_key, true ) ) && $this->post_share_limit != 0 && get_post_meta( $post_id, $count_meta_key, true ) >= $this->post_share_limit ) {
             return array(
@@ -206,6 +212,9 @@ class Linkedin
                 } else {
                     if (has_post_thumbnail($post_id)) { //the post does not have featured image, use a default image
                         $image_path = wp_get_original_image_path(get_post_thumbnail_id($post_id));
+                    }else{
+                        $featured_image_id = Helper::get_featured_image_id_from_request();
+                        $image_path = wp_get_attachment_image_url($featured_image_id, 'full');
                     }
                 }
 
@@ -334,13 +343,18 @@ class Linkedin
 
 
 
-    public function socialMediaInstantShare($post_id, $profile_key)
+    public function socialMediaInstantShare($post_id, $profile_key, $is_share_on_publish)
     {
         $response = $this->remote_post($post_id, $profile_key, true);
+        if( $is_share_on_publish ) {
+            return;
+        }
         if ($response['success'] == false) {
             wp_send_json_error($response['log']);
         } else {
             wp_send_json_success($response['log']);
         }
     }
+
+
 }

@@ -232,15 +232,28 @@ class Settings
         do_action('wpsp_instant_social_single_profile_share', $data->get_params());
     }
 
-     // Fetch option table data
     public function wpsp_get_options_data( $request ) {
         $option_value = get_option('wpsp_settings_v5');
+        
         if ($option_value !== false) {
+            $option_value = json_decode($option_value, true);
+            // Check and process `linkedin_profile_list` if it exists
+            if (isset($option_value['linkedin_profile_list']) && is_array($option_value['linkedin_profile_list'])) {
+                $option_value['linkedin_profile_list'] = array_map(function($profile) {
+                    if (isset($profile['__id']) && isset($profile['id'])) {
+                        $profile['id'] = $profile['__id'];
+                        unset($profile['__id']);
+                    }
+                    return $profile;
+                }, $option_value['linkedin_profile_list']);
+            }
+            $option_value = json_encode($option_value);
             return rest_ensure_response($option_value);
         } else {
             return new \WP_Error('option_not_found', 'Option not found', array('status' => 40));
         }
     }
+    
 
     /**
      * Return an instance of this class.
@@ -314,8 +327,24 @@ class Settings
             ),
         ));
 
+        register_rest_route( $namespace, '/save-profile', array(
+            'methods'             => 'POST',
+            'callback'            => [$this, 'save_profile'],
+            'permission_callback' => [$this, 'wpsp_permissions_check'],
+        ));
+
     }
 
+
+    public function save_profile($request)
+    {
+        $platform        = $request->get_param('platform');
+        $profiles        = $request->get_param('profiles');
+        foreach ($profiles as $profile) {
+            do_action("wpsp_profile_reconnect_{$platform}", [ 'id' => $profile ] );
+        }
+        
+    }
 
 
     /**
