@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { __ } from '@wordpress/i18n'
+import { handleImageError } from '../../helper/helper';
 
 export default function Linkedin({ platform, data, addProfileToggle,savedProfile }) {
     let {profiles, pages, ...appData} = data;
@@ -29,9 +30,10 @@ export default function Linkedin({ platform, data, addProfileToggle,savedProfile
                         <li key={index}>
                             <div className='item-content'>
                                 <div className='entry-thumbnail'>
-                                    <img
-                                        src={item?.thumbnail_url}
-                                        alt={ __('page-thumbnail','wp-scheduled-posts') }
+                                    <img 
+                                        src={`${item?.thumbnail_url}`} 
+                                        alt={__(item?.name, 'wp-scheduled-posts')}
+                                        onError={handleImageError} // Attach the error handler
                                     />
                                     <h4 className='entry-title'>
                                         {item?.name}
@@ -62,9 +64,10 @@ export default function Linkedin({ platform, data, addProfileToggle,savedProfile
                         <li key={index}>
                             <div className='item-content'>
                                 <div className='entry-thumbnail'>
-                                    <img
-                                        src={item?.thumbnail_url}
-                                        alt={ __('profile-thumbnail','wp-scheduled-posts') }
+                                    <img 
+                                        src={`${item?.thumbnail_url}`} 
+                                        alt={__(item?.name, 'wp-scheduled-posts')}
+                                        onError={handleImageError} // Attach the error handler
                                     />
                                     <h4 className='entry-title'>
                                         {item?.name}

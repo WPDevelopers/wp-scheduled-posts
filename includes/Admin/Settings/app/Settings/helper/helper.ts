@@ -230,3 +230,11 @@ export const findOptionLabelByValue = (data, targetValue) => {
 export const isObject = (arg) => {
     return arg !== null && typeof arg === 'object' && !Array.isArray(arg);
 };
+
+// Function to handle image load error
+export const handleImageError = (e) => {
+    // @ts-ignore 
+    const placeholderImage = `${wpspSettingsGlobal?.assets_path}/images/author-logo.jpeg`;
+    e.target.onerror = null; // Prevents infinite loop in case placeholder image fails
+    e.target.src = placeholderImage; // Set the placeholder image
+};

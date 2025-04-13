@@ -1,5 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import React, { useState } from 'react';
+import { handleImageError } from '../../helper/helper';
 export default function Facebook({ page, group, addProfileToggle,savedProfile }) {
     const [isErrorMessage, setIsErrorMessage] = useState(false);
     return (
@@ -13,9 +14,10 @@ export default function Facebook({ page, group, addProfileToggle,savedProfile })
                         <li id={'facebook_page_' + index} key={index}>
                             <div className='item-content'>
                                 <div className='entry-thumbnail'>
-                                    <img
-                                        src={item.thumbnail_url}
-                                        alt='logo'
+                                    <img 
+                                        src={`${item?.thumbnail_url}`} 
+                                        alt={__(item?.name, 'wp-scheduled-posts')}
+                                        onError={handleImageError} // Attach the error handler
                                     />
                                     <h4 className='entry-title'>
                                         {item.name}

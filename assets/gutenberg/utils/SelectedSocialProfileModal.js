@@ -9,6 +9,14 @@ const SelectedSocialProfileModal = ( { platform, selectedSocialProfile, response
     // if( platform === 'pinterest' ) {
     //     filteredSelectedSocialProfile = selectedSocialProfile.filter((profile) => profile?.pinterest_board_type === pinterest_board_type);
     // }
+
+    // Function to handle image load error
+    const handleImageError = (e) => {
+        // @ts-ignore 
+        const placeholderImage = `${WPSchedulePostsFree?.assetsURI}/images/author-logo.jpeg`;
+        e.target.onerror = null; // Prevents infinite loop in case placeholder image fails
+        e.target.src = placeholderImage; // Set the placeholder image
+    };
   return (
     <>
         { selectedSocialProfile.filter( (profile) => profile.platform === platform ).length > 0 && 
@@ -23,7 +31,11 @@ const SelectedSocialProfileModal = ( { platform, selectedSocialProfile, response
                         <div className="single-profile-content">
                             <div className="modal-content-left">
                                 <div className="profile-list">
-                                    <img src={ profile?.thumbnail_url } />
+                                    <img 
+                                        src={`${profile?.thumbnail_url}`} 
+                                        alt={__(profile?.name, 'wp-scheduled-posts')}
+                                        onError={handleImageError} // Attach the error handler
+                                    />
                                     <h3>{ profile?.name }</h3>
                                     {
                                         {

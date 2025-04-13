@@ -153,6 +153,44 @@ class SocialProfile
     /**
      * Facebook access token
      */
+    public function instagramGetAccessTokenDetails($app_id, $app_secret, $redirect_url, $code)
+    {
+        // The API endpoint
+        $token_url = "https://api.instagram.com/oauth/access_token";
+
+        // Data to send in the POST request
+        $post_data = [
+            'client_id'     => $app_id,
+            'client_secret' => $app_secret,
+            'grant_type'    => 'authorization_code',
+            'redirect_uri'  => $redirect_url,
+            'code'          => $code,
+        ];
+
+        // Make the POST request
+        $response = wp_remote_post($token_url, [
+            'body' => $post_data,
+        ]);
+
+        // Check for errors
+        if (is_wp_error($response)) {
+            return false;
+        } else {
+            $body = wp_remote_retrieve_body($response);
+            $data = json_decode($body);
+
+            // Check if access token exists in response
+            if (isset($data->access_token)) {
+                return $data;
+            }
+        }
+        return false;
+    }
+
+
+    /**
+     * Facebook access token
+     */
     public function threadsGetAccessTokenDetails($app_id, $app_secret, $redirect_url, $code)
     {
         $token_url = "https://graph.threads.net/oauth/access_token?"
@@ -210,20 +248,46 @@ class SocialProfile
     }
 
 
-    public function getInstagramProfile( $access_token ) {
-        $graph_url = "https://graph.facebook.com/me?fields=accounts{connected_instagram_account,name,access_token,picture}&access_token=" . $access_token;
-
+    public function getInstagramProfile($access_token) {
+        // Define the Instagram Graph API URL for fetching profile details
+        $graph_url = add_query_arg([
+            'fields' => 'user_id,username,profile_picture_url,name,account_type',
+            'access_token' => $access_token,
+        ], 'https://graph.instagram.com/v21.0/me');
+    
+        // Send the GET request using wp_remote_get
         $response = wp_remote_get($graph_url);
+    
+        // Check for errors in the response
         if (is_wp_error($response)) {
-            return false;
-        } else {
-            $body = wp_remote_retrieve_body($response);
-            $data = json_decode($body);
-            $data = apply_filters('wpsp_instagram_data', $data, $access_token);
-            return $data;
+            return false; // Return false if there's an error
         }
-        return null;
+    
+        // Retrieve and decode the body of the response
+        $body = wp_remote_retrieve_body($response);
+        $data = json_decode($body);
+        
+        // Apply WordPress filter for further processing, if needed
+        // $data = apply_filters('wpsp_instagram_data', $data, $access_token);
+    
+        return [$data]; // Return the decoded data
     }
+    
+
+    // public function getInstagramProfile( $access_token ) {
+    //     $graph_url = "https://graph.facebook.com/me?fields=accounts{connected_instagram_account,name,access_token,picture}&access_token=" . $access_token;
+
+    //     $response = wp_remote_get($graph_url);
+    //     if (is_wp_error($response)) {
+    //         return false;
+    //     } else {
+    //         $body = wp_remote_retrieve_body($response);
+    //         $data = json_decode($body);
+    //         $data = apply_filters('wpsp_instagram_data', $data, $access_token);
+    //         return $data;
+    //     }
+    //     return null;
+    // }
     /**
      * Facebook User Details
      */
@@ -551,16 +615,16 @@ class SocialProfile
 
                 if (is_array($access_token) && count($access_token) > 0) {
                     $info = array(
-                        'id' => $content->id,
-                        'app_id' => $app_id,
-                        'app_secret' => $app_secret,
-                        'name' => $content->name,
-                        'thumbnail_url' => $content->profile_image_url,
-                        'status' => true,
-                        'oauth_token' => $access_token['oauth_token'],
+                        'id'                 => $content->id,
+                        'app_id'             => $app_id,
+                        'app_secret'         => $app_secret,
+                        'name'               => $content->name,
+                        'thumbnail_url'      => $content->profile_image_url,
+                        'status'             => true,
+                        'oauth_token'        => $access_token['oauth_token'],
                         'oauth_token_secret' => $access_token['oauth_token_secret'],
-                        'added_by' => $current_user->user_login,
-                        'added_date'    => current_time('mysql')
+                        'added_by'           => $current_user->user_login,
+                        'added_date'         => current_time('mysql')
                     );
                     // if app id is exists then app secret, redirect uri will be also there, it will be delete after approve real app
                     if (!empty($app_id)) {
@@ -659,21 +723,25 @@ class SocialProfile
             }
         } else if ($type == 'instagram' && $code != "") {
             try {
-                $tempAccessToken = $this->facebookGetAccessTokenDetails(
+                $tempAccessTokenDetails = $this->instagramGetAccessTokenDetails(
                     $app_id,
                     $app_secret,
                     $redirectURI,
                     $code
                 );
                 $userAcessToken = '';
-                if ($tempAccessToken != "") {
-                    $response = wp_remote_get('https://graph.facebook.com/v6.0/oauth/access_token?grant_type=fb_exchange_token&client_id=' . $app_id . '&client_secret=' . $app_secret . '&fb_exchange_token=' . $tempAccessToken . '');
+                $tempAccessToken = '';
+                if ( !empty( $tempAccessTokenDetails->access_token ) ) {
+                    $tempAccessToken = $tempAccessTokenDetails->access_token;
+                    $expires_in      = $tempAccessTokenDetails->expires_in;
+                    $response = wp_remote_get('https://graph.instagram.com/access_token?grant_type=ig_exchange_token&client_secret=' . $app_secret . '&access_token=' . $tempAccessToken . '');
                     if (is_array($response)) {
-                        $header = $response['headers']; // array of http header lines
                         $body = $response['body']; // use the content
+                        $longAcessTokenBody = json_decode($body);
+                        $userAcessToken = $longAcessTokenBody->{'access_token'};
+                        $expires_in = $longAcessTokenBody->{'expires_in'};
                     }
-                    $longAcessTokenBody = json_decode($body);
-                    $userAcessToken = $longAcessTokenBody->{'access_token'};
+                    
                 }
 
                 $userInfo = $this->getInstagramProfile($tempAccessToken);
@@ -689,9 +757,11 @@ class SocialProfile
                             'thumbnail_url'           => !empty( $uploaded_image_url ) ? $uploaded_image_url : $profile->profile_picture_url,
                             'type'                    => 'profile',
                             'status'                  => true,
-                            'access_token'            => $profile->access_token,
+                            'access_token'            => $tempAccessToken,
                             'long_lived_access_token' => $userAcessToken,
+                            'expires_at'              => Helper::getDateFromTimezone($expires_in),
                             'added_by'                => $current_user->user_login,
+                            'instagram_app'           => true,
                             'added_date'              => current_time('mysql')
                         ));
                     }
@@ -906,9 +976,9 @@ class SocialProfile
             try {
                 $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=' . WPSP_SETTINGS_SLUG));
                 $state = base64_encode(json_encode($request));
-                $url = "https://www.facebook.com/dialog/oauth?client_id="
+                $url = "https://www.instagram.com/oauth/authorize?enable_fb_login=0&response_type=code&force_authentication=1&client_id="
                     . $app_id . "&redirect_uri=" . urlencode($redirectURI) . "&state="
-                    . $state . "&scope=" . WPSCP_INSTAGRAM_SCOPE;
+                    . $state . "&scope=instagram_business_basic,instagram_business_content_publish";
                 wp_send_json_success($url);
                 wp_die();
             } catch (\Exception $error) {
@@ -973,4 +1043,10 @@ class SocialProfile
             }
         }
     }
+
+    public function handle_reconnect()
+    {
+        
+    }
+
 }
