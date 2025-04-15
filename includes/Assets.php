@@ -111,7 +111,7 @@ class Assets
             wp_enqueue_script('select2', WPSP_ASSETS_URI . 'js/vendor/select2.full.js', array('jquery'), WPSP_VERSION, false);
             wp_enqueue_script('sweetalert', WPSP_ASSETS_URI . 'js/vendor/sweetalert.min.js', array('jquery'), WPSP_VERSION, false);
             wp_enqueue_script('notifi', WPSP_ASSETS_URI . 'js/vendor/notifi.min.js', array('jquery'), WPSP_VERSION, false);
-            // wp_enqueue_script('wpscp-script', WPSP_ASSETS_URI . 'js/wpscp-script.js', array('jquery'), WPSP_VERSION, false);
+            wp_enqueue_script('wpscp-script', WPSP_ASSETS_URI . 'js/wpscp-script.js', array('jquery'), WPSP_VERSION, false);
             wp_localize_script(
                 'wpscp-script',
                 'wpscp_ajax',
