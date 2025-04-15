@@ -1,9 +1,8 @@
 import { __ } from '@wordpress/i18n';
 import React from 'react'
+import { handleImageError } from '../../helper/helper';
 
-const Threads = ( { profiles, addProfileToggle,savedProfile } ) => {
-    console.log('profiles', profiles);
-    
+const Threads = ( { profiles, addProfileToggle,savedProfile } ) => {    
     return (
         <>
             <div className='wpsp-modal-social-platform'>
@@ -15,9 +14,10 @@ const Threads = ( { profiles, addProfileToggle,savedProfile } ) => {
                         <li id={'facebook_page_' + index} key={index}>
                             <div className='item-content'>
                                 <div className='entry-thumbnail'>
-                                    <img
-                                        src={item.thumbnail_url}
-                                        alt='logo'
+                                    <img 
+                                        src={`${item?.thumbnail_url}`} 
+                                        alt={__(item?.name, 'wp-scheduled-posts')}
+                                        onError={handleImageError} // Attach the error handler
                                     />
                                     <h4 className='entry-title'>
                                         {item.name}

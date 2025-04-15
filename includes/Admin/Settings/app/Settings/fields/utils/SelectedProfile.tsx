@@ -1,19 +1,8 @@
 import { __ } from '@wordpress/i18n';
-import React, { useState } from 'react';
-import { getFormatDateTime, updateRefreshToken } from '../../helper/helper';
-import { SweetAlertToaster } from '../../ToasterMsg';
+import React from 'react';
+import { getFormatDateTime, handleImageError } from '../../helper/helper';
 
 export default function SelectedProfile({ platform, item, handleSelectedProfileStatusChange, handleDeleteSelectedProfile, handleEditSelectedProfile, profileStatus = false }) {
-    // Define a placeholder image URL
-    // @ts-ignore 
-    const placeholderImage = `${wpspSettingsGlobal?.assets_path}/images/author-logo.jpeg`;
-
-    // Function to handle image load error
-    const handleImageError = (e) => {
-        e.target.onerror = null; // Prevents infinite loop in case placeholder image fails
-        e.target.src = placeholderImage; // Set the placeholder image
-    };
-
     return (
         <div className="profile-item">
             <div className="profile-image">

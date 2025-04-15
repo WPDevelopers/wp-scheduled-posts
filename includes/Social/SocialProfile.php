@@ -615,16 +615,16 @@ class SocialProfile
 
                 if (is_array($access_token) && count($access_token) > 0) {
                     $info = array(
-                        'id' => $content->id,
-                        'app_id' => $app_id,
-                        'app_secret' => $app_secret,
-                        'name' => $content->name,
-                        'thumbnail_url' => $content->profile_image_url,
-                        'status' => true,
-                        'oauth_token' => $access_token['oauth_token'],
+                        'id'                 => $content->id,
+                        'app_id'             => $app_id,
+                        'app_secret'         => $app_secret,
+                        'name'               => $content->name,
+                        'thumbnail_url'      => $content->profile_image_url,
+                        'status'             => true,
+                        'oauth_token'        => $access_token['oauth_token'],
                         'oauth_token_secret' => $access_token['oauth_token_secret'],
-                        'added_by' => $current_user->user_login,
-                        'added_date'    => current_time('mysql')
+                        'added_by'           => $current_user->user_login,
+                        'added_date'         => current_time('mysql')
                     );
                     // if app id is exists then app secret, redirect uri will be also there, it will be delete after approve real app
                     if (!empty($app_id)) {
