@@ -2,9 +2,9 @@
 Contributors: wpdevteam, Asif2BD, re_enter_rupok, priyomukul, shajalal, alimuzzamanalim, rudlinkon, shuvo247
 Tags: post schedule, schedule calendar, auto scheduler, auto sharing, social share
 Requires at least: 4.0
-Tested up to: 6.7
+Tested up to: 6.8
 Requires PHP: 7.2
-Stable tag: 5.2.4
+Stable tag: 5.2.5
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -212,6 +212,11 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 8. Social Templates
 
 == Changelog ==
+
+= 5.2.5 - 2025-04-16 =
+- Fixed: “Upload Social Share Banner” option wasn’t working in the Classic Editor.
+- Improved: Instagram authentication process.
+- Few minor bug fixes & improvements.
 
 = 5.2.4 - 2025-03-25 =
 - Improved: Added a default profile image for users without a profile photo.
