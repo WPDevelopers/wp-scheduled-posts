@@ -1027,7 +1027,7 @@ class Settings {
                                                                     'name'          => 'template_structure',
                                                                     'type'          => 'text',
                                                                     'label'         => __('Status Template Settings', 'wp-scheduled-posts'),
-                                                                    'default'       => '{title}{content}{tags}',
+                                                                    'default'       => '{title}{content}{url}{tags}',
                                                                     'info'          => __('Define how to share the content on LinkedIn by setting the template. <strong>Default Structure: {title}{content}{url}{tags}</strong>','wp-scheduled-posts'),
                                                                     'priority'      => 15,
                                                                 ],
