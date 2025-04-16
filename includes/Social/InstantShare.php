@@ -436,6 +436,9 @@ class InstantShare
             $allProfile['threads'] = $threads;
         }
 
+        // placeholder image url 
+        $placeholder_image = WPSP_ASSETS_URI . 'images/author-logo.jpeg';
+
         $markup = '';
         if (is_array($allProfile) && count($allProfile) > 0) {
             foreach ($allProfile as $profileName => $profile) {
@@ -459,7 +462,7 @@ class InstantShare
                     }
                     $markup .= '<li id="' . $profileName . '_' . $key . '">
                             <div class="item-content">
-                                ' . (isset($profileItem->thumbnail_url) ? '<div class="entry-thumbnail"><img src="' . $profileItem->thumbnail_url . '" alt="logo"></div>' : '') . '
+                                ' . (isset($profileItem->thumbnail_url) ? '<div class="entry-thumbnail"><img src="' . $profileItem->thumbnail_url . '" alt="logo" onerror="this.onerror=null;this.src=\'' . $placeholder_image . '\';"></div>' : '') . '
                                 <h4 class="entry-title">' . $profileItem->name . '</h4>
                                 ' . (isset($profileItem->type) ? '<span class="type">' . ucfirst($profileItem->type) . '</span>' : '') . '
                                 <span class="entry-status">
