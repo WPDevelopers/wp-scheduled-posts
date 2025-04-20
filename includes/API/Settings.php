@@ -244,8 +244,33 @@ class Settings
                         $profile['id'] = $profile['__id'];
                         unset($profile['__id']);
                     }
+                    if (!isset($profile['thumbnail_url']) || $profile['thumbnail_url'] === null) {
+                        $profile['thumbnail_url'] = '';
+                    }
                     return $profile;
                 }, $option_value['linkedin_profile_list']);
+            }
+
+            // set default thumanil url 
+            $social_media_lists = [
+                'facebook_profile_list',
+                'twitter_profile_list',
+                'instagram_profile_list',
+                'pinterest_profile_list',
+                'threads_profile_list',
+                'medium_profile_list',
+            ];
+            
+            foreach ($social_media_lists as $list_key) {
+                if (isset($option_value[$list_key]) && is_array($option_value[$list_key])) {
+                    $option_value[$list_key] = array_map(function($profile) {
+                        // Set default value for thumbnail_url if null
+                        if (!isset($profile['thumbnail_url']) || $profile['thumbnail_url'] === null) {
+                            $profile['thumbnail_url'] = '';
+                        }
+                        return $profile;
+                    }, $option_value[$list_key]);
+                }
             }
             $option_value = json_encode($option_value);
             return rest_ensure_response($option_value);
