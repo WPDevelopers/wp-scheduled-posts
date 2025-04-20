@@ -31,6 +31,7 @@ final class WPSP
 	private $email;
 	private $social;
 	private $api;
+	private $post;
 	private $basename = 'wp-scheduled-posts-pro/wp-scheduled-posts-pro.php';
 
 	private function __construct()
@@ -147,6 +148,7 @@ final class WPSP
 		$this->getEmail();
 		$this->getSocial();
 		$this->getAPI();
+		$this->getPost();
 
 		if (is_admin()) {
 			$this->getAdmin();
@@ -154,6 +156,13 @@ final class WPSP
 		}
 
 		$this->load_textdomain();
+	}
+
+	public function getPost() {
+		if (!$this->post) {
+			$this->post = new WPSP\Post();
+		}
+		return $this->post;
 	}
 
 	public function getAssets() {

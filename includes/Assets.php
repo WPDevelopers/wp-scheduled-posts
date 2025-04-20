@@ -31,8 +31,36 @@ class Assets
             ));
         } );
 
-	    
+	    $this->load_global_assets();
     }
+
+    public function load_global_assets() {
+        $asset_base = WPSP_ASSETS_URI;
+    
+        // Enqueue globally
+        $enqueue_callback = function () use ($asset_base) {
+            wp_enqueue_style('myplugin-global-style', $asset_base . 'css/wpsp-post.css');
+            wp_enqueue_script('myplugin-global-script', $asset_base . 'js/wpsp-post.js', array('jquery'), null, true);
+        };
+    
+        // Frontend
+        add_action('wp_enqueue_scripts', $enqueue_callback);
+    
+        // Gutenberg
+        add_action('enqueue_block_editor_assets', $enqueue_callback);
+    
+        // Classic
+        add_action('admin_enqueue_scripts', function ($hook) use ($enqueue_callback) {
+            if ($hook === 'post.php' || $hook === 'post-new.php') {
+                $enqueue_callback();
+            }
+        });
+    
+        // Elementor
+        add_action('elementor/editor/after_enqueue_styles', $enqueue_callback);
+        add_action('elementor/editor/after_enqueue_scripts', $enqueue_callback);
+    }
+    
 
     /**
      * Gutten Support
