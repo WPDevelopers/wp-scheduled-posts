@@ -1,15 +1,73 @@
-#wpsp-post-modal {
-    display: none;
+.ReactModal__Overlay {
+    background: rgba(27, 27, 80, .4) !important;
+    display: flex;
+    inset: 0;
+    overflow: auto;
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 9999;
+    z-index: 99999 !important;
 }
-
-#wpsp-post-modal.active {
-    display: block !important;
+.ReactModal__Overlay .modal_wrapper {
+    background: #fff;
+    border-radius: 14px;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 922px;
+    margin: auto;
+    position: relative;
+    overflow: hidden;
+}
+.modal-header {
+    padding: 16px 32px;
+}
+.modal-body {
+    display: flex;
+    justify-content: space-between;
+}
+h2,h4,h5 {
+    margin: 0; 
+}
+h2.title {
+    font-size: 20px;
+    line-height: 1em;
+    font-weight: 500;
+    color: #1D2939;
+    margin-bottom: 24px;;
+}
+.scheduling--wrapper {
+    flex: 1;
+    padding: 24px 20px 24px 32px;
+    background: #F9F8FD;
+}
+.wpsp-post--card {
+    background: #FFFFFF;
+    padding: 16px;
+    border-radius: 12px;
+}
+.card--title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+h4.title {
+    font-size: 16px;
+    line-height: 1em;
+    font-weight: 500;
+    color: #1D2939;
+}
+.social-share--wrapper {
+    flex: 0 0 318px;
+    padding: 24px 20px;
+    background: #F2F0FA;
+    border-left: 1px solid #E9E7F4;
+}
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+    background: #F9F8FD;
+    padding: 12px 16px;
+    border-top: 1px solid #ECEFF5;
 }
 
 .wpsp-modal-backdrop {
