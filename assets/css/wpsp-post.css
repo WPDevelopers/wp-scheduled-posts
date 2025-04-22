@@ -1,4 +1,124 @@
-.ReactModal__Overlay {
+.opacity {
+    opacity: 0;
+}
+.wpsp-modal--wrapper h2,h4,h5 {
+    margin: 0; 
+}
+h2.title {
+    font-size: 20px;
+    line-height: 1em;
+    font-weight: 500;
+    color: #1D2939;
+    margin-bottom: 24px;;
+}
+h4.title {
+    font-size: 16px;
+    line-height: 1em;
+    font-weight: 500;
+    color: #1D2939;
+}
+h5.title {
+    font-size: 14px;
+    line-height: 1em;
+    font-weight: 500;
+    color: #475467;
+}
+.wpsp-modal--wrapper label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    line-height: 1em;
+    color: #1D2939;
+}
+.wpsp-modal--wrapper input[type="checkbox"] {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 1px solid #D7DBDF;
+    border-radius: 4px;
+    margin: 0;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease-in-out;
+    position: relative;
+}
+.wpsp-modal--wrapper input[type="checkbox"]::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 3px;
+    height: 6px;
+    border: solid #FFFFFF;
+    border-width: 0 1.5px 1.5px 0;
+    transition: ease-in-out .35s;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+.wpsp-modal--wrapper input[type="checkbox"]:checked {
+    background-color: #6C62FF;
+    border: 1px solid #6C62FF;
+}
+.wpsp-modal--wrapper input[type="checkbox"]:focus {
+    box-shadow: none;
+    outline: 0;
+}
+.wpsp-modal--wrapper input[type="checkbox"]::before {
+    display: none;
+}
+.toggle-wrap {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+}
+.toggle-wrap input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #F2F4F7;
+    border-radius: 12px;
+    transition: ease-in-out .35s;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 2px;
+    bottom: 2px;
+    background-color: #fff;
+    border-radius: 50%;
+    transition: ease-in-out .35s;
+    box-shadow: 0 1px 2px 0 #1018280F, 0 1px 3px 0 #1018281A;
+}
+input:checked + .slider {
+    background-color: #597DFC;
+}
+input:checked + .slider:before {
+    transform: translateX(20px);
+}
+.form-select--address:focus {
+    box-shadow: 0 1px 2px 0 #1018280D, 0 0 0 4px #EBEFFF;
+}
+.input-form-common:focus {
+    box-shadow: 0 1px 2px 0 #1018280D, 0 0 0 4px #EBEFFF;
+}
+.multiselect__tags:focus {
+    box-shadow: 0 1px 2px 0 #1018280D, 0 0 0 4px #EBEFFF;
+}
+
+.wpsp-post--modal {
     background: rgba(27, 27, 80, .4) !important;
     display: flex;
     inset: 0;
@@ -6,7 +126,7 @@
     position: fixed;
     z-index: 99999 !important;
 }
-.ReactModal__Overlay .modal_wrapper {
+.wpsp-post--modal .wpsp-modal--wrapper {
     background: #fff;
     border-radius: 14px;
     box-sizing: border-box;
@@ -16,22 +136,12 @@
     position: relative;
     overflow: hidden;
 }
-.modal-header {
+.wpsp-modal--header {
     padding: 16px 32px;
 }
-.modal-body {
+.wpsp-modal--body {
     display: flex;
     justify-content: space-between;
-}
-h2,h4,h5 {
-    margin: 0; 
-}
-h2.title {
-    font-size: 20px;
-    line-height: 1em;
-    font-weight: 500;
-    color: #1D2939;
-    margin-bottom: 24px;;
 }
 .scheduling--wrapper {
     flex: 1;
@@ -43,17 +153,64 @@ h2.title {
     padding: 16px;
     border-radius: 12px;
 }
+.scheduling--wrapper .wpsp-post--card:not(:last-child) {
+    margin-bottom: 16px;
+}
 .card--title {
     display: flex;
     align-items: center;
     gap: 8px;
     margin-bottom: 24px;
 }
-h4.title {
-    font-size: 16px;
-    line-height: 1em;
+.select--wrapper {
+    margin-bottom: 16px;
+}
+.wpsp-post-items--wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+.wpsp-post--items {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.wpsp-post--items .card--title {
+    margin-bottom: 0;
+}
+.wpsp-tag--wrapper {
+    margin-top: 20px;
+}
+.wpsp-tag--wrapper .card--title {
+    margin-bottom: 8px;
+}
+.tag-item--wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border: 1px solid #ECEFF5;
+    border-radius: 8px;
+}
+.tab--item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    border: 1px solid #E5E3FF;
+    border-radius: 5px;
+    background: #F3F2FF;
+    padding: 6px;
+    font-size: 14px;
+    line-height: 16px;
     font-weight: 500;
-    color: #1D2939;
+    color: #6C62FF;
+}
+
+.tab--item svg {
+    cursor: pointer;
+}
+.advance-schedule--wrapper {
+    margin-top: 20px;
 }
 .social-share--wrapper {
     flex: 0 0 318px;
@@ -61,7 +218,29 @@ h4.title {
     background: #F2F0FA;
     border-left: 1px solid #E9E7F4;
 }
-.modal-footer {
+.advance-schedule--header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+.advance-schedule--header h5.title {
+    color: #1D2939;
+}
+.wpsp-post-items--wrapper {
+    margin-top: 16px;
+}
+.add--version {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 12px;
+    border-radius: 6px;
+    background: #F3F2FF;
+    color: #6C62FF;
+}
+.wpsp-modal--footer {
     display: flex;
     justify-content: flex-end;
     gap: 16px;
@@ -69,6 +248,31 @@ h4.title {
     padding: 12px 16px;
     border-top: 1px solid #ECEFF5;
 }
+button.btn {
+    font-size: 14px;
+    line-height: 1em;
+    font-weight: 500;
+    padding: 12px 16px;
+    border-radius: 6px;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+    cursor: pointer;
+}
+button.primary-btn {
+    color: #FFFFFF;
+    background: #6C62FF;
+}
+button.secondary-btn {
+    color: #6C62FF;
+    background: #F3F2FF;
+}
+
+
+
+
 
 .wpsp-modal-backdrop {
     position: absolute;
@@ -93,12 +297,3 @@ h4.title {
     z-index: 10000;
 }
 
-#wpsp-modal-close {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 8px 16px;
-    background: #333;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-}

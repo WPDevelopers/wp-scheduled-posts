@@ -30,9 +30,9 @@ class Post
 
     public function post_modal_options() {
         ?>
-            <div id="wpsp-post-modal" class="ReactModal__Overlay ReactModal__Overlay--after-open">
-                <div class="ReactModal__Content ReactModal__Content--after-open modal_wrapper">
-                    <div class="modal-header">
+            <div id="wpsp-post-modal" class="wpsp-post--modal">
+                <div class="wpsp-modal--wrapper">
+                    <div class="wpsp-modal--header">
                         <svg width="132" height="26" viewBox="0 0 132 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0_3978_2499)">
                             <path d="M13.0227 25.5757C6.14736 25.5757 0.435547 19.9747 0.435547 12.9998C0.435547 6.02489 6.04158 0.423828 13.0227 0.423828C15.2439 0.423828 17.3594 0.952228 19.2634 2.11471C19.7922 2.43175 20.0038 3.17152 19.6865 3.69992C19.3691 4.22832 18.6287 4.43968 18.0998 4.12264C16.619 3.2772 14.8208 2.74879 13.1285 2.74879C7.52242 2.74879 2.97413 7.29305 2.97413 12.8941C2.97413 18.4952 7.52242 23.0394 13.1285 23.0394C15.9844 23.0394 18.6287 21.8769 20.5327 19.869C20.9558 19.3406 21.8019 19.3406 22.225 19.7633C22.7539 20.1861 22.7539 21.0315 22.3308 21.4542C19.898 24.2019 16.5132 25.5757 13.0227 25.5757Z" fill="url(#paint0_radial_3978_2499)"/>
@@ -72,7 +72,7 @@ class Post
                             </defs>
                         </svg>
                     </div>
-                    <div class="modal-body">
+                    <div class="wpsp-modal--body">
                         <div class="scheduling--wrapper">
                             <h2 class="title">Scheduling Settings</h2>
                             <div class="wpsp-post--card">
@@ -84,18 +84,201 @@ class Post
                                         <path d="M13.4218 13.8328H4.57914C4.29489 13.8328 4.06445 13.6024 4.06445 13.3181V12.1875H13.9365V13.3181C13.9365 13.6024 13.706 13.8328 13.4218 13.8328Z" fill="#FFA454"/>
                                     </svg>
                                 </div>
+                                <div class="select--wrapper">
+                                    <label>
+                                        <input type="checkbox" value="checkbox">
+                                        <span>June 14, 2023 at 2:50 PM</span>
+                                    </label>
+                                </div>
+                                <div class="wpsp-post-items--wrapper">
+                                    <div class="wpsp-post--items">
+                                        <div class="card--title">
+                                            <h5 class="title">Auto Schedule</h5>
+                                            <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <circle cx="9" cy="9.5" r="9" fill="#FFEEE0"/>
+                                                <path d="M4.06398 11.3651C3.83586 9.88232 3.60775 8.39961 3.37964 6.91686C3.32905 6.58817 3.70304 6.364 3.96906 6.56353C4.67976 7.09656 5.39043 7.62955 6.10113 8.16257C6.33513 8.33807 6.6685 8.28096 6.83073 8.03758L8.60571 5.37508C8.79329 5.09372 9.20669 5.09372 9.39426 5.37508L11.1693 8.03758C11.3315 8.28096 11.6649 8.33803 11.8989 8.16257C12.6096 7.62955 13.3202 7.09656 14.0309 6.56353C14.2969 6.364 14.6709 6.58817 14.6204 6.91686C14.3923 8.39961 14.1642 9.88232 13.936 11.3651H4.06398Z" fill="#FFA454"/>
+                                                <path d="M13.4218 13.8328H4.57914C4.29489 13.8328 4.06445 13.6024 4.06445 13.3181V12.1875H13.9365V13.3181C13.9365 13.6024 13.706 13.8328 13.4218 13.8328Z" fill="#FFA454"/>
+                                            </svg>
+                                        </div>
+                                        <div class="wpsp-date--picker">
+                                            <form action="/action_page.php">
+                                                <input type="datetime-local" id="birthdaytime" name="birthdaytime">
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="wpsp-post--items">
+                                        <div class="card--title">
+                                            <h5 class="title">Auto Schedule</h5>
+                                            <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <circle cx="9" cy="9.5" r="9" fill="#FFEEE0"/>
+                                                <path d="M4.06398 11.3651C3.83586 9.88232 3.60775 8.39961 3.37964 6.91686C3.32905 6.58817 3.70304 6.364 3.96906 6.56353C4.67976 7.09656 5.39043 7.62955 6.10113 8.16257C6.33513 8.33807 6.6685 8.28096 6.83073 8.03758L8.60571 5.37508C8.79329 5.09372 9.20669 5.09372 9.39426 5.37508L11.1693 8.03758C11.3315 8.28096 11.6649 8.33803 11.8989 8.16257C12.6096 7.62955 13.3202 7.09656 14.0309 6.56353C14.2969 6.364 14.6709 6.58817 14.6204 6.91686C14.3923 8.39961 14.1642 9.88232 13.936 11.3651H4.06398Z" fill="#FFA454"/>
+                                                <path d="M13.4218 13.8328H4.57914C4.29489 13.8328 4.06445 13.6024 4.06445 13.3181V12.1875H13.9365V13.3181C13.9365 13.6024 13.706 13.8328 13.4218 13.8328Z" fill="#FFA454"/>
+                                            </svg>
+                                        </div>
+                                        <div class="wpsp-select--option">
+                                            <select id="cars">
+                                                <option value="volvo">June 14, 2023 at 2:50 PM</option>
+                                                <option value="saab">June 14, 2023 at 2:50 PM</option>
+                                                <option value="opel">June 14, 2023 at 2:50 PM</option>
+                                                <option value="audi">June 14, 2023 at 2:50 PM</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="wpsp-post--card">
+                                <div class="card--title">
+                                    <h4 class="title">Scheduling Options</h4>
+                                    <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="9" cy="9.5" r="9" fill="#FFEEE0"/>
+                                        <path d="M4.06398 11.3651C3.83586 9.88232 3.60775 8.39961 3.37964 6.91686C3.32905 6.58817 3.70304 6.364 3.96906 6.56353C4.67976 7.09656 5.39043 7.62955 6.10113 8.16257C6.33513 8.33807 6.6685 8.28096 6.83073 8.03758L8.60571 5.37508C8.79329 5.09372 9.20669 5.09372 9.39426 5.37508L11.1693 8.03758C11.3315 8.28096 11.6649 8.33803 11.8989 8.16257C12.6096 7.62955 13.3202 7.09656 14.0309 6.56353C14.2969 6.364 14.6709 6.58817 14.6204 6.91686C14.3923 8.39961 14.1642 9.88232 13.936 11.3651H4.06398Z" fill="#FFA454"/>
+                                        <path d="M13.4218 13.8328H4.57914C4.29489 13.8328 4.06445 13.6024 4.06445 13.3181V12.1875H13.9365V13.3181C13.9365 13.6024 13.706 13.8328 13.4218 13.8328Z" fill="#FFA454"/>
+                                    </svg>
+                                </div>
+                                <div class="wpsp-post-items--wrapper">
+                                    <div class="wpsp-post--items">
+                                        <div class="card--title">
+                                            <h5 class="title">Unpublish On</h5>
+                                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <g clip-path="url(#clip0_3532_3956)">
+                                                <circle cx="6.99935" cy="6.99935" r="5.83333" stroke="#667085" stroke-width="1.2"/>
+                                                <path d="M7 4.08398V7.58398" stroke="#667085" stroke-width="1.2" stroke-linecap="round"/>
+                                                <circle cx="6.99935" cy="9.33333" r="0.583333" fill="#667085"/>
+                                                </g>
+                                                <defs>
+                                                <clipPath id="clip0_3532_3956">
+                                                <rect width="14" height="14" fill="white"/>
+                                                </clipPath>
+                                                </defs>
+                                            </svg>
+                                        </div>
+                                        <div class="wpsp-date--picker">
+                                            <form action="/action_page.php">
+                                                <input type="datetime-local" id="birthdaytime" name="birthdaytime">
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="wpsp-post--items">
+                                        <div class="card--title">
+                                            <h5 class="title">Republish On</h5>
+                                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <g clip-path="url(#clip0_3532_3956)">
+                                                <circle cx="6.99935" cy="6.99935" r="5.83333" stroke="#667085" stroke-width="1.2"/>
+                                                <path d="M7 4.08398V7.58398" stroke="#667085" stroke-width="1.2" stroke-linecap="round"/>
+                                                <circle cx="6.99935" cy="9.33333" r="0.583333" fill="#667085"/>
+                                                </g>
+                                                <defs>
+                                                <clipPath id="clip0_3532_3956">
+                                                <rect width="14" height="14" fill="white"/>
+                                                </clipPath>
+                                                </defs>
+                                            </svg>
+                                        </div>
+                                        <div class="wpsp-date--picker">
+                                            <form action="/action_page.php">
+                                                <input type="datetime-local" id="birthdaytime" name="birthdaytime">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="wpsp-tag--wrapper">
+                                    <div class="card--title">
+                                        <h5 class="title">Republish On</h5>
+                                    </div>
+                                    <div class="tag-item--wrapper">
+                                        <div class="tab--item">
+                                            <span>tagname1</span>
+                                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M9.20078 9.20078L2.80078 2.80078" stroke="#475467" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M2.80078 9.20078L9.20078 2.80078" stroke="#475467" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </div>
+                                        <div class="tab--item">
+                                            <span>tagname1</span>
+                                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M9.20078 9.20078L2.80078 2.80078" stroke="#475467" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M2.80078 9.20078L9.20078 2.80078" stroke="#475467" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </div>
+                                        <div class="tab--item">
+                                            <span>tagname1</span>
+                                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M9.20078 9.20078L2.80078 2.80078" stroke="#475467" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M2.80078 9.20078L9.20078 2.80078" stroke="#475467" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="advance-schedule--wrapper">
+                                    <div class="advance-schedule--header">
+                                        <h5 class="title">Advanced Schedule</h5>
+                                        <div class="toggle-wrapper">
+                                            <label class="toggle-wrap">
+                                                <input type="checkbox" checked="checked"> 
+                                                <span class="slider"></span>
+                                            </label>       
+                                        </div>
+                                    </div>
+                                    <div class="advance-schedule--items">
+                                        <div class="wpsp-post-items--wrapper">
+                                            <div class="wpsp-post--items">
+                                                <div class="card--title">
+                                                    <h5 class="title">Unpublish On</h5>
+                                                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <g clip-path="url(#clip0_3532_3956)">
+                                                        <circle cx="6.99935" cy="6.99935" r="5.83333" stroke="#667085" stroke-width="1.2"/>
+                                                        <path d="M7 4.08398V7.58398" stroke="#667085" stroke-width="1.2" stroke-linecap="round"/>
+                                                        <circle cx="6.99935" cy="9.33333" r="0.583333" fill="#667085"/>
+                                                        </g>
+                                                        <defs>
+                                                        <clipPath id="clip0_3532_3956">
+                                                        <rect width="14" height="14" fill="white"/>
+                                                        </clipPath>
+                                                        </defs>
+                                                    </svg>
+                                                </div>
+                                                <div class="wpsp-date--picker">
+                                                    <form action="/action_page.php">
+                                                        <input type="datetime-local" id="birthdaytime" name="birthdaytime">
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="wpsp-post--items">
+                                                <div class="card--title opacity">
+                                                    <h5 class="title">Republish On</h5>
+                                                </div>
+                                                <div class="add--version">
+                                                    <span>Add new version</span>
+                                                    <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <g clip-path="url(#clip0_3637_2112)">
+                                                        <path d="M8 3.83398V13.1673" stroke="#6C62FF" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        <path d="M3.33398 8.5H12.6673" stroke="#6C62FF" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        </g>
+                                                        <defs>
+                                                        <clipPath id="clip0_3637_2112">
+                                                        <rect width="16" height="16" fill="white" transform="translate(0 0.5)"/>
+                                                        </clipPath>
+                                                        </defs>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="social-share--wrapper">
                             <h2 class="title">Social Share Settings</h2>
                         </div>
-
                     </div>
-                    <div class="modal-footer">
+                    <div class="wpsp-modal--footer">
                         <button class="btn secondary-btn">Save Settings</button>
-                        <button class="btn primary-btn">Share Now</button>
+                        <button class="btn primary-btn">Share Now
+                            <svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M1.5 11L6.5 6L1.5 1" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
                     </div>
-                    
                 </div>
             </div>
         <?php
