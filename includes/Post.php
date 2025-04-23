@@ -285,7 +285,7 @@ class Post
                                     </div>
                                 </div>
                                 <div class="social-platform--wrapper">
-                                    <h5>Choose Social Share Platform</h5>
+                                    <span class="title">Choose Social Share Platform</span>
                                     <div class="social--item">
                                         <div class="card--title">
                                             <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -300,6 +300,53 @@ class Post
                                                 </defs>
                                             </svg>
                                             <h5 class="title">Facebook</h5>
+                                        </div>
+                                        <div class="wpsp-select--option">
+                                            <div class="dropdown--selected" id="selectedBox">
+                                                <span>Select profile</span>
+                                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M5 7.5L10 12.5L15 7.5" stroke="#475467" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </svg>
+                                            </div>
+                                            <div class="dropdown--options" id="dropdownOptions">
+                                                <div class="option">
+                                                    <span>Select All</span>
+                                                    <input type="checkbox" id="selectAll">
+                                                </div>
+                                                <div class="option">
+                                                    <div class="author--details">
+                                                        <img src="https://i.pravatar.cc/24?u=1" alt="">
+                                                        <h5 class="title">Esther Howard</h5>
+                                                        <button class="profile">PROFILE</button>
+                                                    </div>
+                                                    <input type="checkbox" class="profile" value="Esther Howard" data-img="https://i.pravatar.cc/24?u=1">
+                                                </div>
+                                                <div class="option">
+                                                    <div class="author--details">
+                                                        <img src="https://i.pravatar.cc/24?u=2" alt="">
+                                                        <h5 class="title">Leslie Alexander</h5>
+                                                        <button class="page">PAGE</button>
+                                                    </div>
+                                                    <input type="checkbox" class="profile" value="Leslie Alexander" data-img="https://i.pravatar.cc/24?u=2">
+                                                </div>
+                                                <div class="option">
+                                                    <div class="author--details">
+                                                    <img src="https://i.pravatar.cc/24?u=3" alt="">
+                                                        <h5 class="title">Cameron William</h5>
+                                                        <button class="profile">PROFILE</button>
+                                                    </div>
+                                                    <input type="checkbox" class="profile" value="Cameron William" data-img="https://i.pravatar.cc/24?u=3">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="social--item">
+                                        <div class="card--title">
+                                            <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M9 18.5C13.9706 18.5 18 14.4706 18 9.5C18 4.52944 13.9706 0.5 9 0.5C4.02944 0.5 0 4.52944 0 9.5C0 14.4706 4.02944 18.5 9 18.5Z" fill="#007AB9"/>
+                                                <path d="M14.3766 10.2243V13.9348H12.2253V10.473C12.2253 9.60375 11.9147 9.01015 11.1358 9.01015C10.5414 9.01015 10.1883 9.40979 10.0324 9.79675C9.97574 9.93505 9.96114 10.1271 9.96114 10.321V13.9347H7.80973C7.80973 13.9347 7.83861 8.07145 7.80973 7.46453H9.9613V8.38141C9.95697 8.38863 9.95087 8.39569 9.94702 8.40259H9.9613V8.38141C10.2472 7.9415 10.7571 7.3126 11.9001 7.3126C13.3155 7.3126 14.3766 8.23734 14.3766 10.2243ZM5.55917 4.3457C4.82326 4.3457 4.3418 4.82877 4.3418 5.46344C4.3418 6.08464 4.8093 6.58166 5.53093 6.58166H5.54489C6.29524 6.58166 6.76178 6.08464 6.76178 5.46344C6.7475 4.82877 6.29523 4.3457 5.55917 4.3457ZM4.46966 13.9348H6.62027V7.46453H4.46966V13.9348Z" fill="#F1F2F2"/>
+                                            </svg>
+                                            <h5 class="title">LinkedIn</h5>
                                         </div>
                                     </div>
                                 </div>

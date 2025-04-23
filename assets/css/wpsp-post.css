@@ -283,6 +283,118 @@ h5.title {
     background: transparent;
     border: 1px solid #FFB4B4;
 }
+.social-platform--wrapper {
+    padding-top: 24px;
+}
+.social-platform--wrapper span.title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #6E6E8D;
+    padding-bottom: 16px;
+    display: block;
+}
+.social-platform--wrapper .card--title {
+    margin-bottom: 8px;
+}
+.social-platform--wrapper .social--item:not(:last-child) {
+    margin-bottom: 20px;
+}
+
+
+
+.dropdown--selected {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid #B4AFFF;
+    border-radius: 8px;
+    padding: 10px 12px;
+    cursor: pointer;
+    background: #FFFFFF;
+    min-height: 18px;
+    position: relative;
+}
+.dropdown--selected svg {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.dropdown--selected span {
+    font-size: 12px;
+    line-height: 16px;
+    color: #6E6E8D;
+}
+  .avatar-tag {
+    display: flex;
+    align-items: center;
+    background: #eee;
+    padding: 2px 6px;
+    border-radius: 999px;
+    font-size: 12px;
+  }
+  .avatar-tag img {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 4px;
+  }
+.dropdown--options {
+    display: none;
+    margin-top: 4px;
+    border: 1px solid #ECEFF5;
+    border-radius: 8px;
+    background: #fff;
+    max-height: 240px;
+    box-shadow: 0px 12px 48px 0px #1B1B501A;
+    overflow-y: auto;
+}
+.dropdown--options.active {
+    display: block;
+}
+.option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    transition: ease-in-out .25s;
+    cursor: pointer;
+}
+.option:hover {
+    background: #FAFAFF;
+}
+.author--details {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.author--details button {
+    font-size: 8px;
+    line-height: 1em;
+    font-weight: 500;
+    color: #6C62FF;
+    padding: 6px 8px;
+    background: #F3F2FF;
+    border-radius: 20px;
+    border: none;
+}
+.author--details button.profile {
+    color: #6C62FF;
+    background: #F3F2FF;
+}
+.author--details button.page {
+    color: #007AB9;
+    background: #F0FAFF;
+}
+.option img {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+
+
 .wpsp-modal--footer {
     display: flex;
     justify-content: flex-end;
