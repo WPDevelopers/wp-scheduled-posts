@@ -68,54 +68,42 @@ h5.title {
 .wpsp-modal--wrapper input[type="checkbox"]::before {
     display: none;
 }
-.toggle-wrap {
+.wpsp-modal--wrapper label.toggle--wrap {
     position: relative;
     display: inline-block;
-    width: 44px;
-    height: 24px;
+    width: 40px;
+    height: 20px;
 }
-.toggle-wrap input {
-    opacity: 0;
-    width: 0;
-    height: 0;
+.wpsp-modal--wrapper .toggle--wrap input {
+    display: none;
 }
-.slider {
+.wpsp-modal--wrapper .slider {
     position: absolute;
     cursor: pointer;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #F2F4F7;
-    border-radius: 12px;
+    background-color: #B5B5BC;
+    border-radius: 20px;
     transition: ease-in-out .35s;
 }
-.slider:before {
+.wpsp-modal--wrapper .slider:before {
     position: absolute;
     content: "";
-    height: 20px;
-    width: 20px;
+    height: 16px;
+    width: 16px;
     left: 2px;
     bottom: 2px;
     background-color: #fff;
     border-radius: 50%;
     transition: ease-in-out .35s;
-    box-shadow: 0 1px 2px 0 #1018280F, 0 1px 3px 0 #1018281A;
 }
-input:checked + .slider {
-    background-color: #597DFC;
+.wpsp-modal--wrapper input:checked + .slider {
+    background-color: #6C62FF;
 }
-input:checked + .slider:before {
+.wpsp-modal--wrapper input:checked + .slider:before {
     transform: translateX(20px);
-}
-.form-select--address:focus {
-    box-shadow: 0 1px 2px 0 #1018280D, 0 0 0 4px #EBEFFF;
-}
-.input-form-common:focus {
-    box-shadow: 0 1px 2px 0 #1018280D, 0 0 0 4px #EBEFFF;
-}
-.multiselect__tags:focus {
-    box-shadow: 0 1px 2px 0 #1018280D, 0 0 0 4px #EBEFFF;
 }
 
 .wpsp-post--modal {
@@ -205,7 +193,6 @@ input:checked + .slider:before {
     font-weight: 500;
     color: #6C62FF;
 }
-
 .tab--item svg {
     cursor: pointer;
 }
@@ -230,15 +217,71 @@ input:checked + .slider:before {
 .wpsp-post-items--wrapper {
     margin-top: 16px;
 }
-.add--version {
+.add-version--wrap {
+    display: flex;
+    justify-content: flex-end;
+}
+.add-version--btn {
     display: inline-flex;
     align-items: center;
-    justify-content: flex-end;
-    gap: 8px;
-    padding: 12px;
+    gap: 4px;
+    padding: 10px 12px;
     border-radius: 6px;
     background: #F3F2FF;
+    border: none;
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 500;
     color: #6C62FF;
+    cursor: pointer;
+}
+.banner--wrapper {
+    margin-top: 12px;
+}
+.banner--btn {
+    display: flex;
+    justify-content: center;
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 500;
+    color: #6C62FF;
+    background: transparent;
+    padding: 12px;
+    border: 1px solid #6C62FF;
+    border-radius: 6px;
+    width: 100%;
+    cursor: pointer;
+}
+.banner--img {
+    max-width: 100%;
+    max-height: 140px;
+    border-radius: 4px;
+}
+.upload-button--wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+}
+.upload-button--wrapper .btn {
+    display: flex;
+    justify-content: center;
+    flex: 1;
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 500;
+    border-radius: 6px;
+    padding: 12px;
+}
+.upload-button--wrapper .upload--btn {
+    color: #FFFFFF;
+    background: #6C62FF;
+    border: 1px solid #6C62FF;
+}
+.upload-button--wrapper .remove--btn {
+    color: #FD2626;
+    background: transparent;
+    border: 1px solid #FFB4B4;
 }
 .wpsp-modal--footer {
     display: flex;

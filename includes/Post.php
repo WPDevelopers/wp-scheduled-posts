@@ -212,12 +212,10 @@ class Post
                                 <div class="advance-schedule--wrapper">
                                     <div class="advance-schedule--header">
                                         <h5 class="title">Advanced Schedule</h5>
-                                        <div class="toggle-wrapper">
-                                            <label class="toggle-wrap">
-                                                <input type="checkbox" checked="checked"> 
-                                                <span class="slider"></span>
-                                            </label>       
-                                        </div>
+                                        <label class="toggle--wrap">
+                                            <input type="checkbox" checked="checked"> 
+                                            <span class="slider"></span>
+                                        </label> 
                                     </div>
                                     <div class="advance-schedule--items">
                                         <div class="wpsp-post-items--wrapper">
@@ -247,19 +245,21 @@ class Post
                                                 <div class="card--title opacity">
                                                     <h5 class="title">Republish On</h5>
                                                 </div>
-                                                <div class="add--version">
-                                                    <span>Add new version</span>
-                                                    <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <g clip-path="url(#clip0_3637_2112)">
-                                                        <path d="M8 3.83398V13.1673" stroke="#6C62FF" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-                                                        <path d="M3.33398 8.5H12.6673" stroke="#6C62FF" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-                                                        </g>
-                                                        <defs>
-                                                        <clipPath id="clip0_3637_2112">
-                                                        <rect width="16" height="16" fill="white" transform="translate(0 0.5)"/>
-                                                        </clipPath>
-                                                        </defs>
-                                                    </svg>
+                                                <div class="add-version--wrap">
+                                                    <button class="add-version--btn">
+                                                        <span>Add new version</span>
+                                                        <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <g clip-path="url(#clip0_3637_2112)">
+                                                            <path d="M8 3.83398V13.1673" stroke="#6C62FF" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                            <path d="M3.33398 8.5H12.6673" stroke="#6C62FF" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                            </g>
+                                                            <defs>
+                                                            <clipPath id="clip0_3637_2112">
+                                                            <rect width="16" height="16" fill="white" transform="translate(0 0.5)"/>
+                                                            </clipPath>
+                                                            </defs>
+                                                        </svg>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -269,6 +269,41 @@ class Post
                         </div>
                         <div class="social-share--wrapper">
                             <h2 class="title">Social Share Settings</h2>
+                            <div class="wpsp-post--card">
+                                <div class="select--wrapper">
+                                    <label>
+                                        <input type="checkbox" value="checkbox">
+                                        <span>Disable Social Share</span>
+                                    </label>
+                                </div>
+                                <div class="banner--wrapper">
+                                    <button class="banner--btn">Upload Banner</button>
+                                    <img class="banner--img" src="" alt="bannerImg">
+                                    <div class="upload-button--wrapper">
+                                        <button class="btn upload--btn">Upload Banner</button>
+                                        <button class="btn remove--btn">Remove Banner</button>
+                                    </div>
+                                </div>
+                                <div class="social-platform--wrapper">
+                                    <h5>Choose Social Share Platform</h5>
+                                    <div class="social--item">
+                                        <div class="card--title">
+                                            <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <g clip-path="url(#clip0_3622_2332)">
+                                                <path d="M18.002 9.5C18.002 13.9923 14.7106 17.7157 10.4082 18.3907V12.1016H12.5053L12.9043 9.5H10.4082V7.8118C10.4082 7.09988 10.757 6.40625 11.8749 6.40625H13.0098V4.19141C13.0098 4.19141 11.9797 4.01562 10.995 4.01562C8.93937 4.01562 7.5957 5.26156 7.5957 7.51719V9.5H5.31055V12.1016H7.5957V18.3907C3.29328 17.7157 0.00195312 13.9923 0.00195312 9.5C0.00195312 4.52961 4.03156 0.5 9.00195 0.5C13.9723 0.5 18.002 4.52961 18.002 9.5Z" fill="#1877F2"/>
+                                                <path d="M12.5053 12.1016L12.9043 9.5H10.4082V7.81176C10.4082 7.10002 10.7569 6.40625 11.8749 6.40625H13.0098V4.19141C13.0098 4.19141 11.9798 4.01562 10.9951 4.01562C8.93934 4.01562 7.5957 5.26156 7.5957 7.51719V9.5H5.31055V12.1016H7.5957V18.3906C8.05393 18.4625 8.52355 18.5 9.00195 18.5C9.48036 18.5 9.94998 18.4625 10.4082 18.3906V12.1016H12.5053Z" fill="white"/>
+                                                </g>
+                                                <defs>
+                                                <clipPath id="clip0_3622_2332">
+                                                <rect width="18" height="18" fill="white" transform="translate(0 0.5)"/>
+                                                </clipPath>
+                                                </defs>
+                                            </svg>
+                                            <h5 class="title">Facebook</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="wpsp-modal--footer">
