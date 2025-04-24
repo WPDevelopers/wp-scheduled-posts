@@ -43,3 +43,71 @@ const selectedBox = document.getElementById('selectedBox');
     checkboxes.forEach(cb => cb.checked = e.target.checked);
     updateSelected();
   });
+
+
+
+  const data = {
+    reels: {
+      files: ['Reel1.png', 'Reel2.png', 'Reel3.png'],
+      images: [
+        'https://via.placeholder.com/400x300?text=Reel+1',
+        'https://via.placeholder.com/400x300?text=Reel+2',
+        'https://via.placeholder.com/400x300?text=Reel+3'
+      ]
+    },
+    carousel: {
+      files: ['Carousel1.png', 'Carousel2.png', 'Carousel3.png'],
+      images: [
+        'https://via.placeholder.com/400x300?text=Carousel+1',
+        'https://via.placeholder.com/400x300?text=Carousel+2',
+        'https://via.placeholder.com/400x300?text=Carousel+3'
+      ]
+    }
+  };
+
+  let currentTab = 'reels';
+  let currentIndex = 0;
+
+  function renderTabContent() {
+    const { files, images } = data[currentTab];
+    const content = `
+      <img src="${images[0]}" class="thumbnail" onclick="openPopup(0)">
+      <div class="text">${files.join(', ')}</div>
+      <div class="subtext">${files.length} image uploaded</div>
+      <button class="btn btn-gray" onclick="openPopup(0)">View all</button>
+      <button class="btn btn-light">Preview</button>
+    `;
+    document.getElementById('tabContent').innerHTML = content;
+  }
+
+  function switchTab(tabName) {
+    currentTab = tabName;
+    document.getElementById('tab-reels').classList.toggle('active', tabName === 'reels');
+    document.getElementById('tab-carousel').classList.toggle('active', tabName === 'carousel');
+    renderTabContent();
+  }
+
+  function openPopup(index) {
+    currentIndex = index;
+    document.getElementById("popupImage").src = data[currentTab].images[currentIndex];
+    document.getElementById("popup").style.display = "flex";
+  }
+
+  function closePopup() {
+    document.getElementById("popup").style.display = "none";
+  }
+
+  function nextImage() {
+    const images = data[currentTab].images;
+    currentIndex = (currentIndex + 1) % images.length;
+    document.getElementById("popupImage").src = images[currentIndex];
+  }
+
+  function prevImage() {
+    const images = data[currentTab].images;
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    document.getElementById("popupImage").src = images[currentIndex];
+  }
+
+  // Initialize
+  renderTabContent();

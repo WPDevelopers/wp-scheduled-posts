@@ -186,21 +186,21 @@ class Post
                                         <h5 class="title">Republish On</h5>
                                     </div>
                                     <div class="tag-item--wrapper">
-                                        <div class="tab--item">
+                                        <div class="tag--item">
                                             <span>tagname1</span>
                                             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M9.20078 9.20078L2.80078 2.80078" stroke="#475467" stroke-linecap="round" stroke-linejoin="round"/>
                                                 <path d="M2.80078 9.20078L9.20078 2.80078" stroke="#475467" stroke-linecap="round" stroke-linejoin="round"/>
                                             </svg>
                                         </div>
-                                        <div class="tab--item">
+                                        <div class="tag--item">
                                             <span>tagname1</span>
                                             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M9.20078 9.20078L2.80078 2.80078" stroke="#475467" stroke-linecap="round" stroke-linejoin="round"/>
                                                 <path d="M2.80078 9.20078L9.20078 2.80078" stroke="#475467" stroke-linecap="round" stroke-linejoin="round"/>
                                             </svg>
                                         </div>
-                                        <div class="tab--item">
+                                        <div class="tag--item">
                                             <span>tagname1</span>
                                             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M9.20078 9.20078L2.80078 2.80078" stroke="#475467" stroke-linecap="round" stroke-linejoin="round"/>
@@ -347,6 +347,42 @@ class Post
                                                 <path d="M14.3766 10.2243V13.9348H12.2253V10.473C12.2253 9.60375 11.9147 9.01015 11.1358 9.01015C10.5414 9.01015 10.1883 9.40979 10.0324 9.79675C9.97574 9.93505 9.96114 10.1271 9.96114 10.321V13.9347H7.80973C7.80973 13.9347 7.83861 8.07145 7.80973 7.46453H9.9613V8.38141C9.95697 8.38863 9.95087 8.39569 9.94702 8.40259H9.9613V8.38141C10.2472 7.9415 10.7571 7.3126 11.9001 7.3126C13.3155 7.3126 14.3766 8.23734 14.3766 10.2243ZM5.55917 4.3457C4.82326 4.3457 4.3418 4.82877 4.3418 5.46344C4.3418 6.08464 4.8093 6.58166 5.53093 6.58166H5.54489C6.29524 6.58166 6.76178 6.08464 6.76178 5.46344C6.7475 4.82877 6.29523 4.3457 5.55917 4.3457ZM4.46966 13.9348H6.62027V7.46453H4.46966V13.9348Z" fill="#F1F2F2"/>
                                             </svg>
                                             <h5 class="title">LinkedIn</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="carousal--wrapper">
+                                    <div class="carousal--tab">
+                                        <div id="tab-reels" class="tab--item active" onclick="switchTab('reels')">
+                                            Reels 
+                                            <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <circle cx="8" cy="8.32227" r="8" fill="#F7E6D7"/>
+                                                <path d="M3.61242 9.98271C3.40966 8.66471 3.20689 7.34675 3.00412 6.02874C2.95916 5.73658 3.29159 5.53731 3.52806 5.71468C4.15979 6.18848 4.79149 6.66224 5.42322 7.13604C5.63122 7.29204 5.92756 7.24128 6.07176 7.02494L7.64952 4.65828C7.81626 4.40818 8.18372 4.40818 8.35046 4.65828L9.92822 7.02494C10.0724 7.24128 10.3688 7.29201 10.5768 7.13604C11.2085 6.66224 11.8402 6.18848 12.4719 5.71468C12.7084 5.53731 13.0408 5.73658 12.9959 6.02874C12.7931 7.34675 12.5904 8.66471 12.3876 9.98271H3.61242Z" fill="#FF9437"/>
+                                                <path d="M11.9309 12.1754H4.07078C3.81811 12.1754 3.61328 11.9706 3.61328 11.7179V10.7129H12.3884V11.7179C12.3884 11.9706 12.1836 12.1754 11.9309 12.1754Z" fill="#FF9437"/>
+                                            </svg>
+                                        </div>
+                                        <div id="tab-carousel" class="tab--item" onclick="switchTab('carousel')">
+                                            Carousel 
+                                            <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <circle cx="8" cy="8.32227" r="8" fill="#F7E6D7"/>
+                                                <path d="M3.61242 9.98271C3.40966 8.66471 3.20689 7.34675 3.00412 6.02874C2.95916 5.73658 3.29159 5.53731 3.52806 5.71468C4.15979 6.18848 4.79149 6.66224 5.42322 7.13604C5.63122 7.29204 5.92756 7.24128 6.07176 7.02494L7.64952 4.65828C7.81626 4.40818 8.18372 4.40818 8.35046 4.65828L9.92822 7.02494C10.0724 7.24128 10.3688 7.29201 10.5768 7.13604C11.2085 6.66224 11.8402 6.18848 12.4719 5.71468C12.7084 5.53731 13.0408 5.73658 12.9959 6.02874C12.7931 7.34675 12.5904 8.66471 12.3876 9.98271H3.61242Z" fill="#FF9437"/>
+                                                <path d="M11.9309 12.1754H4.07078C3.81811 12.1754 3.61328 11.9706 3.61328 11.7179V10.7129H12.3884V11.7179C12.3884 11.9706 12.1836 12.1754 11.9309 12.1754Z" fill="#FF9437"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+
+                                    <div id="tabContent">
+                                        <!-- Dynamic content goes here -->
+                                    </div>
+                                    </div>
+
+                                    <!-- Popup with slider -->
+                                    <div class="popup" id="popup">
+                                    <div class="popup-content">
+                                        <span class="close-btn" onclick="closePopup()">&times;</span>
+                                        <img id="popupImage" src="" alt="Popup Image">
+                                        <div class="slider-nav">
+                                        <button onclick="prevImage()">Prev</button>
+                                        <button onclick="nextImage()">Next</button>
                                         </div>
                                     </div>
                                 </div>

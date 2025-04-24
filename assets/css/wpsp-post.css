@@ -180,7 +180,7 @@ h5.title {
     border: 1px solid #ECEFF5;
     border-radius: 8px;
 }
-.tab--item {
+.tag--item {
     display: flex;
     align-items: center;
     gap: 4px;
@@ -193,7 +193,7 @@ h5.title {
     font-weight: 500;
     color: #6C62FF;
 }
-.tab--item svg {
+.tag--item svg {
     cursor: pointer;
 }
 .advance-schedule--wrapper {
@@ -392,6 +392,130 @@ h5.title {
     height: 20px;
     border-radius: 50%;
 }
+
+
+
+.carousal--wrapper {
+    border: 1px solid #ECEFF5;
+    border-radius: 8px;
+    text-align: center;
+    overflow: hidden;
+}
+.carousal--tab {
+    display: flex;
+    margin-bottom: 12px;
+}
+
+.carousal--tab .tab--item {
+    font-size: 14px;
+    line-height: 1em;
+    font-weight: 500;
+    color: #1B1B50;
+    flex: 1;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: #EBEEF5;
+    transition: ease-in-out .25s;
+    cursor: pointer;
+}
+.carousal--tab .tab--item.active {
+    background: #6C62FF;
+    color: #FFFFFF;
+}
+
+  .thumbnail {
+    width: 80px;
+    height: 100px;
+    object-fit: cover;
+    margin: 12px auto;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .text {
+    font-weight: bold;
+    color: #4b5563;
+  }
+
+  .subtext {
+    color: #9ca3af;
+    font-size: 14px;
+  }
+
+  .btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    margin: 8px;
+    cursor: pointer;
+    border: none;
+    font-weight: 500;
+  }
+
+  .btn-gray {
+    background: #d1d5db;
+  }
+
+  .btn-light {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+  }
+
+  /* Popup Styles */
+  .popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+  }
+
+  .popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    width: 80%;
+    max-width: 500px;
+    position: relative;
+    text-align: center;
+  }
+
+  .popup-content img {
+    max-width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  .slider-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 12px;
+  }
+
+  .slider-nav button {
+    padding: 6px 14px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: none;
+    background: #6366f1;
+    color: white;
+    cursor: pointer;
+  }
 
 
 
