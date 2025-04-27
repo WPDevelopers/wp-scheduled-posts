@@ -286,6 +286,8 @@ class Post
                                 </div>
                                 <div class="social-platform--wrapper">
                                     <span class="title">Choose Social Share Platform</span>
+
+                                    <!-- Social item Facebook -->
                                     <div class="social--item">
                                         <div class="card--title">
                                             <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -340,6 +342,8 @@ class Post
                                             </div>
                                         </div>
                                     </div>
+
+                                    <!-- Social item LinkedIn -->
                                     <div class="social--item">
                                         <div class="card--title">
                                             <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -348,47 +352,90 @@ class Post
                                             </svg>
                                             <h5 class="title">LinkedIn</h5>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="carousal--wrapper">
-                                    <div class="carousal--tab">
-                                        <div id="tab-reels" class="tab--item active" onclick="switchTab('reels')">
-                                            Reels 
-                                            <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <circle cx="8" cy="8.32227" r="8" fill="#F7E6D7"/>
-                                                <path d="M3.61242 9.98271C3.40966 8.66471 3.20689 7.34675 3.00412 6.02874C2.95916 5.73658 3.29159 5.53731 3.52806 5.71468C4.15979 6.18848 4.79149 6.66224 5.42322 7.13604C5.63122 7.29204 5.92756 7.24128 6.07176 7.02494L7.64952 4.65828C7.81626 4.40818 8.18372 4.40818 8.35046 4.65828L9.92822 7.02494C10.0724 7.24128 10.3688 7.29201 10.5768 7.13604C11.2085 6.66224 11.8402 6.18848 12.4719 5.71468C12.7084 5.53731 13.0408 5.73658 12.9959 6.02874C12.7931 7.34675 12.5904 8.66471 12.3876 9.98271H3.61242Z" fill="#FF9437"/>
-                                                <path d="M11.9309 12.1754H4.07078C3.81811 12.1754 3.61328 11.9706 3.61328 11.7179V10.7129H12.3884V11.7179C12.3884 11.9706 12.1836 12.1754 11.9309 12.1754Z" fill="#FF9437"/>
-                                            </svg>
-                                        </div>
-                                        <div id="tab-carousel" class="tab--item" onclick="switchTab('carousel')">
-                                            Carousel 
-                                            <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <circle cx="8" cy="8.32227" r="8" fill="#F7E6D7"/>
-                                                <path d="M3.61242 9.98271C3.40966 8.66471 3.20689 7.34675 3.00412 6.02874C2.95916 5.73658 3.29159 5.53731 3.52806 5.71468C4.15979 6.18848 4.79149 6.66224 5.42322 7.13604C5.63122 7.29204 5.92756 7.24128 6.07176 7.02494L7.64952 4.65828C7.81626 4.40818 8.18372 4.40818 8.35046 4.65828L9.92822 7.02494C10.0724 7.24128 10.3688 7.29201 10.5768 7.13604C11.2085 6.66224 11.8402 6.18848 12.4719 5.71468C12.7084 5.53731 13.0408 5.73658 12.9959 6.02874C12.7931 7.34675 12.5904 8.66471 12.3876 9.98271H3.61242Z" fill="#FF9437"/>
-                                                <path d="M11.9309 12.1754H4.07078C3.81811 12.1754 3.61328 11.9706 3.61328 11.7179V10.7129H12.3884V11.7179C12.3884 11.9706 12.1836 12.1754 11.9309 12.1754Z" fill="#FF9437"/>
-                                            </svg>
+                                        <div class="wpsp-select--option">
+                                            <div class="dropdown--selected" id="selectedBox">
+                                                <span>Select profile</span>
+                                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M5 7.5L10 12.5L15 7.5" stroke="#475467" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </svg>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div id="tabContent">
-                                        <!-- Dynamic content goes here -->
-                                    </div>
-                                    </div>
+                                    <!-- Social item Instagram -->
+                                    <div class="social--item">
+                                        <div class="card--title">
+                                            <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <rect y="0.322266" width="18" height="18" rx="9" fill="url(#paint0_linear_3520_6459)"/>
+                                                <path d="M10.9119 4.50195H7.09191C5.38791 4.50195 4.00391 5.83652 4.00391 7.47967V11.1632C4.00391 12.8064 5.38791 14.141 7.09191 14.141H10.9119C12.6159 14.141 13.9999 12.8064 13.9999 11.1632V7.47967C13.9999 5.83652 12.6159 4.50195 10.9119 4.50195ZM12.8839 11.1671C12.8839 12.2162 11.9999 13.0725 10.9079 13.0725H7.08791C5.99991 13.0725 5.11191 12.2201 5.11191 11.1671V7.48352C5.11191 6.43438 5.99591 5.5781 7.08791 5.5781H10.9079C11.9959 5.5781 12.8839 6.43052 12.8839 7.48352V11.1671Z" fill="white"/>
+                                                <path d="M9.00131 6.85938C7.59331 6.85938 6.44531 7.96637 6.44531 9.32409C6.44531 10.6818 7.59331 11.7888 9.00131 11.7888C10.4093 11.7888 11.5573 10.6818 11.5573 9.32409C11.5573 7.96637 10.4093 6.85938 9.00131 6.85938ZM9.00131 10.8207C8.14531 10.8207 7.44931 10.1495 7.44931 9.32409C7.44931 8.49866 8.14531 7.82752 9.00131 7.82752C9.85731 7.82752 10.5533 8.49866 10.5533 9.32409C10.5533 10.1495 9.85731 10.8207 9.00131 10.8207Z" fill="white"/>
+                                                <path d="M11.7482 7.12871C11.9837 7.0919 12.1437 6.87797 12.1055 6.6509C12.0673 6.42382 11.8455 6.26958 11.61 6.3064C11.3745 6.34321 11.2145 6.55713 11.2527 6.7842C11.2909 7.01128 11.5127 7.16552 11.7482 7.12871Z" fill="white"/>
+                                                <defs>
+                                                <linearGradient id="paint0_linear_3520_6459" x1="2.14716" y1="16.1751" x2="14.9372" y2="3.38511" gradientUnits="userSpaceOnUse">
+                                                <stop stop-color="#FEE411"/>
+                                                <stop offset="0.0518459" stop-color="#FEDB16"/>
+                                                <stop offset="0.1381" stop-color="#FEC125"/>
+                                                <stop offset="0.2481" stop-color="#FE983D"/>
+                                                <stop offset="0.3762" stop-color="#FE5F5E"/>
+                                                <stop offset="0.5" stop-color="#FE2181"/>
+                                                <stop offset="1" stop-color="#9000DC"/>
+                                                </linearGradient>
+                                                </defs>
+                                            </svg>
+                                            <h5 class="title">Instagram</h5>
+                                        </div>
+                                        <div class="carousal--wrapper">
+                                            <div class="carousal--tab">
+                                                <div id="tab-reels" class="tab--item active" onclick="switchTab('reels')">
+                                                    Reels 
+                                                    <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <circle cx="8" cy="8.32227" r="8" fill="#F7E6D7"/>
+                                                        <path d="M3.61242 9.98271C3.40966 8.66471 3.20689 7.34675 3.00412 6.02874C2.95916 5.73658 3.29159 5.53731 3.52806 5.71468C4.15979 6.18848 4.79149 6.66224 5.42322 7.13604C5.63122 7.29204 5.92756 7.24128 6.07176 7.02494L7.64952 4.65828C7.81626 4.40818 8.18372 4.40818 8.35046 4.65828L9.92822 7.02494C10.0724 7.24128 10.3688 7.29201 10.5768 7.13604C11.2085 6.66224 11.8402 6.18848 12.4719 5.71468C12.7084 5.53731 13.0408 5.73658 12.9959 6.02874C12.7931 7.34675 12.5904 8.66471 12.3876 9.98271H3.61242Z" fill="#FF9437"/>
+                                                        <path d="M11.9309 12.1754H4.07078C3.81811 12.1754 3.61328 11.9706 3.61328 11.7179V10.7129H12.3884V11.7179C12.3884 11.9706 12.1836 12.1754 11.9309 12.1754Z" fill="#FF9437"/>
+                                                    </svg>
+                                                </div>
+                                                <div id="tab-carousel" class="tab--item" onclick="switchTab('carousel')">
+                                                    Carousel 
+                                                    <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <circle cx="8" cy="8.32227" r="8" fill="#F7E6D7"/>
+                                                        <path d="M3.61242 9.98271C3.40966 8.66471 3.20689 7.34675 3.00412 6.02874C2.95916 5.73658 3.29159 5.53731 3.52806 5.71468C4.15979 6.18848 4.79149 6.66224 5.42322 7.13604C5.63122 7.29204 5.92756 7.24128 6.07176 7.02494L7.64952 4.65828C7.81626 4.40818 8.18372 4.40818 8.35046 4.65828L9.92822 7.02494C10.0724 7.24128 10.3688 7.29201 10.5768 7.13604C11.2085 6.66224 11.8402 6.18848 12.4719 5.71468C12.7084 5.53731 13.0408 5.73658 12.9959 6.02874C12.7931 7.34675 12.5904 8.66471 12.3876 9.98271H3.61242Z" fill="#FF9437"/>
+                                                        <path d="M11.9309 12.1754H4.07078C3.81811 12.1754 3.61328 11.9706 3.61328 11.7179V10.7129H12.3884V11.7179C12.3884 11.9706 12.1836 12.1754 11.9309 12.1754Z" fill="#FF9437"/>
+                                                    </svg>
+                                                </div>
+                                            </div>
 
-                                    <!-- Popup with slider -->
-                                    <div class="popup" id="popup">
-                                    <div class="popup-content">
-                                        <span class="close-btn" onclick="closePopup()">&times;</span>
-                                        <img id="popupImage" src="" alt="Popup Image">
-                                        <div class="slider-nav">
-                                        <button onclick="prevImage()">Prev</button>
-                                        <button onclick="nextImage()">Next</button>
+                                            <div class="tab--content">
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M3 15C3 17.8284 3 19.2426 3.87868 20.1213C4.75736 21 6.17157 21 9 21H15C17.8284 21 19.2426 21 20.1213 20.1213C21 19.2426 21 17.8284 21 15" stroke="#1B1B50" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M12 16V3M12 3L16 7.375M12 3L8 7.375" stroke="#1B1B50" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </svg>
+                                                <div class="text">Reel1.png, Reel2.png, Reel3.png</div>
+                                                <div class="subtext">3 image uploaded</div>
+                                                <button class="btn primary-btn">Browse File</button>
+                                            </div>
+
+                                            <div id="tabContent" class="tab--content">
+                                                <!-- Dynamic content goes here -->
+                                            </div>
+                                            </div>
+
+                                            <!-- Popup with slider -->
+                                            <div class="popup" id="popup">
+                                            <div class="popup-content">
+                                                <span class="close-btn" onclick="closePopup()">&times;</span>
+                                                <img id="popupImage" src="" alt="Popup Image">
+                                                <div class="slider-nav">
+                                                <button onclick="prevImage()">Prev</button>
+                                                <button onclick="nextImage()">Next</button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    
                     <div class="wpsp-modal--footer">
                         <button class="btn secondary-btn">Save Settings</button>
                         <button class="btn primary-btn">Share Now

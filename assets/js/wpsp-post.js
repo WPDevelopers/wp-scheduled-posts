@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
     modal.querySelector('.wpsp-modal-backdrop')?.addEventListener('click', closeModal);
 });    
 
+// Select profile 
 const selectedBox = document.getElementById('selectedBox');
   const dropdownOptions = document.getElementById('dropdownOptions');
   const checkboxes = document.querySelectorAll('.profile');
@@ -44,8 +45,7 @@ const selectedBox = document.getElementById('selectedBox');
     updateSelected();
   });
 
-
-
+// Instagram Carousel
   const data = {
     reels: {
       files: ['Reel1.png', 'Reel2.png', 'Reel3.png'],
