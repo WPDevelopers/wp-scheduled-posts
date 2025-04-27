@@ -20,6 +20,7 @@ import ProToggle from './utils/ProToggle';
 import Medium from './Medium';
 import CheckboxSelectAsync from './CheckboxSelectAsync';
 import Threads from './Threads';
+import GoogleBusiness from './GoogleBusiness';
 
 const Field = (ret, type, props) => {
 
@@ -64,6 +65,8 @@ const Field = (ret, type, props) => {
             return <Calendar {...props} />;
         case "license":
             return <License {...props} />;
+        case "google-business":
+            return <GoogleBusiness {...props} />;
         default:
             return ret;
     }

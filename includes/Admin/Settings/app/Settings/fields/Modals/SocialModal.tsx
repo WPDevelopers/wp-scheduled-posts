@@ -8,6 +8,7 @@ import Linkedin from "./Linkedin";
 import Pinterest from "./Pinterest";
 import Twitter from "./Twitter";
 import Instagram from "./Instagram";
+import GoogleBusiness from "./GoogleBusiness";
 
 import {
     useBuilderContext,
@@ -24,6 +25,7 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
     const [error, setError] = useState("");
     const [fbPage, setFbPage] = useState([]);
     const [fbGroup, setFbGroup] = useState([]);
+    const [googleProfiles, setGoogleProfiles] = useState([]);
     const [pinterestBoards, setPinterestBoards] = useState([]);
     const [instagramProfiles, setInstagramProfiles] = useState([]);
     const [threadsProfiles, setThreadsProfiles] = useState([]);
@@ -64,6 +66,7 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
                             setFbGroup(response.group);
                         }                        
                         setInstagramProfiles(response.profiles)
+                        setGoogleProfiles(response.profiles)
                         setResponseData([response.data]);
                         setThreadsProfiles(response.profiles);
                         setLinkedInData(response.linkedin);
@@ -322,6 +325,13 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
                               threads: (
                                 <Threads
                                     profiles={threadsProfiles}
+                                    addProfileToggle={addProfileToggle}
+                                    savedProfile={addSavedProfile}
+                                />
+                              ),
+                              google_business: (
+                                <GoogleBusiness
+                                    profiles={googleProfiles}
                                     addProfileToggle={addProfileToggle}
                                     savedProfile={addSavedProfile}
                                 />

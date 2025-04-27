@@ -248,6 +248,8 @@ class SocialProfile
     }
 
 
+
+
     public function getInstagramProfile($access_token) {
         // Define the Instagram Graph API URL for fetching profile details
         $graph_url = add_query_arg([
@@ -824,10 +826,158 @@ class SocialProfile
                 wp_send_json_error($error->getMessage());
                 wp_die();
             }
+        } else if ($type == 'google_business' && $code != "") {
+            $profiles      = $this->getGoogleMyBusinessProfile($app_id, $app_secret, $code, $redirectURI);
+            $profile_data  = !empty($profiles['data']) ? $profiles['data'] : [];
+            $token_data    = !empty($profiles['token_data']) ? $profiles['token_data'] : [];
+            $profile_array = array();
+            if (!empty($profile_data) && is_object($profile_data)) {
+                foreach ($profile_data->accounts as $account) {
+                    // $uploaded_image_url = $this->handle_thumbnail_upload('', $account->name);
+                    $uploaded_image_url = ''; // Google My Business might not always give profile pictures easily
+                    array_push($profile_array, array(
+                        'id'            => $account->name,                                                         // Google uses resource names like "accounts/1234567890"
+                        'app_id'        => $app_id,
+                        'app_secret'    => $app_secret,
+                        'name'          => $account->accountName ?? 'Unknown',                                     // fallback
+                        'thumbnail_url' => !empty($uploaded_image_url) ? $uploaded_image_url : '',                 // fallback empty
+                        'type'          => 'profile',
+                        'status'        => true,
+                        'access_token'  => !empty( $token_data->access_token ) ? $token_data->access_token : '',
+                        'refresh_token' => !empty( $token_data->refresh_token ) ? $token_data->refresh_token : '',
+                        'expires_in'    => $expires_in,
+                        'added_by'      => $current_user->user_login,
+                        'added_date'    => current_time('mysql'),
+                    ));
+                }
+            }
+
+             // response
+             $response = array(
+                'success'  => true,
+                'profiles' => $profile_array,
+                'type'     => 'google_business',
+            );
+            wp_send_json($response);
+            wp_die();
         }
         wp_send_json_error("Option name and request type missing. please try again");
         wp_die();
     }
+
+    public function refreshGoogleAccessToken($client_id, $client_secret, $refresh_token)
+    {
+        $token_url = 'https://oauth2.googleapis.com/token';
+
+        $response = wp_remote_post($token_url, [
+            'body' => [
+                'grant_type'    => 'refresh_token',
+                'client_id'     => $client_id,
+                'client_secret' => $client_secret,
+                'refresh_token' => $refresh_token,
+            ],
+        ]);
+
+        if (is_wp_error($response)) {
+            return [
+                'error'   => true,
+                'message' => $response->get_error_message(),
+            ];
+        }
+
+        $body = wp_remote_retrieve_body($response);
+        $token_data = json_decode($body);
+
+        if (empty($token_data->access_token)) {
+            $error_message = isset($token_data->error_description) ? $token_data->error_description : 'Failed to refresh access token.';
+            return [
+                'error'   => true,
+                'message' => $error_message,
+            ];
+        }
+
+        return [
+            'error'         => false,
+            'access_token'  => $token_data->access_token,
+            'expires_in'    => $token_data->expires_in,
+        ];
+    }
+
+
+    /**
+     * Get Google My Business profile using App ID, App Secret, and Authorization Code.
+     *
+     * @param string $client_id Google API client ID.
+     * @param string $client_secret Google API client secret.
+     * @param string $code Authorization code received from Google OAuth.
+     * @param string $redirect_uri Redirect URI used during authorization.
+     * @return array|false Returns an array containing profile data or false on failure.
+     */
+    public function getGoogleMyBusinessProfile($client_id, $client_secret, $code, $redirect_uri)
+    {
+        // Step 1: Exchange authorization code for access token
+        $token_url = 'https://oauth2.googleapis.com/token';
+
+        $response = wp_remote_post($token_url, [
+            'body' => [
+                'code'          => $code,
+                'client_id'     => $client_id,
+                'client_secret' => $client_secret,
+                'redirect_uri'  => $redirect_uri,
+                'grant_type'    => 'authorization_code',
+            ],
+        ]);
+
+        if (is_wp_error($response)) {
+            return false;
+        }
+
+        $body = wp_remote_retrieve_body($response);
+        $token_data = json_decode($body);
+
+        if (empty($token_data->access_token)) {
+            return false;
+        }
+
+        $access_token = $token_data->access_token;
+
+        // Step 2: Fetch Google My Business account/profile information
+        $profile_url = add_query_arg([], 'https://mybusinessbusinessinformation.googleapis.com/v1/accounts');
+
+        $profile_response = wp_remote_get($profile_url, [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $access_token,
+            ],
+        ]);
+        $response_code = wp_remote_retrieve_response_code($profile_response);
+        if (is_wp_error($profile_response) || $response_code != 200) {
+            $error_message = 'Failed to retrieve profile data.';
+
+            // Try to get error message from Google response body
+            $error_body = wp_remote_retrieve_body($profile_response);
+            if (!empty($error_body)) {
+                $error_data = json_decode($error_body);
+                if (!empty($error_data->error->message)) {
+                    $error_message = $error_data->error->message;
+                }
+            }
+
+            return [
+                'error'   => true,
+                'message' => $error_message,
+            ];
+        }
+
+        $profile_body = wp_remote_retrieve_body($profile_response);
+        $profile_data = json_decode($profile_body);
+        
+        return [
+            'error'      => false,
+            'data'       => $profile_data,
+            'token_data' => $token_data,
+        ];
+    }
+
 
     public function handle_thumbnail_upload($imageUrl, $imageTitle = '')
     {
@@ -1035,6 +1185,23 @@ class SocialProfile
                 $url = "https://threads.net/oauth/authorize?client_id="
                     . $app_id . "&redirect_uri=" . urlencode($redirectURI) . "&state="
                     . $state . "&scope=" . WPSCP_THREADS_SCOPE;
+                wp_send_json_success($url);
+                wp_die();
+            } catch (\Exception $error) {
+                wp_send_json_error($error->getMessage());
+                wp_die();
+            }
+        } else if ($type == 'google_business') {
+            try {
+                $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=' . WPSP_SETTINGS_SLUG));
+                $state = base64_encode(json_encode($request));
+                $url = "https://accounts.google.com/o/oauth2/v2/auth?client_id="
+                . $app_id . "&redirect_uri=" . urlencode($redirectURI)
+                . "&response_type=code"
+                . "&scope=" . WPSCP_GOOGLE_BUSINESS_SCOPE
+                . "&prompt=consent"
+                . "&state=". $state;
+
                 wp_send_json_success($url);
                 wp_die();
             } catch (\Exception $error) {

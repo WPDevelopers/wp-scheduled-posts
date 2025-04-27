@@ -702,6 +702,21 @@ class Settings {
                                     ],
                                     'priority' => 35,
                                 ],
+                                'google_business_profile_list'  => [
+                                    'id'       => 'google_business_profile_list',
+                                    'name'     => 'google_business_profile_list',
+                                    'type'     => 'google-business',
+                                    'label'    => __('Google My Business', 'wp-scheduled-posts'),
+                                    'default'  => [],
+                                    'logo'     => WPSP_ASSETS_URI . 'images/google-my-business-logo.svg',
+                                    'desc'     => sprintf( __('You can enable/disable Google My Business social share. To configure Google My Business Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-threads/' ),
+                                    'modal'    => [
+                                        'logo'               => WPSP_ASSETS_URI . 'images/google-my-business-logo.svg',
+                                        'redirect_url_desc'  => __('Add this URL in the Redirect URLs field of your Medium app.','wp-scheduled-posts'),
+                                        'desc'               => sprintf( __('For details on Google My Business configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your Google My Business account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-threads/','https://developers.facebook.com/' ),
+                                    ],
+                                    'priority' => 40,
+                                ],
                             ]
                         ]
 
