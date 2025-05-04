@@ -1,51 +1,108 @@
-// Classic editor modal open
-document.addEventListener('DOMContentLoaded', function () {
+
+(function($) {
+  // Classic editor modal open
+  document.addEventListener('DOMContentLoaded', function () {
     const modal = document.getElementById('wpsp-post-modal');
-    const closeBtn = document.getElementById('wpsp-modal-close');
-    console.log('modal',modal);
-    
+    const closeBtn = document.getElementById('wpsp-modal-close');    
     window.mypluginOpenModal = () => modal.classList.add('active');
     const closeModal = () => modal.classList.remove('active');
-
     closeBtn.addEventListener('click', closeModal);
     modal.querySelector('.wpsp-modal-backdrop')?.addEventListener('click', closeModal);
-});    
+  });    
 
-// Select profile 
-const selectedBox = document.getElementById('selectedBox');
-  const dropdownOptions = document.getElementById('dropdownOptions');
-  const checkboxes = document.querySelectorAll('.profile');
-  const selectAll = document.getElementById('selectAll');
 
-  selectedBox.addEventListener('click', () => {
-    dropdownOptions.classList.toggle('active');
-  });
 
-  function updateSelected() {
-    selectedBox.innerHTML = '';
-    const selected = Array.from(checkboxes).filter(cb => cb.checked);
-    if (selected.length === 0) {
-      selectedBox.innerHTML = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 7.5L10 12.5L15 7.5" stroke="#475467" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-    } else {
-      selected.forEach(cb => {
-        const tag = document.createElement('div');
-        tag.className = 'avatar-tag';
-        tag.innerHTML = `<img src="${cb.dataset.img}">${cb.value}`;
-        selectedBox.appendChild(tag);
-      });
+  /**
+  * WP admin sidebar Upload Image
+  */
+  jQuery('body').on('click', '#wpsp_upload_banner', function (e) {
+    e.preventDefault()
+    var button = $(this),
+        custom_uploader = wp
+            .media({
+                title: 'Insert image',
+                library: {
+                    type: 'image',
+                },
+                button: {
+                    text: 'Use this image', // button label text
+                },
+                multiple: false, // for multiple image selection set to true
+            })
+            .on('select', function () {
+                // it also has "open" and "close" events
+                var attachment = custom_uploader
+                    .state()
+                    .get('selection')
+                    .first()
+                    .toJSON()
+                jQuery('#wpscppro_custom_social_share_image').val(
+                    attachment.id
+                )
+                let wpscppro_custom_social_share_image = jQuery('#wpscppro_custom_social_share_image');
+                if( wpscppro_custom_social_share_image?.length > 0 ) {
+                    wpscppro_custom_social_share_image.val( attachment.id )
+                }else{
+                    jQuery('form.metabox-base-form').append(`<input type="hidden" id="wpscppro_custom_social_share_image" name="wpscppro_custom_social_share_image" value='${attachment.id}' />`)
+                }
+                console.log('attachment.url',attachment.url);
+                
+                jQuery('#wpscpprouploadimagepreviewold').hide()
+                jQuery('#wpsp_social_share_image_preview').html(
+                    '<img class="true_pre_image" src="' +
+                        attachment.url +
+                        '" style="max-width:100%; height: auto; display:block;" />'
+                )
+                $('#wpscppro_btn_remove_meta_image_upload').show()
+            })
+            .open()
+  })
+
+  // Remove social share banner image
+  $('body').on('click','#wpsp_remove_banner', function (e) {
+      e.preventDefault()
+      $('#wpscppro_custom_social_share_image').val('')
+      $('#wpsp_social_share_image_preview').empty()
     }
-  }
+  )
 
-  checkboxes.forEach(cb => {
-    cb.addEventListener('change', updateSelected);
+  // Select profile 
+  document.querySelectorAll('.social--item').forEach(container => {
+    const selectedBox = container.querySelector('.selectedBox');
+    const dropdownOptions = container.querySelector('.dropdownOptions');
+    const checkboxes = container.querySelectorAll('.profile');
+    const selectAll = container.querySelector('.selectAll');
+  
+    selectedBox.addEventListener('click', () => {
+      dropdownOptions.classList.toggle('active');
+    });
+  
+    function updateSelected() {
+      selectedBox.innerHTML = '';
+      const selected = Array.from(checkboxes).filter(cb => cb.checked);
+      if (selected.length === 0) {
+        selectedBox.innerHTML = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 7.5L10 12.5L15 7.5" stroke="#475467" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      } else {
+        selected.forEach(cb => {
+          const tag = document.createElement('div');
+          tag.className = 'avatar-tag';
+          tag.innerHTML = `<img src="${cb.dataset.img}">${cb.value}`;
+          selectedBox.appendChild(tag);
+        });
+      }
+    }
+  
+    checkboxes.forEach(cb => cb.addEventListener('change', updateSelected));
+    selectAll.addEventListener('change', (e) => {
+      checkboxes.forEach(cb => cb.checked = e.target.checked);
+      updateSelected();
+    });
+  
+    updateSelected(); // Initialize with current state
   });
+  
 
-  selectAll.addEventListener('change', (e) => {
-    checkboxes.forEach(cb => cb.checked = e.target.checked);
-    updateSelected();
-  });
-
-// Instagram Carousel
+  // Instagram Carousel
   const data = {
     reels: {
       files: ['Reel1.png', 'Reel2.png', 'Reel3.png'],
@@ -111,3 +168,4 @@ const selectedBox = document.getElementById('selectedBox');
 
   // Initialize
   renderTabContent();
+})(jQuery);

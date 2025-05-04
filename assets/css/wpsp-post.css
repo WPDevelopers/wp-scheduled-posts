@@ -113,11 +113,14 @@ h5.title {
 /* Modal layout Styles */
 .wpsp-post--modal {
     background: rgba(27, 27, 80, .4) !important;
-    display: flex;
+    display: none;
     inset: 0;
     overflow: auto;
     position: fixed;
     z-index: 99999 !important;
+}
+.wpsp-post--modal.active {
+    display: block;
 }
 .wpsp-post--modal .wpsp-modal--wrapper {
     background: #fff;
