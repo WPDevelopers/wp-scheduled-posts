@@ -74,12 +74,14 @@ class Social
         new ReconnectHandler;
         new SocialReconnection();
     }
+
     public function socialProfile() {
         if (!$this->social_profile) {
             $this->social_profile = new Social\SocialProfile();
         }
         return $this->social_profile;
     }
+
     public function load_third_party_integration()
     {
 
@@ -105,6 +107,9 @@ class Social
         if (Helper::get_settings('threads_profile_status') == true) {
             $this->threads();
         }
+        if (Helper::get_settings('google_business_profile_status') == true) {
+            $this->google_business();
+        }
     }
 
 
@@ -114,6 +119,13 @@ class Social
         $WpScp_Facebook = new Social\Facebook();
         $WpScp_Facebook->instance();
     }
+
+    public function google_business()
+    {
+        $WpScp_googleBusiness = new Social\GoogleBusiness();
+        $WpScp_googleBusiness->instance();
+    }
+
     public function twitter()
     {
         $wpscptwitter = new Social\Twitter();

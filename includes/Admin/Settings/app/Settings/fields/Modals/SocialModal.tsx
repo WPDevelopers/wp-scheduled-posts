@@ -74,7 +74,7 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
                     })
                 }
             }
-        };
+        };        
         getQueryParams(window.location.search);
     },[window.location]);
 

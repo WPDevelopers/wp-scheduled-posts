@@ -336,7 +336,8 @@ class InstantShare
         update_post_meta( $post_id, '_pinterest_share_type', 'default' );
         update_post_meta( $post_id, '_instagram_share_type', 'default' );
         update_post_meta( $post_id, '_medium_share_type', 'default' );
-        update_post_meta( $post_id, '_medium_share_type', 'default' );
+        update_post_meta( $post_id, '_threads_share_type', 'default' );
+        update_post_meta( $post_id, '_google_business_share_type', 'default' );
         $facebookProfile  = \WPSP\Helper::get_settings('facebook_profile_list');
         $twitterProfile   = \WPSP\Helper::get_settings('twitter_profile_list');
         $linkedinProfile  = \WPSP\Helper::get_settings('linkedin_profile_list');
@@ -680,6 +681,29 @@ class InstantShare
                 $is_share_on_publish,
             );
             if( !$is_share_on_publish ) {
+                wp_die();
+            }
+        }  else if ($platform == 'google_business') {
+            $google_business = \WPSP\Helper::get_social_profile(WPSCP_GOOGLE_BUSINESS_OPTION_NAME);
+            if (empty($profileID)) {
+                $profileID = !empty($google_business[$platformKey]->id) ? $google_business[$platformKey]->id : null;
+            }
+            $platformKey = !empty($profileID) ? array_search($profileID, array_column($google_business, 'id')) : intval($platformKey);
+            if ($google_business[$platformKey]->status == false) {
+                wp_die();
+            }
+            $google_business_share = new \WPSP\Social\GoogleBusiness();
+            $google_business_share->socialMediaInstantShare(
+                $google_business[$platformKey]->app_id,
+                $google_business[$platformKey]->app_secret,
+                $google_business[$platformKey]->access_token,
+                $google_business[$platformKey]->type,
+                $google_business[$platformKey]->id,
+                $postid,
+                $platformKey,
+                $is_share_on_publish
+            );
+            if (!$is_share_on_publish) {
                 wp_die();
             }
         } else {

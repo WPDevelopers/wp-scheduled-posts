@@ -826,13 +826,23 @@ class SocialProfile
                 wp_send_json_error($error->getMessage());
                 wp_die();
             }
-        } else if ($type == 'google_business' && $code != "") {
-            $profiles      = $this->getGoogleMyBusinessProfile($app_id, $app_secret, $code, $redirectURI);
+        } else if ( $type == 'google_business' ) {
+            $fetch_by_token = !empty($access_token) ? true : false;
+            if( $code ) {
+                $profiles      = $this->getGoogleMyBusinessProfile($app_id, $app_secret, $code, $redirectURI);
+            }else {
+                $profiles      = $this->getGoogleMyBusinessProfileByToken($access_token);
+            }
             $profile_data  = !empty($profiles['data']) ? $profiles['data'] : [];
             $token_data    = !empty($profiles['token_data']) ? $profiles['token_data'] : [];
             $profile_array = array();
             if (!empty($profile_data) && is_object($profile_data)) {
                 foreach ($profile_data->accounts as $account) {
+                    // Get access token & account ID
+                    $access_token = !empty($token_data->access_token) ? $token_data->access_token : $access_token;
+                    $refresh_token = !empty($token_data->refresh_token) ? $token_data->refresh_token : $refresh_token;
+                    $account_id   = $account->name; // e.g., "accounts/1234567890"
+                    $location_id = $this->fetchLocationID($access_token, $account_id);
                     // $uploaded_image_url = $this->handle_thumbnail_upload('', $account->name);
                     $uploaded_image_url = ''; // Google My Business might not always give profile pictures easily
                     array_push($profile_array, array(
@@ -842,9 +852,10 @@ class SocialProfile
                         'name'          => $account->accountName ?? 'Unknown',                                     // fallback
                         'thumbnail_url' => !empty($uploaded_image_url) ? $uploaded_image_url : '',                 // fallback empty
                         'type'          => 'profile',
+                        'location_id'   => $location_id,
                         'status'        => true,
-                        'access_token'  => !empty( $token_data->access_token ) ? $token_data->access_token : '',
-                        'refresh_token' => !empty( $token_data->refresh_token ) ? $token_data->refresh_token : '',
+                        'access_token'  => $access_token,
+                        'refresh_token' => $refresh_token,
                         'expires_in'    => $expires_in,
                         'added_by'      => $current_user->user_login,
                         'added_date'    => current_time('mysql'),
@@ -863,6 +874,29 @@ class SocialProfile
         }
         wp_send_json_error("Option name and request type missing. please try again");
         wp_die();
+    }
+
+    public function fetchLocationID($access_token, $account_id) {
+         // Step 1: Fetch Location ID using the access token and account_id
+         $location_id = '';
+         $response = wp_remote_get(
+             'https://mybusinessbusinessinformation.googleapis.com/v1/' . $account_id . '/locations?readMask=name',
+             array(
+                 'headers' => array(
+                     'Authorization' => 'Bearer ' . $access_token,
+                     'Accept'        => 'application/json',
+                 ),
+                 'timeout' => 15,
+             )
+         );
+ 
+         if (!is_wp_error($response)) {
+             $body = json_decode(wp_remote_retrieve_body($response), true);
+             if (!empty($body['locations'][0]['name'])) {
+                $location_id = $body['locations'][0]['name'];
+             }
+        }
+        return $location_id;
     }
 
     public function refreshGoogleAccessToken($client_id, $client_secret, $refresh_token)
@@ -941,6 +975,50 @@ class SocialProfile
 
         $access_token = $token_data->access_token;
 
+        // Step 2: Fetch Google My Business account/profile information
+        $profile_url = add_query_arg([], 'https://mybusinessbusinessinformation.googleapis.com/v1/accounts');
+
+        $profile_response = wp_remote_get($profile_url, [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $access_token,
+            ],
+        ]);
+        $response_code = wp_remote_retrieve_response_code($profile_response);
+        if (is_wp_error($profile_response) || $response_code != 200) {
+            $error_message = 'Failed to retrieve profile data.';
+
+            // Try to get error message from Google response body
+            $error_body = wp_remote_retrieve_body($profile_response);
+            if (!empty($error_body)) {
+                $error_data = json_decode($error_body);
+                if (!empty($error_data->error->message)) {
+                    $error_message = $error_data->error->message;
+                }
+            }
+
+            return [
+                'error'   => true,
+                'message' => $error_message,
+            ];
+        }
+
+        $profile_body = wp_remote_retrieve_body($profile_response);
+        $profile_data = json_decode($profile_body);
+        
+        return [
+            'error'      => false,
+            'data'       => $profile_data,
+            'token_data' => $token_data,
+        ];
+    }
+
+    /**
+     * Get Google My Business profile using Access token.
+     *
+     * @param string $access_token Google API client ID.
+     */
+    public function getGoogleMyBusinessProfileByToken($access_token)
+    {
         // Step 2: Fetch Google My Business account/profile information
         $profile_url = add_query_arg([], 'https://mybusinessbusinessinformation.googleapis.com/v1/accounts');
 
@@ -1193,7 +1271,9 @@ class SocialProfile
             }
         } else if ($type == 'google_business') {
             try {
+                $app_id = $app_id ? $app_id : WPSP_SOCIAL_OAUTH2_GOOGLE_BUSINESS_APP_ID;
                 $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=' . WPSP_SETTINGS_SLUG));
+                $request['appId'] = $app_id ? $app_id : WPSP_SOCIAL_OAUTH2_LINKEDIN_APP_ID;
                 $state = base64_encode(json_encode($request));
                 $url = "https://accounts.google.com/o/oauth2/v2/auth?client_id="
                 . $app_id . "&redirect_uri=" . urlencode($redirectURI)
