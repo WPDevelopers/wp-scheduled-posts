@@ -23,7 +23,7 @@ class GoogleBusiness {
         $this->is_category_as_tags = isset($settings['is_category_as_tags']) ? $settings['is_category_as_tags'] : false;
         $this->content_source = isset($settings['content_source']) ? $settings['content_source'] : 'post_content';
         $this->template_structure = isset($settings['template_structure']) ? $settings['template_structure'] : '{title}{content}{url}';
-        $this->status_limit = isset($settings['status_limit']) ? $settings['status_limit'] : 280;
+        $this->status_limit = isset($settings['status_limit']) ? $settings['status_limit'] : 1450;
         $this->post_share_limit = isset($settings['post_share_limit']) ? $settings['post_share_limit'] : 0;
         $this->remove_css_from_content = isset($settings['remove_css_from_content']) ? $settings['remove_css_from_content'] : true;
     }
@@ -42,51 +42,57 @@ class GoogleBusiness {
      * @return array
      */
     public function remote_post($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key, $force_share = false) {
-        // get share count 
-        $count_meta_key = '__wpsp_google_business_share_count_'.$ID;
+        // Early returns for conditions that prevent sharing
+        $count_meta_key = '__wpsp_google_business_share_count_' . $ID;
         $dont_share = get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true);
-
-        // get social share type 
+        
+        // Check custom share type
         $get_share_type = get_post_meta($post_id, '_google_business_share_type', true);
         if ($get_share_type === 'custom') {
             $get_all_selected_profile = get_post_meta($post_id, '_selected_social_profile', true);
-            $check_profile_exists = Helper::is_profile_exits($ID, $get_all_selected_profile);
-            if (!$check_profile_exists) {
+            if (!Helper::is_profile_exits($ID, $get_all_selected_profile)) {
                 return;
             }
         }
 
-        // check post is skip social sharing
-        if (empty($app_id) || ( empty($app_access_token) && empty($app_secret) ) || $dont_share == 'on' || $dont_share == 1) {
+        // Check if sharing is disabled
+        if (empty($app_id) || (empty($app_access_token) && empty($app_secret)) || $dont_share == 'on' || $dont_share == 1) {
             return;
         }
         
-        if ((get_post_meta($post_id, $count_meta_key, true)) && $this->post_share_limit != 0 && get_post_meta($post_id, $count_meta_key, true) >= $this->post_share_limit) {
-            return array(
+        // Check share limit
+        $share_count = (int)get_post_meta($post_id, $count_meta_key, true);
+        if ($share_count && $this->post_share_limit > 0 && $share_count >= $this->post_share_limit) {
+            return [
                 'success' => false,
                 'log' => __('Your max share post limit has been executed!!', 'wp-scheduled-posts')
-            );
+            ];
         }
         
-        if (get_post_meta($post_id, '_wpsp_is_google_business_share', true) == 'on' || $force_share) {
-            $errorFlag = false;
-            $response = '';
+        // Check if sharing is enabled for this post
+        if (get_post_meta($post_id, '_wpsp_is_google_business_share', true) != 'on' && !$force_share) {
+            return [
+                'success' => false,
+                'log' => __('Google Business share is not enabled for this post', 'wp-scheduled-posts')
+            ];
+        }
 
+        try {
             // Get post data
-            $post = get_post($post_id);
+            $title   = get_the_title($post_id);
+            $content = get_post_field('post_content', $post_id);
+            $clean_content = wp_strip_all_tags($content);
+            $clean_content = wp_trim_words($clean_content, 30, '...'); // limit to 30 words
             $permalink = get_permalink($post_id);
-            $content = 'lorem ipsum dolor sit amet';
-            $title = get_the_title($post_id);
             
             // Get featured image
             $featured_image_url = '';
             if (has_post_thumbnail($post_id)) {
-                $featured_image_id = get_post_thumbnail_id($post_id);
-                $featured_image = wp_get_attachment_image_src($featured_image_id, 'full');
+                $featured_image = wp_get_attachment_image_src(get_post_thumbnail_id($post_id), 'full');
                 $featured_image_url = $featured_image[0];
             }
 
-            // Check if refresh token exists and refresh access token if needed
+            // Refresh token if needed
             $google_business = Helper::get_social_profile(WPSCP_GOOGLE_BUSINESS_OPTION_NAME);
             $refresh_token = !empty($google_business[$profile_key]->refresh_token) ? $google_business[$profile_key]->refresh_token : '';
             
@@ -97,98 +103,167 @@ class GoogleBusiness {
                 if (!$refresh_result['error'] && !empty($refresh_result['access_token'])) {
                     $app_access_token = $refresh_result['access_token'];
                     
-                    // Update the token in the stored profiles
+                    // Update stored token
                     $google_business[$profile_key]->access_token = $app_access_token;
                     $google_business[$profile_key]->expires_in = time() + $refresh_result['expires_in'];
                     update_option(WPSCP_GOOGLE_BUSINESS_OPTION_NAME, $google_business);
                 }
             }
-            try {
-                $account_id = !empty($google_business[$profile_key]->id) ? $google_business[$profile_key]->id : '';
-                $location_id = !empty($google_business[$profile_key]->location_id) ?  $google_business[$profile_key]->location_id : '';
+
+            // Get account and location IDs
+            $account_id = !empty($google_business[$profile_key]->id) ? $google_business[$profile_key]->id : '';
+            $location_id = !empty($google_business[$profile_key]->location_id) ? $google_business[$profile_key]->location_id : '';
+        
+            if (empty($location_id) || empty($account_id)) {
+                return [
+                    'success' => false,
+                    'log' => __('Location or Account ID is missing', 'wp-scheduled-posts')
+                ];
+            }
+        
+            // Prepare API request
+            $api_url = "https://mybusiness.googleapis.com/v4/{$account_id}/{$location_id}/localPosts";
+        
+            $post_data = [
+                'languageCode' => 'en',
+                'summary'      => $this->get_formatted_text($post_id),   // Combine title and cleaned content
+                'topicType'    => 'STANDARD'
+            ];
+
+            if( !empty($permalink) ) {
+                $post_data['callToAction'] = [
+                    'actionType' => 'LEARN_MORE',
+                    'url'        => $permalink,
+                ];
+            }
+        
+            if (!empty($featured_image_url)) {
+                $post_data['media'] = [[
+                    'mediaFormat' => 'PHOTO',
+                    'sourceUrl'   => $featured_image_url,
+                ]];
+            }
+        
+            // Make API request
+            $response = wp_remote_post($api_url, [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . trim($app_access_token),
+                    'Content-Type' => 'application/json'
+                ],
+                'body' => json_encode($post_data),
+                'timeout' => 20,
+            ]);
+        
+            if (is_wp_error($response)) {
+                return [
+                    'success' => false,
+                    'log' => __('Request failed: ', 'wp-scheduled-posts') . $response->get_error_message()
+                ];
+            }
+        
+            $response_code = wp_remote_retrieve_response_code($response);
+            $response_body = json_decode(wp_remote_retrieve_body($response), true);
             
-                if (empty($location_id) || empty($account_id)) {
-                    return array(
-                        'success' => false,
-                        'log' => __('Location or Account ID is missing', 'wp-scheduled-posts')
-                    );
+            if ($response_code >= 200 && $response_code < 300) {
+                // Update share count
+                update_post_meta($post_id, $count_meta_key, $share_count + 1);
+                
+                // Extract share ID
+                $share_id = '';
+                if (!empty($response_body['name'])) {
+                    $parts = explode('/', $response_body['name']);
+                    $share_id = end($parts);
                 }
-            
-                $api_url = "https://mybusiness.googleapis.com/v4/{$account_id}/{$location_id}/localPosts";
-            
-                $post_data = array(
-                    'languageCode' => 'en',
-                    'summary' => $title,
-                    'callToAction' => array(
-                        'actionType' => 'LEARN_MORE',
-                        'url' => 'https://schedulepress.com/?p=92',
-                    ),
-                    'topicType' => 'STANDARD'
-                );
-            
-                if (!empty($featured_image_url)) {
-                    $post_data['media'] = array(
-                        'sourceUrl' => $featured_image_url
-                    );
-                }
-            
-                $response = wp_remote_post($api_url, array(
-                    'headers' => array(
-                        'Authorization' => 'Bearer ' . trim($app_access_token),
-                        'Content-Type' => 'application/json'
-                    ),
-                    'body'    => json_encode($post_data),
-                    'timeout' => 20,
-                ));
-            
-                if (is_wp_error($response)) {
-                    return array(
-                        'success' => false,
-                        'log' => __('Request failed: ', 'wp-scheduled-posts') . $response->get_error_message()
-                    );
-                }
-            
-                $response_code = wp_remote_retrieve_response_code($response);
-                $response_body = json_decode(wp_remote_retrieve_body($response), true);
-                if ($response_code >= 200 && $response_code < 300) {
-                    $count = (int) get_post_meta($post_id, $count_meta_key, true);
-                    update_post_meta($post_id, $count_meta_key, ($count + 1));
-                    $share_id = '';
-                    if (!empty($response_body['name'])) {
-                        $parts = explode('/', $response_body['name']);
-                        $share_id = end($parts); // Gets the last segment after 'localPosts/'
-                    }
-                    $shareInfo = array(
+                
+                return [
+                    'success' => true,
+                    'log' => [
                         'share_id' => $share_id,
                         'publish_date' => time(),
-                    );
-                    return array(
-                        'success' => true,
-                        'log' => $shareInfo,
-                    );
-                } else {
-                    // API returned error
-                    $error_message = isset($response_body['error']['message']) ? $response_body['error']['message'] : 'Unknown error';
-                    $details = $this->format_error_message($response_body);
-                    return array(
-                        'success' => false,
-                        'log' => sprintf(__('Failed to share on Google Business: %s', 'wp-scheduled-posts'), $error_message . "\n" . $details)
-                    );
-                }
-            
-            } catch (\Exception $e) {
-                return array(
+                    ],
+                ];
+            } else {
+                // Handle API error
+                $error_message = isset($response_body['error']['message']) ? $response_body['error']['message'] : 'Unknown error';
+                $details = $this->format_error_message($response_body);
+                
+                return [
                     'success' => false,
-                    'log' => sprintf(__('Exception when sharing to Google Business: %s', 'wp-scheduled-posts'), $e->getMessage())
-                );
-            }                      
+                    'log' => sprintf(__('Failed to share on Google Business: %s', 'wp-scheduled-posts'), $error_message . "\n" . $details)
+                ];
+            }
+        
+        } catch (\Exception $e) {
+            return [
+                'success' => false,
+                'log' => sprintf(__('Exception when sharing to Google Business: %s', 'wp-scheduled-posts'), $e->getMessage())
+            ];
+        }
+    }
+
+    public function get_formatted_text($post_id)
+    {
+        $post_details = get_post($post_id);
+        $title = get_the_title($post_id);
+        $post_link = esc_url(get_permalink($post_id));
+        
+        // Get content based on source setting
+        if ($this->content_source === 'excerpt' && has_excerpt($post_details->ID)) {
+            $desc = wp_strip_all_tags($post_details->post_excerpt);
+        } else {
+            $desc = $this->format_plain_text_with_paragraphs($post_details->post_content);
+            if (is_visual_composer_post($post_id) && class_exists('WPBMap')) {
+                \WPBMap::addAllMappedShortcodes();
+                $desc = Helper::strip_all_html_and_keep_single_breaks(do_shortcode($desc));
+            }
         }
         
-        return array(
-            'success' => false,
-            'log' => __('Google Business share is not enabled for this post', 'wp-scheduled-posts')
-        );
+        // Apply status limit
+        if (!empty($this->status_limit) && strlen($desc) > $this->status_limit) {
+            $desc = substr($desc, 0, $this->status_limit - 3) . '...';
+        }
+        
+        // Format the text according to template structure
+        $formatted_text = $this->template_structure;
+        $formatted_text = str_replace('{title}', $title . "\n", $formatted_text);
+        $formatted_text = str_replace('{content}', $desc . "\n", $formatted_text);
+        $formatted_text = str_replace('{url}', $post_link . "\n", $formatted_text);
+
+        // Add tags if enabled
+        // if ($this->is_category_as_tags) {
+        //     $tags = $this->get_post_tags_comma($post_id);
+        //     $formatted_text = str_replace('{tags}', $tags, $formatted_text);
+        // } else {
+        //     $formatted_text = str_replace('{tags}', '', $formatted_text);
+        // }
+        
+        // Apply final status limit check
+        if (!empty($this->status_limit) && strlen($formatted_text) > $this->status_limit) {
+            $formatted_text = substr($formatted_text, 0, $this->status_limit - 10) . '...';
+        }
+        
+        return $formatted_text;
     }
+
+    public function format_plain_text_with_paragraphs( $content ) {
+        // Convert HTML breaks and block elements into double line breaks
+        $content = str_ireplace( [ '</p>', '</div>', '<br>', '<br/>', '<br />' ], "\n\n", $content );
+
+        // Strip all remaining HTML tags
+        $content = wp_strip_all_tags( $content );
+
+        // Normalize newlines
+        $content = str_replace( [ "\r\n", "\r" ], "\n", $content );
+
+        // Collapse 3+ newlines into just 2
+        $content = preg_replace( "/\n{3,}/", "\n\n", $content );
+
+        // Trim each line and rebuild
+        $lines = array_map( 'trim', explode( "\n", $content ) );
+        $content = implode( "\n", $lines );
+
+        return trim( $content );
+    }   
 
     public function format_error_message($response_body) {
         $details = '';
