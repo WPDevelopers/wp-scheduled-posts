@@ -532,6 +532,21 @@
             }
           }
         }
+        .fc-popover .fc-popover-body {
+          max-height: 405px;
+          overflow: scroll;
+          overflow-x: hidden;
+          &::-webkit-scrollbar {
+            width: 2px;
+          }
+          &::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            background: #6c62ff;
+          }
+          &::-webkit-scrollbar-track {
+            border-radius: 10px;
+          }
+        }
       }
     }
   }

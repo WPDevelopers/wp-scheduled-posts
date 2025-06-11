@@ -58,6 +58,7 @@ export type SidebarProps = {
     getPostTypeColor: (postType: string) => string;
     postType: string;
     schedule_time: string;
+    onSubmit: (data: any, oldData: any) => void;
   }
 
 

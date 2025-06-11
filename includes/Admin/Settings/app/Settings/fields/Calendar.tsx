@@ -427,6 +427,7 @@ export default function Calendar(props) {
               getPostTypeColor={getPostTypeColor}
               postType={props.postType}
               schedule_time={props.schedule_time}
+              onSubmit={onSubmit}
             />
         )}
       </div>

@@ -8,7 +8,7 @@ import { getValues } from "./Helpers";
 import { ModalProps, PostType, SidebarProps } from "./types";
 
 const Sidebar = (
-  { selectedPostType, draftEvents: posts, setDraftEvents: setPosts, calendar, getPostTypeColor, postType, schedule_time }: SidebarProps,
+  { selectedPostType, draftEvents: posts, setDraftEvents: setPosts, calendar, getPostTypeColor, postType, schedule_time, onSubmit }: SidebarProps,
   draggableRef: MutableRefObject<HTMLDivElement>
 ) => {
   const [optionSelected, setOptionSelected] = useState([]);
@@ -100,7 +100,7 @@ const Sidebar = (
     setPage(1);
     setHasMore(true);
     fetchPosts(1, true);
-  }, [optionSelected]);
+  }, [optionSelected, onSubmit]);
 
   return (
     <div id="wpsp-sidebar" className="sidebar" ref={draggableRef}>
@@ -157,7 +157,7 @@ const Sidebar = (
       <ModalContent
         modalData={modalData}
         setModalData={openModal}
-        onSubmit={onsubmit}
+        onSubmit={onSubmit}
         selectedPostType={selectedPostType}
         schedule_time={schedule_time}
       />
