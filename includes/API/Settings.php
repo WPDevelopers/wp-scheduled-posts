@@ -176,6 +176,79 @@ class Settings
             }
         ));
 
+        // Custom Social Template CRUD endpoints
+        register_rest_route($namespace, 'custom-templates/(?P<post_id>\d+)', array(
+            'methods' => 'GET',
+            'callback' => array($this, 'get_custom_templates'),
+            'permission_callback' => function() {
+                return current_user_can( 'edit_posts' );
+            },
+            'args' => array(
+                'post_id' => array(
+                    'required' => true,
+                    'validate_callback' => function($param, $request, $key) {
+                        return is_numeric($param);
+                    }
+                ),
+            ),
+        ));
+
+        register_rest_route($namespace, 'custom-templates/(?P<post_id>\d+)', array(
+            'methods' => 'POST',
+            'callback' => array($this, 'save_custom_template'),
+            'permission_callback' => function() {
+                return current_user_can( 'edit_posts' );
+            },
+            'args' => array(
+                'post_id' => array(
+                    'required' => true,
+                    'validate_callback' => function($param, $request, $key) {
+                        return is_numeric($param);
+                    }
+                ),
+                'platform' => array(
+                    'required' => true,
+                    'validate_callback' => function($param, $request, $key) {
+                        return in_array($param, ['facebook', 'twitter', 'linkedin', 'pinterest', 'instagram', 'medium', 'threads']);
+                    }
+                ),
+                'profile_id' => array(
+                    'required' => true,
+                    'sanitize_callback' => 'sanitize_text_field'
+                ),
+                'template' => array(
+                    'required' => true,
+                    'sanitize_callback' => 'sanitize_textarea_field'
+                ),
+            ),
+        ));
+
+        register_rest_route($namespace, 'custom-templates/(?P<post_id>\d+)', array(
+            'methods' => 'DELETE',
+            'callback' => array($this, 'delete_custom_template'),
+            'permission_callback' => function() {
+                return current_user_can( 'edit_posts' );
+            },
+            'args' => array(
+                'post_id' => array(
+                    'required' => true,
+                    'validate_callback' => function($param, $request, $key) {
+                        return is_numeric($param);
+                    }
+                ),
+                'platform' => array(
+                    'required' => true,
+                    'validate_callback' => function($param, $request, $key) {
+                        return in_array($param, ['facebook', 'twitter', 'linkedin', 'pinterest', 'instagram', 'medium', 'threads']);
+                    }
+                ),
+                'profile_id' => array(
+                    'required' => true,
+                    'sanitize_callback' => 'sanitize_text_field'
+                ),
+            ),
+        ));
+
         register_rest_route($namespace,'get-categories',array(
             'methods' => 'GET',
             'callback'   => array($this, 'wpsp_get_categories'),
@@ -256,6 +329,306 @@ class Settings
     public function wpsp_instant_social_share( $data )
     {
         do_action('wpsp_instant_social_single_profile_share', $data->get_params());
+    }
+
+    /**
+     * Get custom templates for a post
+     *
+     * @param WP_REST_Request $request
+     * @return WP_REST_Response
+     */
+    public function get_custom_templates( $request ) {
+        $post_id = $request->get_param('post_id');
+
+        // Verify post exists and user can edit it
+        if (!get_post($post_id) || !current_user_can('edit_post', $post_id)) {
+            return new \WP_REST_Response(array(
+                'success' => false,
+                'message' => __('Post not found or insufficient permissions.', 'wp-scheduled-posts')
+            ), 403);
+        }
+
+        // Get templates and migrate if needed
+        $templates = $this->get_migrated_templates($post_id);
+
+        return new \WP_REST_Response(array(
+            'success' => true,
+            'data' => $templates
+        ), 200);
+    }
+
+    /**
+     * Save custom template for a post-profile combination
+     *
+     * @param WP_REST_Request $request
+     * @return WP_REST_Response
+     */
+    public function save_custom_template( $request ) {
+        $post_id = $request->get_param('post_id');
+        $platform = $request->get_param('platform');
+        $profile_id = $request->get_param('profile_id');
+        $template = $request->get_param('template');
+        // Verify post exists and user can edit it
+        if (!get_post($post_id) || !current_user_can('edit_post', $post_id)) {
+            return new \WP_REST_Response(array(
+                'success' => false,
+                'message' => __('Post not found or insufficient permissions.', 'wp-scheduled-posts')
+            ), 403);
+        }
+
+        // Validate template content
+        $validation_result = $this->validate_template_content($template, $platform);
+        if (!$validation_result['valid']) {
+            return new \WP_REST_Response(array(
+                'success' => false,
+                'message' => $validation_result['message']
+            ), 400);
+        }
+
+        // Get existing templates and migrate if needed
+        $templates = $this->get_migrated_templates($post_id);
+
+        // Ensure platform exists in structure
+        if (!isset($templates['post_profile_templates'][$platform])) {
+            $templates['post_profile_templates'][$platform] = array();
+        }
+
+        // Save template in hierarchical structure: platform -> profile_id -> template
+        $templates['post_profile_templates'][$platform][$profile_id] = $template;
+
+        // Update post meta
+        $updated = update_post_meta($post_id, '_wpsp_custom_templates', $templates);
+
+        if ($updated !== false) {
+            return new \WP_REST_Response(array(
+                'success' => true,
+                'message' => __('Template saved successfully.', 'wp-scheduled-posts'),
+                'data' => $templates
+            ), 200);
+        } else {
+            return new \WP_REST_Response(array(
+                'success' => false,
+                'message' => __('Failed to save template.', 'wp-scheduled-posts')
+            ), 500);
+        }
+    }
+
+    /**
+     * Delete custom template for a post-profile combination
+     *
+     * @param WP_REST_Request $request
+     * @return WP_REST_Response
+     */
+    public function delete_custom_template( $request ) {
+        $post_id = $request->get_param('post_id');
+        $platform = $request->get_param('platform');
+        $profile_id = $request->get_param('profile_id');
+
+        // Verify post exists and user can edit it
+        if (!get_post($post_id) || !current_user_can('edit_post', $post_id)) {
+            return new \WP_REST_Response(array(
+                'success' => false,
+                'message' => __('Post not found or insufficient permissions.', 'wp-scheduled-posts')
+            ), 403);
+        }
+
+        // Get existing templates and migrate if needed
+        $templates = $this->get_migrated_templates($post_id);
+
+        // Check if platform and profile exist
+        if (!isset($templates['post_profile_templates'][$platform]) ||
+            !isset($templates['post_profile_templates'][$platform][$profile_id])) {
+            return new \WP_REST_Response(array(
+                'success' => false,
+                'message' => __('Template not found.', 'wp-scheduled-posts')
+            ), 404);
+        }
+
+        // Remove template from hierarchical structure
+        unset($templates['post_profile_templates'][$platform][$profile_id]);
+
+        // If platform has no more templates, keep it as empty array for consistency
+        if (empty($templates['post_profile_templates'][$platform])) {
+            $templates['post_profile_templates'][$platform] = array();
+        }
+
+        // Update post meta
+        $updated = update_post_meta($post_id, '_wpsp_custom_templates', $templates);
+
+        if ($updated !== false) {
+            return new \WP_REST_Response(array(
+                'success' => true,
+                'message' => __('Template deleted successfully.', 'wp-scheduled-posts'),
+                'data' => $templates
+            ), 200);
+        } else {
+            return new \WP_REST_Response(array(
+                'success' => false,
+                'message' => __('Failed to delete template.', 'wp-scheduled-posts')
+            ), 500);
+        }
+    }
+
+    /**
+     * Validate template content based on platform limits
+     *
+     * @param string $template
+     * @param string $platform
+     * @return array
+     */
+    private function validate_template_content( $template, $platform ) {
+        // Platform character limits
+        $limits = array(
+            'twitter' => 280,
+            'facebook' => 63206,
+            'linkedin' => 3000,
+            'pinterest' => 500,
+            'instagram' => 2200,
+            'medium' => 100000,
+            'threads' => 500
+        );
+
+        // Check if template is empty
+        if (empty(trim($template))) {
+            return array(
+                'valid' => false,
+                'message' => __('Template cannot be empty.', 'wp-scheduled-posts')
+            );
+        }
+
+        // Check character limit for platform
+        $limit = isset($limits[$platform]) ? $limits[$platform] : 1000;
+        if (strlen($template) > $limit) {
+            return array(
+                'valid' => false,
+                'message' => sprintf(
+                    __('Template exceeds character limit for %s (%d/%d characters).', 'wp-scheduled-posts'),
+                    ucfirst($platform),
+                    strlen($template),
+                    $limit
+                )
+            );
+        }
+
+        // Validate placeholder syntax
+        $valid_placeholders = array('{title}', '{content}', '{url}', '{tags}');
+        preg_match_all('/\{[^}]+\}/', $template, $matches);
+        if (!empty($matches[0])) {
+            foreach ($matches[0] as $placeholder) {
+                if (!in_array($placeholder, $valid_placeholders)) {
+                    return array(
+                        'valid' => false,
+                        'message' => sprintf(
+                            __('Invalid placeholder "%s". Valid placeholders are: %s', 'wp-scheduled-posts'),
+                            $placeholder,
+                            implode(', ', $valid_placeholders)
+                        )
+                    );
+                }
+            }
+        }
+
+        return array(
+            'valid' => true,
+            'message' => __('Template is valid.', 'wp-scheduled-posts')
+        );
+    }
+
+    /**
+     * Get templates with migration from old flat structure to new hierarchical structure
+     *
+     * @param int $post_id
+     * @return array
+     */
+    private function get_migrated_templates( $post_id ) {
+        $templates = get_post_meta($post_id, '_wpsp_custom_templates', true);
+
+        // Initialize if empty
+        if (!$templates || !is_array($templates)) {
+            return array(
+                'post_profile_templates' => array(
+                    'facebook' => array(),
+                    'twitter' => array(),
+                    'linkedin' => array(),
+                    'pinterest' => array(),
+                    'instagram' => array(),
+                    'medium' => array(),
+                    'threads' => array()
+                )
+            );
+        }
+
+        // Check if migration is needed (old flat structure)
+        if (isset($templates['post_profile_templates']) && !empty($templates['post_profile_templates'])) {
+            $needs_migration = false;
+
+            // Check if any keys use the old flat format (platform_profileId)
+            foreach ($templates['post_profile_templates'] as $key => $value) {
+                if (is_string($value) && strpos($key, '_') !== false) {
+                    $needs_migration = true;
+                    break;
+                }
+            }
+
+            if ($needs_migration) {
+                $templates = $this->migrate_template_structure($templates);
+                // Save migrated structure
+                update_post_meta($post_id, '_wpsp_custom_templates', $templates);
+            }
+        }
+
+        // Ensure all platforms exist in structure
+        $platforms = array('facebook', 'twitter', 'linkedin', 'pinterest', 'instagram', 'medium', 'threads');
+        if (!isset($templates['post_profile_templates'])) {
+            $templates['post_profile_templates'] = array();
+        }
+
+        foreach ($platforms as $platform) {
+            if (!isset($templates['post_profile_templates'][$platform])) {
+                $templates['post_profile_templates'][$platform] = array();
+            }
+        }
+
+        return $templates;
+    }
+
+    /**
+     * Migrate old flat template structure to new hierarchical structure
+     *
+     * @param array $templates
+     * @return array
+     */
+    private function migrate_template_structure( $templates ) {
+        $old_templates = $templates['post_profile_templates'];
+        $new_structure = array(
+            'facebook' => array(),
+            'twitter' => array(),
+            'linkedin' => array(),
+            'pinterest' => array(),
+            'instagram' => array(),
+            'medium' => array(),
+            'threads' => array()
+        );
+
+        // Migrate old platform_profileId format to new hierarchical format
+        foreach ($old_templates as $key => $template) {
+            if (is_string($template) && strpos($key, '_') !== false) {
+                $parts = explode('_', $key, 2);
+                if (count($parts) === 2) {
+                    $platform = $parts[0];
+                    $profile_id = $parts[1];
+
+                    if (isset($new_structure[$platform])) {
+                        $new_structure[$platform][$profile_id] = $template;
+                    }
+                }
+            } elseif (is_array($template)) {
+                // Already in new format, preserve it
+                $new_structure[$key] = $template;
+            }
+        }
+
+        return array('post_profile_templates' => $new_structure);
     }
 
     public function wpsp_get_options_data( $request ) {

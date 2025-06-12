@@ -16,6 +16,7 @@ class Facebook
     private $status_limit;
     private $post_share_limit;
     private $remove_css_from_content;
+    private $current_profile_id;
 
     public function __construct()
     {
@@ -186,7 +187,9 @@ class Facebook
                 $hashTags,
                 $this->status_limit,
                 null,
-                'facebook'
+                'facebook',
+                $post_id,
+                $this->current_profile_id ?? null
             );
             if ($this->content_type == 'status') {
                 $linkData = [
@@ -214,7 +217,10 @@ class Facebook
      */
     public function remote_post($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key, $force_share = false)
     {
-        // get share count 
+        // Set current profile ID for custom template resolution
+        $this->current_profile_id = $ID;
+
+        // get share count
         $count_meta_key = '__wpsp_facebook_share_count_'.$ID;
         $dont_share     = get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true);
 

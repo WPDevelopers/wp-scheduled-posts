@@ -15,6 +15,7 @@ class Twitter
     private $is_show_post_thumbnail;
     private $content_source;
     private $tweet_limit;
+    private $current_profile_id;
     private $post_share_limit;
     private $remove_css_from_content;
 
@@ -136,7 +137,9 @@ class Twitter
             $hashTags,
             $this->tweet_limit - 5,
             null,
-            'twitter'
+            'twitter',
+            $post_id,
+            $this->current_profile_id ?? null
         );
         $parameters['text'] = $formatedText;
         return $parameters;
@@ -152,6 +155,8 @@ class Twitter
     public function remote_post($app_id, $app_secret, $oauth_token, $oauth_token_secret, $post_id, $profile_key, $force_share = false)
     {
         $profile     = \WPSP\Helper::get_profile('twitter', $profile_key);
+        // Set current profile ID for custom template resolution
+        $this->current_profile_id = $profile->id;
         $count_meta_key = '__wpsp_twitter_share_count_'.$profile->id;
 
          // get social share type 

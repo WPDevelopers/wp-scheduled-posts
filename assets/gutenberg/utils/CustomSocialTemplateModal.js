@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 const {
-  element: { Fragment },
-  components: { Modal, Button, TextareaControl, RadioControl, SelectControl },
+  components: { Modal, Button },
   data: { useSelect, useDispatch },
 } = wp;
 const { __ } = wp.i18n;
@@ -27,9 +26,10 @@ const CustomSocialTemplateModal = ({
   const [characterCount, setCharacterCount] = useState(0);
   const [previewContent, setPreviewContent] = useState('');
 
-  // Get post meta for custom templates
-  const { meta } = useSelect((select) => ({
+  // Get post meta for custom templates and post ID
+  const { meta, postId } = useSelect((select) => ({
     meta: select('core/editor').getEditedPostAttribute('meta') || {},
+    postId: select('core/editor').getCurrentPostId(),
   }));
   const { editPost } = useDispatch('core/editor');
 
@@ -91,8 +91,8 @@ const CustomSocialTemplateModal = ({
     if (selectedPlatform && selectedProfile) {
       const customTemplates = meta._wpsp_custom_templates || {};
       const postProfileTemplates = customTemplates.post_profile_templates || {};
-      const templateKey = `${selectedPlatform}_${selectedProfile}`;
-      const existingTemplate = postProfileTemplates[templateKey] || '{title} {content} {url} {tags}';
+      const platformTemplates = postProfileTemplates[selectedPlatform] || {};
+      const existingTemplate = platformTemplates[selectedProfile] || '{title} {content} {url} {tags}';
       setCustomTemplate(existingTemplate);
     }
   }, [selectedPlatform, selectedProfile, meta]);
@@ -104,58 +104,107 @@ const CustomSocialTemplateModal = ({
   }, [selectedPlatform]);
 
   // Save template
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!selectedProfile || !customTemplate.trim()) {
       alert(__('Please select a profile and enter a template.', 'wp-scheduled-posts'));
       return;
     }
 
-    const templateKey = `${selectedPlatform}_${selectedProfile}`;
-    const currentCustomTemplates = meta._wpsp_custom_templates || {};
-    const currentPostProfileTemplates = currentCustomTemplates.post_profile_templates || {};
+    try {
+      const response = await wp.apiFetch({
+        path: `/wp-scheduled-posts/v1/custom-templates/${postId}`,
+        method: 'POST',
+        data: {
+          platform: selectedPlatform,
+          profile_id: selectedProfile,
+          template: customTemplate.trim()
+        }
+      });
 
-    const updatedTemplates = {
-      ...currentCustomTemplates,
-      post_profile_templates: {
-        ...currentPostProfileTemplates,
-        [templateKey]: customTemplate.trim()
+      if (response.success) {
+        // Update the local meta state to reflect the changes using new hierarchical structure
+        const currentCustomTemplates = meta._wpsp_custom_templates || {};
+        const currentPostProfileTemplates = currentCustomTemplates.post_profile_templates || {};
+        const currentPlatformTemplates = currentPostProfileTemplates[selectedPlatform] || {};
+
+        const updatedTemplates = {
+          ...currentCustomTemplates,
+          post_profile_templates: {
+            ...currentPostProfileTemplates,
+            [selectedPlatform]: {
+              ...currentPlatformTemplates,
+              [selectedProfile]: customTemplate.trim()
+            }
+          }
+        };
+
+        editPost({
+          meta: {
+            ...meta,
+            _wpsp_custom_templates: updatedTemplates,
+          },
+        });
+
+        onClose();
+      } else {
+        throw new Error(response.message || 'Failed to save template');
       }
-    };
-
-    editPost({
-      meta: {
-        ...meta,
-        _wpsp_custom_templates: updatedTemplates,
-      },
-    });
-
-    onClose();
+    } catch (error) {
+      console.error('Error saving template:', error);
+      alert(__('Error saving template: ', 'wp-scheduled-posts') + (error.message || 'Please try again.'));
+    }
   };
 
   // Delete template
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (!selectedProfile) return;
 
-    const templateKey = `${selectedPlatform}_${selectedProfile}`;
-    const currentCustomTemplates = meta._wpsp_custom_templates || {};
-    const currentPostProfileTemplates = currentCustomTemplates.post_profile_templates || {};
+    if (!confirm(__('Are you sure you want to delete this template?', 'wp-scheduled-posts'))) {
+      return;
+    }
 
-    const updatedPostProfileTemplates = { ...currentPostProfileTemplates };
-    delete updatedPostProfileTemplates[templateKey];
+    try {
+      const response = await wp.apiFetch({
+        path: `/wp-scheduled-posts/v1/custom-templates/${postId}`,
+        method: 'DELETE',
+        data: {
+          platform: selectedPlatform,
+          profile_id: selectedProfile
+        }
+      });
 
-    const updatedTemplates = {
-      ...currentCustomTemplates,
-      post_profile_templates: updatedPostProfileTemplates
-    };
+      if (response.success) {
+        // Update the local meta state to reflect the changes using new hierarchical structure
+        const currentCustomTemplates = meta._wpsp_custom_templates || {};
+        const currentPostProfileTemplates = currentCustomTemplates.post_profile_templates || {};
+        const currentPlatformTemplates = { ...(currentPostProfileTemplates[selectedPlatform] || {}) };
 
-    editPost({
-      meta: {
-        ...meta,
-        _wpsp_custom_templates: updatedTemplates,
-      },
-    });
+        // Remove the specific profile template
+        delete currentPlatformTemplates[selectedProfile];
 
-    setCustomTemplate('');
+        const updatedTemplates = {
+          ...currentCustomTemplates,
+          post_profile_templates: {
+            ...currentPostProfileTemplates,
+            [selectedPlatform]: currentPlatformTemplates
+          }
+        };
+
+        editPost({
+          meta: {
+            ...meta,
+            _wpsp_custom_templates: updatedTemplates,
+          },
+        });
+
+        setCustomTemplate('');
+      } else {
+        throw new Error(response.message || 'Failed to delete template');
+      }
+    } catch (error) {
+      console.error('Error deleting template:', error);
+      alert(__('Error deleting template: ', 'wp-scheduled-posts') + (error.message || 'Please try again.'));
+    }
   };
 
   if (!isOpen) return null;
@@ -185,7 +234,7 @@ const CustomSocialTemplateModal = ({
                 { platform: 'instagram', icon: '📷', color: '#e4405f', bgColor: '#e4405f' },
                 { platform: 'medium', icon: 'M', color: '#00ab6c', bgColor: '#00ab6c' },
                 { platform: 'threads', icon: '@', color: '#000', bgColor: '#000' }
-              ].map(({ platform, icon, color, bgColor }) => (
+              ].map(({ platform, icon, bgColor }) => (
                 <button
                   key={platform}
                   className={`wpsp-platform-icon ${selectedPlatform === platform ? 'active' : ''}`}
@@ -337,7 +386,7 @@ const CustomSocialTemplateModal = ({
           <Button isSecondary onClick={onClose} className="wpsp-cancel-btn">
             {__('Cancel', 'wp-scheduled-posts')}
           </Button>
-          {selectedProfile && customTemplate && (
+          {selectedProfile && selectedPlatform && meta._wpsp_custom_templates?.post_profile_templates?.[selectedPlatform]?.[selectedProfile] && (
             <Button isDestructive onClick={handleDelete} className="wpsp-delete-btn">
               {__('Delete Template', 'wp-scheduled-posts')}
             </Button>

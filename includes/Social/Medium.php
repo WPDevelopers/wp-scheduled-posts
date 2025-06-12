@@ -16,6 +16,7 @@ class Medium
     private $status_limit;
     private $post_share_limit;
     private $remove_css_from_content;
+    private $current_profile_id;
 
     public function __construct()
     {
@@ -162,7 +163,9 @@ class Medium
             '',
             $this->status_limit,
             null,
-            'linkedin'
+            'medium',
+            $post_id,
+            $this->current_profile_id ?? null
         );
 
         $data = [
@@ -201,7 +204,10 @@ class Medium
      */
     public function remote_post($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key, $force_share = false, $medium_id = '')
     {
-        // get share count 
+        // Set current profile ID for custom template resolution
+        $this->current_profile_id = $medium_id ?: $ID;
+
+        // get share count
         $count_meta_key = '__wpsp_medium_share_count_'.$ID;
         $dont_share     = get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true);
 

@@ -90,12 +90,26 @@ trait SocialHelper
         return false;
     }
     /**
-     * Generate Social Template Structure
+     * Generate Social Template Structure with Custom Template Support
      * @param template, post_title, post_description, post_link, post_tags
      * @since 2.5.1
+     * @updated 2.6.0 - Added custom template support
      */
-    public function social_share_content_template_structure($template_structure, $title, $desc, $post_link, $hashTags, $limit, $url_limit = null, $platform = '')
+    public function social_share_content_template_structure($template_structure, $title, $desc, $post_link, $hashTags, $limit, $url_limit = null, $platform = '', $post_id = null, $profile_id = null)
     {
+        // Check for custom template if post_id and profile_id are provided
+        if ($post_id && $profile_id && $platform && class_exists('\WPSP\Helpers\CustomTemplateHelper')) {
+            $custom_template = \WPSP\Helpers\CustomTemplateHelper::get_resolved_template($post_id, $platform, $profile_id);
+            if ($custom_template && $custom_template !== $template_structure) {
+                $template_structure = $custom_template;
+                // Log template usage for debugging
+                \WPSP\Helpers\CustomTemplateHelper::log_template_usage($post_id, $platform, $profile_id, 'custom');
+            } else {
+                // Log fallback to global template
+                \WPSP\Helpers\CustomTemplateHelper::log_template_usage($post_id, $platform, $profile_id, 'global');
+            }
+        }
+
         $title              = html_entity_decode($title);
         $desc               = html_entity_decode($desc);
         $post_content_limit = intval($limit);
