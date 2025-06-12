@@ -16,6 +16,7 @@ class Linkedin
     private $status_limit;
     private $post_share_limit;
     private $remove_css_from_content;
+    private $current_profile_id;
 
     public function __construct()
     {
@@ -131,7 +132,9 @@ class Linkedin
             $hashTags,
             $this->status_limit,
             null,
-            'linkedin'
+            'linkedin',
+            $post_id,
+            $this->current_profile_id ?? null
         );
         return $formatedText;
     }
@@ -155,6 +158,9 @@ class Linkedin
     {
         $profile     = \WPSP\Helper::get_profile('linkedin', $profile_key);
         $accessToken = \WPSP\Helper::get_access_token('linkedin', $profile_key);
+
+        // Set current profile ID for custom template resolution
+        $this->current_profile_id = isset($profile->__id) ? $profile->__id : $profile->id;
         // check post is skip social sharing
         // if (get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
         //     return;
