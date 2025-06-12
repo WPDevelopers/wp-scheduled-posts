@@ -13,6 +13,7 @@ const {
   publish_button_off,
   allowedPostTypes,
 } = WPSchedulePostsFree;
+import CustomSocialTemplate from "./utils/CustomSocialTemplate";
 import PublishButton from "./publish-button";
 import PublishFutureButton from "./publish-future-button";
 import SocialShare from "./social-share";
@@ -155,6 +156,7 @@ class AdminPublishButton extends Component {
             )}
           </div>
         )}
+        <CustomSocialTemplate/>
         <WpspProSlot.Slot/>
         { !WPSchedulePostsFree?.is_pro && <DummyProFeatures/> }
         <SocialShare is_pro_active={ WPSchedulePostsFree?.is_pro ? true : false  } />

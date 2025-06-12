@@ -124,6 +124,32 @@ class Settings
                     }
                 ]
             );
+
+            // Custom social templates for post-profile combinations
+            register_post_meta(
+                $type,
+                '_wpsp_custom_templates',
+                [
+                    'show_in_rest' => [
+                        'schema' => [
+                            'type' => 'object',
+                            'properties' => [
+                                'post_profile_templates' => [
+                                    'type' => 'object',
+                                    'additionalProperties' => [
+                                        'type' => 'string'
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ],
+                    'single' => true,
+                    'type' => 'object',
+                    'auth_callback' => function() {
+                        return current_user_can( 'edit_posts' );
+                    }
+                ]
+            );
         }
 
     }

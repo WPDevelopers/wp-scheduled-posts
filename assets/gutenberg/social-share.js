@@ -767,6 +767,7 @@ const SocialShare = ( { is_pro_active } ) => {
                 </Modal>
               ) }
             </div>
+
             <button onClick={ handleShareNow } className="components-button is-primary share-btn" disabled={ selectedSocialProfile.length > 0 ? false : true }>{ __('Share Now','wp-scheduled-posts') }</button>
           </Fragment>
         }
