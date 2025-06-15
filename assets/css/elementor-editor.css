@@ -509,6 +509,9 @@
 #wpscpproInstantShareModal .modalBody .entry-head.threads {
     background: rgb(137 102 102 / 15%);
 }
+#wpscpproInstantShareModal .modalBody .entry-head.google_business {
+    background: #4578bc;
+}
 #wpscpproInstantShareModal .modalBody .entry-head.threads .entry-head-title{
     color: #000;
 }

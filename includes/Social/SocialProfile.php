@@ -22,6 +22,9 @@ class SocialProfile
         add_action('wp_ajax_wpsp_social_profile_fetch_pinterest_section', array($this, 'social_profile_fetch_pinterest_section'));
         add_action('social_profile_fetch_pinterest_section', array($this, 'social_profile_fetch_pinterest_section'));
         add_filter('wpsp_instagram_data', [ $this, 'wpsp_format_instagram_profile_data' ], 10, 2);
+
+        // Hook into settings save to schedule Google Business token refresh
+        add_action('update_option_' . WPSP_SETTINGS_NAME, array($this, 'handle_google_business_profile_changes'), 10, 3);
         $this->multiProfileErrorMessage = '<p>' . esc_html__('Multi Profile is a Premium Feature. To use this feature, Upgrade to Pro.', 'wp-scheduled-posts') . '</p><a target="_blank" href="https://schedulepress.com/#pricing">Upgrade to Pro</a>';
 
 
@@ -66,7 +69,7 @@ class SocialProfile
 
     }
 
-    // Format instagram profile data 
+    // Format instagram profile data
     public function wpsp_format_instagram_profile_data( $data, $access_token ) {
         if( empty( $data->accounts->data ) ) {
             return __('Something went wrong.', 'wp-scheduled-posts');
@@ -256,25 +259,25 @@ class SocialProfile
             'fields' => 'user_id,username,profile_picture_url,name,account_type',
             'access_token' => $access_token,
         ], 'https://graph.instagram.com/v21.0/me');
-    
+
         // Send the GET request using wp_remote_get
         $response = wp_remote_get($graph_url);
-    
+
         // Check for errors in the response
         if (is_wp_error($response)) {
             return false; // Return false if there's an error
         }
-    
+
         // Retrieve and decode the body of the response
         $body = wp_remote_retrieve_body($response);
         $data = json_decode($body);
-        
+
         // Apply WordPress filter for further processing, if needed
         // $data = apply_filters('wpsp_instagram_data', $data, $access_token);
-    
+
         return [$data]; // Return the decoded data
     }
-    
+
 
     // public function getInstagramProfile( $access_token ) {
     //     $graph_url = "https://graph.facebook.com/me?fields=accounts{connected_instagram_account,name,access_token,picture}&access_token=" . $access_token;
@@ -363,7 +366,7 @@ class SocialProfile
                     wp_die();
                 }
            }
-    
+
             $defaultBoard = (isset($params['defaultBoard']) ? $params['defaultBoard'] : '');
             $profile = (isset($params['profile']) ? $params['profile'] : '');
             if(!is_array($profile)){
@@ -374,10 +377,10 @@ class SocialProfile
                     return;
                 }
             }
-           
+
             $pinterest = new \DirkGroenen\Pinterest\Pinterest($profile['app_id'], $profile['app_secret']);
             $pinterest->auth->setOAuthToken($profile['access_token']);
-            
+
             $sections = $pinterest->sections->get($defaultBoard, [
                 'page_size' => 100,
             ]);
@@ -392,7 +395,7 @@ class SocialProfile
             return [];
             wp_die();
         }
-      
+
     }
 
 
@@ -454,7 +457,7 @@ class SocialProfile
         $openIDConnect = (isset($_POST['openIDConnect']) ? $_POST['openIDConnect'] : '');
         // user
         $current_user = wp_get_current_user();
-        
+
         // get code from request if params code is empty
         if( empty( $code ) ) {
             $code = get_transient('wpsp_social_auth_code');
@@ -743,7 +746,7 @@ class SocialProfile
                         $userAcessToken = $longAcessTokenBody->{'access_token'};
                         $expires_in = $longAcessTokenBody->{'expires_in'};
                     }
-                    
+
                 }
 
                 $userInfo = $this->getInstagramProfile($tempAccessToken);
@@ -839,10 +842,10 @@ class SocialProfile
             if (!empty($profile_data) && is_object($profile_data)) {
                 foreach ($profile_data->accounts as $account) {
                     // Get access token & account ID
-                    $access_token = !empty($token_data->access_token) ? $token_data->access_token : $access_token;
+                    $access_token  = !empty($token_data->access_token) ? $token_data->access_token : $access_token;
                     $refresh_token = !empty($token_data->refresh_token) ? $token_data->refresh_token : $refresh_token;
-                    $account_id   = $account->name; // e.g., "accounts/1234567890"
-                    $location_id = $this->fetchLocationID($access_token, $account_id);
+                    $account_id    = $account->name; // e.g., "accounts/1234567890"
+                    $location_id   = $this->fetchLocationID($access_token, $account_id);
                     // $uploaded_image_url = $this->handle_thumbnail_upload('', $account->name);
                     $uploaded_image_url = ''; // Google My Business might not always give profile pictures easily
                     array_push($profile_array, array(
@@ -856,6 +859,7 @@ class SocialProfile
                         'status'        => true,
                         'access_token'  => $access_token,
                         'refresh_token' => $refresh_token,
+                        'rt_expires_in' => $rt_expires_in,
                         'expires_in'    => $expires_in,
                         'added_by'      => $current_user->user_login,
                         'added_date'    => current_time('mysql'),
@@ -889,7 +893,7 @@ class SocialProfile
                  'timeout' => 15,
              )
          );
- 
+
          if (!is_wp_error($response)) {
              $body = json_decode(wp_remote_retrieve_body($response), true);
              if (!empty($body['locations'][0]['name'])) {
@@ -898,45 +902,6 @@ class SocialProfile
         }
         return $location_id;
     }
-
-    public function refreshGoogleAccessToken($client_id, $client_secret, $refresh_token)
-    {
-        $token_url = 'https://oauth2.googleapis.com/token';
-
-        $response = wp_remote_post($token_url, [
-            'body' => [
-                'grant_type'    => 'refresh_token',
-                'client_id'     => $client_id,
-                'client_secret' => $client_secret,
-                'refresh_token' => $refresh_token,
-            ],
-        ]);
-
-        if (is_wp_error($response)) {
-            return [
-                'error'   => true,
-                'message' => $response->get_error_message(),
-            ];
-        }
-
-        $body = wp_remote_retrieve_body($response);
-        $token_data = json_decode($body);
-
-        if (empty($token_data->access_token)) {
-            $error_message = isset($token_data->error_description) ? $token_data->error_description : 'Failed to refresh access token.';
-            return [
-                'error'   => true,
-                'message' => $error_message,
-            ];
-        }
-
-        return [
-            'error'         => false,
-            'access_token'  => $token_data->access_token,
-            'expires_in'    => $token_data->expires_in,
-        ];
-    }
-
 
     /**
      * Get Google My Business profile using App ID, App Secret, and Authorization Code.
@@ -1004,7 +969,7 @@ class SocialProfile
 
         $profile_body = wp_remote_retrieve_body($profile_response);
         $profile_data = json_decode($profile_body);
-        
+
         return [
             'error'      => false,
             'data'       => $profile_data,
@@ -1048,7 +1013,7 @@ class SocialProfile
 
         $profile_body = wp_remote_retrieve_body($profile_response);
         $profile_data = json_decode($profile_body);
-        
+
         return [
             'error'      => false,
             'data'       => $profile_data,
@@ -1280,6 +1245,7 @@ class SocialProfile
                 . "&response_type=code"
                 . "&scope=" . WPSCP_GOOGLE_BUSINESS_SCOPE
                 . "&prompt=consent"
+                . "&access_type=offline"
                 . "&state=". $state;
 
                 wp_send_json_success($url);
@@ -1293,7 +1259,39 @@ class SocialProfile
 
     public function handle_reconnect()
     {
-        
+
+    }
+
+    public function handle_google_business_profile_changes($old_value, $value, $option) {
+        $old_settings = json_decode($old_value, true);
+        $new_settings = json_decode($value, true);
+
+        if (!$old_settings || !$new_settings) return;
+
+        $old_profiles = isset($old_settings[WPSCP_GOOGLE_BUSINESS_OPTION_NAME]) ? $old_settings[WPSCP_GOOGLE_BUSINESS_OPTION_NAME] : array();
+        $new_profiles = isset($new_settings[WPSCP_GOOGLE_BUSINESS_OPTION_NAME]) ? $new_settings[WPSCP_GOOGLE_BUSINESS_OPTION_NAME] : array();
+
+        $google_business = new \WPSP\Social\GoogleBusiness();
+
+        // Handle removed profiles - clear their crons
+        foreach ($old_profiles as $profile_key => $old_profile) {
+            if (!isset($new_profiles[$profile_key]) && !empty($old_profile['id'])) {
+                $account_id = strpos($old_profile['id'], 'accounts/') === 0 ? substr($old_profile['id'], 9) : $old_profile['id'];
+                if ($timestamp = wp_next_scheduled('wpsp_google_business_token_refresh', array($account_id))) {
+                    wp_unschedule_event($timestamp, 'wpsp_google_business_token_refresh', array($account_id));
+                }
+            }
+        }
+
+        // Handle new or updated profiles
+        foreach ($new_profiles as $profile_key => $new_profile) {
+            $new_profile = (object) $new_profile;
+            $is_new_profile = !isset($old_profiles[$profile_key]);
+
+            if ($is_new_profile && $new_profile->status && !empty($new_profile->refresh_token) && !empty($new_profile->expires_in)) {
+                $google_business->schedule_token_refresh($profile_key, $new_profile);
+            }
+        }
     }
 
 }

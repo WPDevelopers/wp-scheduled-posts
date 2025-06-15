@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace WPSP\Social;
 
 use WPSP\Helper;
@@ -33,6 +33,13 @@ class GoogleBusiness {
         // Schedule Hooks
         add_action('wpsp_publish_future_post', array($this, 'WpScp_GoogleBusiness_post'), 10, 1);
         add_action('wpsp_schedule_republish_share', array($this, 'wpscp_pro_republish_google_business_post'), 10, 1);
+
+        // Token refresh hooks
+        add_action('init', array($this, 'init_token_refresh'));
+
+
+        // Register the common hook
+        add_action('wpsp_google_business_token_refresh', array($this, 'refresh_access_token_cron'), 10, 1);
     }
 
     /**
@@ -45,7 +52,7 @@ class GoogleBusiness {
         // Early returns for conditions that prevent sharing
         $count_meta_key = '__wpsp_google_business_share_count_' . $ID;
         $dont_share = get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true);
-        
+
         // Check custom share type
         $get_share_type = get_post_meta($post_id, '_google_business_share_type', true);
         if ($get_share_type === 'custom') {
@@ -59,7 +66,7 @@ class GoogleBusiness {
         if (empty($app_id) || (empty($app_access_token) && empty($app_secret)) || $dont_share == 'on' || $dont_share == 1) {
             return;
         }
-        
+
         // Check share limit
         $share_count = (int)get_post_meta($post_id, $count_meta_key, true);
         if ($share_count && $this->post_share_limit > 0 && $share_count >= $this->post_share_limit) {
@@ -68,7 +75,7 @@ class GoogleBusiness {
                 'log' => __('Your max share post limit has been executed!!', 'wp-scheduled-posts')
             ];
         }
-        
+
         // Check if sharing is enabled for this post
         if (get_post_meta($post_id, '_wpsp_is_google_business_share', true) != 'on' && !$force_share) {
             return [
@@ -84,7 +91,7 @@ class GoogleBusiness {
             $clean_content = wp_strip_all_tags($content);
             $clean_content = wp_trim_words($clean_content, 30, '...'); // limit to 30 words
             $permalink = get_permalink($post_id);
-            
+
             // Get featured image
             $featured_image_url = '';
             if (has_post_thumbnail($post_id)) {
@@ -92,17 +99,18 @@ class GoogleBusiness {
                 $featured_image_url = $featured_image[0];
             }
 
+            $featured_image_url = 'https://images.pexels.com/photos/30625358/pexels-photo-30625358/free-photo-of-cyclists-on-scenic-mountain-trail-with-tv-tower.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2';
+
             // Refresh token if needed
             $google_business = Helper::get_social_profile(WPSCP_GOOGLE_BUSINESS_OPTION_NAME);
             $refresh_token = !empty($google_business[$profile_key]->refresh_token) ? $google_business[$profile_key]->refresh_token : '';
-            
+
             if (!empty($refresh_token)) {
-                $social_profile = new SocialProfile();
-                $refresh_result = $social_profile->refreshGoogleAccessToken($app_id, $app_secret, $refresh_token);
-                
+                $refresh_result = $this->refresh_generate_access_token($app_id, $refresh_token);
+
                 if (!$refresh_result['error'] && !empty($refresh_result['access_token'])) {
                     $app_access_token = $refresh_result['access_token'];
-                    
+
                     // Update stored token
                     $google_business[$profile_key]->access_token = $app_access_token;
                     $google_business[$profile_key]->expires_in = time() + $refresh_result['expires_in'];
@@ -113,17 +121,17 @@ class GoogleBusiness {
             // Get account and location IDs
             $account_id = !empty($google_business[$profile_key]->id) ? $google_business[$profile_key]->id : '';
             $location_id = !empty($google_business[$profile_key]->location_id) ? $google_business[$profile_key]->location_id : '';
-        
+
             if (empty($location_id) || empty($account_id)) {
                 return [
                     'success' => false,
                     'log' => __('Location or Account ID is missing', 'wp-scheduled-posts')
                 ];
             }
-        
+
             // Prepare API request
             $api_url = "https://mybusiness.googleapis.com/v4/{$account_id}/{$location_id}/localPosts";
-        
+
             $post_data = [
                 'languageCode' => 'en',
                 'summary'      => $this->get_formatted_text($post_id),   // Combine title and cleaned content
@@ -133,17 +141,17 @@ class GoogleBusiness {
             if( !empty($permalink) ) {
                 $post_data['callToAction'] = [
                     'actionType' => 'LEARN_MORE',
-                    'url'        => $permalink,
+                    'url'        => 'https://schedulepress.com',
                 ];
             }
-        
+
             if (!empty($featured_image_url)) {
                 $post_data['media'] = [[
                     'mediaFormat' => 'PHOTO',
                     'sourceUrl'   => $featured_image_url,
                 ]];
             }
-        
+
             // Make API request
             $response = wp_remote_post($api_url, [
                 'headers' => [
@@ -153,28 +161,28 @@ class GoogleBusiness {
                 'body' => json_encode($post_data),
                 'timeout' => 20,
             ]);
-        
+
             if (is_wp_error($response)) {
                 return [
                     'success' => false,
                     'log' => __('Request failed: ', 'wp-scheduled-posts') . $response->get_error_message()
                 ];
             }
-        
+
             $response_code = wp_remote_retrieve_response_code($response);
             $response_body = json_decode(wp_remote_retrieve_body($response), true);
-            
+
             if ($response_code >= 200 && $response_code < 300) {
                 // Update share count
                 update_post_meta($post_id, $count_meta_key, $share_count + 1);
-                
+
                 // Extract share ID
                 $share_id = '';
                 if (!empty($response_body['name'])) {
                     $parts = explode('/', $response_body['name']);
                     $share_id = end($parts);
                 }
-                
+
                 return [
                     'success' => true,
                     'log' => [
@@ -186,13 +194,13 @@ class GoogleBusiness {
                 // Handle API error
                 $error_message = isset($response_body['error']['message']) ? $response_body['error']['message'] : 'Unknown error';
                 $details = $this->format_error_message($response_body);
-                
+
                 return [
                     'success' => false,
                     'log' => sprintf(__('Failed to share on Google Business: %s', 'wp-scheduled-posts'), $error_message . "\n" . $details)
                 ];
             }
-        
+
         } catch (\Exception $e) {
             return [
                 'success' => false,
@@ -206,7 +214,7 @@ class GoogleBusiness {
         $post_details = get_post($post_id);
         $title = get_the_title($post_id);
         $post_link = esc_url(get_permalink($post_id));
-        
+
         // Get content based on source setting
         if ($this->content_source === 'excerpt' && has_excerpt($post_details->ID)) {
             $desc = wp_strip_all_tags($post_details->post_excerpt);
@@ -217,12 +225,12 @@ class GoogleBusiness {
                 $desc = Helper::strip_all_html_and_keep_single_breaks(do_shortcode($desc));
             }
         }
-        
+
         // Apply status limit
         if (!empty($this->status_limit) && strlen($desc) > $this->status_limit) {
             $desc = substr($desc, 0, $this->status_limit - 3) . '...';
         }
-        
+
         // Format the text according to template structure
         $formatted_text = $this->template_structure;
         $formatted_text = str_replace('{title}', $title . "\n", $formatted_text);
@@ -236,12 +244,12 @@ class GoogleBusiness {
         // } else {
         //     $formatted_text = str_replace('{tags}', '', $formatted_text);
         // }
-        
+
         // Apply final status limit check
         if (!empty($this->status_limit) && strlen($formatted_text) > $this->status_limit) {
             $formatted_text = substr($formatted_text, 0, $this->status_limit - 10) . '...';
         }
-        
+
         return $formatted_text;
     }
 
@@ -263,7 +271,7 @@ class GoogleBusiness {
         $content = implode( "\n", $lines );
 
         return trim( $content );
-    }   
+    }
 
     public function format_error_message($response_body) {
         $details = '';
@@ -351,4 +359,120 @@ class GoogleBusiness {
             wp_send_json_success($response['log']);
         }
     }
+
+    public function init_token_refresh() {
+        static $initialized = false;
+        if ($initialized) return;
+        $initialized = true;
+
+        $profiles = Helper::get_social_profile(WPSCP_GOOGLE_BUSINESS_OPTION_NAME);
+        if (!is_array($profiles)) return;
+
+        // Initialize profiles
+        foreach ($profiles as $profile_key => $profile) {
+            if (empty($profile->id)) continue;
+
+            $account_id = strpos($profile->id, 'accounts/') === 0 ? substr($profile->id, 9) : $profile->id;
+
+            // Schedule if needed
+            if ($profile->status && !empty($profile->refresh_token) && !empty($profile->expires_in)) {
+                if (!wp_next_scheduled('wpsp_google_business_token_refresh', array($account_id))) {
+                    $refresh_time = $profile->expires_in - 600; // 1 hour before expiry
+                    if ($refresh_time <= time()) $refresh_time = time() + 60;
+                    wp_schedule_single_event($refresh_time, 'wpsp_google_business_token_refresh', array($account_id));
+                    error_log("WPSP: Scheduled token refresh for account_id: " . $account_id . " at " . date('Y-m-d H:i:s', $refresh_time));
+                }
+            }
+        }
+
+    }
+
+    public function schedule_token_refresh($profile_key, $profile) {
+        if (empty($profile->refresh_token) || empty($profile->expires_in) || empty($profile->id)) return;
+
+        $account_id = strpos($profile->id, 'accounts/') === 0 ? substr($profile->id, 9) : $profile->id;
+
+        // Clear existing
+        if ($timestamp = wp_next_scheduled('wpsp_google_business_token_refresh', array($account_id))) {
+            wp_unschedule_event($timestamp, 'wpsp_google_business_token_refresh', array($account_id));
+        }
+
+        // Schedule new
+        $refresh_time = $profile->expires_in - 600; // 1 hour before expiry
+        if ($refresh_time <= time()) $refresh_time = time() + 60;
+        wp_schedule_single_event($refresh_time, 'wpsp_google_business_token_refresh', array($account_id));
+        error_log("WPSP: Scheduled token refresh for account_id: " . $account_id . " at " . date('Y-m-d H:i:s', $refresh_time));
+    }
+
+    public function refresh_access_token_cron($account_id = null) {
+        // Debug logging
+        error_log("WPSP: refresh_access_token_cron called with account_id: " . var_export($account_id, true));
+
+        if (empty($account_id)) {
+            error_log("WPSP: No account_id provided to refresh_access_token_cron");
+            return;
+        }
+
+        $profiles = Helper::get_social_profile(WPSCP_GOOGLE_BUSINESS_OPTION_NAME);
+        if (!is_array($profiles)) {
+            error_log("WPSP: No profiles found");
+            return;
+        }
+
+        // Find profile by account ID
+        $profile_key = null;
+        $profile = null;
+        foreach ($profiles as $key => $p) {
+            if (!empty($p->id)) {
+                $p_account_id = strpos($p->id, 'accounts/') === 0 ? substr($p->id, 9) : $p->id;
+                if ($p_account_id === $account_id) {
+                    $profile_key = $key;
+                    $profile = $p;
+                    break;
+                }
+            }
+        }
+
+        if (!$profile) {
+            error_log("WPSP: Profile not found for account_id: " . $account_id);
+            return;
+        }
+
+        if (empty($profile->refresh_token) || empty($profile->app_id) ) {
+            error_log("WPSP: Missing required data for account_id: " . $account_id);
+            // return;
+        }
+        // Generate refresh token
+        $refresh_result = $this->refresh_generate_access_token( $profile->app_id, $profile->refresh_token );
+
+        if (!$refresh_result['error'] && !empty($refresh_result['access_token'])) {
+            $profiles[$profile_key]->access_token = $refresh_result['access_token'];
+            $profiles[$profile_key]->expires_in = time() + $refresh_result['expires_in'];
+            update_option(WPSCP_GOOGLE_BUSINESS_OPTION_NAME, $profiles);
+            $this->schedule_token_refresh($profile_key, $profiles[$profile_key]);
+        } else {
+            // Retry in 1 hour
+            wp_schedule_single_event(time() + 3600, 'wpsp_google_business_token_refresh', array($account_id));
+        }
+    }
+
+    public function refresh_generate_access_token( $app_id, $refresh_token ) {
+        $response = wp_remote_post( WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE_DEV, [
+            'body' => [
+                'type'          => 'google_business',   // or ''
+                'refresh_token' => $refresh_token,
+                'client_id'     => $app_id,
+            ]
+        ]);
+
+        if (is_wp_error($response)) {
+            $error_message = $response->get_error_message();
+            echo "Something went wrong: $error_message";
+        } else {
+            $body = wp_remote_retrieve_body($response);
+            $data = json_decode($body, true);
+            return $data;
+        }
+    }
+
 }

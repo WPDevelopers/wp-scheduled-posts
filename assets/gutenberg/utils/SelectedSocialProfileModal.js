@@ -23,7 +23,7 @@ const SelectedSocialProfileModal = ( { platform, selectedSocialProfile, response
             <div className={`profile-${platform} social-profile`}>
                 <div className="social-logo">
                     <img src={ `${WPSchedulePostsFree.assetsURI}images/${platform}.svg` } alt="" />
-                    <h2>{platform}</h2>
+                    <h2>{platform == 'google_business' ? 'Google My Business' : platform }</h2>
                 </div>
                 { filteredSelectedSocialProfile.filter( (profile) => profile.platform === platform ).map( ( profile ) => (
                     <Fragment>

@@ -496,6 +496,26 @@
                  }
              }
 
+            // selected google_business profile
+            let google_business_selected_profiles;
+            let is_google_business_share = true;
+            const el_google_business_profile = $('[name="wpsp-el-content-google_business"]:checked').val();
+            if( el_google_business_profile == 'wpsp-el-social-google_business-custom' ) {
+                google_business_selected_profiles = $('[name="wpsp_el_social_google_business[]"]:checked').map(function() {
+                    return $(this).val();
+                }).get();
+                if( google_business_selected_profiles.length == 0 ) {
+                    is_google_business_share = false;
+                }
+            }else{
+                google_business_selected_profiles = $('[name="wpsp_el_social_google_business[]"]').map(function() {
+                    return $(this).val();
+                }).get();
+                if( google_business_selected_profiles.length == 0 ) {
+                    is_google_business_share = false;
+                }
+            }
+
             var postid = jQuery('#wpscppropostid').val()
             // var nonce = jQuery('#wpscp_pro_instant_social_share_nonce').val()
             const nonce = wpscpSocialProfile?.nonce;
