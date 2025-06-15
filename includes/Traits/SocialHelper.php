@@ -109,7 +109,7 @@ trait SocialHelper
                 \WPSP\Helpers\CustomTemplateHelper::log_template_usage($post_id, $platform, $profile_id, 'global');
             }
         }
-
+        
         $title              = html_entity_decode($title);
         $desc               = html_entity_decode($desc);
         $post_content_limit = intval($limit);

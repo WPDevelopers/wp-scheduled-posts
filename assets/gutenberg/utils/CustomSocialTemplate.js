@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import CustomSocialTemplateModal from './CustomSocialTemplateModal';
 import { fetchSocialProfileData } from '../helper';
 
@@ -8,9 +8,81 @@ const {
 } = wp;
 const { __ } = wp.i18n;
 
-const CustomSocialTemplate = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [socialProfileData, setSocialProfileData] = useState({
+// Separate hook for image handling
+const useImagePreview = () => {
+  const { post, meta } = useSelect((select) => ({
+    post: select('core/editor').getCurrentPost(),
+    meta: select('core/editor').getEditedPostAttribute('meta') || {}
+  }));
+
+  const [imageUrl, setImageUrl] = useState('');
+
+  const fetchImage = useCallback(async (imageId) => {
+    if (!imageId) return null;
+    const attachment = wp.media.attachment(imageId);
+    try {
+      await attachment.fetch();
+      return attachment.get('url');
+    } catch (error) {
+      console.error(`Error fetching image ${imageId}:`, error);
+      return null;
+    }
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const updateImage = async () => {
+      setImageUrl(''); // Reset on dependencies change
+
+      const socialShareImageId = meta._wpscppro_custom_social_share_image;
+      const featuredMediaId = post.featured_media;
+
+      // Try custom social share image first
+      if (socialShareImageId) {
+        const url = await fetchImage(socialShareImageId);
+        if (url && isMounted) {
+          setImageUrl(url);
+          return;
+        }
+      }
+
+      // Fallback to featured image
+      if (featuredMediaId) {
+        const url = await fetchImage(featuredMediaId);
+        if (url && isMounted) {
+          setImageUrl(url);
+        }
+      }
+    };
+
+    updateImage();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [post.featured_media, meta._wpscppro_custom_social_share_image, fetchImage]);
+
+  return imageUrl;
+};
+
+// Separate hook for post data
+const usePostData = () => {
+  return useSelect((select) => {
+    const post = select('core/editor').getCurrentPost();
+    const postId = select('core/editor').getCurrentPostId();
+    
+    return {
+      postTitle: post.title || '',
+      postContent: post.excerpt || post.content?.substring(0, 100) + '...' || '',
+      postUrl: post.link || `${window.location.origin}/?p=${postId}`
+    };
+  });
+};
+
+// Separate hook for social profile data
+const useSocialProfileData = () => {
+  const [profileData, setProfileData] = useState({
     facebookProfileData: [],
     twitterProfileData: [],
     linkedinProfileData: [],
@@ -20,27 +92,14 @@ const CustomSocialTemplate = () => {
     threadsProfileData: []
   });
 
-  // Get current post data for template preview
-  const { postTitle, postContent, postUrl } = useSelect((select) => {
-    const post = select('core/editor').getCurrentPost();
-    const postId = select('core/editor').getCurrentPostId();
-
-    return {
-      postTitle: post.title || '',
-      postContent: post.excerpt || post.content?.substring(0, 100) + '...' || '',
-      postUrl: post.link || `${window.location.origin}/?p=${postId}`
-    };
-  });
-
-  // Fetch all social profile data when component mounts
   useEffect(() => {
     const fetchAllProfileData = async () => {
       try {
         const apiUrl = '/wp-scheduled-posts/v1/get-option-data';
-        const profileData = await fetchSocialProfileData(apiUrl,null, false);
-        if (profileData) {
-          const data = JSON.parse(profileData);
-          setSocialProfileData({
+        const response = await fetchSocialProfileData(apiUrl, null, false);
+        if (response) {
+          const data = JSON.parse(response);
+          setProfileData({
             facebookProfileData: data.facebook_profile_list || [],
             twitterProfileData: data.twitter_profile_list || [],
             linkedinProfileData: data.linkedin_profile_list || [],
@@ -58,8 +117,41 @@ const CustomSocialTemplate = () => {
     fetchAllProfileData();
   }, []);
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  return profileData;
+};
+
+const CustomSocialTemplate = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const uploadSocialShareBanner = useImagePreview();
+  const { postTitle, postContent, postUrl } = usePostData();
+  const socialProfileData = useSocialProfileData();
+
+  const openModal = useCallback(() => setIsModalOpen(true), []);
+  const closeModal = useCallback(() => setIsModalOpen(false), []);
+
+  const modalProps = useMemo(() => ({
+    isOpen: isModalOpen,
+    onClose: closeModal,
+    facebookProfileData: socialProfileData.facebookProfileData,
+    twitterProfileData: socialProfileData.twitterProfileData,
+    linkedinProfileData: socialProfileData.linkedinProfileData,
+    pinterestProfileData: socialProfileData.pinterestProfileData,
+    instagramProfileData: socialProfileData.instagramProfileData,
+    mediumProfileData: socialProfileData.mediumProfileData,
+    threadsProfileData: socialProfileData.threadsProfileData,
+    postTitle,
+    postContent,
+    postUrl,
+    uploadSocialShareBanner
+  }), [
+    isModalOpen,
+    closeModal,
+    socialProfileData,
+    postTitle,
+    postContent,
+    postUrl,
+    uploadSocialShareBanner
+  ]);
 
   return (
     <>
@@ -79,20 +171,7 @@ const CustomSocialTemplate = () => {
         </Button>
       </div>
 
-      <CustomSocialTemplateModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        facebookProfileData={socialProfileData.facebookProfileData}
-        twitterProfileData={socialProfileData.twitterProfileData}
-        linkedinProfileData={socialProfileData.linkedinProfileData}
-        pinterestProfileData={socialProfileData.pinterestProfileData}
-        instagramProfileData={socialProfileData.instagramProfileData}
-        mediumProfileData={socialProfileData.mediumProfileData}
-        threadsProfileData={socialProfileData.threadsProfileData}
-        postTitle={postTitle}
-        postContent={postContent}
-        postUrl={postUrl}
-      />
+      <CustomSocialTemplateModal {...modalProps} />
     </>
   );
 };

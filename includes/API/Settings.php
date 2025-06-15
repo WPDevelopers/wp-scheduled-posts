@@ -43,6 +43,7 @@ class Settings
         add_action('rest_api_init', array($this, 'register_routes'));
         add_action('rest_api_init', array($this, 'register_social_profile_routes'));
         add_action('rest_api_init', array($this, 'meta_rest_api'));
+        add_action('wp_insert_post', array($this, 'initialize_custom_templates_meta'), 10, 2);
     }
     public function meta_rest_api() {
         $allow_post_types = \WPSP\Helper::get_all_allowed_post_type();
@@ -125,7 +126,7 @@ class Settings
                 ]
             );
 
-            // Custom social templates for post-profile combinations
+            // Custom social templates for platforms
             register_post_meta(
                 $type,
                 '_wpsp_custom_templates',
@@ -134,17 +135,36 @@ class Settings
                         'schema' => [
                             'type' => 'object',
                             'properties' => [
-                                'post_profile_templates' => [
-                                    'type' => 'object',
-                                    'additionalProperties' => [
-                                        'type' => 'string'
-                                    ]
-                                ]
+                                'facebook' => ['type' => 'string'],
+                                'twitter' => ['type' => 'string'],
+                                'linkedin' => ['type' => 'string'],
+                                'pinterest' => ['type' => 'string'],
+                                'instagram' => ['type' => 'string'],
+                                'medium' => ['type' => 'string'],
+                                'threads' => ['type' => 'string'],
+                            ],
+                            'default' => [
+                                'facebook' => '',
+                                'twitter' => '',
+                                'linkedin' => '',
+                                'pinterest' => '',
+                                'instagram' => '',
+                                'medium' => '',
+                                'threads' => '',
                             ]
                         ]
                     ],
                     'single' => true,
                     'type' => 'object',
+                    'default' => [
+                        'facebook' => '',
+                        'twitter' => '',
+                        'linkedin' => '',
+                        'pinterest' => '',
+                        'instagram' => '',
+                        'medium' => '',
+                        'threads' => '',
+                    ],
                     'auth_callback' => function() {
                         return current_user_can( 'edit_posts' );
                     }
@@ -152,6 +172,41 @@ class Settings
             );
         }
 
+    }
+
+    /**
+     * Initialize custom templates meta field for new posts
+     *
+     * @param int $post_id
+     * @param WP_Post $post
+     */
+    public function initialize_custom_templates_meta($post_id, $post) {
+        // Only initialize for allowed post types
+        $allow_post_types = \WPSP\Helper::get_all_allowed_post_type();
+        $allow_post_types = (!empty($allow_post_types) ? $allow_post_types : array('post'));
+
+        if (!in_array($post->post_type, $allow_post_types)) {
+            return;
+        }
+
+        // Check if meta already exists
+        $existing_meta = get_post_meta($post_id, '_wpsp_custom_templates', true);
+        if (!empty($existing_meta)) {
+            return;
+        }
+
+        // Initialize with default structure
+        $default_templates = array(
+            'facebook' => '',
+            'twitter' => '',
+            'linkedin' => '',
+            'pinterest' => '',
+            'instagram' => '',
+            'medium' => '',
+            'threads' => ''
+        );
+
+        update_post_meta($post_id, '_wpsp_custom_templates', $default_templates);
     }
 
 
@@ -212,13 +267,9 @@ class Settings
                         return in_array($param, ['facebook', 'twitter', 'linkedin', 'pinterest', 'instagram', 'medium', 'threads']);
                     }
                 ),
-                'profile_id' => array(
-                    'required' => true,
-                    'sanitize_callback' => 'sanitize_text_field'
-                ),
                 'template' => array(
                     'required' => true,
-                    'sanitize_callback' => 'sanitize_textarea_field'
+                    // 'sanitize_callback' => 'sanitize_textarea_field'
                 ),
             ),
         ));
@@ -242,10 +293,7 @@ class Settings
                         return in_array($param, ['facebook', 'twitter', 'linkedin', 'pinterest', 'instagram', 'medium', 'threads']);
                     }
                 ),
-                'profile_id' => array(
-                    'required' => true,
-                    'sanitize_callback' => 'sanitize_text_field'
-                ),
+
             ),
         ));
 
@@ -339,7 +387,6 @@ class Settings
      */
     public function get_custom_templates( $request ) {
         $post_id = $request->get_param('post_id');
-
         // Verify post exists and user can edit it
         if (!get_post($post_id) || !current_user_can('edit_post', $post_id)) {
             return new \WP_REST_Response(array(
@@ -348,8 +395,8 @@ class Settings
             ), 403);
         }
 
-        // Get templates and migrate if needed
-        $templates = $this->get_migrated_templates($post_id);
+        // Get templates
+        $templates = $this->get_simple_templates($post_id);
 
         return new \WP_REST_Response(array(
             'success' => true,
@@ -366,8 +413,8 @@ class Settings
     public function save_custom_template( $request ) {
         $post_id = $request->get_param('post_id');
         $platform = $request->get_param('platform');
-        $profile_id = $request->get_param('profile_id');
         $template = $request->get_param('template');
+
         // Verify post exists and user can edit it
         if (!get_post($post_id) || !current_user_can('edit_post', $post_id)) {
             return new \WP_REST_Response(array(
@@ -385,16 +432,11 @@ class Settings
             ), 400);
         }
 
-        // Get existing templates and migrate if needed
-        $templates = $this->get_migrated_templates($post_id);
+        // Get existing templates
+        $templates = $this->get_simple_templates($post_id);
 
-        // Ensure platform exists in structure
-        if (!isset($templates['post_profile_templates'][$platform])) {
-            $templates['post_profile_templates'][$platform] = array();
-        }
-
-        // Save template in hierarchical structure: platform -> profile_id -> template
-        $templates['post_profile_templates'][$platform][$profile_id] = $template;
+        // Save template directly for platform
+        $templates[$platform] = $template;
 
         // Update post meta
         $updated = update_post_meta($post_id, '_wpsp_custom_templates', $templates);
@@ -422,7 +464,6 @@ class Settings
     public function delete_custom_template( $request ) {
         $post_id = $request->get_param('post_id');
         $platform = $request->get_param('platform');
-        $profile_id = $request->get_param('profile_id');
 
         // Verify post exists and user can edit it
         if (!get_post($post_id) || !current_user_can('edit_post', $post_id)) {
@@ -432,25 +473,19 @@ class Settings
             ), 403);
         }
 
-        // Get existing templates and migrate if needed
-        $templates = $this->get_migrated_templates($post_id);
+        // Get existing templates
+        $templates = $this->get_simple_templates($post_id);
 
-        // Check if platform and profile exist
-        if (!isset($templates['post_profile_templates'][$platform]) ||
-            !isset($templates['post_profile_templates'][$platform][$profile_id])) {
+        // Check if platform template exists
+        if (!isset($templates[$platform]) || empty($templates[$platform])) {
             return new \WP_REST_Response(array(
                 'success' => false,
                 'message' => __('Template not found.', 'wp-scheduled-posts')
             ), 404);
         }
 
-        // Remove template from hierarchical structure
-        unset($templates['post_profile_templates'][$platform][$profile_id]);
-
-        // If platform has no more templates, keep it as empty array for consistency
-        if (empty($templates['post_profile_templates'][$platform])) {
-            $templates['post_profile_templates'][$platform] = array();
-        }
+        // Remove template for platform
+        $templates[$platform] = '';
 
         // Update post meta
         $updated = update_post_meta($post_id, '_wpsp_custom_templates', $templates);
@@ -535,57 +570,60 @@ class Settings
     }
 
     /**
-     * Get templates with migration from old flat structure to new hierarchical structure
+     * Get templates with simple platform-based structure
      *
      * @param int $post_id
      * @return array
      */
-    private function get_migrated_templates( $post_id ) {
+    private function get_simple_templates( $post_id ) {
         $templates = get_post_meta($post_id, '_wpsp_custom_templates', true);
 
-        // Initialize if empty
+        // Initialize if empty or not array
         if (!$templates || !is_array($templates)) {
             return array(
-                'post_profile_templates' => array(
-                    'facebook' => array(),
-                    'twitter' => array(),
-                    'linkedin' => array(),
-                    'pinterest' => array(),
-                    'instagram' => array(),
-                    'medium' => array(),
-                    'threads' => array()
-                )
+                'facebook' => '',
+                'twitter' => '',
+                'linkedin' => '',
+                'pinterest' => '',
+                'instagram' => '',
+                'medium' => '',
+                'threads' => ''
             );
         }
 
-        // Check if migration is needed (old flat structure)
-        if (isset($templates['post_profile_templates']) && !empty($templates['post_profile_templates'])) {
-            $needs_migration = false;
+        // Check if we have old hierarchical structure and migrate to simple structure
+        if (isset($templates)) {
+            $simple_templates = array(
+                'facebook' => '',
+                'twitter' => '',
+                'linkedin' => '',
+                'pinterest' => '',
+                'instagram' => '',
+                'medium' => '',
+                'threads' => ''
+            );
 
-            // Check if any keys use the old flat format (platform_profileId)
-            foreach ($templates['post_profile_templates'] as $key => $value) {
-                if (is_string($value) && strpos($key, '_') !== false) {
-                    $needs_migration = true;
-                    break;
+            // Extract first template from each platform if it exists
+            foreach ($templates as $platform => $platform_data) {
+                if (is_array($platform_data) && !empty($platform_data)) {
+                    // Get first template from the platform
+                    $simple_templates[$platform] = reset($platform_data);
+                } elseif (is_string($platform_data)) {
+                    // Already a string template
+                    $simple_templates[$platform] = $platform_data;
                 }
             }
 
-            if ($needs_migration) {
-                $templates = $this->migrate_template_structure($templates);
-                // Save migrated structure
-                update_post_meta($post_id, '_wpsp_custom_templates', $templates);
-            }
+            // Save migrated structure
+            update_post_meta($post_id, '_wpsp_custom_templates', $simple_templates);
+            return $simple_templates;
         }
 
-        // Ensure all platforms exist in structure
+        // Ensure all platforms exist in simple structure
         $platforms = array('facebook', 'twitter', 'linkedin', 'pinterest', 'instagram', 'medium', 'threads');
-        if (!isset($templates['post_profile_templates'])) {
-            $templates['post_profile_templates'] = array();
-        }
-
         foreach ($platforms as $platform) {
-            if (!isset($templates['post_profile_templates'][$platform])) {
-                $templates['post_profile_templates'][$platform] = array();
+            if (!isset($templates[$platform])) {
+                $templates[$platform] = '';
             }
         }
 
@@ -599,7 +637,6 @@ class Settings
      * @return array
      */
     private function migrate_template_structure( $templates ) {
-        $old_templates = $templates['post_profile_templates'];
         $new_structure = array(
             'facebook' => array(),
             'twitter' => array(),
@@ -611,15 +648,13 @@ class Settings
         );
 
         // Migrate old platform_profileId format to new hierarchical format
-        foreach ($old_templates as $key => $template) {
+        foreach ($templates as $key => $template) {
             if (is_string($template) && strpos($key, '_') !== false) {
                 $parts = explode('_', $key, 2);
                 if (count($parts) === 2) {
                     $platform = $parts[0];
-                    $profile_id = $parts[1];
-
                     if (isset($new_structure[$platform])) {
-                        $new_structure[$platform][$profile_id] = $template;
+                        $new_structure[$platform]= $template;
                     }
                 }
             } elseif (is_array($template)) {
@@ -627,8 +662,7 @@ class Settings
                 $new_structure[$key] = $template;
             }
         }
-
-        return array('post_profile_templates' => $new_structure);
+        return $new_structure;
     }
 
     public function wpsp_get_options_data( $request ) {

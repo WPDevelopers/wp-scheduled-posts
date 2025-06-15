@@ -21,12 +21,10 @@ class CustomTemplateHelper
      */
     public static function get_custom_template( $post_id, $platform, $profile_id ) {
         $templates = self::get_migrated_templates($post_id);
-
-        if (!isset($templates['post_profile_templates'][$platform][$profile_id])) {
+        if (!isset($templates[$platform])) {
             return false;
         }
-
-        return $templates['post_profile_templates'][$platform][$profile_id];
+        return $templates[$platform];
     }
 
     /**
@@ -48,8 +46,7 @@ class CustomTemplateHelper
      * @return array
      */
     public static function get_all_templates( $post_id ) {
-        $templates = self::get_migrated_templates($post_id);
-        return $templates['post_profile_templates'];
+        return self::get_migrated_templates($post_id);
     }
 
     /**
@@ -62,11 +59,11 @@ class CustomTemplateHelper
     public static function get_platform_templates( $post_id, $platform ) {
         $templates = self::get_migrated_templates($post_id);
 
-        if (!isset($templates['post_profile_templates'][$platform])) {
+        if (!isset($templates[$platform])) {
             return array();
         }
 
-        return $templates['post_profile_templates'][$platform];
+        return $templates[$platform];
     }
 
     /**
@@ -82,12 +79,12 @@ class CustomTemplateHelper
         $templates = self::get_migrated_templates($post_id);
 
         // Ensure platform exists in structure
-        if (!isset($templates['post_profile_templates'][$platform])) {
-            $templates['post_profile_templates'][$platform] = array();
+        if (!isset($templates[$platform])) {
+            $templates[$platform] = array();
         }
 
         // Save template in hierarchical structure
-        $templates['post_profile_templates'][$platform][$profile_id] = $template;
+        $templates[$platform][$profile_id] = $template;
 
         return update_post_meta($post_id, '_wpsp_custom_templates', $templates) !== false;
     }
@@ -103,16 +100,16 @@ class CustomTemplateHelper
     public static function delete_template( $post_id, $platform, $profile_id ) {
         $templates = self::get_migrated_templates($post_id);
 
-        if (!isset($templates['post_profile_templates'][$platform][$profile_id])) {
+        if (!isset($templates[$platform][$profile_id])) {
             return false;
         }
 
         // Remove template from hierarchical structure
-        unset($templates['post_profile_templates'][$platform][$profile_id]);
+        unset($templates[$platform][$profile_id]);
 
         // Keep platform as empty array for consistency
-        if (empty($templates['post_profile_templates'][$platform])) {
-            $templates['post_profile_templates'][$platform] = array();
+        if (empty($templates[$platform])) {
+            $templates[$platform] = array();
         }
 
         return update_post_meta($post_id, '_wpsp_custom_templates', $templates) !== false;
@@ -148,7 +145,6 @@ class CustomTemplateHelper
      */
     public static function get_global_platform_template( $platform ) {
         $settings = \WPSP\Helper::get_settings('social_templates');
-        
         if (!$settings || !isset($settings->$platform)) {
             return self::get_default_template();
         }
@@ -308,53 +304,6 @@ class CustomTemplateHelper
      */
     private static function get_migrated_templates( $post_id ) {
         $templates = get_post_meta($post_id, '_wpsp_custom_templates', true);
-
-        // Initialize if empty
-        if (!$templates || !is_array($templates)) {
-            return array(
-                'post_profile_templates' => array(
-                    'facebook' => array(),
-                    'twitter' => array(),
-                    'linkedin' => array(),
-                    'pinterest' => array(),
-                    'instagram' => array(),
-                    'medium' => array(),
-                    'threads' => array()
-                )
-            );
-        }
-
-        // Check if migration is needed (old flat structure)
-        if (isset($templates['post_profile_templates']) && !empty($templates['post_profile_templates'])) {
-            $needs_migration = false;
-
-            // Check if any keys use the old flat format (platform_profileId)
-            foreach ($templates['post_profile_templates'] as $key => $value) {
-                if (is_string($value) && strpos($key, '_') !== false) {
-                    $needs_migration = true;
-                    break;
-                }
-            }
-
-            if ($needs_migration) {
-                $templates = self::migrate_template_structure($templates);
-                // Save migrated structure
-                update_post_meta($post_id, '_wpsp_custom_templates', $templates);
-            }
-        }
-
-        // Ensure all platforms exist in structure
-        $platforms = array('facebook', 'twitter', 'linkedin', 'pinterest', 'instagram', 'medium', 'threads');
-        if (!isset($templates['post_profile_templates'])) {
-            $templates['post_profile_templates'] = array();
-        }
-
-        foreach ($platforms as $platform) {
-            if (!isset($templates['post_profile_templates'][$platform])) {
-                $templates['post_profile_templates'][$platform] = array();
-            }
-        }
-
         return $templates;
     }
 
@@ -365,7 +314,6 @@ class CustomTemplateHelper
      * @return array
      */
     private static function migrate_template_structure( $templates ) {
-        $old_templates = $templates['post_profile_templates'];
         $new_structure = array(
             'facebook' => array(),
             'twitter' => array(),
@@ -377,7 +325,7 @@ class CustomTemplateHelper
         );
 
         // Migrate old platform_profileId format to new hierarchical format
-        foreach ($old_templates as $key => $template) {
+        foreach ($templates as $key => $template) {
             if (is_string($template) && strpos($key, '_') !== false) {
                 $parts = explode('_', $key, 2);
                 if (count($parts) === 2) {
@@ -393,7 +341,6 @@ class CustomTemplateHelper
                 $new_structure[$key] = $template;
             }
         }
-
-        return array('post_profile_templates' => $new_structure);
+        return $new_structure;
     }
 }

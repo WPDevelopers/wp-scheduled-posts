@@ -18,7 +18,8 @@ const CustomSocialTemplateModal = ({
   threadsProfileData,
   postTitle,
   postContent,
-  postUrl
+  postUrl,
+  uploadSocialShareBanner
 }) => {
   const [selectedPlatform, setSelectedPlatform] = useState('facebook');
   const [selectedProfile, setSelectedProfile] = useState('');
@@ -32,6 +33,23 @@ const CustomSocialTemplateModal = ({
     postId: select('core/editor').getCurrentPostId(),
   }));
   const { editPost } = useDispatch('core/editor');
+
+  // Initialize meta structure if it doesn't exist
+  const getCustomTemplatesMeta = () => {
+    const customTemplates = meta._wpsp_custom_templates;
+    if (!customTemplates || typeof customTemplates !== 'object') {
+      return {
+        facebook: '',
+        twitter: '',
+        linkedin: '',
+        pinterest: '',
+        instagram: '',
+        medium: '',
+        threads: ''
+      };
+    }
+    return customTemplates;
+  };
 
   // Platform character limits
   const platformLimits = {
@@ -86,58 +104,49 @@ const CustomSocialTemplateModal = ({
     setCharacterCount(preview.length);
   }, [customTemplate, postTitle, postContent, postUrl]);
 
-  // Load existing template when profile changes
+  // Load existing template when platform changes
   useEffect(() => {
-    if (selectedPlatform && selectedProfile) {
-      const customTemplates = meta._wpsp_custom_templates || {};
-      const postProfileTemplates = customTemplates.post_profile_templates || {};
-      const platformTemplates = postProfileTemplates[selectedPlatform] || {};
-      const existingTemplate = platformTemplates[selectedProfile] || '{title} {content} {url} {tags}';
+    if (selectedPlatform) {
+      const customTemplates = getCustomTemplatesMeta();
+      const existingTemplate = customTemplates[selectedPlatform] || '';
       setCustomTemplate(existingTemplate);
     }
-  }, [selectedPlatform, selectedProfile, meta]);
+  }, [selectedPlatform, meta]);
 
-  // Reset form when platform changes
+  // Reset profile selection when platform changes
   useEffect(() => {
     setSelectedProfile('');
-    setCustomTemplate('');
   }, [selectedPlatform]);
 
   // Save template
   const handleSave = async () => {
-    if (!selectedProfile || !customTemplate.trim()) {
-      alert(__('Please select a profile and enter a template.', 'wp-scheduled-posts'));
+    if (!customTemplate.trim()) {
+      alert(__('Please enter a template.', 'wp-scheduled-posts'));
       return;
     }
 
     try {
+      // Get the current templates
+      const currentCustomTemplates = getCustomTemplatesMeta();
+
+      // Create the updated templates structure
+      const updatedTemplates = {
+        ...currentCustomTemplates,
+        [selectedPlatform]: customTemplate.trim()
+      };
+
+      // Send the request to save the template
       const response = await wp.apiFetch({
         path: `/wp-scheduled-posts/v1/custom-templates/${postId}`,
         method: 'POST',
         data: {
           platform: selectedPlatform,
-          profile_id: selectedProfile,
           template: customTemplate.trim()
         }
       });
 
       if (response.success) {
-        // Update the local meta state to reflect the changes using new hierarchical structure
-        const currentCustomTemplates = meta._wpsp_custom_templates || {};
-        const currentPostProfileTemplates = currentCustomTemplates.post_profile_templates || {};
-        const currentPlatformTemplates = currentPostProfileTemplates[selectedPlatform] || {};
-
-        const updatedTemplates = {
-          ...currentCustomTemplates,
-          post_profile_templates: {
-            ...currentPostProfileTemplates,
-            [selectedPlatform]: {
-              ...currentPlatformTemplates,
-              [selectedProfile]: customTemplate.trim()
-            }
-          }
-        };
-
+        // Update the local meta state
         editPost({
           meta: {
             ...meta,
@@ -157,8 +166,6 @@ const CustomSocialTemplateModal = ({
 
   // Delete template
   const handleDelete = async () => {
-    if (!selectedProfile) return;
-
     if (!confirm(__('Are you sure you want to delete this template?', 'wp-scheduled-posts'))) {
       return;
     }
@@ -168,26 +175,16 @@ const CustomSocialTemplateModal = ({
         path: `/wp-scheduled-posts/v1/custom-templates/${postId}`,
         method: 'DELETE',
         data: {
-          platform: selectedPlatform,
-          profile_id: selectedProfile
+          platform: selectedPlatform
         }
       });
 
       if (response.success) {
-        // Update the local meta state to reflect the changes using new hierarchical structure
-        const currentCustomTemplates = meta._wpsp_custom_templates || {};
-        const currentPostProfileTemplates = currentCustomTemplates.post_profile_templates || {};
-        const currentPlatformTemplates = { ...(currentPostProfileTemplates[selectedPlatform] || {}) };
-
-        // Remove the specific profile template
-        delete currentPlatformTemplates[selectedProfile];
-
+        // Update the local meta state
+        const currentCustomTemplates = getCustomTemplatesMeta();
         const updatedTemplates = {
           ...currentCustomTemplates,
-          post_profile_templates: {
-            ...currentPostProfileTemplates,
-            [selectedPlatform]: currentPlatformTemplates
-          }
+          [selectedPlatform]: ''
         };
 
         editPost({
@@ -264,7 +261,6 @@ const CustomSocialTemplateModal = ({
                           // Toggle functionality: if already selected, deselect; otherwise select
                           if (selectedProfile === profile.id) {
                             setSelectedProfile(''); // Deselect
-                            setCustomTemplate(''); // Clear template when deselecting
                           } else {
                             setSelectedProfile(profile.id); // Select
                           }
@@ -309,8 +305,8 @@ const CustomSocialTemplateModal = ({
               </div>
             )}
 
-            {/* Template Editor - Only show when profile is selected */}
-            {selectedProfile && (
+            {/* Template Editor - Show when platform is selected */}
+            {selectedPlatform && (
               <div className="wpsp-template-textarea">
                 <textarea
                   value={customTemplate}
@@ -330,12 +326,12 @@ const CustomSocialTemplateModal = ({
               </div>
             )}
 
-            {/* Helper text when no profile is selected */}
-            {selectedPlatform && !selectedProfile && availableProfiles.length > 0 && (
+            {/* Helper text when no platform is selected */}
+            {!selectedPlatform && (
               <div className="wpsp-select-profile-hint">
                 <div className="wpsp-hint-icon">👆</div>
                 <div className="wpsp-hint-text">
-                  {__('Select a profile above to start creating your custom template', 'wp-scheduled-posts')}
+                  {__('Select a platform above to start creating your custom template', 'wp-scheduled-posts')}
                 </div>
               </div>
             )}
@@ -356,7 +352,7 @@ const CustomSocialTemplateModal = ({
 
               <div className="wpsp-preview-content-area">
                 {previewContent ? (
-                  <div className="wpsp-preview-text">{previewContent}</div>
+                  <div className="wpsp-preview-text" dangerouslySetInnerHTML={{ __html: previewContent }}></div>
                 ) : (
                   <div className="wpsp-preview-placeholder">
                     {__('Template preview will appear here...', 'wp-scheduled-posts')}
@@ -365,15 +361,30 @@ const CustomSocialTemplateModal = ({
 
                 {/* Mock post preview */}
                 <div className="wpsp-preview-post">
-                  <div className="wpsp-preview-image"></div>
+                  <div className="wpsp-preview-image">
+                    {uploadSocialShareBanner ? (
+                      <img src={uploadSocialShareBanner} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    ) : (
+                      <div style={{ 
+                        width: '100%', 
+                        height: '100%', 
+                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'white',
+                        fontSize: '14px'
+                      }}>
+                        {__('No image selected', 'wp-scheduled-posts')}
+                      </div>
+                    )}
+                  </div>
                   <div className="wpsp-preview-post-content">
-                    <div className="wpsp-preview-url">essential-addons.com</div>
+                    <div className="wpsp-preview-url">{window.location.origin}</div>
                     <div className="wpsp-preview-title">
                       {postTitle || __('How to Add Anchor Links in Elementor? [3 Ways]', 'wp-scheduled-posts')}
                     </div>
-                    <div className="wpsp-preview-excerpt">
-                      {postContent || __('Picture this — you are halfway through a lengthy web page, diving into the content and accidentally scrolling to the top of the page. Annoying, right? This is where anchor links become your best...', 'wp-scheduled-posts')}
-                    </div>
+                    <div className="wpsp-preview-excerpt" dangerouslySetInnerHTML={{ __html: postContent || __('Picture this — you are halfway through a lengthy web page, diving into the content and accidentally scrolling to the top of the page. Annoying, right? This is where anchor links become your best...', 'wp-scheduled-posts') }}></div>
                   </div>
                 </div>
               </div>
@@ -386,7 +397,7 @@ const CustomSocialTemplateModal = ({
           <Button isSecondary onClick={onClose} className="wpsp-cancel-btn">
             {__('Cancel', 'wp-scheduled-posts')}
           </Button>
-          {selectedProfile && selectedPlatform && meta._wpsp_custom_templates?.post_profile_templates?.[selectedPlatform]?.[selectedProfile] && (
+          {selectedPlatform && getCustomTemplatesMeta()?.[selectedPlatform] && (
             <Button isDestructive onClick={handleDelete} className="wpsp-delete-btn">
               {__('Delete Template', 'wp-scheduled-posts')}
             </Button>
@@ -394,7 +405,7 @@ const CustomSocialTemplateModal = ({
           <Button
             isPrimary
             onClick={handleSave}
-            disabled={!selectedProfile || !customTemplate.trim() || isOverLimit}
+            disabled={!selectedPlatform || !customTemplate.trim() || isOverLimit}
             className="wpsp-save-btn"
           >
             {__('Save', 'wp-scheduled-posts')} →
