@@ -1,6 +1,7 @@
 <?php
 
 namespace WPSP\Helpers;
+use WPSP\Helper;
 
 /**
  * Custom Template Helper Class
@@ -343,4 +344,96 @@ class CustomTemplateHelper
         }
         return $new_structure;
     }
+
+    public static function get_scheduled_datetime($data) {
+        // Set default timezone to UTC (GMT)
+        $current_time = Helper::getDateFromTimezone(null);
+        $now = new \DateTime($current_time, new \DateTimeZone('UTC'));
+        $dateOption = $data['dateOption'];
+        $timeOption = $data['timeOption'];
+        // Handle date
+        switch ($dateOption) {
+            case 'today':
+                $date = clone $now;
+                break;
+            case 'tomorrow':
+                $date = (clone $now)->modify('+1 day');
+                break;
+            case 'next_week':
+                $date = (clone $now)->modify('+7 days');
+                break;
+            case 'next_month':
+                $date = (clone $now)->modify('+1 month');
+                break;
+            case 'in_days':
+                $days = (int) $data['customDays'];
+                $date = (clone $now)->modify("+{$days} days");
+                break;
+            case 'custom_date':
+                if (!empty($data['customDate'])) {
+                    $date = DateTime::createFromFormat('Y-m-d', $data['customDate'], new DateTimeZone('UTC'));
+                } else {
+                    return null;
+                }
+                break;
+            default:
+                return null;
+        }
+    
+        // Handle time
+        switch ($timeOption) {
+            case 'now':
+                $time = clone $date;
+                break;
+        
+            case 'in_1h':
+                $minutes = rand(1, 60);
+                $time = (clone $date)->modify("+{$minutes} minutes");
+                break;
+        
+            case 'in_3h':
+                $minutes = rand(1, 180); // 3 hours = 180 minutes
+                $time = (clone $date)->modify("+{$minutes} minutes");
+                break;
+        
+            case 'in_5h':
+                $minutes = rand(1, 300); // 5 hours = 300 minutes
+                $time = (clone $date)->modify("+{$minutes} minutes");
+                break;
+        
+            case 'in_hours':
+                $hours = max(1, (int) $data['customHours']); // Ensure minimum 1 hour
+                $minutes = rand(1, $hours * 60);
+                $time = (clone $date)->modify("+{$minutes} minutes");
+                break;
+        
+            case 'custom_time':
+                if (!empty($data['customTime'])) {
+                    $timeParts = explode(':', $data['customTime']);
+                    if (count($timeParts) === 2) {
+                        $date->setTime((int)$timeParts[0], (int)$timeParts[1]);
+                        return $date->format('Y-m-d H:i:s'); // Early return for custom time
+                    }
+                }
+                return null;
+        
+            default:
+                return null;
+        }
+        
+    
+        // If using relative "in X" times, we just override date with the final timestamp
+        if (in_array($data['timeOption'], ['now', 'in_1h', 'in_3h', 'in_5h', 'in_hours'])) {
+            return $time->format('Y-m-d H:i:s');
+        }
+    
+        // Combine date and time if both are specific
+        if (isset($date)) {
+            $date->setTime((int)$date->format('H'), (int)$date->format('i'));
+            return $date->format('Y-m-d H:i:s');
+        }
+    
+        return null;
+    }
+
 }

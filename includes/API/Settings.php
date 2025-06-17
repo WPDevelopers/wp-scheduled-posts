@@ -4,6 +4,7 @@ namespace WPSP\API;
 use WPSP;
 use WPSP\Social\ReconnectHandler;
 use WPSP\Social\SocialProfile;
+use WPSP\Helper;
 
 class Settings
 {
@@ -135,35 +136,105 @@ class Settings
                         'schema' => [
                             'type' => 'object',
                             'properties' => [
-                                'facebook' => ['type' => 'string'],
-                                'twitter' => ['type' => 'string'],
-                                'linkedin' => ['type' => 'string'],
-                                'pinterest' => ['type' => 'string'],
-                                'instagram' => ['type' => 'string'],
-                                'medium' => ['type' => 'string'],
-                                'threads' => ['type' => 'string'],
+                                'facebook' => [
+                                    'type' => 'object',
+                                    'properties' => [
+                                        'template' => ['type' => 'string'],
+                                        'profiles' => ['type' => 'array', 'items' => ['type' => ['string', 'integer']]],
+                                    ],
+                                    'default' => ['template' => '', 'profiles' => []],
+                                ],
+                                'twitter' => [
+                                    'type' => 'object',
+                                    'properties' => [
+                                        'template' => ['type' => 'string'],
+                                        'profiles' => ['type' => 'array', 'items' => ['type' => ['string', 'integer']]],
+                                    ],
+                                    'default' => ['template' => '', 'profiles' => []],
+                                ],
+                                'linkedin' => [
+                                    'type' => 'object',
+                                    'properties' => [
+                                        'template' => ['type' => 'string'],
+                                        'profiles' => ['type' => 'array', 'items' => ['type' => ['string', 'integer']]],
+                                    ],
+                                    'default' => ['template' => '', 'profiles' => []],
+                                ],
+                                'pinterest' => [
+                                    'type' => 'object',
+                                    'properties' => [
+                                        'template' => ['type' => 'string'],
+                                        'profiles' => ['type' => 'array', 'items' => ['type' => ['string', 'integer']]],
+                                    ],
+                                    'default' => ['template' => '', 'profiles' => []],
+                                ],
+                                'instagram' => [
+                                    'type' => 'object',
+                                    'properties' => [
+                                        'template' => ['type' => 'string'],
+                                        'profiles' => ['type' => 'array', 'items' => ['type' => ['string', 'integer']]],
+                                    ],
+                                    'default' => ['template' => '', 'profiles' => []],
+                                ],
+                                'medium' => [
+                                    'type' => 'object',
+                                    'properties' => [
+                                        'template' => ['type' => 'string'],
+                                        'profiles' => ['type' => 'array', 'items' => ['type' => ['string', 'integer']]],
+                                    ],
+                                    'default' => ['template' => '', 'profiles' => []],
+                                ],
+                                'threads' => [
+                                    'type' => 'object',
+                                    'properties' => [
+                                        'template' => ['type' => 'string'],
+                                        'profiles' => ['type' => 'array', 'items' => ['type' => ['string', 'integer']]],
+                                    ],
+                                    'default' => ['template' => '', 'profiles' => []],
+                                ],
                             ],
                             'default' => [
-                                'facebook' => '',
-                                'twitter' => '',
-                                'linkedin' => '',
-                                'pinterest' => '',
-                                'instagram' => '',
-                                'medium' => '',
-                                'threads' => '',
+                                'facebook' => ['template' => '', 'profiles' => []],
+                                'twitter' => ['template' => '', 'profiles' => []],
+                                'linkedin' => ['template' => '', 'profiles' => []],
+                                'pinterest' => ['template' => '', 'profiles' => []],
+                                'instagram' => ['template' => '', 'profiles' => []],
+                                'medium' => ['template' => '', 'profiles' => []],
+                                'threads' => ['template' => '', 'profiles' => []],
                             ]
                         ]
                     ],
                     'single' => true,
                     'type' => 'object',
+                    'auth_callback' => function() {
+                        return current_user_can( 'edit_posts' );
+                    },
+                ]
+            );
+            
+            // Social scheduling data
+            register_post_meta(
+                $type,
+                '_wpsp_social_scheduling',
+                [
+                    'show_in_rest' => [
+                        'schema' => [
+                            'type' => 'object',
+                            'properties' => [
+                                'enabled' => ['type' => 'boolean'],
+                                'datetime' => ['type' => ['string', 'null'], 'format' => 'date-time'],
+                                'platforms' => ['type' => 'array', 'items' => ['type' => 'string']],
+                                'status' => ['type' => 'string'],
+                            ],
+                        ]
+                    ],
+                    'single' => true,
+                    'type' => 'object',
                     'default' => [
-                        'facebook' => '',
-                        'twitter' => '',
-                        'linkedin' => '',
-                        'pinterest' => '',
-                        'instagram' => '',
-                        'medium' => '',
-                        'threads' => '',
+                        'enabled' => false,
+                        'datetime' => null,
+                        'platforms' => [],
+                        'status' => 'template_only'
                     ],
                     'auth_callback' => function() {
                         return current_user_can( 'edit_posts' );
@@ -197,13 +268,13 @@ class Settings
 
         // Initialize with default structure
         $default_templates = array(
-            'facebook' => '',
-            'twitter' => '',
-            'linkedin' => '',
-            'pinterest' => '',
-            'instagram' => '',
-            'medium' => '',
-            'threads' => ''
+            'facebook' => ['template' => '', 'profiles' => []],
+            'twitter' => ['template' => '', 'profiles' => []],
+            'linkedin' => ['template' => '', 'profiles' => []],
+            'pinterest' => ['template' => '', 'profiles' => []],
+            'instagram' => ['template' => '', 'profiles' => []],
+            'medium' => ['template' => '', 'profiles' => []],
+            'threads' => ['template' => '', 'profiles' => []]
         );
 
         update_post_meta($post_id, '_wpsp_custom_templates', $default_templates);
@@ -411,9 +482,16 @@ class Settings
      * @return WP_REST_Response
      */
     public function save_custom_template( $request ) {
+
+        // If post is published then add cron jobs to share on social media now
+        // If post is scheduled then add cron jobs to share on social media on scheduled date or after post is published
+        // If post is draft then do not add cron jobs
+
         $post_id = $request->get_param('post_id');
         $platform = $request->get_param('platform');
         $template = $request->get_param('template');
+        $profiles = $request->get_param('profiles');
+        $scheduling_data = $request->get_param('scheduling');
 
         // Verify post exists and user can edit it
         if (!get_post($post_id) || !current_user_can('edit_post', $post_id)) {
@@ -435,24 +513,62 @@ class Settings
         // Get existing templates
         $templates = $this->get_simple_templates($post_id);
 
-        // Save template directly for platform
-        $templates[$platform] = $template;
+        // Save template and profiles for platform
+        $templates[$platform] = [
+            'template' => $template,
+            'profiles' => $profiles
+        ];
 
-        // Update post meta
-        $updated = update_post_meta($post_id, '_wpsp_custom_templates', $templates);
+        // Update custom templates post meta
+        $template_updated = update_post_meta($post_id, '_wpsp_custom_templates', $templates);
 
-        if ($updated !== false) {
+        // Handle scheduling data
+        $scheduling_updated = false;
+        if (is_array($scheduling_data)) {
+            $scheduling_updated = update_post_meta($post_id, '_wpsp_social_scheduling', $scheduling_data);
+            $template_updated = true;
+            // If post is published then add cron jobs to share on social media now
+            // let's write a function to handle this
+            // get status of post from request
+            if (get_post_status($post_id) === 'publish') {
+                $set_schedule_at = $this->handle_published_post_scheduling($post_id, $scheduling_data);
+                
+                if ($set_schedule_at) {
+                    $schedule_at = Helper::getDateFromTimezone($set_schedule_at, 'U', true);
+                    $existing_timestamp = wp_next_scheduled('publish_future_post', array($post_id));
+                    // If found, remove it
+                    if ($existing_timestamp) {
+                        wp_unschedule_event($existing_timestamp, 'publish_future_post', array($post_id));
+                    }
+            
+                    // Schedule the new one
+                    wp_schedule_single_event($schedule_at, 'publish_future_post', array($post_id));
+                }
+            }
+        }
+
+        if ($template_updated !== false || $scheduling_updated !== false) {
             return new \WP_REST_Response(array(
                 'success' => true,
-                'message' => __('Template saved successfully.', 'wp-scheduled-posts'),
-                'data' => $templates
+                'message' => __('Template and scheduling saved successfully.', 'wp-scheduled-posts'),
+                'data' => [
+                    'templates' => $templates,
+                    'scheduling' => $scheduling_data
+                ]
             ), 200);
         } else {
             return new \WP_REST_Response(array(
                 'success' => false,
-                'message' => __('Failed to save template.', 'wp-scheduled-posts')
+                'message' => __('Failed to save template and/or scheduling.', 'wp-scheduled-posts')
             ), 500);
         }
+    }
+
+    public function handle_published_post_scheduling($post_id, $scheduling_data) {
+        if (!empty($scheduling_data)) {
+            return \WPSP\Helpers\CustomTemplateHelper::get_scheduled_datetime($scheduling_data);
+        }
+        return false;
     }
 
     /**
@@ -484,8 +600,8 @@ class Settings
             ), 404);
         }
 
-        // Remove template for platform
-        $templates[$platform] = '';
+        // Remove template and profiles for platform
+        $templates[$platform] = ['template' => '', 'profiles' => []];
 
         // Update post meta
         $updated = update_post_meta($post_id, '_wpsp_custom_templates', $templates);
@@ -578,91 +694,54 @@ class Settings
     private function get_simple_templates( $post_id ) {
         $templates = get_post_meta($post_id, '_wpsp_custom_templates', true);
 
-        // Initialize if empty or not array
-        if (!$templates || !is_array($templates)) {
-            return array(
-                'facebook' => '',
-                'twitter' => '',
-                'linkedin' => '',
-                'pinterest' => '',
-                'instagram' => '',
-                'medium' => '',
-                'threads' => ''
-            );
+        $default_platform_data = ['template' => '', 'profiles' => []];
+
+        // Base structure for all platforms, initialized with default data
+        $all_platforms_default = [
+            'facebook'  => $default_platform_data,
+            'twitter'   => $default_platform_data,
+            'linkedin'  => $default_platform_data,
+            'pinterest' => $default_platform_data,
+            'instagram' => $default_platform_data,
+            'medium'    => $default_platform_data,
+            'threads'   => $default_platform_data,
+        ];
+
+        // If no templates or not an array, return the default structure
+        if (empty($templates) || !is_array($templates)) {
+            return $all_platforms_default;
         }
 
-        // Check if we have old hierarchical structure and migrate to simple structure
-        if (isset($templates)) {
-            $simple_templates = array(
-                'facebook' => '',
-                'twitter' => '',
-                'linkedin' => '',
-                'pinterest' => '',
-                'instagram' => '',
-                'medium' => '',
-                'threads' => ''
-            );
-
-            // Extract first template from each platform if it exists
-            foreach ($templates as $platform => $platform_data) {
-                if (is_array($platform_data) && !empty($platform_data)) {
-                    // Get first template from the platform
-                    $simple_templates[$platform] = reset($platform_data);
-                } elseif (is_string($platform_data)) {
-                    // Already a string template
-                    $simple_templates[$platform] = $platform_data;
-                }
-            }
-
-            // Save migrated structure
-            update_post_meta($post_id, '_wpsp_custom_templates', $simple_templates);
-            return $simple_templates;
-        }
-
-        // Ensure all platforms exist in simple structure
-        $platforms = array('facebook', 'twitter', 'linkedin', 'pinterest', 'instagram', 'medium', 'threads');
-        foreach ($platforms as $platform) {
-            if (!isset($templates[$platform])) {
-                $templates[$platform] = '';
+        $adapted_templates = [];
+        foreach ($templates as $platform => $platform_data) {
+            if (is_string($platform_data)) {
+                // Convert old string format to new object format
+                $adapted_templates[$platform] = ['template' => $platform_data, 'profiles' => []];
+            } elseif (is_array($platform_data) && (isset($platform_data['template']) || isset($platform_data['profiles'])) ) {
+                // Already in new format, ensure keys exist
+                $adapted_templates[$platform] = [
+                    'template' => isset($platform_data['template']) ? $platform_data['template'] : '',
+                    'profiles' => isset($platform_data['profiles']) && is_array($platform_data['profiles']) ? $platform_data['profiles'] : []
+                ];
+            } else {
+                // Fallback for unexpected types, use default for this platform
+                $adapted_templates[$platform] = $default_platform_data;
             }
         }
 
-        return $templates;
-    }
-
-    /**
-     * Migrate old flat template structure to new hierarchical structure
-     *
-     * @param array $templates
-     * @return array
-     */
-    private function migrate_template_structure( $templates ) {
-        $new_structure = array(
-            'facebook' => array(),
-            'twitter' => array(),
-            'linkedin' => array(),
-            'pinterest' => array(),
-            'instagram' => array(),
-            'medium' => array(),
-            'threads' => array()
-        );
-
-        // Migrate old platform_profileId format to new hierarchical format
-        foreach ($templates as $key => $template) {
-            if (is_string($template) && strpos($key, '_') !== false) {
-                $parts = explode('_', $key, 2);
-                if (count($parts) === 2) {
-                    $platform = $parts[0];
-                    if (isset($new_structure[$platform])) {
-                        $new_structure[$platform]= $template;
-                    }
-                }
-            } elseif (is_array($template)) {
-                // Already in new format, preserve it
-                $new_structure[$key] = $template;
-            }
+        // Merge adapted templates with default structure to ensure all platforms are present
+        $final_templates = array_merge($all_platforms_default, $adapted_templates);
+        
+        // Update post meta if a migration occurred (i.e., old string formats were found)
+        // This prevents re-saving if the data is already in the new format.
+        $current_meta = get_post_meta($post_id, '_wpsp_custom_templates', true);
+        if (json_encode($current_meta) !== json_encode($final_templates)) {
+            update_post_meta($post_id, '_wpsp_custom_templates', $final_templates);
         }
-        return $new_structure;
+
+        error_log('WPSP Debug: Final templates from get_simple_templates: ' . print_r($final_templates, true));
+
+        return $final_templates;
     }
 
     public function wpsp_get_options_data( $request ) {

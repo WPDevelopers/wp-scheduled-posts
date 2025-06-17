@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import './CustomSocialTemplateModal.css';
 
 const {
   components: { Modal, Button },
@@ -23,10 +22,20 @@ const CustomSocialTemplateModal = ({
   uploadSocialShareBanner
 }) => {
   const [selectedPlatform, setSelectedPlatform] = useState('facebook');
-  const [selectedProfile, setSelectedProfile] = useState('');
+  const [selectedProfile, setSelectedProfile] = useState([]);
   const [customTemplate, setCustomTemplate] = useState('');
   const [characterCount, setCharacterCount] = useState(0);
   const [previewContent, setPreviewContent] = useState('');
+  const [saveText, setSaveText] = useState(__('Save', 'wp-scheduled-posts'));
+  // Date & Time scheduling state
+  const [scheduleData, setScheduleData] = useState({
+    dateOption: 'today',
+    customDays: '',
+    customDate: '',
+    timeOption: 'now',
+    customHours: '',
+    customTime: '',
+  });
 
   // Get post meta for custom templates and post ID
   const { meta, postId } = useSelect((select) => ({
@@ -35,21 +44,48 @@ const CustomSocialTemplateModal = ({
   }));
   const { editPost } = useDispatch('core/editor');
 
-  // Initialize meta structure if it doesn't exist
+  // Initialize meta structure if it doesn't exist and adapt old format
   const getCustomTemplatesMeta = () => {
     const customTemplates = meta._wpsp_custom_templates;
+    const defaultPlatformData = { template: '', profiles: [] }; // New default structure for platform data
+
+    // Base structure for all platforms, initialized with default data
+    const allPlatformsDefault = {
+      facebook: { ...defaultPlatformData },
+      twitter: { ...defaultPlatformData },
+      linkedin: { ...defaultPlatformData },
+      pinterest: { ...defaultPlatformData },
+      instagram: { ...defaultPlatformData },
+      medium: { ...defaultPlatformData },
+      threads: { ...defaultPlatformData }
+    };
+
     if (!customTemplates || typeof customTemplates !== 'object') {
-      return {
-        facebook: '{title} {content} {url} {tags}',
-        twitter: '{title} {content} {url} {tags}',
-        linkedin: '{title} {content} {url} {tags}',
-        pinterest: '{title} {content} {url} {tags}',
-        instagram: '{title} {content} {url} {tags}',
-        medium: '{title} {content} {url} {tags}',
-        threads: '{title} {content} {url} {tags}'
-      };
+      return allPlatformsDefault;
     }
-    return customTemplates;
+
+    // Adapt existing data to the new structure
+    const adaptedTemplates = {};
+    for (const platform in customTemplates) {
+      if (Object.prototype.hasOwnProperty.call(customTemplates, platform)) {
+        if (typeof customTemplates[platform] === 'string') {
+          // Convert old string format to new object format with empty profiles
+          adaptedTemplates[platform] = { template: customTemplates[platform], profiles: [] };
+        } else if (typeof customTemplates[platform] === 'object' && customTemplates[platform] !== null) {
+          // Use existing object format, ensuring template and profiles exist
+          adaptedTemplates[platform] = {
+            template: customTemplates[platform].template || '',
+            profiles: customTemplates[platform].profiles || []
+          };
+        } else {
+          // Fallback for unexpected types, use default
+          adaptedTemplates[platform] = { ...defaultPlatformData };
+        }
+      }
+    }
+    
+    // Merge adapted templates with default structure to ensure all platforms are present
+    return { ...allPlatformsDefault, ...adaptedTemplates };
   };
 
   // Platform character limits
@@ -105,35 +141,33 @@ const CustomSocialTemplateModal = ({
     setCharacterCount(preview.length);
   }, [customTemplate, postTitle, postContent, postUrl]);
 
-  // Load existing template when platform changes
+  // Load existing template and profiles when platform changes
   useEffect(() => {
     if (selectedPlatform) {
       const customTemplates = getCustomTemplatesMeta();
-      const existingTemplate = customTemplates[selectedPlatform] || '';
-      setCustomTemplate(existingTemplate);
+      const platformData = customTemplates[selectedPlatform];
+      setCustomTemplate(platformData.template || '');
+      // Map stored profile IDs to full profile objects
+      const profilesToSet = (platformData.profiles || []).map(profileId =>
+        getAvailableProfiles().find(profile => profile.id === profileId)
+      ).filter(Boolean); // Filter out any undefined profiles if IDs don't match
+      setSelectedProfile(profilesToSet);
     }
-  }, [selectedPlatform, meta]);
-
-  // Reset profile selection when platform changes
-  // useEffect(() => {
-  //   setSelectedProfile('');
-  // }, [selectedPlatform]);
+  }, [selectedPlatform, meta, facebookProfileData, twitterProfileData, linkedinProfileData, pinterestProfileData, instagramProfileData, mediumProfileData, threadsProfileData]);
 
   // Save template
   const handleSave = async () => {
-    if (!customTemplate.trim()) {
-      alert(__('Please enter a template.', 'wp-scheduled-posts'));
-      return;
-    }
-
     try {
       // Get the current templates
       const currentCustomTemplates = getCustomTemplatesMeta();
-
+      setSaveText(__('Saving...', 'wp-scheduled-posts'));
       // Create the updated templates structure
       const updatedTemplates = {
         ...currentCustomTemplates,
-        [selectedPlatform]: customTemplate.trim()
+        [selectedPlatform]: {
+          template: customTemplate.trim(),
+          profiles: selectedProfile.map(profile => profile.id)
+        }
       };
 
       // Send the request to save the template
@@ -142,7 +176,9 @@ const CustomSocialTemplateModal = ({
         method: 'POST',
         data: {
           platform: selectedPlatform,
-          template: customTemplate.trim()
+          template: customTemplate.trim(),
+          profiles: selectedProfile.map(profile => profile.id), // Send selected profile IDs
+          scheduling: scheduleData
         }
       });
 
@@ -154,56 +190,52 @@ const CustomSocialTemplateModal = ({
             _wpsp_custom_templates: updatedTemplates,
           },
         });
-
-        onClose();
+        setSaveText(__('Saved', 'wp-scheduled-posts'));
       } else {
         throw new Error(response.message || 'Failed to save template');
       }
     } catch (error) {
       console.error('Error saving template:', error);
-      alert(__('Error saving template: ', 'wp-scheduled-posts') + (error.message || 'Please try again.'));
     }
   };
 
-  // Helper functions
-  const insertTag = (tag) => {
-    const textarea = document.querySelector('.wpsp-template-textarea');
-    if (textarea) {
-      const start = textarea.selectionStart;
-      const end = textarea.selectionEnd;
-      const newValue = customTemplate.substring(0, start) + tag + customTemplate.substring(end);
-      setCustomTemplate(newValue);
-
-      // Set cursor position after the inserted tag
-      setTimeout(() => {
-        textarea.focus();
-        textarea.setSelectionRange(start + tag.length, start + tag.length);
-      }, 0);
+  // Delete template
+  const handleDelete = async () => {
+    if (!confirm(__('Are you sure you want to delete this template?', 'wp-scheduled-posts'))) {
+      return;
     }
-  };
 
-  const getPlatformTips = (platform) => {
-    const tips = {
-      facebook: __('• Use engaging questions to boost interaction\n• Include relevant hashtags (1-2 recommended)\n• Optimal length: 40-80 characters', 'wp-scheduled-posts'),
-      twitter: __('• Keep it concise and punchy\n• Use trending hashtags\n• Optimal length: 71-100 characters', 'wp-scheduled-posts'),
-      linkedin: __('• Professional tone works best\n• Include industry-relevant hashtags\n• Optimal length: 150-300 characters', 'wp-scheduled-posts'),
-      pinterest: __('• Use descriptive, keyword-rich text\n• Include relevant hashtags\n• Optimal length: 100-200 characters', 'wp-scheduled-posts'),
-      instagram: __('• Use engaging captions with emojis\n• Include 5-10 relevant hashtags\n• Optimal length: 125-150 characters', 'wp-scheduled-posts'),
-      medium: __('• Focus on compelling headlines\n• Use subtitle for context\n• Optimal length: 50-100 characters', 'wp-scheduled-posts'),
-      threads: __('• Keep it conversational\n• Use relevant hashtags sparingly\n• Optimal length: 100-500 characters', 'wp-scheduled-posts')
-    };
-    return tips[platform] || __('Select a platform to see specific tips', 'wp-scheduled-posts');
-  };
+    try {
+      const response = await wp.apiFetch({
+        path: `/wp-scheduled-posts/v1/custom-templates/${postId}`,
+        method: 'DELETE',
+        data: {
+          platform: selectedPlatform
+        }
+      });
 
-  const clearTemplate = () => {
-    setCustomTemplate('');
-  };
+      if (response.success) {
+        // Update the local meta state
+        const currentCustomTemplates = getCustomTemplatesMeta();
+        const updatedTemplates = {
+          ...currentCustomTemplates,
+          [selectedPlatform]: { template: '', profiles: [] } // Clear template and profiles
+        };
 
-  const loadExistingTemplate = () => {
-    if (selectedPlatform) {
-      const customTemplates = getCustomTemplatesMeta();
-      const existingTemplate = customTemplates[selectedPlatform] || '';
-      setCustomTemplate(existingTemplate);
+        editPost({
+          meta: {
+            ...meta,
+            _wpsp_custom_templates: updatedTemplates,
+          },
+        });
+
+        setCustomTemplate('');
+        setSelectedProfile([]); // Clear selected profiles
+      } else {
+        throw new Error(response.message || 'Failed to delete template');
+      }
+    } catch (error) {
+      console.error('Error deleting template:', error);
     }
   };
 
@@ -215,272 +247,290 @@ const CustomSocialTemplateModal = ({
 
   return (
     <Modal
-      title={__('Create Social Message Template', 'wp-scheduled-posts')}
+      title={__('Create Social Message', 'wp-scheduled-posts')}
       onRequestClose={onClose}
       className="wpsp-custom-template-modal"
-      style={{ maxWidth: '900px', width: '95vw', height: '90vh' }}
+      style={{ maxWidth: '800px', width: '90vw' }}
     >
-      <div className="wpsp-modal-container">
-        {/* Header Section */}
-        <div className="wpsp-modal-header">
-          <h3 className="wpsp-modal-title">{__('Customize Your Social Media Message', 'wp-scheduled-posts')}</h3>
-          <p className="wpsp-modal-subtitle">{__('Create platform-specific templates with dynamic placeholders', 'wp-scheduled-posts')}</p>
-        </div>
+      <div className="wpsp-modal-content">
+        <div className="wpsp-modal-layout">
+          {/* Left Side - Template Editor */}
+          <div className="wpsp-modal-left">
+            {/* Platform Selection Icons */}
+            <div className="wpsp-platform-icons">
+              {[
+                { platform: 'facebook', icon: 'f', color: '#1877f2', bgColor: '#1877f2' },
+                { platform: 'twitter', icon: '𝕏', color: '#000000', bgColor: '#000000' },
+                { platform: 'linkedin', icon: 'in', color: '#0077b5', bgColor: '#0077b5' },
+                { platform: 'pinterest', icon: 'P', color: '#bd081c', bgColor: '#bd081c' },
+                { platform: 'instagram', icon: '📷', color: '#e4405f', bgColor: '#e4405f' },
+                { platform: 'medium', icon: 'M', color: '#00ab6c', bgColor: '#00ab6c' },
+                { platform: 'threads', icon: '@', color: '#000', bgColor: '#000' }
+              ].map(({ platform, icon, bgColor }) => (
+                <button
+                  key={platform}
+                  className={`wpsp-platform-icon ${selectedPlatform === platform ? 'active' : ''}`}
+                  onClick={() => setSelectedPlatform(platform)}
+                  style={{
+                    backgroundColor: selectedPlatform === platform ? bgColor : '#f0f0f0',
+                    color: selectedPlatform === platform ? '#fff' : '#666',
+                    fontWeight: selectedPlatform === platform ? 'bold' : 'normal'
+                  }}
+                  title={platform.charAt(0).toUpperCase() + platform.slice(1)}
+                >
+                  {icon}
+                </button>
+              ))}
+            </div>
 
-        {/* Main Content */}
-        <div className="wpsp-modal-content">
-          <div className="wpsp-modal-layout">
-            {/* Left Side - Template Editor */}
-            <div className="wpsp-modal-left">
-              {/* Platform Selection */}
-              <div className="wpsp-section">
-                <h4 className="wpsp-section-title">{__('Select Platform', 'wp-scheduled-posts')}</h4>
-                <div className="wpsp-platform-grid">
-                  {[
-                    { platform: 'facebook', icon: 'f', label: 'Facebook', bgColor: '#1877f2' },
-                    { platform: 'twitter', icon: '𝕏', label: 'Twitter', bgColor: '#000000' },
-                    { platform: 'linkedin', icon: 'in', label: 'LinkedIn', bgColor: '#0077b5' },
-                    { platform: 'pinterest', icon: 'P', label: 'Pinterest', bgColor: '#bd081c' },
-                    { platform: 'instagram', icon: '📷', label: 'Instagram', bgColor: '#e4405f' },
-                    { platform: 'medium', icon: 'M', label: 'Medium', bgColor: '#00ab6c' },
-                    { platform: 'threads', icon: '@', label: 'Threads', bgColor: '#000' }
-                  ].map(({ platform, icon, label, bgColor }) => (
-                    <button
-                      key={platform}
-                      className={`wpsp-platform-card ${selectedPlatform === platform ? 'active' : ''}`}
-                      onClick={() => setSelectedPlatform(platform)}
-                      title={label}
+            <div className="wpsp-profile-selection-area-wrapper">
+              <div className="selected-profile-area">
+                <ul>
+                  { selectedProfile && selectedProfile.map( ( profile ) => (
+                    <li
+                      key={profile.id}
+                      className="selected-profile"
+                      title={profile.name}
                     >
-                      <div
-                        className="wpsp-platform-icon"
-                        style={{
-                          backgroundColor: selectedPlatform === platform ? bgColor : '#f8f9fa',
-                          color: selectedPlatform === platform ? '#fff' : bgColor,
+                      {profile.thumbnail_url ? (
+                        <img
+                          src={profile.thumbnail_url}
+                          alt={profile.name}
+                          className="wpsp-profile-image"
+                        />
+                      ) : (
+                        <div className="wpsp-profile-placeholder">
+                          {profile.name ? profile.name.charAt(0).toUpperCase() : '?'}
+                        </div>
+                      )}
+                      <button
+                        className="wpsp-remove-profile-btn"
+                        onClick={(e) => {
+                          e.stopPropagation(); // Prevent card click from re-selecting
+                          setSelectedProfile(selectedProfile.filter(p => p.id !== profile.id));
                         }}
                       >
-                        {icon}
+                        &times;
+                      </button>
+                    </li>
+                  ) ) }
+                </ul>
+              </div>
+              <div className="wpsp-profile-selection-dropdown">
+                <div className="wpsp-profile-selection-dropdown-item">
+                  {availableProfiles.map(profile => (
+                    <div
+                      key={profile.id}
+                      className={`wpsp-profile-card ${selectedProfile.some(p => p.id === profile.id) ? 'selected' : ''}`}
+                      onClick={() => {
+                        // Toggle functionality: if already selected, deselect; otherwise select
+                        if (selectedProfile.some(p => p.id === profile.id)) {
+                          setSelectedProfile(selectedProfile.filter(p => p.id !== profile.id)); // Deselect
+                        } else {
+                          setSelectedProfile([...selectedProfile, profile]); // Select
+                        }
+                      }}
+                    >
+                      <div className="wpsp-profile-avatar">
+                        {profile.thumbnail_url ? (
+                          <img
+                            src={profile.thumbnail_url}
+                            alt={profile.name}
+                            className="wpsp-profile-image"
+                          />
+                        ) : (
+                          <div className="wpsp-profile-placeholder">
+                            {profile.name ? profile.name.charAt(0).toUpperCase() : '?'}
+                          </div>
+                          )}
                       </div>
-                      <span className="wpsp-platform-label">{label}</span>
-                      {getCustomTemplatesMeta()?.[platform] && (
-                        <div className="wpsp-template-indicator">✓</div>
-                      )}
-                    </button>
+                      <div className="wpsp-profile-info">
+                        <div className="wpsp-profile-name">{profile.name}</div>
+                      </div>
+                    </div>
                   ))}
                 </div>
               </div>
-
-              {/* Profile Selection - Optional for reference */}
-              {selectedPlatform && availableProfiles.length > 0 && (
-                <div className="wpsp-section">
-                  <h4 className="wpsp-section-title">{__('Connected Profiles', 'wp-scheduled-posts')} <span className="wpsp-optional">({__('Optional', 'wp-scheduled-posts')})</span></h4>
-                  <div className="wpsp-profile-list">
-                    {availableProfiles.slice(0, 3).map(profile => (
-                      <div key={profile.id} className="wpsp-profile-item">
-                        <div className="wpsp-profile-avatar">
-                          {profile.thumbnail_url ? (
-                            <img
-                              src={profile.thumbnail_url}
-                              alt={profile.name}
-                              className="wpsp-profile-image"
-                            />
-                          ) : (
-                            <div className="wpsp-profile-placeholder">
-                              {profile.name ? profile.name.charAt(0).toUpperCase() : '?'}
-                            </div>
-                          )}
-                        </div>
-                        <div className="wpsp-profile-info">
-                          <div className="wpsp-profile-name">{profile.name}</div>
-                          <div className="wpsp-profile-type">{profile.type || __('Profile', 'wp-scheduled-posts')}</div>
-                        </div>
-                      </div>
-                    ))}
-                    {availableProfiles.length > 3 && (
-                      <div className="wpsp-profile-more">
-                        +{availableProfiles.length - 3} {__('more', 'wp-scheduled-posts')}
-                      </div>
-                    )}
-                  </div>
+            </div>
+            {/* Template Editor - Show when platform is selected */}
+            {selectedPlatform && (
+              <div className="wpsp-template-textarea">
+                <textarea
+                  value={customTemplate}
+                  onChange={(e) => setCustomTemplate(e.target.value)}
+                  placeholder={__('Enter your custom template here...', 'wp-scheduled-posts')}
+                  className="wpsp-template-input"
+                  rows={6}
+                />
+                <div className="wpsp-template-meta">
+                  <span className="wpsp-placeholders">
+                    {__('Available:', 'wp-scheduled-posts')} {'{title}'} {'{content}'} {'{url}'} {'{tags}'}
+                  </span>
+                  <span className={`wpsp-char-count ${isOverLimit ? 'over-limit' : ''}`}>
+                    {characterCount}/{currentLimit}
+                  </span>
                 </div>
-              )}
-
-              {/* Template Editor */}
-              <div className="wpsp-section">
-                <div className="wpsp-section-header">
-                  <h4 className="wpsp-section-title">{__('Template Editor', 'wp-scheduled-posts')}</h4>
-                  <div className="wpsp-template-actions">
-                    <button
-                      type="button"
-                      className="wpsp-btn wpsp-btn-outline"
-                      onClick={loadExistingTemplate}
-                      disabled={!selectedPlatform}
-                      title={__('Load existing template for this platform', 'wp-scheduled-posts')}
-                    >
-                      {__('Load Existing', 'wp-scheduled-posts')}
-                    </button>
-                    <button
-                      type="button"
-                      className="wpsp-btn wpsp-btn-outline"
-                      onClick={clearTemplate}
-                      title={__('Clear template content', 'wp-scheduled-posts')}
-                    >
-                      {__('Clear', 'wp-scheduled-posts')}
-                    </button>
-                  </div>
-                </div>
-
-                {selectedPlatform ? (
-                  <div className="wpsp-template-input-container">
-                    <div className="wpsp-template-input-wrapper">
-                      <textarea
-                        value={customTemplate}
-                        onChange={(e) => setCustomTemplate(e.target.value)}
-                        placeholder={__('Create your custom template using placeholders like {title}, {content}, {url}, and {tags}...', 'wp-scheduled-posts')}
-                        className="wpsp-template-textarea"
-                        rows="8"
-                      />
-                      <div className="wpsp-template-overlay">
-                        <div className="wpsp-character-indicator">
-                          <span className={`wpsp-character-count ${isOverLimit ? 'over-limit' : ''}`}>
-                            {characterCount}
-                          </span>
-                          <span className="wpsp-character-limit">/{currentLimit}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Quick Insert Tags */}
-                    <div className="wpsp-quick-tags">
-                      <div className="wpsp-quick-tags-header">
-                        <span className="wpsp-quick-tags-label">{__('Quick Insert:', 'wp-scheduled-posts')}</span>
-                      </div>
-                      <div className="wpsp-tag-buttons">
-                        {[
-                          { tag: '{title}', label: __('Title', 'wp-scheduled-posts'), icon: '📝' },
-                          { tag: '{content}', label: __('Content', 'wp-scheduled-posts'), icon: '📄' },
-                          { tag: '{url}', label: __('URL', 'wp-scheduled-posts'), icon: '🔗' },
-                          { tag: '{tags}', label: __('Tags', 'wp-scheduled-posts'), icon: '🏷️' }
-                        ].map(({ tag, label, icon }) => (
-                          <button
-                            key={tag}
-                            type="button"
-                            className="wpsp-tag-btn"
-                            onClick={() => insertTag(tag)}
-                            title={__('Insert', 'wp-scheduled-posts') + ' ' + tag}
-                          >
-                            <span className="wpsp-tag-icon">{icon}</span>
-                            <span className="wpsp-tag-text">{label}</span>
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="wpsp-select-platform-hint">
-                    <div className="wpsp-hint-icon">👆</div>
-                    <div className="wpsp-hint-text">
-                      {__('Select a platform above to start creating your custom template', 'wp-scheduled-posts')}
-                    </div>
-                  </div>
-                )}
               </div>
+            )}
+
+            {/* Helper text when no platform is selected */}
+            {!selectedPlatform && (
+              <div className="wpsp-select-profile-hint">
+                <div className="wpsp-hint-icon">👆</div>
+                <div className="wpsp-hint-text">
+                  {__('Select a platform above to start creating your custom template', 'wp-scheduled-posts')}
+                </div>
+              </div>
+            )}
+
+            {/* Date & Time Scheduling Fields */}
+            <div className="wpsp-date-time-section" style={{ marginBottom: '1.5em' }}>
+              <div style={{ display: 'flex', gap: '1.5em', alignItems: 'flex-end' }}>
+                {/* Date Field */}
+                <div>
+                  <label style={{ fontWeight: 600, display: 'block', marginBottom: 4 }}>{__('DATE', 'wp-scheduled-posts')}</label>
+                  <select
+                    value={scheduleData.dateOption}
+                    onChange={e => setScheduleData(prev => ({ ...prev, dateOption: e.target.value }))}
+                    className="wpsp-date-select"
+                  >
+                    <option value="today">{__('Today', 'wp-scheduled-posts')}</option>
+                    <option value="tomorrow">{__('Tomorrow', 'wp-scheduled-posts')}</option>
+                    <option value="next_week">{__('Next week', 'wp-scheduled-posts')}</option>
+                    <option value="next_month">{__('Next month', 'wp-scheduled-posts')}</option>
+                    <option value="in_days">{__('In __ days', 'wp-scheduled-posts')}</option>
+                    <option value="custom_date">{__('Choose a custom date...', 'wp-scheduled-posts')}</option>
+                  </select>
+                  {scheduleData.dateOption === 'in_days' && (
+                    <input
+                      type="number"
+                      min="1"
+                      placeholder={__('Enter number of days', 'wp-scheduled-posts')}
+                      value={scheduleData.customDays}
+                      onChange={e => setScheduleData(prev => ({ ...prev, customDays: e.target.value }))}
+                      style={{ marginTop: 6, width: '100%' }}
+                    />
+                  )}
+                  {scheduleData.dateOption === 'custom_date' && (
+                    <input
+                      type="date"
+                      value={scheduleData.customDate}
+                      onChange={e => setScheduleData(prev => ({ ...prev, customDate: e.target.value }))}
+                      style={{ marginTop: 6, width: '100%' }}
+                    />
+                  )}
+                </div>
+                {/* Time Field */}
+                <div>
+                  <label style={{ fontWeight: 600, display: 'block', marginBottom: 4 }}>{__('TIME', 'wp-scheduled-posts')}</label>
+                  <select
+                    value={scheduleData.timeOption}
+                    onChange={e => setScheduleData(prev => ({ ...prev, timeOption: e.target.value }))}
+                    className="wpsp-time-select"
+                  >
+                    <option value="now">{__('Now', 'wp-scheduled-posts')}</option>
+                    <option value="in_1h">{__('In one hour', 'wp-scheduled-posts')}</option>
+                    <option value="in_3h">{__('In three hours', 'wp-scheduled-posts')}</option>
+                    <option value="in_5h">{__('In five hours', 'wp-scheduled-posts')}</option>
+                    <option value="in_hours">{__('In __ hours', 'wp-scheduled-posts')}</option>
+                    <option value="custom_time">{__('Choose a custom time...', 'wp-scheduled-posts')}</option>
+                  </select>
+                  {scheduleData.timeOption === 'in_hours' && (
+                    <input
+                      type="number"
+                      min="1"
+                      placeholder={__('Enter number of hours', 'wp-scheduled-posts')}
+                      value={scheduleData.customHours}
+                      onChange={e => setScheduleData(prev => ({ ...prev, customHours: e.target.value }))}
+                      style={{ marginTop: 6, width: '100%' }}
+                    />
+                  )}
+                  {scheduleData.timeOption === 'custom_time' && (
+                    <input
+                      type="time"
+                      value={scheduleData.customTime}
+                      onChange={e => setScheduleData(prev => ({ ...prev, customTime: e.target.value }))}
+                      style={{ marginTop: 6, width: '100%' }}
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* Right Side - Live Preview */}
+          {/* Right Side - Preview */}
           <div className="wpsp-modal-right">
-            <div className="wpsp-section">
-              <h4 className="wpsp-section-title">{__('Live Preview', 'wp-scheduled-posts')}</h4>
-
-              <div className="wpsp-preview-container">
-                <div className="wpsp-preview-card">
-                  <div className="wpsp-preview-header">
-                    <div className="wpsp-preview-avatar">
-                      <div className="wpsp-avatar-circle">W</div>
-                      <div className="wpsp-preview-info">
-                        <div className="wpsp-preview-name">WPDeveloper</div>
-                        <div className="wpsp-preview-date">{new Date().toLocaleDateString()}</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="wpsp-preview-content-area">
-                    {previewContent ? (
-                      <div className="wpsp-preview-text">{previewContent}</div>
-                    ) : (
-                      <div className="wpsp-preview-placeholder">
-                        <div className="wpsp-placeholder-icon">👁️</div>
-                        <div className="wpsp-placeholder-text">
-                          {__('Template preview will appear here as you type...', 'wp-scheduled-posts')}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Mock post preview card */}
-                    <div className="wpsp-preview-post-card">
-                      <div className="wpsp-preview-image">
-                        {uploadSocialShareBanner ? (
-                          <img src={uploadSocialShareBanner} alt="Preview" />
-                        ) : (
-                          <div className="wpsp-preview-image-placeholder">
-                            <div className="wpsp-image-icon">🖼️</div>
-                            <span>{__('Featured Image', 'wp-scheduled-posts')}</span>
-                          </div>
-                        )}
-                      </div>
-                      <div className="wpsp-preview-post-content">
-                        <div className="wpsp-preview-url">{window.location.origin}</div>
-                        <div className="wpsp-preview-title">
-                          {postTitle || __('Test Custom Templates', 'wp-scheduled-posts')}
-                        </div>
-                        <div className="wpsp-preview-excerpt">
-                          {postContent || __('This is a test post for custom templates', 'wp-scheduled-posts')}
-                        </div>
-                      </div>
-                    </div>
+            <div className="wpsp-preview-card">
+              <div className="wpsp-preview-header">
+                <div className="wpsp-preview-avatar">
+                  <div className="wpsp-avatar-circle">W</div>
+                  <div className="wpsp-preview-info">
+                    <div className="wpsp-preview-name">WPDeveloper</div>
+                    <div className="wpsp-preview-date">{new Date().toLocaleDateString()}</div>
                   </div>
                 </div>
+              </div>
 
-                {/* Platform-specific tips */}
-                {selectedPlatform && (
-                  <div className="wpsp-platform-tips">
-                    <h5 className="wpsp-tips-title">{__('Platform Tips', 'wp-scheduled-posts')}</h5>
-                    <div className="wpsp-tips-content">
-                      {getPlatformTips(selectedPlatform)}
-                    </div>
+              <div className="wpsp-preview-content-area">
+                {previewContent ? (
+                  <div className="wpsp-preview-text" dangerouslySetInnerHTML={{ __html: previewContent }}></div>
+                ) : (
+                  <div className="wpsp-preview-placeholder">
+                    {__('Template preview will appear here...', 'wp-scheduled-posts')}
                   </div>
                 )}
+
+                {/* Mock post preview */}
+                <div className="wpsp-preview-post">
+                  <div className="wpsp-preview-image">
+                    {uploadSocialShareBanner ? (
+                      <img src={uploadSocialShareBanner} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    ) : (
+                      <div style={{ 
+                        width: '100%', 
+                        height: '100%', 
+                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'white',
+                        fontSize: '14px'
+                      }}>
+                        {__('No image selected', 'wp-scheduled-posts')}
+                      </div>
+                    )}
+                  </div>
+                  <div className="wpsp-preview-post-content">
+                    <div className="wpsp-preview-url">{window.location.origin}</div>
+                    <div className="wpsp-preview-title">
+                      {postTitle || __('How to Add Anchor Links in Elementor? [3 Ways]', 'wp-scheduled-posts')}
+                    </div>
+                    <div className="wpsp-preview-excerpt" dangerouslySetInnerHTML={{ __html: postContent || __('Picture this — you are halfway through a lengthy web page, diving into the content and accidentally scrolling to the top of the page. Annoying, right? This is where anchor links become your best...', 'wp-scheduled-posts') }}></div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Fixed Footer */}
+        {/* Modal Actions */}
         <div className="wpsp-modal-footer">
-          <div className="wpsp-footer-content">
-            <div className="wpsp-footer-left">
-            </div>
-
-            <div className="wpsp-footer-right">
-              <Button
-                isSecondary
-                onClick={onClose}
-                className="wpsp-cancel-btn"
-                variant="secondary"
-              >
-                {__('Cancel', 'wp-scheduled-posts')}
-              </Button>
-              <Button
-                isPrimary
-                onClick={handleSave}
-                disabled={!selectedPlatform || !customTemplate.trim() || isOverLimit}
-                className="wpsp-save-btn"
-                variant="primary"
-              >
-                <span className="wpsp-btn-icon">💾</span>
-                {__('Save Template', 'wp-scheduled-posts')}
-              </Button>
-            </div>
-          </div>
+          <Button isSecondary onClick={onClose} className="wpsp-cancel-btn">
+            {__('Cancel', 'wp-scheduled-posts')}
+          </Button>
+          {selectedPlatform && getCustomTemplatesMeta()?.[selectedPlatform] && (
+            <Button isDestructive onClick={handleDelete} className="wpsp-delete-btn">
+              {__('Delete Template', 'wp-scheduled-posts')}
+            </Button>
+          )}
+          <Button
+            isPrimary
+            onClick={handleSave}
+            disabled={!selectedPlatform || !customTemplate.trim() || isOverLimit}
+            className="wpsp-save-btn"
+          >
+            <span>{__(  saveText, 'wp-scheduled-posts')}</span>
+          </Button>
         </div>
       </div>
     </Modal>
