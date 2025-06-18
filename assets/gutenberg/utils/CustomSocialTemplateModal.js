@@ -6,9 +6,9 @@ const {
 } = wp;
 const { __ } = wp.i18n;
 
-const CustomSocialTemplateModal = ({ 
-  isOpen, 
-  onClose, 
+const CustomSocialTemplateModal = ({
+  isOpen,
+  onClose,
   facebookProfileData,
   twitterProfileData,
   linkedinProfileData,
@@ -21,6 +21,13 @@ const CustomSocialTemplateModal = ({
   postUrl,
   uploadSocialShareBanner
 }) => {
+  // Get post meta, post ID, and post status first
+  const { meta, postId, postStatus } = useSelect((select) => ({
+    meta: select('core/editor').getEditedPostAttribute('meta') || {},
+    postId: select('core/editor').getCurrentPostId(),
+    postStatus: select('core/editor').getEditedPostAttribute('status'),
+  }));
+
   const [selectedPlatform, setSelectedPlatform] = useState('facebook');
   const [selectedProfile, setSelectedProfile] = useState([]);
   const [customTemplate, setCustomTemplate] = useState('');
@@ -31,19 +38,14 @@ const CustomSocialTemplateModal = ({
   const [tempTemplateData, setTempTemplateData] = useState({});
   // Date & Time scheduling state
   const [scheduleData, setScheduleData] = useState({
-    dateOption: 'today',
+    dateOption: postStatus === 'publish' ? 'today' : 'same_day',
     customDays: '',
     customDate: '',
-    timeOption: 'now',
+    timeOption: postStatus === 'publish' ? 'now' : 'same_time',
     customHours: '',
     customTime: '',
+    schedulingType: postStatus === 'publish' ? 'absolute' : 'relative', // absolute for published, relative for others
   });
-
-  // Get post meta for custom templates and post ID
-  const { meta, postId } = useSelect((select) => ({
-    meta: select('core/editor').getEditedPostAttribute('meta') || {},
-    postId: select('core/editor').getCurrentPostId(),
-  }));
   const { editPost } = useDispatch('core/editor');
 
   // Initialize meta structure if it doesn't exist and adapt old format
@@ -123,16 +125,70 @@ const CustomSocialTemplateModal = ({
     }
   };
 
+  // Get date options based on post status
+  const getDateOptions = () => {
+    const isPublished = postStatus === 'publish';
+
+    if (isPublished) {
+      // Absolute scheduling for published posts
+      return [
+        { value: 'today', label: __('Today', 'wp-scheduled-posts') },
+        { value: 'tomorrow', label: __('Tomorrow', 'wp-scheduled-posts') },
+        { value: 'next_week', label: __('Next week', 'wp-scheduled-posts') },
+        { value: 'next_month', label: __('Next month', 'wp-scheduled-posts') },
+        { value: 'in_days', label: __('In __ days', 'wp-scheduled-posts') },
+        { value: 'custom_date', label: __('Choose a custom date...', 'wp-scheduled-posts') }
+      ];
+    } else {
+      // Relative scheduling for draft/scheduled posts
+      return [
+        { value: 'same_day', label: __('Same day as publication', 'wp-scheduled-posts') },
+        { value: 'day_after', label: __('The day after publication', 'wp-scheduled-posts') },
+        { value: 'week_after', label: __('A week after publication', 'wp-scheduled-posts') },
+        { value: 'month_after', label: __('A month after publication', 'wp-scheduled-posts') },
+        { value: 'days_after', label: __('__ days after publication', 'wp-scheduled-posts') },
+        { value: 'custom_date', label: __('Choose a custom date...', 'wp-scheduled-posts') }
+      ];
+    }
+  };
+
+  // Get time options based on post status
+  const getTimeOptions = () => {
+    const isPublished = postStatus === 'publish';
+
+    if (isPublished) {
+      // Absolute scheduling for published posts
+      return [
+        { value: 'now', label: __('Now', 'wp-scheduled-posts') },
+        { value: 'in_1h', label: __('In one hour', 'wp-scheduled-posts') },
+        { value: 'in_3h', label: __('In three hours', 'wp-scheduled-posts') },
+        { value: 'in_5h', label: __('In five hours', 'wp-scheduled-posts') },
+        { value: 'in_hours', label: __('In __ hours', 'wp-scheduled-posts') },
+        { value: 'custom_time', label: __('Choose a custom time...', 'wp-scheduled-posts') }
+      ];
+    } else {
+      // Relative scheduling for draft/scheduled posts
+      return [
+        { value: 'same_time', label: __('Same time as publication', 'wp-scheduled-posts') },
+        { value: 'hour_after', label: __('One hour after publication', 'wp-scheduled-posts') },
+        { value: 'three_hours_after', label: __('Three hours after publication', 'wp-scheduled-posts') },
+        { value: 'five_hours_after', label: __('Five hours after publication', 'wp-scheduled-posts') },
+        { value: 'hours_after', label: __('__ hours after publication', 'wp-scheduled-posts') },
+        { value: 'custom_time', label: __('Choose a custom time...', 'wp-scheduled-posts') }
+      ];
+    }
+  };
+
   // Generate preview content
   const generatePreview = (template) => {
     if (!template) return '';
-    
+
     let preview = template;
     preview = preview.replace(/{title}/g, postTitle || 'Sample Post Title');
     preview = preview.replace(/{content}/g, postContent || 'This is sample post content...');
     preview = preview.replace(/{url}/g, postUrl || 'https://example.com/post');
     preview = preview.replace(/{tags}/g, '#wordpress #blog');
-    
+
     return preview;
   };
 
@@ -157,6 +213,17 @@ const CustomSocialTemplateModal = ({
     setTempTemplateData({});
     onClose();
   };
+
+  // Update scheduling data when post status changes
+  useEffect(() => {
+    const isPublished = postStatus === 'publish';
+    setScheduleData(prev => ({
+      ...prev,
+      dateOption: isPublished ? 'today' : 'same_day',
+      timeOption: isPublished ? 'now' : 'same_time',
+      schedulingType: isPublished ? 'absolute' : 'relative'
+    }));
+  }, [postStatus]);
 
   // Update character count and preview when template changes
   useEffect(() => {
@@ -394,18 +461,21 @@ const CustomSocialTemplateModal = ({
                     onChange={e => setScheduleData(prev => ({ ...prev, dateOption: e.target.value }))}
                     className="wpsp-date-select"
                   >
-                    <option value="today">{__('Today', 'wp-scheduled-posts')}</option>
-                    <option value="tomorrow">{__('Tomorrow', 'wp-scheduled-posts')}</option>
-                    <option value="next_week">{__('Next week', 'wp-scheduled-posts')}</option>
-                    <option value="next_month">{__('Next month', 'wp-scheduled-posts')}</option>
-                    <option value="in_days">{__('In __ days', 'wp-scheduled-posts')}</option>
-                    <option value="custom_date">{__('Choose a custom date...', 'wp-scheduled-posts')}</option>
+                    {getDateOptions().map(option => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
                   </select>
-                  {scheduleData.dateOption === 'in_days' && (
+                  {(scheduleData.dateOption === 'in_days' || scheduleData.dateOption === 'days_after') && (
                     <input
                       type="number"
                       min="1"
-                      placeholder={__('Enter number of days', 'wp-scheduled-posts')}
+                      placeholder={
+                        scheduleData.schedulingType === 'absolute'
+                          ? __('Enter number of days', 'wp-scheduled-posts')
+                          : __('Enter number of days after publication', 'wp-scheduled-posts')
+                      }
                       value={scheduleData.customDays}
                       onChange={e => setScheduleData(prev => ({ ...prev, customDays: e.target.value }))}
                       style={{ marginTop: 6, width: '100%' }}
@@ -428,18 +498,21 @@ const CustomSocialTemplateModal = ({
                     onChange={e => setScheduleData(prev => ({ ...prev, timeOption: e.target.value }))}
                     className="wpsp-time-select"
                   >
-                    <option value="now">{__('Now', 'wp-scheduled-posts')}</option>
-                    <option value="in_1h">{__('In one hour', 'wp-scheduled-posts')}</option>
-                    <option value="in_3h">{__('In three hours', 'wp-scheduled-posts')}</option>
-                    <option value="in_5h">{__('In five hours', 'wp-scheduled-posts')}</option>
-                    <option value="in_hours">{__('In __ hours', 'wp-scheduled-posts')}</option>
-                    <option value="custom_time">{__('Choose a custom time...', 'wp-scheduled-posts')}</option>
+                    {getTimeOptions().map(option => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
                   </select>
-                  {scheduleData.timeOption === 'in_hours' && (
+                  {(scheduleData.timeOption === 'in_hours' || scheduleData.timeOption === 'hours_after') && (
                     <input
                       type="number"
                       min="1"
-                      placeholder={__('Enter number of hours', 'wp-scheduled-posts')}
+                      placeholder={
+                        scheduleData.schedulingType === 'absolute'
+                          ? __('Enter number of hours', 'wp-scheduled-posts')
+                          : __('Enter number of hours after publication', 'wp-scheduled-posts')
+                      }
                       value={scheduleData.customHours}
                       onChange={e => setScheduleData(prev => ({ ...prev, customHours: e.target.value }))}
                       style={{ marginTop: 6, width: '100%' }}
