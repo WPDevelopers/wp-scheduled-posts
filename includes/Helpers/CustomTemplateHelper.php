@@ -351,7 +351,10 @@ class CustomTemplateHelper
         $now = new \DateTime($current_time, new \DateTimeZone('UTC'));
         $dateOption = $data['dateOption'];
         $timeOption = $data['timeOption'];
-        // Handle date
+
+        error_log("WPSP: get_scheduled_datetime called with dateOption: {$dateOption}, timeOption: {$timeOption}");
+
+        // Handle date - ABSOLUTE SCHEDULING ONLY (for published posts)
         switch ($dateOption) {
             case 'today':
                 $date = clone $now;
@@ -371,68 +374,108 @@ class CustomTemplateHelper
                 break;
             case 'custom_date':
                 if (!empty($data['customDate'])) {
-                    $date = DateTime::createFromFormat('Y-m-d', $data['customDate'], new DateTimeZone('UTC'));
+                    $date = \DateTime::createFromFormat('Y-m-d', $data['customDate'], new \DateTimeZone('UTC'));
+                    if (!$date) {
+                        error_log("WPSP: Failed to parse custom date: " . $data['customDate']);
+                        return null;
+                    }
                 } else {
+                    error_log("WPSP: Custom date option selected but no date provided");
                     return null;
                 }
                 break;
+
+            // Relative scheduling options should NOT reach this method
+            case 'same_day':
+            case 'day_after':
+            case 'week_after':
+            case 'month_after':
+            case 'days_after':
+                error_log("WPSP: ERROR - Relative date option '{$dateOption}' should be converted to absolute before calling get_scheduled_datetime");
+                return null; // Don't fallback, this is an error
+
             default:
+                error_log("WPSP: Unknown date option: {$dateOption}");
                 return null;
         }
     
-        // Handle time
+        // Handle time - ABSOLUTE SCHEDULING ONLY (for published posts)
         switch ($timeOption) {
             case 'now':
-                $time = clone $date;
+                // Use current time
+                $final_datetime = clone $now;
+                // Set the date part from the calculated date
+                $final_datetime->setDate($date->format('Y'), $date->format('m'), $date->format('d'));
                 break;
-        
+
             case 'in_1h':
-                $minutes = rand(1, 60);
-                $time = (clone $date)->modify("+{$minutes} minutes");
+                // Exactly 1 hour from now
+                $final_datetime = (clone $now)->modify('+1 hour');
+                // Set the date part from the calculated date
+                $final_datetime->setDate($date->format('Y'), $date->format('m'), $date->format('d'));
                 break;
-        
+
             case 'in_3h':
-                $minutes = rand(1, 180); // 3 hours = 180 minutes
-                $time = (clone $date)->modify("+{$minutes} minutes");
+                // Exactly 3 hours from now
+                $final_datetime = (clone $now)->modify('+3 hours');
+                // Set the date part from the calculated date
+                $final_datetime->setDate($date->format('Y'), $date->format('m'), $date->format('d'));
                 break;
-        
+
             case 'in_5h':
-                $minutes = rand(1, 300); // 5 hours = 300 minutes
-                $time = (clone $date)->modify("+{$minutes} minutes");
+                // Exactly 5 hours from now
+                $final_datetime = (clone $now)->modify('+5 hours');
+                // Set the date part from the calculated date
+                $final_datetime->setDate($date->format('Y'), $date->format('m'), $date->format('d'));
                 break;
-        
+
             case 'in_hours':
-                $hours = max(1, (int) $data['customHours']); // Ensure minimum 1 hour
-                $minutes = rand(1, $hours * 60);
-                $time = (clone $date)->modify("+{$minutes} minutes");
+                // Exactly X hours from now
+                $hours = max(1, (int) $data['customHours']);
+                $final_datetime = (clone $now)->modify("+{$hours} hours");
+                // Set the date part from the calculated date
+                $final_datetime->setDate($date->format('Y'), $date->format('m'), $date->format('d'));
                 break;
-        
+
             case 'custom_time':
+                // Use specific time on the calculated date
                 if (!empty($data['customTime'])) {
                     $timeParts = explode(':', $data['customTime']);
-                    if (count($timeParts) === 2) {
-                        $date->setTime((int)$timeParts[0], (int)$timeParts[1]);
-                        return $date->format('Y-m-d H:i:s'); // Early return for custom time
+                    if (count($timeParts) >= 2) {
+                        $final_datetime = clone $date;
+                        $final_datetime->setTime((int)$timeParts[0], (int)$timeParts[1], 0);
+                    } else {
+                        error_log("WPSP: Invalid custom time format: " . $data['customTime']);
+                        return null;
                     }
+                } else {
+                    error_log("WPSP: Custom time option selected but no time provided");
+                    return null;
                 }
-                return null;
-        
+                break;
+
+            // Relative scheduling options should NOT reach this method
+            case 'same_time':
+            case 'hour_after':
+            case 'three_hours_after':
+            case 'five_hours_after':
+            case 'hours_after':
+                error_log("WPSP: ERROR - Relative time option '{$timeOption}' should be converted to absolute before calling get_scheduled_datetime");
+                return null; // Don't fallback, this is an error
+
             default:
+                error_log("WPSP: Unknown time option: {$timeOption}");
                 return null;
         }
-        
-    
-        // If using relative "in X" times, we just override date with the final timestamp
-        if (in_array($data['timeOption'], ['now', 'in_1h', 'in_3h', 'in_5h', 'in_hours'])) {
-            return $time->format('Y-m-d H:i:s');
+
+        // Return the calculated datetime
+        if (isset($final_datetime)) {
+            $result = $final_datetime->format('Y-m-d H:i:s');
+            error_log("WPSP: get_scheduled_datetime result: {$result}");
+            return $result;
         }
-    
-        // Combine date and time if both are specific
-        if (isset($date)) {
-            $date->setTime((int)$date->format('H'), (int)$date->format('i'));
-            return $date->format('Y-m-d H:i:s');
-        }
-    
+
+        error_log("WPSP: get_scheduled_datetime failed to calculate datetime");
         return null;
     }
 
