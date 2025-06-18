@@ -81,68 +81,152 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* Profile Selection Area */
-.wpsp-profile-selection-area {
+/* Profile Selection Area Wrapper */
+.wpsp-profile-selection-area-wrapper {
   margin-bottom: 20px;
-}
-
-.wpsp-profile-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 12px;
-  margin-bottom: 16px;
-}
-
-.wpsp-profile-card {
-  display: flex;
-  align-items: center;
-  padding: 12px;
-  border: 2px solid #e5e7eb;
+  border: 1px solid #e5e7eb;
   border-radius: 8px;
   background: white;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  overflow: hidden;
+}
+
+/* Selected Profiles Area */
+.selected-profile-area {
+  padding: 12px;
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+}
+
+.selected-profile-area ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.selected-profile {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.wpsp-profile-card:hover {
-  border-color: #d1d5db;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  transform: translateY(-1px);
-}
-
-.wpsp-profile-card.selected {
-  border-color: #6366f1;
-  background: #f8faff;
-  box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.1);
-}
-
-.wpsp-profile-avatar {
+.selected-profile .wpsp-profile-image {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  overflow: hidden;
-  margin-right: 12px;
-  flex-shrink: 0;
-}
-
-.wpsp-profile-image {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
   object-fit: cover;
+  border: 2px solid #6366f1;
 }
 
-.wpsp-profile-placeholder {
-  width: 100%;
-  height: 100%;
+.selected-profile .wpsp-profile-placeholder {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 14px;
+  border: 2px solid #6366f1;
+}
+
+.wpsp-remove-profile-btn {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #ef4444;
+  color: white;
+  border: none;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.wpsp-remove-profile-btn:hover {
+  background: #dc2626;
+  transform: scale(1.1);
+}
+
+/* Profile Selection Dropdown */
+.wpsp-profile-selection-dropdown {
+  background: white;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.wpsp-profile-selection-dropdown-item {
+  padding: 0;
+}
+
+.wpsp-profile-card {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border: none;
+  border-bottom: 1px solid #f3f4f6;
+  border-radius: 0;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  margin: 0;
+}
+
+.wpsp-profile-card:last-child {
+  border-bottom: none;
+}
+
+.wpsp-profile-card:hover {
+  background: #f9fafb;
+}
+
+.wpsp-profile-card.selected {
+  background: #f0f9ff;
+  border-left: 3px solid #6366f1;
+}
+
+.wpsp-profile-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.wpsp-profile-card .wpsp-profile-image {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.wpsp-profile-card .wpsp-profile-placeholder {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 50%;
 }
 
 .wpsp-profile-info {
@@ -278,6 +362,74 @@
 .wpsp-char-count.over-limit {
   color: #dc2626;
   font-weight: 600;
+}
+
+/* Date & Time Scheduling Section */
+.wpsp-date-time-section {
+  margin-bottom: 20px;
+  padding: 16px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.wpsp-date-time-section > div {
+  display: flex;
+  gap: 20px;
+  align-items: flex-end;
+}
+
+.wpsp-date-time-section > div > div {
+  flex: 1;
+}
+
+.wpsp-date-time-section label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 6px;
+  font-size: 12px;
+  color: #374151;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.wpsp-date-select,
+.wpsp-time-select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: white;
+  font-size: 14px;
+  color: #374151;
+  cursor: pointer;
+}
+
+.wpsp-date-select:focus,
+.wpsp-time-select:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.wpsp-date-time-section input[type="number"],
+.wpsp-date-time-section input[type="date"],
+.wpsp-date-time-section input[type="time"] {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: white;
+  font-size: 14px;
+  color: #374151;
+}
+
+.wpsp-date-time-section input[type="number"]:focus,
+.wpsp-date-time-section input[type="date"]:focus,
+.wpsp-date-time-section input[type="time"]:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
 }
 
 /* Right side - Preview */
@@ -443,12 +595,6 @@
 }
 
 /* Responsive design */
-@media (max-width: 1024px) and (min-width: 769px) {
-  .wpsp-profile-grid {
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  }
-}
-
 @media (max-width: 768px) {
   .wpsp-custom-template-modal {
     width: 95% !important;
@@ -474,19 +620,37 @@
     justify-content: center;
   }
 
-  .wpsp-profile-grid {
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
-
   .wpsp-profile-card {
     padding: 10px;
   }
 
   .wpsp-profile-avatar {
+    width: 32px;
+    height: 32px;
+    margin-right: 8px;
+  }
+
+  .wpsp-profile-card .wpsp-profile-image {
+    width: 32px;
+    height: 32px;
+  }
+
+  .wpsp-profile-card .wpsp-profile-placeholder {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
+
+  .selected-profile .wpsp-profile-image,
+  .selected-profile .wpsp-profile-placeholder {
     width: 36px;
     height: 36px;
-    margin-right: 10px;
+  }
+
+  .wpsp-date-time-section > div {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
   }
 
   .wpsp-modal-footer {
