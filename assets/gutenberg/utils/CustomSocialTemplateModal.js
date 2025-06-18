@@ -27,6 +27,8 @@ const CustomSocialTemplateModal = ({
   const [characterCount, setCharacterCount] = useState(0);
   const [previewContent, setPreviewContent] = useState('');
   const [saveText, setSaveText] = useState(__('Save', 'wp-scheduled-posts'));
+  // Temporary storage for unsaved template data when switching platforms
+  const [tempTemplateData, setTempTemplateData] = useState({});
   // Date & Time scheduling state
   const [scheduleData, setScheduleData] = useState({
     dateOption: 'today',
@@ -134,6 +136,28 @@ const CustomSocialTemplateModal = ({
     return preview;
   };
 
+  // Handle platform switching with temporary data storage
+  const handlePlatformSwitch = (newPlatform) => {
+    if (selectedPlatform && (customTemplate.trim() || selectedProfile.length > 0)) {
+      // Store current unsaved data before switching
+      setTempTemplateData(prev => ({
+        ...prev,
+        [selectedPlatform]: {
+          template: customTemplate.trim(),
+          profiles: selectedProfile
+        }
+      }));
+    }
+    setSelectedPlatform(newPlatform);
+  };
+
+  // Handle modal close with cleanup
+  const handleClose = () => {
+    // Clear all temporary data when closing modal
+    setTempTemplateData({});
+    onClose();
+  };
+
   // Update character count and preview when template changes
   useEffect(() => {
     const preview = generatePreview(customTemplate);
@@ -144,16 +168,26 @@ const CustomSocialTemplateModal = ({
   // Load existing template and profiles when platform changes
   useEffect(() => {
     if (selectedPlatform) {
-      const customTemplates = getCustomTemplatesMeta();
-      const platformData = customTemplates[selectedPlatform];
-      setCustomTemplate(platformData.template || '');
-      // Map stored profile IDs to full profile objects
-      const profilesToSet = (platformData.profiles || []).map(profileId =>
-        getAvailableProfiles().find(profile => profile.id === profileId)
-      ).filter(Boolean); // Filter out any undefined profiles if IDs don't match
-      setSelectedProfile(profilesToSet);
+      // First check if we have temporary unsaved data for this platform
+      const tempData = tempTemplateData[selectedPlatform];
+
+      if (tempData) {
+        // Load from temporary storage
+        setCustomTemplate(tempData.template || '');
+        setSelectedProfile(tempData.profiles || []);
+      } else {
+        // Load from saved meta data
+        const customTemplates = getCustomTemplatesMeta();
+        const platformData = customTemplates[selectedPlatform];
+        setCustomTemplate(platformData.template || '');
+        // Map stored profile IDs to full profile objects
+        const profilesToSet = (platformData.profiles || []).map(profileId =>
+          getAvailableProfiles().find(profile => profile.id === profileId)
+        ).filter(Boolean); // Filter out any undefined profiles if IDs don't match
+        setSelectedProfile(profilesToSet);
+      }
     }
-  }, [selectedPlatform, meta, facebookProfileData, twitterProfileData, linkedinProfileData, pinterestProfileData, instagramProfileData, mediumProfileData, threadsProfileData]);
+  }, [selectedPlatform, tempTemplateData, meta, facebookProfileData, twitterProfileData, linkedinProfileData, pinterestProfileData, instagramProfileData, mediumProfileData, threadsProfileData]);
 
   // Save template
   const handleSave = async () => {
@@ -190,52 +224,18 @@ const CustomSocialTemplateModal = ({
             _wpsp_custom_templates: updatedTemplates,
           },
         });
+        // Clear temporary data for this platform since it's now saved
+        setTempTemplateData(prev => {
+          const updated = { ...prev };
+          delete updated[selectedPlatform];
+          return updated;
+        });
         setSaveText(__('Saved', 'wp-scheduled-posts'));
       } else {
         throw new Error(response.message || 'Failed to save template');
       }
     } catch (error) {
       console.error('Error saving template:', error);
-    }
-  };
-
-  // Delete template
-  const handleDelete = async () => {
-    if (!confirm(__('Are you sure you want to delete this template?', 'wp-scheduled-posts'))) {
-      return;
-    }
-
-    try {
-      const response = await wp.apiFetch({
-        path: `/wp-scheduled-posts/v1/custom-templates/${postId}`,
-        method: 'DELETE',
-        data: {
-          platform: selectedPlatform
-        }
-      });
-
-      if (response.success) {
-        // Update the local meta state
-        const currentCustomTemplates = getCustomTemplatesMeta();
-        const updatedTemplates = {
-          ...currentCustomTemplates,
-          [selectedPlatform]: { template: '', profiles: [] } // Clear template and profiles
-        };
-
-        editPost({
-          meta: {
-            ...meta,
-            _wpsp_custom_templates: updatedTemplates,
-          },
-        });
-
-        setCustomTemplate('');
-        setSelectedProfile([]); // Clear selected profiles
-      } else {
-        throw new Error(response.message || 'Failed to delete template');
-      }
-    } catch (error) {
-      console.error('Error deleting template:', error);
     }
   };
 
@@ -248,7 +248,7 @@ const CustomSocialTemplateModal = ({
   return (
     <Modal
       title={__('Create Social Message', 'wp-scheduled-posts')}
-      onRequestClose={onClose}
+      onRequestClose={handleClose}
       className="wpsp-custom-template-modal"
       style={{ maxWidth: '800px', width: '90vw' }}
     >
@@ -270,7 +270,7 @@ const CustomSocialTemplateModal = ({
                 <button
                   key={platform}
                   className={`wpsp-platform-icon ${selectedPlatform === platform ? 'active' : ''}`}
-                  onClick={() => setSelectedPlatform(platform)}
+                  onClick={() => handlePlatformSwitch(platform)}
                   style={{
                     backgroundColor: selectedPlatform === platform ? bgColor : '#f0f0f0',
                     color: selectedPlatform === platform ? '#fff' : '#666',
@@ -515,14 +515,9 @@ const CustomSocialTemplateModal = ({
 
         {/* Modal Actions */}
         <div className="wpsp-modal-footer">
-          <Button isSecondary onClick={onClose} className="wpsp-cancel-btn">
+          <Button isSecondary onClick={handleClose} className="wpsp-cancel-btn">
             {__('Cancel', 'wp-scheduled-posts')}
           </Button>
-          {selectedPlatform && getCustomTemplatesMeta()?.[selectedPlatform] && (
-            <Button isDestructive onClick={handleDelete} className="wpsp-delete-btn">
-              {__('Delete Template', 'wp-scheduled-posts')}
-            </Button>
-          )}
           <Button
             isPrimary
             onClick={handleSave}
