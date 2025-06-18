@@ -347,8 +347,8 @@ class CustomTemplateHelper
 
     public static function get_scheduled_datetime($data) {
         // Set default timezone to UTC (GMT)
-        $current_time = Helper::getDateFromTimezone(null);
-        $now = new \DateTime($current_time, new \DateTimeZone('UTC'));
+        // $current_time = Helper::getDateFromTimezone(null, 'Y-m-d H:i:s', true);
+        $now = new \DateTime('now', new \DateTimeZone('UTC'));
         $dateOption = $data['dateOption'];
         $timeOption = $data['timeOption'];
 
@@ -402,48 +402,37 @@ class CustomTemplateHelper
         // Handle time - ABSOLUTE SCHEDULING ONLY (for published posts)
         switch ($timeOption) {
             case 'now':
-                // Use current time
-                $final_datetime = clone $now;
-                // Set the date part from the calculated date
-                $final_datetime->setDate($date->format('Y'), $date->format('m'), $date->format('d'));
+                $final_datetime = clone $date;
                 break;
-
+        
             case 'in_1h':
-                // Exactly 1 hour from now
-                $final_datetime = (clone $now)->modify('+1 hour');
-                // Set the date part from the calculated date
-                $final_datetime->setDate($date->format('Y'), $date->format('m'), $date->format('d'));
+                $minutes = rand(1, 60);
+                $final_datetime = (clone $date)->modify("+{$minutes} minutes");
                 break;
-
+        
             case 'in_3h':
-                // Exactly 3 hours from now
-                $final_datetime = (clone $now)->modify('+3 hours');
-                // Set the date part from the calculated date
-                $final_datetime->setDate($date->format('Y'), $date->format('m'), $date->format('d'));
+                $minutes = rand(1, 180); // 3 hours
+                $final_datetime = (clone $date)->modify("+{$minutes} minutes");
                 break;
-
+        
             case 'in_5h':
-                // Exactly 5 hours from now
-                $final_datetime = (clone $now)->modify('+5 hours');
-                // Set the date part from the calculated date
-                $final_datetime->setDate($date->format('Y'), $date->format('m'), $date->format('d'));
+                $minutes = rand(1, 300); // 5 hours
+                $final_datetime = (clone $date)->modify("+{$minutes} minutes");
                 break;
-
+        
             case 'in_hours':
-                // Exactly X hours from now
                 $hours = max(1, (int) $data['customHours']);
-                $final_datetime = (clone $now)->modify("+{$hours} hours");
-                // Set the date part from the calculated date
-                $final_datetime->setDate($date->format('Y'), $date->format('m'), $date->format('d'));
+                $minutes = rand(1, $hours * 60);
+                $final_datetime = (clone $date)->modify("+{$minutes} minutes");
                 break;
-
+        
             case 'custom_time':
-                // Use specific time on the calculated date
                 if (!empty($data['customTime'])) {
                     $timeParts = explode(':', $data['customTime']);
-                    if (count($timeParts) >= 2) {
+                    if (count($timeParts) === 2) {
                         $final_datetime = clone $date;
                         $final_datetime->setTime((int)$timeParts[0], (int)$timeParts[1], 0);
+                        return $final_datetime->format('Y-m-d H:i:s'); // Early return for custom time
                     } else {
                         error_log("WPSP: Invalid custom time format: " . $data['customTime']);
                         return null;
@@ -452,21 +441,11 @@ class CustomTemplateHelper
                     error_log("WPSP: Custom time option selected but no time provided");
                     return null;
                 }
-                break;
-
-            // Relative scheduling options should NOT reach this method
-            case 'same_time':
-            case 'hour_after':
-            case 'three_hours_after':
-            case 'five_hours_after':
-            case 'hours_after':
-                error_log("WPSP: ERROR - Relative time option '{$timeOption}' should be converted to absolute before calling get_scheduled_datetime");
-                return null; // Don't fallback, this is an error
-
+        
             default:
                 error_log("WPSP: Unknown time option: {$timeOption}");
                 return null;
-        }
+        }        
 
         // Return the calculated datetime
         if (isset($final_datetime)) {
