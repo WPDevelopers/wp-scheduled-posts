@@ -148,6 +148,21 @@ class CustomSocialTemplates
                 ]
             );
             
+            // Register enable/disable meta for Add Social Template
+            register_post_meta(
+                $type,
+                '_wpsp_enable_custom_social_template',
+                [
+                    'show_in_rest' => true,
+                    'single' => true,
+                    'type' => 'boolean',
+                    'default' => false,
+                    'auth_callback' => function() {
+                        return current_user_can( 'edit_posts' );
+                    }
+                ]
+            );
+            
             // Social scheduling data
             register_post_meta(
                 $type,
@@ -697,11 +712,29 @@ class CustomSocialTemplates
                     wp_schedule_single_event($schedule_at, 'publish_future_post', array($post_id));
                 }
             } elseif ( get_post_status($post_id)  === 'future') {
-                // Let's handle schedule based cron jobs time based on schedule time + scheduling data
-                $this->handle_scheduled_post_scheduling($post_id, $scheduling_data);
-                $scheduling_updated = true;
-                $template_updated = true;
-                $scheduled_successfully = true;
+                error_log("WPSP: Handling scheduling for SCHEDULED post {$post_id}");
+
+                // For scheduled posts, calculate the social media timing based on the post's scheduled publication date
+                $social_datetime = $this->handle_scheduled_post_scheduling($post_id, $scheduling_data);
+
+                if ($social_datetime) {
+                    error_log("WPSP: Calculated social media datetime for scheduled post: {$social_datetime}");
+
+                    // Store the calculated datetime in the scheduling data
+                    $scheduling_data['datetime'] = $social_datetime;
+                    $scheduling_data['enabled'] = true;
+                    $scheduling_data['status'] = 'pending_publication';
+
+                    // Update the scheduling data with the calculated datetime
+                    $scheduling_updated = update_post_meta($post_id, '_wpsp_social_scheduling', $scheduling_data);
+                    error_log("WPSP: Updated scheduling data for scheduled post: " . ($scheduling_updated ? 'SUCCESS' : 'FAILED'));
+
+                    $template_updated = true;
+                    $scheduled_successfully = true;
+                } else {
+                    error_log("WPSP: ERROR - Failed to calculate social media datetime for scheduled post");
+                    $scheduled_successfully = false;
+                }
             }
 
         }
@@ -724,17 +757,62 @@ class CustomSocialTemplates
     }
 
     public function handle_scheduled_post_scheduling($post_id, $scheduling_data) {
-        if (!empty($scheduling_data)) {
-            return \WPSP\Helpers\CustomTemplateHelper::get_scheduled_datetime($scheduling_data);
+        if (empty($scheduling_data)) {
+            error_log("WPSP: handle_scheduled_post_scheduling - No scheduling data provided");
+            return false;
         }
-        return false;
+
+        // Get the post to access its scheduled publication date
+        $post = get_post($post_id);
+        if (!$post) {
+            error_log("WPSP: handle_scheduled_post_scheduling - Post {$post_id} not found");
+            return false;
+        }
+
+        error_log("WPSP: handle_scheduled_post_scheduling - Processing for scheduled post {$post_id}");
+        error_log("WPSP: Post scheduled publication date: " . $post->post_date);
+        error_log("WPSP: Scheduling data: " . json_encode($scheduling_data));
+
+        // For scheduled posts, use the post's publication date as the base datetime
+        // This ensures that date/time calculations are relative to when the post will be published
+        $result = \WPSP\Helpers\CustomTemplateHelper::get_scheduled_datetime($scheduling_data, $post->post_date);
+
+        error_log("WPSP: handle_scheduled_post_scheduling result: " . ($result ?: 'null'));
+        return $result;
     }
 
     public function handle_published_post_scheduling($post_id, $scheduling_data) {
-        if (!empty($scheduling_data)) {
-            return \WPSP\Helpers\CustomTemplateHelper::get_scheduled_datetime($scheduling_data);
+        if (empty($scheduling_data)) {
+            error_log("WPSP: handle_published_post_scheduling - No scheduling data provided");
+            return false;
         }
-        return false;
+
+        error_log("WPSP: handle_published_post_scheduling - Processing for published post {$post_id}");
+        error_log("WPSP: Scheduling data: " . json_encode($scheduling_data));
+
+        // Determine scheduling type
+        $scheduling_type = isset($scheduling_data['schedulingType']) ? $scheduling_data['schedulingType'] : 'absolute';
+        error_log("WPSP: Scheduling type: {$scheduling_type}");
+
+        if ($scheduling_type === 'relative') {
+            // For relative scheduling on published posts, convert to absolute first
+            error_log("WPSP: Converting relative scheduling to absolute for published post");
+            $post = get_post($post_id);
+            if ($post) {
+                $result = $this->convert_relative_to_absolute_scheduling($scheduling_data, $post->post_date);
+                error_log("WPSP: Relative conversion result: " . ($result ?: 'null'));
+                return $result;
+            } else {
+                error_log("WPSP: Failed to get post object for post {$post_id}");
+                return false;
+            }
+        } else {
+            // For absolute scheduling on published posts, use current time as base
+            error_log("WPSP: Using absolute scheduling with current time as base");
+            $result = \WPSP\Helpers\CustomTemplateHelper::get_scheduled_datetime($scheduling_data);
+            error_log("WPSP: Absolute scheduling result: " . ($result ?: 'null'));
+            return $result;
+        }
     }
 
     /**

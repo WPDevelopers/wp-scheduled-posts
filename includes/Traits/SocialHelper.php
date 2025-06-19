@@ -97,16 +97,16 @@ trait SocialHelper
      */
     public function social_share_content_template_structure($template_structure, $title, $desc, $post_link, $hashTags, $limit, $url_limit = null, $platform = '', $post_id = null, $profile_id = null)
     {
-        // Check for custom template if post_id and profile_id are provided
-        if ($post_id && $profile_id && $platform && class_exists('\WPSP\Helpers\CustomTemplateHelper')) {
+        // Check for custom template if post_id and profile_id are provided and meta is enabled
+        $enable_custom_template = false;
+        if ($post_id) {
+            $meta_value = get_post_meta($post_id, '_wpsp_enable_custom_social_template', true);
+            $enable_custom_template = ($meta_value === '1' || $meta_value === 1);
+        }
+        if ($enable_custom_template && $post_id && $profile_id && $platform && class_exists('\WPSP\Helpers\CustomTemplateHelper')) {
             $custom_template = \WPSP\Helpers\CustomTemplateHelper::get_resolved_template($post_id, $platform, $profile_id);
             if ($custom_template && $custom_template !== $template_structure) {
                 $template_structure = $custom_template;
-                // Log template usage for debugging
-                \WPSP\Helpers\CustomTemplateHelper::log_template_usage($post_id, $platform, $profile_id, 'custom');
-            } else {
-                // Log fallback to global template
-                \WPSP\Helpers\CustomTemplateHelper::log_template_usage($post_id, $platform, $profile_id, 'global');
             }
         }
         

@@ -4,7 +4,7 @@ import { fetchSocialProfileData } from '../helper';
 
 const {
   components: { Button },
-  data: { useSelect },
+  data: { useSelect, useDispatch },
 } = wp;
 const { __ } = wp.i18n;
 
@@ -126,6 +126,15 @@ const CustomSocialTemplate = () => {
   const { postTitle, postContent, postUrl } = usePostData();
   const socialProfileData = useSocialProfileData();
 
+  // Get enable/disable meta field
+  const isCustomTemplateEnabled = useSelect((select) => {
+    const meta = select('core/editor').getEditedPostAttribute('meta') || {};
+    // Default to true if undefined
+    return typeof meta._wpsp_enable_custom_social_template === 'boolean' ? meta._wpsp_enable_custom_social_template : true;
+  }, []);
+  const meta = useSelect((select) => select('core/editor').getEditedPostAttribute('meta') || {}, []);
+  const { editPost } = useDispatch('core/editor');
+
   const openModal = useCallback(() => setIsModalOpen(true), []);
   const closeModal = useCallback(() => setIsModalOpen(false), []);
 
@@ -162,10 +171,18 @@ const CustomSocialTemplate = () => {
         <p style={{ margin: '0 0 15px 0', fontSize: '13px', color: '#666', lineHeight: '1.4' }}>
           {__('Create custom templates for specific social media platforms and profiles.', 'wp-scheduled-posts')}
         </p>
+        <input
+          type="checkbox"
+          id="customTemplateEnabled"
+          checked={isCustomTemplateEnabled}
+          onChange={e => editPost({ meta: { ...meta, _wpsp_enable_custom_social_template: e.target.checked } })}
+        />
+        <label htmlFor="customTemplateEnabled">{__('Enable Custom Social Template', 'wp-scheduled-posts')}</label>
         <Button
           isSecondary
           onClick={openModal}
           className="wpsp-add-template-btn"
+          disabled={!isCustomTemplateEnabled}
         >
           {__('Add Social Template', 'wp-scheduled-posts')}
         </Button>

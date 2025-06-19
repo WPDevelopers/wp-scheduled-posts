@@ -433,6 +433,11 @@ const CustomSocialTemplateModal = ({
                   <span className="wpsp-placeholders">
                     {__('Available:', 'wp-scheduled-posts')} {'{title}'} {'{content}'} {'{url}'} {'{tags}'}
                   </span>
+                  <div className='wpsp-global-template'>
+                    {/* Add a checkbox to use a global template */}
+                    <input type="checkbox" />
+                    <label htmlFor="globalTemplate">{__('Use global template', 'wp-scheduled-posts')}</label>
+                  </div>
                   <span className={`wpsp-char-count ${isOverLimit ? 'over-limit' : ''}`}>
                     {characterCount}/{currentLimit}
                   </span>
