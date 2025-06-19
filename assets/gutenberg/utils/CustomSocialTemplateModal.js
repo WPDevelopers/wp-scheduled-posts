@@ -185,10 +185,12 @@ const CustomSocialTemplateModal = ({
       setSaveText(__('Saving...', 'wp-scheduled-posts'));
       // Prepare updated templates
       const templates = { ...(meta._wpsp_custom_templates || {}) };
+      
       templates[platformToSave] = {
         ...(templates[platformToSave] || {}),
         template: customTemplates[platformToSave] || '',
         profiles: selectedProfile.map(profile => profile.id),
+        is_global: useGlobalTemplatePlatform === platformToSave,
       };
       // Save via REST API
       const response = await wp.apiFetch({
@@ -199,6 +201,7 @@ const CustomSocialTemplateModal = ({
           template: customTemplates[platformToSave] || '',
           profiles: selectedProfile.map(profile => profile.id),
           scheduling: scheduleData,
+          is_global: useGlobalTemplatePlatform === platformToSave,
         },
       });
       if (response.success) {

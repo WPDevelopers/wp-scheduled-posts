@@ -77,66 +77,73 @@ class CustomSocialTemplates
                                     'properties' => [
                                         'template' => ['type' => 'string'],
                                         'profiles' => ['type' => 'array', 'items' => ['type' => ['string', 'integer']]],
+                                        'is_global' => ['type' => 'boolean'],
                                     ],
-                                    'default' => ['template' => '', 'profiles' => []],
+                                    'default' => ['template' => '', 'profiles' => [], 'is_global' => false],
                                 ],
                                 'twitter' => [
                                     'type' => 'object',
                                     'properties' => [
                                         'template' => ['type' => 'string'],
                                         'profiles' => ['type' => 'array', 'items' => ['type' => ['string', 'integer']]],
+                                        'is_global' => ['type' => 'boolean'],
                                     ],
-                                    'default' => ['template' => '', 'profiles' => []],
+                                    'default' => ['template' => '', 'profiles' => [], 'is_global' => false],
                                 ],
                                 'linkedin' => [
                                     'type' => 'object',
                                     'properties' => [
                                         'template' => ['type' => 'string'],
                                         'profiles' => ['type' => 'array', 'items' => ['type' => ['string', 'integer']]],
+                                        'is_global' => ['type' => 'boolean'],
                                     ],
-                                    'default' => ['template' => '', 'profiles' => []],
+                                    'default' => ['template' => '', 'profiles' => [], 'is_global' => false],
                                 ],
                                 'pinterest' => [
                                     'type' => 'object',
                                     'properties' => [
                                         'template' => ['type' => 'string'],
                                         'profiles' => ['type' => 'array', 'items' => ['type' => ['string', 'integer']]],
+                                        'is_global' => ['type' => 'boolean'],
                                     ],
-                                    'default' => ['template' => '', 'profiles' => []],
+                                    'default' => ['template' => '', 'profiles' => [], 'is_global' => false],
                                 ],
                                 'instagram' => [
                                     'type' => 'object',
                                     'properties' => [
                                         'template' => ['type' => 'string'],
                                         'profiles' => ['type' => 'array', 'items' => ['type' => ['string', 'integer']]],
+                                        'is_global' => ['type' => 'boolean'],
                                     ],
-                                    'default' => ['template' => '', 'profiles' => []],
+                                    'default' => ['template' => '', 'profiles' => [], 'is_global' => false],
                                 ],
                                 'medium' => [
                                     'type' => 'object',
                                     'properties' => [
                                         'template' => ['type' => 'string'],
                                         'profiles' => ['type' => 'array', 'items' => ['type' => ['string', 'integer']]],
+                                        'is_global' => ['type' => 'boolean'],
                                     ],
-                                    'default' => ['template' => '', 'profiles' => []],
+                                    'default' => ['template' => '', 'profiles' => [], 'is_global' => false],
                                 ],
                                 'threads' => [
                                     'type' => 'object',
                                     'properties' => [
                                         'template' => ['type' => 'string'],
                                         'profiles' => ['type' => 'array', 'items' => ['type' => ['string', 'integer']]],
+                                        'is_global' => ['type' => 'boolean'],
                                     ],
-                                    'default' => ['template' => '', 'profiles' => []],
+                                    'default' => ['template' => '', 'profiles' => [], 'is_global' => false],
                                 ],
                             ],
                             'default' => [
-                                'facebook' => ['template' => '', 'profiles' => []],
-                                'twitter' => ['template' => '', 'profiles' => []],
-                                'linkedin' => ['template' => '', 'profiles' => []],
-                                'pinterest' => ['template' => '', 'profiles' => []],
-                                'instagram' => ['template' => '', 'profiles' => []],
-                                'medium' => ['template' => '', 'profiles' => []],
-                                'threads' => ['template' => '', 'profiles' => []],
+                                'facebook' => ['template' => '', 'profiles' => [], 'is_global' => false],
+                                'twitter' => ['template' => '', 'profiles' => [], 'is_global' => false],
+                                'linkedin' => ['template' => '', 'profiles' => [], 'is_global' => false],
+                                'pinterest' => ['template' => '', 'profiles' => [], 'is_global' => false],
+                                'instagram' => ['template' => '', 'profiles' => [], 'is_global' => false],
+                                'medium' => ['template' => '', 'profiles' => [], 'is_global' => false],
+                                'threads' => ['template' => '', 'profiles' => [], 'is_global' => false],
                             ]
                         ]
                     ],
@@ -156,7 +163,7 @@ class CustomSocialTemplates
                     'show_in_rest' => true,
                     'single' => true,
                     'type' => 'boolean',
-                    'default' => false,
+                    'default' => true,
                     'auth_callback' => function() {
                         return current_user_can( 'edit_posts' );
                     }
@@ -232,13 +239,13 @@ class CustomSocialTemplates
 
         // Initialize with default structure
         $default_templates = array(
-            'facebook' => ['template' => '', 'profiles' => []],
-            'twitter' => ['template' => '', 'profiles' => []],
-            'linkedin' => ['template' => '', 'profiles' => []],
-            'pinterest' => ['template' => '', 'profiles' => []],
-            'instagram' => ['template' => '', 'profiles' => []],
-            'medium' => ['template' => '', 'profiles' => []],
-            'threads' => ['template' => '', 'profiles' => []]
+            'facebook' => ['template' => '', 'profiles' => [], 'is_global' => false],
+            'twitter' => ['template' => '', 'profiles' => [], 'is_global' => false],
+            'linkedin' => ['template' => '', 'profiles' => [], 'is_global' => false],
+            'pinterest' => ['template' => '', 'profiles' => [], 'is_global' => false],
+            'instagram' => ['template' => '', 'profiles' => [], 'is_global' => false],
+            'medium' => ['template' => '', 'profiles' => [], 'is_global' => false],
+            'threads' => ['template' => '', 'profiles' => [], 'is_global' => false]
         );
 
         update_post_meta($post_id, '_wpsp_custom_templates', $default_templates);
@@ -378,13 +385,8 @@ class CustomSocialTemplates
         $scheduling_data = get_post_meta($post_id, '_wpsp_social_scheduling', true);
 
         if (empty($scheduling_data)) {
-            error_log("WPSP: No scheduling data found for post {$post_id} during scheduled time change");
             return;
         }
-
-        error_log("WPSP: Handling scheduled time change for post {$post_id}");
-        error_log("WPSP: Old publication time: " . $post_before->post_date);
-        error_log("WPSP: New publication time: " . $post_after->post_date);
 
         // Clean up old scheduled events
         $this->cleanup_scheduled_social_events($post_id);
@@ -392,24 +394,17 @@ class CustomSocialTemplates
         // For scheduled posts, we always recalculate based on the new publication time
         // This maintains the relative relationship regardless of scheduling type
         if (isset($scheduling_data['schedulingType']) && $scheduling_data['schedulingType'] === 'relative') {
-            error_log("WPSP: Recalculating relative scheduling for new publication time");
             $new_absolute_datetime = $this->convert_relative_to_absolute_scheduling($scheduling_data, $post_after->post_date);
 
             if ($new_absolute_datetime) {
                 // Update the calculated datetime but keep it as relative type
                 $scheduling_data['datetime'] = $new_absolute_datetime;
                 update_post_meta($post_id, '_wpsp_social_scheduling', $scheduling_data);
-
-                error_log("WPSP: Updated relative scheduling datetime for post {$post_id} to: {$new_absolute_datetime}");
                 // Don't schedule cron job yet - wait for actual publication
             } else {
                 error_log("WPSP: Failed to recalculate relative scheduling for post {$post_id}");
             }
         } else {
-            error_log("WPSP: Handling absolute scheduling time change");
-            // For absolute scheduling, we need to maintain the original intent
-            // If the user selected "tomorrow at 3pm", it should still be "tomorrow at 3pm" relative to the new publication date
-
             // Calculate the time difference
             $old_pub_time = strtotime($post_before->post_date);
             $new_pub_time = strtotime($post_after->post_date);
@@ -422,9 +417,6 @@ class CustomSocialTemplates
                 $scheduling_data['datetime'] = date('Y-m-d H:i:s', $new_social_time);
                 update_post_meta($post_id, '_wpsp_social_scheduling', $scheduling_data);
 
-                error_log("WPSP: Adjusted absolute scheduling datetime for post {$post_id} by {$time_diff} seconds");
-            } else {
-                error_log("WPSP: No existing datetime found for absolute scheduling adjustment");
             }
         }
     }
@@ -514,6 +506,10 @@ class CustomSocialTemplates
                 ),
                 'template' => array(
                     'required' => true,
+                ),
+                'is_global' => array(
+                    'required' => false,
+                    'default' => false,
                 ),
             ),
         ));
@@ -648,16 +644,13 @@ class CustomSocialTemplates
      * @return WP_REST_Response
      */
     public function save_custom_template( $request ) {
-
-        // If post is published then add cron jobs to share on social media now
-        // If post is scheduled then add cron jobs to share on social media on scheduled date or after post is published
-        // If post is draft then do not add cron jobs
-
+        // Get request params
         $post_id = $request->get_param('post_id');
         $platform = $request->get_param('platform');
         $template = $request->get_param('template');
         $profiles = $request->get_param('profiles');
         $scheduling_data = $request->get_param('scheduling');
+        $is_global = $request->get_param('is_global');
 
         // Verify post exists and user can edit it
         if (!get_post($post_id) || !current_user_can('edit_post', $post_id)) {
@@ -682,7 +675,8 @@ class CustomSocialTemplates
         // Save template and profiles for platform
         $templates[$platform] = [
             'template' => $template,
-            'profiles' => $profiles
+            'profiles' => $profiles,
+            'is_global' => $is_global ? true : false
         ];
 
         // Update custom templates post meta
@@ -1137,7 +1131,7 @@ class CustomSocialTemplates
     private function get_simple_templates( $post_id ) {
         $templates = get_post_meta($post_id, '_wpsp_custom_templates', true);
 
-        $default_platform_data = ['template' => '', 'profiles' => []];
+        $default_platform_data = ['template' => '', 'profiles' => [], 'is_global' => false];
 
         // Base structure for all platforms, initialized with default data
         $all_platforms_default = [
@@ -1159,12 +1153,13 @@ class CustomSocialTemplates
         foreach ($templates as $platform => $platform_data) {
             if (is_string($platform_data)) {
                 // Convert old string format to new object format
-                $adapted_templates[$platform] = ['template' => $platform_data, 'profiles' => []];
-            } elseif (is_array($platform_data) && (isset($platform_data['template']) || isset($platform_data['profiles'])) ) {
+                $adapted_templates[$platform] = ['template' => $platform_data, 'profiles' => [], 'is_global' => false];
+            } elseif (is_array($platform_data) && (isset($platform_data['template']) || isset($platform_data['profiles']) || isset($platform_data['is_global'])) ) {
                 // Already in new format, ensure keys exist
                 $adapted_templates[$platform] = [
                     'template' => isset($platform_data['template']) ? $platform_data['template'] : '',
-                    'profiles' => isset($platform_data['profiles']) && is_array($platform_data['profiles']) ? $platform_data['profiles'] : []
+                    'profiles' => isset($platform_data['profiles']) && is_array($platform_data['profiles']) ? $platform_data['profiles'] : [],
+                    'is_global' => isset($platform_data['is_global']) ? $platform_data['is_global'] : false
                 ];
             } else {
                 // Fallback for unexpected types, use default for this platform
