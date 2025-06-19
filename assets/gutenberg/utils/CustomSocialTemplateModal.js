@@ -54,9 +54,10 @@ const CustomSocialTemplateModal = ({
   const [customTemplates, setCustomTemplates] = useState({});
   const [characterCount, setCharacterCount] = useState(0);
   const [previewContent, setPreviewContent] = useState('');
-  const [saveText, setSaveText] = useState(__('Save', 'wp-scheduled-posts'));
-  // Temporary storage for unsaved template data when switching platforms
-  const [tempTemplateData, setTempTemplateData] = useState({});
+  const [saveText, setSaveText] = useState(__('Save All', 'wp-scheduled-posts'));
+  const [isSaving, setIsSaving] = useState(false);
+  // Store all platform data including profiles and templates
+  const [allPlatformData, setAllPlatformData] = useState({});
   // Date & Time scheduling state
   const [scheduleData, setScheduleData] = useState({
     dateOption: postStatus === 'publish' ? 'today' : 'same_day',
@@ -179,76 +180,157 @@ const CustomSocialTemplateModal = ({
     return preview;
   };
 
-  // Save template and profiles for the selected platform
-  const handleSave = async (platformToSave = selectedPlatform) => {
+  // Global save function - saves all platforms and scheduling data at once
+  const handleGlobalSave = async () => {
     try {
+      setIsSaving(true);
       setSaveText(__('Saving...', 'wp-scheduled-posts'));
-      // Prepare updated templates
-      const templates = { ...(meta._wpsp_custom_templates || {}) };
-      
-      templates[platformToSave] = {
-        ...(templates[platformToSave] || {}),
-        template: customTemplates[platformToSave] || '',
+
+      // Collect all platform data that has content or selected profiles
+      const platformsToSave = [];
+      const updatedTemplates = { ...(meta._wpsp_custom_templates || {}) };
+
+      // Get current platform data first
+      const currentPlatformData = {
+        template: customTemplates[selectedPlatform] || '',
         profiles: selectedProfile.map(profile => profile.id),
-        is_global: useGlobalTemplatePlatform === platformToSave,
+        is_global: useGlobalTemplatePlatform === selectedPlatform,
       };
-      // Save via REST API
-      const response = await wp.apiFetch({
-        path: `/wp-scheduled-posts/v1/custom-templates/${postId}`,
-        method: 'POST',
-        data: {
-          platform: platformToSave,
-          template: customTemplates[platformToSave] || '',
-          profiles: selectedProfile.map(profile => profile.id),
-          scheduling: scheduleData,
-          is_global: useGlobalTemplatePlatform === platformToSave,
-        },
+
+      // Update current platform in allPlatformData
+      const allData = {
+        ...allPlatformData,
+        [selectedPlatform]: currentPlatformData
+      };
+
+      // Process all platforms that have data
+      for (const platform of SOCIAL_PLATFORMS) {
+        const platformData = allData[platform];
+        const hasTemplate = platformData?.template && platformData.template.trim() !== '';
+        const hasProfiles = platformData?.profiles && platformData.profiles.length > 0;
+
+        if (hasTemplate || hasProfiles) {
+          platformsToSave.push({
+            platform,
+            template: platformData.template || '',
+            profiles: platformData.profiles || [],
+            is_global: platformData.is_global || false,
+          });
+
+          // Update local templates state
+          updatedTemplates[platform] = {
+            ...(updatedTemplates[platform] || {}),
+            template: platformData.template || '',
+            profiles: platformData.profiles || [],
+            is_global: platformData.is_global || false,
+          };
+        }
+      }
+
+      // Save each platform via REST API
+      const savePromises = platformsToSave.map(async (platformData) => {
+        return wp.apiFetch({
+          path: `/wp-scheduled-posts/v1/custom-templates/${postId}`,
+          method: 'POST',
+          data: {
+            platform: platformData.platform,
+            template: platformData.template,
+            profiles: platformData.profiles,
+            scheduling: scheduleData,
+            is_global: platformData.is_global,
+          },
+        });
       });
-      if (response.success) {
+
+      // Wait for all saves to complete
+      const responses = await Promise.all(savePromises);
+
+      // Check if all saves were successful
+      const allSuccessful = responses.every(response => response.success);
+
+      if (allSuccessful) {
         // Update local meta state
         editPost({
           meta: {
             ...meta,
-            _wpsp_custom_templates: templates,
+            _wpsp_custom_templates: updatedTemplates,
           },
         });
-        setTempTemplateData(prev => {
-          const updated = { ...prev };
-          delete updated[platformToSave];
-          return updated;
-        });
-        setSaveText(__('Saved', 'wp-scheduled-posts'));
-        setTimeout(() => setSaveText(__('Save', 'wp-scheduled-posts')), 1200);
+
+        // Clear temporary data
+        setAllPlatformData({});
+
+        setSaveText(__('Saved Successfully', 'wp-scheduled-posts'));
+        setTimeout(() => setSaveText(__('Save All', 'wp-scheduled-posts')), 2000);
       } else {
-        throw new Error(response.message || 'Failed to save template');
+        throw new Error('Some platforms failed to save');
       }
     } catch (error) {
-      setSaveText(__('Save', 'wp-scheduled-posts'));
-      console.error('Error saving template:', error);
+      setSaveText(__('Save Failed', 'wp-scheduled-posts'));
+      setTimeout(() => setSaveText(__('Save All', 'wp-scheduled-posts')), 2000);
+      console.error('Error saving templates:', error);
+    } finally {
+      setIsSaving(false);
     }
   };
 
-  // Helper to check if there are unsaved changes for the current platform
-  const hasUnsavedChanges = (platform) => {
-    const metaTemplate = meta._wpsp_custom_templates?.[platform]?.template || '';
-    const metaProfiles = JSON.stringify(meta._wpsp_custom_templates?.[platform]?.profiles || []);
-    const currentTemplate = customTemplates[platform] || '';
-    const currentProfiles = JSON.stringify(selectedProfile.map(profile => profile.id));
-    return metaTemplate !== currentTemplate || metaProfiles !== currentProfiles;
+  // Helper to check if there are any changes to save across all platforms
+  const hasAnyChanges = () => {
+    // Check current platform
+    const currentTemplate = customTemplates[selectedPlatform] || '';
+    const currentProfiles = selectedProfile.map(profile => profile.id);
+
+    if (currentTemplate.trim() !== '' || currentProfiles.length > 0) {
+      return true;
+    }
+
+    // Check all stored platform data
+    for (const platform of SOCIAL_PLATFORMS) {
+      const platformData = allPlatformData[platform];
+      if (platformData && (platformData.template.trim() !== '' || platformData.profiles.length > 0)) {
+        return true;
+      }
+    }
+
+    return false;
   };
 
-  // Handle platform switching with auto-save
-  const handlePlatformSwitch = async (newPlatform) => {
-    if (selectedPlatform && hasUnsavedChanges(selectedPlatform)) {
-      await handleSave(selectedPlatform);
+  // Helper to check if a specific platform has data
+  const platformHasData = (platform) => {
+    if (platform === selectedPlatform) {
+      const currentTemplate = customTemplates[selectedPlatform] || '';
+      const currentProfiles = selectedProfile.map(profile => profile.id);
+      return currentTemplate.trim() !== '' || currentProfiles.length > 0;
     }
+
+    const platformData = allPlatformData[platform];
+    return platformData && (platformData.template.trim() !== '' || platformData.profiles.length > 0);
+  };
+
+  // Handle platform switching without auto-save - preserve data across tabs
+  const handlePlatformSwitch = (newPlatform) => {
+    // Save current platform data before switching
+    if (selectedPlatform) {
+      const currentData = {
+        template: customTemplates[selectedPlatform] || '',
+        profiles: selectedProfile.map(profile => profile.id),
+        is_global: useGlobalTemplatePlatform === selectedPlatform,
+      };
+
+      setAllPlatformData(prev => ({
+        ...prev,
+        [selectedPlatform]: currentData
+      }));
+    }
+
+    // Switch to new platform
     setSelectedPlatform(newPlatform);
   };
 
   // Handle modal close with cleanup
   const handleClose = () => {
     // Clear all temporary data when closing modal
-    setTempTemplateData({});
+    setAllPlatformData({});
     onClose();
   };
 
@@ -274,15 +356,19 @@ const CustomSocialTemplateModal = ({
   useEffect(() => {
     if (selectedPlatform) {
       // First check if we have temporary unsaved data for this platform
-      const tempData = tempTemplateData[selectedPlatform];
+      const tempData = allPlatformData[selectedPlatform];
 
       if (tempData) {
         // Load from temporary storage
         setCustomTemplates(prev => ({ ...prev, [selectedPlatform]: tempData.template }));
-        setSelectedProfile(tempData.profiles || []);
+        // Map stored profile IDs to full profile objects
+        const profilesToSet = (tempData.profiles || []).map(profileId =>
+          getAvailableProfiles().find(profile => profile.id === profileId)
+        ).filter(Boolean);
+        setSelectedProfile(profilesToSet);
       } else {
         // Load from saved meta data
-        const platformData = meta._wpsp_custom_templates[selectedPlatform];
+        const platformData = meta._wpsp_custom_templates?.[selectedPlatform];
         setCustomTemplates(prev => ({ ...prev, [selectedPlatform]: platformData?.template || '' }));
         // Map stored profile IDs to full profile objects
         const profilesToSet = (platformData?.profiles || []).map(profileId =>
@@ -291,7 +377,7 @@ const CustomSocialTemplateModal = ({
         setSelectedProfile(profilesToSet);
       }
     }
-  }, [selectedPlatform, tempTemplateData, meta, facebookProfileData, twitterProfileData, linkedinProfileData, pinterestProfileData, instagramProfileData, mediumProfileData, threadsProfileData]);
+  }, [selectedPlatform, allPlatformData, meta, facebookProfileData, twitterProfileData, linkedinProfileData, pinterestProfileData, instagramProfileData, mediumProfileData, threadsProfileData]);
 
   // Keep state in sync with meta changes (e.g., on post load)
   useEffect(() => {
@@ -328,16 +414,31 @@ const CustomSocialTemplateModal = ({
               ].map(({ platform, icon, bgColor }) => (
                 <button
                   key={platform}
-                  className={`wpsp-platform-icon ${selectedPlatform === platform ? 'active' : ''}`}
+                  className={`wpsp-platform-icon ${selectedPlatform === platform ? 'active' : ''} ${platformHasData(platform) ? 'has-data' : ''}`}
                   onClick={() => handlePlatformSwitch(platform)}
                   style={{
                     backgroundColor: selectedPlatform === platform ? bgColor : '#f0f0f0',
                     color: selectedPlatform === platform ? '#fff' : '#666',
-                    fontWeight: selectedPlatform === platform ? 'bold' : 'normal'
+                    fontWeight: selectedPlatform === platform ? 'bold' : 'normal',
+                    position: 'relative'
                   }}
-                  title={platform.charAt(0).toUpperCase() + platform.slice(1)}
+                  title={`${platform.charAt(0).toUpperCase() + platform.slice(1)}${platformHasData(platform) ? ' (has data)' : ''}`}
                 >
                   {icon}
+                  {platformHasData(platform) && (
+                    <span
+                      style={{
+                        position: 'absolute',
+                        top: '-2px',
+                        right: '-2px',
+                        width: '8px',
+                        height: '8px',
+                        backgroundColor: '#00a32a',
+                        borderRadius: '50%',
+                        border: '1px solid white'
+                      }}
+                    />
+                  )}
                 </button>
               ))}
             </div>
@@ -598,8 +699,8 @@ const CustomSocialTemplateModal = ({
           </Button>
           <Button
             isPrimary
-            onClick={() => handleSave(selectedPlatform)}
-            disabled={!selectedPlatform || !customTemplates[selectedPlatform] || isOverLimit}
+            onClick={handleGlobalSave}
+            disabled={isSaving || isOverLimit || !hasAnyChanges()}
             className="wpsp-save-btn"
           >
             <span>{saveText}</span>
