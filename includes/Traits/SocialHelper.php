@@ -104,10 +104,17 @@ trait SocialHelper
             $enable_custom_template = ($meta_value === '1' || $meta_value === 1);
         }
         if ($enable_custom_template && $post_id && $profile_id && $platform && class_exists('\WPSP\Helpers\CustomTemplateHelper')) {
-            $custom_template = \WPSP\Helpers\CustomTemplateHelper::get_resolved_template($post_id, $platform, $profile_id);
-            if ($custom_template && $custom_template !== $template_structure) {
-                $template_structure = $custom_template;
+            $templates = get_post_meta($post_id, '_wpsp_custom_templates', true);
+            $platform_data = isset($templates[$platform]) ? $templates[$platform] : null;
+            $profiles = is_array($platform_data) && isset($platform_data['profiles']) ? $platform_data['profiles'] : [];
+            // Only apply custom template if profiles is not empty and profile_id is in profiles
+            if (!empty($profiles) && in_array($profile_id, $profiles)) {
+                $custom_template = \WPSP\Helpers\CustomTemplateHelper::get_resolved_template($post_id, $platform, $profile_id);
+                if ($custom_template && $custom_template !== $template_structure) {
+                    $template_structure = $custom_template;
+                }
             }
+            // If profiles is empty or profile_id not in profiles, do not update $template_structure (use default)
         }
         
         $title              = html_entity_decode($title);

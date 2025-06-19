@@ -6,6 +6,27 @@ const {
 } = wp;
 const { __ } = wp.i18n;
 
+const SOCIAL_PLATFORMS = [
+  'facebook',
+  'twitter',
+  'linkedin',
+  'pinterest',
+  'instagram',
+  'medium',
+  'threads',
+];
+
+// Platform character limits
+const platformLimits = {
+  facebook: 63206,
+  twitter: 280,
+  linkedin: 1300,
+  pinterest: 500,
+  instagram: 2100,
+  medium: 45000,
+  threads: 480,
+};
+
 const CustomSocialTemplateModal = ({
   isOpen,
   onClose,
@@ -30,7 +51,7 @@ const CustomSocialTemplateModal = ({
 
   const [selectedPlatform, setSelectedPlatform] = useState('facebook');
   const [selectedProfile, setSelectedProfile] = useState([]);
-  const [customTemplate, setCustomTemplate] = useState('');
+  const [customTemplates, setCustomTemplates] = useState({});
   const [characterCount, setCharacterCount] = useState(0);
   const [previewContent, setPreviewContent] = useState('');
   const [saveText, setSaveText] = useState(__('Save', 'wp-scheduled-posts'));
@@ -48,60 +69,26 @@ const CustomSocialTemplateModal = ({
   });
   const { editPost } = useDispatch('core/editor');
 
-  // Initialize meta structure if it doesn't exist and adapt old format
-  const getCustomTemplatesMeta = () => {
-    const customTemplates = meta._wpsp_custom_templates;
-    const defaultPlatformData = { template: '', profiles: [] }; // New default structure for platform data
-
-    // Base structure for all platforms, initialized with default data
-    const allPlatformsDefault = {
-      facebook: { ...defaultPlatformData },
-      twitter: { ...defaultPlatformData },
-      linkedin: { ...defaultPlatformData },
-      pinterest: { ...defaultPlatformData },
-      instagram: { ...defaultPlatformData },
-      medium: { ...defaultPlatformData },
-      threads: { ...defaultPlatformData }
-    };
-
-    if (!customTemplates || typeof customTemplates !== 'object') {
-      return allPlatformsDefault;
-    }
-
-    // Adapt existing data to the new structure
-    const adaptedTemplates = {};
-    for (const platform in customTemplates) {
-      if (Object.prototype.hasOwnProperty.call(customTemplates, platform)) {
-        if (typeof customTemplates[platform] === 'string') {
-          // Convert old string format to new object format with empty profiles
-          adaptedTemplates[platform] = { template: customTemplates[platform], profiles: [] };
-        } else if (typeof customTemplates[platform] === 'object' && customTemplates[platform] !== null) {
-          // Use existing object format, ensuring template and profiles exist
-          adaptedTemplates[platform] = {
-            template: customTemplates[platform].template || '',
-            profiles: customTemplates[platform].profiles || []
-          };
-        } else {
-          // Fallback for unexpected types, use default
-          adaptedTemplates[platform] = { ...defaultPlatformData };
-        }
-      }
-    }
-    
-    // Merge adapted templates with default structure to ensure all platforms are present
-    return { ...allPlatformsDefault, ...adaptedTemplates };
+  // Only one platform can use global template at a time
+  const useGlobalTemplatePlatform = meta._wpsp_use_global_template_platform || '';
+  const setUseGlobalTemplatePlatform = (platform, checked) => {
+    editPost({
+      meta: {
+        ...meta,
+        _wpsp_use_global_template_platform: checked ? platform : '',
+      },
+    });
   };
 
-  // Platform character limits
-  const platformLimits = {
-    facebook: 63206,
-    twitter: 280,
-    linkedin: 1300,
-    pinterest: 500,
-    instagram: 2100,
-    medium: 45000,
-    threads: 480
-  };
+  // Manage custom template values per platform
+  const initialTemplates = React.useMemo(() => {
+    const templates = (meta._wpsp_custom_templates || {});
+    const result = {};
+    for (const platform of SOCIAL_PLATFORMS) {
+      result[platform] = templates[platform]?.template || '';
+    }
+    return result;
+  }, [meta._wpsp_custom_templates]);
 
   // Get available profiles for selected platform
   const getAvailableProfiles = () => {
@@ -192,17 +179,65 @@ const CustomSocialTemplateModal = ({
     return preview;
   };
 
-  // Handle platform switching with temporary data storage
-  const handlePlatformSwitch = (newPlatform) => {
-    if (selectedPlatform && (customTemplate.trim() || selectedProfile.length > 0)) {
-      // Store current unsaved data before switching
-      setTempTemplateData(prev => ({
-        ...prev,
-        [selectedPlatform]: {
-          template: customTemplate.trim(),
-          profiles: selectedProfile
-        }
-      }));
+  // Save template and profiles for the selected platform
+  const handleSave = async (platformToSave = selectedPlatform) => {
+    try {
+      setSaveText(__('Saving...', 'wp-scheduled-posts'));
+      // Prepare updated templates
+      const templates = { ...(meta._wpsp_custom_templates || {}) };
+      templates[platformToSave] = {
+        ...(templates[platformToSave] || {}),
+        template: customTemplates[platformToSave] || '',
+        profiles: selectedProfile.map(profile => profile.id),
+      };
+      // Save via REST API
+      const response = await wp.apiFetch({
+        path: `/wp-scheduled-posts/v1/custom-templates/${postId}`,
+        method: 'POST',
+        data: {
+          platform: platformToSave,
+          template: customTemplates[platformToSave] || '',
+          profiles: selectedProfile.map(profile => profile.id),
+          scheduling: scheduleData,
+        },
+      });
+      if (response.success) {
+        // Update local meta state
+        editPost({
+          meta: {
+            ...meta,
+            _wpsp_custom_templates: templates,
+          },
+        });
+        setTempTemplateData(prev => {
+          const updated = { ...prev };
+          delete updated[platformToSave];
+          return updated;
+        });
+        setSaveText(__('Saved', 'wp-scheduled-posts'));
+        setTimeout(() => setSaveText(__('Save', 'wp-scheduled-posts')), 1200);
+      } else {
+        throw new Error(response.message || 'Failed to save template');
+      }
+    } catch (error) {
+      setSaveText(__('Save', 'wp-scheduled-posts'));
+      console.error('Error saving template:', error);
+    }
+  };
+
+  // Helper to check if there are unsaved changes for the current platform
+  const hasUnsavedChanges = (platform) => {
+    const metaTemplate = meta._wpsp_custom_templates?.[platform]?.template || '';
+    const metaProfiles = JSON.stringify(meta._wpsp_custom_templates?.[platform]?.profiles || []);
+    const currentTemplate = customTemplates[platform] || '';
+    const currentProfiles = JSON.stringify(selectedProfile.map(profile => profile.id));
+    return metaTemplate !== currentTemplate || metaProfiles !== currentProfiles;
+  };
+
+  // Handle platform switching with auto-save
+  const handlePlatformSwitch = async (newPlatform) => {
+    if (selectedPlatform && hasUnsavedChanges(selectedPlatform)) {
+      await handleSave(selectedPlatform);
     }
     setSelectedPlatform(newPlatform);
   };
@@ -227,10 +262,10 @@ const CustomSocialTemplateModal = ({
 
   // Update character count and preview when template changes
   useEffect(() => {
-    const preview = generatePreview(customTemplate);
+    const preview = generatePreview(customTemplates[selectedPlatform]);
     setPreviewContent(preview);
     setCharacterCount(preview.length);
-  }, [customTemplate, postTitle, postContent, postUrl]);
+  }, [customTemplates, selectedPlatform, postTitle, postContent, postUrl]);
 
   // Load existing template and profiles when platform changes
   useEffect(() => {
@@ -240,15 +275,14 @@ const CustomSocialTemplateModal = ({
 
       if (tempData) {
         // Load from temporary storage
-        setCustomTemplate(tempData.template || '');
+        setCustomTemplates(prev => ({ ...prev, [selectedPlatform]: tempData.template }));
         setSelectedProfile(tempData.profiles || []);
       } else {
         // Load from saved meta data
-        const customTemplates = getCustomTemplatesMeta();
-        const platformData = customTemplates[selectedPlatform];
-        setCustomTemplate(platformData.template || '');
+        const platformData = meta._wpsp_custom_templates[selectedPlatform];
+        setCustomTemplates(prev => ({ ...prev, [selectedPlatform]: platformData?.template || '' }));
         // Map stored profile IDs to full profile objects
-        const profilesToSet = (platformData.profiles || []).map(profileId =>
+        const profilesToSet = (platformData?.profiles || []).map(profileId =>
           getAvailableProfiles().find(profile => profile.id === profileId)
         ).filter(Boolean); // Filter out any undefined profiles if IDs don't match
         setSelectedProfile(profilesToSet);
@@ -256,55 +290,10 @@ const CustomSocialTemplateModal = ({
     }
   }, [selectedPlatform, tempTemplateData, meta, facebookProfileData, twitterProfileData, linkedinProfileData, pinterestProfileData, instagramProfileData, mediumProfileData, threadsProfileData]);
 
-  // Save template
-  const handleSave = async () => {
-    try {
-      // Get the current templates
-      const currentCustomTemplates = getCustomTemplatesMeta();
-      setSaveText(__('Saving...', 'wp-scheduled-posts'));
-      // Create the updated templates structure
-      const updatedTemplates = {
-        ...currentCustomTemplates,
-        [selectedPlatform]: {
-          template: customTemplate.trim(),
-          profiles: selectedProfile.map(profile => profile.id)
-        }
-      };
-
-      // Send the request to save the template
-      const response = await wp.apiFetch({
-        path: `/wp-scheduled-posts/v1/custom-templates/${postId}`,
-        method: 'POST',
-        data: {
-          platform: selectedPlatform,
-          template: customTemplate.trim(),
-          profiles: selectedProfile.map(profile => profile.id), // Send selected profile IDs
-          scheduling: scheduleData
-        }
-      });
-
-      if (response.success) {
-        // Update the local meta state
-        editPost({
-          meta: {
-            ...meta,
-            _wpsp_custom_templates: updatedTemplates,
-          },
-        });
-        // Clear temporary data for this platform since it's now saved
-        setTempTemplateData(prev => {
-          const updated = { ...prev };
-          delete updated[selectedPlatform];
-          return updated;
-        });
-        setSaveText(__('Saved', 'wp-scheduled-posts'));
-      } else {
-        throw new Error(response.message || 'Failed to save template');
-      }
-    } catch (error) {
-      console.error('Error saving template:', error);
-    }
-  };
+  // Keep state in sync with meta changes (e.g., on post load)
+  useEffect(() => {
+    setCustomTemplates(initialTemplates);
+  }, [initialTemplates]);
 
   if (!isOpen) return null;
 
@@ -423,21 +412,29 @@ const CustomSocialTemplateModal = ({
             {selectedPlatform && (
               <div className="wpsp-template-textarea">
                 <textarea
-                  value={customTemplate}
-                  onChange={(e) => setCustomTemplate(e.target.value)}
+                  value={customTemplates[selectedPlatform] || ''}
+                  onChange={(e) => setCustomTemplates(prev => ({ ...prev, [selectedPlatform]: e.target.value }))}
                   placeholder={__('Enter your custom template here...', 'wp-scheduled-posts')}
                   className="wpsp-template-input"
                   rows={6}
+                  disabled={!!useGlobalTemplatePlatform && useGlobalTemplatePlatform !== selectedPlatform}
                 />
                 <div className="wpsp-template-meta">
                   <span className="wpsp-placeholders">
                     {__('Available:', 'wp-scheduled-posts')} {'{title}'} {'{content}'} {'{url}'} {'{tags}'}
                   </span>
-                  <div className='wpsp-global-template'>
-                    {/* Add a checkbox to use a global template */}
-                    <input type="checkbox" />
-                    <label htmlFor="globalTemplate">{__('Use global template', 'wp-scheduled-posts')}</label>
-                  </div>
+                  {/* Only show the Use global template checkbox for the selected platform, and only if none is selected or this is the selected one */}
+                  {(!useGlobalTemplatePlatform || useGlobalTemplatePlatform === selectedPlatform) && (
+                    <div className='wpsp-global-template'>
+                      <input
+                        type="checkbox"
+                        id={`useGlobalTemplate_${selectedPlatform}`}
+                        checked={useGlobalTemplatePlatform === selectedPlatform}
+                        onChange={e => setUseGlobalTemplatePlatform(selectedPlatform, e.target.checked)}
+                      />
+                      <label htmlFor={`useGlobalTemplate_${selectedPlatform}`}>{__('Use global template', 'wp-scheduled-posts')}</label>
+                    </div>
+                  )}
                   <span className={`wpsp-char-count ${isOverLimit ? 'over-limit' : ''}`}>
                     {characterCount}/{currentLimit}
                   </span>
@@ -598,11 +595,11 @@ const CustomSocialTemplateModal = ({
           </Button>
           <Button
             isPrimary
-            onClick={handleSave}
-            disabled={!selectedPlatform || !customTemplate.trim() || isOverLimit}
+            onClick={() => handleSave(selectedPlatform)}
+            disabled={!selectedPlatform || !customTemplates[selectedPlatform] || isOverLimit}
             className="wpsp-save-btn"
           >
-            <span>{__(  saveText, 'wp-scheduled-posts')}</span>
+            <span>{saveText}</span>
           </Button>
         </div>
       </div>
