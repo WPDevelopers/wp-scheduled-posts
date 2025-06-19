@@ -1,3 +1,35 @@
+.components-modal__header {
+    height: auto;
+    border-bottom: 1px solid #ECEFF5;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 32px;
+    background: #FFF;
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+}
+.components-modal__content.has-scrolled-content:not(.hide-header) .components-modal__header {
+    border-bottom-color: #ECEFF5;
+}
+.components-modal__content {
+    flex: 1;
+    margin-top: 0;
+    overflow: auto;
+    padding: 0;
+}
+.components-modal__header .components-modal__header-heading {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.2em;
+    color: #1D2939;
+}
+
 /* Custom Social Template Styles */
 
 /* Global button wrapper styling */
@@ -28,7 +60,7 @@
 
 /* Modal styling */
 .wpsp-custom-template-modal {
-  max-width: 1000px !important;
+  max-width: 922px !important;
   width: 90vw !important;
 }
 
@@ -43,28 +75,29 @@
 
 /* Left side - Template Editor */
 .wpsp-modal-left {
-  flex: 1;
-  padding: 24px;
-  border-right: 1px solid #e1e5e9;
+    flex: 1;
+    padding: 24px 32px;
+    border-right: 1px solid #E9E7F4;
+    background: #F9F8FD;
 }
 
 /* Platform Icons */
 .wpsp-platform-icons {
   display: flex;
   gap: 8px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   flex-wrap: wrap;
 }
 
 .wpsp-platform-icon {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   border: 2px solid transparent;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
+  font-size: 16px;
   cursor: pointer;
   transition: all 0.2s ease;
   background: #f0f0f0;
@@ -83,19 +116,17 @@
 
 /* Profile Selection Area Wrapper */
 .wpsp-profile-selection-area-wrapper {
-  margin-bottom: 20px;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  background: white;
+  margin-bottom: 12px;
   overflow: hidden;
 }
 
 /* Selected Profiles Area */
 .selected-profile-area {
-  padding: 12px;
-  background: #f9fafb;
-  border-bottom: 1px solid #e5e7eb;
-  min-height: 64px;
+  padding: 12px 8px;
+  border: 1px solid #ECEFF5;
+  background: #FFF;
+  border-radius: 8px;
+  min-height: 48px;
   display: flex;
   align-items: center;
 }
@@ -114,14 +145,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 0;
 }
 
 .selected-profile .wpsp-profile-image {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #6366f1;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #FFF;
 }
 
 .selected-profile .wpsp-profile-placeholder {
@@ -139,22 +171,21 @@
 }
 
 .wpsp-remove-profile-btn {
-  position: absolute;
-  top: -4px;
-  right: -4px;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: #ef4444;
-  color: white;
-  border: none;
-  font-size: 12px;
-  font-weight: bold;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
+    position: absolute;
+    top: -5px;
+    right: 12px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #6E6E8D;
+    color: #FFF;
+    border: 1px solid #FFF;
+    font-size: 6px;
+    line-height: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
 }
 
 .wpsp-remove-profile-btn:hover {
@@ -164,9 +195,14 @@
 
 /* Profile Selection Dropdown */
 .wpsp-profile-selection-dropdown {
-  background: white;
-  max-height: 200px;
-  overflow-y: auto;
+    background: #FFF;
+    max-height: 200px;
+    overflow-y: auto;
+    margin-top: 4px;
+    box-shadow: 0px 12px 48px 0px #1B1B501A;
+    border-radius: 6px;
+    padding: 16px;
+    overflow: hidden;
 }
 
 .wpsp-profile-selection-dropdown-item {
@@ -174,17 +210,15 @@
 }
 
 .wpsp-profile-card {
-  display: flex;
-  align-items: center;
-  padding: 12px;
-  border: none;
-  border-bottom: 1px solid #f3f4f6;
-  border-radius: 0;
-  background: white;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  position: relative;
-  margin: 0;
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    margin: 0;
 }
 
 .wpsp-profile-card:last-child {
@@ -192,21 +226,21 @@
 }
 
 .wpsp-profile-card:hover {
-  background: #f9fafb;
+  background: #F3F2FF;
 }
 
-.wpsp-profile-card.selected {
+/* .wpsp-profile-card.selected {
   background: #f0f9ff;
   border-left: 3px solid #6366f1;
-}
+} */
 
 .wpsp-profile-avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  overflow: hidden;
-  margin-right: 12px;
-  flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 12px;
+    flex-shrink: 0;
 }
 
 .wpsp-profile-card .wpsp-profile-image {
@@ -235,10 +269,10 @@
 }
 
 .wpsp-profile-name {
-  font-weight: 500;
   font-size: 14px;
-  color: #1f2937;
-  margin-bottom: 2px;
+  font-weight: 500;
+  line-height: 1.2em;
+  color: #1D2939;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -434,16 +468,16 @@
 
 /* Right side - Preview */
 .wpsp-modal-right {
-  flex: 1;
-  padding: 24px;
-  background: #f9fafb;
+    flex: 1;
+    padding: 18px 16px;
+    background: #F2F0FA;
 }
 
 .wpsp-preview-card {
-  background: white;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    background: #FFF;
+    border-radius: 8px;
+    padding: 24px 16px;
+    box-shadow: none;
 }
 
 .wpsp-preview-header {
@@ -474,15 +508,17 @@
 }
 
 .wpsp-preview-name {
-  font-weight: 600;
-  font-size: 14px;
-  color: #1f2937;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.2em;
+  color: #1D2939;
 }
 
 .wpsp-preview-date {
-  font-size: 12px;
-  color: #6b7280;
-  margin-top: 2px;
+  font-size: 14px;
+  line-height: 1.2em;
+  color: #475467;
+  margin-top: 4px;
 }
 
 .wpsp-preview-content-area {
@@ -608,12 +644,15 @@
 
   .wpsp-modal-left {
     border-right: none;
-    border-bottom: 1px solid #e1e5e9;
-    padding: 20px;
+    padding: 20px 24px;
   }
 
   .wpsp-modal-right {
-    padding: 20px;
+    padding: 16px 14px;
+  }
+
+  .wpsp-preview-card {
+      padding: 20px 12px;
   }
 
   .wpsp-platform-icons {
