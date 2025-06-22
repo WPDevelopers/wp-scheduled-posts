@@ -70,13 +70,28 @@ const CustomSocialTemplateModal = ({
   });
   const { editPost } = useDispatch('core/editor');
 
-  // Only one platform can use global template at a time
-  const useGlobalTemplatePlatform = meta._wpsp_use_global_template_platform || '';
+  // Global template management - using is_global from platform data
+  const getIsGlobalForPlatform = (platform) => {
+    const platformData = meta._wpsp_custom_templates?.[platform];
+    return platformData?.is_global === 1 || platformData?.is_global === '1' || platformData?.is_global === true;
+  };
+
   const setUseGlobalTemplatePlatform = (platform, checked) => {
+    const currentTemplates = meta._wpsp_custom_templates || {};    
+    const updatedTemplates = {
+      ...currentTemplates,
+      [platform]: {
+        ...(currentTemplates[platform] || {}),
+        template: customTemplates[platform] || '',
+        profiles: selectedProfile.map(profile => profile.id),
+        is_global: checked ? 1 : '',
+      }
+    };
+
     editPost({
       meta: {
         ...meta,
-        _wpsp_use_global_template_platform: checked ? platform : '',
+        _wpsp_custom_templates: updatedTemplates,
       },
     });
   };
@@ -194,7 +209,7 @@ const CustomSocialTemplateModal = ({
       const currentPlatformData = {
         template: customTemplates[selectedPlatform] || '',
         profiles: selectedProfile.map(profile => profile.id),
-        is_global: useGlobalTemplatePlatform === selectedPlatform,
+        is_global: getIsGlobalForPlatform(selectedPlatform),
       };
 
       // Update current platform in allPlatformData
@@ -228,7 +243,7 @@ const CustomSocialTemplateModal = ({
       }
 
       // Save each platform via REST API
-      const savePromises = platformsToSave.map(async (platformData) => {
+      const savePromises = platformsToSave.map(async (platformData) => {        
         return wp.apiFetch({
           path: `/wp-scheduled-posts/v1/custom-templates/${postId}`,
           method: 'POST',
@@ -314,7 +329,7 @@ const CustomSocialTemplateModal = ({
       const currentData = {
         template: customTemplates[selectedPlatform] || '',
         profiles: selectedProfile.map(profile => profile.id),
-        is_global: useGlobalTemplatePlatform === selectedPlatform,
+        is_global: getIsGlobalForPlatform(selectedPlatform),
       };
 
       setAllPlatformData(prev => ({
@@ -521,24 +536,22 @@ const CustomSocialTemplateModal = ({
                   placeholder={__('Enter your custom template here...', 'wp-scheduled-posts')}
                   className="wpsp-template-input"
                   rows={6}
-                  disabled={!!useGlobalTemplatePlatform && useGlobalTemplatePlatform !== selectedPlatform}
+                  disabled={false}
                 />
                 <div className="wpsp-template-meta">
                   <span className="wpsp-placeholders">
                     {__('Available:', 'wp-scheduled-posts')} {'{title}'} {'{content}'} {'{url}'} {'{tags}'}
                   </span>
-                  {/* Only show the Use global template checkbox for the selected platform, and only if none is selected or this is the selected one */}
-                  {(!useGlobalTemplatePlatform || useGlobalTemplatePlatform === selectedPlatform) && (
-                    <div className='wpsp-global-template'>
-                      <input
-                        type="checkbox"
-                        id={`useGlobalTemplate_${selectedPlatform}`}
-                        checked={useGlobalTemplatePlatform === selectedPlatform}
-                        onChange={e => setUseGlobalTemplatePlatform(selectedPlatform, e.target.checked)}
-                      />
-                      <label htmlFor={`useGlobalTemplate_${selectedPlatform}`}>{__('Use global template', 'wp-scheduled-posts')}</label>
-                    </div>
-                  )}
+                  {/* Global template checkbox for the selected platform */}
+                  <div className='wpsp-global-template'>
+                    <input
+                      type="checkbox"
+                      id={`useGlobalTemplate_${selectedPlatform}`}
+                      checked={getIsGlobalForPlatform(selectedPlatform)}
+                      onChange={e => setUseGlobalTemplatePlatform(selectedPlatform, e.target.checked)}
+                    />
+                    <label htmlFor={`useGlobalTemplate_${selectedPlatform}`}>{__('Use global template', 'wp-scheduled-posts')}</label>
+                  </div>
                   <span className={`wpsp-char-count ${isOverLimit ? 'over-limit' : ''}`}>
                     {characterCount}/{currentLimit}
                   </span>
