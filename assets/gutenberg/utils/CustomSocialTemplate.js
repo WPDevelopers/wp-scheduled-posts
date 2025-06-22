@@ -192,7 +192,6 @@ const CustomSocialTemplate = () => {
           {__('Add Social Template', 'wp-scheduled-posts')}
         </Button>
       </div>
-
       <CustomSocialTemplateModal {...modalProps} />
     </>
   );

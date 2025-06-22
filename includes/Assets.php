@@ -78,6 +78,15 @@ class Assets
                 'date'     => current_time('mysql'),
                 'date_gmt' => current_time('mysql', 1),
             ),
+            'social_media_enabled' => [
+                'facebook'  => \WPSP\Helper::get_settings('facebook_profile_status'),
+                'twitter'   => \WPSP\Helper::get_settings('twitter_profile_status'),
+                'linkedin'  => \WPSP\Helper::get_settings('linkedin_profile_status'),
+                'pinterest' => \WPSP\Helper::get_settings('pinterest_profile_status'),
+                'instagram' => \WPSP\Helper::get_settings('instagram_profile_status'),
+                'medium'    => \WPSP\Helper::get_settings('medium_profile_status'),
+                'threads'   => \WPSP\Helper::get_settings('threads_profile_status'),
+            ],
         ));
     }
 
