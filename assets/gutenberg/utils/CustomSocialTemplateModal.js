@@ -648,14 +648,17 @@ const CustomSocialTemplateModal = ({
                   </span>
                 </div>
                 <div className='wpsp-global-template'>
-                    <label htmlFor={`useGlobalTemplate_${selectedPlatform}`}>{__('Use global template', 'wp-scheduled-posts')}</label>
+                  <span>Use global template</span>
+                  <div>
                     <input
                       type="checkbox"
                       id={`useGlobalTemplate_${selectedPlatform}`}
                       checked={getIsGlobalForPlatform(selectedPlatform)}
                       onChange={e => setUseGlobalTemplatePlatform(selectedPlatform, e.target.checked)}
                     />
+                    <label htmlFor="customTemplateEnabled"></label>
                   </div>
+                </div>
               </div>
             )}
             {/* Date & Time Scheduling Fields */}

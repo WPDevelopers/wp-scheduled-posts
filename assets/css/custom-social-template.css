@@ -43,20 +43,29 @@
 
 /* Global button wrapper styling */
 .wpsp-custom-template-label-wrap {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
 }
-.wpsp-custom-template-label-wrap span {
+.wpsp-global-template {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 12px;
+}
+.wpsp-custom-template-label-wrap span,
+.wpsp-global-template span {
     font-size: 13px;
     font-weight: 500;
     color: #1B1B50;
 }
-.wpsp-custom-template-label-wrap input {
+.wpsp-custom-template-label-wrap input,
+.wpsp-global-template input {
   display: none;
 }
-.wpsp-custom-template-label-wrap label {
+.wpsp-custom-template-label-wrap label,
+.wpsp-global-template label {
   width: 36px;
   height: 18px;
   min-height: 18px;
@@ -64,7 +73,8 @@
   cursor: pointer;
   display: flex;
 }
-.wpsp-custom-template-label-wrap label:before {
+.wpsp-custom-template-label-wrap label:before,
+.wpsp-global-template label:before {
     content: "";
     position: absolute;
     width: 36px;
@@ -77,10 +87,12 @@
     box-sizing: border-box;
     cursor: pointer;
 }
-.wpsp-custom-template-label-wrap input[type=checkbox]:checked + label::before {
+.wpsp-custom-template-label-wrap input[type=checkbox]:checked + label::before,
+.wpsp-global-template input[type=checkbox]:checked + label::before {
     background: #6a4bff;
 }
-.wpsp-custom-template-label-wrap label:after {
+.wpsp-custom-template-label-wrap label:after,
+.wpsp-global-template label:after{
     content: '';
     position: absolute;
     width: 16px;
@@ -94,7 +106,8 @@
     z-index: 2;
     cursor: pointer;
 }
-.wpsp-custom-template-label-wrap input[type=checkbox]:checked + label::after {
+.wpsp-custom-template-label-wrap input[type=checkbox]:checked + label::after,
+.wpsp-global-template input[type=checkbox]:checked + label::after {
     left: 19px;
     background: #ffffff;
 }
@@ -125,6 +138,7 @@
   font-size: 14px !important;
   border-radius: 4px !important;
   transition: all 0.3s ease !important;
+  box-shadow: none !important;
 }
 
 .wpsp-add-template-btn:hover {
@@ -251,17 +265,16 @@
 
 .wpsp-remove-profile-btn {
     position: absolute;
-    top: -5px;
-    left: 50%;
-    transform: translate(-50%);
-    width: 10px !important;
-    height: 10px;
+    bottom: -4px;
+    right: 0px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
     background: #6E6E8D;
     color: #FFF;
     border: 1px solid #FFF;
-    font-size: 6px;
-    line-height: 8px;
+    font-size: 14px;
+    padding-bottom: 2px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -582,14 +595,17 @@
 .wpsp-avatar-circle img {
   width: 40px;
   height: 40px;
+}
+
+.wpsp-avatar-circle img {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
   border-radius: 50%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  font-weight: 600;
-  font-size: 16px;
 }
 
 .wpsp-preview-info {
