@@ -137,7 +137,6 @@
 .selected-profile-area ul {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -149,6 +148,10 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 0;
+}
+
+.selected-profile:not(:first-child) {
+  margin-left: -4px;
 }
 
 .selected-profile .wpsp-profile-image {
