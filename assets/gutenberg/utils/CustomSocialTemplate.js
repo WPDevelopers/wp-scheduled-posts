@@ -129,9 +129,9 @@ const CustomSocialTemplate = () => {
   // Get enable/disable meta field
   const isCustomTemplateEnabled = useSelect((select) => {
     const meta = select('core/editor').getEditedPostAttribute('meta') || {};
-    // Default to true if undefined
-    return typeof meta._wpsp_enable_custom_social_template === 'boolean' ? meta._wpsp_enable_custom_social_template : true;
+    return typeof meta._wpsp_enable_custom_social_template === 'boolean' ? meta._wpsp_enable_custom_social_template : false;
   }, []);
+  
   const meta = useSelect((select) => select('core/editor').getEditedPostAttribute('meta') || {}, []);
   const { editPost } = useDispatch('core/editor');
 

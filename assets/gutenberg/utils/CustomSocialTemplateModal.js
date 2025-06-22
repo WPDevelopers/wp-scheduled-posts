@@ -56,6 +56,7 @@ const CustomSocialTemplateModal = ({
 
   const [selectedPlatform, setSelectedPlatform] = useState('facebook');
   const [selectedProfile, setSelectedProfile] = useState([]);
+  // let's set default custom template with all dynamic variable.
   const [customTemplates, setCustomTemplates] = useState({});
   const [characterCount, setCharacterCount] = useState(0);
   const [previewContent, setPreviewContent] = useState('');
@@ -532,7 +533,7 @@ const CustomSocialTemplateModal = ({
                     fontWeight: selectedPlatform === platform ? 'bold' : 'normal',
                     position: 'relative'
                   }}
-                  title={`${platform.charAt(0).toUpperCase() + platform.slice(1)}${platformHasData(platform) ? ' (has data)' : ''}`}
+                  title={`${platform.charAt(0).toUpperCase() + platform.slice(1)}${platformHasData(platform) ? '' : ''}`}
                 >
                   {icon}
                   {platformHasData(platform) && (
@@ -742,70 +743,80 @@ const CustomSocialTemplateModal = ({
           {/* Right Side - Preview */}
           <div className={`wpsp-modal-right ${selectedPlatform}`}>
             <div className="wpsp-preview-card">
-              <div className="wpsp-preview-header">
-                <div className="wpsp-preview-avatar">
-                  <div className="wpsp-avatar-circle">
-                      {previewThumbnailUrl ? (
-                        <img
-                          src={previewThumbnailUrl}
-                          alt={previewProfileName}
-                          className="wpsp-profile-image"
-                        />
-                      ) : (
-                        <div className="wpsp-profile-placeholder">
-                          {previewProfileName ? profile.name.charAt(0).toUpperCase() : '?'}
+            {selectedProfile.length > 0 ? (
+              <>
+                <div className="wpsp-preview-header">
+                  <div className="wpsp-preview-avatar">
+                    <div className="wpsp-avatar-circle">
+                        {previewThumbnailUrl ? (
+                          <img
+                            src={previewThumbnailUrl}
+                            alt={previewProfileName}
+                            className="wpsp-profile-image"
+                          />
+                        ) : (
+                          <div className="wpsp-profile-placeholder">
+                            {previewProfileName ? previewProfileName?.charAt(0).toUpperCase() : '?'}
+                          </div>
+                        )}
+                    </div>
+
+                    <div className="wpsp-preview-info">
+                      {selectedProfile.length > 0 && (
+                        <div className="wpsp-preview-name">
+                          {previewProfileName}
                         </div>
                       )}
-                  </div>
-
-                  <div className="wpsp-preview-info">
-                    {selectedProfile.length > 0 && (
-                      <div className="wpsp-preview-name">
-                        {previewProfileName}
-                      </div>
-                    )}
-                    <div className="wpsp-preview-date">{new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
-                  </div>
-                </div>
-              </div>
-              <div className="wpsp-preview-content-area">
-                {previewContent ? (
-                  <div className="wpsp-preview-text" dangerouslySetInnerHTML={{ __html: previewContent }}></div>
-                ) : (
-                  <div className="wpsp-preview-placeholder">
-                    {__('Template preview will appear here...', 'wp-scheduled-posts')}
-                  </div>
-                )}
-
-                {/* Mock post preview */}
-                <div className="wpsp-preview-post">
-                  <div className="wpsp-preview-image">
-                    {uploadSocialShareBanner ? (
-                      <img src={uploadSocialShareBanner} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    ) : (
-                      <div style={{ 
-                        width: '100%', 
-                        height: '100%', 
-                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: 'white',
-                        fontSize: '14px'
-                      }}>
-                        {__('No image selected', 'wp-scheduled-posts')}
-                      </div>
-                    )}
-                  </div>
-                  <div className="wpsp-preview-post-content">
-                    <div className="wpsp-preview-url">{window.location.origin}</div>
-                    <div className="wpsp-preview-title">
-                      {postTitle || __('How to Add Anchor Links in Elementor? [3 Ways]', 'wp-scheduled-posts')}
+                      <div className="wpsp-preview-date">{new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
                     </div>
-                    <div className="wpsp-preview-excerpt" dangerouslySetInnerHTML={{ __html: postContent || __('Picture this — you are halfway through a lengthy web page, diving into the content and accidentally scrolling to the top of the page. Annoying, right? This is where anchor links become your best...', 'wp-scheduled-posts') }}></div>
                   </div>
                 </div>
+                <div className="wpsp-preview-content-area">
+                  {previewContent ? (
+                    <div className="wpsp-preview-text" dangerouslySetInnerHTML={{ __html: previewContent }}></div>
+                  ) : (
+                    <div className="wpsp-preview-placeholder">
+                      {__('Template preview will appear here...', 'wp-scheduled-posts')}
+                    </div>
+                  )}
+
+                  {/* Mock post preview */}
+                  <div className="wpsp-preview-post">
+                    <div className="wpsp-preview-image">
+                      {uploadSocialShareBanner ? (
+                        <img src={uploadSocialShareBanner} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      ) : (
+                        <div style={{ 
+                          width: '100%', 
+                          height: '100%', 
+                          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: 'white',
+                          fontSize: '14px'
+                        }}>
+                          {__('No image selected', 'wp-scheduled-posts')}
+                        </div>
+                      )}
+                    </div>
+                    <div className="wpsp-preview-post-content">
+                      <div className="wpsp-preview-url">{window.location.origin}</div>
+                      <div className="wpsp-preview-title">
+                        {postTitle || __('How to Add Anchor Links in Elementor? [3 Ways]', 'wp-scheduled-posts')}
+                      </div>
+                      <div className="wpsp-preview-excerpt" dangerouslySetInnerHTML={{ __html: postContent || __('Picture this — you are halfway through a lengthy web page, diving into the content and accidentally scrolling to the top of the page. Annoying, right? This is where anchor links become your best...', 'wp-scheduled-posts') }}></div>
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="wpsp-preview-name">
+                <h3>Preview not available</h3>
+                <p>Please select a social profile using the selector above.</p>
+                <a href="">Show me how</a>
               </div>
+            )}
             </div>
           </div>
         </div>
