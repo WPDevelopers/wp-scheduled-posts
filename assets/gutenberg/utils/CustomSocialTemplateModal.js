@@ -52,6 +52,7 @@ const CustomSocialTemplateModal = ({
   const [apiTemplateData, setApiTemplateData] = useState({});
   const [apiSchedulingData, setApiSchedulingData] = useState({});
   const [isLoadingData, setIsLoadingData] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState(false);
 
   const [selectedPlatform, setSelectedPlatform] = useState('facebook');
   const [selectedProfile, setSelectedProfile] = useState([]);
@@ -78,15 +79,12 @@ const CustomSocialTemplateModal = ({
 
     try {
       setIsLoadingData(true);
-      console.log('Fetching template data for post:', postId);
-
       const response = await wp.apiFetch({
         path: `/wp-scheduled-posts/v1/custom-templates/${postId}`,
         method: 'GET',
       });
 
       if (response.success) {
-        console.log('Fetched template data:', response.data);
         setApiTemplateData(response.data || {});
         return response.data || {};
       } else {
@@ -109,7 +107,6 @@ const CustomSocialTemplateModal = ({
       // This can be moved to API later if needed
       const meta = wp.data.select('core/editor').getEditedPostAttribute('meta') || {};
       const schedulingData = meta._wpsp_social_scheduling || {};
-      console.log('Fetched scheduling data:', schedulingData);
       setApiSchedulingData(schedulingData);
       return schedulingData;
     } catch (error) {
@@ -275,19 +272,9 @@ const CustomSocialTemplateModal = ({
       });
 
       if (response.success) {
-        console.log('Save successful, refreshing data...');
-
-        // Refresh data from API instead of updating local meta
         await fetchTemplateData();
-
-        // Clear temporary data
         setAllPlatformData({});
-
-        const platformCount = response.data?.updated_platforms?.length || platformsToSave.length;
-        const successMessage = platformCount > 1
-          ? __(`Saved ${platformCount} platforms successfully`, 'wp-scheduled-posts')
-          : __('Saved Successfully', 'wp-scheduled-posts');
-
+        const successMessage =  __('Saved Successfully', 'wp-scheduled-posts');
         setSaveText(successMessage);
         setTimeout(() => setSaveText(__('Save All', 'wp-scheduled-posts')), 2000);
       } else {
@@ -297,7 +284,6 @@ const CustomSocialTemplateModal = ({
       setSaveText(__('Save Failed', 'wp-scheduled-posts'));
       setTimeout(() => setSaveText(__('Save All', 'wp-scheduled-posts')), 2000);
       console.error('Error saving templates:', error);
-
       // Show detailed error if available
       if (error.response && error.response.errors) {
         console.error('Validation errors:', error.response.errors);
@@ -365,8 +351,6 @@ const CustomSocialTemplateModal = ({
 
   // Handle platform switching without auto-save - preserve data across tabs
   const handlePlatformSwitch = (newPlatform) => {
-    console.log(`Switching from ${selectedPlatform} to ${newPlatform}`);
-
     // Save current platform data before switching (only if there's actual data)
     if (selectedPlatform) {
       const currentTemplate = customTemplates[selectedPlatform] || '';
@@ -379,8 +363,6 @@ const CustomSocialTemplateModal = ({
           profiles: currentProfiles,
           is_global: getIsGlobalForPlatform(selectedPlatform),
         };
-
-        console.log(`Saving temporary data for ${selectedPlatform}:`, currentData);
         setAllPlatformData(prev => ({
           ...prev,
           [selectedPlatform]: currentData
@@ -427,18 +409,9 @@ const CustomSocialTemplateModal = ({
   // Load existing template and profiles when platform changes
   useEffect(() => {
     if (selectedPlatform) {
-      console.log(`Loading data for platform: ${selectedPlatform}`);
-
       // Check both temporary and saved data
       const tempData = allPlatformData[selectedPlatform];
       const savedData = apiTemplateData[selectedPlatform];
-
-      console.log('Platform data:', {
-        platform: selectedPlatform,
-        tempData,
-        savedData,
-        availableProfiles: getAvailableProfiles().length
-      });
 
       let dataToLoad = null;
       let dataSource = 'none';
@@ -450,9 +423,6 @@ const CustomSocialTemplateModal = ({
         dataToLoad = savedData;
         dataSource = 'saved';
       }
-
-      console.log(`Data source for ${selectedPlatform}: ${dataSource}`, dataToLoad);
-
       if (dataToLoad) {
         // Load from data source
         setCustomTemplates(prev => ({ ...prev, [selectedPlatform]: dataToLoad.template || '' }));
@@ -460,11 +430,9 @@ const CustomSocialTemplateModal = ({
         const profilesToSet = (dataToLoad.profiles || []).map(profileId =>
           getAvailableProfiles().find(profile => profile.id === profileId)
         ).filter(Boolean);
-        console.log('Mapped profiles:', profilesToSet);
         setSelectedProfile(profilesToSet);
       } else {
         // No data found, reset to empty state
-        console.log('No data found, resetting to empty state');
         setCustomTemplates(prev => ({ ...prev, [selectedPlatform]: '' }));
         setSelectedProfile([]);
       }
@@ -474,8 +442,6 @@ const CustomSocialTemplateModal = ({
   // Initialize modal with saved data when it opens
   useEffect(() => {
     if (isOpen) {
-      console.log('Modal opened, loading data from API...');
-
       // Clear any temporary data when opening modal to ensure fresh start
       setAllPlatformData({});
 
@@ -506,7 +472,6 @@ const CustomSocialTemplateModal = ({
               (platformData.profiles && platformData.profiles.length > 0)
             )) {
               platformToSelect = platform;
-              console.log('Found platform with data:', platform, platformData);
               break;
             }
           }
@@ -611,42 +576,47 @@ const CustomSocialTemplateModal = ({
                     </li>
                   ) ) }
                 </ul>
+                <span onClick={() => setActiveDropdown(!activeDropdown)}>
+                  <img src={WPSchedulePostsFree.assetsURI + '/images/chevron-down.svg'} alt="" />
+                </span>
               </div>
-              <div className="wpsp-profile-selection-dropdown">
-                <div className="wpsp-profile-selection-dropdown-item">
-                  {availableProfiles.map(profile => (
-                    <div
-                      key={profile.id}
-                      className={`wpsp-profile-card ${selectedProfile.some(p => p.id === profile.id) ? 'selected' : ''}`}
-                      onClick={() => {
-                        // Toggle functionality: if already selected, deselect; otherwise select
-                        if (selectedProfile.some(p => p.id === profile.id)) {
-                          setSelectedProfile(selectedProfile.filter(p => p.id !== profile.id)); // Deselect
-                        } else {
-                          setSelectedProfile([...selectedProfile, profile]); // Select
-                        }
-                      }}
-                    >
-                      <div className="wpsp-profile-avatar">
-                        {profile.thumbnail_url ? (
-                          <img
-                            src={profile.thumbnail_url}
-                            alt={profile.name}
-                            className="wpsp-profile-image"
-                          />
-                        ) : (
-                          <div className="wpsp-profile-placeholder">
-                            {profile.name ? profile.name.charAt(0).toUpperCase() : '?'}
-                          </div>
-                          )}
+              {activeDropdown && (
+                <div className="wpsp-profile-selection-dropdown">
+                  <div className="wpsp-profile-selection-dropdown-item">
+                    {availableProfiles.map(profile => (
+                      <div
+                        key={profile.id}
+                        className={`wpsp-profile-card ${selectedProfile.some(p => p.id === profile.id) ? 'selected' : ''}`}
+                        onClick={() => {
+                          // Toggle functionality: if already selected, deselect; otherwise select
+                          if (selectedProfile.some(p => p.id === profile.id)) {
+                            setSelectedProfile(selectedProfile.filter(p => p.id !== profile.id)); // Deselect
+                          } else {
+                            setSelectedProfile([...selectedProfile, profile]); // Select
+                          }
+                        }}
+                      >
+                        <div className="wpsp-profile-avatar">
+                          {profile.thumbnail_url ? (
+                            <img
+                              src={profile.thumbnail_url}
+                              alt={profile.name}
+                              className="wpsp-profile-image"
+                            />
+                          ) : (
+                            <div className="wpsp-profile-placeholder">
+                              {profile.name ? profile.name.charAt(0).toUpperCase() : '?'}
+                            </div>
+                            )}
+                        </div>
+                        <div className="wpsp-profile-info">
+                          <div className="wpsp-profile-name">{profile.name}</div>
+                        </div>
                       </div>
-                      <div className="wpsp-profile-info">
-                        <div className="wpsp-profile-name">{profile.name}</div>
-                      </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
             {/* Template Editor - Show when platform is selected */}
             {selectedPlatform && (
