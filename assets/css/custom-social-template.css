@@ -39,7 +39,10 @@
   background: #f8f9fa;
   border: 1px solid #e1e5e9;
   border-radius: 4px;
-  text-align: center;
+  text-align: start;
+}
+.wpsp-custom-template-button-wrapper .components-button.is-secondary {
+  margin-top: 4px;
 }
 
 .wpsp-add-template-btn {
@@ -173,8 +176,9 @@
 .wpsp-remove-profile-btn {
     position: absolute;
     top: -5px;
-    right: 12px;
-    width: 10px;
+    left: 50%;
+    transform: translate(-50%);
+    width: 10px !important;
     height: 10px;
     border-radius: 50%;
     background: #6E6E8D;
@@ -186,11 +190,6 @@
     align-items: center;
     justify-content: center;
     transition: all 0.2s ease;
-}
-
-.wpsp-remove-profile-btn:hover {
-  background: #dc2626;
-  transform: scale(1.1);
 }
 
 /* Profile Selection Dropdown */
@@ -400,17 +399,17 @@
 
 /* Date & Time Scheduling Section */
 .wpsp-date-time-section {
-  margin-bottom: 20px;
-  padding: 16px;
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
+    margin-bottom: 0 !important;
+    padding: 16px;
+    background: #FFF;
+    border-radius: 8px;
 }
 
 .wpsp-date-time-section > div {
-  display: flex;
-  gap: 20px;
-  align-items: flex-end;
+      display: flex;
+    flex-direction: column;
+    align-items: unset !important;
+    gap: 20px;
 }
 
 .wpsp-date-time-section > div > div {
@@ -418,32 +417,36 @@
 }
 
 .wpsp-date-time-section label {
-  font-weight: 600;
+  font-weight: 500 !important;
   display: block;
-  margin-bottom: 6px;
-  font-size: 12px;
-  color: #374151;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.wpsp-date-select,
-.wpsp-time-select {
-  width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  background: white;
+  margin-bottom: 6px !important;
   font-size: 14px;
-  color: #374151;
-  cursor: pointer;
+  color: #475467;
+  text-transform: capitalize;
+}
+.wp-core-ui select.wpsp-date-select,
+.wp-core-ui select.wpsp-time-select {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2em;
+    color: #1B1B50;
+    border-color: #ECEFF5;
+    box-shadow: none;
+    border-radius: 8px;
+    padding: 0 24px 0 12px;
+    min-height: 36px;
+    max-width: 100%;
+    width: 100%;
+    background: #fff url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E) no-repeat right 5px top 55%;
+    background-size: 16px 16px;
+    cursor: pointer;
+    vertical-align: middle;
 }
 
-.wpsp-date-select:focus,
-.wpsp-time-select:focus {
-  outline: none;
-  border-color: #6366f1;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+.wp-core-ui select.wpsp-date-select:focus,
+.wp-core-ui select.wpsp-time-select:focus {
+    border-color: #6C62FF;
+    box-shadow: none;
 }
 
 .wpsp-date-time-section input[type="number"],
@@ -521,10 +524,6 @@
   margin-top: 4px;
 }
 
-.wpsp-preview-content-area {
-  margin-bottom: 16px;
-}
-
 .wpsp-preview-text {
   font-size: 14px;
   line-height: 1.5;
@@ -541,87 +540,99 @@
 }
 
 .wpsp-preview-post {
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
   overflow: hidden;
-  background: white;
 }
 
 .wpsp-preview-image {
-  height: 120px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  height: 140px;
+  border-radius: 8px;
+  /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
+  margin-bottom: 16px;
+  overflow: hidden;
 }
 
 .wpsp-preview-post-content {
-  padding: 12px;
+  padding: 0;
 }
 
 .wpsp-preview-url {
-  font-size: 12px;
-  color: #6b7280;
-  margin-bottom: 4px;
+    font-size: 14px;
+    line-height: 22px;
+    font-style: italic;
+    color: #6E6E8D;
+    margin-bottom: 6px;
 }
 
 .wpsp-preview-title {
-  font-weight: 600;
-  font-size: 14px;
-  color: #1f2937;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1em;
+  color: #1B1B50;
   margin-bottom: 8px;
-  line-height: 1.4;
 }
 
 .wpsp-preview-excerpt {
-  font-size: 13px;
-  color: #6b7280;
-  line-height: 1.4;
+  font-size: 14px;
+  color: #6E6E8D;
+  line-height: 1.4em;
 }
 
 /* Modal Footer */
 .wpsp-modal-footer {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 12px;
-  padding: 20px 24px;
-  border-top: 1px solid #e1e5e9;
-  background: #f9fafb;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 16px;
+    border-top: 1px solid #ECEFF5;
+    padding: 12px 16px;
+    background: #F9F8FD;
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 
 .wpsp-modal-footer .components-button {
-  padding: 10px 20px !important;
-  font-size: 14px !important;
-  border-radius: 8px !important;
-  font-weight: 500 !important;
-  transition: all 0.2s ease !important;
-  border: none !important;
+    padding: 12px 16px !important;
+    font-size: 14px !important;
+    line-height: 1em;
+    font-weight: 500;
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+    min-height: 48px;
+    transition: all 0.25s ease-in-out !important;
+    border: none !important;
+    outline: 0 !important;
+    box-shadow: none !important;
 }
 
-.wpsp-cancel-btn {
-  background: #f3f4f6 !important;
-  color: #374151 !important;
+.wpsp-modal-footer .components-button.wpsp-cancel-btn {
+    color: #6C62FF;
+    background: #F3F2FF;
+}
+
+.wpsp-modal-footer .components-button.wpsp-save-btn {
+    color: #FFFFFF;
+    background: #6C62FF;
 }
 
 .wpsp-cancel-btn:hover:not(:disabled) {
-  background: #e5e7eb !important;
+  color: #6C62FF !important;
+  background: #F3F2FF !important;
+  box-shadow: none !important;
 }
 
 .wpsp-delete-btn {
   background: #ef4444 !important;
-  color: white !important;
+  color: #FFFFFF !important;
 }
 
 .wpsp-delete-btn:hover:not(:disabled) {
-  background: #dc2626 !important;
-}
-
-.wpsp-save-btn {
-  background: #6366f1 !important;
-  color: white !important;
-  padding: 10px 24px !important;
+  background: #ef4444 !important;
 }
 
 .wpsp-save-btn:hover:not(:disabled) {
-  background: #4f46e5 !important;
+  background: #6C62FF !important;
 }
 
 .wpsp-save-btn:disabled {
