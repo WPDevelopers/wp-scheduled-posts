@@ -545,7 +545,7 @@ const CustomSocialTemplateModal = ({
             </div>
 
             <div className="wpsp-profile-selection-area-wrapper">
-              <div className="selected-profile-area">
+              <div className="selected-profile-area" onClick={() => setActiveDropdown(!activeDropdown)}>
                 <ul>
                   { selectedProfile && selectedProfile.map( ( profile ) => (
                     <li
@@ -564,7 +564,7 @@ const CustomSocialTemplateModal = ({
                           {profile.name ? profile.name.charAt(0).toUpperCase() : '?'}
                         </div>
                       )}
-                      <button
+                      <span
                         className="wpsp-remove-profile-btn"
                         onClick={(e) => {
                           e.stopPropagation(); // Prevent card click from re-selecting
@@ -572,11 +572,11 @@ const CustomSocialTemplateModal = ({
                         }}
                       >
                         &times;
-                      </button>
+                      </span>
                     </li>
                   ) ) }
                 </ul>
-                <span onClick={() => setActiveDropdown(!activeDropdown)}>
+                <span>
                   <img src={WPSchedulePostsFree.assetsURI + '/images/chevron-down.svg'} alt="" />
                 </span>
               </div>
@@ -626,7 +626,7 @@ const CustomSocialTemplateModal = ({
                   onChange={(e) => setCustomTemplates(prev => ({ ...prev, [selectedPlatform]: e.target.value }))}
                   placeholder={__('Enter your custom template here...', 'wp-scheduled-posts')}
                   className="wpsp-template-input"
-                  rows={6}
+                  rows={4}
                   disabled={false}
                 />
                 <div className="wpsp-template-meta">
