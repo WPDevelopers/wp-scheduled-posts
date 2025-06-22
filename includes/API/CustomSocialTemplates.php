@@ -484,7 +484,7 @@ class CustomSocialTemplates
             ),
         ));
 
-        // Save custom template
+        // Save custom template (supports both single platform and batch operations)
         register_rest_route($namespace, 'custom-templates/(?P<post_id>\d+)', array(
             'methods' => 'POST',
             'callback' => array($this, 'save_custom_template'),
@@ -498,14 +498,15 @@ class CustomSocialTemplates
                         return is_numeric($param);
                     }
                 ),
+                // For backward compatibility - single platform mode
                 'platform' => array(
-                    'required' => true,
+                    'required' => false,
                     'validate_callback' => function($param, $request, $key) {
                         return in_array($param, ['facebook', 'twitter', 'linkedin', 'pinterest', 'instagram', 'medium', 'threads']);
                     }
                 ),
                 'template' => array(
-                    'required' => true,
+                    'required' => false,
                 ),
                 'is_global' => array(
                     'required' => false,
@@ -638,7 +639,7 @@ class CustomSocialTemplates
     }
 
     /**
-     * Save custom template for a post-profile combination
+     * Save custom template for a post-profile combination (supports batch processing)
      *
      * @param WP_REST_Request $request
      * @return WP_REST_Response
@@ -646,11 +647,11 @@ class CustomSocialTemplates
     public function save_custom_template( $request ) {
         // Get request params
         $post_id = $request->get_param('post_id');
-        $platform = $request->get_param('platform');
-        $template = $request->get_param('template');
-        $profiles = $request->get_param('profiles');
         $scheduling_data = $request->get_param('scheduling');
-        $is_global = $request->get_param('is_global');
+
+        // Check if this is batch mode (multiple platforms) or single platform mode
+        $platforms_data = $request->get_param('platforms');
+        $single_platform = $request->get_param('platform');
 
         // Verify post exists and user can edit it
         if (!get_post($post_id) || !current_user_can('edit_post', $post_id)) {
@@ -660,24 +661,47 @@ class CustomSocialTemplates
             ), 403);
         }
 
-        // Validate template content
-        $validation_result = $this->validate_template_content($template, $platform);
-        if (!$validation_result['valid']) {
+        // Get existing templates
+        $templates = $this->get_simple_templates($post_id);
+        $validation_errors = [];
+        $updated_platforms = [];
+
+        if (!empty($platforms_data) && is_array($platforms_data)) {
+            // Batch mode - process multiple platforms
+            foreach ($platforms_data as $platform_data) {
+                $result = $this->process_single_platform_data($platform_data, $templates, $validation_errors);
+                if ($result['success']) {
+                    $updated_platforms[] = $result['platform'];
+                }
+            }
+        } elseif (!empty($single_platform)) {
+            // Single platform mode (backward compatibility)
+            $platform_data = [
+                'platform' => $single_platform,
+                'template' => $request->get_param('template'),
+                'profiles' => $request->get_param('profiles'),
+                'is_global' => $request->get_param('is_global')
+            ];
+
+            $result = $this->process_single_platform_data($platform_data, $templates, $validation_errors);
+            if ($result['success']) {
+                $updated_platforms[] = $result['platform'];
+            }
+        } else {
             return new \WP_REST_Response(array(
                 'success' => false,
-                'message' => $validation_result['message']
+                'message' => __('No platform data provided. Use either "platform" for single mode or "platforms" for batch mode.', 'wp-scheduled-posts')
             ), 400);
         }
 
-        // Get existing templates
-        $templates = $this->get_simple_templates($post_id);
-
-        // Save template and profiles for platform
-        $templates[$platform] = [
-            'template' => $template,
-            'profiles' => $profiles,
-            'is_global' => $is_global ? true : false
-        ];
+        // If there were validation errors, return them
+        if (!empty($validation_errors)) {
+            return new \WP_REST_Response(array(
+                'success' => false,
+                'message' => __('Validation errors occurred.', 'wp-scheduled-posts'),
+                'errors' => $validation_errors
+            ), 400);
+        }
 
         // Update custom templates post meta
         $template_updated = update_post_meta($post_id, '_wpsp_custom_templates', $templates);
@@ -734,12 +758,17 @@ class CustomSocialTemplates
         }
 
         if ($template_updated !== false || $scheduling_updated !== false) {
+            $message = count($updated_platforms) > 1
+                ? sprintf(__('Templates and scheduling saved successfully for %d platforms.', 'wp-scheduled-posts'), count($updated_platforms))
+                : __('Template and scheduling saved successfully.', 'wp-scheduled-posts');
+
             return new \WP_REST_Response(array(
                 'success' => true,
-                'message' => __('Template and scheduling saved successfully.', 'wp-scheduled-posts'),
+                'message' => $message,
                 'data' => [
                     'templates' => $templates,
-                    'scheduling' => $scheduling_data
+                    'scheduling' => $scheduling_data,
+                    'updated_platforms' => $updated_platforms
                 ]
             ), 200);
         } else {
@@ -748,6 +777,51 @@ class CustomSocialTemplates
                 'message' => __('Failed to save template and/or scheduling.', 'wp-scheduled-posts')
             ), 500);
         }
+    }
+
+    /**
+     * Process single platform data for batch or individual operations
+     *
+     * @param array $platform_data
+     * @param array &$templates
+     * @param array &$validation_errors
+     * @return array
+     */
+    private function process_single_platform_data($platform_data, &$templates, &$validation_errors) {
+        $platform = $platform_data['platform'] ?? '';
+        $template = $platform_data['template'] ?? '';
+        $profiles = $platform_data['profiles'] ?? [];
+        $is_global = $platform_data['is_global'] ?? false;
+
+        // Validate platform
+        $valid_platforms = ['facebook', 'twitter', 'linkedin', 'pinterest', 'instagram', 'medium', 'threads'];
+        if (!in_array($platform, $valid_platforms)) {
+            $validation_errors[] = sprintf(__('Invalid platform: %s', 'wp-scheduled-posts'), $platform);
+            return ['success' => false, 'platform' => $platform];
+        }
+
+        // Skip empty templates and profiles
+        if (empty(trim($template)) && empty($profiles)) {
+            return ['success' => true, 'platform' => $platform]; // Skip but don't error
+        }
+
+        // Validate template content if not empty
+        if (!empty(trim($template))) {
+            $validation_result = $this->validate_template_content($template, $platform);
+            if (!$validation_result['valid']) {
+                $validation_errors[] = sprintf(__('%s: %s', 'wp-scheduled-posts'), ucfirst($platform), $validation_result['message']);
+                return ['success' => false, 'platform' => $platform];
+            }
+        }
+
+        // Save template and profiles for platform
+        $templates[$platform] = [
+            'template' => $template,
+            'profiles' => is_array($profiles) ? $profiles : [],
+            'is_global' => $is_global ? 1 : ''
+        ];
+
+        return ['success' => true, 'platform' => $platform];
     }
 
     public function handle_scheduled_post_scheduling($post_id, $scheduling_data) {
