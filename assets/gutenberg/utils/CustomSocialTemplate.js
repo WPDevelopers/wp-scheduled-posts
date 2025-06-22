@@ -171,13 +171,18 @@ const CustomSocialTemplate = () => {
         <p style={{ margin: '0 0 15px 0', fontSize: '13px', color: '#666', lineHeight: '1.4' }}>
           {__('Create custom templates for specific social media platforms and profiles.', 'wp-scheduled-posts')}
         </p>
-        <input
-          type="checkbox"
-          id="customTemplateEnabled"
-          checked={isCustomTemplateEnabled}
-          onChange={e => editPost({ meta: { ...meta, _wpsp_enable_custom_social_template: e.target.checked } })}
-        />
-        <label htmlFor="customTemplateEnabled">{__('Enable Custom Social Template', 'wp-scheduled-posts')}</label>
+        <div className='wpsp-custom-template-label-wrap'>
+          <span>Enable Custom Social Template</span>
+          <div>
+            <input
+              type="checkbox"
+              id="customTemplateEnabled"
+              checked={isCustomTemplateEnabled}
+              onChange={e => editPost({ meta: { ...meta, _wpsp_enable_custom_social_template: e.target.checked } })}
+            />
+            <label htmlFor="customTemplateEnabled"></label>
+          </div>
+        </div>
         <Button
           isSecondary
           onClick={openModal}

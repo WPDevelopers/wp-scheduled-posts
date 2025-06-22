@@ -29,10 +29,75 @@
     line-height: 1.2em;
     color: #1D2939;
 }
+.components-button svg {
+    width: 20px;
+    fill: #475467;
+    outline: none;
+}
+.components-button:focus:not(:disabled) {
+    box-shadow: none;
+    outline: 0;
+}
 
 /* Custom Social Template Styles */
 
 /* Global button wrapper styling */
+.wpsp-custom-template-label-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+.wpsp-custom-template-label-wrap span {
+    font-size: 13px;
+    font-weight: 500;
+    color: #1B1B50;
+}
+.wpsp-custom-template-label-wrap input {
+  display: none;
+}
+.wpsp-custom-template-label-wrap label {
+  width: 36px;
+  height: 18px;
+  min-height: 18px;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+}
+.wpsp-custom-template-label-wrap label:before {
+    content: "";
+    position: absolute;
+    width: 36px;
+    height: 18px;
+    left: 0;
+    /* transition: background 0.1s 0.1s ease; */
+    background: #7c8db5;
+    border-radius: 50px;
+    margin: 0;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+.wpsp-custom-template-label-wrap input[type=checkbox]:checked + label::before {
+    background: #6a4bff;
+}
+.wpsp-custom-template-label-wrap label:after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50px;
+    left: 1px;
+    top: 1px;
+    transition: all 0.2s ease;
+    box-shadow: none;
+    background: #fff;
+    z-index: 2;
+    cursor: pointer;
+}
+.wpsp-custom-template-label-wrap input[type=checkbox]:checked + label::after {
+    left: 19px;
+    background: #ffffff;
+}
 .wpsp-custom-template-button-wrapper {
   margin: 15px 0;
   padding: 15px;
@@ -42,9 +107,16 @@
   text-align: start;
 }
 .wpsp-custom-template-button-wrapper .components-button.is-secondary {
-  margin-top: 4px;
+  margin-top: 10px;
 }
-
+.components-button.is-secondary:focus {
+  box-shadow: none;
+}
+.components-button.is-secondary:disabled:not(:focus), 
+.components-button.is-secondary[aria-disabled=true]:hover:not(:focus), 
+.components-button.is-secondary[aria-disabled=true]:not(:focus) {
+    box-shadow: none;
+}
 .wpsp-add-template-btn {
   background: #6c62ff !important;
   border-color: #6c62ff !important;
@@ -56,9 +128,8 @@
 }
 
 .wpsp-add-template-btn:hover {
-  background: #5a52e6 !important;
-  border-color: #5a52e6 !important;
-  transform: translateY(-1px);
+  background: #5b50f5 !important;
+  border-color: #5b50f5 !important;
 }
 
 /* Modal styling */
@@ -220,7 +291,7 @@
 .wpsp-profile-card {
     display: flex;
     align-items: center;
-    padding: 6px;
+    padding: 8px 10px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -367,24 +438,24 @@
 
 .wpsp-template-input {
   width: 100%;
-  padding: 16px;
-  border: 1px solid #ddd;
+  padding: 12px;
+  border: 1px solid #ECEFF5;
   border-radius: 8px;
   font-size: 14px;
-  line-height: 1.5;
+  line-height: 1.4em;
   resize: vertical;
   font-family: inherit;
-  background: white;
+  background: #FFF;
 }
 
 .wpsp-template-input:focus {
   outline: none;
-  border-color: #6c62ff;
-  box-shadow: 0 0 0 3px rgba(108, 98, 255, 0.1);
+  border-color: #6C62FF;
+  box-shadow: none;
 }
 
 .wpsp-template-input::placeholder {
-  color: #9ca3af;
+  color: #6E6E8D;
 }
 
 .wpsp-template-meta {
@@ -472,6 +543,7 @@
   padding: 8px 12px;
   border: 1px solid #ECEFF5;
   border-radius: 8px;
+  min-height: 36px;
   background: #FFFFFF;
 }
 
@@ -614,7 +686,7 @@
     border-radius: 8px !important;
     font-weight: 500 !important;
     min-height: 48px;
-    transition: all 0.25s ease-in-out !important;
+    transition: unset !important;
     border: none !important;
     outline: 0 !important;
     box-shadow: none !important;
