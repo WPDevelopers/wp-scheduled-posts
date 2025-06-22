@@ -106,7 +106,7 @@ const CustomSocialTemplateModal = ({
       // For now, we'll use the meta system for scheduling data since it's working
       // This can be moved to API later if needed
       const meta = wp.data.select('core/editor').getEditedPostAttribute('meta') || {};
-      const schedulingData = meta._wpsp_social_scheduling || {};
+      const schedulingData = meta._wpsp_social_scheduling || {};      
       setApiSchedulingData(schedulingData);
       return schedulingData;
     } catch (error) {
@@ -491,6 +491,23 @@ const CustomSocialTemplateModal = ({
   const currentLimit = platformLimits[selectedPlatform] || 1000;
   const isOverLimit = characterCount > currentLimit;
 
+  const social_media_enabled = WPSchedulePostsFree?.social_media_enabled || {}; // Adjust this based on your actual data object
+  const platforms = [
+    { platform: 'facebook', icon: 'f', color: '#1877f2', bgColor: '#1877f2' },
+    { platform: 'twitter', icon: '𝕏', color: '#000000', bgColor: '#000000' },
+    { platform: 'linkedin', icon: 'in', color: '#0077b5', bgColor: '#0077b5' },
+    { platform: 'pinterest', icon: 'P', color: '#bd081c', bgColor: '#bd081c' },
+    { platform: 'instagram', icon: 'I', color: '#e4405f', bgColor: '#e4405f' },
+    { platform: 'medium', icon: 'M', color: '#00ab6c', bgColor: '#00ab6c' },
+    { platform: 'threads', icon: '@', color: '#000', bgColor: '#000' }
+  ];
+  
+  // Filter platforms based on what's enabled
+  const filteredPlatforms = platforms.filter(({ platform }) => social_media_enabled[platform]);
+
+  const previewThumbnailUrl = selectedProfile.length > 0 ? selectedProfile[selectedProfile.length - 1].thumbnail_url : '';
+  const previewProfileName = selectedProfile.length > 0 ? selectedProfile[selectedProfile.length - 1].name : '';
+
   return (
     <Modal
       title={__('Create Social Message', 'wp-scheduled-posts')}
@@ -504,15 +521,7 @@ const CustomSocialTemplateModal = ({
           <div className="wpsp-modal-left">
             {/* Platform Selection Icons */}
             <div className="wpsp-platform-icons">
-              {[
-                { platform: 'facebook', icon: 'f', color: '#1877f2', bgColor: '#1877f2' },
-                { platform: 'twitter', icon: '𝕏', color: '#000000', bgColor: '#000000' },
-                { platform: 'linkedin', icon: 'in', color: '#0077b5', bgColor: '#0077b5' },
-                { platform: 'pinterest', icon: 'P', color: '#bd081c', bgColor: '#bd081c' },
-                { platform: 'instagram', icon: '📷', color: '#e4405f', bgColor: '#e4405f' },
-                { platform: 'medium', icon: 'M', color: '#00ab6c', bgColor: '#00ab6c' },
-                { platform: 'threads', icon: '@', color: '#000', bgColor: '#000' }
-              ].map(({ platform, icon, bgColor }) => (
+              {filteredPlatforms.map(({ platform, icon, bgColor }) => (
                 <button
                   key={platform}
                   className={`wpsp-platform-icon ${selectedPlatform === platform ? 'active' : ''} ${platformHasData(platform) ? 'has-data' : ''}`}
@@ -634,38 +643,27 @@ const CustomSocialTemplateModal = ({
                     {__('Available:', 'wp-scheduled-posts')} {'{title}'} {'{content}'} {'{url}'} {'{tags}'}
                   </span>
                   {/* Global template checkbox for the selected platform */}
-                  <div className='wpsp-global-template'>
+                  <span className={`wpsp-char-count ${isOverLimit ? 'over-limit' : ''}`}>
+                    {characterCount}/{currentLimit}
+                  </span>
+                </div>
+                <div className='wpsp-global-template'>
+                    <label htmlFor={`useGlobalTemplate_${selectedPlatform}`}>{__('Use global template', 'wp-scheduled-posts')}</label>
                     <input
                       type="checkbox"
                       id={`useGlobalTemplate_${selectedPlatform}`}
                       checked={getIsGlobalForPlatform(selectedPlatform)}
                       onChange={e => setUseGlobalTemplatePlatform(selectedPlatform, e.target.checked)}
                     />
-                    <label htmlFor={`useGlobalTemplate_${selectedPlatform}`}>{__('Use global template', 'wp-scheduled-posts')}</label>
                   </div>
-                  <span className={`wpsp-char-count ${isOverLimit ? 'over-limit' : ''}`}>
-                    {characterCount}/{currentLimit}
-                  </span>
-                </div>
               </div>
             )}
-
-            {/* Helper text when no platform is selected */}
-            {!selectedPlatform && (
-              <div className="wpsp-select-profile-hint">
-                <div className="wpsp-hint-icon">👆</div>
-                <div className="wpsp-hint-text">
-                  {__('Select a platform above to start creating your custom template', 'wp-scheduled-posts')}
-                </div>
-              </div>
-            )}
-
             {/* Date & Time Scheduling Fields */}
             <div className="wpsp-date-time-section" style={{ marginBottom: '1.5em' }}>
               <div style={{ display: 'flex', gap: '1.5em', alignItems: 'flex-end' }}>
                 {/* Date Field */}
                 <div>
-                  <label style={{ fontWeight: 600, display: 'block', marginBottom: 4 }}>{__('DATE', 'wp-scheduled-posts')}</label>
+                  <label style={{ fontWeight: 600, display: 'block', marginBottom: 4 }}>{__('Date', 'wp-scheduled-posts')}</label>
                   <select
                     value={scheduleData.dateOption}
                     onChange={e => setScheduleData(prev => ({ ...prev, dateOption: e.target.value }))}
@@ -702,7 +700,7 @@ const CustomSocialTemplateModal = ({
                 </div>
                 {/* Time Field */}
                 <div>
-                  <label style={{ fontWeight: 600, display: 'block', marginBottom: 4 }}>{__('TIME', 'wp-scheduled-posts')}</label>
+                  <label style={{ fontWeight: 600, display: 'block', marginBottom: 4 }}>{__('Time', 'wp-scheduled-posts')}</label>
                   <select
                     value={scheduleData.timeOption}
                     onChange={e => setScheduleData(prev => ({ ...prev, timeOption: e.target.value }))}
@@ -742,18 +740,34 @@ const CustomSocialTemplateModal = ({
           </div>
 
           {/* Right Side - Preview */}
-          <div className="wpsp-modal-right">
+          <div className={`wpsp-modal-right ${selectedPlatform}`}>
             <div className="wpsp-preview-card">
               <div className="wpsp-preview-header">
                 <div className="wpsp-preview-avatar">
-                  <div className="wpsp-avatar-circle">W</div>
+                  <div className="wpsp-avatar-circle">
+                      {previewThumbnailUrl ? (
+                        <img
+                          src={previewThumbnailUrl}
+                          alt={previewProfileName}
+                          className="wpsp-profile-image"
+                        />
+                      ) : (
+                        <div className="wpsp-profile-placeholder">
+                          {previewProfileName ? profile.name.charAt(0).toUpperCase() : '?'}
+                        </div>
+                      )}
+                  </div>
+
                   <div className="wpsp-preview-info">
-                    <div className="wpsp-preview-name">WPDeveloper</div>
-                    <div className="wpsp-preview-date">{new Date().toLocaleDateString()}</div>
+                    {selectedProfile.length > 0 && (
+                      <div className="wpsp-preview-name">
+                        {previewProfileName}
+                      </div>
+                    )}
+                    <div className="wpsp-preview-date">{new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
                   </div>
                 </div>
               </div>
-
               <div className="wpsp-preview-content-area">
                 {previewContent ? (
                   <div className="wpsp-preview-text" dangerouslySetInnerHTML={{ __html: previewContent }}></div>

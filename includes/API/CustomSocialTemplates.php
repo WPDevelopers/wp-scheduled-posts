@@ -64,96 +64,96 @@ class CustomSocialTemplates
         
         foreach ($allow_post_types as $type) {
             // Custom social templates for platforms
-            register_post_meta(
-                $type,
-                '_wpsp_custom_templates',
-                [
-                    'show_in_rest' => [
-                        'schema' => [
-                            'type' => 'object',
-                            'properties' => [
-                                'facebook' => [
-                                    'type' => 'object',
-                                    'properties' => [
-                                        'template' => ['type' => 'string'],
-                                        'profiles' => ['type' => 'array', 'items' => ['type' => ['string', 'integer']]],
-                                        'is_global' => ['type' => 'boolean'],
-                                    ],
-                                    'default' => ['template' => '', 'profiles' => [], 'is_global' => false],
-                                ],
-                                'twitter' => [
-                                    'type' => 'object',
-                                    'properties' => [
-                                        'template' => ['type' => 'string'],
-                                        'profiles' => ['type' => 'array', 'items' => ['type' => ['string', 'integer']]],
-                                        'is_global' => ['type' => 'boolean'],
-                                    ],
-                                    'default' => ['template' => '', 'profiles' => [], 'is_global' => false],
-                                ],
-                                'linkedin' => [
-                                    'type' => 'object',
-                                    'properties' => [
-                                        'template' => ['type' => 'string'],
-                                        'profiles' => ['type' => 'array', 'items' => ['type' => ['string', 'integer']]],
-                                        'is_global' => ['type' => 'boolean'],
-                                    ],
-                                    'default' => ['template' => '', 'profiles' => [], 'is_global' => false],
-                                ],
-                                'pinterest' => [
-                                    'type' => 'object',
-                                    'properties' => [
-                                        'template' => ['type' => 'string'],
-                                        'profiles' => ['type' => 'array', 'items' => ['type' => ['string', 'integer']]],
-                                        'is_global' => ['type' => 'boolean'],
-                                    ],
-                                    'default' => ['template' => '', 'profiles' => [], 'is_global' => false],
-                                ],
-                                'instagram' => [
-                                    'type' => 'object',
-                                    'properties' => [
-                                        'template' => ['type' => 'string'],
-                                        'profiles' => ['type' => 'array', 'items' => ['type' => ['string', 'integer']]],
-                                        'is_global' => ['type' => 'boolean'],
-                                    ],
-                                    'default' => ['template' => '', 'profiles' => [], 'is_global' => false],
-                                ],
-                                'medium' => [
-                                    'type' => 'object',
-                                    'properties' => [
-                                        'template' => ['type' => 'string'],
-                                        'profiles' => ['type' => 'array', 'items' => ['type' => ['string', 'integer']]],
-                                        'is_global' => ['type' => 'boolean'],
-                                    ],
-                                    'default' => ['template' => '', 'profiles' => [], 'is_global' => false],
-                                ],
-                                'threads' => [
-                                    'type' => 'object',
-                                    'properties' => [
-                                        'template' => ['type' => 'string'],
-                                        'profiles' => ['type' => 'array', 'items' => ['type' => ['string', 'integer']]],
-                                        'is_global' => ['type' => 'boolean'],
-                                    ],
-                                    'default' => ['template' => '', 'profiles' => [], 'is_global' => false],
-                                ],
-                            ],
-                            'default' => [
-                                'facebook' => ['template' => '', 'profiles' => [], 'is_global' => false],
-                                'twitter' => ['template' => '', 'profiles' => [], 'is_global' => false],
-                                'linkedin' => ['template' => '', 'profiles' => [], 'is_global' => false],
-                                'pinterest' => ['template' => '', 'profiles' => [], 'is_global' => false],
-                                'instagram' => ['template' => '', 'profiles' => [], 'is_global' => false],
-                                'medium' => ['template' => '', 'profiles' => [], 'is_global' => false],
-                                'threads' => ['template' => '', 'profiles' => [], 'is_global' => false],
-                            ]
-                        ]
-                    ],
-                    'single' => true,
-                    'type' => 'object',
-                    'auth_callback' => function() {
-                        return current_user_can( 'edit_posts' );
-                    },
-                ]
-            );
+            // register_post_meta(
+            //     $type,
+            //     '_wpsp_custom_templates',
+            //     [
+            //         'show_in_rest' => [
+            //             'schema' => [
+            //                 'type' => 'object',
+            //                 'properties' => [
+            //                     'facebook' => [
+            //                         'type' => 'object',
+            //                         'properties' => [
+            //                             'template' => ['type' => 'string'],
+            //                             'profiles' => ['type' => 'array', 'items' => ['type' => ['string', 'integer']]],
+            //                             'is_global' => ['type' => 'boolean'],
+            //                         ],
+            //                         'default' => ['template' => '', 'profiles' => [], 'is_global' => false],
+            //                     ],
+            //                     'twitter' => [
+            //                         'type' => 'object',
+            //                         'properties' => [
+            //                             'template' => ['type' => 'string'],
+            //                             'profiles' => ['type' => 'array', 'items' => ['type' => ['string', 'integer']]],
+            //                             'is_global' => ['type' => 'boolean'],
+            //                         ],
+            //                         'default' => ['template' => '', 'profiles' => [], 'is_global' => false],
+            //                     ],
+            //                     'linkedin' => [
+            //                         'type' => 'object',
+            //                         'properties' => [
+            //                             'template' => ['type' => 'string'],
+            //                             'profiles' => ['type' => 'array', 'items' => ['type' => ['string', 'integer']]],
+            //                             'is_global' => ['type' => 'boolean'],
+            //                         ],
+            //                         'default' => ['template' => '', 'profiles' => [], 'is_global' => false],
+            //                     ],
+            //                     'pinterest' => [
+            //                         'type' => 'object',
+            //                         'properties' => [
+            //                             'template' => ['type' => 'string'],
+            //                             'profiles' => ['type' => 'array', 'items' => ['type' => ['string', 'integer']]],
+            //                             'is_global' => ['type' => 'boolean'],
+            //                         ],
+            //                         'default' => ['template' => '', 'profiles' => [], 'is_global' => false],
+            //                     ],
+            //                     'instagram' => [
+            //                         'type' => 'object',
+            //                         'properties' => [
+            //                             'template' => ['type' => 'string'],
+            //                             'profiles' => ['type' => 'array', 'items' => ['type' => ['string', 'integer']]],
+            //                             'is_global' => ['type' => 'boolean'],
+            //                         ],
+            //                         'default' => ['template' => '', 'profiles' => [], 'is_global' => false],
+            //                     ],
+            //                     'medium' => [
+            //                         'type' => 'object',
+            //                         'properties' => [
+            //                             'template' => ['type' => 'string'],
+            //                             'profiles' => ['type' => 'array', 'items' => ['type' => ['string', 'integer']]],
+            //                             'is_global' => ['type' => 'boolean'],
+            //                         ],
+            //                         'default' => ['template' => '', 'profiles' => [], 'is_global' => false],
+            //                     ],
+            //                     'threads' => [
+            //                         'type' => 'object',
+            //                         'properties' => [
+            //                             'template' => ['type' => 'string'],
+            //                             'profiles' => ['type' => 'array', 'items' => ['type' => ['string', 'integer']]],
+            //                             'is_global' => ['type' => 'boolean'],
+            //                         ],
+            //                         'default' => ['template' => '', 'profiles' => [], 'is_global' => false],
+            //                     ],
+            //                 ],
+            //                 'default' => [
+            //                     'facebook' => ['template' => '', 'profiles' => [], 'is_global' => false],
+            //                     'twitter' => ['template' => '', 'profiles' => [], 'is_global' => false],
+            //                     'linkedin' => ['template' => '', 'profiles' => [], 'is_global' => false],
+            //                     'pinterest' => ['template' => '', 'profiles' => [], 'is_global' => false],
+            //                     'instagram' => ['template' => '', 'profiles' => [], 'is_global' => false],
+            //                     'medium' => ['template' => '', 'profiles' => [], 'is_global' => false],
+            //                     'threads' => ['template' => '', 'profiles' => [], 'is_global' => false],
+            //                 ]
+            //             ]
+            //         ],
+            //         'single' => true,
+            //         'type' => 'object',
+            //         'auth_callback' => function() {
+            //             return current_user_can( 'edit_posts' );
+            //         },
+            //     ]
+            // );
             
             // Register enable/disable meta for Add Social Template
             register_post_meta(
