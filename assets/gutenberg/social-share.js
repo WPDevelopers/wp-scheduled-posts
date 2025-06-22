@@ -17,7 +17,7 @@ const { __ } = wp.i18n;
 const SocialShare = ( { is_pro_active } ) => {
     const {
       meta,
-      meta: { _wpscppro_dont_share_socialmedia, _wpscppro_custom_social_share_image, _facebook_share_type, _twitter_share_type, _linkedin_share_type, _pinterest_share_type, _selected_social_profile, _linkedin_share_type_page, _instagram_share_type, _medium_share_type, _threads_share_type },
+      meta: { _wpscppro_dont_share_socialmedia, _wpscppro_custom_social_share_image, _wpsp_enable_custom_social_template, _facebook_share_type, _twitter_share_type, _linkedin_share_type, _pinterest_share_type, _selected_social_profile, _linkedin_share_type_page, _instagram_share_type, _medium_share_type, _threads_share_type },
     } = useSelect((select) => ({
       meta: select('core/editor').getEditedPostAttribute('meta') || {},
     }));
@@ -49,6 +49,7 @@ const SocialShare = ( { is_pro_active } ) => {
     const [proModal,setProModal] = useState(false);
     const [uploadSocialShareBanner, setUploadSocialShareBanner ] = useState( WPSchedulePostsFree?._wpscppro_custom_social_share_image );
     const [uploadSocialShareBannerId, setUploadSocialShareBannerId ] = useState( _wpscppro_custom_social_share_image );
+    
     useEffect(() => {
       editPost({
         meta: {
@@ -444,9 +445,10 @@ const SocialShare = ( { is_pro_active } ) => {
       }else{
         setActiveTab(page);
       }
-    };
+    };    
+
     return (
-      <div className='social-share' id="wpspSocialShare">
+      <div className={`social-share ${_wpsp_enable_custom_social_template ? 'custom-template-enabled' : ''}`} id="wpspSocialShare">
         <h2 className="social-share-title">{ __('Social Share Settings','wp-scheduled-posts') }</h2>
         <div className="share-checkbox">
           <input type="checkbox" id="socialShareDisable" checked={isSocialShareDisable} onChange={ handleDisableSocialShare } />
@@ -489,7 +491,7 @@ const SocialShare = ( { is_pro_active } ) => {
              }
           </div>
         </div>
-        { !isSocialShareDisable && 
+        { ( !isSocialShareDisable ) && 
           <Fragment>
             <div className="social-share-wrapper">
               <h3>{ __('Choose Social Share Platform','wp-scheduled-posts') }</h3>
