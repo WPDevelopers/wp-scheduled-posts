@@ -119,13 +119,13 @@
 
 /* Profile Selection Area Wrapper */
 .wpsp-profile-selection-area-wrapper {
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   position: relative;
 }
 
 /* Selected Profiles Area */
 .selected-profile-area {
-  padding: 12px 8px;
+  padding: 6px 12px;
   border: 1px solid #ECEFF5;
   background: #FFF;
   border-radius: 8px;
@@ -133,6 +133,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  cursor: pointer;
 }
 
 .selected-profile-area ul {
@@ -156,8 +157,8 @@
 }
 
 .selected-profile .wpsp-profile-image {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     object-fit: cover;
     border: 1px solid #FFF;
@@ -194,6 +195,7 @@
     align-items: center;
     justify-content: center;
     transition: all 0.2s ease;
+    cursor: pointer;
 }
 
 /* Profile Selection Dropdown */
@@ -201,14 +203,13 @@
     background: #FFF;
     max-height: 200px;
     overflow-y: auto;
-    margin-top: 4px;
     box-shadow: 0px 12px 48px 0px #1B1B501A;
     border-radius: 6px;
     padding: 16px;
     position: absolute;
     left: 0;
     right: 0;
-    top: 62px;
+    top: 52px;
     z-index: 99999999;
 }
 
@@ -219,7 +220,7 @@
 .wpsp-profile-card {
     display: flex;
     align-items: center;
-    padding: 4px;
+    padding: 6px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -251,10 +252,13 @@
 }
 
 .wpsp-profile-card .wpsp-profile-image {
-  width: 36px;
-  height: 36px;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
   object-fit: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .wpsp-profile-card .wpsp-profile-placeholder {
@@ -460,13 +464,15 @@
 .wpsp-date-time-section input[type="number"],
 .wpsp-date-time-section input[type="date"],
 .wpsp-date-time-section input[type="time"] {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2em;
+  color: #1B1B50;
   width: 100%;
   padding: 8px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  background: white;
-  font-size: 14px;
-  color: #374151;
+  border: 1px solid #ECEFF5;
+  border-radius: 8px;
+  background: #FFFFFF;
 }
 
 .wpsp-date-time-section input[type="number"]:focus,
@@ -474,7 +480,7 @@
 .wpsp-date-time-section input[type="time"]:focus {
   outline: none;
   border-color: #6366f1;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  box-shadow: none;
 }
 
 /* Right side - Preview */
