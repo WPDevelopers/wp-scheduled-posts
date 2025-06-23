@@ -573,21 +573,21 @@ button.wpsp-platform-icon.facebook.active svg path, button.wpsp-platform-icon.fa
 }
 .wp-core-ui select.wpsp-date-select,
 .wp-core-ui select.wpsp-time-select {
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.2em;
-    color: #1B1B50;
-    border-color: #ECEFF5;
-    box-shadow: none;
-    border-radius: 8px;
-    padding: 0 24px 0 12px;
-    min-height: 36px;
-    max-width: 100%;
-    width: 100%;
-    background: #fff url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E) no-repeat right 5px top 55%;
-    background-size: 16px 16px;
-    cursor: pointer;
-    vertical-align: middle;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2em;
+  color: #1B1B50;
+  border-color: #ECEFF5;
+  box-shadow: none;
+  border-radius: 8px;
+  padding: 0 24px 0 12px;
+  min-height: 36px;
+  max-width: 100%;
+  width: 100%;
+  background: #fff url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E) no-repeat right 5px top 55%;
+  background-size: 16px 16px;
+  cursor: pointer;
+  vertical-align: middle;
 }
 
 .wp-core-ui select.wpsp-date-select:focus,
@@ -631,6 +631,39 @@ button.wpsp-platform-icon.facebook.active svg path, button.wpsp-platform-icon.fa
   border-radius: 8px;
   padding: 24px 16px;
   box-shadow: none;
+}
+
+.wpsp-preview-not-available {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.wpsp-preview-not-available h3 {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.2em;
+  margin: 16px 0 12px;
+  color: #1D2939;
+}
+
+.wpsp-preview-not-available p {
+  font-size: 14px;
+  line-height: 1.4em;
+  color: #6E6E8D;
+  margin: 0;
+  margin-bottom: 16px;
+}
+
+.wpsp-preview-not-available a {
+  font-size: 14px;
+  line-height: 1.2em;
+  font-weight: 500;
+  color: #6C62FF;
 }
 
 .wpsp-preview-header {
