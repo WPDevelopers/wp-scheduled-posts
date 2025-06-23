@@ -239,6 +239,9 @@
   background: #f0f0f0;
   color: #666;
 }
+.wpsp-platform-icon.active svg path {
+  fill: #FFF;
+}
 
 .wpsp-platform-icon:hover {
   transform: translateY(-2px);
@@ -365,18 +368,14 @@ button.wpsp-platform-icon.facebook.active svg path, button.wpsp-platform-icon.fa
     margin: 0;
 }
 
-.wpsp-profile-card:last-child {
-  border-bottom: none;
+.wpsp-profile-card:not(:last-child) {
+  margin-bottom: 4px;
 }
 
+.wpsp-profile-card.selected,
 .wpsp-profile-card:hover {
   background: #F3F2FF;
 }
-
-/* .wpsp-profile-card.selected {
-  background: #f0f9ff;
-  border-left: 3px solid #6366f1;
-} */
 
 .wpsp-profile-avatar {
     width: 32px;
@@ -622,16 +621,16 @@ button.wpsp-platform-icon.facebook.active svg path, button.wpsp-platform-icon.fa
 
 /* Right side - Preview */
 .wpsp-modal-right {
-    flex: 1;
-    padding: 18px 16px;
-    background: #F2F0FA;
+  flex: 1;
+  padding: 18px 16px;
+  background: #F2F0FA;
 }
 
 .wpsp-preview-card {
-    background: #FFF;
-    border-radius: 8px;
-    padding: 24px 16px;
-    box-shadow: none;
+  background: #FFF;
+  border-radius: 8px;
+  padding: 24px 16px;
+  box-shadow: none;
 }
 
 .wpsp-preview-header {
