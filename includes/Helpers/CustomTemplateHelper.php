@@ -325,212 +325,170 @@ class CustomTemplateHelper
     }
 
     public static function get_scheduled_datetime($data, $base_datetime = null) {
-        // Set default timezone to UTC (GMT)
-
-        // Use provided base datetime or current time
-        if ($base_datetime) {
-            $now = new \DateTime($base_datetime, new \DateTimeZone('UTC'));
-            error_log("WPSP: Using provided base datetime: {$base_datetime}");
-        } else {
-            $now = new \DateTime('now', new \DateTimeZone('UTC'));
-            error_log("WPSP: Using current time as base");
-        }
-        
+        $now = $base_datetime
+            ? new \DateTime($base_datetime, new \DateTimeZone('UTC'))
+            : new \DateTime('now', new \DateTimeZone('UTC'));
+    
         $dateOption = $data['dateOption'];
         $timeOption = $data['timeOption'];
-
-        error_log("WPSP: get_scheduled_datetime called with dateOption: {$dateOption}, timeOption: {$timeOption}");
-
-        // Handle date - ABSOLUTE SCHEDULING (for published posts) or RELATIVE SCHEDULING (for scheduled posts)
+    
+        // Handle date
         switch ($dateOption) {
-            // Absolute scheduling options (for published posts - relative to current time)
             case 'today':
                 $date = clone $now;
-                error_log("WPSP: Using today from base: " . $date->format('Y-m-d'));
                 break;
             case 'tomorrow':
                 $date = (clone $now)->modify('+1 day');
-                error_log("WPSP: Using tomorrow from base: " . $date->format('Y-m-d'));
                 break;
             case 'next_week':
                 $date = (clone $now)->modify('+7 days');
-                error_log("WPSP: Using next week from base: " . $date->format('Y-m-d'));
                 break;
             case 'next_month':
                 $date = (clone $now)->modify('+1 month');
-                error_log("WPSP: Using next month from base: " . $date->format('Y-m-d'));
                 break;
             case 'in_days':
                 $days = (int) $data['customDays'];
                 $date = (clone $now)->modify("+{$days} days");
-                error_log("WPSP: Using {$days} days from base: " . $date->format('Y-m-d'));
                 break;
             case 'custom_date':
                 if (!empty($data['customDate'])) {
                     $date = \DateTime::createFromFormat('Y-m-d', $data['customDate'], new \DateTimeZone('UTC'));
-                    if (!$date) {
-                        error_log("WPSP: Failed to parse custom date: " . $data['customDate']);
-                        return null;
-                    }
-                    // Set the time from the base datetime (publication time)
+                    if (!$date) return null;
                     $date->setTime($now->format('H'), $now->format('i'), $now->format('s'));
-                    error_log("WPSP: Using custom date with base time: " . $date->format('Y-m-d H:i:s'));
                 } else {
-                    error_log("WPSP: Custom date option selected but no date provided");
                     return null;
                 }
                 break;
-
-            // Relative scheduling options (for scheduled posts - relative to publication date)
             case 'same_day':
-                $date = clone $now; // Use publication date
-                error_log("WPSP: Using same day as publication: " . $date->format('Y-m-d'));
+                $date = clone $now;
                 break;
             case 'day_after':
                 $date = (clone $now)->modify('+1 day');
-                error_log("WPSP: Using day after publication: " . $date->format('Y-m-d'));
                 break;
             case 'week_after':
                 $date = (clone $now)->modify('+7 days');
-                error_log("WPSP: Using week after publication: " . $date->format('Y-m-d'));
                 break;
             case 'month_after':
                 $date = (clone $now)->modify('+1 month');
-                error_log("WPSP: Using month after publication: " . $date->format('Y-m-d'));
                 break;
             case 'days_after':
                 if (!empty($data['customDays']) && is_numeric($data['customDays'])) {
                     $days = (int) $data['customDays'];
                     $date = (clone $now)->modify("+{$days} days");
-                    error_log("WPSP: Using {$days} days after publication: " . $date->format('Y-m-d'));
                 } else {
-                    error_log("WPSP: Invalid or missing customDays value");
                     return null;
                 }
                 break;
-
             default:
-                error_log("WPSP: Unknown date option: {$dateOption}");
                 return null;
         }
     
-        // Handle time - ABSOLUTE SCHEDULING (for published posts) or RELATIVE SCHEDULING (for scheduled posts)
+        // Handle time
         switch ($timeOption) {
-            // Absolute scheduling options (for published posts - relative to current time)
             case 'now':
-                // Use current time but with calculated date
                 $final_datetime = clone $date;
                 $current_time = new \DateTime('now', new \DateTimeZone('UTC'));
-                $final_datetime->setTime($current_time->format('H'), $current_time->format('i'), $current_time->format('s'));
-                error_log("WPSP: Using current time: " . $final_datetime->format('H:i:s'));
+                $final_datetime->setTime(
+                    (int)$current_time->format('H'),
+                    (int)$current_time->format('i'),
+                    (int)$current_time->format('s')
+                );
                 break;
-
+    
             case 'in_1h':
-                // Exactly 1 hour from current time
                 $final_datetime = clone $date;
                 $current_time = new \DateTime('now', new \DateTimeZone('UTC'));
-                $current_time->modify('+1 hour');
-                $final_datetime->setTime($current_time->format('H'), $current_time->format('i'), $current_time->format('s'));
-                error_log("WPSP: Using 1 hour from now: " . $final_datetime->format('H:i:s'));
+                $current_time->modify("+" . rand(10, 60) . " minutes");
+                $final_datetime->setTime(
+                    (int)$current_time->format('H'),
+                    (int)$current_time->format('i'),
+                    (int)$current_time->format('s')
+                );
                 break;
-
+    
             case 'in_3h':
-                // Exactly 3 hours from current time
                 $final_datetime = clone $date;
                 $current_time = new \DateTime('now', new \DateTimeZone('UTC'));
-                $current_time->modify('+3 hours');
-                $final_datetime->setTime($current_time->format('H'), $current_time->format('i'), $current_time->format('s'));
-                error_log("WPSP: Using 3 hours from now: " . $final_datetime->format('H:i:s'));
+                $current_time->modify("+" . rand(60, 180) . " minutes");
+                $final_datetime->setTime(
+                    (int)$current_time->format('H'),
+                    (int)$current_time->format('i'),
+                    (int)$current_time->format('s')
+                );
                 break;
-
+    
             case 'in_5h':
-                // Exactly 5 hours from current time
                 $final_datetime = clone $date;
                 $current_time = new \DateTime('now', new \DateTimeZone('UTC'));
-                $current_time->modify('+5 hours');
-                $final_datetime->setTime($current_time->format('H'), $current_time->format('i'), $current_time->format('s'));
-                error_log("WPSP: Using 5 hours from now: " . $final_datetime->format('H:i:s'));
+                $current_time->modify("+" . rand(180, 300) . " minutes");
+                $final_datetime->setTime(
+                    (int)$current_time->format('H'),
+                    (int)$current_time->format('i'),
+                    (int)$current_time->format('s')
+                );
                 break;
-
+    
             case 'in_hours':
-                // Exactly X hours from current time
                 $hours = max(1, (int) $data['customHours']);
                 $final_datetime = clone $date;
                 $current_time = new \DateTime('now', new \DateTimeZone('UTC'));
-                $current_time->modify("+{$hours} hours");
-                $final_datetime->setTime($current_time->format('H'), $current_time->format('i'), $current_time->format('s'));
-                error_log("WPSP: Using {$hours} hours from now: " . $final_datetime->format('H:i:s'));
+                $randomOffset = rand(($hours - 1) * 60, ($hours + 1) * 60);
+                $current_time->modify("+{$randomOffset} minutes");
+                $final_datetime->setTime(
+                    (int)$current_time->format('H'),
+                    (int)$current_time->format('i'),
+                    (int)$current_time->format('s')
+                );
                 break;
-
+    
             case 'custom_time':
-                // Use specific time on the calculated date
                 if (!empty($data['customTime'])) {
                     $timeParts = explode(':', $data['customTime']);
                     if (count($timeParts) >= 2) {
                         $final_datetime = clone $date;
                         $final_datetime->setTime((int)$timeParts[0], (int)$timeParts[1], 0);
-                        error_log("WPSP: Using custom time: " . $data['customTime']);
                     } else {
-                        error_log("WPSP: Invalid custom time format: " . $data['customTime']);
                         return null;
                     }
                 } else {
-                    error_log("WPSP: Custom time option selected but no time provided");
                     return null;
                 }
                 break;
-
-            // Relative scheduling options (for scheduled posts - relative to publication time)
+    
             case 'same_time':
-                // Use the same time as the base datetime (publication time)
                 $final_datetime = clone $date;
-                error_log("WPSP: Using same time as publication: " . $final_datetime->format('H:i:s'));
                 break;
-
+    
             case 'hour_after':
-                // 1 hour after publication time
-                $final_datetime = (clone $date)->modify('+1 hour');
-                error_log("WPSP: Using 1 hour after publication: " . $final_datetime->format('H:i:s'));
+                $randomMinutes = rand(10, 60);
+                $final_datetime = (clone $date)->modify("+{$randomMinutes} minutes");
                 break;
-
+    
             case 'three_hours_after':
-                // 3 hours after publication time
-                $final_datetime = (clone $date)->modify('+3 hours');
-                error_log("WPSP: Using 3 hours after publication: " . $final_datetime->format('H:i:s'));
+                $randomMinutes = rand(60, 180);
+                $final_datetime = (clone $date)->modify("+{$randomMinutes} minutes");
                 break;
-
+    
             case 'five_hours_after':
-                // 5 hours after publication time
-                $final_datetime = (clone $date)->modify('+5 hours');
-                error_log("WPSP: Using 5 hours after publication: " . $final_datetime->format('H:i:s'));
+                $randomMinutes = rand(180, 300);
+                $final_datetime = (clone $date)->modify("+{$randomMinutes} minutes");
                 break;
-
+    
             case 'hours_after':
-                // X hours after publication time
                 if (!empty($data['customHours']) && is_numeric($data['customHours'])) {
                     $hours = (int) $data['customHours'];
-                    $final_datetime = (clone $date)->modify("+{$hours} hours");
-                    error_log("WPSP: Using {$hours} hours after publication: " . $final_datetime->format('H:i:s'));
+                    $randomMinutes = rand(($hours - 1) * 60, ($hours + 1) * 60);
+                    $final_datetime = (clone $date)->modify("+{$randomMinutes} minutes");
                 } else {
-                    error_log("WPSP: Invalid or missing customHours value");
                     return null;
                 }
                 break;
-
+    
             default:
-                error_log("WPSP: Unknown time option: {$timeOption}");
                 return null;
         }
-
-        // Return the calculated datetime
-        if (isset($final_datetime)) {
-            $result = $final_datetime->format('Y-m-d H:i:s');
-            error_log("WPSP: get_scheduled_datetime result: {$result}");
-            return $result;
-        }
-
-        error_log("WPSP: get_scheduled_datetime failed to calculate datetime");
-        return null;
+    
+        return isset($final_datetime) ? $final_datetime->format('Y-m-d H:i:s') : null;
     }
-
+    
 }

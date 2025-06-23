@@ -508,6 +508,7 @@ const CustomSocialTemplateModal = ({
 
   const previewThumbnailUrl = selectedProfile.length > 0 ? selectedProfile[selectedProfile.length - 1].thumbnail_url : '';
   const previewProfileName = selectedProfile.length > 0 ? selectedProfile[selectedProfile.length - 1].name : '';
+  
 
   return (
     <Modal
@@ -649,7 +650,7 @@ const CustomSocialTemplateModal = ({
                   </span>
                 </div>
                 <div className='wpsp-global-template'>
-                  <span>Use global template</span>
+                  <span>{ __('Use global template','wp-scheduled-posts') }</span>
                   <div>
                     <input
                       type="checkbox"
@@ -657,7 +658,7 @@ const CustomSocialTemplateModal = ({
                       checked={getIsGlobalForPlatform(selectedPlatform)}
                       onChange={e => setUseGlobalTemplatePlatform(selectedPlatform, e.target.checked)}
                     />
-                    <label htmlFor="globalTemplateEnabled"></label>
+                    <label htmlFor={`useGlobalTemplate_${selectedPlatform}`}></label>
                   </div>
                 </div>
               </div>
