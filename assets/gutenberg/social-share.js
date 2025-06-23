@@ -491,7 +491,7 @@ const SocialShare = ( { is_pro_active } ) => {
              }
           </div>
         </div>
-        { ( !isSocialShareDisable ) && 
+        { (!isSocialShareDisable && !_wpsp_enable_custom_social_template ) && 
           <Fragment>
             <div className="social-share-wrapper">
               <h3>{ __('Choose Social Share Platform','wp-scheduled-posts') }</h3>
