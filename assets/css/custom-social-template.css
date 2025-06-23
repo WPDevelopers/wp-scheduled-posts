@@ -29,10 +29,136 @@
     line-height: 1.2em;
     color: #1D2939;
 }
+.components-button svg {
+    width: 20px;
+    fill: #475467;
+    outline: none;
+}
+.components-button:focus:not(:disabled) {
+    box-shadow: none;
+    outline: 0;
+}
 
 /* Custom Social Template Styles */
 
 /* Global button wrapper styling */
+
+.wpsp-custom-template-label-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.wpsp-global-template {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 12px;
+}
+.wpsp-custom-template-label-wrap span,
+.wpsp-global-template span {
+    font-size: 13px;
+    font-weight: 500;
+    color: #1B1B50;
+}
+.wpsp-custom-template-label-wrap input {
+  display: none;
+}
+.wpsp-custom-template-label-wrap label {
+  width: 36px;
+  height: 18px;
+  min-height: 18px;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+}
+.wpsp-custom-template-label-wrap label:before {
+    content: "";
+    position: absolute;
+    width: 36px;
+    height: 18px;
+    left: 0;
+    /* transition: background 0.1s 0.1s ease; */
+    background: #7c8db5;
+    border-radius: 50px;
+    margin: 0;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+.wpsp-custom-template-label-wrap input[type=checkbox]:checked + label::before {
+    background: #6a4bff;
+}
+.wpsp-custom-template-label-wrap label:after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50px;
+    left: 1px;
+    top: 1px;
+    transition: all 0.2s ease;
+    box-shadow: none;
+    background: #fff;
+    z-index: 2;
+    cursor: pointer;
+}
+.wpsp-custom-template-label-wrap input[type=checkbox]:checked + label::after {
+    left: 19px;
+    background: #ffffff;
+}
+
+.wpsp-custom-template-label-wrap span,
+.wpsp-global-template span {
+    font-size: 13px;
+    font-weight: 500;
+    color: #1B1B50;
+}
+.wpsp-global-template input {
+  display: none;
+}
+.wpsp-global-template label {
+  width: 36px;
+  height: 18px;
+  min-height: 18px;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+}
+.wpsp-global-template label:before {
+    content: "";
+    position: absolute;
+    width: 36px;
+    height: 18px;
+    left: 0;
+    /* transition: background 0.1s 0.1s ease; */
+    background: #7c8db5;
+    border-radius: 50px;
+    margin: 0;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+.wpsp-global-template input[type=checkbox]:checked + label::before {
+    background: #6a4bff;
+}
+.wpsp-global-template label:after{
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50px;
+    left: 1px;
+    top: 1px;
+    transition: all 0.2s ease;
+    box-shadow: none;
+    background: #fff;
+    z-index: 2;
+    cursor: pointer;
+}
+.wpsp-global-template input[type=checkbox]:checked + label::after {
+    left: 19px;
+    background: #ffffff;
+}
 .wpsp-custom-template-button-wrapper {
   margin: 15px 0;
   padding: 15px;
@@ -42,9 +168,16 @@
   text-align: start;
 }
 .wpsp-custom-template-button-wrapper .components-button.is-secondary {
-  margin-top: 4px;
+  margin-top: 10px;
 }
-
+.components-button.is-secondary:focus {
+  box-shadow: none;
+}
+.components-button.is-secondary:disabled:not(:focus), 
+.components-button.is-secondary[aria-disabled=true]:hover:not(:focus), 
+.components-button.is-secondary[aria-disabled=true]:not(:focus) {
+    box-shadow: none;
+}
 .wpsp-add-template-btn {
   background: #6c62ff !important;
   border-color: #6c62ff !important;
@@ -53,12 +186,12 @@
   font-size: 14px !important;
   border-radius: 4px !important;
   transition: all 0.3s ease !important;
+  box-shadow: none !important;
 }
 
 .wpsp-add-template-btn:hover {
-  background: #5a52e6 !important;
-  border-color: #5a52e6 !important;
-  transform: translateY(-1px);
+  background: #5b50f5 !important;
+  border-color: #5b50f5 !important;
 }
 
 /* Modal styling */
@@ -123,13 +256,13 @@ button.wpsp-platform-icon.facebook.active svg path, button.wpsp-platform-icon.fa
 
 /* Profile Selection Area Wrapper */
 .wpsp-profile-selection-area-wrapper {
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   position: relative;
 }
 
 /* Selected Profiles Area */
 .selected-profile-area {
-  padding: 12px 8px;
+  padding: 6px 12px;
   border: 1px solid #ECEFF5;
   background: #FFF;
   border-radius: 8px;
@@ -137,6 +270,7 @@ button.wpsp-platform-icon.facebook.active svg path, button.wpsp-platform-icon.fa
   display: flex;
   align-items: center;
   justify-content: space-between;
+  cursor: pointer;
 }
 
 .selected-profile-area ul {
@@ -160,8 +294,8 @@ button.wpsp-platform-icon.facebook.active svg path, button.wpsp-platform-icon.fa
 }
 
 .selected-profile .wpsp-profile-image {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     object-fit: cover;
     border: 1px solid #FFF;
@@ -183,21 +317,21 @@ button.wpsp-platform-icon.facebook.active svg path, button.wpsp-platform-icon.fa
 
 .wpsp-remove-profile-btn {
     position: absolute;
-    top: -5px;
-    left: 50%;
-    transform: translate(-50%);
-    width: 10px !important;
-    height: 10px;
+    bottom: -4px;
+    right: 0px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
     background: #6E6E8D;
     color: #FFF;
     border: 1px solid #FFF;
-    font-size: 6px;
-    line-height: 8px;
+    font-size: 14px;
+    padding-bottom: 2px;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.2s ease;
+    cursor: pointer;
 }
 
 /* Profile Selection Dropdown */
@@ -205,14 +339,13 @@ button.wpsp-platform-icon.facebook.active svg path, button.wpsp-platform-icon.fa
     background: #FFF;
     max-height: 200px;
     overflow-y: auto;
-    margin-top: 4px;
     box-shadow: 0px 12px 48px 0px #1B1B501A;
     border-radius: 6px;
     padding: 16px;
     position: absolute;
     left: 0;
     right: 0;
-    top: 62px;
+    top: 52px;
     z-index: 99999999;
 }
 
@@ -223,7 +356,7 @@ button.wpsp-platform-icon.facebook.active svg path, button.wpsp-platform-icon.fa
 .wpsp-profile-card {
     display: flex;
     align-items: center;
-    padding: 4px;
+    padding: 8px 10px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -255,10 +388,13 @@ button.wpsp-platform-icon.facebook.active svg path, button.wpsp-platform-icon.fa
 }
 
 .wpsp-profile-card .wpsp-profile-image {
-  width: 36px;
-  height: 36px;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
   object-fit: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .wpsp-profile-card .wpsp-profile-placeholder {
@@ -367,24 +503,24 @@ button.wpsp-platform-icon.facebook.active svg path, button.wpsp-platform-icon.fa
 
 .wpsp-template-input {
   width: 100%;
-  padding: 16px;
-  border: 1px solid #ddd;
+  padding: 12px;
+  border: 1px solid #ECEFF5;
   border-radius: 8px;
   font-size: 14px;
-  line-height: 1.5;
+  line-height: 1.4em;
   resize: vertical;
   font-family: inherit;
-  background: white;
+  background: #FFF;
 }
 
 .wpsp-template-input:focus {
   outline: none;
-  border-color: #6c62ff;
-  box-shadow: 0 0 0 3px rgba(108, 98, 255, 0.1);
+  border-color: #6C62FF;
+  box-shadow: none;
 }
 
 .wpsp-template-input::placeholder {
-  color: #9ca3af;
+  color: #6E6E8D;
 }
 
 .wpsp-template-meta {
@@ -464,13 +600,16 @@ button.wpsp-platform-icon.facebook.active svg path, button.wpsp-platform-icon.fa
 .wpsp-date-time-section input[type="number"],
 .wpsp-date-time-section input[type="date"],
 .wpsp-date-time-section input[type="time"] {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2em;
+  color: #1B1B50;
   width: 100%;
   padding: 8px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  background: white;
-  font-size: 14px;
-  color: #374151;
+  border: 1px solid #ECEFF5;
+  border-radius: 8px;
+  min-height: 36px;
+  background: #FFFFFF;
 }
 
 .wpsp-date-time-section input[type="number"]:focus,
@@ -478,7 +617,7 @@ button.wpsp-platform-icon.facebook.active svg path, button.wpsp-platform-icon.fa
 .wpsp-date-time-section input[type="time"]:focus {
   outline: none;
   border-color: #6366f1;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  box-shadow: none;
 }
 
 /* Right side - Preview */
@@ -505,7 +644,7 @@ button.wpsp-platform-icon.facebook.active svg path, button.wpsp-platform-icon.fa
   gap: 12px;
 }
 
-.wpsp-avatar-circle img {
+.wpsp-avatar-circle {
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -513,9 +652,13 @@ button.wpsp-platform-icon.facebook.active svg path, button.wpsp-platform-icon.fa
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  font-weight: 600;
-  font-size: 16px;
+}
+
+.wpsp-avatar-circle img {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  border-radius: 50%;
 }
 
 .wpsp-preview-info {
@@ -542,6 +685,11 @@ button.wpsp-platform-icon.facebook.active svg path, button.wpsp-platform-icon.fa
   color: #1f2937;
   margin-bottom: 16px;
   white-space: pre-wrap;
+}
+.wpsp-preview-text p {
+  font-size: 13px;
+  line-height: 1.5em;
+  margin: 14px 0;
 }
 
 .wpsp-preview-placeholder {
@@ -612,7 +760,7 @@ button.wpsp-platform-icon.facebook.active svg path, button.wpsp-platform-icon.fa
     border-radius: 8px !important;
     font-weight: 500 !important;
     min-height: 48px;
-    transition: all 0.25s ease-in-out !important;
+    transition: unset !important;
     border: none !important;
     outline: 0 !important;
     box-shadow: none !important;
