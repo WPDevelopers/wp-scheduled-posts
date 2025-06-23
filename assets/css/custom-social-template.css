@@ -117,6 +117,10 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
+button.wpsp-platform-icon.facebook.active svg path, button.wpsp-platform-icon.facebook.active svg {
+  fill: #fff;
+}
+
 /* Profile Selection Area Wrapper */
 .wpsp-profile-selection-area-wrapper {
   margin-bottom: 12px;
@@ -677,7 +681,6 @@
   .wpsp-platform-icons {
     justify-content: center;
   }
-
   .wpsp-profile-card {
     padding: 10px;
   }

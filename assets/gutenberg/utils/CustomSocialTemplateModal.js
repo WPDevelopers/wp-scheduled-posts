@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { facebook, info, instagram, linkedin, medium, pinterest, threads, twitter_x } from './helpers/icons';
 
 const {
   components: { Modal, Button },
@@ -491,16 +492,15 @@ const CustomSocialTemplateModal = ({
   const availableProfiles = getAvailableProfiles();
   const currentLimit = platformLimits[selectedPlatform] || 1000;
   const isOverLimit = characterCount > currentLimit;
-
   const social_media_enabled = WPSchedulePostsFree?.social_media_enabled || {}; // Adjust this based on your actual data object
   const platforms = [
-    { platform: 'facebook', icon: 'f', color: '#1877f2', bgColor: '#1877f2' },
-    { platform: 'twitter', icon: '𝕏', color: '#000000', bgColor: '#000000' },
-    { platform: 'linkedin', icon: 'in', color: '#0077b5', bgColor: '#0077b5' },
-    { platform: 'pinterest', icon: 'P', color: '#bd081c', bgColor: '#bd081c' },
-    { platform: 'instagram', icon: 'I', color: '#e4405f', bgColor: '#e4405f' },
-    { platform: 'medium', icon: 'M', color: '#00ab6c', bgColor: '#00ab6c' },
-    { platform: 'threads', icon: '@', color: '#000', bgColor: '#000' }
+    { platform: 'facebook', icon: facebook, color: '#1877f2', bgColor: '#1877f2' },
+    { platform: 'twitter', icon: twitter_x, color: '#000000', bgColor: '#000000' },
+    { platform: 'linkedin', icon: linkedin, color: '#0077b5', bgColor: '#0077b5' },
+    { platform: 'pinterest', icon: pinterest, color: '#bd081c', bgColor: '#bd081c' },
+    { platform: 'instagram', icon: instagram, color: '#e4405f', bgColor: '#e4405f' },
+    { platform: 'medium', icon: medium, color: '#00ab6c', bgColor: '#00ab6c' },
+    { platform: 'threads', icon: threads, color: '#000', bgColor: '#000' }
   ];
   
   // Filter platforms based on what's enabled
@@ -521,11 +521,11 @@ const CustomSocialTemplateModal = ({
           {/* Left Side - Template Editor */}
           <div className="wpsp-modal-left">
             {/* Platform Selection Icons */}
-            <div className="wpsp-platform-icons">
+            <div className={`wpsp-platform-icons`}>
               {filteredPlatforms.map(({ platform, icon, bgColor }) => (
                 <button
                   key={platform}
-                  className={`wpsp-platform-icon ${selectedPlatform === platform ? 'active' : ''} ${platformHasData(platform) ? 'has-data' : ''}`}
+                  className={`wpsp-platform-icon ${selectedPlatform} ${selectedPlatform === platform ? 'active' : ''} ${platformHasData(platform) ? 'has-data' : ''}`}
                   onClick={() => handlePlatformSwitch(platform)}
                   style={{
                     backgroundColor: selectedPlatform === platform ? bgColor : '#f0f0f0',
@@ -812,6 +812,7 @@ const CustomSocialTemplateModal = ({
               </>
             ) : (
               <div className="wpsp-preview-name">
+                {info}
                 <h3>Preview not available</h3>
                 <p>Please select a social profile using the selector above.</p>
                 <a href="">Show me how</a>
