@@ -42,6 +42,7 @@
 /* Custom Social Template Styles */
 
 /* Global button wrapper styling */
+
 .wpsp-custom-template-label-wrap {
   display: flex;
   align-items: center;
@@ -51,6 +52,7 @@
 .wpsp-global-template {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 16px;
   margin-top: 12px;
 }
@@ -60,11 +62,61 @@
     font-weight: 500;
     color: #1B1B50;
 }
-.wpsp-custom-template-label-wrap input,
+.wpsp-custom-template-label-wrap input {
+  display: none;
+}
+.wpsp-custom-template-label-wrap label {
+  width: 36px;
+  height: 18px;
+  min-height: 18px;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+}
+.wpsp-custom-template-label-wrap label:before {
+    content: "";
+    position: absolute;
+    width: 36px;
+    height: 18px;
+    left: 0;
+    /* transition: background 0.1s 0.1s ease; */
+    background: #7c8db5;
+    border-radius: 50px;
+    margin: 0;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+.wpsp-custom-template-label-wrap input[type=checkbox]:checked + label::before {
+    background: #6a4bff;
+}
+.wpsp-custom-template-label-wrap label:after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50px;
+    left: 1px;
+    top: 1px;
+    transition: all 0.2s ease;
+    box-shadow: none;
+    background: #fff;
+    z-index: 2;
+    cursor: pointer;
+}
+.wpsp-custom-template-label-wrap input[type=checkbox]:checked + label::after {
+    left: 19px;
+    background: #ffffff;
+}
+
+.wpsp-custom-template-label-wrap span,
+.wpsp-global-template span {
+    font-size: 13px;
+    font-weight: 500;
+    color: #1B1B50;
+}
 .wpsp-global-template input {
   display: none;
 }
-.wpsp-custom-template-label-wrap label,
 .wpsp-global-template label {
   width: 36px;
   height: 18px;
@@ -73,7 +125,6 @@
   cursor: pointer;
   display: flex;
 }
-.wpsp-custom-template-label-wrap label:before,
 .wpsp-global-template label:before {
     content: "";
     position: absolute;
@@ -87,11 +138,9 @@
     box-sizing: border-box;
     cursor: pointer;
 }
-.wpsp-custom-template-label-wrap input[type=checkbox]:checked + label::before,
 .wpsp-global-template input[type=checkbox]:checked + label::before {
     background: #6a4bff;
 }
-.wpsp-custom-template-label-wrap label:after,
 .wpsp-global-template label:after{
     content: '';
     position: absolute;
@@ -106,7 +155,6 @@
     z-index: 2;
     cursor: pointer;
 }
-.wpsp-custom-template-label-wrap input[type=checkbox]:checked + label::after,
 .wpsp-global-template input[type=checkbox]:checked + label::after {
     left: 19px;
     background: #ffffff;
@@ -633,6 +681,11 @@
   color: #1f2937;
   margin-bottom: 16px;
   white-space: pre-wrap;
+}
+.wpsp-preview-text p {
+  font-size: 13px;
+  line-height: 1.5em;
+  margin: 14px 0;
 }
 
 .wpsp-preview-placeholder {

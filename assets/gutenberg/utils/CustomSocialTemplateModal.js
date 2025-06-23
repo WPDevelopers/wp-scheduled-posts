@@ -656,7 +656,7 @@ const CustomSocialTemplateModal = ({
                       checked={getIsGlobalForPlatform(selectedPlatform)}
                       onChange={e => setUseGlobalTemplatePlatform(selectedPlatform, e.target.checked)}
                     />
-                    <label htmlFor="customTemplateEnabled"></label>
+                    <label htmlFor="globalTemplateEnabled"></label>
                   </div>
                 </div>
               </div>
