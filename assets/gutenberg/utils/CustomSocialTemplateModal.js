@@ -814,10 +814,10 @@ const CustomSocialTemplateModal = ({
                 </div>
               </>
             ) : (
-              <div className="wpsp-preview-name">
+              <div className="wpsp-preview-not-available">
                 {info}
-                <h3>Preview not available</h3>
-                <p>Please select a social profile using the selector above.</p>
+                <h3>{ __('Preview not available', 'wp-scheduled-posts') }</h3>
+                <p>{__('Please select a social profile using the selector above.', 'wp-scheduled-posts')}</p>
                 <a href="">Show me how</a>
               </div>
             )}

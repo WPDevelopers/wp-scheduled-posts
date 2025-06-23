@@ -730,14 +730,10 @@ class CustomSocialTemplates
                     wp_schedule_single_event($schedule_at, 'publish_future_post', array($post_id));
                 }
             } elseif ( get_post_status($post_id)  === 'future') {
-                error_log("WPSP: Handling scheduling for SCHEDULED post {$post_id}");
-
                 // For scheduled posts, calculate the social media timing based on the post's scheduled publication date
                 $social_datetime = $this->handle_scheduled_post_scheduling($post_id, $scheduling_data);
 
                 if ($social_datetime) {
-                    error_log("WPSP: Calculated social media datetime for scheduled post: {$social_datetime}");
-
                     // Store the calculated datetime in the scheduling data
                     $scheduling_data['datetime'] = $social_datetime;
                     $scheduling_data['enabled'] = true;
@@ -745,12 +741,9 @@ class CustomSocialTemplates
 
                     // Update the scheduling data with the calculated datetime
                     $scheduling_updated = update_post_meta($post_id, '_wpsp_social_scheduling', $scheduling_data);
-                    error_log("WPSP: Updated scheduling data for scheduled post: " . ($scheduling_updated ? 'SUCCESS' : 'FAILED'));
-
                     $template_updated = true;
                     $scheduled_successfully = true;
                 } else {
-                    error_log("WPSP: ERROR - Failed to calculate social media datetime for scheduled post");
                     $scheduled_successfully = false;
                 }
             }
@@ -826,59 +819,39 @@ class CustomSocialTemplates
 
     public function handle_scheduled_post_scheduling($post_id, $scheduling_data) {
         if (empty($scheduling_data)) {
-            error_log("WPSP: handle_scheduled_post_scheduling - No scheduling data provided");
             return false;
         }
 
         // Get the post to access its scheduled publication date
         $post = get_post($post_id);
         if (!$post) {
-            error_log("WPSP: handle_scheduled_post_scheduling - Post {$post_id} not found");
             return false;
         }
-
-        error_log("WPSP: handle_scheduled_post_scheduling - Processing for scheduled post {$post_id}");
-        error_log("WPSP: Post scheduled publication date: " . $post->post_date);
-        error_log("WPSP: Scheduling data: " . json_encode($scheduling_data));
-
         // For scheduled posts, use the post's publication date as the base datetime
         // This ensures that date/time calculations are relative to when the post will be published
         $result = \WPSP\Helpers\CustomTemplateHelper::get_scheduled_datetime($scheduling_data, $post->post_date);
 
-        error_log("WPSP: handle_scheduled_post_scheduling result: " . ($result ?: 'null'));
         return $result;
     }
 
     public function handle_published_post_scheduling($post_id, $scheduling_data) {
         if (empty($scheduling_data)) {
-            error_log("WPSP: handle_published_post_scheduling - No scheduling data provided");
             return false;
         }
-
-        error_log("WPSP: handle_published_post_scheduling - Processing for published post {$post_id}");
-        error_log("WPSP: Scheduling data: " . json_encode($scheduling_data));
-
         // Determine scheduling type
         $scheduling_type = isset($scheduling_data['schedulingType']) ? $scheduling_data['schedulingType'] : 'absolute';
-        error_log("WPSP: Scheduling type: {$scheduling_type}");
-
         if ($scheduling_type === 'relative') {
             // For relative scheduling on published posts, convert to absolute first
-            error_log("WPSP: Converting relative scheduling to absolute for published post");
             $post = get_post($post_id);
             if ($post) {
                 $result = $this->convert_relative_to_absolute_scheduling($scheduling_data, $post->post_date);
-                error_log("WPSP: Relative conversion result: " . ($result ?: 'null'));
                 return $result;
             } else {
-                error_log("WPSP: Failed to get post object for post {$post_id}");
                 return false;
             }
         } else {
             // For absolute scheduling on published posts, use current time as base
-            error_log("WPSP: Using absolute scheduling with current time as base");
             $result = \WPSP\Helpers\CustomTemplateHelper::get_scheduled_datetime($scheduling_data);
-            error_log("WPSP: Absolute scheduling result: " . ($result ?: 'null'));
             return $result;
         }
     }
@@ -1263,88 +1236,60 @@ class CustomSocialTemplates
      */
     private function convert_relative_to_absolute_scheduling($scheduling_data, $publication_date) {
         try {
-            error_log("WPSP: Converting relative scheduling - Data: " . json_encode($scheduling_data) . ", Publication date: " . $publication_date);
-
             $pub_datetime = new \DateTime($publication_date);
             $social_datetime = clone $pub_datetime;
-
-            error_log("WPSP: Base publication datetime: " . $pub_datetime->format('Y-m-d H:i:s'));
-
             // Handle date options (relative to publication date)
             switch ($scheduling_data['dateOption']) {
                 case 'same_day':
                     // No date change needed - use publication date
-                    error_log("WPSP: Using same day as publication");
                     break;
                 case 'day_after':
                     $social_datetime->add(new \DateInterval('P1D'));
-                    error_log("WPSP: Adding 1 day after publication");
                     break;
                 case 'week_after':
                     $social_datetime->add(new \DateInterval('P7D'));
-                    error_log("WPSP: Adding 7 days after publication");
                     break;
                 case 'month_after':
                     $social_datetime->add(new \DateInterval('P1M'));
-                    error_log("WPSP: Adding 1 month after publication");
                     break;
                 case 'days_after':
                     if (!empty($scheduling_data['customDays']) && is_numeric($scheduling_data['customDays'])) {
                         $days = intval($scheduling_data['customDays']);
                         $social_datetime->add(new \DateInterval("P{$days}D"));
-                        error_log("WPSP: Adding {$days} days after publication");
-                    } else {
-                        error_log("WPSP: Invalid or missing customDays value");
                     }
                     break;
                 case 'custom_date':
                     if (!empty($scheduling_data['customDate'])) {
                         $custom_date = new \DateTime($scheduling_data['customDate']);
-                        error_log("WPSP: Custom date parsed: " . $custom_date->format('Y-m-d H:i:s'));
-
                         // For custom date, we set the date but preserve the publication time initially
                         $social_datetime->setDate(
                             $custom_date->format('Y'),
                             $custom_date->format('m'),
                             $custom_date->format('d')
                         );
-                        error_log("WPSP: Using custom date: " . $custom_date->format('Y-m-d') . " with publication time: " . $social_datetime->format('H:i:s'));
-                    } else {
-                        error_log("WPSP: Custom date option selected but no date provided");
                     }
                     break;
                 default:
-                    error_log("WPSP: Unknown date option: " . $scheduling_data['dateOption']);
                     break;
             }
-
-            error_log("WPSP: After date calculation: " . $social_datetime->format('Y-m-d H:i:s'));
 
             // Handle time options (relative to publication time)
             switch ($scheduling_data['timeOption']) {
                 case 'same_time':
-                    // No time change needed - use publication time
-                    error_log("WPSP: Using same time as publication");
                     break;
                 case 'hour_after':
                     $social_datetime->add(new \DateInterval('PT1H'));
-                    error_log("WPSP: Adding 1 hour after publication");
                     break;
                 case 'three_hours_after':
                     $social_datetime->add(new \DateInterval('PT3H'));
-                    error_log("WPSP: Adding 3 hours after publication");
                     break;
                 case 'five_hours_after':
                     $social_datetime->add(new \DateInterval('PT5H'));
-                    error_log("WPSP: Adding 5 hours after publication");
                     break;
                 case 'hours_after':
                     if (!empty($scheduling_data['customHours']) && is_numeric($scheduling_data['customHours'])) {
                         $hours = intval($scheduling_data['customHours']);
                         $social_datetime->add(new \DateInterval("PT{$hours}H"));
-                        error_log("WPSP: Adding {$hours} hours after publication");
-                    } else {
-                        error_log("WPSP: Invalid or missing customHours value");
                     }
                     break;
                 case 'custom_time':
@@ -1352,25 +1297,17 @@ class CustomSocialTemplates
                         $time_parts = explode(':', $scheduling_data['customTime']);
                         if (count($time_parts) >= 2) {
                             $social_datetime->setTime(intval($time_parts[0]), intval($time_parts[1]), 0);
-                            error_log("WPSP: Using custom time: " . $scheduling_data['customTime']);
-                        } else {
-                            error_log("WPSP: Invalid custom time format: " . $scheduling_data['customTime']);
                         }
-                    } else {
-                        error_log("WPSP: Custom time option selected but no time provided");
                     }
                     break;
                 default:
-                    error_log("WPSP: Unknown time option: " . $scheduling_data['timeOption']);
                     break;
             }
 
             $result = $social_datetime->format('Y-m-d H:i:s');
-            error_log("WPSP: Relative to absolute conversion result: " . $result);
             return $result;
 
         } catch (\Exception $e) {
-            error_log("WPSP: Error converting relative to absolute scheduling: " . $e->getMessage());
             return false;
         }
     }
