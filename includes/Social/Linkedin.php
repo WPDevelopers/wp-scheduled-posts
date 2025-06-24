@@ -177,6 +177,17 @@ class Linkedin
             }
         }
 
+        $is_enabled_custom_template = get_post_meta($post_id, '_wpsp_enable_custom_social_template', true);
+        // if enabled custom template then check current social profile is selected or not
+        if( $is_enabled_custom_template ) {
+            $templates = get_post_meta($post_id, '_wpsp_custom_templates', true);
+            $platform_data = isset($templates['linkedin']) ? $templates['linkedin'] : null;
+            $profiles = is_array($platform_data) && isset($platform_data['profiles']) ? $platform_data['profiles'] : [];
+            if ( is_array($profiles) && !in_array($this->current_profile_id, $profiles) ) {
+                return;
+            }
+        }
+
         // get social share type linkedin page 
         $get_share_type_page =   get_post_meta($post_id, '_linkedin_share_type_page', true);
         if( $profile->type === 'organization' && $get_share_type_page === 'custom' ) {

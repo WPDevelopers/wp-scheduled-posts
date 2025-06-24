@@ -25,7 +25,7 @@ class CustomTemplateHelper
         if (!isset($templates[$platform])) {
             return false;
         }
-        return $templates[$platform];
+        return $templates[$platform]['template'];
     }
 
     /**

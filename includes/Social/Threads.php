@@ -159,6 +159,17 @@ class Threads
             }
         }
 
+        $is_enabled_custom_template = get_post_meta($post_id, '_wpsp_enable_custom_social_template', true);
+        // if enabled custom template then check current social profile is selected or not
+        if( $is_enabled_custom_template ) {
+            $templates = get_post_meta($post_id, '_wpsp_custom_templates', true);
+            $platform_data = isset($templates['threads']) ? $templates['threads'] : null;
+            $profiles = is_array($platform_data) && isset($platform_data['profiles']) ? $platform_data['profiles'] : [];
+            if ( is_array($profiles) && !in_array($this->current_profile_id, $profiles) ) {
+                return;
+            }
+        }
+
         // get long lived access token 
         $threads = \WPSP\Helper::get_social_profile(WPSCP_THREADS_OPTION_NAME);
         $app_access_token = !empty( $threads[$profile_key]->long_lived_access_token ) ? $threads[$profile_key]->long_lived_access_token : $app_access_token;
