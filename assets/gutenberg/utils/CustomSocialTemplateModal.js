@@ -746,7 +746,9 @@ const CustomSocialTemplateModal = ({
 
           {/* Right Side - Preview */}
           <div className={`wpsp-modal-right ${selectedPlatform}`}>
-            <div className="wpsp-preview-card">
+            <div className={`wpsp-preview-card ${
+              selectedProfile.length === 0 ? 'wpsp-preview-not-available' : ''
+            }`}>
             {selectedProfile.length > 0 ? (
               <>
                 <div className="wpsp-preview-header">
@@ -815,11 +817,11 @@ const CustomSocialTemplateModal = ({
                 </div>
               </>
             ) : (
-              <div className="wpsp-preview-not-available">
+              <div className="wpsp-not-available-content-area">
                 {info}
                 <h3>{ __('Preview not available', 'wp-scheduled-posts') }</h3>
                 <p>{__('Please select a social profile using the selector above.', 'wp-scheduled-posts')}</p>
-                <a href="">Show me how</a>
+                {/* <a href="">Show me how</a> */}
               </div>
             )}
             </div>
