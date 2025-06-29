@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { facebook, info, instagram, linkedin, medium, pinterest, threads, tikIcon, twitter_x } from './helpers/icons';
+import { eyeIcon, facebook, info, instagram, linkedin, medium, pinterest, threads, tikIcon, twitter_x } from './helpers/icons';
 
 const {
   components: { Modal, Button },
@@ -54,6 +54,7 @@ const CustomSocialTemplateModal = ({
   const [apiSchedulingData, setApiSchedulingData] = useState({});
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(false);
+  const [showPreview, setShowPreview] = useState(true);
 
   const [selectedPlatform, setSelectedPlatform] = useState('facebook');
   const [selectedProfile, setSelectedProfile] = useState([]);
@@ -517,7 +518,7 @@ const CustomSocialTemplateModal = ({
       className="wpsp-custom-template-modal"
       style={{ maxWidth: '800px', width: '90vw' }}
     >
-      <div className="wpsp-modal-content">
+      <div className={`wpsp-modal-content ${ availableProfiles?.length == 0 ? 'no-profile-found' : '' }`}>
         <div className="wpsp-modal-layout">
           {/* Left Side - Template Editor */}
           <div className="wpsp-modal-left">
@@ -558,53 +559,61 @@ const CustomSocialTemplateModal = ({
             <div className="wpsp-profile-selection-area-wrapper">
               <div className="selected-profile-area">
                 <ul>
-                  {availableProfiles && availableProfiles.map((profile) => {
-                    const isSelected = selectedProfile.some(p => p.id === profile.id);
+                {availableProfiles && availableProfiles.slice(0, 5).map((profile) => {
+                  const isSelected = selectedProfile.some(p => p.id === profile.id);
+                  return (
+                    <li
+                      key={profile.id}
+                      className="selected-profile"
+                      title={profile.name}
+                      onClick={() => {
+                        if (selectedProfile.some(p => p.id === profile.id)) {
+                          setSelectedProfile(selectedProfile.filter(p => p.id !== profile.id)); // Deselect
+                        } else {
+                          setSelectedProfile([...selectedProfile, profile]); // Select
+                        }
+                      }}
+                    >
+                      {profile.thumbnail_url ? (
+                        <img
+                          src={profile.thumbnail_url}
+                          alt={profile.name}
+                          className="wpsp-profile-image"
+                        />
+                      ) : (
+                        <div className="wpsp-profile-placeholder">
+                          {profile.name ? profile.name.charAt(0).toUpperCase() : '?'}
+                        </div>
+                      )}
 
-                    return (
-                      <li
-                        key={profile.id}
-                        className="selected-profile"
-                        title={profile.name}
-                        onClick={() => {
-                          if (selectedProfile.some(p => p.id === profile.id)) {
-                            setSelectedProfile(selectedProfile.filter(p => p.id !== profile.id)); // Deselect
-                          } else {
-                            setSelectedProfile([...selectedProfile, profile]); // Select
-                          }
-                        }}
-                      >
-                        {profile.thumbnail_url ? (
-                          <img
-                            src={profile.thumbnail_url}
-                            alt={profile.name}
-                            className="wpsp-profile-image"
-                          />
-                        ) : (
-                          <div className="wpsp-profile-placeholder">
-                            {profile.name ? profile.name.charAt(0).toUpperCase() : '?'}
-                          </div>
-                        )}
+                      {isSelected && (
+                        <div className='wpsp-selected-profile-action'>
+                          <span
+                            className="wpsp-remove-profile-btn"
+                            onClick={(e) => {
+                              e.stopPropagation(); // Prevent card click from re-selecting
+                              setSelectedProfile(selectedProfile.filter(p => p.id !== profile.id));
+                            }}
+                          >
+                            &times;
+                          </span>
+                          <span className="wpsp-selected-profile-btn">
+                            { tikIcon }
+                          </span>
+                        </div>
+                      )}
+                    </li>
+                  );
+                })}
 
-                        {isSelected && (
-                          <div className='wpsp-selected-profile-action'>
-                            <span
-                              className="wpsp-remove-profile-btn"
-                              onClick={(e) => {
-                                e.stopPropagation(); // Prevent card click from re-selecting
-                                setSelectedProfile(selectedProfile.filter(p => p.id !== profile.id));
-                              }}
-                            >
-                              &times;
-                            </span>
-                            <span className="wpsp-selected-profile-btn">
-                              { tikIcon }
-                            </span>
-                          </div>
-                        )}
-                      </li>
-                    );
-                  })}
+                {/* If more than 5 profiles, show the "+X" card */}
+                {availableProfiles.length > 5 && (
+                  <li className="selected-profile wpsp-more-profiles">
+                    <div className="wpsp-profile-placeholder">
+                      +{availableProfiles.length - 5}
+                    </div>
+                  </li>
+                )}
                 </ul>
                 <span className='select-profile-icon'  onClick={() => setActiveDropdown(!activeDropdown)}>
                   <img src={WPSchedulePostsFree.assetsURI + '/images/chevron-down.svg'} alt="" />
@@ -664,9 +673,14 @@ const CustomSocialTemplateModal = ({
                     {__('Available:', 'wp-scheduled-posts')} {'{title}'} {'{content}'} {'{url}'} {'{tags}'}
                   </span>
                   {/* Global template checkbox for the selected platform */}
-                  <span className={`wpsp-char-count ${isOverLimit ? 'over-limit' : ''}`}>
-                    {characterCount}/{currentLimit}
-                  </span>
+                  <div className="wpsp-custom-template-field-info">
+                    <span className={`${showPreview ? 'active' : 'inactive'}`} onClick={ () => setShowPreview(!showPreview) }>
+                      {eyeIcon}
+                    </span>
+                    <span className={`wpsp-char-count ${isOverLimit ? 'over-limit' : ''}`}>
+                      {characterCount}/{currentLimit}
+                    </span>
+                  </div>
                 </div>
                 <div className='wpsp-global-template'>
                   <span>{ __('Use global template','wp-scheduled-posts') }</span>
@@ -764,87 +778,88 @@ const CustomSocialTemplateModal = ({
           </div>
 
           {/* Right Side - Preview */}
-          <div className={`wpsp-modal-right ${selectedPlatform}`}>
-            <div className={`wpsp-preview-card ${
-              selectedProfile.length === 0 ? 'wpsp-preview-not-available' : ''
-            }`}>
-            {selectedProfile.length > 0 ? (
-              <>
-                <div className="wpsp-preview-header">
-                  <div className="wpsp-preview-avatar">
-                    <div className="wpsp-avatar-circle">
-                        {previewThumbnailUrl ? (
-                          <img
-                            src={previewThumbnailUrl}
-                            alt={previewProfileName}
-                            className="wpsp-profile-image"
-                          />
-                        ) : (
-                          <div className="wpsp-profile-placeholder">
-                            {previewProfileName ? previewProfileName?.charAt(0).toUpperCase() : '?'}
+          { showPreview &&
+             <div className={`wpsp-modal-right ${selectedPlatform}`}>
+              <div className="wpsp-preview-card">
+              { availableProfiles.length > 0 ? (
+                <>
+                  <div className="wpsp-preview-header">
+                    <div className="wpsp-preview-avatar">
+                      <div className="wpsp-avatar-circle">
+                          {previewThumbnailUrl ? (
+                            <img
+                              src={previewThumbnailUrl}
+                              alt={previewProfileName}
+                              className="wpsp-profile-image"
+                            />
+                          ) : (
+                            <div className="wpsp-profile-placeholder">
+                              {previewProfileName ? previewProfileName?.charAt(0).toUpperCase() : '?'}
+                            </div>
+                          )}
+                      </div>
+  
+                      <div className="wpsp-preview-info">
+                        {selectedProfile.length > 0 && (
+                          <div className="wpsp-preview-name">
+                            {previewProfileName}
                           </div>
                         )}
-                    </div>
-
-                    <div className="wpsp-preview-info">
-                      {selectedProfile.length > 0 && (
-                        <div className="wpsp-preview-name">
-                          {previewProfileName}
-                        </div>
-                      )}
-                      <div className="wpsp-preview-date">{new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
-                    </div>
-                  </div>
-                </div>
-                <div className="wpsp-preview-content-area">
-                  {previewContent ? (
-                    <div className="wpsp-preview-text" dangerouslySetInnerHTML={{ __html: previewContent }}></div>
-                  ) : (
-                    <div className="wpsp-preview-placeholder">
-                      {__('Template preview will appear here...', 'wp-scheduled-posts')}
-                    </div>
-                  )}
-
-                  {/* Mock post preview */}
-                  <div className="wpsp-preview-post">
-                    <div className="wpsp-preview-image">
-                      {uploadSocialShareBanner ? (
-                        <img src={uploadSocialShareBanner} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                      ) : (
-                        <div style={{ 
-                          width: '100%', 
-                          height: '100%', 
-                          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          color: 'white',
-                          fontSize: '14px'
-                        }}>
-                          {__('No image selected', 'wp-scheduled-posts')}
-                        </div>
-                      )}
-                    </div>
-                    <div className="wpsp-preview-post-content">
-                      <div className="wpsp-preview-url">{window.location.origin}</div>
-                      <div className="wpsp-preview-title">
-                        {postTitle || __('How to Add Anchor Links in Elementor? [3 Ways]', 'wp-scheduled-posts')}
+                        <div className="wpsp-preview-date">{new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
                       </div>
-                      <div className="wpsp-preview-excerpt" dangerouslySetInnerHTML={{ __html: postContent || __('Picture this — you are halfway through a lengthy web page, diving into the content and accidentally scrolling to the top of the page. Annoying, right? This is where anchor links become your best...', 'wp-scheduled-posts') }}></div>
                     </div>
                   </div>
+                  <div className="wpsp-preview-content-area">
+                    {previewContent ? (
+                      <div className="wpsp-preview-text" dangerouslySetInnerHTML={{ __html: previewContent }}></div>
+                    ) : (
+                      <div className="wpsp-preview-placeholder">
+                        {__('Template preview will appear here...', 'wp-scheduled-posts')}
+                      </div>
+                    )}
+  
+                    {/* Mock post preview */}
+                    <div className="wpsp-preview-post">
+                      <div className="wpsp-preview-image">
+                        {uploadSocialShareBanner ? (
+                          <img src={uploadSocialShareBanner} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        ) : (
+                          <div style={{ 
+                            width: '100%', 
+                            height: '100%', 
+                            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: 'white',
+                            fontSize: '14px'
+                          }}>
+                            {__('No image selected', 'wp-scheduled-posts')}
+                          </div>
+                        )}
+                      </div>
+                      <div className="wpsp-preview-post-content">
+                        <div className="wpsp-preview-url">{window.location.origin}</div>
+                        <div className="wpsp-preview-title">
+                          {postTitle || __('How to Add Anchor Links in Elementor? [3 Ways]', 'wp-scheduled-posts')}
+                        </div>
+                        <div className="wpsp-preview-excerpt" dangerouslySetInnerHTML={{ __html: postContent || __('Picture this — you are halfway through a lengthy web page, diving into the content and accidentally scrolling to the top of the page. Annoying, right? This is where anchor links become your best...', 'wp-scheduled-posts') }}></div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <div className="wpsp-preview-not-available">
+                  {info}
+                  <h3>{ __('Preview not available', 'wp-scheduled-posts') }</h3>
+                  <p>{__('Please select a social profile using the selector above.', 'wp-scheduled-posts')}</p>
+                  <a href="">Show me how</a>
                 </div>
-              </>
-            ) : (
-              <div className="wpsp-not-available-content-area">
-                {info}
-                <h3>{ __('Preview not available', 'wp-scheduled-posts') }</h3>
-                <p>{__('Please select a social profile using the selector above.', 'wp-scheduled-posts')}</p>
-                {/* <a href="">Show me how</a> */}
+              )}
               </div>
-            )}
             </div>
-          </div>
+          }
+         
         </div>
 
         {/* Modal Actions */}
