@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { facebook, info, instagram, linkedin, medium, pinterest, threads, twitter_x } from './helpers/icons';
+import { facebook, info, instagram, linkedin, medium, pinterest, threads, tikIcon, twitter_x } from './helpers/icons';
 
 const {
   components: { Modal, Button },
@@ -556,38 +556,57 @@ const CustomSocialTemplateModal = ({
             </div>
 
             <div className="wpsp-profile-selection-area-wrapper">
-              <div className="selected-profile-area" onClick={() => setActiveDropdown(!activeDropdown)}>
+              <div className="selected-profile-area">
                 <ul>
-                  { selectedProfile && selectedProfile.map( ( profile ) => (
-                    <li
-                      key={profile.id}
-                      className="selected-profile"
-                      title={profile.name}
-                    >
-                      {profile.thumbnail_url ? (
-                        <img
-                          src={profile.thumbnail_url}
-                          alt={profile.name}
-                          className="wpsp-profile-image"
-                        />
-                      ) : (
-                        <div className="wpsp-profile-placeholder">
-                          {profile.name ? profile.name.charAt(0).toUpperCase() : '?'}
-                        </div>
-                      )}
-                      <span
-                        className="wpsp-remove-profile-btn"
-                        onClick={(e) => {
-                          e.stopPropagation(); // Prevent card click from re-selecting
-                          setSelectedProfile(selectedProfile.filter(p => p.id !== profile.id));
+                  {availableProfiles && availableProfiles.map((profile) => {
+                    const isSelected = selectedProfile.some(p => p.id === profile.id);
+
+                    return (
+                      <li
+                        key={profile.id}
+                        className="selected-profile"
+                        title={profile.name}
+                        onClick={() => {
+                          if (selectedProfile.some(p => p.id === profile.id)) {
+                            setSelectedProfile(selectedProfile.filter(p => p.id !== profile.id)); // Deselect
+                          } else {
+                            setSelectedProfile([...selectedProfile, profile]); // Select
+                          }
                         }}
                       >
-                        &times;
-                      </span>
-                    </li>
-                  ) ) }
+                        {profile.thumbnail_url ? (
+                          <img
+                            src={profile.thumbnail_url}
+                            alt={profile.name}
+                            className="wpsp-profile-image"
+                          />
+                        ) : (
+                          <div className="wpsp-profile-placeholder">
+                            {profile.name ? profile.name.charAt(0).toUpperCase() : '?'}
+                          </div>
+                        )}
+
+                        {isSelected && (
+                          <div className='wpsp-selected-profile-action'>
+                            <span
+                              className="wpsp-remove-profile-btn"
+                              onClick={(e) => {
+                                e.stopPropagation(); // Prevent card click from re-selecting
+                                setSelectedProfile(selectedProfile.filter(p => p.id !== profile.id));
+                              }}
+                            >
+                              &times;
+                            </span>
+                            <span className="wpsp-selected-profile-btn">
+                              { tikIcon }
+                            </span>
+                          </div>
+                        )}
+                      </li>
+                    );
+                  })}
                 </ul>
-                <span>
+                <span  onClick={() => setActiveDropdown(!activeDropdown)}>
                   <img src={WPSchedulePostsFree.assetsURI + '/images/chevron-down.svg'} alt="" />
                 </span>
               </div>
