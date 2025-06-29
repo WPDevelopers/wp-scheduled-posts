@@ -51,8 +51,6 @@ const CustomSocialTemplateModal = ({
 
   // State for API-loaded template data
   const [apiTemplateData, setApiTemplateData] = useState({});
-  const [apiSchedulingData, setApiSchedulingData] = useState({});
-  const [isLoadingData, setIsLoadingData] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(false);
   const [showPreview, setShowPreview] = useState(true);
 
@@ -81,7 +79,6 @@ const CustomSocialTemplateModal = ({
     if (!postId) return {};
 
     try {
-      setIsLoadingData(true);
       const response = await wp.apiFetch({
         path: `/wp-scheduled-posts/v1/custom-templates/${postId}`,
         method: 'GET',
@@ -97,8 +94,6 @@ const CustomSocialTemplateModal = ({
     } catch (error) {
       console.error('Error fetching template data:', error);
       return {};
-    } finally {
-      setIsLoadingData(false);
     }
   };
 
@@ -110,7 +105,6 @@ const CustomSocialTemplateModal = ({
       // This can be moved to API later if needed
       const meta = wp.data.select('core/editor').getEditedPostAttribute('meta') || {};
       const schedulingData = meta._wpsp_social_scheduling || {};      
-      setApiSchedulingData(schedulingData);
       return schedulingData;
     } catch (error) {
       console.error('Error fetching scheduling data:', error);
@@ -166,7 +160,6 @@ const CustomSocialTemplateModal = ({
     if (isPublished) {
       // Absolute scheduling for published posts
       return [
-        { value: 'today', label: __('Today', 'wp-scheduled-posts') },
         { value: 'tomorrow', label: __('Tomorrow', 'wp-scheduled-posts') },
         { value: 'next_week', label: __('Next week', 'wp-scheduled-posts') },
         { value: 'next_month', label: __('Next month', 'wp-scheduled-posts') },
@@ -193,7 +186,6 @@ const CustomSocialTemplateModal = ({
     if (isPublished) {
       // Absolute scheduling for published posts
       return [
-        { value: 'now', label: __('Now', 'wp-scheduled-posts') },
         { value: 'in_1h', label: __('In one hour', 'wp-scheduled-posts') },
         { value: 'in_3h', label: __('In three hours', 'wp-scheduled-posts') },
         { value: 'in_5h', label: __('In five hours', 'wp-scheduled-posts') },
@@ -556,78 +548,19 @@ const CustomSocialTemplateModal = ({
               ))}
             </div>
 
-            <div className="wpsp-profile-selection-area-wrapper">
-              <div className="selected-profile-area">
-                <ul>
-                {availableProfiles && availableProfiles.slice(0, 5).map((profile) => {
-                  const isSelected = selectedProfile.some(p => p.id === profile.id);
-                  return (
-                    <li
-                      key={profile.id}
-                      className="selected-profile"
-                      title={profile.name}
-                      onClick={() => {
-                        if (selectedProfile.some(p => p.id === profile.id)) {
-                          setSelectedProfile(selectedProfile.filter(p => p.id !== profile.id)); // Deselect
-                        } else {
-                          setSelectedProfile([...selectedProfile, profile]); // Select
-                        }
-                      }}
-                    >
-                      {profile.thumbnail_url ? (
-                        <img
-                          src={profile.thumbnail_url}
-                          alt={profile.name}
-                          className="wpsp-profile-image"
-                        />
-                      ) : (
-                        <div className="wpsp-profile-placeholder">
-                          {profile.name ? profile.name.charAt(0).toUpperCase() : '?'}
-                        </div>
-                      )}
-
-                      {isSelected && (
-                        <div className='wpsp-selected-profile-action'>
-                          <span
-                            className="wpsp-remove-profile-btn"
-                            onClick={(e) => {
-                              e.stopPropagation(); // Prevent card click from re-selecting
-                              setSelectedProfile(selectedProfile.filter(p => p.id !== profile.id));
-                            }}
-                          >
-                            &times;
-                          </span>
-                          <span className="wpsp-selected-profile-btn">
-                            { tikIcon }
-                          </span>
-                        </div>
-                      )}
-                    </li>
-                  );
-                })}
-
-                {/* If more than 5 profiles, show the "+X" card */}
-                {availableProfiles.length > 5 && (
-                  <li className="selected-profile wpsp-more-profiles">
-                    <div className="wpsp-profile-placeholder">
-                      +{availableProfiles.length - 5}
-                    </div>
-                  </li>
-                )}
-                </ul>
-                <span className='select-profile-icon'  onClick={() => setActiveDropdown(!activeDropdown)}>
-                  <img src={WPSchedulePostsFree.assetsURI + '/images/chevron-down.svg'} alt="" />
-                </span>
-              </div>
-              {activeDropdown && (
-                <div className="wpsp-profile-selection-dropdown">
-                  <div className="wpsp-profile-selection-dropdown-item">
-                    {availableProfiles.map(profile => (
-                      <div
+            <div className="wpsp-custom-template-content-wrapper">
+              { availableProfiles.length == 0 && <h5> { __('*You may forget to add or enable profile/page from SchedulePress settings.','wp-scheduled-posts') }</h5> }
+              <div className={`wpsp-profile-selection-area-wrapper ${ availableProfiles.length <= 0 ? 'no-profile-found' : '' }`}>
+                <div className="selected-profile-area">
+                  <ul>
+                  {availableProfiles && availableProfiles.slice(0, 5).map((profile) => {
+                    const isSelected = selectedProfile.some(p => p.id === profile.id);
+                    return (
+                      <li
                         key={profile.id}
-                        className={`wpsp-profile-card ${selectedProfile.some(p => p.id === profile.id) ? 'selected' : ''}`}
+                        className="selected-profile"
+                        title={profile.name}
                         onClick={() => {
-                          // Toggle functionality: if already selected, deselect; otherwise select
                           if (selectedProfile.some(p => p.id === profile.id)) {
                             setSelectedProfile(selectedProfile.filter(p => p.id !== profile.id)); // Deselect
                           } else {
@@ -635,143 +568,205 @@ const CustomSocialTemplateModal = ({
                           }
                         }}
                       >
-                        <div className="wpsp-profile-avatar">
-                          {profile.thumbnail_url ? (
-                            <img
-                              src={profile.thumbnail_url}
-                              alt={profile.name}
-                              className="wpsp-profile-image"
-                            />
-                          ) : (
-                            <div className="wpsp-profile-placeholder">
-                              {profile.name ? profile.name.charAt(0).toUpperCase() : '?'}
-                            </div>
-                            )}
-                        </div>
-                        <div className="wpsp-profile-info">
-                          <div className="wpsp-profile-name">{profile.name}</div>
-                        </div>
+                        {profile.thumbnail_url ? (
+                          <img
+                            src={profile.thumbnail_url}
+                            alt={profile.name}
+                            className="wpsp-profile-image"
+                          />
+                        ) : (
+                          <div className="wpsp-profile-placeholder">
+                            {profile.name ? profile.name.charAt(0).toUpperCase() : '?'}
+                          </div>
+                        )}
+
+                        {isSelected && (
+                          <div className='wpsp-selected-profile-action'>
+                            <span
+                              className="wpsp-remove-profile-btn"
+                              onClick={(e) => {
+                                e.stopPropagation(); // Prevent card click from re-selecting
+                                setSelectedProfile(selectedProfile.filter(p => p.id !== profile.id));
+                              }}
+                            >
+                              &times;
+                            </span>
+                            <span className="wpsp-selected-profile-btn">
+                              { tikIcon }
+                            </span>
+                          </div>
+                        )}
+                      </li>
+                    );
+                  })}
+
+                  {/* If more than 5 profiles, show the "+X" card */}
+                  {availableProfiles.length > 5 && (
+                    <li className="selected-profile wpsp-more-profiles">
+                      <div className="wpsp-profile-placeholder">
+                        +{availableProfiles.length - 5}
                       </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-            {/* Template Editor - Show when platform is selected */}
-            {selectedPlatform && (
-              <div className="wpsp-template-textarea">
-                <textarea
-                  value={customTemplates[selectedPlatform] || ''}
-                  onChange={(e) => setCustomTemplates(prev => ({ ...prev, [selectedPlatform]: e.target.value }))}
-                  placeholder={__('Enter your custom template here...', 'wp-scheduled-posts')}
-                  className="wpsp-template-input"
-                  rows={4}
-                  disabled={false}
-                />
-                <div className="wpsp-template-meta">
-                  <span className="wpsp-placeholders">
-                    {__('Available:', 'wp-scheduled-posts')} {'{title}'} {'{content}'} {'{url}'} {'{tags}'}
+                    </li>
+                  )}
+                  </ul>
+                  <span className='select-profile-icon'  onClick={() => setActiveDropdown(!activeDropdown)}>
+                    <img src={WPSchedulePostsFree.assetsURI + '/images/chevron-down.svg'} alt="" />
                   </span>
-                  {/* Global template checkbox for the selected platform */}
-                  <div className="wpsp-custom-template-field-info">
-                    <span className={`${showPreview ? 'active' : 'inactive'}`} onClick={ () => setShowPreview(!showPreview) }>
-                      {eyeIcon}
-                    </span>
-                    <span className={`wpsp-char-count ${isOverLimit ? 'over-limit' : ''}`}>
-                      {characterCount}/{currentLimit}
-                    </span>
+                </div>
+                {activeDropdown && (
+                  <div className="wpsp-profile-selection-dropdown">
+                    <div className="wpsp-profile-selection-dropdown-item">
+                      {availableProfiles.map(profile => (
+                        <div
+                          key={profile.id}
+                          className={`wpsp-profile-card ${selectedProfile.some(p => p.id === profile.id) ? 'selected' : ''}`}
+                          onClick={() => {
+                            // Toggle functionality: if already selected, deselect; otherwise select
+                            if (selectedProfile.some(p => p.id === profile.id)) {
+                              setSelectedProfile(selectedProfile.filter(p => p.id !== profile.id)); // Deselect
+                            } else {
+                              setSelectedProfile([...selectedProfile, profile]); // Select
+                            }
+                          }}
+                        >
+                          <div className="wpsp-profile-avatar">
+                            {profile.thumbnail_url ? (
+                              <img
+                                src={profile.thumbnail_url}
+                                alt={profile.name}
+                                className="wpsp-profile-image"
+                              />
+                            ) : (
+                              <div className="wpsp-profile-placeholder">
+                                {profile.name ? profile.name.charAt(0).toUpperCase() : '?'}
+                              </div>
+                              )}
+                          </div>
+                          <div className="wpsp-profile-info">
+                            <div className="wpsp-profile-name">{profile.name}</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
-                <div className='wpsp-global-template'>
-                  <span>{ __('Use global template','wp-scheduled-posts') }</span>
-                  <div>
-                    <input
-                      type="checkbox"
-                      id={`useGlobalTemplate_${selectedPlatform}`}
-                      checked={getIsGlobalForPlatform(selectedPlatform)}
-                      onChange={e => setUseGlobalTemplatePlatform(selectedPlatform, e.target.checked)}
+                )}
+                {/* Template Editor - Show when platform is selected */}
+                {selectedPlatform && (
+                  <div className="wpsp-template-textarea">
+                    <textarea
+                      value={customTemplates[selectedPlatform] || ''}
+                      onChange={(e) => setCustomTemplates(prev => ({ ...prev, [selectedPlatform]: e.target.value }))}
+                      placeholder={__('Enter your custom template here...', 'wp-scheduled-posts')}
+                      className="wpsp-template-input"
+                      rows={4}
+                      disabled={false}
                     />
-                    <label htmlFor={`useGlobalTemplate_${selectedPlatform}`}></label>
+                    <div className="wpsp-template-meta">
+                      <span className="wpsp-placeholders">
+                        {__('Available:', 'wp-scheduled-posts')} {'{title}'} {'{content}'} {'{url}'} {'{tags}'}
+                      </span>
+                      {/* Global template checkbox for the selected platform */}
+                      <div className="wpsp-custom-template-field-info">
+                        <span className={`${showPreview ? 'active' : 'inactive'}`} onClick={ () => setShowPreview(!showPreview) }>
+                          {eyeIcon}
+                        </span>
+                        <span className={`wpsp-char-count ${isOverLimit ? 'over-limit' : ''}`}>
+                          {characterCount}/{currentLimit}
+                        </span>
+                      </div>
+                    </div>
+                    <div className='wpsp-global-template'>
+                      <span>{ __('Use global template','wp-scheduled-posts') }</span>
+                      <div>
+                        <input
+                          type="checkbox"
+                          id={`useGlobalTemplate_${selectedPlatform}`}
+                          checked={getIsGlobalForPlatform(selectedPlatform)}
+                          onChange={e => setUseGlobalTemplatePlatform(selectedPlatform, e.target.checked)}
+                        />
+                        <label htmlFor={`useGlobalTemplate_${selectedPlatform}`}></label>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            )}
-            {/* Date & Time Scheduling Fields */}
-            <div className="wpsp-date-time-section" style={{ marginBottom: '1.5em' }}>
-              <div style={{ display: 'flex', gap: '1.5em', alignItems: 'flex-end' }}>
-                {/* Date Field */}
-                <div>
-                  <label style={{ fontWeight: 600, display: 'block', marginBottom: 4 }}>{__('Date', 'wp-scheduled-posts')}</label>
-                  <select
-                    value={scheduleData.dateOption}
-                    onChange={e => setScheduleData(prev => ({ ...prev, dateOption: e.target.value }))}
-                    className="wpsp-date-select"
-                  >
-                    {getDateOptions().map(option => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
-                  {(scheduleData.dateOption === 'in_days' || scheduleData.dateOption === 'days_after') && (
-                    <input
-                      type="number"
-                      min="1"
-                      placeholder={
-                        scheduleData.schedulingType === 'absolute'
-                          ? __('Enter number of days', 'wp-scheduled-posts')
-                          : __('Enter number of days after publication', 'wp-scheduled-posts')
-                      }
-                      value={scheduleData.customDays}
-                      onChange={e => setScheduleData(prev => ({ ...prev, customDays: e.target.value }))}
-                      style={{ marginTop: 6, width: '100%' }}
-                    />
-                  )}
-                  {scheduleData.dateOption === 'custom_date' && (
-                    <input
-                      type="date"
-                      value={scheduleData.customDate}
-                      onChange={e => setScheduleData(prev => ({ ...prev, customDate: e.target.value }))}
-                      style={{ marginTop: 6, width: '100%' }}
-                    />
-                  )}
-                </div>
-                {/* Time Field */}
-                <div>
-                  <label style={{ fontWeight: 600, display: 'block', marginBottom: 4 }}>{__('Time', 'wp-scheduled-posts')}</label>
-                  <select
-                    value={scheduleData.timeOption}
-                    onChange={e => setScheduleData(prev => ({ ...prev, timeOption: e.target.value }))}
-                    className="wpsp-time-select"
-                  >
-                    {getTimeOptions().map(option => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
-                  {(scheduleData.timeOption === 'in_hours' || scheduleData.timeOption === 'hours_after') && (
-                    <input
-                      type="number"
-                      min="1"
-                      placeholder={
-                        scheduleData.schedulingType === 'absolute'
-                          ? __('Enter number of hours', 'wp-scheduled-posts')
-                          : __('Enter number of hours after publication', 'wp-scheduled-posts')
-                      }
-                      value={scheduleData.customHours}
-                      onChange={e => setScheduleData(prev => ({ ...prev, customHours: e.target.value }))}
-                      style={{ marginTop: 6, width: '100%' }}
-                    />
-                  )}
-                  {scheduleData.timeOption === 'custom_time' && (
-                    <input
-                      type="time"
-                      value={scheduleData.customTime}
-                      onChange={e => setScheduleData(prev => ({ ...prev, customTime: e.target.value }))}
-                      style={{ marginTop: 6, width: '100%' }}
-                    />
-                  )}
+                )}
+                {/* Date & Time Scheduling Fields */}
+                <div className="wpsp-date-time-section" style={{ marginBottom: '1.5em' }}>
+                  <div style={{ display: 'flex', gap: '1.5em', alignItems: 'flex-end' }}>
+                    {/* Date Field */}
+                    <div>
+                      <label style={{ fontWeight: 600, display: 'block', marginBottom: 4 }}>{__('Date', 'wp-scheduled-posts')}</label>
+                      <select
+                        value={scheduleData.dateOption}
+                        onChange={e => setScheduleData(prev => ({ ...prev, dateOption: e.target.value }))}
+                        className="wpsp-date-select"
+                      >
+                        {getDateOptions().map(option => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                      </select>
+                      {(scheduleData.dateOption === 'in_days' || scheduleData.dateOption === 'days_after') && (
+                        <input
+                          type="number"
+                          min="1"
+                          placeholder={
+                            scheduleData.schedulingType === 'absolute'
+                              ? __('Enter number of days', 'wp-scheduled-posts')
+                              : __('Enter number of days after publication', 'wp-scheduled-posts')
+                          }
+                          value={scheduleData.customDays}
+                          onChange={e => setScheduleData(prev => ({ ...prev, customDays: e.target.value }))}
+                          style={{ marginTop: 6, width: '100%' }}
+                        />
+                      )}
+                      {scheduleData.dateOption === 'custom_date' && (
+                        <input
+                          type="date"
+                          value={scheduleData.customDate}
+                          onChange={e => setScheduleData(prev => ({ ...prev, customDate: e.target.value }))}
+                          style={{ marginTop: 6, width: '100%' }}
+                        />
+                      )}
+                    </div>
+                    {/* Time Field */}
+                    <div>
+                      <label style={{ fontWeight: 600, display: 'block', marginBottom: 4 }}>{__('Time', 'wp-scheduled-posts')}</label>
+                      <select
+                        value={scheduleData.timeOption}
+                        onChange={e => setScheduleData(prev => ({ ...prev, timeOption: e.target.value }))}
+                        className="wpsp-time-select"
+                      >
+                        {getTimeOptions().map(option => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                      </select>
+                      {(scheduleData.timeOption === 'in_hours' || scheduleData.timeOption === 'hours_after') && (
+                        <input
+                          type="number"
+                          min="1"
+                          placeholder={
+                            scheduleData.schedulingType === 'absolute'
+                              ? __('Enter number of hours', 'wp-scheduled-posts')
+                              : __('Enter number of hours after publication', 'wp-scheduled-posts')
+                          }
+                          value={scheduleData.customHours}
+                          onChange={e => setScheduleData(prev => ({ ...prev, customHours: e.target.value }))}
+                          style={{ marginTop: 6, width: '100%' }}
+                        />
+                      )}
+                      {scheduleData.timeOption === 'custom_time' && (
+                        <input
+                          type="time"
+                          value={scheduleData.customTime}
+                          onChange={e => setScheduleData(prev => ({ ...prev, customTime: e.target.value }))}
+                          style={{ marginTop: 6, width: '100%' }}
+                        />
+                      )}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

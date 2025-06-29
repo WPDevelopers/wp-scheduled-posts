@@ -333,16 +333,16 @@ button.wpsp-platform-icon.facebook.active svg path, button.wpsp-platform-icon.fa
 }
 
 .selected-profile .wpsp-profile-placeholder {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  font-weight: 600;
-  font-size: 14px;
+  font-weight: 500;
+  font-size: 12px;
   /* border: 2px solid #6366f1; */
 }
 
