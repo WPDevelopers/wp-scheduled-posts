@@ -284,6 +284,17 @@ button.wpsp-platform-icon.facebook.active svg path, button.wpsp-platform-icon.fa
   list-style: none;
 }
 
+.selected-profile-area span {
+  width: 24px;
+  height: 24px;
+  border: 1px solid #ECEFF5;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
 .selected-profile {
   position: relative;
   display: flex;
@@ -292,16 +303,33 @@ button.wpsp-platform-icon.facebook.active svg path, button.wpsp-platform-icon.fa
   margin-bottom: 0;
 }
 
+.selected-profile .wpsp-selected-profile-btn {
+  opacity: 1;
+}
+
+.selected-profile .wpsp-selected-profile-action .wpsp-remove-profile-btn {
+  opacity: 0;
+}
+
+.selected-profile .wpsp-selected-profile-action:hover .wpsp-selected-profile-btn {
+  opacity: 0;
+}
+
+.selected-profile .wpsp-selected-profile-action:hover .wpsp-remove-profile-btn {
+  opacity: 1;
+  transform: scale(.9);
+}
+
 .selected-profile:not(:first-child) {
   margin-left: -4px;
 }
 
 .selected-profile .wpsp-profile-image {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 1px solid #FFF;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #FFF;
 }
 
 .selected-profile .wpsp-profile-placeholder {
@@ -319,37 +347,57 @@ button.wpsp-platform-icon.facebook.active svg path, button.wpsp-platform-icon.fa
 }
 
 .wpsp-remove-profile-btn {
-    position: absolute;
-    bottom: -4px;
-    right: 0px;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: #6E6E8D;
-    color: #FFF;
-    border: 1px solid #FFF;
-    font-size: 14px;
-    padding-bottom: 2px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-    cursor: pointer;
+  position: absolute;
+  top: -6px;
+  right: 8px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #6E6E8D;
+  color: #FFF;
+  border: 1px solid #FFF;
+  font-size: 12px;
+  padding-bottom: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease-in-out;
+  transform: scale(.2);
+  cursor: pointer;
+}
+
+.wpsp-selected-profile-btn {
+  position: absolute;
+  top: -6px;
+  right: 8px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.wpsp-selected-profile-btn svg {
+  width: 16px;
+  height: 16px;
 }
 
 /* Profile Selection Dropdown */
 .wpsp-profile-selection-dropdown {
-    background: #FFF;
-    max-height: 200px;
-    overflow-y: auto;
-    box-shadow: 0px 12px 48px 0px #1B1B501A;
-    border-radius: 6px;
-    padding: 16px;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 52px;
-    z-index: 99999999;
+  background: #FFF;
+  max-height: 200px;
+  overflow-y: auto;
+  box-shadow: 0px 12px 48px 0px #1B1B501A;
+  border-radius: 6px;
+  padding: 16px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 52px;
+  z-index: 99999999;
 }
 
 .wpsp-profile-selection-dropdown-item {
@@ -357,15 +405,15 @@ button.wpsp-platform-icon.facebook.active svg path, button.wpsp-platform-icon.fa
 }
 
 .wpsp-profile-card {
-    display: flex;
-    align-items: center;
-    padding: 8px 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    position: relative;
-    margin: 0;
+  display: flex;
+  align-items: center;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  margin: 0;
 }
 
 .wpsp-profile-card:not(:last-child) {
@@ -378,12 +426,12 @@ button.wpsp-platform-icon.facebook.active svg path, button.wpsp-platform-icon.fa
 }
 
 .wpsp-profile-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin-right: 12px;
-    flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 12px;
+  flex-shrink: 0;
 }
 
 .wpsp-profile-card .wpsp-profile-image {
