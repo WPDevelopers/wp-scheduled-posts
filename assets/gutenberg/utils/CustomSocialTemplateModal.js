@@ -653,14 +653,17 @@ const CustomSocialTemplateModal = ({
                 {/* Template Editor - Show when platform is selected */}
                 {selectedPlatform && (
                   <div className="wpsp-template-textarea">
-                    <textarea
-                      value={customTemplates[selectedPlatform] || ''}
-                      onChange={(e) => setCustomTemplates(prev => ({ ...prev, [selectedPlatform]: e.target.value }))}
-                      placeholder={__('Enter your custom template here...', 'wp-scheduled-posts')}
-                      className="wpsp-template-input"
-                      rows={4}
-                      disabled={false}
-                    />
+                    <div className='wpsp-textarea-wrapper'>
+                      <textarea 
+                        value={customTemplates[selectedPlatform] || ''}
+                        onChange={(e) => setCustomTemplates(prev => ({ ...prev, [selectedPlatform]: e.target.value }))}
+                        placeholder={__('Enter your custom template here...', 'wp-scheduled-posts')}
+                        id="wpsp-template-input"
+                        className="wpsp-template-input"
+                        rows={4}
+                        disabled={false}
+                      />
+                    </div>
                     <div className="wpsp-template-meta">
                       <span className="wpsp-placeholders">
                         {__('Available:', 'wp-scheduled-posts')} {'{title}'} {'{content}'} {'{url}'} {'{tags}'}
