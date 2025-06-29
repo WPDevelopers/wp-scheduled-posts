@@ -606,7 +606,7 @@ const CustomSocialTemplateModal = ({
                     );
                   })}
                 </ul>
-                <span  onClick={() => setActiveDropdown(!activeDropdown)}>
+                <span className='select-profile-icon'  onClick={() => setActiveDropdown(!activeDropdown)}>
                   <img src={WPSchedulePostsFree.assetsURI + '/images/chevron-down.svg'} alt="" />
                 </span>
               </div>

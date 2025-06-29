@@ -284,7 +284,7 @@ button.wpsp-platform-icon.facebook.active svg path, button.wpsp-platform-icon.fa
   list-style: none;
 }
 
-.selected-profile-area span {
+.selected-profile-area .select-profile-icon {
   width: 24px;
   height: 24px;
   border: 1px solid #ECEFF5;
