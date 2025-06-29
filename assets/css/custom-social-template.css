@@ -583,14 +583,26 @@ button.wpsp-platform-icon.facebook.active svg path, button.wpsp-platform-icon.fa
   color: #6b7280;
 }
 
-.wpsp-char-count {
-  font-weight: 500;
+.wpsp-custom-template-field-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.wpsp-char-count.over-limit {
+span.active {
+  display: inline-flex;
+  cursor: pointer;
+}
+
+.wpsp-char-count {
+  font-weight: 500;
+  color: #98A2B3;
+}
+
+/* .wpsp-char-count.over-limit {
   color: #dc2626;
   font-weight: 600;
-}
+} */
 
 /* Date & Time Scheduling Section */
 .wpsp-date-time-section {
@@ -677,7 +689,7 @@ button.wpsp-platform-icon.facebook.active svg path, button.wpsp-platform-icon.fa
   max-width: 400px;
 }
 
-.wpsp-preview-card {
+.wpsp-modal-content .wpsp-preview-card {
   background: #FFF;
   border-radius: 8px;
   padding: 24px 16px;
@@ -687,7 +699,7 @@ button.wpsp-platform-icon.facebook.active svg path, button.wpsp-platform-icon.fa
   flex: 1;
 }
 
-.wpsp-not-available-content-area {
+.wpsp-modal-content.no-profile-found .wpsp-preview-not-available {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -698,31 +710,37 @@ button.wpsp-platform-icon.facebook.active svg path, button.wpsp-platform-icon.fa
   padding-top: 100px;
 }
 
-.wpsp-preview-not-available h3 {
+.wpsp-preview-card h3 {
   font-size: 16px;
   font-weight: 500;
   line-height: 1.2em;
   margin: 16px 0 12px;
   color: #1D2939;
+  cursor: default;
 }
 
-.wpsp-preview-not-available p {
+.wpsp-preview-card p {
   font-size: 14px;
   line-height: 1.4em;
   color: #6E6E8D;
   margin: 0;
+  cursor: default;
 }
 
-.wpsp-preview-card.wpsp-preview-not-available svg path {
+.wpsp-modal-content.no-profile-found .wpsp-preview-card .wpsp-preview-not-available svg path {
   fill: #CBD1DC;
 }
 
-.wpsp-preview-card.wpsp-preview-not-available h3 {
+.wpsp-modal-content.no-profile-found .wpsp-preview-card .wpsp-preview-not-available h3 {
   color: #CBD1DC;
 }
 
-.wpsp-preview-card.wpsp-preview-not-available p {
+.wpsp-modal-content.no-profile-found .wpsp-preview-card .wpsp-preview-not-available p {
   color: #CBD1DC;
+}
+
+.wpsp-modal-content.no-profile-found .wpsp-preview-card .wpsp-preview-not-available a {
+  display: none;
 }
 
 /* .wpsp-preview-not-available a {
