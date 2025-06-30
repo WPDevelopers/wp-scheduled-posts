@@ -257,9 +257,17 @@ button.wpsp-platform-icon.facebook.active svg path, button.wpsp-platform-icon.fa
   fill: #fff;
 }
 
+.wpsp-custom-template-content-wrapper h5 {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 22px;
+  color: #1B1B50;
+  margin: 0;
+  padding-bottom: 16px;
+}
+
 /* Profile Selection Area Wrapper */
 .wpsp-profile-selection-area-wrapper {
-  margin-bottom: 8px;
   position: relative;
 }
 
@@ -273,7 +281,21 @@ button.wpsp-platform-icon.facebook.active svg path, button.wpsp-platform-icon.fa
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 8px;
   cursor: pointer;
+  position: relative;
+}
+
+.wpsp-profile-selection-area-wrapper.no-profile-found .selected-profile-area::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #ffffffa1;
+  border-radius: 8px;
+  cursor: default;
 }
 
 .selected-profile-area ul {
@@ -311,11 +333,11 @@ button.wpsp-platform-icon.facebook.active svg path, button.wpsp-platform-icon.fa
   opacity: 0;
 }
 
-.selected-profile .wpsp-selected-profile-action:hover .wpsp-selected-profile-btn {
+.selected-profile:hover .wpsp-selected-profile-action .wpsp-selected-profile-btn {
   opacity: 0;
 }
 
-.selected-profile .wpsp-selected-profile-action:hover .wpsp-remove-profile-btn {
+.selected-profile:hover .wpsp-selected-profile-action .wpsp-remove-profile-btn {
   opacity: 1;
   transform: scale(.9);
 }
@@ -548,7 +570,7 @@ button.wpsp-platform-icon.facebook.active svg path, button.wpsp-platform-icon.fa
   margin-bottom: 20px;
 }
 
-.wpsp-template-input {
+textarea.wpsp-template-input {
   width: 100%;
   padding: 12px;
   border: 1px solid #ECEFF5;
@@ -558,11 +580,44 @@ button.wpsp-platform-icon.facebook.active svg path, button.wpsp-platform-icon.fa
   resize: vertical;
   font-family: inherit;
   background: #FFF;
+  box-shadow: none;
+}
+
+.wpsp-textarea-wrapper {
+  position: relative;
+}
+
+.wpsp-profile-selection-area-wrapper.no-profile-found .wpsp-textarea-wrapper textarea.wpsp-template-input {
+  pointer-events: none;
+}
+
+.wpsp-profile-selection-area-wrapper.no-profile-found .wpsp-textarea-wrapper {
+  pointer-events: none;
+}
+
+.wpsp-profile-selection-area-wrapper.no-profile-found .wpsp-textarea-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 1px;
+  bottom: 5px;
+  left: 1px;
+  right: 1px;
+  background: #ffffffa1;
+  border-radius: 8px;
+  box-shadow: none;
+  overflow: hidden;
+  z-index: 999;
 }
 
 .wpsp-template-input:focus {
   outline: none;
   border-color: #6C62FF;
+  box-shadow: none;
+}
+
+.wpsp-profile-selection-area-wrapper.no-profile-found .wpsp-template-input:focus {
+  outline: none;
+  border-color: transparent;
   box-shadow: none;
 }
 
@@ -606,17 +661,29 @@ span.active {
 
 /* Date & Time Scheduling Section */
 .wpsp-date-time-section {
-    margin-bottom: 0 !important;
-    padding: 16px;
-    background: #FFF;
-    border-radius: 8px;
+  margin-bottom: 0 !important;
+  padding: 16px;
+  background: #FFF;
+  border-radius: 8px;
+  position: relative;
+}
+
+.wpsp-profile-selection-area-wrapper.no-profile-found .wpsp-date-time-section::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #ffffffa1;
+  border-radius: 8px;
 }
 
 .wpsp-date-time-section > div {
-      display: flex;
-    flex-direction: column;
-    align-items: unset !important;
-    gap: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: unset !important;
+  gap: 20px;
 }
 
 .wpsp-date-time-section > div > div {
