@@ -643,10 +643,11 @@ textarea.wpsp-template-input {
   align-items: center;
   gap: 8px;
 }
-
-span.active {
-  display: inline-flex;
+.wpsp-template-meta .wpsp-custom-template-field-info span {
   cursor: pointer;
+}
+.wpsp-template-meta .wpsp-custom-template-field-info span {
+  display: inline-flex;
 }
 
 .wpsp-char-count {

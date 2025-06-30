@@ -428,7 +428,7 @@ const CustomSocialTemplateModal = ({
         setSelectedProfile(profilesToSet);
       } else {
         // No data found, reset to empty state
-        setCustomTemplates(prev => ({ ...prev, [selectedPlatform]: '' }));
+        setCustomTemplates(prev => ({ ...prev, [selectedPlatform]: '{title} {content} {url} {tags}' }));
         setSelectedProfile([]);
       }
     }
@@ -686,6 +686,7 @@ const CustomSocialTemplateModal = ({
                           id={`useGlobalTemplate_${selectedPlatform}`}
                           checked={getIsGlobalForPlatform(selectedPlatform)}
                           onChange={e => setUseGlobalTemplatePlatform(selectedPlatform, e.target.checked)}
+                          disabled={ availableProfiles.length == 0 ? true : false }
                         />
                         <label htmlFor={`useGlobalTemplate_${selectedPlatform}`}></label>
                       </div>

@@ -183,36 +183,114 @@ class AdminPublishButton extends Component {
   
 }
 
-function SocialShareDisableWrapper({ activeDefaultTemplate }) {
-  const meta = wp.data.useSelect((select) => select('core/editor').getEditedPostAttribute('meta') || {}, []);
-  const { editPost } = wp.data.useDispatch('core/editor');
-  const isSocialShareDisable = meta._wpscppro_dont_share_socialmedia || false;
 
-  const handleDisableSocialShare = (event) => {
+function SocialShareDisableWrapper({ activeDefaultTemplate }) {
+  const { useSelect, useDispatch } = wp.data;
+  const { __ } = wp.i18n;
+  const { useState, useEffect, Fragment } = wp.element;
+  const { MediaUpload, MediaUploadCheck } = wp.blockEditor || wp.editor;
+  const { CheckboxControl } = wp.components;
+  const meta = useSelect((select) => select('core/editor').getEditedPostAttribute('meta') || {}, []);
+  const { editPost } = useDispatch('core/editor');
+  const isSocialShareDisable = !!meta._wpscppro_dont_share_socialmedia;
+  const imageIdFromMeta = meta._wpscppro_custom_social_share_image;
+  const [uploadSocialShareBannerId, setUploadSocialShareBannerId] = useState(imageIdFromMeta || null);
+  const [uploadSocialShareBannerUrl, setUploadSocialShareBannerUrl] = useState('');
+
+  // Load image URL when image ID exists
+  useEffect(() => {
+    if (!uploadSocialShareBannerId) return;
+
+    wp.media.attachment(uploadSocialShareBannerId).fetch().then((attachment) => {
+      setUploadSocialShareBannerUrl(attachment?.url || '');
+    });
+  }, [uploadSocialShareBannerId]);
+
+  const handleDisableSocialShare = (checked) => {
     editPost({
       meta: {
         ...meta,
-        _wpscppro_dont_share_socialmedia: event.target.checked,
+        _wpscppro_dont_share_socialmedia: checked,
+      },
+    });
+  };
+
+  const handleImageSelect = (media) => {
+    const imageId = media?.id || null;
+    const imageUrl = media?.url || '';
+
+    setUploadSocialShareBannerId(imageId);
+    setUploadSocialShareBannerUrl(imageUrl);
+
+    editPost({
+      meta: {
+        ...meta,
+        _wpscppro_custom_social_share_image: imageId, // Save only ID
+      },
+    });
+  };
+
+  const handleRemoveImage = () => {
+    setUploadSocialShareBannerId(null);
+    setUploadSocialShareBannerUrl('');
+
+    editPost({
+      meta: {
+        ...meta,
+        _wpscppro_custom_social_share_image: '', // Clear ID
       },
     });
   };
 
   return (
-    <>
-      <div className="share-checkbox">
-        <input
-          type="checkbox"
-          id="socialShareDisable"
-          checked={!!isSocialShareDisable}
-          onChange={handleDisableSocialShare}
-        />
-        <label htmlFor="socialShareDisable">{__('Disable Social Share','wp-scheduled-posts')}</label>
+    <Fragment>
+      <CheckboxControl
+        label={__('Disable Social Share', 'wp-scheduled-posts')}
+        checked={isSocialShareDisable}
+        onChange={handleDisableSocialShare}
+      />
+
+      <div className={`wpsp_image_upload ${uploadSocialShareBannerUrl ? 'has-image' : 'has-not-image'}`}>
+        <div id="wpscpprouploadimagepreview">
+          {uploadSocialShareBannerUrl && (
+            <img src={uploadSocialShareBannerUrl} alt="Uploaded Banner" />
+          )}
+        </div>
+
+        <MediaUploadCheck>
+          <MediaUpload
+            allowedTypes={['image']}
+            onSelect={handleImageSelect}
+            render={({ open }) => (
+              <button className="button button-primary" onClick={open}>
+                {__('Upload Social Banner', 'wp-scheduled-posts')}
+              </button>
+            )}
+          />
+        </MediaUploadCheck>
+
+        {uploadSocialShareBannerUrl && (
+          <input
+            type="button"
+            onClick={handleRemoveImage}
+            className="button button-danger remove-banner-image-btn"
+            value="Remove Banner"
+          />
+        )}
       </div>
-      {activeDefaultTemplate && <SocialShare is_pro_active={WPSchedulePostsFree?.is_pro ? true : false} isSocialShareDisable={!!isSocialShareDisable} />}
-      {!activeDefaultTemplate && <CustomSocialTemplate />}
-    </>
+
+      {activeDefaultTemplate && (
+        <SocialShare
+          is_pro_active={WPSchedulePostsFree?.is_pro || false}
+          isSocialShareDisable={isSocialShareDisable}
+        />
+      )}
+
+      {!activeDefaultTemplate && !isSocialShareDisable && <CustomSocialTemplate />}
+    </Fragment>
   );
 }
+
 
 export default compose([
   withSelect((select) => {
