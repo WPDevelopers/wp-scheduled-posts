@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { eyeIcon, facebook, info, instagram, linkedin, medium, pinterest, threads, tikIcon, twitter_x } from './helpers/icons';
+import { authorIcon, eyeIcon, facebook, info, instagram, linkedin, medium, pinterest, threads, tikIcon, twitter_x } from './helpers/icons';
 
 const {
   components: { Modal, Button },
@@ -60,7 +60,7 @@ const CustomSocialTemplateModal = ({
   const [customTemplates, setCustomTemplates] = useState({});
   const [characterCount, setCharacterCount] = useState(0);
   const [previewContent, setPreviewContent] = useState('');
-  const [saveText, setSaveText] = useState(__('Save All', 'wp-scheduled-posts'));
+  const [saveText, setSaveText] = useState(__('Save Changes', 'wp-scheduled-posts'));
   const [isSaving, setIsSaving] = useState(false);
   // Store all platform data including profiles and templates
   const [allPlatformData, setAllPlatformData] = useState({});
@@ -271,13 +271,13 @@ const CustomSocialTemplateModal = ({
         setAllPlatformData({});
         const successMessage =  __('Saved Successfully', 'wp-scheduled-posts');
         setSaveText(successMessage);
-        setTimeout(() => setSaveText(__('Save All', 'wp-scheduled-posts')), 2000);
+        setTimeout(() => setSaveText(__('Save Changes', 'wp-scheduled-posts')), 2000);
       } else {
         throw new Error(response.message || 'Failed to save templates');
       }
     } catch (error) {
       setSaveText(__('Save Failed', 'wp-scheduled-posts'));
-      setTimeout(() => setSaveText(__('Save All', 'wp-scheduled-posts')), 2000);
+      setTimeout(() => setSaveText(__('Save Changes', 'wp-scheduled-posts')), 2000);
       console.error('Error saving templates:', error);
       // Show detailed error if available
       if (error.response && error.response.errors) {
@@ -573,6 +573,10 @@ const CustomSocialTemplateModal = ({
                             src={profile.thumbnail_url}
                             alt={profile.name}
                             className="wpsp-profile-image"
+                            onError={(e) => {
+                              e.target.onerror = null; // Prevent infinite loop
+                              e.target.src = `data:image/svg+xml;utf8,${encodeURIComponent(authorIcon)}`;
+                            }}
                           />
                         ) : (
                           <div className="wpsp-profile-placeholder">
@@ -635,6 +639,10 @@ const CustomSocialTemplateModal = ({
                                 src={profile.thumbnail_url}
                                 alt={profile.name}
                                 className="wpsp-profile-image"
+                                onError={(e) => {
+                                  e.target.onerror = null; // Prevent infinite loop
+                                  e.target.src = `data:image/svg+xml;utf8,${encodeURIComponent(authorIcon)}`;
+                                }}
                               />
                             ) : (
                               <div className="wpsp-profile-placeholder">
@@ -790,6 +798,10 @@ const CustomSocialTemplateModal = ({
                               src={previewThumbnailUrl}
                               alt={previewProfileName}
                               className="wpsp-profile-image"
+                              onError={(e) => {
+                                e.target.onerror = null; // Prevent infinite loop
+                                e.target.src = `data:image/svg+xml;utf8,${encodeURIComponent(authorIcon)}`;
+                              }}
                             />
                           ) : (
                             <div className="wpsp-profile-placeholder">
