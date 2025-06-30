@@ -505,7 +505,7 @@ const CustomSocialTemplateModal = ({
 
   return (
     <Modal
-      title={__('Create Social Message', 'wp-scheduled-posts')}
+      title={__('Add Social Message', 'wp-scheduled-posts')}
       onRequestClose={handleClose}
       className="wpsp-custom-template-modal"
       style={{ maxWidth: '800px', width: '90vw' }}
@@ -847,8 +847,8 @@ const CustomSocialTemplateModal = ({
                 <div className="wpsp-preview-not-available">
                   {info}
                   <h3>{ __('Preview not available', 'wp-scheduled-posts') }</h3>
-                  <p>{__('Please select a social profile using the selector above.', 'wp-scheduled-posts')}</p>
-                  <a href="">Show me how</a>
+                  <p>{__('Please make sure you select a social profile first.', 'wp-scheduled-posts')}</p>
+                  <a href="#">{ __('Let\'s See How','wp-scheduled-posts') }</a>
                 </div>
               )}
               </div>

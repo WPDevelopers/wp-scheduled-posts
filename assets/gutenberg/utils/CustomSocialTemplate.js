@@ -169,10 +169,10 @@ const CustomSocialTemplate = () => {
           {__('Custom Social Templates', 'wp-scheduled-posts')}
         </h4>
         <p style={{ margin: '0 0 15px 0', fontSize: '13px', color: '#666', lineHeight: '1.4' }}>
-          {__('Create custom templates for specific social media platforms and profiles.', 'wp-scheduled-posts')}
+          {__('Add custom messages for the profiles you want to post from.', 'wp-scheduled-posts')}
         </p>
         <div className='wpsp-custom-template-label-wrap'>
-          <span>Enable Custom Social Template</span>
+          <span>{ __('Enable Custom Social Template','wp-scheduled-posts') }</span>
           <div>
             <input
               type="checkbox"

@@ -3,6 +3,7 @@
  */
 const { compose, ifCondition, withInstanceId } = wp.compose;
 const { withSelect, withDispatch } = wp.data;
+const { __ } = wp.i18n;
 const { PluginDocumentSettingPanel,PluginSidebar } = wp.editPost;
 const { Component, createElement, useState, Fragment } = wp.element;
 const { CheckboxControl } = wp.components;
@@ -19,6 +20,7 @@ import PublishFutureButton from "./publish-future-button";
 import SocialShare from "./social-share";
 import DummyProFeatures from "./utils/DummyProFeatures";
 import WpspProSlot from "./wpsp-pro-slot";
+
 class AdminPublishButton extends Component {
   constructor(props) {
     super(props);
@@ -26,11 +28,12 @@ class AdminPublishButton extends Component {
     this.state = {
       showHelp: false,
       publishImmediately: false,
+      activeDefaultTemplate : true,
     };
   }
 
   componentWillReceiveProps = (nextProps) => {
-    if(this.props.post.status == 'publish' && nextProps.post.status == 'future'){
+    if(this.props.post.status == 'publish' && nextProps.post.status == 'future'){      
       this.setState({ publishImmediately: false });
       console.log(this.props.post.status, nextProps.post.status);
     }
@@ -151,20 +154,64 @@ class AdminPublishButton extends Component {
             )}
             {this.state.showHelp && (
               <div style={{ marginTop: 5, color: "#757575" }}>
-                If you choose to publish this future post with the Future Date, it will be published immediately but the post’s date time will not set the current date rather it will be your scheduled future date time.
+                If you choose to publish this future post with the Future Date, it will be published immediately but the post's date time will not set the current date rather it will be your scheduled future date time.
               </div>
             )}
           </div>
         )}
         <WpspProSlot.Slot/>
         { !WPSchedulePostsFree?.is_pro && <DummyProFeatures/> }
-        <SocialShare is_pro_active={ WPSchedulePostsFree?.is_pro ? true : false  } />
-        <CustomSocialTemplate/>
+        <div className="wpsp-custom-tabs">
+          <div className="wpsp-tab-header">
+            <button 
+              className={`tab-profile ${this.state.activeDefaultTemplate ? 'active' : ''}`}
+              onClick={() => {
+                this.setState({ activeDefaultTemplate: true });
+              }}>{ __('Default Templates','wp-scheduled-posts') }</button>
+            <button 
+              className={`tab-profile ${this.state.activeDefaultTemplate ? 'active' : ''}`}
+              onClick={() => {
+                this.setState({ activeDefaultTemplate: false });
+              }}>{ __('Custom Templates','wp-scheduled-posts') }</button>
+          </div>
+        </div>
+        <SocialShareDisableWrapper activeDefaultTemplate={this.state.activeDefaultTemplate} />
       </PluginDocumentSettingPanel>
      </>
     );
   }
   
+}
+
+function SocialShareDisableWrapper({ activeDefaultTemplate }) {
+  const meta = wp.data.useSelect((select) => select('core/editor').getEditedPostAttribute('meta') || {}, []);
+  const { editPost } = wp.data.useDispatch('core/editor');
+  const isSocialShareDisable = meta._wpscppro_dont_share_socialmedia || false;
+
+  const handleDisableSocialShare = (event) => {
+    editPost({
+      meta: {
+        ...meta,
+        _wpscppro_dont_share_socialmedia: event.target.checked,
+      },
+    });
+  };
+
+  return (
+    <>
+      <div className="share-checkbox">
+        <input
+          type="checkbox"
+          id="socialShareDisable"
+          checked={!!isSocialShareDisable}
+          onChange={handleDisableSocialShare}
+        />
+        <label htmlFor="socialShareDisable">{__('Disable Social Share','wp-scheduled-posts')}</label>
+      </div>
+      {activeDefaultTemplate && <SocialShare is_pro_active={WPSchedulePostsFree?.is_pro ? true : false} isSocialShareDisable={!!isSocialShareDisable} />}
+      {!activeDefaultTemplate && <CustomSocialTemplate />}
+    </>
+  );
 }
 
 export default compose([

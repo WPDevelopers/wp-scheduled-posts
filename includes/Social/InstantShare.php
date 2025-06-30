@@ -80,7 +80,7 @@ class InstantShare
                             }
                          endif; ?>
                         <div id="wpscpprouploadimagepreview"></div>
-                        <input type='button' id="wpscppro_btn_meta_image_upload" class='button button-primary' value='Upload Social Share Banner' />
+                        <input type='button' id="wpscppro_btn_meta_image_upload" class='button button-primary' value='Upload Social Banner' />
                         <input type="button" id="wpscppro_btn_remove_meta_image_upload" class="button button-danger" value="Remove Banner" <?php print($socialshareimage == "" ? 'style="display:none;"' : ''); ?>>
                     </span>
                 </div>

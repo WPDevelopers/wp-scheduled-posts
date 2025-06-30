@@ -14,10 +14,10 @@ const {
 } = wp;
 const { __ } = wp.i18n;
 
-const SocialShare = ( { is_pro_active } ) => {
+const SocialShare = ( { is_pro_active, isSocialShareDisable } ) => {
     const {
       meta,
-      meta: { _wpscppro_dont_share_socialmedia, _wpscppro_custom_social_share_image, _wpsp_enable_custom_social_template, _facebook_share_type, _twitter_share_type, _linkedin_share_type, _pinterest_share_type, _selected_social_profile, _linkedin_share_type_page, _instagram_share_type, _medium_share_type, _threads_share_type },
+      meta: { _wpscppro_dont_share_socialmedia, _wpscppro_custom_social_share_image, _facebook_share_type, _twitter_share_type, _linkedin_share_type, _pinterest_share_type, _selected_social_profile, _linkedin_share_type_page, _instagram_share_type, _medium_share_type, _threads_share_type },
     } = useSelect((select) => ({
       meta: select('core/editor').getEditedPostAttribute('meta') || {},
     }));
@@ -35,7 +35,6 @@ const SocialShare = ( { is_pro_active } ) => {
     const [selectedSocialProfile,setSelectedSocialProfile] = useState( [] );
     const [responseMessage,setResponseMessage] = useState([]);
     const [selectedSection, setSelectedSection] = useState([]);
-    const [isSocialShareDisable, setIsDisableSocialShare] = useState( _wpscppro_dont_share_socialmedia );
     const [facebookShareType,setFacebookShareType] = useState( _facebook_share_type ? _facebook_share_type : 'default' );
     const [instagramShareType,setInstagramShareType] = useState( _instagram_share_type ? _instagram_share_type : 'default' );
     const [mediumShareType,setMediumShareType] = useState( _medium_share_type ? _medium_share_type : 'default' );
@@ -176,6 +175,16 @@ const SocialShare = ( { is_pro_active } ) => {
       } )
     }, [])
   
+    // Update meta information for social share image only
+    useEffect(() => {
+      editPost({
+        meta: {
+          ...meta,
+          _wpscppro_custom_social_share_image: uploadSocialShareBannerId,
+        },
+      })
+    }, [uploadSocialShareBanner]);
+
     const toggleAccordion = (type) => {
       if (isOpen === type) {
         // Clicked on an already open accordion, close it
@@ -309,11 +318,6 @@ const SocialShare = ( { is_pro_active } ) => {
       
     }
 
-    // Handle disable social share 
-    const handleDisableSocialShare = (event) => {
-      setIsDisableSocialShare(event.target.checked);
-    }
-
     // Handle share type 
     const handleShareType = ( platform,value ) => {
       let default_selected_social_profile = selectedSocialProfile;
@@ -429,16 +433,6 @@ const SocialShare = ( { is_pro_active } ) => {
       }
       setSelectedSocialProfile( [...default_selected_social_profile] );
     }
-    // Update meta information
-    useEffect(() => {
-      editPost({
-        meta: {
-          ...meta,
-          _wpscppro_dont_share_socialmedia: isSocialShareDisable,
-          _wpscppro_custom_social_share_image: uploadSocialShareBannerId,
-        },
-      })
-    }, [isSocialShareDisable,uploadSocialShareBanner]);
     const handleActiveLinkedinPage = (page) => {
       if( !is_pro_active ) {
         setProModal(true);
@@ -448,13 +442,9 @@ const SocialShare = ( { is_pro_active } ) => {
     };    
 
     return (
-      <div className={`social-share ${_wpsp_enable_custom_social_template ? 'custom-template-enabled' : ''}`} id="wpspSocialShare">
+      <div className={`social-share`} style={ { display: isSocialShareDisable ? 'none' : 'block' } } id="wpspSocialShare">
         <h2 className="social-share-title">{ __('Social Share Settings','wp-scheduled-posts') }</h2>
-        <div className="share-checkbox">
-          <input type="checkbox" id="socialShareDisable" checked={isSocialShareDisable} onChange={ handleDisableSocialShare } />
-          <label htmlFor="socialShareDisable">{ __('Disable Social Share','wp-scheduled-posts') }</label>
-        </div>
-        <div style={ { display: isSocialShareDisable ? 'none' : 'block' } }>
+        <div>
           <div className={`wpsp_image_upload ${ WPSchedulePostsFree?._wpscppro_custom_social_share_image ? 'has-image' : 'has-not-image'} `}>
             {/* <div id="wpscpprouploadimagepreview">
               <img src={ WPSchedulePostsFree?._wpscppro_custom_social_share_image } />
@@ -475,7 +465,7 @@ const SocialShare = ( { is_pro_active } ) => {
                 } }
                 render={ ( { open } ) => (
                   <button className="button button-primary" onClick={ open } >
-                    { __('Upload Social Share Banner','wp-scheduled-posts') }
+                    { __('Upload Social Banner','wp-scheduled-posts') }
                   </button>
                 )}
               />
@@ -491,7 +481,7 @@ const SocialShare = ( { is_pro_active } ) => {
              }
           </div>
         </div>
-        { (!isSocialShareDisable && !_wpsp_enable_custom_social_template ) && 
+        { (!isSocialShareDisable) && 
           <Fragment>
             <div className="social-share-wrapper">
               <h3>{ __('Choose Social Share Platform','wp-scheduled-posts') }</h3>
