@@ -116,6 +116,16 @@ class CustomSocialTemplates
                     }
                 ]
             );
+
+            register_post_meta( $type, '_wpsp_active_default_template', [
+                'type'         => 'boolean',
+                'single'       => true,
+                'show_in_rest' => true,
+                'default'      => true,
+                'auth_callback' => function() {
+                    return current_user_can( 'edit_posts' );
+                },
+            ] );
         }
     }
 

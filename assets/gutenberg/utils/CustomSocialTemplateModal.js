@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { authorIcon, eyeIcon, facebook, info, instagram, linkedin, medium, pinterest, threads, tikIcon, twitter_x } from './helpers/icons';
+import { authorIcon, eyeCloseIcon, eyeIcon, facebook, info, instagram, linkedin, medium, pinterest, threads, tikIcon, twitter_x } from './helpers/icons';
 
 const {
   components: { Modal, Button },
@@ -104,7 +104,11 @@ const CustomSocialTemplateModal = ({
       // For now, we'll use the meta system for scheduling data since it's working
       // This can be moved to API later if needed
       const meta = wp.data.select('core/editor').getEditedPostAttribute('meta') || {};
-      const schedulingData = meta._wpsp_social_scheduling || {};      
+      const schedulingData = meta._wpsp_social_scheduling || {};
+      // If activeDefaultTemplate exists, set it in scheduleData state
+      if (schedulingData.activeDefaultTemplate) {
+        setScheduleData(prev => ({ ...prev, activeDefaultTemplate: schedulingData.activeDefaultTemplate }));
+      }
       return schedulingData;
     } catch (error) {
       console.error('Error fetching scheduling data:', error);
@@ -253,6 +257,16 @@ const CustomSocialTemplateModal = ({
             profiles: platformData.profiles || [],
             is_global: platformData.is_global ? 1 : '',
           });
+        }
+      }
+
+      // Find the active default template (global) platform
+      let activeDefaultTemplate = null;
+      for (const platform of SOCIAL_PLATFORMS) {
+        const platformData = allData[platform];
+        if (platformData && (platformData.is_global === 1 || platformData.is_global === true)) {
+          activeDefaultTemplate = platform;
+          break;
         }
       }
 
@@ -686,14 +700,14 @@ const CustomSocialTemplateModal = ({
                       {/* Global template checkbox for the selected platform */}
                       <div className="wpsp-custom-template-field-info">
                         <span className={`${showPreview ? 'active' : 'inactive'}`} onClick={ () => setShowPreview(!showPreview) }>
-                          {eyeIcon}
+                          { showPreview ? eyeCloseIcon : eyeIcon }
                         </span>
                         <span className={`wpsp-char-count ${isOverLimit ? 'over-limit' : ''}`}>
                           {characterCount}/{currentLimit}
                         </span>
                       </div>
                     </div>
-                    <div className='wpsp-global-template'>
+                    <div className={`wpsp-global-template ${ !showPreview ? 'hide-preview' : '' }`}>
                       <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                         { __('Use global template','wp-scheduled-posts') }
                         <span className="wpsp-tooltip-wrapper">
@@ -715,7 +729,7 @@ const CustomSocialTemplateModal = ({
                       </span>
                       { showGlobalTemplateWarning &&
                         <div className='use-global-template-warning'>
-                          <span>Already enabled {globalProfile} as Global template</span>
+                          <span>{ __(`Already enabled ${globalProfile.charAt(0).toUpperCase() + globalProfile.slice(1)} as Global template`,'wp-scheduled-posts') }</span>
                         </div>
                       }
                       <div className={`wpsp-use-global-template-checkbox-wrapper ${(availableProfiles.length == 0 || (globalProfile != null && globalProfile != selectedPlatform) ) ? 'disabled' : ''}`}>
@@ -728,7 +742,7 @@ const CustomSocialTemplateModal = ({
                               setShowGlobalTemplateWarning(true);
                               setTimeout(() => {
                                 setShowGlobalTemplateWarning(false);
-                              }, 2000);
+                              }, 3000);
                             }else {
                               setUseGlobalTemplatePlatform(selectedPlatform, e.target.checked)
                             }

@@ -31,6 +31,7 @@ class AdminPublishButton extends Component {
       activeDefaultTemplate : true,
     };
   }
+  
 
   componentWillReceiveProps = (nextProps) => {
     if(this.props.post.status == 'publish' && nextProps.post.status == 'future'){      
@@ -60,8 +61,30 @@ class AdminPublishButton extends Component {
         }, 0);
       });
     });
+    const { meta } = this.props;
+
+    if (meta && typeof meta._wpsp_active_default_template !== 'undefined') {
+      this.setState({
+        activeDefaultTemplate: this.props.meta._wpsp_active_default_template,
+      });
+    }
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.activeDefaultTemplate !== this.state.activeDefaultTemplate) {
+      wp.data.dispatch('core/editor').editPost({
+        meta: {
+          ...this.props.meta,
+          _wpsp_active_default_template: this.state.activeDefaultTemplate ? 1 : 0
+        }
+      });
+    }
+  }
+  
+  
+  
+
+  
   render() {
     return (
      <>
@@ -161,21 +184,25 @@ class AdminPublishButton extends Component {
         )}
         <WpspProSlot.Slot/>
         { !WPSchedulePostsFree?.is_pro && <DummyProFeatures/> }
-        <div className="wpsp-custom-tabs">
-          <div className="wpsp-tab-header">
-            <button 
-              className={`tab-profile ${ this.state.activeDefaultTemplate ? 'active' : ''}`}
-              onClick={() => {
-                this.setState({ activeDefaultTemplate: true });
-              }}>{ __('Default Templates','wp-scheduled-posts') }</button>
-            <button 
-              className={`tab-profile ${ !this.state.activeDefaultTemplate ? 'active' : ''}`}
-              onClick={() => {
-                this.setState({ activeDefaultTemplate: false });
-              }}>{ __('Custom Templates','wp-scheduled-posts') }</button>
-          </div>
+        <div className="wpsp-social-share-settings-warpper">
+          { !this.props.meta._wpscppro_dont_share_socialmedia &&
+            <div className="wpsp-custom-tabs">
+              <div className="wpsp-tab-header">
+                <button 
+                  className={`tab-profile ${ this.state.activeDefaultTemplate ? 'active' : ''}`}
+                  onClick={() => {
+                    this.setState({ activeDefaultTemplate: true });
+                  }}>{ __('Default Templates','wp-scheduled-posts') }</button>
+                <button 
+                  className={`tab-profile ${ !this.state.activeDefaultTemplate ? 'active' : ''}`}
+                  onClick={() => {
+                    this.setState({ activeDefaultTemplate: false });
+                  }}>{ __('Custom Templates','wp-scheduled-posts') }</button>
+              </div>
+            </div>
+          }
+          <SocialShareDisableWrapper activeDefaultTemplate={this.state.activeDefaultTemplate} />
         </div>
-        <SocialShareDisableWrapper activeDefaultTemplate={this.state.activeDefaultTemplate} />
       </PluginDocumentSettingPanel>
      </>
     );

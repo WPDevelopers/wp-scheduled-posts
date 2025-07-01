@@ -1197,3 +1197,60 @@ textarea.wpsp-template-input {
   border-style: solid;
   border-color: #ECEFF5 transparent transparent transparent;
 }
+
+/* Global template warning message  */
+.use-global-template-warning {
+  width: 240px;
+  background: #ECEFF5;
+  color: #fff;
+  text-align: left;
+  border-radius: 6px;
+  padding: 8px 12px;
+  position: absolute;
+  right: -23%;
+  margin-top: -90px;
+  transition: opacity 0.2s;
+  font-size: 13px;
+  font-weight: 400 !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  pointer-events: none;
+}
+.use-global-template-warning::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: #ECEFF5 transparent transparent transparent;
+}
+
+.wpsp-social-share-settings-warpper {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+.wpsp-social-share-settings-warpper .components-base-control.components-checkbox-control{
+  order: 1;
+}
+.wpsp-social-share-settings-warpper .wpsp_image_upload{
+  order: 2;
+}
+.wpsp-social-share-settings-warpper .wpsp-custom-tabs{
+  order: 3;
+}
+.wpsp-social-share-settings-warpper .social-share{
+  order: 4;
+}
+.wpsp-social-share-settings-warpper .wpsp-custom-template-button-wrapper{
+  order: 5;
+}
+
+
+.wpsp-global-template.hide-preview .use-global-template-warning {
+  right: 0;
+}
+.wpsp-global-template.hide-preview .use-global-template-warning::after {
+  left: 95%;
+}
