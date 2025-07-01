@@ -1145,3 +1145,50 @@ textarea.wpsp-template-input {
   font-size: 13px;
   margin-top: 5px;
 }
+
+/* Tooltip for Use Global Template */
+.wpsp-tooltip-wrapper {
+  position: relative;
+  display: inline-block;
+}
+.wpsp-tooltip-icon {
+  cursor: pointer;
+  vertical-align: middle;
+  margin-left: 2px;
+}
+.wpsp-tooltip-text {
+  visibility: hidden;
+  width: 240px;
+  background: #23272d;
+  color: #fff;
+  text-align: left;
+  border-radius: 6px;
+  padding: 8px 12px;
+  position: absolute;
+  z-index: 100;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.2s;
+  font-size: 13px;
+  font-weight: 400;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  pointer-events: none;
+}
+.wpsp-tooltip-wrapper:hover .wpsp-tooltip-text,
+.wpsp-tooltip-wrapper:focus-within .wpsp-tooltip-text {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+.wpsp-tooltip-text::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: #23272d transparent transparent transparent;
+}

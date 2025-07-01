@@ -687,7 +687,25 @@ const CustomSocialTemplateModal = ({
                       </div>
                     </div>
                     <div className='wpsp-global-template'>
-                      <span>{ __('Use global template','wp-scheduled-posts') }</span>
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        { __('Use global template','wp-scheduled-posts') }
+                        <span className="wpsp-tooltip-wrapper">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            className="wpsp-tooltip-icon"
+                          >
+                            <circle cx="12" cy="12" r="10" fill="#6a4bff"/>
+                            <text x="12" y="16" textAnchor="middle" fontSize="12" fill="#fff" fontFamily="Arial" fontWeight="bold">i</text>
+                          </svg>
+                          <span className="wpsp-tooltip-text">
+                            {__('If enabled, this template will be used as the default for all profiles of this platform.', 'wp-scheduled-posts')}
+                          </span>
+                        </span>
+                      </span>
                       <div>
                         <input
                           type="checkbox"
