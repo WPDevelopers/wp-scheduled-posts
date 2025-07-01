@@ -53,7 +53,7 @@ const CustomSocialTemplateModal = ({
   const [apiTemplateData, setApiTemplateData] = useState({});
   const [activeDropdown, setActiveDropdown] = useState(false);
   const [showPreview, setShowPreview] = useState(true);
-
+  const [showGlobalTemplateWarning, setShowGlobalTemplateWarning] = useState(false);
   const [selectedPlatform, setSelectedPlatform] = useState('facebook');
   const [selectedProfile, setSelectedProfile] = useState([]);
   // let's set default custom template with all dynamic variable.
@@ -501,7 +501,14 @@ const CustomSocialTemplateModal = ({
 
   const previewThumbnailUrl = selectedProfile.length > 0 ? selectedProfile[selectedProfile.length - 1].thumbnail_url : '';
   const previewProfileName = selectedProfile.length > 0 ? selectedProfile[selectedProfile.length - 1].name : '';
-  
+
+  let globalProfile = null;
+  for (const [platform, config] of Object.entries(apiTemplateData)) {
+    if (config.is_global === 1 || config.is_global === true) {
+      globalProfile = platform;
+      break;
+    }
+  }
 
   return (
     <Modal
@@ -664,12 +671,12 @@ const CustomSocialTemplateModal = ({
                     <div className='wpsp-textarea-wrapper'>
                       <textarea 
                         value={customTemplates[selectedPlatform] || ''}
-                        onChange={(e) => setCustomTemplates(prev => ({ ...prev, [selectedPlatform]: e.target.value }))}
+                        onChange={ (e) => setCustomTemplates(prev => ({ ...prev, [selectedPlatform]: e.target.value })) }
                         placeholder={__('Enter your custom template here...', 'wp-scheduled-posts')}
                         id="wpsp-template-input"
                         className="wpsp-template-input"
                         rows={4}
-                        disabled={false}
+                        disabled={(globalProfile != null && globalProfile != selectedPlatform) ? true : false}
                       />
                     </div>
                     <div className="wpsp-template-meta">
@@ -706,13 +713,26 @@ const CustomSocialTemplateModal = ({
                           </span>
                         </span>
                       </span>
-                      <div>
+                      { showGlobalTemplateWarning &&
+                        <div className='use-global-template-warning'>
+                          <span>Already enabled {globalProfile} as Global template</span>
+                        </div>
+                      }
+                      <div className={`wpsp-use-global-template-checkbox-wrapper ${(availableProfiles.length == 0 || (globalProfile != null && globalProfile != selectedPlatform) ) ? 'disabled' : ''}`}>
                         <input
                           type="checkbox"
                           id={`useGlobalTemplate_${selectedPlatform}`}
                           checked={getIsGlobalForPlatform(selectedPlatform)}
-                          onChange={e => setUseGlobalTemplatePlatform(selectedPlatform, e.target.checked)}
-                          disabled={ availableProfiles.length == 0 ? true : false }
+                          onChange={e => {
+                            if( globalProfile != null && globalProfile != selectedPlatform ) {
+                              setShowGlobalTemplateWarning(true);
+                              setTimeout(() => {
+                                setShowGlobalTemplateWarning(false);
+                              }, 2000);
+                            }else {
+                              setUseGlobalTemplatePlatform(selectedPlatform, e.target.checked)
+                            }
+                          }}
                         />
                         <label htmlFor={`useGlobalTemplate_${selectedPlatform}`}></label>
                       </div>

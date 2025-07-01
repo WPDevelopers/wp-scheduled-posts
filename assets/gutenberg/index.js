@@ -164,12 +164,12 @@ class AdminPublishButton extends Component {
         <div className="wpsp-custom-tabs">
           <div className="wpsp-tab-header">
             <button 
-              className={`tab-profile ${this.state.activeDefaultTemplate ? 'active' : ''}`}
+              className={`tab-profile ${ this.state.activeDefaultTemplate ? 'active' : ''}`}
               onClick={() => {
                 this.setState({ activeDefaultTemplate: true });
               }}>{ __('Default Templates','wp-scheduled-posts') }</button>
             <button 
-              className={`tab-profile ${this.state.activeDefaultTemplate ? 'active' : ''}`}
+              className={`tab-profile ${ !this.state.activeDefaultTemplate ? 'active' : ''}`}
               onClick={() => {
                 this.setState({ activeDefaultTemplate: false });
               }}>{ __('Custom Templates','wp-scheduled-posts') }</button>
