@@ -611,7 +611,6 @@ textarea.wpsp-template-input {
   border-radius: 8px;
   box-shadow: none;
   overflow: hidden;
-  z-index: 999;
 }
 
 .wpsp-template-input:focus {
