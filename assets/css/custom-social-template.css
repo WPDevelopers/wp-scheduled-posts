@@ -194,6 +194,11 @@
   border-color: #5b50f5 !important;
 }
 
+button.components-button.wpsp-add-template-btn:disabled {
+  opacity: .5;
+  cursor: no-drop;
+}
+
 /* Modal styling */
 .wpsp-custom-template-modal {
   max-width: 922px !important;
