@@ -985,6 +985,29 @@ textarea.wpsp-template-input {
   cursor: not-allowed !important;
 }
 
+.wpsp-custom-tabs {
+  margin-bottom: 8px;
+}
+
+.wpsp-custom-tabs .wpsp-tab-header {
+  display: flex;
+  border: 1px solid #EBEEF5;
+  border-radius: 4px;
+}
+.wpsp-custom-tabs button.tab-profile {
+  border: none;
+  padding: 6px 8px;
+  background: #EBEEF5;
+  font-size: 14px;
+  line-height: 1.2em;
+  font-weight: 400;
+  color: #1B1B50;
+}
+.wpsp-custom-tabs button.tab-profile.active {
+  background: transparent;
+  color: #6C62FF;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
   .wpsp-custom-template-modal {
