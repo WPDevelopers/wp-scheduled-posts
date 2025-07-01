@@ -1164,7 +1164,7 @@ textarea.wpsp-template-input {
 .wpsp-tooltip-text {
   visibility: hidden;
   width: 240px;
-  background: #23272d;
+  background: #ECEFF5;
   color: #fff;
   text-align: left;
   border-radius: 6px;
@@ -1177,7 +1177,7 @@ textarea.wpsp-template-input {
   opacity: 0;
   transition: opacity 0.2s;
   font-size: 13px;
-  font-weight: 400;
+  font-weight: 400 !important;
   box-shadow: 0 4px 16px rgba(0,0,0,0.12);
   pointer-events: none;
 }
@@ -1186,6 +1186,7 @@ textarea.wpsp-template-input {
   visibility: visible;
   opacity: 1;
   pointer-events: auto;
+  z-index: 999;
 }
 .wpsp-tooltip-text::after {
   content: '';
@@ -1195,5 +1196,5 @@ textarea.wpsp-template-input {
   transform: translateX(-50%);
   border-width: 6px;
   border-style: solid;
-  border-color: #23272d transparent transparent transparent;
+  border-color: #ECEFF5 transparent transparent transparent;
 }
