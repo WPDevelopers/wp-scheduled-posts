@@ -1,38 +1,38 @@
 .components-modal__header {
-    height: auto;
-    border-bottom: 1px solid #ECEFF5;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 32px;
-    background: #FFF;
-    position: sticky;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 10;
+  height: auto;
+  border-bottom: 1px solid #ECEFF5;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 32px;
+  background: #FFF;
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
 }
 .components-modal__content.has-scrolled-content:not(.hide-header) .components-modal__header {
     border-bottom-color: #ECEFF5;
 }
 .components-modal__content {
-    flex: 1;
-    margin-top: 0;
-    overflow: auto;
-    padding: 0;
+  flex: 1;
+  margin-top: 0;
+  overflow: auto;
+  padding: 0;
 }
 .components-modal__header .components-modal__header-heading {
-    font-size: 20px;
-    font-weight: 500;
-    line-height: 1.2em;
-    color: #1D2939;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.2em;
+  color: #1D2939;
 }
 .components-button svg {
-    width: 20px;
-    fill: #475467;
-    outline: none;
+  width: 20px;
+  fill: #475467;
+  outline: none;
 }
 .components-button:focus:not(:disabled) {
     box-shadow: none;
@@ -74,34 +74,34 @@
   display: flex;
 }
 .wpsp-custom-template-label-wrap label:before {
-    content: "";
-    position: absolute;
-    width: 36px;
-    height: 18px;
-    left: 0;
-    /* transition: background 0.1s 0.1s ease; */
-    background: #7c8db5;
-    border-radius: 50px;
-    margin: 0;
-    box-sizing: border-box;
-    cursor: pointer;
+  content: "";
+  position: absolute;
+  width: 36px;
+  height: 18px;
+  left: 0;
+  /* transition: background 0.1s 0.1s ease; */
+  background: #7c8db5;
+  border-radius: 50px;
+  margin: 0;
+  box-sizing: border-box;
+  cursor: pointer;
 }
 .wpsp-custom-template-label-wrap input[type=checkbox]:checked + label::before {
     background: #6a4bff;
 }
 .wpsp-custom-template-label-wrap label:after {
-    content: '';
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    border-radius: 50px;
-    left: 1px;
-    top: 1px;
-    transition: all 0.2s ease;
-    box-shadow: none;
-    background: #fff;
-    z-index: 2;
-    cursor: pointer;
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50px;
+  left: 1px;
+  top: 1px;
+  transition: all 0.2s ease;
+  box-shadow: none;
+  background: #fff;
+  z-index: 2;
+  cursor: pointer;
 }
 .wpsp-custom-template-label-wrap input[type=checkbox]:checked + label::after {
     left: 19px;
@@ -126,38 +126,38 @@
   display: flex;
 }
 .wpsp-global-template label:before {
-    content: "";
-    position: absolute;
-    width: 36px;
-    height: 18px;
-    left: 0;
-    /* transition: background 0.1s 0.1s ease; */
-    background: #7c8db5;
-    border-radius: 50px;
-    margin: 0;
-    box-sizing: border-box;
-    cursor: pointer;
+  content: "";
+  position: absolute;
+  width: 36px;
+  height: 18px;
+  left: 0;
+  /* transition: background 0.1s 0.1s ease; */
+  background: #7c8db5;
+  border-radius: 50px;
+  margin: 0;
+  box-sizing: border-box;
+  cursor: pointer;
 }
 .wpsp-global-template input[type=checkbox]:checked + label::before {
-    background: #6a4bff;
+  background: #6a4bff;
 }
 .wpsp-global-template label:after{
-    content: '';
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    border-radius: 50px;
-    left: 1px;
-    top: 1px;
-    transition: all 0.2s ease;
-    box-shadow: none;
-    background: #fff;
-    z-index: 2;
-    cursor: pointer;
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50px;
+  left: 1px;
+  top: 1px;
+  transition: all 0.2s ease;
+  box-shadow: none;
+  background: #fff;
+  z-index: 2;
+  cursor: pointer;
 }
 .wpsp-global-template input[type=checkbox]:checked + label::after {
-    left: 19px;
-    background: #ffffff;
+  left: 19px;
+  background: #ffffff;
 }
 .wpsp-custom-template-button-wrapper {
   margin: 15px 0;
@@ -905,11 +905,11 @@ textarea.wpsp-template-input {
 }
 
 .wpsp-preview-url {
-    font-size: 14px;
-    line-height: 22px;
-    font-style: italic;
-    color: #6E6E8D;
-    margin-bottom: 6px;
+  font-size: 14px;
+  line-height: 22px;
+  font-style: italic;
+  color: #6E6E8D;
+  margin-bottom: 6px;
 }
 
 .wpsp-preview-title {
@@ -928,41 +928,41 @@ textarea.wpsp-template-input {
 
 /* Modal Footer */
 .wpsp-modal-footer {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 16px;
-    border-top: 1px solid #ECEFF5;
-    padding: 12px 16px;
-    background: #F9F8FD;
-    position: sticky;
-    bottom: 0;
-    left: 0;
-    right: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 16px;
+  border-top: 1px solid #ECEFF5;
+  padding: 12px 16px;
+  background: #F9F8FD;
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 .wpsp-modal-footer .components-button {
-    padding: 12px 16px !important;
-    font-size: 14px !important;
-    line-height: 1em;
-    font-weight: 500;
-    border-radius: 8px !important;
-    font-weight: 500 !important;
-    min-height: 48px;
-    transition: unset !important;
-    border: none !important;
-    outline: 0 !important;
-    box-shadow: none !important;
+  padding: 12px 16px !important;
+  font-size: 14px !important;
+  line-height: 1em;
+  font-weight: 500;
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  min-height: 48px;
+  transition: unset !important;
+  border: none !important;
+  outline: 0 !important;
+  box-shadow: none !important;
 }
 
 .wpsp-modal-footer .components-button.wpsp-cancel-btn {
-    color: #6C62FF;
-    background: #F3F2FF;
+  color: #6C62FF;
+  background: #F3F2FF;
 }
 
 .wpsp-modal-footer .components-button.wpsp-save-btn {
-    color: #FFFFFF;
-    background: #6C62FF;
+  color: #FFFFFF;
+  background: #6C62FF;
 }
 
 .wpsp-cancel-btn:hover:not(:disabled) {
