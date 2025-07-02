@@ -452,6 +452,7 @@ class Calendar
         return array(
             'postId'   => get_the_ID(),
             'title'    => wp_trim_words(get_the_title(), 3, '...'),
+            'full_title' => get_the_title(),
             'href'     => get_the_permalink(),
             'edit'     => get_edit_post_link(get_the_ID(), null),
             'postType' => get_post_type(),
