@@ -133,6 +133,15 @@ const CustomSocialTemplateModal = ({
         is_global: checked ? 1 : '',
       }
     }));
+    setAllPlatformData(prev => ({
+      ...prev,
+      [platform]: {
+        ...(prev[platform] || {}),
+        template: customTemplates[platform] || '',
+        profiles: selectedProfile.map(profile => profile.id),
+        is_global: checked ? 1 : '',
+      }
+    }));
   };
 
   // Get available profiles for selected platform
@@ -548,7 +557,7 @@ const CustomSocialTemplateModal = ({
                     fontWeight: selectedPlatform === platform ? 'bold' : 'normal',
                     position: 'relative'
                   }}
-                  title={`${platform.charAt(0).toUpperCase() + platform.slice(1)}${platformHasData(platform) ? '' : ''}`}
+                  title={`${platform?.charAt(0).toUpperCase() + platform.slice(1)}${platformHasData(platform) ? '' : ''}`}
                 >
                   {icon}
                   {platformHasData(platform) && (
@@ -601,7 +610,7 @@ const CustomSocialTemplateModal = ({
                           />
                         ) : (
                           <div className="wpsp-profile-placeholder">
-                            {profile.name ? profile.name.charAt(0).toUpperCase() : '?'}
+                            {profile.name ? profile.name?.charAt(0).toUpperCase() : '?'}
                           </div>
                         )}
 
@@ -667,7 +676,7 @@ const CustomSocialTemplateModal = ({
                               />
                             ) : (
                               <div className="wpsp-profile-placeholder">
-                                {profile.name ? profile.name.charAt(0).toUpperCase() : '?'}
+                                {profile.name ? profile.name?.charAt(0).toUpperCase() : '?'}
                               </div>
                               )}
                           </div>
@@ -729,7 +738,7 @@ const CustomSocialTemplateModal = ({
                       </span>
                       { showGlobalTemplateWarning &&
                         <div className='use-global-template-warning'>
-                          <span>{ __(`Already enabled ${globalProfile.charAt(0).toUpperCase() + globalProfile.slice(1)} as Global template`,'wp-scheduled-posts') }</span>
+                          <span>{ __(`Already enabled ${globalProfile?.charAt(0).toUpperCase() + globalProfile.slice(1)} as Global template`,'wp-scheduled-posts') }</span>
                         </div>
                       }
                       <div className={`wpsp-use-global-template-checkbox-wrapper ${(availableProfiles.length == 0 || (globalProfile != null && globalProfile != selectedPlatform) ) ? 'disabled' : ''}`}>

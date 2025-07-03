@@ -1,4 +1,4 @@
-.components-modal__header {
+.wpsp-custom-template-modal .components-modal__header {
   height: auto;
   border-bottom: 1px solid #ECEFF5;
   box-sizing: border-box;
@@ -14,27 +14,27 @@
   right: 0;
   z-index: 10;
 }
-.components-modal__content.has-scrolled-content:not(.hide-header) .components-modal__header {
+.wpsp-custom-template-modal .components-modal__content.has-scrolled-content:not(.hide-header) .components-modal__header {
     border-bottom-color: #ECEFF5;
 }
-.components-modal__content {
+.wpsp-custom-template-modal .components-modal__content {
   flex: 1;
   margin-top: 0;
   overflow: auto;
   padding: 0;
 }
-.components-modal__header .components-modal__header-heading {
+.wpsp-custom-template-modal .components-modal__header .components-modal__header-heading {
   font-size: 20px;
   font-weight: 500;
   line-height: 1.2em;
   color: #1D2939;
 }
-.components-button svg {
+.wpsp-custom-template-modal .components-button svg {
   width: 20px;
   fill: #475467;
   outline: none;
 }
-.components-button:focus:not(:disabled) {
+.wpsp-custom-template-modal .components-button:focus:not(:disabled) {
     box-shadow: none;
     outline: 0;
 }
