@@ -137,8 +137,49 @@ class Calendar
             )
         );
 
+        register_rest_route(
+            'wpscp/v1',
+            '/scf-fields',
+            array(
+                'methods'             => 'GET',
+                'callback'            => array($this, 'wpscp_register_scf_fields_rest_route'),
+                'permission_callback' => function () {
+                    return current_user_can('edit_posts');
+                },
+            )
+        );
     }
 
+    function wpscp_register_scf_fields_rest_route($request) {
+        $post_type = $request->get_param('post_type');
+        $post_id   = $request->get_param('post_id');
+        if (!$post_type) {
+            return new WP_Error('missing_post_type', 'Missing post_type parameter', array('status' => 400));
+        }
+
+        // Get all field groups for this post type
+        $field_groups = function_exists('acf_get_field_groups') ? acf_get_field_groups(array('post_type' => $post_type)) : array();
+        $fields = array();
+
+        foreach ($field_groups as $field_group) {
+            $acf_fields = function_exists('acf_get_fields') ? acf_get_fields($field_group) : array();
+            foreach ($acf_fields as $field) {
+                $field_data = array(
+                    'name'  => $field['name'],
+                    'label' => $field['label'],
+                    'type'  => $field['type'],
+                    'value' => $post_id ? get_post_meta($post_id, $field['name'], true) : '',
+                );
+                // Add options for select, checkbox, radio
+                if (in_array($field['type'], array('select', 'checkbox', 'radio')) && !empty($field['choices'])) {
+                    $field_data['options'] = array_values($field['choices']);
+                }
+                $fields[] = $field_data;
+            }
+        }
+
+        return rest_ensure_response($fields);
+    }
 
     // Define the callback function for the custom route
     public function get_draft_posts( $request ) {

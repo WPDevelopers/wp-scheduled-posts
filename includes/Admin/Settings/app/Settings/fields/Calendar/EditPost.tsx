@@ -40,6 +40,9 @@ export const ModalContent = ({
     post_date: '',
   });
   const builderContext = useBuilderContext();
+  const [scfFields, setScfFields] = useState([]);
+  const [scfValues, setScfValues] = useState({});
+  const [scfLoading, setScfLoading] = useState(false);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -57,6 +60,7 @@ export const ModalContent = ({
         postTitle  : postData.post_title,
         postContent: postData.post_content,
         date       : postData.post_date,
+        scf        : scfValues,
       },
     }).then((data: PostType | WP_Error) => {
       // console.log(data);
@@ -134,6 +138,33 @@ export const ModalContent = ({
     }
   }, [modalData]);
 
+  // Refactored function to fetch SCF fields
+  const fetchScfFields = async (postType: string, postId?: number, isEdit?: boolean) => {
+    setScfLoading(true);
+    const url = isEdit && postId
+      ? `/wpscp/v1/scf-fields?post_type=${postType}&post_id=${postId}`
+      : `/wpscp/v1/scf-fields?post_type=${postType}`;
+    try {
+      const fields = await wpFetch({ path: url });
+      const scfFieldArray = (fields || []) as any[];
+      setScfFields(scfFieldArray);
+      const values = {};
+      scfFieldArray.forEach(field => {
+        values[field.name] = field.value ?? '';
+      });
+      setScfValues(values);
+    } catch (e) {
+      setScfFields([]);
+    } finally {
+      setScfLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!postData.post_type) return;
+    fetchScfFields(postData.post_type, postData.ID, !!modalData?.post);
+  }, [postData.post_type, postData.ID]);
+
   const closeModal = () => {
     setModalData(false);
     setPostData({});
@@ -146,6 +177,59 @@ export const ModalContent = ({
     };
   }, []);
 
+  const renderSCFField = (field) => {
+    const commonProps = {
+      key: field.name,
+      id: field.name,
+      label: field.label,
+      value: scfValues[field.name] || '',
+      onChange: (e) => {
+        const value = e?.target ? e.target.value : e; // for selects
+        setScfValues((prev) => ({ ...prev, [field.name]: value }));
+      },
+      required: field.required,
+    };
+
+    switch (field.type) {
+      case 'text':
+        return <Input type="text" {...commonProps} />;
+      case 'textarea':
+        return <Textarea {...commonProps} />;
+      case 'select':
+        return (
+          <div className="form-group" key={field.name}>
+            <label htmlFor={field.name}>{field.label}</label>
+            <select
+              id={field.name}
+              value={scfValues[field.name] || ''}
+              onChange={commonProps.onChange}
+              required={field.required}
+            >
+              <option value="">Select...</option>
+              {field.options?.map(opt => (
+                <option key={opt} value={opt}>{opt}</option>
+              ))}
+            </select>
+          </div>
+        );
+      case 'checkbox':
+        return (
+          <div className="form-group" key={field.name}>
+            <label>
+              <input
+                type="checkbox"
+                checked={!!scfValues[field.name]}
+                onChange={e => setScfValues((prev) => ({ ...prev, [field.name]: e.target.checked }))}
+              />
+              {field.label}
+            </label>
+          </div>
+        );
+      // Add more field types as needed
+      default:
+        return null;
+    }
+  };
 
   return (
     <Modal
@@ -195,6 +279,13 @@ export const ModalContent = ({
               onChange={(date) => setPostData((postData) => ({...postData, post_date: date}))}
               is12Hour
             />
+
+            {scfLoading && <div>Loading custom fields...</div>}
+            {!scfLoading && scfFields.length > 0 && (
+              <div className="scf-fields">
+                {scfFields.map(renderSCFField)}
+              </div>
+            )}
 
             <button type="submit">Save</button>
           </form>
