@@ -169,34 +169,44 @@ class Calendar
                     'label' => $field['label'],
                     'type'  => $field['type'],
                 );
-                $value = $post_id ? get_post_meta($post_id, $field['name'], true) : '';
-                // Add options for select, checkbox, radio
-                if (in_array($field['type'], array('select', 'checkbox', 'radio')) && !empty($field['choices'])) {
+                if ($field['type'] === 'select') {
                     $field_data['options'] = array_values($field['choices']);
+                    $field_data['multiple'] = !empty($field['multiple']) ? (bool)$field['multiple'] : false;
+                    if ($field_data['multiple']) {
+                        // Ensure value is always an array
+                        if ($post_id) {
+                            $meta = get_post_meta($post_id, $field['name'], true);
+                            $field_data['value'] = is_array($meta) ? $meta : (strlen($meta) ? (array)$meta : []);
+                        } else {
+                            $field_data['value'] = [];
+                        }
+                    } else {
+                        $field_data['value'] = $post_id ? get_post_meta($post_id, $field['name'], true) : '';
+                    }
                 }
                 // Number field
                 if ($field['type'] === 'number') {
-                    $field_data['value'] = $value !== '' ? (float)$value : '';
+                    $field_data['value'] = $field_data['value'] !== '' ? (float)$field_data['value'] : '';
                 }
                 // Image field (single attachment ID)
                 else if ($field['type'] === 'image') {
-                    $field_data['value'] = $value;
-                    $field_data['url'] = $value ? wp_get_attachment_url($value) : '';
+                    $field_data['value'] = $field_data['value'];
+                    $field_data['url'] = $field_data['value'] ? wp_get_attachment_url($field_data['value']) : '';
                 }
                 // Gallery field (array of attachment IDs)
                 else if ($field['type'] === 'gallery') {
-                    $ids = is_array($value) ? $value : (is_string($value) ? explode(',', $value) : array());
+                    $ids = is_array($field_data['value']) ? $field_data['value'] : (is_string($field_data['value']) ? explode(',', $field_data['value']) : array());
                     $ids = array_filter(array_map('intval', $ids));
                     $field_data['value'] = $ids;
                     $field_data['urls'] = array_map('wp_get_attachment_url', $ids);
                 }
                 // WYSIWYG Editor
                 else if ($field['type'] === 'wysiwyg') {
-                    $field_data['value'] = $value;
+                    $field_data['value'] = $field_data['value'];
                 }
                 // Default
                 else if (!isset($field_data['value'])) {
-                    $field_data['value'] = $value;
+                    $field_data['value'] = $field_data['value'];
                 }
                 $fields[] = $field_data;
             }

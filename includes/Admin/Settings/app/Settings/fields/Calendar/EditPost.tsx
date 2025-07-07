@@ -255,11 +255,19 @@ export const ModalContent = ({
             <label htmlFor={field.name}>{field.label}</label>
             <select
               id={field.name}
-              value={scfValues[field.name] || ''}
-              onChange={commonProps.onChange}
+              value={field.multiple ? (Array.isArray(scfValues[field.name]) ? scfValues[field.name] : (scfValues[field.name] ? [scfValues[field.name]] : [])) : (scfValues[field.name] || '')}
+              onChange={e => {
+                if (field.multiple) {
+                  const selected = Array.from(e.target.selectedOptions).map(opt => opt.value);
+                  setScfValues(prev => ({ ...prev, [field.name]: selected }));
+                } else {
+                  setScfValues(prev => ({ ...prev, [field.name]: e.target.value }));
+                }
+              }}
               required={field.required}
+              multiple={!!field.multiple}
             >
-              <option value="">Select...</option>
+              {!field.multiple && <option value="">Select...</option>}
               {field.options?.map(opt => (
                 <option key={opt} value={opt}>{opt}</option>
               ))}
