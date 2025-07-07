@@ -11,6 +11,8 @@ import Modal from "react-modal";
 import { SweetAlertToaster } from "../../ToasterMsg";
 import { getPostType } from "./Helpers";
 import { PostType, WP_Error } from "./types";
+import { MediaUpload } from '@wordpress/media-utils';
+import { Button } from '@wordpress/components';
 
 interface Post {
   ID               ?: number;
@@ -43,6 +45,8 @@ export const ModalContent = ({
   const [scfFields, setScfFields] = useState([]);
   const [scfValues, setScfValues] = useState({});
   const [scfLoading, setScfLoading] = useState(false);
+  const [imagePreviews, setImagePreviews] = useState({}); // { [fieldName]: url }
+  const [galleryPreviews, setGalleryPreviews] = useState({}); // { [fieldName]: [url, ...] }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -177,6 +181,52 @@ export const ModalContent = ({
     };
   }, []);
 
+  // Helper to fetch image URL from attachment ID if not provided
+  const fetchImageUrl = async (id) => {
+    if (!id) return '';
+    try {
+      const data: any = await wpFetch({ path: `/wp/v2/media/${id}` });
+      return data?.source_url || '';
+    } catch {
+      return '';
+    }
+  };
+
+  // Update image preview when scfValues changes for image fields
+  useEffect(() => {
+    scfFields.forEach(async (field) => {
+      if (field.type === 'image') {
+        const id = scfValues[field.name];
+        if (id && !imagePreviews[field.name]) {
+          let url = field.url;
+          if (!url && id) url = await fetchImageUrl(id);
+          setImagePreviews((prev) => ({ ...prev, [field.name]: url }));
+        } else if (!id && imagePreviews[field.name]) {
+          setImagePreviews((prev) => {
+            const copy = { ...prev };
+            delete copy[field.name];
+            return copy;
+          });
+        }
+      }
+      if (field.type === 'gallery') {
+        const ids = (scfValues[field.name] || '').split(',').map((id) => parseInt(id, 10)).filter(Boolean);
+        if (ids.length && (!galleryPreviews[field.name] || galleryPreviews[field.name].length !== ids.length)) {
+          Promise.all(ids.map(fetchImageUrl)).then((urls) => {
+            setGalleryPreviews((prev) => ({ ...prev, [field.name]: urls }));
+          });
+        } else if (!ids.length && galleryPreviews[field.name]) {
+          setGalleryPreviews((prev) => {
+            const copy = { ...prev };
+            delete copy[field.name];
+            return copy;
+          });
+        }
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scfValues, scfFields]);
+
   const renderSCFField = (field) => {
     const commonProps = {
       key: field.name,
@@ -192,12 +242,16 @@ export const ModalContent = ({
 
     switch (field.type) {
       case 'text':
-        return <Input type="text" {...commonProps} />;
+        return <div className="form-group">
+            <Input type="text" {...commonProps} />
+        </div>
       case 'textarea':
-        return <Textarea {...commonProps} />;
+        return <div className="form-group">
+            <Textarea type="text" {...commonProps} />
+        </div>
       case 'select':
         return (
-          <div className="form-group" key={field.name}>
+          <div className="form-group wpsp-scf-select" key={field.name}>
             <label htmlFor={field.name}>{field.label}</label>
             <select
               id={field.name}
@@ -214,7 +268,7 @@ export const ModalContent = ({
         );
       case 'checkbox':
         return (
-          <div className="form-group" key={field.name}>
+          <div className="wpsp-scf-checkbox" key={field.name}>
             <label>
               <input
                 type="checkbox"
@@ -225,6 +279,134 @@ export const ModalContent = ({
             </label>
           </div>
         );
+      case 'number':
+        return (
+          <div className="form-group" key={field.name}>
+            <label htmlFor={field.name}>{field.label}</label>
+            <input
+              type="number"
+              id={field.name}
+              value={scfValues[field.name] || ''}
+              onChange={e => setScfValues(prev => ({ ...prev, [field.name]: e.target.value }))}
+              required={field.required}
+            />
+          </div>
+        );
+      case 'image': {
+        const id = scfValues[field.name];
+        const url = imagePreviews[field.name] || field.url;
+        return (
+          <div className="form-group" key={field.name}>
+            <label>{field.label}</label>
+            {url && (
+              <div style={{ marginBottom: 8 }}>
+                <img src={url} alt={field.label} style={{ maxWidth: 120, maxHeight: 120 }} />
+              </div>
+            )}
+            <MediaUpload
+              onSelect={media => {
+                setScfValues(prev => ({ ...prev, [field.name]: media.id }));
+                setImagePreviews(prev => ({ ...prev, [field.name]: media.url }));
+              }}
+              allowedTypes={['image']}
+              value={id}
+              render={({ open }) => (
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <Button onClick={open} isSecondary>
+                    {id ? __('Update Image', 'wp-scheduled-posts') : __('Select Image', 'wp-scheduled-posts')}
+                  </Button>
+                  {id && (
+                    <Button
+                      isDestructive
+                      onClick={() => {
+                        setScfValues(prev => ({ ...prev, [field.name]: '' }));
+                        setImagePreviews(prev => {
+                          const copy = { ...prev };
+                          delete copy[field.name];
+                          return copy;
+                        });
+                      }}
+                    >
+                      {__('Remove', 'wp-scheduled-posts')}
+                    </Button>
+                  )}
+                </div>
+              )}
+            />
+          </div>
+        );
+      }
+      case 'gallery': {
+        const ids = (scfValues[field.name] || '').split(',').map((id) => parseInt(id, 10)).filter(Boolean);
+        const urls = galleryPreviews[field.name] || field.urls || [];
+        return (
+          <div className="form-group" key={field.name}>
+            <label>{field.label}</label>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 8 }}>
+              {urls.map((url, i) => (
+                <img key={i} src={url} alt={field.label} style={{ maxWidth: 80, maxHeight: 80 }} />
+              ))}
+            </div>
+            <MediaUpload
+              onSelect={mediaArr => {
+                const arr = Array.isArray(mediaArr) ? mediaArr : [mediaArr];
+                const ids = arr.map(m => m.id);
+                const urls = arr.map(m => m.url);
+                setScfValues(prev => ({ ...prev, [field.name]: ids.join(',') }));
+                setGalleryPreviews(prev => ({ ...prev, [field.name]: urls }));
+              }}
+              allowedTypes={['image']}
+              multiple
+              gallery
+              value={ids}
+              render={({ open }) => (
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <Button onClick={open} isSecondary>
+                    {ids.length ? __('Update Images', 'wp-scheduled-posts') : __('Select Images', 'wp-scheduled-posts')}
+                  </Button>
+                  {ids.length > 0 && (
+                    <Button
+                      isDestructive
+                      onClick={() => {
+                        setScfValues(prev => ({ ...prev, [field.name]: '' }));
+                        setGalleryPreviews(prev => {
+                          const copy = { ...prev };
+                          delete copy[field.name];
+                          return copy;
+                        });
+                      }}
+                    >
+                      {__('Remove', 'wp-scheduled-posts')}
+                    </Button>
+                  )}
+                </div>
+              )}
+            />
+            <small>Or enter comma-separated WordPress Attachment IDs:</small>
+            <input
+              type="text"
+              placeholder="Comma-separated Attachment IDs"
+              value={scfValues[field.name] || ''}
+              onChange={async e => {
+                const val = e.target.value;
+                setScfValues(prev => ({ ...prev, [field.name]: val }));
+                if (val) {
+                  const ids = val.split(',').map((id) => parseInt(id, 10)).filter(Boolean);
+                  const urls = await Promise.all(ids.map(fetchImageUrl));
+                  setGalleryPreviews(prev => ({ ...prev, [field.name]: urls }));
+                } else {
+                  setGalleryPreviews(prev => {
+                    const copy = { ...prev };
+                    delete copy[field.name];
+                    return copy;
+                  });
+                }
+              }}
+              style={{ marginTop: 4 }}
+            />
+          </div>
+        );
+      }
       // Add more field types as needed
       default:
         return null;
@@ -252,41 +434,41 @@ export const ModalContent = ({
           <form onSubmit={(event) => {
             handleSubmit(event).then();
           }}>
-            <div className="form-group">
-              <Input
-                type="text"
-                id="title"
-                label="Title"
-                placeholder="Title"
-                value={postData.post_title}
-                required
-                onChange={(event) => setPostData((postData) => ({...postData, post_title: event.target.value}))}
-              />
-            </div>
-            <div className="form-group">
-              <Textarea
-                id="content"
-                label="Content"
-                placeholder="Content"
-                required
-                value={postData.post_content}
-                onChange={(event) => setPostData((postData) => ({...postData, post_content: event.target.value}))}
-              />
-            </div>
-
-            <TimePicker
-              currentTime={postData.post_date}
-              onChange={(date) => setPostData((postData) => ({...postData, post_date: date}))}
-              is12Hour
-            />
-
-            {scfLoading && <div>Loading custom fields...</div>}
-            {!scfLoading && scfFields.length > 0 && (
-              <div className="scf-fields">
-                {scfFields.map(renderSCFField)}
+            <div className="modal-fields">
+              <div className="form-group">
+                <Input
+                  type="text"
+                  id="title"
+                  label="Title"
+                  placeholder="Title"
+                  value={postData.post_title}
+                  required
+                  onChange={(event) => setPostData((postData) => ({...postData, post_title: event.target.value}))}
+                />
               </div>
-            )}
+              <div className="form-group">
+                <Textarea
+                  id="content"
+                  label="Content"
+                  placeholder="Content"
+                  required
+                  value={postData.post_content}
+                  onChange={(event) => setPostData((postData) => ({...postData, post_content: event.target.value}))}
+                />
+              </div>
+              {scfLoading && <div>Loading custom fields...</div>}
+              {!scfLoading && scfFields.length > 0 && (
+                <div className="scf-fields">
+                  {scfFields.map(renderSCFField)}
+                </div>
+              )}
 
+              <TimePicker
+                currentTime={postData.post_date}
+                onChange={(date) => setPostData((postData) => ({...postData, post_date: date}))}
+                is12Hour
+              />
+            </div>
             <button type="submit">Save</button>
           </form>
         )}

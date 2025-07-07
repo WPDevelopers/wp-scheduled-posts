@@ -168,11 +168,35 @@ class Calendar
                     'name'  => $field['name'],
                     'label' => $field['label'],
                     'type'  => $field['type'],
-                    'value' => $post_id ? get_post_meta($post_id, $field['name'], true) : '',
                 );
+                $value = $post_id ? get_post_meta($post_id, $field['name'], true) : '';
                 // Add options for select, checkbox, radio
                 if (in_array($field['type'], array('select', 'checkbox', 'radio')) && !empty($field['choices'])) {
                     $field_data['options'] = array_values($field['choices']);
+                }
+                // Number field
+                if ($field['type'] === 'number') {
+                    $field_data['value'] = $value !== '' ? (float)$value : '';
+                }
+                // Image field (single attachment ID)
+                else if ($field['type'] === 'image') {
+                    $field_data['value'] = $value;
+                    $field_data['url'] = $value ? wp_get_attachment_url($value) : '';
+                }
+                // Gallery field (array of attachment IDs)
+                else if ($field['type'] === 'gallery') {
+                    $ids = is_array($value) ? $value : (is_string($value) ? explode(',', $value) : array());
+                    $ids = array_filter(array_map('intval', $ids));
+                    $field_data['value'] = $ids;
+                    $field_data['urls'] = array_map('wp_get_attachment_url', $ids);
+                }
+                // WYSIWYG Editor
+                else if ($field['type'] === 'wysiwyg') {
+                    $field_data['value'] = $value;
+                }
+                // Default
+                else if (!isset($field_data['value'])) {
+                    $field_data['value'] = $value;
                 }
                 $fields[] = $field_data;
             }
@@ -609,6 +633,13 @@ class Calendar
                     'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''),
                     'edit_date'     => true,
                 ), true);
+                // Save SCF fields if present
+                $scf = $request->get_param('scf');
+                if ($post_id && is_array($scf)) {
+                    foreach ($scf as $key => $value) {
+                        update_post_meta($post_id, $key, $value);
+                    }
+                }
                 return $this->get_rest_result($post_id);
             } else {
                 // only work new event created
@@ -622,6 +653,13 @@ class Calendar
                     'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''),
                     'edit_date'     => true,
                 ), true);
+                // Save SCF fields if present
+                $scf = $request->get_param('scf');
+                if ($post_id && is_array($scf)) {
+                    foreach ($scf as $key => $value) {
+                        update_post_meta($post_id, $key, $value);
+                    }
+                }
                 return $this->get_rest_result($post_id);
             }
         }
