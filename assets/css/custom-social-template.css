@@ -574,7 +574,12 @@ button.wpsp-platform-icon.facebook.active svg path, button.wpsp-platform-icon.fa
 .wpsp-template-textarea {
   margin-bottom: 20px;
 }
-
+.wpsp-use-global-template-text.disabled {
+  opacity: 0.5;
+}
+.wpsp-use-global-template-text.disabled .wpsp-tooltip-wrapper .wpsp-tooltip-text {
+  display: none;
+}
 textarea.wpsp-template-input {
   width: 100%;
   padding: 12px;
@@ -927,10 +932,7 @@ textarea.wpsp-template-input {
 
 /* Modal Footer */
 .wpsp-modal-footer {
-  display: flex;
-  justify-content: flex-end;
   align-items: center;
-  gap: 16px;
   border-top: 1px solid #ECEFF5;
   padding: 12px 16px;
   background: #F9F8FD;
@@ -1001,14 +1003,14 @@ textarea.wpsp-template-input {
 .wpsp-custom-tabs button.tab-profile {
   border: none;
   padding: 8px 12px;
-  background: #EBEEF5;
+  background: transparent;
   font-size: 13px;
   line-height: 1.2em;
   font-weight: 400;
   color: #1B1B50;
 }
 .wpsp-custom-tabs button.tab-profile.active {
-  background: transparent;
+  background: #EBEEF5;
   color: #6C62FF;
 }
 
@@ -1253,4 +1255,18 @@ textarea.wpsp-template-input {
 }
 .wpsp-global-template.hide-preview .use-global-template-warning::after {
   left: 95%;
+}
+.wpsp-custom-template-modal .wpsp-custom-social-footer-left span {
+    color: #1c2839;
+    font-size: 14px;
+}
+.wpsp-custom-template-modal .wpsp-custom-social-footer-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.wpsp-custom-template-modal .wpsp-custom-social-footer-wrapper .wpsp-custom-social-footer-right {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
 }

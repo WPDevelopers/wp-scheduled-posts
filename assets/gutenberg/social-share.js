@@ -450,7 +450,7 @@ const SocialShare = ( { is_pro_active, isSocialShareDisable } ) => {
                               selected={ facebookShareType }
                               options={ [
                                   { label: <div className="wpsp-tooltip">Default <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext"> { __('Content will be shared on all the activated social accounts','wp-scheduled-posts') } </span> </div>, value: 'default' },
-                                  { label: <div className="wpsp-tooltip custom">Custom <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">{ __('Specify your social account choice where you want to share the content','wp-scheduled-posts') }</span></div>, value: 'custom' }
+                                  { label: <div className="wpsp-tooltip custom">Select <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">{ __('Specify your social account choice where you want to share the content','wp-scheduled-posts') }</span></div>, value: 'custom' }
                               ] }
                               onChange={ ( value ) => handleShareType( 'facebook', value ) }
                             />
@@ -480,7 +480,7 @@ const SocialShare = ( { is_pro_active, isSocialShareDisable } ) => {
                           selected={ twitterShareType }
                           options={ [
                                 { label: <div className="wpsp-tooltip" dangerouslySetInnerHTML={ { __html: `Default <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">Content will be shared on all the activated social accounts </span>` } }></div>, value: 'default' },
-                                { label: <div className="wpsp-tooltip custom" dangerouslySetInnerHTML={ { __html: `Custom <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">Specify your social account choice where you want to share the content</span>` } }></div>, value: 'custom' }
+                                { label: <div className="wpsp-tooltip custom" dangerouslySetInnerHTML={ { __html: `Select <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">Specify your social account choice where you want to share the content</span>` } }></div>, value: 'custom' }
                           ] }
                           onChange={ ( value ) => handleShareType( 'twitter', value ) }
                         />
@@ -517,7 +517,7 @@ const SocialShare = ( { is_pro_active, isSocialShareDisable } ) => {
                                       selected={ linkedinShareType }
                                       options={ [
                                         { label: <div className="wpsp-tooltip" dangerouslySetInnerHTML={ { __html: `Default <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">Content will be shared on all the activated social accounts </span>` } }></div>, value: 'default' },
-                                      { label: <div className="wpsp-tooltip custom" dangerouslySetInnerHTML={ { __html: `Custom <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">Specify your social account choice where you want to share the content</span>` } }></div>, value: 'custom' }
+                                      { label: <div className="wpsp-tooltip custom" dangerouslySetInnerHTML={ { __html: `Select <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">Specify your social account choice where you want to share the content</span>` } }></div>, value: 'custom' }
                                       ] }
                                       onChange={ ( value ) => handleShareType( 'linkedin', value ) }
                                     />
@@ -540,7 +540,7 @@ const SocialShare = ( { is_pro_active, isSocialShareDisable } ) => {
                                       selected={ linkedinShareTypePage }
                                       options={ [
                                         { label: <div className="wpsp-tooltip" dangerouslySetInnerHTML={ { __html: `Default <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">Content will be shared on all the activated social accounts </span>` } }></div>, value: 'default' },
-                                        { label: <div className="wpsp-tooltip custom" dangerouslySetInnerHTML={ { __html: `Custom <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">Specify your social account choice where you want to share the content</span>` } }></div>, value: 'custom' }
+                                        { label: <div className="wpsp-tooltip custom" dangerouslySetInnerHTML={ { __html: `Select <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">Specify your social account choice where you want to share the content</span>` } }></div>, value: 'custom' }
                                       ] }
                                       onChange={ ( value ) => handleShareType( 'linkedin_page', value ) }
                                     />
@@ -574,7 +574,7 @@ const SocialShare = ( { is_pro_active, isSocialShareDisable } ) => {
                           selected={ pinterestShareType }
                           options={ [
                                 { label: <div className="wpsp-tooltip" dangerouslySetInnerHTML={ { __html: `Default <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">Content will be shared on all the activated social accounts </span>` } }></div>, value: 'default' },
-                                { label: <div className="wpsp-tooltip custom" dangerouslySetInnerHTML={ { __html: `Custom <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">Specify your social account choice where you want to share the content</span>` } }></div>, value: 'custom' }
+                                { label: <div className="wpsp-tooltip custom" dangerouslySetInnerHTML={ { __html: `Select <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">Specify your social account choice where you want to share the content</span>` } }></div>, value: 'custom' }
                           ] }
                           onChange={ ( value ) => handlePinterestBoardTypeSelection( value ) }
                         />
@@ -619,7 +619,7 @@ const SocialShare = ( { is_pro_active, isSocialShareDisable } ) => {
                               selected={ instagramShareType }
                               options={ [
                                   { label: <div className="wpsp-tooltip">Default <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext"> { __('Content will be shared on all the activated social accounts','wp-scheduled-posts') } </span> </div>, value: 'default' },
-                                  { label: <div className="wpsp-tooltip custom">Custom <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">{ __('Specify your social account choice where you want to share the content','wp-scheduled-posts') }</span></div>, value: 'custom' }
+                                  { label: <div className="wpsp-tooltip custom">Select <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">{ __('Specify your social account choice where you want to share the content','wp-scheduled-posts') }</span></div>, value: 'custom' }
                               ] }
                               onChange={ ( value ) => handleShareType( 'instagram', value ) }
                             />
@@ -650,7 +650,7 @@ const SocialShare = ( { is_pro_active, isSocialShareDisable } ) => {
                               selected={ mediumShareType }
                               options={ [
                                   { label: <div className="wpsp-tooltip">Default <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext"> { __('Content will be shared on all the activated social accounts','wp-scheduled-posts') } </span> </div>, value: 'default' },
-                                  { label: <div className="wpsp-tooltip custom">Custom <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">{ __('Specify your social account choice where you want to share the content','wp-scheduled-posts') }</span></div>, value: 'custom' }
+                                  { label: <div className="wpsp-tooltip custom">Select <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">{ __('Specify your social account choice where you want to share the content','wp-scheduled-posts') }</span></div>, value: 'custom' }
                               ] }
                               onChange={ ( value ) => handleShareType( 'medium', value ) }
                             />
@@ -681,7 +681,7 @@ const SocialShare = ( { is_pro_active, isSocialShareDisable } ) => {
                               selected={ threadsShareType }
                               options={ [
                                   { label: <div className="wpsp-tooltip">Default <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext"> { __('Content will be shared on all the activated social accounts','wp-scheduled-posts') } </span> </div>, value: 'default' },
-                                  { label: <div className="wpsp-tooltip custom">Custom <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">{ __('Specify your social account choice where you want to share the content','wp-scheduled-posts') }</span></div>, value: 'custom' }
+                                  { label: <div className="wpsp-tooltip custom">Select <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">{ __('Specify your social account choice where you want to share the content','wp-scheduled-posts') }</span></div>, value: 'custom' }
                               ] }
                               onChange={ ( value ) => handleShareType( 'threads', value ) }
                             />

@@ -49,6 +49,20 @@ const CustomSocialTemplateModal = ({
     postStatus: select('core/editor').getEditedPostAttribute('status'),
   }));
 
+  const featuredImageUrl = useSelect((select) => {
+    const featuredMediaId = select('core/editor').getEditedPostAttribute('featured_media');
+  
+    if (!featuredMediaId) return null;
+  
+    const media = select('core').getMedia(featuredMediaId);
+    return media?.source_url || null;
+  }, []);
+
+  // final try to get image from featured image.
+  if( !uploadSocialShareBanner ) {
+    uploadSocialShareBanner = featuredImageUrl;
+  }
+
   // State for API-loaded template data
   const [apiTemplateData, setApiTemplateData] = useState({});
   const [activeDropdown, setActiveDropdown] = useState(false);
@@ -60,8 +74,9 @@ const CustomSocialTemplateModal = ({
   const [customTemplates, setCustomTemplates] = useState({});
   const [characterCount, setCharacterCount] = useState(0);
   const [previewContent, setPreviewContent] = useState('');
-  const [saveText, setSaveText] = useState(__('Save Changes', 'wp-scheduled-posts'));
+  const [saveText, setSaveText] = useState(__('Save', 'wp-scheduled-posts'));
   const [isSaving, setIsSaving] = useState(false);
+  const [isUpdatingContent, setIsUpdatingContent] = useState(false);
   // Store all platform data including profiles and templates
   const [allPlatformData, setAllPlatformData] = useState({});
   // Date & Time scheduling state
@@ -235,8 +250,7 @@ const CustomSocialTemplateModal = ({
   const handleGlobalSave = async () => {
     try {
       setIsSaving(true);
-      setSaveText(__('Saving...', 'wp-scheduled-posts'));
-
+      isUpdatingContent ?  setSaveText(__('Updating...', 'wp-scheduled-posts')) : setSaveText(__('Saving...', 'wp-scheduled-posts') );
       // Collect all platform data that has content or selected profiles
       const platformsToSave = [];
 
@@ -292,15 +306,16 @@ const CustomSocialTemplateModal = ({
       if (response.success) {
         await fetchTemplateData();
         setAllPlatformData({});
-        const successMessage =  __('Saved Successfully', 'wp-scheduled-posts');
+        const successMessage = isUpdatingContent ?  __('Updated Successfully', 'wp-scheduled-posts') : __('Saved Successfully','wp-scheduled-posts');
         setSaveText(successMessage);
-        setTimeout(() => setSaveText(__('Save Changes', 'wp-scheduled-posts')), 2000);
+        onClose();
+        setTimeout(() => setSaveText(__('Update', 'wp-scheduled-posts')), 2000);
       } else {
         throw new Error(response.message || 'Failed to save templates');
       }
     } catch (error) {
       setSaveText(__('Save Failed', 'wp-scheduled-posts'));
-      setTimeout(() => setSaveText(__('Save Changes', 'wp-scheduled-posts')), 2000);
+      setTimeout(() => setSaveText(__('Update', 'wp-scheduled-posts')), 2000);
       console.error('Error saving templates:', error);
       // Show detailed error if available
       if (error.response && error.response.errors) {
@@ -449,6 +464,8 @@ const CustomSocialTemplateModal = ({
           getAvailableProfiles().find(profile => profile.id === profileId)
         ).filter(Boolean);
         setSelectedProfile(profilesToSet);
+        setSaveText('Update');
+        setIsUpdatingContent(true);
       } else {
         // No data found, reset to empty state
         setCustomTemplates(prev => ({ ...prev, [selectedPlatform]: '{title} {content} {url} {tags}' }));
@@ -579,7 +596,7 @@ const CustomSocialTemplateModal = ({
             </div>
 
             <div className="wpsp-custom-template-content-wrapper">
-              { availableProfiles.length == 0 && <h5> { __('*You may forget to add or enable profile/page from SchedulePress settings.','wp-scheduled-posts') }</h5> }
+              { availableProfiles.length == 0 && <h5 dangerouslySetInnerHTML={{ __html : __(`*You may forget to add or enable profile/page from <a target="_blank" href='${WPSchedulePostsFree?.adminURL}admin.php?page=schedulepress&tab=social-profile'>SchedulePress settings</a>.`,'wp-scheduled-posts') }}></h5> }
               <div className={`wpsp-profile-selection-area-wrapper ${ availableProfiles.length <= 0 ? 'no-profile-found' : '' }`}>
                 <div className="selected-profile-area">
                   <ul>
@@ -717,7 +734,7 @@ const CustomSocialTemplateModal = ({
                       </div>
                     </div>
                     <div className={`wpsp-global-template ${ !showPreview ? 'hide-preview' : '' }`}>
-                      <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <span className={ availableProfiles?.length == 0 ? 'wpsp-use-global-template-text disabled' : '' }  style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                         { __('Use global template','wp-scheduled-posts') }
                         <span className="wpsp-tooltip-wrapper">
                           <svg
@@ -732,13 +749,13 @@ const CustomSocialTemplateModal = ({
                             <text x="12" y="16" textAnchor="middle" fontSize="12" fill="#fff" fontFamily="Arial" fontWeight="bold">i</text>
                           </svg>
                           <span className="wpsp-tooltip-text">
-                            {__('If enabled, this template will be used as the default for all profiles of this platform.', 'wp-scheduled-posts')}
+                            {__('If enabled, this template will be applied across all the selected social platforms.', 'wp-scheduled-posts')}
                           </span>
                         </span>
                       </span>
                       { showGlobalTemplateWarning &&
                         <div className='use-global-template-warning'>
-                          <span>{ __(`Already enabled ${globalProfile?.charAt(0).toUpperCase() + globalProfile.slice(1)} as Global template`,'wp-scheduled-posts') }</span>
+                          <span>{ __(`${globalProfile?.charAt(0).toUpperCase() + globalProfile.slice(1)} is enabled as global template`,'wp-scheduled-posts') }</span>
                         </div>
                       }
                       <div className={`wpsp-use-global-template-checkbox-wrapper ${(availableProfiles.length == 0 || (globalProfile != null && globalProfile != selectedPlatform) ) ? 'disabled' : ''}`}>
@@ -746,8 +763,9 @@ const CustomSocialTemplateModal = ({
                           type="checkbox"
                           id={`useGlobalTemplate_${selectedPlatform}`}
                           checked={getIsGlobalForPlatform(selectedPlatform)}
+                          disabled={ availableProfiles?.length == 0 ? true : false }
                           onChange={e => {
-                            if( globalProfile != null && globalProfile != selectedPlatform ) {
+                            if( (globalProfile != null && globalProfile != selectedPlatform) ) {
                               setShowGlobalTemplateWarning(true);
                               setTimeout(() => {
                                 setShowGlobalTemplateWarning(false);
@@ -936,17 +954,24 @@ const CustomSocialTemplateModal = ({
 
         {/* Modal Actions */}
         <div className="wpsp-modal-footer">
-          <Button isSecondary onClick={handleClose} className="wpsp-cancel-btn">
-            {__('Cancel', 'wp-scheduled-posts')}
-          </Button>
-          <Button
-            isPrimary
-            onClick={handleGlobalSave}
-            disabled={isSaving || isOverLimit || !hasAnyChanges()}
-            className="wpsp-save-btn"
-          >
-            <span>{saveText}</span>
-          </Button>
+          <div className="wpsp-custom-social-footer-wrapper">
+            <div className="wpsp-custom-social-footer-left">
+              <span>To see how custom templates work, read this <a target='_blank' href="#linktodoc">documentation</a>.</span>
+            </div>
+            <div className="wpsp-custom-social-footer-right">
+              <Button isSecondary onClick={handleClose} className="wpsp-cancel-btn">
+                {__('Cancel', 'wp-scheduled-posts')}
+              </Button>
+              <Button
+                isPrimary
+                onClick={handleGlobalSave}
+                disabled={isSaving || isOverLimit || !hasAnyChanges()}
+                className="wpsp-save-btn"
+              >
+                <span>{saveText}</span>
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     </Modal>
