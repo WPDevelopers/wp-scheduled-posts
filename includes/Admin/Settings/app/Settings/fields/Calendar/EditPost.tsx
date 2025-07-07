@@ -345,7 +345,12 @@ export const ModalContent = ({
         );
       }
       case 'gallery': {
-        const ids = (scfValues[field.name] || '').split(',').map((id) => parseInt(id, 10)).filter(Boolean);
+        const rawVal = scfValues[field.name];
+        const ids = Array.isArray(rawVal)
+          ? rawVal
+          : (typeof rawVal === 'string' && rawVal.length
+              ? rawVal.split(',').map((id) => parseInt(id, 10)).filter(Boolean)
+              : []);
         const urls = galleryPreviews[field.name] || field.urls || [];
         return (
           <div className="form-group" key={field.name}>
@@ -360,7 +365,7 @@ export const ModalContent = ({
                 const arr = Array.isArray(mediaArr) ? mediaArr : [mediaArr];
                 const ids = arr.map(m => m.id);
                 const urls = arr.map(m => m.url);
-                setScfValues(prev => ({ ...prev, [field.name]: ids.join(',') }));
+                setScfValues(prev => ({ ...prev, [field.name]: ids }));
                 setGalleryPreviews(prev => ({ ...prev, [field.name]: urls }));
               }}
               allowedTypes={['image']}
@@ -376,7 +381,7 @@ export const ModalContent = ({
                     <Button
                       isDestructive
                       onClick={() => {
-                        setScfValues(prev => ({ ...prev, [field.name]: '' }));
+                        setScfValues(prev => ({ ...prev, [field.name]: [] }));
                         setGalleryPreviews(prev => {
                           const copy = { ...prev };
                           delete copy[field.name];
@@ -389,28 +394,6 @@ export const ModalContent = ({
                   )}
                 </div>
               )}
-            />
-            <small>Or enter comma-separated WordPress Attachment IDs:</small>
-            <input
-              type="text"
-              placeholder="Comma-separated Attachment IDs"
-              value={scfValues[field.name] || ''}
-              onChange={async e => {
-                const val = e.target.value;
-                setScfValues(prev => ({ ...prev, [field.name]: val }));
-                if (val) {
-                  const ids = val.split(',').map((id) => parseInt(id, 10)).filter(Boolean);
-                  const urls = await Promise.all(ids.map(fetchImageUrl));
-                  setGalleryPreviews(prev => ({ ...prev, [field.name]: urls }));
-                } else {
-                  setGalleryPreviews(prev => {
-                    const copy = { ...prev };
-                    delete copy[field.name];
-                    return copy;
-                  });
-                }
-              }}
-              style={{ marginTop: 4 }}
             />
           </div>
         );
