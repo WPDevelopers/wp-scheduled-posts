@@ -1,6 +1,6 @@
 import { Draggable } from "@fullcalendar/interaction";
 import apiFetch from "@wordpress/api-fetch";
-import React, { MutableRefObject, forwardRef, useEffect, useState } from "react";
+import React, { MutableRefObject, forwardRef, useEffect, useRef, useState } from "react";
 import CategorySelect from "./Category";
 import { ModalContent } from "./EditPost";
 import PostCard from "./EventRender";
@@ -18,6 +18,8 @@ const Sidebar = (
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+  const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
+  const [newPosts, setNewPosts] = useState<PostType[]>([]);
   const postsPerPage = 10;
 
   const fetchPosts = async (pageNum: number, force = false) => {
@@ -59,15 +61,20 @@ const Sidebar = (
   };
 
   const handleScroll = () => {
-    if (loading || !hasMore) return;
-    
-    const sidebarWrapper = document.getElementById("sidebar-post-wrapper");
-    if (sidebarWrapper) {
-      const { scrollTop, scrollHeight, clientHeight } = sidebarWrapper;
-      if (scrollTop + clientHeight >= scrollHeight - 100) {
-        setPage((prevPage) => prevPage + 1);
+    if (scrollTimeout.current) return; // Already scheduled
+  
+    scrollTimeout.current = setTimeout(() => {
+      scrollTimeout.current = null; // Reset
+  
+      if (loading || !hasMore) return;
+      const sidebarWrapper = document.getElementById("sidebar-post-wrapper");
+      if (sidebarWrapper) {
+        const { scrollTop, scrollHeight, clientHeight } = sidebarWrapper;
+        if (scrollTop + clientHeight >= scrollHeight - 100) {
+          setPage((prevPage) => prevPage + 1);
+        }
       }
-    }
+    }, 300); // 300ms debounce
   };
 
   useEffect(() => {
@@ -100,7 +107,15 @@ const Sidebar = (
     setPage(1);
     setHasMore(true);
     fetchPosts(1, true);
-  }, [optionSelected, onSubmit]);
+  }, [optionSelected]);
+
+  const onSubmitHandler = (data: PostType, oldData?: PostType) => {
+    // Only add to newPosts if it's a newly created post (not edited)
+    if (!oldData) {
+      setNewPosts((prev) => [...prev, data]);
+    }
+  };
+  
 
   return (
     <div id="wpsp-sidebar" className="sidebar" ref={draggableRef}>
@@ -133,6 +148,23 @@ const Sidebar = (
                   />
                 </div>
               ))}
+            {newPosts.length > 0 && newPosts
+              .sort((a, b) => new Date(b.end).getTime() - new Date(a.end).getTime())
+              .map((post: PostType) => (
+                <div key={post.postId} className="fc-event" data-event={JSON.stringify(post)}>
+                  <PostCard
+                    post={post}
+                    editAreaToggle={editAreaToggle}
+                    setEditAreaToggle={setEditAreaToggle}
+                    openModal={(modalData) => openModal({ ...modalData, eventType: "editDraft" })}
+                    setEvents={setPosts}
+                    getPostTypeColor={getPostTypeColor}
+                    status={status}
+                    setStatus={setStatus}
+                  />
+                </div>
+              ))}
+              
           </div>
         </div>
         <p>
@@ -157,7 +189,7 @@ const Sidebar = (
       <ModalContent
         modalData={modalData}
         setModalData={openModal}
-        onSubmit={onSubmit}
+        onSubmit={onSubmitHandler}
         selectedPostType={selectedPostType}
         schedule_time={schedule_time}
       />
