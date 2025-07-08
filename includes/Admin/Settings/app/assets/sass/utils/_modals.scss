@@ -395,7 +395,7 @@ img {
           font-weight: 500;
           color: #1b1b50;
           display: block;
-          margin-bottom: 16px !important;
+          margin-bottom: 12px !important;
           @media screen and (max-width: 1439px) {
             font-size: 14px;
             margin-bottom: 12px !important;
@@ -437,6 +437,39 @@ img {
             font-size: 12px;
             padding-top: 12px;
           }
+        }
+        select[multiple] {
+          height: auto;
+          background: #fff;
+          width: 100%;
+          max-width: 100%;
+          font-size: 14px;
+          line-height: 1.3em;
+          color: #1b1b50;
+          padding: 12px;
+          min-height: 44px !important;
+          border: 1px solid #ebeef5;
+          border-radius: 4px;
+          margin: 0 !important;
+
+          &:focus {
+            box-shadow: none;
+          }
+        }
+        button.components-button {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.25em;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            background: #26d39e;
+            cursor: pointer;
+        }
+        .wpsp-scf-checkbox label {
+          display: flex;
+          align-items: center;
         }
       }
       button[type='submit'] {
