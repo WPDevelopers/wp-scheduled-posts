@@ -1282,22 +1282,23 @@ textarea.wpsp-template-input {
 .wpsp-add-social-message-text {
   position: relative;
 }
-.wpsp-add-social-message-text .wpsp-tooltip-wrapper {
-  position: absolute;
-}
 .wpsp-add-social-message-text:hover .wpsp-tooltip-text,
 .wpsp-add-social-message-text:focus-within .wpsp-tooltip-text {
   visibility: visible;
   opacity: 1;
   pointer-events: auto;
   z-index: 999;
+  top: 35px;
+  color: #000;
+  width: 200px;
+  height: 68px !important;
 }
 .wpsp-add-social-message-text .wpsp-tooltip-text::after {
   content: '';
   position: absolute;
-  top: 100%;
+  top: -17%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-27px) rotate(179deg);
   border-width: 6px;
   border-style: solid;
   border-color: #ECEFF5 transparent transparent transparent;
