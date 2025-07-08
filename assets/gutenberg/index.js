@@ -221,6 +221,7 @@ function SocialShareDisableWrapper({ activeDefaultTemplate }) {
   const { editPost } = useDispatch('core/editor');
   const isSocialShareDisable = !!meta._wpscppro_dont_share_socialmedia;
   const imageIdFromMeta = meta._wpscppro_custom_social_share_image;
+  const is_enabled_custom_template = typeof meta._wpsp_enable_custom_social_template === 'boolean' ? meta._wpsp_enable_custom_social_template : false;
   const [uploadSocialShareBannerId, setUploadSocialShareBannerId] = useState(imageIdFromMeta || null);
   const [uploadSocialShareBannerUrl, setUploadSocialShareBannerUrl] = useState('');
 
@@ -307,10 +308,12 @@ function SocialShareDisableWrapper({ activeDefaultTemplate }) {
       </div>
 
       {activeDefaultTemplate && (
-        <SocialShare
-          is_pro_active={WPSchedulePostsFree?.is_pro || false}
-          isSocialShareDisable={isSocialShareDisable}
-        />
+        <div className={`wpsp-social-share-wrapper ${is_enabled_custom_template ? 'enabled-custom-template' : ''}`}>
+          <SocialShare
+            is_pro_active={WPSchedulePostsFree?.is_pro || false}
+            isSocialShareDisable={isSocialShareDisable}
+          />
+        </div>
       )}
 
       {!activeDefaultTemplate && !isSocialShareDisable && <CustomSocialTemplate />}

@@ -1,5 +1,4 @@
 .wpsp-custom-template-modal .components-modal__header {
-  height: auto;
   border-bottom: 1px solid #ECEFF5;
   box-sizing: border-box;
   display: flex;
@@ -691,7 +690,6 @@ textarea.wpsp-template-input {
 
 .wpsp-date-time-section > div {
   display: flex;
-  flex-direction: column;
   align-items: unset !important;
   gap: 20px;
 }
@@ -1009,6 +1007,9 @@ textarea.wpsp-template-input {
   font-weight: 400;
   color: #1B1B50;
 }
+.wpsp-custom-tabs button:not(.active) {
+  cursor: pointer;
+}
 .wpsp-custom-tabs button.tab-profile.active {
   background: #EBEEF5;
   color: #6C62FF;
@@ -1242,11 +1243,15 @@ textarea.wpsp-template-input {
 .wpsp-social-share-settings-warpper .wpsp-custom-tabs{
   order: 3;
 }
-.wpsp-social-share-settings-warpper .social-share{
+.wpsp-social-share-settings-warpper .wpsp-social-share-wrapper{
   order: 4;
 }
 .wpsp-social-share-settings-warpper .wpsp-custom-template-button-wrapper{
   order: 5;
+}
+.wpsp-social-share-settings-warpper .wpsp-social-share-wrapper.enabled-custom-template{
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 
@@ -1264,6 +1269,7 @@ textarea.wpsp-template-input {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-direction: row-reverse;
 }
 .wpsp-custom-template-modal .wpsp-custom-social-footer-wrapper .wpsp-custom-social-footer-right {
   display: flex;

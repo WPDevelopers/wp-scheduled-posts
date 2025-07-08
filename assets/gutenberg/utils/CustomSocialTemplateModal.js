@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { authorIcon, eyeCloseIcon, eyeIcon, facebook, info, instagram, linkedin, medium, pinterest, threads, tikIcon, twitter_x } from './helpers/icons';
+import { authorIcon, docIcon, eyeCloseIcon, eyeIcon, facebook, info, instagram, linkedin, medium, pinterest, threads, tikIcon, twitter_x } from './helpers/icons';
 
 const {
   components: { Modal, Button },
@@ -454,6 +454,7 @@ const CustomSocialTemplateModal = ({
         dataSource = 'temporary';
       } else if (savedData && (savedData.template || savedData.profiles?.length > 0)) {
         dataToLoad = savedData;
+        setSaveText('Update');
         dataSource = 'saved';
       }
       if (dataToLoad) {
@@ -464,7 +465,6 @@ const CustomSocialTemplateModal = ({
           getAvailableProfiles().find(profile => profile.id === profileId)
         ).filter(Boolean);
         setSelectedProfile(profilesToSet);
-        setSaveText('Update');
         setIsUpdatingContent(true);
       } else {
         // No data found, reset to empty state
@@ -552,7 +552,12 @@ const CustomSocialTemplateModal = ({
 
   return (
     <Modal
-      title={__('Add Social Message', 'wp-scheduled-posts')}
+      title={
+        <span style={{ display: 'flex', alignItems: 'normal', gap: '8px' }}>
+          { __('Add Social Message', 'wp-scheduled-posts') }
+          <a href="https://wpdeveloper.com/docs/use-custom-social-templates/" target='_blank'>{ docIcon }</a>
+        </span>
+      }
       onRequestClose={handleClose}
       className="wpsp-custom-template-modal"
       style={{ maxWidth: '800px', width: '90vw' }}
@@ -577,20 +582,6 @@ const CustomSocialTemplateModal = ({
                   title={`${platform?.charAt(0).toUpperCase() + platform.slice(1)}${platformHasData(platform) ? '' : ''}`}
                 >
                   {icon}
-                  {platformHasData(platform) && (
-                    <span
-                      style={{
-                        position: 'absolute',
-                        top: '-2px',
-                        right: '-2px',
-                        width: '8px',
-                        height: '8px',
-                        backgroundColor: '#00a32a',
-                        borderRadius: '50%',
-                        border: '1px solid white'
-                      }}
-                    />
-                  )}
                 </button>
               ))}
             </div>
@@ -943,7 +934,7 @@ const CustomSocialTemplateModal = ({
                   {info}
                   <h3>{ __('Preview not available', 'wp-scheduled-posts') }</h3>
                   <p>{__('Please make sure you select a social profile first.', 'wp-scheduled-posts')}</p>
-                  <a href="#">{ __('Let\'s See How','wp-scheduled-posts') }</a>
+                  <a href="https://wpdeveloper.com/docs/use-custom-social-templates/" target='_blank'>{ __('Let\'s See How','wp-scheduled-posts') }</a>
                 </div>
               )}
               </div>
@@ -955,9 +946,6 @@ const CustomSocialTemplateModal = ({
         {/* Modal Actions */}
         <div className="wpsp-modal-footer">
           <div className="wpsp-custom-social-footer-wrapper">
-            <div className="wpsp-custom-social-footer-left">
-              <span>To see how custom templates work, read this <a target='_blank' href="#linktodoc">documentation</a>.</span>
-            </div>
             <div className="wpsp-custom-social-footer-right">
               <Button isSecondary onClick={handleClose} className="wpsp-cancel-btn">
                 {__('Cancel', 'wp-scheduled-posts')}

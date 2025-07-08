@@ -189,7 +189,7 @@ const CustomSocialTemplate = () => {
           className="wpsp-add-template-btn"
           disabled={!isCustomTemplateEnabled}
         >
-          {__('Add Social Template', 'wp-scheduled-posts')}
+          {__('Add Social Message', 'wp-scheduled-posts')}
         </Button>
       </div>
       <CustomSocialTemplateModal {...modalProps} />
