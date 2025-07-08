@@ -99,11 +99,23 @@ const useSocialProfileData = () => {
         const response = await fetchSocialProfileData(apiUrl, null, false);
         if (response) {
           const data = JSON.parse(response);
+          const boardsData = [];
+          const pinterest_profile_data = data?.pinterest_profile_list || [];          
+          pinterest_profile_data.forEach((user) => {
+            const thumbnail = user.thumbnail_url;
+            user.boards?.forEach((board) => {
+              boardsData.push({
+                id: board.id,
+                name: board.name,
+                thumbnail_url: thumbnail
+              });
+            });
+          });
           setProfileData({
             facebookProfileData: data.facebook_profile_list || [],
             twitterProfileData: data.twitter_profile_list || [],
             linkedinProfileData: data.linkedin_profile_list || [],
-            pinterestProfileData: data.pinterest_profile_list || [],
+            pinterestProfileData: boardsData || [],
             instagramProfileData: data.instagram_profile_list || [],
             mediumProfileData: data.medium_profile_list || [],
             threadsProfileData: data.threads_profile_list || []

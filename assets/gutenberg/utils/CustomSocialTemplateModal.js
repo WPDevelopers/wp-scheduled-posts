@@ -553,9 +553,14 @@ const CustomSocialTemplateModal = ({
   return (
     <Modal
       title={
-        <span style={{ display: 'flex', alignItems: 'normal', gap: '8px' }}>
+        <span className='wpsp-add-social-message-text' style={{ display: 'flex', alignItems: 'normal', gap: '8px' }}>
           { __('Add Social Message', 'wp-scheduled-posts') }
-          <a href="https://wpdeveloper.com/docs/use-custom-social-templates/" target='_blank'>{ docIcon }</a>
+          <a className='wpsp-custom-social-doc-link' href="https://wpdeveloper.com/docs/use-custom-social-templates/" target='_blank'>{ docIcon }</a>
+          <span className="wpsp-tooltip-wrapper">
+              <div className="wpsp-tooltip-text">
+                {__('How to Use Custom Social Templates in SchedulePress.', 'wp-scheduled-posts')}
+              </div>
+          </span>
         </span>
       }
       onRequestClose={handleClose}
@@ -863,21 +868,15 @@ const CustomSocialTemplateModal = ({
                   <div className="wpsp-preview-header">
                     <div className="wpsp-preview-avatar">
                       <div className="wpsp-avatar-circle">
-                          {previewThumbnailUrl ? (
-                            <img
-                              src={previewThumbnailUrl}
-                              alt={previewProfileName}
-                              className="wpsp-profile-image"
-                              onError={(e) => {
-                                e.target.onerror = null; // Prevent infinite loop
-                                e.target.src = `data:image/svg+xml;utf8,${encodeURIComponent(authorIcon)}`;
-                              }}
-                            />
-                          ) : (
-                            <div className="wpsp-profile-placeholder">
-                              {previewProfileName ? previewProfileName?.charAt(0).toUpperCase() : '?'}
-                            </div>
-                          )}
+                          <img
+                            src={previewThumbnailUrl}
+                            alt={previewProfileName}
+                            className="wpsp-profile-image"
+                            onError={(e) => {
+                              e.target.onerror = null; // Prevent infinite loop
+                              e.target.src = `data:image/svg+xml;utf8,${encodeURIComponent(authorIcon)}`;
+                            }}
+                          />
                       </div>
   
                       <div className="wpsp-preview-info">
