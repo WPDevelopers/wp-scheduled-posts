@@ -165,7 +165,7 @@ img {
     // overflow: hidden;
     border-radius: 8px;
     outline: none;
-    padding: 40px;
+    padding: 30px;
     margin: auto;
     max-width: 100%;
     width: 600px !important;
@@ -208,11 +208,11 @@ img {
     }
     .close-button {
       position: absolute;
-      top: 24px;
-      right: 24px;
+      top: 30px;
+      right: 30px;
       background: transparent !important;
       border: none;
-      font-size: 16px;
+      font-size: 14px;
       color: #989fab;
       font-weight: 500;
       cursor: pointer;
@@ -395,10 +395,10 @@ img {
           font-weight: 500;
           color: #1b1b50;
           display: block;
-          margin-bottom: 12px !important;
+          margin-bottom: 8px !important;
           @media screen and (max-width: 1439px) {
             font-size: 14px;
-            margin-bottom: 12px !important;
+            margin-bottom: 8px !important;
           }
         }
         input,
@@ -407,7 +407,7 @@ img {
           font-size: 16px;
           line-height: 1.3em;
           color: #1b1b50;
-          padding: 20px 18px;
+          padding: 14px 16px;
           min-height: 44px !important;
           border: 1px solid #ebeef5;
           border-radius: 4px;
