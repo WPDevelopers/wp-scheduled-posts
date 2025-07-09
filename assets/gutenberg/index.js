@@ -279,7 +279,7 @@ function SocialShareDisableWrapper({ activeDefaultTemplate }) {
         onChange={handleDisableSocialShare}
       />
 
-    { isSocialShareDisable &&
+    { !isSocialShareDisable &&
      <div className={`wpsp_image_upload ${uploadSocialShareBannerUrl ? 'has-image' : 'has-not-image'}`}>
       <div id="wpscpprouploadimagepreview">
         {uploadSocialShareBannerUrl && (
