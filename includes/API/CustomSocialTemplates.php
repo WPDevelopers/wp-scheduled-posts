@@ -481,7 +481,7 @@ class CustomSocialTemplates
     
         // Schedule the cron event
         $timestamp = (new \DateTime($social_datetime, new \DateTimeZone('UTC')))->getTimestamp();
-        $hook = 'publish_future_post';
+        $hook = 'wpsp_publish_future_post';
         $args = [intval($post_id)];
     
         // Remove previously scheduled event if any
@@ -499,7 +499,7 @@ class CustomSocialTemplates
             return false;
         }
 
-        $event_hook = 'publish_future_post';
+        $event_hook = 'wpsp_publish_future_post';
         // For absolute scheduling on published posts, use current time as base
         $datetime_str = \WPSP\Helpers\CustomTemplateHelper::get_scheduled_datetime($scheduling_data);
         if (!$datetime_str) {

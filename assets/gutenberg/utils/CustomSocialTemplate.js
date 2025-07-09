@@ -103,12 +103,10 @@ const useSocialProfileData = () => {
           const pinterest_profile_data = data?.pinterest_profile_list || [];          
           pinterest_profile_data.forEach((user) => {
             const thumbnail = user.thumbnail_url;
-            user.boards?.forEach((board) => {
-              boardsData.push({
-                id: board.id,
-                name: board.name,
-                thumbnail_url: thumbnail
-              });
+            boardsData.push({
+              id: user?.default_board_name?.value,
+              name: user?.default_board_name?.label,
+              thumbnail_url: thumbnail
             });
           });
           setProfileData({

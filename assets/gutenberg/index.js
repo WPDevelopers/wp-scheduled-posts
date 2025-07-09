@@ -224,7 +224,7 @@ function SocialShareDisableWrapper({ activeDefaultTemplate }) {
   const is_enabled_custom_template = typeof meta._wpsp_enable_custom_social_template === 'boolean' ? meta._wpsp_enable_custom_social_template : false;
   const [uploadSocialShareBannerId, setUploadSocialShareBannerId] = useState(imageIdFromMeta || null);
   const [uploadSocialShareBannerUrl, setUploadSocialShareBannerUrl] = useState('');
-
+  
   // Load image URL when image ID exists
   useEffect(() => {
     if (!uploadSocialShareBannerId) return;
@@ -272,49 +272,52 @@ function SocialShareDisableWrapper({ activeDefaultTemplate }) {
 
   return (
     <Fragment>
+      <h2 className="social-share-title">{ __('Social Share Settings','wp-scheduled-posts') }</h2>
       <CheckboxControl
         label={__('Disable Social Share', 'wp-scheduled-posts')}
         checked={isSocialShareDisable}
         onChange={handleDisableSocialShare}
       />
 
-      <div className={`wpsp_image_upload ${uploadSocialShareBannerUrl ? 'has-image' : 'has-not-image'}`}>
-        <div id="wpscpprouploadimagepreview">
-          {uploadSocialShareBannerUrl && (
-            <img src={uploadSocialShareBannerUrl} alt="Uploaded Banner" />
-          )}
-        </div>
-
-        <MediaUploadCheck>
-          <MediaUpload
-            allowedTypes={['image']}
-            onSelect={handleImageSelect}
-            render={({ open }) => (
-              <button className="button button-primary" onClick={open}>
-                {__('Upload Social Banner', 'wp-scheduled-posts')}
-              </button>
-            )}
-          />
-        </MediaUploadCheck>
-
+    { isSocialShareDisable &&
+     <div className={`wpsp_image_upload ${uploadSocialShareBannerUrl ? 'has-image' : 'has-not-image'}`}>
+      <div id="wpscpprouploadimagepreview">
         {uploadSocialShareBannerUrl && (
-          <input
-            type="button"
-            onClick={handleRemoveImage}
-            className="button button-danger remove-banner-image-btn"
-            value="Remove Banner"
-          />
+          <img src={uploadSocialShareBannerUrl} alt="Uploaded Banner" />
         )}
       </div>
 
-      {activeDefaultTemplate && (
-        <div className={`wpsp-social-share-wrapper ${is_enabled_custom_template ? 'enabled-custom-template' : ''}`}>
-          <SocialShare
-            is_pro_active={WPSchedulePostsFree?.is_pro || false}
-            isSocialShareDisable={isSocialShareDisable}
-          />
-        </div>
+      <MediaUploadCheck>
+        <MediaUpload
+          allowedTypes={['image']}
+          onSelect={handleImageSelect}
+          render={({ open }) => (
+            <button className="button button-primary" onClick={open}>
+              {__('Upload Social Banner', 'wp-scheduled-posts')}
+            </button>
+          )}
+        />
+      </MediaUploadCheck>
+
+      {uploadSocialShareBannerUrl && (
+        <input
+          type="button"
+          onClick={handleRemoveImage}
+          className="button button-danger remove-banner-image-btn"
+          value="Remove Banner"
+        />
       )}
+      </div>
+    }
+
+    {activeDefaultTemplate && (
+      <div className={`wpsp-social-share-wrapper ${is_enabled_custom_template ? 'enabled-custom-template' : ''}`}>
+        <SocialShare
+          is_pro_active={WPSchedulePostsFree?.is_pro || false}
+          isSocialShareDisable={isSocialShareDisable}
+        />
+      </div>
+    )}
 
       {!activeDefaultTemplate && !isSocialShareDisable && <CustomSocialTemplate />}
     </Fragment>

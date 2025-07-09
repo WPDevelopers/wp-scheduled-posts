@@ -58,6 +58,19 @@ const CustomSocialTemplateModal = ({
     return media?.source_url || null;
   }, []);
 
+  const social_media_enabled = WPSchedulePostsFree?.social_media_enabled || {}; // Adjust this based on your actual data object
+  const platforms = [
+    { platform: 'facebook', icon: facebook, color: '#1877f2', bgColor: '#1877f2' },
+    { platform: 'twitter', icon: twitter_x, color: '#000000', bgColor: '#000000' },
+    { platform: 'linkedin', icon: linkedin, color: '#0077b5', bgColor: '#0077b5' },
+    { platform: 'pinterest', icon: pinterest, color: '#bd081c', bgColor: '#bd081c' },
+    { platform: 'instagram', icon: instagram, color: '#e4405f', bgColor: '#e4405f' },
+    { platform: 'medium', icon: medium, color: '#00ab6c', bgColor: '#00ab6c' },
+    { platform: 'threads', icon: threads, color: '#000', bgColor: '#000' }
+  ];
+
+  const firstSelectedProfile = Object.entries(social_media_enabled).find(([key, value]) => value === true)?.[0];
+
   // final try to get image from featured image.
   if( !uploadSocialShareBanner ) {
     uploadSocialShareBanner = featuredImageUrl;
@@ -68,7 +81,7 @@ const CustomSocialTemplateModal = ({
   const [activeDropdown, setActiveDropdown] = useState(false);
   const [showPreview, setShowPreview] = useState(true);
   const [showGlobalTemplateWarning, setShowGlobalTemplateWarning] = useState(false);
-  const [selectedPlatform, setSelectedPlatform] = useState('facebook');
+  const [selectedPlatform, setSelectedPlatform] = useState( firstSelectedProfile || 'facebook' );
   const [selectedProfile, setSelectedProfile] = useState([]);
   // let's set default custom template with all dynamic variable.
   const [customTemplates, setCustomTemplates] = useState({});
@@ -119,7 +132,7 @@ const CustomSocialTemplateModal = ({
       // For now, we'll use the meta system for scheduling data since it's working
       // This can be moved to API later if needed
       const meta = wp.data.select('core/editor').getEditedPostAttribute('meta') || {};
-      const schedulingData = meta._wpsp_social_scheduling || {};
+      const schedulingData = meta._wpsp_social_scheduling || {};      
       // If activeDefaultTemplate exists, set it in scheduleData state
       if (schedulingData.activeDefaultTemplate) {
         setScheduleData(prev => ({ ...prev, activeDefaultTemplate: schedulingData.activeDefaultTemplate }));
@@ -310,6 +323,14 @@ const CustomSocialTemplateModal = ({
         setSaveText(successMessage);
         onClose();
         setTimeout(() => setSaveText(__('Update', 'wp-scheduled-posts')), 2000);
+
+        // Update local editor state
+        wp.data.dispatch('core/editor').editPost({
+          meta: {
+            ...wp.data.select('core/editor').getEditedPostAttribute('meta'),
+            _wpsp_social_scheduling: scheduleData, // the new data you just saved
+          }
+        });
       } else {
         throw new Error(response.message || 'Failed to save templates');
       }
@@ -495,9 +516,6 @@ const CustomSocialTemplateModal = ({
           }));
         }
 
-        // Initialize the first platform with data or default to facebook
-        let platformToSelect = 'facebook';
-
         // Find the first platform that has saved data
         if (templateData) {
           for (const platform of SOCIAL_PLATFORMS) {
@@ -511,12 +529,10 @@ const CustomSocialTemplateModal = ({
             }
           }
         }
-
-        // Set the selected platform
-        setSelectedPlatform(platformToSelect);
       };
 
       loadData();
+      fetchSchedulingData();
     }
   }, [isOpen]);
 
@@ -525,16 +541,7 @@ const CustomSocialTemplateModal = ({
   const availableProfiles = getAvailableProfiles();
   const currentLimit = platformLimits[selectedPlatform] || 1000;
   const isOverLimit = characterCount > currentLimit;
-  const social_media_enabled = WPSchedulePostsFree?.social_media_enabled || {}; // Adjust this based on your actual data object
-  const platforms = [
-    { platform: 'facebook', icon: facebook, color: '#1877f2', bgColor: '#1877f2' },
-    { platform: 'twitter', icon: twitter_x, color: '#000000', bgColor: '#000000' },
-    { platform: 'linkedin', icon: linkedin, color: '#0077b5', bgColor: '#0077b5' },
-    { platform: 'pinterest', icon: pinterest, color: '#bd081c', bgColor: '#bd081c' },
-    { platform: 'instagram', icon: instagram, color: '#e4405f', bgColor: '#e4405f' },
-    { platform: 'medium', icon: medium, color: '#00ab6c', bgColor: '#00ab6c' },
-    { platform: 'threads', icon: threads, color: '#000', bgColor: '#000' }
-  ];
+  
   
   // Filter platforms based on what's enabled
   const filteredPlatforms = platforms.filter(({ platform }) => social_media_enabled[platform]);

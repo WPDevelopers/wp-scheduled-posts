@@ -431,7 +431,6 @@ const SocialShare = ( { is_pro_active, isSocialShareDisable } ) => {
 
     return (
       <div className={`social-share`} style={ { display: isSocialShareDisable ? 'none' : 'block' } } id="wpspSocialShare">
-        <h2 className="social-share-title">{ __('Social Share Settings','wp-scheduled-posts') }</h2>
         { (!isSocialShareDisable) && 
           <Fragment>
             <div className="social-share-wrapper">
