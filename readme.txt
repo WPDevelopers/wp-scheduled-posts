@@ -4,11 +4,11 @@ Tags: post schedule, schedule calendar, auto scheduler, auto sharing, social sha
 Requires at least: 4.0
 Tested up to: 6.8
 Requires PHP: 7.2
-Stable tag: 5.2.7
+Stable tag: 5.2.8
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-WordPress Post Scheduler with Editorial Calendar & Auto-Scheduling. Automatic Social Sharing on Facebook, Twitter, LinkedIn, Instagram, Medium, Pinterest & Threads.
+Automate your WordPress content scheduling with a visual calendar, auto/manual schedulers, missed‑post handler, social sharing options & templates.
 
 == Description ==
 
@@ -32,6 +32,7 @@ https://youtu.be/oBD7MbtWvcQ
 
 -   Revamp the entire content writing experience with SchedulePress
 -   Automatically share on Facebook, Twitter, LinkedIn, Pinterest, Instagram, Medium, Threads
+-   Customize social-share per platform or global template in the editor & auto‑share with one click.
 -   Schedule hundreds of posts using the editorial calendar
 -   Manage multiple authors from one place
 -   Query optimization to reduce load time & make content management faster
@@ -71,6 +72,8 @@ From one place, you can easily get an overview of your blog posts and when each 
 **◾ Auto Share Posts On Multi Social Profiles:** Easily schedule, auto-share, or instant share blog posts from the WordPress dashboard to multiple social media platforms like Facebook page & group, Twitter, Pinterest, LinkedIn profiles, LinkedIn pages, Instagram, Medium and Threads.
 
 **◾ Configure Auto Social Share Templates:** Personalize your WordPress blog with preferred social media templates by configuring all exclusive features by SchedulePress. Each social share channel template comes with specific and unique features.
+
+**◾ Custom Social Templates:** Customize your social share messages for individual platforms or apply a global template across all channels from your post editor. Preview, edit, schedule, and publish personalized social copies for Facebook, Twitter (X), LinkedIn & more – all in one click.
 
 https://youtu.be/K8zP6fTOneg
 
@@ -212,6 +215,11 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 8. Social Templates
 
 == Changelog ==
+
+= 5.2.8 - 2025-07-09 =
+- Added: Custom Social Template support for sharing posts.
+- Fixed: Duplicate posts appearing in the Draft section of the SchedulePress calendar.
+- Few minor bug fixes & improvements
 
 = 5.2.7 - 2025-06-11 =
 - Fixed: An error occurred while creating or editing a post from the calendar.

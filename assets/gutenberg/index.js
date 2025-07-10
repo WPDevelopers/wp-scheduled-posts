@@ -3,6 +3,7 @@
  */
 const { compose, ifCondition, withInstanceId } = wp.compose;
 const { withSelect, withDispatch } = wp.data;
+const { __ } = wp.i18n;
 const { PluginDocumentSettingPanel,PluginSidebar } = wp.editPost;
 const { Component, createElement, useState, Fragment } = wp.element;
 const { CheckboxControl } = wp.components;
@@ -13,11 +14,13 @@ const {
   publish_button_off,
   allowedPostTypes,
 } = WPSchedulePostsFree;
+import CustomSocialTemplate from "./utils/CustomSocialTemplate";
 import PublishButton from "./publish-button";
 import PublishFutureButton from "./publish-future-button";
 import SocialShare from "./social-share";
 import DummyProFeatures from "./utils/DummyProFeatures";
 import WpspProSlot from "./wpsp-pro-slot";
+
 class AdminPublishButton extends Component {
   constructor(props) {
     super(props);
@@ -25,11 +28,13 @@ class AdminPublishButton extends Component {
     this.state = {
       showHelp: false,
       publishImmediately: false,
+      activeDefaultTemplate : true,
     };
   }
+  
 
   componentWillReceiveProps = (nextProps) => {
-    if(this.props.post.status == 'publish' && nextProps.post.status == 'future'){
+    if(this.props.post.status == 'publish' && nextProps.post.status == 'future'){      
       this.setState({ publishImmediately: false });
       console.log(this.props.post.status, nextProps.post.status);
     }
@@ -56,8 +61,30 @@ class AdminPublishButton extends Component {
         }, 0);
       });
     });
+    const { meta } = this.props;
+
+    if (meta && typeof meta._wpsp_active_default_template !== 'undefined') {
+      this.setState({
+        activeDefaultTemplate: this.props.meta._wpsp_active_default_template,
+      });
+    }
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.activeDefaultTemplate !== this.state.activeDefaultTemplate) {
+      wp.data.dispatch('core/editor').editPost({
+        meta: {
+          ...this.props.meta,
+          _wpsp_active_default_template: this.state.activeDefaultTemplate ? 1 : 0
+        }
+      });
+    }
+  }
+  
+  
+  
+
+  
   render() {
     return (
      <>
@@ -150,20 +177,153 @@ class AdminPublishButton extends Component {
             )}
             {this.state.showHelp && (
               <div style={{ marginTop: 5, color: "#757575" }}>
-                If you choose to publish this future post with the Future Date, it will be published immediately but the post’s date time will not set the current date rather it will be your scheduled future date time.
+                If you choose to publish this future post with the Future Date, it will be published immediately but the post's date time will not set the current date rather it will be your scheduled future date time.
               </div>
             )}
           </div>
         )}
         <WpspProSlot.Slot/>
         { !WPSchedulePostsFree?.is_pro && <DummyProFeatures/> }
-        <SocialShare is_pro_active={ WPSchedulePostsFree?.is_pro ? true : false  } />
+        <div className="wpsp-social-share-settings-warpper">
+          { !this.props.meta._wpscppro_dont_share_socialmedia &&
+            <div className="wpsp-custom-tabs">
+              <div className="wpsp-tab-header">
+                <button 
+                  className={`tab-profile ${ this.state.activeDefaultTemplate ? 'active' : ''}`}
+                  onClick={() => {
+                    this.setState({ activeDefaultTemplate: true });
+                  }}>{ __('Default Templates','wp-scheduled-posts') }</button>
+                <button 
+                  className={`tab-profile ${ !this.state.activeDefaultTemplate ? 'active' : ''}`}
+                  onClick={() => {
+                    this.setState({ activeDefaultTemplate: false });
+                  }}>{ __('Custom Templates','wp-scheduled-posts') }</button>
+              </div>
+            </div>
+          }
+          <SocialShareDisableWrapper activeDefaultTemplate={this.state.activeDefaultTemplate} />
+        </div>
       </PluginDocumentSettingPanel>
      </>
     );
   }
   
 }
+
+
+function SocialShareDisableWrapper({ activeDefaultTemplate }) {
+  const { useSelect, useDispatch } = wp.data;
+  const { __ } = wp.i18n;
+  const { useState, useEffect, Fragment } = wp.element;
+  const { MediaUpload, MediaUploadCheck } = wp.blockEditor || wp.editor;
+  const { CheckboxControl } = wp.components;
+  const meta = useSelect((select) => select('core/editor').getEditedPostAttribute('meta') || {}, []);
+  const { editPost } = useDispatch('core/editor');
+  const isSocialShareDisable = !!meta._wpscppro_dont_share_socialmedia;
+  const imageIdFromMeta = meta._wpscppro_custom_social_share_image;
+  const is_enabled_custom_template = typeof meta._wpsp_enable_custom_social_template === 'boolean' ? meta._wpsp_enable_custom_social_template : false;
+  const [uploadSocialShareBannerId, setUploadSocialShareBannerId] = useState(imageIdFromMeta || null);
+  const [uploadSocialShareBannerUrl, setUploadSocialShareBannerUrl] = useState('');
+  
+  // Load image URL when image ID exists
+  useEffect(() => {
+    if (!uploadSocialShareBannerId) return;
+
+    wp.media.attachment(uploadSocialShareBannerId).fetch().then((attachment) => {
+      setUploadSocialShareBannerUrl(attachment?.url || '');
+    });
+  }, [uploadSocialShareBannerId]);
+
+  const handleDisableSocialShare = (checked) => {
+    editPost({
+      meta: {
+        ...meta,
+        _wpscppro_dont_share_socialmedia: checked,
+      },
+    });
+  };
+
+  const handleImageSelect = (media) => {
+    const imageId = media?.id || null;
+    const imageUrl = media?.url || '';
+
+    setUploadSocialShareBannerId(imageId);
+    setUploadSocialShareBannerUrl(imageUrl);
+
+    editPost({
+      meta: {
+        ...meta,
+        _wpscppro_custom_social_share_image: imageId, // Save only ID
+      },
+    });
+  };
+
+  const handleRemoveImage = () => {
+    setUploadSocialShareBannerId(null);
+    setUploadSocialShareBannerUrl('');
+
+    editPost({
+      meta: {
+        ...meta,
+        _wpscppro_custom_social_share_image: '', // Clear ID
+      },
+    });
+  };
+
+  return (
+    <Fragment>
+      <h2 className="social-share-title">{ __('Social Share Settings','wp-scheduled-posts') }</h2>
+      <CheckboxControl
+        label={__('Disable Social Share', 'wp-scheduled-posts')}
+        checked={isSocialShareDisable}
+        onChange={handleDisableSocialShare}
+      />
+
+    { !isSocialShareDisable &&
+     <div className={`wpsp_image_upload ${uploadSocialShareBannerUrl ? 'has-image' : 'has-not-image'}`}>
+      <div id="wpscpprouploadimagepreview">
+        {uploadSocialShareBannerUrl && (
+          <img src={uploadSocialShareBannerUrl} alt="Uploaded Banner" />
+        )}
+      </div>
+
+      <MediaUploadCheck>
+        <MediaUpload
+          allowedTypes={['image']}
+          onSelect={handleImageSelect}
+          render={({ open }) => (
+            <button className="button button-primary" onClick={open}>
+              {__('Upload Social Banner', 'wp-scheduled-posts')}
+            </button>
+          )}
+        />
+      </MediaUploadCheck>
+
+      {uploadSocialShareBannerUrl && (
+        <input
+          type="button"
+          onClick={handleRemoveImage}
+          className="button button-danger remove-banner-image-btn"
+          value="Remove Banner"
+        />
+      )}
+      </div>
+    }
+
+    {activeDefaultTemplate && (
+      <div className={`wpsp-social-share-wrapper ${is_enabled_custom_template ? 'enabled-custom-template' : ''}`}>
+        <SocialShare
+          is_pro_active={WPSchedulePostsFree?.is_pro || false}
+          isSocialShareDisable={isSocialShareDisable}
+        />
+      </div>
+    )}
+
+      {!activeDefaultTemplate && !isSocialShareDisable && <CustomSocialTemplate />}
+    </Fragment>
+  );
+}
+
 
 export default compose([
   withSelect((select) => {

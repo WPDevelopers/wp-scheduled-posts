@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the SchedulePress plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: SchedulePress 5.2.7\n"
+"Project-Id-Version: SchedulePress 5.2.8\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-scheduled-posts\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-06-11T08:46:24+00:00\n"
+"POT-Creation-Date: 2025-07-09T11:18:14+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: wp-scheduled-posts\n"
@@ -110,7 +110,7 @@ msgstr ""
 
 #: includes/Admin.php:402
 #: includes/Social/InstantShare.php:271
-#: assets/gutenberg/social-share.js:770
+#: assets/gutenberg/social-share.js:713
 msgid "Share Now"
 msgstr ""
 
@@ -122,6 +122,8 @@ msgstr ""
 #: includes/Admin.php:405
 #: includes/Admin.php:407
 #: includes/Admin.php:416
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:325
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:339
 msgid "Update"
 msgstr ""
 
@@ -162,7 +164,7 @@ msgstr ""
 
 #: includes/Admin.php:597
 #: includes/Social/InstantShare.php:88
-#: assets/gutenberg/social-share.js:495
+#: assets/gutenberg/social-share.js:437
 msgid "Choose Social Share Platform"
 msgstr ""
 
@@ -202,14 +204,14 @@ msgid "You may forget to add or enable profile/page from <a href=\"%s\">Schedule
 msgstr ""
 
 #: includes/Admin.php:662
-#: assets/gutenberg/social-share.js:518
-#: assets/gutenberg/social-share.js:547
-#: assets/gutenberg/social-share.js:565
-#: assets/gutenberg/social-share.js:584
-#: assets/gutenberg/social-share.js:607
-#: assets/gutenberg/social-share.js:687
-#: assets/gutenberg/social-share.js:718
-#: assets/gutenberg/social-share.js:749
+#: assets/gutenberg/social-share.js:460
+#: assets/gutenberg/social-share.js:489
+#: assets/gutenberg/social-share.js:507
+#: assets/gutenberg/social-share.js:526
+#: assets/gutenberg/social-share.js:549
+#: assets/gutenberg/social-share.js:629
+#: assets/gutenberg/social-share.js:660
+#: assets/gutenberg/social-share.js:691
 #: assets/gutenberg/utils/SelectedSocialProfileModal.js:43
 #: assets/gutenberg/utils/SelectedSocialProfileModal.js:46
 #: assets/gutenberg/utils/SelectedSocialProfileModal.js:49
@@ -219,9 +221,9 @@ msgid "Profile"
 msgstr ""
 
 #: includes/Admin.php:665
-#: assets/gutenberg/social-share.js:566
-#: assets/gutenberg/social-share.js:584
-#: assets/gutenberg/social-share.js:607
+#: assets/gutenberg/social-share.js:508
+#: assets/gutenberg/social-share.js:526
+#: assets/gutenberg/social-share.js:549
 #: assets/gutenberg/utils/SelectedSocialProfileModal.js:49
 #: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Page"
@@ -251,18 +253,18 @@ msgstr ""
 msgid "Your post successfully scheduled"
 msgstr ""
 
-#: includes/Admin/Calendar.php:540
-#: includes/Admin/Calendar.php:704
-#: includes/Admin/Calendar.php:732
+#: includes/Admin/Calendar.php:541
+#: includes/Admin/Calendar.php:705
+#: includes/Admin/Calendar.php:733
 msgid "Post type isn't allowed in Settings page."
 msgstr ""
 
-#: includes/Admin/Calendar.php:661
+#: includes/Admin/Calendar.php:662
 msgid "Type is required."
 msgstr ""
 
-#: includes/Admin/Calendar.php:664
-#: includes/Admin/Calendar.php:686
+#: includes/Admin/Calendar.php:665
+#: includes/Admin/Calendar.php:687
 #: includes/Social/SocialProfile.php:72
 msgid "Something went wrong."
 msgstr ""
@@ -534,7 +536,7 @@ msgstr ""
 #: includes/Admin/Settings.php:664
 #: includes/Admin/Settings.php:1169
 #: includes/Social/InstantShare.php:213
-#: assets/gutenberg/social-share.js:668
+#: assets/gutenberg/social-share.js:610
 msgid "Instagram"
 msgstr ""
 
@@ -553,7 +555,7 @@ msgstr ""
 #: includes/Admin/Settings.php:679
 #: includes/Admin/Settings.php:1258
 #: includes/Social/InstantShare.php:234
-#: assets/gutenberg/social-share.js:699
+#: assets/gutenberg/social-share.js:641
 msgid "Medium"
 msgstr ""
 
@@ -573,7 +575,7 @@ msgstr ""
 #: includes/Admin/Settings.php:694
 #: includes/Admin/Settings.php:1347
 #: includes/Social/InstantShare.php:254
-#: assets/gutenberg/social-share.js:730
+#: assets/gutenberg/social-share.js:672
 msgid "Threads"
 msgstr ""
 
@@ -986,11 +988,64 @@ msgstr ""
 msgid "You don't have set any slug and file name to install the plugins"
 msgstr ""
 
-#: includes/Assets.php:67
-msgid "Current Date"
+#: includes/API/CustomSocialTemplates.php:292
+#: includes/API/CustomSocialTemplates.php:324
+msgid "Post not found or insufficient permissions."
+msgstr ""
+
+#: includes/API/CustomSocialTemplates.php:357
+msgid "No platform data provided. Use either \"platform\" for single mode or \"platforms\" for batch mode."
+msgstr ""
+
+#: includes/API/CustomSocialTemplates.php:365
+msgid "Validation errors occurred."
+msgstr ""
+
+#: includes/API/CustomSocialTemplates.php:389
+msgid "Templates and scheduling saved successfully for %d platforms."
+msgstr ""
+
+#: includes/API/CustomSocialTemplates.php:390
+msgid "Template and scheduling saved successfully."
+msgstr ""
+
+#: includes/API/CustomSocialTemplates.php:404
+msgid "Failed to save template and/or scheduling."
+msgstr ""
+
+#: includes/API/CustomSocialTemplates.php:426
+msgid "Invalid platform: %s"
+msgstr ""
+
+#: includes/API/CustomSocialTemplates.php:439
+msgid "%s: %s"
+msgstr ""
+
+#: includes/API/CustomSocialTemplates.php:547
+#: includes/Helpers/CustomTemplateHelper.php:192
+msgid "Template cannot be empty."
+msgstr ""
+
+#: includes/API/CustomSocialTemplates.php:557
+#: includes/Helpers/CustomTemplateHelper.php:202
+msgid "Template exceeds character limit for %s (%d/%d characters)."
+msgstr ""
+
+#: includes/API/CustomSocialTemplates.php:574
+#: includes/Helpers/CustomTemplateHelper.php:219
+msgid "Invalid placeholder \"%s\". Valid placeholders are: %s"
+msgstr ""
+
+#: includes/API/CustomSocialTemplates.php:585
+#: includes/Helpers/CustomTemplateHelper.php:230
+msgid "Template is valid."
 msgstr ""
 
 #: includes/Assets.php:68
+msgid "Current Date"
+msgstr ""
+
+#: includes/Assets.php:69
 msgid "Future Date"
 msgstr ""
 
@@ -1002,23 +1057,23 @@ msgstr ""
 msgid "If you choose to publish this future post with the Future Date, it will be published immediately but the post’s date time will not set the current date rather it will be your scheduled future date time."
 msgstr ""
 
-#: includes/Social/Facebook.php:243
-#: includes/Social/Instagram.php:196
-#: includes/Social/Linkedin.php:192
-#: includes/Social/Medium.php:226
-#: includes/Social/Pinterest.php:245
-#: includes/Social/Threads.php:168
-#: includes/Social/Twitter.php:179
+#: includes/Social/Facebook.php:260
+#: includes/Social/Instagram.php:213
+#: includes/Social/Linkedin.php:209
+#: includes/Social/Medium.php:243
+#: includes/Social/Pinterest.php:265
+#: includes/Social/Threads.php:185
+#: includes/Social/Twitter.php:196
 msgid "Your max share post limit has been executed!!"
 msgstr ""
 
 #: includes/Social/InstantShare.php:26
-#: assets/gutenberg/social-share.js:450
+#: assets/gutenberg/index.js:275
 msgid "Social Share Settings"
 msgstr ""
 
 #: includes/Social/InstantShare.php:55
-#: assets/gutenberg/social-share.js:453
+#: assets/gutenberg/index.js:277
 msgid "Disable Social Share"
 msgstr ""
 
@@ -1062,7 +1117,7 @@ msgstr ""
 msgid "Sorry, your requested platform integration is not added."
 msgstr ""
 
-#: includes/Social/Pinterest.php:284
+#: includes/Social/Pinterest.php:304
 msgid "Your post has been successfully shared!"
 msgstr ""
 
@@ -1070,7 +1125,7 @@ msgstr ""
 msgid "Multi Profile is a Premium Feature. To use this feature, Upgrade to Pro."
 msgstr ""
 
-#: includes/Social/Twitter.php:241
+#: includes/Social/Twitter.php:258
 msgid "Twitter Connection Problem. error code: "
 msgstr ""
 
@@ -1083,22 +1138,230 @@ msgstr ""
 msgid "%1$sSchedulePress isn’t running because PHP is outdated.%2$s Update to PHP version %3$s and get back to creating!"
 msgstr ""
 
-#: assets/gutenberg/social-share.js:476
-msgid "Upload Social Share Banner"
+#: assets/gutenberg/index.js:195
+msgid "Default Templates"
 msgstr ""
 
-#: assets/gutenberg/social-share.js:509
-#: assets/gutenberg/social-share.js:678
-#: assets/gutenberg/social-share.js:709
-#: assets/gutenberg/social-share.js:740
+#: assets/gutenberg/index.js:200
+msgid "Custom Templates"
+msgstr ""
+
+#: assets/gutenberg/index.js:296
+msgid "Upload Social Banner"
+msgstr ""
+
+#: assets/gutenberg/social-share.js:451
+#: assets/gutenberg/social-share.js:620
+#: assets/gutenberg/social-share.js:651
+#: assets/gutenberg/social-share.js:682
 msgid "Content will be shared on all the activated social accounts"
 msgstr ""
 
-#: assets/gutenberg/social-share.js:510
-#: assets/gutenberg/social-share.js:679
-#: assets/gutenberg/social-share.js:710
-#: assets/gutenberg/social-share.js:741
+#: assets/gutenberg/social-share.js:452
+#: assets/gutenberg/social-share.js:621
+#: assets/gutenberg/social-share.js:652
+#: assets/gutenberg/social-share.js:683
 msgid "Specify your social account choice where you want to share the content"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplate.js:179
+msgid "Custom Social Templates"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplate.js:182
+msgid "Add custom messages for the profiles you want to post from."
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplate.js:185
+msgid "Enable Custom Social Template"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplate.js:202
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:564
+msgid "Add Social Message"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:90
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Save"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:204
+msgid "Tomorrow"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:205
+msgid "Next week"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:206
+msgid "Next month"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:207
+msgid "In __ days"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:208
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:218
+msgid "Choose a custom date..."
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:213
+msgid "Same day as publication"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:214
+msgid "The day after publication"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:215
+msgid "A week after publication"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:216
+msgid "A month after publication"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:217
+msgid "__ days after publication"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:230
+msgid "In one hour"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:231
+msgid "In three hours"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:232
+msgid "In five hours"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:233
+msgid "In __ hours"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:234
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:244
+msgid "Choose a custom time..."
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:239
+msgid "Same time as publication"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:240
+msgid "One hour after publication"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:241
+msgid "Three hours after publication"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:242
+msgid "Five hours after publication"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:243
+msgid "__ hours after publication"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:266
+msgid "Updating..."
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:266
+msgid "Saving..."
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:322
+msgid "Updated Successfully"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:322
+msgid "Saved Successfully"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:338
+msgid "Save Failed"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:568
+msgid "How to Use Custom Social Templates in SchedulePress."
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:718
+msgid "Enter your custom template here..."
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:727
+msgid "Available:"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:741
+msgid "Use global template"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:755
+msgid "If enabled, this template will be applied across all the selected social platforms."
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:791
+msgid "Date"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:809
+msgid "Enter number of days"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:810
+msgid "Enter number of days after publication"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:828
+msgid "Time"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:846
+msgid "Enter number of hours"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:847
+msgid "Enter number of hours after publication"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:904
+msgid "Template preview will appear here..."
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:924
+msgid "No image selected"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:931
+msgid "How to Add Anchor Links in Elementor? [3 Ways]"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:933
+msgid "Picture this — you are halfway through a lengthy web page, diving into the content and accidentally scrolling to the top of the page. Annoying, right? This is where anchor links become your best..."
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:941
+msgid "Preview not available"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:942
+msgid "Please make sure you select a social profile first."
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:943
+msgid "Let's See How"
+msgstr ""
+
+#: assets/gutenberg/utils/CustomSocialTemplateModal.js:957
+msgid "Cancel"
 msgstr ""
 
 #: assets/gutenberg/utils/DummyProFeatures.js:18
@@ -1361,10 +1624,6 @@ msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Group:"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:1
-msgid "Save"
 msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:1

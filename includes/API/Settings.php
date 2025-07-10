@@ -4,6 +4,7 @@ namespace WPSP\API;
 use WPSP;
 use WPSP\Social\ReconnectHandler;
 use WPSP\Social\SocialProfile;
+use WPSP\Helper;
 
 class Settings
 {
@@ -54,7 +55,8 @@ class Settings
                 [
                     'show_in_rest' => true,
                     'single'       => true,
-                    'type'         => ['boolean', 'string'],
+                    'type'         => 'boolean',
+                    'default'      => false,
                     'auth_callback' => function() {
                         return current_user_can( 'edit_posts' );
                     }
@@ -124,9 +126,13 @@ class Settings
                     }
                 ]
             );
+
+
         }
 
     }
+
+
 
 
     public function register_social_profile_routes()
@@ -149,6 +155,8 @@ class Settings
                 return current_user_can( 'edit_posts' );
             }
         ));
+
+
 
         register_rest_route($namespace,'get-categories',array(
             'methods' => 'GET',
@@ -231,6 +239,10 @@ class Settings
     {
         do_action('wpsp_instant_social_single_profile_share', $data->get_params());
     }
+
+
+
+
 
     public function wpsp_get_options_data( $request ) {
         $option_value = get_option('wpsp_settings_v5');

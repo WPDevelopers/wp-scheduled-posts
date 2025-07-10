@@ -20,10 +20,14 @@ class Social
         $this->load_third_party_integration();
         $this->instant_social_share();
         add_action('publish_future_post', array($this, 'publish_future_post'), 30, 1);
-
+        add_action('wpsp_publish_future_post', array($this, 'publish_future_post'), 30, 1);
     }
 
     public function publish_future_post($post_id){
+        // check if wpsp_publish_future_post is already scheduled
+        if (wp_next_scheduled('wpsp_publish_future_post', array($post_id))) {
+            return;
+        }
         do_action('wpsp_publish_future_post', $post_id);
     }
 
