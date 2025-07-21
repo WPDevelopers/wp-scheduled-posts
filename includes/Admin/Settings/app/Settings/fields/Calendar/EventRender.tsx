@@ -206,7 +206,7 @@ const PostCard = ({
           {/* {format(post.end, 'h:mm a')} */}
           {post.postTime}
         </span>
-        <h3>{ decodeEntities(  post.title ) }</h3>
+        <h3 title={post.full_title}>{ decodeEntities(  post.title ) }</h3>
         <span className="badge-wrapper">
           <span className="Unscheduled-badge">{post.postType}</span>
           <span className="status-badge">{post.status}</span>

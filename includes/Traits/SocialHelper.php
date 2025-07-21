@@ -90,12 +90,51 @@ trait SocialHelper
         return false;
     }
     /**
-     * Generate Social Template Structure
+     * Generate Social Template Structure with Custom Template Support
      * @param template, post_title, post_description, post_link, post_tags
      * @since 2.5.1
+     * @updated 2.6.0 - Added custom template support
      */
-    public function social_share_content_template_structure($template_structure, $title, $desc, $post_link, $hashTags, $limit, $url_limit = null, $platform = '')
+    public function social_share_content_template_structure($template_structure, $title, $desc, $post_link, $hashTags, $limit, $url_limit = null, $platform = '', $post_id = null, $profile_id = null)
     {
+        // Check for custom template if post_id and profile_id are provided and meta is enabled
+        $enable_custom_template = false;
+        if ($post_id) {
+            $meta_value = get_post_meta($post_id, '_wpsp_enable_custom_social_template', true);
+            $enable_custom_template = ($meta_value === '1' || $meta_value === 1);
+        }
+        if ($enable_custom_template && $post_id && $profile_id && $platform && class_exists('\WPSP\Helpers\CustomTemplateHelper')) {
+            $templates = get_post_meta($post_id, '_wpsp_custom_templates', true);
+        
+            // Step 1: Detect global template
+            $global_template = null;
+            foreach ($templates as $tpl_platform => $tpl_data) {
+                if (!empty($tpl_data['is_global'])) {
+                    $global_template = $tpl_data['template'];
+                    break;
+                }
+            }
+        
+            // Step 2: Use global template if available
+            if ($global_template && $global_template !== $template_structure) {
+                $template_structure = $global_template;
+            }
+            // Step 3: If no global template, fallback to platform-specific
+            else {
+                $platform_data = isset($templates[$platform]) ? $templates[$platform] : null;
+                $profiles = is_array($platform_data) && isset($platform_data['profiles']) ? $platform_data['profiles'] : [];
+        
+                // Only apply custom template if profiles is not empty and profile_id is in profiles
+                if (!empty($profiles) && in_array($profile_id, $profiles)) {
+                    $custom_template = \WPSP\Helpers\CustomTemplateHelper::get_resolved_template($post_id, $platform, $profile_id);
+                    if ($custom_template && $custom_template !== $template_structure) {
+                        $template_structure = $custom_template;
+                    }
+                }
+            }
+        }
+        
+        
         $title              = html_entity_decode($title);
         $desc               = html_entity_decode($desc);
         $post_content_limit = intval($limit);

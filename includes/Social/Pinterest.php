@@ -15,6 +15,7 @@ class Pinterest
     private $note_limit;
     private $post_share_limit;
     private $remove_css_from_content;
+    private $current_profile_id;
 
 
     public function __construct()
@@ -179,7 +180,9 @@ class Pinterest
             $hashTags,
             $this->note_limit,
             null,
-            'pinterest'
+            'pinterest',
+            $post_id,
+            $this->current_profile_id ?? null
         );
         // main arguments
         $pinterest_create_args = array(
@@ -208,11 +211,27 @@ class Pinterest
      */
     public function remote_post($post_id, $board_name, $section_name, $profile_key, $force_share = false, $instant_share = false)
     {
+        // Set current profile ID for custom template resolution
         if( is_object( $board_name ) ) {
+            $this->current_profile_id = $board_name->value;
             $count_meta_key = '__wpsp_pinterest_share_count_'.$board_name->value;
         }else{
+            $this->current_profile_id = $board_name;
             $count_meta_key = '__wpsp_pinterest_share_count_'.$board_name;
         }
+
+
+        $is_enabled_custom_template = get_post_meta($post_id, '_wpsp_enable_custom_social_template', true);
+        // if enabled custom template then check current social profile is selected or not
+        if( $is_enabled_custom_template ) {
+            $templates = get_post_meta($post_id, '_wpsp_custom_templates', true);
+            $platform_data = isset($templates['pinterest']) ? $templates['pinterest'] : null;
+            $profiles = is_array($platform_data) && isset($platform_data['profiles']) ? $platform_data['profiles'] : [];
+            if ( is_array($profiles) && !in_array($this->current_profile_id, $profiles) ) {
+                return;
+            }
+        }
+
         // check post is skip social sharing
         // if (get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
         //     return;
@@ -238,6 +257,7 @@ class Pinterest
         if ($dont_share  == 'on' || $dont_share == 1 ) {
             return;
         }
+        
 
         if( ( get_post_meta( $post_id, $count_meta_key, true ) ) && $this->post_share_limit != 0 && get_post_meta( $post_id, $count_meta_key, true ) >= $this->post_share_limit ) {
             return array(

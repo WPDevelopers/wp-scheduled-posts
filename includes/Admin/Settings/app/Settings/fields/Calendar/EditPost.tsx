@@ -59,6 +59,7 @@ export const ModalContent = ({
         date       : postData.post_date,
       },
     }).then((data: PostType | WP_Error) => {
+      // console.log(data);
       onSubmit(data, modalData?.post);
       // @todo show success message
     }).then(() => {

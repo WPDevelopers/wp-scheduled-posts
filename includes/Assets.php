@@ -60,6 +60,7 @@ class Assets
 
         wp_enqueue_style('google-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap', array(), WPSP_VERSION, 'all');
         wp_enqueue_style('wps-publish-button', WPSP_ASSETS_URI . 'css/wpspl-admin.css', array(), WPSP_VERSION, 'all');
+        wp_enqueue_style('wpsp-custom-social-template', WPSP_ASSETS_URI . 'css/custom-social-template.css', array(), WPSP_VERSION, 'all');
         wp_enqueue_style(WPSP_PLUGIN_SLUG.'-icon', WPSP_ADMIN_URL . 'Settings/assets/icon/style.css', array(), WPSP_VERSION );
         wp_enqueue_script('wps-publish-button', WPSP_ASSETS_URI . 'js/wpspl-admin.min.js', array('wp-components', 'wp-data', 'wp-edit-post', 'wp-editor', 'wp-element', 'wp-i18n', 'wp-plugins'), WPSP_VERSION, true);
         wp_localize_script('wps-publish-button', 'WPSchedulePostsFree', array(
@@ -77,6 +78,15 @@ class Assets
                 'date'     => current_time('mysql'),
                 'date_gmt' => current_time('mysql', 1),
             ),
+            'social_media_enabled' => [
+                'facebook'  => \WPSP\Helper::get_settings('facebook_profile_status'),
+                'twitter'   => \WPSP\Helper::get_settings('twitter_profile_status'),
+                'linkedin'  => \WPSP\Helper::get_settings('linkedin_profile_status'),
+                'pinterest' => \WPSP\Helper::get_settings('pinterest_profile_status'),
+                'instagram' => \WPSP\Helper::get_settings('instagram_profile_status'),
+                'medium'    => \WPSP\Helper::get_settings('medium_profile_status'),
+                'threads'   => \WPSP\Helper::get_settings('threads_profile_status'),
+            ],
         ));
     }
 

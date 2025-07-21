@@ -1322,7 +1322,8 @@ function Calendar(props) {
     setDraftEvents: setDraftEvents,
     getPostTypeColor: getPostTypeColor,
     postType: props.postType,
-    schedule_time: props.schedule_time
+    schedule_time: props.schedule_time,
+    onSubmit: onSubmit
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_Calendar_EditPost__WEBPACK_IMPORTED_MODULE_11__.ModalContent, {
     modalData: modalData,
     setModalData: openModal,
@@ -1860,6 +1861,7 @@ var ModalContent = function (_a) {
         date: postData.post_date
       }
     }).then(function (data) {
+      // console.log(data);
       onSubmit(data, modalData === null || modalData === void 0 ? void 0 : modalData.post);
       // @todo show success message
     }).then(function () {
@@ -2223,7 +2225,9 @@ var PostCard = function (_a) {
     onClick: toggleEditArea
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("span", {
     className: "set-time " + ('Published' === post.status ? 'published' : 'scheduled')
-  }, post.postTime), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("h3", null, (0,_wordpress_html_entities__WEBPACK_IMPORTED_MODULE_1__.decodeEntities)(post.title)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("span", {
+  }, post.postTime), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("h3", {
+    title: post.full_title
+  }, (0,_wordpress_html_entities__WEBPACK_IMPORTED_MODULE_1__.decodeEntities)(post.title)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("span", {
     className: "badge-wrapper"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("span", {
     className: "Unscheduled-badge"
@@ -2657,7 +2661,8 @@ var Sidebar = function (_a, draggableRef) {
     calendar = _a.calendar,
     getPostTypeColor = _a.getPostTypeColor,
     postType = _a.postType,
-    schedule_time = _a.schedule_time;
+    schedule_time = _a.schedule_time,
+    onSubmit = _a.onSubmit;
   var _b = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
     optionSelected = _b[0],
     setOptionSelected = _b[1];
@@ -2682,6 +2687,10 @@ var Sidebar = function (_a, draggableRef) {
   var _h = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(true),
     hasMore = _h[0],
     setHasMore = _h[1];
+  var scrollTimeout = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(null);
+  var _j = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
+    newPosts = _j[0],
+    setNewPosts = _j[1];
   var postsPerPage = 10;
   var fetchPosts = function (pageNum, force) {
     if (force === void 0) {
@@ -2740,18 +2749,22 @@ var Sidebar = function (_a, draggableRef) {
     });
   };
   var handleScroll = function () {
-    if (loading || !hasMore) return;
-    var sidebarWrapper = document.getElementById("sidebar-post-wrapper");
-    if (sidebarWrapper) {
-      var scrollTop = sidebarWrapper.scrollTop,
-        scrollHeight = sidebarWrapper.scrollHeight,
-        clientHeight = sidebarWrapper.clientHeight;
-      if (scrollTop + clientHeight >= scrollHeight - 100) {
-        setPage(function (prevPage) {
-          return prevPage + 1;
-        });
+    if (scrollTimeout.current) return; // Already scheduled
+    scrollTimeout.current = setTimeout(function () {
+      scrollTimeout.current = null; // Reset
+      if (loading || !hasMore) return;
+      var sidebarWrapper = document.getElementById("sidebar-post-wrapper");
+      if (sidebarWrapper) {
+        var scrollTop = sidebarWrapper.scrollTop,
+          scrollHeight = sidebarWrapper.scrollHeight,
+          clientHeight = sidebarWrapper.clientHeight;
+        if (scrollTop + clientHeight >= scrollHeight - 100) {
+          setPage(function (prevPage) {
+            return prevPage + 1;
+          });
+        }
       }
-    }
+    }, 300); // 300ms debounce
   };
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
     new _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_6__.Draggable(draggableRef.current, {
@@ -2780,6 +2793,14 @@ var Sidebar = function (_a, draggableRef) {
     setHasMore(true);
     fetchPosts(1, true);
   }, [optionSelected]);
+  var onSubmitHandler = function (data, oldData) {
+    // Only add to newPosts if it's a newly created post (not edited)
+    if (!oldData) {
+      setNewPosts(function (prev) {
+        return __spreadArray(__spreadArray([], prev, true), [data], false);
+      });
+    }
+  };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     id: "wpsp-sidebar",
     className: "sidebar",
@@ -2822,6 +2843,27 @@ var Sidebar = function (_a, draggableRef) {
       status: status,
       setStatus: setStatus
     }));
+  }), newPosts.length > 0 && newPosts.sort(function (a, b) {
+    return new Date(b.end).getTime() - new Date(a.end).getTime();
+  }).map(function (post) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+      key: post.postId,
+      className: "fc-event",
+      "data-event": JSON.stringify(post)
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_EventRender__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      post: post,
+      editAreaToggle: editAreaToggle,
+      setEditAreaToggle: setEditAreaToggle,
+      openModal: function (modalData) {
+        return openModal(__assign(__assign({}, modalData), {
+          eventType: "editDraft"
+        }));
+      },
+      setEvents: setPosts,
+      getPostTypeColor: getPostTypeColor,
+      status: status,
+      setStatus: setStatus
+    }));
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("p", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a", {
     className: "btn-draft-post-create",
     href: "#",
@@ -2838,7 +2880,7 @@ var Sidebar = function (_a, draggableRef) {
   }, "New Draft"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_EditPost__WEBPACK_IMPORTED_MODULE_3__.ModalContent, {
     modalData: modalData,
     setModalData: openModal,
-    onSubmit: onsubmit,
+    onSubmit: onSubmitHandler,
     selectedPostType: selectedPostType,
     schedule_time: schedule_time
   }));
@@ -6906,7 +6948,7 @@ function SocialModal(_a) {
       path: 'wp-scheduled-posts/v1/save-profile',
       method: 'POST',
       data: {
-        platform: 'linkedin',
+        platform: platform,
         profiles: savedProfileId
       }
     }).then(function (res) {
@@ -17596,16 +17638,22 @@ const flip = function (options) {
         const nextIndex = (((_middlewareData$flip2 = middlewareData.flip) == null ? void 0 : _middlewareData$flip2.index) || 0) + 1;
         const nextPlacement = placements[nextIndex];
         if (nextPlacement) {
-          // Try next placement and re-run the lifecycle.
-          return {
-            data: {
-              index: nextIndex,
-              overflows: overflowsData
-            },
-            reset: {
-              placement: nextPlacement
-            }
-          };
+          const ignoreCrossAxisOverflow = checkCrossAxis === 'alignment' ? initialSideAxis !== (0,_floating_ui_utils__WEBPACK_IMPORTED_MODULE_0__.getSideAxis)(nextPlacement) : false;
+          if (!ignoreCrossAxisOverflow ||
+          // We leave the current main axis only if every placement on that axis
+          // overflows the main axis.
+          overflowsData.every(d => d.overflows[0] > 0 && (0,_floating_ui_utils__WEBPACK_IMPORTED_MODULE_0__.getSideAxis)(d.placement) === initialSideAxis)) {
+            // Try next placement and re-run the lifecycle.
+            return {
+              data: {
+                index: nextIndex,
+                overflows: overflowsData
+              },
+              reset: {
+                placement: nextPlacement
+              }
+            };
+          }
         }
 
         // First, find the candidates that fit on the mainAxis side of overflow,
@@ -17851,6 +17899,8 @@ const inline = function (options) {
   };
 };
 
+const originSides = /*#__PURE__*/new Set(['left', 'top']);
+
 // For type backwards-compatibility, the `OffsetOptions` type was also
 // Derivable.
 
@@ -17864,7 +17914,7 @@ async function convertValueToCoords(state, options) {
   const side = (0,_floating_ui_utils__WEBPACK_IMPORTED_MODULE_0__.getSide)(placement);
   const alignment = (0,_floating_ui_utils__WEBPACK_IMPORTED_MODULE_0__.getAlignment)(placement);
   const isVertical = (0,_floating_ui_utils__WEBPACK_IMPORTED_MODULE_0__.getSideAxis)(placement) === 'y';
-  const mainAxisMulti = ['left', 'top'].includes(side) ? -1 : 1;
+  const mainAxisMulti = originSides.has(side) ? -1 : 1;
   const crossAxisMulti = rtl && isVertical ? -1 : 1;
   const rawValue = (0,_floating_ui_utils__WEBPACK_IMPORTED_MODULE_0__.evaluate)(options, state);
 
@@ -18064,7 +18114,7 @@ const limitShift = function (options) {
       if (checkCrossAxis) {
         var _middlewareData$offse, _middlewareData$offse2;
         const len = mainAxis === 'y' ? 'width' : 'height';
-        const isOriginSide = ['top', 'left'].includes((0,_floating_ui_utils__WEBPACK_IMPORTED_MODULE_0__.getSide)(placement));
+        const isOriginSide = originSides.has((0,_floating_ui_utils__WEBPACK_IMPORTED_MODULE_0__.getSide)(placement));
         const limitMin = rects.reference[crossAxis] - rects.floating[len] + (isOriginSide ? ((_middlewareData$offse = middlewareData.offset) == null ? void 0 : _middlewareData$offse[crossAxis]) || 0 : 0) + (isOriginSide ? 0 : computedOffset.crossAxis);
         const limitMax = rects.reference[crossAxis] + rects.reference[len] + (isOriginSide ? 0 : ((_middlewareData$offse2 = middlewareData.offset) == null ? void 0 : _middlewareData$offse2[crossAxis]) || 0) - (isOriginSide ? computedOffset.crossAxis : 0);
         if (crossAxisCoord < limitMin) {
@@ -18444,6 +18494,7 @@ function getViewportRect(element, strategy) {
   };
 }
 
+const absoluteOrFixed = /*#__PURE__*/new Set(['absolute', 'fixed']);
 // Returns the inner client rect, subtracting scrollbars if present.
 function getInnerBoundingClientRect(element, strategy) {
   const clientRect = getBoundingClientRect(element, true, strategy === 'fixed');
@@ -18508,7 +18559,7 @@ function getClippingElementAncestors(element, cache) {
     if (!currentNodeIsContaining && computedStyle.position === 'fixed') {
       currentContainingBlockComputedStyle = null;
     }
-    const shouldDropCurrentNode = elementIsFixed ? !currentNodeIsContaining && !currentContainingBlockComputedStyle : !currentNodeIsContaining && computedStyle.position === 'static' && !!currentContainingBlockComputedStyle && ['absolute', 'fixed'].includes(currentContainingBlockComputedStyle.position) || (0,_floating_ui_utils_dom__WEBPACK_IMPORTED_MODULE_0__.isOverflowElement)(currentNode) && !currentNodeIsContaining && hasFixedPositionAncestor(element, currentNode);
+    const shouldDropCurrentNode = elementIsFixed ? !currentNodeIsContaining && !currentContainingBlockComputedStyle : !currentNodeIsContaining && computedStyle.position === 'static' && !!currentContainingBlockComputedStyle && absoluteOrFixed.has(currentContainingBlockComputedStyle.position) || (0,_floating_ui_utils_dom__WEBPACK_IMPORTED_MODULE_0__.isOverflowElement)(currentNode) && !currentNodeIsContaining && hasFixedPositionAncestor(element, currentNode);
     if (shouldDropCurrentNode) {
       // Drop non-containing blocks.
       result = result.filter(ancestor => ancestor !== currentNode);
@@ -18571,6 +18622,12 @@ function getRectRelativeToOffsetParent(element, offsetParent, strategy) {
     scrollTop: 0
   };
   const offsets = (0,_floating_ui_utils__WEBPACK_IMPORTED_MODULE_1__.createCoords)(0);
+
+  // If the <body> scrollbar appears on the left (e.g. RTL systems). Use
+  // Firefox with layout.scrollbar.side = 3 in about:config to test this.
+  function setLeftRTLScrollbarOffset() {
+    offsets.x = getWindowScrollBarX(documentElement);
+  }
   if (isOffsetParentAnElement || !isOffsetParentAnElement && !isFixed) {
     if ((0,_floating_ui_utils_dom__WEBPACK_IMPORTED_MODULE_0__.getNodeName)(offsetParent) !== 'body' || (0,_floating_ui_utils_dom__WEBPACK_IMPORTED_MODULE_0__.isOverflowElement)(documentElement)) {
       scroll = (0,_floating_ui_utils_dom__WEBPACK_IMPORTED_MODULE_0__.getNodeScroll)(offsetParent);
@@ -18580,10 +18637,11 @@ function getRectRelativeToOffsetParent(element, offsetParent, strategy) {
       offsets.x = offsetRect.x + offsetParent.clientLeft;
       offsets.y = offsetRect.y + offsetParent.clientTop;
     } else if (documentElement) {
-      // If the <body> scrollbar appears on the left (e.g. RTL systems). Use
-      // Firefox with layout.scrollbar.side = 3 in about:config to test this.
-      offsets.x = getWindowScrollBarX(documentElement);
+      setLeftRTLScrollbarOffset();
     }
+  }
+  if (isFixed && !isOffsetParentAnElement && documentElement) {
+    setLeftRTLScrollbarOffset();
   }
   const htmlOffset = documentElement && !isOffsetParentAnElement && !isFixed ? getHTMLOffset(documentElement, scroll) : (0,_floating_ui_utils__WEBPACK_IMPORTED_MODULE_1__.createCoords)(0);
   const x = rect.left + scroll.scrollLeft - offsets.x - htmlOffset.x;
@@ -18761,7 +18819,7 @@ function observeMove(element, onMove) {
         // Handle <iframe>s
         root: root.ownerDocument
       });
-    } catch (e) {
+    } catch (_e) {
       io = new IntersectionObserver(handleObserve, options);
     }
     io.observe(element);
@@ -19027,6 +19085,7 @@ function isShadowRoot(value) {
   }
   return value instanceof ShadowRoot || value instanceof getWindow(value).ShadowRoot;
 }
+const invalidOverflowDisplayValues = /*#__PURE__*/new Set(['inline', 'contents']);
 function isOverflowElement(element) {
   const {
     overflow,
@@ -19034,27 +19093,32 @@ function isOverflowElement(element) {
     overflowY,
     display
   } = getComputedStyle(element);
-  return /auto|scroll|overlay|hidden|clip/.test(overflow + overflowY + overflowX) && !['inline', 'contents'].includes(display);
+  return /auto|scroll|overlay|hidden|clip/.test(overflow + overflowY + overflowX) && !invalidOverflowDisplayValues.has(display);
 }
+const tableElements = /*#__PURE__*/new Set(['table', 'td', 'th']);
 function isTableElement(element) {
-  return ['table', 'td', 'th'].includes(getNodeName(element));
+  return tableElements.has(getNodeName(element));
 }
+const topLayerSelectors = [':popover-open', ':modal'];
 function isTopLayer(element) {
-  return [':popover-open', ':modal'].some(selector => {
+  return topLayerSelectors.some(selector => {
     try {
       return element.matches(selector);
-    } catch (e) {
+    } catch (_e) {
       return false;
     }
   });
 }
+const transformProperties = ['transform', 'translate', 'scale', 'rotate', 'perspective'];
+const willChangeValues = ['transform', 'translate', 'scale', 'rotate', 'perspective', 'filter'];
+const containValues = ['paint', 'layout', 'strict', 'content'];
 function isContainingBlock(elementOrCss) {
   const webkit = isWebKit();
   const css = isElement(elementOrCss) ? getComputedStyle(elementOrCss) : elementOrCss;
 
   // https://developer.mozilla.org/en-US/docs/Web/CSS/Containing_block#identifying_the_containing_block
   // https://drafts.csswg.org/css-transforms-2/#individual-transforms
-  return ['transform', 'translate', 'scale', 'rotate', 'perspective'].some(value => css[value] ? css[value] !== 'none' : false) || (css.containerType ? css.containerType !== 'normal' : false) || !webkit && (css.backdropFilter ? css.backdropFilter !== 'none' : false) || !webkit && (css.filter ? css.filter !== 'none' : false) || ['transform', 'translate', 'scale', 'rotate', 'perspective', 'filter'].some(value => (css.willChange || '').includes(value)) || ['paint', 'layout', 'strict', 'content'].some(value => (css.contain || '').includes(value));
+  return transformProperties.some(value => css[value] ? css[value] !== 'none' : false) || (css.containerType ? css.containerType !== 'normal' : false) || !webkit && (css.backdropFilter ? css.backdropFilter !== 'none' : false) || !webkit && (css.filter ? css.filter !== 'none' : false) || willChangeValues.some(value => (css.willChange || '').includes(value)) || containValues.some(value => (css.contain || '').includes(value));
 }
 function getContainingBlock(element) {
   let currentNode = getParentNode(element);
@@ -19072,8 +19136,9 @@ function isWebKit() {
   if (typeof CSS === 'undefined' || !CSS.supports) return false;
   return CSS.supports('-webkit-backdrop-filter', 'none');
 }
+const lastTraversableNodeNames = /*#__PURE__*/new Set(['html', 'body', '#document']);
 function isLastTraversableNode(node) {
-  return ['html', 'body', '#document'].includes(getNodeName(node));
+  return lastTraversableNodeNames.has(getNodeName(node));
 }
 function getComputedStyle(element) {
   return getWindow(element).getComputedStyle(element);
@@ -19219,8 +19284,9 @@ function getOppositeAxis(axis) {
 function getAxisLength(axis) {
   return axis === 'y' ? 'height' : 'width';
 }
+const yAxisSides = /*#__PURE__*/new Set(['top', 'bottom']);
 function getSideAxis(placement) {
-  return ['top', 'bottom'].includes(getSide(placement)) ? 'y' : 'x';
+  return yAxisSides.has(getSide(placement)) ? 'y' : 'x';
 }
 function getAlignmentAxis(placement) {
   return getOppositeAxis(getSideAxis(placement));
@@ -19245,19 +19311,19 @@ function getExpandedPlacements(placement) {
 function getOppositeAlignmentPlacement(placement) {
   return placement.replace(/start|end/g, alignment => oppositeAlignmentMap[alignment]);
 }
+const lrPlacement = ['left', 'right'];
+const rlPlacement = ['right', 'left'];
+const tbPlacement = ['top', 'bottom'];
+const btPlacement = ['bottom', 'top'];
 function getSideList(side, isStart, rtl) {
-  const lr = ['left', 'right'];
-  const rl = ['right', 'left'];
-  const tb = ['top', 'bottom'];
-  const bt = ['bottom', 'top'];
   switch (side) {
     case 'top':
     case 'bottom':
-      if (rtl) return isStart ? rl : lr;
-      return isStart ? lr : rl;
+      if (rtl) return isStart ? rlPlacement : lrPlacement;
+      return isStart ? lrPlacement : rlPlacement;
     case 'left':
     case 'right':
-      return isStart ? tb : bt;
+      return isStart ? tbPlacement : btPlacement;
     default:
       return [];
   }
