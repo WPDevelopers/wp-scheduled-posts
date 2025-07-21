@@ -98,9 +98,6 @@ class GoogleBusiness {
                 $featured_image = wp_get_attachment_image_src(get_post_thumbnail_id($post_id), 'full');
                 $featured_image_url = $featured_image[0];
             }
-
-            $featured_image_url = 'https://images.pexels.com/photos/30625358/pexels-photo-30625358/free-photo-of-cyclists-on-scenic-mountain-trail-with-tv-tower.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2';
-
             // Refresh token if needed
             $google_business = Helper::get_social_profile(WPSCP_GOOGLE_BUSINESS_OPTION_NAME);
             $refresh_token = !empty($google_business[$profile_key]->refresh_token) ? $google_business[$profile_key]->refresh_token : '';
