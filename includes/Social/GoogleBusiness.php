@@ -76,6 +76,17 @@ class GoogleBusiness {
             ];
         }
 
+        $is_enabled_custom_template = get_post_meta($post_id, '_wpsp_enable_custom_social_template', true);
+        // if enabled custom template then check current social profile is selected or not
+        if( $is_enabled_custom_template ) {
+            $templates = get_post_meta($post_id, '_wpsp_custom_templates', true);
+            $platform_data = isset($templates['google_business']) ? $templates['google_business'] : null;
+            $profiles = is_array($platform_data) && isset($platform_data['profiles']) ? $platform_data['profiles'] : [];
+            if ( is_array($profiles) && !in_array($ID, $profiles) ) {
+                return;
+            }
+        }
+
         // Check if sharing is enabled for this post
         if (get_post_meta($post_id, '_wpsp_is_google_business_share', true) != 'on' && !$force_share) {
             return [
@@ -176,7 +187,7 @@ class GoogleBusiness {
             if( !empty($permalink) ) {
                 $post_data['callToAction'] = [
                     'actionType' => 'LEARN_MORE',
-                    'url'        => 'https://schedulepress.com',
+                    'url'        => $post_link,
                 ];
             }
 
