@@ -129,9 +129,47 @@ class GoogleBusiness {
             // Prepare API request
             $api_url = "https://mybusiness.googleapis.com/v4/{$account_id}/{$location_id}/localPosts";
 
+            // Get post data for template formatting
+            $post_details = get_post($post_id);
+            $title = get_the_title($post_id);
+            $post_link = esc_url(get_permalink($post_id));
+
+            // Get content based on source setting
+            if ($this->content_source === 'excerpt' && has_excerpt($post_details->ID)) {
+                $desc = wp_strip_all_tags($post_details->post_excerpt);
+            } else {
+                $desc = $this->format_plain_text_with_paragraphs($post_details->post_content);
+                if (is_visual_composer_post($post_id) && class_exists('WPBMap')) {
+                    \WPBMap::addAllMappedShortcodes();
+                    $desc = Helper::strip_all_html_and_keep_single_breaks(do_shortcode($desc));
+                }
+            }
+
+            // Get hashtags if category as tags is enabled
+            $hashTags = '';
+            if ($this->is_category_as_tags) {
+                $tags = $this->getPostHasTags($post_id, 'google_business', $this->is_category_as_tags);
+                $cats = $this->getPostHasCats($post_id, 'google_business');
+                $hashTags = ($tags ? $tags : '') . ($cats ? ' ' . $cats : '');
+            }
+
+            // Format text using social_share_content_template_structure
+            $formatted_summary = $this->social_share_content_template_structure(
+                $this->template_structure,
+                $title,
+                $desc,
+                $post_link,
+                $hashTags,
+                $this->status_limit,
+                null,
+                'google_business',
+                $post_id,
+                $ID // profile_id
+            );
+
             $post_data = [
                 'languageCode' => 'en',
-                'summary'      => $this->get_formatted_text($post_id),   // Combine title and cleaned content
+                'summary'      => $formatted_summary,
                 'topicType'    => 'STANDARD'
             ];
 

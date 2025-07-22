@@ -246,9 +246,9 @@ button.components-button.wpsp-add-template-btn:disabled {
   background: #f0f0f0;
   color: #666;
 }
-.wpsp-platform-icon.active svg path {
+/* .wpsp-platform-icon.active svg path {
   fill: #FFF;
-}
+} */
 
 .wpsp-platform-icon:hover {
   transform: translateY(-2px);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { authorIcon, docIcon, eyeCloseIcon, eyeIcon, facebook, info, instagram, linkedin, medium, pinterest, threads, tikIcon, twitter_x } from './helpers/icons';
+import { authorIcon, docIcon, eyeCloseIcon, eyeIcon, facebook, google_business, info, instagram, linkedin, medium, pinterest, threads, tikIcon, twitter_x } from './helpers/icons';
 
 const {
   components: { Modal, Button },
@@ -15,17 +15,19 @@ const SOCIAL_PLATFORMS = [
   'instagram',
   'medium',
   'threads',
+  'google_business',
 ];
 
 // Platform character limits
 const platformLimits = {
-  facebook: 63206,
-  twitter: 280,
-  linkedin: 1300,
+  facebook : 63206,
+  twitter  : 280,
+  linkedin : 1300,
   pinterest: 500,
   instagram: 2100,
-  medium: 45000,
-  threads: 480,
+  medium   : 45000,
+  threads  : 480,
+  google_business  : 1500,
 };
 
 const CustomSocialTemplateModal = ({
@@ -38,6 +40,7 @@ const CustomSocialTemplateModal = ({
   instagramProfileData,
   mediumProfileData,
   threadsProfileData,
+  googleBusinessProfileData,
   postTitle,
   postContent,
   postUrl,
@@ -66,7 +69,8 @@ const CustomSocialTemplateModal = ({
     { platform: 'pinterest', icon: pinterest, color: '#bd081c', bgColor: '#bd081c' },
     { platform: 'instagram', icon: instagram, color: '#e4405f', bgColor: '#e4405f' },
     { platform: 'medium', icon: medium, color: '#00ab6c', bgColor: '#00ab6c' },
-    { platform: 'threads', icon: threads, color: '#000', bgColor: '#000' }
+    { platform: 'threads', icon: threads, color: '#000', bgColor: '#000' },
+    { platform: 'google_business', icon: google_business, color: '#db4437', bgColor: '#db4437' },
   ];
 
   const firstSelectedProfile = Object.entries(social_media_enabled).find(([key, value]) => value === true)?.[0];
@@ -189,6 +193,8 @@ const CustomSocialTemplateModal = ({
         return mediumProfileData || [];
       case 'threads':
         return threadsProfileData || [];
+      case 'google_business':
+        return googleBusinessProfileData || [];
       default:
         return [];
     }
@@ -493,7 +499,7 @@ const CustomSocialTemplateModal = ({
         setSelectedProfile([]);
       }
     }
-  }, [selectedPlatform, allPlatformData, apiTemplateData, facebookProfileData, twitterProfileData, linkedinProfileData, pinterestProfileData, instagramProfileData, mediumProfileData, threadsProfileData]);
+  }, [selectedPlatform, allPlatformData, apiTemplateData, facebookProfileData, twitterProfileData, linkedinProfileData, pinterestProfileData, instagramProfileData, mediumProfileData, threadsProfileData, googleBusinessProfileData]);
 
   // Initialize modal with saved data when it opens
   useEffect(() => {

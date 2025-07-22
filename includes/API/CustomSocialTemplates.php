@@ -421,7 +421,7 @@ class CustomSocialTemplates
         $is_global = $platform_data['is_global'] ?? false;
 
         // Validate platform
-        $valid_platforms = ['facebook', 'twitter', 'linkedin', 'pinterest', 'instagram', 'medium', 'threads'];
+        $valid_platforms = ['facebook', 'twitter', 'linkedin', 'pinterest', 'instagram', 'medium', 'threads', 'google_business'];
         if (!in_array($platform, $valid_platforms)) {
             $validation_errors[] = sprintf(__('Invalid platform: %s', 'wp-scheduled-posts'), $platform);
             return ['success' => false, 'platform' => $platform];

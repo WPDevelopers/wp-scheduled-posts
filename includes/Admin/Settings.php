@@ -1447,7 +1447,7 @@ class Settings {
                                         'layouts_google_business'  => [
                                             'id'            => 'layouts_google_business',
                                             'name'          => 'layouts_google_business',
-                                            'label'         => __('Google', 'wp-scheduled-posts'),
+                                            'label'         => __('Google Business', 'wp-scheduled-posts'),
                                             'priority'      => 40,
                                             'fields'        => [
                                                 'google_business_wrapper'     => [
@@ -1505,9 +1505,9 @@ class Settings {
                                                                     'type'          => 'number',
                                                                     'label'         => __('Status Limit', 'wp-scheduled-posts'),
                                                                     'priority'      => 20,
-                                                                    'default'       => '480',
-                                                                    'max'           => '480',
-                                                                    'help'          => __('Max: 480', 'wp-scheduled-posts'),
+                                                                    'default'       => '1500',
+                                                                    'max'           => '1500',
+                                                                    'help'          => __('Max: 1500', 'wp-scheduled-posts'),
                                                                 ],
                                                                 'post_share_limit'  => [
                                                                     'id'            => 'google_business_post_share_limit',

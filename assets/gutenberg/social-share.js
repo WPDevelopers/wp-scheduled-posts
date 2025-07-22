@@ -17,7 +17,7 @@ const { __ } = wp.i18n;
 const SocialShare = ( { is_pro_active, isSocialShareDisable } ) => {
     const {
       meta,
-      meta: { _wpscppro_dont_share_socialmedia, _facebook_share_type, _twitter_share_type, _linkedin_share_type, _pinterest_share_type, _selected_social_profile, _linkedin_share_type_page, _instagram_share_type, _medium_share_type, _threads_share_type },
+      meta: { _wpscppro_dont_share_socialmedia, _facebook_share_type, _google_business_share_type, _twitter_share_type, _linkedin_share_type, _pinterest_share_type, _selected_social_profile, _linkedin_share_type_page, _instagram_share_type, _medium_share_type, _threads_share_type },
     } = useSelect((select) => ({
       meta: select('core/editor').getEditedPostAttribute('meta') || {},
     }));
