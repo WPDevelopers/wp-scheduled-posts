@@ -849,10 +849,10 @@ class SocialProfile
                     // $uploaded_image_url = $this->handle_thumbnail_upload('', $account->name);
                     $uploaded_image_url = ''; // Google My Business might not always give profile pictures easily
                     array_push($profile_array, array(
-                        'id'            => $account->name,                                                         // Google uses resource names like "accounts/1234567890"
+                        'id'            => $account->name,
                         'app_id'        => $app_id,
                         'app_secret'    => $app_secret,
-                        'name'          => $account->accountName ?? 'Unknown',                                     // fallback
+                        'name'          => $account->accountName ?? 'Unknown',
                         'thumbnail_url' => !empty($uploaded_image_url) ? $uploaded_image_url : '',                 // fallback empty
                         'type'          => 'profile',
                         'location_id'   => $location_id,
