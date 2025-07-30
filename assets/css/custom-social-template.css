@@ -1059,6 +1059,7 @@ textarea.wpsp-template-input {
   border-radius: 4px;
 }
 .wpsp-custom-tabs button.tab-profile {
+  flex: 1;
   border: none;
   padding: 8px 12px;
   background: transparent;
