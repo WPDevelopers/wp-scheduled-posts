@@ -247,7 +247,7 @@ button.components-button.wpsp-add-template-btn:disabled {
   position: relative;
 }
 .wpsp-platform-icon svg path {
-  fill: #FFF !important;
+  fill: #FFF;
 } 
 /* 
 .wpsp-platform-icon svg {
@@ -257,10 +257,9 @@ button.components-button.wpsp-add-template-btn:disabled {
   transition: all 0.2s ease;
 } */
 
-/* .wpsp-platform-icon:hover {
+.wpsp-platform-icon:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-} */
+}
 
 .wpsp-platform-icon.active {
   background: #ffffff !important;
@@ -268,6 +267,10 @@ button.components-button.wpsp-add-template-btn:disabled {
   box-shadow: 0px 6px 15px 0px #1B1B501F;
   border: 1px solid #ECEFF5;
   position: relative;
+}
+
+.wpsp-platform-icon.active:hover {
+  transform: translateY(0px);
 }
 
 .wpsp-platform-icon.active::after {
@@ -284,7 +287,11 @@ button.components-button.wpsp-add-template-btn:disabled {
   z-index: 1;
 }
 
-.wpsp-platform-icon.active svg {
+.wpsp-platform-icon svg {
+  min-height: 16px;
+}
+
+.wpsp-platform-icon.active svg path {
   fill: #1877f2;
 }
 
