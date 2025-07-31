@@ -53,6 +53,11 @@ class GoogleBusiness {
         $count_meta_key = '__wpsp_google_business_share_count_' . $ID;
         $dont_share = get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true);
 
+        // check if schedulepress pro is active
+        if( !defined('WPSP_PRO_VERSION') ) {
+            return;
+        }
+
         // Check custom share type
         $get_share_type = get_post_meta($post_id, '_google_business_share_type', true);
         if ($get_share_type === 'custom') {
@@ -184,7 +189,7 @@ class GoogleBusiness {
                 'topicType'    => 'STANDARD'
             ];
 
-            if( !empty($permalink) ) {
+            if( strpos($template_structure, '{url}') ) {
                 $post_data['callToAction'] = [
                     'actionType' => 'LEARN_MORE',
                     'url'        => $post_link,
@@ -253,50 +258,6 @@ class GoogleBusiness {
                 'log' => sprintf(__('Exception when sharing to Google Business: %s', 'wp-scheduled-posts'), $e->getMessage())
             ];
         }
-    }
-
-    public function get_formatted_text($post_id)
-    {
-        $post_details = get_post($post_id);
-        $title = get_the_title($post_id);
-        $post_link = esc_url(get_permalink($post_id));
-
-        // Get content based on source setting
-        if ($this->content_source === 'excerpt' && has_excerpt($post_details->ID)) {
-            $desc = wp_strip_all_tags($post_details->post_excerpt);
-        } else {
-            $desc = $this->format_plain_text_with_paragraphs($post_details->post_content);
-            if (is_visual_composer_post($post_id) && class_exists('WPBMap')) {
-                \WPBMap::addAllMappedShortcodes();
-                $desc = Helper::strip_all_html_and_keep_single_breaks(do_shortcode($desc));
-            }
-        }
-
-        // Apply status limit
-        if (!empty($this->status_limit) && strlen($desc) > $this->status_limit) {
-            $desc = substr($desc, 0, $this->status_limit - 3) . '...';
-        }
-
-        // Format the text according to template structure
-        $formatted_text = $this->template_structure;
-        $formatted_text = str_replace('{title}', $title . "\n", $formatted_text);
-        $formatted_text = str_replace('{content}', $desc . "\n", $formatted_text);
-        $formatted_text = str_replace('{url}', $post_link . "\n", $formatted_text);
-
-        // Add tags if enabled
-        // if ($this->is_category_as_tags) {
-        //     $tags = $this->get_post_tags_comma($post_id);
-        //     $formatted_text = str_replace('{tags}', $tags, $formatted_text);
-        // } else {
-        //     $formatted_text = str_replace('{tags}', '', $formatted_text);
-        // }
-
-        // Apply final status limit check
-        if (!empty($this->status_limit) && strlen($formatted_text) > $this->status_limit) {
-            $formatted_text = substr($formatted_text, 0, $this->status_limit - 10) . '...';
-        }
-
-        return $formatted_text;
     }
 
     public function format_plain_text_with_paragraphs( $content ) {

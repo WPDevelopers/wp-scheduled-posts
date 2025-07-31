@@ -842,12 +842,12 @@ class SocialProfile
             if (!empty($profile_data) && is_object($profile_data)) {
                 foreach ($profile_data->accounts as $account) {
                     // Get access token & account ID
-                    $access_token  = !empty($token_data->access_token) ? $token_data->access_token : $access_token;
-                    $refresh_token = !empty($token_data->refresh_token) ? $token_data->refresh_token : $refresh_token;
-                    $account_id    = $account->name; // e.g., "accounts/1234567890"
-                    $location_id   = $this->fetchLocationID($access_token, $account_id);
-                    // $uploaded_image_url = $this->handle_thumbnail_upload('', $account->name);
-                    $uploaded_image_url = ''; // Google My Business might not always give profile pictures easily
+                    $access_token       = !empty($token_data->access_token) ? $token_data->access_token : $access_token;
+                    $refresh_token      = !empty($token_data->refresh_token) ? $token_data->refresh_token : $refresh_token;
+                    $account_id         = $account->name;                                                                    // e.g., "accounts/1234567890"
+                    $location_id        = $this->fetchLocationID($access_token, $account_id);
+                    $uploaded_image_url           = $this->fetchProfilePictureUrl($account_id, $location_id, $access_token);
+                    // $uploaded_image_url = $this->handle_thumbnail_upload($imageUrl, $account->name);
                     array_push($profile_array, array(
                         'id'            => $account->name,
                         'app_id'        => $app_id,
@@ -901,6 +901,29 @@ class SocialProfile
              }
         }
         return $location_id;
+    }
+
+    public function fetchProfilePictureUrl($account_id, $location_id, $access_token) {
+        $response = wp_remote_get(
+        "https://mybusiness.googleapis.com/v4/{$account_id}/$location_id/media",
+        array(
+            'headers' => array(
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' . $access_token,
+            ),
+        )
+        );
+        $thumbnailUrl = '';
+        if (!is_wp_error($response)) {
+        $body = json_decode(wp_remote_retrieve_body($response), true);
+        foreach ($body['mediaItems'] as $mediaItem) { 
+            if (!empty($mediaItem['thumbnailUrl']) && $mediaItem['locationAssociation']['category'] === 'PROFILE') {
+                $thumbnailUrl = $mediaItem['thumbnailUrl'];
+                break;
+            }
+        }
+        }
+        return $thumbnailUrl;
     }
 
     /**
@@ -1228,26 +1251,6 @@ class SocialProfile
                 $url = "https://threads.net/oauth/authorize?client_id="
                     . $app_id . "&redirect_uri=" . urlencode($redirectURI) . "&state="
                     . $state . "&scope=" . WPSCP_THREADS_SCOPE;
-                wp_send_json_success($url);
-                wp_die();
-            } catch (\Exception $error) {
-                wp_send_json_error($error->getMessage());
-                wp_die();
-            }
-        } else if ($type == 'google_business') {
-            try {
-                $app_id = $app_id ? $app_id : WPSP_SOCIAL_OAUTH2_GOOGLE_BUSINESS_APP_ID;
-                $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=' . WPSP_SETTINGS_SLUG));
-                $request['appId'] = $app_id ? $app_id : WPSP_SOCIAL_OAUTH2_LINKEDIN_APP_ID;
-                $state = base64_encode(json_encode($request));
-                $url = "https://accounts.google.com/o/oauth2/v2/auth?client_id="
-                . $app_id . "&redirect_uri=" . urlencode($redirectURI)
-                . "&response_type=code"
-                . "&scope=" . WPSCP_GOOGLE_BUSINESS_SCOPE
-                . "&prompt=consent"
-                . "&access_type=offline"
-                . "&state=". $state;
-
                 wp_send_json_success($url);
                 wp_die();
             } catch (\Exception $error) {

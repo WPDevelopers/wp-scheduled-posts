@@ -191,43 +191,52 @@ const GoogleBusiness = (props) => {
         props?.classes
       )}>
       <div className="social-profile-card">
-        <div className="main-profile">
-          <GoogleBusinessProfile
-            props={props}
-            handleProfileStatusChange={handleProfileStatusChange}
-            profileStatus={profileStatus}
-            openApiCredentialsModal={openApiCredentialsModal}
-          />
-        </div>
-        <div className="selected-profile">
-          {(!selectedProfile || selectedProfile.length == 0) && (
-            <img
-              className="empty-image"
-              /* @ts-ignore */
-              src={`${wpspSettingsGlobal?.image_path}EmptyCard.svg`}
-              alt="mainLogo"
-            />
-          )}
-          <div className="selected-google-business-scrollbar">
-            {selectedProfile &&
-                selectedProfileData.map((item, index) => (
-                <div
-                    className="selected-facebook-wrapper"
-                    key={index}>
-                    <SelectedProfile
-                        platform={'google_business'}
-                        item={item}
-                        handleSelectedProfileStatusChange={
-                            handleSelectedProfileStatusChange
-                        }
-                        handleDeleteSelectedProfile={handleDeleteSelectedProfile}
-                        handleEditSelectedProfile={''}
-                        profileStatus={profileStatus}
-                    />
+        { is_pro ? (
+            <>
+              <div className="main-profile">
+                <GoogleBusinessProfile
+                  props={props}
+                  handleProfileStatusChange={handleProfileStatusChange}
+                  profileStatus={profileStatus}
+                  openApiCredentialsModal={openApiCredentialsModal}
+                />
+              </div>
+              <div className="selected-profile">
+                {(!selectedProfile || selectedProfile.length == 0) && (
+                  <img
+                    className="empty-image"
+                    /* @ts-ignore */
+                    src={`${wpspSettingsGlobal?.image_path}EmptyCard.svg`}
+                    alt="mainLogo"
+                  />
+                )}
+                <div className="selected-google-business-scrollbar">
+                  {selectedProfile &&
+                      selectedProfileData.map((item, index) => (
+                      <div
+                          className="selected-facebook-wrapper"
+                          key={index}>
+                          <SelectedProfile
+                              platform={'google_business'}
+                              item={item}
+                              handleSelectedProfileStatusChange={
+                                  handleSelectedProfileStatusChange
+                              }
+                              handleDeleteSelectedProfile={handleDeleteSelectedProfile}
+                              handleEditSelectedProfile={''}
+                              profileStatus={profileStatus}
+                          />
+                      </div>
+                      ))}
                 </div>
-                ))}
-          </div>
-        </div>
+              </div>
+            </>
+        ) : (
+            <div className="pro-badge">
+                <span>Pro</span>
+            </div>
+        ) }
+       
       </div>
       <Modal
             isOpen={apiCredentialsModal}

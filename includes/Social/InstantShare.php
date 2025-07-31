@@ -268,7 +268,8 @@ class InstantShare
                     ?>
 
                     <?php
-                    if ($googleBusinessIntegation == 'on' && is_array($googleBusinessProfile) && count($googleBusinessProfile) > 0) :
+                    $is_pro = class_exists('WPSP_PRO');
+                    if ( $is_pro &&  $googleBusinessIntegation == 'on' && is_array($googleBusinessProfile) && count($googleBusinessProfile) > 0) :
                         $googleBusinessCount = get_post_meta(get_the_ID(), '__wpscppro_social_share_google_business');
                         $isGoogleBusiness = get_post_meta(get_the_ID(), '_wpsp_is_google_business_share', true);
                     ?>

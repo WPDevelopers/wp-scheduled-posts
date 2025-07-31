@@ -124,6 +124,15 @@ var SettingsInner = function (props) {
     });
   }, []);
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
+    setTimeout(function () {
+      _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default()({
+        path: 'wp-scheduled-posts/v1/settings',
+        method: 'POST',
+        data: builderContext.values
+      }).then(function (res) {});
+    }, 100);
+  }, [builderContext.values]);
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
     builderContext.registerAlert('pro_alert', function (props) {
       return {
         fire: function () {
@@ -4120,7 +4129,7 @@ const GoogleBusiness = props => {
     className: classnames__WEBPACK_IMPORTED_MODULE_1___default()('wprf-control', 'wprf-social-profile', `wprf-${props.name}-social-profile`, props?.classes)
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", {
     className: "social-profile-card"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", {
+  }, is_pro ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement((react__WEBPACK_IMPORTED_MODULE_3___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", {
     className: "main-profile"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement(_Profiles_GoogleBusinessProfile__WEBPACK_IMPORTED_MODULE_13__["default"], {
     props: props,
@@ -4146,7 +4155,9 @@ const GoogleBusiness = props => {
     handleDeleteSelectedProfile: handleDeleteSelectedProfile,
     handleEditSelectedProfile: '',
     profileStatus: profileStatus
-  })))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement((react_modal__WEBPACK_IMPORTED_MODULE_4___default()), {
+  })))))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", {
+    className: "pro-badge"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("span", null, "Pro"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement((react_modal__WEBPACK_IMPORTED_MODULE_4___default()), {
     isOpen: apiCredentialsModal,
     onRequestClose: closeApiCredentialsModal,
     ariaHideApp: false,

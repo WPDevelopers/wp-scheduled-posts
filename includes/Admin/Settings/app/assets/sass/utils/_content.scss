@@ -112,6 +112,26 @@
           display: flex;
           align-items: center;
           box-sizing: border-box;
+          position: relative;
+          &.pro_feature {
+            &::before{
+              position: absolute;
+              content: "\e907";
+              font-family: "wpsp";
+              font-size: 10px;
+              height: 1.9em;
+              width: 1.9em;
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              background-color: #f6e6d7;
+              border-radius: 50%;
+              right: 20px;
+              top: calc(50% - 10px);
+              transform: translateY(-50%);
+              color: #ff9437;
+            }
+          }
           @media screen and (max-width: 1439px) {
             flex: 0 0 calc(50% - 3px);
             max-width: calc(50% - 3px);
@@ -324,6 +344,26 @@
           .wprf-tab-content > .wprf-control-section {
             padding: 0 !important;
             background-color: transparent !important;
+            &#google_business_wrapper {
+              &.pro_feature {
+                &::before{
+                  position: absolute;
+                  content: "\e907";
+                  font-family: "wpsp";
+                  font-size: 10px;
+                  height: 1.9em;
+                  width: 1.9em;
+                  display: inline-flex;
+                  align-items: center;
+                  justify-content: center;
+                  background-color: #f6e6d7;
+                  border-radius: 50%;
+                  left: 300px;
+                  transform: translateY(-50%);
+                  color: #ff9437;
+                }
+              }
+            }
           }
         }
       }

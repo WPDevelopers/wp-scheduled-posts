@@ -873,33 +873,39 @@ class Admin
                                 <?php endif ?>
                             </div>
                         </div>
-                        <div class="wpsp-el-accordion-item wpsp-el-accordion-item-google-business">
+                        <div class="wpsp-el-accordion-item wpsp-el-accordion-item-google-business <?php echo class_exists('WPSP_PRO') ? '' : 'wpsp-pro-fields' ?>">
                             <div class="wpsp-el-accordion-header">
                                 <img src="<?php echo esc_url( WPSP_ASSETS_URI . '/images/google-my-business-logo.svg' ) ?>" width="25" alt=""><span><?php echo esc_html('Google My Business') ?></span>
+                                <label for="">
+                                    <span><span><?php echo __('PRO', 'wp-scheduled-posts') ?></span></span>
+                                </label>
                             </div>
-                            <div class="wpsp-el-accordion-content">
-                                <?php if( !empty( $googleBusiness ) && !empty( $googleBusinessProfile ) ) : ?>
-                                    <div class="wpsp-el-container">
-                                        <label><input type="radio" data-platform="google-business" name="wpsp-el-content-google-business" value="wpsp-el-social-google-business-default" <?php echo ( ( !empty( $googleBusinessShareType ) && $googleBusinessShareType == 'default' ) || empty( $googleBusinessShareType ) ) ? 'checked' : ''  ?>><?php echo esc_html__('Default','wp-scheduled-posts') ?></label>
-                                        <label><input type="radio" data-platform="google-business" name="wpsp-el-content-google-business" value="wpsp-el-social-google-business-custom" <?php echo !empty( $googleBusinessShareType ) && $googleBusinessShareType == 'custom' ? 'checked' : ''  ?>><?php echo esc_html__('Custom','wp-scheduled-posts') ?></label>
-                                    </div>
-                                    <div class="wpsp-el-content wpsp-el-content-google-business" data-value="wpsp-el-social-google-business-custom" style="<?php echo !empty( $googleBusinessShareType ) && $googleBusinessShareType == 'custom' ? 'display: block;' : 'display: none;' ?>">
-                                        <?php if( count( $googleBusinessProfile ) > 0 ) : ?>
-                                            <?php foreach( $googleBusinessProfile as $googleBusinessSingleProfile ) : ?>
-                                                <div class="google-business-profile social-profile">
-                                                    <input type="checkbox" value="<?php echo !empty( $googleBusinessSingleProfile->name ) ? $googleBusinessSingleProfile->name : '' ?>" name="wpsp_el_social_google_business[]" <?php echo in_array( $googleBusinessSingleProfile->name, $filteredSelectedProfiles ) ? 'checked' : '' ?>>
-                                                    <h3><?php echo !empty( $googleBusinessSingleProfile->name ) ? $googleBusinessSingleProfile->name : '' ?> ( <?php echo $googleBusinessSingleProfile->type ? $googleBusinessSingleProfile->type : '' ?> ) </h3>
-                                                </div>
-                                            <?php endforeach ?>
-                                        <?php endif ?>
-                                    </div>
-                                <?php else : ?>
-                                    <div class="wpsp-el-empty-profile-message">
-                                        <?php echo sprintf( __( 'You may forget to add or enable profile from <a href="%s">SchedulePress settings</a>. ', 'wp-scheduled-posts' ), admin_url('admin.php?page=schedulepress&tab=social-profile') ) ?>
-                                    </div>
-                                <?php endif ?>
-                            </div>
+                            <?php if ( class_exists('WPSP_PRO') ) : ?>
+                                <div class="wpsp-el-accordion-content">
+                                    <?php if( !empty( $googleBusiness ) && !empty( $googleBusinessProfile ) ) : ?>
+                                        <div class="wpsp-el-container">
+                                            <label><input type="radio" data-platform="google-business" name="wpsp-el-content-google-business" value="wpsp-el-social-google-business-default" <?php echo ( ( !empty( $googleBusinessShareType ) && $googleBusinessShareType == 'default' ) || empty( $googleBusinessShareType ) ) ? 'checked' : ''  ?>><?php echo esc_html__('Default','wp-scheduled-posts') ?></label>
+                                            <label><input type="radio" data-platform="google-business" name="wpsp-el-content-google-business" value="wpsp-el-social-google-business-custom" <?php echo !empty( $googleBusinessShareType ) && $googleBusinessShareType == 'custom' ? 'checked' : ''  ?>><?php echo esc_html__('Custom','wp-scheduled-posts') ?></label>
+                                        </div>
+                                        <div class="wpsp-el-content wpsp-el-content-google-business" data-value="wpsp-el-social-google-business-custom" style="<?php echo !empty( $googleBusinessShareType ) && $googleBusinessShareType == 'custom' ? 'display: block;' : 'display: none;' ?>">
+                                            <?php if( count( $googleBusinessProfile ) > 0 ) : ?>
+                                                <?php foreach( $googleBusinessProfile as $googleBusinessSingleProfile ) : ?>
+                                                    <div class="google-business-profile social-profile">
+                                                        <input type="checkbox" value="<?php echo !empty( $googleBusinessSingleProfile->name ) ? $googleBusinessSingleProfile->name : '' ?>" name="wpsp_el_social_google_business[]" <?php echo in_array( $googleBusinessSingleProfile->name, $filteredSelectedProfiles ) ? 'checked' : '' ?>>
+                                                        <h3><?php echo !empty( $googleBusinessSingleProfile->name ) ? $googleBusinessSingleProfile->name : '' ?> ( <?php echo $googleBusinessSingleProfile->type ? $googleBusinessSingleProfile->type : '' ?> ) </h3>
+                                                    </div>
+                                                <?php endforeach ?>
+                                            <?php endif ?>
+                                        </div>
+                                    <?php else : ?>
+                                        <div class="wpsp-el-empty-profile-message">
+                                            <?php echo sprintf( __( 'You may forget to add or enable profile from <a href="%s">SchedulePress settings</a>. ', 'wp-scheduled-posts' ), admin_url('admin.php?page=schedulepress&tab=social-profile') ) ?>
+                                        </div>
+                                    <?php endif ?>
+                                </div>
+                            <?php endif ?>
                         </div>
+
                     </div>
                 </div>
            </div>
