@@ -3,6 +3,8 @@ node_modules/
 package-lock.json
 composer.lock
 includes/Admin/Settings/node_modules
+includes/Admin/Settings/assets/icon/demo-files
+includes/Admin/Settings/assets/icon/demo.html
 includes/Admin/Settings/assets/js/admin.js.map
 *.txt
 .git
