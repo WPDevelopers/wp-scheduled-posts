@@ -38,7 +38,7 @@ class Calendar
         return current_user_can('edit_posts');
     }
 
-    public function draft_post_permission_callback($request) {
+    public function validate_user_post_access($request) {
         // Check basic edit_posts capability
         if (!current_user_can('edit_posts')) {
             return false;
@@ -102,7 +102,7 @@ class Calendar
             array(
                 'methods'             => \WP_REST_Server::EDITABLE,
                 'callback'            => array($this, 'wpscp_future_post_rest_route_output'),
-                'permission_callback' => [$this, 'permission_callback'],
+                'permission_callback' => [$this, 'validate_user_post_access'],
                 'args'                => [
                     'post_type' => [
                         'required' => true,
@@ -127,7 +127,7 @@ class Calendar
         register_rest_route('wpscp/v1', '/posts', array(
             'methods'             => 'POST',
             'callback'            => [$this, 'get_draft_posts'],
-            'permission_callback' => [$this, 'draft_post_permission_callback'],
+            'permission_callback' => [$this, 'validate_user_post_access'],
         ));
 
         register_rest_route(
@@ -331,9 +331,8 @@ class Calendar
         $last_day = $request->get_param('activeEnd');
         $last_day = (!empty($last_day) ? $last_day : date('Y/m/t', current_time('timestamp')));
 
-
-        // query
-        $query_1 = new \WP_Query(array(
+        // Set up base query arguments
+        $query_args = array(
             'post_type'      => $post_type,
             'post_status'    => array('future', 'publish'),
             'posts_per_page' => -1,
@@ -342,7 +341,15 @@ class Calendar
                 'before' => $last_day,
             ),
             'tax_query' => $this->get_tax_query($taxonomies),
-        ));
+        );
+
+        // Add author restriction for non-admin users
+        if (!current_user_can('edit_others_posts')) {
+            $query_args['author'] = get_current_user_id();
+        }
+        
+        // query
+        $query_1 = new \WP_Query($query_args);
         $posts_1 = $query_1->get_posts();
 
         $post_type_placeholders = implode(',', array_fill(0, count($post_type), '%s'));
