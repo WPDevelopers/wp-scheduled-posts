@@ -27,6 +27,8 @@
         border-radius: 6px;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
+        position: relative;
+
         .selected-profile {
           .linkedin-organization {
             background: #f0faff !important;
@@ -41,6 +43,7 @@
             color: #e42228 !important;
           }
         }
+
         .main-profile {
           padding: 24px;
           border-right: 1px solid #f0efff;
@@ -317,6 +320,11 @@
             font-size: 0.9em;
             color: #6c62ff;
           }
+        }
+        .wpsppro-icon {
+          position: absolute;
+          top: -15px;
+          left: -20px;
         }
       }
     }

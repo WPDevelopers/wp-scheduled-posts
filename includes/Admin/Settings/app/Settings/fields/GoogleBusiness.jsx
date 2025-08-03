@@ -4,14 +4,13 @@ import { useBuilderContext } from 'quickbuilder';
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import Swal from 'sweetalert2';
-import { SweetAlertDeleteMsg } from '../ToasterMsg';
+import { SweetAlertDeleteMsg, SweetAlertProMsg } from '../ToasterMsg';
 import { socialProfileRequestHandler } from '../helper/helper';
 import ApiCredentialsForm from './Modals/ApiCredentialsForm';
 import SocialModal from './Modals/SocialModal';
-import MainProfile from './utils/MainProfile';
 import SelectedProfile from './utils/SelectedProfile';
-import ViewMore from './utils/ViewMore';
 import GoogleBusinessProfile from './Profiles/GoogleBusinessProfile';
+import ProAlert from "./utils/ProAlert";
 
 const GoogleBusiness = (props) => {
   const propsValue = props?.value || [];
@@ -49,6 +48,10 @@ const GoogleBusiness = (props) => {
 
   // Open and Close API credentials modal
   const openApiCredentialsModal = () => {
+    if( !is_pro ) {
+      SweetAlertProMsg();
+      return;
+    }
     setPlatform('google_business');
     setApiCredentialsModal(true);
   };
@@ -59,6 +62,10 @@ const GoogleBusiness = (props) => {
 
   // Handle profile & selected profile status onChange event
   const handleProfileStatusChange = (event) => {    
+    if( !is_pro && event.target.checked ) {
+      SweetAlertProMsg();
+      return;
+    }
     setProfileStatus(event.target.checked);
     const changeProfileStatus = selectedProfile.map((selectedItem) => {
       if (!event.target.checked) {
@@ -81,6 +88,10 @@ const GoogleBusiness = (props) => {
   
   
     const handleSelectedProfileStatusChange = (item, event) => {
+        if( !is_pro ){
+          SweetAlertProMsg();
+          return;
+        }
         if (event.target.checked) {
         setProfileStatus(true);
         }
@@ -190,53 +201,56 @@ const GoogleBusiness = (props) => {
         `wprf-${props.name}-social-profile`,
         props?.classes
       )}>
-      <div className="social-profile-card">
-        { is_pro ? (
-            <>
-              <div className="main-profile">
-                <GoogleBusinessProfile
-                  props={props}
-                  handleProfileStatusChange={handleProfileStatusChange}
-                  profileStatus={profileStatus}
-                  openApiCredentialsModal={openApiCredentialsModal}
-                />
-              </div>
-              <div className="selected-profile">
-                {(!selectedProfile || selectedProfile.length == 0) && (
-                  <img
-                    className="empty-image"
-                    /* @ts-ignore */
-                    src={`${wpspSettingsGlobal?.image_path}EmptyCard.svg`}
-                    alt="mainLogo"
-                  />
-                )}
-                <div className="selected-google-business-scrollbar">
-                  {selectedProfile &&
-                      selectedProfileData.map((item, index) => (
-                      <div
-                          className="selected-facebook-wrapper"
-                          key={index}>
-                          <SelectedProfile
-                              platform={'google_business'}
-                              item={item}
-                              handleSelectedProfileStatusChange={
-                                  handleSelectedProfileStatusChange
-                              }
-                              handleDeleteSelectedProfile={handleDeleteSelectedProfile}
-                              handleEditSelectedProfile={''}
-                              profileStatus={profileStatus}
-                          />
-                      </div>
-                      ))}
+      <div className="social-profile-card" onClick={(event) => {
+        if( !is_pro ) {
+          event.stopPropagation();
+          SweetAlertProMsg();
+        }
+      }}>
+        { !is_pro && <img
+          className="wpsppro-icon"
+          /* @ts-ignore */
+          src={`${wpspSettingsGlobal?.image_path}google-business-pro.svg`}
+          alt="ProIcon"
+        /> }
+
+        <div className="main-profile">
+          <GoogleBusinessProfile
+            props={props}
+            handleProfileStatusChange={handleProfileStatusChange}
+            profileStatus={profileStatus}
+            openApiCredentialsModal={openApiCredentialsModal}
+          />
+        </div>
+        <div className="selected-profile">
+          {(!selectedProfile || selectedProfile.length == 0) && (
+            <img
+              className="empty-image"
+              /* @ts-ignore */
+              src={`${wpspSettingsGlobal?.image_path}EmptyCard.svg`}
+              alt="mainLogo"
+            />
+          )}
+          <div className="selected-google-business-scrollbar">
+            {selectedProfile &&
+                selectedProfileData.map((item, index) => (
+                <div
+                    className="selected-facebook-wrapper"
+                    key={index}>
+                    <SelectedProfile
+                        platform={'google_business'}
+                        item={item}
+                        handleSelectedProfileStatusChange={
+                            handleSelectedProfileStatusChange
+                        }
+                        handleDeleteSelectedProfile={handleDeleteSelectedProfile}
+                        handleEditSelectedProfile={''}
+                        profileStatus={profileStatus}
+                    />
                 </div>
-              </div>
-            </>
-        ) : (
-            <div className="pro-badge">
-                <span>Pro</span>
-            </div>
-        ) }
-       
+                ))}
+          </div>
+        </div>
       </div>
       <Modal
             isOpen={apiCredentialsModal}
