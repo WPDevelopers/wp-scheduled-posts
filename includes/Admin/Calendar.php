@@ -34,8 +34,33 @@ class Calendar
      * @param WP_REST_Request $request
      * @return bool
      */
-    public function permission_callback() {
+    public function permission_callback($request) {
         return current_user_can('edit_posts');
+    }
+
+    public function draft_post_permission_callback($request) {
+        // Check basic edit_posts capability
+        if (!current_user_can('edit_posts')) {
+            return false;
+        }
+        
+        // Additional checks for specific post types
+        $post_types = $request->get_param('post_type');
+        if (!empty($post_types)) {
+            foreach ($post_types as $post_type) {
+                if (!current_user_can('edit_posts') || !post_type_exists($post_type)) {
+                    return false;
+                }
+                
+                // Check if user can edit this specific post type
+                $post_type_obj = get_post_type_object($post_type);
+                if (!current_user_can($post_type_obj->cap->edit_posts)) {
+                    return false;
+                }
+            }
+        }
+        
+        return true;
     }
 
     /**
@@ -102,7 +127,7 @@ class Calendar
         register_rest_route('wpscp/v1', '/posts', array(
             'methods'             => 'POST',
             'callback'            => [$this, 'get_draft_posts'],
-            'permission_callback' => [$this, 'permission_callback'],
+            'permission_callback' => [$this, 'draft_post_permission_callback'],
         ));
 
         register_rest_route(
@@ -162,15 +187,22 @@ class Calendar
 
         $post_type = array_intersect($post_type, $allow_post_types);
 
-
-        // Create a new WP_Query object with the parameters
-        $query = new \WP_Query(array(
+        // Set up base query arguments
+        $query_args = array(
             'post_type'      => $post_type,
             'tax_query'      => $this->get_tax_query($taxonomies),
             'post_status'    => array('draft', 'pending'),
             'posts_per_page' => $posts_per_page,
             'paged'          => $page,
-        ));
+        );
+
+        // Add author restriction for non-admin users
+        if (!current_user_can('edit_others_posts')) {
+            $query_args['author'] = get_current_user_id();
+        }
+
+        // Create a new WP_Query object with the parameters
+        $query = new \WP_Query($query_args);
 
         // Check if the query found any posts
         if ( $query->have_posts() ) {
