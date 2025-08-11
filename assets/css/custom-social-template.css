@@ -247,7 +247,7 @@ button.components-button.wpsp-add-template-btn:disabled {
   position: relative;
 }
 .wpsp-platform-icon svg path {
-  fill: #FFF;
+  /* fill: #FFF; */
 } 
 /* 
 .wpsp-platform-icon svg {
@@ -292,7 +292,7 @@ button.components-button.wpsp-add-template-btn:disabled {
 }
 
 .wpsp-platform-icon.active svg path {
-  fill: #1877f2;
+  /* fill: #1877f2; */
 }
 
 /* Facebook specific active state */

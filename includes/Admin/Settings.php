@@ -1450,13 +1450,13 @@ class Settings {
                                             'label'         => __('Google Business', 'wp-scheduled-posts'),
                                             'priority'      => 40,
                                             'is_pro'        => true,
-                                            'classes'       => 'pro_feature',
+                                            'classes'       => (defined('WPSP_PRO_VERSION') ? '' : 'pro_feature'),
                                             'fields'        => [
                                                 'google_business_wrapper'     => [
                                                     'id'            => 'google_business_wrapper',
                                                     'type'          => 'section',
                                                     'name'          => 'google_business_wrapper',
-                                                    'classes'       => 'pro_feature',
+                                                    'classes'       => (defined('WPSP_PRO_VERSION') ? '' : 'pro_feature'),
                                                     'label'         => __('Google Business Settings', 'wp-scheduled-posts'),
                                                     'sub_title'     => sprintf( __('To configure the Threads Settings, check out this <a target="_blank" href="%s">Doc.</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-threads/' ),
                                                     'priority'      => 10,

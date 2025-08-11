@@ -155,7 +155,7 @@ class Calendar
         if(empty($post_type)){
             $post_type = $allow_post_types;
         }
-        else if(in_array('elementorlibrary', $post_type)){
+        else if( is_array( $post_type ) && in_array('elementorlibrary', $post_type)){
             $post_type   = array_diff($post_type, ['elementorlibrary']);
             $post_type[] = 'elementor_library';
         }
