@@ -162,7 +162,7 @@ class GoogleBusiness {
             }
 
             // Get hashtags if category as tags is enabled
-            $hashTags = '';
+            $hashTags = (($this->getPostHasTags($post_id, 'google_business', $this->is_category_as_tags) != false) ? $this->getPostHasTags($post_id, 'google_business', $this->is_category_as_tags) : '');
             if ($this->is_category_as_tags) {
                 $tags = $this->getPostHasTags($post_id, 'google_business', $this->is_category_as_tags);
                 $cats = $this->getPostHasCats($post_id, 'google_business');
