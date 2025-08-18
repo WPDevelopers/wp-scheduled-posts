@@ -730,7 +730,7 @@ const SocialShare = ( { is_pro_active, isSocialShareDisable } ) => {
                 <div className="social-accordion-item">
                   <div className="social-accordion-button" onClick={() => toggleAccordion('isOpenGoogleBusiness')}>
                       <img src={ WPSchedulePostsFree.assetsURI + '/images/google-my-business-logo-small.png' } alt="" />
-                      <span>{ __('Google My Business', 'wp-scheduled-posts') }</span>
+                      <span>{ __('Google Business Profile', 'wp-scheduled-posts') }</span>
                   </div>
                   { isOpen === 'isOpenGoogleBusiness' && (
                     <div className="accordion-content">

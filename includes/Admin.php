@@ -875,7 +875,7 @@ class Admin
                         </div>
                         <div class="wpsp-el-accordion-item wpsp-el-accordion-item-google-business <?php echo class_exists('WPSP_PRO') ? '' : 'wpsp-pro-fields' ?>">
                             <div class="wpsp-el-accordion-header">
-                                <img src="<?php echo esc_url( WPSP_ASSETS_URI . '/images/google-my-business-logo.svg' ) ?>" width="25" alt=""><span><?php echo esc_html('Google My Business') ?></span>
+                                <img src="<?php echo esc_url( WPSP_ASSETS_URI . '/images/google-my-business-logo.svg' ) ?>" width="25" alt=""><span><?php echo esc_html('Google Business Profile') ?></span>
                                 <?php if ( !class_exists('WPSP_PRO') ) : ?>
                                     <label for="">
                                         <span><span><?php echo __('PRO', 'wp-scheduled-posts') ?></span></span>

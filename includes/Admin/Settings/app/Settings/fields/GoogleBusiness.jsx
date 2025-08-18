@@ -259,16 +259,22 @@ const GoogleBusiness = (props) => {
             shouldCloseOnOverlayClick={false}
             className="modal_wrapper">
             <button
-                className="close-button"
-                onClick={closeApiCredentialsModal}>
-                <i className="wpsp-icon wpsp-close"></i>
+              className="close-button"
+              onClick={closeApiCredentialsModal}>
+              <i className="wpsp-icon wpsp-close"></i>
             </button>
-            <ApiCredentialsForm
-                props={props}
-                platform={platform}
-                requestHandler={socialProfileRequestHandler}
-                appInfo={appInfo}
-            />
+            { ( is_pro && builderContext?.is_pro_active > '5.1.3') ? (
+               <>
+                  <ApiCredentialsForm
+                    props={props}
+                    platform={platform}
+                    requestHandler={socialProfileRequestHandler}
+                    appInfo={appInfo}
+                />
+              </>
+            ) : (
+                <div dangerouslySetInnerHTML={ { __html: __(`Please update to the latest version of <strong>SchedulePress Pro</strong> to connect with <strong>Google Business Profile</strong>.`,'wp-scheduled-posts') } }></div>       
+              ) }
         </Modal>
         {/* @ts-ignore */}
         <SocialModal

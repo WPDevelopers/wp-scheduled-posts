@@ -275,7 +275,7 @@ class InstantShare
                     ?>
                         <li class="threads">
                             <label style="margin-bottom: 10px;">
-                                <input type="checkbox" id="wpscpprogooglebusinessis" name="_wpsp_is_google_business_share" <?php (!empty($isGoogleBusiness) ? checked('on', $isGoogleBusiness, true) : checked('', $isGoogleBusiness, true)  ); ?> /> <?php esc_html_e('Google My Business', 'wp-scheduled-posts'); ?>
+                                <input type="checkbox" id="wpscpprogooglebusinessis" name="_wpsp_is_google_business_share" <?php (!empty($isGoogleBusiness) ? checked('on', $isGoogleBusiness, true) : checked('', $isGoogleBusiness, true)  ); ?> /> <?php esc_html_e('Google Business Profile', 'wp-scheduled-posts'); ?>
                                 <?php
                                 if (is_array($googleBusinessCount) && count($googleBusinessCount) > 0) :
                                 ?>
