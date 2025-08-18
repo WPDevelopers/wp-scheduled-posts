@@ -709,11 +709,11 @@ class Settings {
                                     'label'    => __('Google Business Profile', 'wp-scheduled-posts'),
                                     'default'  => [],
                                     'logo'     => WPSP_ASSETS_URI . 'images/google-my-business-logo.svg',
-                                    'desc'     => sprintf( __('You can enable/disable Google Business Profile social share. To configure Google Business Profile Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-google-business/' ),
+                                    'desc'     => sprintf( __('You can enable/disable Google Business Profile social share. To configure Google Business Profile Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-google-business-profile/' ),
                                     'modal'    => [
                                         'logo'               => WPSP_ASSETS_URI . 'images/google-my-business-logo.svg',
                                         'redirect_url_desc'  => __('Add this URL in the Redirect URLs field of your Medium app.','wp-scheduled-posts'),
-                                        'desc'               => sprintf( __('For details on Google Business Profile configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your Google Business Profile account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-google-business/','https://console.cloud.google.com/' ),
+                                        'desc'               => sprintf( __('For details on Google Business Profile configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your Google Business Profile account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-google-business-profile/','https://console.cloud.google.com/' ),
                                     ],
                                     'priority' => 40,
                                 ],
@@ -1458,7 +1458,7 @@ class Settings {
                                                     'name'          => 'google_business_wrapper',
                                                     'classes'       => (defined('WPSP_PRO_VERSION') ? '' : 'pro_feature'),
                                                     'label'         => __('Google Business Settings', 'wp-scheduled-posts'),
-                                                    'sub_title'     => sprintf( __('To configure the Threads Settings, check out this <a target="_blank" href="%s">Doc.</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-google-business/' ),
+                                                    'sub_title'     => sprintf( __('To configure the Threads Settings, check out this <a target="_blank" href="%s">Doc.</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-google-business-profile/' ),
                                                     'priority'      => 10,
                                                     'fields'        => [
                                                         'google_business'  => [
