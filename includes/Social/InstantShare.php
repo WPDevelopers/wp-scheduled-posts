@@ -448,7 +448,7 @@ class InstantShare
         $is_instagram_share       = !empty( $_REQUEST['is_instagram_share'] ) ? sanitize_text_field( $_REQUEST['is_instagram_share'] ) : null;
         $is_medium_share          = !empty( $_REQUEST['is_medium_share'] ) ? sanitize_text_field( $_REQUEST['is_medium_share'] ) : null;
         $is_threads_share         = !empty( $_REQUEST['is_threads_share'] ) ? sanitize_text_field( $_REQUEST['is_threads_share'] ) : null;
-        $is_google_business_share = "true";
+        $is_google_business_share         = !empty( $_REQUEST['is_google_business_share'] ) ? sanitize_text_field( $_REQUEST['is_google_business_share'] ) : null;
 
         if ($is_facebook_share === "true") {
             $allProfile['facebook'] = $facebook;
