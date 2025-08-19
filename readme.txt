@@ -217,7 +217,7 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 == Changelog ==
 
-= 5.2.9 - 2025-08-18 =
+= 5.2.9 - 2025-08-19 =
 - Improved: Security enhancements.
 - Fixed: Uncaught Error Maximum call stack size.
 - Fixed: TypeError: Cannot read properties of null (reading 'checked')
