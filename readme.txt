@@ -23,7 +23,7 @@ Automate your content workflow with [SchedulePress](https://wpdeveloper.com/plug
 -   Instagram
 -   Medium
 -   Threads
--   Google Business Profile
+-   Google Business Profile [PRO]
 
 [MORE ABOUT PLUGIN](https://wpdeveloper.com/plugins/wp-scheduled-posts/) ◼️ [DOCUMENTATION](https://wpdeveloper.com/docs-category/wp-scheduled-posts/) ◼️ [SUPPORT FORUM](https://wordpress.org/support/plugin/wp-scheduled-posts/)
 
