@@ -109,7 +109,7 @@ class Assets
             wp_enqueue_style('jquery-kylefoxModal', WPSP_ASSETS_URI . 'css/vendor/jquery.modal.min.css', array(), WPSP_VERSION, 'all');
             wp_enqueue_style('jquery-timepicker', WPSP_ASSETS_URI . 'css/vendor/jquery.timepicker.min.css', array(), WPSP_VERSION, 'all');
             wp_enqueue_style('wpscp-admin', WPSP_ASSETS_URI . 'css/wpscp-admin.css', array(), WPSP_VERSION, 'all');
-
+            wp_enqueue_media();
             /**
              * JavaScript File
              */

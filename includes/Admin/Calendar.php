@@ -162,8 +162,76 @@ class Calendar
             )
         );
 
+        register_rest_route(
+            'wpscp/v1',
+            '/scf-fields',
+            array(
+                'methods'             => 'GET',
+                'callback'            => array($this, 'wpscp_register_scf_fields_rest_route'),
+                'permission_callback' => function () {
+                    return current_user_can('edit_posts');
+                },
+            )
+        );
     }
 
+    function wpscp_register_scf_fields_rest_route($request) {
+        $post_type = $request->get_param('post_type');
+        $post_id   = $request->get_param('post_id');
+        if (!$post_type) {
+            return new WP_Error('missing_post_type', 'Missing post_type parameter', array('status' => 400));
+        }
+
+        // Get all field groups for this post type
+        $field_groups = function_exists('acf_get_field_groups') ? acf_get_field_groups(array('post_type' => $post_type)) : array();
+        $fields = array();
+
+        foreach ($field_groups as $field_group) {
+            $acf_fields = function_exists('acf_get_fields') ? acf_get_fields($field_group) : array();
+            foreach ($acf_fields as $field) {
+                $field_data = array(
+                    'name'  => $field['name'],
+                    'label' => $field['label'],
+                    'type'  => $field['type'],
+                );
+                $value = $post_id ? get_post_meta($post_id, $field['name'], true) : '';
+                // Add options for select, checkbox, radio
+                if ($field['type'] === 'select') {
+                    $field_data['options'] = array_values($field['choices']);
+                    $field_data['multiple'] = !empty($field['multiple']) ? (bool)$field['multiple'] : false;
+                    if ($field_data['multiple']) {
+                        $field_data['value'] = is_array($value) ? $value : (strlen($value) ? (array)$value : []);
+                    } else {
+                        $field_data['value'] = $value;
+                    }
+                } else {
+                    $field_data['value'] = $value;
+                    // Number field
+                    if ($field['type'] === 'number') {
+                        $field_data['value'] = $value !== '' ? (float)$value : '';
+                    }
+                    // Image field (single attachment ID)
+                    else if ($field['type'] === 'image') {
+                        $field_data['url'] = $value ? wp_get_attachment_url($value) : '';
+                    }
+                    // Gallery field (array of attachment IDs)
+                    else if ($field['type'] === 'gallery') {
+                        $ids = is_array($value) ? $value : (is_string($value) ? explode(',', $value) : array());
+                        $ids = array_filter(array_map('intval', $ids));
+                        $field_data['value'] = $ids;
+                        $field_data['urls'] = array_map('wp_get_attachment_url', $ids);
+                    }
+                    // WYSIWYG Editor
+                    else if ($field['type'] === 'wysiwyg') {
+                        // already set above
+                    }
+                }
+                $fields[] = $field_data;
+            }
+        }
+
+        return rest_ensure_response($fields);
+    }
 
     // Define the callback function for the custom route
     public function get_draft_posts( $request ) {
@@ -608,6 +676,13 @@ class Calendar
                     'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''),
                     'edit_date'     => true,
                 ), true);
+                // Save SCF fields if present
+                $scf = $request->get_param('scf');
+                if ($post_id && is_array($scf)) {
+                    foreach ($scf as $key => $value) {
+                        update_post_meta($post_id, $key, $value);
+                    }
+                }
                 return $this->get_rest_result($post_id);
             } else {
                 // only work new event created
@@ -621,6 +696,13 @@ class Calendar
                     'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''),
                     'edit_date'     => true,
                 ), true);
+                // Save SCF fields if present
+                $scf = $request->get_param('scf');
+                if ($post_id && is_array($scf)) {
+                    foreach ($scf as $key => $value) {
+                        update_post_meta($post_id, $key, $value);
+                    }
+                }
                 return $this->get_rest_result($post_id);
             }
         }

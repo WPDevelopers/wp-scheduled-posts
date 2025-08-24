@@ -165,7 +165,7 @@ img {
     // overflow: hidden;
     border-radius: 8px;
     outline: none;
-    padding: 40px;
+    padding: 30px;
     margin: auto;
     max-width: 100%;
     width: 600px !important;
@@ -208,11 +208,11 @@ img {
     }
     .close-button {
       position: absolute;
-      top: 24px;
-      right: 24px;
+      top: 30px;
+      right: 30px;
       background: transparent !important;
       border: none;
-      font-size: 16px;
+      font-size: 14px;
       color: #989fab;
       font-weight: 500;
       cursor: pointer;
@@ -301,6 +301,65 @@ img {
       }
     }
     .modalbody {
+      .modal-fields {
+        max-height: 600px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+      }
+      .wpsp-scf-checkbox {
+        label {
+          font-size: 16px;
+          line-height: 1.2;
+          font-weight: 500;
+          color: #1b1b50;
+          display: block;
+          margin-bottom: 16px;
+        }
+        input[type="checkbox"] {
+          width: 20px;
+          height: 20px;
+          border: 1px solid #02AC6E;
+          border-radius: 4px;
+          background: transparent;
+          margin: 0;
+          margin-right: 8px;
+          min-width: auto;
+          box-shadow: none;
+          position: relative;
+
+          &:focus {
+            outline: 0;
+            box-shadow: none;
+          }
+        }
+        input[type="checkbox"]::after {
+          content: "";
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 4px;
+          height: 10px;
+          border: solid #02AC6E;
+          background: transparent;
+          border-width: 0 2px 2px 0;
+          transition: ease-in-out 0.25s;
+          transform: translate(-50%, -50%) rotate(45deg);
+          opacity: 0;
+        }
+        input[type="checkbox"]:checked::after {
+          opacity: 1;
+        }
+        input[type="checkbox"]:checked::before {
+          display: none;    
+        }
+      }
+      .wpsp-scf-select select{
+        width: 100%;
+      }
+      .wpsp-scf-checkbox label {
+        display: flex;
+        align-items: center;
+      }
       .author-details {
         display: flex;
         align-items: center;
@@ -338,7 +397,7 @@ img {
         }
       }
       .form-group {
-        margin-bottom: 32px;
+        margin-bottom: 20px; // old 32px
         @media screen and (max-width: 1439px) {
           margin-bottom: 24px;
         }
@@ -353,10 +412,10 @@ img {
           font-weight: 500;
           color: #1b1b50;
           display: block;
-          margin-bottom: 16px !important;
+          margin-bottom: 10px !important;
           @media screen and (max-width: 1439px) {
             font-size: 14px;
-            margin-bottom: 12px !important;
+            margin-bottom: 8px !important;
           }
         }
         input,
@@ -365,7 +424,7 @@ img {
           font-size: 16px;
           line-height: 1.3em;
           color: #1b1b50;
-          padding: 20px 18px;
+          padding: 14px 16px;
           min-height: 44px !important;
           border: 1px solid #ebeef5;
           border-radius: 4px;
@@ -395,6 +454,39 @@ img {
             font-size: 12px;
             padding-top: 12px;
           }
+        }
+        select[multiple] {
+          height: auto;
+          background: #fff;
+          width: 100%;
+          max-width: 100%;
+          font-size: 14px;
+          line-height: 1.3em;
+          color: #1b1b50;
+          padding: 12px;
+          min-height: 44px !important;
+          border: 1px solid #ebeef5;
+          border-radius: 4px;
+          margin: 0 !important;
+
+          &:focus {
+            box-shadow: none;
+          }
+        }
+        button.components-button {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.25em;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            background: #02AC6E;
+            cursor: pointer;
+        }
+        .wpsp-scf-checkbox label {
+          display: flex;
+          align-items: center;
         }
       }
       button[type='submit'] {
