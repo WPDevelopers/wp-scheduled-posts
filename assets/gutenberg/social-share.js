@@ -17,7 +17,7 @@ const { __ } = wp.i18n;
 const SocialShare = ( { is_pro_active, isSocialShareDisable } ) => {
     const {
       meta,
-      meta: { _wpscppro_dont_share_socialmedia, _facebook_share_type, _twitter_share_type, _linkedin_share_type, _pinterest_share_type, _selected_social_profile, _linkedin_share_type_page, _instagram_share_type, _medium_share_type, _threads_share_type },
+      meta: { _wpscppro_dont_share_socialmedia, _facebook_share_type, _google_business_share_type, _twitter_share_type, _linkedin_share_type, _pinterest_share_type, _selected_social_profile, _linkedin_share_type_page, _instagram_share_type, _medium_share_type, _threads_share_type },
     } = useSelect((select) => ({
       meta: select('core/editor').getEditedPostAttribute('meta') || {},
     }));
@@ -30,6 +30,7 @@ const SocialShare = ( { is_pro_active, isSocialShareDisable } ) => {
     const [linkedinProfileData,setLinkedinProfileData] = useState([]);
     const [ mediumProfileData,setMediumProfileData] = useState([]);
     const [ threadsProfileData,setThreadsProfileData] = useState([]);
+    const [ googleBusinessProfileData,setGoogleBusinessProfileData] = useState([]);
     const [pinterestProfileData,setPinterestProfileData] = useState([]);
     const [isOpenModal,setIsOpenModal] = useState( false );
     const [selectedSocialProfile,setSelectedSocialProfile] = useState( [] );
@@ -41,6 +42,7 @@ const SocialShare = ( { is_pro_active, isSocialShareDisable } ) => {
     const [threadsShareType,setThreadsShareType] = useState( _threads_share_type ? _threads_share_type : 'default' );
     const [twitterShareType,setTwitterShareType] = useState( _twitter_share_type ? _twitter_share_type : 'default' );
     const [linkedinShareType,setLinkedinShareType] = useState( _linkedin_share_type ? _linkedin_share_type : 'default');
+    const [googleBusinessShareType,setGoogleBusinessShareType] = useState( _google_business_share_type ? _google_business_share_type : 'default');
     const [ pinterestShareType, setPinterestShareType ] = useState( _pinterest_share_type ? _pinterest_share_type : 'default' );
     const [linkedinShareTypePage,setLinkedinShareTypePage] = useState( _linkedin_share_type_page ? _linkedin_share_type_page : 'default');
     const [wpspSettings,setWpspSettings] = useState(null);
@@ -51,15 +53,16 @@ const SocialShare = ( { is_pro_active, isSocialShareDisable } ) => {
       editPost({
         meta: {
           ...meta,
-          _facebook_share_type: facebookShareType,
-          _instagram_share_type: instagramShareType,
-          _twitter_share_type: twitterShareType,
-          _linkedin_share_type: linkedinShareType,
-          _linkedin_share_type_page: linkedinShareTypePage,
-          _pinterest_share_type: pinterestShareType,
-          _medium_share_type: mediumShareType,
-          _threads_share_type: threadsShareType,
-          _selected_social_profile: selectedSocialProfile,
+          _facebook_share_type       : facebookShareType,
+          _instagram_share_type      : instagramShareType,
+          _twitter_share_type        : twitterShareType,
+          _linkedin_share_type       : linkedinShareType,
+          _linkedin_share_type_page  : linkedinShareTypePage,
+          _pinterest_share_type      : pinterestShareType,
+          _medium_share_type         : mediumShareType,
+          _threads_share_type        : threadsShareType,
+          _google_business_share_type: googleBusinessShareType,
+          _selected_social_profile   : selectedSocialProfile,
         },
       })
     }, [facebookShareType, instagramShareType, twitterShareType, linkedinShareType, pinterestShareType, selectedSocialProfile])
@@ -93,6 +96,10 @@ const SocialShare = ( { is_pro_active, isSocialShareDisable } ) => {
         if( wpsp_settings?.threads_profile_status ) {
           const filtered_threads_profile_list = wpsp_settings?.threads_profile_list.filter( item => item.status === true );
           setThreadsProfileData( filtered_threads_profile_list );
+        }
+        if( wpsp_settings?.google_business_profile_status ) {
+          const filtered_google_business_profile_list = wpsp_settings?.google_business_profile_list.filter( item => item.status === true );
+          setGoogleBusinessProfileData( filtered_google_business_profile_list );
         }
         let default_selected_social_profile = [];
         if( wpsp_settings?.pinterest_profile_status ) {
@@ -161,6 +168,13 @@ const SocialShare = ( { is_pro_active, isSocialShareDisable } ) => {
           let linkedin_profile_list = wpsp_settings?.linkedin_profile_list.filter( item => item.status === true );
           linkedin_profile_list.map( (profile,index) => {
             default_selected_social_profile.push( { id: profile.id, platform: 'linkedin', platformKey: index, name : profile.name, type : profile?.type, thumbnail_url : profile.thumbnail_url, share_type : linkedinShareType } );
+          } )
+        }
+        // Handle linkedin default selection
+        if( wpsp_settings?.google_business_profile_status ) {
+          let google_business_profile_list = wpsp_settings?.google_business_profile_list.filter( item => item.status === true );
+          google_business_profile_list.map( (profile,index) => {
+            default_selected_social_profile.push( { id: profile.id, platform: 'google_business', platformKey: index, name : profile.name, type : profile?.type, thumbnail_url : profile.thumbnail_url, share_type : googleBusinessShareType } );
           } )
         }
         if( _selected_social_profile.length > 0 ) {
@@ -351,6 +365,22 @@ const SocialShare = ( { is_pro_active, isSocialShareDisable } ) => {
             threads_profile_list.map( (profile,index) => {
               if( selectedSocialProfile.findIndex((item) => item.id === profile.id) === -1 ) {
                 default_selected_social_profile.push( { id: profile.id, platform: 'threads', platformKey: index, name : profile.name, type : profile?.type, thumbnail_url : profile.thumbnail_url, share_type : threadsShareType } );
+              }
+            } )
+          }
+        }
+      }
+
+      // Handle share type google business
+      if( platform === 'google_business' ) {
+        setGoogleBusinessShareType(value);
+        if( value === 'default' ) {
+          // Set default selection for threads
+          if( wpspSettings?.google_business_profile_status ) {
+            let google_business_profile_list = wpspSettings?.google_business_profile_list.filter( item => item.status === true );
+            google_business_profile_list.map( (profile,index) => {
+              if( selectedSocialProfile.findIndex((item) => item.id === profile.id) === -1 ) {
+                default_selected_social_profile.push( { id: profile.id, platform: 'google_business', platformKey: index, name : profile.name, type : profile?.type, thumbnail_url : profile.thumbnail_url, share_type : googleBusinessShareType } );
               }
             } )
           }
@@ -697,6 +727,38 @@ const SocialShare = ( { is_pro_active, isSocialShareDisable } ) => {
                     </div>
                   )}
                 </div>
+                <div className="social-accordion-item">
+                  <div className="social-accordion-button" onClick={() => toggleAccordion('isOpenGoogleBusiness')}>
+                      <img src={ WPSchedulePostsFree.assetsURI + '/images/google-my-business-logo-small.png' } alt="" />
+                      <span>{ __('Google Business Profile', 'wp-scheduled-posts') }</span>
+                  </div>
+                  { isOpen === 'isOpenGoogleBusiness' && (
+                    <div className="accordion-content">
+                      { googleBusinessProfileData.length > 0 ?
+                        <Fragment>
+                          <div className="instagram-share-type">
+                            <RadioControl
+                              selected={ googleBusinessShareType }
+                              options={ [
+                                  { label: <div className="wpsp-tooltip">Default <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext"> { __('Content will be shared on all the activated social accounts','wp-scheduled-posts') } </span> </div>, value: 'default' },
+                                  { label: <div className="wpsp-tooltip custom">Custom <span class="dashicons dashicons-info"></span><span class="wpsp-tooltiptext">{ __('Specify your social account choice where you want to share the content','wp-scheduled-posts') }</span></div>, value: 'custom' }
+                              ] }
+                              onChange={ ( value ) => handleShareType( 'google_business', value ) }
+                            />
+                          </div>
+                          { googleBusinessShareType === 'custom' && googleBusinessProfileData.map( ( medium, index ) => (
+                            <div className="medium-profile social-profile">
+                              <input type="checkbox" checked={ (selectedSocialProfile.findIndex( ( item ) => item.id === medium.id ) != -1) ? true : false } onChange={ (event) =>  handleProfileSelectionCheckbox( event, 'google_business', index, medium?.id, medium?.name, medium?.type,medium?.thumbnail_url ) } />
+                              <h3>{ medium?.name } ( { medium.type ? medium.type : __('Profile','wp-scheduled-posts') } ) </h3>
+                            </div>
+                          ) ) }
+                        </Fragment>
+                      : <div dangerouslySetInnerHTML={ { __html: `You may forget to add or enable profile/page from <a href='${WPSchedulePostsFree?.adminURL}admin.php?page=schedulepress&tab=social-profile'>SchedulePress settings</a>.` } }></div>
+                      }
+                    </div>
+                  )}
+                </div>
+
               { isOpenModal && (
                 <Modal className="social-share-modal" onRequestClose={ closeModal }>
                   <SelectedSocialProfileModal platform="facebook" selectedSocialProfile={ selectedSocialProfile } responseMessage={ responseMessage } pinterest_board_type={pinterestShareType} />
@@ -706,6 +768,7 @@ const SocialShare = ( { is_pro_active, isSocialShareDisable } ) => {
                   <SelectedSocialProfileModal platform="instagram" selectedSocialProfile={ selectedSocialProfile } responseMessage={ responseMessage } pinterest_board_type={pinterestShareType} />
                   <SelectedSocialProfileModal platform="medium" selectedSocialProfile={ selectedSocialProfile } responseMessage={ responseMessage } pinterest_board_type={pinterestShareType} />
                   <SelectedSocialProfileModal platform="threads" selectedSocialProfile={ selectedSocialProfile } responseMessage={ responseMessage } pinterest_board_type={pinterestShareType} />
+                  <SelectedSocialProfileModal platform="google_business" selectedSocialProfile={ selectedSocialProfile } responseMessage={ responseMessage } pinterest_board_type={pinterestShareType} />
                 </Modal>
               ) }
             </div>

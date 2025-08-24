@@ -2,7 +2,7 @@
 /*
  * Plugin Name: SchedulePress
  * Description: Automate your content workflow with SchedulePress. Take a quick glance at your content planning with Schedule Calendar, Dashboard widget & Sitewide admin bar. Instantly share your posts on social media platforms such as Facebook, Twitter & many more.
- * Version: 5.2.8
+ * Version: 5.2.9
  * Author: WPDeveloper
  * Author URI: https://wpdeveloper.com
  * Text Domain: wp-scheduled-posts
@@ -78,7 +78,7 @@ final class WPSP
 		/**
 		 * Defines CONSTANTS for Whole plugins.
 		 */
-		define('WPSP_VERSION', '5.2.8');
+		define('WPSP_VERSION', '5.2.9');
 		define('WPSP_SETTINGS_NAME_OLD', 'wpsp_settings');
 		define('WPSP_SETTINGS_NAME', 'wpsp_settings_v5');
 		define('WPSP_PLUGIN_FILE', __FILE__);
@@ -96,8 +96,10 @@ final class WPSP
 		define('WPSCP_ADMIN_DIR_PATH', WPSP_ROOT_DIR_PATH . '/includes/Admin/');
 		// Midleware
 		define('WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE', 'https://api.schedulepress.com.test/callback.php');
+		define('WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE_DEV', 'https://devapi.schedulepress.com/v2/callback.php');
 		define('WPSP_SOCIAL_OAUTH2_PINTEREST_APP_ID', '1477330');
 		define('WPSP_SOCIAL_OAUTH2_LINKEDIN_APP_ID', '77nbfvpkganvt6');
+		define('WPSP_SOCIAL_OAUTH2_GOOGLE_BUSINESS_APP_ID', '235972035985-30gv7k0vgo7j8gv69ppdphpt3n9fc9hp.apps.googleusercontent.com');
 
 	}
 

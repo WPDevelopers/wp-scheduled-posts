@@ -421,7 +421,7 @@ class CustomSocialTemplates
         $is_global = $platform_data['is_global'] ?? false;
 
         // Validate platform
-        $valid_platforms = ['facebook', 'twitter', 'linkedin', 'pinterest', 'instagram', 'medium', 'threads'];
+        $valid_platforms = ['facebook', 'twitter', 'linkedin', 'pinterest', 'instagram', 'medium', 'threads', 'google_business'];
         if (!in_array($platform, $valid_platforms)) {
             $validation_errors[] = sprintf(__('Invalid platform: %s', 'wp-scheduled-posts'), $platform);
             return ['success' => false, 'platform' => $platform];
@@ -481,7 +481,7 @@ class CustomSocialTemplates
     
         // Schedule the cron event
         $timestamp = (new \DateTime($social_datetime, new \DateTimeZone('UTC')))->getTimestamp();
-        $hook = 'wpsp_publish_future_post';
+        $hook = 'wpsp_custom_social_template';
         $args = [intval($post_id)];
     
         // Remove previously scheduled event if any
@@ -499,7 +499,7 @@ class CustomSocialTemplates
             return false;
         }
 
-        $event_hook = 'wpsp_publish_future_post';
+        $event_hook = 'wpsp_custom_social_template';
         // For absolute scheduling on published posts, use current time as base
         $datetime_str = \WPSP\Helpers\CustomTemplateHelper::get_scheduled_datetime($scheduling_data);
         if (!$datetime_str) {

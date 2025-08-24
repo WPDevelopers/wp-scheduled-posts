@@ -34,8 +34,33 @@ class Calendar
      * @param WP_REST_Request $request
      * @return bool
      */
-    public function permission_callback() {
+    public function permission_callback($request) {
         return current_user_can('edit_posts');
+    }
+
+    public function validate_user_post_access($request) {
+        // Check basic edit_posts capability
+        if (!current_user_can('edit_posts')) {
+            return false;
+        }
+        
+        // Additional checks for specific post types
+        $post_types = $request->get_param('post_type');
+        if (!empty($post_types)) {
+            foreach ($post_types as $post_type) {
+                if (!current_user_can('edit_posts') || !post_type_exists($post_type)) {
+                    return false;
+                }
+                
+                // Check if user can edit this specific post type
+                $post_type_obj = get_post_type_object($post_type);
+                if (!current_user_can($post_type_obj->cap->edit_posts)) {
+                    return false;
+                }
+            }
+        }
+        
+        return true;
     }
 
     /**
@@ -77,7 +102,7 @@ class Calendar
             array(
                 'methods'             => \WP_REST_Server::EDITABLE,
                 'callback'            => array($this, 'wpscp_future_post_rest_route_output'),
-                'permission_callback' => [$this, 'permission_callback'],
+                'permission_callback' => [$this, 'validate_user_post_access'],
                 'args'                => [
                     'post_type' => [
                         'required' => true,
@@ -102,7 +127,7 @@ class Calendar
         register_rest_route('wpscp/v1', '/posts', array(
             'methods'             => 'POST',
             'callback'            => [$this, 'get_draft_posts'],
-            'permission_callback' => [$this, 'permission_callback'],
+            'permission_callback' => [$this, 'validate_user_post_access'],
         ));
 
         register_rest_route(
@@ -223,22 +248,29 @@ class Calendar
         if(empty($post_type)){
             $post_type = $allow_post_types;
         }
-        else if(in_array('elementorlibrary', $post_type)){
+        else if( is_array( $post_type ) && in_array('elementorlibrary', $post_type)){
             $post_type   = array_diff($post_type, ['elementorlibrary']);
             $post_type[] = 'elementor_library';
         }
 
         $post_type = array_intersect($post_type, $allow_post_types);
 
-
-        // Create a new WP_Query object with the parameters
-        $query = new \WP_Query(array(
+        // Set up base query arguments
+        $query_args = array(
             'post_type'      => $post_type,
             'tax_query'      => $this->get_tax_query($taxonomies),
             'post_status'    => array('draft', 'pending'),
             'posts_per_page' => $posts_per_page,
             'paged'          => $page,
-        ));
+        );
+
+        // Add author restriction for non-admin users
+        if (!current_user_can('edit_others_posts')) {
+            $query_args['author'] = get_current_user_id();
+        }
+
+        // Create a new WP_Query object with the parameters
+        $query = new \WP_Query($query_args);
 
         // Check if the query found any posts
         if ( $query->have_posts() ) {
@@ -367,9 +399,8 @@ class Calendar
         $last_day = $request->get_param('activeEnd');
         $last_day = (!empty($last_day) ? $last_day : date('Y/m/t', current_time('timestamp')));
 
-
-        // query
-        $query_1 = new \WP_Query(array(
+        // Set up base query arguments
+        $query_args = array(
             'post_type'      => $post_type,
             'post_status'    => array('future', 'publish'),
             'posts_per_page' => -1,
@@ -378,7 +409,15 @@ class Calendar
                 'before' => $last_day,
             ),
             'tax_query' => $this->get_tax_query($taxonomies),
-        ));
+        );
+
+        // Add author restriction for non-admin users
+        if (!current_user_can('edit_others_posts')) {
+            $query_args['author'] = get_current_user_id();
+        }
+        
+        // query
+        $query_1 = new \WP_Query($query_args);
         $posts_1 = $query_1->get_posts();
 
         $post_type_placeholders = implode(',', array_fill(0, count($post_type), '%s'));

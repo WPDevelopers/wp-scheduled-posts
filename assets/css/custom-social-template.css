@@ -218,10 +218,10 @@ button.components-button.wpsp-add-template-btn:disabled {
 
 /* Left side - Template Editor */
 .wpsp-modal-left {
-    flex: 1;
-    padding: 24px 32px;
-    border-right: 1px solid #E9E7F4;
-    background: #F9F8FD;
+  flex: 1;
+  padding: 24px 32px;
+  border-right: 1px solid #E9E7F4;
+  background: #F9F8FD;
 }
 
 /* Platform Icons */
@@ -236,32 +236,89 @@ button.components-button.wpsp-add-template-btn:disabled {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  border: 2px solid transparent;
+  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 16px;
   cursor: pointer;
   transition: all 0.2s ease;
-  background: #f0f0f0;
-  color: #666;
+  background: #98A2B3 !important;
+  position: relative;
 }
-.wpsp-platform-icon.active svg path {
-  fill: #FFF;
-}
+.wpsp-platform-icon svg path {
+  /* fill: #FFF; */
+} 
+/* 
+.wpsp-platform-icon svg {
+  width: 16px;
+  height: 16px;
+  fill: #6b7280;
+  transition: all 0.2s ease;
+} */
 
 .wpsp-platform-icon:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .wpsp-platform-icon.active {
-  border-color: rgba(255, 255, 255, 0.3);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background: #ffffff !important;
+  border-radius: 8px;
+  box-shadow: 0px 6px 15px 0px #1B1B501F;
+  border: 1px solid #ECEFF5;
+  position: relative;
 }
 
-button.wpsp-platform-icon.facebook.active svg path, button.wpsp-platform-icon.facebook.active svg {
-  fill: #fff;
+.wpsp-platform-icon.active:hover {
+  transform: translateY(0px);
+}
+
+.wpsp-platform-icon.active::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 7px solid #ffffff;
+  z-index: 1;
+}
+
+.wpsp-platform-icon svg {
+  min-height: 16px;
+}
+
+.wpsp-platform-icon.active svg path {
+  /* fill: #1877f2; */
+}
+
+/* Facebook specific active state */
+button.wpsp-platform-icon.facebook.active svg path {
+  fill: #1877f2;
+}
+
+/* Twitter/X specific active state */
+button.wpsp-platform-icon.twitter.active svg path,
+button.wpsp-platform-icon.x.active svg path {
+  fill: #000000;
+}
+
+/* LinkedIn specific active state */
+button.wpsp-platform-icon.linkedin.active svg path {
+  fill: #0077b5;
+}
+
+/* Pinterest specific active state */
+button.wpsp-platform-icon.pinterest.active svg path {
+  fill: #e60023;
+}
+
+/* Instagram specific active state */
+button.wpsp-platform-icon.instagram.active svg path {
+  fill: #e4405f;
 }
 
 .wpsp-custom-template-content-wrapper h5 {
@@ -1002,6 +1059,7 @@ textarea.wpsp-template-input {
   border-radius: 4px;
 }
 .wpsp-custom-tabs button.tab-profile {
+  flex: 1;
   border: none;
   padding: 8px 12px;
   background: transparent;

@@ -11,12 +11,12 @@ const ApiCredentialsForm = ({ props, platform, requestHandler, appInfo = [] }) =
   const [copied, setCopied] = useState(false);
   const [openIDConnect, setOpenIDConnect] = useState(false);
 
-  const redirectURIv2 = "https://api.schedulepress.com/v2/callback.php";
+  const redirectURIv2 = "https://devapi.schedulepress.com/v2/callback.php";
   const [redirectURI, SetRedirectURI] = useState(
       "https://api.schedulepress.com/callback.php"
   );
 
-  const hasAutomatic = platform == "linkedin" || platform == "pinterest";
+  const hasAutomatic = platform == "linkedin" || platform == "pinterest" || platform == 'google_business';
   
   const handleProfileConnection = () => {
    requestHandler(redirectURIv2, '', '', platform).then((res) => {

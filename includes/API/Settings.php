@@ -75,7 +75,7 @@ class Settings
                 ]
             );
 
-            $social_media_meta_key = ['_facebook_share_type', '_twitter_share_type', '_linkedin_share_type', '_pinterest_share_type', '_linkedin_share_type_page', '_instagram_share_type', '_medium_share_type', '_threads_share_type'];
+            $social_media_meta_key = ['_facebook_share_type', '_twitter_share_type', '_linkedin_share_type', '_pinterest_share_type', '_linkedin_share_type_page', '_instagram_share_type', '_medium_share_type', '_threads_share_type','_google_business_share_type'];
             // Social media meta 
             foreach ($social_media_meta_key as $value) {
                 register_post_meta(

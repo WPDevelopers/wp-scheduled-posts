@@ -37,6 +37,7 @@ class InstantShare
         $instagramIntegation = \WPSP\Helper::get_settings('instagram_profile_status');
         $mediumIntegation = \WPSP\Helper::get_settings('medium_profile_status');
         $threadsIntegation = \WPSP\Helper::get_settings('threads_profile_status');
+        $googleBusinessIntegation = \WPSP\Helper::get_settings('google_business_profile_status');
         // profile
         $facebookProfile = \WPSP\Helper::get_settings('facebook_profile_list');
         $twitterProfile = \WPSP\Helper::get_settings('twitter_profile_list');
@@ -45,6 +46,7 @@ class InstantShare
         $instagramProfile = \WPSP\Helper::get_settings('instagram_profile_list');
         $mediumProfile = \WPSP\Helper::get_settings('medium_profile_list');
         $threadsProfile = \WPSP\Helper::get_settings('threads_profile_list');
+        $googleBusinessProfile = \WPSP\Helper::get_settings('google_business_profile_list');
         // already checked 'Helper::is_enable_classic_editor()'
     ?>
         <div class="wpscppro-instantshare">
@@ -264,11 +266,33 @@ class InstantShare
                     <?php
                     endif;
                     ?>
-                    <?php if( $facebookIntegation != 'on' && $twitterIntegation != 'on' && $linkedinIntegation != 'on' && $pinterestIntegation != 'on' && $instagramIntegation != 'on' && $mediumIntegation != 'on' && $threadsIntegation != 'on' ) : ?>
+
+                    <?php
+                    $is_pro = class_exists('WPSP_PRO');
+                    if ( $is_pro &&  $googleBusinessIntegation == 'on' && is_array($googleBusinessProfile) && count($googleBusinessProfile) > 0) :
+                        $googleBusinessCount = get_post_meta(get_the_ID(), '__wpscppro_social_share_google_business');
+                        $isGoogleBusiness = get_post_meta(get_the_ID(), '_wpsp_is_google_business_share', true);
+                    ?>
+                        <li class="threads">
+                            <label style="margin-bottom: 10px;">
+                                <input type="checkbox" id="wpscpprogooglebusinessis" name="_wpsp_is_google_business_share" <?php (!empty($isGoogleBusiness) ? checked('on', $isGoogleBusiness, true) : checked('', $isGoogleBusiness, true)  ); ?> /> <?php esc_html_e('Google Business Profile', 'wp-scheduled-posts'); ?>
+                                <?php
+                                if (is_array($googleBusinessCount) && count($googleBusinessCount) > 0) :
+                                ?>
+                                    <span class="sharecount"><?php print count($googleBusinessCount); ?></span>
+                                <?php endif; ?>
+                                <span class="ajaxrequest"></span>
+                            </label>
+                            <div class="errorlog"></div>
+                        </li>
+                    <?php
+                    endif;
+                    ?>
+                    <?php if( $googleBusinessIntegation != 'on' && $facebookIntegation != 'on' && $twitterIntegation != 'on' && $linkedinIntegation != 'on' && $pinterestIntegation != 'on' && $instagramIntegation != 'on' && $mediumIntegation != 'on' && $threadsIntegation != 'on' ) : ?>
                         <?php echo sprintf( __( 'You may forget to add or enable social media from <a href="%s">SchedulePress settings</a>. ', 'wp-scheduled-posts' ), admin_url('admin.php?page=schedulepress&tab=social-profile') ) ?>
                     <?php endif ?>
                 </ul>
-                <button id="wpscpproinstantsharenow" <?php echo ( $facebookIntegation != 'on' && $twitterIntegation != 'on' && $linkedinIntegation != 'on' && $pinterestIntegation != 'on' && $instagramIntegation != 'on' && $mediumIntegation != 'on' && $threadsIntegation != 'on' ) ? 'disabled' : '' ?> class="button button-primary button-large"><?php esc_html_e('Share Now', 'wp-scheduled-posts'); ?></button>
+                <button id="wpscpproinstantsharenow" <?php echo (  $googleBusinessIntegation != 'on' && $facebookIntegation != 'on' && $twitterIntegation != 'on' && $linkedinIntegation != 'on' && $pinterestIntegation != 'on' && $instagramIntegation != 'on' && $mediumIntegation != 'on' && $threadsIntegation != 'on' ) ? 'disabled' : '' ?> class="button button-primary button-large"><?php esc_html_e('Share Now', 'wp-scheduled-posts'); ?></button>
                 <div class="wpscppro-ajax-status"></div>
             </div>
         </div>
@@ -336,7 +360,8 @@ class InstantShare
         update_post_meta( $post_id, '_pinterest_share_type', 'default' );
         update_post_meta( $post_id, '_instagram_share_type', 'default' );
         update_post_meta( $post_id, '_medium_share_type', 'default' );
-        update_post_meta( $post_id, '_medium_share_type', 'default' );
+        update_post_meta( $post_id, '_threads_share_type', 'default' );
+        update_post_meta( $post_id, '_google_business_share_type', 'default' );
         $facebookProfile  = \WPSP\Helper::get_settings('facebook_profile_list');
         $twitterProfile   = \WPSP\Helper::get_settings('twitter_profile_list');
         $linkedinProfile  = \WPSP\Helper::get_settings('linkedin_profile_list');
@@ -362,6 +387,14 @@ class InstantShare
     }
 
 
+    public function formatProfileName($name) 
+    {
+        // Replace underscores with spaces
+        $text = str_replace('_', ' ', $name);
+        // Capitalize each word
+        $text = ucwords($text);
+        return $text;
+    }
 
     /**
      * aja request call back
@@ -382,14 +415,15 @@ class InstantShare
              wp_die();
          }
 
-        $allProfile = array();
-        $facebook_selected_profiles  = !empty( $_REQUEST['facebook_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['facebook_selected_profiles'] ) : [];
-        $twitter_selected_profiles   = !empty( $_REQUEST['twitter_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['twitter_selected_profiles'] ) : [];
-        $linkedin_selected_profiles  = !empty( $_REQUEST['linkedin_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['linkedin_selected_profiles'] ) : [];
-        $pinterest_selected_profiles = !empty( $_REQUEST['pinterest_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['pinterest_selected_profiles'] ) : [];
-        $instagram_selected_profiles = !empty( $_REQUEST['instagram_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['instagram_selected_profiles'] ) : [];
-        $medium_selected_profiles    = !empty( $_REQUEST['medium_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['medium_selected_profiles'] ) : [];
-        $threads_selected_profiles   = !empty( $_REQUEST['threads_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['threads_selected_profiles'] ) : [];
+        $allProfile                        = array();
+        $facebook_selected_profiles        = !empty( $_REQUEST['facebook_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['facebook_selected_profiles'] ) : [];
+        $twitter_selected_profiles         = !empty( $_REQUEST['twitter_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['twitter_selected_profiles'] ) : [];
+        $linkedin_selected_profiles        = !empty( $_REQUEST['linkedin_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['linkedin_selected_profiles'] ) : [];
+        $pinterest_selected_profiles       = !empty( $_REQUEST['pinterest_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['pinterest_selected_profiles'] ) : [];
+        $instagram_selected_profiles       = !empty( $_REQUEST['instagram_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['instagram_selected_profiles'] ) : [];
+        $medium_selected_profiles          = !empty( $_REQUEST['medium_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['medium_selected_profiles'] ) : [];
+        $threads_selected_profiles         = !empty( $_REQUEST['threads_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['threads_selected_profiles'] ) : [];
+        $google_business_selected_profiles = !empty( $_REQUEST['google_business_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['google_business_selected_profiles'] ) : [];
 
         // get data from db
         $facebook  = \WPSP\Helper::get_social_profile(WPSCP_FACEBOOK_OPTION_NAME, $facebook_selected_profiles);
@@ -404,15 +438,17 @@ class InstantShare
         $instagram = \WPSP\Helper::get_social_profile(WPSCP_INSTAGRAM_OPTION_NAME, $instagram_selected_profiles);
         $medium    = \WPSP\Helper::get_social_profile(WPSCP_MEDIUM_OPTION_NAME, $medium_selected_profiles);
         $threads   = \WPSP\Helper::get_social_profile(WPSCP_THREADS_OPTION_NAME, $threads_selected_profiles);
+        $google_business   = \WPSP\Helper::get_social_profile(WPSCP_GOOGLE_BUSINESS_OPTION_NAME, $google_business_selected_profiles);
 
         // get data from ajax request
-        $is_facebook_share  = !empty( $_REQUEST['is_facebook_share'] ) ? sanitize_text_field( $_REQUEST['is_facebook_share'] ) : null;
-        $is_twitter_share   = !empty( $_REQUEST['is_twitter_share'] ) ? sanitize_text_field( $_REQUEST['is_twitter_share'] ) : null;
-        $is_linkedin_share  = !empty( $_REQUEST['is_linkedin_share'] ) ? sanitize_text_field( $_REQUEST['is_linkedin_share'] ) : null;
-        $is_pinterest_share = !empty( $_REQUEST['is_pinterest_share'] ) ? sanitize_text_field( $_REQUEST['is_pinterest_share'] ) : null;
-        $is_instagram_share = !empty( $_REQUEST['is_instagram_share'] ) ? sanitize_text_field( $_REQUEST['is_instagram_share'] ) : null;
-        $is_medium_share = !empty( $_REQUEST['is_medium_share'] ) ? sanitize_text_field( $_REQUEST['is_medium_share'] ) : null;
-        $is_threads_share = !empty( $_REQUEST['is_threads_share'] ) ? sanitize_text_field( $_REQUEST['is_threads_share'] ) : null;
+        $is_facebook_share        = !empty( $_REQUEST['is_facebook_share'] ) ? sanitize_text_field( $_REQUEST['is_facebook_share'] ) : null;
+        $is_twitter_share         = !empty( $_REQUEST['is_twitter_share'] ) ? sanitize_text_field( $_REQUEST['is_twitter_share'] ) : null;
+        $is_linkedin_share        = !empty( $_REQUEST['is_linkedin_share'] ) ? sanitize_text_field( $_REQUEST['is_linkedin_share'] ) : null;
+        $is_pinterest_share       = !empty( $_REQUEST['is_pinterest_share'] ) ? sanitize_text_field( $_REQUEST['is_pinterest_share'] ) : null;
+        $is_instagram_share       = !empty( $_REQUEST['is_instagram_share'] ) ? sanitize_text_field( $_REQUEST['is_instagram_share'] ) : null;
+        $is_medium_share          = !empty( $_REQUEST['is_medium_share'] ) ? sanitize_text_field( $_REQUEST['is_medium_share'] ) : null;
+        $is_threads_share         = !empty( $_REQUEST['is_threads_share'] ) ? sanitize_text_field( $_REQUEST['is_threads_share'] ) : null;
+        $is_google_business_share         = !empty( $_REQUEST['is_google_business_share'] ) ? sanitize_text_field( $_REQUEST['is_google_business_share'] ) : null;
 
         if ($is_facebook_share === "true") {
             $allProfile['facebook'] = $facebook;
@@ -435,6 +471,9 @@ class InstantShare
         if ($is_threads_share === "true") {
             $allProfile['threads'] = $threads;
         }
+        if ($is_google_business_share === "true") {
+            $allProfile['google_business'] = $google_business;
+        }
 
         // placeholder image url 
         $placeholder_image = WPSP_ASSETS_URI . 'images/author-logo.jpeg';
@@ -444,7 +483,7 @@ class InstantShare
             foreach ($allProfile as $profileName => $profile) {
                 $markup .= '<div class="entry-head ' . $profileName . '">
                         <img src="' . WPSP_ASSETS_URI . 'images/icon-' . $profileName . '-small-white.png' . '" alt="logo" />
-                        <h2 class="entry-head-title">' . $profileName . '</h2>
+                        <h2 class="entry-head-title">' . $this->formatProfileName($profileName) . '</h2>
                     </div>
                     <ul class="autoOverflowModal">';
                 foreach ($profile as $key => $profileItem) {
@@ -680,6 +719,29 @@ class InstantShare
                 $is_share_on_publish,
             );
             if( !$is_share_on_publish ) {
+                wp_die();
+            }
+        }  else if ($platform == 'google_business') {
+            $google_business = \WPSP\Helper::get_social_profile(WPSCP_GOOGLE_BUSINESS_OPTION_NAME);
+            if (empty($profileID)) {
+                $profileID = !empty($google_business[$platformKey]->id) ? $google_business[$platformKey]->id : null;
+            }
+            $platformKey = !empty($profileID) ? array_search($profileID, array_column($google_business, 'id')) : intval($platformKey);
+            if ($google_business[$platformKey]->status == false) {
+                wp_die();
+            }
+            $google_business_share = new \WPSP\Social\GoogleBusiness();
+            $google_business_share->socialMediaInstantShare(
+                $google_business[$platformKey]->app_id,
+                $google_business[$platformKey]->app_secret,
+                $google_business[$platformKey]->access_token,
+                $google_business[$platformKey]->type,
+                $google_business[$platformKey]->id,
+                $postid,
+                $platformKey,
+                $is_share_on_publish
+            );
+            if (!$is_share_on_publish) {
                 wp_die();
             }
         } else {

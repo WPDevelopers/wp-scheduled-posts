@@ -387,14 +387,7 @@ class CustomTemplateHelper
         switch ($timeOption) {
             case 'now':
                 $final_datetime = clone $date;
-                $current_time = new \DateTime('now', new \DateTimeZone('UTC'));
-                $final_datetime->setTime(
-                    (int)$current_time->format('H'),
-                    (int)$current_time->format('i'),
-                    (int)$current_time->format('s')
-                );
                 break;
-    
             case 'in_1h':
                 $final_datetime = clone $date;
                 $current_time = new \DateTime('now', new \DateTimeZone('UTC'));

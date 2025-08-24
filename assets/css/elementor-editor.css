@@ -226,6 +226,13 @@
     border-radius: 10px;
 }
 
+.el-social-share-platform #el-social-checkbox-wrapper .wpsp-el-accordion-item.wpsp-el-accordion-item-google-business.wpsp-pro-fields label {
+    margin: 0;
+}
+.el-social-share-platform #el-social-checkbox-wrapper .wpsp-el-accordion-item.wpsp-el-accordion-item-google-business.wpsp-pro-fields label span span {
+    color: #fff;
+}
+
 .el-social-share-platform #el-social-checkbox-wrapper .wpsp-el-accordion-item h3 {
     color: #1B1B50;
     min-width: 110px;
@@ -508,6 +515,9 @@
 }
 #wpscpproInstantShareModal .modalBody .entry-head.threads {
     background: rgb(137 102 102 / 15%);
+}
+#wpscpproInstantShareModal .modalBody .entry-head.google_business {
+    background: #4578bc;
 }
 #wpscpproInstantShareModal .modalBody .entry-head.threads .entry-head-title{
     color: #000;

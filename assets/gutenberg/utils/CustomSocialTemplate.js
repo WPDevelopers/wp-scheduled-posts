@@ -89,7 +89,8 @@ const useSocialProfileData = () => {
     pinterestProfileData: [],
     instagramProfileData: [],
     mediumProfileData: [],
-    threadsProfileData: []
+    threadsProfileData: [],
+    googleBusinessProfileData: []
   });
 
   useEffect(() => {
@@ -116,7 +117,8 @@ const useSocialProfileData = () => {
             pinterestProfileData: boardsData || [],
             instagramProfileData: data.instagram_profile_list || [],
             mediumProfileData: data.medium_profile_list || [],
-            threadsProfileData: data.threads_profile_list || []
+            threadsProfileData: data.threads_profile_list || [],
+            googleBusinessProfileData: data.google_business_profile_list || []
           });
         }
       } catch (error) {
@@ -158,6 +160,7 @@ const CustomSocialTemplate = () => {
     instagramProfileData: socialProfileData.instagramProfileData,
     mediumProfileData: socialProfileData.mediumProfileData,
     threadsProfileData: socialProfileData.threadsProfileData,
+    googleBusinessProfileData: socialProfileData.googleBusinessProfileData,
     postTitle,
     postContent,
     postUrl,
@@ -170,7 +173,7 @@ const CustomSocialTemplate = () => {
     postContent,
     postUrl,
     uploadSocialShareBanner
-  ]);
+  ]);  
 
   return (
     <>

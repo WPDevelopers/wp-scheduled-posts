@@ -112,6 +112,26 @@
           display: flex;
           align-items: center;
           box-sizing: border-box;
+          position: relative;
+          &.pro_feature {
+            &::before{
+              position: absolute;
+              content: "\e907";
+              font-family: "wpsp";
+              font-size: 10px;
+              height: 1.9em;
+              width: 1.9em;
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              background-color: #f6e6d7;
+              border-radius: 50%;
+              right: 20px;
+              top: calc(50% - 10px);
+              transform: translateY(-50%);
+              color: #ff9437;
+            }
+          }
           @media screen and (max-width: 1439px) {
             flex: 0 0 calc(50% - 3px);
             max-width: calc(50% - 3px);
@@ -263,6 +283,26 @@
               background-color: rgb(137 102 102 / 15%);;
             }
           }
+          &[data-key='layouts_google_business'] {
+            span {
+              &:before {
+                width: 24px;
+                height: 24px;
+                line-height: 18px;
+                text-align: center;
+                font-size: 20px;
+                content: url('../images/google-business-small.svg');
+                -webkit-background-clip: text;
+                background-clip: text;
+                -webkit-text-fill-color: transparent;
+                color: #fff;
+                border-radius: 0;
+              }
+            }
+            &.wprf-active-nav {
+              background-color: rgb(137 102 102 / 15%);;
+            }
+          }
         }
         .wprf-active-nav {
           color: #1b1b50 !important;
@@ -304,6 +344,26 @@
           .wprf-tab-content > .wprf-control-section {
             padding: 0 !important;
             background-color: transparent !important;
+            &#google_business_wrapper {
+              &.pro_feature {
+                &::before{
+                  position: absolute;
+                  content: "\e907";
+                  font-family: "wpsp";
+                  font-size: 10px;
+                  height: 1.9em;
+                  width: 1.9em;
+                  display: inline-flex;
+                  align-items: center;
+                  justify-content: center;
+                  background-color: #f6e6d7;
+                  border-radius: 50%;
+                  left: 300px;
+                  transform: translateY(-50%);
+                  color: #ff9437;
+                }
+              }
+            }
           }
         }
       }
