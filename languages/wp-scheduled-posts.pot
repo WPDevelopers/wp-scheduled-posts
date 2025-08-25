@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the SchedulePress plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: SchedulePress 5.2.9\n"
+"Project-Id-Version: SchedulePress 5.2.10\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-scheduled-posts\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-08-19T06:18:10+00:00\n"
+"POT-Creation-Date: 2025-08-25T06:12:04+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: wp-scheduled-posts\n"
@@ -262,18 +262,18 @@ msgstr ""
 msgid "Your post successfully scheduled"
 msgstr ""
 
-#: includes/Admin/Calendar.php:580
-#: includes/Admin/Calendar.php:744
-#: includes/Admin/Calendar.php:772
+#: includes/Admin/Calendar.php:648
+#: includes/Admin/Calendar.php:826
+#: includes/Admin/Calendar.php:854
 msgid "Post type isn't allowed in Settings page."
 msgstr ""
 
-#: includes/Admin/Calendar.php:701
+#: includes/Admin/Calendar.php:783
 msgid "Type is required."
 msgstr ""
 
-#: includes/Admin/Calendar.php:704
-#: includes/Admin/Calendar.php:726
+#: includes/Admin/Calendar.php:786
+#: includes/Admin/Calendar.php:808
 #: includes/Social/SocialProfile.php:75
 msgid "Something went wrong."
 msgstr ""
@@ -1197,12 +1197,12 @@ msgstr ""
 msgid "Twitter Connection Problem. error code: "
 msgstr ""
 
-#: wp-scheduled-posts.php:136
+#: wp-scheduled-posts.php:153
 msgid "SchedulePress Free v5.0 needs SchedulePress Pro v5.0 for better performance. Please update SchedulePress Pro plugin to v5.0. Contact our <a href=\"%s\" target=\"_blank\">Support</a> if you need any assistance."
 msgstr ""
 
 #. translators: 1: `<h3>` opening tag, 2: `</h3>` closing tag, 3: PHP version. 4: Link opening tag, 5: Link closing tag.
-#: wp-scheduled-posts.php:320
+#: wp-scheduled-posts.php:337
 msgid "%1$sSchedulePress isn’t running because PHP is outdated.%2$s Update to PHP version %3$s and get back to creating!"
 msgstr ""
 
@@ -1806,6 +1806,31 @@ msgstr ""
 #: includes/Admin/Settings/assets/js/admin.js:1
 #: includes/Admin/Settings/assets/js/calendar.js:1
 msgid "Something went wrong"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/calendar.js:1
+msgid "Update Image"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/calendar.js:1
+msgid "Select Image"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/calendar.js:1
+msgid "Remove"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/calendar.js:1
+msgid "Update Images"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/calendar.js:1
+msgid "Select Images"
 msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:1
