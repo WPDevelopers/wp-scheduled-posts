@@ -178,7 +178,7 @@ class Calendar
     function wpscp_register_scf_fields_rest_route($request) {
         $post_type = $request->get_param('post_type');
         $post_id   = $request->get_param('post_id');
-        if( current_user_can('edit_posts', $post_id) ) {
+        if( !current_user_can('edit_posts', $post_id) ) {
             return new WP_Error('unauthorized', 'Unauthorized', array('status' => 401));
         }
         if (!$post_type) {
