@@ -178,6 +178,19 @@ class Calendar
     function wpscp_register_scf_fields_rest_route($request) {
         $post_type = $request->get_param('post_type');
         $post_id   = $request->get_param('post_id');
+        $post_status   = $request->get_param('post_status');
+        $post_type_object = get_post_type_object($post_type);
+        if ( ! $post_type_object ) {
+            return new WP_Error('invalid_post_type', 'Invalid post_type parameter', array('status' => 400));
+        }
+    
+        // Capability check
+        if ( $post_id && ! current_user_can( 'edit_post', $post_id ) ) {
+            return new WP_Error('unauthorized', 'Unauthorized', array('status' => 401));
+        } elseif ( ! current_user_can( $post_type_object->cap->edit_posts ) ) {
+            return new WP_Error('unauthorized', 'Unauthorized', array('status' => 401));
+        }
+        
         if (!$post_type) {
             return new WP_Error('missing_post_type', 'Missing post_type parameter', array('status' => 400));
         }

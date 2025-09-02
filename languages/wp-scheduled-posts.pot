@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-08-28T08:37:34+00:00\n"
+"POT-Creation-Date: 2025-08-31T09:07:18+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: wp-scheduled-posts\n"
@@ -262,18 +262,18 @@ msgstr ""
 msgid "Your post successfully scheduled"
 msgstr ""
 
-#: includes/Admin/Calendar.php:648
-#: includes/Admin/Calendar.php:826
-#: includes/Admin/Calendar.php:854
+#: includes/Admin/Calendar.php:651
+#: includes/Admin/Calendar.php:829
+#: includes/Admin/Calendar.php:857
 msgid "Post type isn't allowed in Settings page."
 msgstr ""
 
-#: includes/Admin/Calendar.php:783
+#: includes/Admin/Calendar.php:786
 msgid "Type is required."
 msgstr ""
 
-#: includes/Admin/Calendar.php:786
-#: includes/Admin/Calendar.php:808
+#: includes/Admin/Calendar.php:789
+#: includes/Admin/Calendar.php:811
 #: includes/Social/SocialProfile.php:75
 msgid "Something went wrong."
 msgstr ""
