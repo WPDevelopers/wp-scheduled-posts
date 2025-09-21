@@ -830,43 +830,61 @@ class SocialProfile
                 wp_die();
             }
         } else if ( $type == 'google_business' ) {
-            $fetch_by_token = !empty($access_token) ? true : false;
-            if( $code ) {
-                $profiles      = $this->getGoogleMyBusinessProfile($app_id, $app_secret, $code, $redirectURI);
-            }else {
-                $profiles      = $this->getGoogleMyBusinessProfileByToken($access_token);
-            }
-            $profile_data  = !empty($profiles['data']) ? $profiles['data'] : [];
-            $token_data    = !empty($profiles['token_data']) ? $profiles['token_data'] : [];
-            $profile_array = array();
-            if (!empty($profile_data) && is_object($profile_data)) {
-                foreach ($profile_data->accounts as $account) {
-                    // Get access token & account ID
-                    $access_token       = !empty($token_data->access_token) ? $token_data->access_token : $access_token;
-                    $refresh_token      = !empty($token_data->refresh_token) ? $token_data->refresh_token : $refresh_token;
-                    $account_id         = $account->name;                                                                    // e.g., "accounts/1234567890"
-                    $location_id        = $this->fetchLocationID($access_token, $account_id);
-                    $uploaded_image_url           = $this->fetchProfilePictureUrl($account_id, $location_id, $access_token);
-                    // $uploaded_image_url = $this->handle_thumbnail_upload($imageUrl, $account->name);
-                    array_push($profile_array, array(
-                        'id'            => $account->name,
-                        'app_id'        => $app_id,
-                        'app_secret'    => $app_secret,
-                        'name'          => $account->accountName ?? 'Unknown',
-                        'thumbnail_url' => !empty($uploaded_image_url) ? $uploaded_image_url : '',                 // fallback empty
-                        'type'          => 'profile',
-                        'location_id'   => $location_id,
-                        'status'        => true,
-                        'access_token'  => $access_token,
-                        'refresh_token' => $refresh_token,
-                        'rt_expires_in' => $rt_expires_in,
-                        'expires_in'    => $expires_in,
-                        'added_by'      => $current_user->user_login,
-                        'added_date'    => current_time('mysql'),
-                    ));
-                }
+            $fetch_by_token = ! empty( $access_token );
+
+            if ( $code ) {
+                $profiles   = $this->getGoogleMyBusinessProfile( $app_id, $app_secret, $code, $redirectURI );
+            } else {
+                $profiles   = $this->getGoogleMyBusinessProfileByToken( $access_token );
             }
 
+            $profile_data  = ! empty( $profiles['data'] ) ? $profiles['data'] : [];
+            $token_data    = ! empty( $profiles['token_data'] ) ? $profiles['token_data'] : [];
+            $profile_array = array();
+
+            if ( ! empty( $profile_data ) && is_object( $profile_data ) ) {
+                // take the first account (you said there's always one)
+                $account = ! empty( $profile_data->accounts[0] ) ? $profile_data->accounts[0] : null;
+
+                if ( $account ) {
+                    // apply token fallbacks
+                    $access_token  = ! empty( $token_data->access_token ) ? $token_data->access_token : $access_token;
+                    $refresh_token = ! empty( $token_data->refresh_token ) ? $token_data->refresh_token : $refresh_token;
+                    $account_id    = $account->name; // e.g., "accounts/1234567890"
+
+                    // fetch ALL locations for this account
+                    $locations = $this->fetchLocations( $access_token, $account_id );
+
+                    if ( ! empty( $locations ) ) {
+                        foreach ( $locations as $loc ) {
+                            $location_id   = $loc['resource_name'];
+                            $business_name = ! empty( $loc['title'] ) ? $loc['title'] : ( $account->accountName ?? 'Unknown' );
+
+                            // get thumbnail per location (if your function supports location resource name)
+                            $uploaded_image_url = $this->fetchProfilePictureUrl( $account_id, $location_id, $access_token );
+
+                            // Use location resource name as unique id (recommended)
+                            $profile_array[] = array(
+                                'id'            => $location_id,
+                                'account_id'    => $account_id,
+                                'app_id'        => $app_id,
+                                'app_secret'    => $app_secret,
+                                'name'          => $business_name,
+                                'thumbnail_url' => ! empty( $uploaded_image_url ) ? $uploaded_image_url : '',
+                                'type'          => 'profile',
+                                'location_id'   => $location_id,
+                                'status'        => true,
+                                'access_token'  => $access_token,
+                                'refresh_token' => $refresh_token,
+                                'rt_expires_in' => $rt_expires_in,
+                                'expires_in'    => $expires_in,
+                                'added_by'      => $current_user->user_login,
+                                'added_date'    => current_time( 'mysql' ),
+                            );
+                        }
+                    }
+                }
+            }
              // response
              $response = array(
                 'success'  => true,
@@ -880,28 +898,45 @@ class SocialProfile
         wp_die();
     }
 
-    public function fetchLocationID($access_token, $account_id) {
-         // Step 1: Fetch Location ID using the access token and account_id
-         $location_id = '';
-         $response = wp_remote_get(
-             'https://mybusinessbusinessinformation.googleapis.com/v1/' . $account_id . '/locations?readMask=name',
-             array(
-                 'headers' => array(
-                     'Authorization' => 'Bearer ' . $access_token,
-                     'Accept'        => 'application/json',
-                 ),
-                 'timeout' => 15,
-             )
-         );
 
-         if (!is_wp_error($response)) {
-             $body = json_decode(wp_remote_retrieve_body($response), true);
-             if (!empty($body['locations'][0]['name'])) {
-                $location_id = $body['locations'][0]['name'];
-             }
+    public function fetchLocations( $access_token, $account_id ) {
+        $locations = array();
+    
+        $url = sprintf(
+            'https://mybusinessbusinessinformation.googleapis.com/v1/%s/locations?readMask=name,title',
+            $account_id
+        );
+    
+        $response = wp_remote_get(
+            $url,
+            array(
+                'headers' => array(
+                    'Authorization' => 'Bearer ' . $access_token,
+                    'Accept'        => 'application/json',
+                ),
+                'timeout' => 15,
+            )
+        );
+    
+        if ( is_wp_error( $response ) ) {
+            return $locations; // empty
         }
-        return $location_id;
+    
+        $body = json_decode( wp_remote_retrieve_body( $response ), true );
+    
+        if ( ! empty( $body['locations'] ) && is_array( $body['locations'] ) ) {
+            foreach ( $body['locations'] as $loc ) {
+                $locations[] = array(
+                    'resource_name' => ! empty( $loc['name'] ) ? $loc['name'] : '',
+                    'title'         => ! empty( $loc['title'] ) ? $loc['title'] : '',
+                    'raw'           => $loc, // optional: keep the whole payload if needed
+                );
+            }
+        }
+    
+        return $locations;
     }
+    
 
     public function fetchProfilePictureUrl($account_id, $location_id, $access_token) {
         $response = wp_remote_get(
