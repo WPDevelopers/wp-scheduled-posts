@@ -114,7 +114,6 @@ class GoogleBusiness {
                 $featured_image = wp_get_attachment_image_src(get_post_thumbnail_id($post_id), 'full');
                 $featured_image_url = $featured_image[0];
             }
-            $featured_image_url = 'https://images.pexels.com/photos/1133957/pexels-photo-1133957.jpeg';
             // Refresh token if needed
             $google_business = Helper::get_social_profile(WPSCP_GOOGLE_BUSINESS_OPTION_NAME);
             $refresh_token = !empty($google_business[$profile_key]->refresh_token) ? $google_business[$profile_key]->refresh_token : '';
@@ -133,7 +132,7 @@ class GoogleBusiness {
             }
 
             // Get account and location IDs
-            $account_id = !empty($google_business[$profile_key]->account_id) ? $google_business[$profile_key]->account_id : '';
+            $account_id = !empty($google_business[$profile_key]->account_id) ? $google_business[$profile_key]->account_id : $google_business[$profile_key]->id;
             $location_id = !empty($google_business[$profile_key]->location_id) ? $google_business[$profile_key]->location_id : '';
 
             if (empty($location_id) || empty($account_id)) {
