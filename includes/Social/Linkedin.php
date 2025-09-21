@@ -16,6 +16,7 @@ class Linkedin
     private $status_limit;
     private $post_share_limit;
     private $remove_css_from_content;
+    private $current_profile_id;
 
     public function __construct()
     {
@@ -131,7 +132,9 @@ class Linkedin
             $hashTags,
             $this->status_limit,
             null,
-            'linkedin'
+            'linkedin',
+            $post_id,
+            $this->current_profile_id ?? null
         );
         return $formatedText;
     }
@@ -155,6 +158,9 @@ class Linkedin
     {
         $profile     = \WPSP\Helper::get_profile('linkedin', $profile_key);
         $accessToken = \WPSP\Helper::get_access_token('linkedin', $profile_key);
+
+        // Set current profile ID for custom template resolution
+        $this->current_profile_id = isset($profile->__id) ? $profile->__id : $profile->id;
         // check post is skip social sharing
         // if (get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
         //     return;
@@ -167,6 +173,17 @@ class Linkedin
             $get_all_selected_profile     = get_post_meta($post_id, '_selected_social_profile', true);
             $check_profile_exists         = Helper::is_profile_exits( isset( $profile->__id ) ? $profile->__id : $profile->id , $get_all_selected_profile );
             if( !$check_profile_exists ) {
+                return;
+            }
+        }
+
+        $is_enabled_custom_template = get_post_meta($post_id, '_wpsp_enable_custom_social_template', true);
+        // if enabled custom template then check current social profile is selected or not
+        if( $is_enabled_custom_template ) {
+            $templates = get_post_meta($post_id, '_wpsp_custom_templates', true);
+            $platform_data = isset($templates['linkedin']) ? $templates['linkedin'] : null;
+            $profiles = is_array($platform_data) && isset($platform_data['profiles']) ? $platform_data['profiles'] : [];
+            if ( is_array($profiles) && !in_array($this->current_profile_id, $profiles) ) {
                 return;
             }
         }

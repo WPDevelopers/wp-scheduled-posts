@@ -15,6 +15,7 @@ class Threads
     private $template_structure;
     private $status_limit;
     private $post_share_limit;
+    private $current_profile_id;
     private $remove_css_from_content;
 
     public function __construct()
@@ -127,7 +128,9 @@ class Threads
             $hashTags,
             $this->status_limit,
             null,
-            'threads'
+            'threads',
+            $post_id,
+            $this->current_profile_id ?? null
         );
         return $formatedText;
     }
@@ -140,7 +143,10 @@ class Threads
      */
     public function remote_post($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key, $force_share = false)
     {
-        // get share count 
+        // Set current profile ID for custom template resolution
+        $this->current_profile_id = $ID;
+
+        // get share count
         $count_meta_key = '__wpsp_threads_share_count_'.$ID;
         $dont_share     = get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true);
         // get social share type 
@@ -149,6 +155,17 @@ class Threads
             $get_all_selected_profile     = get_post_meta($post_id, '_selected_social_profile', true);
             $check_profile_exists         = Helper::is_profile_exits( $ID, $get_all_selected_profile );
             if( !$check_profile_exists ) {
+                return;
+            }
+        }
+
+        $is_enabled_custom_template = get_post_meta($post_id, '_wpsp_enable_custom_social_template', true);
+        // if enabled custom template then check current social profile is selected or not
+        if( $is_enabled_custom_template ) {
+            $templates = get_post_meta($post_id, '_wpsp_custom_templates', true);
+            $platform_data = isset($templates['threads']) ? $templates['threads'] : null;
+            $profiles = is_array($platform_data) && isset($platform_data['profiles']) ? $platform_data['profiles'] : [];
+            if ( is_array($profiles) && !in_array($this->current_profile_id, $profiles) ) {
                 return;
             }
         }

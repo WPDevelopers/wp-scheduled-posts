@@ -46,6 +46,8 @@ index.js
 prepros-6.config
 prepros.config
 includes/Admin/Settings/node_modules
+includes/Admin/Settings/assets/icon/demo-files
+includes/Admin/Settings/assets/icon/demo.html
 includes/Admin/Settings/app
 includes/Admin/Settings/**/admin.js.LICENSE.txt
 assets/sass
@@ -67,3 +69,4 @@ vendor/priyomukul/.editorconfig
 vendor/priyomukul/.gitignore
 vendor/priyomukul/composer.json
 vendor/priyomukul/README.md
+docs/

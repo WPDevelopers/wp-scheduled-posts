@@ -15,6 +15,7 @@ class Twitter
     private $is_show_post_thumbnail;
     private $content_source;
     private $tweet_limit;
+    private $current_profile_id;
     private $post_share_limit;
     private $remove_css_from_content;
 
@@ -136,7 +137,9 @@ class Twitter
             $hashTags,
             $this->tweet_limit - 5,
             null,
-            'twitter'
+            'twitter',
+            $post_id,
+            $this->current_profile_id ?? null
         );
         $parameters['text'] = $formatedText;
         return $parameters;
@@ -152,6 +155,8 @@ class Twitter
     public function remote_post($app_id, $app_secret, $oauth_token, $oauth_token_secret, $post_id, $profile_key, $force_share = false)
     {
         $profile     = \WPSP\Helper::get_profile('twitter', $profile_key);
+        // Set current profile ID for custom template resolution
+        $this->current_profile_id = $profile->id;
         $count_meta_key = '__wpsp_twitter_share_count_'.$profile->id;
 
          // get social share type 
@@ -163,6 +168,18 @@ class Twitter
                  return;
              }
          }
+
+        $is_enabled_custom_template = get_post_meta($post_id, '_wpsp_enable_custom_social_template', true);
+        // if enabled custom template then check current social profile is selected or not
+        if( $is_enabled_custom_template ) {
+            $templates = get_post_meta($post_id, '_wpsp_custom_templates', true);
+            $platform_data = isset($templates['twitter']) ? $templates['twitter'] : null;
+            $profiles = is_array($platform_data) && isset($platform_data['profiles']) ? $platform_data['profiles'] : [];
+            if ( is_array($profiles) && !in_array($this->current_profile_id, $profiles) ) {
+                return;
+            }
+        }
+
         // check post is skip social sharing
         // if (empty($app_id) || empty($app_secret) || get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) == 'on') {
         //     return;

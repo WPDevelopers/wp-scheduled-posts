@@ -13,5 +13,6 @@ class API
     public function load_settings_API()
     {
         API\Settings::get_instance();
+        API\CustomSocialTemplates::get_instance();
     }
 }

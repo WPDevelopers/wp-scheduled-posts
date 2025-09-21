@@ -4,6 +4,7 @@ namespace WPSP\API;
 use WPSP;
 use WPSP\Social\ReconnectHandler;
 use WPSP\Social\SocialProfile;
+use WPSP\Helper;
 
 class Settings
 {
@@ -54,7 +55,8 @@ class Settings
                 [
                     'show_in_rest' => true,
                     'single'       => true,
-                    'type'         => ['boolean', 'string'],
+                    'type'         => 'boolean',
+                    'default'      => false,
                     'auth_callback' => function() {
                         return current_user_can( 'edit_posts' );
                     }
@@ -73,7 +75,7 @@ class Settings
                 ]
             );
 
-            $social_media_meta_key = ['_facebook_share_type', '_twitter_share_type', '_linkedin_share_type', '_pinterest_share_type', '_linkedin_share_type_page', '_instagram_share_type', '_medium_share_type', '_threads_share_type'];
+            $social_media_meta_key = ['_facebook_share_type', '_twitter_share_type', '_linkedin_share_type', '_pinterest_share_type', '_linkedin_share_type_page', '_instagram_share_type', '_medium_share_type', '_threads_share_type','_google_business_share_type'];
             // Social media meta 
             foreach ($social_media_meta_key as $value) {
                 register_post_meta(
@@ -124,9 +126,13 @@ class Settings
                     }
                 ]
             );
+
+
         }
 
     }
+
+
 
 
     public function register_social_profile_routes()
@@ -149,6 +155,8 @@ class Settings
                 return current_user_can( 'edit_posts' );
             }
         ));
+
+
 
         register_rest_route($namespace,'get-categories',array(
             'methods' => 'GET',
@@ -232,6 +240,10 @@ class Settings
         do_action('wpsp_instant_social_single_profile_share', $data->get_params());
     }
 
+
+
+
+
     public function wpsp_get_options_data( $request ) {
         $option_value = get_option('wpsp_settings_v5');
         
@@ -244,8 +256,33 @@ class Settings
                         $profile['id'] = $profile['__id'];
                         unset($profile['__id']);
                     }
+                    if (!isset($profile['thumbnail_url']) || $profile['thumbnail_url'] === null) {
+                        $profile['thumbnail_url'] = '';
+                    }
                     return $profile;
                 }, $option_value['linkedin_profile_list']);
+            }
+
+            // set default thumanil url 
+            $social_media_lists = [
+                'facebook_profile_list',
+                'twitter_profile_list',
+                'instagram_profile_list',
+                'pinterest_profile_list',
+                'threads_profile_list',
+                'medium_profile_list',
+            ];
+            
+            foreach ($social_media_lists as $list_key) {
+                if (isset($option_value[$list_key]) && is_array($option_value[$list_key])) {
+                    $option_value[$list_key] = array_map(function($profile) {
+                        // Set default value for thumbnail_url if null
+                        if (!isset($profile['thumbnail_url']) || $profile['thumbnail_url'] === null) {
+                            $profile['thumbnail_url'] = '';
+                        }
+                        return $profile;
+                    }, $option_value[$list_key]);
+                }
             }
             $option_value = json_encode($option_value);
             return rest_ensure_response($option_value);

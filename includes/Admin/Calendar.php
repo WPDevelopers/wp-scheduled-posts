@@ -34,8 +34,33 @@ class Calendar
      * @param WP_REST_Request $request
      * @return bool
      */
-    public function permission_callback() {
+    public function permission_callback($request) {
         return current_user_can('edit_posts');
+    }
+
+    public function validate_user_post_access($request) {
+        // Check basic edit_posts capability
+        if (!current_user_can('edit_posts')) {
+            return false;
+        }
+        
+        // Additional checks for specific post types
+        $post_types = $request->get_param('post_type');
+        if (!empty($post_types)) {
+            foreach ($post_types as $post_type) {
+                if (!current_user_can('edit_posts') || !post_type_exists($post_type)) {
+                    return false;
+                }
+                
+                // Check if user can edit this specific post type
+                $post_type_obj = get_post_type_object($post_type);
+                if (!current_user_can($post_type_obj->cap->edit_posts)) {
+                    return false;
+                }
+            }
+        }
+        
+        return true;
     }
 
     /**
@@ -77,7 +102,7 @@ class Calendar
             array(
                 'methods'             => \WP_REST_Server::EDITABLE,
                 'callback'            => array($this, 'wpscp_future_post_rest_route_output'),
-                'permission_callback' => [$this, 'permission_callback'],
+                'permission_callback' => [$this, 'validate_user_post_access'],
                 'args'                => [
                     'post_type' => [
                         'required' => true,
@@ -102,7 +127,7 @@ class Calendar
         register_rest_route('wpscp/v1', '/posts', array(
             'methods'             => 'POST',
             'callback'            => [$this, 'get_draft_posts'],
-            'permission_callback' => [$this, 'permission_callback'],
+            'permission_callback' => [$this, 'validate_user_post_access'],
         ));
 
         register_rest_route(
@@ -137,8 +162,76 @@ class Calendar
             )
         );
 
+        register_rest_route(
+            'wpscp/v1',
+            '/scf-fields',
+            array(
+                'methods'             => 'GET',
+                'callback'            => array($this, 'wpscp_register_scf_fields_rest_route'),
+                'permission_callback' => function () {
+                    return current_user_can('edit_posts');
+                },
+            )
+        );
     }
 
+    function wpscp_register_scf_fields_rest_route($request) {
+        $post_type = $request->get_param('post_type');
+        $post_id   = $request->get_param('post_id');
+        if (!$post_type) {
+            return new WP_Error('missing_post_type', 'Missing post_type parameter', array('status' => 400));
+        }
+
+        // Get all field groups for this post type
+        $field_groups = function_exists('acf_get_field_groups') ? acf_get_field_groups(array('post_type' => $post_type)) : array();
+        $fields = array();
+
+        foreach ($field_groups as $field_group) {
+            $acf_fields = function_exists('acf_get_fields') ? acf_get_fields($field_group) : array();
+            foreach ($acf_fields as $field) {
+                $field_data = array(
+                    'name'  => $field['name'],
+                    'label' => $field['label'],
+                    'type'  => $field['type'],
+                );
+                $value = $post_id ? get_post_meta($post_id, $field['name'], true) : '';
+                // Add options for select, checkbox, radio
+                if ($field['type'] === 'select') {
+                    $field_data['options'] = array_values($field['choices']);
+                    $field_data['multiple'] = !empty($field['multiple']) ? (bool)$field['multiple'] : false;
+                    if ($field_data['multiple']) {
+                        $field_data['value'] = is_array($value) ? $value : (strlen($value) ? (array)$value : []);
+                    } else {
+                        $field_data['value'] = $value;
+                    }
+                } else {
+                    $field_data['value'] = $value;
+                    // Number field
+                    if ($field['type'] === 'number') {
+                        $field_data['value'] = $value !== '' ? (float)$value : '';
+                    }
+                    // Image field (single attachment ID)
+                    else if ($field['type'] === 'image') {
+                        $field_data['url'] = $value ? wp_get_attachment_url($value) : '';
+                    }
+                    // Gallery field (array of attachment IDs)
+                    else if ($field['type'] === 'gallery') {
+                        $ids = is_array($value) ? $value : (is_string($value) ? explode(',', $value) : array());
+                        $ids = array_filter(array_map('intval', $ids));
+                        $field_data['value'] = $ids;
+                        $field_data['urls'] = array_map('wp_get_attachment_url', $ids);
+                    }
+                    // WYSIWYG Editor
+                    else if ($field['type'] === 'wysiwyg') {
+                        // already set above
+                    }
+                }
+                $fields[] = $field_data;
+            }
+        }
+
+        return rest_ensure_response($fields);
+    }
 
     // Define the callback function for the custom route
     public function get_draft_posts( $request ) {
@@ -155,22 +248,29 @@ class Calendar
         if(empty($post_type)){
             $post_type = $allow_post_types;
         }
-        else if(in_array('elementorlibrary', $post_type)){
+        else if( is_array( $post_type ) && in_array('elementorlibrary', $post_type)){
             $post_type   = array_diff($post_type, ['elementorlibrary']);
             $post_type[] = 'elementor_library';
         }
 
         $post_type = array_intersect($post_type, $allow_post_types);
 
-
-        // Create a new WP_Query object with the parameters
-        $query = new \WP_Query(array(
+        // Set up base query arguments
+        $query_args = array(
             'post_type'      => $post_type,
             'tax_query'      => $this->get_tax_query($taxonomies),
             'post_status'    => array('draft', 'pending'),
             'posts_per_page' => $posts_per_page,
             'paged'          => $page,
-        ));
+        );
+
+        // Add author restriction for non-admin users
+        if (!current_user_can('edit_others_posts')) {
+            $query_args['author'] = get_current_user_id();
+        }
+
+        // Create a new WP_Query object with the parameters
+        $query = new \WP_Query($query_args);
 
         // Check if the query found any posts
         if ( $query->have_posts() ) {
@@ -299,9 +399,8 @@ class Calendar
         $last_day = $request->get_param('activeEnd');
         $last_day = (!empty($last_day) ? $last_day : date('Y/m/t', current_time('timestamp')));
 
-
-        // query
-        $query_1 = new \WP_Query(array(
+        // Set up base query arguments
+        $query_args = array(
             'post_type'      => $post_type,
             'post_status'    => array('future', 'publish'),
             'posts_per_page' => -1,
@@ -310,7 +409,15 @@ class Calendar
                 'before' => $last_day,
             ),
             'tax_query' => $this->get_tax_query($taxonomies),
-        ));
+        );
+
+        // Add author restriction for non-admin users
+        if (!current_user_can('edit_others_posts')) {
+            $query_args['author'] = get_current_user_id();
+        }
+        
+        // query
+        $query_1 = new \WP_Query($query_args);
         $posts_1 = $query_1->get_posts();
 
         $post_type_placeholders = implode(',', array_fill(0, count($post_type), '%s'));
@@ -452,6 +559,7 @@ class Calendar
         return array(
             'postId'   => get_the_ID(),
             'title'    => wp_trim_words(get_the_title(), 3, '...'),
+            'full_title' => get_the_title(),
             'href'     => get_the_permalink(),
             'edit'     => get_edit_post_link(get_the_ID(), null),
             'postType' => get_post_type(),
@@ -568,6 +676,13 @@ class Calendar
                     'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''),
                     'edit_date'     => true,
                 ), true);
+                // Save SCF fields if present
+                $scf = $request->get_param('scf');
+                if ($post_id && is_array($scf)) {
+                    foreach ($scf as $key => $value) {
+                        update_post_meta($post_id, $key, $value);
+                    }
+                }
                 return $this->get_rest_result($post_id);
             } else {
                 // only work new event created
@@ -581,6 +696,13 @@ class Calendar
                     'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''),
                     'edit_date'     => true,
                 ), true);
+                // Save SCF fields if present
+                $scf = $request->get_param('scf');
+                if ($post_id && is_array($scf)) {
+                    foreach ($scf as $key => $value) {
+                        update_post_meta($post_id, $key, $value);
+                    }
+                }
                 return $this->get_rest_result($post_id);
             }
         }

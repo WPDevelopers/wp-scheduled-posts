@@ -115,7 +115,7 @@
 .social-share .social-accordion-item .social-profile h3 {
     margin: 0;
 }
-.social-share .social-share-title {
+.social-share-title {
     font-size: 16px;
     color: #1B1B50;
     font-weight: 500;
@@ -171,10 +171,10 @@
     margin: 0;
     position: relative;
 }
-.social-share-modal > .components-modal__content .components-button.has-icon{
+.social-share-modal > .components-modal__content .components-button.has-icon {
     position: absolute;
-    right: 5px;
-    top: 0;
+    right: 8px;
+    top: 6px;
     left: unset !important;
 }
 .social-share-modal > .components-modal__content .components-modal__header .components-button svg {
@@ -256,16 +256,18 @@
     color: #6C62FF;
     background: #F3F2FF;
 }
-.social-share-modal .social-profile h2{
+.social-share-modal .social-profile h2 {
     text-transform: capitalize;
     font-size: 18px;
     font-weight: 500;
+    margin: 0;
 }
 .social-share-modal .social-logo {
     display: flex;
     justify-content: start;
     align-items: center;
     gap: 10px;
+    padding: 16px 12px;
 }
 .social-share-modal .social-logo img{
     width: 24px;
@@ -607,6 +609,7 @@
     height: auto !important;
     line-height: 1.2em;
     margin-top: 32px;
+    margin-bottom: 24px;
     border: none;
     cursor: pointer;
     font-weight: 500;

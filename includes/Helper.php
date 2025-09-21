@@ -576,7 +576,7 @@ class Helper
      * 
      * @return string The formatted date and time.
      */
-    public static function getDateFromTimezone($seconds, $format = 'Y-m-d H:i:s') {
+    public static function getDateFromTimezone($seconds, $format = 'Y-m-d H:i:s', $returnTimestamp = false) {
         // Get the site's timezone (either location-based or GMT offset)
         $timezone = wp_timezone_string();  // e.g., 'Asia/Dhaka' or '+06:00'
 
@@ -601,7 +601,7 @@ class Helper
             $date->setTimezone($timezone_obj);  // Set the timezone to the user’s location
 
             // Return the formatted date/time
-            return $date->format($format);
+            return $returnTimestamp ? $date->getTimestamp() : $date->format($format);
         } catch (\Exception $e) {
             return 'Invalid timezone format';  // Return an error if the timezone is invalid
         }

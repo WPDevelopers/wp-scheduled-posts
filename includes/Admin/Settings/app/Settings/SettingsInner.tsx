@@ -24,6 +24,18 @@ const SettingsInner = (props) => {
   }, []);
 
   useEffect(() => {
+      setTimeout(() => {
+        apiFetch( {
+            path  : 'wp-scheduled-posts/v1/settings',
+            method: 'POST',
+            data  : builderContext.values,
+        } ).then( ( res ) => {
+            
+        } );
+    }, 100);
+  }, [builderContext.values]);
+
+  useEffect(() => {
     builderContext.registerAlert('pro_alert', (props) => {
       return {
         fire: () => {

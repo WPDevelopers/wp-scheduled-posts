@@ -8,6 +8,7 @@ import Linkedin from "./Linkedin";
 import Pinterest from "./Pinterest";
 import Twitter from "./Twitter";
 import Instagram from "./Instagram";
+import GoogleBusiness from "./GoogleBusiness";
 
 import {
     useBuilderContext,
@@ -24,6 +25,7 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
     const [error, setError] = useState("");
     const [fbPage, setFbPage] = useState([]);
     const [fbGroup, setFbGroup] = useState([]);
+    const [googleProfiles, setGoogleProfiles] = useState([]);
     const [pinterestBoards, setPinterestBoards] = useState([]);
     const [instagramProfiles, setInstagramProfiles] = useState([]);
     const [threadsProfiles, setThreadsProfiles] = useState([]);
@@ -62,8 +64,9 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
                         }else{
                             setFbPage(response.page);
                             setFbGroup(response.group);
-                        }                        
+                        }
                         setInstagramProfiles(response.profiles)
+                        setGoogleProfiles(response.profiles)
                         setResponseData([response.data]);
                         setThreadsProfiles(response.profiles);
                         setLinkedInData(response.linkedin);
@@ -125,7 +128,7 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
                                 }
                                 return savedItem;
                             }
-                            
+
                         });
                         updatedSavedProfile.push(item);
                         setSavedProfile(updatedSavedProfile);
@@ -204,7 +207,7 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
             }
         }else if( event === 'save-edit' ) {
             const pinterestEditedItem = selectedProfile.map(profile => {
-                if (profile?.default_board_name?.label === pinterestItem?.default_board_name?.label) {                    
+                if (profile?.default_board_name?.label === pinterestItem?.default_board_name?.label) {
                   return pinterestItem;
                 } else {
                   return profile;
@@ -231,16 +234,16 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
          apiFetch( {
             path  : 'wp-scheduled-posts/v1/save-profile',
             method: 'POST',
-            data  : { platform: 'linkedin', profiles : savedProfileId },
+            data  : { platform: platform, profiles : savedProfileId },
         } ).then( ( res ) => {
             if( res ) {
                 SweetAlertToaster().fire();
             }
         } );
-        
+
     }
 
-    
+
 
   return (
     <Modal
@@ -322,6 +325,13 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
                               threads: (
                                 <Threads
                                     profiles={threadsProfiles}
+                                    addProfileToggle={addProfileToggle}
+                                    savedProfile={addSavedProfile}
+                                />
+                              ),
+                              google_business: (
+                                <GoogleBusiness
+                                    profiles={googleProfiles}
                                     addProfileToggle={addProfileToggle}
                                     savedProfile={addSavedProfile}
                                 />

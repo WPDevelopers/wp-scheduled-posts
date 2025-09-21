@@ -16,6 +16,7 @@ class Instagram
     private $status_limit;
     private $post_share_limit;
     private $remove_css_from_content;
+    private $current_profile_id;
 
     public function __construct()
     {
@@ -132,7 +133,9 @@ class Instagram
             $hashTags,
             $this->status_limit,
             null,
-            'instagram'
+            'instagram',
+            $post_id,
+            $this->current_profile_id ?? null
         );
         $linkData = [
             'caption'   => $formatedText,
@@ -166,7 +169,10 @@ class Instagram
      */
     public function remote_post($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key, $force_share = false)
     {
-        // get share count 
+        // Set current profile ID for custom template resolution
+        $this->current_profile_id = $ID;
+
+        // get share count
         $count_meta_key = '__wpsp_instagram_share_count_'.$ID;
         $dont_share     = get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true);
 
@@ -188,6 +194,17 @@ class Instagram
         // check post is skip social sharing
         if (empty($app_id) || empty($app_secret) || $dont_share  == 'on' || $dont_share == 1 ) {
             return;
+        }
+
+        $is_enabled_custom_template = get_post_meta($post_id, '_wpsp_enable_custom_social_template', true);
+        // if enabled custom template then check current social profile is selected or not
+        if( $is_enabled_custom_template ) {
+            $templates = get_post_meta($post_id, '_wpsp_custom_templates', true);
+            $platform_data = isset($templates['instagram']) ? $templates['instagram'] : null;
+            $profiles = is_array($platform_data) && isset($platform_data['profiles']) ? $platform_data['profiles'] : [];
+            if ( is_array($profiles) && !in_array($ID, $profiles) ) {
+                return;
+            }
         }
         
         if( ( get_post_meta( $post_id, $count_meta_key, true ) ) && $this->post_share_limit != 0 && get_post_meta( $post_id, $count_meta_key, true ) >= $this->post_share_limit ) {

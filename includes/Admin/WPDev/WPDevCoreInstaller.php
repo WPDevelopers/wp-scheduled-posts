@@ -31,7 +31,7 @@ class WPDevCoreInstaller
      */
     public function init_hooks()
     {
-        if (!current_user_can('manage_options')) {
+        if (!current_user_can('install_plugins')) {
             return;
         }
         add_action('wp_ajax_wpdeveloper_upsale_core_install_' . $this->plugin_basename, array($this, 'core_install'));
@@ -59,7 +59,7 @@ class WPDevCoreInstaller
     {
         check_ajax_referer('wpdeveloper_upsale_core_install_' . $this->plugin_basename);
 
-        if (!current_user_can('manage_options')) {
+        if (!current_user_can('install_plugins')) {
             wp_send_json_error(__('You don\'t have permission to install the plugins', 'wp-scheduled-posts'));
         }
 
