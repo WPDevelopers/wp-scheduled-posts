@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the SchedulePress plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: SchedulePress 5.2.10\n"
+"Project-Id-Version: SchedulePress 5.2.11\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-scheduled-posts\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-08-25T06:12:04+00:00\n"
+"POT-Creation-Date: 2025-09-21T11:02:19+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: wp-scheduled-posts\n"
@@ -262,18 +262,18 @@ msgstr ""
 msgid "Your post successfully scheduled"
 msgstr ""
 
-#: includes/Admin/Calendar.php:648
-#: includes/Admin/Calendar.php:826
-#: includes/Admin/Calendar.php:854
+#: includes/Admin/Calendar.php:661
+#: includes/Admin/Calendar.php:839
+#: includes/Admin/Calendar.php:867
 msgid "Post type isn't allowed in Settings page."
 msgstr ""
 
-#: includes/Admin/Calendar.php:783
+#: includes/Admin/Calendar.php:796
 msgid "Type is required."
 msgstr ""
 
-#: includes/Admin/Calendar.php:786
-#: includes/Admin/Calendar.php:808
+#: includes/Admin/Calendar.php:799
+#: includes/Admin/Calendar.php:821
 #: includes/Social/SocialProfile.php:75
 msgid "Something went wrong."
 msgstr ""
@@ -1165,7 +1165,7 @@ msgstr ""
 #: includes/Social/InstantShare.php:533
 #: includes/Social/SocialProfile.php:361
 #: includes/Social/SocialProfile.php:438
-#: includes/Social/SocialProfile.php:1073
+#: includes/Social/SocialProfile.php:1108
 msgid "Invalid nonce."
 msgstr ""
 
@@ -1173,7 +1173,7 @@ msgstr ""
 #: includes/Social/InstantShare.php:539
 #: includes/Social/SocialProfile.php:365
 #: includes/Social/SocialProfile.php:444
-#: includes/Social/SocialProfile.php:1079
+#: includes/Social/SocialProfile.php:1114
 msgid "You are unauthorized to access social profiles."
 msgstr ""
 
@@ -1452,23 +1452,23 @@ msgstr ""
 msgid "Board"
 msgstr ""
 
-#: includes/Admin/Settings/app/Settings/fields/GoogleBusiness.jsx:121
+#: includes/Admin/Settings/app/Settings/fields/GoogleBusiness.jsx:122
 #: includes/Admin/Settings/assets/js/admin.js:1
 #: includes/Admin/Settings/assets/js/calendar.js:1
 msgid "Are you sure?"
 msgstr ""
 
-#: includes/Admin/Settings/app/Settings/fields/GoogleBusiness.jsx:122
+#: includes/Admin/Settings/app/Settings/fields/GoogleBusiness.jsx:123
 #: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Enabling this profile will deactivate other profile automatically."
 msgstr ""
 
-#: includes/Admin/Settings/app/Settings/fields/GoogleBusiness.jsx:128
+#: includes/Admin/Settings/app/Settings/fields/GoogleBusiness.jsx:129
 #: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Yes, Enable it!"
 msgstr ""
 
-#: includes/Admin/Settings/app/Settings/fields/GoogleBusiness.jsx:276
+#: includes/Admin/Settings/app/Settings/fields/GoogleBusiness.jsx:280
 #: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Please update to the latest version of <strong>SchedulePress Pro</strong> to connect with <strong>Google Business Profile</strong>."
 msgstr ""

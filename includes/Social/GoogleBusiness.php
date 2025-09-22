@@ -132,7 +132,7 @@ class GoogleBusiness {
             }
 
             // Get account and location IDs
-            $account_id = !empty($google_business[$profile_key]->id) ? $google_business[$profile_key]->id : '';
+            $account_id = !empty($google_business[$profile_key]->account_id) ? $google_business[$profile_key]->account_id : $google_business[$profile_key]->id;
             $location_id = !empty($google_business[$profile_key]->location_id) ? $google_business[$profile_key]->location_id : '';
 
             if (empty($location_id) || empty($account_id)) {

@@ -11,6 +11,7 @@ import SocialModal from './Modals/SocialModal';
 import SelectedProfile from './utils/SelectedProfile';
 import GoogleBusinessProfile from './Profiles/GoogleBusinessProfile';
 import ProAlert from "./utils/ProAlert";
+import ViewMore from './utils/ViewMore';
 
 const GoogleBusiness = (props) => {
   const propsValue = props?.value || [];
@@ -250,6 +251,9 @@ const GoogleBusiness = (props) => {
                 </div>
                 ))}
           </div>
+          { ( !selectedProfileViewMore && selectedProfile && selectedProfile.length >= 3) && (
+            <ViewMore setSelectedProfileViewMore={setSelectedProfileViewMore} />
+          ) }
         </div>
       </div>
       <Modal

@@ -245,8 +245,11 @@ class Settings
 
 
     public function wpsp_get_options_data( $request ) {
-        $option_value = get_option('wpsp_settings_v5');
+        if ( !Helper::is_user_allow() ) {
+            return new \WP_Error('unauthorized', 'Unauthorized', array('status' => 401));
+        }
         
+        $option_value = get_option('wpsp_settings_v5');
         if ($option_value !== false) {
             $option_value = json_decode($option_value, true);
             // Check and process `linkedin_profile_list` if it exists

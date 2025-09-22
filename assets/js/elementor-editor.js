@@ -530,6 +530,7 @@
                 is_instagram_share,
                 is_medium_share,
                 is_threads_share,
+                is_google_business_share,
                 facebook_selected_profiles,
                 twitter_selected_profiles,
                 linkedin_selected_profiles,
@@ -537,6 +538,7 @@
                 instagram_selected_profiles,
                 medium_selected_profiles,
                 threads_selected_profiles,
+                google_business_selected_profiles,
             }
     
             jQuery.post(ajaxurl, data, function (response, status) {
