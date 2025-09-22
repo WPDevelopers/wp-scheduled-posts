@@ -1,4 +1,10 @@
-.wpsp-modal--wrapper h2,h4,h5 {
+/* Headings */
+.wpsp-modal--wrapper h2,
+#wpsp-post-modal .wpsp-modal--wrapper h2,
+.wpsp-modal--wrapper h4,
+#wpsp-post-modal .wpsp-modal--wrapper h4,
+.wpsp-modal--wrapper h5,
+#wpsp-post-modal .wpsp-modal--wrapper h5 {
     margin: 0; 
 }
 h2.title {
@@ -6,7 +12,7 @@ h2.title {
     line-height: 1em;
     font-weight: 500;
     color: #1D2939;
-    margin-bottom: 24px;;
+    margin-bottom: 24px;
 }
 h4.title {
     font-size: 16px;
@@ -20,7 +26,10 @@ h5.title {
     font-weight: 500;
     color: #475467;
 }
-.wpsp-modal--wrapper label {
+
+/* Labels */
+.wpsp-modal--wrapper label,
+#wpsp-post-modal .wpsp-modal--wrapper label {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -28,12 +37,14 @@ h5.title {
     line-height: 1em;
     color: #1D2939;
 }
-.wpsp-modal--wrapper .opacity {
+.wpsp-modal--wrapper .opacity,
+#wpsp-post-modal .wpsp-modal--wrapper .opacity {
     opacity: 0;
 }
 
 /* Checkbox Styles */
-.wpsp-modal--wrapper input[type="checkbox"] {
+.wpsp-modal--wrapper input[type="checkbox"],
+#wpsp-post-modal .wpsp-modal--wrapper input[type="checkbox"] {
     appearance: none;
     width: 16px;
     height: 16px;
@@ -47,7 +58,8 @@ h5.title {
     transition: background-color 0.3s ease-in-out;
     position: relative;
 }
-.wpsp-modal--wrapper input[type="checkbox"]::after {
+.wpsp-modal--wrapper input[type="checkbox"]::after,
+#wpsp-post-modal .wpsp-modal--wrapper input[type="checkbox"]::after {
     content: "";
     position: absolute;
     top: 50%;
@@ -59,29 +71,35 @@ h5.title {
     transition: ease-in-out .35s;
     transform: translate(-50%, -50%) rotate(45deg);
 }
-.wpsp-modal--wrapper input[type="checkbox"]:checked {
+.wpsp-modal--wrapper input[type="checkbox"]:checked,
+#wpsp-post-modal .wpsp-modal--wrapper input[type="checkbox"]:checked {
     background-color: #6C62FF;
     border: 1px solid #6C62FF;
 }
-.wpsp-modal--wrapper input[type="checkbox"]:focus {
+.wpsp-modal--wrapper input[type="checkbox"]:focus,
+#wpsp-post-modal .wpsp-modal--wrapper input[type="checkbox"]:focus {
     box-shadow: none;
     outline: 0;
 }
-.wpsp-modal--wrapper input[type="checkbox"]::before {
+.wpsp-modal--wrapper input[type="checkbox"]::before,
+#wpsp-post-modal .wpsp-modal--wrapper input[type="checkbox"]::before {
     display: none;
 }
 
 /* Toggle Styles */
-.wpsp-modal--wrapper label.toggle--wrap {
+.wpsp-modal--wrapper label.toggle--wrap,
+#wpsp-post-modal .wpsp-modal--wrapper label.toggle--wrap {
     position: relative;
     display: inline-block;
     width: 40px;
     height: 20px;
 }
-.wpsp-modal--wrapper .toggle--wrap input {
+.wpsp-modal--wrapper .toggle--wrap input,
+#wpsp-post-modal .wpsp-modal--wrapper .toggle--wrap input {
     display: none;
 }
-.wpsp-modal--wrapper .slider {
+.wpsp-modal--wrapper .slider,
+#wpsp-post-modal .wpsp-modal--wrapper .slider {
     position: absolute;
     cursor: pointer;
     top: 0;
@@ -92,7 +110,8 @@ h5.title {
     border-radius: 20px;
     transition: ease-in-out .35s;
 }
-.wpsp-modal--wrapper .slider:before {
+.wpsp-modal--wrapper .slider:before,
+#wpsp-post-modal .wpsp-modal--wrapper .slider:before {
     position: absolute;
     content: "";
     height: 16px;
@@ -103,15 +122,18 @@ h5.title {
     border-radius: 50%;
     transition: ease-in-out .35s;
 }
-.wpsp-modal--wrapper input:checked + .slider {
+.wpsp-modal--wrapper input:checked + .slider,
+#wpsp-post-modal .wpsp-modal--wrapper input:checked + .slider {
     background-color: #6C62FF;
 }
-.wpsp-modal--wrapper input:checked + .slider:before {
+.wpsp-modal--wrapper input:checked + .slider:before,
+#wpsp-post-modal .wpsp-modal--wrapper input:checked + .slider:before {
     transform: translateX(20px);
 }
 
 /* Modal layout Styles */
-.wpsp-post--modal {
+.wpsp-post--modal,
+#wpsp-post-modal {
     background: rgba(27, 27, 80, .4) !important;
     display: none;
     inset: 0;
@@ -119,10 +141,12 @@ h5.title {
     position: fixed;
     z-index: 99999 !important;
 }
-.wpsp-post--modal.active {
+.wpsp-post--modal.active,
+#wpsp-post-modal.active {
     display: block;
 }
-.wpsp-post--modal .wpsp-modal--wrapper {
+.wpsp-post--modal .wpsp-modal--wrapper,
+#wpsp-post-modal .wpsp-modal--wrapper {
     background: #fff;
     border-radius: 14px;
     box-sizing: border-box;
@@ -132,58 +156,72 @@ h5.title {
     position: relative;
     overflow: hidden;
 }
-.wpsp-modal--header {
+.wpsp-modal--header,
+#wpsp-post-modal .wpsp-modal--header {
     padding: 16px 32px;
 }
-.wpsp-modal--body {
+.wpsp-modal--body,
+#wpsp-post-modal .wpsp-modal--body {
     display: flex;
     justify-content: space-between;
 }
-.scheduling--wrapper {
+.scheduling--wrapper,
+#wpsp-post-modal .scheduling--wrapper {
     flex: 1;
     padding: 24px 20px 24px 32px;
     background: #F9F8FD;
 }
-.wpsp-post--card {
+.wpsp-post--card,
+#wpsp-post-modal .wpsp-post--card {
     background: #FFFFFF;
     padding: 16px;
     border-radius: 12px;
 }
-.scheduling--wrapper .wpsp-post--card:not(:last-child) {
+.scheduling--wrapper .wpsp-post--card:not(:last-child),
+#wpsp-post-modal .scheduling--wrapper .wpsp-post--card:not(:last-child) {
     margin-bottom: 16px;
 }
-.card--title {
+.card--title,
+#wpsp-post-modal .card--title {
     display: flex;
     align-items: center;
     gap: 8px;
     margin-bottom: 24px;
 }
-.card--title.info {
+.card--title.info,
+#wpsp-post-modal .card--title.info {
     gap: 4px;
 }
-.select--wrapper {
+.select--wrapper,
+#wpsp-post-modal .select--wrapper {
     margin-bottom: 16px;
 }
-.wpsp-post-items--wrapper {
+.wpsp-post-items--wrapper,
+#wpsp-post-modal .wpsp-post-items--wrapper {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 16px;
 }
-.wpsp-post--items {
+.wpsp-post--items,
+#wpsp-post-modal .wpsp-post--items {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
-.wpsp-post--items .card--title {
+.wpsp-post--items .card--title,
+#wpsp-post-modal .wpsp-post--items .card--title {
     margin-bottom: 0;
 }
-.wpsp-tag--wrapper {
+.wpsp-tag--wrapper,
+#wpsp-post-modal .wpsp-tag--wrapper {
     margin-top: 20px;
 }
-.wpsp-tag--wrapper .card--title {
+.wpsp-tag--wrapper .card--title,
+#wpsp-post-modal .wpsp-tag--wrapper .card--title {
     margin-bottom: 8px;
 }
-.tag-item--wrapper {
+.tag-item--wrapper,
+#wpsp-post-modal .tag-item--wrapper {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -191,7 +229,8 @@ h5.title {
     border: 1px solid #ECEFF5;
     border-radius: 8px;
 }
-.tag--item {
+.tag--item,
+#wpsp-post-modal .tag--item {
     display: flex;
     align-items: center;
     gap: 4px;
@@ -204,35 +243,43 @@ h5.title {
     font-weight: 500;
     color: #6C62FF;
 }
-.tag--item svg {
+.tag--item svg,
+#wpsp-post-modal .tag--item svg {
     cursor: pointer;
 }
-.advance-schedule--wrapper {
+.advance-schedule--wrapper,
+#wpsp-post-modal .advance-schedule--wrapper {
     margin-top: 20px;
 }
-.social-share--wrapper {
+.social-share--wrapper,
+#wpsp-post-modal .social-share--wrapper {
     flex: 0 0 318px;
     padding: 24px 20px;
     background: #F2F0FA;
     border-left: 1px solid #E9E7F4;
 }
-.advance-schedule--header {
+.advance-schedule--header,
+#wpsp-post-modal .advance-schedule--header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
 }
-.advance-schedule--header h5.title {
+.advance-schedule--header h5.title,
+#wpsp-post-modal .advance-schedule--header h5.title {
     color: #1D2939;
 }
-.wpsp-post-items--wrapper {
+.wpsp-post-items--wrapper,
+#wpsp-post-modal .wpsp-post-items--wrapper {
     margin-top: 16px;
 }
-.add-version--wrap {
+.add-version--wrap,
+#wpsp-post-modal .add-version--wrap {
     display: flex;
     justify-content: flex-end;
 }
-.add-version--btn {
+.add-version--btn,
+#wpsp-post-modal .add-version--btn {
     display: inline-flex;
     align-items: center;
     gap: 4px;
@@ -246,10 +293,12 @@ h5.title {
     color: #6C62FF;
     cursor: pointer;
 }
-.banner--wrapper {
+.banner--wrapper,
+#wpsp-post-modal .banner--wrapper {
     margin-top: 12px;
 }
-.banner--btn {
+.banner--btn,
+#wpsp-post-modal .banner--btn {
     display: flex;
     justify-content: center;
     font-size: 12px;
@@ -263,18 +312,21 @@ h5.title {
     width: 100%;
     cursor: pointer;
 }
-.banner--img {
+.banner--img,
+#wpsp-post-modal .banner--img {
     max-width: 100%;
     max-height: 140px;
     border-radius: 4px;
 }
-.upload-button--wrapper {
+.upload-button--wrapper,
+#wpsp-post-modal .upload-button--wrapper {
     display: flex;
     align-items: center;
     gap: 12px;
     margin-top: 12px;
 }
-.upload-button--wrapper .btn {
+.upload-button--wrapper .btn,
+#wpsp-post-modal .upload-button--wrapper .btn {
     display: flex;
     justify-content: center;
     flex: 1;
@@ -284,35 +336,46 @@ h5.title {
     border-radius: 6px;
     padding: 12px;
 }
-.upload-button--wrapper .upload--btn {
+.upload-button--wrapper .upload--btn,
+#wpsp-post-modal .upload-button--wrapper .upload--btn {
     color: #FFFFFF;
     background: #6C62FF;
     border: 1px solid #6C62FF;
 }
-.upload-button--wrapper .remove--btn {
+.upload-button--wrapper .remove--btn,
+#wpsp-post-modal .upload-button--wrapper .remove--btn {
     color: #FD2626;
     background: transparent;
     border: 1px solid #FFB4B4;
 }
-.social-platform--wrapper {
+.social-platform--wrapper,
+#wpsp-post-modal .social-platform--wrapper {
     padding-top: 24px;
 }
-.social-platform--wrapper span.title {
+.social-platform--wrapper span.title,
+#wpsp-post-modal .social-platform--wrapper span.title {
     font-size: 14px;
     font-weight: 500;
     color: #6E6E8D;
     padding-bottom: 16px;
     display: block;
 }
-.social-platform--wrapper .card--title {
+.social-platform--wrapper .card--title,
+#wpsp-post-modal .social-platform--wrapper .card--title {
     margin-bottom: 8px;
 }
-.social-platform--wrapper .social--item:not(:last-child) {
+.social-platform--wrapper .social--item:not(:last-child),
+#wpsp-post-modal .social-platform--wrapper .social--item:not(:last-child) {
     margin-bottom: 20px;
+}
+.social-platform--wrapper .social--item .wpsp-select--option,
+#wpsp-post-modal .social-platform--wrapper .social--item .wpsp-select--option {
+    position: relative;
 }
 
 /* Footer Styles */
-.wpsp-modal--footer {
+.wpsp-modal--footer,
+#wpsp-post-modal .wpsp-modal--footer {
     display: flex;
     justify-content: flex-end;
     gap: 16px;
@@ -343,7 +406,8 @@ button.secondary-btn {
 }
 
 /* Social Profile Select Styles */
-.dropdown--selected {
+.dropdown--selected,
+#wpsp-post-modal .dropdown--selected {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -356,18 +420,21 @@ button.secondary-btn {
     min-height: 18px;
     position: relative;
 }
-.dropdown--selected svg {
+.dropdown--selected svg,
+#wpsp-post-modal .dropdown--selected svg {
     position: absolute;
     right: 12px;
     top: 50%;
     transform: translateY(-50%);
 }
-.dropdown--selected span {
+.dropdown--selected span,
+#wpsp-post-modal .dropdown--selected span {
     font-size: 12px;
     line-height: 16px;
     color: #6E6E8D;
 }
-.avatar-tag {
+.avatar-tag,
+#wpsp-post-modal .avatar-tag {
     display: flex;
     align-items: center;
     background: #eee;
@@ -375,13 +442,15 @@ button.secondary-btn {
     border-radius: 999px;
     font-size: 12px;
 }
-.avatar-tag img {
+.avatar-tag img,
+#wpsp-post-modal .avatar-tag img {
     width: 20px;
     height: 20px;
     border-radius: 50%;
     margin-right: 4px;
 }
-.dropdown--options {
+.dropdown--options,
+#wpsp-post-modal .dropdown--options {
     display: none;
     margin-top: 4px;
     border: 1px solid #ECEFF5;
@@ -390,11 +459,16 @@ button.secondary-btn {
     max-height: 240px;
     box-shadow: 0px 12px 48px 0px #1B1B501A;
     overflow-y: auto;
+    position: absolute;
+    width: 100%;
+    z-index: 99;
 }
-.dropdown--options.active {
+.dropdown--options.active,
+#wpsp-post-modal .dropdown--options.active {
     display: block;
 }
-.option {
+.option,
+#wpsp-post-modal .option {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -402,15 +476,18 @@ button.secondary-btn {
     transition: ease-in-out .25s;
     cursor: pointer;
 }
-.option:hover {
+.option:hover,
+#wpsp-post-modal .option:hover {
     background: #FAFAFF;
 }
-.author--details {
+.author--details,
+#wpsp-post-modal .author--details {
     display: flex;
     align-items: center;
     gap: 6px;
 }
-.author--details button {
+.author--details button,
+#wpsp-post-modal .author--details button {
     font-size: 8px;
     line-height: 1em;
     font-weight: 500;
@@ -420,31 +497,37 @@ button.secondary-btn {
     border-radius: 20px;
     border: none;
 }
-.author--details button.profile {
+.author--details button.profile,
+#wpsp-post-modal .author--details button.profile {
     color: #6C62FF;
     background: #F3F2FF;
 }
-.author--details button.page {
+.author--details button.page,
+#wpsp-post-modal .author--details button.page {
     color: #007AB9;
     background: #F0FAFF;
 }
-.option img {
+.option img,
+#wpsp-post-modal .option img {
     width: 20px;
     height: 20px;
     border-radius: 50%;
 }
 
 /* Carousel Styles */
-.carousal--wrapper {
+.carousal--wrapper,
+#wpsp-post-modal .carousal--wrapper {
     border: 1px solid #ECEFF5;
     border-radius: 8px;
     text-align: center;
     overflow: hidden;
 }
-.carousal--tab {
+.carousal--tab,
+#wpsp-post-modal .carousal--tab {
     display: flex;
 }
-.carousal--tab .tab--item {
+.carousal--tab .tab--item,
+#wpsp-post-modal .carousal--tab .tab--item {
     font-size: 14px;
     line-height: 1em;
     font-weight: 500;
@@ -459,142 +542,28 @@ button.secondary-btn {
     transition: ease-in-out .25s;
     cursor: pointer;
 }
-.carousal--tab .tab--item.active {
+.carousal--tab .tab--item.active,
+#wpsp-post-modal .carousal--tab .tab--item.active {
     background: #6C62FF;
     color: #FFFFFF;
 }
-.tab--content {
+.tab--content,
+#wpsp-post-modal .tab--content {
     margin: 12px;
     padding: 12px;
     border: 1px dashed #9D97FD;
     border-radius: 8px;
     background: #F7F7FC;
 }
-.tab--content .thumbnail {
+.tab--content .thumbnail,
+#wpsp-post-modal .tab--content .thumbnail {
     max-width: 60px;
     max-height: 80px;
     object-fit: cover;
     border-radius: 4px;
     cursor: pointer;
 }
-.tab--content svg {
+.tab--content svg,
+#wpsp-post-modal .tab--content svg {
     margin-bottom: 8px;
-    cursor: pointer;
 }
-.tab--content .text {
-    font-size: 14px;
-    line-height: 1em;
-    font-weight: 500;
-    color: #1B1B50;
-    margin: 0 auto;
-    padding-top: 20px;
-    white-space: nowrap;
-    overflow: hidden;
-    max-width: 190px;
-    text-overflow: ellipsis;
-    text-align: center;
-}
-.tab--content .subtext {
-    font-size: 12px;
-    line-height: 1em;
-    color: #6E6E8D;
-    margin: 0;
-    margin-top: 10px;
-    margin-bottom: 12px;
-}
-.tab--content button.btn {
-    padding: 12px;
-    border-radius: 6px;
-    border: none;
-    display: inline-flex;
-    cursor: pointer;
-}
-.tab--content button.btn-gray {
-    color: #F3F2FF;
-    background: #B5B5BC;
-    border: 1px solid #B5B5BC;
-
-}
-.tab--content button.btn-light {
-    color: #1B1B50;
-    background: transparent;
-    border: 1px solid #ECEFF5;
-}
-.tab--content button.primary-btn {
-    margin-top: 8px;
-}
-
-/* Popup Styles */
-.popup {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.6);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
-}
-.popup-content {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    width: 80%;
-    max-width: 500px;
-    position: relative;
-    text-align: center;
-}
-.popup-content img {
-    max-width: 100%;
-    max-height: 400px;
-    object-fit: contain;
-}
-.close-btn {
-    position: absolute;
-    top: 8px;
-    right: 12px;
-    font-size: 20px;
-    cursor: pointer;
-}
-.slider-nav {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 12px;
-}
-.slider-nav button {
-    padding: 6px 14px;
-    font-size: 14px;
-    border-radius: 6px;
-    border: none;
-    background: #6366f1;
-    color: white;
-    cursor: pointer;
-}
-
-
-
-/* .wpsp-modal-backdrop {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-}
-
-.wpsp-modal-content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    width: 500px;
-    max-width: 90%;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-    z-index: 10000;
-} */
-

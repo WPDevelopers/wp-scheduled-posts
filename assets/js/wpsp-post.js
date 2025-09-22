@@ -73,9 +73,11 @@
     const checkboxes = container.querySelectorAll('.profile');
     const selectAll = container.querySelector('.selectAll');
   
-    selectedBox.addEventListener('click', () => {
-      dropdownOptions.classList.toggle('active');
-    });
+    if( selectedBox ) {
+      selectedBox.addEventListener('click', () => {
+        dropdownOptions.classList.toggle('active');
+      });
+    }
   
     function updateSelected() {
       selectedBox.innerHTML = '';
@@ -85,20 +87,22 @@
       } else {
         selected.forEach(cb => {
           const tag = document.createElement('div');
-          tag.className = 'avatar-tag';
-          tag.innerHTML = `<img src="${cb.dataset.img}">${cb.value}`;
-          selectedBox.appendChild(tag);
+            tag.className = 'avatar-tag';
+            tag.innerHTML = `<img src="${cb.dataset.img}">${cb.dataset.name}`;
+            selectedBox.appendChild(tag);
         });
       }
     }
   
     checkboxes.forEach(cb => cb.addEventListener('change', updateSelected));
-    selectAll.addEventListener('change', (e) => {
-      checkboxes.forEach(cb => cb.checked = e.target.checked);
-      updateSelected();
-    });
+    if( selectAll ) {
+      selectAll.addEventListener('change', (e) => {
+        checkboxes.forEach(cb => cb.checked = e.target.checked);
+        updateSelected();
+      });
+      updateSelected(); // Initialize with current state
+    }
   
-    updateSelected(); // Initialize with current state
   });
   
 
@@ -141,7 +145,7 @@
     currentTab = tabName;
     document.getElementById('tab-reels').classList.toggle('active', tabName === 'reels');
     document.getElementById('tab-carousel').classList.toggle('active', tabName === 'carousel');
-    renderTabContent();
+    // renderTabContent();
   }
 
   function openPopup(index) {
@@ -167,5 +171,33 @@
   }
 
   // Initialize
-  renderTabContent();
+  // renderTabContent();
 })(jQuery);
+
+console.log('hello');
+
+jQuery(document).ready(function($){
+  $('#wpsp-save-settings').on('click', function(e){
+      e.preventDefault();
+      var formData = {
+        action           : "wpsp_save_modal_data",
+        _ajax_nonce      : '',
+        post_id          : parseInt( $('#post_ID').val() ),
+        facebook_profiles: []
+      };
+      
+      // Only select checkboxes inside #facebook-profiles
+      $('#facebook-profiles input[type="checkbox"]:checked').each(function(){
+          var id = $(this).val();          // checkbox value = id
+          var name = $(this).data('name'); // get name from data-name
+          
+          formData.facebook_profiles.push({
+              id: id,
+              name: name
+          });
+      });
+      $.post(ajaxurl, formData, function(response){
+          console.log(response);
+      });
+  });
+});
