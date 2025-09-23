@@ -120,6 +120,7 @@ class Post
                             </svg>
                         </button>
                     </div>
+                    <?php require_once WPSP_INCLUDES_DIR_PATH . '/Views/social_message_modal_content.php'; ?>
                 </div>
             </div>
         <?php

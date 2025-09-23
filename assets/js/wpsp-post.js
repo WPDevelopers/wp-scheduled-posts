@@ -3,12 +3,110 @@
   // Classic editor modal open
   document.addEventListener('DOMContentLoaded', function () {
     const modal = document.getElementById('wpsp-post-modal');
-    const closeBtn = document.getElementById('wpsp-modal-close');    
+    const closeBtn = document.getElementById('wpsp-modal-close');
     window.mypluginOpenModal = () => modal.classList.add('active');
     const closeModal = () => modal.classList.remove('active');
     closeBtn.addEventListener('click', closeModal);
     modal.querySelector('.wpsp-modal-backdrop')?.addEventListener('click', closeModal);
-  });    
+  });
+
+  // Social Message Modal Functions
+  function openSocialMessageModal() {
+    const modal = document.getElementById('wpsp-social-message-modal');
+    if (modal) {
+      modal.style.display = 'block';
+      setTimeout(() => {
+        modal.classList.add('wpsp-modal-open');
+      }, 10);
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function closeSocialMessageModal() {
+    const modal = document.getElementById('wpsp-social-message-modal');
+    if (modal) {
+      modal.classList.remove('wpsp-modal-open');
+      setTimeout(() => {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+      }, 300);
+    }
+  }
+
+  // Social Message Modal Event Listeners
+  document.addEventListener('DOMContentLoaded', function () {
+    // Open modal button
+    const openBtn = document.getElementById('wpsp-add-social-message');
+    if (openBtn) {
+      openBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        openSocialMessageModal();
+      });
+    }
+
+    // Close modal buttons
+    const closeBtn = document.getElementById('wpsp-modal-close');
+    const cancelBtn = document.getElementById('wpsp-close-social-message-modal');
+    const overlay = document.querySelector('.wpsp-modal-overlay');
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        closeSocialMessageModal();
+      });
+    }
+
+    if (cancelBtn) {
+      cancelBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        closeSocialMessageModal();
+      });
+    }
+
+    if (overlay) {
+      overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) {
+          closeSocialMessageModal();
+        }
+      });
+    }
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeSocialMessageModal();
+      }
+    });
+
+    // Character counter
+    const messageTextarea = document.getElementById('wpsp-social-message');
+    const charCount = document.getElementById('wpsp-char-count');
+
+    if (messageTextarea && charCount) {
+      messageTextarea.addEventListener('input', function() {
+        const length = this.value.length;
+        charCount.textContent = length;
+
+        if (length > 250) {
+          charCount.style.color = '#f59e0b';
+        } else {
+          charCount.style.color = '#6b7280';
+        }
+      });
+    }
+
+    // Form submission
+    const socialForm = document.getElementById('wpsp-social-message-form');
+    if (socialForm) {
+      socialForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Simple success message
+        alert('Social message saved successfully!');
+        closeSocialMessageModal();
+      });
+    }
+  });
 
 
 
@@ -151,7 +249,7 @@
   function openPopup(index) {
     currentIndex = index;
     document.getElementById("popupImage").src = data[currentTab].images[currentIndex];
-    document.getElementById("popup").style.display = "flex";
+    document.getElementById("popup").style.display = "block";
   }
 
   function closePopup() {
@@ -173,8 +271,6 @@
   // Initialize
   // renderTabContent();
 })(jQuery);
-
-console.log('hello');
 
 jQuery(document).ready(function($){
   $('#wpsp-save-settings').on('click', function(e){

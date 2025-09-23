@@ -37,6 +37,9 @@
         </div>
     </div>
     <div class="social-platform--wrapper">
+        <button type="button" class="btn add-social-message-btn" id="wpsp-add-social-message" data-modal-target="wpsp-social-message-modal">
+            <?php echo __('Add Social Message','wp-scheduled-posts') ?>
+        </button>
         <span class="title"><?php echo __('Choose Social Share Platform','wp-scheduled-posts') ?></span>
         <!-- Social item Facebook -->
         <div class="social--item">

@@ -567,3 +567,44 @@ button.secondary-btn {
 #wpsp-post-modal .tab--content svg {
     margin-bottom: 8px;
 }
+
+#wpsp-social-message-modal {
+    position: absolute;
+    width: 90%;
+    top: 29px;
+    transform: translate(40px, 10px);
+    border-radius: 10px;
+    display: none;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+#wpsp-social-message-modal .wpsp-modal-layout {
+    border-radius: 10px;
+}
+
+#wpsp-social-message-modal .wpsp-modal-header {
+    border-bottom: 1px solid #ECEFF5;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 32px;
+    background: #FFF;
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+}
+#wpsp-social-message-modal .wpsp-modal-header .platform-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+#wpsp-social-message-modal .wpsp-modal-header .platform-info h4 {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.2em;
+    color: #1D2939;
+}
