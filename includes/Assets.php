@@ -40,7 +40,14 @@ class Assets
         // Enqueue globally
         $enqueue_callback = function () use ($asset_base) {
             wp_enqueue_style('myplugin-global-style', $asset_base . 'css/wpsp-post.css');
+            wp_enqueue_style('wpsp-social-message-modal', $asset_base . 'css/social-message-modal.css');
             wp_enqueue_script('myplugin-global-script', $asset_base . 'js/wpsp-post.js', array('jquery'), null, true);
+
+            // Localize script with nonce for AJAX requests
+            wp_localize_script('myplugin-global-script', 'wpsp_ajax_object', array(
+                'ajax_url' => admin_url('admin-ajax.php'),
+                'nonce' => wp_create_nonce('wp_rest'),
+            ));
         };
     
         // Frontend

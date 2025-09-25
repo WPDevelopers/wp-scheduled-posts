@@ -28,17 +28,85 @@ class Post
     }
     
     public function wpsp_save_modal_data() {
-        $platforms = ['facebook', 'instagram', 'twitter', 'google_business'];
+        // Verify nonce for security
+        // if (!wp_verify_nonce($_POST['_ajax_nonce'] ?? '', 'wp_rest')) {
+        //     wp_send_json_error(['message' => __('Security check failed', 'wp-scheduled-posts')]);
+        // }
+
+        $post_id = intval($_POST['post_id'] ?? 0);
+        if (!$post_id) {
+            wp_send_json_error(['message' => __('Invalid post ID', 'wp-scheduled-posts')]);
+        }
+
+        // Get existing custom templates or initialize with default structure
+        $existing_templates = get_post_meta($post_id, '_wpsp_custom_templates', true);
+        if (!is_array($existing_templates)) {
+            $existing_templates = [
+                'facebook' => ['template' => '', 'profiles' => [], 'is_global' => ''],
+                'instagram' => ['template' => '', 'profiles' => [], 'is_global' => ''],
+                'google_business' => ['template' => '', 'profiles' => [], 'is_global' => '']
+            ];
+        }
+
+        // Process platform data from the modal
+        $platforms_to_update = ['facebook', 'instagram', 'google_business'];
+        $updated_templates = $existing_templates;
+
+        foreach ($platforms_to_update as $platform) {
+            // Get selected profiles for this platform
+            $selected_profiles = $_POST["{$platform}_profiles"] ?? [];
+            $profile_ids = [];
+
+            // Extract profile IDs from the submitted data
+            if (is_array($selected_profiles)) {
+                foreach ($selected_profiles as $profile) {
+                    if (is_array($profile) && isset($profile['id'])) {
+                        $profile_ids[] = $profile['id'];
+                    } elseif (is_string($profile)) {
+                        $profile_ids[] = $profile;
+                    }
+                }
+            }
+
+            // Get template content for this platform
+            $template_content = '';
+            if (isset($_POST['social_template']) && isset($_POST['active_platform']) && $_POST['active_platform'] === $platform) {
+                $template_content = sanitize_textarea_field($_POST['social_template']);
+            } elseif (isset($existing_templates[$platform]['template'])) {
+                $template_content = $existing_templates[$platform]['template'];
+            }
+
+            // Get global template setting
+            $is_global = '';
+            if (isset($_POST['use_global_template']) && isset($_POST['active_platform']) && $_POST['active_platform'] === $platform) {
+                $is_global = $_POST['use_global_template'] === '1' ? '1' : '';
+            } elseif (isset($existing_templates[$platform]['is_global'])) {
+                $is_global = $existing_templates[$platform]['is_global'];
+            }
+
+            // Update the platform data in the expected format
+            $updated_templates[$platform] = [
+                'template' => $template_content,
+                'profiles' => $profile_ids,
+                'is_global' => $is_global
+            ];
+        }
+
+        // Save the updated templates to _wpsp_custom_templates meta field
+        $save_result = update_post_meta($post_id, '_wpsp_custom_templates', $updated_templates);
+
+        // Also maintain backward compatibility by saving to _wpsp_social_profiles
         $stored_profiles = [];
-    
-        foreach ($platforms as $platform) {
-            $selected_ids     = $_POST["{$platform}_profiles"] ?? [];
+        $all_platforms = ['facebook', 'instagram', 'twitter', 'google_business'];
+
+        foreach ($all_platforms as $platform) {
+            $selected_ids = $_POST["{$platform}_profiles"] ?? [];
             $platformProfiles = (array) \WPSP\Helper::get_settings("{$platform}_profile_list");
-    
+
             if (empty($selected_ids) || empty($platformProfiles)) {
                 continue;
             }
-    
+
             // Create a lookup map for faster access
             $profile_map = [];
             foreach ($platformProfiles as $profile) {
@@ -46,14 +114,14 @@ class Post
                     $profile_map[$profile->id] = $profile;
                 }
             }
-    
+
             foreach ($selected_ids as $key => $profile) {
                 if (empty($profile['id']) || !isset($profile_map[$profile['id']])) {
                     continue;
                 }
-    
+
                 $p = $profile_map[$profile['id']];
-    
+
                 $stored_profiles[] = [
                     'id'            => $p->id,
                     'platform'      => $platform,
@@ -65,17 +133,23 @@ class Post
                 ];
             }
         }
-    
-        // Save to post meta if valid
-        $post_id = intval($_POST['post_id'] ?? 0);
-        if ($post_id) {
+
+        // Save backward compatibility data
+        if (!empty($stored_profiles)) {
             update_post_meta($post_id, '_wpsp_social_profiles', $stored_profiles);
         }
-    
-        wp_send_json_success([
-            'message' => __('Profiles saved successfully', 'wp-scheduled-posts'),
-            'data'    => $stored_profiles,
-        ]);
+
+        if ($save_result !== false) {
+            wp_send_json_success([
+                'message' => __('Social templates and profiles saved successfully', 'wp-scheduled-posts'),
+                'data' => [
+                    'custom_templates' => $updated_templates,
+                    'social_profiles' => $stored_profiles
+                ],
+            ]);
+        } else {
+            wp_send_json_error(['message' => __('Failed to save templates', 'wp-scheduled-posts')]);
+        }
     }
     
 

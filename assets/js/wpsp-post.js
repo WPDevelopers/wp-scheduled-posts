@@ -21,6 +21,11 @@
         if (typeof updateSelectedProfiles === 'function') {
           updateSelectedProfiles();
         }
+        // Initialize the active platform (Facebook by default)
+        const facebookTab = document.querySelector('.wpsp-platform-icon.facebook');
+        if (facebookTab && !facebookTab.classList.contains('active')) {
+          facebookTab.click();
+        }
       }, 10);
       document.body.style.overflow = 'hidden';
     }
