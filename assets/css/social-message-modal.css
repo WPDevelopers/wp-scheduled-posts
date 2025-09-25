@@ -1,0 +1,185 @@
+/* Social Message Modal Styles */
+
+/* Modal Base */
+.wpsp-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999999;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.wpsp-modal.wpsp-modal-open {
+    opacity: 1;
+}
+
+/* Profile Selection */
+.wpsp-profile-card {
+    cursor: pointer;
+    padding: 12px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    border: 2px solid transparent;
+    margin-bottom: 8px;
+}
+
+.wpsp-profile-card:hover {
+    background-color: #f3f4f6;
+    border-color: #e5e7eb;
+}
+
+.wpsp-profile-card:has(.wpsp-modal-profile-checkbox:checked) {
+    background-color: #eff6ff;
+    border-color: #3b82f6;
+}
+
+.wpsp-profile-checkbox {
+    margin-left: auto;
+}
+
+.wpsp-modal-profile-checkbox {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #3b82f6;
+}
+
+.wpsp-profile-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Selected Profiles */
+.wpsp-remove-profile-btn {
+    cursor: pointer;
+    background: #ef4444;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    line-height: 1;
+}
+
+.wpsp-remove-profile-btn:hover {
+    background: #dc2626;
+}
+
+/* Modal Footer */
+.wpsp-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 20px 24px;
+    border-top: 1px solid #e5e7eb;
+    background: #f9fafb;
+}
+
+/* Buttons */
+.wpsp-btn {
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.wpsp-btn-primary {
+    background: #3b82f6;
+    color: #ffffff;
+    border-color: #3b82f6;
+}
+
+.wpsp-btn-primary:hover {
+    background: #2563eb;
+    border-color: #2563eb;
+}
+
+.wpsp-btn-secondary {
+    background: #ffffff;
+    color: #374151;
+    border-color: #d1d5db;
+}
+
+.wpsp-btn-secondary:hover {
+    background: #f9fafb;
+    border-color: #9ca3af;
+}
+
+/* Platform Tabs */
+.wpsp-platform-icon {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 6px;
+    padding: 8px;
+    margin: 2px;
+}
+
+.wpsp-platform-icon:hover {
+    opacity: 0.8;
+}
+
+.wpsp-platform-icon.active {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.wpsp-platform-icon.instagram.active {
+    background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%) !important;
+}
+
+/* Platform-specific styling */
+.wpsp-modal-right.instagram {
+    border-left: 3px solid #e1306c;
+}
+
+.wpsp-modal-right.facebook {
+    border-left: 3px solid #1877f2;
+}
+
+/* Profile selection area */
+.wpsp-profile-selection-area-wrapper {
+    transition: opacity 0.3s ease;
+}
+
+.wpsp-profile-selection-area-wrapper:not([style*="display: none"]) {
+    opacity: 1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .wpsp-modal-footer {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .wpsp-btn {
+        width: 100%;
+    }
+
+    .wpsp-platform-icon {
+        margin: 1px;
+        padding: 6px;
+    }
+}

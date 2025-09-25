@@ -108,7 +108,10 @@ class Post
                             <?php require_once WPSP_INCLUDES_DIR_PATH . '/Views/advanced_schedule.php'; ?>
                         </div>
                         <div class="social-share--wrapper">
-                            <?php $this->post_modal_social_share() ?>
+                            <?php //$this->post_modal_social_share() ?>
+                            <button type="button" class="btn add-social-message-btn" id="wpsp-add-social-message" data-modal-target="wpsp-social-message-modal">
+                                <?php echo __('Add Social Message','wp-scheduled-posts') ?>
+                            </button>
                         </div>
                     </div>
                     

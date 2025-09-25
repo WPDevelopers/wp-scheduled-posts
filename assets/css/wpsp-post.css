@@ -608,3 +608,7 @@ button.secondary-btn {
     line-height: 1.2em;
     color: #1D2939;
 }
+
+#wpsp-social-message-form .wpsp-profile-selection-dropdown {
+    display: none;
+}
