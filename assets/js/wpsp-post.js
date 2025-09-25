@@ -17,15 +17,19 @@
       modal.style.display = 'block';
       setTimeout(() => {
         modal.classList.add('wpsp-modal-open');
-        // Initialize selected profiles display when modal opens
-        if (typeof updateSelectedProfiles === 'function') {
-          updateSelectedProfiles();
-        }
+
         // Initialize the active platform (Facebook by default)
         const facebookTab = document.querySelector('.wpsp-platform-icon.facebook');
         if (facebookTab && !facebookTab.classList.contains('active')) {
           facebookTab.click();
         }
+
+        // Initialize selected profiles display when modal opens
+        setTimeout(() => {
+          if (typeof updateSelectedProfiles === 'function') {
+            updateSelectedProfiles();
+          }
+        }, 100);
       }, 10);
       document.body.style.overflow = 'hidden';
     }

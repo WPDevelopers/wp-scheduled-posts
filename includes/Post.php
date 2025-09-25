@@ -138,18 +138,14 @@ class Post
         if (!empty($stored_profiles)) {
             update_post_meta($post_id, '_wpsp_social_profiles', $stored_profiles);
         }
-
-        if ($save_result !== false) {
-            wp_send_json_success([
-                'message' => __('Social templates and profiles saved successfully', 'wp-scheduled-posts'),
-                'data' => [
-                    'custom_templates' => $updated_templates,
-                    'social_profiles' => $stored_profiles
-                ],
-            ]);
-        } else {
-            wp_send_json_error(['message' => __('Failed to save templates', 'wp-scheduled-posts')]);
-        }
+        wp_send_json_success([
+            'message' => __('Social templates and profiles saved successfully', 'wp-scheduled-posts'),
+            'data'    => [
+                'custom_templates' => $updated_templates,
+                'social_profiles'  => $stored_profiles
+            ],
+        ]);
+        
     }
     
 

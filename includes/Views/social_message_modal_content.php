@@ -4,24 +4,59 @@
     $linkedinProfiles          = \WPSP\Helper::get_settings('linkedin_profile_list');
     $instagramProfiles         = \WPSP\Helper::get_settings('instagram_profile_list');
     $googleBusinessProfiles    = \WPSP\Helper::get_settings('google_business_profile_list');
-    $selected_social_profiles  = get_post_meta( $post->ID, '_wpsp_social_profiles', true );
-    $get_all_selected_profiles = is_array($selected_social_profiles) ? $selected_social_profiles : [];
-    
-    // Filter profiles by platform
-    $facebook_profiles = array_filter($get_all_selected_profiles, function($profile) {
-        return $profile['platform'] === 'facebook';
-    });
-    $linkedin_profiles = array_filter($get_all_selected_profiles, function($profile) {
-        return $profile['platform'] === 'linkedin';
-    });
-    $instagram_profiles = array_filter($get_all_selected_profiles, function($profile) {
-        return $profile['platform'] === 'instagram';
-    });
-    $google_business_profiles = array_filter($get_all_selected_profiles, function($profile) {
-        return $profile['platform'] === 'google_business';
-    });
+    // Load data from _wpsp_custom_templates meta field
+    $custom_templates = get_post_meta($post->ID, '_wpsp_custom_templates', true);
+    if (!is_array($custom_templates)) {
+        $custom_templates = array();
+    }
 
-    $selected_social_profiles = array_column($get_all_selected_profiles, 'id');
+    // Extract selected profile IDs for each platform
+    $selected_facebook_profiles = array();
+    $selected_instagram_profiles = array();
+    $selected_google_business_profiles = array();
+
+    if (isset($custom_templates['facebook']) && isset($custom_templates['facebook']['profiles'])) {
+        $selected_facebook_profiles = $custom_templates['facebook']['profiles'];
+    }
+    if (isset($custom_templates['instagram']) && isset($custom_templates['instagram']['profiles'])) {
+        $selected_instagram_profiles = $custom_templates['instagram']['profiles'];
+    }
+    if (isset($custom_templates['google_business']) && isset($custom_templates['google_business']['profiles'])) {
+        $selected_google_business_profiles = $custom_templates['google_business']['profiles'];
+    }
+
+    // Get template content for each platform
+    $facebook_template = '';
+    $instagram_template = '';
+    $google_business_template = '';
+
+    if (isset($custom_templates['facebook']) && isset($custom_templates['facebook']['template'])) {
+        $facebook_template = $custom_templates['facebook']['template'];
+    }
+    if (isset($custom_templates['instagram']) && isset($custom_templates['instagram']['template'])) {
+        $instagram_template = $custom_templates['instagram']['template'];
+    }
+    if (isset($custom_templates['google_business']) && isset($custom_templates['google_business']['template'])) {
+        $google_business_template = $custom_templates['google_business']['template'];
+    }
+
+    // Get global template settings
+    $facebook_is_global = '';
+    $instagram_is_global = '';
+    $google_business_is_global = '';
+
+    if (isset($custom_templates['facebook']) && isset($custom_templates['facebook']['is_global'])) {
+        $facebook_is_global = $custom_templates['facebook']['is_global'];
+    }
+    if (isset($custom_templates['instagram']) && isset($custom_templates['instagram']['is_global'])) {
+        $instagram_is_global = $custom_templates['instagram']['is_global'];
+    }
+    if (isset($custom_templates['google_business']) && isset($custom_templates['google_business']['is_global'])) {
+        $google_business_is_global = $custom_templates['google_business']['is_global'];
+    }
+
+    // Combine all selected profiles for backward compatibility
+    $all_selected_profile_ids = array_merge($selected_facebook_profiles, $selected_instagram_profiles, $selected_google_business_profiles);
 
 ?>
 
@@ -97,7 +132,7 @@
                                                         $thumbnail_url = $this->autho_logo;
                                                     }
                                                 }
-                                                $checked = in_array( $profile->id, $selected_social_profiles ) ? 'checked' : ''; 
+                                                $checked = in_array( $profile->id, $selected_facebook_profiles ) ? 'checked' : '';
                                         ?>
                                         <li class="selected-profile" title="<?php echo esc_attr( $profile->name ); ?>">
                                                 <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="<?php echo esc_attr( $profile->name ); ?>" class="wpsp-profile-image">
@@ -156,7 +191,7 @@
                                                     value="<?php echo esc_attr( $profile->id ); ?>"
                                                     data-name="<?php echo esc_attr( $profile->name ); ?>"
                                                     data-img="<?php echo esc_url( $thumbnail_url ); ?>"
-                                                    <?php echo in_array( $profile->id, $selected_social_profiles ) ? 'checked' : ''; ?>
+                                                    <?php echo in_array( $profile->id, $selected_facebook_profiles ) ? 'checked' : ''; ?>
                                                 >
                                             </div>
                                         </div>
@@ -166,7 +201,7 @@
                             </div>
                             <div class="wpsp-template-textarea">
                                 <div class="wpsp-textarea-wrapper">
-                                    <textarea placeholder="Enter your custom template here..." id="wpsp-template-input" class="wpsp-template-input" rows="4">{title} {content} {url} {tags}</textarea>
+                                    <textarea placeholder="Enter your custom template here..." id="wpsp-template-input" class="wpsp-template-input" rows="4"><?php echo esc_textarea($facebook_template ? $facebook_template : '{title} {content} {url} {tags}'); ?></textarea>
                                 </div>
                                 <div class="wpsp-template-meta">
                                 <span class="wpsp-placeholders">Available: {title} {content} {url} {tags}</span>
@@ -200,7 +235,7 @@
                                     </span>
                                 </span>
                                 <div class="wpsp-use-global-template-checkbox-wrapper ">
-                                    <input type="checkbox" id="useGlobalTemplate_facebook"><label for="useGlobalTemplate_facebook"></label></div>
+                                    <input type="checkbox" id="useGlobalTemplate_facebook" <?php echo $facebook_is_global ? 'checked' : ''; ?>><label for="useGlobalTemplate_facebook"></label></div>
                                 </div>
                             </div>
                             <div class="wpsp-date-time-section" style="margin-bottom: 1.5em;">
@@ -244,7 +279,7 @@
                                                         $thumbnail_url = $this->autho_logo;
                                                     }
                                                 }
-                                                $checked = in_array( $profile->id, $selected_social_profiles ) ? 'checked' : '';
+                                                $checked = in_array( $profile->id, $selected_google_business_profiles ) ? 'checked' : '';
                                         ?>
                                             <li class="selected-profile" title="<?php echo esc_attr( $profile->name ); ?>">
                                                 <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="<?php echo esc_attr( $profile->name ); ?>" class="wpsp-profile-image">
@@ -303,7 +338,7 @@
                                                     data-name="<?php echo esc_attr( $profile->name ); ?>"
                                                     data-img="<?php echo esc_url( $thumbnail_url ); ?>"
                                                     data-platform="google_business"
-                                                    <?php echo in_array( $profile->id, $selected_social_profiles ) ? 'checked' : ''; ?>
+                                                    <?php echo in_array( $profile->id, $selected_google_business_profiles ) ? 'checked' : ''; ?>
                                                 >
                                             </div>
                                         </div>
@@ -313,7 +348,7 @@
                             </div>
                             <div class="wpsp-template-textarea">
                                 <div class="wpsp-textarea-wrapper">
-                                    <textarea placeholder="Enter your custom template here..." id="wpsp-template-input-google_business" class="wpsp-template-input" rows="4">{title} {content} {url} {tags}</textarea>
+                                    <textarea placeholder="Enter your custom template here..." id="wpsp-template-input-google_business" class="wpsp-template-input" rows="4"><?php echo esc_textarea($google_business_template ? $google_business_template : '{title} {content} {url} {tags}'); ?></textarea>
                                 </div>
                                 <div class="wpsp-template-meta">
                                     <span class="wpsp-placeholders">Available: {title} {content} {url} {tags}</span>
@@ -347,7 +382,7 @@
                                         </span>
                                     </span>
                                     <div class="wpsp-use-global-template-checkbox-wrapper ">
-                                        <input type="checkbox" id="useGlobalTemplate_google_business"><label for="useGlobalTemplate_google_business"></label></div>
+                                        <input type="checkbox" id="useGlobalTemplate_google_business" <?php echo $google_business_is_global ? 'checked' : ''; ?>><label for="useGlobalTemplate_google_business"></label></div>
                                 </div>
                             </div>
                             <div class="wpsp-date-time-section" style="margin-bottom: 1.5em;">
@@ -393,7 +428,7 @@
                                                         $thumbnail_url = $this->autho_logo;
                                                     }
                                                 }
-                                                $checked = in_array( $profile->id, $selected_social_profiles ) ? 'checked' : '';
+                                                $checked = in_array( $profile->id, $selected_instagram_profiles ) ? 'checked' : '';
                                         ?>
                                            <li class="selected-profile" title="<?php echo esc_attr( $profile->name ); ?>">
                                                 <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="<?php echo esc_attr( $profile->name ); ?>" class="wpsp-profile-image">
@@ -453,7 +488,7 @@
                                                     data-name="<?php echo esc_attr( $profile->name ); ?>"
                                                     data-img="<?php echo esc_url( $thumbnail_url ); ?>"
                                                     data-platform="instagram"
-                                                    <?php echo in_array( $profile->id, $selected_social_profiles ) ? 'checked' : ''; ?>
+                                                    <?php echo in_array( $profile->id, $selected_instagram_profiles ) ? 'checked' : ''; ?>
                                                 >
                                             </div>
                                         </div>
@@ -463,7 +498,7 @@
                             </div>
                             <div class="wpsp-template-textarea">
                                 <div class="wpsp-textarea-wrapper">
-                                    <textarea placeholder="Enter your custom template here..." id="wpsp-template-input-instagram" class="wpsp-template-input" rows="4">{title} {content} {url} {tags}</textarea>
+                                    <textarea placeholder="Enter your custom template here..." id="wpsp-template-input-instagram" class="wpsp-template-input" rows="4"><?php echo esc_textarea($instagram_template ? $instagram_template : '{title} {content} {url} {tags}'); ?></textarea>
                                 </div>
                                 <div class="wpsp-template-meta">
                                 <span class="wpsp-placeholders">Available: {title} {content} {url} {tags}</span>
@@ -497,7 +532,7 @@
                                     </span>
                                 </span>
                                 <div class="wpsp-use-global-template-checkbox-wrapper ">
-                                    <input type="checkbox" id="useGlobalTemplate_instagram"><label for="useGlobalTemplate_instagram"></label></div>
+                                    <input type="checkbox" id="useGlobalTemplate_instagram" <?php echo $instagram_is_global ? 'checked' : ''; ?>><label for="useGlobalTemplate_instagram"></label></div>
                                 </div>
                             </div>
                             <div class="wpsp-date-time-section" style="margin-bottom: 1.5em;">
