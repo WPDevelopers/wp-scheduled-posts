@@ -28,7 +28,7 @@ class Post
     }
     
     public function wpsp_save_modal_data() {
-        $platforms = ['facebook', 'instagram', 'twitter']; // Add more platforms if needed
+        $platforms = ['facebook', 'instagram', 'twitter', 'google_business'];
         $stored_profiles = [];
     
         foreach ($platforms as $platform) {

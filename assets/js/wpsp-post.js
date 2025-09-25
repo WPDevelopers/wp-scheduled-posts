@@ -41,7 +41,8 @@
   function updateSelectedProfiles() {
     // Get current active platform
     const activePlatform = $('.wpsp-platform-icon.active').hasClass('facebook') ? 'facebook' :
-                          $('.wpsp-platform-icon.active').hasClass('instagram') ? 'instagram' : 'facebook';
+                          ($('.wpsp-platform-icon.active').hasClass('instagram') ? 'instagram' :
+                          ($('.wpsp-platform-icon.active').hasClass('google_business') ? 'google_business' : 'facebook'));
 
     const selectedProfilesList = document.querySelector(`#wpsp-profile-${activePlatform} .selected-profile-area ul`);
     const checkedBoxes = document.querySelectorAll(`#wpsp-profile-${activePlatform} .wpsp-modal-profile-checkbox:checked`);
@@ -167,7 +168,7 @@
         e.stopPropagation();
         const removeBtn = e.target.closest('.wpsp-remove-profile-btn');
         const profileId = removeBtn.getAttribute('data-profile-id');
-        const platform = removeBtn.getAttribute('data-platform') || 'facebook';
+        const platform = removeBtn.getAttribute('data-platform') || ($('.wpsp-platform-icon.active').hasClass('google_business') ? 'google_business' : ($('.wpsp-platform-icon.active').hasClass('instagram') ? 'instagram' : 'facebook'));
         const checkbox = document.querySelector(`#wpsp-profile-${platform} input.wpsp-modal-profile-checkbox[value="${profileId}"]`);
         if (checkbox) {
           checkbox.checked = false;
@@ -196,7 +197,8 @@
           _ajax_nonce      : '',
           post_id          : parseInt( $('#post_ID').val() ),
           facebook_profiles: [],
-          instagram_profiles: []
+          instagram_profiles: [],
+          google_business_profiles: []
         };
 
         // Collect selected Facebook profiles
@@ -221,9 +223,21 @@
           });
         });
 
+        // Collect selected Google Business profiles
+        $('#wpsp-profile-google_business .wpsp-modal-profile-checkbox:checked').each(function(){
+          var id = $(this).val();
+          var name = $(this).data('name');
+
+          formData.google_business_profiles.push({
+              id: id,
+              name: name
+          });
+        });
+
         // Get template content for current active platform
         const activePlatform = $('.wpsp-platform-icon.active').hasClass('facebook') ? 'facebook' :
-                              $('.wpsp-platform-icon.active').hasClass('instagram') ? 'instagram' : 'facebook';
+                              ($('.wpsp-platform-icon.active').hasClass('instagram') ? 'instagram' :
+                              ($('.wpsp-platform-icon.active').hasClass('google_business') ? 'google_business' : 'facebook'));
 
         const templateInput = document.getElementById(`wpsp-template-input${activePlatform === 'facebook' ? '' : '-' + activePlatform}`);
         if (templateInput) {
@@ -258,7 +272,8 @@
   // Platform tab switching
   $('.wpsp-platform-icon').click(function(){
     const platform = $(this).hasClass('facebook') ? 'facebook' :
-                    $(this).hasClass('instagram') ? 'instagram' : 'facebook';
+                    ($(this).hasClass('instagram') ? 'instagram' :
+                    ($(this).hasClass('google_business') ? 'google_business' : 'facebook'));
 
     // Update active tab
     $('.wpsp-platform-icon').removeClass('active').css({
@@ -268,7 +283,7 @@
     });
 
     $(this).addClass('active').css({
-      'background-color': platform === 'facebook' ? 'rgb(24, 119, 242)' : 'rgb(225, 48, 108)',
+      'background-color': platform === 'facebook' ? 'rgb(24, 119, 242)' : (platform === 'instagram' ? 'rgb(225, 48, 108)' : 'rgb(66, 133, 244)'),
       'color': 'rgb(255, 255, 255)',
       'font-weight': 'bold'
     });
@@ -278,7 +293,7 @@
     $('#wpsp-profile-' + platform).show();
 
     // Update right panel class
-    $('.wpsp-modal-right').removeClass('facebook instagram').addClass(platform);
+    $('.wpsp-modal-right').removeClass('facebook instagram google_business').addClass(platform);
 
     // Update selected profiles display for current platform
     updateSelectedProfiles();
