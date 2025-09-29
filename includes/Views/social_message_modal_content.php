@@ -297,24 +297,6 @@
                         <?php  include __DIR__ . '/Tabs/pinterest-tab.php'; ?>
                         <?php  include __DIR__ . '/Tabs/medium-tab.php'; ?>
                         <?php  include __DIR__ . '/Tabs/threads-tab.php'; ?>
-                        <div class="global-template-wrapper">
-                            <div class="" style="display: flex; align-items: center; gap: 6px;">
-                                Use global template
-                                <span class="wpsp-tooltip-wrapper">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" class="wpsp-tooltip-icon">
-                                        <circle cx="12" cy="12" r="10" fill="#6a4bff"></circle>
-                                        <text x="12" y="16" text-anchor="middle" font-size="12" fill="#fff" font-family="Arial" font-weight="bold">i</text>
-                                    </svg>
-                                    <span class="wpsp-tooltip-text">If enabled, this template will be applied across all the selected social platforms.</span>
-                                </span>
-                            </div>
-                            <div class="wpsp-use-global-template-checkbox-wrapper">
-                                <div class="wpsp-checkbox">
-                                    <input type="checkbox" id="useGlobalTemplate_facebook">
-                                    <label for="useGlobalTemplate_facebook"></label>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <div class="wpsp-date-time-section" style="margin-bottom: 1.5em;">
                         <div style="display: flex; gap: 1.5em; align-items: flex-end;">
