@@ -177,7 +177,7 @@ const SocialShare = ( { is_pro_active, isSocialShareDisable } ) => {
             default_selected_social_profile.push( { id: profile.id, platform: 'google_business', platformKey: index, name : profile.name, type : profile?.type, thumbnail_url : profile.thumbnail_url, share_type : googleBusinessShareType } );
           } )
         }
-        if( _selected_social_profile.length > 0 ) {
+        if( _selected_social_profile?.length > 0 ) {
           const default_object_ids = default_selected_social_profile.map(item => item.id);
           let _final_selected_social_profile = _selected_social_profile.filter(item => default_object_ids.includes(item.id)); 
           setSelectedSocialProfile( [..._final_selected_social_profile] );

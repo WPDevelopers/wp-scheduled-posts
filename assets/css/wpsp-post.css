@@ -57,6 +57,7 @@ h5.title {
     justify-content: center;
     transition: background-color 0.3s ease-in-out;
     position: relative;
+    display: none;
 }
 .wpsp-modal--wrapper input[type="checkbox"]::after,
 #wpsp-post-modal .wpsp-modal--wrapper input[type="checkbox"]::after {
