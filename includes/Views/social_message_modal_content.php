@@ -1,9 +1,88 @@
-<?php 
+<?php
     global $post;
+
+    // Helper function to get safe thumbnail URL
+    function get_safe_thumbnail_url($profile, $autho_logo) {
+        $thumbnail_url = ! empty( $profile->thumbnail_url ) ? $profile->thumbnail_url : $autho_logo;
+        if ( ! empty( $profile->thumbnail_url ) ) {
+            $response = wp_remote_head( $profile->thumbnail_url );
+            if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) !== 200 ) {
+                $thumbnail_url = $autho_logo;
+            }
+        }
+        return $thumbnail_url;
+    }
+
+    // Helper function to render profile selection area
+    function render_profile_selection_area($platform, $profiles, $selected_profiles, $autho_logo) {
+        if ( empty( $profiles ) || ! is_array( $profiles ) ) {
+            return '';
+        }
+
+        $output = '';
+        foreach ( $profiles as $profile ) :
+            if ( empty( $profile->name ) || empty( $profile->thumbnail_url ) ) {
+                continue;
+            }
+            $thumbnail_url = get_safe_thumbnail_url($profile, $autho_logo);
+            $checked = in_array( $profile->id, $selected_profiles ) ? 'checked' : '';
+
+            $output .= '<li class="selected-profile" title="' . esc_attr( $profile->name ) . '">';
+            $output .= '<img src="' . esc_url( $thumbnail_url ) . '" alt="' . esc_attr( $profile->name ) . '" class="wpsp-profile-image">';
+            if( $checked ) {
+                $output .= '<div class="wpsp-selected-profile-action">';
+                $output .= '<span class="wpsp-remove-profile-btn">×</span>';
+                $output .= '<span class="wpsp-selected-profile-btn">';
+                $output .= '<svg width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">';
+                $output .= '<rect x="0.6" y="0.900781" width="8.8" height="8.8" rx="4.4" fill="#6C62FF"></rect>';
+                $output .= '<rect x="0.6" y="0.900781" width="8.8" height="8.8" rx="4.4" stroke="white" stroke-width="0.8"></rect>';
+                $output .= '<g clip-path="url(#clip0_4477_4922)">';
+                $output .= '<path d="M3.58398 5.30078L4.58398 6.30078L6.58398 4.30078" stroke="white" stroke-width="0.64" stroke-linecap="round" stroke-linejoin="round"></path>';
+                $output .= '</g>';
+                $output .= '<defs><clipPath id="clip0_4477_4922"><rect width="4" height="4" fill="white" transform="translate(3 3.30078)"></rect></clipPath></defs>';
+                $output .= '</svg>';
+                $output .= '</span>';
+                $output .= '</div>';
+            }
+            $output .= '</li>';
+        endforeach;
+
+        return $output;
+    }
+
+    // Helper function to render profile dropdown
+    function render_profile_dropdown($platform, $profiles, $selected_profiles, $autho_logo) {
+        if ( empty( $profiles ) || ! is_array( $profiles ) ) {
+            return '';
+        }
+
+        $output = '';
+        foreach ( $profiles as $profile ) :
+            $thumbnail_url = get_safe_thumbnail_url($profile, $autho_logo);
+
+            $output .= '<div class="wpsp-profile-card" data-profile-id="' . esc_attr( $profile->id ) . '" data-profile-name="' . esc_attr( $profile->name ) . '" data-profile-img="' . esc_url( $thumbnail_url ) . '">';
+            $output .= '<div class="wpsp-profile-avatar">';
+            $output .= '<img src="' . esc_url( $thumbnail_url ) . '" alt="' . esc_attr( $profile->name ) . '" class="wpsp-profile-image">';
+            $output .= '</div>';
+            $output .= '<div class="wpsp-profile-info">';
+            $output .= '<div class="wpsp-profile-name">' . esc_html( $profile->name ) . '</div>';
+            $output .= '</div>';
+            $output .= '<div class="wpsp-profile-checkbox">';
+            $output .= '<input type="checkbox" class="wpsp-modal-profile-checkbox wpsp-' . $platform . '-checkbox" name="' . $platform . '_profiles[]" value="' . esc_attr( $profile->id ) . '" data-name="' . esc_attr( $profile->name ) . '" data-img="' . esc_url( $thumbnail_url ) . '" data-platform="' . $platform . '" ' . (in_array( $profile->id, $selected_profiles ) ? 'checked' : '') . '>';
+            $output .= '</div>';
+            $output .= '</div>';
+        endforeach;
+
+        return $output;
+    }
     $facebookProfiles          = \WPSP\Helper::get_settings('facebook_profile_list');
     $linkedinProfiles          = \WPSP\Helper::get_settings('linkedin_profile_list');
     $instagramProfiles         = \WPSP\Helper::get_settings('instagram_profile_list');
     $googleBusinessProfiles    = \WPSP\Helper::get_settings('google_business_profile_list');
+    $twitterProfiles           = \WPSP\Helper::get_settings('twitter_profile_list');
+    $pinterestProfiles         = \WPSP\Helper::get_settings('pinterest_profile_list');
+    $mediumProfiles            = \WPSP\Helper::get_settings('medium_profile_list');
+    $threadsProfiles           = \WPSP\Helper::get_settings('threads_profile_list');
     // Load data from _wpsp_custom_templates meta field
     $custom_templates = get_post_meta($post->ID, '_wpsp_custom_templates', true);
     if (!is_array($custom_templates)) {
@@ -14,6 +93,11 @@
     $selected_facebook_profiles = array();
     $selected_instagram_profiles = array();
     $selected_google_business_profiles = array();
+    $selected_twitter_profiles = array();
+    $selected_linkedin_profiles = array();
+    $selected_pinterest_profiles = array();
+    $selected_medium_profiles = array();
+    $selected_threads_profiles = array();
 
     if (isset($custom_templates['facebook']) && isset($custom_templates['facebook']['profiles'])) {
         $selected_facebook_profiles = $custom_templates['facebook']['profiles'];
@@ -24,11 +108,31 @@
     if (isset($custom_templates['google_business']) && isset($custom_templates['google_business']['profiles'])) {
         $selected_google_business_profiles = $custom_templates['google_business']['profiles'];
     }
+    if (isset($custom_templates['twitter']) && isset($custom_templates['twitter']['profiles'])) {
+        $selected_twitter_profiles = $custom_templates['twitter']['profiles'];
+    }
+    if (isset($custom_templates['linkedin']) && isset($custom_templates['linkedin']['profiles'])) {
+        $selected_linkedin_profiles = $custom_templates['linkedin']['profiles'];
+    }
+    if (isset($custom_templates['pinterest']) && isset($custom_templates['pinterest']['profiles'])) {
+        $selected_pinterest_profiles = $custom_templates['pinterest']['profiles'];
+    }
+    if (isset($custom_templates['medium']) && isset($custom_templates['medium']['profiles'])) {
+        $selected_medium_profiles = $custom_templates['medium']['profiles'];
+    }
+    if (isset($custom_templates['threads']) && isset($custom_templates['threads']['profiles'])) {
+        $selected_threads_profiles = $custom_templates['threads']['profiles'];
+    }
 
     // Get template content for each platform
     $facebook_template = '';
     $instagram_template = '';
     $google_business_template = '';
+    $twitter_template = '';
+    $linkedin_template = '';
+    $pinterest_template = '';
+    $medium_template = '';
+    $threads_template = '';
 
     if (isset($custom_templates['facebook']) && isset($custom_templates['facebook']['template'])) {
         $facebook_template = $custom_templates['facebook']['template'];
@@ -39,11 +143,31 @@
     if (isset($custom_templates['google_business']) && isset($custom_templates['google_business']['template'])) {
         $google_business_template = $custom_templates['google_business']['template'];
     }
+    if (isset($custom_templates['twitter']) && isset($custom_templates['twitter']['template'])) {
+        $twitter_template = $custom_templates['twitter']['template'];
+    }
+    if (isset($custom_templates['linkedin']) && isset($custom_templates['linkedin']['template'])) {
+        $linkedin_template = $custom_templates['linkedin']['template'];
+    }
+    if (isset($custom_templates['pinterest']) && isset($custom_templates['pinterest']['template'])) {
+        $pinterest_template = $custom_templates['pinterest']['template'];
+    }
+    if (isset($custom_templates['medium']) && isset($custom_templates['medium']['template'])) {
+        $medium_template = $custom_templates['medium']['template'];
+    }
+    if (isset($custom_templates['threads']) && isset($custom_templates['threads']['template'])) {
+        $threads_template = $custom_templates['threads']['template'];
+    }
 
     // Get global template settings
     $facebook_is_global = '';
     $instagram_is_global = '';
     $google_business_is_global = '';
+    $twitter_is_global = '';
+    $linkedin_is_global = '';
+    $pinterest_is_global = '';
+    $medium_is_global = '';
+    $threads_is_global = '';
 
     if (isset($custom_templates['facebook']) && isset($custom_templates['facebook']['is_global'])) {
         $facebook_is_global = $custom_templates['facebook']['is_global'];
@@ -54,9 +178,33 @@
     if (isset($custom_templates['google_business']) && isset($custom_templates['google_business']['is_global'])) {
         $google_business_is_global = $custom_templates['google_business']['is_global'];
     }
+    if (isset($custom_templates['twitter']) && isset($custom_templates['twitter']['is_global'])) {
+        $twitter_is_global = $custom_templates['twitter']['is_global'];
+    }
+    if (isset($custom_templates['linkedin']) && isset($custom_templates['linkedin']['is_global'])) {
+        $linkedin_is_global = $custom_templates['linkedin']['is_global'];
+    }
+    if (isset($custom_templates['pinterest']) && isset($custom_templates['pinterest']['is_global'])) {
+        $pinterest_is_global = $custom_templates['pinterest']['is_global'];
+    }
+    if (isset($custom_templates['medium']) && isset($custom_templates['medium']['is_global'])) {
+        $medium_is_global = $custom_templates['medium']['is_global'];
+    }
+    if (isset($custom_templates['threads']) && isset($custom_templates['threads']['is_global'])) {
+        $threads_is_global = $custom_templates['threads']['is_global'];
+    }
 
     // Combine all selected profiles for backward compatibility
-    $all_selected_profile_ids = array_merge($selected_facebook_profiles, $selected_instagram_profiles, $selected_google_business_profiles);
+    $all_selected_profile_ids = array_merge(
+        $selected_facebook_profiles,
+        $selected_instagram_profiles,
+        $selected_google_business_profiles,
+        $selected_twitter_profiles,
+        $selected_linkedin_profiles,
+        $selected_pinterest_profiles,
+        $selected_medium_profiles,
+        $selected_threads_profiles
+    );
 
 ?>
 
@@ -86,6 +234,32 @@
                             <svg width="15" height="15" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M6.38906 1.5625H3.61063C3.06756 1.56291 2.54685 1.77883 2.16284 2.16284C1.77883 2.54685 1.56291 3.06756 1.5625 3.61062V6.38906C1.56283 6.93219 1.77871 7.45297 2.16273 7.83705C2.54675 8.22113 3.0675 8.43709 3.61063 8.4375H6.38906C6.93216 8.437 7.45287 8.22102 7.83687 7.83696C8.22087 7.4529 8.43677 6.93216 8.43719 6.38906V3.61062C8.43694 3.0675 8.22108 2.5467 7.83703 2.16266C7.45299 1.77861 6.93218 1.56275 6.38906 1.5625ZM7.74594 6.38906C7.74586 6.7489 7.60287 7.09398 7.34843 7.34843C7.09398 7.60287 6.7489 7.74585 6.38906 7.74594H3.61063C3.43245 7.74594 3.25603 7.71084 3.09142 7.64265C2.92681 7.57445 2.77725 7.4745 2.65128 7.3485C2.52531 7.2225 2.42539 7.07291 2.35724 6.90829C2.28908 6.74367 2.25402 6.56724 2.25406 6.38906V3.61062C2.25402 3.43247 2.28908 3.25605 2.35724 3.09144C2.4254 2.92684 2.52532 2.77728 2.6513 2.6513C2.77728 2.52532 2.92684 2.4254 3.09144 2.35724C3.25605 2.28908 3.43247 2.25402 3.61063 2.25406H6.38906C6.74882 2.25415 7.09382 2.3971 7.34821 2.65148C7.60259 2.90587 7.74554 3.25087 7.74563 3.61062L7.74594 6.38906Z" fill="black"></path>
                                 <path d="M5.00003 3.2225C4.01941 3.2225 3.22253 4.01969 3.22253 5C3.22253 5.98032 4.01972 6.7775 5.00003 6.7775C5.98035 6.7775 6.77753 5.98032 6.77753 5C6.77753 4.01969 5.98066 3.2225 5.00003 3.2225ZM5.00003 6.08594C4.71203 6.08598 4.4358 5.97161 4.23211 5.76799C4.02843 5.56437 3.91398 5.28817 3.91394 5.00016C3.9139 4.71215 4.02827 4.43592 4.23189 4.23224C4.43552 4.02856 4.71171 3.91411 4.99972 3.91407C5.28773 3.91403 5.56396 4.0284 5.76764 4.23202C5.97132 4.43564 6.08577 4.71184 6.08582 4.99985C6.08586 5.28786 5.97149 5.56409 5.76786 5.76777C5.56424 5.97145 5.28804 6.0859 5.00003 6.08594ZM6.78128 2.80969C6.8655 2.80975 6.94781 2.83478 7.0178 2.88161C7.0878 2.92843 7.14235 2.99496 7.17455 3.07277C7.20675 3.15059 7.21515 3.23621 7.19871 3.3188C7.18226 3.4014 7.1417 3.47726 7.08215 3.53681C7.02261 3.59636 6.94674 3.63692 6.86414 3.65337C6.78155 3.66981 6.69593 3.6614 6.61812 3.6292C6.5403 3.597 6.47377 3.54246 6.42695 3.47246C6.38012 3.40247 6.3551 3.32016 6.35503 3.23594C6.35503 3.00094 6.51441 2.80969 6.78128 2.80969Z" fill="black"></path>
+                            </svg>
+                        </button>
+                        <button class="wpsp-platform-icon twitter" title="Twitter">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" fill="currentColor"/>
+                            </svg>
+                        </button>
+                        <button class="wpsp-platform-icon linkedin" title="LinkedIn">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" fill="currentColor"/>
+                            </svg>
+                        </button>
+                        <button class="wpsp-platform-icon pinterest" title="Pinterest">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.746-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24c6.624 0 11.99-5.367 11.99-11.987C24.007 5.367 18.641.001 12.017.001z" fill="currentColor"/>
+                            </svg>
+                        </button>
+                        <button class="wpsp-platform-icon medium" title="Medium">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z" fill="currentColor"/>
+                            </svg>
+                        </button>
+                        <button class="wpsp-platform-icon threads" title="Threads">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.5 12.068v-.036c0-3.518.85-6.373 2.495-8.424C5.845 1.205 8.598.024 12.179 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.616 12.05v.036c0 3.137.691 5.547 2.028 7.215 1.43 1.781 3.63 2.695 6.54 2.717 4.405-.031 7.199-2.055 8.303-6.015l2.04.569c-.651 2.337-1.832 4.177-3.509 5.467C17.236 23.275 14.939 23.98 12.193 24h-.007z" fill="currentColor"/>
+                                <path d="M17.165 12.906c.176-.464.276-.96.3-1.482.023-.522-.047-1.077-.21-1.665-.326-1.176-.915-2.180-1.75-2.984-.835-.805-1.207-1.215-1.207-1.215s.372.41 1.207 1.215c.835.804 1.424 1.808 1.75 2.984.163.588.233 1.143.21 1.665-.024.522-.124 1.018-.3 1.482z" fill="currentColor"/>
                             </svg>
                         </button>
                         <button class="wpsp-platform-icon google_business" title="Google_business">
@@ -560,6 +734,632 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Twitter Profile Section -->
+                        <div class="wpsp-profile-selection-area-wrapper" id="wpsp-profile-twitter" style="display: none;">
+                            <div class="selected-profile-area">
+                                <ul>
+                                    <?php
+                                        if ( ! empty( $twitterProfiles ) && is_array( $twitterProfiles ) ) :
+                                            foreach ( $twitterProfiles as $profile ) :
+                                                if ( empty( $profile->name ) || empty( $profile->thumbnail_url ) ) {
+                                                    continue;
+                                                }
+                                                $thumbnail_url = ! empty( $profile->thumbnail_url ) ? $profile->thumbnail_url : $this->autho_logo;
+                                                if ( ! empty( $profile->thumbnail_url ) ) {
+                                                    $response = wp_remote_head( $profile->thumbnail_url );
+                                                    if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) !== 200 ) {
+                                                        $thumbnail_url = $this->autho_logo;
+                                                    }
+                                                }
+                                                $checked = in_array( $profile->id, $selected_twitter_profiles ) ? 'checked' : '';
+                                        ?>
+                                        <li class="selected-profile" title="<?php echo esc_attr( $profile->name ); ?>">
+                                                <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="<?php echo esc_attr( $profile->name ); ?>" class="wpsp-profile-image">
+                                                <?php if( $checked ) : ?>
+                                                    <div class="wpsp-selected-profile-action">
+                                                        <span class="wpsp-remove-profile-btn">×</span>
+                                                        <span class="wpsp-selected-profile-btn">
+                                                            <svg width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <rect x="0.6" y="0.900781" width="8.8" height="8.8" rx="4.4" fill="#6C62FF"></rect>
+                                                                <rect x="0.6" y="0.900781" width="8.8" height="8.8" rx="4.4" stroke="white" stroke-width="0.8"></rect>
+                                                                <g clip-path="url(#clip0_4477_4922)">
+                                                                    <path d="M3.58398 5.30078L4.58398 6.30078L6.58398 4.30078" stroke="white" stroke-width="0.64" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                </g>
+                                                                <defs>
+                                                                    <clipPath id="clip0_4477_4922">
+                                                                    <rect width="4" height="4" fill="white" transform="translate(3 3.30078)"></rect>
+                                                                    </clipPath>
+                                                                </defs>
+                                                            </svg>
+                                                        </span>
+                                                    </div>
+                                                <?php endif; ?>
+                                            </li>
+                                        <?php
+                                            endforeach;
+                                        endif;
+                                    ?>
+                                </ul>
+                                <span class="select-profile-icon"><img src="https://schedulepress.test/wp-content/plugins/wp-scheduled-posts/assets/images/chevron-down.svg" alt=""></span>
+                            </div>
+                            <div class="wpsp-profile-selection-dropdown">
+                                <div class="wpsp-profile-selection-dropdown-item">
+                                    <?php if ( ! empty( $twitterProfiles ) && is_array( $twitterProfiles ) ) : ?>
+                                        <?php foreach ( $twitterProfiles as $profile ) :
+                                            $thumbnail_url = ! empty( $profile->thumbnail_url ) ? $profile->thumbnail_url : $this->autho_logo;
+                                            if ( ! empty( $profile->thumbnail_url ) ) {
+                                                $response = wp_remote_head( $profile->thumbnail_url );
+                                                if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) !== 200 ) {
+                                                    $thumbnail_url = $this->autho_logo;
+                                                }
+                                            }
+                                        ?>
+                                        <div class="wpsp-profile-card" data-profile-id="<?php echo esc_attr( $profile->id ); ?>" data-profile-name="<?php echo esc_attr( $profile->name ); ?>" data-profile-img="<?php echo esc_url( $thumbnail_url ); ?>">
+                                            <div class="wpsp-profile-avatar">
+                                                <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="<?php echo esc_attr( $profile->name ); ?>" class="wpsp-profile-image">
+                                            </div>
+                                            <div class="wpsp-profile-info">
+                                                <div class="wpsp-profile-name"><?php echo esc_html( $profile->name ); ?></div>
+                                            </div>
+                                            <div class="wpsp-profile-checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                    class="wpsp-modal-profile-checkbox wpsp-twitter-checkbox"
+                                                    name="twitter_profiles[]"
+                                                    value="<?php echo esc_attr( $profile->id ); ?>"
+                                                    data-name="<?php echo esc_attr( $profile->name ); ?>"
+                                                    data-img="<?php echo esc_url( $thumbnail_url ); ?>"
+                                                    data-platform="twitter"
+                                                    <?php echo in_array( $profile->id, $selected_twitter_profiles ) ? 'checked' : ''; ?>
+                                                >
+                                            </div>
+                                        </div>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                            <div class="wpsp-template-textarea">
+                                <div class="wpsp-textarea-wrapper">
+                                    <textarea placeholder="Enter your custom template here..." id="wpsp-template-input-twitter" class="wpsp-template-input" rows="4"><?php echo esc_textarea($twitter_template ? $twitter_template : '{title} {content} {url} {tags}'); ?></textarea>
+                                </div>
+                                <div class="wpsp-template-meta">
+                                <span class="wpsp-placeholders">Available: {title} {content} {url} {tags}</span>
+                                <div class="wpsp-custom-template-field-info">
+                                    <span class="active">
+                                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <g clip-path="url(#clip0_4607_4338)">
+                                            <path d="M7.93916 7.94141C7.6579 8.22277 7.49993 8.60434 7.5 9.00217C7.50007 9.40001 7.65818 9.78152 7.93954 10.0628C8.2209 10.344 8.60247 10.502 9.0003 10.5019C9.39814 10.5019 9.77965 10.3438 10.0609 10.0624" stroke="#98A2B3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            <path d="M12.5107 12.5048C11.4587 13.163 10.241 13.5082 9 13.5C6.3 13.5 4.05 12 2.25 9.00002C3.204 7.41002 4.284 6.24152 5.49 5.49452M7.635 4.63502C8.08428 4.54407 8.54161 4.49884 9 4.50002C11.7 4.50002 13.95 6.00002 15.75 9.00002C15.2505 9.83252 14.7157 10.5503 14.1465 11.1525" stroke="#98A2B3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            <path d="M2.25 2.25L15.75 15.75" stroke="#98A2B3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            </g>
+                                            <defs>
+                                            <clipPath id="clip0_4607_4338">
+                                                <rect width="18" height="18" fill="white"></rect>
+                                            </clipPath>
+                                            </defs>
+                                        </svg>
+                                    </span>
+                                    <span class="wpsp-char-count ">96/63206</span>
+                                </div>
+                                </div>
+                                <div class="wpsp-global-template ">
+                                <span class="" style="display: flex; align-items: center; gap: 6px;">
+                                    Use global template
+                                    <span class="wpsp-tooltip-wrapper">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" class="wpsp-tooltip-icon">
+                                            <circle cx="12" cy="12" r="10" fill="#6a4bff"></circle>
+                                            <text x="12" y="16" text-anchor="middle" font-size="12" fill="#fff" font-family="Arial" font-weight="bold">i</text>
+                                        </svg>
+                                        <span class="wpsp-tooltip-text">If enabled, this template will be applied across all the selected social platforms.</span>
+                                    </span>
+                                </span>
+                                <div class="wpsp-use-global-template-checkbox-wrapper ">
+                                    <input type="checkbox" id="useGlobalTemplate_twitter" <?php echo $twitter_is_global ? 'checked' : ''; ?>><label for="useGlobalTemplate_twitter"></label></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- LinkedIn Profile Section -->
+                        <div class="wpsp-profile-selection-area-wrapper" id="wpsp-profile-linkedin" style="display: none;">
+                            <div class="selected-profile-area">
+                                <ul>
+                                    <?php
+                                        if ( ! empty( $linkedinProfiles ) && is_array( $linkedinProfiles ) ) :
+                                            foreach ( $linkedinProfiles as $profile ) :
+                                                if ( empty( $profile->name ) || empty( $profile->thumbnail_url ) ) {
+                                                    continue;
+                                                }
+                                                $thumbnail_url = ! empty( $profile->thumbnail_url ) ? $profile->thumbnail_url : $this->autho_logo;
+                                                if ( ! empty( $profile->thumbnail_url ) ) {
+                                                    $response = wp_remote_head( $profile->thumbnail_url );
+                                                    if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) !== 200 ) {
+                                                        $thumbnail_url = $this->autho_logo;
+                                                    }
+                                                }
+                                                $checked = in_array( $profile->id, $selected_linkedin_profiles ) ? 'checked' : '';
+                                        ?>
+                                        <li class="selected-profile" title="<?php echo esc_attr( $profile->name ); ?>">
+                                                <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="<?php echo esc_attr( $profile->name ); ?>" class="wpsp-profile-image">
+                                                <?php if( $checked ) : ?>
+                                                    <div class="wpsp-selected-profile-action">
+                                                        <span class="wpsp-remove-profile-btn">×</span>
+                                                        <span class="wpsp-selected-profile-btn">
+                                                            <svg width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <rect x="0.6" y="0.900781" width="8.8" height="8.8" rx="4.4" fill="#6C62FF"></rect>
+                                                                <rect x="0.6" y="0.900781" width="8.8" height="8.8" rx="4.4" stroke="white" stroke-width="0.8"></rect>
+                                                                <g clip-path="url(#clip0_4477_4922)">
+                                                                    <path d="M3.58398 5.30078L4.58398 6.30078L6.58398 4.30078" stroke="white" stroke-width="0.64" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                </g>
+                                                                <defs>
+                                                                    <clipPath id="clip0_4477_4922">
+                                                                    <rect width="4" height="4" fill="white" transform="translate(3 3.30078)"></rect>
+                                                                    </clipPath>
+                                                                </defs>
+                                                            </svg>
+                                                        </span>
+                                                    </div>
+                                                <?php endif; ?>
+                                            </li>
+                                        <?php
+                                            endforeach;
+                                        endif;
+                                    ?>
+                                </ul>
+                                <span class="select-profile-icon"><img src="https://schedulepress.test/wp-content/plugins/wp-scheduled-posts/assets/images/chevron-down.svg" alt=""></span>
+                            </div>
+                            <div class="wpsp-profile-selection-dropdown">
+                                <div class="wpsp-profile-selection-dropdown-item">
+                                    <?php if ( ! empty( $linkedinProfiles ) && is_array( $linkedinProfiles ) ) : ?>
+                                        <?php foreach ( $linkedinProfiles as $profile ) :
+                                            $thumbnail_url = ! empty( $profile->thumbnail_url ) ? $profile->thumbnail_url : $this->autho_logo;
+                                            if ( ! empty( $profile->thumbnail_url ) ) {
+                                                $response = wp_remote_head( $profile->thumbnail_url );
+                                                if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) !== 200 ) {
+                                                    $thumbnail_url = $this->autho_logo;
+                                                }
+                                            }
+                                        ?>
+                                        <div class="wpsp-profile-card" data-profile-id="<?php echo esc_attr( $profile->id ); ?>" data-profile-name="<?php echo esc_attr( $profile->name ); ?>" data-profile-img="<?php echo esc_url( $thumbnail_url ); ?>">
+                                            <div class="wpsp-profile-avatar">
+                                                <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="<?php echo esc_attr( $profile->name ); ?>" class="wpsp-profile-image">
+                                            </div>
+                                            <div class="wpsp-profile-info">
+                                                <div class="wpsp-profile-name"><?php echo esc_html( $profile->name ); ?></div>
+                                            </div>
+                                            <div class="wpsp-profile-checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                    class="wpsp-modal-profile-checkbox wpsp-linkedin-checkbox"
+                                                    name="linkedin_profiles[]"
+                                                    value="<?php echo esc_attr( $profile->id ); ?>"
+                                                    data-name="<?php echo esc_attr( $profile->name ); ?>"
+                                                    data-img="<?php echo esc_url( $thumbnail_url ); ?>"
+                                                    data-platform="linkedin"
+                                                    <?php echo in_array( $profile->id, $selected_linkedin_profiles ) ? 'checked' : ''; ?>
+                                                >
+                                            </div>
+                                        </div>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                            <div class="wpsp-template-textarea">
+                                <div class="wpsp-textarea-wrapper">
+                                    <textarea placeholder="Enter your custom template here..." id="wpsp-template-input-linkedin" class="wpsp-template-input" rows="4"><?php echo esc_textarea($linkedin_template ? $linkedin_template : '{title} {content} {url} {tags}'); ?></textarea>
+                                </div>
+                                <div class="wpsp-template-meta">
+                                <span class="wpsp-placeholders">Available: {title} {content} {url} {tags}</span>
+                                <div class="wpsp-custom-template-field-info">
+                                    <span class="active">
+                                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <g clip-path="url(#clip0_4607_4338)">
+                                            <path d="M7.93916 7.94141C7.6579 8.22277 7.49993 8.60434 7.5 9.00217C7.50007 9.40001 7.65818 9.78152 7.93954 10.0628C8.2209 10.344 8.60247 10.502 9.0003 10.5019C9.39814 10.5019 9.77965 10.3438 10.0609 10.0624" stroke="#98A2B3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            <path d="M12.5107 12.5048C11.4587 13.163 10.241 13.5082 9 13.5C6.3 13.5 4.05 12 2.25 9.00002C3.204 7.41002 4.284 6.24152 5.49 5.49452M7.635 4.63502C8.08428 4.54407 8.54161 4.49884 9 4.50002C11.7 4.50002 13.95 6.00002 15.75 9.00002C15.2505 9.83252 14.7157 10.5503 14.1465 11.1525" stroke="#98A2B3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            <path d="M2.25 2.25L15.75 15.75" stroke="#98A2B3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            </g>
+                                            <defs>
+                                            <clipPath id="clip0_4607_4338">
+                                                <rect width="18" height="18" fill="white"></rect>
+                                            </clipPath>
+                                            </defs>
+                                        </svg>
+                                    </span>
+                                    <span class="wpsp-char-count ">96/63206</span>
+                                </div>
+                                </div>
+                                <div class="wpsp-global-template ">
+                                <span class="" style="display: flex; align-items: center; gap: 6px;">
+                                    Use global template
+                                    <span class="wpsp-tooltip-wrapper">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" class="wpsp-tooltip-icon">
+                                            <circle cx="12" cy="12" r="10" fill="#6a4bff"></circle>
+                                            <text x="12" y="16" text-anchor="middle" font-size="12" fill="#fff" font-family="Arial" font-weight="bold">i</text>
+                                        </svg>
+                                        <span class="wpsp-tooltip-text">If enabled, this template will be applied across all the selected social platforms.</span>
+                                    </span>
+                                </span>
+                                <div class="wpsp-use-global-template-checkbox-wrapper ">
+                                    <input type="checkbox" id="useGlobalTemplate_linkedin" <?php echo $linkedin_is_global ? 'checked' : ''; ?>><label for="useGlobalTemplate_linkedin"></label></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pinterest Profile Section -->
+                        <div class="wpsp-profile-selection-area-wrapper" id="wpsp-profile-pinterest" style="display: none;">
+                            <div class="selected-profile-area">
+                                <ul>
+                                    <?php
+                                        if ( ! empty( $pinterestProfiles ) && is_array( $pinterestProfiles ) ) :
+                                            foreach ( $pinterestProfiles as $profile ) :
+                                                if ( empty( $profile->name ) || empty( $profile->thumbnail_url ) ) {
+                                                    continue;
+                                                }
+                                                $thumbnail_url = ! empty( $profile->thumbnail_url ) ? $profile->thumbnail_url : $this->autho_logo;
+                                                if ( ! empty( $profile->thumbnail_url ) ) {
+                                                    $response = wp_remote_head( $profile->thumbnail_url );
+                                                    if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) !== 200 ) {
+                                                        $thumbnail_url = $this->autho_logo;
+                                                    }
+                                                }
+                                                $checked = in_array( $profile->id, $selected_pinterest_profiles ) ? 'checked' : '';
+                                        ?>
+                                        <li class="selected-profile" title="<?php echo esc_attr( $profile->name ); ?>">
+                                                <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="<?php echo esc_attr( $profile->name ); ?>" class="wpsp-profile-image">
+                                                <?php if( $checked ) : ?>
+                                                    <div class="wpsp-selected-profile-action">
+                                                        <span class="wpsp-remove-profile-btn">×</span>
+                                                        <span class="wpsp-selected-profile-btn">
+                                                            <svg width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <rect x="0.6" y="0.900781" width="8.8" height="8.8" rx="4.4" fill="#6C62FF"></rect>
+                                                                <rect x="0.6" y="0.900781" width="8.8" height="8.8" rx="4.4" stroke="white" stroke-width="0.8"></rect>
+                                                                <g clip-path="url(#clip0_4477_4922)">
+                                                                    <path d="M3.58398 5.30078L4.58398 6.30078L6.58398 4.30078" stroke="white" stroke-width="0.64" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                </g>
+                                                                <defs>
+                                                                    <clipPath id="clip0_4477_4922">
+                                                                    <rect width="4" height="4" fill="white" transform="translate(3 3.30078)"></rect>
+                                                                    </clipPath>
+                                                                </defs>
+                                                            </svg>
+                                                        </span>
+                                                    </div>
+                                                <?php endif; ?>
+                                            </li>
+                                        <?php
+                                            endforeach;
+                                        endif;
+                                    ?>
+                                </ul>
+                                <span class="select-profile-icon"><img src="https://schedulepress.test/wp-content/plugins/wp-scheduled-posts/assets/images/chevron-down.svg" alt=""></span>
+                            </div>
+                            <div class="wpsp-profile-selection-dropdown">
+                                <div class="wpsp-profile-selection-dropdown-item">
+                                    <?php if ( ! empty( $pinterestProfiles ) && is_array( $pinterestProfiles ) ) : ?>
+                                        <?php foreach ( $pinterestProfiles as $profile ) :
+                                            $thumbnail_url = ! empty( $profile->thumbnail_url ) ? $profile->thumbnail_url : $this->autho_logo;
+                                            if ( ! empty( $profile->thumbnail_url ) ) {
+                                                $response = wp_remote_head( $profile->thumbnail_url );
+                                                if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) !== 200 ) {
+                                                    $thumbnail_url = $this->autho_logo;
+                                                }
+                                            }
+                                        ?>
+                                        <div class="wpsp-profile-card" data-profile-id="<?php echo esc_attr( $profile->id ); ?>" data-profile-name="<?php echo esc_attr( $profile->name ); ?>" data-profile-img="<?php echo esc_url( $thumbnail_url ); ?>">
+                                            <div class="wpsp-profile-avatar">
+                                                <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="<?php echo esc_attr( $profile->name ); ?>" class="wpsp-profile-image">
+                                            </div>
+                                            <div class="wpsp-profile-info">
+                                                <div class="wpsp-profile-name"><?php echo esc_html( $profile->name ); ?></div>
+                                            </div>
+                                            <div class="wpsp-profile-checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                    class="wpsp-modal-profile-checkbox wpsp-pinterest-checkbox"
+                                                    name="pinterest_profiles[]"
+                                                    value="<?php echo esc_attr( $profile->id ); ?>"
+                                                    data-name="<?php echo esc_attr( $profile->name ); ?>"
+                                                    data-img="<?php echo esc_url( $thumbnail_url ); ?>"
+                                                    data-platform="pinterest"
+                                                    <?php echo in_array( $profile->id, $selected_pinterest_profiles ) ? 'checked' : ''; ?>
+                                                >
+                                            </div>
+                                        </div>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                            <div class="wpsp-template-textarea">
+                                <div class="wpsp-textarea-wrapper">
+                                    <textarea placeholder="Enter your custom template here..." id="wpsp-template-input-pinterest" class="wpsp-template-input" rows="4"><?php echo esc_textarea($pinterest_template ? $pinterest_template : '{title} {content} {url} {tags}'); ?></textarea>
+                                </div>
+                                <div class="wpsp-template-meta">
+                                <span class="wpsp-placeholders">Available: {title} {content} {url} {tags}</span>
+                                <div class="wpsp-custom-template-field-info">
+                                    <span class="active">
+                                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <g clip-path="url(#clip0_4607_4338)">
+                                            <path d="M7.93916 7.94141C7.6579 8.22277 7.49993 8.60434 7.5 9.00217C7.50007 9.40001 7.65818 9.78152 7.93954 10.0628C8.2209 10.344 8.60247 10.502 9.0003 10.5019C9.39814 10.5019 9.77965 10.3438 10.0609 10.0624" stroke="#98A2B3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            <path d="M12.5107 12.5048C11.4587 13.163 10.241 13.5082 9 13.5C6.3 13.5 4.05 12 2.25 9.00002C3.204 7.41002 4.284 6.24152 5.49 5.49452M7.635 4.63502C8.08428 4.54407 8.54161 4.49884 9 4.50002C11.7 4.50002 13.95 6.00002 15.75 9.00002C15.2505 9.83252 14.7157 10.5503 14.1465 11.1525" stroke="#98A2B3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            <path d="M2.25 2.25L15.75 15.75" stroke="#98A2B3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            </g>
+                                            <defs>
+                                            <clipPath id="clip0_4607_4338">
+                                                <rect width="18" height="18" fill="white"></rect>
+                                            </clipPath>
+                                            </defs>
+                                        </svg>
+                                    </span>
+                                    <span class="wpsp-char-count ">96/63206</span>
+                                </div>
+                                </div>
+                                <div class="wpsp-global-template ">
+                                <span class="" style="display: flex; align-items: center; gap: 6px;">
+                                    Use global template
+                                    <span class="wpsp-tooltip-wrapper">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" class="wpsp-tooltip-icon">
+                                            <circle cx="12" cy="12" r="10" fill="#6a4bff"></circle>
+                                            <text x="12" y="16" text-anchor="middle" font-size="12" fill="#fff" font-family="Arial" font-weight="bold">i</text>
+                                        </svg>
+                                        <span class="wpsp-tooltip-text">If enabled, this template will be applied across all the selected social platforms.</span>
+                                    </span>
+                                </span>
+                                <div class="wpsp-use-global-template-checkbox-wrapper ">
+                                    <input type="checkbox" id="useGlobalTemplate_pinterest" <?php echo $pinterest_is_global ? 'checked' : ''; ?>><label for="useGlobalTemplate_pinterest"></label></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Medium Profile Section -->
+                        <div class="wpsp-profile-selection-area-wrapper" id="wpsp-profile-medium" style="display: none;">
+                            <div class="selected-profile-area">
+                                <ul>
+                                    <?php
+                                        if ( ! empty( $mediumProfiles ) && is_array( $mediumProfiles ) ) :
+                                            foreach ( $mediumProfiles as $profile ) :
+                                                if ( empty( $profile->name ) || empty( $profile->thumbnail_url ) ) {
+                                                    continue;
+                                                }
+                                                $thumbnail_url = ! empty( $profile->thumbnail_url ) ? $profile->thumbnail_url : $this->autho_logo;
+                                                if ( ! empty( $profile->thumbnail_url ) ) {
+                                                    $response = wp_remote_head( $profile->thumbnail_url );
+                                                    if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) !== 200 ) {
+                                                        $thumbnail_url = $this->autho_logo;
+                                                    }
+                                                }
+                                                $checked = in_array( $profile->id, $selected_medium_profiles ) ? 'checked' : '';
+                                        ?>
+                                        <li class="selected-profile" title="<?php echo esc_attr( $profile->name ); ?>">
+                                                <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="<?php echo esc_attr( $profile->name ); ?>" class="wpsp-profile-image">
+                                                <?php if( $checked ) : ?>
+                                                    <div class="wpsp-selected-profile-action">
+                                                        <span class="wpsp-remove-profile-btn">×</span>
+                                                        <span class="wpsp-selected-profile-btn">
+                                                            <svg width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <rect x="0.6" y="0.900781" width="8.8" height="8.8" rx="4.4" fill="#6C62FF"></rect>
+                                                                <rect x="0.6" y="0.900781" width="8.8" height="8.8" rx="4.4" stroke="white" stroke-width="0.8"></rect>
+                                                                <g clip-path="url(#clip0_4477_4922)">
+                                                                    <path d="M3.58398 5.30078L4.58398 6.30078L6.58398 4.30078" stroke="white" stroke-width="0.64" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                </g>
+                                                                <defs>
+                                                                    <clipPath id="clip0_4477_4922">
+                                                                    <rect width="4" height="4" fill="white" transform="translate(3 3.30078)"></rect>
+                                                                    </clipPath>
+                                                                </defs>
+                                                            </svg>
+                                                        </span>
+                                                    </div>
+                                                <?php endif; ?>
+                                            </li>
+                                        <?php
+                                            endforeach;
+                                        endif;
+                                    ?>
+                                </ul>
+                                <span class="select-profile-icon"><img src="https://schedulepress.test/wp-content/plugins/wp-scheduled-posts/assets/images/chevron-down.svg" alt=""></span>
+                            </div>
+                            <div class="wpsp-profile-selection-dropdown">
+                                <div class="wpsp-profile-selection-dropdown-item">
+                                    <?php if ( ! empty( $mediumProfiles ) && is_array( $mediumProfiles ) ) : ?>
+                                        <?php foreach ( $mediumProfiles as $profile ) :
+                                            $thumbnail_url = ! empty( $profile->thumbnail_url ) ? $profile->thumbnail_url : $this->autho_logo;
+                                            if ( ! empty( $profile->thumbnail_url ) ) {
+                                                $response = wp_remote_head( $profile->thumbnail_url );
+                                                if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) !== 200 ) {
+                                                    $thumbnail_url = $this->autho_logo;
+                                                }
+                                            }
+                                        ?>
+                                        <div class="wpsp-profile-card" data-profile-id="<?php echo esc_attr( $profile->id ); ?>" data-profile-name="<?php echo esc_attr( $profile->name ); ?>" data-profile-img="<?php echo esc_url( $thumbnail_url ); ?>">
+                                            <div class="wpsp-profile-avatar">
+                                                <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="<?php echo esc_attr( $profile->name ); ?>" class="wpsp-profile-image">
+                                            </div>
+                                            <div class="wpsp-profile-info">
+                                                <div class="wpsp-profile-name"><?php echo esc_html( $profile->name ); ?></div>
+                                            </div>
+                                            <div class="wpsp-profile-checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                    class="wpsp-modal-profile-checkbox wpsp-medium-checkbox"
+                                                    name="medium_profiles[]"
+                                                    value="<?php echo esc_attr( $profile->id ); ?>"
+                                                    data-name="<?php echo esc_attr( $profile->name ); ?>"
+                                                    data-img="<?php echo esc_url( $thumbnail_url ); ?>"
+                                                    data-platform="medium"
+                                                    <?php echo in_array( $profile->id, $selected_medium_profiles ) ? 'checked' : ''; ?>
+                                                >
+                                            </div>
+                                        </div>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                            <div class="wpsp-template-textarea">
+                                <div class="wpsp-textarea-wrapper">
+                                    <textarea placeholder="Enter your custom template here..." id="wpsp-template-input-medium" class="wpsp-template-input" rows="4"><?php echo esc_textarea($medium_template ? $medium_template : '{title} {content} {url} {tags}'); ?></textarea>
+                                </div>
+                                <div class="wpsp-template-meta">
+                                <span class="wpsp-placeholders">Available: {title} {content} {url} {tags}</span>
+                                <div class="wpsp-custom-template-field-info">
+                                    <span class="active">
+                                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <g clip-path="url(#clip0_4607_4338)">
+                                            <path d="M7.93916 7.94141C7.6579 8.22277 7.49993 8.60434 7.5 9.00217C7.50007 9.40001 7.65818 9.78152 7.93954 10.0628C8.2209 10.344 8.60247 10.502 9.0003 10.5019C9.39814 10.5019 9.77965 10.3438 10.0609 10.0624" stroke="#98A2B3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            <path d="M12.5107 12.5048C11.4587 13.163 10.241 13.5082 9 13.5C6.3 13.5 4.05 12 2.25 9.00002C3.204 7.41002 4.284 6.24152 5.49 5.49452M7.635 4.63502C8.08428 4.54407 8.54161 4.49884 9 4.50002C11.7 4.50002 13.95 6.00002 15.75 9.00002C15.2505 9.83252 14.7157 10.5503 14.1465 11.1525" stroke="#98A2B3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            <path d="M2.25 2.25L15.75 15.75" stroke="#98A2B3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            </g>
+                                            <defs>
+                                            <clipPath id="clip0_4607_4338">
+                                                <rect width="18" height="18" fill="white"></rect>
+                                            </clipPath>
+                                            </defs>
+                                        </svg>
+                                    </span>
+                                    <span class="wpsp-char-count ">96/63206</span>
+                                </div>
+                                </div>
+                                <div class="wpsp-global-template ">
+                                <span class="" style="display: flex; align-items: center; gap: 6px;">
+                                    Use global template
+                                    <span class="wpsp-tooltip-wrapper">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" class="wpsp-tooltip-icon">
+                                            <circle cx="12" cy="12" r="10" fill="#6a4bff"></circle>
+                                            <text x="12" y="16" text-anchor="middle" font-size="12" fill="#fff" font-family="Arial" font-weight="bold">i</text>
+                                        </svg>
+                                        <span class="wpsp-tooltip-text">If enabled, this template will be applied across all the selected social platforms.</span>
+                                    </span>
+                                </span>
+                                <div class="wpsp-use-global-template-checkbox-wrapper ">
+                                    <input type="checkbox" id="useGlobalTemplate_medium" <?php echo $medium_is_global ? 'checked' : ''; ?>><label for="useGlobalTemplate_medium"></label></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Threads Profile Section -->
+                        <div class="wpsp-profile-selection-area-wrapper" id="wpsp-profile-threads" style="display: none;">
+                            <div class="selected-profile-area">
+                                <ul>
+                                    <?php
+                                        if ( ! empty( $threadsProfiles ) && is_array( $threadsProfiles ) ) :
+                                            foreach ( $threadsProfiles as $profile ) :
+                                                if ( empty( $profile->name ) || empty( $profile->thumbnail_url ) ) {
+                                                    continue;
+                                                }
+                                                $thumbnail_url = ! empty( $profile->thumbnail_url ) ? $profile->thumbnail_url : $this->autho_logo;
+                                                if ( ! empty( $profile->thumbnail_url ) ) {
+                                                    $response = wp_remote_head( $profile->thumbnail_url );
+                                                    if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) !== 200 ) {
+                                                        $thumbnail_url = $this->autho_logo;
+                                                    }
+                                                }
+                                                $checked = in_array( $profile->id, $selected_threads_profiles ) ? 'checked' : '';
+                                        ?>
+                                        <li class="selected-profile" title="<?php echo esc_attr( $profile->name ); ?>">
+                                                <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="<?php echo esc_attr( $profile->name ); ?>" class="wpsp-profile-image">
+                                                <?php if( $checked ) : ?>
+                                                    <div class="wpsp-selected-profile-action">
+                                                        <span class="wpsp-remove-profile-btn">×</span>
+                                                        <span class="wpsp-selected-profile-btn">
+                                                            <svg width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <rect x="0.6" y="0.900781" width="8.8" height="8.8" rx="4.4" fill="#6C62FF"></rect>
+                                                                <rect x="0.6" y="0.900781" width="8.8" height="8.8" rx="4.4" stroke="white" stroke-width="0.8"></rect>
+                                                                <g clip-path="url(#clip0_4477_4922)">
+                                                                    <path d="M3.58398 5.30078L4.58398 6.30078L6.58398 4.30078" stroke="white" stroke-width="0.64" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                </g>
+                                                                <defs>
+                                                                    <clipPath id="clip0_4477_4922">
+                                                                    <rect width="4" height="4" fill="white" transform="translate(3 3.30078)"></rect>
+                                                                    </clipPath>
+                                                                </defs>
+                                                            </svg>
+                                                        </span>
+                                                    </div>
+                                                <?php endif; ?>
+                                            </li>
+                                        <?php
+                                            endforeach;
+                                        endif;
+                                    ?>
+                                </ul>
+                                <span class="select-profile-icon"><img src="https://schedulepress.test/wp-content/plugins/wp-scheduled-posts/assets/images/chevron-down.svg" alt=""></span>
+                            </div>
+                            <div class="wpsp-profile-selection-dropdown">
+                                <div class="wpsp-profile-selection-dropdown-item">
+                                    <?php if ( ! empty( $threadsProfiles ) && is_array( $threadsProfiles ) ) : ?>
+                                        <?php foreach ( $threadsProfiles as $profile ) :
+                                            $thumbnail_url = ! empty( $profile->thumbnail_url ) ? $profile->thumbnail_url : $this->autho_logo;
+                                            if ( ! empty( $profile->thumbnail_url ) ) {
+                                                $response = wp_remote_head( $profile->thumbnail_url );
+                                                if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) !== 200 ) {
+                                                    $thumbnail_url = $this->autho_logo;
+                                                }
+                                            }
+                                        ?>
+                                        <div class="wpsp-profile-card" data-profile-id="<?php echo esc_attr( $profile->id ); ?>" data-profile-name="<?php echo esc_attr( $profile->name ); ?>" data-profile-img="<?php echo esc_url( $thumbnail_url ); ?>">
+                                            <div class="wpsp-profile-avatar">
+                                                <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="<?php echo esc_attr( $profile->name ); ?>" class="wpsp-profile-image">
+                                            </div>
+                                            <div class="wpsp-profile-info">
+                                                <div class="wpsp-profile-name"><?php echo esc_html( $profile->name ); ?></div>
+                                            </div>
+                                            <div class="wpsp-profile-checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                    class="wpsp-modal-profile-checkbox wpsp-threads-checkbox"
+                                                    name="threads_profiles[]"
+                                                    value="<?php echo esc_attr( $profile->id ); ?>"
+                                                    data-name="<?php echo esc_attr( $profile->name ); ?>"
+                                                    data-img="<?php echo esc_url( $thumbnail_url ); ?>"
+                                                    data-platform="threads"
+                                                    <?php echo in_array( $profile->id, $selected_threads_profiles ) ? 'checked' : ''; ?>
+                                                >
+                                            </div>
+                                        </div>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                            <div class="wpsp-template-textarea">
+                                <div class="wpsp-textarea-wrapper">
+                                    <textarea placeholder="Enter your custom template here..." id="wpsp-template-input-threads" class="wpsp-template-input" rows="4"><?php echo esc_textarea($threads_template ? $threads_template : '{title} {content} {url} {tags}'); ?></textarea>
+                                </div>
+                                <div class="wpsp-template-meta">
+                                <span class="wpsp-placeholders">Available: {title} {content} {url} {tags}</span>
+                                <div class="wpsp-custom-template-field-info">
+                                    <span class="active">
+                                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <g clip-path="url(#clip0_4607_4338)">
+                                            <path d="M7.93916 7.94141C7.6579 8.22277 7.49993 8.60434 7.5 9.00217C7.50007 9.40001 7.65818 9.78152 7.93954 10.0628C8.2209 10.344 8.60247 10.502 9.0003 10.5019C9.39814 10.5019 9.77965 10.3438 10.0609 10.0624" stroke="#98A2B3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            <path d="M12.5107 12.5048C11.4587 13.163 10.241 13.5082 9 13.5C6.3 13.5 4.05 12 2.25 9.00002C3.204 7.41002 4.284 6.24152 5.49 5.49452M7.635 4.63502C8.08428 4.54407 8.54161 4.49884 9 4.50002C11.7 4.50002 13.95 6.00002 15.75 9.00002C15.2505 9.83252 14.7157 10.5503 14.1465 11.1525" stroke="#98A2B3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            <path d="M2.25 2.25L15.75 15.75" stroke="#98A2B3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            </g>
+                                            <defs>
+                                            <clipPath id="clip0_4607_4338">
+                                                <rect width="18" height="18" fill="white"></rect>
+                                            </clipPath>
+                                            </defs>
+                                        </svg>
+                                    </span>
+                                    <span class="wpsp-char-count ">96/63206</span>
+                                </div>
+                                </div>
+                                <div class="wpsp-global-template ">
+                                <span class="" style="display: flex; align-items: center; gap: 6px;">
+                                    Use global template
+                                    <span class="wpsp-tooltip-wrapper">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" class="wpsp-tooltip-icon">
+                                            <circle cx="12" cy="12" r="10" fill="#6a4bff"></circle>
+                                            <text x="12" y="16" text-anchor="middle" font-size="12" fill="#fff" font-family="Arial" font-weight="bold">i</text>
+                                        </svg>
+                                        <span class="wpsp-tooltip-text">If enabled, this template will be applied across all the selected social platforms.</span>
+                                    </span>
+                                </span>
+                                <div class="wpsp-use-global-template-checkbox-wrapper ">
+                                    <input type="checkbox" id="useGlobalTemplate_threads" <?php echo $threads_is_global ? 'checked' : ''; ?>><label for="useGlobalTemplate_threads"></label></div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
                 <!-- /Left Panel -->
@@ -589,7 +1389,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- Modal Footer with Save Button -->
             <div class="wpsp-modal-footer">
                 <button type="button" class="wpsp-btn wpsp-btn-secondary" id="wpsp-modal-cancel">

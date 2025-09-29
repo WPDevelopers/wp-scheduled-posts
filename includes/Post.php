@@ -44,12 +44,17 @@ class Post
             $existing_templates = [
                 'facebook' => ['template' => '', 'profiles' => [], 'is_global' => ''],
                 'instagram' => ['template' => '', 'profiles' => [], 'is_global' => ''],
-                'google_business' => ['template' => '', 'profiles' => [], 'is_global' => '']
+                'google_business' => ['template' => '', 'profiles' => [], 'is_global' => ''],
+                'twitter' => ['template' => '', 'profiles' => [], 'is_global' => ''],
+                'linkedin' => ['template' => '', 'profiles' => [], 'is_global' => ''],
+                'pinterest' => ['template' => '', 'profiles' => [], 'is_global' => ''],
+                'medium' => ['template' => '', 'profiles' => [], 'is_global' => ''],
+                'threads' => ['template' => '', 'profiles' => [], 'is_global' => '']
             ];
         }
 
         // Process platform data from the modal
-        $platforms_to_update = ['facebook', 'instagram', 'google_business'];
+        $platforms_to_update = ['facebook', 'instagram', 'google_business', 'twitter', 'linkedin', 'pinterest', 'medium', 'threads'];
         $updated_templates = $existing_templates;
 
         foreach ($platforms_to_update as $platform) {

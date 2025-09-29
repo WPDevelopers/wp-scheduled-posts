@@ -49,9 +49,17 @@
   // Update selected profiles display function (global scope)
   function updateSelectedProfiles() {
     // Get current active platform
-    const activePlatform = $('.wpsp-platform-icon.active').hasClass('facebook') ? 'facebook' :
-                          ($('.wpsp-platform-icon.active').hasClass('instagram') ? 'instagram' :
-                          ($('.wpsp-platform-icon.active').hasClass('google_business') ? 'google_business' : 'facebook'));
+    const activeTab = $('.wpsp-platform-icon.active');
+    let activePlatform = 'facebook'; // default
+
+    if (activeTab.hasClass('facebook')) activePlatform = 'facebook';
+    else if (activeTab.hasClass('instagram')) activePlatform = 'instagram';
+    else if (activeTab.hasClass('google_business')) activePlatform = 'google_business';
+    else if (activeTab.hasClass('twitter')) activePlatform = 'twitter';
+    else if (activeTab.hasClass('linkedin')) activePlatform = 'linkedin';
+    else if (activeTab.hasClass('pinterest')) activePlatform = 'pinterest';
+    else if (activeTab.hasClass('medium')) activePlatform = 'medium';
+    else if (activeTab.hasClass('threads')) activePlatform = 'threads';
 
     const selectedProfilesList = document.querySelector(`#wpsp-profile-${activePlatform} .selected-profile-area ul`);
     const checkedBoxes = document.querySelectorAll(`#wpsp-profile-${activePlatform} .wpsp-modal-profile-checkbox:checked`);
@@ -207,7 +215,12 @@
           post_id          : parseInt( $('#post_ID').val() ),
           facebook_profiles: [],
           instagram_profiles: [],
-          google_business_profiles: []
+          google_business_profiles: [],
+          twitter_profiles: [],
+          linkedin_profiles: [],
+          pinterest_profiles: [],
+          medium_profiles: [],
+          threads_profiles: []
         };
 
         // Collect selected Facebook profiles
@@ -227,6 +240,61 @@
           var name = $(this).data('name'); // get name from data-name
 
           formData.instagram_profiles.push({
+              id: id,
+              name: name
+          });
+        });
+
+        // Collect selected Twitter profiles
+        $('#wpsp-profile-twitter .wpsp-modal-profile-checkbox:checked').each(function(){
+          var id = $(this).val();
+          var name = $(this).data('name');
+
+          formData.twitter_profiles.push({
+              id: id,
+              name: name
+          });
+        });
+
+        // Collect selected LinkedIn profiles
+        $('#wpsp-profile-linkedin .wpsp-modal-profile-checkbox:checked').each(function(){
+          var id = $(this).val();
+          var name = $(this).data('name');
+
+          formData.linkedin_profiles.push({
+              id: id,
+              name: name
+          });
+        });
+
+        // Collect selected Pinterest profiles
+        $('#wpsp-profile-pinterest .wpsp-modal-profile-checkbox:checked').each(function(){
+          var id = $(this).val();
+          var name = $(this).data('name');
+
+          formData.pinterest_profiles.push({
+              id: id,
+              name: name
+          });
+        });
+
+        // Collect selected Medium profiles
+        $('#wpsp-profile-medium .wpsp-modal-profile-checkbox:checked').each(function(){
+          var id = $(this).val();
+          var name = $(this).data('name');
+
+          formData.medium_profiles.push({
+              id: id,
+              name: name
+          });
+        });
+
+        // Collect selected Threads profiles
+        $('#wpsp-profile-threads .wpsp-modal-profile-checkbox:checked').each(function(){
+          var id = $(this).val();
+          var name = $(this).data('name');
+
+          formData.threads_profiles.push({
               id: id,
               name: name
           });
@@ -280,9 +348,16 @@
 
   // Platform tab switching
   $('.wpsp-platform-icon').click(function(){
-    const platform = $(this).hasClass('facebook') ? 'facebook' :
-                    ($(this).hasClass('instagram') ? 'instagram' :
-                    ($(this).hasClass('google_business') ? 'google_business' : 'facebook'));
+    let platform = 'facebook'; // default
+
+    if ($(this).hasClass('facebook')) platform = 'facebook';
+    else if ($(this).hasClass('instagram')) platform = 'instagram';
+    else if ($(this).hasClass('google_business')) platform = 'google_business';
+    else if ($(this).hasClass('twitter')) platform = 'twitter';
+    else if ($(this).hasClass('linkedin')) platform = 'linkedin';
+    else if ($(this).hasClass('pinterest')) platform = 'pinterest';
+    else if ($(this).hasClass('medium')) platform = 'medium';
+    else if ($(this).hasClass('threads')) platform = 'threads';
 
     // Update active tab
     $('.wpsp-platform-icon').removeClass('active').css({
@@ -291,8 +366,21 @@
       'font-weight': 'normal'
     });
 
+    // Set platform-specific colors
+    let bgColor = 'rgb(240, 240, 240)';
+    switch(platform) {
+      case 'facebook': bgColor = 'rgb(24, 119, 242)'; break;
+      case 'instagram': bgColor = 'rgb(225, 48, 108)'; break;
+      case 'google_business': bgColor = 'rgb(66, 133, 244)'; break;
+      case 'twitter': bgColor = 'rgb(29, 161, 242)'; break;
+      case 'linkedin': bgColor = 'rgb(0, 119, 181)'; break;
+      case 'pinterest': bgColor = 'rgb(189, 8, 28)'; break;
+      case 'medium': bgColor = 'rgb(0, 0, 0)'; break;
+      case 'threads': bgColor = 'rgb(0, 0, 0)'; break;
+    }
+
     $(this).addClass('active').css({
-      'background-color': platform === 'facebook' ? 'rgb(24, 119, 242)' : (platform === 'instagram' ? 'rgb(225, 48, 108)' : 'rgb(66, 133, 244)'),
+      'background-color': bgColor,
       'color': 'rgb(255, 255, 255)',
       'font-weight': 'bold'
     });
@@ -302,7 +390,7 @@
     $('#wpsp-profile-' + platform).show();
 
     // Update right panel class
-    $('.wpsp-modal-right').removeClass('facebook instagram google_business').addClass(platform);
+    $('.wpsp-modal-right').removeClass('facebook instagram google_business twitter linkedin pinterest medium threads').addClass(platform);
 
     // Update selected profiles display for current platform
     updateSelectedProfiles();
