@@ -314,15 +314,41 @@
         // Get template content for current active platform
         const activePlatform = $('.wpsp-platform-icon.active').hasClass('facebook') ? 'facebook' :
                               ($('.wpsp-platform-icon.active').hasClass('instagram') ? 'instagram' :
-                              ($('.wpsp-platform-icon.active').hasClass('google_business') ? 'google_business' : 'facebook'));
+                              ($('.wpsp-platform-icon.active').hasClass('twitter') ? 'twitter' :
+                              ($('.wpsp-platform-icon.active').hasClass('linkedin') ? 'linkedin' :
+                              ($('.wpsp-platform-icon.active').hasClass('pinterest') ? 'pinterest' :
+                              ($('.wpsp-platform-icon.active').hasClass('medium') ? 'medium' :
+                              ($('.wpsp-platform-icon.active').hasClass('threads') ? 'threads' :
+                              ($('.wpsp-platform-icon.active').hasClass('google_business') ? 'google_business' : 'facebook')))))));
 
+        // Collect template content and global settings for ALL platforms
+        const platforms = ['facebook', 'instagram', 'twitter', 'linkedin', 'pinterest', 'medium', 'threads', 'google_business'];
+        formData.platform_templates = {};
+        formData.global_templates = {};
+
+        platforms.forEach(platform => {
+          // Collect template content for each platform
+          const templateInputId = platform === 'facebook' ? 'wpsp-template-input' : `wpsp-template-input-${platform}`;
+          const templateInput = document.getElementById(templateInputId);
+          if (templateInput) {
+            formData.platform_templates[platform] = templateInput.value;
+          }
+
+          // Collect global template settings for each platform
+          const globalTemplateCheckbox = document.getElementById(`useGlobalTemplate_${platform}`);
+          if (globalTemplateCheckbox) {
+            formData.global_templates[platform] = globalTemplateCheckbox.checked ? '1' : '0';
+          }
+        });
+
+        // Keep backward compatibility for active platform
         const templateInput = document.getElementById(`wpsp-template-input${activePlatform === 'facebook' ? '' : '-' + activePlatform}`);
         if (templateInput) {
           formData.social_template = templateInput.value;
           formData.active_platform = activePlatform;
         }
 
-        // Get global template checkbox for current platform
+        // Keep backward compatibility - set use_global_template for active platform
         const globalTemplateCheckbox = document.getElementById(`useGlobalTemplate_${activePlatform}`);
         if (globalTemplateCheckbox) {
           formData.use_global_template = globalTemplateCheckbox.checked ? '1' : '0';

@@ -75,17 +75,33 @@ class Post
 
             // Get template content for this platform
             $template_content = '';
-            if (isset($_POST['social_template']) && isset($_POST['active_platform']) && $_POST['active_platform'] === $platform) {
+
+            // Check new platform_templates structure first
+            if (isset($_POST['platform_templates']) && isset($_POST['platform_templates'][$platform])) {
+                $template_content = sanitize_textarea_field($_POST['platform_templates'][$platform]);
+            }
+            // Fallback to old structure for backward compatibility
+            elseif (isset($_POST['social_template']) && isset($_POST['active_platform']) && $_POST['active_platform'] === $platform) {
                 $template_content = sanitize_textarea_field($_POST['social_template']);
-            } elseif (isset($existing_templates[$platform]['template'])) {
+            }
+            // Keep existing value if no new data
+            elseif (isset($existing_templates[$platform]['template'])) {
                 $template_content = $existing_templates[$platform]['template'];
             }
 
             // Get global template setting
             $is_global = '';
-            if (isset($_POST['use_global_template']) && isset($_POST['active_platform']) && $_POST['active_platform'] === $platform) {
+
+            // Check new global_templates structure first
+            if (isset($_POST['global_templates']) && isset($_POST['global_templates'][$platform])) {
+                $is_global = $_POST['global_templates'][$platform] === '1' ? '1' : '';
+            }
+            // Fallback to old structure for backward compatibility
+            elseif (isset($_POST['use_global_template']) && isset($_POST['active_platform']) && $_POST['active_platform'] === $platform) {
                 $is_global = $_POST['use_global_template'] === '1' ? '1' : '';
-            } elseif (isset($existing_templates[$platform]['is_global'])) {
+            }
+            // Keep existing value if no new data
+            elseif (isset($existing_templates[$platform]['is_global'])) {
                 $is_global = $existing_templates[$platform]['is_global'];
             }
 
