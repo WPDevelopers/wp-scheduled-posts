@@ -245,6 +245,7 @@ class Instagram
                             $_params = [
                                 'creation_id'   => $creation_id,
                             ];
+                            sleep(5);
                             $__response = $fb->post('/' . $ID . '/media_publish', $_params, $long_lived_access_token);
                             $__isError = $__response->isError();
                             if( $__isError == false ) {
@@ -305,7 +306,7 @@ class Instagram
             }
     
             $creation_id = $media_body['id'];
-    
+            sleep(5);
             // Step 2: Publish the media container
             $publish_url = "https://graph.instagram.com/v21.0/$ID/media_publish";
     
