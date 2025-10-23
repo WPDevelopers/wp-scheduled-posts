@@ -306,41 +306,93 @@ export const ModalContent = ({
         return (
           <div className="form-group" key={field.name}>
             <label>{field.label}</label>
-            {url && (
-              <div style={{ marginBottom: 8 }}>
-                <img src={url} alt={field.label} style={{ maxWidth: 120, maxHeight: 120 }} />
+            {url ? (
+              <div style={{ marginBottom: 12, position: 'relative', display: 'inline-block' }}>
+                <img
+                  src={url}
+                  alt={field.label}
+                  style={{
+                    maxWidth: 120,
+                    maxHeight: 120,
+                    borderRadius: 4,
+                    border: '1px solid #ddd'
+                  }}
+                />
+                <Button
+                  isDestructive
+                  isSmall
+                  onClick={() => {
+                    setScfValues(prev => ({ ...prev, [field.name]: '' }));
+                    setImagePreviews(prev => {
+                      const copy = { ...prev };
+                      delete copy[field.name];
+                      return copy;
+                    });
+                  }}
+                  style={{
+                    position: 'absolute',
+                    top: -8,
+                    right: -8,
+                    minWidth: 24,
+                    height: 24,
+                    borderRadius: '50%',
+                    padding: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                  title={__('Remove Image', 'wp-scheduled-posts')}
+                >
+                  ×
+                </Button>
+              </div>
+            ) : (
+              <div
+                style={{
+                  border: '2px dashed #ddd',
+                  borderRadius: 4,
+                  padding: 20,
+                  textAlign: 'center',
+                  marginBottom: 12,
+                  cursor: 'pointer',
+                  transition: 'border-color 0.2s'
+                }}
+                onMouseEnter={(e) => (e.target as HTMLElement).style.borderColor = '#007cba'}
+                onMouseLeave={(e) => (e.target as HTMLElement).style.borderColor = '#ddd'}
+              >
+                <MediaUpload
+                  onSelect={media => {
+                    setScfValues(prev => ({ ...prev, [field.name]: media.id }));
+                    setImagePreviews(prev => ({ ...prev, [field.name]: media.url }));
+                  }}
+                  allowedTypes={['image']}
+                  value={id}
+                  render={({ open }) => (
+                    <div onClick={open}>
+                      <div style={{ fontSize: 24, marginBottom: 8, color: '#666' }}>📷</div>
+                      <div style={{ color: '#666', fontSize: 14 }}>
+                        {__('Click to select an image', 'wp-scheduled-posts')}
+                      </div>
+                    </div>
+                  )}
+                />
               </div>
             )}
-            <MediaUpload
-              onSelect={media => {
-                setScfValues(prev => ({ ...prev, [field.name]: media.id }));
-                setImagePreviews(prev => ({ ...prev, [field.name]: media.url }));
-              }}
-              allowedTypes={['image']}
-              value={id}
-              render={({ open }) => (
-                <div style={{ display: 'flex', gap: 8 }}>
-                  <Button onClick={open} isSecondary>
-                    {id ? __('Update Image', 'wp-scheduled-posts') : __('Select Image', 'wp-scheduled-posts')}
+            {url && (
+              <MediaUpload
+                onSelect={media => {
+                  setScfValues(prev => ({ ...prev, [field.name]: media.id }));
+                  setImagePreviews(prev => ({ ...prev, [field.name]: media.url }));
+                }}
+                allowedTypes={['image']}
+                value={id}
+                render={({ open }) => (
+                  <Button onClick={open} isSecondary isSmall>
+                    {__('Change Image', 'wp-scheduled-posts')}
                   </Button>
-                  {id && (
-                    <Button
-                      isDestructive
-                      onClick={() => {
-                        setScfValues(prev => ({ ...prev, [field.name]: '' }));
-                        setImagePreviews(prev => {
-                          const copy = { ...prev };
-                          delete copy[field.name];
-                          return copy;
-                        });
-                      }}
-                    >
-                      {__('Remove', 'wp-scheduled-posts')}
-                    </Button>
-                  )}
-                </div>
-              )}
-            />
+                )}
+              />
+            )}
           </div>
         );
       }
@@ -349,52 +401,186 @@ export const ModalContent = ({
         const ids = Array.isArray(rawVal)
           ? rawVal
           : (typeof rawVal === 'string' && rawVal.length
-              ? rawVal.split(',').map((id) => parseInt(id, 10)).filter(Boolean)
+              ? rawVal.split(',').map((id: string) => parseInt(id, 10)).filter(Boolean)
               : []);
         const urls = galleryPreviews[field.name] || field.urls || [];
+
+        const removeImage = (indexToRemove: number) => {
+          const newIds = ids.filter((_: any, index: number) => index !== indexToRemove);
+          const newUrls = urls.filter((_: any, index: number) => index !== indexToRemove);
+
+          // Convert back to string format for consistency with SCF
+          const idsValue = newIds.length > 0 ? newIds.join(',') : '';
+          setScfValues(prev => ({ ...prev, [field.name]: idsValue }));
+
+          if (newUrls.length > 0) {
+            setGalleryPreviews(prev => ({ ...prev, [field.name]: newUrls }));
+          } else {
+            setGalleryPreviews(prev => {
+              const copy = { ...prev };
+              delete copy[field.name];
+              return copy;
+            });
+          }
+        };
+
+        const clearAllImages = () => {
+          setScfValues(prev => ({ ...prev, [field.name]: '' }));
+          setGalleryPreviews(prev => {
+            const copy = { ...prev };
+            delete copy[field.name];
+            return copy;
+          });
+        };
+
         return (
           <div className="form-group" key={field.name}>
             <label>{field.label}</label>
-            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 8 }}>
-              {urls.map((url, i) => (
-                <img key={i} src={url} alt={field.label} style={{ maxWidth: 80, maxHeight: 80 }} />
-              ))}
-            </div>
-            <MediaUpload
-              onSelect={mediaArr => {
-                const arr = Array.isArray(mediaArr) ? mediaArr : [mediaArr];
-                const ids = arr.map(m => m.id);
-                const urls = arr.map(m => m.url);
-                setScfValues(prev => ({ ...prev, [field.name]: ids }));
-                setGalleryPreviews(prev => ({ ...prev, [field.name]: urls }));
-              }}
-              allowedTypes={['image']}
-              multiple
-              gallery
-              value={ids}
-              render={({ open }) => (
-                <div style={{ display: 'flex', gap: 8 }}>
-                  <Button onClick={open} isSecondary>
-                    {ids.length ? __('Update Images', 'wp-scheduled-posts') : __('Select Images', 'wp-scheduled-posts')}
-                  </Button>
-                  {ids.length > 0 && (
-                    <Button
-                      isDestructive
-                      onClick={() => {
-                        setScfValues(prev => ({ ...prev, [field.name]: [] }));
-                        setGalleryPreviews(prev => {
-                          const copy = { ...prev };
-                          delete copy[field.name];
-                          return copy;
-                        });
-                      }}
-                    >
-                      {__('Remove', 'wp-scheduled-posts')}
-                    </Button>
-                  )}
+
+            {urls.length > 0 ? (
+              <div style={{ marginBottom: 12 }}>
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fill, minmax(80px, 1fr))',
+                  gap: 8,
+                  marginBottom: 12
+                }}>
+                  {urls.map((url: string, i: number) => (
+                    <div key={i} style={{ position: 'relative', display: 'inline-block' }}>
+                      <img
+                        src={url}
+                        alt={`${field.label} ${i + 1}`}
+                        style={{
+                          width: 80,
+                          height: 80,
+                          objectFit: 'cover',
+                          borderRadius: 4,
+                          border: '1px solid #ddd'
+                        }}
+                      />
+                      <Button
+                        isDestructive
+                        isSmall
+                        onClick={() => removeImage(i)}
+                        style={{
+                          position: 'absolute',
+                          top: -8,
+                          right: -8,
+                          minWidth: 20,
+                          height: 20,
+                          borderRadius: '50%',
+                          padding: 0,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: 12
+                        }}
+                        title={__('Remove Image', 'wp-scheduled-posts')}
+                      >
+                        ×
+                      </Button>
+                    </div>
+                  ))}
                 </div>
-              )}
-            />
+                <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                  <MediaUpload
+                    onSelect={(mediaArr: any) => {
+                      const arr = Array.isArray(mediaArr) ? mediaArr : [mediaArr];
+                      const newIds = arr.map((m: any) => m.id);
+                      const newUrls = arr.map((m: any) => m.url);
+
+                      // Convert to string format for consistency with SCF
+                      const idsValue = newIds.join(',');
+                      setScfValues(prev => ({ ...prev, [field.name]: idsValue }));
+                      setGalleryPreviews(prev => ({ ...prev, [field.name]: newUrls }));
+                    }}
+                    allowedTypes={['image']}
+                    multiple
+                    gallery
+                    value={ids}
+                    render={({ open }) => (
+                      <Button onClick={open} isSecondary isSmall>
+                        {__('Replace All Images', 'wp-scheduled-posts')}
+                      </Button>
+                    )}
+                  />
+                  <MediaUpload
+                    onSelect={(mediaArr: any) => {
+                      const arr = Array.isArray(mediaArr) ? mediaArr : [mediaArr];
+                      const newIds = arr.map((m: any) => m.id);
+                      const newUrls = arr.map((m: any) => m.url);
+
+                      // Append to existing images
+                      const combinedIds = [...ids, ...newIds];
+                      const combinedUrls = [...urls, ...newUrls];
+
+                      // Convert to string format for consistency with SCF
+                      const idsValue = combinedIds.join(',');
+                      setScfValues(prev => ({ ...prev, [field.name]: idsValue }));
+                      setGalleryPreviews(prev => ({ ...prev, [field.name]: combinedUrls }));
+                    }}
+                    allowedTypes={['image']}
+                    multiple
+                    gallery
+                    value={[]}
+                    render={({ open }) => (
+                      <Button onClick={open} isSecondary isSmall>
+                        {__('Add More Images', 'wp-scheduled-posts')}
+                      </Button>
+                    )}
+                  />
+                  <Button
+                    isDestructive
+                    isSmall
+                    onClick={clearAllImages}
+                  >
+                    {__('Clear All', 'wp-scheduled-posts')}
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div
+                style={{
+                  border: '2px dashed #ddd',
+                  borderRadius: 4,
+                  padding: 30,
+                  textAlign: 'center',
+                  marginBottom: 12,
+                  cursor: 'pointer',
+                  transition: 'border-color 0.2s'
+                }}
+                onMouseEnter={(e) => (e.target as HTMLElement).style.borderColor = '#007cba'}
+                onMouseLeave={(e) => (e.target as HTMLElement).style.borderColor = '#ddd'}
+              >
+                <MediaUpload
+                  onSelect={(mediaArr: any) => {
+                    const arr = Array.isArray(mediaArr) ? mediaArr : [mediaArr];
+                    const newIds = arr.map((m: any) => m.id);
+                    const newUrls = arr.map((m: any) => m.url);
+
+                    // Convert to string format for consistency with SCF
+                    const idsValue = newIds.join(',');
+                    setScfValues(prev => ({ ...prev, [field.name]: idsValue }));
+                    setGalleryPreviews(prev => ({ ...prev, [field.name]: newUrls }));
+                  }}
+                  allowedTypes={['image']}
+                  multiple
+                  gallery
+                  value={ids}
+                  render={({ open }) => (
+                    <div onClick={open}>
+                      <div style={{ fontSize: 32, marginBottom: 12, color: '#666' }}>🖼️</div>
+                      <div style={{ color: '#666', fontSize: 16, marginBottom: 4 }}>
+                        {__('Click to select images', 'wp-scheduled-posts')}
+                      </div>
+                      <div style={{ color: '#999', fontSize: 12 }}>
+                        {__('You can select multiple images at once', 'wp-scheduled-posts')}
+                      </div>
+                    </div>
+                  )}
+                />
+              </div>
+            )}
           </div>
         );
       }
@@ -434,7 +620,7 @@ export const ModalContent = ({
                   placeholder="Title"
                   value={postData.post_title}
                   required
-                  onChange={(event) => setPostData((postData) => ({...postData, post_title: event.target.value}))}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPostData((postData) => ({...postData, post_title: event.target.value}))}
                 />
               </div>
               <div className="form-group">
@@ -444,7 +630,7 @@ export const ModalContent = ({
                   placeholder="Content"
                   required
                   value={postData.post_content}
-                  onChange={(event) => setPostData((postData) => ({...postData, post_content: event.target.value}))}
+                  onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => setPostData((postData) => ({...postData, post_content: event.target.value}))}
                 />
               </div>
               {scfLoading && <div>Loading custom fields...</div>}
@@ -456,7 +642,7 @@ export const ModalContent = ({
 
               <TimePicker
                 currentTime={postData.post_date}
-                onChange={(date) => setPostData((postData) => ({...postData, post_date: date}))}
+                onChange={(date: string) => setPostData((postData) => ({...postData, post_date: date}))}
                 is12Hour
               />
             </div>
