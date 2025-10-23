@@ -36,6 +36,7 @@ export const ModalContent = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [postData, setPostData] = useState<Post>({
     post_title: '',
     post_content: '',
@@ -50,6 +51,7 @@ export const ModalContent = ({
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setIsSubmitting(true);
     // let offset = parseFloat(getSettings().timezone.offset) + new Date().getTimezoneOffset() / 60;
     // let postDate = date("Y-m-d\\TH:i:s\\Z", postData.post_date, -offset);
 
@@ -94,6 +96,7 @@ export const ModalContent = ({
       let message = error?.message || __('Something went wrong','wp-scheduled-posts');
       SweetAlertToaster({ type: 'error', title : message }).fire();
     }).finally(() => {
+      setIsSubmitting(false);
       closeModal();
     });
   };
@@ -606,7 +609,21 @@ export const ModalContent = ({
         </div>
       </div>
       <div className="modalbody">
-        {isLoading && <div>Loading...</div>}
+        {isLoading && (
+          <div className="wpsp-modal-loading-container">
+            <div className="wpsp-modal-loading-content">
+              <div className="wpsp-modal-loading-spinner">
+                <div className="wpsp-spinner-circle"></div>
+              </div>
+              <div className="wpsp-modal-loading-text">
+                {__('Loading post data...', 'wp-scheduled-posts')}
+              </div>
+              <div className="wpsp-modal-loading-subtext">
+                {__('Please wait while we fetch the post information', 'wp-scheduled-posts')}
+              </div>
+            </div>
+          </div>
+        )}
         {!isLoading && (
           <form onSubmit={(event) => {
             handleSubmit(event).then();
@@ -633,7 +650,33 @@ export const ModalContent = ({
                   onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => setPostData((postData) => ({...postData, post_content: event.target.value}))}
                 />
               </div>
-              {scfLoading && <div>Loading custom fields...</div>}
+              {scfLoading && (
+                <div className="wpsp-scf-loading-container">
+                  <div className="wpsp-scf-loading-content">
+                    <div className="wpsp-scf-loading-spinner">
+                      <div className="wpsp-spinner-ring"></div>
+                      <div className="wpsp-spinner-ring"></div>
+                      <div className="wpsp-spinner-ring"></div>
+                    </div>
+                    <div className="wpsp-scf-loading-text">
+                      {__('Loading custom fields...', 'wp-scheduled-posts')}
+                    </div>
+                    <div className="wpsp-scf-loading-subtext">
+                      {__('Please wait while we fetch your custom field configuration', 'wp-scheduled-posts')}
+                    </div>
+                  </div>
+
+                  {/* Skeleton Loading for Fields */}
+                  <div className="wpsp-scf-skeleton-fields">
+                    {[1, 2, 3].map((index) => (
+                      <div key={index} className="wpsp-skeleton-field">
+                        <div className="wpsp-skeleton-label"></div>
+                        <div className="wpsp-skeleton-input"></div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
               {!scfLoading && scfFields.length > 0 && (
                 <div className="scf-fields">
                   {scfFields.map(renderSCFField)}
@@ -646,7 +689,22 @@ export const ModalContent = ({
                 is12Hour
               />
             </div>
-            <button type="submit">Save</button>
+            <div className="wpsp-modal-footer">
+              <button
+                type="submit"
+                className={`wpsp-submit-button ${isSubmitting ? 'wpsp-submitting' : ''}`}
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <>
+                    <span className="wpsp-submit-spinner"></span>
+                    {__('Saving...', 'wp-scheduled-posts')}
+                  </>
+                ) : (
+                  __('Save', 'wp-scheduled-posts')
+                )}
+              </button>
+            </div>
           </form>
         )}
       </div>
