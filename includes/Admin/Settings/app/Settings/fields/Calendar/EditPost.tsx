@@ -12,7 +12,6 @@ import { SweetAlertToaster } from "../../ToasterMsg";
 import { getPostType } from "./Helpers";
 import { PostType, WP_Error } from "./types";
 import { MediaUpload } from '@wordpress/media-utils';
-import { Button } from '@wordpress/components';
 
 interface Post {
   ID               ?: number;
@@ -214,11 +213,27 @@ export const ModalContent = ({
       }
       if (field.type === 'gallery') {
         const ids = (scfValues[field.name] || '').split(',').map((id) => parseInt(id, 10)).filter(Boolean);
-        if (ids.length && (!galleryPreviews[field.name] || galleryPreviews[field.name].length !== ids.length)) {
-          Promise.all(ids.map(fetchImageUrl)).then((urls) => {
-            setGalleryPreviews((prev) => ({ ...prev, [field.name]: urls }));
-          });
-        } else if (!ids.length && galleryPreviews[field.name]) {
+        const currentPreviews = galleryPreviews[field.name] || [];
+
+        // Only fetch URLs if we don't have previews or if the count doesn't match
+        if (ids.length && (!currentPreviews.length || currentPreviews.length !== ids.length)) {
+          // Check if we need to fetch any URLs (only fetch for IDs that don't have URLs)
+          const needsFetch = ids.some((_: number, index: number) => !currentPreviews[index]);
+
+          if (needsFetch) {
+            Promise.all(ids.map(fetchImageUrl)).then((urls) => {
+              // Only update if the URLs are different to prevent unnecessary re-renders
+              setGalleryPreviews((prev) => {
+                const current = prev[field.name] || [];
+                const urlsChanged = urls.some((url: string, index: number) => url !== current[index]);
+                if (urlsChanged) {
+                  return { ...prev, [field.name]: urls };
+                }
+                return prev;
+              });
+            });
+          }
+        } else if (!ids.length && currentPreviews.length) {
           setGalleryPreviews((prev) => {
             const copy = { ...prev };
             delete copy[field.name];
@@ -245,157 +260,240 @@ export const ModalContent = ({
 
     switch (field.type) {
       case 'text':
-        return <div className="form-group">
-            <Input type="text" {...commonProps} />
-        </div>
+        return (
+          <div className="wpsp-field-group wpsp-text-field" key={field.name}>
+            <label className="wpsp-field-label" htmlFor={field.name}>
+              {field.label}
+              {field.required && <span className="wpsp-required">*</span>}
+            </label>
+            <div className="wpsp-field-wrapper">
+              <input
+                type="text"
+                id={field.name}
+                className="wpsp-text-input"
+                value={scfValues[field.name] || ''}
+                onChange={(e) => setScfValues((prev) => ({ ...prev, [field.name]: e.target.value }))}
+                placeholder={field.placeholder || `Enter ${field.label.toLowerCase()}`}
+                required={field.required}
+              />
+              {field.description && (
+                <div className="wpsp-field-description">{field.description}</div>
+              )}
+            </div>
+          </div>
+        );
       case 'textarea':
-        return <div className="form-group">
-            <Textarea type="text" {...commonProps} />
-        </div>
+        return (
+          <div className="wpsp-field-group wpsp-textarea-field" key={field.name}>
+            <label className="wpsp-field-label" htmlFor={field.name}>
+              {field.label}
+              {field.required && <span className="wpsp-required">*</span>}
+            </label>
+            <div className="wpsp-field-wrapper">
+              <textarea
+                id={field.name}
+                className="wpsp-textarea-input"
+                value={scfValues[field.name] || ''}
+                onChange={(e) => setScfValues((prev) => ({ ...prev, [field.name]: e.target.value }))}
+                placeholder={field.placeholder || `Enter ${field.label.toLowerCase()}`}
+                required={field.required}
+                rows={field.rows || 4}
+              />
+              {field.description && (
+                <div className="wpsp-field-description">{field.description}</div>
+              )}
+            </div>
+          </div>
+        );
       case 'select':
         return (
-          <div className="form-group wpsp-scf-select" key={field.name}>
-            <label htmlFor={field.name}>{field.label}</label>
-            <select
-              id={field.name}
-              value={field.multiple ? (Array.isArray(scfValues[field.name]) ? scfValues[field.name] : (scfValues[field.name] ? [scfValues[field.name]] : [])) : (scfValues[field.name] || '')}
-              onChange={e => {
-                if (field.multiple) {
-                  const selected = Array.from(e.target.selectedOptions).map(opt => opt.value);
-                  setScfValues(prev => ({ ...prev, [field.name]: selected }));
-                } else {
-                  setScfValues(prev => ({ ...prev, [field.name]: e.target.value }));
-                }
-              }}
-              required={field.required}
-              multiple={!!field.multiple}
-            >
-              {!field.multiple && <option value="">Select...</option>}
-              {field.options?.map(opt => (
-                <option key={opt} value={opt}>{opt}</option>
-              ))}
-            </select>
+          <div className="wpsp-field-group wpsp-select-field" key={field.name}>
+            <label className="wpsp-field-label" htmlFor={field.name}>
+              {field.label}
+              {field.required && <span className="wpsp-required">*</span>}
+            </label>
+            <div className="wpsp-field-wrapper">
+              <div className="wpsp-select-wrapper">
+                <select
+                  id={field.name}
+                  className="wpsp-select-input"
+                  value={field.multiple ? (Array.isArray(scfValues[field.name]) ? scfValues[field.name] : (scfValues[field.name] ? [scfValues[field.name]] : [])) : (scfValues[field.name] || '')}
+                  onChange={e => {
+                    if (field.multiple) {
+                      const selected = Array.from(e.target.selectedOptions).map((opt: HTMLOptionElement) => opt.value);
+                      setScfValues(prev => ({ ...prev, [field.name]: selected }));
+                    } else {
+                      setScfValues(prev => ({ ...prev, [field.name]: e.target.value }));
+                    }
+                  }}
+                  required={field.required}
+                  multiple={!!field.multiple}
+                >
+                  {!field.multiple && <option value="">{`Select ${field.label.toLowerCase()}...`}</option>}
+                  {field.options?.map((opt: string) => (
+                    <option key={opt} value={opt}>{opt}</option>
+                  ))}
+                </select>
+                <div className="wpsp-select-arrow">
+                  <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
+                    <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+              {field.multiple && (
+                <div className="wpsp-field-hint">Hold Ctrl/Cmd to select multiple options</div>
+              )}
+              {field.description && (
+                <div className="wpsp-field-description">{field.description}</div>
+              )}
+            </div>
           </div>
         );
       case 'checkbox':
         return (
-          <div className="wpsp-scf-checkbox" key={field.name}>
-            <label>
-              <input
-                type="checkbox"
-                checked={!!scfValues[field.name]}
-                onChange={e => setScfValues((prev) => ({ ...prev, [field.name]: e.target.checked }))}
-              />
-              {field.label}
-            </label>
+          <div className="wpsp-field-group wpsp-checkbox-field" key={field.name}>
+            <div className="wpsp-checkbox-wrapper">
+              <label className="wpsp-checkbox-label" htmlFor={field.name}>
+                <input
+                  type="checkbox"
+                  id={field.name}
+                  className="wpsp-checkbox-input"
+                  checked={!!scfValues[field.name]}
+                  onChange={e => setScfValues((prev) => ({ ...prev, [field.name]: e.target.checked }))}
+                />
+                <span className="wpsp-checkbox-custom">
+                  <svg className="wpsp-checkbox-icon" width="12" height="9" viewBox="0 0 12 9" fill="none">
+                    <path d="M1 4.5L4.5 8L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </span>
+                <span className="wpsp-checkbox-text">
+                  {field.label}
+                  {field.required && <span className="wpsp-required">*</span>}
+                </span>
+              </label>
+              {field.description && (
+                <div className="wpsp-field-description">{field.description}</div>
+              )}
+            </div>
           </div>
         );
       case 'number':
         return (
-          <div className="form-group" key={field.name}>
-            <label htmlFor={field.name}>{field.label}</label>
-            <input
-              type="number"
-              id={field.name}
-              value={scfValues[field.name] || ''}
-              onChange={e => setScfValues(prev => ({ ...prev, [field.name]: e.target.value }))}
-              required={field.required}
-            />
+          <div className="wpsp-field-group wpsp-number-field" key={field.name}>
+            <label className="wpsp-field-label" htmlFor={field.name}>
+              {field.label}
+              {field.required && <span className="wpsp-required">*</span>}
+            </label>
+            <div className="wpsp-field-wrapper">
+              <input
+                type="number"
+                id={field.name}
+                className="wpsp-number-input"
+                value={scfValues[field.name] || ''}
+                onChange={e => setScfValues(prev => ({ ...prev, [field.name]: e.target.value }))}
+                placeholder={field.placeholder || `Enter ${field.label.toLowerCase()}`}
+                min={field.min}
+                max={field.max}
+                step={field.step || 1}
+                required={field.required}
+              />
+              {(field.min !== undefined || field.max !== undefined) && (
+                <div className="wpsp-field-hint">
+                  {field.min !== undefined && field.max !== undefined
+                    ? `Range: ${field.min} - ${field.max}`
+                    : field.min !== undefined
+                    ? `Minimum: ${field.min}`
+                    : `Maximum: ${field.max}`
+                  }
+                </div>
+              )}
+              {field.description && (
+                <div className="wpsp-field-description">{field.description}</div>
+              )}
+            </div>
           </div>
         );
       case 'image': {
         const id = scfValues[field.name];
         const url = imagePreviews[field.name] || field.url;
         return (
-          <div className="form-group" key={field.name}>
-            <label>{field.label}</label>
-            {url ? (
-              <div style={{ marginBottom: 12, position: 'relative', display: 'inline-block' }}>
-                <img
-                  src={url}
-                  alt={field.label}
-                  style={{
-                    maxWidth: 120,
-                    maxHeight: 120,
-                    borderRadius: 4,
-                    border: '1px solid #ddd'
-                  }}
-                />
-                <Button
-                  isDestructive
-                  isSmall
-                  onClick={() => {
-                    setScfValues(prev => ({ ...prev, [field.name]: '' }));
-                    setImagePreviews(prev => {
-                      const copy = { ...prev };
-                      delete copy[field.name];
-                      return copy;
-                    });
-                  }}
-                  style={{
-                    position: 'absolute',
-                    top: -8,
-                    right: -8,
-                    minWidth: 24,
-                    height: 24,
-                    borderRadius: '50%',
-                    padding: 0,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}
-                  title={__('Remove Image', 'wp-scheduled-posts')}
-                >
-                  ×
-                </Button>
-              </div>
-            ) : (
-              <div
-                style={{
-                  border: '2px dashed #ddd',
-                  borderRadius: 4,
-                  padding: 20,
-                  textAlign: 'center',
-                  marginBottom: 12,
-                  cursor: 'pointer',
-                  transition: 'border-color 0.2s'
-                }}
-                onMouseEnter={(e) => (e.target as HTMLElement).style.borderColor = '#007cba'}
-                onMouseLeave={(e) => (e.target as HTMLElement).style.borderColor = '#ddd'}
-              >
-                <MediaUpload
-                  onSelect={media => {
-                    setScfValues(prev => ({ ...prev, [field.name]: media.id }));
-                    setImagePreviews(prev => ({ ...prev, [field.name]: media.url }));
-                  }}
-                  allowedTypes={['image']}
-                  value={id}
-                  render={({ open }) => (
-                    <div onClick={open}>
-                      <div style={{ fontSize: 24, marginBottom: 8, color: '#666' }}>📷</div>
-                      <div style={{ color: '#666', fontSize: 14 }}>
-                        {__('Click to select an image', 'wp-scheduled-posts')}
+          <div className="wpsp-field-group wpsp-image-field" key={field.name}>
+            <label className="wpsp-field-label">
+              {field.label}
+              {field.required && <span className="wpsp-required">*</span>}
+            </label>
+            <div className="wpsp-field-wrapper">
+              {url ? (
+                <div className="wpsp-image-preview-container">
+                  <div className="wpsp-image-preview">
+                    <img
+                      src={url}
+                      alt={field.label}
+                      className="wpsp-image-preview-img"
+                    />
+                    <button
+                      type="button"
+                      className="wpsp-image-remove-btn"
+                      onClick={() => {
+                        setScfValues(prev => ({ ...prev, [field.name]: '' }));
+                        setImagePreviews(prev => {
+                          const copy = { ...prev };
+                          delete copy[field.name];
+                          return copy;
+                        });
+                      }}
+                      title={__('Remove Image', 'wp-scheduled-posts')}
+                    >
+                      ×
+                    </button>
+                  </div>
+                  <div className="wpsp-image-actions">
+                    <MediaUpload
+                      onSelect={(media: any) => {
+                        setScfValues(prev => ({ ...prev, [field.name]: media.id }));
+                        setImagePreviews(prev => ({ ...prev, [field.name]: media.url }));
+                      }}
+                      allowedTypes={['image']}
+                      value={id}
+                      render={({ open }) => (
+                        <button type="button" className="wpsp-btn wpsp-btn-secondary" onClick={open}>
+                          {__('Change Image', 'wp-scheduled-posts')}
+                        </button>
+                      )}
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div className="wpsp-image-upload-area">
+                  <MediaUpload
+                    onSelect={(media: any) => {
+                      setScfValues(prev => ({ ...prev, [field.name]: media.id }));
+                      setImagePreviews(prev => ({ ...prev, [field.name]: media.url }));
+                    }}
+                    allowedTypes={['image']}
+                    value={id}
+                    render={({ open }) => (
+                      <div className="wpsp-upload-placeholder" onClick={open}>
+                        <div className="wpsp-upload-icon">
+                          <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                            <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <path d="M7 10L12 5L17 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <path d="M12 5V15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        </div>
+                        <div className="wpsp-upload-text">
+                          <div className="wpsp-upload-primary">{__('Click to upload an image', 'wp-scheduled-posts')}</div>
+                          <div className="wpsp-upload-secondary">{__('or drag and drop', 'wp-scheduled-posts')}</div>
+                        </div>
                       </div>
-                    </div>
-                  )}
-                />
-              </div>
-            )}
-            {url && (
-              <MediaUpload
-                onSelect={media => {
-                  setScfValues(prev => ({ ...prev, [field.name]: media.id }));
-                  setImagePreviews(prev => ({ ...prev, [field.name]: media.url }));
-                }}
-                allowedTypes={['image']}
-                value={id}
-                render={({ open }) => (
-                  <Button onClick={open} isSecondary isSmall>
-                    {__('Change Image', 'wp-scheduled-posts')}
-                  </Button>
-                )}
-              />
-            )}
+                    )}
+                  />
+                </div>
+              )}
+              {field.description && (
+                <div className="wpsp-field-description">{field.description}</div>
+              )}
+            </div>
           </div>
         );
       }
@@ -437,55 +535,102 @@ export const ModalContent = ({
         };
 
         return (
-          <div className="form-group" key={field.name}>
-            <label>{field.label}</label>
+          <div className="wpsp-field-group wpsp-gallery-field" key={field.name}>
+            <label className="wpsp-field-label">
+              {field.label}
+              {field.required && <span className="wpsp-required">*</span>}
+            </label>
+            <div className="wpsp-field-wrapper">
+              {urls.length > 0 ? (
+                <div className="wpsp-gallery-preview-container">
+                  <div className="wpsp-gallery-grid">
+                    {urls.map((url: string, i: number) => (
+                      <div key={i} className="wpsp-gallery-item">
+                        <img
+                          src={url}
+                          alt={`${field.label} ${i + 1}`}
+                          className="wpsp-gallery-image"
+                        />
+                        <button
+                          type="button"
+                          className="wpsp-gallery-remove-btn"
+                          onClick={() => removeImage(i)}
+                          title={__('Remove Image', 'wp-scheduled-posts')}
+                        >
+                          ×
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="wpsp-gallery-actions">
+                    <MediaUpload
+                      onSelect={(mediaArr: any) => {
+                        const arr = Array.isArray(mediaArr) ? mediaArr : [mediaArr];
+                        const newIds = arr.map((m: any) => m.id);
+                        const newUrls = arr.map((m: any) => m.url);
 
-            {urls.length > 0 ? (
-              <div style={{ marginBottom: 12 }}>
-                <div style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fill, minmax(80px, 1fr))',
-                  gap: 8,
-                  marginBottom: 12
-                }}>
-                  {urls.map((url: string, i: number) => (
-                    <div key={i} style={{ position: 'relative', display: 'inline-block' }}>
-                      <img
-                        src={url}
-                        alt={`${field.label} ${i + 1}`}
-                        style={{
-                          width: 80,
-                          height: 80,
-                          objectFit: 'cover',
-                          borderRadius: 4,
-                          border: '1px solid #ddd'
-                        }}
-                      />
-                      <Button
-                        isDestructive
-                        isSmall
-                        onClick={() => removeImage(i)}
-                        style={{
-                          position: 'absolute',
-                          top: -8,
-                          right: -8,
-                          minWidth: 20,
-                          height: 20,
-                          borderRadius: '50%',
-                          padding: 0,
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          fontSize: 12
-                        }}
-                        title={__('Remove Image', 'wp-scheduled-posts')}
-                      >
-                        ×
-                      </Button>
-                    </div>
-                  ))}
+                        // Convert to string format for consistency with SCF
+                        const idsValue = newIds.join(',');
+
+                        // Update both states together to prevent race conditions
+                        setScfValues(prev => ({ ...prev, [field.name]: idsValue }));
+                        setGalleryPreviews(prev => ({ ...prev, [field.name]: newUrls }));
+                      }}
+                      allowedTypes={['image']}
+                      multiple
+                      gallery
+                      value={ids}
+                      render={({ open }) => (
+                        <button type="button" className="wpsp-btn wpsp-btn-secondary" onClick={open}>
+                          {__('Replace All', 'wp-scheduled-posts')}
+                        </button>
+                      )}
+                    />
+                    <MediaUpload
+                      onSelect={(mediaArr: any) => {
+                        const arr = Array.isArray(mediaArr) ? mediaArr : [mediaArr];
+                        const newIds = arr.map((m: any) => m.id);
+                        const newUrls = arr.map((m: any) => m.url);
+
+                        // Combine with existing IDs, filtering out duplicates
+                        const currentIds = ids; // Use the current ids from the component state
+                        const uniqueNewIds = newIds.filter((id: number) => !currentIds.includes(id));
+
+                        if (uniqueNewIds.length === 0) {
+                          // No new unique images selected
+                          return;
+                        }
+
+                        const combinedIds = [...currentIds, ...uniqueNewIds];
+                        const uniqueNewUrls = newUrls.filter((_: string, index: number) => uniqueNewIds.includes(newIds[index]));
+                        const combinedUrls = [...urls, ...uniqueNewUrls];
+
+                        // Update both states with the combined data
+                        const idsValue = combinedIds.join(',');
+                        setScfValues(prev => ({ ...prev, [field.name]: idsValue }));
+                        setGalleryPreviews(prev => ({ ...prev, [field.name]: combinedUrls }));
+                      }}
+                      allowedTypes={['image']}
+                      multiple
+                      gallery
+                      value={[]}
+                      render={({ open }) => (
+                        <button type="button" className="wpsp-btn wpsp-btn-secondary" onClick={open}>
+                          {__('Add More', 'wp-scheduled-posts')}
+                        </button>
+                      )}
+                    />
+                    <button
+                      type="button"
+                      className="wpsp-btn wpsp-btn-destructive"
+                      onClick={clearAllImages}
+                    >
+                      {__('Clear All', 'wp-scheduled-posts')}
+                    </button>
+                  </div>
                 </div>
-                <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+              ) : (
+                <div className="wpsp-gallery-upload-area">
                   <MediaUpload
                     onSelect={(mediaArr: any) => {
                       const arr = Array.isArray(mediaArr) ? mediaArr : [mediaArr];
@@ -494,6 +639,8 @@ export const ModalContent = ({
 
                       // Convert to string format for consistency with SCF
                       const idsValue = newIds.join(',');
+
+                      // Set both states together
                       setScfValues(prev => ({ ...prev, [field.name]: idsValue }));
                       setGalleryPreviews(prev => ({ ...prev, [field.name]: newUrls }));
                     }}
@@ -502,88 +649,29 @@ export const ModalContent = ({
                     gallery
                     value={ids}
                     render={({ open }) => (
-                      <Button onClick={open} isSecondary isSmall>
-                        {__('Replace All Images', 'wp-scheduled-posts')}
-                      </Button>
+                      <div className="wpsp-upload-placeholder" onClick={open}>
+                        <div className="wpsp-upload-icon">
+                          <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                            <path d="M14.2 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V7.8L14.2 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <path d="M14 2V8H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <path d="M16 13H8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <path d="M16 17H8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <path d="M10 9H9H8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        </div>
+                        <div className="wpsp-upload-text">
+                          <div className="wpsp-upload-primary">{__('Click to select images', 'wp-scheduled-posts')}</div>
+                          <div className="wpsp-upload-secondary">{__('You can select multiple images at once', 'wp-scheduled-posts')}</div>
+                        </div>
+                      </div>
                     )}
                   />
-                  <MediaUpload
-                    onSelect={(mediaArr: any) => {
-                      const arr = Array.isArray(mediaArr) ? mediaArr : [mediaArr];
-                      const newIds = arr.map((m: any) => m.id);
-                      const newUrls = arr.map((m: any) => m.url);
-
-                      // Append to existing images
-                      const combinedIds = [...ids, ...newIds];
-                      const combinedUrls = [...urls, ...newUrls];
-
-                      // Convert to string format for consistency with SCF
-                      const idsValue = combinedIds.join(',');
-                      setScfValues(prev => ({ ...prev, [field.name]: idsValue }));
-                      setGalleryPreviews(prev => ({ ...prev, [field.name]: combinedUrls }));
-                    }}
-                    allowedTypes={['image']}
-                    multiple
-                    gallery
-                    value={[]}
-                    render={({ open }) => (
-                      <Button onClick={open} isSecondary isSmall>
-                        {__('Add More Images', 'wp-scheduled-posts')}
-                      </Button>
-                    )}
-                  />
-                  <Button
-                    isDestructive
-                    isSmall
-                    onClick={clearAllImages}
-                  >
-                    {__('Clear All', 'wp-scheduled-posts')}
-                  </Button>
                 </div>
-              </div>
-            ) : (
-              <div
-                style={{
-                  border: '2px dashed #ddd',
-                  borderRadius: 4,
-                  padding: 30,
-                  textAlign: 'center',
-                  marginBottom: 12,
-                  cursor: 'pointer',
-                  transition: 'border-color 0.2s'
-                }}
-                onMouseEnter={(e) => (e.target as HTMLElement).style.borderColor = '#007cba'}
-                onMouseLeave={(e) => (e.target as HTMLElement).style.borderColor = '#ddd'}
-              >
-                <MediaUpload
-                  onSelect={(mediaArr: any) => {
-                    const arr = Array.isArray(mediaArr) ? mediaArr : [mediaArr];
-                    const newIds = arr.map((m: any) => m.id);
-                    const newUrls = arr.map((m: any) => m.url);
-
-                    // Convert to string format for consistency with SCF
-                    const idsValue = newIds.join(',');
-                    setScfValues(prev => ({ ...prev, [field.name]: idsValue }));
-                    setGalleryPreviews(prev => ({ ...prev, [field.name]: newUrls }));
-                  }}
-                  allowedTypes={['image']}
-                  multiple
-                  gallery
-                  value={ids}
-                  render={({ open }) => (
-                    <div onClick={open}>
-                      <div style={{ fontSize: 32, marginBottom: 12, color: '#666' }}>🖼️</div>
-                      <div style={{ color: '#666', fontSize: 16, marginBottom: 4 }}>
-                        {__('Click to select images', 'wp-scheduled-posts')}
-                      </div>
-                      <div style={{ color: '#999', fontSize: 12 }}>
-                        {__('You can select multiple images at once', 'wp-scheduled-posts')}
-                      </div>
-                    </div>
-                  )}
-                />
-              </div>
-            )}
+              )}
+              {field.description && (
+                <div className="wpsp-field-description">{field.description}</div>
+              )}
+            </div>
           </div>
         );
       }

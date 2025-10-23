@@ -1159,3 +1159,472 @@ img {
     }
   }
 }
+
+// Enhanced ACF Field Styles
+.wpsp-field-group {
+  margin-bottom: 24px;
+
+  .wpsp-field-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #1b1b50;
+    margin-bottom: 8px;
+    line-height: 1.4;
+
+    .wpsp-required {
+      color: #dc3545;
+      margin-left: 4px;
+    }
+  }
+
+  .wpsp-field-wrapper {
+    position: relative;
+  }
+
+  .wpsp-field-description {
+    font-size: 12px;
+    color: #6c757d;
+    margin-top: 6px;
+    line-height: 1.4;
+  }
+
+  .wpsp-field-hint {
+    font-size: 11px;
+    color: #6c757d;
+    margin-top: 4px;
+    font-style: italic;
+  }
+}
+
+// Text Input Fields
+.wpsp-text-field, .wpsp-number-field {
+  .wpsp-text-input, .wpsp-number-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #e1e5e9;
+    border-radius: 6px;
+    font-size: 14px;
+    line-height: 1.4;
+    color: #1b1b50;
+    background: #fff;
+    transition: all 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: #6c62ff;
+      box-shadow: 0 0 0 3px rgba(108, 98, 255, 0.1);
+    }
+
+    &::placeholder {
+      color: #a8a8a8;
+    }
+
+    &:disabled {
+      background: #f8f9fa;
+      color: #6c757d;
+      cursor: not-allowed;
+    }
+  }
+}
+
+// Textarea Fields
+.wpsp-textarea-field {
+  .wpsp-textarea-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #e1e5e9;
+    border-radius: 6px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #1b1b50;
+    background: #fff;
+    transition: all 0.2s ease;
+    resize: vertical;
+    min-height: 100px;
+    font-family: inherit;
+
+    &:focus {
+      outline: none;
+      border-color: #6c62ff;
+      box-shadow: 0 0 0 3px rgba(108, 98, 255, 0.1);
+    }
+
+    &::placeholder {
+      color: #a8a8a8;
+    }
+
+    &:disabled {
+      background: #f8f9fa;
+      color: #6c757d;
+      cursor: not-allowed;
+    }
+  }
+}
+
+// Select Fields
+.wpsp-select-field {
+  .wpsp-select-wrapper {
+    position: relative;
+
+    .wpsp-select-input {
+      width: 100%;
+      padding: 12px 40px 12px 16px;
+      border: 1px solid #e1e5e9;
+      border-radius: 6px;
+      font-size: 14px;
+      line-height: 1.4;
+      color: #1b1b50;
+      background: #fff;
+      transition: all 0.2s ease;
+      appearance: none;
+      cursor: pointer;
+
+      &:focus {
+        outline: none;
+        border-color: #6c62ff;
+        box-shadow: 0 0 0 3px rgba(108, 98, 255, 0.1);
+      }
+
+      &:disabled {
+        background: #f8f9fa;
+        color: #6c757d;
+        cursor: not-allowed;
+      }
+
+      &[multiple] {
+        padding: 8px 16px;
+        min-height: 120px;
+
+        option {
+          padding: 4px 0;
+        }
+      }
+    }
+
+    .wpsp-select-arrow {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      color: #6c757d;
+      transition: color 0.2s ease;
+    }
+
+    &:hover .wpsp-select-arrow {
+      color: #6c62ff;
+    }
+  }
+}
+
+// Checkbox Fields
+.wpsp-checkbox-field {
+  .wpsp-checkbox-wrapper {
+    .wpsp-checkbox-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      cursor: pointer;
+      line-height: 1.4;
+
+      .wpsp-checkbox-input {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+
+        &:checked + .wpsp-checkbox-custom {
+          background: #6c62ff;
+          border-color: #6c62ff;
+
+          .wpsp-checkbox-icon {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+
+        &:focus + .wpsp-checkbox-custom {
+          box-shadow: 0 0 0 3px rgba(108, 98, 255, 0.1);
+        }
+      }
+
+      .wpsp-checkbox-custom {
+        flex-shrink: 0;
+        width: 18px;
+        height: 18px;
+        border: 2px solid #e1e5e9;
+        border-radius: 4px;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+        margin-top: 1px;
+
+        .wpsp-checkbox-icon {
+          color: #fff;
+          opacity: 0;
+          transform: scale(0.8);
+          transition: all 0.2s ease;
+        }
+      }
+
+      .wpsp-checkbox-text {
+        font-size: 14px;
+        color: #1b1b50;
+        font-weight: 500;
+
+        .wpsp-required {
+          color: #dc3545;
+          margin-left: 4px;
+        }
+      }
+
+      &:hover .wpsp-checkbox-custom {
+        border-color: #6c62ff;
+      }
+    }
+  }
+}
+
+// Image Fields
+.wpsp-image-field {
+  .wpsp-image-preview-container {
+    .wpsp-image-preview {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 12px;
+
+      .wpsp-image-preview-img {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 2px solid #e1e5e9;
+        transition: all 0.2s ease;
+      }
+
+      .wpsp-image-remove-btn {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: #dc3545;
+        color: #fff;
+        border: 2px solid #fff;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: bold;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+        &:hover {
+          background: #c82333;
+          transform: scale(1.1);
+        }
+      }
+    }
+
+    .wpsp-image-actions {
+      .wpsp-btn {
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: none;
+
+        &.wpsp-btn-secondary {
+          background: #f8f9fa;
+          color: #6c62ff;
+          border: 1px solid #e1e5e9;
+
+          &:hover {
+            background: #e9ecef;
+            border-color: #6c62ff;
+          }
+        }
+      }
+    }
+  }
+
+  .wpsp-image-upload-area {
+    .wpsp-upload-placeholder {
+      border: 2px dashed #e1e5e9;
+      border-radius: 8px;
+      padding: 40px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: #fafbfc;
+
+      &:hover {
+        border-color: #6c62ff;
+        background: #f8f9ff;
+
+        .wpsp-upload-icon {
+          color: #6c62ff;
+          transform: translateY(-2px);
+        }
+      }
+
+      .wpsp-upload-icon {
+        color: #a8a8a8;
+        margin-bottom: 16px;
+        transition: all 0.3s ease;
+      }
+
+      .wpsp-upload-text {
+        .wpsp-upload-primary {
+          font-size: 16px;
+          font-weight: 500;
+          color: #1b1b50;
+          margin-bottom: 4px;
+        }
+
+        .wpsp-upload-secondary {
+          font-size: 13px;
+          color: #6c757d;
+        }
+      }
+    }
+  }
+}
+
+// Gallery Fields
+.wpsp-gallery-field {
+  .wpsp-gallery-preview-container {
+    .wpsp-gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+
+      .wpsp-gallery-item {
+        position: relative;
+
+        .wpsp-gallery-image {
+          width: 80px;
+          height: 80px;
+          object-fit: cover;
+          border-radius: 6px;
+          border: 2px solid #e1e5e9;
+          transition: all 0.2s ease;
+
+          &:hover {
+            border-color: #6c62ff;
+          }
+        }
+
+        .wpsp-gallery-remove-btn {
+          position: absolute;
+          top: -6px;
+          right: -6px;
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          background: #dc3545;
+          color: #fff;
+          border: 2px solid #fff;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 12px;
+          font-weight: bold;
+          transition: all 0.2s ease;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+          &:hover {
+            background: #c82333;
+            transform: scale(1.1);
+          }
+        }
+      }
+    }
+
+    .wpsp-gallery-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+
+      .wpsp-btn {
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: none;
+
+        &.wpsp-btn-secondary {
+          background: #f8f9fa;
+          color: #6c62ff;
+          border: 1px solid #e1e5e9;
+
+          &:hover {
+            background: #e9ecef;
+            border-color: #6c62ff;
+          }
+        }
+
+        &.wpsp-btn-destructive {
+          background: #dc3545;
+          color: #fff;
+
+          &:hover {
+            background: #c82333;
+          }
+        }
+      }
+    }
+  }
+
+  .wpsp-gallery-upload-area {
+    .wpsp-upload-placeholder {
+      border: 2px dashed #e1e5e9;
+      border-radius: 8px;
+      padding: 50px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: #fafbfc;
+
+      &:hover {
+        border-color: #6c62ff;
+        background: #f8f9ff;
+
+        .wpsp-upload-icon {
+          color: #6c62ff;
+          transform: translateY(-2px);
+        }
+      }
+
+      .wpsp-upload-icon {
+        color: #a8a8a8;
+        margin-bottom: 16px;
+        transition: all 0.3s ease;
+      }
+
+      .wpsp-upload-text {
+        .wpsp-upload-primary {
+          font-size: 16px;
+          font-weight: 500;
+          color: #1b1b50;
+          margin-bottom: 4px;
+        }
+
+        .wpsp-upload-secondary {
+          font-size: 13px;
+          color: #6c757d;
+        }
+      }
+    }
+  }
+}
