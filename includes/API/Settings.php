@@ -283,6 +283,9 @@ class Settings
                         if (!isset($profile['thumbnail_url']) || $profile['thumbnail_url'] === null) {
                             $profile['thumbnail_url'] = '';
                         }
+                        if (!isset($profile['name']) || $profile['name'] === null) {
+                            $profile['name'] = '';
+                        }
                         return $profile;
                     }, $option_value[$list_key]);
                 }
