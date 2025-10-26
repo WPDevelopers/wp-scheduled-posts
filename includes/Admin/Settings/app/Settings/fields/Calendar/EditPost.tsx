@@ -212,7 +212,12 @@ export const ModalContent = ({
         }
       }
       if (field.type === 'gallery') {
-        const ids = (scfValues[field.name] || '').split(',').map((id) => parseInt(id, 10)).filter(Boolean);
+        const rawValue = scfValues[field.name];
+        const ids = Array.isArray(rawValue)
+          ? rawValue.map((id: any) => parseInt(id, 10)).filter(Boolean)
+          : (typeof rawValue === 'string' && rawValue.length)
+            ? rawValue.split(',').map((id: string) => parseInt(id, 10)).filter(Boolean)
+            : [];
         const currentPreviews = galleryPreviews[field.name] || [];
 
         // Only fetch URLs if we don't have previews or if the count doesn't match
@@ -245,18 +250,7 @@ export const ModalContent = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scfValues, scfFields]);
 
-  const renderSCFField = (field) => {
-    const commonProps = {
-      key: field.name,
-      id: field.name,
-      label: field.label,
-      value: scfValues[field.name] || '',
-      onChange: (e) => {
-        const value = e?.target ? e.target.value : e; // for selects
-        setScfValues((prev) => ({ ...prev, [field.name]: value }));
-      },
-      required: field.required,
-    };
+  const renderSCFField = (field: any) => {
 
     switch (field.type) {
       case 'text':
