@@ -692,9 +692,7 @@ class Calendar
                 // Save SCF fields if present
                 $scf = $request->get_param('scf');
                 if ($post_id && is_array($scf)) {
-                    foreach ($scf as $key => $value) {
-                        update_post_meta($post_id, $key, $value);
-                    }
+                    $this->save_scf_fields($post_id, $scf);
                 }
                 return $this->get_rest_result($post_id);
             } else {
@@ -712,9 +710,7 @@ class Calendar
                 // Save SCF fields if present
                 $scf = $request->get_param('scf');
                 if ($post_id && is_array($scf)) {
-                    foreach ($scf as $key => $value) {
-                        update_post_meta($post_id, $key, $value);
-                    }
+                    $this->save_scf_fields($post_id, $scf);
                 }
                 return $this->get_rest_result($post_id);
             }
@@ -764,6 +760,11 @@ class Calendar
                 'post_status'  => 'draft',
                 'post_author'  => get_current_user_id(),
             ), true);
+            // Save SCF fields if present
+            $scf = $request->get_param('scf');
+            if ($post_id && is_array($scf)) {
+                $this->save_scf_fields($post_id, $scf);
+            }
             return $this->get_rest_result($post_id);
         } else if ($type == 'editDraft') {
             $post_id = wp_update_post(array(
@@ -777,6 +778,11 @@ class Calendar
                 'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''),
                 'edit_date'     => true,
             ), true);
+            // Save SCF fields if present
+            $scf = $request->get_param('scf');
+            if ($post_id && is_array($scf)) {
+                $this->save_scf_fields($post_id, $scf);
+            }
             return $this->get_rest_result($post_id);
         }  else if ($post_status != 'draft') { // future post date modify date
             $post_id = wp_update_post(array(
@@ -908,5 +914,85 @@ class Calendar
         }
 
         return $posts;
+    }
+
+    /**
+     * Save SCF fields with proper data type handling
+     * @param int $post_id The post ID
+     * @param array $scf_data The SCF field data
+     */
+    private function save_scf_fields($post_id, $scf_data) {
+        if (!$post_id || !is_array($scf_data)) {
+            return;
+        }
+
+        // Get the post type to fetch field groups
+        $post_type = get_post_type($post_id);
+        if (!$post_type) {
+            return;
+        }
+
+        // Get all field groups for this post type
+        $field_groups = function_exists('acf_get_field_groups') ? acf_get_field_groups(array('post_type' => $post_type)) : array();
+        $field_types = array();
+
+        // Build a map of field names to their types
+        foreach ($field_groups as $field_group) {
+            $acf_fields = function_exists('acf_get_fields') ? acf_get_fields($field_group) : array();
+            foreach ($acf_fields as $field) {
+                $field_types[$field['name']] = $field['type'];
+            }
+        }
+
+        // Save each SCF field with proper data type handling
+        foreach ($scf_data as $field_name => $value) {
+            $field_type = isset($field_types[$field_name]) ? $field_types[$field_name] : null;
+
+            // Handle different field types
+            switch ($field_type) {
+                case 'gallery':
+                    // Convert comma-separated string to array of integers
+                    if (is_string($value) && !empty($value)) {
+                        $ids = explode(',', $value);
+                        $ids = array_filter(array_map('intval', $ids));
+                        $value = $ids;
+                    } elseif (!is_array($value)) {
+                        $value = array();
+                    }
+                    break;
+
+                case 'image':
+                    // Ensure image field is stored as integer
+                    $value = !empty($value) ? intval($value) : '';
+                    break;
+
+                case 'number':
+                    // Ensure number field is stored as float/int
+                    $value = !empty($value) ? floatval($value) : '';
+                    break;
+
+                case 'checkbox':
+                    // Ensure checkbox is stored as boolean
+                    $value = !empty($value) ? 1 : 0;
+                    break;
+
+                case 'select':
+                    // Handle select fields (can be single or multiple)
+                    if (is_array($value)) {
+                        // Multiple select - keep as array
+                        $value = array_filter($value);
+                    }
+                    // Single select - keep as string
+                    break;
+
+                default:
+                    // For text, textarea, wysiwyg, and other fields, keep as string
+                    $value = is_array($value) ? implode(',', $value) : $value;
+                    break;
+            }
+
+            // Save the field value
+            update_post_meta($post_id, $field_name, $value);
+        }
     }
 }
