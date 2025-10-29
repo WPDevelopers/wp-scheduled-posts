@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the SchedulePress plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: SchedulePress 5.2.11\n"
+"Project-Id-Version: SchedulePress 5.2.12\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-scheduled-posts\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-10-26T07:09:01+00:00\n"
+"POT-Creation-Date: 2025-10-29T08:15:37+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: wp-scheduled-posts\n"
@@ -263,17 +263,17 @@ msgid "Your post successfully scheduled"
 msgstr ""
 
 #: includes/Admin/Calendar.php:661
-#: includes/Admin/Calendar.php:839
-#: includes/Admin/Calendar.php:867
+#: includes/Admin/Calendar.php:845
+#: includes/Admin/Calendar.php:873
 msgid "Post type isn't allowed in Settings page."
 msgstr ""
 
-#: includes/Admin/Calendar.php:796
+#: includes/Admin/Calendar.php:802
 msgid "Type is required."
 msgstr ""
 
-#: includes/Admin/Calendar.php:799
-#: includes/Admin/Calendar.php:821
+#: includes/Admin/Calendar.php:805
+#: includes/Admin/Calendar.php:827
 #: includes/Social/SocialProfile.php:75
 msgid "Something went wrong."
 msgstr ""
