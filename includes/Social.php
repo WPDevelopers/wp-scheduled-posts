@@ -24,8 +24,13 @@ class Social
     }
 
     public function publish_future_post($post_id){
+        // also check if custom social template is enabled 
+        $is_enabled_custom_template = get_post_meta($post_id, '_wpsp_enable_custom_social_template', true);
+        if( (current_action() == 'publish_future_post' && $is_enabled_custom_template) || (current_action() === 'wpsp_custom_social_template' && !$is_enabled_custom_template) ) {
+            return;
+        }
         // check if wpsp_publish_future_post is already scheduled
-        if (wp_next_scheduled('wpsp_publish_future_post', array($post_id)) || wp_next_scheduled('wpsp_custom_social_template', array($post_id))) {
+        if ( wp_next_scheduled('wpsp_publish_future_post', array($post_id)) || wp_next_scheduled('wpsp_custom_social_template', array($post_id))) {
             return;
         }
         do_action('wpsp_publish_future_post', $post_id);
