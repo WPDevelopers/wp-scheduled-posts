@@ -53,6 +53,16 @@ class GoogleBusiness {
         $count_meta_key = '__wpsp_google_business_share_count_' . $ID;
         $dont_share = get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true);
 
+        $transient_key = 'wpsp_google_business_share_in_progress_' . $ID . '_' . $post_id;
+        if ( get_transient($transient_key) ) {
+            return [
+                'success' => false,
+                'log' => __('Share already in progress or recently shared. Please wait 40 seconds before trying again.', 'wp-scheduled-posts')
+            ];
+        }
+        // Set transient to prevent duplicate share attempts
+        set_transient($transient_key, true, 40);
+
         // check if schedulepress pro is active
         if( !defined('WPSP_PRO_VERSION') ) {
             return;
