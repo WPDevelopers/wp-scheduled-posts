@@ -903,7 +903,7 @@ class SocialProfile
         $locations = array();
     
         $url = sprintf(
-            'https://mybusinessbusinessinformation.googleapis.com/v1/%s/locations?readMask=name,title',
+            'https://mybusinessbusinessinformation.googleapis.com/v1/%s/locations?readMask=name,title&pageSize=100',
             $account_id
         );
     
