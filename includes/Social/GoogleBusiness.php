@@ -258,14 +258,22 @@ class GoogleBusiness {
 
                 return [
                     'success' => false,
-                    'log' => sprintf(__('Failed to share on Google Business: %s', 'wp-scheduled-posts'), $error_message . "\n" . $details)
+                    'log' => sprintf(
+                        /* translators: %s: Error message and details returned when sharing on Google Business fails */
+                        __( 'Failed to share on Google Business: %s', 'wp-scheduled-posts' ),
+                        $error_message . "\n" . $details
+                    ),
                 ];
             }
 
         } catch (\Exception $e) {
             return [
                 'success' => false,
-                'log' => sprintf(__('Exception when sharing to Google Business: %s', 'wp-scheduled-posts'), $e->getMessage())
+                'log' => sprintf(
+                    /* translators: %s: Exception message returned when sharing to Google Business fails */
+                    __( 'Exception when sharing to Google Business: %s', 'wp-scheduled-posts' ),
+                    $e->getMessage()
+                ),
             ];
         }
     }
