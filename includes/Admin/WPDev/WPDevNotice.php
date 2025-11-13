@@ -349,7 +349,7 @@ class WPDevNotice
             $classes .= ' notice-has-thumbnail';
         }
         $classes .= ' ' . $this->plugin_name;
-        echo '<div class="' . $classes . ' wpdeveloper-' . $current_notice . '-notice">';
+        echo '<div class="' . esc_attr( $classes ) . ' wpdeveloper-' . esc_attr( $current_notice ) . '-notice">';
     }
     /**
      * After Notice
@@ -408,7 +408,7 @@ class WPDevNotice
         if ($this->has_thumbnail('upsale')) {
             $classes = 'notice-has-thumbnail';
         }
-        echo '<div class="error notice is-dismissible wpdeveloper-upsale-notice ' . $classes . '">';
+        echo '<div class="error notice is-dismissible wpdeveloper-upsale-notice ' . esc_attr( $classes ) . '">';
     }
     /**
      * Upsale Notice
@@ -456,7 +456,7 @@ class WPDevNotice
             $output .= '<img src="' . $this->data['thumbnail'][$msg_for] . '" alt="">';
             $output .= '</div>';
         }
-        echo $output;
+        echo wp_kses_post( $output );
     }
     /**
      * Has Thumbnail Check
