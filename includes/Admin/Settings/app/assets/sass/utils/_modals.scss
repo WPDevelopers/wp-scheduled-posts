@@ -847,7 +847,9 @@ img {
 .wpsp-toast-container.wpsp-toast-trash .wpsp-toast-popup{
   background-color: #c82333 !important;
 }
-.wpsp-modal-social-platform {
+.wpsp-modal-social-platform ul{
+  max-height: 500px;
+  overflow: scroll;
   .pinterest-model-wrapper {
     .profile-not-found-message {
       margin-top: 20px;
