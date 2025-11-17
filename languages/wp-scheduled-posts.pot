@@ -2,24 +2,24 @@
 # This file is distributed under the same license as the SchedulePress plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: SchedulePress 5.2.12\n"
+"Project-Id-Version: SchedulePress 5.2.13\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-scheduled-posts\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-10-29T08:15:37+00:00\n"
+"POT-Creation-Date: 2025-11-17T10:10:02+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: wp-scheduled-posts\n"
 
 #. Plugin Name of the plugin
 #: wp-scheduled-posts.php
-#: includes/Admin.php:430
-#: includes/Admin.php:432
-#: includes/Admin.php:435
-#: includes/Admin.php:469
+#: includes/Admin.php:449
+#: includes/Admin.php:451
+#: includes/Admin.php:454
+#: includes/Admin.php:488
 #: includes/Admin/Menu.php:36
 msgid "SchedulePress"
 msgstr ""
@@ -80,82 +80,82 @@ msgstr ""
 msgid "Enjoying <strong>SchedulePress</strong>? Why not check our <strong><a href=\"https://wpdeveloper.com/in/wp-scheduled-posts-pro\" target=\"_blank\">Pro version</a></strong> which will enable auto schedule, multi social account share and many more features! [<strong><a href=\"https://wpdeveloper.com/plugins/wp-scheduled-posts/\" target=\"_blank\">Learn More</a></strong>]"
 msgstr ""
 
-#: includes/Admin.php:328
+#: includes/Admin.php:347
 msgid "WPSP Logo"
 msgstr ""
 
-#: includes/Admin.php:344
+#: includes/Admin.php:363
 msgid "Close"
 msgstr ""
 
-#: includes/Admin.php:354
+#: includes/Admin.php:373
 msgid "Sorry, you can't schedule this <strong>%s</strong>. Please allow this post type from <a href=\"%s\" target=\"_blank\">SchedulePress settings</a>."
 msgstr ""
 
-#: includes/Admin.php:373
+#: includes/Admin.php:392
 msgid "Publish On"
 msgstr ""
 
-#: includes/Admin.php:389
+#: includes/Admin.php:408
 msgid "Next"
 msgstr ""
 
-#: includes/Admin.php:392
+#: includes/Admin.php:411
 msgid "Prev"
 msgstr ""
 
-#: includes/Admin.php:400
+#: includes/Admin.php:419
 msgid "Publish Post Immediately"
 msgstr ""
 
-#: includes/Admin.php:402
+#: includes/Admin.php:421
 #: includes/Social/InstantShare.php:295
 #: assets/gutenberg/social-share.js:776
 msgid "Share Now"
 msgstr ""
 
-#: includes/Admin.php:404
-#: includes/Admin.php:414
+#: includes/Admin.php:423
+#: includes/Admin.php:433
 msgid "Schedule"
 msgstr ""
 
-#: includes/Admin.php:405
-#: includes/Admin.php:407
-#: includes/Admin.php:416
+#: includes/Admin.php:424
+#: includes/Admin.php:426
+#: includes/Admin.php:435
 #: assets/gutenberg/utils/CustomSocialTemplateModal.js:331
 #: assets/gutenberg/utils/CustomSocialTemplateModal.js:345
 msgid "Update"
 msgstr ""
 
-#: includes/Admin.php:406
-#: includes/Admin.php:418
+#: includes/Admin.php:425
+#: includes/Admin.php:437
 msgid "Publish"
 msgstr ""
 
-#: includes/Admin.php:477
-#: includes/Admin.php:485
-#: includes/Admin.php:491
+#: includes/Admin.php:496
+#: includes/Admin.php:504
+#: includes/Admin.php:510
 msgid "Pro Feature"
 msgstr ""
 
-#: includes/Admin.php:478
+#: includes/Admin.php:497
 #: assets/gutenberg/utils/DummyProFeatures.js:37
 msgid "Unpublish On"
 msgstr ""
 
-#: includes/Admin.php:481
-#: includes/Admin.php:488
-#: includes/Admin.php:494
-#: includes/Admin.php:881
+#: includes/Admin.php:500
+#: includes/Admin.php:507
+#: includes/Admin.php:513
+#: includes/Admin.php:900
 msgid "PRO"
 msgstr ""
 
-#: includes/Admin.php:486
+#: includes/Admin.php:505
 #: assets/gutenberg/utils/DummyProFeatures.js:43
 msgid "Republish On"
 msgstr ""
 
-#: includes/Admin.php:492
+#: includes/Admin.php:511
 #: includes/Admin/Settings.php:176
 #: includes/Admin/Settings.php:1578
 #: includes/Admin/Settings.php:1599
@@ -163,50 +163,50 @@ msgstr ""
 msgid "Advanced Schedule"
 msgstr ""
 
-#: includes/Admin.php:603
+#: includes/Admin.php:622
 #: includes/Social/InstantShare.php:90
 #: assets/gutenberg/social-share.js:467
 msgid "Choose Social Share Platform"
 msgstr ""
 
-#: includes/Admin.php:614
-#: includes/Admin.php:641
-#: includes/Admin.php:690
-#: includes/Admin.php:721
-#: includes/Admin.php:755
-#: includes/Admin.php:802
-#: includes/Admin.php:829
-#: includes/Admin.php:856
-#: includes/Admin.php:889
+#: includes/Admin.php:633
+#: includes/Admin.php:660
+#: includes/Admin.php:709
+#: includes/Admin.php:740
+#: includes/Admin.php:774
+#: includes/Admin.php:821
+#: includes/Admin.php:848
+#: includes/Admin.php:875
+#: includes/Admin.php:908
 #: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Default"
 msgstr ""
 
-#: includes/Admin.php:615
-#: includes/Admin.php:642
-#: includes/Admin.php:691
-#: includes/Admin.php:722
-#: includes/Admin.php:756
-#: includes/Admin.php:803
-#: includes/Admin.php:830
-#: includes/Admin.php:857
-#: includes/Admin.php:890
+#: includes/Admin.php:634
+#: includes/Admin.php:661
+#: includes/Admin.php:710
+#: includes/Admin.php:741
+#: includes/Admin.php:775
+#: includes/Admin.php:822
+#: includes/Admin.php:849
+#: includes/Admin.php:876
+#: includes/Admin.php:909
 msgid "Custom"
 msgstr ""
 
-#: includes/Admin.php:629
-#: includes/Admin.php:655
-#: includes/Admin.php:704
-#: includes/Admin.php:735
-#: includes/Admin.php:742
-#: includes/Admin.php:790
-#: includes/Admin.php:817
-#: includes/Admin.php:844
-#: includes/Admin.php:871
+#: includes/Admin.php:648
+#: includes/Admin.php:674
+#: includes/Admin.php:723
+#: includes/Admin.php:754
+#: includes/Admin.php:761
+#: includes/Admin.php:809
+#: includes/Admin.php:836
+#: includes/Admin.php:863
+#: includes/Admin.php:890
 msgid "You may forget to add or enable profile/page from <a href=\"%s\">SchedulePress settings</a>. "
 msgstr ""
 
-#: includes/Admin.php:668
+#: includes/Admin.php:687
 #: assets/gutenberg/social-share.js:490
 #: assets/gutenberg/social-share.js:519
 #: assets/gutenberg/social-share.js:537
@@ -225,7 +225,7 @@ msgstr ""
 msgid "Profile"
 msgstr ""
 
-#: includes/Admin.php:671
+#: includes/Admin.php:690
 #: assets/gutenberg/social-share.js:538
 #: assets/gutenberg/social-share.js:556
 #: assets/gutenberg/social-share.js:579
@@ -234,31 +234,31 @@ msgstr ""
 msgid "Page"
 msgstr ""
 
-#: includes/Admin.php:697
+#: includes/Admin.php:716
 msgid "(Profile)"
 msgstr ""
 
-#: includes/Admin.php:728
+#: includes/Admin.php:747
 msgid "(Page)"
 msgstr ""
 
-#: includes/Admin.php:904
+#: includes/Admin.php:923
 msgid "You may forget to add or enable profile from <a href=\"%s\">SchedulePress settings</a>. "
 msgstr ""
 
-#: includes/Admin.php:1026
+#: includes/Admin.php:1045
 msgid "Your post successfully updated"
 msgstr ""
 
-#: includes/Admin.php:1204
+#: includes/Admin.php:1223
 msgid "Your post successfully published"
 msgstr ""
 
-#: includes/Admin.php:1215
+#: includes/Admin.php:1234
 msgid "Your post id is empty"
 msgstr ""
 
-#: includes/Admin.php:1242
+#: includes/Admin.php:1261
 msgid "Your post successfully scheduled"
 msgstr ""
 
@@ -1105,7 +1105,7 @@ msgid "If you choose to publish this future post with the Future Date, it will b
 msgstr ""
 
 #: includes/Social/Facebook.php:260
-#: includes/Social/GoogleBusiness.php:80
+#: includes/Social/GoogleBusiness.php:90
 #: includes/Social/Instagram.php:213
 #: includes/Social/Linkedin.php:209
 #: includes/Social/Medium.php:243
@@ -1115,23 +1115,27 @@ msgstr ""
 msgid "Your max share post limit has been executed!!"
 msgstr ""
 
-#: includes/Social/GoogleBusiness.php:99
+#: includes/Social/GoogleBusiness.php:60
+msgid "Share already in progress or recently shared. Please wait 40 seconds before trying again."
+msgstr ""
+
+#: includes/Social/GoogleBusiness.php:109
 msgid "Google Business share is not enabled for this post"
 msgstr ""
 
-#: includes/Social/GoogleBusiness.php:141
+#: includes/Social/GoogleBusiness.php:151
 msgid "Location or Account ID is missing"
 msgstr ""
 
-#: includes/Social/GoogleBusiness.php:219
+#: includes/Social/GoogleBusiness.php:229
 msgid "Request failed: "
 msgstr ""
 
-#: includes/Social/GoogleBusiness.php:251
+#: includes/Social/GoogleBusiness.php:261
 msgid "Failed to share on Google Business: %s"
 msgstr ""
 
-#: includes/Social/GoogleBusiness.php:258
+#: includes/Social/GoogleBusiness.php:268
 msgid "Exception when sharing to Google Business: %s"
 msgstr ""
 
