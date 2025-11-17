@@ -604,11 +604,20 @@ class Settings {
                                     'label'    => __('Facebook', 'wp-scheduled-posts'),
                                     'default'  => [],
                                     'logo'     => WPSP_ASSETS_URI . 'images/facebook.svg',
+                                    // translators: %s is the URL of the documentation page for configuring Facebook Social Profile.
                                     'desc'     => sprintf( __('You can enable/disable Facebook social share. To configure Facebook Social Profile, check out this <a target="_blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-scheduled-posts-facebook/' ),
                                     'modal'    => [
                                         'logo'               =>  WPSP_ASSETS_URI . 'images/facebook.svg',
                                         'redirect_url_desc'  => __('Copy this and paste it in your facebook app Callback url field.','wp-scheduled-posts'),
-                                        'desc'               => sprintf( __('For details on Facebook configuration, check out this <a target="_blank" href="%s">Doc</a>.<br> <a target="_blank" href="%s">Click here</a> to Retrieve Your API Keys from your Facebook account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-scheduled-posts-facebook/','https://developers.facebook.com/' ),
+                                        'desc' => sprintf(
+                                            /* translators:
+                                                * 1: URL of the documentation page for Facebook configuration.
+                                                * 2: URL of the Facebook Developers page to retrieve API keys.
+                                            */
+                                            __('For details on Facebook configuration, check out this <a target="_blank" href="%1$s">Doc</a>.<br> <a target="_blank" href="%2$s">Click here</a> to Retrieve Your API Keys from your Facebook account.', 'wp-scheduled-posts'),
+                                            'https://wpdeveloper.com/docs/share-scheduled-posts-facebook/',
+                                            'https://developers.facebook.com/'
+                                        ),
                                     ],
                                     'priority' => 5,
                                 ],
@@ -619,11 +628,23 @@ class Settings {
                                     'label'    => __('Twitter', 'wp-scheduled-posts'),
                                     'default'  => [],
                                     'logo'     => WPSP_ASSETS_URI . 'images/twitter.svg',
-                                    'desc'     => sprintf( __('You can enable/disable Twitter social share. To configure Twitter Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-tweet-wordpress-posts/' ),
+                                    'desc'     => sprintf(
+                                        /* translators: %s is the URL of the documentation page for configuring Twitter Social Profile. */
+                                        __('You can enable/disable Twitter social share. To configure Twitter Social Profile, check out this <a target="__blank" href="%s">Doc</a>', 'wp-scheduled-posts'),
+                                        'https://wpdeveloper.com/docs/automatically-tweet-wordpress-posts/'
+                                    ),
                                     'modal'    => [
                                         'logo'               => WPSP_ASSETS_URI . 'images/twitter.svg',
                                         'redirect_url_desc'  => __('Copy this and paste it in your twitter app Callback url field.','wp-scheduled-posts'),
-                                        'desc'               => sprintf( __('For details on Twitter configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your Twitter account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-tweet-wordpress-posts/','https://developers.twitter.com/' ),
+                                        'desc' => sprintf(
+                                            /* translators:
+                                            * 1: URL of the documentation page for Twitter configuration.
+                                            * 2: URL of the Twitter Developers page to retrieve API keys.
+                                            */
+                                            __('For details on Twitter configuration, check out this <a href="%1$s" target="_blank">Doc</a>.<br> <a href="%2$s" target="_blank">Click here</a> to Retrieve Your API Keys from your Twitter account.', 'wp-scheduled-posts'),
+                                            'https://wpdeveloper.com/docs/automatically-tweet-wordpress-posts/',
+                                            'https://developers.twitter.com/'
+                                        ),                                    
                                     ],
                                     'priority' => 10,
                                 ],
