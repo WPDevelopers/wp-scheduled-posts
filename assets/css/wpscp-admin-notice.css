@@ -267,6 +267,7 @@ a.wpsp-notice-cta {
     font-size: 14px;
     margin-top: 0;
     padding-top: 0;
+    text-transform: capitalize;
 }
 @media screen and (max-width: 574px) {
     #wpnotice-schedulepress-wpsp_black_friday_2025 {
