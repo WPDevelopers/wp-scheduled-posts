@@ -918,6 +918,7 @@ class Settings {
                                                     'type'          => 'section',
                                                     'name'          => 'twitter_wrapper',
                                                     'priority'      => 10,
+                                                    /* translators: %s: Link to documentation for Twitter configuration */
                                                     'sub_title'     => sprintf( __('To configure the Twitter Tweet Settings, check out this <a target="_blank" href="%s">Doc.</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-tweet-wordpress-posts/' ),
                                                     'label'         => __('Twitter Tweet Settings', 'wp-scheduled-posts'),
                                                     'fields'        => [
@@ -1015,6 +1016,7 @@ class Settings {
                                                     'type'          => 'section',
                                                     'name'          => 'linkedin_wrapper',
                                                     'label'         => __('LinkedIn Status Settings', 'wp-scheduled-posts'),
+                                                    /* translators: %s: Link to documentation for LinkedIn configuration */
                                                     'sub_title'     => sprintf( __('To configure the LinkedIn Status Settings, check out this <a target="_blank" href="%s">Doc.</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-linkedin/' ),
                                                     'priority'      => 10,
                                                     'fields'        => [
@@ -1125,6 +1127,7 @@ class Settings {
                                                     'type'          => 'section',
                                                     'name'          => 'pinterest_wrapper',
                                                     'label'         => __('Pinterest Pin Settings', 'wp-scheduled-posts'),
+                                                    /* translators: %s: Link to documentation for Pinterest configuration */
                                                     'sub_title'     => sprintf( __('To configure the Pinterest Pin Settings, check out this <a target="_blank" href="%s">Doc.</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/wordpress-posts-on-pinterest/' ),
                                                     'priority'      => 10,
                                                     'fields'        => [
@@ -1223,6 +1226,7 @@ class Settings {
                                                     'type'          => 'section',
                                                     'name'          => 'instagram_wrapper',
                                                     'label'         => __('Instagram Settings', 'wp-scheduled-posts'),
+                                                    /* translators: %s: Link to documentation for Instagram configuration */
                                                     'sub_title'     => sprintf( __('To configure the Instagram Settings, check out this <a target="_blank" href="%s">Doc.</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-scheduled-wordpress-posts-on-instagram/' ),
                                                     'priority'      => 10,
                                                     'fields'        => [
@@ -1312,6 +1316,7 @@ class Settings {
                                                     'type'          => 'section',
                                                     'name'          => 'medium_wrapper',
                                                     'label'         => __('Medium Settings', 'wp-scheduled-posts'),
+                                                    /* translators: %s: Link to documentation for Medium configuration */
                                                     'sub_title'     => sprintf( __('To configure the Medium Settings, check out this <a target="_blank" href="%s">Doc.</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-medium/' ),
                                                     'priority'      => 10,
                                                     'fields'        => [
@@ -1401,6 +1406,7 @@ class Settings {
                                                     'type'          => 'section',
                                                     'name'          => 'threads_wrapper',
                                                     'label'         => __('Threads Settings', 'wp-scheduled-posts'),
+                                                    /* translators: %s: Link to documentation for Threads configuration */
                                                     'sub_title'     => sprintf( __('To configure the Threads Settings, check out this <a target="_blank" href="%s">Doc.</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-threads/' ),
                                                     'priority'      => 10,
                                                     'fields'        => [
@@ -1492,6 +1498,7 @@ class Settings {
                                                     'name'          => 'google_business_wrapper',
                                                     'classes'       => (defined('WPSP_PRO_VERSION') ? '' : 'pro_feature'),
                                                     'label'         => __('Google Business Settings', 'wp-scheduled-posts'),
+                                                    /* translators: %s: Link to documentation for Google Business configuration */
                                                     'sub_title'     => sprintf( __('To configure the Threads Settings, check out this <a target="_blank" href="%s">Doc.</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-google-business-profile/' ),
                                                     'priority'      => 10,
                                                     'fields'        => [
@@ -1681,7 +1688,7 @@ class Settings {
                                                                     'id'            => 'advance_schedule_video',
                                                                     'name'          => 'advance_schedule_video',
                                                                     'type'          => 'video',
-                                                                    'label'         => __('Watch The Video Walkthrough','wp-scheduled=-posts'),
+                                                                    'label'         => __('Watch The Video Walkthrough','wp-scheduled-posts'),
                                                                     'priority'      => 5,
                                                                     'url'           => esc_url('https://www.youtube.com/embed/1ohEsDzTJkA'),
                                                                     'width'         => 554,
@@ -1812,7 +1819,7 @@ class Settings {
                                                                     'id'            => 'advance_schedule_video',
                                                                     'name'          => 'advance_schedule_video',
                                                                     'type'          => 'video',
-                                                                    'label'         => __('Watch The Video Walkthrough','wp-scheduled=-posts'),
+                                                                    'label'         => __('Watch The Video Walkthrough','wp-scheduled-posts'),
                                                                     'priority'      => 5,
                                                                     'url'           => esc_url('https://www.youtube.com/embed/t0zVpg5ALos'),
                                                                     'width'         => 554,
