@@ -4,7 +4,7 @@ Tags: post schedule, schedule calendar, auto scheduler, auto sharing, social sha
 Requires at least: 4.0
 Tested up to: 6.8
 Requires PHP: 7.2
-Stable tag: 5.2.12
+Stable tag: 5.2.13
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -216,6 +216,10 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 8. Social Templates
 
 == Changelog ==
+
+= 5.2.13 - 2025-11-17 =
+- Fixed: Issue with connecting multiple Google Business profiles
+- Few minor bug fixes & improvements.
 
 = 5.2.12 - 2025-10-29 =
 - Added: Support for ACF (Advanced Custom Fields).

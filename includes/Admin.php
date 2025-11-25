@@ -258,6 +258,25 @@ class Admin
             ]
         );
 
+        // Black friday 2025
+        $notice_text = "<p><strong>Black Friday Mega Sale:</strong> Automate your content workflow with smart scheduling and social sharing – now <strong>up to $160 OFF! 🎁</strong> </p><div class='wpsp-notice-action-button' style='display: inline-flex;column-gap:5px;'><a class='button button-primary' href='https://schedulepress.com/bfcm2025-admin-notice' target='_blank'>Upgrade To PRO</a> <button class='wpsp-notice-action-dismiss dismiss-btn' data-dismiss='true' target='_blank'>I’ll Grab It Later</button></div>";
+        $_black_friday_2025 = [
+            'thumbnail' => $_asset_url . 'images/wpsp-logo-full.svg',
+            'html'      => $notice_text,
+        ];
+        $notices->add(
+            'wpsp_black_friday_2025',
+            $_black_friday_2025,
+            [
+                'start'       => $notices->time(),
+                'recurrence'  => false,
+                'dismissible' => true,
+                'refresh'     => WPSP_VERSION,
+                'screens'     => [ 'dashboard' ],
+                "expire"      => strtotime( '11:59:59pm 5th December, 2025' ),
+                'display_if'  => !is_array( $notices->is_installed( 'wp-scheduled-posts-pro/wp-scheduled-posts-pro.php' ) )
+            ]
+        );
         // Holiday Deal
         $notice_text = "<p><strong>🎁 SAVE 25% now</strong> to unlock auto + manual share, useful integrations & more to manage and schedule content effortlessly in 2025.</p>
                         <div class='nx-notice-action-button'>
