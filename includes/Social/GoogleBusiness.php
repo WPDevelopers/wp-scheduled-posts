@@ -405,7 +405,9 @@ class GoogleBusiness {
                     $refresh_time = $profile->expires_in - 600; // 1 hour before expiry
                     if ($refresh_time <= time()) $refresh_time = time() + 60;
                     wp_schedule_single_event($refresh_time, 'wpsp_google_business_token_refresh', array($account_id));
-                    error_log("WPSP: Scheduled token refresh for account_id: " . $account_id . " at " . date('Y-m-d H:i:s', $refresh_time));
+                    if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+                        wp_trigger_error( '', "WPSP: Scheduled token refresh for account_id: " . $account_id . " at " . date('Y-m-d H:i:s', $refresh_time), E_USER_NOTICE );
+                    }
                 }
             }
         }
@@ -426,21 +428,29 @@ class GoogleBusiness {
         $refresh_time = $profile->expires_in - 600; // 1 hour before expiry
         if ($refresh_time <= time()) $refresh_time = time() + 60;
         wp_schedule_single_event($refresh_time, 'wpsp_google_business_token_refresh', array($account_id));
-        error_log("WPSP: Scheduled token refresh for account_id: " . $account_id . " at " . date('Y-m-d H:i:s', $refresh_time));
+        if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+            wp_trigger_error( '', "WPSP: Scheduled token refresh for account_id: " . $account_id . " at " . date('Y-m-d H:i:s', $refresh_time), E_USER_NOTICE );
+        }
     }
 
     public function refresh_access_token_cron($account_id = null) {
         // Debug logging
-        error_log("WPSP: refresh_access_token_cron called with account_id: " . var_export($account_id, true));
+        if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+            wp_trigger_error( '', "WPSP: refresh_access_token_cron called with account_id: " . is_scalar($account_id) ? $account_id : wp_json_encode($account_id), E_USER_NOTICE );
+        }
 
         if (empty($account_id)) {
-            error_log("WPSP: No account_id provided to refresh_access_token_cron");
+            if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+                wp_trigger_error( '', "WPSP: No account_id provided to refresh_access_token_cron", E_USER_WARNING );
+            }
             return;
         }
 
         $profiles = Helper::get_social_profile(WPSCP_GOOGLE_BUSINESS_OPTION_NAME);
         if (!is_array($profiles)) {
-            error_log("WPSP: No profiles found");
+            if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+                wp_trigger_error( '', "WPSP: No profiles found", E_USER_WARNING );
+            }
             return;
         }
 
@@ -459,12 +469,16 @@ class GoogleBusiness {
         }
 
         if (!$profile) {
-            error_log("WPSP: Profile not found for account_id: " . $account_id);
+            if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+                wp_trigger_error( '', "WPSP: Profile not found for account_id: " . $account_id, E_USER_WARNING );
+            }
             return;
         }
 
         if (empty($profile->refresh_token) || empty($profile->app_id) ) {
-            error_log("WPSP: Missing required data for account_id: " . $account_id);
+            if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+                wp_trigger_error( '', "WPSP: Missing required data for account_id: " . $account_id, E_USER_WARNING );
+            }
             // return;
         }
         // Generate refresh token

@@ -52,7 +52,9 @@ final class SocialReconnection
         $settings = get_option(WPSP_SETTINGS_NAME, []);
         $settings = json_decode($settings);
         if (empty($settings->linkedin_profile_list) || !is_array($settings->linkedin_profile_list)) {
-            error_log('Error: LinkedIn profile list not found in settings.');
+            if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+                wp_trigger_error( '', 'Error: LinkedIn profile list not found in settings.', E_USER_WARNING );
+            }
             return;
         }
 

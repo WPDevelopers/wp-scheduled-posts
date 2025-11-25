@@ -380,9 +380,13 @@ class Facebook
         $endpoint = $api_url . '?id=' . urlencode($url) . '&scrape=true&access_token=' . $access_token;
         $response = wp_remote_post($endpoint);
         if (is_wp_error($response)) {
-            error_log('Error refreshing Facebook cache: ' . $response->get_error_message());
+            if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+                wp_trigger_error( '', 'Error refreshing Facebook cache: ' . $response->get_error_message(), E_USER_WARNING );
+            }
         } else {
-            error_log('Facebook cache refreshed for URL: ' . $url);
+            if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+                wp_trigger_error( '', 'Facebook cache refreshed for URL: ' . $url, E_USER_NOTICE );
+            }
         }
     }
 
