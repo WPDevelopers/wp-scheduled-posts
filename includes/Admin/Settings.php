@@ -660,8 +660,8 @@ class Settings {
                                     'modal'    => [
                                         'logo'               => WPSP_ASSETS_URI . 'images/linkedin.svg',
                                         'redirect_url_desc'  => __('Copy this and paste it in your linkedin app Callback url field.','wp-scheduled-posts'),
-                                        /* translators: %s: Link to documentation for LinkedIn configuration */
-                                        'desc'               => sprintf( __('For details on LinkedIn configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your LinkedIn account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-linkedin/','https://developer.linkedin.com/' ),
+                                        /* translators: 1: Link to documentation for LinkedIn configuration, 2: Link to LinkedIn developer portal */
+                                        'desc'               => sprintf( __('For details on LinkedIn configuration, check out this <a href="%1$s" target="_blank">Doc</a>.<br> <a href="%2$s" target="_blank">Click here</a> to Retrieve Your API Keys from your LinkedIn account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-linkedin/','https://developer.linkedin.com/' ),
                                     ],
                                     'priority' => 15,
                                 ],
@@ -677,8 +677,8 @@ class Settings {
                                     'modal'    => [
                                         'logo'               => WPSP_ASSETS_URI . 'images/pinterest.svg',
                                         'redirect_url_desc'  => __('Add this URL in the Redirect URLs field of your Pinterest app.','wp-scheduled-posts'),
-                                        /* translators: %s: Link to documentation for Pinterest configuration */
-                                        'desc'               => sprintf( __('For details on Pinterest configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your Pinterest account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/wordpress-posts-on-pinterest/','https://developers.pinterest.com/' ),
+                                        /* translators: 1: Link to documentation for Pinterest configuration, 2: Link to Pinterest developer portal */
+                                        'desc'               => sprintf( __('For details on Pinterest configuration, check out this <a href="%1$s" target="_blank">Doc</a>.<br> <a href="%2$s" target="_blank">Click here</a> to Retrieve Your API Keys from your Pinterest account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/wordpress-posts-on-pinterest/','https://developers.pinterest.com/' ),
                                     ],
                                     'priority' => 20,
                                 ],
@@ -694,8 +694,8 @@ class Settings {
                                     'modal'    => [
                                         'logo'               => WPSP_ASSETS_URI . 'images/instagram.png',
                                         'redirect_url_desc'  => __('Add this URL in the Redirect URLs field of your Instagram app.','wp-scheduled-posts'),
-                                        /* translators: %s: Link to documentation for Instagram configuration */
-                                        'desc'               => sprintf( __('For details on Instagram configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your Instagram account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-scheduled-wordpress-posts-on-instagram/','https://developers.facebook.com/' ),
+                                        /* translators: 1: Link to documentation for Instagram configuration, 2: Link to Facebook developer portal */
+                                        'desc'               => sprintf( __('For details on Instagram configuration, check out this <a href="%1$s" target="_blank">Doc</a>.<br> <a href="%2$s" target="_blank">Click here</a> to Retrieve Your API Keys from your Instagram account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-scheduled-wordpress-posts-on-instagram/','https://developers.facebook.com/' ),
                                     ],
                                     'priority' => 25,
                                 ],
@@ -711,8 +711,8 @@ class Settings {
                                     'modal'    => [
                                         'logo'               => WPSP_ASSETS_URI . 'images/medium.svg',
                                         'redirect_url_desc'  => __('Add this URL in the Redirect URLs field of your Medium app.','wp-scheduled-posts'),
-                                        /* translators: %s: Link to documentation for Medium configuration */
-                                        'desc'               => sprintf( __('For details on Medium configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your Medium account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-medium/','https://medium.com/me/settings/security/' ),
+                                        /* translators: 1: Link to documentation for Medium configuration, 2: Link to Medium settings */
+                                        'desc'               => sprintf( __('For details on Medium configuration, check out this <a href="%1$s" target="_blank">Doc</a>.<br> <a href="%2$s" target="_blank">Click here</a> to Retrieve Your API Keys from your Medium account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-medium/','https://medium.com/me/settings/security/' ),
                                     ],
                                     'priority' => 30,
                                 ],
@@ -728,8 +728,8 @@ class Settings {
                                     'modal'    => [
                                         'logo'               => WPSP_ASSETS_URI . 'images/threads.svg',
                                         'redirect_url_desc'  => __('Add this URL in the Redirect URLs field of your Medium app.','wp-scheduled-posts'),
-                                        /* translators: %s: Link to documentation for Threads configuration */
-                                        'desc'               => sprintf( __('For details on Threads configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your Threads account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-threads/','https://developers.facebook.com/' ),
+                                        /* translators: 1: Link to documentation for Threads configuration, 2: Link to Facebook developer portal */
+                                        'desc'               => sprintf( __('For details on Threads configuration, check out this <a href="%1$s" target="_blank">Doc</a>.<br> <a href="%2$s" target="_blank">Click here</a> to Retrieve Your API Keys from your Threads account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-threads/','https://developers.facebook.com/' ),
                                     ],
                                     'priority' => 35,
                                 ],
@@ -745,8 +745,8 @@ class Settings {
                                     'modal'    => [
                                         'logo'               => WPSP_ASSETS_URI . 'images/google-my-business-logo.svg',
                                         'redirect_url_desc'  => __('Add this URL in the Redirect URLs field of your Medium app.','wp-scheduled-posts'),
-                                        /* translators: %s: Link to documentation for Google Business Profile configuration */
-                                        'desc'               => sprintf( __('For details on Google Business Profile configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your Google Business Profile account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-google-business-profile/','https://console.cloud.google.com/' ),
+                                        /* translators: 1: Link to documentation for Google Business Profile configuration, 2: Link to Google Cloud Console */
+                                        'desc'               => sprintf( __('For details on Google Business Profile configuration, check out this <a href="%1$s" target="_blank">Doc</a>.<br> <a href="%2$s" target="_blank">Click here</a> to Retrieve Your API Keys from your Google Business Profile account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-google-business-profile/','https://console.cloud.google.com/' ),
                                     ],
                                     'priority' => 40,
                                 ],
