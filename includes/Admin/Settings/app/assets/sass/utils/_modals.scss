@@ -1630,3 +1630,10 @@ img {
     }
   }
 }
+
+@media (min-width: 600px) {
+  .components-modal__frame.commands-command-menu {
+    top: calc(10% + 64px);
+    max-width: 400px;
+  }
+}

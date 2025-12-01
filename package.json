@@ -5,6 +5,7 @@
     "scripts": {
         "build": "wp-scripts build",
         "start": "wp-scripts start",
+        "admin-start": "cd ./includes/Admin/Settings && wp-scripts start",
         "pot": "wp i18n make-pot . languages/wp-scheduled-posts.pot ",
         "zip": "wp dist-archive ./ ../wp-scheduled-posts.$npm_package_version.zip",
         "release": "npm run build && npm run pot && npm run zip",

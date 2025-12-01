@@ -39,6 +39,7 @@ const GoogleBusiness = ( { profiles, addProfileToggle,savedProfile } ) => {
                             </div>
                         </li>
                     ))}
+                    { profiles.length <= 0 && <p>{__('There are no profiles found on this account', 'wp-scheduled-posts')}</p> }
                 </ul>
                 <div className="card-footer">
                     <button
