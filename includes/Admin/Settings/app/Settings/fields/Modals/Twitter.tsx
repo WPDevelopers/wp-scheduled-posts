@@ -37,6 +37,7 @@ export default function Twitter({ platform, data, addProfileToggle, savedProfile
                             </div>
                         </li>
                     ))}
+                    { data.length <= 0 && <p>{__('There are no profiles found on this account', 'wp-scheduled-posts')}</p> }
                 </ul>
                 <button
                 type="submit"
