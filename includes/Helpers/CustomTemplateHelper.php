@@ -197,13 +197,14 @@ class CustomTemplateHelper
         $limit = isset($limits[$platform]) ? $limits[$platform] : 1000;
         if (strlen($template) > $limit) {
             return array(
-                'valid' => false,
+                'valid'   => false,
                 'message' => sprintf(
-                    __('Template exceeds character limit for %s (%d/%d characters).', 'wp-scheduled-posts'),
-                    ucfirst($platform),
-                    strlen($template),
+                    /* translators: 1: Name of the social media platform, 2: Current character count, 3: Maximum allowed character limit */
+                    __( 'Template exceeds character limit for %1$s (%2$d/%3$d characters).', 'wp-scheduled-posts' ),
+                    ucfirst( $platform ),
+                    strlen( $template ),
                     $limit
-                )
+                ),
             );
         }
 
@@ -214,12 +215,13 @@ class CustomTemplateHelper
             foreach ($matches[0] as $placeholder) {
                 if (!in_array($placeholder, $valid_placeholders)) {
                     return array(
-                        'valid' => false,
+                        'valid'   => false,
                         'message' => sprintf(
-                            __('Invalid placeholder "%s". Valid placeholders are: %s', 'wp-scheduled-posts'),
+                            /* translators: 1: Invalid placeholder name, 2: Comma-separated list of valid placeholders */
+                            __( 'Invalid placeholder "%1$s". Valid placeholders are: %2$s', 'wp-scheduled-posts' ),
                             $placeholder,
-                            implode(', ', $valid_placeholders)
-                        )
+                            implode( ', ', $valid_placeholders )
+                        ),
                     );
                 }
             }

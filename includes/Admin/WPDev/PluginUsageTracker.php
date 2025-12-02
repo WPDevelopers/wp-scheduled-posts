@@ -718,13 +718,15 @@ class PluginUsageTracker
             $notice_text = apply_filters('wpins_notice_text_' . esc_attr($this->plugin_name), $notice_text); ?>
 
             <div class="wpsp-optin">
-                <p><?php echo __($notice_text, 'wp-scheduled-posts'); ?></p>
+                <p><?php echo wp_kses_post( $notice_text ); ?></p>
                 <div class="eael-insights-data" style="display: none;">
-                    <p><?php echo __('We collect non-sensitive diagnostic data and plugin usage information. Your site URL, WordPress & PHP version, plugins & themes and email address to send you the discount coupon. This data lets us make sure this plugin always stays compatible with the most popular plugins and themes. No spam, I promise.', 'wp-scheduled-posts'); ?></p>
+                    <p>
+                        <?php echo esc_html__( 'We collect non-sensitive diagnostic data and plugin usage information. Your site URL, WordPress & PHP version, plugins & themes and email address to send you the discount coupon. This data lets us make sure this plugin always stays compatible with the most popular plugins and themes. No spam, I promise.', 'wp-scheduled-posts' ); ?>
+                    </p>
                 </div>
                 <p>
-                    <a href="<?php echo esc_url($url_yes); ?>" class="button-primary"><?php _e('Sure, I\'d like to help', 'wp-scheduled-posts'); ?></a>
-                    <a href="<?php echo esc_url($url_no); ?>" class="button-secondary"><?php _e('No Thanks', 'wp-scheduled-posts'); ?></a>
+                    <a href="<?php echo esc_url( $url_yes ); ?>" class="button-primary"><?php esc_html_e( 'Sure, I\'d like to help', 'wp-scheduled-posts' ); ?></a>
+                    <a href="<?php echo esc_url( $url_no ); ?>" class="button-secondary"><?php esc_html_e( 'No Thanks', 'wp-scheduled-posts' ); ?></a>
                 </p>
                 <?php echo "<script type='text/javascript'>jQuery('.insights-data-we-collect').on('click', function(e) {
 						e.preventDefault();
@@ -771,8 +773,12 @@ class PluginUsageTracker
                 <p><?php echo '<strong>' . esc_html($plugin_name) . '</strong>'; ?></p>
                 <p><?php echo esc_html($marketing_text); ?></p>
                 <p>
-                    <a href="<?php echo esc_url($url_yes); ?>" data-putnotice="yes" class="button-secondary"><?php _e('Yes Please', 'wp-scheduled-posts'); ?></a>
-                    <a href="<?php echo esc_url($url_no); ?>" data-putnotice="no" class="button-secondary"><?php _e('No Thank You', 'wp-scheduled-posts'); ?></a>
+                    <a href="<?php echo esc_url( $url_yes ); ?>" data-putnotice="yes" class="button-secondary">
+                        <?php esc_html_e( 'Yes Please', 'wp-scheduled-posts' ); ?>
+                    </a>
+                    <a href="<?php echo esc_url( $url_no ); ?>" data-putnotice="no" class="button-secondary">
+                        <?php esc_html_e( 'No Thank You', 'wp-scheduled-posts' ); ?>
+                    </a>
                 </p>
             </div>
         <?php }
@@ -817,7 +823,11 @@ class PluginUsageTracker
             ],
             __("I couldn't get the plugin to work", 'wp-scheduled-posts'),
             __('It\'s a temporary deactivation', 'wp-scheduled-posts'),
-            __('I have ' . $this->pro_plugin_name, 'wp-scheduled-posts'),
+            sprintf(
+                /* translators: %s: Pro plugin name */
+                __( 'I have %s', 'wp-scheduled-posts' ),
+                $this->pro_plugin_name
+            ),
             [
                 'label' => __('Other', 'wp-scheduled-posts'),
                 'extra_field' => __('Please share the reason', 'wp-scheduled-posts'),
