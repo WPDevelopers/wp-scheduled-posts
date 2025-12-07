@@ -349,7 +349,7 @@ const Medium = (props) => {
                     </div>
                 </div>
                 <div className={`wpsp-modal-social-platform wpsp-modal-social-${platform}`}>
-                { profileInfo && 
+                { profileInfo ?
                     <ul>
                             <li key='1'>
                                 <div className='item-content'>
@@ -379,7 +379,7 @@ const Medium = (props) => {
                                 </div>
                             </li>
                     </ul>
-                }
+                : <p>{__('There are no profiles found on this account', 'wp-scheduled-posts')}</p>}
                 <button
                     type="submit"
                     className="wpsp-modal-save-account"

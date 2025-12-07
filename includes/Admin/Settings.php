@@ -604,11 +604,20 @@ class Settings {
                                     'label'    => __('Facebook', 'wp-scheduled-posts'),
                                     'default'  => [],
                                     'logo'     => WPSP_ASSETS_URI . 'images/facebook.svg',
+                                    // translators: %s is the URL of the documentation page for configuring Facebook Social Profile.
                                     'desc'     => sprintf( __('You can enable/disable Facebook social share. To configure Facebook Social Profile, check out this <a target="_blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-scheduled-posts-facebook/' ),
                                     'modal'    => [
                                         'logo'               =>  WPSP_ASSETS_URI . 'images/facebook.svg',
                                         'redirect_url_desc'  => __('Copy this and paste it in your facebook app Callback url field.','wp-scheduled-posts'),
-                                        'desc'               => sprintf( __('For details on Facebook configuration, check out this <a target="_blank" href="%s">Doc</a>.<br> <a target="_blank" href="%s">Click here</a> to Retrieve Your API Keys from your Facebook account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-scheduled-posts-facebook/','https://developers.facebook.com/' ),
+                                        'desc' => sprintf(
+                                            /* translators:
+                                                * 1: URL of the documentation page for Facebook configuration.
+                                                * 2: URL of the Facebook Developers page to retrieve API keys.
+                                            */
+                                            __('For details on Facebook configuration, check out this <a target="_blank" href="%1$s">Doc</a>.<br> <a target="_blank" href="%2$s">Click here</a> to Retrieve Your API Keys from your Facebook account.', 'wp-scheduled-posts'),
+                                            'https://wpdeveloper.com/docs/share-scheduled-posts-facebook/',
+                                            'https://developers.facebook.com/'
+                                        ),
                                     ],
                                     'priority' => 5,
                                 ],
@@ -619,11 +628,23 @@ class Settings {
                                     'label'    => __('Twitter', 'wp-scheduled-posts'),
                                     'default'  => [],
                                     'logo'     => WPSP_ASSETS_URI . 'images/twitter.svg',
-                                    'desc'     => sprintf( __('You can enable/disable Twitter social share. To configure Twitter Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-tweet-wordpress-posts/' ),
+                                    'desc'     => sprintf(
+                                        /* translators: %s is the URL of the documentation page for configuring Twitter Social Profile. */
+                                        __('You can enable/disable Twitter social share. To configure Twitter Social Profile, check out this <a target="__blank" href="%s">Doc</a>', 'wp-scheduled-posts'),
+                                        'https://wpdeveloper.com/docs/automatically-tweet-wordpress-posts/'
+                                    ),
                                     'modal'    => [
                                         'logo'               => WPSP_ASSETS_URI . 'images/twitter.svg',
                                         'redirect_url_desc'  => __('Copy this and paste it in your twitter app Callback url field.','wp-scheduled-posts'),
-                                        'desc'               => sprintf( __('For details on Twitter configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your Twitter account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-tweet-wordpress-posts/','https://developers.twitter.com/' ),
+                                        'desc' => sprintf(
+                                            /* translators:
+                                            * 1: URL of the documentation page for Twitter configuration.
+                                            * 2: URL of the Twitter Developers page to retrieve API keys.
+                                            */
+                                            __('For details on Twitter configuration, check out this <a href="%1$s" target="_blank">Doc</a>.<br> <a href="%2$s" target="_blank">Click here</a> to Retrieve Your API Keys from your Twitter account.', 'wp-scheduled-posts'),
+                                            'https://wpdeveloper.com/docs/automatically-tweet-wordpress-posts/',
+                                            'https://developers.twitter.com/'
+                                        ),                                    
                                     ],
                                     'priority' => 10,
                                 ],
@@ -634,11 +655,13 @@ class Settings {
                                     'label'    => __('LinkedIn', 'wp-scheduled-posts'),
                                     'default'  => [],
                                     'logo'     => WPSP_ASSETS_URI . 'images/linkedin.svg',
+                                    /* translators: %s: Link to documentation for LinkedIn social share */
                                     'desc'     => sprintf( __('You can enable/disable LinkedIn social share. To configure LinkedIn Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-linkedin/' ),
                                     'modal'    => [
                                         'logo'               => WPSP_ASSETS_URI . 'images/linkedin.svg',
                                         'redirect_url_desc'  => __('Copy this and paste it in your linkedin app Callback url field.','wp-scheduled-posts'),
-                                        'desc'               => sprintf( __('For details on LinkedIn configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your LinkedIn account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-linkedin/','https://developer.linkedin.com/' ),
+                                        /* translators: 1: Link to documentation for LinkedIn configuration, 2: Link to LinkedIn developer portal */
+                                        'desc'               => sprintf( __('For details on LinkedIn configuration, check out this <a href="%1$s" target="_blank">Doc</a>.<br> <a href="%2$s" target="_blank">Click here</a> to Retrieve Your API Keys from your LinkedIn account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-linkedin/','https://developer.linkedin.com/' ),
                                     ],
                                     'priority' => 15,
                                 ],
@@ -649,11 +672,13 @@ class Settings {
                                     'label'    => __('Pinterest', 'wp-scheduled-posts'),
                                     'default'  => [],
                                     'logo'     => WPSP_ASSETS_URI . 'images/pinterest.svg',
+                                    /* translators: %s: Link to documentation for Pinterest social share */
                                     'desc'     => sprintf( __('You can enable/disable Pinterest social share. To configure Pinterest Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/wordpress-posts-on-pinterest/' ),
                                     'modal'    => [
                                         'logo'               => WPSP_ASSETS_URI . 'images/pinterest.svg',
                                         'redirect_url_desc'  => __('Add this URL in the Redirect URLs field of your Pinterest app.','wp-scheduled-posts'),
-                                        'desc'               => sprintf( __('For details on Pinterest configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your Pinterest account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/wordpress-posts-on-pinterest/','https://developers.pinterest.com/' ),
+                                        /* translators: 1: Link to documentation for Pinterest configuration, 2: Link to Pinterest developer portal */
+                                        'desc'               => sprintf( __('For details on Pinterest configuration, check out this <a href="%1$s" target="_blank">Doc</a>.<br> <a href="%2$s" target="_blank">Click here</a> to Retrieve Your API Keys from your Pinterest account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/wordpress-posts-on-pinterest/','https://developers.pinterest.com/' ),
                                     ],
                                     'priority' => 20,
                                 ],
@@ -664,11 +689,13 @@ class Settings {
                                     'label'    => __('Instagram', 'wp-scheduled-posts'),
                                     'default'  => [],
                                     'logo'     => WPSP_ASSETS_URI . 'images/instagram.png',
+                                    /* translators: %s: Link to documentation for Instagram social share */
                                     'desc'     => sprintf( __('You can enable/disable Instagram social share. To configure Instagram Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-scheduled-wordpress-posts-on-instagram/' ),
                                     'modal'    => [
                                         'logo'               => WPSP_ASSETS_URI . 'images/instagram.png',
                                         'redirect_url_desc'  => __('Add this URL in the Redirect URLs field of your Instagram app.','wp-scheduled-posts'),
-                                        'desc'               => sprintf( __('For details on Instagram configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your Instagram account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-scheduled-wordpress-posts-on-instagram/','https://developers.facebook.com/' ),
+                                        /* translators: 1: Link to documentation for Instagram configuration, 2: Link to Facebook developer portal */
+                                        'desc'               => sprintf( __('For details on Instagram configuration, check out this <a href="%1$s" target="_blank">Doc</a>.<br> <a href="%2$s" target="_blank">Click here</a> to Retrieve Your API Keys from your Instagram account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-scheduled-wordpress-posts-on-instagram/','https://developers.facebook.com/' ),
                                     ],
                                     'priority' => 25,
                                 ],
@@ -679,11 +706,13 @@ class Settings {
                                     'label'    => __('Medium', 'wp-scheduled-posts'),
                                     'default'  => [],
                                     'logo'     => WPSP_ASSETS_URI . 'images/medium.svg',
+                                    /* translators: %s: Link to documentation for Medium social share */
                                     'desc'     => sprintf( __('You can enable/disable Medium social share. To configure Medium Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-medium/' ),
                                     'modal'    => [
                                         'logo'               => WPSP_ASSETS_URI . 'images/medium.svg',
                                         'redirect_url_desc'  => __('Add this URL in the Redirect URLs field of your Medium app.','wp-scheduled-posts'),
-                                        'desc'               => sprintf( __('For details on Medium configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your Medium account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-medium/','https://medium.com/me/settings/security/' ),
+                                        /* translators: 1: Link to documentation for Medium configuration, 2: Link to Medium settings */
+                                        'desc'               => sprintf( __('For details on Medium configuration, check out this <a href="%1$s" target="_blank">Doc</a>.<br> <a href="%2$s" target="_blank">Click here</a> to Retrieve Your API Keys from your Medium account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-medium/','https://medium.com/me/settings/security/' ),
                                     ],
                                     'priority' => 30,
                                 ],
@@ -694,11 +723,13 @@ class Settings {
                                     'label'    => __('Threads', 'wp-scheduled-posts'),
                                     'default'  => [],
                                     'logo'     => WPSP_ASSETS_URI . 'images/threads.svg',
+                                    /* translators: %s: Link to documentation for Threads social share */
                                     'desc'     => sprintf( __('You can enable/disable Threads social share. To configure Threads Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-threads/' ),
                                     'modal'    => [
                                         'logo'               => WPSP_ASSETS_URI . 'images/threads.svg',
                                         'redirect_url_desc'  => __('Add this URL in the Redirect URLs field of your Medium app.','wp-scheduled-posts'),
-                                        'desc'               => sprintf( __('For details on Threads configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your Threads account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-threads/','https://developers.facebook.com/' ),
+                                        /* translators: 1: Link to documentation for Threads configuration, 2: Link to Facebook developer portal */
+                                        'desc'               => sprintf( __('For details on Threads configuration, check out this <a href="%1$s" target="_blank">Doc</a>.<br> <a href="%2$s" target="_blank">Click here</a> to Retrieve Your API Keys from your Threads account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-threads/','https://developers.facebook.com/' ),
                                     ],
                                     'priority' => 35,
                                 ],
@@ -709,11 +740,13 @@ class Settings {
                                     'label'    => __('Google Business Profile', 'wp-scheduled-posts'),
                                     'default'  => [],
                                     'logo'     => WPSP_ASSETS_URI . 'images/google-my-business-logo.svg',
+                                    /* translators: %s: Link to documentation for Google Business Profile social share */
                                     'desc'     => sprintf( __('You can enable/disable Google Business Profile social share. To configure Google Business Profile Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-google-business-profile/' ),
                                     'modal'    => [
                                         'logo'               => WPSP_ASSETS_URI . 'images/google-my-business-logo.svg',
                                         'redirect_url_desc'  => __('Add this URL in the Redirect URLs field of your Medium app.','wp-scheduled-posts'),
-                                        'desc'               => sprintf( __('For details on Google Business Profile configuration, check out this <a href="%s" target="_blank">Doc</a>.<br> <a href="%s" target="_blank">Click here</a> to Retrieve Your API Keys from your Google Business Profile account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-google-business-profile/','https://console.cloud.google.com/' ),
+                                        /* translators: 1: Link to documentation for Google Business Profile configuration, 2: Link to Google Cloud Console */
+                                        'desc'               => sprintf( __('For details on Google Business Profile configuration, check out this <a href="%1$s" target="_blank">Doc</a>.<br> <a href="%2$s" target="_blank">Click here</a> to Retrieve Your API Keys from your Google Business Profile account.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-google-business-profile/','https://console.cloud.google.com/' ),
                                     ],
                                     'priority' => 40,
                                 ],
@@ -765,6 +798,7 @@ class Settings {
                                                     'name'          => 'facebook_wrapper',
                                                     'label'         => __('Facebook Status Settings', 'wp-scheduled-posts'),
                                                     'priority'      => 10,
+                                                    /* translators: %s: Link to documentation for Facebook configuration */
                                                     'sub_title'     => sprintf( __('To configure the Facebook Status Settings, check out this <a target="_blank" href="%s">Doc.</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-scheduled-posts-facebook/' ),
                                                     'fields'        => [
                                                         'facebook'  => [
@@ -884,6 +918,7 @@ class Settings {
                                                     'type'          => 'section',
                                                     'name'          => 'twitter_wrapper',
                                                     'priority'      => 10,
+                                                    /* translators: %s: Link to documentation for Twitter configuration */
                                                     'sub_title'     => sprintf( __('To configure the Twitter Tweet Settings, check out this <a target="_blank" href="%s">Doc.</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-tweet-wordpress-posts/' ),
                                                     'label'         => __('Twitter Tweet Settings', 'wp-scheduled-posts'),
                                                     'fields'        => [
@@ -981,6 +1016,7 @@ class Settings {
                                                     'type'          => 'section',
                                                     'name'          => 'linkedin_wrapper',
                                                     'label'         => __('LinkedIn Status Settings', 'wp-scheduled-posts'),
+                                                    /* translators: %s: Link to documentation for LinkedIn configuration */
                                                     'sub_title'     => sprintf( __('To configure the LinkedIn Status Settings, check out this <a target="_blank" href="%s">Doc.</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-linkedin/' ),
                                                     'priority'      => 10,
                                                     'fields'        => [
@@ -1091,6 +1127,7 @@ class Settings {
                                                     'type'          => 'section',
                                                     'name'          => 'pinterest_wrapper',
                                                     'label'         => __('Pinterest Pin Settings', 'wp-scheduled-posts'),
+                                                    /* translators: %s: Link to documentation for Pinterest configuration */
                                                     'sub_title'     => sprintf( __('To configure the Pinterest Pin Settings, check out this <a target="_blank" href="%s">Doc.</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/wordpress-posts-on-pinterest/' ),
                                                     'priority'      => 10,
                                                     'fields'        => [
@@ -1189,6 +1226,7 @@ class Settings {
                                                     'type'          => 'section',
                                                     'name'          => 'instagram_wrapper',
                                                     'label'         => __('Instagram Settings', 'wp-scheduled-posts'),
+                                                    /* translators: %s: Link to documentation for Instagram configuration */
                                                     'sub_title'     => sprintf( __('To configure the Instagram Settings, check out this <a target="_blank" href="%s">Doc.</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-scheduled-wordpress-posts-on-instagram/' ),
                                                     'priority'      => 10,
                                                     'fields'        => [
@@ -1278,6 +1316,7 @@ class Settings {
                                                     'type'          => 'section',
                                                     'name'          => 'medium_wrapper',
                                                     'label'         => __('Medium Settings', 'wp-scheduled-posts'),
+                                                    /* translators: %s: Link to documentation for Medium configuration */
                                                     'sub_title'     => sprintf( __('To configure the Medium Settings, check out this <a target="_blank" href="%s">Doc.</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-medium/' ),
                                                     'priority'      => 10,
                                                     'fields'        => [
@@ -1367,6 +1406,7 @@ class Settings {
                                                     'type'          => 'section',
                                                     'name'          => 'threads_wrapper',
                                                     'label'         => __('Threads Settings', 'wp-scheduled-posts'),
+                                                    /* translators: %s: Link to documentation for Threads configuration */
                                                     'sub_title'     => sprintf( __('To configure the Threads Settings, check out this <a target="_blank" href="%s">Doc.</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-threads/' ),
                                                     'priority'      => 10,
                                                     'fields'        => [
@@ -1458,6 +1498,7 @@ class Settings {
                                                     'name'          => 'google_business_wrapper',
                                                     'classes'       => (defined('WPSP_PRO_VERSION') ? '' : 'pro_feature'),
                                                     'label'         => __('Google Business Settings', 'wp-scheduled-posts'),
+                                                    /* translators: %s: Link to documentation for Google Business configuration */
                                                     'sub_title'     => sprintf( __('To configure the Threads Settings, check out this <a target="_blank" href="%s">Doc.</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-google-business-profile/' ),
                                                     'priority'      => 10,
                                                     'fields'        => [
@@ -1647,7 +1688,7 @@ class Settings {
                                                                     'id'            => 'advance_schedule_video',
                                                                     'name'          => 'advance_schedule_video',
                                                                     'type'          => 'video',
-                                                                    'label'         => __('Watch The Video Walkthrough','wp-scheduled=-posts'),
+                                                                    'label'         => __('Watch The Video Walkthrough','wp-scheduled-posts'),
                                                                     'priority'      => 5,
                                                                     'url'           => esc_url('https://www.youtube.com/embed/1ohEsDzTJkA'),
                                                                     'width'         => 554,
@@ -1778,7 +1819,7 @@ class Settings {
                                                                     'id'            => 'advance_schedule_video',
                                                                     'name'          => 'advance_schedule_video',
                                                                     'type'          => 'video',
-                                                                    'label'         => __('Watch The Video Walkthrough','wp-scheduled=-posts'),
+                                                                    'label'         => __('Watch The Video Walkthrough','wp-scheduled-posts'),
                                                                     'priority'      => 5,
                                                                     'url'           => esc_url('https://www.youtube.com/embed/t0zVpg5ALos'),
                                                                     'width'         => 554,

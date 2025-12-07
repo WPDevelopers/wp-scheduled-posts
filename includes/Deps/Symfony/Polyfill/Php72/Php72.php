@@ -102,7 +102,9 @@ final class Php72
     public static function sapi_windows_vt100_support($stream, $enable = null)
     {
         if (!\is_resource($stream)) {
-            trigger_error('sapi_windows_vt100_support() expects parameter 1 to be resource, '.\gettype($stream).' given', \E_USER_WARNING);
+            if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+                wp_trigger_error('', 'sapi_windows_vt100_support() expects parameter 1 to be resource, '.\gettype($stream).' given', \E_USER_WARNING);
+            }
 
             return false;
         }
@@ -110,7 +112,9 @@ final class Php72
         $meta = stream_get_meta_data($stream);
 
         if ('STDIO' !== $meta['stream_type']) {
-            trigger_error('sapi_windows_vt100_support() was not able to analyze the specified stream', \E_USER_WARNING);
+            if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+                wp_trigger_error('', 'sapi_windows_vt100_support() was not able to analyze the specified stream', \E_USER_WARNING);
+            }
 
             return false;
         }
@@ -134,7 +138,9 @@ final class Php72
     public static function stream_isatty($stream)
     {
         if (!\is_resource($stream)) {
-            trigger_error('stream_isatty() expects parameter 1 to be resource, '.\gettype($stream).' given', \E_USER_WARNING);
+            if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+                wp_trigger_error('', 'stream_isatty() expects parameter 1 to be resource, '.\gettype($stream).' given', \E_USER_WARNING);
+            }
 
             return false;
         }
@@ -156,6 +162,7 @@ final class Php72
 
         // check if we are nested in an output buffering handler to prevent a fatal error with ob_start() below
         $obFuncs = ['ob_clean', 'ob_end_clean', 'ob_flush', 'ob_end_flush', 'ob_get_contents', 'ob_get_flush'];
+        // phpcs:ignore WordPress.PHP.DevelopmentFunctions.backtrace_debug_backtrace
         foreach (debug_backtrace(\PHP_VERSION_ID >= 50400 ? \DEBUG_BACKTRACE_IGNORE_ARGS : false) as $frame) {
             if (isset($frame['function'][0]) && !isset($frame['class']) && 'o' === $frame['function'][0] && \in_array($frame['function'], $obFuncs)) {
                 $frame['line'] = 0;

@@ -25,7 +25,7 @@ class Social
 
     public function publish_future_post($post_id){
         // check if wpsp_publish_future_post is already scheduled
-        if (wp_next_scheduled('wpsp_publish_future_post', array($post_id)) || wp_next_scheduled('wpsp_custom_social_template', array($post_id))) {
+        if ( wp_next_scheduled('wpsp_publish_future_post', array($post_id)) || wp_next_scheduled('wpsp_custom_social_template', array($post_id))) {
             return;
         }
         do_action('wpsp_publish_future_post', $post_id);

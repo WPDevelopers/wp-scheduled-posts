@@ -39,6 +39,7 @@ const Threads = ( { profiles, addProfileToggle,savedProfile } ) => {
                             </div>
                         </li>
                     ))}
+                    { profiles.length <= 0 && <p>{__('There are no profiles found on this account', 'wp-scheduled-posts')}</p> }
                 </ul>
                 <button
                 type="submit"

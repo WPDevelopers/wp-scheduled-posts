@@ -386,6 +386,7 @@ class CustomSocialTemplates
 
         if ($template_updated !== false || $scheduling_updated !== false) {
             $message = count($updated_platforms) > 1
+                /* translators: %d: Number of social platforms the template and scheduling were saved for */
                 ? sprintf(__('Templates and scheduling saved successfully for %d platforms.', 'wp-scheduled-posts'), count($updated_platforms))
                 : __('Template and scheduling saved successfully.', 'wp-scheduled-posts');
 
@@ -423,6 +424,7 @@ class CustomSocialTemplates
         // Validate platform
         $valid_platforms = ['facebook', 'twitter', 'linkedin', 'pinterest', 'instagram', 'medium', 'threads', 'google_business'];
         if (!in_array($platform, $valid_platforms)) {
+            /* translators: %s: Name of the invalid social media platform */
             $validation_errors[] = sprintf(__('Invalid platform: %s', 'wp-scheduled-posts'), $platform);
             return ['success' => false, 'platform' => $platform];
         }
@@ -436,7 +438,8 @@ class CustomSocialTemplates
         if (!empty(trim($template))) {
             $validation_result = $this->validate_template_content($template, $platform);
             if (!$validation_result['valid']) {
-                $validation_errors[] = sprintf(__('%s: %s', 'wp-scheduled-posts'), ucfirst($platform), $validation_result['message']);
+                /* translators: 1: Name of the social media platform, 2: Validation error message */
+                $validation_errors[] = sprintf(__('%1$s: %2$s', 'wp-scheduled-posts'), ucfirst($platform), $validation_result['message']);
                 return ['success' => false, 'platform' => $platform];
             }
         }
@@ -554,7 +557,8 @@ class CustomSocialTemplates
             return array(
                 'valid' => false,
                 'message' => sprintf(
-                    __('Template exceeds character limit for %s (%d/%d characters).', 'wp-scheduled-posts'),
+                    /* translators: 1: Name of the social media platform, 2: Current character count, 3: Maximum allowed character limit */
+                    __('Template exceeds character limit for %1$s (%2$d/%3$d characters).', 'wp-scheduled-posts'),
                     ucfirst($platform),
                     strlen($template),
                     $limit
@@ -569,12 +573,13 @@ class CustomSocialTemplates
             foreach ($matches[0] as $placeholder) {
                 if (!in_array($placeholder, $valid_placeholders)) {
                     return array(
-                        'valid' => false,
+                        'valid'   => false,
                         'message' => sprintf(
-                            __('Invalid placeholder "%s". Valid placeholders are: %s', 'wp-scheduled-posts'),
+                            /* translators: 1: Invalid placeholder name, 2: List of valid placeholders */
+                            __( 'Invalid placeholder "%1$s". Valid placeholders are: %2$s', 'wp-scheduled-posts' ),
                             $placeholder,
-                            implode(', ', $valid_placeholders)
-                        )
+                            implode( ', ', $valid_placeholders )
+                        ),
                     );
                 }
             }

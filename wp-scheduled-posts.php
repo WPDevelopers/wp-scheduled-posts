@@ -2,7 +2,7 @@
 /*
  * Plugin Name: SchedulePress
  * Description: Automate your content workflow with SchedulePress. Take a quick glance at your content planning with Schedule Calendar, Dashboard widget & Sitewide admin bar. Instantly share your posts on social media platforms such as Facebook, Twitter & many more.
- * Version: 5.2.11
+ * Version: 5.2.14
  * Author: WPDeveloper
  * Author URI: https://wpdeveloper.com
  * Text Domain: wp-scheduled-posts
@@ -96,7 +96,7 @@ final class WPSP
 		/**
 		 * Defines CONSTANTS for Whole plugins.
 		 */
-		define('WPSP_VERSION', '5.2.11');
+		define('WPSP_VERSION', '5.2.14');
 		define('WPSP_SETTINGS_NAME_OLD', 'wpsp_settings');
 		define('WPSP_SETTINGS_NAME', 'wpsp_settings_v5');
 		define('WPSP_PLUGIN_FILE', __FILE__);
@@ -151,7 +151,15 @@ final class WPSP
 	public function wpsp_fail_pro_version() {
 		?>
 		<div class="notice notice-error">
-			<p><?php printf(__( 'SchedulePress Free v5.0 needs SchedulePress Pro v5.0 for better performance. Please update SchedulePress Pro plugin to v5.0. Contact our <a href="%s" target="_blank">Support</a> if you need any assistance.', 'wp-scheduled-posts' ), 'https://wpdeveloper.com/support/'); ?></p>
+			<p>
+				<?php
+					printf(
+						/* translators: %1$s: URL to the SchedulePress support page */
+						__( 'SchedulePress Free v5.0 needs SchedulePress Pro v5.0 for better performance. Please update SchedulePress Pro plugin to v5.0. Contact our <a href="%1$s" target="_blank">Support</a> if you need any assistance.', 'wp-scheduled-posts' ),
+						'https://wpdeveloper.com/support/'
+					);
+				?>
+			</p>
 		</div>
 		<?php
 	}
