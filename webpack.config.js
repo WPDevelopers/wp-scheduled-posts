@@ -32,13 +32,14 @@ module.exports = {
 
     // https://webpack.js.org/configuration/entry-context/
     entry: {
-        editor: './index.js',
+        'wpspl-admin': './index.js',
+        app: './src/index.js', // Generates app.min.js
     },
 
     // https://webpack.js.org/configuration/output/
     output: {
         path: __dirname + '/assets/js/',
-        filename: 'wpspl-admin.min.js',
+        filename: '[name].min.js',
     },
 
     // https://webpack.js.org/configuration/externals/
@@ -55,7 +56,7 @@ module.exports = {
             {
                 test: /\.svg$/,
                 use: 'file-loader',
-              },          
+            },
         ],
     },
 }

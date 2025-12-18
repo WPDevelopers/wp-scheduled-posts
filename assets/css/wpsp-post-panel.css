@@ -1,0 +1,49 @@
+/* Modal container */
+.wpsp-post-panel-modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    z-index: 9999;
+}
+
+.wpsp-post-panel-active {
+    display: block;
+
+}
+
+/* Overlay */
+.wpsp-post-panel-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+/* Content */
+.wpsp-post-panel-content {
+    position: absolute;
+    inset: 0;
+    background-color: #fff;
+    width: 800px;
+    height: 600px;
+    padding: 40px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Close button */
+.wpsp-post-panel-close {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    border: none;
+    background: transparent;
+    font-size: 28px;
+    cursor: pointer;
+}
