@@ -27,6 +27,8 @@ wpDependencies.forEach((name) => {
     }
 })
 
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
 module.exports = {
     mode: 'production',
 
@@ -57,6 +59,20 @@ module.exports = {
                 test: /\.svg$/,
                 use: 'file-loader',
             },
+            {
+                test: /\.s[ac]ss$/i,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'postcss-loader',
+                    'sass-loader',
+                ],
+            },
         ],
     },
+    plugins: [
+        new MiniCssExtractPlugin({
+            filename: '../css/[name].min.css',
+        }),
+    ],
 }
