@@ -222,12 +222,25 @@ class Twitter
                     } else {
                         if (has_post_thumbnail($post_id)) {
                             // $thumbnail_src = !empty( wp_get_attachment_metadata(get_post_thumbnail_id($post_id))['file'] ) ? wp_get_attachment_metadata(get_post_thumbnail_id($post_id))['file'] : '';
-                            $featuredImage = ((has_post_thumbnail($post_id)) ? get_the_post_thumbnail_url($post_id, 'full') : '');
-                            $file_path = str_replace($uploads['baseurl'], $uploads['basedir'], $featuredImage);
-                            // $file_path = !empty( $uploads['basedir'] ) ? esc_url( $uploads['basedir'] . '/' . $thumbnail_src ) : '';
+                            // $featuredImage = ((has_post_thumbnail($post_id)) ? get_the_post_thumbnail_url($post_id, 'full') : '');
+                            // $file_path = str_replace($uploads['baseurl'], $uploads['basedir'], $featuredImage);
+                            // // $file_path = !empty( $uploads['basedir'] ) ? esc_url( $uploads['basedir'] . '/' . $thumbnail_src ) : '';
+                            // $media = $TwitterConnection->upload('media/upload', ['media' => $file_path]);
+                            // $parameters['media'] = [
+                            //     "media_ids" => [ $media->media_id_string ],
+                            // ];
+                            // $thumbnail_src = !empty( wp_get_attachment_metadata(get_post_thumbnail_id($post_id))['file'] ) ? wp_get_attachment_metadata(get_post_thumbnail_id($post_id))['file'] : '';
+                            $thumbnail_id = get_post_thumbnail_id($post_id);
+                            if ($thumbnail_id) {
+                                $image_url = wp_get_attachment_url($thumbnail_id);
+
+                                $uploads = wp_upload_dir();
+                                $file_path = str_replace($uploads['baseurl'], $uploads['basedir'], $image_url);
+                            }
                             $media = $TwitterConnection->upload('media/upload', ['media' => $file_path]);
+
                             $parameters['media'] = [
-                                "media_ids" => [ $media->media_id_string ],
+                                "media_ids" => [$media->media_id_string],
                             ];
                         }else{
                             $featured_image_id = Helper::get_featured_image_id_from_request();
