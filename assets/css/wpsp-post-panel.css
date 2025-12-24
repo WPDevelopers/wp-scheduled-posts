@@ -25,13 +25,13 @@
     background-color: #fff;
     width: 800px;
     height: 600px;
-    padding: 40px;
     box-sizing: border-box;
     overflow-y: auto;
     align-items: center;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    border-radius: 14px;
 }
 
 .wpsp-post-panel-modal-content {

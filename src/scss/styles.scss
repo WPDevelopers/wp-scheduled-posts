@@ -1,0 +1,76 @@
+#wpsp-post-panel-modal{
+    background: rgba(27, 27, 80, 0.4);
+    .wpsp-post-panel-content {
+        box-sizing: border-box;
+        max-width: 922px;
+        background: #f9f8fd;
+    }
+    .wpsp-post-panel-modal-content {
+        padding: 20px 32px;
+        .wpsp-post-panel-modal-settings {
+            flex-basis: 60%;
+            h2 {
+                margin: 0 0 20px 0;
+                font-family: "Inter";
+                font-weight: 500;
+                font-size: 20px;
+                line-height: 120%;
+                letter-spacing: 0px;
+            }
+            .wpsp-post--card {
+                background: rgb(255, 255, 255);
+                padding: 16px;
+                border-radius: 12px;
+                .card--title {
+                    display: flex;
+                    align-items: center;
+                    margin-bottom: 24px;
+                    gap: 8px;
+                }
+            }
+        }
+    }
+    .wpsp-modal--header {
+        padding: 16px 24px;
+        background: #fff;
+        border-bottom: 1px solid #f0f0f1;
+    }
+    .wpsp-post-panel-footer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        .wpsp-modal--footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 16px;
+            background: rgb(249, 248, 253);
+            padding: 12px 16px;
+            border-top: 1px solid rgb(236, 239, 245);
+            .btn {
+                font-size: 14px;
+                line-height: 1em;
+                font-weight: 500;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                padding: 12px 16px;
+                border-radius: 6px;
+                border-width: initial;
+                border-style: none;
+                border-color: initial;
+                border-image: initial;
+                gap: 8px;
+                &.primary-btn {
+                    color: rgb(255, 255, 255);
+                    background: rgb(108, 98, 255);
+                }
+                &.secondary-btn {
+                    color: rgb(108, 98, 255);
+                    background: rgb(243, 242, 255);
+                }
+            }
+        }
+    }
+}
