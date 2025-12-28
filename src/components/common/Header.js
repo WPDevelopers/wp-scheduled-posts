@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AppContext } from '../../context/AppContext';
 const Header = () => {
+    const { state, dispatch } = useContext(AppContext);
     return (
         <div className="wpsp-modal--header">
             <svg

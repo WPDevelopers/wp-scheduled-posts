@@ -1,14 +1,17 @@
-#wpsp-post-panel-modal{
+#wpsp-post-panel-modal {
     background: rgba(27, 27, 80, 0.4);
+
     .wpsp-post-panel-content {
         box-sizing: border-box;
         max-width: 922px;
         background: #f9f8fd;
     }
+
     .wpsp-post-panel-modal-content {
-        padding: 20px 32px;
         .wpsp-post-panel-modal-settings {
             flex-basis: 60%;
+            padding: 20px 10px 0 10px;
+
             h2 {
                 margin: 0 0 20px 0;
                 font-family: "Inter";
@@ -17,29 +20,163 @@
                 line-height: 120%;
                 letter-spacing: 0px;
             }
+
             .wpsp-post--card {
                 background: rgb(255, 255, 255);
                 padding: 16px;
                 border-radius: 12px;
+
                 .card--title {
                     display: flex;
                     align-items: center;
-                    margin-bottom: 24px;
+                    margin-bottom: 16px;
+                    gap: 8px;
+
+                    h4.title {
+                        margin: 0;
+                        font-size: 16px;
+                        line-height: 1.2em;
+                        font-weight: 500;
+                        color: #1D2939;
+                    }
+                }
+            }
+
+            .wpsp-post-panel-modal-settings-schedule {
+                margin-bottom: 20px;
+
+                .wpsp-post-items--wrapper {
+                    display: flex;
+                    gap: 10px;
+
+                    .wpsp-post--items {
+                        line-height: 0;
+
+                        .card--title {
+                            margin: 0;
+
+                            h5 {
+                                font-size: 14px;
+                                color: #475467;
+                                font-weight: 500;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .wpsp-modal-social-share {
+            background-color: #F2F0FA;
+            padding: 20px 10px 0 10px;
+            flex-basis: 35%;
+
+            h2 {
+                margin: 0 0 20px 0;
+                font-family: "Inter";
+                font-weight: 500;
+                font-size: 20px;
+                line-height: 120%;
+                letter-spacing: 0px;
+            }
+
+            .wpsp-post--card {
+                background: #fff;
+                padding: 16px;
+                border-radius: 12px;
+            }
+
+            .wpsp-disabled-social-share-checkbox {
+                .wpsp-share-checkbox {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    margin-bottom: 16px;
+
+                    input[type="checkbox"] {
+                        width: 20px;
+                        height: 20px;
+                        border: 1px solid #D7DBDF;
+                        border-radius: 4px;
+                        background: transparent;
+                        margin: 0;
+                    }
+
+                    label {
+                        font-size: 14px;
+                        color: #1B1B50;
+                        font-weight: 500;
+                    }
+                }
+            }
+
+            .wpsp-upload-social-banner {
+                .wpsp-upload-social-banner-btn button{
+                    width: 100%;
+                    opacity: 1;
+                    gap: 8px;
+                    border-radius: 6px;
+                    padding-top: 12px;
+                    padding-right: 16px;
+                    padding-bottom: 12px;
+                    padding-left: 16px;
+                    border-width: 1px;
+                    border-style: solid;
+                    border-color: #6C62FF;
+                    border-image: initial;
+                    background: #fff;
+                    cursor: pointer;
+                    color: #6C62FF;
+                    p {
+                        font-size: 11px;
+                        color: #6E6E8D;
+                        font-weight: 400;
+                        margin: 0;
+                    }
+                }
+            }
+            .wpsp-add-social-message-wrapper {
+                p {
+                    font-size: 14px;
+                    color: #1B1B50;
+                    font-weight: 500;
+                    margin: 0 0 10px 0;
+                }
+
+                button {
+                    width: 100%;
+                    opacity: 1;
+                    gap: 8px;
+                    border-radius: 6px;
+                    padding: 12px 16px;
+                    border-width: 1px;
+                    border-style: solid;
+                    border-color: #6C62FF;
+                    border-image: initial;
+                    background: #6C62FF;
+                    cursor: pointer;
+                    color: #fff;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
                     gap: 8px;
                 }
             }
         }
     }
+
     .wpsp-modal--header {
         padding: 16px 24px;
         background: #fff;
         border-bottom: 1px solid #f0f0f1;
     }
+
     .wpsp-post-panel-footer {
         position: absolute;
         bottom: 0;
         left: 0;
         right: 0;
+
         .wpsp-modal--footer {
             display: flex;
             justify-content: flex-end;
@@ -47,6 +184,7 @@
             background: rgb(249, 248, 253);
             padding: 12px 16px;
             border-top: 1px solid rgb(236, 239, 245);
+
             .btn {
                 font-size: 14px;
                 line-height: 1em;
@@ -62,15 +200,27 @@
                 border-color: initial;
                 border-image: initial;
                 gap: 8px;
+
                 &.primary-btn {
                     color: rgb(255, 255, 255);
                     background: rgb(108, 98, 255);
                 }
+
                 &.secondary-btn {
                     color: rgb(108, 98, 255);
                     background: rgb(243, 242, 255);
                 }
             }
         }
+    }
+
+
+    // Custom social template modal styles
+    .wpsp-custom-template-modal {
+        max-width: 922px !important;
+        width: 90vw !important;
+        top: 20px;
+        margin: 0 auto;
+        
     }
 }

@@ -23,7 +23,7 @@
     position: absolute;
     inset: 0;
     background-color: #fff;
-    width: 800px;
+    /* width: 800px; */
     height: 600px;
     box-sizing: border-box;
     overflow-y: auto;
@@ -36,7 +36,7 @@
 
 .wpsp-post-panel-modal-content {
     display: flex;
-    justify-content: space-between;
+    justify-content: start;
     gap: 10px;
 }
 
