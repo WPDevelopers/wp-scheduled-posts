@@ -204,6 +204,61 @@ class Pinterest
     }
 
     /**
+     * Check Pinterest global rate limit (3 posts per minute)
+     * @return array|bool Returns error array if limit exceeded, true if allowed
+     * @since 2.5.0
+     */
+    private function check_pinterest_rate_limit()
+    {
+        $rate_limit_transient_key = 'wpsp_pinterest_share_timestamps';
+        $current_time = time();
+        $one_minute_ago = $current_time - 60;
+        
+        // Get existing timestamps from global transient
+        $share_timestamps = get_transient($rate_limit_transient_key);
+        if (empty($share_timestamps) || !is_array($share_timestamps)) {
+            $share_timestamps = array();
+        }
+        
+        // Remove timestamps older than 1 minute
+        $share_timestamps = array_filter($share_timestamps, function($timestamp) use ($one_minute_ago) {
+            return $timestamp > $one_minute_ago;
+        });
+        
+        // Check if we've reached the 3 posts per minute limit
+        if (count($share_timestamps) >= 3) {
+            return array(
+                'success' => false,
+                'log' => __('Rate limit exceeded: Maximum 3 posts per minute allowed for Pinterest.', 'wp-scheduled-posts')
+            );
+        }
+        
+        return true;
+    }
+
+    /**
+     * Record a successful Pinterest share for rate limiting
+     * @since 2.5.0
+     */
+    private function record_pinterest_share_timestamp()
+    {
+        $rate_limit_transient_key = 'wpsp_pinterest_share_timestamps';
+        $current_time = time();
+        
+        // Get existing timestamps
+        $share_timestamps = get_transient($rate_limit_transient_key);
+        if (empty($share_timestamps) || !is_array($share_timestamps)) {
+            $share_timestamps = array();
+        }
+        
+        // Add current timestamp
+        $share_timestamps[] = $current_time;
+        
+        // Store with 70 second expiration for cleanup
+        set_transient($rate_limit_transient_key, $share_timestamps, 70);
+    }
+
+    /**
      * Main share method
      * all logic witten here
      * @since 2.5.0
@@ -266,6 +321,12 @@ class Pinterest
             );
         }
 
+        // Check global rate limit
+        $rate_limit_check = $this->check_pinterest_rate_limit();
+        if ($rate_limit_check !== true) {
+            return $rate_limit_check;
+        }
+
         if(get_post_meta($post_id, '_wpsp_is_pinterest_share', true) == 'on' || $force_share) {
             $errorFlag = false;
             $response = '';
@@ -292,6 +353,8 @@ class Pinterest
                     }else{
                         $this->save_metabox_social_share_metabox($post_id, $shareInfo, $profile_key, $board_name);
                     }
+                    // Record timestamp for global rate limiting
+                    $this->record_pinterest_share_timestamp();
                 }
                 $errorFlag = true;
                 $results = json_decode($results, true);
