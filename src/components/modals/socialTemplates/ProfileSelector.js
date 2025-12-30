@@ -1,5 +1,5 @@
 import React, { memo, useState } from 'react';
-import { __ } from '@wordpress/i18n';
+const { __ } = wp.i18n;
 import { tikIcon, authorIcon } from '../../../../assets/gutenberg/utils/helpers/icons';
 
 const ProfileSelector = ({ 

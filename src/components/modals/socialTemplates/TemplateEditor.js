@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { __ } from '@wordpress/i18n';
+const { __ } = wp.i18n;
 import { eyeIcon, eyeCloseIcon } from '../../../../assets/gutenberg/utils/helpers/icons';
 
 const TemplateEditor = ({

@@ -1,11 +1,18 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { Button } from '@wordpress/components';
 const { useSelect } = wp.data;
 import apiFetch from '@wordpress/api-fetch';
 const { __ } = wp.i18n;
 import { AppContext } from '../../../context/AppContext';
 import Header from './Header';
-import { authorIcon, tikIcon, eyeIcon, eyeCloseIcon, facebook, twitter_x, linkedin, pinterest, instagram, medium, threads, google_business } from '../../../../assets/gutenberg/utils/helpers/icons';
+import { facebook, twitter_x, linkedin, pinterest, instagram, medium, threads, google_business } from '../../../../assets/gutenberg/utils/helpers/icons';
+
+// Sub-components
+import PlatformNavigation from './PlatformNavigation';
+import ProfileSelector from './ProfileSelector';
+import TemplateEditor from './TemplateEditor';
+import ScheduleControls from './ScheduleControls';
+import PreviewCard from './PreviewCard';
 
 const SOCIAL_PLATFORMS = [
   'facebook',
@@ -89,7 +96,6 @@ const WPSPCustomTemplateModal = ({
   const firstSelectedProfile = Object.entries(social_media_enabled).find(([key, value]) => value === true)?.[0];
 
   // State
-  const [activeDropdown, setActiveDropdown] = useState(false);
   const [showPreview, setShowPreview] = useState(true);
   const [showGlobalTemplateWarning, setShowGlobalTemplateWarning] = useState(false);
   const [selectedPlatform, setSelectedPlatform] = useState(firstSelectedProfile || 'facebook');
@@ -114,7 +120,7 @@ const WPSPCustomTemplateModal = ({
 
 
   // API functions for data management
-  const fetchTemplateData = async () => {
+  const fetchTemplateData = useCallback(async () => {
     if (!postId) return {};
 
     try {
@@ -136,7 +142,7 @@ const WPSPCustomTemplateModal = ({
       console.error('Error fetching template data:', error);
       return {};
     }
-  };
+  }, [postId]);
 
   const fetchSchedulingData = async () => {
     if (!postId) return {};
@@ -144,13 +150,13 @@ const WPSPCustomTemplateModal = ({
   };
 
   // Global template management
-  const getIsGlobalForPlatform = (platform) => {
+  const getIsGlobalForPlatform = useCallback((platform) => {
     const platformData = apiTemplateData[platform];
     return platformData?.is_global === 1 || platformData?.is_global === '1' || platformData?.is_global === true;
-  };
+  }, [apiTemplateData]);
 
-  const setUseGlobalTemplatePlatform = (platform, checked) => {
-    setApiTemplateData(prev => ({
+  const setUseGlobalTemplatePlatform = useCallback((platform, checked) => {
+    const updateData = (prev) => ({
       ...prev,
       [platform]: {
         ...(prev[platform] || {}),
@@ -158,20 +164,14 @@ const WPSPCustomTemplateModal = ({
         profiles: selectedProfile.map(profile => profile.id),
         is_global: checked ? 1 : '',
       }
-    }));
-    setAllPlatformData(prev => ({
-      ...prev,
-      [platform]: {
-        ...(prev[platform] || {}),
-        template: customTemplates[platform] || '',
-        profiles: selectedProfile.map(profile => profile.id),
-        is_global: checked ? 1 : '',
-      }
-    }));
-  };
+    });
+
+    setApiTemplateData(updateData);
+    setAllPlatformData(updateData);
+  }, [customTemplates, selectedProfile]);
 
   // Get available profiles for selected platform
-  const getAvailableProfiles = () => {
+  const getAvailableProfiles = useCallback(() => {
     switch (selectedPlatform) {
       case 'facebook': return facebookProfileData || [];
       case 'twitter': return twitterProfileData || [];
@@ -183,7 +183,7 @@ const WPSPCustomTemplateModal = ({
       case 'google_business': return googleBusinessProfileData || [];
       default: return [];
     }
-  };
+  }, [selectedPlatform, facebookProfileData, twitterProfileData, linkedinProfileData, pinterestProfileData, instagramProfileData, mediumProfileData, threadsProfileData, googleBusinessProfileData]);
 
   // Get date options based on post status
   const getDateOptions = () => {
@@ -232,7 +232,7 @@ const WPSPCustomTemplateModal = ({
   };
 
   // Generate preview content
-  const generatePreview = (template) => {
+  const generatePreview = useCallback((template) => {
     if (!template) return '';
     let preview = template;
     preview = preview.replace(/{title}/g, postTitle || 'Sample Post Title');
@@ -240,7 +240,7 @@ const WPSPCustomTemplateModal = ({
     preview = preview.replace(/{url}/g, postUrl || 'https://example.com/post');
     preview = preview.replace(/{tags}/g, '#wordpress #blog');
     return preview;
-  };
+  }, [postTitle, postContent, postUrl]);
 
   // Global save function
   const handleGlobalSave = async () => {
@@ -309,7 +309,7 @@ const WPSPCustomTemplateModal = ({
   };
 
   // Helper to check for changes
-  const hasAnyChanges = () => {
+  const hasAnyChanges = useCallback(() => {
     const currentTemplate = customTemplates[selectedPlatform] || '';
     const currentProfiles = selectedProfile.map(profile => profile.id);
 
@@ -330,10 +330,10 @@ const WPSPCustomTemplateModal = ({
       }
     }
     return false;
-  };
+  }, [customTemplates, selectedPlatform, selectedProfile, allPlatformData, apiTemplateData]);
 
   // Helper to check if platform has data
-  const platformHasData = (platform) => {
+  const platformHasData = useCallback((platform) => {
     if (platform === selectedPlatform) {
       const currentTemplate = customTemplates[selectedPlatform] || '';
       const currentProfiles = selectedProfile.map(profile => profile.id);
@@ -348,10 +348,10 @@ const WPSPCustomTemplateModal = ({
       (savedData.template && savedData.template.trim() !== '') ||
       (savedData.profiles && savedData.profiles.length > 0)
     );
-  };
+  }, [allPlatformData, apiTemplateData, selectedPlatform, customTemplates, selectedProfile]);
 
   // Handle platform switching
-  const handlePlatformSwitch = (newPlatform) => {
+  const handlePlatformSwitch = useCallback((newPlatform) => {
     if (selectedPlatform) {
       const currentTemplate = customTemplates[selectedPlatform] || '';
       const currentProfiles = selectedProfile.map(profile => profile.id);
@@ -374,7 +374,7 @@ const WPSPCustomTemplateModal = ({
       }
     }
     setSelectedPlatform(newPlatform);
-  };
+  }, [selectedPlatform, customTemplates, selectedProfile, getIsGlobalForPlatform]);
 
   const handleClose = () => {
     setAllPlatformData({});
@@ -395,7 +395,7 @@ const WPSPCustomTemplateModal = ({
   useEffect(() => {
     const preview = generatePreview(customTemplates[selectedPlatform] || '');
     setCharacterCount(preview.length);
-  }, [customTemplates, selectedPlatform, postTitle, postContent, postUrl]);
+  }, [customTemplates, selectedPlatform, postTitle, postContent, postUrl, generatePreview]);
 
   useEffect(() => {
     if (selectedPlatform) {
@@ -410,12 +410,12 @@ const WPSPCustomTemplateModal = ({
         setSaveText('Update');
       }
 
-      const availableProfiles = getAvailableProfiles();
+      const available = getAvailableProfiles();
       
       if (dataToLoad) {
         setCustomTemplates(prev => ({ ...prev, [selectedPlatform]: dataToLoad.template || '' }));
         const profilesToSet = (dataToLoad.profiles || []).map(profileId =>
-          availableProfiles.find(profile => profile.id === profileId)
+          available.find(profile => profile.id === profileId)
         ).filter(Boolean);
         setSelectedProfile(profilesToSet);
         setIsUpdatingContent(true);
@@ -424,17 +424,13 @@ const WPSPCustomTemplateModal = ({
         setSelectedProfile([]);
       }
     }
-  }, [selectedPlatform, allPlatformData, apiTemplateData, facebookProfileData, twitterProfileData, linkedinProfileData, pinterestProfileData, instagramProfileData, mediumProfileData, threadsProfileData, googleBusinessProfileData]);
+  }, [selectedPlatform, allPlatformData, apiTemplateData, getAvailableProfiles]);
 
   useEffect(() => {
       // Clear any temporary data when opening modal
       setAllPlatformData({});
-      
-      const loadData = async () => {
-        const templateData = await fetchTemplateData();
-      };
-      loadData();
-  }, []); // On mount
+      fetchTemplateData();
+  }, [fetchTemplateData]); // On mount
 
   const availableProfiles = getAvailableProfiles();
   const currentLimit = platformLimits[selectedPlatform] || 1000;
@@ -448,386 +444,99 @@ const WPSPCustomTemplateModal = ({
     }
   }
 
-  const previewProfileName = selectedProfile[0]?.name || 'Preview Name';
-  const previewThumbnailUrl = selectedProfile[0]?.thumbnail_url || '';
   const previewContent = generatePreview(customTemplates[selectedPlatform] || '');
+  const isGlobalForCurrentPlatform = getIsGlobalForPlatform(selectedPlatform);
+
+  // Sub-component handlers
+  const onSelectProfile = useCallback((profile) => {
+      const isSelected = selectedProfile.some((p) => p.id === profile.id);
+      if (isSelected) {
+          setSelectedProfile(selectedProfile.filter((p) => p.id !== profile.id));
+      } else {
+          setSelectedProfile([...selectedProfile, profile]);
+      }
+  }, [selectedProfile]);
+
+  const onUpdateSchedule = useCallback((field, value) => {
+      setScheduleData(prev => ({ ...prev, [field]: value }));
+  }, []);
+
+  const onToggleGlobal = useCallback((e) => {
+    if (globalProfile != null && globalProfile !== selectedPlatform) {
+        setShowGlobalTemplateWarning(true);
+        setTimeout(() => {
+            setShowGlobalTemplateWarning(false);
+        }, 3000);
+    } else {
+        setUseGlobalTemplatePlatform(selectedPlatform, e.target.checked);
+    }
+  }, [globalProfile, selectedPlatform, setUseGlobalTemplatePlatform]);
+
   return (
     <div className={`wpsp-modal-content ${availableProfiles.length === 0 ? 'no-profile-found' : ''}`}>
       <Header/>
       <div className="wpsp-modal-layout">
         {/* Left Side */}
         <div className="wpsp-modal-left">
+          <PlatformNavigation 
+              platforms={filteredPlatforms}
+              selectedPlatform={selectedPlatform}
+              onSelectPlatform={handlePlatformSwitch}
+              platformHasData={platformHasData}
+          />
 
-          {/* Platform Icons */}
-          <div className="wpsp-platform-icons">
-            {filteredPlatforms.map(({ platform, icon, bgColor }) => (
-              <button
-                key={platform}
-                className={`wpsp-platform-icon ${selectedPlatform} ${selectedPlatform === platform ? 'active' : ''} ${platformHasData(platform) ? 'has-data' : ''}`}
-                onClick={() => handlePlatformSwitch(platform)}
-                style={{
-                  backgroundColor: selectedPlatform === platform ? bgColor : '#f0f0f0',
-                  color: selectedPlatform === platform ? '#fff' : '#666',
-                  fontWeight: selectedPlatform === platform ? 'bold' : 'normal',
-                  position: 'relative',
-                }}
-                title={platform}
-              >
-                {icon}
-              </button>
-            ))}
-          </div>
-
-          {/* Profile Selection & Template Editor */}
           <div className="wpsp-custom-template-content-wrapper">
-            {availableProfiles.length === 0 && (
-              <h5
-                dangerouslySetInnerHTML={{
-                  __html: __(
-                    `*You may forget to add or enable profile/page from <a target="_blank" href='${WPSchedulePostsFree.adminURL}admin.php?page=schedulepress&tab=social-profile'>SchedulePress settings</a>.`,
-                    'wp-scheduled-posts'
-                  ),
-                }}
-              ></h5>
+            <ProfileSelector 
+                availableProfiles={availableProfiles}
+                selectedProfile={selectedProfile}
+                onSelectProfile={onSelectProfile}
+                WPSchedulePostsFree={WPSchedulePostsFree}
+            />
+
+            {selectedPlatform && (
+                <TemplateEditor 
+                    template={customTemplates[selectedPlatform]}
+                    onChange={(val) => setCustomTemplates((prev) => ({ ...prev, [selectedPlatform]: val }))}
+                    characterCount={characterCount}
+                    currentLimit={currentLimit}
+                    isOverLimit={isOverLimit}
+                    showPreview={showPreview}
+                    onTogglePreview={() => setShowPreview(!showPreview)}
+                    isGlobal={isGlobalForCurrentPlatform}
+                    onToggleGlobal={onToggleGlobal}
+                    globalProfileParams={{
+                        globalProfile,
+                        selectedPlatform,
+                        showGlobalTemplateWarning,
+                        isGlobalForCurrentPlatform
+                    }}
+                    availableProfilesCount={availableProfiles.length}
+                />
             )}
 
-            <div className={`wpsp-profile-selection-area-wrapper ${availableProfiles.length === 0 ? 'no-profile-found' : ''}`}>
-              <div className="selected-profile-area">
-                <ul>
-                  {availableProfiles.slice(0, 5).map((profile) => {
-                    const isSelected = selectedProfile.some((p) => p.id === profile.id);
-                    return (
-                      <li
-                        key={profile.id}
-                        className="selected-profile"
-                        title={profile.name}
-                        onClick={() => {
-                          if (isSelected) {
-                            setSelectedProfile(selectedProfile.filter((p) => p.id !== profile.id));
-                          } else {
-                            setSelectedProfile([...selectedProfile, profile]);
-                          }
-                        }}
-                      >
-                        {profile.thumbnail_url ? (
-                          <img
-                            src={profile.thumbnail_url}
-                            alt={profile.name}
-                            className="wpsp-profile-image"
-                            onError={(e) => {
-                              e.target.onerror = null;
-                              e.target.src = `data:image/svg+xml;utf8,${encodeURIComponent(authorIcon)}`;
-                            }}
-                          />
-                        ) : (
-                          <div className="wpsp-profile-placeholder">{profile.name?.charAt(0).toUpperCase() || '?'}</div>
-                        )}
-
-                        {isSelected && (
-                          <div className="wpsp-selected-profile-action">
-                            <span
-                              className="wpsp-remove-profile-btn"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setSelectedProfile(selectedProfile.filter((p) => p.id !== profile.id));
-                              }}
-                            >
-                              &times;
-                            </span>
-                            <span className="wpsp-selected-profile-btn">{tikIcon}</span>
-                          </div>
-                        )}
-                      </li>
-                    );
-                  })}
-
-                  {availableProfiles.length > 5 && (
-                    <li className="selected-profile wpsp-more-profiles">
-                      <div className="wpsp-profile-placeholder">+{availableProfiles.length - 5}</div>
-                    </li>
-                  )}
-                </ul>
-
-                <span className="select-profile-icon" onClick={() => setActiveDropdown(!activeDropdown)}>
-                  <img src={WPSchedulePostsFree.assetsURI + '/images/chevron-down.svg'} alt="" />
-                </span>
-              </div>
-
-              {activeDropdown && (
-                <div className="wpsp-profile-selection-dropdown">
-                  <div className="wpsp-profile-selection-dropdown-item">
-                    {availableProfiles.map((profile) => (
-                      <div
-                        key={profile.id}
-                        className={`wpsp-profile-card ${selectedProfile.some((p) => p.id === profile.id) ? 'selected' : ''}`}
-                        onClick={() => {
-                          if (selectedProfile.some((p) => p.id === profile.id)) {
-                            setSelectedProfile(selectedProfile.filter((p) => p.id !== profile.id));
-                          } else {
-                            setSelectedProfile([...selectedProfile, profile]);
-                          }
-                        }}
-                      >
-                        <div className="wpsp-profile-avatar">
-                          {profile.thumbnail_url ? (
-                            <img
-                              src={profile.thumbnail_url}
-                              alt={profile.name}
-                              className="wpsp-profile-image"
-                              onError={(e) => {
-                                e.target.onerror = null;
-                                e.target.src = `data:image/svg+xml;utf8,${encodeURIComponent(authorIcon)}`;
-                              }}
-                            />
-                          ) : (
-                            <div className="wpsp-profile-placeholder">{profile.name?.charAt(0).toUpperCase() || '?'}</div>
-                          )}
-                        </div>
-                        <div className="wpsp-profile-info">
-                          <div className="wpsp-profile-name">{profile.name}</div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Template Editor */}
-              {selectedPlatform && (
-                <div className="wpsp-template-textarea">
-                   <div className='wpsp-textarea-wrapper'>
-                    <textarea
-                      value={customTemplates[selectedPlatform] || ''}
-                      onChange={(e) =>
-                        setCustomTemplates((prev) => ({ ...prev, [selectedPlatform]: e.target.value }))
-                      }
-                      placeholder={__('Enter your custom template here...', 'wp-scheduled-posts')}
-                      className="wpsp-template-input"
-                      rows={4}
-                      disabled={globalProfile != null && globalProfile !== selectedPlatform}
-                    />
-                  </div>
-                  <div className="wpsp-template-meta">
-                    <span className="wpsp-placeholders">
-                      {__('Available:', 'wp-scheduled-posts')} {'{title}'} {'{content}'} {'{url}'} {'{tags}'}
-                    </span>
-                    <div className="wpsp-custom-template-field-info">
-                      <span className={`${showPreview ? 'active' : 'inactive'}`} onClick={() => setShowPreview(!showPreview)}>
-                        {showPreview ? eyeCloseIcon : eyeIcon}
-                      </span>
-                      <span className={`wpsp-char-count ${isOverLimit ? 'over-limit' : ''}`}>
-                         {characterCount}/{currentLimit}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className={`wpsp-global-template ${!showPreview ? 'hide-preview' : ''}`}>
-                    <span className={availableProfiles?.length === 0 ? 'wpsp-use-global-template-text disabled' : ''} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                      {__('Use global template', 'wp-scheduled-posts')}
-                      <span className="wpsp-tooltip-wrapper">
-                         {info}
-                         <span className="wpsp-tooltip-text">
-                           {__('If enabled, this template will be applied across all the selected social platforms.', 'wp-scheduled-posts')}
-                         </span>
-                      </span>
-                    </span>
-                    {showGlobalTemplateWarning && (
-                      <div className='use-global-template-warning'>
-                        <span>{__(`${globalProfile?.charAt(0).toUpperCase() + globalProfile.slice(1)} is enabled as global template`, 'wp-scheduled-posts')}</span>
-                      </div>
-                    )}
-                    <div className={`wpsp-use-global-template-checkbox-wrapper ${(availableProfiles.length === 0 || (globalProfile != null && globalProfile !== selectedPlatform)) ? 'disabled' : ''}`}>
-                      <input
-                        type="checkbox"
-                        id={`useGlobalTemplate_${selectedPlatform}`}
-                        checked={getIsGlobalForPlatform(selectedPlatform)}
-                        disabled={availableProfiles?.length === 0}
-                        onChange={e => {
-                          if (globalProfile != null && globalProfile !== selectedPlatform) {
-                            setShowGlobalTemplateWarning(true);
-                            setTimeout(() => {
-                              setShowGlobalTemplateWarning(false);
-                            }, 3000);
-                          } else {
-                            setUseGlobalTemplatePlatform(selectedPlatform, e.target.checked);
-                          }
-                        }}
-                      />
-                      <label htmlFor={`useGlobalTemplate_${selectedPlatform}`}></label>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Date & Time Scheduling Fields */}
-              <div className="wpsp-date-time-section" style={{ marginBottom: '1.5em', marginTop: '1.5em' }}>
-                <div style={{ display: 'flex', gap: '1.5em', alignItems: 'flex-end', flexWrap: 'wrap' }}>
-                  {/* Date Field */}
-                  <div>
-                    <label style={{ fontWeight: 600, display: 'block', marginBottom: 4 }}>{__('Date', 'wp-scheduled-posts')}</label>
-                    <select
-                      value={scheduleData.dateOption}
-                      onChange={e => setScheduleData(prev => ({ ...prev, dateOption: e.target.value }))}
-                      style={{ maxWidth: '200px' }}
-                    >
-                      {getDateOptions().map(opt => (
-                        <option key={opt.value} value={opt.value}>{opt.label}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                   {/* Custom Date Input */}
-                   {scheduleData.dateOption === 'custom_date' && (
-                    <div>
-                      <label style={{ fontWeight: 600, display: 'block', marginBottom: 4 }}>{__('Custom Date', 'wp-scheduled-posts')}</label>
-                      <input
-                        type="date"
-                        value={scheduleData.customDate}
-                        onChange={e => setScheduleData(prev => ({ ...prev, customDate: e.target.value }))}
-                      />
-                    </div>
-                  )}
-
-                  {/* Custom Days Input */}
-                  {(scheduleData.dateOption === 'in_days' || scheduleData.dateOption === 'days_after') && (
-                    <div>
-                      <label style={{ fontWeight: 600, display: 'block', marginBottom: 4 }}>{__('Days', 'wp-scheduled-posts')}</label>
-                      <input
-                        type="number"
-                        min="1"
-                        value={scheduleData.customDays}
-                        onChange={e => setScheduleData(prev => ({ ...prev, customDays: e.target.value }))}
-                        style={{ maxWidth: '80px' }}
-                      />
-                    </div>
-                  )}
-
-                   {/* Time Field */}
-                   <div>
-                    <label style={{ fontWeight: 600, display: 'block', marginBottom: 4 }}>{__('Time', 'wp-scheduled-posts')}</label>
-                    <select
-                      value={scheduleData.timeOption}
-                      onChange={e => setScheduleData(prev => ({ ...prev, timeOption: e.target.value }))}
-                      style={{ maxWidth: '200px' }}
-                    >
-                      {getTimeOptions().map(opt => (
-                         <option key={opt.value} value={opt.value}>{opt.label}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                   {/* Custom Time Input */}
-                   {scheduleData.timeOption === 'custom_time' && (
-                    <div>
-                      <label style={{ fontWeight: 600, display: 'block', marginBottom: 4 }}>{__('Custom Time', 'wp-scheduled-posts')}</label>
-                      <input
-                        type="time"
-                        value={scheduleData.customTime}
-                        onChange={e => setScheduleData(prev => ({ ...prev, customTime: e.target.value }))}
-                      />
-                    </div>
-                  )}
-
-                   {/* Custom Hours Input */}
-                   {(scheduleData.timeOption === 'in_hours' || scheduleData.timeOption === 'hours_after') && (
-                    <div>
-                      <label style={{ fontWeight: 600, display: 'block', marginBottom: 4 }}>{__('Hours', 'wp-scheduled-posts')}</label>
-                      <input
-                        type="number"
-                        min="1"
-                        value={scheduleData.customHours}
-                        onChange={e => setScheduleData(prev => ({ ...prev, customHours: e.target.value }))}
-                        style={{ maxWidth: '80px' }}
-                      />
-                    </div>
-                  )}
-                </div>
-              </div>
-
-            </div>
+            <ScheduleControls 
+                scheduleData={scheduleData}
+                onUpdateSchedule={onUpdateSchedule}
+                dateOptions={getDateOptions()}
+                timeOptions={getTimeOptions()}
+            />
           </div>
         </div>
 
         {/* Right Side - Preview */}
         {showPreview && (
-          <div className={`wpsp-modal-right ${selectedPlatform}`}>
-            <div className="wpsp-preview-card">
-              {availableProfiles.length > 0 ? (
-                <>
-                  <div className="wpsp-preview-header">
-                    <div className="wpsp-preview-avatar">
-                      <div className="wpsp-avatar-circle">
-                        <img
-                          src={previewThumbnailUrl}
-                          alt={previewProfileName}
-                          className="wpsp-profile-image"
-                          onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.src = `data:image/svg+xml;utf8,${encodeURIComponent(authorIcon)}`;
-                          }}
-                        />
-                      </div>
-                      <div className="wpsp-preview-info">
-                        {selectedProfile.length > 0 && <div className="wpsp-preview-name">{previewProfileName}</div>}
-                        <div className="wpsp-preview-date">
-                          {new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="wpsp-preview-content-area">
-                    <div
-                      className="wpsp-preview-text"
-                      dangerouslySetInnerHTML={{ __html: previewContent }}
-                    ></div>
-
-                    <div className="wpsp-preview-post">
-                      <div className="wpsp-preview-image">
-                        {bannerImage ? (
-                          <img
-                            src={bannerImage}
-                            alt="Preview"
-                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                          />
-                        ) : (
-                          <div
-                            style={{
-                              width: '100%',
-                              height: '100%',
-                              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              color: 'white',
-                              fontSize: '14px',
-                            }}
-                          >
-                            {__('No image selected', 'wp-scheduled-posts')}
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="wpsp-preview-post-content">
-                        <div className="wpsp-preview-url">{window.location.origin}</div>
-                        <div className="wpsp-preview-title">{postTitle}</div>
-                        <div
-                          className="wpsp-preview-excerpt"
-                          dangerouslySetInnerHTML={{ __html: postContent }}
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
-                </>
-              ) : (
-                <div className="wpsp-preview-not-available">
-                  {info}
-                  <h3>{__('Preview not available', 'wp-scheduled-posts')}</h3>
-                  <p>{__('Please make sure you select a social profile first.', 'wp-scheduled-posts')}</p>
-                </div>
-              )}
-            </div>
-          </div>
+          <PreviewCard 
+            platform={selectedPlatform}
+            profile={selectedProfile[0]}
+            templateHtml={previewContent}
+            postData={{
+                title: postTitle,
+                content: postContent,
+                url: window.location.origin, // Assuming internal logic, derived earlier
+                bannerImage: bannerImage
+            }}
+            info={info}
+          />
         )}
       </div>
 

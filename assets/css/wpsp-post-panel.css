@@ -23,7 +23,7 @@
     position: absolute;
     inset: 0;
     background-color: #fff;
-    /* width: 800px; */
+    width: 970px;
     height: 600px;
     box-sizing: border-box;
     overflow-y: auto;
