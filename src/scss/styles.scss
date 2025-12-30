@@ -214,6 +214,9 @@
         }
     }
 
+    .wpsp-post-panel-inner-modal {
+        // overflow-x: hidden;
+    }
 
     // Custom social template modal styles
     .wpsp-custom-template-modal {
@@ -221,6 +224,72 @@
         width: 90vw !important;
         top: 20px;
         margin: 0 auto;
-        
+        // overflow: hidden;
     }
+
+    .wpsp-custom-template-modal .wpsp-components-modal__header {
+        border-bottom: 1px solid #ECEFF5;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 32px;
+        background: #FFF;
+        position: sticky;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 10;
+    }
+    .wpsp-custom-template-modal .wpsp-custom-social-doc-link:focus {
+        box-shadow: none;
+    }
+    .wpsp-custom-template-modal .wpsp-components-modal__content.has-scrolled-content:not(.hide-header) .wpsp-components-modal__header {
+        border-bottom-color: #ECEFF5;
+    }
+    .wpsp-custom-template-modal .wpsp-components-modal__content {
+        flex: 1;
+        margin-top: 0;
+        overflow: auto;
+        padding: 0;
+    }
+    .wpsp-custom-template-modal .wpsp-components-modal__header .wpsp-components-modal__header-heading {
+        font-size: 20px;
+        font-weight: 500;
+        line-height: 1.2em;
+        color: #1D2939;
+        margin: 0;
+    }
+    .wpsp-custom-template-modal .wpsp-components-button{
+        align-items:center;
+        border-radius:2px;
+        box-sizing:border-box;
+        color:var(--wp-components-color-foreground, #1e1e1e);
+        height:36px;
+        padding:6px 12px;
+        background:none;
+        border:0;
+        cursor:pointer;
+        display:inline-flex;
+        font-family:inherit;
+        font-size:13px;
+        margin:0;
+        text-decoration:none;
+        svg {
+            width: 20px;
+            fill: #475467;
+            outline: none;
+        }
+    }
+    .wpsp-custom-template-modal .wpsp-components-button svg {
+        width: 20px;
+        fill: #475467;
+        outline: none;
+    }
+    .wpsp-custom-template-modal .wpsp-components-button:focus:not(:disabled) {
+        box-shadow: none;
+        outline: 0;
+    }
+
 }

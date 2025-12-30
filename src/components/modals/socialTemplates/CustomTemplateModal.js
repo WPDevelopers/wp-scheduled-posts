@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Button } from '@wordpress/components';
 import { AppContext } from '../../../context/AppContext';
+import Header from './Header';
 
 const WPSPCustomTemplateModal = ({
   __ = (text) => text,
@@ -68,8 +69,8 @@ const WPSPCustomTemplateModal = ({
     };
   return (
     <div className={`wpsp-modal-content ${availableProfiles.length === 0 ? 'no-profile-found' : ''}`}>
+      <Header/>
       <div className="wpsp-modal-layout">
-
         {/* Left Side */}
         <div className="wpsp-modal-left">
 
