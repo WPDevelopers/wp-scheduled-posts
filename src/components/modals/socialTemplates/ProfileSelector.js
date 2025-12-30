@@ -6,9 +6,18 @@ const ProfileSelector = ({
     availableProfiles, 
     selectedProfile, 
     onSelectProfile,
-    WPSchedulePostsFree 
+    WPSchedulePostsFree,
+    isLoading
 }) => {
     const [activeDropdown, setActiveDropdown] = useState(false);
+
+    if (isLoading) {
+        return (
+            <div className="wpsp-profile-selection-area-wrapper loading" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
+                {__('Loading profiles...', 'wp-scheduled-posts')}
+            </div>
+        );
+    }
 
     if (availableProfiles.length === 0) {
         return (

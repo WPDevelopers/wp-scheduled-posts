@@ -13,6 +13,7 @@ import ProfileSelector from './ProfileSelector';
 import TemplateEditor from './TemplateEditor';
 import ScheduleControls from './ScheduleControls';
 import PreviewCard from './PreviewCard';
+import useSocialProfiles from './hooks/useSocialProfiles';
 
 const SOCIAL_PLATFORMS = [
   'facebook',
@@ -39,15 +40,7 @@ const platformLimits = {
 const WPSPCustomTemplateModal = ({
   WPSchedulePostsFree = { adminURL: '#', assetsURI: '' },
   info = 'Info message here',
-  // Profile data props
-  facebookProfileData,
-  twitterProfileData,
-  linkedinProfileData,
-  pinterestProfileData,
-  instagramProfileData,
-  mediumProfileData,
-  threadsProfileData,
-  googleBusinessProfileData,
+  // Profile data props are no longer needed, we fetch them internally
   // Post data props
   postId: propPostId,
   postStatus: propPostStatus,
@@ -57,6 +50,7 @@ const WPSPCustomTemplateModal = ({
   uploadSocialShareBanner,
 }) => {
   const { state, dispatch } = useContext(AppContext);
+  const { socialProfiles, isLoading: isProfilesLoading } = useSocialProfiles();
   
   // Get post data from WP data if not provided via props
   const { postId, postStatus, postTitle, postContent, postUrl, featuredImageUrl } = useSelect((select) => {
@@ -172,18 +166,20 @@ const WPSPCustomTemplateModal = ({
 
   // Get available profiles for selected platform
   const getAvailableProfiles = useCallback(() => {
+    if (!socialProfiles) return [];
+    
     switch (selectedPlatform) {
-      case 'facebook': return facebookProfileData || [];
-      case 'twitter': return twitterProfileData || [];
-      case 'linkedin': return linkedinProfileData || [];
-      case 'pinterest': return pinterestProfileData || [];
-      case 'instagram': return instagramProfileData || [];
-      case 'medium': return mediumProfileData || [];
-      case 'threads': return threadsProfileData || [];
-      case 'google_business': return googleBusinessProfileData || [];
+      case 'facebook': return socialProfiles.facebook || [];
+      case 'twitter': return socialProfiles.twitter || [];
+      case 'linkedin': return socialProfiles.linkedin || [];
+      case 'pinterest': return socialProfiles.pinterest || [];
+      case 'instagram': return socialProfiles.instagram || [];
+      case 'medium': return socialProfiles.medium || [];
+      case 'threads': return socialProfiles.threads || [];
+      case 'google_business': return socialProfiles.google_business || [];
       default: return [];
     }
-  }, [selectedPlatform, facebookProfileData, twitterProfileData, linkedinProfileData, pinterestProfileData, instagramProfileData, mediumProfileData, threadsProfileData, googleBusinessProfileData]);
+  }, [selectedPlatform, socialProfiles]);
 
   // Get date options based on post status
   const getDateOptions = () => {
@@ -491,6 +487,7 @@ const WPSPCustomTemplateModal = ({
                 selectedProfile={selectedProfile}
                 onSelectProfile={onSelectProfile}
                 WPSchedulePostsFree={WPSchedulePostsFree}
+                isLoading={isProfilesLoading}
             />
 
             {selectedPlatform && (
