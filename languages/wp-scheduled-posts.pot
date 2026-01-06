@@ -1,15 +1,15 @@
-# Copyright (C) 2025 WPDeveloper
+# Copyright (C) 2026 WPDeveloper
 # This file is distributed under the same license as the SchedulePress plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: SchedulePress 5.2.14\n"
+"Project-Id-Version: SchedulePress 5.2.15\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-scheduled-posts\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-12-03T08:24:11+00:00\n"
+"POT-Creation-Date: 2026-01-06T09:32:23+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: wp-scheduled-posts\n"
@@ -111,7 +111,7 @@ msgstr ""
 
 #: includes/Admin.php:433
 #: includes/Social/InstantShare.php:301
-#: assets/gutenberg/social-share.js:776
+#: assets/gutenberg/social-share.js:780
 msgid "Share Now"
 msgstr ""
 
@@ -1144,12 +1144,12 @@ msgstr ""
 msgid "If you choose to publish this future post with the Future Date, it will be published immediately but the post’s date time will not set the current date rather it will be your scheduled future date time."
 msgstr ""
 
-#: includes/Social/Facebook.php:260
+#: includes/Social/Facebook.php:301
 #: includes/Social/GoogleBusiness.php:90
 #: includes/Social/Instagram.php:213
 #: includes/Social/Linkedin.php:209
 #: includes/Social/Medium.php:243
-#: includes/Social/Pinterest.php:265
+#: includes/Social/Pinterest.php:320
 #: includes/Social/Threads.php:185
 #: includes/Social/Twitter.php:196
 msgid "Your max share post limit has been executed!!"
@@ -1232,7 +1232,11 @@ msgstr ""
 msgid "Sorry, your requested platform integration is not added."
 msgstr ""
 
-#: includes/Social/Pinterest.php:304
+#: includes/Social/Pinterest.php:232
+msgid "Rate limit exceeded: Maximum 3 posts per minute allowed for Pinterest."
+msgstr ""
+
+#: includes/Social/Pinterest.php:367
 msgid "Your post has been successfully shared!"
 msgstr ""
 
