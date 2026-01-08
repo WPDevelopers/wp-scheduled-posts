@@ -772,8 +772,13 @@ const SocialShare = ( { is_pro_active, isSocialShareDisable } ) => {
                 </Modal>
               ) }
             </div>
-
-            <button onClick={ handleShareNow } className="components-button is-primary share-btn" disabled={ selectedSocialProfile.length > 0 ? false : true }>{ __('Share Now','wp-scheduled-posts') }</button>
+            <button
+                onClick={handleShareNow}
+                className="components-button is-primary share-btn"
+                disabled={isOpenModal || selectedSocialProfile.length === 0}
+            >
+                {__('Share Now', 'wp-scheduled-posts')}
+            </button>
           </Fragment>
         }
         <ProModal isOpenModal={ proModal } setProModal={setProModal} />
