@@ -24,7 +24,6 @@ const useSocialProfiles = () => {
                 const apiUrl = '/wp-scheduled-posts/v1/get-option-data';
                 const fetchSettingsData = await fetchSocialProfileData(apiUrl, null, false);
                 const response = JSON.parse(fetchSettingsData);
-                console.log('response',response);
                 
                 if (response) {
                     // Start: Process and Deduplicate Data
@@ -66,7 +65,6 @@ const useSocialProfiles = () => {
                 setIsLoading(false);
             }
         };
-        console.log("fetchProfiles",socialProfiles);
         fetchProfiles();
     }, []);
 

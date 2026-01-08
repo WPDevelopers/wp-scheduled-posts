@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { Button } from '@wordpress/components';
 const { useSelect } = wp.data;
-import apiFetch from '@wordpress/api-fetch';
 const { __ } = wp.i18n;
 import { AppContext } from '../../../context/AppContext';
 import Header from './Header';
@@ -118,7 +117,7 @@ const WPSPCustomTemplateModal = ({
     if (!postId) return {};
 
     try {
-      const response = await apiFetch({
+      const response = await wp.apiFetch({
         path: `/wp-scheduled-posts/v1/custom-templates/${postId}`,
         method: 'GET',
       });
@@ -276,7 +275,7 @@ const WPSPCustomTemplateModal = ({
       }
 
       // Send batch request
-      const response = await apiFetch({
+      const response = await wp.apiFetch({
         path: `/wp-scheduled-posts/v1/custom-templates/${postId}`,
         method: 'POST',
         data: {
@@ -295,6 +294,7 @@ const WPSPCustomTemplateModal = ({
       } else {
         throw new Error(response.message || 'Failed to save templates');
       }
+      
     } catch (error) {
       setSaveText(__('Save Failed', 'wp-scheduled-posts'));
       setTimeout(() => setSaveText(isUpdatingContent ? __('Update', 'wp-scheduled-posts') : __('Save', 'wp-scheduled-posts')), 2000);
