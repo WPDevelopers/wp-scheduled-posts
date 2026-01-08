@@ -1,7 +1,117 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { AppContext } from '../../context/AppContext';
 const SocialShare = () => {
   const { state, dispatch } = useContext(AppContext);
+
+    const { socialShareSettings } = state;
+    const { isSocialShareDisabled, socialBannerId, socialBannerUrl } = socialShareSettings;
+
+    // Use useSelect to reactively fetch meta
+    const meta = wp.data.useSelect((select) => {
+        const store = select('core/editor');
+        return store ? store.getEditedPostAttribute('meta') : null;
+    }, []);
+
+    useEffect(() => {
+        let imageId = null;
+        let disabled = false;
+        let bannerUrl = '';
+        let isClassic = false;
+
+        if (meta) {
+            imageId = meta._wpscppro_custom_social_share_image;
+            disabled = meta._wpscppro_dont_share_socialmedia;
+        } else if (typeof window.WPSchedulePostsFree !== 'undefined') {
+            imageId = window.WPSchedulePostsFree._wpscppro_custom_social_share_image_id;
+            // Handle string/boolean mismatch from PHP localization
+            disabled = window.WPSchedulePostsFree._wpscppro_dont_share_socialmedia === '1' || window.WPSchedulePostsFree._wpscppro_dont_share_socialmedia === true;
+            bannerUrl = window.WPSchedulePostsFree._wpscppro_custom_social_share_image || '';
+            isClassic = true;
+        }
+
+        const updateState = (url) => {
+             dispatch({
+               type: 'SET_SOCIAL_SHARE_SETTINGS',
+               payload: {
+                    isSocialShareDisabled: disabled || false,
+                    socialBannerId: imageId,
+                    socialBannerUrl: url
+               }
+           });
+        };
+        
+        if (imageId) {
+            // If Classic and we already have URL, verify it or just use it. 
+            // Better to fetch if possible to be consistent, but URL from PHP is faster init.
+            if (isClassic && bannerUrl) {
+                updateState(bannerUrl);
+            } else if (typeof wp.media !== 'undefined') {
+                const attachment = wp.media.attachment(imageId);
+                attachment.fetch().then(() => {
+                   updateState(attachment.get('url'));
+                }).catch(() => {
+                   updateState('');
+                });
+            } else {
+                updateState(bannerUrl);
+            }
+        } else {
+             dispatch({
+                 type: 'SET_SOCIAL_SHARE_SETTINGS',
+                 payload: {
+                    isSocialShareDisabled: disabled || false,
+                    socialBannerId: null,
+                    socialBannerUrl: ''
+               }
+           });
+        }
+    }, [meta, dispatch]);
+
+    // Helper to update global state
+    const updateSettings = (updates) => {
+        dispatch({
+            type: 'SET_SOCIAL_SHARE_SETTINGS',
+            payload: updates
+        });
+    };
+
+    const openMediaUploader = () => {
+        if (typeof wp === 'undefined' || !wp.media) return;
+
+        const custom_uploader = wp.media({
+            title: 'Upload Social Banner',
+            button: {
+                text: 'Use this media'
+            },
+            multiple: false,
+            library: {
+                type: 'image'
+            }
+        });
+
+        custom_uploader.on('select', () => {
+            const attachment = custom_uploader.state().get('selection').first().toJSON();
+            updateSettings({
+                socialBannerId: attachment.id,
+                socialBannerUrl: attachment.url
+            });
+        });
+
+        custom_uploader.open();
+    };
+
+    const removeSocialBanner = () => {
+        updateSettings({
+            socialBannerId: null,
+            socialBannerUrl: ''
+        });
+    };
+
+    const handleDisableSocialShare = (e) => {
+        updateSettings({
+            isSocialShareDisabled: e.target.checked
+        });
+    };
 
     const handleCustomSocialMessage = () => {
         dispatch({ type: 'SET_CUSTOM_SOCIAL_MESSAGE_MODAL', payload: !state.isOpenCustomSocialMessageModal });
@@ -13,14 +123,28 @@ const SocialShare = () => {
             <div className="wpsp-post--card">
                 <div className="wpsp-disabled-social-share-checkbox">
                     <div className="wpsp-share-checkbox">
-                        <input type="checkbox" id="socialShareDisable" name="socialShareDisable" />
+                        <input 
+                            type="checkbox" 
+                            id="socialShareDisable" 
+                            name="socialShareDisable" 
+                            checked={isSocialShareDisabled}
+                            onChange={handleDisableSocialShare}
+                        />
                         <label htmlFor="socialShareDisable">Disable Social Share</label>
                     </div>
                 </div>
                 <div className="wpsp-upload-social-banner">
                     <div className="wpsp-upload-social-banner-btn">
-                        <button className="wpsp-upload-social-share-btn">Upload Social Banner</button>
+                        <button className="wpsp-upload-social-share-btn" onClick={openMediaUploader}>Upload Social Banner</button>
                         <p>*If you don't upload, featured image will be selected as banner</p>
+                    </div>
+                    <div className="wpsp-upload-social-banner-preview">
+                        <div className="wpsp-upload-social-banner-preview-inner">
+                            {socialBannerUrl && <img style={{ width: '100%', height: 'auto' }} src={socialBannerUrl} alt="Social Banner" />}
+                        </div>
+                    </div>
+                    <div className="wpsp-upload-social-banner-remove">
+                        {socialBannerUrl && <button className="wpsp-upload-social-share-btn" onClick={removeSocialBanner}>Remove Banner</button>}
                     </div>
                 </div>
                 <div className="wpsp-add-social-message-wrapper">

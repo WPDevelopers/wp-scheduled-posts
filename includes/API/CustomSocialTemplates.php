@@ -275,6 +275,32 @@ class CustomSocialTemplates
             ),
         ));
 
+
+        // Save social settings (Disable social share, custom banner)
+        register_rest_route($namespace, 'social-settings/(?P<post_id>\d+)', array(
+            'methods' => 'POST',
+            'callback' => array($this, 'save_social_settings'),
+            'permission_callback' => function() {
+                return current_user_can( 'edit_posts' );
+            },
+            'args' => array(
+                'post_id' => array(
+                    'required' => true,
+                    'validate_callback' => function($param, $request, $key) {
+                        return is_numeric($param);
+                    }
+                ),
+                'disable_social_share' => array(
+                    'required' => false,
+                    'type' => 'boolean'
+                ),
+                'social_banner_id' => array(
+                    'required' => false,
+                    'type' => ['integer', 'string', 'null']
+                ),
+            ),
+        ));
+
     }
 
     /**
@@ -405,6 +431,53 @@ class CustomSocialTemplates
                 'message' => __('Failed to save template and/or scheduling.', 'wp-scheduled-posts')
             ), 500);
         }
+    }
+
+    /**
+     * Save social settings for a post
+     *
+     * @param WP_REST_Request $request
+     * @return WP_REST_Response
+     */
+    public function save_social_settings( $request ) {
+        $post_id = $request->get_param('post_id');
+        $disable_social_share = $request->get_param('disable_social_share');
+        $social_banner_id = $request->get_param('social_banner_id');
+
+        // Verify post exists and user can edit it
+        if (!get_post($post_id) || !current_user_can('edit_post', $post_id)) {
+            return new \WP_REST_Response(array(
+                'success' => false,
+                'message' => __('Post not found or insufficient permissions.', 'wp-scheduled-posts')
+            ), 403);
+        }
+
+        $updated = false;
+
+        // Process disable social share setting
+        if ($disable_social_share !== null) {
+            update_post_meta($post_id, '_wpscppro_dont_share_socialmedia', $disable_social_share);
+            $updated = true;
+        }
+
+        // Process social banner setting
+        // Null means remove, empty string also removes, valid ID updates
+        if ($social_banner_id !== null) {
+            update_post_meta($post_id, '_wpscppro_custom_social_share_image', $social_banner_id);
+            $updated = true;
+        }
+
+        if ($updated) {
+            return new \WP_REST_Response(array(
+                'success' => true,
+                'message' => __('Social settings saved successfully.', 'wp-scheduled-posts'),
+            ), 200);
+        }
+
+        return new \WP_REST_Response(array(
+            'success' => true,
+            'message' => __('No changes made to social settings.', 'wp-scheduled-posts')
+        ), 200);
     }
 
     /**

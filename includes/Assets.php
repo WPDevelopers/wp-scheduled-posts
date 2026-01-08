@@ -10,6 +10,7 @@ class Assets
     {
         // admin script
         add_action('enqueue_block_assets', [$this, 'guten_scripts']);
+        add_action('admin_enqueue_scripts', [$this, 'guten_scripts']);
         add_action('admin_enqueue_scripts', [$this, 'plugin_scripts']);
         // adminbar enqueue
         add_action('admin_enqueue_scripts', [$this, 'adminbar_script']);
@@ -57,6 +58,8 @@ class Assets
                 $imageUrl = $imageUrl[0];
             }
         }
+        
+        $disableSocialShare = get_post_meta(get_the_id(), '_wpscppro_dont_share_socialmedia', true);
 
         wp_enqueue_style('google-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap', array(), WPSP_VERSION, 'all');
         wp_enqueue_style('wps-publish-button', WPSP_ASSETS_URI . 'css/wpspl-admin.css', array(), WPSP_VERSION, 'all');
@@ -76,6 +79,9 @@ class Assets
             'adminURL' => admin_url(),
             'wpsp_settings_name' => WPSP_SETTINGS_NAME,
             '_wpscppro_custom_social_share_image' => $imageUrl,
+            '_wpscppro_custom_social_share_image_id' => $socialshareimage,
+            '_wpscppro_dont_share_socialmedia' => $disableSocialShare,
+            'current_post_id' => get_the_ID(),
             'is_pro' => class_exists('WPSP_PRO') ? true : false,
             'currentTime' => array(
                 'date' => current_time('mysql'),

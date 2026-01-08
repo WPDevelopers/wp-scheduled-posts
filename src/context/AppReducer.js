@@ -5,6 +5,14 @@ const AppReducer = (state, action) => {
         ...state,
         isOpenCustomSocialMessageModal: action.payload,
       };
+    case 'SET_SOCIAL_SHARE_SETTINGS':
+      return {
+        ...state,
+        socialShareSettings: {
+          ...state.socialShareSettings,
+          ...action.payload,
+        },
+      };
     default:
       return state;
   }
