@@ -95,6 +95,20 @@ const WPSPCustomTemplateModal = ({
            content = window.WPSchedulePostsFree.current_post_content;
         }
 
+        // Elementor Support
+        if (typeof window.elementor !== 'undefined' && window.elementor.settings && window.elementor.settings.page) {
+             const pageModel = window.elementor.settings.page.model;
+             if (pageModel.get('post_title')) {
+                 title = pageModel.get('post_title');
+             }
+             const featImg = pageModel.get('featured_image');
+             if (featImg && featImg.url) {
+                 mediaUrl = featImg.url;
+             }
+             // Note: Fetching live content from Elementor is complex as it's structured data. 
+             // We'll fallback to saved content or excerpt if needed, but title/image are live.
+        }
+
         status = window.WPSchedulePostsFree.current_post_status;
         url = window.WPSchedulePostsFree.current_post_url;
         mediaUrl = window.WPSchedulePostsFree.current_post_featured_image;
