@@ -60,6 +60,11 @@ class Assets
         }
         
         $disableSocialShare = get_post_meta(get_the_id(), '_wpscppro_dont_share_socialmedia', true);
+        
+        // Fetch additional post data for Classic Editor / Page Builders
+        $post = get_post(get_the_ID());
+        $featured_img_url = get_the_post_thumbnail_url(get_the_ID(), 'full');
+
 
         wp_enqueue_style('google-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap', array(), WPSP_VERSION, 'all');
         wp_enqueue_style('wps-publish-button', WPSP_ASSETS_URI . 'css/wpspl-admin.css', array(), WPSP_VERSION, 'all');
@@ -82,6 +87,11 @@ class Assets
             '_wpscppro_custom_social_share_image_id' => $socialshareimage,
             '_wpscppro_dont_share_socialmedia' => $disableSocialShare,
             'current_post_id' => get_the_ID(),
+            'current_post_title' => $post ? $post->post_title : '',
+            'current_post_content' => $post ? $post->post_content : '',
+            'current_post_status' => $post ? $post->post_status : '',
+            'current_post_url' => get_permalink(get_the_ID()),
+            'current_post_featured_image' => $featured_img_url ? $featured_img_url : '',
             'is_pro' => class_exists('WPSP_PRO') ? true : false,
             'currentTime' => array(
                 'date' => current_time('mysql'),

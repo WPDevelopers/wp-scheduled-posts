@@ -55,17 +55,58 @@ const WPSPCustomTemplateModal = ({
   const { postId, postStatus, postTitle, postContent, postUrl, featuredImageUrl } = useSelect((select) => {
     const editor = select('core/editor');
     const core = select('core');
-    const id = propPostId || editor?.getCurrentPostId();
-    const featuredMediaId = editor?.getEditedPostAttribute('featured_media');
-    const media = featuredMediaId ? core?.getMedia(featuredMediaId) : null;
+    
+    // Gutenberg Path
+    let id = propPostId || (editor ? editor.getCurrentPostId() : null);
+    let status = propPostStatus || (editor ? editor.getEditedPostAttribute('status') : null);
+    let title = postTitleProp || (editor ? editor.getEditedPostAttribute('title') : null);
+    let content = postContentProp || (editor ? editor.getEditedPostAttribute('content') : null);
+    let url = postUrlProp || (editor ? editor.getPermalink() : null);
+    
+    let mediaUrl = null;
+    if (editor && core) {
+        const featuredMediaId = editor.getEditedPostAttribute('featured_media');
+        const media = featuredMediaId ? core.getMedia(featuredMediaId) : null;
+        mediaUrl = media?.source_url || null;
+    }
+
+  // Fallback Path (Classic Editor / Page Builders)
+    if (!id && typeof window.WPSchedulePostsFree !== 'undefined') {
+        id = window.WPSchedulePostsFree.current_post_id;
+        
+        // Try to get live data from DOM/TinyMCE for Classic Editor
+        const titleEl = document.getElementById('title');
+        const contentEl = document.getElementById('content');
+        const excerptEl = document.getElementById('excerpt');
+        
+        // Title
+        if(titleEl && titleEl.value) {
+            title = titleEl.value;
+        } else {
+            title = window.WPSchedulePostsFree.current_post_title;
+        }
+
+        // Content
+        if(typeof window.tinymce !== 'undefined' && window.tinymce.get('content') && !window.tinymce.get('content').isHidden()) {
+            content = window.tinymce.get('content').getContent();
+        } else if(contentEl && contentEl.value) {
+           content = contentEl.value;
+        } else {
+           content = window.WPSchedulePostsFree.current_post_content;
+        }
+
+        status = window.WPSchedulePostsFree.current_post_status;
+        url = window.WPSchedulePostsFree.current_post_url;
+        mediaUrl = window.WPSchedulePostsFree.current_post_featured_image;
+    }
 
     return {
       postId: id,
-      postStatus: propPostStatus || editor?.getEditedPostAttribute('status'),
-      postTitle: postTitleProp || editor?.getEditedPostAttribute('title'),
-      postContent: postContentProp || editor?.getEditedPostAttribute('content'),
-      postUrl: postUrlProp || editor?.getPermalink(),
-      featuredImageUrl: media?.source_url || null,
+      postStatus: status,
+      postTitle: title,
+      postContent: content,
+      postUrl: url,
+      featuredImageUrl: mediaUrl,
     };
   }, [propPostId, propPostStatus, postTitleProp, postContentProp, postUrlProp]);
 

@@ -6,7 +6,7 @@ import Modals from './components/modals/Modals.js';
 import './scss/styles.scss';
 import { AppContext } from './context/AppContext.js';
 const App = () => {
-      const { state, dispatch } = useContext(AppContext);
+    const { state, dispatch } = useContext(AppContext);
     const { isOpenCustomSocialMessageModal } = state;
     return (
         <div className='wpsp-post-panel-wrapper' id='wpsp-post-panel-wrapper'>
