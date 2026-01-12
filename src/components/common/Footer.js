@@ -4,7 +4,7 @@ import { AppContext } from '../../context/AppContext';
 const Footer = () => {
     const { state } = useContext(AppContext);
     const { socialShareSettings } = state;
-    const { unpublishOn, republishOn } = state;
+    const { unpublishOn, republishOn, advancedSchedule, advancedScheduleDate, isScheduled, scheduleDate } = state;
     const [isSaving, setIsSaving] = useState(false);
 
     const handleSaveSettings = () => {
@@ -58,7 +58,11 @@ const Footer = () => {
             method: 'POST',
             data: {
                 unpublish_on: unpublishOn,
-                republish_on: republishOn
+                republish_on: republishOn,
+                advanced_schedule: advancedSchedule,
+                advanced_schedule_on: advancedScheduleDate,
+                is_scheduled: isScheduled,
+                schedule_date: scheduleDate
             }
         }).then((response) => {
             setIsSaving(false);
