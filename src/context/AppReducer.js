@@ -5,6 +5,16 @@ const AppReducer = (state, action) => {
         ...state,
         isOpenCustomSocialMessageModal: action.payload,
       };
+    case 'SET_UNPUBLISH_ON':
+      return {
+        ...state,
+        unpublishOn: action.payload,
+      };
+    case 'SET_REPUBLISH_ON':
+      return {
+        ...state,
+        republishOn: action.payload,
+      };
     case 'SET_SOCIAL_SHARE_SETTINGS':
       return {
         ...state,

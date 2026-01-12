@@ -15,6 +15,7 @@ const wpDependencies = [
     'element',
     'i18n',
     'plugins',
+    'hooks',
 ]
 
 function camelCaseDash(string) {

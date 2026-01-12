@@ -4,6 +4,7 @@ import { AppContext } from '../../context/AppContext';
 const Footer = () => {
     const { state } = useContext(AppContext);
     const { socialShareSettings } = state;
+    const { unpublishOn, republishOn } = state;
     const [isSaving, setIsSaving] = useState(false);
 
     const handleSaveSettings = () => {
@@ -50,6 +51,36 @@ const Footer = () => {
             }
             console.error(error);
         });
+
+        // Send api request to handle pro features
+        wp.apiFetch({
+            path: `/wp-scheduled-posts-pro/v1/pro-settings/${postId}`,
+            method: 'POST',
+            data: {
+                unpublish_on: unpublishOn,
+                republish_on: republishOn
+            }
+        }).then((response) => {
+            setIsSaving(false);
+            // Optional: Dispatch a success notice
+            if (wp.data.dispatch('core/notices')) {
+                wp.data.dispatch('core/notices').createSuccessNotice(
+                    'Settings saved successfully.',
+                    { type: 'snackbar' }
+                );
+            }
+        }).catch((error) => {
+            setIsSaving(false);
+            if (wp.data.dispatch('core/notices')) {
+                wp.data.dispatch('core/notices').createErrorNotice(
+                    'Failed to save settings.',
+                    { type: 'snackbar' }
+                );
+            }
+            console.error(error);
+        });
+
+
     };
     return (
         <div className="wpsp-post-panel-footer">
