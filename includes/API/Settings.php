@@ -57,6 +57,9 @@ class Settings
                     'single'       => true,
                     'type'         => 'boolean',
                     'default'      => false,
+                    'sanitize_callback' => function ( $value ) {
+                        return (bool) $value;
+                    },
                     'auth_callback' => function() {
                         return current_user_can( 'edit_posts' );
                     }
