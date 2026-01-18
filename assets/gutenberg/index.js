@@ -185,7 +185,7 @@ class AdminPublishButton extends Component {
         <WpspProSlot.Slot/>
         { !WPSchedulePostsFree?.is_pro && <DummyProFeatures/> }
         <div className="wpsp-social-share-settings-warpper">
-          { !this.props.meta._wpscppro_dont_share_socialmedia &&
+          { !this.props.meta?._wpscppro_dont_share_socialmedia &&
             <div className="wpsp-custom-tabs">
               <div className="wpsp-tab-header">
                 <button 
