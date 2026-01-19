@@ -109,21 +109,6 @@
                     gap: 8px;
                     margin-bottom: 16px;
 
-                    input[type="checkbox"] {
-                        width: 20px;
-                        height: 20px;
-                        border: 1px solid #D7DBDF;
-                        border-radius: 4px;
-                        background: transparent;
-                        margin: 0;
-                        &:checked::before {
-                            content: url(data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20d%3D%27M14.83%204.89l1.34.94-5.81%208.38H9.02L5.78%209.67l1.34-1.25%202.57%202.4z%27%20fill%3D%27%233582c4%27%2F%3E%3C%2Fsvg%3E) / '';
-                            margin: -1px -3px;
-                            height: 18px;
-                            width: 22px;
-                        }
-                    }
-
                     label {
                         font-size: 14px;
                         color: #1B1B50;
@@ -185,6 +170,65 @@
                 }
             }
         }
+
+        .wpsp-post-items--wrapper {
+            .sc-publish-future {
+                margin-top: 0;
+
+                .sc-publish-future-buttons button.button {
+                    background: #6C62FF !important;
+                    border-radius: 6px !important;
+                    border: 1px solid #6C62FF !important;
+
+                    &:focus {
+                        box-shadow: none;
+                        outline: 0;
+                    }
+                }
+            }
+        }
+
+
+
+        input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            border: 1px solid #D7DBDF;
+            border-radius: 4px;
+            background: transparent;
+            margin: 0;
+            &:checked::before {
+                content: url(data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20d%3D%27M14.83%204.89l1.34.94-5.81%208.38H9.02L5.78%209.67l1.34-1.25%202.57%202.4z%27%20fill%3D%27%233582c4%27%2F%3E%3C%2Fsvg%3E) / '';
+                margin: -1px -3px;
+                height: 16px;
+                width: 18px;
+            }
+            &:focus {
+                box-shadow: none;
+                outline: 0;
+            }
+        }
+        select {
+            font-size: 14px;
+            line-height: 120%;
+            font-weight: 500;
+            color: #1B1B50;
+            border: 1px solid #ECEFF5;
+            box-shadow: none;
+            border-radius: 8px;
+            padding: 0 24px 0 12px;
+            min-height: 36px;
+            max-width: 25rem;
+            -webkit-appearance: none;
+            background: #fff url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E) no-repeat right 8px top 55%;
+            background-size: 14px 14px;
+            cursor: pointer;
+            vertical-align: middle;
+
+            &:focus {
+                border: 1px solid #6C62FF;
+            }
+        }
     }
 
     .wpsp-modal--header {
@@ -192,8 +236,6 @@
         background: #fff;
         border-bottom: 1px solid #f0f0f1;
     }
-
-    
 
     .wpsp-modal--footer {
         display: flex;
