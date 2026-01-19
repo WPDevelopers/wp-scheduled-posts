@@ -56,7 +56,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  margin-top: 12px;
+  margin-top: 20px;
 }
 .wpsp-custom-template-label-wrap span,
 .wpsp-global-template span {
@@ -467,8 +467,8 @@ button.wpsp-platform-icon.instagram.active svg path {
 }
 
 .wpsp-selected-profile-btn svg {
-  width: 16px;
-  height: 16px;
+  width: 100%;
+  height: 100%;
 }
 
 /* Profile Selection Dropdown */

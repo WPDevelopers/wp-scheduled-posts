@@ -8,11 +8,11 @@ const ScheduleControls = ({
     timeOptions
 }) => {
     return (
-        <div className="wpsp-date-time-section" style={{ marginBottom: '1.5em', marginTop: '1.5em' }}>
-            <div style={{ display: 'flex', gap: '1.5em', alignItems: 'flex-end', flexWrap: 'wrap' }}>
+        <div className="wpsp-date-time-section">
+            <div>
                 {/* Date Field */}
                 <div>
-                    <label style={{ fontWeight: 600, display: 'block', marginBottom: 4 }}>{__('Date', 'wp-scheduled-posts')}</label>
+                    <label>{__('Date', 'wp-scheduled-posts')}</label>
                     <select
                         value={scheduleData.dateOption}
                         onChange={e => onUpdateSchedule('dateOption', e.target.value)}
@@ -27,7 +27,7 @@ const ScheduleControls = ({
                 {/* Custom Date Input */}
                 {scheduleData.dateOption === 'custom_date' && (
                     <div>
-                        <label style={{ fontWeight: 600, display: 'block', marginBottom: 4 }}>{__('Custom Date', 'wp-scheduled-posts')}</label>
+                        <label>{__('Custom Date', 'wp-scheduled-posts')}</label>
                         <input
                             type="date"
                             value={scheduleData.customDate}
@@ -39,7 +39,7 @@ const ScheduleControls = ({
                 {/* Custom Days Input */}
                 {(scheduleData.dateOption === 'in_days' || scheduleData.dateOption === 'days_after') && (
                     <div>
-                        <label style={{ fontWeight: 600, display: 'block', marginBottom: 4 }}>{__('Days', 'wp-scheduled-posts')}</label>
+                        <label>{__('Days', 'wp-scheduled-posts')}</label>
                         <input
                             type="number"
                             min="1"
@@ -52,7 +52,7 @@ const ScheduleControls = ({
 
                 {/* Time Field */}
                 <div>
-                    <label style={{ fontWeight: 600, display: 'block', marginBottom: 4 }}>{__('Time', 'wp-scheduled-posts')}</label>
+                    <label>{__('Time', 'wp-scheduled-posts')}</label>
                     <select
                         value={scheduleData.timeOption}
                         onChange={e => onUpdateSchedule('timeOption', e.target.value)}
@@ -67,7 +67,7 @@ const ScheduleControls = ({
                 {/* Custom Time Input */}
                 {scheduleData.timeOption === 'custom_time' && (
                     <div>
-                        <label style={{ fontWeight: 600, display: 'block', marginBottom: 4 }}>{__('Custom Time', 'wp-scheduled-posts')}</label>
+                        <label>{__('Custom Time', 'wp-scheduled-posts')}</label>
                         <input
                             type="time"
                             value={scheduleData.customTime}
@@ -79,7 +79,7 @@ const ScheduleControls = ({
                 {/* Custom Hours Input */}
                 {(scheduleData.timeOption === 'in_hours' || scheduleData.timeOption === 'hours_after') && (
                     <div>
-                        <label style={{ fontWeight: 600, display: 'block', marginBottom: 4 }}>{__('Hours', 'wp-scheduled-posts')}</label>
+                        <label>{__('Hours', 'wp-scheduled-posts')}</label>
                         <input
                             type="number"
                             min="1"

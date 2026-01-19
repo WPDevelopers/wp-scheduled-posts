@@ -15,18 +15,19 @@
 .wpsp-post-panel-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.7);
 }
 
 /* Content */
 .wpsp-post-panel-content {
     position: absolute;
-    inset: 0;
     background-color: #fff;
-    width: 970px;
-    height: 600px;
+    max-width: 970px;
+    width: 90%;
+    max-height: 90vh;
+    height: auto;
     box-sizing: border-box;
-    overflow-y: auto;
+    overflow: auto;
     align-items: center;
     top: 50%;
     left: 50%;
@@ -36,7 +37,6 @@
 
 .wpsp-post-panel-modal-content {
     display: flex;
-    justify-content: start;
     gap: 10px;
 }
 
