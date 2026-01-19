@@ -371,14 +371,22 @@ button.wpsp-platform-icon.instagram.active svg path {
 }
 
 .selected-profile-area .select-profile-icon {
-  width: 24px;
-  height: 24px;
-  border: 1px solid #ECEFF5;
-  border-radius: 4px;
+  width: 8px;
+  height: 8px;
+  border-style: solid;
+  border-width: 0 1.5px 1.5px 0px;
+  transform: rotate(45deg);
+  border-color: #475467;
+  border-radius: 1px;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 4px;
+  margin-right: 4px;
   cursor: pointer;
+}
+.selected-profile-area .select-profile-icon img {
+  display: none;
 }
 
 .selected-profile {
@@ -749,9 +757,9 @@ textarea.wpsp-template-input {
 }
 
 .wpsp-date-time-section > div {
-  display: flex;
-  align-items: unset !important;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px 16px;
 }
 
 .wpsp-date-time-section > div > div {
@@ -833,7 +841,16 @@ textarea.wpsp-template-input {
   flex-direction: column;
   flex: 1;
 }
-
+.wpsp-modal-layout .wpsp-preview-not-available {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 300px;
+  margin: 0 auto;
+  text-align: center;
+  flex: 1;
+}
 .wpsp-modal-content.no-profile-found .wpsp-preview-not-available {
   display: flex;
   flex-direction: column;
@@ -849,7 +866,7 @@ textarea.wpsp-template-input {
   font-size: 16px;
   font-weight: 500;
   line-height: 1.2em;
-  margin: 16px 0 12px;
+  margin: 12px 0 16px;
   color: #1D2939;
   cursor: default;
 }
@@ -1354,10 +1371,16 @@ textarea.wpsp-template-input {
 .wpsp-add-social-message-text .wpsp-tooltip-text::after {
   content: '';
   position: absolute;
-  top: -17%;
+  top: -6%;
   left: 50%;
   transform: translate(-27px) rotate(179deg);
   border-width: 6px;
   border-style: solid;
   border-color: #ECEFF5 transparent transparent transparent;
+}
+#wpsp-components-modal-header-1 .wpsp-add-social-message-text .wpsp-tooltip-text::after {
+  top: -17%;
+}
+#wpsp-components-modal-header-1 .wpsp-add-social-message-text:hover .wpsp-tooltip-text {
+  height: 52px !important;
 }

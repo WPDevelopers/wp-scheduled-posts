@@ -45,7 +45,7 @@ const ScheduleControls = ({
                             min="1"
                             value={scheduleData.customDays}
                             onChange={e => onUpdateSchedule('customDays', e.target.value)}
-                            style={{ maxWidth: '80px' }}
+                            style={{ maxWidth: '200px' }}
                         />
                     </div>
                 )}
@@ -85,7 +85,7 @@ const ScheduleControls = ({
                             min="1"
                             value={scheduleData.customHours}
                             onChange={e => onUpdateSchedule('customHours', e.target.value)}
-                            style={{ maxWidth: '80px' }}
+                            style={{ maxWidth: '200px' }}
                         />
                     </div>
                 )}

@@ -78,6 +78,12 @@
                             }
                         }
                     }
+
+                    .select--wrapper label {
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                    }
                 }
             }
         }
@@ -139,6 +145,21 @@
                         color: #6E6E8D;
                         font-weight: 400;
                         margin: 0;
+                    }
+                }
+                .wpsp-upload-social-banner-remove {
+                    margin: 8px 0 12px;
+
+                    .wpsp-upload-social-share-btn {
+                        font-size: 12px;
+                        line-height: 120%;
+                        font-weight: 500;
+                        padding: 12px 16px;
+                        border-radius: 6px;
+                        color: #fff;
+                        background: #6c62ff;
+                        border: none;
+                        cursor: pointer;
                     }
                 }
             }
