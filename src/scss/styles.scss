@@ -304,29 +304,25 @@
         color: #1D2939;
         margin: 0;
     }
-    .wpsp-custom-template-modal .wpsp-components-button{
-        align-items:center;
-        border-radius:2px;
-        box-sizing:border-box;
-        color:var(--wp-components-color-foreground, #1e1e1e);
-        height:36px;
-        padding:6px 12px;
-        background:none;
-        border:0;
-        cursor:pointer;
-        display:inline-flex;
-        font-family:inherit;
-        font-size:13px;
-        margin:0;
-        text-decoration:none;
+    .wpsp-custom-template-modal .wpsp-components-button {
+        padding: 0;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
         svg {
-            width: 20px;
+            width: 18px;
+            height: 18px;
             fill: #475467;
             outline: none;
         }
     }
     .wpsp-custom-template-modal .wpsp-components-button svg {
-        width: 20px;
+        width: 18px;
+        height: 18px;
         fill: #475467;
         outline: none;
     }

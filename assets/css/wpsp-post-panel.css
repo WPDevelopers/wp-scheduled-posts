@@ -43,10 +43,9 @@
 /* Close button */
 .wpsp-post-panel-close {
     position: absolute;
-    top: 16px;
-    right: 20px;
+    top: 22px;
+    right: 18px;
     border: none;
     background: transparent;
-    font-size: 28px;
     cursor: pointer;
 }
