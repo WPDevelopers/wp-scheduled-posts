@@ -70,8 +70,10 @@
                             border: 1px solid #ECEFF5;
                             border-radius: 8px;
                             padding: 0 12px 0 12px;
-                            min-height: 36px;
+                            min-height: 40px;
+                            max-height: 40px;
                             cursor: pointer;
+
                             &:focus {
                                 outline: 0;
                                 box-shadow: none;
@@ -209,8 +211,6 @@
             }
         }
 
-
-
         input[type="checkbox"] {
             width: 16px;
             height: 16px;
@@ -229,20 +229,22 @@
                 outline: 0;
             }
         }
+
         select {
             font-size: 14px;
-            line-height: 120%;
-            font-weight: 500;
-            color: #1B1B50;
+            line-height: 140%;
+            font-weight: 400;
+            color: #6e6e8d;
             border: 1px solid #ECEFF5;
             box-shadow: none;
             border-radius: 8px;
             padding: 0 24px 0 12px;
-            min-height: 36px;
+            min-height: 40px;
+            max-height: 40px;
             max-width: 25rem;
             -webkit-appearance: none;
             background: #fff url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E) no-repeat right 8px top 55%;
-            background-size: 14px 14px;
+            background-size: 12px 12px;
             cursor: pointer;
             vertical-align: middle;
 
@@ -298,21 +300,44 @@
     .wpsp-date-time-section {
         display: flex;
         gap: 16px;
+        
         select {
             font-size: 14px;
-            line-height: 2;
+            line-height: 140%;
+            font-weight: 400;
             color: #6E6E8D;
-            border-color: #ECEFF5;
+            border: 1px solid #eceff5;
             box-shadow: none;
             border-radius: 8px;
             padding: 0 24px 0 12px;
-            min-height: 36px;
+            min-height: 40px;
+            max-height: 40px;
             max-width: 25rem;
             -webkit-appearance: none;
-            background: #fff url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E) no-repeat right 5px top 55%;
+            appearance: none;
+            background: #fff url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E) no-repeat right 8px top 55%;
             background-size: 12px 12px;
             cursor: pointer;
             vertical-align: middle;
+
+            &:focus {
+                outline: 0;
+                box-shadow: none;
+            }
+        }
+        input {
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 140%;
+            color: #6e6e8d;
+            width: 100%;
+            padding: 0 12px;
+            border: 1px solid #eceff5;
+            border-radius: 8px;
+            min-height: 40px;
+            max-height: 40px;
+            background: #FFFFFF;
+
             &:focus {
                 outline: 0;
                 box-shadow: none;
