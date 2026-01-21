@@ -16,7 +16,6 @@ const ScheduleControls = ({
                     <select
                         value={scheduleData.dateOption}
                         onChange={e => onUpdateSchedule('dateOption', e.target.value)}
-                        style={{ maxWidth: '200px' }}
                     >
                         {dateOptions.map(opt => (
                             <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -45,7 +44,6 @@ const ScheduleControls = ({
                             min="1"
                             value={scheduleData.customDays}
                             onChange={e => onUpdateSchedule('customDays', e.target.value)}
-                            style={{ maxWidth: '200px' }}
                         />
                     </div>
                 )}
@@ -56,7 +54,6 @@ const ScheduleControls = ({
                     <select
                         value={scheduleData.timeOption}
                         onChange={e => onUpdateSchedule('timeOption', e.target.value)}
-                        style={{ maxWidth: '200px' }}
                     >
                         {timeOptions.map(opt => (
                             <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -85,7 +82,6 @@ const ScheduleControls = ({
                             min="1"
                             value={scheduleData.customHours}
                             onChange={e => onUpdateSchedule('customHours', e.target.value)}
-                            style={{ maxWidth: '200px' }}
                         />
                     </div>
                 )}

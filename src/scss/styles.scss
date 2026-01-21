@@ -47,9 +47,10 @@
 
                 .wpsp-post-items--wrapper {
                     display: flex;
-                    gap: 10px;
+                    gap: 16px;
 
                     .wpsp-post--items {
+                        flex: 1;
 
                         .card--title {
                             margin: 0;
@@ -72,6 +73,7 @@
                             padding: 0 12px 0 12px;
                             min-height: 40px;
                             max-height: 40px;
+                            width: 100%;
                             cursor: pointer;
 
                             &:focus {

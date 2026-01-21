@@ -341,7 +341,6 @@ button.wpsp-platform-icon.instagram.active svg path {
   border: 1px solid #ECEFF5;
   background: #FFF;
   border-radius: 8px;
-  min-height: 48px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -411,7 +410,7 @@ button.wpsp-platform-icon.instagram.active svg path {
 
 .selected-profile:hover .wpsp-selected-profile-action .wpsp-remove-profile-btn {
   opacity: 1;
-  transform: scale(.9);
+  transform: scale(1);
 }
 
 .selected-profile:not(:first-child) {
@@ -444,8 +443,8 @@ button.wpsp-platform-icon.instagram.active svg path {
   position: absolute;
   top: -6px;
   right: 8px;
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 12px;
   border-radius: 50%;
   background: #6E6E8D;
   color: #FFF;
@@ -486,7 +485,7 @@ button.wpsp-platform-icon.instagram.active svg path {
   overflow-y: auto;
   box-shadow: 0px 12px 48px 0px #1B1B501A;
   border-radius: 6px;
-  padding: 16px;
+  padding: 12px 16px;
   position: absolute;
   left: 0;
   right: 0;
@@ -501,13 +500,14 @@ button.wpsp-platform-icon.instagram.active svg path {
 .wpsp-profile-card {
   display: flex;
   align-items: center;
-  padding: 8px 10px;
+  padding: 4px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.2s ease;
   position: relative;
   margin: 0;
+  margin-bottom: 4px;
 }
 
 .wpsp-profile-card:not(:last-child) {
@@ -760,9 +760,12 @@ textarea.wpsp-template-input {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px 16px;
+  flex: 1;
 }
 
 .wpsp-date-time-section > div > div {
+  display: flex;
+  flex-direction: column;
   flex: 1;
 }
 
