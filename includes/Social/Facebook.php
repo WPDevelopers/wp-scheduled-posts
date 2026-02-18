@@ -121,11 +121,13 @@ class Facebook
         {
             return;
         }
-
-        echo '<meta property="og:title" content="' . get_the_title() . '"/>';
-        echo '<meta property="og:type" content="article"/>';
-        echo '<meta property="og:url" content="' . get_permalink() . '"/>';
-        echo '<meta property="og:site_name" content=" ' . get_bloginfo() . ' "/>';
+        // If a known SEO plugin is handling Open Graph tags, avoid duplicate output
+        if ( !$this->is_third_party_seo_active() ) {
+            echo '<meta property="og:title" content="' . get_the_title() . '"/>';
+            echo '<meta property="og:type" content="article"/>';
+            echo '<meta property="og:url" content="' . get_permalink() . '"/>';
+            echo '<meta property="og:site_name" content=" ' . get_bloginfo() . ' "/>';
+        }
 
         $socialShareImage = get_post_meta($post->ID, '_wpscppro_custom_social_share_image', true);
         if ($socialShareImage != "" && $socialShareImage != 0) {
@@ -146,6 +148,45 @@ class Facebook
             }
         }
         echo "";
+    }
+
+    /**
+     * Detect common third-party SEO plugins that may already output Open Graph tags
+     * @return bool
+     */
+    private function is_third_party_seo_active()
+    {
+        // Yoast SEO
+        if ( defined('WPSEO_VERSION') || class_exists('WPSEO_Frontend') || function_exists('wpseo_init') ) {
+            return true;
+        }
+
+        // All in One SEO / AIOSEO
+        if ( defined('AIOSEO_VERSION') || function_exists('aioseo') || class_exists('AIOSEO\\Plugin') ) {
+            return true;
+        }
+
+        // Rank Math
+        if ( defined('RANK_MATH_VERSION') || class_exists('RankMath\\RankMath') || function_exists('rank_math') ) {
+            return true;
+        }
+
+        // SEOPress
+        if ( defined('SEOPRESS_VERSION') || class_exists('SEOPress') ) {
+            return true;
+        }
+
+        // SEOPress
+        if ( defined('THINKRANK_VERSION') || class_exists('ThinkRank') ) {
+            return true;
+        }
+
+        // The SEO Framework
+        if ( defined('THE_SEO_FRAMEWORK_VERSION') || class_exists('The_SEO_Framework') ) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
