@@ -13,6 +13,7 @@ import TemplateEditor from './TemplateEditor';
 import ScheduleControls from './ScheduleControls';
 import PreviewCard from './PreviewCard';
 import useSocialProfiles from './hooks/useSocialProfiles';
+import AllDisabledPlatform from './AllDisabledPlatform';
 
 const SOCIAL_PLATFORMS = [
   'facebook',
@@ -522,28 +523,35 @@ const WPSPCustomTemplateModal = ({
         setUseGlobalTemplatePlatform(selectedPlatform, e.target.checked);
     }
   }, [globalProfile, selectedPlatform, setUseGlobalTemplatePlatform]);
-
+  
   return (
     <div className={`wpsp-modal-content ${availableProfiles.length === 0 ? 'no-profile-found' : ''}`}>
       <Header/>
       <div className="wpsp-modal-layout">
         {/* Left Side */}
         <div className="wpsp-modal-left">
-          <PlatformNavigation 
-              platforms={filteredPlatforms}
+          {filteredPlatforms?.length === 0 ? (
+            <AllDisabledPlatform platforms={platforms} />
+          ) : (
+            <PlatformNavigation 
+              platforms={platforms}
               selectedPlatform={selectedPlatform}
               onSelectPlatform={handlePlatformSwitch}
               platformHasData={platformHasData}
-          />
+              filteredPlatforms={filteredPlatforms}
+              social_media_enabled={social_media_enabled}
+            />
+          )}
 
           <div className="wpsp-custom-template-content-wrapper">
-            <ProfileSelector 
+           { filteredPlatforms?.length !== 0 && <ProfileSelector 
                 availableProfiles={availableProfiles}
                 selectedProfile={selectedProfile}
                 onSelectProfile={onSelectProfile}
                 WPSchedulePostsFree={WPSchedulePostsFree}
                 isLoading={isProfilesLoading}
             />
+           }
 
             {selectedPlatform && (
                 <TemplateEditor 

@@ -350,7 +350,67 @@
             }
         }
     }
+    .wpsp-post-panel-inner-modal {
+        .wpsp-custom-template-modal {
+            .wpsp-platform-icons {
+                .wpsp-platform-icon {
+                    position: relative;
+                    padding: 5px 8px;
+                    &.has-data::after {
+                        content: '';
+                        position: absolute;
+                        top: 6px;
+                        right: 6px;
+                        width: 3px;
+                        height: 3px;
+                        background-color: #22c55e; /* nice modern green */
+                        border-radius: 50%;
+                        border: 2px solid #fff; /* white border for clean look */
+                        box-shadow: 0 0 0 1px rgba(0,0,0,0.05);
+                    }
+                }
+            }
+            .wpsp-tooltip-wrapper {
+                position: relative;
+                display: inline-block;
+            }
 
+            .wpsp-tooltip {
+                position: absolute;
+                bottom: 120%;
+                left: 50%;
+                transform: translateX(-50%);
+                background-color: #222;
+                color: #fff;
+                padding: 6px 10px;
+                font-size: 12px;
+                border-radius: 6px;
+                white-space: nowrap;
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.2s ease;
+                z-index: 999;
+            }
+
+            /* Arrow */
+            .wpsp-tooltip::after {
+                content: '';
+                position: absolute;
+                top: 100%;
+                left: 50%;
+                transform: translateX(-50%);
+                border-width: 6px;
+                border-style: solid;
+                border-color: #222 transparent transparent transparent;
+            }
+
+            /* Show on hover */
+            .wpsp-tooltip-wrapper:hover .wpsp-tooltip {
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+    }
     .wpsp-modal--header {
         padding: 16px 24px;
         background: #fff;

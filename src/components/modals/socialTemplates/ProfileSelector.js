@@ -19,7 +19,11 @@ const ProfileSelector = ({
         );
     }
 
-    if (availableProfiles.length === 0) {
+    const noActiveProfile =
+    !availableProfiles.length ||
+    availableProfiles.every(profile => profile.status === false);
+
+    if (noActiveProfile) {
         return (
             <>
                 <h5
