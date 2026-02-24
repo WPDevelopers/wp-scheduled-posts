@@ -4,7 +4,7 @@ Tags: post schedule, schedule calendar, auto scheduler, auto sharing, social sha
 Requires at least: 4.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 5.2.15
+Stable tag: 5.2.16
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -216,6 +216,11 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 8. Social Templates
 
 == Changelog ==
+
+= 5.2.16 - 2026-02-03 =
+- Fixed: Issue with LinkedIn post sharing caused by API errors.
+- Fixed: Post update issue caused by an invalid value in the “Disable Social Sharing” option.
+- Few minor bug fixes & improvements.
 
 = 5.2.15 - 2026-01-06 =
 - Fixed: Removed frontend meta output to avoid duplication with SEO plugins.

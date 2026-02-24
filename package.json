@@ -1,6 +1,6 @@
 {
     "name": "wp-scheduled-posts",
-    "version": "5.2.15",
+    "version": "5.2.16",
     "description": "=== WP Scheduled Posts ===\r Contributors: wpdevteam, Asif2BD, re_enter_rupok, onetarek, hakimcseru, nayanchamp7\r Tags: post schedule, editor calendar, schedule-calendar, schedule bar, scheduled posts, schedule, schedule widget, scheduler, schedule menu bar, admin bar, dashboard widget, missed scheduled, calendar, missed schedule, future post, schedule issue, post later, admin bar, admin, multi author\r Requires at least: 4.0\r Tested up to: 5.0\r Requires PHP: 5.4\r Stable tag: 2.0.2\r License: GPLv3\r License URI: https://opensource.org/licenses/GPL-3.0",
     "scripts": {
         "build": "wp-scripts build",
