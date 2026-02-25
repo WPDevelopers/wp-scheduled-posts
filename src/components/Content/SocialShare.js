@@ -11,6 +11,7 @@ import {
     google_business,
     authorIcon,
 } from '../../../assets/gutenberg/utils/helpers/icons';
+import ShareNowButton from './ShareNowButton';
 
 const PLATFORM_CONFIG = {
     facebook: { label: 'Facebook', icon: facebook },
@@ -250,6 +251,7 @@ const SocialShare = () => {
             }));
     }, [selectedProfilesByPlatform]);
     const hasSavedSocialMessage = selectedPlatformCards.length > 0;
+    const resolvedPostId = postId || (window.WPSchedulePostsFree ? window.WPSchedulePostsFree.current_post_id : null);
 
     // Helper to update global state
     const updateSettings = (updates) => {
@@ -390,6 +392,7 @@ const SocialShare = () => {
                     {hasSavedSocialMessage && (
                         <button className="wpsp-upload-social-share-btn" onClick={handleCustomSocialMessage}>Edit Social Message</button>
                     )}
+                    <ShareNowButton selectedProfilesByPlatform={selectedProfilesByPlatform} postId={resolvedPostId} />
                 </div>
             </div>
         </div>

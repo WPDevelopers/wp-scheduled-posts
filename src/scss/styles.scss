@@ -270,7 +270,7 @@
                         }
                     }
                 }
-                button.wpsp-upload-social-share-btn {
+                button.wpsp-upload-social-share-btn, button.wpsp-share-now-btn {
                     font-size: 12px;
                     line-height: 100%;
                     font-weight: 500;
@@ -287,6 +287,11 @@
                     background: #fff;
                     cursor: pointer;
                     color: #6c62ff;
+                }
+                button.wpsp-share-now-btn {
+                    background: #6C62FF;
+                    color: #fff;
+                    margin-top: 10px;
                 }
             }
         }
