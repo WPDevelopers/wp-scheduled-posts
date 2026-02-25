@@ -4,7 +4,7 @@ const { useSelect } = wp.data;
 const { __ } = wp.i18n;
 import { AppContext } from '../../../context/AppContext';
 import Header from './Header';
-import { facebook, twitter_x, linkedin, pinterest, instagram, medium, threads, google_business } from '../../../../assets/gutenberg/utils/helpers/icons';
+import { facebook, twitter_x, linkedin, pinterest, instagram, medium, threads, google_business } from '../../../icons/icons';
 
 // Sub-components
 import PlatformNavigation from './PlatformNavigation';
@@ -604,10 +604,10 @@ const WPSPCustomTemplateModal = ({
       <div className="wpsp-modal--footer">
         <div className="wpsp-custom-social-footer-wrapper">
           <div className="wpsp-custom-social-footer-right">
-            <button className="btn secondary-btn" isSecondary onClick={handleClose}>
+            <button className="btn secondary-btn" onClick={handleClose}>
               {__('Cancel', 'wp-scheduled-posts')}
             </button>
-            <button  className="btn primary-btn" isPrimary onClick={handleGlobalSave} disabled={isSaving || isOverLimit || !hasAnyChanges()}>
+            <button  className="btn primary-btn" onClick={handleGlobalSave} disabled={isSaving || isOverLimit || !hasAnyChanges()}>
               {saveText}
             </button>
           </div>

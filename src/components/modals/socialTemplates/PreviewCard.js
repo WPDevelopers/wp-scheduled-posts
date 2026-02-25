@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 const { __ } = wp.i18n;
-import { authorIcon } from '../../../../assets/gutenberg/utils/helpers/icons';
+import { authorIcon } from '../../../icons/icons';
 
 const PreviewCard = ({
     platform,

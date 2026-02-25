@@ -35,7 +35,6 @@ module.exports = {
 
     // https://webpack.js.org/configuration/entry-context/
     entry: {
-        'wpspl-admin': './index.js',
         app: './src/index.js', // Generates app.min.js
     },
 

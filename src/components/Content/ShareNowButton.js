@@ -24,7 +24,7 @@ const showCustomToast = (type, message) => {
     }, 2600);
 };
 
-const ShareNowButton = ({ selectedProfilesByPlatform, postId }) => {
+const ShareNowButton = ({ selectedProfilesByPlatform, postId, hasSavedSocialMessage }) => {
     const [isSharing, setIsSharing] = useState(false);
     const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
     const [statusMap, setStatusMap] = useState({});
@@ -142,7 +142,7 @@ const ShareNowButton = ({ selectedProfilesByPlatform, postId }) => {
 
     return (
         <>
-            <button className='wpsp-share-now-btn' onClick={handleShareNow} disabled={isSharing || selectedProfiles.length === 0}>
+            <button disabled={hasSavedSocialMessage ? false : true} className='wpsp-share-now-btn' onClick={handleShareNow} disabled={isSharing || selectedProfiles.length === 0}>
                 {isSharing ? 'Sharing...' : 'Share Now'}
             </button>
             <ShareNowStatusModal

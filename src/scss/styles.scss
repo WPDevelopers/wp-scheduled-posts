@@ -300,6 +300,10 @@
                     color: #fff;
                     margin-top: 10px;
                 }
+                button.wpsp-share-now-btn:disabled {
+                    opacity: 0.5;
+                    cursor: not-allowed;
+                }
             }
         }
 

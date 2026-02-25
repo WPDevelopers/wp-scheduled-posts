@@ -1,6 +1,6 @@
 import React, { memo, useState } from 'react';
 const { __ } = wp.i18n;
-import { tikIcon, authorIcon } from '../../../../assets/gutenberg/utils/helpers/icons';
+import { tikIcon, authorIcon } from '../../../icons/icons';
 
 const ProfileSelector = ({ 
     availableProfiles, 

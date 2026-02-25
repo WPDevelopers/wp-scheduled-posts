@@ -65,7 +65,7 @@ class Admin
                 esc_html('SchedulePress', 'wp-scheduled-posts'),
                 [$this, 'wpsp_render_metabox'],
                 $post_type,
-                'normal',
+                'side',
                 'default'
             );
         }

@@ -10,7 +10,7 @@ import {
     threads,
     google_business,
     authorIcon,
-} from '../../../assets/gutenberg/utils/helpers/icons';
+} from '../../icons/icons';
 import ShareNowButton from './ShareNowButton';
 
 const PLATFORM_CONFIG = {
@@ -326,7 +326,7 @@ const SocialShare = () => {
                     </div>
                     <div className="wpsp-upload-social-banner-preview">
                         <div className="wpsp-upload-social-banner-preview-inner">
-                            {socialBannerUrl && <img className="wpsp-social-banner-preview-image" src={socialBannerUrl} alt="Social Banner" />}
+                            {socialBannerUrl && <img style={{ width: '100%', height: 'auto' }} src={socialBannerUrl} alt="Social Banner" />}
                         </div>
                     </div>
                     <div className="wpsp-upload-social-banner-remove">
@@ -392,7 +392,7 @@ const SocialShare = () => {
                     {hasSavedSocialMessage && (
                         <button className="wpsp-upload-social-share-btn" onClick={handleCustomSocialMessage}>Edit Social Message</button>
                     )}
-                    <ShareNowButton selectedProfilesByPlatform={selectedProfilesByPlatform} postId={resolvedPostId} />
+                    <ShareNowButton selectedProfilesByPlatform={selectedProfilesByPlatform} postId={resolvedPostId} hasSavedSocialMessage={hasSavedSocialMessage} />
                 </div>
             </div>
         </div>
