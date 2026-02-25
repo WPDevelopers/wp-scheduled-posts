@@ -326,7 +326,7 @@ const SocialShare = () => {
                     </div>
                     <div className="wpsp-upload-social-banner-preview">
                         <div className="wpsp-upload-social-banner-preview-inner">
-                            {socialBannerUrl && <img style={{ width: '100%', height: 'auto' }} src={socialBannerUrl} alt="Social Banner" />}
+                            {socialBannerUrl && <img className="wpsp-social-banner-preview-image" src={socialBannerUrl} alt="Social Banner" />}
                         </div>
                     </div>
                     <div className="wpsp-upload-social-banner-remove">

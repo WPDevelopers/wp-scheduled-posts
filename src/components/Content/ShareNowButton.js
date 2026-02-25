@@ -1,50 +1,8 @@
 import React, { useMemo, useState } from 'react';
 import ShareNowStatusModal, { getProfileKey } from './ShareNowStatusModal';
 
-const ensureToastStyles = () => {
-    if (document.getElementById('wpsp-custom-toast-style')) return;
-    const style = document.createElement('style');
-    style.id = 'wpsp-custom-toast-style';
-    style.textContent = `
-        #wpsp-custom-toast-container {
-            position: fixed;
-            top: 24px;
-            right: 24px;
-            z-index: 999999;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .wpsp-custom-toast {
-            min-width: 260px;
-            max-width: 360px;
-            padding: 12px 14px;
-            border-radius: 8px;
-            color: #fff;
-            font-size: 13px;
-            line-height: 1.3;
-            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.2);
-            opacity: 0;
-            transform: translateY(-8px);
-            transition: all 0.2s ease;
-        }
-        .wpsp-custom-toast.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .wpsp-custom-toast.success {
-            background: #16a34a;
-        }
-        .wpsp-custom-toast.error {
-            background: #dc2626;
-        }
-    `;
-    document.head.appendChild(style);
-};
-
 const showCustomToast = (type, message) => {
     if (typeof document === 'undefined') return;
-    ensureToastStyles();
     let container = document.getElementById('wpsp-custom-toast-container');
     if (!container) {
         container = document.createElement('div');
