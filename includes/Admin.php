@@ -58,14 +58,17 @@ class Admin
 
     public function wpsp_register_metabox()
     {
-        add_meta_box(
-            'wpsp_post_settings',
-            esc_html('SchedulePress', 'wp-scheduled-posts'),
-            [$this, 'wpsp_render_metabox'],
-            'post',
-            'normal',
-            'default'
-        );
+        $allowed_post_types = \WPSP\Helper::get_all_allowed_post_type(); // Fetch allowed post types
+        foreach ($allowed_post_types as $post_type) {
+            add_meta_box(
+                'wpsp_post_settings',
+                esc_html('SchedulePress', 'wp-scheduled-posts'),
+                [$this, 'wpsp_render_metabox'],
+                $post_type,
+                'normal',
+                'default'
+            );
+        }
     }
 
     public function wpsp_render_metabox()

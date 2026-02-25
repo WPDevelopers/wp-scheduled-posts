@@ -6,6 +6,7 @@ const Footer = () => {
     const { socialShareSettings } = state;
     const { unpublishOn, republishOn, advancedSchedule, advancedScheduleDate, isScheduled, scheduleDate } = state;
     const [isSaving, setIsSaving] = useState(false);
+    const shouldSchedulePost = !!isScheduled && !!scheduleDate;
 
     const handleSaveSettings = () => {
         if (typeof wp === 'undefined' || !wp.apiFetch) return;
@@ -61,8 +62,8 @@ const Footer = () => {
                 republish_on: republishOn,
                 advanced_schedule: advancedSchedule,
                 advanced_schedule_on: advancedScheduleDate,
-                is_scheduled: isScheduled,
-                schedule_date: scheduleDate
+                is_scheduled: shouldSchedulePost,
+                schedule_date: shouldSchedulePost ? scheduleDate : ''
             }
         }).then((response) => {
             setIsSaving(false);
