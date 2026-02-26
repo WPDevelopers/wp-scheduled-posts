@@ -343,14 +343,10 @@ const SocialShare = () => {
                     </div>
                 )}
                 <div className='wpsp-social-platforms-card-wrapper'>
-                    <h4>Selected Social Platforms</h4>
+                    { selectedPlatformCards.length > 0 && <h4>Selected Social Platforms</h4> }
                     <div className='wpsp-social-platforms-cards'>
                         {isProfilesLoading && <p>Loading selected profiles...</p>}
-
-                        {!isProfilesLoading && selectedPlatformCards.length === 0 && (
-                            <p>No selected profiles found yet.</p>
-                        )}
-
+                        
                         {!isProfilesLoading && selectedPlatformCards.map((card) => {
                             const visibleProfiles = card.profiles.slice(0, 5);
                             const extraCount = card.profiles.length - visibleProfiles.length;
