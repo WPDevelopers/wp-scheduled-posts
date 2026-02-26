@@ -321,6 +321,9 @@ class CustomSocialTemplates
 
         // Get templates
         $templates = $this->get_simple_templates($post_id);
+        $saved_scheduling = get_post_meta($post_id, '_wpsp_social_scheduling', true);
+        $scheduling = $this->normalize_scheduling_data($saved_scheduling, get_post_status($post_id));
+        $templates['scheduling'] = $scheduling;
 
         return new \WP_REST_Response(array(
             'success' => true,
@@ -399,15 +402,17 @@ class CustomSocialTemplates
         // Handle scheduling data
         $scheduling_updated = false;
         if (is_array($scheduling_data)) {
-            $scheduling_updated = update_post_meta($post_id, '_wpsp_social_scheduling', $scheduling_data);
+            $normalized_scheduling_data = $this->normalize_scheduling_data($scheduling_data, get_post_status($post_id));
+            $scheduling_updated = update_post_meta($post_id, '_wpsp_social_scheduling', $normalized_scheduling_data);
             $template_updated = true;
             // get status of post from request
             if (get_post_status($post_id) === 'publish') {
-                $this->handle_published_post_scheduling($post_id, $scheduling_data);
+                $this->handle_published_post_scheduling($post_id, $normalized_scheduling_data);
             } elseif ( get_post_status($post_id)  === 'future') {
                 // For scheduled posts, calculate the social media timing based on the post's scheduled publication date
-                $this->handle_scheduled_post_scheduling($post_id, $scheduling_data);
+                $this->handle_scheduled_post_scheduling($post_id, $normalized_scheduling_data);
             }
+            $scheduling_data = $normalized_scheduling_data;
         }
 
         if ($template_updated !== false || $scheduling_updated !== false) {
@@ -720,6 +725,56 @@ class CustomSocialTemplates
         }
 
         return $final_templates;
+    }
+
+    /**
+     * Normalize and sanitize scheduling payload before persistence/use.
+     *
+     * @param mixed  $scheduling_data Raw scheduling data.
+     * @param string $post_status Current post status.
+     * @return array
+     */
+    private function normalize_scheduling_data($scheduling_data, $post_status = 'publish') {
+        $is_published = ($post_status === 'publish');
+
+        $defaults = array(
+            'enabled'        => false,
+            'datetime'       => null,
+            'platforms'      => array(),
+            'status'         => 'template_only',
+            'dateOption'     => $is_published ? 'today' : 'same_day',
+            'timeOption'     => $is_published ? 'now' : 'same_time',
+            'customDays'     => '',
+            'customHours'    => '',
+            'customDate'     => '',
+            'customTime'     => '',
+            'schedulingType' => $is_published ? 'absolute' : 'relative',
+        );
+
+        if (!is_array($scheduling_data)) {
+            return $defaults;
+        }
+
+        $normalized = wp_parse_args($scheduling_data, $defaults);
+
+        $normalized['enabled'] = !empty($normalized['enabled']);
+        $normalized['datetime'] = !empty($normalized['datetime']) ? sanitize_text_field($normalized['datetime']) : null;
+        $normalized['status'] = !empty($normalized['status']) ? sanitize_text_field($normalized['status']) : $defaults['status'];
+        $normalized['dateOption'] = !empty($normalized['dateOption']) ? sanitize_text_field($normalized['dateOption']) : $defaults['dateOption'];
+        $normalized['timeOption'] = !empty($normalized['timeOption']) ? sanitize_text_field($normalized['timeOption']) : $defaults['timeOption'];
+        $normalized['customDays'] = isset($normalized['customDays']) ? sanitize_text_field((string) $normalized['customDays']) : '';
+        $normalized['customHours'] = isset($normalized['customHours']) ? sanitize_text_field((string) $normalized['customHours']) : '';
+        $normalized['customDate'] = isset($normalized['customDate']) ? sanitize_text_field((string) $normalized['customDate']) : '';
+        $normalized['customTime'] = isset($normalized['customTime']) ? sanitize_text_field((string) $normalized['customTime']) : '';
+        $normalized['schedulingType'] = !empty($normalized['schedulingType']) ? sanitize_text_field($normalized['schedulingType']) : $defaults['schedulingType'];
+
+        if (!is_array($normalized['platforms'])) {
+            $normalized['platforms'] = array();
+        } else {
+            $normalized['platforms'] = array_values(array_filter(array_map('sanitize_text_field', $normalized['platforms'])));
+        }
+
+        return $normalized;
     }
 
     /**

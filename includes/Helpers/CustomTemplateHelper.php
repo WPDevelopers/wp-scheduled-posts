@@ -327,56 +327,51 @@ class CustomTemplateHelper
     }
 
     public static function get_scheduled_datetime($data, $base_datetime = null) {
-        $now = $base_datetime
-            ? new \DateTime($base_datetime, new \DateTimeZone('UTC'))
-            : new \DateTime('now', new \DateTimeZone('UTC'));
-    
-        $dateOption = $data['dateOption'];
-        $timeOption = $data['timeOption'];
-    
-        // Handle date
+        $site_timezone = wp_timezone();
+        $utc_timezone = new \DateTimeZone('UTC');
+
+        if ($base_datetime) {
+            $base = new \DateTime($base_datetime, $utc_timezone);
+            $base->setTimezone($site_timezone);
+        } else {
+            $base = new \DateTime('now', $site_timezone);
+        }
+
+        $dateOption = isset($data['dateOption']) ? $data['dateOption'] : '';
+        $timeOption = isset($data['timeOption']) ? $data['timeOption'] : '';
+
         switch ($dateOption) {
             case 'today':
-                $date = clone $now;
+            case 'same_day':
+                $date = clone $base;
                 break;
             case 'tomorrow':
-                $date = (clone $now)->modify('+1 day');
+            case 'day_after':
+                $date = (clone $base)->modify('+1 day');
                 break;
             case 'next_week':
-                $date = (clone $now)->modify('+7 days');
+            case 'week_after':
+                $date = (clone $base)->modify('+7 days');
                 break;
             case 'next_month':
-                $date = (clone $now)->modify('+1 month');
+            case 'month_after':
+                $date = (clone $base)->modify('+1 month');
                 break;
             case 'in_days':
-                $days = (int) $data['customDays'];
-                $date = (clone $now)->modify("+{$days} days");
+            case 'days_after':
+                if (!empty($data['customDays']) && is_numeric($data['customDays'])) {
+                    $date = (clone $base)->modify('+' . (int) $data['customDays'] . ' days');
+                } else {
+                    return null;
+                }
                 break;
             case 'custom_date':
                 if (!empty($data['customDate'])) {
-                    $date = \DateTime::createFromFormat('Y-m-d', $data['customDate'], new \DateTimeZone('UTC'));
-                    if (!$date) return null;
-                    $date->setTime($now->format('H'), $now->format('i'), $now->format('s'));
-                } else {
-                    return null;
-                }
-                break;
-            case 'same_day':
-                $date = clone $now;
-                break;
-            case 'day_after':
-                $date = (clone $now)->modify('+1 day');
-                break;
-            case 'week_after':
-                $date = (clone $now)->modify('+7 days');
-                break;
-            case 'month_after':
-                $date = (clone $now)->modify('+1 month');
-                break;
-            case 'days_after':
-                if (!empty($data['customDays']) && is_numeric($data['customDays'])) {
-                    $days = (int) $data['customDays'];
-                    $date = (clone $now)->modify("+{$days} days");
+                    $date = \DateTime::createFromFormat('Y-m-d', $data['customDate'], $site_timezone);
+                    if (!$date) {
+                        return null;
+                    }
+                    $date->setTime((int) $base->format('H'), (int) $base->format('i'), (int) $base->format('s'));
                 } else {
                     return null;
                 }
@@ -384,106 +379,94 @@ class CustomTemplateHelper
             default:
                 return null;
         }
-    
-        // Handle time
+
         switch ($timeOption) {
             case 'now':
-                $final_datetime = clone $date;
+                $final_datetime = new \DateTime('now', $site_timezone);
                 break;
             case 'in_1h':
+                $current_time = new \DateTime('now', $site_timezone);
+                $current_time->modify('+' . rand(10, 60) . ' minutes');
                 $final_datetime = clone $date;
-                $current_time = new \DateTime('now', new \DateTimeZone('UTC'));
-                $current_time->modify("+" . rand(10, 60) . " minutes");
                 $final_datetime->setTime(
-                    (int)$current_time->format('H'),
-                    (int)$current_time->format('i'),
-                    (int)$current_time->format('s')
+                    (int) $current_time->format('H'),
+                    (int) $current_time->format('i'),
+                    (int) $current_time->format('s')
                 );
                 break;
-    
             case 'in_3h':
+                $current_time = new \DateTime('now', $site_timezone);
+                $current_time->modify('+' . rand(60, 180) . ' minutes');
                 $final_datetime = clone $date;
-                $current_time = new \DateTime('now', new \DateTimeZone('UTC'));
-                $current_time->modify("+" . rand(60, 180) . " minutes");
                 $final_datetime->setTime(
-                    (int)$current_time->format('H'),
-                    (int)$current_time->format('i'),
-                    (int)$current_time->format('s')
+                    (int) $current_time->format('H'),
+                    (int) $current_time->format('i'),
+                    (int) $current_time->format('s')
                 );
                 break;
-    
             case 'in_5h':
+                $current_time = new \DateTime('now', $site_timezone);
+                $current_time->modify('+' . rand(180, 300) . ' minutes');
                 $final_datetime = clone $date;
-                $current_time = new \DateTime('now', new \DateTimeZone('UTC'));
-                $current_time->modify("+" . rand(180, 300) . " minutes");
                 $final_datetime->setTime(
-                    (int)$current_time->format('H'),
-                    (int)$current_time->format('i'),
-                    (int)$current_time->format('s')
+                    (int) $current_time->format('H'),
+                    (int) $current_time->format('i'),
+                    (int) $current_time->format('s')
                 );
                 break;
-    
             case 'in_hours':
-                $hours = max(1, (int) $data['customHours']);
+                $hours = max(1, (int) ($data['customHours'] ?? 0));
+                $current_time = new \DateTime('now', $site_timezone);
+                $current_time->modify('+' . rand(($hours - 1) * 60, ($hours + 1) * 60) . ' minutes');
                 $final_datetime = clone $date;
-                $current_time = new \DateTime('now', new \DateTimeZone('UTC'));
-                $randomOffset = rand(($hours - 1) * 60, ($hours + 1) * 60);
-                $current_time->modify("+{$randomOffset} minutes");
                 $final_datetime->setTime(
-                    (int)$current_time->format('H'),
-                    (int)$current_time->format('i'),
-                    (int)$current_time->format('s')
+                    (int) $current_time->format('H'),
+                    (int) $current_time->format('i'),
+                    (int) $current_time->format('s')
                 );
                 break;
-    
             case 'custom_time':
                 if (!empty($data['customTime'])) {
-                    $timeParts = explode(':', $data['customTime']);
-                    if (count($timeParts) >= 2) {
-                        $final_datetime = clone $date;
-                        $final_datetime->setTime((int)$timeParts[0], (int)$timeParts[1], 0);
-                    } else {
+                    $parts = explode(':', $data['customTime']);
+                    if (count($parts) < 2) {
                         return null;
                     }
+                    $final_datetime = clone $date;
+                    $final_datetime->setTime((int) $parts[0], (int) $parts[1], 0);
                 } else {
                     return null;
                 }
                 break;
-    
             case 'same_time':
                 $final_datetime = clone $date;
                 break;
-    
             case 'hour_after':
-                $randomMinutes = rand(10, 60);
-                $final_datetime = (clone $date)->modify("+{$randomMinutes} minutes");
+                $final_datetime = (clone $date)->modify('+' . rand(10, 60) . ' minutes');
                 break;
-    
             case 'three_hours_after':
-                $randomMinutes = rand(60, 180);
-                $final_datetime = (clone $date)->modify("+{$randomMinutes} minutes");
+                $final_datetime = (clone $date)->modify('+' . rand(60, 180) . ' minutes');
                 break;
-    
             case 'five_hours_after':
-                $randomMinutes = rand(180, 300);
-                $final_datetime = (clone $date)->modify("+{$randomMinutes} minutes");
+                $final_datetime = (clone $date)->modify('+' . rand(180, 300) . ' minutes');
                 break;
-    
             case 'hours_after':
                 if (!empty($data['customHours']) && is_numeric($data['customHours'])) {
                     $hours = (int) $data['customHours'];
-                    $randomMinutes = rand(($hours - 1) * 60, ($hours + 1) * 60);
-                    $final_datetime = (clone $date)->modify("+{$randomMinutes} minutes");
+                    $final_datetime = (clone $date)->modify('+' . rand(($hours - 1) * 60, ($hours + 1) * 60) . ' minutes');
                 } else {
                     return null;
                 }
                 break;
-    
             default:
                 return null;
         }
-    
-        return isset($final_datetime) ? $final_datetime->format('Y-m-d H:i:s') : null;
+
+        if (!isset($final_datetime)) {
+            return null;
+        }
+
+        $final_datetime->setTimezone($utc_timezone);
+        return $final_datetime->format('Y-m-d H:i:s');
     }
     
 }

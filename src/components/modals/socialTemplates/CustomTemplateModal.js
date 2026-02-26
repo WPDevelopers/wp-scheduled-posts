@@ -37,6 +37,19 @@ const platformLimits = {
   google_business: 1500,
 };
 
+const getDefaultScheduleData = (postStatus) => {
+  const isPublished = postStatus === 'publish';
+  return {
+    dateOption: isPublished ? 'today' : 'same_day',
+    customDays: '',
+    customDate: '',
+    timeOption: isPublished ? 'now' : 'same_time',
+    customHours: '',
+    customTime: '',
+    schedulingType: isPublished ? 'absolute' : 'relative',
+  };
+};
+
 const WPSPCustomTemplateModal = ({
   WPSchedulePostsFree = { adminURL: '#', assetsURI: '' },
   info = 'Info message here',
@@ -156,16 +169,8 @@ const WPSPCustomTemplateModal = ({
   const [isUpdatingContent, setIsUpdatingContent] = useState(false);
   const [allPlatformData, setAllPlatformData] = useState({});
   const [apiTemplateData, setApiTemplateData] = useState({});
-  
-  const [scheduleData, setScheduleData] = useState({
-    dateOption: postStatus === 'publish' ? 'today' : 'same_day',
-    customDays: '',
-    customDate: '',
-    timeOption: postStatus === 'publish' ? 'now' : 'same_time',
-    customHours: '',
-    customTime: '',
-    schedulingType: postStatus === 'publish' ? 'absolute' : 'relative',
-  });
+  const [hasLoadedScheduling, setHasLoadedScheduling] = useState(false);
+  const [scheduleData, setScheduleData] = useState(getDefaultScheduleData(postStatus));
 
 
   // API functions for data management
@@ -181,7 +186,22 @@ const WPSPCustomTemplateModal = ({
       if (response && (response.success === undefined || response.success)) {
         // Handle both standard WP response and direct data return
         const data = response.data || response;
-        setApiTemplateData(data || {});
+        const templatesOnly = { ...(data || {}) };
+        const scheduling = templatesOnly.scheduling;
+        delete templatesOnly.scheduling;
+
+        setApiTemplateData(templatesOnly);
+
+        if (scheduling && typeof scheduling === 'object') {
+          setScheduleData({
+            ...getDefaultScheduleData(postStatus),
+            ...scheduling,
+          });
+          setHasLoadedScheduling(true);
+        } else {
+          setScheduleData(getDefaultScheduleData(postStatus));
+          setHasLoadedScheduling(false);
+        }
         return data || {};
       } else {
         console.error('Failed to fetch template data:', response.message);
@@ -191,12 +211,7 @@ const WPSPCustomTemplateModal = ({
       console.error('Error fetching template data:', error);
       return {};
     }
-  }, [postId]);
-
-  const fetchSchedulingData = async () => {
-    if (!postId) return {};
-    return {}; // We handle scheduling data via state and meta sync on save
-  };
+  }, [postId, postStatus]);
 
   // Global template management
   const getIsGlobalForPlatform = useCallback((platform) => {
@@ -241,6 +256,7 @@ const WPSPCustomTemplateModal = ({
     const isPublished = postStatus === 'publish';
     if (isPublished) {
       return [
+        { value: 'today', label: __('Today', 'wp-scheduled-posts') },
         { value: 'tomorrow', label: __('Tomorrow', 'wp-scheduled-posts') },
         { value: 'next_week', label: __('Next week', 'wp-scheduled-posts') },
         { value: 'next_month', label: __('Next month', 'wp-scheduled-posts') },
@@ -264,6 +280,7 @@ const WPSPCustomTemplateModal = ({
     const isPublished = postStatus === 'publish';
     if (isPublished) {
       return [
+        { value: 'now', label: __('Now', 'wp-scheduled-posts') },
         { value: 'in_1h', label: __('In one hour', 'wp-scheduled-posts') },
         { value: 'in_3h', label: __('In three hours', 'wp-scheduled-posts') },
         { value: 'in_5h', label: __('In five hours', 'wp-scheduled-posts') },
@@ -331,12 +348,17 @@ const WPSPCustomTemplateModal = ({
       }
 
       // Send batch request
+      const schedulingPayload = {
+        ...scheduleData,
+        platforms: platformsToSave.map((item) => item.platform),
+      };
+
       const response = await wp.apiFetch({
         path: `/wp-scheduled-posts/v1/custom-templates/${postId}`,
         method: 'POST',
         data: {
           platforms: platformsToSave,
-          scheduling: scheduleData,
+          scheduling: schedulingPayload,
         },
       });
 
@@ -435,14 +457,10 @@ const WPSPCustomTemplateModal = ({
 
   // Effects
   useEffect(() => {
-    const isPublished = postStatus === 'publish';
-    setScheduleData(prev => ({
-      ...prev,
-      dateOption: isPublished ? 'today' : 'same_day',
-      timeOption: isPublished ? 'now' : 'same_time',
-      schedulingType: isPublished ? 'absolute' : 'relative'
-    }));
-  }, [postStatus]);
+    if (!hasLoadedScheduling) {
+      setScheduleData(getDefaultScheduleData(postStatus));
+    }
+  }, [postStatus, hasLoadedScheduling]);
 
   useEffect(() => {
     const preview = generatePreview(customTemplates[selectedPlatform] || '');
