@@ -154,10 +154,43 @@
 
     });
 
+    var openSharedMetaboxModal = function () {
+        var metaboxModal = document.getElementById('wpsp-post-panel-modal');
+        var metaboxButton = document.getElementById('wpsp-post-panel-button');
+
+        if (metaboxModal) {
+            metaboxModal.classList.add('wpsp-post-panel-active');
+            document.body.style.overflow = 'hidden';
+            return true;
+        }
+
+        if (metaboxButton) {
+            metaboxButton.click();
+            return true;
+        }
+
+        return false;
+    };
+
+    var closeSharedMetaboxModal = function () {
+        var metaboxModal = document.getElementById('wpsp-post-panel-modal');
+        if (!metaboxModal) {
+            return false;
+        }
+        metaboxModal.classList.remove('wpsp-post-panel-active');
+        document.body.style.overflow = '';
+        return true;
+    };
+
 
     $(document).on('click', '#elementor-panel-footer-sub-menu-item-wpsp, #elementor-panel-footer-wpsp-modal,.elementor-panel-footer-wpsp-modal', function (e) {
         e.preventDefault();
-        modal.fadeIn();
+        if (!openSharedMetaboxModal()) {
+            modal.fadeIn();
+        }
+        }).on('click', '#wpsp-post-panel-modal .wpsp-post-panel-close, #wpsp-post-panel-modal .wpsp-post-panel-overlay', function (e) {
+            e.preventDefault();
+            closeSharedMetaboxModal();
         }).on('click', '.elementor-templates-modal__header__close > svg, .elementor-templates-modal__header__close > svg *, #schedulepress-elementor-modal', function (e) {
             e.preventDefault();
             if (e.target === this) {

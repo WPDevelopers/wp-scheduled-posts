@@ -22,13 +22,64 @@ class Assets
             if (!Helper::is_user_allow()) {
                 return;
             }
+            $post_id = isset($_GET['post']) ? absint($_GET['post']) : get_the_ID();
+            $post = get_post($post_id);
+            $post_type = $post ? $post->post_type : get_post_type(get_the_ID());
+            $socialshareimage = $post_id ? get_post_meta($post_id, '_wpscppro_custom_social_share_image', true) : '';
+            $imageUrl = '';
+            if ($socialshareimage) {
+                $image = wp_get_attachment_image_src($socialshareimage, 'full');
+                $imageUrl = !empty($image[0]) ? $image[0] : '';
+            }
+            $disableSocialShare = $post_id ? get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) : '';
+            $featured_img_url = $post_id ? get_the_post_thumbnail_url($post_id, 'full') : '';
+
             wp_enqueue_script('jquery-kylefoxModal', WPSP_ASSETS_URI . 'js/vendor/jquery.modal.min.js', array('jquery'), WPSP_VERSION, false);
             wp_enqueue_script('wpscp-el-editor', WPSP_ASSETS_URI . 'js/elementor-editor.js', array('jquery', 'tipsy'), WPSP_VERSION, true);
             wp_enqueue_style('jquery-kylefoxModal', WPSP_ASSETS_URI . 'css/vendor/jquery.modal.min.css', array(), WPSP_VERSION, 'all');
             wp_enqueue_style('wpscp-el-editor', WPSP_ASSETS_URI . 'css/elementor-editor.css', array(), WPSP_VERSION, 'all');
+            wp_enqueue_style('google-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap', array(), WPSP_VERSION, 'all');
+            wp_enqueue_style('wpsp-custom-social-template', WPSP_ASSETS_URI . 'css/custom-social-template.css', array(), WPSP_VERSION, 'all');
+            wp_enqueue_style('wpsp-post-panel', WPSP_ASSETS_URI . 'css/wpsp-post-panel.css', array(), WPSP_VERSION, 'all');
+            wp_enqueue_style('wpsp-react-app', WPSP_ASSETS_URI . 'css/app.min.css', array(), WPSP_VERSION, 'all');
+            wp_enqueue_script('wpsp-react-app', WPSP_ASSETS_URI . 'js/app.min.js', array('wp-element', 'wp-i18n', 'wp-hooks'), WPSP_VERSION, true);
             wp_localize_script('wpscp-el-editor', 'wpscpSocialProfile', array(
                 'nonce' => wp_create_nonce('wpscp-pro-social-profile'),
-                'is_post_type_selected' => in_array(get_post_type(get_the_ID()), $allow_post_types),
+                'is_post_type_selected' => in_array($post_type, $allow_post_types),
+            ));
+            wp_localize_script('wpsp-react-app', 'WPSchedulePostsFree', array(
+                'nonce' => wp_create_nonce('wpscp-pro-social-profile'),
+                'publishImmediately' => __('Current Date', 'wp-scheduled-posts'),
+                'publishFutureDate' => __('Future Date', 'wp-scheduled-posts'),
+                'publish_button_off' => \WPSP\Helper::get_settings('show_publish_post_button'),
+                'allowedPostTypes' => $allow_post_types,
+                'assetsURI' => WPSP_ASSETS_URI,
+                'adminURL' => admin_url(),
+                'wpsp_settings_name' => WPSP_SETTINGS_NAME,
+                '_wpscppro_custom_social_share_image' => $imageUrl,
+                '_wpscppro_custom_social_share_image_id' => $socialshareimage,
+                '_wpscppro_dont_share_socialmedia' => $disableSocialShare,
+                'current_post_id' => $post_id,
+                'current_post_title' => $post ? $post->post_title : '',
+                'current_post_content' => $post ? $post->post_content : '',
+                'current_post_status' => $post ? $post->post_status : '',
+                'current_post_url' => $post_id ? get_permalink($post_id) : '',
+                'current_post_featured_image' => $featured_img_url ? $featured_img_url : '',
+                'is_pro' => class_exists('WPSP_PRO') ? true : false,
+                'currentTime' => array(
+                    'date' => current_time('mysql'),
+                    'date_gmt' => current_time('mysql', 1),
+                ),
+                'social_media_enabled' => [
+                    'facebook' => \WPSP\Helper::get_settings('facebook_profile_status'),
+                    'twitter' => \WPSP\Helper::get_settings('twitter_profile_status'),
+                    'linkedin' => \WPSP\Helper::get_settings('linkedin_profile_status'),
+                    'pinterest' => \WPSP\Helper::get_settings('pinterest_profile_status'),
+                    'instagram' => \WPSP\Helper::get_settings('instagram_profile_status'),
+                    'medium' => \WPSP\Helper::get_settings('medium_profile_status'),
+                    'threads' => \WPSP\Helper::get_settings('threads_profile_status'),
+                    'google_business' => \WPSP\Helper::get_settings('google_business_profile_status'),
+                ],
             ));
         });
 
