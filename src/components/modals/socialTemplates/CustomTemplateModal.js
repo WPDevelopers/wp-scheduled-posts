@@ -219,20 +219,35 @@ const WPSPCustomTemplateModal = ({
     return platformData?.is_global === 1 || platformData?.is_global === '1' || platformData?.is_global === true;
   }, [apiTemplateData]);
 
+  const getProfileStorageId = useCallback((platform, profile) => {
+    if (!profile) return '';
+    if (platform === 'pinterest') {
+      return String(profile.boardId || profile.id || '');
+    }
+    return String(profile.id || '');
+  }, []);
+
+  const getSelectedProfileIdsForPlatform = useCallback((platform = selectedPlatform) => {
+    const ids = selectedProfile
+      .map((profile) => getProfileStorageId(platform, profile))
+      .filter(Boolean);
+    return Array.from(new Set(ids));
+  }, [selectedProfile, selectedPlatform, getProfileStorageId]);
+
   const setUseGlobalTemplatePlatform = useCallback((platform, checked) => {
     const updateData = (prev) => ({
       ...prev,
       [platform]: {
         ...(prev[platform] || {}),
         template: customTemplates[platform] || '',
-        profiles: selectedProfile.map(profile => profile.id),
+        profiles: getSelectedProfileIdsForPlatform(platform),
         is_global: checked ? 1 : '',
       }
     });
 
     setApiTemplateData(updateData);
     setAllPlatformData(updateData);
-  }, [customTemplates, selectedProfile]);
+  }, [customTemplates, getSelectedProfileIdsForPlatform]);
 
   // Get available profiles for selected platform
   const getAvailableProfiles = useCallback(() => {
@@ -321,7 +336,7 @@ const WPSPCustomTemplateModal = ({
       // Get current platform data
       const currentPlatformData = {
         template: customTemplates[selectedPlatform] || '',
-        profiles: selectedProfile.map(profile => profile.id),
+        profiles: getSelectedProfileIdsForPlatform(selectedPlatform),
         is_global: getIsGlobalForPlatform(selectedPlatform),
       };
 
@@ -385,7 +400,7 @@ const WPSPCustomTemplateModal = ({
   // Helper to check for changes
   const hasAnyChanges = useCallback(() => {
     const currentTemplate = customTemplates[selectedPlatform] || '';
-    const currentProfiles = selectedProfile.map(profile => profile.id);
+    const currentProfiles = getSelectedProfileIdsForPlatform(selectedPlatform);
 
     if (currentTemplate.trim() !== '' || currentProfiles.length > 0) return true;
 
@@ -404,13 +419,13 @@ const WPSPCustomTemplateModal = ({
       }
     }
     return false;
-  }, [customTemplates, selectedPlatform, selectedProfile, allPlatformData, apiTemplateData]);
+  }, [customTemplates, selectedPlatform, allPlatformData, apiTemplateData, getSelectedProfileIdsForPlatform]);
 
   // Helper to check if platform has data
   const platformHasData = useCallback((platform) => {
     if (platform === selectedPlatform) {
       const currentTemplate = customTemplates[selectedPlatform] || '';
-      const currentProfiles = selectedProfile.map(profile => profile.id);
+      const currentProfiles = getSelectedProfileIdsForPlatform(selectedPlatform);
       return currentTemplate.trim() !== '' || currentProfiles.length > 0;
     }
 
@@ -422,13 +437,13 @@ const WPSPCustomTemplateModal = ({
       (savedData.template && savedData.template.trim() !== '') ||
       (savedData.profiles && savedData.profiles.length > 0)
     );
-  }, [allPlatformData, apiTemplateData, selectedPlatform, customTemplates, selectedProfile]);
+  }, [allPlatformData, apiTemplateData, selectedPlatform, customTemplates, getSelectedProfileIdsForPlatform]);
 
   // Handle platform switching
   const handlePlatformSwitch = useCallback((newPlatform) => {
     if (selectedPlatform) {
       const currentTemplate = customTemplates[selectedPlatform] || '';
-      const currentProfiles = selectedProfile.map(profile => profile.id);
+      const currentProfiles = getSelectedProfileIdsForPlatform(selectedPlatform);
 
       if (currentTemplate.trim() !== '' || currentProfiles.length > 0) {
         setAllPlatformData(prev => ({
@@ -448,7 +463,7 @@ const WPSPCustomTemplateModal = ({
       }
     }
     setSelectedPlatform(newPlatform);
-  }, [selectedPlatform, customTemplates, selectedProfile, getIsGlobalForPlatform]);
+  }, [selectedPlatform, customTemplates, getIsGlobalForPlatform, getSelectedProfileIdsForPlatform]);
 
   const handleClose = () => {
     setAllPlatformData({});
@@ -484,9 +499,10 @@ const WPSPCustomTemplateModal = ({
       
       if (dataToLoad) {
         setCustomTemplates(prev => ({ ...prev, [selectedPlatform]: dataToLoad.template || '' }));
-        const profilesToSet = (dataToLoad.profiles || []).map(profileId =>
-          available.find(profile => profile.id === profileId)
-        ).filter(Boolean);
+        const profilesToSet = (dataToLoad.profiles || []).map((profileId) => {
+          const normalizedId = String(profileId);
+          return available.find((profile) => getProfileStorageId(selectedPlatform, profile) === normalizedId);
+        }).filter(Boolean);
         setSelectedProfile(profilesToSet);
         setIsUpdatingContent(true);
       } else {
@@ -494,7 +510,7 @@ const WPSPCustomTemplateModal = ({
         setSelectedProfile([]);
       }
     }
-  }, [selectedPlatform, allPlatformData, apiTemplateData, getAvailableProfiles]);
+  }, [selectedPlatform, allPlatformData, apiTemplateData, getAvailableProfiles, getProfileStorageId]);
 
   useEffect(() => {
       // Clear any temporary data when opening modal
@@ -566,6 +582,7 @@ const WPSPCustomTemplateModal = ({
                 availableProfiles={availableProfiles}
                 selectedProfile={selectedProfile}
                 onSelectProfile={onSelectProfile}
+                selectedPlatform={selectedPlatform}
                 WPSchedulePostsFree={WPSchedulePostsFree}
                 isLoading={isProfilesLoading}
             />

@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import apiFetch from '@wordpress/api-fetch';
 import { fetchSocialProfileData } from '../../../../helper/helper';
 
 const useSocialProfiles = () => {
@@ -40,13 +39,29 @@ const useSocialProfiles = () => {
                         return Array.from(uniqueMap.values());
                     };
 
-                    const pinterestData = (response.pinterest_profile_list || []).map(user => ({
-                        id: user?.default_board_name?.value,
-                        name: user?.default_board_name?.label,
-                        thumbnail_url: user.thumbnail_url,
-                        // Preserve other fields if needed
-                        ...user
-                    })).filter(item => item.id); // Ensure we have an ID
+                    const pinterestData = (response.pinterest_profile_list || []).map((user, index) => {
+                        const boardValue = user?.default_board_name?.value;
+                        const boardLabel = user?.default_board_name?.label || '';
+                        const sectionRaw = user?.defaultSection;
+                        const sectionValue = sectionRaw?.value || sectionRaw?.id || '';
+                        const sectionLabel = sectionRaw?.label || sectionRaw?.name || (
+                            typeof sectionRaw === 'string' ? sectionRaw : ''
+                        );
+                        // Use a unique UI id to avoid collapsing multiple Pinterest items that share board/profile ids.
+                        const uiId = [boardValue, sectionValue || 'no-section', index].filter(Boolean).join('|');
+
+                        return {
+                            ...user,
+                            id: uiId,
+                            boardId: boardValue,
+                            // Keep `name` as board name for backward compatibility.
+                            name: boardLabel,
+                            boardName: boardLabel,
+                            sectionName: sectionLabel,
+                            displayName: sectionLabel ? `${boardLabel} / ${sectionLabel}` : boardLabel,
+                            thumbnail_url: user.thumbnail_url,
+                        };
+                    }).filter((item) => item.boardId); // Ensure we have a board ID
 
                     setSocialProfiles({
                         facebook: processProfiles(response.facebook_profile_list),

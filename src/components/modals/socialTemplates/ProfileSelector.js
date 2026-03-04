@@ -6,10 +6,20 @@ const ProfileSelector = ({
     availableProfiles, 
     selectedProfile, 
     onSelectProfile,
+    selectedPlatform,
     WPSchedulePostsFree,
     isLoading
 }) => {
     const [activeDropdown, setActiveDropdown] = useState(false);
+    const isPinterest = selectedPlatform === 'pinterest';
+    const getProfileLabel = (profile) => {
+        if (!isPinterest) {
+            return profile.name;
+        }
+
+        return profile.displayName
+            || (profile.sectionName ? `${profile.name} / ${profile.sectionName}` : profile.name);
+    };
 
     if (isLoading) {
         return (
@@ -51,13 +61,13 @@ const ProfileSelector = ({
                             <li
                                 key={profile.id}
                                 className="selected-profile"
-                                title={profile.name}
+                                title={getProfileLabel(profile)}
                                 onClick={() => onSelectProfile(profile)}
                             >
                                 {profile.thumbnail_url ? (
                                     <img
                                         src={profile.thumbnail_url}
-                                        alt={profile.name}
+                                        alt={getProfileLabel(profile)}
                                         className="wpsp-profile-image"
                                         onError={(e) => {
                                             e.target.onerror = null;
@@ -65,7 +75,7 @@ const ProfileSelector = ({
                                         }}
                                     />
                                 ) : (
-                                    <div className="wpsp-profile-placeholder">{profile.name?.charAt(0).toUpperCase() || '?'}</div>
+                                    <div className="wpsp-profile-placeholder">{getProfileLabel(profile)?.charAt(0).toUpperCase() || '?'}</div>
                                 )}
 
                                 {isSelected && (
@@ -111,7 +121,7 @@ const ProfileSelector = ({
                                     {profile.thumbnail_url ? (
                                         <img
                                             src={profile.thumbnail_url}
-                                            alt={profile.name}
+                                            alt={getProfileLabel(profile)}
                                             className="wpsp-profile-image"
                                             onError={(e) => {
                                                 e.target.onerror = null;
@@ -119,11 +129,11 @@ const ProfileSelector = ({
                                             }}
                                         />
                                     ) : (
-                                        <div className="wpsp-profile-placeholder">{profile.name?.charAt(0).toUpperCase() || '?'}</div>
+                                        <div className="wpsp-profile-placeholder">{getProfileLabel(profile)?.charAt(0).toUpperCase() || '?'}</div>
                                     )}
                                 </div>
                                 <div className="wpsp-profile-info">
-                                    <div className="wpsp-profile-name">{profile.name}</div>
+                                    <div className="wpsp-profile-name">{getProfileLabel(profile)}</div>
                                 </div>
                             </div>
                         ))}
