@@ -42,7 +42,7 @@ class Assets
             wp_enqueue_style('wpsp-custom-social-template', WPSP_ASSETS_URI . 'css/custom-social-template.css', array(), WPSP_VERSION, 'all');
             wp_enqueue_style('wpsp-post-panel', WPSP_ASSETS_URI . 'css/wpsp-post-panel.css', array(), WPSP_VERSION, 'all');
             wp_enqueue_style('wpsp-react-app', WPSP_ASSETS_URI . 'css/app.min.css', array(), WPSP_VERSION, 'all');
-            wp_enqueue_script('wpsp-react-app', WPSP_ASSETS_URI . 'js/app.min.js', array('wp-element', 'wp-i18n', 'wp-hooks'), WPSP_VERSION, true);
+            wp_enqueue_script('wpsp-react-app', WPSP_ASSETS_URI . 'js/app.min.js', array('wp-element','wp-components','wp-data', 'wp-i18n', 'wp-hooks'), WPSP_VERSION, true);
             wp_localize_script('wpscp-el-editor', 'wpscpSocialProfile', array(
                 'nonce' => wp_create_nonce('wpscp-pro-social-profile'),
                 'is_post_type_selected' => in_array($post_type, $allow_post_types),
@@ -123,7 +123,7 @@ class Assets
         wp_enqueue_style('wpsp-post-panel', WPSP_ASSETS_URI . 'css/wpsp-post-panel.css', array(), WPSP_VERSION, 'all');
         wp_enqueue_style(WPSP_PLUGIN_SLUG . '-icon', WPSP_ADMIN_URL . 'Settings/assets/icon/style.css', array(), WPSP_VERSION);
         wp_enqueue_script('wps-publish-button', WPSP_ASSETS_URI . 'js/wpspl-admin.min.js', array('wp-components', 'wp-data', 'wp-edit-post', 'wp-editor', 'wp-element', 'wp-i18n', 'wp-plugins', 'wp-hooks'), WPSP_VERSION, true);
-        wp_enqueue_script('wpsp-react-app', WPSP_ASSETS_URI . 'js/app.min.js', array('wp-element', 'wp-i18n', 'wp-hooks'), WPSP_VERSION, true);
+        wp_enqueue_script('wpsp-react-app', WPSP_ASSETS_URI . 'js/app.min.js', array('wp-element','wp-components', 'wp-data', 'wp-i18n', 'wp-hooks'), WPSP_VERSION, true);
         wp_enqueue_style('wpsp-react-app', WPSP_ASSETS_URI . 'css/app.min.css', array(), WPSP_VERSION, 'all');
         wp_localize_script('wps-publish-button', 'WPSchedulePostsFree', array(
             'nonce' => wp_create_nonce('wpscp-pro-social-profile'),
