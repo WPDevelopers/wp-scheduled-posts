@@ -1,5 +1,6 @@
 #wpsp-post-panel-modal {
     background: rgba(27, 27, 80, 0.4);
+    font-family: "Inter";
 
     .wpsp-post-panel-content {
         box-sizing: border-box;
@@ -14,18 +15,19 @@
             padding: 20px 10px 0 30px;
 
             h2 {
-                margin: 0 0 20px 0;
-                font-family: "Inter";
-                font-weight: 500;
                 font-size: 20px;
+                font-weight: 500;
                 line-height: 120%;
+                color: #1D2939;
                 letter-spacing: 0px;
+                margin: 0 0 20px 0;
             }
 
             .wpsp-post--card {
                 background: rgb(255, 255, 255);
                 padding: 16px;
                 border-radius: 12px;
+
                 .card--title {
                     display: flex;
                     align-items: center;
@@ -53,14 +55,13 @@
                         flex: 1;
 
                         .card--title {
-                            margin: 0;
+                            margin-bottom: 8px;
 
                             h5 {
                                 font-size: 14px;
                                 color: #475467;
                                 font-weight: 500;
                                 margin: 0;
-                                margin-bottom: 8px;
 
                             }
                         }
@@ -74,6 +75,7 @@
                             min-height: 40px;
                             max-height: 40px;
                             width: 100%;
+                            background: transparent;
                             cursor: pointer;
 
                             &:focus {
@@ -98,12 +100,12 @@
             flex-basis: 35%;
 
             h2 {
-                margin: 0 0 20px 0;
-                font-family: "Inter";
-                font-weight: 500;
                 font-size: 20px;
+                font-weight: 500;
+                color: #1D2939;
                 line-height: 120%;
                 letter-spacing: 0px;
+                margin: 0 0 20px 0;
             }
 
             .wpsp-post--card {
@@ -128,34 +130,43 @@
             }
 
             .wpsp-upload-social-banner {
-                .wpsp-upload-social-banner-btn button{
-                    width: 100%;
-                    opacity: 1;
-                    gap: 8px;
-                    border-radius: 6px;
-                    padding-top: 12px;
-                    padding-right: 16px;
-                    padding-bottom: 12px;
-                    padding-left: 16px;
-                    border-width: 1px;
-                    border-style: solid;
-                    border-color: #6C62FF;
-                    border-image: initial;
-                    background: #fff;
-                    cursor: pointer;
-                    color: #6C62FF;
+                .wpsp-upload-social-banner-btn {
+                    button {
+                        width: 100%;
+                        opacity: 1;
+                        gap: 8px;
+                        border-radius: 6px;
+                        padding-top: 12px;
+                        padding-right: 16px;
+                        padding-bottom: 12px;
+                        padding-left: 16px;
+                        border-width: 1px;
+                        border-style: solid;
+                        border-color: #6C62FF;
+                        border-image: initial;
+                        background: #fff;
+                        cursor: pointer;
+                        color: #6C62FF;
+                    }
                     p {
                         font-size: 11px;
                         color: #6E6E8D;
                         font-weight: 400;
-                        margin: 0;
+                        line-height: 140%;
+                        font-style: italic;
+                        margin: 8px 0 16px;
                     }
                 }
 
-                .wpsp-social-banner-preview-image {
+                .wpsp-social-banner-preview-image, 
+                .wpsp-upload-social-banner-preview-inner {
                     width: 100%;
                     height: auto;
                     display: block;
+
+                    img {
+                        border-radius: 6px;
+                    }
                 }
 
                 .wpsp-upload-social-banner-remove {

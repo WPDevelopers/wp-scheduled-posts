@@ -250,7 +250,7 @@ h5.title {
     color: #1B1B50;
 }
 .wpsp-global-template input {
-  display: none;
+  display: none !important;
 }
 .wpsp-global-template label {
   width: 36px;
