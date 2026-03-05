@@ -346,7 +346,7 @@ button.components-button.wpsp-add-template-btn:disabled {
 
 .wpsp-modal-layout {
   display: flex;
-  min-height: 500px;
+  /* min-height: 500px; */
 }
 
 /* Left side - Template Editor */

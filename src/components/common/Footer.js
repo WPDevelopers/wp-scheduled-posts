@@ -82,17 +82,15 @@ const Footer = () => {
 
     };
     return (
-        <div className="wpsp-post-panel-footer">
-            <div className="wpsp-modal--footer">
-                <button 
-                    className="btn secondary-btn" 
-                    id="wpsp-save-settings" 
-                    onClick={handleSaveSettings}
-                    disabled={isSaving}
-                >
-                    {isSaving ? 'Saving...' : 'Save Changes'}
-                </button>
-            </div>
+        <div className="wpsp-modal--footer">
+            <button 
+                className="btn primary-btn" 
+                id="wpsp-save-settings" 
+                onClick={handleSaveSettings}
+                disabled={isSaving}
+            >
+                {isSaving ? 'Saving...' : 'Save Changes'}
+            </button>
         </div>
     );
 };

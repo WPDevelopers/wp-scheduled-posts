@@ -12,7 +12,7 @@
 
         .wpsp-post-panel-modal-settings {
             flex-basis: 60%;
-            padding: 20px 10px 0 30px;
+            padding: 20px 10px 10px 30px;
 
             h2 {
                 font-size: 20px;
@@ -96,7 +96,7 @@
 
         .wpsp-modal-social-share {
             background-color: #F2F0FA;
-            padding: 20px 10px 0 10px;
+            padding: 24px 20px 24px 20px;
             flex-basis: 35%;
 
             h2 {
@@ -545,6 +545,11 @@
         padding: 16px 24px;
         background: #fff;
         border-bottom: 1px solid #f0f0f1;
+        position: sticky;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 10;
     }
 
     .wpsp-modal--footer {
@@ -554,31 +559,33 @@
         background: rgb(249, 248, 253);
         padding: 12px 16px;
         border-top: 1px solid rgb(236, 239, 245);
+        position: sticky;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 10;
 
         .btn {
             font-size: 14px;
-            line-height: 1em;
+            line-height: 100%;
             font-weight: 500;
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            padding: 12px 16px;
+            padding: 16px 24px;
             border-radius: 6px;
-            border-width: initial;
-            border-style: none;
-            border-color: initial;
-            border-image: initial;
+            border: none;
             gap: 8px;
+            cursor: pointer;
 
             &.primary-btn {
-                color: rgb(255, 255, 255);
-                background: rgb(108, 98, 255);
+                color: #FFF;
+                background: #6C62FF;
             }
 
             &.secondary-btn {
-                color: rgb(108, 98, 255);
-                background: rgb(243, 242, 255);
+                color: #6C62FF;
+                background: #F3F2FF;
             }
         }
         
@@ -652,7 +659,7 @@
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
-        padding: 20px 32px;
+        padding: 16px 32px;
         background: #FFF;
         position: sticky;
         top: 0;
