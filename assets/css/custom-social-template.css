@@ -1327,12 +1327,13 @@ textarea.wpsp-template-input {
 }
 .wpsp-tooltip-text {
   visibility: hidden;
-  width: 240px;
-  background: #ECEFF5;
-  color: #fff;
+  width: 216px;
+  background: #FFFFFF;
+  color: #1D2939;
+  line-height: 150%;
   text-align: left;
   border-radius: 6px;
-  padding: 8px 12px;
+  padding: 12px;
   position: absolute;
   z-index: 100;
   bottom: 125%;
@@ -1342,7 +1343,7 @@ textarea.wpsp-template-input {
   transition: opacity 0.2s;
   font-size: 13px;
   font-weight: 400 !important;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  box-shadow: 0px 10px 10px -5px, #3341550A 0px 20px 25px -5px #3341551A;
   pointer-events: none;
 }
 .wpsp-tooltip-wrapper:hover .wpsp-tooltip-text,
@@ -1360,14 +1361,14 @@ textarea.wpsp-template-input {
   transform: translateX(-50%);
   border-width: 6px;
   border-style: solid;
-  border-color: #ECEFF5 transparent transparent transparent;
+  border-color: #FFF transparent transparent transparent;
 }
 
 /* Global template warning message  */
 .use-global-template-warning {
   width: 240px;
-  background: #ECEFF5;
-  color: #fff;
+  background: #FFF;
+  color: #1D2939;
   text-align: left;
   border-radius: 6px;
   padding: 8px 12px;
@@ -1377,7 +1378,7 @@ textarea.wpsp-template-input {
   transition: opacity 0.2s;
   font-size: 13px;
   font-weight: 400 !important;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  box-shadow: 0px 10px 10px -5px #3341550A, 0px 20px 25px -5px #3341551A;
   pointer-events: none;
 }
 .use-global-template-warning::after {
@@ -1388,7 +1389,7 @@ textarea.wpsp-template-input {
   transform: translateX(-50%);
   border-width: 6px;
   border-style: solid;
-  border-color: #ECEFF5 transparent transparent transparent;
+  border-color: #FFF transparent transparent transparent;
 }
 
 .wpsp-social-share-settings-warpper {
@@ -1441,6 +1442,9 @@ textarea.wpsp-template-input {
 .wpsp-add-social-message-text {
   position: relative;
 }
+.wpsp-custom-social-doc-link {
+  display: inline-flex;
+}
 .wpsp-add-social-message-text:hover .wpsp-tooltip-text,
 .wpsp-add-social-message-text:focus-within .wpsp-tooltip-text {
   visibility: visible;
@@ -1460,11 +1464,13 @@ textarea.wpsp-template-input {
   transform: translate(-27px) rotate(179deg);
   border-width: 6px;
   border-style: solid;
-  border-color: #ECEFF5 transparent transparent transparent;
+  border-color: #FFF transparent transparent transparent;
 }
 #wpsp-components-modal-header-1 .wpsp-add-social-message-text .wpsp-tooltip-text::after {
   top: -17%;
 }
 #wpsp-components-modal-header-1 .wpsp-add-social-message-text:hover .wpsp-tooltip-text {
-  height: 52px !important;
+    height: 70px !important;
+    width: 204px;
+    padding: 12px;
 }
