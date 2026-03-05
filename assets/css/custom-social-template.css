@@ -357,28 +357,6 @@ button.components-button.wpsp-add-template-btn:disabled {
   background: #F9F8FD;
 }
 
-/* Platform Icons */
-.wpsp-platform-icons {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
-  flex-wrap: wrap;
-}
-
-.wpsp-platform-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  background: #98A2B3 !important;
-  position: relative;
-}
 .wpsp-platform-icon svg path {
   /* fill: #FFF; */
 } 
@@ -389,36 +367,6 @@ button.components-button.wpsp-add-template-btn:disabled {
   fill: #6b7280;
   transition: all 0.2s ease;
 } */
-
-.wpsp-platform-icon:hover {
-  transform: translateY(-2px);
-}
-
-.wpsp-platform-icon.active {
-  background: #ffffff !important;
-  border-radius: 8px;
-  box-shadow: 0px 6px 15px 0px #1B1B501F;
-  border: 1px solid #ECEFF5;
-  position: relative;
-}
-
-.wpsp-platform-icon.active:hover {
-  transform: translateY(0px);
-}
-
-.wpsp-platform-icon.active::after {
-  content: '';
-  position: absolute;
-  bottom: -6px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 0;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-top: 7px solid #ffffff;
-  z-index: 1;
-}
 
 .wpsp-platform-icon svg {
   min-height: 16px;

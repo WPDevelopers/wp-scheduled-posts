@@ -29,9 +29,10 @@ const PlatformNavigation = ({
                         </button>
 
                         {isDisabled && (
-                            <span className="wpsp-tooltip">
-                                No profile data available
-                            </span>
+                            <div className="wpsp-tooltip">
+                                Not connected yet. <br/>
+                                <span>Connect a social account from <br/> SchedulePress → Social Profiles.</span>
+                            </div>
                         )}
                     </div>
                 );

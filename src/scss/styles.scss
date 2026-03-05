@@ -423,20 +423,71 @@
     .wpsp-post-panel-inner-modal {
         .wpsp-custom-template-modal {
             .wpsp-platform-icons {
+                display: flex;
+                gap: 8px;
+                margin-bottom: 16px;
+                flex-wrap: wrap;
+
                 .wpsp-platform-icon {
-                    position: relative;
-                    padding: 5px 8px;
-                    &.has-data::after {
-                        content: '';
-                        position: absolute;
-                        top: 6px;
-                        right: 6px;
-                        width: 3px;
-                        height: 3px;
-                        background-color: #22c55e; /* nice modern green */
-                        border-radius: 50%;
-                        border: 2px solid #fff; /* white border for clean look */
-                        box-shadow: 0 0 0 1px rgba(0,0,0,0.05);
+                    width: 32px;
+                    height: 32px;
+                    border-radius: 50%;
+                    padding: 6px;
+                    border: none;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 16px;
+                    transition: all 0.2s ease;
+                    background: #98A2B3 !important;
+                    position: relative;  
+                    cursor: pointer;  
+
+                    &:hover {
+                        transform: translateY(-2px);
+                    }
+
+                    &.active {
+                        background: #ffffff !important;
+                        border-radius: 8px;
+                        box-shadow: 0px 6px 15px 0px #1B1B501F;
+                        border: 1px solid #ECEFF5;
+                        position: relative;
+                        
+                        &::after {
+                            content: '';
+                            position: absolute;
+                            bottom: -6px;
+                            left: 50%;
+                            transform: translateX(-50%);
+                            width: 0;
+                            height: 0;
+                            border-left: 6px solid transparent;
+                            border-right: 6px solid transparent;
+                            border-top: 7px solid #ffffff;
+                            z-index: 1;
+                        }
+
+                        &:hover {
+                            transform: translateY(0px);
+                        }
+                    }         
+
+                    &.has-data {
+                        background: #ffffff !important;
+                        border-radius: 8px;
+                        border: 1px solid #ECEFF5;
+
+                        &:before {
+                            content: '';
+                            position: absolute;
+                            top: 4px;
+                            right: 4px;
+                            width: 4px;
+                            height: 4px;
+                            background-color: #06C08D; 
+                            border-radius: 50%;
+                        }
                     }
                 }
             }
@@ -447,31 +498,40 @@
 
             .wpsp-tooltip {
                 position: absolute;
-                bottom: 120%;
+                bottom: 46px;
                 left: 50%;
                 transform: translateX(-50%);
-                background-color: #222;
-                color: #fff;
-                padding: 6px 10px;
-                font-size: 12px;
-                border-radius: 6px;
+                background-color: #FFF;
+                color: #1D2939;
+                padding: 12px;
+                font-size: 11px;
+                line-height: 150%;
+                font-weight: 600;
+                border-radius: 8px;
+                max-width: 216px;
                 white-space: nowrap;
                 opacity: 0;
                 visibility: hidden;
-                transition: all 0.2s ease;
-                z-index: 999;
-            }
+                transition: all .2s ease;
+                box-shadow: 0px 10px 10px -5px #3341550A, 0px 20px 25px -5px #3341551A;
+                z-index: 99;
 
-            /* Arrow */
-            .wpsp-tooltip::after {
-                content: '';
-                position: absolute;
-                top: 100%;
-                left: 50%;
-                transform: translateX(-50%);
-                border-width: 6px;
-                border-style: solid;
-                border-color: #222 transparent transparent transparent;
+                span {
+                    font-weight: 400;
+                    color: #6E6E8D;
+                }
+
+                &:after {
+                    content: "";
+                    position: absolute;
+                    bottom: -10px;
+                    left: 50%;
+                    margin-left: 12px;
+                    transform: translateX(-50%) rotate(-90deg);
+                    border-width: 12px;
+                    border-style: solid;
+                    border-color: #FFF rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
+                }
             }
 
             /* Show on hover */
