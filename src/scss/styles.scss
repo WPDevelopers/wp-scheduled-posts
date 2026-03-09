@@ -42,6 +42,12 @@
                         color: #1D2939;
                     }
                 }
+                
+                .wpsp-post--items {
+                    .card--title {
+                        margin-bottom: 8px;
+                    }
+                }
             }
 
             .wpsp-post-panel-modal-settings-schedule {
@@ -353,6 +359,8 @@
                 margin: -1px -3px;
                 height: 16px;
                 width: 18px;
+                transform: rotate(0deg);
+                border: unset;
             }
             &:focus {
                 box-shadow: none;
