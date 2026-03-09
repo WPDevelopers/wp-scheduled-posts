@@ -579,9 +579,6 @@ const WPSPCustomTemplateModal = ({
       <div className="wpsp-modal--footer">
         <div className="wpsp-custom-social-footer-wrapper">
           <div className="wpsp-custom-social-footer-right">
-            <button className="btn secondary-btn" onClick={handleClose}>
-              {__('Cancel', 'wp-scheduled-posts')}
-            </button>
             <button  className="btn primary-btn" onClick={handleGlobalSave} disabled={isSaving || !hasAnyChanges()}>
               {saveText}
             </button>

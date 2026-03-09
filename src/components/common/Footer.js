@@ -90,6 +90,9 @@ const Footer = () => {
                 disabled={isSaving}
             >
                 {isSaving ? 'Saving...' : 'Save Changes'}
+                <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0.599609 10.5996L5.59961 5.59961L0.599609 0.599609" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
             </button>
         </div>
     );

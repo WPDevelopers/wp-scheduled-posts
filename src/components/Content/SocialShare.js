@@ -320,10 +320,13 @@ const SocialShare = () => {
                     </div>
                 </div>
                 <div className="wpsp-upload-social-banner">
-                    <div className="wpsp-upload-social-banner-btn">
-                        <button className="wpsp-upload-social-share-btn" onClick={openMediaUploader}>Upload Social Banner</button>
-                        <p>*If you don't upload, featured image will be selected as banner</p>
-                    </div>
+                    { !socialBannerUrl &&
+                        <div className="wpsp-upload-social-banner-btn">
+                            <button className="wpsp-upload-social-share-btn" onClick={openMediaUploader}>Upload Social Banner</button>
+                            <p>*If you don't upload, featured image will be selected as banner</p>
+                        </div>
+                     }
+                    
                     <div className="wpsp-upload-social-banner-preview">
                         <div className="wpsp-upload-social-banner-preview-inner">
                             {socialBannerUrl && <img style={{ width: '100%', height: 'auto' }} src={socialBannerUrl} alt="Social Banner" />}
