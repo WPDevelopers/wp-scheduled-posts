@@ -1,15 +1,11 @@
 #wpsp-post-panel-modal {
-    background: rgba(27, 27, 80, 0.4);
-    font-family: "Inter";
 
     .wpsp-post-panel-content {
-        box-sizing: border-box;
         max-width: 922px;
         background: #f9f8fd;
     }
 
     .wpsp-post-panel {
-
         .wpsp-post-panel-modal-settings {
             flex-basis: 60%;
             padding: 20px 10px 10px 30px;
@@ -177,11 +173,16 @@
 
                     img {
                         border-radius: 6px;
+                        max-height: 110px;
+                        object-fit: contain;
                     }
                 }
 
                 .wpsp-upload-social-banner-remove {
                     margin: 8px 0 12px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
 
                     .wpsp-upload-social-share-btn {
                         font-size: 12px;
@@ -239,9 +240,9 @@
                 }
                 .wpsp-social-platforms--wrapper {
                     padding: 8px 16px 13px;
-                    max-height: 350px;
+                    max-height: 210px;
                     overflow: auto;
-                    
+
                     .wpsp-social-platforms-cards {
                         display: flex;
                         flex-direction: column;
@@ -351,6 +352,7 @@
                 }
 
                 .sc-publish-future-buttons button.button {
+                    padding: 8px 10px !important;
                     background: #6C62FF !important;
                     border-radius: 6px !important;
                     border: 1px solid #6C62FF !important;
@@ -569,6 +571,7 @@
         padding: 16px 24px;
         background: #fff;
         border-bottom: 1px solid #f0f0f1;
+        border-radius: 14px 14px 0 0;
         position: sticky;
         top: 0;
         left: 0;
@@ -580,9 +583,10 @@
         display: flex;
         justify-content: flex-end;
         gap: 16px;
-        background: rgb(249, 248, 253);
         padding: 12px 16px;
         border-top: 1px solid rgb(236, 239, 245);
+        background: #f9f8fd;
+        border-radius: 0 0 14px 14px;
         position: sticky;
         bottom: 0;
         left: 0;
@@ -685,6 +689,7 @@
         justify-content: space-between;
         padding: 16px 32px;
         background: #FFF;
+        border-radius: 14px 14px 0 0;
         position: sticky;
         top: 0;
         left: 0;
@@ -711,14 +716,18 @@
         margin: 0;
     }
     .wpsp-custom-template-modal .wpsp-components-button {
-        padding: 0;
-        background: transparent;
+        position: absolute;
+        top: 0;
+        right: -48px;
         border: none;
-        cursor: pointer;
-        display: inline-flex;
+        background: #FFF;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
         align-items: center;
         justify-content: center;
-        margin: 0;
+        cursor: pointer;
         svg {
             width: 18px;
             height: 18px;

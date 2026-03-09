@@ -2,20 +2,17 @@
 .wpsp-post-panel-modal {
     position: fixed;
     inset: 0;
+    font-family: "Inter";
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000000B2;
     display: none;
     z-index: 99999;
 }
 
-.wpsp-post-panel-active {
-    display: block;
-
-}
-
-/* Overlay */
-.wpsp-post-panel-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.7);
+.wpsp-post-panel-modal.wpsp-post-panel-active {
+    display: flex;
 }
 
 /* Post panel wrapper button  */
@@ -33,18 +30,13 @@
 
 /* Content */
 .wpsp-post-panel-content {
-    position: absolute;
-    background-color: #fff;
+    position: relative;
     max-width: 970px;
     width: 90%;
     max-height: 90vh;
     height: auto;
     box-sizing: border-box;
-    overflow: auto;
     align-items: center;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     border-radius: 14px;
 }
 
@@ -56,10 +48,15 @@
 /* Close button */
 .wpsp-post-panel-close {
     position: absolute;
-    top: 22px;
-    right: 18px;
+    top: 0;
+    right: -48px;
     border: none;
-    background: transparent;
+    background: #FFF;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    z-index: 91;
 }
