@@ -347,51 +347,55 @@ const SocialShare = () => {
                 )}
                 <div className='wpsp-social-platforms-card-wrapper'>
                     { selectedPlatformCards.length > 0 && <h4>Selected Social Platforms</h4> }
-                    <div className='wpsp-social-platforms-cards'>
-                        {isProfilesLoading && <p>Loading selected profiles...</p>}
-                        
-                        {!isProfilesLoading && selectedPlatformCards.map((card) => {
-                            const visibleProfiles = card.profiles.slice(0, 5);
-                            const extraCount = card.profiles.length - visibleProfiles.length;
+                    <div className='wpsp-social-platforms--wrapper'>
+                        <div className='wpsp-social-platforms-cards'>
+                            {isProfilesLoading && <p>Loading selected profiles...</p>}
+                            
+                            {!isProfilesLoading && selectedPlatformCards.map((card) => {
+                                const visibleProfiles = card.profiles.slice(0, 5);
+                                const extraCount = card.profiles.length - visibleProfiles.length;
 
-                            return (
-                                <div className='wpsp-social-card' key={card.platform}>
-                                    <div className='social-platforms-card-header'>
-                                        {card.icon}
-                                        <div className="wpsp-preview-name">{card.label}</div>
+                                return (
+                                    <div className='wpsp-social-card' key={card.platform}>
+                                        <div className='social-platforms-card-header'>
+                                            {card.icon}
+                                            <div className="wpsp-preview-name">{card.label}</div>
+                                        </div>
+                                        <div className='social-platforms-card-content'>
+                                            {visibleProfiles.map((profile) => (
+                                                profile.thumbnail_url ? (
+                                                    <img
+                                                        key={profile.id}
+                                                        src={profile.thumbnail_url}
+                                                        alt={profile.name || card.label}
+                                                        title={profile.name || ''}
+                                                        onError={(e) => {
+                                                            e.target.onerror = null;
+                                                            e.target.src = `data:image/svg+xml;utf8,${encodeURIComponent(authorIcon)}`;
+                                                        }}
+                                                    />
+                                                ) : (
+                                                    <img
+                                                        key={profile.id}
+                                                        src={`data:image/svg+xml;utf8,${encodeURIComponent(authorIcon)}`}
+                                                        alt={profile.name || card.label}
+                                                        title={profile.name || ''}
+                                                    />
+                                                )
+                                            ))}
+                                            {extraCount > 0 && <div className='count-card'>{`+${extraCount}`}</div>}
+                                        </div>
                                     </div>
-                                    <div className='social-platforms-card-content'>
-                                        {visibleProfiles.map((profile) => (
-                                            profile.thumbnail_url ? (
-                                                <img
-                                                    key={profile.id}
-                                                    src={profile.thumbnail_url}
-                                                    alt={profile.name || card.label}
-                                                    title={profile.name || ''}
-                                                    onError={(e) => {
-                                                        e.target.onerror = null;
-                                                        e.target.src = `data:image/svg+xml;utf8,${encodeURIComponent(authorIcon)}`;
-                                                    }}
-                                                />
-                                            ) : (
-                                                <img
-                                                    key={profile.id}
-                                                    src={`data:image/svg+xml;utf8,${encodeURIComponent(authorIcon)}`}
-                                                    alt={profile.name || card.label}
-                                                    title={profile.name || ''}
-                                                />
-                                            )
-                                        ))}
-                                        {extraCount > 0 && <div className='count-card'>{`+${extraCount}`}</div>}
-                                    </div>
-                                </div>
-                            );
-                        })}
+                                );
+                            })}
+                        </div>
                     </div>
-                    {hasSavedSocialMessage && (
-                        <button className="wpsp-upload-social-share-btn" onClick={handleCustomSocialMessage}>Edit Social Message</button>
-                    )}
-                    <ShareNowButton selectedProfilesByPlatform={selectedProfilesByPlatform} postId={resolvedPostId} hasSavedSocialMessage={hasSavedSocialMessage} />
+                    <div className='wpsp-social-btn--wrapper'>
+                        {hasSavedSocialMessage && (
+                            <button className="wpsp-upload-social-share-btn" onClick={handleCustomSocialMessage}>Edit Social Message</button>
+                        )}
+                        <ShareNowButton selectedProfilesByPlatform={selectedProfilesByPlatform} postId={resolvedPostId} hasSavedSocialMessage={hasSavedSocialMessage} />
+                    </div>
                 </div>
             </div>
         </div>
