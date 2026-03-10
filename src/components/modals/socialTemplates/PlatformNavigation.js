@@ -15,15 +15,9 @@ const PlatformNavigation = ({
                 return (
                     <div key={platform} className="wpsp-tooltip-wrapper">
                         <button
-                            className={`wpsp-platform-icon ${isActive ? 'active' : ''} ${isDisabled ? 'disabled-profile' : 'has-data'}`}
+                            className={`wpsp-platform-icon ${isActive ? 'active' : ''} ${platform} ${isDisabled ? 'disabled-profile' : 'has-data'}`}
                             onClick={!isDisabled ? () => onSelectPlatform(platform) : undefined}
                             disabled={isDisabled}
-                            style={{
-                                backgroundColor: isActive ? bgColor : '#f0f0f0',
-                                color: isActive ? '#fff' : '#666',
-                                fontWeight: isActive ? 'bold' : 'normal',
-                                cursor: isDisabled ? 'not-allowed' : 'pointer',
-                            }}
                         >
                             {icon}
                         </button>
