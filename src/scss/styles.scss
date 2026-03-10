@@ -29,7 +29,7 @@
                     align-items: center;
                     margin-bottom: 16px;
                     gap: 8px;
-                    justify-content: space-between;
+                    // justify-content: space-between;
                     .wpsp-reset-schedule-on {
                         button {
                             background: transparent;
@@ -579,9 +579,35 @@
                     &:hover {
                         transform: translateY(-2px);
                     }
-
+                    &.facebook.active {
+                        background-color: #1877f2 !important;
+                    }
+                    &.twitter.active {
+                        background-color: #000000 !important;
+                    }
+                    &.linkedin.active {
+                        background-color: #0077b5 !important;
+                    }
+                    &.pinterest.active {
+                        background-color: #bd081c !important;
+                    }
+                    &.instagram.active {
+                        background-color: #e4405f !important;
+                    }
+                    &.medium.active {
+                        background-color: #00ab6c !important;
+                    }
+                    &.threads.active {
+                        background-color: #000000 !important;
+                    }
+                    &.google_business.active {
+                        background-color: #db4437 !important;
+                    }
                     &.active {
-                        background: #ffffff !important;
+                        svg path{
+                            fill: #fff;
+                        }
+                        // background: #ffffff !important;
                         border-radius: 8px;
                         box-shadow: 0px 6px 15px 0px #1B1B501F;
                         border: 1px solid #ECEFF5;
