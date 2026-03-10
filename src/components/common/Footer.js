@@ -31,17 +31,36 @@ const Footer = () => {
     const [isSaving, setIsSaving] = useState(false);
     const shouldSchedulePost = !!isScheduled && !!scheduleDate;
 
+    const getCurrentPostId = () => {
+        // Gutenberg
+        if (wp?.data?.select && wp.data.select('core/editor')) {
+            const id = wp.data.select('core/editor').getCurrentPostId();
+            if (id) return id;
+        }
+
+        // Localized globals (Classic / Elementor / builders)
+        if (window.WPSchedulePostsFree?.current_post_id) {
+            return window.WPSchedulePostsFree.current_post_id;
+        }
+        if (window.WPSchedulePosts?.current_post_id) {
+            return window.WPSchedulePosts.current_post_id;
+        }
+
+        // Classic editor fallback
+        const inputPostId = document.getElementById('post_ID')?.value;
+        if (inputPostId) return parseInt(inputPostId, 10);
+
+        // URL fallback
+        const queryPostId = new URLSearchParams(window.location.search).get('post');
+        if (queryPostId) return parseInt(queryPostId, 10);
+
+        return null;
+    };
+
     const handleSaveSettings = () => {
         if (typeof wp === 'undefined' || !wp.apiFetch) return;
 
-        let postId = null;
-        if (wp.data && wp.data.select && wp.data.select('core/editor')) {
-             postId = wp.data.select('core/editor').getCurrentPostId();
-        }
-        
-        if (!postId && typeof window.WPSchedulePostsFree !== 'undefined') {
-            postId = window.WPSchedulePostsFree.current_post_id;
-        }
+        const postId = getCurrentPostId();
 
         if (!postId) return;
 

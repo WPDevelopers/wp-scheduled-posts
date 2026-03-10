@@ -2,9 +2,23 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { AppContext } from '../../context/AppContext';
 const { DateTimePicker, Popover } = wp.components;
 const { __ } = wp.i18n;
+const { useSelect } = wp.data;
+
+const normalizeDateString = (dateString) => {
+    if (!dateString || typeof dateString !== 'string') {
+        return '';
+    }
+
+    // Convert MySQL datetime to ISO-like string for DateTimePicker compatibility.
+    if (dateString.includes(' ') && !dateString.includes('T')) {
+        return dateString.replace(' ', 'T');
+    }
+
+    return dateString;
+};
 
 const formatDateTime = (dateString) => {
-    const date = new Date(dateString);
+    const date = new Date(normalizeDateString(dateString));
     if (Number.isNaN(date.getTime())) {
         return '';
     }
@@ -21,19 +35,37 @@ const formatDateTime = (dateString) => {
 
 const ScheduleOn = () => {
     const { state, dispatch } = useContext(AppContext);
-    const [scheduleDate, setScheduleDate] = useState(() => state?.scheduleDate || '');
+    const editorScheduleData = useSelect((select) => {
+        const editor = select('core/editor');
+        if (!editor) {
+            return { date: '', status: '' };
+        }
+
+        return {
+            date: editor.getEditedPostAttribute('date') || '',
+            status: editor.getEditedPostAttribute('status') || '',
+        };
+    }, []);
+    const globalPostStatus = window?.WPSchedulePostsFree?.current_post_status || window?.WPSchedulePosts?.current_post_status || '';
+    const globalPostDate = window?.WPSchedulePostsFree?.current_post_date || window?.WPSchedulePosts?.current_post_date || '';
+    const globalScheduledDate = globalPostStatus === 'future' ? normalizeDateString(globalPostDate) : '';
+    const editorScheduledDate = editorScheduleData?.status === 'future' ? normalizeDateString(editorScheduleData?.date) : '';
+    const initialScheduleDate = normalizeDateString(state?.scheduleDate) || editorScheduledDate || globalScheduledDate || '';
+
+    const [scheduleDate, setScheduleDate] = useState(() => initialScheduleDate);
     const [isOpenScheduleDate, setIsOpenScheduleDate] = useState(false);
     const anchorRef = useRef();
 
     useEffect(() => {
-        const savedDate = state?.scheduleDate || '';
+        const savedDate = normalizeDateString(state?.scheduleDate) || editorScheduledDate || globalScheduledDate || '';
         if (savedDate && !scheduleDate) {
             setScheduleDate(savedDate);
         }
-    }, [state?.scheduleDate, scheduleDate]);
+    }, [state?.scheduleDate, editorScheduledDate, globalScheduledDate, scheduleDate]);
 
     useEffect(() => {
         dispatch({ type: 'SET_SCHEDULE_DATE', payload: scheduleDate || '' });
+        dispatch({ type: 'SET_IS_SCHEDULED', payload: !!scheduleDate });
     }, [scheduleDate, dispatch]);
 
     return (
