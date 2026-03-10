@@ -248,9 +248,6 @@ h5.title {
     font-weight: 500;
     color: #1B1B50;
 }
-.wpsp-global-template input {
-  display: none !important;
-}
 .wpsp-global-template label {
   width: 36px;
   height: 18px;
@@ -738,6 +735,7 @@ textarea.wpsp-template-input {
   font-family: inherit;
   background: #FFF;
   box-shadow: none;
+  color: #000;
 }
 
 .wpsp-textarea-wrapper {

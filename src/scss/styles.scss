@@ -29,7 +29,24 @@
                     align-items: center;
                     margin-bottom: 16px;
                     gap: 8px;
-
+                    justify-content: space-between;
+                    .wpsp-reset-schedule-on {
+                        button {
+                            background: transparent;
+                            border: none;
+                            cursor: pointer;
+                            svg {
+                                width: 20px;
+                                height: 20px;
+                                display: block;
+                            }
+                        }
+                    }
+                    .schedule-on-label {
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                    }
                     h4.title {
                         margin: 0;
                         font-size: 16px;
@@ -39,12 +56,99 @@
                     }
                 }
                 
+                .schedule-on-tooltip {
+                    position: relative;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 18px;
+                    height: 18px;
+                    color: #98a2b3;
+                    cursor: pointer;
+
+                    svg {
+                        width: 16px;
+                        height: 16px;
+                        display: block;
+                    }
+
+                    .info {
+                        position: absolute;
+                        left: 50%;
+                        bottom: calc(100% + 10px);
+                        transform: translateX(-50%) translateY(6px);
+                        width: 260px;
+                        max-width: min(260px, 80vw);
+                        background: #101828;
+                        border-radius: 8px;
+                        padding: 10px 12px;
+                        box-shadow: 0 10px 24px rgba(16, 24, 40, 0.2);
+                        opacity: 0;
+                        visibility: hidden;
+                        pointer-events: none;
+                        transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+                        z-index: 10;
+
+                        span {
+                        color: #ffffff;
+                        font-size: 12px;
+                        font-weight: 400;
+                        line-height: 1.45;
+                        display: block;
+                        }
+
+                        &::after {
+                        content: "";
+                        position: absolute;
+                        left: 50%;
+                        top: 100%;
+                        transform: translateX(-50%);
+                        border-width: 6px;
+                        border-style: solid;
+                        border-color: #101828 transparent transparent transparent;
+                        }
+                    }
+
+                    &:hover .info,
+                    &:focus-within .info {
+                        opacity: 1;
+                        visibility: visible;
+                        transform: translateX(-50%) translateY(0);
+                    }
+                }
+
+
                 .wpsp-post--items {
                     .card--title {
                         margin-bottom: 8px;
                     }
                 }
+                
             }
+            .wpsp-post-items-advanced-schedule-wrapper {
+                .wpsp-advanced-scheduled-on {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    .wpsp-advanced-schedule-on-input {
+                    flex-basis: 60%;
+                    input {
+                        width: 100%;
+                    }
+                    }
+                    .wpsp-post--items {
+                    .wpsp-date--picker {
+                        button, a {
+                        margin-top: 0 !important;
+                        background-color: #F3F2FF;
+                        color: #6C62FF;
+                        border: none;
+                        }
+                    }
+                    }
+                }
+                }
+
 
             .wpsp-post-panel-modal-settings-schedule {
                 margin-bottom: 20px;
@@ -91,6 +195,7 @@
                         display: flex;
                         align-items: center;
                         gap: 8px;
+                        color: #3c434a;
                     }
                 }
             }
@@ -133,7 +238,9 @@
                     }
                 }
             }
-
+            .wpsp-custom-social-message-with-banner.wpsp-custom-social-message-disabled {
+                opacity: 0.5;
+            }
             .wpsp-upload-social-banner {
                 padding: 0 16px;
 
@@ -356,7 +463,7 @@
                     background: #6C62FF !important;
                     border-radius: 6px !important;
                     border: 1px solid #6C62FF !important;
-
+                    cursor: pointer;
                     &:focus {
                         box-shadow: none;
                         outline: 0;
