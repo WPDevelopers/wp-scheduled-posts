@@ -55,7 +55,7 @@ const SocialShare = () => {
     const { isSocialShareDisabled, socialBannerUrl } = socialShareSettings;
     const [selectedProfilesByPlatform, setSelectedProfilesByPlatform] = useState({});
     const [isProfilesLoading, setIsProfilesLoading] = useState(false);
-
+    const [isRemoveBanner, setIsRemoveBanner] = useState(false);
     // Use useSelect to reactively fetch meta
     const meta = wp.data.useSelect((select) => {
         const store = select('core/editor');
@@ -287,11 +287,16 @@ const SocialShare = () => {
     };
 
     const removeSocialBanner = () => {
+        setIsRemoveBanner(false);
         updateSettings({
             socialBannerId: null,
             socialBannerUrl: '',
         });
     };
+
+    const handleRemoveBanner = () => {
+        setIsRemoveBanner(true);
+    }
 
     const handleDisableSocialShare = (e) => {
         updateSettings({
@@ -328,14 +333,20 @@ const SocialShare = () => {
                             </div>
                         }
                         
-                        <div className="wpsp-upload-social-banner-preview">
+                        { !isRemoveBanner ? <div className="wpsp-upload-social-banner-preview">
                             <div className="wpsp-upload-social-banner-preview-inner">
                                 {socialBannerUrl && <img style={{ width: '100%', height: 'auto' }} src={socialBannerUrl} alt="Social Banner" />}
                             </div>
-                        </div>
-                        <div className="wpsp-upload-social-banner-remove">
-                            {socialBannerUrl && <button className="wpsp-upload-social-share-btn" onClick={removeSocialBanner}>Remove Banner</button>}
-                        </div>
+                        </div> : <div className="wpsp-upload-social-banner-remove-confirm">
+                            <h3>Remove Social Banner?</h3>
+                            <p>Delete this banner image? The featured image will be used when sharing</p>
+                            <button className="wpsp-cancel-remove-banner-btn" onClick={() => setIsRemoveBanner(false)}>Cancel</button>
+                            <button className="wpsp-remove-banner-btn" onClick={removeSocialBanner}>Yes, Remove</button>
+                        </div> }
+                        { socialBannerUrl && <div className="wpsp-upload-social-banner-remove">
+                            <button className="wpsp-upload-social-share-btn" onClick={openMediaUploader}>Update Banner</button>
+                            <button className="wpsp-remove-banner-social-share-btn" onClick={handleRemoveBanner}>Remove Banner</button>
+                        </div> }
                     </div>
                     {!hasSavedSocialMessage && (
                         <div className="wpsp-add-social-message-wrapper">
