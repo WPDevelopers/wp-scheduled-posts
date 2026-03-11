@@ -131,10 +131,10 @@
                     justify-content: space-between;
                     align-items: center;
                     .wpsp-advanced-schedule-on-input {
-                    flex-basis: 60%;
-                    input {
-                        width: 100%;
-                    }
+                        flex-basis: 60%;
+                        input {
+                            width: 100%;
+                        }
                     }
                     .wpsp-post--items {
                     .wpsp-date--picker {
@@ -286,21 +286,80 @@
                 }
 
                 .wpsp-upload-social-banner-remove {
-                    margin: 8px 0 12px;
+                    margin-top: 10px;
+                    gap: 12px;
                     display: flex;
                     align-items: center;
                     justify-content: center;
 
-                    .wpsp-upload-social-share-btn {
+                    button {
                         font-size: 12px;
                         line-height: 120%;
                         font-weight: 500;
-                        padding: 12px 16px;
+                        padding: 11px 14px;
                         border-radius: 6px;
-                        color: #fff;
-                        background: #6c62ff;
-                        border: none;
+                        background: transparent;
+                        flex: 1;
                         cursor: pointer;
+                    }
+                    .wpsp-upload-social-share-btn {
+                        padding: 11px 14px;
+                        color: #6C62FF;
+                        border: 1px solid #6C62FF;
+                    }
+                    .wpsp-remove-banner-social-share-btn {
+                        padding: 11px 16px;
+                        color: #FD2626;
+                        border: 1px solid #FFB4B4;
+                    }
+                }
+
+                .wpsp-upload-social-banner-remove-confirm {
+                    padding: 20px;
+                    background: #F9F8FD;
+                    border-radius: 4px;
+                    border: 1px solid #F2F0FA;
+                    
+                    h3 {
+                        font-size: 12px;
+                        font-weight: 500;
+                        line-height: 100%;
+                        color: #1B1B50;
+                        margin: 0;
+                        margin-bottom: 8px;
+                    }
+                    p {
+                        font-size: 11px;
+                        line-height: 150%;
+                        color: #1D2939;
+                        margin: 0;
+                        margin-bottom: 16px;
+                    }
+                    .wpsp-remove-social-banner-btn-wrapper {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 12px;
+
+                        button {
+                            font-size: 12px;
+                            line-height: 120%;
+                            font-weight: 500;
+                            padding: 11px 14px;
+                            border-radius: 6px;
+                            background: transparent;
+                            cursor: pointer;
+                        }
+                        .wpsp-cancel-remove-banner-btn {
+                            padding: 8px 24px;
+                            color: #6C62FF;
+                            border: 1px solid #6C62FF;
+                        }
+                        .wpsp-remove-banner-btn {
+                            padding: 8px 16px;
+                            color: #FD2626;
+                            border: 1px solid #FFB4B4;
+                        }
                     }
                 }
             }

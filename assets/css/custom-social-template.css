@@ -196,7 +196,9 @@ h5.title {
     margin-right: 16px;
     background: transparent;
 }
-.wpsp-custom-template-label-wrap input {
+.wpsp-custom-template-label-wrap input,
+.wpsp-use-global-template-checkbox-wrapper input,
+.wpsp-use-global-template-checkbox-wrapper input[type=checkbox] {
   display: none;
 }
 .wpsp-custom-template-label-wrap label {
@@ -221,7 +223,7 @@ h5.title {
   cursor: pointer;
 }
 .wpsp-custom-template-label-wrap input[type=checkbox]:checked + label::before {
-    background: #6a4bff;
+  background: #6a4bff;
 }
 .wpsp-custom-template-label-wrap label:after {
   content: '';
@@ -238,15 +240,15 @@ h5.title {
   cursor: pointer;
 }
 .wpsp-custom-template-label-wrap input[type=checkbox]:checked + label::after {
-    left: 19px;
-    background: #ffffff;
+  left: 19px;
+  background: #ffffff;
 }
 
 .wpsp-custom-template-label-wrap span,
 .wpsp-global-template span {
-    font-size: 13px;
-    font-weight: 500;
-    color: #1B1B50;
+  font-size: 13px;
+  font-weight: 500;
+  color: #1B1B50;
 }
 .wpsp-global-template label {
   width: 36px;
@@ -272,7 +274,7 @@ h5.title {
 .wpsp-global-template input[type=checkbox]:checked + label::before {
   background: #6a4bff;
 }
-.wpsp-global-template label:after{
+.wpsp-global-template label:after {
   content: '';
   position: absolute;
   width: 16px;
@@ -1324,7 +1326,8 @@ textarea.wpsp-template-input {
   margin-left: 2px;
 }
 .wpsp-tooltip-text,
-.wpsp-post-items-advanced-schedule-wrapper .wpsp-post--items .schedule-on-tooltip .info {
+.wpsp-post-items-advanced-schedule-wrapper .wpsp-post--items .schedule-on-tooltip .info,
+#wpsp-post-panel-modal .wpsp-post-panel .wpsp-post-panel-modal-settings .wpsp-post--card .wpsp-post--items .schedule-on-tooltip .info {
   width: 216px;
   background: #FFFFFF;
   color: #1D2939;
@@ -1333,8 +1336,8 @@ textarea.wpsp-template-input {
   border-radius: 6px;
   padding: 12px;
   position: absolute;
-  z-index: 100;
-  bottom: 125%;
+  z-index: 999;
+  bottom: 28px;
   left: 50%;
   transform: translateX(-50%);
   visibility: hidden;
@@ -1355,17 +1358,21 @@ textarea.wpsp-template-input {
   z-index: 999;
 }
 .wpsp-tooltip-text::after,
-.wpsp-post-items-advanced-schedule-wrapper .wpsp-post--items .schedule-on-tooltip .info::after {
+.wpsp-post-items-advanced-schedule-wrapper .wpsp-post--items .schedule-on-tooltip .info::after,
+#wpsp-post-panel-modal .wpsp-post-panel .wpsp-post-panel-modal-settings .wpsp-post--card .wpsp-post--items .schedule-on-tooltip .info::after {
   content: '';
   position: absolute;
-  top: 100%;
+  top: unset;
+  bottom: -10px;
   left: 50%;
-  transform: translateX(-50%);
-  border-width: 6px;
+  margin-left: 12px;
+  transform: translateX(-50%) rotate(-90deg);
+  border-width: 12px;
   border-style: solid;
-  border-color: #FFF transparent transparent transparent;
+  border-color: #fff rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
 }
-.wpsp-post-items-advanced-schedule-wrapper .wpsp-post--items .schedule-on-tooltip .info span {
+.wpsp-post-items-advanced-schedule-wrapper .wpsp-post--items .schedule-on-tooltip .info span,
+#wpsp-post-panel-modal .wpsp-post-panel .wpsp-post-panel-modal-settings .wpsp-post--card .wpsp-post--items .schedule-on-tooltip .info span {
   color: #1D2939;
 }
 
@@ -1465,16 +1472,20 @@ textarea.wpsp-template-input {
   content: '';
   position: absolute;
   top: -6%;
+  bottom: unset;
   left: 50%;
-  transform: translate(-27px) rotate(179deg);
-  border-width: 6px;
+  margin-left: 12px;
+  transform: translateX(-50%) rotate(-90deg);
+  border-width: 12px;
   border-style: solid;
-  border-color: #FFF transparent transparent transparent;
+  border-color: #fff rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
 }
 #wpsp-components-modal-header-1 .wpsp-add-social-message-text .wpsp-tooltip-text::after {
-  top: -17%;
+  top: -10px;
 }
 #wpsp-components-modal-header-1 .wpsp-add-social-message-text:hover .wpsp-tooltip-text {
+    left: -23px;
+    top: 40px;
     height: 62px !important;
     width: 204px;
     padding: 12px;
