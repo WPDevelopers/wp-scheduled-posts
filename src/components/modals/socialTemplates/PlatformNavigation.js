@@ -14,7 +14,7 @@ const PlatformNavigation = ({
                 const isDisabled = !social_media_enabled[platform];
                 return (
                     <div key={platform} className="wpsp-tooltip-wrapper">
-                        <div className="wpsp-platform-icon-button-wrapper">
+                        <div className={`wpsp-platform-icon-button-wrapper ${isActive ? 'active' : ''} ${platform}`}>
                             <button
                                 className={`wpsp-platform-icon ${isActive ? 'active' : ''} ${platform} ${isDisabled ? 'disabled-profile' : 'has-data'}`}
                                 onClick={!isDisabled ? () => onSelectPlatform(platform) : undefined}
