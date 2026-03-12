@@ -340,8 +340,10 @@ const SocialShare = () => {
                         </div> : <div className="wpsp-upload-social-banner-remove-confirm">
                             <h3>Remove Social Banner?</h3>
                             <p>Delete this banner image? The featured image will be used when sharing</p>
-                            <button className="wpsp-cancel-remove-banner-btn" onClick={() => setIsRemoveBanner(false)}>Cancel</button>
-                            <button className="wpsp-remove-banner-btn" onClick={removeSocialBanner}>Yes, Remove</button>
+                            <div className='wpsp-remove-social-banner-btn-wrapper'>
+                                <button className="wpsp-cancel-remove-banner-btn" onClick={() => setIsRemoveBanner(false)}>Cancel</button>
+                                <button className="wpsp-remove-banner-btn" onClick={removeSocialBanner}>Yes, Remove</button>
+                            </div>
                         </div> }
                         { socialBannerUrl && <div className="wpsp-upload-social-banner-remove">
                             <button className="wpsp-upload-social-share-btn" onClick={openMediaUploader}>Update Banner</button>
