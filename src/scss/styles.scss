@@ -432,7 +432,8 @@
                     padding: 0 16px;
                 }
                 .wpsp-social-platforms--wrapper {
-                    padding: 8px 16px 13px;
+                    padding: 8px 5px 13px 16px;
+                    margin-right: 5px;
                     max-height: 210px;
                     overflow: auto;
 
@@ -972,7 +973,23 @@
         margin: 0;
         padding-top: 8px;
     }
+}
 
+::-webkit-scrollbar {
+  width: 6px;
+  height: 20px;
+}
+::-webkit-scrollbar-track {
+  background: #FFF;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb {
+  background: #E1E0E6;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #E1E0E6;
 }
 
 #wpsp-custom-toast-container {
