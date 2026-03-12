@@ -64,7 +64,7 @@ const ScheduleOn = () => {
     }, [state?.scheduleDate, editorScheduledDate, globalScheduledDate, scheduleDate]);
 
     useEffect(() => {
-        dispatch({ type: 'SET_SCHEDULE_DATE', payload: scheduleDate || '' });
+        // dispatch({ type: 'SET_SCHEDULE_DATE', payload: scheduleDate || '' });
         dispatch({ type: 'SET_IS_SCHEDULED', payload: !!scheduleDate });
     }, [scheduleDate, dispatch]);
 

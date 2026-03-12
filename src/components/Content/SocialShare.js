@@ -324,7 +324,7 @@ const SocialShare = () => {
                         <label htmlFor="socialShareDisable">Disable Social Share</label>
                     </div>
                 </div>
-                <div className={`wpsp-custom-social-message-with-banner ${isSocialShareDisabled ? 'wpsp-custom-social-message-disabled' : ''}`}>
+                <div className={`wpsp-custom-social-message-with-banner`}>
                     <div className="wpsp-upload-social-banner">
                         { !socialBannerUrl &&
                             <div className="wpsp-upload-social-banner-btn">
@@ -409,6 +409,22 @@ const SocialShare = () => {
                             <ShareNowButton selectedProfilesByPlatform={selectedProfilesByPlatform} postId={resolvedPostId} hasSavedSocialMessage={hasSavedSocialMessage} />
                         </div>
                     </div>
+                    {isSocialShareDisabled &&
+                        <div className="wpsp-social-share-disabled-message">
+                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_5703_6004)">
+                                <path d="M15.9993 2.66797C23.3633 2.66797 29.3327 8.6373 29.3327 16.0013C29.3355 19.5019 27.9614 22.8632 25.5072 25.3595C23.053 27.8558 19.7156 29.2867 16.2154 29.3434C12.7152 29.4002 9.33313 28.0781 6.79935 25.6626C4.26556 23.2472 2.78333 19.9322 2.67268 16.4333L2.66602 16.0013L2.67135 15.628C2.86868 8.4373 8.75935 2.66797 15.9993 2.66797ZM16.0127 20.0013L15.8433 20.0106C15.5193 20.0492 15.2206 20.2052 15.0039 20.4493C14.7872 20.6933 14.6675 21.0083 14.6675 21.3346C14.6675 21.661 14.7872 21.976 15.0039 22.22C15.2206 22.464 15.5193 22.6201 15.8433 22.6586L15.9993 22.668L16.1687 22.6586C16.4927 22.6201 16.7914 22.464 17.0081 22.22C17.2248 21.976 17.3445 21.661 17.3445 21.3346C17.3445 21.0083 17.2248 20.6933 17.0081 20.4493C16.7914 20.2052 16.4927 20.0492 16.1687 20.0106L16.0127 20.0013ZM15.9993 9.33464C15.6728 9.33468 15.3576 9.45458 15.1135 9.67159C14.8695 9.8886 14.7136 10.1876 14.6753 10.512L14.666 10.668V16.0013L14.6753 16.1573C14.7139 16.4814 14.87 16.78 15.114 16.9968C15.358 17.2135 15.673 17.3332 15.9993 17.3332C16.3257 17.3332 16.6407 17.2135 16.8847 16.9968C17.1287 16.78 17.2848 16.4814 17.3233 16.1573L17.3327 16.0013V10.668L17.3233 10.512C17.2851 10.1876 17.1292 9.8886 16.8852 9.67159C16.6411 9.45458 16.3259 9.33468 15.9993 9.33464Z" fill="#EF963C"/>
+                                </g>
+                                <defs>
+                                <clipPath id="clip0_5703_6004">
+                                <rect width="32" height="32" fill="white"/>
+                                </clipPath>
+                                </defs>
+                            </svg>
+                            <h3>Social sharing is disabled</h3>
+                            <p>Enable it to manage platforms.</p>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
