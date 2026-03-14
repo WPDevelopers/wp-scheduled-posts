@@ -47,6 +47,7 @@ class CustomSocialTemplates
         // Dynamic scheduling hooks
         // add_action('transition_post_status', array($this, 'handle_post_status_change'), 10, 3);
         add_action('post_updated', array($this, 'handle_post_update'), 10, 3);
+        add_action('wpsp_custom_social_template', array($this, 'handle_social_scheduling_published'), 99, 1);
     }
 
     /**
@@ -193,6 +194,30 @@ class CustomSocialTemplates
         $scheduling_data = get_post_meta($post_id, '_wpsp_social_scheduling', true);
         if ( $post_after->post_status === 'future' && $post_before->post_date !== $post_after->post_date ) {
             $this->handle_scheduled_post_scheduling($post_id, $scheduling_data, $post_after);
+        }
+    }
+
+    /**
+     * Reset social scheduling after cron event executed
+     *
+     * @param int $post_id
+     */
+    public function handle_social_scheduling_published($post_id) {
+        if (empty($post_id) || !get_post($post_id)) {
+            return;
+        }
+
+        $scheduling_data = get_post_meta($post_id, '_wpsp_social_scheduling', true);
+        if (empty($scheduling_data) || !is_array($scheduling_data)) {
+            return;
+        }
+
+        // Only reset if any scheduling was active
+        if ( !empty($scheduling_data['customTime']) || !empty($scheduling_data['timeOption']) ) {
+            $scheduling_data['customTime'] = '';
+            $scheduling_data['timeOption'] = 'in_1h';
+            $default_scheduling = $this->normalize_scheduling_data($scheduling_data, get_post_status($post_id));
+            update_post_meta($post_id, '_wpsp_social_scheduling', $default_scheduling);
         }
     }
 
@@ -743,7 +768,7 @@ class CustomSocialTemplates
             'platforms'      => array(),
             'status'         => 'template_only',
             'dateOption'     => $is_published ? 'today' : 'same_day',
-            'timeOption'     => $is_published ? 'now' : 'same_time',
+            'timeOption'     => $is_published ? 'now' : 'in_1h',
             'customDays'     => '',
             'customHours'    => '',
             'customDate'     => '',
