@@ -2561,6 +2561,8 @@ border-radius: 8px;
   background-color: #000000B2;
   bottom: 0;
   display: flex;
+  align-items: center;
+  justify-content: center;
   left: 0;
   position: fixed;
   right: 0;
@@ -2613,6 +2615,7 @@ border-radius: 8px;
           display: none;
         }
       }
+
       p {
         font-size: 12px;
         line-height: 150%;
@@ -2620,6 +2623,7 @@ border-radius: 8px;
         padding: 0 24px 24px;
         margin: 0;
       }
+
       .wpsp-modal-actions {
         margin: 0 !important;
         justify-content: unset !important;
@@ -2638,6 +2642,7 @@ border-radius: 8px;
           font-size: 12px;
           line-height: 150%;
           font-weight: 500;
+          cursor: pointer;
 
           &.is-secondary {
             color: #6C62FF;
