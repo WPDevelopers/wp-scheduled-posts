@@ -111,9 +111,8 @@
 
                     &:hover .info,
                     &:focus-within .info {
-                        opacity: 1;
-                        visibility: visible;
-                        transform: translateX(-50%) translateY(0);
+                        opacity: 1 !important;
+                        visibility: visible !important;
                     }
                 }
 
@@ -329,12 +328,12 @@
                         cursor: pointer;
                     }
                     .wpsp-upload-social-share-btn {
-                        padding: 11px 14px;
+                        padding: 11px 12px;
                         color: #6C62FF;
                         border: 1px solid #6C62FF;
                     }
                     .wpsp-remove-banner-social-share-btn {
-                        padding: 11px 16px;
+                        padding: 11px 12px;
                         color: #FD2626;
                         border: 1px solid #FFB4B4;
                     }
@@ -376,7 +375,7 @@
                             cursor: pointer;
                         }
                         .wpsp-cancel-remove-banner-btn {
-                            padding: 8px 24px;
+                            padding: 8px 20px;
                             color: #6C62FF;
                             border: 1px solid #6C62FF;
                         }
