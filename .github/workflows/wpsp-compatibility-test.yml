@@ -42,7 +42,7 @@ jobs:
   # ──────────────────────────────────────────────────────────────────────────
   # Job 1: PHP syntax lint
   # ──────────────────────────────────────────────────────────────────────────
-  php-syntax-check:
+php-syntax-check:
     runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
@@ -59,7 +59,7 @@ jobs:
 
       - name: Lint all PHP files
         run: |
-          # Find every .php file, excluding vendor (third-party) and node_modules
+          # Find all PHP files, excluding common vendor/hidden folders
           FILES=$(find . -name "*.php" \
             -not -path "./vendor/*" \
             -not -path "./node_modules/*" \
@@ -67,19 +67,21 @@ jobs:
 
           ERRORS=0
           while IFS= read -r file; do
+            # Run lint and capture output
             OUTPUT=$(php -l "$file" 2>&1)
             if [ $? -ne 0 ]; then
+              # This prints the error directly to the GitHub Console
               echo "::error file=$file::$OUTPUT"
+              echo "❌ Syntax Error in $file: $OUTPUT"
               ERRORS=$((ERRORS + 1))
             fi
           done <<< "$FILES"
 
-          TOTAL=$(echo "$FILES" | wc -l | tr -d ' ')
           if [ "$ERRORS" -gt 0 ]; then
-            echo "::error::PHP syntax errors found in $ERRORS / $TOTAL file(s) on PHP ${{ matrix.php-version }}"
+            echo "::error::Found $ERRORS syntax errors on PHP ${{ matrix.php-version }}"
             exit 1
           fi
-          echo "✅ All $TOTAL PHP files passed syntax check on PHP ${{ matrix.php-version }}"
+          echo "✅ Checked all files. No syntax errors found."
 
   # ──────────────────────────────────────────────────────────────────────────
   # Job 2: Build the plugin zip
