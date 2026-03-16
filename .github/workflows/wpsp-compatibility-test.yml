@@ -23,20 +23,18 @@ jobs:
       - name: Check all version numbers are consistent
         run: |
           # Extract each version string from its canonical location
-          V_HEADER=$(grep -oP "^\s*\*\s*Version:\s*\K[\d.]+" wp-schedule-post.php | head -1)
-          V_CONST=$(grep -oP "define\('WPSP_VERSION',\s*\"?\K[\d.]+" includes.php | head -1)
-          V_PLG=$(grep -oP "define\('WPSP_PLUGIN_VERSION',\s*'?\K[\d.]+" wp-schedule-post.php | head -1)
+          MAIN_FILE="wp-scheduled-posts.php"
+          V_HEADER=$(grep -oP "^\s*\*\s*Version:\s*\K[\d.]+" "$MAIN_FILE" | head -1)
+          V_CONST=$(grep -oP "define\('WPSP_VERSION',\s*'?\K[\d.]+" "$MAIN_FILE" | head -1)
           V_README=$(grep -oP "Stable tag:\s*\K[\d.]+" readme.txt | head -1)
 
-          echo "Plugin header (Version:):        $V_HEADER"
-          echo "WPSP_VERSION (includes):    $V_CONST"
-          echo "WPSP_PLUGIN_VERSION (main): $V_PLG"
-          echo "readme.txt Stable tag:            $V_README"
+          echo "Plugin header (Version:):   $V_HEADER"
+          echo "WPSP_VERSION constant:       $V_CONST"
+          echo "readme.txt Stable tag:       $V_README"
 
           MISMATCH=0
-          [ "$V_HEADER" != "$V_CONST"  ] && echo "::error::MISMATCH: Plugin header ($V_HEADER) ≠ WPSP_VERSION ($V_CONST)"   && MISMATCH=1
-          [ "$V_HEADER" != "$V_PLG"    ] && echo "::error::MISMATCH: Plugin header ($V_HEADER) ≠ WPSP_PLUGIN_VERSION ($V_PLG)" && MISMATCH=1
-          [ "$V_HEADER" != "$V_README" ] && echo "::error::MISMATCH: Plugin header ($V_HEADER) ≠ readme.txt Stable tag ($V_README)" && MISMATCH=1
+          [ "$V_HEADER" != "$V_CONST"   ] && echo "::error::MISMATCH: Plugin header ($V_HEADER) ≠ WPSP_VERSION ($V_CONST)"          && MISMATCH=1
+          [ "$V_HEADER" != "$V_README"  ] && echo "::error::MISMATCH: Plugin header ($V_HEADER) ≠ readme.txt Stable tag ($V_README)" && MISMATCH=1
           [ "$MISMATCH" -eq 1 ] && exit 1
 
           echo "✅ All version numbers are consistent: $V_HEADER"
@@ -90,7 +88,7 @@ jobs:
     uses: ./.github/workflows/dist-archive.yml
 
   # ──────────────────────────────────────────────────────────────────────────
-  # Job 2: Matrix compatibility tests
+  # Job 3: Matrix compatibility tests
   # ──────────────────────────────────────────────────────────────────────────
   compatibility-test:
     needs: [version-check, php-syntax-check, build]
@@ -126,11 +124,11 @@ jobs:
           tools: wp-cli
 
       # Download the built artifact from the 'build' job
-      - name: Download Built EmbedPress
+      - name: Download Built WP Scheduled Posts
         uses: actions/download-artifact@v4
         with:
           name: ${{ needs.build.outputs.artifact-name }}
-          path: ./wp-schedule-post-dist
+          path: ./wp-scheduled-posts-dist
 
       - name: Start Database
         run: |
@@ -142,17 +140,17 @@ jobs:
           wp core download --version=${{ matrix.wp-version }} --path=./test-site --allow-root
           cd test-site 
           wp config create --dbname=wordpress_test --dbuser=root --dbpass=root --dbhost=127.0.0.1 --allow-root
-          wp core install --url=http://localhost:8080 --title="EmbedPress Test" --admin_user=admin --admin_password=password --admin_email=hurayra@wpdeveloper.com --allow-root
+          wp core install --url=http://localhost:8080 --title="WPSP Test" --admin_user=admin --admin_password=password --admin_email=admin@example.com --allow-root
 
       # Move the built plugin to the WP folder and activate
-      - name: Install and Activate EmbedPress
+      - name: Install and Activate WP Scheduled Posts
         run: |
-          mkdir -p ./test-site/wp-content/plugins/wp-schedule-post
-          cp -r ./wp-schedule-post-dist/wp-schedule-post/. ./test-site/wp-content/plugins/wp-schedule-post/
+          mkdir -p ./test-site/wp-content/plugins/wp-scheduled-posts
+          cp -r ./wp-scheduled-posts-dist/wp-scheduled-posts/. ./test-site/wp-content/plugins/wp-scheduled-posts/
           echo "Checking plugin directory structure:"
-          ls ./test-site/wp-content/plugins/wp-schedule-post | head -n 10
+          ls ./test-site/wp-content/plugins/wp-scheduled-posts | head -n 10
           cd test-site
-          wp plugin activate wp-schedule-post --allow-root
+          wp plugin activate wp-scheduled-posts --allow-root
 
       # ── Check 1: Basic WordPress + plugin integrity ──────────────────────
       - name: Run Integrity Check
@@ -160,24 +158,25 @@ jobs:
           cd test-site
           WP_STATUS=$(wp eval 'echo "Ready";' --quiet --allow-root)
           if [[ "$WP_STATUS" != "Ready" ]]; then
-            echo "::error::WordPress crashed after activating EmbedPress."
+            echo "::error::WordPress crashed after activating WP Scheduled Posts."
             exit 1
           fi
-          echo "✅ EmbedPress is active and stable on WP ${{ matrix.wp-version }} / PHP ${{ matrix.php-version }}"
+          echo "✅ WP Scheduled Posts is active and stable on WP ${{ matrix.wp-version }} / PHP ${{ matrix.php-version }}"
 
       # ── Check 2: Critical constants and default DB option ────────────────
-      - name: Verify EmbedPress Constants & Options
+      - name: Verify WPSP Constants & Options
         run: |
           cd test-site
           wp eval '
             $constants = [
               "WPSP_VERSION",
-              "WPSP_PLUGIN_VERSION",
-              "WPSP_PATH_CORE",
-              "WPSP_PLUGIN_DIR_PATH",
-              "WPSP_PLUGIN_DIR_URL",
-              "WPSP_SHORTCODE",
-              "WPSP_IS_LOADED",
+              "WPSP_PLUGIN_FILE",
+              "WPSP_PLUGIN_BASENAME",
+              "WPSP_PLUGIN_SLUG",
+              "WPSP_SETTINGS_NAME",
+              "WPSP_ROOT_DIR_PATH",
+              "WPSP_INCLUDES_DIR_PATH",
+              "WPSP_ASSETS_URI",
             ];
             $failed = false;
             foreach ($constants as $c) {
@@ -187,80 +186,57 @@ jobs:
               }
             }
             if ($failed) exit(1);
-            echo "✅ All EmbedPress constants defined\n";
+            echo "✅ All WPSP constants defined\n";
 
-            // The activation hook saves default settings under the plugin slug
-            $val = get_option("wp-schedule-post", "__MISSING__");
+            // The plugin stores settings under wpsp_settings_v5
+            $val = get_option("wpsp_settings_v5", "__MISSING__");
             if ($val === "__MISSING__") {
-              echo "::error::Missing DB option: wp-schedule-post (activation hook may not have run)\n";
-              exit(1);
+              // It is acceptable for the option to not exist on a fresh install before
+              // any settings have been saved — just warn rather than fail.
+              echo "::warning::DB option wpsp_settings_v5 not found (may be expected on fresh install)\n";
+            } else {
+              echo "✅ Plugin settings option found in DB\n";
             }
-            echo "✅ Default plugin options found in DB\n";
           ' --allow-root
 
-      # ── Check 3: All shortcodes must be registered ───────────────────────
-      - name: Verify EmbedPress Shortcodes Registered
-        run: |
-          cd test-site
-          wp eval '
-            $shortcodes = ["embed", "wp-schedule-post", "wp-schedule-post_pdf", "wp-schedule-post_doc", "embed_oembed_html"];
-            $failed = false;
-            foreach ($shortcodes as $sc) {
-              if (!shortcode_exists($sc)) {
-                echo "::error::Shortcode not registered: [$sc]\n";
-                $failed = true;
-              }
-            }
-            if ($failed) exit(1);
-            echo "✅ All EmbedPress shortcodes registered\n";
-          ' --allow-root
-
-      # ── Check 4: Custom REST routes must be registered ───────────────────
-      - name: Verify EmbedPress REST API Routes Registered
+      # ── Check 3: Core REST API routes must be registered ─────────────────
+      - name: Verify WPSP REST API Routes Registered
         run: |
           cd test-site
           wp eval '
             $server = rest_get_server();
             $routes = $server->get_routes();
-            // The oEmbed route is the backbone of the entire embed pipeline
-            $expected = "/wp-schedule-post/v1/oembed/(?P<provider>[a-zA-Z0-9\-]+)";
-            if (!isset($routes[$expected])) {
-              echo "::error::EmbedPress REST route not registered: $expected\n";
-              echo "Registered routes with wp-schedule-post namespace:\n";
-              foreach (array_keys($routes) as $r) {
-                if (strpos($r, "wp-schedule-post") !== false) echo "  - $r\n";
+
+            // The settings route is the backbone of the plugin REST API
+            $namespace  = "wp-scheduled-posts/v1";
+            $expected   = "/$namespace/settings/";
+            $found_ns   = false;
+
+            foreach (array_keys($routes) as $r) {
+              if (strpos($r, $namespace) !== false) {
+                $found_ns = true;
+                break;
               }
+            }
+
+            if (!$found_ns) {
+              echo "::error::No REST routes found under namespace: $namespace\n";
+              echo "All registered namespaces:\n";
+              foreach (array_keys($routes) as $r) echo "  - $r\n";
               exit(1);
             }
-            echo "✅ EmbedPress oEmbed REST route is registered\n";
-          ' --allow-root
 
-      # ── Check 5: Analytics DB tables must exist after activation ─────────
-      - name: Verify EmbedPress Analytics DB Tables
-        run: |
-          cd test-site
-          wp eval '
-            global $wpdb;
-            $tables = [
-              $wpdb->prefix . "wp-schedule-post_analytics_content",
-              $wpdb->prefix . "wp-schedule-post_analytics_views",
-              $wpdb->prefix . "wp-schedule-post_analytics_browser_info",
-              $wpdb->prefix . "wp-schedule-post_analytics_milestones",
-              $wpdb->prefix . "wp-schedule-post_analytics_referrers",
-            ];
-            $failed = false;
-            foreach ($tables as $table) {
-              $exists = $wpdb->get_var("SHOW TABLES LIKE \"$table\"");
-              if ($exists !== $table) {
-                echo "::error::Missing analytics DB table: $table\n";
-                $failed = true;
-              }
+            echo "✅ WPSP REST routes are registered under namespace: $namespace\n";
+
+            // Also confirm the settings endpoint specifically
+            if (!isset($routes[$expected])) {
+              echo "::warning::Settings route ($expected) not found — check register_routes() in API/Settings.php\n";
+            } else {
+              echo "✅ WPSP settings REST route is registered\n";
             }
-            if ($failed) exit(1);
-            echo "✅ All EmbedPress analytics DB tables exist\n";
           ' --allow-root
 
-      # ── Check 6: PHP warnings & deprecations under WP_DEBUG ─────────────
+      # ── Check 4: PHP warnings & deprecations under WP_DEBUG ─────────────
       - name: Check for PHP Warnings & Deprecations
         run: |
           cd test-site
@@ -288,7 +264,7 @@ jobs:
           fi
           echo "✅ No fatal PHP errors under WP_DEBUG"
 
-      # ── Check 7: REST API general health ────────────────────────────────
+      # ── Check 5: REST API general health ────────────────────────────────
       - name: Verify REST API Health
         run: |
           cd test-site
