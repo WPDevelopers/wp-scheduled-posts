@@ -40,9 +40,9 @@ jobs:
           echo "✅ All version numbers are consistent: $V_HEADER"
 
   # ──────────────────────────────────────────────────────────────────────────
-  # Job 1: PHP syntax lint
+  # Job 1: PHP syntax lint (Corrected & Enhanced)
   # ──────────────────────────────────────────────────────────────────────────
-php-syntax-check:
+  php-syntax-check:
     runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
@@ -70,7 +70,7 @@ php-syntax-check:
             # Run lint and capture output
             OUTPUT=$(php -l "$file" 2>&1)
             if [ $? -ne 0 ]; then
-              # This prints the error directly to the GitHub Console
+              # This prints the error directly to the GitHub Console and Annotations
               echo "::error file=$file::$OUTPUT"
               echo "❌ Syntax Error in $file: $OUTPUT"
               ERRORS=$((ERRORS + 1))
@@ -81,7 +81,7 @@ php-syntax-check:
             echo "::error::Found $ERRORS syntax errors on PHP ${{ matrix.php-version }}"
             exit 1
           fi
-          echo "✅ Checked all files. No syntax errors found."
+          echo "✅ Checked all files. No syntax errors found on PHP ${{ matrix.php-version }}."
 
   # ──────────────────────────────────────────────────────────────────────────
   # Job 2: Build the plugin zip
@@ -190,11 +190,8 @@ php-syntax-check:
             if ($failed) exit(1);
             echo "✅ All WPSP constants defined\n";
 
-            // The plugin stores settings under wpsp_settings_v5
             $val = get_option("wpsp_settings_v5", "__MISSING__");
             if ($val === "__MISSING__") {
-              // It is acceptable for the option to not exist on a fresh install before
-              // any settings have been saved — just warn rather than fail.
               echo "::warning::DB option wpsp_settings_v5 not found (may be expected on fresh install)\n";
             } else {
               echo "✅ Plugin settings option found in DB\n";
@@ -208,8 +205,6 @@ php-syntax-check:
           wp eval '
             $server = rest_get_server();
             $routes = $server->get_routes();
-
-            // The settings route is the backbone of the plugin REST API
             $namespace  = "wp-scheduled-posts/v1";
             $expected   = "/$namespace/settings/";
             $found_ns   = false;
@@ -223,16 +218,13 @@ php-syntax-check:
 
             if (!$found_ns) {
               echo "::error::No REST routes found under namespace: $namespace\n";
-              echo "All registered namespaces:\n";
-              foreach (array_keys($routes) as $r) echo "  - $r\n";
               exit(1);
             }
 
             echo "✅ WPSP REST routes are registered under namespace: $namespace\n";
 
-            // Also confirm the settings endpoint specifically
             if (!isset($routes[$expected])) {
-              echo "::warning::Settings route ($expected) not found — check register_routes() in API/Settings.php\n";
+              echo "::warning::Settings route ($expected) not found\n";
             } else {
               echo "✅ WPSP settings REST route is registered\n";
             }
@@ -244,7 +236,6 @@ php-syntax-check:
           cd test-site
           wp config set WP_DEBUG true --raw --allow-root
           wp config set WP_DEBUG_LOG true --raw --allow-root
-          # Trigger both frontend and admin bootstrap paths
           wp eval 'do_action("init"); do_action("admin_init"); echo "Bootstrap OK\n";' --allow-root
 
           if [ -f wp-content/debug.log ]; then
@@ -257,10 +248,8 @@ php-syntax-check:
               exit 1
             fi
 
-            # Surface deprecations as workflow warnings (not failures)
-            # so they can be addressed before they become errors on the next PHP version
             if [ "$DEPRECATED" -gt 0 ]; then
-              echo "::warning::PHP Deprecation notices found ($DEPRECATED total). Review before upgrading PHP."
+              echo "::warning::PHP Deprecation notices found ($DEPRECATED total)."
               grep "PHP Deprecated" wp-content/debug.log | head -20
             fi
           fi
@@ -279,3 +268,12 @@ php-syntax-check:
             }
             echo "✅ REST API responding normally\n";
           ' --allow-root
+
+      # ── Check 6: Capture Debug Log if anything failed ────────────────────
+      - name: Upload Debug Log on Failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-log-WP-${{ matrix.wp-version }}-PHP-${{ matrix.php-version }}
+          path: test-site/wp-content/debug.log
+          retention-days: 5
