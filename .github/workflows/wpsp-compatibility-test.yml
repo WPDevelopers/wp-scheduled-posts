@@ -1,0 +1,303 @@
+name: QA - WPSP Compatibility Testing
+
+on:
+  workflow_dispatch: # Manual trigger
+#   pull_request:
+#     branches: ["main", "dev"]
+#   push:
+#     branches: ["main"]
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true 
+
+jobs:
+  # ──────────────────────────────────────────────────────────────────────────
+  # Job 0: Version consistency (fast, no server required, runs before matrix)
+  # ──────────────────────────────────────────────────────────────────────────
+  version-check:
+    runs-on: ubuntu-24.04
+    name: Version Consistency Check
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check all version numbers are consistent
+        run: |
+          # Extract each version string from its canonical location
+          V_HEADER=$(grep -oP "^\s*\*\s*Version:\s*\K[\d.]+" wp-schedule-post.php | head -1)
+          V_CONST=$(grep -oP "define\('WPSP_VERSION',\s*\"?\K[\d.]+" includes.php | head -1)
+          V_PLG=$(grep -oP "define\('WPSP_PLUGIN_VERSION',\s*'?\K[\d.]+" wp-schedule-post.php | head -1)
+          V_README=$(grep -oP "Stable tag:\s*\K[\d.]+" readme.txt | head -1)
+
+          echo "Plugin header (Version:):        $V_HEADER"
+          echo "WPSP_VERSION (includes):    $V_CONST"
+          echo "WPSP_PLUGIN_VERSION (main): $V_PLG"
+          echo "readme.txt Stable tag:            $V_README"
+
+          MISMATCH=0
+          [ "$V_HEADER" != "$V_CONST"  ] && echo "::error::MISMATCH: Plugin header ($V_HEADER) ≠ WPSP_VERSION ($V_CONST)"   && MISMATCH=1
+          [ "$V_HEADER" != "$V_PLG"    ] && echo "::error::MISMATCH: Plugin header ($V_HEADER) ≠ WPSP_PLUGIN_VERSION ($V_PLG)" && MISMATCH=1
+          [ "$V_HEADER" != "$V_README" ] && echo "::error::MISMATCH: Plugin header ($V_HEADER) ≠ readme.txt Stable tag ($V_README)" && MISMATCH=1
+          [ "$MISMATCH" -eq 1 ] && exit 1
+
+          echo "✅ All version numbers are consistent: $V_HEADER"
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # Job 1: PHP syntax lint (fast, no server, runs in parallel with version-check)
+  # ──────────────────────────────────────────────────────────────────────────
+  php-syntax-check:
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ["7.4", "8.0", "8.1", "8.2", "8.3", "8.4", "8.5"]
+    name: PHP Syntax (${{ matrix.php-version }})
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP ${{ matrix.php-version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+
+      - name: Lint all PHP files
+        run: |
+          # Find every .php file, excluding vendor (third-party) and node_modules
+          FILES=$(find . -name "*.php" \
+            -not -path "./vendor/*" \
+            -not -path "./node_modules/*" \
+            -not -path "./.git/*")
+
+          ERRORS=0
+          while IFS= read -r file; do
+            OUTPUT=$(php -l "$file" 2>&1)
+            if [ $? -ne 0 ]; then
+              echo "::error file=$file::$OUTPUT"
+              ERRORS=$((ERRORS + 1))
+            fi
+          done <<< "$FILES"
+
+          TOTAL=$(echo "$FILES" | wc -l | tr -d ' ')
+          if [ "$ERRORS" -gt 0 ]; then
+            echo "::error::PHP syntax errors found in $ERRORS / $TOTAL file(s) on PHP ${{ matrix.php-version }}"
+            exit 1
+          fi
+          echo "✅ All $TOTAL PHP files passed syntax check on PHP ${{ matrix.php-version }}"
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # Job 2: Build the plugin zip
+  # ──────────────────────────────────────────────────────────────────────────
+  build:
+    uses: ./.github/workflows/dist-archive.yml
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # Job 2: Matrix compatibility tests
+  # ──────────────────────────────────────────────────────────────────────────
+  compatibility-test:
+    needs: [version-check, php-syntax-check, build]
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - wp-version: "6.9.4"
+            php-version: "7.4"
+          - wp-version: "6.9.4"
+            php-version: "8.0"
+          - wp-version: "6.9.4"
+            php-version: "8.2"
+          - wp-version: "6.9.4"
+            php-version: "8.4"
+          - wp-version: "6.9.4"
+            php-version: "8.5"
+          - wp-version: "6.5.5"
+            php-version: "8.1"
+          - wp-version: "6.0.9"
+            php-version: "7.4"
+
+    name: WP ${{ matrix.wp-version }} / PHP ${{ matrix.php-version }}
+
+    steps:
+      # Setup PHP environment
+      - name: Setup PHP Runtime
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: mysqli, mbstring, xml, gd
+          tools: wp-cli
+
+      # Download the built artifact from the 'build' job
+      - name: Download Built EmbedPress
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ needs.build.outputs.artifact-name }}
+          path: ./wp-schedule-post-dist
+
+      - name: Start Database
+        run: |
+          sudo systemctl start mysql
+          mysql -u root -proot -e "CREATE DATABASE wordpress_test;"
+
+      - name: Install WordPress Core
+        run: |
+          wp core download --version=${{ matrix.wp-version }} --path=./test-site --allow-root
+          cd test-site 
+          wp config create --dbname=wordpress_test --dbuser=root --dbpass=root --dbhost=127.0.0.1 --allow-root
+          wp core install --url=http://localhost:8080 --title="EmbedPress Test" --admin_user=admin --admin_password=password --admin_email=hurayra@wpdeveloper.com --allow-root
+
+      # Move the built plugin to the WP folder and activate
+      - name: Install and Activate EmbedPress
+        run: |
+          mkdir -p ./test-site/wp-content/plugins/wp-schedule-post
+          cp -r ./wp-schedule-post-dist/wp-schedule-post/. ./test-site/wp-content/plugins/wp-schedule-post/
+          echo "Checking plugin directory structure:"
+          ls ./test-site/wp-content/plugins/wp-schedule-post | head -n 10
+          cd test-site
+          wp plugin activate wp-schedule-post --allow-root
+
+      # ── Check 1: Basic WordPress + plugin integrity ──────────────────────
+      - name: Run Integrity Check
+        run: |
+          cd test-site
+          WP_STATUS=$(wp eval 'echo "Ready";' --quiet --allow-root)
+          if [[ "$WP_STATUS" != "Ready" ]]; then
+            echo "::error::WordPress crashed after activating EmbedPress."
+            exit 1
+          fi
+          echo "✅ EmbedPress is active and stable on WP ${{ matrix.wp-version }} / PHP ${{ matrix.php-version }}"
+
+      # ── Check 2: Critical constants and default DB option ────────────────
+      - name: Verify EmbedPress Constants & Options
+        run: |
+          cd test-site
+          wp eval '
+            $constants = [
+              "WPSP_VERSION",
+              "WPSP_PLUGIN_VERSION",
+              "WPSP_PATH_CORE",
+              "WPSP_PLUGIN_DIR_PATH",
+              "WPSP_PLUGIN_DIR_URL",
+              "WPSP_SHORTCODE",
+              "WPSP_IS_LOADED",
+            ];
+            $failed = false;
+            foreach ($constants as $c) {
+              if (!defined($c)) {
+                echo "::error::Missing constant: $c\n";
+                $failed = true;
+              }
+            }
+            if ($failed) exit(1);
+            echo "✅ All EmbedPress constants defined\n";
+
+            // The activation hook saves default settings under the plugin slug
+            $val = get_option("wp-schedule-post", "__MISSING__");
+            if ($val === "__MISSING__") {
+              echo "::error::Missing DB option: wp-schedule-post (activation hook may not have run)\n";
+              exit(1);
+            }
+            echo "✅ Default plugin options found in DB\n";
+          ' --allow-root
+
+      # ── Check 3: All shortcodes must be registered ───────────────────────
+      - name: Verify EmbedPress Shortcodes Registered
+        run: |
+          cd test-site
+          wp eval '
+            $shortcodes = ["embed", "wp-schedule-post", "wp-schedule-post_pdf", "wp-schedule-post_doc", "embed_oembed_html"];
+            $failed = false;
+            foreach ($shortcodes as $sc) {
+              if (!shortcode_exists($sc)) {
+                echo "::error::Shortcode not registered: [$sc]\n";
+                $failed = true;
+              }
+            }
+            if ($failed) exit(1);
+            echo "✅ All EmbedPress shortcodes registered\n";
+          ' --allow-root
+
+      # ── Check 4: Custom REST routes must be registered ───────────────────
+      - name: Verify EmbedPress REST API Routes Registered
+        run: |
+          cd test-site
+          wp eval '
+            $server = rest_get_server();
+            $routes = $server->get_routes();
+            // The oEmbed route is the backbone of the entire embed pipeline
+            $expected = "/wp-schedule-post/v1/oembed/(?P<provider>[a-zA-Z0-9\-]+)";
+            if (!isset($routes[$expected])) {
+              echo "::error::EmbedPress REST route not registered: $expected\n";
+              echo "Registered routes with wp-schedule-post namespace:\n";
+              foreach (array_keys($routes) as $r) {
+                if (strpos($r, "wp-schedule-post") !== false) echo "  - $r\n";
+              }
+              exit(1);
+            }
+            echo "✅ EmbedPress oEmbed REST route is registered\n";
+          ' --allow-root
+
+      # ── Check 5: Analytics DB tables must exist after activation ─────────
+      - name: Verify EmbedPress Analytics DB Tables
+        run: |
+          cd test-site
+          wp eval '
+            global $wpdb;
+            $tables = [
+              $wpdb->prefix . "wp-schedule-post_analytics_content",
+              $wpdb->prefix . "wp-schedule-post_analytics_views",
+              $wpdb->prefix . "wp-schedule-post_analytics_browser_info",
+              $wpdb->prefix . "wp-schedule-post_analytics_milestones",
+              $wpdb->prefix . "wp-schedule-post_analytics_referrers",
+            ];
+            $failed = false;
+            foreach ($tables as $table) {
+              $exists = $wpdb->get_var("SHOW TABLES LIKE \"$table\"");
+              if ($exists !== $table) {
+                echo "::error::Missing analytics DB table: $table\n";
+                $failed = true;
+              }
+            }
+            if ($failed) exit(1);
+            echo "✅ All EmbedPress analytics DB tables exist\n";
+          ' --allow-root
+
+      # ── Check 6: PHP warnings & deprecations under WP_DEBUG ─────────────
+      - name: Check for PHP Warnings & Deprecations
+        run: |
+          cd test-site
+          wp config set WP_DEBUG true --raw --allow-root
+          wp config set WP_DEBUG_LOG true --raw --allow-root
+          # Trigger both frontend and admin bootstrap paths
+          wp eval 'do_action("init"); do_action("admin_init"); echo "Bootstrap OK\n";' --allow-root
+
+          if [ -f wp-content/debug.log ]; then
+            FATALS=$(grep -c "PHP Fatal" wp-content/debug.log || true)
+            DEPRECATED=$(grep -c "PHP Deprecated" wp-content/debug.log || true)
+
+            if [ "$FATALS" -gt 0 ]; then
+              echo "::error::PHP Fatal errors detected:"
+              grep "PHP Fatal" wp-content/debug.log
+              exit 1
+            fi
+
+            # Surface deprecations as workflow warnings (not failures)
+            # so they can be addressed before they become errors on the next PHP version
+            if [ "$DEPRECATED" -gt 0 ]; then
+              echo "::warning::PHP Deprecation notices found ($DEPRECATED total). Review before upgrading PHP."
+              grep "PHP Deprecated" wp-content/debug.log | head -20
+            fi
+          fi
+          echo "✅ No fatal PHP errors under WP_DEBUG"
+
+      # ── Check 7: REST API general health ────────────────────────────────
+      - name: Verify REST API Health
+        run: |
+          cd test-site
+          wp eval '
+            $request  = new WP_REST_Request("GET", "/wp/v2/posts");
+            $response = rest_do_request($request);
+            if ($response->is_error()) {
+              echo "::error::REST API broken: " . $response->as_error()->get_error_message() . "\n";
+              exit(1);
+            }
+            echo "✅ REST API responding normally\n";
+          ' --allow-root
