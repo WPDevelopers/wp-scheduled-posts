@@ -345,7 +345,7 @@ const SocialShare = () => {
                                 <button className="wpsp-remove-banner-btn" onClick={removeSocialBanner}>Yes, Remove</button>
                             </div>
                         </div> }
-                        { socialBannerUrl && <div className="wpsp-upload-social-banner-remove">
+                        { (socialBannerUrl && !isRemoveBanner) && <div className="wpsp-upload-social-banner-remove">
                             <button className="wpsp-upload-social-share-btn" onClick={openMediaUploader}>Update Banner</button>
                             <button className="wpsp-remove-banner-social-share-btn" onClick={handleRemoveBanner}>Remove Banner</button>
                         </div> }

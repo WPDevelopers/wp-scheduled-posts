@@ -43,7 +43,7 @@ const getDefaultScheduleData = (postStatus) => {
     dateOption: isPublished ? 'today' : 'same_day',
     customDays: '',
     customDate: '',
-    timeOption: isPublished ? 'now' : 'same_time',
+    timeOption: isPublished ? 'in_1h' : 'same_time',
     customHours: '',
     customTime: '',
     schedulingType: isPublished ? 'absolute' : 'relative',
@@ -106,7 +106,6 @@ const WPSPCustomTemplateModal = ({
   const [apiTemplateData, setApiTemplateData] = useState({});
   const [hasLoadedScheduling, setHasLoadedScheduling] = useState(false);
   const [scheduleData, setScheduleData] = useState(getDefaultScheduleData(postStatus));
-
 
   // API functions for data management
   const fetchTemplateData = useCallback(async () => {
@@ -235,7 +234,6 @@ const WPSPCustomTemplateModal = ({
     const isPublished = postStatus === 'publish';
     if (isPublished) {
       return [
-        { value: 'now', label: __('Now', 'wp-scheduled-posts') },
         { value: 'in_1h', label: __('In one hour', 'wp-scheduled-posts') },
         { value: 'in_3h', label: __('In three hours', 'wp-scheduled-posts') },
         { value: 'in_5h', label: __('In five hours', 'wp-scheduled-posts') },
