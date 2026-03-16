@@ -618,6 +618,7 @@
         margin: 0;
         padding: 0;
         box-shadow: none;
+        box-sizing: border-box;
         outline: 0;
         transition: 0.25s ease-in-out;
         position: relative;
@@ -628,10 +629,12 @@
         position: absolute;
         top: 50%;
         left: 50%;
-        width: 4px;
-        height: 9px;
+        width: 5px;
+        height: 10px;
+        margin-top: -1px;
         border: solid #FFFFFF;
-        border-width: 0 1px 1px 0;
+        border-width: 0 2px 2px 0;
+        box-sizing: border-box;
         transition: ease-in-out .35s;
         transform: translate(-50%, -50%) rotate(45deg);
     }
