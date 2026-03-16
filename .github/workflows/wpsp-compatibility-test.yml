@@ -12,7 +12,7 @@ env:
 
 jobs:
   # ──────────────────────────────────────────────────────────────────────────
-  # Job 0: Version consistency (fast, no server required, runs before matrix)
+  # Job 0: Plugin Version consistency (Sanity Test)
   # ──────────────────────────────────────────────────────────────────────────
   version-check:
     runs-on: ubuntu-24.04
@@ -40,7 +40,7 @@ jobs:
           echo "✅ All version numbers are consistent: $V_HEADER"
 
   # ──────────────────────────────────────────────────────────────────────────
-  # Job 1: PHP syntax lint (fast, no server, runs in parallel with version-check)
+  # Job 1: PHP syntax lint
   # ──────────────────────────────────────────────────────────────────────────
   php-syntax-check:
     runs-on: ubuntu-24.04
@@ -88,7 +88,7 @@ jobs:
     uses: ./.github/workflows/dist-archive.yml
 
   # ──────────────────────────────────────────────────────────────────────────
-  # Job 3: Matrix compatibility tests
+  # Job 3: Matrix compatibility tests (The Stress Test)
   # ──────────────────────────────────────────────────────────────────────────
   compatibility-test:
     needs: [version-check, php-syntax-check, build]
