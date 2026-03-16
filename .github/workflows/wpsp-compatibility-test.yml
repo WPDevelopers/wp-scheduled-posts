@@ -62,6 +62,7 @@ jobs:
           # Find all PHP files, excluding common vendor/hidden folders
           FILES=$(find . -name "*.php" \
             -not -path "./vendor/*" \
+            -not -path "./Deps/*" \
             -not -path "./node_modules/*" \
             -not -path "./.git/*")
 
