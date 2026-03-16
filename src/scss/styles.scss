@@ -605,6 +605,47 @@
         }
     }
 
+    .wpsp-post-panel .wpsp-disabled-social-share-checkbox input[type="checkbox"] {
+        appearance: none;
+        width: 16px;
+        height: 16px;
+        background: transparent;
+        border: 1px solid #02AC6E;
+        border-radius: 4px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+        outline: 0;
+        transition: 0.25s ease-in-out;
+        position: relative;
+        cursor: pointer;
+    }
+    .wpsp-post-panel .wpsp-disabled-social-share-checkbox input[type="checkbox"]::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 4px;
+        height: 9px;
+        border: solid #FFFFFF;
+        border-width: 0 1px 1px 0;
+        transition: ease-in-out .35s;
+        transform: translate(-50%, -50%) rotate(45deg);
+    }
+    .wpsp-post-panel .wpsp-disabled-social-share-checkbox input[type="checkbox"]:checked {
+        background: #02AC6E;
+        border-color: #02AC6E;
+    }
+    .wpsp-post-panel .wpsp-disabled-social-share-checkbox input[type="checkbox"]:checked::after {
+        color: #FFFFFF;
+    }
+    .wpsp-post-panel .wpsp-disabled-social-share-checkbox input[type="checkbox"]:checked::before {
+        display: none;
+    }
+
     #wpsp-custom-toast-container {
         position: fixed;
         top: 24px;
