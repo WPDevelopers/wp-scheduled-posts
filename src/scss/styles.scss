@@ -171,22 +171,57 @@
 
                             }
                         }
-                        .wpsp-date--picker input {
-                            font-size: 14px;
-                            line-height: 140%;
-                            color: #6e6e8d;
-                            border: 1px solid #ECEFF5;
-                            border-radius: 8px;
-                            padding: 0 12px 0 12px;
-                            min-height: 40px;
-                            max-height: 40px;
-                            width: 100%;
-                            background: transparent;
-                            cursor: pointer;
+                        .wpsp-date--picker {
+                            .wpsp-date--picker-controls {
+                                display: flex;
+                                align-items: center;
+                                gap: 12px;
 
-                            &:focus {
-                                outline: 0;
-                                box-shadow: none;
+                                > span {
+                                    flex: 1;
+                                }
+                            }
+
+                            input {
+                                font-size: 14px;
+                                line-height: 140%;
+                                color: #6e6e8d;
+                                border: 1px solid #ECEFF5;
+                                border-radius: 8px;
+                                padding: 0 12px 0 12px;
+                                min-height: 40px;
+                                max-height: 40px;
+                                width: 100%;
+                                background: transparent;
+                                cursor: pointer;
+
+                                &:focus {
+                                    outline: 0;
+                                    box-shadow: none;
+                                }
+                            }
+
+                            .wpsp-date-reset-btn {
+                                border: 1px solid #d0d5dd;
+                                background: #fff;
+                                border-radius: 8px;
+                                color: #475467;
+                                cursor: pointer;
+                                font-size: 13px;
+                                font-weight: 500;
+                                line-height: 1;
+                                min-height: 40px;
+                                padding: 0 14px;
+
+                                &:hover {
+                                    border-color: #98a2b3;
+                                    color: #344054;
+                                }
+
+                                &:focus {
+                                    outline: 0;
+                                    box-shadow: none;
+                                }
                             }
                         }
                     }
@@ -2707,4 +2742,3 @@ border-radius: 8px;
     }
   }
 }
-
