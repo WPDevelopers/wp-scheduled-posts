@@ -1,0 +1,94 @@
+name: QA - Plugin Check (PCP)
+
+on:
+  workflow_dispatch: # Manual trigger
+  # push:
+  #   branches: ["main"]
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  # 1. Build the plugin zip using the existing dist-archive workflow
+  build:
+    uses: ./.github/workflows/dist-archive.yml
+
+  plugin-check:
+    needs: build
+    runs-on: ubuntu-latest
+    name: Plugin Check - WP Latest / PHP 8.4
+
+    steps:
+      # 2. Setup PHP 8.4 + WP-CLI
+      - name: Setup PHP Runtime
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          extensions: mysqli, mbstring, xml, gd
+          tools: wp-cli
+
+      # 3. Download the built WP Scheduled Posts zip artifact
+      - name: Download Built WP Scheduled Posts
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ needs.build.outputs.artifact-name }}
+          path: ./wp-scheduled-posts-dist
+
+      # 4. Start MySQL and create the database
+      - name: Start Database
+        run: |
+          sudo systemctl start mysql
+          mysql -u root -proot -e "CREATE DATABASE wordpress_test;"
+
+      # 5. Download and configure WordPress (latest)
+      - name: Install WordPress Core
+        run: |
+          wp core download --path=./test-site --allow-root
+          cd test-site
+          wp config create --dbname=wordpress_test --dbuser=root --dbpass=root --dbhost=127.0.0.1 --allow-root
+          wp core install \
+            --url=http://localhost:8080 \
+            --title="WPSP Plugin Check" \
+            --admin_user=admin \
+            --admin_password=password \
+            --admin_email=test@example.com \
+            --allow-root
+
+      # 6. Install and activate WP Scheduled Posts from the built dist zip
+      - name: Install and Activate WP Scheduled Posts
+        run: |
+          mkdir -p ./test-site/wp-content/plugins/wp-scheduled-posts
+          cp -r ./wp-scheduled-posts-dist/wp-scheduled-posts/. ./test-site/wp-content/plugins/wp-scheduled-posts/
+
+          echo "Plugin directory contents:"
+          ls ./test-site/wp-content/plugins/wp-scheduled-posts | head -n 15
+
+          cd test-site
+          wp plugin activate wp-scheduled-posts --allow-root
+
+      # 7. Install and activate the Plugin Check plugin from WordPress.org
+      - name: Install Plugin Check Plugin
+        run: |
+          cd test-site
+          wp plugin install plugin-check --activate --allow-root
+
+      # 8. Run Plugin Check against WP Scheduled Posts
+      # NOTE: We are only checking errors for now.
+      # We will also address warnings once all errors are resolved.
+      - name: Run Plugin Check
+        run: |
+          cd test-site
+
+          # Redirect full output to a file — errors can be large (thousands of lines)
+          wp plugin check wp-scheduled-posts --ignore-warnings --allow-root 2>&1 | tee /tmp/pcp-output.txt || true
+
+          # Pass only if the output contains the exact success message
+          if grep -qF "Success: Checks complete. No errors found." /tmp/pcp-output.txt; then
+            echo "✅ Plugin Check passed — no errors found."
+          else
+            echo "❌ Plugin Check found errors:"
+            echo "------------------------------------------------------------"
+            cat /tmp/pcp-output.txt
+            echo "------------------------------------------------------------"
+            exit 1
+          fi
