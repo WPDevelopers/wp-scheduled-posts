@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { AppContext } from '../../context/AppContext';
 
 const showCustomToast = (type, message) => {
@@ -72,21 +72,26 @@ const Footer = () => {
         };
 
         Promise.all([
+            // Social settings (free plugin)
             wp.apiFetch({
                 path: `/wp-scheduled-posts/v1/social-settings/${postId}`,
                 method: 'POST',
                 data: data
             }),
+            // Post-panel settings: free plugin endpoint handles schedule_date,
+            // then fires `schedulepress_after_free_settings_save` so the Pro
+            // plugin picks up unpublish_on, republish_on, etc. via its hook.
             wp.apiFetch({
-                path: `/wp-scheduled-posts-pro/v1/pro-settings/${postId}`,
+                path: `/wp-scheduled-posts/v1/post-panel/${postId}`,
                 method: 'POST',
                 data: {
+                    is_scheduled: shouldSchedulePost,
+                    schedule_date: shouldSchedulePost ? scheduleDate : '',
+                    // Pro fields – forwarded to Pro via hook
                     unpublish_on: unpublishOn,
                     republish_on: republishOn,
                     advanced_schedule: advancedSchedule,
                     advanced_schedule_on: advancedScheduleDate,
-                    is_scheduled: shouldSchedulePost,
-                    schedule_date: shouldSchedulePost ? scheduleDate : ''
                 }
             })
         ]).then(() => {

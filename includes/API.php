@@ -14,5 +14,6 @@ class API
     {
         API\Settings::get_instance();
         API\CustomSocialTemplates::get_instance();
+        API\PostPanel::get_instance();
     }
 }
