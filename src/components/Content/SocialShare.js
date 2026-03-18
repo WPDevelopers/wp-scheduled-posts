@@ -10,18 +10,26 @@ import {
     threads,
     google_business,
     authorIcon,
+    facebookWithBG,
+    twitterWithBG,
+    linkedinWithBG,
+    pinterestWithBG,
+    instagramWithBG,
+    mediumWithBG,
+    threadsWithBG,
+    googleMyBusinessWithBG,
 } from '../../icons/icons';
 import ShareNowButton from './ShareNowButton';
 
 const PLATFORM_CONFIG = {
-    facebook: { label: 'Facebook', icon: facebook },
-    twitter: { label: 'Twitter', icon: twitter_x },
-    linkedin: { label: 'LinkedIn', icon: linkedin },
-    pinterest: { label: 'Pinterest', icon: pinterest },
-    instagram: { label: 'Instagram', icon: instagram },
-    medium: { label: 'Medium', icon: medium },
-    threads: { label: 'Threads', icon: threads },
-    google_business: { label: 'Google Business', icon: google_business },
+    facebook: { label: 'Facebook', icon: facebook, iconWithBG: facebookWithBG },
+    twitter: { label: 'Twitter', icon: twitter_x, iconWithBG: twitterWithBG },
+    linkedin: { label: 'LinkedIn', icon: linkedin, iconWithBG: linkedinWithBG },
+    pinterest: { label: 'Pinterest', icon: pinterest, iconWithBG: pinterestWithBG },
+    instagram: { label: 'Instagram', icon: instagram, iconWithBG: instagramWithBG },
+    medium: { label: 'Medium', icon: medium, iconWithBG: mediumWithBG },
+    threads: { label: 'Threads', icon: threads, iconWithBG: threadsWithBG },
+    google_business: { label: 'Google Business', icon: google_business, iconWithBG: googleMyBusinessWithBG },
 };
 
 const PLATFORM_ORDER = [
@@ -372,7 +380,7 @@ const SocialShare = () => {
                                     return (
                                         <div className='wpsp-social-card' key={card.platform}>
                                             <div className='social-platforms-card-header'>
-                                                {card.icon}
+                                                <span className={`wpsp-social-platform-icon-bubble ${card.platform}`}>{card.iconWithBG}</span>
                                                 <div className="wpsp-preview-name">{card.label}</div>
                                             </div>
                                             <div className='social-platforms-card-content'>
