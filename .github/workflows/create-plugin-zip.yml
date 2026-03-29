@@ -1,0 +1,39 @@
+# Reusable workflow: builds the WP Scheduled Posts plugin zip using the 10up action
+# and uploads it as a short-lived artifact. Called by qa.yml so the zip is
+# built once and shared across all QA jobs. Also runnable standalone via
+# workflow_dispatch for a one-off build.
+
+name: QA - Create Plugin Zip
+
+permissions: read-all
+
+on:
+  workflow_dispatch: # Manual trigger only
+  workflow_call:
+    outputs:
+      artifact-name:
+        description: "The name of the uploaded artifact"
+        value: ${{ jobs.build.outputs.artifact-name }}
+
+jobs:
+  build:
+    name: Build plugin zip
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      artifact-name: ${{ steps.upload-plugin-artifact.outputs.artifact-name }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    # - name: Build plugin
+    #   run: |
+    #     composer install --no-dev
+    #     npm install
+    #     npm run build
+
+    - name: Generate zip
+      id: upload-plugin-artifact
+      uses: 10up/action-wordpress-plugin-build-zip@stable
+      with:
+        retention-days: 3 # Optional; defaults to 5
