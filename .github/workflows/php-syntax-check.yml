@@ -23,6 +23,7 @@ jobs:
         run: |
           FILES=$(find . -name "*.php" \
             -not -path "./vendor/*" \
+            -not -path "./includes/Deps/*" \
             -not -path "./node_modules/*" \
             -not -path "./.git/*")
           echo "TOTAL=$(echo "$FILES" | wc -l | tr -d ' ')" >> "$GITHUB_ENV"
