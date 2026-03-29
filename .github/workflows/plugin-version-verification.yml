@@ -28,6 +28,17 @@ jobs:
           echo "Plugin header (Version:):     $V_HEADER"
           echo "WPSP_VERSION constant:         $V_CONST"
 
+          # Fail fast if either version couldn't be extracted — comparing two
+          # empty strings would otherwise produce a false "consistent" result.
+          if [ -z "$V_HEADER" ]; then
+            echo "::error::Could not extract version from plugin header (Version: line) in wp-scheduled-posts.php"
+            exit 1
+          fi
+          if [ -z "$V_CONST" ]; then
+            echo "::error::Could not extract version from WPSP_VERSION constant in wp-scheduled-posts.php"
+            exit 1
+          fi
+
           MISMATCH=0
           [ "$V_HEADER" != "$V_CONST" ] && echo "::error::MISMATCH: Plugin header ($V_HEADER) ≠ WPSP_VERSION ($V_CONST)" && MISMATCH=1
 
