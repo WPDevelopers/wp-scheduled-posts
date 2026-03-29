@@ -1,0 +1,54 @@
+# Reusable workflow: verifies that the version string is identical across
+# wp-scheduled-posts.php (plugin header), wp-scheduled-posts.php
+# (WPSP_VERSION constant), and readme.txt (Stable tag, checked only if the
+# file exists). Fast, no server required — runs in parallel with the build
+# job in qa.yml.
+
+name: QA - Plugin Version Verification
+
+permissions: read-all
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  version-check:
+    runs-on: ubuntu-24.04
+    name: Version Consistency Check
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check all version numbers are consistent
+        run: |
+          # Extract each version string from its canonical location
+          V_HEADER=$(grep -oP "^\s*\*\s*Version:\s*\K[\d.]+" wp-scheduled-posts.php | head -1)
+          V_CONST=$(grep -oP "define\('WPSP_VERSION',\s*'?\K[\d.]+" wp-scheduled-posts.php | head -1)
+
+          echo "Plugin header (Version:):     $V_HEADER"
+          echo "WPSP_VERSION constant:         $V_CONST"
+
+          # Fail fast if either version couldn't be extracted — comparing two
+          # empty strings would otherwise produce a false "consistent" result.
+          if [ -z "$V_HEADER" ]; then
+            echo "::error::Could not extract version from plugin header (Version: line) in wp-scheduled-posts.php"
+            exit 1
+          fi
+          if [ -z "$V_CONST" ]; then
+            echo "::error::Could not extract version from WPSP_VERSION constant in wp-scheduled-posts.php"
+            exit 1
+          fi
+
+          MISMATCH=0
+          [ "$V_HEADER" != "$V_CONST" ] && echo "::error::MISMATCH: Plugin header ($V_HEADER) ≠ WPSP_VERSION ($V_CONST)" && MISMATCH=1
+
+          # readme.txt is optional — only check if present
+          if [ -f readme.txt ]; then
+            V_README=$(grep -oP "Stable tag:\s*\K[\d.]+" readme.txt | head -1)
+            echo "readme.txt Stable tag:         $V_README"
+            [ "$V_HEADER" != "$V_README" ] && echo "::error::MISMATCH: Plugin header ($V_HEADER) ≠ readme.txt Stable tag ($V_README)" && MISMATCH=1
+          fi
+
+          [ "$MISMATCH" -eq 1 ] && exit 1
+
+          echo "✅ All version numbers are consistent: $V_HEADER"
