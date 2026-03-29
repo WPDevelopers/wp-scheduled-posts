@@ -31,23 +31,23 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          # 6.9.4 → 7.4, 8.1, 8.4, 8.5
+          - wp-version: "6.9.4"
+            php-version: "7.4"
+          - wp-version: "6.9.4"
+            php-version: "8.1"
+          - wp-version: "6.9.4"
+            php-version: "8.4"
           - wp-version: "6.9.4"
             php-version: "8.5"
-          - wp-version: "6.9.4"
-            php-version: "8.4"
-          - wp-version: "6.7"
-            php-version: "8.4"
-          - wp-version: "6.7"
-            php-version: "8.2"
-          - wp-version: "6.7"
-            php-version: "8.0"
-          - wp-version: "6.7"
-            php-version: "7.4"
+
+          # 6.5 → 8.0
           - wp-version: "6.5"
-            php-version: "8.1"
+            php-version: "8.0"
+
+          # 6.0 → 7.4
           - wp-version: "6.0"
             php-version: "7.4"
-
     name: WP ${{ matrix.wp-version }} / PHP ${{ matrix.php-version }}
 
     steps:
