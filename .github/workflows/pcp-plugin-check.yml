@@ -6,12 +6,12 @@ on:
   workflow_dispatch:
     inputs:
       artifact-name:
-        required: true
+        required: false
         type: string
   workflow_call:
     inputs:
       artifact-name:
-        required: true
+        required: false
         type: string
 
 env:
