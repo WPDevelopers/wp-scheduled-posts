@@ -1,4 +1,7 @@
 .DS_Store
+-
+docs
+.phpunit.result.cache
 node_modules/
 package-lock.json
 composer.lock
