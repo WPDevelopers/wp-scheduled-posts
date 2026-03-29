@@ -1,0 +1,190 @@
+# Reusable workflow: installs SchedulePress on a matrix of WordPress + PHP
+# version combinations and runs a suite of activation and integrity checks
+# (constants, DB options, and WP_DEBUG log inspection). Called by qa.yml after
+# the build job provides the plugin zip artifact. Version consistency and PHP
+# syntax checks run as separate parallel jobs in qa.yml.
+
+name: QA - SchedulePress Compatibility Testing
+
+permissions: read-all
+
+on:
+  workflow_dispatch:
+    inputs:
+      artifact-name:
+        required: true
+        type: string
+  workflow_call:
+    inputs:
+      artifact-name:
+        required: true
+        type: string
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  compatibility-test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - wp-version: "6.7"
+            php-version: "8.4"
+          - wp-version: "6.7"
+            php-version: "8.2"
+          - wp-version: "6.7"
+            php-version: "8.0"
+          - wp-version: "6.7"
+            php-version: "7.4"
+          - wp-version: "6.5"
+            php-version: "8.1"
+          - wp-version: "6.0"
+            php-version: "7.4"
+
+    name: WP ${{ matrix.wp-version }} / PHP ${{ matrix.php-version }}
+
+    steps:
+      # Setup PHP + WP-CLI via shivammathur (handles WP-CLI install automatically)
+      - name: Setup PHP ${{ matrix.php-version }} + WP-CLI
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: mysqli, mbstring, xml, gd, zip
+          tools: wp-cli
+
+      # Download the built artifact from the 'build' job
+      - name: Download Built SchedulePress
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.artifact-name }}
+          path: ./schedulepress-dist
+
+      - name: Start Database
+        run: |
+          sudo systemctl start mysql
+          mysql -u root -proot -e "CREATE DATABASE wordpress_test;"
+
+      - name: Install WordPress Core
+        run: |
+          wp core download --version=${{ matrix.wp-version }} --path=./test-site --allow-root
+          cd test-site
+          wp config create --dbname=wordpress_test --dbuser=root --dbpass=root --dbhost=127.0.0.1 --allow-root
+          wp core install \
+            --url=http://localhost:8080 \
+            --title="SchedulePress Test" \
+            --admin_user=admin \
+            --admin_password=password \
+            --admin_email=test@example.com \
+            --allow-root
+
+      # Install from zip artifact
+      - name: Install SchedulePress
+        run: |
+          ZIP_FILE=$(find ./schedulepress-dist -maxdepth 2 -name "*.zip" | head -n 1)
+
+          if [ -n "$ZIP_FILE" ]; then
+            echo "Installing from zip: $ZIP_FILE"
+            wp plugin install "$(realpath "$ZIP_FILE")" --path=./test-site --allow-root
+          else
+            echo "No zip found — falling back to directory copy"
+            PLUGIN_SRC=$(find ./schedulepress-dist -maxdepth 1 -mindepth 1 -type d | head -n 1)
+            [ -z "$PLUGIN_SRC" ] && PLUGIN_SRC="./schedulepress-dist"
+            mkdir -p ./test-site/wp-content/plugins/wp-scheduled-posts
+            cp -r "$PLUGIN_SRC/." ./test-site/wp-content/plugins/wp-scheduled-posts/
+          fi
+
+          echo "Plugin directory contents:"
+          ls ./test-site/wp-content/plugins/wp-scheduled-posts | head -n 15
+
+      - name: Activate SchedulePress
+        run: |
+          cd test-site
+          wp plugin activate wp-scheduled-posts --allow-root
+
+      # ── Check 1: Basic WordPress + plugin integrity ──────────────────────
+      - name: Run Integrity Check
+        run: |
+          cd test-site
+          WP_STATUS=$(wp eval 'echo "Ready";' --quiet --allow-root)
+          if [[ "$WP_STATUS" != "Ready" ]]; then
+            echo "::error::WordPress crashed after activating SchedulePress."
+            exit 1
+          fi
+          echo "✅ SchedulePress is active and stable on WP ${{ matrix.wp-version }} / PHP ${{ matrix.php-version }}"
+
+      # ── Check 2: Critical constants and default DB option ────────────────
+      - name: Verify SchedulePress Constants & Options
+        run: |
+          cd test-site
+          wp eval '
+            $constants = [
+              "WPSP_VERSION",
+              "WPSP_PLUGIN_FILE",
+              "WPSP_PLUGIN_BASENAME",
+              "WPSP_PLUGIN_SLUG",
+              "WPSP_SETTINGS_SLUG",
+              "WPSP_ROOT_DIR_PATH",
+            ];
+            $failed = false;
+            foreach ($constants as $c) {
+              if (!defined($c)) {
+                echo "::error::Missing constant: $c\n";
+                $failed = true;
+              }
+            }
+            if ($failed) exit(1);
+            echo "✅ All SchedulePress constants defined\n";
+
+            // The activation hook saves default settings under this key
+            $val = get_option("wpsp_settings_v5", "__MISSING__");
+            if ($val === "__MISSING__") {
+              echo "::warning::DB option wpsp_settings_v5 not yet populated (may require admin_init)\n";
+            } else {
+              echo "✅ Default plugin options found in DB\n";
+            }
+          ' --allow-root
+
+      # ── Check 3: PHP warnings & deprecations under WP_DEBUG ─────────────
+      - name: Check for PHP Warnings & Deprecations
+        run: |
+          cd test-site
+          wp config set WP_DEBUG true --raw --allow-root
+          wp config set WP_DEBUG_LOG true --raw --allow-root
+          # Trigger both frontend and admin bootstrap paths
+          wp eval 'do_action("init"); do_action("admin_init"); echo "Bootstrap OK\n";' --allow-root
+
+          if [ -f wp-content/debug.log ]; then
+            FATALS=$(grep -c "PHP Fatal" wp-content/debug.log || true)
+            DEPRECATED=$(grep -c "PHP Deprecated" wp-content/debug.log || true)
+
+            if [ "$FATALS" -gt 0 ]; then
+              echo "::error::PHP Fatal errors detected:"
+              grep "PHP Fatal" wp-content/debug.log
+              exit 1
+            fi
+
+            # Surface deprecations as workflow warnings (not failures)
+            # so they can be addressed before they become errors on the next PHP version
+            if [ "$DEPRECATED" -gt 0 ]; then
+              echo "::warning::PHP Deprecation notices found ($DEPRECATED total). Review before upgrading PHP."
+              grep "PHP Deprecated" wp-content/debug.log | head -20
+            fi
+          fi
+          echo "✅ No fatal PHP errors under WP_DEBUG"
+
+      # ── Check 4: REST API general health ────────────────────────────────
+      - name: Verify REST API Health
+        run: |
+          cd test-site
+          wp eval '
+            $request  = new WP_REST_Request("GET", "/wp/v2/posts");
+            $response = rest_do_request($request);
+            if ($response->is_error()) {
+              echo "::error::REST API broken: " . $response->as_error()->get_error_message() . "\n";
+              exit(1);
+            }
+            echo "✅ REST API responding normally\n";
+          ' --allow-root

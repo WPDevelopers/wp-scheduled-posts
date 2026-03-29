@@ -1,0 +1,38 @@
+# Orchestrator workflow: builds the plugin zip once, then fans out to all QA
+# checks in parallel. Version verification and PHP syntax checks run alongside
+# the build (no artifact needed). Plugin Check and compatibility tests run
+# after the build completes and receive the artifact name via workflow inputs.
+
+name: QA
+
+on:
+  workflow_dispatch:
+  pull_request:
+
+permissions: read-all
+
+concurrency:
+  group: qa-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    uses: ./.github/workflows/create-plugin-zip.yml
+
+  plugin-version-check:
+    uses: ./.github/workflows/plugin-version-verification.yml
+
+  php-syntax-check:
+    uses: ./.github/workflows/php-syntax-check.yml
+
+  pcp-plugin-check:
+    needs: build
+    uses: ./.github/workflows/pcp-plugin-check.yml
+    with:
+      artifact-name: ${{ needs.build.outputs.artifact-name }}
+
+  compatibility-test:
+    needs: [build, plugin-version-check, php-syntax-check]
+    uses: ./.github/workflows/schedulepress-compatibility-test.yml
+    with:
+      artifact-name: ${{ needs.build.outputs.artifact-name }}

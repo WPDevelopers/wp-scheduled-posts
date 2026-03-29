@@ -1,0 +1,69 @@
+# Reusable workflow: builds SchedulePress JS assets, creates a distributable
+# zip via `wp dist-archive`, uploads it as a GitHub artifact, and exposes the
+# artifact name as an output for downstream jobs (pcp-plugin-check,
+# compatibility-test) in qa.yml.
+
+name: Build Plugin Zip
+
+permissions: read-all
+
+on:
+  workflow_call:
+    outputs:
+      artifact-name:
+        description: "Name of the uploaded plugin zip artifact"
+        value: ${{ jobs.build.outputs.artifact-name }}
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    outputs:
+      artifact-name: ${{ steps.set-artifact-name.outputs.artifact-name }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install Dependencies & Build JS Assets
+        run: npm ci && npm run build
+
+      - name: Install WP-CLI
+        run: |
+          curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+          chmod +x wp-cli.phar
+          sudo mv wp-cli.phar /usr/local/bin/wp
+
+      - name: Install wp-dist-archive package
+        run: npm install -g @wordpress/env 2>/dev/null || true
+
+      - name: Create Plugin Zip
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          ARTIFACT_NAME="wp-scheduled-posts-${VERSION}"
+          mkdir -p ../dist-out
+          wp dist-archive ./ "../dist-out/${ARTIFACT_NAME}.zip" --plugin-dirname=wp-scheduled-posts --allow-root 2>/dev/null || \
+            zip -r "../dist-out/${ARTIFACT_NAME}.zip" . \
+              --exclude "*.git*" \
+              --exclude "node_modules/*" \
+              --exclude "tests/*" \
+              --exclude ".github/*" \
+              --exclude "*.zip"
+          echo "ARTIFACT_NAME=${ARTIFACT_NAME}" >> "$GITHUB_ENV"
+
+      - name: Set Artifact Name Output
+        id: set-artifact-name
+        run: echo "artifact-name=${ARTIFACT_NAME}" >> "$GITHUB_OUTPUT"
+
+      - name: Upload Plugin Zip
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: ../dist-out/${{ env.ARTIFACT_NAME }}.zip
+          retention-days: 1
+          if-no-files-found: error

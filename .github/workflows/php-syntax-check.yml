@@ -1,0 +1,96 @@
+# Reusable workflow: runs `php -l` on every PHP source file for all supported
+# PHP versions in a single job (sequential). Catches parse errors before any
+# runtime testing. No artifact needed — only requires a source checkout.
+# Single job eliminates per-version runner startup overhead vs. a matrix.
+
+name: QA - PHP Syntax Check
+
+permissions: read-all
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  php-syntax-check:
+    runs-on: ubuntu-24.04
+    name: PHP Syntax Check (7.4, 8.2, 8.5)
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Find PHP files
+        id: find
+        run: |
+          FILES=$(find . -name "*.php" \
+            -not -path "./vendor/*" \
+            -not -path "./node_modules/*" \
+            -not -path "./.git/*")
+          echo "TOTAL=$(echo "$FILES" | wc -l | tr -d ' ')" >> "$GITHUB_ENV"
+          # Write file list to a temp file so all steps share it
+          echo "$FILES" > /tmp/php_files.txt
+
+      # ── PHP 7.4 ────────────────────────────────────────────────────────────
+      - name: Setup PHP 7.4
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "7.4"
+
+      - name: PHP Syntax Check (PHP 7.4)
+        run: |
+          ERRORS=0
+          while IFS= read -r file; do
+            OUTPUT=$(php -l "$file" 2>&1)
+            if [ $? -ne 0 ]; then
+              echo "::error file=$file::$OUTPUT"
+              ERRORS=$((ERRORS + 1))
+            fi
+          done < /tmp/php_files.txt
+          if [ "$ERRORS" -gt 0 ]; then
+            echo "::error::PHP syntax errors found in $ERRORS / $TOTAL file(s) on PHP 7.4"
+            exit 1
+          fi
+          echo "✅ All $TOTAL PHP files passed syntax check on PHP 7.4"
+
+      # ── PHP 8.2 ────────────────────────────────────────────────────────────
+      - name: Setup PHP 8.2
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+
+      - name: PHP Syntax Check (PHP 8.2)
+        run: |
+          ERRORS=0
+          while IFS= read -r file; do
+            OUTPUT=$(php -l "$file" 2>&1)
+            if [ $? -ne 0 ]; then
+              echo "::error file=$file::$OUTPUT"
+              ERRORS=$((ERRORS + 1))
+            fi
+          done < /tmp/php_files.txt
+          if [ "$ERRORS" -gt 0 ]; then
+            echo "::error::PHP syntax errors found in $ERRORS / $TOTAL file(s) on PHP 8.2"
+            exit 1
+          fi
+          echo "✅ All $TOTAL PHP files passed syntax check on PHP 8.2"
+
+      # ── PHP 8.5 ────────────────────────────────────────────────────────────
+      - name: Setup PHP 8.5
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.5"
+
+      - name: PHP Syntax Check (PHP 8.5)
+        run: |
+          ERRORS=0
+          while IFS= read -r file; do
+            OUTPUT=$(php -l "$file" 2>&1)
+            if [ $? -ne 0 ]; then
+              echo "::error file=$file::$OUTPUT"
+              ERRORS=$((ERRORS + 1))
+            fi
+          done < /tmp/php_files.txt
+          if [ "$ERRORS" -gt 0 ]; then
+            echo "::error::PHP syntax errors found in $ERRORS / $TOTAL file(s) on PHP 8.5"
+            exit 1
+          fi
+          echo "✅ All $TOTAL PHP files passed syntax check on PHP 8.5"
