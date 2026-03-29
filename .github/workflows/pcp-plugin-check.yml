@@ -19,7 +19,7 @@ env:
 
 jobs:
   plugin-check:
-    runs-on: ubuntu-24.0.4
+    runs-on: ubuntu-latest
     name: Plugin Check - WP Latest / PHP 8.4
 
     steps:
