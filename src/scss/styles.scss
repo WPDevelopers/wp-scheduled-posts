@@ -130,24 +130,27 @@
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
+                    gap: 16px;
+                    
                     .wpsp-advanced-schedule-on-input {
-                        flex-basis: 60%;
+                        flex-basis: 50%;
                         input {
                             width: 100%;
                         }
                     }
                     .wpsp-post--items {
-                    .wpsp-date--picker {
-                        button, a {
-                        margin-top: 0 !important;
-                        background-color: #F3F2FF;
-                        color: #6C62FF;
-                        border: none;
-                        }
-                    }
+                      flex-basis: 50%;
+                      .wpsp-date--picker {
+                          button, a {
+                            margin-top: 0 !important;
+                            background-color: #F3F2FF;
+                            color: #6C62FF;
+                            border: none;
+                          }
+                      }
                     }
                 }
-                }
+            }
 
 
             .wpsp-post-panel-modal-settings-schedule {
