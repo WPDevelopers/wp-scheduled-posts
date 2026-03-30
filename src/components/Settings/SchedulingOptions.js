@@ -24,7 +24,7 @@ const SchedulingOptions = () => {
                         </div>
                         <div className="wpsp-date--picker">
                             <form action="/action_page.php">
-                                <input type="datetime-local" id="birthdaytime" name="birthdaytime"/>
+                                <input type="datetime-local" id="birthdaytime" name="birthdaytime" disabled/>
                             </form>
                         </div>
                     </div>
@@ -39,7 +39,7 @@ const SchedulingOptions = () => {
                         </div>
                         <div className="wpsp-date--picker">
                             <form action="/action_page.php">
-                                <input type="datetime-local" id="birthdaytime" name="birthdaytime"/>
+                                <input type="datetime-local" id="birthdaytime" name="birthdaytime" disabled/>
                             </form>
                         </div>
                     </div>

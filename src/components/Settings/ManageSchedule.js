@@ -24,7 +24,7 @@ const ManageSchedule = () => {
                         </div>
                         <div className="wpsp-date--picker">
                             <form action="/action_page.php">
-                                <input type="datetime-local" id="birthdaytime" name="birthdaytime" />
+                                <input type="datetime-local" id="birthdaytime" name="birthdaytime" disabled />
                             </form>
                         </div>
                     </div>
@@ -38,7 +38,7 @@ const ManageSchedule = () => {
                             </svg>
                         </div>
                         <div className="wpsp-select--option">
-                            <select id="cars">
+                            <select id="cars" disabled>
                                 <option value="volvo">June 14, 2023 at 2:50 PM</option>
                                 <option value="saab">June 14, 2023 at 2:50 PM</option>
                                 <option value="opel">June 14, 2023 at 2:50 PM</option>
