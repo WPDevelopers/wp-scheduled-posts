@@ -61,8 +61,8 @@
                     display: inline-flex;
                     align-items: center;
                     justify-content: center;
-                    width: 18px;
-                    height: 18px;
+                    width: 20px;
+                    height: 20px;
                     color: #98a2b3;
                     cursor: pointer;
 
@@ -70,6 +70,11 @@
                         width: 16px;
                         height: 16px;
                         display: block;
+                    }
+
+                    .wpsp-republish-unpublish-doc-link svg {
+                      width: 20px;
+                      height: 20px;
                     }
 
                     .info {
@@ -130,24 +135,27 @@
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
+                    gap: 16px;
+
                     .wpsp-advanced-schedule-on-input {
-                        flex-basis: 60%;
+                        flex-basis: 50%;
                         input {
                             width: 100%;
                         }
                     }
                     .wpsp-post--items {
-                    .wpsp-date--picker {
-                        button, a {
-                        margin-top: 0 !important;
-                        background-color: #F3F2FF;
-                        color: #6C62FF;
-                        border: none;
-                        }
-                    }
+                      flex-basis: 50%;
+                      .wpsp-date--picker {
+                          button, a {
+                            margin-top: 0 !important;
+                            background-color: #F3F2FF;
+                            color: #6C62FF;
+                            border: none;
+                          }
+                      }
                     }
                 }
-                }
+            }
 
 
             .wpsp-post-panel-modal-settings-schedule {
@@ -490,6 +498,10 @@
                                 align-items: center;
                                 gap: 8px;
                                 margin-bottom: 8px;
+
+                                .wpsp-social-platform-icon-bubble {
+                                  display: inline-flex;
+                                }
                                 .wpsp-preview-name {
                                     font-size: 14px;
                                     font-weight: 500;
@@ -2643,17 +2655,18 @@ border-radius: 8px;
 }
 .components-modal__screen-overlay {
   background-color: #000000B2;
-  bottom: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  left: 0;
   position: fixed;
-  right: 0;
-  top: 0;
+  inset: 0;
   z-index: 999999;
 
   .components-modal__frame {
+    min-width: auto;
+    margin: 0;
+    box-shadow: none;
+    background: transparent;
     // max-width: 300px;
     // min-width: unset;
 
@@ -2682,13 +2695,14 @@ border-radius: 8px;
         z-index: 10;
         
         .components-modal__header-heading {
-          font-size: 14px;
+          font-size: 16px;
           font-weight: 600;
           line-height: 150%;
           color: #1D2939;
           padding: 24px 24px 0 24px;
           margin: 0;
           margin-bottom: 8px;
+          flex: 1;
         }
 
         .components-spacer {
@@ -2701,11 +2715,12 @@ border-radius: 8px;
       }
 
       p {
-        font-size: 12px;
+        font-size: 14px;
         line-height: 150%;
         color: #6E6E8D;
         padding: 0 24px 24px;
         margin: 0;
+        max-width: 330px;
       }
 
       .wpsp-modal-actions {
@@ -2723,9 +2738,10 @@ border-radius: 8px;
           box-shadow: none;
           border: none;
           border-radius: 0;
-          font-size: 12px;
+          font-size: 14px;
           line-height: 150%;
           font-weight: 500;
+          height: 40px;
           cursor: pointer;
 
           &.is-secondary {

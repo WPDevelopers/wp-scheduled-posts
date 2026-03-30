@@ -164,7 +164,7 @@
     cursor: pointer;
 }
 .components-modal__frame.social-share-modal {
-    min-width: 600px;
+    min-width: 560px !important;
     max-width: 900px;
 }
 .social-share-modal > .components-modal__content {
@@ -182,13 +182,17 @@
     height: 22px;
     fill: #989FAB;
 }
-.social-share-modal .social-profile .single-profile{
+.social-share-modal .social-profile {
+    margin-bottom: 12px;
+}
+.social-share-modal .social-profile .single-profile {
     border: 1px solid #EBEEF5;
     padding: 12px;
     border-radius: 5px;
-    margin-bottom: 10px;
+    margin: 0 16px;
+    margin-bottom: 12px;
 }
-.social-share-modal .social-profile .single-profile:last-child{
+.social-share-modal .social-profile .single-profile:last-child {
     margin-bottom: 0;
 }
 .social-share-modal .social-profile .single-profile .single-profile-content {
@@ -267,7 +271,7 @@
     justify-content: start;
     align-items: center;
     gap: 10px;
-    padding: 16px 12px;
+    padding: 16px 20px;
 }
 .social-share-modal .social-logo img{
     width: 24px;
