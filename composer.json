@@ -66,7 +66,15 @@
 			"php": "7.2"
 		}
 	},
+    "scripts": {
+        "phpcs": "php -d auto_prepend_file=$PWD/phpcs-bootstrap.php vendor/bin/phpcs --standard=phpcs.xml",
+        "phpcbf": "php -d auto_prepend_file=$PWD/phpcs-bootstrap.php vendor/bin/phpcbf --standard=phpcs.xml"
+    },
     "require-dev": {
-        "coenjacobs/mozart": "0.6.0"
+        "coenjacobs/mozart": "0.6.0",
+        "squizlabs/php_codesniffer": "^3.13",
+        "wp-coding-standards/wpcs": "^3.3",
+        "phpcompatibility/phpcompatibility-wp": "^2.1",
+        "sirbrillig/phpcs-changed": "^2.12"
     }
 }

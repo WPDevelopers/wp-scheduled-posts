@@ -2,6 +2,23 @@
 node_modules/
 package-lock.json
 composer.lock
+
+# Dev tools - PHPCS / WPCS (installed via composer install, not committed)
+vendor/squizlabs/
+vendor/wp-coding-standards/
+vendor/phpcompatibility/
+vendor/phpcsstandards/
+vendor/sirbrillig/
+vendor/dealerdirect/
+vendor/bin/phpcs
+vendor/bin/phpcbf
+vendor/bin/phpcs-changed
+vendor/guzzlehttp/
+vendor/psr/
+vendor/symfony/
+scripts/
+phpcs-bootstrap.php
+
 includes/Admin/Settings/node_modules
 includes/Admin/Settings/assets/icon/demo-files
 includes/Admin/Settings/assets/icon/demo.html
