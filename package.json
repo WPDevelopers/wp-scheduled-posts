@@ -76,7 +76,7 @@
       "prettier --write"
     ],
     "*.php": [
-      "~/.composer/vendor/bin/phpcs --standard=phpcs.xml --no-colors -q"
+      "bash scripts/phpcs-precommit.sh"
     ]
   }
 }

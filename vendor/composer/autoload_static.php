@@ -17,6 +17,8 @@ class ComposerStaticInit222847855f4ec4c57417c2084bc56c0d
         'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
         'c65d09b6820da036953a371c8c73a9b1' => __DIR__ . '/..' . '/facebook/graph-sdk/src/Facebook/polyfills.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
+        '8b97cc0a160cb07a0e3651f05e5f68e4' => __DIR__ . '/..' . '/sirbrillig/phpcs-changed/PhpcsChanged/Cli.php',
+        'cc7a23006750b4fc3f5d1503c66c1054' => __DIR__ . '/..' . '/sirbrillig/phpcs-changed/PhpcsChanged/functions.php',
         '0b107c896fcb50616009a9e3dc5b1f1c' => __DIR__ . '/../..' . '/includes/functions.php',
     );
 
@@ -45,6 +47,7 @@ class ComposerStaticInit222847855f4ec4c57417c2084bc56c0d
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Container\\' => 14,
             'PriyoMukul\\WPNotice\\' => 20,
+            'PhpcsChanged\\' => 13,
             'PHPCSStandards\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\' => 57,
         ),
         'L' => 
@@ -128,6 +131,10 @@ class ComposerStaticInit222847855f4ec4c57417c2084bc56c0d
         'PriyoMukul\\WPNotice\\' => 
         array (
             0 => __DIR__ . '/..' . '/priyomukul/wp-notice/src',
+        ),
+        'PhpcsChanged\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/sirbrillig/phpcs-changed/PhpcsChanged',
         ),
         'PHPCSStandards\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\' => 
         array (
