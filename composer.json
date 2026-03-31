@@ -64,9 +64,16 @@
 	"config": {
 		"platform": {
 			"php": "7.2"
-		}
+		},
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
 	},
     "require-dev": {
-        "coenjacobs/mozart": "0.6.0"
+        "coenjacobs/mozart": "0.6.0",
+        "squizlabs/php_codesniffer": "^3.13",
+        "wp-coding-standards/wpcs": "^3.3",
+        "phpcompatibility/phpcompatibility-wp": "^2.1",
+        "dealerdirect/phpcodesniffer-composer-installer": "^1.2"
     }
 }

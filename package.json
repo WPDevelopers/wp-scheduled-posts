@@ -1,67 +1,82 @@
 {
-    "name": "wp-scheduled-posts",
-    "version": "5.2.17",
-    "description": "=== WP Scheduled Posts ===\r Contributors: wpdevteam, Asif2BD, re_enter_rupok, onetarek, hakimcseru, nayanchamp7\r Tags: post schedule, editor calendar, schedule-calendar, schedule bar, scheduled posts, schedule, schedule widget, scheduler, schedule menu bar, admin bar, dashboard widget, missed scheduled, calendar, missed schedule, future post, schedule issue, post later, admin bar, admin, multi author\r Requires at least: 4.0\r Tested up to: 5.0\r Requires PHP: 5.4\r Stable tag: 2.0.2\r License: GPLv3\r License URI: https://opensource.org/licenses/GPL-3.0",
-    "scripts": {
-        "build": "wp-scripts build",
-        "start": "wp-scripts start",
-        "admin-start": "cd ./includes/Admin/Settings && wp-scripts start",
-        "pot": "wp i18n make-pot . languages/wp-scheduled-posts.pot ",
-        "zip": "wp dist-archive ./ ../wp-scheduled-posts.$npm_package_version.zip",
-        "release": "npm run build && npm run pot && npm run zip",
-        "packages-update": "wp-scripts packages-update"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/wpdevelopers/wp-scheduled-posts.git"
-    },
-    "keywords": [
-        "schedule"
+  "name": "wp-scheduled-posts",
+  "version": "5.2.17",
+  "description": "=== WP Scheduled Posts ===\r Contributors: wpdevteam, Asif2BD, re_enter_rupok, onetarek, hakimcseru, nayanchamp7\r Tags: post schedule, editor calendar, schedule-calendar, schedule bar, scheduled posts, schedule, schedule widget, scheduler, schedule menu bar, admin bar, dashboard widget, missed scheduled, calendar, missed schedule, future post, schedule issue, post later, admin bar, admin, multi author\r Requires at least: 4.0\r Tested up to: 5.0\r Requires PHP: 5.4\r Stable tag: 2.0.2\r License: GPLv3\r License URI: https://opensource.org/licenses/GPL-3.0",
+  "scripts": {
+    "build": "wp-scripts build",
+    "start": "wp-scripts start",
+    "admin-start": "cd ./includes/Admin/Settings && wp-scripts start",
+    "pot": "wp i18n make-pot . languages/wp-scheduled-posts.pot ",
+    "zip": "wp dist-archive ./ ../wp-scheduled-posts.$npm_package_version.zip",
+    "release": "npm run build && npm run pot && npm run zip",
+    "packages-update": "wp-scripts packages-update",
+    "prepare": "husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wpdevelopers/wp-scheduled-posts.git"
+  },
+  "keywords": [
+    "schedule"
+  ],
+  "author": "WPDeveloper",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rupok/wp-scheduled-posts/issues"
+  },
+  "homepage": "https://github.com/rupok/wp-scheduled-posts#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.13.14",
+    "@babel/core": "^7.13.15",
+    "@babel/plugin-proposal-class-properties": "^7.13.0",
+    "@babel/preset-env": "^7.13.15",
+    "@wordpress/babel-plugin-import-jsx-pragma": "^4.19.0",
+    "@wordpress/babel-preset-default": "^7.20.0",
+    "@wordpress/blocks": "11.21.0",
+    "@wordpress/compose": "^6.13.0",
+    "@wordpress/data": "^9.6.0",
+    "@wordpress/edit-post": "^7.13.0",
+    "@wordpress/editor": "^13.13.0",
+    "@wordpress/element": "^5.13.0",
+    "@wordpress/i18n": "^4.36.0",
+    "@wordpress/plugins": "^6.4.0",
+    "@wordpress/scripts": "^26.7.0",
+    "autoprefixer": "^10.2.5",
+    "babel-loader": "^8.2.2",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-preset-env": "^1.7.0",
+    "cross-env": "^7.0.3",
+    "css-loader": "^5.2.4",
+    "cssnano": "^5.0.1",
+    "es-class": "^2.1.1",
+    "file-loader": "^6.2.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
+    "mini-css-extract-plugin": "^1.5.0",
+    "postcss-loader": "^5.2.0",
+    "postcss-nested": "^5.0.5",
+    "prettier": "^3.8.1",
+    "raw-loader": "^4.0.2"
+  },
+  "dependencies": {
+    "@wordpress/components": "^22.1.0",
+    "yarn": "^1.22.19"
+  },
+  "babel": {
+    "presets": [
+      "@wordpress/default"
     ],
-    "author": "WPDeveloper",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/rupok/wp-scheduled-posts/issues"
-    },
-    "homepage": "https://github.com/rupok/wp-scheduled-posts#readme",
-    "devDependencies": {
-        "@babel/cli": "^7.13.14",
-        "@babel/core": "^7.13.15",
-        "@babel/plugin-proposal-class-properties": "^7.13.0",
-        "@babel/preset-env": "^7.13.15",
-        "@wordpress/babel-plugin-import-jsx-pragma": "^4.19.0",
-        "@wordpress/babel-preset-default": "^7.20.0",
-        "@wordpress/blocks": "11.21.0",
-        "@wordpress/compose": "^6.13.0",
-        "@wordpress/data": "^9.6.0",
-        "@wordpress/edit-post": "^7.13.0",
-        "@wordpress/editor": "^13.13.0",
-        "@wordpress/element": "^5.13.0",
-        "@wordpress/i18n": "^4.36.0",
-        "@wordpress/plugins": "^6.4.0",
-        "@wordpress/scripts": "^26.7.0",
-        "autoprefixer": "^10.2.5",
-        "babel-loader": "^8.2.2",
-        "babel-plugin-transform-react-jsx": "^6.24.1",
-        "babel-preset-env": "^1.7.0",
-        "cross-env": "^7.0.3",
-        "css-loader": "^5.2.4",
-        "cssnano": "^5.0.1",
-        "es-class": "^2.1.1",
-        "file-loader": "^6.2.0",
-        "mini-css-extract-plugin": "^1.5.0",
-        "postcss-loader": "^5.2.0",
-        "postcss-nested": "^5.0.5",
-        "raw-loader": "^4.0.2"
-    },
-    "dependencies": {
-        "@wordpress/components": "^22.1.0",
-        "yarn": "^1.22.19"
-    },
-    "babel": {
-        "presets": [
-            "@wordpress/default"
-        ],
-        "plugins": []
-    }
+    "plugins": []
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "prettier --write"
+    ],
+    "*.{css,scss,json,md}": [
+      "prettier --write"
+    ],
+    "*.php": [
+      "~/.composer/vendor/bin/phpcs --standard=phpcs.xml --no-colors -q"
+    ]
+  }
 }
