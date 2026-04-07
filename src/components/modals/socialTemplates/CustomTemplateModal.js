@@ -430,11 +430,11 @@ const WPSPCustomTemplateModal = ({
         dataToLoad = tempData;
       } else if (savedData && (savedData.template || savedData.profiles?.length > 0)) {
         dataToLoad = savedData;
-        setSaveText('Update');
+        setSaveText(__('Update', 'wp-scheduled-posts'));
       }
 
       const available = getAvailableProfiles();
-      
+
       if (dataToLoad) {
         setCustomTemplates(prev => ({ ...prev, [selectedPlatform]: dataToLoad.template || '' }));
         const profilesToSet = (dataToLoad.profiles || []).map((profileId) => {
@@ -446,6 +446,8 @@ const WPSPCustomTemplateModal = ({
       } else {
         setCustomTemplates(prev => ({ ...prev, [selectedPlatform]: '{title} {content} {url} {tags}' }));
         setSelectedProfile([]);
+        setSaveText(__('Save', 'wp-scheduled-posts'));
+        setIsUpdatingContent(false);
       }
     }
   }, [selectedPlatform, allPlatformData, apiTemplateData, getAvailableProfiles, getProfileStorageId]);
