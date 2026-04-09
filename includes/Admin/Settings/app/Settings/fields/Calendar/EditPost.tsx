@@ -53,6 +53,10 @@ export const ModalContent = ({
     setIsSubmitting(true);
     // let offset = parseFloat(getSettings().timezone.offset) + new Date().getTimezoneOffset() / 60;
     // let postDate = date("Y-m-d\\TH:i:s\\Z", postData.post_date, -offset);
+    let postDate = postData.post_date;
+    if( modalData?.eventType == 'newDraft' ){
+      postDate = postDate.replace('T',' ');
+    }
 
     return wpFetch({
       method: "POST",
@@ -64,7 +68,7 @@ export const ModalContent = ({
         // post_status: postData.post_status,
         postTitle  : postData.post_title,
         postContent: postData.post_content,
-        date       : postData.post_date,
+        date       : postDate,
         scf        : scfValues,
       },
     }).then((data: PostType | WP_Error) => {
