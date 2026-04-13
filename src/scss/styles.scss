@@ -1485,11 +1485,15 @@ button.components-button.wpsp-add-template-btn:disabled {
 
 .wpsp-modal-content {
   padding: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .wpsp-modal-layout {
   display: flex;
   /* min-height: 500px; */
+  min-height: 0;
+  flex: 1;
 }
 
 /* Left side - Template Editor */
@@ -2061,6 +2065,8 @@ textarea.wpsp-template-input {
   display: flex;
   flex-direction: column;
   max-width: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .wpsp-modal-content .wpsp-preview-card {

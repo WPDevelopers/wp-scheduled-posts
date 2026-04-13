@@ -38,6 +38,8 @@
     box-sizing: border-box;
     align-items: center;
     border-radius: 14px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .wpsp-post-panel-modal-content {
