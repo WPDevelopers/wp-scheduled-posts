@@ -302,7 +302,7 @@
                         font-weight: 600;
                         line-height: 150%;
                         color: #1D2939;
-                        margin: 8px 0 2px;
+                        margin: 8px 0 8px;
                     }
                     p {
                         font-size: 12px;
@@ -2197,6 +2197,21 @@ textarea.wpsp-template-input {
   font-size: 13px;
   line-height: 1.5em;
   margin: 14px 0;
+}
+
+.wpsp-preview-see-more {
+  display: inline;
+  margin-left: 4px;
+  background: none;
+  border: none;
+  padding: 0;
+  color: #6c62ff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 .wpsp-preview-placeholder {

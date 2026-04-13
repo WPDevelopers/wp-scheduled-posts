@@ -160,7 +160,7 @@ const ScheduleOn = () => {
                                             isCleared.current = false;
                                             setScheduleDate(date);
                                         }}
-                                        is12Hour={false}
+                                        is12Hour={true}
                                     />
                                 </Popover>
                             )}

@@ -60,3 +60,9 @@
     justify-content: center;
     cursor: pointer;
 }
+#wpsp_post_settings .postbox-header  h2.ui-sortable-handle {
+   display: flex;
+   justify-content: start;
+   gap: 10px;
+   padding-left: 10px;
+}

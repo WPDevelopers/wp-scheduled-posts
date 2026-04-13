@@ -1,6 +1,14 @@
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 const { __ } = wp.i18n;
 import { authorIcon } from '../../../icons/icons';
+
+const CONTENT_CHAR_LIMIT = 250;
+
+const stripHtml = (html) => {
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    return div.textContent || div.innerText || '';
+};
 
 const PreviewCard = ({
     platform,
@@ -12,6 +20,13 @@ const PreviewCard = ({
     const { title, content, url, bannerImage } = postData;
     const previewProfileName = profile?.name || 'Preview Name';
     const previewThumbnailUrl = profile?.thumbnail_url || '';
+    const [expanded, setExpanded] = useState(false);
+
+    const plainText = stripHtml(templateHtml || '');
+    const isTruncated = plainText.length > CONTENT_CHAR_LIMIT;
+    const displayText = isTruncated && !expanded
+        ? plainText.slice(0, CONTENT_CHAR_LIMIT) + '...'
+        : plainText;
 
     if (!profile) {
         return (
@@ -63,10 +78,17 @@ const PreviewCard = ({
                 </div>
 
                 <div className="wpsp-preview-content-area">
-                    <div
-                        className="wpsp-preview-text"
-                        dangerouslySetInnerHTML={{ __html: templateHtml }}
-                    ></div>
+                    <div className="wpsp-preview-text">
+                        {displayText}
+                        {isTruncated && (
+                            <button
+                                className="wpsp-preview-see-more"
+                                onClick={() => setExpanded(!expanded)}
+                            >
+                                {expanded ? __('See less', 'wp-scheduled-posts') : __('See more', 'wp-scheduled-posts')}
+                            </button>
+                        )}
+                    </div>
 
                     <div className="wpsp-preview-post">
                         <div className="wpsp-preview-image">
@@ -99,7 +121,7 @@ const PreviewCard = ({
                             <div className="wpsp-preview-title">{title}</div>
                             <div
                                 className="wpsp-preview-excerpt"
-                                dangerouslySetInnerHTML={{ __html: content }}
+                                dangerouslySetInnerHTML={{ __html: displayText }}
                             ></div>
                         </div>
                     </div>
