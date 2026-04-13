@@ -96,6 +96,11 @@ const Footer = () => {
             })
         ]).then(() => {
             showCustomToast('success', 'Settings saved successfully.');
+            const modal = document.getElementById('wpsp-post-panel-modal');
+            if (modal) {
+                modal.classList.remove('wpsp-post-panel-active');
+                document.body.style.overflow = '';
+            }
         }).catch((error) => {
             showCustomToast('error', 'Failed to save settings.');
             console.error(error);
