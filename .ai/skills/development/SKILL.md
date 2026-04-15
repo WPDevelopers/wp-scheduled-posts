@@ -1,5 +1,5 @@
 ---
-name: schedulepress-php-development
+name: schedulepress-development
 description: Add or modify SchedulePress backend PHP code following project conventions. Use when creating new classes, methods, hooks, or modifying existing backend code. **MUST be invoked before writing any PHP unit tests.**
 ---
 
@@ -24,9 +24,7 @@ Follow SchedulePress project conventions when adding or modifying backend PHP co
 2. **Naming conventions**: See [code-entities.md](code-entities.md) for naming methods, variables, and parameters
 3. **Coding style**: See [coding-conventions.md](coding-conventions.md) for general coding standards and best practices
 4. **Working with hooks**: See [hooks.md](hooks.md) for hook callback conventions and documentation
-5. **Dependency injection**: See [dependency-injection.md](dependency-injection.md) for component initialization patterns
-6. **Data integrity**: See [data-integrity.md](data-integrity.md) for ensuring data integrity when performing CRUD operations
-7. **Writing tests**: See [unit-tests.md](unit-tests.md) for unit testing conventions
+5. **Writing tests**: See [unit-tests.md](unit-tests.md) for unit testing conventions
 
 ## Key Principles
 

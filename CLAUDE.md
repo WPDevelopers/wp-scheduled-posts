@@ -1,7 +1,8 @@
 # CLAUDE.md — SchedulePress
 
 > All project rules, conventions, architecture, and task guides live in [AGENTS.md](./AGENTS.md).
-> Read that file first. This file only contains Claude Code-specific configuration.
+> Available skills are listed in [.claude/SKILLS.md](./.claude/SKILLS.md).
+> Read both files before starting any task.
 
 ---
 
