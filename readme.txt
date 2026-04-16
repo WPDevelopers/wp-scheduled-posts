@@ -4,7 +4,7 @@ Tags: post schedule, schedule calendar, auto scheduler, auto sharing, social sha
 Requires at least: 4.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 5.2.17
+Stable tag: 5.2.18
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -216,6 +216,10 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 8. Social Templates
 
 == Changelog ==
+
+= 5.2.18 - 2026-04-16 =
+- Fixed: Default time issue in calendar post creation.
+- Few minor bug fixes and improvements.
 
 = 5.2.17 - 2026-03-16 =
 - Fixed: Readable file error when sharing posts to Twitter (X).

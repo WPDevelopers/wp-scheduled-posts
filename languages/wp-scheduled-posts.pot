@@ -2,24 +2,24 @@
 # This file is distributed under the same license as the SchedulePress plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: SchedulePress 5.2.17\n"
+"Project-Id-Version: SchedulePress 5.2.18\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-scheduled-posts\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-03-16T07:45:56+00:00\n"
+"POT-Creation-Date: 2026-04-16T04:57:17+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: wp-scheduled-posts\n"
 
 #. Plugin Name of the plugin
 #: wp-scheduled-posts.php
-#: includes/Admin.php:461
-#: includes/Admin.php:463
-#: includes/Admin.php:466
-#: includes/Admin.php:500
+#: includes/Admin.php:484
+#: includes/Admin.php:486
+#: includes/Admin.php:489
+#: includes/Admin.php:523
 #: includes/Admin/Menu.php:36
 msgid "SchedulePress"
 msgstr ""
@@ -80,83 +80,83 @@ msgstr ""
 msgid "Enjoying <strong>SchedulePress</strong>? Why not check our <strong><a href=\"https://wpdeveloper.com/in/wp-scheduled-posts-pro\" target=\"_blank\">Pro version</a></strong> which will enable auto schedule, multi social account share and many more features! [<strong><a href=\"https://wpdeveloper.com/plugins/wp-scheduled-posts/\" target=\"_blank\">Learn More</a></strong>]"
 msgstr ""
 
-#: includes/Admin.php:347
+#: includes/Admin.php:370
 msgid "WPSP Logo"
 msgstr ""
 
-#: includes/Admin.php:363
+#: includes/Admin.php:386
 msgid "Close"
 msgstr ""
 
 #. translators: 1: Post type name, 2: URL to SchedulePress settings page
-#: includes/Admin.php:377
+#: includes/Admin.php:400
 msgid "Sorry, you can't schedule this <strong>%1$s</strong>. Please allow this post type from <a href=\"%2$s\" target=\"_blank\">SchedulePress settings</a>."
 msgstr ""
 
-#: includes/Admin.php:404
+#: includes/Admin.php:427
 msgid "Publish On"
 msgstr ""
 
-#: includes/Admin.php:420
+#: includes/Admin.php:443
 msgid "Next"
 msgstr ""
 
-#: includes/Admin.php:423
+#: includes/Admin.php:446
 msgid "Prev"
 msgstr ""
 
-#: includes/Admin.php:431
+#: includes/Admin.php:454
 msgid "Publish Post Immediately"
 msgstr ""
 
-#: includes/Admin.php:433
+#: includes/Admin.php:456
 #: includes/Social/InstantShare.php:301
 #: assets/gutenberg/social-share.js:780
 msgid "Share Now"
 msgstr ""
 
-#: includes/Admin.php:435
-#: includes/Admin.php:445
+#: includes/Admin.php:458
+#: includes/Admin.php:468
 msgid "Schedule"
 msgstr ""
 
-#: includes/Admin.php:436
-#: includes/Admin.php:438
-#: includes/Admin.php:447
+#: includes/Admin.php:459
+#: includes/Admin.php:461
+#: includes/Admin.php:470
 #: assets/gutenberg/utils/CustomSocialTemplateModal.js:331
 #: assets/gutenberg/utils/CustomSocialTemplateModal.js:345
 msgid "Update"
 msgstr ""
 
-#: includes/Admin.php:437
-#: includes/Admin.php:449
+#: includes/Admin.php:460
+#: includes/Admin.php:472
 msgid "Publish"
 msgstr ""
 
-#: includes/Admin.php:508
-#: includes/Admin.php:516
-#: includes/Admin.php:522
+#: includes/Admin.php:531
+#: includes/Admin.php:539
+#: includes/Admin.php:545
 msgid "Pro Feature"
 msgstr ""
 
-#: includes/Admin.php:509
+#: includes/Admin.php:532
 #: assets/gutenberg/utils/DummyProFeatures.js:37
 msgid "Unpublish On"
 msgstr ""
 
-#: includes/Admin.php:512
-#: includes/Admin.php:519
-#: includes/Admin.php:525
-#: includes/Admin.php:968
+#: includes/Admin.php:535
+#: includes/Admin.php:542
+#: includes/Admin.php:548
+#: includes/Admin.php:991
 msgid "PRO"
 msgstr ""
 
-#: includes/Admin.php:517
+#: includes/Admin.php:540
 #: assets/gutenberg/utils/DummyProFeatures.js:43
 msgid "Republish On"
 msgstr ""
 
-#: includes/Admin.php:523
+#: includes/Admin.php:546
 #: includes/Admin/Settings.php:176
 #: includes/Admin/Settings.php:1619
 #: includes/Admin/Settings.php:1640
@@ -164,52 +164,52 @@ msgstr ""
 msgid "Advanced Schedule"
 msgstr ""
 
-#: includes/Admin.php:634
+#: includes/Admin.php:657
 #: includes/Social/InstantShare.php:90
 #: assets/gutenberg/social-share.js:467
 msgid "Choose Social Share Platform"
 msgstr ""
 
-#: includes/Admin.php:645
-#: includes/Admin.php:680
-#: includes/Admin.php:735
-#: includes/Admin.php:772
-#: includes/Admin.php:818
-#: includes/Admin.php:871
-#: includes/Admin.php:904
-#: includes/Admin.php:937
-#: includes/Admin.php:976
+#: includes/Admin.php:668
+#: includes/Admin.php:703
+#: includes/Admin.php:758
+#: includes/Admin.php:795
+#: includes/Admin.php:841
+#: includes/Admin.php:894
+#: includes/Admin.php:927
+#: includes/Admin.php:960
+#: includes/Admin.php:999
 #: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Default"
 msgstr ""
 
-#: includes/Admin.php:646
-#: includes/Admin.php:681
-#: includes/Admin.php:736
-#: includes/Admin.php:773
-#: includes/Admin.php:819
-#: includes/Admin.php:872
-#: includes/Admin.php:905
-#: includes/Admin.php:938
-#: includes/Admin.php:977
+#: includes/Admin.php:669
+#: includes/Admin.php:704
+#: includes/Admin.php:759
+#: includes/Admin.php:796
+#: includes/Admin.php:842
+#: includes/Admin.php:895
+#: includes/Admin.php:928
+#: includes/Admin.php:961
+#: includes/Admin.php:1000
 msgid "Custom"
 msgstr ""
 
 #. translators: 1: URL to the SchedulePress social profile settings page
 #. translators: %1$s: URL to the SchedulePress social profile settings page
-#: includes/Admin.php:663
-#: includes/Admin.php:697
-#: includes/Admin.php:752
-#: includes/Admin.php:789
-#: includes/Admin.php:802
-#: includes/Admin.php:856
-#: includes/Admin.php:889
-#: includes/Admin.php:922
-#: includes/Admin.php:955
+#: includes/Admin.php:686
+#: includes/Admin.php:720
+#: includes/Admin.php:775
+#: includes/Admin.php:812
+#: includes/Admin.php:825
+#: includes/Admin.php:879
+#: includes/Admin.php:912
+#: includes/Admin.php:945
+#: includes/Admin.php:978
 msgid "You may forget to add or enable profile/page from <a href=\"%1$s\">SchedulePress settings</a>."
 msgstr ""
 
-#: includes/Admin.php:713
+#: includes/Admin.php:736
 #: assets/gutenberg/social-share.js:490
 #: assets/gutenberg/social-share.js:519
 #: assets/gutenberg/social-share.js:537
@@ -228,7 +228,7 @@ msgstr ""
 msgid "Profile"
 msgstr ""
 
-#: includes/Admin.php:716
+#: includes/Admin.php:739
 #: assets/gutenberg/social-share.js:538
 #: assets/gutenberg/social-share.js:556
 #: assets/gutenberg/social-share.js:579
@@ -237,47 +237,47 @@ msgstr ""
 msgid "Page"
 msgstr ""
 
-#: includes/Admin.php:742
+#: includes/Admin.php:765
 msgid "(Profile)"
 msgstr ""
 
-#: includes/Admin.php:779
+#: includes/Admin.php:802
 msgid "(Page)"
 msgstr ""
 
 #. translators: %1$s: URL to the SchedulePress social profile settings page
-#: includes/Admin.php:994
+#: includes/Admin.php:1017
 msgid "You may forget to add or enable profile from <a href=\"%1$s\">SchedulePress settings</a>."
 msgstr ""
 
-#: includes/Admin.php:1119
+#: includes/Admin.php:1142
 msgid "Your post successfully updated"
 msgstr ""
 
-#: includes/Admin.php:1297
+#: includes/Admin.php:1320
 msgid "Your post successfully published"
 msgstr ""
 
-#: includes/Admin.php:1308
+#: includes/Admin.php:1331
 msgid "Your post id is empty"
 msgstr ""
 
-#: includes/Admin.php:1335
+#: includes/Admin.php:1358
 msgid "Your post successfully scheduled"
 msgstr ""
 
 #: includes/Admin/Calendar.php:661
-#: includes/Admin/Calendar.php:845
-#: includes/Admin/Calendar.php:873
+#: includes/Admin/Calendar.php:847
+#: includes/Admin/Calendar.php:875
 msgid "Post type isn't allowed in Settings page."
 msgstr ""
 
-#: includes/Admin/Calendar.php:802
+#: includes/Admin/Calendar.php:804
 msgid "Type is required."
 msgstr ""
 
-#: includes/Admin/Calendar.php:805
-#: includes/Admin/Calendar.php:827
+#: includes/Admin/Calendar.php:807
+#: includes/Admin/Calendar.php:829
 #: includes/Social/SocialProfile.php:75
 msgid "Something went wrong."
 msgstr ""
