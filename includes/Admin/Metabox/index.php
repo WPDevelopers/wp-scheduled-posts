@@ -27,11 +27,24 @@
 
         const closeBtn = modal.querySelector('.wpsp-post-panel-close');
         const overlay = modal.querySelector('.wpsp-post-panel-overlay');
+        const contentEl = modal.querySelector('.wpsp-post-panel-content');
+
+        // Position close button at the top-right of the modal content (+16px gap).
+        // Uses position: fixed + JS-computed coords to escape the overflow-clipping
+        // `.wpsp-post-panel-content` ancestor.
+        const positionCloseBtn = () => {
+            if (!modal.classList.contains('wpsp-post-panel-active')) return;
+            if (!contentEl || !closeBtn) return;
+            const rect = contentEl.getBoundingClientRect();
+            closeBtn.style.top = rect.top + 'px';
+            closeBtn.style.left = (rect.right + 16) + 'px';
+        };
 
         // Open modal
         const openModal = () => {
             modal.classList.add('wpsp-post-panel-active');
             document.body.style.overflow = 'hidden';
+            requestAnimationFrame(positionCloseBtn);
         };
 
         // Close modal
@@ -44,5 +57,11 @@
         openBtn.addEventListener('click', openModal);
         closeBtn.addEventListener('click', closeModal);
         overlay.addEventListener('click', closeModal);
+
+        // Keep the close button aligned with the modal content on resize / content reflow.
+        window.addEventListener('resize', positionCloseBtn);
+        if (typeof ResizeObserver !== 'undefined') {
+            new ResizeObserver(positionCloseBtn).observe(contentEl);
+        }
     });
 </script>

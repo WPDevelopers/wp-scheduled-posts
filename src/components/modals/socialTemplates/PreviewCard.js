@@ -80,14 +80,14 @@ const PreviewCard = ({
                 <div className="wpsp-preview-content-area">
                     <div className="wpsp-preview-text">
                         {displayText}
-                        {isTruncated && (
+                        {/* {isTruncated && (
                             <button
                                 className="wpsp-preview-see-more"
                                 onClick={() => setExpanded(!expanded)}
                             >
                                 {expanded ? __('See less', 'wp-scheduled-posts') : __('See more', 'wp-scheduled-posts')}
                             </button>
-                        )}
+                        )} */}
                     </div>
 
                     <div className="wpsp-preview-post">

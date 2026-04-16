@@ -125,7 +125,7 @@ class Assets
         // wp_enqueue_script('wps-publish-button', WPSP_ASSETS_URI . 'js/wpspl-admin.min.js', array('wp-components', 'wp-data', 'wp-edit-post', 'wp-editor', 'wp-element', 'wp-i18n', 'wp-plugins', 'wp-hooks'), WPSP_VERSION, true);
         wp_enqueue_script('wpsp-react-app', WPSP_ASSETS_URI . 'js/app.min.js', array('wp-element','wp-components', 'wp-data', 'wp-i18n', 'wp-hooks'), WPSP_VERSION, true);
         wp_enqueue_style('wpsp-react-app', WPSP_ASSETS_URI . 'css/app.min.css', array(), WPSP_VERSION, 'all');
-        wp_localize_script('wps-publish-button', 'WPSchedulePostsFree', array(
+        wp_localize_script('wpsp-react-app', 'WPSchedulePostsFree', array(
             'nonce' => wp_create_nonce('wpscp-pro-social-profile'),
             'publishImmediately' => __('Current Date', 'wp-scheduled-posts'),
             'publishFutureDate' => __('Future Date', 'wp-scheduled-posts'),

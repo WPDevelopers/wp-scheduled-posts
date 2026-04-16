@@ -47,11 +47,13 @@
     gap: 10px;
 }
 
-/* Close button */
+/* Close button — uses position: fixed to escape `.wpsp-post-panel-content`'s
+   overflow clipping. Exact top/left is set by JS so it tracks the modal
+   content's top-right corner (+16px gap) on resize/scroll. */
 .wpsp-post-panel-close {
-    position: absolute;
+    position: fixed;
     top: 0;
-    right: -48px;
+    left: 0;
     border: none;
     background: #FFF;
     width: 32px;
@@ -61,6 +63,9 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    padding: 0;
+    z-index: 100000;
+    box-shadow: 0 2px 8px rgba(16, 24, 40, 0.08);
 }
 #wpsp_post_settings .postbox-header  h2.ui-sortable-handle {
    display: flex;
