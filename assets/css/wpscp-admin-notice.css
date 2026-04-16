@@ -326,3 +326,53 @@ a.wpsp-notice-cta {
         display: none !important;
     }
 }
+
+/*
+ * Wpsp Spring Campaign 2026 Notice
+ */
+#wpnotice-schedulepress-wpsp_spring_campaign_2026 {
+    border-left-color: #5252DC;
+    padding: 10px 40px 10px 20px;
+}
+#wpnotice-schedulepress-wpsp_spring_campaign_2026 .wpnotice-content-wrapper {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    width: 100%;
+    flex-direction: column;
+    gap: 5px;
+}
+#wpnotice-schedulepress-wpsp_spring_campaign_2026 .wpnotice-content-wrapper p {
+    font-size: 14px;
+    margin-top: 0;
+    padding-top: 0;
+}
+#wpnotice-schedulepress-wpsp_spring_campaign_2026 .wpnotice-content-wrapper .wpsp-notice-action-button > a.button-primary,
+#wpnotice-schedulepress-wpsp_spring_campaign_2026 .wpnotice-content-wrapper .wpsp-notice-action-button > a.button-primary:focus,
+#wpnotice-schedulepress-wpsp_spring_campaign_2026 .wpnotice-content-wrapper .wpsp-notice-action-button > a.button-primary:hover {
+    background-color: #5252DC;
+    color: #ffffff;
+    box-shadow: 0px 1px 0px 0px #000000;
+    border: none;
+    border-radius: 6px;
+    padding: 2px 16px;
+}
+#wpnotice-schedulepress-wpsp_spring_campaign_2026 .wpnotice-content-wrapper .wpsp-notice-action-button .wpsp-notice-action-dismiss {
+    background: none;
+    border: none;
+    color: #424242;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    display: inline-block;
+    margin-left: 5px;
+}
+@media screen and (max-width: 574px) {
+    #wpnotice-schedulepress-wpsp_spring_campaign_2026 {
+        display: none !important;
+    }
+}
