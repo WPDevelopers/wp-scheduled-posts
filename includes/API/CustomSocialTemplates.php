@@ -423,6 +423,23 @@ class CustomSocialTemplates
 
         // Update custom templates post meta
         $template_updated = update_post_meta($post_id, '_wpsp_custom_templates', $templates);
+        // global default template.
+        $has_custom_template = false;
+        if (is_array($templates)) {
+            foreach ($templates as $platform_entry) {
+                if (!is_array($platform_entry)) {
+                    continue;
+                }
+                $tpl     = isset($platform_entry['template']) ? trim((string) $platform_entry['template']) : '';
+                $profs   = isset($platform_entry['profiles']) && is_array($platform_entry['profiles']) ? $platform_entry['profiles'] : [];
+                $global  = !empty($platform_entry['is_global']);
+                if ($tpl !== '' || !empty($profs) || $global) {
+                    $has_custom_template = true;
+                    break;
+                }
+            }
+        }
+        update_post_meta($post_id, '_wpsp_enable_custom_social_template', $has_custom_template);
 
         // Handle scheduling data
         $scheduling_updated = false;
