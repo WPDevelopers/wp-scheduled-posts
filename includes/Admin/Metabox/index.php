@@ -36,8 +36,6 @@
             if (!modal.classList.contains('wpsp-post-panel-active')) return;
             if (!contentEl || !closeBtn) return;
             const rect = contentEl.getBoundingClientRect();
-            closeBtn.style.top = rect.top + 'px';
-            closeBtn.style.left = (rect.right + 16) + 'px';
         };
 
         // Open modal
