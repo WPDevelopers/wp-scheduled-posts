@@ -33,7 +33,12 @@ class Assets
             }
             $disableSocialShare = $post_id ? get_post_meta($post_id, '_wpscppro_dont_share_socialmedia', true) : '';
             $featured_img_url = $post_id ? get_the_post_thumbnail_url($post_id, 'full') : '';
-
+            wp_enqueue_style(
+                'wp-components',
+                includes_url( 'css/dist/components/style.css' ),
+                array(),
+                get_bloginfo( 'version' )
+            );
             wp_enqueue_script('jquery-kylefoxModal', WPSP_ASSETS_URI . 'js/vendor/jquery.modal.min.js', array('jquery'), WPSP_VERSION, false);
             wp_enqueue_script('wpscp-el-editor', WPSP_ASSETS_URI . 'js/elementor-editor.js', array('jquery', 'tipsy'), WPSP_VERSION, true);
             wp_enqueue_style('jquery-kylefoxModal', WPSP_ASSETS_URI . 'css/vendor/jquery.modal.min.css', array(), WPSP_VERSION, 'all');
