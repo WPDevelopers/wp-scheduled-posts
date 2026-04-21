@@ -31,15 +31,23 @@
 /* Content */
 .wpsp-post-panel-content {
     position: relative;
-    max-width: 970px;
+    max-width: 922px !important;
+    background: #f9f8fd !important;
     width: 90%;
     max-height: 90vh;
     height: auto;
     box-sizing: border-box;
     align-items: center;
     border-radius: 14px;
-    overflow-y: auto;
-    overflow-x: hidden;
+}
+
+.wpsp-post-panel-modal-content {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    flex: 1;
+    max-height: calc(100vh - 255px);
+    overflow: auto;
 }
 
 .wpsp-post-panel-modal-content {
@@ -47,13 +55,18 @@
     gap: 10px;
 }
 
+#wpsp-post-panel-modal .wpsp-custom-template-modal {
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
 /* Close button — uses position: fixed to escape `.wpsp-post-panel-content`'s
    overflow clipping. Exact top/left is set by JS so it tracks the modal
    content's top-right corner (+16px gap) on resize/scroll. */
 .wpsp-post-panel-close {
-    position: fixed;
+    position: absolute;
     top: 0;
-    left: 0;
+    right: -45px;
     border: none;
     background: #FFF;
     width: 32px;

@@ -1026,7 +1026,7 @@
         top: 0;
         left: 0;
         right: 0;
-        z-index: 99;
+        z-index: 9999999;
     }
     .wpsp-custom-template-modal .wpsp-custom-social-doc-link:focus {
         box-shadow: none;
@@ -1053,7 +1053,7 @@
     .wpsp-custom-template-modal .wpsp-components-button {
         flex: 0 0 auto;
         border: none;
-        background: transparent;
+        background: #FFF;
         width: 32px;
         height: 32px;
         border-radius: 50%;
@@ -1064,6 +1064,10 @@
         padding: 0;
         margin: 0;
         transition: background-color 0.15s ease;
+        position: absolute;
+        top: 0;
+        right: -45px;
+        z-index: 999999999;
         svg {
             width: 20px;
             height: 20px;
@@ -1495,6 +1499,8 @@ button.components-button.wpsp-add-template-btn:disabled {
   /* min-height: 500px; */
   min-height: 0;
   flex: 1;
+  max-height: calc(100vh - 255px);
+  overflow: auto;
 }
 
 /* Left side - Template Editor */
