@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { AppContext } from '../../context/AppContext';
-const { DateTimePicker, Popover } = wp.components;
+const { DateTimePicker, Popover, Button } = wp.components;
 const { __ } = wp.i18n;
 const { useSelect } = wp.data;
 
@@ -154,6 +154,19 @@ const ScheduleOn = () => {
                                     placement="bottom-start"
                                     onClose={() => setIsOpenScheduleDate(false)}
                                 >
+                                    <div style={{ marginTop: '10px', textAlign: 'right' }}>
+                                        <Button
+                                            variant="secondary"
+                                            isSmall
+                                            onClick={() => {
+                                                const now = new Date().toISOString();
+                                                isCleared.current = false;
+                                                setScheduleDate(now);
+                                            }}
+                                        >
+                                            {__('Now', 'wp-scheduled-posts')}
+                                        </Button>
+                                    </div>
                                     <DateTimePicker
                                         currentDate={scheduleDate || undefined}
                                         onChange={(date) => {
