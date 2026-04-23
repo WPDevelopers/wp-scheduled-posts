@@ -1,6 +1,7 @@
 <div id="wpsp-post-panel-wrapper">
+    <p><?php echo __('Manage your entire publishing workflow and social sharing from a single, centralized hub.','wp-scheduled-posts') ?></p>
     <button id="wpsp-post-panel-button" type="button">
-        Schedule And Share
+        <?php echo __('Schedule And Share','wp-scheduled-posts') ?>
     </button>
 </div>
 
