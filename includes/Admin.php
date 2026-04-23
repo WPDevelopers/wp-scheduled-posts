@@ -729,7 +729,7 @@ class Admin
                                     echo sprintf(
                                         /* translators: 1: URL to the SchedulePress social profile settings page */
                                         __(
-                                            'You may forget to add or enable profile/page from <a href="%1$s">SchedulePress settings</a>.',
+                                            'It seems you haven\'t connected any profile/page in your <a href="%1$s">SchedulePress settings</a>.',
                                             'wp-scheduled-posts'
                                         ),
                                         admin_url('admin.php?page=schedulepress&tab=social-profile')
@@ -769,7 +769,7 @@ class Admin
                                     <?php
                                     echo sprintf(
                                         /* translators: %1$s: URL to the SchedulePress social profile settings page */
-                                        __('You may forget to add or enable profile/page from <a href="%1$s">SchedulePress settings</a>.', 'wp-scheduled-posts'),
+                                        __('It seems you haven\'t connected any profile/page in your <a href="%1$s">SchedulePress settings</a>.', 'wp-scheduled-posts'),
                                         admin_url('admin.php?page=schedulepress&tab=social-profile')
                                     );
                                     ?>
@@ -842,7 +842,7 @@ class Admin
                                                     <?php
                                                     echo sprintf(
                                                         /* translators: %1$s: URL to the SchedulePress social profile settings page */
-                                                        __('You may forget to add or enable profile/page from <a href="%1$s">SchedulePress settings</a>.', 'wp-scheduled-posts'),
+                                                        __('It seems you haven\'t connected any profile/page in your <a href="%1$s">SchedulePress settings</a>.', 'wp-scheduled-posts'),
                                                         admin_url('admin.php?page=schedulepress&tab=social-profile')
                                                     );
                                                     ?>
@@ -891,7 +891,7 @@ class Admin
                                                     <?php
                                                     echo sprintf(
                                                         /* translators: %1$s: URL to the SchedulePress social profile settings page */
-                                                        __('You may forget to add or enable profile/page from <a href="%1$s">SchedulePress settings</a>.', 'wp-scheduled-posts'),
+                                                        __('It seems you haven\'t connected any profile/page in your <a href="%1$s">SchedulePress settings</a>.', 'wp-scheduled-posts'),
                                                         admin_url('admin.php?page=schedulepress&tab=social-profile')
                                                     );
                                                     ?>
@@ -904,7 +904,7 @@ class Admin
                                         <?php
                                         echo sprintf(
                                             /* translators: %1$s: URL to the SchedulePress social profile settings page */
-                                            __('You may forget to add or enable profile/page from <a href="%1$s">SchedulePress settings</a>.', 'wp-scheduled-posts'),
+                                            __('It seems you haven\'t connected any profile/page in your <a href="%1$s">SchedulePress settings</a>.', 'wp-scheduled-posts'),
                                             admin_url('admin.php?page=schedulepress&tab=social-profile')
                                         );
                                         ?>
@@ -968,7 +968,7 @@ class Admin
                                     <?php
                                     echo sprintf(
                                         /* translators: %1$s: URL to the SchedulePress social profile settings page */
-                                        __('You may forget to add or enable profile/page from <a href="%1$s">SchedulePress settings</a>.', 'wp-scheduled-posts'),
+                                        __('It seems you haven\'t connected any profile/page in your <a href="%1$s">SchedulePress settings</a>.', 'wp-scheduled-posts'),
                                         admin_url('admin.php?page=schedulepress&tab=social-profile')
                                     );
                                     ?>
@@ -1009,7 +1009,7 @@ class Admin
                                     <?php
                                     echo sprintf(
                                         /* translators: %1$s: URL to the SchedulePress social profile settings page */
-                                        __('You may forget to add or enable profile/page from <a href="%1$s">SchedulePress settings</a>.', 'wp-scheduled-posts'),
+                                        __('It seems you haven\'t connected any profile/page in your <a href="%1$s">SchedulePress settings</a>.', 'wp-scheduled-posts'),
                                         admin_url('admin.php?page=schedulepress&tab=social-profile')
                                     );
                                     ?>
@@ -1049,7 +1049,7 @@ class Admin
                                     <?php
                                     echo sprintf(
                                         /* translators: %1$s: URL to the SchedulePress social profile settings page */
-                                        __('You may forget to add or enable profile/page from <a href="%1$s">SchedulePress settings</a>.', 'wp-scheduled-posts'),
+                                        __('It seems you haven\'t connected any profile/page in your <a href="%1$s">SchedulePress settings</a>.', 'wp-scheduled-posts'),
                                         admin_url('admin.php?page=schedulepress&tab=social-profile')
                                     );
                                     ?>
@@ -1089,7 +1089,7 @@ class Admin
                                     <?php
                                     echo sprintf(
                                         /* translators: %1$s: URL to the SchedulePress social profile settings page */
-                                        __('You may forget to add or enable profile/page from <a href="%1$s">SchedulePress settings</a>.', 'wp-scheduled-posts'),
+                                        __('It seems you haven\'t connected any profile/page in your <a href="%1$s">SchedulePress settings</a>.', 'wp-scheduled-posts'),
                                         admin_url('admin.php?page=schedulepress&tab=social-profile')
                                     );
                                     ?>
@@ -1142,7 +1142,7 @@ class Admin
                                         <?php
                                         echo sprintf(
                                             /* translators: %1$s: URL to the SchedulePress social profile settings page */
-                                            __('You may forget to add or enable profile from <a href="%1$s">SchedulePress settings</a>.', 'wp-scheduled-posts'),
+                                            __('It seems you haven\'t connected any profile/page in your <a href="%1$s">SchedulePress settings</a>.', 'wp-scheduled-posts'),
                                             admin_url('admin.php?page=schedulepress&tab=social-profile')
                                         );
                                         ?>

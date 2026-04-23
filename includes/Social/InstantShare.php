@@ -292,7 +292,7 @@ class InstantShare
                         <?php
                             echo sprintf(
                                 /* translators: %s: URL to SchedulePress settings page */
-                                __( 'You may forget to add or enable social media from <a href="%s">SchedulePress settings</a>.', 'wp-scheduled-posts' ),
+                                __( 'It seems you haven\'t connected any profile/page in your <a href="%s">SchedulePress settings</a>.', 'wp-scheduled-posts' ),
                                 admin_url( 'admin.php?page=schedulepress&tab=social-profile' )
                             );
                         ?>

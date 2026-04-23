@@ -93,7 +93,7 @@ const ScheduleOn = () => {
         <div className="wpsp-post-panel-modal-settings-schedule">
             <div className="wpsp-post--card">
                 <div className="card--title">
-                    <h4 className="title">{__('Schedule On', 'wp-scheduled-posts')}</h4>
+                    <h4 className="title">{__('Default Schedule', 'wp-scheduled-posts')}</h4>
                 </div>
 
                 <div className="wpsp-post-items--wrapper">
@@ -102,7 +102,7 @@ const ScheduleOn = () => {
                         {/* Label + tooltip */}
                         <div className="card--title">
                             <div className="schedule-on-label">
-                                <h5 className="title">{__('Schedule On', 'wp-scheduled-posts')}</h5>
+                                <h5 className="title">{__('Publish On', 'wp-scheduled-posts')}</h5>
                                 <div className="schedule-on-tooltip">
                                     <span>
                                         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
