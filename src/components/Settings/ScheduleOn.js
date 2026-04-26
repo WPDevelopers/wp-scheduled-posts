@@ -57,6 +57,21 @@ const ScheduleOn = () => {
         return '';
     }, []);
 
+    // Current post status — used to seed `isScheduled` (only `future` is truly scheduled)
+    const postStatus = useSelect((select) => {
+        try {
+            const editor = select('core/editor');
+            if (editor?.getCurrentPostType?.()) {
+                return editor.getEditedPostAttribute('status') || '';
+            }
+        } catch (e) {}
+        return (
+            window?.WPSchedulePostsFree?.current_post_status ||
+            window?.WPSchedulePosts?.current_post_status ||
+            ''
+        );
+    }, []);
+
     // Initialize date synchronously from state / global vars / Classic Editor DOM
     const [scheduleDate, setScheduleDate] = useState(() => {
         const fromState = normalizeDateString(state?.scheduleDate);
@@ -71,9 +86,10 @@ const ScheduleOn = () => {
     });
 
     const [isOpenScheduleDate, setIsOpenScheduleDate] = useState(false);
-    const anchorRef      = useRef();
-    const isCleared      = useRef(false);
-    const editorHydrated = useRef(false);
+    const anchorRef       = useRef();
+    const isCleared       = useRef(false);
+    const editorHydrated  = useRef(false);
+    const userInteracted  = useRef(false);
 
     // Hydrate from Gutenberg once it finishes loading (async)
     useEffect(() => {
@@ -82,11 +98,19 @@ const ScheduleOn = () => {
         setScheduleDate(editorPostDate);
     }, [editorPostDate, scheduleDate]);
 
-    // Keep app context in sync so Footer "Save Changes" picks it up
+    // Keep app context in sync so Footer "Save Changes" picks it up.
+    // `isScheduled` reflects user intent to schedule:
+    //   - On first render: true only if the post is already scheduled (status === 'future').
+    //   - After user picks/clears a date: follows the picker (`!!scheduleDate`).
+    // This prevents auto-hydrated post dates (drafts have a default post_date) from
+    // incorrectly flipping `isScheduled` to true.
     useEffect(() => {
         dispatch({ type: 'SET_SCHEDULE_DATE', payload: scheduleDate || '' });
-        dispatch({ type: 'SET_IS_SCHEDULED',  payload: !!scheduleDate });
-    }, [scheduleDate, dispatch]);
+        const nextIsScheduled = userInteracted.current
+            ? !!scheduleDate
+            : postStatus === 'future';
+        dispatch({ type: 'SET_IS_SCHEDULED', payload: nextIsScheduled });
+    }, [scheduleDate, postStatus, dispatch]);
 
     // ─── Render ───────────────────────────────────────────────────────────
     return (
@@ -136,6 +160,7 @@ const ScheduleOn = () => {
                                     className="wpsp-date-clear-btn"
                                     onClick={() => {
                                         isCleared.current = true;
+                                        userInteracted.current = true;
                                         setScheduleDate('');
                                     }}
                                     title={__('Clear date', 'wp-scheduled-posts')}
@@ -161,6 +186,7 @@ const ScheduleOn = () => {
                                             onClick={() => {
                                                 const now = new Date().toISOString();
                                                 isCleared.current = false;
+                                                userInteracted.current = true;
                                                 setScheduleDate(now);
                                             }}
                                         >
@@ -171,6 +197,7 @@ const ScheduleOn = () => {
                                         currentDate={scheduleDate || undefined}
                                         onChange={(date) => {
                                             isCleared.current = false;
+                                            userInteracted.current = true;
                                             setScheduleDate(date);
                                         }}
                                         is12Hour={true}
