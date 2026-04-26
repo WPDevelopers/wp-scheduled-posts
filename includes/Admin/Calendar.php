@@ -758,6 +758,8 @@ class Calendar
                 'post_type'    => $post_type,
                 'post_content' => $postContent,
                 'post_status'  => 'draft',
+                'post_date'     => (isset($postdateformat) ? $postdateformat : ''),
+                'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''),
                 'post_author'  => get_current_user_id(),
             ), true);
             // Save SCF fields if present
