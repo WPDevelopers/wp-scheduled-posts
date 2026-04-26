@@ -51,7 +51,7 @@ const getDefaultScheduleData = (postStatus) => {
 };
 
 const WPSPCustomTemplateModal = ({
-  WPSchedulePostsFree = { adminURL: '#', assetsURI: '' },
+  WPSchedulePostsFree = { adminURL: '#', assetsURI: '', socialProfileURL: window.WPSchedulePostsFree.socialProfileURL },
   info = 'Info message here',
   // Profile data props are no longer needed, we fetch them internally
   // Post data props
