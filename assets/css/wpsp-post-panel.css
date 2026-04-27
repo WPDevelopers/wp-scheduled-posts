@@ -130,3 +130,9 @@
    gap: 10px;
    padding-left: 10px;
 }
+/* Hide the SchedulePress metabox in the block editor.
+   Its DOM stays mounted so the sidebar button can trigger the modal. */
+.block-editor-page #wpsp_post_settings,
+.block-editor-page #wpsp_post_settings-hide {
+    display: none !important;
+}

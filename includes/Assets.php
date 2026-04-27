@@ -181,6 +181,9 @@ class Assets
             WPSP_VERSION,
             true
         );
+        wp_localize_script('wpsp-gutenberg-sidebar', 'WPSPSidebar', array(
+            'assetsURI' => WPSP_ASSETS_URI,
+        ));
     }
 
     /**
