@@ -646,6 +646,7 @@
             background-size: 12px 12px;
             cursor: pointer;
             vertical-align: middle;
+            width: 100%;
 
             &:focus {
                 border: 1px solid #6C62FF;
@@ -974,6 +975,7 @@
             background-size: 12px 12px;
             cursor: pointer;
             vertical-align: middle;
+            width: 100%;
 
             &:focus {
                 outline: 0;
@@ -1512,7 +1514,7 @@ button.components-button.wpsp-add-template-btn:disabled {
   padding: 24px 32px;
   border-right: 1px solid #E9E7F4;
   background: #F9F8FD;
-  // overflow: auto;
+  overflow: auto;
 }
 
 .wpsp-platform-icon svg path {
@@ -2015,6 +2017,7 @@ textarea.wpsp-template-input {
   display: flex;
   flex-direction: column;
   flex: 1;
+  width: 100%;
 }
 
 .wpsp-date-time-section label {
