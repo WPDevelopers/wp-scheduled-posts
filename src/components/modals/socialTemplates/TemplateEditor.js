@@ -48,7 +48,7 @@ const TemplateEditor = ({
                 <span className={availableProfilesCount === 0 ? 'wpsp-use-global-template-text disabled' : ''} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                     {__('Use global template', 'wp-scheduled-posts')}
                     <span className="wpsp-tooltip-wrapper">
-                        <i className="dashicons dashicons-info" style={{ color: '#ccc' }}></i>
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="6.99935" cy="6.99935" r="5.83333" stroke="#667085" stroke-width="1.2"></circle><path d="M7 4.08398V7.58398" stroke="#667085" stroke-width="1.2" stroke-linecap="round"></path><circle cx="6.99935" cy="9.33333" r="0.583333" fill="#667085"></circle></svg>
                         <span className="wpsp-tooltip-text">
                             {__('If enabled, this template will be applied across all the selected social platforms.', 'wp-scheduled-posts')}
                         </span>

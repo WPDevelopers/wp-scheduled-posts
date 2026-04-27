@@ -11,6 +11,7 @@ class Assets
         // admin script
         add_action('enqueue_block_assets', [$this, 'guten_scripts']);
         add_action('admin_enqueue_scripts', [$this, 'guten_scripts']);
+        add_action('enqueue_block_editor_assets', [$this, 'gutenberg_sidebar_script']);
         add_action('admin_enqueue_scripts', [$this, 'plugin_scripts']);
         // adminbar enqueue
         add_action('admin_enqueue_scripts', [$this, 'adminbar_script']);
@@ -169,6 +170,17 @@ class Assets
                 'google_business' => \WPSP\Helper::get_settings('google_business_profile_status'),
             ],
         ));
+    }
+
+    public function gutenberg_sidebar_script()
+    {
+        wp_enqueue_script(
+            'wpsp-gutenberg-sidebar',
+            WPSP_PLUGIN_ROOT_URI . 'index.js',
+            array('wp-plugins', 'wp-edit-post', 'wp-element', 'wp-components', 'wp-i18n'),
+            WPSP_VERSION,
+            true
+        );
     }
 
     /**

@@ -16,7 +16,8 @@
 }
 
 /* Post panel wrapper button  */
-#wpsp-post-panel-wrapper #wpsp-post-panel-button {
+#wpsp-post-panel-wrapper #wpsp-post-panel-button,
+#wpsp-post-panel-wrapper-gutenberg #wpsp-post-panel-button-gutenberg {
     font-size: 12px;
     line-height: 100%;
     font-weight: 500;
@@ -26,6 +27,49 @@
     cursor: pointer;
     color: #fff;
     border: none;
+    font-family: "Inter", sans-serif;
+    transition: background 0.2s ease;
+}
+
+#wpsp-post-panel-wrapper #wpsp-post-panel-button:hover,
+#wpsp-post-panel-wrapper-gutenberg #wpsp-post-panel-button-gutenberg:hover {
+    background: #5a51e6;
+    color: #fff;
+}
+.block-editor__container #wpsp_post_settings .postbox-header {
+    border-top: none;
+}
+
+/* Gutenberg slot wrapper — match metabox layout */
+#wpsp-post-panel-wrapper-gutenberg {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#wpsp-post-panel-wrapper-gutenberg p {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #1e1e1e;
+}
+
+#wpsp-post-panel-wrapper-gutenberg #wpsp-post-panel-button-gutenberg {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 13px;
+    box-shadow: none;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+#wpsp-post-panel-wrapper-gutenberg #wpsp-post-panel-button-gutenberg:focus {
+    outline: 2px solid #6c62ff;
+    outline-offset: 2px;
 }
 
 /* Content */
