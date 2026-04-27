@@ -858,7 +858,7 @@
 
             .wpsp-tooltip {
                 position: absolute;
-                bottom: 46px;
+                top: 40px;
                 left: 50%;
                 transform: translateX(-50%);
                 background-color: #FFF;
@@ -873,7 +873,7 @@
                 opacity: 0;
                 visibility: hidden;
                 transition: all .2s ease;
-                box-shadow: 0px 10px 10px -5px #3341550A, 0px 20px 25px -5px #3341551A;
+                box-shadow: 0px -8px 12px 5px rgba(51,65,85,.0192156863),0px -20px 25px 5px rgba(51,65,85,.1019607843);
                 z-index: 999999999;
 
                 span {
@@ -884,7 +884,7 @@
                 &:after {
                     content: "";
                     position: absolute;
-                    bottom: -10px;
+                    top: -12px;
                     left: 50%;
                     margin-left: 12px;
                     transform: translateX(-50%) rotate(-90deg);
@@ -2691,7 +2691,7 @@ border-radius: 8px;
     height: 62px !important;
     width: 204px;
     padding: 12px;
-    box-shadow: 0px -10px 10px 5px #3341550A, 0px -20px 25px 5px #3341551A;
+    box-shadow: 0px -8px 12px 5px rgba(51,65,85,.0192156863),0px -20px 25px 5px rgba(51,65,85,.1019607843);
 }
 .components-modal__screen-overlay {
   background-color: #000000B2;
