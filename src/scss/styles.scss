@@ -599,6 +599,7 @@
                     border-radius: 6px !important;
                     border: 1px solid #6C62FF !important;
                     cursor: pointer;
+                    line-height: 0;
                     &:focus {
                         box-shadow: none;
                         outline: 0;
@@ -1511,7 +1512,7 @@ button.components-button.wpsp-add-template-btn:disabled {
   padding: 24px 32px;
   border-right: 1px solid #E9E7F4;
   background: #F9F8FD;
-  overflow: auto;
+  // overflow: auto;
 }
 
 .wpsp-platform-icon svg path {
