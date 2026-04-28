@@ -2763,13 +2763,15 @@ border-radius: 8px;
         max-width: 330px;
       }
 
-      .wpsp-modal-actions {
+      .wpsp-modal-actions,
+      .wpsp-advanced-schedule-notice-modal__actions {
         margin: 0 !important;
         justify-content: unset !important;
         gap: 0 !important;
         border-top: 1px solid #E5E5F2;
+        display: flex;
 
-        button.components-button {
+        .components-button {
           flex: 1;
           padding: 10px 16px;
           display: flex;
@@ -2785,12 +2787,12 @@ border-radius: 8px;
           cursor: pointer;
 
           &.is-secondary {
-            color: #6C62FF;
+            color: #C63239;
             border-right: 1px solid #E5E5F2;
           }
 
           &.is-primary {
-            color: #C63239;
+            color: #6C62FF;
           }
 
         }
