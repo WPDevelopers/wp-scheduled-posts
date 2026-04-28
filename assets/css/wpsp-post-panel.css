@@ -85,11 +85,10 @@
     border-radius: 14px;
 }
 
-.wpsp-post-panel-modal-content {
+.wpsp-post-panel-modal-content-wrap {
     display: flex;
-    gap: 10px;
+    flex-direction: column;
     width: 100%;
-    flex: 1;
     max-height: calc(100vh - 255px);
     overflow: auto;
 }
@@ -97,6 +96,7 @@
 .wpsp-post-panel-modal-content {
     display: flex;
     gap: 10px;
+    flex: 1;
 }
 
 #wpsp-post-panel-modal .wpsp-custom-template-modal {
