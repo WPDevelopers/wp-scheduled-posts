@@ -2792,9 +2792,102 @@ border-radius: 8px;
           &.is-primary {
             color: #C63239;
           }
-          
-        } 
+
+        }
       }
     }
   }
 }
+
+.wpsp-pro-option {
+    position: relative;
+    cursor: pointer;
+
+    .wpsp-date--picker input {
+        pointer-events: none;
+        cursor: pointer;
+    }
+}
+
+.wpsp-pro-popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 20, 43, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100100;
+    padding: 20px;
+
+    .wpsp-pro-popup {
+        position: relative;
+        background: #ffffff;
+        border-radius: 16px;
+        width: 100%;
+        max-width: 550px;
+        padding: 40px 40px 48px;
+        box-shadow: 0 20px 60px rgba(20, 20, 43, 0.25);
+        text-align: center;
+        font-family: 'Inter', sans-serif;
+
+        &__close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: transparent;
+            border: 0;
+            padding: 6px;
+            cursor: pointer;
+            line-height: 0;
+            border-radius: 6px;
+
+            &:hover { background: #f4f5f7; }
+        }
+
+        &__title {
+            margin: 0 0 8px;
+            font-size: 36px;
+            font-weight: 700;
+            font-style: italic;
+            color: #FF8A3D;
+            line-height: 1.1;
+        }
+
+        &__subtitle {
+            margin: 0 0 28px;
+            font-size: 22px;
+            font-weight: 700;
+            color: #14143B;
+        }
+
+        &__illustration {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 28px;
+
+            img {
+                max-width: 400px;
+                width: 100%;
+                height: auto;
+                border-radius: 12px;
+                display: block;
+            }
+        }
+
+        &__cta {
+            display: inline-block;
+            background: #6C5CE7;
+            color: #ffffff !important;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 14px 36px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background 0.2s ease;
+
+            &:hover { background: #5847d6; color: #ffffff; }
+            &:focus { box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.35); outline: none; }
+        }
+    }
+}
+

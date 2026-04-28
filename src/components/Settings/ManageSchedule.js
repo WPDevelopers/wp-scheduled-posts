@@ -1,7 +1,9 @@
 import React from 'react';
+import useProOverlay from '../../helper/useProOverlay';
 const { __ } = wp.i18n;
 
 const ManageSchedule = () => {
+    const { isPro, proOverlay, itemStyle } = useProOverlay();
 
     return (
         <div className="wpsp-post-panel-modal-settings-schedule">
@@ -15,7 +17,8 @@ const ManageSchedule = () => {
                     </svg>
                 </div>
                 <div className="wpsp-post-items--wrapper">
-                    <div className="wpsp-post--items">
+                    <div className="wpsp-post--items wpsp-pro-option" style={itemStyle}>
+                        {proOverlay}
                         <div className="card--title">
                             <h5 className="title">{ __("Auto Schedule",'wp-scheduled-posts') }</h5>
                             <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -25,12 +28,13 @@ const ManageSchedule = () => {
                             </svg>
                         </div>
                         <div className="wpsp-date--picker">
-                            <form action="/action_page.php">
-                                <input type="datetime-local" id="birthdaytime" name="birthdaytime" disabled />
+                            <form action="/action_page.php" onSubmit={(e) => e.preventDefault()}>
+                                <input type="datetime-local" id="wpsp-auto-schedule" name="autoSchedule" disabled={!isPro} />
                             </form>
                         </div>
                     </div>
-                    <div className="wpsp-post--items">
+                    <div className="wpsp-post--items wpsp-pro-option" style={itemStyle}>
+                        {proOverlay}
                         <div className="card--title">
                             <h5 className="title">{ __("Manual Schedule",'wp-scheduled-posts') }</h5>
                             <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -40,7 +44,7 @@ const ManageSchedule = () => {
                             </svg>
                         </div>
                         <div className="wpsp-select--option">
-                            <select id="cars" disabled>
+                            <select id="wpsp-manual-schedule" disabled={!isPro}>
                                 <option value="">June 14, 2023 at 2:50 PM</option>
                                 <option value="">June 14, 2023 at 2:50 PM</option>
                                 <option value="">June 14, 2023 at 2:50 PM</option>

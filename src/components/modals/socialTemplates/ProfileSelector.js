@@ -39,7 +39,7 @@ const ProfileSelector = ({
                 <h5
                     dangerouslySetInnerHTML={{
                         __html: __(
-                            `*It seems you haven\'t connected any profile/page in your <a target="_blank" href='${WPSchedulePostsFree?.socialProfileURL}'>SchedulePress settings</a>.`,
+                            `It seems you haven\'t connected any profile/page in your <a target="_blank" href='${WPSchedulePostsFree?.socialProfileURL}'>SchedulePress settings</a>.`,
                             'wp-scheduled-posts'
                         ),
                     }}

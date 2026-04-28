@@ -1,5 +1,6 @@
 const initialState = {
   isOpenCustomSocialMessageModal: false,
+  isOpenProPopup: false,
   publishImmediately: false,
   isScheduled: false,
   scheduleType: '',

@@ -5,6 +5,11 @@ const AppReducer = (state, action) => {
         ...state,
         isOpenCustomSocialMessageModal: action.payload,
       };
+    case 'SET_OPEN_PRO_POPUP':
+      return {
+        ...state,
+        isOpenProPopup: action.payload,
+      };
     case 'SET_PUBLISH_IMMEDIATELY':
       return {
         ...state,
