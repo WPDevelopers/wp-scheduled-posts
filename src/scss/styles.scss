@@ -132,6 +132,7 @@
                   .wpsp-post-items--wrapper .wpsp-post--items {
                     display: flex;
                     align-items: center;
+                    justify-content: space-between;
                     gap: 20px;
 
                     .card--title {
@@ -139,6 +140,7 @@
                     }
                     .wpsp-date--picker {
                       flex: 1;
+                      max-width: 340px;
                     }
                   }
                 }
@@ -252,13 +254,60 @@
                             display: flex;
                             gap: 20px;
                             align-items: center;
+                            justify-content: space-between;
 
                             .card--title {
                                 margin-bottom: 0;
                             }
                             .wpsp-select--option {
                               flex: 1;
+                              max-width: 340px;
                             }
+                        }
+                        label input {
+                          appearance: none;
+                          width: 16px;
+                          height: 16px;
+                          background: rgba(0, 0, 0, 0);
+                          border: 1px solid #d7dbdf;
+                          border-radius: 4px;
+                          display: inline-flex;
+                          align-items: center;
+                          justify-content: center;
+                          margin: 0;
+                          padding: 0;
+                          box-shadow: none;
+                          box-sizing: border-box;
+                          outline: 0;
+                          transition: .25s ease-in-out;
+                          position: relative;
+                          cursor: pointer;
+                          &::after {
+                            content: "";
+                            position: absolute;
+                            top: 50%;
+                            left: 50%;
+                            width: 5px;
+                            height: 10px;
+                            margin-top: -1px;
+                            border: solid #fff;
+                            border-width: 0 2px 2px 0;
+                            box-sizing: border-box;
+                            transition: ease-in-out .35s;
+                            transform: translate(-50%, -50%) rotate(45deg);
+                          }
+                          &:checked {
+                            background: #6d62ff;
+                            border-color: #6d62ff;
+
+                            &::after {
+                              color: #fff;
+                            }
+                            &::before {
+                              display: none;
+                            }
+                          }
+                          
                         }
                     }
 
