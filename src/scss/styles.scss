@@ -45,7 +45,7 @@
                     .schedule-on-label {
                         display: flex;
                         align-items: center;
-                        gap: 8px;
+                        gap: 4px;
                     }
                     h4.title {
                         margin: 0;
@@ -122,11 +122,25 @@
                     }
                 }
 
-
                 .wpsp-post--items {
                     .card--title {
                         margin-bottom: 8px;
                     }
+                }
+
+                &.wpsp-post--card-publish-on {
+                  .wpsp-post-items--wrapper .wpsp-post--items {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+
+                    .card--title {
+                      margin-bottom: 0;
+                    }
+                    .wpsp-date--picker {
+                      flex: 1;
+                    }
+                  }
                 }
                 
             }
@@ -150,7 +164,9 @@
                             margin-top: 0 !important;
                             background-color: #F3F2FF;
                             color: #6C62FF;
-                            border: none;
+                            border: 1px solid #F3F2FF;
+                            max-height: 40px;
+                            // min-height: 40px;
                           }
                       }
                     }
@@ -230,6 +246,18 @@
                                     outline: 0;
                                     box-shadow: none;
                                 }
+                            }
+                        }
+                        &.wpsp-post--items-manual-schedule {
+                            display: flex;
+                            gap: 20px;
+                            align-items: center;
+
+                            .card--title {
+                                margin-bottom: 0;
+                            }
+                            .wpsp-select--option {
+                              flex: 1;
                             }
                         }
                     }
@@ -353,6 +381,7 @@
                         border-radius: 4px;
                         max-width: 100%;
                         max-height: 140px;
+                        object-fit: cover;
                     }
                 }
 
@@ -649,7 +678,7 @@
             width: 100%;
 
             &:focus {
-                border: 1px solid #6C62FF;
+                border: 1px solid #ECEFF5;
             }
         }
     }
@@ -1208,8 +1237,9 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  margin-top: 20px;
+  margin-top: 16px;
   position: relative;
+
   .wpsp-tooltip-wrapper {
     line-height: 0;
   }
@@ -1228,6 +1258,7 @@
 .wpsp-post-items-advanced-schedule-wrapper .wpsp-global-template span.title {
     font-size: 16px;
     margin-bottom: 0;
+    flex: 1;
 }
 #wpsp-post-panel-modal .wpsp-post-panel .wpsp-global-template input.wpsp-slider {
     position: relative;
@@ -1753,7 +1784,6 @@ button.wpsp-platform-icon.instagram.active svg path {
   transition: all 0.2s ease;
   position: relative;
   margin: 0;
-  margin-bottom: 4px;
 }
 
 .wpsp-profile-card:not(:last-child) {
@@ -2009,7 +2039,7 @@ textarea.wpsp-template-input {
 .wpsp-date-time-section > div {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 24px 16px;
+  gap: 16px;
   flex: 1;
 }
 
@@ -2251,7 +2281,7 @@ textarea.wpsp-template-input {
 }
 
 .wpsp-preview-image {
-  height: 140px;
+  height: 200px;
   border-radius: 8px;
   /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
   margin-bottom: 16px;
@@ -2403,9 +2433,10 @@ border-radius: 8px;
       padding: 20px 12px;
   }
 
-  .wpsp-platform-icons {
+  /*.wpsp-platform-icons {
     justify-content: center;
-  }
+  }*/
+  
   .wpsp-profile-card {
     padding: 10px;
   }
@@ -2764,7 +2795,8 @@ border-radius: 8px;
       }
 
       .wpsp-modal-actions,
-      .wpsp-advanced-schedule-notice-modal__actions {
+      .wpsp-advanced-schedule-notice-modal__actions,
+      .wpsp-disable-confirm-modal__actions {
         margin: 0 !important;
         justify-content: unset !important;
         gap: 0 !important;
@@ -2793,6 +2825,8 @@ border-radius: 8px;
 
           &.is-primary {
             color: #6C62FF;
+            background: transparent !important;
+            border: none !important;
           }
 
         }
