@@ -115,7 +115,7 @@ const ScheduleOn = () => {
     // ─── Render ───────────────────────────────────────────────────────────
     return (
         <div className="wpsp-post-panel-modal-settings-schedule">
-            <div className="wpsp-post--card">
+            <div className="wpsp-post--card wpsp-post--card-publish-on">
                 <div className="card--title">
                     <h4 className="title">{__('Default Schedule', 'wp-scheduled-posts')}</h4>
                 </div>
