@@ -74,7 +74,8 @@ const WPSPCustomTemplateModal = ({
   });
 
   // Derived state
-  const bannerImage = uploadSocialShareBanner || featuredImageUrl;
+  const socialBannerUrl = state?.socialShareSettings?.socialBannerUrl;
+  const bannerImage = uploadSocialShareBanner || socialBannerUrl || featuredImageUrl;
   const social_media_enabled = window.WPSchedulePostsFree?.social_media_enabled || {};
   
   const platforms = [

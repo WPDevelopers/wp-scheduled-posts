@@ -64,6 +64,17 @@
 			if ( target ) {
 				observer.observe( target, { childList: true, subtree: true } );
 			}
+
+			// Force the panel open on every initial load.
+			const store = wp.data && ( wp.data.select( 'core/edit-post' ) || wp.data.select( 'core/editor' ) );
+			const dispatch = wp.data && ( wp.data.dispatch( 'core/edit-post' ) || wp.data.dispatch( 'core/editor' ) );
+			const fullPanelName = 'schedulepress-sidebar/' + PANEL_NAME;
+			if ( store && dispatch && dispatch.toggleEditorPanelOpened ) {
+				if ( ! store.isEditorPanelOpened( fullPanelName ) ) {
+					dispatch.toggleEditorPanelOpened( fullPanelName );
+				}
+			}
+
 			return () => observer.disconnect();
 		}, [] );
 
@@ -73,6 +84,7 @@
 				name: PANEL_NAME,
 				title: PANEL_TITLE,
 				className: PANEL_NAME,
+				initialOpen: true,
 			},
 			el(
 				'div',

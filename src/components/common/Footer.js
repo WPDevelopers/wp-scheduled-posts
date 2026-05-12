@@ -96,6 +96,31 @@ const Footer = () => {
             })
         ]).then(() => {
             showCustomToast('success', 'Settings saved successfully.');
+
+            // Sync Gutenberg editor so the Publish button, Status and Publish
+            // fields reflect the scheduled date without requiring a reload.
+            try {
+                const editor = wp?.data?.select?.('core/editor');
+                const dispatchEditor = wp?.data?.dispatch?.('core/editor');
+                if (editor?.getCurrentPostType?.() && dispatchEditor?.editPost) {
+                    if (shouldSchedulePost && scheduleDate) {
+                        // Gutenberg stores `date` as a site-local ISO-ish string
+                        // (e.g. "2026-05-14T12:36:00"). Pass scheduleDate through
+                        // without converting to UTC so the displayed time matches
+                        // what the user picked.
+                        const normalized = scheduleDate.includes('T')
+                            ? scheduleDate
+                            : scheduleDate.replace(' ', 'T');
+                        dispatchEditor.editPost({ date: normalized, status: 'future' });
+                    } else {
+                        const currentStatus = editor.getEditedPostAttribute('status');
+                        if (currentStatus === 'future') {
+                            dispatchEditor.editPost({ status: 'draft' });
+                        }
+                    }
+                }
+            } catch (e) {}
+
             const modal = document.getElementById('wpsp-post-panel-modal');
             if (modal) {
                 modal.classList.remove('wpsp-post-panel-active');
