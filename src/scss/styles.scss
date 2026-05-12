@@ -932,6 +932,19 @@
             .wpsp-tooltip-wrapper {
                 position: relative;
                 display: inline-block;
+
+                &:nth-child(1),
+                &:nth-child(2) {
+                  .wpsp-tooltip {
+                    left: 72px;
+
+                    &:after {
+                        left: 38px;
+                    }
+                }
+
+                
+                }
             }
 
             .wpsp-tooltip {
