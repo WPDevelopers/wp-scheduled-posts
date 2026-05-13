@@ -105,7 +105,10 @@ const ScheduleOn = () => {
     // This prevents auto-hydrated post dates (drafts have a default post_date) from
     // incorrectly flipping `isScheduled` to true.
     useEffect(() => {
-        dispatch({ type: 'SET_SCHEDULE_DATE', payload: scheduleDate || '' });
+        dispatch({
+            type: 'SET_SCHEDULE_DATE',
+            payload: { value: scheduleDate || '', source: 'publish' },
+        });
         const nextIsScheduled = userInteracted.current
             ? !!scheduleDate
             : postStatus === 'future';

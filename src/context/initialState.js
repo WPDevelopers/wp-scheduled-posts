@@ -5,6 +5,7 @@ const initialState = {
   isScheduled: false,
   scheduleType: '',
   scheduleDate: '',
+  scheduleDateSource: '',
   unpublishOn: '',
   republishOn: '',
   advancedSchedule: false,
