@@ -181,8 +181,11 @@ class Assets
             WPSP_VERSION,
             true
         );
+        $allow_post_types = \WPSP\Helper::get_all_allowed_post_type();
         wp_localize_script('wpsp-gutenberg-sidebar', 'WPSPSidebar', array(
-            'assetsURI' => WPSP_ASSETS_URI,
+            'assetsURI'         => WPSP_ASSETS_URI,
+            'allowedPostTypes'  => $allow_post_types,
+            'excludedPostTypes' => array( 'advanced_schedule' ),
         ));
     }
 

@@ -13,6 +13,26 @@
 		( window.WPSchedulePostsFree && window.WPSchedulePostsFree.assetsURI ) ||
 		'';
 
+	const allowedPostTypes =
+		( window.WPSPSidebar && window.WPSPSidebar.allowedPostTypes ) || [];
+	const excludedPostTypes =
+		( window.WPSPSidebar && window.WPSPSidebar.excludedPostTypes ) || [];
+
+	const getCurrentPostType = () => {
+		const select = wp.data && wp.data.select;
+		if ( ! select ) return '';
+		const editorStore = select( 'core/editor' );
+		return ( editorStore && editorStore.getCurrentPostType && editorStore.getCurrentPostType() ) || '';
+	};
+
+	const isPanelAllowed = () => {
+		const currentPostType = getCurrentPostType();
+		if ( ! currentPostType ) return false;
+		if ( excludedPostTypes.indexOf( currentPostType ) !== -1 ) return false;
+		if ( allowedPostTypes.length && allowedPostTypes.indexOf( currentPostType ) === -1 ) return false;
+		return true;
+	};
+
 	const scheduleIcon = el( 'img', {
 		src: assetsURI + 'images/wpsp-logo.png',
 		alt: '',
@@ -55,7 +75,10 @@
 	};
 
 	const SchedulePressPanel = () => {
+		const allowed = isPanelAllowed();
+
 		useEffect( () => {
+			if ( ! allowed ) return;
 			moveToTop();
 			const observer = new MutationObserver( moveToTop );
 			const target =
@@ -76,7 +99,11 @@
 			}
 
 			return () => observer.disconnect();
-		}, [] );
+		}, [ allowed ] );
+
+		if ( ! allowed ) {
+			return null;
+		}
 
 		return el(
 			PluginDocumentSettingPanel,
