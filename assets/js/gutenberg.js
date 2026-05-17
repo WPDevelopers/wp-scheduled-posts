@@ -1,9 +1,25 @@
 ( function ( wp ) {
 	const { registerPlugin } = wp.plugins;
 	const editor = wp.editor || wp.editPost;
-	const { PluginDocumentSettingPanel } = editor;
+	const { PluginDocumentSettingPanel, PluginSidebar } = editor;
 	const { __ } = wp.i18n;
-	const { createElement: el, useEffect } = wp.element;
+	const { createElement: el, useEffect, Fragment } = wp.element;
+
+	const SIDEBAR_PINNED_NAME = 'schedulepress-pinned';
+
+	// Hide our pinned sidebar visually — we never want it to actually render
+	// as a sidebar; clicking the icon should only open the SchedulePress modal.
+	( function injectHideStyles() {
+		if ( document.getElementById( 'wpsp-pinned-sidebar-style' ) ) return;
+		const style = document.createElement( 'style' );
+		style.id = 'wpsp-pinned-sidebar-style';
+		style.textContent =
+			'.interface-complementary-area[aria-label*="SchedulePress"],' +
+			'.interface-complementary-area.wpsp-pinned-sidebar,' +
+			'[aria-label="SchedulePress"].interface-complementary-area{' +
+			'display:none !important;width:0 !important;}';
+		( document.head || document.documentElement ).appendChild( style );
+	} )();
 
 	const PANEL_NAME = 'schedulepress-panel';
 	const PANEL_LABEL = __( 'SchedulePress', 'wp-scheduled-posts' );
@@ -80,6 +96,20 @@
 		useEffect( () => {
 			if ( ! allowed ) return;
 			moveToTop();
+
+			// Intercept clicks on the pinned SchedulePress toolbar button directly.
+			// Using wp.data.subscribe to swap sidebars is racy across rapid
+			// clicks; a capture-phase click handler is deterministic.
+			const PINNED_SELECTOR =
+				'button[aria-controls="schedulepress-sidebar:schedulepress-pinned"]';
+			const onPinnedClick = ( ev ) => {
+				const btn = ev.target.closest( PINNED_SELECTOR );
+				if ( ! btn ) return;
+				ev.stopImmediatePropagation();
+				ev.preventDefault();
+				openSchedulePressModal();
+			};
+			document.addEventListener( 'click', onPinnedClick, true );
 			const observer = new MutationObserver( moveToTop );
 			const target =
 				document.querySelector( '.edit-post-sidebar' ) ||
@@ -98,21 +128,49 @@
 				}
 			}
 
-			return () => observer.disconnect();
+			return () => {
+				observer.disconnect();
+				document.removeEventListener( 'click', onPinnedClick, true );
+			};
 		}, [ allowed ] );
 
 		if ( ! allowed ) {
 			return null;
 		}
 
+		const toolbarIcon = el( 'img', {
+			src: assetsURI + 'images/wpsp-logo.png',
+			alt: '',
+			width: 20,
+			height: 20,
+			style: { display: 'block' },
+		} );
+
+		const toolbarSidebar = PluginSidebar
+			? el(
+				PluginSidebar,
+				{
+					name: SIDEBAR_PINNED_NAME,
+					title: __( 'SchedulePress', 'wp-scheduled-posts' ),
+					icon: toolbarIcon,
+					className: 'wpsp-pinned-sidebar',
+				},
+				el( 'div', { style: { display: 'none' } } )
+			)
+			: null;
+
 		return el(
-			PluginDocumentSettingPanel,
-			{
-				name: PANEL_NAME,
-				title: PANEL_TITLE,
-				className: PANEL_NAME,
-				initialOpen: true,
-			},
+			Fragment,
+			null,
+			toolbarSidebar,
+			el(
+				PluginDocumentSettingPanel,
+				{
+					name: PANEL_NAME,
+					title: PANEL_TITLE,
+					className: PANEL_NAME,
+					initialOpen: true,
+				},
 			el(
 				'div',
 				{ id: 'wpsp-post-panel-wrapper-gutenberg' },
@@ -134,6 +192,7 @@
 					},
 					__( 'Schedule And Share', 'wp-scheduled-posts' )
 				)
+			)
 			)
 		);
 	};

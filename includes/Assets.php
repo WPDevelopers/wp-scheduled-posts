@@ -177,7 +177,7 @@ class Assets
         wp_enqueue_script(
             'wpsp-gutenberg-sidebar',
             WPSP_ASSETS_URI . 'js/gutenberg.js',
-            array('wp-plugins', 'wp-edit-post', 'wp-element', 'wp-components', 'wp-i18n'),
+            array('wp-plugins', 'wp-edit-post', 'wp-editor', 'wp-element', 'wp-components', 'wp-i18n', 'wp-data'),
             WPSP_VERSION,
             true
         );
