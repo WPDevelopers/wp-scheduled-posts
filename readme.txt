@@ -2,9 +2,9 @@
 Contributors: wpdevteam, Asif2BD, re_enter_rupok, priyomukul, shajalal, alimuzzamanalim, rudlinkon, shuvo247
 Tags: post schedule, schedule calendar, auto scheduler, auto sharing, social share
 Requires at least: 4.0
-Tested up to: 6.9
+Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 5.2.18
+Stable tag: 5.3.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -216,6 +216,12 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 8. Social Templates
 
 == Changelog ==
+
+= 5.3.0 - 2026-05-17 =
+- Added: WordPress 7.0 compatibility
+- Revamped: Centralized scheduling process in SchedulePress.
+- Fixed: Auto-changing post time issue from Calendar scheduling.
+- Few minor bug fixes and improvements
 
 = 5.2.18 - 2026-04-16 =
 - Fixed: Default time issue in calendar post creation.
