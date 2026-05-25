@@ -66,3 +66,6 @@ vendor/priyomukul/.editorconfig     export-ignore
 vendor/priyomukul/.gitignore       export-ignore
 vendor/priyomukul/composer.json     export-ignore
 vendor/priyomukul/README.md     export-ignore
+.ai                             export-ignore
+AGENTS.md                       export-ignore
+CLAUDE.md                       export-ignore

@@ -70,3 +70,6 @@ vendor/priyomukul/.gitignore
 vendor/priyomukul/composer.json
 vendor/priyomukul/README.md
 docs/
+.ai
+AGENTS.md
+CLAUDE.md
