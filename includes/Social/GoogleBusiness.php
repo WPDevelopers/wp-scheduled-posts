@@ -131,7 +131,7 @@ class GoogleBusiness {
             if (!empty($refresh_token)) {
                 $refresh_result = $this->refresh_generate_access_token($app_id, $refresh_token);
 
-                if (!$refresh_result['error'] && !empty($refresh_result['access_token'])) {
+                if (is_array($refresh_result) && empty($refresh_result['error']) && !empty($refresh_result['access_token'])) {
                     $app_access_token = $refresh_result['access_token'];
 
                     // Update stored token
@@ -484,7 +484,7 @@ class GoogleBusiness {
         // Generate refresh token
         $refresh_result = $this->refresh_generate_access_token( $profile->app_id, $profile->refresh_token );
 
-        if (!$refresh_result['error'] && !empty($refresh_result['access_token'])) {
+        if (is_array($refresh_result) && empty($refresh_result['error']) && !empty($refresh_result['access_token'])) {
             $profiles[$profile_key]->access_token = $refresh_result['access_token'];
             $profiles[$profile_key]->expires_in = time() + $refresh_result['expires_in'];
             update_option(WPSCP_GOOGLE_BUSINESS_OPTION_NAME, $profiles);
@@ -505,13 +505,23 @@ class GoogleBusiness {
         ]);
 
         if (is_wp_error($response)) {
-            $error_message = $response->get_error_message();
-            echo "Something went wrong: $error_message";
-        } else {
-            $body = wp_remote_retrieve_body($response);
-            $data = json_decode($body, true);
-            return $data;
+            return array(
+                'error'   => true,
+                'message' => $response->get_error_message(),
+            );
         }
+
+        $body = wp_remote_retrieve_body($response);
+        $data = json_decode($body, true);
+
+        if (!is_array($data)) {
+            return array(
+                'error'   => true,
+                'message' => 'Invalid response from token middleware',
+            );
+        }
+
+        return $data;
     }
 
 }
