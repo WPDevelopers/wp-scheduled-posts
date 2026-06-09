@@ -14,6 +14,7 @@ import PreviewCard from './PreviewCard';
 import useSocialProfiles from './hooks/useSocialProfiles';
 import useCurrentPostData from './hooks/useCurrentPostData';
 import AllDisabledPlatform from './AllDisabledPlatform';
+import AICaptionDrawer from './AICaptionDrawer';
 
 const SOCIAL_PLATFORMS = [
   'facebook',
@@ -101,12 +102,14 @@ const WPSPCustomTemplateModal = ({
   const [customTemplates, setCustomTemplates] = useState({});
   const [characterCount, setCharacterCount] = useState(0);
   const [saveText, setSaveText] = useState(__('Save', 'wp-scheduled-posts'));
+  const [saveError, setSaveError] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const [isUpdatingContent, setIsUpdatingContent] = useState(false);
   const [allPlatformData, setAllPlatformData] = useState({});
   const [apiTemplateData, setApiTemplateData] = useState({});
   const [hasLoadedScheduling, setHasLoadedScheduling] = useState(false);
   const [scheduleData, setScheduleData] = useState(getDefaultScheduleData(postStatus));
+  const [isAICaptionOpen, setIsAICaptionOpen] = useState(false);
 
   // API functions for data management
   const fetchTemplateData = useCallback(async () => {
@@ -268,8 +271,9 @@ const WPSPCustomTemplateModal = ({
   const handleGlobalSave = async () => {
     try {
       setIsSaving(true);
+      setSaveError('');
       setSaveText(isUpdatingContent ? __('Updating...', 'wp-scheduled-posts') : __('Saving...', 'wp-scheduled-posts'));
-      
+
       const platformsToSave = [];
       
       // Get current platform data
@@ -328,6 +332,13 @@ const WPSPCustomTemplateModal = ({
       }
       
     } catch (error) {
+      // The REST endpoint returns the specific reason(s) in `errors` (e.g. a
+      // platform's caption exceeding its character limit). Surface them instead
+      // of a generic "Save Failed" so the user knows what to fix.
+      const detail = Array.isArray(error?.errors) && error.errors.length
+        ? error.errors.join(' ')
+        : error?.message || '';
+      setSaveError(detail);
       setSaveText(__('Save Failed', 'wp-scheduled-posts'));
       setTimeout(() => setSaveText(isUpdatingContent ? __('Update', 'wp-scheduled-posts') : __('Save', 'wp-scheduled-posts')), 2000);
       console.error('Error saving templates:', error);
@@ -499,9 +510,56 @@ const WPSPCustomTemplateModal = ({
     }
   }, [globalProfile, selectedPlatform, setUseGlobalTemplatePlatform]);
   
+  // Handle AI caption generation. Sends the drawer form values to the AI endpoint and
+  // writes the returned captions back into the matching platform templates.
+  const handleGenerateCaption = useCallback(async (payload) => {
+    const { platforms: targetPlatforms = [] } = payload || {};
+
+    const response = await wp.apiFetch({
+      path: `/wp-scheduled-posts/v1/ai-caption/${postId}`,
+      method: 'POST',
+      data: payload,
+    });
+
+    // Expected shape: { captions: { facebook: '...', twitter: '...' } }
+    const captions = response?.captions || response?.data?.captions;
+    if (!captions || typeof captions !== 'object') {
+      setIsAICaptionOpen(false);
+      return;
+    }
+
+    const generatedPlatforms = targetPlatforms.filter((platform) => captions[platform]);
+
+    // Update the editor for the currently visible platform.
+    setCustomTemplates((prev) => {
+      const next = { ...prev };
+      generatedPlatforms.forEach((platform) => {
+        next[platform] = captions[platform];
+      });
+      return next;
+    });
+
+    // Persist into the temp per-platform store so switching platforms doesn't reset
+    // the generated caption back to the default placeholder, and so Save picks it up.
+    setAllPlatformData((prev) => {
+      const next = { ...prev };
+      generatedPlatforms.forEach((platform) => {
+        next[platform] = {
+          ...(next[platform] || {}),
+          template: captions[platform],
+          profiles: next[platform]?.profiles || [],
+          is_global: next[platform]?.is_global || '',
+        };
+      });
+      return next;
+    });
+
+    setIsAICaptionOpen(false);
+  }, [postId]);
+
   return (
     <div className={`wpsp-modal-content ${availableProfiles.length === 0 ? 'no-profile-found' : ''}`}>
-      <Header/>
+      <Header onOpenAICaption={() => setIsAICaptionOpen(true)} />
       <div className="wpsp-modal-layout">
         {/* Left Side */}
         <div className="wpsp-modal-left">
@@ -579,6 +637,11 @@ const WPSPCustomTemplateModal = ({
       {/* Footer */}
       <div className="wpsp-modal--footer">
         <div className="wpsp-custom-social-footer-wrapper">
+          {saveError && (
+            <div className="wpsp-custom-social-footer-error" role="alert">
+              {saveError}
+            </div>
+          )}
           <div className="wpsp-custom-social-footer-right">
             <button  className="btn primary-btn" onClick={handleGlobalSave} disabled={isSaving || !hasAnyChanges()}>
               {saveText}
@@ -586,6 +649,16 @@ const WPSPCustomTemplateModal = ({
           </div>
         </div>
       </div>
+
+      {/* AI Caption Drawer */}
+      <AICaptionDrawer
+        isOpen={isAICaptionOpen}
+        onClose={() => setIsAICaptionOpen(false)}
+        platforms={platforms}
+        social_media_enabled={social_media_enabled}
+        selectedPlatform={selectedPlatform}
+        onGenerate={handleGenerateCaption}
+      />
     </div>
   );
 };

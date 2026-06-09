@@ -1176,6 +1176,62 @@
             outline: 0;
         }
     }
+    /* "AI Caption" pill in the modal header — gradient border (cyan -> purple),
+       sparkle icon and gradient-purple label, matching the SchedulePress UI design. */
+    .wpsp-ai-caption-btn {
+        flex: 0 0 auto;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 8px 12px;
+        border: 1px solid transparent;
+        border-radius: 6px;
+        background:
+            linear-gradient(#F9FAFC, #F9FAFC) padding-box,
+            linear-gradient(135deg, #18AAFF 0%, #6C62FF 100%) border-box;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1;
+        color: #6C62FF;
+        white-space: nowrap;
+        margin-right: 8px;
+        transition: box-shadow 0.15s ease, transform 0.15s ease;
+
+        &__icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+
+            svg {
+                display: block;
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        &__text {
+            display: inline-block;
+            font-weight: 600;
+            background: linear-gradient(90deg, #2B7FFF 0%, #6C62FF 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+        }
+
+        &:hover:not(:disabled) {
+            box-shadow: 0 2px 8px rgba(108, 98, 255, 0.18);
+        }
+
+        &:focus:not(:disabled) {
+            box-shadow: 0 0 0 3px rgba(108, 98, 255, 0.15);
+            outline: 0;
+        }
+    }
     .wpsp-disabled-message {
         font-size: 12px;
         font-weight: 400;
@@ -1591,6 +1647,440 @@ button.components-button.wpsp-add-template-btn:disabled {
   padding: 0;
   display: flex;
   flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ============================================================
+   AI Caption Drawer — slides in from the right edge of the
+   Create Social Message modal (Figma: "Write Caption with AI").
+   ============================================================ */
+.wpsp-ai-drawer-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(20, 20, 43, 0.18);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+  z-index: 20;
+
+  &.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.wpsp-ai-drawer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 415px;
+  max-width: 100%;
+  background: #fff;
+  border-left: 1px solid #ECEFF5;
+  border-radius: 0 14px 14px 0;
+  box-shadow: 0 4px 205px 0 rgba(0, 1, 35, 0.18);
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 21;
+  font-family: 'Inter', sans-serif;
+
+  &.is-open {
+    transform: translateX(0);
+  }
+
+  /* Header */
+  &__header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 20px 16px;
+    border-bottom: 1px solid #ECEFF5;
+    overflow: hidden;
+    flex: 0 0 auto;
+  }
+
+  &__glow {
+    position: absolute;
+    top: -70px;
+    right: -30px;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(108, 98, 255, 0.22) 0%, rgba(24, 170, 255, 0.10) 45%, rgba(255, 255, 255, 0) 70%);
+    pointer-events: none;
+  }
+
+  &__header-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    flex: 0 0 auto;
+
+    svg { display: block; width: 18px; height: 18px; }
+  }
+
+  &__title {
+    flex: 1;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: #1B1B50;
+  }
+
+  &__close {
+    flex: 0 0 auto;
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    transition: background-color 0.15s ease;
+
+    svg { fill: #6E6E8D; }
+    &:hover { background: #F3F2FF; }
+  }
+
+  /* Body */
+  &__body {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__card {
+    background: #F9F8FD;
+    border: 1px solid #ECEFF5;
+    border-radius: 4px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  &__card-title {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;
+    color: #1B1B50;
+  }
+
+  &__platforms {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 16px;
+  }
+
+  /* More+ trigger + floating platform popover.
+     The popover anchors to `&__platforms` (full-width row), not this button,
+     so it stays right-aligned inside the drawer wherever More+ wraps. */
+  &__more-wrap {
+    display: inline-flex;
+  }
+
+  &__more {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border: none;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    color: #6C62FF;
+    line-height: 1.2;
+
+    &:hover,
+    &.is-active { color: #5249e0; }
+  }
+
+  &__more-dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ECEFF5;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(27, 27, 80, 0.12);
+    padding: 6px;
+    z-index: 30;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__more-item {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px 10px;
+    border-radius: 6px;
+    transition: background-color 0.15s ease;
+
+    .wpsp-ai-checkbox__label {
+      font-size: 13px;
+      color: #475467;
+    }
+
+    &:hover { background: #F9F8FD; }
+  }
+
+  &__inline-options {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px 24px;
+  }
+
+  /* Prompt textarea */
+  .wp-core-ui &__textarea,
+  &__textarea {
+    width: 100%;
+    min-height: 72px;
+    resize: vertical;
+    box-sizing: border-box;
+    padding: 8px 12px;
+    border: 1px solid #ECEFF5;
+    border-radius: 4px;
+    background: #fff;
+    font-family: inherit;
+    font-size: 12px;
+    line-height: 1.4;
+    color: #1B1B50;
+    box-shadow: none;
+
+    &::placeholder { color: #6E6E8D; }
+    &:focus { border-color: #6C62FF; outline: none; box-shadow: none; }
+  }
+
+  /* Select dropdowns — thin light-gray chevron-down on the right (Figma).
+     `.wp-core-ui` prefix raises specificity above WP admin's default
+     `.wp-core-ui select` rule, which would otherwise restore the dark arrow. */
+  .wp-core-ui &__select,
+  &__select {
+    width: 100%;
+    height: 40px;
+    box-sizing: border-box;
+    padding: 0 36px 0 12px;
+    border: 1px solid #ECEFF5;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 38px;
+    color: #6E6E8D;
+    box-shadow: none;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%2398A2B3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 18px 18px;
+
+    &:focus { border-color: #6C62FF; outline: none; box-shadow: none; }
+  }
+
+  /* Toggle (auto-generate) */
+  &__toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+
+  &__toggle-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: #6E6E8D;
+    line-height: 1.2;
+  }
+
+  &__toggle-icon {
+    display: inline-flex;
+    width: 14px;
+    height: 14px;
+    svg { display: block; }
+  }
+
+  /* Inline error above the footer */
+  &__error {
+    flex: 0 0 auto;
+    margin: 0 16px;
+    padding: 10px 12px;
+    border: 1px solid #f5c2c2;
+    border-radius: 6px;
+    background: #fdecec;
+    color: #c0392b;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  /* Footer */
+  &__footer {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 16px;
+    padding: 12px;
+    border-top: 1px solid #ECEFF5;
+    background: #fff;
+    box-shadow: 0 -1px 8px rgba(0, 0, 0, 0.06);
+  }
+
+  &__cancel {
+    height: 48px;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 6px;
+    background: #F3F2FF;
+    color: #6C62FF;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  &__generate {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    height: 48px;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    cursor: pointer;
+    background: linear-gradient(163deg, #CEF9FF 1%, #18AAFF 10%, #6C62FF 29%, #8663FF 52%, #DB94FF 79%, #ED4AFF 99%);
+    transition: filter 0.15s ease, opacity 0.15s ease;
+
+    &:hover:not(:disabled) { filter: brightness(1.03); }
+    &:disabled { opacity: 0.6; cursor: not-allowed; }
+  }
+
+  &__generate-icon {
+    display: inline-flex;
+    width: 18px;
+    height: 18px;
+    svg { display: block; }
+  }
+}
+
+/* Custom checkbox used across the drawer */
+.wpsp-ai-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  user-select: none;
+
+  input { position: absolute; opacity: 0; width: 0; height: 0; }
+
+  &__box {
+    width: 16px;
+    height: 16px;
+    flex: 0 0 auto;
+    border: 1.5px solid #C5C3D6;
+    border-radius: 4px;
+    background: #fff;
+    position: relative;
+    transition: all 0.15s ease;
+  }
+
+  &__label {
+    font-size: 12px;
+    color: #475467;
+    line-height: 1.2;
+  }
+
+  input:checked + &__box {
+    background: #6C62FF;
+    border-color: #6C62FF;
+  }
+
+  input:checked + &__box::after {
+    content: '';
+    position: absolute;
+    left: 4.5px;
+    top: 1.5px;
+    width: 4px;
+    height: 8px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+
+  input:focus-visible + &__box {
+    box-shadow: 0 0 0 3px rgba(108, 98, 255, 0.2);
+  }
+}
+
+/* Custom switch used for the "Auto-generate" toggle */
+.wpsp-ai-switch {
+  position: relative;
+  display: inline-flex;
+  flex: 0 0 auto;
+  width: 36px;
+  height: 18px;
+
+  input { position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; z-index: 1; }
+
+  &__track {
+    position: absolute;
+    inset: 0;
+    background: #C5C3D6;
+    border-radius: 50px;
+    transition: background 0.2s ease;
+
+    &::after {
+      content: '';
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      left: 2px;
+      top: 2px;
+      background: #fff;
+      transition: left 0.2s ease;
+    }
+  }
+
+  input:checked + &__track {
+    background: #6C62FF;
+    &::after { left: 20px; }
+  }
+}
+
+/* Narrow viewports — let the drawer take the full modal width */
+@media (max-width: 600px) {
+  .wpsp-ai-drawer { width: 100%; border-radius: 0; }
 }
 
 .wpsp-modal-layout {
@@ -2754,6 +3244,13 @@ border-radius: 8px;
   display: flex;
   justify-content: center;
   gap: 10px;
+}
+.wpsp-custom-template-modal .wpsp-custom-social-footer-error {
+  color: #d63638;
+  font-size: 13px;
+  line-height: 1.4;
+  max-width: 70%;
+  text-align: left;
 }
 .wpsp-add-social-message-text {
   position: relative;

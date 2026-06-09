@@ -535,6 +535,26 @@ class CustomSocialTemplates
      * @param array &$validation_errors
      * @return array
      */
+    /**
+     * Human-readable label for a platform slug (used in validation messages).
+     *
+     * @param string $platform
+     * @return string
+     */
+    private function platform_label($platform) {
+        $labels = array(
+            'facebook'        => 'Facebook',
+            'twitter'         => 'X (Twitter)',
+            'linkedin'        => 'LinkedIn',
+            'pinterest'       => 'Pinterest',
+            'instagram'       => 'Instagram',
+            'medium'          => 'Medium',
+            'threads'         => 'Threads',
+            'google_business' => 'Google Business',
+        );
+        return isset($labels[$platform]) ? $labels[$platform] : ucfirst($platform);
+    }
+
     private function process_single_platform_data($platform_data, &$templates, &$validation_errors) {
         $platform = $platform_data['platform'] ?? '';
         $template = $platform_data['template'] ?? '';
@@ -559,7 +579,7 @@ class CustomSocialTemplates
             $validation_result = $this->validate_template_content($template, $platform);
             if (!$validation_result['valid']) {
                 /* translators: 1: Name of the social media platform, 2: Validation error message */
-                $validation_errors[] = sprintf(__('%1$s: %2$s', 'wp-scheduled-posts'), ucfirst($platform), $validation_result['message']);
+                $validation_errors[] = sprintf(__('%1$s: %2$s', 'wp-scheduled-posts'), $this->platform_label($platform), $validation_result['message']);
                 return ['success' => false, 'platform' => $platform];
             }
         }
@@ -652,16 +672,9 @@ class CustomSocialTemplates
      * @return array
      */
     private function validate_template_content( $template, $platform ) {
-        // Platform character limits
-        $limits = array(
-            'twitter' => 280,
-            'facebook' => 63206,
-            'linkedin' => 3000,
-            'pinterest' => 500,
-            'instagram' => 2200,
-            'medium' => 100000,
-            'threads' => 500
-        );
+        // Platform character limits — sourced from the saved settings so this
+        // validation always matches the limits shown in the editor UI.
+        $limits = Helper::get_social_platform_limits();
 
         // Check if template is empty
         if (empty(trim($template))) {
@@ -671,16 +684,18 @@ class CustomSocialTemplates
             );
         }
 
-        // Check character limit for platform
-        $limit = isset($limits[$platform]) ? $limits[$platform] : 1000;
-        if (strlen($template) > $limit) {
+        // Check character limit for platform. Count characters (not bytes) so
+        // emojis and other multi-byte glyphs are not over-counted.
+        $limit  = isset($limits[$platform]) ? $limits[$platform] : 1000;
+        $length = function_exists('mb_strlen') ? mb_strlen($template) : strlen($template);
+        if ($length > $limit) {
             return array(
                 'valid' => false,
                 'message' => sprintf(
                     /* translators: 1: Name of the social media platform, 2: Current character count, 3: Maximum allowed character limit */
                     __('Template exceeds character limit for %1$s (%2$d/%3$d characters).', 'wp-scheduled-posts'),
-                    ucfirst($platform),
-                    strlen($template),
+                    $this->platform_label($platform),
+                    $length,
                     $limit
                 )
             );

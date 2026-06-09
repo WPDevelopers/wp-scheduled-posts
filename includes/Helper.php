@@ -244,6 +244,56 @@ class Helper
     }
 
     /**
+     * Per-platform caption/template character limits.
+     *
+     * Single source of truth used by both template validation and AI caption
+     * generation so the back-end never rejects content the UI shows as valid.
+     * Reads the user-configured limits from `social_templates` in the settings
+     * (the same numbers the editor's character counter displays) and falls back
+     * to the platform defaults when a value is missing.
+     *
+     * @return array<string,int> Map of platform slug => character limit.
+     */
+    public static function get_social_platform_limits()
+    {
+        $defaults = array(
+            'facebook'        => 63206,
+            'twitter'         => 280,
+            'linkedin'        => 1300,
+            'pinterest'       => 500,
+            'instagram'       => 2100,
+            'medium'          => 45000,
+            'threads'         => 480,
+            'google_business' => 1500,
+        );
+
+        $templates = self::get_settings('social_templates');
+        if (!is_object($templates)) {
+            return $defaults;
+        }
+
+        $limits = $defaults;
+        // The limit lives under a different key depending on the platform
+        // (tweet_limit / status_limit / note_limit), so probe each.
+        $limit_keys = array('tweet_limit', 'status_limit', 'note_limit');
+
+        foreach ($defaults as $platform => $fallback) {
+            if (!isset($templates->{$platform}) || !is_object($templates->{$platform})) {
+                continue;
+            }
+            $config = $templates->{$platform};
+            foreach ($limit_keys as $key) {
+                if (isset($config->{$key}) && is_numeric($config->{$key}) && (int) $config->{$key} > 0) {
+                    $limits[$platform] = (int) $config->{$key};
+                    break;
+                }
+            }
+        }
+
+        return $limits;
+    }
+
+    /**
      * Check Supported Post type for admin page and plugin main settings page
      *
      * @return bool
