@@ -512,23 +512,36 @@ const WPSPCustomTemplateModal = ({
   
   // Handle AI caption generation. Sends the drawer form values to the AI endpoint and
   // writes the returned captions back into the matching platform templates.
-  const handleGenerateCaption = useCallback(async (payload) => {
+  // Fetch captions for the drawer's results screen. Returns { platform: caption }
+  // so the drawer can show them for review/editing — nothing is inserted here.
+  const handleGenerateCaption = useCallback(async (payload, { signal } = {}) => {
     const { platforms: targetPlatforms = [] } = payload || {};
 
     const response = await wp.apiFetch({
       path: `/wp-scheduled-posts/v1/ai-caption/${postId}`,
       method: 'POST',
       data: payload,
+      signal,
     });
+
+    // The user hit Stop while the request was in flight — discard the result.
+    if (signal?.aborted) return null;
 
     // Expected shape: { captions: { facebook: '...', twitter: '...' } }
     const captions = response?.captions || response?.data?.captions;
-    if (!captions || typeof captions !== 'object') {
-      setIsAICaptionOpen(false);
-      return;
-    }
+    if (!captions || typeof captions !== 'object') return null;
 
-    const generatedPlatforms = targetPlatforms.filter((platform) => captions[platform]);
+    const generated = {};
+    targetPlatforms.forEach((platform) => {
+      if (captions[platform]) generated[platform] = captions[platform];
+    });
+    return generated;
+  }, [postId]);
+
+  // Called when the user confirms with "Insert All Captions" on the results screen.
+  const handleInsertCaptions = useCallback((captions) => {
+    if (!captions || typeof captions !== 'object') return;
+    const generatedPlatforms = Object.keys(captions).filter((platform) => captions[platform]);
 
     // Update the editor for the currently visible platform.
     setCustomTemplates((prev) => {
@@ -555,7 +568,7 @@ const WPSPCustomTemplateModal = ({
     });
 
     setIsAICaptionOpen(false);
-  }, [postId]);
+  }, []);
 
   return (
     <div className={`wpsp-modal-content ${availableProfiles.length === 0 ? 'no-profile-found' : ''}`}>
@@ -658,6 +671,7 @@ const WPSPCustomTemplateModal = ({
         social_media_enabled={social_media_enabled}
         selectedPlatform={selectedPlatform}
         onGenerate={handleGenerateCaption}
+        onInsertCaptions={handleInsertCaptions}
       />
     </div>
   );

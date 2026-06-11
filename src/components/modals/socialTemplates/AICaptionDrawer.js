@@ -46,6 +46,216 @@ const wandIcon = (
   </svg>
 );
 
+// Chevron used in the custom select trigger (rotates 180° while open).
+const chevronIcon = (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg">
+    <path d="m6 9 6 6 6-6" />
+  </svg>
+);
+
+// Small pencil icon for the per-caption "Edit" action on result cards.
+const editIcon = (
+  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+  </svg>
+);
+
+// Square "stop" icon shown in the footer while captions are generating.
+const stopIcon = (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg">
+    <rect x="5" y="5" width="14" height="14" rx="2" />
+  </svg>
+);
+
+// Checkmark shown next to the selected option inside the custom select menu.
+const checkIcon = (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20 6 9 17l-5-5" />
+  </svg>
+);
+
+/**
+ * Branded dropdown that replaces the native <select> for the drawer's
+ * option fields. Shows the selected label in a trigger button and opens a
+ * floating menu with a checkmark on the active option. Closes on outside
+ * click or Escape (Escape is captured so it doesn't also close the drawer).
+ */
+const CustomSelect = ({ options, value, onChange, ariaLabel }) => {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+  const selected = options.find((o) => o.value === value) || options[0];
+
+  useEffect(() => {
+    if (!open) return;
+    const handleClick = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+    };
+    const handleKey = (e) => {
+      if (e.key === 'Escape') {
+        e.stopPropagation();
+        setOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClick);
+    // Capture phase so Escape closes only the menu, not the whole drawer.
+    document.addEventListener('keydown', handleKey, true);
+    return () => {
+      document.removeEventListener('mousedown', handleClick);
+      document.removeEventListener('keydown', handleKey, true);
+    };
+  }, [open]);
+
+  return (
+    <div className={`wpsp-ai-select ${open ? 'is-open' : ''}`} ref={ref}>
+      <button
+        type="button"
+        className="wpsp-ai-select__trigger"
+        onClick={() => setOpen((v) => !v)}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-label={ariaLabel}
+      >
+        <span className="wpsp-ai-select__value">{selected?.label}</span>
+        <span className="wpsp-ai-select__chevron" aria-hidden="true">{chevronIcon}</span>
+      </button>
+      {open && (
+        <ul className="wpsp-ai-select__menu" role="listbox" aria-label={ariaLabel}>
+          {options.map((opt) => {
+            const isSelected = opt.value === value;
+            return (
+              <li
+                key={opt.value}
+                role="option"
+                aria-selected={isSelected}
+                className={`wpsp-ai-select__option ${isSelected ? 'is-selected' : ''}`}
+                onClick={() => {
+                  onChange(opt.value);
+                  setOpen(false);
+                }}
+              >
+                <span className="wpsp-ai-select__check" aria-hidden="true">
+                  {isSelected ? checkIcon : null}
+                </span>
+                <span className="wpsp-ai-select__option-label">{opt.label}</span>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </div>
+  );
+};
+
+/**
+ * Shimmering placeholder card shown in the drawer body while captions are
+ * generating — mirrors the result card layout (platform row + caption box).
+ */
+const SkeletonCard = () => (
+  <div className="wpsp-ai-skeleton-card" aria-hidden="true">
+    <div className="wpsp-ai-skeleton-card__head">
+      <span className="wpsp-ai-skeleton wpsp-ai-skeleton__dot" />
+      <span className="wpsp-ai-skeleton wpsp-ai-skeleton__bar wpsp-ai-skeleton__bar--name" />
+      <span className="wpsp-ai-skeleton-card__pill">
+        <span className="wpsp-ai-skeleton wpsp-ai-skeleton__dot wpsp-ai-skeleton__dot--sm" />
+        <span className="wpsp-ai-skeleton wpsp-ai-skeleton__bar wpsp-ai-skeleton__bar--pill" />
+      </span>
+      <span className="wpsp-ai-skeleton wpsp-ai-skeleton__dot wpsp-ai-skeleton-card__chevron" />
+    </div>
+    <div className="wpsp-ai-skeleton-card__box">
+      <span className="wpsp-ai-skeleton wpsp-ai-skeleton__line" />
+      <span className="wpsp-ai-skeleton wpsp-ai-skeleton__line" />
+      <span className="wpsp-ai-skeleton wpsp-ai-skeleton__line wpsp-ai-skeleton__line--md" />
+      <span className="wpsp-ai-skeleton wpsp-ai-skeleton__line wpsp-ai-skeleton__line--sm" />
+      <span className="wpsp-ai-skeleton wpsp-ai-skeleton__edit" />
+    </div>
+  </div>
+);
+
+// Captions longer than this get clamped with a "Read more" toggle.
+const READ_MORE_THRESHOLD = 180;
+
+/**
+ * Accordion card for one generated caption (results screen). Header row
+ * toggles expansion; the expanded body shows the caption with an inline
+ * Edit mode and a Read more toggle for long captions.
+ */
+const ResultCard = ({
+  platformKey,
+  icon,
+  caption,
+  isExpanded,
+  onToggle,
+  isEditing,
+  onStartEdit,
+  onStopEdit,
+  onChangeCaption,
+}) => {
+  const isLong = caption.length > READ_MORE_THRESHOLD;
+  const [showFull, setShowFull] = useState(false);
+
+  return (
+    <div className={`wpsp-ai-result-card ${isExpanded ? 'is-expanded' : ''}`}>
+      <button
+        type="button"
+        className="wpsp-ai-result-card__head"
+        onClick={onToggle}
+        aria-expanded={isExpanded}
+      >
+        <span className="wpsp-ai-result-card__icon" aria-hidden="true">{icon}</span>
+        <span className="wpsp-ai-result-card__name">{PLATFORM_LABELS[platformKey] || platformKey}</span>
+        <span className="wpsp-ai-result-card__badge">
+          <span className="wpsp-ai-result-card__badge-icon" aria-hidden="true">{aiCaption}</span>
+          {__('AI Caption', 'wp-scheduled-posts')}
+        </span>
+        <span className="wpsp-ai-result-card__chevron" aria-hidden="true">{chevronIcon}</span>
+      </button>
+      {isExpanded && (
+        <div className="wpsp-ai-result-card__box">
+          {isEditing ? (
+            <>
+              <textarea
+                className="wpsp-ai-drawer__textarea wpsp-ai-result-card__textarea"
+                value={caption}
+                onChange={(e) => onChangeCaption(e.target.value)}
+                rows={5}
+                autoFocus
+              />
+              <div className="wpsp-ai-result-card__actions">
+                <button type="button" className="wpsp-ai-result-card__edit" onClick={onStopEdit}>
+                  {__('Done', 'wp-scheduled-posts')}
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <p className={`wpsp-ai-result-card__text ${isLong && !showFull ? 'is-clamped' : ''}`}>
+                {caption}
+              </p>
+              {isLong && (
+                <button
+                  type="button"
+                  className="wpsp-ai-result-card__read-more"
+                  onClick={() => setShowFull((v) => !v)}
+                >
+                  {showFull
+                    ? __('Show less', 'wp-scheduled-posts')
+                    : __('Read more…', 'wp-scheduled-posts')}
+                </button>
+              )}
+              <div className="wpsp-ai-result-card__actions">
+                <button type="button" className="wpsp-ai-result-card__edit" onClick={onStartEdit}>
+                  <span aria-hidden="true">{editIcon}</span>
+                  {__('Edit', 'wp-scheduled-posts')}
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
 const AICaptionDrawer = ({
   isOpen,
   onClose,
@@ -53,6 +263,7 @@ const AICaptionDrawer = ({
   social_media_enabled = {},
   selectedPlatform,
   onGenerate,
+  onInsertCaptions,
 }) => {
   // Platforms the user has connected/enabled, in the order defined by `platforms`.
   const enabledPlatforms = useMemo(
@@ -70,7 +281,13 @@ const AICaptionDrawer = ({
   const [isMoreOpen, setIsMoreOpen] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState('');
+  // Generated captions keyed by platform — non-null switches the drawer to the results screen.
+  const [results, setResults] = useState(null);
+  const [expandedPlatforms, setExpandedPlatforms] = useState([]);
+  const [editingPlatform, setEditingPlatform] = useState(null);
   const moreRef = useRef(null);
+  // AbortController for the in-flight generation request, so Stop/close can cancel it.
+  const abortRef = useRef(null);
 
   // Pre-select the currently active platform (or all enabled ones) each time the drawer opens.
   useEffect(() => {
@@ -82,6 +299,14 @@ const AICaptionDrawer = ({
       setError('');
     } else {
       setIsMoreOpen(false);
+      // Closing the drawer (Cancel / overlay / Escape) abandons any in-flight generation
+      // and discards un-inserted results so it reopens on the form screen.
+      abortRef.current?.abort();
+      abortRef.current = null;
+      setIsGenerating(false);
+      setResults(null);
+      setExpandedPlatforms([]);
+      setEditingPlatform(null);
     }
   }, [isOpen, selectedPlatform, enabledPlatforms, social_media_enabled]);
 
@@ -133,20 +358,66 @@ const AICaptionDrawer = ({
       generateHashtags,
       includeEmojis,
     };
+    const controller = new AbortController();
+    abortRef.current = controller;
     try {
       setError('');
       setIsGenerating(true);
       if (typeof onGenerate === 'function') {
-        await onGenerate(payload);
+        const captions = await onGenerate(payload, { signal: controller.signal });
+        if (!controller.signal.aborted) {
+          if (captions && typeof captions === 'object' && Object.keys(captions).length > 0) {
+            // Switch to the results screen with the first caption expanded.
+            setResults(captions);
+            setExpandedPlatforms(Object.keys(captions).slice(0, 1));
+            setEditingPlatform(null);
+          } else {
+            setError(__('No captions were generated. Please try again.', 'wp-scheduled-posts'));
+          }
+        }
       }
     } catch (err) {
-      console.error('AI caption generation failed:', err);
-      setError(
-        err?.message ||
-          __('Caption generation failed. Please try again.', 'wp-scheduled-posts')
-      );
+      // A user-initiated Stop aborts the request — that's not an error.
+      if (err?.name !== 'AbortError' && !controller.signal.aborted) {
+        console.error('AI caption generation failed:', err);
+        setError(
+          err?.message ||
+            __('Caption generation failed. Please try again.', 'wp-scheduled-posts')
+        );
+      }
     } finally {
-      setIsGenerating(false);
+      if (abortRef.current === controller) {
+        abortRef.current = null;
+        setIsGenerating(false);
+      }
+    }
+  };
+
+  // Stop button in the loading footer — cancel the request, return to the form.
+  const handleStop = () => {
+    abortRef.current?.abort();
+    abortRef.current = null;
+    setIsGenerating(false);
+  };
+
+  // Results screen — card order follows the platform list, icons come from it too.
+  const platformIcons = useMemo(
+    () => Object.fromEntries(platforms.map((p) => [p.platform, p.icon])),
+    [platforms]
+  );
+  const orderedResultPlatforms = results
+    ? platforms.map((p) => p.platform).filter((key) => results[key])
+    : [];
+
+  const toggleResultCard = (key) => {
+    setExpandedPlatforms((prev) =>
+      prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]
+    );
+  };
+
+  const handleInsertAll = () => {
+    if (results && typeof onInsertCaptions === 'function') {
+      onInsertCaptions(results);
     }
   };
 
@@ -180,8 +451,39 @@ const AICaptionDrawer = ({
           </button>
         </div>
 
-        {/* Body */}
-        <div className="wpsp-ai-drawer__body">
+        {/* Body — form → loading skeletons → generated-caption results */}
+        <div className={`wpsp-ai-drawer__body ${isGenerating ? 'is-loading' : ''}`} aria-busy={isGenerating}>
+          {isGenerating ? (
+            <div
+              className="wpsp-ai-drawer__skeletons"
+              role="status"
+              aria-label={__('Generating captions…', 'wp-scheduled-posts')}
+            >
+              {Array.from({ length: Math.max(selectedPlatforms.length, 2) }, (_, i) => (
+                <SkeletonCard key={i} />
+              ))}
+            </div>
+          ) : results ? (
+            <div className="wpsp-ai-drawer__results">
+              {orderedResultPlatforms.map((key) => (
+                <ResultCard
+                  key={key}
+                  platformKey={key}
+                  icon={platformIcons[key]}
+                  caption={results[key]}
+                  isExpanded={expandedPlatforms.includes(key)}
+                  onToggle={() => toggleResultCard(key)}
+                  isEditing={editingPlatform === key}
+                  onStartEdit={() => setEditingPlatform(key)}
+                  onStopEdit={() => setEditingPlatform(null)}
+                  onChangeCaption={(text) =>
+                    setResults((prev) => ({ ...prev, [key]: text }))
+                  }
+                />
+              ))}
+            </div>
+          ) : (
+            <>
           {/* Choose Social Platforms */}
           <div className="wpsp-ai-drawer__card">
             <p className="wpsp-ai-drawer__card-title">{__('Choose Social Platforms', 'wp-scheduled-posts')}</p>
@@ -257,29 +559,23 @@ const AICaptionDrawer = ({
           {/* Tone & Style Controls */}
           <div className="wpsp-ai-drawer__card">
             <p className="wpsp-ai-drawer__card-title">{__('Tone & Style Controls', 'wp-scheduled-posts')}</p>
-            <select
-              className="wpsp-ai-drawer__select"
+            <CustomSelect
+              options={TONE_OPTIONS}
               value={tone}
-              onChange={(e) => setTone(e.target.value)}
-            >
-              {TONE_OPTIONS.map((opt) => (
-                <option key={opt.value} value={opt.value}>{opt.label}</option>
-              ))}
-            </select>
+              onChange={setTone}
+              ariaLabel={__('Tone & Style Controls', 'wp-scheduled-posts')}
+            />
           </div>
 
           {/* Caption Length */}
           <div className="wpsp-ai-drawer__card">
             <p className="wpsp-ai-drawer__card-title">{__('Caption Length (Auto / Manual)', 'wp-scheduled-posts')}</p>
-            <select
-              className="wpsp-ai-drawer__select"
+            <CustomSelect
+              options={LENGTH_OPTIONS}
               value={length}
-              onChange={(e) => setLength(e.target.value)}
-            >
-              {LENGTH_OPTIONS.map((opt) => (
-                <option key={opt.value} value={opt.value}>{opt.label}</option>
-              ))}
-            </select>
+              onChange={setLength}
+              ariaLabel={__('Caption Length', 'wp-scheduled-posts')}
+            />
           </div>
 
           {/* Hashtags & Emojis */}
@@ -306,6 +602,8 @@ const AICaptionDrawer = ({
               </label>
             </div>
           </div>
+            </>
+          )}
         </div>
 
         {/* Footer */}
@@ -318,17 +616,35 @@ const AICaptionDrawer = ({
           <button type="button" className="wpsp-ai-drawer__cancel" onClick={onClose}>
             {__('Cancel', 'wp-scheduled-posts')}
           </button>
-          <button
-            type="button"
-            className="wpsp-ai-drawer__generate"
-            onClick={handleGenerate}
-            disabled={isGenerating || selectedPlatforms.length === 0}
-          >
-            <span className="wpsp-ai-drawer__generate-icon">{sparkleWhite}</span>
-            {isGenerating
-              ? __('Generating…', 'wp-scheduled-posts')
-              : __('Generate Captions', 'wp-scheduled-posts')}
-          </button>
+          {isGenerating ? (
+            <button
+              type="button"
+              className="wpsp-ai-drawer__stop"
+              onClick={handleStop}
+              aria-label={__('Stop generating', 'wp-scheduled-posts')}
+            >
+              {stopIcon}
+            </button>
+          ) : results ? (
+            <button
+              type="button"
+              className="wpsp-ai-drawer__generate"
+              onClick={handleInsertAll}
+              disabled={orderedResultPlatforms.length === 0}
+            >
+              {__('Insert All Captions', 'wp-scheduled-posts')}
+            </button>
+          ) : (
+            <button
+              type="button"
+              className="wpsp-ai-drawer__generate"
+              onClick={handleGenerate}
+              disabled={selectedPlatforms.length === 0}
+            >
+              <span className="wpsp-ai-drawer__generate-icon">{sparkleWhite}</span>
+              {__('Generate Captions', 'wp-scheduled-posts')}
+            </button>
+          )}
         </div>
       </aside>
     </>
