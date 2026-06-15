@@ -121,6 +121,79 @@
     }
   }
 
+  .wprf-openai-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 16px;
+  }
+
+  .wprf-openai-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+    padding: 10px 18px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+
+    &:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+  }
+
+  .wprf-openai-btn-test {
+    background: #6c62ff;
+    color: #fff;
+
+    &:not(:disabled):hover {
+      background: #5249e0;
+    }
+  }
+
+  .wprf-openai-btn-clear {
+    background: #fff;
+    color: #d23b53;
+    border-color: #f1c6cf;
+
+    &:not(:disabled):hover {
+      background: #fdf2f4;
+      border-color: #e79caa;
+    }
+  }
+
+  .wprf-openai-spinner {
+    animation: wprf-openai-spin 0.7s linear infinite;
+  }
+
+  @keyframes wprf-openai-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .wprf-openai-test-result {
+    margin: 12px 0 0;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.5em;
+
+    &.is-success {
+      color: #02ac6e;
+    }
+
+    &.is-error {
+      color: #d23b53;
+    }
+  }
+
   .wprf-openai-help {
     margin: 10px 0 0;
     font-size: 13px;

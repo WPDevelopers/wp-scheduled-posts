@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import apiFetch from '@wordpress/api-fetch';
 import { __ } from '@wordpress/i18n';
 
 const EyeIcon = (
@@ -18,14 +19,20 @@ const EyeOffIcon = (
   </svg>
 );
 
+const SpinnerIcon = (
+  <svg className="wprf-openai-spinner" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+    <path d="M12 2a10 10 0 0 1 10 10" />
+  </svg>
+);
+
 const OpenAI = (props) => {
   const { name = 'openai_api_key', id, label, value, onChange } = props;
   const [show, setShow] = useState(false);
   const [keyValue, setKeyValue] = useState(value || '');
+  const [testing, setTesting] = useState(false);
+  const [testResult, setTestResult] = useState<null | { success: boolean; message: string }>(null);
 
-  const handleChange = (e) => {
-    const val = e.target.value;
-    setKeyValue(val);
+  const propagateChange = (val) => {
     onChange({
       target: {
         type: 'text',
@@ -33,6 +40,50 @@ const OpenAI = (props) => {
         value: val,
       },
     });
+  };
+
+  const handleChange = (e) => {
+    const val = e.target.value;
+    setKeyValue(val);
+    setTestResult(null);
+    propagateChange(val);
+  };
+
+  const handleClear = () => {
+    setKeyValue('');
+    setTestResult(null);
+    setShow(false);
+    propagateChange('');
+  };
+
+  const handleTest = () => {
+    if (testing) {
+      return;
+    }
+    setTesting(true);
+    setTestResult(null);
+    apiFetch({
+      path: 'wp-scheduled-posts/v1/ai-test-key',
+      method: 'POST',
+      data: { api_key: keyValue },
+    })
+      .then((res: any) => {
+        setTestResult({
+          success: !!res?.success,
+          message: res?.message || (res?.success
+            ? __('Connection successful.', 'wp-scheduled-posts')
+            : __('Connection failed.', 'wp-scheduled-posts')),
+        });
+      })
+      .catch((err: any) => {
+        setTestResult({
+          success: false,
+          message: err?.message || __('Connection failed. Please try again.', 'wp-scheduled-posts'),
+        });
+      })
+      .finally(() => {
+        setTesting(false);
+      });
   };
 
   const isConnected = !!(keyValue && keyValue.trim().length > 0);
@@ -80,6 +131,40 @@ const OpenAI = (props) => {
             {__('Get your OpenAI API key', 'wp-scheduled-posts')}
           </a>
         </div>
+
+        <div className="wprf-openai-actions">
+          <button
+            type="button"
+            className="wprf-openai-btn wprf-openai-btn-test"
+            onClick={handleTest}
+            disabled={testing || !isConnected}
+          >
+            {testing && SpinnerIcon}
+            {testing
+              ? __('Testing…', 'wp-scheduled-posts')
+              : __('Test Connection', 'wp-scheduled-posts')}
+          </button>
+          <button
+            type="button"
+            className="wprf-openai-btn wprf-openai-btn-clear"
+            onClick={handleClear}
+            disabled={testing || !isConnected}
+          >
+            {__('Clear API Key', 'wp-scheduled-posts')}
+          </button>
+        </div>
+
+        {testResult && (
+          <p
+            className={classNames(
+              'wprf-openai-test-result',
+              testResult.success ? 'is-success' : 'is-error'
+            )}
+            role="status"
+          >
+            {testResult.message}
+          </p>
+        )}
 
         <p className="wprf-openai-help">
           {__('Your API key is stored on your site and used only to generate AI captions for your social posts.', 'wp-scheduled-posts')}

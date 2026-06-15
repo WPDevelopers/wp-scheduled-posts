@@ -31,6 +31,11 @@ class AICaption
     const OPENAI_ENDPOINT = 'https://api.openai.com/v1/chat/completions';
 
     /**
+     * OpenAI models endpoint — used to cheaply validate an API key.
+     */
+    const OPENAI_MODELS_ENDPOINT = 'https://api.openai.com/v1/models';
+
+    /**
      * Per-platform display name + character budget used to guide the model.
      *
      * @var array
@@ -76,6 +81,75 @@ class AICaption
                 ),
             ),
         ));
+
+        // Validate an OpenAI API key from the settings panel.
+        register_rest_route($namespace, 'ai-test-key', array(
+            'methods'             => 'POST',
+            'callback'            => array($this, 'test_connection'),
+            'permission_callback' => function () {
+                return current_user_can('manage_options');
+            },
+        ));
+    }
+
+    /**
+     * Test an OpenAI API key by hitting the models endpoint.
+     *
+     * Accepts an `api_key` param (the value currently typed into the settings
+     * field) and falls back to the saved key when none is supplied.
+     *
+     * @param \WP_REST_Request $request
+     * @return \WP_REST_Response
+     */
+    public function test_connection($request)
+    {
+        $api_key = $request->get_param('api_key');
+        $api_key = is_string($api_key) ? trim($api_key) : '';
+
+        if (empty($api_key)) {
+            $saved   = Helper::get_settings('openai_api_key');
+            $api_key = is_string($saved) ? trim($saved) : '';
+        }
+
+        if (empty($api_key)) {
+            return new \WP_REST_Response(array(
+                'success' => false,
+                'message' => __('Please enter an API key before testing the connection.', 'wp-scheduled-posts'),
+            ), 400);
+        }
+
+        $response = wp_remote_get(self::OPENAI_MODELS_ENDPOINT, array(
+            'timeout' => 30,
+            'headers' => array(
+                'Authorization' => 'Bearer ' . $api_key,
+            ),
+        ));
+
+        if (is_wp_error($response)) {
+            return new \WP_REST_Response(array(
+                'success' => false,
+                'message' => $response->get_error_message(),
+            ), 502);
+        }
+
+        $code = wp_remote_retrieve_response_code($response);
+
+        if ($code === 200) {
+            return new \WP_REST_Response(array(
+                'success' => true,
+                'message' => __('Connection successful. Your API key is valid.', 'wp-scheduled-posts'),
+            ), 200);
+        }
+
+        $data    = json_decode(wp_remote_retrieve_body($response), true);
+        $message = isset($data['error']['message'])
+            ? $data['error']['message']
+            : __('Connection failed. Please verify your API key and try again.', 'wp-scheduled-posts');
+
+        return new \WP_REST_Response(array(
+            'success' => false,
+            'message' => $message,
+        ), 200);
     }
 
     /**
