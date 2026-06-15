@@ -125,7 +125,13 @@ class GoogleBusiness
             $featured_image_url = '';
             if (has_post_thumbnail($post_id)) {
                 $featured_image = wp_get_attachment_image_src(get_post_thumbnail_id($post_id), 'full');
-                $featured_image_url = $featured_image[0];
+                $featured_image_url = !empty($featured_image[0]) ? $featured_image[0] : '';
+            }
+            // Google Business fetches the media server-side, so the URL must be publicly reachable.
+            // Skip media for non-public hosts (local/dev) so the text post still publishes instead of
+            // the whole request failing on an unreachable image URL.
+            if (!empty($featured_image_url) && !$this->is_publicly_accessible_url($featured_image_url)) {
+                $featured_image_url = '';
             }
             // Refresh token if needed
             $google_business = Helper::get_social_profile(WPSCP_GOOGLE_BUSINESS_OPTION_NAME);
@@ -202,7 +208,10 @@ class GoogleBusiness
                 'topicType' => 'STANDARD'
             ];
 
-            if (!empty($this->template_structure) && strpos($this->template_structure, '{url}') !== false) {
+            // Google validates the call-to-action link as a real public URL, so only attach it
+            // when the permalink is publicly reachable (skips local/dev hosts that Google rejects).
+            if (!empty($this->template_structure) && strpos($this->template_structure, '{url}') !== false
+                && $this->is_publicly_accessible_url($post_link)) {
                 $post_data['callToAction'] = [
                     'actionType' => 'LEARN_MORE',
                     'url' => $post_link,
@@ -281,6 +290,37 @@ class GoogleBusiness
                 ),
             ];
         }
+    }
+
+    /**
+     * Determine whether a URL is publicly reachable by Google's servers.
+     * Google Business downloads media from the provided sourceUrl, so local/dev
+     * hosts and private IPs will be rejected and break the whole share request.
+     *
+     * @param string $url
+     * @return bool
+     */
+    public function is_publicly_accessible_url($url)
+    {
+        $host = wp_parse_url($url, PHP_URL_HOST);
+        if (empty($host)) {
+            return false;
+        }
+        $host = strtolower($host);
+
+        // Local hostnames / common dev TLDs
+        if ($host === 'localhost' || preg_match('/\.(test|local|localhost|invalid|example)$/', $host)) {
+            return false;
+        }
+
+        // Private / loopback IP ranges
+        if (filter_var($host, FILTER_VALIDATE_IP)) {
+            if (!filter_var($host, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public function format_plain_text_with_paragraphs($content)
