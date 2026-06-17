@@ -1908,6 +1908,7 @@ button.components-button.wpsp-add-template-btn:disabled {
     color: #c0392b;
     font-size: 12px;
     line-height: 1.4;
+    margin-bottom: 10px;
   }
 
   /* Footer */
@@ -1964,24 +1965,41 @@ button.components-button.wpsp-add-template-btn:disabled {
     svg { display: block; }
   }
 
-  /* Square stop button shown in place of Generate while captions stream in */
+  /* "Generating…" button shown in place of Generate while captions stream in */
   &__stop {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 48px;
+    gap: 8px;
     height: 48px;
     flex: 0 0 auto;
-    padding: 12px;
+    padding: 12px 16px;
     border: none;
     border-radius: 6px;
     background: #F3F2FF;
     color: #6C62FF;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
     cursor: pointer;
     transition: background-color 0.15s ease;
 
-    svg { display: block; }
     &:hover { background: #E9E7FF; }
+  }
+
+  &__stop-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    flex: 0 0 auto;
+    border: 2px solid rgba(108, 98, 255, 0.3);
+    border-top-color: #6C62FF;
+    border-radius: 50%;
+    animation: wpsp-ai-stop-spin 0.7s linear infinite;
+  }
+
+  @keyframes wpsp-ai-stop-spin {
+    to { transform: rotate(360deg); }
   }
 
   /* Loading state — skeleton result cards while captions generate */

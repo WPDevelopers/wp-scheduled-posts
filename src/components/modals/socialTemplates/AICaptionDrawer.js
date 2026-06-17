@@ -1,6 +1,30 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { aiCaption } from '../../../icons/icons';
+import {
+  aiCaption,
+  facebookWithBG,
+  twitterWithBG,
+  linkedinWithBG,
+  pinterestWithBG,
+  instagramWithBG,
+  mediumWithBG,
+  threadsWithBG,
+  googleMyBusinessWithBG,
+} from '../../../icons/icons';
 const { __ } = wp.i18n;
+
+// Colored (badge) platform icons for the result cards. The plain icons passed
+// down via `platforms` are white glyphs meant to sit on a colored circle, so
+// they render invisible on the light result-card background — use these instead.
+const PLATFORM_RESULT_ICONS = {
+  facebook: facebookWithBG,
+  twitter: twitterWithBG,
+  linkedin: linkedinWithBG,
+  pinterest: pinterestWithBG,
+  instagram: instagramWithBG,
+  medium: mediumWithBG,
+  threads: threadsWithBG,
+  google_business: googleMyBusinessWithBG,
+};
 
 // Human readable labels for the platform checkboxes shown in the drawer.
 const PLATFORM_LABELS = {
@@ -57,13 +81,6 @@ const chevronIcon = (
 const editIcon = (
   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg">
     <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
-  </svg>
-);
-
-// Square "stop" icon shown in the footer while captions are generating.
-const stopIcon = (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg">
-    <rect x="5" y="5" width="14" height="14" rx="2" />
   </svg>
 );
 
@@ -469,7 +486,7 @@ const AICaptionDrawer = ({
                 <ResultCard
                   key={key}
                   platformKey={key}
-                  icon={platformIcons[key]}
+                  icon={PLATFORM_RESULT_ICONS[key] || platformIcons[key]}
                   caption={results[key]}
                   isExpanded={expandedPlatforms.includes(key)}
                   onToggle={() => toggleResultCard(key)}
@@ -623,7 +640,8 @@ const AICaptionDrawer = ({
               onClick={handleStop}
               aria-label={__('Stop generating', 'wp-scheduled-posts')}
             >
-              {stopIcon}
+              <span className="wpsp-ai-drawer__stop-spinner" aria-hidden="true" />
+              {__('Generating…', 'wp-scheduled-posts')}
             </button>
           ) : results ? (
             <button
