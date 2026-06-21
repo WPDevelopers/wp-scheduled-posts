@@ -111,6 +111,15 @@ const WPSPCustomTemplateModal = ({
   const [scheduleData, setScheduleData] = useState(getDefaultScheduleData(postStatus));
   const [isAICaptionOpen, setIsAICaptionOpen] = useState(false);
 
+  // The panel header's "Write With AI" button opens this modal with a flag set so
+  // the AI Caption drawer appears immediately. Consume and clear the flag once.
+  useEffect(() => {
+    if (state.autoOpenAICaption) {
+      setIsAICaptionOpen(true);
+      dispatch({ type: 'SET_AUTO_OPEN_AI_CAPTION', payload: false });
+    }
+  }, [state.autoOpenAICaption, dispatch]);
+
   // API functions for data management
   const fetchTemplateData = useCallback(async () => {
     if (!postId) return {};

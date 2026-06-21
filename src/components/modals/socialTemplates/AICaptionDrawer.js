@@ -29,7 +29,7 @@ const PLATFORM_RESULT_ICONS = {
 // Human readable labels for the platform checkboxes shown in the drawer.
 const PLATFORM_LABELS = {
   facebook: 'Facebook',
-  twitter: 'X',
+  twitter: 'X(Twitter)',
   linkedin: 'LinkedIn',
   pinterest: 'Pinterest',
   instagram: 'Instagram',
