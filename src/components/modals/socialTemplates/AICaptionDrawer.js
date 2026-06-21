@@ -45,13 +45,17 @@ const TONE_OPTIONS = [
   { value: 'witty', label: __('Witty', 'wp-scheduled-posts') },
   { value: 'bold', label: __('Bold', 'wp-scheduled-posts') },
   { value: 'informative', label: __('Informative', 'wp-scheduled-posts') },
+  // Derives tone & style from the post's own content instead of a fixed preset.
+  { value: 'post_specific', label: __('Post Specific', 'wp-scheduled-posts') },
 ];
 
+// Character ranges shown to the user double as the target the AI generates to.
+// Keep these ranges in sync with $length_guide in includes/API/AICaption.php.
 const LENGTH_OPTIONS = [
   { value: 'auto', label: __('Auto (Recommended)', 'wp-scheduled-posts') },
-  { value: 'short', label: __('Short', 'wp-scheduled-posts') },
-  { value: 'medium', label: __('Medium', 'wp-scheduled-posts') },
-  { value: 'long', label: __('Long', 'wp-scheduled-posts') },
+  { value: 'short', label: __('Short (50-120 chars)', 'wp-scheduled-posts') },
+  { value: 'medium', label: __('Medium (120-250 chars)', 'wp-scheduled-posts') },
+  { value: 'long', label: __('Long (250-500 chars)', 'wp-scheduled-posts') },
 ];
 
 // Sparkle icon used inside the gradient "Generate Captions" button (rendered white).
@@ -81,6 +85,13 @@ const chevronIcon = (
 const editIcon = (
   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg">
     <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+  </svg>
+);
+
+// Small "insert into editor" icon for the per-caption Insert action.
+const insertIcon = (
+  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16" />
   </svg>
 );
 
@@ -206,6 +217,8 @@ const ResultCard = ({
   onStartEdit,
   onStopEdit,
   onChangeCaption,
+  onInsert,
+  isInserted,
 }) => {
   const isLong = caption.length > READ_MORE_THRESHOLD;
   const [showFull, setShowFull] = useState(false);
@@ -260,6 +273,14 @@ const ResultCard = ({
                 </button>
               )}
               <div className="wpsp-ai-result-card__actions">
+                <button
+                  type="button"
+                  className={`wpsp-ai-result-card__insert ${isInserted ? 'is-inserted' : ''}`}
+                  onClick={onInsert}
+                >
+                  <span aria-hidden="true">{isInserted ? checkIcon : insertIcon}</span>
+                  {isInserted ? __('Inserted', 'wp-scheduled-posts') : __('Insert', 'wp-scheduled-posts')}
+                </button>
                 <button type="button" className="wpsp-ai-result-card__edit" onClick={onStartEdit}>
                   <span aria-hidden="true">{editIcon}</span>
                   {__('Edit', 'wp-scheduled-posts')}
@@ -302,6 +323,10 @@ const AICaptionDrawer = ({
   const [results, setResults] = useState(null);
   const [expandedPlatforms, setExpandedPlatforms] = useState([]);
   const [editingPlatform, setEditingPlatform] = useState(null);
+  // Platforms showing the transient "Inserted" flash. The button stays enabled
+  // so a caption can be inserted as many times as the user wants.
+  const [insertedPlatforms, setInsertedPlatforms] = useState([]);
+  const insertFlashTimers = useRef({});
   const moreRef = useRef(null);
   // AbortController for the in-flight generation request, so Stop/close can cancel it.
   const abortRef = useRef(null);
@@ -324,6 +349,7 @@ const AICaptionDrawer = ({
       setResults(null);
       setExpandedPlatforms([]);
       setEditingPlatform(null);
+      setInsertedPlatforms([]);
     }
   }, [isOpen, selectedPlatform, enabledPlatforms, social_media_enabled]);
 
@@ -388,6 +414,7 @@ const AICaptionDrawer = ({
             setResults(captions);
             setExpandedPlatforms(Object.keys(captions).slice(0, 1));
             setEditingPlatform(null);
+            setInsertedPlatforms([]);
           } else {
             setError(__('No captions were generated. Please try again.', 'wp-scheduled-posts'));
           }
@@ -437,6 +464,27 @@ const AICaptionDrawer = ({
       onInsertCaptions(results);
     }
   };
+
+  // Insert a single platform's caption without closing the drawer, so the user
+  // can pick and choose per platform — and insert the same one repeatedly.
+  // The "Inserted" state is a brief confirmation flash, then reverts to "Insert".
+  const handleInsertOne = (key) => {
+    if (results && results[key] && typeof onInsertCaptions === 'function') {
+      onInsertCaptions({ [key]: results[key] }, { close: false });
+      setInsertedPlatforms((prev) => (prev.includes(key) ? prev : [...prev, key]));
+      if (insertFlashTimers.current[key]) clearTimeout(insertFlashTimers.current[key]);
+      insertFlashTimers.current[key] = setTimeout(() => {
+        setInsertedPlatforms((prev) => prev.filter((k) => k !== key));
+        delete insertFlashTimers.current[key];
+      }, 1500);
+    }
+  };
+
+  // Clear any pending flash timers on unmount.
+  useEffect(() => () => {
+    Object.values(insertFlashTimers.current).forEach(clearTimeout);
+    insertFlashTimers.current = {};
+  }, []);
 
   return (
     <>
@@ -496,6 +544,8 @@ const AICaptionDrawer = ({
                   onChangeCaption={(text) =>
                     setResults((prev) => ({ ...prev, [key]: text }))
                   }
+                  onInsert={() => handleInsertOne(key)}
+                  isInserted={insertedPlatforms.includes(key)}
                 />
               ))}
             </div>

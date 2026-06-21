@@ -1200,22 +1200,21 @@
         flex: 0 0 auto;
         display: inline-flex;
         align-items: center;
-        gap: 4px;
-        padding: 8px 12px;
-        border: 1px solid transparent;
-        border-radius: 6px;
-        background:
-            linear-gradient(#F9FAFC, #F9FAFC) padding-box,
-            linear-gradient(135deg, #18AAFF 0%, #6C62FF 100%) border-box;
+        gap: 6px;
+        padding: 9px 16px;
+        border: none;
+        border-radius: 8px;
+        background: linear-gradient(135deg, #18AAFF 0%, #6C62FF 100%);
         cursor: pointer;
         font-family: inherit;
         font-size: 14px;
-        font-weight: 500;
+        font-weight: 600;
         line-height: 1;
-        color: #6C62FF;
+        color: #fff;
         white-space: nowrap;
         margin-right: 8px;
-        transition: box-shadow 0.15s ease, transform 0.15s ease;
+        box-shadow: 0 4px 12px rgba(108, 98, 255, 0.35);
+        transition: box-shadow 0.15s ease, transform 0.15s ease, filter 0.15s ease;
 
         &__icon {
             display: inline-flex;
@@ -1229,24 +1228,27 @@
                 width: 20px;
                 height: 20px;
             }
+
+            // White sparkle so it reads on the filled gradient button.
+            svg path {
+                fill: #fff;
+            }
         }
 
         &__text {
             display: inline-block;
             font-weight: 600;
-            background: linear-gradient(90deg, #2B7FFF 0%, #6C62FF 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            color: transparent;
+            color: #fff;
         }
 
         &:hover:not(:disabled) {
-            box-shadow: 0 2px 8px rgba(108, 98, 255, 0.18);
+            box-shadow: 0 6px 18px rgba(108, 98, 255, 0.45);
+            transform: translateY(-1px);
+            filter: brightness(1.04);
         }
 
         &:focus:not(:disabled) {
-            box-shadow: 0 0 0 3px rgba(108, 98, 255, 0.15);
+            box-shadow: 0 0 0 3px rgba(108, 98, 255, 0.35);
             outline: 0;
         }
     }
@@ -2233,7 +2235,9 @@ button.components-button.wpsp-add-template-btn:disabled {
 
   &__actions {
     display: flex;
+    align-items: center;
     justify-content: flex-end;
+    gap: 12px;
   }
 
   &__edit {
@@ -2250,6 +2254,39 @@ button.components-button.wpsp-add-template-btn:disabled {
 
     svg { display: block; }
     &:hover { color: #6C62FF; }
+  }
+
+  &__insert {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 12px;
+    border: 1px solid #6C62FF;
+    border-radius: 6px;
+    background: #6C62FF;
+    font-size: 12px;
+    font-weight: 500;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+
+    svg { display: block; }
+
+    &:hover:not(:disabled) {
+      background: #5249e0;
+      border-color: #5249e0;
+    }
+
+    &:focus { outline: 0; box-shadow: 0 0 0 3px rgba(108, 98, 255, 0.15); }
+
+    // Transient confirmation flash — button stays clickable for repeat inserts.
+    &.is-inserted {
+      background: #ECFDF3;
+      border-color: #ABEFC6;
+      color: #067647;
+
+      &:hover { background: #d6fae4; border-color: #ABEFC6; }
+    }
   }
 
   &__textarea {

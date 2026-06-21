@@ -547,8 +547,9 @@ const WPSPCustomTemplateModal = ({
     return generated;
   }, [postId]);
 
-  // Called when the user confirms with "Insert All Captions" on the results screen.
-  const handleInsertCaptions = useCallback((captions) => {
+  // Called from the results screen — either "Insert All Captions" (closes the
+  // drawer) or a per-platform "Insert" (close=false keeps the drawer open).
+  const handleInsertCaptions = useCallback((captions, { close = true } = {}) => {
     if (!captions || typeof captions !== 'object') return;
     const generatedPlatforms = Object.keys(captions).filter((platform) => captions[platform]);
 
@@ -576,7 +577,9 @@ const WPSPCustomTemplateModal = ({
       return next;
     });
 
-    setIsAICaptionOpen(false);
+    if (close) {
+      setIsAICaptionOpen(false);
+    }
   }, []);
 
   return (

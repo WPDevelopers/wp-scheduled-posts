@@ -188,15 +188,12 @@ export const googleMyBusinessWithBG = (
     </svg>
 );
 
+// Solid fills (no shared <defs> gradient id) so the icon renders reliably in
+// every place it's reused — a shared gradient id went invisible when one
+// instance landed inside a `display:none` subtree (the hidden post panel).
 export const aiCaption = (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-            <linearGradient id="wpsp_ai_caption_grad" x1="2" y1="5" x2="13" y2="17" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#18AAFF"/>
-                <stop offset="1" stopColor="#6C62FF"/>
-            </linearGradient>
-        </defs>
-        <path d="M7.5 5 Q7.5 11 13.5 11 Q7.5 11 7.5 17 Q7.5 11 1.5 11 Q7.5 11 7.5 5 Z" fill="url(#wpsp_ai_caption_grad)"/>
+        <path d="M7.5 5 Q7.5 11 13.5 11 Q7.5 11 7.5 17 Q7.5 11 1.5 11 Q7.5 11 7.5 5 Z" fill="#6C62FF"/>
         <path d="M15.3 1.8 Q15.3 4.3 17.8 4.3 Q15.3 4.3 15.3 6.8 Q15.3 4.3 12.8 4.3 Q15.3 4.3 15.3 1.8 Z" fill="#ED4AFF"/>
     </svg>
 );

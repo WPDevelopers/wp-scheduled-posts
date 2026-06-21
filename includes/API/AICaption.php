@@ -243,11 +243,13 @@ class AICaption
      */
     protected function build_messages($platforms, $opts, $post)
     {
+        // Character ranges the AI generates to. Keep these in sync with
+        // LENGTH_OPTIONS in src/components/modals/socialTemplates/AICaptionDrawer.js.
         $length_guide = array(
             'auto'   => 'an appropriate length for each platform',
-            'short'  => 'short and punchy (1-2 sentences)',
-            'medium' => 'a moderate length (2-4 sentences)',
-            'long'   => 'detailed and engaging (multiple sentences)',
+            'short'  => 'short and punchy — roughly 50-120 characters (1-2 sentences)',
+            'medium' => 'a moderate length — roughly 120-250 characters (2-4 sentences)',
+            'long'   => 'detailed and engaging — roughly 250-500 characters (multiple sentences)',
         );
         $length_text = isset($length_guide[$opts['length']]) ? $length_guide[$opts['length']] : $length_guide['auto'];
 
@@ -276,7 +278,12 @@ class AICaption
             $user .= "Post URL: " . $post['permalink'] . "\n";
         }
         $user .= "\nRequirements:\n";
-        $user .= "- Tone/style: {$opts['tone']}.\n";
+        if ($opts['tone'] === 'post_specific') {
+            // Match the post's own voice instead of applying a fixed preset.
+            $user .= "- Tone/style: analyze the tone, voice, and writing style of the post title and content above, then write each caption to match that same tone and style.\n";
+        } else {
+            $user .= "- Tone/style: {$opts['tone']}.\n";
+        }
         $user .= "- Length: {$length_text}.\n";
         $user .= '- Hashtags: ' . ($opts['generate_hashtags'] ? 'include a few relevant hashtags.' : 'do not include hashtags.') . "\n";
         $user .= '- Emojis: ' . ($opts['include_emojis'] ? 'use tasteful, relevant emojis.' : 'do not use emojis.') . "\n";
