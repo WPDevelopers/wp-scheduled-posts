@@ -63,6 +63,21 @@ class PostPanel {
             'callback'            => [ $this, 'get_settings' ],
             'permission_callback' => [ $this, 'permission_check' ],
         ] );
+
+        // "Publish future post immediately" action endpoint. Moved from the Pro
+        // plugin so the feature works in Free. Used by the post-panel buttons.
+        register_rest_route( $namespace, '/update-settings/(?P<post_id>\d+)', [
+            'methods'             => \WP_REST_Server::CREATABLE,
+            'callback'            => [ $this, 'publish_immediately' ],
+            'permission_callback' => [ $this, 'permission_check' ],
+            'args'                => [
+                'post_id' => [
+                    'required'          => true,
+                    'validate_callback' => fn( $param ) => is_numeric( $param ),
+                    'sanitize_callback' => 'absint',
+                ],
+            ],
+        ] );
     }
 
     /**
@@ -162,6 +177,111 @@ class PostPanel {
             'success' => true,
             'message' => __( 'Settings saved successfully.', 'wp-scheduled-posts' ),
         ], 200 );
+    }
+
+    /**
+     * POST handler – immediately publish a scheduled (future) post.
+     *
+     * Backs the "Publish future post immediately" controls in the post panel.
+     * Moved from the Pro plugin so the feature is available in Free.
+     *
+     * @param \WP_REST_Request $request
+     * @return \WP_REST_Response
+     */
+    public function publish_immediately( \WP_REST_Request $request ) {
+        $post_id = (int) $request->get_param( 'post_id' );
+        $post    = get_post( $post_id );
+
+        if ( ! $post ) {
+            return new \WP_REST_Response( [
+                'success' => false,
+                'message' => __( 'Post not found.', 'wp-scheduled-posts' ),
+            ], 404 );
+        }
+
+        $publish_immediately_current_date = $request->get_param( 'publish_immediately_current_date' );
+        $publish_immediately_future_date  = $request->get_param( 'publish_immediately_future_date' );
+
+        if ( $publish_immediately_current_date === true || $publish_immediately_current_date === 'true' ) {
+            $this->handle_post_published( $post_id );
+        }
+
+        if ( $publish_immediately_future_date === true || $publish_immediately_future_date === 'true' ) {
+            $this->handle_post_publish_on_future_date( $post_id );
+        }
+
+        return new \WP_REST_Response( [
+            'success' => true,
+            'message' => __( 'Post published successfully.', 'wp-scheduled-posts' ),
+        ], 200 );
+    }
+
+    /**
+     * Publish a post immediately using the current date/time.
+     *
+     * @param int $post_id
+     */
+    public function handle_post_published( $post_id ) {
+        if ( $post_id ) {
+            wp_update_post( [
+                'ID'            => $post_id,
+                'post_status'   => 'publish',
+                'post_date'     => current_time( 'mysql' ),
+                'post_date_gmt' => current_time( 'mysql', 1 ),
+            ] );
+        }
+    }
+
+    /**
+     * Publish a future-dated post immediately while preserving its future date.
+     *
+     * @param int $post_id
+     * @return bool
+     */
+    public function handle_post_publish_on_future_date( $post_id ) {
+        if ( ! $post_id ) {
+            return false;
+        }
+
+        $post = get_post( $post_id );
+        if ( ! $post ) {
+            return false;
+        }
+
+        // Only proceed if the post date is still in the future.
+        $is_future_date = strtotime( $post->post_date_gmt ) > time();
+        if ( ! $is_future_date ) {
+            return false;
+        }
+
+        // Bypass WordPress forcing 'future' status when the date is in the future.
+        $filter_callback = function ( $data, $postarr ) {
+            if ( $data['post_status'] === 'future' ) {
+                $data['post_status'] = 'publish';
+            }
+            return $data;
+        };
+        add_filter( 'wp_insert_post_data', $filter_callback, 10, 2 );
+
+        // Publish while preserving the scheduled date.
+        $updated = wp_update_post( [
+            'ID'            => $post_id,
+            'post_status'   => 'publish',
+            'post_date'     => $post->post_date,
+            'post_date_gmt' => $post->post_date_gmt,
+            'edit_date'     => true,
+        ], true );
+
+        remove_filter( 'wp_insert_post_data', $filter_callback );
+
+        if ( is_wp_error( $updated ) ) {
+            return false;
+        }
+
+        // Let Pro (when active) reschedule its unpublish/republish cron jobs.
+        do_action( 'wpsp_pro_update_post', $post_id );
+
+        return true;
     }
 
     /**
