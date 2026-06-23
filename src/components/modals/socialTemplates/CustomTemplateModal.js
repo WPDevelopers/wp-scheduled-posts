@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useCallback } from 'react';
+import React, { useContext, useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { Button } from '@wordpress/components';
 const { __ } = wp.i18n;
 import { AppContext } from '../../../context/AppContext';
@@ -14,6 +14,7 @@ import PreviewCard from './PreviewCard';
 import useSocialProfiles from './hooks/useSocialProfiles';
 import useCurrentPostData from './hooks/useCurrentPostData';
 import AllDisabledPlatform from './AllDisabledPlatform';
+import AICaptionDrawer from './AICaptionDrawer';
 
 const SOCIAL_PLATFORMS = [
   'facebook',
@@ -36,6 +37,8 @@ const platformLimits = {
   threads: 480,
   google_business: 1500,
 };
+
+const DEFAULT_TEMPLATE = '{title} {content} {url} {tags}';
 
 const getDefaultScheduleData = (postStatus) => {
   const isPublished = postStatus === 'publish';
@@ -77,6 +80,7 @@ const WPSPCustomTemplateModal = ({
   const socialBannerUrl = state?.socialShareSettings?.socialBannerUrl;
   const bannerImage = uploadSocialShareBanner || socialBannerUrl || featuredImageUrl;
   const social_media_enabled = window.WPSchedulePostsFree?.social_media_enabled || {};
+  const isPro = !!window.WPSchedulePostsFree?.is_pro;
   
   const platforms = [
     { platform: 'facebook', icon: facebook, color: '#1877f2', bgColor: '#1877f2' },
@@ -101,12 +105,25 @@ const WPSPCustomTemplateModal = ({
   const [customTemplates, setCustomTemplates] = useState({});
   const [characterCount, setCharacterCount] = useState(0);
   const [saveText, setSaveText] = useState(__('Save', 'wp-scheduled-posts'));
+  const [saveError, setSaveError] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const [isUpdatingContent, setIsUpdatingContent] = useState(false);
   const [allPlatformData, setAllPlatformData] = useState({});
   const [apiTemplateData, setApiTemplateData] = useState({});
   const [hasLoadedScheduling, setHasLoadedScheduling] = useState(false);
   const [scheduleData, setScheduleData] = useState(getDefaultScheduleData(postStatus));
+  const [isAICaptionOpen, setIsAICaptionOpen] = useState(false);
+  const [hasFetchedTemplates, setHasFetchedTemplates] = useState(false);
+  const hasSeededDefaultsRef = useRef(false);
+
+  // The panel header's "Write With AI" button opens this modal with a flag set so
+  // the AI Caption drawer appears immediately. Consume and clear the flag once.
+  useEffect(() => {
+    if (state.autoOpenAICaption) {
+      setIsAICaptionOpen(true);
+      dispatch({ type: 'SET_AUTO_OPEN_AI_CAPTION', payload: false });
+    }
+  }, [state.autoOpenAICaption, dispatch]);
 
   // API functions for data management
   const fetchTemplateData = useCallback(async () => {
@@ -173,6 +190,31 @@ const WPSPCustomTemplateModal = ({
     }
     return Array.from(new Set(ids));
   }, [selectedProfile, selectedPlatform, getProfileStorageId]);
+
+  // Default profile selection for a platform on a new post: only enabled profiles
+  // (status !== false), and on the free plan capped to the first one per platform.
+  // This mirrors Helper::get_social_profile() so the UI matches what is shared.
+  const getDefaultProfileIdsForPlatform = useCallback((platform) => {
+    const list = (socialProfiles && socialProfiles[platform]) || [];
+    const enabled = list.filter((profile) => profile.status !== false);
+    const allowed = isPro ? enabled : enabled.slice(0, 1);
+    const ids = allowed
+      .map((profile) => getProfileStorageId(platform, profile))
+      .filter(Boolean);
+    return platform === 'pinterest' ? ids : Array.from(new Set(ids));
+  }, [socialProfiles, getProfileStorageId, isPro]);
+
+  // Whether this post already has a saved custom template/selection. New posts have
+  // none, which is how we know to default-select everything.
+  const hasSavedCustomTemplate = useMemo(() => (
+    SOCIAL_PLATFORMS.some((platform) => {
+      const data = apiTemplateData[platform];
+      if (!data) return false;
+      const hasTpl = typeof data.template === 'string' && data.template.trim() !== '';
+      const hasProf = Array.isArray(data.profiles) && data.profiles.length > 0;
+      return hasTpl || hasProf;
+    })
+  ), [apiTemplateData]);
 
   const setUseGlobalTemplatePlatform = useCallback((platform, checked) => {
     const updateData = (prev) => ({
@@ -268,8 +310,9 @@ const WPSPCustomTemplateModal = ({
   const handleGlobalSave = async () => {
     try {
       setIsSaving(true);
+      setSaveError('');
       setSaveText(isUpdatingContent ? __('Updating...', 'wp-scheduled-posts') : __('Saving...', 'wp-scheduled-posts'));
-      
+
       const platformsToSave = [];
       
       // Get current platform data
@@ -328,6 +371,13 @@ const WPSPCustomTemplateModal = ({
       }
       
     } catch (error) {
+      // The REST endpoint returns the specific reason(s) in `errors` (e.g. a
+      // platform's caption exceeding its character limit). Surface them instead
+      // of a generic "Save Failed" so the user knows what to fix.
+      const detail = Array.isArray(error?.errors) && error.errors.length
+        ? error.errors.join(' ')
+        : error?.message || '';
+      setSaveError(detail);
       setSaveText(__('Save Failed', 'wp-scheduled-posts'));
       setTimeout(() => setSaveText(isUpdatingContent ? __('Update', 'wp-scheduled-posts') : __('Save', 'wp-scheduled-posts')), 2000);
       console.error('Error saving templates:', error);
@@ -445,7 +495,7 @@ const WPSPCustomTemplateModal = ({
         setSelectedProfile(profilesToSet);
         setIsUpdatingContent(true);
       } else {
-        setCustomTemplates(prev => ({ ...prev, [selectedPlatform]: '{title} {content} {url} {tags}' }));
+        setCustomTemplates(prev => ({ ...prev, [selectedPlatform]: DEFAULT_TEMPLATE }));
         setSelectedProfile([]);
         setSaveText(__('Save', 'wp-scheduled-posts'));
         setIsUpdatingContent(false);
@@ -456,8 +506,42 @@ const WPSPCustomTemplateModal = ({
   useEffect(() => {
       // Clear any temporary data when opening modal
       setAllPlatformData({});
-      fetchTemplateData();
+      (async () => {
+        await fetchTemplateData();
+        setHasFetchedTemplates(true);
+      })();
   }, [fetchTemplateData]); // On mount
+
+  // For a brand-new post with no saved custom template, default the selection to
+  // every enabled platform with all of its profiles. Users can then deselect from
+  // "Manage Social Sharing". This mirrors the backend default (no custom template =
+  // share to all enabled profiles), and seeding every enabled platform ensures a
+  // Save persists them all — otherwise enabling the custom template would silently
+  // stop sharing on the platforms the user never opened.
+  useEffect(() => {
+    if (hasSeededDefaultsRef.current) return;
+    if (!hasFetchedTemplates || isProfilesLoading) return;
+
+    // Existing post that already has saved selections — respect them, don't seed.
+    if (hasSavedCustomTemplate) {
+      hasSeededDefaultsRef.current = true;
+      return;
+    }
+
+    const seeded = {};
+    SOCIAL_PLATFORMS.forEach((platform) => {
+      if (!social_media_enabled[platform]) return;
+      const profileIds = getDefaultProfileIdsForPlatform(platform);
+      if (!profileIds.length) return;
+      seeded[platform] = { template: DEFAULT_TEMPLATE, profiles: profileIds, is_global: '' };
+    });
+
+    if (Object.keys(seeded).length) {
+      // Preserve any interaction that already happened (`prev` wins).
+      setAllPlatformData((prev) => ({ ...seeded, ...prev }));
+    }
+    hasSeededDefaultsRef.current = true;
+  }, [hasFetchedTemplates, isProfilesLoading, hasSavedCustomTemplate, social_media_enabled, getDefaultProfileIdsForPlatform]);
 
   const availableProfiles = getAvailableProfiles();
   const currentLimit = platformLimits[selectedPlatform] || 1000;
@@ -499,9 +583,72 @@ const WPSPCustomTemplateModal = ({
     }
   }, [globalProfile, selectedPlatform, setUseGlobalTemplatePlatform]);
   
+  // Handle AI caption generation. Sends the drawer form values to the AI endpoint and
+  // writes the returned captions back into the matching platform templates.
+  // Fetch captions for the drawer's results screen. Returns { platform: caption }
+  // so the drawer can show them for review/editing — nothing is inserted here.
+  const handleGenerateCaption = useCallback(async (payload, { signal } = {}) => {
+    const { platforms: targetPlatforms = [] } = payload || {};
+
+    const response = await wp.apiFetch({
+      path: `/wp-scheduled-posts/v1/ai-caption/${postId}`,
+      method: 'POST',
+      data: payload,
+      signal,
+    });
+
+    // The user hit Stop while the request was in flight — discard the result.
+    if (signal?.aborted) return null;
+
+    // Expected shape: { captions: { facebook: '...', twitter: '...' } }
+    const captions = response?.captions || response?.data?.captions;
+    if (!captions || typeof captions !== 'object') return null;
+
+    const generated = {};
+    targetPlatforms.forEach((platform) => {
+      if (captions[platform]) generated[platform] = captions[platform];
+    });
+    return generated;
+  }, [postId]);
+
+  // Called from the results screen — either "Insert All Captions" (closes the
+  // drawer) or a per-platform "Insert" (close=false keeps the drawer open).
+  const handleInsertCaptions = useCallback((captions, { close = true } = {}) => {
+    if (!captions || typeof captions !== 'object') return;
+    const generatedPlatforms = Object.keys(captions).filter((platform) => captions[platform]);
+
+    // Update the editor for the currently visible platform.
+    setCustomTemplates((prev) => {
+      const next = { ...prev };
+      generatedPlatforms.forEach((platform) => {
+        next[platform] = captions[platform];
+      });
+      return next;
+    });
+
+    // Persist into the temp per-platform store so switching platforms doesn't reset
+    // the generated caption back to the default placeholder, and so Save picks it up.
+    setAllPlatformData((prev) => {
+      const next = { ...prev };
+      generatedPlatforms.forEach((platform) => {
+        next[platform] = {
+          ...(next[platform] || {}),
+          template: captions[platform],
+          profiles: next[platform]?.profiles || [],
+          is_global: next[platform]?.is_global || '',
+        };
+      });
+      return next;
+    });
+
+    if (close) {
+      setIsAICaptionOpen(false);
+    }
+  }, []);
+
   return (
     <div className={`wpsp-modal-content ${availableProfiles.length === 0 ? 'no-profile-found' : ''}`}>
-      <Header/>
+      <Header onOpenAICaption={() => setIsAICaptionOpen(true)} />
       <div className="wpsp-modal-layout">
         {/* Left Side */}
         <div className="wpsp-modal-left">
@@ -579,6 +726,11 @@ const WPSPCustomTemplateModal = ({
       {/* Footer */}
       <div className="wpsp-modal--footer">
         <div className="wpsp-custom-social-footer-wrapper">
+          {saveError && (
+            <div className="wpsp-custom-social-footer-error" role="alert">
+              {saveError}
+            </div>
+          )}
           <div className="wpsp-custom-social-footer-right">
             <button  className="btn primary-btn" onClick={handleGlobalSave} disabled={isSaving || !hasAnyChanges()}>
               {saveText}
@@ -586,6 +738,17 @@ const WPSPCustomTemplateModal = ({
           </div>
         </div>
       </div>
+
+      {/* AI Caption Drawer */}
+      <AICaptionDrawer
+        isOpen={isAICaptionOpen}
+        onClose={() => setIsAICaptionOpen(false)}
+        platforms={platforms}
+        social_media_enabled={social_media_enabled}
+        selectedPlatform={selectedPlatform}
+        onGenerate={handleGenerateCaption}
+        onInsertCaptions={handleInsertCaptions}
+      />
     </div>
   );
 };

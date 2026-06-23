@@ -998,6 +998,10 @@
         }
     }
     .wpsp-modal--header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
         padding: 16px 24px;
         background: #fff;
         border-bottom: 1px solid #f0f0f1;
@@ -1007,6 +1011,20 @@
         left: 0;
         right: 0;
         z-index: 10;
+
+        .wpsp-modal--header--left {
+            display: flex;
+            align-items: center;
+        }
+
+        .wpsp-modal--header--right {
+            display: flex;
+            align-items: center;
+
+            .wpsp-ai-caption-btn {
+                margin-right: 0;
+            }
+        }
     }
 
     .wpsp-modal--footer {
@@ -1178,6 +1196,64 @@
         }
         &:focus:not(:disabled) {
             box-shadow: none;
+            outline: 0;
+        }
+    }
+    /* "AI Caption" pill in the modal header — gradient border (cyan -> purple),
+       sparkle icon and gradient-purple label, matching the SchedulePress UI design. */
+    .wpsp-ai-caption-btn {
+        flex: 0 0 auto;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 9px 16px;
+        border: none;
+        border-radius: 8px;
+        background: linear-gradient(135deg, #18AAFF 0%, #6C62FF 100%);
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1;
+        color: #fff;
+        white-space: nowrap;
+        margin-right: 8px;
+        box-shadow: 0 4px 12px rgba(108, 98, 255, 0.35);
+        transition: box-shadow 0.15s ease, transform 0.15s ease, filter 0.15s ease;
+
+        &__icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+
+            svg {
+                display: block;
+                width: 20px;
+                height: 20px;
+            }
+
+            // White sparkle so it reads on the filled gradient button.
+            svg path {
+                fill: #fff;
+            }
+        }
+
+        &__text {
+            display: inline-block;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        &:hover:not(:disabled) {
+            box-shadow: 0 6px 18px rgba(108, 98, 255, 0.45);
+            transform: translateY(-1px);
+            filter: brightness(1.04);
+        }
+
+        &:focus:not(:disabled) {
+            box-shadow: 0 0 0 3px rgba(108, 98, 255, 0.35);
             outline: 0;
         }
     }
@@ -1596,6 +1672,842 @@ button.components-button.wpsp-add-template-btn:disabled {
   padding: 0;
   display: flex;
   flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ============================================================
+   AI Caption Drawer — slides in from the right edge of the
+   Create Social Message modal (Figma: "Write Caption with AI").
+   ============================================================ */
+.wpsp-ai-drawer-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(20, 20, 43, 0.18);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+  /* Above the sticky modal header (z-index 9999999) so the drawer covers it */
+  z-index: 10000000;
+
+  &.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.wpsp-ai-drawer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 415px;
+  max-width: 100%;
+  background: #fff;
+  border-left: 1px solid #ECEFF5;
+  border-radius: 0 14px 14px 0;
+  box-shadow: 0 4px 205px 0 rgba(0, 1, 35, 0.18);
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 10000001;
+  font-family: 'Inter', sans-serif;
+
+  &.is-open {
+    transform: translateX(0);
+  }
+
+  /* Header */
+  &__header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 20px 16px;
+    border-bottom: 1px solid #ECEFF5;
+    overflow: hidden;
+    flex: 0 0 auto;
+  }
+
+  &__glow {
+    position: absolute;
+    top: -70px;
+    right: -30px;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(108, 98, 255, 0.22) 0%, rgba(24, 170, 255, 0.10) 45%, rgba(255, 255, 255, 0) 70%);
+    pointer-events: none;
+  }
+
+  &__header-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    flex: 0 0 auto;
+
+    svg { display: block; width: 18px; height: 18px; }
+  }
+
+  &__title {
+    flex: 1;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: #1B1B50;
+  }
+
+  &__close {
+    flex: 0 0 auto;
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    transition: background-color 0.15s ease;
+
+    svg { fill: #6E6E8D; }
+    &:hover { background: #F3F2FF; }
+  }
+
+  /* Body */
+  &__body {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__card {
+    background: #F9F8FD;
+    border: 1px solid #ECEFF5;
+    border-radius: 4px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  &__card-title {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;
+    color: #1B1B50;
+  }
+
+  &__platforms {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 16px;
+  }
+
+  /* More+ trigger + floating platform popover.
+     The popover anchors to `&__platforms` (full-width row), not this button,
+     so it stays right-aligned inside the drawer wherever More+ wraps. */
+  &__more-wrap {
+    display: inline-flex;
+  }
+
+  &__more {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border: none;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    color: #6C62FF;
+    line-height: 1.2;
+
+    &:hover,
+    &.is-active { color: #5249e0; }
+  }
+
+  &__more-dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ECEFF5;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(27, 27, 80, 0.12);
+    padding: 6px;
+    z-index: 30;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__more-item {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px 10px;
+    border-radius: 6px;
+    transition: background-color 0.15s ease;
+
+    .wpsp-ai-checkbox__label {
+      font-size: 13px;
+      color: #475467;
+    }
+
+    &:hover { background: #F9F8FD; }
+  }
+
+  &__inline-options {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px 24px;
+  }
+
+  /* Prompt textarea */
+  .wp-core-ui &__textarea,
+  &__textarea {
+    width: 100%;
+    min-height: 72px;
+    resize: vertical;
+    box-sizing: border-box;
+    padding: 8px 12px;
+    border: 1px solid #ECEFF5;
+    border-radius: 4px;
+    background: #fff;
+    font-family: inherit;
+    font-size: 12px;
+    line-height: 1.4;
+    color: #1B1B50;
+    box-shadow: none;
+
+    &::placeholder { color: #6E6E8D; }
+    &:focus { border-color: #6C62FF; outline: none; box-shadow: none; }
+  }
+
+  /* Toggle (auto-generate) */
+  &__toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+
+  &__toggle-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: #6E6E8D;
+    line-height: 1.2;
+  }
+
+  &__toggle-icon {
+    display: inline-flex;
+    width: 14px;
+    height: 14px;
+    svg { display: block; }
+  }
+
+  /* Inline error above the footer */
+  &__error {
+    flex: 0 0 auto;
+    margin: 0 16px;
+    padding: 10px 12px;
+    border: 1px solid #f5c2c2;
+    border-radius: 6px;
+    background: #fdecec;
+    color: #c0392b;
+    font-size: 12px;
+    line-height: 1.4;
+    margin-bottom: 10px;
+  }
+
+  /* Footer */
+  &__footer {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 16px;
+    padding: 12px;
+    border-top: 1px solid #ECEFF5;
+    background: #fff;
+    box-shadow: 0 -1px 8px rgba(0, 0, 0, 0.06);
+  }
+
+  &__cancel {
+    height: 48px;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 6px;
+    background: #F3F2FF;
+    color: #6C62FF;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  &__generate {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    height: 48px;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    cursor: pointer;
+    background: linear-gradient(163deg, #CEF9FF 1%, #18AAFF 10%, #6C62FF 29%, #8663FF 52%, #DB94FF 79%, #ED4AFF 99%);
+    transition: filter 0.15s ease, opacity 0.15s ease;
+
+    &:hover:not(:disabled) { filter: brightness(1.03); }
+    &:disabled { opacity: 0.6; cursor: not-allowed; }
+  }
+
+  &__generate-icon {
+    display: inline-flex;
+    width: 18px;
+    height: 18px;
+    svg { display: block; }
+  }
+
+  /* "Generating…" button shown in place of Generate while captions stream in */
+  &__stop {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 48px;
+    flex: 0 0 auto;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 6px;
+    background: #F3F2FF;
+    color: #6C62FF;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+
+    &:hover { background: #E9E7FF; }
+  }
+
+  &__stop-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    flex: 0 0 auto;
+    border: 2px solid rgba(108, 98, 255, 0.3);
+    border-top-color: #6C62FF;
+    border-radius: 50%;
+    animation: wpsp-ai-stop-spin 0.7s linear infinite;
+  }
+
+  @keyframes wpsp-ai-stop-spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* Loading state — skeleton result cards while captions generate */
+  &__skeletons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+/* Shimmering placeholder pieces inside the loading-state cards */
+.wpsp-ai-skeleton {
+  display: inline-block;
+  flex: 0 0 auto;
+  background: #DEDEEB;
+  border-radius: 8px;
+  animation: wpsp-ai-skeleton-pulse 1.4s ease-in-out infinite;
+
+  &__dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+
+    &--sm { width: 9px; height: 9px; }
+  }
+
+  &__bar {
+    height: 10px;
+
+    &--name { width: 72px; }
+    &--pill { width: 52px; height: 8px; }
+  }
+
+  &__line {
+    display: block;
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+
+    &--md { width: 92%; }
+    &--sm { width: 84%; }
+  }
+
+  &__edit {
+    align-self: flex-end;
+    width: 26px;
+    height: 8px;
+    border-radius: 4px;
+  }
+}
+
+/* Skeleton card mirroring the generated-caption result card layout */
+.wpsp-ai-skeleton-card {
+  background: rgba(249, 248, 253, 0.8);
+  border: 1px solid #ECEFF5;
+  border-radius: 4px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  &__head {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  &__pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 4px;
+    background: #fff;
+    border-radius: 17px;
+  }
+
+  &__chevron { margin-left: auto; }
+
+  &__box {
+    background: #fff;
+    border: 1px solid #ECEFF5;
+    border-radius: 4px;
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+}
+
+@keyframes wpsp-ai-skeleton-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+/* Results screen — generated captions in per-platform accordion cards */
+.wpsp-ai-drawer__results {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.wpsp-ai-result-card {
+  background: rgba(249, 248, 253, 0.8);
+  border: 1px solid #ECEFF5;
+  border-radius: 4px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  &__head {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  &__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    flex: 0 0 auto;
+
+    svg { display: block; width: 16px; height: 16px; }
+  }
+
+  &__name {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: #1B1B50;
+  }
+
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 6px;
+    background: #fff;
+    border: 1px solid #ECEFF5;
+    border-radius: 17px;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: #6C62FF;
+  }
+
+  &__badge-icon {
+    display: inline-flex;
+    width: 11px;
+    height: 11px;
+
+    svg { display: block; width: 11px; height: 11px; }
+  }
+
+  &__chevron {
+    display: inline-flex;
+    flex: 0 0 auto;
+    margin-left: auto;
+    color: #98A2B3;
+    transition: transform 0.2s ease;
+
+    svg { display: block; width: 16px; height: 16px; }
+  }
+
+  &.is-expanded &__chevron { transform: rotate(180deg); }
+
+  &__box {
+    background: #fff;
+    border: 1px solid #ECEFF5;
+    border-radius: 4px;
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__text {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #475467;
+    white-space: pre-wrap;
+    word-break: break-word;
+
+    &.is-clamped {
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  }
+
+  &__read-more {
+    align-self: flex-start;
+    padding: 0;
+    border: none;
+    background: transparent;
+    font-size: 12px;
+    font-weight: 500;
+    color: #6C62FF;
+    cursor: pointer;
+
+    &:hover { color: #5249e0; }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+
+  &__char-count {
+    margin-right: auto;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: #98A2B3;
+
+    &.is-over-limit { color: #D92D20; }
+  }
+
+  &__edit {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    font-size: 12px;
+    color: #6E6E8D;
+    cursor: pointer;
+    transition: color 0.15s ease;
+
+    svg { display: block; }
+    &:hover { color: #6C62FF; }
+  }
+
+  &__insert {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 12px;
+    border: 1px solid #6C62FF;
+    border-radius: 6px;
+    background: #6C62FF;
+    font-size: 12px;
+    font-weight: 500;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+
+    svg { display: block; }
+
+    &:hover:not(:disabled) {
+      background: #5249e0;
+      border-color: #5249e0;
+    }
+
+    &:focus { outline: 0; box-shadow: 0 0 0 3px rgba(108, 98, 255, 0.15); }
+
+    // Transient confirmation flash — button stays clickable for repeat inserts.
+    &.is-inserted {
+      background: #ECFDF3;
+      border-color: #ABEFC6;
+      color: #067647;
+
+      &:hover { background: #d6fae4; border-color: #ABEFC6; }
+    }
+  }
+
+  &__textarea {
+    min-height: 96px;
+  }
+}
+
+/* Custom checkbox used across the drawer */
+.wpsp-ai-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  user-select: none;
+
+  input { position: absolute; opacity: 0; width: 0; height: 0; }
+
+  &__box {
+    width: 16px;
+    height: 16px;
+    flex: 0 0 auto;
+    border: 1.5px solid #C5C3D6;
+    border-radius: 4px;
+    background: #fff;
+    position: relative;
+    transition: all 0.15s ease;
+  }
+
+  &__label {
+    font-size: 12px;
+    color: #475467;
+    line-height: 1.2;
+  }
+
+  input:checked + &__box {
+    background: #6C62FF;
+    border-color: #6C62FF;
+  }
+
+  input:checked + &__box::after {
+    content: '';
+    position: absolute;
+    left: 4.5px;
+    top: 1.5px;
+    width: 4px;
+    height: 8px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+
+  input:focus-visible + &__box {
+    box-shadow: 0 0 0 3px rgba(108, 98, 255, 0.2);
+  }
+}
+
+/* Custom switch used for the "Auto-generate" toggle */
+.wpsp-ai-switch {
+  position: relative;
+  display: inline-flex;
+  flex: 0 0 auto;
+  width: 36px;
+  height: 18px;
+
+  input { position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; z-index: 1; }
+
+  &__track {
+    position: absolute;
+    inset: 0;
+    background: #C5C3D6;
+    border-radius: 50px;
+    transition: background 0.2s ease;
+
+    &::after {
+      content: '';
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      left: 2px;
+      top: 2px;
+      background: #fff;
+      transition: left 0.2s ease;
+    }
+  }
+
+  input:checked + &__track {
+    background: #6C62FF;
+    &::after { left: 20px; }
+  }
+}
+
+/* Custom select dropdown — replaces the native <select> for the drawer's
+   option fields (Tone & Style, Caption Length). Trigger button + floating
+   menu with a checkmark on the active option. */
+.wpsp-ai-select {
+  position: relative;
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+
+  &__trigger {
+    width: 100%;
+    height: 40px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 0 12px;
+    border: 1px solid #ECEFF5;
+    border-radius: 4px;
+    background: #fff;
+    font-family: inherit;
+    font-size: 12px;
+    color: #1B1B50;
+    cursor: pointer;
+    box-shadow: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+    &:focus-visible {
+      border-color: #6C62FF;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(108, 98, 255, 0.15);
+    }
+  }
+
+  &.is-open &__trigger { border-color: #6C62FF; }
+
+  &__value {
+    flex: 1 1 auto;
+    min-width: 0;
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  &__chevron {
+    display: inline-flex;
+    flex: 0 0 auto;
+    color: #98A2B3;
+    transition: transform 0.2s ease;
+
+    svg { display: block; }
+  }
+
+  &.is-open &__chevron { transform: rotate(180deg); }
+
+  &__menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 6px;
+    list-style: none;
+    background: #fff;
+    border: 1px solid #ECEFF5;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(27, 27, 80, 0.12);
+    z-index: 30;
+    max-height: 240px;
+    overflow-y: auto;
+  }
+
+  &__option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    line-height: 1.2;
+    color: #475467;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+
+    &:hover { background: #F9F8FD; }
+
+    &.is-selected {
+      color: #6C62FF;
+      font-weight: 500;
+    }
+  }
+
+  &__check {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    flex: 0 0 auto;
+    color: #6C62FF;
+
+    svg { display: block; }
+  }
+
+  &__option-label {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+}
+
+/* Narrow viewports — let the drawer take the full modal width */
+@media (max-width: 600px) {
+  .wpsp-ai-drawer { width: 100%; border-radius: 0; }
 }
 
 .wpsp-modal-layout {
@@ -2759,6 +3671,13 @@ border-radius: 8px;
   display: flex;
   justify-content: center;
   gap: 10px;
+}
+.wpsp-custom-template-modal .wpsp-custom-social-footer-error {
+  color: #d63638;
+  font-size: 13px;
+  line-height: 1.4;
+  max-width: 70%;
+  text-align: left;
 }
 .wpsp-add-social-message-text {
   position: relative;
