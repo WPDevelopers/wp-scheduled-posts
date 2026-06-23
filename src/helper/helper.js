@@ -28,3 +28,22 @@ export const fetchPinterestSection = async (body) => {
       return res;
   } );
 };
+
+
+/**
+ * Update Pro Settings
+ * 
+ * @param {number} postId 
+ * @param {object} data 
+ * @returns {Promise}
+ */
+export const updateProSettings = ( postId, data ) => {
+    return wp.apiFetch({
+        path: `/wp-scheduled-posts/v1/update-settings/${postId}`,
+        method: 'POST',
+        data: {
+            ...data,
+            post_id: postId,
+        }
+    });
+};
