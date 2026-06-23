@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useCallback } from 'react';
+import React, { useContext, useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { Button } from '@wordpress/components';
 const { __ } = wp.i18n;
 import { AppContext } from '../../../context/AppContext';
@@ -37,6 +37,8 @@ const platformLimits = {
   threads: 480,
   google_business: 1500,
 };
+
+const DEFAULT_TEMPLATE = '{title} {content} {url} {tags}';
 
 const getDefaultScheduleData = (postStatus) => {
   const isPublished = postStatus === 'publish';
@@ -78,6 +80,7 @@ const WPSPCustomTemplateModal = ({
   const socialBannerUrl = state?.socialShareSettings?.socialBannerUrl;
   const bannerImage = uploadSocialShareBanner || socialBannerUrl || featuredImageUrl;
   const social_media_enabled = window.WPSchedulePostsFree?.social_media_enabled || {};
+  const isPro = !!window.WPSchedulePostsFree?.is_pro;
   
   const platforms = [
     { platform: 'facebook', icon: facebook, color: '#1877f2', bgColor: '#1877f2' },
@@ -110,6 +113,8 @@ const WPSPCustomTemplateModal = ({
   const [hasLoadedScheduling, setHasLoadedScheduling] = useState(false);
   const [scheduleData, setScheduleData] = useState(getDefaultScheduleData(postStatus));
   const [isAICaptionOpen, setIsAICaptionOpen] = useState(false);
+  const [hasFetchedTemplates, setHasFetchedTemplates] = useState(false);
+  const hasSeededDefaultsRef = useRef(false);
 
   // The panel header's "Write With AI" button opens this modal with a flag set so
   // the AI Caption drawer appears immediately. Consume and clear the flag once.
@@ -185,6 +190,31 @@ const WPSPCustomTemplateModal = ({
     }
     return Array.from(new Set(ids));
   }, [selectedProfile, selectedPlatform, getProfileStorageId]);
+
+  // Default profile selection for a platform on a new post: only enabled profiles
+  // (status !== false), and on the free plan capped to the first one per platform.
+  // This mirrors Helper::get_social_profile() so the UI matches what is shared.
+  const getDefaultProfileIdsForPlatform = useCallback((platform) => {
+    const list = (socialProfiles && socialProfiles[platform]) || [];
+    const enabled = list.filter((profile) => profile.status !== false);
+    const allowed = isPro ? enabled : enabled.slice(0, 1);
+    const ids = allowed
+      .map((profile) => getProfileStorageId(platform, profile))
+      .filter(Boolean);
+    return platform === 'pinterest' ? ids : Array.from(new Set(ids));
+  }, [socialProfiles, getProfileStorageId, isPro]);
+
+  // Whether this post already has a saved custom template/selection. New posts have
+  // none, which is how we know to default-select everything.
+  const hasSavedCustomTemplate = useMemo(() => (
+    SOCIAL_PLATFORMS.some((platform) => {
+      const data = apiTemplateData[platform];
+      if (!data) return false;
+      const hasTpl = typeof data.template === 'string' && data.template.trim() !== '';
+      const hasProf = Array.isArray(data.profiles) && data.profiles.length > 0;
+      return hasTpl || hasProf;
+    })
+  ), [apiTemplateData]);
 
   const setUseGlobalTemplatePlatform = useCallback((platform, checked) => {
     const updateData = (prev) => ({
@@ -465,7 +495,7 @@ const WPSPCustomTemplateModal = ({
         setSelectedProfile(profilesToSet);
         setIsUpdatingContent(true);
       } else {
-        setCustomTemplates(prev => ({ ...prev, [selectedPlatform]: '{title} {content} {url} {tags}' }));
+        setCustomTemplates(prev => ({ ...prev, [selectedPlatform]: DEFAULT_TEMPLATE }));
         setSelectedProfile([]);
         setSaveText(__('Save', 'wp-scheduled-posts'));
         setIsUpdatingContent(false);
@@ -476,8 +506,42 @@ const WPSPCustomTemplateModal = ({
   useEffect(() => {
       // Clear any temporary data when opening modal
       setAllPlatformData({});
-      fetchTemplateData();
+      (async () => {
+        await fetchTemplateData();
+        setHasFetchedTemplates(true);
+      })();
   }, [fetchTemplateData]); // On mount
+
+  // For a brand-new post with no saved custom template, default the selection to
+  // every enabled platform with all of its profiles. Users can then deselect from
+  // "Manage Social Sharing". This mirrors the backend default (no custom template =
+  // share to all enabled profiles), and seeding every enabled platform ensures a
+  // Save persists them all — otherwise enabling the custom template would silently
+  // stop sharing on the platforms the user never opened.
+  useEffect(() => {
+    if (hasSeededDefaultsRef.current) return;
+    if (!hasFetchedTemplates || isProfilesLoading) return;
+
+    // Existing post that already has saved selections — respect them, don't seed.
+    if (hasSavedCustomTemplate) {
+      hasSeededDefaultsRef.current = true;
+      return;
+    }
+
+    const seeded = {};
+    SOCIAL_PLATFORMS.forEach((platform) => {
+      if (!social_media_enabled[platform]) return;
+      const profileIds = getDefaultProfileIdsForPlatform(platform);
+      if (!profileIds.length) return;
+      seeded[platform] = { template: DEFAULT_TEMPLATE, profiles: profileIds, is_global: '' };
+    });
+
+    if (Object.keys(seeded).length) {
+      // Preserve any interaction that already happened (`prev` wins).
+      setAllPlatformData((prev) => ({ ...seeded, ...prev }));
+    }
+    hasSeededDefaultsRef.current = true;
+  }, [hasFetchedTemplates, isProfilesLoading, hasSavedCustomTemplate, social_media_enabled, getDefaultProfileIdsForPlatform]);
 
   const availableProfiles = getAvailableProfiles();
   const currentLimit = platformLimits[selectedPlatform] || 1000;

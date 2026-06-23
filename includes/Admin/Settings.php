@@ -1590,7 +1590,7 @@ class Settings
                             'name' => 'ai_section',
                             'type' => 'section',
                             'label' => __('AI Caption Writing', 'wp-scheduled-posts'),
-                            'sub_title' => __('Connect your OpenAI account to enable AI-powered caption writing for your social posts.', 'wp-scheduled-posts'),
+                            'sub_title' => __('Connect your OpenAI account to instantly generate highly engaging social media captions right from your editor.', 'wp-scheduled-posts'),
                             'priority' => 5,
                             'showSubmit' => true,
                             'fields' => [

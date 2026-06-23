@@ -167,7 +167,7 @@ const OpenAI = (props) => {
         )}
 
         <p className="wprf-openai-help">
-          {__('Your API key is stored on your site and used only to generate AI captions for your social posts.', 'wp-scheduled-posts')}
+          {__('Your API key is stored securely on your website. It is strictly used to generate captions for your social posts and nothing else.', 'wp-scheduled-posts')}
         </p>
       </div>
     </div>

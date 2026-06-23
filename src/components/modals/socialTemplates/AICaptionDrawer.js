@@ -38,6 +38,19 @@ const PLATFORM_LABELS = {
   google_business: 'Google Business',
 };
 
+// Per-platform character limits — kept in sync with platformLimits in
+// CustomTemplateModal so the result-card count matches the editor's limit.
+const PLATFORM_CHAR_LIMITS = {
+  facebook: 63206,
+  twitter: 280,
+  linkedin: 1300,
+  pinterest: 500,
+  instagram: 2100,
+  medium: 45000,
+  threads: 480,
+  google_business: 1500,
+};
+
 const TONE_OPTIONS = [
   { value: 'professional', label: __('Professional', 'wp-scheduled-posts') },
   { value: 'casual', label: __('Casual', 'wp-scheduled-posts') },
@@ -46,16 +59,16 @@ const TONE_OPTIONS = [
   { value: 'bold', label: __('Bold', 'wp-scheduled-posts') },
   { value: 'informative', label: __('Informative', 'wp-scheduled-posts') },
   // Derives tone & style from the post's own content instead of a fixed preset.
-  { value: 'post_specific', label: __('Post Specific', 'wp-scheduled-posts') },
+  { value: 'post_specific', label: __('Match Post Tone', 'wp-scheduled-posts') },
 ];
 
 // Character ranges shown to the user double as the target the AI generates to.
 // Keep these ranges in sync with $length_guide in includes/API/AICaption.php.
 const LENGTH_OPTIONS = [
   { value: 'auto', label: __('Auto (Recommended)', 'wp-scheduled-posts') },
-  { value: 'short', label: __('Short (50-120 chars)', 'wp-scheduled-posts') },
-  { value: 'medium', label: __('Medium (120-250 chars)', 'wp-scheduled-posts') },
-  { value: 'long', label: __('Long (250-500 chars)', 'wp-scheduled-posts') },
+  { value: 'short', label: __('Short (Up to 280 characters - Ideal for X)', 'wp-scheduled-posts') },
+  { value: 'medium', label: __('Medium (Up to 500 characters)', 'wp-scheduled-posts') },
+  { value: 'long', label: __('Long (500+ characters - Ideal for LinkedIn & Facebook)', 'wp-scheduled-posts') },
 ];
 
 // Sparkle icon used inside the gradient "Generate Captions" button (rendered white).
@@ -223,6 +236,15 @@ const ResultCard = ({
   const isLong = caption.length > READ_MORE_THRESHOLD;
   const [showFull, setShowFull] = useState(false);
 
+  const charCount = caption.length;
+  const charLimit = PLATFORM_CHAR_LIMITS[platformKey];
+  const isOverLimit = charLimit ? charCount > charLimit : false;
+  const charCountNode = (
+    <span className={`wpsp-ai-result-card__char-count ${isOverLimit ? 'is-over-limit' : ''}`}>
+      {charLimit ? `${charCount}/${charLimit}` : charCount}
+    </span>
+  );
+
   return (
     <div className={`wpsp-ai-result-card ${isExpanded ? 'is-expanded' : ''}`}>
       <button
@@ -251,6 +273,7 @@ const ResultCard = ({
                 autoFocus
               />
               <div className="wpsp-ai-result-card__actions">
+                {charCountNode}
                 <button type="button" className="wpsp-ai-result-card__edit" onClick={onStopEdit}>
                   {__('Done', 'wp-scheduled-posts')}
                 </button>
@@ -273,6 +296,7 @@ const ResultCard = ({
                 </button>
               )}
               <div className="wpsp-ai-result-card__actions">
+                {charCountNode}
                 <button
                   type="button"
                   className={`wpsp-ai-result-card__insert ${isInserted ? 'is-inserted' : ''}`}
@@ -602,7 +626,7 @@ const AICaptionDrawer = ({
             <p className="wpsp-ai-drawer__card-title">{__('Prompt', 'wp-scheduled-posts')}</p>
             <textarea
               className="wpsp-ai-drawer__textarea"
-              placeholder={__('Write your prompt', 'wp-scheduled-posts')}
+              placeholder={__('Write a catchy announcement for our new feature. Include a few fun emojis.', 'wp-scheduled-posts')}
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
               rows={3}

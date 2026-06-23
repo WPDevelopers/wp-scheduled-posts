@@ -2240,6 +2240,16 @@ button.components-button.wpsp-add-template-btn:disabled {
     gap: 12px;
   }
 
+  &__char-count {
+    margin-right: auto;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: #98A2B3;
+
+    &.is-over-limit { color: #D92D20; }
+  }
+
   &__edit {
     display: inline-flex;
     align-items: center;

@@ -15,7 +15,7 @@ const Header = ({ onOpenAICaption }) => {
             className="wpsp-add-social-message-text"
             style={{ display: 'flex', alignItems: 'normal', gap: 8 }}
           >
-            Add Social Message
+            Manage Social Sharing
 
             <a
               className="wpsp-custom-social-doc-link"
