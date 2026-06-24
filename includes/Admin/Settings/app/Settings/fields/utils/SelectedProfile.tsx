@@ -34,6 +34,9 @@ export default function SelectedProfile({ platform, item, handleSelectedProfileS
                         medium: (
                             <span className={`badge medium-profile`}>{ __('Profile', 'wp-scheduled-posts') }</span>
                         ),
+                        bluesky: (
+                            <span className={`badge bluesky-profile`}>{ __('Profile', 'wp-scheduled-posts') }</span>
+                        ),
                     }[platform]
                 }
                 <h4> { platform == 'pinterest' ? item?.default_board_name?.label : item?.name }</h4>

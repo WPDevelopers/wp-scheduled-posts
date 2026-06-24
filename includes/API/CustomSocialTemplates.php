@@ -159,7 +159,9 @@ class CustomSocialTemplates
             'pinterest' => ['template' => '', 'profiles' => [], 'is_global' => false],
             'instagram' => ['template' => '', 'profiles' => [], 'is_global' => false],
             'medium' => ['template' => '', 'profiles' => [], 'is_global' => false],
-            'threads' => ['template' => '', 'profiles' => [], 'is_global' => false]
+            'threads' => ['template' => '', 'profiles' => [], 'is_global' => false],
+            'google_business' => ['template' => '', 'profiles' => [], 'is_global' => false],
+            'bluesky' => ['template' => '', 'profiles' => [], 'is_global' => false]
         );
 
         update_post_meta($post_id, '_wpsp_custom_templates', $default_templates);
@@ -264,7 +266,7 @@ class CustomSocialTemplates
                 'platform' => array(
                     'required' => false,
                     'validate_callback' => function($param, $request, $key) {
-                        return in_array($param, ['facebook', 'twitter', 'linkedin', 'pinterest', 'instagram', 'medium', 'threads']);
+                        return in_array($param, ['facebook', 'twitter', 'linkedin', 'pinterest', 'instagram', 'medium', 'threads', 'google_business', 'bluesky']);
                     }
                 ),
                 'template' => array(
@@ -294,7 +296,7 @@ class CustomSocialTemplates
                 'platform' => array(
                     'required' => true,
                     'validate_callback' => function($param, $request, $key) {
-                        return in_array($param, ['facebook', 'twitter', 'linkedin', 'pinterest', 'instagram', 'medium', 'threads']);
+                        return in_array($param, ['facebook', 'twitter', 'linkedin', 'pinterest', 'instagram', 'medium', 'threads', 'google_business', 'bluesky']);
                     }
                 ),
             ),
@@ -542,7 +544,7 @@ class CustomSocialTemplates
         $is_global = $platform_data['is_global'] ?? false;
 
         // Validate platform
-        $valid_platforms = ['facebook', 'twitter', 'linkedin', 'pinterest', 'instagram', 'medium', 'threads', 'google_business'];
+        $valid_platforms = ['facebook', 'twitter', 'linkedin', 'pinterest', 'instagram', 'medium', 'threads', 'google_business', 'bluesky'];
         if (!in_array($platform, $valid_platforms)) {
             /* translators: %s: Name of the invalid social media platform */
             $validation_errors[] = sprintf(__('Invalid platform: %s', 'wp-scheduled-posts'), $platform);

@@ -1292,6 +1292,66 @@ class SocialProfile
                 wp_send_json_error($error->getMessage());
                 wp_die();
             }
+        } else if ($type == 'bluesky') {
+            // Bluesky (AT Protocol) — credential based: identifier (handle/email) + App Password.
+            try {
+                $identifier   = trim($app_id);
+                $app_password = trim($app_secret);
+                $pds          = WPSCP_BLUESKY_PDS;
+
+                $bluesky = new Bluesky();
+                $session = $bluesky->create_session($pds, $identifier, $app_password);
+                if (is_wp_error($session)) {
+                    wp_send_json_success(array('message' => $session->get_error_message()));
+                    wp_die();
+                }
+
+                $did         = $session->did;
+                $access_jwt  = $session->accessJwt;
+                $handle      = !empty($session->handle) ? $session->handle : $identifier;
+
+                // Fetch display name + avatar for a nicer profile card.
+                $name          = $handle;
+                $thumbnail_url = '';
+                $profile_res   = Helper::wpsp_curl(
+                    untrailingslashit($pds) . '/xrpc/app.bsky.actor.getProfile?actor=' . rawurlencode($did),
+                    '',
+                    'application/json',
+                    false,
+                    array('Authorization: Bearer ' . $access_jwt, 'Accept: application/json')
+                );
+                $profile_data = json_decode($profile_res['result']);
+                if (!empty($profile_data) && empty($profile_data->error)) {
+                    if (!empty($profile_data->displayName)) {
+                        $name = esc_html($profile_data->displayName);
+                    }
+                    if (!empty($profile_data->avatar)) {
+                        $uploaded      = $this->handle_thumbnail_upload($profile_data->avatar, $name);
+                        $thumbnail_url = !empty($uploaded) ? $uploaded : $profile_data->avatar;
+                    }
+                }
+
+                $current_user = wp_get_current_user();
+                $res          = array(
+                    'id'            => time(),
+                    '__id'          => esc_html($did),
+                    'app_id'        => $identifier,
+                    'app_secret'    => $app_password,
+                    'name'          => $name,
+                    'thumbnail_url' => $thumbnail_url,
+                    'type'          => 'profile',
+                    'status'        => true,
+                    'access_token'  => $access_jwt,
+                    'pds'           => $pds,
+                    'added_by'      => $current_user->user_login,
+                    'added_date'    => current_time('mysql'),
+                );
+                wp_send_json_success($res);
+                wp_die();
+            } catch (\Exception $error) {
+                wp_send_json_error($error->getMessage());
+                wp_die();
+            }
         }
     }
 

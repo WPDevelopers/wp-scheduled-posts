@@ -18,6 +18,8 @@ import {
     mediumWithBG,
     threadsWithBG,
     googleMyBusinessWithBG,
+    bluesky,
+    blueskyWithBG,
 } from '../../icons/icons';
 import ShareNowButton from './ShareNowButton';
 const { __ } = wp.i18n;
@@ -31,6 +33,7 @@ const PLATFORM_CONFIG = {
     medium: { label: 'Medium', icon: medium, iconWithBG: mediumWithBG },
     threads: { label: 'Threads', icon: threads, iconWithBG: threadsWithBG },
     google_business: { label: 'Google Business', icon: google_business, iconWithBG: googleMyBusinessWithBG },
+    bluesky: { label: 'Bluesky', icon: bluesky, iconWithBG: blueskyWithBG },
 };
 
 const PLATFORM_ORDER = [
@@ -42,6 +45,7 @@ const PLATFORM_ORDER = [
     'medium',
     'threads',
     'google_business',
+    'bluesky',
 ];
 
 const processProfiles = (list) => {
@@ -197,6 +201,7 @@ const SocialShare = () => {
                         medium: processProfiles(optionData?.medium_profile_list),
                         threads: processProfiles(optionData?.threads_profile_list),
                         google_business: processProfiles(optionData?.google_business_profile_list),
+                        bluesky: processProfiles(optionData?.bluesky_profile_list),
                     };
 
                     const enrichedData = {};
