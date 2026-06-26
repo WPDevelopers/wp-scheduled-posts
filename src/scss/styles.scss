@@ -1893,7 +1893,7 @@ button.components-button.wpsp-add-template-btn:disabled {
     line-height: 1.4;
     color: #1B1B50;
     box-shadow: none;
-
+    font-style: italic;
     &::placeholder { color: #6E6E8D; }
     &:focus { border-color: #6C62FF; outline: none; box-shadow: none; }
   }

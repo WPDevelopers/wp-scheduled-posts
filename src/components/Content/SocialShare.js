@@ -199,7 +199,22 @@ const SocialShare = () => {
                         google_business: processProfiles(optionData?.google_business_profile_list),
                     };
 
-                    const hasSavedSelection = Object.keys(mappedData).length > 0;
+                    // Treat the post as having a saved selection when its custom
+                    // template has been configured at all — i.e. ANY platform has a
+                    // template OR selected profiles. This mirrors how the backend sets
+                    // _wpsp_enable_custom_social_template and how the Manage Social
+                    // Sharing modal computes hasSavedCustomTemplate. Checking profiles
+                    // alone is wrong: a post can have a saved template with every
+                    // profile deselected, and it must NOT fall back to defaulting every
+                    // enabled platform back on (which made deselected platforms reappear
+                    // under "Selected Social Platforms").
+                    const hasSavedSelection = PLATFORM_ORDER.some((platform) => {
+                        const data = templateData?.[platform];
+                        if (!data) return false;
+                        const hasTemplate = typeof data.template === 'string' && data.template.trim() !== '';
+                        const hasProfiles = Array.isArray(data.profiles) && data.profiles.length > 0;
+                        return hasTemplate || hasProfiles;
+                    });
 
                     if (hasSavedSelection) {
                         const enrichedData = {};
@@ -280,7 +295,15 @@ const SocialShare = () => {
     }, [postId, state.isOpenCustomSocialMessageModal]);
 
     const selectedPlatformCards = useMemo(() => {
+        // Only surface platforms that are currently enabled in the global settings
+        // ("Manage Social Sharing"). A platform may still have profiles saved in the
+        // post's custom template after being disabled — without this guard those
+        // disabled platforms would keep showing here even though they are greyed out
+        // (and not shared to) inside the Manage Social Sharing modal.
+        const socialEnabled = window.WPSchedulePostsFree?.social_media_enabled || {};
+
         return PLATFORM_ORDER
+            .filter((platform) => socialEnabled[platform])
             .filter((platform) => Array.isArray(selectedProfilesByPlatform[platform]) && selectedProfilesByPlatform[platform].length > 0)
             .map((platform) => ({
                 platform,

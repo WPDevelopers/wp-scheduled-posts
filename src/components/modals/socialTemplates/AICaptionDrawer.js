@@ -626,7 +626,7 @@ const AICaptionDrawer = ({
             <p className="wpsp-ai-drawer__card-title">{__('Prompt', 'wp-scheduled-posts')}</p>
             <textarea
               className="wpsp-ai-drawer__textarea"
-              placeholder={__('Write a catchy announcement for our new feature. Include a few fun emojis.', 'wp-scheduled-posts')}
+              placeholder={__('Example: Write a catchy announcement for our new feature.', 'wp-scheduled-posts')}
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
               rows={3}
