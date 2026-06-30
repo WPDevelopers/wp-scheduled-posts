@@ -15,10 +15,10 @@ jobs:
           node-version: "20.x"
       - name: Running NPM Install & Build For Gutenberg
         run: |
-          npm install --quiet && npm run build
+          npm install --quiet --legacy-peer-deps && npm run build
       - name: Running NPM Install & Build for Admin Panel
         run: |
-          cd includes/Admin/Settings && npm install --quiet && npm run prod && cd ../../..
+          cd includes/Admin/Settings && npm install --quiet --legacy-peer-deps && npm run prod && cd ../../..
       - name: WordPress Plugin Deploy
         id: deploy
         uses: 10up/action-wordpress-plugin-deploy@stable
