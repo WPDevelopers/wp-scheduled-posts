@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-06-22T05:15:33+00:00\n"
+"POT-Creation-Date: 2026-06-30T08:56:27+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: wp-scheduled-posts\n"
@@ -99,7 +99,7 @@ msgid "Sorry, you can't schedule this <strong>%1$s</strong>. Please allow this p
 msgstr ""
 
 #: includes/Admin.php:473
-#: src/components/Settings/ScheduleOn.js:132
+#: src/components/Settings/ScheduleOn.js:155
 msgid "Publish On"
 msgstr ""
 
@@ -1179,17 +1179,22 @@ msgstr ""
 msgid "Template is valid."
 msgstr ""
 
-#: includes/API/PostPanel.php:79
+#: includes/API/PostPanel.php:94
 msgid "You do not have permission to edit this post."
 msgstr ""
 
-#: includes/API/PostPanel.php:99
-#: includes/API/PostPanel.php:127
+#: includes/API/PostPanel.php:114
+#: includes/API/PostPanel.php:142
+#: includes/API/PostPanel.php:198
 msgid "Post not found."
 msgstr ""
 
-#: includes/API/PostPanel.php:163
+#: includes/API/PostPanel.php:178
 msgid "Settings saved successfully."
+msgstr ""
+
+#: includes/API/PostPanel.php:215
+msgid "Post published successfully."
 msgstr ""
 
 #: includes/Assets.php:59
@@ -1203,6 +1208,7 @@ msgid "Future Date"
 msgstr ""
 
 #: includes/functions.php:213
+#: src/components/Settings/PublishImmediately.js:82
 msgid "Publish future post immediately"
 msgstr ""
 
@@ -1211,7 +1217,7 @@ msgid "If you choose to publish this future post with the Future Date, it will b
 msgstr ""
 
 #: includes/Social/Facebook.php:301
-#: includes/Social/GoogleBusiness.php:90
+#: includes/Social/GoogleBusiness.php:93
 #: includes/Social/Instagram.php:213
 #: includes/Social/Linkedin.php:209
 #: includes/Social/Medium.php:243
@@ -1221,34 +1227,34 @@ msgstr ""
 msgid "Your max share post limit has been executed!!"
 msgstr ""
 
-#: includes/Social/GoogleBusiness.php:60
+#: includes/Social/GoogleBusiness.php:63
 msgid "Share already in progress or recently shared. Please wait 40 seconds before trying again."
 msgstr ""
 
-#: includes/Social/GoogleBusiness.php:109
+#: includes/Social/GoogleBusiness.php:112
 msgid "Google Business share is not enabled for this post"
 msgstr ""
 
-#: includes/Social/GoogleBusiness.php:151
+#: includes/Social/GoogleBusiness.php:160
 msgid "Location or Account ID is missing"
 msgstr ""
 
-#: includes/Social/GoogleBusiness.php:229
+#: includes/Social/GoogleBusiness.php:243
 msgid "Request failed: "
 msgstr ""
 
 #. translators: %s: Error message and details returned when sharing on Google Business fails
-#: includes/Social/GoogleBusiness.php:263
+#: includes/Social/GoogleBusiness.php:277
 msgid "Failed to share on Google Business: %s"
 msgstr ""
 
 #. translators: %s: Exception message returned when sharing to Google Business fails
-#: includes/Social/GoogleBusiness.php:274
+#: includes/Social/GoogleBusiness.php:288
 msgid "Exception when sharing to Google Business: %s"
 msgstr ""
 
 #: includes/Social/InstantShare.php:57
-#: src/components/Content/SocialShare.js:362
+#: src/components/Content/SocialShare.js:385
 msgid "Disable Social Share"
 msgstr ""
 
@@ -1887,61 +1893,61 @@ msgstr ""
 msgid "Failed"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:351
+#: src/components/Content/SocialShare.js:374
 msgid "Social Share Settings"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:370
+#: src/components/Content/SocialShare.js:393
 msgid "The featured image will be used by default"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:379
+#: src/components/Content/SocialShare.js:402
 msgid "Remove Social Banner?"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:380
+#: src/components/Content/SocialShare.js:403
 msgid "Delete this banner image? The featured image will be used when sharing"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:382
+#: src/components/Content/SocialShare.js:405
 #: src/components/modals/socialTemplates/AICaptionDrawer.js:708
 msgid "Cancel"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:383
+#: src/components/Content/SocialShare.js:406
 msgid "Yes, Remove"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:387
+#: src/components/Content/SocialShare.js:410
 msgid "Update Banner"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:388
+#: src/components/Content/SocialShare.js:411
 msgid "Remove Banner"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:393
+#: src/components/Content/SocialShare.js:416
 msgid "Add message for target platforms"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:397
-#: src/components/Content/SocialShare.js:447
+#: src/components/Content/SocialShare.js:420
+#: src/components/Content/SocialShare.js:470
 msgid "Manage Social Sharing"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:401
+#: src/components/Content/SocialShare.js:424
 msgid "Selected Social Platforms"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:404
+#: src/components/Content/SocialShare.js:427
 msgid "Loading selected profiles..."
 msgstr ""
 
-#: src/components/Content/SocialShare.js:464
+#: src/components/Content/SocialShare.js:487
 msgid "Social sharing is disabled"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:465
+#: src/components/Content/SocialShare.js:488
 msgid "Enable it to manage platforms."
 msgstr ""
 
@@ -2047,7 +2053,7 @@ msgid "Prompt"
 msgstr ""
 
 #: src/components/modals/socialTemplates/AICaptionDrawer.js:629
-msgid "Write a catchy announcement for our new feature. Include a few fun emojis."
+msgid "Example: Write a catchy announcement for our new feature."
 msgstr ""
 
 #: src/components/modals/socialTemplates/AICaptionDrawer.js:645
@@ -2261,23 +2267,28 @@ msgstr ""
 msgid "Manual Schedule"
 msgstr ""
 
-#: src/components/Settings/ScheduleOn.js:123
+#: src/components/Settings/PublishImmediately.js:88
+#: src/components/Settings/PublishImmediately.js:91
+msgid "Publishing..."
+msgstr ""
+
+#: src/components/Settings/ScheduleOn.js:146
 msgid "Default Schedule"
 msgstr ""
 
-#: src/components/Settings/ScheduleOn.js:142
+#: src/components/Settings/ScheduleOn.js:165
 msgid "Set the date and time to publish or schedule this post."
 msgstr ""
 
-#: src/components/Settings/ScheduleOn.js:155
+#: src/components/Settings/ScheduleOn.js:178
 msgid "Select date & time"
 msgstr ""
 
-#: src/components/Settings/ScheduleOn.js:169
+#: src/components/Settings/ScheduleOn.js:192
 msgid "Clear date"
 msgstr ""
 
-#: src/components/Settings/ScheduleOn.js:196
+#: src/components/Settings/ScheduleOn.js:219
 msgid "Now"
 msgstr ""
 

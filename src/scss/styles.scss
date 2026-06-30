@@ -322,6 +322,11 @@
                         color: #3c434a;
                     }
                 }
+                &:nth-child(3) {
+                  .sc-publish-future {
+                    display: none;
+                  }
+                }
             }
         }
 
