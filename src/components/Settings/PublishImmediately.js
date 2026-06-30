@@ -25,6 +25,15 @@ const showCustomToast = (type, message) => {
     }, 2600);
 };
 
+// Close the SchedulePress panel modal (markup defined in includes/Admin/Metabox/index.php).
+// Mirrors the closeModal() there: drop the active class and restore body scroll.
+const closeSchedulePressModal = () => {
+    if (typeof document === 'undefined') return;
+    const modal = document.getElementById('wpsp-post-panel-modal');
+    if (modal) modal.classList.remove('wpsp-post-panel-active');
+    document.body.style.overflow = '';
+};
+
 const PublishImmediately = ({ state, dispatch, postId, publishImmediatelyBtn, publishFutureDateBtn }) => {
     const [isPublishingCurrentDate, setIsPublishingCurrentDate] = useState(false);
     const [isPublishingFutureDate, setIsPublishingFutureDate] = useState(false);
@@ -35,6 +44,7 @@ const PublishImmediately = ({ state, dispatch, postId, publishImmediatelyBtn, pu
             publish_immediately_current_date: true
         }).then(() => {
             showCustomToast('success', 'Post published using Current Date.');
+            closeSchedulePressModal();
         }).catch((error) => {
             showCustomToast('error', 'Failed to publish using Current Date.');
             console.log(error);
@@ -49,6 +59,7 @@ const PublishImmediately = ({ state, dispatch, postId, publishImmediatelyBtn, pu
             publish_immediately_future_date: true
         }).then(() => {
             showCustomToast('success', 'Post published using Future Date.');
+            closeSchedulePressModal();
         }).catch((error) => {
             showCustomToast('error', 'Failed to publish using Future Date.');
             console.log(error);
