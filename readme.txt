@@ -4,7 +4,7 @@ Tags: post schedule, schedule calendar, auto scheduler, auto sharing, social sha
 Requires at least: 4.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 5.3.0
+Stable tag: 5.3.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -216,6 +216,14 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 8. Social Templates
 
 == Changelog ==
+
+= 5.3.1 - 2026-06-30 =
+- Added: Social share caption generate using AI.
+- Fixed: Undefined variable $template_structure for Google Business Profile
+- Fixed: Google My Business social share wasn't working properly.
+- Fixed: Connected Social Profiles auto selection wasn't working.
+- Fixed: Publish post immediately wasn't working properly.
+- Few minor bug fixes and improvements
 
 = 5.3.0 - 2026-05-17 =
 - Added: WordPress 7.0 compatibility
