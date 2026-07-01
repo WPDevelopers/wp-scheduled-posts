@@ -217,7 +217,7 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 == Changelog ==
 
-= 5.3.1 - 2026-06-30 =
+= 5.3.1 - 2026-07-01 =
 - Added: AI-powered social share caption generation.
 - Fixed: Undefined variable $template_structure for Google Business Profile.
 - Fixed: Google Business Profile social sharing was not working.
