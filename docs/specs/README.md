@@ -1,6 +1,6 @@
 # SchedulePress (Free) — Feature Specifications
 
-Detailed **functional specifications** for each feature: exact settings and their effects, behavior rules, states, edge cases, and the free/Pro boundary. These complement the plain-language [Feature Guide](../FEATURES.md).
+Detailed **functional specifications** for each feature: exact settings and their effects, behavior rules, states, edge cases, and the free/Pro boundary. These complement the plain-language [Feature Guide](../guides/FEATURES.md).
 
 Each spec follows the same shape: **Summary → Settings & options → Behavior & rules → States → Interactions → Limits & edge cases → Technical touchpoints**.
 

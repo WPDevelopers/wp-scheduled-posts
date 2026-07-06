@@ -52,7 +52,7 @@ These automate scheduling further and are unlocked with SchedulePress Pro (**Set
 | **Republish / Unpublish** | Automatically take a post down and/or bring it back on set dates. |
 | **Missed Schedule** | Auto-publishes posts that WordPress missed at their scheduled time (fixes the classic "missed schedule" error). |
 
-See the **[Pro feature guide](../../wp-scheduled-posts-pro/docs/FEATURES.md)** for details.
+See the **[Pro feature guide](../../../wp-scheduled-posts-pro/docs/guides/FEATURES.md)** for details.
 
 ## Troubleshooting
 

@@ -54,5 +54,5 @@ All plugin settings live in a single option, `WPSP_SETTINGS_NAME` (`wpsp_setting
 Task-oriented guides and per-feature specs — read these before touching a feature:
 
 - [docs/README.md](docs/README.md) — docs index.
-- [docs/GETTING-STARTED.md](docs/GETTING-STARTED.md), [docs/FEATURES.md](docs/FEATURES.md), [docs/FAQ.md](docs/FAQ.md), [docs/SCHEDULING.md](docs/SCHEDULING.md), [docs/SOCIAL-SETUP.md](docs/SOCIAL-SETUP.md).
+- [docs/guides/GETTING-STARTED.md](docs/guides/GETTING-STARTED.md), [docs/guides/FEATURES.md](docs/guides/FEATURES.md), [docs/guides/FAQ.md](docs/guides/FAQ.md), [docs/guides/SCHEDULING.md](docs/guides/SCHEDULING.md), [docs/guides/SOCIAL-SETUP.md](docs/guides/SOCIAL-SETUP.md).
 - **Feature specs** in [docs/specs/](docs/specs/): scheduling, schedule-calendar, social-sharing, social-templates, ai-caption, admin-bar-menu, email-notifications, settings-data-model, dashboard-widget, access-control, custom-post-templates.
