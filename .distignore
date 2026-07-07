@@ -8,6 +8,8 @@
 .git
 .gitignore
 .github
+.claude
+CLAUDE.md
 .gitattributes
 .gitlab-ci.yml
 .travis.yml
