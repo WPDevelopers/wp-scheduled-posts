@@ -1,0 +1,203 @@
+.wprf-openai {
+  .wprf-openai-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border: 1px solid #ebeef5;
+    border-radius: 6px;
+    background: #fff;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+    &:focus-within {
+      border-color: #6c62ff;
+      box-shadow: 0 0 0 3px rgba(108, 98, 255, 0.12);
+    }
+  }
+
+  .wprf-openai-input {
+    flex: 1;
+    width: 100%;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background: transparent;
+    font-size: 15px;
+    line-height: 1.4em;
+    color: #1b1b50;
+    margin: 0;
+    padding: 14px 48px 14px 16px;
+    letter-spacing: 0.02em;
+
+    &::placeholder {
+      color: #9a9ab0;
+      letter-spacing: normal;
+    }
+
+    &:focus,
+    &:focus-visible {
+      border: none !important;
+      outline: none !important;
+      box-shadow: none !important;
+    }
+  }
+
+  .wprf-openai-toggle {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border: none;
+    background: transparent;
+    border-radius: 6px;
+    color: #6e6e8d;
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.15s ease, color 0.15s ease;
+
+    &:hover {
+      background: #f3f2ff;
+      color: #6c62ff;
+    }
+
+    svg {
+      display: block;
+    }
+  }
+
+  .wprf-openai-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    margin-top: 12px;
+  }
+
+  .wprf-openai-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+
+    .wprf-openai-status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex: 0 0 auto;
+    }
+
+    &.is-connected {
+      color: #02ac6e;
+      .wprf-openai-status-dot {
+        background: #02ac6e;
+      }
+    }
+
+    &.is-empty {
+      color: #9a9ab0;
+      .wprf-openai-status-dot {
+        background: #cfcfe0;
+      }
+    }
+  }
+
+  .wprf-openai-link {
+    font-size: 13px;
+    font-weight: 500;
+    color: #6c62ff;
+    text-decoration: none;
+
+    &:hover {
+      color: #5249e0;
+      text-decoration: underline;
+    }
+  }
+
+  .wprf-openai-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 16px;
+  }
+
+  .wprf-openai-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+    padding: 10px 18px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+
+    &:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+  }
+
+  .wprf-openai-btn-test {
+    background: #6c62ff;
+    color: #fff;
+
+    &:not(:disabled):hover {
+      background: #5249e0;
+    }
+  }
+
+  .wprf-openai-btn-clear {
+    background: #fff;
+    color: #d23b53;
+    border-color: #f1c6cf;
+
+    &:not(:disabled):hover {
+      background: #fdf2f4;
+      border-color: #e79caa;
+    }
+  }
+
+  .wprf-openai-spinner {
+    animation: wprf-openai-spin 0.7s linear infinite;
+  }
+
+  @keyframes wprf-openai-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .wprf-openai-test-result {
+    margin: 12px 0 0;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.5em;
+
+    &.is-success {
+      color: #02ac6e;
+    }
+
+    &.is-error {
+      color: #d23b53;
+    }
+  }
+
+  .wprf-openai-help {
+    margin: 10px 0 0;
+    font-size: 13px;
+    line-height: 1.6em;
+    color: #6e6e8d;
+  }
+}

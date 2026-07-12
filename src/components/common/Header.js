@@ -1,7 +1,15 @@
 import React, { useContext } from 'react';
 import { AppContext } from '../../context/AppContext';
+import { aiCaption } from '../../icons/icons';
 const Header = () => {
     const { state, dispatch } = useContext(AppContext);
+
+    // Open the social-message modal and jump straight to the AI Caption drawer.
+    const handleWriteWithAI = () => {
+        dispatch({ type: 'SET_AUTO_OPEN_AI_CAPTION', payload: true });
+        dispatch({ type: 'SET_CUSTOM_SOCIAL_MESSAGE_MODAL', payload: true });
+    };
+
     return (
         <div className="wpsp-modal--header">
             <div className="wpsp-modal--header--left">
@@ -124,6 +132,17 @@ const Header = () => {
                         </clipPath>
                     </defs>
                 </svg>
+            </div>
+            <div className="wpsp-modal--header--right">
+                <button
+                    type="button"
+                    className="wpsp-ai-caption-btn"
+                    aria-label="Write With AI"
+                    onClick={handleWriteWithAI}
+                >
+                    <span className="wpsp-ai-caption-btn__icon">{aiCaption}</span>
+                    <span className="wpsp-ai-caption-btn__text">Write With AI</span>
+                </button>
             </div>
         </div>
     );

@@ -1,5 +1,6 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { AppContext } from '../../context/AppContext';
+import PublishImmediately from './PublishImmediately';
 const { DateTimePicker, Popover, Button } = wp.components;
 const { __ } = wp.i18n;
 const { useSelect } = wp.data;
@@ -97,6 +98,28 @@ const ScheduleOn = () => {
         editorHydrated.current = true;
         setScheduleDate(editorPostDate);
     }, [editorPostDate, scheduleDate]);
+
+    // Current post ID — Gutenberg first, then localized globals (Classic/Elementor/builders)
+    const postId = useSelect((select) => {
+        try {
+            const editor = select('core/editor');
+            if (editor?.getCurrentPostType?.()) {
+                return editor.getCurrentPostId();
+            }
+        } catch (e) {}
+        return (
+            window?.WPSchedulePostsFree?.current_post_id ||
+            window?.WPSchedulePosts?.current_post_id ||
+            null
+        );
+    }, []);
+
+    const isScheduled = postStatus == 'future' ? true : false;
+    const isPublished = postStatus == 'publish' ? true : false;
+
+    const publishImmediatelyBtn = window.WPSchedulePostsFree?.publishImmediately || window.WPSchedulePosts?.publishImmediately || 'Current Date';
+    const publishFutureDateBtn = window.WPSchedulePostsFree?.publishFutureDate || window.WPSchedulePosts?.publishFutureDate || 'Future Date';
+
 
     // Keep app context in sync so Footer "Save Changes" picks it up.
     // `isScheduled` reflects user intent to schedule:
@@ -210,6 +233,16 @@ const ScheduleOn = () => {
                         </div>
 
                     </div>
+
+                    { isScheduled && !isPublished && (
+                        <PublishImmediately 
+                            state={state}
+                            dispatch={dispatch}
+                            postId={postId}
+                            publishImmediatelyBtn={publishImmediatelyBtn}
+                            publishFutureDateBtn={publishFutureDateBtn}
+                        />
+                    )}
                 </div>
             </div>
         </div>

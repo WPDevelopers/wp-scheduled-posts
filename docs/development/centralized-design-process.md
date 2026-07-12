@@ -2,7 +2,7 @@
 
 > A single, editor-agnostic React modal that centralizes every SchedulePress setting (scheduling, social share, social templates, share now) across **Gutenberg, Classic Editor, Elementor, and other page builders**.
 
-This document describes the architecture, data flow, extension points, and integration model of the centralized modal system that lives under [src/](../src/).
+This document describes the architecture, data flow, extension points, and integration model of the centralized modal system that lives under [src/](../../src/).
 
 ---
 
@@ -43,7 +43,7 @@ src/
 
 ## 3. Boot & Editor Detection
 
-**Entry point:** [src/index.js](../src/index.js)
+**Entry point:** [src/index.js](../../src/index.js)
 
 The app is mounted via `wp.element.render()` into the DOM root `#wpsp-post-panel-react-root`. The root element is injected by the PHP side (free plugin) for whichever editor is currently active, which is why the same React tree works everywhere.
 
@@ -56,7 +56,7 @@ The app is mounted via `wp.element.render()` into the DOM root `#wpsp-post-panel
 
 The fallback globals carry: `current_post_id`, `current_post_status`, `current_post_date`, `current_post_title`, `current_post_content`, `current_post_url`, `current_post_featured_image`, `is_pro`, `assetsURI`, `nonce`, `social_media_enabled`, `socialProfileURL`.
 
-> See [useCurrentPostData.js](../src/components/modals/socialTemplates/hooks/useCurrentPostData.js) for the canonical reference implementation of the detection cascade.
+> See [useCurrentPostData.js](../../src/components/modals/socialTemplates/hooks/useCurrentPostData.js) for the canonical reference implementation of the detection cascade.
 
 ---
 
@@ -64,9 +64,9 @@ The fallback globals carry: `current_post_id`, `current_post_status`, `current_p
 
 State lives in a Context + Reducer pair:
 
-- [context/AppContext.js](../src/context/AppContext.js) — exposes `{ state, dispatch }` via `AppProvider`.
-- [context/AppReducer.js](../src/context/AppReducer.js) — pure reducer, spread-based immutable updates.
-- [context/initialState.js](../src/context/initialState.js) — default shape.
+- [context/AppContext.js](../../src/context/AppContext.js) — exposes `{ state, dispatch }` via `AppProvider`.
+- [context/AppReducer.js](../../src/context/AppReducer.js) — pure reducer, spread-based immutable updates.
+- [context/initialState.js](../../src/context/initialState.js) — default shape.
 
 ### State shape
 
@@ -116,13 +116,13 @@ const { state, dispatch } = useContext(AppContext);
 
 ## 5. Modal Shell
 
-The visible modal is composed from three shared pieces in [components/common/](../src/components/common/):
+The visible modal is composed from three shared pieces in [components/common/](../../src/components/common/):
 
 | File | Responsibility |
 | --- | --- |
-| [Header.js](../src/components/common/Header.js) | Branded top bar (SchedulePress logo) |
-| [Content.js](../src/components/common/Content.js) | Two-column body — Scheduling (left, ~65%) + Social Share (right, ~35%) |
-| [Footer.js](../src/components/common/Footer.js) | "Save Changes" button — dispatches dual REST calls (schedule + social) |
+| [Header.js](../../src/components/common/Header.js) | Branded top bar (SchedulePress logo) |
+| [Content.js](../../src/components/common/Content.js) | Two-column body — Scheduling (left, ~65%) + Social Share (right, ~35%) |
+| [Footer.js](../../src/components/common/Footer.js) | "Save Changes" button — dispatches dual REST calls (schedule + social) |
 
 The shell is identical across every editor; only the data sources behind it change.
 
@@ -130,13 +130,13 @@ The shell is identical across every editor; only the data sources behind it chan
 
 ## 6. Scheduling Tab
 
-Rendered from [components/Content/Settings.js](../src/components/Content/Settings.js), composed of three cards. Each card is exposed via a WordPress hook so the **Pro plugin can filter or replace** any section.
+Rendered from [components/Content/Settings.js](../../src/components/Content/Settings.js), composed of three cards. Each card is exposed via a WordPress hook so the **Pro plugin can filter or replace** any section.
 
 | Card | File | Description | Pro? |
 | --- | --- | --- | --- |
-| Default Schedule | [ScheduleOn.js](../src/components/Settings/ScheduleOn.js) | "Publish On" with `DateTimePicker` popover. Hydrates from Gutenberg `getEditedPostAttribute('date')`, Classic DOM, or globals. Distinguishes a user-set date from a draft default. | Free |
-| Manage Schedule | [ManageSchedule.js](../src/components/Settings/ManageSchedule.js) | Auto Schedule / Manual Schedule inputs. | **Pro** |
-| Publishing Cycle | [SchedulingOptions.js](../src/components/Settings/SchedulingOptions.js) | Unpublish On, Republish On, Advanced Schedule toggle. | **Pro** |
+| Default Schedule | [ScheduleOn.js](../../src/components/Settings/ScheduleOn.js) | "Publish On" with `DateTimePicker` popover. Hydrates from Gutenberg `getEditedPostAttribute('date')`, Classic DOM, or globals. Distinguishes a user-set date from a draft default. | Free |
+| Manage Schedule | [ManageSchedule.js](../../src/components/Settings/ManageSchedule.js) | Auto Schedule / Manual Schedule inputs. | **Pro** |
+| Publishing Cycle | [SchedulingOptions.js](../../src/components/Settings/SchedulingOptions.js) | Unpublish On, Republish On, Advanced Schedule toggle. | **Pro** |
 
 Pro-only cards render through `useProOverlay` (see §9), so the free version shows them visually but disabled, with a click handler that opens the upgrade popup.
 
@@ -144,41 +144,41 @@ Pro-only cards render through `useProOverlay` (see §9), so the free version sho
 
 ## 7. Social Share Tab
 
-Rendered from [components/Content/SocialShare.js](../src/components/Content/SocialShare.js). It exposes:
+Rendered from [components/Content/SocialShare.js](../../src/components/Content/SocialShare.js). It exposes:
 
 - **Disable social share** checkbox — persists to meta `_wpscppro_dont_share_socialmedia`.
 - **Custom social banner** uploader (WordPress media library) — persists to meta `_wpscppro_custom_social_share_image`. Falls back to the post's featured image when empty.
 - **Selected Social Platforms** — cards for each enabled platform showing the connected profile thumbnails (up to 5 visible, then a `+N` count badge).
 - **Add / Edit Social Message** — opens the Social Templates modal (§8).
-- **Share Now** — [ShareNowButton.js](../src/components/Content/ShareNowButton.js) calls `/wp-scheduled-posts/v1/instant-social-share` and opens [ShareNowStatusModal.js](../src/components/Content/ShareNowStatusModal.js), which streams per-profile status (pending → success/error) live.
+- **Share Now** — [ShareNowButton.js](../../src/components/Content/ShareNowButton.js) calls `/wp-scheduled-posts/v1/instant-social-share` and opens [ShareNowStatusModal.js](../../src/components/Content/ShareNowStatusModal.js), which streams per-profile status (pending → success/error) live.
 
 ---
 
 ## 8. Social Templates Modal
 
-A full-screen overlay for authoring per-platform messages. Lives in [components/modals/socialTemplates/](../src/components/modals/socialTemplates/).
+A full-screen overlay for authoring per-platform messages. Lives in [components/modals/socialTemplates/](../../src/components/modals/socialTemplates/).
 
 | File | Responsibility |
 | --- | --- |
-| [CustomTemplateModal.js](../src/components/modals/socialTemplates/CustomTemplateModal.js) | Modal root — orchestrates the children below |
-| [Header.js](../src/components/modals/socialTemplates/Header.js) | Title + close |
-| [PlatformNavigation.js](../src/components/modals/socialTemplates/PlatformNavigation.js) | Facebook · Twitter · LinkedIn · Pinterest · Instagram · Medium · Threads · Google Business |
-| [ProfileSelector.js](../src/components/modals/socialTemplates/ProfileSelector.js) | Multi-select connected profiles for the active platform |
-| [TemplateEditor.js](../src/components/modals/socialTemplates/TemplateEditor.js) | Message editor with per-platform character limits (Twitter 280, LinkedIn 1300, Instagram 2100, …) |
-| [ScheduleControls.js](../src/components/modals/socialTemplates/ScheduleControls.js) | Relative or absolute schedule for this template |
-| [PreviewCard.js](../src/components/modals/socialTemplates/PreviewCard.js) | Live preview using current post data |
-| [AllDisabledPlatform.js](../src/components/modals/socialTemplates/AllDisabledPlatform.js) | Empty state when no platforms are connected |
+| [CustomTemplateModal.js](../../src/components/modals/socialTemplates/CustomTemplateModal.js) | Modal root — orchestrates the children below |
+| [Header.js](../../src/components/modals/socialTemplates/Header.js) | Title + close |
+| [PlatformNavigation.js](../../src/components/modals/socialTemplates/PlatformNavigation.js) | Facebook · Twitter · LinkedIn · Pinterest · Instagram · Medium · Threads · Google Business |
+| [ProfileSelector.js](../../src/components/modals/socialTemplates/ProfileSelector.js) | Multi-select connected profiles for the active platform |
+| [TemplateEditor.js](../../src/components/modals/socialTemplates/TemplateEditor.js) | Message editor with per-platform character limits (Twitter 280, LinkedIn 1300, Instagram 2100, …) |
+| [ScheduleControls.js](../../src/components/modals/socialTemplates/ScheduleControls.js) | Relative or absolute schedule for this template |
+| [PreviewCard.js](../../src/components/modals/socialTemplates/PreviewCard.js) | Live preview using current post data |
+| [AllDisabledPlatform.js](../../src/components/modals/socialTemplates/AllDisabledPlatform.js) | Empty state when no platforms are connected |
 
 ### Hooks
 
-- [useSocialProfiles.js](../src/components/modals/socialTemplates/hooks/useSocialProfiles.js) — fetches `/wp-scheduled-posts/v1/get-option-data`, deduplicates profiles per platform, handles Pinterest board/section nesting.
-- [useCurrentPostData.js](../src/components/modals/socialTemplates/hooks/useCurrentPostData.js) — `useSelect`-based reader that resolves the active post from Gutenberg / Classic / Elementor / globals.
+- [useSocialProfiles.js](../../src/components/modals/socialTemplates/hooks/useSocialProfiles.js) — fetches `/wp-scheduled-posts/v1/get-option-data`, deduplicates profiles per platform, handles Pinterest board/section nesting.
+- [useCurrentPostData.js](../../src/components/modals/socialTemplates/hooks/useCurrentPostData.js) — `useSelect`-based reader that resolves the active post from Gutenberg / Classic / Elementor / globals.
 
 ---
 
 ## 9. Pro Gating Pattern — `useProOverlay`
 
-[helper/useProOverlay.js](../src/helper/useProOverlay.js) is the single source of truth for Pro detection.
+[helper/useProOverlay.js](../../src/helper/useProOverlay.js) is the single source of truth for Pro detection.
 
 ```js
 const { isPro, openProPopup, proOverlay, itemStyle } = useProOverlay();
@@ -188,7 +188,7 @@ const { isPro, openProPopup, proOverlay, itemStyle } = useProOverlay();
 - `openProPopup()` — dispatches `SET_OPEN_PRO_POPUP`.
 - `proOverlay` / `itemStyle` — a transparent overlay + dimmed style that you spread over any Pro-only card. Click anywhere on the card → upgrade popup opens.
 
-The popup itself lives at [components/modals/ProPopup.js](../src/components/modals/ProPopup.js) and is mounted by [components/modals/Modals.js](../src/components/modals/Modals.js).
+The popup itself lives at [components/modals/ProPopup.js](../../src/components/modals/ProPopup.js) and is mounted by [components/modals/Modals.js](../../src/components/modals/Modals.js).
 
 ---
 
@@ -203,7 +203,7 @@ The popup itself lives at [components/modals/ProPopup.js](../src/components/moda
 | `POST` | `/wp-scheduled-posts/v1/fetch_pinterest_section` | Pinterest board / section list |
 | `GET`  | `/wp-scheduled-posts/v1/instant-social-share` | Share Now (params: `id`, `platform`, `postid`, `nonce`) |
 
-Wrappers in [helper/helper.js](../src/helper/helper.js):
+Wrappers in [helper/helper.js](../../src/helper/helper.js):
 
 - `fetchSocialProfileData(url, queryParams, customQuery)` — thin `wp.apiFetch` wrapper.
 - `fetchPinterestSection(body)` — POST helper for Pinterest section lookup.
@@ -214,7 +214,7 @@ Wrappers in [helper/helper.js](../src/helper/helper.js):
 
 The centralized modal is built so the Pro plugin never has to fork a component. Instead it:
 
-1. **Filters tab content** through the WordPress hook points used in [Content/Settings.js](../src/components/Content/Settings.js) (e.g. `wpsp_schedule_on`, `wpsp_manage_schedule`, `wpsp_schedule_options`).
+1. **Filters tab content** through the WordPress hook points used in [Content/Settings.js](../../src/components/Content/Settings.js) (e.g. `wpsp_schedule_on`, `wpsp_manage_schedule`, `wpsp_schedule_options`).
 2. **Adds new action types** by extending the reducer (kept open-ended via spread updates).
 3. **Adds REST handlers** that respond on the same `wp-scheduled-posts/v1` namespace — the Footer save call already dispatches to both endpoints, so Pro fields piggyback automatically.
 
@@ -224,8 +224,8 @@ This means a Pro release can ship new scheduling features by registering a filte
 
 ## 12. Styling
 
-- Source: [src/scss/styles.scss](../src/scss/styles.scss)
-- Compiled: [src/css/styles.min.css](../src/css/styles.min.css)
+- Source: [src/scss/styles.scss](../../src/scss/styles.scss)
+- Compiled: [src/css/styles.min.css](../../src/css/styles.min.css)
 
 Key BEM-ish roots:
 
@@ -282,22 +282,22 @@ Key BEM-ish roots:
 
 ## 14. Adding a New Feature — Checklist
 
-1. **State** — add a key to [initialState.js](../src/context/initialState.js) and a matching action in [AppReducer.js](../src/context/AppReducer.js).
+1. **State** — add a key to [initialState.js](../../src/context/initialState.js) and a matching action in [AppReducer.js](../../src/context/AppReducer.js).
 2. **UI** — drop a new card under `components/Settings/` (scheduling) or `components/Content/` (social) and import it from the matching parent.
 3. **Pro gating** — if it's a Pro feature, wrap it with `useProOverlay`'s overlay/style.
 4. **Persistence** — extend the relevant Footer save call, or add a new REST endpoint on the `wp-scheduled-posts/v1` namespace.
-5. **Editor support** — if you need new post data, extend [useCurrentPostData.js](../src/components/modals/socialTemplates/hooks/useCurrentPostData.js) rather than reading editor APIs in your component. That's what keeps the modal editor-agnostic.
+5. **Editor support** — if you need new post data, extend [useCurrentPostData.js](../../src/components/modals/socialTemplates/hooks/useCurrentPostData.js) rather than reading editor APIs in your component. That's what keeps the modal editor-agnostic.
 
 ---
 
 ## 15. File Reference (Quick Index)
 
-- Boot: [index.js](../src/index.js) · [App.js](../src/App.js)
-- State: [context/AppContext.js](../src/context/AppContext.js) · [AppReducer.js](../src/context/AppReducer.js) · [initialState.js](../src/context/initialState.js)
-- Shell: [common/Header.js](../src/components/common/Header.js) · [common/Content.js](../src/components/common/Content.js) · [common/Footer.js](../src/components/common/Footer.js)
-- Scheduling: [Settings/ScheduleOn.js](../src/components/Settings/ScheduleOn.js) · [Settings/ManageSchedule.js](../src/components/Settings/ManageSchedule.js) · [Settings/SchedulingOptions.js](../src/components/Settings/SchedulingOptions.js)
-- Social: [Content/SocialShare.js](../src/components/Content/SocialShare.js) · [Content/ShareNowButton.js](../src/components/Content/ShareNowButton.js) · [Content/ShareNowStatusModal.js](../src/components/Content/ShareNowStatusModal.js)
-- Modals: [modals/Modals.js](../src/components/modals/Modals.js) · [modals/ProPopup.js](../src/components/modals/ProPopup.js) · [modals/SocialTemplates.js](../src/components/modals/SocialTemplates.js)
-- Templates: [modals/socialTemplates/CustomTemplateModal.js](../src/components/modals/socialTemplates/CustomTemplateModal.js) and siblings
-- Helpers: [helper/helper.js](../src/helper/helper.js) · [helper/useProOverlay.js](../src/helper/useProOverlay.js)
-- Styles: [scss/styles.scss](../src/scss/styles.scss)
+- Boot: [index.js](../../src/index.js) · [App.js](../../src/App.js)
+- State: [context/AppContext.js](../../src/context/AppContext.js) · [AppReducer.js](../../src/context/AppReducer.js) · [initialState.js](../../src/context/initialState.js)
+- Shell: [common/Header.js](../../src/components/common/Header.js) · [common/Content.js](../../src/components/common/Content.js) · [common/Footer.js](../../src/components/common/Footer.js)
+- Scheduling: [Settings/ScheduleOn.js](../../src/components/Settings/ScheduleOn.js) · [Settings/ManageSchedule.js](../../src/components/Settings/ManageSchedule.js) · [Settings/SchedulingOptions.js](../../src/components/Settings/SchedulingOptions.js)
+- Social: [Content/SocialShare.js](../../src/components/Content/SocialShare.js) · [Content/ShareNowButton.js](../../src/components/Content/ShareNowButton.js) · [Content/ShareNowStatusModal.js](../../src/components/Content/ShareNowStatusModal.js)
+- Modals: [modals/Modals.js](../../src/components/modals/Modals.js) · [modals/ProPopup.js](../../src/components/modals/ProPopup.js) · [modals/SocialTemplates.js](../../src/components/modals/SocialTemplates.js)
+- Templates: [modals/socialTemplates/CustomTemplateModal.js](../../src/components/modals/socialTemplates/CustomTemplateModal.js) and siblings
+- Helpers: [helper/helper.js](../../src/helper/helper.js) · [helper/useProOverlay.js](../../src/helper/useProOverlay.js)
+- Styles: [scss/styles.scss](../../src/scss/styles.scss)

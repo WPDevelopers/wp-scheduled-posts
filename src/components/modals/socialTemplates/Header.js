@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import { AppContext } from '../../../context/AppContext';
+import { aiCaption } from '../../../icons/icons';
 
-const Header = () => {
+const Header = ({ onOpenAICaption }) => {
     const { state, dispatch } = useContext(AppContext);
   return (
     <div className="wpsp-components-modal__header">
@@ -14,7 +15,7 @@ const Header = () => {
             className="wpsp-add-social-message-text"
             style={{ display: 'flex', alignItems: 'normal', gap: 8 }}
           >
-            Add Social Message
+            Manage Social Sharing
 
             <a
               className="wpsp-custom-social-doc-link"
@@ -54,6 +55,16 @@ const Header = () => {
         data-wp-component="Spacer"
         className="wpsp-components-spacer -dae--b-aeadc-1t4gtoh e19lxcc00"
       />
+
+      <button
+        type="button"
+        className="wpsp-ai-caption-btn"
+        aria-label="Write With AI"
+        onClick={onOpenAICaption}
+      >
+        <span className="wpsp-ai-caption-btn__icon">{aiCaption}</span>
+        <span className="wpsp-ai-caption-btn__text">Write With AI</span>
+      </button>
 
       <button
         type="button"

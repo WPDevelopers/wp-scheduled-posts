@@ -16,6 +16,11 @@
 }
 
 /* Post panel wrapper button  */
+#wpsp-post-panel-wrapper {
+    overflow: hidden;
+    border-radius: 14px 14px 0 0;
+}
+
 #wpsp-post-panel-wrapper #wpsp-post-panel-button,
 #wpsp-post-panel-wrapper-gutenberg #wpsp-post-panel-button-gutenberg {
     font-size: 12px;
@@ -36,6 +41,7 @@
     background: #5a51e6;
     color: #fff;
 }
+
 .block-editor__container #wpsp_post_settings .postbox-header {
     border-top: none;
 }
@@ -124,12 +130,14 @@
     z-index: 100000;
     box-shadow: 0 2px 8px rgba(16, 24, 40, 0.08);
 }
-#wpsp_post_settings .postbox-header  h2.ui-sortable-handle {
-   display: flex;
-   justify-content: start;
-   gap: 10px;
-   padding-left: 10px;
+
+#wpsp_post_settings .postbox-header h2.ui-sortable-handle {
+    display: flex;
+    justify-content: start;
+    gap: 10px;
+    padding-left: 10px;
 }
+
 /* Hide the SchedulePress metabox in the block editor.
    Its DOM stays mounted so the sidebar button can trigger the modal. */
 .block-editor-page #wpsp_post_settings,
