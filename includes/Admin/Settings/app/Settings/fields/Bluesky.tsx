@@ -8,6 +8,7 @@ import { SweetAlertDeleteMsg, SweetAlertToaster } from '../ToasterMsg';
 import { fetchDataFromAPI } from '../helper/helper';
 import ApiCredentialsForm from './Modals/ApiCredentialsForm';
 import MainProfile from './utils/MainProfile';
+import ProAlert from './utils/ProAlert';
 import SelectedProfile from './utils/SelectedProfile';
 import ViewMore from './utils/ViewMore';
 
@@ -348,6 +349,9 @@ const Bluesky = (props) => {
                     </div>
                 </div>
                 <div className={`wpsp-modal-social-platform wpsp-modal-social-${platform}`}>
+                {isErrorMessage && (
+                    <ProAlert />
+                )}
                 { profileInfo ?
                     <ul>
                             <li key='1'>

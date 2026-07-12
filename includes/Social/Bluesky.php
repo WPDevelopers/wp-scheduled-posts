@@ -19,6 +19,14 @@ class Bluesky
 {
     use SocialHelper;
 
+    /**
+     * Hard limit enforced by the AT Protocol on `app.bsky.feed.post` `text`
+     * (300 Unicode extended grapheme clusters). Posting more graphemes is
+     * rejected with "grapheme too big". We never exceed it regardless of the
+     * user configured note limit.
+     */
+    const GRAPHEME_LIMIT = 300;
+
     private $template_structure;
     private $is_category_as_tags;
     private $is_show_post_thumbnail;
@@ -35,7 +43,10 @@ class Bluesky
         $this->is_category_as_tags    = (isset($settings['is_category_as_tags']) ? $settings['is_category_as_tags'] : '');
         $this->is_show_post_thumbnail = (isset($settings['is_show_post_thumbnail']) ? $settings['is_show_post_thumbnail'] : '');
         $this->content_source         = (isset($settings['content_source']) ? $settings['content_source'] : '');
-        $this->status_limit           = (isset($settings['note_limit']) ? $settings['note_limit'] : 300);
+        // Bluesky's hard cap is 300 graphemes; a larger user note limit would
+        // build text the API rejects, so clamp the effective limit to 300.
+        $note_limit                   = (isset($settings['note_limit']) ? intval($settings['note_limit']) : self::GRAPHEME_LIMIT);
+        $this->status_limit           = ($note_limit > 0 && $note_limit <= self::GRAPHEME_LIMIT) ? $note_limit : self::GRAPHEME_LIMIT;
         $this->post_share_limit       = (isset($settings['post_share_limit']) ? $settings['post_share_limit'] : 0);
     }
 
@@ -151,6 +162,42 @@ class Bluesky
             return $body->blob;
         }
         return null;
+    }
+
+    /**
+     * Clamp text to Bluesky's grapheme limit so a slightly-too-long post is
+     * shared (truncated) instead of being rejected with "grapheme too big".
+     *
+     * Bluesky counts Unicode extended grapheme clusters. We use the intl
+     * `grapheme_*` functions when available (exact match with the API), and
+     * fall back to `mb_*`/`substr` which count code points/bytes — both are
+     * >= the grapheme count, so the fallback can only truncate more, never
+     * leave the text over the limit.
+     *
+     * @param string $text
+     * @param int    $limit
+     * @return string
+     */
+    public function enforce_grapheme_limit($text, $limit = self::GRAPHEME_LIMIT)
+    {
+        if (function_exists('grapheme_strlen') && function_exists('grapheme_substr')) {
+            $length = grapheme_strlen($text);
+            if ($length !== false && $length !== null && $length > $limit) {
+                $truncated = grapheme_substr($text, 0, $limit - 1);
+                return ($truncated !== false && $truncated !== null) ? rtrim($truncated) . '…' : $text;
+            }
+            return $text;
+        }
+        if (function_exists('mb_strlen') && function_exists('mb_substr')) {
+            if (mb_strlen($text, 'UTF-8') > $limit) {
+                return rtrim(mb_substr($text, 0, $limit - 1, 'UTF-8')) . '…';
+            }
+            return $text;
+        }
+        if (strlen($text) > $limit) {
+            return rtrim(substr($text, 0, $limit - 1)) . '…';
+        }
+        return $text;
     }
 
     /**
@@ -308,7 +355,9 @@ class Bluesky
                 $repo_did   = !empty($session->did) ? $session->did : $did;
 
                 $args  = $this->get_share_content_args($post_id);
-                $text  = $args['text'];
+                // Guarantee we never exceed Bluesky's 300 grapheme cap: truncate
+                // and share rather than letting the API reject the whole post.
+                $text  = $this->enforce_grapheme_limit($args['text']);
 
                 $record = array(
                     '$type'     => 'app.bsky.feed.post',
