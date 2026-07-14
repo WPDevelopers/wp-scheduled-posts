@@ -1,0 +1,25 @@
+#!/usr/bin/env sh
+# pre-commit: run `php -l` on every staged PHP file.
+# Skips vendor/, node_modules/ and the Mozart-generated includes/Deps/.
+# Works both when git runs it directly (core.hooksPath = .husky) and when
+# invoked through the husky v9 shim (core.hooksPath = .husky/_).
+
+files=$(git diff --cached --name-only --diff-filter=ACM -- '*.php' \
+	| grep -vE '^(vendor|node_modules|includes/Deps)/' || true)
+
+[ -z "$files" ] && exit 0
+
+errors=0
+IFS='
+'
+for file in $files; do
+	if [ -f "$file" ] && ! output=$(php -l "$file" 2>&1); then
+		echo "$output"
+		errors=$((errors + 1))
+	fi
+done
+
+if [ "$errors" -gt 0 ]; then
+	echo "pre-commit: PHP syntax error(s) in $errors staged file(s) — commit aborted."
+	exit 1
+fi

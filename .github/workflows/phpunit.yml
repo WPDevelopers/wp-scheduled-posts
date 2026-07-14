@@ -1,0 +1,94 @@
+# Reusable workflow: runs the PHPUnit suites defined in phpunit.xml.
+#
+# unit-tests        : pure PHP, no WordPress. The committed vendor/ autoloader
+#                     is all the bootstrap needs, so no `composer install` runs
+#                     in CI (vendor/ is git-tracked and production-shaped; the
+#                     composer.json platform pin to PHP 7.2 and the abandoned
+#                     mozart 0.6.0 dev-dependency make CI installs fragile).
+# integration-tests : provisions MySQL 5.7 + the WordPress test library via
+#                     bin/install-wp-tests.sh, then boots the plugin inside WP.
+#
+# Both jobs use the PHPUnit 9 PHAR (the WP test suite is not PHPUnit 10 ready)
+# — same toolchain as the wp-scheduled-posts-docker reference container.
+
+name: QA - PHPUnit Tests
+
+permissions: read-all
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-24.04
+    name: PHPUnit Unit Tests (PHP ${{ matrix.php }})
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ["7.4", "8.2"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP ${{ matrix.php }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "${{ matrix.php }}"
+
+      - name: Install PHPUnit 9
+        run: |
+          curl -sSL https://phar.phpunit.de/phpunit-9.phar -o /tmp/phpunit
+          chmod +x /tmp/phpunit
+          sudo mv /tmp/phpunit /usr/local/bin/phpunit
+          phpunit --version
+
+      - name: Run unit suite
+        run: phpunit --testsuite unit
+
+  integration-tests:
+    runs-on: ubuntu-24.04
+    name: PHPUnit Integration Tests (PHP 8.2, WP latest)
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP 8.2
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          extensions: mysqli
+
+      - name: Install PHPUnit 9
+        run: |
+          curl -sSL https://phar.phpunit.de/phpunit-9.phar -o /tmp/phpunit
+          chmod +x /tmp/phpunit
+          sudo mv /tmp/phpunit /usr/local/bin/phpunit
+          phpunit --version
+
+      # The WP test suite requires the Yoast PHPUnit Polyfills; point the suite
+      # at the composer-global install via WP_TESTS_PHPUNIT_POLYFILLS_PATH.
+      - name: Install PHPUnit Polyfills
+        run: |
+          composer global require yoast/phpunit-polyfills --no-interaction
+          echo "WP_TESTS_PHPUNIT_POLYFILLS_PATH=$(composer global config home)/vendor/yoast/phpunit-polyfills" >> "$GITHUB_ENV"
+
+      # install-wp-tests.sh exports the WP test library from develop.svn.wordpress.org.
+      - name: Install subversion
+        run: sudo apt-get update && sudo apt-get install -y subversion
+
+      - name: Install WordPress test library
+        run: bash bin/install-wp-tests.sh wordpress_test root root 127.0.0.1 latest
+
+      - name: Run integration suite
+        run: phpunit --testsuite integration

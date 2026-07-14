@@ -24,6 +24,9 @@ jobs:
   php-syntax-check:
     uses: ./.github/workflows/php-syntax-check.yml
 
+  phpunit-test:
+    uses: ./.github/workflows/phpunit.yml
+
   pcp-plugin-check:
     needs: build
     uses: ./.github/workflows/pcp-plugin-check.yml

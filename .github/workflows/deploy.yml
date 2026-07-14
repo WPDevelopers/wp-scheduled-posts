@@ -6,7 +6,16 @@ on:
     tags:
     - "*"
 jobs:
+  # Quality gates: a tag push only reaches WordPress.org if the PHPUnit suites
+  # and the PHP syntax check pass first.
+  phpunit:
+    uses: ./.github/workflows/phpunit.yml
+
+  syntax:
+    uses: ./.github/workflows/php-syntax-check.yml
+
   deploy:
+    needs: [phpunit, syntax]
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v2

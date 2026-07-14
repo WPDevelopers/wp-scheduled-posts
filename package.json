@@ -7,6 +7,7 @@
         "start": "wp-scripts start",
         "admin-start": "cd ./includes/Admin/Settings && wp-scripts start",
         "pot": "wp i18n make-pot . languages/wp-scheduled-posts.pot ",
+        "prepare": "husky",
         "zip": "wp dist-archive ./ ../wp-scheduled-posts.$npm_package_version.zip",
         "release": "npm run build && npm run pot && npm run zip",
         "packages-update": "wp-scripts packages-update"
@@ -49,6 +50,7 @@
         "cssnano": "^5.0.1",
         "es-class": "^2.1.1",
         "file-loader": "^6.2.0",
+        "husky": "^9.1.7",
         "mini-css-extract-plugin": "^1.5.0",
         "postcss-loader": "^5.2.0",
         "postcss-nested": "^5.0.5",
