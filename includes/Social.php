@@ -57,6 +57,9 @@ class Social
         $this->define('WPSCP_LINKEDIN_OPTION_NAME', 'linkedin_profile_list');
         // pinterest
         $this->define('WPSCP_PINTEREST_OPTION_NAME', 'pinterest_profile_list');
+        // bluesky (AT Protocol)
+        $this->define('WPSCP_BLUESKY_OPTION_NAME', 'bluesky_profile_list');
+        $this->define('WPSCP_BLUESKY_PDS', 'https://bsky.social');
     }
     /**
      * Define constant if not already set.
@@ -114,6 +117,9 @@ class Social
         if (Helper::get_settings('google_business_profile_status') == true) {
             $this->google_business();
         }
+        if (Helper::get_settings('bluesky_profile_status') == true) {
+            $this->bluesky();
+        }
     }
 
 
@@ -163,6 +169,12 @@ class Social
     {
         $WpScp_medium = new Social\Threads();
         $WpScp_medium->instance();
+    }
+
+    public function bluesky()
+    {
+        $WpScp_bluesky = new Social\Bluesky();
+        $WpScp_bluesky->instance();
     }
 
     /**

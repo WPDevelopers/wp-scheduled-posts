@@ -54,6 +54,12 @@ Each modal includes links to the official step-by-step doc for that platform. On
 
 - Connect your Threads account (480-character limit).
 
+## Bluesky
+
+- Connect with your **handle** (`name.bsky.social`) and a Bluesky **App Password** — no developer app or OAuth needed.
+- Shares respect Bluesky's **300-character** limit.
+- Step-by-step guide with screenshots: [Bluesky integration](bluesky/README.md).
+
 ## Google Business Profile — Pro
 
 - Connect your Google Business listing to auto-share posts (1,500-character limit). This platform is **Pro-only**.

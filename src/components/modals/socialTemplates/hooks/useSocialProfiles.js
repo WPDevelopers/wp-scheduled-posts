@@ -10,7 +10,8 @@ const useSocialProfiles = () => {
         instagram: [],
         medium: [],
         threads: [],
-        google_business: []
+        google_business: [],
+        bluesky: []
     });
     const [isLoading, setIsLoading] = useState(true);
 
@@ -72,6 +73,7 @@ const useSocialProfiles = () => {
                         medium: processProfiles(response.medium_profile_list),
                         threads: processProfiles(response.threads_profile_list),
                         google_business: processProfiles(response.google_business_profile_list),
+                        bluesky: processProfiles(response.bluesky_profile_list),
                     });
                 }
             } catch (error) {

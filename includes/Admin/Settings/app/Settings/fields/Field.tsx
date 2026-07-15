@@ -21,6 +21,7 @@ import Medium from './Medium';
 import CheckboxSelectAsync from './CheckboxSelectAsync';
 import Threads from './Threads';
 import GoogleBusiness from './GoogleBusiness';
+import Bluesky from './Bluesky';
 import OpenAI from './OpenAI';
 
 const Field = (ret, type, props) => {
@@ -68,6 +69,8 @@ const Field = (ret, type, props) => {
             return <License {...props} />;
         case "google-business":
             return <GoogleBusiness {...props} />;
+        case "bluesky":
+            return <Bluesky {...props} />;
         case "openai":
             return <OpenAI {...props} />;
         default:

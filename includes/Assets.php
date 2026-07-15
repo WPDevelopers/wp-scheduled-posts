@@ -88,6 +88,7 @@ class Assets
                     'medium' => \WPSP\Helper::get_settings('medium_profile_status'),
                     'threads' => \WPSP\Helper::get_settings('threads_profile_status'),
                     'google_business' => \WPSP\Helper::get_settings('google_business_profile_status'),
+                    'bluesky' => \WPSP\Helper::get_settings('bluesky_profile_status'),
                 ],
             ));
         });
@@ -168,6 +169,7 @@ class Assets
                 'medium' => \WPSP\Helper::get_settings('medium_profile_status'),
                 'threads' => \WPSP\Helper::get_settings('threads_profile_status'),
                 'google_business' => \WPSP\Helper::get_settings('google_business_profile_status'),
+                'bluesky' => \WPSP\Helper::get_settings('bluesky_profile_status'),
             ],
         ));
     }
