@@ -101,10 +101,10 @@ const editIcon = (
   </svg>
 );
 
-// Small "insert into editor" icon for the per-caption Insert action.
+// Small plus icon for the per-caption Insert action.
 const insertIcon = (
   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16" />
+    <path d="M12 5v14M5 12h14" />
   </svg>
 );
 
@@ -296,7 +296,10 @@ const ResultCard = ({
                 </button>
               )}
               <div className="wpsp-ai-result-card__actions">
-                {charCountNode}
+                <button type="button" className="wpsp-ai-result-card__edit" onClick={onStartEdit}>
+                  <span aria-hidden="true">{editIcon}</span>
+                  {__('Edit', 'wp-scheduled-posts')}
+                </button>
                 <button
                   type="button"
                   className={`wpsp-ai-result-card__insert ${isInserted ? 'is-inserted' : ''}`}
@@ -304,10 +307,6 @@ const ResultCard = ({
                 >
                   <span aria-hidden="true">{isInserted ? checkIcon : insertIcon}</span>
                   {isInserted ? __('Inserted', 'wp-scheduled-posts') : __('Insert', 'wp-scheduled-posts')}
-                </button>
-                <button type="button" className="wpsp-ai-result-card__edit" onClick={onStartEdit}>
-                  <span aria-hidden="true">{editIcon}</span>
-                  {__('Edit', 'wp-scheduled-posts')}
                 </button>
               </div>
             </>
@@ -347,10 +346,9 @@ const AICaptionDrawer = ({
   const [results, setResults] = useState(null);
   const [expandedPlatforms, setExpandedPlatforms] = useState([]);
   const [editingPlatform, setEditingPlatform] = useState(null);
-  // Platforms showing the transient "Inserted" flash. The button stays enabled
-  // so a caption can be inserted as many times as the user wants.
+  // Platforms whose caption has been inserted — marked "Inserted" for the life of
+  // the drawer. The button stays enabled so a caption can be re-inserted.
   const [insertedPlatforms, setInsertedPlatforms] = useState([]);
-  const insertFlashTimers = useRef({});
   const moreRef = useRef(null);
   // AbortController for the in-flight generation request, so Stop/close can cancel it.
   const abortRef = useRef(null);
@@ -491,24 +489,15 @@ const AICaptionDrawer = ({
 
   // Insert a single platform's caption without closing the drawer, so the user
   // can pick and choose per platform — and insert the same one repeatedly.
-  // The "Inserted" state is a brief confirmation flash, then reverts to "Insert".
+  // The "Inserted" label sticks until the drawer closes, so at a glance you can
+  // tell which platforms you've already handled. The button stays enabled, so a
+  // re-insert still works; only the label no longer reverts.
   const handleInsertOne = (key) => {
     if (results && results[key] && typeof onInsertCaptions === 'function') {
       onInsertCaptions({ [key]: results[key] }, { close: false });
       setInsertedPlatforms((prev) => (prev.includes(key) ? prev : [...prev, key]));
-      if (insertFlashTimers.current[key]) clearTimeout(insertFlashTimers.current[key]);
-      insertFlashTimers.current[key] = setTimeout(() => {
-        setInsertedPlatforms((prev) => prev.filter((k) => k !== key));
-        delete insertFlashTimers.current[key];
-      }, 1500);
     }
   };
-
-  // Clear any pending flash timers on unmount.
-  useEffect(() => () => {
-    Object.values(insertFlashTimers.current).forEach(clearTimeout);
-    insertFlashTimers.current = {};
-  }, []);
 
   return (
     <>
