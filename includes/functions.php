@@ -1,5 +1,7 @@
 <?php
 
+if (!defined('ABSPATH')) exit;
+
 
 /**
  * Getting First item from array
