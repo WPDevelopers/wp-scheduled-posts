@@ -4,7 +4,7 @@ Tags: post schedule, schedule calendar, auto scheduler, auto sharing, social sha
 Requires at least: 4.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 5.3.1
+Stable tag: 5.3.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -216,6 +216,11 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 8. Social Templates
 
 == Changelog ==
+
+= 5.3.2 - 2026-07-16 =
+- Added: BlueSky Social Platform integration.
+- Fixed: Unprotected Direct Access to functions.php Results in PHP Fatal Error
+- Few minor bug fixes & improvements
 
 = 5.3.1 - 2026-07-01 =
 - Added: AI-powered social share caption generation.
