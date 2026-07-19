@@ -20,6 +20,8 @@ import {
     googleMyBusinessWithBG,
     bluesky,
     blueskyWithBG,
+    mastodon,
+    mastodonWithBG,
 } from '../../icons/icons';
 import ShareNowButton from './ShareNowButton';
 const { __ } = wp.i18n;
@@ -34,6 +36,7 @@ const PLATFORM_CONFIG = {
     threads: { label: 'Threads', icon: threads, iconWithBG: threadsWithBG },
     google_business: { label: 'Google Business', icon: google_business, iconWithBG: googleMyBusinessWithBG },
     bluesky: { label: 'Bluesky', icon: bluesky, iconWithBG: blueskyWithBG },
+    mastodon: { label: 'Mastodon', icon: mastodon, iconWithBG: mastodonWithBG },
 };
 
 const PLATFORM_ORDER = [
@@ -46,6 +49,7 @@ const PLATFORM_ORDER = [
     'threads',
     'google_business',
     'bluesky',
+    'mastodon',
 ];
 
 const processProfiles = (list) => {
@@ -202,6 +206,7 @@ const SocialShare = () => {
                         threads: processProfiles(optionData?.threads_profile_list),
                         google_business: processProfiles(optionData?.google_business_profile_list),
                         bluesky: processProfiles(optionData?.bluesky_profile_list),
+                        mastodon: processProfiles(optionData?.mastodon_profile_list),
                     };
 
                     // Treat the post as having a saved selection when its custom

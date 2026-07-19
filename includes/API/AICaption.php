@@ -49,6 +49,8 @@ class AICaption
         'medium'          => ['name' => 'Medium', 'limit' => 45000],
         'threads'         => ['name' => 'Threads', 'limit' => 500],
         'google_business' => ['name' => 'Google Business Profile', 'limit' => 1500],
+        'bluesky'         => ['name' => 'Bluesky', 'limit' => 300],
+        'mastodon'        => ['name' => 'Mastodon', 'limit' => 500],
     ];
 
     /**

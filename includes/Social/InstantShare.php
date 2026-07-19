@@ -39,6 +39,7 @@ class InstantShare
         $threadsIntegation = \WPSP\Helper::get_settings('threads_profile_status');
         $googleBusinessIntegation = \WPSP\Helper::get_settings('google_business_profile_status');
         $blueskyIntegation = \WPSP\Helper::get_settings('bluesky_profile_status');
+        $mastodonIntegation = \WPSP\Helper::get_settings('mastodon_profile_status');
         // profile
         $facebookProfile = \WPSP\Helper::get_settings('facebook_profile_list');
         $twitterProfile = \WPSP\Helper::get_settings('twitter_profile_list');
@@ -49,6 +50,7 @@ class InstantShare
         $threadsProfile = \WPSP\Helper::get_settings('threads_profile_list');
         $googleBusinessProfile = \WPSP\Helper::get_settings('google_business_profile_list');
         $blueskyProfile = \WPSP\Helper::get_settings('bluesky_profile_list');
+        $mastodonProfile = \WPSP\Helper::get_settings('mastodon_profile_list');
         // already checked 'Helper::is_enable_classic_editor()'
     ?>
         <div class="wpscppro-instantshare">
@@ -288,6 +290,26 @@ class InstantShare
                     <?php
                     endif;
                     ?>
+                    <?php
+                    if ($mastodonIntegation == 'on' && is_array($mastodonProfile) && count($mastodonProfile) > 0) :
+                        $mastodonShareCount = get_post_meta(get_the_ID(), '__wpscppro_social_share_mastodon');
+                        $isMastodon = get_post_meta(get_the_ID(), '_wpsp_is_mastodon_share', true);
+                    ?>
+                        <li class="mastodon">
+                            <label style="margin-bottom: 10px;">
+                                <input type="checkbox" id="wpscppromastodonis" name="_wpsp_is_mastodon_share" <?php (!empty($isMastodon) ? checked('on', $isMastodon, true) : checked('', $isMastodon, true)  ); ?> /> <?php esc_html_e('Mastodon', 'wp-scheduled-posts'); ?>
+                                <?php
+                                if (is_array($mastodonShareCount) && count($mastodonShareCount) > 0) :
+                                ?>
+                                    <span class="sharecount"><?php print count($mastodonShareCount); ?></span>
+                                <?php endif; ?>
+                                <span class="ajaxrequest"></span>
+                            </label>
+                            <div class="errorlog"></div>
+                        </li>
+                    <?php
+                    endif;
+                    ?>
 
                     <?php
                     $is_pro = class_exists('WPSP_PRO');
@@ -391,6 +413,7 @@ class InstantShare
         update_post_meta( $post_id, '_threads_share_type', 'default' );
         update_post_meta( $post_id, '_google_business_share_type', 'default' );
         update_post_meta( $post_id, '_bluesky_share_type', 'default' );
+        update_post_meta( $post_id, '_mastodon_share_type', 'default' );
         $facebookProfile  = \WPSP\Helper::get_settings('facebook_profile_list');
         $twitterProfile   = \WPSP\Helper::get_settings('twitter_profile_list');
         $linkedinProfile  = \WPSP\Helper::get_settings('linkedin_profile_list');
@@ -398,6 +421,7 @@ class InstantShare
         $instagramProfile = \WPSP\Helper::get_settings('instagram_profile_list');
         $mediumProfile = \WPSP\Helper::get_settings('medium_profile_list');
         $blueskyProfile = \WPSP\Helper::get_settings('bluesky_profile_list');
+        $mastodonProfile = \WPSP\Helper::get_settings('mastodon_profile_list');
         $selectedSocialProfiles = [];
         $facebookProfile  = is_array( $facebookProfile ) ? $facebookProfile : [];
         $twitterProfile   = is_array( $twitterProfile ) ? $twitterProfile : [];
@@ -406,6 +430,7 @@ class InstantShare
         $instagramProfile = is_array( $instagramProfile ) ? $instagramProfile : [];
         $mediumProfile = is_array( $mediumProfile ) ? $mediumProfile : [];
         $blueskyProfile = is_array( $blueskyProfile ) ? $blueskyProfile : [];
+        $mastodonProfile = is_array( $mastodonProfile ) ? $mastodonProfile : [];
         $selectedSocialProfiles = array_merge( $facebookProfile, $selectedSocialProfiles );
         $selectedSocialProfiles = array_merge( $twitterProfile, $selectedSocialProfiles );
         $selectedSocialProfiles = array_merge( $linkedinProfile, $selectedSocialProfiles );
@@ -413,6 +438,7 @@ class InstantShare
         $selectedSocialProfiles = array_merge( $instagramProfile, $selectedSocialProfiles );
         $selectedSocialProfiles = array_merge( $mediumProfile, $selectedSocialProfiles );
         $selectedSocialProfiles = array_merge( $blueskyProfile, $selectedSocialProfiles );
+        $selectedSocialProfiles = array_merge( $mastodonProfile, $selectedSocialProfiles );
         if( Helper::is_enable_classic_editor() ) {
             update_post_meta( $post_id, '_selected_social_profile', json_decode( json_encode( $selectedSocialProfiles ), true ) ); 
         }
@@ -457,6 +483,7 @@ class InstantShare
         $threads_selected_profiles         = !empty( $_REQUEST['threads_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['threads_selected_profiles'] ) : [];
         $google_business_selected_profiles = !empty( $_REQUEST['google_business_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['google_business_selected_profiles'] ) : [];
         $bluesky_selected_profiles         = !empty( $_REQUEST['bluesky_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['bluesky_selected_profiles'] ) : [];
+        $mastodon_selected_profiles        = !empty( $_REQUEST['mastodon_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['mastodon_selected_profiles'] ) : [];
 
         // get data from db
         $facebook  = \WPSP\Helper::get_social_profile(WPSCP_FACEBOOK_OPTION_NAME, $facebook_selected_profiles);
@@ -473,6 +500,7 @@ class InstantShare
         $threads   = \WPSP\Helper::get_social_profile(WPSCP_THREADS_OPTION_NAME, $threads_selected_profiles);
         $google_business   = \WPSP\Helper::get_social_profile(WPSCP_GOOGLE_BUSINESS_OPTION_NAME, $google_business_selected_profiles);
         $bluesky   = \WPSP\Helper::get_social_profile(WPSCP_BLUESKY_OPTION_NAME, $bluesky_selected_profiles);
+        $mastodon  = \WPSP\Helper::get_social_profile(WPSCP_MASTODON_OPTION_NAME, $mastodon_selected_profiles);
 
         // get data from ajax request
         $is_facebook_share        = !empty( $_REQUEST['is_facebook_share'] ) ? sanitize_text_field( $_REQUEST['is_facebook_share'] ) : null;
@@ -484,6 +512,7 @@ class InstantShare
         $is_threads_share         = !empty( $_REQUEST['is_threads_share'] ) ? sanitize_text_field( $_REQUEST['is_threads_share'] ) : null;
         $is_google_business_share         = !empty( $_REQUEST['is_google_business_share'] ) ? sanitize_text_field( $_REQUEST['is_google_business_share'] ) : null;
         $is_bluesky_share         = !empty( $_REQUEST['is_bluesky_share'] ) ? sanitize_text_field( $_REQUEST['is_bluesky_share'] ) : null;
+        $is_mastodon_share        = !empty( $_REQUEST['is_mastodon_share'] ) ? sanitize_text_field( $_REQUEST['is_mastodon_share'] ) : null;
 
         if ($is_facebook_share === "true") {
             $allProfile['facebook'] = $facebook;
@@ -511,6 +540,9 @@ class InstantShare
         }
         if ($is_bluesky_share === "true") {
             $allProfile['bluesky'] = $bluesky;
+        }
+        if ($is_mastodon_share === "true") {
+            $allProfile['mastodon'] = $mastodon;
         }
 
         // placeholder image url 
@@ -804,6 +836,28 @@ class InstantShare
                 $postid,
                 $platformKey,
                 isset($bluesky[$platformKey]->pds) ? $bluesky[$platformKey]->pds : WPSCP_BLUESKY_PDS,
+                $is_share_on_publish
+            );
+            if (!$is_share_on_publish) {
+                wp_die();
+            }
+        } else if ($platform == 'mastodon') {
+            $mastodon = \WPSP\Helper::get_social_profile(WPSCP_MASTODON_OPTION_NAME);
+            if (empty($profileID)) {
+                $profileID = !empty($mastodon[$platformKey]->id) ? $mastodon[$platformKey]->id : null;
+            }
+            $platformKey = !empty($profileID) ? array_search($profileID, array_column($mastodon, 'id')) : intval($platformKey);
+            if ($mastodon[$platformKey]->status == false) {
+                wp_die();
+            }
+            $mastodon_share = new \WPSP\Social\Mastodon();
+            $mastodon_share->socialMediaInstantShare(
+                $mastodon[$platformKey]->access_token,
+                isset($mastodon[$platformKey]->__id) ? $mastodon[$platformKey]->__id : '',
+                $mastodon[$platformKey]->id,
+                $postid,
+                $platformKey,
+                isset($mastodon[$platformKey]->instance_url) ? $mastodon[$platformKey]->instance_url : WPSCP_MASTODON_INSTANCE,
                 $is_share_on_publish
             );
             if (!$is_share_on_publish) {
