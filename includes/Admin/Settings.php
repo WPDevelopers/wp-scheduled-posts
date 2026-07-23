@@ -1886,22 +1886,6 @@ class Settings
                                                                 ],
                                                             ],
                                                         ],
-                                                        'auto_scheduler_rulesets_section' => [
-                                                            'id' => 'auto_scheduler_rulesets',
-                                                            'name' => 'auto_scheduler_rulesets',
-                                                            'type' => 'section',
-                                                            'label' => false,
-                                                            'priority' => 10,
-                                                            'fields' => [
-                                                                'auto_scheduler_rulesets' => [
-                                                                    'id' => 'auto_scheduler_rulesets',
-                                                                    'name' => 'auto_scheduler_rulesets',
-                                                                    'type' => 'auto-scheduler-rulesets',
-                                                                    'priority' => 5,
-                                                                    'is_pro' => true,
-                                                                ],
-                                                            ],
-                                                        ],
                                                         'scheduling_hub_section' => [
                                                             'id' => 'scheduling_hub',
                                                             'name' => 'scheduling_hub',

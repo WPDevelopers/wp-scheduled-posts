@@ -1,3 +1,4 @@
+import apiFetch from '@wordpress/api-fetch';
 import { __ } from '@wordpress/i18n';
 import React, { useEffect, useRef, useState } from 'react';
 import RulesetEditor from './RulesetEditor';
@@ -33,11 +34,40 @@ const AutoRulesets = ({ initial, persist }: Props) => {
     const [dirty, setDirty] = useState(false);
     const snapshot = useRef<Ruleset | null>(null);
     const [stamp, setStamp] = useState(nowStamp());
+    const [notice, setNotice] = useState<{ type: 'ok' | 'err'; msg: string } | null>(null);
+    const [running, setRunning] = useState<number | null>(null);
 
     useEffect(() => {
         const t = setInterval(() => setStamp(nowStamp()), 1000);
         return () => clearInterval(t);
     }, []);
+
+    const flash = (type: 'ok' | 'err', msg: string) => {
+        setNotice({ type, msg });
+        window.setTimeout(() => setNotice(null), 5000);
+    };
+
+    // Fire the ruleset once via the Pro REST endpoint (engine runs immediately).
+    const runRulesetOnce = (id: number) => {
+        setRunning(id);
+        apiFetch({
+            path: 'wp-scheduled-posts-pro/v1/run-ruleset',
+            method: 'POST',
+            data: { id },
+        })
+            .then((res: any) => {
+                const r = res?.result || {};
+                let msg = __('Ruleset ran — nothing to do right now.', 'wp-scheduled-posts');
+                if (r.published) msg = `${__('Published', 'wp-scheduled-posts')} ${r.published} ${__('post(s).', 'wp-scheduled-posts')}`;
+                else if (r.recycled) msg = __('Recycled an old post.', 'wp-scheduled-posts');
+                else if (r.skipped) msg = `${__('Skipped:', 'wp-scheduled-posts')} ${r.skipped}`;
+                flash('ok', `#${id}: ${msg}`);
+            })
+            .catch((err: any) => {
+                flash('err', err?.message || __('Could not run the ruleset. Save it first.', 'wp-scheduled-posts'));
+            })
+            .finally(() => setRunning(null));
+    };
 
     const active = activeId !== null ? rulesets.find((r) => r.id === activeId) : null;
 
@@ -167,6 +197,12 @@ const AutoRulesets = ({ initial, persist }: Props) => {
                         </div>
                     </header>
 
+                    {notice && (
+                        <div className={`wpsp-rs-notice is-${notice.type}`}>
+                            {notice.msg}
+                        </div>
+                    )}
+
                     <div className="ruleset-list">
                         {rulesets.length === 0 ? (
                             <div className="ruleset-empty">
@@ -181,7 +217,7 @@ const AutoRulesets = ({ initial, persist }: Props) => {
                                         ruleset={r}
                                         isActive={r.id === activeId}
                                         onEdit={() => openEditor(r.id)}
-                                        onRun={() => {}}
+                                        onRun={() => runRulesetOnce(r.id)}
                                         onDelete={() => deleteRuleset(r.id)}
                                     />
                                     {r.id === activeId && active && (
@@ -189,8 +225,9 @@ const AutoRulesets = ({ initial, persist }: Props) => {
                                             ruleset={active}
                                             isNew={isNew}
                                             dirty={dirty}
+                                            running={running === active.id}
                                             onChange={patchActive}
-                                            onRun={() => {}}
+                                            onRun={() => runRulesetOnce(active.id)}
                                             onToggle={toggleActive}
                                             onSave={saveActive}
                                             onDiscard={discardActive}

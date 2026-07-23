@@ -74,6 +74,11 @@
   .rs-section-meta { color: var(--muted); font-size: 11.5px; margin-right: auto; display: inline-flex; align-items: center; gap: 5px; }
   .rs-section-actions { display: inline-flex; gap: 8px; flex-wrap: wrap; }
 
+  .wpsp-rs-notice { padding: 9px 14px; border-radius: var(--radius-sm); font-size: 12.5px; font-weight: 500; margin-bottom: 10px; border: 1px solid;
+    &.is-ok { background: #ecfdf5; border-color: #a7f3d0; color: #047857; }
+    &.is-err { background: var(--danger-soft); border-color: var(--danger-border); color: var(--danger); }
+  }
+
   .ruleset-list { display: flex; flex-direction: column; gap: 8px; }
   .ruleset-empty { text-align: center; color: var(--muted); padding: 28px 12px; border: 1px dashed var(--line); border-radius: 10px; background: var(--bg-2); font-size: 13px; }
 
@@ -129,8 +134,8 @@
 
   // ---- Shared inputs ----
   .select, .input { width: 100%; padding: 9px 12px; border: 1px solid var(--line); border-radius: 9px; background: var(--card); color: var(--ink); font-size: 13px; font-family: inherit; transition: border-color .15s, box-shadow .15s; &:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px var(--ring); } }
-  .input-row { display: flex; align-items: center; background: var(--card); border: 1px solid var(--line); border-radius: 9px; padding: 0 0 0 12px; transition: border-color .15s, box-shadow .15s; &:focus-within { border-color: var(--brand); box-shadow: 0 0 0 3px var(--ring); } input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; padding: 9px 4px; font-family: inherit; font-size: 13px; color: var(--ink); } .suffix { padding: 0 12px; color: var(--muted); font-size: 12px; font-weight: 600; border-left: 1px solid var(--line); line-height: 36px; } }
-  .multi { width: 100%; border: 1px solid var(--line); border-radius: 9px; background: var(--card); padding: 6px 8px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; min-height: 40px; transition: border-color .15s, box-shadow .15s; &:focus-within { border-color: var(--brand); box-shadow: 0 0 0 3px var(--ring); } input { flex: 1; min-width: 80px; border: 0; outline: 0; font-size: 13px; padding: 4px; background: transparent; font-family: inherit; } }
+  .input-row { display: flex; align-items: center; background: var(--card); border: 1px solid var(--line); border-radius: 9px; padding: 0 0 0 12px; transition: border-color .15s, box-shadow .15s; &:focus-within { border-color: var(--brand); box-shadow: 0 0 0 3px var(--ring); } input { flex: 1; min-width: 0; border: 0; outline: 0; box-shadow: none; background: transparent; padding: 9px 4px; font-family: inherit; font-size: 13px; color: var(--ink); &:focus { border: 0; outline: 0; box-shadow: none; } } .suffix { padding: 0 12px; color: var(--muted); font-size: 12px; font-weight: 600; border-left: 1px solid var(--line); line-height: 36px; } }
+  .multi { width: 100%; border: 1px solid var(--line); border-radius: 9px; background: var(--card); padding: 6px 8px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; min-height: 40px; transition: border-color .15s, box-shadow .15s; &:focus-within { border-color: var(--brand); box-shadow: 0 0 0 3px var(--ring); } input { flex: 1; min-width: 80px; border: 0; outline: 0; box-shadow: none; font-size: 13px; padding: 4px; background: transparent; font-family: inherit; &:focus { border: 0; outline: 0; box-shadow: none; } } }
   .chip { background: var(--brand-soft-2); color: var(--brand-dark); border: 1px solid var(--brand-soft); padding: 3px 9px; border-radius: 6px; font-size: 12px; font-weight: 500; display: inline-flex; align-items: center; gap: 5px; .x { cursor: pointer; opacity: .6; font-weight: 700; &:hover { opacity: 1; } } }
 
   // Taxonomy filter — searchable react-select with chips above

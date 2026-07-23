@@ -10,6 +10,7 @@ type Props = {
     ruleset: Ruleset;
     isNew: boolean;
     dirty: boolean;
+    running?: boolean;
     onChange: (patch: Partial<Ruleset>) => void;
     onRun: () => void;
     onToggle: () => void;
@@ -25,6 +26,7 @@ const RulesetEditor = ({
     ruleset,
     isNew,
     dirty,
+    running,
     onChange,
     onRun,
     onToggle,
@@ -61,13 +63,15 @@ const RulesetEditor = ({
                     <button
                         className="btn btn-sm"
                         type="button"
-                        disabled={isNew}
+                        disabled={isNew || running}
                         title={lockMsg}
                         onClick={onRun}>
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
                             <polygon points="6 4 20 12 6 20 6 4" />
                         </svg>
-                        {__('Run Once', 'wp-scheduled-posts')}
+                        {running
+                            ? __('Running…', 'wp-scheduled-posts')
+                            : __('Run Once', 'wp-scheduled-posts')}
                     </button>
                     <button
                         className="btn btn-sm btn-primary"
