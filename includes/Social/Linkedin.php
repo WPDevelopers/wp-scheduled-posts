@@ -183,7 +183,10 @@ class Linkedin
             $templates = get_post_meta($post_id, '_wpsp_custom_templates', true);
             $platform_data = isset($templates['linkedin']) ? $templates['linkedin'] : null;
             $profiles = is_array($platform_data) && isset($platform_data['profiles']) ? $platform_data['profiles'] : [];
-            if ( is_array($profiles) && !in_array($this->current_profile_id, $profiles) ) {
+            // An empty list means the custom template was enabled without picking any
+            // LinkedIn profile -- that is "no restriction", not "share to nobody".
+            // Without the !empty() check every share was dropped before any API call.
+            if ( is_array($profiles) && !empty($profiles) && !in_array($this->current_profile_id, $profiles) ) {
                 return;
             }
         }
@@ -286,6 +289,25 @@ class Linkedin
                 } else if (isset($result->code, $result->message) && $result->code === 'INVALID_STRING_FORMAT') {
                     $errorFlag = false;
                     $response = $result->message;
+                } else {
+                    // Catch-all: LinkedIn returns plenty of error shapes that carry
+                    // neither an id nor a serviceErrorCode (e.g. 426 NONEXISTENT_VERSION).
+                    // Without this the log stayed empty and the failure looked silent.
+                    $errorFlag = false;
+                    if (!empty($result) && is_object($result) && isset($result->message)) {
+                        $response = $result->message;
+                        if (isset($result->code) && $result->code === 'NONEXISTENT_VERSION') {
+                            $response = sprintf(
+                                /* translators: %s: LinkedIn API version */
+                                __('LinkedIn rejected API version %s (no longer supported). Please update SchedulePress.', 'wp-scheduled-posts'),
+                                $linkedin->apiVersion()
+                            );
+                        }
+                    } elseif (is_string($results) && $results !== '') {
+                        $response = $results;
+                    } else {
+                        $response = __('LinkedIn returned an unexpected response. Please try again.', 'wp-scheduled-posts');
+                    }
                 }
             } catch (\Exception $e) {
                 $errorFlag = false;
@@ -365,6 +387,11 @@ class Linkedin
         $response = $this->remote_post($post_id, $profile_key, true);
         if( $is_share_on_publish ) {
             return;
+        }
+        // remote_post() bails out with a bare `return;` on several skip conditions.
+        // Without this the array access below warns and the UI shows a blank error.
+        if ( !is_array($response) ) {
+            wp_send_json_error(__('Sharing was skipped for this profile. Check the post\'s social share settings.', 'wp-scheduled-posts'));
         }
         if ($response['success'] == false) {
             wp_send_json_error($response['log']);

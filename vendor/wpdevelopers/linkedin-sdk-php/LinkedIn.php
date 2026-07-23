@@ -4,6 +4,8 @@ namespace myPHPNotes;
 
 
 class LinkedIn {
+    const DEFAULT_API_VERSION = '202607';
+
     protected $app_id;
     protected $app_secret;
     protected $callback;
@@ -18,6 +20,26 @@ class LinkedIn {
         $this->callback = $callback;
         $this->ssl = $ssl;
     }
+    /**
+     * Resolve the LinkedIn API version sent in the LinkedIn-Version header.
+     *
+     * LinkedIn versions are supported for one year from release, so a
+     * hardcoded value silently sunsets and every /rest/* call starts
+     * returning 426 NONEXISTENT_VERSION. Keep this overridable so a site
+     * can be unblocked without shipping a plugin release.
+     */
+    public function apiVersion() {
+        $version = defined('WPSCP_LINKEDIN_API_VERSION') ? WPSCP_LINKEDIN_API_VERSION : self::DEFAULT_API_VERSION;
+        if (function_exists('apply_filters')) {
+            $version = apply_filters('wpsp_linkedin_api_version', $version);
+        }
+        return preg_match('/^\d{6}$/', (string) $version) ? (string) $version : self::DEFAULT_API_VERSION;
+    }
+
+    protected function versionHeader() {
+        return 'LinkedIn-Version: ' . $this->apiVersion();
+    }
+
     public function getAuthUrl() {
         $_SESSION['linkedincsrf']  = $this->csrf;
         return "https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=" . $this->app_id . "&redirect_uri=" . $this->callback . "&state=" . $this->csrf . "&scope=" . $this->scopes;
@@ -76,7 +98,7 @@ class LinkedIn {
         $header = [
             "Authorization: Bearer {$accessToken}",
             'X-Restli-Protocol-Version: 2.0.0',
-            'LinkedIn-Version: 202507',
+            $this->versionHeader(),
         ];
 
         $company_pages = "https://api.linkedin.com/v2/organizationalEntityAcls?q=roleAssignee&role=ADMINISTRATOR&state=APPROVED&projection=(elements*(organizationalTarget~(id,localizedName,logoV2(original~:playableStreams))))";
@@ -105,7 +127,7 @@ class LinkedIn {
         $header = [
             "Authorization: Bearer {$accessToken}",
             'X-Restli-Protocol-Version: 2.0.0',
-            'LinkedIn-Version: 202507',
+            $this->versionHeader(),
         ];
         $request = [
             // "author": "urn:li:organization:5515715",
@@ -157,7 +179,7 @@ class LinkedIn {
         ]);
         $headers = [
             "Authorization: Bearer {$access_token}",
-            'LinkedIn-Version: 202507',
+            $this->versionHeader(),
             "X-RestLi-Protocol-Version: 2.0.0"
         ];
 
@@ -171,7 +193,7 @@ class LinkedIn {
             $content_type = "image/jpeg";
             $headers = [
                 "Authorization: Bearer {$access_token}",
-                'LinkedIn-Version: 202507',
+                $this->versionHeader(),
                 "X-RestLi-Protocol-Version: 2.0.0",
                 "Content-Length: " . strlen($parameters),
             ];
@@ -216,7 +238,7 @@ class LinkedIn {
         $content_type = "application/json";
         $headers = [
             "Authorization: Bearer {$access_token}",
-            'LinkedIn-Version: 202507',
+            $this->versionHeader(),
             "X-RestLi-Protocol-Version: 2.0.0",
             "Content-Length: " . strlen($parameters),
         ];
@@ -257,7 +279,7 @@ class LinkedIn {
 
         $headers = [
             "Authorization: Bearer {$accessToken}",
-            'LinkedIn-Version: 202507',
+            $this->versionHeader(),
             "X-RestLi-Protocol-Version: 2.0.0",
             "Content-Length: " . strlen($parameters),
         ];

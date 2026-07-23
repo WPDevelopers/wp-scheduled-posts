@@ -48,6 +48,10 @@ class Social
         $this->define('WPSCP_TWITTER_OPTION_NAME', 'twitter_profile_list');
         $this->define('WPSCP_GOOGLE_BUSINESS_OPTION_NAME', 'google_business_profile_list');
         // linkedin
+        // Legacy scopes. Kept because the bundled SchedulePress LinkedIn app does not
+        // have the "Sign In with LinkedIn using OpenID Connect" product enabled --
+        // requesting `openid` on it fails with unauthorized_scope_error. The OpenID
+        // scope constants below are for custom apps that do have that product.
         $this->define('WPSCP_LINKEDIN_SCOPE', 'r_emailaddress r_liteprofile w_member_social');
         $this->define('WPSCP_LINKEDIN_SCOPE_OPENID', 'openid profile email w_member_social');
         $this->define('WPSCP_LINKEDIN_SCOPE_OPENID_PAGE', 'openid profile email w_member_social r_organization_admin w_organization_social rw_organization_admin');
