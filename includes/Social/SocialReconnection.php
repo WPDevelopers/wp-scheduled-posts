@@ -14,7 +14,7 @@ final class SocialReconnection
     /**
      * Schedule a single event for LinkedIn reconnection one day before token expiry
      *
-     * @param int $id The ID of the profile to reconnect
+     * @param array $params Reconnect args; requires 'id' — the ID of the profile to reconnect.
      */
     public function linkedin_reconnect_cron_event($params)
     {
@@ -66,7 +66,7 @@ final class SocialReconnection
             }
         }
 
-        if (!$profile || empty($profile->refresh_token || empty($profile->app_id) || empty($profile->app_secret))) {
+        if (!$profile || empty($profile->refresh_token) || empty($profile->app_id) || empty($profile->app_secret)) {
             return;
         }
 
@@ -103,7 +103,7 @@ final class SocialReconnection
             ]
         );
         if( $updates ) {
-            $this->linkedin_reconnect_cron_event($profile_id);
+            $this->linkedin_reconnect_cron_event(['id' => $profile_id]);
         }
     }
      /**
