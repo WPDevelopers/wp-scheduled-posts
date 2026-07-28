@@ -139,22 +139,16 @@
           .wprf-toggle-wrap {
             order: 1;
           }
+          // Pro fields show the crown badge only. The "Upgrade to Premium" text
+          // stays in the DOM for screen readers but is collapsed with font-size: 0,
+          // so the sizes below live on the pseudo element instead.
           .wprf-description {
-            font-weight: 500;
-            color: #ff9437;
             margin-left: 0 !important;
-            font-size: 14px;
+            font-size: 0;
             margin-right: 24px;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 0.75em;
-            @media screen and (max-width: 1439px) {
-              font-size: 12px;
-            }
-            @media screen and (max-width: 1023px) {
-              font-size: 11px;
-            }
             &:before {
               height: 1.9em;
               width: 1.9em;
@@ -165,8 +159,18 @@
               border-radius: 50%;
               content: '\e907';
               font-family: 'wpsp';
-              font-size: 0.7em;
+              font-size: 10px;
               color: #ff9437;
+            }
+            @media screen and (max-width: 1439px) {
+              &:before {
+                font-size: 8.4px;
+              }
+            }
+            @media screen and (max-width: 1023px) {
+              &:before {
+                font-size: 7.7px;
+              }
             }
           }
         }

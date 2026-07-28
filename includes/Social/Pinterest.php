@@ -161,19 +161,23 @@ class Pinterest
                 $desc = Helper::strip_all_html_and_keep_single_breaks(do_shortcode($desc));
             }
         }
-        if(strpos($this->template_structure, '{url}') !== false){
+        // Work on a local copy — this method runs once per connected board on the
+        // same object, so mutating $this->template_structure would strip the
+        // placeholders for every board after the first.
+        $template_structure = $this->template_structure;
+        if(strpos($template_structure, '{url}') !== false){
             $has_url = true;
-            $this->template_structure = str_replace('{url}', '', $this->template_structure);
+            $template_structure = str_replace('{url}', '', $template_structure);
         }
-        if(strpos($this->template_structure, '{title}') !== false){
-            $this->template_structure = str_replace('{title}', '', $this->template_structure);
+        if(strpos($template_structure, '{title}') !== false){
+            $template_structure = str_replace('{title}', '', $template_structure);
         }
         else{
             $PostTitle = '';
         }
 
         $note_content = $this->social_share_content_template_structure(
-            $this->template_structure,
+            $template_structure,
             '',
             $desc,
             '',
