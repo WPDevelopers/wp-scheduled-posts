@@ -117,13 +117,12 @@ class Medium
         }
 
         $canonical_url = get_permalink($post_id);
-        $tags = $this->getPostHasTags($post_id, 'medium', $this->is_category_as_tags) ?: '';
+        $tags = $this->getPostHasTags($post_id, 'medium', $this->is_category_as_tags);
+        $tags = is_array($tags) ? $tags : [];
         if ($this->is_category_as_tags) {
             $categories = $this->getPostHasCats($post_id, 'medium');
-            if (is_array($tags)) {
-                $tags = is_array($categories) ? array_merge($tags, $categories) : $tags;
-            } else {
-                $tags = $categories;
+            if (is_array($categories)) {
+                $tags = array_merge($tags, $categories);
             }
         }
         $tags = array_values($tags);
