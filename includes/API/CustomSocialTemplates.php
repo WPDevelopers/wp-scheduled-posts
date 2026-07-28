@@ -427,22 +427,7 @@ class CustomSocialTemplates
         // Update custom templates post meta
         $template_updated = update_post_meta($post_id, '_wpsp_custom_templates', $templates);
         // global default template.
-        $has_custom_template = false;
-        if (is_array($templates)) {
-            foreach ($templates as $platform_entry) {
-                if (!is_array($platform_entry)) {
-                    continue;
-                }
-                $tpl     = isset($platform_entry['template']) ? trim((string) $platform_entry['template']) : '';
-                $profs   = isset($platform_entry['profiles']) && is_array($platform_entry['profiles']) ? $platform_entry['profiles'] : [];
-                $global  = !empty($platform_entry['is_global']);
-                if ($tpl !== '' || !empty($profs) || $global) {
-                    $has_custom_template = true;
-                    break;
-                }
-            }
-        }
-        update_post_meta($post_id, '_wpsp_enable_custom_social_template', $has_custom_template);
+        update_post_meta($post_id, '_wpsp_enable_custom_social_template', $this->has_any_custom_template($templates));
 
         // Handle scheduling data
         $scheduling_updated = false;
@@ -481,6 +466,106 @@ class CustomSocialTemplates
                 'message' => __('Failed to save template and/or scheduling.', 'wp-scheduled-posts')
             ), 500);
         }
+    }
+
+    /**
+     * Does one platform entry carry custom template data?
+     *
+     * get_simple_templates() normalises the meta so every platform is always
+     * present, which makes a blank entry — not a missing key — the way "this
+     * platform has no custom template" is represented.
+     *
+     * @param mixed $platform_entry One entry of the `_wpsp_custom_templates` meta.
+     * @return bool
+     */
+    private function platform_has_custom_template( $platform_entry ) {
+        if (!is_array($platform_entry)) {
+            return false;
+        }
+
+        $tpl     = isset($platform_entry['template']) ? trim((string) $platform_entry['template']) : '';
+        $profs   = isset($platform_entry['profiles']) && is_array($platform_entry['profiles']) ? $platform_entry['profiles'] : [];
+        $global  = !empty($platform_entry['is_global']);
+
+        return $tpl !== '' || !empty($profs) || $global;
+    }
+
+    /**
+     * Does any platform still carry custom template data?
+     *
+     * Drives the `_wpsp_enable_custom_social_template` flag, so it has to agree
+     * between saving and deleting.
+     *
+     * @param mixed $templates Value of the `_wpsp_custom_templates` meta.
+     * @return bool
+     */
+    private function has_any_custom_template( $templates ) {
+        if (!is_array($templates)) {
+            return false;
+        }
+
+        foreach ($templates as $platform_entry) {
+            if ($this->platform_has_custom_template($platform_entry)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Delete the custom template of a single platform on a post
+     *
+     * The DELETE route has always been registered but the callback was never
+     * written, so every request to it fatalled with "call to undefined method".
+     *
+     * @param WP_REST_Request $request
+     * @return WP_REST_Response
+     */
+    public function delete_custom_template( $request ) {
+        $post_id  = $request->get_param('post_id');
+        $platform = $request->get_param('platform');
+
+        // Verify post exists and user can edit it
+        if (!get_post($post_id) || !current_user_can('edit_post', $post_id)) {
+            return new \WP_REST_Response(array(
+                'success' => false,
+                'message' => __('Post not found or insufficient permissions.', 'wp-scheduled-posts')
+            ), 403);
+        }
+
+        // Read through get_simple_templates() so legacy formats are migrated and
+        // every platform key is present before we touch anything.
+        $templates = $this->get_simple_templates($post_id);
+
+        $entry = isset($templates[$platform]) ? $templates[$platform] : null;
+
+        if (!$this->platform_has_custom_template($entry)) {
+            return new \WP_REST_Response(array(
+                'success' => false,
+                'message' => __('No custom template found for this platform.', 'wp-scheduled-posts')
+            ), 404);
+        }
+
+        // Blank the entry rather than unsetting it: get_simple_templates() puts
+        // every platform back on the next read, so a removed key would return as
+        // a blank one anyway.
+        $templates[$platform] = ['template' => '', 'profiles' => [], 'is_global' => false];
+
+        update_post_meta($post_id, '_wpsp_custom_templates', $templates);
+
+        // Keep the enable flag in step with what is left.
+        update_post_meta($post_id, '_wpsp_enable_custom_social_template', $this->has_any_custom_template($templates));
+
+        return new \WP_REST_Response(array(
+            'success' => true,
+            /* translators: %s: Social platform label, e.g. Facebook */
+            'message' => sprintf(__('Custom template deleted for %s.', 'wp-scheduled-posts'), $this->platform_label($platform)),
+            'data' => [
+                'templates' => $templates,
+                'deleted_platform' => $platform
+            ]
+        ), 200);
     }
 
     /**
