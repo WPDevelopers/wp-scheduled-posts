@@ -3,7 +3,7 @@ import { Button } from '@wordpress/components';
 const { __ } = wp.i18n;
 import { AppContext } from '../../../context/AppContext';
 import Header from './Header';
-import { facebook, twitter_x, linkedin, pinterest, instagram, medium, threads, google_business, bluesky } from '../../../icons/icons';
+import { facebook, twitter_x, linkedin, pinterest, instagram, medium, threads, google_business, bluesky, mastodon } from '../../../icons/icons';
 
 // Sub-components
 import PlatformNavigation from './PlatformNavigation';
@@ -26,6 +26,7 @@ const SOCIAL_PLATFORMS = [
   'threads',
   'google_business',
   'bluesky',
+  'mastodon',
 ];
 
 const platformLimits = {
@@ -38,6 +39,7 @@ const platformLimits = {
   threads: 480,
   google_business: 1500,
   bluesky: 300,
+  mastodon: 500,
 };
 
 const DEFAULT_TEMPLATE = '{title} {content} {url} {tags}';
@@ -94,6 +96,7 @@ const WPSPCustomTemplateModal = ({
     { platform: 'threads', icon: threads, color: '#000', bgColor: '#000' },
     { platform: 'google_business', icon: google_business, color: '#db4437', bgColor: '#db4437' },
     { platform: 'bluesky', icon: bluesky, color: '#0085ff', bgColor: '#0085ff' },
+    { platform: 'mastodon', icon: mastodon, color: '#6364ff', bgColor: '#6364ff' },
   ];
 
   // Filter platforms based on what's enabled
@@ -248,6 +251,7 @@ const WPSPCustomTemplateModal = ({
       case 'threads': return socialProfiles.threads || [];
       case 'google_business': return socialProfiles.google_business || [];
       case 'bluesky': return socialProfiles.bluesky || [];
+      case 'mastodon': return socialProfiles.mastodon || [];
       default: return [];
     }
   }, [selectedPlatform, socialProfiles]);

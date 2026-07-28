@@ -60,6 +60,9 @@ class Social
         // bluesky (AT Protocol)
         $this->define('WPSCP_BLUESKY_OPTION_NAME', 'bluesky_profile_list');
         $this->define('WPSCP_BLUESKY_PDS', 'https://bsky.social');
+        // mastodon (federated — the real instance URL is stored per profile)
+        $this->define('WPSCP_MASTODON_OPTION_NAME', 'mastodon_profile_list');
+        $this->define('WPSCP_MASTODON_INSTANCE', 'https://mastodon.social');
     }
     /**
      * Define constant if not already set.
@@ -120,6 +123,9 @@ class Social
         if (Helper::get_settings('bluesky_profile_status') == true) {
             $this->bluesky();
         }
+        if (Helper::get_settings('mastodon_profile_status') == true) {
+            $this->mastodon();
+        }
     }
 
 
@@ -175,6 +181,12 @@ class Social
     {
         $WpScp_bluesky = new Social\Bluesky();
         $WpScp_bluesky->instance();
+    }
+
+    public function mastodon()
+    {
+        $WpScp_mastodon = new Social\Mastodon();
+        $WpScp_mastodon->instance();
     }
 
     /**

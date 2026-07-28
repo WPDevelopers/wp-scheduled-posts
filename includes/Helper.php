@@ -265,6 +265,8 @@ class Helper
             'medium'          => 45000,
             'threads'         => 480,
             'google_business' => 1500,
+            'bluesky'         => 300,
+            'mastodon'        => 500,
         );
 
         $templates = self::get_settings('social_templates');

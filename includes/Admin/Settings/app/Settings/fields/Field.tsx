@@ -22,6 +22,7 @@ import CheckboxSelectAsync from './CheckboxSelectAsync';
 import Threads from './Threads';
 import GoogleBusiness from './GoogleBusiness';
 import Bluesky from './Bluesky';
+import Mastodon from './Mastodon';
 import OpenAI from './OpenAI';
 
 const Field = (ret, type, props) => {
@@ -71,6 +72,8 @@ const Field = (ret, type, props) => {
             return <GoogleBusiness {...props} />;
         case "bluesky":
             return <Bluesky {...props} />;
+        case "mastodon":
+            return <Mastodon {...props} />;
         case "openai":
             return <OpenAI {...props} />;
         default:

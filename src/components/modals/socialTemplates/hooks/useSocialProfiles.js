@@ -11,7 +11,8 @@ const useSocialProfiles = () => {
         medium: [],
         threads: [],
         google_business: [],
-        bluesky: []
+        bluesky: [],
+        mastodon: []
     });
     const [isLoading, setIsLoading] = useState(true);
 
@@ -74,6 +75,7 @@ const useSocialProfiles = () => {
                         threads: processProfiles(response.threads_profile_list),
                         google_business: processProfiles(response.google_business_profile_list),
                         bluesky: processProfiles(response.bluesky_profile_list),
+                        mastodon: processProfiles(response.mastodon_profile_list),
                     });
                 }
             } catch (error) {

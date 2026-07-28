@@ -161,7 +161,8 @@ class CustomSocialTemplates
             'medium' => ['template' => '', 'profiles' => [], 'is_global' => false],
             'threads' => ['template' => '', 'profiles' => [], 'is_global' => false],
             'google_business' => ['template' => '', 'profiles' => [], 'is_global' => false],
-            'bluesky' => ['template' => '', 'profiles' => [], 'is_global' => false]
+            'bluesky' => ['template' => '', 'profiles' => [], 'is_global' => false],
+            'mastodon' => ['template' => '', 'profiles' => [], 'is_global' => false]
         );
 
         update_post_meta($post_id, '_wpsp_custom_templates', $default_templates);
@@ -266,7 +267,7 @@ class CustomSocialTemplates
                 'platform' => array(
                     'required' => false,
                     'validate_callback' => function($param, $request, $key) {
-                        return in_array($param, ['facebook', 'twitter', 'linkedin', 'pinterest', 'instagram', 'medium', 'threads', 'google_business', 'bluesky']);
+                        return in_array($param, ['facebook', 'twitter', 'linkedin', 'pinterest', 'instagram', 'medium', 'threads', 'google_business', 'bluesky', 'mastodon']);
                     }
                 ),
                 'template' => array(
@@ -296,7 +297,7 @@ class CustomSocialTemplates
                 'platform' => array(
                     'required' => true,
                     'validate_callback' => function($param, $request, $key) {
-                        return in_array($param, ['facebook', 'twitter', 'linkedin', 'pinterest', 'instagram', 'medium', 'threads', 'google_business', 'bluesky']);
+                        return in_array($param, ['facebook', 'twitter', 'linkedin', 'pinterest', 'instagram', 'medium', 'threads', 'google_business', 'bluesky', 'mastodon']);
                     }
                 ),
             ),
@@ -553,6 +554,8 @@ class CustomSocialTemplates
             'medium'          => 'Medium',
             'threads'         => 'Threads',
             'google_business' => 'Google Business',
+            'bluesky'         => 'Bluesky',
+            'mastodon'        => 'Mastodon',
         );
         return isset($labels[$platform]) ? $labels[$platform] : ucfirst($platform);
     }
@@ -564,7 +567,7 @@ class CustomSocialTemplates
         $is_global = $platform_data['is_global'] ?? false;
 
         // Validate platform
-        $valid_platforms = ['facebook', 'twitter', 'linkedin', 'pinterest', 'instagram', 'medium', 'threads', 'google_business', 'bluesky'];
+        $valid_platforms = ['facebook', 'twitter', 'linkedin', 'pinterest', 'instagram', 'medium', 'threads', 'google_business', 'bluesky', 'mastodon'];
         if (!in_array($platform, $valid_platforms)) {
             /* translators: %s: Name of the invalid social media platform */
             $validation_errors[] = sprintf(__('Invalid platform: %s', 'wp-scheduled-posts'), $platform);
@@ -748,6 +751,8 @@ class CustomSocialTemplates
             'instagram' => $default_platform_data,
             'medium'    => $default_platform_data,
             'threads'   => $default_platform_data,
+            'bluesky'   => $default_platform_data,
+            'mastodon'  => $default_platform_data,
         ];
 
         // If no templates or not an array, return the default structure

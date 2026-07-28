@@ -54,6 +54,9 @@ class Settings
             'bluesky' => [
                 'note_limit' => 300,
             ],
+            'mastodon' => [
+                'note_limit' => 500,
+            ],
         ];
         foreach ($limits as $platform => $platform_limits) {
             if (isset($settings['social_templates'][$platform]) && is_array($settings['social_templates'][$platform])) {
@@ -774,6 +777,23 @@ class Settings
                                         'desc'               => sprintf( __('Enter your Bluesky handle (e.g. <strong>name.bsky.social</strong>) and an <strong>App Password</strong>. For details, check out this <a href="%1$s" target="_blank">Doc</a>.<br> <a href="%2$s" target="_blank">Click here</a> to create an App Password from your Bluesky account settings.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-bluesky/','https://bsky.app/settings/app-passwords' ),
                                     ],
                                     'priority' => 45,
+                                ],
+                                'mastodon_profile_list'  => [
+                                    'id'       => 'mastodon_profile_list',
+                                    'name'     => 'mastodon_profile_list',
+                                    'type'     => 'mastodon',
+                                    'label'    => __('Mastodon', 'wp-scheduled-posts'),
+                                    'default'  => [],
+                                    'logo'     => WPSP_ASSETS_URI . 'images/mastodon.svg',
+                                    /* translators: %s: Link to documentation for Mastodon social share */
+                                    'desc'     => sprintf( __('You can enable/disable Mastodon social share. To configure your Mastodon Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-mastodon/' ),
+                                    'modal'    => [
+                                        'logo'               => WPSP_ASSETS_URI . 'images/mastodon.svg',
+                                        'redirect_url_desc'  => __('Connect using your Mastodon instance URL and an access token.','wp-scheduled-posts'),
+                                        /* translators: 1: Link to documentation for Mastodon configuration, 2: Link to the Mastodon docs on creating an application */
+                                        'desc'               => sprintf( __('Enter your Mastodon instance URL (e.g. <strong>https://mastodon.social</strong>) and an <strong>access token</strong> with the <strong>write:statuses</strong> and <strong>write:media</strong> scopes. For details, check out this <a href="%1$s" target="_blank">Doc</a>.<br> <a href="%2$s" target="_blank">Click here</a> to create an application and get your access token from <strong>Preferences &rarr; Development</strong> on your instance.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-mastodon/','https://docs.joinmastodon.org/client/token/' ),
+                                    ],
+                                    'priority' => 50,
                                 ],
                             ]
                         ]
@@ -1586,6 +1606,96 @@ class Settings
                                                                 ],
                                                                 'post_share_limit'  => [
                                                                     'id'            => 'bluesky_post_share_limit',
+                                                                    'name'          => 'post_share_limit',
+                                                                    'type'          => 'number',
+                                                                    'label'         => __('How often to share a post?', 'wp-scheduled-posts'),
+                                                                    'priority'      => 21,
+                                                                    'default'       => 0,
+                                                                    'help'          => __('Keep zero for no limit', 'wp-scheduled-posts'),
+                                                                ],
+                                                            ]
+                                                        ]
+                                                    ]
+                                                ]
+                                            ]
+                                        ],
+                                        'layouts_mastodon'  => [
+                                            'id'            => 'layouts_mastodon',
+                                            'name'          => 'layouts_mastodon',
+                                            'label'         => __('Mastodon', 'wp-scheduled-posts'),
+                                            'priority'      => 45,
+                                            'fields'        => [
+                                                'mastodon_wrapper'     => [
+                                                    'id'            => 'mastodon_wrapper',
+                                                    'type'          => 'section',
+                                                    'name'          => 'mastodon_wrapper',
+                                                    'label'         => __('Mastodon Settings', 'wp-scheduled-posts'),
+                                                    /* translators: %s: Link to documentation for Mastodon configuration */
+                                                    'sub_title'     => sprintf( __('To configure the Mastodon Settings, check out this <a target="_blank" href="%s">Doc.</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-mastodon/' ),
+                                                    'priority'      => 10,
+                                                    'fields'        => [
+                                                        'mastodon'  => [
+                                                            'name'     => "mastodon",
+                                                            'parent'     => "social_templates",
+                                                            'type'     => "group",
+                                                            'priority' => 10,
+                                                            'fields'    => [
+                                                                'is_category_as_tags'  => [
+                                                                    'id'            => 'mastodon_cat_tags',
+                                                                    'name'          => 'is_category_as_tags',
+                                                                    'type'          => 'toggle',
+                                                                    'label'         => __('Add Category as tags', 'wp-scheduled-posts'),
+                                                                    'info'          => __('The categories you select will be used as tags.','wp-scheduled-posts'),
+                                                                    'priority'      => 10,
+                                                                    'default'       => true,
+                                                                ],
+                                                                'is_show_post_thumbnail'  => [
+                                                                    'id'            => 'mastodon_show_post_thumbnail',
+                                                                    'name'          => 'is_show_post_thumbnail',
+                                                                    'type'          => 'toggle',
+                                                                    'label'         => __('Show Featured Image', 'wp-scheduled-posts'),
+                                                                    'info'          => __('Attach the featured image to the Mastodon post.','wp-scheduled-posts'),
+                                                                    'priority'      => 11,
+                                                                    'default'       => true,
+                                                                ],
+                                                                'content_source' => [
+                                                                    'label'         => __('Content Source:','wp-scheduled-posts'),
+                                                                    'name'          => "content_source",
+                                                                    'type'          => "radio-card",
+                                                                    'default'       => "excerpt",
+                                                                    'priority'      => 12,
+                                                                    'options' => [
+                                                                        [
+                                                                            'label' => __( 'Excerpt','wp-scheduled-posts' ),
+                                                                            'value' => 'excerpt',
+                                                                        ],
+                                                                        [
+                                                                            'label' => __( 'Content','wp-scheduled-posts' ),
+                                                                            'value' => 'content',
+                                                                        ],
+                                                                    ],
+                                                                ],
+                                                                'template_structure'  => [
+                                                                    'id'            => 'template_structure',
+                                                                    'name'          => 'template_structure',
+                                                                    'type'          => 'text',
+                                                                    'label'         => __('Status Template Settings', 'wp-scheduled-posts'),
+                                                                    'info'          => __( 'Define how to share the content on Mastodon by setting the template. <strong>Default Structure: {title}{content}{url}{tags}</strong>','wp-scheduled-posts' ),
+                                                                    'default'       => '{title}{content}{url}{tags}',
+                                                                    'priority'      => 15,
+                                                                ],
+                                                                'note_limit'  => [
+                                                                    'id'            => 'mastodon_note_limit',
+                                                                    'name'          => 'note_limit',
+                                                                    'type'          => 'number',
+                                                                    'label'         => __('Status Limit', 'wp-scheduled-posts'),
+                                                                    'priority'      => 20,
+                                                                    'default'       => '500',
+                                                                    'max'           => '500',
+                                                                    'help'          => __('Max: 500', 'wp-scheduled-posts'),
+                                                                ],
+                                                                'post_share_limit'  => [
+                                                                    'id'            => 'mastodon_post_share_limit',
                                                                     'name'          => 'post_share_limit',
                                                                     'type'          => 'number',
                                                                     'label'         => __('How often to share a post?', 'wp-scheduled-posts'),

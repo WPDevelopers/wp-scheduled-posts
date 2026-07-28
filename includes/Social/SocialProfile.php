@@ -1352,6 +1352,51 @@ class SocialProfile
                 wp_send_json_error($error->getMessage());
                 wp_die();
             }
+        } else if ($type == 'mastodon') {
+            // Mastodon — credential based: instance URL + access token. Mastodon is
+            // federated, so the instance URL is stored on the profile and every
+            // API call for this account is made against it.
+            try {
+                $instance_url = Mastodon::normalize_instance_url($app_id);
+                $access_token = trim($app_secret);
+
+                $mastodon = new Mastodon();
+                $account  = $mastodon->verify_credentials($instance_url, $access_token);
+                if (is_wp_error($account)) {
+                    wp_send_json_success(array('message' => $account->get_error_message()));
+                    wp_die();
+                }
+
+                $handle = !empty($account->username) ? $account->username : '';
+                $name   = !empty($account->display_name) ? esc_html($account->display_name) : esc_html($handle);
+
+                $thumbnail_url = '';
+                if (!empty($account->avatar)) {
+                    $uploaded      = $this->handle_thumbnail_upload($account->avatar, $name);
+                    $thumbnail_url = !empty($uploaded) ? $uploaded : $account->avatar;
+                }
+
+                $current_user = wp_get_current_user();
+                $res          = array(
+                    'id'            => time(),
+                    '__id'          => esc_html($account->id),
+                    'app_id'        => $instance_url,
+                    'app_secret'    => $access_token,
+                    'name'          => $name,
+                    'thumbnail_url' => $thumbnail_url,
+                    'type'          => 'profile',
+                    'status'        => true,
+                    'access_token'  => $access_token,
+                    'instance_url'  => $instance_url,
+                    'added_by'      => $current_user->user_login,
+                    'added_date'    => current_time('mysql'),
+                );
+                wp_send_json_success($res);
+                wp_die();
+            } catch (\Exception $error) {
+                wp_send_json_error($error->getMessage());
+                wp_die();
+            }
         }
     }
 

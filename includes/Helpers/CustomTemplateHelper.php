@@ -182,7 +182,10 @@ class CustomTemplateHelper
             'pinterest' => 500,
             'instagram' => 2200,
             'medium' => 100000,
-            'threads' => 500
+            'threads' => 500,
+            'google_business' => 1500,
+            'bluesky' => 300,
+            'mastodon' => 500
         );
 
         // Check if template is empty
@@ -246,7 +249,10 @@ class CustomTemplateHelper
             'pinterest' => 500,
             'instagram' => 2200,
             'medium' => 100000,
-            'threads' => 500
+            'threads' => 500,
+            'google_business' => 1500,
+            'bluesky' => 300,
+            'mastodon' => 500
         );
     }
 
@@ -303,7 +309,10 @@ class CustomTemplateHelper
             'pinterest' => array(),
             'instagram' => array(),
             'medium' => array(),
-            'threads' => array()
+            'threads' => array(),
+            'google_business' => array(),
+            'bluesky' => array(),
+            'mastodon' => array()
         );
 
         // Migrate old platform_profileId format to new hierarchical format

@@ -28,7 +28,7 @@ const ApiCredentialsForm = ({ props, platform, requestHandler, appInfo = [] }) =
   }
   const onSubmitHandler = (event) => {
     event.preventDefault();
-    if (redirectURI && appID && appSecret || ( appID && platform == 'medium' ) || ( appID && appSecret && platform == 'bluesky' )) {
+    if (redirectURI && appID && appSecret || ( appID && platform == 'medium' ) || ( appID && appSecret && platform == 'bluesky' ) || ( appID && appSecret && platform == 'mastodon' )) {
       requestHandler(redirectURI, appID, appSecret,platform, openIDConnect).then((res) => {
         if( res?.error ) {
           setMultiAccountError(true);
@@ -246,6 +246,34 @@ const ApiCredentialsForm = ({ props, platform, requestHandler, appInfo = [] }) =
                         required
                         value={appSecret}
                         placeholder={ __("xxxx-xxxx-xxxx-xxxx", "wp-scheduled-posts") }
+                        onChange={(e) => SetAppSecret(e.target.value)}
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="wpsp-modal-generate-token-button"
+                  >{ __( 'Connect Your Account','wp-scheduled-posts' ) }</button>
+              </form>
+            )}
+            {(platform == "mastodon" ) && (
+              <form onSubmit={onSubmitHandler}>
+                  <div className="form-group">
+                    <label htmlFor="">{ __( 'Instance URL:','wp-scheduled-posts' ) } </label>
+                    <input
+                        type="text"
+                        required
+                        value={appID}
+                        placeholder={ __("https://mastodon.social", "wp-scheduled-posts") }
+                        onChange={(e) => SetAppID(e.target.value)}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="">{ __( 'Access Token:','wp-scheduled-posts' ) } </label>
+                    <input
+                        type="password"
+                        required
+                        value={appSecret}
+                        placeholder={ __("Your Mastodon access token", "wp-scheduled-posts") }
                         onChange={(e) => SetAppSecret(e.target.value)}
                     />
                   </div>
