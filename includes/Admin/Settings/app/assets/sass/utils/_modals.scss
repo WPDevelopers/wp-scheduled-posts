@@ -395,6 +395,37 @@ img {
           color: #1e90ff;
         }
       }
+      // Setup instructions under the connect form. Rendered for every platform,
+      // so it is styled as a quiet note rather than competing with the form.
+      .wpsp-modal-desc {
+        margin: 28px 0 0;
+        padding: 16px 20px;
+        background: #f9fafc;
+        border: 1px solid #ebeef5;
+        border-radius: 6px;
+        color: #6e6e8d;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.7;
+        @media screen and (max-width: 1439px) {
+          margin-top: 24px;
+          padding: 14px 16px;
+          font-size: 13px;
+        }
+        strong {
+          color: #1b1b50;
+          font-weight: 500;
+        }
+        a {
+          color: #6c62ff;
+          text-decoration: underline;
+          text-underline-offset: 2px;
+          &:hover,
+          &:focus {
+            color: #574ee0;
+          }
+        }
+      }
       .form-group {
         margin-bottom: 20px; // old 32px
         @media screen and (max-width: 1439px) {
