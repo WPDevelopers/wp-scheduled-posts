@@ -376,11 +376,8 @@ class PluginUsageTracker
      */
     public function deactivate_this_plugin()
     {
-        // Check to see if the user has opted in to tracking
-        $allow_tracking = $this->get_is_tracking_allowed();
-        if (!$allow_tracking) {
-            return;
-        }
+        // Sent for every user, not just those opted in to tracking, so the
+        // deactivation reason collected by the goodbye form always reaches us.
         $body = $this->get_data();
         $body['status'] = 'Deactivated'; // Never translated
         $body['deactivated_date'] = time();
@@ -790,10 +787,8 @@ class PluginUsageTracker
      */
     public function filter_action_links($links)
     {
-        // Check to see if the user has opted in to tracking
-        if (!$this->get_is_tracking_allowed()) {
-            return $links;
-        }
+        // The goodbye form is shown to every user, regardless of tracking opt-in,
+        // so we always collect a deactivation reason.
         if (isset($links['deactivate']) && $this->include_goodbye_form) {
             $deactivation_link = $links['deactivate'];
 
@@ -894,7 +889,7 @@ class PluginUsageTracker
         $html .= '<p class="deactivating-spinner"><span class="spinner"></span> ' . __('Submitting form', 'wp-scheduled-posts') . '</p>';
         ?>
         <style type="text/css">
-            .wpdev-put-form-active-<?php echo esc_attr($this->plugin_name); ?>.wpdev-put-goodbye-form-bg-<?php echo esc_attr($this->plugin_name); ?> {
+            body.wpdev-put-form-active-<?php echo esc_attr($this->plugin_name); ?> .wpdev-put-goodbye-form-bg-<?php echo esc_attr($this->plugin_name); ?> {
                 background: rgba(0, 0, 0, .8);
                 position: fixed;
                 top: 0;
@@ -909,7 +904,7 @@ class PluginUsageTracker
                 display: none;
             }
 
-            .wpdev-put-form-active-<?php echo esc_attr($this->plugin_name); ?>.wpdev-put-goodbye-form-wrapper-<?php echo esc_attr($this->plugin_name); ?> {
+            body.wpdev-put-form-active-<?php echo esc_attr($this->plugin_name); ?> .wpdev-put-goodbye-form-wrapper-<?php echo esc_attr($this->plugin_name); ?> {
                 display: flex !important;
                 align-items: center;
                 justify-content: center;
@@ -918,13 +913,14 @@ class PluginUsageTracker
                 position: fixed;
                 left: 0px;
                 top: 0px;
+                z-index: 99999;
             }
 
             .wpdev-put-goodbye-form {
                 display: none;
             }
 
-            .wpdev-put-form-active-<?php echo esc_attr($this->plugin_name); ?>.wpdev-put-goodbye-form {
+            body.wpdev-put-form-active-<?php echo esc_attr($this->plugin_name); ?> .wpdev-put-goodbye-form {
                 position: relative !important;
                 width: 550px;
                 max-width: 80%;
@@ -933,7 +929,7 @@ class PluginUsageTracker
                 border-radius: 3px;
                 white-space: normal;
                 overflow: hidden;
-                display: block;
+                display: block !important;
                 z-index: 999999;
             }
 
