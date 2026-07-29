@@ -263,7 +263,7 @@ const ApiCredentialsForm = ({ props, platform, requestHandler, appInfo = [] }) =
                         type="text"
                         required
                         value={appID}
-                        placeholder={ __("https://mastodon.social", "wp-scheduled-posts") }
+                        placeholder={ __("https://mastodon.social/@username", "wp-scheduled-posts") }
                         onChange={(e) => SetAppID(e.target.value)}
                     />
                   </div>
@@ -283,7 +283,7 @@ const ApiCredentialsForm = ({ props, platform, requestHandler, appInfo = [] }) =
                   >{ __( 'Connect Your Account','wp-scheduled-posts' ) }</button>
               </form>
             )}
-            <p dangerouslySetInnerHTML={{ __html: props?.modal?.desc }}></p>
+            <p className="wpsp-modal-desc" dangerouslySetInnerHTML={{ __html: props?.modal?.desc }}></p>
           </div>
         ) : (
           <div className="wpsp-multi-account-error">
