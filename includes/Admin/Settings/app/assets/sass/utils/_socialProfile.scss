@@ -89,7 +89,18 @@
               height: 42px;
               flex-grow: 1;
               width: 100%;
+              // WP core admin forms.css gives every input[type="text"] a
+              // min-height of 40px plus padding. react-select's search input is
+              // one, so without this reset the control grows to 52px, overflows
+              // the 42px footer and breaks its seam with the "Add New" button.
+              input[type='text'] {
+                min-height: 0;
+                height: auto;
+                padding: 0;
+              }
               .social-media-type-select__control {
+                min-height: 42px;
+                height: 42px;
                 border-top-right-radius: 0px;
                 border-bottom-right-radius: 0px;
                 border-right-width: 0px;
