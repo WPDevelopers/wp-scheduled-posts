@@ -789,7 +789,7 @@ class Settings
                                     'desc'     => sprintf( __('You can enable/disable Mastodon social share. To configure your Mastodon Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-mastodon/' ),
                                     'modal'    => [
                                         'logo'               => WPSP_ASSETS_URI . 'images/mastodon.svg',
-                                        'redirect_url_desc'  => __('Connect using your Mastodon instance URL and an access token.','wp-scheduled-posts'),
+                                        'redirect_url_desc'  => __('Copy this and paste it in your mastodon app Callback url field.','wp-scheduled-posts'),
                                         /* translators: 1: Link to documentation for Mastodon configuration, 2: Link to the Mastodon docs on creating an access token */
                                         'desc'               => sprintf( __('Enter your Mastodon instance URL (e.g. <strong>https://mastodon.social</strong>) and an <strong>access token</strong>. For details, check out this <a href="%1$s" target="_blank">Doc</a>.<br> <a href="%2$s" target="_blank">Click here</a> to create a token from <strong>Preferences &rarr; Development</strong>.','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-mastodon/','https://docs.joinmastodon.org/client/token/' ),
                                     ],
