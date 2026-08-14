@@ -1,23 +1,21 @@
+import { __ } from "@wordpress/i18n";
 import classNames from "classnames";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { ActionMeta, default as ReactSelect, components } from "react-select";
+import { ActionMeta, default as ReactSelect } from "react-select";
 import { fetchCategories, findOptionLabelByValue } from "../helper/helper";
-import { selectStyles } from "../helper/styles";
+import { multiSelectStyles } from "../helper/styles";
+import { CheckboxOption, SelectChip, SelectShell } from "../components/MultiSelect";
 import apiFetch from '@wordpress/api-fetch';
 
-// Prepare options with checkbox
-const Option = (props) => {    
+// Individual categories are dimmed while "All" is selected — picking them
+// would have no effect.
+const Option = (props) => {
     const isAllSelected = props.selectProps.value.some((selected) => selected.value === 'all');
+    const isBlurred = isAllSelected && props.data.value !== 'all';
+
     return (
-        <div
-        className={classNames(
-            "checkbox-select-menu-list-item",
-            { "blur-item": isAllSelected && props.data.value !== 'all' }
-        )}
-        >
-        <components.Option {...props}>
-            <span>{props.label}</span>
-        </components.Option>
+        <div className={classNames({ "tw-opacity-40 tw-pointer-events-none": isBlurred })}>
+            <CheckboxOption {...props} />
         </div>
     );
 };
@@ -136,54 +134,52 @@ const CheckboxSelectAsync = (props) => {
         });
     }, [optionSelected]);
     
+  const chips = (optionSelected || []).filter((item) => item && item.label);
+
   return (
-    <>
-      <div
-        className={classNames(
-          "wprf-control",
-          "wprf-control-wrapper",
-          "wprf-checkbox-select",
-          `wprf-${props.name}-checkbox-select`,
-          props.classes
-        )}
+    <div
+      className={classNames(
+        "wprf-control",
+        "wprf-control-wrapper",
+        "wprf-checkbox-select",
+        `wprf-${props.name}-checkbox-select`,
+        props.classes
+      )}
+    >
+      {/* The label is supplied by the settings renderer, not here. */}
+      <SelectShell
+        className={loading ? 'wpsp-checkbox-async-loading' : ''}
+        chips={chips.map((item, index) => (
+          <SelectChip
+            key={item.value ?? index}
+            label={item.label}
+            onRemove={() => removeItem(item)}
+          />
+        ))}
       >
-        {/* The label is supplied by the settings renderer, not here. */}
-        <div className="wprf-control-label">
-          <div className="selected-options">
-            <ul>
-              { (optionSelected && optionSelected[0] !== null) &&
-                optionSelected
-                  .map((item, index) => (
-                    <li key={index}>
-                      {item.label}
-                      <button onClick={() => removeItem(item)}>
-                        <i className="wpsp-icon wpsp-close"></i>
-                      </button>
-                    </li>
-                  ))}
-            </ul>
-          </div>
-        </div>
-        <div className="wprf-checkbox-select-wrap wprf-checked wprf-label-position-right">
-          <span className={`d-inline-block ${loading ? 'wpsp-checkbox-async-loading' : ''}`}>
-            <ReactSelect
-              options={displayedOptions}
-              styles={selectStyles}
-              isMulti
-              closeMenuOnSelect={false}
-              hideSelectedOptions={false}
-              components={{ Option }}
-              onChange={handleChange}
-              value={optionSelected}
-              controlShouldRenderValue={false}
-              className="checkbox-select"
-              classNamePrefix="checkbox-select"
-              onMenuScrollToBottom={loadMoreOptions}
-            />
-          </span>
-        </div>
-      </div>
-    </>
+        <ReactSelect
+          options={displayedOptions}
+          styles={multiSelectStyles}
+          isMulti
+          closeMenuOnSelect={false}
+          hideSelectedOptions={false}
+          components={{ Option }}
+          onChange={handleChange}
+          value={optionSelected}
+          /* Chips are rendered by the shell. */
+          controlShouldRenderValue={false}
+          isLoading={loading}
+          placeholder={
+            chips.length
+              ? __("Add another…", "wp-scheduled-posts")
+              : __("Select…", "wp-scheduled-posts")
+          }
+          className="checkbox-select"
+          classNamePrefix="checkbox-select"
+          onMenuScrollToBottom={loadMoreOptions}
+        />
+      </SelectShell>
+    </div>
   );
 };
 

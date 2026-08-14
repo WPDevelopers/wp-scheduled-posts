@@ -1,20 +1,11 @@
+import { __ } from "@wordpress/i18n";
 import classNames from "classnames";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { ActionMeta, default as ReactSelect, components } from "react-select";
+import { ActionMeta, default as ReactSelect } from "react-select";
 import { findOptionLabelByValue } from "../helper/helper";
-import { selectStyles } from "../helper/styles";
+import { multiSelectStyles } from "../helper/styles";
+import { CheckboxOption, SelectChip, SelectShell } from "../components/MultiSelect";
 import { Option } from "./Calendar/types";
-
-// Prepare options with checkbox
-const Option = (props) => {
-  return (
-    <div className="checkbox-select-menu-list-item">
-      <components.Option {...props}>
-        <span>{props.label}</span>
-      </components.Option>
-    </div>
-  );
-};
 
 
 export const addAllOption = (options: Option[]) => {
@@ -104,64 +95,53 @@ const CheckboxSelect = (props) => {
     [allOptionFlatten, optionSelected]
   );
 
+  // `isTags` collapses a full selection down to the single "All" chip.
+  const chips = (optionSelected || []).filter(
+    (item) => isTags(item) && item?.label
+  );
+
   return (
-    <>
-      <div
-        className={classNames(
-          "wprf-control",
-          "wprf-control-wrapper",
-          "wprf-checkbox-select",
-          `wprf-${props.name}-checkbox-select`,
-          props.classes
-        )}
+    <div
+      className={classNames(
+        "wprf-control",
+        "wprf-control-wrapper",
+        "wprf-checkbox-select",
+        `wprf-${props.name}-checkbox-select`,
+        props.classes
+      )}
+    >
+      {/* The label is supplied by the settings renderer, not here. */}
+      <SelectShell
+        chips={chips.map((item, index) => (
+          <SelectChip
+            key={item.value ?? index}
+            label={item.label}
+            onRemove={() => removeItem(item)}
+          />
+        ))}
       >
-        {/* The label is supplied by the settings renderer, not here. */}
-        <div className="wprf-control-label">
-          <div className="selected-options">
-            <ul>
-            {optionSelected &&
-              optionSelected
-                ?.filter((item) => isTags(item) && item?.label) // Filter items that have a truthy label
-                .map((item, index) => (
-                  <li key={index}>
-                    {" "}
-                    {item.label}{" "}
-                    <button onClick={() => removeItem(item)}>
-                      {" "}
-                      <i className="wpsp-icon wpsp-close"></i>{" "}
-                    </button>{" "}
-                  </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-        <div className="wprf-checkbox-select-wrap wprf-checked wprf-label-position-right">
-          <span
-            className="d-inline-block"
-            data-toggle="popover"
-            data-trigger="focus"
-            data-content="Please select account(s)"
-          >
-            <ReactSelect
-              options={allOption}
-              styles={selectStyles}
-              isMulti
-              closeMenuOnSelect={false}
-              hideSelectedOptions={false}
-              components={{
-                Option,
-              }}
-              autoFocus={false}
-              onChange={handleChange}
-              value={optionSelected}
-              controlShouldRenderValue={false}
-              className="checkbox-select"
-              classNamePrefix="checkbox-select"
-            />
-          </span>
-        </div>
-      </div>
-    </>
+        <ReactSelect
+          options={allOption}
+          styles={multiSelectStyles}
+          isMulti
+          closeMenuOnSelect={false}
+          hideSelectedOptions={false}
+          components={{ Option: CheckboxOption }}
+          autoFocus={false}
+          onChange={handleChange}
+          value={optionSelected}
+          /* Chips are rendered by the shell so the "All" collapse applies. */
+          controlShouldRenderValue={false}
+          placeholder={
+            chips.length
+              ? __("Add another…", "wp-scheduled-posts")
+              : __("Select…", "wp-scheduled-posts")
+          }
+          className="checkbox-select"
+          classNamePrefix="checkbox-select"
+        />
+      </SelectShell>
+    </div>
   );
 };
 

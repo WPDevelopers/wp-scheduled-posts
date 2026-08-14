@@ -117,7 +117,10 @@ ul {
   text-align: center;
   font-size: 16px;
 }
-.checkbox-select span,
+// `.checkbox-select` is deliberately not in this list: its menu rows now draw
+// their own label in a span (see `components/MultiSelect.tsx`), and a blanket
+// `span { display: none }` swallowed them. react-select's own live-region span
+// is visually hidden by its inline styles, so nothing needs hiding here.
 .main-select span,
 .time-select span {
   display: none;

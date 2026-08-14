@@ -65,8 +65,11 @@ const SettingRow: React.FC<SettingRowProps> = ({
             {control && (
                 <div
                     className={cn(
-                        'tw-flex tw-items-center tw-gap-2',
-                        layout === 'inline' ? 'tw-shrink-0' : 'tw-w-full',
+                        // Stacked controls are block-level: a flex container
+                        // would size a full-width child to its content.
+                        layout === 'inline'
+                            ? 'tw-flex tw-items-center tw-gap-2 tw-shrink-0'
+                            : 'tw-block tw-w-full tw-min-w-0',
                         isPro && 'tw-opacity-60 tw-pointer-events-none'
                     )}
                 >
