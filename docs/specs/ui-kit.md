@@ -72,14 +72,41 @@ import { Button, Card, SettingRow, Toggle } from '../components/ui';
 | `SectionHeader` | Panel heading with optional icon and right-aligned actions |
 | `FormField` | Label / hint / error wrapper around any control |
 | `Input`, `Textarea`, `Select` | `Select` is a styled native `<select>`; keep `react-select` for async and multi-value cases |
-| `Toggle`, `Checkbox`, `Radio` | Native inputs redrawn, since wp-admin draws its own tick glyph |
+| `Toggle`, `Checkbox`, `Radio` | Native inputs redrawn, since wp-admin draws its own tick glyph. `Toggle` takes `tone="success"` for connected/live states |
 | `Badge` / `ProBadge` | Status pills; `dot` adds a leading status dot |
 | `Alert` | Inline notice with tone, optional title, actions and dismiss |
 | `Modal` | Portal-based, closes on Escape and overlay click, locks body scroll |
 | `Tabs` | `underline`, `pill` and `vertical` variants |
 | `Tooltip` | CSS-only, so the container must not clip overflow |
-| `Avatar` | Falls back to initials; `badge` pins a platform icon for social profiles |
+| `Avatar` | Falls back to initials; `badge` pins a platform icon for social profiles, `onImageError` swaps in your own fallback |
 | `Skeleton`, `Spinner`, `EmptyState`, `Divider` | Loading and empty states |
+
+## Migration status
+
+Done — these render entirely from the kit, and the SCSS that described their
+markup has been removed:
+
+- `Settings/Header.tsx`, `Settings/Sidebar.tsx`
+- `fields/License.tsx`, `fields/OpenAI.tsx`, `fields/Features.tsx`,
+  `fields/ScheduleHubFeature.tsx`
+- `fields/utils/MainProfile.tsx`, `fields/utils/SelectedProfile.tsx`,
+  `fields/utils/ProAlert.tsx`, `fields/utils/ViewMore.tsx`,
+  `fields/utils/Verification.tsx`
+
+Still on SCSS, roughly in descending order of size:
+
+| Area | Partial | Notes |
+| --- | --- | --- |
+| Social connect modals | `_modals.scss` (~1.6k lines) | Biggest remaining surface. The shell (`.modal_wrapper`, `.modalhead`, `.modalbody`) and every per-platform list live together, so this wants one focused pass with the modals actually open in a browser |
+| Schedule calendar | `_calendar.scss` | FullCalendar's own DOM; expect to keep overrides rather than replace them |
+| Tab chrome / layout | `_content.scss` | quickbuilder's markup — override only |
+| MCP panel | `_mcp.scss` | Recently written; migrate after the modals |
+| Custom fields | `_fields.scss` | quickbuilder field wrappers |
+| Manage / advanced / missed schedule | `_manageSchedule.scss`, `_advance-missedSchedule.scss` | Pro screens |
+
+`_openai.scss` was deleted outright. `_header.scss`, `_sidebar.scss`,
+`_license.scss`, `_scheduling-hub.scss` and `_socialProfile.scss` are reduced to
+the rules that target markup we do not own.
 
 ## Migration rules
 
