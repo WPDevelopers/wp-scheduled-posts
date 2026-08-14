@@ -939,8 +939,8 @@ final class Manager {
 		$read_only    = OAuth::scope_is_read_only( $req['scope'] );
 		$access_label = $read_only ? __( 'Read-only', 'wp-scheduled-posts' ) : __( 'Read & write', 'wp-scheduled-posts' );
 		$access_desc  = $read_only
-			? __( 'Review your content schedule — the calendar, scheduled and missed posts, social connections and sharing history. No changes are made.', 'wp-scheduled-posts' )
-			: __( 'Review and manage your content schedule — schedule and reschedule posts, edit social templates, and share posts to your connected social accounts.', 'wp-scheduled-posts' );
+			? __( 'Review your content schedule the calendar, scheduled and missed posts, social connections and sharing history. No changes are made.', 'wp-scheduled-posts' )
+			: __( 'Review and manage your content schedule schedule and reschedule posts, edit social templates, and share posts to your connected social accounts.', 'wp-scheduled-posts' );
 		$client     = '' !== $req['client_name'] ? $req['client_name'] : __( 'An AI assistant', 'wp-scheduled-posts' );
 		$action_url = OAuth::authorize_url();
 		$nonce      = wp_create_nonce( 'wpsp_oauth_consent' );
