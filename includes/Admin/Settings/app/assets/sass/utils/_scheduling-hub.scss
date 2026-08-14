@@ -1,30 +1,28 @@
+/**
+ * The Manage / Advanced / Missed Schedule panels are still styled from SCSS.
+ *
+ * These imports used to hang off quickbuilder's tab chrome —
+ * `.wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex
+ * .wprf-tab-contents .wprf-tab-content` — none of which the renderer emits any
+ * more, so every rule inside them stopped applying and the panels rendered as
+ * bare inputs. They now hang off the section class, which the renderer does
+ * still emit (see `renderer/Renderer.tsx`).
+ *
+ * The card chrome that used to be reset here is the renderer's job now, so the
+ * `background: transparent` on the outer section is gone with it.
+ */
 .wprf-tab-layout_scheduling_hub {
-  > .wprf-control-section {
-    background: transparent !important;
-    padding: 0 !important;
-    border-radius: 0 !important;
-    .wprf-section-fields {
-      .wprf-tabs-wrapper {
-        .wprf-tab-content-wrapper {
-          .wprf-tab-flex {
-            .wprf-tab-contents {
-              .wprf-tab-content {
-                .wprf-control-section {
-                  &.manage-schedule {
-                    @import './manageSchedule';
-                  }
-                  &.advance_schedule_wrapper,
-                  &.missed_schedule_wrapper {
-                    @import './advance-missedSchedule';
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+  .wprf-control-section {
+    &.manage-schedule {
+      @import './manageSchedule';
+    }
+
+    &.advance_schedule_wrapper,
+    &.missed_schedule_wrapper {
+      @import './advance-missedSchedule';
     }
   }
+
   // The pro-feature promo is styled from `fields/ScheduleHubFeature.tsx`
-  // with the Tailwind UI kit now.
+  // with the Tailwind UI kit.
 }
