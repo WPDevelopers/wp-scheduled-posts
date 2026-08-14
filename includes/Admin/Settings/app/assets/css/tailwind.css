@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/**
+ * Tailwind's own preflight is disabled (it is global and would strip wp-admin's
+ * chrome), so this is the scoped stand-in: only what the Settings app actually
+ * needs, and only inside its own root.
+ */
+@layer base {
+    #wpsp-dashboard-body,
+    .wpsp-ui-portal {
+        font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+            'Helvetica Neue', sans-serif;
+        -webkit-font-smoothing: antialiased;
+        color: #1b1b50;
+    }
+
+    #wpsp-dashboard-body *,
+    #wpsp-dashboard-body *::before,
+    #wpsp-dashboard-body *::after,
+    .wpsp-ui-portal *,
+    .wpsp-ui-portal *::before,
+    .wpsp-ui-portal *::after {
+        box-sizing: border-box;
+    }
+
+    /* wp-admin gives every button/input a border, shadow and blue focus ring. */
+    #wpsp-dashboard-body .wpsp-ui:focus,
+    .wpsp-ui-portal .wpsp-ui:focus {
+        outline: none;
+        box-shadow: none;
+    }
+
+    #wpsp-dashboard-body .wpsp-ui:focus-visible,
+    .wpsp-ui-portal .wpsp-ui:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(108, 98, 255, 0.2);
+    }
+}
+
+@layer components {
+    /* Shared shimmer used by the Skeleton component. */
+    .wpsp-skeleton-shimmer::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        transform: translateX(-100%);
+        background-image: linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0) 0,
+            rgba(255, 255, 255, 0.6) 50%,
+            rgba(255, 255, 255, 0) 100%
+        );
+        animation: wpsp-shimmer 1.4s infinite;
+    }
+}

@@ -13,6 +13,8 @@ import SettingsInner from './SettingsInner';
 import 'quickbuilder/dist/index.css';
 import Header from './Header';
 import '../assets/sass/index.scss';
+// Loaded after the legacy sass so utilities win while the screens migrate over.
+import '../assets/css/tailwind.css';
 import { ToastContainer } from "react-toastify";
 
 const SettingsWrapper = ({wpspObject}) => {

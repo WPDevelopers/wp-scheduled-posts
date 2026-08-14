@@ -1,13 +1,8 @@
-.wpsp-admin-header {
-  background: #fff;
-  padding: 20px 40px;
-  @media screen and (max-width: 1439px) {
-    padding: 16px 32px;
-  }
-  @media screen and (max-width: 1023px) {
-    padding: 12px 24px;
-  }
-}
+/**
+ * `.wpsp-admin-header` is styled from `Settings/Header.tsx` with the Tailwind
+ * UI kit now; only quickbuilder's own heading — which we never render — is
+ * still hidden from here.
+ */
 .wprf-tab-heading-wrapper {
   display: none;
 }
