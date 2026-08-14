@@ -1,208 +1,113 @@
+/**
+ * The License tab.
+ *
+ * The form, the status header and the OTP step all come from the *Pro* plugin,
+ * through the `wpsp_license` filter on an `action` field — not this plugin's
+ * `fields/License.tsx`, which nothing registers. That markup is plain HTML with
+ * no Tailwind classes on it, so it is styled from here, against the same tokens
+ * as the UI kit (see `tailwind.config.js`).
+ *
+ * The card around it, and the walkthrough video and documentation links below
+ * it, are drawn by the renderer from the tab config — nothing here lays the
+ * page out.
+ */
 .wprf-tab-layout_license {
-  .wprf-control-section.license_wrapper {
-    padding: 0 !important;
-    background: transparent !important;
-    > .wprf-section-fields {
-      display: grid !important;
-      grid-template-columns: repeat(2, 1fr);
-      @media screen and (max-width: 1439px) {
-        grid-template-columns: repeat(1, 1fr);
-      }
-      .wprf-control-section.license_activation,
-      .wprf-control-section.advance_video {
-        border: none !important;
-        margin-bottom: 0 !important;
-        flex-basis: 50%;
-        background: #fff !important;
-        // The padding used to come from a `_fields.scss` rule that hung off
-        // quickbuilder's tab chrome; it has to be set here now.
-        padding: 24px !important;
-        &:first-child {
-          border-radius: 14px 0 0 14px !important;
-          border-right: 1px solid #eaeef4 !important;
-          @media screen and (max-width: 1439px) {
-            border-right: none !important;
-            border-bottom: 1px solid #eaeef4 !important;
-            border-radius: 14px 14px 0 0 !important;
-          }
-        }
-        &:last-child {
-          border-radius: 0 14px 14px 0 !important;
-          @media screen and (max-width: 1439px) {
-            border-radius: 0 0 14px 14px !important;
-          }
-        }
-        .wprf-section-fields {
-          display: flex;
-          flex-direction: column;
-          .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 16px;
-            .wprf-control-label {
-              flex-grow: 1;
-              label {
-                font-size: 24px;
-                line-height: 1.2em;
-                letter-spacing: 0px;
-                font-weight: 600;
-                color: #1b1b50;
-                text-transform: capitalize;
-                background: transparent;
-                margin: 0px;
-                padding: 0px;
-                @media screen and (max-width: 1439px) {
-                  font-size: 20px;
-                }
-                @media screen and (max-width: 1023px) {
-                  font-size: 18px;
-                }
-              }
-              .wprf-help {
-                font-size: 14px;
-                color: #6e6e8d;
-                margin: 4px 0 0;
-                text-align: left;
+  /*
+   * The card body only pads horizontally; ordinary setting rows bring their
+   * own vertical rhythm and the licence form has none of its own.
+   */
+  .wprf-control-section.license_activation {
+    padding: 20px 0 24px;
+  }
 
-                a {
-                  color: #1b1b50;
-                  &:hover {
-                    color: #6c62ff;
-                  }
-                }
-              }
-              &.pro-deactivated {
-                label {
-                  display: inline-flex;
-                  align-items: center;
-                  gap: 0.5em;
-                  &:after {
-                    content: '\e907';
-                    font-family: 'wpsp';
-                    color: #ff9437;
-                    font-size: 0.67em;
-                    height: 1.9em;
-                    width: 1.9em;
-                    background-color: #f6e6d7;
-                    display: inline-flex;
-                    align-items: center;
-                    justify-content: center;
-                    border-radius: 50%;
-                  }
-                }
-              }
-            }
-            .wprf-control-wrapper {
-              padding: 0 !important;
-              border: none !important;
-              width: auto !important;
-              margin-bottom: 0 !important;
-            }
-          }
-          .wprf-section-html {
-            margin-bottom: 0 !important;
-            p {
-              margin-top: 0;
-              margin-bottom: 0;
-              a {
-                color: #1b1b50;
-                &:hover {
-                  color: #6c62ff;
-                }
-              }
-            }
-          }
-          .wprf-control-wrapper {
-            padding: 0 !important;
-            border: none !important;
-            border-radius: 0 !important;
-            margin-bottom: 40px !important;
-            gap: 10px !important;
-            .wprf-badge-wrapper {
-              .wprf-control-label {
-                label {
-                  font-size: 24px !important;
-                  line-height: 1.2em !important;
-                  font-weight: 600 I !important;
-                }
-                .wprf-badge {
-                  .wprf-badge-item {
-                    padding: 4px 8px !important;
-                  }
-                }
-              }
-              // .wprf-control-field {
-              // }
-            }
-          }
-          .wprf-section-html {
-            font-size: 14px;
-            color: #6e6e8d;
-            line-height: 1.6em;
-          }
-          .wprf-list {
-            h4 {
-              font-size: 18px !important;
-              line-height: 1.2em !important;
-              margin-bottom: 24px !important;
-            }
-            .wprf-list-item {
-              li {
-                font-size: 14px;
-                line-height: 1.5em;
-                color: #6e6e8d;
-                list-style: decimal;
-                margin-left: 15px !important;
-                transition: ease-in-out 0.25s;
-                a {
-                  text-decoration: none;
-                  color: #6e6e8d;
-                }
-                // &:hover {
-                //   a {
-                //     color: #6c62ff;
-                //   }
-                // }
-              }
-            }
-          }
-        }
-      }
-      .wprf-video {
-        h4 {
-          font-size: 18px !important;
-          font-weight: 500;
-          line-height: 1.2em;
-          color: #1b1b50;
-          margin-top: 0 !important;
-          margin-bottom: 24px !important;
-        }
-        iframe {
-          max-width: 100%;
-        }
+  .wpsp-license-info {
+    margin-bottom: 16px;
+  }
+
+  /* Whether the licence is currently doing anything, answered at a glance. */
+  .wpsp-license-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #f1f3f8;
+    color: #5b6779;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 16px;
+
+    .wpsp-license-status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #8b97a8;
+    }
+
+    &.is-active {
+      background: #ecfdf5;
+      color: #059669;
+
+      .wpsp-license-status-dot {
+        background: #10b981;
       }
     }
   }
 
-  /**
-   * The license form comes from the *Pro* plugin, through the `wpsp_license`
-   * filter on an `action` field — not this plugin's `fields/License.tsx`,
-   * which nothing registers. Its markup lives in another repo, so it is
-   * styled from here, and kept flat: the renderer merges an unlabelled
-   * section's wrapper and its field list onto one element, so there is no
-   * `.wprf-section-fields` descendant to hang the selector off.
-   */
-  .wprf-active_license-social-profile {
-    margin-top: 20px;
+  /* What activating bought, shown once it has. */
+  .wpsp-license-benefits {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin: 16px 0 0;
+    padding: 0;
+    list-style: none;
 
-    .wpsp-license-container-2 > h4 {
-      font-size: 16px;
+    @media screen and (max-width: 782px) {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin: 0;
+      padding: 16px;
+      border: 1px solid #eaeef4;
+      border-radius: 10px;
+      background: #f7f8fb;
+    }
+
+    img {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+    }
+
+    h4 {
+      margin: 0;
+      font-size: 14px;
       font-weight: 600;
-      line-height: 1.4;
+      line-height: 20px;
       color: #232c3b;
-      margin: 0 0 12px;
+    }
+
+    p {
+      margin: 2px 0 0;
+      font-size: 13px;
+      line-height: 20px;
+      color: #5b6779;
+    }
+  }
+
+  .wprf-active_license-social-profile {
+    .wpsp-license-container-2 > label {
+      display: block;
+      margin: 0 0 8px;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 20px;
+      color: #232c3b;
     }
 
     .wpsp-license-key-wrapper {
@@ -289,6 +194,137 @@
             background: #fff;
             color: #ef4444;
           }
+        }
+      }
+    }
+  }
+
+  /**
+   * The OTP step. Pro ships its own rules for this block on an older palette;
+   * these are scoped to the tab, so they win where the two disagree.
+   */
+  .wpsp-verification-msg {
+    margin-top: 20px;
+
+    > p {
+      margin: 0 0 12px;
+      font-size: 14px;
+      line-height: 22px;
+      color: #5b6779;
+
+      span {
+        font-weight: 600;
+        color: #232c3b;
+      }
+    }
+
+    .wpsp-verification-input-container {
+      padding: 20px;
+      border: 1px solid #eaeef4;
+      border-radius: 10px;
+      background: #f7f8fb;
+    }
+
+    .wpsp-verification-input {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: stretch;
+      gap: 12px;
+      position: static;
+      padding: 0;
+      border: 0;
+      background: transparent;
+
+      input {
+        flex: 1 1 220px;
+        min-width: 0;
+        width: auto;
+        height: 48px;
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0 14px;
+        font-size: 14px;
+        line-height: normal;
+        color: #232c3b;
+        background: #fff;
+        border: 1px solid #dbe2ec;
+        border-radius: 10px;
+        box-shadow: none;
+
+        &::placeholder {
+          color: #aab3c0;
+        }
+
+        &:focus {
+          outline: none;
+          border-color: #6c62ff;
+          box-shadow: 0 0 0 3px rgba(108, 98, 255, 0.18);
+        }
+      }
+
+      button[type='button'] {
+        position: static;
+        width: auto;
+        height: 48px;
+        margin: 0;
+        padding: 0 24px;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1;
+        cursor: pointer;
+        border: 1px solid #6c62ff;
+        border-radius: 10px;
+        background: #6c62ff;
+        color: #fff;
+        transition: background-color 0.15s, border-color 0.15s;
+
+        &:hover:not(.disabled) {
+          background: #5a4ce8;
+          border-color: #5a4ce8;
+        }
+
+        &.disabled {
+          background: #dbe2ec;
+          border-color: #dbe2ec;
+          color: #8b97a8;
+          cursor: not-allowed;
+        }
+      }
+    }
+
+    .short-description {
+      margin: 12px 0 0;
+
+      p {
+        margin: 0;
+        font-size: 13px;
+        line-height: 20px;
+        color: #5b6779;
+      }
+
+      // "Resend" is a button, not a link — it fires a request rather than
+      // navigating — but it should read as one.
+      a,
+      .wpsp-link-button {
+        padding: 0;
+        border: 0;
+        background: none;
+        font-family: inherit;
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 20px;
+        color: #6c62ff;
+        text-decoration: none;
+        cursor: pointer;
+
+        &:hover:not(:disabled) {
+          color: #4a3dc4;
+          text-decoration: underline;
+        }
+
+        &:disabled {
+          color: #8b97a8;
+          cursor: default;
         }
       }
     }

@@ -10,8 +10,7 @@ import { socialProfileRequestHandler } from '../helper/helper';
 import ApiCredentialsForm from './Modals/ApiCredentialsForm';
 import SocialModal from './Modals/SocialModal';
 import MainProfile from './utils/MainProfile';
-import SelectedProfile from './utils/SelectedProfile';
-import ViewMore from './utils/ViewMore';
+import ConnectedProfiles from './utils/ConnectedProfiles';
 
 const Twitter = (props) => {
   const propsValue = props?.value || [];
@@ -174,12 +173,6 @@ const Twitter = (props) => {
   }, [profileStatus]);
 
   // Prepare selected profile data
-  let selectedProfileData = [];
-  if (selectedProfile && selectedProfileViewMore) {
-    selectedProfileData = selectedProfile;
-  } else if (selectedProfile && !selectedProfileViewMore) {
-    selectedProfileData = selectedProfile.slice(0, 2);
-  }
   return (
     <div
       className={classNames(
@@ -197,38 +190,16 @@ const Twitter = (props) => {
             openApiCredentialsModal={openApiCredentialsModal}
           />
         </div>
-        <div className="selected-profile">
-          {(!selectedProfile || selectedProfile.length == 0) && (
-            <img
-              className="empty-image"
-              /* @ts-ignore */
-              src={`${wpspSettingsGlobal?.image_path}EmptyCard.svg`}
-              alt=""
-            />
-          )}
-          <div className="selected-twitter-scrollbar">
-            {selectedProfileData.map((item, index) => (
-              <div
-                className="selected-twitter-wrapper"
-                key={index}>
-                <SelectedProfile
-                  key={index}
-                  platform={'twitter'}
-                  item={item}
-                  handleSelectedProfileStatusChange={
-                    handleSelectedProfileStatusChange
-                  }
-                  handleDeleteSelectedProfile={handleDeleteSelectedProfile}
-                  handleEditSelectedProfile={''}
-                  profileStatus={profileStatus}
-                />
-              </div>
-            ))}
-          </div>
-          { ( !selectedProfileViewMore && selectedProfile && selectedProfile.length >= 3) && (
-            <ViewMore setSelectedProfileViewMore={setSelectedProfileViewMore} />
-          )}
-        </div>
+        <ConnectedProfiles
+            platform={'twitter'}
+            label={props?.label}
+            profiles={selectedProfile}
+            viewMore={selectedProfileViewMore}
+            onViewMore={setSelectedProfileViewMore}
+            profileStatus={profileStatus}
+            onStatusChange={handleSelectedProfileStatusChange}
+            onDelete={handleDeleteSelectedProfile}
+        />
       </div>
       {/* API Credentials Modal  */}
       <Modal

@@ -119,12 +119,40 @@ export default function MainProfile({
       </div>
 
       <div
-        className="card-content tw-text-base tw-text-ink-muted tw-mb-5 [&_p]:tw-m-0 [&_a]:tw-text-ink"
+        className="card-content tw-text-base tw-text-ink-muted [&_p]:tw-m-0 [&_a]:tw-text-ink"
         dangerouslySetInnerHTML={{ __html: props?.desc }}
       />
+
+      {/* The setup guide used to be an anchor buried in the description's
+          HTML; it reads as an action here, and gets a real `_blank`. */}
+      {props?.doc && (
+        <a
+          href={props.doc}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="tw-mt-2 tw-inline-flex tw-items-center tw-gap-1 tw-text-sm tw-font-medium tw-text-brand-500 tw-no-underline hover:tw-text-brand-700 hover:tw-underline"
+        >
+          {__('Setup guide', 'wp-scheduled-posts')}
+          <svg
+            className="tw-h-3.5 tw-w-3.5"
+            viewBox="0 0 16 16"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M5.5 10.5 10.5 5.5M10.5 5.5H6.25M10.5 5.5v4.25"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </a>
+      )}
+
       <div
         className={classNames(
-          'card-footer tw-relative tw-flex',
+          'card-footer tw-relative tw-mt-5 tw-flex',
           hasSelect && 'has-select tw-max-w-[250px]',
           hasSelect && hasError && 'has-error'
         )}>
@@ -171,7 +199,9 @@ export default function MainProfile({
               : 'tw-rounded-md'
           )}
           onClick={() => {
-            if (accountType || ['twitter', 'pinterest', 'instagram', 'medium','threads','bluesky','mastodon' ].includes(props?.type)) {
+            /* Only the platforms that ask which kind of account is being
+               added can be missing an answer. */
+            if (accountType || !hasSelect) {
               openApiCredentialsModal(accountType);
             } else {
               setHasError(true);

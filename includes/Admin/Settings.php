@@ -615,8 +615,8 @@ class Settings
                                     'label' => __('Facebook', 'wp-scheduled-posts'),
                                     'default' => [],
                                     'logo' => WPSP_ASSETS_URI . 'images/facebook.svg',
-                                    // translators: %s is the URL of the documentation page for configuring Facebook Social Profile.
-                                    'desc' => sprintf(__('You can enable/disable Facebook social share. To configure Facebook Social Profile, check out this <a target="_blank" href="%s">Doc</a>', 'wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-scheduled-posts-facebook/'),
+                                    'desc' => __('Share your scheduled posts to Facebook Pages and Groups.', 'wp-scheduled-posts'),
+                                    'doc' => esc_url('https://wpdeveloper.com/docs/share-scheduled-posts-facebook/'),
                                     'modal' => [
                                         'logo' => WPSP_ASSETS_URI . 'images/facebook.svg',
                                         'redirect_url_desc' => __('Copy this and paste it in your facebook app Callback url field.', 'wp-scheduled-posts'),
@@ -639,11 +639,8 @@ class Settings
                                     'label' => __('Twitter', 'wp-scheduled-posts'),
                                     'default' => [],
                                     'logo' => WPSP_ASSETS_URI . 'images/twitter.svg',
-                                    'desc' => sprintf(
-                                        /* translators: %s is the URL of the documentation page for configuring Twitter Social Profile. */
-                                        __('You can enable/disable Twitter social share. To configure Twitter Social Profile, check out this <a target="__blank" href="%s">Doc</a>', 'wp-scheduled-posts'),
-                                        'https://wpdeveloper.com/docs/automatically-tweet-wordpress-posts/'
-                                    ),
+                                    'desc' => __('Share your scheduled posts to your Twitter account.', 'wp-scheduled-posts'),
+                                    'doc' => esc_url('https://wpdeveloper.com/docs/automatically-tweet-wordpress-posts/'),
                                     'modal' => [
                                         'logo' => WPSP_ASSETS_URI . 'images/twitter.svg',
                                         'redirect_url_desc' => __('Copy this and paste it in your twitter app Callback url field.', 'wp-scheduled-posts'),
@@ -666,8 +663,8 @@ class Settings
                                     'label' => __('LinkedIn', 'wp-scheduled-posts'),
                                     'default' => [],
                                     'logo' => WPSP_ASSETS_URI . 'images/linkedin.svg',
-                                    /* translators: %s: Link to documentation for LinkedIn social share */
-                                    'desc' => sprintf(__('You can enable/disable LinkedIn social share. To configure LinkedIn Social Profile, check out this <a target="__blank" href="%s">Doc</a>', 'wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-linkedin/'),
+                                    'desc' => __('Share your scheduled posts to LinkedIn profiles and Pages.', 'wp-scheduled-posts'),
+                                    'doc' => esc_url('https://wpdeveloper.com/docs/share-wordpress-posts-on-linkedin/'),
                                     'modal' => [
                                         'logo' => WPSP_ASSETS_URI . 'images/linkedin.svg',
                                         'redirect_url_desc' => __('Copy this and paste it in your linkedin app Callback url field.', 'wp-scheduled-posts'),
@@ -683,8 +680,8 @@ class Settings
                                     'label' => __('Pinterest', 'wp-scheduled-posts'),
                                     'default' => [],
                                     'logo' => WPSP_ASSETS_URI . 'images/pinterest.svg',
-                                    /* translators: %s: Link to documentation for Pinterest social share */
-                                    'desc' => sprintf(__('You can enable/disable Pinterest social share. To configure Pinterest Social Profile, check out this <a target="__blank" href="%s">Doc</a>', 'wp-scheduled-posts'), 'https://wpdeveloper.com/docs/wordpress-posts-on-pinterest/'),
+                                    'desc' => __('Pin your scheduled posts to your Pinterest boards.', 'wp-scheduled-posts'),
+                                    'doc' => esc_url('https://wpdeveloper.com/docs/wordpress-posts-on-pinterest/'),
                                     'modal' => [
                                         'logo' => WPSP_ASSETS_URI . 'images/pinterest.svg',
                                         'redirect_url_desc' => __('Add this URL in the Redirect URLs field of your Pinterest app.', 'wp-scheduled-posts'),
@@ -700,8 +697,8 @@ class Settings
                                     'label' => __('Instagram', 'wp-scheduled-posts'),
                                     'default' => [],
                                     'logo' => WPSP_ASSETS_URI . 'images/instagram.png',
-                                    /* translators: %s: Link to documentation for Instagram social share */
-                                    'desc' => sprintf(__('You can enable/disable Instagram social share. To configure Instagram Social Profile, check out this <a target="__blank" href="%s">Doc</a>', 'wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-scheduled-wordpress-posts-on-instagram/'),
+                                    'desc' => __('Share your scheduled posts to your Instagram account.', 'wp-scheduled-posts'),
+                                    'doc' => esc_url('https://wpdeveloper.com/docs/share-scheduled-wordpress-posts-on-instagram/'),
                                     'modal' => [
                                         'logo' => WPSP_ASSETS_URI . 'images/instagram.png',
                                         'redirect_url_desc' => __('Add this URL in the Redirect URLs field of your Instagram app.', 'wp-scheduled-posts'),
@@ -717,8 +714,8 @@ class Settings
                                     'label' => __('Medium', 'wp-scheduled-posts'),
                                     'default' => [],
                                     'logo' => WPSP_ASSETS_URI . 'images/medium.svg',
-                                    /* translators: %s: Link to documentation for Medium social share */
-                                    'desc' => sprintf(__('You can enable/disable Medium social share. To configure Medium Social Profile, check out this <a target="__blank" href="%s">Doc</a>', 'wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-medium/'),
+                                    'desc' => __('Cross-post your scheduled posts to Medium.', 'wp-scheduled-posts'),
+                                    'doc' => esc_url('https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-medium/'),
                                     'modal' => [
                                         'logo' => WPSP_ASSETS_URI . 'images/medium.svg',
                                         'redirect_url_desc' => __('Add this URL in the Redirect URLs field of your Medium app.', 'wp-scheduled-posts'),
@@ -734,8 +731,8 @@ class Settings
                                     'label' => __('Threads', 'wp-scheduled-posts'),
                                     'default' => [],
                                     'logo' => WPSP_ASSETS_URI . 'images/threads.svg',
-                                    /* translators: %s: Link to documentation for Threads social share */
-                                    'desc' => sprintf(__('You can enable/disable Threads social share. To configure Threads Social Profile, check out this <a target="__blank" href="%s">Doc</a>', 'wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-threads/'),
+                                    'desc' => __('Share your scheduled posts to your Threads account.', 'wp-scheduled-posts'),
+                                    'doc' => esc_url('https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-threads/'),
                                     'modal' => [
                                         'logo' => WPSP_ASSETS_URI . 'images/threads.svg',
                                         'redirect_url_desc' => __('Add this URL in the Redirect URLs field of your Medium app.', 'wp-scheduled-posts'),
@@ -751,8 +748,8 @@ class Settings
                                     'label' => __('Google Business Profile', 'wp-scheduled-posts'),
                                     'default' => [],
                                     'logo' => WPSP_ASSETS_URI . 'images/google-my-business-logo.svg',
-                                    /* translators: %s: Link to documentation for Google Business Profile social share */
-                                    'desc' => sprintf(__('You can enable/disable Google Business Profile social share. To configure Google Business Profile Social Profile, check out this <a target="__blank" href="%s">Doc</a>', 'wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-google-business-profile/'),
+                                    'desc' => __('Share your scheduled posts to your Google Business Profile locations.', 'wp-scheduled-posts'),
+                                    'doc' => esc_url('https://wpdeveloper.com/docs/share-wordpress-posts-on-google-business-profile/'),
                                     'modal' => [
                                         'logo' => WPSP_ASSETS_URI . 'images/google-my-business-logo.svg',
                                         'redirect_url_desc' => __('Add this URL in the Redirect URLs field of your Medium app.', 'wp-scheduled-posts'),
@@ -768,8 +765,8 @@ class Settings
                                     'label'    => __('Bluesky', 'wp-scheduled-posts'),
                                     'default'  => [],
                                     'logo'     => WPSP_ASSETS_URI . 'images/bluesky.svg',
-                                    /* translators: %s: Link to documentation for Bluesky social share */
-                                    'desc'     => sprintf( __('You can enable/disable Bluesky social share. To configure your Bluesky Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-bluesky/' ),
+                                    'desc'     => __('Share your scheduled posts to your Bluesky account.', 'wp-scheduled-posts'),
+                                    'doc'      => esc_url('https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-bluesky/'),
                                     'modal'    => [
                                         'logo'               => WPSP_ASSETS_URI . 'images/bluesky.svg',
                                         'redirect_url_desc'  => __('Connect using your Bluesky handle and an App Password.','wp-scheduled-posts'),
@@ -785,8 +782,8 @@ class Settings
                                     'label'    => __('Mastodon', 'wp-scheduled-posts'),
                                     'default'  => [],
                                     'logo'     => WPSP_ASSETS_URI . 'images/mastodon.svg',
-                                    /* translators: %s: Link to documentation for Mastodon social share */
-                                    'desc'     => sprintf( __('You can enable/disable Mastodon social share. To configure your Mastodon Social Profile, check out this <a target="__blank" href="%s">Doc</a>','wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-mastodon/' ),
+                                    'desc'     => __('Share your scheduled posts to your Mastodon instance.', 'wp-scheduled-posts'),
+                                    'doc'      => esc_url('https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-mastodon/'),
                                     'modal'    => [
                                         'logo'               => WPSP_ASSETS_URI . 'images/mastodon.svg',
                                         'redirect_url_desc'  => __('Connect using your Mastodon instance URL and an access token.','wp-scheduled-posts'),

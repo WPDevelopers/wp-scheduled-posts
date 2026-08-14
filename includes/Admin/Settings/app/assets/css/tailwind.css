@@ -93,7 +93,9 @@
     .social-profile-card > .selected-profile {
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        /* The heading has to stay at the top of the column; the empty state
+           centres itself with `m-auto` when it is the only thing here. */
+        justify-content: flex-start;
         gap: 8px;
         padding: 24px;
         /* Sunken, not canvas: canvas is the page colour, so the column would
@@ -108,14 +110,7 @@
         }
     }
 
-    .selected-profile .empty-image {
-        width: 100%;
-        max-width: 220px;
-        align-self: center;
-        opacity: 0.7;
-    }
-
-    .selected-profile [class^='selected-'][class$='-scrollbar'] {
+    .selected-profile .selected-profiles-scrollbar {
         display: flex;
         flex-direction: column;
         gap: 8px;

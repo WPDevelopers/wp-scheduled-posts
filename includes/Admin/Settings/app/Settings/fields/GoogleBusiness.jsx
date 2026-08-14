@@ -8,10 +8,9 @@ import { SweetAlertDeleteMsg, SweetAlertProMsg } from '../ToasterMsg';
 import { socialProfileRequestHandler } from '../helper/helper';
 import ApiCredentialsForm from './Modals/ApiCredentialsForm';
 import SocialModal from './Modals/SocialModal';
-import SelectedProfile from './utils/SelectedProfile';
-import GoogleBusinessProfile from './Profiles/GoogleBusinessProfile';
+import ConnectedProfiles from './utils/ConnectedProfiles';
+import MainProfile from './utils/MainProfile';
 import ProAlert from "./utils/ProAlert";
-import ViewMore from './utils/ViewMore';
 
 const GoogleBusiness = (props) => {
   const propsValue = props?.value || [];
@@ -187,12 +186,6 @@ const GoogleBusiness = (props) => {
       },
     });
   }, [profileStatus]);
-  let selectedProfileData = [];
-  if (selectedProfile && selectedProfileViewMore) {
-    selectedProfileData = selectedProfile;
-  } else if (selectedProfile && !selectedProfileViewMore) {
-    selectedProfileData = selectedProfile.slice(0, 2);
-  }
 
   return (
     <div
@@ -216,45 +209,23 @@ const GoogleBusiness = (props) => {
         /> }
 
         <div className="main-profile">
-          <GoogleBusinessProfile
+          <MainProfile
             props={props}
             handleProfileStatusChange={handleProfileStatusChange}
             profileStatus={profileStatus}
             openApiCredentialsModal={openApiCredentialsModal}
           />
         </div>
-        <div className="selected-profile">
-          {(!selectedProfile || selectedProfile.length == 0) && (
-            <img
-              className="empty-image"
-              /* @ts-ignore */
-              src={`${wpspSettingsGlobal?.image_path}EmptyCard.svg`}
-              alt=""
-            />
-          )}
-          <div className="selected-google-business-scrollbar">
-            {selectedProfile &&
-                selectedProfileData.map((item, index) => (
-                <div
-                    className="selected-facebook-wrapper"
-                    key={index}>
-                    <SelectedProfile
-                        platform={'google_business'}
-                        item={item}
-                        handleSelectedProfileStatusChange={
-                            handleSelectedProfileStatusChange
-                        }
-                        handleDeleteSelectedProfile={handleDeleteSelectedProfile}
-                        handleEditSelectedProfile={''}
-                        profileStatus={profileStatus}
-                    />
-                </div>
-                ))}
-          </div>
-          { ( !selectedProfileViewMore && selectedProfile && selectedProfile.length >= 3) && (
-            <ViewMore setSelectedProfileViewMore={setSelectedProfileViewMore} />
-          ) }
-        </div>
+        <ConnectedProfiles
+            platform={'google_business'}
+            label={props?.label}
+            profiles={selectedProfile}
+            viewMore={selectedProfileViewMore}
+            onViewMore={setSelectedProfileViewMore}
+            profileStatus={profileStatus}
+            onStatusChange={handleSelectedProfileStatusChange}
+            onDelete={handleDeleteSelectedProfile}
+        />
       </div>
       <Modal
             isOpen={apiCredentialsModal}

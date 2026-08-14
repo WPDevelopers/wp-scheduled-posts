@@ -9,8 +9,7 @@ import { fetchDataFromAPI } from '../helper/helper';
 import ApiCredentialsForm from './Modals/ApiCredentialsForm';
 import MainProfile from './utils/MainProfile';
 import ProAlert from './utils/ProAlert';
-import SelectedProfile from './utils/SelectedProfile';
-import ViewMore from './utils/ViewMore';
+import ConnectedProfiles from './utils/ConnectedProfiles';
 
 const Mastodon = (props) => {
     const propsValue = props?.value || [];
@@ -185,12 +184,6 @@ const Mastodon = (props) => {
         });
     }, [profileStatus]);
 
-    let selectedProfileData = [];
-    if (selectedProfile && selectedProfileViewMore) {
-        selectedProfileData = selectedProfile;
-    } else if (selectedProfile && !selectedProfileViewMore) {
-        selectedProfileData = selectedProfile.slice(0, 2);
-    }
     const handleMastodonFetchProfile = async (redirectURI, appID, appSecret, platform, openIDConnect = false) => {
         const account_type = localStorage.getItem('account_type');
         // @ts-ignore
@@ -278,38 +271,16 @@ const Mastodon = (props) => {
                     openApiCredentialsModal={openApiCredentialsModal}
                 />
                 </div>
-                <div className="selected-profile">
-                    {(!selectedProfile || selectedProfile.length == 0) && (
-                        <img
-                        className="empty-image"
-                        /* @ts-ignore */
-                        src={`${wpspSettingsGlobal?.image_path}EmptyCard.svg`}
-                        alt=""
-                        />
-                    )}
-                    <div className="selected-facebook-scrollbar">
-                        {selectedProfile &&
-                            selectedProfileData.map((item, index) => (
-                                <div
-                                className="selected-facebook-wrapper"
-                                key={index}>
-                                <SelectedProfile
-                                    platform={'mastodon'}
-                                    item={item}
-                                    handleSelectedProfileStatusChange={
-                                        handleSelectedProfileStatusChange
-                                    }
-                                    handleDeleteSelectedProfile={handleDeleteSelectedProfile}
-                                    handleEditSelectedProfile={''}
-                                    profileStatus={profileStatus}
-                                />
-                                </div>
-                        ))}
-                    </div>
-                    { ( !selectedProfileViewMore && selectedProfile && selectedProfile.length >= 3) && (
-                        <ViewMore setSelectedProfileViewMore={setSelectedProfileViewMore} />
-                    ) }
-                </div>
+                <ConnectedProfiles
+                    platform={'mastodon'}
+                    label={props?.label}
+                    profiles={selectedProfile}
+                    viewMore={selectedProfileViewMore}
+                    onViewMore={setSelectedProfileViewMore}
+                    profileStatus={profileStatus}
+                    onStatusChange={handleSelectedProfileStatusChange}
+                    onDelete={handleDeleteSelectedProfile}
+                />
             </div>
             {/* API Credentials Modal  */}
             <Modal
