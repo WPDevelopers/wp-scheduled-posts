@@ -174,6 +174,10 @@ final class Manager {
 			return $tabs;
 		}
 
+		// One custom field renders the whole panel. Everything on it is live
+		// connection state driven by the /mcp/* REST routes rather than form
+		// values, so the section deliberately has no Save button — there is
+		// nothing to save that the panel does not write itself.
 		$tabs['layout_mcp'] = array(
 			'id'       => 'layout_mcp',
 			'name'     => 'layout_mcp',
@@ -183,44 +187,16 @@ final class Manager {
 				'mcp_section' => array(
 					'name'       => 'mcp_section',
 					'type'       => 'section',
-					'label'      => __( 'AI assistant access', 'wp-scheduled-posts' ),
+					'label'      => null,
 					'priority'   => 5,
-					'showSubmit' => true,
+					'showSubmit' => false,
 					'fields'     => array(
-						'mcp_intro'                 => array(
-							'id'       => 'mcp_intro',
-							'name'     => 'mcp_intro',
-							'type'     => 'html',
-							'html'     => __( 'Let an AI assistant read and manage your content schedule — "what is queued for October?", "move everything on Friday to next week", "which social connections need reconnecting?". Access is protected by a connection token you can rotate or revoke at any time.', 'wp-scheduled-posts' ),
+						'mcp_panel' => array(
+							'id'       => 'mcp_panel',
+							'name'     => 'mcp_panel',
+							'type'     => 'mcp',
+							'label'    => null,
 							'priority' => 5,
-						),
-						'enable_mcp'                => array(
-							'name'     => 'enable_mcp',
-							'type'     => 'toggle',
-							'label'    => __( 'Enable AI (MCP) access', 'wp-scheduled-posts' ),
-							'default'  => 0,
-							'priority' => 10,
-						),
-						'mcp_connection'            => array(
-							'id'       => 'mcp_connection',
-							'name'     => 'mcp_connection',
-							'type'     => 'html',
-							'html'     => $this->connection_markup(),
-							'priority' => 15,
-						),
-						'enable_mcp_social_publish' => array(
-							'name'     => 'enable_mcp_social_publish',
-							'type'     => 'toggle',
-							'label'    => __( 'Allow AI assistants to post to social media', 'wp-scheduled-posts' ),
-							'default'  => 0,
-							'priority' => 20,
-						),
-						'mcp_social_publish_desc'   => array(
-							'id'       => 'mcp_social_publish_desc',
-							'name'     => 'mcp_social_publish_desc',
-							'type'     => 'html',
-							'html'     => __( 'Off by default. Sharing to a social account posts publicly to a real audience and cannot be undone, so an AI assistant can only do it when you switch this on — and even then it must confirm each share. Reading the schedule and rescheduling posts do not need this.', 'wp-scheduled-posts' ),
-							'priority' => 25,
 						),
 					),
 				),
@@ -228,39 +204,6 @@ final class Manager {
 		);
 
 		return $tabs;
-	}
-
-	/**
-	 * The connect-details block for the MCP settings tab.
-	 *
-	 * @return string
-	 */
-	private function connection_markup() {
-		if ( ! self::is_enabled() ) {
-			return esc_html__( 'Turn on AI (MCP) access and save to generate a connection URL for your AI client.', 'wp-scheduled-posts' );
-		}
-
-		if ( ! Pairing::is_connected() ) {
-			Pairing::connect();
-		}
-
-		$status = Pairing::public_status();
-
-		$rows = array(
-			__( 'Connection URL', 'wp-scheduled-posts' ) => $status['mcp_endpoint'],
-			__( 'Fallback URL', 'wp-scheduled-posts' )   => $status['mcp_endpoint_rest'],
-			__( 'Token', 'wp-scheduled-posts' )          => $status['connection_token'],
-		);
-
-		$html = '<div class="wpsp-mcp-connection">';
-		foreach ( $rows as $label => $value ) {
-			$html .= '<p><strong>' . esc_html( $label ) . ':</strong><br /><code style="word-break:break-all">' . esc_html( $value ) . '</code></p>';
-		}
-		$html .= '<p><strong>' . esc_html__( 'Claude Code', 'wp-scheduled-posts' ) . ':</strong><br /><code style="word-break:break-all">' . esc_html( $status['config']['cli'] ) . '</code></p>';
-		$html .= '<p>' . esc_html__( 'Paste the connection URL and token into your AI client. Clients that support OAuth need only the URL. Keep the token secret — anyone holding it can manage this site\'s schedule.', 'wp-scheduled-posts' ) . '</p>';
-		$html .= '</div>';
-
-		return $html;
 	}
 
 	// -- Pretty endpoint: /schedulepress/mcp --
@@ -469,10 +412,15 @@ final class Manager {
 				'callback'            => array( $this, 'rest_settings' ),
 				'permission_callback' => array( $this, 'admin_permission' ),
 				'args'                => array(
-					'enable_mcp' => array(
+					'enable_mcp'                => array(
 						'type'        => 'boolean',
-						'required'    => true,
+						'required'    => false,
 						'description' => 'Master switch for the MCP endpoint, discovery documents and OAuth surface.',
+					),
+					'enable_mcp_social_publish' => array(
+						'type'        => 'boolean',
+						'required'    => false,
+						'description' => 'Whether connected AI clients may post to the connected social accounts.',
 					),
 				),
 			)
@@ -618,10 +566,11 @@ final class Manager {
 	 */
 	public function rest_connection() {
 		$this->ensure_connected();
-		$status                = Pairing::public_status();
-		$status['enable_mcp']  = self::is_enabled();
-		$status['runtime_ok']  = function_exists( 'wp_register_ability' );
-		$status['tools_count'] = count( Tools::all() );
+		$status                              = Pairing::public_status();
+		$status['enable_mcp']                = self::is_enabled();
+		$status['enable_mcp_social_publish'] = \WPSP\Abilities\Social\ShareNow::is_publishing_allowed();
+		$status['runtime_ok']                = function_exists( 'wp_register_ability' );
+		$status['tools_count']               = count( Tools::all() );
 		return rest_ensure_response( $status );
 	}
 
@@ -632,8 +581,34 @@ final class Manager {
 	 * @return \WP_REST_Response
 	 */
 	public function rest_settings( \WP_REST_Request $request ) {
-		self::set_enabled( (bool) $request->get_param( 'enable_mcp' ) );
+		if ( null !== $request->get_param( 'enable_mcp' ) ) {
+			self::set_enabled( (bool) $request->get_param( 'enable_mcp' ) );
+		}
+		if ( null !== $request->get_param( 'enable_mcp_social_publish' ) ) {
+			self::set_social_publish( (bool) $request->get_param( 'enable_mcp_social_publish' ) );
+		}
 		return $this->rest_connection();
+	}
+
+	/**
+	 * Flip the social-publishing opt-in.
+	 *
+	 * Kept separate from `enable_mcp`: a site can want AI access to its
+	 * schedule without wanting an AI able to post to its audience.
+	 *
+	 * @param bool $allowed Desired state.
+	 * @return bool The state actually stored.
+	 */
+	public static function set_social_publish( $allowed ) {
+		$allowed  = (bool) $allowed;
+		$settings = json_decode( get_option( WPSP_SETTINGS_NAME, '{}' ), true );
+		if ( ! is_array( $settings ) ) {
+			$settings = array();
+		}
+		$settings['enable_mcp_social_publish'] = $allowed;
+		update_option( WPSP_SETTINGS_NAME, wp_json_encode( $settings ) );
+
+		return $allowed;
 	}
 
 	/**

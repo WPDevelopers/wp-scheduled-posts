@@ -24,6 +24,7 @@ import GoogleBusiness from './GoogleBusiness';
 import Bluesky from './Bluesky';
 import Mastodon from './Mastodon';
 import OpenAI from './OpenAI';
+import MCP from './MCP';
 
 const Field = (ret, type, props) => {
 
@@ -76,6 +77,8 @@ const Field = (ret, type, props) => {
             return <Mastodon {...props} />;
         case "openai":
             return <OpenAI {...props} />;
+        case "mcp":
+            return <MCP {...props} />;
         default:
             return ret;
     }

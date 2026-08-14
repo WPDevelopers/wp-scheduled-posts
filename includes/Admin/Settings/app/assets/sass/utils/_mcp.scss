@@ -1,0 +1,617 @@
+// AI (MCP) settings panel.
+//
+// Self-contained and prefixed with `wpsp-mcp`, so it can be imported straight
+// from the field component (like the calendar field) without depending on the
+// #wpsp-dashboard-body nesting in index.scss. Colour tokens follow the rest of
+// the settings UI: #6c62ff primary, #1b1b50 text, #ebeef5 borders.
+
+$mcp-primary: #6c62ff;
+$mcp-text: #1b1b50;
+$mcp-muted: #6b6b85;
+$mcp-faint: #9a9ab0;
+$mcp-border: #ebeef5;
+$mcp-bg: #f8f8fc;
+$mcp-success: #12a37c;
+$mcp-danger: #e5484d;
+$mcp-warning: #d97706;
+
+.wpsp-mcp {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: $mcp-text;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+
+  * {
+    box-sizing: border-box;
+  }
+
+  &--loading {
+    padding: 32px;
+    color: $mcp-faint;
+  }
+
+  /* ------------------------------------------------------------- cards */
+
+  .wpsp-mcp-card {
+    background: #fff;
+    border: 1px solid $mcp-border;
+    border-radius: 12px;
+    padding: 24px;
+
+    &__title {
+      font-size: 16px;
+      font-weight: 600;
+      color: $mcp-text;
+      margin: 0 0 16px;
+    }
+
+    &__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 4px;
+
+      .wpsp-mcp-card__title {
+        margin: 0;
+      }
+    }
+  }
+
+  /* -------------------------------------------------------------- hero */
+
+  .wpsp-mcp-hero {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+
+    &__icon {
+      flex-shrink: 0;
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      background: linear-gradient(135deg, #6c62ff, #8b7dff);
+      box-shadow: 0 6px 16px rgba(108, 98, 255, 0.3);
+    }
+
+    &__body {
+      flex: 1;
+      min-width: 0;
+
+      p {
+        margin: 6px 0 0;
+        font-size: 14px;
+        line-height: 1.6;
+        color: $mcp-muted;
+      }
+    }
+
+    &__title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      h3 {
+        font-size: 17px;
+        font-weight: 600;
+        margin: 0;
+        color: $mcp-text;
+      }
+    }
+  }
+
+  .wpsp-mcp-status {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: #f1f1f6;
+    color: $mcp-faint;
+
+    &.is-on {
+      background: rgba(18, 163, 124, 0.12);
+      color: $mcp-success;
+    }
+  }
+
+  /* ------------------------------------------------------------ switch */
+
+  .wpsp-mcp-switch {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+
+    input {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    &__track {
+      width: 44px;
+      height: 24px;
+      border-radius: 999px;
+      background: #d8d8e3;
+      display: block;
+      position: relative;
+      transition: background 0.18s ease;
+    }
+
+    &__thumb {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      transition: transform 0.18s ease;
+    }
+
+    input:checked + .wpsp-mcp-switch__track {
+      background: $mcp-primary;
+    }
+
+    input:checked + .wpsp-mcp-switch__track .wpsp-mcp-switch__thumb {
+      transform: translateX(20px);
+    }
+
+    input:disabled + .wpsp-mcp-switch__track {
+      opacity: 0.6;
+    }
+  }
+
+  /* ------------------------------------------------------------ alerts */
+
+  .wpsp-mcp-alert {
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 13.5px;
+    line-height: 1.55;
+    border: 1px solid transparent;
+
+    &--error {
+      background: rgba(229, 72, 77, 0.08);
+      border-color: rgba(229, 72, 77, 0.25);
+      color: #a3282c;
+    }
+
+    &--success {
+      background: rgba(18, 163, 124, 0.08);
+      border-color: rgba(18, 163, 124, 0.25);
+      color: #0b7357;
+    }
+
+    &--warning {
+      background: rgba(217, 119, 6, 0.08);
+      border-color: rgba(217, 119, 6, 0.25);
+      color: #92500a;
+    }
+  }
+
+  .wpsp-mcp-empty {
+    padding: 20px 24px;
+    border: 1px dashed $mcp-border;
+    border-radius: 12px;
+    color: $mcp-faint;
+    font-size: 14px;
+    background: $mcp-bg;
+  }
+
+  .wpsp-mcp-note {
+    font-size: 13px;
+    line-height: 1.6;
+    color: $mcp-muted;
+    margin: 0 0 16px;
+  }
+
+  /* ---------------------------------------------------------- collapse */
+
+  .wpsp-mcp-collapse {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    color: $mcp-text;
+    font-family: inherit;
+
+    > span {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+  }
+
+  .wpsp-mcp-caps {
+    margin: 18px 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 10px 20px;
+
+    li {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      margin: 0;
+      font-size: 13.5px;
+      line-height: 1.5;
+      color: $mcp-muted;
+
+      svg {
+        flex-shrink: 0;
+        margin-top: 3px;
+        color: $mcp-success;
+      }
+    }
+  }
+
+  .wpsp-mcp-pill {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(108, 98, 255, 0.12);
+    color: $mcp-primary;
+
+    &--muted {
+      background: #f1f1f6;
+      color: $mcp-faint;
+    }
+  }
+
+  /* ------------------------------------------------------- copy fields */
+
+  .wpsp-mcp-copyfield {
+    margin-bottom: 16px;
+
+    &__label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: $mcp-faint;
+      margin-bottom: 7px;
+    }
+
+    &__row {
+      display: flex;
+      align-items: stretch;
+      gap: 8px;
+    }
+
+    &__value {
+      flex: 1;
+      min-width: 0;
+      background: $mcp-bg;
+      border: 1px solid $mcp-border;
+      border-radius: 8px;
+      padding: 11px 14px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12.5px;
+      line-height: 1.5;
+      color: $mcp-text;
+      word-break: break-all;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .wpsp-mcp-copybtn {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 14px;
+    border-radius: 8px;
+    border: 1px solid $mcp-border;
+    background: #fff;
+    color: $mcp-muted;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.15s ease;
+
+    &:hover {
+      border-color: $mcp-primary;
+      color: $mcp-primary;
+    }
+
+    &.is-copied {
+      border-color: rgba(18, 163, 124, 0.4);
+      color: $mcp-success;
+      background: rgba(18, 163, 124, 0.06);
+    }
+  }
+
+  /* -------------------------------------------------------------- tabs */
+
+  .wpsp-mcp-tabs {
+    display: inline-flex;
+    gap: 4px;
+    padding: 4px;
+    background: $mcp-bg;
+    border-radius: 10px;
+    margin: 4px 0 18px;
+
+    button {
+      border: 0;
+      background: transparent;
+      padding: 8px 16px;
+      border-radius: 7px;
+      font-size: 13.5px;
+      font-weight: 500;
+      font-family: inherit;
+      color: $mcp-muted;
+      cursor: pointer;
+      transition: all 0.15s ease;
+
+      &.is-active {
+        background: #fff;
+        color: $mcp-text;
+        font-weight: 600;
+        box-shadow: 0 1px 3px rgba(27, 27, 80, 0.1);
+      }
+    }
+  }
+
+  /* ----------------------------------------------------------- clients */
+
+  .wpsp-mcp-clients {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+  }
+
+  .wpsp-mcp-client {
+    border: 1px solid $mcp-border;
+    border-radius: 10px;
+    padding: 18px;
+    background: #fff;
+
+    &__head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+
+      h4 {
+        margin: 0;
+        font-size: 14.5px;
+        font-weight: 600;
+        color: $mcp-text;
+        flex: 1;
+        min-width: 0;
+      }
+    }
+
+    &__icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: $mcp-bg;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .wpsp-mcp-copyfield {
+      margin-bottom: 12px;
+    }
+  }
+
+  .wpsp-mcp-steps {
+    margin: 0;
+    padding-left: 18px;
+    counter-reset: step;
+
+    li {
+      font-size: 13px;
+      line-height: 1.6;
+      color: $mcp-muted;
+      margin-bottom: 4px;
+    }
+  }
+
+  /* ----------------------------------------------------------- buttons */
+
+  .wpsp-mcp-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 9px 16px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    background: $mcp-primary;
+    color: #fff;
+    font-size: 13.5px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    text-decoration: none;
+    transition: filter 0.15s ease;
+
+    &:hover {
+      filter: brightness(1.06);
+      color: #fff;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: default;
+    }
+
+    &--ghost {
+      background: #fff;
+      border-color: $mcp-border;
+      color: $mcp-muted;
+
+      &:hover {
+        border-color: $mcp-primary;
+        color: $mcp-primary;
+        filter: none;
+      }
+    }
+
+    &--danger {
+      background: $mcp-danger;
+
+      &:hover {
+        color: #fff;
+      }
+    }
+  }
+
+  .wpsp-mcp-actions {
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid $mcp-border;
+  }
+
+  .wpsp-mcp-confirm {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 13.5px;
+    color: $mcp-muted;
+  }
+
+  .wpsp-mcp-details {
+    margin-top: 8px;
+
+    summary {
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      color: $mcp-muted;
+      margin-bottom: 14px;
+
+      &:hover {
+        color: $mcp-primary;
+      }
+    }
+  }
+
+  /* ------------------------------------------------------------ checks */
+
+  .wpsp-mcp-checks {
+    margin: 16px 0 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+      padding: 12px 0;
+      border-top: 1px solid $mcp-border;
+      margin: 0;
+
+      div {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        min-width: 0;
+      }
+
+      strong {
+        font-size: 13.5px;
+        font-weight: 600;
+        color: $mcp-text;
+      }
+
+      span {
+        font-size: 12.5px;
+        line-height: 1.55;
+        color: $mcp-muted;
+        word-break: break-word;
+      }
+    }
+
+    &__icon {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+    }
+
+    .is-ok .wpsp-mcp-checks__icon {
+      background: rgba(18, 163, 124, 0.12);
+      color: $mcp-success;
+    }
+
+    .is-fail .wpsp-mcp-checks__icon {
+      background: rgba(229, 72, 77, 0.12);
+      color: $mcp-danger;
+    }
+  }
+
+  /* -------------------------------------------------------------- apps */
+
+  .wpsp-mcp-apps {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 0;
+      border-top: 1px solid $mcp-border;
+      margin: 0;
+
+      &:first-child {
+        border-top: 0;
+        padding-top: 0;
+      }
+
+      div {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        min-width: 0;
+      }
+
+      strong {
+        font-size: 14px;
+        font-weight: 600;
+        color: $mcp-text;
+      }
+
+      span {
+        font-size: 12.5px;
+        color: $mcp-faint;
+      }
+    }
+  }
+}
