@@ -62,18 +62,21 @@ export default function MainProfile({
     setAccountType(selectedOption.value);
   };
 
+  /**
+   * The select butts up against the "Add New" button, so its right corners are
+   * squared and its height matches the large button beside it. The menu is
+   * portalled because `.social-profile-card` clips its overflow to keep the
+   * two-column background inside the card's rounded corners.
+   */
   const mainSelectStyles = {
     ...selectStyles,
     control: (base, state) => ({
-      ...base,
-      boxShadow: 'none',
-      borderColor: '#D7DBDF',
-      backgroundColor: '#F9FAFC',
-      color: '#6E6E8D',
-      '&:hover': {
-        borderColor: '#cccccc',
-      },
+      ...selectStyles.control(base, state),
+      minHeight: 48,
+      borderTopRightRadius: 0,
+      borderBottomRightRadius: 0,
     }),
+    menuPortal: (base) => ({ ...base, zIndex: 100000 }),
   };
   // @ts-ignore
   useEffect(() => {
@@ -135,7 +138,9 @@ export default function MainProfile({
               </p>
             )}
             <Select
-              id={props?.id}
+              /* Not `props.id` — the status toggle already owns that. */
+              inputId={`${props?.id}-account-type`}
+              aria-label={__('Account type', 'wp-scheduled-posts')}
               onChange={(event) => {
                 handleAccountType(event);
               }}
@@ -143,9 +148,13 @@ export default function MainProfile({
                 Option,
               }}
               options={options}
-              className="main-select"
+              className="main-select tw-flex-1 tw-min-w-0"
               styles={mainSelectStyles}
               classNamePrefix="social-media-type-select"
+              menuPortalTarget={
+                typeof document !== 'undefined' ? document.body : undefined
+              }
+              menuPosition="fixed"
             />
           </>
         )}

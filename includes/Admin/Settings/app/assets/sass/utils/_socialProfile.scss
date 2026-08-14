@@ -52,40 +52,17 @@
           }
           // `.card-header` and `.card-content` are styled from
           // `fields/utils/MainProfile.tsx` with the Tailwind UI kit.
-          .card-footer {
-            display: flex;
-            &.has-select {
-              max-width: 250px;
-            }
-            .main-select {
-              height: 42px;
-              flex-grow: 1;
-              width: 100%;
-              .social-media-type-select__control {
-                border-top-right-radius: 0px;
-                border-bottom-right-radius: 0px;
-                border-right-width: 0px;
-                .social-media-type-select__value-container {
-                  padding-top: 1px;
-                  padding-bottom: 1px;
-                }
-              }
-            }
-            // The "Add New" button comes from the UI kit; it only needs its
-            // left corners squared off against the select, which it does
-            // itself. Height is matched here so the two line up.
-            .wpscp-social-tab__btn--addnew-profile {
-              height: 42px;
-              min-height: 42px;
-            }
-          }
+          // The footer row, the select's sizing and its squared-off right
+          // corners are all handled in `utils/MainProfile.tsx` now — the
+          // select's height has to match the UI-kit button beside it, and that
+          // is a JS style object, not a class we can reach from here.
           .has-error {
             .wpscp-social-tab__btn--addnew-profile {
-              border-left: 1px solid #cc0000;
+              border-left-color: #ef4444;
             }
             .main-select {
               .social-media-type-select__control {
-                border-color: #cc0000;
+                border-color: #ef4444;
               }
             }
           }
@@ -247,29 +224,4 @@
 
 .react-switch-label:active .react-switch-button {
   width: 60px;
-}
-
-.social-media-type-select__option {
-  .wprf-select-pro-option {
-    display: inline-flex !important;
-    align-items: center;
-  }
-  &--is-disabled {
-    .wprf-select-pro-option {
-      gap: 0.375em;
-      &:after {
-        height: 1.9em;
-        width: 1.9em;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        background-color: #f6e6d7;
-        border-radius: 50%;
-        content: '\e907';
-        font-family: 'wpsp';
-        font-size: 0.7em;
-        color: #ff9437;
-      }
-    }
-  }
 }

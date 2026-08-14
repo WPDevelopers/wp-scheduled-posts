@@ -1,0 +1,27 @@
+// The account-type select portals its menu to <body> so the social card
+// can keep clipping its own overflow. That puts the menu outside
+// #wpsp-dashboard-body, so these rules have to be imported unscoped.
+.social-media-type-select__option {
+  .wprf-select-pro-option {
+    display: inline-flex !important;
+    align-items: center;
+  }
+  &--is-disabled {
+    .wprf-select-pro-option {
+      gap: 0.375em;
+      &:after {
+        height: 1.9em;
+        width: 1.9em;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f6e6d7;
+        border-radius: 50%;
+        content: '\e907';
+        font-family: 'wpsp';
+        font-size: 0.7em;
+        color: #ff9437;
+      }
+    }
+  }
+}
