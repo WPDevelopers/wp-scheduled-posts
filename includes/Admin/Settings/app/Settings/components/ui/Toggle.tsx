@@ -3,11 +3,15 @@ import cn from './cn';
 
 export type ToggleSize = 'sm' | 'md';
 
+/** Colour of the "on" track — green reads as connected/live, brand as enabled. */
+export type ToggleTone = 'brand' | 'success';
+
 export interface ToggleProps {
     checked: boolean;
     onChange?: (checked: boolean) => void;
     disabled?: boolean;
     size?: ToggleSize;
+    tone?: ToggleTone;
     label?: React.ReactNode;
     description?: React.ReactNode;
     /** Places the switch after the label — the settings-row layout. */
@@ -32,11 +36,17 @@ const knobOn: Record<ToggleSize, string> = {
     md: 'tw-translate-x-5',
 };
 
+const tones: Record<ToggleTone, string> = {
+    brand: 'tw-bg-brand-500',
+    success: 'tw-bg-success-500',
+};
+
 const Toggle: React.FC<ToggleProps> = ({
     checked,
     onChange,
     disabled,
     size = 'md',
+    tone = 'brand',
     label,
     description,
     labelPosition = 'right',
@@ -57,7 +67,7 @@ const Toggle: React.FC<ToggleProps> = ({
                 'wpsp-ui tw-relative tw-inline-flex tw-shrink-0 tw-items-center tw-rounded-full',
                 'tw-border-0 tw-p-0 tw-cursor-pointer tw-transition-colors tw-duration-200',
                 track[size],
-                checked ? 'tw-bg-brand-500' : 'tw-bg-[#d7dbdf]',
+                checked ? tones[tone] : 'tw-bg-[#d7dbdf]',
                 disabled && 'tw-opacity-50 tw-cursor-not-allowed'
             )}
         >

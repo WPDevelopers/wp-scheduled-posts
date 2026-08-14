@@ -46,5 +46,5 @@ export type { CardPadding } from './Card';
 export type { ModalSize } from './Modal';
 export type { SelectOption } from './Select';
 export type { TabItem } from './Tabs';
-export type { ToggleSize } from './Toggle';
+export type { ToggleSize, ToggleTone } from './Toggle';
 export type { TooltipPlacement } from './Tooltip';

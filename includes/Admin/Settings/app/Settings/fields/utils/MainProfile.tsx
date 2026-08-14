@@ -1,7 +1,9 @@
 import { __ } from '@wordpress/i18n';
+import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import Select, { components } from 'react-select';
 import { selectStyles } from '../../helper/styles';
+import { Button, Toggle } from '../../components/ui';
 
 // Prepare options with checkbox
 const Option = (props) => {
@@ -54,6 +56,8 @@ export default function MainProfile({
 
   const [accountType, setAccountType] = useState(undefined);
   const [hasError, setHasError] = useState(false);
+  /* Only Facebook and LinkedIn ask which kind of account is being added. */
+  const hasSelect = ['facebook', 'linkedin'].includes(props?.type);
   const handleAccountType = (selectedOption) => {
     setAccountType(selectedOption.value);
   };
@@ -88,52 +92,47 @@ export default function MainProfile({
 
   return (
     <>
-      <div className="card-header">
-        <div className="heading">
+      <div className="card-header tw-flex tw-items-center tw-justify-between tw-gap-3 tw-mb-5">
+        <div className="heading tw-flex tw-items-center tw-gap-3">
           <img
-            width={'30px'}
             src={`${props?.logo}`}
             alt={`${props?.label}`}
+            className="tw-w-8 tw-h-8 tw-object-contain"
           />
-          <h5>{props?.label}</h5>
+          <h5 className="tw-text-xl tw-font-medium tw-text-ink tw-m-0">
+            {props?.label}
+          </h5>
         </div>
-        <div className="status">
-          <div className="switcher">
-            <input
-              id={props?.id}
-              type="checkbox"
-              checked={profileStatus}
-              className="wprf-switcher-checkbox"
-              onChange={(event) => handleProfileStatusChange(event)}
-            />
-            <label
-              className="wprf-switcher-label"
-              htmlFor={props?.id}
-              style={{ background: profileStatus && '#02AC6E' }}>
-              <span className={`wprf-switcher-button`} />
-            </label>
-          </div>
-        </div>
+
+        <Toggle
+          id={props?.id}
+          tone="success"
+          checked={!!profileStatus}
+          /* The handler only reads `target.checked`, so a stand-in is enough. */
+          onChange={(checked) =>
+            handleProfileStatusChange({ target: { checked } })
+          }
+        />
       </div>
-      <div className="card-content">
-        <p dangerouslySetInnerHTML={{ __html: props?.desc }} />
-      </div>
+
       <div
-        className={`card-footer ${
-          ['facebook', 'linkedin'].includes(props?.type)
-            ? `has-select ${hasError ? 'has-error' : ''}`
-            : ''
-        }`}>
-        {['facebook', 'linkedin'].includes(props?.type) && (
+        className="card-content tw-text-base tw-text-ink-muted tw-mb-5 [&_p]:tw-m-0 [&_a]:tw-text-ink"
+        dangerouslySetInnerHTML={{ __html: props?.desc }}
+      />
+      <div
+        className={classNames(
+          'card-footer tw-relative tw-flex',
+          hasSelect && 'has-select tw-max-w-[250px]',
+          hasSelect && hasError && 'has-error'
+        )}>
+        {hasSelect && (
           <>
-            {hasError ? (
-              <p className="error-tooltip">
+            {hasError && (
+              <p className="tw-absolute tw--top-9 tw-left-0 tw-z-10 tw-m-0 tw-rounded-md tw-bg-danger-500 tw-px-2.5 tw-py-1.5 tw-text-xs tw-text-white after:tw-absolute after:tw-left-4 after:tw-top-full after:tw-border-4 after:tw-border-solid after:tw-border-transparent after:tw-border-t-danger-500 after:tw-content-['']">
                 <span>
                   {__('Please select an option', 'wp-scheduled-posts')}
                 </span>
               </p>
-            ) : (
-              ''
             )}
             <Select
               id={props?.id}
@@ -150,11 +149,18 @@ export default function MainProfile({
             />
           </>
         )}
-        <button
+        <Button
           type="button"
-          className={`wpscp-social-tab__btn--addnew-profile ${
-            accountType ? 'selected' : ''
-          }`}
+          variant={accountType ? 'primary' : 'outline'}
+          size="lg"
+          className={classNames(
+            'wpscp-social-tab__btn--addnew-profile tw-ml-auto tw-shrink-0',
+            accountType && 'selected',
+            // Butts up against the account-type select when there is one.
+            hasSelect
+              ? 'tw-rounded-l-none'
+              : 'tw-rounded-md'
+          )}
           onClick={() => {
             if (accountType || ['twitter', 'pinterest', 'instagram', 'medium','threads','bluesky','mastodon' ].includes(props?.type)) {
               openApiCredentialsModal(accountType);
@@ -163,7 +169,7 @@ export default function MainProfile({
             }
           }}>
           {__('Add New', 'wp-scheduled-posts')}
-        </button>
+        </Button>
       </div>
     </>
   );

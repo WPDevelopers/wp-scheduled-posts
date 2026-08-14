@@ -12,6 +12,8 @@ export interface AvatarProps extends React.HTMLAttributes<HTMLSpanElement> {
     /** Small platform icon pinned to the bottom-right — social profiles. */
     badge?: React.ReactNode;
     shape?: 'circle' | 'rounded';
+    /** Forwarded to the `<img>` so callers can swap in their own fallback. */
+    onImageError?: React.ReactEventHandler<HTMLImageElement>;
 }
 
 const sizes: Record<AvatarSize, string> = {
@@ -41,6 +43,7 @@ const Avatar: React.FC<AvatarProps> = ({
     size = 'md',
     badge,
     shape = 'circle',
+    onImageError,
     className,
     ...rest
 }) => (
@@ -57,6 +60,7 @@ const Avatar: React.FC<AvatarProps> = ({
                 <img
                     src={src}
                     alt={alt || name || ''}
+                    onError={onImageError}
                     className="tw-h-full tw-w-full tw-object-cover"
                 />
             ) : (
