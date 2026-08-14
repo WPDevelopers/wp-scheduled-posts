@@ -1,113 +1,46 @@
+/**
+ * The social platform card's layout — the two columns, the card chrome, the
+ * per-platform badge tints — is defined once in `app/assets/css/tailwind.css`,
+ * because ten components render that same structure. What is left here is the
+ * markup those rules do not cover.
+ *
+ * Gone from this file, and why:
+ *  - `background: #fff` on the tab wrapper, which showed as a white band above
+ *    and below the single visible card.
+ *  - the two-column grid of cards: the platforms are a tab strip now, so only
+ *    one is on the page at a time.
+ *  - `.social-profile-card`'s own background/radius/grid, which out-specified
+ *    the shared rule and held the card on the previous palette.
+ */
 .wprf-tab-layout_social_profile {
-  background: #fff;
-  .wprf-section-title {
-    h4 {
-      color: #1b1b50 !important;
-      font-size: 24px !important;
-      line-height: 30px;
-      font-weight: 600;
-      letter-spacing: 0px;
-      margin: 0 !important;
-      text-transform: capitalize !important;
-      background: transparent !important;
-    }
-  }
-  .wprf-section-fields {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    padding: 0 !important;
-    @media screen and (max-width: 1599px) {
-      grid-template-columns: repeat(1, 1fr);
-    }
-    .wprf-control {
-      margin-bottom: 0px !important;
-      .social-profile-card {
-        background: #f9fafc;
-        border-radius: 6px;
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        position: relative;
+  .social-profile-card {
+    // The pro badge is pinned to the card's corner.
+    position: relative;
 
-        .selected-profile {
-          .linkedin-organization {
-            background: #f0faff !important;
-            color: #007ab9 !important;
-          }
-          .facebook-group {
-            background: #f5f9fe !important;
-            color: #1877f2 !important;
-          }
-          .pinterest-pinner {
-            background: #fef6f6 !important;
-            color: #e42228 !important;
-          }
+    .main-profile {
+      .has-error {
+        .wpscp-social-tab__btn--addnew-profile {
+          border-left-color: #ef4444;
         }
-
-        .main-profile {
-          padding: 24px;
-          border-right: 1px solid #f0efff;
-          @media screen and (min-width: 1600px) {
-            padding: 20px;
+        .main-select {
+          .social-media-type-select__control {
+            border-color: #ef4444;
           }
-          // `.card-header` and `.card-content` are styled from
-          // `fields/utils/MainProfile.tsx` with the Tailwind UI kit.
-          // The footer row, the select's sizing and its squared-off right
-          // corners are all handled in `utils/MainProfile.tsx` now — the
-          // select's height has to match the UI-kit button beside it, and that
-          // is a JS style object, not a class we can reach from here.
-          .has-error {
-            .wpscp-social-tab__btn--addnew-profile {
-              border-left-color: #ef4444;
-            }
-            .main-select {
-              .social-media-type-select__control {
-                border-color: #ef4444;
-              }
-            }
-          }
-        }
-        .selected-profile {
-          padding: 24px;
-          display: flex;
-          flex-direction: column;
-          gap: 8px;
-          justify-content: center;
-          @media screen and (min-width: 1600px) {
-            padding: 20px;
-          }
-          .empty-image {
-            width: 100%;
-            // max-width: 200px;
-            align-self: center;
-            justify-self: center;
-          }
-          .selected-facebook-scrollbar,
-          .selected-twitter-scrollbar,
-          .selected-pinterest-scrollbar,
-          .selected-linkedin-scrollbar,
-          .selected-google-business-scrollbar {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-          }
-        }
-        // The connected-account row is built from the Tailwind UI kit in
-        // `fields/utils/SelectedProfile.tsx`. Only the validity strip, which
-        // other components render, is still styled here.
-        .profile-item {
-          .profile-validity {
-            display: flex;
-            justify-content: end;
-          }
-        }
-        // `.view-all` is a UI-kit link Button now — see `utils/ViewMore.tsx`.
-        .wpsppro-icon {
-          position: absolute;
-          top: -15px;
-          left: -20px;
         }
       }
+    }
+
+    .profile-item {
+      .profile-validity {
+        display: flex;
+        justify-content: end;
+      }
+    }
+
+    .wpsppro-icon {
+      position: absolute;
+      top: -15px;
+      left: -20px;
     }
   }
 }

@@ -96,7 +96,9 @@
         justify-content: center;
         gap: 8px;
         padding: 24px;
-        background: #f7f8fb;
+        /* Sunken, not canvas: canvas is the page colour, so the column would
+           dissolve into the background and the card would look half-drawn. */
+        background: #f1f3f8;
     }
 
     @media screen and (max-width: 1023px) {
