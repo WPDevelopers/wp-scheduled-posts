@@ -74,19 +74,24 @@ raw hex values:
 
 | Token | Value | Used for |
 | --- | --- | --- |
-| `brand-500` | `#6c62ff` | Primary actions, links, active states |
-| `brand-50` | `#f3f2ff` | Tinted backgrounds, icon chips |
-| `ink` | `#1b1b50` | Headings and body text |
-| `ink-muted` | `#6e6e8d` | Secondary text |
-| `ink-subtle` | `#989fab` | Icons, meta |
-| `line` / `line-strong` | `#ebeef5` / `#e1e5e9` | Card borders / input borders |
-| `canvas` | `#f9fafc` | Page background |
-| `success-500` | `#02ac6e` | Connected / published |
-| `warning-500` | `#ff9437` | Pro upsell, missed schedules |
-| `danger-500` | `#dc3545` | Destructive actions, errors |
+| `brand-500` | `#6c62ff` | Primary actions, links, active nav |
+| `brand-50` | `#f5f4ff` | Tinted backgrounds, icon chips |
+| `ink` / `ink-strong` | `#232c3b` / `#141a24` | Body text / page headings |
+| `ink-muted` | `#5b6779` | Secondary text |
+| `ink-subtle` | `#8b97a8` | Icons, meta |
+| `line` / `line-strong` | `#eaeef4` / `#dbe2ec` | Card borders / input borders |
+| `canvas` / `canvas-sunken` | `#f7f8fb` / `#f1f3f8` | Page background / inset blocks |
+| `success-500` | `#10b981` | Connected / published |
+| `warning-500` | `#f59e0b` | Pro upsell, missed schedules |
+| `danger-500` | `#ef4444` | Destructive actions, errors |
+| `info-500` | `#3b82f6` | Neutral notices |
 
-The type scale is tightened to match the existing admin (`base` is 14px, not
-16px). `Inter` is the only font family.
+The brand violet is the only colour carried over from the previous design; the
+neutrals are a cool grey ramp rather than the old navy. Radii run 6/10/14/18/24,
+and shadows are layered and soft rather than a single hard edge.
+
+The type scale is tightened to match the admin (`base` is 14px, not 16px).
+`Inter` is the only font family.
 
 ## Components
 
@@ -116,38 +121,31 @@ import { Button, Card, SettingRow, Toggle } from '../components/ui';
 
 ## Migration status
 
-Done — these render entirely from the kit, and the SCSS that described their
-markup has been removed:
-
-- `Settings/Header.tsx`, `Settings/Sidebar.tsx`
-- `fields/License.tsx`, `fields/OpenAI.tsx`, `fields/Features.tsx`,
-  `fields/ScheduleHubFeature.tsx`
-- `fields/utils/MainProfile.tsx`, `fields/utils/SelectedProfile.tsx`,
-  `fields/utils/ProAlert.tsx`, `fields/utils/ViewMore.tsx`,
-  `fields/utils/Verification.tsx`
-
-Still on SCSS, roughly in descending order of size:
+The shell, navigation and every settings control are rendered by the kit. What
+is still on the old SCSS is the interior of a few screens:
 
 | Area | Partial | Notes |
 | --- | --- | --- |
-| Social connect modals | `_modals.scss` (~1.6k lines) | Biggest remaining surface. The shell (`.modal_wrapper`, `.modalhead`, `.modalbody`) and every per-platform list live together, so this wants one focused pass with the modals actually open in a browser |
-| Schedule calendar | `_calendar.scss` | FullCalendar's own DOM; expect to keep overrides rather than replace them |
-| Tab chrome / layout | `_content.scss` | quickbuilder's markup — override only |
+| Social connect modals | `_modals.scss` (~1.6k lines) | Biggest remaining surface. Scoped globally, so it still applies |
+| Schedule calendar | `_calendar.scss`, part of `_content.scss` | FullCalendar's own DOM; its toolbar still relies on the `.wprf-tab-layout_calendar … .wprf-section-fields` chain, which is why the renderer keeps those class names |
+| Scheduling hub panels | `_manageSchedule.scss`, `_advance-missedSchedule.scss` | Pro screens |
 | MCP panel | `_mcp.scss` | Recently written; migrate after the modals |
-| Custom fields | `_fields.scss` | quickbuilder field wrappers |
-| Manage / advanced / missed schedule | `_manageSchedule.scss`, `_advance-missedSchedule.scss` | Pro screens |
 
-`_openai.scss` was deleted outright. `_header.scss`, `_sidebar.scss`,
-`_license.scss`, `_scheduling-hub.scss` and `_socialProfile.scss` are reduced to
-the rules that target markup we do not own.
+`_openai.scss` was deleted. `_header.scss`, `_sidebar.scss`, `_license.scss`,
+`_scheduling-hub.scss` and `_socialProfile.scss` are down to the rules that
+target markup we do not own. Most of `_content.scss` and all of `_fields.scss`
+are now unreachable — they hang off quickbuilder's tab chrome, which no longer
+exists — but they are left in place rather than deleted, because the calendar
+chain above proved how load-bearing some of those selectors still are.
 
 ## Migration rules
 
 1. When a screen moves to the kit, delete the SCSS partial that styled it
    rather than leaving both in place.
-2. Keep the existing root class names (`.wpsp-admin-header`,
-   `.wpsp-admin-sidebar`, …) — quickbuilder's layout and the Pro plugin hook
-   into some of them.
+2. The renderer emits `wprf-tab-<id>`, `wprf-control-section <name>` and
+   `wprf-section-fields` on purpose. Do not drop them until the screens listed
+   above are migrated — the calendar toolbar in particular is styled through
+   that chain.
 3. New markup uses utilities only. Reach for a SCSS partial solely for things
    Tailwind cannot express against a selector we do not own.
 4. Do not add raw hex colours; extend the token set instead.
