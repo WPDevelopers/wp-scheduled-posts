@@ -36,6 +36,18 @@
         border-color: #eaeef4;
     }
 
+    /*
+     * The other half of preflight worth keeping. An inline SVG sits on the
+     * text baseline, so an 18px icon occupies a ~24px line box with the extra
+     * space below it — which reads as a stray margin-bottom and pushes every
+     * icon a couple of pixels above the label it sits beside.
+     */
+    #wpsp-dashboard-body svg,
+    .wpsp-ui-portal svg {
+        display: block;
+        vertical-align: middle;
+    }
+
     /* wp-admin gives every button/input a border, shadow and blue focus ring. */
     #wpsp-dashboard-body .wpsp-ui:focus,
     .wpsp-ui-portal .wpsp-ui:focus {
