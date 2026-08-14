@@ -14,19 +14,22 @@
         margin-bottom: 0 !important;
         flex-basis: 50%;
         background: #fff !important;
+        // The padding used to come from a `_fields.scss` rule that hung off
+        // quickbuilder's tab chrome; it has to be set here now.
+        padding: 24px !important;
         &:first-child {
-          border-radius: 6px 0 0 6px !important;
-          border-right: 1px solid #ebeef5 !important;
+          border-radius: 14px 0 0 14px !important;
+          border-right: 1px solid #eaeef4 !important;
           @media screen and (max-width: 1439px) {
             border-right: none !important;
-            border-bottom: 1px solid #ebeef5 !important;
-            border-radius: 6px 6px 0 0 !important;
+            border-bottom: 1px solid #eaeef4 !important;
+            border-radius: 14px 14px 0 0 !important;
           }
         }
         &:last-child {
-          border-radius: 0 6px 6px 0 !important;
+          border-radius: 0 14px 14px 0 !important;
           @media screen and (max-width: 1439px) {
-            border-radius: 0 0 6px 6px !important;
+            border-radius: 0 0 14px 14px !important;
           }
         }
         .wprf-section-fields {
@@ -165,11 +168,6 @@
               }
             }
           }
-          // The license key field itself now comes from the Tailwind UI kit
-          // (see `fields/License.tsx`); only its top spacing is left here.
-          .wprf-active_license-social-profile {
-            margin-top: 20px;
-          }
         }
       }
       .wprf-video {
@@ -183,6 +181,114 @@
         }
         iframe {
           max-width: 100%;
+        }
+      }
+    }
+  }
+
+  /**
+   * The license form comes from the *Pro* plugin, through the `wpsp_license`
+   * filter on an `action` field — not this plugin's `fields/License.tsx`,
+   * which nothing registers. Its markup lives in another repo, so it is
+   * styled from here, and kept flat: the renderer merges an unlabelled
+   * section's wrapper and its field list onto one element, so there is no
+   * `.wprf-section-fields` descendant to hang the selector off.
+   */
+  .wprf-active_license-social-profile {
+    margin-top: 20px;
+
+    .wpsp-license-container-2 > h4 {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.4;
+      color: #232c3b;
+      margin: 0 0 12px;
+    }
+
+    .wpsp-license-key-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: stretch;
+      gap: 12px;
+    }
+
+    .wpsp-license-input {
+      flex: 1 1 260px;
+      min-width: 0;
+
+      input {
+        width: 100%;
+        height: 48px;
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0 14px;
+        font-size: 14px;
+        color: #232c3b;
+        background: #fff;
+        border: 1px solid #dbe2ec;
+        border-radius: 10px;
+        box-shadow: none;
+        transition: border-color 0.15s, box-shadow 0.15s;
+
+        &::placeholder {
+          color: #aab3c0;
+        }
+
+        &:focus {
+          outline: none;
+          border-color: #6c62ff;
+          box-shadow: 0 0 0 3px rgba(108, 98, 255, 0.18);
+        }
+
+        // An activated key is read-only until it is deactivated.
+        &.activated,
+        &:disabled {
+          background: #f7f8fb;
+          color: #5b6779;
+        }
+      }
+    }
+
+    .wpsp-license-buttons {
+      button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 48px;
+        padding: 0 24px;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1;
+        white-space: nowrap;
+        cursor: pointer;
+        border: 1px solid #6c62ff;
+        border-radius: 10px;
+        background: #6c62ff;
+        color: #fff;
+        transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+
+        &:hover:not(:disabled) {
+          background: #5a4ce8;
+          border-color: #5a4ce8;
+          color: #fff;
+        }
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+
+        // Deactivating is the destructive one — keep it quiet.
+        &.wpsp-license-deactivation-btn {
+          background: #fff;
+          border-color: #dbe2ec;
+          color: #232c3b;
+
+          &:hover:not(:disabled) {
+            border-color: #ef4444;
+            background: #fff;
+            color: #ef4444;
+          }
         }
       }
     }

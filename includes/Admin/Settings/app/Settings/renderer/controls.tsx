@@ -130,10 +130,22 @@ export const RadioCardField: React.FC<{ props: any }> = ({ props }) => {
     );
 };
 
-/** Raw markup fields — the plugin ships a few notice/banner blocks this way. */
-export const HtmlField: React.FC<{ props: any }> = ({ props }) => (
-    <div
-        className="tw-py-4 tw-text-base tw-text-ink-muted [&_a]:tw-text-brand-500"
-        dangerouslySetInnerHTML={{ __html: props?.text || props?.value || '' }}
-    />
-);
+/**
+ * Raw markup fields — descriptions and notice blocks. The config key is
+ * `html`; `text`/`value` are accepted as fallbacks.
+ */
+export const HtmlField: React.FC<{ props: any }> = ({ props }) => {
+    const markup = props?.html || props?.text || props?.value || '';
+
+    // Without this an empty field still draws a divider and 32px of nothing.
+    if (!String(markup).trim()) {
+        return null;
+    }
+
+    return (
+        <div
+            className="tw-py-4 tw-text-base tw-text-ink-muted [&_a]:tw-text-brand-500 [&_p]:tw-m-0"
+            dangerouslySetInnerHTML={{ __html: markup }}
+        />
+    );
+};

@@ -76,10 +76,11 @@
           }
 
           .btn-draft-post-create {
-            background: #26d39e;
+            // Brand violet, not the old mint — the rest of the admin moved.
+            background: #6c62ff;
             border: none;
             padding: 16px 22px;
-            border-radius: 6px;
+            border-radius: 10px;
             font-size: 14px;
             font-weight: 500;
             line-height: 1.2em;
@@ -330,9 +331,9 @@
               line-height: 44px;
               height: 44px;
               color: #fff;
-              background: #26d39e;
+              background: #6c62ff;
               padding: 0 10px;
-              border-radius: 6px;
+              border-radius: 10px;
               cursor: pointer;
 
               @media screen and (max-width: 1439px) {

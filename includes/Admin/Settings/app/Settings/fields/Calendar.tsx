@@ -157,8 +157,8 @@ export default function Calendar(props) {
         props?.classes
       )}
     >
-      <div className="wpsp-calender-header">
-        <div className="wpsp-post-select">
+      <div className="wpsp-calender-header tw-mb-4 tw-flex tw-flex-wrap tw-items-start tw-gap-3">
+        <div className="wpsp-post-select tw-min-w-[240px] tw-flex-1">
           <ReactSelectWrapper
             isDisabled={props.disablePostType}
             options={Object.values(props.post_types || [])}
@@ -168,9 +168,13 @@ export default function Calendar(props) {
             showTags={true}
           />
         </div>
-        <div className="wpsp-post-search">
-          <input type="text" placeholder="Search" />
-          <i className="wpsp-icon wpsp-search"></i>
+        <div className="wpsp-post-search tw-relative tw-w-full sm:tw-w-[260px]">
+          <input
+            type="text"
+            placeholder={__("Search", "wp-scheduled-posts")}
+            className="wpsp-ui tw-m-0 tw-h-12 tw-w-full tw-rounded-md tw-border tw-border-solid tw-border-line-strong tw-bg-white tw-pl-4 tw-pr-10 tw-text-base tw-text-ink tw-shadow-none placeholder:tw-text-ink-placeholder focus:tw-border-brand-500 focus:tw-shadow-focus"
+          />
+          <i className="wpsp-icon wpsp-search tw-pointer-events-none tw-absolute tw-right-3.5 tw-top-1/2 tw--translate-y-1/2 tw-text-ink-subtle" />
         </div>
       </div>
       <div className="wpsp-calender-content main-content-wrapper">

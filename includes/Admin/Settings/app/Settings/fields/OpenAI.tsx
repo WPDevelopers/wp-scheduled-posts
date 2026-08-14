@@ -85,12 +85,7 @@ const OpenAI = (props) => {
 
   return (
     <div className={classNames('wprf-control', 'wprf-openai', `wprf-${name}-openai`)}>
-      <div className="wprf-control-label">
-        <label htmlFor={id} className="tw-text-base tw-font-medium tw-text-ink">
-          {label}
-        </label>
-      </div>
-
+      {/* The label is supplied by the settings renderer, not here. */}
       <div className="wprf-control-field tw-flex tw-flex-col tw-gap-3">
         <Input
           id={id}
@@ -128,7 +123,7 @@ const OpenAI = (props) => {
             href="https://platform.openai.com/api-keys"
             target="_blank"
             rel="noopener noreferrer"
-            className="tw-text-sm tw-text-brand-500 hover:tw-text-brand-700"
+            className="tw-text-sm tw-text-brand-500 tw-no-underline hover:tw-text-brand-700 hover:tw-underline"
           >
             {__('Get your OpenAI API key', 'wp-scheduled-posts')}
           </a>
