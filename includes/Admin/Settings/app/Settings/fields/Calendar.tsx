@@ -246,8 +246,23 @@ export default function Calendar(props) {
               >
                 Today
               </button>
-              <i
+              {/* Shows/hides the unscheduled posts panel. It was an <i>, so it
+                  could not be focused or announced, and it looked identical in
+                  both states. */}
+              <button
+                type="button"
                 onClick={handleSlidebarToggle}
+                aria-pressed={sidebarToggle}
+                aria-label={
+                  sidebarToggle
+                    ? __("Hide unscheduled posts", "wp-scheduled-posts")
+                    : __("Show unscheduled posts", "wp-scheduled-posts")
+                }
+                title={
+                  sidebarToggle
+                    ? __("Hide unscheduled posts", "wp-scheduled-posts")
+                    : __("Show unscheduled posts", "wp-scheduled-posts")
+                }
                 className={`calendar-btn wpsp-icon wpsp-sidebar ${
                   !sidebarToggle ? "inactive" : ""
                 }`}

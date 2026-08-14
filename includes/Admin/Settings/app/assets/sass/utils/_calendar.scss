@@ -332,9 +332,29 @@
               height: 44px;
               color: #fff;
               background: #6c62ff;
+              border: 1px solid #6c62ff;
               padding: 0 10px;
               border-radius: 10px;
               cursor: pointer;
+              transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+
+              &:focus-visible {
+                outline: none;
+                box-shadow: 0 0 0 3px rgba(108, 98, 255, 0.18);
+              }
+
+              // Panel hidden: the toggle reads as off rather than looking
+              // identical to the pressed state, which it used to.
+              &.inactive {
+                background: #fff;
+                border-color: #dbe2ec;
+                color: #8b97a8;
+
+                &:hover {
+                  border-color: #6c62ff;
+                  color: #6c62ff;
+                }
+              }
 
               @media screen and (max-width: 1439px) {
                 font-size: 20px;
