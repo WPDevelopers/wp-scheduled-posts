@@ -148,43 +148,14 @@ ul {
 .main-select .select2-selection__arrow b {
   display: none;
 }
-.selected-options {
-  ul {
-    display: flex;
-    align-items: center;
-    row-gap: 8px;
-    column-gap: 12px;
-    // margin-top: 10px;
-    flex-wrap: wrap;
-  }
-  li {
-    margin-bottom: 0 !important;
-    padding: 8px 12px;
-    background: #f3f2ff;
-    border-radius: 4px;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    color: #6c62ff;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1em;
-    button {
-      font-size: 8px;
-      border: none;
-      background: transparent;
-      color: #6e6e8d;
-      cursor: pointer;
-      padding: 0;
-      margin-top: 1px;
-    }
-  }
-}
+/*
+ * The `.selected-options` chip list that used to sit under the calendar's
+ * post-type and category selects is gone — react-select renders those values
+ * inside the control now (see `Calendar/ReactSelectWrapper.tsx`), styled from
+ * `helper/styles.tsx` like every other select.
+ */
 #external-events-listing .main-select {
   margin-bottom: 15px;
-}
-#external-events-listing .selected-options {
-  margin-top: 6px;
 }
 #wpsp-dashboard-body
   .wprf-tab-layout_calendar
@@ -223,15 +194,6 @@ ul {
   display: flex;
   gap: 10px;
   align-items: center;
-}
-.wpsp-admin-content
-  .wpsp-calender-header
-  .wpsp-post-select
-  .selected-options
-  ul {
-  display: flex;
-  gap: 10px;
-  margin: 0;
 }
 .wpsp-admin-content .wpsp-calender-header .wpsp-post-search {
   position: relative;

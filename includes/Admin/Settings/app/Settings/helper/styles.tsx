@@ -36,6 +36,32 @@ export const selectStyles = {
   placeholder: (base) => ({ ...base, color: TOKENS.placeholder, fontSize: 14 }),
   singleValue: (base) => ({ ...base, color: TOKENS.ink, fontSize: 14 }),
   input: (base) => ({ ...base, color: TOKENS.ink, fontSize: 14, margin: 0 }),
+  /*
+   * Chips for a multi-select that renders its values in the control. Selects
+   * that keep their chips outside it pass `controlShouldRenderValue={false}`,
+   * so these are simply unused there.
+   */
+  multiValue: (base) => ({
+    ...base,
+    backgroundColor: TOKENS.brandTint,
+    borderRadius: 6,
+    margin: '2px 4px 2px 0',
+  }),
+  multiValueLabel: (base) => ({
+    ...base,
+    color: TOKENS.brand,
+    fontSize: 13,
+    fontWeight: 500,
+    padding: '3px 2px 3px 8px',
+  }),
+  multiValueRemove: (base) => ({
+    ...base,
+    color: TOKENS.brand,
+    borderRadius: '0 6px 6px 0',
+    paddingLeft: 4,
+    paddingRight: 6,
+    '&:hover': { backgroundColor: '#ebe9ff', color: TOKENS.brand },
+  }),
   indicatorSeparator: () => ({ display: 'none' }),
   dropdownIndicator: (base, state) => ({
     ...base,

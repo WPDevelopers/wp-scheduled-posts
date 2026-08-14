@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import ReactSelect, { ActionMeta, components } from 'react-select';
 import { selectStyles } from '../../helper/styles';
 import { Option, SelectWrapperProps } from './types';
@@ -44,6 +44,11 @@ const ReactSelectWrapper: React.FC<SelectWrapperProps> = ({
     );
   };
 
+  /**
+   * Selecting everything stores the "All" option *and* every real one, so the
+   * chips would otherwise read "All, Posts, Pages, …". Only "All" is worth
+   * showing — unless it is the only real option there is.
+   */
   const isTags = useCallback(
     (item) => {
       if (allOptionFlatten.length === value.length) {
@@ -56,6 +61,10 @@ const ReactSelectWrapper: React.FC<SelectWrapperProps> = ({
     },
     [allOptionFlatten, value]
   );
+
+  /** Chips live in the control; this hides the ones `isTags` rules out. */
+  const MultiValue = (props) =>
+    isTags(props.data) ? <components.MultiValue {...props} /> : null;
 
   // Add and remove
   const handleChange = (newValue: Option[], actionMeta: ActionMeta<any>) => {
@@ -70,73 +79,44 @@ const ReactSelectWrapper: React.FC<SelectWrapperProps> = ({
           newValue = allOptionFlatten;
         }
       }
-    } else if (actionMeta.action === 'deselect-option') {
-      if (actionMeta.option.value === 'all') {
+    } else if (
+      actionMeta.action === 'deselect-option' ||
+      /* A chip's × and backspace both remove a value without going through
+         the menu, so they report their own actions. */
+      actionMeta.action === 'remove-value' ||
+      actionMeta.action === 'pop-value'
+    ) {
+      const removed = actionMeta.option || actionMeta.removedValue;
+
+      if (removed?.value === 'all') {
         newValue = [];
       } else {
         newValue = newValue.filter((item) => item.value !== 'all');
-        // if (newValue.length === 0) {
-        //   newValue = allOptionFlatten;
-        // }
       }
     }
     onChange(newValue);
   };
-  const removeItem = (item) => {
-    const updatedItems = value.filter((i) => i !== item);
-    handleChange(updatedItems, {
-      action: 'deselect-option',
-      option: item,
-    });
-  };
-
-  useEffect(() => {
-    // onChange(selectedPostType);
-  }, []);
-
-  useEffect(() => {
-    // setSelectedPostType(allOptionFlatten);
-    // console.log(options);
-  }, [options]);
 
   return (
-    <>
-      <ReactSelect
-        {...rest}
-        options={allOption}
-        value={value}
-        onChange={handleChange}
-        components={{
-          Option,
-        }}
-        styles={selectStyles}
-        closeMenuOnSelect={false}
-        hideSelectedOptions={false}
-        autoFocus={false}
-        controlShouldRenderValue={false}
-        className="checkbox-select"
-        classNamePrefix="checkbox-select"
-        isMulti
-      />
-      {showTags && (
-        <div className="selected-options">
-          <ul>
-            {value
-              ?.filter((item) => isTags(item))
-              .map((item, index) => (
-                <li key={index}>
-                  {' '}
-                  {item?.label}{' '}
-                  <button onClick={ () => !rest.isDisabled && removeItem(item) }>
-                    {' '}
-                    <i className="wpsp-icon wpsp-close"></i>{' '}
-                  </button>{' '}
-                </li>
-              ))}
-          </ul>
-        </div>
-      )}
-    </>
+    <ReactSelect
+      {...rest}
+      options={allOption}
+      value={value}
+      onChange={handleChange}
+      components={{
+        Option,
+        MultiValue,
+      }}
+      styles={selectStyles}
+      closeMenuOnSelect={false}
+      hideSelectedOptions={false}
+      autoFocus={false}
+      /* The selection belongs in the field, not in a list under it. */
+      controlShouldRenderValue={showTags}
+      className="checkbox-select"
+      classNamePrefix="checkbox-select"
+      isMulti
+    />
   );
 };
 

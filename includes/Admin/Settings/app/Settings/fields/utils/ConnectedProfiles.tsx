@@ -145,7 +145,7 @@ const ConnectedProfiles: React.FC<ConnectedProfilesProps> = ({
                            `inert` takes them out of the tab order too; the
                            pointer-events fallback covers browsers without it. */
                         {...({ inert: '' } as any)}
-                        className="tw-pointer-events-none tw-flex tw-select-none tw-flex-col tw-gap-2 tw-blur-[1.5px]"
+                        className="tw-pointer-events-none tw-flex tw-select-none tw-flex-col tw-gap-2 tw-blur-[3px]"
                     >
                         {PLACEHOLDER_PROFILES.map((item) => (
                             <SelectedProfile
@@ -160,6 +160,8 @@ const ConnectedProfiles: React.FC<ConnectedProfilesProps> = ({
                         ))}
                     </div>
 
+                    {/* Light enough to read the shape of a row through, opaque
+                        enough to keep the message itself legible. */}
                     <div className="tw-absolute tw-inset-0 tw-flex tw-flex-col tw-items-center tw-justify-center tw-rounded tw-bg-[rgba(241,243,248,0.72)] tw-px-4 tw-text-center">
                         <span className="tw-mb-3 tw-inline-flex tw-h-10 tw-w-10 tw-items-center tw-justify-center tw-rounded-full tw-bg-white tw-text-brand-500 tw-shadow-card">
                             <svg
