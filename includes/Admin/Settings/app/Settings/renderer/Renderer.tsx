@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { __ } from '@wordpress/i18n';
 import { applyFilters } from '@wordpress/hooks';
 import { useBuilderContext } from 'quickbuilder';
 import cn from '../components/ui/cn';
-import { Card, Tabs } from '../components/ui';
+import { Card, ProBadge, ProLock, Tabs } from '../components/ui';
 import CustomField from '../fields/Field';
 import { readRoute, writeRoute } from '../shell/routing';
 import { HtmlField, RadioCardField, StackedField, TextField, ToggleField } from './controls';
@@ -450,7 +451,23 @@ const SocialPlatformTabs: React.FC<{ fields: any[]; depth: number }> = ({
 };
 
 /** Sub-tabs, used by the Scheduling Hub. Each child section is one tab. */
+/** Copy for the locked state of a paid sub-tab, keyed by section name. */
+const PRO_LOCK_COPY: Record<string, { description: string; points: string[] }> = {
+    layout_manage_schedule: {
+        description: __(
+            'Hand your publishing calendar to SchedulePress and let it place posts for you.',
+            'wp-scheduled-posts'
+        ),
+        points: [
+            __('Spread posts automatically across the week', 'wp-scheduled-posts'),
+            __('Set how many go out each day, and between which hours', 'wp-scheduled-posts'),
+            __('Or pick exact days and times to publish on', 'wp-scheduled-posts'),
+        ],
+    },
+};
+
 const NestedTabs: React.FC<{ field: any; depth: number }> = ({ field, depth }) => {
+    const builderContext = useBuilderContext();
     const sections = (field?.fields || []).filter((section: any) => hasLabel(section?.label));
 
     // Restore from `?section=`, but only if it names one of *these* sub-tabs —
@@ -463,6 +480,8 @@ const NestedTabs: React.FC<{ field: any; depth: number }> = ({ field, depth }) =
     });
 
     const active = sections.find((section: any) => section.name === activeId) || sections[0];
+    /* `is_pro` resolves to true only when the feature is not licensed. */
+    const activeLocked = !!(active && builderContext.getFieldProps(active)?.is_pro);
 
     const selectSection = (id: string) => {
         setActiveId(id);
@@ -500,13 +519,17 @@ const NestedTabs: React.FC<{ field: any; depth: number }> = ({ field, depth }) =
                 onChange={selectSection}
                 items={sections.map((section: any) => {
                     const logo = asLogos ? platformLogo(section.name) : undefined;
+                    const locked = !!builderContext.getFieldProps(section)?.is_pro;
 
                     return {
                         id: section.name,
                         // The logo replaces the name; the name still labels the
                         // control for screen readers and on hover.
                         label: logo ? undefined : section.label,
-                        ariaLabel: section.label,
+                        ariaLabel: locked
+                            ? `${section.label} (${__('Pro', 'wp-scheduled-posts')})`
+                            : section.label,
+                        badge: locked && !logo ? <ProBadge /> : undefined,
                         icon: logo ? (
                             <img
                                 src={logo}
@@ -520,7 +543,17 @@ const NestedTabs: React.FC<{ field: any; depth: number }> = ({ field, depth }) =
             />
 
             <div className="tw-flex tw-flex-col tw-gap-5 tw-animate-fade-in">
-                <FieldList fields={active?.fields} depth={depth} />
+                {activeLocked ? (
+                    <ProLock
+                        title={active?.label}
+                        description={PRO_LOCK_COPY[active?.name]?.description}
+                        points={PRO_LOCK_COPY[active?.name]?.points}
+                    >
+                        <FieldList fields={active?.fields} depth={depth} />
+                    </ProLock>
+                ) : (
+                    <FieldList fields={active?.fields} depth={depth} />
+                )}
             </div>
         </div>
     );

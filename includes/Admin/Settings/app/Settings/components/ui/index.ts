@@ -27,6 +27,7 @@ export { default as FormField } from './FormField';
 export { default as IconButton } from './IconButton';
 export { default as Input } from './Input';
 export { default as Modal } from './Modal';
+export { default as ProLock } from './ProLock';
 export { default as Radio } from './Radio';
 export { default as SectionHeader } from './SectionHeader';
 export { default as Select } from './Select';
