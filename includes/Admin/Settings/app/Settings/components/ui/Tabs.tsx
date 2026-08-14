@@ -4,8 +4,11 @@ import Badge from './Badge';
 
 export interface TabItem {
     id: string;
-    label: React.ReactNode;
+    /** Omit to render the icon alone; `ariaLabel` then names the tab. */
+    label?: React.ReactNode;
     icon?: React.ReactNode;
+    /** Accessible name and tooltip. Required when there is no visible label. */
+    ariaLabel?: string;
     /** Rendered as a small pill after the label — counts, "Pro", "New". */
     badge?: React.ReactNode;
     disabled?: boolean;
@@ -15,7 +18,12 @@ export interface TabsProps {
     items: TabItem[];
     activeId: string;
     onChange: (id: string) => void;
-    variant?: 'underline' | 'pill' | 'vertical';
+    /**
+     * `logo` is a segmented control for icon-only tabs: the active one lifts
+     * onto white rather than filling with brand colour, which would fight the
+     * platform logos sitting on it.
+     */
+    variant?: 'underline' | 'pill' | 'vertical' | 'logo';
     className?: string;
 }
 
@@ -46,6 +54,8 @@ const Tabs: React.FC<TabsProps> = ({
                     type="button"
                     role="tab"
                     aria-selected={isActive}
+                    aria-label={item.ariaLabel}
+                    title={item.ariaLabel}
                     disabled={item.disabled}
                     onClick={() => !item.disabled && onChange(item.id)}
                     className={cn(
@@ -76,11 +86,20 @@ const Tabs: React.FC<TabsProps> = ({
                             isActive
                                 ? 'tw-bg-brand-50 tw-text-brand-600'
                                 : 'tw-bg-transparent tw-text-ink-muted hover:tw-bg-canvas hover:tw-text-ink',
+                        ],
+
+                        variant === 'logo' && [
+                            'tw-px-3 tw-py-2 tw-rounded',
+                            isActive
+                                ? 'tw-bg-white tw-shadow-card'
+                                : // Inactive logos are dimmed rather than
+                                  // recoloured, so each brand stays itself.
+                                  'tw-bg-transparent tw-opacity-45 hover:tw-opacity-100',
                         ]
                     )}
                 >
                     {item.icon}
-                    <span className="tw-flex-1">{item.label}</span>
+                    {item.label && <span className="tw-flex-1">{item.label}</span>}
                     {item.badge &&
                         (typeof item.badge === 'string' ? (
                             <Badge size="sm" tone={isActive ? 'brand' : 'neutral'}>

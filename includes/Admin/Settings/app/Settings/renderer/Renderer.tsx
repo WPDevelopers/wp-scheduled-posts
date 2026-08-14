@@ -270,6 +270,36 @@ const GroupPanel: React.FC<{
     );
 };
 
+/**
+ * Platform logos for the Social Templates sub-tabs, keyed by the sub-tab name
+ * the PHP config uses. Filenames match the `logo` paths the social profile
+ * fields already point at. Sub-tabs not listed here (the Scheduling Hub's)
+ * keep their text label.
+ */
+const PLATFORM_LOGOS: Record<string, string> = {
+    layouts_facebook: 'facebook.svg',
+    layouts_twitter: 'twitter.svg',
+    layouts_linkedin: 'linkedin.svg',
+    layouts_pinterest: 'pinterest.svg',
+    layouts_instagram: 'instagram.svg',
+    layouts_medium: 'medium.svg',
+    layouts_threads: 'threads.svg',
+    layouts_bluesky: 'bluesky.svg',
+    layouts_mastodon: 'mastodon.svg',
+    layouts_google_business: 'google-my-business-logo.svg',
+};
+
+function platformLogo(name: string): string | undefined {
+    const file = PLATFORM_LOGOS[name];
+
+    if (!file) {
+        return undefined;
+    }
+
+    // @ts-ignore — localised by Assets.php
+    return `${wpspSettingsGlobal?.assets_path}images/${file}`;
+}
+
 /** Sub-tabs, used by the Scheduling Hub. Each child section is one tab. */
 const NestedTabs: React.FC<{ field: any; depth: number }> = ({ field, depth }) => {
     const sections = (field?.fields || []).filter((section: any) => hasLabel(section?.label));
@@ -280,16 +310,33 @@ const NestedTabs: React.FC<{ field: any; depth: number }> = ({ field, depth }) =
         return <FieldList fields={field?.fields} depth={depth} />;
     }
 
+    // A logo strip only makes sense if every sub-tab has one.
+    const asLogos = sections.every((section: any) => platformLogo(section.name));
+
     return (
         <div className="tw-flex tw-flex-col tw-gap-5">
             <Tabs
-                variant="pill"
+                variant={asLogos ? 'logo' : 'pill'}
                 activeId={active?.name}
                 onChange={setActiveId}
-                items={sections.map((section: any) => ({
-                    id: section.name,
-                    label: section.label,
-                }))}
+                items={sections.map((section: any) => {
+                    const logo = asLogos ? platformLogo(section.name) : undefined;
+
+                    return {
+                        id: section.name,
+                        // The logo replaces the name; the name still labels the
+                        // control for screen readers and on hover.
+                        label: logo ? undefined : section.label,
+                        ariaLabel: section.label,
+                        icon: logo ? (
+                            <img
+                                src={logo}
+                                alt=""
+                                className="tw-h-6 tw-w-6 tw-object-contain"
+                            />
+                        ) : undefined,
+                    };
+                })}
                 className="tw-rounded-md tw-bg-canvas-sunken tw-p-1"
             />
 
