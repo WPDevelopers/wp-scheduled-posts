@@ -85,6 +85,11 @@ final class Manager {
 		add_filter( 'query_vars', array( $this, 'register_query_var' ) );
 		add_action( 'parse_request', array( $this, 'maybe_handle_pretty_endpoint' ) );
 
+		// The MCP tab in SchedulePress → Settings. Added through the settings
+		// app's own filter rather than by editing the field tree, so the whole
+		// MCP feature stays in this directory.
+		add_filter( 'wpsp_layout_tabs', array( $this, 'register_settings_tab' ) );
+
 		// The one broken state the server can't see from inside a request: MCP
 		// enabled but the bundled Abilities runtime absent. Everything else
 		// still works — OAuth discovers, tokens mint, clients connect — and
@@ -150,6 +155,112 @@ final class Manager {
 		}
 
 		return $enabled;
+	}
+
+	/**
+	 * Add the MCP tab to the settings app's tab tree.
+	 *
+	 * The connection details are rendered server-side into an `html` field: the
+	 * settings payload is already admin-gated, and this avoids a second
+	 * round-trip just to show a URL. The token is only rendered once MCP is
+	 * enabled, so a site that never turns the feature on never puts a secret on
+	 * screen.
+	 *
+	 * @param array $tabs Existing tabs.
+	 * @return array
+	 */
+	public function register_settings_tab( $tabs ) {
+		if ( ! is_array( $tabs ) ) {
+			return $tabs;
+		}
+
+		$tabs['layout_mcp'] = array(
+			'id'       => 'layout_mcp',
+			'name'     => 'layout_mcp',
+			'label'    => __( 'AI (MCP)', 'wp-scheduled-posts' ),
+			'priority' => 18,
+			'fields'   => array(
+				'mcp_section' => array(
+					'name'       => 'mcp_section',
+					'type'       => 'section',
+					'label'      => __( 'AI assistant access', 'wp-scheduled-posts' ),
+					'priority'   => 5,
+					'showSubmit' => true,
+					'fields'     => array(
+						'mcp_intro'                 => array(
+							'id'       => 'mcp_intro',
+							'name'     => 'mcp_intro',
+							'type'     => 'html',
+							'html'     => __( 'Let an AI assistant read and manage your content schedule — "what is queued for October?", "move everything on Friday to next week", "which social connections need reconnecting?". Access is protected by a connection token you can rotate or revoke at any time.', 'wp-scheduled-posts' ),
+							'priority' => 5,
+						),
+						'enable_mcp'                => array(
+							'name'     => 'enable_mcp',
+							'type'     => 'toggle',
+							'label'    => __( 'Enable AI (MCP) access', 'wp-scheduled-posts' ),
+							'default'  => 0,
+							'priority' => 10,
+						),
+						'mcp_connection'            => array(
+							'id'       => 'mcp_connection',
+							'name'     => 'mcp_connection',
+							'type'     => 'html',
+							'html'     => $this->connection_markup(),
+							'priority' => 15,
+						),
+						'enable_mcp_social_publish' => array(
+							'name'     => 'enable_mcp_social_publish',
+							'type'     => 'toggle',
+							'label'    => __( 'Allow AI assistants to post to social media', 'wp-scheduled-posts' ),
+							'default'  => 0,
+							'priority' => 20,
+						),
+						'mcp_social_publish_desc'   => array(
+							'id'       => 'mcp_social_publish_desc',
+							'name'     => 'mcp_social_publish_desc',
+							'type'     => 'html',
+							'html'     => __( 'Off by default. Sharing to a social account posts publicly to a real audience and cannot be undone, so an AI assistant can only do it when you switch this on — and even then it must confirm each share. Reading the schedule and rescheduling posts do not need this.', 'wp-scheduled-posts' ),
+							'priority' => 25,
+						),
+					),
+				),
+			),
+		);
+
+		return $tabs;
+	}
+
+	/**
+	 * The connect-details block for the MCP settings tab.
+	 *
+	 * @return string
+	 */
+	private function connection_markup() {
+		if ( ! self::is_enabled() ) {
+			return esc_html__( 'Turn on AI (MCP) access and save to generate a connection URL for your AI client.', 'wp-scheduled-posts' );
+		}
+
+		if ( ! Pairing::is_connected() ) {
+			Pairing::connect();
+		}
+
+		$status = Pairing::public_status();
+
+		$rows = array(
+			__( 'Connection URL', 'wp-scheduled-posts' ) => $status['mcp_endpoint'],
+			__( 'Fallback URL', 'wp-scheduled-posts' )   => $status['mcp_endpoint_rest'],
+			__( 'Token', 'wp-scheduled-posts' )          => $status['connection_token'],
+		);
+
+		$html = '<div class="wpsp-mcp-connection">';
+		foreach ( $rows as $label => $value ) {
+			$html .= '<p><strong>' . esc_html( $label ) . ':</strong><br /><code style="word-break:break-all">' . esc_html( $value ) . '</code></p>';
+		}
+		$html .= '<p><strong>' . esc_html__( 'Claude Code', 'wp-scheduled-posts' ) . ':</strong><br /><code style="word-break:break-all">' . esc_html( $status['config']['cli'] ) . '</code></p>';
+		$html .= '<p>' . esc_html__( 'Paste the connection URL and token into your AI client. Clients that support OAuth need only the URL. Keep the token secret — anyone holding it can manage this site\'s schedule.', 'wp-scheduled-posts' ) . '</p>';
+		$html .= '</div>';
+
+		return $html;
 	}
 
 	// -- Pretty endpoint: /schedulepress/mcp --
