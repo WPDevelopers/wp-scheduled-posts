@@ -939,8 +939,8 @@ final class Manager {
 		$read_only    = OAuth::scope_is_read_only( $req['scope'] );
 		$access_label = $read_only ? __( 'Read-only', 'wp-scheduled-posts' ) : __( 'Read & write', 'wp-scheduled-posts' );
 		$access_desc  = $read_only
-			? __( 'Review your content schedule the calendar, scheduled and missed posts, social connections and sharing history. No changes are made.', 'wp-scheduled-posts' )
-			: __( 'Review and manage your content schedule schedule and reschedule posts, edit social templates, and share posts to your connected social accounts.', 'wp-scheduled-posts' );
+			? __( 'Review your content schedule: the calendar, scheduled and missed posts, social connections and sharing history. No changes are made.', 'wp-scheduled-posts' )
+			: __( 'Review and manage your content schedule. Schedule and reschedule posts, edit social templates, and share posts to your connected social accounts.', 'wp-scheduled-posts' );
 		$client     = '' !== $req['client_name'] ? $req['client_name'] : __( 'An AI assistant', 'wp-scheduled-posts' );
 		$action_url = OAuth::authorize_url();
 		$nonce      = wp_create_nonce( 'wpsp_oauth_consent' );
@@ -962,7 +962,26 @@ final class Manager {
 
 		$host = (string) wp_parse_url( home_url(), PHP_URL_HOST );
 		$lock = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>';
-		$mark = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M12 14v3l2 1"/></svg>';
+		// The SchedulePress mark, inlined from assets/images/wpsp-icon.svg. It is
+		// embedded rather than linked because this page is served outside
+		// wp-admin to a user who may not be logged in yet, and a missing logo on
+		// a consent screen reads as a spoofed one. The gradient id is prefixed
+		// so it cannot collide with anything else on the page.
+		$mark = '<svg viewBox="0 0 512 512" width="34" height="34" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'
+			. '<radialGradient id="wpspLogoDial" cx="367.2448" cy="377.2114" gradientUnits="userSpaceOnUse" r="180.018">'
+			. '<stop offset="0" stop-color="#f3f3ff"/><stop offset=".08921212" stop-color="#e3e2ff"/><stop offset=".3958" stop-color="#b0acff"/>'
+			. '<stop offset=".6607" stop-color="#8b84ff"/><stop offset=".8709" stop-color="#746cff"/><stop offset="1" stop-color="#6c63ff"/>'
+			. '</radialGradient>'
+			. '<path d="m217.9 473.8c-119.8 0-217.3-97.5-217.3-217.3s97.5-217.4 217.3-217.4c37.7 0 74.8 9.8 107.4 28.3 10 5.7 13.5 18.4 7.8 28.4s-18.4 13.5-28.4 7.8c-26.3-15-56.3-22.9-86.8-22.9-96.9 0-175.7 78.8-175.7 175.7s78.8 175.7 175.7 175.7c49.1 0 94.7-19.8 128.3-55.7 7.9-8.4 21-8.8 29.4-1 8.4 7.9 8.8 21 1 29.4-40.9 43.9-98.7 69-158.7 69z" fill="url(#wpspLogoDial)"/>'
+			. '<path d="m191.3 214-44.2-40.1c-8.5-7.7-21.7-7.1-29.4 1.4s-7.1 21.7 1.4 29.4l47.8 43.4c3.6-14.2 12.5-26.3 24.4-34.1z" fill="#24e2ac"/>'
+			. '<path d="m456.3 84.7c-7.1-9-20.2-10.6-29.3-3.4l-170.5 134.7c11.4 8.5 19.6 21 22.3 35.5l174-137.5c9.1-7.2 10.6-20.3 3.5-29.3z" fill="#24e2ac"/>'
+			. '<path d="m240.3 228.8c-5.3-2.9-11.4-4.5-17.8-4.5-5.7 0-11.1 1.3-15.9 3.6-12.8 6-21.8 19-21.8 34.1 0 .8.1 1.7.1 2.5 1.3 19.7 17.6 35.2 37.6 35.2 19.3 0 35.2-14.6 37.4-33.3.2-1.4.3-2.9.3-4.4 0-14.4-8-26.9-19.9-33.2z" fill="#3deab5"/>'
+			. '<path d="m424 267.5h-60.1c-1.4 0-2.5-1.1-2.5-2.5v-54.3c0-1.4 1.1-2.5 2.5-2.5h60.1c1.4 0 2.5 1.1 2.5 2.5v54.3c-.1 1.4-1.2 2.5-2.5 2.5z" fill="#ccf"/>'
+			. '<path d="m509.5 267.5h-60.1c-1.4 0-2.5-1.1-2.5-2.5v-54.3c0-1.4 1.1-2.5 2.5-2.5h60.1c1.4 0 2.5 1.1 2.5 2.5v54.3c0 1.4-1.1 2.5-2.5 2.5z" fill="#6c62ff"/>'
+			. '<g fill="#ccf">'
+			. '<path d="m424 344h-60.1c-1.4 0-2.5-1.1-2.5-2.5v-54.3c0-1.4 1.1-2.5 2.5-2.5h60.1c1.4 0 2.5 1.1 2.5 2.5v54.3c-.1 1.4-1.2 2.5-2.5 2.5z"/>'
+			. '<path d="m509.5 344h-60.1c-1.4 0-2.5-1.1-2.5-2.5v-54.3c0-1.4 1.1-2.5 2.5-2.5h60.1c1.4 0 2.5 1.1 2.5 2.5v54.3c0 1.4-1.1 2.5-2.5 2.5z"/>'
+			. '</g></svg>';
 
 		echo '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>' . esc_html__( 'Authorize AI access', 'wp-scheduled-posts' ) . '</title>';
 		echo '<style>'
@@ -970,7 +989,10 @@ final class Manager {
 			. 'body{font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:radial-gradient(1100px 600px at 50% -15%,#20284a,#0b1020 62%);color:#e7ecf3;margin:0;display:flex;min-height:100vh;align-items:center;justify-content:center;padding:24px}'
 			. '.card{width:100%;max-width:460px;background:#141a2e;border:1px solid #263149;border-radius:20px;padding:28px;box-shadow:0 24px 60px rgba(0,0,0,.5)}'
 			. '.brand{display:flex;align-items:center;gap:10px;margin-bottom:22px}'
-			. '.logo{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#5a57ff,#5b98ff);box-shadow:0 6px 16px rgba(99,102,241,.4)}'
+			// The mark carries its own brand colours, so the tile behind it is a
+			// neutral translucent well rather than the old purple gradient,
+			// which fought the logo's own purple and teal.
+			. '.logo{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);box-shadow:0 6px 18px rgba(108,98,255,.18)}'
 			. '.brand b{font-size:14px;font-weight:700;letter-spacing:.02em}'
 			. 'h1{font-size:20px;font-weight:700;margin:0 0 6px}'
 			. '.sub{color:#9aa6be;font-size:13.5px;margin:0 0 22px}.sub strong{color:#e7ecf3;font-weight:600}'

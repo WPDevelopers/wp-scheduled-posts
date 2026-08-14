@@ -491,7 +491,7 @@ const MCP = (props) => {
                     </div>
                     <p>
                         {__(
-                            'Connect an AI assistant to your content schedule. Ask it what is queued, move a week of posts, or find which social connections need reconnecting in plain language.',
+                            'Connect an AI assistant to your content schedule. Ask it what is queued, move a week of posts, or find which social connections need reconnecting, all in plain language.',
                             'wp-scheduled-posts'
                         )}
                     </p>
@@ -597,7 +597,7 @@ const MCP = (props) => {
                             <>
                                 <p className="wpsp-mcp-note">
                                     {__(
-                                        'These clients need only the URL above they sign in through a one-time approval, so the token below never leaves this screen.',
+                                        'These clients need only the URL above. They sign in through a one-time approval, so the token below never leaves this screen.',
                                         'wp-scheduled-posts'
                                     )}
                                 </p>
@@ -761,7 +761,7 @@ const MCP = (props) => {
                             </div>
                             <p>
                                 {__(
-                                    'Off by default. Sharing posts publicly to a real audience and cannot be undone, so an assistant can only do it when this is on and even then it must confirm each share. Reading the schedule and rescheduling posts do not need this.',
+                                    'Off by default. Sharing publishes to a real audience and cannot be undone, so an assistant can only do it when this is on, and even then it must confirm each share. Reading the schedule and rescheduling posts do not need this.',
                                     'wp-scheduled-posts'
                                 )}
                             </p>
