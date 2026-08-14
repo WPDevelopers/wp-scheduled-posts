@@ -1896,13 +1896,6 @@ class Settings
                                                                     'disabled_status' => "true",
                                                                     'priority' => 5,
                                                                 ],
-                                                                'advance_switcher_desc' => [
-                                                                    'id' => 'advance_switcher_desc',
-                                                                    'name' => 'advance_switcher_desc',
-                                                                    'type' => 'html',
-                                                                    'html' => __('Get options to set the published post status when scheduling it. Keep the post published and the updated content will be published according to schedule, or move the post to Draft until it is published.', 'wp-scheduled-posts'),
-                                                                    'priority' => 10,
-                                                                ],
                                                                 'advance_switcher_list' => [
                                                                     'id' => 'advance_switcher_list',
                                                                     'name' => 'advance_switcher_list',
@@ -2033,13 +2026,6 @@ class Settings
                                                                     'disabled_status' => "true",
                                                                     'priority' => 5,
                                                                     'is_pro' => true,
-                                                                ],
-                                                                'missed_switcher_desc' => [
-                                                                    'id' => 'missed_switcher_desc',
-                                                                    'name' => 'missed_switcher_desc',
-                                                                    'type' => 'html',
-                                                                    'html' => __('WordPress might miss the schedule for a post for various reasons. Turn on this option to let SchedulePress take care of this and publish the missed schedule.', 'wp-scheduled-posts'),
-                                                                    'priority' => 10,
                                                                 ],
                                                                 'missed_switcher_list' => [
                                                                     'id' => 'missed_switcher_list',

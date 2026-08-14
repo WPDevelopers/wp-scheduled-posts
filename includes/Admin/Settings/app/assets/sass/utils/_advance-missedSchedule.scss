@@ -7,6 +7,15 @@
     @media screen and (max-width: 1439px) {
       grid-template-columns: repeat(1, 1fr);
     }
+
+    /**
+     * The renderer separates stacked rows with a divider between siblings.
+     * These sections are two columns instead, so that divider lands on top of
+     * the right-hand column as a rule that separates nothing.
+     */
+    > * + * {
+      border-top-width: 0 !important;
+    }
     .wprf-control-section {
       border: none !important;
       margin-bottom: 0 !important;
