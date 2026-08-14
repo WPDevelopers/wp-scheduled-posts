@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { applyFilters } from '@wordpress/hooks';
 import { useBuilderContext } from 'quickbuilder';
 import cn from '../components/ui/cn';
 import { Card, Tabs } from '../components/ui';
 import CustomField from '../fields/Field';
+import { readRoute, writeRoute } from '../shell/routing';
 import { HtmlField, RadioCardField, StackedField, TextField, ToggleField } from './controls';
 import { hasLabel } from './emit';
 
@@ -303,8 +304,38 @@ function platformLogo(name: string): string | undefined {
 /** Sub-tabs, used by the Scheduling Hub. Each child section is one tab. */
 const NestedTabs: React.FC<{ field: any; depth: number }> = ({ field, depth }) => {
     const sections = (field?.fields || []).filter((section: any) => hasLabel(section?.label));
-    const [activeId, setActiveId] = useState(sections[0]?.name);
+
+    // Restore from `?section=`, but only if it names one of *these* sub-tabs —
+    // the parameter may still be describing the tab we just came from.
+    const [activeId, setActiveId] = useState(() => {
+        const wanted = readRoute().section;
+        const match = sections.find((section: any) => section.name === wanted);
+
+        return match ? match.name : sections[0]?.name;
+    });
+
     const active = sections.find((section: any) => section.name === activeId) || sections[0];
+
+    const selectSection = (id: string) => {
+        setActiveId(id);
+        writeRoute({ section: id });
+    };
+
+    // Back/forward through sub-tabs of the tab we are already on.
+    useEffect(() => {
+        const onPopState = () => {
+            const wanted = readRoute().section;
+            const match = sections.find((section: any) => section.name === wanted);
+
+            if (match) {
+                setActiveId(match.name);
+            }
+        };
+
+        window.addEventListener('popstate', onPopState);
+
+        return () => window.removeEventListener('popstate', onPopState);
+    }, [sections]);
 
     if (!sections.length) {
         return <FieldList fields={field?.fields} depth={depth} />;
@@ -318,7 +349,7 @@ const NestedTabs: React.FC<{ field: any; depth: number }> = ({ field, depth }) =
             <Tabs
                 variant={asLogos ? 'logo' : 'pill'}
                 activeId={active?.name}
-                onChange={setActiveId}
+                onChange={selectSection}
                 items={sections.map((section: any) => {
                     const logo = asLogos ? platformLogo(section.name) : undefined;
 

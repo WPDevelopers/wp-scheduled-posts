@@ -4,6 +4,7 @@ import { useBuilderContext } from 'quickbuilder';
 import React, { useEffect, useRef, useState } from 'react';
 import { FieldList } from '../renderer/Renderer';
 import NavRail from './NavRail';
+import { readRoute, slugForTab, tabForSlug, writeRoute } from './routing';
 import TopBar, { SaveState } from './TopBar';
 
 /** Blurb under each tab heading. The PHP config carries no per-tab copy. */
@@ -52,33 +53,96 @@ const SettingsApp = ({ wpspObject }) => {
     const savedTimer = useRef<any>(null);
     /* The first values render is the load, not an edit — don't flash "Saving". */
     const isInitialValues = useRef(true);
+    /*
+     * The tab we asked for from the URL, held until it actually becomes
+     * active. `setActiveTab` goes through a reducer, so the sync effect below
+     * runs once more with the *old* tab first — writing the URL on that pass
+     * would clobber the `section` the sub-tab has not read yet.
+     */
+    const pendingRestore = useRef<string | null>(null);
+    /* The first URL write normalises the address bar instead of adding to it. */
+    const isFirstRoute = useRef(true);
+    /* Distinguishes a real tab switch from a re-render on the same tab. */
+    const previousTab = useRef<string | null>(null);
 
     const tabs = builderContext.tabs || [];
     const activeId = builderContext.config?.active;
     const activeTab = tabs.find((tab: any) => tab.id === activeId) || tabs[0];
 
-    // Deep-links from the admin menu (?tab=general, ?page=…-calendar).
+    /*
+     * Restore the tab from the URL on load, so a reload or a shared link lands
+     * where the user was rather than back on General.
+     */
     useEffect(() => {
-        const params = new URLSearchParams(window.location.search);
-        const page = params.get('page');
-        const tab = params.get('tab');
+        const page = new URLSearchParams(window.location.search).get('page');
 
         if (page === 'schedulepress-calendar') {
+            pendingRestore.current = 'layout_calendar';
             builderContext.setActiveTab('layout_calendar');
             return;
         }
 
-        const byQuery = {
-            'advanced-schedule': 'layout_scheduling_hub',
-            license: 'layout_license',
-            general: 'layout_general',
-            'social-profile': 'layout_social_profile',
-        };
+        const restored = tabForSlug(readRoute().tab, tabs);
 
-        if (page === 'schedulepress' && tab && byQuery[tab]) {
-            builderContext.setActiveTab(byQuery[tab]);
+        if (restored) {
+            pendingRestore.current = restored;
+            builderContext.setActiveTab(restored);
         }
     }, []);
+
+    // Keep the URL in step with the tab.
+    useEffect(() => {
+        if (!activeTab?.id) {
+            return;
+        }
+
+        /*
+         * A restore is in flight: the URL already says where we are going, so
+         * leave it alone until we get there.
+         */
+        if (pendingRestore.current) {
+            if (activeTab.id === pendingRestore.current) {
+                pendingRestore.current = null;
+                previousTab.current = activeTab.id;
+                isFirstRoute.current = false;
+            }
+
+            return;
+        }
+
+        if (isFirstRoute.current) {
+            isFirstRoute.current = false;
+            previousTab.current = activeTab.id;
+            writeRoute({ tab: slugForTab(activeTab.id) }, true);
+            return;
+        }
+
+        // Only a real switch clears the sub-tab; it belonged to the old tab.
+        const isSwitch = previousTab.current !== activeTab.id;
+
+        writeRoute(
+            isSwitch
+                ? { tab: slugForTab(activeTab.id), section: null }
+                : { tab: slugForTab(activeTab.id) }
+        );
+        previousTab.current = activeTab.id;
+    }, [activeTab?.id]);
+
+    // Browser back/forward moves between tabs.
+    useEffect(() => {
+        const onPopState = () => {
+            const restored = tabForSlug(readRoute().tab, tabs);
+
+            if (restored && restored !== builderContext.config?.active) {
+                pendingRestore.current = restored;
+                builderContext.setActiveTab(restored);
+            }
+        };
+
+        window.addEventListener('popstate', onPopState);
+
+        return () => window.removeEventListener('popstate', onPopState);
+    }, [tabs, builderContext.config?.active]);
 
     // Settings save themselves as you change them; the top bar reports on it.
     useEffect(() => {
