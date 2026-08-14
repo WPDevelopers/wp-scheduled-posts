@@ -9,6 +9,7 @@ import Textarea from "quickbuilder/dist/fields/Textarea";
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { SweetAlertToaster } from "../../ToasterMsg";
+import { Skeleton } from "../../components/ui";
 import { getPostType } from "./Helpers";
 import { PostType, WP_Error } from "./types";
 import { MediaUpload } from '@wordpress/media-utils';
@@ -695,17 +696,41 @@ export const ModalContent = ({
         </div>
       </div>
       <div className="modalbody">
+        {/* Skeleton of the form below, so the dialog keeps its shape while
+            the post loads instead of swapping a spinner for a full form. */}
         {isLoading && (
-          <div className="wpsp-modal-loading-container">
-            <div className="wpsp-modal-loading-content">
-              <div className="wpsp-modal-loading-spinner">
-                <div className="wpsp-spinner-circle"></div>
+          <div
+            className="wpsp-modal-loading-container"
+            aria-busy="true"
+            aria-live="polite"
+          >
+            <span className="tw-sr-only">
+              {__('Loading post data…', 'wp-scheduled-posts')}
+            </span>
+
+            <div className="tw-flex tw-flex-col tw-gap-5">
+              <div>
+                <Skeleton variant="rect" width={40} height={13} className="tw-mb-2.5" />
+                <Skeleton variant="rect" height={46} style={{ borderRadius: 10 }} />
               </div>
-              <div className="wpsp-modal-loading-text">
-                {__('Loading post data...', 'wp-scheduled-posts')}
+
+              <div>
+                <Skeleton variant="rect" width={64} height={13} className="tw-mb-2.5" />
+                <Skeleton variant="rect" height={130} style={{ borderRadius: 10 }} />
               </div>
-              <div className="wpsp-modal-loading-subtext">
-                {__('Please wait while we fetch the post information', 'wp-scheduled-posts')}
+
+              <div className="tw-flex tw-flex-wrap tw-items-center tw-justify-between tw-gap-3">
+                <div className="tw-flex tw-items-center tw-gap-2">
+                  <Skeleton variant="rect" width={78} height={44} style={{ borderRadius: 10 }} />
+                  <Skeleton variant="rect" width={44} height={44} style={{ borderRadius: 10 }} />
+                  <Skeleton variant="rect" width={44} height={44} style={{ borderRadius: 10 }} />
+                </div>
+
+                <Skeleton variant="rect" width={168} height={44} style={{ borderRadius: 10 }} />
+              </div>
+
+              <div className="tw-flex tw-justify-end tw-pt-4">
+                <Skeleton variant="rect" width={100} height={46} style={{ borderRadius: 10 }} />
               </div>
             </div>
           </div>

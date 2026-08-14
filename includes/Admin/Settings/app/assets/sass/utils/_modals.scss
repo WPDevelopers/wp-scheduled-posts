@@ -1065,58 +1065,14 @@ img {
 }
 
 // Main Modal Loading Component
+// The dialog shows a skeleton of its form while the post loads — see
+// `EditPost.tsx`. The container just holds it; the shapes come from the kit.
 .wpsp-modal-loading-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   min-height: 300px;
-  padding: 60px 20px;
-
-  .wpsp-modal-loading-content {
-    text-align: center;
-    max-width: 350px;
-
-    .wpsp-modal-loading-spinner {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 24px;
-
-      .wpsp-spinner-circle {
-        width: 40px;
-        height: 40px;
-        border: 3px solid #f3f3f3;
-        border-top: 3px solid #6c62ff;
-        border-radius: 50%;
-        animation: wpsp-spin 1s linear infinite;
-      }
-    }
-
-    .wpsp-modal-loading-text {
-      font-size: 18px;
-      font-weight: 600;
-      color: #1b1b50;
-      margin-bottom: 12px;
-      line-height: 1.4;
-
-      @media screen and (max-width: 1439px) {
-        font-size: 16px;
-        margin-bottom: 10px;
-      }
-    }
-
-    .wpsp-modal-loading-subtext {
-      font-size: 14px;
-      color: #6c757d;
-      line-height: 1.5;
-
-      @media screen and (max-width: 1439px) {
-        font-size: 13px;
-      }
-    }
-  }
+  padding: 8px 0 0;
 }
 
+// Still used by `.wpsp-spinner-ring` further up this file.
 @keyframes wpsp-spin {
   0% {
     transform: rotate(0deg);
