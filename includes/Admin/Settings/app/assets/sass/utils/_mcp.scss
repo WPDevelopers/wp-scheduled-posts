@@ -300,20 +300,26 @@ $mcp-warning: #d97706;
       gap: 8px;
     }
 
+    // Single-line, fixed-height field. The Claude Code command is long enough
+    // that wrapping turned this into a multi-line slab that dwarfed the cards
+    // around it, so it truncates instead: the Copy button is the affordance,
+    // and the full value is on the element's title for hover.
     &__value {
       flex: 1;
       min-width: 0;
+      display: block;
+      height: 38px;
+      line-height: 36px;
       background: $mcp-bg;
       border: 1px solid $mcp-border;
       border-radius: 8px;
-      padding: 11px 14px;
+      padding: 0 14px;
       font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
       font-size: 12.5px;
-      line-height: 1.5;
       color: $mcp-text;
-      word-break: break-all;
-      display: flex;
-      align-items: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 

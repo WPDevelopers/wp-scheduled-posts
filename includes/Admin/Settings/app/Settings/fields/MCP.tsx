@@ -184,7 +184,9 @@ const CopyField = ({ label, value, id, copiedId, onCopy }) => (
     <div className="wpsp-mcp-copyfield">
         {label && <span className="wpsp-mcp-copyfield__label">{label}</span>}
         <div className="wpsp-mcp-copyfield__row">
-            <code className="wpsp-mcp-copyfield__value">{value}</code>
+            <code className="wpsp-mcp-copyfield__value" title={value}>
+                {value}
+            </code>
             <button
                 type="button"
                 className={`wpsp-mcp-copybtn${copiedId === id ? ' is-copied' : ''}`}
@@ -454,7 +456,7 @@ const MCP = (props) => {
             href: cursorDeepLink,
             linkLabel: __('Add to Cursor', 'wp-scheduled-posts'),
             steps: [
-                __('Click the button above — Cursor opens with the server prefilled.', 'wp-scheduled-posts'),
+                __('Click the button above Cursor opens with the server prefilled.', 'wp-scheduled-posts'),
                 __('Confirm the install in Cursor.', 'wp-scheduled-posts'),
             ],
         },
@@ -467,7 +469,7 @@ const MCP = (props) => {
             href: vscodeDeepLink,
             linkLabel: __('Add to VS Code', 'wp-scheduled-posts'),
             steps: [
-                __('Click the button above — VS Code opens with the server prefilled.', 'wp-scheduled-posts'),
+                __('Click the button above VS Code opens with the server prefilled.', 'wp-scheduled-posts'),
                 __('Confirm the install in VS Code.', 'wp-scheduled-posts'),
             ],
         },
