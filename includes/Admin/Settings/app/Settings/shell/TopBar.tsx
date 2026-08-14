@@ -44,10 +44,13 @@ const TopBar: React.FC<TopBarProps> = ({
 }) => (
     <header className="tw-sticky tw-top-8 tw-z-30 tw-flex tw-flex-wrap tw-items-center tw-justify-between tw-gap-4 tw-border-0 tw-border-b tw-border-solid tw-border-line tw-bg-white/90 tw-px-5 tw-py-3 tw-backdrop-blur lg:tw-px-8">
         <div className="tw-flex tw-flex-wrap tw-items-center tw-gap-3">
+            {/* The vector lockup: mainLogo.png is a 209x40 1x asset, so it
+                softened on any HiDPI screen. Slightly taller than the PNG was
+                because this file carries more padding in its viewBox. */}
             <img
-                src={`${imagePath}mainLogo.png`}
+                src={`${imagePath}wpsp-logo-full.svg`}
                 alt={__('SchedulePress', 'wp-scheduled-posts')}
-                className="tw-h-8 tw-w-auto"
+                className="tw-h-9 tw-w-auto"
             />
 
             <span className="tw-h-5 tw-w-px tw-bg-line-strong" />

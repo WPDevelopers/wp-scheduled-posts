@@ -203,7 +203,7 @@ const Twitter = (props) => {
               className="empty-image"
               /* @ts-ignore */
               src={`${wpspSettingsGlobal?.image_path}EmptyCard.svg`}
-              alt="mainLogo"
+              alt=""
             />
           )}
           <div className="selected-twitter-scrollbar">

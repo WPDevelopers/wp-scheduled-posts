@@ -197,7 +197,7 @@ const Instagram = (props) => {
               className="empty-image"
               /* @ts-ignore */
               src={`${wpspSettingsGlobal?.image_path}EmptyCard.svg`}
-              alt="mainLogo"
+              alt=""
             />
           )}
           <div className="selected-facebook-scrollbar">
