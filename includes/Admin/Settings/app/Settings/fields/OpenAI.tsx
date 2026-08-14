@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import React, { useState } from 'react';
 import apiFetch from '@wordpress/api-fetch';
 import { __ } from '@wordpress/i18n';
+import { Alert, Badge, Button, IconButton, Input } from '../components/ui';
 
 const EyeIcon = (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -16,12 +17,6 @@ const EyeOffIcon = (
     <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c6.5 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68" />
     <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3.5 7 10 7a9.74 9.74 0 0 0 5.39-1.61" />
     <line x1="2" y1="2" x2="22" y2="22" />
-  </svg>
-);
-
-const SpinnerIcon = (
-  <svg className="wprf-openai-spinner" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-    <path d="M12 2a10 10 0 0 1 10 10" />
   </svg>
 );
 
@@ -91,82 +86,82 @@ const OpenAI = (props) => {
   return (
     <div className={classNames('wprf-control', 'wprf-openai', `wprf-${name}-openai`)}>
       <div className="wprf-control-label">
-        <label htmlFor={id}>{label}</label>
+        <label htmlFor={id} className="tw-text-base tw-font-medium tw-text-ink">
+          {label}
+        </label>
       </div>
-      <div className="wprf-control-field">
-        <div className="wprf-openai-input-wrap">
-          <input
-            id={id}
-            type={show ? 'text' : 'password'}
-            className="wprf-openai-input"
-            value={keyValue}
-            placeholder="sk-..."
-            onChange={handleChange}
-            autoComplete="off"
-            spellCheck={false}
-          />
-          <button
-            type="button"
-            className="wprf-openai-toggle"
-            onClick={() => setShow((s) => !s)}
-            aria-label={show ? __('Hide API key', 'wp-scheduled-posts') : __('Show API key', 'wp-scheduled-posts')}
-          >
-            {show ? EyeOffIcon : EyeIcon}
-          </button>
-        </div>
 
-        <div className="wprf-openai-meta">
-          <span className={classNames('wprf-openai-status', isConnected ? 'is-connected' : 'is-empty')}>
-            <span className="wprf-openai-status-dot" />
+      <div className="wprf-control-field tw-flex tw-flex-col tw-gap-3">
+        <Input
+          id={id}
+          inputSize="lg"
+          type={show ? 'text' : 'password'}
+          value={keyValue}
+          placeholder="sk-..."
+          onChange={handleChange}
+          autoComplete="off"
+          spellCheck={false}
+          className="tw-font-mono"
+          suffix={
+            <IconButton
+              size="sm"
+              label={
+                show
+                  ? __('Hide API key', 'wp-scheduled-posts')
+                  : __('Show API key', 'wp-scheduled-posts')
+              }
+              onClick={() => setShow((s) => !s)}
+            >
+              {show ? EyeOffIcon : EyeIcon}
+            </IconButton>
+          }
+        />
+
+        <div className="tw-flex tw-flex-wrap tw-items-center tw-justify-between tw-gap-3">
+          <Badge tone={isConnected ? 'success' : 'neutral'} dot>
             {isConnected
               ? __('API key added', 'wp-scheduled-posts')
               : __('No API key added', 'wp-scheduled-posts')}
-          </span>
+          </Badge>
+
           <a
-            className="wprf-openai-link"
             href="https://platform.openai.com/api-keys"
             target="_blank"
             rel="noopener noreferrer"
+            className="tw-text-sm tw-text-brand-500 hover:tw-text-brand-700"
           >
             {__('Get your OpenAI API key', 'wp-scheduled-posts')}
           </a>
         </div>
 
-        <div className="wprf-openai-actions">
-          <button
-            type="button"
-            className="wprf-openai-btn wprf-openai-btn-test"
+        <div className="tw-flex tw-flex-wrap tw-gap-2">
+          <Button
+            variant="secondary"
             onClick={handleTest}
+            loading={testing}
             disabled={testing || !isConnected}
           >
-            {testing && SpinnerIcon}
             {testing
               ? __('Testing…', 'wp-scheduled-posts')
               : __('Test Connection', 'wp-scheduled-posts')}
-          </button>
-          <button
-            type="button"
-            className="wprf-openai-btn wprf-openai-btn-clear"
+          </Button>
+
+          <Button
+            variant="ghost"
             onClick={handleClear}
             disabled={testing || !isConnected}
           >
             {__('Clear API Key', 'wp-scheduled-posts')}
-          </button>
+          </Button>
         </div>
 
         {testResult && (
-          <p
-            className={classNames(
-              'wprf-openai-test-result',
-              testResult.success ? 'is-success' : 'is-error'
-            )}
-            role="status"
-          >
+          <Alert tone={testResult.success ? 'success' : 'danger'} role="status">
             {testResult.message}
-          </p>
+          </Alert>
         )}
 
-        <p className="wprf-openai-help">
+        <p className="tw-text-xs tw-text-ink-muted tw-m-0">
           {__('Your API key is stored securely on your website. It is strictly used to generate captions for your social posts and nothing else.', 'wp-scheduled-posts')}
         </p>
       </div>

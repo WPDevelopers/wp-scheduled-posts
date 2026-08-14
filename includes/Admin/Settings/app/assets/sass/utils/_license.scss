@@ -165,47 +165,10 @@
               }
             }
           }
+          // The license key field itself now comes from the Tailwind UI kit
+          // (see `fields/License.tsx`); only its top spacing is left here.
           .wprf-active_license-social-profile {
             margin-top: 20px;
-            h4 {
-              margin-bottom: 16px !important;
-            }
-            .wpsp-license-key-wrapper {
-              position: relative;
-              padding: 20px 18px;
-              border: 1px solid #ebeef5;
-              border-radius: 4px;
-              input {
-                width: 100%;
-                border: none;
-                font-size: 16px;
-                line-height: 1.2em;
-                color: #1B1B50;
-                margin: 0;
-                padding: 0;
-                padding-right: 160px;
-                &:focus-visible {
-                  outline: 0;
-                }
-                &.activated {
-                  opacity: 0.6;
-                }
-              }
-              button {
-                background: #6c62ff;
-                color: #fff;
-                font-size: 14px;
-                line-height: 1.2em;
-                font-weight: 500;
-                border: none;
-                border-radius: 6px;
-                padding: 16px 24px;
-                cursor: pointer;
-                position: absolute;
-                top: 5px;
-                right: 5px;
-              }
-            }
           }
         }
       }

@@ -12,7 +12,7 @@
   @import './utils/scheduling-hub';
   @import './utils/socialTemplate';
   @import './utils/license';
-  @import './utils/openai';
+  // The OpenAI key field is fully Tailwind now — see `fields/OpenAI.tsx`.
 }
 
 @import './utils/modals';
