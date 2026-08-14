@@ -618,7 +618,7 @@ const MCP = (props) => {
                             <>
                                 <p className="wpsp-mcp-note">
                                     {__(
-                                        'These clients authenticate with the connection token. Treat it like a password — anyone holding it can manage this site’s schedule.',
+                                        'These clients authenticate with the connection token. Treat it like a password anyone holding it can manage this site’s schedule.',
                                         'wp-scheduled-posts'
                                     )}
                                 </p>
