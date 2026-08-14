@@ -1,6 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import React, { useCallback, useEffect, useState } from 'react';
+import { Skeleton } from '../components/ui';
 import '../../assets/sass/utils/_mcp.scss';
 
 /**
@@ -242,6 +243,56 @@ const ClientCard = ({ client, copiedId, onCopy }) => {
     );
 };
 
+/**
+ * Stand-in shown while the MCP status request is in flight. It mirrors the
+ * real panel's card rhythm so the page holds its height instead of collapsing
+ * to a line of text and then jumping when the data lands.
+ */
+const McpSkeleton = () => (
+    <div className="wpsp-mcp" aria-busy="true" aria-live="polite">
+        <span className="tw-sr-only">{__('Loading…', 'wp-scheduled-posts')}</span>
+
+        <div className="wpsp-mcp-card tw-flex tw-items-start tw-gap-4">
+            {/* Radius via style: `rounded` and `rounded-xl` are both utilities
+                of equal specificity, so class order would not decide it. */}
+            <Skeleton variant="rect" width={44} height={44} style={{ borderRadius: 14 }} />
+
+            <div className="tw-flex-1">
+                <Skeleton variant="rect" width={180} height={16} className="tw-mb-3" />
+                <Skeleton lines={2} />
+            </div>
+
+            <Skeleton variant="circle" width={44} height={24} />
+        </div>
+
+        <div className="wpsp-mcp-card tw-flex tw-items-center tw-justify-between">
+            <Skeleton variant="rect" width={240} height={16} />
+            <Skeleton variant="rect" width={16} height={16} />
+        </div>
+
+        <div className="wpsp-mcp-card">
+            <Skeleton variant="rect" width={160} height={16} className="tw-mb-4" />
+            <Skeleton variant="rect" height={44} className="tw-mb-4 tw-rounded-lg" />
+
+            <div className="tw-mb-4 tw-flex tw-gap-2">
+                <Skeleton variant="rect" width={140} height={34} className="tw-rounded-lg" />
+                <Skeleton variant="rect" width={120} height={34} className="tw-rounded-lg" />
+            </div>
+
+            <Skeleton lines={3} />
+        </div>
+
+        <div className="wpsp-mcp-card tw-flex tw-items-center tw-justify-between">
+            <div className="tw-flex-1">
+                <Skeleton variant="rect" width={170} height={16} className="tw-mb-2.5" />
+                <Skeleton variant="rect" width={320} height={12} />
+            </div>
+
+            <Skeleton variant="rect" width={96} height={38} className="tw-rounded-lg" />
+        </div>
+    </div>
+);
+
 /* ============================================================== component */
 
 const MCP = (props) => {
@@ -376,7 +427,7 @@ const MCP = (props) => {
     };
 
     if (loading) {
-        return <div className="wpsp-mcp wpsp-mcp--loading">{__('Loading…', 'wp-scheduled-posts')}</div>;
+        return <McpSkeleton />;
     }
 
     const endpoint = status?.mcp_endpoint || '';

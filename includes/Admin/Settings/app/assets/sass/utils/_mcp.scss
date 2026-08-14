@@ -27,10 +27,8 @@ $mcp-warning: #d97706;
     box-sizing: border-box;
   }
 
-  &--loading {
-    padding: 32px;
-    color: $mcp-faint;
-  }
+  // The loading state is a skeleton of the real cards now, not a line of
+  // text — see `McpSkeleton` in `fields/MCP.tsx`.
 
   /* ------------------------------------------------------------- cards */
 
