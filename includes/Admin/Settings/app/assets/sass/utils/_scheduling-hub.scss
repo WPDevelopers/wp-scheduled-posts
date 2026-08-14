@@ -1,11 +1,11 @@
 /**
- * The Manage / Advanced / Missed Schedule panels are still styled from SCSS.
+ * The Manage Schedule panel is still styled from SCSS.
  *
- * These imports used to hang off quickbuilder's tab chrome —
+ * This import used to hang off quickbuilder's tab chrome —
  * `.wprf-tabs-wrapper .wprf-tab-content-wrapper .wprf-tab-flex
  * .wprf-tab-contents .wprf-tab-content` — none of which the renderer emits any
- * more, so every rule inside them stopped applying and the panels rendered as
- * bare inputs. They now hang off the section class, which the renderer does
+ * more, so every rule inside it stopped applying and the panel rendered as
+ * bare inputs. It now hangs off the section class, which the renderer does
  * still emit (see `renderer/Renderer.tsx`).
  *
  * The card chrome that used to be reset here is the renderer's job now, so the
@@ -16,13 +16,13 @@
     &.manage-schedule {
       @import './manageSchedule';
     }
-
-    &.advance_schedule_wrapper,
-    &.missed_schedule_wrapper {
-      @import './advance-missedSchedule';
-    }
   }
 
-  // The pro-feature promo is styled from `fields/ScheduleHubFeature.tsx`
-  // with the Tailwind UI kit.
+  // Advanced Schedule and Missed Schedule are now a `pro-toggle` row plus a
+  // `resources` panel, both drawn with the Tailwind UI kit — the two-column
+  // grid that used to pair a switch with a video is gone, and so is the SCSS
+  // that built it.
+  //
+  // The pro-feature promo is styled from `fields/ScheduleHubFeature.tsx`,
+  // likewise with the UI kit.
 }

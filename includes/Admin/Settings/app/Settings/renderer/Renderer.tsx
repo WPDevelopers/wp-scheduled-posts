@@ -131,6 +131,7 @@ const NEEDS_OWN_LAYOUT = [
     'manual-scheduler',
     'pro-toggle',
     'list',
+    'resources',
 ];
 
 export const FieldList: React.FC<{
@@ -512,7 +513,12 @@ const NestedTabs: React.FC<{ field: any; depth: number }> = ({ field, depth }) =
     const asLogos = sections.every((section: any) => platformLogo(section.name));
 
     return (
-        <div className="tw-flex tw-flex-col tw-gap-5">
+        /*
+         * The enclosing card only pads horizontally — ordinary rows bring their
+         * own `py`, but a tab strip has none, so it would sit flush against the
+         * card's top edge.
+         */
+        <div className="tw-flex tw-flex-col tw-gap-5 tw-py-5">
             <Tabs
                 variant={asLogos ? 'logo' : 'pill'}
                 activeId={active?.name}

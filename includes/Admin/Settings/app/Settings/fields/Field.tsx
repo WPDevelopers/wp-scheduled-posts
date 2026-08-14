@@ -10,6 +10,7 @@ import CheckboxSelect from './CheckboxSelect';
 import Time from './Time';
 import Calendar from './Calendar';
 import List from './List';
+import Resources from './Resources';
 import Video from './Video';
 import Html from './Html';
 import AutoScheduler from './AutoScheduler';
@@ -41,6 +42,8 @@ const Field = (ret, type, props) => {
             return <ManualScheduler {...props} />;
         case "list":
             return <List {...props} />;
+        case "resources":
+            return <Resources {...props} />;
         case "html":
             return <Html {...props} />;
         case "video":
