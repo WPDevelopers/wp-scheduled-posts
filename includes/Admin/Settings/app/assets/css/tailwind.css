@@ -23,6 +23,17 @@
     .wpsp-ui-portal *::before,
     .wpsp-ui-portal *::after {
         box-sizing: border-box;
+
+        /*
+         * The border half of Tailwind's preflight. Without it, any utility
+         * that sets `border-style` without a width — `divide-solid`,
+         * `border-solid` — lets the remaining sides fall back to the CSS
+         * initial width of `medium`, drawing 3px lines nobody asked for.
+         * Specificity stays at one id so the legacy SCSS still wins.
+         */
+        border-width: 0;
+        border-style: solid;
+        border-color: #eaeef4;
     }
 
     /* wp-admin gives every button/input a border, shadow and blue focus ring. */
@@ -40,6 +51,80 @@
 }
 
 @layer components {
+    /*
+     * Social platform cards. Ten components (Facebook, Twitter, …) render this
+     * same structure, so the layout is defined once here rather than repeated
+     * as utility strings in each of them. These used to be styled from
+     * `_socialProfile.scss`, nested under quickbuilder tab wrappers that the
+     * renderer no longer emits.
+     */
+    .social-profile-card {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        overflow: hidden;
+        border: 1px solid #eaeef4;
+        border-radius: 14px;
+        background: #ffffff;
+    }
+
+    @media screen and (max-width: 1023px) {
+        .social-profile-card {
+            grid-template-columns: minmax(0, 1fr);
+        }
+    }
+
+    .social-profile-card > .main-profile {
+        padding: 24px;
+        border-right: 1px solid #eaeef4;
+    }
+
+    .social-profile-card > .selected-profile {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 8px;
+        padding: 24px;
+        background: #f7f8fb;
+    }
+
+    @media screen and (max-width: 1023px) {
+        .social-profile-card > .main-profile {
+            border-right: 0;
+            border-bottom: 1px solid #eaeef4;
+        }
+    }
+
+    .selected-profile .empty-image {
+        width: 100%;
+        max-width: 220px;
+        align-self: center;
+        opacity: 0.7;
+    }
+
+    .selected-profile [class^='selected-'][class$='-scrollbar'] {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        max-height: 320px;
+        overflow-y: auto;
+    }
+
+    /* Per-platform tint on the account-kind pill in a connected row. */
+    .selected-profile .linkedin-organization {
+        background: #eff6ff !important;
+        color: #2563eb !important;
+    }
+
+    .selected-profile .facebook-group {
+        background: #eff6ff !important;
+        color: #1877f2 !important;
+    }
+
+    .selected-profile .pinterest-pinner {
+        background: #fef2f2 !important;
+        color: #e42228 !important;
+    }
+
     /* Shared shimmer used by the Skeleton component. */
     .wpsp-skeleton-shimmer::after {
         content: '';

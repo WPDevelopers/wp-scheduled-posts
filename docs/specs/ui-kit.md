@@ -1,8 +1,23 @@
 # Admin UI kit (Tailwind + React)
 
-The SchedulePress Settings app is being moved off hand-written SCSS onto a
-Tailwind-based component kit. This spec covers how the kit is set up and the
-rules to follow while migrating the remaining screens.
+The SchedulePress Settings app is a Tailwind + React application. It renders
+its own shell, navigation and fields; **quickbuilder is used headlessly**, as a
+state store only.
+
+## How the app is put together
+
+`SettingsWrapper` calls quickbuilder's `useBuilder(settings)` and puts the
+result on `BuilderProvider`. Nothing else from quickbuilder is used — not
+`FormBuilder`, not its field components, not its stylesheet. What we keep is
+the part worth keeping:
+
+- `builderContext.tabs` — the settings tree, sorted by priority
+- `getFieldProps(field)` — a field's current value, `onChange`, pro-gating, and
+  `visible` (its `rules` conditional logic, evaluated for us)
+- `setFieldValue` / `setActiveTab` / `values`
+
+`shell/SettingsApp` draws the chrome and `renderer/Renderer` walks the tree.
+Settings save themselves as they change; the top bar reports the state.
 
 ## Where things live
 
@@ -10,8 +25,22 @@ rules to follow while migrating the remaining screens.
 | --- | --- |
 | `includes/Admin/Settings/tailwind.config.js` | Design tokens + Tailwind guard rails |
 | `includes/Admin/Settings/postcss.config.js` | PostCSS pipeline (Tailwind, autoprefixer, cssnano) |
-| `includes/Admin/Settings/app/assets/css/tailwind.css` | `@tailwind` entry + scoped base reset |
+| `includes/Admin/Settings/app/assets/css/tailwind.css` | `@tailwind` entry, scoped base reset, shared component classes |
 | `includes/Admin/Settings/app/Settings/components/ui/` | The component kit |
+| `includes/Admin/Settings/app/Settings/shell/` | Top bar, nav rail, app layout |
+| `includes/Admin/Settings/app/Settings/renderer/` | The settings-tree renderer and its controls |
+
+## Field types the renderer handles
+
+Drawn directly: `section`, `group`, `tab` (sub-tabs), `toggle`, `text`,
+`number`, `radio-card`, `html`. `action` resolves the WP filter it names — the
+Pro plugin's license form arrives that way. Everything else routes through
+`fields/Field.tsx` to our own field components, unchanged.
+
+Two rules keep the layout sane: a section whose children all draw their own
+card renders bare (no card-in-card), and a section with no label passes its
+children straight through (unlabelled sections exist only to group fields for a
+conditional rule).
 
 Build with `npm run admin-start` (watch) or `npm run build` from
 `includes/Admin/Settings/`. Output lands in `includes/Admin/Settings/assets/`
@@ -25,7 +54,11 @@ wp-admin is a hostile CSS environment, so three settings are non-negotiable:
   `.container` and `.button` all already exist in wp-admin.
 - **`preflight: false`** — Tailwind's reset is global and would strip the
   surrounding admin chrome. A scoped stand-in lives in `tailwind.css` under
-  `#wpsp-dashboard-body` and `.wpsp-ui-portal`.
+  `#wpsp-dashboard-body` and `.wpsp-ui-portal`. That stand-in **must** keep the
+  `border-width: 0; border-style: solid` pair: without it, any utility that
+  sets a border style but not a width (`divide-solid`, `border-solid`) lets the
+  remaining sides fall back to the CSS initial width of `medium`, and 3px lines
+  appear on three sides of everything.
 - **`important: true`** — wp-admin ships element selectors like
   `#wpbody-content a` and `input[type="text"]` that out-specify a single class.
 

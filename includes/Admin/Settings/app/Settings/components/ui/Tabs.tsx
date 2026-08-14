@@ -49,13 +49,16 @@ const Tabs: React.FC<TabsProps> = ({
                     disabled={item.disabled}
                     onClick={() => !item.disabled && onChange(item.id)}
                     className={cn(
-                        'wpsp-ui tw-inline-flex tw-items-center tw-gap-2 tw-bg-transparent',
+                        // No background here: utilities have equal specificity,
+                        // so a base `bg-transparent` can out-order the active
+                        // `bg-brand-500` in the stylesheet and win.
+                        'wpsp-ui tw-inline-flex tw-items-center tw-gap-2',
                         'tw-text-base tw-font-medium tw-cursor-pointer tw-whitespace-nowrap',
                         'tw-transition-colors tw-duration-150 tw-border-0',
                         item.disabled && 'tw-opacity-50 tw-cursor-not-allowed',
 
                         variant === 'underline' && [
-                            'tw-px-4 tw-py-3 tw--mb-px tw-border-b-2 tw-border-solid',
+                            'tw-bg-transparent tw-px-4 tw-py-3 tw--mb-px tw-border-b-2 tw-border-solid',
                             isActive
                                 ? 'tw-border-brand-500 tw-text-brand-600'
                                 : 'tw-border-transparent tw-text-ink-muted hover:tw-text-ink',
@@ -64,15 +67,15 @@ const Tabs: React.FC<TabsProps> = ({
                         variant === 'pill' && [
                             'tw-px-4 tw-py-2 tw-rounded-md',
                             isActive
-                                ? 'tw-bg-brand-500 tw-text-white'
-                                : 'tw-text-ink-muted hover:tw-bg-brand-50 hover:tw-text-brand-600',
+                                ? 'tw-bg-brand-500 tw-text-white tw-shadow-card'
+                                : 'tw-bg-transparent tw-text-ink-muted hover:tw-bg-white hover:tw-text-brand-600',
                         ],
 
                         variant === 'vertical' && [
                             'tw-px-4 tw-py-2.5 tw-rounded-md tw-justify-start tw-text-left tw-w-full',
                             isActive
                                 ? 'tw-bg-brand-50 tw-text-brand-600'
-                                : 'tw-text-ink-muted hover:tw-bg-canvas hover:tw-text-ink',
+                                : 'tw-bg-transparent tw-text-ink-muted hover:tw-bg-canvas hover:tw-text-ink',
                         ]
                     )}
                 >

@@ -24,9 +24,7 @@ const Time = (props) => {
 	}, [selectedTime]);
   return (
       <div className={classNames('wprf-control', 'wprf-time', `wprf-${props.name}-time`)}>
-          <div className="wprf-control-label">
-              <label htmlFor={`${props?.id}`}>{props?.label}</label>
-          </div>
+          {/* The label is supplied by the settings renderer, not here. */}
           <div className="wprf-control-field">
               <div className="wprf-time-select-wrap wprf-checked wprf-label-position-right">
                   <Select

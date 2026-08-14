@@ -147,8 +147,8 @@ const CheckboxSelectAsync = (props) => {
           props.classes
         )}
       >
+        {/* The label is supplied by the settings renderer, not here. */}
         <div className="wprf-control-label">
-          <label htmlFor={`${props.id}`}>{props.label}</label>
           <div className="selected-options">
             <ul>
               { (optionSelected && optionSelected[0] !== null) &&
