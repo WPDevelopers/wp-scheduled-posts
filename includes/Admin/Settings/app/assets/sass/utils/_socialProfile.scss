@@ -124,28 +124,7 @@
             justify-content: end;
           }
         }
-        .view-all {
-          position: relative;
-          display: inline-flex;
-          justify-content: end;
-          align-items: center;
-          gap: 10px;
-          background: transparent;
-          padding: 0;
-          border: none;
-          font-size: 0.9em;
-          font-weight: 500;
-          line-height: 1.2em;
-          color: #6c62ff;
-          margin-top: 6px;
-          cursor: pointer;
-          &:after {
-            content: '\e909';
-            font-family: 'wpsp';
-            font-size: 0.9em;
-            color: #6c62ff;
-          }
-        }
+        // `.view-all` is a UI-kit link Button now — see `utils/ViewMore.tsx`.
         .wpsppro-icon {
           position: absolute;
           top: -15px;
