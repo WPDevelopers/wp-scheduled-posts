@@ -1,0 +1,20 @@
+{
+	"name": "schedulepress/mcp-runtime",
+	"description": "Bundled WordPress Abilities API shipped with SchedulePress — the tool catalog for SchedulePress's self-hosted MCP server (includes/MCP/). Loaded via the Jetpack Autoloader for conflict-free coexistence with other plugins (and future WordPress core).",
+	"type": "project",
+	"license": "GPL-2.0-or-later",
+	"require": {
+		"php": ">=7.4",
+		"automattic/jetpack-autoloader": "^5.0",
+		"wordpress/abilities-api": "^0.4"
+	},
+	"config": {
+		"allow-plugins": {
+			"automattic/jetpack-autoloader": true
+		},
+		"optimize-autoloader": true,
+		"sort-packages": true
+	},
+	"minimum-stability": "stable",
+	"prefer-stable": true
+}
