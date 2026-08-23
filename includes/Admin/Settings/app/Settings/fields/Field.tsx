@@ -13,6 +13,7 @@ import List from './List';
 import Video from './Video';
 import Html from './Html';
 import AutoScheduler from './AutoScheduler';
+import SchedulingHub from './SchedulingHub';
 import ManualScheduler from './ManualScheduler';
 import ScheduleHubFeature from './ScheduleHubFeature';
 import License from './License';
@@ -36,6 +37,8 @@ const Field = (ret, type, props) => {
             return <ProToggle {...props} />
         case "auto-scheduler":
             return <AutoScheduler {...props} />;
+        case "scheduling-hub":
+            return <SchedulingHub {...props} />;
         case "manual-scheduler":
             return <ManualScheduler {...props} />;
         case "list":

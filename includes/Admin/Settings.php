@@ -1996,6 +1996,22 @@ class Settings
                                                                 ],
                                                             ],
                                                         ],
+                                                        'scheduling_hub_section' => [
+                                                            'id' => 'scheduling_hub',
+                                                            'name' => 'scheduling_hub',
+                                                            'type' => 'section',
+                                                            'label' => false,
+                                                            'priority' => 15,
+                                                            'fields' => [
+                                                                'scheduling_hub' => [
+                                                                    'id' => 'scheduling_hub',
+                                                                    'name' => 'scheduling_hub',
+                                                                    'type' => 'scheduling-hub',
+                                                                    'priority' => 5,
+                                                                    'is_pro' => true,
+                                                                ],
+                                                            ],
+                                                        ],
                                                     ]
                                                 ]
                                             ]

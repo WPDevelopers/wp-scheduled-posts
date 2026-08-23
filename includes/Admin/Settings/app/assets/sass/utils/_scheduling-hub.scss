@@ -12,6 +12,7 @@
                 .wprf-control-section {
                   &.manage-schedule {
                     @import './manageSchedule';
+                    @import './schedulingHub';
                   }
                   &.advance_schedule_wrapper,
                   &.missed_schedule_wrapper {
