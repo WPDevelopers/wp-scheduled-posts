@@ -255,8 +255,9 @@ class PostPanel {
         }
 
         // Bypass WordPress forcing 'future' status when the date is in the future.
-        $filter_callback = function ( $data, $postarr ) {
-            if ( $data['post_status'] === 'future' ) {
+        // Scoped to this post so nothing else saved during the request is affected.
+        $filter_callback = function ( $data, $postarr ) use ( $post_id ) {
+            if ( (int) ( $postarr['ID'] ?? 0 ) === $post_id && $data['post_status'] === 'future' ) {
                 $data['post_status'] = 'publish';
             }
             return $data;
@@ -277,6 +278,11 @@ class PostPanel {
         if ( is_wp_error( $updated ) ) {
             return false;
         }
+
+        // Persist the intent, otherwise the next save lets WordPress force the
+        // post back to 'future'. The filter in includes/functions.php re-asserts
+        // 'publish' for as long as this meta matches the post date.
+        update_post_meta( $post_id, 'prevent_future_post', get_post( $post_id )->post_date );
 
         // Let Pro (when active) reschedule its unpublish/republish cron jobs.
         do_action( 'wpsp_pro_update_post', $post_id );
