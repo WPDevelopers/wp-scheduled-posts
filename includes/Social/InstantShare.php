@@ -457,16 +457,43 @@ class InstantShare
     /**
      * Read one selected-profile list from the request.
      *
-     * The value is expected to be an array of profile keys. A scalar passes the
-     * empty() check and would fatal in array_map() on PHP 8, so treat anything
-     * that is not an array as no selection at all.
+     * The value is expected to be an array of profile keys, and a scalar would
+     * fatal in array_map() on PHP 8. It must not be turned into an empty array
+     * to compensate: Helper::get_social_profile() reads an empty list as "no
+     * filter" and answers with every profile, so a single mistyped selection
+     * would widen the share instead of narrowing it. Normalise a scalar to the
+     * one item list it stands for, and keep an empty string as a selection that
+     * matches nothing rather than one that matches everything.
+     *
+     * A missing key is still the genuine "no filter" case and stays an empty
+     * array; that is how the caller asks for every profile on a platform.
      */
     private function get_selected_profiles_param( $key )
     {
-        if ( empty( $_REQUEST[ $key ] ) || !is_array( $_REQUEST[ $key ] ) ) {
+        if ( ! isset( $_REQUEST[ $key ] ) ) {
             return [];
         }
-        return array_map( 'sanitize_text_field', $_REQUEST[ $key ] );
+
+        $selected = $_REQUEST[ $key ];
+
+        if ( is_scalar( $selected ) ) {
+            $selected = [ $selected ];
+        }
+
+        if ( ! is_array( $selected ) ) {
+            return [];
+        }
+
+        // Nested arrays would fatal in sanitize_text_field() on PHP 8.
+        $scalars = array_filter( $selected, 'is_scalar' );
+
+        // A request that asked for something, in a shape nothing can be read
+        // from, must not fall back to "no filter" either.
+        if ( empty( $scalars ) && ! empty( $selected ) ) {
+            return [ '' ];
+        }
+
+        return array_values( array_map( 'sanitize_text_field', $scalars ) );
     }
 
     /**
