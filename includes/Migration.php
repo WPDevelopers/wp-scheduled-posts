@@ -220,7 +220,7 @@ class Migration {
         $post_types = \WPSP\Helper::get_settings('allow_post_types');
         if(is_array($post_types) && count($post_types) > 0){
             foreach($post_types as $post_type){
-                $results = $wpdb->get_results( "SELECT ID, post_type FROM {$wpdb->prefix}posts WHERE post_type = '{$post_type}' AND post_status = 'future'", OBJECT );
+                $results = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_type FROM {$wpdb->prefix}posts WHERE post_type = %s AND post_status = 'future'", $post_type ), OBJECT );
                 if(is_array($results) && count($results) > 0){
                     foreach($results as $result){
                         update_post_meta($result->ID, '_wpsp_is_facebook_share', 'on');

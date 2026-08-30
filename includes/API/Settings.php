@@ -179,7 +179,19 @@ class Settings
         $platform = $request->get_param('platform');
         $item     = $request->get_param('item');
         $response = ReconnectHandler::handleProfileReconnect($platform, $item);
-        die();
+
+        // The handler sends its own JSON on the paths that reach the network, but
+        // returns early for an unsupported platform or a missing token. Those used
+        // to be discarded by die(), so a failed reconnect came back as an empty 200.
+        if ( empty($response) ) {
+            return new \WP_Error(
+                'reconnect_failed',
+                __('Could not reconnect this profile.', 'wp-scheduled-posts'),
+                array('status' => 400)
+            );
+        }
+
+        return rest_ensure_response($response);
     }
 
     public function wpsp_get_categories(\WP_REST_Request $request)
