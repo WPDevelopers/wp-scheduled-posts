@@ -39,10 +39,7 @@
     "autoload": {
         "psr-4": {
             "WPSP\\": "./includes"
-        },
-        "files": [
-            "includes/functions.php"
-        ]
+        }
     },
     "extra": {
         "mozart": {
@@ -61,12 +58,17 @@
             ]
         }
     },
-	"config": {
-		"platform": {
-			"php": "7.2"
-		}
-	},
+    "config": {
+        "platform": {
+            "php": "7.2"
+        }
+    },
     "require-dev": {
-        "coenjacobs/mozart": "0.6.0"
+        "coenjacobs/mozart": "0.6.0",
+        "phpunit/phpunit": "^9.6"
+    },
+    "scripts": {
+        "test": "phpunit --configuration phpunit.xml",
+        "test:integration": "phpunit --configuration phpunit-integration.xml"
     }
 }

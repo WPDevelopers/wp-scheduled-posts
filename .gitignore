@@ -8,6 +8,10 @@ includes/Admin/Settings/assets/js/admin.js.map
 *.txt
 .git
 *.xml
+# ...but the PHPUnit configuration has to be committed, or the suite
+# silently runs with no config at all.
+!phpunit.xml
+!phpunit-integration.xml
 **/*.map
 .idea/*
 .vscode/
@@ -20,3 +24,4 @@ includes/Admin/Settings/assets/js/admin.js.map
 includes/Admin/Settings/yarn.lock
 includes/Admin/Settings/stats.json
 .vscode/
+.phpunit.result.cache

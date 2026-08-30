@@ -12,19 +12,18 @@ class ComposerStaticInit222847855f4ec4c57417c2084bc56c0d
         '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
         'c65d09b6820da036953a371c8c73a9b1' => __DIR__ . '/..' . '/facebook/graph-sdk/src/Facebook/polyfills.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
-        '0b107c896fcb50616009a9e3dc5b1f1c' => __DIR__ . '/../..' . '/includes/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
-        'm' => 
+        'm' =>
         array (
             'myPHPNotes\\' => 11,
         ),
-        'W' => 
+        'W' =>
         array (
             'WPSP\\' => 5,
         ),
-        'S' => 
+        'S' =>
         array (
             'Symfony\\Polyfill\\Php80\\' => 23,
             'Symfony\\Polyfill\\Php73\\' => 23,
@@ -33,96 +32,96 @@ class ComposerStaticInit222847855f4ec4c57417c2084bc56c0d
             'Symfony\\Component\\Finder\\' => 25,
             'Symfony\\Component\\Console\\' => 26,
         ),
-        'P' => 
+        'P' =>
         array (
             'Psr\\Container\\' => 14,
             'PriyoMukul\\WPNotice\\' => 20,
         ),
-        'L' => 
+        'L' =>
         array (
             'League\\Flysystem\\' => 17,
         ),
-        'F' => 
+        'F' =>
         array (
             'Facebook\\' => 9,
         ),
-        'D' => 
+        'D' =>
         array (
             'DirkGroenen\\Pinterest\\' => 22,
         ),
-        'C' => 
+        'C' =>
         array (
             'Composer\\CaBundle\\' => 18,
             'CoenJacobs\\Mozart\\' => 18,
         ),
-        'A' => 
+        'A' =>
         array (
             'Abraham\\TwitterOAuth\\' => 21,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'myPHPNotes\\' => 
+        'myPHPNotes\\' =>
         array (
             0 => __DIR__ . '/..' . '/wpdevelopers/linkedin-sdk-php',
         ),
-        'WPSP\\' => 
+        'WPSP\\' =>
         array (
             0 => __DIR__ . '/../..' . '/includes',
         ),
-        'Symfony\\Polyfill\\Php80\\' => 
+        'Symfony\\Polyfill\\Php80\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php80',
         ),
-        'Symfony\\Polyfill\\Php73\\' => 
+        'Symfony\\Polyfill\\Php73\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php73',
         ),
-        'Symfony\\Polyfill\\Mbstring\\' => 
+        'Symfony\\Polyfill\\Mbstring\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
         ),
-        'Symfony\\Contracts\\Service\\' => 
+        'Symfony\\Contracts\\Service\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/service-contracts',
         ),
-        'Symfony\\Component\\Finder\\' => 
+        'Symfony\\Component\\Finder\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/finder',
         ),
-        'Symfony\\Component\\Console\\' => 
+        'Symfony\\Component\\Console\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/console',
         ),
-        'Psr\\Container\\' => 
+        'Psr\\Container\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
         ),
-        'PriyoMukul\\WPNotice\\' => 
+        'PriyoMukul\\WPNotice\\' =>
         array (
             0 => __DIR__ . '/..' . '/priyomukul/wp-notice/src',
         ),
-        'League\\Flysystem\\' => 
+        'League\\Flysystem\\' =>
         array (
             0 => __DIR__ . '/..' . '/league/flysystem/src',
         ),
-        'Facebook\\' => 
+        'Facebook\\' =>
         array (
             0 => __DIR__ . '/..' . '/facebook/graph-sdk/src/Facebook',
         ),
-        'DirkGroenen\\Pinterest\\' => 
+        'DirkGroenen\\Pinterest\\' =>
         array (
             0 => __DIR__ . '/..' . '/wpdevelopers/pinterest-api-php/src/Pinterest',
         ),
-        'Composer\\CaBundle\\' => 
+        'Composer\\CaBundle\\' =>
         array (
             0 => __DIR__ . '/..' . '/composer/ca-bundle/src',
         ),
-        'CoenJacobs\\Mozart\\' => 
+        'CoenJacobs\\Mozart\\' =>
         array (
             0 => __DIR__ . '/..' . '/coenjacobs/mozart/src',
         ),
-        'Abraham\\TwitterOAuth\\' => 
+        'Abraham\\TwitterOAuth\\' =>
         array (
             0 => __DIR__ . '/..' . '/wpdevelopers/twitteroauth/src',
         ),

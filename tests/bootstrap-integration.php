@@ -2,9 +2,11 @@
 /**
  * PHPUnit bootstrap for SchedulePress (wp-scheduled-posts).
  *
- * Supports two suites (see phpunit.xml):
- *   - unit        : pure PHP, only Composer autoload is required (no database).
- *   - integration : boots the WordPress test environment and loads the plugin.
+ * Boots the WordPress test environment and loads the plugin. Used by
+ * phpunit-integration.xml.
+ *
+ * The `unit` suite has its own bootstrap (tests/bootstrap-unit.php) and never
+ * loads WordPress.
  *
  * The WordPress test library is located via the WP_TESTS_DIR env var, falling
  * back to the system temp dir. Install it with:
@@ -29,15 +31,17 @@ if ( ! $_tests_dir ) {
 	$_tests_dir = rtrim( sys_get_temp_dir(), '/\\' ) . '/wordpress-tests-lib';
 }
 
-// If the WP test library is not present, keep going: the `unit` suite can still
-// run. Only the `integration` suite needs WordPress.
+// A missing test library is a hard failure. Returning quietly here used to let
+// the run finish green having executed nothing, which is worse than no tests at
+// all: it looks like passing evidence.
 if ( ! file_exists( $_tests_dir . '/includes/functions.php' ) ) {
 	fwrite(
 		STDERR,
 		PHP_EOL . "[SchedulePress tests] WordPress test library not found at {$_tests_dir}." . PHP_EOL
-		. "Integration tests are skipped. Run bin/install-wp-tests.sh to enable them." . PHP_EOL . PHP_EOL
+		. "Run bin/install-wp-tests.sh to install it, or run the unit suite with" . PHP_EOL
+		. "  phpunit --configuration phpunit.xml" . PHP_EOL . PHP_EOL
 	);
-	return;
+	exit( 1 );
 }
 
 require_once $_tests_dir . '/includes/functions.php';

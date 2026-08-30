@@ -19,8 +19,14 @@ JS/asset builds use `@wordpress/scripts` (wp-scripts). See [package.json](packag
 
 PHP / tests:
 - `composer install` — installs PHP libs (social SDKs, guzzle) declared in [composer.json](composer.json). Third-party deps are prefixed into `includes/Deps/` by **Mozart** (`WPSP\Deps\`) — do NOT edit `includes/Deps/` by hand.
-- `bin/install-wp-tests.sh <db-name> <db-user> <db-pass> [db-host] [wp-version]` — provisions the WordPress PHPUnit test library (required before running tests).
-- `vendor/bin/phpunit` — runs the suite (config: [phpunit.xml](phpunit.xml), bootstrap: [tests/bootstrap.php](tests/bootstrap.php)). Two suites: `unit` (`tests/unit/`, no WordPress needed) and `integration` (`tests/integration/`, boots the WP test env). Filter with `--testsuite unit` or `--testsuite integration`. Test files use the `*Test.php` suffix. The `WPSP_TESTING` constant is defined during tests.
+- `bin/install-wp-tests.sh <db-name> <db-user> <db-pass> [db-host] [wp-version]` — provisions the WordPress PHPUnit test library (required for the integration suite only).
+- `vendor/bin/phpunit` — the two suites have separate configs and separate bootstraps, because they need different things:
+  - `vendor/bin/phpunit --configuration phpunit.xml` — the `unit` suite (`tests/unit/`). Pure PHP: Composer autoload plus the WordPress function stubs in `tests/stubs/wp-functions.php`. No WordPress, no database.
+  - `vendor/bin/phpunit --configuration phpunit-integration.xml` — the `integration` suite (`tests/integration/`), which boots the WP test env.
+
+  Test files use the `*Test.php` suffix and `WPSP_TESTING` is defined during tests. Both configs set `failOnEmptyTestSuite`, and the integration bootstrap exits non-zero when the WP test library is missing: a run that executes no tests must never exit 0.
+
+  Do not add `includes/functions.php` (or anything else that `exit`s without `ABSPATH`) back to Composer's `files` autoload. That autoload runs inside the PHPUnit binary, where the exit guard killed the process before PHPUnit printed anything — a green exit code with zero tests run. The plugin requires it explicitly from `wp-scheduled-posts.php` instead.
 - `vendor/bin/phpcs --standard=phpcs.xml` — coding standards ([phpcs.xml](phpcs.xml)).
 
 ## Architecture

@@ -18,6 +18,11 @@ else {
 	if (file_exists(dirname(__FILE__) . '/vendor/autoload.php')) {
 		require_once dirname(__FILE__) . '/vendor/autoload.php';
 	}
+	// Loaded here rather than through Composer's `files` autoload. That autoload
+	// runs in any PHP process that pulls in vendor/autoload.php, including the
+	// PHPUnit binary, where functions.php hit its `exit` guard and killed the
+	// run before PHPUnit printed anything -- a green exit 0 with zero tests.
+	require_once dirname(__FILE__) . '/includes/functions.php';
 	// Plugin Start
 	WPSP_Start();
 }
