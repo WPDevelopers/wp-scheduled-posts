@@ -302,8 +302,12 @@ class PostPanel {
 
         if ( ! $is_active ) {
             // A stale row is not active state, but it should not be left behind.
-            if ( ! empty( $prevent_future_post ) ) {
-                delete_post_meta( $post_id, 'prevent_future_post' );
+            if ( '' !== $prevent_future_post
+                && ! delete_post_meta( $post_id, 'prevent_future_post' ) ) {
+                return new \WP_REST_Response( [
+                    'success' => false,
+                    'message' => __( 'Could not clear the stored publishing intent.', 'wp-scheduled-posts' ),
+                ], 500 );
             }
 
             // Idempotent: nothing to turn off, and the post status is untouched.
@@ -332,16 +336,31 @@ class PostPanel {
                 'post_status' => 'future',
             ], true );
 
-            if ( is_wp_error( $updated ) ) {
+            if ( is_wp_error( $updated ) || ! $updated ) {
                 // Put the intent back. Leaving it deleted after a failed
                 // reschedule strands the post published on a date it has not
                 // reached, with nothing to re-assert that state on the next save
                 // and nothing left for the user to turn off.
-                update_post_meta( $post_id, 'prevent_future_post', $prevent_future_post );
+                $restored = update_post_meta( $post_id, 'prevent_future_post', $prevent_future_post );
+                $update_error = is_wp_error( $updated )
+                    ? $updated->get_error_message()
+                    : __( 'WordPress did not update the post.', 'wp-scheduled-posts' );
+
+                if ( false === $restored
+                    && get_post_meta( $post_id, 'prevent_future_post', true ) !== $prevent_future_post ) {
+                    return new \WP_REST_Response( [
+                        'success' => false,
+                        'message' => sprintf(
+                            /* translators: %s is the post update error returned by WordPress. */
+                            __( 'Could not reschedule the post, and could not restore the stored publishing intent. WordPress reported: %s', 'wp-scheduled-posts' ),
+                            $update_error
+                        ),
+                    ], 500 );
+                }
 
                 return new \WP_REST_Response( [
                     'success' => false,
-                    'message' => $updated->get_error_message(),
+                    'message' => $update_error,
                 ], 500 );
             }
 
@@ -428,6 +447,14 @@ class PostPanel {
             );
         }
 
+        // Keep scalar copies. A post object may be backed by a mutable cache,
+        // so retaining the object alone is not a reliable rollback snapshot.
+        $prior_post = [
+            'post_status'   => $post->post_status,
+            'post_date'     => $post->post_date,
+            'post_date_gmt' => $post->post_date_gmt,
+        ];
+
         // Bypass WordPress forcing 'future' status when the date is in the future.
         // Scoped to this post so nothing else saved during the request is affected.
         $filter_callback = function ( $data, $postarr ) use ( $post_id ) {
@@ -459,7 +486,44 @@ class PostPanel {
         // Persist the intent, otherwise the next save lets WordPress force the
         // post back to 'future'. The filter in includes/functions.php re-asserts
         // 'publish' for as long as this meta matches the post date.
-        update_post_meta( $post_id, 'prevent_future_post', get_post( $post_id )->post_date );
+        $intent_date = get_post( $post_id )->post_date;
+        $meta_saved  = update_post_meta( $post_id, 'prevent_future_post', $intent_date );
+
+        // update_post_meta() also returns false when the stored value was
+        // already identical. Read it back before treating false as a failure.
+        if ( false === $meta_saved
+            && get_post_meta( $post_id, 'prevent_future_post', true ) !== $intent_date ) {
+            // Publishing succeeded but its guard could not be persisted. Put
+            // the post back exactly as it was so the endpoint never reports a
+            // durable immediate publish when the next save could undo it.
+            $rolled_back = wp_update_post( [
+                'ID'            => $post_id,
+                'post_status'   => $prior_post['post_status'],
+                'post_date'     => $prior_post['post_date'],
+                'post_date_gmt' => $prior_post['post_date_gmt'],
+                'edit_date'     => true,
+            ], true );
+
+            if ( is_wp_error( $rolled_back ) || ! $rolled_back ) {
+                $rollback_error = is_wp_error( $rolled_back )
+                    ? $rolled_back->get_error_message()
+                    : __( 'WordPress did not restore the post.', 'wp-scheduled-posts' );
+
+                return new \WP_Error(
+                    'wpsp_intent_save_and_rollback_failed',
+                    sprintf(
+                        /* translators: %s is the post rollback error returned by WordPress. */
+                        __( 'The publishing intent could not be saved, and the post could not be restored. WordPress reported: %s', 'wp-scheduled-posts' ),
+                        $rollback_error
+                    )
+                );
+            }
+
+            return new \WP_Error(
+                'wpsp_intent_save_failed',
+                __( 'The publishing intent could not be saved. The post was restored to its previous schedule.', 'wp-scheduled-posts' )
+            );
+        }
 
         // Let Pro (when active) reschedule its unpublish/republish cron jobs.
         do_action( 'wpsp_pro_update_post', $post_id );

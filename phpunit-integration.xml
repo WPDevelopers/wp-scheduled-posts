@@ -4,14 +4,17 @@
   Requires bin/install-wp-tests.sh to have been run.
 -->
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.6/phpunit.xsd"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/8.5/phpunit.xsd"
          bootstrap="tests/bootstrap-integration.php"
          colors="true"
-         failOnEmptyTestSuite="true"
-         failOnWarning="true">
+         failOnWarning="true"
+         failOnRisky="true">
     <testsuites>
         <testsuite name="integration">
             <directory suffix="Test.php">tests/integration</directory>
         </testsuite>
     </testsuites>
+    <listeners>
+        <listener class="WPSP\Tests\ZeroTestsListener"/>
+    </listeners>
 </phpunit>

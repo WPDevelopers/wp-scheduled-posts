@@ -158,7 +158,17 @@ class ReconnectHandler
             );
         }
 
-        // Step 2: Decode the JSON data
+        // Step 2: Decode the JSON data. The option is expected to be the JSON
+        // string written by the settings API, but a damaged/legacy row may be
+        // an array or another type. Passing that directly to json_decode()
+        // throws a TypeError on supported modern PHP versions.
+        if (!is_string($option_data)) {
+            return new \WP_Error(
+                'reconnect_settings_malformed',
+                __('Plugin settings are not in the expected format.', 'wp-scheduled-posts')
+            );
+        }
+
         $data = json_decode($option_data, true);
         if (!isset($data[$profile_list_key]) || !is_array($data[$profile_list_key])) {
             return new \WP_Error(

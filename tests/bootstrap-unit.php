@@ -25,4 +25,5 @@ if ( ! file_exists( $_plugin_dir . '/vendor/autoload.php' ) ) {
 
 require_once $_plugin_dir . '/vendor/autoload.php';
 
+require_once __DIR__ . '/ZeroTestsListener.php';
 require_once __DIR__ . '/stubs/wp-functions.php';

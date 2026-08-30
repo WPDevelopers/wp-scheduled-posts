@@ -2,15 +2,14 @@
 <!--
   Unit suite: pure PHP, no WordPress, no database.
 
-  failOnEmptyTestSuite and failOnWarning are deliberate. A run that discovers
-  no tests used to exit 0, which reads as passing evidence for work that was
-  never verified.
+  ZeroTestsListener and failOnWarning are deliberate. PHPUnit 8 otherwise lets
+  a run that executes no tests exit 0, which looks like passing evidence for
+  work that was never verified.
 -->
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.6/phpunit.xsd"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/8.5/phpunit.xsd"
          bootstrap="tests/bootstrap-unit.php"
          colors="true"
-         failOnEmptyTestSuite="true"
          failOnWarning="true"
          failOnRisky="true"
          beStrictAboutOutputDuringTests="true"
@@ -22,4 +21,7 @@
             <directory suffix="Test.php">tests/unit</directory>
         </testsuite>
     </testsuites>
+    <listeners>
+        <listener class="WPSP\Tests\ZeroTestsListener"/>
+    </listeners>
 </phpunit>

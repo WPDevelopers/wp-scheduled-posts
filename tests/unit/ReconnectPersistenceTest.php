@@ -113,6 +113,15 @@ class ReconnectPersistenceTest extends TestCase {
 		$this->assertSame( 'reconnect_settings_malformed', $result->get_error_code() );
 	}
 
+	public function test_non_string_settings_are_an_error_instead_of_throwing() {
+		OptionStore::seed( self::OPTION_NAME, array( self::LIST_KEY => array() ) );
+
+		$result = $this->save( 'ig-1' );
+
+		$this->assertInstanceOf( \WP_Error::class, $result );
+		$this->assertSame( 'reconnect_settings_malformed', $result->get_error_code() );
+	}
+
 	public function test_missing_profile_list_is_an_error() {
 		OptionStore::seed( self::OPTION_NAME, json_encode( array( 'facebook_profile_list' => array() ) ) );
 

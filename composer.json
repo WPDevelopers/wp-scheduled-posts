@@ -65,10 +65,10 @@
     },
     "require-dev": {
         "coenjacobs/mozart": "0.6.0",
-        "phpunit/phpunit": "^9.6"
+        "phpunit/phpunit": "^8.5"
     },
     "scripts": {
-        "test": "phpunit --configuration phpunit.xml",
-        "test:integration": "phpunit --configuration phpunit-integration.xml"
+        "test": "@php tests/run-phpunit.php --configuration phpunit.xml",
+        "test:integration": "@php tests/run-phpunit.php --configuration phpunit-integration.xml"
     }
 }

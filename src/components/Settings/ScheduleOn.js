@@ -2,6 +2,7 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { AppContext } from '../../context/AppContext';
 import PublishImmediately, { PublishImmediatelyActive } from './PublishImmediately';
 import { getPostPanelSettings } from '../../helper/helper';
+import { syncCurrentPostStatus } from './postStatusSync';
 const { DateTimePicker, Popover, Button } = wp.components;
 const { __ } = wp.i18n;
 const { useSelect } = wp.data;
@@ -126,6 +127,7 @@ const ScheduleOn = () => {
     // nor the localized globals hear about a raw apiFetch() mutation, so without
     // this the panel keeps rendering the pre-clear status until a reload.
     const [serverPostStatus, setServerPostStatus] = useState(null);
+    const [statusSyncError, setStatusSyncError] = useState('');
 
     useEffect(() => {
         if (!postId) return;
@@ -144,36 +146,25 @@ const ScheduleOn = () => {
     const isScheduled = effectivePostStatus == 'future' ? true : false;
     const isPublished = effectivePostStatus == 'publish' ? true : false;
 
-    // Push a server-side status change into the Gutenberg store so the rest of
-    // the editor agrees with the panel. This writes the *persisted* record, not
-    // an edit: dispatching editPost() would mark the post dirty and offer to
-    // save a change the user never made. No-ops in Classic and Elementor, which
-    // have no editor store; the local status above covers the panel there.
-    const syncEditorPostStatus = (status) => {
-        try {
-            const editor = wp.data.select('core/editor');
-            const postType = editor?.getCurrentPostType?.();
-            const currentId = editor?.getCurrentPostId?.();
-            if (!postType || !currentId) return;
-            const record = wp.data.select('core').getEntityRecord('postType', postType, currentId);
-            if (!record) return;
-            wp.data.dispatch('core').receiveEntityRecords(
-                'postType',
-                postType,
-                { ...record, status },
-                undefined,
-                false
-            );
-        } catch (e) {}
-    };
-
     const handleIntentCleared = (res) => {
         const nextStatus = res?.data?.post_status;
-        if (nextStatus) {
-            setServerPostStatus(nextStatus);
-            syncEditorPostStatus(nextStatus);
+        if (!nextStatus) {
+            const message = __('The schedule was restored, but the server did not return the current post status. Reload this editor before continuing.', 'wp-scheduled-posts');
+            setStatusSyncError(message);
+            console.error(message, res);
+            return;
         }
-        setPreventFuturePost(false);
+
+        setServerPostStatus(nextStatus);
+        try {
+            syncCurrentPostStatus(nextStatus);
+            setStatusSyncError('');
+            setPreventFuturePost(false);
+        } catch (error) {
+            const message = __('The schedule was restored, but this editor could not refresh its post status. Reload this editor before continuing.', 'wp-scheduled-posts');
+            setStatusSyncError(message);
+            console.error(message, error);
+        }
     };
 
     const publishImmediatelyBtn = window.WPSchedulePostsFree?.publishImmediately || window.WPSchedulePosts?.publishImmediately || 'Current Date';
@@ -304,10 +295,17 @@ const ScheduleOn = () => {
                     )}
 
                     { panelStateLoaded && preventFuturePost && (
-                        <PublishImmediatelyActive
-                            postId={postId}
-                            onCleared={handleIntentCleared}
-                        />
+                        <>
+                            <PublishImmediatelyActive
+                                postId={postId}
+                                onCleared={handleIntentCleared}
+                            />
+                            { statusSyncError && (
+                                <p className="sc-publish-future-notice" role="alert">
+                                    { statusSyncError }
+                                </p>
+                            ) }
+                        </>
                     )}
                 </div>
             </div>

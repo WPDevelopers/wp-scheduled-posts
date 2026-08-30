@@ -35,7 +35,9 @@ class SelectedProfilesParamTest extends TestCase {
 		$class          = new ReflectionClass( InstantShare::class );
 		$this->instance = $class->newInstanceWithoutConstructor();
 		$this->method   = $class->getMethod( 'get_selected_profiles_param' );
-		$this->method->setAccessible( true );
+		if ( PHP_VERSION_ID < 80100 ) {
+			$this->method->setAccessible( true );
+		}
 
 		$_REQUEST = array();
 	}

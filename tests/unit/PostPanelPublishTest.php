@@ -11,6 +11,27 @@
  * @package WPScheduledPosts
  */
 
+namespace WPSP\API;
+
+use WPSP\Tests\Stubs\MetaStore;
+
+/**
+ * Test-local override so rollback write failures can be exercised without
+ * changing the shared WordPress stubs used by other unit tests.
+ */
+function update_post_meta( $post_id, $key, $value ) {
+	\WPSP\Tests\Unit\PostPanelPublishTest::$lastMetaUpdateValue = $value;
+	if ( \WPSP\Tests\Unit\PostPanelPublishTest::$failMetaUpdate ) {
+		return false;
+	}
+	if ( MetaStore::get( (int) $post_id, $key ) === $value ) {
+		return false;
+	}
+
+	MetaStore::set( (int) $post_id, $key, $value );
+	return true;
+}
+
 namespace WPSP\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
@@ -25,12 +46,20 @@ class PostPanelPublishTest extends TestCase {
 	const POST_ID  = 7;
 	const META_KEY = 'prevent_future_post';
 
+	/** @var bool Make the test-local update_post_meta() override fail. */
+	public static $failMetaUpdate = false;
+
+	/** @var mixed Exact value most recently passed to update_post_meta(). */
+	public static $lastMetaUpdateValue;
+
 	/** @var PostPanel */
 	private $panel;
 
 	protected function setUp(): void {
 		parent::setUp();
 		PostStore::reset();
+		self::$failMetaUpdate       = false;
+		self::$lastMetaUpdateValue = null;
 		// The constructor only registers a hook; skip it rather than stub the
 		// whole plugin bootstrap.
 		$this->panel = ( new ReflectionClass( PostPanel::class ) )->newInstanceWithoutConstructor();
@@ -149,6 +178,41 @@ class PostPanelPublishTest extends TestCase {
 		$this->assertContains( 'wpsp_pro_update_post', PostStore::$firedActions );
 	}
 
+	public function test_future_date_publish_accepts_false_meta_result_when_readback_is_exact() {
+		$date = $this->seedFuturePost();
+		MetaStore::set( self::POST_ID, self::META_KEY, $date );
+
+		$response = $this->publish( array( 'publish_immediately_future_date' => true ) );
+
+		$this->assertSame( 200, $response->get_status() );
+		$this->assertSame( 'publish', PostStore::get( self::POST_ID )->post_status );
+		$this->assertSame( $date, MetaStore::get( self::POST_ID, self::META_KEY ) );
+		$this->assertContains( 'wpsp_pro_update_post', PostStore::$firedActions );
+	}
+
+	public function test_failed_intent_persistence_rolls_publish_back_exactly() {
+		$date = $this->seedFuturePost();
+		self::$failMetaUpdate = true;
+
+		$response = $this->publish( array( 'publish_immediately_future_date' => true ) );
+
+		$this->assertSame( 500, $response->get_status() );
+		$this->assertFalse( $response->get_data()['success'] );
+		$this->assertSame( 'future', PostStore::get( self::POST_ID )->post_status );
+		$this->assertSame( $date, PostStore::get( self::POST_ID )->post_date );
+		$this->assertSame( $date, PostStore::get( self::POST_ID )->post_date_gmt );
+		$this->assertSame( '', MetaStore::get( self::POST_ID, self::META_KEY ) );
+	}
+
+	public function test_failed_intent_persistence_does_not_notify_pro() {
+		$this->seedFuturePost();
+		self::$failMetaUpdate = true;
+
+		$this->publish( array( 'publish_immediately_future_date' => true ) );
+
+		$this->assertNotContains( 'wpsp_pro_update_post', PostStore::$firedActions );
+	}
+
 	public function test_current_date_publish_succeeds() {
 		$this->seedFuturePost();
 
@@ -200,6 +264,21 @@ class PostPanelPublishTest extends TestCase {
 		$this->clear();
 
 		$this->assertSame( '', MetaStore::get( self::POST_ID, self::META_KEY ) );
+	}
+
+	public function test_failed_stale_intent_delete_is_a_server_error() {
+		$date       = $this->futureDate();
+		$stale_date = $this->pastDate();
+		PostStore::seed( self::POST_ID, 'publish', $date, $date );
+		MetaStore::set( self::POST_ID, self::META_KEY, $stale_date );
+		PostStore::$failMetaDelete = true;
+
+		$response = $this->clear();
+
+		$this->assertSame( 500, $response->get_status() );
+		$this->assertFalse( $response->get_data()['success'] );
+		$this->assertSame( $stale_date, MetaStore::get( self::POST_ID, self::META_KEY ) );
+		$this->assertSame( 'publish', PostStore::get( self::POST_ID )->post_status );
 	}
 
 	// ── clear_publish_immediately: the real undo ────────────────────────────
@@ -256,6 +335,26 @@ class PostPanelPublishTest extends TestCase {
 			MetaStore::get( self::POST_ID, self::META_KEY ),
 			'A failed reschedule must not leave the post unprotected.'
 		);
+		$this->assertSame( $date, self::$lastMetaUpdateValue );
+	}
+
+	public function test_failed_reschedule_reports_failed_intent_restoration() {
+		$date = $this->futureDate();
+		PostStore::seed( self::POST_ID, 'publish', $date, $date );
+		MetaStore::set( self::POST_ID, self::META_KEY, $date );
+		PostStore::$failUpdateWith = 'db_error';
+		self::$failMetaUpdate      = true;
+
+		$response = $this->clear();
+
+		$this->assertSame( 500, $response->get_status() );
+		$this->assertFalse( $response->get_data()['success'] );
+		$this->assertStringContainsString(
+			'could not restore the stored publishing intent',
+			$response->get_data()['message']
+		);
+		$this->assertSame( $date, self::$lastMetaUpdateValue );
+		$this->assertSame( '', MetaStore::get( self::POST_ID, self::META_KEY ) );
 	}
 
 	public function test_failed_meta_delete_is_a_server_error() {

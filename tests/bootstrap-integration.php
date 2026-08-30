@@ -26,6 +26,8 @@ if ( file_exists( $_plugin_dir . '/vendor/autoload.php' ) ) {
 	require_once $_plugin_dir . '/vendor/autoload.php';
 }
 
+require_once __DIR__ . '/ZeroTestsListener.php';
+
 $_tests_dir = getenv( 'WP_TESTS_DIR' );
 if ( ! $_tests_dir ) {
 	$_tests_dir = rtrim( sys_get_temp_dir(), '/\\' ) . '/wordpress-tests-lib';
