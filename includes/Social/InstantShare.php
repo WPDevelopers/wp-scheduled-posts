@@ -480,8 +480,10 @@ class InstantShare
             $selected = [ $selected ];
         }
 
+        // Anything else that is neither scalar nor array asked for something in
+        // a shape nothing can be read from. Fail closed, same as below.
         if ( ! is_array( $selected ) ) {
-            return [];
+            return [ '' ];
         }
 
         // Nested arrays would fatal in sanitize_text_field() on PHP 8.
