@@ -213,7 +213,7 @@ class Medium
         // get social share type 
         $get_share_type =   get_post_meta($post_id, '_medium_share_type', true);
         if( $get_share_type === 'custom' ) {
-            $get_all_selected_profile     = get_post_meta($post_id, '_selected_social_profile', true);
+            $get_all_selected_profile     = Helper::get_selected_social_profiles($post_id);
             $check_profile_exists         = Helper::is_profile_exits( $medium_id, $get_all_selected_profile );
             if( !$check_profile_exists ) {
                 return;
