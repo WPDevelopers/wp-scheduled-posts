@@ -1209,6 +1209,7 @@ class Admin
             'facebook' => ['type'],
             'pinterest' => ['default_board_name', 'defaultSection'],
         ];
+        $formattedData = [];
         foreach ($selectedSocialProfiles as $key => $item) {
             $platform = '';
             if (property_exists($item, 'urn')) {
