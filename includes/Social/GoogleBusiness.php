@@ -429,6 +429,11 @@ class GoogleBusiness
         if ($is_share_on_publish) {
             return;
         }
+        // remote_post() bails with a bare `return;` on its skip conditions, so this can be
+        // null. Without the guard the array access warns and the UI shows a blank error.
+        if ( !is_array($response) ) {
+            wp_send_json_error(__('Sharing was skipped for this profile. Check the post\'s social share settings.', 'wp-scheduled-posts'));
+        }
         if ($response['success'] == false) {
             wp_send_json_error($response['log']);
         } else {
