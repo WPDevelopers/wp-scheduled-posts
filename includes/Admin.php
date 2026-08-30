@@ -663,9 +663,9 @@ class Admin
         $threadsShareType = get_post_meta(get_the_ID(), '_threads_share_type', true);
         $googleBusinessShareType = get_post_meta(get_the_ID(), '_google_business_share_type', true);
         // get all selected social profile 
-        $allSelectedSocialProfiles = get_post_meta(get_the_ID(), '_selected_social_profile', true);
-        $filteredSelectedProfiles = array_map([$this, 'wpsp_filter_selected_profile_object'], !empty($allSelectedSocialProfiles) ? $allSelectedSocialProfiles : []);
-        $getPinterestSections = array_map([$this, 'wpsp_get_pinterest_sections'], !empty($allSelectedSocialProfiles) ? $allSelectedSocialProfiles : []);
+        $allSelectedSocialProfiles = Helper::get_selected_social_profiles(get_the_ID());
+        $filteredSelectedProfiles = array_map([$this, 'wpsp_filter_selected_profile_object'], $allSelectedSocialProfiles);
+        $getPinterestSections = array_map([$this, 'wpsp_get_pinterest_sections'], $allSelectedSocialProfiles);
         $getPinterestSections = array_filter($getPinterestSections, function ($item) {
             return !empty($item);
         });
@@ -1184,7 +1184,7 @@ class Admin
     public function get_pinterest_from_meta($pinterest)
     {
         if (!empty($pinterest)) {
-            $get_selected_profiles = get_post_meta(get_the_ID(), '_selected_social_profile', true);
+            $get_selected_profiles = Helper::get_selected_social_profiles(get_the_ID());
             if (!empty($get_selected_profiles)) {
                 $pinterestSelectedProfile = array_filter($get_selected_profiles, function ($profile) use ($pinterest) {
                     return isset($profile->default_board_name->value) && isset($pinterest->default_board_name->value) && $profile->default_board_name->value == $pinterest->default_board_name->value;

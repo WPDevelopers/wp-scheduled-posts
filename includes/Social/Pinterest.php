@@ -300,7 +300,7 @@ class Pinterest
         // get social share type 
         $get_share_type =   get_post_meta($post_id, '_pinterest_share_type', true);
         if( $get_share_type === 'custom' ) {
-            $get_all_selected_profile     = get_post_meta($post_id, '_selected_social_profile', true);
+            $get_all_selected_profile     = Helper::get_selected_social_profiles($post_id);
             if( is_object( $board_name ) ) {
                 $check_profile_exists         = Helper::is_profile_exits( $board_name->value, $get_all_selected_profile );
             }else{

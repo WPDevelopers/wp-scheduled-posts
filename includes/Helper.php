@@ -529,7 +529,23 @@ class Helper
         return true;
     }
 
+    /**
+     * Get the selected social profiles of a post.
+     *
+     * The meta can come back as a string when the row holds a doubly serialized
+     * value, which WordPress produces whenever an already serialized string is
+     * handed to update_post_meta(). Unserialize once more to recover the real
+     * value and fall back to an empty array for anything else.
+     */
+    public static function get_selected_social_profiles($post_id) {
+        $profiles = maybe_unserialize( get_post_meta( $post_id, '_selected_social_profile', true ) );
+        return is_array( $profiles ) ? $profiles : [];
+    }
+
     public static function is_profile_exits($ID, $profiles) {
+        if (!is_array($profiles)) {
+            return false;
+        }
         foreach ($profiles as $item) {
             if (isset($item['id']) && $item['id'] === $ID) {
                 return $item;
