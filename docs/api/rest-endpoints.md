@@ -118,9 +118,10 @@ validated against each platform's character budget
 
 | Method | Route | Callback | Params | Response |
 | --- | --- | --- | --- | --- |
-| `GET` | `wp-scheduled-posts/v1/post-panel/{post_id}` | `get_settings` | `post_id` | `{ success: true, data: { schedule_date, post_status } }` (404 if the post is missing) |
+| `GET` | `wp-scheduled-posts/v1/post-panel/{post_id}` | `get_settings` | `post_id` | `{ success: true, data: { schedule_date, post_status, prevent_future_post, prevent_future_post_date } }` (404 if the post is missing). `prevent_future_post` is true only while the stored meta still matches `post_date`, which is the condition under which it keeps forcing `publish`. |
 | `POST` | `wp-scheduled-posts/v1/post-panel/{post_id}` | `save_settings` | `post_id`, `schedule_date` (string), `is_scheduled` (bool) | `{ success: true, message }` |
 | `POST` | `wp-scheduled-posts/v1/update-settings/{post_id}` | `publish_immediately` | `post_id`, `publish_immediately_current_date` (bool), `publish_immediately_future_date` (bool) | `{ success: true, message }` |
+| `DELETE` | `wp-scheduled-posts/v1/update-settings/{post_id}` | `clear_publish_immediately` | `post_id` | Deletes the `prevent_future_post` meta. When the post is still dated in the future it is returned to `future` so WordPress schedules it again. `{ success: true, message, data: { post_status, prevent_future_post: false, rescheduled } }` |
 
 `save_settings` handles only the free-tier `schedule_date` field (setting a future
 `post_date` and `future` status), then fires

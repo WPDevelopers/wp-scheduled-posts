@@ -1,6 +1,7 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { AppContext } from '../../context/AppContext';
-import PublishImmediately from './PublishImmediately';
+import PublishImmediately, { PublishImmediatelyActive } from './PublishImmediately';
+import { getPostPanelSettings } from '../../helper/helper';
 const { DateTimePicker, Popover, Button } = wp.components;
 const { __ } = wp.i18n;
 const { useSelect } = wp.data;
@@ -116,6 +117,20 @@ const ScheduleOn = () => {
 
     const isScheduled = postStatus == 'future' ? true : false;
     const isPublished = postStatus == 'publish' ? true : false;
+
+    // Whether this post is carrying the prevent_future_post intent. It is not
+    // in the editor store, so it has to come from the panel endpoint; without
+    // it the state is active with nothing on screen saying so.
+    const [preventFuturePost, setPreventFuturePost] = useState(false);
+
+    useEffect(() => {
+        if (!postId) return;
+        let cancelled = false;
+        getPostPanelSettings(postId).then((res) => {
+            if (!cancelled) setPreventFuturePost(!!res?.data?.prevent_future_post);
+        }).catch(() => {});
+        return () => { cancelled = true; };
+    }, [postId]);
 
     const publishImmediatelyBtn = window.WPSchedulePostsFree?.publishImmediately || window.WPSchedulePosts?.publishImmediately || 'Current Date';
     const publishFutureDateBtn = window.WPSchedulePostsFree?.publishFutureDate || window.WPSchedulePosts?.publishFutureDate || 'Future Date';
@@ -234,13 +249,20 @@ const ScheduleOn = () => {
 
                     </div>
 
-                    { isScheduled && !isPublished && (
+                    { isScheduled && !isPublished && !preventFuturePost && (
                         <PublishImmediately 
                             state={state}
                             dispatch={dispatch}
                             postId={postId}
                             publishImmediatelyBtn={publishImmediatelyBtn}
                             publishFutureDateBtn={publishFutureDateBtn}
+                        />
+                    )}
+
+                    { preventFuturePost && (
+                        <PublishImmediatelyActive
+                            postId={postId}
+                            onCleared={() => setPreventFuturePost(false)}
                         />
                     )}
                 </div>

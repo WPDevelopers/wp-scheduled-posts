@@ -78,6 +78,22 @@ class PostPanel {
                 ],
             ],
         ] );
+
+        // Turning "publish future post immediately" back off. Without this the
+        // intent is sticky and invisible: it survives every later save, and the
+        // buttons that set it are hidden once the post reaches 'publish'.
+        register_rest_route( $namespace, '/update-settings/(?P<post_id>\d+)', [
+            'methods'             => \WP_REST_Server::DELETABLE,
+            'callback'            => [ $this, 'clear_publish_immediately' ],
+            'permission_callback' => [ $this, 'permission_check' ],
+            'args'                => [
+                'post_id' => [
+                    'required'          => true,
+                    'validate_callback' => fn( $param ) => is_numeric( $param ),
+                    'sanitize_callback' => 'absint',
+                ],
+            ],
+        ] );
     }
 
     /**
@@ -115,11 +131,20 @@ class PostPanel {
             ], 404 );
         }
 
+        // The stored value is the post_date the intent was recorded against.
+        // includes/functions.php only keeps forcing 'publish' while the two
+        // still match, so a stale row is not active state and is not reported.
+        $prevent_future_post = get_post_meta( $post_id, 'prevent_future_post', true );
+        $is_preventing       = ! empty( $prevent_future_post )
+            && $prevent_future_post === $post->post_date;
+
         return new \WP_REST_Response( [
             'success' => true,
             'data'    => [
-                'schedule_date' => $post->post_status === 'future' ? $post->post_date : '',
-                'post_status'   => $post->post_status,
+                'schedule_date'            => $post->post_status === 'future' ? $post->post_date : '',
+                'post_status'              => $post->post_status,
+                'prevent_future_post'      => $is_preventing,
+                'prevent_future_post_date' => $is_preventing ? $prevent_future_post : '',
             ],
         ], 200 );
     }
@@ -213,6 +238,63 @@ class PostPanel {
         return new \WP_REST_Response( [
             'success' => true,
             'message' => __( 'Post published successfully.', 'wp-scheduled-posts' ),
+        ], 200 );
+    }
+
+    /**
+     * DELETE handler – turn "publish future post immediately" back off.
+     *
+     * Deletes the prevent_future_post meta and, when the post is still dated in
+     * the future, returns it to 'future' so WordPress schedules it again. That
+     * is the actual undo: leaving the post published while dropping the meta
+     * would keep it visible with a date it has not reached.
+     *
+     * @param \WP_REST_Request $request
+     * @return \WP_REST_Response
+     */
+    public function clear_publish_immediately( \WP_REST_Request $request ) {
+        $post_id = (int) $request->get_param( 'post_id' );
+        $post    = get_post( $post_id );
+
+        if ( ! $post ) {
+            return new \WP_REST_Response( [
+                'success' => false,
+                'message' => __( 'Post not found.', 'wp-scheduled-posts' ),
+            ], 404 );
+        }
+
+        delete_post_meta( $post_id, 'prevent_future_post' );
+
+        $rescheduled = false;
+        if ( $post->post_status === 'publish' && strtotime( $post->post_date_gmt ) > time() ) {
+            $updated = wp_update_post( [
+                'ID'          => $post_id,
+                'post_status' => 'future',
+            ], true );
+
+            if ( is_wp_error( $updated ) ) {
+                return new \WP_REST_Response( [
+                    'success' => false,
+                    'message' => $updated->get_error_message(),
+                ], 500 );
+            }
+
+            $rescheduled = true;
+
+            // Let Pro (when active) reschedule its unpublish/republish cron jobs.
+            do_action( 'wpsp_pro_update_post', $post_id );
+        }
+
+        return new \WP_REST_Response( [
+            'success' => true,
+            'message' => $rescheduled
+                ? __( 'Post returned to its schedule.', 'wp-scheduled-posts' )
+                : __( 'Immediate publishing turned off.', 'wp-scheduled-posts' ),
+            'data'    => [
+                'post_status'         => get_post_status( $post_id ),
+                'prevent_future_post' => false,
+                'rescheduled'         => $rescheduled,
+            ],
         ], 200 );
     }
 
