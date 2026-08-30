@@ -224,21 +224,51 @@ class PostPanel {
             ], 404 );
         }
 
-        $publish_immediately_current_date = $request->get_param( 'publish_immediately_current_date' );
-        $publish_immediately_future_date  = $request->get_param( 'publish_immediately_future_date' );
+        $use_current_date = $this->is_flag_set( $request->get_param( 'publish_immediately_current_date' ) );
+        $use_future_date  = $this->is_flag_set( $request->get_param( 'publish_immediately_future_date' ) );
 
-        if ( $publish_immediately_current_date === true || $publish_immediately_current_date === 'true' ) {
-            $this->handle_post_published( $post_id );
+        // Exactly one action has to be named. Neither flag meant nothing ran and
+        // the route still answered "Post published successfully", and both flags
+        // meant two conflicting writes with only the last one surviving.
+        if ( $use_current_date === $use_future_date ) {
+            return new \WP_REST_Response( [
+                'success' => false,
+                'message' => __( 'Choose exactly one of publish_immediately_current_date or publish_immediately_future_date.', 'wp-scheduled-posts' ),
+            ], 400 );
         }
 
-        if ( $publish_immediately_future_date === true || $publish_immediately_future_date === 'true' ) {
-            $this->handle_post_publish_on_future_date( $post_id );
+        $result = $use_current_date
+            ? $this->handle_post_published( $post_id )
+            : $this->handle_post_publish_on_future_date( $post_id );
+
+        if ( is_wp_error( $result ) ) {
+            $status = $result->get_error_code() === 'wpsp_not_future_dated' ? 400 : 500;
+            return new \WP_REST_Response( [
+                'success' => false,
+                'message' => $result->get_error_message(),
+            ], $status );
         }
 
         return new \WP_REST_Response( [
             'success' => true,
             'message' => __( 'Post published successfully.', 'wp-scheduled-posts' ),
+            'data'    => [
+                'post_status' => get_post_status( $post_id ),
+            ],
         ], 200 );
+    }
+
+    /**
+     * Whether a request flag was actually set.
+     *
+     * The panel sends a JSON boolean, but the same route is reachable with form
+     * encoded input where it arrives as the string "true"/"1".
+     *
+     * @param  mixed $value
+     * @return bool
+     */
+    private function is_flag_set( $value ) {
+        return $value === true || $value === 'true' || $value === 1 || $value === '1';
     }
 
     /**
@@ -263,7 +293,37 @@ class PostPanel {
             ], 404 );
         }
 
-        delete_post_meta( $post_id, 'prevent_future_post' );
+        // Require an active intent, using the same rule the GET handler reports
+        // it by. Without this precondition the route would reschedule any
+        // published future-dated post, including one this feature never touched.
+        $prevent_future_post = get_post_meta( $post_id, 'prevent_future_post', true );
+        $is_active           = ! empty( $prevent_future_post )
+            && $prevent_future_post === $post->post_date;
+
+        if ( ! $is_active ) {
+            // A stale row is not active state, but it should not be left behind.
+            if ( ! empty( $prevent_future_post ) ) {
+                delete_post_meta( $post_id, 'prevent_future_post' );
+            }
+
+            // Idempotent: nothing to turn off, and the post status is untouched.
+            return new \WP_REST_Response( [
+                'success' => true,
+                'message' => __( 'Immediate publishing was not active for this post.', 'wp-scheduled-posts' ),
+                'data'    => [
+                    'post_status'         => $post->post_status,
+                    'prevent_future_post' => false,
+                    'rescheduled'         => false,
+                ],
+            ], 200 );
+        }
+
+        if ( ! delete_post_meta( $post_id, 'prevent_future_post' ) ) {
+            return new \WP_REST_Response( [
+                'success' => false,
+                'message' => __( 'Could not clear the stored publishing intent.', 'wp-scheduled-posts' ),
+            ], 500 );
+        }
 
         $rescheduled = false;
         if ( $post->post_status === 'publish' && strtotime( $post->post_date_gmt ) > time() ) {
@@ -273,6 +333,12 @@ class PostPanel {
             ], true );
 
             if ( is_wp_error( $updated ) ) {
+                // Put the intent back. Leaving it deleted after a failed
+                // reschedule strands the post published on a date it has not
+                // reached, with nothing to re-assert that state on the next save
+                // and nothing left for the user to turn off.
+                update_post_meta( $post_id, 'prevent_future_post', $prevent_future_post );
+
                 return new \WP_REST_Response( [
                     'success' => false,
                     'message' => $updated->get_error_message(),
@@ -302,38 +368,64 @@ class PostPanel {
      * Publish a post immediately using the current date/time.
      *
      * @param int $post_id
+     * @return true|\WP_Error
      */
     public function handle_post_published( $post_id ) {
-        if ( $post_id ) {
-            wp_update_post( [
-                'ID'            => $post_id,
-                'post_status'   => 'publish',
-                'post_date'     => current_time( 'mysql' ),
-                'post_date_gmt' => current_time( 'mysql', 1 ),
-            ] );
+        if ( ! $post_id ) {
+            return new \WP_Error(
+                'wpsp_missing_post',
+                __( 'Post not found.', 'wp-scheduled-posts' )
+            );
         }
+
+        // wp_update_post() returns 0 on failure unless the third argument asks
+        // for a WP_Error, so without it a failed publish was indistinguishable
+        // from a successful one.
+        $updated = wp_update_post( [
+            'ID'            => $post_id,
+            'post_status'   => 'publish',
+            'post_date'     => current_time( 'mysql' ),
+            'post_date_gmt' => current_time( 'mysql', 1 ),
+        ], true );
+
+        if ( is_wp_error( $updated ) ) {
+            return $updated;
+        }
+
+        return true;
     }
 
     /**
      * Publish a future-dated post immediately while preserving its future date.
      *
      * @param int $post_id
-     * @return bool
+     * @return true|\WP_Error
      */
     public function handle_post_publish_on_future_date( $post_id ) {
         if ( ! $post_id ) {
-            return false;
+            return new \WP_Error(
+                'wpsp_missing_post',
+                __( 'Post not found.', 'wp-scheduled-posts' )
+            );
         }
 
         $post = get_post( $post_id );
         if ( ! $post ) {
-            return false;
+            return new \WP_Error(
+                'wpsp_missing_post',
+                __( 'Post not found.', 'wp-scheduled-posts' )
+            );
         }
 
-        // Only proceed if the post date is still in the future.
+        // Only proceed if the post date is still in the future. This is a bad
+        // request rather than a server failure: there is no future date to
+        // publish ahead of.
         $is_future_date = strtotime( $post->post_date_gmt ) > time();
         if ( ! $is_future_date ) {
-            return false;
+            return new \WP_Error(
+                'wpsp_not_future_dated',
+                __( 'This post is not dated in the future.', 'wp-scheduled-posts' )
+            );
         }
 
         // Bypass WordPress forcing 'future' status when the date is in the future.
@@ -357,8 +449,11 @@ class PostPanel {
 
         remove_filter( 'wp_insert_post_data', $filter_callback );
 
+        // The intent is only persisted, and Pro only notified, once the post has
+        // actually been published. Recording it after a failed write would leave
+        // the meta forcing 'publish' on a post that never moved.
         if ( is_wp_error( $updated ) ) {
-            return false;
+            return $updated;
         }
 
         // Persist the intent, otherwise the next save lets WordPress force the
