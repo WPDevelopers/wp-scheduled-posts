@@ -67,7 +67,7 @@ Registered in `register_social_profile_routes`. All require `edit_posts`.
 | `GET` | `wp-scheduled-posts/v1/get-option-data` | `wpsp_get_options_data` | Returns the `wpsp_settings_v5` option with social profile lists normalized (default `thumbnail_url` / `name`, LinkedIn `__id`→`id`). Gated additionally by `Helper::is_user_allow()` (401 otherwise). |
 | `GET` | `wp-scheduled-posts/v1/instant-social-share` | `wpsp_instant_social_share` | Fires the [`wpsp_instant_social_single_profile_share`](hooks-filters.md#actions) action with the request params. |
 | `GET` | `wp-scheduled-posts/v1/get-categories` | `wpsp_get_categories` | Paginated taxonomy terms across all allowed post types. Params: `limit` (default 10), `page` (default 1). Returns an array of `{ term_id, label, slug, taxonomy, postType, value }`. |
-| `POST` | `wp-scheduled-posts/v1/update-refresh-token` | `wpsp_update_refresh_token` | Params: `platform`, `item`. Delegates to `Social\ReconnectHandler::handleProfileReconnect()`. |
+| `POST` | `wp-scheduled-posts/v1/update-refresh-token` | `wpsp_update_refresh_token` | Params: `platform`, `item`. Delegates to `Social\ReconnectHandler::handleProfileReconnect()`. Authorization is in the `permission_callback`: no `edit_posts` is 401/403 via `rest_authorization_required_code()`, failing `Helper::is_user_allow()` is 403. A failed reconnect returns a `WP_Error` (400 for a bad request, 502 for a transport or Instagram-side failure), never a 200 carrying `success: false`. |
 
 Two additional routes are registered in `register_routes` (both require
 `manage_options`):

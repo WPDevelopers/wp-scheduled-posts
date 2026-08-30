@@ -10,19 +10,53 @@ class ReconnectHandler
     {
     }
 
+    /**
+     * Reconnect one profile.
+     *
+     * Always returns an array. Every failure carries success => false plus the
+     * HTTP status the REST layer should answer with, so the caller can turn it
+     * into a real error response. Nothing here may emit output or die: this
+     * runs inside a REST callback, and wp_send_json_*() would exit mid request
+     * with a 200 and bypass the REST envelope entirely.
+     *
+     * An unsupported platform returns an empty array, which the caller reads as
+     * "nothing handled this".
+     */
     public static function handleProfileReconnect($platform, $item)
     {
         if ($platform == 'instagram') {
             return self::instagramReconnect($item);
         }
+
+        return [];
     }
 
     public static function instagramReconnect($data)
     {
+        if (!is_array($data)) {
+            return [
+                'success' => false,
+                'code'    => 'reconnect_invalid_item',
+                'status'  => 400,
+                'message' => __('Invalid profile payload.', 'wp-scheduled-posts'),
+            ];
+        }
+
+        if (empty($data['id'])) {
+            return [
+                'success' => false,
+                'code'    => 'reconnect_missing_profile',
+                'status'  => 400,
+                'message' => __('No profile was identified in the request.', 'wp-scheduled-posts'),
+            ];
+        }
+
         if (empty($data['long_lived_access_token'])) {
             return [
                 'success' => false,
-                'message' => 'No long-lived access token provided.',
+                'code'    => 'reconnect_missing_token',
+                'status'  => 400,
+                'message' => __('No long-lived access token provided.', 'wp-scheduled-posts'),
             ];
         }
 
@@ -41,6 +75,8 @@ class ReconnectHandler
         if (is_wp_error($response)) {
             return [
                 'success' => false,
+                'code'    => 'reconnect_transport_error',
+                'status'  => 502,
                 'message' => $response->get_error_message(),
             ];
         }
@@ -51,7 +87,11 @@ class ReconnectHandler
         if (isset($result['error'])) {
             return [
                 'success' => false,
-                'message' => $result['error']['message'],
+                'code'    => 'reconnect_instagram_error',
+                'status'  => 502,
+                'message' => isset($result['error']['message'])
+                    ? $result['error']['message']
+                    : __('Instagram rejected the reconnect request.', 'wp-scheduled-posts'),
             ];
         }
 
@@ -63,19 +103,19 @@ class ReconnectHandler
             // Save the updated $data to the database (if needed)
             // Assuming you have a function to save the data
             self::update_access_token( WPSCP_INSTAGRAM_OPTION_NAME, $data['id'], '', $result['access_token'], $data['expires_at'] );
-            $success = [
+            return [
                 'success' => true,
-                'message' => 'Access token refreshed successfully.',
+                'message' => __('Access token refreshed successfully.', 'wp-scheduled-posts'),
                 'data'    => $data,
             ];
-            wp_send_json_success($success, 200);
         }
 
-        $error = [
+        return [
             'success' => false,
-            'message' => 'Unexpected response from Instagram API.',
+            'code'    => 'reconnect_unexpected_response',
+            'status'  => 502,
+            'message' => __('Unexpected response from Instagram API.', 'wp-scheduled-posts'),
         ];
-        wp_send_json_error($error);
     }
 
     public static function update_access_token($profile_list_key, $profile_id, $new_access_token = '', $new_long_lived_token = '', $expires_at = '') {
