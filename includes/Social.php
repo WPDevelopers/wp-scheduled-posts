@@ -24,11 +24,53 @@ class Social
     }
 
     public function publish_future_post($post_id){
-        // check if wpsp_publish_future_post is already scheduled
+        $post_id = (int) $post_id;
+        if ( ! $post_id ) {
+            return;
+        }
+
+        // A share is already queued for this post — let that event do the sharing
+        // rather than firing a second time here.
         if ( wp_next_scheduled('wpsp_publish_future_post', array($post_id)) || wp_next_scheduled('wpsp_custom_social_template', array($post_id))) {
             return;
         }
+
+        // The post's scheduled social share has already gone out. Reaching the
+        // post's own publication time afterwards must not share it again.
+        if ( get_post_meta($post_id, \WPSP\API\CustomSocialTemplates::SHARED_MARKER_META, true) ) {
+            return;
+        }
+
+        if ( ! self::claim_share_dispatch($post_id) ) {
+            return;
+        }
+
         do_action('wpsp_publish_future_post', $post_id);
+    }
+
+    /**
+     * Take a short-lived lock so a single post cannot be fanned out to the social
+     * platforms twice in quick succession — duplicate cron delivery, a missed
+     * schedule catch-up racing the scheduled share, or two concurrent requests.
+     *
+     * @param int $post_id
+     * @return bool True when the caller owns the dispatch.
+     */
+    protected static function claim_share_dispatch($post_id)
+    {
+        $key = 'wpsp_share_dispatch_' . $post_id;
+        if ( get_transient($key) ) {
+            return false;
+        }
+        /**
+         * How long the same post is blocked from being auto-shared again.
+         *
+         * @param int $seconds
+         * @param int $post_id
+         */
+        $window = (int) apply_filters('wpsp_social_share_dedup_window', MINUTE_IN_SECONDS, $post_id);
+        set_transient($key, time(), max(1, $window));
+        return true;
     }
 
     /**

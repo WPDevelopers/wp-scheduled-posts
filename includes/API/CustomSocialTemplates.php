@@ -26,6 +26,17 @@ class CustomSocialTemplates
     protected static $instance = null;
 
     /**
+     * Cron hook that performs a scheduled social share.
+     */
+    const SHARE_EVENT_HOOK = 'wpsp_custom_social_template';
+
+    /**
+     * Set on a post once its scheduled social share has actually gone out, so the
+     * post reaching its own publication time does not share it a second time.
+     */
+    const SHARED_MARKER_META = '_wpsp_social_template_shared';
+
+    /**
      * Initialize hooks
      */
     private function __construct()
@@ -99,18 +110,25 @@ class CustomSocialTemplates
                     ],
                     'single' => true,
                     'type' => 'object',
+                    // dateOption/timeOption are intentionally left blank: the
+                    // sensible default differs for a published post ("today"/"now")
+                    // and one that is still scheduled ("same day"/"same time as
+                    // publication"). normalize_scheduling_data() fills in the right
+                    // pair from the post status. Hard-coding the published-post
+                    // values here made a scheduled post inherit "today"/"now" and
+                    // share the moment its caption was saved.
                     'default' => [
                         'enabled' => false,
                         'datetime' => null,
                         'platforms' => [],
                         'status' => 'template_only',
-                        'dateOption' => 'today',
-                        'timeOption' => 'now',
+                        'dateOption' => '',
+                        'timeOption' => '',
                         'customDays' => '',
                         'customHours' => '',
                         'customDate' => '',
                         'customTime' => '',
-                        'schedulingType' => 'absolute'
+                        'schedulingType' => ''
                     ],
                     'auth_callback' => function() {
                         return current_user_can( 'edit_posts' );
@@ -196,6 +214,9 @@ class CustomSocialTemplates
         // Get scheduling data
         $scheduling_data = get_post_meta($post_id, '_wpsp_social_scheduling', true);
         if ( $post_after->post_status === 'future' && $post_before->post_date !== $post_after->post_date ) {
+            // The post moved to a new publication time, so any share that already
+            // went out no longer corresponds to this schedule.
+            delete_post_meta($post_id, self::SHARED_MARKER_META);
             $this->handle_scheduled_post_scheduling($post_id, $scheduling_data, $post_after);
         }
     }
@@ -210,17 +231,36 @@ class CustomSocialTemplates
             return;
         }
 
+        // Record that the scheduled share for this post has now gone out. Without
+        // this, a share that ran before the post's own publication time would be
+        // followed by a second share when the post published.
+        update_post_meta($post_id, self::SHARED_MARKER_META, time());
+
         $scheduling_data = get_post_meta($post_id, '_wpsp_social_scheduling', true);
         if (empty($scheduling_data) || !is_array($scheduling_data)) {
             return;
         }
 
-        // Only reset if any scheduling was active
-        if ( !empty($scheduling_data['customTime']) || !empty($scheduling_data['timeOption']) ) {
-            $scheduling_data['customTime'] = '';
-            $scheduling_data['timeOption'] = 'in_1h';
-            $default_scheduling = $this->normalize_scheduling_data($scheduling_data, get_post_status($post_id));
-            update_post_meta($post_id, '_wpsp_social_scheduling', $default_scheduling);
+        // The one-off schedule has been consumed. Disarm it so the post cannot be
+        // shared again by simply re-saving its caption.
+        $scheduling_data['enabled']    = false;
+        $scheduling_data['status']     = 'template_only';
+        $scheduling_data['customTime'] = '';
+        $scheduling_data['datetime']   = null;
+        $default_scheduling = $this->normalize_scheduling_data($scheduling_data, get_post_status($post_id));
+        update_post_meta($post_id, '_wpsp_social_scheduling', $default_scheduling);
+    }
+
+    /**
+     * Remove any pending scheduled social share for a post.
+     *
+     * @param int $post_id
+     * @return void
+     */
+    private function unschedule_social_share($post_id) {
+        $args = array((int) $post_id);
+        while ($timestamp = wp_next_scheduled(self::SHARE_EVENT_HOOK, $args)) {
+            wp_unschedule_event($timestamp, self::SHARE_EVENT_HOOK, $args);
         }
     }
 
@@ -435,12 +475,20 @@ class CustomSocialTemplates
             $normalized_scheduling_data = $this->normalize_scheduling_data($scheduling_data, get_post_status($post_id));
             $scheduling_updated = update_post_meta($post_id, '_wpsp_social_scheduling', $normalized_scheduling_data);
             $template_updated = true;
-            // get status of post from request
-            if (get_post_status($post_id) === 'publish') {
-                $this->handle_published_post_scheduling($post_id, $normalized_scheduling_data);
-            } elseif ( get_post_status($post_id)  === 'future') {
-                // For scheduled posts, calculate the social media timing based on the post's scheduled publication date
-                $this->handle_scheduled_post_scheduling($post_id, $normalized_scheduling_data);
+            // Only queue a share event when the author actually switched scheduling
+            // on. Saving a caption on its own must never plant a share: the caption
+            // has to be saved before "Share Now" is even clickable, so scheduling
+            // here meant every manual share was followed by a duplicate hours later.
+            if (!empty($normalized_scheduling_data['enabled'])) {
+                // get status of post from request
+                if (get_post_status($post_id) === 'publish') {
+                    $this->handle_published_post_scheduling($post_id, $normalized_scheduling_data);
+                } elseif ( get_post_status($post_id)  === 'future') {
+                    // For scheduled posts, calculate the social media timing based on the post's scheduled publication date
+                    $this->handle_scheduled_post_scheduling($post_id, $normalized_scheduling_data);
+                }
+            } else {
+                $this->unschedule_social_share($post_id);
             }
             $scheduling_data = $normalized_scheduling_data;
         }
@@ -685,16 +733,22 @@ class CustomSocialTemplates
     }
 
     public function handle_scheduled_post_scheduling($post_id, $scheduling_data, $post = null) {
-        if (empty($scheduling_data)) {
+        if (empty($scheduling_data) || !is_array($scheduling_data)) {
             return false;
         }
-    
+
+        // Never queue a share the author did not ask for.
+        if (empty($scheduling_data['enabled'])) {
+            $this->unschedule_social_share($post_id);
+            return false;
+        }
+
         // Get the post object
         $post = $post ? $post : get_post($post_id);
         if (!$post) {
             return false;
         }
-    
+
         // Calculate the social sharing datetime based on the post's scheduled publication date
         $social_datetime = \WPSP\Helpers\CustomTemplateHelper::get_scheduled_datetime(
             $scheduling_data,
@@ -705,53 +759,73 @@ class CustomSocialTemplates
             return false;
         }
     
+        $timestamp = (new \DateTime($social_datetime, new \DateTimeZone('UTC')))->getTimestamp();
+
+        // A share can never precede the post it links to — that would publish a
+        // dead URL and then share the post a second time when it actually went
+        // live. Fall back to the publication moment itself.
+        $publish_timestamp = (new \DateTime($post->post_date_gmt, new \DateTimeZone('UTC')))->getTimestamp();
+        if ($timestamp < $publish_timestamp) {
+            $timestamp = $publish_timestamp;
+            $social_datetime = gmdate('Y-m-d H:i:s', $timestamp);
+        }
+
         // Update scheduling data
         $scheduling_data['datetime'] = $social_datetime;
         $scheduling_data['enabled'] = true;
         $scheduling_data['status'] = 'pending_publication';
-    
+
         update_post_meta($post_id, '_wpsp_social_scheduling', $scheduling_data);
-    
-        // Schedule the cron event
-        $timestamp = (new \DateTime($social_datetime, new \DateTimeZone('UTC')))->getTimestamp();
-        $hook = 'wpsp_custom_social_template';
-        $args = [intval($post_id)];
-    
-        // Remove previously scheduled event if any
-        if ($existing = wp_next_scheduled($hook, $args)) {
-            wp_unschedule_event($existing, $hook, $args);
-        }
-    
-        wp_schedule_single_event($timestamp, $hook, $args);
-    
+        delete_post_meta($post_id, self::SHARED_MARKER_META);
+
+        // Replace any previously scheduled event for this post.
+        $this->unschedule_social_share($post_id);
+        wp_schedule_single_event($timestamp, self::SHARE_EVENT_HOOK, [intval($post_id)]);
+
         return $social_datetime;
-    }    
+    }
 
     public function handle_published_post_scheduling($post_id, $scheduling_data) {
-        if (empty($scheduling_data)) {
+        if (empty($scheduling_data) || !is_array($scheduling_data)) {
             return false;
         }
 
-        $event_hook = 'wpsp_custom_social_template';
+        // Never queue a share the author did not ask for.
+        if (empty($scheduling_data['enabled'])) {
+            $this->unschedule_social_share($post_id);
+            return false;
+        }
+
         // For absolute scheduling on published posts, use current time as base
         $datetime_str = \WPSP\Helpers\CustomTemplateHelper::get_scheduled_datetime($scheduling_data);
         if (!$datetime_str) {
-            return;
+            return false;
         }
-    
+
         $datetime_obj = \DateTime::createFromFormat('Y-m-d H:i:s', $datetime_str, new \DateTimeZone('UTC'));
         if (!$datetime_obj) {
-            return;
+            return false;
         }
-        $args = array(intval($post_id));
+
         $timestamp = $datetime_obj->getTimestamp();
-        // Unschedule if an existing event is already scheduled
-        $scheduled_timestamp = wp_next_scheduled($event_hook, $args);
-        if ($scheduled_timestamp !== false) {
-            wp_unschedule_event($scheduled_timestamp, $event_hook, $args);
+
+        // A time that has already passed (a custom time earlier today, or an
+        // offset that rolled over midnight) would fire on the very next cron pass
+        // and read as an instant duplicate. Push it to the same time tomorrow.
+        while ($timestamp <= time()) {
+            $timestamp += DAY_IN_SECONDS;
         }
-        // Schedule the new event
-        wp_schedule_single_event($timestamp, $event_hook, $args);
+
+        $scheduling_data['datetime'] = gmdate('Y-m-d H:i:s', $timestamp);
+        $scheduling_data['status']   = 'pending_publication';
+        update_post_meta($post_id, '_wpsp_social_scheduling', $scheduling_data);
+        delete_post_meta($post_id, self::SHARED_MARKER_META);
+
+        // Replace any previously scheduled event for this post.
+        $this->unschedule_social_share($post_id);
+        wp_schedule_single_event($timestamp, self::SHARE_EVENT_HOOK, array(intval($post_id)));
+
+        return $scheduling_data['datetime'];
     }
 
     /**
