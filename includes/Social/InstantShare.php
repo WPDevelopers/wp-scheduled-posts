@@ -455,6 +455,21 @@ class InstantShare
     }
 
     /**
+     * Read one selected-profile list from the request.
+     *
+     * The value is expected to be an array of profile keys. A scalar passes the
+     * empty() check and would fatal in array_map() on PHP 8, so treat anything
+     * that is not an array as no selection at all.
+     */
+    private function get_selected_profiles_param( $key )
+    {
+        if ( empty( $_REQUEST[ $key ] ) || !is_array( $_REQUEST[ $key ] ) ) {
+            return [];
+        }
+        return array_map( 'sanitize_text_field', $_REQUEST[ $key ] );
+    }
+
+    /**
      * aja request call back
      * fetch selected profile
      */
@@ -462,7 +477,7 @@ class InstantShare
     {
         
          // Verify nonce
-        $nonce = sanitize_text_field($_REQUEST['_nonce']);
+        $nonce = isset($_REQUEST['_nonce']) ? sanitize_text_field($_REQUEST['_nonce']) : '';
         if (!wp_verify_nonce($nonce, 'wpscp-pro-social-profile')) {
             wp_send_json_error(['message' => __('Invalid nonce.', 'wp-scheduled-posts')], 401);
             die();
@@ -474,16 +489,16 @@ class InstantShare
          }
 
         $allProfile                        = array();
-        $facebook_selected_profiles        = !empty( $_REQUEST['facebook_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['facebook_selected_profiles'] ) : [];
-        $twitter_selected_profiles         = !empty( $_REQUEST['twitter_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['twitter_selected_profiles'] ) : [];
-        $linkedin_selected_profiles        = !empty( $_REQUEST['linkedin_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['linkedin_selected_profiles'] ) : [];
-        $pinterest_selected_profiles       = !empty( $_REQUEST['pinterest_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['pinterest_selected_profiles'] ) : [];
-        $instagram_selected_profiles       = !empty( $_REQUEST['instagram_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['instagram_selected_profiles'] ) : [];
-        $medium_selected_profiles          = !empty( $_REQUEST['medium_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['medium_selected_profiles'] ) : [];
-        $threads_selected_profiles         = !empty( $_REQUEST['threads_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['threads_selected_profiles'] ) : [];
-        $google_business_selected_profiles = !empty( $_REQUEST['google_business_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['google_business_selected_profiles'] ) : [];
-        $bluesky_selected_profiles         = !empty( $_REQUEST['bluesky_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['bluesky_selected_profiles'] ) : [];
-        $mastodon_selected_profiles        = !empty( $_REQUEST['mastodon_selected_profiles'] ) ? array_map( 'sanitize_text_field', $_REQUEST['mastodon_selected_profiles'] ) : [];
+        $facebook_selected_profiles        = $this->get_selected_profiles_param( 'facebook_selected_profiles' );
+        $twitter_selected_profiles         = $this->get_selected_profiles_param( 'twitter_selected_profiles' );
+        $linkedin_selected_profiles        = $this->get_selected_profiles_param( 'linkedin_selected_profiles' );
+        $pinterest_selected_profiles       = $this->get_selected_profiles_param( 'pinterest_selected_profiles' );
+        $instagram_selected_profiles       = $this->get_selected_profiles_param( 'instagram_selected_profiles' );
+        $medium_selected_profiles          = $this->get_selected_profiles_param( 'medium_selected_profiles' );
+        $threads_selected_profiles         = $this->get_selected_profiles_param( 'threads_selected_profiles' );
+        $google_business_selected_profiles = $this->get_selected_profiles_param( 'google_business_selected_profiles' );
+        $bluesky_selected_profiles         = $this->get_selected_profiles_param( 'bluesky_selected_profiles' );
+        $mastodon_selected_profiles        = $this->get_selected_profiles_param( 'mastodon_selected_profiles' );
 
         // get data from db
         $facebook  = \WPSP\Helper::get_social_profile(WPSCP_FACEBOOK_OPTION_NAME, $facebook_selected_profiles);
