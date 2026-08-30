@@ -536,10 +536,31 @@ class Helper
      * value, which WordPress produces whenever an already serialized string is
      * handed to update_post_meta(). Unserialize once more to recover the real
      * value and fall back to an empty array for anything else.
+     *
+     * The recovery never instantiates a class. unserialize() runs __wakeup()
+     * and __destruct() while it builds the value, so a type check afterwards is
+     * too late to stop a crafted payload: the payload has already executed. The
+     * rows this recovers are written by outside tools, so the content is not
+     * trusted. Only a serialized array is accepted, stdClass is the one class
+     * allowed through (it carries no magic methods), and every entry has to
+     * look like a profile record to survive.
      */
     public static function get_selected_social_profiles($post_id) {
-        $profiles = maybe_unserialize( get_post_meta( $post_id, '_selected_social_profile', true ) );
-        return is_array( $profiles ) ? $profiles : [];
+        $profiles = get_post_meta( $post_id, '_selected_social_profile', true );
+
+        if ( is_string( $profiles ) && 0 === strpos( $profiles, 'a:' ) && is_serialized( $profiles ) ) {
+            $profiles = unserialize( $profiles, [ 'allowed_classes' => [ 'stdClass' ] ] );
+        }
+
+        if ( ! is_array( $profiles ) ) {
+            return [];
+        }
+
+        // Keys are preserved: callers map over this array and hand the result
+        // back to json_encode(), where reindexing would change the shape.
+        return array_filter( $profiles, function ( $profile ) {
+            return is_array( $profile ) || $profile instanceof \stdClass;
+        } );
     }
 
     public static function is_profile_exits($ID, $profiles) {
