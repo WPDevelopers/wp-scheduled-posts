@@ -47,6 +47,10 @@ const DEFAULT_TEMPLATE = '{title} {content} {url} {tags}';
 const getDefaultScheduleData = (postStatus) => {
   const isPublished = postStatus === 'publish';
   return {
+    // Off by default. The caption has to be saved before "Share Now" becomes
+    // clickable, so scheduling on every save meant each manual share was followed
+    // by an unrequested duplicate.
+    enabled: false,
     dateOption: isPublished ? 'today' : 'same_day',
     customDays: '',
     customDate: '',

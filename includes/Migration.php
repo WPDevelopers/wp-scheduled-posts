@@ -334,4 +334,47 @@ class Migration {
         }
 
     }
+
+    /**
+     * Drop social share events that were queued without the author asking for them.
+     *
+     * Up to 5.3.3, saving a caption always scheduled a `wpsp_custom_social_template`
+     * event, even with scheduling switched off — so a post shared manually was
+     * shared again a couple of hours later. Sites updating from an affected version
+     * still carry those events, and each one would fire once more after the update.
+     *
+     * @return int Number of events removed.
+     */
+    public static function clear_unrequested_social_share_events() {
+        $hook  = \WPSP\API\CustomSocialTemplates::SHARE_EVENT_HOOK;
+        $crons = _get_cron_array();
+        if ( ! is_array( $crons ) ) {
+            return 0;
+        }
+
+        $removed = 0;
+        foreach ( $crons as $timestamp => $hooks ) {
+            if ( empty( $hooks[ $hook ] ) || ! is_array( $hooks[ $hook ] ) ) {
+                continue;
+            }
+            foreach ( $hooks[ $hook ] as $event ) {
+                $args    = isset( $event['args'] ) ? (array) $event['args'] : array();
+                $post_id = isset( $args[0] ) ? (int) $args[0] : 0;
+                if ( ! $post_id ) {
+                    continue;
+                }
+
+                $scheduling = get_post_meta( $post_id, '_wpsp_social_scheduling', true );
+                if ( is_array( $scheduling ) && ! empty( $scheduling['enabled'] ) ) {
+                    // The author really did ask for this one — leave it alone.
+                    continue;
+                }
+
+                wp_unschedule_event( $timestamp, $hook, $args );
+                $removed++;
+            }
+        }
+
+        return $removed;
+    }
 }

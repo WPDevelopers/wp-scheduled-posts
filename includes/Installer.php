@@ -54,6 +54,13 @@ class Installer
         if(version_compare(get_option('wpsp_version'), '5.0.0', '<')){
             Migration::version_4_to_5();
         }
+        // Clear the unrequested social share events left behind by earlier builds.
+        // migrate() runs on every wp_loaded, so this is gated on a one-time flag
+        // rather than the version number.
+        if(get_option('wpsp_cleared_unrequested_social_share_events') === false){
+            Migration::clear_unrequested_social_share_events();
+            update_option('wpsp_cleared_unrequested_social_share_events', true);
+        }
 
         // update version
         if (version_compare(get_option('wpsp_version'), WPSP_VERSION, '<')) {
