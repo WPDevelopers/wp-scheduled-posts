@@ -100,7 +100,8 @@ class GoogleBusiness
             $templates = get_post_meta($post_id, '_wpsp_custom_templates', true);
             $platform_data = isset($templates['google_business']) ? $templates['google_business'] : null;
             $profiles = is_array($platform_data) && isset($platform_data['profiles']) ? $platform_data['profiles'] : [];
-            if (is_array($profiles) && !in_array($ID, $profiles)) {
+            // An empty list means no profile was picked, which is "no restriction" rather than "share to nobody".
+            if (is_array($profiles) && !empty($profiles) && !in_array($ID, $profiles)) {
                 return;
             }
         }
