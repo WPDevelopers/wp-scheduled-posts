@@ -1181,13 +1181,39 @@ class Admin
         <?php
     }
 
+    /**
+     * Read a board value off a profile record in either shape.
+     *
+     * Records from Helper::get_selected_social_profiles() are arrays; the
+     * $pinterest argument comes from the settings option and is an object.
+     *
+     * @param  array|object $profile
+     * @return string|null
+     */
+    private function get_pinterest_board_value($profile)
+    {
+        if (is_array($profile)) {
+            // Elementor writes the board out flat; the panel keeps it nested.
+            if (isset($profile['pinterest_custom_board_name'])) {
+                return $profile['pinterest_custom_board_name'];
+            }
+            return isset($profile['default_board_name']['value']) ? $profile['default_board_name']['value'] : null;
+        }
+        if (is_object($profile)) {
+            return isset($profile->default_board_name->value) ? $profile->default_board_name->value : null;
+        }
+        return null;
+    }
+
     public function get_pinterest_from_meta($pinterest)
     {
         if (!empty($pinterest)) {
             $get_selected_profiles = Helper::get_selected_social_profiles(get_the_ID());
             if (!empty($get_selected_profiles)) {
-                $pinterestSelectedProfile = array_filter($get_selected_profiles, function ($profile) use ($pinterest) {
-                    return isset($profile->default_board_name->value) && isset($pinterest->default_board_name->value) && $profile->default_board_name->value == $pinterest->default_board_name->value;
+                $pinterestBoard = $this->get_pinterest_board_value($pinterest);
+                $pinterestSelectedProfile = array_filter($get_selected_profiles, function ($profile) use ($pinterestBoard) {
+                    $profileBoard = $this->get_pinterest_board_value($profile);
+                    return $profileBoard !== null && $pinterestBoard !== null && $profileBoard == $pinterestBoard;
                 });
                 if (empty($pinterestSelectedProfile)) {
                     return $pinterest;

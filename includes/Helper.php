@@ -556,11 +556,52 @@ class Helper
             return [];
         }
 
+        // Every record is returned as an associative array. Both writers store
+        // that shape already (Admin::wpsp_format_profile_data() builds arrays,
+        // InstantShare re-encodes through json_decode(..., true)), and the
+        // consumers read it with array syntax: is_profile_exits() does
+        // isset($item['id']), which is a fatal "Cannot use object of type
+        // stdClass as array" the moment an object reaches it. Recovering an
+        // object and handing it straight on would have turned the crash this
+        // helper exists to prevent into a different crash.
+        //
         // Keys are preserved: callers map over this array and hand the result
         // back to json_encode(), where reindexing would change the shape.
-        return array_filter( $profiles, function ( $profile ) {
-            return is_array( $profile ) || $profile instanceof \stdClass;
-        } );
+        $normalised = [];
+        foreach ( $profiles as $key => $profile ) {
+            $profile = self::to_plain_array( $profile );
+            if ( is_array( $profile ) ) {
+                $normalised[ $key ] = $profile;
+            }
+        }
+
+        return $normalised;
+    }
+
+    /**
+     * Convert stdClass records to arrays, all the way down.
+     *
+     * Any other object is dropped. Only stdClass survives the recovery
+     * unserialize(), so anything else here is a __PHP_Incomplete_Class standing
+     * in for a class that was refused, and it carries no readable data.
+     *
+     * @param  mixed $value
+     * @return mixed
+     */
+    private static function to_plain_array( $value ) {
+        if ( $value instanceof \stdClass ) {
+            $value = get_object_vars( $value );
+        } elseif ( is_object( $value ) ) {
+            return null;
+        }
+
+        if ( is_array( $value ) ) {
+            foreach ( $value as $key => $item ) {
+                $value[ $key ] = self::to_plain_array( $item );
+            }
+        }
+
+        return $value;
     }
 
     public static function is_profile_exits($ID, $profiles) {
