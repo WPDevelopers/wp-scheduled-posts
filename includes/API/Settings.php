@@ -176,6 +176,10 @@ class Settings
 
 
     public function wpsp_update_refresh_token(\WP_REST_Request $request) {
+        if ( !Helper::is_user_allow() ) {
+            return new \WP_Error('unauthorized', 'Unauthorized', array('status' => 401));
+        }
+
         $platform = $request->get_param('platform');
         $item     = $request->get_param('item');
         $response = ReconnectHandler::handleProfileReconnect($platform, $item);
