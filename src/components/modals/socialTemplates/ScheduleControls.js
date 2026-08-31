@@ -7,35 +7,14 @@ const ScheduleControls = ({
     dateOptions,
     timeOptions
 }) => {
-    const isEnabled = !!scheduleData.enabled;
-
     return (
         <div className="wpsp-date-time-section">
-            {/* Scheduling is opt-in: without this the date/time controls silently
-                queued a second share every time a caption was saved. */}
-            <div className="wpsp-schedule-toggle">
-                <label>
-                    <input
-                        type="checkbox"
-                        checked={isEnabled}
-                        onChange={e => onUpdateSchedule('enabled', e.target.checked)}
-                    />
-                    {__('Schedule this social share for later', 'wp-scheduled-posts')}
-                </label>
-                <p className="wpsp-schedule-toggle__help">
-                    {isEnabled
-                        ? __('The caption will be shared automatically at the time chosen below.', 'wp-scheduled-posts')
-                        : __('Off — the caption is saved only. Nothing is shared until you publish the post or use Share Now.', 'wp-scheduled-posts')}
-                </p>
-            </div>
-
-            <div hidden={!isEnabled} aria-hidden={!isEnabled}>
+            <div>
                 {/* Date Field */}
                 <div>
                     <label>{__('Date', 'wp-scheduled-posts')}</label>
                     <select
                         value={scheduleData.dateOption}
-                        disabled={!isEnabled}
                         onChange={e => onUpdateSchedule('dateOption', e.target.value)}
                     >
                         {dateOptions.map(opt => (
@@ -74,7 +53,6 @@ const ScheduleControls = ({
                     <label>{__('Time', 'wp-scheduled-posts')}</label>
                     <select
                         value={scheduleData.timeOption}
-                        disabled={!isEnabled}
                         onChange={e => onUpdateSchedule('timeOption', e.target.value)}
                     >
                         {timeOptions.map(opt => (

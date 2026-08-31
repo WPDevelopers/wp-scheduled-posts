@@ -219,8 +219,7 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 = 5.3.3 - 2026-07-29 =
 - Added: Mastodon social platform integration.
-- Added: Scheduling a social share for later is now an explicit option in the social template editor.
-- Fixed: Saving a social caption queued a second, unrequested share of the same post a few hours later.
+- Fixed: Saving a social caption queued a second, unrequested share of the same post a few hours later. A share is now scheduled only when a date or time is actually chosen.
 - Fixed: A scheduled post could be shared to social media before it was published, and then again when it went live.
 - Fixed: Relative share times ("In one hour", "In three hours") used the time the caption was saved instead of the post's publication time, so a post scheduled for 9 AM could be shared at 9 PM.
 - Fixed: Medium sharing failed for posts without tags or categories.

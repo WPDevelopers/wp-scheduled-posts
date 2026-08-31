@@ -3000,10 +3000,6 @@ textarea.wpsp-template-input {
   border-radius: 8px;
 }
 
-.wpsp-date-time-section {
-  display: block;
-}
-
 .wpsp-date-time-section > div {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -3016,49 +3012,6 @@ textarea.wpsp-template-input {
   flex-direction: column;
   flex: 1;
   width: 100%;
-}
-
-/* Opt-in switch for the scheduled social share. */
-#wpsp-post-panel-modal .wpsp-date-time-section > .wpsp-schedule-toggle,
-.wpsp-date-time-section > .wpsp-schedule-toggle {
-  display: block;
-  grid-template-columns: none;
-  margin-bottom: 12px;
-}
-
-#wpsp-post-panel-modal .wpsp-date-time-section .wpsp-schedule-toggle label,
-.wpsp-date-time-section .wpsp-schedule-toggle label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 0 !important;
-  font-size: 14px;
-  color: #1b1b50;
-  cursor: pointer;
-}
-
-#wpsp-post-panel-modal .wpsp-date-time-section .wpsp-schedule-toggle input[type="checkbox"],
-.wpsp-date-time-section .wpsp-schedule-toggle input[type="checkbox"] {
-  width: 16px;
-  min-width: 16px;
-  height: 16px;
-  min-height: 16px;
-  max-height: 16px;
-  margin: 0;
-  padding: 0;
-  flex: 0 0 auto;
-}
-
-#wpsp-post-panel-modal .wpsp-date-time-section .wpsp-schedule-toggle__help,
-.wpsp-date-time-section .wpsp-schedule-toggle__help {
-  margin: 6px 0 0;
-  font-size: 12px;
-  line-height: 1.5;
-  color: #6e6e8d;
-}
-
-.wpsp-date-time-section > div[hidden] {
-  display: none;
 }
 
 .wpsp-date-time-section label {

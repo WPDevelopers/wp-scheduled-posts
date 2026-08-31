@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-08-30T10:33:47+00:00\n"
+"POT-Creation-Date: 2026-08-31T06:40:30+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wp-scheduled-posts\n"
@@ -2436,39 +2436,27 @@ msgstr ""
 msgid "Loading profiles..."
 msgstr ""
 
-#: src/components/modals/socialTemplates/ScheduleControls.js:23
-msgid "Schedule this social share for later"
-msgstr ""
-
-#: src/components/modals/socialTemplates/ScheduleControls.js:27
-msgid "The caption will be shared automatically at the time chosen below."
-msgstr ""
-
-#: src/components/modals/socialTemplates/ScheduleControls.js:28
-msgid "Off — the caption is saved only. Nothing is shared until you publish the post or use Share Now."
-msgstr ""
-
-#: src/components/modals/socialTemplates/ScheduleControls.js:35
+#: src/components/modals/socialTemplates/ScheduleControls.js:15
 msgid "Date"
 msgstr ""
 
-#: src/components/modals/socialTemplates/ScheduleControls.js:50
+#: src/components/modals/socialTemplates/ScheduleControls.js:29
 msgid "Custom Date"
 msgstr ""
 
-#: src/components/modals/socialTemplates/ScheduleControls.js:62
+#: src/components/modals/socialTemplates/ScheduleControls.js:41
 msgid "Days"
 msgstr ""
 
-#: src/components/modals/socialTemplates/ScheduleControls.js:74
+#: src/components/modals/socialTemplates/ScheduleControls.js:53
 msgid "Time"
 msgstr ""
 
-#: src/components/modals/socialTemplates/ScheduleControls.js:89
+#: src/components/modals/socialTemplates/ScheduleControls.js:67
 msgid "Custom Time"
 msgstr ""
 
-#: src/components/modals/socialTemplates/ScheduleControls.js:101
+#: src/components/modals/socialTemplates/ScheduleControls.js:79
 msgid "Hours"
 msgstr ""
 
