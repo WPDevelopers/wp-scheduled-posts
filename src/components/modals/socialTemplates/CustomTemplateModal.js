@@ -47,9 +47,9 @@ const DEFAULT_TEMPLATE = '{title} {content} {url} {tags}';
 const getDefaultScheduleData = (postStatus) => {
   const isPublished = postStatus === 'publish';
   return {
-    // Off by default. The caption has to be saved before "Share Now" becomes
-    // clickable, so scheduling on every save meant each manual share was followed
-    // by an unrequested duplicate.
+    // Off until the author actually picks a date/time below. A caption has to be
+    // saved before "Share Now" becomes clickable, so treating every save as a
+    // scheduling request queued an unrequested duplicate share hours later.
     enabled: false,
     dateOption: isPublished ? 'today' : 'same_day',
     customDays: '',
@@ -580,8 +580,11 @@ const WPSPCustomTemplateModal = ({
       }
   }, [selectedProfile]);
 
+  // Only the schedule controls call this, so any invocation means the author
+  // deliberately chose when the share should go out — that, and nothing else, is
+  // what arms the scheduled share.
   const onUpdateSchedule = useCallback((field, value) => {
-      setScheduleData(prev => ({ ...prev, [field]: value }));
+      setScheduleData(prev => ({ ...prev, [field]: value, enabled: true }));
   }, []);
 
   const onToggleGlobal = useCallback((e) => {
