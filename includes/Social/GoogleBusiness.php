@@ -292,37 +292,6 @@ class GoogleBusiness
         }
     }
 
-    /**
-     * Determine whether a URL is publicly reachable by Google's servers.
-     * Google Business downloads media from the provided sourceUrl, so local/dev
-     * hosts and private IPs will be rejected and break the whole share request.
-     *
-     * @param string $url
-     * @return bool
-     */
-    public function is_publicly_accessible_url($url)
-    {
-        $host = wp_parse_url($url, PHP_URL_HOST);
-        if (empty($host)) {
-            return false;
-        }
-        $host = strtolower($host);
-
-        // Local hostnames / common dev TLDs
-        if ($host === 'localhost' || preg_match('/\.(test|local|localhost|invalid|example)$/', $host)) {
-            return false;
-        }
-
-        // Private / loopback IP ranges
-        if (filter_var($host, FILTER_VALIDATE_IP)) {
-            if (!filter_var($host, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     public function format_plain_text_with_paragraphs($content)
     {
         // Convert HTML breaks and block elements into double line breaks
