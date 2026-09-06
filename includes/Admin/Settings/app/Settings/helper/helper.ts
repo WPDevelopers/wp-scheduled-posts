@@ -257,9 +257,24 @@ export const runReconnect = async (targets, onProgress = null) => {
 
     const popup = await openAuthPopup(authUrl.url);
     if (popup?.search) {
-        // Hand the callback back to the screen's normal handler, which already
-        // knows how to turn it into a saved profile for every platform.
-        return { renewed, needsAuth, failed, completed: false, callbackSearch: popup.search, remaining: needsAuth.slice(1) };
+        // Exchange the callback for the account details, then let the server
+        // merge them onto the profile being reconnected. Nothing navigates: the
+        // popup is already closed and the settings screen never moved.
+        const params = new URLSearchParams(popup.search);
+        const fetched = await getProfileData(params);
+        const merged = await completeReconnect(
+            next.platform,
+            next.item?.id ?? next.item?.__id ?? '',
+            fetched
+        );
+
+        if (merged?.success) {
+            renewed.push(next);
+            return { renewed, needsAuth, failed, completed: needsAuth.length === 1, remaining: needsAuth.slice(1) };
+        }
+
+        failed.push({ ...next, message: merged?.message ?? 'Reconnect could not be completed.' });
+        return { renewed, needsAuth, failed, completed: false, remaining: needsAuth.slice(1) };
     }
 
     return {
@@ -270,6 +285,28 @@ export const runReconnect = async (targets, onProgress = null) => {
         cancelled: popup?.cancelled ?? false,
         message: popup?.message,
     };
+};
+
+/**
+ * Finish a reconnect once the consent screen has been dealt with.
+ *
+ * The normal connect flow ends on the "choose which account to add" screen,
+ * which is why it needs a whole page. A reconnect already knows which profile it
+ * is renewing, so the fetched accounts go straight to the server to be matched
+ * and merged - the author stays on the settings screen throughout.
+ */
+export const completeReconnect = async (platform, id, payload) => {
+    try {
+        const res = await apiFetch({
+            path: 'wp-scheduled-posts/v1/complete-reconnect',
+            method: 'POST',
+            data: { platform, id, payload },
+        });
+        // @ts-ignore
+        return res?.data ?? res;
+    } catch (error) {
+        return { success: false, message: error?.message ?? 'Reconnect could not be completed.' };
+    }
 };
 
 export const getProfileData = async (params) => {

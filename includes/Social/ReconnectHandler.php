@@ -314,6 +314,130 @@ class ReconnectHandler
     }
 
     /**
+     * Fields worth carrying over from a fresh authorisation onto a profile that
+     * is already connected. Everything else about the profile - its name, the
+     * board or location it posts to, who added it - must survive untouched.
+     */
+    const CREDENTIAL_FIELDS = [
+        'access_token',
+        'long_lived_access_token',
+        'oauth_token',
+        'oauth_token_secret',
+        'refresh_token',
+        'expires_in',
+        'expires_at',
+        'rt_expires_in',
+    ];
+
+    /**
+     * Finish a reconnect that had to go through the provider's consent screen.
+     *
+     * The normal connect flow hands the fetched accounts to the editor so the
+     * author can pick one, which is why it ends on a full page. A reconnect
+     * already knows which profile it is renewing, so the matching entry is found
+     * here and its credentials copied onto the existing record - no page to
+     * return to, and no chance of the profile being duplicated.
+     *
+     * @param string $platform
+     * @param string $profile_id Profile being reconnected.
+     * @param mixed  $payload    Whatever the fetch step returned.
+     * @return array
+     */
+    public static function complete_reconnect($platform, $profile_id, $payload)
+    {
+        if (!isset(self::PROFILE_OPTIONS[$platform]) || $profile_id === '' || $profile_id === null) {
+            return [
+                'success' => false,
+                'message' => __('Reconnect could not be completed.', 'wp-scheduled-posts'),
+            ];
+        }
+
+        $match = self::find_reauthorised_account($payload, (string) $profile_id);
+        if (empty($match)) {
+            // The author authorised a different account than the one being
+            // reconnected, so nothing here belongs to this profile.
+            return [
+                'success' => false,
+                'mismatch' => true,
+                'message' => __('That authorisation was for a different account. Reconnect the profile with the same account it was added with.', 'wp-scheduled-posts'),
+            ];
+        }
+
+        $updates = [];
+        foreach (self::CREDENTIAL_FIELDS as $field) {
+            if (isset($match[$field]) && $match[$field] !== '') {
+                $updates[$field] = $match[$field];
+            }
+        }
+
+        if (empty($updates)) {
+            return [
+                'success' => false,
+                'message' => __('The authorisation returned no usable credentials.', 'wp-scheduled-posts'),
+            ];
+        }
+
+        // Threads measures its lifetime from this, so it has to move with the token.
+        if ($platform === 'threads' && isset($updates['expires_in'])) {
+            $updates['added_date'] = current_time('mysql');
+        }
+        $updates[self::RENEWAL_FAILED_FIELD] = false;
+
+        $saved = self::update_profile_fields($platform, ['id' => $profile_id], $updates);
+        if (!$saved) {
+            return [
+                'success' => false,
+                'message' => __('Could not save the renewed connection.', 'wp-scheduled-posts'),
+            ];
+        }
+
+        return [
+            'success'     => true,
+            'reconnected' => true,
+            'platform'    => $platform,
+            'message'     => __('Connection renewed.', 'wp-scheduled-posts'),
+        ];
+    }
+
+    /**
+     * Hunt through a fetch response for the account that was just reauthorised.
+     *
+     * Each platform wraps its accounts differently - pages, groups, boards,
+     * profiles, a bare object - so rather than encode all of those shapes this
+     * walks the structure for the first entry carrying the id being reconnected.
+     *
+     * @param mixed  $payload
+     * @param string $profile_id
+     * @return array|null
+     */
+    private static function find_reauthorised_account($payload, $profile_id)
+    {
+        if (is_object($payload)) {
+            $payload = (array) $payload;
+        }
+        if (!is_array($payload)) {
+            return null;
+        }
+
+        $has_id = isset($payload['id']) && (string) $payload['id'] === $profile_id;
+        if ($has_id) {
+            return $payload;
+        }
+
+        foreach ($payload as $value) {
+            if (!is_array($value) && !is_object($value)) {
+                continue;
+            }
+            $found = self::find_reauthorised_account($value, $profile_id);
+            if (!empty($found)) {
+                return $found;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Cron hook for the once-daily connection maintenance pass.
      */
     const MAINTENANCE_HOOK = 'wpsp_social_connection_maintenance';

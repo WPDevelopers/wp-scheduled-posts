@@ -231,6 +231,17 @@
             }
           }
           .profile-data {
+            // Anchors the profile type and the reconnect button together in the
+            // card's top right corner, so the button reads as belonging to this
+            // profile rather than floating over the card.
+            .profile-meta {
+              position: absolute;
+              right: 0.75em;
+              top: 1em;
+              display: flex;
+              align-items: center;
+              gap: 8px;
+            }
             .badge {
               background: #f3f2ff;
               border-radius: 20px;
@@ -240,9 +251,6 @@
               font-weight: 500;
               color: #6c62ff;
               text-transform: uppercase;
-              position: absolute;
-              right: 0.75em;
-              top: 1em;
               box-sizing: border-box;
             }
             h4 {
@@ -260,105 +268,67 @@
               padding-bottom: 1.42em;
               display: block;
             }
-            // Sits directly under the "added by" line, so the negative margin
-            // cancels that line's padding-bottom (same 14px em basis) instead of
-            // leaving a paragraph-sized gap between two metadata lines.
-            .profile-expiry {
-              margin-top: -1.1em;
-              font-size: 13px;
-              &.is-expiring {
-                color: #b26b00;
+            .reconnect-profile {
+              position: relative;
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              padding: 0;
+              line-height: 0;
+              background: transparent;
+              border: none;
+              color: #6c62ff;
+              cursor: pointer;
+              &:hover {
+                color: #4b41e0;
               }
-              &.is-expired {
-                color: #d63638;
-                font-weight: 500;
+              &:hover .connection-tooltip,
+              &:focus .connection-tooltip {
+                visibility: visible;
+                opacity: 1;
+              }
+              &.is-busy {
+                cursor: wait;
+                opacity: 0.6;
+                svg {
+                  animation: wpsp-reconnect-spin 0.9s linear infinite;
+                }
               }
             }
-            .connection-status {
-              display: flex;
-              align-items: center;
-              gap: 8px;
-              padding-bottom: 1.1em;
-              margin-top: -0.6em;
-              .connection-indicator,
-              .reconnect-profile {
-                position: relative;
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                padding: 0;
-                line-height: 0;
-                background: transparent;
-                border: none;
-                // The tooltip is revealed on hover of whichever control owns it,
-                // so both the indicator and the button need to be focusable
-                // targets rather than plain decoration.
-                &:hover .connection-tooltip,
-                &:focus .connection-tooltip {
-                  visibility: visible;
-                  opacity: 1;
-                }
+            @keyframes wpsp-reconnect-spin {
+              to {
+                transform: rotate(360deg);
               }
-              .connection-indicator {
-                cursor: default;
-                &.is-active {
-                  color: #02ac6e;
-                }
-                &.is-expired {
-                  color: #8c8f94;
-                }
-              }
-              .reconnect-profile {
-                color: #6c62ff;
-                cursor: pointer;
-                &:hover {
-                  color: #4b41e0;
-                }
-                &.is-busy {
-                  cursor: wait;
-                  opacity: 0.6;
-                  svg {
-                    animation: wpsp-reconnect-spin 0.9s linear infinite;
-                  }
-                }
-              }
-              @keyframes wpsp-reconnect-spin {
-                to {
-                  transform: rotate(360deg);
-                }
-              }
-              // Same card-tooltip treatment as .error-tooltip above, but hidden
-              // until hover instead of permanently on screen.
-              .connection-tooltip {
-                visibility: hidden;
-                opacity: 0;
-                transition: opacity 0.15s ease-in-out;
-                z-index: 999;
+            }
+            // Sits below the button rather than above it: at the top edge of the
+            // card there is no room overhead, and the tooltip would be clipped.
+            .connection-tooltip {
+              visibility: hidden;
+              opacity: 0;
+              transition: opacity 0.15s ease-in-out;
+              z-index: 999;
+              position: absolute;
+              top: calc(100% + 9px);
+              right: 0;
+              width: max-content;
+              max-width: 160px;
+              padding: 5px 8px;
+              background-color: #fff;
+              color: #6e6e8d;
+              font-size: 12px;
+              line-height: 1.3;
+              text-align: center;
+              white-space: nowrap;
+              border-radius: 6px;
+              box-shadow: 0px 12px 48px 2px rgba(27, 27, 80, 0.1);
+              &::after {
+                content: '';
                 position: absolute;
-                bottom: calc(100% + 9px);
-                left: 50%;
-                transform: translateX(-50%);
-                width: max-content;
-                max-width: 160px;
-                padding: 5px 8px;
-                background-color: #fff;
-                color: #6e6e8d;
-                font-size: 12px;
-                line-height: 1.3;
-                text-align: center;
-                white-space: nowrap;
-                border-radius: 6px;
-                box-shadow: 0px 12px 48px 2px rgba(27, 27, 80, 0.1);
-                &::after {
-                  content: '';
-                  position: absolute;
-                  top: 100%;
-                  left: 50%;
-                  transform: translateX(-50%);
-                  border-width: 7px;
-                  border-style: solid;
-                  border-color: #fff transparent transparent transparent;
-                }
+                bottom: 100%;
+                right: 6px;
+                border-width: 7px;
+                border-style: solid;
+                border-color: transparent transparent #fff transparent;
               }
             }
             .action {

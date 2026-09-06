@@ -172,6 +172,13 @@ class Settings
                 return current_user_can( 'edit_posts' );
             }
         ));
+        register_rest_route($namespace,'complete-reconnect',array(
+            'methods' => 'POST',
+            'callback'   => array($this, 'wpsp_complete_reconnect'),
+            'permission_callback' => function() {
+                return current_user_can( 'edit_posts' );
+            }
+        ));
     }
 
 
@@ -180,6 +187,19 @@ class Settings
         $item     = $request->get_param('item');
         $response = ReconnectHandler::handleProfileReconnect($platform, $item);
         die();
+    }
+
+    /**
+     * Finish a reconnect that had to go through the provider's consent screen,
+     * so the editor never has to leave the settings screen to complete it.
+     */
+    public function wpsp_complete_reconnect(\WP_REST_Request $request) {
+        $result = ReconnectHandler::complete_reconnect(
+            $request->get_param('platform'),
+            $request->get_param('id'),
+            $request->get_param('payload')
+        );
+        return rest_ensure_response($result);
     }
 
     public function wpsp_get_categories(\WP_REST_Request $request)
