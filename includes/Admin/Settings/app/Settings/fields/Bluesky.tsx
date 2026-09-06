@@ -294,6 +294,7 @@ const Bluesky = (props) => {
                                 className="selected-facebook-wrapper"
                                 key={index}>
                                 <SelectedProfile
+                                    allProfiles={selectedProfileData}
                                     platform={'bluesky'}
                                     item={item}
                                     handleSelectedProfileStatusChange={

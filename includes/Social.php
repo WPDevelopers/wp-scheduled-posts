@@ -125,6 +125,12 @@ class Social
         // Social profile reconnection process handler
         new ReconnectHandler;
         new SocialReconnection();
+
+        // Keep connected profiles alive on their own. One daily event for the
+        // whole site, and it only reaches out for profiles actually near expiry,
+        // so an ordinary request costs nothing more than the scheduled-check.
+        add_action(ReconnectHandler::MAINTENANCE_HOOK, array(ReconnectHandler::class, 'run_maintenance'));
+        add_action('wp_loaded', array(ReconnectHandler::class, 'schedule_maintenance'));
     }
 
     public function socialProfile() {
