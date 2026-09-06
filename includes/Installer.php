@@ -61,6 +61,18 @@ class Installer
             Migration::clear_unrequested_social_share_events();
             update_option('wpsp_cleared_unrequested_social_share_events', true);
         }
+        // Repair the shares the author *did* schedule on an affected build: the
+        // sweep above deliberately leaves those alone, but their timing was
+        // computed with the old broken math and a share that already fired left no
+        // record. Runs after the sweep so it only ever sees genuine schedules.
+        // The report is kept so an affected site can be inspected after the fact.
+        if(get_option('wpsp_repaired_legacy_social_share_schedules') === false){
+            $repair_report = Migration::repair_legacy_social_share_schedules();
+            update_option('wpsp_repaired_legacy_social_share_schedules', array(
+                'ran_at' => time(),
+                'report' => $repair_report,
+            ), false);
+        }
 
         // update version
         if (version_compare(get_option('wpsp_version'), WPSP_VERSION, '<')) {

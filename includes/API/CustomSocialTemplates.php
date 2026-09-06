@@ -231,6 +231,16 @@ class CustomSocialTemplates
             return;
         }
 
+        // Another share event for this post is still queued, so Social::publish_future_post()
+        // deliberately skipped this run and left the sharing to that event. Nothing went out
+        // here, so neither the marker nor the disarm below may be applied — writing the
+        // marker anyway would make the remaining event bail on its own guard and the post
+        // would never be shared at all. Sites carrying duplicate events queued by builds
+        // before 5.3.3 hit exactly this.
+        if (wp_next_scheduled(self::SHARE_EVENT_HOOK, array((int) $post_id))) {
+            return;
+        }
+
         // Record that the scheduled share for this post has now gone out. Without
         // this, a share that ran before the post's own publication time would be
         // followed by a second share when the post published.
