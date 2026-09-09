@@ -1,6 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import React, { useState } from 'react';
 import { getFormatDateTime, getProfileExpiry, handleImageError, runReconnect } from '../../helper/helper';
+import { SweetAlertToaster } from '../../ToasterMsg';
 
 export default function SelectedProfile({ platform, item, handleSelectedProfileStatusChange, handleDeleteSelectedProfile, handleEditSelectedProfile, handleReconnectProfile = null, allProfiles = [], profileStatus = false }) {
     // Null for the platforms whose credentials never expire on a timer, so those
@@ -42,7 +43,20 @@ export default function SelectedProfile({ platform, item, handleSelectedProfileS
             // The stored profiles changed underneath the screen, so re-read them
             // rather than leaving stale tokens on display.
             window.location.reload();
+            return;
         }
+        // Nothing was renewed. Saying so beats leaving the button looking as if
+        // the click never happened — the author has just been through a consent
+        // screen and deserves to know it did not take.
+        if ( result?.cancelled ) {
+            return;
+        }
+        SweetAlertToaster({
+            type: 'error',
+            title: result?.failed?.[0]?.message
+                ?? result?.message
+                ?? __( 'Could not reconnect this profile. Please try again.', 'wp-scheduled-posts' ),
+        }).fire();
     };
 
     return (

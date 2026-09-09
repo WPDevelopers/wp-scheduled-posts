@@ -93,8 +93,14 @@ export const generateTabURL = () => {
 // Ask the server for the provider's authorisation URL without navigating to it.
 // Splitting this out lets the reconnect flow put the same URL in a popup instead
 // of throwing the whole settings screen away mid-task.
-export const getSocialAuthUrl = async (redirectURI, appID, appSecret, platform, openIDConnect = false) => {
-    const account_type = localStorage.getItem('account_type');
+//
+// `options.popup` tells the server the callback is coming back to a popup, so it
+// returns to the bridge that hands the result to this screen instead of loading
+// a second settings screen in there. `options.accountType` is what the profile
+// being reconnected actually is — the stored profile knows, where the leftover
+// localStorage value from the last connect does not.
+export const getSocialAuthUrl = async (redirectURI, appID, appSecret, platform, openIDConnect = false, options: { popup?: boolean, accountType?: string } = {}) => {
+    const account_type = options?.accountType ?? localStorage.getItem('account_type');
     // @ts-ignore
     const nonce = wpspSettingsGlobal?.api_nonce;
     const data = {
@@ -106,6 +112,7 @@ export const getSocialAuthUrl = async (redirectURI, appID, appSecret, platform, 
         type: platform,
         openIDConnect: openIDConnect,
         accountType: account_type,
+        popupCallback: options?.popup ? 1 : 0,
     };
     const response = await fetchDataFromAPI(data);
     const responseData = await response.json();
@@ -158,30 +165,71 @@ export const reconnectProfile = async (platform, item) => {
     }
 };
 
+// Shared with the server-side callback bridge (WPSP\Social\OAuthPopup): the name
+// the popup is opened under, and the message it sends back.
+export const WPSP_OAUTH_POPUP_NAME = 'wpsp_reconnect';
+export const WPSP_OAUTH_MESSAGE_TYPE = 'wpsp_oauth_callback';
+
 /**
  * Run the provider's consent screen in a popup and resolve once it comes back.
  *
- * The provider redirects to the middleware, which redirects back to this admin
- * screen — so the popup ends up same-origin and its query string can be read.
- * Everything before that point is cross-origin and throws on access, which is
- * the signal that the author is still on the provider's own pages.
+ * The provider redirects to the middleware, which redirects back to this site —
+ * where the callback bridge posts the query string here and closes the popup,
+ * rather than loading the settings screen a second time inside it. That matters
+ * for more than tidiness: the code in that callback can only be exchanged once,
+ * and a settings screen booting in the popup would spend it before this one can.
+ *
+ * The polling below is the fallback for a callback that reaches the popup
+ * without the bridge having run — an authorisation started somewhere that builds
+ * its own return URL. It reads the popup directly, which is only possible once
+ * the popup is back on this origin; before that every access throws, which is
+ * exactly the signal that the author is still on the provider's own pages.
  */
 export const openAuthPopup = (authUrl) => new Promise<any>((resolve) => {
     const width = 620;
     const height = 720;
     const left = window.screenX + Math.max(0, (window.outerWidth - width) / 2);
     const top = window.screenY + Math.max(0, (window.outerHeight - height) / 2);
-    const popup = window.open(authUrl, 'wpsp_reconnect', `width=${width},height=${height},left=${left},top=${top},scrollbars=yes`);
+    const popup = window.open(authUrl, WPSP_OAUTH_POPUP_NAME, `width=${width},height=${height},left=${left},top=${top},scrollbars=yes`);
 
     if (!popup) {
         resolve({ error: true, message: 'Popup blocked. Allow popups for this site and try again.' });
         return;
     }
 
+    let settled = false;
+    const finish = (result) => {
+        if (settled) {
+            return;
+        }
+        settled = true;
+        window.removeEventListener('message', onMessage);
+        clearInterval(timer);
+        try {
+            if (!popup.closed) {
+                popup.close();
+            }
+        } catch (e) {}
+        resolve(result);
+    };
+
+    const onMessage = (event) => {
+        if (event.origin !== window.location.origin) {
+            return;
+        }
+        const payload = event?.data;
+        if (!payload || payload.type !== WPSP_OAUTH_MESSAGE_TYPE || !payload.search) {
+            return;
+        }
+        finish({ search: payload.search });
+    };
+    window.addEventListener('message', onMessage);
+
     const timer = setInterval(() => {
         if (popup.closed) {
-            clearInterval(timer);
-            resolve({ cancelled: true });
+            // Give a message that is already in flight the chance to land before
+            // calling this a cancellation.
+            setTimeout(() => finish({ cancelled: true }), 300);
             return;
         }
         let search = null;
@@ -195,12 +243,30 @@ export const openAuthPopup = (authUrl) => new Promise<any>((resolve) => {
             return;
         }
         if (search && search.indexOf('wpsp_social_add_social_profile') !== -1) {
-            clearInterval(timer);
-            popup.close();
-            resolve({ search });
+            finish({ search });
         }
     }, 400);
 });
+
+/**
+ * What kind of account a stored profile is, in the terms the authorisation
+ * request expects.
+ *
+ * The connect flow takes this from whichever button the author pressed and
+ * leaves it in localStorage. A reconnect has no button to read, and the value
+ * left over from the last connect is just as likely to be the wrong one — which
+ * on LinkedIn means asking for member scopes to renew a company page. The stored
+ * profile already records what it is, so that is what gets asked for.
+ */
+export const reconnectAccountType = (platform, item) => {
+    if (platform === 'linkedin') {
+        return item?.type === 'organization' ? 'page' : 'profile';
+    }
+    if (platform === 'facebook') {
+        return item?.type === 'group' ? 'group' : 'page';
+    }
+    return item?.type ?? '';
+}
 
 /**
  * Reconnect one or many profiles from a single click.
@@ -247,7 +313,12 @@ export const runReconnect = async (targets, onProgress = null) => {
         redirectURI,
         next.auth.app_id ?? '',
         next.auth.app_secret ?? '',
-        next.platform
+        next.platform,
+        // LinkedIn hands out different scopes to an OpenID app than to an older
+        // member app, and asking for the wrong set is refused outright — so a
+        // reconnect asks for whatever this profile was connected with.
+        !! next.item?.openIDConnect,
+        { popup: true, accountType: reconnectAccountType(next.platform, next.item) }
     );
 
     if (authUrl?.error || !authUrl?.url) {
@@ -261,6 +332,15 @@ export const runReconnect = async (targets, onProgress = null) => {
         // merge them onto the profile being reconnected. Nothing navigates: the
         // popup is already closed and the settings screen never moved.
         const params = new URLSearchParams(popup.search);
+
+        // The provider refused, or the author declined on its screen — that
+        // comes back in place of a code, and there is nothing to exchange.
+        const denied = params.get('error_message') ?? params.get('error_description') ?? params.get('error');
+        if (denied) {
+            failed.push({ ...next, message: denied });
+            return { renewed, needsAuth, failed, completed: false, remaining: needsAuth.slice(1) };
+        }
+
         const fetched = await getProfileData(params);
         const merged = await completeReconnect(
             next.platform,

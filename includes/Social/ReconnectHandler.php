@@ -406,11 +406,19 @@ class ReconnectHandler
      * profiles, a bare object - so rather than encode all of those shapes this
      * walks the structure for the first entry carrying the id being reconnected.
      *
+     * Credentials are carried down the walk because the platforms do not agree
+     * on where they belong either: Facebook, Instagram, Threads and Google put a
+     * token on every account they return, while LinkedIn returns one token for
+     * the whole authorisation and lists the member and their pages underneath
+     * it. Without this a LinkedIn reconnect finds its account and no token to go
+     * with it. Anything the account carries itself still wins.
+     *
      * @param mixed  $payload
      * @param string $profile_id
+     * @param array  $inherited Credentials seen further up the response.
      * @return array|null
      */
-    private static function find_reauthorised_account($payload, $profile_id)
+    private static function find_reauthorised_account($payload, $profile_id, $inherited = [])
     {
         if (is_object($payload)) {
             $payload = (array) $payload;
@@ -419,16 +427,29 @@ class ReconnectHandler
             return null;
         }
 
+        $credentials = $inherited;
+        foreach (self::CREDENTIAL_FIELDS as $field) {
+            if (isset($payload[$field]) && is_scalar($payload[$field]) && $payload[$field] !== '') {
+                $credentials[$field] = $payload[$field];
+            }
+        }
+
         $has_id = isset($payload['id']) && (string) $payload['id'] === $profile_id;
         if ($has_id) {
-            return $payload;
+            $account = $payload;
+            foreach ($credentials as $field => $value) {
+                if (!isset($account[$field]) || $account[$field] === '') {
+                    $account[$field] = $value;
+                }
+            }
+            return $account;
         }
 
         foreach ($payload as $value) {
             if (!is_array($value) && !is_object($value)) {
                 continue;
             }
-            $found = self::find_reauthorised_account($value, $profile_id);
+            $found = self::find_reauthorised_account($value, $profile_id, $credentials);
             if (!empty($found)) {
                 return $found;
             }

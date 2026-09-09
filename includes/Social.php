@@ -3,6 +3,7 @@
 namespace WPSP;
 
 use WPSP\Social\ReconnectHandler;
+use WPSP\Social\OAuthPopup;
 use myPHPNotes\LinkedIn;
 use DirkGroenen\Pinterest\Pinterest;
 use WPSP\Social\SocialReconnection;
@@ -131,6 +132,13 @@ class Social
         // so an ordinary request costs nothing more than the scheduled-check.
         add_action(ReconnectHandler::MAINTENANCE_HOOK, array(ReconnectHandler::class, 'run_maintenance'));
         add_action('wp_loaded', array(ReconnectHandler::class, 'schedule_maintenance'));
+
+        // A reconnect runs the provider's consent screen in a popup, so the
+        // callback has to be caught before it turns that popup into a second
+        // copy of the settings screen.
+        if (is_admin()) {
+            OAuthPopup::hooks();
+        }
     }
 
     public function socialProfile() {
