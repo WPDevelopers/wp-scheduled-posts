@@ -41,7 +41,7 @@ class PostPanel {
             'args'                => [
                 'post_id' => [
                     'required'          => true,
-                    'validate_callback' => fn( $param ) => is_numeric( $param ),
+                    'validate_callback' => function ( $param ) { return is_numeric( $param ); },
                     'sanitize_callback' => 'absint',
                 ],
                 'schedule_date' => [
@@ -73,7 +73,7 @@ class PostPanel {
             'args'                => [
                 'post_id' => [
                     'required'          => true,
-                    'validate_callback' => fn( $param ) => is_numeric( $param ),
+                    'validate_callback' => function ( $param ) { return is_numeric( $param ); },
                     'sanitize_callback' => 'absint',
                 ],
             ],
@@ -89,7 +89,7 @@ class PostPanel {
             'args'                => [
                 'post_id' => [
                     'required'          => true,
-                    'validate_callback' => fn( $param ) => is_numeric( $param ),
+                    'validate_callback' => function ( $param ) { return is_numeric( $param ); },
                     'sanitize_callback' => 'absint',
                 ],
             ],

@@ -180,7 +180,20 @@ class ReconnectHandler
             $updates['rt_expires_in'] = time() + (int) $data['refresh_token_expires_in'];
         }
 
-        self::update_profile_fields($platform, $item, $updates);
+        $saved = self::update_profile_fields($platform, $item, $updates);
+        if (!$saved) {
+            // The new token exists at the provider but is not on this site, so
+            // sharing would still use the old one. Saying "renewed" here left the
+            // author with a green connection that could not post.
+            return [
+                'success'     => false,
+                'reconnected' => false,
+                'platform'    => $platform,
+                'code'        => 'reconnect_not_saved',
+                'status'      => 500,
+                'message'     => __('Could not save the renewed connection.', 'wp-scheduled-posts'),
+            ];
+        }
 
         return [
             'success'     => true,
@@ -247,7 +260,20 @@ class ReconnectHandler
             $updates['added_date'] = current_time('mysql');
         }
 
-        self::update_profile_fields($platform, $item, $updates);
+        $saved = self::update_profile_fields($platform, $item, $updates);
+        if (!$saved) {
+            // The new token exists at the provider but is not on this site, so
+            // sharing would still use the old one. Saying "renewed" here left the
+            // author with a green connection that could not post.
+            return [
+                'success'     => false,
+                'reconnected' => false,
+                'platform'    => $platform,
+                'code'        => 'reconnect_not_saved',
+                'status'      => 500,
+                'message'     => __('Could not save the renewed connection.', 'wp-scheduled-posts'),
+            ];
+        }
 
         return [
             'success'     => true,
@@ -311,27 +337,69 @@ class ReconnectHandler
 
         $target_id  = isset($item['id']) ? (string) $item['id'] : '';
         $target__id = isset($item['__id']) ? (string) $item['__id'] : '';
-        $changed    = false;
 
-        foreach ($settings[$key] as &$profile) {
-            $profile_id  = isset($profile['id']) ? (string) $profile['id'] : '';
-            $profile__id = isset($profile['__id']) ? (string) $profile['__id'] : '';
-            if (($target_id !== '' && $profile_id === $target_id)
-                || ($target__id !== '' && $profile__id === $target__id)) {
-                foreach ($updates as $field => $value) {
-                    $profile[$field] = $value;
-                }
-                $changed = true;
-                break;
-            }
+        // __id is the per-entry identifier, so when the caller has one it points
+        // at exactly one profile. id does not: every Pinterest board of an
+        // account is stored as its own entry under the same id (the username),
+        // and the token being renewed belongs to the account, not the board. So
+        // an id match has to write to all of them — stopping at the first left
+        // the remaining boards holding the token that just expired.
+        $matches = self::matching_profile_indexes($settings[$key], '__id', $target__id);
+        if (empty($matches)) {
+            $matches = self::matching_profile_indexes($settings[$key], 'id', $target_id);
         }
-        unset($profile);
 
-        if (!$changed) {
+        if (empty($matches)) {
             return false;
         }
 
+        $differs = false;
+        foreach ($matches as $index) {
+            $profile = (array) $settings[$key][$index];
+            foreach ($updates as $field => $value) {
+                if (!array_key_exists($field, $profile) || $profile[$field] !== $value) {
+                    $differs = true;
+                }
+                $profile[$field] = $value;
+            }
+            $settings[$key][$index] = $profile;
+        }
+
+        // update_option() reports false for a write that changes nothing, which
+        // is not a failure: the profile already holds what was about to be
+        // written. Renewing a token the provider handed back unchanged lands
+        // here, and reporting it as a failed save told the author to reconnect a
+        // connection that was fine.
+        if (!$differs) {
+            return true;
+        }
+
         return update_option(WPSP_SETTINGS_NAME, wp_json_encode($settings));
+    }
+
+    /**
+     * Indexes of every stored profile whose $field equals $target.
+     *
+     * @param array  $profiles
+     * @param string $field
+     * @param string $target
+     * @return int[]
+     */
+    private static function matching_profile_indexes($profiles, $field, $target)
+    {
+        if ($target === '') {
+            return [];
+        }
+
+        $found = [];
+        foreach ($profiles as $index => $profile) {
+            $profile = (array) $profile;
+            if (isset($profile[$field]) && (string) $profile[$field] === $target) {
+                $found[] = $index;
+            }
+        }
+
+        return $found;
     }
 
     /**

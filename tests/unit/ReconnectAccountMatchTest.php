@@ -22,7 +22,9 @@ class ReconnectAccountMatchTest extends TestCase {
 	 */
 	private function match( $payload, $profile_id ) {
 		$method = new ReflectionMethod( ReconnectHandler::class, 'find_reauthorised_account' );
-		$method->setAccessible( true );
+		if ( PHP_VERSION_ID < 80100 ) {
+			$method->setAccessible( true );
+		}
 
 		return $method->invoke( null, $payload, $profile_id );
 	}
