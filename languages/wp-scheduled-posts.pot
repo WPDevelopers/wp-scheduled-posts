@@ -3,15 +3,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SchedulePress 5.3.3\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-scheduled-posts\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wpsp-release\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-08-31T06:40:30+00:00\n"
+"POT-Creation-Date: 2026-09-13T05:38:00+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.12.0\n"
+"X-Generator: WP-CLI 2.13.0-alpha-16cc7a8\n"
 "X-Domain: wp-scheduled-posts\n"
 
 #. Plugin Name of the plugin
@@ -100,7 +100,7 @@ msgid "Sorry, you can't schedule this <strong>%1$s</strong>. Please allow this p
 msgstr ""
 
 #: includes/Admin.php:473
-#: src/components/Settings/ScheduleOn.js:155
+#: src/components/Settings/ScheduleOn.js:205
 msgid "Publish On"
 msgstr ""
 
@@ -238,19 +238,19 @@ msgstr ""
 msgid "(Page)"
 msgstr ""
 
-#: includes/Admin.php:1295
+#: includes/Admin.php:1322
 msgid "Your post successfully updated"
 msgstr ""
 
-#: includes/Admin.php:1473
+#: includes/Admin.php:1500
 msgid "Your post successfully published"
 msgstr ""
 
-#: includes/Admin.php:1484
+#: includes/Admin.php:1511
 msgid "Your post id is empty"
 msgstr ""
 
-#: includes/Admin.php:1511
+#: includes/Admin.php:1538
 msgid "Your post successfully scheduled"
 msgstr ""
 
@@ -1067,7 +1067,7 @@ msgid "Get options to set the published post status when scheduling it. Keep the
 msgstr ""
 
 #: includes/Admin/Settings.php:1911
-#: includes/Admin/Settings.php:2065
+#: includes/Admin/Settings.php:2049
 msgid "Read Detailed Documentation:"
 msgstr ""
 
@@ -1084,7 +1084,7 @@ msgid "How to Configure SchedulePress Advanced Schedule in Classic Editor?"
 msgstr ""
 
 #: includes/Admin/Settings.php:1943
-#: includes/Admin/Settings.php:2090
+#: includes/Admin/Settings.php:2074
 msgid "Watch The Video Walkthrough"
 msgstr ""
 
@@ -1093,24 +1093,24 @@ msgstr ""
 msgid "Manage Schedule"
 msgstr ""
 
-#: includes/Admin/Settings.php:2023
-#: includes/Admin/Settings.php:2045
+#: includes/Admin/Settings.php:2007
+#: includes/Admin/Settings.php:2029
 msgid "Missed Schedule"
 msgstr ""
 
-#: includes/Admin/Settings.php:2046
+#: includes/Admin/Settings.php:2030
 msgid "Enable to publish posts randomly"
 msgstr ""
 
-#: includes/Admin/Settings.php:2057
+#: includes/Admin/Settings.php:2041
 msgid "WordPress might miss the schedule for a post for various reasons. Turn on this option to let SchedulePress take care of this and publish the missed schedule."
 msgstr ""
 
-#: includes/Admin/Settings.php:2069
+#: includes/Admin/Settings.php:2053
 msgid "How To Manage The Missed Schedule Error In WordPress?"
 msgstr ""
 
-#: includes/Admin/Settings.php:2073
+#: includes/Admin/Settings.php:2057
 msgid "How To Configure SchedulePress To Handle Missed Schedule Errors?"
 msgstr ""
 
@@ -1225,10 +1225,10 @@ msgid "Connection failed. Please verify your API key and try again."
 msgstr ""
 
 #: includes/API/AICaption.php:170
-#: includes/API/CustomSocialTemplates.php:386
-#: includes/API/CustomSocialTemplates.php:421
-#: includes/API/CustomSocialTemplates.php:581
-#: includes/API/CustomSocialTemplates.php:634
+#: includes/API/CustomSocialTemplates.php:396
+#: includes/API/CustomSocialTemplates.php:431
+#: includes/API/CustomSocialTemplates.php:591
+#: includes/API/CustomSocialTemplates.php:644
 msgid "Post not found or insufficient permissions."
 msgstr ""
 
@@ -1252,65 +1252,65 @@ msgstr ""
 msgid "Could not parse captions from the AI response."
 msgstr ""
 
-#: includes/API/CustomSocialTemplates.php:454
+#: includes/API/CustomSocialTemplates.php:464
 msgid "No platform data provided. Use either \"platform\" for single mode or \"platforms\" for batch mode."
 msgstr ""
 
-#: includes/API/CustomSocialTemplates.php:462
+#: includes/API/CustomSocialTemplates.php:472
 msgid "Validation errors occurred."
 msgstr ""
 
 #. translators: %d: Number of social platforms the template and scheduling were saved for
-#: includes/API/CustomSocialTemplates.php:499
+#: includes/API/CustomSocialTemplates.php:509
 #, php-format
 msgid "Templates and scheduling saved successfully for %d platforms."
 msgstr ""
 
-#: includes/API/CustomSocialTemplates.php:500
+#: includes/API/CustomSocialTemplates.php:510
 msgid "Template and scheduling saved successfully."
 msgstr ""
 
-#: includes/API/CustomSocialTemplates.php:514
+#: includes/API/CustomSocialTemplates.php:524
 msgid "Failed to save template and/or scheduling."
 msgstr ""
 
-#: includes/API/CustomSocialTemplates.php:594
+#: includes/API/CustomSocialTemplates.php:604
 msgid "No custom template found for this platform."
 msgstr ""
 
 #. translators: %s: Social platform label, e.g. Facebook
-#: includes/API/CustomSocialTemplates.php:611
+#: includes/API/CustomSocialTemplates.php:621
 #, php-format
 msgid "Custom template deleted for %s."
 msgstr ""
 
-#: includes/API/CustomSocialTemplates.php:656
+#: includes/API/CustomSocialTemplates.php:666
 msgid "Social settings saved successfully."
 msgstr ""
 
-#: includes/API/CustomSocialTemplates.php:662
+#: includes/API/CustomSocialTemplates.php:672
 msgid "No changes made to social settings."
 msgstr ""
 
 #. translators: %s: Name of the invalid social media platform
-#: includes/API/CustomSocialTemplates.php:706
+#: includes/API/CustomSocialTemplates.php:716
 #, php-format
 msgid "Invalid platform: %s"
 msgstr ""
 
 #. translators: 1: Name of the social media platform, 2: Validation error message
-#: includes/API/CustomSocialTemplates.php:720
+#: includes/API/CustomSocialTemplates.php:730
 #, php-format
 msgid "%1$s: %2$s"
 msgstr ""
 
-#: includes/API/CustomSocialTemplates.php:847
+#: includes/API/CustomSocialTemplates.php:857
 #: includes/Helpers/CustomTemplateHelper.php:195
 msgid "Template cannot be empty."
 msgstr ""
 
 #. translators: 1: Name of the social media platform, 2: Current character count, 3: Maximum allowed character limit
-#: includes/API/CustomSocialTemplates.php:860
+#: includes/API/CustomSocialTemplates.php:870
 #: includes/Helpers/CustomTemplateHelper.php:206
 #, php-format
 msgid "Template exceeds character limit for %1$s (%2$d/%3$d characters)."
@@ -1318,33 +1318,102 @@ msgstr ""
 
 #. translators: 1: Invalid placeholder name, 2: List of valid placeholders
 #. translators: 1: Invalid placeholder name, 2: Comma-separated list of valid placeholders
-#: includes/API/CustomSocialTemplates.php:878
+#: includes/API/CustomSocialTemplates.php:888
 #: includes/Helpers/CustomTemplateHelper.php:224
 #, php-format
 msgid "Invalid placeholder \"%1$s\". Valid placeholders are: %2$s"
 msgstr ""
 
-#: includes/API/CustomSocialTemplates.php:889
+#: includes/API/CustomSocialTemplates.php:899
 #: includes/Helpers/CustomTemplateHelper.php:235
 msgid "Template is valid."
 msgstr ""
 
-#: includes/API/PostPanel.php:94
+#: includes/API/PostPanel.php:110
 msgid "You do not have permission to edit this post."
 msgstr ""
 
-#: includes/API/PostPanel.php:114
-#: includes/API/PostPanel.php:142
-#: includes/API/PostPanel.php:198
+#: includes/API/PostPanel.php:130
+#: includes/API/PostPanel.php:167
+#: includes/API/PostPanel.php:223
+#: includes/API/PostPanel.php:292
+#: includes/API/PostPanel.php:396
+#: includes/API/PostPanel.php:427
+#: includes/API/PostPanel.php:435
 msgid "Post not found."
 msgstr ""
 
-#: includes/API/PostPanel.php:178
+#: includes/API/PostPanel.php:203
 msgid "Settings saved successfully."
 msgstr ""
 
-#: includes/API/PostPanel.php:215
+#: includes/API/PostPanel.php:236
+msgid "Choose exactly one of publish_immediately_current_date or publish_immediately_future_date."
+msgstr ""
+
+#: includes/API/PostPanel.php:254
 msgid "Post published successfully."
+msgstr ""
+
+#: includes/API/PostPanel.php:309
+#: includes/API/PostPanel.php:328
+msgid "Could not clear the stored publishing intent."
+msgstr ""
+
+#: includes/API/PostPanel.php:316
+msgid "Immediate publishing was not active for this post."
+msgstr ""
+
+#: includes/API/PostPanel.php:347
+msgid "WordPress did not update the post."
+msgstr ""
+
+#. translators: %s is the post update error returned by WordPress.
+#: includes/API/PostPanel.php:355
+#, php-format
+msgid "Could not reschedule the post, and could not restore the stored publishing intent. WordPress reported: %s"
+msgstr ""
+
+#: includes/API/PostPanel.php:376
+msgid "Post returned to its schedule."
+msgstr ""
+
+#: includes/API/PostPanel.php:377
+msgid "Immediate publishing turned off."
+msgstr ""
+
+#: includes/API/PostPanel.php:446
+msgid "This post is not dated in the future."
+msgstr ""
+
+#: includes/API/PostPanel.php:510
+msgid "WordPress did not restore the post."
+msgstr ""
+
+#. translators: %s is the post rollback error returned by WordPress.
+#: includes/API/PostPanel.php:516
+#, php-format
+msgid "The publishing intent could not be saved, and the post could not be restored. WordPress reported: %s"
+msgstr ""
+
+#: includes/API/PostPanel.php:524
+msgid "The publishing intent could not be saved. The post was restored to its previous schedule."
+msgstr ""
+
+#: includes/API/Settings.php:196
+msgid "You are not allowed to do this."
+msgstr ""
+
+#: includes/API/Settings.php:204
+msgid "You are not allowed to manage social profiles."
+msgstr ""
+
+#: includes/API/Settings.php:222
+msgid "This platform cannot be reconnected."
+msgstr ""
+
+#: includes/API/Settings.php:235
+msgid "Could not reconnect this profile."
 msgstr ""
 
 #: includes/Assets.php:59
@@ -1385,6 +1454,19 @@ msgstr ""
 
 #: includes/Social/Bluesky.php:414
 msgid "Bluesky Connection Problem. error code: "
+msgstr ""
+
+#: includes/Social/Bluesky.php:490
+#: includes/Social/Facebook.php:506
+#: includes/Social/GoogleBusiness.php:403
+#: includes/Social/Instagram.php:422
+#: includes/Social/Linkedin.php:372
+#: includes/Social/Mastodon.php:501
+#: includes/Social/Medium.php:370
+#: includes/Social/Pinterest.php:460
+#: includes/Social/Threads.php:402
+#: includes/Social/Twitter.php:367
+msgid "Sharing was skipped for this profile. Check the post's social share settings."
 msgstr ""
 
 #: includes/Social/GoogleBusiness.php:63
@@ -1438,27 +1520,27 @@ msgstr ""
 msgid "It seems you haven't connected any profile/page in your <a href=\"%s\">SchedulePress settings</a>."
 msgstr ""
 
-#: includes/Social/InstantShare.php:467
-#: includes/Social/InstantShare.php:603
+#: includes/Social/InstantShare.php:511
+#: includes/Social/InstantShare.php:647
 #: includes/Social/SocialProfile.php:361
 #: includes/Social/SocialProfile.php:438
-#: includes/Social/SocialProfile.php:1108
+#: includes/Social/SocialProfile.php:1113
 msgid "Invalid nonce."
 msgstr ""
 
-#: includes/Social/InstantShare.php:472
-#: includes/Social/InstantShare.php:609
+#: includes/Social/InstantShare.php:516
+#: includes/Social/InstantShare.php:653
 #: includes/Social/SocialProfile.php:365
 #: includes/Social/SocialProfile.php:444
-#: includes/Social/SocialProfile.php:1114
+#: includes/Social/SocialProfile.php:1119
 msgid "You are unauthorized to access social profiles."
 msgstr ""
 
-#: includes/Social/InstantShare.php:587
+#: includes/Social/InstantShare.php:631
 msgid "Failed!, You didn't select any social media."
 msgstr ""
 
-#: includes/Social/InstantShare.php:867
+#: includes/Social/InstantShare.php:911
 msgid "Sorry, your requested platform integration is not added."
 msgstr ""
 
@@ -1478,12 +1560,103 @@ msgstr ""
 msgid "Mastodon Connection Problem. error code: "
 msgstr ""
 
+#: includes/Social/OAuthPopup.php:133
+#: includes/Social/OAuthPopup.php:136
+msgid "Finishing authorisation…"
+msgstr ""
+
 #: includes/Social/Pinterest.php:236
 msgid "Rate limit exceeded: Maximum 3 posts per minute allowed for Pinterest."
 msgstr ""
 
 #: includes/Social/Pinterest.php:371
 msgid "Your post has been successfully shared!"
+msgstr ""
+
+#. translators: %s: social platform name
+#: includes/Social/ReconnectHandler.php:98
+#, php-format
+msgid "Reconnect is not supported for %s."
+msgstr ""
+
+#: includes/Social/ReconnectHandler.php:108
+#: includes/Social/ReconnectHandler.php:693
+msgid "No profile was identified in the request."
+msgstr ""
+
+#: includes/Social/ReconnectHandler.php:124
+msgid "This platform has no automatic renewal."
+msgstr ""
+
+#: includes/Social/ReconnectHandler.php:190
+#: includes/Social/ReconnectHandler.php:256
+#: includes/Social/ReconnectHandler.php:419
+msgid "Connection renewed."
+msgstr ""
+
+#: includes/Social/ReconnectHandler.php:288
+msgid "This connection has to be authorised again."
+msgstr ""
+
+#: includes/Social/ReconnectHandler.php:372
+msgid "Reconnect could not be completed."
+msgstr ""
+
+#: includes/Social/ReconnectHandler.php:383
+msgid "That authorisation was for a different account. Reconnect the profile with the same account it was added with."
+msgstr ""
+
+#: includes/Social/ReconnectHandler.php:397
+msgid "The authorisation returned no usable credentials."
+msgstr ""
+
+#: includes/Social/ReconnectHandler.php:411
+msgid "Could not save the renewed connection."
+msgstr ""
+
+#: includes/Social/ReconnectHandler.php:684
+msgid "Invalid profile payload."
+msgstr ""
+
+#: includes/Social/ReconnectHandler.php:702
+msgid "No long-lived access token provided."
+msgstr ""
+
+#: includes/Social/ReconnectHandler.php:737
+msgid "Instagram rejected the reconnect request."
+msgstr ""
+
+#: includes/Social/ReconnectHandler.php:763
+msgid "Access token refreshed successfully."
+msgstr ""
+
+#: includes/Social/ReconnectHandler.php:772
+msgid "Unexpected response from Instagram API."
+msgstr ""
+
+#: includes/Social/ReconnectHandler.php:791
+msgid "No token was supplied to save."
+msgstr ""
+
+#: includes/Social/ReconnectHandler.php:800
+msgid "Plugin settings could not be read."
+msgstr ""
+
+#: includes/Social/ReconnectHandler.php:811
+#: includes/Social/ReconnectHandler.php:819
+msgid "Plugin settings are not in the expected format."
+msgstr ""
+
+#: includes/Social/ReconnectHandler.php:847
+msgid "That profile is no longer in the saved settings."
+msgstr ""
+
+#: includes/Social/ReconnectHandler.php:857
+msgid "Updated settings could not be encoded."
+msgstr ""
+
+#: includes/Social/ReconnectHandler.php:874
+msgid "The refreshed token could not be saved."
 msgstr ""
 
 #: includes/Social/SocialProfile.php:28
@@ -1495,13 +1668,13 @@ msgid "Twitter Connection Problem. error code: "
 msgstr ""
 
 #. translators: %1$s: URL to the SchedulePress support page
-#: wp-scheduled-posts.php:157
+#: wp-scheduled-posts.php:162
 #, php-format
 msgid "SchedulePress Free v5.0 needs SchedulePress Pro v5.0 for better performance. Please update SchedulePress Pro plugin to v5.0. Contact our <a href=\"%1$s\" target=\"_blank\">Support</a> if you need any assistance."
 msgstr ""
 
 #. translators: 1: `<h3>` opening tag, 2: `</h3>` closing tag, 3: PHP version. 4: Link opening tag, 5: Link closing tag.
-#: wp-scheduled-posts.php:345
+#: wp-scheduled-posts.php:350
 #, php-format
 msgid "%1$sSchedulePress isn’t running because PHP is outdated.%2$s Update to PHP version %3$s and get back to creating!"
 msgstr ""
@@ -1522,7 +1695,7 @@ msgstr ""
 msgid "Yes, Enable it!"
 msgstr ""
 
-#: includes/Admin/Settings/app/Settings/fields/GoogleBusiness.jsx:280
+#: includes/Admin/Settings/app/Settings/fields/GoogleBusiness.jsx:281
 #: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Please update to the latest version of <strong>SchedulePress Pro</strong> to connect with <strong>Google Business Profile</strong>."
 msgstr ""
@@ -1853,6 +2026,18 @@ msgstr ""
 #: includes/Admin/Settings/assets/js/admin.js:1
 #: src/components/Content/ShareNowStatusModal.js:27
 msgid "Board"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Connection expired"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Could not reconnect this profile. Please try again."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Reconnecting…"
 msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:1
@@ -2489,23 +2674,43 @@ msgstr ""
 msgid "Publishing..."
 msgstr ""
 
-#: src/components/Settings/ScheduleOn.js:146
+#: src/components/Settings/PublishImmediately.js:127
+msgid "This post was published ahead of its scheduled date. It stays published on every save until you turn this off."
+msgstr ""
+
+#: src/components/Settings/PublishImmediately.js:136
+msgid "Turning off..."
+msgstr ""
+
+#: src/components/Settings/PublishImmediately.js:137
+msgid "Turn off & restore schedule"
+msgstr ""
+
+#: src/components/Settings/ScheduleOn.js:152
+msgid "The schedule was restored, but the server did not return the current post status. Reload this editor before continuing."
+msgstr ""
+
+#: src/components/Settings/ScheduleOn.js:164
+msgid "The schedule was restored, but this editor could not refresh its post status. Reload this editor before continuing."
+msgstr ""
+
+#: src/components/Settings/ScheduleOn.js:196
 msgid "Default Schedule"
 msgstr ""
 
-#: src/components/Settings/ScheduleOn.js:165
+#: src/components/Settings/ScheduleOn.js:215
 msgid "Set the date and time to publish or schedule this post."
 msgstr ""
 
-#: src/components/Settings/ScheduleOn.js:178
+#: src/components/Settings/ScheduleOn.js:228
 msgid "Select date & time"
 msgstr ""
 
-#: src/components/Settings/ScheduleOn.js:192
+#: src/components/Settings/ScheduleOn.js:242
 msgid "Clear date"
 msgstr ""
 
-#: src/components/Settings/ScheduleOn.js:219
+#: src/components/Settings/ScheduleOn.js:269
 msgid "Now"
 msgstr ""
 
