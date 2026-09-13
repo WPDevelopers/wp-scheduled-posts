@@ -173,9 +173,7 @@ class Settings
         register_rest_route($namespace,'complete-reconnect',array(
             'methods' => 'POST',
             'callback'   => array($this, 'wpsp_complete_reconnect'),
-            'permission_callback' => function() {
-                return current_user_can( 'edit_posts' );
-            }
+            'permission_callback' => array($this, 'can_manage_social_profiles')
         ));
     }
 
