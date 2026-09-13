@@ -248,6 +248,20 @@ class Settings
             $request->get_param('id'),
             $request->get_param('payload')
         );
+
+        // A failure has to arrive as one. Answering 200 with success => false
+        // left every caller that only reads the status believing the profile
+        // had been reconnected.
+        if ( empty($result['success']) ) {
+            return new \WP_Error(
+                ! empty($result['code']) ? $result['code'] : 'reconnect_failed',
+                ! empty($result['message'])
+                    ? $result['message']
+                    : __('Reconnect could not be completed.', 'wp-scheduled-posts'),
+                array('status' => ! empty($result['status']) ? (int) $result['status'] : 400)
+            );
+        }
+
         return rest_ensure_response($result);
     }
 

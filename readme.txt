@@ -4,7 +4,7 @@ Tags: post schedule, schedule calendar, auto scheduler, auto sharing, social sha
 Requires at least: 4.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 5.3.3
+Stable tag: 5.3.4
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -217,11 +217,31 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 == Changelog ==
 
-= 5.3.3 - 2026-07-29 =
-- Added: Mastodon social platform integration.
+= 5.3.4 - 2026-09-13 =
+- Added: Connected social profiles now show their connection health, and expiring tokens are renewed in the background before they lapse.
+- Added: Reconnecting a profile finishes in a popup, so the settings screen never has to be left behind.
 - Fixed: Saving a social caption queued a second, unrequested share of the same post a few hours later. A share is now scheduled only when a date or time is actually chosen.
 - Fixed: A scheduled post could be shared to social media before it was published, and then again when it went live.
 - Fixed: Relative share times ("In one hour", "In three hours") used the time the caption was saved instead of the post's publication time, so a post scheduled for 9 AM could be shared at 9 PM.
+- Fixed: Threads rejected every post that had no featured image.
+- Fixed: Social share schedules left behind by older builds were repaired.
+- Fixed: Renewing a Pinterest account's token reached only the first board, leaving the account's other boards disconnected.
+- Fixed: A reconnect reported "Connection renewed" even when the new token had not been saved.
+- Fixed: A reconnect reported a failure when the credentials were already up to date.
+- Fixed: Instagram and Threads expiry dates were read in the wrong timezone, so connections were renewed early or shown as expired while still valid.
+- Fixed: Profiles connected through your own LinkedIn, Pinterest or Google Business app are now renewed against the platform directly instead of being reported as expired.
+- Fixed: A temporary token-service outage no longer marks working connections as needing a reconnect.
+- Fixed: A failed reconnect reached the browser as a success.
+- Fixed: The scheduling panel ignored a post status changed after the editor had loaded.
+- Fixed: Publishing a future post immediately, and clearing that choice, now report what actually happened.
+- Fixed: A custom social template with no profile selected dropped every share.
+- Fixed: A fatal error when a post's selected social profiles were stored as a string.
+- Fixed: The Mastodon connect modal did not show the Redirect URI field.
+- Security: The reconnect endpoints now verify that the caller may manage social profiles, and no longer send credentials to a URL supplied by the request.
+- Few minor bug fixes & improvements.
+
+= 5.3.3 - 2026-07-29 =
+- Added: Mastodon social platform integration.
 - Fixed: Medium sharing failed for posts without tags or categories.
 - Fixed: LinkedIn auto-reconnect could fail to renew access tokens, causing profile disconnection.
 - Fixed: Pinterest sharing to multiple boards missed the post title and link after the first board.

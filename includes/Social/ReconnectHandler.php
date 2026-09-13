@@ -36,7 +36,57 @@ class ReconnectHandler
      */
     public static function handleProfileReconnect($platform, $item)
     {
-        return self::renew($platform, (array) $item);
+        $item = (array) $item;
+
+        // Everything but the identifier is read back off the stored profile.
+        // The request used to supply the credentials and the URL they were sent
+        // to, which let anyone who could reach this route point the site at a
+        // host of their choosing and have the reply written into settings.
+        $stored = self::stored_profile($platform, $item);
+        if ($stored === null) {
+            return [
+                'success'     => false,
+                'reconnected' => false,
+                'code'        => 'reconnect_profile_missing',
+                'status'      => 404,
+                'message'     => __('That profile is not connected.', 'wp-scheduled-posts'),
+            ];
+        }
+
+        return self::renew($platform, $stored);
+    }
+
+    /**
+     * The stored copy of the profile the request is asking about.
+     *
+     * @param string $platform
+     * @param array  $item Only its id / __id are read.
+     * @return array|null
+     */
+    private static function stored_profile($platform, $item)
+    {
+        if (!isset(self::PROFILE_OPTIONS[$platform])) {
+            return null;
+        }
+
+        $settings = json_decode(get_option(WPSP_SETTINGS_NAME), true);
+        $key      = self::PROFILE_OPTIONS[$platform];
+        if (!is_array($settings) || empty($settings[$key]) || !is_array($settings[$key])) {
+            return null;
+        }
+
+        $target_id  = isset($item['id']) ? (string) $item['id'] : '';
+        $target__id = isset($item['__id']) ? (string) $item['__id'] : '';
+
+        $matches = self::matching_profile_indexes($settings[$key], '__id', $target__id);
+        if (empty($matches)) {
+            $matches = self::matching_profile_indexes($settings[$key], 'id', $target_id);
+        }
+        if (empty($matches)) {
+            return null;
+        }
+
+        return (array) $settings[$key][ $matches[0] ];
     }
 
     /**
@@ -129,18 +179,7 @@ class ReconnectHandler
             return self::authRequiredResponse($platform, $item);
         }
 
-        $middleware = !empty($item['redirectURI'])
-            ? $item['redirectURI']
-            : WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE_DEV;
-
-        $response = wp_remote_post($middleware, [
-            'timeout' => 30,
-            'body'    => [
-                'type'          => $platform,
-                'refresh_token' => $refresh_token,
-                'client_id'     => !empty($item['app_id']) ? $item['app_id'] : '',
-            ],
-        ]);
+        $response = self::request_renewed_token($platform, $item, $refresh_token);
 
         if (is_wp_error($response)) {
             // A network blip is not a dead grant, so this is reported without
@@ -151,6 +190,21 @@ class ReconnectHandler
                 'transient'   => true,
                 'platform'    => $platform,
                 'message'     => $response->get_error_message(),
+            ];
+        }
+
+        // Neither is the token server having a bad afternoon. A 5xx says nothing
+        // about the grant, and treating it as a dead connection told authors to
+        // reconnect working profiles every time the middleware wobbled.
+        $status = (int) wp_remote_retrieve_response_code($response);
+        if ($status >= 500) {
+            return [
+                'success'     => false,
+                'reconnected' => false,
+                'transient'   => true,
+                'platform'    => $platform,
+                /* translators: %d: HTTP status code */
+                'message'     => sprintf(__('The token service answered %d. Will try again later.', 'wp-scheduled-posts'), $status),
             ];
         }
 
@@ -205,6 +259,110 @@ class ReconnectHandler
     }
 
     /**
+     * Where a platform's own OAuth2 token endpoint lives.
+     *
+     * Only used by profiles connected through the author's own app. Everything
+     * else goes through the SchedulePress middleware, which is what holds the
+     * client secret for the shared apps.
+     */
+    const PROVIDER_TOKEN_ENDPOINTS = [
+        'linkedin'        => 'https://www.linkedin.com/oauth/v2/accessToken',
+        'pinterest'       => 'https://api.pinterest.com/v5/oauth/token',
+        'google_business' => 'https://oauth2.googleapis.com/token',
+    ];
+
+    /**
+     * Ask for a fresh access token, from whichever side holds the client secret.
+     *
+     * @param string $platform
+     * @param array  $item
+     * @param string $refresh_token
+     * @return array|\WP_Error
+     */
+    private static function request_renewed_token($platform, $item, $refresh_token)
+    {
+        $app_id     = !empty($item['app_id']) ? $item['app_id'] : '';
+        $app_secret = !empty($item['app_secret']) ? $item['app_secret'] : '';
+
+        // A profile connected through the author's own app has a client secret
+        // that only this site holds, and the middleware cannot authenticate as
+        // that app. Sending the grant there could never have succeeded, and it
+        // handed the author's refresh token to a server with no use for it.
+        if ($app_id !== '' && $app_secret !== '' && isset(self::PROVIDER_TOKEN_ENDPOINTS[$platform])) {
+            return self::request_provider_token($platform, $app_id, $app_secret, $refresh_token);
+        }
+
+        return wp_safe_remote_post(self::middleware_url($item), [
+            'timeout' => 30,
+            'body'    => [
+                'type'          => $platform,
+                'refresh_token' => $refresh_token,
+                'client_id'     => $app_id,
+            ],
+        ]);
+    }
+
+    /**
+     * Standard refresh_token grant, straight to the platform.
+     *
+     * @param string $platform
+     * @param string $app_id
+     * @param string $app_secret
+     * @param string $refresh_token
+     * @return array|\WP_Error
+     */
+    private static function request_provider_token($platform, $app_id, $app_secret, $refresh_token)
+    {
+        $args = [
+            'timeout' => 30,
+            'body'    => [
+                'grant_type'    => 'refresh_token',
+                'refresh_token' => $refresh_token,
+            ],
+        ];
+
+        if ($platform === 'pinterest') {
+            // Pinterest reads the client credentials from the header and
+            // rejects them in the body.
+            $args['headers'] = [
+                'Authorization' => 'Basic ' . base64_encode($app_id . ':' . $app_secret),
+                'Content-Type'  => 'application/x-www-form-urlencoded',
+            ];
+        } else {
+            $args['body']['client_id']     = $app_id;
+            $args['body']['client_secret'] = $app_secret;
+        }
+
+        return wp_safe_remote_post(self::PROVIDER_TOKEN_ENDPOINTS[$platform], $args);
+    }
+
+    /**
+     * The middleware this site may talk to.
+     *
+     * A profile carries the redirect URI it was connected with, and for the
+     * shared apps that is one of our two middleware endpoints. It is still a
+     * stored value, so anything that is not one of those two is ignored rather
+     * than dialled.
+     *
+     * @param array $item
+     * @return string
+     */
+    private static function middleware_url($item)
+    {
+        $allowed = array_filter([
+            defined('WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE') ? WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE : '',
+            defined('WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE_DEV') ? WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE_DEV : '',
+        ]);
+
+        $stored = !empty($item['redirectURI']) ? (string) $item['redirectURI'] : '';
+        if ($stored !== '' && in_array($stored, $allowed, true)) {
+            return $stored;
+        }
+
+        return WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE_DEV;
+    }
+
+    /**
      * Extend one of Meta's long-lived tokens in place.
      *
      * Instagram and Threads share this contract exactly, down to the 24-hour
@@ -235,6 +393,18 @@ class ReconnectHandler
                 'transient'   => true,
                 'platform'    => $platform,
                 'message'     => $response->get_error_message(),
+            ];
+        }
+
+        $status = (int) wp_remote_retrieve_response_code($response);
+        if ($status >= 500) {
+            return [
+                'success'     => false,
+                'reconnected' => false,
+                'transient'   => true,
+                'platform'    => $platform,
+                /* translators: %d: HTTP status code */
+                'message'     => sprintf(__('The token service answered %d. Will try again later.', 'wp-scheduled-posts'), $status),
             ];
         }
 
@@ -437,6 +607,8 @@ class ReconnectHandler
         if (!isset(self::PROFILE_OPTIONS[$platform]) || $profile_id === '' || $profile_id === null) {
             return [
                 'success' => false,
+                'code'    => 'reconnect_invalid_request',
+                'status'  => 400,
                 'message' => __('Reconnect could not be completed.', 'wp-scheduled-posts'),
             ];
         }
@@ -446,9 +618,11 @@ class ReconnectHandler
             // The author authorised a different account than the one being
             // reconnected, so nothing here belongs to this profile.
             return [
-                'success' => false,
+                'success'  => false,
                 'mismatch' => true,
-                'message' => __('That authorisation was for a different account. Reconnect the profile with the same account it was added with.', 'wp-scheduled-posts'),
+                'code'     => 'reconnect_account_mismatch',
+                'status'   => 409,
+                'message'  => __('That authorisation was for a different account. Reconnect the profile with the same account it was added with.', 'wp-scheduled-posts'),
             ];
         }
 
@@ -462,6 +636,8 @@ class ReconnectHandler
         if (empty($updates)) {
             return [
                 'success' => false,
+                'code'    => 'reconnect_no_credentials',
+                'status'  => 502,
                 'message' => __('The authorisation returned no usable credentials.', 'wp-scheduled-posts'),
             ];
         }
@@ -476,6 +652,8 @@ class ReconnectHandler
         if (!$saved) {
             return [
                 'success' => false,
+                'code'    => 'reconnect_not_saved',
+                'status'  => 500,
                 'message' => __('Could not save the renewed connection.', 'wp-scheduled-posts'),
             ];
         }
@@ -721,8 +899,7 @@ class ReconnectHandler
     public static function resolve_expiry($platform, $profile)
     {
         if (!empty($profile['expires_at'])) {
-            $parsed = strtotime($profile['expires_at']);
-            return $parsed ? $parsed : null;
+            return self::site_time_to_timestamp($profile['expires_at']);
         }
 
         if (empty($profile['expires_in'])) {
@@ -738,8 +915,44 @@ class ReconnectHandler
             return null;
         }
 
-        $added = strtotime($profile['added_date']);
-        return $added ? $added + $raw : null;
+        $added = self::site_time_to_timestamp($profile['added_date']);
+        return $added === null ? null : $added + $raw;
+    }
+
+    /**
+     * Read one of the stored date strings as the local time it actually is.
+     *
+     * added_date and expires_at are both written in the site's own timezone.
+     * WordPress runs PHP on UTC, so strtotime() read them as UTC and every
+     * expiry landed the site's offset away from the truth - six hours early in
+     * Dhaka, which is enough to renew a token a quarter of a day off or to call
+     * a live connection expired.
+     *
+     * @param string $date
+     * @return int|null
+     */
+    private static function site_time_to_timestamp($date)
+    {
+        if (!is_string($date) || $date === '') {
+            return null;
+        }
+
+        // A timestamp or an offset-bearing string already says what it means.
+        if (preg_match('/(Z|[+-]\d{2}:?\d{2})$/', trim($date))) {
+            $parsed = strtotime($date);
+            return $parsed ? $parsed : null;
+        }
+
+        if (function_exists('get_gmt_from_date')) {
+            $utc = get_gmt_from_date($date);
+            if (!empty($utc)) {
+                $parsed = strtotime($utc . ' UTC');
+                return $parsed ? $parsed : null;
+            }
+        }
+
+        $parsed = strtotime($date);
+        return $parsed ? $parsed : null;
     }
 
     public static function instagramReconnect($data)

@@ -129,20 +129,38 @@ const ScheduleOn = () => {
     const [serverPostStatus, setServerPostStatus] = useState(null);
     const [statusSyncError, setStatusSyncError] = useState('');
 
+    // What the editor said when the server last told us a status. The panel
+    // endpoint is read once, on mount, so anything the author does afterwards —
+    // publishing, reverting to draft — only shows up in the editor store. Once
+    // that store moves off this baseline it is the newer of the two and wins;
+    // without it the panel went on rendering the status the post had when it
+    // opened.
+    const serverStatusBaseline = useRef(null);
+    const latestEditorStatus   = useRef(postStatus);
+    latestEditorStatus.current = postStatus;
+
     useEffect(() => {
         if (!postId) return;
         let cancelled = false;
         getPostPanelSettings(postId).then((res) => {
             if (cancelled) return;
             setPreventFuturePost(!!res?.data?.prevent_future_post);
-            if (res?.data?.post_status) setServerPostStatus(res.data.post_status);
+            if (res?.data?.post_status) {
+                serverStatusBaseline.current = latestEditorStatus.current;
+                setServerPostStatus(res.data.post_status);
+            }
         }).catch(() => {}).finally(() => {
             if (!cancelled) setPanelStateLoaded(true);
         });
         return () => { cancelled = true; };
     }, [postId]);
 
-    const effectivePostStatus = serverPostStatus || postStatus;
+    const editorMovedOn = serverStatusBaseline.current !== null
+        && postStatus !== ''
+        && postStatus !== serverStatusBaseline.current;
+    const effectivePostStatus = editorMovedOn
+        ? postStatus
+        : (serverPostStatus || postStatus);
     const isScheduled = effectivePostStatus == 'future' ? true : false;
     const isPublished = effectivePostStatus == 'publish' ? true : false;
 
@@ -158,6 +176,9 @@ const ScheduleOn = () => {
         setServerPostStatus(nextStatus);
         try {
             syncCurrentPostStatus(nextStatus);
+            // The editor now agrees, so this is the status to measure the next
+            // editor change against.
+            serverStatusBaseline.current = nextStatus;
             setStatusSyncError('');
             setPreventFuturePost(false);
         } catch (error) {
