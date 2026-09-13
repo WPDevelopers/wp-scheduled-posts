@@ -18,6 +18,11 @@ else {
 	if (file_exists(dirname(__FILE__) . '/vendor/autoload.php')) {
 		require_once dirname(__FILE__) . '/vendor/autoload.php';
 	}
+	// Loaded here rather than through Composer's `files` autoload. That autoload
+	// runs in any PHP process that pulls in vendor/autoload.php, including the
+	// PHPUnit binary, where functions.php hit its `exit` guard and killed the
+	// run before PHPUnit printed anything -- a green exit 0 with zero tests.
+	require_once dirname(__FILE__) . '/includes/functions.php';
 	// Plugin Start
 	WPSP_Start();
 }
@@ -112,7 +117,7 @@ final class WPSP
 		define('WPSP_ASSETS_URI', WPSP_PLUGIN_ROOT_URI . 'assets/');
 		define('WPSCP_ADMIN_DIR_PATH', WPSP_ROOT_DIR_PATH . '/includes/Admin/');
 		// Midleware
-		define('WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE', 'https://api.schedulepress.com.test/callback.php');
+		define('WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE', 'https://api.schedulepress.com/callback.php');
 		define('WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE_DEV', 'https://devapi.schedulepress.com/v2/callback.php');
 		define('WPSP_SOCIAL_OAUTH2_PINTEREST_APP_ID', '1478596');
 		define('WPSP_SOCIAL_OAUTH2_LINKEDIN_APP_ID', '77nbfvpkganvt6');

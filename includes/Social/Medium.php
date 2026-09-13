@@ -213,7 +213,7 @@ class Medium
         // get social share type 
         $get_share_type =   get_post_meta($post_id, '_medium_share_type', true);
         if( $get_share_type === 'custom' ) {
-            $get_all_selected_profile     = get_post_meta($post_id, '_selected_social_profile', true);
+            $get_all_selected_profile     = Helper::get_selected_social_profiles($post_id);
             $check_profile_exists         = Helper::is_profile_exits( $medium_id, $get_all_selected_profile );
             if( !$check_profile_exists ) {
                 return;
@@ -363,6 +363,11 @@ class Medium
         $response = $this->remote_post($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key, true, $medium_id);
         if( $is_share_on_publish ) {
             return;
+        }
+        // remote_post() bails with a bare `return;` on its skip conditions, so this can be
+        // null. Without the guard the array access warns and the UI shows a blank error.
+        if ( !is_array($response) ) {
+            wp_send_json_error(__('Sharing was skipped for this profile. Check the post\'s social share settings.', 'wp-scheduled-posts'));
         }
         if ($response['success'] == false) {
             wp_send_json_error($response['log']);

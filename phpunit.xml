@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Unit suite: pure PHP, no WordPress, no database.
+
+  ZeroTestsListener and failOnWarning are deliberate. PHPUnit 8 otherwise lets
+  a run that executes no tests exit 0, which looks like passing evidence for
+  work that was never verified.
+-->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/8.5/phpunit.xsd"
+         bootstrap="tests/bootstrap-unit.php"
+         colors="true"
+         failOnWarning="true"
+         failOnRisky="true"
+         beStrictAboutOutputDuringTests="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true">
+    <testsuites>
+        <testsuite name="unit">
+            <directory suffix="Test.php">tests/unit</directory>
+        </testsuite>
+    </testsuites>
+    <listeners>
+        <listener class="WPSP\Tests\ZeroTestsListener"/>
+    </listeners>
+</phpunit>

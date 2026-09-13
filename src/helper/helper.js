@@ -47,3 +47,34 @@ export const updateProSettings = ( postId, data ) => {
         }
     });
 };
+
+/**
+ * Read the saved panel state for a post.
+ *
+ * Includes `prevent_future_post`, which nothing else exposes: it is written
+ * when a future-dated post is published early and keeps forcing 'publish' on
+ * every later save until it is cleared.
+ *
+ * @param {number} postId
+ * @returns {Promise}
+ */
+export const getPostPanelSettings = ( postId ) => {
+    return wp.apiFetch({
+        path: `/wp-scheduled-posts/v1/post-panel/${postId}`,
+        method: 'GET',
+    });
+};
+
+/**
+ * Turn "publish future post immediately" back off and, when the date has not
+ * passed yet, return the post to its schedule.
+ *
+ * @param {number} postId
+ * @returns {Promise}
+ */
+export const clearPublishImmediately = ( postId ) => {
+    return wp.apiFetch({
+        path: `/wp-scheduled-posts/v1/update-settings/${postId}`,
+        method: 'DELETE',
+    });
+};

@@ -529,7 +529,85 @@ class Helper
         return true;
     }
 
+    /**
+     * Get the selected social profiles of a post.
+     *
+     * The meta can come back as a string when the row holds a doubly serialized
+     * value, which WordPress produces whenever an already serialized string is
+     * handed to update_post_meta(). Unserialize once more to recover the real
+     * value and fall back to an empty array for anything else.
+     *
+     * The recovery never instantiates a class. unserialize() runs __wakeup()
+     * and __destruct() while it builds the value, so a type check afterwards is
+     * too late to stop a crafted payload: the payload has already executed. The
+     * rows this recovers are written by outside tools, so the content is not
+     * trusted. Only a serialized array is accepted, stdClass is the one class
+     * allowed through (it carries no magic methods), and every entry has to
+     * look like a profile record to survive.
+     */
+    public static function get_selected_social_profiles($post_id) {
+        $profiles = get_post_meta( $post_id, '_selected_social_profile', true );
+
+        if ( is_string( $profiles ) && 0 === strpos( $profiles, 'a:' ) && is_serialized( $profiles ) ) {
+            $profiles = unserialize( $profiles, [ 'allowed_classes' => [ 'stdClass' ] ] );
+        }
+
+        if ( ! is_array( $profiles ) ) {
+            return [];
+        }
+
+        // Every record is returned as an associative array. Both writers store
+        // that shape already (Admin::wpsp_format_profile_data() builds arrays,
+        // InstantShare re-encodes through json_decode(..., true)), and the
+        // consumers read it with array syntax: is_profile_exits() does
+        // isset($item['id']), which is a fatal "Cannot use object of type
+        // stdClass as array" the moment an object reaches it. Recovering an
+        // object and handing it straight on would have turned the crash this
+        // helper exists to prevent into a different crash.
+        //
+        // Keys are preserved: callers map over this array and hand the result
+        // back to json_encode(), where reindexing would change the shape.
+        $normalised = [];
+        foreach ( $profiles as $key => $profile ) {
+            $profile = self::to_plain_array( $profile );
+            if ( is_array( $profile ) ) {
+                $normalised[ $key ] = $profile;
+            }
+        }
+
+        return $normalised;
+    }
+
+    /**
+     * Convert stdClass records to arrays, all the way down.
+     *
+     * Any other object is dropped. Only stdClass survives the recovery
+     * unserialize(), so anything else here is a __PHP_Incomplete_Class standing
+     * in for a class that was refused, and it carries no readable data.
+     *
+     * @param  mixed $value
+     * @return mixed
+     */
+    private static function to_plain_array( $value ) {
+        if ( $value instanceof \stdClass ) {
+            $value = get_object_vars( $value );
+        } elseif ( is_object( $value ) ) {
+            return null;
+        }
+
+        if ( is_array( $value ) ) {
+            foreach ( $value as $key => $item ) {
+                $value[ $key ] = self::to_plain_array( $item );
+            }
+        }
+
+        return $value;
+    }
+
     public static function is_profile_exits($ID, $profiles) {
+        if (!is_array($profiles)) {
+            return false;
+        }
         foreach ($profiles as $item) {
             if (isset($item['id']) && $item['id'] === $ID) {
                 return $item;

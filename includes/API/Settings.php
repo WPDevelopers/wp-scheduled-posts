@@ -168,9 +168,7 @@ class Settings
         register_rest_route($namespace,'update-refresh-token',array(
             'methods' => 'POST',
             'callback'   => array($this, 'wpsp_update_refresh_token'),
-            'permission_callback' => function() {
-                return current_user_can( 'edit_posts' );
-            }
+            'permission_callback' => array($this, 'can_manage_social_profiles')
         ));
         register_rest_route($namespace,'complete-reconnect',array(
             'methods' => 'POST',
@@ -181,12 +179,65 @@ class Settings
         ));
     }
 
+    /**
+     * Both authorization checks for the social profile routes.
+     *
+     * Helper::is_user_allow() is a role check, not an authentication check, so
+     * failing it means the user is signed in but not permitted: that is 403.
+     * Only the signed-out case is 401, which is what
+     * rest_authorization_required_code() picks for the capability check.
+     *
+     * @return true|\WP_Error
+     */
+    public function can_manage_social_profiles() {
+        if ( ! current_user_can( 'edit_posts' ) ) {
+            return new \WP_Error(
+                'rest_forbidden',
+                __('You are not allowed to do this.', 'wp-scheduled-posts'),
+                array('status' => rest_authorization_required_code())
+            );
+        }
+
+        if ( ! Helper::is_user_allow() ) {
+            return new \WP_Error(
+                'rest_forbidden',
+                __('You are not allowed to manage social profiles.', 'wp-scheduled-posts'),
+                array('status' => 403)
+            );
+        }
+
+        return true;
+    }
+
 
     public function wpsp_update_refresh_token(\WP_REST_Request $request) {
         $platform = $request->get_param('platform');
         $item     = $request->get_param('item');
         $response = ReconnectHandler::handleProfileReconnect($platform, $item);
-        die();
+
+        // An empty response means no handler claimed the platform.
+        if ( empty($response) ) {
+            return new \WP_Error(
+                'reconnect_unsupported_platform',
+                __('This platform cannot be reconnected.', 'wp-scheduled-posts'),
+                array('status' => 400)
+            );
+        }
+
+        // A failed reconnect has to reach the client as an error status.
+        // Wrapping it in rest_ensure_response() answered 200, so apiFetch()
+        // resolved and the UI reported a failure as a success.
+        if ( empty($response['success']) ) {
+            return new \WP_Error(
+                ! empty($response['code']) ? $response['code'] : 'reconnect_failed',
+                ! empty($response['message'])
+                    ? $response['message']
+                    : __('Could not reconnect this profile.', 'wp-scheduled-posts'),
+                array('status' => ! empty($response['status']) ? (int) $response['status'] : 400)
+            );
+        }
+
+        return rest_ensure_response($response);
     }
 
     /**
