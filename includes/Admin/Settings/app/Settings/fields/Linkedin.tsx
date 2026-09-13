@@ -231,6 +231,7 @@ const Linkedin = (props) => {
                 className="selected-linkedin-wrapper"
                 key={index}>
                 <SelectedProfile
+                  allProfiles={selectedProfileData}
                   platform={'linkedin'}
                   item={item}
                   handleSelectedProfileStatusChange={

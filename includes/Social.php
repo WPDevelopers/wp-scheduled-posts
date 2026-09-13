@@ -3,6 +3,7 @@
 namespace WPSP;
 
 use WPSP\Social\ReconnectHandler;
+use WPSP\Social\OAuthPopup;
 use myPHPNotes\LinkedIn;
 use DirkGroenen\Pinterest\Pinterest;
 use WPSP\Social\SocialReconnection;
@@ -24,11 +25,53 @@ class Social
     }
 
     public function publish_future_post($post_id){
-        // check if wpsp_publish_future_post is already scheduled
+        $post_id = (int) $post_id;
+        if ( ! $post_id ) {
+            return;
+        }
+
+        // A share is already queued for this post — let that event do the sharing
+        // rather than firing a second time here.
         if ( wp_next_scheduled('wpsp_publish_future_post', array($post_id)) || wp_next_scheduled('wpsp_custom_social_template', array($post_id))) {
             return;
         }
+
+        // The post's scheduled social share has already gone out. Reaching the
+        // post's own publication time afterwards must not share it again.
+        if ( get_post_meta($post_id, \WPSP\API\CustomSocialTemplates::SHARED_MARKER_META, true) ) {
+            return;
+        }
+
+        if ( ! self::claim_share_dispatch($post_id) ) {
+            return;
+        }
+
         do_action('wpsp_publish_future_post', $post_id);
+    }
+
+    /**
+     * Take a short-lived lock so a single post cannot be fanned out to the social
+     * platforms twice in quick succession — duplicate cron delivery, a missed
+     * schedule catch-up racing the scheduled share, or two concurrent requests.
+     *
+     * @param int $post_id
+     * @return bool True when the caller owns the dispatch.
+     */
+    protected static function claim_share_dispatch($post_id)
+    {
+        $key = 'wpsp_share_dispatch_' . $post_id;
+        if ( get_transient($key) ) {
+            return false;
+        }
+        /**
+         * How long the same post is blocked from being auto-shared again.
+         *
+         * @param int $seconds
+         * @param int $post_id
+         */
+        $window = (int) apply_filters('wpsp_social_share_dedup_window', MINUTE_IN_SECONDS, $post_id);
+        set_transient($key, time(), max(1, $window));
+        return true;
     }
 
     /**
@@ -83,6 +126,19 @@ class Social
         // Social profile reconnection process handler
         new ReconnectHandler;
         new SocialReconnection();
+
+        // Keep connected profiles alive on their own. One daily event for the
+        // whole site, and it only reaches out for profiles actually near expiry,
+        // so an ordinary request costs nothing more than the scheduled-check.
+        add_action(ReconnectHandler::MAINTENANCE_HOOK, array(ReconnectHandler::class, 'run_maintenance'));
+        add_action('wp_loaded', array(ReconnectHandler::class, 'schedule_maintenance'));
+
+        // A reconnect runs the provider's consent screen in a popup, so the
+        // callback has to be caught before it turns that popup into a second
+        // copy of the settings screen.
+        if (is_admin()) {
+            OAuthPopup::hooks();
+        }
     }
 
     public function socialProfile() {

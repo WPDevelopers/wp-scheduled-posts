@@ -552,8 +552,9 @@ class SocialProfile
                     }
                 }
 
-                $pages    = $linkedin->getCompanyPages($access_token);
-                if( $openIDConnect && $openIDConnect !== 'false' && $openIDConnect !== 'undefined' ) {
+                $pages     = $linkedin->getCompanyPages($access_token);
+                $is_openid = ( $openIDConnect && $openIDConnect !== 'false' && $openIDConnect !== 'undefined' );
+                if( $is_openid ) {
                     $profiles = $linkedin->userinfo($access_token);
                 }else{
                     $profiles = $linkedin->getPerson($access_token);
@@ -564,6 +565,10 @@ class SocialProfile
                     'app_id'        => $app_id,
                     'app_secret'    => $app_secret,
                     'status'        => true,
+                    // Kept on the profile so a later reconnect asks for the same
+                    // scopes this connection was granted — an OpenID app rejects
+                    // the older member scopes outright, and the reverse is true too.
+                    'openIDConnect' => $is_openid,
                     'redirectURI'   => $redirectURI,
                     'access_token'  => $access_token,
                     'refresh_token' => $refresh_token,
@@ -1129,7 +1134,7 @@ class SocialProfile
                 wp_die();
             }
             try {
-                $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=' . WPSP_SETTINGS_SLUG));
+                $request['redirect_URI'] = OAuthPopup::return_url();
                 $pinterest = new Pinterest(
                     $app_id ? $app_id : WPSP_SOCIAL_OAUTH2_PINTEREST_APP_ID,
                     $app_secret // unnecessary
@@ -1165,7 +1170,7 @@ class SocialProfile
             }
 
             try {
-                $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=' . WPSP_SETTINGS_SLUG));
+                $request['redirect_URI'] = OAuthPopup::return_url();
                 $request['appId'] = $app_id ? $app_id : WPSP_SOCIAL_OAUTH2_LINKEDIN_APP_ID;
                 $state = base64_encode(json_encode($request));
                 $linkedin = new LinkedIn(
@@ -1188,7 +1193,7 @@ class SocialProfile
                 wp_die();
             }
             try {
-                $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=' . WPSP_SETTINGS_SLUG));
+                $request['redirect_URI'] = OAuthPopup::return_url();
                 $connection = new TwitterOAuth(
                     $app_id,
                     $app_secret
@@ -1208,7 +1213,7 @@ class SocialProfile
                 wp_die();
             }
             try {
-                $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=' . WPSP_SETTINGS_SLUG));
+                $request['redirect_URI'] = OAuthPopup::return_url();
                 $state = base64_encode(json_encode($request));
                 $url = "https://www.facebook.com/dialog/oauth?client_id="
                     . $app_id . "&redirect_uri=" . urlencode($redirectURI) . "&state="
@@ -1225,7 +1230,7 @@ class SocialProfile
                 wp_die();
             }
             try {
-                $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=' . WPSP_SETTINGS_SLUG));
+                $request['redirect_URI'] = OAuthPopup::return_url();
                 $state = base64_encode(json_encode($request));
                 $url = "https://www.instagram.com/oauth/authorize?enable_fb_login=0&response_type=code&force_authentication=1&client_id="
                     . $app_id . "&redirect_uri=" . urlencode($redirectURI) . "&state="
@@ -1281,7 +1286,7 @@ class SocialProfile
             //     wp_die();
             // }
             try {
-                $request['redirect_URI'] = esc_url(admin_url('/admin.php?page=' . WPSP_SETTINGS_SLUG));
+                $request['redirect_URI'] = OAuthPopup::return_url();
                 $state = base64_encode(json_encode($request));
                 $url = "https://threads.net/oauth/authorize?client_id="
                     . $app_id . "&redirect_uri=" . urlencode($redirectURI) . "&state="

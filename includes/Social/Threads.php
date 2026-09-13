@@ -200,18 +200,30 @@ class Threads
                 }
             }
 
+            // Threads fetches the image server-side, so a URL only this machine can
+            // resolve makes the whole container request fail. Drop it and post text.
+            if (!empty($image_url) && !$this->is_publicly_accessible_url($image_url)) {
+                $image_url = null;
+            }
+
             // Profile api
             if ($type === 'profile') {
                 try {
                     $api_base_url = 'https://graph.threads.net/v1.0/' . $ID;
                     $api_threads_url = $api_base_url . '/threads';
+                    // A post without a featured image has no image_url to send, and
+                    // Threads rejects media_type IMAGE without one with a bare 400.
+                    // Only ask for an image container when there is an image.
                     $body = [
-                        'media_type'   => 'IMAGE',
-                        'image_url'    => $image_url,
+                        'media_type'   => 'TEXT',
                         'text'         => $text,
                         'access_token' => $app_access_token,
                     ];
-                
+                    if (!empty($image_url)) {
+                        $body['media_type'] = 'IMAGE';
+                        $body['image_url']  = $image_url;
+                    }
+
                     // Common arguments for wp_remote_post
                     $common_args = [
                         'timeout' => 60,
@@ -268,14 +280,14 @@ class Threads
                                 throw new \Exception('Publishing failed: Response ID missing.');
                             }
                         } else {
-                            throw new \Exception('Publishing request failed with status: ' . $publish_code);
+                            throw new \Exception('Publishing request failed with status: ' . $publish_code . $this->get_api_error_detail($publish_response));
                         }
                     } else {
-                        throw new \Exception('Initial request failed with status: ' . $response_code);
+                        throw new \Exception('Initial request failed with status: ' . $response_code . $this->get_api_error_detail($response));
                     }
                 } catch (\Exception $e) {
                     $response = 'SDK returned an error: ' . $e->getMessage();
-                }                
+                }
             }
 
             return array(
@@ -284,6 +296,35 @@ class Threads
             );
         }
         return;
+    }
+
+    /**
+     * Pull the human-readable reason out of a Threads API error response.
+     *
+     * The status code alone says nothing — an expired token, an image Threads
+     * could not fetch and a caption that breached a limit all come back as 400 —
+     * so the caller has no way to tell a reconnection problem from a content one.
+     *
+     * @param array|\WP_Error $response Raw wp_remote_post() response.
+     * @return string Empty string when no message could be read.
+     */
+    private function get_api_error_detail($response)
+    {
+        if (is_wp_error($response)) {
+            return ' - ' . $response->get_error_message();
+        }
+
+        $body = json_decode(wp_remote_retrieve_body($response), true);
+        if (!is_array($body) || empty($body['error']['message'])) {
+            return '';
+        }
+
+        $detail = $body['error']['message'];
+        if (!empty($body['error']['error_subcode'])) {
+            $detail .= ' (subcode ' . $body['error']['error_subcode'] . ')';
+        }
+
+        return ' - ' . $detail;
     }
 
     /**

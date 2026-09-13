@@ -207,6 +207,7 @@ const Instagram = (props) => {
                   className="selected-facebook-wrapper"
                   key={index}>
                   <SelectedProfile
+                    allProfiles={selectedProfileData}
                     platform={'instagram'}
                     item={item}
                     handleSelectedProfileStatusChange={
