@@ -19,6 +19,8 @@ jobs:
       - name: Running NPM Install & Build for Admin Panel
         run: |
           cd includes/Admin/Settings && npm ci && npm run prod && cd ../../..
+      - name: Optimize the Composer autoloader
+        run: composer dump-autoload --no-dev --optimize --no-interaction
       - name: WordPress Plugin Deploy
         id: deploy
         uses: 10up/action-wordpress-plugin-deploy@stable
