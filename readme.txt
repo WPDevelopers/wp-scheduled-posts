@@ -217,7 +217,7 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 == Changelog ==
 
-= 5.3.4 - 2026-09-14 =
+= 5.3.4 - 2026-09-15 =
 - Improved: Expired Social profile connection process.
 - Fixed: Duplicate/mistimed social shares at the wrong time relative to publication.
 - Few minor bug fixes & improvements
