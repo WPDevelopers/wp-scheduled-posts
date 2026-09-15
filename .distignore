@@ -26,6 +26,7 @@ Gruntfile.js
 package.json
 package-lock.json
 phpunit.xml
+phpunit-integration.xml
 phpunit.xml.dist
 multisite.xml
 multisite.xml.dist
@@ -71,4 +72,14 @@ vendor/priyomukul/.editorconfig
 vendor/priyomukul/.gitignore
 vendor/priyomukul/composer.json
 vendor/priyomukul/README.md
+vendor/coenjacobs
+vendor/league/flysystem
+vendor/symfony/console
+vendor/symfony/finder
+vendor/symfony/polyfill-mbstring
+vendor/symfony/polyfill-php73
+vendor/symfony/polyfill-php80
+vendor/symfony/service-contracts
+vendor/psr/container
+vendor/bin
 docs/
