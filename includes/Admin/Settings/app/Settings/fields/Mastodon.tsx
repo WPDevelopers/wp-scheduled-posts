@@ -294,6 +294,7 @@ const Mastodon = (props) => {
                                 className="selected-facebook-wrapper"
                                 key={index}>
                                 <SelectedProfile
+                                    allProfiles={selectedProfileData}
                                     platform={'mastodon'}
                                     item={item}
                                     handleSelectedProfileStatusChange={

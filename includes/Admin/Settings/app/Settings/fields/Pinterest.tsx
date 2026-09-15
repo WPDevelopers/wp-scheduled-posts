@@ -217,6 +217,7 @@ const Pinterest = (props) => {
                   className="selected-pinterest-wrapper"
                   key={index}>
                   <SelectedProfile
+                    allProfiles={selectedProfileData}
                     platform={'pinterest'}
                     item={item}
                     handleSelectedProfileStatusChange={

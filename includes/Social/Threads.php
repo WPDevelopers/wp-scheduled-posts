@@ -152,7 +152,7 @@ class Threads
         // get social share type 
         $get_share_type =   get_post_meta($post_id, '_threads_share_type', true);
         if( $get_share_type === 'custom' ) {
-            $get_all_selected_profile     = get_post_meta($post_id, '_selected_social_profile', true);
+            $get_all_selected_profile     = Helper::get_selected_social_profiles($post_id);
             $check_profile_exists         = Helper::is_profile_exits( $ID, $get_all_selected_profile );
             if( !$check_profile_exists ) {
                 return;
@@ -200,18 +200,30 @@ class Threads
                 }
             }
 
+            // Threads fetches the image server-side, so a URL only this machine can
+            // resolve makes the whole container request fail. Drop it and post text.
+            if (!empty($image_url) && !$this->is_publicly_accessible_url($image_url)) {
+                $image_url = null;
+            }
+
             // Profile api
             if ($type === 'profile') {
                 try {
                     $api_base_url = 'https://graph.threads.net/v1.0/' . $ID;
                     $api_threads_url = $api_base_url . '/threads';
+                    // A post without a featured image has no image_url to send, and
+                    // Threads rejects media_type IMAGE without one with a bare 400.
+                    // Only ask for an image container when there is an image.
                     $body = [
-                        'media_type'   => 'IMAGE',
-                        'image_url'    => $image_url,
+                        'media_type'   => 'TEXT',
                         'text'         => $text,
                         'access_token' => $app_access_token,
                     ];
-                
+                    if (!empty($image_url)) {
+                        $body['media_type'] = 'IMAGE';
+                        $body['image_url']  = $image_url;
+                    }
+
                     // Common arguments for wp_remote_post
                     $common_args = [
                         'timeout' => 60,
@@ -268,14 +280,14 @@ class Threads
                                 throw new \Exception('Publishing failed: Response ID missing.');
                             }
                         } else {
-                            throw new \Exception('Publishing request failed with status: ' . $publish_code);
+                            throw new \Exception('Publishing request failed with status: ' . $publish_code . $this->get_api_error_detail($publish_response));
                         }
                     } else {
-                        throw new \Exception('Initial request failed with status: ' . $response_code);
+                        throw new \Exception('Initial request failed with status: ' . $response_code . $this->get_api_error_detail($response));
                     }
                 } catch (\Exception $e) {
                     $response = 'SDK returned an error: ' . $e->getMessage();
-                }                
+                }
             }
 
             return array(
@@ -284,6 +296,35 @@ class Threads
             );
         }
         return;
+    }
+
+    /**
+     * Pull the human-readable reason out of a Threads API error response.
+     *
+     * The status code alone says nothing — an expired token, an image Threads
+     * could not fetch and a caption that breached a limit all come back as 400 —
+     * so the caller has no way to tell a reconnection problem from a content one.
+     *
+     * @param array|\WP_Error $response Raw wp_remote_post() response.
+     * @return string Empty string when no message could be read.
+     */
+    private function get_api_error_detail($response)
+    {
+        if (is_wp_error($response)) {
+            return ' - ' . $response->get_error_message();
+        }
+
+        $body = json_decode(wp_remote_retrieve_body($response), true);
+        if (!is_array($body) || empty($body['error']['message'])) {
+            return '';
+        }
+
+        $detail = $body['error']['message'];
+        if (!empty($body['error']['error_subcode'])) {
+            $detail .= ' (subcode ' . $body['error']['error_subcode'] . ')';
+        }
+
+        return ' - ' . $detail;
     }
 
     /**
@@ -354,6 +395,11 @@ class Threads
         $response = $this->remote_post($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key, true);
         if( $is_share_on_publish ) {
             return;
+        }
+        // remote_post() bails with a bare `return;` on its skip conditions, so this can be
+        // null. Without the guard the array access warns and the UI shows a blank error.
+        if ( !is_array($response) ) {
+            wp_send_json_error(__('Sharing was skipped for this profile. Check the post\'s social share settings.', 'wp-scheduled-posts'));
         }
         if ($response['success'] == false) {
             wp_send_json_error($response['log']);

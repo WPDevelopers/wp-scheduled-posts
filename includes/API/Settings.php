@@ -168,10 +168,43 @@ class Settings
         register_rest_route($namespace,'update-refresh-token',array(
             'methods' => 'POST',
             'callback'   => array($this, 'wpsp_update_refresh_token'),
-            'permission_callback' => function() {
-                return current_user_can( 'edit_posts' );
-            }
+            'permission_callback' => array($this, 'can_manage_social_profiles')
         ));
+        register_rest_route($namespace,'complete-reconnect',array(
+            'methods' => 'POST',
+            'callback'   => array($this, 'wpsp_complete_reconnect'),
+            'permission_callback' => array($this, 'can_manage_social_profiles')
+        ));
+    }
+
+    /**
+     * Both authorization checks for the social profile routes.
+     *
+     * Helper::is_user_allow() is a role check, not an authentication check, so
+     * failing it means the user is signed in but not permitted: that is 403.
+     * Only the signed-out case is 401, which is what
+     * rest_authorization_required_code() picks for the capability check.
+     *
+     * @return true|\WP_Error
+     */
+    public function can_manage_social_profiles() {
+        if ( ! current_user_can( 'edit_posts' ) ) {
+            return new \WP_Error(
+                'rest_forbidden',
+                __('You are not allowed to do this.', 'wp-scheduled-posts'),
+                array('status' => rest_authorization_required_code())
+            );
+        }
+
+        if ( ! Helper::is_user_allow() ) {
+            return new \WP_Error(
+                'rest_forbidden',
+                __('You are not allowed to manage social profiles.', 'wp-scheduled-posts'),
+                array('status' => 403)
+            );
+        }
+
+        return true;
     }
 
 
@@ -179,7 +212,57 @@ class Settings
         $platform = $request->get_param('platform');
         $item     = $request->get_param('item');
         $response = ReconnectHandler::handleProfileReconnect($platform, $item);
-        die();
+
+        // An empty response means no handler claimed the platform.
+        if ( empty($response) ) {
+            return new \WP_Error(
+                'reconnect_unsupported_platform',
+                __('This platform cannot be reconnected.', 'wp-scheduled-posts'),
+                array('status' => 400)
+            );
+        }
+
+        // A failed reconnect has to reach the client as an error status.
+        // Wrapping it in rest_ensure_response() answered 200, so apiFetch()
+        // resolved and the UI reported a failure as a success.
+        if ( empty($response['success']) ) {
+            return new \WP_Error(
+                ! empty($response['code']) ? $response['code'] : 'reconnect_failed',
+                ! empty($response['message'])
+                    ? $response['message']
+                    : __('Could not reconnect this profile.', 'wp-scheduled-posts'),
+                array('status' => ! empty($response['status']) ? (int) $response['status'] : 400)
+            );
+        }
+
+        return rest_ensure_response($response);
+    }
+
+    /**
+     * Finish a reconnect that had to go through the provider's consent screen,
+     * so the editor never has to leave the settings screen to complete it.
+     */
+    public function wpsp_complete_reconnect(\WP_REST_Request $request) {
+        $result = ReconnectHandler::complete_reconnect(
+            $request->get_param('platform'),
+            $request->get_param('id'),
+            $request->get_param('payload')
+        );
+
+        // A failure has to arrive as one. Answering 200 with success => false
+        // left every caller that only reads the status believing the profile
+        // had been reconnected.
+        if ( empty($result['success']) ) {
+            return new \WP_Error(
+                ! empty($result['code']) ? $result['code'] : 'reconnect_failed',
+                ! empty($result['message'])
+                    ? $result['message']
+                    : __('Reconnect could not be completed.', 'wp-scheduled-posts'),
+                array('status' => ! empty($result['status']) ? (int) $result['status'] : 400)
+            );
+        }
+
+        return rest_ensure_response($result);
     }
 
     public function wpsp_get_categories(\WP_REST_Request $request)

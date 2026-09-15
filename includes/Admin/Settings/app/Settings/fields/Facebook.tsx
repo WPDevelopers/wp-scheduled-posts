@@ -210,6 +210,7 @@ const Facebook = (props) => {
                   className="selected-facebook-wrapper"
                   key={index}>
                   <SelectedProfile
+                    allProfiles={selectedProfileData}
                     platform={'facebook'}
                     item={item}
                     handleSelectedProfileStatusChange={
