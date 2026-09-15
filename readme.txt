@@ -1,10 +1,10 @@
 === SchedulePress – Auto Post & Publish, Auto Social Share, Schedule Posts with Editorial Calendar & Missed Schedule Post Publisher  ===
-Contributors: wpdevteam, Asif2BD, re_enter_rupok, priyomukul, shajalal, alimuzzamanalim, rudlinkon, shuvo247
+Contributors: wpdevteam, Asif2BD, re_enter_rupok, priyomukul, shajalal, alimuzzamanalim, arrasel403, mdnahidhasan
 Tags: post schedule, schedule calendar, auto scheduler, auto sharing, social share
 Requires at least: 4.0
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 5.3.3
+Stable tag: 5.3.4
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -216,6 +216,11 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 8. Social Templates
 
 == Changelog ==
+
+= 5.3.4 - 2026-09-15 =
+- Improved: Expired Social profile connection process.
+- Fixed: Duplicate/mistimed social shares at the wrong time relative to publication.
+- Few minor bug fixes & improvements
 
 = 5.3.3 - 2026-07-29 =
 - Added: Mastodon social platform integration.

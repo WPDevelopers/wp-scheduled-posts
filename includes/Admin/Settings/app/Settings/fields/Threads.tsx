@@ -300,6 +300,7 @@ const Threads = (props) => {
                                 className="selected-facebook-wrapper"
                                 key={index}>
                                 <SelectedProfile
+                                    allProfiles={selectedProfileData}
                                     platform={'threads'}
                                     item={item}
                                     handleSelectedProfileStatusChange={

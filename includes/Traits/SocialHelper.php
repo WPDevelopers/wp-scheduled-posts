@@ -196,6 +196,38 @@ trait SocialHelper
         return trim($template_structure);
     }
 
-   
-    
+    /**
+     * Determine whether a URL is publicly reachable by a platform's servers.
+     *
+     * Platforms that download media from a URL we hand them (Threads, Google
+     * Business) cannot see a local or private host, and they reject the whole
+     * request rather than just skipping the image — so the share has to fall back
+     * to text instead of sending an address only this machine can resolve.
+     *
+     * @param string $url
+     * @return bool
+     */
+    public function is_publicly_accessible_url($url)
+    {
+        $host = wp_parse_url($url, PHP_URL_HOST);
+        if (empty($host)) {
+            return false;
+        }
+        $host = strtolower($host);
+
+        // Local hostnames / common dev TLDs
+        if ($host === 'localhost' || preg_match('/\.(test|local|localhost|invalid|example)$/', $host)) {
+            return false;
+        }
+
+        // Private / loopback IP ranges
+        if (filter_var($host, FILTER_VALIDATE_IP)) {
+            if (!filter_var($host, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 }

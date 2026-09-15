@@ -220,7 +220,7 @@ class Migration {
         $post_types = \WPSP\Helper::get_settings('allow_post_types');
         if(is_array($post_types) && count($post_types) > 0){
             foreach($post_types as $post_type){
-                $results = $wpdb->get_results( "SELECT ID, post_type FROM {$wpdb->prefix}posts WHERE post_type = '{$post_type}' AND post_status = 'future'", OBJECT );
+                $results = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_type FROM {$wpdb->prefix}posts WHERE post_type = %s AND post_status = 'future'", $post_type ), OBJECT );
                 if(is_array($results) && count($results) > 0){
                     foreach($results as $result){
                         update_post_meta($result->ID, '_wpsp_is_facebook_share', 'on');
@@ -333,5 +333,220 @@ class Migration {
             }
         }
 
+    }
+
+    /**
+     * Drop social share events that were queued without the author asking for them.
+     *
+     * Up to 5.3.3, saving a caption always scheduled a `wpsp_custom_social_template`
+     * event, even with scheduling switched off — so a post shared manually was
+     * shared again a couple of hours later. Sites updating from an affected version
+     * still carry those events, and each one would fire once more after the update.
+     *
+     * @return int Number of events removed.
+     */
+    public static function clear_unrequested_social_share_events() {
+        $hook  = \WPSP\API\CustomSocialTemplates::SHARE_EVENT_HOOK;
+        $crons = _get_cron_array();
+        if ( ! is_array( $crons ) ) {
+            return 0;
+        }
+
+        $removed = 0;
+        foreach ( $crons as $timestamp => $hooks ) {
+            if ( empty( $hooks[ $hook ] ) || ! is_array( $hooks[ $hook ] ) ) {
+                continue;
+            }
+            foreach ( $hooks[ $hook ] as $event ) {
+                $args    = isset( $event['args'] ) ? (array) $event['args'] : array();
+                $post_id = isset( $args[0] ) ? (int) $args[0] : 0;
+                if ( ! $post_id ) {
+                    continue;
+                }
+
+                $scheduling = get_post_meta( $post_id, '_wpsp_social_scheduling', true );
+                if ( is_array( $scheduling ) && ! empty( $scheduling['enabled'] ) ) {
+                    // The author really did ask for this one — leave it alone.
+                    continue;
+                }
+
+                wp_unschedule_event( $timestamp, $hook, $args );
+                $removed++;
+            }
+        }
+
+        return $removed;
+    }
+
+    /**
+     * Repair the social shares an author really did schedule on an affected build.
+     *
+     * clear_unrequested_social_share_events() only drops the events nobody asked
+     * for. The ones that were asked for are still wrong in two ways the new code
+     * cannot reach on its own:
+     *
+     * - A future post's share took its time-of-day from whenever Save was clicked
+     *   rather than from the publication time, so it sits at the wrong hour and can
+     *   even fall before the post it links to.
+     * - A share that already went out left no record of having done so, so the post
+     *   reaching its own publication time shares it a second time.
+     *
+     * Both are repaired in place here. Anything ambiguous is re-armed rather than
+     * silently suppressed: losing a share is as bad as duplicating one.
+     *
+     * @return array Report keyed by action, each value a list of post IDs.
+     */
+    public static function repair_legacy_social_share_schedules() {
+        $hook   = \WPSP\API\CustomSocialTemplates::SHARE_EVENT_HOOK;
+        $marker = \WPSP\API\CustomSocialTemplates::SHARED_MARKER_META;
+        $api    = \WPSP\API\CustomSocialTemplates::get_instance();
+        $now    = time();
+        $report = array(
+            'rescheduled'    => array(),
+            'rolled_forward' => array(),
+            'marked_shared'  => array(),
+            'disarmed'       => array(),
+            'orphans'        => array(),
+        );
+
+        // Pass 1 — events still queued. A future post's share has to be recomputed
+        // from the publication anchor. A published post's was already measured from
+        // "now" when it was saved, so it is only wrong when it has slipped into the
+        // past, where it would fire on the very next cron pass and read as an
+        // instant duplicate.
+        $seen  = array();
+        $crons = _get_cron_array();
+        if ( is_array( $crons ) ) {
+            foreach ( $crons as $timestamp => $hooks ) {
+                if ( empty( $hooks[ $hook ] ) || ! is_array( $hooks[ $hook ] ) ) {
+                    continue;
+                }
+                foreach ( $hooks[ $hook ] as $event ) {
+                    $args    = isset( $event['args'] ) ? (array) $event['args'] : array();
+                    $post_id = isset( $args[0] ) ? (int) $args[0] : 0;
+                    if ( ! $post_id || isset( $seen[ $post_id ] ) ) {
+                        continue;
+                    }
+
+                    $post = get_post( $post_id );
+                    if ( ! $post ) {
+                        // The post is gone; the event can never do anything useful.
+                        wp_unschedule_event( $timestamp, $hook, $args );
+                        $report['orphans'][] = $post_id;
+                        continue;
+                    }
+
+                    $scheduling = get_post_meta( $post_id, '_wpsp_social_scheduling', true );
+                    if ( ! is_array( $scheduling ) || empty( $scheduling['enabled'] ) ) {
+                        // Not the author's doing — clear_unrequested_social_share_events() owns these.
+                        continue;
+                    }
+
+                    $seen[ $post_id ] = true;
+
+                    if ( 'future' === $post->post_status ) {
+                        // Recomputes from post_date_gmt, clamps to the publication
+                        // moment and replaces the queued event.
+                        if ( $api->handle_scheduled_post_scheduling( $post_id, $scheduling, $post ) ) {
+                            $report['rescheduled'][] = $post_id;
+                        }
+                        continue;
+                    }
+
+                    if ( $timestamp <= $now ) {
+                        $rolled = $timestamp;
+                        while ( $rolled <= $now ) {
+                            $rolled += DAY_IN_SECONDS;
+                        }
+                        wp_unschedule_event( $timestamp, $hook, $args );
+                        wp_schedule_single_event( $rolled, $hook, array( $post_id ) );
+                        $scheduling['datetime'] = gmdate( 'Y-m-d H:i:s', $rolled );
+                        update_post_meta( $post_id, '_wpsp_social_scheduling', $scheduling );
+                        $report['rolled_forward'][] = $post_id;
+                    }
+                }
+            }
+        }
+
+        // Pass 2 — a future post that is still armed but has no event left to fire
+        // it. If its share time has passed, the share went out back when nothing
+        // recorded that it had, and publication would repeat it. If the time has
+        // not passed the event was simply lost, so put it back.
+        $armed = get_posts(
+            array(
+                'post_type'        => 'any',
+                'post_status'      => 'future',
+                'posts_per_page'   => -1,
+                'fields'           => 'ids',
+                'meta_key'         => '_wpsp_social_scheduling', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+                'no_found_rows'    => true,
+                'suppress_filters' => true,
+            )
+        );
+
+        foreach ( $armed as $post_id ) {
+            $post_id    = (int) $post_id;
+            $scheduling = get_post_meta( $post_id, '_wpsp_social_scheduling', true );
+            if ( ! is_array( $scheduling ) || empty( $scheduling['enabled'] ) ) {
+                continue;
+            }
+            if ( wp_next_scheduled( $hook, array( $post_id ) ) ) {
+                continue; // Pass 1 already re-armed it.
+            }
+            if ( get_post_meta( $post_id, $marker, true ) ) {
+                continue; // Already recorded as shared.
+            }
+
+            $fired_at = ! empty( $scheduling['datetime'] )
+                ? strtotime( $scheduling['datetime'] . ' UTC' )
+                : 0;
+
+            if ( ! $fired_at || $fired_at > $now ) {
+                if ( $api->handle_scheduled_post_scheduling( $post_id, $scheduling ) ) {
+                    $report['rescheduled'][] = $post_id;
+                }
+                continue;
+            }
+
+            update_post_meta( $post_id, $marker, $fired_at );
+            $scheduling['enabled']  = false;
+            $scheduling['status']   = 'template_only';
+            $scheduling['datetime'] = null;
+            update_post_meta( $post_id, '_wpsp_social_scheduling', $scheduling );
+            $report['marked_shared'][] = $post_id;
+        }
+
+        // Pass 3 — meta left claiming a share is pending with no event behind it.
+        // Harmless to the schedule but the editor shows a share that will never go
+        // out, so bring the record back in line with reality.
+        global $wpdb;
+        $meta_post_ids = $wpdb->get_col(
+            $wpdb->prepare(
+                "SELECT DISTINCT post_id FROM {$wpdb->postmeta} WHERE meta_key = %s",
+                '_wpsp_social_scheduling'
+            )
+        );
+
+        foreach ( (array) $meta_post_ids as $post_id ) {
+            $post_id    = (int) $post_id;
+            $scheduling = get_post_meta( $post_id, '_wpsp_social_scheduling', true );
+            if ( ! is_array( $scheduling ) ) {
+                continue;
+            }
+            if ( 'pending_publication' !== ( isset( $scheduling['status'] ) ? $scheduling['status'] : '' ) ) {
+                continue;
+            }
+            if ( wp_next_scheduled( $hook, array( $post_id ) ) ) {
+                continue;
+            }
+
+            $scheduling['enabled']  = false;
+            $scheduling['status']   = 'template_only';
+            $scheduling['datetime'] = null;
+            update_post_meta( $post_id, '_wpsp_social_scheduling', $scheduling );
+            $report['disarmed'][] = $post_id;
+        }
+
+        return $report;
     }
 }

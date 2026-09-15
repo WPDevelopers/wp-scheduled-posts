@@ -239,6 +239,7 @@ const GoogleBusiness = (props) => {
                     className="selected-facebook-wrapper"
                     key={index}>
                     <SelectedProfile
+                        allProfiles={selectedProfileData}
                         platform={'google_business'}
                         item={item}
                         handleSelectedProfileStatusChange={

@@ -74,7 +74,7 @@ class GoogleBusiness
         // Check custom share type
         $get_share_type = get_post_meta($post_id, '_google_business_share_type', true);
         if ($get_share_type === 'custom') {
-            $get_all_selected_profile = get_post_meta($post_id, '_selected_social_profile', true);
+            $get_all_selected_profile = Helper::get_selected_social_profiles($post_id);
             if (!Helper::is_profile_exits($ID, $get_all_selected_profile)) {
                 return;
             }
@@ -292,37 +292,6 @@ class GoogleBusiness
         }
     }
 
-    /**
-     * Determine whether a URL is publicly reachable by Google's servers.
-     * Google Business downloads media from the provided sourceUrl, so local/dev
-     * hosts and private IPs will be rejected and break the whole share request.
-     *
-     * @param string $url
-     * @return bool
-     */
-    public function is_publicly_accessible_url($url)
-    {
-        $host = wp_parse_url($url, PHP_URL_HOST);
-        if (empty($host)) {
-            return false;
-        }
-        $host = strtolower($host);
-
-        // Local hostnames / common dev TLDs
-        if ($host === 'localhost' || preg_match('/\.(test|local|localhost|invalid|example)$/', $host)) {
-            return false;
-        }
-
-        // Private / loopback IP ranges
-        if (filter_var($host, FILTER_VALIDATE_IP)) {
-            if (!filter_var($host, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     public function format_plain_text_with_paragraphs($content)
     {
         // Convert HTML breaks and block elements into double line breaks
@@ -427,6 +396,11 @@ class GoogleBusiness
         $response = $this->remote_post($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key, true);
         if ($is_share_on_publish) {
             return;
+        }
+        // remote_post() bails with a bare `return;` on its skip conditions, so this can be
+        // null. Without the guard the array access warns and the UI shows a blank error.
+        if ( !is_array($response) ) {
+            wp_send_json_error(__('Sharing was skipped for this profile. Check the post\'s social share settings.', 'wp-scheduled-posts'));
         }
         if ($response['success'] == false) {
             wp_send_json_error($response['log']);

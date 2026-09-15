@@ -389,49 +389,37 @@ class CustomTemplateHelper
                 return null;
         }
 
+        // Every offset below is measured from $date — the anchor the date option
+        // resolved to. For a published post that anchor is "now"; for a post that
+        // is still scheduled it is the post's own publication time. Measuring from
+        // the current clock instead would stamp whatever time the author happened
+        // to hit Save onto the publication date, so a post scheduled for 9 AM and
+        // saved in the evening would share at 9 PM.
         switch ($timeOption) {
             case 'now':
-                $final_datetime = new \DateTime('now', $site_timezone);
+            case 'same_time':
+                $final_datetime = clone $date;
                 break;
             case 'in_1h':
-                $current_time = new \DateTime('now', $site_timezone);
-                $current_time->modify('+' . rand(10, 60) . ' minutes');
-                $final_datetime = clone $date;
-                $final_datetime->setTime(
-                    (int) $current_time->format('H'),
-                    (int) $current_time->format('i'),
-                    (int) $current_time->format('s')
-                );
+            case 'hour_after':
+                $final_datetime = (clone $date)->modify('+' . rand(10, 60) . ' minutes');
                 break;
             case 'in_3h':
-                $current_time = new \DateTime('now', $site_timezone);
-                $current_time->modify('+' . rand(60, 180) . ' minutes');
-                $final_datetime = clone $date;
-                $final_datetime->setTime(
-                    (int) $current_time->format('H'),
-                    (int) $current_time->format('i'),
-                    (int) $current_time->format('s')
-                );
+            case 'three_hours_after':
+                $final_datetime = (clone $date)->modify('+' . rand(60, 180) . ' minutes');
                 break;
             case 'in_5h':
-                $current_time = new \DateTime('now', $site_timezone);
-                $current_time->modify('+' . rand(180, 300) . ' minutes');
-                $final_datetime = clone $date;
-                $final_datetime->setTime(
-                    (int) $current_time->format('H'),
-                    (int) $current_time->format('i'),
-                    (int) $current_time->format('s')
-                );
+            case 'five_hours_after':
+                $final_datetime = (clone $date)->modify('+' . rand(180, 300) . ' minutes');
                 break;
             case 'in_hours':
-                $hours = max(1, (int) ($data['customHours'] ?? 0));
-                $current_time = new \DateTime('now', $site_timezone);
-                $current_time->modify('+' . rand(($hours - 1) * 60, ($hours + 1) * 60) . ' minutes');
-                $final_datetime = clone $date;
-                $final_datetime->setTime(
-                    (int) $current_time->format('H'),
-                    (int) $current_time->format('i'),
-                    (int) $current_time->format('s')
+            case 'hours_after':
+                if (!isset($data['customHours']) || !is_numeric($data['customHours'])) {
+                    return null;
+                }
+                $hours = max(1, (int) $data['customHours']);
+                $final_datetime = (clone $date)->modify(
+                    '+' . rand(max(0, ($hours - 1) * 60), ($hours + 1) * 60) . ' minutes'
                 );
                 break;
             case 'custom_time':
@@ -442,26 +430,6 @@ class CustomTemplateHelper
                     }
                     $final_datetime = clone $date;
                     $final_datetime->setTime((int) $parts[0], (int) $parts[1], 0);
-                } else {
-                    return null;
-                }
-                break;
-            case 'same_time':
-                $final_datetime = clone $date;
-                break;
-            case 'hour_after':
-                $final_datetime = (clone $date)->modify('+' . rand(10, 60) . ' minutes');
-                break;
-            case 'three_hours_after':
-                $final_datetime = (clone $date)->modify('+' . rand(60, 180) . ' minutes');
-                break;
-            case 'five_hours_after':
-                $final_datetime = (clone $date)->modify('+' . rand(180, 300) . ' minutes');
-                break;
-            case 'hours_after':
-                if (!empty($data['customHours']) && is_numeric($data['customHours'])) {
-                    $hours = (int) $data['customHours'];
-                    $final_datetime = (clone $date)->modify('+' . rand(($hours - 1) * 60, ($hours + 1) * 60) . ' minutes');
                 } else {
                     return null;
                 }

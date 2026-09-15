@@ -212,6 +212,7 @@ const Twitter = (props) => {
                 className="selected-twitter-wrapper"
                 key={index}>
                 <SelectedProfile
+                  allProfiles={selectedProfileData}
                   key={index}
                   platform={'twitter'}
                   item={item}

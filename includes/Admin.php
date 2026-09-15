@@ -663,9 +663,9 @@ class Admin
         $threadsShareType = get_post_meta(get_the_ID(), '_threads_share_type', true);
         $googleBusinessShareType = get_post_meta(get_the_ID(), '_google_business_share_type', true);
         // get all selected social profile 
-        $allSelectedSocialProfiles = get_post_meta(get_the_ID(), '_selected_social_profile', true);
-        $filteredSelectedProfiles = array_map([$this, 'wpsp_filter_selected_profile_object'], !empty($allSelectedSocialProfiles) ? $allSelectedSocialProfiles : []);
-        $getPinterestSections = array_map([$this, 'wpsp_get_pinterest_sections'], !empty($allSelectedSocialProfiles) ? $allSelectedSocialProfiles : []);
+        $allSelectedSocialProfiles = Helper::get_selected_social_profiles(get_the_ID());
+        $filteredSelectedProfiles = array_map([$this, 'wpsp_filter_selected_profile_object'], $allSelectedSocialProfiles);
+        $getPinterestSections = array_map([$this, 'wpsp_get_pinterest_sections'], $allSelectedSocialProfiles);
         $getPinterestSections = array_filter($getPinterestSections, function ($item) {
             return !empty($item);
         });
@@ -1181,13 +1181,39 @@ class Admin
         <?php
     }
 
+    /**
+     * Read a board value off a profile record in either shape.
+     *
+     * Records from Helper::get_selected_social_profiles() are arrays; the
+     * $pinterest argument comes from the settings option and is an object.
+     *
+     * @param  array|object $profile
+     * @return string|null
+     */
+    private function get_pinterest_board_value($profile)
+    {
+        if (is_array($profile)) {
+            // Elementor writes the board out flat; the panel keeps it nested.
+            if (isset($profile['pinterest_custom_board_name'])) {
+                return $profile['pinterest_custom_board_name'];
+            }
+            return isset($profile['default_board_name']['value']) ? $profile['default_board_name']['value'] : null;
+        }
+        if (is_object($profile)) {
+            return isset($profile->default_board_name->value) ? $profile->default_board_name->value : null;
+        }
+        return null;
+    }
+
     public function get_pinterest_from_meta($pinterest)
     {
         if (!empty($pinterest)) {
-            $get_selected_profiles = get_post_meta(get_the_ID(), '_selected_social_profile', true);
+            $get_selected_profiles = Helper::get_selected_social_profiles(get_the_ID());
             if (!empty($get_selected_profiles)) {
-                $pinterestSelectedProfile = array_filter($get_selected_profiles, function ($profile) use ($pinterest) {
-                    return isset($profile->default_board_name->value) && isset($pinterest->default_board_name->value) && $profile->default_board_name->value == $pinterest->default_board_name->value;
+                $pinterestBoard = $this->get_pinterest_board_value($pinterest);
+                $pinterestSelectedProfile = array_filter($get_selected_profiles, function ($profile) use ($pinterestBoard) {
+                    $profileBoard = $this->get_pinterest_board_value($profile);
+                    return $profileBoard !== null && $pinterestBoard !== null && $profileBoard == $pinterestBoard;
                 });
                 if (empty($pinterestSelectedProfile)) {
                     return $pinterest;
@@ -1209,6 +1235,7 @@ class Admin
             'facebook' => ['type'],
             'pinterest' => ['default_board_name', 'defaultSection'],
         ];
+        $formattedData = [];
         foreach ($selectedSocialProfiles as $key => $item) {
             $platform = '';
             if (property_exists($item, 'urn')) {

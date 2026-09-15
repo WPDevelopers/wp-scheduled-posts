@@ -2,7 +2,7 @@
 /*
  * Plugin Name: SchedulePress
  * Description: Automate your content workflow with SchedulePress. Take a quick glance at your content planning with Schedule Calendar, Dashboard widget & Sitewide admin bar. Instantly share your posts on social media platforms such as Facebook, Twitter & many more.
- * Version: 5.3.3
+ * Version: 5.3.4
  * Author: WPDeveloper
  * Author URI: https://wpdeveloper.com
  * Text Domain: wp-scheduled-posts
@@ -18,6 +18,11 @@ else {
 	if (file_exists(dirname(__FILE__) . '/vendor/autoload.php')) {
 		require_once dirname(__FILE__) . '/vendor/autoload.php';
 	}
+	// Loaded here rather than through Composer's `files` autoload. That autoload
+	// runs in any PHP process that pulls in vendor/autoload.php, including the
+	// PHPUnit binary, where functions.php hit its `exit` guard and killed the
+	// run before PHPUnit printed anything -- a green exit 0 with zero tests.
+	require_once dirname(__FILE__) . '/includes/functions.php';
 	// Plugin Start
 	WPSP_Start();
 }
@@ -95,7 +100,7 @@ final class WPSP
 		/**
 		 * Defines CONSTANTS for Whole plugins.
 		 */
-		define('WPSP_VERSION', '5.3.3');
+		define('WPSP_VERSION', '5.3.4');
 		define('WPSP_SETTINGS_NAME_OLD', 'wpsp_settings');
 		define('WPSP_SETTINGS_NAME', 'wpsp_settings_v5');
 		define('WPSP_PLUGIN_FILE', __FILE__);
@@ -112,7 +117,7 @@ final class WPSP
 		define('WPSP_ASSETS_URI', WPSP_PLUGIN_ROOT_URI . 'assets/');
 		define('WPSCP_ADMIN_DIR_PATH', WPSP_ROOT_DIR_PATH . '/includes/Admin/');
 		// Midleware
-		define('WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE', 'https://api.schedulepress.com.test/callback.php');
+		define('WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE', 'https://api.schedulepress.com/callback.php');
 		define('WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE_DEV', 'https://devapi.schedulepress.com/v2/callback.php');
 		define('WPSP_SOCIAL_OAUTH2_PINTEREST_APP_ID', '1478596');
 		define('WPSP_SOCIAL_OAUTH2_LINKEDIN_APP_ID', '77nbfvpkganvt6');

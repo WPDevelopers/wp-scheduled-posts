@@ -42,6 +42,13 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
     useEffect(() => {
         // Send API request fo fetching data
         const getQueryParams = (query) => {
+            // This window is a reconnect popup that has already handed its
+            // callback to the settings screen that opened it. The code in there
+            // can only be exchanged once, and that screen is exchanging it.
+            // @ts-ignore
+            if (window.__wpspOAuthPopupHandled) {
+                return;
+            }
             const params = new URLSearchParams(query);
             const error = params.get('error_message');
             if( error ) {

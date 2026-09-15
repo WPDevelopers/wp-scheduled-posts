@@ -1,6 +1,8 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { AppContext } from '../../context/AppContext';
-import PublishImmediately from './PublishImmediately';
+import PublishImmediately, { PublishImmediatelyActive } from './PublishImmediately';
+import { getPostPanelSettings } from '../../helper/helper';
+import { syncCurrentPostStatus } from './postStatusSync';
 const { DateTimePicker, Popover, Button } = wp.components;
 const { __ } = wp.i18n;
 const { useSelect } = wp.data;
@@ -114,8 +116,77 @@ const ScheduleOn = () => {
         );
     }, []);
 
-    const isScheduled = postStatus == 'future' ? true : false;
-    const isPublished = postStatus == 'publish' ? true : false;
+    // Whether this post is carrying the prevent_future_post intent. It is not
+    // in the editor store, so it has to come from the panel endpoint; without
+    // it the state is active with nothing on screen saying so.
+    const [preventFuturePost, setPreventFuturePost] = useState(false);
+    const [panelStateLoaded, setPanelStateLoaded] = useState(false);
+
+    // Status reported by our own endpoints. Clearing the intent moves the post
+    // from 'publish' back to 'future' server-side, and neither the editor store
+    // nor the localized globals hear about a raw apiFetch() mutation, so without
+    // this the panel keeps rendering the pre-clear status until a reload.
+    const [serverPostStatus, setServerPostStatus] = useState(null);
+    const [statusSyncError, setStatusSyncError] = useState('');
+
+    // What the editor said when the server last told us a status. The panel
+    // endpoint is read once, on mount, so anything the author does afterwards —
+    // publishing, reverting to draft — only shows up in the editor store. Once
+    // that store moves off this baseline it is the newer of the two and wins;
+    // without it the panel went on rendering the status the post had when it
+    // opened.
+    const serverStatusBaseline = useRef(null);
+    const latestEditorStatus   = useRef(postStatus);
+    latestEditorStatus.current = postStatus;
+
+    useEffect(() => {
+        if (!postId) return;
+        let cancelled = false;
+        getPostPanelSettings(postId).then((res) => {
+            if (cancelled) return;
+            setPreventFuturePost(!!res?.data?.prevent_future_post);
+            if (res?.data?.post_status) {
+                serverStatusBaseline.current = latestEditorStatus.current;
+                setServerPostStatus(res.data.post_status);
+            }
+        }).catch(() => {}).finally(() => {
+            if (!cancelled) setPanelStateLoaded(true);
+        });
+        return () => { cancelled = true; };
+    }, [postId]);
+
+    const editorMovedOn = serverStatusBaseline.current !== null
+        && postStatus !== ''
+        && postStatus !== serverStatusBaseline.current;
+    const effectivePostStatus = editorMovedOn
+        ? postStatus
+        : (serverPostStatus || postStatus);
+    const isScheduled = effectivePostStatus == 'future' ? true : false;
+    const isPublished = effectivePostStatus == 'publish' ? true : false;
+
+    const handleIntentCleared = (res) => {
+        const nextStatus = res?.data?.post_status;
+        if (!nextStatus) {
+            const message = __('The schedule was restored, but the server did not return the current post status. Reload this editor before continuing.', 'wp-scheduled-posts');
+            setStatusSyncError(message);
+            console.error(message, res);
+            return;
+        }
+
+        setServerPostStatus(nextStatus);
+        try {
+            syncCurrentPostStatus(nextStatus);
+            // The editor now agrees, so this is the status to measure the next
+            // editor change against.
+            serverStatusBaseline.current = nextStatus;
+            setStatusSyncError('');
+            setPreventFuturePost(false);
+        } catch (error) {
+            const message = __('The schedule was restored, but this editor could not refresh its post status. Reload this editor before continuing.', 'wp-scheduled-posts');
+            setStatusSyncError(message);
+            console.error(message, error);
+        }
+    };
 
     const publishImmediatelyBtn = window.WPSchedulePostsFree?.publishImmediately || window.WPSchedulePosts?.publishImmediately || 'Current Date';
     const publishFutureDateBtn = window.WPSchedulePostsFree?.publishFutureDate || window.WPSchedulePosts?.publishFutureDate || 'Future Date';
@@ -134,9 +205,9 @@ const ScheduleOn = () => {
         });
         const nextIsScheduled = userInteracted.current
             ? !!scheduleDate
-            : postStatus === 'future';
+            : effectivePostStatus === 'future';
         dispatch({ type: 'SET_IS_SCHEDULED', payload: nextIsScheduled });
-    }, [scheduleDate, postStatus, dispatch]);
+    }, [scheduleDate, effectivePostStatus, dispatch]);
 
     // ─── Render ───────────────────────────────────────────────────────────
     return (
@@ -234,7 +305,7 @@ const ScheduleOn = () => {
 
                     </div>
 
-                    { isScheduled && !isPublished && (
+                    { panelStateLoaded && isScheduled && !isPublished && !preventFuturePost && (
                         <PublishImmediately 
                             state={state}
                             dispatch={dispatch}
@@ -242,6 +313,20 @@ const ScheduleOn = () => {
                             publishImmediatelyBtn={publishImmediatelyBtn}
                             publishFutureDateBtn={publishFutureDateBtn}
                         />
+                    )}
+
+                    { panelStateLoaded && preventFuturePost && (
+                        <>
+                            <PublishImmediatelyActive
+                                postId={postId}
+                                onCleared={handleIntentCleared}
+                            />
+                            { statusSyncError && (
+                                <p className="sc-publish-future-notice" role="alert">
+                                    { statusSyncError }
+                                </p>
+                            ) }
+                        </>
                     )}
                 </div>
             </div>

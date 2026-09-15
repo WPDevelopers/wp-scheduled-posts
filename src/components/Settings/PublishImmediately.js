@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { updateProSettings } from '../../helper/helper';
+import { updateProSettings, clearPublishImmediately } from '../../helper/helper';
 const { __ } = wp.i18n;
 
 const showCustomToast = (type, message) => {
@@ -92,6 +92,51 @@ const PublishImmediately = ({ state, dispatch, postId, publishImmediatelyBtn, pu
                     </button>
                 </div>
             )}
+        </div>
+    );
+};
+
+/**
+ * Shown when a post is already carrying the "publish future post immediately"
+ * intent.
+ *
+ * That intent lives in the prevent_future_post meta and keeps re-asserting
+ * 'publish' on every later save. The buttons above set it, but they are hidden
+ * once the post reaches 'publish', so without this block the state is active
+ * and invisible with no way to switch it off.
+ */
+export const PublishImmediatelyActive = ({ postId, onCleared }) => {
+    const [isClearing, setIsClearing] = useState(false);
+
+    const handleClear = () => {
+        setIsClearing(true);
+        clearPublishImmediately(postId).then((res) => {
+            showCustomToast('success', res?.message || 'Immediate publishing turned off.');
+            if (typeof onCleared === 'function') onCleared(res);
+        }).catch((error) => {
+            showCustomToast('error', error?.message || 'Failed to turn off immediate publishing.');
+            console.log(error);
+        }).finally(() => {
+            setIsClearing(false);
+        });
+    };
+
+    return (
+        <div className="sc-publish-future sc-publish-future-active">
+            <p className="sc-publish-future-notice">
+                { __('This post was published ahead of its scheduled date. It stays published on every save until you turn this off.', 'wp-scheduled-posts') }
+            </p>
+            <div className="sc-publish-future-buttons">
+                <button
+                    className="button"
+                    onClick={ handleClear }
+                    disabled={ isClearing }
+                >
+                    { isClearing
+                        ? __('Turning off...', 'wp-scheduled-posts')
+                        : __('Turn off & restore schedule', 'wp-scheduled-posts') }
+                </button>
+            </div>
         </div>
     );
 };
