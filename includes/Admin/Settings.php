@@ -134,7 +134,7 @@ class Settings
         $wpsp_option = get_option($this->option_name);
         $wpsp_option = json_decode($wpsp_option);
 
-        return $this->apply_platform_filters($this->normalize([
+        return $this->normalize($this->apply_platform_filters([
             'id' => 'tab-sidebar-layout',
             'name' => 'tab_sidebar_layout',
             'label' => __('Layout', 'wp-scheduled-posts'),
@@ -2051,6 +2051,10 @@ class Settings
      * Both hooks hand over one keyed field array. An extension replaces its own
      * locked placeholder by returning an entry under the same key, which is why
      * the placeholder and the real card share a name.
+     *
+     * Runs before normalize(), which array_values() every `fields` map: after
+     * that the string keys are gone and a replacement would append a second
+     * card instead of taking the placeholder's place.
      *
      * @param array $settings
      * @return array
