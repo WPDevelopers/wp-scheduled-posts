@@ -899,6 +899,35 @@ class SocialProfile
             wp_send_json($response);
             wp_die();
         }
+
+        /**
+         * Let an extension answer for a platform this plugin does not ship.
+         *
+         * Must return the same envelope the built-in branches send:
+         * ['success' => bool, 'profiles' => array, 'type' => string].
+         *
+         * @param null|array $response Null means unhandled.
+         * @param string     $type     Platform slug being connected.
+         * @param array      $args     The request values collected above.
+         */
+        $response = apply_filters('wpsp_social_fetch_profile_response', null, $type, array(
+            'code'          => $code,
+            'app_id'        => $app_id,
+            'app_secret'    => $app_secret,
+            'redirectURI'   => $redirectURI,
+            'access_token'  => $access_token,
+            'refresh_token' => $refresh_token,
+            'expires_in'    => $expires_in,
+            'rt_expires_in' => $rt_expires_in,
+            'openIDConnect' => $openIDConnect,
+            'current_user'  => $current_user,
+        ));
+
+        if (is_array($response)) {
+            wp_send_json($response);
+            wp_die();
+        }
+
         wp_send_json_error("Option name and request type missing. please try again");
         wp_die();
     }

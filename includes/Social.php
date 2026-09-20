@@ -182,6 +182,14 @@ class Social
         if (Helper::get_settings('mastodon_profile_status') == true) {
             $this->mastodon();
         }
+
+        /**
+         * Built-in platforms are wired up. Anything registered through
+         * `wpsp_social_platforms` boots itself; this marks the ordering point.
+         *
+         * @param \WPSP\Social $social
+         */
+        do_action('wpsp_social_platforms_loaded', $this);
     }
 
 

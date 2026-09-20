@@ -58,6 +58,12 @@ class Settings
                 'note_limit' => 500,
             ],
         ];
+        foreach (\WPSP\Social\Platforms::registered() as $extension_slug => $extension) {
+            $limit_key = !empty($extension['limit_key']) ? $extension['limit_key'] : 'note_limit';
+            $limits[$extension_slug] = [
+                $limit_key => isset($extension['char_limit']) ? (int) $extension['char_limit'] : 0,
+            ];
+        }
         foreach ($limits as $platform => $platform_limits) {
             if (isset($settings['social_templates'][$platform]) && is_array($settings['social_templates'][$platform])) {
                 foreach ($platform_limits as $key => $limit) {
@@ -128,7 +134,7 @@ class Settings
         $wpsp_option = get_option($this->option_name);
         $wpsp_option = json_decode($wpsp_option);
 
-        return $this->normalize([
+        return $this->apply_platform_filters($this->normalize([
             'id' => 'tab-sidebar-layout',
             'name' => 'tab_sidebar_layout',
             'label' => __('Layout', 'wp-scheduled-posts'),
@@ -2091,7 +2097,56 @@ class Settings
                     ]),
                 ],
             ])
-        ]);
+        ]));
+    }
+
+    /**
+     * Let extensions add or replace the per-platform settings surfaces.
+     *
+     * Both hooks hand over one keyed field array. An extension replaces its own
+     * locked placeholder by returning an entry under the same key, which is why
+     * the placeholder and the real card share a name.
+     *
+     * @param array $settings
+     * @return array
+     */
+    private function apply_platform_filters($settings)
+    {
+        $this->filter_fields_of($settings, 'social_profile_wrapper', 'wpsp_social_profile_fields');
+        $this->filter_fields_of($settings, 'tab_social_template', 'wpsp_social_template_tabs');
+
+        return $settings;
+    }
+
+    /**
+     * Run $hook over the `fields` of the first node named $name.
+     *
+     * @param array  $node Walked by reference.
+     * @param string $name
+     * @param string $hook
+     * @return bool True once the node has been found and filtered.
+     */
+    private function filter_fields_of(&$node, $name, $hook)
+    {
+        if (!is_array($node)) {
+            return false;
+        }
+
+        if (isset($node['name']) && $node['name'] === $name && isset($node['fields']) && is_array($node['fields'])) {
+            $filtered = apply_filters($hook, $node['fields']);
+            if (is_array($filtered)) {
+                $node['fields'] = $filtered;
+            }
+            return true;
+        }
+
+        foreach ($node as &$child) {
+            if (is_array($child) && $this->filter_fields_of($child, $name, $hook)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function save_option_value()

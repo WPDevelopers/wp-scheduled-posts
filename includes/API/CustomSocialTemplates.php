@@ -183,6 +183,12 @@ class CustomSocialTemplates
             'mastodon' => ['template' => '', 'profiles' => [], 'is_global' => false]
         );
 
+        foreach (\WPSP\Social\Platforms::slugs() as $extension_slug) {
+            if (!isset($default_templates[$extension_slug])) {
+                $default_templates[$extension_slug] = ['template' => '', 'profiles' => [], 'is_global' => false];
+            }
+        }
+
         update_post_meta($post_id, '_wpsp_custom_templates', $default_templates);
     }
 
@@ -317,7 +323,7 @@ class CustomSocialTemplates
                 'platform' => array(
                     'required' => false,
                     'validate_callback' => function($param, $request, $key) {
-                        return in_array($param, ['facebook', 'twitter', 'linkedin', 'pinterest', 'instagram', 'medium', 'threads', 'google_business', 'bluesky', 'mastodon']);
+                        return in_array($param, $this->valid_platforms());
                     }
                 ),
                 'template' => array(
@@ -347,7 +353,7 @@ class CustomSocialTemplates
                 'platform' => array(
                     'required' => true,
                     'validate_callback' => function($param, $request, $key) {
-                        return in_array($param, ['facebook', 'twitter', 'linkedin', 'pinterest', 'instagram', 'medium', 'threads', 'google_business', 'bluesky', 'mastodon']);
+                        return in_array($param, $this->valid_platforms());
                     }
                 ),
             ),
@@ -687,6 +693,18 @@ class CustomSocialTemplates
      * @param string $platform
      * @return string
      */
+    /**
+     * Built-in platforms plus anything SchedulePress Pro registers.
+     *
+     * @return string[]
+     */
+    private function valid_platforms() {
+        return array_merge(
+            array('facebook', 'twitter', 'linkedin', 'pinterest', 'instagram', 'medium', 'threads', 'google_business', 'bluesky', 'mastodon'),
+            \WPSP\Social\Platforms::slugs()
+        );
+    }
+
     private function platform_label($platform) {
         $labels = array(
             'facebook'        => 'Facebook',
@@ -700,6 +718,7 @@ class CustomSocialTemplates
             'bluesky'         => 'Bluesky',
             'mastodon'        => 'Mastodon',
         );
+        $labels = array_merge($labels, \WPSP\Social\Platforms::labels());
         return isset($labels[$platform]) ? $labels[$platform] : ucfirst($platform);
     }
 
@@ -710,7 +729,7 @@ class CustomSocialTemplates
         $is_global = $platform_data['is_global'] ?? false;
 
         // Validate platform
-        $valid_platforms = ['facebook', 'twitter', 'linkedin', 'pinterest', 'instagram', 'medium', 'threads', 'google_business', 'bluesky', 'mastodon'];
+        $valid_platforms = $this->valid_platforms();
         if (!in_array($platform, $valid_platforms)) {
             /* translators: %s: Name of the invalid social media platform */
             $validation_errors[] = sprintf(__('Invalid platform: %s', 'wp-scheduled-posts'), $platform);

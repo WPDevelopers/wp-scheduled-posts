@@ -9,6 +9,7 @@ import Pinterest from "./Pinterest";
 import Twitter from "./Twitter";
 import Instagram from "./Instagram";
 import GoogleBusiness from "./GoogleBusiness";
+import PlatformProfileList from "./PlatformProfileList";
 
 import {
     useBuilderContext,
@@ -343,7 +344,16 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
                                     savedProfile={addSavedProfile}
                                 />
                               ),
-                        }[type]
+                        }[type] ?? (
+                            // A platform registered by an extension. Its profile
+                            // list comes back in the same shape, so the generic
+                            // list is all that is needed.
+                            <PlatformProfileList
+                                profiles={googleProfiles ?? []}
+                                addProfileToggle={addProfileToggle}
+                                savedProfile={addSavedProfile}
+                            />
+                        )
                     }
                 </div>
             </>

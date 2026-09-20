@@ -21,6 +21,8 @@ import Medium from './Medium';
 import CheckboxSelectAsync from './CheckboxSelectAsync';
 import Threads from './Threads';
 import GoogleBusiness from './GoogleBusiness';
+import SocialPlatform from './SocialPlatform';
+import ProSocialPlatform from './ProSocialPlatform';
 import Bluesky from './Bluesky';
 import Mastodon from './Mastodon';
 import OpenAI from './OpenAI';
@@ -70,6 +72,10 @@ const Field = (ret, type, props) => {
             return <License {...props} />;
         case "google-business":
             return <GoogleBusiness {...props} />;
+        case "social-platform":
+            return <SocialPlatform {...props} />;
+        case "pro-social-platform":
+            return <ProSocialPlatform {...props} />;
         case "bluesky":
             return <Bluesky {...props} />;
         case "mastodon":

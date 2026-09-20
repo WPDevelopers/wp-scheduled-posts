@@ -1175,6 +1175,28 @@ class Admin
                         <?php endif ?>
                     </div>
 
+                    <?php
+                    /**
+                     * Render the per-platform block for anything an extension registered.
+                     *
+                     * @param array $filteredSelectedProfiles Profile names already chosen for this post.
+                     * @param int   $post_id
+                     */
+                    do_action('wpsp_el_modal_social_platform_fields', $filteredSelectedProfiles, get_the_ID());
+                    ?>
+
+                    <?php foreach (\WPSP\Social\Platforms::locked_for_js() as $lockedSlug => $lockedPlatform) : ?>
+                        <div class="wpsp-el-accordion-item wpsp-el-accordion-item-<?php echo esc_attr(str_replace('_', '-', $lockedSlug)) ?> wpsp-pro-fields">
+                            <div class="wpsp-el-accordion-header">
+                                <img src="<?php echo esc_url($lockedPlatform['icon_bg_url']) ?>" width="25" alt="">
+                                <span><?php echo esc_html($lockedPlatform['label']) ?></span>
+                                <label for="">
+                                    <span><span><?php echo esc_html__('PRO', 'wp-scheduled-posts') ?></span></span>
+                                </label>
+                            </div>
+                        </div>
+                    <?php endforeach ?>
+
                 </div>
             </div>
         </div>

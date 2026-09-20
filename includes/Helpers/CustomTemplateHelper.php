@@ -174,19 +174,8 @@ class CustomTemplateHelper
      * @return array
      */
     public static function validate_template( $template, $platform ) {
-        // Platform character limits
-        $limits = array(
-            'twitter' => 280,
-            'facebook' => 63206,
-            'linkedin' => 3000,
-            'pinterest' => 500,
-            'instagram' => 2200,
-            'medium' => 100000,
-            'threads' => 500,
-            'google_business' => 1500,
-            'bluesky' => 300,
-            'mastodon' => 500
-        );
+        // Platform character limits, built-ins plus anything Pro registers.
+        $limits = self::get_platform_limits();
 
         // Check if template is empty
         if (empty(trim($template))) {
@@ -242,7 +231,7 @@ class CustomTemplateHelper
      * @return array
      */
     public static function get_platform_limits() {
-        return array(
+        return array_merge(array(
             'twitter' => 280,
             'facebook' => 63206,
             'linkedin' => 3000,
@@ -253,7 +242,7 @@ class CustomTemplateHelper
             'google_business' => 1500,
             'bluesky' => 300,
             'mastodon' => 500
-        );
+        ), \WPSP\Social\Platforms::limits());
     }
 
     /**
@@ -314,6 +303,13 @@ class CustomTemplateHelper
             'bluesky' => array(),
             'mastodon' => array()
         );
+
+        // Extension platforms get the same empty bucket built-ins do.
+        foreach (\WPSP\Social\Platforms::slugs() as $extension_slug) {
+            if (!isset($new_structure[$extension_slug])) {
+                $new_structure[$extension_slug] = array();
+            }
+        }
 
         // Migrate old platform_profileId format to new hierarchical format
         foreach ($templates as $key => $template) {

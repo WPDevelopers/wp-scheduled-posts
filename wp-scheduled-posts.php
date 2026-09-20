@@ -42,9 +42,13 @@ final class WPSP
 	{
 		$this->define_constants();
 		add_action('admin_init', function () {
-			if ($this->check_pro_compatibility()) {
+			// Only nags about a Pro that is actually running: an inactive copy
+			// sitting in the plugins folder is not serving anything.
+			if (\WPSP\Helper::pro_needs_update(defined('WPSP_PRO_VERSION') ? WPSP_PRO_VERSION : null)) {
 				add_action('admin_notices', [$this, 'wpsp_fail_pro_version'], 52);
-				
+			}
+
+			if ($this->check_pro_compatibility()) {
 				if (!is_plugin_active($this->basename) && $this->check_pro_compatibility('4.3.3', '=')) {
 					if (!get_option('wpsp_activated_pro_once')) {
 						activate_plugins($this->basename);
@@ -101,6 +105,14 @@ final class WPSP
 		 * Defines CONSTANTS for Whole plugins.
 		 */
 		define('WPSP_VERSION', '5.3.4');
+		/**
+		 * Oldest SchedulePress Pro this release can hand its Pro-only features to.
+		 *
+		 * Bump this — not the version check itself — whenever a feature moves out
+		 * of free. Anything older keeps working, it just cannot serve what it no
+		 * longer has the code for, which is what the admin notice explains.
+		 */
+		define('WPSP_MIN_PRO_VERSION', '5.4.0');
 		define('WPSP_SETTINGS_NAME_OLD', 'wpsp_settings');
 		define('WPSP_SETTINGS_NAME', 'wpsp_settings_v5');
 		define('WPSP_PLUGIN_FILE', __FILE__);
@@ -152,14 +164,24 @@ final class WPSP
         return isset($plugins[$basename]);
     }
 
+	/**
+	 * Shown when the running Pro is older than this release can work with.
+	 *
+	 * Deliberately says nothing about which feature is affected: the version
+	 * gate is what matters, and the list changes every time something moves.
+	 */
 	public function wpsp_fail_pro_version() {
 		?>
 		<div class="notice notice-error">
 			<p>
 				<?php
 					printf(
-						/* translators: %1$s: URL to the SchedulePress support page */
-						__( 'SchedulePress Free v5.0 needs SchedulePress Pro v5.0 for better performance. Please update SchedulePress Pro plugin to v5.0. Contact our <a href="%1$s" target="_blank">Support</a> if you need any assistance.', 'wp-scheduled-posts' ),
+						/* translators: 1: free plugin version, 2: minimum Pro version, 3: installed Pro version, 4: URL to the WordPress updates screen, 5: URL to the SchedulePress support page */
+						__( 'SchedulePress %1$s needs SchedulePress Pro %2$s or newer, and you are running Pro %3$s. Some Pro features stay unavailable until you <a href="%4$s">update SchedulePress Pro</a>. Contact our <a href="%5$s" target="_blank">Support</a> if you need any assistance.', 'wp-scheduled-posts' ),
+						esc_html( WPSP_VERSION ),
+						esc_html( WPSP_MIN_PRO_VERSION ),
+						esc_html( defined('WPSP_PRO_VERSION') ? WPSP_PRO_VERSION : '' ),
+						esc_url( admin_url( 'update-core.php' ) ),
 						'https://wpdeveloper.com/support/'
 					);
 				?>

@@ -15,6 +15,13 @@ import useSocialProfiles from './hooks/useSocialProfiles';
 import useCurrentPostData from './hooks/useCurrentPostData';
 import AllDisabledPlatform from './AllDisabledPlatform';
 import AICaptionDrawer from './AICaptionDrawer';
+import {
+  extensionSlugs,
+  extensionLimits,
+  lockedPlatforms,
+  registeredPlatforms,
+  isLockedPlatform,
+} from '../../../helper/platforms';
 
 const SOCIAL_PLATFORMS = [
   'facebook',
@@ -27,6 +34,8 @@ const SOCIAL_PLATFORMS = [
   'google_business',
   'bluesky',
   'mastodon',
+  // Networks that arrive from an extension, live ones first.
+  ...extensionSlugs(),
 ];
 
 const platformLimits = {
@@ -40,6 +49,7 @@ const platformLimits = {
   google_business: 1500,
   bluesky: 300,
   mastodon: 500,
+  ...extensionLimits(),
 };
 
 const DEFAULT_TEMPLATE = '{title} {content} {url} {tags}';
@@ -101,9 +111,22 @@ const WPSPCustomTemplateModal = ({
     { platform: 'google_business', icon: google_business, color: '#db4437', bgColor: '#db4437' },
     { platform: 'bluesky', icon: bluesky, color: '#0085ff', bgColor: '#0085ff' },
     { platform: 'mastodon', icon: mastodon, color: '#6364ff', bgColor: '#6364ff' },
+    // An extension supplies a URL rather than an inline SVG, so the icon is an
+    // <img>. Locked ones render the same way and are never selectable.
+    ...Object.entries({ ...registeredPlatforms(), ...lockedPlatforms() }).map(
+      ([slug, definition]) => ({
+        platform: slug,
+        icon: <img src={definition.icon_url} alt={definition.label} />,
+        color: definition.color || '',
+        bgColor: definition.color || '',
+        label: definition.label,
+        locked: Boolean(definition.locked),
+      })
+    ),
   ];
 
-  // Filter platforms based on what's enabled
+  // Filter platforms based on what's enabled. A locked platform is never
+  // "enabled", so it stays out of here and only shows as a disabled tab.
   const filteredPlatforms = platforms.filter(({ platform }) => social_media_enabled[platform]);
   const firstSelectedProfile = Object.entries(social_media_enabled).find(([key, value]) => value === true)?.[0];
 
@@ -256,7 +279,8 @@ const WPSPCustomTemplateModal = ({
       case 'google_business': return socialProfiles.google_business || [];
       case 'bluesky': return socialProfiles.bluesky || [];
       case 'mastodon': return socialProfiles.mastodon || [];
-      default: return [];
+      // Extension platforms keep their profiles under their own slug.
+      default: return isLockedPlatform(selectedPlatform) ? [] : (socialProfiles[selectedPlatform] || []);
     }
   }, [selectedPlatform, socialProfiles]);
 

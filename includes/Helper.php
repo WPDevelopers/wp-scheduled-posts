@@ -254,6 +254,23 @@ class Helper
      *
      * @return array<string,int> Map of platform slug => character limit.
      */
+    /**
+     * Whether the running SchedulePress Pro is older than this release expects.
+     *
+     * Pure, so the version matrix is testable without booting WordPress.
+     *
+     * @param string|null $pro_version Null when Pro is not active.
+     * @return bool
+     */
+    public static function pro_needs_update($pro_version)
+    {
+        if (empty($pro_version) || !defined('WPSP_MIN_PRO_VERSION')) {
+            return false;
+        }
+
+        return version_compare($pro_version, WPSP_MIN_PRO_VERSION, '<');
+    }
+
     public static function get_social_platform_limits()
     {
         $defaults = array(
@@ -268,6 +285,9 @@ class Helper
             'bluesky'         => 300,
             'mastodon'        => 500,
         );
+
+        // Extension platforms (SchedulePress Pro) describe their own limit.
+        $defaults = array_merge($defaults, \WPSP\Social\Platforms::limits());
 
         $templates = self::get_settings('social_templates');
         if (!is_object($templates)) {

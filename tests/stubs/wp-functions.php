@@ -418,26 +418,66 @@ namespace {
 		}
 	}
 
+	// A real enough hook store. The no-op version was fine while nothing under
+	// test read a filter back, but the social-platform registry is built
+	// entirely out of `wpsp_social_platforms`, so a test has to be able to
+	// register one and see it come out the other side.
 	if ( ! function_exists( 'do_action' ) ) {
 		function do_action( $hook, ...$args ) {
 			\WPSP\Tests\Stubs\PostStore::$firedActions[] = $hook;
+
+			foreach ( \WPSP\Tests\Stubs\HookStore::callbacks( $hook ) as $callback ) {
+				call_user_func_array( $callback, $args );
+			}
 		}
 	}
 
 	if ( ! function_exists( 'add_filter' ) ) {
 		function add_filter( $hook, $callback, $priority = 10, $accepted_args = 1 ) {
+			\WPSP\Tests\Stubs\HookStore::add( $hook, $callback, $priority );
 			return true;
+		}
+	}
+
+	if ( ! function_exists( 'apply_filters' ) ) {
+		function apply_filters( $hook, $value, ...$args ) {
+			foreach ( \WPSP\Tests\Stubs\HookStore::callbacks( $hook ) as $callback ) {
+				$value = call_user_func_array( $callback, array_merge( array( $value ), $args ) );
+			}
+
+			return $value;
+		}
+	}
+
+	if ( ! function_exists( 'has_filter' ) ) {
+		function has_filter( $hook, $callback = false ) {
+			return \WPSP\Tests\Stubs\HookStore::has( $hook );
+		}
+	}
+
+	if ( ! function_exists( 'has_action' ) ) {
+		function has_action( $hook, $callback = false ) {
+			return \WPSP\Tests\Stubs\HookStore::has( $hook );
 		}
 	}
 
 	if ( ! function_exists( 'remove_filter' ) ) {
 		function remove_filter( $hook, $callback, $priority = 10 ) {
+			\WPSP\Tests\Stubs\HookStore::remove( $hook, $callback );
+			return true;
+		}
+	}
+
+	if ( ! function_exists( 'remove_all_filters' ) ) {
+		function remove_all_filters( $hook, $priority = false ) {
+			\WPSP\Tests\Stubs\HookStore::reset( $hook );
 			return true;
 		}
 	}
 
 	if ( ! function_exists( 'add_action' ) ) {
 		function add_action( $hook, $callback, $priority = 10, $accepted_args = 1 ) {
+			\WPSP\Tests\Stubs\HookStore::add( $hook, $callback, $priority );
 			return true;
 		}
 	}

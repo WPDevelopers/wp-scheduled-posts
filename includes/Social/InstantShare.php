@@ -51,6 +51,16 @@ class InstantShare
         $googleBusinessProfile = \WPSP\Helper::get_settings('google_business_profile_list');
         $blueskyProfile = \WPSP\Helper::get_settings('bluesky_profile_list');
         $mastodonProfile = \WPSP\Helper::get_settings('mastodon_profile_list');
+        // Platforms registered by an extension (SchedulePress Pro).
+        $extensionPlatforms = \WPSP\Social\Platforms::registered();
+        $lockedPlatforms    = \WPSP\Social\Platforms::locked_for_js();
+        $extensionIntegation = false;
+        foreach ($extensionPlatforms as $extensionSlug => $extensionPlatform) {
+            if (\WPSP\Helper::get_settings($extensionPlatform['status_key']) == 'on') {
+                $extensionIntegation = true;
+                break;
+            }
+        }
         // already checked 'Helper::is_enable_classic_editor()'
     ?>
         <div class="wpscppro-instantshare">
@@ -332,7 +342,45 @@ class InstantShare
                     <?php
                     endif;
                     ?>
-                    <?php if( $googleBusinessIntegation != 'on' && $facebookIntegation != 'on' && $twitterIntegation != 'on' && $linkedinIntegation != 'on' && $pinterestIntegation != 'on' && $instagramIntegation != 'on' && $mediumIntegation != 'on' && $threadsIntegation != 'on' ) : ?>
+                    <?php
+                    // Platforms an extension registered. Same markup the built-ins use,
+                    // driven entirely by the registry so a new network needs no edit here.
+                    foreach ($extensionPlatforms as $extensionSlug => $extensionPlatform) :
+                        if (\WPSP\Helper::get_settings($extensionPlatform['status_key']) != 'on') {
+                            continue;
+                        }
+                        $extensionProfile = \WPSP\Helper::get_settings($extensionPlatform['list_key']);
+                        if (!is_array($extensionProfile) || count($extensionProfile) === 0) {
+                            continue;
+                        }
+                        $extensionShareCount = get_post_meta(get_the_ID(), '__wpscppro_social_share_' . $extensionSlug);
+                        $isExtensionShare    = get_post_meta(get_the_ID(), '_wpsp_is_' . $extensionSlug . '_share', true);
+                    ?>
+                        <li class="<?php echo esc_attr($extensionSlug); ?>">
+                            <label style="margin-bottom: 10px;">
+                                <input type="checkbox" id="wpscppro<?php echo esc_attr($extensionSlug); ?>is" name="_wpsp_is_<?php echo esc_attr($extensionSlug); ?>_share" <?php (!empty($isExtensionShare) ? checked('on', $isExtensionShare, true) : checked('', $isExtensionShare, true)); ?> /> <?php echo esc_html($extensionPlatform['label']); ?>
+                                <?php if (is_array($extensionShareCount) && count($extensionShareCount) > 0) : ?>
+                                    <span class="sharecount"><?php print count($extensionShareCount); ?></span>
+                                <?php endif; ?>
+                                <span class="ajaxrequest"></span>
+                            </label>
+                            <div class="errorlog"></div>
+                        </li>
+                    <?php endforeach; ?>
+
+                    <?php
+                    // Pro networks nobody is serving yet: shown, disabled, and priced.
+                    foreach ($lockedPlatforms as $lockedSlug => $lockedPlatform) :
+                    ?>
+                        <li class="<?php echo esc_attr($lockedSlug); ?> wpsp-locked-platform">
+                            <label style="margin-bottom: 10px;">
+                                <input type="checkbox" disabled /> <?php echo esc_html($lockedPlatform['label']); ?>
+                                <a class="wpsp-locked-platform__badge" target="_blank" rel="noopener" href="https://schedulepress.com/#pricing"><?php esc_html_e('PRO', 'wp-scheduled-posts'); ?></a>
+                            </label>
+                        </li>
+                    <?php endforeach; ?>
+
+                    <?php if( !$extensionIntegation && $googleBusinessIntegation != 'on' && $facebookIntegation != 'on' && $twitterIntegation != 'on' && $linkedinIntegation != 'on' && $pinterestIntegation != 'on' && $instagramIntegation != 'on' && $mediumIntegation != 'on' && $threadsIntegation != 'on' ) : ?>
                         <?php
                             echo sprintf(
                                 /* translators: %s: URL to SchedulePress settings page */
@@ -342,7 +390,7 @@ class InstantShare
                         ?>
                     <?php endif ?>
                 </ul>
-                <button id="wpscpproinstantsharenow" <?php echo (  $googleBusinessIntegation != 'on' && $facebookIntegation != 'on' && $twitterIntegation != 'on' && $linkedinIntegation != 'on' && $pinterestIntegation != 'on' && $instagramIntegation != 'on' && $mediumIntegation != 'on' && $threadsIntegation != 'on' ) ? 'disabled' : '' ?> class="button button-primary button-large"><?php esc_html_e('Share Now', 'wp-scheduled-posts'); ?></button>
+                <button id="wpscpproinstantsharenow" <?php echo ( !$extensionIntegation && $googleBusinessIntegation != 'on' && $facebookIntegation != 'on' && $twitterIntegation != 'on' && $linkedinIntegation != 'on' && $pinterestIntegation != 'on' && $instagramIntegation != 'on' && $mediumIntegation != 'on' && $threadsIntegation != 'on' ) ? 'disabled' : '' ?> class="button button-primary button-large"><?php esc_html_e('Share Now', 'wp-scheduled-posts'); ?></button>
                 <div class="wpscppro-ajax-status"></div>
             </div>
         </div>
@@ -414,6 +462,9 @@ class InstantShare
         update_post_meta( $post_id, '_google_business_share_type', 'default' );
         update_post_meta( $post_id, '_bluesky_share_type', 'default' );
         update_post_meta( $post_id, '_mastodon_share_type', 'default' );
+        foreach (\WPSP\Social\Platforms::slugs() as $extensionSlug) {
+            update_post_meta( $post_id, '_' . $extensionSlug . '_share_type', 'default' );
+        }
         $facebookProfile  = \WPSP\Helper::get_settings('facebook_profile_list');
         $twitterProfile   = \WPSP\Helper::get_settings('twitter_profile_list');
         $linkedinProfile  = \WPSP\Helper::get_settings('linkedin_profile_list');
@@ -589,15 +640,39 @@ class InstantShare
             $allProfile['mastodon'] = $mastodon;
         }
 
+        // Platforms an extension registered, resolved the same way.
+        foreach (\WPSP\Social\Platforms::registered() as $extensionSlug => $extensionPlatform) {
+            if (isset($allProfile[$extensionSlug])) {
+                continue;
+            }
+            $isExtensionShare = !empty($_REQUEST['is_' . $extensionSlug . '_share'])
+                ? sanitize_text_field($_REQUEST['is_' . $extensionSlug . '_share'])
+                : null;
+            if ($isExtensionShare !== "true") {
+                continue;
+            }
+            $allProfile[$extensionSlug] = \WPSP\Helper::get_social_profile(
+                $extensionPlatform['list_key'],
+                $this->get_selected_profiles_param($extensionSlug . '_selected_profiles')
+            );
+        }
+
         // placeholder image url 
         $placeholder_image = WPSP_ASSETS_URI . 'images/author-logo.jpeg';
 
         $markup = '';
         if (is_array($allProfile) && count($allProfile) > 0) {
             foreach ($allProfile as $profileName => $profile) {
+                $extensionPlatform = \WPSP\Social\Platforms::get($profileName);
+                $profileIcon  = !empty($extensionPlatform['icon_small_white_url'])
+                    ? $extensionPlatform['icon_small_white_url']
+                    : WPSP_ASSETS_URI . 'images/icon-' . $profileName . '-small-white.png';
+                $profileLabel = !empty($extensionPlatform['label'])
+                    ? $extensionPlatform['label']
+                    : $this->formatProfileName($profileName);
                 $markup .= '<div class="entry-head ' . $profileName . '">
-                        <img src="' . WPSP_ASSETS_URI . 'images/icon-' . $profileName . '-small-white.png' . '" alt="logo" />
-                        <h2 class="entry-head-title">' . $this->formatProfileName($profileName) . '</h2>
+                        <img src="' . esc_url($profileIcon) . '" alt="logo" />
+                        <h2 class="entry-head-title">' . esc_html($profileLabel) . '</h2>
                     </div>
                     <ul class="autoOverflowModal">';
                 foreach ($profile as $key => $profileItem) {
@@ -904,6 +979,46 @@ class InstantShare
                 isset($mastodon[$platformKey]->instance_url) ? $mastodon[$platformKey]->instance_url : WPSCP_MASTODON_INSTANCE,
                 $is_share_on_publish
             );
+            if (!$is_share_on_publish) {
+                wp_die();
+            }
+        } else if ($extensionPlatform = \WPSP\Social\Platforms::get($platform)) {
+            // A platform registered by an extension. Resolve the profile here so
+            // the listener only has to post; the lookup is identical for every
+            // network and there is no reason to repeat it outside.
+            $profiles = \WPSP\Helper::get_social_profile($extensionPlatform['list_key']);
+            if (empty($profileID)) {
+                $profileID = !empty($profiles[$platformKey]->id) ? $profiles[$platformKey]->id : null;
+            }
+            $platformKey = !empty($profileID) ? array_search($profileID, array_column($profiles, 'id')) : intval($platformKey);
+
+            if (empty($profiles[$platformKey]) || $profiles[$platformKey]->status == false) {
+                wp_die();
+            }
+
+            if (!has_action('wpsp_instant_share_' . $platform)) {
+                // Registered but unserved: the extension that described the
+                // platform is a version behind the one that shares to it.
+                if (!$is_share_on_publish) {
+                    wp_send_json_error(__('This platform needs the latest version of SchedulePress Pro.', 'wp-scheduled-posts'));
+                    wp_die();
+                }
+                return;
+            }
+
+            /**
+             * Share one post to one connected profile.
+             *
+             * @param object $profile             The resolved profile.
+             * @param int    $platformKey         Its index in the stored list.
+             * @param int    $postid              Post being shared.
+             * @param bool   $is_share_on_publish True when this runs on publish
+             *                                    rather than from Share Now, in
+             *                                    which case nothing may be sent
+             *                                    to the browser.
+             */
+            do_action('wpsp_instant_share_' . $platform, $profiles[$platformKey], $platformKey, $postid, $is_share_on_publish);
+
             if (!$is_share_on_publish) {
                 wp_die();
             }

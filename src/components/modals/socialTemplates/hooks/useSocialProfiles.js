@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { fetchSocialProfileData } from '../../../../helper/helper';
+import { extensionSlugs, platformListKey } from '../../../../helper/platforms';
 
 const useSocialProfiles = () => {
     const [socialProfiles, setSocialProfiles] = useState({
@@ -12,7 +13,9 @@ const useSocialProfiles = () => {
         threads: [],
         google_business: [],
         bluesky: [],
-        mastodon: []
+        mastodon: [],
+        // Extension platforms start empty too, live or locked.
+        ...Object.fromEntries(extensionSlugs().map((slug) => [slug, []])),
     });
     const [isLoading, setIsLoading] = useState(true);
 
@@ -76,6 +79,12 @@ const useSocialProfiles = () => {
                         google_business: processProfiles(response.google_business_profile_list),
                         bluesky: processProfiles(response.bluesky_profile_list),
                         mastodon: processProfiles(response.mastodon_profile_list),
+                        ...Object.fromEntries(
+                            extensionSlugs().map((slug) => [
+                                slug,
+                                processProfiles(response[platformListKey(slug)]),
+                            ])
+                        ),
                     });
                 }
             } catch (error) {

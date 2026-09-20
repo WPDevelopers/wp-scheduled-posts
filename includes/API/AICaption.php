@@ -58,6 +58,16 @@ class AICaption
      */
     private function __construct()
     {
+        // Extension platforms (SchedulePress Pro) describe their own name and budget.
+        foreach (\WPSP\Social\Platforms::registered() as $slug => $definition) {
+            if (!isset($this->platform_meta[$slug])) {
+                $this->platform_meta[$slug] = array(
+                    'name'  => $definition['label'],
+                    'limit' => isset($definition['char_limit']) ? (int) $definition['char_limit'] : 0,
+                );
+            }
+        }
+
         add_action('rest_api_init', array($this, 'register_routes'));
     }
 
