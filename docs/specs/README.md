@@ -19,6 +19,7 @@ Each spec follows the same shape: **Summary → Settings & options → Behavior 
 | 9 | Email notifications & review workflow | [email-notifications.md](email-notifications.md) |
 | 10 | Access control (post types, roles, categories) | [access-control.md](access-control.md) |
 | 11 | Settings & data model | [settings-data-model.md](settings-data-model.md) |
+| 12 | Free / Pro separation (in progress) | [free-pro-separation.md](free-pro-separation.md) |
 
 ## Conventions used in these specs
 
