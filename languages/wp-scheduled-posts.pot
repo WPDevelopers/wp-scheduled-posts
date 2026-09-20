@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the SchedulePress plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: SchedulePress 5.3.4\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wpsp-release\n"
+"Project-Id-Version: SchedulePress 5.4.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-scheduled-posts\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-09-13T10:48:43+00:00\n"
+"POT-Creation-Date: 2026-09-20T07:33:35+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.13.0-alpha-16cc7a8\n"
 "X-Domain: wp-scheduled-posts\n"
@@ -89,7 +89,7 @@ msgstr ""
 
 #: includes/Admin.php:431
 #: src/components/modals/ProPopup.js:22
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:524
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:525
 msgid "Close"
 msgstr ""
 
@@ -117,7 +117,7 @@ msgid "Publish Post Immediately"
 msgstr ""
 
 #: includes/Admin.php:505
-#: includes/Social/InstantShare.php:345
+#: includes/Social/InstantShare.php:370
 msgid "Share Now"
 msgstr ""
 
@@ -129,9 +129,9 @@ msgstr ""
 #: includes/Admin.php:508
 #: includes/Admin.php:510
 #: includes/Admin.php:519
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:380
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:394
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:496
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:400
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:414
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:516
 msgid "Update"
 msgstr ""
 
@@ -154,7 +154,8 @@ msgstr ""
 #: includes/Admin.php:594
 #: includes/Admin.php:602
 #: includes/Admin.php:609
-#: includes/Admin.php:1130
+#: includes/Admin.php:1133
+#: includes/Social/InstantShare.php:355
 msgid "PRO"
 msgstr ""
 
@@ -164,115 +165,116 @@ msgid "Republish On"
 msgstr ""
 
 #: includes/Admin.php:606
-#: includes/Admin/Settings.php:187
-#: includes/Admin/Settings.php:1871
-#: includes/Admin/Settings.php:1892
+#: includes/Admin/Settings.php:193
+#: includes/Admin/Settings.php:1822
+#: includes/Admin/Settings.php:1843
 #: src/components/Settings/SchedulingOptions.js:58
 msgid "Advanced Schedule"
 msgstr ""
 
-#: includes/Admin.php:718
-#: includes/Social/InstantShare.php:94
+#: includes/Admin.php:712
+#: includes/Social/InstantShare.php:102
 msgid "Choose Social Share Platform"
 msgstr ""
 
-#: includes/Admin.php:731
-#: includes/Admin.php:774
-#: includes/Admin.php:842
-#: includes/Admin.php:891
-#: includes/Admin.php:948
-#: includes/Admin.php:1011
-#: includes/Admin.php:1052
-#: includes/Admin.php:1092
-#: includes/Admin.php:1140
+#: includes/Admin.php:725
+#: includes/Admin.php:768
+#: includes/Admin.php:836
+#: includes/Admin.php:885
+#: includes/Admin.php:942
+#: includes/Admin.php:1005
+#: includes/Admin.php:1046
+#: includes/Admin.php:1086
 #: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Default"
 msgstr ""
 
-#: includes/Admin.php:733
-#: includes/Admin.php:776
-#: includes/Admin.php:845
-#: includes/Admin.php:894
-#: includes/Admin.php:950
-#: includes/Admin.php:1013
-#: includes/Admin.php:1054
-#: includes/Admin.php:1094
-#: includes/Admin.php:1143
+#: includes/Admin.php:727
+#: includes/Admin.php:770
+#: includes/Admin.php:839
+#: includes/Admin.php:888
+#: includes/Admin.php:944
+#: includes/Admin.php:1007
+#: includes/Admin.php:1048
+#: includes/Admin.php:1088
 msgid "Custom"
 msgstr ""
 
 #. translators: 1: URL to the SchedulePress social profile settings page
 #. translators: %1$s: URL to the SchedulePress social profile settings page
-#: includes/Admin.php:754
-#: includes/Admin.php:795
-#: includes/Admin.php:868
-#: includes/Admin.php:917
-#: includes/Admin.php:930
-#: includes/Admin.php:994
-#: includes/Admin.php:1035
-#: includes/Admin.php:1075
-#: includes/Admin.php:1115
-#: includes/Admin.php:1168
+#: includes/Admin.php:748
+#: includes/Admin.php:789
+#: includes/Admin.php:862
+#: includes/Admin.php:911
+#: includes/Admin.php:924
+#: includes/Admin.php:988
+#: includes/Admin.php:1029
+#: includes/Admin.php:1069
+#: includes/Admin.php:1109
 #, php-format
 msgid "It seems you haven't connected any profile/page in your <a href=\"%1$s\">SchedulePress settings</a>."
 msgstr ""
 
-#: includes/Admin.php:815
+#: includes/Admin.php:809
 #: includes/Admin/Settings/assets/js/admin.js:1
-#: src/components/Content/ShareNowStatusModal.js:29
-#: src/components/Content/ShareNowStatusModal.js:31
+#: src/components/Content/ShareNowStatusModal.js:34
+#: src/components/Content/ShareNowStatusModal.js:36
 msgid "Profile"
 msgstr ""
 
-#: includes/Admin.php:820
+#: includes/Admin.php:814
 #: includes/Admin/Settings/assets/js/admin.js:1
-#: src/components/Content/ShareNowStatusModal.js:29
+#: src/components/Content/ShareNowStatusModal.js:34
 msgid "Page"
 msgstr ""
 
-#: includes/Admin.php:857
+#: includes/Admin.php:851
 msgid "(Profile)"
 msgstr ""
 
-#: includes/Admin.php:906
+#: includes/Admin.php:900
 msgid "(Page)"
 msgstr ""
 
-#: includes/Admin.php:1322
+#: includes/Admin.php:1283
 msgid "Your post successfully updated"
 msgstr ""
 
-#: includes/Admin.php:1500
+#: includes/Admin.php:1461
 msgid "Your post successfully published"
 msgstr ""
 
-#: includes/Admin.php:1511
+#: includes/Admin.php:1472
 msgid "Your post id is empty"
 msgstr ""
 
-#: includes/Admin.php:1538
+#: includes/Admin.php:1499
 msgid "Your post successfully scheduled"
 msgstr ""
 
-#: includes/Admin/Calendar.php:661
-#: includes/Admin/Calendar.php:847
-#: includes/Admin/Calendar.php:875
+#: includes/Admin/Calendar.php:660
+#: includes/Admin/Calendar.php:846
+#: includes/Admin/Calendar.php:874
 msgid "Post type isn't allowed in Settings page."
 msgstr ""
 
-#: includes/Admin/Calendar.php:804
+#: includes/Admin/Calendar.php:803
 msgid "Type is required."
 msgstr ""
 
-#: includes/Admin/Calendar.php:807
-#: includes/Admin/Calendar.php:829
-#: includes/Social/SocialProfile.php:75
+#: includes/Admin/Calendar.php:806
+#: includes/Admin/Calendar.php:828
+#: includes/Social/SocialProfile.php:73
 msgid "Something went wrong."
+msgstr ""
+
+#: includes/Admin/Calendar.php:897
+msgid "Advanced Schedule needs SchedulePress Pro."
 msgstr ""
 
 #: includes/Admin/Menu.php:61
 #: includes/Admin/Menu.php:64
-#: includes/Admin/Settings.php:420
+#: includes/Admin/Settings.php:426
 msgid "Calendar"
 msgstr ""
 
@@ -290,827 +292,810 @@ msgstr ""
 msgid "Heads up, Please backup before upgrade!"
 msgstr ""
 
-#: includes/Admin/Settings.php:134
+#: includes/Admin/Settings.php:140
 msgid "Layout"
 msgstr ""
 
-#: includes/Admin/Settings.php:156
+#: includes/Admin/Settings.php:162
 msgid "General"
 msgstr ""
 
-#: includes/Admin/Settings.php:172
+#: includes/Admin/Settings.php:178
 msgid "View All Features"
 msgstr ""
 
-#: includes/Admin/Settings.php:177
+#: includes/Admin/Settings.php:183
 msgid "Auto/Manual Scheduler"
 msgstr ""
 
-#: includes/Admin/Settings.php:182
+#: includes/Admin/Settings.php:188
 msgid "Missed Schedule Handler"
 msgstr ""
 
-#: includes/Admin/Settings.php:192
+#: includes/Admin/Settings.php:198
 msgid "Premium Support"
 msgstr ""
 
-#: includes/Admin/Settings.php:197
-#: includes/Admin/Settings.php:214
+#: includes/Admin/Settings.php:203
+#: includes/Admin/Settings.php:220
 msgid "Show Scheduled Posts in Dashboard Widget"
 msgstr ""
 
-#: includes/Admin/Settings.php:205
+#: includes/Admin/Settings.php:211
 msgid "General Settings"
 msgstr ""
 
-#: includes/Admin/Settings.php:221
+#: includes/Admin/Settings.php:227
 msgid "Show Scheduled Posts in Sitewide Admin Bar"
 msgstr ""
 
-#: includes/Admin/Settings.php:228
+#: includes/Admin/Settings.php:234
 msgid "Show Scheduled Posts in Admin Bar"
 msgstr ""
 
-#: includes/Admin/Settings.php:234
-#: includes/Admin/Settings.php:399
+#: includes/Admin/Settings.php:240
+#: includes/Admin/Settings.php:405
 msgid "Show Post Types:"
 msgstr ""
 
-#: includes/Admin/Settings.php:244
+#: includes/Admin/Settings.php:250
 msgid "Allow Taxonomy as Tags:"
 msgstr ""
 
-#: includes/Admin/Settings.php:254
+#: includes/Admin/Settings.php:260
 msgid "Show Categories:"
 msgstr ""
 
-#: includes/Admin/Settings.php:263
+#: includes/Admin/Settings.php:269
 msgid "Allow users:"
 msgstr ""
 
-#: includes/Admin/Settings.php:274
+#: includes/Admin/Settings.php:280
 msgid "Calendar Default Schedule Time:"
 msgstr ""
 
-#: includes/Admin/Settings.php:282
+#: includes/Admin/Settings.php:288
 msgid "Custom item template for scheduled posts list in the admin bar:"
 msgstr ""
 
-#: includes/Admin/Settings.php:293
+#: includes/Admin/Settings.php:299
 msgid "Item template:"
 msgstr ""
 
-#: includes/Admin/Settings.php:295
+#: includes/Admin/Settings.php:301
 msgid "For item template use %TITLE% for the post title, %AUTHOR% for post author, and %DATE% for post scheduled date-time. You can use HTML tags with styles also."
 msgstr ""
 
-#: includes/Admin/Settings.php:302
+#: includes/Admin/Settings.php:308
 msgid "Title length:"
 msgstr ""
 
-#: includes/Admin/Settings.php:310
+#: includes/Admin/Settings.php:316
 msgid "Date format:"
 msgstr ""
 
-#: includes/Admin/Settings.php:319
+#: includes/Admin/Settings.php:325
 msgid "Show Publish Post Immediately Button"
 msgstr ""
 
-#: includes/Admin/Settings.php:321
+#: includes/Admin/Settings.php:327
 msgid "Immediately Publish Button only shows for Scheduled Post, after Enabling this option"
 msgstr ""
 
-#: includes/Admin/Settings.php:327
+#: includes/Admin/Settings.php:333
 msgid "Show Scheduled Posts in Elementor"
 msgstr ""
 
-#: includes/Admin/Settings.php:334
+#: includes/Admin/Settings.php:340
 msgid "Show Elementor Section Schedule"
 msgstr ""
 
-#: includes/Admin/Settings.php:337
+#: includes/Admin/Settings.php:343
 msgid "Schedule any Section of a Page/Post in Elementor with SchedulePress"
 msgstr ""
 
-#: includes/Admin/Settings.php:338
-#: includes/Admin/Settings.php:346
-#: includes/Admin/Settings.php:354
-#: includes/Admin/Settings.php:382
-#: includes/Admin/Settings.php:392
+#: includes/Admin/Settings.php:344
+#: includes/Admin/Settings.php:352
+#: includes/Admin/Settings.php:360
+#: includes/Admin/Settings.php:388
+#: includes/Admin/Settings.php:398
 msgid "Upgrade to Premium"
 msgstr ""
 
-#: includes/Admin/Settings.php:344
+#: includes/Admin/Settings.php:350
 msgid "Post Republish and Unpublish"
 msgstr ""
 
-#: includes/Admin/Settings.php:353
+#: includes/Admin/Settings.php:359
 msgid "Active Republish Social Share"
 msgstr ""
 
-#: includes/Admin/Settings.php:371
+#: includes/Admin/Settings.php:377
 msgid "Enhanced Post Publishing and Sharing Options:"
 msgstr ""
 
-#: includes/Admin/Settings.php:381
+#: includes/Admin/Settings.php:387
 msgid "Publish Now with Future Date"
 msgstr ""
 
-#: includes/Admin/Settings.php:383
+#: includes/Admin/Settings.php:389
 msgid "Toggle to enable the option to publish the post now while showing your selected future date."
 msgstr ""
 
-#: includes/Admin/Settings.php:391
+#: includes/Admin/Settings.php:397
 msgid "Auto-Share upon Publishing"
 msgstr ""
 
-#: includes/Admin/Settings.php:447
 #: includes/Admin/Settings.php:453
+#: includes/Admin/Settings.php:459
 msgid "Email Notify"
 msgstr ""
 
-#: includes/Admin/Settings.php:454
+#: includes/Admin/Settings.php:460
 msgid "To configure Email Notify Settings, check out this <a href=\"https://wpdeveloper.com/docs/email-notification-wordpress\" target=\"_blank\">Doc</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:468
+#: includes/Admin/Settings.php:474
 msgid "Notify User when a post is \"Under Review\""
 msgstr ""
 
-#: includes/Admin/Settings.php:474
-#: includes/Admin/Settings.php:538
+#: includes/Admin/Settings.php:480
+#: includes/Admin/Settings.php:544
 msgid "Role:"
 msgstr ""
 
-#: includes/Admin/Settings.php:487
-#: includes/Admin/Settings.php:552
+#: includes/Admin/Settings.php:493
+#: includes/Admin/Settings.php:558
 msgid "Username:"
 msgstr ""
 
-#: includes/Admin/Settings.php:500
-#: includes/Admin/Settings.php:566
+#: includes/Admin/Settings.php:506
+#: includes/Admin/Settings.php:572
 msgid "Email:"
 msgstr ""
 
-#: includes/Admin/Settings.php:516
+#: includes/Admin/Settings.php:522
 msgid "Notify Author when a post is \"Rejected\""
 msgstr ""
 
-#: includes/Admin/Settings.php:531
+#: includes/Admin/Settings.php:537
 msgid "Notify User when a post is \"Scheduled\""
 msgstr ""
 
-#: includes/Admin/Settings.php:582
+#: includes/Admin/Settings.php:588
 msgid "Notify Author when a Scheduled Post is \"Published\""
 msgstr ""
 
-#: includes/Admin/Settings.php:589
+#: includes/Admin/Settings.php:595
 msgid "Notify Author when a post is \"Published\""
 msgstr ""
 
-#: includes/Admin/Settings.php:600
-#: includes/Admin/Settings.php:607
+#: includes/Admin/Settings.php:606
+#: includes/Admin/Settings.php:613
 msgid "Social Profile"
 msgstr ""
 
-#: includes/Admin/Settings.php:615
-#: includes/Admin/Settings.php:837
-#: includes/Social/InstantShare.php:105
+#: includes/Admin/Settings.php:621
+#: includes/Admin/Settings.php:843
+#: includes/Social/InstantShare.php:113
 msgid "Facebook"
 msgstr ""
 
 #. translators: %s is the URL of the documentation page for configuring Facebook Social Profile.
-#: includes/Admin/Settings.php:619
+#: includes/Admin/Settings.php:625
 #, php-format
 msgid "You can enable/disable Facebook social share. To configure Facebook Social Profile, check out this <a target=\"_blank\" href=\"%s\">Doc</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:622
+#: includes/Admin/Settings.php:628
 msgid "Copy this and paste it in your facebook app Callback url field."
 msgstr ""
 
 #. translators: 1: URL of the documentation page for Facebook configuration. 2: URL of the Facebook Developers page to retrieve API keys.
-#: includes/Admin/Settings.php:628
+#: includes/Admin/Settings.php:634
 #, php-format
 msgid "For details on Facebook configuration, check out this <a target=\"_blank\" href=\"%1$s\">Doc</a>.<br> <a target=\"_blank\" href=\"%2$s\">Click here</a> to Retrieve Your API Keys from your Facebook account."
 msgstr ""
 
-#: includes/Admin/Settings.php:639
-#: includes/Admin/Settings.php:958
-#: includes/Social/InstantShare.php:123
+#: includes/Admin/Settings.php:645
+#: includes/Admin/Settings.php:964
+#: includes/Social/InstantShare.php:131
 msgid "Twitter"
 msgstr ""
 
 #. translators: %s is the URL of the documentation page for configuring Twitter Social Profile.
-#: includes/Admin/Settings.php:644
+#: includes/Admin/Settings.php:650
 #, php-format
 msgid "You can enable/disable Twitter social share. To configure Twitter Social Profile, check out this <a target=\"__blank\" href=\"%s\">Doc</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:649
+#: includes/Admin/Settings.php:655
 msgid "Copy this and paste it in your twitter app Callback url field."
 msgstr ""
 
 #. translators: 1: URL of the documentation page for Twitter configuration. 2: URL of the Twitter Developers page to retrieve API keys.
-#: includes/Admin/Settings.php:655
+#: includes/Admin/Settings.php:661
 #, php-format
 msgid "For details on Twitter configuration, check out this <a href=\"%1$s\" target=\"_blank\">Doc</a>.<br> <a href=\"%2$s\" target=\"_blank\">Click here</a> to Retrieve Your API Keys from your Twitter account."
 msgstr ""
 
-#: includes/Admin/Settings.php:666
-#: includes/Admin/Settings.php:1056
+#: includes/Admin/Settings.php:672
+#: includes/Admin/Settings.php:1062
 msgid "LinkedIn"
 msgstr ""
 
 #. translators: %s: Link to documentation for LinkedIn social share
-#: includes/Admin/Settings.php:670
+#: includes/Admin/Settings.php:676
 #, php-format
 msgid "You can enable/disable LinkedIn social share. To configure LinkedIn Social Profile, check out this <a target=\"__blank\" href=\"%s\">Doc</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:673
+#: includes/Admin/Settings.php:679
 msgid "Copy this and paste it in your linkedin app Callback url field."
 msgstr ""
 
 #. translators: 1: Link to documentation for LinkedIn configuration, 2: Link to LinkedIn developer portal
-#: includes/Admin/Settings.php:675
+#: includes/Admin/Settings.php:681
 #, php-format
 msgid "For details on LinkedIn configuration, check out this <a href=\"%1$s\" target=\"_blank\">Doc</a>.<br> <a href=\"%2$s\" target=\"_blank\">Click here</a> to Retrieve Your API Keys from your LinkedIn account."
 msgstr ""
 
-#: includes/Admin/Settings.php:683
-#: includes/Admin/Settings.php:1167
-#: includes/Social/InstantShare.php:168
+#: includes/Admin/Settings.php:689
+#: includes/Admin/Settings.php:1173
+#: includes/Social/InstantShare.php:176
 msgid "Pinterest"
 msgstr ""
 
 #. translators: %s: Link to documentation for Pinterest social share
-#: includes/Admin/Settings.php:687
+#: includes/Admin/Settings.php:693
 #, php-format
 msgid "You can enable/disable Pinterest social share. To configure Pinterest Social Profile, check out this <a target=\"__blank\" href=\"%s\">Doc</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:690
+#: includes/Admin/Settings.php:696
 msgid "Add this URL in the Redirect URLs field of your Pinterest app."
 msgstr ""
 
 #. translators: 1: Link to documentation for Pinterest configuration, 2: Link to Pinterest developer portal
-#: includes/Admin/Settings.php:692
+#: includes/Admin/Settings.php:698
 #, php-format
 msgid "For details on Pinterest configuration, check out this <a href=\"%1$s\" target=\"_blank\">Doc</a>.<br> <a href=\"%2$s\" target=\"_blank\">Click here</a> to Retrieve Your API Keys from your Pinterest account."
 msgstr ""
 
-#: includes/Admin/Settings.php:700
-#: includes/Admin/Settings.php:1266
-#: includes/Social/InstantShare.php:219
+#: includes/Admin/Settings.php:706
+#: includes/Admin/Settings.php:1272
+#: includes/Social/InstantShare.php:227
 msgid "Instagram"
 msgstr ""
 
 #. translators: %s: Link to documentation for Instagram social share
-#: includes/Admin/Settings.php:704
+#: includes/Admin/Settings.php:710
 #, php-format
 msgid "You can enable/disable Instagram social share. To configure Instagram Social Profile, check out this <a target=\"__blank\" href=\"%s\">Doc</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:707
+#: includes/Admin/Settings.php:713
 msgid "Add this URL in the Redirect URLs field of your Instagram app."
 msgstr ""
 
 #. translators: 1: Link to documentation for Instagram configuration, 2: Link to Facebook developer portal
-#: includes/Admin/Settings.php:709
+#: includes/Admin/Settings.php:715
 #, php-format
 msgid "For details on Instagram configuration, check out this <a href=\"%1$s\" target=\"_blank\">Doc</a>.<br> <a href=\"%2$s\" target=\"_blank\">Click here</a> to Retrieve Your API Keys from your Instagram account."
 msgstr ""
 
-#: includes/Admin/Settings.php:717
-#: includes/Admin/Settings.php:1356
-#: includes/Social/InstantShare.php:240
+#: includes/Admin/Settings.php:723
+#: includes/Admin/Settings.php:1362
+#: includes/Social/InstantShare.php:248
 msgid "Medium"
 msgstr ""
 
 #. translators: %s: Link to documentation for Medium social share
-#: includes/Admin/Settings.php:721
+#: includes/Admin/Settings.php:727
 #, php-format
 msgid "You can enable/disable Medium social share. To configure Medium Social Profile, check out this <a target=\"__blank\" href=\"%s\">Doc</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:724
-#: includes/Admin/Settings.php:741
-#: includes/Admin/Settings.php:758
+#: includes/Admin/Settings.php:730
+#: includes/Admin/Settings.php:747
 msgid "Add this URL in the Redirect URLs field of your Medium app."
 msgstr ""
 
 #. translators: 1: Link to documentation for Medium configuration, 2: Link to Medium settings
-#: includes/Admin/Settings.php:726
+#: includes/Admin/Settings.php:732
 #, php-format
 msgid "For details on Medium configuration, check out this <a href=\"%1$s\" target=\"_blank\">Doc</a>.<br> <a href=\"%2$s\" target=\"_blank\">Click here</a> to Retrieve Your API Keys from your Medium account."
 msgstr ""
 
-#: includes/Admin/Settings.php:734
-#: includes/Admin/Settings.php:1446
-#: includes/Social/InstantShare.php:260
+#: includes/Admin/Settings.php:740
+#: includes/Admin/Settings.php:1452
+#: includes/Social/InstantShare.php:268
 msgid "Threads"
 msgstr ""
 
 #. translators: %s: Link to documentation for Threads social share
-#: includes/Admin/Settings.php:738
+#: includes/Admin/Settings.php:744
 #, php-format
 msgid "You can enable/disable Threads social share. To configure Threads Social Profile, check out this <a target=\"__blank\" href=\"%s\">Doc</a>"
 msgstr ""
 
 #. translators: 1: Link to documentation for Threads configuration, 2: Link to Facebook developer portal
-#: includes/Admin/Settings.php:743
+#: includes/Admin/Settings.php:749
 #, php-format
 msgid "For details on Threads configuration, check out this <a href=\"%1$s\" target=\"_blank\">Doc</a>.<br> <a href=\"%2$s\" target=\"_blank\">Click here</a> to Retrieve Your API Keys from your Threads account."
 msgstr ""
 
-#: includes/Admin/Settings.php:751
-#: includes/Social/InstantShare.php:322
+#: includes/Admin/Settings.php:762
+#: includes/Social/Platforms.php:229
 msgid "Google Business Profile"
 msgstr ""
 
 #. translators: %s: Link to documentation for Google Business Profile social share
-#: includes/Admin/Settings.php:755
+#: includes/Admin/Settings.php:767
 #, php-format
-msgid "You can enable/disable Google Business Profile social share. To configure Google Business Profile Social Profile, check out this <a target=\"__blank\" href=\"%s\">Doc</a>"
+msgid "Share your posts to Google Business Profile automatically with SchedulePress Pro. <a target=\"__blank\" href=\"%s\">Learn more</a>"
 msgstr ""
 
-#. translators: 1: Link to documentation for Google Business Profile configuration, 2: Link to Google Cloud Console
-#: includes/Admin/Settings.php:760
-#, php-format
-msgid "For details on Google Business Profile configuration, check out this <a href=\"%1$s\" target=\"_blank\">Doc</a>.<br> <a href=\"%2$s\" target=\"_blank\">Click here</a> to Retrieve Your API Keys from your Google Business Profile account."
-msgstr ""
-
-#: includes/Admin/Settings.php:768
-#: includes/Admin/Settings.php:1535
-#: includes/Social/InstantShare.php:280
+#: includes/Admin/Settings.php:774
+#: includes/Admin/Settings.php:1541
+#: includes/Social/InstantShare.php:288
 msgid "Bluesky"
 msgstr ""
 
 #. translators: %s: Link to documentation for Bluesky social share
-#: includes/Admin/Settings.php:772
+#: includes/Admin/Settings.php:778
 #, php-format
 msgid "You can enable/disable Bluesky social share. To configure your Bluesky Social Profile, check out this <a target=\"__blank\" href=\"%s\">Doc</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:775
+#: includes/Admin/Settings.php:781
 msgid "Connect using your Bluesky handle and an App Password."
 msgstr ""
 
 #. translators: 1: Link to documentation for Bluesky configuration, 2: Link to Bluesky App Passwords settings
-#: includes/Admin/Settings.php:777
+#: includes/Admin/Settings.php:783
 #, php-format
 msgid "Enter your Bluesky handle (e.g. <strong>name.bsky.social</strong>) and an <strong>App Password</strong>. For details, check out this <a href=\"%1$s\" target=\"_blank\">Doc</a>.<br> <a href=\"%2$s\" target=\"_blank\">Click here</a> to create an App Password from your Bluesky account settings."
 msgstr ""
 
-#: includes/Admin/Settings.php:785
-#: includes/Admin/Settings.php:1625
-#: includes/Social/InstantShare.php:300
+#: includes/Admin/Settings.php:791
+#: includes/Admin/Settings.php:1631
+#: includes/Social/InstantShare.php:308
 msgid "Mastodon"
 msgstr ""
 
 #. translators: %s: Link to documentation for Mastodon social share
-#: includes/Admin/Settings.php:789
+#: includes/Admin/Settings.php:795
 #, php-format
 msgid "You can enable/disable Mastodon social share. To configure your Mastodon Social Profile, check out this <a target=\"__blank\" href=\"%s\">Doc</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:792
+#: includes/Admin/Settings.php:798
 msgid "Copy this and paste it in your mastodon app Callback url field."
 msgstr ""
 
 #. translators: 1: Link to documentation for Mastodon configuration, 2: Link to the Mastodon docs on creating an access token
-#: includes/Admin/Settings.php:794
+#: includes/Admin/Settings.php:800
 #, php-format
 msgid "Enter your Mastodon instance URL (e.g. <strong>https://mastodon.social</strong>) and an <strong>access token</strong>. For details, check out this <a href=\"%1$s\" target=\"_blank\">Doc</a>.<br> <a href=\"%2$s\" target=\"_blank\">Click here</a> to create a token from <strong>Preferences &rarr; Development</strong>."
 msgstr ""
 
-#: includes/Admin/Settings.php:807
-#: includes/Admin/Settings.php:814
+#: includes/Admin/Settings.php:813
+#: includes/Admin/Settings.php:820
 msgid "Social Templates"
 msgstr ""
 
-#: includes/Admin/Settings.php:844
+#: includes/Admin/Settings.php:850
 msgid "Facebook Status Settings"
 msgstr ""
 
 #. translators: %s: Link to documentation for Facebook configuration
-#: includes/Admin/Settings.php:847
+#: includes/Admin/Settings.php:853
 #, php-format
 msgid "To configure the Facebook Status Settings, check out this <a target=\"_blank\" href=\"%s\">Doc.</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:860
+#: includes/Admin/Settings.php:866
 msgid "Facebook Meta Data"
 msgstr ""
 
-#: includes/Admin/Settings.php:861
+#: includes/Admin/Settings.php:867
 msgid "Add Open Graph metadata to your site head section and other social networks use this data when your pages are shared."
 msgstr ""
 
-#: includes/Admin/Settings.php:866
-#: includes/Admin/Settings.php:1075
+#: includes/Admin/Settings.php:872
+#: includes/Admin/Settings.php:1081
 msgid "Content Type:"
 msgstr ""
 
-#: includes/Admin/Settings.php:873
-#: includes/Admin/Settings.php:1082
+#: includes/Admin/Settings.php:879
+#: includes/Admin/Settings.php:1088
 msgid "Link"
 msgstr ""
 
-#: includes/Admin/Settings.php:877
-#: includes/Admin/Settings.php:1086
+#: includes/Admin/Settings.php:883
+#: includes/Admin/Settings.php:1092
 msgid "Status"
 msgstr ""
 
-#: includes/Admin/Settings.php:881
+#: includes/Admin/Settings.php:887
 msgid "Status + Link"
 msgstr ""
 
-#: includes/Admin/Settings.php:890
-#: includes/Admin/Settings.php:989
-#: includes/Admin/Settings.php:1099
-#: includes/Admin/Settings.php:1199
-#: includes/Admin/Settings.php:1289
-#: includes/Admin/Settings.php:1379
-#: includes/Admin/Settings.php:1469
-#: includes/Admin/Settings.php:1558
-#: includes/Admin/Settings.php:1648
-#: includes/Admin/Settings.php:1741
+#: includes/Admin/Settings.php:896
+#: includes/Admin/Settings.php:995
+#: includes/Admin/Settings.php:1105
+#: includes/Admin/Settings.php:1205
+#: includes/Admin/Settings.php:1295
+#: includes/Admin/Settings.php:1385
+#: includes/Admin/Settings.php:1475
+#: includes/Admin/Settings.php:1564
+#: includes/Admin/Settings.php:1654
 msgid "The categories you select will be used as tags."
 msgstr ""
 
-#: includes/Admin/Settings.php:891
-#: includes/Admin/Settings.php:990
-#: includes/Admin/Settings.php:1100
-#: includes/Admin/Settings.php:1198
-#: includes/Admin/Settings.php:1288
-#: includes/Admin/Settings.php:1378
-#: includes/Admin/Settings.php:1468
-#: includes/Admin/Settings.php:1557
-#: includes/Admin/Settings.php:1647
-#: includes/Admin/Settings.php:1740
-msgid "Add Category as tags"
-msgstr ""
-
-#: includes/Admin/Settings.php:896
-#: includes/Admin/Settings.php:1003
-#: includes/Admin/Settings.php:1105
+#: includes/Admin/Settings.php:897
+#: includes/Admin/Settings.php:996
+#: includes/Admin/Settings.php:1106
 #: includes/Admin/Settings.php:1204
 #: includes/Admin/Settings.php:1294
 #: includes/Admin/Settings.php:1384
 #: includes/Admin/Settings.php:1474
-#: includes/Admin/Settings.php:1572
-#: includes/Admin/Settings.php:1662
-#: includes/Admin/Settings.php:1746
+#: includes/Admin/Settings.php:1563
+#: includes/Admin/Settings.php:1653
+msgid "Add Category as tags"
+msgstr ""
+
+#: includes/Admin/Settings.php:902
+#: includes/Admin/Settings.php:1009
+#: includes/Admin/Settings.php:1111
+#: includes/Admin/Settings.php:1210
+#: includes/Admin/Settings.php:1300
+#: includes/Admin/Settings.php:1390
+#: includes/Admin/Settings.php:1480
+#: includes/Admin/Settings.php:1578
+#: includes/Admin/Settings.php:1668
 msgid "Content Source:"
 msgstr ""
 
-#: includes/Admin/Settings.php:903
-#: includes/Admin/Settings.php:1010
-#: includes/Admin/Settings.php:1112
-#: includes/Admin/Settings.php:1211
-#: includes/Admin/Settings.php:1301
-#: includes/Admin/Settings.php:1391
-#: includes/Admin/Settings.php:1481
-#: includes/Admin/Settings.php:1579
-#: includes/Admin/Settings.php:1669
-#: includes/Admin/Settings.php:1753
+#: includes/Admin/Settings.php:909
+#: includes/Admin/Settings.php:1016
+#: includes/Admin/Settings.php:1118
+#: includes/Admin/Settings.php:1217
+#: includes/Admin/Settings.php:1307
+#: includes/Admin/Settings.php:1397
+#: includes/Admin/Settings.php:1487
+#: includes/Admin/Settings.php:1585
+#: includes/Admin/Settings.php:1675
 msgid "Excerpt"
 msgstr ""
 
-#: includes/Admin/Settings.php:907
-#: includes/Admin/Settings.php:1014
-#: includes/Admin/Settings.php:1116
-#: includes/Admin/Settings.php:1215
-#: includes/Admin/Settings.php:1305
-#: includes/Admin/Settings.php:1395
-#: includes/Admin/Settings.php:1485
-#: includes/Admin/Settings.php:1583
-#: includes/Admin/Settings.php:1673
-#: includes/Admin/Settings.php:1757
+#: includes/Admin/Settings.php:913
+#: includes/Admin/Settings.php:1020
+#: includes/Admin/Settings.php:1122
+#: includes/Admin/Settings.php:1221
+#: includes/Admin/Settings.php:1311
+#: includes/Admin/Settings.php:1401
+#: includes/Admin/Settings.php:1491
+#: includes/Admin/Settings.php:1589
+#: includes/Admin/Settings.php:1679
 msgid "Content"
 msgstr ""
 
-#: includes/Admin/Settings.php:916
-#: includes/Admin/Settings.php:1125
-#: includes/Admin/Settings.php:1224
-#: includes/Admin/Settings.php:1314
-#: includes/Admin/Settings.php:1404
-#: includes/Admin/Settings.php:1494
-#: includes/Admin/Settings.php:1592
-#: includes/Admin/Settings.php:1682
-#: includes/Admin/Settings.php:1766
+#: includes/Admin/Settings.php:922
+#: includes/Admin/Settings.php:1131
+#: includes/Admin/Settings.php:1230
+#: includes/Admin/Settings.php:1320
+#: includes/Admin/Settings.php:1410
+#: includes/Admin/Settings.php:1500
+#: includes/Admin/Settings.php:1598
+#: includes/Admin/Settings.php:1688
 msgid "Status Template Settings"
 msgstr ""
 
-#: includes/Admin/Settings.php:925
-#: includes/Admin/Settings.php:1134
-#: includes/Admin/Settings.php:1233
-#: includes/Admin/Settings.php:1323
-#: includes/Admin/Settings.php:1413
-#: includes/Admin/Settings.php:1503
-#: includes/Admin/Settings.php:1601
-#: includes/Admin/Settings.php:1691
-#: includes/Admin/Settings.php:1775
+#: includes/Admin/Settings.php:931
+#: includes/Admin/Settings.php:1140
+#: includes/Admin/Settings.php:1239
+#: includes/Admin/Settings.php:1329
+#: includes/Admin/Settings.php:1419
+#: includes/Admin/Settings.php:1509
+#: includes/Admin/Settings.php:1607
+#: includes/Admin/Settings.php:1697
 msgid "Status Limit"
 msgstr ""
 
-#: includes/Admin/Settings.php:929
+#: includes/Admin/Settings.php:935
 msgid "Max: 63206"
 msgstr ""
 
-#: includes/Admin/Settings.php:935
-#: includes/Admin/Settings.php:1033
-#: includes/Admin/Settings.php:1144
-#: includes/Admin/Settings.php:1243
-#: includes/Admin/Settings.php:1333
-#: includes/Admin/Settings.php:1423
-#: includes/Admin/Settings.php:1513
-#: includes/Admin/Settings.php:1611
-#: includes/Admin/Settings.php:1701
-#: includes/Admin/Settings.php:1785
+#: includes/Admin/Settings.php:941
+#: includes/Admin/Settings.php:1039
+#: includes/Admin/Settings.php:1150
+#: includes/Admin/Settings.php:1249
+#: includes/Admin/Settings.php:1339
+#: includes/Admin/Settings.php:1429
+#: includes/Admin/Settings.php:1519
+#: includes/Admin/Settings.php:1617
+#: includes/Admin/Settings.php:1707
 msgid "How often to share a post?"
 msgstr ""
 
-#: includes/Admin/Settings.php:938
-#: includes/Admin/Settings.php:1036
-#: includes/Admin/Settings.php:1147
-#: includes/Admin/Settings.php:1246
-#: includes/Admin/Settings.php:1336
-#: includes/Admin/Settings.php:1426
-#: includes/Admin/Settings.php:1516
-#: includes/Admin/Settings.php:1614
-#: includes/Admin/Settings.php:1704
-#: includes/Admin/Settings.php:1788
+#: includes/Admin/Settings.php:944
+#: includes/Admin/Settings.php:1042
+#: includes/Admin/Settings.php:1153
+#: includes/Admin/Settings.php:1252
+#: includes/Admin/Settings.php:1342
+#: includes/Admin/Settings.php:1432
+#: includes/Admin/Settings.php:1522
+#: includes/Admin/Settings.php:1620
+#: includes/Admin/Settings.php:1710
 msgid "Keep zero for no limit"
 msgstr ""
 
-#: includes/Admin/Settings.php:944
-#: includes/Admin/Settings.php:1342
+#: includes/Admin/Settings.php:950
+#: includes/Admin/Settings.php:1348
 msgid "Remove CSS from content"
 msgstr ""
 
 #. translators: %s: Link to documentation for Twitter configuration
-#: includes/Admin/Settings.php:967
+#: includes/Admin/Settings.php:973
 #, php-format
 msgid "To configure the Twitter Tweet Settings, check out this <a target=\"_blank\" href=\"%s\">Doc.</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:968
+#: includes/Admin/Settings.php:974
 msgid "Twitter Tweet Settings"
 msgstr ""
 
-#: includes/Admin/Settings.php:980
+#: includes/Admin/Settings.php:986
 msgid "Tweet Template Settings"
 msgstr ""
 
-#: includes/Admin/Settings.php:981
+#: includes/Admin/Settings.php:987
 msgid "Define how to share the content on Twitter by setting the template. <strong>Default Structure: {title}{content}{url}{tags}</strong>"
 msgstr ""
 
-#: includes/Admin/Settings.php:998
+#: includes/Admin/Settings.php:1004
 msgid "Show Post Thumbnail"
 msgstr ""
 
-#: includes/Admin/Settings.php:1023
+#: includes/Admin/Settings.php:1029
 msgid "Tweet Limit"
 msgstr ""
 
-#: includes/Admin/Settings.php:1027
+#: includes/Admin/Settings.php:1033
 msgid "Max: 280"
 msgstr ""
 
-#: includes/Admin/Settings.php:1063
+#: includes/Admin/Settings.php:1069
 msgid "LinkedIn Status Settings"
 msgstr ""
 
 #. translators: %s: Link to documentation for LinkedIn configuration
-#: includes/Admin/Settings.php:1065
+#: includes/Admin/Settings.php:1071
 #, php-format
 msgid "To configure the LinkedIn Status Settings, check out this <a target=\"_blank\" href=\"%s\">Doc.</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:1090
+#: includes/Admin/Settings.php:1096
 msgid "Media"
 msgstr ""
 
-#: includes/Admin/Settings.php:1127
+#: includes/Admin/Settings.php:1133
 msgid "Define how to share the content on LinkedIn by setting the template. <strong>Default Structure: {title}{content}{url}{tags}</strong>"
 msgstr ""
 
-#: includes/Admin/Settings.php:1138
+#: includes/Admin/Settings.php:1144
 msgid "Max: 1300"
 msgstr ""
 
-#: includes/Admin/Settings.php:1174
+#: includes/Admin/Settings.php:1180
 msgid "Pinterest Pin Settings"
 msgstr ""
 
 #. translators: %s: Link to documentation for Pinterest configuration
-#: includes/Admin/Settings.php:1176
+#: includes/Admin/Settings.php:1182
 #, php-format
 msgid "To configure the Pinterest Pin Settings, check out this <a target=\"_blank\" href=\"%s\">Doc.</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:1189
+#: includes/Admin/Settings.php:1195
 msgid "Add Image Link"
 msgstr ""
 
-#: includes/Admin/Settings.php:1190
+#: includes/Admin/Settings.php:1196
 msgid "Enable if you want to add the Image link on Pinterest. "
 msgstr ""
 
-#: includes/Admin/Settings.php:1225
+#: includes/Admin/Settings.php:1231
 msgid "Define how to share the content on Pinterest by setting the template. <strong>Default Structure: {title}{content}{url}{tags}</strong>"
 msgstr ""
 
-#: includes/Admin/Settings.php:1237
-#: includes/Admin/Settings.php:1695
+#: includes/Admin/Settings.php:1243
+#: includes/Admin/Settings.php:1701
 msgid "Max: 500"
 msgstr ""
 
-#: includes/Admin/Settings.php:1273
+#: includes/Admin/Settings.php:1279
 msgid "Instagram Settings"
 msgstr ""
 
 #. translators: %s: Link to documentation for Instagram configuration
-#: includes/Admin/Settings.php:1275
+#: includes/Admin/Settings.php:1281
 #, php-format
 msgid "To configure the Instagram Settings, check out this <a target=\"_blank\" href=\"%s\">Doc.</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:1315
-#: includes/Admin/Settings.php:1405
-#: includes/Admin/Settings.php:1495
-#: includes/Admin/Settings.php:1767
+#: includes/Admin/Settings.php:1321
+#: includes/Admin/Settings.php:1411
+#: includes/Admin/Settings.php:1501
 msgid "Define how to share the content on Instagram by setting the template. <strong>Default Structure: {title}{content}{url}{tags}</strong>"
 msgstr ""
 
-#: includes/Admin/Settings.php:1327
+#: includes/Admin/Settings.php:1333
 msgid "Max: 2100"
 msgstr ""
 
-#: includes/Admin/Settings.php:1363
+#: includes/Admin/Settings.php:1369
 msgid "Medium Settings"
 msgstr ""
 
 #. translators: %s: Link to documentation for Medium configuration
-#: includes/Admin/Settings.php:1365
+#: includes/Admin/Settings.php:1371
 #, php-format
 msgid "To configure the Medium Settings, check out this <a target=\"_blank\" href=\"%s\">Doc.</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:1417
+#: includes/Admin/Settings.php:1423
 msgid "Max: 45000"
 msgstr ""
 
-#: includes/Admin/Settings.php:1453
+#: includes/Admin/Settings.php:1459
 msgid "Threads Settings"
 msgstr ""
 
 #. translators: %s: Link to documentation for Threads configuration
-#. translators: %s: Link to documentation for Google Business configuration
-#: includes/Admin/Settings.php:1455
-#: includes/Admin/Settings.php:1727
+#: includes/Admin/Settings.php:1461
 #, php-format
 msgid "To configure the Threads Settings, check out this <a target=\"_blank\" href=\"%s\">Doc.</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:1507
+#: includes/Admin/Settings.php:1513
 msgid "Max: 480"
 msgstr ""
 
-#: includes/Admin/Settings.php:1542
+#: includes/Admin/Settings.php:1548
 msgid "Bluesky Settings"
 msgstr ""
 
 #. translators: %s: Link to documentation for Bluesky configuration
-#: includes/Admin/Settings.php:1544
+#: includes/Admin/Settings.php:1550
 #, php-format
 msgid "To configure the Bluesky Settings, check out this <a target=\"_blank\" href=\"%s\">Doc.</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:1566
-#: includes/Admin/Settings.php:1656
+#: includes/Admin/Settings.php:1572
+#: includes/Admin/Settings.php:1662
 msgid "Show Featured Image"
 msgstr ""
 
-#: includes/Admin/Settings.php:1567
+#: includes/Admin/Settings.php:1573
 msgid "Attach the featured image to the Bluesky post."
 msgstr ""
 
-#: includes/Admin/Settings.php:1593
+#: includes/Admin/Settings.php:1599
 msgid "Define how to share the content on Bluesky by setting the template. <strong>Default Structure: {title}{content}{url}{tags}</strong>"
 msgstr ""
 
-#: includes/Admin/Settings.php:1605
+#: includes/Admin/Settings.php:1611
 msgid "Max: 300"
 msgstr ""
 
-#: includes/Admin/Settings.php:1632
+#: includes/Admin/Settings.php:1638
 msgid "Mastodon Settings"
 msgstr ""
 
 #. translators: %s: Link to documentation for Mastodon configuration
-#: includes/Admin/Settings.php:1634
+#: includes/Admin/Settings.php:1640
 #, php-format
 msgid "To configure the Mastodon Settings, check out this <a target=\"_blank\" href=\"%s\">Doc.</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:1657
+#: includes/Admin/Settings.php:1663
 msgid "Attach the featured image to the Mastodon post."
 msgstr ""
 
-#: includes/Admin/Settings.php:1683
+#: includes/Admin/Settings.php:1689
 msgid "Define how to share the content on Mastodon by setting the template. <strong>Default Structure: {title}{content}{url}{tags}</strong>"
 msgstr ""
 
-#: includes/Admin/Settings.php:1715
+#: includes/Admin/Settings.php:1721
 msgid "Google Business"
 msgstr ""
 
-#: includes/Admin/Settings.php:1725
+#: includes/Admin/Settings.php:1732
 msgid "Google Business Settings"
 msgstr ""
 
-#: includes/Admin/Settings.php:1779
-msgid "Max: 1500"
+#. translators: %s: SchedulePress pricing page
+#: includes/Admin/Settings.php:1741
+#, php-format
+msgid "<p>Google Business Profile templates are part of SchedulePress Pro. <a target=\"_blank\" href=\"%s\">Check pricing plans</a> to share your posts there automatically.</p>"
 msgstr ""
 
-#: includes/Admin/Settings.php:1805
+#: includes/Admin/Settings.php:1756
 msgid "Write With AI"
 msgstr ""
 
-#: includes/Admin/Settings.php:1812
+#: includes/Admin/Settings.php:1763
 msgid "AI Caption Writing"
 msgstr ""
 
-#: includes/Admin/Settings.php:1813
+#: includes/Admin/Settings.php:1764
 msgid "Connect your OpenAI account to instantly generate highly engaging social media captions right from your editor."
 msgstr ""
 
-#: includes/Admin/Settings.php:1821
+#: includes/Admin/Settings.php:1772
 msgid "OpenAI API Key"
 msgstr ""
 
-#: includes/Admin/Settings.php:1832
+#: includes/Admin/Settings.php:1783
 msgid "Scheduling Hub"
 msgstr ""
 
-#: includes/Admin/Settings.php:1893
+#: includes/Admin/Settings.php:1844
 msgid "Enable to get options of scheduling a published post while updating it."
 msgstr ""
 
-#: includes/Admin/Settings.php:1903
+#: includes/Admin/Settings.php:1854
 msgid "Get options to set the published post status when scheduling it. Keep the post published and the updated content will be published according to schedule, or move the post to Draft until it is published."
 msgstr ""
 
-#: includes/Admin/Settings.php:1911
-#: includes/Admin/Settings.php:2049
+#: includes/Admin/Settings.php:1862
+#: includes/Admin/Settings.php:2000
 msgid "Read Detailed Documentation:"
 msgstr ""
 
-#: includes/Admin/Settings.php:1915
+#: includes/Admin/Settings.php:1866
 msgid "How To Configure SchedulerPress Advanced Schedule In Elementor?"
 msgstr ""
 
-#: includes/Admin/Settings.php:1920
+#: includes/Admin/Settings.php:1871
 msgid "How To Configure SchedulerPress Advanced Schedule In Gutenberg?"
 msgstr ""
 
-#: includes/Admin/Settings.php:1925
+#: includes/Admin/Settings.php:1876
 msgid "How to Configure SchedulePress Advanced Schedule in Classic Editor?"
 msgstr ""
 
-#: includes/Admin/Settings.php:1943
-#: includes/Admin/Settings.php:2074
+#: includes/Admin/Settings.php:1894
+#: includes/Admin/Settings.php:2025
 msgid "Watch The Video Walkthrough"
 msgstr ""
 
-#: includes/Admin/Settings.php:1959
+#: includes/Admin/Settings.php:1910
 #: src/components/Settings/ManageSchedule.js:12
 msgid "Manage Schedule"
 msgstr ""
 
-#: includes/Admin/Settings.php:2007
-#: includes/Admin/Settings.php:2029
+#: includes/Admin/Settings.php:1958
+#: includes/Admin/Settings.php:1980
 msgid "Missed Schedule"
 msgstr ""
 
-#: includes/Admin/Settings.php:2030
+#: includes/Admin/Settings.php:1981
 msgid "Enable to publish posts randomly"
 msgstr ""
 
-#: includes/Admin/Settings.php:2041
+#: includes/Admin/Settings.php:1992
 msgid "WordPress might miss the schedule for a post for various reasons. Turn on this option to let SchedulePress take care of this and publish the missed schedule."
 msgstr ""
 
-#: includes/Admin/Settings.php:2053
+#: includes/Admin/Settings.php:2004
 msgid "How To Manage The Missed Schedule Error In WordPress?"
 msgstr ""
 
-#: includes/Admin/Settings.php:2057
+#: includes/Admin/Settings.php:2008
 msgid "How To Configure SchedulePress To Handle Missed Schedule Errors?"
 msgstr ""
 
@@ -1212,120 +1197,120 @@ msgstr ""
 msgid "You don't have set any slug and file name to install the plugins"
 msgstr ""
 
-#: includes/API/AICaption.php:119
+#: includes/API/AICaption.php:128
 msgid "Please enter an API key before testing the connection."
 msgstr ""
 
-#: includes/API/AICaption.php:142
+#: includes/API/AICaption.php:151
 msgid "Connection successful. Your API key is valid."
 msgstr ""
 
-#: includes/API/AICaption.php:149
+#: includes/API/AICaption.php:158
 msgid "Connection failed. Please verify your API key and try again."
 msgstr ""
 
-#: includes/API/AICaption.php:170
-#: includes/API/CustomSocialTemplates.php:396
-#: includes/API/CustomSocialTemplates.php:431
-#: includes/API/CustomSocialTemplates.php:591
-#: includes/API/CustomSocialTemplates.php:644
+#: includes/API/AICaption.php:179
+#: includes/API/CustomSocialTemplates.php:401
+#: includes/API/CustomSocialTemplates.php:436
+#: includes/API/CustomSocialTemplates.php:596
+#: includes/API/CustomSocialTemplates.php:649
 msgid "Post not found or insufficient permissions."
 msgstr ""
 
-#: includes/API/AICaption.php:180
+#: includes/API/AICaption.php:189
 msgid "OpenAI API key is not configured. Add it in SchedulePress → Settings → AI."
 msgstr ""
 
-#: includes/API/AICaption.php:194
+#: includes/API/AICaption.php:203
 msgid "Please select at least one social platform."
 msgstr ""
 
-#: includes/API/AICaption.php:346
+#: includes/API/AICaption.php:355
 msgid "OpenAI request failed. Please verify your API key and try again."
 msgstr ""
 
-#: includes/API/AICaption.php:355
+#: includes/API/AICaption.php:364
 msgid "OpenAI returned an empty response."
 msgstr ""
 
-#: includes/API/AICaption.php:383
+#: includes/API/AICaption.php:392
 msgid "Could not parse captions from the AI response."
 msgstr ""
 
-#: includes/API/CustomSocialTemplates.php:464
+#: includes/API/CustomSocialTemplates.php:469
 msgid "No platform data provided. Use either \"platform\" for single mode or \"platforms\" for batch mode."
 msgstr ""
 
-#: includes/API/CustomSocialTemplates.php:472
+#: includes/API/CustomSocialTemplates.php:477
 msgid "Validation errors occurred."
 msgstr ""
 
 #. translators: %d: Number of social platforms the template and scheduling were saved for
-#: includes/API/CustomSocialTemplates.php:509
+#: includes/API/CustomSocialTemplates.php:514
 #, php-format
 msgid "Templates and scheduling saved successfully for %d platforms."
 msgstr ""
 
-#: includes/API/CustomSocialTemplates.php:510
+#: includes/API/CustomSocialTemplates.php:515
 msgid "Template and scheduling saved successfully."
 msgstr ""
 
-#: includes/API/CustomSocialTemplates.php:524
+#: includes/API/CustomSocialTemplates.php:529
 msgid "Failed to save template and/or scheduling."
 msgstr ""
 
-#: includes/API/CustomSocialTemplates.php:604
+#: includes/API/CustomSocialTemplates.php:609
 msgid "No custom template found for this platform."
 msgstr ""
 
 #. translators: %s: Social platform label, e.g. Facebook
-#: includes/API/CustomSocialTemplates.php:621
+#: includes/API/CustomSocialTemplates.php:626
 #, php-format
 msgid "Custom template deleted for %s."
 msgstr ""
 
-#: includes/API/CustomSocialTemplates.php:666
+#: includes/API/CustomSocialTemplates.php:671
 msgid "Social settings saved successfully."
 msgstr ""
 
-#: includes/API/CustomSocialTemplates.php:672
+#: includes/API/CustomSocialTemplates.php:677
 msgid "No changes made to social settings."
 msgstr ""
 
 #. translators: %s: Name of the invalid social media platform
-#: includes/API/CustomSocialTemplates.php:716
+#: includes/API/CustomSocialTemplates.php:733
 #, php-format
 msgid "Invalid platform: %s"
 msgstr ""
 
 #. translators: 1: Name of the social media platform, 2: Validation error message
-#: includes/API/CustomSocialTemplates.php:730
+#: includes/API/CustomSocialTemplates.php:747
 #, php-format
 msgid "%1$s: %2$s"
 msgstr ""
 
-#: includes/API/CustomSocialTemplates.php:857
-#: includes/Helpers/CustomTemplateHelper.php:195
+#: includes/API/CustomSocialTemplates.php:874
+#: includes/Helpers/CustomTemplateHelper.php:184
 msgid "Template cannot be empty."
 msgstr ""
 
 #. translators: 1: Name of the social media platform, 2: Current character count, 3: Maximum allowed character limit
-#: includes/API/CustomSocialTemplates.php:870
-#: includes/Helpers/CustomTemplateHelper.php:206
+#: includes/API/CustomSocialTemplates.php:887
+#: includes/Helpers/CustomTemplateHelper.php:195
 #, php-format
 msgid "Template exceeds character limit for %1$s (%2$d/%3$d characters)."
 msgstr ""
 
 #. translators: 1: Invalid placeholder name, 2: List of valid placeholders
 #. translators: 1: Invalid placeholder name, 2: Comma-separated list of valid placeholders
-#: includes/API/CustomSocialTemplates.php:888
-#: includes/Helpers/CustomTemplateHelper.php:224
+#: includes/API/CustomSocialTemplates.php:905
+#: includes/Helpers/CustomTemplateHelper.php:213
 #, php-format
 msgid "Invalid placeholder \"%1$s\". Valid placeholders are: %2$s"
 msgstr ""
 
-#: includes/API/CustomSocialTemplates.php:899
-#: includes/Helpers/CustomTemplateHelper.php:235
+#: includes/API/CustomSocialTemplates.php:916
+#: includes/Helpers/CustomTemplateHelper.php:224
 msgid "Template is valid."
 msgstr ""
 
@@ -1400,34 +1385,34 @@ msgstr ""
 msgid "The publishing intent could not be saved. The post was restored to its previous schedule."
 msgstr ""
 
-#: includes/API/Settings.php:194
+#: includes/API/Settings.php:200
 msgid "You are not allowed to do this."
 msgstr ""
 
-#: includes/API/Settings.php:202
+#: includes/API/Settings.php:208
 msgid "You are not allowed to manage social profiles."
 msgstr ""
 
-#: includes/API/Settings.php:220
+#: includes/API/Settings.php:226
 msgid "This platform cannot be reconnected."
 msgstr ""
 
-#: includes/API/Settings.php:233
+#: includes/API/Settings.php:239
 msgid "Could not reconnect this profile."
 msgstr ""
 
-#: includes/API/Settings.php:260
-#: includes/Social/ReconnectHandler.php:612
+#: includes/API/Settings.php:266
+#: includes/Social/ReconnectHandler.php:682
 msgid "Reconnect could not be completed."
 msgstr ""
 
 #: includes/Assets.php:59
-#: includes/Assets.php:141
+#: includes/Assets.php:142
 msgid "Current Date"
 msgstr ""
 
 #: includes/Assets.php:60
-#: includes/Assets.php:142
+#: includes/Assets.php:143
 msgid "Future Date"
 msgstr ""
 
@@ -1446,7 +1431,6 @@ msgstr ""
 
 #: includes/Social/Bluesky.php:337
 #: includes/Social/Facebook.php:301
-#: includes/Social/GoogleBusiness.php:93
 #: includes/Social/Instagram.php:213
 #: includes/Social/Linkedin.php:209
 #: includes/Social/Mastodon.php:368
@@ -1463,7 +1447,6 @@ msgstr ""
 
 #: includes/Social/Bluesky.php:490
 #: includes/Social/Facebook.php:506
-#: includes/Social/GoogleBusiness.php:403
 #: includes/Social/Instagram.php:422
 #: includes/Social/Linkedin.php:372
 #: includes/Social/Mastodon.php:501
@@ -1474,78 +1457,54 @@ msgstr ""
 msgid "Sharing was skipped for this profile. Check the post's social share settings."
 msgstr ""
 
-#: includes/Social/GoogleBusiness.php:63
-msgid "Share already in progress or recently shared. Please wait 40 seconds before trying again."
-msgstr ""
-
-#: includes/Social/GoogleBusiness.php:112
-msgid "Google Business share is not enabled for this post"
-msgstr ""
-
-#: includes/Social/GoogleBusiness.php:160
-msgid "Location or Account ID is missing"
-msgstr ""
-
-#: includes/Social/GoogleBusiness.php:243
-msgid "Request failed: "
-msgstr ""
-
-#. translators: %s: Error message and details returned when sharing on Google Business fails
-#: includes/Social/GoogleBusiness.php:277
-#, php-format
-msgid "Failed to share on Google Business: %s"
-msgstr ""
-
-#. translators: %s: Exception message returned when sharing to Google Business fails
-#: includes/Social/GoogleBusiness.php:288
-#, php-format
-msgid "Exception when sharing to Google Business: %s"
-msgstr ""
-
-#: includes/Social/InstantShare.php:61
-#: src/components/Content/SocialShare.js:395
+#: includes/Social/InstantShare.php:69
+#: src/components/Content/SocialShare.js:390
 msgid "Disable Social Share"
 msgstr ""
 
-#: includes/Social/InstantShare.php:143
+#: includes/Social/InstantShare.php:151
 msgid "Linkedin"
 msgstr ""
 
-#: includes/Social/InstantShare.php:179
+#: includes/Social/InstantShare.php:187
 msgid "Default Board"
 msgstr ""
 
-#: includes/Social/InstantShare.php:180
+#: includes/Social/InstantShare.php:188
 msgid "Custom Board"
 msgstr ""
 
 #. translators: %s: URL to SchedulePress settings page
-#: includes/Social/InstantShare.php:339
+#: includes/Social/InstantShare.php:364
 #, php-format
 msgid "It seems you haven't connected any profile/page in your <a href=\"%s\">SchedulePress settings</a>."
 msgstr ""
 
-#: includes/Social/InstantShare.php:511
-#: includes/Social/InstantShare.php:647
-#: includes/Social/SocialProfile.php:361
-#: includes/Social/SocialProfile.php:438
-#: includes/Social/SocialProfile.php:1113
+#: includes/Social/InstantShare.php:538
+#: includes/Social/InstantShare.php:692
+#: includes/Social/SocialProfile.php:359
+#: includes/Social/SocialProfile.php:436
+#: includes/Social/SocialProfile.php:895
 msgid "Invalid nonce."
 msgstr ""
 
-#: includes/Social/InstantShare.php:516
-#: includes/Social/InstantShare.php:653
-#: includes/Social/SocialProfile.php:365
-#: includes/Social/SocialProfile.php:444
-#: includes/Social/SocialProfile.php:1119
+#: includes/Social/InstantShare.php:543
+#: includes/Social/InstantShare.php:698
+#: includes/Social/SocialProfile.php:363
+#: includes/Social/SocialProfile.php:442
+#: includes/Social/SocialProfile.php:901
 msgid "You are unauthorized to access social profiles."
 msgstr ""
 
-#: includes/Social/InstantShare.php:631
+#: includes/Social/InstantShare.php:676
 msgid "Failed!, You didn't select any social media."
 msgstr ""
 
-#: includes/Social/InstantShare.php:911
+#: includes/Social/InstantShare.php:950
+msgid "This platform needs the latest version of SchedulePress Pro."
+msgstr ""
+
+#: includes/Social/InstantShare.php:973
 msgid "Sorry, your requested platform integration is not added."
 msgstr ""
 
@@ -1578,102 +1537,106 @@ msgstr ""
 msgid "Your post has been successfully shared!"
 msgstr ""
 
-#: includes/Social/ReconnectHandler.php:52
+#: includes/Social/Platforms.php:230
+msgid "Share your posts to Google Business Profile automatically."
+msgstr ""
+
+#: includes/Social/ReconnectHandler.php:51
 msgid "That profile is not connected."
 msgstr ""
 
 #. translators: %s: social platform name
-#: includes/Social/ReconnectHandler.php:148
+#: includes/Social/ReconnectHandler.php:222
 #, php-format
 msgid "Reconnect is not supported for %s."
 msgstr ""
 
-#: includes/Social/ReconnectHandler.php:158
-#: includes/Social/ReconnectHandler.php:974
+#: includes/Social/ReconnectHandler.php:232
+#: includes/Social/ReconnectHandler.php:1052
 msgid "No profile was identified in the request."
 msgstr ""
 
-#: includes/Social/ReconnectHandler.php:174
+#: includes/Social/ReconnectHandler.php:248
 msgid "This platform has no automatic renewal."
 msgstr ""
 
 #. translators: %d: HTTP status code
-#: includes/Social/ReconnectHandler.php:207
-#: includes/Social/ReconnectHandler.php:407
+#: includes/Social/ReconnectHandler.php:281
+#: includes/Social/ReconnectHandler.php:480
 #, php-format
 msgid "The token service answered %d. Will try again later."
 msgstr ""
 
-#: includes/Social/ReconnectHandler.php:248
-#: includes/Social/ReconnectHandler.php:444
-#: includes/Social/ReconnectHandler.php:657
+#: includes/Social/ReconnectHandler.php:322
+#: includes/Social/ReconnectHandler.php:517
+#: includes/Social/ReconnectHandler.php:727
 msgid "Could not save the renewed connection."
 msgstr ""
 
-#: includes/Social/ReconnectHandler.php:257
-#: includes/Social/ReconnectHandler.php:452
-#: includes/Social/ReconnectHandler.php:665
+#: includes/Social/ReconnectHandler.php:331
+#: includes/Social/ReconnectHandler.php:525
+#: includes/Social/ReconnectHandler.php:735
 msgid "Connection renewed."
 msgstr ""
 
-#: includes/Social/ReconnectHandler.php:484
+#: includes/Social/ReconnectHandler.php:553
 msgid "This connection has to be authorised again."
 msgstr ""
 
-#: includes/Social/ReconnectHandler.php:625
+#: includes/Social/ReconnectHandler.php:695
 msgid "That authorisation was for a different account. Reconnect the profile with the same account it was added with."
 msgstr ""
 
-#: includes/Social/ReconnectHandler.php:641
+#: includes/Social/ReconnectHandler.php:711
 msgid "The authorisation returned no usable credentials."
 msgstr ""
 
-#: includes/Social/ReconnectHandler.php:965
+#: includes/Social/ReconnectHandler.php:1043
 msgid "Invalid profile payload."
 msgstr ""
 
-#: includes/Social/ReconnectHandler.php:983
+#: includes/Social/ReconnectHandler.php:1061
 msgid "No long-lived access token provided."
 msgstr ""
 
-#: includes/Social/ReconnectHandler.php:1018
+#: includes/Social/ReconnectHandler.php:1096
 msgid "Instagram rejected the reconnect request."
 msgstr ""
 
-#: includes/Social/ReconnectHandler.php:1044
+#: includes/Social/ReconnectHandler.php:1122
 msgid "Access token refreshed successfully."
 msgstr ""
 
-#: includes/Social/ReconnectHandler.php:1053
+#: includes/Social/ReconnectHandler.php:1131
 msgid "Unexpected response from Instagram API."
 msgstr ""
 
-#: includes/Social/ReconnectHandler.php:1072
+#: includes/Social/ReconnectHandler.php:1150
 msgid "No token was supplied to save."
 msgstr ""
 
-#: includes/Social/ReconnectHandler.php:1081
+#: includes/Social/ReconnectHandler.php:1159
 msgid "Plugin settings could not be read."
 msgstr ""
 
-#: includes/Social/ReconnectHandler.php:1092
-#: includes/Social/ReconnectHandler.php:1100
+#: includes/Social/ReconnectHandler.php:1170
+#: includes/Social/ReconnectHandler.php:1178
 msgid "Plugin settings are not in the expected format."
 msgstr ""
 
-#: includes/Social/ReconnectHandler.php:1128
+#: includes/Social/ReconnectHandler.php:1206
 msgid "That profile is no longer in the saved settings."
 msgstr ""
 
-#: includes/Social/ReconnectHandler.php:1138
+#: includes/Social/ReconnectHandler.php:1216
 msgid "Updated settings could not be encoded."
 msgstr ""
 
-#: includes/Social/ReconnectHandler.php:1155
+#: includes/Social/ReconnectHandler.php:1233
 msgid "The refreshed token could not be saved."
 msgstr ""
 
-#: includes/Social/SocialProfile.php:28
+#: includes/Social/SocialProfile.php:26
 msgid "Multi Profile is a Premium Feature. To use this feature, Upgrade to Pro."
 msgstr ""
 
@@ -1681,61 +1644,67 @@ msgstr ""
 msgid "Twitter Connection Problem. error code: "
 msgstr ""
 
-#. translators: %1$s: URL to the SchedulePress support page
-#: wp-scheduled-posts.php:162
+#. translators: 1: free plugin version, 2: minimum Pro version, 3: installed Pro version, 4: URL to the WordPress updates screen, 5: URL to the SchedulePress support page
+#: wp-scheduled-posts.php:179
 #, php-format
-msgid "SchedulePress Free v5.0 needs SchedulePress Pro v5.0 for better performance. Please update SchedulePress Pro plugin to v5.0. Contact our <a href=\"%1$s\" target=\"_blank\">Support</a> if you need any assistance."
+msgid "SchedulePress %1$s needs SchedulePress Pro %2$s or newer, and you are running Pro %3$s. Some Pro features stay unavailable until you <a href=\"%4$s\">update SchedulePress Pro</a>. Contact our <a href=\"%5$s\" target=\"_blank\">Support</a> if you need any assistance."
 msgstr ""
 
 #. translators: 1: `<h3>` opening tag, 2: `</h3>` closing tag, 3: PHP version. 4: Link opening tag, 5: Link closing tag.
-#: wp-scheduled-posts.php:350
+#: wp-scheduled-posts.php:371
 #, php-format
 msgid "%1$sSchedulePress isn’t running because PHP is outdated.%2$s Update to PHP version %3$s and get back to creating!"
 msgstr ""
 
-#: includes/Admin/Settings/app/Settings/fields/GoogleBusiness.jsx:122
+#: includes/Admin/Settings/app/Settings/fields/Modals/PlatformProfileList.jsx:11
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Profiles:"
+msgstr ""
+
+#: includes/Admin/Settings/app/Settings/fields/Modals/PlatformProfileList.jsx:42
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "There are no profiles found on this account"
+msgstr ""
+
+#: includes/Admin/Settings/app/Settings/fields/Modals/PlatformProfileList.jsx:52
+#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/calendar.js:1
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:137
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:414
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:532
+msgid "Save"
+msgstr ""
+
+#: includes/Admin/Settings/app/Settings/fields/Profiles/PlatformProfile.jsx:53
+#: includes/Admin/Settings/app/Settings/fields/ProSocialPlatform.jsx:95
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Add New"
+msgstr ""
+
+#. translators: %s: minimum required SchedulePress Pro version
+#: includes/Admin/Settings/app/Settings/fields/ProSocialPlatform.jsx:32
+#, js-format
+msgid "Update SchedulePress Pro to %s or newer to use this platform."
+msgstr ""
+
+#: includes/Admin/Settings/app/Settings/fields/ProSocialPlatform.jsx:65
+msgid "Pro feature"
+msgstr ""
+
+#: includes/Admin/Settings/app/Settings/fields/SocialPlatform.jsx:119
 #: includes/Admin/Settings/assets/js/admin.js:1
 #: includes/Admin/Settings/assets/js/calendar.js:1
 msgid "Are you sure?"
 msgstr ""
 
-#: includes/Admin/Settings/app/Settings/fields/GoogleBusiness.jsx:123
+#: includes/Admin/Settings/app/Settings/fields/SocialPlatform.jsx:120
 #: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Enabling this profile will deactivate other profile automatically."
 msgstr ""
 
-#: includes/Admin/Settings/app/Settings/fields/GoogleBusiness.jsx:129
+#: includes/Admin/Settings/app/Settings/fields/SocialPlatform.jsx:129
 #: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Yes, Enable it!"
-msgstr ""
-
-#: includes/Admin/Settings/app/Settings/fields/GoogleBusiness.jsx:281
-#: includes/Admin/Settings/assets/js/admin.js:1
-msgid "Please update to the latest version of <strong>SchedulePress Pro</strong> to connect with <strong>Google Business Profile</strong>."
-msgstr ""
-
-#: includes/Admin/Settings/app/Settings/fields/Modals/GoogleBusiness.jsx:11
-#: includes/Admin/Settings/assets/js/admin.js:1
-msgid "Profiles:"
-msgstr ""
-
-#: includes/Admin/Settings/app/Settings/fields/Modals/GoogleBusiness.jsx:42
-#: includes/Admin/Settings/assets/js/admin.js:1
-msgid "There are no profiles found on this account"
-msgstr ""
-
-#: includes/Admin/Settings/app/Settings/fields/Modals/GoogleBusiness.jsx:52
-#: includes/Admin/Settings/assets/js/admin.js:1
-#: includes/Admin/Settings/assets/js/calendar.js:1
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:117
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:394
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:512
-msgid "Save"
-msgstr ""
-
-#: includes/Admin/Settings/app/Settings/fields/Profiles/GoogleBusinessProfile.jsx:47
-#: includes/Admin/Settings/assets/js/admin.js:1
-msgid "Add New"
 msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:1
@@ -2038,7 +2007,7 @@ msgid "Please select an option"
 msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:1
-#: src/components/Content/ShareNowStatusModal.js:27
+#: src/components/Content/ShareNowStatusModal.js:32
 msgid "Board"
 msgstr ""
 
@@ -2059,7 +2028,7 @@ msgid "on"
 msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:1
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:301
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:302
 msgid "Edit"
 msgstr ""
 
@@ -2179,7 +2148,7 @@ msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:1
 #: includes/Admin/Settings/assets/js/calendar.js:1
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:326
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:346
 msgid "Saving..."
 msgstr ""
 
@@ -2241,6 +2210,10 @@ msgid "Please check your access token and try again."
 msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Please update to the latest version of <strong>SchedulePress Pro</strong> to connect with <strong>Google Business Profile</strong>."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Please check your handle and App Password and try again."
 msgstr ""
 
@@ -2296,74 +2269,74 @@ msgstr ""
 msgid "Your API key is stored securely on your website. It is strictly used to generate captions for your social posts and nothing else."
 msgstr ""
 
-#: src/components/Content/ShareNowStatusModal.js:57
-#: src/components/Content/ShareNowStatusModal.js:81
+#: src/components/Content/ShareNowStatusModal.js:62
+#: src/components/Content/ShareNowStatusModal.js:86
 msgid "Request Sending..."
 msgstr ""
 
-#: src/components/Content/ShareNowStatusModal.js:82
+#: src/components/Content/ShareNowStatusModal.js:87
 msgid "Shared"
 msgstr ""
 
-#: src/components/Content/ShareNowStatusModal.js:83
+#: src/components/Content/ShareNowStatusModal.js:88
 msgid "Failed"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:384
+#: src/components/Content/SocialShare.js:379
 msgid "Social Share Settings"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:403
+#: src/components/Content/SocialShare.js:398
 msgid "The featured image will be used by default"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:412
+#: src/components/Content/SocialShare.js:407
 msgid "Remove Social Banner?"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:413
+#: src/components/Content/SocialShare.js:408
 msgid "Delete this banner image? The featured image will be used when sharing"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:415
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:697
+#: src/components/Content/SocialShare.js:410
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:698
 msgid "Cancel"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:416
+#: src/components/Content/SocialShare.js:411
 msgid "Yes, Remove"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:420
+#: src/components/Content/SocialShare.js:415
 msgid "Update Banner"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:421
+#: src/components/Content/SocialShare.js:416
 msgid "Remove Banner"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:426
+#: src/components/Content/SocialShare.js:421
 msgid "Add message for target platforms"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:430
-#: src/components/Content/SocialShare.js:480
+#: src/components/Content/SocialShare.js:425
+#: src/components/Content/SocialShare.js:475
 msgid "Manage Social Sharing"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:434
+#: src/components/Content/SocialShare.js:429
 msgid "Selected Social Platforms"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:437
+#: src/components/Content/SocialShare.js:432
 msgid "Loading selected profiles..."
 msgstr ""
 
-#: src/components/Content/SocialShare.js:497
+#: src/components/Content/SocialShare.js:492
 msgid "Social sharing is disabled"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:498
+#: src/components/Content/SocialShare.js:493
 msgid "Enable it to manage platforms."
 msgstr ""
 
@@ -2371,251 +2344,251 @@ msgstr ""
 msgid "Upgrade to Pro"
 msgstr ""
 
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:55
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:56
 msgid "Professional"
 msgstr ""
 
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:56
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:57
 msgid "Casual"
 msgstr ""
 
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:57
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:58
 msgid "Friendly"
 msgstr ""
 
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:58
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:59
 msgid "Witty"
 msgstr ""
 
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:59
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:60
 msgid "Bold"
 msgstr ""
 
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:60
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:61
 msgid "Informative"
 msgstr ""
 
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:62
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:63
 msgid "Match Post Tone"
 msgstr ""
 
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:68
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:69
 msgid "Auto (Recommended)"
 msgstr ""
 
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:69
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:70
 msgid "Short (Up to 280 characters - Ideal for X)"
 msgstr ""
 
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:70
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:71
 msgid "Medium (Up to 500 characters)"
 msgstr ""
 
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:71
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:72
 msgid "Long (500+ characters - Ideal for LinkedIn & Facebook)"
 msgstr ""
 
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:260
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:261
 msgid "AI Caption"
 msgstr ""
 
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:278
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:279
 msgid "Done"
 msgstr ""
 
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:294
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:295
 msgid "Show less"
 msgstr ""
 
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:295
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:296
 msgid "Read more…"
 msgstr ""
 
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:309
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:310
 msgid "Inserted"
 msgstr ""
 
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:309
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:310
 msgid "Insert"
 msgstr ""
 
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:441
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:442
 msgid "No captions were generated. Please try again."
 msgstr ""
 
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:451
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:452
 msgid "Caption generation failed. Please try again."
 msgstr ""
 
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:513
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:519
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:514
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:520
 msgid "Write Caption with AI"
 msgstr ""
 
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:538
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:539
 msgid "Generating captions…"
 msgstr ""
 
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:569
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:570
 msgid "Choose Social Platforms"
 msgstr ""
 
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:591
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:592
 msgid "More+"
 msgstr ""
 
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:615
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:616
 msgid "Prompt"
 msgstr ""
 
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:618
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:619
 msgid "Example: Write a catchy announcement for our new feature."
 msgstr ""
 
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:634
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:635
 msgid "Auto-generate based on post content"
 msgstr ""
 
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:641
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:646
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:642
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:647
 msgid "Tone & Style Controls"
 msgstr ""
 
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:652
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:653
 msgid "Caption Length (Auto / Manual)"
 msgstr ""
 
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:657
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:658
 msgid "Caption Length"
 msgstr ""
 
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:663
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:664
 msgid "Hashtags & Emojis"
 msgstr ""
 
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:672
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:673
 msgid "Generate hashtags"
 msgstr ""
 
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:681
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:682
 msgid "Include emojis"
 msgstr ""
 
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:704
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:705
 msgid "Stop generating"
 msgstr ""
 
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:707
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:708
 msgid "Generating…"
 msgstr ""
 
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:716
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:717
 msgid "Insert All Captions"
 msgstr ""
 
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:726
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:727
 msgid "Generate Captions"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:268
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:288
 msgid "Today"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:269
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:289
 msgid "Tomorrow"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:270
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:290
 msgid "Next week"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:271
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:291
 msgid "Next month"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:272
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:292
 msgid "In __ days"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:273
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:282
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:293
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:302
 msgid "Choose a custom date..."
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:277
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:297
 msgid "Same day as publication"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:278
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:298
 msgid "The day after publication"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:279
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:299
 msgid "A week after publication"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:280
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:300
 msgid "A month after publication"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:281
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:301
 msgid "__ days after publication"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:292
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:312
 msgid "In one hour"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:293
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:313
 msgid "In three hours"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:294
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:314
 msgid "In five hours"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:295
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:315
 msgid "In __ hours"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:296
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:305
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:316
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:325
 msgid "Choose a custom time..."
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:300
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:320
 msgid "Same time as publication"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:301
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:321
 msgid "One hour after publication"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:302
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:322
 msgid "Three hours after publication"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:303
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:323
 msgid "Five hours after publication"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:304
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:324
 msgid "__ hours after publication"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:326
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:346
 msgid "Updating..."
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:377
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:397
 msgid "Updated Successfully"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:377
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:397
 msgid "Saved Successfully"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:393
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:413
 msgid "Save Failed"
 msgstr ""
 

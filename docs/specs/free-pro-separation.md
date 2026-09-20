@@ -1,6 +1,6 @@
 # Free / Pro Separation — Implementation Spec
 
-**Status:** in progress · **Target:** SchedulePress 5.4.0 + SchedulePress Pro 5.4.0
+**Status:** implemented in 5.4.0 · SchedulePress 5.4.0 + SchedulePress Pro 5.4.0
 **Repos:** `wp-scheduled-posts` (Free) · `wp-scheduled-posts-pro` (Pro)
 
 ## Summary
@@ -193,85 +193,45 @@ Free's copies via `WPSP_ASSETS_URI` rather than shipping duplicates.
 
 ## React / asset plan
 
-### Free exposes a stable surface — `Admin/Settings/app/admin.jsx`
+**Pro ships no React.** The plan originally had Pro build its own settings
+bundle and inject a component through quickbuilder's `custom_field` filter.
+That needed `window.wpspSettingsApp` to re-export quickbuilder's context,
+`SocialModal`, `ApiCredentialsForm` and a handful of helpers, because
+quickbuilder is bundled into free's `admin.js` and a second copy would resolve
+to a different React context. It also put a Pro script into free's enqueue
+order, where the no-conflict dequeue could strip it.
 
-At module top level, before render and before Pro's script evaluates its filters:
+Instead free gained **one generic component** and Pro supplies data:
 
-```js
-window.wpspSettingsApp = {
-  version: 1,
-  useBuilderContext,
-  components: { SocialModal, ApiCredentialsForm, SelectedProfile, ViewMore, ProAlert, ProToggle },
-  helpers: { socialProfileRequestHandler, getSocialAuthUrl, reconnectProfile, handleImageError,
-             SweetAlertDeleteMsg, SweetAlertProMsg, SweetAlertToaster },
-  platformModals: {},
-  registerPlatformModal(slug, Component) { this.platformModals[slug] = Component; },
-};
-```
+- `fields/SocialPlatform.jsx` renders any registered network — slug,
+  status key, logo and copy all arrive in the field definition. It is the
+  old `GoogleBusiness.jsx` with the platform parameterised out.
+- `fields/ProSocialPlatform.jsx` is the locked card. With no Pro it opens the
+  pricing popup; with a Pro too old to have claimed the platform it says so
+  instead, because selling a licence they already hold is the wrong answer.
+- `Profiles/PlatformProfile.jsx` and `Modals/PlatformProfileList.jsx` are the
+  former Google Business header and profile list, unchanged — both were
+  already generic.
+- `Field.tsx` gained `social-platform` and `pro-social-platform`;
+  `SocialModal.tsx` falls back to `PlatformProfileList` for any type it has no
+  built-in component for; `ApiCredentialsForm.tsx` reads `automatic_connect`
+  from the definition rather than naming platforms.
 
-`quickbuilder` is **bundled into** Free's `admin.js`. Pro must not import its own copy
-(`useBuilderContext` would resolve to a different context object) — it reads it from
-`window.wpspSettingsApp`. Enforce by keeping quickbuilder out of Pro's `package.json`.
-Both bundles externalise `react`/`react-dom` (`admin.asset.php`), so Pro renders into
-Free's tree.
+Pro's `WPSP_PRO\Admin\GoogleBusinessSettings` returns the real field and tab
+through `wpsp_social_profile_fields` / `wpsp_social_template_tabs`, both keyed
+the same as free's placeholders so the card keeps its position.
 
-### Free field changes
+The post panel (`src/`) reads `social_platforms` and `locked_platforms` off
+`window.WPSchedulePostsFree` through `src/helper/platforms.js`. A locked
+platform appears in **Manage Social Sharing** as a disabled tab with a PRO
+tooltip that opens the pricing popup.
 
-- `fields/Field.tsx:23,71-72` — drop the GB import/case; add
-  `case "pro-social-platform": return <ProSocialPlatform {...props} />;`
-- new `fields/ProSocialPlatform.tsx` — reuses `ProToggle` styling and
-  `SweetAlertProMsg`. No Pro → pricing popup. Pro present but no override applied
-  (i.e. Pro is too old, which is why this component rendered) → `SweetAlertToaster`
-  "Please update SchedulePress Pro to v{min_pro_version} or newer."
-  `src/helper/useProOverlay.js` belongs to the post-panel app's `AppContext` and
-  cannot be imported here; the settings placeholder uses `ProToggle` + SweetAlert,
-  and the post panel keeps `useProOverlay` for its own locked items.
-- `fields/Modals/SocialModal.tsx:11,28,76,339-345` — remove GB import/state/case;
-  replace the `{...}[type]` map with `window.wpspSettingsApp?.platformModals?.[type]`
-- `fields/Modals/ApiCredentialsForm.tsx:22` — `|| !!props?.automatic_connect`
-- delete `fields/GoogleBusiness.jsx`, `fields/Modals/GoogleBusiness.jsx`,
-  `fields/Profiles/GoogleBusinessProfile.jsx`
-- sass `app/assets/sass/utils/_content.scss:286-300,387` stays (keyed by the
-  placeholder tab/section ids)
+### Images
 
-### Pro settings bundle
-
-- `webpack.config.js` — new entry `react-dev/settings/index.js` → `assets/js/settings.js`
-  (+ `settings.asset.php`, committed like `assets/js/admin.js`; `/react-dev` is `.distignore`d)
-- `react-dev/settings/index.js`:
-
-```js
-addFilter('custom_field', 'wp-scheduled-posts-pro/google-business', (ret, type, props) => {
-  if (type !== 'pro-social-platform' || props?.platform !== 'google_business') return ret;
-  if (!window.wpspSettingsApp) return ret;   // old Free: leave its own card alone
-  return <GoogleBusinessField {...props} />;
-}, 20);
-window.wpspSettingsApp?.registerPlatformModal('google_business', GoogleBusinessModalList);
-```
-
-- `google-business/Field.jsx` = Free's `GoogleBusiness.jsx` with context/components/
-  helpers pulled from `window.wpspSettingsApp`, the `is_pro` gates and the
-  `builderContext?.is_pro_active > '5.1.3'` string comparison at old `:271` removed.
-  `localStorage` key unchanged so cached toggles survive.
-  `ProfileCard.jsx` = `Profiles/GoogleBusinessProfile.jsx`; `ModalList.jsx` = `Modals/GoogleBusiness.jsx`.
-- Pro `includes/Admin/Settings.php` hooks `wpsp_social_profile_fields` (replace the
-  placeholder with the real definition) and `wpsp_social_template_tabs` (full
-  `layouts_google_business` block, without `is_pro`/`pro_feature`)
-- Enqueue in Pro `includes/Assets.php::enqueue_scripts` (`:248`) when
-  `$hook === 'toplevel_page_' . WPSP_SETTINGS_SLUG`, dependency on `WPSP_PLUGIN_SLUG`,
-  header, guarded by `wp_script_is(WPSP_PLUGIN_SLUG, 'registered')`
-
-### Post panel (`src/`) — data-driven, no Pro React
-
-`SocialShare.js:29-53,199-210`, `modals/socialTemplates/CustomTemplateModal.js:20-43,93-104,256`,
-`AICaptionDrawer.js:18-52`, `hooks/useSocialProfiles.js:5-16,68-79`,
-`ShareNowStatusModal.js:8-24` build their config as
-`{...BUILTIN, ...fromRegistry(social_platforms), ...lockedFrom(locked_platforms)}`.
-`PLATFORM_ORDER` = built-ins + registry + locked. A locked entry renders greyed with
-`proOverlay`, an empty profile list and a non-interactive toggle.
-
-`src/icons/icons.js:131,196` — `google_business` and `googleMyBusinessWithBG` **stay**
-(needed by the locked row). `src/scss/styles.scss:930` stays.
+All five Google Business images **stay in free** — the locked card, the
+Elementor header, the classic-editor row and the post-panel tab all render
+them, and Pro reuses free's copies through `WPSP_ASSETS_URI` rather than
+shipping duplicates.
 
 ## Calendar Pro-class dependency
 
@@ -322,9 +282,9 @@ Pro first, so nothing is broken between commits.
 | Commit | Repo | Contents |
 |---|---|---|
 | **P1** | Pro | engine lands, dormant on old Free — rewrite `Social/GoogleBusiness.php`, new `Social/GoogleBusinessProfile.php`, constants |
-| **P2** | Pro | settings React bundle + PHP field/tab injection + enqueue |
+| **P2** | Pro | PHP field/tab injection + Elementor accordion (no React) |
 | **P3** | Pro | `wpsp_calendar_delete_event` hook, version bump, readme |
-| **F1** | Free | registry + seams + upsell components + Calendar fix + notice, **additive** (GB rows still present) |
+| **F1** | Free | registry + seams + generic/locked components + Calendar fix + notice, **additive** (GB rows still present) |
 | **F2** | Free | remove Google Business (grep gate must pass) |
 | **F3** | Free | `npm run build`, `npm run pot`, version bump, readme |
 
@@ -333,9 +293,10 @@ so GB keeps working from Free. `WPSP_MIN_PRO_VERSION` must not be bumped before 
 
 ## Test plan
 
-**Free unit** (`composer test`) — extend the no-op `add_filter` stub
-(`tests/stubs/wp-functions.php:428`) into a small in-memory hook store backing
-`apply_filters`/`has_action`/`has_filter`, then:
+**Free unit** (`composer test`) — the no-op `add_filter` stub became a real
+in-memory hook store (`tests/stubs/HookStore.php`) backing
+`apply_filters`/`has_action`/`has_filter`, and the bootstrap now defines the
+WordPress time constants the reconnect lead times are built from. Tests:
 `SocialPlatformsRegistryTest` (round-trip, invalid definitions dropped, `PRO_UPSELL`
 contains `google_business`, `locked_for_js()` drops a slug once registered) ·
 `ReconnectHandlerPlatformMapsTest` · `CustomTemplateHelperLimitsTest` ·
@@ -370,18 +331,17 @@ envelope, `wpsp_calendar_delete_event` handled.
 
 ## Risks and open questions
 
-1. **quickbuilder `custom_field` chaining** — the React injection assumes quickbuilder
-   calls `applyFilters('custom_field', ret, type, props)` and Free's `Field` returns
-   `ret` for unknown types (`Field.tsx:79-80`), so a priority-20 Pro callback can
-   replace the placeholder. Verify in `node_modules/quickbuilder` before P2; fallback
-   is Pro at priority 5 with Free treating a non-`ret` return as final.
-2. **Shared `useBuilderContext`** — any path where Pro imports quickbuilder itself
-   breaks silently (`setFieldValue` on the wrong context).
-3. **Script order** — Pro's settings script must be a header script depending on
-   `wp-scheduled-posts`. Free's no-conflict dequeue (`Settings/Assets.php:28-47`)
-   must not strip it; verify the `strpos($src, WPSP_PLUGIN_SLUG)` check passes for
-   `wp-scheduled-posts-pro` URLs.
-4. **`wpsp_publish_future_post` payload type** — `SocialProfile.php:39-43,50-53` fires
+1. ~~quickbuilder `custom_field` chaining~~, ~~shared `useBuilderContext`~~ and
+   ~~script order~~ — all three disappeared with the Pro React bundle. Pro
+   contributes PHP field definitions only.
+2. **Elementor profile selection still does not persist for an extension
+   platform.** `wpsp_el_tab_action()` never read `wpsp_el_social_google_business[]`
+   before this work either. Closing it needs `wpsp_format_profile_data()`
+   (`includes/Admin.php:1250`) to stop identifying platforms by which properties
+   an object happens to carry — a Google Business profile has `type => 'profile'`
+   and would be filed as Instagram. Left as it was rather than made wrong in a
+   new way.
+3. **`wpsp_publish_future_post` payload type** — `SocialProfile.php:39-43,50-53` fires
    it with an object while engines expect an int. Pre-existing for every platform; the
    moved engine inherits it. Out of scope.
 5. **`remote_post()` returning `null`** on skip paths (`GoogleBusiness.php:79,85,104`)

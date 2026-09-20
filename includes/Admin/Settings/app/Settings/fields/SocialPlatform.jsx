@@ -204,7 +204,8 @@ const SocialPlatform = (props) => {
               alt="mainLogo"
             />
           )}
-          <div className={`selected-${platform}-scrollbar`}>
+          {/* The stylesheet keys these off a hyphenated slug. */}
+          <div className={`selected-${platform.replace(/_/g, '-')}-scrollbar`}>
             {selectedProfile &&
               selectedProfileData.map((item, index) => (
                 <div className="selected-facebook-wrapper" key={index}>

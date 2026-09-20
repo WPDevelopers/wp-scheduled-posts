@@ -25,7 +25,9 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
     const [error, setError] = useState("");
     const [fbPage, setFbPage] = useState([]);
     const [fbGroup, setFbGroup] = useState([]);
-    const [googleProfiles, setGoogleProfiles] = useState([]);
+    // Any platform that returns a plain profile list, including ones an
+    // extension registered.
+    const [extensionProfiles, setExtensionProfiles] = useState([]);
     const [pinterestBoards, setPinterestBoards] = useState([]);
     const [instagramProfiles, setInstagramProfiles] = useState([]);
     const [threadsProfiles, setThreadsProfiles] = useState([]);
@@ -73,7 +75,7 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
                             setFbGroup(response.group);
                         }
                         setInstagramProfiles(response.profiles)
-                        setGoogleProfiles(response.profiles)
+                        setExtensionProfiles(response.profiles)
                         setResponseData([response.data]);
                         setThreadsProfiles(response.profiles);
                         setLinkedInData(response.linkedin);
@@ -341,7 +343,7 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
                             // list comes back in the same shape, so the generic
                             // list is all that is needed.
                             <PlatformProfileList
-                                profiles={googleProfiles ?? []}
+                                profiles={extensionProfiles ?? []}
                                 addProfileToggle={addProfileToggle}
                                 savedProfile={addSavedProfile}
                             />
