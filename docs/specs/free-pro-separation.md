@@ -391,3 +391,9 @@ envelope, `wpsp_calendar_delete_event` handled.
 7. **Open:** force Pro's hard Free gate to 5.4.0 after Free 5.4.0 is live on wp.org?
    Currently: no, stays at 5.0.0.
 8. **`.pot` churn** — moved strings change text domain; run `npm run pot` in both repos.
+9. **Refreshed tokens are written to the wrong place.** Both token-refresh paths
+   call `update_option('google_business_profile_list', ...)`, but the profiles are
+   read back out of `wpsp_settings_v5` via `Helper::get_social_profile()`, so a
+   refreshed access token never lands and the next share refreshes again. Carried
+   over verbatim in P1 to keep the move behaviour-neutral, and annotated in place.
+   Worth fixing on its own after the separation ships, not inside it.
