@@ -62,7 +62,7 @@ Each modal includes links to the official step-by-step doc for that platform. On
 
 ## Google Business Profile — Pro
 
-- Connect your Google Business listing to auto-share posts (1,500-character limit). This platform is **Pro-only**.
+- Connect your Google Business listing to auto-share posts (1,500-character limit). This platform is **Pro-only** — from SchedulePress 5.4.0 its integration ships with SchedulePress Pro, and the free plugin shows a locked card in its place.
 
 ## Sharing options after you connect
 

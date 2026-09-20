@@ -89,14 +89,12 @@ class Social
         $this->define('WPSCP_INSTAGRAM_SCOPE', 'instagram_business_basic,instagram_business_content_publish,');
         // twitter
         $this->define('WPSCP_TWITTER_OPTION_NAME', 'twitter_profile_list');
-        $this->define('WPSCP_GOOGLE_BUSINESS_OPTION_NAME', 'google_business_profile_list');
         // linkedin
         $this->define('WPSCP_LINKEDIN_SCOPE', 'r_emailaddress r_liteprofile w_member_social');
         $this->define('WPSCP_LINKEDIN_SCOPE_OPENID', 'openid profile email w_member_social');
         $this->define('WPSCP_LINKEDIN_SCOPE_OPENID_PAGE', 'openid profile email w_member_social r_organization_admin w_organization_social rw_organization_admin');
         $this->define('WPSCP_LINKEDIN_BUSINESS_SCOPE', 'r_emailaddress r_liteprofile w_member_social r_organization_admin w_organization_social');
         $this->define('WPSCP_THREADS_SCOPE', 'threads_basic,threads_content_publish');
-        $this->define('WPSCP_GOOGLE_BUSINESS_SCOPE', 'https://www.googleapis.com/auth/plus.business.manage');
         $this->define('WPSCP_LINKEDIN_OPTION_NAME', 'linkedin_profile_list');
         // pinterest
         $this->define('WPSCP_PINTEREST_OPTION_NAME', 'pinterest_profile_list');
@@ -173,15 +171,20 @@ class Social
         if (Helper::get_settings('threads_profile_status') == true) {
             $this->threads();
         }
-        if (Helper::get_settings('google_business_profile_status') == true) {
-            $this->google_business();
-        }
         if (Helper::get_settings('bluesky_profile_status') == true) {
             $this->bluesky();
         }
         if (Helper::get_settings('mastodon_profile_status') == true) {
             $this->mastodon();
         }
+
+        /**
+         * Built-in platforms are wired up. Anything registered through
+         * `wpsp_social_platforms` boots itself; this marks the ordering point.
+         *
+         * @param \WPSP\Social $social
+         */
+        do_action('wpsp_social_platforms_loaded', $this);
     }
 
 
@@ -190,12 +193,6 @@ class Social
     {
         $WpScp_Facebook = new Social\Facebook();
         $WpScp_Facebook->instance();
-    }
-
-    public function google_business()
-    {
-        $WpScp_googleBusiness = new Social\GoogleBusiness();
-        $WpScp_googleBusiness->instance();
     }
 
     public function twitter()

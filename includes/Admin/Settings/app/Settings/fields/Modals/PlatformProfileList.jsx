@@ -2,7 +2,7 @@ import { __ } from '@wordpress/i18n';
 import React from 'react'
 import { handleImageError } from '../../helper/helper';
 
-const GoogleBusiness = ( { profiles, addProfileToggle,savedProfile } ) => {    
+const PlatformProfileList = ( { profiles, addProfileToggle, savedProfile } ) => {    
     return (
         <>
             <div className='wpsp-modal-social-platform'>
@@ -11,7 +11,7 @@ const GoogleBusiness = ( { profiles, addProfileToggle,savedProfile } ) => {
                         <li className='group-title'>{__('Profiles:', 'wp-scheduled-posts')} </li>
                     )}
                     {profiles.map((item, index) => (
-                        <li id={'facebook_page_' + index} key={index}>
+                        <li id={'wpsp_platform_profile_' + index} key={index}>
                             <div className='item-content'>
                                 <div className='entry-thumbnail'>
                                     <img 
@@ -56,4 +56,4 @@ const GoogleBusiness = ( { profiles, addProfileToggle,savedProfile } ) => {
     )
 }
 
-export default GoogleBusiness
+export default PlatformProfileList

@@ -18,7 +18,7 @@ Connects social accounts and shares posts to them — automatically when a post 
 | Instagram (Business) | ✅ | multiple profiles |
 | Medium | ✅ | multiple profiles |
 | Threads | ✅ | multiple profiles |
-| Google Business Profile | 🔒 Pro (entire platform) | connect + share |
+| Google Business Profile | 🔒 Pro (entire platform, including its code) | connect + share |
 
 Rules:
 - **Free = one profile per network.** Connecting additional profiles, and **"Page"-type accounts** (except Facebook), triggers the Pro upgrade popup.
@@ -32,7 +32,7 @@ Rules:
 | Connected accounts list | `{platform}_profile_list` | Stored connected profiles, each with an on/off toggle |
 | App credentials modal | — | App ID/secret entry + copyable Redirect/Callback URL + doc links |
 
-`{platform}` ∈ `facebook`, `twitter`, `linkedin`, `pinterest`, `instagram`, `medium`, `threads`, `google_business`.
+`{platform}` ∈ `facebook`, `twitter`, `linkedin`, `pinterest`, `instagram`, `medium`, `threads`, `bluesky`, `mastodon`, plus any slug registered through `wpsp_social_platforms`.
 
 ## Behavior & rules
 
@@ -80,4 +80,4 @@ Each platform uses **your own app credentials** (privacy + your own rate limits)
 - **Post meta:** `_wpsp_is_{platform}_share` (per-platform share flag), `__wpscppro_social_share_{platform}` (share-count log), `_wpscppro_custom_social_share_image`, `_wpscppro_dont_share_socialmedia`, Pinterest `_wpscppro_pinterestboardtype` / `_wpscppro_pinterest_board_name` / `_wpscppro_pinterest_section_name`.
 - **Hooks:** `wpsp_publish_future_post` (auto-share on publish); Pro gate filter `wpsp_social_profile_limit_checkpoint`.
 - **AJAX:** `wpscp_instant_social_single_profile_share` (Share Now).
-- **Pro gating:** Google Business instant-share requires `class_exists('WPSP_PRO')`.
+- **Pro gating:** Google Business is not implemented here at all. Pro registers it through `wpsp_social_platforms` and answers `wpsp_instant_share_google_business`; without Pro the platform is a locked card. See [free-pro-separation.md](free-pro-separation.md).

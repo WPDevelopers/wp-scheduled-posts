@@ -87,10 +87,11 @@ class Assets
                     'instagram' => \WPSP\Helper::get_settings('instagram_profile_status'),
                     'medium' => \WPSP\Helper::get_settings('medium_profile_status'),
                     'threads' => \WPSP\Helper::get_settings('threads_profile_status'),
-                    'google_business' => \WPSP\Helper::get_settings('google_business_profile_status'),
                     'bluesky' => \WPSP\Helper::get_settings('bluesky_profile_status'),
                     'mastodon' => \WPSP\Helper::get_settings('mastodon_profile_status'),
-                ],
+                ] + self::extension_platform_status(),
+                'social_platforms' => \WPSP\Social\Platforms::for_js(),
+                'locked_platforms' => \WPSP\Social\Platforms::locked_for_js(),
             ));
         });
 
@@ -169,11 +170,28 @@ class Assets
                 'instagram' => \WPSP\Helper::get_settings('instagram_profile_status'),
                 'medium' => \WPSP\Helper::get_settings('medium_profile_status'),
                 'threads' => \WPSP\Helper::get_settings('threads_profile_status'),
-                'google_business' => \WPSP\Helper::get_settings('google_business_profile_status'),
                 'bluesky' => \WPSP\Helper::get_settings('bluesky_profile_status'),
                 'mastodon' => \WPSP\Helper::get_settings('mastodon_profile_status'),
-            ],
+            ] + self::extension_platform_status(),
+            'social_platforms' => \WPSP\Social\Platforms::for_js(),
+            'locked_platforms' => \WPSP\Social\Platforms::locked_for_js(),
         ));
+    }
+
+    /**
+     * On/off state for each platform an extension registered.
+     *
+     * @return array<string,mixed>
+     */
+    public static function extension_platform_status()
+    {
+        $status = array();
+
+        foreach (\WPSP\Social\Platforms::registered() as $slug => $definition) {
+            $status[$slug] = \WPSP\Helper::get_settings($definition['status_key']);
+        }
+
+        return $status;
     }
 
     public function gutenberg_sidebar_script()

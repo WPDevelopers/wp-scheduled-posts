@@ -6,7 +6,6 @@ use WP;
 use WPSP\Helper;
 use WP_REST_Response;
 use WP_Error;
-use WPSP_PRO\Scheduled\Published;
 
 class Calendar
 {
@@ -876,8 +875,28 @@ class Calendar
             }
             
             if( 'Adv. Scheduled' == $status ) {
-                $published = new Published();
-                $published->wpscp_pending_schedule_fn($postId, $status );
+                /**
+                 * Clear an advanced schedule. Advanced Schedule is a Pro feature,
+                 * so this has to be asked for rather than called: instantiating
+                 * the Pro class directly is a fatal error without Pro installed.
+                 *
+                 * @param null|bool $handled Null means nobody handled it.
+                 * @param int       $postId
+                 * @param string    $status
+                 */
+                $handled = apply_filters('wpsp_calendar_delete_event', null, $postId, $status);
+
+                // SchedulePress Pro older than 5.4.0 does not answer the filter.
+                if ($handled === null && class_exists('\WPSP_PRO\Scheduled\Published')) {
+                    $published = new \WPSP_PRO\Scheduled\Published();
+                    $published->wpscp_pending_schedule_fn($postId, $status);
+                    $handled = true;
+                }
+
+                if ($handled === null) {
+                    return new WP_Error('wpsp_pro_required', __('Advanced Schedule needs SchedulePress Pro.', 'wp-scheduled-posts'), array('status' => 400));
+                }
+
                 $response = array('message' => 'Advanced schedule removed', 'id' => $postId, 'status' => $status );
                 return new WP_REST_Response($response, 200);
             }

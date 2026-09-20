@@ -20,7 +20,6 @@ class ReconnectHandler
         'pinterest'       => 'pinterest_profile_list',
         'instagram'       => 'instagram_profile_list',
         'threads'         => 'threads_profile_list',
-        'google_business' => 'google_business_profile_list',
         'bluesky'         => 'bluesky_profile_list',
         'mastodon'        => 'mastodon_profile_list',
     ];
@@ -65,12 +64,13 @@ class ReconnectHandler
      */
     private static function stored_profile($platform, $item)
     {
-        if (!isset(self::PROFILE_OPTIONS[$platform])) {
+        $profile_options = self::profile_options();
+        if (!isset($profile_options[$platform])) {
             return null;
         }
 
         $settings = json_decode(get_option(WPSP_SETTINGS_NAME), true);
-        $key      = self::PROFILE_OPTIONS[$platform];
+        $key      = $profile_options[$platform];
         if (!is_array($settings) || empty($settings[$key]) || !is_array($settings[$key])) {
             return null;
         }
@@ -101,10 +101,6 @@ class ReconnectHandler
         'pinterest'       => 5  * DAY_IN_SECONDS,
         'instagram'       => 10 * DAY_IN_SECONDS,
         'threads'         => 10 * DAY_IN_SECONDS,
-        // Google hands out one-hour access tokens, so the clock this reads is
-        // almost always nearly out. What actually has to stay alive is the
-        // refresh grant, and exercising it once a day is what proves it.
-        'google_business' => 12 * HOUR_IN_SECONDS,
     ];
 
     /**
@@ -112,6 +108,83 @@ class ReconnectHandler
      * manual reconnect instead of pretending the connection is healthy.
      */
     const RENEWAL_FAILED_FIELD = 'renewal_failed';
+
+    /**
+     * Profile-list settings keys, built-ins plus anything Pro registers.
+     *
+     * @return array<string,string>
+     */
+    public static function profile_options()
+    {
+        return array_merge(self::PROFILE_OPTIONS, Platforms::list_keys());
+    }
+
+    /**
+     * Renewal lead times, built-ins plus anything Pro registers.
+     *
+     * A platform absent from this map has no automatic renewal at all.
+     *
+     * @return array<string,int>
+     */
+    public static function renew_lead_times()
+    {
+        $lead_times = self::RENEW_LEAD_TIME;
+
+        foreach (Platforms::registered() as $slug => $definition) {
+            if (!empty($definition['reconnect']['lead_time'])) {
+                $lead_times[$slug] = (int) $definition['reconnect']['lead_time'];
+            }
+        }
+
+        return $lead_times;
+    }
+
+    /**
+     * @param string $platform
+     * @return int|null Null when the platform cannot renew unattended.
+     */
+    public static function renew_lead_time($platform)
+    {
+        $lead_times = self::renew_lead_times();
+
+        return isset($lead_times[$platform]) ? $lead_times[$platform] : null;
+    }
+
+    /**
+     * @param string $platform
+     * @return string Empty when the platform has no own-app token endpoint.
+     */
+    public static function provider_token_endpoint($platform)
+    {
+        if (isset(self::PROVIDER_TOKEN_ENDPOINTS[$platform])) {
+            return self::PROVIDER_TOKEN_ENDPOINTS[$platform];
+        }
+
+        $definition = Platforms::get($platform);
+
+        return !empty($definition['reconnect']['token_endpoint']) ? $definition['reconnect']['token_endpoint'] : '';
+    }
+
+    /**
+     * Client ids for the apps SchedulePress runs on the author's behalf.
+     *
+     * @return array<string,string>
+     */
+    public static function shared_app_ids()
+    {
+        $app_ids = [
+            'linkedin'  => defined('WPSP_SOCIAL_OAUTH2_LINKEDIN_APP_ID') ? WPSP_SOCIAL_OAUTH2_LINKEDIN_APP_ID : '',
+            'pinterest' => defined('WPSP_SOCIAL_OAUTH2_PINTEREST_APP_ID') ? WPSP_SOCIAL_OAUTH2_PINTEREST_APP_ID : '',
+        ];
+
+        foreach (Platforms::registered() as $slug => $definition) {
+            if (!empty($definition['reconnect']['shared_app_id'])) {
+                $app_ids[$slug] = $definition['reconnect']['shared_app_id'];
+            }
+        }
+
+        return $app_ids;
+    }
 
     public static function refreshTokenReconnect($platform, $item)
     {
@@ -138,7 +211,8 @@ class ReconnectHandler
     {
         $item = (array) $item;
 
-        if (!isset(self::PROFILE_OPTIONS[$platform])) {
+        $profile_options = self::profile_options();
+        if (!isset($profile_options[$platform])) {
             return [
                 'success'     => false,
                 'reconnected' => false,
@@ -170,7 +244,7 @@ class ReconnectHandler
 
         // A Facebook Page token carries no expiry and has no renewal endpoint —
         // it only ever dies by revocation, which needs a human.
-        if (!isset(self::RENEW_LEAD_TIME[$platform])) {
+        if (self::renew_lead_time($platform) === null) {
             return self::authRequiredResponse($platform, $item, __('This platform has no automatic renewal.', 'wp-scheduled-posts'));
         }
 
@@ -268,7 +342,6 @@ class ReconnectHandler
     const PROVIDER_TOKEN_ENDPOINTS = [
         'linkedin'        => 'https://www.linkedin.com/oauth/v2/accessToken',
         'pinterest'       => 'https://api.pinterest.com/v5/oauth/token',
-        'google_business' => 'https://oauth2.googleapis.com/token',
     ];
 
     /**
@@ -288,7 +361,7 @@ class ReconnectHandler
         // that only this site holds, and the middleware cannot authenticate as
         // that app. Sending the grant there could never have succeeded, and it
         // handed the author's refresh token to a server with no use for it.
-        if ($app_id !== '' && $app_secret !== '' && isset(self::PROVIDER_TOKEN_ENDPOINTS[$platform])) {
+        if ($app_id !== '' && $app_secret !== '' && self::provider_token_endpoint($platform) !== '') {
             return self::request_provider_token($platform, $app_id, $app_secret, $refresh_token);
         }
 
@@ -333,7 +406,7 @@ class ReconnectHandler
             $args['body']['client_secret'] = $app_secret;
         }
 
-        return wp_safe_remote_post(self::PROVIDER_TOKEN_ENDPOINTS[$platform], $args);
+        return wp_safe_remote_post(self::provider_token_endpoint($platform), $args);
     }
 
     /**
@@ -455,11 +528,7 @@ class ReconnectHandler
 
     private static function authRequiredResponse($platform, $item, $reason = '')
     {
-        $shared_app_ids = [
-            'linkedin'        => defined('WPSP_SOCIAL_OAUTH2_LINKEDIN_APP_ID') ? WPSP_SOCIAL_OAUTH2_LINKEDIN_APP_ID : '',
-            'pinterest'       => defined('WPSP_SOCIAL_OAUTH2_PINTEREST_APP_ID') ? WPSP_SOCIAL_OAUTH2_PINTEREST_APP_ID : '',
-            'google_business' => defined('WPSP_SOCIAL_OAUTH2_GOOGLE_BUSINESS_APP_ID') ? WPSP_SOCIAL_OAUTH2_GOOGLE_BUSINESS_APP_ID : '',
-        ];
+        $shared_app_ids = self::shared_app_ids();
 
         $app_id     = !empty($item['app_id']) ? $item['app_id'] : '';
         $app_secret = !empty($item['app_secret']) ? $item['app_secret'] : '';
@@ -495,12 +564,13 @@ class ReconnectHandler
      */
     private static function update_profile_fields($platform, $item, $updates)
     {
-        if (!isset(self::PROFILE_OPTIONS[$platform])) {
+        $profile_options = self::profile_options();
+        if (!isset($profile_options[$platform])) {
             return false;
         }
 
         $settings = json_decode(get_option(WPSP_SETTINGS_NAME), true);
-        $key      = self::PROFILE_OPTIONS[$platform];
+        $key      = $profile_options[$platform];
         if (!is_array($settings) || empty($settings[$key]) || !is_array($settings[$key])) {
             return false;
         }
@@ -604,7 +674,7 @@ class ReconnectHandler
      */
     public static function complete_reconnect($platform, $profile_id, $payload)
     {
-        if (!isset(self::PROFILE_OPTIONS[$platform]) || $profile_id === '' || $profile_id === null) {
+        if (!isset(self::profile_options()[$platform]) || $profile_id === '' || $profile_id === null) {
             return [
                 'success' => false,
                 'code'    => 'reconnect_invalid_request',
@@ -789,8 +859,13 @@ class ReconnectHandler
 
         $report = ['checked' => 0, 'renewed' => 0, 'failed' => 0, 'skipped' => 0];
 
-        foreach (self::RENEW_LEAD_TIME as $platform => $lead_time) {
-            $key = self::PROFILE_OPTIONS[$platform];
+        $profile_options = self::profile_options();
+
+        foreach (self::renew_lead_times() as $platform => $lead_time) {
+            if (!isset($profile_options[$platform])) {
+                continue;
+            }
+            $key = $profile_options[$platform];
             if (empty($settings[$key]) || !is_array($settings[$key])) {
                 continue;
             }
@@ -872,7 +947,10 @@ class ReconnectHandler
     public static function needs_renewal($platform, $profile, $lead_time = null)
     {
         if ($lead_time === null) {
-            $lead_time = isset(self::RENEW_LEAD_TIME[$platform]) ? self::RENEW_LEAD_TIME[$platform] : DAY_IN_SECONDS;
+            $lead_time = self::renew_lead_time($platform);
+            if ($lead_time === null) {
+                $lead_time = DAY_IN_SECONDS;
+            }
         }
 
         $expires_at = self::resolve_expiry($platform, $profile);

@@ -62,7 +62,10 @@ class Assets
                 'admin_image_path'  => WPSP_PLUGIN_ROOT_URI.'includes/Admin/Settings/app/assets/images',
                 'free_version'     => WPSP_VERSION,
                 'admin_ajax'       => admin_url( 'admin-ajax.php' ),
-                'pro_version'      => (defined('WPSP_PRO_VERSION') ? WPSP_PRO_VERSION : '')
+                'pro_version'      => (defined('WPSP_PRO_VERSION') ? WPSP_PRO_VERSION : ''),
+                'min_pro_version'  => (defined('WPSP_MIN_PRO_VERSION') ? WPSP_MIN_PRO_VERSION : ''),
+                'social_platforms' => \WPSP\Social\Platforms::for_js(),
+                'locked_platforms' => \WPSP\Social\Platforms::locked_for_js(),
             )));
         }
         else if (strpos($hook, '_page_' . WPSP_SETTINGS_SLUG) !== false){
