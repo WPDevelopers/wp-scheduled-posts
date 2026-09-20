@@ -8,7 +8,6 @@ import Linkedin from "./Linkedin";
 import Pinterest from "./Pinterest";
 import Twitter from "./Twitter";
 import Instagram from "./Instagram";
-import GoogleBusiness from "./GoogleBusiness";
 import PlatformProfileList from "./PlatformProfileList";
 
 import {
@@ -333,13 +332,6 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
                               threads: (
                                 <Threads
                                     profiles={threadsProfiles}
-                                    addProfileToggle={addProfileToggle}
-                                    savedProfile={addSavedProfile}
-                                />
-                              ),
-                              google_business: (
-                                <GoogleBusiness
-                                    profiles={googleProfiles}
                                     addProfileToggle={addProfileToggle}
                                     savedProfile={addSavedProfile}
                                 />

@@ -3,7 +3,7 @@ import { Button } from '@wordpress/components';
 const { __ } = wp.i18n;
 import { AppContext } from '../../../context/AppContext';
 import Header from './Header';
-import { facebook, twitter_x, linkedin, pinterest, instagram, medium, threads, google_business, bluesky, mastodon } from '../../../icons/icons';
+import { facebook, twitter_x, linkedin, pinterest, instagram, medium, threads, bluesky, mastodon } from '../../../icons/icons';
 
 // Sub-components
 import PlatformNavigation from './PlatformNavigation';
@@ -31,7 +31,6 @@ const SOCIAL_PLATFORMS = [
   'instagram',
   'medium',
   'threads',
-  'google_business',
   'bluesky',
   'mastodon',
   // Networks that arrive from an extension, live ones first.
@@ -46,7 +45,6 @@ const platformLimits = {
   instagram: 2100,
   medium: 45000,
   threads: 480,
-  google_business: 1500,
   bluesky: 300,
   mastodon: 500,
   ...extensionLimits(),
@@ -108,7 +106,6 @@ const WPSPCustomTemplateModal = ({
     { platform: 'instagram', icon: instagram, color: '#e4405f', bgColor: '#e4405f' },
     { platform: 'medium', icon: medium, color: '#00ab6c', bgColor: '#00ab6c' },
     { platform: 'threads', icon: threads, color: '#000', bgColor: '#000' },
-    { platform: 'google_business', icon: google_business, color: '#db4437', bgColor: '#db4437' },
     { platform: 'bluesky', icon: bluesky, color: '#0085ff', bgColor: '#0085ff' },
     { platform: 'mastodon', icon: mastodon, color: '#6364ff', bgColor: '#6364ff' },
     // An extension supplies a URL rather than an inline SVG, so the icon is an
@@ -276,7 +273,6 @@ const WPSPCustomTemplateModal = ({
       case 'instagram': return socialProfiles.instagram || [];
       case 'medium': return socialProfiles.medium || [];
       case 'threads': return socialProfiles.threads || [];
-      case 'google_business': return socialProfiles.google_business || [];
       case 'bluesky': return socialProfiles.bluesky || [];
       case 'mastodon': return socialProfiles.mastodon || [];
       // Extension platforms keep their profiles under their own slug.

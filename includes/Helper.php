@@ -281,7 +281,6 @@ class Helper
             'instagram'       => 2100,
             'medium'          => 45000,
             'threads'         => 480,
-            'google_business' => 1500,
             'bluesky'         => 300,
             'mastodon'        => 500,
         );

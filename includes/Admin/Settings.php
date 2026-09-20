@@ -753,18 +753,18 @@ class Settings
                                 'google_business_profile_list' => [
                                     'id' => 'google_business_profile_list',
                                     'name' => 'google_business_profile_list',
-                                    'type' => 'google-business',
+                                    // Replaced wholesale by SchedulePress Pro through
+                                    // `wpsp_social_profile_fields`. Until then this is the
+                                    // locked card: a name, a logo and a way to buy it.
+                                    'type' => 'pro-social-platform',
+                                    'platform' => 'google_business',
+                                    'is_pro' => true,
                                     'label' => __('Google Business Profile', 'wp-scheduled-posts'),
                                     'default' => [],
                                     'logo' => WPSP_ASSETS_URI . 'images/google-my-business-logo.svg',
+                                    'badge' => WPSP_ASSETS_URI . 'images/google-business-pro.svg',
                                     /* translators: %s: Link to documentation for Google Business Profile social share */
-                                    'desc' => sprintf(__('You can enable/disable Google Business Profile social share. To configure Google Business Profile Social Profile, check out this <a target="__blank" href="%s">Doc</a>', 'wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-google-business-profile/'),
-                                    'modal' => [
-                                        'logo' => WPSP_ASSETS_URI . 'images/google-my-business-logo.svg',
-                                        'redirect_url_desc' => __('Add this URL in the Redirect URLs field of your Medium app.', 'wp-scheduled-posts'),
-                                        /* translators: 1: Link to documentation for Google Business Profile configuration, 2: Link to Google Cloud Console */
-                                        'desc' => sprintf(__('For details on Google Business Profile configuration, check out this <a href="%1$s" target="_blank">Doc</a>.<br> <a href="%2$s" target="_blank">Click here</a> to Retrieve Your API Keys from your Google Business Profile account.', 'wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-google-business-profile/', 'https://console.cloud.google.com/'),
-                                    ],
+                                    'desc' => sprintf(__('Share your posts to Google Business Profile automatically with SchedulePress Pro. <a target="__blank" href="%s">Learn more</a>', 'wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-google-business-profile/'),
                                     'priority' => 40,
                                 ],
                                 'bluesky_profile_list'  => [
@@ -1721,82 +1721,27 @@ class Settings
                                             'label'         => __('Google Business', 'wp-scheduled-posts'),
                                             'priority'      => 40,
                                             'is_pro'        => true,
-                                            'classes'       => (defined('WPSP_PRO_VERSION') ? '' : 'pro_feature'),
+                                            'classes'       => 'pro_feature',
+                                            // SchedulePress Pro replaces this whole tab through
+                                            // `wpsp_social_template_tabs`.
                                             'fields'        => [
-                                                'google_business_wrapper'     => [
-                                                    'id'            => 'google_business_wrapper',
-                                                    'type'          => 'section',
-                                                    'name'          => 'google_business_wrapper',
-                                                    'classes'       => (defined('WPSP_PRO_VERSION') ? '' : 'pro_feature'),
-                                                    'label'         => __('Google Business Settings', 'wp-scheduled-posts'),
-                                                    /* translators: %s: Link to documentation for Google Business configuration */
-                                                    'sub_title' => sprintf(__('To configure the Threads Settings, check out this <a target="_blank" href="%s">Doc.</a>', 'wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-wordpress-posts-on-google-business-profile/'),
+                                                'google_business_upsell' => [
+                                                    'id'       => 'google_business_upsell',
+                                                    'name'     => 'google_business_upsell',
+                                                    'type'     => 'section',
+                                                    'label'    => __('Google Business Settings', 'wp-scheduled-posts'),
                                                     'priority' => 10,
-                                                    'fields' => [
-                                                        'google_business' => [
-                                                            'name' => "google_business",
-                                                            'parent' => "social_templates",
-                                                            'type' => "group",
+                                                    'fields'   => [
+                                                        'google_business_upsell_content' => [
+                                                            'id'       => 'google_business_upsell_content',
+                                                            'name'     => 'google_business_upsell_content',
+                                                            'type'     => 'html',
                                                             'priority' => 10,
-                                                            'fields' => [
-                                                                'is_category_as_tags' => [
-                                                                    'id' => 'google_business_cat_tags',
-                                                                    'name' => 'is_category_as_tags',
-                                                                    'type' => 'toggle',
-                                                                    'label' => __('Add Category as tags', 'wp-scheduled-posts'),
-                                                                    'info' => __('The categories you select will be used as tags.', 'wp-scheduled-posts'),
-                                                                    'priority' => 10,
-                                                                    'default' => true,
-                                                                ],
-                                                                'content_source' => [
-                                                                    'label' => __('Content Source:', 'wp-scheduled-posts'),
-                                                                    'name' => "content_source",
-                                                                    'type' => "radio-card",
-                                                                    'default' => "excerpt",
-                                                                    'priority' => 11,
-                                                                    'options' => [
-                                                                        [
-                                                                            'label' => __('Excerpt', 'wp-scheduled-posts'),
-                                                                            'value' => 'excerpt',
-                                                                        ],
-                                                                        [
-                                                                            'label' => __('Content', 'wp-scheduled-posts'),
-                                                                            'value' => 'content',
-                                                                        ],
-                                                                    ],
-                                                                ],
-                                                                'template_structure' => [
-                                                                    'id' => 'template_structure',
-                                                                    'name' => 'template_structure',
-                                                                    'type' => 'text',
-                                                                    'label' => __('Status Template Settings', 'wp-scheduled-posts'),
-                                                                    'info' => __('Define how to share the content on Instagram by setting the template. <strong>Default Structure: {title}{content}{url}{tags}</strong>', 'wp-scheduled-posts'),
-                                                                    'default' => '{title}{content}{url}{tags}',
-                                                                    'priority' => 15,
-                                                                ],
-                                                                'note_limit' => [
-                                                                    'id' => 'google_business_note_limit',
-                                                                    'name' => 'note_limit',
-                                                                    'type' => 'number',
-                                                                    'label' => __('Status Limit', 'wp-scheduled-posts'),
-                                                                    'priority' => 20,
-                                                                    'default' => '1500',
-                                                                    'max' => '1500',
-                                                                    'help' => __('Max: 1500', 'wp-scheduled-posts'),
-                                                                ],
-                                                                'post_share_limit' => [
-                                                                    'id' => 'google_business_post_share_limit',
-                                                                    'name' => 'post_share_limit',
-                                                                    'type' => 'number',
-                                                                    'label' => __('How often to share a post?', 'wp-scheduled-posts'),
-                                                                    'priority' => 21,
-                                                                    'default' => 0,
-                                                                    'help' => __('Keep zero for no limit', 'wp-scheduled-posts'),
-                                                                ],
-                                                            ]
-                                                        ]
-                                                    ]
-                                                ]
+                                                            /* translators: %s: SchedulePress pricing page */
+                                                            'content'  => sprintf(__('<p>Google Business Profile templates are part of SchedulePress Pro. <a target="_blank" href="%s">Check pricing plans</a> to share your posts there automatically.</p>', 'wp-scheduled-posts'), 'https://schedulepress.com/#pricing'),
+                                                        ],
+                                                    ],
+                                                ],
                                             ]
                                         ],
                                     ]

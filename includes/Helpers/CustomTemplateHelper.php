@@ -239,7 +239,6 @@ class CustomTemplateHelper
             'instagram' => 2200,
             'medium' => 100000,
             'threads' => 500,
-            'google_business' => 1500,
             'bluesky' => 300,
             'mastodon' => 500
         ), \WPSP\Social\Platforms::limits());
@@ -299,7 +298,6 @@ class CustomTemplateHelper
             'instagram' => array(),
             'medium' => array(),
             'threads' => array(),
-            'google_business' => array(),
             'bluesky' => array(),
             'mastodon' => array()
         );

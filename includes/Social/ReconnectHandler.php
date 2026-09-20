@@ -20,7 +20,6 @@ class ReconnectHandler
         'pinterest'       => 'pinterest_profile_list',
         'instagram'       => 'instagram_profile_list',
         'threads'         => 'threads_profile_list',
-        'google_business' => 'google_business_profile_list',
         'bluesky'         => 'bluesky_profile_list',
         'mastodon'        => 'mastodon_profile_list',
     ];
@@ -102,10 +101,6 @@ class ReconnectHandler
         'pinterest'       => 5  * DAY_IN_SECONDS,
         'instagram'       => 10 * DAY_IN_SECONDS,
         'threads'         => 10 * DAY_IN_SECONDS,
-        // Google hands out one-hour access tokens, so the clock this reads is
-        // almost always nearly out. What actually has to stay alive is the
-        // refresh grant, and exercising it once a day is what proves it.
-        'google_business' => 12 * HOUR_IN_SECONDS,
     ];
 
     /**
@@ -181,12 +176,6 @@ class ReconnectHandler
             'linkedin'  => defined('WPSP_SOCIAL_OAUTH2_LINKEDIN_APP_ID') ? WPSP_SOCIAL_OAUTH2_LINKEDIN_APP_ID : '',
             'pinterest' => defined('WPSP_SOCIAL_OAUTH2_PINTEREST_APP_ID') ? WPSP_SOCIAL_OAUTH2_PINTEREST_APP_ID : '',
         ];
-
-        // Left standing for a free build that still defines it; from 5.4.0 the
-        // id arrives through the registry instead.
-        if (defined('WPSP_SOCIAL_OAUTH2_GOOGLE_BUSINESS_APP_ID')) {
-            $app_ids['google_business'] = WPSP_SOCIAL_OAUTH2_GOOGLE_BUSINESS_APP_ID;
-        }
 
         foreach (Platforms::registered() as $slug => $definition) {
             if (!empty($definition['reconnect']['shared_app_id'])) {
@@ -353,7 +342,6 @@ class ReconnectHandler
     const PROVIDER_TOKEN_ENDPOINTS = [
         'linkedin'        => 'https://www.linkedin.com/oauth/v2/accessToken',
         'pinterest'       => 'https://api.pinterest.com/v5/oauth/token',
-        'google_business' => 'https://oauth2.googleapis.com/token',
     ];
 
     /**

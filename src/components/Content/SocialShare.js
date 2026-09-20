@@ -8,7 +8,6 @@ import {
     instagram,
     medium,
     threads,
-    google_business,
     authorIcon,
     facebookWithBG,
     twitterWithBG,
@@ -17,7 +16,6 @@ import {
     instagramWithBG,
     mediumWithBG,
     threadsWithBG,
-    googleMyBusinessWithBG,
     bluesky,
     blueskyWithBG,
     mastodon,
@@ -34,7 +32,6 @@ const PLATFORM_CONFIG = {
     instagram: { label: 'Instagram', icon: instagram, iconWithBG: instagramWithBG },
     medium: { label: 'Medium', icon: medium, iconWithBG: mediumWithBG },
     threads: { label: 'Threads', icon: threads, iconWithBG: threadsWithBG },
-    google_business: { label: 'Google Business', icon: google_business, iconWithBG: googleMyBusinessWithBG },
     bluesky: { label: 'Bluesky', icon: bluesky, iconWithBG: blueskyWithBG },
     mastodon: { label: 'Mastodon', icon: mastodon, iconWithBG: mastodonWithBG },
 };
@@ -47,7 +44,6 @@ const PLATFORM_ORDER = [
     'instagram',
     'medium',
     'threads',
-    'google_business',
     'bluesky',
     'mastodon',
 ];
@@ -204,7 +200,6 @@ const SocialShare = () => {
                         instagram: processProfiles(optionData?.instagram_profile_list),
                         medium: processProfiles(optionData?.medium_profile_list),
                         threads: processProfiles(optionData?.threads_profile_list),
-                        google_business: processProfiles(optionData?.google_business_profile_list),
                         bluesky: processProfiles(optionData?.bluesky_profile_list),
                         mastodon: processProfiles(optionData?.mastodon_profile_list),
                     };

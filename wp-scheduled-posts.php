@@ -133,7 +133,6 @@ final class WPSP
 		define('WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE_DEV', 'https://devapi.schedulepress.com/v2/callback.php');
 		define('WPSP_SOCIAL_OAUTH2_PINTEREST_APP_ID', '1478596');
 		define('WPSP_SOCIAL_OAUTH2_LINKEDIN_APP_ID', '77nbfvpkganvt6');
-		define('WPSP_SOCIAL_OAUTH2_GOOGLE_BUSINESS_APP_ID', '235972035985-30gv7k0vgo7j8gv69ppdphpt3n9fc9hp.apps.googleusercontent.com');
 
 	}
 

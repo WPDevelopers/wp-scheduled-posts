@@ -11,7 +11,6 @@ const useSocialProfiles = () => {
         instagram: [],
         medium: [],
         threads: [],
-        google_business: [],
         bluesky: [],
         mastodon: [],
         // Extension platforms start empty too, live or locked.
@@ -76,7 +75,6 @@ const useSocialProfiles = () => {
                         instagram: processProfiles(response.instagram_profile_list),
                         medium: processProfiles(response.medium_profile_list),
                         threads: processProfiles(response.threads_profile_list),
-                        google_business: processProfiles(response.google_business_profile_list),
                         bluesky: processProfiles(response.bluesky_profile_list),
                         mastodon: processProfiles(response.mastodon_profile_list),
                         ...Object.fromEntries(

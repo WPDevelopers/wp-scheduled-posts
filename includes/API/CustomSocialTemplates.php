@@ -178,7 +178,6 @@ class CustomSocialTemplates
             'instagram' => ['template' => '', 'profiles' => [], 'is_global' => false],
             'medium' => ['template' => '', 'profiles' => [], 'is_global' => false],
             'threads' => ['template' => '', 'profiles' => [], 'is_global' => false],
-            'google_business' => ['template' => '', 'profiles' => [], 'is_global' => false],
             'bluesky' => ['template' => '', 'profiles' => [], 'is_global' => false],
             'mastodon' => ['template' => '', 'profiles' => [], 'is_global' => false]
         );
@@ -700,7 +699,7 @@ class CustomSocialTemplates
      */
     private function valid_platforms() {
         return array_merge(
-            array('facebook', 'twitter', 'linkedin', 'pinterest', 'instagram', 'medium', 'threads', 'google_business', 'bluesky', 'mastodon'),
+            array('facebook', 'twitter', 'linkedin', 'pinterest', 'instagram', 'medium', 'threads', 'bluesky', 'mastodon'),
             \WPSP\Social\Platforms::slugs()
         );
     }
@@ -714,7 +713,6 @@ class CustomSocialTemplates
             'instagram'       => 'Instagram',
             'medium'          => 'Medium',
             'threads'         => 'Threads',
-            'google_business' => 'Google Business',
             'bluesky'         => 'Bluesky',
             'mastodon'        => 'Mastodon',
         );

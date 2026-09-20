@@ -8,8 +8,8 @@ import {
   instagramWithBG,
   mediumWithBG,
   threadsWithBG,
-  googleMyBusinessWithBG,
 } from '../../../icons/icons';
+import { registeredPlatforms, extensionLimits } from '../../../helper/platforms';
 const { __ } = wp.i18n;
 
 // Colored (badge) platform icons for the result cards. The plain icons passed
@@ -23,7 +23,6 @@ const PLATFORM_RESULT_ICONS = {
   instagram: instagramWithBG,
   medium: mediumWithBG,
   threads: threadsWithBG,
-  google_business: googleMyBusinessWithBG,
 };
 
 // Human readable labels for the platform checkboxes shown in the drawer.
@@ -35,7 +34,9 @@ const PLATFORM_LABELS = {
   instagram: 'Instagram',
   medium: 'Medium',
   threads: 'Threads',
-  google_business: 'Google Business',
+  ...Object.fromEntries(
+    Object.entries(registeredPlatforms()).map(([slug, definition]) => [slug, definition.label])
+  ),
 };
 
 // Per-platform character limits — kept in sync with platformLimits in
@@ -48,7 +49,7 @@ const PLATFORM_CHAR_LIMITS = {
   instagram: 2100,
   medium: 45000,
   threads: 480,
-  google_business: 1500,
+  ...extensionLimits(),
 };
 
 const TONE_OPTIONS = [
