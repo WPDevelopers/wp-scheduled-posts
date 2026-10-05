@@ -343,6 +343,30 @@ namespace WPSP\Tests\Stubs {
 			return array_key_exists( $key, $this->params ) ? $this->params[ $key ] : null;
 		}
 	}
+
+	/**
+	 * The current user's capabilities, for current_user_can(). Empty by default,
+	 * so a test grants exactly what the role under test has.
+	 */
+	class CapStore {
+
+		/** @var array<string,bool> */
+		private static $caps = array();
+
+		public static function reset() {
+			self::$caps = array();
+		}
+
+		public static function grant( ...$caps ) {
+			foreach ( $caps as $cap ) {
+				self::$caps[ $cap ] = true;
+			}
+		}
+
+		public static function has( $cap ) {
+			return ! empty( self::$caps[ $cap ] );
+		}
+	}
 }
 
 namespace {
@@ -409,6 +433,18 @@ namespace {
 			}
 			\WPSP\Tests\Stubs\MetaStore::set( (int) $post_id, $key, '' );
 			return true;
+		}
+	}
+
+	if ( ! function_exists( 'current_user_can' ) ) {
+		function current_user_can( $capability, ...$args ) {
+			return \WPSP\Tests\Stubs\CapStore::has( $capability );
+		}
+	}
+
+	if ( ! function_exists( 'get_gmt_from_date' ) ) {
+		function get_gmt_from_date( $date_string, $format = 'Y-m-d H:i:s' ) {
+			return $date_string;
 		}
 	}
 
