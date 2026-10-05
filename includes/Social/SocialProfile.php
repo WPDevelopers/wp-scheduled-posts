@@ -846,48 +846,47 @@ class SocialProfile
             $profile_data  = ! empty( $profiles['data'] ) ? $profiles['data'] : [];
             $token_data    = ! empty( $profiles['token_data'] ) ? $profiles['token_data'] : [];
             $profile_array = array();
+            $error         = ! empty( $profiles['message'] ) ? $profiles['message'] : '';
+            $accounts      = ( is_object( $profile_data ) && ! empty( $profile_data->accounts ) && is_array( $profile_data->accounts ) ) ? $profile_data->accounts : array();
 
-            if ( ! empty( $profile_data ) && is_object( $profile_data ) ) {
-                // take the first account (you said there's always one)
-                $account = ! empty( $profile_data->accounts[0] ) ? $profile_data->accounts[0] : null;
+            if ( $accounts ) {
+                // apply token fallbacks
+                $access_token  = ! empty( $token_data->access_token ) ? $token_data->access_token : $access_token;
+                $refresh_token = ! empty( $token_data->refresh_token ) ? $token_data->refresh_token : $refresh_token;
+            }
 
-                if ( $account ) {
-                    // apply token fallbacks
-                    $access_token  = ! empty( $token_data->access_token ) ? $token_data->access_token : $access_token;
-                    $refresh_token = ! empty( $token_data->refresh_token ) ? $token_data->refresh_token : $refresh_token;
-                    $account_id    = $account->name; // e.g., "accounts/1234567890"
+            // A business can sit in any account, e.g. a business group rather than the personal one.
+            foreach ( $accounts as $account ) {
+                $account_id = $account->name; // e.g., "accounts/1234567890"
 
-                    // fetch ALL locations for this account
-                    $locations = $this->fetchLocations( $access_token, $account_id );
+                // fetch ALL locations for this account
+                $locations = $this->fetchLocations( $access_token, $account_id, $error );
 
-                    if ( ! empty( $locations ) ) {
-                        foreach ( $locations as $loc ) {
-                            $location_id   = $loc['resource_name'];
-                            $business_name = ! empty( $loc['title'] ) ? $loc['title'] : ( $account->accountName ?? 'Unknown' );
+                foreach ( $locations as $loc ) {
+                    $location_id   = $loc['resource_name'];
+                    $business_name = ! empty( $loc['title'] ) ? $loc['title'] : ( $account->accountName ?? 'Unknown' );
 
-                            // get thumbnail per location (if your function supports location resource name)
-                            $uploaded_image_url = $this->fetchProfilePictureUrl( $account_id, $location_id, $access_token );
+                    // get thumbnail per location (if your function supports location resource name)
+                    $uploaded_image_url = $this->fetchProfilePictureUrl( $account_id, $location_id, $access_token );
 
-                            // Use location resource name as unique id (recommended)
-                            $profile_array[] = array(
-                                'id'            => $location_id,
-                                'account_id'    => $account_id,
-                                'app_id'        => $app_id,
-                                'app_secret'    => $app_secret,
-                                'name'          => $business_name,
-                                'thumbnail_url' => ! empty( $uploaded_image_url ) ? $uploaded_image_url : '',
-                                'type'          => 'profile',
-                                'location_id'   => $location_id,
-                                'status'        => true,
-                                'access_token'  => $access_token,
-                                'refresh_token' => $refresh_token,
-                                'rt_expires_in' => $rt_expires_in,
-                                'expires_in'    => $expires_in,
-                                'added_by'      => $current_user->user_login,
-                                'added_date'    => current_time( 'mysql' ),
-                            );
-                        }
-                    }
+                    // Use location resource name as unique id (recommended)
+                    $profile_array[] = array(
+                        'id'            => $location_id,
+                        'account_id'    => $account_id,
+                        'app_id'        => $app_id,
+                        'app_secret'    => $app_secret,
+                        'name'          => $business_name,
+                        'thumbnail_url' => ! empty( $uploaded_image_url ) ? $uploaded_image_url : '',
+                        'type'          => 'profile',
+                        'location_id'   => $location_id,
+                        'status'        => true,
+                        'access_token'  => $access_token,
+                        'refresh_token' => $refresh_token,
+                        'rt_expires_in' => $rt_expires_in,
+                        'expires_in'    => $expires_in,
+                        'added_by'      => $current_user->user_login,
+                        'added_date'    => current_time( 'mysql' ),
+                    );
                 }
             }
              // response
@@ -896,6 +895,10 @@ class SocialProfile
                 'profiles' => $profile_array,
                 'type'     => 'google_business',
             );
+            // Say why the list is empty instead of only "no profiles found".
+            if ( empty( $profile_array ) && $error ) {
+                $response['error'] = $error;
+            }
             wp_send_json($response);
             wp_die();
         }
@@ -904,44 +907,80 @@ class SocialProfile
     }
 
 
-    public function fetchLocations( $access_token, $account_id ) {
-        $locations = array();
-    
-        $url = sprintf(
-            'https://mybusinessbusinessinformation.googleapis.com/v1/%s/locations?readMask=name,title&pageSize=100',
-            $account_id
-        );
-    
-        $response = wp_remote_get(
-            $url,
-            array(
-                'headers' => array(
-                    'Authorization' => 'Bearer ' . $access_token,
-                    'Accept'        => 'application/json',
-                ),
-                'timeout' => 15,
-            )
-        );
-    
-        if ( is_wp_error( $response ) ) {
-            return $locations; // empty
-        }
-    
-        $body = json_decode( wp_remote_retrieve_body( $response ), true );
-    
-        if ( ! empty( $body['locations'] ) && is_array( $body['locations'] ) ) {
-            foreach ( $body['locations'] as $loc ) {
-                $locations[] = array(
-                    'resource_name' => ! empty( $loc['name'] ) ? $loc['name'] : '',
-                    'title'         => ! empty( $loc['title'] ) ? $loc['title'] : '',
-                    'raw'           => $loc, // optional: keep the whole payload if needed
-                );
+    public function fetchLocations( $access_token, $account_id, &$error = null ) {
+        $locations  = array();
+        $page_token = '';
+
+        // Google returns at most 100 locations per page.
+        for ( $page = 0; $page < 10; $page++ ) {
+            $url = sprintf(
+                'https://mybusinessbusinessinformation.googleapis.com/v1/%s/locations?readMask=name,title&pageSize=100',
+                $account_id
+            );
+            if ( $page_token ) {
+                $url .= '&pageToken=' . rawurlencode( $page_token );
             }
+
+            $response = wp_remote_get(
+                $url,
+                array(
+                    'headers' => array(
+                        'Authorization' => 'Bearer ' . $access_token,
+                        'Accept'        => 'application/json',
+                    ),
+                    'timeout' => 15,
+                )
+            );
+
+            if ( is_wp_error( $response ) || 200 != wp_remote_retrieve_response_code( $response ) ) {
+                $error = $this->googleErrorMessage( $response, __( 'Failed to retrieve locations.', 'wp-scheduled-posts' ) );
+                break;
+            }
+
+            $body = json_decode( wp_remote_retrieve_body( $response ), true );
+
+            if ( ! empty( $body['locations'] ) && is_array( $body['locations'] ) ) {
+                foreach ( $body['locations'] as $loc ) {
+                    $locations[] = array(
+                        'resource_name' => ! empty( $loc['name'] ) ? $loc['name'] : '',
+                        'title'         => ! empty( $loc['title'] ) ? $loc['title'] : '',
+                        'raw'           => $loc, // optional: keep the whole payload if needed
+                    );
+                }
+            }
+
+            if ( empty( $body['nextPageToken'] ) ) {
+                break;
+            }
+            $page_token = $body['nextPageToken'];
         }
-    
+
         return $locations;
     }
-    
+
+    /**
+     * Google's own error message from a failed request, or $fallback.
+     *
+     * @param array|\WP_Error $response
+     * @param string          $fallback
+     * @return string
+     */
+    private function googleErrorMessage( $response, $fallback ) {
+        if ( is_wp_error( $response ) ) {
+            return $response->get_error_message();
+        }
+
+        $body = json_decode( wp_remote_retrieve_body( $response ) );
+        if ( ! empty( $body->error->message ) ) {
+            return $body->error->message;
+        }
+        if ( ! empty( $body->error_description ) ) {
+            return $body->error_description;
+        }
+
+        return $fallback;
+    }
+
 
     public function fetchProfilePictureUrl($account_id, $location_id, $access_token) {
         $response = wp_remote_get(
@@ -956,8 +995,10 @@ class SocialProfile
         $thumbnailUrl = '';
         if (!is_wp_error($response)) {
         $body = json_decode(wp_remote_retrieve_body($response), true);
-        foreach ($body['mediaItems'] as $mediaItem) { 
-            if (!empty($mediaItem['thumbnailUrl']) && $mediaItem['locationAssociation']['category'] === 'PROFILE') {
+        // A location without photos has no mediaItems; a warning here would break the JSON reply.
+        $mediaItems = !empty($body['mediaItems']) && is_array($body['mediaItems']) ? $body['mediaItems'] : array();
+        foreach ($mediaItems as $mediaItem) {
+            if (!empty($mediaItem['thumbnailUrl']) && isset($mediaItem['locationAssociation']['category']) && $mediaItem['locationAssociation']['category'] === 'PROFILE') {
                 $thumbnailUrl = $mediaItem['thumbnailUrl'];
                 break;
             }
@@ -973,7 +1014,7 @@ class SocialProfile
      * @param string $client_secret Google API client secret.
      * @param string $code Authorization code received from Google OAuth.
      * @param string $redirect_uri Redirect URI used during authorization.
-     * @return array|false Returns an array containing profile data or false on failure.
+     * @return array Profile data, or 'error' => true with Google's message.
      */
     public function getGoogleMyBusinessProfile($client_id, $client_secret, $code, $redirect_uri)
     {
@@ -990,54 +1031,20 @@ class SocialProfile
             ],
         ]);
 
-        if (is_wp_error($response)) {
-            return false;
-        }
-
-        $body = wp_remote_retrieve_body($response);
-        $token_data = json_decode($body);
+        $token_data = is_wp_error($response) ? null : json_decode(wp_remote_retrieve_body($response));
 
         if (empty($token_data->access_token)) {
-            return false;
-        }
-
-        $access_token = $token_data->access_token;
-
-        // Step 2: Fetch Google My Business account/profile information
-        $profile_url = add_query_arg([], 'https://mybusinessbusinessinformation.googleapis.com/v1/accounts');
-
-        $profile_response = wp_remote_get($profile_url, [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $access_token,
-            ],
-        ]);
-        $response_code = wp_remote_retrieve_response_code($profile_response);
-        if (is_wp_error($profile_response) || $response_code != 200) {
-            $error_message = 'Failed to retrieve profile data.';
-
-            // Try to get error message from Google response body
-            $error_body = wp_remote_retrieve_body($profile_response);
-            if (!empty($error_body)) {
-                $error_data = json_decode($error_body);
-                if (!empty($error_data->error->message)) {
-                    $error_message = $error_data->error->message;
-                }
-            }
-
             return [
                 'error'   => true,
-                'message' => $error_message,
+                'message' => $this->googleErrorMessage($response, __('Could not get an access token from Google.', 'wp-scheduled-posts')),
             ];
         }
 
-        $profile_body = wp_remote_retrieve_body($profile_response);
-        $profile_data = json_decode($profile_body);
+        // Step 2: Fetch Google My Business account/profile information
+        $profiles               = $this->fetchGoogleAccounts($token_data->access_token);
+        $profiles['token_data'] = $token_data;
 
-        return [
-            'error'      => false,
-            'data'       => $profile_data,
-            'token_data' => $token_data,
-        ];
+        return $profiles;
     }
 
     /**
@@ -1047,40 +1054,62 @@ class SocialProfile
      */
     public function getGoogleMyBusinessProfileByToken($access_token)
     {
-        // Step 2: Fetch Google My Business account/profile information
-        $profile_url = add_query_arg([], 'https://mybusinessbusinessinformation.googleapis.com/v1/accounts');
+        return $this->fetchGoogleAccounts($access_token);
+    }
 
-        $profile_response = wp_remote_get($profile_url, [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $access_token,
-            ],
-        ]);
-        $response_code = wp_remote_retrieve_response_code($profile_response);
-        if (is_wp_error($profile_response) || $response_code != 200) {
-            $error_message = 'Failed to retrieve profile data.';
+    /**
+     * Every Business Profile account the token can see, business groups included.
+     *
+     * @param string $access_token
+     * @return array
+     */
+    private function fetchGoogleAccounts($access_token)
+    {
+        // The documented endpoint first; the old one stays as a fallback for apps that only enabled it.
+        $endpoints = [
+            'https://mybusinessaccountmanagement.googleapis.com/v1/accounts',
+            'https://mybusinessbusinessinformation.googleapis.com/v1/accounts',
+        ];
+        $error_message = '';
 
-            // Try to get error message from Google response body
-            $error_body = wp_remote_retrieve_body($profile_response);
-            if (!empty($error_body)) {
-                $error_data = json_decode($error_body);
-                if (!empty($error_data->error->message)) {
-                    $error_message = $error_data->error->message;
+        foreach ($endpoints as $endpoint) {
+            $accounts   = [];
+            $page_token = '';
+
+            // Google returns at most 20 accounts per page.
+            for ($page = 0; $page < 10; $page++) {
+                $url = $endpoint . '?pageSize=20' . ($page_token ? '&pageToken=' . rawurlencode($page_token) : '');
+
+                $profile_response = wp_remote_get($url, [
+                    'headers' => [
+                        'Authorization' => 'Bearer ' . $access_token,
+                    ],
+                ]);
+                if (is_wp_error($profile_response) || wp_remote_retrieve_response_code($profile_response) != 200) {
+                    // Keep the documented endpoint's error: it is the one worth acting on.
+                    $error_message = $error_message ?: $this->googleErrorMessage($profile_response, __('Failed to retrieve profile data.', 'wp-scheduled-posts'));
+                    continue 2;
                 }
+
+                $body = json_decode(wp_remote_retrieve_body($profile_response));
+                if (!empty($body->accounts) && is_array($body->accounts)) {
+                    $accounts = array_merge($accounts, $body->accounts);
+                }
+                if (empty($body->nextPageToken)) {
+                    break;
+                }
+                $page_token = $body->nextPageToken;
             }
 
             return [
-                'error'   => true,
-                'message' => $error_message,
+                'error' => false,
+                'data'  => (object) ['accounts' => $accounts],
             ];
         }
 
-        $profile_body = wp_remote_retrieve_body($profile_response);
-        $profile_data = json_decode($profile_body);
-
         return [
-            'error'      => false,
-            'data'       => $profile_data,
-            'token_data' => $token_data,
+            'error'   => true,
+            'message' => $error_message,
         ];
     }
 
