@@ -34,7 +34,7 @@ const closeSchedulePressModal = () => {
     document.body.style.overflow = '';
 };
 
-const PublishImmediately = ({ state, dispatch, postId, publishImmediatelyBtn, publishFutureDateBtn }) => {
+const PublishImmediately = ({ state, dispatch, postId, publishImmediatelyBtn, publishFutureDateBtn, onPublished }) => {
     const [isPublishingCurrentDate, setIsPublishingCurrentDate] = useState(false);
     const [isPublishingFutureDate, setIsPublishingFutureDate] = useState(false);
 
@@ -45,6 +45,7 @@ const PublishImmediately = ({ state, dispatch, postId, publishImmediatelyBtn, pu
         }).then(() => {
             showCustomToast('success', 'Post published using Current Date.');
             closeSchedulePressModal();
+            if (typeof onPublished === 'function') onPublished();
         }).catch((error) => {
             showCustomToast('error', 'Failed to publish using Current Date.');
             console.log(error);
@@ -60,6 +61,7 @@ const PublishImmediately = ({ state, dispatch, postId, publishImmediatelyBtn, pu
         }).then(() => {
             showCustomToast('success', 'Post published using Future Date.');
             closeSchedulePressModal();
+            if (typeof onPublished === 'function') onPublished();
         }).catch((error) => {
             showCustomToast('error', 'Failed to publish using Future Date.');
             console.log(error);
