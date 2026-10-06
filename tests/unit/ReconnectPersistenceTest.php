@@ -7,6 +7,8 @@
  * returned a bare boolean, which could not distinguish "the profile is not in
  * settings" or "the write failed" from "the value did not need changing".
  *
+ * The method is deprecated; ReconnectRenewTest covers the path the button uses.
+ *
  * @package WPScheduledPosts
  */
 

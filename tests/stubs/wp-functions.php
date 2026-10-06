@@ -442,3 +442,62 @@ namespace {
 		}
 	}
 }
+
+namespace WPSP\Tests\Stubs {
+
+	/**
+	 * Canned responses for wp_remote_get(), matched by URL prefix and used in order.
+	 */
+	class HttpStore {
+
+		/** @var array<string,array[]> URL prefix => responses still to hand out */
+		private static $routes = array();
+
+		/** @var string[] URLs requested, in order */
+		public static $requests = array();
+
+		public static function reset() {
+			self::$routes   = array();
+			self::$requests = array();
+		}
+
+		public static function on( $url_prefix, array $responses ) {
+			self::$routes[ $url_prefix ] = $responses;
+		}
+
+		public static function json( $code, $data ) {
+			return array( 'response' => array( 'code' => $code ), 'body' => json_encode( $data ) );
+		}
+
+		public static function get( $url ) {
+			self::$requests[] = $url;
+			foreach ( array_keys( self::$routes ) as $prefix ) {
+				if ( 0 === strpos( $url, $prefix ) && self::$routes[ $prefix ] ) {
+					return array_shift( self::$routes[ $prefix ] );
+				}
+			}
+			return self::json( 404, array( 'error' => array( 'message' => 'No canned response for ' . $url ) ) );
+		}
+	}
+}
+
+namespace {
+
+	if ( ! function_exists( 'wp_remote_get' ) ) {
+		function wp_remote_get( $url, $args = array() ) {
+			return \WPSP\Tests\Stubs\HttpStore::get( $url );
+		}
+	}
+
+	if ( ! function_exists( 'wp_remote_retrieve_response_code' ) ) {
+		function wp_remote_retrieve_response_code( $response ) {
+			return is_array( $response ) && isset( $response['response']['code'] ) ? $response['response']['code'] : '';
+		}
+	}
+
+	if ( ! function_exists( 'wp_remote_retrieve_body' ) ) {
+		function wp_remote_retrieve_body( $response ) {
+			return is_array( $response ) && isset( $response['body'] ) ? $response['body'] : '';
+		}
+	}
+}
