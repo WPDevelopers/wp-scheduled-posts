@@ -69,6 +69,10 @@ class Calendar
      * @return bool
      */
     public function edit_permission_callback($request) {
+        // The Calendar menu only shows for allowed roles; refuse the rest here too.
+        if (!Helper::is_user_allow()) {
+            return false;
+        }
         $id = $request->get_param('ID');
         if(!empty($id)){
             if (!current_user_can('edit_post', $id)) {

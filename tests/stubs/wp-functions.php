@@ -367,6 +367,46 @@ namespace WPSP\Tests\Stubs {
 			return ! empty( self::$caps[ $cap ] );
 		}
 	}
+
+	/**
+	 * The logged-in user and SchedulePress's "Allow users" roles, the two
+	 * things Helper::is_user_allow() reads.
+	 */
+	class UserStore {
+
+		public static function login( $id, ...$roles ) {
+			$GLOBALS['current_user'] = (object) array( 'ID' => $id, 'roles' => $roles );
+		}
+
+		public static function allowRoles( ...$roles ) {
+			if ( ! defined( 'WPSP_SETTINGS_NAME' ) ) {
+				define( 'WPSP_SETTINGS_NAME', 'wpsp_settings_v5' );
+			}
+			OptionStore::seed( WPSP_SETTINGS_NAME, json_encode( array( 'allow_user_by_role' => $roles ) ) );
+		}
+	}
+
+	/**
+	 * Thrown by the wp_send_json_* stubs where WordPress would print and die.
+	 */
+	class JsonResponse extends \Exception {
+
+		/** @var bool */
+		public $success;
+
+		/** @var mixed */
+		public $data;
+
+		/** @var int|null */
+		public $status;
+
+		public function __construct( $success, $data, $status ) {
+			parent::__construct( 'wp_send_json' );
+			$this->success = $success;
+			$this->data    = $data;
+			$this->status  = $status;
+		}
+	}
 }
 
 namespace {
@@ -439,6 +479,37 @@ namespace {
 	if ( ! function_exists( 'current_user_can' ) ) {
 		function current_user_can( $capability, ...$args ) {
 			return \WPSP\Tests\Stubs\CapStore::has( $capability );
+		}
+	}
+
+	if ( ! function_exists( 'is_super_admin' ) ) {
+		// On a single site WordPress counts anyone who can delete users.
+		function is_super_admin( $user_id = false ) {
+			return \WPSP\Tests\Stubs\CapStore::has( 'delete_users' );
+		}
+	}
+
+	if ( ! function_exists( 'absint' ) ) {
+		function absint( $maybeint ) {
+			return abs( (int) $maybeint );
+		}
+	}
+
+	if ( ! function_exists( 'wp_parse_args' ) ) {
+		function wp_parse_args( $args, $defaults = array() ) {
+			return array_merge( $defaults, (array) $args );
+		}
+	}
+
+	if ( ! function_exists( 'check_ajax_referer' ) ) {
+		function check_ajax_referer( $action = -1, $query_arg = false, $stop = true ) {
+			return 1;
+		}
+	}
+
+	if ( ! function_exists( 'wp_send_json_error' ) ) {
+		function wp_send_json_error( $data = null, $status_code = null, $flags = 0 ) {
+			throw new \WPSP\Tests\Stubs\JsonResponse( false, $data, $status_code );
 		}
 	}
 

@@ -1303,6 +1303,13 @@ class Admin
                 'wpsp_el_pinterest_board' => [],
             ]);
 
+            // The editor panel only loads for allowed roles; refuse the rest here too.
+            if (!Helper::is_user_allow()) {
+                wp_send_json_error([
+                    'msg' => __('Your role is not allowed to use SchedulePress.', 'wp-scheduled-posts')
+                ], 403);
+            }
+
             // The nonce is not tied to a post, so check the user may publish this one.
             if (!empty($args['id']) && (!current_user_can('edit_post', absint($args['id'])) || !current_user_can('publish_post', absint($args['id'])))) {
                 wp_send_json_error([
