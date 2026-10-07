@@ -373,13 +373,60 @@ class Settings
                     }, $option_value[$list_key]);
                 }
             }
-            $option_value = json_encode($option_value);
+            $option_value = json_encode( self::public_option_data( (array) $option_value ) );
             return rest_ensure_response($option_value);
         } else {
-            return new \WP_Error('option_not_found', 'Option not found', array('status' => 40));
+            return new \WP_Error('option_not_found', 'Option not found', array('status' => 404));
         }
     }
-    
+
+    /**
+     * Keep only what the post panel and template modal read, without secrets.
+     *
+     * @param array $settings Decoded wpsp_settings_v5.
+     * @return array
+     */
+    public static function public_option_data( array $settings ) {
+        $keys = array(
+            'facebook_profile_list',
+            'twitter_profile_list',
+            'linkedin_profile_list',
+            'pinterest_profile_list',
+            'instagram_profile_list',
+            'medium_profile_list',
+            'threads_profile_list',
+            'google_business_profile_list',
+            'bluesky_profile_list',
+            'mastodon_profile_list',
+            // Pro 5.0.4-5.2.5 reads this in the block editor.
+            'post_republish_unpublish',
+        );
+        $public = array_intersect_key( $settings, array_flip( $keys ) );
+        foreach ( $public as $key => $value ) {
+            if ( is_array( $value ) ) {
+                $public[ $key ] = self::without_secrets( $value );
+            }
+        }
+        return $public;
+    }
+
+    /**
+     * Drop token, secret, password and app/client id fields at any depth.
+     *
+     * @param array $data Settings fragment.
+     * @return array
+     */
+    private static function without_secrets( array $data ) {
+        foreach ( $data as $key => $value ) {
+            if ( is_string( $key ) && preg_match( '/token|secret|password|api_?key|^(app|client)_id$/i', $key ) ) {
+                unset( $data[ $key ] );
+            } elseif ( is_array( $value ) ) {
+                $data[ $key ] = self::without_secrets( $value );
+            }
+        }
+        return $data;
+    }
+
 
     /**
      * Return an instance of this class.
