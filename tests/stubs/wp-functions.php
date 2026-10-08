@@ -318,7 +318,7 @@ namespace WPSP\Tests\Stubs {
 			if ( self::$failUpdateWith ) {
 				return new \WP_Error( self::$failUpdateWith, 'Simulated update failure.' );
 			}
-			foreach ( array( 'post_status', 'post_date', 'post_date_gmt' ) as $field ) {
+			foreach ( array( 'post_status', 'post_date', 'post_date_gmt', 'post_author', 'post_type' ) as $field ) {
 				if ( isset( $args[ $field ] ) ) {
 					self::$posts[ $id ]->{$field} = $args[ $field ];
 				}

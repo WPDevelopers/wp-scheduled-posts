@@ -75,8 +75,24 @@ class CalendarPermissionTest extends TestCase {
 		return array(
 			'edit a draft'          => array( 'editDraft' ),
 			'drop back to drafts'   => array( 'draftDrop' ),
-			'drop on the trash'     => array( 'trashDrop' ),
 		);
+	}
+
+	public function test_trash_drop_needs_the_right_to_delete_the_post() {
+		CapStore::grant( 'edit_post' );
+		$this->assertFalse( $this->allowed( 'trashDrop' ) );
+
+		CapStore::grant( 'delete_post' );
+		$this->assertTrue( $this->allowed( 'trashDrop' ) );
+	}
+
+	public function test_delete_route_refuses_a_role_not_in_allow_users() {
+		CapStore::grant( 'delete_post' );
+		$request = new FakeRequest( array( 'ID' => 7 ) );
+		$this->assertTrue( $this->calendar->delete_permission_callback( $request ) );
+
+		UserStore::allowRoles( 'administrator' );
+		$this->assertFalse( $this->calendar->delete_permission_callback( $request ) );
 	}
 
 	public function test_user_who_cannot_edit_the_post_is_still_refused() {
@@ -96,14 +112,14 @@ class CalendarPermissionTest extends TestCase {
 	 * @dataProvider every_write_type
 	 */
 	public function test_role_not_in_allow_users_cannot_change_posts_from_the_calendar( $type ) {
-		CapStore::grant( 'edit_post', 'publish_post', 'publish_posts' );
+		CapStore::grant( 'edit_post', 'publish_post', 'publish_posts', 'delete_post' );
 		UserStore::allowRoles( 'administrator' );
 
 		$this->assertFalse( $this->allowed( $type ) );
 	}
 
 	public function every_write_type() {
-		return array_merge( $this->scheduling_types(), $this->draft_types() );
+		return array_merge( $this->scheduling_types(), $this->draft_types(), array( 'drop on the trash' => array( 'trashDrop' ) ) );
 	}
 
 	public function test_role_not_in_allow_users_cannot_add_a_post_from_the_calendar() {

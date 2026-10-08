@@ -182,8 +182,8 @@ callbacks are per-route; the post-mutating routes verify per-post capabilities
 | `POST` | `wpscp/v1/posts` | `get_draft_posts` | `validate_user_post_access` | Draft posts for the unscheduled drafts drawer. |
 | `GET` | `wpscp/v1/get_tax_terms` | `get_tax_terms` | `permission_callback` | Taxonomy terms for calendar filters. |
 | `GET` | `wpscp/v1/post` | `quick_edit_get_post` | `quick_edit_get_permission_callback` | Fetch a single post for quick edit. |
-| `PUT`/`PATCH` | `wpscp/v1/post` | `calender_ajax_request_php` | `edit_permission_callback` (`edit_post` on `postId`) | Reschedule / quick-edit a post (drag-and-drop). |
-| `DELETE` | `wpscp/v1/post` | `delete_event_action` | `delete_permission_callback` (`delete_post` on `ID`) | Delete a post from the calendar. |
+| `PUT`/`PATCH` | `wpscp/v1/post` | `calender_ajax_request_php` | `edit_permission_callback` (`edit_post` on `postId`) | Reschedule / quick-edit a post (drag-and-drop). An update keeps the post's own author and type; `post_type` from the request is used only for new posts (card 84790). |
+| `DELETE` | `wpscp/v1/post` | `delete_event_action` | `delete_permission_callback` (`delete_post` on `ID`, and a role in Allow users) | Delete a post from the calendar. |
 | `GET` | `wpscp/v1/scf-fields` | `wpscp_register_scf_fields_rest_route` | `edit_posts` | ACF/SCF field groups for a post type (empty when ACF is inactive). |
 
 Calendar drag-and-drop reschedules run through the

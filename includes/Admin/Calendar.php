@@ -78,8 +78,11 @@ class Calendar
             if (!current_user_can('edit_post', $id)) {
                 return false;
             }
+            if ('trashDrop' === $request->get_param('type')) {
+                return current_user_can('delete_post', $id);
+            }
             // Every other type schedules the post, which needs publish rights.
-            $draft_types = ['newDraft', 'editDraft', 'draftDrop', 'trashDrop'];
+            $draft_types = ['newDraft', 'editDraft', 'draftDrop'];
             if (!in_array($request->get_param('type'), $draft_types, true)) {
                 return current_user_can('publish_post', $id);
             }
@@ -103,7 +106,7 @@ class Calendar
      * @return bool
      */
     public function delete_permission_callback($request) {
-        return current_user_can('delete_post', $request->get_param('ID'));
+        return Helper::is_user_allow() && current_user_can('delete_post', $request->get_param('ID'));
     }
 
     public function wpscp_register_custom_route()
@@ -669,6 +672,10 @@ class Calendar
         $postid      = $request->get_param('ID');
         $postTitle   = $request->get_param('postTitle');
         $postContent = $request->get_param('postContent');
+        // An update keeps the post's own type; the request must not convert it.
+        if (!empty($postid)) {
+            $post_type = get_post_type($postid);
+        }
         if(!in_array($post_type, $allow_post_types)){
             return new WP_Error('rest_post_update_error', __('Post type isn\'t allowed in Settings page.', 'wp-scheduled-posts'), array('status' => 400));
         }
@@ -696,7 +703,6 @@ class Calendar
                     'post_title'    => wp_strip_all_tags($postTitle),
                     'post_content'  => $postContent,
                     'post_status'   => 'future',
-                    'post_author'   => get_current_user_id(),
                     'post_date'     => (isset($postdateformat) ? $postdateformat : ''),
                     'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''),
                     'edit_date'     => true,
@@ -787,7 +793,6 @@ class Calendar
                 'post_title'    => wp_strip_all_tags($postTitle),
                 'post_content'  => $postContent,
                 'post_status'   => 'draft',
-                'post_author'   => get_current_user_id(),
                 'post_date'     => (isset($postdateformat) ? $postdateformat : ''),
                 'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''),
                 'edit_date'     => true,
