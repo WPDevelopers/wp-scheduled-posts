@@ -299,7 +299,7 @@ class Twitter
                 $reason = $body->detail;
             } elseif (!empty($body->title) && is_string($body->title)) {
                 $reason = $body->title;
-            } elseif (!empty($body->errors[0]->message) && is_string($body->errors[0]->message)) {
+            } elseif (isset($body->errors) && is_array($body->errors) && !empty($body->errors[0]->message) && is_string($body->errors[0]->message)) {
                 $reason = $body->errors[0]->message;
             }
         }

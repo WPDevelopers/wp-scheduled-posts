@@ -47,6 +47,11 @@ class TwitterErrorMessageTest extends TestCase {
 		$this->assertSame( 'Twitter Connection Problem. error code: 500', Twitter::error_message( 500, (object) array( 'detail' => array( 'x' ) ) ) );
 	}
 
+	public function test_errors_that_are_not_a_list_give_the_old_message() {
+		$this->assertSame( 'Twitter Connection Problem. error code: 400', Twitter::error_message( 400, (object) array( 'errors' => (object) array( 'message' => 'Bad' ) ) ) );
+		$this->assertSame( 'Twitter Connection Problem. error code: 400', Twitter::error_message( 400, (object) array( 'errors' => 'Bad' ) ) );
+	}
+
 	public function test_markup_in_the_reason_is_stripped() {
 		$message = Twitter::error_message( 400, (object) array( 'detail' => '<b>Invalid</b> request' ) );
 
