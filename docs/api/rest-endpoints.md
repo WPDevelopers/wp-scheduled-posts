@@ -49,8 +49,8 @@ The settings collection path defaults to `/settings/` but is filterable via the
 | Method | Route | Callback | Response |
 | --- | --- | --- | --- |
 | `GET` | `wp-scheduled-posts/v1/settings/` | `get_value` | `{ success: true, value: <json-string> }` — the raw `wpsp_settings_v5` option (empty string when unset). |
-| `POST` | `wp-scheduled-posts/v1/settings/` | `update_value` | `{ success: bool, value: <params> }` |
-| `PUT`/`PATCH` | `wp-scheduled-posts/v1/settings/` | `update_value` | `{ success: bool, value: <params> }` |
+| `POST` | `wp-scheduled-posts/v1/settings/` | `update_value` | `{ success: bool, value: <params> }`. Merges the JSON body into the stored option (`Settings::merge_settings()`); keys not sent are kept. A profile already in a `*_profile_list` keeps its stored credentials (tokens, secrets, app/client ids, expiry, `renewal_failed`), which only the connect, reconnect and renewal code write. The settings screen posts only the fields the user changed, and nothing on load (card 84789). |
+| `PUT`/`PATCH` | `wp-scheduled-posts/v1/settings/` | `update_value` | Same as `POST`. |
 | `DELETE` | `wp-scheduled-posts/v1/settings/` | `delete_value` | `{ success: bool, value: "" }` |
 
 `update_value` merges defaults for `allow_post_types` / `allow_categories` /
