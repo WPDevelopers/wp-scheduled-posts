@@ -276,6 +276,8 @@ class Threads
                                     'share_id'     => $publish_body->id,
                                     'publish_date' => time(),
                                 ];
+                                // Count the share, or post_share_limit never applies.
+                                $this->save_metabox_social_share_metabox($post_id, $response, $profile_key, $ID);
                             } else {
                                 throw new \Exception('Publishing failed: Response ID missing.');
                             }
