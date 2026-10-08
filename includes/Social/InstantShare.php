@@ -631,7 +631,7 @@ class InstantShare
             $markup .= esc_html__("Failed!, You didn't select any social media.", 'wp-scheduled-posts');
         }
 
-        wp_send_json(array('markup' => $markup, 'profile' => $allProfile));
+        wp_send_json(array('markup' => $markup, 'profile' => \WPSP\API\Settings::without_secrets($allProfile)));
         wp_die();
     }
 

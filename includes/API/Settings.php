@@ -413,18 +413,20 @@ class Settings
     /**
      * Drop token, secret, password and app/client id fields at any depth.
      *
-     * @param array $data Settings fragment.
-     * @return array
+     * @param array|object $data Settings fragment; objects come back as copies.
+     * @return array|object
      */
-    private static function without_secrets( array $data ) {
+    public static function without_secrets( $data ) {
+        $is_object = is_object( $data );
+        $data      = (array) $data;
         foreach ( $data as $key => $value ) {
             if ( is_string( $key ) && preg_match( '/token|secret|password|api_?key|^(app|client)_id$/i', $key ) ) {
                 unset( $data[ $key ] );
-            } elseif ( is_array( $value ) ) {
+            } elseif ( is_array( $value ) || is_object( $value ) ) {
                 $data[ $key ] = self::without_secrets( $value );
             }
         }
-        return $data;
+        return $is_object ? (object) $data : $data;
     }
 
 

@@ -58,7 +58,7 @@ Each platform class follows the same shape:
 
 ### InstantShare (Share Now)
 
-[InstantShare.php](../../includes/Social/InstantShare.php) adds the classic-editor "Social Share Settings" metabox and its persistence, and registers the AJAX endpoints `wp_ajax_wpscp_instant_share_fetch_profile` and `wp_ajax_wpscp_instant_social_single_profile_share` (also exposed as the `wpsp_instant_social_single_profile_share` action). Each call dispatches to the relevant platform's `socialMediaInstantShare()` and returns per-profile success/failure for the status modal.
+[InstantShare.php](../../includes/Social/InstantShare.php) adds the classic-editor "Social Share Settings" metabox and its persistence, and registers the AJAX endpoints `wp_ajax_wpscp_instant_share_fetch_profile` and `wp_ajax_wpscp_instant_social_single_profile_share` (also exposed as the `wpsp_instant_social_single_profile_share` action). Each call dispatches to the relevant platform's `socialMediaInstantShare()` and returns per-profile success/failure for the status modal. `wpscp_instant_share_fetch_profile` returns each profile without its token, secret and app/client id fields (`Settings::without_secrets()`, card 84788). No 5.3.x screen calls it; the post panel shares through the `instant-social-share` REST route.
 
 ## Shared logic — the `SocialHelper` trait
 

@@ -94,6 +94,20 @@ class OptionDataSecretsTest extends TestCase {
 		$this->assertSame( 'me.bsky.social', $public['bluesky_profile_list'][0]['handle'] );
 	}
 
+	public function test_strips_profile_objects_from_instant_share_without_changing_them() {
+		$pin     = (object) array( 'name' => 'Pin', 'status' => true, 'access_token' => 't', 'app_secret' => 's', 'default_board_name' => (object) array( 'value' => 'b1' ), 'auth' => (object) array( 'refresh_token' => 'r' ) );
+		$profile = array( 'pinterest' => array( 3 => $pin ) );
+
+		$public = Settings::without_secrets( $profile );
+
+		$this->assertEquals(
+			(object) array( 'name' => 'Pin', 'status' => true, 'default_board_name' => (object) array( 'value' => 'b1' ), 'auth' => (object) array() ),
+			$public['pinterest'][3]
+		);
+		$this->assertSame( 't', $pin->access_token );
+		$this->assertSame( 'r', $pin->auth->refresh_token );
+	}
+
 	public function test_empty_settings_give_an_empty_result() {
 		$this->assertSame( array(), Settings::public_option_data( array() ) );
 	}
