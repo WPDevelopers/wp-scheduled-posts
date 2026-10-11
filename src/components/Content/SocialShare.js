@@ -22,9 +22,10 @@ import {
     mastodonWithBG,
 } from '../../icons/icons';
 import ShareNowButton from './ShareNowButton';
+import { registeredPlatforms, registeredSlugs, platformIconUrl, platformListKey } from '../../helper/platforms';
 const { __ } = wp.i18n;
 
-const PLATFORM_CONFIG = {
+const BUILTIN_PLATFORM_CONFIG = {
     facebook: { label: 'Facebook', icon: facebook, iconWithBG: facebookWithBG },
     twitter: { label: 'Twitter', icon: twitter_x, iconWithBG: twitterWithBG },
     linkedin: { label: 'LinkedIn', icon: linkedin, iconWithBG: linkedinWithBG },
@@ -36,7 +37,7 @@ const PLATFORM_CONFIG = {
     mastodon: { label: 'Mastodon', icon: mastodon, iconWithBG: mastodonWithBG },
 };
 
-const PLATFORM_ORDER = [
+const BUILTIN_PLATFORM_ORDER = [
     'facebook',
     'twitter',
     'linkedin',
@@ -46,6 +47,31 @@ const PLATFORM_ORDER = [
     'threads',
     'bluesky',
     'mastodon',
+];
+
+/**
+ * A network registered by an extension supplies an icon URL instead of the
+ * inline SVGs the built-in networks carry, so wrap it in an <img> to give the
+ * cards one shape to render.
+ */
+const extensionPlatformConfig = () =>
+    Object.fromEntries(
+        Object.entries(registeredPlatforms()).map(([slug, definition]) => [
+            slug,
+            {
+                label: definition.label || slug,
+                icon: <img src={platformIconUrl(slug)} alt="" />,
+                iconWithBG: <img src={platformIconUrl(slug, true)} alt="" />,
+            },
+        ])
+    );
+
+/** Built-in networks plus whatever an extension is serving right now. */
+const platformConfig = () => ({ ...BUILTIN_PLATFORM_CONFIG, ...extensionPlatformConfig() });
+
+const platformOrder = () => [
+    ...BUILTIN_PLATFORM_ORDER,
+    ...registeredSlugs().filter((slug) => !BUILTIN_PLATFORM_CONFIG[slug]),
 ];
 
 const processProfiles = (list) => {
@@ -154,7 +180,7 @@ const SocialShare = () => {
                 const templateData = templateResponse?.data || templateResponse || {};
                 const mappedData = {};
 
-                PLATFORM_ORDER.forEach((platform) => {
+                platformOrder().forEach((platform) => {
                     const selectedIds = Array.isArray(templateData?.[platform]?.profiles)
                         ? templateData[platform].profiles.map((id) => String(id))
                         : [];
@@ -204,6 +230,15 @@ const SocialShare = () => {
                         mastodon: processProfiles(optionData?.mastodon_profile_list),
                     };
 
+                    // A network from an extension names its own option key, so take
+                    // it from the registry rather than hardcoding one per platform.
+                    registeredSlugs().forEach((slug) => {
+                        const listKey = platformListKey(slug);
+                        if (listKey) {
+                            allProfiles[slug] = processProfiles(optionData?.[listKey]);
+                        }
+                    });
+
                     // Treat the post as having a saved selection when its custom
                     // template has been configured at all — i.e. ANY platform has a
                     // template OR selected profiles. This mirrors how the backend sets
@@ -213,7 +248,7 @@ const SocialShare = () => {
                     // profile deselected, and it must NOT fall back to defaulting every
                     // enabled platform back on (which made deselected platforms reappear
                     // under "Selected Social Platforms").
-                    const hasSavedSelection = PLATFORM_ORDER.some((platform) => {
+                    const hasSavedSelection = platformOrder().some((platform) => {
                         const data = templateData?.[platform];
                         if (!data) return false;
                         const hasTemplate = typeof data.template === 'string' && data.template.trim() !== '';
@@ -224,7 +259,7 @@ const SocialShare = () => {
                     if (hasSavedSelection) {
                         const enrichedData = {};
 
-                        PLATFORM_ORDER.forEach((platform) => {
+                        platformOrder().forEach((platform) => {
                             const selectedIds = mappedData[platform]?.map((profile) => String(profile.id)) || [];
                             if (!selectedIds.length) {
                                 return;
@@ -257,7 +292,7 @@ const SocialShare = () => {
                         const isPro = !!window.WPSchedulePostsFree?.is_pro;
                         const defaultData = {};
 
-                        PLATFORM_ORDER.forEach((platform) => {
+                        platformOrder().forEach((platform) => {
                             if (!socialEnabled[platform]) {
                                 return;
                             }
@@ -307,12 +342,12 @@ const SocialShare = () => {
         // (and not shared to) inside the Manage Social Sharing modal.
         const socialEnabled = window.WPSchedulePostsFree?.social_media_enabled || {};
 
-        return PLATFORM_ORDER
+        return platformOrder()
             .filter((platform) => socialEnabled[platform])
             .filter((platform) => Array.isArray(selectedProfilesByPlatform[platform]) && selectedProfilesByPlatform[platform].length > 0)
             .map((platform) => ({
                 platform,
-                ...PLATFORM_CONFIG[platform],
+                ...platformConfig()[platform],
                 profiles: selectedProfilesByPlatform[platform],
             }));
     }, [selectedProfilesByPlatform]);
