@@ -654,7 +654,7 @@ class InstantShare
             $_GET = $params;
         }
         // Verify nonce
-        $nonce = sanitize_text_field($_GET['nonce']);
+        $nonce = isset($_GET['nonce']) ? sanitize_text_field($_GET['nonce']) : '';
         if (!wp_verify_nonce($nonce, 'wpscp-pro-social-profile')) {
             wp_send_json_error(['message' => __('Invalid nonce.', 'wp-scheduled-posts')], 401);
             die();
