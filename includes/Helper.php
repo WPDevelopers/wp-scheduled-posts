@@ -244,17 +244,6 @@ class Helper
     }
 
     /**
-     * Per-platform caption/template character limits.
-     *
-     * Single source of truth used by both template validation and AI caption
-     * generation so the back-end never rejects content the UI shows as valid.
-     * Reads the user-configured limits from `social_templates` in the settings
-     * (the same numbers the editor's character counter displays) and falls back
-     * to the platform defaults when a value is missing.
-     *
-     * @return array<string,int> Map of platform slug => character limit.
-     */
-    /**
      * Whether the running SchedulePress Pro is older than this release expects.
      *
      * Pure, so the version matrix is testable without booting WordPress.
@@ -268,9 +257,40 @@ class Helper
             return false;
         }
 
-        return version_compare($pro_version, WPSP_MIN_PRO_VERSION, '<');
+        // version_compare() ranks '5.4.0-beta1' below '5.4.0', so a beta or RC
+        // of the very release being asked for would be told to update to
+        // itself. Compare the release numbers and let the pre-release pass.
+        return version_compare(self::release_version($pro_version), WPSP_MIN_PRO_VERSION, '<');
     }
 
+    /**
+     * The numeric release part of a version, dropping any pre-release suffix.
+     *
+     * '5.4.0-beta1' and '5.4.0-RC2' both become '5.4.0'.
+     *
+     * @param string $version
+     * @return string
+     */
+    private static function release_version($version)
+    {
+        if (preg_match('/^[0-9]+(?:\.[0-9]+)*/', (string) $version, $matches)) {
+            return $matches[0];
+        }
+
+        return (string) $version;
+    }
+
+    /**
+     * Per-platform caption/template character limits.
+     *
+     * Single source of truth used by both template validation and AI caption
+     * generation so the back-end never rejects content the UI shows as valid.
+     * Reads the user-configured limits from `social_templates` in the settings
+     * (the same numbers the editor's character counter displays) and falls back
+     * to the platform defaults when a value is missing.
+     *
+     * @return array<string,int> Map of platform slug => character limit.
+     */
     public static function get_social_platform_limits()
     {
         $defaults = array(

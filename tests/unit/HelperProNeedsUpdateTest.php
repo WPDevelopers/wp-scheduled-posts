@@ -44,4 +44,20 @@ class HelperProNeedsUpdateTest extends TestCase {
 		$this->assertFalse( Helper::pro_needs_update( '5.4.1' ) );
 		$this->assertFalse( Helper::pro_needs_update( '6.0.0' ) );
 	}
+
+	/**
+	 * A beta or RC of the required release already carries the feature, so it
+	 * must not be told to update to the version it already is. Plain
+	 * version_compare() ranks '5.4.0-beta1' below '5.4.0' and would.
+	 */
+	public function test_a_prerelease_of_the_minimum_is_fine() {
+		$this->assertFalse( Helper::pro_needs_update( '5.4.0-beta1' ) );
+		$this->assertFalse( Helper::pro_needs_update( '5.4.0-RC2' ) );
+		$this->assertFalse( Helper::pro_needs_update( '5.4.1-beta1' ) );
+	}
+
+	public function test_a_prerelease_of_an_older_release_still_needs_updating() {
+		$this->assertTrue( Helper::pro_needs_update( '5.3.9-beta1' ) );
+		$this->assertTrue( Helper::pro_needs_update( '5.0.0-RC1' ) );
+	}
 }
