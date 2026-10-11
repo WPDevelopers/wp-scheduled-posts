@@ -572,7 +572,11 @@ class Settings
      */
     public function update_value($request)
     {
-        $settings = $request->get_params();
+        // The form sends only what changed; the rest may have been written since the page loaded.
+        $incoming = $request->get_json_params();
+        $incoming = is_array($incoming) ? $incoming : $request->get_body_params();
+        $stored   = json_decode((string) get_option($this->settings_name, '{}'), true);
+        $settings = self::merge_settings(is_array($stored) ? $stored : [], (array) $incoming);
         $arr = ['allow_post_types', 'allow_categories', 'allow_user_by_role'];
         $settingObject = WPSP_Start()->getAdmin()->load_settings();
 
@@ -592,6 +596,78 @@ class Settings
             'success'   => $updated,
             'value'     => $request->get_params()
         ), 200);
+    }
+
+    /**
+     * Merge the form's fields into the stored settings; existing profiles keep their stored credentials.
+     *
+     * @param array $stored   Saved wpsp_settings_v5.
+     * @param array $incoming Fields the settings form sent.
+     * @return array
+     */
+    public static function merge_settings(array $stored, array $incoming) {
+        foreach ($incoming as $key => $list) {
+            if (!is_array($list) || !preg_match('/_profile_list$/', $key) || empty($stored[$key]) || !is_array($stored[$key])) {
+                continue;
+            }
+            $saved = [];
+            foreach ($stored[$key] as $profile) {
+                if (is_array($profile) && isset($profile['id'])) {
+                    $saved[(string) $profile['id']] = $profile;
+                }
+            }
+            foreach ($list as $i => $profile) {
+                if (!is_array($profile) || !isset($profile['id'], $saved[(string) $profile['id']])) {
+                    continue;
+                }
+                // A token the form got from a fresh authorisation in this tab (the
+                // LinkedIn add-page flow updates the person profile) expires later
+                // than the stored one, so it wins. A stale tab's copy never does.
+                if (self::has_newer_credentials($profile, $saved[(string) $profile['id']])) {
+                    continue;
+                }
+                $list[$i] = array_merge(
+                    array_diff_key($profile, self::credentials($profile)),
+                    self::credentials($saved[(string) $profile['id']])
+                );
+            }
+            $incoming[$key] = $list;
+        }
+        return array_merge($stored, $incoming);
+    }
+
+    /**
+     * Whether the form's copy of a profile carries credentials newer than the stored ones.
+     *
+     * Only compares absolute expiry timestamps: some platforms store expires_in as a
+     * duration, which says nothing about which copy is newer, so those keep the stored
+     * credentials.
+     *
+     * @param array $incoming Profile from the form.
+     * @param array $stored   Same profile as saved.
+     * @return bool
+     */
+    private static function has_newer_credentials(array $incoming, array $stored) {
+        $absolute = 1000000000; // 2001-09-09: anything smaller is a duration, not a timestamp.
+        if (!isset($incoming['expires_in'], $stored['expires_in'])
+            || !is_numeric($incoming['expires_in']) || !is_numeric($stored['expires_in'])) {
+            return false;
+        }
+        $incoming_expiry = (int) $incoming['expires_in'];
+        $stored_expiry   = (int) $stored['expires_in'];
+        return $incoming_expiry >= $absolute && $stored_expiry >= $absolute && $incoming_expiry > $stored_expiry;
+    }
+
+    /**
+     * A profile's credential fields, which only the connect, reconnect and renewal code write.
+     *
+     * @param array $profile Profile from a *_profile_list.
+     * @return array
+     */
+    private static function credentials(array $profile) {
+        return array_filter($profile, function ($field) {
+            return (bool) preg_match('/token|secret|password|expires|^(app|client)_id$|^(auth|renewal_failed|needs_auth)$/i', (string) $field);
+        }, ARRAY_FILTER_USE_KEY);
     }
 
     /**
