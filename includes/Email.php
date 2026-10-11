@@ -74,8 +74,8 @@ class Email
                 $this->send_mail_to_custom_users(array_values($reviewEmailList), $post, $subject, $message);
             }
         }
-        // review is rejected
-        else if ($this->notify_author_post_is_rejected == 1 && $new_status == 'trash') {
+        // review is rejected: only a post that was under review
+        else if ($this->notify_author_post_is_rejected == 1 && $new_status == 'trash' && $old_status == 'pending') {
             // send mail for rejected
             $subject = 'Your Post titled "%title%" has been Rejected.';
             $message = 'Hello Author, <br/>You recently submitted a new article titled "%title%". Your Article is not well standard. Please, improve it and try again.';
@@ -94,8 +94,8 @@ class Email
             $message = 'Hello Author, <br/>Your blog titled "%title%" was scheduled for "%date%"';
             $this->send_mail_to_author($post, $subject, $message);
         }
-        // post is publish
-        else if ($this->notify_author_schedule_post_is_publish == 1 && $new_status == 'publish') {
+        // post is publish: Published covers every publish, Scheduled post Published only a scheduled one
+        else if ($new_status == 'publish' && ($this->notify_author_post_is_publish == 1 || ($this->notify_author_schedule_post_is_publish == 1 && $old_status == 'future'))) {
             // send mail for publish post
             $subject = 'Your post titled "%title%" is Live Now.';
             $message = 'Hello Author, <br/>Your blog titled "%title%" was published. Here is your published blog url: %permalink%';
