@@ -10,7 +10,8 @@
 
 if (!defined('ABSPATH')) exit;
 
-if ( ! version_compare( PHP_VERSION, '7.2', '>=' ) ) {
+// Matches "Requires PHP" in readme.txt; the code uses PHP 7.3+ syntax.
+if ( ! version_compare( PHP_VERSION, '7.4', '>=' ) ) {
 	add_action( 'admin_notices', 'wpsp_fail_php_version', 51 );
 	return;
 }
@@ -350,7 +351,7 @@ function wpsp_fail_php_version() {
 		esc_html__( '%1$sSchedulePress isn’t running because PHP is outdated.%2$s Update to PHP version %3$s and get back to creating!', 'wp-scheduled-posts' ),
 		'<h3>',
 		'</h3>',
-		'7.2'
+		'7.4'
 	);
 	$html_message = sprintf( '<div class="error">%s</div>', wpautop( $message ) );
 	echo wp_kses_post( $html_message );
