@@ -343,7 +343,9 @@ class Calendar
     
 
     public function get_tax_terms($request){
-        $post_types       = $request->get_param('post_type');
+        // A missing or single post_type is valid: array_intersect() needs an array,
+        // and without this a request with no post_type was a fatal TypeError.
+        $post_types       = array_map('strval', (array) $request->get_param('post_type'));
         $allow_post_types = Helper::get_all_allowed_post_type();
         $allow_categories = Helper::get_settings('allow_categories');
         $allow_post_types = (!empty($allow_post_types) ? $allow_post_types : array('post'));
