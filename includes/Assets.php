@@ -261,6 +261,7 @@ class Assets
                 'redirect_url' => WPSP_SOCIAL_OAUTH2_TOKEN_MIDDLEWARE,
                 'is_active_pro' => class_exists('WPSP_PRO'),
                 'is_active_classis_editor' => Helper::is_enable_classic_editor(),
+                'extension_platforms' => array_keys(\WPSP\Social\Platforms::registered()),
             ));
         }
         // admin notice for all wordpress dashboard

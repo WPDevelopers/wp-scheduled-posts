@@ -46,7 +46,6 @@ jQuery(document).ready(function ($) {
         var pinterest = jQuery('#wpscppropinterestis').is(':checked')
         var medium = jQuery('#wpscppromediumis').is(':checked')
         var threads = jQuery('#wpscpprothreadsis').is(':checked')
-        var google_business = jQuery('#wpscpprogooglebusinessis').is(':checked')
         var pinterestBoardType = jQuery("input:radio[name='pinterestboardtype']:checked").val()
         var data = {
             action: 'wpscp_instant_share_fetch_profile',
@@ -59,8 +58,14 @@ jQuery(document).ready(function ($) {
             is_pinterest_share: pinterest,
             is_medium_share: medium,
             is_threads_share: threads,
-            is_google_business_share: google_business,
         }
+
+        // A network registered by an extension prints its checkbox id from its
+        // own slug, so derive both the id and the payload key from that slug
+        // rather than naming any one platform here.
+        ;(wpscpSocialProfile?.extension_platforms || []).forEach(function (slug) {
+            data['is_' + slug + '_share'] = jQuery('#wpscppro' + slug + 'is').is(':checked')
+        })
 
         jQuery.post(ajaxurl, data, function (response, status) {
             if (status == 'success') {
