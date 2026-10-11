@@ -230,6 +230,104 @@ class PostPanelPublishTest extends TestCase {
 		$this->assertSame( 200, $response->get_status() );
 	}
 
+	// ── publish_immediately: scheduled posts only (card 84588) ──────────────
+
+	public function unscheduledStatuses() {
+		return array(
+			'draft'     => array( 'draft' ),
+			'pending'   => array( 'pending' ),
+			'published' => array( 'publish' ),
+			'private'   => array( 'private' ),
+		);
+	}
+
+	/**
+	 * @dataProvider unscheduledStatuses
+	 */
+	public function test_current_date_on_an_unscheduled_post_changes_nothing( $status ) {
+		$date = $this->pastDate();
+		PostStore::seed( self::POST_ID, $status, $date, $date );
+
+		$response = $this->publish( array( 'publish_immediately_current_date' => true ) );
+
+		$this->assertSame( 400, $response->get_status() );
+		$this->assertSame( $status, PostStore::get( self::POST_ID )->post_status );
+		$this->assertSame( $date, PostStore::get( self::POST_ID )->post_date );
+	}
+
+	public function test_current_date_still_publishes_a_missed_schedule() {
+		$date = $this->pastDate();
+		PostStore::seed( self::POST_ID, 'future', $date, $date );
+
+		$response = $this->publish( array( 'publish_immediately_current_date' => true ) );
+
+		$this->assertSame( 200, $response->get_status() );
+		$this->assertSame( 'publish', PostStore::get( self::POST_ID )->post_status );
+	}
+
+	public function test_future_date_on_an_unscheduled_draft_with_a_future_date_changes_nothing() {
+		$date = $this->futureDate();
+		PostStore::seed( self::POST_ID, 'draft', $date, $date );
+
+		$response = $this->publish( array( 'publish_immediately_future_date' => true ) );
+
+		$this->assertSame( 400, $response->get_status() );
+		$this->assertSame( 'draft', PostStore::get( self::POST_ID )->post_status );
+		$this->assertNotContains( 'wpsp_pro_update_post', PostStore::$firedActions );
+	}
+
+	public function test_future_date_on_a_missed_schedule_is_a_bad_request() {
+		$date = $this->pastDate();
+		PostStore::seed( self::POST_ID, 'future', $date, $date );
+
+		$response = $this->publish( array( 'publish_immediately_future_date' => true ) );
+
+		$this->assertSame( 400, $response->get_status() );
+		$this->assertSame( 'future', PostStore::get( self::POST_ID )->post_status );
+	}
+
+	// ── save_settings: publish flags handed to Pro (card 84588) ─────────────
+
+	private function savePanel( array $params ) {
+		return $this->panel->save_settings(
+			new FakeRequest( array_merge( array( 'post_id' => self::POST_ID ), $params ) )
+		);
+	}
+
+	/**
+	 * @dataProvider unscheduledStatuses
+	 */
+	public function test_panel_save_refuses_publish_flags_on_an_unscheduled_post( $status ) {
+		$date = $this->pastDate();
+		PostStore::seed( self::POST_ID, $status, $date, $date );
+
+		$current = $this->savePanel( array( 'publish_immediately_current_date' => true ) );
+		$future  = $this->savePanel( array( 'publish_immediately_future_date' => 'true' ) );
+
+		$this->assertSame( 400, $current->get_status() );
+		$this->assertSame( 400, $future->get_status() );
+		$this->assertNotContains( 'schedulepress_after_free_settings_save', PostStore::$firedActions );
+	}
+
+	public function test_panel_save_passes_publish_flags_on_a_scheduled_post_to_pro() {
+		$this->seedFuturePost();
+
+		$response = $this->savePanel( array( 'publish_immediately_current_date' => true ) );
+
+		$this->assertSame( 200, $response->get_status() );
+		$this->assertContains( 'schedulepress_after_free_settings_save', PostStore::$firedActions );
+	}
+
+	public function test_panel_save_without_publish_flags_is_unchanged_on_a_draft() {
+		$date = $this->pastDate();
+		PostStore::seed( self::POST_ID, 'draft', $date, $date );
+
+		$response = $this->savePanel( array( 'unpublish_on' => '2030-01-01 10:00:00' ) );
+
+		$this->assertSame( 200, $response->get_status() );
+		$this->assertContains( 'schedulepress_after_free_settings_save', PostStore::$firedActions );
+	}
+
 	// ── clear_publish_immediately: precondition ─────────────────────────────
 
 	public function test_clear_without_any_intent_does_not_change_post_status() {
