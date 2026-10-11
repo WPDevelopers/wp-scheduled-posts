@@ -433,7 +433,7 @@ class SocialProfile
     public function social_profile_fetch_user_info_and_token()
     {
         // Verify nonce
-        $nonce = sanitize_text_field($_POST['nonce']);
+        $nonce = isset($_POST['nonce']) ? sanitize_text_field($_POST['nonce']) : '';
         if (!wp_verify_nonce($nonce, 'wp_rest')) {
             wp_send_json_error(['message' => __('Invalid nonce.', 'wp-scheduled-posts')], 401);
             die();
@@ -1108,7 +1108,7 @@ class SocialProfile
     public function add_social_profile()
     {
          // Verify nonce
-        $nonce = sanitize_text_field($_POST['nonce']);
+        $nonce = isset($_POST['nonce']) ? sanitize_text_field($_POST['nonce']) : '';
         if (!wp_verify_nonce($nonce, 'wp_rest')) {
             wp_send_json_error(['message' => __('Invalid nonce.', 'wp-scheduled-posts')], 401);
             die();
