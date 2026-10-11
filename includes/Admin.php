@@ -1276,9 +1276,6 @@ class Admin
     public function wpsp_el_tab_action()
     {
         if (check_ajax_referer('wpsp-el-editor', 'wpsp-el-editor')) {
-            $offset = get_option('gmt_offset');
-            $offset = $offset == 0 ? 0 : (0 - $offset);
-
             $args = wp_parse_args($_POST, [
                 'id' => 0,
                 'date' => '',
@@ -1512,11 +1509,8 @@ class Admin
                 $msg = __('Your post successfully published', 'wp-scheduled-posts');
             }
 
-            if ($offset !== 0) {
-                $date_gmt = date("Y-m-d H:i:s", strtotime($args['date']) + $offset * HOUR_IN_SECONDS);
-            } else {
-                $date_gmt = $args['date'];
-            }
+            // The date's own offset, not today's, so DST is right.
+            $date_gmt = get_gmt_from_date($args['date']);
 
             if (empty($args['id'])) {
                 wp_send_json_error([
