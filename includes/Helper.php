@@ -22,6 +22,33 @@ class Helper
         return array_diff($taxonomies, $not_necessary_taxonomies);
     }
 
+    /**
+     * Character count (UTF-8), with a byte fallback when mbstring is absent.
+     *
+     * @param string $string
+     * @return int
+     */
+    public static function mb_strlen($string)
+    {
+        return function_exists('mb_strlen') ? mb_strlen((string) $string, 'UTF-8') : strlen((string) $string);
+    }
+
+    /**
+     * Substring by characters (UTF-8), so non-Latin text and emoji are not cut mid-character.
+     *
+     * @param string   $string
+     * @param int      $start
+     * @param int|null $length
+     * @return string
+     */
+    public static function mb_substr($string, $start, $length = null)
+    {
+        if (function_exists('mb_substr')) {
+            return mb_substr((string) $string, $start, $length, 'UTF-8');
+        }
+        return $length === null ? substr((string) $string, $start) : substr((string) $string, $start, $length);
+    }
+
 
     public static function get_all_allowed_post_type() {
         $allow_post_types = \WPSP\Helper::get_settings('allow_post_types');

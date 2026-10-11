@@ -198,14 +198,14 @@ class CustomTemplateHelper
 
         // Check character limit for platform
         $limit = isset($limits[$platform]) ? $limits[$platform] : 1000;
-        if (strlen($template) > $limit) {
+        if (\WPSP\Helper::mb_strlen($template) > $limit) {
             return array(
                 'valid'   => false,
                 'message' => sprintf(
                     /* translators: 1: Name of the social media platform, 2: Current character count, 3: Maximum allowed character limit */
                     __( 'Template exceeds character limit for %1$s (%2$d/%3$d characters).', 'wp-scheduled-posts' ),
                     ucfirst( $platform ),
-                    strlen( $template ),
+                    \WPSP\Helper::mb_strlen( $template ),
                     $limit
                 ),
             );
@@ -271,7 +271,7 @@ class CustomTemplateHelper
 
         $title = get_the_title($post_id);
         $content = wp_strip_all_tags($post->post_content);
-        $content = substr($content, 0, 100) . '...';
+        $content = \WPSP\Helper::mb_substr($content, 0, 100) . '...';
         $url = get_permalink($post_id);
         $tags = '#example #tags';
 

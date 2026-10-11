@@ -145,7 +145,7 @@ class Linkedin
             return '\\'.$matches[0];
         }, $text);
 
-        return substr($filtered_text, 0, 4086);
+        return \WPSP\Helper::mb_substr($filtered_text, 0, 4086);
     }
 
     /**

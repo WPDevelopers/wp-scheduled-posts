@@ -139,16 +139,16 @@ trait SocialHelper
         $desc               = html_entity_decode($desc);
         $post_content_limit = intval($limit);
         if (!empty($post_link) && strpos($template_structure, '{url}') !== false) {
-            $post_content_limit = intval($post_content_limit) - ($url_limit ? $url_limit : strlen($post_link));
+            $post_content_limit = intval($post_content_limit) - ($url_limit ? $url_limit : \WPSP\Helper::mb_strlen($post_link));
             $template_structure = str_replace('{url}', '::::' . $post_link . '::::', $template_structure);
         }
         else{
             $template_structure = str_replace('{url}', '', $template_structure);
         }
         if (!empty($title) && strpos($template_structure, '{title}') !== false) {
-            $title              = substr($title, 0, $post_content_limit);
+            $title              = \WPSP\Helper::mb_substr($title, 0, $post_content_limit);
             $title              = apply_filters('wpsp_social_share_title', $title, get_called_class(), $post_link);
-            $post_content_limit = intval($post_content_limit) - strlen($title);
+            $post_content_limit = intval($post_content_limit) - \WPSP\Helper::mb_strlen($title);
             $template_structure = str_replace('{title}', '::::' . $title . '::::', $template_structure);
         }
         else{
@@ -163,7 +163,7 @@ trait SocialHelper
                 if (empty($tag))
                     continue;
                 $_tag = "#$tag ";
-                $post_content_limit = intval($post_content_limit) - strlen($_tag);
+                $post_content_limit = intval($post_content_limit) - \WPSP\Helper::mb_strlen($_tag);
                 if($post_content_limit > 0){
                     $tags .= $_tag;
                 }
@@ -179,10 +179,10 @@ trait SocialHelper
 
         if (!empty($desc) && strpos($template_structure, '{content}') !== false) {
             $desc = apply_filters('wpsp_social_share_desc', $desc, $platform);
-            if ( strlen($desc) > $post_content_limit ) {
-                $post_content = substr($desc, 0, $post_content_limit - 3 ) . '...';
+            if ( \WPSP\Helper::mb_strlen($desc) > $post_content_limit ) {
+                $post_content = \WPSP\Helper::mb_substr($desc, 0, $post_content_limit - 3 ) . '...';
             }else{
-                $post_content = substr($desc, 0, $post_content_limit );
+                $post_content = \WPSP\Helper::mb_substr($desc, 0, $post_content_limit );
             }
             $template_structure = str_replace('{content}', '::::' . $post_content . '::::', $template_structure);
         }
